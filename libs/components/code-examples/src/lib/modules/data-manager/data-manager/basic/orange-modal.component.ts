@@ -1,7 +1,6 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import {
-  SkyFilterBarFilterValue,
   SkyFilterItemModal,
   SkyFilterItemModalInstance,
 } from '@skyux/filter-bar';
@@ -11,41 +10,27 @@ import { SkyModalModule } from '@skyux/modals';
 @Component({
   selector: 'app-orange-modal',
   templateUrl: './orange-modal.component.html',
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    SkyCheckboxModule,
-    SkyModalModule,
-  ],
+  imports: [ReactiveFormsModule, SkyCheckboxModule, SkyModalModule],
 })
-export class OrangeModalComponent implements SkyFilterItemModal, OnInit {
-  protected hideOrange: boolean | undefined;
-  protected modalLabel: string;
-
+export class OrangeModalComponent implements SkyFilterItemModal {
   public readonly modalInstance = inject(SkyFilterItemModalInstance);
-  readonly #context = this.modalInstance.context;
 
-  constructor() {
-    this.modalLabel = this.#context.filterLabelText;
-  }
-
-  public ngOnInit(): void {
-    if (this.#context.filterValue) {
-      this.hideOrange = !!this.#context.filterValue.value;
-    }
-  }
+  protected hideOrange = inject(FormBuilder).control(
+    !!this.modalInstance.context.filterValue?.value,
+  );
+  protected modalLabel = this.modalInstance.context.filterLabelText;
 
   protected applyFilters(): void {
-    let result: SkyFilterBarFilterValue | undefined;
-
-    if (this.hideOrange) {
-      result = {
-        value: true,
-        displayValue: 'True',
-      };
+    if (this.hideOrange.value) {
+      this.modalInstance.save({
+        filterValue: {
+          value: true,
+          displayValue: 'True',
+        },
+      });
+    } else {
+      this.modalInstance.save({ filterValue: undefined });
     }
-
-    this.modalInstance.save({ filterValue: result });
   }
 
   protected cancel(): void {

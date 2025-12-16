@@ -161,6 +161,9 @@
       "!{projectRoot}/tsconfig.spec.json",
       "!{projectRoot}/tsconfig.storybook.json"
     ],
+    "codeExampleInputs": [
+      "{workspaceRoot}/libs/components/code-examples/src/**/*"
+    ],
     "documentationInputs": [
       "{workspaceRoot}/libs/components/*/documentation.json"
     ],

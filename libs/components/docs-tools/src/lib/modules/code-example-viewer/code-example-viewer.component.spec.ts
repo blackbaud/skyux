@@ -196,4 +196,57 @@ class FooExampleComponent {}`,
       'Value "cs" is not a supported language type.',
     );
   });
+
+  it('should work without a componentType', async () => {
+    const fixture = TestBed.createComponent(SkyDocsCodeExampleViewerComponent);
+    const loader = TestbedHarnessEnvironment.loader(fixture);
+
+    const componentRef = fixture.componentRef;
+    componentRef.setInput('componentName', defaults.componentName);
+    componentRef.setInput('componentSelector', defaults.componentSelector);
+    // Do not set componentType
+    componentRef.setInput('files', defaults.files);
+    componentRef.setInput('primaryFile', defaults.primaryFile);
+    componentRef.setInput('headingText', defaults.headingText);
+
+    fixture.detectChanges();
+
+    const boxHarness = await loader.getHarness(SkyBoxHarness);
+
+    await expectAsync(boxHarness.getHeadingText()).toBeResolvedTo(
+      'Foo basic example',
+    );
+
+    // Demo wrapper should be present but empty since no component provided
+    const demoEl = getDemoWrapper(fixture);
+    expect(demoEl).toBeTruthy();
+
+    expectCodeVisible(fixture, false);
+
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
+
+  it('should toggle code visibility without a componentType', () => {
+    const fixture = TestBed.createComponent(SkyDocsCodeExampleViewerComponent);
+
+    const componentRef = fixture.componentRef;
+    componentRef.setInput('componentName', defaults.componentName);
+    componentRef.setInput('componentSelector', defaults.componentSelector);
+    // Do not set componentType
+    componentRef.setInput('files', defaults.files);
+    componentRef.setInput('primaryFile', defaults.primaryFile);
+    componentRef.setInput('headingText', defaults.headingText);
+
+    fixture.detectChanges();
+
+    expectCodeVisible(fixture, false);
+
+    toggleCodeVisibility(fixture);
+
+    expectCodeVisible(fixture, true);
+
+    toggleCodeVisibility(fixture);
+
+    expectCodeVisible(fixture, false);
+  });
 });

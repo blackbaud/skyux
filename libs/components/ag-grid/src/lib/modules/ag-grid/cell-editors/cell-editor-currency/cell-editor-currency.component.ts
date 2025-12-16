@@ -63,6 +63,8 @@ export class SkyAgGridCellEditorCurrencyComponent
       // If focus is being set to the grid cell, schedule focus on the input.
       // This happens when the refreshCells API is called.
       this.afterGuiAttached();
+    } else if (event.target === this.input?.nativeElement) {
+      this.#stopEditingOnBlur();
     }
   }
 
@@ -163,5 +165,11 @@ export class SkyAgGridCellEditorCurrencyComponent
       this.params.stopEditing();
     }
     this.#initialized = true;
+  }
+
+  #stopEditingOnBlur(): void {
+    if (this.params?.api.getGridOption('stopEditingWhenCellsLoseFocus')) {
+      this.params?.api.stopEditing();
+    }
   }
 }
