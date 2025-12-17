@@ -159,10 +159,8 @@ describe('HeaderComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     expect(apiEvents['sortChanged'].length).toBeGreaterThanOrEqual(1);
-    expect(columnEvents['sortChanged'].length).toBeGreaterThanOrEqual(1);
     expect(columnEvents['filterChanged'].length).toBeGreaterThanOrEqual(1);
     apiEvents['sortChanged'].forEach((listener) => listener());
-    columnEvents['sortChanged'].forEach((listener) => listener());
     fixture.detectChanges();
     await fixture.whenStable();
     expect(
@@ -175,7 +173,6 @@ describe('HeaderComponent', () => {
     ).not.toBeNull();
     useSort = 'desc';
     apiEvents['sortChanged'].forEach((listener) => listener());
-    columnEvents['sortChanged'].forEach((listener) => listener());
     fixture.detectChanges();
     await fixture.whenStable();
     expect(
@@ -188,7 +185,6 @@ describe('HeaderComponent', () => {
     ).not.toBeNull();
     useSort = undefined;
     apiEvents['sortChanged'].forEach((listener) => listener());
-    columnEvents['sortChanged'].forEach((listener) => listener());
     fixture.detectChanges();
     await fixture.whenStable();
     expect(
@@ -197,7 +193,7 @@ describe('HeaderComponent', () => {
     expect(document.querySelector('.ag-sort-indicator-container')).toBeNull();
 
     columnEvents['filterChanged'].forEach((listener) => listener());
-    expect(component.filterEnabled$.getValue()).toBe(true);
+    expect(component.filterEnabled()).toBe(true);
     fixture.detectChanges();
     await fixture.whenStable();
     expect(fixture.debugElement.query(By.css('.ag-filter-icon'))).toBeTruthy();
@@ -301,6 +297,25 @@ describe('HeaderComponent', () => {
     it('should be accessible with sorting on', async () => {
       component.agInit({
         ...params,
+        enableSorting: true,
+      });
+      fixture.detectChanges();
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible with headerHidden set', async () => {
+      component.agInit({
+        ...params,
+        column: {
+          ...params.column,
+          getColDef: () => ({
+            headerComponentParams: {
+              headerHidden: true,
+              helpPopoverContent: 'Help content',
+            },
+          }),
+        },
         enableSorting: true,
       });
       fixture.detectChanges();
