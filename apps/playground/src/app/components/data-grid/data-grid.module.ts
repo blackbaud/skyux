@@ -22,6 +22,15 @@ const routes: ComponentRouteInfo[] = [
       library: 'grids',
     },
   },
+  {
+    path: 'filtered',
+    loadComponent: () => import('./filtered/grid.component'),
+    data: {
+      name: 'Data Grid Filtered (new)',
+      icon: 'filter',
+      library: 'grids',
+    },
+  },
 ];
 
 @NgModule({

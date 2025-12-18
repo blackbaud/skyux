@@ -353,4 +353,514 @@ describe('SkyAgGridComponent', () => {
       queryParamsHandling: 'merge',
     });
   });
+
+  describe('filter state', () => {
+    it('should apply text filter to grid when filterState is set', async () => {
+      fixture.componentRef.setInput('showAllGrids', false);
+      fixture.componentRef.setInput('showFilteredGrid', true);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const api = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="filtered-grid"] ag-grid-angular',
+        ),
+      );
+      expect(api).toBeTruthy();
+      expect(api?.getDisplayedRowCount()).toBe(7);
+
+      // Apply a text filter
+      fixture.componentRef.setInput('filterState', {
+        appliedFilters: [
+          {
+            filterId: 'column2Filter',
+            filterValue: { value: 'Ban', displayValue: 'Starts with Ban' },
+          },
+        ],
+      });
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      // Should filter to rows where column2 starts with 'Ban' (Banana)
+      expect(api?.getDisplayedRowCount()).toBe(2);
+    });
+
+    it('should apply multiple filters simultaneously', async () => {
+      fixture.componentRef.setInput('showAllGrids', false);
+      fixture.componentRef.setInput('showFilteredGrid', true);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const api = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="filtered-grid"] ag-grid-angular',
+        ),
+      );
+      expect(api).toBeTruthy();
+      expect(api?.getDisplayedRowCount()).toBe(7);
+
+      // Apply multiple filters
+      fixture.componentRef.setInput('filterState', {
+        appliedFilters: [
+          {
+            filterId: 'column1Filter',
+            filterValue: { value: '1', displayValue: 'Contains 1' },
+          },
+          {
+            filterId: 'column2Filter',
+            filterValue: { value: 'B', displayValue: 'Starts with B' },
+          },
+        ],
+      });
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      // Should filter to rows where column1 contains '1' AND column2 starts with 'B'
+      // column1='1' has column2='Apple' (no match)
+      // column1='01' has column2='Banana' (match)
+      // column1='11' has column2='Banana' (match)
+      // column1='12' has column2='Daikon' (no match)
+      // column1='13' has column2='Edamame' (no match)
+      expect(api?.getDisplayedRowCount()).toBe(2);
+    });
+
+    it('should clear filters when filterState is set to empty', async () => {
+      fixture.componentRef.setInput('showAllGrids', false);
+      fixture.componentRef.setInput('showFilteredGrid', true);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const api = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="filtered-grid"] ag-grid-angular',
+        ),
+      );
+      expect(api).toBeTruthy();
+      expect(api?.getDisplayedRowCount()).toBe(7);
+
+      // Apply filter first
+      fixture.componentRef.setInput('filterState', {
+        appliedFilters: [
+          {
+            filterId: 'column2Filter',
+            filterValue: { value: 'Ban', displayValue: 'Starts with Ban' },
+          },
+        ],
+      });
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(api?.getDisplayedRowCount()).toBe(2);
+
+      // Clear filters
+      fixture.componentRef.setInput('filterState', {
+        appliedFilters: [],
+      });
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(api?.getDisplayedRowCount()).toBe(7);
+    });
+
+    it('should clear filters when filterState is set to undefined', async () => {
+      fixture.componentRef.setInput('showAllGrids', false);
+      fixture.componentRef.setInput('showFilteredGrid', true);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const api = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="filtered-grid"] ag-grid-angular',
+        ),
+      );
+      expect(api).toBeTruthy();
+      expect(api?.getDisplayedRowCount()).toBe(7);
+
+      // Apply filter first
+      fixture.componentRef.setInput('filterState', {
+        appliedFilters: [
+          {
+            filterId: 'column2Filter',
+            filterValue: { value: 'Ban', displayValue: 'Starts with Ban' },
+          },
+        ],
+      });
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(api?.getDisplayedRowCount()).toBe(2);
+
+      // Clear filters by setting undefined
+      fixture.componentRef.setInput('filterState', undefined);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(api?.getDisplayedRowCount()).toBe(7);
+    });
+
+    it('should ignore filters without matching column filterId', async () => {
+      fixture.componentRef.setInput('showAllGrids', false);
+      fixture.componentRef.setInput('showFilteredGrid', true);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const api = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="filtered-grid"] ag-grid-angular',
+        ),
+      );
+      expect(api).toBeTruthy();
+      expect(api?.getDisplayedRowCount()).toBe(7);
+
+      // Apply a filter with non-existent filterId
+      fixture.componentRef.setInput('filterState', {
+        appliedFilters: [
+          {
+            filterId: 'nonExistentFilter',
+            filterValue: { value: 'test', displayValue: 'Test' },
+          },
+        ],
+      });
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      // Should not filter any rows since the filterId doesn't match any column
+      expect(api?.getDisplayedRowCount()).toBe(7);
+    });
+
+    it('should ignore filters with undefined value', async () => {
+      fixture.componentRef.setInput('showAllGrids', false);
+      fixture.componentRef.setInput('showFilteredGrid', true);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const api = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="filtered-grid"] ag-grid-angular',
+        ),
+      );
+      expect(api).toBeTruthy();
+      expect(api?.getDisplayedRowCount()).toBe(7);
+
+      // Apply a filter with undefined value
+      fixture.componentRef.setInput('filterState', {
+        appliedFilters: [
+          {
+            filterId: 'column2Filter',
+            filterValue: undefined,
+          },
+        ],
+      });
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      // Should not filter any rows since the value is undefined
+      expect(api?.getDisplayedRowCount()).toBe(7);
+    });
+
+    it('should update filter when filterState changes', async () => {
+      fixture.componentRef.setInput('showAllGrids', false);
+      fixture.componentRef.setInput('showFilteredGrid', true);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const api = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="filtered-grid"] ag-grid-angular',
+        ),
+      );
+      expect(api).toBeTruthy();
+
+      // Apply initial filter
+      fixture.componentRef.setInput('filterState', {
+        appliedFilters: [
+          {
+            filterId: 'column2Filter',
+            filterValue: { value: 'A', displayValue: 'Starts with A' },
+          },
+        ],
+      });
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      // Should filter to Apple only
+      expect(api?.getDisplayedRowCount()).toBe(1);
+
+      // Update filter
+      fixture.componentRef.setInput('filterState', {
+        appliedFilters: [
+          {
+            filterId: 'column2Filter',
+            filterValue: { value: 'B', displayValue: 'Starts with B' },
+          },
+        ],
+      });
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      // Should now filter to Banana rows
+      expect(api?.getDisplayedRowCount()).toBe(2);
+    });
+
+    it('should apply text filter with default operator when filterOperator is omitted', async () => {
+      fixture.componentRef.setInput('showAllGrids', false);
+      fixture.componentRef.setInput('showFilteredGrid', true);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const api = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="filtered-grid"] ag-grid-angular',
+        ),
+      );
+      expect(api).toBeTruthy();
+      expect(api?.getDisplayedRowCount()).toBe(7);
+
+      // Apply a text filter using a column without filterOperator (should default to 'contains')
+      fixture.componentRef.setInput('filterState', {
+        appliedFilters: [
+          {
+            filterId: 'column2NoOperatorFilter',
+            filterValue: { value: 'ana', displayValue: 'Contains ana' },
+          },
+        ],
+      });
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      // Should filter to rows where column2 contains 'ana' (Banana)
+      expect(api?.getDisplayedRowCount()).toBe(2);
+    });
+
+    it('should apply number filter to grid', async () => {
+      fixture.componentRef.setInput('showAllGrids', false);
+      fixture.componentRef.setInput('showFilteredGrid', true);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const api = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="filtered-grid"] ag-grid-angular',
+        ),
+      );
+      expect(api).toBeTruthy();
+      expect(api?.getDisplayedRowCount()).toBe(7);
+
+      // Apply a number filter (equals)
+      fixture.componentRef.setInput('filterState', {
+        appliedFilters: [
+          {
+            filterId: 'numericFilter',
+            filterValue: { value: 200, displayValue: 'Equals 200' },
+          },
+        ],
+      });
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      // Should filter to rows where numericColumn equals 200
+      expect(api?.getDisplayedRowCount()).toBe(1);
+    });
+
+    it('should apply number range filter to grid', async () => {
+      fixture.componentRef.setInput('showAllGrids', false);
+      fixture.componentRef.setInput('showFilteredGrid', true);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const api = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="filtered-grid"] ag-grid-angular',
+        ),
+      );
+      expect(api).toBeTruthy();
+      expect(api?.getDisplayedRowCount()).toBe(7);
+
+      // Apply a number range filter
+      fixture.componentRef.setInput('filterState', {
+        appliedFilters: [
+          {
+            filterId: 'numericFilter',
+            filterValue: {
+              value: { from: 150, to: 250 },
+              displayValue: 'Between 150 and 250',
+            },
+          },
+        ],
+      });
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      // Should filter to rows where numericColumn is between 150 and 250 (inclusive)
+      // Values: 100, 200, 150, 250, 175, 300, 125 -> 200, 150, 250, 175 = 4 rows
+      expect(api?.getDisplayedRowCount()).toBe(4);
+    });
+
+    it('should apply date filter to grid', async () => {
+      fixture.componentRef.setInput('showAllGrids', false);
+      fixture.componentRef.setInput('showFilteredGrid', true);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const api = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="filtered-grid"] ag-grid-angular',
+        ),
+      );
+      expect(api).toBeTruthy();
+      expect(api?.getDisplayedRowCount()).toBe(7);
+
+      // Apply a date filter (equals)
+      fixture.componentRef.setInput('filterState', {
+        appliedFilters: [
+          {
+            filterId: 'dateFilter',
+            filterValue: {
+              value: new Date('2024-03-10T12:00:00.000Z').toISOString(),
+              displayValue: 'March 10, 2024',
+            },
+          },
+        ],
+      });
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      // Should filter to rows where dateColumn equals 2024-03-10
+      expect(api?.getDisplayedRowCount()).toBe(1);
+    });
+
+    it('should apply date range filter to grid', async () => {
+      fixture.componentRef.setInput('showAllGrids', false);
+      fixture.componentRef.setInput('showFilteredGrid', true);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const api = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="filtered-grid"] ag-grid-angular',
+        ),
+      );
+      expect(api).toBeTruthy();
+      expect(api?.getDisplayedRowCount()).toBe(7);
+
+      // Apply a date range filter
+      fixture.componentRef.setInput('filterState', {
+        appliedFilters: [
+          {
+            filterId: 'dateFilter',
+            filterValue: {
+              value: {
+                from: new Date('2024-02-01T00:00:00.000Z'),
+                to: new Date('2024-05-01T00:00:00.000Z'),
+              },
+              displayValue: 'Feb 1 to May 1, 2024',
+            },
+          },
+        ],
+      });
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      // Should filter to rows where dateColumn is between Feb 1 and May 1, 2024
+      // Dates: Jan 15, Feb 20, Mar 10, Apr 5, May 25, Jun 30, Jul 12
+      // In range: Feb 20, Mar 10, Apr 5 = 3 rows
+      expect(api?.getDisplayedRowCount()).toBe(3);
+    });
+
+    it('should ignore boolean filter since AG Grid does not support boolean filters', async () => {
+      fixture.componentRef.setInput('showAllGrids', false);
+      fixture.componentRef.setInput('showFilteredGrid', true);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const api = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="filtered-grid"] ag-grid-angular',
+        ),
+      );
+      expect(api).toBeTruthy();
+      expect(api?.getDisplayedRowCount()).toBe(7);
+
+      // Apply a boolean filter
+      fixture.componentRef.setInput('filterState', {
+        appliedFilters: [
+          {
+            filterId: 'column3Filter',
+            filterValue: { value: true, displayValue: 'True' },
+          },
+        ],
+      });
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      // Boolean filters are not supported by AG Grid, so no filtering should occur
+      expect(api?.getDisplayedRowCount()).toBe(7);
+    });
+
+    it('should handle filterState with null appliedFilters', async () => {
+      fixture.componentRef.setInput('showAllGrids', false);
+      fixture.componentRef.setInput('showFilteredGrid', true);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const api = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="filtered-grid"] ag-grid-angular',
+        ),
+      );
+      expect(api).toBeTruthy();
+      expect(api?.getDisplayedRowCount()).toBe(7);
+
+      // Apply filter first
+      fixture.componentRef.setInput('filterState', {
+        appliedFilters: [
+          {
+            filterId: 'column2Filter',
+            filterValue: { value: 'Ban', displayValue: 'Starts with Ban' },
+          },
+        ],
+      });
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(api?.getDisplayedRowCount()).toBe(2);
+
+      // Set filterState with null appliedFilters
+      fixture.componentRef.setInput('filterState', {
+        appliedFilters: null,
+      });
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      // Should clear all filters
+      expect(api?.getDisplayedRowCount()).toBe(7);
+    });
+
+    it('should ignore filter when column with filterId does not exist in grid', async () => {
+      fixture.componentRef.setInput('showAllGrids', false);
+      fixture.componentRef.setInput('showFilteredGrid', true);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const api = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="filtered-grid"] ag-grid-angular',
+        ),
+      );
+      expect(api).toBeTruthy();
+      expect(api?.getDisplayedRowCount()).toBe(7);
+
+      // Apply a filter referencing a non-existent column
+      fixture.componentRef.setInput('filterState', {
+        appliedFilters: [
+          {
+            filterId: 'nonExistentColumnFilter',
+            filterValue: { value: 'test', displayValue: 'Test' },
+          },
+        ],
+      });
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      // Should not filter any rows since the column doesn't exist
+      expect(api?.getDisplayedRowCount()).toBe(7);
+    });
+  });
 });

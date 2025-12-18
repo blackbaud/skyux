@@ -6,6 +6,7 @@ import {
   input,
   model,
 } from '@angular/core';
+import { SkyFilterBarFilterState } from '@skyux/filter-bar';
 import { SkyDropdownModule, SkyPopoverModule } from '@skyux/popovers';
 
 import { SkyAgGridRowDeleteCancelArgs } from '../../types/ag-grid-row-delete-cancel-args';
@@ -19,6 +20,15 @@ interface RowModel {
   column2: string;
   column3: boolean;
   myId?: string;
+}
+
+interface FilteredRowModel {
+  id: string;
+  column1: string;
+  column2: string;
+  column3: boolean;
+  numericColumn: number;
+  dateColumn: string;
 }
 
 @Component({
@@ -63,10 +73,73 @@ export class AgGridTestComponent {
     { id: '7', column1: '21', column2: 'Grape', column3: true, myId: '107' },
   ];
 
+  public dataForFilteredGrid: FilteredRowModel[] = [
+    {
+      id: '1',
+      column1: '1',
+      column2: 'Apple',
+      column3: true,
+      numericColumn: 100,
+      dateColumn: new Date('2024-01-15T00:00:00.000Z').toISOString(),
+    },
+    {
+      id: '2',
+      column1: '01',
+      column2: 'Banana',
+      column3: false,
+      numericColumn: 200,
+      dateColumn: new Date('2024-02-20T00:00:00.000Z').toISOString(),
+    },
+    {
+      id: '3',
+      column1: '11',
+      column2: 'Banana',
+      column3: true,
+      numericColumn: 150,
+      dateColumn: new Date('2024-03-10T00:00:00.000Z').toISOString(),
+    },
+    {
+      id: '4',
+      column1: '12',
+      column2: 'Daikon',
+      column3: false,
+      numericColumn: 250,
+      dateColumn: new Date('2024-04-05T00:00:00.000Z').toISOString(),
+    },
+    {
+      id: '5',
+      column1: '13',
+      column2: 'Edamame',
+      column3: true,
+      numericColumn: 175,
+      dateColumn: new Date('2024-05-25T00:00:00.000Z').toISOString(),
+    },
+    {
+      id: '6',
+      column1: '20',
+      column2: 'Fig',
+      column3: false,
+      numericColumn: 300,
+      dateColumn: new Date('2024-06-30T00:00:00.000Z').toISOString(),
+    },
+    {
+      id: '7',
+      column1: '21',
+      column2: 'Grape',
+      column3: true,
+      numericColumn: 125,
+      dateColumn: new Date('2024-07-12T00:00:00.000Z').toISOString(),
+    },
+  ];
+
   public readonly displayedColumns = input<string[]>([]);
+  public readonly filterState = input<SkyFilterBarFilterState | undefined>(
+    undefined,
+  );
   public readonly removeRowIds = model<string[]>([]);
   public readonly rowHighlightedId = model<string | undefined>();
   public readonly selectedRowIds = model<string[]>([]);
+  public readonly showFilteredGrid = input<boolean>(false);
   public readonly visibleColumnIds = model<string[]>([]);
 
   public page = 1;
