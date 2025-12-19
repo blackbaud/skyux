@@ -1,6 +1,15 @@
 # Changelog
 
 
+## [13.11.4](https://github.com/blackbaud/skyux/compare/13.11.3...13.11.4) (2025-12-19)
+
+
+### Bug Fixes
+
+* **components/select-field:** update menu icon ([#4132](https://github.com/blackbaud/skyux/issues/4132)) ([55f8ced](https://github.com/blackbaud/skyux/commit/55f8ced54859d5bb9b04112d6d238eca247e2d7f)), closes [AB#3653804](https://github.com/AB/issues/3653804)
+
+
+
 ## [13.11.3](https://github.com/blackbaud/skyux/compare/13.11.2...13.11.3) (2025-12-16)
 
 
