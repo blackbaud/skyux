@@ -31,6 +31,24 @@ const RESOURCES: Record<string, SkyLibResources> = {
       message: 'Show code',
     },
   },
+  'FR-CA': {
+    sky_docs_code_snippet_copy_to_clipboard_button_label: { message: 'Copier' },
+    sky_docs_code_snippet_copy_to_clipboard_success_message: {
+      message: 'Code copié',
+    },
+    sky_docs_code_example_viewer_demo_hidden_message: {
+      message: 'Ouvrez cet exemple de code dans StackBlitz pour voir la démo.',
+    },
+    sky_docs_code_example_viewer_demo_stack_blitz_button: {
+      message: 'Modifier dans StackBlitz',
+    },
+    sky_docs_code_example_viewer_hide_code_button_label: {
+      message: 'Masquer le code',
+    },
+    sky_docs_code_example_viewer_show_code_button_label: {
+      message: 'Afficher le code',
+    },
+  },
 };
 
 SkyLibResourcesService.addResources(RESOURCES);
