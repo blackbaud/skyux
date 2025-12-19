@@ -2,6 +2,7 @@ import { SkyFilterBarFilterValue } from './filter-bar-filter-value';
 
 /**
  * The context object that is provided to a filter modal.
+ * @typeParam TData - The type of the additional context data. Defaults to `Record<string, unknown>`.
  */
 export class SkyFilterItemModalContext<TData = Record<string, unknown>> {
   /**

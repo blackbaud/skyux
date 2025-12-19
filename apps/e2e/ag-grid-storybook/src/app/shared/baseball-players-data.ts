@@ -62,7 +62,7 @@ export const columnDefinitions: ColDef[] = [
   ].map(([field, headerName]) => ({
     field,
     colId: field,
-    dataType: 'Boolean',
+    cellDataType: 'boolean',
     headerName,
     sortable: false,
     cellClass: 'booleanType',
