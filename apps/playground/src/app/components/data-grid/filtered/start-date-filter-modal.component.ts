@@ -6,6 +6,7 @@ import {
 } from '@skyux/datetime';
 import {
   SkyFilterBarFilterValue,
+  SkyFilterItemModal,
   SkyFilterItemModalInstance,
 } from '@skyux/filter-bar';
 import { SkyModalModule } from '@skyux/modals';
@@ -35,9 +36,9 @@ import { SkyModalModule } from '@skyux/modals';
     </sky-modal>
   `,
 })
-export class StartDateFilterModalComponent {
-  readonly #instance = inject(SkyFilterItemModalInstance);
-  readonly #context = this.#instance.context;
+export class StartDateFilterModalComponent implements SkyFilterItemModal {
+  public readonly modalInstance = inject(SkyFilterItemModalInstance);
+  readonly #context = this.modalInstance.context;
 
   public filterLabelText = this.#context.filterLabelText;
   public dateRange: SkyDateRangeCalculation | undefined;
@@ -57,18 +58,18 @@ export class StartDateFilterModalComponent {
         value: this.dateRange,
         displayValue: this.#formatDateRange(this.dateRange),
       };
-      this.#instance.save({ filterValue });
+      this.modalInstance.save({ filterValue });
     } else {
-      this.#instance.save({ filterValue: undefined });
+      this.modalInstance.save({ filterValue: undefined });
     }
   }
 
   public clear(): void {
-    this.#instance.save({ filterValue: undefined });
+    this.modalInstance.save({ filterValue: undefined });
   }
 
   public cancel(): void {
-    this.#instance.cancel();
+    this.modalInstance.cancel();
   }
 
   #formatDateRange(range: SkyDateRangeCalculation): string {

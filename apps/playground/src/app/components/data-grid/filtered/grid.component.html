@@ -37,7 +37,11 @@
 </sky-filter-bar>
 
 <div class="sky-margin-stacked-lg">
-  <sky-ag-grid height="400" [data]="employees()" [filterState]="filterState()">
+  <sky-ag-grid
+    height="400"
+    [data]="allEmployees"
+    [appliedFilters]="appliedFilters()"
+  >
     <sky-ag-grid-column
       field="name"
       heading="Employee Name"
@@ -53,7 +57,12 @@
       filterId="salary"
     />
     <sky-ag-grid-column field="startDate" heading="Start Date" type="date" />
-    <sky-ag-grid-column field="active" heading="Active" type="boolean" />
+    <sky-ag-grid-column
+      field="active"
+      heading="Active"
+      type="boolean"
+      filterId="hideInactive"
+    />
   </sky-ag-grid>
 </div>
 

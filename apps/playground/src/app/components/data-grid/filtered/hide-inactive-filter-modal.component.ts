@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   SkyFilterBarFilterValue,
+  SkyFilterItemModal,
   SkyFilterItemModalInstance,
 } from '@skyux/filter-bar';
 import { SkyCheckboxModule } from '@skyux/forms';
@@ -29,9 +30,9 @@ import { SkyModalModule } from '@skyux/modals';
     </sky-modal>
   `,
 })
-export class HideInactiveFilterModalComponent {
-  readonly #instance = inject(SkyFilterItemModalInstance);
-  readonly #context = this.#instance.context;
+export class HideInactiveFilterModalComponent implements SkyFilterItemModal {
+  public readonly modalInstance = inject(SkyFilterItemModalInstance);
+  readonly #context = this.modalInstance.context;
 
   public filterLabelText = this.#context.filterLabelText;
   public hideInactive = !!this.#context.filterValue?.value;
@@ -40,10 +41,10 @@ export class HideInactiveFilterModalComponent {
     const filterValue: SkyFilterBarFilterValue | undefined = this.hideInactive
       ? { value: true, displayValue: 'Showing active only' }
       : undefined;
-    this.#instance.save({ filterValue });
+    this.modalInstance.save({ filterValue });
   }
 
   public cancel(): void {
-    this.#instance.cancel();
+    this.modalInstance.cancel();
   }
 }

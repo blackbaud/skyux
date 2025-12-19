@@ -6,11 +6,12 @@ import {
   input,
   model,
 } from '@angular/core';
-import { SkyFilterBarFilterState } from '@skyux/filter-bar';
+import { SkyFilterBarFilterItem } from '@skyux/filter-bar';
 import { SkyDropdownModule, SkyPopoverModule } from '@skyux/popovers';
 
 import { SkyAgGridRowDeleteCancelArgs } from '../../types/ag-grid-row-delete-cancel-args';
 import { SkyAgGridRowDeleteConfirmArgs } from '../../types/ag-grid-row-delete-confirm-args';
+import { SkyAgGridFilterOperator } from '../../types/sky-ag-grid-filter-operator';
 import { SkyAgGridColumnComponent } from '../sky-ag-grid-column.component';
 import { SkyAgGridComponent } from '../sky-ag-grid.component';
 
@@ -25,7 +26,7 @@ interface RowModel {
 interface FilteredRowModel {
   id: string;
   column1: string;
-  column2: string;
+  column2: string | null;
   column3: boolean;
   numericColumn: number;
   dateColumn: string;
@@ -133,14 +134,15 @@ export class AgGridTestComponent {
   ];
 
   public readonly displayedColumns = input<string[]>([]);
-  public readonly filterState = input<SkyFilterBarFilterState | undefined>(
-    undefined,
-  );
+  public readonly appliedFilters = input<SkyFilterBarFilterItem[]>([]);
   public readonly removeRowIds = model<string[]>([]);
   public readonly rowHighlightedId = model<string | undefined>();
   public readonly selectedRowIds = model<string[]>([]);
   public readonly showFilteredGrid = input<boolean>(false);
   public readonly visibleColumnIds = model<string[]>([]);
+  public readonly textFilterOperator = input<SkyAgGridFilterOperator>();
+  public readonly numberFilterOperator = input<SkyAgGridFilterOperator>();
+  public readonly booleanFilterOperator = input<SkyAgGridFilterOperator>();
 
   public page = 1;
   public pageSize = 0;

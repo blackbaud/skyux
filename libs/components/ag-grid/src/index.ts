@@ -54,7 +54,4 @@ export { SkyAgGridCellValidatorTooltipComponent as λ11 } from './lib/modules/ag
 export { SkyAgGridHeaderGroupComponent as λ18 } from './lib/modules/ag-grid/header/header-group.component';
 export { SkyAgGridHeaderComponent as λ17 } from './lib/modules/ag-grid/header/header.component';
 export { SkyAgGridFilterOperator } from './lib/modules/ag-grid/types/sky-ag-grid-filter-operator';
-export {
-  SkyAgGridDateRangeFilterValue,
-  SkyAgGridNumberRangeFilterValue,
-} from './lib/modules/ag-grid/types/sky-ag-grid-filter-values';
+export { SkyAgGridNumberRangeFilterValue } from './lib/modules/ag-grid/types/sky-ag-grid-filter-values';

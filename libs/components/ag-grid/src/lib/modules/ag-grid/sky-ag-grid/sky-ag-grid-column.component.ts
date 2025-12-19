@@ -51,6 +51,7 @@ export class SkyAgGridColumnComponent {
   /**
    * The filter ID that maps this column to a filter bar item.
    * When set, changes to the corresponding filter will apply to this column.
+   * Defaults to the column's `field` value.
    */
   public readonly filterId = input<string>();
 
@@ -62,14 +63,6 @@ export class SkyAgGridColumnComponent {
    * - date: 'equals'
    */
   public readonly filterOperator = input<SkyAgGridFilterOperator>();
-
-  /**
-   * Whether to enable AG Grid's built-in column filter UI.
-   * @default false
-   */
-  public readonly filterable = input<boolean, unknown>(false, {
-    transform: booleanAttribute,
-  });
 
   protected readonly templateChild = contentChild(TemplateRef);
 

@@ -160,7 +160,7 @@
     data-sky-id="filtered-grid"
     height="200"
     [data]="dataForFilteredGrid"
-    [filterState]="filterState()"
+    [appliedFilters]="appliedFilters()"
   >
     <sky-ag-grid-column
       field="column1"
@@ -178,22 +178,25 @@
     />
     <sky-ag-grid-column
       field="column2"
-      columnId="column2NoOperator"
-      heading="Column2 (No Operator)"
+      columnId="column2VarOperator"
+      heading="Column2 (Variable Operator)"
       type="text"
-      filterId="column2NoOperatorFilter"
+      filterId="column2VarOperatorFilter"
+      [filterOperator]="textFilterOperator()"
     />
     <sky-ag-grid-column
       field="column3"
       heading="Column3"
       type="boolean"
       filterId="column3Filter"
+      [filterOperator]="booleanFilterOperator()"
     />
     <sky-ag-grid-column
       field="numericColumn"
       heading="Numeric"
       type="number"
       filterId="numericFilter"
+      [filterOperator]="numberFilterOperator()"
     />
     <sky-ag-grid-column
       field="dateColumn"

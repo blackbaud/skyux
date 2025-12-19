@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   SkyFilterBarFilterValue,
+  SkyFilterItemModal,
   SkyFilterItemModalInstance,
 } from '@skyux/filter-bar';
 import { SkyInputBoxModule } from '@skyux/forms';
@@ -28,9 +29,9 @@ import { SkyModalModule } from '@skyux/modals';
     </sky-modal>
   `,
 })
-export class NameFilterModalComponent {
-  readonly #instance = inject(SkyFilterItemModalInstance);
-  readonly #context = this.#instance.context;
+export class NameFilterModalComponent implements SkyFilterItemModal {
+  public readonly modalInstance = inject(SkyFilterItemModalInstance);
+  readonly #context = this.modalInstance.context;
 
   public filterLabelText = this.#context.filterLabelText;
   public nameFilter = (this.#context.filterValue?.value as string) ?? '';
@@ -42,10 +43,10 @@ export class NameFilterModalComponent {
           displayValue: `Name contains "${this.nameFilter}"`,
         }
       : undefined;
-    this.#instance.save({ filterValue });
+    this.modalInstance.save({ filterValue });
   }
 
   public cancel(): void {
-    this.#instance.cancel();
+    this.modalInstance.cancel();
   }
 }

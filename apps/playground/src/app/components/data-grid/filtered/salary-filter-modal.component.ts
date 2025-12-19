@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { SkyAgGridNumberRangeFilterValue } from '@skyux/ag-grid';
 import {
   SkyFilterBarFilterValue,
+  SkyFilterItemModal,
   SkyFilterItemModalInstance,
 } from '@skyux/filter-bar';
 import { SkyInputBoxModule } from '@skyux/forms';
@@ -39,9 +40,9 @@ import { SkyModalModule } from '@skyux/modals';
     </sky-modal>
   `,
 })
-export class SalaryFilterModalComponent {
-  readonly #instance = inject(SkyFilterItemModalInstance);
-  readonly #context = this.#instance.context;
+export class SalaryFilterModalComponent implements SkyFilterItemModal {
+  public readonly modalInstance = inject(SkyFilterItemModalInstance);
+  readonly #context = this.modalInstance.context;
 
   public filterLabelText = this.#context.filterLabelText;
 
@@ -68,17 +69,17 @@ export class SalaryFilterModalComponent {
         value: rangeValue,
         displayValue: `$${this.minSalary.toLocaleString()} - $${this.maxSalary.toLocaleString()}`,
       };
-      this.#instance.save({ filterValue });
+      this.modalInstance.save({ filterValue });
     } else {
-      this.#instance.save({ filterValue: undefined });
+      this.modalInstance.save({ filterValue: undefined });
     }
   }
 
   public clear(): void {
-    this.#instance.save({ filterValue: undefined });
+    this.modalInstance.save({ filterValue: undefined });
   }
 
   public cancel(): void {
-    this.#instance.cancel();
+    this.modalInstance.cancel();
   }
 }

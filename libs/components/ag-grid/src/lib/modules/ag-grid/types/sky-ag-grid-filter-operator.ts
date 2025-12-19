@@ -3,8 +3,6 @@
  */
 export type SkyAgGridFilterOperator =
   // Text operators
-  | 'equals'
-  | 'notEqual'
   | 'contains'
   | 'notContains'
   | 'startsWith'
@@ -14,7 +12,6 @@ export type SkyAgGridFilterOperator =
   | 'lessThanOrEqual'
   | 'greaterThan'
   | 'greaterThanOrEqual'
-  | 'inRange'
   // Common operators
-  | 'blank'
-  | 'notBlank';
+  | 'equals'
+  | 'notEqual';
