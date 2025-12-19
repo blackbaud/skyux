@@ -25,7 +25,7 @@
   },
   "skyux_form_error_fuzzy_date_future_disabled": {
     "_description": "Message d’erreur pour un champ avec une date floue invalide dans l’avenir",
-    "message": "Les dates futures sont désactivées; sélectionnez ou entrez une date dans le passé."
+    "message": "Les dates futures sont désactivées. Sélectionnez ou entrez une date dans le passé."
   },
   "skyux_form_error_fuzzy_date_invalid": {
     "_description": "Message d’erreur pour un champ avec une date floue invalide",

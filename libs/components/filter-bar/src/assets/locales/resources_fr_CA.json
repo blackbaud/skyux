@@ -1,0 +1,34 @@
+{
+  "skyux_filter_bar_clear_filters_confirm_apply_label": {
+    "_description": "Texte de l’étiquette de sauvegarde dans la boîte de dialogue de confirmation d’effacement des filtres",
+    "message": "Effacer les valeurs"
+  },
+  "skyux_filter_bar_clear_filters_confirm_body": {
+    "_description": "Texte du corps de la boîte de dialogue de confirmation d’effacement des filtres",
+    "message": "Ceci ne supprimera aucun filtre, mais toutes les valeurs que vous avez définies seront supprimées."
+  },
+  "skyux_filter_bar_clear_filters_confirm_cancel_label": {
+    "_description": "Texte de l’étiquette d’annulation dans la boîte de dialogue de confirmation d’effacement des filtres",
+    "message": "Annuler"
+  },
+  "skyux_filter_bar_clear_filters_confirm_title": {
+    "_description": "Texte du titre dans la boîte de dialogue de confirmation d’effacement des filtres",
+    "message": "Voulez-vous vraiment réinitialiser tous les filtres à leurs valeurs d’origine?"
+  },
+  "skyux_filter_bar_clear_filters_label": {
+    "_description": "Texte de l’étiquette du bouton d’effacement des filtres",
+    "message": "Effacer toutes les valeurs"
+  },
+  "skyux_filter_bar_filter_label": {
+    "_description": "Texte de l’étiquette de la barre d’outils",
+    "message": "Filtres"
+  },
+  "skyux_filter_bar_filter_picker_descriptor": {
+    "_description": "Texte des descripteurs des éléments dans la boîte de dialogue de sélection",
+    "message": "filtres"
+  },
+  "skyux_filter_item_n_selected": {
+    "_description": "Légende de plusieurs éléments sélectionnés dans un élément de la barre de filtres",
+    "message": "{0} sélectionné"
+  }
+}
