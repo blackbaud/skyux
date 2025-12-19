@@ -6,6 +6,7 @@
 
 ### Bug Fixes
 
+* **components/modals:** add font family override for modal header in default ([#4135](https://github.com/blackbaud/skyux/issues/4135)) ([60aaa32](https://github.com/blackbaud/skyux/commit/60aaa320728d2bb57e3e813ec0cd44cb85764544)), closes [AB#3648543](https://github.com/AB/issues/3648543)
 * **components/select-field:** update menu icon ([#4132](https://github.com/blackbaud/skyux/issues/4132)) ([55f8ced](https://github.com/blackbaud/skyux/commit/55f8ced54859d5bb9b04112d6d238eca247e2d7f)), closes [AB#3653804](https://github.com/AB/issues/3653804)
 
 
