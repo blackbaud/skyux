@@ -6,6 +6,7 @@
   --sky-override-modal-h2-font-size: 16px;
   --sky-override-modal-h2-font-weight: 600;
   --sky-override-modal-h2-line-height: 1.2;
+  --sky-override-modal-h2-font: inherit;
 }
 
 h2.sky-modal-heading {
@@ -23,5 +24,9 @@ h2.sky-modal-heading {
   font-weight: var(
     --sky-override-modal-h2-font-weight,
     var(--sky-font-style-heading-2)
+  );
+  font-family: var(
+    --sky-override-modal-h2-font,
+    var(--sky-font-family-heading-2)
   );
 }
