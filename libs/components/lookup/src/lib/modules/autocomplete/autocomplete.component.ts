@@ -227,7 +227,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   /**
    * The minimum number of characters that users must enter before
    * the autocomplete component searches the data source and displays search
-   * results in the dropdown list.
+   * results in the dropdown list. Can be set to `0` to search on focus.
    * @default 1
    */
   @Input()

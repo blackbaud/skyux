@@ -29,7 +29,7 @@ export function applySkyLookupPropertiesDefaults(
     searchResultsLimit: skyLookupProperties.searchResultsLimit,
     searchResultTemplate: skyLookupProperties.searchResultTemplate,
     searchTextMinimumCharacters:
-      skyLookupProperties.searchTextMinimumCharacters || 1, // TODO: what will be the impact with ag grid search
+      skyLookupProperties.searchTextMinimumCharacters || 1,
     selectMode: skyLookupProperties.selectMode,
     showAddButton: skyLookupProperties.showAddButton || false,
     showMoreConfig: skyLookupProperties.showMoreConfig || {},
