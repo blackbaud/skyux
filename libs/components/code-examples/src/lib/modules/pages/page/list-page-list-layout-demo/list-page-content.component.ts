@@ -1,4 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyAgGridModule, SkyAgGridService } from '@skyux/ag-grid';
 import {
   SkyDataManagerModule,
@@ -10,12 +11,8 @@ import { SkyIconModule } from '@skyux/icon';
 import { SkyListSummaryModule } from '@skyux/lists';
 
 import { AgGridModule } from 'ag-grid-angular';
-import {
-  AllCommunityModule,
-  ColDef,
-  GridOptions,
-  ModuleRegistry,
-} from 'ag-grid-community';
+import { AllCommunityModule, GridApi, ModuleRegistry } from 'ag-grid-community';
+import { map } from 'rxjs/operators';
 
 import { DashboardLinkCellRendererComponent } from './dashboard-link-cell-renderer.component';
 import { DashboardGridContextMenuComponent } from './dashboards-grid-context-menu.component';
@@ -35,7 +32,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
     SkyListSummaryModule,
   ],
 })
-export class ListPageContentComponent implements OnInit {
+export class ListPageContentComponent {
   protected items: Item[] = [
     {
       dashboard: 'Cash Flow Tracker',
@@ -69,60 +66,60 @@ export class ListPageContentComponent implements OnInit {
     },
   ];
 
-  protected gridOptions: GridOptions;
+  protected readonly gridOptions = inject(SkyAgGridService).getGridOptions({
+    gridOptions: {
+      columnDefs: [
+        {
+          colId: 'contextMenu',
+          headerName: '',
+          sortable: false,
+          cellRenderer: DashboardGridContextMenuComponent,
+          maxWidth: 55,
+        },
+        {
+          colId: 'dashboard',
+          field: 'dashboard',
+          headerName: 'Name',
+          width: 150,
+          cellRenderer: DashboardLinkCellRendererComponent,
+        },
+        {
+          colId: 'name',
+          field: 'name',
+          headerName: 'Created By',
+        },
+        {
+          colId: 'lastUpdated',
+          field: 'lastUpdated',
+          headerName: 'Last Updated',
+        },
+      ],
+      onGridReady: (params) => {
+        this.#gridApi.set(params.api);
+      },
+      onGridPreDestroyed: () => {
+        this.#gridApi.set(undefined);
+      },
+      rowData: this.items,
+    },
+  });
 
-  #columnDefs: ColDef[] = [
-    {
-      colId: 'contextMenu',
-      headerName: '',
-      sortable: false,
-      cellRenderer: DashboardGridContextMenuComponent,
-      maxWidth: 55,
-    },
-    {
-      colId: 'dashboard',
-      field: 'dashboard',
-      headerName: 'Name',
-      width: 150,
-      cellRenderer: DashboardLinkCellRendererComponent,
-    },
-    {
-      colId: 'name',
-      field: 'name',
-      headerName: 'Created By',
-    },
-    {
-      colId: 'lastUpdated',
-      field: 'lastUpdated',
-      headerName: 'Last Updated',
-    },
-  ];
-
-  #viewConfig: SkyDataViewConfig = {
+  readonly #gridApi = signal<GridApi | undefined>(undefined);
+  readonly #viewConfig: SkyDataViewConfig = {
     id: 'gridView',
     name: 'Grid View',
     searchEnabled: true,
   };
 
-  readonly #dataManagerService = inject(SkyDataManagerService);
-  readonly #agGridSvc = inject(SkyAgGridService);
-
   constructor() {
-    this.gridOptions = this.#agGridSvc.getGridOptions({
-      gridOptions: {
-        columnDefs: this.#columnDefs,
-      },
-    });
-  }
-
-  public ngOnInit(): void {
-    this.#dataManagerService.initDataManager({
-      activeViewId: 'gridView',
+    const dataManagerService = inject(SkyDataManagerService);
+    dataManagerService.initDataManager({
+      activeViewId: this.#viewConfig.id,
       dataManagerConfig: {},
       defaultDataState: new SkyDataManagerState({
         views: [
           {
-            viewId: 'gridView',
+            viewId: this.#viewConfig.id,
             displayedColumnIds: [
               'contextMenu',
               'dashboard',
@@ -133,7 +130,16 @@ export class ListPageContentComponent implements OnInit {
         ],
       }),
     });
-
-    this.#dataManagerService.initDataView(this.#viewConfig);
+    dataManagerService.initDataView(this.#viewConfig);
+    const searchText = toSignal(
+      dataManagerService
+        .getDataStateUpdates(`${this.#viewConfig.id}-searchText`)
+        .pipe(map((state) => state.searchText ?? '')),
+      { initialValue: '' },
+    );
+    effect(() => {
+      const text = searchText();
+      this.#gridApi()?.setGridOption('quickFilterText', text);
+    });
   }
 }
