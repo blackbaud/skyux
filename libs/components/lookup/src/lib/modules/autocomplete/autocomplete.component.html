@@ -1,3 +1,6 @@
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <div
   aria-autocomplete="list"
   aria-haspopup="listbox"
@@ -87,7 +90,12 @@
       }
       @if (showActionsArea) {
         <div class="sky-autocomplete-actions">
-          @if (enableShowMore && (!searchText || searchResults.length > 0)) {
+          @if (
+            enableShowMore &&
+            (searchTextMinimumCharacters === 0 ||
+              !searchText ||
+              searchResults.length > 0)
+          ) {
             <button
               class="sky-autocomplete-action sky-autocomplete-action-more sky-btn sky-btn-link"
               type="button"
@@ -99,14 +107,16 @@
                   | skyAutocompleteSearchAsyncDisabled: searchAsyncDisabled
                 ) &&
                 searchResults.length === 0 &&
-                !searchText
+                !searchText &&
+                searchTextMinimumCharacters !== 0
               ) {
                 {{ 'skyux_autocomplete_show_all' | skyLibResources }}
               }
               @if (
                 (searchAsync
                   | skyAutocompleteSearchAsyncDisabled: searchAsyncDisabled) &&
-                !searchText
+                !searchText &&
+                searchTextMinimumCharacters !== 0
               ) {
                 {{
                   'skyux_autocomplete_show_all_count'
@@ -114,7 +124,7 @@
                       : (data.length | skyNumeric: { truncate: false })
                 }}
               }
-              @if (searchText) {
+              @if (searchText || searchTextMinimumCharacters === 0) {
                 {{
                   'skyux_autocomplete_show_matches_count'
                     | skyLibResources
@@ -126,7 +136,10 @@
               }
             </button>
           }
-          @if (searchText && searchResults.length === 0) {
+          @if (
+            (searchText || searchTextMinimumCharacters === 0) &&
+            searchResults.length === 0
+          ) {
             <div
               class="sky-font-deemphasized sky-autocomplete-actions-no-results"
             >
