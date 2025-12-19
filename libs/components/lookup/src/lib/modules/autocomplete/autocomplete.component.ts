@@ -237,11 +237,6 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     } else {
       this.#_searchTextMinimumCharacters = 1;
     }
-
-    console.log(
-      'this.#_searchTextMinimumCharacters',
-      this.#_searchTextMinimumCharacters,
-    );
   }
 
   public get searchTextMinimumCharacters(): number {
@@ -457,7 +452,6 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
             this.#openDropdown();
           }
           if (this.searchTextMinimumCharacters === 0) {
-            console.log('im here');
             this.#searchTextChanged('');
           }
         });

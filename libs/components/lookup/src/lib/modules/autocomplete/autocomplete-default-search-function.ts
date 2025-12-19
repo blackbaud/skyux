@@ -41,9 +41,7 @@ export function skyAutocompleteDefaultSearchFunction(
 
     const filteredData = filterData(searchText, data, args);
 
-    /* Autocomplete will return all results if searchText is empty */
-    // TODO this is a breaking change right!??!
-    /* istanbul ignore if */
+    /* Autocomplete can now send empty text, return all filtered data in that scenario */
     if (searchText === '') {
       return filteredData;
     }
