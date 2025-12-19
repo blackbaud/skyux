@@ -802,7 +802,6 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     this.#changeDetector.markForCheck();
   }
 
-  // anchor
   #performSearchAndUpdateResults(): void {
     this.#cancelCurrentSearch();
 
