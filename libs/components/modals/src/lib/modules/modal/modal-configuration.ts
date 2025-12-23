@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 
+import { SkyModalConfigurationSizeType } from './modal-configuration-size-type';
+
 /**
  * @internal
  */
 @Injectable()
 export class SkyModalConfiguration {
   public fullPage?: boolean;
-  public size?: string;
+  public size?: SkyModalConfigurationSizeType;
   /**
    * @deprecated
    */
