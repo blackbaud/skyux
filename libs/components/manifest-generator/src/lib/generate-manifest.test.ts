@@ -1,8 +1,10 @@
 import { execSync } from 'node:child_process';
 import fs from 'node:fs';
 import fsPromises from 'node:fs/promises';
+import { readJsonFile } from 'nx/src/utils/fileutils.js';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
+import { generateCodeExamplesManifest } from './generate-code-examples-manifest.js';
 import { getProjectDefinitions } from './get-project-definitions.js';
 
 vi.mock('node:child_process');
@@ -20,6 +22,7 @@ vi.mock('node:fs/promises', async (importOriginal) => {
     },
   };
 });
+vi.mock('nx/src/utils/fileutils.js');
 
 vi.mock('./get-project-definitions.js');
 
@@ -180,16 +183,34 @@ describe('generate-manifest', () => {
 
     const { generateManifest } = await import('./generate-manifest.js');
 
+    const { publicApi } = await generateManifest({
+      codeExamplesPackageName: '@skyux/invalid-code-examples',
+      outDir: '/dist',
+      projectNames,
+      projectsRootDirectory,
+    });
+
+    vi.mocked(readJsonFile).mockImplementation((filePath: string): object => {
+      if (filePath.endsWith('public-api.json')) {
+        return publicApi;
+      }
+      if (filePath.endsWith('documentation-config.json')) {
+        return { packages: {} };
+      }
+      return {};
+    });
+
     await expect(
-      generateManifest({
+      generateCodeExamplesManifest({
         codeExamplesPackageName: '@skyux/invalid-code-examples',
         outDir: '/dist',
         projectNames,
         projectsRootDirectory,
       }),
     ).rejects.toThrow(
-      'The following errors were encountered when creating the manifest:\n' +
-        " - The code example 'FooCodeExampleNoSelector' must specify a selector.",
+      'The following errors were encountered when creating the code examples manifest:\n' +
+        " - The code example 'FooCodeExampleNoSelector' must specify a selector.\n" +
+        ' - The following code example docsIds are not being referenced within a documentation.json file. Either delete the code example, or add its docsId to a documentation.json file: "FooCodeExampleNoSelector"',
     );
   }, 60000);
 });
