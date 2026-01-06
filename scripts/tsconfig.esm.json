@@ -4,5 +4,5 @@
     "module": "Node16",
     "resolveJsonModule": true
   },
-  "files": ["./postbuild-manifest.mts"]
+  "include": ["**/*.mts"]
 }
