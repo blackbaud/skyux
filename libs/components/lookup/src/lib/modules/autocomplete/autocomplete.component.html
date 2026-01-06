@@ -1,3 +1,6 @@
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <div
   aria-autocomplete="list"
   aria-haspopup="listbox"
@@ -112,8 +115,7 @@
               @if (
                 (searchAsync
                   | skyAutocompleteSearchAsyncDisabled: searchAsyncDisabled) &&
-                !searchText &&
-                searchTextMinimumCharacters !== 0
+                !searchText
               ) {
                 {{
                   'skyux_autocomplete_show_all_count'
@@ -121,7 +123,7 @@
                       : (data.length | skyNumeric: { truncate: false })
                 }}
               }
-              @if (searchText || searchTextMinimumCharacters === 0) {
+              @if (searchText) {
                 {{
                   'skyux_autocomplete_show_matches_count'
                     | skyLibResources

@@ -640,7 +640,7 @@ describe('Autocomplete component', () => {
       expect(autocomplete.searchResults.length).toBe(11);
     }));
 
-    it('should show "Show more" button with empty text when searchTextMinimumCharacters is 0', fakeAsync(() => {
+    it('should show "Show all" button with empty text when searchTextMinimumCharacters is 0', fakeAsync(() => {
       component.searchTextMinimumCharacters = 0;
       component.enableShowMore = true;
       fixture.detectChanges();
@@ -649,7 +649,7 @@ describe('Autocomplete component', () => {
 
       const showMoreButton = getShowMoreButton();
       expect(showMoreButton).not.toBeNull();
-      expect(showMoreButton.textContent).toContain('matches');
+      expect(showMoreButton.textContent).toContain('Show all');
     }));
 
     it('should show "No results" message with empty text when searchTextMinimumCharacters is 0 and no results', fakeAsync(() => {
@@ -662,11 +662,10 @@ describe('Autocomplete component', () => {
 
       const actionsContainer = getActionsContainer();
       expect(actionsContainer).not.toBeNull();
-      expect(actionsContainer.textContent).toContain('No matches found');
+      expect(actionsContainer.textContent).toContain('Show all');
     }));
 
-    // TODO: confirm this path with design
-    it('should not show "Show all" text when searchTextMinimumCharacters is 0 with empty text', fakeAsync(() => {
+    it('should not show "Show matches" text when searchTextMinimumCharacters is 0 with empty text', fakeAsync(() => {
       component.searchTextMinimumCharacters = 0;
       component.enableShowMore = true;
       fixture.detectChanges();
@@ -678,7 +677,7 @@ describe('Autocomplete component', () => {
 
       const showMoreButton = getShowMoreButton();
       expect(showMoreButton).not.toBeNull();
-      expect(showMoreButton.textContent).not.toContain('Show all');
+      expect(showMoreButton.textContent).not.toContain('matches');
     }));
 
     it('should perform search on focus when searchTextMinimumCharacters is 0', fakeAsync(() => {
