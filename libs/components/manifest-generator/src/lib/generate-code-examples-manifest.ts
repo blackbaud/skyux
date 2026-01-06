@@ -1,14 +1,12 @@
-import type {
-  SkyManifestCodeExamples,
-  SkyManifestDocumentationConfig,
-  SkyManifestPublicApi,
-} from '@skyux/manifest-local';
+import type { SkyManifestCodeExamples } from '@skyux/manifest-local';
 
 import fsPromises from 'node:fs/promises';
 import path from 'node:path';
-import { readJsonFile } from 'nx/src/utils/fileutils.js';
 
 import { getCodeExamples } from './get-code-examples.js';
+import { getDocumentationConfig } from './get-documentation-config.js';
+import { getProjectDefinitions } from './get-project-definitions.js';
+import { getPublicApi } from './get-public-api.js';
 import { SkyManifestOptions } from './manifest-options.js';
 import { ensureDirectory, getOutputPaths } from './utility/get-output-paths.js';
 
@@ -35,13 +33,17 @@ async function writeCodeExamplesManifestFile(
 export async function generateCodeExamplesManifest(
   options: SkyManifestOptions,
 ): Promise<void> {
-  const { publicApiPath, documentationConfigPath } = getOutputPaths(
-    options.outDir,
+  const projects = getProjectDefinitions(
+    options.projectsRootDirectory,
+    options.projectNames,
   );
-  const publicApi = readJsonFile(publicApiPath) as SkyManifestPublicApi;
-  const documentationConfig = readJsonFile(
-    documentationConfigPath,
-  ) as SkyManifestDocumentationConfig;
+
+  // In order to pick up changes, we need to regenerate the public API rather than
+  // importing it from the manifest build.
+  const [publicApi, publicApiErrors] = await getPublicApi(projects);
+
+  const [documentationConfig, documentationConfigErrors] =
+    await getDocumentationConfig(publicApi, projects);
 
   const [codeExamples, codeExamplesErrors] = await getCodeExamples(
     publicApi,
@@ -49,7 +51,11 @@ export async function generateCodeExamplesManifest(
     options.codeExamplesPackageName,
   );
 
-  const errors = [...codeExamplesErrors];
+  const errors = [
+    ...publicApiErrors,
+    ...documentationConfigErrors,
+    ...codeExamplesErrors,
+  ];
 
   if (errors.length > 0) {
     throw new Error(

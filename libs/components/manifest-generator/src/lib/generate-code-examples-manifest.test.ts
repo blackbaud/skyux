@@ -1,8 +1,16 @@
+import {
+  SkyManifestDocumentationConfig,
+  SkyManifestPublicApi,
+} from '@skyux/manifest-local';
+
 import glob from 'fast-glob';
 import fs from 'node:fs';
 import fsPromises from 'node:fs/promises';
-import { readJsonFile } from 'nx/src/utils/fileutils.js';
 import { afterEach, describe, expect, it, vi } from 'vitest';
+
+import { getDocumentationConfig } from './get-documentation-config.js';
+import { ProjectDefinition } from './get-project-definitions.js';
+import { getPublicApi } from './get-public-api.js';
 
 vi.mock('node:fs');
 vi.mock('node:fs/promises', async (importOriginal) => {
@@ -22,6 +30,9 @@ vi.mock('node:fs/promises', async (importOriginal) => {
 
 vi.mock('nx/src/utils/fileutils.js');
 vi.mock('fast-glob');
+vi.mock('./get-documentation-config.js');
+vi.mock('./get-project-definitions.js');
+vi.mock('./get-public-api.js');
 
 const projectsRootDirectory =
   'libs/components/manifest-generator/src/testing/fixtures/example-packages';
@@ -50,15 +61,27 @@ function setup(options: {
     return false;
   });
 
-  vi.mocked(readJsonFile).mockImplementation((filePath: string): object => {
-    if (filePath.endsWith('public-api.json')) {
-      return options.publicApiJson as object;
-    }
-    if (filePath.endsWith('documentation-config.json')) {
-      return options.documentationConfigJson as object;
-    }
-    return {};
-  });
+  vi.mocked(getDocumentationConfig).mockImplementation(
+    (
+      _publicApi: SkyManifestPublicApi,
+      _projects: ProjectDefinition[],
+    ): Promise<[SkyManifestDocumentationConfig, string[]]> => {
+      return Promise.resolve([options.documentationConfigJson, []] as [
+        SkyManifestDocumentationConfig,
+        string[],
+      ]);
+    },
+  );
+  vi.mocked(getPublicApi).mockImplementation(
+    (
+      _projects: ProjectDefinition[],
+    ): Promise<[SkyManifestPublicApi, string[]]> => {
+      return Promise.resolve([options.publicApiJson, []] as [
+        SkyManifestPublicApi,
+        string[],
+      ]);
+    },
+  );
 
   // Mock glob to return file paths
   // eslint-disable-next-line @typescript-eslint/require-await
