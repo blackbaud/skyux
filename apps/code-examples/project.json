@@ -61,7 +61,7 @@
       "dependsOn": [
         "^build",
         {
-          "target": "build",
+          "target": "postbuild",
           "projects": "manifest"
         }
       ]
@@ -79,7 +79,7 @@
       "defaultConfiguration": "development",
       "dependsOn": [
         {
-          "target": "build",
+          "target": "postbuild",
           "projects": "manifest"
         }
       ],
