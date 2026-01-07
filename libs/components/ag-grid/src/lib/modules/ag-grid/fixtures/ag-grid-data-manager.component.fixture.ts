@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+  inject,
+} from '@angular/core';
 import {
   SkyDataManagerModule,
   SkyDataManagerService,
@@ -64,6 +70,8 @@ export class SkyAgGridDataManagerFixtureComponent implements OnInit {
 
   public displayFirstGrid = true;
   public displaySecondGrid = false;
+  public displayOtherView = false;
+  public enableTopScroll = false;
 
   public gridData = SKY_AG_GRID_DATA;
 
@@ -74,10 +82,18 @@ export class SkyAgGridDataManagerFixtureComponent implements OnInit {
   public viewConfig: SkyDataViewConfig = {
     id: 'gridView',
     name: 'Grid View',
+    iconName: 'table',
   };
 
   public initialDataState = new SkyDataManagerState({
     views: [
+      ...(this.displayOtherView
+        ? [
+            {
+              viewId: 'otherView',
+            },
+          ]
+        : []),
       {
         viewId: this.viewConfig.id,
         displayedColumnIds: ['selected', 'name', 'target'],
@@ -89,16 +105,8 @@ export class SkyAgGridDataManagerFixtureComponent implements OnInit {
     ],
   });
 
-  #dataManagerService: SkyDataManagerService;
-  #gridService: SkyAgGridService;
-
-  constructor(
-    dataManagerService: SkyDataManagerService,
-    gridService: SkyAgGridService,
-  ) {
-    this.#dataManagerService = dataManagerService;
-    this.#gridService = gridService;
-  }
+  readonly #dataManagerService = inject(SkyDataManagerService);
+  readonly #gridService = inject(SkyAgGridService);
 
   public ngOnInit(): void {
     this.gridOptions = this.#gridService.getGridOptions({
@@ -107,10 +115,18 @@ export class SkyAgGridDataManagerFixtureComponent implements OnInit {
     this.#dataManagerService.initDataManager({
       dataManagerConfig: {},
       defaultDataState: this.initialDataState,
-      activeViewId: this.viewConfig.id,
+      activeViewId: this.displayOtherView ? 'otherView' : this.viewConfig.id,
       settingsKey: 'test',
     });
 
     this.#dataManagerService.initDataView(this.viewConfig);
+
+    if (this.displayOtherView) {
+      this.#dataManagerService.initDataView({
+        id: 'otherView',
+        name: 'Other View',
+        iconName: 'document',
+      });
+    }
   }
 }

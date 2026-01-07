@@ -1,19 +1,18 @@
-import { AsyncPipe } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ComponentRef,
+  DestroyRef,
   ElementRef,
   EnvironmentInjector,
-  OnDestroy,
   Type,
-  ViewChild,
   computed,
   inject,
   linkedSignal,
   signal,
+  viewChild,
 } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import {
@@ -27,14 +26,7 @@ import { SkyThemeModule } from '@skyux/theme';
 
 import { IHeaderAngularComp } from 'ag-grid-angular';
 import { ColumnMovedEvent } from 'ag-grid-community';
-import {
-  BehaviorSubject,
-  Subscription,
-  fromEvent,
-  map,
-  of,
-  switchMap,
-} from 'rxjs';
+import { Subscription, fromEvent, map, of, switchMap } from 'rxjs';
 
 import { SkyAgGridHeaderInfo } from '../types/header-info';
 import { SkyAgGridHeaderParams } from '../types/header-params';
@@ -52,18 +44,12 @@ import { SkyAgGridHeaderParams } from '../types/header-params';
     '[attr.aria-label]': 'displayName() || accessibleHeaderText()',
     '[attr.role]': '"note"',
   },
-  imports: [
-    AsyncPipe,
-    SkyHelpInlineModule,
-    SkyI18nModule,
-    SkyIconModule,
-    SkyThemeModule,
-  ],
+  imports: [SkyHelpInlineModule, SkyI18nModule, SkyIconModule, SkyThemeModule],
 })
 export class SkyAgGridHeaderComponent
-  implements IHeaderAngularComp, OnDestroy, AfterViewInit
+  implements IHeaderAngularComp, AfterViewInit
 {
-  public readonly filterEnabled$ = new BehaviorSubject<boolean>(false);
+  public readonly filterEnabled = signal(false);
 
   // For accessibility, we need to set the title attribute on the header element if there is no visible header text.
   // https://dequeuniversity.com/rules/axe/4.5/empty-table-header?application=axeAPI
@@ -79,14 +65,15 @@ export class SkyAgGridHeaderComponent
     }
   });
 
-  @ViewChild('inlineHelpContainer', { read: ElementRef, static: true })
-  protected inlineHelpContainer: ElementRef | undefined;
+  protected readonly inlineHelpContainer = viewChild<ElementRef>(
+    'inlineHelpContainer',
+  );
 
   protected readonly params = signal<SkyAgGridHeaderParams | undefined>(
     undefined,
   );
 
-  protected displayName = computed<string | undefined>(() => {
+  protected displayName = computed((): string => {
     const params = this.params();
     if (
       params?.displayName &&
@@ -94,35 +81,24 @@ export class SkyAgGridHeaderComponent
     ) {
       return params.displayName;
     } else {
-      return undefined;
+      return '';
     }
   });
-
-  // Computed signals to reduce template complexity
-  protected readonly showMenu = computed(() => !!this.params()?.enableMenu);
-
-  protected readonly showSortableButton = computed(
-    () => !!this.params()?.enableSorting,
-  );
-
-  protected readonly showStaticText = computed(
-    () => !this.params()?.enableSorting && !!this.displayName(),
-  );
 
   protected readonly sortAriaLabel = computed(() => {
     const displayName = this.displayName();
     const accessibleHeaderText = this.accessibleHeaderText();
-    return (displayName || accessibleHeaderText) ?? '';
+    return displayName || accessibleHeaderText;
   });
 
   protected readonly showInlineHelp = computed(
-    () => !!this.params()?.helpPopoverContent,
+    () =>
+      !!this.params()?.column.getColDef().headerComponentParams
+        ?.helpPopoverContent,
   );
 
   #subscriptions = new Subscription();
   #inlineHelpComponentRef: ComponentRef<unknown> | undefined;
-  #viewInitialized = false;
-  #agInitialized = false;
   #leftPosition = 0;
 
   readonly #changeDetector = inject(ChangeDetectorRef);
@@ -137,8 +113,8 @@ export class SkyAgGridHeaderComponent
           return fromEvent(api, 'sortChanged').pipe(
             map(() =>
               api
-                .getColumns()
-                ?.filter((column) => !!column.getSort())
+                .getColumns()!
+                .filter((column) => !!column.getSort())
                 .map((column): string => column.getColId()),
             ),
           );
@@ -146,21 +122,18 @@ export class SkyAgGridHeaderComponent
         return of([]);
       }),
     ),
+    { initialValue: [] },
   );
 
-  protected readonly sortOrder = toSignal(
-    toObservable(this.#column).pipe(
-      switchMap((column) => {
-        if (column) {
-          return fromEvent(column, 'sortChanged').pipe(
-            map(() => column.getSort() ?? undefined),
-          );
-        }
-        return of(undefined);
-      }),
-    ),
-    { initialValue: undefined },
-  );
+  protected readonly sortOrder = computed(() => {
+    const colId = this.params()?.column.getColId();
+    const enableSorting = !!this.params()?.enableSorting;
+    this.#gridSortColumns();
+    if (colId && enableSorting) {
+      return this.params()?.column.getSort();
+    }
+    return undefined;
+  });
   protected readonly sortIndexDisplay = computed(() => {
     const colId = this.params()?.column.getColId();
     const enableSorting = !!this.params()?.enableSorting;
@@ -169,24 +142,25 @@ export class SkyAgGridHeaderComponent
     if (
       enableSorting &&
       sortIndex !== false &&
-      sortColumns?.some((id) => id !== colId)
+      sortColumns.some((id) => id !== colId)
     ) {
       return `${sortIndex + 1}`;
     }
     return '';
   });
 
+  constructor() {
+    inject(DestroyRef).onDestroy(() => {
+      this.#subscriptions.unsubscribe();
+      this.#removeInlineHelpComponent();
+    });
+  }
+
   public ngAfterViewInit(): void {
-    this.#viewInitialized = true;
     this.#updateInlineHelp();
   }
 
-  public ngOnDestroy(): void {
-    this.#subscriptions.unsubscribe();
-  }
-
   public agInit(params: SkyAgGridHeaderParams | undefined): void {
-    this.#agInitialized = true;
     this.params.set(params);
     this.#subscriptions.unsubscribe();
     if (!params) {
@@ -203,12 +177,9 @@ export class SkyAgGridHeaderComponent
     );
     if (params.column.isFilterAllowed()) {
       this.#subscriptions.add(
-        fromEvent(params.column, 'filterChanged').subscribe(() => {
-          const isFilterActive = params.column.isFilterActive();
-          if (isFilterActive !== this.filterEnabled$.getValue()) {
-            this.filterEnabled$.next(isFilterActive);
-          }
-        }),
+        fromEvent(params.column, 'filterChanged').subscribe(() =>
+          this.filterEnabled.set(params.column.isFilterActive()),
+        ),
       );
     }
 
@@ -251,11 +222,11 @@ export class SkyAgGridHeaderComponent
   }
 
   #updateInlineHelp(): void {
-    if (!this.#canUpdateInlineHelp()) {
+    const params = this.params();
+    const inlineHelpContainer = this.inlineHelpContainer();
+    if (!params || !inlineHelpContainer) {
       return;
     }
-
-    const params = this.params();
     const inlineHelpComponent =
       !params?.helpPopoverContent && params?.inlineHelpComponent;
 
@@ -264,10 +235,6 @@ export class SkyAgGridHeaderComponent
     } else if (!inlineHelpComponent) {
       this.#removeInlineHelpComponent();
     }
-  }
-
-  #canUpdateInlineHelp(): boolean {
-    return this.#viewInitialized && this.#agInitialized;
   }
 
   #shouldCreateInlineHelpComponent(
@@ -297,7 +264,7 @@ export class SkyAgGridHeaderComponent
           },
         ],
         environmentInjector: this.#environmentInjector,
-        referenceEl: this.inlineHelpContainer?.nativeElement,
+        referenceEl: this.inlineHelpContainer()?.nativeElement,
         location: SkyDynamicComponentLocation.ElementBottom,
       });
   }

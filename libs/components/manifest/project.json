@@ -22,14 +22,29 @@
       }
     },
     "build": {
-      "inputs": ["^buildInputs", "documentationInputs", "buildInputs"],
+      "inputs": ["^buildInputs", "buildInputs", "documentationInputs"],
+      "executor": "nx:run-commands",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "command": "npx vite-node ./scripts/build-manifest.mts",
+        "outputPath": "dist/libs/components/manifest"
+      },
+      "dependsOn": ["^build", "prebuild"]
+    },
+    "postbuild": {
+      "inputs": [
+        "^buildInputs",
+        "buildInputs",
+        "codeExampleInputs",
+        "documentationInputs"
+      ],
       "executor": "nx:run-commands",
       "outputs": ["{options.outputPath}"],
       "options": {
         "command": "npx vite-node ./scripts/postbuild-manifest.mts",
         "outputPath": "dist/libs/components/manifest"
       },
-      "dependsOn": ["^build", "prebuild"]
+      "dependsOn": ["^build", "build"]
     },
     "lint": {
       "executor": "@nx/eslint:lint",

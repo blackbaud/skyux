@@ -1,20 +1,18 @@
 <sky-data-view [viewId]="viewId">
-  @if (isActive) {
-    <sky-repeater expandMode="none">
-      @for (item of displayedItems; track item.id) {
-        <sky-repeater-item
-          [selectable]="true"
-          [(isSelected)]="item.selected"
-          (isSelectedChange)="onItemSelect($event, item)"
-        >
-          <sky-repeater-item-title>
-            {{ item.name }}
-          </sky-repeater-item-title>
-          <sky-repeater-item-content>
-            {{ item.description }}
-          </sky-repeater-item-content>
-        </sky-repeater-item>
-      }
-    </sky-repeater>
-  }
+  <sky-repeater expandMode="none">
+    @for (item of displayedItems(); track item.id) {
+      <sky-repeater-item
+        [selectable]="true"
+        [isSelected]="selectedItems().includes(item.id)"
+        (isSelectedChange)="onItemSelect($event, item)"
+      >
+        <sky-repeater-item-title>
+          {{ item.name }}
+        </sky-repeater-item-title>
+        <sky-repeater-item-content>
+          {{ item.description }}
+        </sky-repeater-item-content>
+      </sky-repeater-item>
+    }
+  </sky-repeater>
 </sky-data-view>

@@ -1,5 +1,5 @@
 <div class="ag-cell-label-container" role="presentation">
-  @if (showMenu()) {
+  @if (params()?.enableMenu) {
     <span
       class="ag-header-icon ag-header-cell-menu-button"
       aria-hidden="true"
@@ -10,18 +10,18 @@
   }
   <div class="ag-header-cell-label" role="presentation">
     <span class="ag-header-cell-label-and-icons">
-      @if (showSortableButton()) {
+      @if (params()?.enableSorting) {
         <button
           aria-hidden="true"
           class="ag-header-cell-text ag-header-cell-label-sortable sky-btn-link-inline"
           tabindex="-1"
           type="button"
-          [attr.aria-label]="sortAriaLabel()"
-          [innerText]="displayName() ?? ''"
+          [attr.aria-label]="accessibleHeaderText()"
+          [innerText]="displayName()"
           [skyThemeClass]="{ 'sky-font-heading-4': 'modern' }"
           (click)="onSortRequested($event)"
         ></button>
-      } @else if (showStaticText()) {
+      } @else if (displayName()) {
         <span
           aria-hidden="true"
           class="ag-header-cell-text"
@@ -29,53 +29,51 @@
           >{{ displayName() }}</span
         >
       }
-      @if (filterEnabled$ | async) {
+      @if (filterEnabled()) {
         <span
           aria-hidden="true"
           class="ag-header-icon ag-header-label-icon ag-filter-icon"
           ><sky-icon iconName="filter"
         /></span>
       }
-      @if (showSortableButton()) {
-        @if (sortOrder(); as sortDirection) {
-          <button
-            class="ag-sort-indicator-container sky-btn sky-btn-icon-borderless"
-            type="button"
-            (click)="onSortRequested($event)"
-          >
-            @if (sortDirection === 'desc') {
-              <span class="ag-header-icon ag-header-label-icon">
-                <sky-icon iconName="chevron-down" iconSize="s" />
-                <span class="sky-screen-reader-only">{{
-                  'sky_ag_grid_column_header_sort_button_aria_label_currently_desc'
-                    | skyLibResources: sortAriaLabel()
-                }}</span></span
-              >
-            }
-            @if (sortDirection === 'asc') {
-              <span class="ag-header-icon ag-header-label-icon">
-                <sky-icon iconName="chevron-up" iconSize="s" />
-                <span class="sky-screen-reader-only">{{
-                  'sky_ag_grid_column_header_sort_button_aria_label_currently_asc'
-                    | skyLibResources: sortAriaLabel()
-                }}</span></span
-              >
-            }
+      @if (sortOrder(); as sortDirection) {
+        <button
+          class="ag-sort-indicator-container sky-btn sky-btn-icon-borderless"
+          type="button"
+          (click)="onSortRequested($event)"
+        >
+          @if (sortDirection === 'desc') {
+            <span class="ag-header-icon ag-header-label-icon">
+              <sky-icon iconName="chevron-down" iconSize="s" />
+              <span class="sky-screen-reader-only">{{
+                'sky_ag_grid_column_header_sort_button_aria_label_currently_desc'
+                  | skyLibResources: displayName() ?? accessibleHeaderText()
+              }}</span></span
+            >
+          }
+          @if (sortDirection === 'asc') {
+            <span class="ag-header-icon ag-header-label-icon">
+              <sky-icon iconName="chevron-up" iconSize="s" />
+              <span class="sky-screen-reader-only">{{
+                'sky_ag_grid_column_header_sort_button_aria_label_currently_asc'
+                  | skyLibResources: displayName() ?? accessibleHeaderText()
+              }}</span></span
+            >
+          }
 
-            @if (sortIndexDisplay(); as sortIndexDisplay) {
-              <span
-                aria-hidden="true"
-                class="ag-sort-indicator-icon ag-sort-order"
-                >{{ sortIndexDisplay }}</span
-              >
-            }
-          </button>
-        } @else {
-          <span class="sky-screen-reader-only">{{
-            'sky_ag_grid_column_header_sort_button_aria_label_currently_not_sorted'
-              | skyLibResources: sortAriaLabel()
-          }}</span>
-        }
+          @if (sortIndexDisplay(); as sortIndexDisplay) {
+            <span
+              aria-hidden="true"
+              class="ag-sort-indicator-icon ag-sort-order"
+              >{{ sortIndexDisplay }}</span
+            >
+          }
+        </button>
+      } @else if (params()?.enableSorting) {
+        <span class="sky-screen-reader-only">{{
+          'sky_ag_grid_column_header_sort_button_aria_label_currently_not_sorted'
+            | skyLibResources: displayName() ?? accessibleHeaderText()
+        }}</span>
       }
     </span>
     <span #inlineHelpContainer class="sky-control-help-container">

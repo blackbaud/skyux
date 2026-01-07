@@ -147,7 +147,7 @@ const RESOURCES: Record<string, SkyLibResources> = {
     },
     skyux_form_error_fuzzy_date_future_disabled: {
       message:
-        'Les dates futures sont désactivées; sélectionnez ou entrez une date dans le passé.',
+        'Les dates futures sont désactivées. Sélectionnez ou entrez une date dans le passé.',
     },
     skyux_form_error_fuzzy_date_invalid: {
       message: 'Sélectionnez ou entrez une date valide.',
