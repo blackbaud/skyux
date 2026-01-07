@@ -31,6 +31,26 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_filter_bar_filter_picker_descriptor: { message: 'filters' },
     skyux_filter_item_n_selected: { message: '{0} selected' },
   },
+  'FR-CA': {
+    skyux_filter_bar_clear_filters_confirm_apply_label: {
+      message: 'Effacer les valeurs',
+    },
+    skyux_filter_bar_clear_filters_confirm_body: {
+      message:
+        'Ceci ne supprimera aucun filtre, mais toutes les valeurs que vous avez définies seront supprimées.',
+    },
+    skyux_filter_bar_clear_filters_confirm_cancel_label: { message: 'Annuler' },
+    skyux_filter_bar_clear_filters_confirm_title: {
+      message:
+        'Voulez-vous vraiment réinitialiser tous les filtres à leurs valeurs d’origine?',
+    },
+    skyux_filter_bar_clear_filters_label: {
+      message: 'Effacer toutes les valeurs',
+    },
+    skyux_filter_bar_filter_label: { message: 'Filtres' },
+    skyux_filter_bar_filter_picker_descriptor: { message: 'filtres' },
+    skyux_filter_item_n_selected: { message: '{0} sélectionné' },
+  },
 };
 
 SkyLibResourcesService.addResources(RESOURCES);
