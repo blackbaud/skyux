@@ -110,14 +110,19 @@
                 {{ 'skyux_autocomplete_show_all' | skyLibResources }}
               }
               @if (
-                (searchAsync
-                  | skyAutocompleteSearchAsyncDisabled: searchAsyncDisabled) &&
+                ((searchAsync
+                  | skyAutocompleteSearchAsyncDisabled: searchAsyncDisabled) ||
+                  (searchTextMinimumCharacters === 0 &&
+                    searchResultsCount > 0)) &&
                 !searchText
               ) {
                 {{
                   'skyux_autocomplete_show_all_count'
                     | skyLibResources
-                      : (data.length | skyNumeric: { truncate: false })
+                      : (searchResultsCount === undefined
+                          ? data.length
+                          : (searchResultsCount
+                            | skyNumeric: { truncate: false }))
                 }}
               }
               @if (searchText) {

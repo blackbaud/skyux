@@ -716,6 +716,117 @@ describe('Autocomplete component', () => {
       expect(autocomplete.searchResults.length).toBe(11);
     }));
 
+    it('should search async on focus when searchTextMinimumCharacters is 0', fakeAsync(() => {
+      fixture.detectChanges();
+      const spy = spyOn(
+        asyncAutocomplete.searchAsync,
+        'emit',
+      ).and.callThrough();
+
+      component.searchTextMinimumCharacters = 0;
+      fixture.detectChanges();
+
+      const inputElement = getInputElement(true);
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      expect(spy).toHaveBeenCalledWith({
+        displayType: 'popover',
+        offset: 0,
+        searchText: '',
+        result: jasmine.any(Observable),
+      });
+
+      tick(200);
+      fixture.detectChanges();
+
+      expect(asyncAutocomplete.searchResults.length).toBe(11);
+    }));
+
+    it('should display async results when searchTextMinimumCharacters is 0 and text is empty', fakeAsync(() => {
+      component.searchTextMinimumCharacters = 0;
+      fixture.detectChanges();
+
+      const inputElement = getInputElement(true);
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      tick(200);
+      fixture.detectChanges();
+
+      expect(getSearchResultsSection()).not.toBeNull();
+      expect(getSearchResultItems().length).toBeGreaterThan(0);
+    }));
+
+    it('should show "Show more" button with async search and empty text when searchTextMinimumCharacters is 0', fakeAsync(() => {
+      component.searchTextMinimumCharacters = 0;
+      component.enableShowMore = true;
+      fixture.detectChanges();
+
+      const inputElement = getInputElement(true);
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      tick(200);
+      fixture.detectChanges();
+
+      const showMoreButton = getShowMoreButton();
+      expect(showMoreButton).not.toBeNull();
+      expect(showMoreButton.textContent).toContain('Show all');
+    }));
+
+    it('should search async again when user backspaces to empty text with searchTextMinimumCharacters set to 0', fakeAsync(() => {
+      component.searchTextMinimumCharacters = 0;
+      fixture.detectChanges();
+
+      const spy = spyOn(
+        asyncAutocomplete.searchAsync,
+        'emit',
+      ).and.callThrough();
+
+      // First, search with some text
+      enterSearch('red', fixture, true);
+      expect(spy).toHaveBeenCalledWith({
+        displayType: 'popover',
+        offset: 0,
+        searchText: 'red',
+        result: jasmine.any(Observable),
+      });
+
+      tick(200);
+      fixture.detectChanges();
+
+      const filteredResultsCount = asyncAutocomplete.searchResults.length;
+      expect(filteredResultsCount).toBeGreaterThan(0);
+
+      spy.calls.reset();
+
+      // Now backspace to empty the input
+      enterSearch('', fixture, true);
+
+      // Should trigger another search with empty string
+      expect(spy).toHaveBeenCalledWith({
+        displayType: 'popover',
+        offset: 0,
+        searchText: '',
+        result: jasmine.any(Observable),
+      });
+
+      tick(200);
+      fixture.detectChanges();
+
+      // Should now show all results (more than or equal to the filtered results)
+      expect(asyncAutocomplete.searchResults.length).toBeGreaterThanOrEqual(
+        filteredResultsCount,
+      );
+    }));
+
     it('should allow for custom search function', fakeAsync(() => {
       let customSearchCalled = false;
       let customSearchParameter: string | undefined;
