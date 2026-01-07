@@ -453,6 +453,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
             this.#openDropdown();
           }
           if (this.searchTextMinimumCharacters === 0) {
+            this.isSearchingAsync = true;
             this.#searchTextChanged('');
           }
         });
@@ -758,6 +759,14 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   }
 
   #searchTextChanged(searchText: string | undefined): void {
+    // reaffix the dropdown during searching when the wait shrinks it.
+    if (this.isOpen) {
+      setTimeout(() => {
+        if (this.#affixer) {
+          this.#affixer.reaffix();
+        }
+      });
+    }
     if (this.#hasFocus) {
       this.#openDropdown();
       if (!searchText?.trim() && this.searchTextMinimumCharacters !== 0) {
