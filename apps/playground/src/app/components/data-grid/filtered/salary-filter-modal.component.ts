@@ -2,7 +2,6 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyAgGridNumberRangeFilterValue } from '@skyux/ag-grid';
 import {
-  SkyFilterBarFilterValue,
   SkyFilterItemModal,
   SkyFilterItemModalInstance,
 } from '@skyux/filter-bar';
@@ -60,16 +59,26 @@ export class SalaryFilterModalComponent implements SkyFilterItemModal {
   }
 
   public apply(): void {
-    if (this.minSalary !== undefined && this.maxSalary !== undefined) {
-      const rangeValue: SkyAgGridNumberRangeFilterValue = {
-        from: this.minSalary,
-        to: this.maxSalary,
+    if (
+      (this.minSalary ?? undefined) !== undefined ||
+      (this.maxSalary ?? undefined) !== undefined
+    ) {
+      const value: SkyAgGridNumberRangeFilterValue = {
+        from: this.minSalary ?? null,
+        to: this.maxSalary ?? null,
       };
-      const filterValue: SkyFilterBarFilterValue = {
-        value: rangeValue,
-        displayValue: `$${this.minSalary.toLocaleString()} - $${this.maxSalary.toLocaleString()}`,
-      };
-      this.modalInstance.save({ filterValue });
+      let displayValue: string;
+      if (
+        (this.minSalary ?? undefined) !== undefined &&
+        (this.maxSalary ?? undefined) !== undefined
+      ) {
+        displayValue = `$${this.minSalary} - $${this.maxSalary}`;
+      } else if ((this.minSalary ?? undefined) !== undefined) {
+        displayValue = `From $${this.minSalary}`;
+      } else {
+        displayValue = `Up to $${this.maxSalary}`;
+      }
+      this.modalInstance.save({ filterValue: { value, displayValue } });
     } else {
       this.modalInstance.save({ filterValue: undefined });
     }

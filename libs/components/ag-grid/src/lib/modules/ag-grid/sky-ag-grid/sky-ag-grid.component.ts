@@ -521,7 +521,7 @@ export class SkyAgGridComponent<
 
     switch (column.type()) {
       case 'text':
-        return !this.#textFilter(
+        return this.#doesTextFilterPass(
           filterOperator ?? 'contains',
           filterValue as string,
           String(rowValue ?? ''),
@@ -589,14 +589,22 @@ export class SkyAgGridComponent<
       const filterDate = this.#asDate(filterValue);
       return !this.#numericFilter(
         filterOperator ?? 'equals',
-        filterDate.setHours(0, 0, 0, 0),
-        rowDate.setHours(0, 0, 0, 0),
+        this.#zeroHour(filterDate),
+        this.#zeroHour(rowDate),
       );
     }
   }
 
-  #asDate(value: Date | string) {
+  #asDate(value: Date | string): Date {
     return value instanceof Date ? value : new Date(value as string);
+  }
+
+  #zeroHour(value: Date): number {
+    return new Date(
+      value.getFullYear(),
+      value.getMonth(),
+      value.getDate(),
+    ).getTime();
   }
 
   #doesNumericFilterPass(
@@ -654,7 +662,7 @@ export class SkyAgGridComponent<
     );
   }
 
-  #textFilter(
+  #doesTextFilterPass(
     filterOperator: SkyAgGridFilterOperator,
     filterValue: string,
     rowValue: string,
@@ -664,22 +672,22 @@ export class SkyAgGridComponent<
 
     switch (filterOperator) {
       case 'equals':
-        return rowString !== filterString;
-      case 'notEqual':
         return rowString === filterString;
+      case 'notEqual':
+        return rowString !== filterString;
       case 'contains':
-        return !rowString.includes(filterString);
-      case 'notContains':
         return rowString.includes(filterString);
+      case 'notContains':
+        return !rowString.includes(filterString);
       case 'startsWith':
-        return !rowString.startsWith(filterString);
+        return rowString.startsWith(filterString);
       case 'endsWith':
-        return !rowString.endsWith(filterString);
+        return rowString.endsWith(filterString);
       default:
         this.#logger.warn(
           `Unsupported text filter operator: ${filterOperator}`,
         );
-        return false;
+        return true;
     }
   }
 
