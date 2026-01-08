@@ -1,6 +1,15 @@
 # Changelog
 
 
+## [13.11.5](https://github.com/blackbaud/skyux/compare/13.11.4...13.11.5) (2026-01-08)
+
+
+### Bug Fixes
+
+* **sdk/skyux-eslint:** fix lint rule help URLs ([#4141](https://github.com/blackbaud/skyux/issues/4141)) ([feef5f1](https://github.com/blackbaud/skyux/commit/feef5f1142fe427b707d4b6483e670a72dbdd40a))
+
+
+
 ## [13.11.4](https://github.com/blackbaud/skyux/compare/13.11.3...13.11.4) (2025-12-19)
 
 
