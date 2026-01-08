@@ -11,7 +11,7 @@ export function createESLintRule(
   ESLintUtils.RuleListener
 > {
   const ruleCreator = ESLintUtils.RuleCreator((ruleName) => {
-    return `https://github.com/blackbaud/skyux/blob/main/libs/cdk/skyux-eslint/docs/rules/${ruleName}.md`;
+    return `https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/${ruleName}.md`;
   });
 
   return ruleCreator(config);
