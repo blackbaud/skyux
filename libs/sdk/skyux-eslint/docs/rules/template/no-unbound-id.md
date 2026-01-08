@@ -1,6 +1,6 @@
 # skyux-eslint-template/no-unbound-id
 
-Prevents usage of static IDs on HTML elements. For accessibility reasons, all IDs on the page must be unique; to guarantee this, we recommend using the [`skyId`](https://developer.blackbaud.com/skyux/components/id) directive.
+Prevents usage of static IDs on HTML elements. For accessibility reasons, all IDs on the page must be unique. Most elements do not need an ID to be specified. For elements that must have an ID assigned, we recommend using the [`skyId`](https://developer.blackbaud.com/skyux/components/id) directive. For form elements inside of a [SKY UX input box](https://developer.blackbaud.com/skyux/components/input-box), use the input box's `labelText` input to specify a label, and do not assign an ID.
 
 - Type: problem
 
@@ -33,6 +33,20 @@ The rule does not have any configuration options.
 ~~~~~~~~~~~~~~
 ```
 
+```html
+<sky-input-box labelText="Foo">
+  <input id="my-foo" type="text">
+  ~~~~~~~~~~~~~~
+</sky-input-box>
+```
+
+```html
+<sky-input-box labelText="Foo">
+  <input id="my-foo" skyId>
+  ~~~~~~~~~~~~~~
+</sky-input-box>
+```
+
 <br>
 
 #### ✅ Valid Code
@@ -47,4 +61,10 @@ The rule does not have any configuration options.
 
 ```html
 <div id="{{ fooId }}">
+```
+
+```html
+<sky-input-box labelText="Foo">
+  <input id="my-foo">
+</sky-input-box>
 ```
