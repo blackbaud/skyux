@@ -4,7 +4,6 @@ import { SkyAgGridColumnComponent, SkyAgGridComponent } from '@skyux/ag-grid';
 import { SkyDateRangeCalculation } from '@skyux/datetime';
 import {
   SkyFilterBarFilterItem,
-  SkyFilterBarFilterState,
   SkyFilterBarModule,
   getFilterValue,
 } from '@skyux/filter-bar';
@@ -51,10 +50,6 @@ export default class FilteredGridComponent {
   protected readonly startDateFilterModal = StartDateFilterModalComponent;
 
   protected readonly appliedFilters = signal<SkyFilterBarFilterItem[]>([]);
-
-  protected readonly filterState = computed<SkyFilterBarFilterState>(() => ({
-    appliedFilters: this.appliedFilters(),
-  }));
 
   /**
    * Raw employee data before filtering.
@@ -141,44 +136,6 @@ export default class FilteredGridComponent {
       active: true,
     },
   ];
-
-  /**
-   * Filtered employee data - applies boolean and date range filters that AG Grid doesn't handle.
-   * Text and number filters are handled by AG Grid's setFilterModel.
-   */
-  protected readonly employees = computed<Employee[]>(() => {
-    const filters = this.appliedFilters();
-    let result = this.allEmployees;
-
-    // Boolean filters are handled externally since AG Grid doesn't have a built-in boolean filter
-    const hideInactive = getFilterValue<EmployeeFilters, 'hideInactive'>(
-      filters,
-      'hideInactive',
-    );
-    if (hideInactive) {
-      result = result.filter((emp) => emp.active);
-    }
-
-    // Date range filter
-    const startDateRange = getFilterValue<EmployeeFilters, 'startDate'>(
-      filters,
-      'startDate',
-    );
-    if (startDateRange) {
-      result = result.filter((emp) => {
-        const empDate = new Date(emp.startDate);
-        if (startDateRange.startDate && empDate < startDateRange.startDate) {
-          return false;
-        }
-        if (startDateRange.endDate && empDate > startDateRange.endDate) {
-          return false;
-        }
-        return true;
-      });
-    }
-
-    return result;
-  });
 
   /**
    * Example of typed filter value access for display purposes.

@@ -814,7 +814,7 @@ describe('SkyAgGridComponent', () => {
         {
           filterId: 'dateFilter',
           filterValue: {
-            value: new Date('2024-03-10T00:00:00.000Z').toISOString(),
+            value: new Date('2024-03-10T00:00:00.000Z'),
             displayValue: 'March 10, 2024',
           },
         },

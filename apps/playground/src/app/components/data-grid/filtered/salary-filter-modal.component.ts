@@ -16,7 +16,7 @@ import { SkyModalModule } from '@skyux/modals';
     <sky-modal [headingText]="filterLabelText">
       <sky-modal-content>
         <div class="sky-form-group">
-          <sky-input-box labelText="Minimum salary">
+          <sky-input-box labelText="Minimum salary" stacked>
             <input type="number" [(ngModel)]="minSalary" />
           </sky-input-box>
         </div>
