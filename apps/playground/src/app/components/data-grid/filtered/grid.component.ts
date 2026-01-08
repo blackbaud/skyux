@@ -1,27 +1,13 @@
 import { JsonPipe } from '@angular/common';
 import { Component, computed, signal } from '@angular/core';
 import { SkyAgGridColumnComponent, SkyAgGridComponent } from '@skyux/ag-grid';
-import { SkyDateRangeCalculation } from '@skyux/datetime';
-import {
-  SkyFilterBarFilterItem,
-  SkyFilterBarModule,
-  getFilterValue,
-} from '@skyux/filter-bar';
+import { SkyFilterBarModule } from '@skyux/filter-bar';
+import { SkyFilterStateFilterItem } from '@skyux/lists';
 
 import { HideInactiveFilterModalComponent } from './hide-inactive-filter-modal.component';
 import { NameFilterModalComponent } from './name-filter-modal.component';
 import { SalaryFilterModalComponent } from './salary-filter-modal.component';
 import { StartDateFilterModalComponent } from './start-date-filter-modal.component';
-
-/**
- * Define the shape of filter values for type-safe access.
- */
-interface EmployeeFilters {
-  name: string;
-  salary: { from: number; to: number };
-  hideInactive: boolean;
-  startDate: SkyDateRangeCalculation;
-}
 
 interface Employee {
   id: string;
@@ -49,7 +35,7 @@ export default class FilteredGridComponent {
   protected readonly hideInactiveModal = HideInactiveFilterModalComponent;
   protected readonly startDateFilterModal = StartDateFilterModalComponent;
 
-  protected readonly appliedFilters = signal<SkyFilterBarFilterItem[]>([]);
+  protected readonly appliedFilters = signal<SkyFilterStateFilterItem[]>([]);
 
   /**
    * Raw employee data before filtering.
@@ -140,24 +126,21 @@ export default class FilteredGridComponent {
   /**
    * Example of typed filter value access for display purposes.
    */
-  protected readonly activeNameFilter = computed(() => {
-    return getFilterValue<EmployeeFilters, 'name'>(
-      this.appliedFilters(),
-      'name',
-    );
-  });
+  protected readonly activeNameFilter = computed(
+    () =>
+      this.appliedFilters()?.find((f) => f.filterId === 'name')?.filterValue
+        ?.value as string | undefined,
+  );
 
-  protected readonly activeSalaryFilter = computed(() => {
-    return getFilterValue<EmployeeFilters, 'salary'>(
-      this.appliedFilters(),
-      'salary',
-    );
-  });
+  protected readonly activeSalaryFilter = computed(
+    () =>
+      this.appliedFilters()?.find((f) => f.filterId === 'salary')?.filterValue
+        ?.displayValue as string | undefined,
+  );
 
-  protected readonly activeStartDateFilter = computed(() => {
-    return getFilterValue<EmployeeFilters, 'startDate'>(
-      this.appliedFilters(),
-      'startDate',
-    );
-  });
+  protected readonly activeStartDateFilter = computed(
+    () =>
+      this.appliedFilters()?.find((f) => f.filterId === 'startDate')
+        ?.filterValue?.displayValue as string | undefined,
+  );
 }

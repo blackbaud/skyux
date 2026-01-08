@@ -22,9 +22,8 @@ import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SkyLogService } from '@skyux/core';
 import { SkyDateRange } from '@skyux/datetime';
-import { SkyFilterBarFilterItem } from '@skyux/filter-bar';
 import { SkyWaitModule } from '@skyux/indicators';
-import { SkyPagingModule } from '@skyux/lists';
+import { SkyFilterStateFilterItem, SkyPagingModule } from '@skyux/lists';
 
 import { AgGridAngular } from 'ag-grid-angular';
 import {
@@ -140,7 +139,7 @@ export class SkyAgGridComponent<
    * The filter state from a filter bar. When provided, filters are automatically
    * applied to columns that have matching `filterId` values.
    */
-  public readonly appliedFilters = input<SkyFilterBarFilterItem[]>([]);
+  public readonly appliedFilters = input<SkyFilterStateFilterItem[]>([]);
 
   /**
    * How the grid fits to its parent. The valid options are `width`,
@@ -504,7 +503,7 @@ export class SkyAgGridComponent<
   }
 
   #doesSingleFilterPass(
-    filter: SkyFilterBarFilterItem,
+    filter: SkyFilterStateFilterItem,
     node: IRowNode<T>,
     columns: readonly SkyAgGridColumnComponent[],
   ): boolean {
