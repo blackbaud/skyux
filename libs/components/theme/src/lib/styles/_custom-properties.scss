@@ -39,6 +39,67 @@
       10%
     )};
 
+  /* data viz colors */
+  --sky-theme-color-viz-category-1: #06a39e;
+  --sky-theme-color-viz-category-2: #6d3c96;
+  --sky-theme-color-viz-category-3: #5589dd;
+  --sky-theme-color-viz-category-4: #004252;
+  --sky-theme-color-viz-category-5: #ce5600;
+  --sky-theme-color-viz-category-6: #822325;
+  --sky-theme-color-viz-category-7: #c650c1;
+  --sky-theme-color-viz-category-8: #077e43;
+
+  --sky-theme-color-viz-sequence-1: #dcf6f5;
+  --sky-theme-color-viz-sequence-2: #abe9e7;
+  --sky-theme-color-viz-sequence-3: #60d5d2;
+  --sky-theme-color-viz-sequence-4: #07beb8;
+  --sky-theme-color-viz-sequence-5: #06a39e;
+  --sky-theme-color-viz-sequence-6: #058984;
+  --sky-theme-color-viz-sequence-7: #046e6b;
+  --sky-theme-color-viz-sequence-8: #035755;
+  --sky-theme-color-viz-sequence-9: #02413f;
+  --sky-theme-color-viz-sequence-10: #022a28;
+
+  --sky-theme-color-viz-diverge-neg-10: #4a1415;
+  --sky-theme-color-viz-diverge-neg-9: #641b1c;
+  --sky-theme-color-viz-diverge-neg-8: #822325;
+  --sky-theme-color-viz-diverge-neg-7: #ae2e31;
+  --sky-theme-color-viz-diverge-neg-6: #d93a3d;
+  --sky-theme-color-viz-diverge-neg-5: #e36d6f;
+  --sky-theme-color-viz-diverge-neg-4: #ea9596;
+  --sky-theme-color-viz-diverge-neg-3: #f1b4b5;
+  --sky-theme-color-viz-diverge-neg-2: #f5cccd;
+  --sky-theme-color-viz-diverge-neg-1: #fae7e8;
+  --sky-theme-color-viz-diverge-pos-1: #eef3fc;
+  --sky-theme-color-viz-diverge-pos-2: #d5e1f7;
+  --sky-theme-color-viz-diverge-pos-3: #aac4ee;
+  --sky-theme-color-viz-diverge-pos-4: #80a6e6;
+  --sky-theme-color-viz-diverge-pos-5: #5589dd;
+  --sky-theme-color-viz-diverge-pos-6: #2b6bd5;
+  --sky-theme-color-viz-diverge-pos-7: #2256aa;
+  --sky-theme-color-viz-diverge-pos-8: #1a4080;
+  --sky-theme-color-viz-diverge-pos-9: #112b55;
+  --sky-theme-color-viz-diverge-pos-10: #0d2040;
+
+  --sky-theme-color-classify-1-heavy: #046e6b;
+  --sky-theme-color-classify-1-soft: #abe9e7;
+  --sky-theme-color-classify-2-heavy: #8d4ec2;
+  --sky-theme-color-classify-2-soft: #e9d3fb;
+  --sky-theme-color-classify-3-heavy: #007894;
+  --sky-theme-color-classify-3-soft: #a8efff;
+  --sky-theme-color-classify-4-heavy: #a74500;
+  --sky-theme-color-classify-4-soft: #fcd7bd;
+  --sky-theme-color-classify-5-heavy: #a542a0;
+  --sky-theme-color-classify-5-soft: #fcd9fa;
+  --sky-theme-color-classify-6-heavy: #077e43;
+  --sky-theme-color-classify-6-soft: #a8f1cd;
+  --sky-theme-color-classify-7-heavy: #ae2e31;
+  --sky-theme-color-classify-7-soft: #f5cccd;
+
+  --sky-theme-color-viz-axis: #85888d;
+  --sky-theme-color-viz-gridline: #e0e1e2;
+  --sky-theme-color-viz-marker: #252b33;
+
   /* margin */
   --sky-margin-inline-xs: #{$sky-space-xs};
   --sky-margin-inline-sm: #{$sky-space-md};
