@@ -6,6 +6,7 @@
 
 ### Bug Fixes
 
+* **sdk/skyux-eslint:** add clarification regarding input box to `no-unbound-id` docs ([#4142](https://github.com/blackbaud/skyux/issues/4142)) ([d01129a](https://github.com/blackbaud/skyux/commit/d01129a8bc71e51d87224c795bbd2e2eb0e90bef))
 * **sdk/skyux-eslint:** fix lint rule help URLs ([#4141](https://github.com/blackbaud/skyux/issues/4141)) ([feef5f1](https://github.com/blackbaud/skyux/commit/feef5f1142fe427b707d4b6483e670a72dbdd40a))
 
 
