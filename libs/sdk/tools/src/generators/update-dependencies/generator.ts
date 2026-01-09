@@ -238,6 +238,36 @@ function updateTestingBuildTargetDependencies(tree: Tree): void {
   });
 }
 
+/**
+ * Testing projects do not have a separate package.json to track dependencies.
+ */
+function updateManifestBuildTargetDependencies(tree: Tree): void {
+  const projects = getProjects(tree);
+  const componentProjects = new Map<string, ProjectConfiguration>(
+    Array.from(projects.entries()).filter(
+      ([, config]) =>
+        config.tags?.includes('component') &&
+        tree.exists(`${config.root}/documentation.json`),
+    ),
+  );
+  const manifestProject = projects.get('manifest');
+  if (!manifestProject) {
+    return;
+  }
+  manifestProject.namedInputs ??= {};
+  manifestProject.namedInputs['componentDocumentationInputs'] = Array.from(
+    componentProjects.values(),
+  ).flatMap((proj) => [
+    `{workspaceRoot}/${proj.root}/**/*.ts`,
+    `!{workspaceRoot}/${proj.root}/**/*.@(spec|stories).ts`,
+    `!{workspaceRoot}/${proj.root}/**/fixtures/**/*`,
+    `!{workspaceRoot}/${proj.root}/.storybook/**/*`,
+    `!{workspaceRoot}/${proj.root}/jest.config.ts`,
+    `!{workspaceRoot}/${proj.root}/src/test-setup.ts`,
+  ]);
+  updateProjectConfiguration(tree, 'manifest', manifestProject);
+}
+
 export default async function (
   tree: Tree,
   options: { skipFormat: boolean },
@@ -246,6 +276,7 @@ export default async function (
   updatePeerDependencies(tree);
   updateNgUpdatePackageGroup(tree);
   updateTestingBuildTargetDependencies(tree);
+  updateManifestBuildTargetDependencies(tree);
   /* istanbul ignore if */
   if (!options.skipFormat) {
     await formatFiles(tree);
