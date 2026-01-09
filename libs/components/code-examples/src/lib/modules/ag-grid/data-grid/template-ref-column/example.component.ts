@@ -1,7 +1,7 @@
 import { Component, TemplateRef, inject, viewChild } from '@angular/core';
 import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 
-import { AgGridModule } from 'ag-grid-angular';
+import { AgGridAngular } from 'ag-grid-angular';
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 
 import { AG_GRID_DEMO_DATA } from './data';
@@ -14,7 +14,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 @Component({
   selector: 'app-ag-grid-data-grid-template-ref-column-example',
   templateUrl: './example.component.html',
-  imports: [AgGridModule, SkyAgGridModule],
+  imports: [AgGridAngular, SkyAgGridModule],
 })
 export class AgGridDataGridTemplateRefColumnExampleComponent {
   protected readonly boldColumn = viewChild<TemplateRef<unknown>>('boldColumn');
