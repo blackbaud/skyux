@@ -8,6 +8,8 @@
   >
     <ag-grid-angular
       [gridOptions]="gridOptions"
+      [isExternalFilterPresent]="isExternalFilterPresent"
+      [doesExternalFilterPass]="doesExternalFilterPass()"
       [style.height.px]="height() || undefined"
       [style.width.px]="width() || undefined"
     />

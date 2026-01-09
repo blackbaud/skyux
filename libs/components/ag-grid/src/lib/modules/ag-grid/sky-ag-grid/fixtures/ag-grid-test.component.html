@@ -153,3 +153,56 @@
     }
   </sky-ag-grid>
 }
+
+@if (showFilteredGrid()) {
+  <h1>Grid with filters</h1>
+  <sky-ag-grid
+    data-sky-id="filtered-grid"
+    height="200"
+    [data]="dataForFilteredGrid"
+    [appliedFilters]="appliedFilters()"
+  >
+    <sky-ag-grid-column
+      field="column1"
+      heading="Column1"
+      type="text"
+      filterId="column1Filter"
+      filterOperator="contains"
+    />
+    <sky-ag-grid-column
+      field="column2"
+      heading="Column2"
+      type="text"
+      filterId="column2Filter"
+      filterOperator="startsWith"
+    />
+    <sky-ag-grid-column
+      field="column2"
+      columnId="column2VarOperator"
+      heading="Column2 (Variable Operator)"
+      type="text"
+      filterId="column2VarOperatorFilter"
+      [filterOperator]="textFilterOperator()"
+    />
+    <sky-ag-grid-column
+      field="column3"
+      heading="Column3"
+      type="boolean"
+      filterId="column3Filter"
+      [filterOperator]="booleanFilterOperator()"
+    />
+    <sky-ag-grid-column
+      field="numericColumn"
+      heading="Numeric"
+      type="number"
+      filterId="numericFilter"
+      [filterOperator]="numberFilterOperator()"
+    />
+    <sky-ag-grid-column
+      field="dateColumn"
+      heading="Date"
+      type="date"
+      filterId="dateFilter"
+    />
+  </sky-ag-grid>
+}

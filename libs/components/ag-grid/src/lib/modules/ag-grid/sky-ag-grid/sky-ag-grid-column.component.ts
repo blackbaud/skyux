@@ -8,6 +8,8 @@ import {
   numberAttribute,
 } from '@angular/core';
 
+import { SkyAgGridFilterOperator } from '../types/sky-ag-grid-filter-operator';
+
 @Component({
   selector: 'sky-ag-grid-column',
   template: '',
@@ -45,6 +47,22 @@ export class SkyAgGridColumnComponent {
   public readonly width = input<number, unknown>(0, {
     transform: numberAttribute,
   });
+
+  /**
+   * The filter ID that maps this column to a filter bar item.
+   * When set, changes to the corresponding filter will apply to this column.
+   * Defaults to the column's `field` value.
+   */
+  public readonly filterId = input<string>();
+
+  /**
+   * The filter operator to use when applying the filter.
+   * Defaults based on column type:
+   * - text: 'contains'
+   * - number: 'equals'
+   * - date: 'equals'
+   */
+  public readonly filterOperator = input<SkyAgGridFilterOperator>();
 
   protected readonly templateChild = contentChild(TemplateRef);
 

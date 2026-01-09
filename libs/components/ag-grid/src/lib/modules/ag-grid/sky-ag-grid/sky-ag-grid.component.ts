@@ -20,8 +20,10 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SkyLogService } from '@skyux/core';
+import { SkyDateRange } from '@skyux/datetime';
 import { SkyWaitModule } from '@skyux/indicators';
-import { SkyPagingModule } from '@skyux/lists';
+import { SkyFilterStateFilterItem, SkyPagingModule } from '@skyux/lists';
 
 import { AgGridAngular } from 'ag-grid-angular';
 import {
@@ -53,6 +55,8 @@ import { SkyAgGridRowDeleteCancelArgs } from '../types/ag-grid-row-delete-cancel
 import { SkyAgGridRowDeleteConfirmArgs } from '../types/ag-grid-row-delete-confirm-args';
 import { SkyCellType } from '../types/cell-type';
 import { SkyAgGridHeaderParams } from '../types/header-params';
+import { SkyAgGridFilterOperator } from '../types/sky-ag-grid-filter-operator';
+import { SkyAgGridNumberRangeFilterValue } from '../types/sky-ag-grid-filter-values';
 
 import { SkyAgGridColumnComponent } from './sky-ag-grid-column.component';
 
@@ -130,6 +134,12 @@ export class SkyAgGridComponent<
   public readonly enableMultiselect = input<boolean, unknown>(false, {
     transform: coerceBooleanProperty,
   });
+
+  /**
+   * The filter state from a filter bar. When provided, filters are automatically
+   * applied to columns that have matching `filterId` values.
+   */
+  public readonly appliedFilters = input<SkyFilterStateFilterItem[]>([]);
 
   /**
    * How the grid fits to its parent. The valid options are `width`,
@@ -223,6 +233,12 @@ export class SkyAgGridComponent<
   protected readonly columns = contentChildren(SkyAgGridColumnComponent);
   protected readonly gridReady = signal(false);
   protected readonly gridApi = signal<GridApi | undefined>(undefined);
+  protected readonly isExternalFilterPresent = computed(
+    () => (this.appliedFilters() ?? []).length > 0,
+  );
+  protected readonly doesExternalFilterPass = computed(
+    (): ((node: IRowNode) => boolean) => this.#doesFilterPass(),
+  );
   protected readonly pageNumber = linkedSignal(this.page);
 
   readonly #gridDestroyed = toObservable(this.gridApi).pipe(
@@ -269,26 +285,19 @@ export class SkyAgGridComponent<
     const hidden = this.hiddenColumns().filter(Boolean);
     return columns.map((col): ColDef => {
       const colDef: ColDef = {
+        colId: col.columnId(),
+        field: col.field(),
         headerName: col.heading(),
         headerComponentParams: {
           helpPopoverTitle: col.helpPopoverTitle(),
           helpPopoverContent: col.helpPopoverContent() || col.description(),
         } as SkyAgGridHeaderParams,
-        hide:
-          col.hidden() ||
-          (displayed.length > 0 &&
-            !displayed.includes(this.#getColumnIdOrField(col))) ||
-          hidden.includes(this.#getColumnIdOrField(col)),
+        hide: this.#hideColumn(col, displayed, hidden),
         sortable: col.isSortable(),
         lockPosition: col.locked(),
         suppressMovable: col.locked(),
         type: [],
       };
-      if (col.field()) {
-        colDef.field = col.field();
-      } else if (col.columnId()) {
-        colDef.colId = col.columnId();
-      }
       if (col.type() === 'date') {
         (colDef.type as string[]).push(SkyCellType.Date);
         colDef.cellDataType = 'dateString';
@@ -303,7 +312,7 @@ export class SkyAgGridComponent<
       }
       if (col.cellTemplate()) {
         (colDef.type as string[]).push(SkyCellType.Template);
-        colDef.cellRendererParams = { template: col.cellTemplate() };
+        colDef.cellRendererParams = { template: col.cellTemplate };
       }
       if (col.width() > 0) {
         colDef.initialWidth = col.width();
@@ -315,6 +324,7 @@ export class SkyAgGridComponent<
 
   readonly #activatedRoute = inject(ActivatedRoute, { optional: true });
   readonly #router = inject(Router, { optional: true });
+  readonly #logger = inject(SkyLogService);
 
   protected readonly gridOptions = computed(() => {
     const columnDefs = this.#columnDefs();
@@ -409,6 +419,7 @@ export class SkyAgGridComponent<
       }
       api.paginationGoToPage(pageNumber - 1);
     });
+
     this.#gridDestroyed.pipe(takeUntilDestroyed()).subscribe(() => {
       this.gridApi.set(undefined);
       this.gridReady.set(false);
@@ -459,9 +470,249 @@ export class SkyAgGridComponent<
     return id || field;
   }
 
+  #hideColumn(
+    col: SkyAgGridColumnComponent,
+    displayed: string[],
+    hidden: string[],
+  ): boolean {
+    return (
+      col.hidden() ||
+      (displayed.length > 0 &&
+        !displayed.includes(this.#getColumnIdOrField(col))) ||
+      hidden.includes(this.#getColumnIdOrField(col))
+    );
+  }
+
   #getRowIds(rows: (IRowNode | undefined)[] | null | undefined): string[] {
     return coerceArray(rows)
       .map((node) => node?.id as string)
       .filter(Boolean) as string[];
+  }
+
+  #doesFilterPass(): (node: IRowNode<T>) => boolean {
+    const appliedFilters = this.appliedFilters();
+    const columns = this.columns();
+    columns.forEach((column: SkyAgGridColumnComponent) => {
+      // Track changes to filter operators by invoking the signal.
+      column.filterOperator();
+    });
+    return (node: IRowNode<T>): boolean =>
+      appliedFilters.every((filter) =>
+        this.#doesSingleFilterPass(filter, node, columns),
+      );
+  }
+
+  #doesSingleFilterPass(
+    filter: SkyFilterStateFilterItem,
+    node: IRowNode<T>,
+    columns: readonly SkyAgGridColumnComponent[],
+  ): boolean {
+    // Find column with matching filterId
+    let column = columns.find((col) => col.filterId() === filter.filterId);
+    column ??= columns.find((col) => col.field() === filter.filterId);
+    if (!column || filter.filterValue?.value === undefined || !node.data) {
+      return true;
+    }
+
+    const rowValue = node.data[column.field() as keyof T];
+    const filterValue = filter.filterValue.value;
+    const filterOperator = column.filterOperator();
+
+    switch (column.type()) {
+      case 'text':
+        return this.#doesTextFilterPass(
+          filterOperator ?? 'contains',
+          filterValue as string,
+          String(rowValue ?? ''),
+        );
+      case 'number':
+        return this.#doesNumericFilterPass(
+          filterValue as string | number | SkyAgGridNumberRangeFilterValue,
+          rowValue as string | number,
+          filterOperator,
+        );
+      case 'date':
+        return this.#doesDateFilterPass(
+          filterValue as SkyDateRange | Date | string,
+          rowValue as Date | string,
+          filterOperator,
+        );
+      case 'boolean':
+        return this.#doesBooleanFilterPass(
+          filterValue,
+          rowValue,
+          filterOperator,
+        );
+    }
+  }
+
+  #doesBooleanFilterPass(
+    filterValue: unknown,
+    rowValue: unknown,
+    filterOperator: SkyAgGridFilterOperator | undefined,
+  ): boolean {
+    if (
+      filterOperator === 'notEqual' &&
+      Boolean(rowValue) === Boolean(filterValue)
+    ) {
+      return false;
+    } else if (
+      (filterOperator ?? 'equals') === 'equals' &&
+      Boolean(rowValue) !== Boolean(filterValue)
+    ) {
+      return false;
+    } else if (
+      filterOperator &&
+      !['equals', 'notEqual'].includes(filterOperator)
+    ) {
+      this.#logger.warn(
+        `Unsupported boolean filter operator: ${filterOperator}`,
+      );
+    }
+    return true;
+  }
+
+  #doesDateFilterPass(
+    filterValue: SkyDateRange | Date | string,
+    rowValue: Date | string,
+    filterOperator: SkyAgGridFilterOperator | undefined,
+  ): boolean {
+    const rowDate = this.#asDate(rowValue);
+    if (this.#isDateRangeFilter(filterValue)) {
+      const range = filterValue as SkyDateRange;
+      return !(
+        (range.startDate && rowDate < new Date(range.startDate)) ||
+        (range.endDate && rowDate > new Date(range.endDate))
+      );
+    } else {
+      const filterDate = this.#asDate(filterValue);
+      return !this.#numericFilter(
+        filterOperator ?? 'equals',
+        this.#zeroHour(filterDate),
+        this.#zeroHour(rowDate),
+      );
+    }
+  }
+
+  #asDate(value: Date | string): Date {
+    return value instanceof Date ? value : new Date(value as string);
+  }
+
+  #zeroHour(value: Date): number {
+    return new Date(
+      value.getFullYear(),
+      value.getMonth(),
+      value.getDate(),
+    ).getTime();
+  }
+
+  #doesNumericFilterPass(
+    filterValue: SkyAgGridNumberRangeFilterValue | string | number,
+    rowValue: string | number,
+    filterOperator: SkyAgGridFilterOperator | undefined,
+  ): boolean {
+    if (this.#isNumberRangeFilter(filterValue)) {
+      const range = filterValue;
+      return !(
+        (range.from !== null && Number(rowValue) < range.from) ||
+        (range.to !== null && Number(rowValue) > range.to)
+      );
+    } else {
+      return !this.#numericFilter(
+        filterOperator ?? 'equals',
+        Number(filterValue),
+        Number(rowValue),
+      );
+    }
+  }
+
+  /**
+   * Ensures the provided value matches the number range filter shape. It must have a `from` and `to` property,
+   * with at least one being a number (both can be numbers).
+   */
+  #isNumberRangeFilter(
+    value: unknown,
+  ): value is SkyAgGridNumberRangeFilterValue {
+    return (
+      typeof value === 'object' &&
+      value !== null &&
+      'from' in value &&
+      'to' in value &&
+      (typeof (value as SkyAgGridNumberRangeFilterValue).from === 'number' ||
+        typeof (value as SkyAgGridNumberRangeFilterValue).to === 'number') &&
+      (typeof (value as SkyAgGridNumberRangeFilterValue).from === 'number' ||
+        value.from === null) &&
+      (typeof (value as SkyAgGridNumberRangeFilterValue).to === 'number' ||
+        value.to === null)
+    );
+  }
+
+  /**
+   * Ensures the provided value matches the date range filter shape. It must have a `startDate` and/or `endDate` property,
+   * with at least one being a Date object.
+   */
+  #isDateRangeFilter(value: unknown): value is SkyDateRange {
+    return (
+      typeof value === 'object' &&
+      value !== null &&
+      ('startDate' in value || 'endDate' in value) &&
+      ((value as SkyDateRange).startDate instanceof Date ||
+        (value as SkyDateRange).endDate instanceof Date)
+    );
+  }
+
+  #doesTextFilterPass(
+    filterOperator: SkyAgGridFilterOperator,
+    filterValue: string,
+    rowValue: string,
+  ): boolean {
+    const rowString = rowValue.normalize().toLocaleLowerCase();
+    const filterString = filterValue.normalize().toLocaleLowerCase();
+
+    switch (filterOperator) {
+      case 'equals':
+        return rowString === filterString;
+      case 'notEqual':
+        return rowString !== filterString;
+      case 'contains':
+        return rowString.includes(filterString);
+      case 'notContains':
+        return !rowString.includes(filterString);
+      case 'startsWith':
+        return rowString.startsWith(filterString);
+      case 'endsWith':
+        return rowString.endsWith(filterString);
+      default:
+        this.#logger.warn(
+          `Unsupported text filter operator: ${filterOperator}`,
+        );
+        return true;
+    }
+  }
+
+  #numericFilter(
+    filterOperator: SkyAgGridFilterOperator,
+    filterValue: number,
+    rowValue: number,
+  ): boolean {
+    switch (filterOperator) {
+      case 'equals':
+        return rowValue !== filterValue;
+      case 'notEqual':
+        return rowValue === filterValue;
+      case 'lessThan':
+        return rowValue >= filterValue;
+      case 'lessThanOrEqual':
+        return rowValue > filterValue;
+      case 'greaterThan':
+        return rowValue <= filterValue;
+      case 'greaterThanOrEqual':
+        return rowValue < filterValue;
+      default:
+        this.#logger.warn(
+          `Unsupported number or date filter operator: ${filterOperator}`,
+        );
+        return false;
+    }
   }
 }

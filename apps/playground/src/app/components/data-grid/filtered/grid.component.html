@@ -1,0 +1,90 @@
+<h1>Filtered Data Grid</h1>
+
+<p>
+  This example demonstrates integrating <code>sky-filter-bar</code> with
+  <code>sky-ag-grid</code> using typed filters. All filters (text, number, date,
+  and boolean) are applied using AG Grid's external filtering mechanism via
+  <code>isExternalFilterPresent</code> and <code>doesExternalFilterPass</code>.
+</p>
+
+<h2>Filter Bar + AG Grid Integration</h2>
+
+<sky-filter-bar [(appliedFilters)]="appliedFilters">
+  <sky-filter-item-modal
+    filterId="name"
+    labelText="Name"
+    modalSize="medium"
+    [modalComponent]="nameFilterModal"
+  />
+  <sky-filter-item-modal
+    filterId="salary"
+    labelText="Salary Range"
+    modalSize="medium"
+    [modalComponent]="salaryFilterModal"
+  />
+  <sky-filter-item-modal
+    filterId="startDate"
+    labelText="Start Date"
+    modalSize="large"
+    [modalComponent]="startDateFilterModal"
+  />
+  <sky-filter-item-modal
+    filterId="hideInactive"
+    labelText="Active Status"
+    modalSize="small"
+    [modalComponent]="hideInactiveModal"
+  />
+</sky-filter-bar>
+
+<div class="sky-margin-stacked-lg">
+  <sky-ag-grid
+    height="400"
+    [data]="allEmployees"
+    [appliedFilters]="appliedFilters()"
+  >
+    <sky-ag-grid-column
+      field="name"
+      heading="Employee Name"
+      type="text"
+      filterId="name"
+      filterOperator="contains"
+    />
+    <sky-ag-grid-column field="department" heading="Department" type="text" />
+    <sky-ag-grid-column
+      field="salary"
+      heading="Salary"
+      type="number"
+      filterId="salary"
+    />
+    <sky-ag-grid-column field="startDate" heading="Start Date" type="date" />
+    <sky-ag-grid-column
+      field="active"
+      heading="Active"
+      type="boolean"
+      filterId="hideInactive"
+    />
+  </sky-ag-grid>
+</div>
+
+<h3>Current Filter State</h3>
+
+<div class="filter-debug">
+  <p><strong>Applied Filters:</strong></p>
+  <pre>{{ appliedFilters() | json }}</pre>
+
+  <p><strong>Typed Filter Access:</strong></p>
+  <ul>
+    <li>
+      Name filter (string):
+      <code>{{ activeNameFilter() ?? 'not set' }}</code>
+    </li>
+    <li>
+      Salary filter (range):
+      <code>{{ activeSalaryFilter() | json }}</code>
+    </li>
+    <li>
+      Start date filter (date range):
+      <code>{{ activeStartDateFilter() | json }}</code>
+    </li>
+  </ul>
+</div>
