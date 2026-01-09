@@ -11887,7 +11887,7 @@ If your function does not access \`this\`, you can annotate it with \`this: void
             "meta": Object {
               "docs": Object {
                 "description": "Prevents importing components from SKY UX packages that start with the \\"λ\\" lambda character.",
-                "url": "https://github.com/blackbaud/skyux/blob/main/libs/cdk/skyux-eslint/docs/rules/no-lambda-imports.md",
+                "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/no-lambda-imports.md",
               },
               "messages": Object {
                 "noLambdaImports": "{{importName}} is not included in the SKY UX public API",
@@ -11902,7 +11902,7 @@ If your function does not access \`this\`, you can annotate it with \`this: void
             "meta": Object {
               "docs": Object {
                 "description": "Component and directive selectors must not start with \\"sky\\" to avoid naming collisions with SKY UX features.",
-                "url": "https://github.com/blackbaud/skyux/blob/main/libs/cdk/skyux-eslint/docs/rules/no-sky-selectors.md",
+                "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/no-sky-selectors.md",
               },
               "messages": Object {
                 "noSkySelectors": "The selector must not start with \\"sky\\".",
@@ -13280,7 +13280,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
             "meta": Object {
               "docs": Object {
                 "description": "Avoid using deprecated CSS classes.",
-                "url": "https://github.com/blackbaud/skyux/blob/main/libs/cdk/skyux-eslint/docs/rules/template/no-deprecated-classnames.md",
+                "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/template/no-deprecated-classnames.md",
               },
               "fixable": "code",
               "messages": Object {
@@ -13296,7 +13296,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
             "meta": Object {
               "docs": Object {
                 "description": "Prevents usage of deprecated directives and components in consumer templates.",
-                "url": "https://github.com/blackbaud/skyux/blob/main/libs/cdk/skyux-eslint/docs/rules/template/no-deprecated-directives.md",
+                "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/template/no-deprecated-directives.md",
               },
               "messages": Object {
                 "noDeprecatedDirectiveProperties": "The attribute \`{{property}}\` on the <{{selector}}> element is deprecated. {{reason}}",
@@ -13312,7 +13312,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
             "meta": Object {
               "docs": Object {
                 "description": "Avoid using legacy icons.",
-                "url": "https://github.com/blackbaud/skyux/blob/main/libs/cdk/skyux-eslint/docs/rules/template/no-legacy-icons.md",
+                "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/template/no-legacy-icons.md",
               },
               "fixable": "code",
               "messages": Object {
@@ -13328,7 +13328,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
             "meta": Object {
               "docs": Object {
                 "description": "Avoid nesting lists within a sky-radio-group component, for accessibility reasons.",
-                "url": "https://github.com/blackbaud/skyux/blob/main/libs/cdk/skyux-eslint/docs/rules/template/no-radio-group-with-nested-list.md",
+                "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/template/no-radio-group-with-nested-list.md",
               },
               "fixable": "code",
               "messages": Object {
@@ -13344,7 +13344,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
             "meta": Object {
               "docs": Object {
                 "description": "Prevents usage of static IDs on HTML elements.",
-                "url": "https://github.com/blackbaud/skyux/blob/main/libs/cdk/skyux-eslint/docs/rules/template/no-unbound-id.md",
+                "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/template/no-unbound-id.md",
               },
               "messages": Object {
                 "noUnboundId": "<{{selector}}> element must not have a static ID. Use the \`skyId\` directive instead.",
@@ -13359,7 +13359,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
             "meta": Object {
               "docs": Object {
                 "description": "Prefer the disabled attribute over .sky-btn-disabled class for elements that support the disabled attribute.",
-                "url": "https://github.com/blackbaud/skyux/blob/main/libs/cdk/skyux-eslint/docs/rules/template/prefer-disabled-attr.md",
+                "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/template/prefer-disabled-attr.md",
               },
               "fixable": "code",
               "messages": Object {
@@ -13375,7 +13375,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
             "meta": Object {
               "docs": Object {
                 "description": "Use label text.",
-                "url": "https://github.com/blackbaud/skyux/blob/main/libs/cdk/skyux-eslint/docs/rules/template/prefer-label-text.md",
+                "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/template/prefer-label-text.md",
               },
               "fixable": "code",
               "messages": Object {
