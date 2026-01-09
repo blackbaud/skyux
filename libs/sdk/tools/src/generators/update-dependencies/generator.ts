@@ -239,7 +239,9 @@ function updateTestingBuildTargetDependencies(tree: Tree): void {
 }
 
 /**
- * Testing projects do not have a separate package.json to track dependencies.
+ * TypeScript changes that may affect the public API should trigger a manifest build.
+ * This approach marks the files the dependency rather than the build step of the libraries being the dependency, so the manifest build does not need to wait for libraries to build.
+ * The named input could be added to `nx.json` but it's massive and only used here.
  */
 function updateManifestBuildTargetDependencies(tree: Tree): void {
   const projects = getProjects(tree);
