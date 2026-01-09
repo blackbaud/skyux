@@ -1,259 +1,239 @@
-:host {
-  display: block;
-  padding: 10px;
-}
-
-h2 {
-  margin-top: 20px;
-  margin-bottom: 10px;
-}
-
-.sky-data-viz-colors-grid {
+.data-viz-colors-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 10px;
-  margin-bottom: 20px;
 }
 
-.sky-data-viz-color-wrapper {
+.data-viz-color-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 5px;
 }
 
-.sky-data-viz-color-label {
-  font-size: 12px;
-  font-weight: 500;
-}
-
-.sky-data-viz-color-item {
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  min-height: 80px;
+.data-viz-color-item {
+  height: 80px;
 }
 
 /* Category colors */
-.sky-data-viz-color-category-1 {
+.data-viz-color-category-1 {
   background-color: var(--sky-theme-color-viz-category-1);
 }
 
-.sky-data-viz-color-category-2 {
+.data-viz-color-category-2 {
   background-color: var(--sky-theme-color-viz-category-2);
 }
 
-.sky-data-viz-color-category-3 {
+.data-viz-color-category-3 {
   background-color: var(--sky-theme-color-viz-category-3);
 }
 
-.sky-data-viz-color-category-4 {
+.data-viz-color-category-4 {
   background-color: var(--sky-theme-color-viz-category-4);
 }
 
-.sky-data-viz-color-category-5 {
+.data-viz-color-category-5 {
   background-color: var(--sky-theme-color-viz-category-5);
 }
 
-.sky-data-viz-color-category-6 {
+.data-viz-color-category-6 {
   background-color: var(--sky-theme-color-viz-category-6);
 }
 
-.sky-data-viz-color-category-7 {
+.data-viz-color-category-7 {
   background-color: var(--sky-theme-color-viz-category-7);
 }
 
-.sky-data-viz-color-category-8 {
+.data-viz-color-category-8 {
   background-color: var(--sky-theme-color-viz-category-8);
 }
 
 /* Sequence colors */
-.sky-data-viz-color-sequence-1 {
+.data-viz-color-sequence-1 {
   background-color: var(--sky-theme-color-viz-sequence-1);
 }
 
-.sky-data-viz-color-sequence-2 {
+.data-viz-color-sequence-2 {
   background-color: var(--sky-theme-color-viz-sequence-2);
 }
 
-.sky-data-viz-color-sequence-3 {
+.data-viz-color-sequence-3 {
   background-color: var(--sky-theme-color-viz-sequence-3);
 }
 
-.sky-data-viz-color-sequence-4 {
+.data-viz-color-sequence-4 {
   background-color: var(--sky-theme-color-viz-sequence-4);
 }
 
-.sky-data-viz-color-sequence-5 {
+.data-viz-color-sequence-5 {
   background-color: var(--sky-theme-color-viz-sequence-5);
 }
 
-.sky-data-viz-color-sequence-6 {
+.data-viz-color-sequence-6 {
   background-color: var(--sky-theme-color-viz-sequence-6);
 }
 
-.sky-data-viz-color-sequence-7 {
+.data-viz-color-sequence-7 {
   background-color: var(--sky-theme-color-viz-sequence-7);
 }
 
-.sky-data-viz-color-sequence-8 {
+.data-viz-color-sequence-8 {
   background-color: var(--sky-theme-color-viz-sequence-8);
 }
 
-.sky-data-viz-color-sequence-9 {
+.data-viz-color-sequence-9 {
   background-color: var(--sky-theme-color-viz-sequence-9);
 }
 
-.sky-data-viz-color-sequence-10 {
+.data-viz-color-sequence-10 {
   background-color: var(--sky-theme-color-viz-sequence-10);
 }
 
 /* Diverging colors - negative */
-.sky-data-viz-color-diverge-neg-1 {
+.data-viz-color-diverge-neg-1 {
   background-color: var(--sky-theme-color-viz-diverge-neg-1);
 }
 
-.sky-data-viz-color-diverge-neg-2 {
+.data-viz-color-diverge-neg-2 {
   background-color: var(--sky-theme-color-viz-diverge-neg-2);
 }
 
-.sky-data-viz-color-diverge-neg-3 {
+.data-viz-color-diverge-neg-3 {
   background-color: var(--sky-theme-color-viz-diverge-neg-3);
 }
 
-.sky-data-viz-color-diverge-neg-4 {
+.data-viz-color-diverge-neg-4 {
   background-color: var(--sky-theme-color-viz-diverge-neg-4);
 }
 
-.sky-data-viz-color-diverge-neg-5 {
+.data-viz-color-diverge-neg-5 {
   background-color: var(--sky-theme-color-viz-diverge-neg-5);
 }
 
-.sky-data-viz-color-diverge-neg-6 {
+.data-viz-color-diverge-neg-6 {
   background-color: var(--sky-theme-color-viz-diverge-neg-6);
 }
 
-.sky-data-viz-color-diverge-neg-7 {
+.data-viz-color-diverge-neg-7 {
   background-color: var(--sky-theme-color-viz-diverge-neg-7);
 }
 
-.sky-data-viz-color-diverge-neg-8 {
+.data-viz-color-diverge-neg-8 {
   background-color: var(--sky-theme-color-viz-diverge-neg-8);
 }
 
-.sky-data-viz-color-diverge-neg-9 {
+.data-viz-color-diverge-neg-9 {
   background-color: var(--sky-theme-color-viz-diverge-neg-9);
 }
 
-.sky-data-viz-color-diverge-neg-10 {
+.data-viz-color-diverge-neg-10 {
   background-color: var(--sky-theme-color-viz-diverge-neg-10);
 }
 
 /* Diverging colors - positive */
-.sky-data-viz-color-diverge-pos-1 {
+.data-viz-color-diverge-pos-1 {
   background-color: var(--sky-theme-color-viz-diverge-pos-1);
 }
 
-.sky-data-viz-color-diverge-pos-2 {
+.data-viz-color-diverge-pos-2 {
   background-color: var(--sky-theme-color-viz-diverge-pos-2);
 }
 
-.sky-data-viz-color-diverge-pos-3 {
+.data-viz-color-diverge-pos-3 {
   background-color: var(--sky-theme-color-viz-diverge-pos-3);
 }
 
-.sky-data-viz-color-diverge-pos-4 {
+.data-viz-color-diverge-pos-4 {
   background-color: var(--sky-theme-color-viz-diverge-pos-4);
 }
 
-.sky-data-viz-color-diverge-pos-5 {
+.data-viz-color-diverge-pos-5 {
   background-color: var(--sky-theme-color-viz-diverge-pos-5);
 }
 
-.sky-data-viz-color-diverge-pos-6 {
+.data-viz-color-diverge-pos-6 {
   background-color: var(--sky-theme-color-viz-diverge-pos-6);
 }
 
-.sky-data-viz-color-diverge-pos-7 {
+.data-viz-color-diverge-pos-7 {
   background-color: var(--sky-theme-color-viz-diverge-pos-7);
 }
 
-.sky-data-viz-color-diverge-pos-8 {
+.data-viz-color-diverge-pos-8 {
   background-color: var(--sky-theme-color-viz-diverge-pos-8);
 }
 
-.sky-data-viz-color-diverge-pos-9 {
+.data-viz-color-diverge-pos-9 {
   background-color: var(--sky-theme-color-viz-diverge-pos-9);
 }
 
-.sky-data-viz-color-diverge-pos-10 {
+.data-viz-color-diverge-pos-10 {
   background-color: var(--sky-theme-color-viz-diverge-pos-10);
 }
 
 /* Chart elements */
-.sky-data-viz-color-axis {
+.data-viz-color-axis {
   background-color: var(--sky-theme-color-viz-axis);
 }
 
-.sky-data-viz-color-gridline {
+.data-viz-color-gridline {
   background-color: var(--sky-theme-color-viz-gridline);
 }
 
-.sky-data-viz-color-marker {
+.data-viz-color-marker {
   background-color: var(--sky-theme-color-viz-marker);
 }
 
 /* Classification colors */
-.sky-data-viz-color-classify-1-heavy {
+.data-viz-color-classify-1-heavy {
   background-color: var(--sky-theme-color-classify-1-heavy);
 }
 
-.sky-data-viz-color-classify-1-soft {
+.data-viz-color-classify-1-soft {
   background-color: var(--sky-theme-color-classify-1-soft);
 }
 
-.sky-data-viz-color-classify-2-heavy {
+.data-viz-color-classify-2-heavy {
   background-color: var(--sky-theme-color-classify-2-heavy);
 }
 
-.sky-data-viz-color-classify-2-soft {
+.data-viz-color-classify-2-soft {
   background-color: var(--sky-theme-color-classify-2-soft);
 }
 
-.sky-data-viz-color-classify-3-heavy {
+.data-viz-color-classify-3-heavy {
   background-color: var(--sky-theme-color-classify-3-heavy);
 }
 
-.sky-data-viz-color-classify-3-soft {
+.data-viz-color-classify-3-soft {
   background-color: var(--sky-theme-color-classify-3-soft);
 }
 
-.sky-data-viz-color-classify-4-heavy {
+.data-viz-color-classify-4-heavy {
   background-color: var(--sky-theme-color-classify-4-heavy);
 }
 
-.sky-data-viz-color-classify-4-soft {
+.data-viz-color-classify-4-soft {
   background-color: var(--sky-theme-color-classify-4-soft);
 }
 
-.sky-data-viz-color-classify-5-heavy {
+.data-viz-color-classify-5-heavy {
   background-color: var(--sky-theme-color-classify-5-heavy);
 }
 
-.sky-data-viz-color-classify-5-soft {
+.data-viz-color-classify-5-soft {
   background-color: var(--sky-theme-color-classify-5-soft);
 }
 
-.sky-data-viz-color-classify-6-heavy {
+.data-viz-color-classify-6-heavy {
   background-color: var(--sky-theme-color-classify-6-heavy);
 }
 
-.sky-data-viz-color-classify-6-soft {
+.data-viz-color-classify-6-soft {
   background-color: var(--sky-theme-color-classify-6-soft);
 }
 
-.sky-data-viz-color-classify-7-heavy {
+.data-viz-color-classify-7-heavy {
   background-color: var(--sky-theme-color-classify-7-heavy);
 }
 
-.sky-data-viz-color-classify-7-soft {
+.data-viz-color-classify-7-soft {
   background-color: var(--sky-theme-color-classify-7-soft);
 }
