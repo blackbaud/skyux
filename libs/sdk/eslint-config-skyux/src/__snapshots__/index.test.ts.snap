@@ -10582,6 +10582,7 @@ If your function does not access \`this\`, you can annotate it with \`this: void
               "@angular-eslint/no-queries-metadata-property": "error",
               "@angular-eslint/no-uncalled-signals": "error",
               "@angular-eslint/pipe-prefix": "error",
+              "@angular-eslint/prefer-host-metadata-property": "error",
               "@angular-eslint/prefer-inject": "error",
               "@angular-eslint/prefer-on-push-component-change-detection": "error",
               "@angular-eslint/prefer-output-emitter-ref": "error",
@@ -10668,11 +10669,11 @@ If your function does not access \`this\`, you can annotate it with \`this: void
             ],
             "meta": Object {
               "docs": Object {
-                "description": "Enforces a maximum number of lines in inline template, styles and animations. See more at https://angular.dev/style-guide#style-05-04",
+                "description": "Enforces a maximum number of lines in inline template, styles and animations.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/component-max-inline-declarations.md",
               },
               "messages": Object {
-                "componentMaxInlineDeclarations": "\`{{propertyType}}\` has too many lines ({{lineCount}}). Maximum allowed is {{max}} (https://angular.dev/style-guide#style-05-04)",
+                "componentMaxInlineDeclarations": "\`{{propertyType}}\` has too many lines ({{lineCount}}). Maximum allowed is {{max}}",
               },
               "schema": Array [
                 Object {
@@ -10708,57 +10709,99 @@ If your function does not access \`this\`, you can annotate it with \`this: void
             ],
             "meta": Object {
               "docs": Object {
-                "description": "Component selectors should follow given naming rules. See more at https://angular.dev/style-guide#style-02-07, https://angular.dev/style-guide#style-05-02
-      and https://angular.dev/style-guide#style-05-03.",
+                "description": "Component selectors should follow given naming rules. See more at https://angular.dev/style-guide#choosing-component-selectors.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/component-selector.md",
               },
               "messages": Object {
-                "prefixFailure": "The selector should start with one of these prefixes: {{prefix}} (https://angular.dev/style-guide#style-02-07)",
+                "prefixFailure": "The selector should start with one of these prefixes: {{prefix}} (https://angular.dev/style-guide#choosing-component-selectors)",
+                "selectorAfterPrefixFailure": "There should be a selector after the {{prefix}} prefix",
                 "shadowDomEncapsulatedStyleFailure": "The selector of a ShadowDom-encapsulated component should be \`kebab-case\` (https://github.com/angular-eslint/angular-eslint/issues/534)",
-                "styleAndPrefixFailure": "The selector should be {{style}} and start with one of these prefixes: {{prefix}} (https://angular.dev/style-guide#style-05-02 and https://angular.dev/style-guide#style-02-07)",
-                "styleFailure": "The selector should be {{style}} (https://angular.dev/style-guide#style-05-02)",
-                "typeFailure": "The selector should be used as an {{type}} (https://angular.dev/style-guide#style-05-03)",
+                "styleAndPrefixFailure": "The selector should be {{style}} and start with one of these prefixes: {{prefix}} (https://angular.dev/style-guide#choosing-component-selectors and https://angular.dev/style-guide#choosing-component-selectors)",
+                "styleFailure": "The selector should be {{style}} (https://angular.dev/style-guide#choosing-component-selectors)",
+                "typeFailure": "The selector should be used as an {{type}} (https://angular.dev/style-guide#choosing-component-selectors)",
               },
               "schema": Array [
                 Object {
-                  "additionalProperties": false,
-                  "properties": Object {
-                    "prefix": Object {
-                      "oneOf": Array [
-                        Object {
+                  "oneOf": Array [
+                    Object {
+                      "additionalProperties": false,
+                      "properties": Object {
+                        "prefix": Object {
+                          "oneOf": Array [
+                            Object {
+                              "type": "string",
+                            },
+                            Object {
+                              "type": "array",
+                            },
+                          ],
+                        },
+                        "style": Object {
+                          "enum": Array [
+                            "camelCase",
+                            "kebab-case",
+                          ],
                           "type": "string",
                         },
-                        Object {
-                          "type": "array",
+                        "type": Object {
+                          "oneOf": Array [
+                            Object {
+                              "type": "string",
+                            },
+                            Object {
+                              "items": Object {
+                                "enum": Array [
+                                  "element",
+                                  "attribute",
+                                ],
+                                "type": "string",
+                              },
+                              "type": "array",
+                            },
+                          ],
                         },
-                      ],
+                      },
+                      "type": "object",
                     },
-                    "style": Object {
-                      "enum": Array [
-                        "camelCase",
-                        "kebab-case",
-                      ],
-                      "type": "string",
-                    },
-                    "type": Object {
-                      "oneOf": Array [
-                        Object {
-                          "type": "string",
-                        },
-                        Object {
-                          "items": Object {
+                    Object {
+                      "items": Object {
+                        "additionalProperties": false,
+                        "properties": Object {
+                          "prefix": Object {
+                            "oneOf": Array [
+                              Object {
+                                "type": "string",
+                              },
+                              Object {
+                                "type": "array",
+                              },
+                            ],
+                          },
+                          "style": Object {
+                            "enum": Array [
+                              "camelCase",
+                              "kebab-case",
+                            ],
+                            "type": "string",
+                          },
+                          "type": Object {
                             "enum": Array [
                               "element",
                               "attribute",
                             ],
                             "type": "string",
                           },
-                          "type": "array",
                         },
-                      ],
+                        "required": Array [
+                          "type",
+                        ],
+                        "type": "object",
+                      },
+                      "maxItems": 2,
+                      "minItems": 1,
+                      "type": "array",
                     },
-                  },
-                  "type": "object",
+                  ],
                 },
               ],
               "type": "suggestion",
@@ -10798,7 +10841,7 @@ If your function does not access \`this\`, you can annotate it with \`this: void
             "defaultOptions": Array [],
             "meta": Object {
               "docs": Object {
-                "description": "Ensures that classes use contextual decorators in its body",
+                "description": "Ensures that classes use contextual decorators in their body",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/contextual-decorator.md",
               },
               "messages": Object {
@@ -10869,54 +10912,97 @@ If your function does not access \`this\`, you can annotate it with \`this: void
             ],
             "meta": Object {
               "docs": Object {
-                "description": "Directive selectors should follow given naming rules. See more at https://angular.dev/style-guide#style-02-06 and https://angular.dev/style-guide#style-02-08.",
+                "description": "Directive selectors should follow given naming rules. See more at https://angular.dev/style-guide#choosing-directive-selectors.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/directive-selector.md",
               },
               "messages": Object {
-                "prefixFailure": "The selector should start with one of these prefixes: {{prefix}} (https://angular.dev/style-guide#style-02-08)",
-                "styleFailure": "The selector should be {{style}} (https://angular.dev/style-guide#style-02-06)",
-                "typeFailure": "The selector should be used as an {{type}} (https://angular.dev/style-guide#style-02-06)",
+                "prefixFailure": "The selector should start with one of these prefixes: {{prefix}}",
+                "selectorAfterPrefixFailure": "There should be a selector after the {{prefix}} prefix",
+                "styleFailure": "The selector should be {{style}}",
+                "typeFailure": "The selector should be used as an {{type}}",
               },
               "schema": Array [
                 Object {
-                  "additionalProperties": false,
-                  "properties": Object {
-                    "prefix": Object {
-                      "oneOf": Array [
-                        Object {
+                  "oneOf": Array [
+                    Object {
+                      "additionalProperties": false,
+                      "properties": Object {
+                        "prefix": Object {
+                          "oneOf": Array [
+                            Object {
+                              "type": "string",
+                            },
+                            Object {
+                              "type": "array",
+                            },
+                          ],
+                        },
+                        "style": Object {
+                          "enum": Array [
+                            "camelCase",
+                            "kebab-case",
+                          ],
                           "type": "string",
                         },
-                        Object {
-                          "type": "array",
+                        "type": Object {
+                          "oneOf": Array [
+                            Object {
+                              "type": "string",
+                            },
+                            Object {
+                              "items": Object {
+                                "enum": Array [
+                                  "element",
+                                  "attribute",
+                                ],
+                                "type": "string",
+                              },
+                              "type": "array",
+                            },
+                          ],
                         },
-                      ],
+                      },
+                      "type": "object",
                     },
-                    "style": Object {
-                      "enum": Array [
-                        "camelCase",
-                        "kebab-case",
-                      ],
-                      "type": "string",
-                    },
-                    "type": Object {
-                      "oneOf": Array [
-                        Object {
-                          "type": "string",
-                        },
-                        Object {
-                          "items": Object {
+                    Object {
+                      "items": Object {
+                        "additionalProperties": false,
+                        "properties": Object {
+                          "prefix": Object {
+                            "oneOf": Array [
+                              Object {
+                                "type": "string",
+                              },
+                              Object {
+                                "type": "array",
+                              },
+                            ],
+                          },
+                          "style": Object {
+                            "enum": Array [
+                              "camelCase",
+                              "kebab-case",
+                            ],
+                            "type": "string",
+                          },
+                          "type": Object {
                             "enum": Array [
                               "element",
                               "attribute",
                             ],
                             "type": "string",
                           },
-                          "type": "array",
                         },
-                      ],
+                        "required": Array [
+                          "type",
+                        ],
+                        "type": "object",
+                      },
+                      "maxItems": 2,
+                      "minItems": 1,
+                      "type": "array",
                     },
-                  },
-                  "type": "object",
+                  ],
                 },
               ],
               "type": "suggestion",
@@ -10942,7 +11028,7 @@ If your function does not access \`this\`, you can annotate it with \`this: void
             "defaultOptions": Array [],
             "meta": Object {
               "docs": Object {
-                "description": "The @Attribute decorator is used to obtain a single value for an attribute. This is a much less common use-case than getting a stream of values (using @Input), so often the @Attribute decorator is mistakenly used when @Input was what was intended. This rule disallows usage of @Attribute decorator altogether in order to prevent these mistakes.",
+                "description": "The @Attribute decorator is used to obtain a single value for an attribute. This is a much less common use case than getting a stream of values (using @Input), so the @Attribute decorator is often mistakenly used when @Input is intended. This rule disallows the usage of @Attribute decorator entirely to prevent these mistakes.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-attribute-decorator.md",
               },
               "messages": Object {
@@ -10957,7 +11043,7 @@ If your function does not access \`this\`, you can annotate it with \`this: void
             "defaultOptions": Array [],
             "meta": Object {
               "docs": Object {
-                "description": "Ensures that directives not implement conflicting lifecycle interfaces.",
+                "description": "Ensures that directives do not implement conflicting lifecycle interfaces.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-conflicting-lifecycle.md",
               },
               "messages": Object {
@@ -11094,7 +11180,7 @@ If your function does not access \`this\`, you can annotate it with \`this: void
               "fixable": "code",
               "hasSuggestions": true,
               "messages": Object {
-                "noInputRename": "Input bindings should not be aliased (https://angular.dev/style-guide#style-05-13)",
+                "noInputRename": "Input bindings should not be aliased (https://angular.dev/guide/components/inputs#choosing-input-names)",
                 "suggestRemoveAliasName": "Remove alias name",
                 "suggestReplaceOriginalNameWithAliasName": "Remove alias name and use it as the original name",
               },
@@ -11122,12 +11208,12 @@ If your function does not access \`this\`, you can annotate it with \`this: void
             "defaultOptions": Array [],
             "meta": Object {
               "docs": Object {
-                "description": "Disallows usage of the \`inputs\` metadata property. See more at https://angular.dev/style-guide#style-05-12",
+                "description": "Disallows usage of the \`inputs\` metadata property",
                 "recommended": "recommended",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-inputs-metadata-property.md",
               },
               "messages": Object {
-                "noInputsMetadataProperty": "Use \`@Input\` rather than the \`inputs\` metadata property (https://angular.dev/style-guide#style-05-12)",
+                "noInputsMetadataProperty": "Use \`@Input\` rather than the \`inputs\` metadata property",
               },
               "schema": Array [],
               "type": "suggestion",
@@ -11192,7 +11278,7 @@ If your function does not access \`this\`, you can annotate it with \`this: void
               "fixable": "code",
               "hasSuggestions": true,
               "messages": Object {
-                "noOutputRename": "Output bindings should not be aliased (https://angular.dev/style-guide#style-05-13)",
+                "noOutputRename": "Output bindings should not be aliased (https://angular.dev/guide/components/outputs#choosing-event-names)",
                 "suggestRemoveAliasName": "Remove alias name",
                 "suggestReplaceOriginalNameWithAliasName": "Remove alias name and use it as the original name",
               },
@@ -11205,12 +11291,12 @@ If your function does not access \`this\`, you can annotate it with \`this: void
             "defaultOptions": Array [],
             "meta": Object {
               "docs": Object {
-                "description": "Disallows usage of the \`outputs\` metadata property. See more at https://angular.dev/style-guide#style-05-12",
+                "description": "Disallows usage of the \`outputs\` metadata property",
                 "recommended": "recommended",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-outputs-metadata-property.md",
               },
               "messages": Object {
-                "noOutputsMetadataProperty": "Use \`@Output\` rather than the \`outputs\` metadata property (https://angular.dev/style-guide#style-05-12)",
+                "noOutputsMetadataProperty": "Use \`@Output\` rather than the \`outputs\` metadata property",
               },
               "schema": Array [],
               "type": "suggestion",
@@ -11238,11 +11324,11 @@ If your function does not access \`this\`, you can annotate it with \`this: void
             "defaultOptions": Array [],
             "meta": Object {
               "docs": Object {
-                "description": "Disallows usage of the \`queries\` metadata property. See more at https://angular.dev/style-guide#style-05-12.",
+                "description": "Disallows usage of the \`queries\` metadata property.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-queries-metadata-property.md",
               },
               "messages": Object {
-                "noQueriesMetadataProperty": "Use @Output rather than the \`queries\` metadata property (https://angular.dev/style-guide#style-05-12)",
+                "noQueriesMetadataProperty": "Use @Output rather than the \`queries\` metadata property",
               },
               "schema": Array [],
               "type": "suggestion",
@@ -11278,7 +11364,8 @@ If your function does not access \`this\`, you can annotate it with \`this: void
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/pipe-prefix.md",
               },
               "messages": Object {
-                "pipePrefix": "@Pipes should be prefixed by {{prefixes}}",
+                "pipePrefix": "@Pipes should be prefixed with {{prefixes}}",
+                "selectorAfterPrefixFailure": "@Pipes should have a selector after the {{prefixes}} prefix",
               },
               "schema": Array [
                 Object {
@@ -11295,6 +11382,22 @@ If your function does not access \`this\`, you can annotate it with \`this: void
                   "type": "object",
                 },
               ],
+              "type": "suggestion",
+            },
+          },
+          "prefer-host-metadata-property": Object {
+            "create": [Function],
+            "defaultOptions": Array [],
+            "meta": Object {
+              "docs": Object {
+                "description": "Use \`host\` metadata property instead of \`@HostBinding\` and \`HostListener\`",
+                "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-host-metadata-property.md",
+              },
+              "messages": Object {
+                "preferHostMetadataPropertyForBinding": "Prefer using the \`host\` metadata property in the \`@Component\` decorator for host bindings instead of the \`@HostBinding\` decorator.",
+                "preferHostMetadataPropertyForListener": "Prefer using the \`host\` metadata property in the \`@Component\` decorator for host listeners instead of the \`@HostListener\` decorator.",
+              },
+              "schema": Array [],
               "type": "suggestion",
             },
           },
@@ -11442,11 +11545,11 @@ If your function does not access \`this\`, you can annotate it with \`this: void
             "defaultOptions": Array [],
             "meta": Object {
               "docs": Object {
-                "description": "The ./ and ../ prefix is standard syntax for relative URLs; don't depend on Angular's current ability to do without that prefix. See more at https://angular.dev/style-guide#style-05-04",
+                "description": "The ./ and ../ prefix is standard syntax for relative URLs; don't depend on Angular's current ability to do without that prefix.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/relative-url-prefix.md",
               },
               "messages": Object {
-                "relativeUrlPrefix": "The ./ and ../ prefix is standard syntax for relative URLs. (https://angular.dev/style-guide#style-05-04)",
+                "relativeUrlPrefix": "The ./ and ../ prefix is standard syntax for relative URLs.",
               },
               "schema": Array [],
               "type": "suggestion",
@@ -11715,12 +11818,12 @@ If your function does not access \`this\`, you can annotate it with \`this: void
             "defaultOptions": Array [],
             "meta": Object {
               "docs": Object {
-                "description": "Ensures that classes implement lifecycle interfaces corresponding to the declared lifecycle methods. See more at https://angular.dev/style-guide#style-09-01",
+                "description": "Ensures that classes implement lifecycle interfaces corresponding to the declared lifecycle methods. See more at https://angular.dev/style-guide#use-lifecycle-hook-interfaces",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/use-lifecycle-interface.md",
               },
               "fixable": "code",
               "messages": Object {
-                "useLifecycleInterface": "Lifecycle interface '{{interfaceName}}' should be implemented for method '{{methodName}}'. (https://angular.dev/style-guide#style-09-01)",
+                "useLifecycleInterface": "Lifecycle interface '{{interfaceName}}' should be implemented for method '{{methodName}}'. (https://angular.dev/style-guide#use-lifecycle-hook-interfaces)",
               },
               "schema": Array [],
               "type": "suggestion",
@@ -11784,7 +11887,7 @@ If your function does not access \`this\`, you can annotate it with \`this: void
             "meta": Object {
               "docs": Object {
                 "description": "Prevents importing components from SKY UX packages that start with the \\"λ\\" lambda character.",
-                "url": "https://github.com/blackbaud/skyux/blob/main/libs/cdk/skyux-eslint/docs/rules/no-lambda-imports.md",
+                "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/no-lambda-imports.md",
               },
               "messages": Object {
                 "noLambdaImports": "{{importName}} is not included in the SKY UX public API",
@@ -11799,7 +11902,7 @@ If your function does not access \`this\`, you can annotate it with \`this: void
             "meta": Object {
               "docs": Object {
                 "description": "Component and directive selectors must not start with \\"sky\\" to avoid naming collisions with SKY UX features.",
-                "url": "https://github.com/blackbaud/skyux/blob/main/libs/cdk/skyux-eslint/docs/rules/no-sky-selectors.md",
+                "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/no-sky-selectors.md",
               },
               "messages": Object {
                 "noSkySelectors": "The selector must not start with \\"sky\\".",
@@ -11843,7 +11946,7 @@ If your function does not access \`this\`, you can annotate it with \`this: void
       "parser": Object {
         "meta": Object {
           "name": "angular-eslint/template-parser",
-          "version": "20.1.1",
+          "version": "20.7.0",
         },
         "parseForESLint": [Function],
       },
@@ -11895,12 +11998,15 @@ If your function does not access \`this\`, you can annotate it with \`this: void
               "@angular-eslint/template/no-call-expression": "error",
               "@angular-eslint/template/no-distracting-elements": "error",
               "@angular-eslint/template/no-duplicate-attributes": "error",
+              "@angular-eslint/template/no-empty-control-flow": "error",
               "@angular-eslint/template/no-inline-styles": "error",
               "@angular-eslint/template/no-interpolation-in-attributes": "error",
               "@angular-eslint/template/no-negated-async": "error",
               "@angular-eslint/template/no-nested-tags": "error",
               "@angular-eslint/template/no-positive-tabindex": "error",
+              "@angular-eslint/template/prefer-at-else": "error",
               "@angular-eslint/template/prefer-at-empty": "error",
+              "@angular-eslint/template/prefer-built-in-pipes": "error",
               "@angular-eslint/template/prefer-contextual-for-variables": "error",
               "@angular-eslint/template/prefer-control-flow": "error",
               "@angular-eslint/template/prefer-ngsrc": "error",
@@ -12185,7 +12291,7 @@ If your function does not access \`this\`, you can annotate it with \`this: void
             ],
             "meta": Object {
               "docs": Object {
-                "description": "[Accessibility] Ensures that the heading, anchor and button elements have content in it",
+                "description": "[Accessibility] Ensures that the heading, anchor and button elements have content in them",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/elements-content.md",
               },
               "messages": Object {
@@ -12663,6 +12769,21 @@ If your function does not access \`this\`, you can annotate it with \`this: void
               "type": "problem",
             },
           },
+          "no-empty-control-flow": Object {
+            "create": [Function],
+            "defaultOptions": Array [],
+            "meta": Object {
+              "docs": Object {
+                "description": "Ensures that control flow blocks are not empty. Empty control flow blocks usually occur due to refactoring that wasn't completed. They can cause confusion when reading code.",
+                "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/no-empty-control-flow.md",
+              },
+              "messages": Object {
+                "noEmptyControlFlow": "Unexpected empty control flow block.",
+              },
+              "schema": Array [],
+              "type": "suggestion",
+            },
+          },
           "no-inline-styles": Object {
             "create": [Function],
             "defaultOptions": Array [
@@ -12790,6 +12911,22 @@ For example, when set to \`true\` the following code will not fail for the \`alt
               "type": "suggestion",
             },
           },
+          "prefer-at-else": Object {
+            "create": [Function],
+            "defaultOptions": Array [],
+            "meta": Object {
+              "docs": Object {
+                "description": "Prefer using \`@else\` instead of a second \`@if\` with the opposite condition to reduce code and make it easier to read.",
+                "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/prefer-at-else.md",
+              },
+              "fixable": "code",
+              "messages": Object {
+                "preferAtElse": "Prefer using \`@else\` instead of a second \`@if\` clause.",
+              },
+              "schema": Array [],
+              "type": "suggestion",
+            },
+          },
           "prefer-at-empty": Object {
             "create": [Function],
             "defaultOptions": Array [],
@@ -12803,6 +12940,50 @@ For example, when set to \`true\` the following code will not fail for the \`alt
                 "preferAtEmpty": "Prefer using \`@for (...) {...} @empty {...}\`.",
               },
               "schema": Array [],
+              "type": "suggestion",
+            },
+          },
+          "prefer-built-in-pipes": Object {
+            "create": [Function],
+            "defaultOptions": Array [
+              Object {
+                "allowInOutputHandlers": true,
+                "disallowList": Array [
+                  "toLowerCase",
+                  "toUpperCase",
+                  "toLocaleLowerCase",
+                  "toLocaleUpperCase",
+                ],
+              },
+            ],
+            "meta": Object {
+              "docs": Object {
+                "description": "Encourages the use of Angular built-in pipes (e.g. lowercase, uppercase, titlecase) instead of certain JavaScript methods in Angular templates.",
+                "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/prefer-built-in-pipes.md",
+              },
+              "messages": Object {
+                "preferBuiltInPipes": "Avoid using method \\"{{ methodName }}\\" in templates. Prefer the Angular built-in pipes instead (e.g. lowercase, uppercase, titlecase).",
+              },
+              "schema": Array [
+                Object {
+                  "additionalProperties": false,
+                  "properties": Object {
+                    "allowInOutputHandlers": Object {
+                      "description": "Whether to allow these method calls inside output event handlers",
+                      "type": "boolean",
+                    },
+                    "disallowList": Object {
+                      "description": "Additional method names to disallow (defaults include common case/title casing helpers)",
+                      "items": Object {
+                        "type": "string",
+                      },
+                      "type": "array",
+                      "uniqueItems": true,
+                    },
+                  },
+                  "type": "object",
+                },
+              ],
               "type": "suggestion",
             },
           },
@@ -12839,6 +13020,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
                   "additionalProperties": false,
                   "properties": Object {
                     "allowedAliases": Object {
+                      "additionalProperties": false,
                       "properties": Object {
                         "$count": Object {
                           "description": "Aliases for $count that are allowed to be used.",
@@ -12915,9 +13097,12 @@ For example, when set to \`true\` the following code will not fail for the \`alt
                 "description": "Ensures ngSrc is used instead of src for img elements",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/prefer-ngsrc.md",
               },
+              "hasSuggestions": true,
               "messages": Object {
                 "invalidDoubleSource": "Only [ngSrc] should exist on an img element. Delete the [src] attribute.",
                 "missingAttribute": "The attribute [ngSrc] should be used for img elements instead of [src].",
+                "suggestRemoveSrc": "Remove the [src] attribute",
+                "suggestReplaceWithNgSrc": "Replace [src] with [ngSrc]",
               },
               "schema": Array [],
               "type": "suggestion",
@@ -13095,7 +13280,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
             "meta": Object {
               "docs": Object {
                 "description": "Avoid using deprecated CSS classes.",
-                "url": "https://github.com/blackbaud/skyux/blob/main/libs/cdk/skyux-eslint/docs/rules/template/no-deprecated-classnames.md",
+                "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/template/no-deprecated-classnames.md",
               },
               "fixable": "code",
               "messages": Object {
@@ -13111,7 +13296,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
             "meta": Object {
               "docs": Object {
                 "description": "Prevents usage of deprecated directives and components in consumer templates.",
-                "url": "https://github.com/blackbaud/skyux/blob/main/libs/cdk/skyux-eslint/docs/rules/template/no-deprecated-directives.md",
+                "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/template/no-deprecated-directives.md",
               },
               "messages": Object {
                 "noDeprecatedDirectiveProperties": "The attribute \`{{property}}\` on the <{{selector}}> element is deprecated. {{reason}}",
@@ -13127,7 +13312,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
             "meta": Object {
               "docs": Object {
                 "description": "Avoid using legacy icons.",
-                "url": "https://github.com/blackbaud/skyux/blob/main/libs/cdk/skyux-eslint/docs/rules/template/no-legacy-icons.md",
+                "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/template/no-legacy-icons.md",
               },
               "fixable": "code",
               "messages": Object {
@@ -13143,7 +13328,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
             "meta": Object {
               "docs": Object {
                 "description": "Avoid nesting lists within a sky-radio-group component, for accessibility reasons.",
-                "url": "https://github.com/blackbaud/skyux/blob/main/libs/cdk/skyux-eslint/docs/rules/template/no-radio-group-with-nested-list.md",
+                "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/template/no-radio-group-with-nested-list.md",
               },
               "fixable": "code",
               "messages": Object {
@@ -13159,7 +13344,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
             "meta": Object {
               "docs": Object {
                 "description": "Prevents usage of static IDs on HTML elements.",
-                "url": "https://github.com/blackbaud/skyux/blob/main/libs/cdk/skyux-eslint/docs/rules/template/no-unbound-id.md",
+                "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/template/no-unbound-id.md",
               },
               "messages": Object {
                 "noUnboundId": "<{{selector}}> element must not have a static ID. Use the \`skyId\` directive instead.",
@@ -13174,7 +13359,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
             "meta": Object {
               "docs": Object {
                 "description": "Prefer the disabled attribute over .sky-btn-disabled class for elements that support the disabled attribute.",
-                "url": "https://github.com/blackbaud/skyux/blob/main/libs/cdk/skyux-eslint/docs/rules/template/prefer-disabled-attr.md",
+                "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/template/prefer-disabled-attr.md",
               },
               "fixable": "code",
               "messages": Object {
@@ -13190,7 +13375,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
             "meta": Object {
               "docs": Object {
                 "description": "Use label text.",
-                "url": "https://github.com/blackbaud/skyux/blob/main/libs/cdk/skyux-eslint/docs/rules/template/prefer-label-text.md",
+                "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/template/prefer-label-text.md",
               },
               "fixable": "code",
               "messages": Object {

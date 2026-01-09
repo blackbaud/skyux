@@ -49,7 +49,7 @@ export class SkyDocsCodeExampleViewerComponent {
 
   public readonly componentName = input.required<string>();
   public readonly componentSelector = input.required<string>();
-  public readonly componentType = input.required<Type<unknown>>();
+  public readonly componentType = input<Type<unknown> | undefined>();
   public readonly files = input.required<Record<string, string>>();
   public readonly headingText = input.required<string>();
   public readonly primaryFile = input.required<string>();

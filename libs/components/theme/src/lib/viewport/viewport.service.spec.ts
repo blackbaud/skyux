@@ -354,4 +354,76 @@ describe('Viewport service', () => {
 
     document.body.removeChild(container);
   }));
+
+  it('should not reserve space for elements with zero width', waitForAsync(async () => {
+    const container = document.createElement('div');
+    container.style.height = '100vh';
+    container.style.position = 'relative';
+    container.appendChild(document.createTextNode('Container'));
+
+    const zeroWidthElement = document.createElement('div');
+    zeroWidthElement.style.backgroundColor = 'lightblue';
+    zeroWidthElement.style.height = '50px';
+    zeroWidthElement.style.width = '0';
+    zeroWidthElement.style.overflow = 'hidden';
+    zeroWidthElement.style.position = 'absolute';
+    zeroWidthElement.style.top = '40px';
+    zeroWidthElement.style.left = '0';
+    zeroWidthElement.appendChild(document.createTextNode('Zero Width'));
+    container.appendChild(zeroWidthElement);
+
+    document.body.appendChild(container);
+
+    svc.reserveSpace({
+      id: 'zero-width-test',
+      position: 'top',
+      size: 50,
+      reserveForElement: zeroWidthElement,
+    });
+
+    await new Promise((resolve) => setTimeout(resolve, 32));
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+
+    // Should not reserve space because element has zero width
+    validateViewportSpace('top', 0);
+
+    svc.unreserveSpace('zero-width-test');
+    document.body.removeChild(container);
+  }));
+
+  it('should not reserve space for elements with zero height', waitForAsync(async () => {
+    const container = document.createElement('div');
+    container.style.height = '100vh';
+    container.style.position = 'relative';
+    container.appendChild(document.createTextNode('Container'));
+
+    const zeroHeightElement = document.createElement('div');
+    zeroHeightElement.style.backgroundColor = 'lightblue';
+    zeroHeightElement.style.height = '0';
+    zeroHeightElement.style.width = '100px';
+    zeroHeightElement.style.overflow = 'hidden';
+    zeroHeightElement.style.position = 'absolute';
+    zeroHeightElement.style.top = '40px';
+    zeroHeightElement.style.left = '0';
+    zeroHeightElement.appendChild(document.createTextNode('Zero Height'));
+    container.appendChild(zeroHeightElement);
+
+    document.body.appendChild(container);
+
+    svc.reserveSpace({
+      id: 'zero-height-test',
+      position: 'left',
+      size: 100,
+      reserveForElement: zeroHeightElement,
+    });
+
+    await new Promise((resolve) => setTimeout(resolve, 32));
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+
+    // Should not reserve space because element has zero height
+    validateViewportSpace('left', 0);
+
+    svc.unreserveSpace('zero-height-test');
+    document.body.removeChild(container);
+  }));
 });

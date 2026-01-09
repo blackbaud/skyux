@@ -1,12 +1,5 @@
-<sky-data-view skyAgGridDataManagerAdapter [viewId]="viewId">
-  @if (isActive && isGridInitialized) {
-    <sky-ag-grid-wrapper>
-      <ag-grid-angular
-        [gridOptions]="gridOptions"
-        [overlayNoRowsTemplate]="noRowsTemplate"
-        [rowData]="displayedItems"
-        (rowSelected)="onRowSelected($event)"
-      />
-    </sky-ag-grid-wrapper>
-  }
+<sky-data-view #view skyAgGridDataManagerAdapter [viewId]="viewId">
+  <sky-ag-grid-wrapper>
+    <ag-grid-angular [gridOptions]="gridOptions" />
+  </sky-ag-grid-wrapper>
 </sky-data-view>

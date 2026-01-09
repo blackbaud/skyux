@@ -816,40 +816,8 @@ exports[`generate-manifest > should generate manifest 1`] = `
   }
 }",
     ],
-    [
-      "/dist/code-examples.json",
-      "{
-  "examples": {
-    "FooCodeExample1": {
-      "componentName": "FooCodeExample1",
-      "files": {
-        "types.ts": "import { Component } from '@angular/core';\\n\\n/**\\n * @title This is a title\\n */\\n@Component({\\n  selector: 'foo-example-1',\\n})\\nexport class FooCodeExample1 {}\\n\\n/**\\n * @title This code example hides its demo.\\n * @docsDemoHidden\\n */\\n@Component({\\n  selector: 'foo-example-2',\\n})\\nexport class FooCodeExample2 {}\\n"
-      },
-      "importPath": "@skyux/code-examples",
-      "primaryFile": "types.ts",
-      "selector": "foo-example-1",
-      "title": "This is a title"
-    },
-    "FooCodeExample2": {
-      "componentName": "FooCodeExample2",
-      "demoHidden": true,
-      "files": {
-        "types.ts": "import { Component } from '@angular/core';\\n\\n/**\\n * @title This is a title\\n */\\n@Component({\\n  selector: 'foo-example-1',\\n})\\nexport class FooCodeExample1 {}\\n\\n/**\\n * @title This code example hides its demo.\\n * @docsDemoHidden\\n */\\n@Component({\\n  selector: 'foo-example-2',\\n})\\nexport class FooCodeExample2 {}\\n"
-      },
-      "importPath": "@skyux/code-examples",
-      "primaryFile": "types.ts",
-      "selector": "foo-example-2",
-      "title": "This code example hides its demo."
-    }
-  }
-}",
-    ],
   ],
   "results": [
-    {
-      "type": "return",
-      "value": undefined,
-    },
     {
       "type": "return",
       "value": undefined,
@@ -869,6 +837,5 @@ exports[`generate-manifest > should throw for invalid documentation.json 1`] = `
  - The @docsId "Duplicate1" referenced by "invalid.development" is not recognized.
  - The @docsId "Duplicate1" referenced by "invalid.development" is not recognized.
  - The @docsId "Invalid2" referenced by "invalid.development" is not recognized.
- - The value for primaryDocsId ("ModuleNotListed") must be included in the docsIds array for group "invalid.development" (current: FooInternalClass, Duplicate1, Duplicate1, Invalid2).
- - The following code example docsIds are not being referenced within a documentation.json file. Either delete the code example, or add its docsId to a documentation.json file: "FooCodeExample1", "FooCodeExample2"]
+ - The value for primaryDocsId ("ModuleNotListed") must be included in the docsIds array for group "invalid.development" (current: FooInternalClass, Duplicate1, Duplicate1, Invalid2).]
 `;

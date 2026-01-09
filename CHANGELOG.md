@@ -1,6 +1,109 @@
 # Changelog
 
 
+## [13.11.5](https://github.com/blackbaud/skyux/compare/13.11.4...13.11.5) (2026-01-08)
+
+
+### Bug Fixes
+
+* **sdk/skyux-eslint:** add clarification regarding input box to `no-unbound-id` docs ([#4142](https://github.com/blackbaud/skyux/issues/4142)) ([d01129a](https://github.com/blackbaud/skyux/commit/d01129a8bc71e51d87224c795bbd2e2eb0e90bef))
+* **sdk/skyux-eslint:** fix lint rule help URLs ([#4141](https://github.com/blackbaud/skyux/issues/4141)) ([feef5f1](https://github.com/blackbaud/skyux/commit/feef5f1142fe427b707d4b6483e670a72dbdd40a))
+
+
+
+## [13.11.4](https://github.com/blackbaud/skyux/compare/13.11.3...13.11.4) (2025-12-19)
+
+
+### Bug Fixes
+
+* **components/modals:** add font family override for modal header in default ([#4135](https://github.com/blackbaud/skyux/issues/4135)) ([60aaa32](https://github.com/blackbaud/skyux/commit/60aaa320728d2bb57e3e813ec0cd44cb85764544)), closes [AB#3648543](https://github.com/AB/issues/3648543)
+* **components/select-field:** update menu icon ([#4132](https://github.com/blackbaud/skyux/issues/4132)) ([55f8ced](https://github.com/blackbaud/skyux/commit/55f8ced54859d5bb9b04112d6d238eca247e2d7f)), closes [AB#3653804](https://github.com/AB/issues/3653804)
+
+
+
+## [13.11.3](https://github.com/blackbaud/skyux/compare/13.11.2...13.11.3) (2025-12-16)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** wait for grid to be ready before api call ([#4129](https://github.com/blackbaud/skyux/issues/4129)) ([12e1f17](https://github.com/blackbaud/skyux/commit/12e1f17494a0654fc1ff6efc20dc377764fd4759)), closes [AB#3652352](https://github.com/AB/issues/3652352)
+
+
+
+## [13.11.2](https://github.com/blackbaud/skyux/compare/13.11.1...13.11.2) (2025-12-16)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** wait for grid to be ready before applying data manager column sizes ([#4128](https://github.com/blackbaud/skyux/issues/4128)) ([4e28b1a](https://github.com/blackbaud/skyux/commit/4e28b1ad66acbd6485c3326f7616e3b57f475425)), closes [AB#3652352](https://github.com/AB/issues/3652352)
+* **components/data-manager:** cleanup observable subscription ([#4126](https://github.com/blackbaud/skyux/issues/4126)) ([b61a72b](https://github.com/blackbaud/skyux/commit/b61a72b2dbd54a373622c0d8635535ecca5f8227)), closes [AB#3597884](https://github.com/AB/issues/3597884)
+
+
+
+## [13.11.1](https://github.com/blackbaud/skyux/compare/13.11.0...13.11.1) (2025-12-15)
+
+
+### Bug Fixes
+
+* **components/code-examples:** simplify data manager code examples ([#4122](https://github.com/blackbaud/skyux/issues/4122)) ([77198c8](https://github.com/blackbaud/skyux/commit/77198c8dd31e1033b3e852da13031c6e6b495bae))
+* **components/docs-tools:** allow for code examples without specifying `componentType` ([#4124](https://github.com/blackbaud/skyux/issues/4124)) ([780643f](https://github.com/blackbaud/skyux/commit/780643fd837324c06753c72e2d898f3ef38ea776)), closes [AB#3583748](https://github.com/AB/issues/3583748)
+
+
+
+# [13.11.0](https://github.com/blackbaud/skyux/compare/13.10.0...13.11.0) (2025-12-10)
+
+
+### Bug Fixes
+
+* **components/code-examples:** update record page with block layout to match demo ([#4116](https://github.com/blackbaud/skyux/issues/4116)) ([16c1e7f](https://github.com/blackbaud/skyux/commit/16c1e7f2a45f2c909594db14d2defc381d052216)), closes [AB#3642784](https://github.com/AB/issues/3642784)
+* **components/ag-grid:** cell editors should stop editing on focusout event ([#4117](https://github.com/blackbaud/skyux/issues/4117)) ([#4119](https://github.com/blackbaud/skyux/issues/4119)) ([9770553](https://github.com/blackbaud/skyux/commit/977055311c21322812dba488a275c5b7a859f9a3)), closes [AB#3644316](https://github.com/AB/issues/3644316)
+
+
+### Features
+
+* update design tokens to 4.0.2 ([#4106](https://github.com/blackbaud/skyux/issues/4106)) ([bba8c12](https://github.com/blackbaud/skyux/commit/bba8c12840442b395770e7ab9e9f755bf6b4e630))
+
+
+
+## [12.44.1](https://github.com/blackbaud/skyux/compare/12.44.0...12.44.1) (2025-12-09)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** cell editors should stop editing on focusout event ([#4117](https://github.com/blackbaud/skyux/issues/4117)) ([9475058](https://github.com/blackbaud/skyux/commit/94750584cceef1ae49a6a47e66e5648f6c2f09dd)), closes [AB#3644316](https://github.com/AB/issues/3644316)
+
+# [12.44.0](https://github.com/blackbaud/skyux/compare/12.43.0...12.44.0) (2025-12-08)
+
+
+### Bug Fixes
+
+* **components/autonumeric:** return correct value when typing on an Android device ([#4104](https://github.com/blackbaud/skyux/issues/4104)) ([a888fb8](https://github.com/blackbaud/skyux/commit/a888fb816a85bcdc751e16c5fee951b4c3bc9e69)), closes [AB#3617801](https://github.com/AB/issues/3617801)
+* update dependencies to address vulnerabilities ([#4113](https://github.com/blackbaud/skyux/issues/4113)) ([2c4a81b](https://github.com/blackbaud/skyux/commit/2c4a81bf112c12c4b9d0bc66452db3e5043b457b))
+
+# [12.43.0](https://github.com/blackbaud/skyux/compare/12.42.0...12.43.0) (2025-12-05)
+
+
+### Bug Fixes
+
+* **components/autonumeric:** return correct value when typing on an Android device ([#4104](https://github.com/blackbaud/skyux/issues/4104)) ([a888fb8](https://github.com/blackbaud/skyux/commit/a888fb816a85bcdc751e16c5fee951b4c3bc9e69)), closes [AB#3617801](https://github.com/AB/issues/3617801)
+
+# [13.10.0](https://github.com/blackbaud/skyux/compare/13.9.1...13.10.0) (2025-12-02)
+
+
+### Features
+
+* update ag grid package versions ([#4095](https://github.com/blackbaud/skyux/issues/4095)) ([aa50bb4](https://github.com/blackbaud/skyux/commit/aa50bb451ddae6600f67b7add78dabd79998c287))
+* update design tokens to 3.3.0 ([#4098](https://github.com/blackbaud/skyux/issues/4098)) ([5f5fc9c](https://github.com/blackbaud/skyux/commit/5f5fc9cb8913fe32ef18214ae3c0dd20afd51156))
+
+## [13.9.1](https://github.com/blackbaud/skyux/compare/13.9.0...13.9.1) (2025-12-02)
+
+
+### Bug Fixes
+
+* restore module providers ([#4096](https://github.com/blackbaud/skyux/issues/4096)) ([ed5703d](https://github.com/blackbaud/skyux/commit/ed5703d72369897c29ce8016417939818d65f994)), closes [#4045](https://github.com/blackbaud/skyux/issues/4045) [AB#3637634](https://github.com/AB/issues/3637634)
+
+
+
 # [13.9.0](https://github.com/blackbaud/skyux/compare/13.8.2...13.9.0) (2025-12-01)
 
 
