@@ -248,8 +248,8 @@ function updateManifestBuildTargetDependencies(tree: Tree): void {
   const componentProjects = new Map<string, ProjectConfiguration>(
     Array.from(projects.entries()).filter(
       ([, config]) =>
-        config.tags?.includes('component') &&
-        tree.exists(`${config.root}/documentation.json`),
+        tree.exists(`${config.root}/documentation.json`) &&
+        config.tags?.includes('component'),
     ),
   );
   const manifestProject = projects.get('manifest');
