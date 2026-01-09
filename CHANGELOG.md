@@ -1,6 +1,15 @@
 # Changelog
 
 
+# [13.12.0](https://github.com/blackbaud/skyux/compare/13.11.5...13.12.0) (2026-01-09)
+
+
+### Features
+
+* **components/filter-bar:** add generics for filter types ([#4144](https://github.com/blackbaud/skyux/issues/4144)) ([3108198](https://github.com/blackbaud/skyux/commit/3108198bdba301aaabe0fa059e14746242336880)), closes [AB#3605105](https://github.com/AB/issues/3605105)
+
+
+
 ## [13.11.5](https://github.com/blackbaud/skyux/compare/13.11.4...13.11.5) (2026-01-08)
 
 
