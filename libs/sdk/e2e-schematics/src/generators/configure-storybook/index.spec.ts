@@ -117,7 +117,7 @@ describe('configure-storybook', () => {
     expect(
       JSON.parse(tree.read(`apps/test-app/tsconfig.app.json`, 'utf-8') || '{}')
         .exclude,
-    ).toEqual(['jest.config.ts']);
+    ).toEqual([]);
   });
 
   it('should configure storybook tsconfig, add include and exclude', async () => {
