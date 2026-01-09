@@ -10,11 +10,10 @@ import { SkyAgGridRowDeleteDirective } from './ag-grid-row-delete.directive';
 import { SkyAgGridWrapperComponent } from './ag-grid-wrapper.component';
 
 /**
- * Provides `SkyAgGridWrapperComponent` and `SkyAgGridRowDeleteDirective`.
- *
- * When loading this module, be sure to also load `AgGridAngular` from `ag-grid-angular` and
- * the `ModuleRegistry` from `ag-grid-community` in order to use AG Grid in your application.
- * See [AG Grid modules](https://www.ag-grid.com/angular-data-grid/modules/) for more information.
+ * Provides `SkyAgGridWrapperComponent` and `SkyAgGridRowDeleteDirective`, but to use
+ * AG Grid in your application, you must also load `AgGridAngular` from `ag-grid-angular` and
+ * `ModuleRegistry` from `ag-grid-community`. For more information, see
+ * [AG Grid modules](https://www.ag-grid.com/angular-data-grid/modules/).
  *
  * @example
  * ```typescript

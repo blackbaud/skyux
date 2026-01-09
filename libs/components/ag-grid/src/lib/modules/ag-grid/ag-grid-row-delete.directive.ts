@@ -46,12 +46,9 @@ import { SkyAgGridRowDeleteCancelArgs } from './types/ag-grid-row-delete-cancel-
 import { SkyAgGridRowDeleteConfirmArgs } from './types/ag-grid-row-delete-confirm-args';
 
 /**
- * Adds inline row delete functionality to an AG Grid instance.
- * The directive listens for changes to the grid's data and updates
- * the rows with inline delete options accordingly.
- *
- * Include the directive on an `SkyAgGridWrapperComponent` element
- * to enable the inline row delete feature.
+ * Enables inline row delete functionality for an AG Grid when included
+ * on the `SkyAgGridWrapperComponent` element. The directive uses
+ * `rowDeleteIds` to determine which rows to add inline delete options to.
  */
 @Directive({
   selector: '[skyAgGridRowDelete]',
