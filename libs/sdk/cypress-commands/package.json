@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "dependencies": {},
   "peerDependencies": {
-    "cypress": "14.5.4"
+    "cypress": "15.8.2"
   },
   "private": true
 }
