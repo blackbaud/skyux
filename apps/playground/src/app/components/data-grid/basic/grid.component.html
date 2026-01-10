@@ -10,13 +10,13 @@
   No data
 </button>
 <div id="screenshot-grid">
-  <sky-ag-grid height="200" width="600" [data]="dataForSimpleGrid">
-    <sky-ag-grid-column field="column1" heading="Column1" />
-    <sky-ag-grid-column field="column2" heading="Column2" />
+  <sky-data-grid height="200" width="600" [data]="dataForSimpleGrid">
+    <sky-data-grid-column field="column1" heading="Column1" />
+    <sky-data-grid-column field="column2" heading="Column2" />
     @if (!hideCol3()) {
-      <sky-ag-grid-column field="column3" heading="Column3" />
+      <sky-data-grid-column field="column3" heading="Column3" />
     }
-  </sky-ag-grid>
+  </sky-data-grid>
 </div>
 
 <h1>Grid with multiselect enabled</h1>
@@ -34,20 +34,20 @@
 </button>
 
 <div id="screenshot-grid-multiselect">
-  <sky-ag-grid
+  <sky-data-grid
     enableMultiselect
     fit="scroll"
     multiselectRowId="myId"
     [data]="dataForSimpleGridWithMultiselect"
     [(selectedRowIds)]="selectedRowIds"
   >
-    <sky-ag-grid-column field="myId" heading="Custom Id" type="number" />
-    <sky-ag-grid-column field="column1" heading="Column1" />
-    <sky-ag-grid-column field="column2" heading="Column2" />
+    <sky-data-grid-column field="myId" heading="Custom Id" type="number" />
+    <sky-data-grid-column field="column1" heading="Column1" />
+    <sky-data-grid-column field="column2" heading="Column2" />
     @if (!hideCol3()) {
-      <sky-ag-grid-column field="column3" heading="Column3" />
+      <sky-data-grid-column field="column3" heading="Column3" />
     }
-  </sky-ag-grid>
+  </sky-data-grid>
 
   <p>Selected rows: {{ selectedRowIds | json }}</p>
 </div>
@@ -55,22 +55,22 @@
 <h1>Grid with inline help</h1>
 
 <div id="screenshot-grid-inline-help">
-  <sky-ag-grid [data]="dataForSimpleGrid">
-    <sky-ag-grid-column field="column1" heading="Column1" />
-    <sky-ag-grid-column
+  <sky-data-grid [data]="dataForSimpleGrid">
+    <sky-data-grid-column field="column1" heading="Column1" />
+    <sky-data-grid-column
       field="column2"
       heading="Column2"
       [helpPopoverContent]="staticPopoverRef"
     />
     @if (!hideCol3()) {
-      <sky-ag-grid-column
+      <sky-data-grid-column
         field="column3"
         heading="Column3"
         helpPopoverTitle="This popover is asynchronous!"
         [helpPopoverContent]="asyncPopover"
       />
     }
-  </sky-ag-grid>
+  </sky-data-grid>
 
   <ng-template #staticPopoverRef>
     This is a numeric column. Click <a href="#">here</a> to learn more.
@@ -84,25 +84,25 @@
 <h1>Grid with scroll bars</h1>
 
 <div id="screenshot-grid-scrollbars">
-  <sky-ag-grid fit="scroll" [data]="dataForSimpleGrid">
-    <sky-ag-grid-column field="column1" heading="Column1" width="800" />
-    <sky-ag-grid-column field="column2" heading="Column2" width="800" />
+  <sky-data-grid fit="scroll" [data]="dataForSimpleGrid">
+    <sky-data-grid-column field="column1" heading="Column1" width="800" />
+    <sky-data-grid-column field="column2" heading="Column2" width="800" />
     @if (!hideCol3()) {
-      <sky-ag-grid-column field="column3" heading="Column3" width="800" />
+      <sky-data-grid-column field="column3" heading="Column3" width="800" />
     }
-  </sky-ag-grid>
+  </sky-data-grid>
 </div>
 
 <h1>Grid with row delete</h1>
 
 <div id="screenshot-grid-row-delete">
-  <sky-ag-grid
+  <sky-data-grid
     [data]="dataForRowDeleteGrid"
     [rowDeleteIds]="removeRowIds"
     (rowDeleteCancel)="cancelRowDelete($event)"
     (rowDeleteConfirm)="finishRowDelete($event)"
   >
-    <sky-ag-grid-column
+    <sky-data-grid-column
       columnId="context-menu"
       heading=""
       width="40"
@@ -123,22 +123,22 @@
           </sky-dropdown>
         }
       </ng-template>
-    </sky-ag-grid-column>
-    <sky-ag-grid-column
+    </sky-data-grid-column>
+    <sky-data-grid-column
       field="column1"
       heading="Column1"
       [helpPopoverContent]="staticPopoverRef"
     />
-    <sky-ag-grid-column field="column2" heading="Column2" />
+    <sky-data-grid-column field="column2" heading="Column2" />
     @if (!hideCol3()) {
-      <sky-ag-grid-column
+      <sky-data-grid-column
         field="column3"
         heading="Column3"
         helpPopoverTitle="This popover is asynchronous!"
         [helpPopoverContent]="asyncPopover"
       />
     }
-  </sky-ag-grid>
+  </sky-data-grid>
 
   <ng-template #staticPopoverRef>
     This is a numeric column. Click <a href="#">here</a> to learn more.
@@ -148,36 +148,36 @@
 <h1>Grid w/ aligned columns</h1>
 
 <div id="screenshot-grid-column-align">
-  <sky-ag-grid fit="scroll" height="200" [data]="dataForSimpleGrid">
-    <sky-ag-grid-column type="number" field="column1" heading="Column1" />
-    <sky-ag-grid-column field="column2" heading="Column2" />
+  <sky-data-grid fit="scroll" height="200" [data]="dataForSimpleGrid">
+    <sky-data-grid-column type="number" field="column1" heading="Column1" />
+    <sky-data-grid-column field="column2" heading="Column2" />
     @if (!hideCol3()) {
-      <sky-ag-grid-column field="column3" heading="Column3" />
+      <sky-data-grid-column field="column3" heading="Column3" />
     }
-  </sky-ag-grid>
+  </sky-data-grid>
 </div>
 
 <h1>Grid w/ aligned columns and inline help</h1>
 
 <div id="screenshot-grid-column-align-and-inline">
-  <sky-ag-grid fit="scroll" [data]="dataForSimpleGrid">
-    <sky-ag-grid-column
+  <sky-data-grid fit="scroll" [data]="dataForSimpleGrid">
+    <sky-data-grid-column
       type="number"
       field="column1"
       heading="Column1"
       [helpPopoverContent]="staticPopoverRef"
     />
-    <sky-ag-grid-column
+    <sky-data-grid-column
       field="column2"
       heading="Column2"
       [helpPopoverContent]="staticPopoverRef"
     />
     @if (!hideCol3()) {
-      <sky-ag-grid-column
+      <sky-data-grid-column
         field="column3"
         heading="Column3"
         [helpPopoverContent]="staticPopoverRef"
       />
     }
-  </sky-ag-grid>
+  </sky-data-grid>
 </div>

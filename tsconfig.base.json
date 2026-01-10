@@ -66,6 +66,7 @@
       "@skyux/config": ["libs/components/config/src/index.ts"],
       "@skyux/core": ["libs/components/core/src/index.ts"],
       "@skyux/core/testing": ["libs/components/core/testing/src/public-api.ts"],
+      "@skyux/data-grid": ["libs/components/data-grid/src/index.ts"],
       "@skyux/data-manager": ["libs/components/data-manager/src/index.ts"],
       "@skyux/data-manager/testing": [
         "libs/components/data-manager/testing/src/public-api.ts"

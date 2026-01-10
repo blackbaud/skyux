@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SkyAgGridNumberRangeFilterValue } from '@skyux/ag-grid';
+import { SkyDataGridNumberRangeFilterValue } from '@skyux/data-grid';
 import {
   SkyFilterItemModal,
   SkyFilterItemModalInstance,
@@ -50,7 +50,7 @@ export class SalaryFilterModalComponent implements SkyFilterItemModal {
 
   constructor() {
     const existingValue = this.#context.filterValue?.value as
-      | SkyAgGridNumberRangeFilterValue
+      | SkyDataGridNumberRangeFilterValue
       | undefined;
     if (existingValue) {
       this.minSalary = existingValue.from;
@@ -63,7 +63,7 @@ export class SalaryFilterModalComponent implements SkyFilterItemModal {
       (this.minSalary ?? undefined) !== undefined ||
       (this.maxSalary ?? undefined) !== undefined
     ) {
-      const value: SkyAgGridNumberRangeFilterValue = {
+      const value: SkyDataGridNumberRangeFilterValue = {
         from: this.minSalary ?? null,
         to: this.maxSalary ?? null,
       };

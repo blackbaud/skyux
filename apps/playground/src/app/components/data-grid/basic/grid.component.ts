@@ -7,12 +7,13 @@ import {
   model,
 } from '@angular/core';
 import {
-  SkyAgGridColumnComponent,
-  SkyAgGridComponent,
   SkyAgGridRowDeleteCancelArgs,
   SkyAgGridRowDeleteConfirmArgs,
 } from '@skyux/ag-grid';
-import { SkyGridModule } from '@skyux/grids';
+import {
+  SkyDataGridColumnComponent,
+  SkyDataGridComponent,
+} from '@skyux/data-grid';
 import { SkyDropdownModule, SkyPopoverModule } from '@skyux/popovers';
 
 interface RowModel {
@@ -28,11 +29,10 @@ interface RowModel {
   templateUrl: './grid.component.html',
   styleUrls: ['./grid.component.scss'],
   imports: [
-    SkyAgGridComponent,
-    SkyAgGridColumnComponent,
+    SkyDataGridComponent,
+    SkyDataGridColumnComponent,
     SkyPopoverModule,
     SkyDropdownModule,
-    SkyGridModule,
     JsonPipe,
   ],
 })

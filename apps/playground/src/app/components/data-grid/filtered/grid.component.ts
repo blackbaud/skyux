@@ -1,6 +1,9 @@
 import { JsonPipe } from '@angular/common';
 import { Component, computed, signal } from '@angular/core';
-import { SkyAgGridColumnComponent, SkyAgGridComponent } from '@skyux/ag-grid';
+import {
+  SkyDataGridColumnComponent,
+  SkyDataGridComponent,
+} from '@skyux/data-grid';
 import { SkyFilterBarModule } from '@skyux/filter-bar';
 import { SkyFilterStateFilterItem } from '@skyux/lists';
 
@@ -22,8 +25,8 @@ interface Employee {
   selector: 'app-filtered-grid',
   imports: [
     JsonPipe,
-    SkyAgGridComponent,
-    SkyAgGridColumnComponent,
+    SkyDataGridComponent,
+    SkyDataGridColumnComponent,
     SkyFilterBarModule,
   ],
   templateUrl: './grid.component.html',

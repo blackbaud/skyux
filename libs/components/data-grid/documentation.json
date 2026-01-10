@@ -1,0 +1,23 @@
+{
+  "$schema": "../manifest-generator/documentation-schema.json",
+  "groups": {
+    "data-grid-package": {
+      "development": {
+        "docsIds": [
+          "SkyDataGridModule",
+          "SkyDataGridComponent",
+          "SkyDataGridColumnComponent",
+          "SkyDataGridFilterOperator",
+          "SkyDataGridNumberRangeFilterValue"
+        ],
+        "primaryDocsId": "SkyDataGridModule"
+      },
+      "testing": {
+        "docsIds": ["SkyDataGridHarness", "SkyDataGridHarnessFilters"]
+      },
+      "codeExamples": {
+        "docsIds": ["DataGridBasicExampleComponent"]
+      }
+    }
+  }
+}

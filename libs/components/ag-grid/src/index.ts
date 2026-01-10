@@ -30,9 +30,6 @@ export { SkyGetGridOptionsArgs } from './lib/modules/ag-grid/types/sky-grid-opti
 export { SkyAgGridTextProperties } from './lib/modules/ag-grid/types/text-properties';
 export { SkyAgGridValidatorProperties } from './lib/modules/ag-grid/types/validator-properties';
 
-export { SkyAgGridComponent } from './lib/modules/ag-grid/sky-ag-grid/sky-ag-grid.component';
-export { SkyAgGridColumnComponent } from './lib/modules/ag-grid/sky-ag-grid/sky-ag-grid-column.component';
-
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.
 export { SkyAgGridDataManagerAdapterDirective as λ14 } from './lib/modules/ag-grid/ag-grid-data-manager-adapter.directive';
@@ -53,5 +50,3 @@ export { SkyAgGridCellRendererValidatorTooltipComponent as λ10 } from './lib/mo
 export { SkyAgGridCellValidatorTooltipComponent as λ11 } from './lib/modules/ag-grid/cell-validator/ag-grid-cell-validator-tooltip.component';
 export { SkyAgGridHeaderGroupComponent as λ18 } from './lib/modules/ag-grid/header/header-group.component';
 export { SkyAgGridHeaderComponent as λ17 } from './lib/modules/ag-grid/header/header.component';
-export { SkyAgGridFilterOperator } from './lib/modules/ag-grid/types/sky-ag-grid-filter-operator';
-export { SkyAgGridNumberRangeFilterValue } from './lib/modules/ag-grid/types/sky-ag-grid-filter-values';

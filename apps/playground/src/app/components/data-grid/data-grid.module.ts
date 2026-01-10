@@ -8,27 +8,27 @@ const routes: ComponentRouteInfo[] = [
     path: 'basic',
     loadComponent: () => import('./basic/grid.component'),
     data: {
-      name: 'Data Grid (new)',
+      name: 'Data Grid',
       icon: 'table',
-      library: 'grids',
+      library: 'data-grid',
     },
   },
   {
     path: 'paging',
     loadComponent: () => import('./paging/grid-paging.component'),
     data: {
-      name: 'Data Grid Paging (new)',
+      name: 'Data Grid Paging',
       icon: 'table',
-      library: 'grids',
+      library: 'data-grid',
     },
   },
   {
     path: 'filtered',
     loadComponent: () => import('./filtered/grid.component'),
     data: {
-      name: 'Data Grid Filtered (new)',
+      name: 'Data Grid Filtered',
       icon: 'filter',
-      library: 'grids',
+      library: 'data-grid',
     },
   },
 ];

@@ -17,7 +17,7 @@
           tabindex="-1"
           type="button"
           [attr.aria-label]="accessibleHeaderText()"
-          [innerText]="displayName()"
+          [innerText]="displayName() ?? ''"
           [skyThemeClass]="{ 'sky-font-heading-4': 'modern' }"
           (click)="onSortRequested($event)"
         ></button>
