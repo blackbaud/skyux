@@ -95,14 +95,18 @@ function addPackagesPolyfills(tree: Tree, projectName: string): void {
         projectConfig.targets?.[target] &&
         polyfillsBuilders.includes(
           `${projectConfig.targets?.[target].executor}`,
-        ) &&
-        projectConfig.targets?.[target].options.polyfills &&
-        Array.isArray(projectConfig.targets[target].options.polyfills)
+        )
       ) {
-        projectConfig.targets[target].options.polyfills.push(
-          'libs/components/packages/src/polyfills.js',
-        );
-        hasChanged = true;
+        const targetOptions = projectConfig.targets[target].options;
+
+        targetOptions.polyfills ??= [];
+
+        if (Array.isArray(targetOptions.polyfills)) {
+          targetOptions.polyfills.push(
+            'libs/components/packages/src/polyfills.js',
+          );
+          hasChanged = true;
+        }
       }
     });
     if (hasChanged) {
