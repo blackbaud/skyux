@@ -9,7 +9,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import { SkyPagingModule } from '@skyux/lists';
 
-import { AgGridModule } from 'ag-grid-angular';
+import { AgGridAngular } from 'ag-grid-angular';
 import {
   AllCommunityModule,
   ColDef,
@@ -33,7 +33,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   selector: 'app-ag-grid-data-grid-paging-example',
   templateUrl: './example.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AgGridModule, SkyAgGridModule, SkyPagingModule],
+  imports: [AgGridAngular, SkyAgGridModule, SkyPagingModule],
 })
 export class AgGridDataGridPagingExampleComponent {
   protected currentPage = 1;

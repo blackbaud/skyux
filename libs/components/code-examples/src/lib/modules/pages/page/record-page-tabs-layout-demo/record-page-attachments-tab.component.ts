@@ -9,7 +9,7 @@ import {
 import { SkyIconModule } from '@skyux/icon';
 import { SkyKeyInfoModule } from '@skyux/indicators';
 
-import { AgGridModule } from 'ag-grid-angular';
+import { AgGridAngular } from 'ag-grid-angular';
 import {
   AllCommunityModule,
   ColDef,
@@ -28,7 +28,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   templateUrl: './record-page-attachments-tab.component.html',
   providers: [SkyDataManagerService],
   imports: [
-    AgGridModule,
+    AgGridAngular,
     SkyAgGridModule,
     SkyDataManagerModule,
     SkyKeyInfoModule,
