@@ -4,6 +4,8 @@
   "projectType": "library",
   "sourceRoot": "libs/components/ag-grid/src",
   "prefix": "sky",
+  "tags": ["component", "npm"],
+  "implicitDependencies": ["phone-field", "validation"],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
@@ -82,7 +84,5 @@
         "command": "ts-node --project ./scripts/tsconfig.json ./scripts/postbuild-ag-grid.ts"
       }
     }
-  },
-  "implicitDependencies": ["phone-field", "validation"],
-  "tags": ["component", "npm"]
+  }
 }
