@@ -240,7 +240,7 @@ function updateTestingBuildTargetDependencies(tree: Tree): void {
 
 /**
  * TypeScript file changes that may affect the public API should trigger a manifest build.
- * This approach marks the files as the dependency rather than the build step of the libraries
+ * This approach marks the files as the dependency rather than the build step of the libraries,
  * so the manifest build does not need to wait for libraries to build.
  * The named input could be added to `nx.json`, but it's massive and only used here.
  */
