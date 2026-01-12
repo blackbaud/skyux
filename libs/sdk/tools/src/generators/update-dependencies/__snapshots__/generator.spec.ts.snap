@@ -64,7 +64,7 @@ Object {
     "test": Object {
       "executor": "@nx/jest:jest",
       "options": Object {
-        "jestConfig": "lib/test/jest.config.ts",
+        "jestConfig": "lib/test/jest.config.cts",
         "tsConfig": "lib/test/tsconfig.spec.json",
       },
       "outputs": Array [
