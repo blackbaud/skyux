@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   SkyDateRangeCalculation,
+  SkyDateRangeCalculatorId,
   SkyDateRangePickerModule,
 } from '@skyux/datetime';
 import {
@@ -53,7 +54,10 @@ export class StartDateFilterModalComponent implements SkyFilterItemModal {
   }
 
   public apply(): void {
-    if (this.dateRange && this.dateRange.calculatorId !== 0) {
+    if (
+      this.dateRange &&
+      this.dateRange.calculatorId !== SkyDateRangeCalculatorId.AnyTime
+    ) {
       const filterValue: SkyFilterBarFilterValue = {
         value: this.dateRange,
         displayValue: this.#formatDateRange(this.dateRange),

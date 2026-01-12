@@ -15,7 +15,7 @@ import {
   SkyFilterItemModalInstance,
 } from '@skyux/filter-bar';
 import { SkyInputBoxModule } from '@skyux/forms';
-import { SkyModalModule } from '@skyux/modals';
+import { SkyModalError, SkyModalModule } from '@skyux/modals';
 
 import { map } from 'rxjs/operators';
 
@@ -80,41 +80,34 @@ export class SalaryFilterModalComponent implements SkyFilterItemModal {
 
   public filterLabelText = this.#context.filterLabelText;
 
-  protected readonly form: SkyDataGridNumberRangeFilterFormGroup =
-    this.#fb.group(
-      {
-        from: this.#fb.control<number | null>(
-          this.#existingValue?.from ?? null,
-        ),
-        to: this.#fb.control<number | null>(this.#existingValue?.to ?? null),
+  protected readonly form = this.#fb.group(
+    {
+      from: this.#fb.control<number | null>(this.#existingValue?.from ?? null),
+      to: this.#fb.control<number | null>(this.#existingValue?.to ?? null),
+    },
+    {
+      validators: (formGroup: SkyDataGridNumberRangeFilterFormGroup) => {
+        const min = formGroup.controls.from.value;
+        const max = formGroup.controls.to.value;
+        // At least one value must be provided.
+        if (min === null && max === null) {
+          return {
+            salaryRangeRequired: { message: 'Salary Range required' },
+          };
+        }
+        // If both values are provided, min must be less than or equal to max.
+        if (min !== null && max !== null && min >= max) {
+          return { salaryRangeInvalid: { message: 'Salary Range Invalid' } };
+        }
+        return null;
       },
-      {
-        validators: (formGroup: SkyDataGridNumberRangeFilterFormGroup) => {
-          const min = formGroup.controls.from.value;
-          const max = formGroup.controls.to.value;
-          // At least one value must be provided.
-          if (min === null && max === null) {
-            return {
-              salaryRangeRequired: { message: 'Salary Range required' },
-            };
-          }
-          // If both values are provided, min must be less than or equal to max.
-          if (min !== null && max !== null && min >= max) {
-            return { salaryRangeInvalid: { message: 'Salary Range Invalid' } };
-          }
-          return null;
-        },
-        updateOn: 'change',
-      },
-    );
+      updateOn: 'change',
+    },
+  ) as SkyDataGridNumberRangeFilterFormGroup;
 
   protected readonly formErrors = toSignal(
     this.form.statusChanges.pipe(
-      map(() =>
-        Object.values(this.form.errors ?? {}).map(
-          ({ message }) => ({ message }) as { message: string },
-        ),
-      ),
+      map(() => Object.values(this.form.errors ?? {}) as SkyModalError[]),
     ),
   );
   protected autonumericOptions: SkyAutonumericOptions = 'dollarPos' as const;
