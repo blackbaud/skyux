@@ -85,17 +85,6 @@ export const JOB_TITLES: Record<string, AutocompleteOption[]> = {
   ],
 };
 
-export interface DataGridDemoRow {
-  id: string;
-  selected?: boolean;
-  name: string;
-  age: number;
-  startDate: Date;
-  endDate?: Date;
-  department: AutocompleteOption;
-  jobTitle?: AutocompleteOption;
-}
-
 export const DATA_GRID_DEMO_DATA = [
   {
     id: '1',
