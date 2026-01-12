@@ -153,6 +153,51 @@ describe('configure-storybook', () => {
     ).toBeTruthy();
   });
 
+  it('should add jest.config.ts to exclude when it exists and is not already excluded', async () => {
+    const { tree } = setupTest();
+    tree.write('.gitignore', '#');
+    await createTestApplication(tree, {
+      name: `test-app`,
+      e2eTestRunner: true,
+      unitTestRunner: true,
+    });
+    await storybookConfigurationGenerator(tree, {
+      interactionTests: false,
+      skipFormat: true,
+      generateStories: false,
+      linter: 'none',
+      project: `test-app`,
+    });
+    // Create jest.config.ts file to trigger the exclude logic
+    tree.write('apps/test-app/jest.config.ts', 'export default {};');
+    // Set up tsconfig with exclude array that doesn't include jest.config.ts
+    updateJson<TsConfig>(
+      tree,
+      `apps/test-app/.storybook/tsconfig.json`,
+      (tsconfig) => {
+        tsconfig.exclude = ['../**/*.spec.ts'];
+        return tsconfig;
+      },
+    );
+    updateJson<TsConfig>(
+      tree,
+      `apps/test-app/tsconfig.app.json`,
+      (tsconfig) => {
+        tsconfig.exclude = ['**/*.spec.ts'];
+        return tsconfig;
+      },
+    );
+    await configureStorybook(tree, { name: 'test-app', skipFormat: true });
+    const storybookTsconfig = JSON.parse(
+      tree.read(`apps/test-app/.storybook/tsconfig.json`, 'utf-8') ?? '{}',
+    );
+    const appTsconfig = JSON.parse(
+      tree.read(`apps/test-app/tsconfig.app.json`, 'utf-8') ?? '{}',
+    );
+    expect(storybookTsconfig.exclude).toContain('jest.config.ts');
+    expect(appTsconfig.exclude).toContain('jest.config.ts');
+  });
+
   it('should error for missing e2e project', async () => {
     const { tree } = setupTest();
     tree.write('.gitignore', '#');

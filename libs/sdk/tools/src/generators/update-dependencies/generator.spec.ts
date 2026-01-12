@@ -252,7 +252,7 @@ describe('update dependencies generator', () => {
         },
       },
     });
-  }, 50000);
+  });
 
   it('should throw error on unmet dependencies', async () => {
     await libraryGenerator(appTree, {

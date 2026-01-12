@@ -131,7 +131,13 @@ function updateStorybookFiles(
     if (!tsconfig.include.includes('./*')) {
       tsconfig.include.push('./*');
     }
-
+    if (
+      tsconfig.exclude &&
+      tree.exists(`${projectRoot}/jest.config.ts`) &&
+      !tsconfig.exclude.includes('jest.config.ts')
+    ) {
+      tsconfig.exclude.push('jest.config.ts');
+    }
     return tsconfig;
   });
   if (tree.isFile(tsconfigAppFile)) {
@@ -143,6 +149,13 @@ function updateStorybookFiles(
         resolveJsonModule: true,
       };
 
+      if (
+        tsconfig.exclude &&
+        tree.exists(`${projectRoot}/jest.config.ts`) &&
+        !tsconfig.exclude.includes('jest.config.ts')
+      ) {
+        tsconfig.exclude.push('jest.config.ts');
+      }
       return tsconfig;
     });
   }
