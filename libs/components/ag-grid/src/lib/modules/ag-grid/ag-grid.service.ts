@@ -180,7 +180,7 @@ export class SkyAgGridService implements OnDestroy {
   }
 
   /**
-   * Returns [AG Grid `gridOptions`](https://www.ag-grid.com/javascript-grid-properties/) with default SKY UX options, styling, and cell renderers registered for read-only grids.
+   * Returns [AG Grid `gridOptions`](https://www.ag-grid.com/angular-data-grid/grid-options/) with default SKY UX options, styling, and cell renderers registered for read-only grids.
    * @param args
    * @returns
    */
@@ -197,7 +197,7 @@ export class SkyAgGridService implements OnDestroy {
   }
 
   /**
-   * Returns [AG Grid `gridOptions`](https://www.ag-grid.com/javascript-grid-properties/) with default SKY UX options, styling, and cell editors registered for editable grids.
+   * Returns [AG Grid `gridOptions`](https://www.ag-grid.com/angular-data-grid/grid-options/) with default SKY UX options, styling, and cell editors registered for editable grids.
    * @param args
    * @returns
    */

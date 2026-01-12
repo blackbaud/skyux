@@ -9,7 +9,7 @@ import {
 import { SkyIconModule } from '@skyux/icon';
 import { SkyListSummaryModule } from '@skyux/lists';
 
-import { AgGridModule } from 'ag-grid-angular';
+import { AgGridAngular } from 'ag-grid-angular';
 import {
   AllCommunityModule,
   ColDef,
@@ -33,7 +33,7 @@ interface Contact {
   templateUrl: './list-page-contacts-grid.component.html',
   providers: [SkyDataManagerService],
   imports: [
-    AgGridModule,
+    AgGridAngular,
     SkyAgGridModule,
     SkyDataManagerModule,
     SkyIconModule,

@@ -10,7 +10,7 @@ import { SkyToolbarModule } from '@skyux/layout';
 import { SkySearchModule } from '@skyux/lookup';
 import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
-import { AgGridModule } from 'ag-grid-angular';
+import { AgGridAngular } from 'ag-grid-angular';
 import {
   AllCommunityModule,
   ColDef,
@@ -34,7 +34,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   selector: 'app-ag-grid-data-entry-grid-basic-example',
   templateUrl: './example.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AgGridModule, SkyAgGridModule, SkySearchModule, SkyToolbarModule],
+  imports: [AgGridAngular, SkyAgGridModule, SkySearchModule, SkyToolbarModule],
 })
 export class AgGridDataEntryGridBasicExampleComponent {
   protected readonly gridData = signal<AgGridDemoRow[]>(AG_GRID_DEMO_DATA);
