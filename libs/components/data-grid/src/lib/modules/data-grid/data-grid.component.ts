@@ -99,6 +99,14 @@ export class SkyDataGridComponent<
   public readonly data = input<T[]>();
 
   /**
+   * Enable a compact layout for the grid when using modern theme. Compact layout uses
+   * a smaller font size and row height to display more data in a smaller space.
+   */
+  public readonly compact = input<boolean, unknown>(false, {
+    transform: coerceBooleanProperty,
+  });
+
+  /**
    * The columns to display by default based on the ID or field of the item.
    */
   public readonly selectedColumnIds = input<string[], unknown>([], {

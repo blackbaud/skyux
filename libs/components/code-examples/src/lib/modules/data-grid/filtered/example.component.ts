@@ -21,7 +21,7 @@ interface Employee {
  * @title Filtered data grid
  */
 @Component({
-  selector: 'app-filtered-grid',
+  selector: 'app-filtered-data-grid',
   imports: [SkyDataGridModule, SkyFilterBarModule],
   templateUrl: './example.component.html',
 })

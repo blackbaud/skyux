@@ -1,0 +1,146 @@
+{
+  "name": "data-grid-storybook",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/e2e/data-grid-storybook/src",
+  "prefix": "app",
+  "tags": ["component-e2e"],
+  "targets": {
+    "build": {
+      "executor": "@angular/build:application",
+      "outputs": ["{options.outputPath.base}"],
+      "options": {
+        "outputPath": {
+          "base": "dist/apps/e2e/data-grid-storybook"
+        },
+        "index": "apps/e2e/data-grid-storybook/src/index.html",
+        "browser": "apps/e2e/data-grid-storybook/src/main.ts",
+        "polyfills": ["zone.js", "libs/components/packages/src/polyfills.js"],
+        "tsConfig": "apps/e2e/data-grid-storybook/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "stylePreprocessorOptions": {
+          "includePaths": ["{workspaceRoot}"]
+        },
+        "styles": [
+          "apps/e2e/data-grid-storybook/src/styles.scss",
+          "libs/components/theme/src/lib/styles/sky.scss",
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss",
+          "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss"
+        ]
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "2mb",
+              "maximumError": "5mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "6kb",
+              "maximumError": "10kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "continuous": true,
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "data-grid-storybook:build:production"
+        },
+        "development": {
+          "buildTarget": "data-grid-storybook:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "data-grid-storybook:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["{projectRoot}/**/*.ts", "{projectRoot}/**/*.html"]
+      }
+    },
+    "storybook": {
+      "executor": "@storybook/angular:start-storybook",
+      "options": {
+        "port": 4400,
+        "configDir": "apps/e2e/data-grid-storybook/.storybook",
+        "browserTarget": "data-grid-storybook:build",
+        "compodoc": false,
+        "styles": [
+          "apps/e2e/data-grid-storybook/src/styles.scss",
+          "libs/components/theme/src/lib/styles/sky.scss",
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss",
+          "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss"
+        ]
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true,
+          "ci": true
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "@storybook/angular:build-storybook",
+      "outputs": ["{options.outputDir}"],
+      "options": {
+        "outputDir": "dist/storybook/data-grid-storybook",
+        "configDir": "apps/e2e/data-grid-storybook/.storybook",
+        "browserTarget": "data-grid-storybook:build",
+        "compodoc": false,
+        "styles": [
+          "apps/e2e/data-grid-storybook/src/styles.scss",
+          "libs/components/theme/src/lib/styles/sky.scss",
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss",
+          "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss"
+        ]
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "static-storybook": {
+      "executor": "@nx/web:file-server",
+      "dependsOn": ["build-storybook"],
+      "options": {
+        "buildTarget": "data-grid-storybook:build-storybook",
+        "staticFilePath": "dist/storybook/data-grid-storybook",
+        "spa": true
+      },
+      "configurations": {
+        "ci": {
+          "buildTarget": "data-grid-storybook:build-storybook:ci"
+        },
+        "prebuilt": {
+          "buildTarget": "data-grid-storybook:noop"
+        }
+      }
+    },
+    "noop": {
+      "executor": "nx:noop"
+    }
+  }
+}

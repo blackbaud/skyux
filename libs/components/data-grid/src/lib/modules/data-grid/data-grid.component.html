@@ -2,6 +2,7 @@
 @if (gridOptions(); as gridOptions) {
   <sky-ag-grid-wrapper
     skyAgGridRowDelete
+    [compact]="compact()"
     [(rowDeleteIds)]="rowDeleteIds"
     (rowDeleteCancel)="rowDeleteCancel.emit($event)"
     (rowDeleteConfirm)="rowDeleteConfirm.emit($event)"

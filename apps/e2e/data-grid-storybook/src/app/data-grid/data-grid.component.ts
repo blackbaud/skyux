@@ -8,12 +8,12 @@ import { DATA_GRID_DEMO_DATA, DataGridDemoRow } from './data';
  * @title Basic data grid
  */
 @Component({
-  selector: 'app-data-grid-basic-example',
-  templateUrl: './example.component.html',
+  selector: 'app-data-grid',
+  templateUrl: './data-grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkyDataGridModule, SkyDropdownModule],
 })
-export class DataGridBasicExampleComponent {
+export class DataGridComponent {
   protected gridData: DataGridDemoRow[] = DATA_GRID_DEMO_DATA;
 
   public actionClicked(row: DataGridDemoRow, action: string): void {
