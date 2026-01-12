@@ -53,6 +53,7 @@ jobs:
             components/colorpicker
             components/config
             components/core
+            components/data-grid
             components/data-manager
             components/datetime
             components/docs-tools
