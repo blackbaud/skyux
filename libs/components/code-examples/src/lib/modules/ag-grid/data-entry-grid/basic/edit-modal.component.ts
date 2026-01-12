@@ -16,7 +16,7 @@ import {
 import { SkyAutocompleteSelectionChange } from '@skyux/lookup';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
-import { AgGridModule } from 'ag-grid-angular';
+import { AgGridAngular } from 'ag-grid-angular';
 import {
   AllCommunityModule,
   GridApi,
@@ -37,7 +37,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   templateUrl: './edit-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    AgGridModule,
+    AgGridAngular,
     SkyAgGridModule,
     SkyModalModule,
     MarkInactiveComponent,

@@ -16,7 +16,7 @@ import {
 } from '@skyux/data-manager';
 import { SkyFilterBarFilterState } from '@skyux/filter-bar';
 
-import { AgGridModule } from 'ag-grid-angular';
+import { AgGridAngular } from 'ag-grid-angular';
 import {
   AllCommunityModule,
   ColDef,
@@ -35,7 +35,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   selector: 'app-view-grid',
   templateUrl: './view-grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AgGridModule, SkyAgGridModule, SkyDataManagerModule],
+  imports: [AgGridAngular, SkyAgGridModule, SkyDataManagerModule],
 })
 export class ViewGridComponent {
   public readonly items = input<AgGridDemoRow[]>([]);

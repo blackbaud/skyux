@@ -3,7 +3,7 @@ import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkySearchModule } from '@skyux/lookup';
 
-import { AgGridModule } from 'ag-grid-angular';
+import { AgGridAngular } from 'ag-grid-angular';
 import {
   AllCommunityModule,
   ColDef,
@@ -27,7 +27,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   selector: 'app-ag-grid-data-grid-top-scroll-example',
   templateUrl: './example.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AgGridModule, SkyAgGridModule, SkySearchModule, SkyToolbarModule],
+  imports: [AgGridAngular, SkyAgGridModule, SkySearchModule, SkyToolbarModule],
 })
 export class AgGridDataGridTopScrollExampleComponent {
   protected gridData = AG_GRID_DEMO_DATA;

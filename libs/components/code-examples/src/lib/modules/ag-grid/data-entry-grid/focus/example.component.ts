@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import { SkyInputBoxModule } from '@skyux/forms';
 
-import { AgGridModule } from 'ag-grid-angular';
+import { AgGridAngular } from 'ag-grid-angular';
 import {
   AllCommunityModule,
   ModuleRegistry,
@@ -20,7 +20,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   selector: 'app-ag-grid-data-entry-grid-focus-example',
   templateUrl: './example.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AgGridModule, SkyAgGridModule, SkyInputBoxModule],
+  imports: [AgGridAngular, SkyAgGridModule, SkyInputBoxModule],
 })
 export class AgGridDataEntryGridFocusExampleComponent {
   protected gridOptions = inject(SkyAgGridService).getEditableGridOptions({

@@ -10,7 +10,7 @@ import {
 import { SkyIconModule } from '@skyux/icon';
 import { SkyListSummaryModule } from '@skyux/lists';
 
-import { AgGridModule } from 'ag-grid-angular';
+import { AgGridAngular } from 'ag-grid-angular';
 import { AllCommunityModule, GridApi, ModuleRegistry } from 'ag-grid-community';
 import { map } from 'rxjs/operators';
 
@@ -25,7 +25,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   templateUrl: './list-page-content.component.html',
   providers: [SkyDataManagerService],
   imports: [
-    AgGridModule,
+    AgGridAngular,
     SkyAgGridModule,
     SkyDataManagerModule,
     SkyIconModule,
