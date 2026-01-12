@@ -2,7 +2,6 @@ export { ActionBarsSummaryActionBarBasicExampleComponent } from './lib/modules/a
 export { ActionBarsSummaryActionBarErrorExampleComponent } from './lib/modules/action-bars/summary-action-bar/error/example.component';
 export { ActionBarsSummaryActionBarModalExampleComponent } from './lib/modules/action-bars/summary-action-bar/modal/example.component';
 export { ActionBarsSummaryActionBarTabExampleComponent } from './lib/modules/action-bars/summary-action-bar/tab/example.component';
-export { DataGridBasicExampleComponent } from './lib/modules/data-grid/basic/example.component';
 export { AgGridDataEntryGridBasicExampleComponent } from './lib/modules/ag-grid/data-entry-grid/basic/example.component';
 export { AgGridDataEntryGridDataManagerAddedExampleComponent } from './lib/modules/ag-grid/data-entry-grid/data-manager-added/example.component';
 export { AgGridDataEntryGridFocusExampleComponent } from './lib/modules/ag-grid/data-entry-grid/focus/example.component';
@@ -30,6 +29,9 @@ export { CoreIdExampleComponent } from './lib/modules/core/id/example.component'
 export { CoreMediaQueryBasicExampleComponent } from './lib/modules/core/media-query/basic/example.component';
 export { CoreMediaQueryResponsiveHostExampleComponent } from './lib/modules/core/media-query/responsive-host/example.component';
 export { CoreNumericBasicExampleComponent } from './lib/modules/core/numeric/basic/example.component';
+export { DataGridBasicExampleComponent } from './lib/modules/data-grid/basic/example.component';
+export { FilteredDataGridComponent } from './lib/modules/data-grid/filtered/example.component';
+export { DataGridPagingComponent } from './lib/modules/data-grid/paging/example.component';
 export { DataManagerBasicExampleComponent } from './lib/modules/data-manager/data-manager/basic/example.component';
 export { DatetimeDatePipeBasicExampleComponent } from './lib/modules/datetime/date-pipe/basic/example.component';
 export { DatetimeDateRangePickerBasicExampleComponent } from './lib/modules/datetime/date-range-picker/basic/example.component';

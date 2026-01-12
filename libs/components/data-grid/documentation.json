@@ -16,7 +16,11 @@
         "docsIds": ["SkyDataGridHarness", "SkyDataGridHarnessFilters"]
       },
       "codeExamples": {
-        "docsIds": ["DataGridBasicExampleComponent"]
+        "docsIds": [
+          "DataGridBasicExampleComponent",
+          "FilteredDataGridComponent",
+          "DataGridPagingComponent"
+        ]
       }
     }
   }

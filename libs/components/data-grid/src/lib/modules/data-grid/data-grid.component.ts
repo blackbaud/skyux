@@ -609,8 +609,10 @@ export class SkyDataGridComponent<
     if (this.#isNumberRangeFilter(filterValue)) {
       const range = filterValue;
       return !(
-        (range.from !== null && Number(rowValue) < range.from) ||
-        (range.to !== null && Number(rowValue) > range.to)
+        (typeof (range.from ?? undefined) !== 'undefined' &&
+          Number(rowValue) < Number(range.from)) ||
+        (typeof (range.to ?? undefined) !== 'undefined' &&
+          Number(rowValue) > Number(range.to))
       );
     } else {
       return !this.#numericFilter(

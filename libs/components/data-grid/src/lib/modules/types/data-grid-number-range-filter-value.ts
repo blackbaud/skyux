@@ -1,3 +1,5 @@
+import { FormControl, FormGroup } from '@angular/forms';
+
 /**
  * Filter value for number range filters.
  */
@@ -16,7 +18,7 @@ export type SkyDataGridNumberRangeFilterValue =
       /**
        * The minimum value of the range. Null indicates no minimum.
        */
-      from: null;
+      from: null | undefined;
       /**
        * The maximum value of the range.
        */
@@ -30,5 +32,10 @@ export type SkyDataGridNumberRangeFilterValue =
       /**
        * The maximum value of the range. Null indicates no maximum.
        */
-      to: null;
+      to: null | undefined;
     };
+
+export type SkyDataGridNumberRangeFilterFormGroup = FormGroup<{
+  from: FormControl<number | null>;
+  to: FormControl<number | null>;
+}>;

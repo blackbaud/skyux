@@ -3,23 +3,27 @@ import {
   SkyDataGridColumnComponent,
   SkyDataGridComponent,
 } from '@skyux/data-grid';
+import { SkyDropdownModule } from '@skyux/popovers';
 
-import { ContextMenuComponent } from './context-menu.component';
 import { DATA_GRID_DEMO_DATA, DataGridDemoRow } from './data';
 
 /**
- * @title Basic data grid example without data manager
+ * @title Basic data grid
  */
 @Component({
   selector: 'app-ag-grid-basic-example',
   templateUrl: './example.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    ContextMenuComponent,
     SkyDataGridComponent,
     SkyDataGridColumnComponent,
+    SkyDropdownModule,
   ],
 })
 export class DataGridBasicExampleComponent {
   protected gridData: DataGridDemoRow[] = DATA_GRID_DEMO_DATA;
+
+  public actionClicked(row: DataGridDemoRow, action: string): void {
+    alert(`${action} clicked for ${row.name}`);
+  }
 }
