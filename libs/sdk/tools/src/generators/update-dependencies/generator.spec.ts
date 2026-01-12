@@ -369,4 +369,136 @@ describe('update dependencies generator', () => {
     expect(readProjectConfiguration(appTree, 'test')).toMatchSnapshot();
     expect(readProjectConfiguration(appTree, 'test-testing')).toMatchSnapshot();
   }, 3e6);
+
+  it('should update manifest build target dependencies', async () => {
+    // Create manifest project
+    await libraryGenerator(appTree, {
+      name: 'manifest',
+      buildable: true,
+      publishable: false,
+      importPath: '@proj/manifest',
+      directory: 'libs/manifest',
+      skipFormat: true,
+      skipPackageJson: true,
+      skipTests: true,
+    });
+
+    // Create component projects with documentation.json
+    await libraryGenerator(appTree, {
+      name: 'component-one',
+      buildable: true,
+      publishable: true,
+      importPath: '@proj/component-one',
+      directory: 'libs/components/component-one',
+      skipFormat: true,
+      skipPackageJson: true,
+      skipTests: true,
+      tags: 'component',
+    });
+    appTree.write(
+      'libs/components/component-one/documentation.json',
+      JSON.stringify({ name: 'Component One' }),
+    );
+
+    await libraryGenerator(appTree, {
+      name: 'component-two',
+      buildable: true,
+      publishable: true,
+      importPath: '@proj/component-two',
+      directory: 'libs/components/component-two',
+      skipFormat: true,
+      skipPackageJson: true,
+      skipTests: true,
+      tags: 'component',
+    });
+    appTree.write(
+      'libs/components/component-two/documentation.json',
+      JSON.stringify({ name: 'Component Two' }),
+    );
+
+    // Create a non-component project (should be excluded)
+    await libraryGenerator(appTree, {
+      name: 'non-component',
+      buildable: true,
+      publishable: true,
+      importPath: '@proj/non-component',
+      directory: 'libs/non-component',
+      skipFormat: true,
+      skipPackageJson: true,
+      skipTests: true,
+    });
+
+    await generator(appTree, options);
+
+    const manifestProject = readProjectConfiguration(appTree, 'manifest');
+    expect(manifestProject.namedInputs).toBeDefined();
+    expect(
+      manifestProject.namedInputs?.['componentDocumentationInputs'],
+    ).toBeDefined();
+
+    const inputs =
+      manifestProject.namedInputs?.['componentDocumentationInputs'];
+    expect(inputs).toContain(
+      '{workspaceRoot}/libs/components/component-one/**/*.ts',
+    );
+    expect(inputs).toContain(
+      '!{workspaceRoot}/libs/components/component-one/**/*.@(spec|stories).ts',
+    );
+    expect(inputs).toContain(
+      '!{workspaceRoot}/libs/components/component-one/**/fixtures/**/*',
+    );
+    expect(inputs).toContain(
+      '!{workspaceRoot}/libs/components/component-one/.storybook/**/*',
+    );
+    expect(inputs).toContain(
+      '!{workspaceRoot}/libs/components/component-one/jest.config.ts',
+    );
+    expect(inputs).toContain(
+      '!{workspaceRoot}/libs/components/component-one/src/test-setup.ts',
+    );
+
+    expect(inputs).toContain(
+      '{workspaceRoot}/libs/components/component-two/**/*.ts',
+    );
+    expect(inputs).toContain(
+      '!{workspaceRoot}/libs/components/component-two/**/*.@(spec|stories).ts',
+    );
+    expect(inputs).toContain(
+      '!{workspaceRoot}/libs/components/component-two/**/fixtures/**/*',
+    );
+    expect(inputs).toContain(
+      '!{workspaceRoot}/libs/components/component-two/.storybook/**/*',
+    );
+    expect(inputs).toContain(
+      '!{workspaceRoot}/libs/components/component-two/jest.config.ts',
+    );
+    expect(inputs).toContain(
+      '!{workspaceRoot}/libs/components/component-two/src/test-setup.ts',
+    );
+
+    // Should not include non-component project
+    expect(inputs).not.toContain('{workspaceRoot}/libs/non-component/**/*.ts');
+  });
+
+  it('should handle missing manifest project gracefully', async () => {
+    // Create component projects without a manifest project
+    await libraryGenerator(appTree, {
+      name: 'component-one',
+      buildable: true,
+      publishable: true,
+      importPath: '@proj/component-one',
+      directory: 'libs/components/component-one',
+      skipFormat: true,
+      skipPackageJson: true,
+      skipTests: true,
+      tags: 'component',
+    });
+    appTree.write(
+      'libs/components/component-one/documentation.json',
+      JSON.stringify({ name: 'Component One' }),
+    );
+
+    // Should not throw an error
+    await expect(generator(appTree, options)).resolves.not.toThrow();
+  });
 });

@@ -14,7 +14,7 @@ import {
 import { SkyAutocompleteSelectionChange } from '@skyux/lookup';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
-import { AgGridModule } from 'ag-grid-angular';
+import { AgGridAngular } from 'ag-grid-angular';
 import {
   AllCommunityModule,
   ColDef,
@@ -33,7 +33,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   selector: 'app-edit-modal',
   templateUrl: './edit-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AgGridModule, SkyAgGridModule, SkyModalModule],
+  imports: [AgGridAngular, SkyAgGridModule, SkyModalModule],
 })
 export class EditModalComponent {
   protected gridData = inject(EditModalContext).gridData;
