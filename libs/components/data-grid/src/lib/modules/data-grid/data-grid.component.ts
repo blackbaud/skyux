@@ -78,6 +78,9 @@ function arrayIsEqual(
   return arraySorted(a).every((v, i) => v === bSorted[i]);
 }
 
+/**
+ * @preview
+ */
 @Component({
   selector: 'sky-data-grid',
   imports: [AgGridAngular, SkyAgGridModule, SkyPagingModule, SkyWaitModule],

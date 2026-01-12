@@ -10,6 +10,10 @@ import {
 
 import { SkyDataGridFilterOperator } from '../types/data-grid-filter-operator';
 
+/**
+ * Specifies the column information.
+ * @preview
+ */
 @Component({
   selector: 'sky-data-grid-column',
   template: '',

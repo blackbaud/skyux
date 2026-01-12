@@ -5,7 +5,8 @@ import { SkyQueryableComponentHarness } from '@skyux/core/testing';
 import { SkyDataGridHarnessFilters } from './data-grid-harness.filters';
 
 /**
- * Harness for interacting with SKY UX AG Grid components in tests.
+ * Harness for interacting with SKY UX data grid components in tests.
+ * @preview
  */
 export class SkyDataGridHarness extends SkyQueryableComponentHarness {
   /**
