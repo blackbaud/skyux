@@ -5,11 +5,11 @@ export { SkyThemeBrand } from './lib/theming/theme-brand';
 export { SkyThemeComponentClassDirective } from './lib/theming/theme-component-class.directive';
 export { SkyThemeMode } from './lib/theming/theme-mode';
 export { SkyThemeSettings } from './lib/theming/theme-settings';
-export { SkyThemeSettingsChange } from './lib/theming/theme-settings-change';
+export type { SkyThemeSettingsChange } from './lib/theming/theme-settings-change';
 export { SkyThemeSpacing } from './lib/theming/theme-spacing';
 export { SkyThemeService } from './lib/theming/theme.service';
-export { SkyAppViewportReserveArgs } from './lib/viewport/viewport-reserve-args';
-export { SkyAppViewportReservedPositionType } from './lib/viewport/viewport-reserve-position-type';
+export type { SkyAppViewportReserveArgs } from './lib/viewport/viewport-reserve-args';
+export type { SkyAppViewportReservedPositionType } from './lib/viewport/viewport-reserve-position-type';
 export { SkyAppViewportService } from './lib/viewport/viewport.service';
 
 export { provideInitialTheme } from './lib/providers/provide-initial-theme';

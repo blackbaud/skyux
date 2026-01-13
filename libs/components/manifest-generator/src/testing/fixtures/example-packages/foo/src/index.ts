@@ -22,7 +22,8 @@ export {
   SkyFooStandaloneComponent,
   FooComponent as λ1,
 } from './lib/foo.component';
-export { FOO_BREAKPOINTS, FooBreakpoint } from './lib/foo.const-assertion';
+export type { FooBreakpoint } from './lib/foo.const-assertion';
+export { FOO_BREAKPOINTS } from './lib/foo.const-assertion';
 export {
   FooDirective,
   FooWithInputsOutputsDirective,
@@ -30,7 +31,7 @@ export {
 } from './lib/foo.directive';
 export { FooEnum } from './lib/foo.enum';
 export { createFoo } from './lib/foo.function';
-export {
+export type {
   FooEmptyExtendedInterface,
   FooEmptyInterface,
   FooInterface,
@@ -38,5 +39,5 @@ export {
 export { FooModule } from './lib/foo.module';
 export { FooPipe } from './lib/foo.pipe';
 export { FooService } from './lib/foo.service';
-export { FooAlias, FooReferenceTypeAlias } from './lib/foo.type-alias';
+export type { FooAlias, FooReferenceTypeAlias } from './lib/foo.type-alias';
 export { FOO_VARIABLE } from './lib/foo.variable';

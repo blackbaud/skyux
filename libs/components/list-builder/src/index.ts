@@ -3,7 +3,7 @@ export { ListDataResponseModel } from './lib/modules/list/list-data-response.mod
 export { ListDataProvider } from './lib/modules/list/list-data.provider';
 export { SkyListModule } from './lib/modules/list/list.module';
 
-export { ListStateAction } from './lib/modules/list/state/list-state-action.type';
+export type { ListStateAction } from './lib/modules/list/state/list-state-action.type';
 export { ListStateModel } from './lib/modules/list/state/list-state.model';
 export {
   ListStateDispatcher,
@@ -70,7 +70,7 @@ export { SkyListFiltersModule } from './lib/modules/list-filters/list-filters.mo
 
 export { SkyListPagingModule } from './lib/modules/list-paging/list-paging.module';
 
-export { SkyListSecondaryAction } from './lib/modules/list-toolbar/list-secondary-actions/list-secondary-action';
+export type { SkyListSecondaryAction } from './lib/modules/list-toolbar/list-secondary-actions/list-secondary-action';
 export { SkyListSecondaryActionsModule } from './lib/modules/list-toolbar/list-secondary-actions/list-secondary-actions.module';
 
 export { SkyListToolbarModule } from './lib/modules/list-toolbar/list-toolbar.module';

@@ -1,4 +1,4 @@
 export { SkyFilterBarHarness } from './modules/filter-bar/filter-bar-harness';
-export { SkyFilterBarHarnessFilters } from './modules/filter-bar/filter-bar-harness-filters';
+export type { SkyFilterBarHarnessFilters } from './modules/filter-bar/filter-bar-harness-filters';
 export { SkyFilterItemHarness } from './modules/filter-bar/filter-item-harness';
-export { SkyFilterItemHarnessFilters } from './modules/filter-bar/filter-item-harness-filters';
+export type { SkyFilterItemHarnessFilters } from './modules/filter-bar/filter-item-harness-filters';

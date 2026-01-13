@@ -1,21 +1,19 @@
-export { SkyDocsCategoryColor } from './lib/modules/category-tag/category-color';
+export type { SkyDocsCategoryColor } from './lib/modules/category-tag/category-color';
 export { SkyDocsCategoryTagModule } from './lib/modules/category-tag/category-tag.module';
 export { SkyDocsClipboardModule } from './lib/modules/clipboard/clipboard.module';
 export { SkyDocsClipboardService } from './lib/modules/clipboard/clipboard.service';
 export { SkyDocsCodeExampleViewerModule } from './lib/modules/code-example-viewer/code-example-viewer.module';
-export { SkyDocsStackBlitzLaunchConfig } from './lib/modules/code-example-viewer/stackblitz-launch-config';
-export {
-  SKY_DOCS_CODE_HIGHLIGHT_LANGUAGES,
-  SkyDocsCodeHighlightLanguage,
-} from './lib/modules/code-highlight/code-highlight-language';
+export type { SkyDocsStackBlitzLaunchConfig } from './lib/modules/code-example-viewer/stackblitz-launch-config';
+export type { SkyDocsCodeHighlightLanguage } from './lib/modules/code-highlight/code-highlight-language';
+export { SKY_DOCS_CODE_HIGHLIGHT_LANGUAGES } from './lib/modules/code-highlight/code-highlight-language';
 export { SkyDocsCodeHighlightPipe } from './lib/modules/code-highlight/code-highlight.pipe';
 export { SkyDocsCodeHighlightService } from './lib/modules/code-highlight/code-highlight.service';
 export { SkyDocsCodeSnippetModule } from './lib/modules/code-snippet/code-snippet.module';
-export { SkyDocsHeadingAnchorHeadingLevel } from './lib/modules/heading-anchor/heading-anchor-heading-level';
-export { SkyDocsHeadingAnchorHeadingTextFormat } from './lib/modules/heading-anchor/heading-anchor-heading-text-format';
+export type { SkyDocsHeadingAnchorHeadingLevel } from './lib/modules/heading-anchor/heading-anchor-heading-level';
+export type { SkyDocsHeadingAnchorHeadingTextFormat } from './lib/modules/heading-anchor/heading-anchor-heading-text-format';
 export { SkyDocsHeadingAnchorModule } from './lib/modules/heading-anchor/heading-anchor.module';
 export { SkyDocsHeadingAnchorService } from './lib/modules/heading-anchor/heading-anchor.service';
-export { SkyDocsCodeExampleComponentTypes } from './lib/modules/showcase/code-example-types/code-example-types-token';
+export type { SkyDocsCodeExampleComponentTypes } from './lib/modules/showcase/code-example-types/code-example-types-token';
 export { provideSkyDocsCodeExampleTypes } from './lib/modules/showcase/code-example-types/provide-code-example-types';
 export { SkyDocsShowcaseModule } from './lib/modules/showcase/showcase.module';
 export { SkyDocsTableOfContentsModule } from './lib/modules/table-of-contents/table-of-contents.module';

@@ -2,21 +2,21 @@ export { SkyDataManagerFilterModalContext } from './lib/modules/data-manager/dat
 export { SkyDataManagerModule } from './lib/modules/data-manager/data-manager.module';
 export { SkyDataManagerService } from './lib/modules/data-manager/data-manager.service';
 export { SkyDataManagerFilterStateService } from './lib/modules/data-manager/data-manager-filters/data-manager-filter-state.service';
-export { SkyDataManagerColumnPickerOption } from './lib/modules/data-manager/models/data-manager-column-picker-option';
+export type { SkyDataManagerColumnPickerOption } from './lib/modules/data-manager/models/data-manager-column-picker-option';
 export { SkyDataManagerColumnPickerSortStrategy } from './lib/modules/data-manager/models/data-manager-column-picker-sort-strategy';
-export { SkyDataManagerConfig } from './lib/modules/data-manager/models/data-manager-config';
-export { SkyDataManagerFilterData } from './lib/modules/data-manager/models/data-manager-filter-data';
-export { SkyDataManagerInitArgs } from './lib/modules/data-manager/models/data-manager-init-args';
-export { SkyDataManagerSortOption } from './lib/modules/data-manager/models/data-manager-sort-option';
+export type { SkyDataManagerConfig } from './lib/modules/data-manager/models/data-manager-config';
+export type { SkyDataManagerFilterData } from './lib/modules/data-manager/models/data-manager-filter-data';
+export type { SkyDataManagerInitArgs } from './lib/modules/data-manager/models/data-manager-init-args';
+export type { SkyDataManagerSortOption } from './lib/modules/data-manager/models/data-manager-sort-option';
 export { SkyDataManagerState } from './lib/modules/data-manager/models/data-manager-state';
-export { SkyDataManagerStateOptions } from './lib/modules/data-manager/models/data-manager-state-options';
-export { SkyDataManagerStateUpdateFilterArgs } from './lib/modules/data-manager/models/data-manager-state-update-filter-args';
-export { SkyDataManagerSummary } from './lib/modules/data-manager/models/data-manager-summary';
-export { SkyDataViewColumnWidths } from './lib/modules/data-manager/models/data-view-column-widths';
-export { SkyDataViewConfig } from './lib/modules/data-manager/models/data-view-config';
+export type { SkyDataManagerStateOptions } from './lib/modules/data-manager/models/data-manager-state-options';
+export type { SkyDataManagerStateUpdateFilterArgs } from './lib/modules/data-manager/models/data-manager-state-update-filter-args';
+export type { SkyDataManagerSummary } from './lib/modules/data-manager/models/data-manager-summary';
+export type { SkyDataViewColumnWidths } from './lib/modules/data-manager/models/data-view-column-widths';
+export type { SkyDataViewConfig } from './lib/modules/data-manager/models/data-view-config';
 export { SkyDataViewState } from './lib/modules/data-manager/models/data-view-state';
-export { SkyDataViewStateOptions } from './lib/modules/data-manager/models/data-view-state-options';
-export { SkyDataManagerDockType } from './lib/modules/data-manager/types/data-manager-dock-type';
+export type { SkyDataViewStateOptions } from './lib/modules/data-manager/models/data-view-state-options';
+export type { SkyDataManagerDockType } from './lib/modules/data-manager/types/data-manager-dock-type';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of public API.

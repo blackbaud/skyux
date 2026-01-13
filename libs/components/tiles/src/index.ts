@@ -2,19 +2,19 @@ export { SkyTileModule } from './lib/modules/tiles/tile/tile.module';
 
 export { SkyTileContentModule } from './lib/modules/tiles/tile-content/tile-content.module';
 
-export { SkyTileDashboardMessage } from './lib/modules/tiles/tile-dashboard/tile-dashboard-message';
+export type { SkyTileDashboardMessage } from './lib/modules/tiles/tile-dashboard/tile-dashboard-message';
 export { SkyTileDashboardMessageType } from './lib/modules/tiles/tile-dashboard/tile-dashboard-message-type';
 export { SkyTileDashboardModule } from './lib/modules/tiles/tile-dashboard/tile-dashboard.module';
 export { SkyTileDashboardService } from './lib/modules/tiles/tile-dashboard/tile-dashboard.service';
 
 export { SkyTileDashboardColumnModule } from './lib/modules/tiles/tile-dashboard-column/tile-dashboard-column.module';
 
-export { SkyTileDashboardConfig } from './lib/modules/tiles/tile-dashboard-config/tile-dashboard-config';
-export { SkyTileDashboardConfigLayout } from './lib/modules/tiles/tile-dashboard-config/tile-dashboard-config-layout';
-export { SkyTileDashboardConfigLayoutColumn } from './lib/modules/tiles/tile-dashboard-config/tile-dashboard-config-layout-column';
-export { SkyTileDashboardConfigLayoutTile } from './lib/modules/tiles/tile-dashboard-config/tile-dashboard-config-layout-tile';
-export { SkyTileDashboardConfigReorderData } from './lib/modules/tiles/tile-dashboard-config/tile-dashboard-config-reorder-data';
-export { SkyTileDashboardConfigTile } from './lib/modules/tiles/tile-dashboard-config/tile-dashboard-config-tile';
+export type { SkyTileDashboardConfig } from './lib/modules/tiles/tile-dashboard-config/tile-dashboard-config';
+export type { SkyTileDashboardConfigLayout } from './lib/modules/tiles/tile-dashboard-config/tile-dashboard-config-layout';
+export type { SkyTileDashboardConfigLayoutColumn } from './lib/modules/tiles/tile-dashboard-config/tile-dashboard-config-layout-column';
+export type { SkyTileDashboardConfigLayoutTile } from './lib/modules/tiles/tile-dashboard-config/tile-dashboard-config-layout-tile';
+export type { SkyTileDashboardConfigReorderData } from './lib/modules/tiles/tile-dashboard-config/tile-dashboard-config-reorder-data';
+export type { SkyTileDashboardConfigTile } from './lib/modules/tiles/tile-dashboard-config/tile-dashboard-config-tile';
 
 export { SkyTilesModule } from './lib/modules/tiles/tiles.module';
 

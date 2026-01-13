@@ -1,13 +1,13 @@
 export { SkySectionedFormModule } from './lib/modules/sectioned-form/sectioned-form.module';
 export { SkySectionedFormService } from './lib/modules/sectioned-form/sectioned-form.service';
 
-export { SkyTabIndex } from './lib/modules/tabs/tab-index';
-export { SkyTabLayoutType } from './lib/modules/tabs/tab-layout-type';
+export type { SkyTabIndex } from './lib/modules/tabs/tab-index';
+export type { SkyTabLayoutType } from './lib/modules/tabs/tab-layout-type';
 export { SkyTabsModule } from './lib/modules/tabs/tabs.module';
-export { SkyTabsetButtonsDisplayMode } from './lib/modules/tabs/tabset-buttons-display-mode';
-export { SkyTabsetNavButtonType } from './lib/modules/tabs/tabset-nav-button-type';
-export { SkyTabsetStyle } from './lib/modules/tabs/tabset-style';
-export { SkyTabsetTabIndexesChange } from './lib/modules/tabs/tabset-tab-indexes-change';
+export type { SkyTabsetButtonsDisplayMode } from './lib/modules/tabs/tabset-buttons-display-mode';
+export type { SkyTabsetNavButtonType } from './lib/modules/tabs/tabset-nav-button-type';
+export type { SkyTabsetStyle } from './lib/modules/tabs/tabset-style';
+export type { SkyTabsetTabIndexesChange } from './lib/modules/tabs/tabset-tab-indexes-change';
 
 export { SkyVerticalTabsetModule } from './lib/modules/vertical-tabset/vertical-tabset.module';
 
@@ -17,7 +17,7 @@ export { SkyVerticalTabsetModule } from './lib/modules/vertical-tabset/vertical-
 // TODO: Try to remove in a major release.
 export { SkySectionedFormComponent } from './lib/modules/sectioned-form/sectioned-form.component';
 
-export { SkySectionedFormMessage } from './lib/modules/sectioned-form/types/sectioned-form-message';
+export type { SkySectionedFormMessage } from './lib/modules/sectioned-form/types/sectioned-form-message';
 export { SkySectionedFormMessageType } from './lib/modules/sectioned-form/types/sectioned-form-message-type';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.

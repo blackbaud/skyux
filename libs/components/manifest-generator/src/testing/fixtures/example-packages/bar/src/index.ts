@@ -1,1 +1,1 @@
-export { BarBaseInterface } from './lib/types';
+export type { BarBaseInterface } from './lib/types';

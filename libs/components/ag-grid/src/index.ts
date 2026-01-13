@@ -1,34 +1,34 @@
 // Export any types that should be included in the root.
 export { SkyAgGridModule } from './lib/modules/ag-grid/ag-grid.module';
 export { SkyAgGridService } from './lib/modules/ag-grid/ag-grid.service';
-export { SkyAgGridRowDeleteCancelArgs } from './lib/modules/ag-grid/types/ag-grid-row-delete-cancel-args';
-export { SkyAgGridRowDeleteConfirmArgs } from './lib/modules/ag-grid/types/ag-grid-row-delete-confirm-args';
-export {
+export type { SkyAgGridRowDeleteCancelArgs } from './lib/modules/ag-grid/types/ag-grid-row-delete-cancel-args';
+export type { SkyAgGridRowDeleteConfirmArgs } from './lib/modules/ag-grid/types/ag-grid-row-delete-confirm-args';
+export type {
   SkyAgGridAutocompleteProperties,
   SkyAutocompleteProperties,
 } from './lib/modules/ag-grid/types/autocomplete-properties';
 export { SkyCellClass } from './lib/modules/ag-grid/types/cell-class';
-export { SkyCellEditorAutocompleteParams } from './lib/modules/ag-grid/types/cell-editor-autocomplete-params';
-export { SkyCellEditorDatepickerParams } from './lib/modules/ag-grid/types/cell-editor-datepicker-params';
+export type { SkyCellEditorAutocompleteParams } from './lib/modules/ag-grid/types/cell-editor-autocomplete-params';
+export type { SkyCellEditorDatepickerParams } from './lib/modules/ag-grid/types/cell-editor-datepicker-params';
 export { SkyAgGridCellEditorInitialAction } from './lib/modules/ag-grid/types/cell-editor-initial-action';
-export { SkyCellEditorLookupParams } from './lib/modules/ag-grid/types/cell-editor-lookup-params';
+export type { SkyCellEditorLookupParams } from './lib/modules/ag-grid/types/cell-editor-lookup-params';
 export { SkyAgGridCellEditorUtils } from './lib/modules/ag-grid/types/cell-editor-utils';
 export { SkyCellType } from './lib/modules/ag-grid/types/cell-type';
-export { SkyAgGridCurrencyProperties } from './lib/modules/ag-grid/types/currency-properties';
-export {
+export type { SkyAgGridCurrencyProperties } from './lib/modules/ag-grid/types/currency-properties';
+export type {
   SkyAgGridDatepickerProperties,
   SkyDatepickerProperties,
 } from './lib/modules/ag-grid/types/datepicker-properties';
 export { SkyHeaderClass } from './lib/modules/ag-grid/types/header-class';
 export { SkyAgGridHeaderGroupInfo } from './lib/modules/ag-grid/types/header-group-info';
-export { SkyAgGridHeaderGroupParams } from './lib/modules/ag-grid/types/header-group-params';
+export type { SkyAgGridHeaderGroupParams } from './lib/modules/ag-grid/types/header-group-params';
 export { SkyAgGridHeaderInfo } from './lib/modules/ag-grid/types/header-info';
-export { SkyAgGridHeaderParams } from './lib/modules/ag-grid/types/header-params';
-export { SkyAgGridLookupProperties } from './lib/modules/ag-grid/types/lookup-properties';
-export { SkyAgGridNumberProperties } from './lib/modules/ag-grid/types/number-properties';
-export { SkyGetGridOptionsArgs } from './lib/modules/ag-grid/types/sky-grid-options';
-export { SkyAgGridTextProperties } from './lib/modules/ag-grid/types/text-properties';
-export { SkyAgGridValidatorProperties } from './lib/modules/ag-grid/types/validator-properties';
+export type { SkyAgGridHeaderParams } from './lib/modules/ag-grid/types/header-params';
+export type { SkyAgGridLookupProperties } from './lib/modules/ag-grid/types/lookup-properties';
+export type { SkyAgGridNumberProperties } from './lib/modules/ag-grid/types/number-properties';
+export type { SkyGetGridOptionsArgs } from './lib/modules/ag-grid/types/sky-grid-options';
+export type { SkyAgGridTextProperties } from './lib/modules/ag-grid/types/text-properties';
+export type { SkyAgGridValidatorProperties } from './lib/modules/ag-grid/types/validator-properties';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.

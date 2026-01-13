@@ -1,15 +1,15 @@
-export { SkyActionButtonPermalink } from './lib/modules/action-button/action-button-permalink';
+export type { SkyActionButtonPermalink } from './lib/modules/action-button/action-button-permalink';
 export { SkyActionButtonModule } from './lib/modules/action-button/action-button.module';
 export { SkyActionButtonContainerAlignItems } from './lib/modules/action-button/types/action-button-container-align-items';
-export { SkyActionButtonContainerAlignItemsType } from './lib/modules/action-button/types/action-button-container-align-items-type';
+export type { SkyActionButtonContainerAlignItemsType } from './lib/modules/action-button/types/action-button-container-align-items-type';
 
 export { SkyBackToTopModule } from './lib/modules/back-to-top/back-to-top.module';
-export { SkyBackToTopMessage } from './lib/modules/back-to-top/models/back-to-top-message';
+export type { SkyBackToTopMessage } from './lib/modules/back-to-top/models/back-to-top-message';
 export { SkyBackToTopMessageType } from './lib/modules/back-to-top/models/back-to-top-message-type';
-export { SkyBackToTopOptions } from './lib/modules/back-to-top/models/back-to-top-options';
+export type { SkyBackToTopOptions } from './lib/modules/back-to-top/models/back-to-top-options';
 
-export { SkyBoxHeadingLevel } from './lib/modules/box/box-heading-level';
-export { SkyBoxHeadingStyle } from './lib/modules/box/box-heading-style';
+export type { SkyBoxHeadingLevel } from './lib/modules/box/box-heading-level';
+export type { SkyBoxHeadingStyle } from './lib/modules/box/box-heading-style';
 export { SkyBoxModule } from './lib/modules/box/box.module';
 
 export { SkyCardModule } from './lib/modules/card/card.module';
@@ -18,12 +18,12 @@ export { SkyDefinitionListModule } from './lib/modules/definition-list/definitio
 
 export { SkyDescriptionListModule } from './lib/modules/description-list/description-list.module';
 export { SkyDescriptionListMode } from './lib/modules/description-list/types/description-list-mode';
-export { SkyDescriptionListModeType } from './lib/modules/description-list/types/description-list-mode-type';
+export type { SkyDescriptionListModeType } from './lib/modules/description-list/types/description-list-mode-type';
 
 export { SkyFluidGridModule } from './lib/modules/fluid-grid/fluid-grid.module';
-export { SkyFluidGridGutterSizeType } from './lib/modules/fluid-grid/types/fluid-grid-gutter-size-type';
+export type { SkyFluidGridGutterSizeType } from './lib/modules/fluid-grid/types/fluid-grid-gutter-size-type';
 
-export { SkyFormatItem } from './lib/modules/format/format-item';
+export type { SkyFormatItem } from './lib/modules/format/format-item';
 export { SkyFormatModule } from './lib/modules/format/format.module';
 
 export { SkyInlineDeleteType } from './lib/modules/inline-delete/inline-delete-type';
@@ -34,7 +34,7 @@ export { SkyPageSummaryModule } from './lib/modules/page-summary/page-summary.mo
 export { SkyTextExpandModule } from './lib/modules/text-expand/text-expand.module';
 
 export { SkyTextExpandRepeaterModule } from './lib/modules/text-expand-repeater/text-expand-repeater.module';
-export { SkyTextExpandRepeaterListStyleType } from './lib/modules/text-expand-repeater/types/text-expand-repeater-list-style-type';
+export type { SkyTextExpandRepeaterListStyleType } from './lib/modules/text-expand-repeater/types/text-expand-repeater-list-style-type';
 
 export { SkyToolbarModule } from './lib/modules/toolbar/toolbar.module';
 

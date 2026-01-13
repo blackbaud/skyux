@@ -1,5 +1,5 @@
 export { SkyEmailValidationModule } from './lib/modules/email-validation/email-validation.module';
-export { SkyUrlValidationOptions } from './lib/modules/url-validation/url-validation-options';
+export type { SkyUrlValidationOptions } from './lib/modules/url-validation/url-validation-options';
 export { SkyUrlValidationModule } from './lib/modules/url-validation/url-validation.module';
 export { SkyValidation } from './lib/modules/validation/validation';
 export { SkyValidators } from './lib/modules/validators/validators';
