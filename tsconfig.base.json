@@ -10,6 +10,7 @@
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "bundler",
+    "isolatedModules": true,
     "noImplicitOverride": true,
     "noUnusedLocals": true,
     "experimentalDecorators": true,
