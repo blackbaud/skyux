@@ -6,6 +6,7 @@
 
 ### Features
 
+* **components/ag-grid:** provide test harness for AG Grid ([#4150](https://github.com/blackbaud/skyux/issues/4150)) ([2a119cb](https://github.com/blackbaud/skyux/commit/2a119cb3731f0c8e10e5931878465ac996e5a738)), closes [AB#3672986](https://github.com/AB/issues/3672986) [#4063](https://github.com/blackbaud/skyux/issues/4063)
 * **components/filter-bar:** add generics for filter types ([#4144](https://github.com/blackbaud/skyux/issues/4144)) ([3108198](https://github.com/blackbaud/skyux/commit/3108198bdba301aaabe0fa059e14746242336880)), closes [AB#3605105](https://github.com/AB/issues/3605105)
 
 
