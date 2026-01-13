@@ -30,7 +30,6 @@
     "@skyux/data-manager": "0.0.0-PLACEHOLDER",
     "@skyux/datetime": "0.0.0-PLACEHOLDER",
     "@skyux/forms": "0.0.0-PLACEHOLDER",
-    "@skyux/help-inline": "0.0.0-PLACEHOLDER",
     "@skyux/i18n": "0.0.0-PLACEHOLDER",
     "@skyux/icon": "0.0.0-PLACEHOLDER",
     "@skyux/indicators": "0.0.0-PLACEHOLDER",
@@ -43,11 +42,6 @@
   },
   "dependencies": {
     "tslib": "^2.8.1"
-  },
-  "peerDependenciesMeta": {
-    "@skyux/help-inline": {
-      "optional": true
-    }
   },
   "sideEffects": false
 }

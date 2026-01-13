@@ -55,14 +55,12 @@ describe('HeaderComponent', () => {
           apiEvents[eventType] = apiEvents[eventType] || [];
           apiEvents[eventType].push(listener);
         },
-        removeEventListener: jasmine
-          .createSpy('removeEventListener')
-          .and.callFake((eventType: string, listener: () => void) => {
-            apiEvents[eventType] = apiEvents[eventType] || [];
-            apiEvents[eventType] = apiEvents[eventType].filter(
-              (l) => l !== listener,
-            );
-          }),
+        removeEventListener: (eventType: string, listener: () => void) => {
+          apiEvents[eventType] = apiEvents[eventType] || [];
+          apiEvents[eventType] = apiEvents[eventType].filter(
+            (l) => l !== listener,
+          );
+        },
         getColumns: () => [],
       },
       column: {
@@ -70,14 +68,12 @@ describe('HeaderComponent', () => {
           columnEvents[eventType] = columnEvents[eventType] || [];
           columnEvents[eventType].push(listener);
         },
-        removeEventListener: jasmine
-          .createSpy('removeEventListener')
-          .and.callFake((eventType: string, listener: () => void) => {
-            columnEvents[eventType] = columnEvents[eventType] || [];
-            columnEvents[eventType] = columnEvents[eventType].filter(
-              (l) => l !== listener,
-            );
-          }),
+        removeEventListener: (eventType: string, listener: () => void) => {
+          columnEvents[eventType] = columnEvents[eventType] || [];
+          columnEvents[eventType] = columnEvents[eventType].filter(
+            (l) => l !== listener,
+          );
+        },
         isFilterActive: () => false,
         isFilterAllowed: () => false,
         getSort: (): 'asc' | 'desc' | null | undefined => undefined,
@@ -85,7 +81,7 @@ describe('HeaderComponent', () => {
         getColDef: () => ({}),
         getColId: () => 'test',
         getLeft: () => columnLeft,
-      } as unknown as AgColumn,
+      } as AgColumn,
       eGridHeader: {
         focus: () => undefined,
       } as HTMLElement,
@@ -106,14 +102,13 @@ describe('HeaderComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should implement IHeaderAngularComp', async () => {
+  it('should implement IHeaderAngularComp', () => {
     params = {
       ...params,
       enableSorting: true,
     };
     component.agInit(params);
     fixture.detectChanges();
-    await fixture.whenStable();
     expect(
       fixture.debugElement.query(By.css('.ag-header-cell-text')).nativeElement
         .textContent,
@@ -159,10 +154,10 @@ describe('HeaderComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     expect(apiEvents['sortChanged'].length).toBeGreaterThanOrEqual(1);
+    expect(columnEvents['sortChanged'].length).toBeGreaterThanOrEqual(1);
     expect(columnEvents['filterChanged'].length).toBeGreaterThanOrEqual(1);
     apiEvents['sortChanged'].forEach((listener) => listener());
-    fixture.detectChanges();
-    await fixture.whenStable();
+    columnEvents['sortChanged'].forEach((listener) => listener());
     expect(
       fixture.debugElement.query(
         By.css('.ag-sort-indicator-container sky-icon'),
@@ -173,6 +168,7 @@ describe('HeaderComponent', () => {
     ).not.toBeNull();
     useSort = 'desc';
     apiEvents['sortChanged'].forEach((listener) => listener());
+    columnEvents['sortChanged'].forEach((listener) => listener());
     fixture.detectChanges();
     await fixture.whenStable();
     expect(
@@ -185,6 +181,7 @@ describe('HeaderComponent', () => {
     ).not.toBeNull();
     useSort = undefined;
     apiEvents['sortChanged'].forEach((listener) => listener());
+    columnEvents['sortChanged'].forEach((listener) => listener());
     fixture.detectChanges();
     await fixture.whenStable();
     expect(
@@ -193,27 +190,10 @@ describe('HeaderComponent', () => {
     expect(document.querySelector('.ag-sort-indicator-container')).toBeNull();
 
     columnEvents['filterChanged'].forEach((listener) => listener());
-    expect(component.filterEnabled()).toBe(true);
+    expect(component.filterEnabled$.getValue()).toBe(true);
     fixture.detectChanges();
     await fixture.whenStable();
     expect(fixture.debugElement.query(By.css('.ag-filter-icon'))).toBeTruthy();
-
-    apiEvents['gridPreDestroyed'].forEach((listener) => listener());
-    expect(params.api.removeEventListener).toHaveBeenCalledWith(
-      'gridPreDestroyed',
-      jasmine.any(Function),
-      undefined,
-    );
-    expect(params.api.removeEventListener).toHaveBeenCalledWith(
-      'columnMoved',
-      jasmine.any(Function),
-      undefined,
-    );
-    expect(params.column.removeEventListener).toHaveBeenCalledWith(
-      'filterChanged',
-      jasmine.any(Function),
-      undefined,
-    );
   });
 
   it('should not show sort button when sort is disabled', () => {
@@ -297,25 +277,6 @@ describe('HeaderComponent', () => {
     it('should be accessible with sorting on', async () => {
       component.agInit({
         ...params,
-        enableSorting: true,
-      });
-      fixture.detectChanges();
-      await fixture.whenStable();
-      await expectAsync(fixture.nativeElement).toBeAccessible();
-    });
-
-    it('should be accessible with headerHidden set', async () => {
-      component.agInit({
-        ...params,
-        column: {
-          ...params.column,
-          getColDef: () => ({
-            headerComponentParams: {
-              headerHidden: true,
-              helpPopoverContent: 'Help content',
-            },
-          }),
-        },
         enableSorting: true,
       });
       fixture.detectChanges();
