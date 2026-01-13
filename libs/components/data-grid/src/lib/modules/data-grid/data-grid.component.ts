@@ -21,7 +21,6 @@ import {
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
-  SkyAgGridHeaderParams,
   SkyAgGridModule,
   SkyAgGridRowDeleteCancelArgs,
   SkyAgGridRowDeleteConfirmArgs,
@@ -59,6 +58,7 @@ import {
 import { SkyDataGridFilterOperator } from '../types/data-grid-filter-operator';
 import { SkyDataGridNumberRangeFilterValue } from '../types/data-grid-number-range-filter-value';
 
+import { SkyDataGridColumnInlineHelpComponent } from './data-grid-column-inline-help.component';
 import { SkyDataGridColumnComponent } from './data-grid-column.component';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
@@ -297,7 +297,8 @@ export class SkyDataGridComponent<
         headerComponentParams: {
           helpPopoverTitle: col.helpPopoverTitle(),
           helpPopoverContent: col.helpPopoverContent() || col.description(),
-        } as SkyAgGridHeaderParams,
+          inlineHelpComponent: SkyDataGridColumnInlineHelpComponent,
+        },
         hide: this.#hideColumn(col, displayed, hidden),
         sortable: col.isSortable(),
         lockPosition: col.locked(),

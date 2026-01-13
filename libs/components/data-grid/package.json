@@ -24,6 +24,7 @@
     "@skyux/ag-grid": "^0.0.0-PLACEHOLDER",
     "@skyux/core": "^0.0.0-PLACEHOLDER",
     "@skyux/datetime": "^0.0.0-PLACEHOLDER",
+    "@skyux/help-inline": "^0.0.0-PLACEHOLDER",
     "@skyux/indicators": "^0.0.0-PLACEHOLDER",
     "@skyux/lists": "^0.0.0-PLACEHOLDER",
     "ag-grid-angular": "^34.3.1",
