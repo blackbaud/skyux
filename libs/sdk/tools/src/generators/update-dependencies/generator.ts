@@ -238,6 +238,39 @@ function updateTestingBuildTargetDependencies(tree: Tree): void {
   });
 }
 
+/**
+ * TypeScript file changes that may affect the public API should trigger a manifest build.
+ * This approach marks the files as the dependency rather than the build step of the libraries,
+ * so the manifest build does not need to wait for libraries to build.
+ * The named input could be added to `nx.json`, but it's massive and only used here.
+ */
+function updateManifestBuildTargetDependencies(tree: Tree): void {
+  const projects = getProjects(tree);
+  const componentProjects = new Map<string, ProjectConfiguration>(
+    Array.from(projects.entries()).filter(
+      ([, config]) =>
+        tree.exists(`${config.root}/documentation.json`) &&
+        config.tags?.includes('component'),
+    ),
+  );
+  const manifestProject = projects.get('manifest');
+  if (!manifestProject) {
+    return;
+  }
+  manifestProject.namedInputs ??= {};
+  manifestProject.namedInputs['componentDocumentationInputs'] = Array.from(
+    componentProjects.values(),
+  ).flatMap((proj) => [
+    `{workspaceRoot}/${proj.root}/**/*.ts`,
+    `!{workspaceRoot}/${proj.root}/**/*.@(spec|stories).ts`,
+    `!{workspaceRoot}/${proj.root}/**/fixtures/**/*`,
+    `!{workspaceRoot}/${proj.root}/.storybook/**/*`,
+    `!{workspaceRoot}/${proj.root}/jest.config.ts`,
+    `!{workspaceRoot}/${proj.root}/src/test-setup.ts`,
+  ]);
+  updateProjectConfiguration(tree, 'manifest', manifestProject);
+}
+
 export default async function (
   tree: Tree,
   options: { skipFormat: boolean },
@@ -246,6 +279,7 @@ export default async function (
   updatePeerDependencies(tree);
   updateNgUpdatePackageGroup(tree);
   updateTestingBuildTargetDependencies(tree);
+  updateManifestBuildTargetDependencies(tree);
   /* istanbul ignore if */
   if (!options.skipFormat) {
     await formatFiles(tree);

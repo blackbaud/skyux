@@ -4,6 +4,8 @@
   "projectType": "library",
   "sourceRoot": "libs/components/ag-grid/src",
   "prefix": "sky",
+  "tags": ["component", "npm"],
+  "implicitDependencies": ["phone-field", "validation"],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
@@ -19,7 +21,21 @@
           "tsConfig": "libs/components/ag-grid/tsconfig.lib.json"
         }
       },
-      "defaultConfiguration": "production"
+      "defaultConfiguration": "production",
+      "dependsOn": [
+        "^build",
+        {
+          "projects": ["core"],
+          "target": "build"
+        }
+      ],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/ag-grid/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/ag-grid/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/ag-grid/testing/src/**/fixtures/**/*"
+      ]
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
@@ -68,7 +84,5 @@
         "command": "ts-node --project ./scripts/tsconfig.json ./scripts/postbuild-ag-grid.ts"
       }
     }
-  },
-  "implicitDependencies": ["phone-field", "validation"],
-  "tags": ["component", "npm"]
+  }
 }

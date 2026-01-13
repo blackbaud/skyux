@@ -23,7 +23,7 @@
       }
     },
     "test": {
-      "executor": "@nx/vite:test",
+      "executor": "@nx/vitest:test",
       "outputs": ["{workspaceRoot}/coverage/libs/sdk/skyux-stylelint"],
       "options": {
         "config": "libs/sdk/skyux-stylelint/vitest.config.ts"
