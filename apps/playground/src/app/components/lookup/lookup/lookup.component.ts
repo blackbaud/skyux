@@ -173,6 +173,7 @@ export class LookupComponent implements OnInit {
 
   private createForms(): void {
     this.friendsForm = this.formBuilder.group({
+      emptyFriends: new UntypedFormControl([]),
       friends: new UntypedFormControl(this.friends),
       friends2: new UntypedFormControl(this.friends2),
     });
