@@ -836,5 +836,6 @@ it('should read columnOptions from grid API when not provided in viewConfig', as
   // The noHeader column has neither headerName nor field, so label becomes 'undefined'
   const noHeaderColumn = columnOptions.find((opt) => opt.id === 'noHeader');
   expect(noHeaderColumn).toBeDefined();
-  expect(noHeaderColumn!.label).toBe('undefined');
+  expect(noHeaderColumn!.label).toBe('');
+  expect(noHeaderColumn!.alwaysDisplayed).toBeTrue();
 });

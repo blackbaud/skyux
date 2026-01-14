@@ -519,21 +519,15 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
     // Technically `api.getColumns()` can return null but it's not testable.
     /* istanbul ignore next */
     const columns = api.getColumns() ?? [];
-    return columns
-      .filter(
-        (col) =>
-          !col.isPinned() &&
-          !col.getColDef().lockVisible &&
-          !col.getColDef().lockPinned,
-      )
-      .map((col) => {
-        const colDef = col.getColDef();
-        return {
-          id: col.getColId(),
-          initialHide: colDef.initialHide,
-          label: `${colDef.headerName || colDef.field}`,
-          alwaysDisplayed: colDef.lockVisible,
-        };
-      });
+    return columns.map((col) => {
+      const colDef = col.getColDef();
+      return {
+        id: col.getColId(),
+        initialHide: colDef.initialHide,
+        label: `${colDef.headerName ?? ''}`,
+        alwaysDisplayed:
+          colDef.lockVisible || !colDef.headerName || col.isPinned(),
+      };
+    });
   }
 }
