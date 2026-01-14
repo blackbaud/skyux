@@ -219,11 +219,14 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
         .pipe(
           takeUntil(this.#ngUnsubscribe),
           switchMap(() => {
-            const viewConfig = this.#viewConfig();
+            let viewConfig = this.#viewConfig();
             if (viewConfig) {
-              viewConfig.onSelectAllClick = (): void => agGrid.api.selectAll();
-              viewConfig.onClearAllClick = (): void => agGrid.api.deselectAll();
-              if (!viewConfig.columnOptions?.length) {
+              viewConfig = {
+                ...viewConfig,
+                onSelectAllClick: (): void => agGrid.api.selectAll(),
+                onClearAllClick: (): void => agGrid.api.deselectAll(),
+              };
+              if (viewConfig.columnPickerEnabled && !viewConfig.columnOptions) {
                 viewConfig.columnOptions = this.#readColumnOptionsFromGrid(
                   agGrid.api,
                 );
