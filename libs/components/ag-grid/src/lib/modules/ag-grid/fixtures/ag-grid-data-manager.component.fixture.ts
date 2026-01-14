@@ -53,10 +53,12 @@ export class SkyAgGridDataManagerFixtureComponent implements OnInit {
       maxWidth: 50,
       sortable: false,
       type: SkyCellType.RowSelector,
+      pinned: 'left',
     },
     {
       field: 'name',
       headerName: 'First Name',
+      lockVisible: true,
     },
     {
       field: 'target',

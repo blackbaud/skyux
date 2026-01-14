@@ -14,6 +14,7 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyBreakpoint, SkyMediaQueryService } from '@skyux/core';
 import {
+  SkyDataManagerColumnPickerOption,
   SkyDataManagerService,
   SkyDataManagerState,
   SkyDataViewColumnWidths,
@@ -29,7 +30,15 @@ import {
   IColumnLimit,
   RowSelectedEvent,
 } from 'ag-grid-community';
-import { Subject, filter, fromEvent, of, switchMap, takeUntil } from 'rxjs';
+import {
+  Subject,
+  filter,
+  fromEvent,
+  map,
+  of,
+  switchMap,
+  takeUntil,
+} from 'rxjs';
 
 import { SkyAgGridWrapperComponent } from './ag-grid-wrapper.component';
 
@@ -38,7 +47,7 @@ function toColumnWidthName(breakpoint: SkyBreakpoint): 'xs' | 'sm' {
 }
 
 /**
- * @internal
+ * Connects `SkyAgGridWrapperComponent` with a `SkyDataViewComponent` to control the grid using a `SkyDataManagerService` instance.
  */
 @Directive({ selector: '[skyAgGridDataManagerAdapter]' })
 export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
@@ -88,7 +97,7 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
   });
 
   readonly #breakpoint = toSignal(
-    inject(SkyMediaQueryService).breakpointChange,
+    inject(SkyMediaQueryService).breakpointChange.pipe(map(toColumnWidthName)),
   );
 
   constructor() {
@@ -206,10 +215,18 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
         .pipe(
           takeUntil(this.#ngUnsubscribe),
           switchMap(() => {
-            const viewConfig = this.#viewConfig();
+            let viewConfig = this.#viewConfig();
             if (viewConfig) {
-              viewConfig.onSelectAllClick = (): void => agGrid.api.selectAll();
-              viewConfig.onClearAllClick = (): void => agGrid.api.deselectAll();
+              viewConfig = {
+                ...viewConfig,
+                onSelectAllClick: (): void => agGrid.api.selectAll(),
+                onClearAllClick: (): void => agGrid.api.deselectAll(),
+              };
+              if (viewConfig.columnPickerEnabled && !viewConfig.columnOptions) {
+                viewConfig.columnOptions = this.#readColumnOptionsFromGrid(
+                  agGrid.api,
+                );
+              }
               this.#dataManagerSvc.updateViewConfig(viewConfig);
 
               this.#applyColumnWidths();
@@ -495,5 +512,21 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
       }
     }
     return gridColumnLimits;
+  }
+
+  #readColumnOptionsFromGrid(api: GridApi): SkyDataManagerColumnPickerOption[] {
+    // Technically `api.getColumns()` can return null but it's not testable.
+    /* istanbul ignore next */
+    const columns = api.getColumns() ?? [];
+    return columns.map((col) => {
+      const colDef = col.getColDef();
+      return {
+        id: col.getColId(),
+        initialHide: colDef.initialHide,
+        label: `${colDef.headerName ?? ''}`,
+        alwaysDisplayed:
+          colDef.lockVisible || !colDef.headerName || col.isPinned(),
+      };
+    });
   }
 }
