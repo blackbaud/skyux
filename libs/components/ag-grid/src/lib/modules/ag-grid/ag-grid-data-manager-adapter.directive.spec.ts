@@ -779,3 +779,62 @@ it('should refresh the grid when a view is reactivated', async () => {
 
   expect(agGrid!.api.refreshCells).toHaveBeenCalled();
 });
+
+it('should read columnOptions from grid API when not provided in viewConfig', async () => {
+  TestBed.configureTestingModule({
+    imports: [SkyAgGridFixtureModule],
+    providers: [SkyDataManagerService, provideSkyMediaQueryTesting()],
+  });
+
+  const fixture = TestBed.createComponent(SkyAgGridDataManagerFixtureComponent);
+  const dataManagerService = TestBed.inject(SkyDataManagerService);
+
+  // Verify viewConfig initially has no columnOptions
+  const viewConfig = fixture.componentInstance.viewConfig;
+  expect(viewConfig.columnOptions).toBeUndefined();
+
+  fixture.detectChanges();
+  await fixture.whenStable();
+
+  // After grid ready, columnOptions should be populated from grid API
+  const updatedViewConfig = dataManagerService.getViewById(viewConfig.id);
+  expect(updatedViewConfig).toBeDefined();
+  expect(updatedViewConfig!.columnOptions).toBeDefined();
+  expect(updatedViewConfig!.columnOptions!.length).toBeGreaterThan(0);
+
+  // Verify the columnOptions were read from the grid API
+  // The method #readColumnOptionsFromGrid filters out:
+  // - Pinned columns
+  // - Columns with lockVisible set
+  // - Columns with lockPinned set
+  // It should include non-pinned columns from the grid
+  const columnOptions = updatedViewConfig!.columnOptions!;
+
+  // Verify we have the expected columns (name, target, noHeader at minimum)
+  expect(columnOptions.length).toBeGreaterThan(0);
+
+  // Check that each column option has the required properties
+  columnOptions.forEach((option) => {
+    expect(option.id).toBeDefined();
+    expect(option.label).toBeDefined();
+    // alwaysDisplayed can be undefined when lockVisible is not set on the column
+    expect(
+      option.alwaysDisplayed === undefined ||
+        typeof option.alwaysDisplayed === 'boolean',
+    ).toBe(true);
+  });
+
+  // Verify specific columns that should be present
+  const nameColumn = columnOptions.find((opt) => opt.id === 'name');
+  expect(nameColumn).toBeDefined();
+  expect(nameColumn!.label).toBe('First Name');
+
+  const targetColumn = columnOptions.find((opt) => opt.id === 'target');
+  expect(targetColumn).toBeDefined();
+  expect(targetColumn!.label).toBe('Goal');
+
+  // The noHeader column has neither headerName nor field, so label becomes 'undefined'
+  const noHeaderColumn = columnOptions.find((opt) => opt.id === 'noHeader');
+  expect(noHeaderColumn).toBeDefined();
+  expect(noHeaderColumn!.label).toBe('undefined');
+});
