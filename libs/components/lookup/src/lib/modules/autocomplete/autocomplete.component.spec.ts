@@ -617,6 +617,216 @@ describe('Autocomplete component', () => {
       expect(spy).not.toHaveBeenCalled();
     }));
 
+    it('should search with empty text when searchTextMinimumCharacters is 0', fakeAsync(() => {
+      component.searchTextMinimumCharacters = 0;
+      fixture.detectChanges();
+
+      const spy = spyOn(autocomplete, 'searchOrDefault').and.callThrough();
+
+      enterSearch('', fixture);
+
+      expect(spy).toHaveBeenCalled();
+      expect(spy.calls.argsFor(0)[0]).toEqual('');
+      expect(autocomplete.searchResults.length).toBe(11);
+    }));
+
+    it('should display results when searchTextMinimumCharacters is 0 and text is empty', fakeAsync(() => {
+      component.searchTextMinimumCharacters = 0;
+      fixture.detectChanges();
+
+      enterSearch('', fixture);
+
+      expect(getSearchResultsSection()).not.toBeNull();
+      expect(autocomplete.searchResults.length).toBe(11);
+    }));
+
+    it('should show "Show all" button with empty text when searchTextMinimumCharacters is 0', fakeAsync(() => {
+      component.searchTextMinimumCharacters = 0;
+      component.enableShowMore = true;
+      fixture.detectChanges();
+
+      enterSearch('', fixture);
+
+      const showMoreButton = getShowMoreButton();
+      expect(showMoreButton).not.toBeNull();
+      expect(showMoreButton.textContent).toContain('Show all');
+    }));
+
+    it('should show "No results" message with empty text when searchTextMinimumCharacters is 0 and no results', fakeAsync(() => {
+      component.searchTextMinimumCharacters = 0;
+      component.enableShowMore = true;
+      component.data = [];
+      fixture.detectChanges();
+
+      enterSearch('', fixture);
+
+      const actionsContainer = getActionsContainer();
+      expect(actionsContainer).not.toBeNull();
+      expect(actionsContainer.textContent).toContain('Show all');
+    }));
+
+    it('should not show "Show matches" text when searchTextMinimumCharacters is 0 with empty text', fakeAsync(() => {
+      component.searchTextMinimumCharacters = 0;
+      component.enableShowMore = true;
+      fixture.detectChanges();
+
+      component.data = [];
+      fixture.detectChanges();
+
+      enterSearch('', fixture);
+
+      const showMoreButton = getShowMoreButton();
+      expect(showMoreButton).not.toBeNull();
+      expect(showMoreButton.textContent).not.toContain('matches');
+    }));
+
+    it('should perform search on focus when searchTextMinimumCharacters is 0', fakeAsync(() => {
+      component.searchTextMinimumCharacters = 0;
+      component.enableShowMore = true;
+      fixture.detectChanges();
+
+      const spy = spyOn(autocomplete, 'searchOrDefault').and.callThrough();
+      const inputElement: HTMLInputElement = getInputElement();
+
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      expect(spy).toHaveBeenCalled();
+      expect(getSearchResultsContainer()).not.toBeNull();
+      expect(autocomplete.searchResults.length).toBe(11);
+    }));
+
+    it('should search again when after user has gotten a result and goes back to an empty string when searchTextMinimumCharacters is set to 0', fakeAsync(() => {
+      component.searchTextMinimumCharacters = 0;
+      fixture.detectChanges();
+
+      const spy = spyOn(autocomplete, 'searchOrDefault').and.callThrough();
+
+      enterSearch('red', fixture);
+      expect(spy).toHaveBeenCalled();
+      expect(autocomplete.searchResults.length).toBe(1);
+
+      spy.calls.reset();
+      enterSearch('', fixture);
+
+      expect(spy).toHaveBeenCalled();
+      expect(spy.calls.argsFor(0)[0]).toEqual('');
+      expect(autocomplete.searchResults.length).toBe(11);
+    }));
+
+    it('should search async on focus when searchTextMinimumCharacters is 0', fakeAsync(() => {
+      fixture.detectChanges();
+      const spy = spyOn(
+        asyncAutocomplete.searchAsync,
+        'emit',
+      ).and.callThrough();
+
+      component.searchTextMinimumCharacters = 0;
+      fixture.detectChanges();
+
+      const inputElement = getInputElement(true);
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      expect(spy).toHaveBeenCalledWith({
+        displayType: 'popover',
+        offset: 0,
+        searchText: '',
+        result: jasmine.any(Observable),
+      });
+
+      tick(200);
+      fixture.detectChanges();
+
+      expect(asyncAutocomplete.searchResults.length).toBe(11);
+    }));
+
+    it('should display async results when searchTextMinimumCharacters is 0 and text is empty', fakeAsync(() => {
+      component.searchTextMinimumCharacters = 0;
+      fixture.detectChanges();
+
+      const inputElement = getInputElement(true);
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      tick(200);
+      fixture.detectChanges();
+
+      expect(getSearchResultsSection()).not.toBeNull();
+      expect(getSearchResultItems().length).toBeGreaterThan(0);
+    }));
+
+    it('should show "Show more" button with async search and empty text when searchTextMinimumCharacters is 0', fakeAsync(() => {
+      component.searchTextMinimumCharacters = 0;
+      component.enableShowMore = true;
+      fixture.detectChanges();
+
+      const inputElement = getInputElement(true);
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      tick(200);
+      fixture.detectChanges();
+
+      const showMoreButton = getShowMoreButton();
+      expect(showMoreButton).not.toBeNull();
+      expect(showMoreButton.textContent).toContain('Show all');
+    }));
+
+    it('should search async again when user backspaces to empty text with searchTextMinimumCharacters set to 0', fakeAsync(() => {
+      component.searchTextMinimumCharacters = 0;
+      fixture.detectChanges();
+
+      const spy = spyOn(
+        asyncAutocomplete.searchAsync,
+        'emit',
+      ).and.callThrough();
+
+      // First, search with some text
+      enterSearch('red', fixture, true);
+      expect(spy).toHaveBeenCalledWith({
+        displayType: 'popover',
+        offset: 0,
+        searchText: 'red',
+        result: jasmine.any(Observable),
+      });
+
+      tick(200);
+      fixture.detectChanges();
+
+      const filteredResultsCount = asyncAutocomplete.searchResults.length;
+      expect(filteredResultsCount).toBeGreaterThan(0);
+
+      spy.calls.reset();
+
+      // Now backspace to empty the input
+      enterSearch('', fixture, true);
+
+      // Should trigger another search with empty string
+      expect(spy).toHaveBeenCalledWith({
+        displayType: 'popover',
+        offset: 0,
+        searchText: '',
+        result: jasmine.any(Observable),
+      });
+
+      tick(200);
+      fixture.detectChanges();
+
+      // Should now show all results (more than or equal to the filtered results)
+      expect(asyncAutocomplete.searchResults.length).toBeGreaterThanOrEqual(
+        filteredResultsCount,
+      );
+    }));
+
     it('should allow for custom search function', fakeAsync(() => {
       let customSearchCalled = false;
       let customSearchParameter: string | undefined;
