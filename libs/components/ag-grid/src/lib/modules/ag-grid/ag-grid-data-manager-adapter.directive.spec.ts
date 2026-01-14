@@ -832,6 +832,7 @@ describe('Read columnOptions from grid API', () => {
     const nameColumn = columnOptions.find((opt) => opt.id === 'name');
     expect(nameColumn).toBeDefined();
     expect(nameColumn!.label).toBe('First Name');
+    expect(nameColumn!.alwaysDisplayed).toBeTrue();
 
     const targetColumn = columnOptions.find((opt) => opt.id === 'target');
     expect(targetColumn).toBeDefined();

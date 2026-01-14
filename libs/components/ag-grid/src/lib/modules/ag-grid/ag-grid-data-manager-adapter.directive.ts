@@ -32,7 +32,6 @@ import {
 } from 'ag-grid-community';
 import {
   Subject,
-  distinctUntilChanged,
   filter,
   fromEvent,
   map,
@@ -100,7 +99,6 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
   readonly #breakpoint = toSignal(
     inject(SkyMediaQueryService).breakpointChange.pipe(
       map(toColumnWidthName),
-      distinctUntilChanged(),
     ),
   );
 
