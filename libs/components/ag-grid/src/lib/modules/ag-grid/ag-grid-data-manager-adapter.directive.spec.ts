@@ -810,7 +810,7 @@ describe('Read columnOptions from grid API', () => {
     // The method #readColumnOptionsFromGrid marks the following as alwaysDisplayed:
     // - Pinned columns
     // - Columns with lockVisible set
-    // - Columns with lockPinned set
+    // - Columns without a headerName
     // It still includes all columns from the grid in the returned columnOptions
     const columnOptions = updatedViewConfig!.columnOptions!;
 
