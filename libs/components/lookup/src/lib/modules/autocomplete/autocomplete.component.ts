@@ -226,12 +226,17 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   /**
    * The minimum number of characters that users must enter before
    * the autocomplete component searches the data source and displays search
-   * results in the dropdown list.
+   * results in the dropdown list. Can be set to `0` to trigger `searchAsync` on focus
+   * or return all items if using the `data` input.
    * @default 1
    */
   @Input()
   public set searchTextMinimumCharacters(value: number | undefined) {
-    this.#_searchTextMinimumCharacters = value && value > 0 ? value : 1;
+    if (value !== undefined && value >= 0) {
+      this.#_searchTextMinimumCharacters = value;
+    } else {
+      this.#_searchTextMinimumCharacters = 1;
+    }
   }
 
   public get searchTextMinimumCharacters(): number {
@@ -445,6 +450,10 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
           this.#hasFocus = true;
           if (this.showActionsArea || this.dropdownHintText) {
             this.#openDropdown();
+          }
+          if (this.searchTextMinimumCharacters === 0) {
+            this.isSearchingAsync = true;
+            this.#searchTextChanged('');
           }
         });
     }
@@ -749,18 +758,29 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   }
 
   #searchTextChanged(searchText: string | undefined): void {
+    // reaffix the dropdown during searching when the wait shrinks it.
+    if (this.isOpen) {
+      setTimeout(() => {
+        if (this.#affixer) {
+          this.#affixer.reaffix();
+        }
+      });
+    }
     if (this.#hasFocus) {
       this.#openDropdown();
-      if (!searchText?.trim()) {
+      if (!searchText?.trim() && this.searchTextMinimumCharacters !== 0) {
         this.#handleEmptySearchText();
         return;
       }
 
+      const trimmedSearchText = searchText?.trim() || '';
       const isLongEnough =
-        searchText.length >= this.searchTextMinimumCharacters;
-      const isDifferent = searchText !== this.searchText;
+        trimmedSearchText.length >= this.searchTextMinimumCharacters;
+      const isDifferent =
+        searchText !== this.searchText ||
+        (this.searchText === '' && this.searchTextMinimumCharacters === 0);
 
-      this.searchText = searchText.trim();
+      this.searchText = trimmedSearchText.trim();
       this.#updateIsResultsVisible();
 
       if (isLongEnough && isDifferent) {
@@ -1180,7 +1200,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   #updateIsResultsVisible(): void {
     const isResultsVisible =
-      !!this.searchText &&
+      (!!this.searchText || this.searchTextMinimumCharacters === 0) &&
       (!this.showActionsArea || this.searchResults.length > 0);
     if (isResultsVisible !== this.#isResultsVisible.getValue()) {
       this.#isResultsVisible.next(isResultsVisible);
