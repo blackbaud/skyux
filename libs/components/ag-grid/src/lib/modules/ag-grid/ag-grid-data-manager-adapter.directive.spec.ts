@@ -807,11 +807,11 @@ describe('Read columnOptions from grid API', () => {
     expect(updatedViewConfig!.columnOptions!.length).toBeGreaterThan(0);
 
     // Verify the columnOptions were read from the grid API
-    // The method #readColumnOptionsFromGrid filters out:
+    // The method #readColumnOptionsFromGrid marks the following as alwaysDisplayed:
     // - Pinned columns
     // - Columns with lockVisible set
     // - Columns with lockPinned set
-    // It should include non-pinned columns from the grid
+    // It still includes all columns from the grid in the returned columnOptions
     const columnOptions = updatedViewConfig!.columnOptions!;
 
     // Verify we have the expected columns (name, target, noHeader at minimum)
@@ -837,7 +837,7 @@ describe('Read columnOptions from grid API', () => {
     expect(targetColumn).toBeDefined();
     expect(targetColumn!.label).toBe('Goal');
 
-    // The noHeader column has neither headerName nor field, so label becomes 'undefined'
+    // The noHeader column has no headerName, so label becomes an empty string
     const noHeaderColumn = columnOptions.find((opt) => opt.id === 'noHeader');
     expect(noHeaderColumn).toBeDefined();
     expect(noHeaderColumn!.label).toBe('');
@@ -863,7 +863,7 @@ describe('Read columnOptions from grid API', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    // After grid ready, columnOptions should be populated from grid API
+    // After grid ready, columnOptions should remain undefined when column picker is not enabled
     const updatedViewConfig = dataManagerService.getViewById(viewConfig.id);
     expect(updatedViewConfig).toBeDefined();
     expect(updatedViewConfig!.columnOptions).toBeUndefined();
