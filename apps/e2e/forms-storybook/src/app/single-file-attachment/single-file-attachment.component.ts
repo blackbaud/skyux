@@ -57,6 +57,7 @@ export class SingleFileAttachmentComponent {
     this.errored.markAsTouched();
     this.fileForm = formBuilder.group({
       attachment: this.attachment,
+      attachmentNotRequired: new UntypedFormControl(undefined),
       disabled: this.disabled,
       imageAttachment: this.imageAttachment,
       fileAttachment: this.fileAttachment,
