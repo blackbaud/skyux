@@ -82,13 +82,12 @@ function getManifestItem(
       return getVariable(reflection, filePath);
     }
 
-    /* v8 ignore start: safety check */
+    /* v8 ignore next -- @preserve */
     default: {
       throw new Error(
         `Unhandled type encountered when processing '${reflection.name}'.`,
       );
     }
-    /* v8 ignore stop */
   }
 }
 
@@ -97,13 +96,13 @@ function sortArrayByKey<T>(arr: T[], key: keyof T): T[] {
     const aValue = a[key];
     const bValue = b[key];
 
+    /* v8 ignore else -- @preserve */
     if (typeof aValue === 'string' && typeof bValue === 'string') {
       return aValue.localeCompare(bValue);
-      /* v8 ignore start: else branch safety check */
     }
 
+    /* v8 ignore next -- @preserve */
     return 0;
-    /* v8 ignore stop */
   });
 }
 

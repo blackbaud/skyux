@@ -1,3 +1,4 @@
+import { provideZoneChangeDetection } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withHashLocation } from '@angular/router';
@@ -11,6 +12,7 @@ import { PlaygroundHelpService } from './app/shared/help.service';
 
 bootstrapApplication(AppComponent, {
   providers: [
+    provideZoneChangeDetection(),
     provideAnimations(),
     provideIconPreview(),
     provideRouter(routes, withHashLocation()),

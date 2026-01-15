@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`index.ts should match snapshot 1`] = `
 Array [
@@ -10564,7 +10564,6 @@ If your function does not access \`this\`, you can annotate it with \`this: void
               "@angular-eslint/directive-selector": "error",
               "@angular-eslint/no-async-lifecycle-method": "error",
               "@angular-eslint/no-attribute-decorator": "error",
-              "@angular-eslint/no-conflicting-lifecycle": "error",
               "@angular-eslint/no-developer-preview": "error",
               "@angular-eslint/no-duplicates-in-metadata-arrays": "error",
               "@angular-eslint/no-empty-lifecycle-method": "error",
@@ -10587,6 +10586,7 @@ If your function does not access \`this\`, you can annotate it with \`this: void
               "@angular-eslint/prefer-on-push-component-change-detection": "error",
               "@angular-eslint/prefer-output-emitter-ref": "error",
               "@angular-eslint/prefer-output-readonly": "error",
+              "@angular-eslint/prefer-signal-model": "error",
               "@angular-eslint/prefer-signals": "error",
               "@angular-eslint/prefer-standalone": "error",
               "@angular-eslint/relative-url-prefix": "error",
@@ -10702,9 +10702,9 @@ If your function does not access \`this\`, you can annotate it with \`this: void
             "create": [Function],
             "defaultOptions": Array [
               Object {
-                "prefix": "",
-                "style": "",
-                "type": "",
+                "prefix": "app",
+                "style": undefined,
+                "type": undefined,
               },
             ],
             "meta": Object {
@@ -10761,6 +10761,10 @@ If your function does not access \`this\`, you can annotate it with \`this: void
                           ],
                         },
                       },
+                      "required": Array [
+                        "type",
+                        "style",
+                      ],
                       "type": "object",
                     },
                     Object {
@@ -10794,6 +10798,7 @@ If your function does not access \`this\`, you can annotate it with \`this: void
                         },
                         "required": Array [
                           "type",
+                          "style",
                         ],
                         "type": "object",
                       },
@@ -10905,9 +10910,9 @@ If your function does not access \`this\`, you can annotate it with \`this: void
             "create": [Function],
             "defaultOptions": Array [
               Object {
-                "prefix": "",
-                "style": "",
-                "type": "",
+                "prefix": "app",
+                "style": undefined,
+                "type": undefined,
               },
             ],
             "meta": Object {
@@ -10962,6 +10967,10 @@ If your function does not access \`this\`, you can annotate it with \`this: void
                           ],
                         },
                       },
+                      "required": Array [
+                        "type",
+                        "style",
+                      ],
                       "type": "object",
                     },
                     Object {
@@ -10995,6 +11004,7 @@ If your function does not access \`this\`, you can annotate it with \`this: void
                         },
                         "required": Array [
                           "type",
+                          "style",
                         ],
                         "type": "object",
                       },
@@ -11042,6 +11052,7 @@ If your function does not access \`this\`, you can annotate it with \`this: void
             "create": [Function],
             "defaultOptions": Array [],
             "meta": Object {
+              "deprecated": true,
               "docs": Object {
                 "description": "Ensures that directives do not implement conflicting lifecycle interfaces.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-conflicting-lifecycle.md",
@@ -11461,6 +11472,22 @@ If your function does not access \`this\`, you can annotate it with \`this: void
               "messages": Object {
                 "preferOutputReadonly": "Prefer to declare \`{{type}}\` as \`readonly\` since they are not supposed to be reassigned",
                 "suggestAddReadonlyModifier": "Add \`readonly\` modifier",
+              },
+              "schema": Array [],
+              "type": "suggestion",
+            },
+          },
+          "prefer-signal-model": Object {
+            "create": [Function],
+            "defaultOptions": Array [],
+            "meta": Object {
+              "docs": Object {
+                "description": "Use \`model\` instead of \`input\` and \`output\` for two-way bindings",
+                "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-signal-model.md",
+              },
+              "fixable": "code",
+              "messages": Object {
+                "preferSignalModel": "Use \`model\` for two-way bindings instead of \`input()\` and \`output()\`",
               },
               "schema": Array [],
               "type": "suggestion",
@@ -11946,7 +11973,7 @@ If your function does not access \`this\`, you can annotate it with \`this: void
       "parser": Object {
         "meta": Object {
           "name": "angular-eslint/template-parser",
-          "version": "20.7.0",
+          "version": "21.1.0",
         },
         "parseForESLint": [Function],
       },
@@ -12039,6 +12066,7 @@ If your function does not access \`this\`, you can annotate it with \`this: void
               "@angular-eslint/template/banana-in-box": "error",
               "@angular-eslint/template/eqeqeq": "error",
               "@angular-eslint/template/no-negated-async": "error",
+              "@angular-eslint/template/prefer-control-flow": "error",
             },
           },
         },
@@ -12285,6 +12313,7 @@ If your function does not access \`this\`, you can annotate it with \`this: void
                   "innerHTML",
                   "innerText",
                   "outerHTML",
+                  "textContent",
                   "title",
                 ],
               },
@@ -13080,6 +13109,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
             "meta": Object {
               "docs": Object {
                 "description": "Ensures that the built-in control flow is used.",
+                "recommended": "recommended",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/prefer-control-flow.md",
               },
               "messages": Object {
@@ -13252,6 +13282,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
       "@angular-eslint/template/banana-in-box": "error",
       "@angular-eslint/template/eqeqeq": "error",
       "@angular-eslint/template/no-negated-async": "error",
+      "@angular-eslint/template/prefer-control-flow": "error",
     },
   },
   Object {

@@ -83,7 +83,6 @@ export function swapTags<T extends string>(
     if (isElement(currentNode)) {
       const tagName = currentNode.tagName.toLowerCase() as T;
       if (oldTags.includes(tagName)) {
-        /* istanbul ignore if */
         if (typeof currentNode.sourceCodeLocation?.startTag !== 'object') {
           // Skip if source code location is not available
           continue;

@@ -114,7 +114,6 @@ function removeFormControlClass(
       const index = classnames.indexOf(FORM_CONTROL_CLASS);
       const classLength = FORM_CONTROL_CLASS.length;
 
-      /* istanbul ignore else: safety check */
       if (classAttr.valueSpan) {
         let classStart = classAttr.valueSpan.start.offset + index;
         let classEnd = classStart + classLength;
@@ -149,10 +148,11 @@ export const rule = createESLintTemplateRule({
           (c) => c.selector === el.name,
         );
 
-        /* istanbul ignore if: safety check */
+        /* v8 ignore start: safety check */
         if (!config) {
           return;
         }
+        /* v8 ignore stop */
 
         const { labelInputName, labelSelector } = config;
 

@@ -3,9 +3,11 @@ import {
   SkyDataManagerService,
   SkyDataManagerState,
 } from '@skyux/data-manager';
+import { SkyFilterItemLookupSearchAsyncArgs } from '@skyux/filter-bar';
+
+import { of } from 'rxjs';
 
 @Component({
-  standalone: false,
   selector: 'app-data-manager-with-list-toolbars',
   templateUrl: './data-manager-with-list-toolbars.component.html',
   styleUrls: ['./data-manager-with-list-toolbars.component.scss'],
@@ -13,6 +15,10 @@ import {
 })
 export class DataManagerWithListToolbarsComponent implements OnInit {
   #dataManagerService = inject(SkyDataManagerService);
+
+  protected onSearchAsync(args: SkyFilterItemLookupSearchAsyncArgs): void {
+    args.result = of({ items: [], totalCount: 0 });
+  }
 
   public ngOnInit(): void {
     this.#dataManagerService.initDataManager({

@@ -11,3 +11,8 @@ export const enum FooEnum {
    */
   Baz,
 }
+
+/**
+ * This describes an empty enum.
+ */
+export enum FooEmptyEnum {}

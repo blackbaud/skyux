@@ -20,6 +20,7 @@ export function getMethods(
 ): SkyManifestClassMethodDefinition[] | undefined {
   const methods: SkyManifestClassMethodDefinition[] = [];
 
+  /* v8 ignore else -- @preserve */
   if (reflection.children) {
     for (const child of reflection.children) {
       if (
@@ -103,6 +104,7 @@ export function getProperties(
 ): SkyManifestClassPropertyDefinition[] | undefined {
   const properties: SkyManifestClassPropertyDefinition[] = [];
 
+  /* v8 ignore else -- @preserve */
   if (reflection.children) {
     for (const child of reflection.children) {
       if (

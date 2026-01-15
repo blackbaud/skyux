@@ -61,19 +61,9 @@ function addPrettierExtendsToConfig(
 }
 
 function needsComma(contents: string): boolean {
-  const len = contents.length;
-
-  for (let i = len; i > -1; i--) {
-    // Starting at the end of the string, find the first non-whitespace character
-    // and check if it's a comma. If it is, we don't need to insert one.
-    const maybeComma = contents.at(i);
-    if (maybeComma !== undefined && maybeComma.match(/[^\s]/)) {
-      return maybeComma !== ',';
-    }
-  }
-
-  /* istanbul ignore next: safety check */
-  return true;
+  // Remove trailing whitespace and check if the last character is a comma.
+  const trimmed = contents.trimEnd();
+  return trimmed.length === 0 || trimmed[trimmed.length - 1] !== ',';
 }
 
 function modifyFlatConfigFile(args: {

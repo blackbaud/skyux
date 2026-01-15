@@ -32,7 +32,7 @@
     }
   },
   "peerDependencies": {
-    "@angular/cli": "^20.3.13"
+    "@angular/cli": "^21.0.5"
   },
   "dependencies": {
     "jsonc-parser": "3.3.1",

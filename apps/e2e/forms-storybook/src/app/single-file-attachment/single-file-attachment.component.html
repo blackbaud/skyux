@@ -6,9 +6,7 @@
     stacked="true"
     (fileChange)="reactiveFileUpdated($event)"
   />
-</form>
 
-<form [formGroup]="fileForm">
   <sky-file-attachment
     formControlName="imageAttachment"
     stacked="true"
@@ -18,9 +16,7 @@
       Single file attachment with image
     </sky-file-attachment-label>
   </sky-file-attachment>
-</form>
 
-<form [formGroup]="fileForm">
   <sky-file-attachment
     formControlName="fileAttachment"
     labelText="Single file attachment with text file"
@@ -32,18 +28,7 @@
       Single file attachment with text file
     </sky-file-attachment-label>
   </sky-file-attachment>
-</form>
 
-<form [formGroup]="fileForm">
-  <sky-file-attachment formControlName="attachment" stacked="true">
-    <sky-file-attachment-label>
-      Single file attachment with inline help
-      <sky-help-inline class="sky-control-help" />
-    </sky-file-attachment-label>
-  </sky-file-attachment>
-</form>
-
-<form [formGroup]="fileForm">
   <sky-file-attachment
     formControlName="disabled"
     [disabled]="true"
@@ -53,52 +38,48 @@
       Disabled single file attachment
     </sky-file-attachment-label>
   </sky-file-attachment>
-</form>
 
-<sky-file-attachment
-  formControlName="attachment"
-  labelText="Single file attachment with help inline popover open"
-  hintText="Hint text"
-  helpPopoverContent="Popover content"
-  stacked="true"
-/>
-
-<form [formGroup]="fileForm">
-  <sky-file-attachment
-    formControlName="attachment"
-    labelText="Single file attachment with help inline popover"
-    hintText="Hint text"
-    helpPopoverContent="Popover content"
-    stacked="true"
-    (fileChange)="reactiveFileUpdated($event)"
-  />
-</form>
-
-<form [formGroup]="fileForm">
   <sky-file-attachment
     formControlName="errored"
     labelText="Errored single file attachment with label text and hint text"
     hintText="Hint text"
     stacked="true"
   />
-</form>
 
-<form [formGroup]="fileForm">
-  <sky-file-attachment formControlName="errored" stacked="true">
+  <sky-file-attachment formControlName="erroredLegacy" stacked="true">
     <sky-file-attachment-label>
       Errored single file attachment with legacy label
     </sky-file-attachment-label>
   </sky-file-attachment>
 </form>
 
+<sky-file-attachment stacked="true">
+  <sky-file-attachment-label>
+    Single file attachment with inline help
+    <sky-help-inline class="sky-control-help" />
+  </sky-file-attachment-label>
+</sky-file-attachment>
+
 <sky-file-attachment
-  formControlName="attachment"
+  labelText="Single file attachment with help inline popover open"
+  hintText="Hint text"
+  helpPopoverContent="Popover content"
+  stacked="true"
+/>
+
+<sky-file-attachment
+  labelText="Single file attachment with help inline popover"
+  hintText="Hint text"
+  helpPopoverContent="Popover content"
+  stacked="true"
+/>
+
+<sky-file-attachment
   labelText="Single file attachment drag over accept state"
   stacked="true"
 />
 
 <sky-file-attachment
-  formControlName="attachment"
   labelText="Single file attachment drag over reject state"
   stacked="true"
 />

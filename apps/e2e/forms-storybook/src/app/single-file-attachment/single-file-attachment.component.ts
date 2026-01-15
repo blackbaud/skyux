@@ -20,6 +20,7 @@ export class SingleFileAttachmentComponent {
   public attachment: UntypedFormControl;
   public disabled: UntypedFormControl;
   public errored: UntypedFormControl;
+  public erroredLegacy: UntypedFormControl;
 
   public fileForm: UntypedFormGroup;
 
@@ -55,11 +56,15 @@ export class SingleFileAttachmentComponent {
     );
     this.errored = new UntypedFormControl(undefined, Validators.required);
     this.errored.markAsTouched();
+    this.erroredLegacy = new UntypedFormControl(undefined, Validators.required);
+    this.erroredLegacy.markAsTouched();
     this.fileForm = formBuilder.group({
       attachment: this.attachment,
       imageAttachment: this.imageAttachment,
       fileAttachment: this.fileAttachment,
+      disabled: this.disabled,
       errored: this.errored,
+      erroredLegacy: this.erroredLegacy,
     });
   }
 

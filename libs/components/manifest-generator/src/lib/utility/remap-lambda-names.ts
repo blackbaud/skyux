@@ -23,17 +23,16 @@ export function remapLambdaNames(
     for (const lambdaName of lambdaNames) {
       const actual = findReflectionByName(lambdaName, project);
 
-      if (actual instanceof DeclarationReflection) {
-        const actualName = remapLambdaName(actual);
-
-        console.warn(`  [!] Remapped \`${lambdaName}\` to \`${actualName}\`.`);
-
-        value = value.replace(lambdaName, actualName);
-        /* v8 ignore start: safety check */
-      } else {
+      /* v8 ignore start: safety check */
+      if (!(actual instanceof DeclarationReflection)) {
         throw new Error(`Could not find replacement for \`${lambdaName}\`!`);
       }
       /* v8 ignore stop */
+
+      const actualName = remapLambdaName(actual);
+      value = value.replace(lambdaName, actualName);
+
+      console.warn(`  [!] Remapped \`${lambdaName}\` to \`${actualName}\`.`);
     }
   }
 

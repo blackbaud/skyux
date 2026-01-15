@@ -13,7 +13,9 @@ vi.mock('@nx/devkit', async (importOriginal) => {
 });
 
 vi.mock('nx/src/generators/tree.js', () => ({
-  FsTree: vi.fn().mockImplementation(() => ({})),
+  FsTree: vi.fn().mockImplementation(function () {
+    return {};
+  }),
 }));
 
 describe('getComponentProjectNames', () => {

@@ -285,7 +285,7 @@ export function convertPageSummaryToPageHeader(projectPath: string): Rule {
             convertTypescriptFile(tree, filePath, context);
           }
         } catch (error) {
-          /* istanbul ignore next */
+          /* v8 ignore next -- @preserve */
           const msg = error instanceof Error ? error.message : String(error);
           throw new Error(`Error converting '${filePath}': ${msg}`);
         }

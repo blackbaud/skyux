@@ -4,6 +4,7 @@ import {
   UnitTestRunner,
   applicationGenerator,
 } from '@nx/angular/generators';
+import type { Styles } from '@nx/angular/src/generators/utils/types';
 import {
   ProjectConfiguration,
   Tree,
@@ -130,7 +131,6 @@ export default async function (
 
   let createProject = false;
   let moveProject = false;
-  /* istanbul ignore next */
   let projectConfig: ProjectConfiguration;
   let e2eProjectConfig: ProjectConfiguration;
   try {
@@ -173,12 +173,12 @@ export default async function (
         `The project "${options.storybookAppName}" already exists.`,
       );
     }
-  } catch (e) {
+  } catch {
     createProject = true;
     await applicationGenerator(tree, {
       name: options.storybookAppName,
       tags: options.tags,
-      style: options.style,
+      style: options.style as Styles,
       routing: options.routing,
       strict: options.strict,
       prefix: options.prefix,
@@ -203,10 +203,11 @@ export default async function (
     // Delete boilerplate files from the storybook project.
     let indexFile = tree.read(`${projectConfig.sourceRoot}/index.html`, 'utf8');
 
-    // istanbul ignore if
+    /* v8 ignore start */
     if (!indexFile) {
       indexFile = '';
     }
+    /* v8 ignore stop */
 
     indexFile = indexFile.replace(
       '<link rel="icon" type="image/x-icon" href="favicon.ico" />',
@@ -237,7 +238,6 @@ export default async function (
     tree.write(`${e2eProjectConfig.sourceRoot}/e2e/.gitkeep`, ``);
   }
 
-  /* istanbul ignore next */
   if (
     createProject ||
     !(

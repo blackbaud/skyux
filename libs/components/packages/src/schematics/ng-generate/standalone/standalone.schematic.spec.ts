@@ -101,18 +101,7 @@ describe('standalone', () => {
     `,
     );
     await runner.runSchematic('standalone-migration', {}, tree);
-    expect(tree.readText('src/app/test.component.ts')).toEqual(`
-    import { Component } from '@angular/core';
-    import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
-    import {  SkyModalModule } from '@skyux/modals';
-
-    @Component({
-      selector: 'app-test',
-      template: '<div>{{ test | async }}</div>',
-      imports: [AsyncPipe, NgTemplateOutlet, SkyModalModule],
-    })
-    export class TestComponent {}
-    `);
+    expect(tree.readText('src/app/test.component.ts')).toMatchSnapshot();
   });
 
   it('should migrate a standalone component with a single import to use SKY UX modules', async () => {
@@ -132,17 +121,7 @@ describe('standalone', () => {
     `,
     );
     await runner.runSchematic('standalone-migration', {}, tree);
-    expect(tree.readText('src/app/test.component.ts')).toEqual(`
-    import { Component } from '@angular/core';
-    import {  SkyModalModule } from '@skyux/modals';
-
-    @Component({
-      selector: 'app-test',
-      template: '<div></div>',
-      imports: [SkyModalModule],
-    })
-    export class TestComponent {}
-    `);
+    expect(tree.readText('src/app/test.component.ts')).toMatchSnapshot();
   });
 
   it('should migrate a standalone component with λ imports to use SKY UX modules', async () => {
@@ -162,17 +141,7 @@ describe('standalone', () => {
     `,
     );
     await runner.runSchematic('standalone-migration', {}, tree);
-    expect(tree.readText('src/app/test.component.ts')).toEqual(`
-    import { Component } from '@angular/core';
-    import {  SkyModalModule } from '@skyux/modals';
-
-    @Component({
-      selector: 'app-test',
-      template: '<div></div>',
-      imports: [SkyModalModule],
-    })
-    export class TestComponent {}
-    `);
+    expect(tree.readText('src/app/test.component.ts')).toMatchSnapshot();
   });
 
   it('should migrate a standalone component with λ and other imports to use SKY UX modules', async () => {
@@ -197,22 +166,7 @@ describe('standalone', () => {
     `,
     );
     await runner.runSchematic('standalone-migration', {}, tree);
-    expect(tree.readText('src/app/test.component.ts')).toEqual(`
-    import { Component } from '@angular/core';
-    import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
-    import {  SkyModalModule } from '@skyux/modals';
-
-    import { BehaviorSubject } from 'rxjs';
-
-    @Component({
-      selector: 'app-test',
-      template: '<div>{{ test | async }}</div>',
-      imports: [AsyncPipe, NgTemplateOutlet, SkyModalModule],
-    })
-    export class TestComponent {
-      protected readonly test = new BehaviorSubject<number>(1);
-    }
-    `);
+    expect(tree.readText('src/app/test.component.ts')).toMatchSnapshot();
   });
 
   it('should migrate a standalone component with injected SKY UX pipes', async () => {
@@ -239,24 +193,7 @@ describe('standalone', () => {
     `,
     );
     await runner.runSchematic('standalone-migration', {}, tree);
-    expect(tree.readText('src/app/test.component.ts')).toEqual(`
-    import { Component, inject } from '@angular/core';
-    import { SkyDatePipe, SkyFuzzyDatePipe, SkyDatePipeModule } from '@skyux/datetime';
-
-    @Component({
-      selector: 'app-test',
-      template: \`
-        <div>{{ test | skyDate }}</div>
-        <div>{{ test | skyFuzzyDate }}</div>
-      \`,
-      imports: [SkyDatePipeModule],
-    })
-    export class TestComponent {
-      protected readonly datePipe = inject(SkyDatePipe);
-
-      constructor(protected fuzzyDataPipe: SkyFuzzyDatePipe) {}
-    }
-    `);
+    expect(tree.readText('src/app/test.component.ts')).toMatchSnapshot();
   });
 
   it('should migrate a legacy service', async () => {
@@ -287,28 +224,7 @@ describe('standalone', () => {
     `,
     );
     await runner.runSchematic('standalone-migration', {}, tree);
-    expect(tree.readText('src/app/test.component.ts')).toEqual(`
-    import { Component, inject } from '@angular/core';
-    import { SkyModalService } from '@skyux/modals';
-
-    import { TestModalComponent } from './test-modal.component';
-
-    @Component({
-      selector: 'app-test',
-      template: \`
-        <div>{{ test | skyDate }}</div>
-        <div>{{ test | skyFuzzyDate }}</div>
-      \`,
-      imports: [SkyDatePipe, SkyFuzzyDatePipe],
-    })
-    export class TestComponent {
-      readonly #modalSvc = inject(SkyModalService);
-
-      protected openModal(): void {
-        this.#modalSvc.open(TestModalComponent);
-      }
-    }
-    `);
+    expect(tree.readText('src/app/test.component.ts')).toMatchSnapshot();
   });
 
   it('should migrate a test', async () => {
@@ -329,18 +245,7 @@ describe('standalone', () => {
     `,
     );
     await runner.runSchematic('standalone-migration', {}, tree);
-    expect(tree.readText('src/app/test.component.spec.ts')).toEqual(`
-    import { TestBed } from '@angular/core/testing';
-    import {  SkyModalModule } from '@skyux/modals';
-
-    describe('TestComponent', () => {
-      beforeEach(() => {
-        TestBed.configureTestingModule({
-          imports: [SkyModalModule],
-        });
-      });
-    });
-    `);
+    expect(tree.readText('src/app/test.component.spec.ts')).toMatchSnapshot();
   });
 
   it('should do nothing on a component', async () => {
@@ -360,17 +265,7 @@ describe('standalone', () => {
     `,
     );
     await runner.runSchematic('standalone-migration', {}, tree);
-    expect(tree.readText('src/app/test.component.ts')).toEqual(`
-    import { Component } from '@angular/core';
-    import { SkyModalModule } from '@skyux/modals';
-
-    @Component({
-      selector: 'app-test',
-      template: '<div></div>',
-      imports: [SkyModalModule],
-    })
-    export class TestComponent {}
-    `);
+    expect(tree.readText('src/app/test.component.ts')).toMatchSnapshot();
   });
 
   it('should do nothing on a service', async () => {
@@ -390,17 +285,7 @@ describe('standalone', () => {
     `,
     );
     await runner.runSchematic('standalone-migration', {}, tree);
-    expect(tree.readText('src/app/test.service.ts')).toEqual(`
-    import { Injectable, inject } from '@angular/core';
-    import { SkyDatePipe } from '@skyux/datetime';
-
-    @Injectable({
-      providedIn: 'root',
-    })
-    export class TestService {
-      public datePipe = inject(SkyDatePipe);
-    }
-    `);
+    expect(tree.readText('src/app/test.service.ts')).toMatchSnapshot();
   });
 
   it('should do nothing on a second component in the same file', async () => {
@@ -427,24 +312,7 @@ describe('standalone', () => {
     `,
     );
     await runner.runSchematic('standalone-migration', {}, tree);
-    expect(tree.readText('src/app/test.component.ts')).toEqual(`
-    import { Component } from '@angular/core';
-    import {  SkyModalModule } from '@skyux/modals';
-
-    @Component({
-      selector: 'app-test',
-      template: '<sky-modal></sky-modal>',
-      imports: [SkyModalModule],
-    })
-    export class TestComponent {}
-
-    @Component({
-      selector: 'app-other',
-      template: '<div></div>',
-      imports: [],
-    })
-    export class OtherComponent {}
-    `);
+    expect(tree.readText('src/app/test.component.ts')).toMatchSnapshot();
   });
 
   it('should provide for a pipe that is injected in a component', async () => {
@@ -488,42 +356,7 @@ describe('standalone', () => {
     `,
     );
     await runner.runSchematic('standalone-migration', {}, tree);
-    expect(tree.readText('src/app/test.component.ts')).toEqual(`
-    import { Component, Directive } from '@angular/core';
-    import { SkyDatePipe, SkyDatePipeModule } from '@skyux/datetime';
-
-    @Component({
-      selector: 'app-test',
-      template: '<div>{{ test | async }}</div>',
-      styles: 'display: block;',
-      imports: [SkyDatePipeModule],
-    })
-    export class Test1Component {
-      readonly #pipe = inject(SkyDatePipe);
-    }
-
-    @Component({ selector: 'app-test', template: '<div>{{ test | async }}</div>', imports: [SkyDatePipeModule] })
-    export class Test2Component {
-      readonly #pipe = inject(SkyDatePipe);
-    }
-
-    @Component({
-      template: '<div>{{ test | async }}</div>', imports: [SkyDatePipeModule]
-    })
-    export class Test3Component {
-      readonly #pipe = inject(SkyDatePipe);
-    }
-
-    @Component({ template: '<div>{{ test | async }}</div>' , imports: [SkyDatePipeModule]})
-    export class Test3Component {
-      readonly #pipe = inject(SkyDatePipe);
-    }
-
-    @Directive({imports: [SkyDatePipeModule]})
-    export class TestDirective {
-      readonly #pipe = inject(SkyDatePipe);
-    }
-    `);
+    expect(tree.readText('src/app/test.component.ts')).toMatchSnapshot();
   });
 
   it('should call angular standalone first', async () => {
@@ -575,7 +408,7 @@ describe('standalone', () => {
     );
     await expect(
       runner.runSchematic('standalone-migration', {}, tree),
-    ).rejects.toThrowError(
+    ).rejects.toThrow(
       `Could not find package @skyux/missing -- please run 'npm install'.`,
     );
   });
@@ -641,7 +474,7 @@ describe('standalone', () => {
 
       await expect(
         runner.runSchematic('standalone-migration', {}, tree),
-      ).rejects.toThrowError('Error while converting to standalone modules');
+      ).rejects.toThrow('Error while converting to standalone modules');
     });
 
     it('should preserve original error as cause', async () => {
