@@ -1,6 +1,19 @@
 # Changelog
 
 
+# [13.12.0](https://github.com/blackbaud/skyux/compare/13.11.5...13.12.0) (2026-01-15)
+
+
+### Features
+
+* **components/ag-grid:** auto-populate column configuration for data manager ([#4153](https://github.com/blackbaud/skyux/issues/4153)) ([e0a82b1](https://github.com/blackbaud/skyux/commit/e0a82b1062a414d201493ca17869c61ba5ca424e)), closes [AB#3642107](https://github.com/AB/issues/3642107)
+* **components/ag-grid:** provide test harness for AG Grid ([#4150](https://github.com/blackbaud/skyux/issues/4150)) ([2a119cb](https://github.com/blackbaud/skyux/commit/2a119cb3731f0c8e10e5931878465ac996e5a738)), closes [AB#3672986](https://github.com/AB/issues/3672986) [#4063](https://github.com/blackbaud/skyux/issues/4063)
+* **components/filter-bar:** add generics for filter types ([#4144](https://github.com/blackbaud/skyux/issues/4144)) ([3108198](https://github.com/blackbaud/skyux/commit/3108198bdba301aaabe0fa059e14746242336880)), closes [AB#3605105](https://github.com/AB/issues/3605105)
+* **components/lookup:** support searching when minimum characters is set to 0 ([#4133](https://github.com/blackbaud/skyux/issues/4133)) ([806e17e](https://github.com/blackbaud/skyux/commit/806e17edff24b2f8dadbc43b9e39ba001f51701c)), closes [AB#3605881](https://github.com/AB/issues/3605881)
+* **components/theme:** visual test data viz colors and add to public API ([#4146](https://github.com/blackbaud/skyux/issues/4146)) ([112f2cd](https://github.com/blackbaud/skyux/commit/112f2cda9ab6620739613b1e366437bbb63fd875))
+
+
+
 ## [13.11.5](https://github.com/blackbaud/skyux/compare/13.11.4...13.11.5) (2026-01-08)
 
 
