@@ -357,6 +357,7 @@ export class SkyColorpickerComponent
             '.sky-colorpicker',
             false,
           );
+          this.#changeDetector.markForCheck();
         });
       });
     }
