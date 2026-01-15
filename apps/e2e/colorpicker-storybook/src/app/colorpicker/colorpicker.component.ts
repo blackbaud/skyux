@@ -1,23 +1,20 @@
-import { AsyncPipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
-  ReactiveFormsModule,
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import { SkyColorpickerModule } from '@skyux/colorpicker';
 
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
 @Component({
-  imports: [AsyncPipe, ReactiveFormsModule, SkyColorpickerModule],
   selector: 'app-colorpicker',
   templateUrl: './colorpicker.component.html',
   styleUrls: ['./colorpicker.component.scss'],
+  standalone: false,
 })
 export class ColorpickerComponent {
   public colorForm: FormGroup;
@@ -48,8 +45,8 @@ export class ColorpickerComponent {
 
   public readonly ready = of(true).pipe(delay(1200));
 
-  constructor() {
-    this.colorForm = inject(FormBuilder).group({
+  constructor(formBuilder: FormBuilder) {
+    this.colorForm = formBuilder.group({
       colorOne: new FormControl('#f00'),
       colorTwo: new FormControl('#ff0'),
       colorThree: new FormControl({ value: '#000', disabled: true }),

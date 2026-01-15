@@ -348,17 +348,13 @@ export class SkyColorpickerComponent
       setTimeout(() => {
         this.#createAffixer();
         this.isPickerVisible = true;
-        this.#changeDetector.markForCheck();
 
-        // Wait for affixer to render before setting focus.
-        setTimeout(() => {
-          this.#coreAdapter.getFocusableChildrenAndApplyFocus(
-            value,
-            '.sky-colorpicker',
-            false,
-          );
-          this.#changeDetector.markForCheck();
-        });
+        this.#coreAdapter.getFocusableChildrenAndApplyFocus(
+          value,
+          '.sky-colorpicker',
+          false,
+        );
+        this.#changeDetector.markForCheck();
       });
     }
   }
