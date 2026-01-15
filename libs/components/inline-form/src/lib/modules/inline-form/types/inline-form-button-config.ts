@@ -1,3 +1,5 @@
+import { SkyInlineFormButtonConfigStyleType } from './inline-form-button-config-style-type';
+
 /**
  * Specifies configuration options for the inline form's buttons when `buttonLayout` is set to `Custom`.
  */
@@ -28,5 +30,5 @@ export interface SkyInlineFormButtonConfig {
    * These values set the background color and style from the
    * [secondary, link, and primary button classes](https://developer.blackbaud.com/skyux/components/button) respectively.
    */
-  styleType?: string;
+  styleType?: SkyInlineFormButtonConfigStyleType;
 }

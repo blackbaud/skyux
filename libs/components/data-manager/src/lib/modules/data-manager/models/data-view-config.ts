@@ -1,3 +1,5 @@
+import { SkySearchExpandModeType } from '@skyux/lookup';
+
 import { SkyDataManagerColumnPickerOption } from './data-manager-column-picker-option';
 import { SkyDataManagerColumnPickerSortStrategy } from './data-manager-column-picker-sort-strategy';
 
@@ -70,7 +72,7 @@ export interface SkyDataViewConfig {
    * Sets the `expandMode` property on the search box for this view.
    * See the [search component](https://developer.blackbaud.com/skyux/components/search) for valid options and the default value.
    */
-  searchExpandMode?: string;
+  searchExpandMode?: SkySearchExpandModeType;
   /**
    * Highlights text that matches the search text using the text highlight directive.
    */
