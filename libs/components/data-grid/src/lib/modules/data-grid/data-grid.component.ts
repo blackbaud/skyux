@@ -189,7 +189,11 @@ export class SkyDataGridComponent<
   });
 
   /**
-   * The query parameter name to use for the current page number. When set, page changes are reflected in the URL.
+   * The query parameter name that stores the current page number.
+   * When set, the grid syncs page changes to the URL for deep linking, and there should only be one grid on the page.
+   * The value should match the name of an input on the route component, the value of that input should be passed to the
+   * `SkyDataGridComponent` `page` input, and the SPA's `Router` should be configured to use
+   * [`withComponentInputBinding`](https://angular.dev/api/router/withComponentInputBinding).
    */
   public readonly pageQueryParam = input<string>();
 
@@ -306,9 +310,10 @@ export class SkyDataGridComponent<
     const displayed = this.selectedColumnIds().filter(Boolean);
     const hidden = this.hiddenColumns().filter(Boolean);
     return columns.map((col): ColDef => {
+      const field = col.field();
       const colDef: ColDef = {
         colId: col.columnId(),
-        field: col.field(),
+        field,
         headerName: col.heading(),
         headerComponentParams: {
           headerHidden: col.headingHidden(),
@@ -325,11 +330,10 @@ export class SkyDataGridComponent<
       if (col.type() === 'date') {
         (colDef.type as string[]).push(SkyCellType.Date);
         colDef.cellDataType = 'dateString';
-      } else if (col.type() === 'number') {
+      } else if (field && col.type() === 'number') {
         (colDef.type as string[]).push(SkyCellType.Number);
         colDef.cellDataType = 'number';
-        const field = col.field();
-        colDef.valueGetter = (params) => field && Number(params.data[field]);
+        colDef.valueGetter = (params): number => Number(params.data[field]);
       } else if (col.type() === 'boolean') {
         colDef.cellDataType = 'boolean';
       } else {
