@@ -9,6 +9,7 @@ on:
 env:
   TARGET_BRANCH: main
   FROM_BRANCH: ${{ github.event.pull_request.base.ref }}
+  RUN_MIGRATIONS: 0
 
 jobs:
   cherry-pick:
@@ -51,32 +52,37 @@ jobs:
             exit 0
           fi
 
-          # Capture @angular/core migrations.
-          FROM_VERSION=$(git cat-file --textconv origin/${{ env.FROM_BRANCH }}:package.json | jq -r '.dependencies["@angular/core"]')
-          TO_VERSION=$(jq -r '.dependencies["@angular/core"]' package.json)
-          npx nx migrate @angular/core \
-            --from="@angular/core@${FROM_VERSION}" \
-            --to="@angular/core@${TO_VERSION}"
 
-          # Remove migrations that are not needed for cherry-picks. They take too long to run and should not apply.
-          jq -r '.migrations | map(select(.name != "inject-flags")) | map(select(.name != "test-bed-get")) | {"migrations": .}' migrations.json >  migrations.json.tmp \
-            && mv migrations.json.tmp migrations.json
+          if [ $RUN_MIGRATIONS -gt 0 ]; then
+            # Capture @angular/core migrations.
+            FROM_VERSION=$(git cat-file --textconv origin/${{ env.FROM_BRANCH }}:package.json | jq -r '.dependencies["@angular/core"]')
+            TO_VERSION=$(jq -r '.dependencies["@angular/core"]' package.json)
+            npx nx migrate @angular/core \
+              --from="@angular/core@${FROM_VERSION}" \
+              --to="@angular/core@${TO_VERSION}"
 
-          # Run the migrations and fix any formatting issues.
-          npx nx migrate --run-migrations --if-exists && npx nx format:write
+            # Remove migrations that are not needed for cherry-picks. They take too long to run and should not apply.
+            jq -r '.migrations | map(select(.name != "inject-flags")) | map(select(.name != "test-bed-get")) | {"migrations": .}' migrations.json >  migrations.json.tmp \
+              && mv migrations.json.tmp migrations.json
 
-          if [ $? -ne 0 ]; then
-            echo "CHERRY_PICK_RESULT=failed" >> $GITHUB_ENV
-            exit 0
-          fi
+            # Run the migrations and fix any formatting issues.
+            npx nx migrate --run-migrations --if-exists && npx nx format:write
 
-          rm -f ./migrations.json
-          # Any changes to package.json and package-lock.json should not be committed.
-          git restore package.json package-lock.json
-          git add -A
-          git status
-          if [ -n "$(git status --porcelain)" ]; then
-            git commit --amend --no-edit
+            if [ $? -ne 0 ]; then
+              echo "CHERRY_PICK_RESULT=failed" >> $GITHUB_ENV
+              exit 0
+            fi
+
+            rm -f ./migrations.json
+            # Any changes to package.json and package-lock.json should not be committed.
+            git restore package.json package-lock.json
+            git add -A
+            git status
+            if [ -n "$(git status --porcelain)" ]; then
+              git commit --amend --no-edit
+            fi
+          else
+            echo "Skipping migrations 🙈"
           fi
 
           # Get the name of the cherry-pick branch.
