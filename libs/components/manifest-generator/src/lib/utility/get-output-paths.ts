@@ -22,6 +22,7 @@ export function getOutputPaths(outDir: string): {
 }
 
 export async function ensureDirectory(directoryPath: string): Promise<void> {
+  /* v8 ignore else -- @preserve */
   if (!fs.existsSync(directoryPath)) {
     await fsPromises.mkdir(directoryPath);
   }

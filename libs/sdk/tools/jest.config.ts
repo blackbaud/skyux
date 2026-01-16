@@ -14,6 +14,7 @@ export default {
   testEnvironment: 'node',
   collectCoverage: true,
   coverageDirectory: '../../../coverage/libs/sdk/tools',
+  coverageProvider: 'v8',
   coverageThreshold: {
     global: {
       branches: 100,

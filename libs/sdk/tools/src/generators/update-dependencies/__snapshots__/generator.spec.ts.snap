@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`update dependencies generator should capture testing dependencies 1`] = `
 Object {
@@ -62,14 +62,8 @@ Object {
       },
     },
     "test": Object {
-      "executor": "@nx/jest:jest",
-      "options": Object {
-        "jestConfig": "lib/test/jest.config.cts",
-        "tsConfig": "lib/test/tsconfig.spec.json",
-      },
-      "outputs": Array [
-        "{workspaceRoot}/coverage/{projectRoot}",
-      ],
+      "executor": "@nx/angular:unit-test",
+      "options": Object {},
     },
   },
 }

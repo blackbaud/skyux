@@ -12,6 +12,7 @@ export default {
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   coverageDirectory: '../../../coverage/libs/sdk/skyux-eslint',
+  coverageProvider: 'v8',
   coverageThreshold: {
     global: {
       branches: 100,

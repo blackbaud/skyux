@@ -27,9 +27,9 @@
     }
   },
   "peerDependencies": {
-    "@angular-eslint/bundled-angular-compiler": "^20.7.0",
-    "@angular-eslint/eslint-plugin-template": "^20.7.0",
-    "@angular-eslint/utils": "^20.7.0",
+    "@angular-eslint/bundled-angular-compiler": "^21.1.0",
+    "@angular-eslint/eslint-plugin-template": "^21.1.0",
+    "@angular-eslint/utils": "^21.1.0",
     "@typescript-eslint/utils": "^8.43.0"
   },
   "dependencies": {

@@ -26,6 +26,9 @@ describe('IconPreviewService', () => {
       }),
       getElementById: jasmine.createSpy('getElementById').and.returnValue(null),
       body: {
+        querySelector: jasmine
+          .createSpy('body.querySelector')
+          .and.returnValue(null),
         classList: {
           add: jasmine.createSpy('add'),
           remove: jasmine.createSpy('remove'),

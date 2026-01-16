@@ -9,7 +9,6 @@ import fsPromises from 'node:fs/promises';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { getDocumentationConfig } from './get-documentation-config.js';
-import { ProjectDefinition } from './get-project-definitions.js';
 import { getPublicApi } from './get-public-api.js';
 
 vi.mock('node:fs');
@@ -62,10 +61,7 @@ function setup(options: {
   });
 
   vi.mocked(getDocumentationConfig).mockImplementation(
-    (
-      _publicApi: SkyManifestPublicApi,
-      _projects: ProjectDefinition[],
-    ): Promise<[SkyManifestDocumentationConfig, string[]]> => {
+    (): Promise<[SkyManifestDocumentationConfig, string[]]> => {
       return Promise.resolve([options.documentationConfigJson, []] as [
         SkyManifestDocumentationConfig,
         string[],
@@ -73,9 +69,7 @@ function setup(options: {
     },
   );
   vi.mocked(getPublicApi).mockImplementation(
-    (
-      _projects: ProjectDefinition[],
-    ): Promise<[SkyManifestPublicApi, string[]]> => {
+    (): Promise<[SkyManifestPublicApi, string[]]> => {
       return Promise.resolve([options.publicApiJson, []] as [
         SkyManifestPublicApi,
         string[],

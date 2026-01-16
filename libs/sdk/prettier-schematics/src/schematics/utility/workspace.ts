@@ -9,22 +9,18 @@ import { readRequiredFile } from './tree';
  */
 function createHost(tree: Tree): workspaces.WorkspaceHost {
   return {
-    /* istanbul ignore next */
     async readFile(path: string): Promise<string> {
       return await Promise.resolve(readRequiredFile(tree, path));
     },
-    /* istanbul ignore next */
     async writeFile(path: string, data: string): Promise<void> {
       return await Promise.resolve(tree.overwrite(path, data));
     },
-    /* istanbul ignore next */
     async isDirectory(path: string): Promise<boolean> {
       // approximate a directory check
       return await Promise.resolve(
         !tree.exists(path) && tree.getDir(path).subfiles.length > 0,
       );
     },
-    /* istanbul ignore next */
     async isFile(path: string): Promise<boolean> {
       return await Promise.resolve(tree.exists(path));
     },

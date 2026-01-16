@@ -1,0 +1,219 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`standalone should do nothing on a component 1`] = `
+"
+    import { Component } from '@angular/core';
+    import { SkyModalModule } from '@skyux/modals';
+
+    @Component({
+      selector: 'app-test',
+      template: '<div></div>',
+      imports: [SkyModalModule],
+    })
+    export class TestComponent {}
+    "
+`;
+
+exports[`standalone should do nothing on a second component in the same file 1`] = `
+"
+    import { Component } from '@angular/core';
+import { SkyModalModule } from '@skyux/modals';
+    
+
+    @Component({
+      selector: 'app-test',
+      template: '<sky-modal></sky-modal>',
+      imports: [SkyModalModule],
+    })
+    export class TestComponent {}
+
+    @Component({
+      selector: 'app-other',
+      template: '<div></div>',
+      imports: [],
+    })
+    export class OtherComponent {}
+    "
+`;
+
+exports[`standalone should do nothing on a service 1`] = `
+"
+    import { Injectable, inject } from '@angular/core';
+    import { SkyDatePipe } from '@skyux/datetime';
+
+    @Injectable({
+      providedIn: 'root',
+    })
+    export class TestService {
+      public datePipe = inject(SkyDatePipe);
+    }
+    "
+`;
+
+exports[`standalone should migrate a legacy service 1`] = `
+"
+    import { Component, inject } from '@angular/core';
+    import { SkyModalService } from '@skyux/modals';
+
+    import { TestModalComponent } from './test-modal.component';
+
+    @Component({
+      selector: 'app-test',
+      template: \`
+        <div>{{ test | skyDate }}</div>
+        <div>{{ test | skyFuzzyDate }}</div>
+      \`,
+      imports: [SkyDatePipe, SkyFuzzyDatePipe],
+    })
+    export class TestComponent {
+      readonly #modalSvc = inject(SkyModalService);
+
+      protected openModal(): void {
+        this.#modalSvc.open(TestModalComponent);
+      }
+    }
+    "
+`;
+
+exports[`standalone should migrate a standalone component to use SKY UX modules 1`] = `
+"
+    import { Component } from '@angular/core';
+    import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
+import { SkyModalModule } from '@skyux/modals';
+    
+
+    @Component({
+      selector: 'app-test',
+      template: '<div>{{ test | async }}</div>',
+      imports: [AsyncPipe, NgTemplateOutlet, SkyModalModule],
+    })
+    export class TestComponent {}
+    "
+`;
+
+exports[`standalone should migrate a standalone component with a single import to use SKY UX modules 1`] = `
+"
+    import { Component } from '@angular/core';
+import { SkyModalModule } from '@skyux/modals';
+    
+
+    @Component({
+      selector: 'app-test',
+      template: '<div></div>',
+      imports: [SkyModalModule],
+    })
+    export class TestComponent {}
+    "
+`;
+
+exports[`standalone should migrate a standalone component with injected SKY UX pipes 1`] = `
+"
+    import { Component, inject } from '@angular/core';
+import { SkyDatePipeModule } from '@skyux/datetime';
+    import { SkyDatePipe, SkyFuzzyDatePipe } from '@skyux/datetime';
+
+    @Component({
+      selector: 'app-test',
+      template: \`
+        <div>{{ test | skyDate }}</div>
+        <div>{{ test | skyFuzzyDate }}</div>
+      \`,
+      imports: [SkyDatePipeModule],
+    })
+    export class TestComponent {
+      protected readonly datePipe = inject(SkyDatePipe);
+
+      constructor(protected fuzzyDataPipe: SkyFuzzyDatePipe) {}
+    }
+    "
+`;
+
+exports[`standalone should migrate a standalone component with λ and other imports to use SKY UX modules 1`] = `
+"
+    import { Component } from '@angular/core';
+    import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
+    import {  SkyModalModule } from '@skyux/modals';
+
+    import { BehaviorSubject } from 'rxjs';
+
+    @Component({
+      selector: 'app-test',
+      template: '<div>{{ test | async }}</div>',
+      imports: [AsyncPipe, NgTemplateOutlet, SkyModalModule],
+    })
+    export class TestComponent {
+      protected readonly test = new BehaviorSubject<number>(1);
+    }
+    "
+`;
+
+exports[`standalone should migrate a standalone component with λ imports to use SKY UX modules 1`] = `
+"
+    import { Component } from '@angular/core';
+import { SkyModalModule } from '@skyux/modals';
+    
+
+    @Component({
+      selector: 'app-test',
+      template: '<div></div>',
+      imports: [SkyModalModule],
+    })
+    export class TestComponent {}
+    "
+`;
+
+exports[`standalone should migrate a test 1`] = `
+"
+    import { TestBed } from '@angular/core/testing';
+import { SkyModalModule } from '@skyux/modals';
+    
+
+    describe('TestComponent', () => {
+      beforeEach(() => {
+        TestBed.configureTestingModule({
+          imports: [SkyModalModule],
+        });
+      });
+    });
+    "
+`;
+
+exports[`standalone should provide for a pipe that is injected in a component 1`] = `
+"
+    import { Component, Directive } from '@angular/core';
+import { SkyDatePipeModule } from '@skyux/datetime';
+    import { SkyDatePipe } from '@skyux/datetime';
+
+    @Component({
+      selector: 'app-test',
+      template: '<div>{{ test | async }}</div>',
+      styles: 'display: block;',
+      imports: [SkyDatePipeModule],
+    })
+    export class Test1Component {
+      readonly #pipe = inject(SkyDatePipe);
+    }
+
+    @Component({ selector: 'app-test', template: '<div>{{ test | async }}</div>', imports: [SkyDatePipeModule] })
+    export class Test2Component {
+      readonly #pipe = inject(SkyDatePipe);
+    }
+
+    @Component({
+      template: '<div>{{ test | async }}</div>', imports: [SkyDatePipeModule]
+    })
+    export class Test3Component {
+      readonly #pipe = inject(SkyDatePipe);
+    }
+
+    @Component({ template: '<div>{{ test | async }}</div>' , imports: [SkyDatePipeModule]})
+    export class Test3Component {
+      readonly #pipe = inject(SkyDatePipe);
+    }
+
+    @Directive({imports: [SkyDatePipeModule]})
+    export class TestDirective {
+      readonly #pipe = inject(SkyDatePipe);
+    }
+    "
+`;

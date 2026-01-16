@@ -44,7 +44,7 @@ export function isOutput(
 
 function getInput(
   reflection: DeclarationReflectionWithDecorators,
-): SkyManifestDirectiveInputDefinition | undefined {
+): SkyManifestDirectiveInputDefinition {
   const property = getProperty(reflection);
   const { isRequired } = getComment(reflection);
 
@@ -68,14 +68,11 @@ function getInputs(
 ): SkyManifestDirectiveInputDefinition[] | undefined {
   const inputs: SkyManifestDirectiveInputDefinition[] = [];
 
+  /* v8 ignore else -- @preserve */
   if (reflection.children) {
     for (const child of reflection.children) {
       if (isInput(child)) {
-        const input = getInput(child);
-
-        if (input) {
-          inputs.push(input);
-        }
+        inputs.push(getInput(child));
       }
     }
   }
@@ -85,7 +82,7 @@ function getInputs(
 
 function getOutput(
   reflection: DeclarationReflection,
-): SkyManifestDirectiveOutputDefinition | undefined {
+): SkyManifestDirectiveOutputDefinition {
   const property = getProperty(reflection);
   const output: SkyManifestDirectiveOutputDefinition = {
     ...property,
@@ -100,14 +97,11 @@ function getOutputs(
 ): SkyManifestDirectiveOutputDefinition[] | undefined {
   const outputs: SkyManifestDirectiveOutputDefinition[] = [];
 
+  /* v8 ignore else -- @preserve */
   if (reflection.children) {
     for (const child of reflection.children) {
       if (isOutput(child)) {
-        const output = getOutput(child);
-
-        if (output) {
-          outputs.push(output);
-        }
+        outputs.push(getOutput(child));
       }
     }
   }

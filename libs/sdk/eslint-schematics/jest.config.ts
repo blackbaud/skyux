@@ -11,6 +11,9 @@ export default {
     ],
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
+  moduleNameMapper: {
+    '^ora$': '<rootDir>/__mocks__/ora.ts',
+  },
   coverageDirectory: '../../../coverage/libs/sdk/eslint-schematics',
   coverageThreshold: {
     global: {

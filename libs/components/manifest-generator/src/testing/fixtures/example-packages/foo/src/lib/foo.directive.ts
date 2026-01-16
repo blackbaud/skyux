@@ -24,6 +24,14 @@ export class λ2 {}
 })
 export class FooDirective {}
 
+/**
+ * This is an empty directive class without any properties.
+ */
+@Directive({
+  selector: '[fooEmpty]',
+})
+export class FooEmptyDirective {}
+
 @Directive({
   selector: '[foo]',
 })

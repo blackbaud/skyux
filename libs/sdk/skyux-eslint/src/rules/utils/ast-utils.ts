@@ -19,7 +19,6 @@ export function getChildNodeOf(
         return true;
       }
 
-      /* istanbul ignore next: safety check */
       return getChildNodeOf(child, childNodeNames);
     }
 

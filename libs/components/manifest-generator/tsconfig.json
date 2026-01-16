@@ -2,8 +2,8 @@
   "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
     "isolatedModules": true,
-    "module": "Node16",
-    "moduleResolution": "Node16",
+    "module": "preserve",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true
   },
   "files": [],

@@ -13,9 +13,13 @@ export default {
     ],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
+  moduleNameMapper: {
+    '^ora$': '<rootDir>/__mocks__/ora.ts',
+  },
   testEnvironment: 'node',
   collectCoverage: true,
   coverageDirectory: '../../../coverage/libs/sdk/e2e-schematics',
+  coverageProvider: 'v8',
   coverageThreshold: {
     global: {
       branches: 100,

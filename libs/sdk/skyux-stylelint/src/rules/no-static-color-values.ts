@@ -99,6 +99,7 @@ function extractColorValues(value: string): string[] {
   let match;
   while ((match = functionColorPattern.exec(value)) !== null) {
     const colorValue = match[1];
+    /* v8 ignore else -- @preserve */
     if (isStaticColorValue(colorValue)) {
       colorValues.push(colorValue);
     }
@@ -145,6 +146,7 @@ const ruleBase: RuleBase = (options) => {
       }
 
       if (DIRECT_COLOR_PROPERTIES.has(lowerProp)) {
+        /* v8 ignore else -- @preserve */
         if (isStaticColorValue(value)) {
           stylelint.utils.report({
             result,
@@ -156,6 +158,7 @@ const ruleBase: RuleBase = (options) => {
         return;
       }
 
+      /* v8 ignore else -- @preserve */
       if (SHORTHAND_COLOR_PROPERTIES.has(lowerProp)) {
         const colorValues = extractColorValues(value);
         for (const colorValue of colorValues) {

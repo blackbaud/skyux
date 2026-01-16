@@ -101,7 +101,6 @@ export function swapImportedClass(
                 sourceFile,
                 oldClassName,
               ).filter((reference) => reference.getEnd() <= endOfImports);
-              /* istanbul ignore if */
               if (referencesInImport.length !== 1) {
                 throw new Error(
                   `Expected exactly one import for ${oldClassName} from ${oldModuleName}, found ${referencesInImport.length}.`,

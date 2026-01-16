@@ -55,13 +55,15 @@
   </sky-file-attachment>
 </form>
 
-<sky-file-attachment
-  formControlName="attachment"
-  labelText="Single file attachment with help inline popover open"
-  hintText="Hint text"
-  helpPopoverContent="Popover content"
-  stacked="true"
-/>
+<form [formGroup]="fileForm">
+  <sky-file-attachment
+    formControlName="attachmentNotRequired"
+    labelText="Single file attachment with help inline popover open"
+    hintText="Hint text"
+    helpPopoverContent="Popover content"
+    stacked="true"
+  />
+</form>
 
 <form [formGroup]="fileForm">
   <sky-file-attachment
@@ -91,14 +93,17 @@
   </sky-file-attachment>
 </form>
 
-<sky-file-attachment
-  formControlName="attachment"
-  labelText="Single file attachment drag over accept state"
-  stacked="true"
-/>
-
-<sky-file-attachment
-  formControlName="attachment"
-  labelText="Single file attachment drag over reject state"
-  stacked="true"
-/>
+<form [formGroup]="fileForm">
+  <sky-file-attachment
+    formControlName="attachmentNotRequired"
+    labelText="Single file attachment drag over accept state"
+    stacked="true"
+  />
+</form>
+<form [formGroup]="fileForm">
+  <sky-file-attachment
+    formControlName="attachmentNotRequired"
+    labelText="Single file attachment drag over reject state"
+    stacked="true"
+  />
+</form>

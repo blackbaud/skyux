@@ -44,7 +44,7 @@ export class SkyColorpickerSliderDirective {
 
   @HostListener('touchstart', ['$event'])
   @HostListener('mousedown', ['$event'])
-  public start(event: MouseEvent): void {
+  public start(event: MouseEvent | TouchEvent): void {
     this.#setCursor(event);
     document.addEventListener('mousemove', this.#listenerMove);
     document.addEventListener('touchmove', this.#listenerMove);

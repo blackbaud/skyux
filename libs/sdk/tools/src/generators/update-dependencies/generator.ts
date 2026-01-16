@@ -280,8 +280,9 @@ export default async function (
   updateNgUpdatePackageGroup(tree);
   updateTestingBuildTargetDependencies(tree);
   updateManifestBuildTargetDependencies(tree);
-  /* istanbul ignore if */
+  /* v8 ignore start */
   if (!options.skipFormat) {
     await formatFiles(tree);
   }
+  /* v8 ignore stop */
 }

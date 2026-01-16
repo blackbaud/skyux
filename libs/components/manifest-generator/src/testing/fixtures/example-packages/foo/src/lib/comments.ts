@@ -41,3 +41,8 @@ export const shouldHaveCodeExampleMarkupLanguageComment = true;
  * ```
  */
 export const shouldHaveCodeExampleUnknownLanguageComment = true;
+
+/**
+ * This is just a description with no block tags.
+ */
+export const shouldHaveCommentWithoutBlockTags = true;

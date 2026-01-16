@@ -384,6 +384,7 @@ context.keys().map(context);
     const filePath = `stack-blitz/${file}`;
     const url = this.#assetsSvc?.getUrl(filePath) ?? `assets/${filePath}`;
 
+    /* istanbul ignore if: safety check */
     if (!this.#http) {
       return undefined;
     }

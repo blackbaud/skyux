@@ -14,6 +14,15 @@ describe('split-view-storybook', () => {
           describe(`at ${width}px`, () => {
             it(`should render the split view component`, () => {
               cy.viewport(width, 960);
+              // wait for non-dropdown button to be visible on display widths
+              if (E2eVariations.DISPLAY_WIDTHS.includes(width)) {
+                cy.get(
+                  'sky-summary-action-bar-secondary-action > button',
+                ).should('be.visible');
+              } else {
+                cy.get('sky-split-view-workspace-header').should('be.visible');
+              }
+
               cy.get('.screenshot-area')
                 .should('exist')
                 .should('be.visible')
