@@ -223,6 +223,52 @@ describe('Filter bar component', () => {
       });
       expect(filterValues?.find((f) => f.filterId === '2')).toBeUndefined();
     });
+
+    it('should retain order of selected filters when updated selection', () => {
+      // Set up initial state with multiple filters having values
+      component.appliedFilters.set([
+        { filterId: '1', filterValue: { value: 'value1' } },
+        { filterId: '2', filterValue: { value: 'value2' } },
+        { filterId: '3', filterValue: { value: 'value3' } },
+      ]);
+
+      component.selectedFilterIds.set(['2', '3', '1']);
+      fixture.detectChanges();
+
+      // User deselects filter '2', keeping only '1' and '3'
+      const closed$ = of({
+        reason: 'save',
+        selectedItems: [
+          { filterId: '1', labelText: 'filter 1' },
+          { filterId: '3', labelText: 'filter 3' },
+        ],
+      });
+      selectionModalServiceSpy.open.and.returnValue({
+        closed: closed$,
+      } as SkySelectionModalInstance);
+
+      getFilterPickerButton()?.click();
+
+      expect(selectionModalServiceSpy.open).toHaveBeenCalled();
+
+      // Verify selectedFilters is updated to only include selected items in the original
+      expect(component.selectedFilterIds()).toEqual(['3', '1']);
+
+      // Verify the deselected filter's value is removed from filterValues
+      const filterValues = component.appliedFilters();
+      expect(filterValues?.length).toBe(2);
+      expect(
+        filterValues?.find((f) => f.filterId === '1')?.filterValue,
+      ).toEqual({
+        value: 'value1',
+      });
+      expect(
+        filterValues?.find((f) => f.filterId === '3')?.filterValue,
+      ).toEqual({
+        value: 'value3',
+      });
+      expect(filterValues?.find((f) => f.filterId === '2')).toBeUndefined();
+    });
   });
 
   describe('filter management', () => {
