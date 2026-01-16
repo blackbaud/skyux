@@ -5,13 +5,13 @@ import {
 
 import path from 'node:path';
 
-import { createTestApp } from '../../testing/scaffold';
+import { createTestApp } from '../../../testing/scaffold';
 
 describe('noop schematic', () => {
   it('should work', async () => {
     const runner = new SchematicTestRunner(
       'migrations',
-      path.join(__dirname, '../../../../migrations.json'),
+      path.join(__dirname, '../../../../../migrations.json'),
     );
 
     const tree = await createTestApp(runner, {
