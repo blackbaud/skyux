@@ -240,7 +240,7 @@ describe('Filter bar component', () => {
         reason: 'save',
         selectedItems: [
           { filterId: '1', labelText: 'filter 1' },
-          { filterId: '3', labelText: 'filter 3' },
+          { filterId: '2', labelText: 'filter 2' },
         ],
       });
       selectionModalServiceSpy.open.and.returnValue({
@@ -252,7 +252,7 @@ describe('Filter bar component', () => {
       expect(selectionModalServiceSpy.open).toHaveBeenCalled();
 
       // Verify selectedFilters is updated to only include selected items in the original order
-      expect(component.selectedFilterIds()).toEqual(['3', '1']);
+      expect(component.selectedFilterIds()).toEqual(['2', '1']);
     });
   });
 
