@@ -1,6 +1,15 @@
 # Changelog
 
 
+## [13.12.1](https://github.com/blackbaud/skyux/compare/13.12.0...13.12.1) (2026-01-16)
+
+
+### Bug Fixes
+
+* **components/indicators:** use correct info icon matte token ([#4161](https://github.com/blackbaud/skyux/issues/4161)) ([3b4fe65](https://github.com/blackbaud/skyux/commit/3b4fe652a60f6103b4241e239129cb2b1c4a3963))
+
+
+
 # [13.12.0](https://github.com/blackbaud/skyux/compare/13.11.5...13.12.0) (2026-01-15)
 
 
