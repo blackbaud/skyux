@@ -1,6 +1,17 @@
 # Changelog
 
 
+## [14.0.0-alpha.0](https://github.com/blackbaud/skyux/compare/13.12.0...14.0.0-alpha.0) (2026-01-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* add support for Angular 21 (#4152)
+
+### Features
+
+* add support for Angular 21 ([#4152](https://github.com/blackbaud/skyux/issues/4152)) ([491bf64](https://github.com/blackbaud/skyux/commit/491bf6457b2e36a46abaecca68e0d40972d5eaf8))
+
 # [13.12.0](https://github.com/blackbaud/skyux/compare/13.11.5...13.12.0) (2026-01-15)
 
 
