@@ -38,6 +38,13 @@ export class SkyDataGridColumnComponent {
   public readonly heading = input<string>();
 
   /**
+   * Whether to prevent `heading` text from being visibly displayed.
+   */
+  public readonly headingHidden = input<boolean, unknown>(false, {
+    transform: booleanAttribute,
+  });
+
+  /**
    * The unique ID for the column. You must provide either the `columnId` or `field` property
    * for every column, but do not provide both. Use `columnId` when the column does not map directly to a field
    * in the data set.

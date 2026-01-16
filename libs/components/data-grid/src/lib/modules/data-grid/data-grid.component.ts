@@ -28,6 +28,7 @@ import {
   SkyCellType,
 } from '@skyux/ag-grid';
 import { SkyLogService } from '@skyux/core';
+import { SkyDataManagerService } from '@skyux/data-manager';
 import { SkyDateRange } from '@skyux/datetime';
 import { SkyWaitModule } from '@skyux/indicators';
 import { SkyFilterStateFilterItem, SkyPagingModule } from '@skyux/lists';
@@ -193,6 +194,18 @@ export class SkyDataGridComponent<
   public readonly pageQueryParam = input<string>();
 
   /**
+   * Move the horizontal scrollbar to just below the header row.
+   */
+  public readonly enableTopScroll = input<boolean, unknown>(false, {
+    transform: coerceBooleanProperty,
+  });
+
+  /**
+   * View ID when using SKY UX Data Manager.
+   */
+  public readonly viewId = input<string>();
+
+  /**
    * The width of the grid in pixels.
    */
   public readonly width = input<number, unknown>(0, {
@@ -224,7 +237,7 @@ export class SkyDataGridComponent<
    * The set of IDs for the rows to prompt for delete confirmation.
    * The IDs match the `multiselectRowId` properties of the `data` objects.
    */
-  protected readonly rowDeleteIds = model<string[]>([]);
+  public readonly rowDeleteIds = model<string[]>([]);
 
   /**
    * Fires when users cancel the deletion of a row.
@@ -246,6 +259,9 @@ export class SkyDataGridComponent<
     (): ((node: IRowNode) => boolean) => this.#doesFilterPass(),
   );
   protected readonly pageNumber = linkedSignal(this.page);
+  protected readonly useDataManager = !!inject(SkyDataManagerService, {
+    optional: true,
+  });
 
   readonly #gridDestroyed = toObservable(this.gridApi).pipe(
     filter(Boolean),
@@ -295,6 +311,7 @@ export class SkyDataGridComponent<
         field: col.field(),
         headerName: col.heading(),
         headerComponentParams: {
+          headerHidden: col.headingHidden(),
           helpPopoverTitle: col.helpPopoverTitle(),
           helpPopoverContent: col.helpPopoverContent() || col.description(),
           inlineHelpComponent: SkyDataGridColumnInlineHelpComponent,
@@ -311,6 +328,8 @@ export class SkyDataGridComponent<
       } else if (col.type() === 'number') {
         (colDef.type as string[]).push(SkyCellType.Number);
         colDef.cellDataType = 'number';
+        const field = col.field();
+        colDef.valueGetter = (params) => field && Number(params.data[field]);
       } else if (col.type() === 'boolean') {
         colDef.cellDataType = 'boolean';
       } else {
@@ -341,6 +360,9 @@ export class SkyDataGridComponent<
     return this.#gridService.getGridOptions({
       gridOptions: {
         columnDefs,
+        context: {
+          enableTopScroll: this.enableTopScroll(),
+        },
         domLayout: this.height() ? 'normal' : 'autoHeight',
         onGridReady: (args) => {
           this.gridApi.set(args.api);
@@ -355,6 +377,7 @@ export class SkyDataGridComponent<
         rowSelection: this.enableMultiselect()
           ? {
               checkboxes: true,
+              checkboxLocation: 'selectionColumn',
               headerCheckbox: true,
               mode: 'multiRow',
             }
@@ -393,6 +416,31 @@ export class SkyDataGridComponent<
       const api = untracked(() => this.gridApi());
       const columns = this.#columnDefs();
       api?.setGridOption('columnDefs', columns);
+    });
+    effect(() => {
+      this.enableMultiselect();
+      const api = untracked(() => this.gridApi());
+      const options = untracked(() => this.gridOptions());
+      if (api && options) {
+        api.setGridOption('rowSelection', options.rowSelection);
+      }
+    });
+    effect(() => {
+      this.height();
+      const api = untracked(() => this.gridApi());
+      const options = untracked(() => this.gridOptions());
+      if (api && options) {
+        api.setGridOption('domLayout', options.domLayout);
+      }
+    });
+    effect(() => {
+      this.pageSize();
+      const api = untracked(() => this.gridApi());
+      const options = untracked(() => this.gridOptions());
+      if (api && options) {
+        api.setGridOption('pagination', options.pagination);
+        api.setGridOption('paginationPageSize', options.paginationPageSize);
+      }
     });
     effect(() => {
       const api = this.gridApi();
@@ -529,7 +577,7 @@ export class SkyDataGridComponent<
       case 'text':
         return this.#doesTextFilterPass(
           filterOperator ?? 'contains',
-          filterValue as string,
+          filterValue,
           String(rowValue ?? ''),
         );
       case 'number':
@@ -672,25 +720,27 @@ export class SkyDataGridComponent<
 
   #doesTextFilterPass(
     filterOperator: SkyDataGridFilterOperator,
-    filterValue: string,
+    filterValue: unknown,
     rowValue: string,
   ): boolean {
     const rowString = rowValue.normalize().toLocaleLowerCase();
-    const filterString = filterValue.normalize().toLocaleLowerCase();
+    const filterArray: string[] = (
+      Array.isArray(filterValue) ? filterValue : [filterValue]
+    ).map((value) => String(value).normalize().toLocaleLowerCase());
 
     switch (filterOperator) {
       case 'equals':
-        return rowString === filterString;
+        return filterArray.some((value) => value === rowString);
       case 'notEqual':
-        return rowString !== filterString;
+        return filterArray.every((value) => value !== rowString);
       case 'contains':
-        return rowString.includes(filterString);
+        return filterArray.some((value) => rowString.includes(value));
       case 'notContains':
-        return !rowString.includes(filterString);
+        return !filterArray.some((value) => rowString.includes(value));
       case 'startsWith':
-        return rowString.startsWith(filterString);
+        return filterArray.some((value) => rowString.startsWith(value));
       case 'endsWith':
-        return rowString.endsWith(filterString);
+        return filterArray.some((value) => rowString.endsWith(value));
       default:
         this.#logger.warn(
           `Unsupported text filter operator: ${filterOperator}`,

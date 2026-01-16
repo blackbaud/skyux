@@ -1,0 +1,27 @@
+app-data-manager-large.use-normal-dom-layout {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 80px);
+  display: block;
+
+  sky-data-manager,
+  sky-data-view {
+    display: block;
+    height: 100%;
+    width: 100%;
+  }
+
+  sky-data-manager > .sky-data-manager {
+    display: flex;
+    flex-direction: column;
+    flex-basis: fit-content;
+    height: 100%;
+    width: 100%;
+  }
+}
+
+form > * {
+  display: inline-block;
+}

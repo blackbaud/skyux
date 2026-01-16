@@ -14,6 +14,26 @@ const routes: ComponentRouteInfo[] = [
     },
   },
   {
+    path: 'data-manager',
+    loadComponent: () =>
+      import('./data-manager-large/data-manager-large.component'),
+    data: {
+      name: 'Data Grid w/ data-manager',
+      icon: 'table',
+      library: 'data-grid',
+    },
+  },
+  {
+    path: 'data-manager-in-modal',
+    loadComponent: () =>
+      import('./data-manager-large/data-manager-large-in-modal.component'),
+    data: {
+      name: 'Data Grid w/ data-manager, in a modal',
+      icon: 'table',
+      library: 'data-grid',
+    },
+  },
+  {
     path: 'paging',
     loadComponent: () => import('./paging/grid-paging.component'),
     data: {

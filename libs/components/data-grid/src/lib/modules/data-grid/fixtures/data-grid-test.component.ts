@@ -146,8 +146,11 @@ export class DataGridTestComponent {
   public readonly numberFilterOperator = input<SkyDataGridFilterOperator>();
   public readonly booleanFilterOperator = input<SkyDataGridFilterOperator>();
 
+  public readonly enableMultiselect = input<boolean>();
+  public readonly height = input<number>();
+  public readonly pageSize = input<number>();
+
   public page = 1;
-  public pageSize = 0;
   public pageQueryParam = '';
 
   protected readonly showAllColumns = input<boolean>(true);

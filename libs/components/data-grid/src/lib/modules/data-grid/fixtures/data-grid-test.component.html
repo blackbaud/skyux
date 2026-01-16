@@ -4,10 +4,12 @@
     height="200"
     width="600"
     [data]="dataForSimpleGrid"
+    [enableMultiselect]="enableMultiselect()"
+    [height]="height()"
     [selectedColumnIds]="displayedColumns()"
     [page]="page"
     [pageQueryParam]="pageQueryParam"
-    [pageSize]="pageSize"
+    [pageSize]="pageSize()"
     [rowHighlightedId]="rowHighlightedId()"
     (selectedColumnIdsChange)="visibleColumnIds.set($event)"
   >

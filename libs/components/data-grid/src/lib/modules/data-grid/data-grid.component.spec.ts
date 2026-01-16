@@ -202,6 +202,72 @@ describe('SkyAgGridComponent', () => {
     expect(api?.getDisplayedRowCount()).toBe(2);
   });
 
+  it('should update grid options when pageSize changes', async () => {
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const api = getGridApi(
+      fixture.nativeElement.querySelector(
+        '[data-sky-id="grid"] ag-grid-angular',
+      ),
+    );
+    expect(api).toBeTruthy();
+    expect(api?.getGridOption('pagination')).toBeFalsy();
+
+    fixture.componentRef.setInput('pageSize', 2);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(api?.getGridOption('pagination')).toBeTruthy();
+    expect(api?.getGridOption('paginationPageSize')).toBe(2);
+  });
+
+  it('should update grid options when height changes', async () => {
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const api = getGridApi(
+      fixture.nativeElement.querySelector(
+        '[data-sky-id="grid"] ag-grid-angular',
+      ),
+    );
+    expect(api).toBeTruthy();
+    expect(api?.getGridOption('domLayout')).toBe('autoHeight');
+
+    fixture.componentRef.setInput('height', 200);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(api?.getGridOption('domLayout')).toBe('normal');
+  });
+
+  it('should update grid options when enableMultiselect changes', async () => {
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const api = getGridApi(
+      fixture.nativeElement.querySelector(
+        '[data-sky-id="grid"] ag-grid-angular',
+      ),
+    );
+    expect(api).toBeTruthy();
+    expect(api?.getGridOption('rowSelection')).toEqual(
+      jasmine.objectContaining({
+        mode: 'singleRow',
+        enableClickSelection: false,
+        enableSelectionWithoutKeys: true,
+        checkboxes: false,
+      }),
+    );
+
+    fixture.componentRef.setInput('enableMultiselect', true);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(api?.getGridOption('rowSelection')).toEqual({
+      mode: 'multiRow',
+      enableClickSelection: false,
+      enableSelectionWithoutKeys: true,
+      checkboxes: true,
+      headerCheckbox: true,
+      checkboxLocation: 'selectionColumn',
+    });
+  });
+
   it('should select all rows', async () => {
     fixture.detectChanges();
     expect(component).toBeTruthy();
@@ -267,7 +333,7 @@ describe('SkyAgGridComponent', () => {
   });
 
   it('should handle paging without url changes', async () => {
-    component.pageSize = 4;
+    fixture.componentRef.setInput('pageSize', 4);
     fixture.detectChanges();
     await fixture.whenStable();
     expect(component).toBeTruthy();
@@ -283,7 +349,7 @@ describe('SkyAgGridComponent', () => {
   });
 
   it('should handle paging with url changes', async () => {
-    component.pageSize = 2;
+    fixture.componentRef.setInput('pageSize', 2);
     component.pageQueryParam = 'page';
     const router = TestBed.inject(Router);
     const navSpy = spyOn(router, 'navigate');
@@ -374,6 +440,10 @@ describe('SkyAgGridComponent', () => {
 
       // Apply a text filter
       fixture.componentRef.setInput('appliedFilters', [
+        {
+          filterId: 'column1Filter',
+          filterValue: { value: ['1'], displayValue: 'Contains "1"' },
+        },
         {
           filterId: 'column2Filter',
           filterValue: { value: 'Ban', displayValue: 'Starts with Ban' },

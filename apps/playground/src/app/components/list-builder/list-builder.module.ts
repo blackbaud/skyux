@@ -8,7 +8,7 @@ const routes: ComponentRouteInfo[] = [
     path: 'grid',
     loadComponent: () => import('./list-view-grid/list-view-grid.component'),
     data: {
-      name: 'AAA List Builder Grid',
+      name: 'List Builder Grid',
       icon: 'table',
       library: 'list-builder-view-grids',
     },
