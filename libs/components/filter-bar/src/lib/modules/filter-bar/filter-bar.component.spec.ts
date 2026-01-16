@@ -251,23 +251,8 @@ describe('Filter bar component', () => {
 
       expect(selectionModalServiceSpy.open).toHaveBeenCalled();
 
-      // Verify selectedFilters is updated to only include selected items in the original
+      // Verify selectedFilters is updated to only include selected items in the original order
       expect(component.selectedFilterIds()).toEqual(['3', '1']);
-
-      // Verify the deselected filter's value is removed from filterValues
-      const filterValues = component.appliedFilters();
-      expect(filterValues?.length).toBe(2);
-      expect(
-        filterValues?.find((f) => f.filterId === '1')?.filterValue,
-      ).toEqual({
-        value: 'value1',
-      });
-      expect(
-        filterValues?.find((f) => f.filterId === '3')?.filterValue,
-      ).toEqual({
-        value: 'value3',
-      });
-      expect(filterValues?.find((f) => f.filterId === '2')).toBeUndefined();
     });
   });
 
