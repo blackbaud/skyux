@@ -203,13 +203,24 @@ export class SkyFilterBarComponent {
   #getExistingFilterItems(): SkyFilterBarItem[] {
     /* istanbul ignore next: safety check */
     const selectedIds = this.selectedFilterIds() ?? [];
-    return this.filterItems()
-      .filter((item) => selectedIds.includes(item.filterId()))
-      .map((item) => ({
-        filterId: item.filterId(),
-        labelText: item.labelText(),
-        filterValue: item.filterValue(),
-      }));
+    const filterItems = this.filterItems();
+
+    return selectedIds
+      .map((selectedId) => {
+        const filterItem = filterItems.find(
+          (item) => item.filterId() === selectedId,
+        );
+
+        /* istanbul ignore next: safety check */
+        return filterItem
+          ? {
+              filterId: filterItem.filterId(),
+              labelText: filterItem.labelText(),
+              filterValue: filterItem.filterValue(),
+            }
+          : undefined;
+      })
+      .filter((item) => !!item);
   }
 
   #handleFilterSelection(
