@@ -28,6 +28,7 @@
         "tsConfig": "libs/components/code-examples/tsconfig.spec.json",
         "karmaConfig": "libs/components/code-examples/karma.conf.js",
         "styles": [
+          "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss",
           "libs/components/theme/src/lib/styles/sky.scss",
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
         ],

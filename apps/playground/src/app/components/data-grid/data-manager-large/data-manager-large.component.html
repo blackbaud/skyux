@@ -1,0 +1,163 @@
+<sky-data-manager>
+  <sky-data-manager-toolbar>
+    <sky-data-manager-toolbar-primary-item>
+      <form [formGroup]="gridSettings">
+        <sky-checkbox
+          formControlName="enableTopScroll"
+          iconName="arrow-fit"
+          title="Top scroll"
+          labelText="Top scroll"
+          labelHidden
+        />
+        <sky-checkbox
+          formControlName="showSelect"
+          iconName="checkmark"
+          title="Selection"
+          labelText="Enable selection"
+          labelHidden
+        />
+        <sky-checkbox
+          formControlName="showDelete"
+          iconName="delete"
+          title="Delete"
+          labelText="Show delete buttons"
+          labelHidden
+        />
+        <sky-checkbox
+          formControlName="compact"
+          iconName="crop"
+          title="Compact layout"
+          labelText="Compact layout"
+          labelHidden
+        />
+        <sky-radio-group
+          headingText="DOM layout"
+          headingHidden
+          formControlName="domLayout"
+          class="sky-switch-icon-group"
+        >
+          <sky-radio
+            iconName="square"
+            title="Normal DOM layout"
+            labelText="Normal"
+            value="normal"
+            labelHidden
+          />
+          <sky-radio
+            iconName="arrow-maximize"
+            title="Auto-height DOM layout"
+            labelText="Auto-height"
+            value="autoHeight"
+            labelHidden
+          />
+        </sky-radio-group>
+      </form>
+    </sky-data-manager-toolbar-primary-item>
+  </sky-data-manager-toolbar>
+  <sky-filter-bar
+    skyDataManagerFilterController
+    [selectedFilterIds]="[]"
+    [(appliedFilters)]="appliedFilters"
+  >
+    <sky-filter-item-lookup
+      filterId="culture"
+      labelText="Culture"
+      searchDescriptorProperty="culture"
+      searchIdProperty="culture"
+      (searchAsync)="searchCulture($event)"
+    />
+  </sky-filter-bar>
+  <sky-data-view [viewId]="viewId">
+    @if (ready()) {
+      <sky-data-grid
+        [appliedFilters]="appliedFilters()"
+        [compact]="gridSettingsChanges()?.compact"
+        [data]="items()"
+        [enableMultiselect]="gridSettingsChanges()?.showSelect"
+        [enableTopScroll]="gridSettingsChanges()?.enableTopScroll"
+        [height]="height()"
+        [selectedColumnIds]="selectedColumnIds()"
+        [viewId]="viewId"
+        [(rowDeleteIds)]="rowDeleteIds"
+        (rowDeleteConfirm)="deleteConfirm($event)"
+        (multiselectSelectionChange)="selectionChange($event)"
+      >
+        <sky-data-grid-column
+          columnId="menu"
+          heading="Menu"
+          headingHidden
+          locked
+          width="50"
+          [hidden]="!gridSettingsChanges().showDelete"
+          [isSortable]="false"
+          [template]="contextMenu"
+        />
+        <sky-data-grid-column field="object_date" heading="Object Date" />
+        <sky-data-grid-column
+          field="object_number"
+          heading="Object Number"
+          type="text"
+          helpPopoverTitle="Object Number"
+          helpPopoverContent="This is the number of the object"
+        />
+        <sky-data-grid-column
+          field="is_highlight"
+          heading="Is Highlight"
+          type="boolean"
+        />
+        <sky-data-grid-column
+          field="is_timeline_work"
+          heading="Is Timeline Work"
+          type="boolean"
+        />
+        <sky-data-grid-column
+          field="is_public_domain"
+          heading="Is Public Domain"
+          type="boolean"
+        />
+        <sky-data-grid-column
+          field="object_id"
+          heading="Object ID"
+          type="number"
+        />
+        <sky-data-grid-column field="gallery_number" heading="Gallery Number" />
+        <sky-data-grid-column field="department" heading="Department" />
+        <sky-data-grid-column field="accessionyear" heading="AccessionYear" />
+        <sky-data-grid-column field="object_name" heading="Object" />
+        <sky-data-grid-column field="title" heading="Title" />
+        <sky-data-grid-column
+          field="culture"
+          heading="Culture"
+          filterOperator="equals"
+        />
+        <sky-data-grid-column field="period" heading="Period" />
+        <sky-data-grid-column
+          field="object_wikidata_url"
+          heading="Object Wikidata URL"
+        >
+          <ng-template let-value="value"
+            ><app-custom-link [link]="value"
+          /></ng-template>
+        </sky-data-grid-column>
+        <sky-data-grid-column
+          field="tags_wikidata_url"
+          heading="Tags Wikidata URL"
+        >
+          <ng-template let-value="value"
+            ><app-custom-link [link]="value"
+          /></ng-template>
+        </sky-data-grid-column>
+      </sky-data-grid>
+    }
+  </sky-data-view>
+</sky-data-manager>
+
+<ng-template #contextMenu let-row="row">
+  <sky-dropdown buttonType="context-menu">
+    <sky-dropdown-menu
+      ><sky-dropdown-item>
+        <button type="button" (click)="markForDelete(row.id)">Delete</button>
+      </sky-dropdown-item>
+    </sky-dropdown-menu>
+  </sky-dropdown>
+</ng-template>
