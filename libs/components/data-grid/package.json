@@ -23,6 +23,7 @@
     "@angular/router": "^20.3.15",
     "@skyux/ag-grid": "^0.0.0-PLACEHOLDER",
     "@skyux/core": "^0.0.0-PLACEHOLDER",
+    "@skyux/data-manager": "^0.0.0-PLACEHOLDER",
     "@skyux/datetime": "^0.0.0-PLACEHOLDER",
     "@skyux/help-inline": "^0.0.0-PLACEHOLDER",
     "@skyux/indicators": "^0.0.0-PLACEHOLDER",
