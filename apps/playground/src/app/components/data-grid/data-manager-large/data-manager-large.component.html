@@ -24,6 +24,13 @@
           labelHidden
         />
         <sky-checkbox
+          formControlName="wrapText"
+          iconName="text-align-left"
+          title="Wrap text"
+          labelText="Wrap text"
+          labelHidden
+        />
+        <sky-checkbox
           formControlName="compact"
           iconName="crop"
           title="Compact layout"
@@ -38,14 +45,14 @@
         >
           <sky-radio
             iconName="square"
-            title="Normal DOM layout"
+            title="Normal DOM layout, AG Grid pins the header row"
             labelText="Normal"
             value="normal"
             labelHidden
           />
           <sky-radio
             iconName="arrow-maximize"
-            title="Auto-height DOM layout"
+            title="Auto-height DOM layout, skyViewkeeper pins the header row"
             labelText="Auto-height"
             value="autoHeight"
             labelHidden
@@ -67,89 +74,174 @@
       (searchAsync)="searchCulture($event)"
     />
   </sky-filter-bar>
-  <sky-data-view [viewId]="viewId">
-    @if (ready()) {
-      <sky-data-grid
-        [appliedFilters]="appliedFilters()"
-        [compact]="gridSettingsChanges()?.compact"
-        [data]="items()"
-        [enableMultiselect]="gridSettingsChanges()?.showSelect"
-        [enableTopScroll]="gridSettingsChanges()?.enableTopScroll"
-        [height]="height()"
-        [selectedColumnIds]="selectedColumnIds()"
-        [viewId]="viewId"
-        [(rowDeleteIds)]="rowDeleteIds"
-        (rowDeleteConfirm)="deleteConfirm($event)"
-        (multiselectSelectionChange)="selectionChange($event)"
+  @if (ready()) {
+    <sky-data-grid
+      [appliedFilters]="appliedFilters()"
+      [compact]="gridSettingsChanges()?.compact"
+      [data]="items()"
+      [enableMultiselect]="gridSettingsChanges()?.showSelect"
+      [enableTopScroll]="gridSettingsChanges()?.enableTopScroll"
+      [height]="height()"
+      [viewId]="viewId"
+      [(rowDeleteIds)]="rowDeleteIds"
+      (rowDeleteConfirm)="deleteConfirm($event)"
+      (multiselectSelectionChange)="selectionChange($event)"
+    >
+      <sky-data-grid-column
+        columnId="menu"
+        heading="Menu"
+        headingHidden
+        locked
+        width="50"
+        [isSortable]="false"
+        [isResizable]="false"
+        [template]="contextMenu"
+      />
+      <sky-data-grid-column field="object_date" heading="Object Date" />
+      <sky-data-grid-column
+        field="object_number"
+        heading="Object Number"
+        type="text"
+        helpPopoverTitle="Object Number"
+        helpPopoverContent="This is the number of the object"
+      />
+      <sky-data-grid-column
+        field="is_highlight"
+        heading="Is Highlight"
+        type="boolean"
+      />
+      <sky-data-grid-column
+        field="is_timeline_work"
+        heading="Is Timeline Work"
+        type="boolean"
+      />
+      <sky-data-grid-column
+        field="is_public_domain"
+        heading="Is Public Domain"
+        type="boolean"
+      />
+      <sky-data-grid-column
+        field="object_id"
+        heading="Object ID"
+        type="number"
+      />
+      <sky-data-grid-column field="gallery_number" heading="Gallery Number" />
+      <sky-data-grid-column
+        field="department"
+        heading="Department"
+        [wrapText]="gridSettingsChanges()?.wrapText"
+      />
+      <sky-data-grid-column field="accessionyear" heading="AccessionYear" />
+      <sky-data-grid-column field="object_name" heading="Object" />
+      <sky-data-grid-column field="title" heading="Title" />
+      <sky-data-grid-column
+        field="culture"
+        heading="Culture"
+        filterOperator="equals"
+      />
+      <sky-data-grid-column field="period" heading="Period" />
+      <sky-data-grid-column field="dynasty" heading="Dynasty" />
+      <sky-data-grid-column field="reign" heading="Reign" />
+      <sky-data-grid-column field="portfolio" heading="Portfolio" />
+      <sky-data-grid-column field="constituent_id" heading="Constituent ID" />
+      <sky-data-grid-column field="artist_role" heading="Artist Role" />
+      <sky-data-grid-column field="artist_prefix" heading="Artist Prefix" />
+      <sky-data-grid-column
+        field="artist_display_name"
+        heading="Artist Display Name"
+      />
+      <sky-data-grid-column
+        field="artist_display_bio"
+        heading="Artist Display Bio"
+      />
+      <sky-data-grid-column field="artist_suffix" heading="Artist Suffix" />
+      <sky-data-grid-column
+        field="artist_alpha_sort"
+        heading="Artist Alpha Sort"
+      />
+      <sky-data-grid-column
+        field="artist_nationality"
+        heading="Artist Nationality"
+      />
+      <sky-data-grid-column
+        field="artist_begin_date"
+        heading="Artist Begin Date"
+      />
+      <sky-data-grid-column field="artist_end_date" heading="Artist End Date" />
+      <sky-data-grid-column field="artist_gender" heading="Artist Gender" />
+      <sky-data-grid-column field="artist_ulan_url" heading="Artist ULAN URL">
+        <ng-template let-value="value"
+          ><app-custom-link [link]="value"
+        /></ng-template>
+      </sky-data-grid-column>
+      <sky-data-grid-column
+        field="artist_wikidata_url"
+        heading="Artist Wikidata URL"
       >
-        <sky-data-grid-column
-          columnId="menu"
-          heading="Menu"
-          headingHidden
-          locked
-          width="50"
-          [hidden]="!gridSettingsChanges().showDelete"
-          [isSortable]="false"
-          [template]="contextMenu"
-        />
-        <sky-data-grid-column field="object_date" heading="Object Date" />
-        <sky-data-grid-column
-          field="object_number"
-          heading="Object Number"
-          type="text"
-          helpPopoverTitle="Object Number"
-          helpPopoverContent="This is the number of the object"
-        />
-        <sky-data-grid-column
-          field="is_highlight"
-          heading="Is Highlight"
-          type="boolean"
-        />
-        <sky-data-grid-column
-          field="is_timeline_work"
-          heading="Is Timeline Work"
-          type="boolean"
-        />
-        <sky-data-grid-column
-          field="is_public_domain"
-          heading="Is Public Domain"
-          type="boolean"
-        />
-        <sky-data-grid-column
-          field="object_id"
-          heading="Object ID"
-          type="number"
-        />
-        <sky-data-grid-column field="gallery_number" heading="Gallery Number" />
-        <sky-data-grid-column field="department" heading="Department" />
-        <sky-data-grid-column field="accessionyear" heading="AccessionYear" />
-        <sky-data-grid-column field="object_name" heading="Object" />
-        <sky-data-grid-column field="title" heading="Title" />
-        <sky-data-grid-column
-          field="culture"
-          heading="Culture"
-          filterOperator="equals"
-        />
-        <sky-data-grid-column field="period" heading="Period" />
-        <sky-data-grid-column
-          field="object_wikidata_url"
-          heading="Object Wikidata URL"
-        >
-          <ng-template let-value="value"
-            ><app-custom-link [link]="value"
-          /></ng-template>
-        </sky-data-grid-column>
-        <sky-data-grid-column
-          field="tags_wikidata_url"
-          heading="Tags Wikidata URL"
-        >
-          <ng-template let-value="value"
-            ><app-custom-link [link]="value"
-          /></ng-template>
-        </sky-data-grid-column>
-      </sky-data-grid>
-    }
-  </sky-data-view>
+        <ng-template let-value="value"
+          ><app-custom-link [link]="value"
+        /></ng-template>
+      </sky-data-grid-column>
+      <sky-data-grid-column field="object_date" heading="Object Date" />
+      <sky-data-grid-column
+        field="object_begin_date"
+        heading="Object Begin Date"
+      />
+      <sky-data-grid-column field="object_end_date" heading="Object End Date" />
+      <sky-data-grid-column
+        field="medium"
+        heading="Medium"
+        [wrapText]="gridSettingsChanges()?.wrapText"
+      />
+      <sky-data-grid-column field="dimensions" heading="Dimensions" />
+      <sky-data-grid-column
+        field="credit_line"
+        heading="Credit Line"
+        [wrapText]="gridSettingsChanges()?.wrapText"
+      />
+      <sky-data-grid-column
+        field="geography_type"
+        heading="Geography Type"
+        [wrapText]="gridSettingsChanges()?.wrapText"
+      />
+      <sky-data-grid-column field="city" heading="City" />
+      <sky-data-grid-column field="state" heading="State" />
+      <sky-data-grid-column field="county" heading="County" />
+      <sky-data-grid-column field="country" heading="Country" />
+      <sky-data-grid-column field="region" heading="Region" />
+      <sky-data-grid-column field="subregion" heading="Subregion" />
+      <sky-data-grid-column field="locale" heading="Locale" />
+      <sky-data-grid-column field="locus" heading="Locus" />
+      <sky-data-grid-column field="excavation" heading="Excavation" />
+      <sky-data-grid-column field="river" heading="River" />
+      <sky-data-grid-column field="classification" heading="Classification" />
+      <sky-data-grid-column
+        field="rights_and_reproduction"
+        heading="Rights and Reproduction"
+      />
+      <sky-data-grid-column field="link_resource" heading="Link Resource">
+        <ng-template let-value="value"
+          ><app-custom-link [link]="value"
+        /></ng-template>
+      </sky-data-grid-column>
+      <sky-data-grid-column
+        field="object_wikidata_url"
+        heading="Object Wikidata URL"
+      >
+        <ng-template let-value="value"
+          ><app-custom-link [link]="value"
+        /></ng-template>
+      </sky-data-grid-column>
+      <sky-data-grid-column
+        field="tags_wikidata_url"
+        heading="Tags Wikidata URL"
+      >
+        <ng-template let-value="value"
+          ><app-custom-link [link]="value"
+        /></ng-template>
+      </sky-data-grid-column>
+    </sky-data-grid>
+  }
 </sky-data-manager>
 
 <ng-template #contextMenu let-row="row">

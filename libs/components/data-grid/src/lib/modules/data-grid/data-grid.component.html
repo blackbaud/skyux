@@ -1,23 +1,25 @@
 <sky-wait [isWaiting]="!gridReady()" />
 @if (gridOptions(); as gridOptions) {
   @if (useDataManager) {
-    <sky-ag-grid-wrapper
-      skyAgGridRowDelete
-      skyAgGridDataManagerAdapter
-      [viewId]="viewId()"
-      [compact]="compact()"
-      [(rowDeleteIds)]="rowDeleteIds"
-      (rowDeleteCancel)="rowDeleteCancel.emit($event)"
-      (rowDeleteConfirm)="rowDeleteConfirm.emit($event)"
-    >
-      <ag-grid-angular
-        [gridOptions]="gridOptions"
-        [isExternalFilterPresent]="isExternalFilterPresent"
-        [doesExternalFilterPass]="doesExternalFilterPass()"
-        [style.height.px]="height() || undefined"
-        [style.width.px]="width() || undefined"
-      />
-    </sky-ag-grid-wrapper>
+    <sky-data-view [viewId]="viewId()">
+      <sky-ag-grid-wrapper
+        skyAgGridRowDelete
+        skyAgGridDataManagerAdapter
+        [viewId]="viewId()"
+        [compact]="compact()"
+        [(rowDeleteIds)]="rowDeleteIds"
+        (rowDeleteCancel)="rowDeleteCancel.emit($event)"
+        (rowDeleteConfirm)="rowDeleteConfirm.emit($event)"
+      >
+        <ag-grid-angular
+          [gridOptions]="gridOptions"
+          [isExternalFilterPresent]="isExternalFilterPresent"
+          [doesExternalFilterPass]="doesExternalFilterPass()"
+          [style.height.px]="height() || undefined"
+          [style.width.px]="width() || undefined"
+        />
+      </sky-ag-grid-wrapper>
+    </sky-data-view>
   } @else {
     <sky-ag-grid-wrapper
       skyAgGridRowDelete

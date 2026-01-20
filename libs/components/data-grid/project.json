@@ -43,7 +43,8 @@
         "karmaConfig": "libs/components/data-grid/karma.conf.js",
         "styles": [
           "libs/components/theme/src/lib/styles/sky.scss",
-          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss",
+          "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss"
         ],
         "codeCoverage": true,
         "codeCoverageExclude": ["**/fixtures/**"],

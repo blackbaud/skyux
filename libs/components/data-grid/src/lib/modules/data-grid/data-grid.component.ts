@@ -7,6 +7,7 @@ import {
 import {
   ChangeDetectionStrategy,
   Component,
+  Signal,
   computed,
   contentChildren,
   effect,
@@ -18,7 +19,11 @@ import {
   signal,
   untracked,
 } from '@angular/core';
-import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import {
+  takeUntilDestroyed,
+  toObservable,
+  toSignal,
+} from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   SkyAgGridModule,
@@ -28,7 +33,10 @@ import {
   SkyCellType,
 } from '@skyux/ag-grid';
 import { SkyLogService } from '@skyux/core';
-import { SkyDataManagerService } from '@skyux/data-manager';
+import {
+  SkyDataManagerModule,
+  SkyDataManagerService,
+} from '@skyux/data-manager';
 import { SkyDateRange } from '@skyux/datetime';
 import { SkyWaitModule } from '@skyux/indicators';
 import { SkyFilterStateFilterItem, SkyPagingModule } from '@skyux/lists';
@@ -47,6 +55,7 @@ import {
   SelectionChangedEvent,
 } from 'ag-grid-community';
 import {
+  Observable,
   distinctUntilChanged,
   filter,
   fromEvent,
@@ -84,7 +93,13 @@ function arrayIsEqual(
  */
 @Component({
   selector: 'sky-data-grid',
-  imports: [AgGridAngular, SkyAgGridModule, SkyPagingModule, SkyWaitModule],
+  imports: [
+    AgGridAngular,
+    SkyAgGridModule,
+    SkyDataManagerModule,
+    SkyPagingModule,
+    SkyWaitModule,
+  ],
   templateUrl: './data-grid.component.html',
   styleUrl: './data-grid.component.css',
   host: {
@@ -158,7 +173,9 @@ export class SkyDataGridComponent<
   public readonly fit = input<'width' | 'scroll'>('width');
 
   /**
-   * The height of the grid.
+   * The height of the grid. For best performance, large grids should set a `height` value and not enable `wrapText` on
+   * any column so that rows can be virtually drawn as needed. Not setting a `height` or enabling `wrapText` on forces
+   * the grid to draw every row in order to determine the scroll height.
    */
   public readonly height = input<number, unknown>(0, {
     transform: (val: unknown) => coerceNumberProperty(val, 0),
@@ -205,7 +222,9 @@ export class SkyDataGridComponent<
   });
 
   /**
-   * View ID when using SKY UX Data Manager.
+   * View ID when using SKY UX Data Manager. When this input is set,
+   * `sky-data-grid` becomes a `sky-data-view` for SKY UX Data Manager.
+   * Requires `SkyDataManagerService` to be provided and configured.
    */
   public readonly viewId = input<string>();
 
@@ -263,9 +282,12 @@ export class SkyDataGridComponent<
     (): ((node: IRowNode) => boolean) => this.#doesFilterPass(),
   );
   protected readonly pageNumber = linkedSignal(this.page);
-  protected readonly useDataManager = !!inject(SkyDataManagerService, {
+  readonly #dataManagerService = inject(SkyDataManagerService, {
     optional: true,
   });
+  readonly #dataManagerSelectedColumnIds: Signal<string[]>;
+  readonly #dataManagerSearchText: Signal<string>;
+  protected readonly useDataManager = !!this.#dataManagerService;
 
   readonly #gridDestroyed = toObservable(this.gridApi).pipe(
     filter(Boolean),
@@ -307,7 +329,10 @@ export class SkyDataGridComponent<
   );
   readonly #columnDefs = computed<ColDef<T>[]>(() => {
     const columns = this.columns();
-    const displayed = this.selectedColumnIds().filter(Boolean);
+    const displayed = [
+      ...this.selectedColumnIds().filter(Boolean),
+      ...this.#dataManagerSelectedColumnIds().filter(Boolean),
+    ];
     const hidden = this.hiddenColumns().filter(Boolean);
     return columns.map((col): ColDef => {
       const field = col.field();
@@ -322,10 +347,13 @@ export class SkyDataGridComponent<
           inlineHelpComponent: SkyDataGridColumnInlineHelpComponent,
         },
         hide: this.#hideColumn(col, displayed, hidden),
+        resizable: col.isResizable(),
         sortable: col.isSortable(),
         lockPosition: col.locked(),
         suppressMovable: col.locked(),
         type: [],
+        autoHeight: col.wrapText(),
+        wrapText: col.wrapText(),
       };
       if (col.type() === 'date') {
         (colDef.type as string[]).push(SkyCellType.Date);
@@ -344,9 +372,18 @@ export class SkyDataGridComponent<
         (colDef.type as string[]).push(SkyCellType.Template);
         colDef.cellRendererParams = { template: col.cellTemplate };
       }
-      if (col.width() > 0) {
+      if (col.flexWidth() > -1) {
+        colDef.initialFlex = col.flexWidth();
+      } else if (col.width() > 0) {
         colDef.initialWidth = col.width();
+      }
+      if (col.width() > 0) {
+        colDef.minWidth = col.width();
         colDef.suppressSizeToFit = true;
+      }
+      if (!col.isResizable() || col.flexWidth() === 0) {
+        colDef.suppressSizeToFit = true;
+        colDef.suppressAutoSize = true;
       }
       return colDef;
     });
@@ -499,6 +536,42 @@ export class SkyDataGridComponent<
       .subscribe((columnIds) => {
         this.selectedColumnIdsChange.emit(columnIds);
       });
+
+    this.#dataManagerSelectedColumnIds = toSignal(
+      toObservable(this.viewId).pipe(
+        filter(Boolean),
+        switchMap(
+          (viewId): Observable<string[]> =>
+            (this.#dataManagerService as SkyDataManagerService)
+              .getDataStateUpdates(viewId, { properties: ['views'] })
+              .pipe(
+                map(
+                  (state) =>
+                    /* istanbul ignore next */
+                    state.views.find((view) => view.viewId === viewId)
+                      ?.displayedColumnIds ?? [],
+                ),
+              ),
+        ),
+      ),
+      { initialValue: [] },
+    );
+    this.#dataManagerSearchText = toSignal(
+      toObservable(this.viewId).pipe(
+        filter(Boolean),
+        switchMap((viewId) =>
+          (this.#dataManagerService as SkyDataManagerService)
+            .getDataStateUpdates(viewId)
+            .pipe(map((state) => `${state.searchText ?? ''}`)),
+        ),
+      ),
+      { initialValue: '' },
+    );
+    effect(() => {
+      const searchText = this.#dataManagerSearchText();
+      const api = untracked(() => this.gridApi());
+      api?.setGridOption('quickFilterText', searchText);
+    });
   }
 
   protected pageChange(page: number): void {

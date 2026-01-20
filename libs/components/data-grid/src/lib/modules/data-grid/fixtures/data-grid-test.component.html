@@ -170,6 +170,7 @@
       type="text"
       filterId="column1Filter"
       filterOperator="contains"
+      flexWidth="0"
     />
     <sky-data-grid-column
       field="column2"
@@ -177,6 +178,7 @@
       type="text"
       filterId="column2Filter"
       filterOperator="startsWith"
+      flexWidth="1"
     />
     <sky-data-grid-column
       field="column2"
@@ -199,6 +201,7 @@
       type="number"
       filterId="numericFilter"
       [filterOperator]="numberFilterOperator()"
+      [isResizable]="false"
     />
     <sky-data-grid-column
       field="dateColumn"
