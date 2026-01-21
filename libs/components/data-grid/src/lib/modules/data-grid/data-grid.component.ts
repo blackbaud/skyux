@@ -119,6 +119,7 @@ export class SkyDataGridComponent<
   /**
    * Enable a compact layout for the grid when using modern theme. Compact layout uses
    * a smaller font size and row height to display more data in a smaller space.
+   * @default false
    */
   public readonly compact = input<boolean, unknown>(false, {
     transform: coerceBooleanProperty,
@@ -167,7 +168,7 @@ export class SkyDataGridComponent<
    */
   public readonly appliedFilters = input<
     SkyFilterStateFilterItem<
-      T[keyof T] extends string ? string | string[] : T[keyof T] | string
+      (T[keyof T] extends string ? string[] : T[keyof T]) | string
     >[]
   >([]);
 
@@ -176,7 +177,7 @@ export class SkyDataGridComponent<
    * which fits the grid to the parent's full width, and `scroll`, which allows the grid
    * to exceed the parent's width. If the grid does not have enough columns to fill
    * the parent's width, it always stretches to the parent's full width.
-   * @default "width"
+   * @default `'width'`
    */
   public readonly fit = input<'width' | 'scroll'>('width');
 
@@ -184,6 +185,7 @@ export class SkyDataGridComponent<
    * The height of the grid. For best performance, large grids should set a `height` value and not enable `wrapText` on
    * any column so that rows can be virtually drawn as needed. Not setting a `height` or enabling `wrapText` on forces
    * the grid to draw every row in order to determine the scroll height.
+   * @default `0`
    */
   public readonly height = input<number, unknown>(0, {
     transform: (val: unknown) => coerceNumberProperty(val, 0),
@@ -191,7 +193,7 @@ export class SkyDataGridComponent<
 
   /**
    * The unique ID that matches a property on the `data` object.
-   * By default, this property uses the `id` property.
+   * @default `'id'`
    */
   public readonly multiselectRowId = input<keyof T, unknown>('id', {
     transform: (value: unknown) => String(value) as keyof T,
@@ -199,7 +201,7 @@ export class SkyDataGridComponent<
 
   /**
    * The current page number of the grid. When using `pageQueryParam`, this value should come from the query parameter.
-   * @default 1
+   * @default `1`
    */
   public readonly page = input<number, unknown>(1, {
     transform: (val: unknown) => coerceNumberProperty(val, 1),
@@ -207,7 +209,7 @@ export class SkyDataGridComponent<
 
   /**
    * The number of items to display per page. Set to `0` to disable pagination.
-   * @default 0
+   * @default `0`
    */
   public readonly pageSize = input<number, unknown>(0, {
     transform: (val: unknown) => coerceNumberProperty(val, 0),
@@ -224,6 +226,7 @@ export class SkyDataGridComponent<
 
   /**
    * Move the horizontal scrollbar to just below the header row.
+   * @default false
    */
   public readonly enableTopScroll = input<boolean, unknown>(false, {
     transform: coerceBooleanProperty,
@@ -234,6 +237,7 @@ export class SkyDataGridComponent<
    * `pageChange`, `sortChange`, filter change, and search (when using search such as with a SKY UX data manager).
    * If this input is not set, the data grid will page, sort, filter, and apply SKY UX data manager search text to the
    * `data` provided.
+   * @default `undefined`
    */
   public readonly totalRowCount = input<number | undefined>(undefined);
   readonly #useInternalFilters = computed(() => {
@@ -250,6 +254,7 @@ export class SkyDataGridComponent<
 
   /**
    * The width of the grid in pixels.
+   * @default `0`
    */
   public readonly width = input<number, unknown>(0, {
     transform: (val: unknown) => coerceNumberProperty(val, 0),

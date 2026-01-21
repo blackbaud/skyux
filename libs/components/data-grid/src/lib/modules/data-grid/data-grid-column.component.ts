@@ -48,6 +48,7 @@ export class SkyDataGridColumnComponent {
 
   /**
    * Whether to prevent `heading` text from being visibly displayed.
+   * @default false
    */
   public readonly headingHidden = input<boolean, unknown>(false, {
     transform: booleanAttribute,
@@ -118,13 +119,13 @@ export class SkyDataGridColumnComponent {
 
   /**
    * The data type of the column used for filtering, sorting, and rendering when a template is not provided.
-   * The default is 'text'.
+   * @default `'text'`
    */
   public readonly type = input<'text' | 'number' | 'date' | 'boolean'>('text');
 
   /**
-   * The width of the column in pixels.
-   * If undefined, the column width is evenly distributed.
+   * The width of the column in pixels. When set to `0`, the column width is evenly distributed.
+   * @default `0`
    */
   public readonly width = input<number, unknown>(0, {
     transform: numberAttribute,
@@ -143,13 +144,15 @@ export class SkyDataGridColumnComponent {
   /**
    * The filter ID that maps this column to a filter bar item.
    * When set, changes to the corresponding filter will apply to this column.
-   * Defaults to the column's `field` value.
+   * @default the column's `field` value.
    */
   public readonly filterId = input<string>();
 
   /**
    * The filter operator to use when applying the filter.
+   *
    * Defaults based on column type:
+   *
    * - text: 'contains'
    * - number: 'equals'
    * - date: 'equals'
