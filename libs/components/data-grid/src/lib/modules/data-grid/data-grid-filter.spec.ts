@@ -85,7 +85,7 @@ describe('data-grid-filter', () => {
             filterOperator: 'contains',
             type: 'text',
           },
-        ],
+        ] as any,
         logService,
       ),
     ).toBeFalse();

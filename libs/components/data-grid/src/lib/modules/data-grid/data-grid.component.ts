@@ -43,6 +43,7 @@ import { SkyFilterStateFilterItem, SkyPagingModule } from '@skyux/lists';
 import { AgGridAngular } from 'ag-grid-angular';
 import {
   AllCommunityModule,
+  AutoSizeStrategy,
   ColDef,
   DisplayedColumnsChangedEvent,
   GetRowIdParams,
@@ -51,6 +52,7 @@ import {
   GridPreDestroyedEvent,
   IRowNode,
   ModuleRegistry,
+  RowSelectionOptions,
   SelectionChangedEvent,
   SortChangedEvent,
 } from 'ag-grid-community';
@@ -109,9 +111,7 @@ function arrayIsEqual(
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyDataGridComponent<
-  T extends { id: string; [_: string]: unknown } = Record<string, unknown> & {
-    id: string;
-  },
+  T extends { id: string } = { id: string } & Record<string, unknown>,
 > {
   /**
    * The data for the grid. Each item requires an `id` and a property that maps
@@ -122,14 +122,14 @@ export class SkyDataGridComponent<
   /**
    * Enable a compact layout for the grid when using modern theme. Compact layout uses
    * a smaller font size and row height to display more data in a smaller space.
-   * @default `false`
+   * @default false
    */
   public readonly compact = input<boolean, unknown>(false, {
     transform: coerceBooleanProperty,
   });
 
   /**
-   * The columns to display by default based on the ID or field of the item.
+   * The column IDs or fields for columns to show. Should not be used when using `hiddenColumns`.
    */
   public readonly selectedColumnIds = input<string[], unknown>([], {
     transform: coerceStringArray,
@@ -143,7 +143,7 @@ export class SkyDataGridComponent<
   public readonly selectedColumnIdsChange = output<string[]>();
 
   /**
-   * The columns to hide by default based on the ID or field of the item.
+   * The column IDs or fields for columns to hide. Should not be used when using `selectedColumnIds`.
    */
   public readonly hiddenColumns = input<string[], unknown>([], {
     transform: coerceStringArray,
@@ -154,7 +154,7 @@ export class SkyDataGridComponent<
    * checkboxes on the left side of the grid. You can specify a unique ID with
    * the `multiselectRowId` property, but multiselect defaults to the `id` property on
    * the `data` object.
-   * @default `false`
+   * @default false
    */
   public readonly enableMultiselect = input<boolean, unknown>(false, {
     transform: coerceBooleanProperty,
@@ -180,15 +180,16 @@ export class SkyDataGridComponent<
    * which fits the grid to the parent's full width, and `scroll`, which allows the grid
    * to exceed the parent's width. If the grid does not have enough columns to fill
    * the parent's width, it always stretches to the parent's full width.
-   * @default `'width'`
+   * @default 'width'
    */
   public readonly fit = input<'width' | 'scroll'>('width');
 
   /**
-   * The height of the grid. For best performance, large grids should set a `height` value and not enable `wrapText` on
-   * any column so that rows can be virtually drawn as needed. Not setting a `height` or enabling `wrapText` on forces
-   * the grid to draw every row in order to determine the scroll height.
-   * @default `0`
+   * The height of the grid in CSS pixels. For best performance, large grids should set a `height` value and not enable
+   * `wrapText` on any column so that rows can be virtually drawn as needed. When `wrapText` is  enabled on any column,
+   * or when `height` is not set, the grid needs to build every row in order to determine the scroll height, creating
+   * hundreds or thousands of invisible DOM elements and slowing down the browser.
+   * @default 0
    */
   public readonly height = input<number, unknown>(0, {
     transform: (val: unknown) => coerceNumberProperty(val, 0),
@@ -196,7 +197,7 @@ export class SkyDataGridComponent<
 
   /**
    * The unique ID that matches a property on the `data` object.
-   * @default `'id'`
+   * @default 'id'
    */
   public readonly multiselectRowId = input<keyof T, unknown>('id', {
     transform: (value: unknown) => String(value) as keyof T,
@@ -204,7 +205,7 @@ export class SkyDataGridComponent<
 
   /**
    * The current page number of the grid. When using `pageQueryParam`, this value should come from the query parameter.
-   * @default `1`
+   * @default 1
    */
   public readonly page = input<number, unknown>(1, {
     transform: (val: unknown) => coerceNumberProperty(val, 1),
@@ -212,7 +213,7 @@ export class SkyDataGridComponent<
 
   /**
    * The number of items to display per page. Set to `0` to disable pagination.
-   * @default `0`
+   * @default 0
    */
   public readonly pageSize = input<number, unknown>(0, {
     transform: (val: unknown) => coerceNumberProperty(val, 0),
@@ -229,7 +230,7 @@ export class SkyDataGridComponent<
 
   /**
    * Move the horizontal scrollbar to just below the header row.
-   * @default `false`
+   * @default false
    */
   public readonly enableTopScroll = input<boolean, unknown>(false, {
     transform: coerceBooleanProperty,
@@ -237,10 +238,10 @@ export class SkyDataGridComponent<
 
   /**
    * The total number of records. When this input is set, it is expected that `data` will be updated for each
-   * `pageChange`, `sortChange`, filter change, and search (when using search such as with a SKY UX data manager).
+   * `pageChange`, `sortChange`, `appliedFilters` change, and search (when using search such as with a SKY UX data manager).
    * If this input is not set, the data grid will page, sort, filter, and apply SKY UX data manager search text to the
    * `data` provided.
-   * @default `undefined`
+   * @default undefined
    */
   public readonly totalRowCount = input<number | undefined>(undefined);
   readonly #useInternalFilters = computed(() => {
@@ -250,14 +251,14 @@ export class SkyDataGridComponent<
 
   /**
    * View ID when using SKY UX Data Manager. When this input is set,
-   * `sky-data-grid` becomes a `sky-data-view` for SKY UX Data Manager.
+   * `sky-data-grid` provides a `sky-data-view` for SKY UX Data Manager.
    * Requires `SkyDataManagerService` to be provided and configured.
    */
   public readonly viewId = input<string>();
 
   /**
-   * The width of the grid in pixels.
-   * @default `0`
+   * The width of the grid in CSS pixels. When set to `0`, the grid will use the width of its container.
+   * @default 0
    */
   public readonly width = input<number, unknown>(0, {
     transform: (val: unknown) => coerceNumberProperty(val, 0),
@@ -315,11 +316,13 @@ export class SkyDataGridComponent<
   protected readonly gridApi = signal<GridApi | undefined>(undefined);
   protected readonly gridOptions = computed(() => {
     const columnDefs = this.#columnDefs();
-    const hasPageSize = this.pageSize() > 0;
-    const useInternalFilters = this.#useInternalFilters();
+    const enableTopScroll = untracked(this.enableTopScroll);
+    const pageSize = untracked(this.pageSize);
+    const hasPageSize = pageSize > 0;
+    const height = untracked(this.height);
+    const useInternalFilters = untracked(this.#useInternalFilters);
     const pagination = hasPageSize && useInternalFilters;
-    const paginationPageSize =
-      (useInternalFilters && this.pageSize()) || undefined;
+    const paginationPageSize = (useInternalFilters && pageSize) || undefined;
     if (columnDefs.length === 0) {
       return undefined;
     }
@@ -327,9 +330,9 @@ export class SkyDataGridComponent<
       gridOptions: {
         columnDefs,
         context: {
-          enableTopScroll: this.enableTopScroll(),
+          enableTopScroll,
         },
-        domLayout: this.height() ? 'normal' : 'autoHeight',
+        domLayout: height ? 'normal' : 'autoHeight',
         onGridReady: (args) => {
           this.gridApi.set(args.api);
           this.gridReady.set(true);
@@ -337,31 +340,15 @@ export class SkyDataGridComponent<
         pagination,
         suppressPaginationPanel: true,
         paginationPageSize,
-        rowData: this.rowData(),
+        rowData: untracked(this.rowData),
         getRowId: (params: GetRowIdParams<T>) =>
-          params.data[this.multiselectRowId() as keyof T] as string,
-        rowSelection: this.enableMultiselect()
-          ? {
-              checkboxes: true,
-              checkboxLocation: 'selectionColumn',
-              headerCheckbox: true,
-              mode: 'multiRow',
-            }
-          : {
-              checkboxes: false,
-              mode: 'singleRow',
-            },
-        autoSizeStrategy:
-          this.fit() === 'width' || this.width()
-            ? {
-                type: 'fitGridWidth',
-              }
-            : {
-                type: 'fitCellContents',
-              },
+          params.data[untracked(this.multiselectRowId) as keyof T] as string,
+        rowSelection: untracked(() => this.#getRowSelection()),
+        autoSizeStrategy: untracked(() => this.#getAutoSizeStrategy()),
       },
     }) as GridOptions<T>;
   });
+
   protected readonly gridReady = signal(false);
   protected readonly rowData = computed(() => {
     const pageSize = this.pageSize();
@@ -548,35 +535,26 @@ export class SkyDataGridComponent<
       api?.setGridOption('columnDefs', columns);
     });
     effect(() => {
-      this.enableMultiselect();
       const api = untracked(() => this.gridApi());
-      const options = untracked(() => this.gridOptions());
-      if (api && options) {
-        api.setGridOption('rowSelection', options.rowSelection);
-      }
+      const rowSelection = this.#getRowSelection();
+      api?.setGridOption('rowSelection', rowSelection);
     });
     effect(() => {
-      this.height();
-      const api = untracked(() => this.gridApi());
-      const options = untracked(() => this.gridOptions());
-      if (api && options) {
-        api.setGridOption('domLayout', options.domLayout);
-      }
+      const api = untracked(this.gridApi);
+      const height = this.height();
+      api?.setGridOption('domLayout', height ? 'normal' : 'autoHeight');
     });
     effect(() => {
-      this.pageSize();
-      this.#useInternalFilters();
       const api = untracked(() => this.gridApi());
-      const options = untracked(() => this.gridOptions());
-      if (api && options) {
-        api.setGridOption('pagination', options.pagination);
-        api.setGridOption('paginationPageSize', options.paginationPageSize);
-      }
+      const pageSize = this.pageSize();
+      const useInternalFilters = this.#useInternalFilters();
+      api?.setGridOption('pagination', pageSize > 0 && useInternalFilters);
+      api?.setGridOption('paginationPageSize', pageSize);
     });
     effect(() => {
       const api = this.gridApi();
       const selectedRowIds = coerceStringArray(this.selectedRowIds());
-      this.data();
+      this.rowData();
       const currentSelectedRowIds = this.#getRowIds(api?.getSelectedNodes());
       if (!arrayIsEqual(selectedRowIds, currentSelectedRowIds)) {
         api?.deselectAll();
@@ -726,5 +704,30 @@ export class SkyDataGridComponent<
     return coerceArray(rows)
       .map((node) => node?.id as string)
       .filter(Boolean) as string[];
+  }
+
+  #getAutoSizeStrategy(): AutoSizeStrategy {
+    const width = this.width();
+    return this.fit() === 'width' || width
+      ? {
+          type: 'fitGridWidth',
+        }
+      : {
+          type: 'fitCellContents',
+        };
+  }
+
+  #getRowSelection(): RowSelectionOptions<T> {
+    return this.enableMultiselect()
+      ? {
+          checkboxes: true,
+          checkboxLocation: 'selectionColumn',
+          headerCheckbox: true,
+          mode: 'multiRow',
+        }
+      : {
+          checkboxes: false,
+          mode: 'singleRow',
+        };
   }
 }

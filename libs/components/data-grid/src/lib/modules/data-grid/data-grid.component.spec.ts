@@ -323,6 +323,11 @@ describe('SkyDataGridComponent', () => {
       fixture.detectChanges();
       await fixture.whenStable();
       expect(api?.getGridOption('domLayout')).toBe('normal');
+
+      fixture.componentRef.setInput('height', 0);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(api?.getGridOption('domLayout')).toBe('autoHeight');
     });
 
     it('should update grid options when enableMultiselect changes', async () => {
@@ -348,8 +353,6 @@ describe('SkyDataGridComponent', () => {
       await fixture.whenStable();
       expect(api?.getGridOption('rowSelection')).toEqual({
         mode: 'multiRow',
-        enableClickSelection: false,
-        enableSelectionWithoutKeys: true,
         checkboxes: true,
         headerCheckbox: true,
         checkboxLocation: 'selectionColumn',

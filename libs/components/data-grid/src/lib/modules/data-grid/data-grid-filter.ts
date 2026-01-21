@@ -6,9 +6,7 @@ import { SkyDataGridFilterOperator } from '../types/data-grid-filter-operator';
 import { SkyDataGridNumberRangeFilterValue } from '../types/data-grid-number-range-filter-value';
 
 export function doesFilterPass<
-  T extends { id: string; [_: string]: unknown } = Record<string, unknown> & {
-    id: string;
-  },
+  T extends { id: string } = { id: string } & Record<string, unknown>,
 >(
   filterItems: SkyFilterStateFilterItem<
     T[keyof T] extends string ? string | string[] : T[keyof T] | string
@@ -28,9 +26,7 @@ export function doesFilterPass<
 }
 
 function doesSingleFilterPass<
-  T extends { id: string; [_: string]: unknown } = Record<string, unknown> & {
-    id: string;
-  },
+  T extends { id: string } = { id: string } & Record<string, unknown>,
 >(
   filter: SkyFilterStateFilterItem<
     T[keyof T] extends string ? string | string[] : T[keyof T] | string
