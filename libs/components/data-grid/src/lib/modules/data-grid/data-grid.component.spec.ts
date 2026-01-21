@@ -230,6 +230,21 @@ describe('SkyDataGridComponent', () => {
       expect(api?.getGridOption('paginationPageSize')).toBe(2);
     });
 
+    it('should constrict grid page size when using totalRowCount', async () => {
+      fixture.componentRef.setInput('pageSize', 2);
+      fixture.componentRef.setInput('totalRowCount', 123);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      const api = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="grid"] ag-grid-angular',
+        ),
+      );
+      expect(api).toBeTruthy();
+      expect(api?.getGridOption('pagination')).toBeFalsy();
+      expect(api?.getDisplayedRowCount()).toBe(2);
+    });
+
     it('should update grid options when height changes', async () => {
       fixture.detectChanges();
       await fixture.whenStable();
@@ -436,6 +451,39 @@ describe('SkyDataGridComponent', () => {
     });
 
     describe('apply filters', () => {
+      it('should not apply filter when totalRowCount is set', async () => {
+        fixture.componentRef.setInput('showAllGrids', false);
+        fixture.componentRef.setInput('showFilteredGrid', true);
+        fixture.componentRef.setInput('totalRowCount', 123);
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        const api = getGridApi(
+          fixture.nativeElement.querySelector(
+            '[data-sky-id="filtered-grid"] ag-grid-angular',
+          ),
+        );
+        expect(api).toBeTruthy();
+        expect(api?.getDisplayedRowCount()).toBe(7);
+
+        // Apply a text filter
+        fixture.componentRef.setInput('appliedFilters', [
+          {
+            filterId: 'column1Filter',
+            filterValue: { value: ['1'], displayValue: 'Contains "1"' },
+          },
+          {
+            filterId: 'column2Filter',
+            filterValue: { value: 'Ban', displayValue: 'Starts with Ban' },
+          },
+        ]);
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        // Should not filter rows because totalRowCount is set and data has not been updated.
+        expect(api?.getDisplayedRowCount()).toBe(7);
+      });
+
       it('should apply text filter to grid', async () => {
         fixture.componentRef.setInput('showAllGrids', false);
         fixture.componentRef.setInput('showFilteredGrid', true);

@@ -37,7 +37,6 @@ import {
   SkyDataManagerModule,
   SkyDataManagerService,
 } from '@skyux/data-manager';
-import { SkyDateRange } from '@skyux/datetime';
 import { SkyWaitModule } from '@skyux/indicators';
 import { SkyFilterStateFilterItem, SkyPagingModule } from '@skyux/lists';
 
@@ -65,11 +64,11 @@ import {
   takeUntil,
 } from 'rxjs';
 
-import { SkyDataGridFilterOperator } from '../types/data-grid-filter-operator';
-import { SkyDataGridNumberRangeFilterValue } from '../types/data-grid-number-range-filter-value';
+import { SkyDataGridSort } from '../types/data-grid-sort';
 
 import { SkyDataGridColumnInlineHelpComponent } from './data-grid-column-inline-help.component';
 import { SkyDataGridColumnComponent } from './data-grid-column.component';
+import { doesFilterPass } from './data-grid-filter';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -160,8 +159,17 @@ export class SkyDataGridComponent<
   /**
    * The filter state from a filter bar. When provided, filters are automatically
    * applied to columns that have matching `filterId` values.
+   *
+   * - When filtering a boolean column, use a `boolean` as the filter value with `'equals' | 'notEqual'` as the operator.
+   * - When filtering a date column, use a `SkyDateRange` as the filter value.
+   * - When filtering a number column, use a `SkyDataGridNumberRangeFilterValue`.
+   * - When filtering a text column, use `string | string[]` as the filter value to match one or more text values.
    */
-  public readonly appliedFilters = input<SkyFilterStateFilterItem[]>([]);
+  public readonly appliedFilters = input<
+    SkyFilterStateFilterItem<
+      T[keyof T] extends string ? string | string[] : T[keyof T] | string
+    >[]
+  >([]);
 
   /**
    * How the grid fits to its parent. The valid options are `width`,
@@ -222,6 +230,18 @@ export class SkyDataGridComponent<
   });
 
   /**
+   * The total number of records. When this input is set, it is expected that `data` will be updated for each
+   * `pageChange`, `sortChange`, filter change, and search (when using search such as with a SKY UX data manager).
+   * If this input is not set, the data grid will page, sort, filter, and apply SKY UX data manager search text to the
+   * `data` provided.
+   */
+  public readonly totalRowCount = input<number | undefined>(undefined);
+  readonly #useInternalFilters = computed(() => {
+    const totalRowCount = this.totalRowCount();
+    return typeof totalRowCount === 'undefined';
+  });
+
+  /**
    * View ID when using SKY UX Data Manager. When this input is set,
    * `sky-data-grid` becomes a `sky-data-view` for SKY UX Data Manager.
    * Requires `SkyDataManagerService` to be provided and configured.
@@ -263,6 +283,12 @@ export class SkyDataGridComponent<
   public readonly rowDeleteIds = model<string[]>([]);
 
   /**
+   * When `pageSize > 0` and `pageQueryParam` is not set, emits the current page when the paging through data.
+   * When using `pageQueryParam`, the changes should come through the `Router`.
+   */
+  public readonly pageChange = output<number>();
+
+  /**
    * Fires when users cancel the deletion of a row.
    */
   public readonly rowDeleteCancel = output<SkyAgGridRowDeleteCancelArgs>();
@@ -272,16 +298,104 @@ export class SkyDataGridComponent<
    */
   public readonly rowDeleteConfirm = output<SkyAgGridRowDeleteConfirmArgs>();
 
+  /**
+   * Fires when the column sorting changes.
+   */
+  public readonly sortChange = output<SkyDataGridSort>();
+
   protected readonly columns = contentChildren(SkyDataGridColumnComponent);
-  protected readonly gridReady = signal(false);
   protected readonly gridApi = signal<GridApi | undefined>(undefined);
-  protected readonly isExternalFilterPresent = computed(
-    () => (this.appliedFilters() ?? []).length > 0,
-  );
+  protected readonly gridOptions = computed(() => {
+    const columnDefs = this.#columnDefs();
+    if (columnDefs.length === 0) {
+      return undefined;
+    }
+    const hasPageSize = this.pageSize() > 0;
+    const useInternalFilters = this.#useInternalFilters();
+    const pagination = hasPageSize && useInternalFilters;
+    const paginationPageSize =
+      (useInternalFilters && this.pageSize()) || undefined;
+    return this.#gridService.getGridOptions({
+      gridOptions: {
+        columnDefs,
+        context: {
+          enableTopScroll: this.enableTopScroll(),
+        },
+        domLayout: this.height() ? 'normal' : 'autoHeight',
+        onGridReady: (args) => {
+          this.gridApi.set(args.api);
+          this.gridReady.set(true);
+        },
+        pagination,
+        suppressPaginationPanel: true,
+        paginationPageSize,
+        rowData: this.rowData(),
+        getRowId: (params: GetRowIdParams<T>) =>
+          params.data[this.multiselectRowId() as keyof T] as string,
+        rowSelection: this.enableMultiselect()
+          ? {
+              checkboxes: true,
+              checkboxLocation: 'selectionColumn',
+              headerCheckbox: true,
+              mode: 'multiRow',
+            }
+          : {
+              checkboxes: false,
+              mode: 'singleRow',
+            },
+        autoSizeStrategy:
+          this.fit() === 'width' || this.width()
+            ? {
+                type: 'fitGridWidth',
+              }
+            : {
+                type: 'fitCellContents',
+              },
+      },
+    }) as GridOptions<T>;
+  });
+  protected readonly gridReady = signal(false);
+  protected readonly rowData = computed(() => {
+    const pageSize = this.pageSize();
+    const useInternalFilters = this.#useInternalFilters();
+    let data = this.data() ?? [];
+    if (pageSize > 0 && !useInternalFilters) {
+      data = data.slice(0, pageSize);
+    }
+    return data;
+  });
+
+  protected readonly isExternalFilterPresent = computed(() => {
+    const hasFilters = (this.appliedFilters() ?? []).length > 0;
+    const useInternalFilters = this.#useInternalFilters();
+    return hasFilters && useInternalFilters;
+  });
   protected readonly doesExternalFilterPass = computed(
-    (): ((node: IRowNode) => boolean) => this.#doesFilterPass(),
+    (): ((node: IRowNode) => boolean) => {
+      const appliedFilters = this.appliedFilters();
+      const columns = this.columns().map((col) => ({
+        filterId: col.filterId(),
+        field: col.field() as keyof T | undefined,
+        filterOperator: col.filterOperator(),
+        type: col.type(),
+      }));
+      return (node: IRowNode<T>): boolean =>
+        doesFilterPass(appliedFilters, node.data as T, columns, this.#logger);
+    },
   );
+
+  protected readonly pageCount = computed(() => {
+    const dataLength = this.rowData().length;
+    const totalRowCount = this.totalRowCount();
+    const pageSize = this.pageSize();
+    const gridReady = this.gridReady();
+    if (!gridReady || pageSize === 0) {
+      return 0;
+    }
+    return Math.ceil((totalRowCount ?? dataLength) / pageSize);
+  });
   protected readonly pageNumber = linkedSignal(this.page);
+
   readonly #dataManagerService = inject(SkyDataManagerService, {
     optional: true,
   });
@@ -289,44 +403,11 @@ export class SkyDataGridComponent<
   readonly #dataManagerSearchText: Signal<string>;
   protected readonly useDataManager = !!this.#dataManagerService;
 
-  readonly #gridDestroyed = toObservable(this.gridApi).pipe(
-    filter(Boolean),
-    switchMap((api) =>
-      fromEventPattern<GridPreDestroyedEvent>((handler) =>
-        api.addEventListener('gridPreDestroyed', handler),
-      ),
-    ),
-  );
+  readonly #activatedRoute = inject(ActivatedRoute, { optional: true });
   readonly #gridService = inject(SkyAgGridService);
-  readonly #gridSelectedRowIds = toObservable(this.gridApi).pipe(
-    filter(Boolean),
-    switchMap((api) =>
-      fromEvent<SelectionChangedEvent>(api, 'selectionChanged').pipe(
-        takeUntil(this.#gridDestroyed),
-        map((selection) =>
-          arraySorted(this.#getRowIds(selection.selectedNodes)),
-        ),
-        distinctUntilChanged(arrayIsEqual),
-      ),
-    ),
-  );
-  readonly #gridDisplayedColumnIds = toObservable(this.gridApi).pipe(
-    filter(Boolean),
-    switchMap((api) =>
-      fromEvent<DisplayedColumnsChangedEvent>(
-        api,
-        'displayedColumnsChanged',
-      ).pipe(
-        takeUntil(this.#gridDestroyed),
-        map((columnsEvent) =>
-          columnsEvent.api
-            .getAllDisplayedColumns()
-            .map((col) => col.getColId()),
-        ),
-        distinctUntilChanged(arrayIsEqual),
-      ),
-    ),
-  );
+  readonly #logger = inject(SkyLogService);
+  readonly #router = inject(Router, { optional: true });
+
   readonly #columnDefs = computed<ColDef<T>[]>(() => {
     const columns = this.columns();
     const displayed = [
@@ -388,70 +469,49 @@ export class SkyDataGridComponent<
       return colDef;
     });
   });
-
-  readonly #activatedRoute = inject(ActivatedRoute, { optional: true });
-  readonly #router = inject(Router, { optional: true });
-  readonly #logger = inject(SkyLogService);
-
-  protected readonly gridOptions = computed(() => {
-    const columnDefs = this.#columnDefs();
-    if (columnDefs.length === 0) {
-      return undefined;
-    }
-    return this.#gridService.getGridOptions({
-      gridOptions: {
-        columnDefs,
-        context: {
-          enableTopScroll: this.enableTopScroll(),
-        },
-        domLayout: this.height() ? 'normal' : 'autoHeight',
-        onGridReady: (args) => {
-          this.gridApi.set(args.api);
-          this.gridReady.set(true);
-        },
-        pagination: this.pageSize() > 0,
-        suppressPaginationPanel: true,
-        paginationPageSize: this.pageSize() || undefined,
-        rowData: this.data(),
-        getRowId: (params: GetRowIdParams<T>) =>
-          params.data[this.multiselectRowId() as keyof T] as string,
-        rowSelection: this.enableMultiselect()
-          ? {
-              checkboxes: true,
-              checkboxLocation: 'selectionColumn',
-              headerCheckbox: true,
-              mode: 'multiRow',
-            }
-          : {
-              checkboxes: false,
-              mode: 'singleRow',
-            },
-        autoSizeStrategy:
-          this.fit() === 'width' || this.width()
-            ? {
-                type: 'fitGridWidth',
-              }
-            : {
-                type: 'fitCellContents',
-              },
-      },
-    }) as GridOptions<T>;
-  });
-  protected readonly pageCount = computed(() => {
-    const dataLength = this.data()?.length ?? 0;
-    const pageSize = this.pageSize();
-    const gridReady = this.gridReady();
-    if (!gridReady || pageSize === 0) {
-      return 0;
-    }
-    return Math.ceil(dataLength / pageSize);
-  });
+  readonly #gridDestroyed = toObservable(this.gridApi).pipe(
+    filter(Boolean),
+    switchMap((api) =>
+      fromEventPattern<GridPreDestroyedEvent>((handler) =>
+        api.addEventListener('gridPreDestroyed', handler),
+      ),
+    ),
+  );
+  readonly #gridSelectedRowIds = toObservable(this.gridApi).pipe(
+    filter(Boolean),
+    switchMap((api) =>
+      fromEvent<SelectionChangedEvent>(api, 'selectionChanged').pipe(
+        takeUntil(this.#gridDestroyed),
+        map((selection) =>
+          arraySorted(this.#getRowIds(selection.selectedNodes)),
+        ),
+        distinctUntilChanged(arrayIsEqual),
+      ),
+    ),
+  );
+  readonly #gridDisplayedColumnIds = toObservable(this.gridApi).pipe(
+    filter(Boolean),
+    switchMap((api) =>
+      fromEvent<DisplayedColumnsChangedEvent>(
+        api,
+        'displayedColumnsChanged',
+      ).pipe(
+        takeUntil(this.#gridDestroyed),
+        map((columnsEvent) =>
+          columnsEvent.api
+            .getAllDisplayedColumns()
+            .map((col) => col.getColId()),
+        ),
+        distinctUntilChanged(arrayIsEqual),
+      ),
+    ),
+  );
 
   constructor() {
     effect(() => {
       const api = untracked(() => this.gridApi());
-      const data = this.data() ?? [];
-      api?.setGridOption('rowData', data);
+      const rowData = this.rowData();
+      api?.setGridOption('rowData', rowData);
     });
     effect(() => {
       const api = untracked(() => this.gridApi());
@@ -476,6 +536,7 @@ export class SkyDataGridComponent<
     });
     effect(() => {
       this.pageSize();
+      this.#useInternalFilters();
       const api = untracked(() => this.gridApi());
       const options = untracked(() => this.gridOptions());
       if (api && options) {
@@ -574,7 +635,7 @@ export class SkyDataGridComponent<
     });
   }
 
-  protected pageChange(page: number): void {
+  protected currentPageChange(page: number): void {
     const pageQueryParam = this.pageQueryParam();
     const pageNumber = coerceNumberProperty(page, 1);
     if (
@@ -593,6 +654,9 @@ export class SkyDataGridComponent<
       });
     } else if (page) {
       this.pageNumber.set(page);
+      if (this.pageCount() > 0) {
+        this.pageChange.emit(page);
+      }
     }
   }
 
@@ -619,236 +683,5 @@ export class SkyDataGridComponent<
     return coerceArray(rows)
       .map((node) => node?.id as string)
       .filter(Boolean) as string[];
-  }
-
-  #doesFilterPass(): (node: IRowNode<T>) => boolean {
-    const appliedFilters = this.appliedFilters();
-    const columns = this.columns();
-    columns.forEach((column: SkyDataGridColumnComponent) => {
-      // Track changes to filter operators by invoking the signal.
-      column.filterOperator();
-    });
-    return (node: IRowNode<T>): boolean =>
-      appliedFilters.every((filter) =>
-        this.#doesSingleFilterPass(filter, node, columns),
-      );
-  }
-
-  #doesSingleFilterPass(
-    filter: SkyFilterStateFilterItem,
-    node: IRowNode<T>,
-    columns: readonly SkyDataGridColumnComponent[],
-  ): boolean {
-    // Find column with matching filterId
-    let column = columns.find((col) => col.filterId() === filter.filterId);
-    column ??= columns.find((col) => col.field() === filter.filterId);
-    if (!column || filter.filterValue?.value === undefined || !node.data) {
-      return true;
-    }
-
-    const rowValue = node.data[column.field() as keyof T];
-    const filterValue = filter.filterValue.value;
-    const filterOperator = column.filterOperator();
-
-    switch (column.type()) {
-      case 'text':
-        return this.#doesTextFilterPass(
-          filterOperator ?? 'contains',
-          filterValue,
-          String(rowValue ?? ''),
-        );
-      case 'number':
-        return this.#doesNumericFilterPass(
-          filterValue as string | number | SkyDataGridNumberRangeFilterValue,
-          rowValue as string | number,
-          filterOperator,
-        );
-      case 'date':
-        return this.#doesDateFilterPass(
-          filterValue as SkyDateRange | Date | string,
-          rowValue as Date | string,
-          filterOperator,
-        );
-      case 'boolean':
-        return this.#doesBooleanFilterPass(
-          filterValue,
-          rowValue,
-          filterOperator,
-        );
-    }
-  }
-
-  #doesBooleanFilterPass(
-    filterValue: unknown,
-    rowValue: unknown,
-    filterOperator: SkyDataGridFilterOperator | undefined,
-  ): boolean {
-    if (
-      filterOperator === 'notEqual' &&
-      Boolean(rowValue) === Boolean(filterValue)
-    ) {
-      return false;
-    } else if (
-      (filterOperator ?? 'equals') === 'equals' &&
-      Boolean(rowValue) !== Boolean(filterValue)
-    ) {
-      return false;
-    } else if (
-      filterOperator &&
-      !['equals', 'notEqual'].includes(filterOperator)
-    ) {
-      this.#logger.warn(
-        `Unsupported boolean filter operator: ${filterOperator}`,
-      );
-    }
-    return true;
-  }
-
-  #doesDateFilterPass(
-    filterValue: SkyDateRange | Date | string,
-    rowValue: Date | string,
-    filterOperator: SkyDataGridFilterOperator | undefined,
-  ): boolean {
-    const rowDate = this.#asDate(rowValue);
-    if (this.#isDateRangeFilter(filterValue)) {
-      const range = filterValue as SkyDateRange;
-      return !(
-        (range.startDate && rowDate < new Date(range.startDate)) ||
-        (range.endDate && rowDate > new Date(range.endDate))
-      );
-    } else {
-      const filterDate = this.#asDate(filterValue);
-      return !this.#numericFilter(
-        filterOperator ?? 'equals',
-        this.#zeroHour(filterDate),
-        this.#zeroHour(rowDate),
-      );
-    }
-  }
-
-  #asDate(value: Date | string): Date {
-    return value instanceof Date ? value : new Date(value as string);
-  }
-
-  #zeroHour(value: Date): number {
-    return new Date(
-      value.getFullYear(),
-      value.getMonth(),
-      value.getDate(),
-    ).getTime();
-  }
-
-  #doesNumericFilterPass(
-    filterValue: SkyDataGridNumberRangeFilterValue | string | number,
-    rowValue: string | number,
-    filterOperator: SkyDataGridFilterOperator | undefined,
-  ): boolean {
-    if (this.#isNumberRangeFilter(filterValue)) {
-      const range = filterValue;
-      return !(
-        (typeof (range.from ?? undefined) !== 'undefined' &&
-          Number(rowValue) < Number(range.from)) ||
-        (typeof (range.to ?? undefined) !== 'undefined' &&
-          Number(rowValue) > Number(range.to))
-      );
-    } else {
-      return !this.#numericFilter(
-        filterOperator ?? 'equals',
-        Number(filterValue),
-        Number(rowValue),
-      );
-    }
-  }
-
-  /**
-   * Ensures the provided value matches the number range filter shape. It must have a `from` and `to` property,
-   * with at least one being a number (both can be numbers).
-   */
-  #isNumberRangeFilter(
-    value: unknown,
-  ): value is SkyDataGridNumberRangeFilterValue {
-    return (
-      typeof value === 'object' &&
-      value !== null &&
-      'from' in value &&
-      'to' in value &&
-      (typeof (value as SkyDataGridNumberRangeFilterValue).from === 'number' ||
-        typeof (value as SkyDataGridNumberRangeFilterValue).to === 'number') &&
-      (typeof (value as SkyDataGridNumberRangeFilterValue).from === 'number' ||
-        value.from === null) &&
-      (typeof (value as SkyDataGridNumberRangeFilterValue).to === 'number' ||
-        value.to === null)
-    );
-  }
-
-  /**
-   * Ensures the provided value matches the date range filter shape. It must have a `startDate` and/or `endDate` property,
-   * with at least one being a Date object.
-   */
-  #isDateRangeFilter(value: unknown): value is SkyDateRange {
-    return (
-      typeof value === 'object' &&
-      value !== null &&
-      ('startDate' in value || 'endDate' in value) &&
-      ((value as SkyDateRange).startDate instanceof Date ||
-        (value as SkyDateRange).endDate instanceof Date)
-    );
-  }
-
-  #doesTextFilterPass(
-    filterOperator: SkyDataGridFilterOperator,
-    filterValue: unknown,
-    rowValue: string,
-  ): boolean {
-    const rowString = rowValue.normalize().toLocaleLowerCase();
-    const filterArray: string[] = (
-      Array.isArray(filterValue) ? filterValue : [filterValue]
-    ).map((value) => String(value).normalize().toLocaleLowerCase());
-
-    switch (filterOperator) {
-      case 'equals':
-        return filterArray.some((value) => value === rowString);
-      case 'notEqual':
-        return filterArray.every((value) => value !== rowString);
-      case 'contains':
-        return filterArray.some((value) => rowString.includes(value));
-      case 'notContains':
-        return !filterArray.some((value) => rowString.includes(value));
-      case 'startsWith':
-        return filterArray.some((value) => rowString.startsWith(value));
-      case 'endsWith':
-        return filterArray.some((value) => rowString.endsWith(value));
-      default:
-        this.#logger.warn(
-          `Unsupported text filter operator: ${filterOperator}`,
-        );
-        return true;
-    }
-  }
-
-  #numericFilter(
-    filterOperator: SkyDataGridFilterOperator,
-    filterValue: number,
-    rowValue: number,
-  ): boolean {
-    switch (filterOperator) {
-      case 'equals':
-        return rowValue !== filterValue;
-      case 'notEqual':
-        return rowValue === filterValue;
-      case 'lessThan':
-        return rowValue >= filterValue;
-      case 'lessThanOrEqual':
-        return rowValue > filterValue;
-      case 'greaterThan':
-        return rowValue <= filterValue;
-      case 'greaterThanOrEqual':
-        return rowValue < filterValue;
-      default:
-        this.#logger.warn(
-          `Unsupported number or date filter operator: ${filterOperator}`,
-        );
-        return false;
-    }
   }
 }

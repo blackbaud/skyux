@@ -141,6 +141,7 @@ export class DataGridTestComponent {
   public readonly rowHighlightedId = model<string | undefined>();
   public readonly selectedRowIds = model<string[]>([]);
   public readonly showFilteredGrid = input<boolean>(false);
+  public readonly totalRowCount = input<number | undefined>();
   public readonly visibleColumnIds = model<string[]>([]);
   public readonly textFilterOperator = input<SkyDataGridFilterOperator>();
   public readonly numberFilterOperator = input<SkyDataGridFilterOperator>();

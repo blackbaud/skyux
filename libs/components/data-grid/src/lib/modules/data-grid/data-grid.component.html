@@ -43,7 +43,7 @@
       [currentPage]="pageNumber() || 1"
       [itemCount]="pageCount * pageSize()"
       [pageSize]="pageSize()"
-      (currentPageChange)="pageChange($event)"
+      (currentPageChange)="currentPageChange($event)"
     />
   }
 }
