@@ -28,7 +28,9 @@ export function doesFilterPass<
 }
 
 function doesSingleFilterPass<
-  T extends { id: string } = Record<string, unknown> & { id: string },
+  T extends { id: string; [_: string]: unknown } = Record<string, unknown> & {
+    id: string;
+  },
 >(
   filter: SkyFilterStateFilterItem<
     T[keyof T] extends string ? string | string[] : T[keyof T] | string

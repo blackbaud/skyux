@@ -52,6 +52,7 @@ import {
   IRowNode,
   ModuleRegistry,
   SelectionChangedEvent,
+  SortChangedEvent,
 } from 'ag-grid-community';
 import {
   Observable,
@@ -108,7 +109,9 @@ function arrayIsEqual(
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyDataGridComponent<
-  T extends { id: string } = Record<string, unknown> & { id: string },
+  T extends { id: string; [_: string]: unknown } = Record<string, unknown> & {
+    id: string;
+  },
 > {
   /**
    * The data for the grid. Each item requires an `id` and a property that maps
@@ -119,7 +122,7 @@ export class SkyDataGridComponent<
   /**
    * Enable a compact layout for the grid when using modern theme. Compact layout uses
    * a smaller font size and row height to display more data in a smaller space.
-   * @default false
+   * @default `false`
    */
   public readonly compact = input<boolean, unknown>(false, {
     transform: coerceBooleanProperty,
@@ -151,7 +154,7 @@ export class SkyDataGridComponent<
    * checkboxes on the left side of the grid. You can specify a unique ID with
    * the `multiselectRowId` property, but multiselect defaults to the `id` property on
    * the `data` object.
-   * @default false
+   * @default `false`
    */
   public readonly enableMultiselect = input<boolean, unknown>(false, {
     transform: coerceBooleanProperty,
@@ -226,7 +229,7 @@ export class SkyDataGridComponent<
 
   /**
    * Move the horizontal scrollbar to just below the header row.
-   * @default false
+   * @default `false`
    */
   public readonly enableTopScroll = input<boolean, unknown>(false, {
     transform: coerceBooleanProperty,
@@ -288,6 +291,11 @@ export class SkyDataGridComponent<
   public readonly rowDeleteIds = model<string[]>([]);
 
   /**
+   * The sort setting for the grid.
+   */
+  public readonly sort = model<SkyDataGridSort | undefined>(undefined);
+
+  /**
    * When `pageSize > 0` and `pageQueryParam` is not set, emits the current page when the paging through data.
    * When using `pageQueryParam`, the changes should come through the `Router`.
    */
@@ -303,23 +311,18 @@ export class SkyDataGridComponent<
    */
   public readonly rowDeleteConfirm = output<SkyAgGridRowDeleteConfirmArgs>();
 
-  /**
-   * Fires when the column sorting changes.
-   */
-  public readonly sortChange = output<SkyDataGridSort>();
-
   protected readonly columns = contentChildren(SkyDataGridColumnComponent);
   protected readonly gridApi = signal<GridApi | undefined>(undefined);
   protected readonly gridOptions = computed(() => {
     const columnDefs = this.#columnDefs();
-    if (columnDefs.length === 0) {
-      return undefined;
-    }
     const hasPageSize = this.pageSize() > 0;
     const useInternalFilters = this.#useInternalFilters();
     const pagination = hasPageSize && useInternalFilters;
     const paginationPageSize =
       (useInternalFilters && this.pageSize()) || undefined;
+    if (columnDefs.length === 0) {
+      return undefined;
+    }
     return this.#gridService.getGridOptions({
       gridOptions: {
         columnDefs,
@@ -415,6 +418,7 @@ export class SkyDataGridComponent<
 
   readonly #columnDefs = computed<ColDef<T>[]>(() => {
     const columns = this.columns();
+    const sort = this.sort();
     const displayed = [
       ...this.selectedColumnIds().filter(Boolean),
       ...this.#dataManagerSelectedColumnIds().filter(Boolean),
@@ -440,6 +444,8 @@ export class SkyDataGridComponent<
         type: [],
         autoHeight: col.wrapText(),
         wrapText: col.wrapText(),
+        sort:
+          sort?.field === field ? (sort?.descending ? 'desc' : 'asc') : null,
       };
       if (col.type() === 'date') {
         (colDef.type as string[]).push(SkyCellType.Date);
@@ -508,6 +514,24 @@ export class SkyDataGridComponent<
             .map((col) => col.getColId()),
         ),
         distinctUntilChanged(arrayIsEqual),
+      ),
+    ),
+  );
+  readonly #gridSortChange = toObservable(this.gridApi).pipe(
+    filter(Boolean),
+    switchMap((api) =>
+      fromEvent<SortChangedEvent>(api, 'sortChanged').pipe(
+        takeUntil(this.#gridDestroyed),
+        map((sortEvent): SkyDataGridSort | undefined => {
+          const sortColumn = sortEvent?.columns?.find((col) => !!col.getSort());
+          if (sortColumn) {
+            return {
+              descending: sortColumn.getSort() === 'desc',
+              field: sortColumn.getColId(),
+            };
+          }
+          return undefined;
+        }),
       ),
     ),
   );
@@ -602,6 +626,20 @@ export class SkyDataGridComponent<
       .subscribe((columnIds) => {
         this.selectedColumnIdsChange.emit(columnIds);
       });
+    this.#gridSortChange.pipe(takeUntilDestroyed()).subscribe((sortChange) => {
+      if (sortChange) {
+        this.sort.update((sort) => {
+          if (
+            !!sort !== !!sortChange ||
+            sort?.descending !== sortChange?.descending ||
+            sort?.field !== sortChange?.field
+          ) {
+            return sortChange;
+          }
+          return sort;
+        });
+      }
+    });
 
     this.#dataManagerSelectedColumnIds = toSignal(
       toObservable(this.viewId).pipe(

@@ -5,6 +5,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router, provideRouter } from '@angular/router';
+import { SkyAppTestUtility } from '@skyux-sdk/testing';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { SkyAgGridWrapperHarness } from '@skyux/ag-grid/testing';
 import { SkyLogService } from '@skyux/core';
@@ -210,6 +211,68 @@ describe('SkyDataGridComponent', () => {
       fixture.detectChanges();
       await fixture.whenStable();
       expect(api?.getDisplayedRowCount()).toBe(2);
+    });
+
+    it('should handle data sort', async () => {
+      fixture.detectChanges();
+      await fixture.whenStable();
+      const gridElement = fixture.nativeElement.querySelector(
+        '[data-sky-id="grid"] ag-grid-angular',
+      );
+      const api = getGridApi(gridElement);
+      expect(api).toBeTruthy();
+      expect(api?.getState()?.sort?.sortModel).toBeUndefined();
+
+      fixture.componentRef.setInput('gridSort', {
+        field: 'column1',
+        descending: false,
+      });
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(api?.getState()?.sort?.sortModel).toEqual([
+        {
+          colId: 'column1',
+          sort: 'asc',
+        },
+      ]);
+
+      fixture.componentRef.setInput('gridSort', {
+        field: 'column1',
+        descending: true,
+      });
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(api?.getState()?.sort?.sortModel).toEqual([
+        {
+          colId: 'column1',
+          sort: 'desc',
+        },
+      ]);
+
+      const column2SortButton = gridElement.querySelector(
+        '.ag-header-cell.ag-header-cell-sortable[col-id="column2"] button.ag-header-cell-label-sortable',
+      ) as HTMLButtonElement;
+      expect(column2SortButton).toBeTruthy();
+      SkyAppTestUtility.fireDomEvent(column2SortButton, 'click');
+      await fixture.whenStable();
+      SkyAppTestUtility.fireDomEvent(column2SortButton, 'click');
+      await fixture.whenStable();
+
+      expect(fixture.componentInstance.gridSort()).toEqual({
+        field: 'column2',
+        descending: true,
+      });
+      expect(api?.getState()?.sort?.sortModel).toEqual([
+        {
+          colId: 'column2',
+          sort: 'desc',
+        },
+      ]);
+
+      fixture.componentRef.setInput('gridSort', undefined);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(api?.getState()?.sort?.sortModel).toBeUndefined();
     });
 
     it('should update grid options when pageSize changes', async () => {

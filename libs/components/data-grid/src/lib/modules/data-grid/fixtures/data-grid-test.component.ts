@@ -14,6 +14,7 @@ import { SkyFilterBarFilterItem } from '@skyux/filter-bar';
 import { SkyDropdownModule, SkyPopoverModule } from '@skyux/popovers';
 
 import { SkyDataGridFilterOperator } from '../../types/data-grid-filter-operator';
+import { SkyDataGridSort } from '../../types/data-grid-sort';
 import { SkyDataGridColumnComponent } from '../data-grid-column.component';
 import { SkyDataGridComponent } from '../data-grid.component';
 
@@ -146,6 +147,8 @@ export class DataGridTestComponent {
   public readonly textFilterOperator = input<SkyDataGridFilterOperator>();
   public readonly numberFilterOperator = input<SkyDataGridFilterOperator>();
   public readonly booleanFilterOperator = input<SkyDataGridFilterOperator>();
+
+  public readonly gridSort = model<SkyDataGridSort | undefined>(undefined);
 
   public readonly enableMultiselect = input<boolean>();
   public readonly height = input<number>();

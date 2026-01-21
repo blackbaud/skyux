@@ -8,5 +8,5 @@ export interface SkyDataGridSort {
    * The data property to sort by.
    * @required
    */
-  propertyName: string;
+  field: string;
 }

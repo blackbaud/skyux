@@ -48,7 +48,7 @@ export class SkyDataGridColumnComponent {
 
   /**
    * Whether to prevent `heading` text from being visibly displayed.
-   * @default false
+   * @default `false`
    */
   public readonly headingHidden = input<boolean, unknown>(false, {
     transform: booleanAttribute,
@@ -76,7 +76,7 @@ export class SkyDataGridColumnComponent {
 
   /**
    * Whether the column is initially hidden when grid `selectedColumnIds` are not provided.
-   * @default false
+   * @default `false`
    */
   public readonly hidden = input<boolean, unknown>(false, {
     transform: booleanAttribute,
@@ -84,7 +84,7 @@ export class SkyDataGridColumnComponent {
 
   /**
    * Whether the column can be resized by dragging the column header border.
-   * @default true
+   * @default `true`
    */
   public readonly isResizable = input<boolean, unknown>(true, {
     transform: booleanAttribute,
@@ -92,7 +92,7 @@ export class SkyDataGridColumnComponent {
 
   /**
    * Whether the column sorts the grid when users click the column header.
-   * @default true
+   * @default `true`
    */
   public readonly isSortable = input<boolean, unknown>(true, {
     transform: booleanAttribute,
@@ -102,7 +102,7 @@ export class SkyDataGridColumnComponent {
    * Whether the column is locked. The intent is to display locked columns first
    * on the left side of the grid. If set to `true`, then users cannot drag the column
    * to another position and or drag other columns before the locked column.
-   * @default false
+   * @default `false`
    */
   public readonly locked = input<boolean, unknown>(false, {
     transform: booleanAttribute,
@@ -135,7 +135,7 @@ export class SkyDataGridColumnComponent {
    * Whether text in this column should wrap to multiple lines. For best performance, large grids should set a `height`
    * and not enable `wrapText` on any column so that rows can be virtually drawn as needed. Not setting a `height` or
    * enabling `wrapText` forces the grid to draw every row in order to determine the scroll height.
-   * @default false
+   * @default `false`
    */
   public readonly wrapText = input<boolean, unknown>(false, {
     transform: booleanAttribute,
