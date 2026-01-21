@@ -114,8 +114,7 @@ export class SkyDataGridComponent<
   T extends { id: string } = { id: string } & Record<string, unknown>,
 > {
   /**
-   * The data for the grid. Each item requires an `id` and a property that maps
-   * to the `field` or `id` property of each column in the grid.
+   * The data for the grid. Each item requires an `id`, and other properties should map to a `field` of the grid columns.
    */
   public readonly data = input<T[]>();
 

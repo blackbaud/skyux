@@ -33,8 +33,9 @@ export class SkyDataGridColumnComponent {
   public readonly field = input<string>();
 
   /**
-   * When set to a value greater than -1, it overrides `width` and works like CSS `flex-grow`, where a column with
-   * `flexWidth="2"` is twice the width of a column with `flexWidth="1"`, and `flexWidth="0"` does not auto-expand.
+   * When set to a value greater than `-1`, it overrides `width` and works like
+   * [CSS flex-grow](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/flex-grow), where a column
+   * with `flexWidth="2"` is twice the width of a column with `flexWidth="1"`, and `flexWidth="0"` does not auto-expand.
    * @default -1
    */
   public readonly flexWidth = input<number, unknown>(-1, {

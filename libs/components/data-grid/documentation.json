@@ -8,7 +8,8 @@
           "SkyDataGridComponent",
           "SkyDataGridColumnComponent",
           "SkyDataGridFilterOperator",
-          "SkyDataGridNumberRangeFilterValue"
+          "SkyDataGridNumberRangeFilterValue",
+          "SkyDataGridSort"
         ],
         "primaryDocsId": "SkyDataGridModule"
       },
