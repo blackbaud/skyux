@@ -7,6 +7,7 @@
 ### Bug Fixes
 
 * **components/filter-bar:** ensure order of selected filters remains constant ([#4158](https://github.com/blackbaud/skyux/issues/4158)) ([#4166](https://github.com/blackbaud/skyux/issues/4166)) ([833f7ce](https://github.com/blackbaud/skyux/commit/833f7ce813b7a6568a009ad4c514fea8432218b1))
+* **components/indicators:** use correct info icon matte token ([#4161](https://github.com/blackbaud/skyux/issues/4161)) ([#4165](https://github.com/blackbaud/skyux/issues/4165)) ([f4bfe2b](https://github.com/blackbaud/skyux/commit/f4bfe2bdcc7f9d5acd067bfaa7e6cd68aa88d204))
 
 ## [14.0.0-alpha.0](https://github.com/blackbaud/skyux/compare/13.12.0...14.0.0-alpha.0) (2026-01-16)
 
