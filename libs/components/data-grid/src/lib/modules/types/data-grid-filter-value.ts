@@ -6,6 +6,7 @@ export type SkyDataGridFilterValue =
   | SkyDataGridNumberRangeFilterValue
   | SkyDateRange
   | boolean
+  | Date
   | number
   | string
   | string[];

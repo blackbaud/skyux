@@ -168,7 +168,7 @@ export class SkyDataGridComponent<
    * filter values are:
    *
    * - For a boolean column, use a `boolean` with `'equals'` or `'notEqual'` as the operator.
-   * - For a date column, use a [`SkyDateRange`](https://developer.blackbaud.com/skyux/components/date-range-picker?docs-active-tab=development#interface_sky-date-range).
+   * - For a date column, use a [`SkyDateRange`](https://developer.blackbaud.com/skyux/components/date-range-picker?docs-active-tab=development#interface_sky-date-range) or `Date`.
    * - For a number column, use a `SkyDataGridNumberRangeFilterValue` or a `number`.
    * - For a text column, use `string` or `string[]` as the filter value to match one or more text values.
    *
