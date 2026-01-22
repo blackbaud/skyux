@@ -1,5 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { SkyNumericPipe } from '@skyux/core';
 import { SkyDataGridModule } from '@skyux/data-grid';
+import { SkyDatePipe } from '@skyux/datetime';
 import { SkyFilterBarModule } from '@skyux/filter-bar';
 import { SkyFilterStateFilterItem } from '@skyux/lists';
 
@@ -14,7 +16,8 @@ import { StartDateFilterModalComponent } from './start-date-filter-modal.compone
  */
 @Component({
   selector: 'app-filtered-data-grid',
-  imports: [SkyDataGridModule, SkyFilterBarModule],
+  imports: [SkyDataGridModule, SkyFilterBarModule, SkyNumericPipe, SkyDatePipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './example.component.html',
 })
 export class FilteredDataGridComponent {

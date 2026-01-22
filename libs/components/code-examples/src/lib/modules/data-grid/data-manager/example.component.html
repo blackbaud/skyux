@@ -1,0 +1,94 @@
+<sky-data-manager>
+  <sky-data-manager-toolbar>
+    <sky-filter-bar [(appliedFilters)]="appliedFilters">
+      <sky-filter-item-modal
+        filterId="hideSales"
+        labelText="Hide sales"
+        modalSize="small"
+        [modalComponent]="salesModal"
+      />
+      <sky-filter-item-lookup
+        filterId="jobTitle"
+        labelText="Job title"
+        searchDescriptorProperty="name"
+        searchIdProperty="id"
+        (searchAsync)="onJobTitleSearchAsync($event)"
+      />
+    </sky-filter-bar>
+    <sky-list-summary>
+      <sky-list-summary-item
+        [labelText]="
+          recordCount()
+            | i18nPlural
+              : {
+                  '=1': 'Record',
+                  other: 'Records'
+                }
+        "
+        [value]="recordCount()"
+      />
+    </sky-list-summary>
+  </sky-data-manager-toolbar>
+
+  <sky-data-grid
+    [appliedFilters]="appliedFilters()"
+    [data]="items"
+    [viewId]="viewId"
+    (rowCountChange)="recordCount.set($event)"
+  >
+    <sky-data-grid-column
+      columnId="context"
+      width="50"
+      [isSortable]="false"
+      [template]="contextMenu"
+    />
+    <sky-data-grid-column field="name" heading="Name" />
+    <sky-data-grid-column field="age" heading="Age" type="number" width="60" />
+    <sky-data-grid-column field="startDate" heading="Start date" type="date" />
+    <sky-data-grid-column field="endDate" heading="End date" type="date" />
+    <sky-data-grid-column
+      field="department"
+      heading="Department"
+      filterId="hideSales"
+      filterOperator="notEqual"
+    />
+    <sky-data-grid-column field="jobTitle" heading="Title" />
+  </sky-data-grid>
+</sky-data-manager>
+
+<ng-template #contextMenu let-row="row">
+  <sky-dropdown
+    buttonType="context-menu"
+    [label]="`Context menu for ${row?.name}`"
+  >
+    <sky-dropdown-menu>
+      <sky-dropdown-item>
+        <button
+          type="button"
+          [attr.aria-label]="`Delete ${row?.name}`"
+          (click)="actionClicked(row, 'Delete')"
+        >
+          Delete
+        </button>
+      </sky-dropdown-item>
+      <sky-dropdown-item>
+        <button
+          type="button"
+          [attr.aria-label]="`Mark ${row?.name} inactive`"
+          (click)="actionClicked(row, 'Mark inactive')"
+        >
+          Mark inactive
+        </button>
+      </sky-dropdown-item>
+      <sky-dropdown-item>
+        <button
+          type="button"
+          [attr.aria-label]="`More info for ${row?.name}`"
+          (click)="actionClicked(row, 'More info')"
+        >
+          More info
+        </button>
+      </sky-dropdown-item>
+    </sky-dropdown-menu>
+  </sky-dropdown>
+</ng-template>

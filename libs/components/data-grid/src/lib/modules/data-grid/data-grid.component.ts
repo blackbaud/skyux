@@ -105,7 +105,7 @@ function arrayIsEqual(
   templateUrl: './data-grid.component.html',
   styleUrl: './data-grid.component.css',
   host: {
-    '[style.height.px]': 'height() || undefined',
+    '[class.sky-margin-stacked-lg]': 'stacked()',
     '[style.width.px]': 'width() || undefined',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -128,7 +128,7 @@ export class SkyDataGridComponent<
   });
 
   /**
-   * The column IDs or fields for columns to show. Should not be used when using `hiddenColumns`.
+   * The column IDs or fields for columns to show. Should not be combined with `hiddenColumns`.
    */
   public readonly selectedColumnIds = input<string[], unknown>([], {
     transform: coerceStringArray,
@@ -142,7 +142,7 @@ export class SkyDataGridComponent<
   public readonly selectedColumnIdsChange = output<string[]>();
 
   /**
-   * The column IDs or fields for columns to hide. Should not be used when using `selectedColumnIds`.
+   * The column IDs or fields for columns to hide. Should not be combined with `selectedColumnIds`.
    */
   public readonly hiddenColumns = input<string[], unknown>([], {
     transform: coerceStringArray,
@@ -160,13 +160,18 @@ export class SkyDataGridComponent<
   });
 
   /**
-   * The filter state from a filter bar. When provided, filters are automatically
-   * applied to columns that have matching `filterId` values.
+   * The filter state from a
+   * [`SkyFilterBarComponent`](https://developer.blackbaud.com/skyux/components/filter-bar?docs-active-tab=development#class_sky-filter-bar-component).
+   * When provided, filters are automatically applied to columns that have matching `filterId` values using the
+   * respective `SkyDataGridColumnComponent`'s `filterOperator` as the comparator. To use the built-in filters, the
+   * filter values are:
    *
-   * - When filtering a boolean column, use a `boolean` as the filter value with `'equals' | 'notEqual'` as the operator.
-   * - When filtering a date column, use a `SkyDateRange` as the filter value.
-   * - When filtering a number column, use a `SkyDataGridNumberRangeFilterValue`.
-   * - When filtering a text column, use `string | string[]` as the filter value to match one or more text values.
+   * - For a boolean column, use a `boolean` with `'equals'` or `'notEqual'` as the operator.
+   * - For a date column, use a [`SkyDateRange`](https://developer.blackbaud.com/skyux/components/date-range-picker?docs-active-tab=development#interface_sky-date-range).
+   * - For a number column, use a `SkyDataGridNumberRangeFilterValue` or a `number`.
+   * - For a text column, use `string` or `string[]` as the filter value to match one or more text values.
+   *
+   * To provide custom filtering functions, use the `totalRowCount` input and update the `data` input when filters change.
    */
   public readonly appliedFilters = input<
     SkyFilterStateFilterItem<
@@ -228,6 +233,15 @@ export class SkyDataGridComponent<
   public readonly pageQueryParam = input<string>();
 
   /**
+   * Whether the data grid is stacked on another data grid. When specified, the appropriate
+   * vertical spacing is automatically added to the data grid.
+   * @default false
+   */
+  public readonly stacked = input<boolean, unknown>(false, {
+    transform: coerceBooleanProperty,
+  });
+
+  /**
    * Move the horizontal scrollbar to just below the header row.
    * @default false
    */
@@ -239,7 +253,7 @@ export class SkyDataGridComponent<
    * The total number of records. When this input is set, it is expected that `data` will be updated for each
    * `pageChange`, `sortChange`, `appliedFilters` change, and search (when using search such as with a SKY UX data manager).
    * If this input is not set, the data grid will page, sort, filter, and apply SKY UX data manager search text to the
-   * `data` provided.
+   * `data` provided, and the total row count is assumed to be `data.length`.
    * @default undefined
    */
   public readonly totalRowCount = input<number | undefined>(undefined);
@@ -249,9 +263,10 @@ export class SkyDataGridComponent<
   });
 
   /**
-   * View ID when using SKY UX Data Manager. When this input is set,
-   * `sky-data-grid` provides a `sky-data-view` for SKY UX Data Manager.
-   * Requires `SkyDataManagerService` to be provided and configured.
+   * View ID when using SKY UX Data Manager. When this input is set, `sky-data-grid` provides a `sky-data-view` for a
+   * SKY UX Data Manager. Requires a
+   * [`SkyDataManagerService`](https://developer.blackbaud.com/skyux/components/data-manager?docs-active-tab=development#class_sky-data-manager-service)
+   * be provided and configured.
    */
   public readonly viewId = input<string>();
 
@@ -302,6 +317,11 @@ export class SkyDataGridComponent<
   public readonly pageChange = output<number>();
 
   /**
+   * Emits a row count after filters are updated.
+   */
+  public readonly rowCountChange = output<number>();
+
+  /**
    * Fires when users cancel the deletion of a row.
    */
   public readonly rowDeleteCancel = output<SkyAgGridRowDeleteCancelArgs>();
@@ -312,14 +332,14 @@ export class SkyDataGridComponent<
   public readonly rowDeleteConfirm = output<SkyAgGridRowDeleteConfirmArgs>();
 
   protected readonly columns = contentChildren(SkyDataGridColumnComponent);
-  protected readonly gridApi = signal<GridApi | undefined>(undefined);
+  protected readonly gridApi = signal<GridApi<T> | undefined>(undefined);
   protected readonly gridOptions = computed(() => {
     const columnDefs = this.#columnDefs();
-    const enableTopScroll = untracked(this.enableTopScroll);
-    const pageSize = untracked(this.pageSize);
+    const enableTopScroll = untracked(() => this.enableTopScroll());
+    const pageSize = untracked(() => this.pageSize());
     const hasPageSize = pageSize > 0;
-    const height = untracked(this.height);
-    const useInternalFilters = untracked(this.#useInternalFilters);
+    const height = untracked(() => this.height());
+    const useInternalFilters = untracked(() => this.#useInternalFilters());
     const pagination = hasPageSize && useInternalFilters;
     const paginationPageSize = (useInternalFilters && pageSize) || undefined;
     if (columnDefs.length === 0) {
@@ -339,9 +359,11 @@ export class SkyDataGridComponent<
         pagination,
         suppressPaginationPanel: true,
         paginationPageSize,
-        rowData: untracked(this.rowData),
+        rowData: untracked(() => this.rowData()),
         getRowId: (params: GetRowIdParams<T>) =>
-          params.data[untracked(this.multiselectRowId) as keyof T] as string,
+          params.data[
+            untracked(() => this.multiselectRowId()) as keyof T
+          ] as string,
         rowSelection: untracked(() => this.#getRowSelection()),
         autoSizeStrategy: untracked(() => this.#getAutoSizeStrategy()),
       },
@@ -365,7 +387,7 @@ export class SkyDataGridComponent<
     return hasFilters && useInternalFilters;
   });
   protected readonly doesExternalFilterPass = computed(
-    (): ((node: IRowNode) => boolean) => {
+    (): ((node: Pick<IRowNode<T>, 'data'>) => boolean) => {
       const appliedFilters = this.appliedFilters();
       const columns = this.columns().map((col) => ({
         filterId: col.filterId(),
@@ -373,7 +395,7 @@ export class SkyDataGridComponent<
         filterOperator: col.filterOperator(),
         type: col.type(),
       }));
-      return (node: IRowNode<T>): boolean =>
+      return (node: Pick<IRowNode<T>, 'data'>): boolean =>
         doesFilterPass(appliedFilters, node.data as T, columns, this.#logger);
     },
   );
@@ -523,6 +545,7 @@ export class SkyDataGridComponent<
   );
 
   constructor() {
+    // Update specific grid options after the grid has been loaded.
     effect(() => {
       const api = untracked(() => this.gridApi());
       const rowData = this.rowData();
@@ -539,7 +562,7 @@ export class SkyDataGridComponent<
       api?.setGridOption('rowSelection', rowSelection);
     });
     effect(() => {
-      const api = untracked(this.gridApi);
+      const api = untracked(() => this.gridApi());
       const height = this.height();
       api?.setGridOption('domLayout', height ? 'normal' : 'autoHeight');
     });
@@ -550,6 +573,8 @@ export class SkyDataGridComponent<
       api?.setGridOption('pagination', pageSize > 0 && useInternalFilters);
       api?.setGridOption('paginationPageSize', pageSize);
     });
+
+    // Apply inputs once the grid is loaded and on subsequent changes.
     effect(() => {
       const api = this.gridApi();
       const selectedRowIds = coerceStringArray(this.selectedRowIds());
@@ -587,6 +612,8 @@ export class SkyDataGridComponent<
       this.gridApi.set(undefined);
       this.gridReady.set(false);
     });
+
+    // Emit updates from the grid.
     this.#gridSelectedRowIds
       .pipe(
         takeUntilDestroyed(),
@@ -617,7 +644,33 @@ export class SkyDataGridComponent<
         });
       }
     });
+    effect(() => {
+      const isExternalFilterPresent = this.isExternalFilterPresent();
+      const doesExternalFilterPass = this.doesExternalFilterPass();
+      let rowData = [...this.rowData()];
+      const searchText = this.#dataManagerSearchText()
+        .normalize()
+        .toLowerCase();
+      const useInternalFilters = this.#useInternalFilters();
+      if (useInternalFilters) {
+        if (isExternalFilterPresent) {
+          rowData = rowData.filter((data) => doesExternalFilterPass({ data }));
+        }
+        if (searchText) {
+          rowData = rowData.filter((data) =>
+            Object.values(data).some((value) =>
+              String(value ?? '')
+                .normalize()
+                .toLowerCase()
+                .includes(searchText),
+            ),
+          );
+        }
+        this.rowCountChange.emit(rowData.length);
+      }
+    });
 
+    // Interact with data manager.
     this.#dataManagerSelectedColumnIds = toSignal(
       toObservable(this.viewId).pipe(
         filter(Boolean),
@@ -650,8 +703,11 @@ export class SkyDataGridComponent<
     );
     effect(() => {
       const searchText = this.#dataManagerSearchText();
-      const api = untracked(() => this.gridApi());
-      api?.setGridOption('quickFilterText', searchText);
+      const api = this.gridApi();
+      const useInternalFilters = this.#useInternalFilters();
+      if (useInternalFilters) {
+        api?.setGridOption('quickFilterText', searchText);
+      }
     });
   }
 

@@ -36,19 +36,40 @@
     type="text"
     filterId="name"
     filterOperator="contains"
+    flexWidth="5"
   />
-  <sky-data-grid-column field="department" heading="Department" type="text" />
+  <sky-data-grid-column
+    field="department"
+    heading="Department"
+    type="text"
+    flexWidth="8"
+  />
   <sky-data-grid-column
     field="salary"
     heading="Salary"
     type="number"
     filterId="salary"
-  />
-  <sky-data-grid-column field="startDate" heading="Start Date" type="date" />
+    flexWidth="2"
+  >
+    <ng-template let-value="value">{{
+      value | skyNumeric: { format: 'currency', iso: 'USD', truncate: false }
+    }}</ng-template>
+  </sky-data-grid-column>
+  <sky-data-grid-column
+    field="startDate"
+    heading="Start Date"
+    type="date"
+    flexWidth="0"
+  >
+    <ng-template let-value="value">{{
+      value | skyDate: 'mediumDate'
+    }}</ng-template>
+  </sky-data-grid-column>
   <sky-data-grid-column
     field="active"
     heading="Active"
     type="boolean"
     filterId="hideInactive"
+    flexWidth="0"
   />
 </sky-data-grid>

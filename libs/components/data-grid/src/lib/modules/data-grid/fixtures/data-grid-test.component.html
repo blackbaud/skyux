@@ -12,8 +12,8 @@
     [pageSize]="pageSize()"
     [rowHighlightedId]="rowHighlightedId()"
     [totalRowCount]="totalRowCount()"
-    (selectedColumnIdsChange)="visibleColumnIds.set($event)"
     [(sort)]="gridSort"
+    (selectedColumnIdsChange)="visibleColumnIds.set($event)"
   >
     @if (showAllColumns()) {
       <sky-data-grid-column field="column1" heading="Column1" />

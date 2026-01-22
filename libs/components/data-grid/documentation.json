@@ -20,7 +20,9 @@
         "docsIds": [
           "DataGridBasicExampleComponent",
           "FilteredDataGridComponent",
-          "DataGridPagingComponent"
+          "DataGridPagingComponent",
+          "DataGridDataManagerExampleComponent",
+          "CustomFilterDataGridComponent"
         ]
       }
     }

@@ -5,6 +5,9 @@ import { SkyFilterStateFilterItem } from '@skyux/lists';
 import { SkyDataGridFilterOperator } from '../types/data-grid-filter-operator';
 import { SkyDataGridNumberRangeFilterValue } from '../types/data-grid-number-range-filter-value';
 
+/**
+ * @internal
+ */
 export function doesFilterPass<
   T extends { id: string } = { id: string } & Record<string, unknown>,
 >(
