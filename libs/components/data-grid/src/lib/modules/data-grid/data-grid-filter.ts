@@ -3,6 +3,7 @@ import { SkyDateRange } from '@skyux/datetime';
 import { SkyFilterStateFilterItem } from '@skyux/lists';
 
 import { SkyDataGridFilterOperator } from '../types/data-grid-filter-operator';
+import { SkyDataGridFilterValue } from '../types/data-grid-filter-value';
 import { SkyDataGridNumberRangeFilterValue } from '../types/data-grid-number-range-filter-value';
 
 /**
@@ -11,9 +12,7 @@ import { SkyDataGridNumberRangeFilterValue } from '../types/data-grid-number-ran
 export function doesFilterPass<
   T extends { id: string } = { id: string } & Record<string, unknown>,
 >(
-  filterItems: SkyFilterStateFilterItem<
-    T[keyof T] extends string ? string | string[] : T[keyof T] | string
-  >[],
+  filterItems: SkyFilterStateFilterItem<SkyDataGridFilterValue>[],
   data: Partial<T>,
   columns: readonly {
     filterId: string | undefined;
@@ -31,9 +30,7 @@ export function doesFilterPass<
 function doesSingleFilterPass<
   T extends { id: string } = { id: string } & Record<string, unknown>,
 >(
-  filter: SkyFilterStateFilterItem<
-    T[keyof T] extends string ? string | string[] : T[keyof T] | string
-  >,
+  filter: SkyFilterStateFilterItem<SkyDataGridFilterValue>,
   data: Partial<T>,
   columns: readonly {
     filterId: string | undefined;

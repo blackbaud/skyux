@@ -8,6 +8,7 @@
           "SkyDataGridComponent",
           "SkyDataGridColumnComponent",
           "SkyDataGridFilterOperator",
+          "SkyDataGridFilterValue",
           "SkyDataGridNumberRangeFilterValue",
           "SkyDataGridSort"
         ],

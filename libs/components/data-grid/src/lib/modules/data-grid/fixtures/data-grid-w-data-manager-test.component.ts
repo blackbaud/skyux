@@ -14,8 +14,8 @@ import { SkyDataGridModule } from '../data-grid.module';
 
 interface RowModel {
   id: string;
-  name: string;
-  category: string;
+  name: string | null;
+  category: string | null;
 }
 
 @Component({
@@ -30,6 +30,7 @@ export class DataGridWDataManagerTestComponent implements OnInit {
     { id: '1', name: 'Apple', category: 'Fruit' },
     { id: '2', name: 'Banana', category: 'Fruit' },
     { id: '3', name: 'Carrot', category: 'Vegetable' },
+    { id: '4', name: null, category: null },
   ];
   public viewId = 'my-view';
   public readonly dataManagerService = inject(SkyDataManagerService);

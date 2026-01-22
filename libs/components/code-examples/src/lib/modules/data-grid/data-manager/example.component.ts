@@ -5,7 +5,7 @@ import {
   inject,
   model,
 } from '@angular/core';
-import { SkyDataGridModule } from '@skyux/data-grid';
+import { SkyDataGridFilterValue, SkyDataGridModule } from '@skyux/data-grid';
 import {
   SkyDataManagerModule,
   SkyDataManagerService,
@@ -50,11 +50,7 @@ export class DataGridDataManagerExampleComponent {
   readonly #exampleSvc = inject(ExampleService);
 
   protected appliedFilters = model<
-    SkyFilterBarFilterItem<
-      DataGridDemoRow[keyof DataGridDemoRow] extends string
-        ? string[]
-        : DataGridDemoRow[keyof DataGridDemoRow] | string
-    >[]
+    SkyFilterBarFilterItem<SkyDataGridFilterValue>[]
   >([]);
 
   constructor() {

@@ -3,6 +3,7 @@ import { Component, computed, signal } from '@angular/core';
 import {
   SkyDataGridColumnComponent,
   SkyDataGridComponent,
+  SkyDataGridFilterValue,
 } from '@skyux/data-grid';
 import { SkyFilterBarModule } from '@skyux/filter-bar';
 import { SkyFilterStateFilterItem } from '@skyux/lists';
@@ -38,7 +39,9 @@ export default class FilteredGridComponent {
   protected readonly hideInactiveModal = HideInactiveFilterModalComponent;
   protected readonly startDateFilterModal = StartDateFilterModalComponent;
 
-  protected readonly appliedFilters = signal<SkyFilterStateFilterItem[]>([]);
+  protected readonly appliedFilters = signal<
+    SkyFilterStateFilterItem<SkyDataGridFilterValue>[]
+  >([]);
 
   /**
    * Raw employee data before filtering.

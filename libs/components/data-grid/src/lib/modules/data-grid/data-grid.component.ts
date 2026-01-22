@@ -67,6 +67,7 @@ import {
   takeUntil,
 } from 'rxjs';
 
+import { SkyDataGridFilterValue } from '../types/data-grid-filter-value';
 import { SkyDataGridSort } from '../types/data-grid-sort';
 
 import { SkyDataGridColumnInlineHelpComponent } from './data-grid-column-inline-help.component';
@@ -174,9 +175,7 @@ export class SkyDataGridComponent<
    * To provide custom filtering functions, use the `totalRowCount` input and update the `data` input when filters change.
    */
   public readonly appliedFilters = input<
-    SkyFilterStateFilterItem<
-      (T[keyof T] extends string ? string[] : T[keyof T]) | string
-    >[]
+    SkyFilterStateFilterItem<SkyDataGridFilterValue>[]
   >([]);
 
   /**

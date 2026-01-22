@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { SkyNumericPipe } from '@skyux/core';
-import { SkyDataGridModule } from '@skyux/data-grid';
+import { SkyDataGridFilterValue, SkyDataGridModule } from '@skyux/data-grid';
 import { SkyDatePipe } from '@skyux/datetime';
 import { SkyFilterBarModule } from '@skyux/filter-bar';
 import { SkyFilterStateFilterItem } from '@skyux/lists';
@@ -27,7 +27,7 @@ export class FilteredDataGridComponent {
   protected readonly startDateFilterModal = StartDateFilterModalComponent;
 
   protected readonly appliedFilters = signal<
-    SkyFilterStateFilterItem<Employee[keyof Employee]>[]
+    SkyFilterStateFilterItem<SkyDataGridFilterValue>[]
   >([]);
 
   protected readonly allEmployees: Employee[] = employees;

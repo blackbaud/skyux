@@ -19,7 +19,7 @@ import {
 } from '@angular/forms';
 import { SkyAgGridModule, SkyAgGridRowDeleteConfirmArgs } from '@skyux/ag-grid';
 import { SkyLogService, SkyUIConfigService } from '@skyux/core';
-import { SkyDataGridModule } from '@skyux/data-grid';
+import { SkyDataGridFilterValue, SkyDataGridModule } from '@skyux/data-grid';
 import {
   SkyDataManagerConfig,
   SkyDataManagerModule,
@@ -145,7 +145,8 @@ export class DataManagerLargeComponent {
   >;
   public readonly dataManagerStateShowDelete: Signal<boolean>;
 
-  protected readonly appliedFilters = model<SkyFilterBarFilterItem[]>();
+  protected readonly appliedFilters =
+    model<SkyFilterBarFilterItem<SkyDataGridFilterValue>[]>();
   protected readonly height = computed(() =>
     this.gridSettingsChanges()?.domLayout === 'normal' ? 500 : undefined,
   );
