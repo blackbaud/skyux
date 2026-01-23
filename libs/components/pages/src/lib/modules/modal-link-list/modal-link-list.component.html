@@ -33,6 +33,14 @@
             >
               {{ link.label }}
             </a>
+          } @else if (link | linkAs: 'button') {
+            <button
+              class="sky-btn sky-btn-link-inline sky-link-list-item"
+              type="button"
+              (click)="link.click({ item: link })"
+            >
+              {{ link.label }}
+            </button>
           } @else if (link.modal) {
             <button
               class="sky-btn sky-btn-link-inline sky-link-list-item"

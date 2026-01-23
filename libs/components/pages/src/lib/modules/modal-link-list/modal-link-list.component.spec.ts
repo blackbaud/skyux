@@ -44,19 +44,26 @@ describe('SkyModalLinkListComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+    const clickSpy = jasmine.createSpy('click');
     fixture.componentRef.setInput('links', [
       {
         label: 'Link 1',
         modal: { component: MockStandaloneComponent, config: {} },
       },
+      {
+        label: 'Link 2',
+        click: clickSpy,
+      },
     ]);
     fixture.detectChanges();
-    const link = Array.from<HTMLButtonElement>(
+    const modalLinks = Array.from<HTMLButtonElement>(
       fixture.nativeElement.querySelectorAll('button.sky-link-list-item'),
     );
-    expect(link.length).toBe(1);
-    SkyAppTestUtility.fireDomEvent(link[0], 'click');
+    expect(modalLinks).toHaveSize(2);
+    SkyAppTestUtility.fireDomEvent(modalLinks[0], 'click');
     expect(openModalSpy).toHaveBeenCalledWith(MockStandaloneComponent, {});
+    SkyAppTestUtility.fireDomEvent(modalLinks[1], 'click');
+    expect(clickSpy).toHaveBeenCalled();
   });
 
   it('should log when modal is not standalone', () => {
