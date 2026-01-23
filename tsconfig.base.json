@@ -55,6 +55,10 @@
       "@skyux/avatar/testing": [
         "libs/components/avatar/testing/src/public-api.ts"
       ],
+      "@skyux/charts": ["libs/components/charts/src/index.ts"],
+      "@skyux/charts/testing": [
+        "libs/components/charts/testing/src/public-api.ts"
+      ],
       "@skyux/code-examples": ["libs/components/code-examples/src/index.ts"],
       "@skyux/colorpicker": ["libs/components/colorpicker/src/index.ts"],
       "@skyux/colorpicker/testing": [

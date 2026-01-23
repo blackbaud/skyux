@@ -1,0 +1,56 @@
+<h2>Charts Playground</h2>
+
+<sky-fluid-grid>
+  <sky-row>
+    <sky-column
+      [screenXSmall]="12"
+      [screenSmall]="12"
+      [screenMedium]="6"
+      [screenLarge]="4"
+    >
+      <sky-box headingText="Chart 1 (horizontal)">
+        <sky-box-content>
+          <sky-bar-chart
+            headingText="Project Budget vs Actuals"
+            chartHeight="300"
+            [config]="chart1"
+          />
+        </sky-box-content>
+      </sky-box>
+    </sky-column>
+
+    <sky-column
+      [screenXSmall]="12"
+      [screenSmall]="12"
+      [screenMedium]="6"
+      [screenLarge]="4"
+    >
+      <sky-box headingText="Chart 2 (vertical)">
+        <sky-box-content>
+          <sky-bar-chart
+            headingText="Monthly spendings"
+            chartHeight="300"
+            [config]="chart2"
+          />
+        </sky-box-content>
+      </sky-box>
+    </sky-column>
+
+    <sky-column
+      [screenXSmall]="12"
+      [screenSmall]="12"
+      [screenMedium]="6"
+      [screenLarge]="4"
+    >
+      <sky-box headingText="Chart 3 (horizontal)">
+        <sky-box-content>
+          <sky-bar-chart
+            headingText="Monthly spendings"
+            chartHeight="300"
+            [config]="chart3"
+          />
+        </sky-box-content>
+      </sky-box>
+    </sky-column>
+  </sky-row>
+</sky-fluid-grid>
