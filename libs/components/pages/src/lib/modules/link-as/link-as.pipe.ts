@@ -7,7 +7,6 @@ import { SkyPageModalLink } from '../action-hub/types/page-modal-link';
 
 @Pipe({
   name: 'linkAs',
-  standalone: false,
 })
 export class LinkAsPipe implements PipeTransform {
   public transform(
@@ -59,7 +58,10 @@ export class LinkAsPipe implements PipeTransform {
 
     switch (linkAs) {
       case 'button':
-        return !!(value as SkyActionHubNeedsAttention)?.click && !permalink;
+        return (
+          !!(value as SkyActionHubNeedsAttention | SkyPageModalLink)?.click &&
+          !permalink
+        );
       case 'href':
         return permalinkUrl !== undefined && !permalinkUrl.includes('://');
       case 'skyHref':
