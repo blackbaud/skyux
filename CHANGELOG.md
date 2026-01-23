@@ -4,6 +4,11 @@
 ## [14.0.0-alpha.1](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.0...14.0.0-alpha.1) (2026-01-23)
 
 
+### Features
+
+* **components/pages:** modal link list items may provide a click handler ([#4169](https://github.com/blackbaud/skyux/issues/4169)) ([#4170](https://github.com/blackbaud/skyux/issues/4170)) ([76e6d4d](https://github.com/blackbaud/skyux/commit/76e6d4da9528f546be1c536514becd1553a8bb2e)), closes [AB#3682483](https://github.com/blackbaud/AB/issues/3682483)
+
+
 ### Bug Fixes
 
 * **components/filter-bar:** ensure order of selected filters remains constant ([#4158](https://github.com/blackbaud/skyux/issues/4158)) ([#4166](https://github.com/blackbaud/skyux/issues/4166)) ([833f7ce](https://github.com/blackbaud/skyux/commit/833f7ce813b7a6568a009ad4c514fea8432218b1))
