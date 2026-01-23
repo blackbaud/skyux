@@ -36,7 +36,8 @@
 
   <sky-data-grid
     height="400"
-    [data]="recordsToShow()"
+    [data]="recordsToShow.value()"
+    [loading]="recordsToShow.isLoading()"
     [totalRowCount]="totalRecordCount()"
     [viewId]="viewId"
     [(sort)]="sort"

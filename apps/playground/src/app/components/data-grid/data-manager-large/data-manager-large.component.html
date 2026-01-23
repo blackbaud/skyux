@@ -79,13 +79,13 @@
       [appliedFilters]="appliedFilters()"
       [compact]="gridSettingsChanges()?.compact"
       [data]="items()"
-      [enableMultiselect]="gridSettingsChanges()?.showSelect"
-      [enableTopScroll]="gridSettingsChanges()?.enableTopScroll"
+      [multiselect]="gridSettingsChanges()?.showSelect"
+      [topScrollEnabled]="gridSettingsChanges()?.enableTopScroll"
       [height]="height()"
       [viewId]="viewId"
       [(rowDeleteIds)]="rowDeleteIds"
       (rowDeleteConfirm)="deleteConfirm($event)"
-      (multiselectSelectionChange)="selectionChange($event)"
+      (selectedRowIdsChange)="selectionChange($event)"
     >
       <sky-data-grid-column
         columnId="menu"

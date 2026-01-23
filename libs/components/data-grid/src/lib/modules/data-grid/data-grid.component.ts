@@ -7,13 +7,11 @@ import {
 import {
   ChangeDetectionStrategy,
   Component,
-  Signal,
   computed,
   contentChildren,
   effect,
   inject,
   input,
-  linkedSignal,
   model,
   output,
   signal,
@@ -115,52 +113,6 @@ export class SkyDataGridComponent<
   T extends { id: string } = { id: string } & Record<string, unknown>,
 > {
   /**
-   * The data for the grid. Each item requires an `id`, and other properties should map to a `field` of the grid columns.
-   */
-  public readonly data = input<T[]>();
-
-  /**
-   * Enable a compact layout for the grid when using modern theme. Compact layout uses
-   * a smaller font size and row height to display more data in a smaller space.
-   * @default false
-   */
-  public readonly compact = input<boolean, unknown>(false, {
-    transform: coerceBooleanProperty,
-  });
-
-  /**
-   * The column IDs or fields for columns to show. Should not be combined with `hiddenColumns`.
-   */
-  public readonly selectedColumnIds = input<string[], unknown>([], {
-    transform: coerceStringArray,
-  });
-
-  /**
-   * Fires when columns change. This includes changes to the displayed columns and changes
-   * to the order of columns. The event emits an array of IDs for the displayed columns that
-   * reflects the column order.
-   */
-  public readonly selectedColumnIdsChange = output<string[]>();
-
-  /**
-   * The column IDs or fields for columns to hide. Should not be combined with `selectedColumnIds`.
-   */
-  public readonly hiddenColumns = input<string[], unknown>([], {
-    transform: coerceStringArray,
-  });
-
-  /**
-   * Whether to enable the multiselect feature to display a column of
-   * checkboxes on the left side of the grid. You can specify a unique ID with
-   * the `multiselectRowId` property, but multiselect defaults to the `id` property on
-   * the `data` object.
-   * @default false
-   */
-  public readonly enableMultiselect = input<boolean, unknown>(false, {
-    transform: coerceBooleanProperty,
-  });
-
-  /**
    * The filter state from a
    * [`SkyFilterBarComponent`](https://developer.blackbaud.com/skyux/components/filter-bar?docs-active-tab=development#class_sky-filter-bar-component).
    * When provided, filters are automatically applied to columns that have matching `filterId` values using the
@@ -177,6 +129,20 @@ export class SkyDataGridComponent<
   public readonly appliedFilters = input<
     SkyFilterStateFilterItem<SkyDataGridFilterValue>[]
   >([]);
+
+  /**
+   * Enable a compact layout for the grid when using modern theme. Compact layout uses
+   * a smaller font size and row height to display more data in a smaller space.
+   * @default false
+   */
+  public readonly compact = input<boolean, unknown>(false, {
+    transform: coerceBooleanProperty,
+  });
+
+  /**
+   * The data for the grid. Each item requires an `id`, and other properties should map to a `field` of the grid columns.
+   */
+  public readonly data = input<T[]>();
 
   /**
    * How the grid fits to its parent. The valid options are `width`,
@@ -199,19 +165,35 @@ export class SkyDataGridComponent<
   });
 
   /**
+   * The column IDs or fields for columns to hide. Should not be combined with `selectedColumnIds`.
+   */
+  public readonly hiddenColumnIds = input<string[], unknown>([], {
+    transform: coerceStringArray,
+  });
+
+  /**
+   * Show a loading indicator when `data` is being refreshed.
+   * @default false
+   */
+  public readonly loading = input<boolean>(false);
+
+  /**
+   * Whether to enable the multiselect feature to display a column of
+   * checkboxes on the left side of the grid. You can specify a unique ID with
+   * the `multiselectRowId` property, but multiselect defaults to the `id` property on
+   * the `data` object.
+   * @default false
+   */
+  public readonly multiselect = input<boolean, unknown>(false, {
+    transform: coerceBooleanProperty,
+  });
+
+  /**
    * The unique ID that matches a property on the `data` object.
    * @default 'id'
    */
   public readonly multiselectRowId = input<keyof T, unknown>('id', {
     transform: (value: unknown) => String(value) as keyof T,
-  });
-
-  /**
-   * The current page number of the grid. When using `pageQueryParam`, this value should come from the query parameter.
-   * @default 1
-   */
-  public readonly page = input<number, unknown>(1, {
-    transform: (val: unknown) => coerceNumberProperty(val, 1),
   });
 
   /**
@@ -232,6 +214,14 @@ export class SkyDataGridComponent<
   public readonly pageQueryParam = input<string>();
 
   /**
+   * The ID of the row to highlight. The ID matches the `multiselectRowId` property
+   * of the `data` object. Typically, this property is used in conjunction with
+   * the flyout component to indicate the currently selected row. Other rows
+   * are de-selected in the grid.
+   */
+  public readonly rowHighlightedId = input<string>();
+
+  /**
    * Whether the data grid is stacked on another data grid. When specified, the appropriate
    * vertical spacing is automatically added to the data grid.
    * @default false
@@ -244,22 +234,18 @@ export class SkyDataGridComponent<
    * Move the horizontal scrollbar to just below the header row.
    * @default false
    */
-  public readonly enableTopScroll = input<boolean, unknown>(false, {
+  public readonly topScrollEnabled = input<boolean, unknown>(false, {
     transform: coerceBooleanProperty,
   });
 
   /**
    * The total number of records. When this input is set, it is expected that `data` will be updated for each
-   * `pageChange`, `sortChange`, `appliedFilters` change, and search (when using search such as with a SKY UX data manager).
+   * `page` change, `sort` change, `appliedFilters` change, and search (when using search such as with a SKY UX data manager).
    * If this input is not set, the data grid will page, sort, filter, and apply SKY UX data manager search text to the
    * `data` provided, and the total row count is assumed to be `data.length`.
    * @default undefined
    */
   public readonly totalRowCount = input<number | undefined>(undefined);
-  readonly #useInternalFilters = computed(() => {
-    const totalRowCount = this.totalRowCount();
-    return typeof totalRowCount === 'undefined';
-  });
 
   /**
    * View ID when using SKY UX Data Manager. When this input is set, `sky-data-grid` provides a `sky-data-view` for a
@@ -278,25 +264,10 @@ export class SkyDataGridComponent<
   });
 
   /**
-   * The ID of the row to highlight. The ID matches the `multiselectRowId` property
-   * of the `data` object. Typically, this property is used in conjunction with
-   * the flyout component to indicate the currently selected row. Other rows
-   * are de-selected in the grid.
+   * The current page number of the grid. When using `pageQueryParam`, this value should come from the query parameter.
+   * @default 1
    */
-  public readonly rowHighlightedId = input<string>();
-
-  /**
-   * The set of IDs for the rows to select in a multiselect grid.
-   * The IDs match the `multiselectRowId` properties of the `data` objects.
-   * Rows with IDs that are not included are de-selected in the grid.
-   */
-  public readonly selectedRowIds = input<string[]>([]);
-
-  /**
-   * The set of IDs for the rows selected in a multiselect grid.
-   * The IDs match the `multiselectRowId` properties of the `data` objects.
-   */
-  public readonly multiselectSelectionChange = output<string[]>();
+  public readonly page = model<number>(1);
 
   /**
    * The set of IDs for the rows to prompt for delete confirmation.
@@ -305,18 +276,33 @@ export class SkyDataGridComponent<
   public readonly rowDeleteIds = model<string[]>([]);
 
   /**
+   * The column IDs or fields for columns to show. Should not be combined with `hiddenColumns`.
+   */
+  public readonly selectedColumnIds = input<string[], unknown>([], {
+    transform: coerceStringArray,
+  });
+
+  /**
+   * Fires when columns change. This includes changes to the displayed columns and changes
+   * to the order of columns. The event emits an array of IDs for the displayed columns that
+   * reflects the column order.
+   */
+  public readonly selectedColumnIdsChange = output<string[]>();
+
+  /**
+   * The set of IDs for the rows to select in a multiselect grid.
+   * The IDs match the `multiselectRowId` properties of the `data` objects.
+   * Rows with IDs that are not included are de-selected in the grid.
+   */
+  public readonly selectedRowIds = model<string[]>([]);
+
+  /**
    * The sort setting for the grid.
    */
   public readonly sort = model<SkyDataGridSort | undefined>(undefined);
 
   /**
-   * When `pageSize > 0` and `pageQueryParam` is not set, emits the current page when the paging through data.
-   * When using `pageQueryParam`, the changes should come through the `Router`.
-   */
-  public readonly pageChange = output<number>();
-
-  /**
-   * Emits a row count after filters are updated.
+   * Emits a row count after filters are updated. Not used when `totalRowCount` is set.
    */
   public readonly rowCountChange = output<number>();
 
@@ -334,31 +320,28 @@ export class SkyDataGridComponent<
   protected readonly gridApi = signal<GridApi<T> | undefined>(undefined);
   protected readonly gridOptions = computed(() => {
     const columnDefs = this.#columnDefs();
-    const enableTopScroll = untracked(() => this.enableTopScroll());
-    const pageSize = untracked(() => this.pageSize());
-    const hasPageSize = pageSize > 0;
-    const height = untracked(() => this.height());
-    const useInternalFilters = untracked(() => this.#useInternalFilters());
-    const pagination = hasPageSize && useInternalFilters;
-    const paginationPageSize = (useInternalFilters && pageSize) || undefined;
     if (columnDefs.length === 0) {
       return undefined;
     }
+    const { pagination, paginationPageSize } = untracked(() =>
+      this.#paginationOptions(),
+    );
+    const rowData = untracked(() => this.rowData());
     return this.#gridService.getGridOptions({
       gridOptions: {
         columnDefs,
         context: {
-          enableTopScroll,
+          enableTopScroll: untracked(() => this.topScrollEnabled()),
         },
-        domLayout: height ? 'normal' : 'autoHeight',
+        domLayout: untracked(() => this.height()) ? 'normal' : 'autoHeight',
         onGridReady: (args) => {
           this.gridApi.set(args.api);
           this.gridReady.set(true);
         },
         pagination,
-        suppressPaginationPanel: true,
         paginationPageSize,
-        rowData: untracked(() => this.rowData()),
+        suppressPaginationPanel: true,
+        rowData: rowData.length ? rowData : null,
         getRowId: (params: GetRowIdParams<T>) =>
           params.data[
             untracked(() => this.multiselectRowId()) as keyof T
@@ -409,13 +392,40 @@ export class SkyDataGridComponent<
     }
     return Math.ceil((totalRowCount ?? dataLength) / pageSize);
   });
-  protected readonly pageNumber = linkedSignal(this.page);
 
   readonly #dataManagerService = inject(SkyDataManagerService, {
     optional: true,
   });
-  readonly #dataManagerSelectedColumnIds: Signal<string[]>;
-  readonly #dataManagerSearchText: Signal<string>;
+  readonly #dataManagerSelectedColumnIds = toSignal(
+    toObservable(this.viewId).pipe(
+      filter(Boolean),
+      switchMap(
+        (viewId): Observable<string[]> =>
+          (this.#dataManagerService as SkyDataManagerService)
+            .getDataStateUpdates(viewId, { properties: ['views'] })
+            .pipe(
+              map(
+                (state) =>
+                  /* istanbul ignore next */
+                  state.views.find((view) => view.viewId === viewId)
+                    ?.displayedColumnIds ?? [],
+              ),
+            ),
+      ),
+    ),
+    { initialValue: [] },
+  );
+  readonly #dataManagerSearchText = toSignal(
+    toObservable(this.viewId).pipe(
+      filter(Boolean),
+      switchMap((viewId) =>
+        (this.#dataManagerService as SkyDataManagerService)
+          .getDataStateUpdates(viewId)
+          .pipe(map((state) => `${state.searchText ?? ''}`)),
+      ),
+    ),
+    { initialValue: '' },
+  );
   protected readonly useDataManager = !!this.#dataManagerService;
 
   readonly #activatedRoute = inject(ActivatedRoute, { optional: true });
@@ -430,7 +440,7 @@ export class SkyDataGridComponent<
       ...this.selectedColumnIds().filter(Boolean),
       ...this.#dataManagerSelectedColumnIds().filter(Boolean),
     ];
-    const hidden = this.hiddenColumns().filter(Boolean);
+    const hidden = this.hiddenColumnIds().filter(Boolean);
     return columns.map((col): ColDef => {
       const field = col.field();
       const colDef: ColDef = {
@@ -542,23 +552,28 @@ export class SkyDataGridComponent<
       ),
     ),
   );
+  readonly #paginationOptions = computed(() => {
+    const pageSize = this.pageSize();
+    const hasPageSize = pageSize > 0;
+    const useInternalFilters = this.#useInternalFilters();
+    const pagination = hasPageSize && useInternalFilters;
+    const paginationPageSize = (pagination && pageSize) || undefined;
+    return {
+      pagination,
+      paginationPageSize,
+    };
+  });
+  readonly #useInternalFilters = computed(() => {
+    const totalRowCount = this.totalRowCount();
+    return typeof totalRowCount === 'undefined';
+  });
 
   constructor() {
     // Update specific grid options after the grid has been loaded.
     effect(() => {
       const api = untracked(() => this.gridApi());
-      const rowData = this.rowData();
-      api?.setGridOption('rowData', rowData);
-    });
-    effect(() => {
-      const api = untracked(() => this.gridApi());
-      const columns = this.#columnDefs();
-      api?.setGridOption('columnDefs', columns);
-    });
-    effect(() => {
-      const api = untracked(() => this.gridApi());
-      const rowSelection = this.#getRowSelection();
-      api?.setGridOption('rowSelection', rowSelection);
+      const columnDefs = this.#columnDefs();
+      api?.setGridOption('columnDefs', columnDefs);
     });
     effect(() => {
       const api = untracked(() => this.gridApi());
@@ -567,10 +582,24 @@ export class SkyDataGridComponent<
     });
     effect(() => {
       const api = untracked(() => this.gridApi());
-      const pageSize = this.pageSize();
-      const useInternalFilters = this.#useInternalFilters();
-      api?.setGridOption('pagination', pageSize > 0 && useInternalFilters);
-      api?.setGridOption('paginationPageSize', pageSize);
+      const loading = this.loading();
+      api?.setGridOption('loading', loading);
+    });
+    effect(() => {
+      const api = untracked(() => this.gridApi());
+      const { pagination, paginationPageSize } = this.#paginationOptions();
+      api?.setGridOption('pagination', pagination);
+      api?.setGridOption('paginationPageSize', paginationPageSize);
+    });
+    effect(() => {
+      const api = untracked(() => this.gridApi());
+      const rowData = this.rowData();
+      api?.setGridOption('rowData', rowData);
+    });
+    effect(() => {
+      const api = untracked(() => this.gridApi());
+      const rowSelection = this.#getRowSelection();
+      api?.setGridOption('rowSelection', rowSelection);
     });
 
     // Apply inputs once the grid is loaded and on subsequent changes.
@@ -599,12 +628,12 @@ export class SkyDataGridComponent<
     });
     effect(() => {
       const api = this.gridApi();
-      const pageNumber = this.pageNumber();
+      const page = this.page();
       const pageCount = this.pageCount();
-      if (!pageCount || pageNumber < 1 || pageNumber > pageCount || !api) {
+      if (!pageCount || page < 1 || page > pageCount || !api) {
         return;
       }
-      api.paginationGoToPage(pageNumber - 1);
+      api.paginationGoToPage(page - 1);
     });
 
     this.#gridDestroyed.pipe(takeUntilDestroyed()).subscribe(() => {
@@ -617,9 +646,10 @@ export class SkyDataGridComponent<
       .pipe(
         takeUntilDestroyed(),
         map((ids) => coerceStringArray(ids)),
+        filter((rowIds) => !arrayIsEqual(this.selectedRowIds(), rowIds)),
       )
       .subscribe((rowIds) => {
-        this.multiselectSelectionChange.emit(rowIds);
+        this.selectedRowIds.set(rowIds);
       });
     this.#gridDisplayedColumnIds
       .pipe(
@@ -669,37 +699,6 @@ export class SkyDataGridComponent<
       }
     });
 
-    // Interact with data manager.
-    this.#dataManagerSelectedColumnIds = toSignal(
-      toObservable(this.viewId).pipe(
-        filter(Boolean),
-        switchMap(
-          (viewId): Observable<string[]> =>
-            (this.#dataManagerService as SkyDataManagerService)
-              .getDataStateUpdates(viewId, { properties: ['views'] })
-              .pipe(
-                map(
-                  (state) =>
-                    /* istanbul ignore next */
-                    state.views.find((view) => view.viewId === viewId)
-                      ?.displayedColumnIds ?? [],
-                ),
-              ),
-        ),
-      ),
-      { initialValue: [] },
-    );
-    this.#dataManagerSearchText = toSignal(
-      toObservable(this.viewId).pipe(
-        filter(Boolean),
-        switchMap((viewId) =>
-          (this.#dataManagerService as SkyDataManagerService)
-            .getDataStateUpdates(viewId)
-            .pipe(map((state) => `${state.searchText ?? ''}`)),
-        ),
-      ),
-      { initialValue: '' },
-    );
     effect(() => {
       const searchText = this.#dataManagerSearchText();
       const api = this.gridApi();
@@ -727,11 +726,8 @@ export class SkyDataGridComponent<
         },
         queryParamsHandling: 'merge',
       });
-    } else if (page) {
-      this.pageNumber.set(page);
-      if (this.pageCount() > 0) {
-        this.pageChange.emit(page);
-      }
+    } else if (page && page !== this.page()) {
+      this.page.set(page);
     }
   }
 
@@ -772,7 +768,7 @@ export class SkyDataGridComponent<
   }
 
   #getRowSelection(): RowSelectionOptions<T> {
-    return this.enableMultiselect()
+    return this.multiselect()
       ? {
           checkboxes: true,
           checkboxLocation: 'selectionColumn',

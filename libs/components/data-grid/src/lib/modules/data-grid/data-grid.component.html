@@ -40,7 +40,7 @@
 
   @if (pageCount(); as pageCount) {
     <sky-paging
-      [currentPage]="pageNumber() || 1"
+      [currentPage]="page() || 1"
       [itemCount]="pageCount * pageSize()"
       [pageSize]="pageSize()"
       (currentPageChange)="currentPageChange($event)"

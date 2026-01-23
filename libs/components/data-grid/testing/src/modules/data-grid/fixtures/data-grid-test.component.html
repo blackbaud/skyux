@@ -41,13 +41,13 @@
 @if (showAllGrids()) {
   <sky-data-grid
     data-sky-id="multiselect-grid"
-    enableMultiselect
+    multiselect
     fit="scroll"
     multiselectRowId="myId"
     [data]="dataForSimpleGridWithMultiselect"
     [selectedColumnIds]="displayedColumns()"
     [selectedRowIds]="selectedRowIds()"
-    (multiselectSelectionChange)="selectedRowIds.set($event)"
+    (selectedRowIdsChange)="selectedRowIds.set($event)"
   >
     @if (showAllColumns()) {
       <sky-data-grid-column field="myId" heading="Custom Id" type="number" />

@@ -75,7 +75,9 @@ describe('SkyDataGridComponent', () => {
       expect(
         await Promise.all(
           grids.map((grid) => grid.getDisplayedColumnIds()),
-        ).then((cols) => cols.flatMap((id) => id).length),
+        ).then((cols) =>
+          cols.map((id) => id.length).reduce((a, b) => a + b, 0),
+        ),
       ).toEqual(4 * 3 + 3); // 4 grids with 3 columns each, plus 3 extra headers for the multi-select and row delete grid
 
       fixture.componentRef.setInput('showCol3', false);
@@ -84,7 +86,9 @@ describe('SkyDataGridComponent', () => {
       expect(
         await Promise.all(
           grids.map((grid) => grid.getDisplayedColumnIds()),
-        ).then((cols) => cols.flatMap((id) => id).length),
+        ).then((cols) =>
+          cols.map((id) => id.length).reduce((a, b) => a + b, 0),
+        ),
       ).toEqual(4 * 2 + 4); // 4 grids with 2 columns each, plus 4 extra headers for multi-select, row delete, and date column
       expect(component.visibleColumnIds()).toEqual(['column1', 'column2']);
 
@@ -94,7 +98,9 @@ describe('SkyDataGridComponent', () => {
       expect(
         await Promise.all(
           grids.map((grid) => grid.getDisplayedColumnIds()),
-        ).then((cols) => cols.flatMap((id) => id).length),
+        ).then((cols) =>
+          cols.map((id) => id.length).reduce((a, b) => a + b, 0),
+        ),
       ).toEqual(4 * 3 + 3); // 4 grids with 3 columns each, plus 3 extra headers for the multi-select and row delete grid
       expect(component.visibleColumnIds()).toEqual([
         'column1',

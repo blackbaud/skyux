@@ -3,6 +3,7 @@ import {
   Component,
   computed,
   inject,
+  resource,
   signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -27,7 +28,7 @@ import {
 
 import { map } from 'rxjs';
 
-import { employees } from './data';
+import { Employee, employees } from './data';
 import { dataSortAndFilter } from './data-sort-and-filter';
 import { HideInactiveFilterModalComponent } from './hide-inactive-filter-modal.component';
 import { NameFilterModalComponent } from './name-filter-modal.component';
@@ -35,7 +36,7 @@ import { SalaryFilterModalComponent } from './salary-filter-modal.component';
 import { StartDateFilterModalComponent } from './start-date-filter-modal.component';
 
 /**
- * @title Custom filters data grid
+ * @title Custom filters and delayed loading data grid
  */
 @Component({
   selector: 'app-custom-filters-data-grid',
@@ -61,16 +62,30 @@ export class CustomFilterDataGridComponent {
   protected readonly viewId = 'dataGridWithCustomFilters' as const;
 
   // Computed client side in this example, but could be an HTTP resource where parameters are sent to the server for determining data to show.
-  protected readonly recordsToShow = computed(() => {
-    const appliedFilters = this.#dataManagerFilters() ?? [];
-    const sort = this.sort();
-    const allEmployees = this.#allEmployees();
-    const searchText = this.#dataManagerSearchText();
-    return dataSortAndFilter(allEmployees, appliedFilters, sort, searchText);
+  protected readonly recordsToShow = resource({
+    params: () => ({
+      appliedFilters: this.#dataManagerFilters() ?? [],
+      sort: this.sort(),
+      allEmployees: this.#allEmployees(),
+      searchText: this.#dataManagerSearchText(),
+    }),
+    loader: ({ params }): Promise<Employee[]> =>
+      new Promise((resolve) =>
+        setTimeout(() => {
+          resolve(
+            dataSortAndFilter(
+              params.allEmployees,
+              params.appliedFilters,
+              params.sort,
+              params.searchText,
+            ),
+          );
+        }, 800),
+      ),
   });
 
   protected readonly totalRecordCount = computed(
-    () => this.recordsToShow().length,
+    () => this.recordsToShow.value()?.length ?? 0,
   );
 
   // Static example, but could be loaded from HTTP resource.

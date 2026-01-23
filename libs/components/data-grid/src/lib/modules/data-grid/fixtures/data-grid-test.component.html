@@ -4,7 +4,7 @@
     height="200"
     width="600"
     [data]="dataForSimpleGrid"
-    [enableMultiselect]="enableMultiselect()"
+    [multiselect]="enableMultiselect()"
     [height]="height()"
     [selectedColumnIds]="displayedColumns()"
     [page]="page"
@@ -45,7 +45,7 @@
 @if (showAllGrids()) {
   <sky-data-grid
     data-sky-id="multiselect-grid"
-    enableMultiselect
+    multiselect
     fit="scroll"
     multiselectRowId="myId"
     [data]="dataForSimpleGridWithMultiselect"
