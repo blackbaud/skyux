@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { SkyBoxModule, SkyFluidGridModule } from '@skyux/layout';
-import { SkyPageModule } from '@skyux/pages';
+import { SkyPageModalLink, SkyPageModule } from '@skyux/pages';
 
 @Component({
   imports: [SkyBoxModule, SkyFluidGridModule, SkyPageModule],
@@ -9,4 +9,13 @@ import { SkyPageModule } from '@skyux/pages';
 })
 export default class BlocksPageComponent {
   protected readonly linksLoading = signal<'loading' | undefined>(undefined);
+
+  protected readonly settingsLinks: SkyPageModalLink[] = [
+    {
+      label: 'Do not click this',
+      click: (): void => {
+        alert('You disappoint me.');
+      },
+    },
+  ];
 }
