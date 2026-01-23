@@ -172,7 +172,8 @@ export class SkyDataGridComponent<
   });
 
   /**
-   * Show a loading indicator when `data` is being refreshed.
+   * Show a loading indicator. Set to `true` when `data` is being refreshed from an asynchronous source and then `false`
+   * once the load is complete.
    * @default false
    */
   public readonly loading = input<boolean>(false);
