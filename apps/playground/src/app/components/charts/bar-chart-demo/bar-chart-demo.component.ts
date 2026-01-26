@@ -24,13 +24,17 @@ export class BarChartDemoComponent {
     series: [
       {
         label: 'Budget',
-        data: [120_000, 85_000],
-        tooltipLabels: ['$120K', '$85K'],
+        data: [
+          { label: '$120K', value: 120_000 },
+          { label: '$85K', value: 85_000 },
+        ],
       },
       {
         label: 'Actuals',
-        data: [115_000, 78_000],
-        tooltipLabels: ['$115K', '$78K'],
+        data: [
+          { label: '$115K', value: 115_000 },
+          { label: '$78K', value: 78_000 },
+        ],
       },
     ],
     valueAxis: { beginAtZero: true },
@@ -42,8 +46,12 @@ export class BarChartDemoComponent {
     series: [
       {
         label: 'Spending',
-        data: [50_000, 100_000, 150_000, 200_000],
-        tooltipLabels: ['$50K', '$100K', '$150K', '$200K'],
+        data: [
+          { label: '$50K', value: 50_000 },
+          { label: '$100K', value: 100_000 },
+          { label: '$150K', value: 150_000 },
+          { label: '$200K', value: 200_000 },
+        ],
       },
     ],
     valueAxis: { beginAtZero: true },
@@ -55,8 +63,12 @@ export class BarChartDemoComponent {
     series: [
       {
         label: 'Spending',
-        data: [50_000, 100_000, 150_000, 200_000],
-        tooltipLabels: ['$50K', '$100K', '$150K', '$200K'],
+        data: [
+          { label: '$50K', value: 50_000 },
+          { label: '$100K', value: 100_000 },
+          { label: '$150K', value: 150_000 },
+          { label: '$200K', value: 200_000 },
+        ],
       },
     ],
     valueAxis: { beginAtZero: true },

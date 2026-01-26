@@ -1,13 +1,8 @@
-import {
-  ChartConfiguration,
-  ChartOptions,
-  TooltipItem,
-  TooltipOptions,
-} from 'chart.js';
+import { ChartConfiguration, ChartOptions } from 'chart.js';
 
 import { SkyBarChartConfig, SkyChartAxisConfig } from '../shared/chart-types';
-import { SkyuxChartStyles } from '../shared/global-chart-config';
-import { createTooltipShadowPlugin } from '../shared/plugins';
+import { createAutoColorPlugin } from '../shared/plugins/auto-color-plugin';
+import { createTooltipShadowPlugin } from '../shared/plugins/tooltip-shadow-plugin';
 
 import { getSkyuxBarChartConfig } from './bar-chart-config';
 
@@ -35,16 +30,15 @@ export function transformToChartJsConfig(
   );
 
   // Build ChartJS options
+  // prettier-ignore
   const chartOptions = getSkyuxBarChartConfig({
     indexAxis: isHorizontal ? 'y' : 'x',
     scales,
     plugins: {
       title: config.title ? { display: true, text: config.title } : undefined,
-      subtitle: config.subtitle
-        ? { display: true, text: config.subtitle }
-        : undefined,
+      subtitle: config.subtitle ? { display: true, text: config.subtitle } : undefined,
       tooltip: {
-        callbacks: buildTooltipCallbacks(config, isHorizontal),
+        // callbacks: buildTooltipCallbacks(config, isHorizontal),
       },
     },
     onClick: (e, elements, chart) => {
@@ -61,36 +55,24 @@ export function transformToChartJsConfig(
       const category = dataset.label;
       const value = dataValue;
 
-      console.log('Clicked', {
-        seriesIndex,
-        dataIndex,
-        category,
-        value,
-      });
+      console.log('Clicked', { seriesIndex, dataIndex, category, value });
     },
   });
 
-  // Get SKY UX visualization category colors for the series
-  const seriesColors = SkyuxChartStyles.series;
-
   // Build datasets from series
-  const datasets = config.series.map((series, index) => ({
+  const datasets = config.series.map((series) => ({
     label: series.label,
-    data: series.data,
-    backgroundColor: seriesColors[index % seriesColors.length] || '#06a39e',
+    data: series.data.map((dp) => dp.value),
   }));
-
-  // Plugin to add box shadow and accent border to tooltips
-  const tooltipShadowPlugin = createTooltipShadowPlugin();
 
   return {
     type: 'bar',
     data: {
       labels: config.categories,
-      datasets,
+      datasets: datasets,
     },
     options: chartOptions,
-    plugins: [tooltipShadowPlugin],
+    plugins: [createAutoColorPlugin(), createTooltipShadowPlugin()],
   };
 }
 
@@ -114,31 +96,4 @@ function buildScalesConfig(
   };
 
   return scales;
-}
-
-/**
- * Builds tooltip callbacks that use pre-formatted labels from series data.
- */
-function buildTooltipCallbacks(
-  config: SkyBarChartConfig,
-  isHorizontal: boolean,
-): Partial<TooltipOptions['callbacks']> {
-  return {
-    label: (tooltipItem: TooltipItem<'bar'>): string => {
-      // console.log('label callback', tooltipItem);
-      const seriesLabel = tooltipItem.dataset.label || '';
-      const dataIndex = tooltipItem.dataIndex;
-
-      // Check if the series has pre-formatted tooltip labels
-      const series = config.series[tooltipItem.datasetIndex];
-      if (series?.tooltipLabels && series.tooltipLabels[dataIndex]) {
-        return `${seriesLabel}: ${series.tooltipLabels[dataIndex]}`;
-      }
-
-      // Fall back to default numeric formatting
-      const value =
-        (isHorizontal ? tooltipItem.parsed.x : tooltipItem.parsed.y) || 0;
-      return `${seriesLabel}: ${value.toLocaleString()}`;
-    },
-  };
 }

@@ -1,10 +1,6 @@
 import { Plugin } from 'chart.js';
 
-import { SkyuxChartStyles } from './global-chart-config';
-
-export function createTooltipPlugin(): Plugin {
-  return {} as Plugin;
-}
+import { SkyuxChartStyles } from '../global-chart-config';
 
 /**
  * Plugin to add box shadow and accent border to tooltips
