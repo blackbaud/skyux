@@ -6,7 +6,7 @@ import { getRequiredProject } from '../../utility/workspace';
 import { Schema } from './schema';
 
 /**
- * Converts `<sky-definition-list>` to `<sky-description-list>`.
+ * Converts `<sky-grid>` to `<sky-data-grid>`.
  */
 export default function convertGridToDataGridSchematic(options: Schema): Rule {
   return async (tree) => {
