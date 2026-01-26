@@ -387,6 +387,7 @@ function convertTemplate(
       offset,
       ['sky-progress-indicator', 'sky-progress-indicator-item'],
       progressIndicatorTagSwap(filePath),
+      {},
       progressIndicator,
     );
   }
@@ -401,6 +402,7 @@ function convertTemplate(
       offset,
       ['sky-progress-indicator-nav-button'],
       progressIndicatorNavButtonTagSwap(filePath),
+      {},
       navButton,
     );
   }

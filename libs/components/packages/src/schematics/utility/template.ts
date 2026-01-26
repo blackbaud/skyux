@@ -69,12 +69,17 @@ export function parseTemplate(template: string): ParentNode {
   }) as ParentNode;
 }
 
+type SwapTagsOptions = {
+  expectNestedSelfClosingTags?: boolean;
+};
+
 export function swapTags<T extends string>(
   content: string,
   recorder: UpdateRecorder,
   offset: number,
   oldTags: T[],
   callback: SwapTagCallback<T>,
+  options: SwapTagsOptions,
   ...node: (ElementWithLocation | ParentNode)[]
 ): void {
   const nodeQueue = [...node];
@@ -114,6 +119,7 @@ export function swapTags<T extends string>(
     if (
       // Only traverse child nodes if the current node is not a self-closing tag
       (!isElement(currentNode) ||
+        options.expectNestedSelfClosingTags ||
         currentNode?.sourceCodeLocation?.endTag?.startOffset) &&
       isParentNode(currentNode)
     ) {

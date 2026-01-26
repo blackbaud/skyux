@@ -21,6 +21,11 @@
       "factory": "./src/schematics/ng-generate/convert-definition-list-to-description-list/convert-definition-list-to-description-list.schematic",
       "schema": "./src/schematics/ng-generate/convert-definition-list-to-description-list/schema.json"
     },
+    "convert-grid-to-data-grid": {
+      "description": "Convert <sky-grid> components to <sky-data-grid> components.",
+      "factory": "./src/schematics/ng-generate/convert-grid-to-data-grid/convert-grid-to-data-grid.schematic",
+      "schema": "./src/schematics/ng-generate/convert-grid-to-data-grid/schema.json"
+    },
     "convert-page-summary-to-page-header": {
       "description": "Convert <sky-page-summary> components to <sky-page-header> components.",
       "factory": "./src/schematics/ng-generate/convert-page-summary-to-page-header/convert-page-summary-to-page-header.schematic",

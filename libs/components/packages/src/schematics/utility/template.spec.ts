@@ -42,6 +42,7 @@ describe('template', () => {
         }
         throw new Error(`Unknown tag: ${oldTag}`);
       },
+      {},
       parsed,
     );
     expect(recorder.remove).toHaveBeenCalledWith(0, 4);

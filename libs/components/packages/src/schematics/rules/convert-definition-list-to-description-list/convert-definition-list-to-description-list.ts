@@ -127,6 +127,7 @@ function convertTemplate(
       offset,
       Object.keys(tags) as (keyof typeof tags)[],
       definitionListTagSwap(context),
+      {},
       definitionList,
     );
   }
