@@ -60,13 +60,12 @@ export interface SkyRadialChartConfig extends SkyChartConfigBase {
 // #endregion
 
 // #region Chart Implementation
-/**
- * Configuration for the bar chart component.
- */
+/** Configuration for the bar chart component. */
 export type SkyBarChartConfig = SkyCartesianChartConfig;
 
-/**
- * Configuration for the pie chart component.
- */
+/** Configuration for the bar chart component. */
+export type SkyLineChartConfig = SkyCartesianChartConfig;
+
+/** Configuration for the pie chart component. */
 export type SkyPieChartConfig = SkyRadialChartConfig;
 // #endregion

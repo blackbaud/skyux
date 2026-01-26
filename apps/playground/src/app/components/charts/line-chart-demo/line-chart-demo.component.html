@@ -1,0 +1,22 @@
+<h2>Charts Playground</h2>
+
+<sky-fluid-grid>
+  <sky-row>
+    <sky-column
+      [screenXSmall]="12"
+      [screenSmall]="12"
+      [screenMedium]="12"
+      [screenLarge]="12"
+    >
+      <sky-box headingText="Chart 1">
+        <sky-box-content>
+          <sky-line-chart
+            headingText="Month-by-month revenue"
+            chartHeight="300"
+            [config]="chart1"
+          />
+        </sky-box-content>
+      </sky-box>
+    </sky-column>
+  </sky-row>
+</sky-fluid-grid>

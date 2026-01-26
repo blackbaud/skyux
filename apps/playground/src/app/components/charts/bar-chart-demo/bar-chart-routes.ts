@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 
 import { BarChartDemoComponent } from './bar-chart-demo.component';
 
-const BOX_CHART_ROUTES: Routes = [
+const BAR_CHART_ROUTES: Routes = [
   {
     path: '',
     component: BarChartDemoComponent,
@@ -14,4 +14,4 @@ const BOX_CHART_ROUTES: Routes = [
   },
 ];
 
-export default BOX_CHART_ROUTES;
+export default BAR_CHART_ROUTES;
