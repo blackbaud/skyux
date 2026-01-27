@@ -132,6 +132,10 @@ export const SkyuxChartStyles = {
     return color || '#ffffff'; // Fallback to white
   },
 
+  get barBorderWidth(): number {
+    return 2;
+  },
+
   get barBorderRadius(): number {
     const radius = resolveCssVariable('--sky-border-radius-small');
     // console.log('SKY UX Bar Border Radius:', radius);
@@ -288,6 +292,17 @@ export const SkyuxChartStyles = {
       blur: 4,
       color: 'rgba(0, 0, 0, 0.15)',
     };
+  },
+
+  // =============================================================================
+  // LEGEND
+  // =============================================================================
+
+  get legendBackground(): string {
+    const family = resolveCssVariable(
+      '--sky-background-color-container-default',
+    );
+    return family || '#ffffff';
   },
 
   // =============================================================================

@@ -2,6 +2,7 @@ import { ChartConfiguration, ChartOptions } from 'chart.js';
 
 import { SkyBarChartConfig, SkyChartAxisConfig } from '../shared/chart-types';
 import { createAutoColorPlugin } from '../shared/plugins/auto-color-plugin';
+import { createLegendBackgroundPlugin } from '../shared/plugins/legend-background-plugin';
 import { createTooltipShadowPlugin } from '../shared/plugins/tooltip-shadow-plugin';
 
 import { getSkyuxBarChartConfig } from './bar-chart-config';
@@ -72,7 +73,11 @@ export function transformToChartJsConfig(
       datasets: datasets,
     },
     options: chartOptions,
-    plugins: [createAutoColorPlugin(), createTooltipShadowPlugin()],
+    plugins: [
+      createAutoColorPlugin(),
+      createTooltipShadowPlugin(),
+      createLegendBackgroundPlugin(),
+    ],
   };
 }
 

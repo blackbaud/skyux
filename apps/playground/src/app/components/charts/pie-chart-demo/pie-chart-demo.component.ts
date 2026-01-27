@@ -18,45 +18,69 @@ import { SkyFluidGridModule } from '@skyux/layout';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PieChartDemoComponent {
+  protected assetCategories = [
+    {
+      name: 'Securities - WP',
+      value: 5_000_000,
+      percentage: 50,
+      label: '$5,000,000',
+    },
+    {
+      name: 'Income/Compensation - WP',
+      value: 2_500_000,
+      percentage: 25,
+      label: '$2,500,000',
+    },
+    {
+      name: 'Private Co. Valuation - WP',
+      value: 1_500_000,
+      percentage: 15,
+      label: '$1,500,000',
+    },
+    {
+      name: 'Real Estate - WP',
+      value: 1_000_000,
+      percentage: 10,
+      label: '$1,000,000',
+    },
+  ];
+
   protected readonly chart1: SkyPieChartConfig = {
     title: undefined,
     subtitle: undefined,
-    categories: ['Red', 'Blue', 'Green'],
+    categories: this.assetCategories.map((c) => c.name),
     series: {
-      label: 'Dataset 1',
-      data: [
-        { label: '$30', value: 30 },
-        { label: '$50', value: 50 },
-        { label: '$20', value: 20 },
-      ],
+      label: '',
+      data: this.assetCategories.map((c) => ({
+        label: c.label,
+        value: c.value,
+      })),
     },
   };
 
   protected readonly chart2: SkyPieChartConfig = {
     title: undefined,
     subtitle: undefined,
-    categories: ['Red', 'Blue', 'Green'],
+    categories: this.assetCategories.map((c) => c.name),
     series: {
-      label: 'Dataset 1',
-      data: [
-        { label: '$30', value: 30 },
-        { label: '$50', value: 50 },
-        { label: '$20', value: 20 },
-      ],
+      label: '',
+      data: this.assetCategories.map((c) => ({
+        label: c.label,
+        value: c.value,
+      })),
     },
   };
 
   protected readonly chart3: SkyPieChartConfig = {
     title: undefined,
     subtitle: undefined,
-    categories: ['Red', 'Blue', 'Green'],
+    categories: this.assetCategories.map((c) => c.name),
     series: {
-      label: 'Dataset 1',
-      data: [
-        { label: '$30', value: 30 },
-        { label: '$50', value: 50 },
-        { label: '$20', value: 20 },
-      ],
+      label: '',
+      data: this.assetCategories.map((c) => ({
+        label: c.label,
+        value: c.value,
+      })),
     },
   };
 }
