@@ -8,7 +8,7 @@ import { SkyuxChartStyles } from '../global-chart-config';
  */
 export function createTooltipShadowPlugin(): Plugin {
   const tooltipShadowPlugin: Plugin = {
-    id: 'tooltipShadow',
+    id: 'skyTooltipShadow',
     beforeTooltipDraw: (chart) => {
       const tooltip = chart.tooltip;
       if (!tooltip || tooltip.opacity === 0) return;

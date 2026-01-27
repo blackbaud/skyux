@@ -1,6 +1,8 @@
 import { ChartOptions } from 'chart.js';
 
 import { SkyuxChartStyles } from '../shared/global-chart-config';
+import { getLegendPluginOptions } from '../shared/plugins/legend-plugin';
+import { getTooltipPluginOptions } from '../shared/plugins/tooltip-plugin';
 
 /**
  * Get Base Bar Chart Configuration
@@ -82,49 +84,8 @@ function getBaseBarChartConfig(): Partial<ChartOptions<'bar'>> {
       },
     },
     plugins: {
-      legend: {
-        display: true,
-        position: 'bottom',
-        labels: {
-          usePointStyle: true,
-          padding: 10,
-          font: {
-            size: 11,
-            family: fontFamily,
-          },
-        },
-      },
-      tooltip: {
-        enabled: true,
-        mode: 'index',
-        intersect: false,
-        backgroundColor: SkyuxChartStyles.tooltipBackgroundColor,
-        titleColor: SkyuxChartStyles.tooltipTitleColor,
-        bodyColor: SkyuxChartStyles.tooltipBodyColor,
-        borderColor: 'transparent',
-        borderWidth: 0,
-        padding: SkyuxChartStyles.tooltipPadding,
-        // Hide default caret since we draw our own colored one
-        displayColors: true,
-        // multiKeyBackground sets caret color
-        multiKeyBackground: 'transparent',
-        bodySpacing: SkyuxChartStyles.tooltipBodySpacing,
-        titleMarginBottom: SkyuxChartStyles.tooltipTitleMarginBottom,
-        caretSize: SkyuxChartStyles.tooltipCaretSize,
-        boxPadding: SkyuxChartStyles.tooltipBoxPadding,
-        caretPadding: 4,
-        usePointStyle: true,
-        titleFont: {
-          family: SkyuxChartStyles.fontFamily,
-          size: SkyuxChartStyles.tooltipTitleFontSize,
-          weight: SkyuxChartStyles.tooltipTitleFontWeight as any,
-        },
-        bodyFont: {
-          family: SkyuxChartStyles.fontFamily,
-          size: SkyuxChartStyles.tooltipBodyFontSize,
-          weight: SkyuxChartStyles.tooltipBodyFontWeight as any,
-        },
-      },
+      legend: getLegendPluginOptions(),
+      tooltip: getTooltipPluginOptions(),
     },
   };
 

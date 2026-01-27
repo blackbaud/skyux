@@ -1,6 +1,7 @@
 import { ChartOptions } from 'chart.js';
 
 import { SkyuxChartStyles } from '../shared/global-chart-config';
+import { getLegendPluginOptions } from '../shared/plugins/legend-plugin';
 
 /**
  * SKY UX Doughnut Chart Configuration
@@ -97,18 +98,7 @@ export const skyuxDoughnutChartConfig: Partial<
   responsive: true,
   maintainAspectRatio: false,
   plugins: {
-    legend: {
-      display: true,
-      position: 'right',
-      labels: {
-        usePointStyle: true,
-        padding: 10,
-        font: {
-          size: 11,
-          family: 'Blackbaud Sans, Arial, sans-serif',
-        },
-      },
-    },
+    legend: getLegendPluginOptions({ position: 'right' }),
     tooltip: {
       enabled: true,
     },
@@ -183,10 +173,7 @@ export function getSkyuxDoughnutDatasetBorder(): {
   borderWidth: number;
   borderColor: string;
 } {
-  const borderColor =
-    getComputedStyle(document.documentElement)
-      .getPropertyValue('--sky-color-background-container-base')
-      .trim() || '#ffffff';
+  const borderColor = SkyuxChartStyles.barBorderColor;
 
   return {
     borderWidth: 2,

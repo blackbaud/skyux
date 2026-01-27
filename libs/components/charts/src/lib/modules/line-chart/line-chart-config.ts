@@ -1,6 +1,8 @@
 import { ChartOptions } from 'chart.js';
 
 import { SkyuxChartStyles } from '../shared/global-chart-config';
+import { getLegendPluginOptions } from '../shared/plugins/legend-plugin';
+import { getTooltipPluginOptions } from '../shared/plugins/tooltip-plugin';
 
 /**
  * SKY UX Line Chart Configuration
@@ -90,45 +92,8 @@ function getBaseLineChartConfig(): Partial<ChartOptions<'line'>> {
     },
 
     plugins: {
-      legend: {
-        display: true,
-        position: 'bottom',
-        labels: {
-          usePointStyle: true,
-          padding: 10,
-          font: {
-            size: 11,
-            family: fontFamily,
-          },
-        },
-      },
-      tooltip: {
-        enabled: true,
-        mode: 'index',
-        intersect: false,
-        backgroundColor: SkyuxChartStyles.tooltipBackgroundColor,
-        titleColor: SkyuxChartStyles.tooltipTitleColor,
-        bodyColor: SkyuxChartStyles.tooltipBodyColor,
-        borderColor: 'transparent',
-        borderWidth: 0,
-        padding: SkyuxChartStyles.tooltipPadding,
-        titleMarginBottom: SkyuxChartStyles.tooltipTitleMarginBottom,
-        bodySpacing: SkyuxChartStyles.tooltipBodySpacing,
-        caretSize: SkyuxChartStyles.tooltipCaretSize,
-        boxPadding: SkyuxChartStyles.tooltipBoxPadding,
-        titleFont: {
-          size: SkyuxChartStyles.tooltipTitleFontSize,
-          family: fontFamily,
-          weight: SkyuxChartStyles.tooltipTitleFontWeight as any,
-        },
-        bodyFont: {
-          size: SkyuxChartStyles.tooltipBodyFontSize,
-          family: fontFamily,
-          weight: SkyuxChartStyles.tooltipBodyFontWeight as any,
-        },
-        displayColors: true,
-        multiKeyBackground: 'transparent',
-      },
+      legend: getLegendPluginOptions(),
+      tooltip: getTooltipPluginOptions(),
     },
 
     interaction: {
