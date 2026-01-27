@@ -37,27 +37,26 @@
   <sky-data-grid
     height="400"
     [data]="recordsToShow.value()"
-    [loading]="recordsToShow.isLoading()"
     [totalRowCount]="totalRecordCount()"
     [viewId]="viewId"
-    [(sort)]="sort"
+    [(sortField)]="sort"
   >
     <sky-data-grid-column
       field="name"
-      heading="Employee Name"
-      type="text"
+      headingText="Employee Name"
+      dataType="text"
       flexWidth="5"
     />
     <sky-data-grid-column
       field="department"
-      heading="Department"
-      type="text"
+      headingText="Department"
+      dataType="text"
       flexWidth="8"
     />
     <sky-data-grid-column
       field="salary"
-      heading="Salary"
-      type="number"
+      headingText="Salary"
+      dataType="number"
       flexWidth="2"
     >
       <ng-template let-value="value">{{
@@ -66,8 +65,8 @@
     </sky-data-grid-column>
     <sky-data-grid-column
       field="startDate"
-      heading="Start Date"
-      type="date"
+      headingText="Start Date"
+      dataType="date"
       flexWidth="0"
     >
       <ng-template let-value="value">{{
@@ -76,8 +75,8 @@
     </sky-data-grid-column>
     <sky-data-grid-column
       field="active"
-      heading="Active"
-      type="boolean"
+      headingText="Active"
+      dataType="boolean"
       flexWidth="0"
     />
   </sky-data-grid>

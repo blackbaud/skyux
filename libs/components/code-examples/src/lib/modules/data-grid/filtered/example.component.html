@@ -32,22 +32,22 @@
 >
   <sky-data-grid-column
     field="name"
-    heading="Employee Name"
-    type="text"
+    headingText="Employee Name"
+    dataType="text"
     filterId="name"
     filterOperator="contains"
     flexWidth="5"
   />
   <sky-data-grid-column
     field="department"
-    heading="Department"
-    type="text"
+    headingText="Department"
+    dataType="text"
     flexWidth="8"
   />
   <sky-data-grid-column
     field="salary"
-    heading="Salary"
-    type="number"
+    headingText="Salary"
+    dataType="number"
     filterId="salary"
     flexWidth="2"
   >
@@ -57,8 +57,8 @@
   </sky-data-grid-column>
   <sky-data-grid-column
     field="startDate"
-    heading="Start Date"
-    type="date"
+    headingText="Start Date"
+    dataType="date"
     flexWidth="0"
   >
     <ng-template let-value="value">{{
@@ -67,8 +67,8 @@
   </sky-data-grid-column>
   <sky-data-grid-column
     field="active"
-    heading="Active"
-    type="boolean"
+    headingText="Active"
+    dataType="boolean"
     filterId="hideInactive"
     flexWidth="0"
   />

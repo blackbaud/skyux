@@ -12,17 +12,17 @@
     [pageSize]="pageSize()"
     [rowHighlightedId]="rowHighlightedId()"
     [totalRowCount]="totalRowCount()"
-    [(sort)]="gridSort"
+    [(sortField)]="gridSort"
     (selectedColumnIdsChange)="visibleColumnIds.set($event)"
   >
     @if (showAllColumns()) {
-      <sky-data-grid-column field="column1" heading="Column1" />
-      <sky-data-grid-column field="column2" heading="Column2" />
+      <sky-data-grid-column field="column1" headingText="Column1" />
+      <sky-data-grid-column field="column2" headingText="Column2" />
       @if (showCol3()) {
         <sky-data-grid-column
           field="column3"
-          type="boolean"
-          [heading]="showCol3HeaderText() ? 'Column3' : ''"
+          dataType="boolean"
+          [headingText]="showCol3HeaderText() ? 'Column3' : ''"
         />
       }
     }
@@ -54,14 +54,18 @@
     [(selectedRowIds)]="selectedRowIds"
   >
     @if (showAllColumns()) {
-      <sky-data-grid-column field="myId" heading="Custom Id" type="number" />
-      <sky-data-grid-column field="column1" heading="Column1" />
-      <sky-data-grid-column field="column2" heading="Column2" />
+      <sky-data-grid-column
+        field="myId"
+        headingText="Custom Id"
+        dataType="number"
+      />
+      <sky-data-grid-column field="column1" headingText="Column1" />
+      <sky-data-grid-column field="column2" headingText="Column2" />
       @if (showCol3()) {
         <sky-data-grid-column
           field="column3"
-          type="boolean"
-          [heading]="showCol3HeaderText() ? 'Column3' : ''"
+          dataType="boolean"
+          [headingText]="showCol3HeaderText() ? 'Column3' : ''"
         />
       }
     }
@@ -83,10 +87,10 @@
     @if (showAllColumns()) {
       <sky-data-grid-column
         columnId="contsm"
-        heading=""
+        headingText=""
         width="40"
         [locked]="true"
-        [isSortable]="false"
+        [sortable]="false"
       >
         <ng-template let-row="row">
           <!-- The `ngIf` here was added to verify that templates with Angular controls work when built. -->
@@ -105,20 +109,20 @@
       </sky-data-grid-column>
       <sky-data-grid-column
         field="column1"
-        heading="Column1"
+        headingText="Column1"
         [helpPopoverContent]="staticPopoverRef"
       />
-      <sky-data-grid-column field="column2" heading="Column2" />
+      <sky-data-grid-column field="column2" headingText="Column2" />
       @if (showCol3()) {
         <sky-data-grid-column
           field="column3"
-          type="boolean"
+          dataType="boolean"
           helpPopoverTitle="This popover is asynchronous!"
-          [heading]="showCol3HeaderText() ? 'Column3' : ''"
+          [headingText]="showCol3HeaderText() ? 'Column3' : ''"
           [helpPopoverContent]="staticPopoverRef"
         />
       } @else {
-        <sky-data-grid-column field="date" type="date" heading="Date" />
+        <sky-data-grid-column field="date" dataType="date" headingText="Date" />
       }
     }
   </sky-data-grid>
@@ -139,21 +143,21 @@
   >
     @if (showAllColumns()) {
       <sky-data-grid-column
-        type="number"
+        dataType="number"
         field="column1"
-        heading="Column1"
+        headingText="Column1"
         [helpPopoverContent]="staticPopoverRef"
       />
       <sky-data-grid-column
         field="column2"
-        heading="Column2"
+        headingText="Column2"
         [helpPopoverContent]="staticPopoverRef"
       />
       @if (showCol3()) {
         <sky-data-grid-column
           field="column3"
-          type="boolean"
-          [heading]="showCol3HeaderText() ? 'Column3' : ''"
+          dataType="boolean"
+          [headingText]="showCol3HeaderText() ? 'Column3' : ''"
           [helpPopoverContent]="staticPopoverRef"
         />
       }
@@ -172,16 +176,16 @@
   >
     <sky-data-grid-column
       field="column1"
-      heading="Column1"
-      type="text"
+      headingText="Column1"
+      dataType="text"
       filterId="column1Filter"
       filterOperator="contains"
       flexWidth="0"
     />
     <sky-data-grid-column
       field="column2"
-      heading="Column2"
-      type="text"
+      headingText="Column2"
+      dataType="text"
       filterId="column2Filter"
       filterOperator="startsWith"
       flexWidth="1"
@@ -189,30 +193,30 @@
     <sky-data-grid-column
       field="column2"
       columnId="column2VarOperator"
-      heading="Column2 (Variable Operator)"
-      type="text"
+      headingText="Column2 (Variable Operator)"
+      dataType="text"
       filterId="column2VarOperatorFilter"
       [filterOperator]="textFilterOperator()"
     />
     <sky-data-grid-column
       field="column3"
-      heading="Column3"
-      type="boolean"
+      headingText="Column3"
+      dataType="boolean"
       filterId="column3Filter"
       [filterOperator]="booleanFilterOperator()"
     />
     <sky-data-grid-column
       field="numericColumn"
-      heading="Numeric"
-      type="number"
+      headingText="Numeric"
+      dataType="number"
       filterId="numericFilter"
       [filterOperator]="numberFilterOperator()"
-      [isResizable]="false"
+      [resizable]="false"
     />
     <sky-data-grid-column
       field="dateColumn"
-      heading="Date"
-      type="date"
+      headingText="Date"
+      dataType="date"
       filterId="dateFilter"
     />
   </sky-data-grid>

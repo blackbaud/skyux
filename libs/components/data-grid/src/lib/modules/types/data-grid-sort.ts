@@ -6,10 +6,10 @@ export interface SkyDataGridSort {
    * Whether to apply the sort in descending order.
    * @required
    */
-  descending: boolean;
+  descending?: boolean;
   /**
    * The data property to sort by.
    * @required
    */
-  field: string;
+  fieldSelector: string;
 }

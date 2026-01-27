@@ -2,17 +2,30 @@
   <sky-data-grid-column
     columnId="context"
     width="50"
-    [isSortable]="false"
+    [sortable]="false"
     [template]="contextMenu"
   />
-  <sky-data-grid-column field="name" heading="Name" />
-  <sky-data-grid-column field="age" heading="Age" type="number" width="60" />
-  <sky-data-grid-column field="startDate" heading="Start date" type="date" />
-  <sky-data-grid-column field="endDate" heading="End date" type="date" />
-  <sky-data-grid-column field="department" heading="Department">
+  <sky-data-grid-column field="name" headingText="Name" />
+  <sky-data-grid-column
+    field="age"
+    headingText="Age"
+    dataType="number"
+    width="60"
+  />
+  <sky-data-grid-column
+    field="startDate"
+    headingText="Start date"
+    dataType="date"
+  />
+  <sky-data-grid-column
+    field="endDate"
+    headingText="End date"
+    dataType="date"
+  />
+  <sky-data-grid-column field="department" headingText="Department">
     <ng-template let-row="row">{{ row.department?.name }}</ng-template>
   </sky-data-grid-column>
-  <sky-data-grid-column field="jobTitle" heading="Title">
+  <sky-data-grid-column field="jobTitle" headingText="Title">
     <ng-template let-row="row">{{ row.jobTitle?.name }}</ng-template>
   </sky-data-grid-column>
 </sky-data-grid>

@@ -58,7 +58,7 @@ export function dataSortAndFilter(
     return includeEmployee;
   });
   if (sort) {
-    switch (sort.field) {
+    switch (sort.fieldSelector) {
       case 'name':
         records.sort(
           (a, b) => a.name.localeCompare(b.name) * (sort.descending ? -1 : 1),

@@ -230,7 +230,7 @@ describe('SkyDataGridComponent', () => {
       expect(api?.getState()?.sort?.sortModel).toBeUndefined();
 
       fixture.componentRef.setInput('gridSort', {
-        field: 'column1',
+        fieldSelector: 'column1',
         descending: false,
       });
       fixture.detectChanges();
@@ -243,7 +243,7 @@ describe('SkyDataGridComponent', () => {
       ]);
 
       fixture.componentRef.setInput('gridSort', {
-        field: 'column1',
+        fieldSelector: 'column1',
         descending: true,
       });
       fixture.detectChanges();
@@ -265,7 +265,7 @@ describe('SkyDataGridComponent', () => {
       await fixture.whenStable();
 
       expect(fixture.componentInstance.gridSort()).toEqual({
-        field: 'column2',
+        fieldSelector: 'column2',
         descending: true,
       });
       expect(api?.getState()?.sort?.sortModel).toEqual([

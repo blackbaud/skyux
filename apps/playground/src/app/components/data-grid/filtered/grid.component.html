@@ -44,23 +44,31 @@
   >
     <sky-data-grid-column
       field="name"
-      heading="Employee Name"
-      type="text"
+      headingText="Employee Name"
+      dataType="text"
       filterId="name"
       filterOperator="contains"
     />
-    <sky-data-grid-column field="department" heading="Department" type="text" />
+    <sky-data-grid-column
+      field="department"
+      headingText="Department"
+      dataType="text"
+    />
     <sky-data-grid-column
       field="salary"
-      heading="Salary"
-      type="number"
+      headingText="Salary"
+      dataType="number"
       filterId="salary"
     />
-    <sky-data-grid-column field="startDate" heading="Start Date" type="date" />
+    <sky-data-grid-column
+      field="startDate"
+      headingText="Start Date"
+      dataType="date"
+    />
     <sky-data-grid-column
       field="active"
-      heading="Active"
-      type="boolean"
+      headingText="Active"
+      dataType="boolean"
       filterId="hideInactive"
     />
   </sky-data-grid>

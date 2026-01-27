@@ -89,144 +89,162 @@
     >
       <sky-data-grid-column
         columnId="menu"
-        heading="Menu"
+        headingText="Menu"
         headingHidden
         locked
         width="50"
-        [isSortable]="false"
-        [isResizable]="false"
+        [sortable]="false"
+        [resizable]="false"
         [template]="contextMenu"
       />
-      <sky-data-grid-column field="object_date" heading="Object Date" />
+      <sky-data-grid-column field="object_date" headingText="Object Date" />
       <sky-data-grid-column
         field="object_number"
-        heading="Object Number"
-        type="text"
+        headingText="Object Number"
+        dataType="text"
         helpPopoverTitle="Object Number"
         helpPopoverContent="This is the number of the object"
       />
       <sky-data-grid-column
         field="is_highlight"
-        heading="Is Highlight"
-        type="boolean"
+        headingText="Is Highlight"
+        dataType="boolean"
       />
       <sky-data-grid-column
         field="is_timeline_work"
-        heading="Is Timeline Work"
-        type="boolean"
+        headingText="Is Timeline Work"
+        dataType="boolean"
       />
       <sky-data-grid-column
         field="is_public_domain"
-        heading="Is Public Domain"
-        type="boolean"
+        headingText="Is Public Domain"
+        dataType="boolean"
       />
       <sky-data-grid-column
         field="object_id"
-        heading="Object ID"
-        type="number"
+        headingText="Object ID"
+        dataType="number"
       />
-      <sky-data-grid-column field="gallery_number" heading="Gallery Number" />
+      <sky-data-grid-column
+        field="gallery_number"
+        headingText="Gallery Number"
+      />
       <sky-data-grid-column
         field="department"
-        heading="Department"
+        headingText="Department"
         [wrapText]="gridSettingsChanges()?.wrapText"
       />
-      <sky-data-grid-column field="accessionyear" heading="AccessionYear" />
-      <sky-data-grid-column field="object_name" heading="Object" />
-      <sky-data-grid-column field="title" heading="Title" />
+      <sky-data-grid-column field="accessionyear" headingText="AccessionYear" />
+      <sky-data-grid-column field="object_name" headingText="Object" />
+      <sky-data-grid-column field="title" headingText="Title" />
       <sky-data-grid-column
         field="culture"
-        heading="Culture"
+        headingText="Culture"
         filterOperator="equals"
       />
-      <sky-data-grid-column field="period" heading="Period" />
-      <sky-data-grid-column field="dynasty" heading="Dynasty" />
-      <sky-data-grid-column field="reign" heading="Reign" />
-      <sky-data-grid-column field="portfolio" heading="Portfolio" />
-      <sky-data-grid-column field="constituent_id" heading="Constituent ID" />
-      <sky-data-grid-column field="artist_role" heading="Artist Role" />
-      <sky-data-grid-column field="artist_prefix" heading="Artist Prefix" />
+      <sky-data-grid-column field="period" headingText="Period" />
+      <sky-data-grid-column field="dynasty" headingText="Dynasty" />
+      <sky-data-grid-column field="reign" headingText="Reign" />
+      <sky-data-grid-column field="portfolio" headingText="Portfolio" />
+      <sky-data-grid-column
+        field="constituent_id"
+        headingText="Constituent ID"
+      />
+      <sky-data-grid-column field="artist_role" headingText="Artist Role" />
+      <sky-data-grid-column field="artist_prefix" headingText="Artist Prefix" />
       <sky-data-grid-column
         field="artist_display_name"
-        heading="Artist Display Name"
+        headingText="Artist Display Name"
       />
       <sky-data-grid-column
         field="artist_display_bio"
-        heading="Artist Display Bio"
+        headingText="Artist Display Bio"
       />
-      <sky-data-grid-column field="artist_suffix" heading="Artist Suffix" />
+      <sky-data-grid-column field="artist_suffix" headingText="Artist Suffix" />
       <sky-data-grid-column
         field="artist_alpha_sort"
-        heading="Artist Alpha Sort"
+        headingText="Artist Alpha Sort"
       />
       <sky-data-grid-column
         field="artist_nationality"
-        heading="Artist Nationality"
+        headingText="Artist Nationality"
       />
       <sky-data-grid-column
         field="artist_begin_date"
-        heading="Artist Begin Date"
+        headingText="Artist Begin Date"
       />
-      <sky-data-grid-column field="artist_end_date" heading="Artist End Date" />
-      <sky-data-grid-column field="artist_gender" heading="Artist Gender" />
-      <sky-data-grid-column field="artist_ulan_url" heading="Artist ULAN URL">
+      <sky-data-grid-column
+        field="artist_end_date"
+        headingText="Artist End Date"
+      />
+      <sky-data-grid-column field="artist_gender" headingText="Artist Gender" />
+      <sky-data-grid-column
+        field="artist_ulan_url"
+        headingText="Artist ULAN URL"
+      >
         <ng-template let-value="value"
           ><app-custom-link [link]="value"
         /></ng-template>
       </sky-data-grid-column>
       <sky-data-grid-column
         field="artist_wikidata_url"
-        heading="Artist Wikidata URL"
+        headingText="Artist Wikidata URL"
       >
         <ng-template let-value="value"
           ><app-custom-link [link]="value"
         /></ng-template>
       </sky-data-grid-column>
-      <sky-data-grid-column field="object_date" heading="Object Date" />
+      <sky-data-grid-column field="object_date" headingText="Object Date" />
       <sky-data-grid-column
         field="object_begin_date"
-        heading="Object Begin Date"
+        headingText="Object Begin Date"
       />
-      <sky-data-grid-column field="object_end_date" heading="Object End Date" />
+      <sky-data-grid-column
+        field="object_end_date"
+        headingText="Object End Date"
+      />
       <sky-data-grid-column
         field="medium"
-        heading="Medium"
+        headingText="Medium"
         [wrapText]="gridSettingsChanges()?.wrapText"
       />
-      <sky-data-grid-column field="dimensions" heading="Dimensions" />
+      <sky-data-grid-column field="dimensions" headingText="Dimensions" />
       <sky-data-grid-column
         field="credit_line"
-        heading="Credit Line"
+        headingText="Credit Line"
         [wrapText]="gridSettingsChanges()?.wrapText"
       />
       <sky-data-grid-column
         field="geography_type"
-        heading="Geography Type"
+        headingText="Geography Type"
         [wrapText]="gridSettingsChanges()?.wrapText"
       />
-      <sky-data-grid-column field="city" heading="City" />
-      <sky-data-grid-column field="state" heading="State" />
-      <sky-data-grid-column field="county" heading="County" />
-      <sky-data-grid-column field="country" heading="Country" />
-      <sky-data-grid-column field="region" heading="Region" />
-      <sky-data-grid-column field="subregion" heading="Subregion" />
-      <sky-data-grid-column field="locale" heading="Locale" />
-      <sky-data-grid-column field="locus" heading="Locus" />
-      <sky-data-grid-column field="excavation" heading="Excavation" />
-      <sky-data-grid-column field="river" heading="River" />
-      <sky-data-grid-column field="classification" heading="Classification" />
+      <sky-data-grid-column field="city" headingText="City" />
+      <sky-data-grid-column field="state" headingText="State" />
+      <sky-data-grid-column field="county" headingText="County" />
+      <sky-data-grid-column field="country" headingText="Country" />
+      <sky-data-grid-column field="region" headingText="Region" />
+      <sky-data-grid-column field="subregion" headingText="Subregion" />
+      <sky-data-grid-column field="locale" headingText="Locale" />
+      <sky-data-grid-column field="locus" headingText="Locus" />
+      <sky-data-grid-column field="excavation" headingText="Excavation" />
+      <sky-data-grid-column field="river" headingText="River" />
+      <sky-data-grid-column
+        field="classification"
+        headingText="Classification"
+      />
       <sky-data-grid-column
         field="rights_and_reproduction"
-        heading="Rights and Reproduction"
+        headingText="Rights and Reproduction"
       />
-      <sky-data-grid-column field="link_resource" heading="Link Resource">
+      <sky-data-grid-column field="link_resource" headingText="Link Resource">
         <ng-template let-value="value"
           ><app-custom-link [link]="value"
         /></ng-template>
       </sky-data-grid-column>
       <sky-data-grid-column
         field="object_wikidata_url"
-        heading="Object Wikidata URL"
+        headingText="Object Wikidata URL"
       >
         <ng-template let-value="value"
           ><app-custom-link [link]="value"
@@ -234,7 +252,7 @@
       </sky-data-grid-column>
       <sky-data-grid-column
         field="tags_wikidata_url"
-        heading="Tags Wikidata URL"
+        headingText="Tags Wikidata URL"
       >
         <ng-template let-value="value"
           ><app-custom-link [link]="value"

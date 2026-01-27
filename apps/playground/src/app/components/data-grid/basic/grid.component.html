@@ -11,10 +11,10 @@
 </button>
 <div id="screenshot-grid">
   <sky-data-grid height="200" width="600" [data]="dataForSimpleGrid">
-    <sky-data-grid-column field="column1" heading="Column1" />
-    <sky-data-grid-column field="column2" heading="Column2" />
+    <sky-data-grid-column field="column1" headingText="Column1" />
+    <sky-data-grid-column field="column2" headingText="Column2" />
     @if (!hideCol3()) {
-      <sky-data-grid-column field="column3" heading="Column3" />
+      <sky-data-grid-column field="column3" headingText="Column3" />
     }
   </sky-data-grid>
 </div>
@@ -41,11 +41,15 @@
     [data]="dataForSimpleGridWithMultiselect"
     [(selectedRowIds)]="selectedRowIds"
   >
-    <sky-data-grid-column field="myId" heading="Custom Id" type="number" />
-    <sky-data-grid-column field="column1" heading="Column1" />
-    <sky-data-grid-column field="column2" heading="Column2" />
+    <sky-data-grid-column
+      field="myId"
+      headingText="Custom Id"
+      dataType="number"
+    />
+    <sky-data-grid-column field="column1" headingText="Column1" />
+    <sky-data-grid-column field="column2" headingText="Column2" />
     @if (!hideCol3()) {
-      <sky-data-grid-column field="column3" heading="Column3" />
+      <sky-data-grid-column field="column3" headingText="Column3" />
     }
   </sky-data-grid>
 
@@ -56,16 +60,16 @@
 
 <div id="screenshot-grid-inline-help">
   <sky-data-grid [data]="dataForSimpleGrid">
-    <sky-data-grid-column field="column1" heading="Column1" />
+    <sky-data-grid-column field="column1" headingText="Column1" />
     <sky-data-grid-column
       field="column2"
-      heading="Column2"
+      headingText="Column2"
       [helpPopoverContent]="staticPopoverRef"
     />
     @if (!hideCol3()) {
       <sky-data-grid-column
         field="column3"
-        heading="Column3"
+        headingText="Column3"
         helpPopoverTitle="This popover is asynchronous!"
         [helpPopoverContent]="asyncPopover"
       />
@@ -85,10 +89,10 @@
 
 <div id="screenshot-grid-scrollbars">
   <sky-data-grid fit="scroll" [data]="dataForSimpleGrid">
-    <sky-data-grid-column field="column1" heading="Column1" width="800" />
-    <sky-data-grid-column field="column2" heading="Column2" width="800" />
+    <sky-data-grid-column field="column1" headingText="Column1" width="800" />
+    <sky-data-grid-column field="column2" headingText="Column2" width="800" />
     @if (!hideCol3()) {
-      <sky-data-grid-column field="column3" heading="Column3" width="800" />
+      <sky-data-grid-column field="column3" headingText="Column3" width="800" />
     }
   </sky-data-grid>
 </div>
@@ -104,10 +108,10 @@
   >
     <sky-data-grid-column
       columnId="context-menu"
-      heading=""
+      headingText=""
       width="40"
       locked
-      [isSortable]="false"
+      [sortable]="false"
     >
       <ng-template let-row="row">
         <!-- The `ngIf` here was added to verify that templates with Angular controls work when built. -->
@@ -126,14 +130,14 @@
     </sky-data-grid-column>
     <sky-data-grid-column
       field="column1"
-      heading="Column1"
+      headingText="Column1"
       [helpPopoverContent]="staticPopoverRef"
     />
-    <sky-data-grid-column field="column2" heading="Column2" />
+    <sky-data-grid-column field="column2" headingText="Column2" />
     @if (!hideCol3()) {
       <sky-data-grid-column
         field="column3"
-        heading="Column3"
+        headingText="Column3"
         helpPopoverTitle="This popover is asynchronous!"
         [helpPopoverContent]="asyncPopover"
       />
@@ -149,10 +153,14 @@
 
 <div id="screenshot-grid-column-align">
   <sky-data-grid fit="scroll" height="200" [data]="dataForSimpleGrid">
-    <sky-data-grid-column type="number" field="column1" heading="Column1" />
-    <sky-data-grid-column field="column2" heading="Column2" />
+    <sky-data-grid-column
+      dataType="number"
+      field="column1"
+      headingText="Column1"
+    />
+    <sky-data-grid-column field="column2" headingText="Column2" />
     @if (!hideCol3()) {
-      <sky-data-grid-column field="column3" heading="Column3" />
+      <sky-data-grid-column field="column3" headingText="Column3" />
     }
   </sky-data-grid>
 </div>
@@ -162,20 +170,20 @@
 <div id="screenshot-grid-column-align-and-inline">
   <sky-data-grid fit="scroll" [data]="dataForSimpleGrid">
     <sky-data-grid-column
-      type="number"
+      dataType="number"
       field="column1"
-      heading="Column1"
+      headingText="Column1"
       [helpPopoverContent]="staticPopoverRef"
     />
     <sky-data-grid-column
       field="column2"
-      heading="Column2"
+      headingText="Column2"
       [helpPopoverContent]="staticPopoverRef"
     />
     @if (!hideCol3()) {
       <sky-data-grid-column
         field="column3"
-        heading="Column3"
+        headingText="Column3"
         [helpPopoverContent]="staticPopoverRef"
       />
     }

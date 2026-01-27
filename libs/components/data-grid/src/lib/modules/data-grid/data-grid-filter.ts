@@ -6,20 +6,26 @@ import { SkyDataGridFilterOperator } from '../types/data-grid-filter-operator';
 import { SkyDataGridFilterValue } from '../types/data-grid-filter-value';
 import { SkyDataGridNumberRangeFilterValue } from '../types/data-grid-number-range-filter-value';
 
+interface SkyDataGridColumnFilter<
+  T extends Record<'id', string> = Record<'id', string> &
+    Record<string, unknown>,
+> {
+  filterId: string | undefined;
+  field: keyof T | undefined;
+  filterOperator: SkyDataGridFilterOperator | undefined;
+  type: 'text' | 'number' | 'date' | 'boolean';
+}
+
 /**
  * @internal
  */
 export function doesFilterPass<
-  T extends { id: string } = { id: string } & Record<string, unknown>,
+  T extends Record<'id', string> = Record<'id', string> &
+    Record<string, unknown>,
 >(
   filterItems: SkyFilterStateFilterItem<SkyDataGridFilterValue>[],
-  data: Partial<T>,
-  columns: readonly {
-    filterId: string | undefined;
-    field: keyof T | undefined;
-    filterOperator: SkyDataGridFilterOperator | undefined;
-    type: 'text' | 'number' | 'date' | 'boolean';
-  }[],
+  data: Record<'id', string> & Partial<T>,
+  columns: readonly SkyDataGridColumnFilter<T>[],
   logger: SkyLogService,
 ): boolean {
   return filterItems.every((filterItem) =>
@@ -28,16 +34,12 @@ export function doesFilterPass<
 }
 
 function doesSingleFilterPass<
-  T extends { id: string } = { id: string } & Record<string, unknown>,
+  T extends Record<'id', string> = Record<'id', string> &
+    Record<string, unknown>,
 >(
   filter: SkyFilterStateFilterItem<SkyDataGridFilterValue>,
-  data: Partial<T>,
-  columns: readonly {
-    filterId: string | undefined;
-    field: keyof T | undefined;
-    filterOperator: SkyDataGridFilterOperator | undefined;
-    type: 'text' | 'number' | 'date' | 'boolean';
-  }[],
+  data: Record<'id', string> & Partial<T>,
+  columns: readonly SkyDataGridColumnFilter<T>[],
   logger: SkyLogService,
 ): boolean {
   // Find column with matching filterId
@@ -48,13 +50,17 @@ function doesSingleFilterPass<
   }
 
   const rowValue =
-    column.field && data && column.field in data
-      ? data[column.field as keyof T]
+    column?.field && data && column?.field in data
+      ? data[column?.field as keyof T]
       : undefined;
-  const filterValue = filter.filterValue.value;
-  const filterOperator = column.filterOperator;
+  const filterValue = filter.filterValue.value as
+    | SkyDataGridFilterValue
+    | undefined;
+  const filterOperator = column?.filterOperator as
+    | SkyDataGridFilterOperator
+    | undefined;
 
-  switch (column.type) {
+  switch (column?.type) {
     case 'text':
       return doesTextFilterPass(
         filterOperator ?? 'contains',

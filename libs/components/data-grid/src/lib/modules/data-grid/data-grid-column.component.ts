@@ -20,14 +20,21 @@ import { SkyDataGridFilterOperator } from '../types/data-grid-filter-operator';
 })
 export class SkyDataGridColumnComponent {
   /**
+   * The unique ID for the column. You must provide either the `columnId` or `field` property
+   * for every column, but do not provide both. Use `columnId` when the column does not map directly to a field
+   * in the data set.
+   */
+  public readonly columnId = input<string>();
+
+  /**
    * The description for the column.
    */
   public readonly description = input<string>();
 
   /**
    * The property to retrieve cell information from an entry on the grid `data` array.
-   * You must provide either the `id` or `field` property for every column,
-   * but do not provide both. If `id` does not exist on a column, then `field` is the entry
+   * You must provide either the `columnId` or `field` property for every column,
+   * but do not provide both. If `columnId` does not exist on a column, then `field` is the entry
    * for the grid `selectedColumnIds` array.
    */
   public readonly field = input<string>();
@@ -45,7 +52,7 @@ export class SkyDataGridColumnComponent {
   /**
    * Text to display in the column header.
    */
-  public readonly heading = input<string>();
+  public readonly headingText = input<string>();
 
   /**
    * Whether to prevent `heading` text from being visibly displayed.
@@ -54,13 +61,6 @@ export class SkyDataGridColumnComponent {
   public readonly headingHidden = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-
-  /**
-   * The unique ID for the column. You must provide either the `columnId` or `field` property
-   * for every column, but do not provide both. Use `columnId` when the column does not map directly to a field
-   * in the data set.
-   */
-  public readonly columnId = input<string>();
 
   /**
    * The title of the help popover. This property only applies when `helpPopoverContent` is
@@ -87,7 +87,7 @@ export class SkyDataGridColumnComponent {
    * Whether the column can be resized by dragging the column header border.
    * @default true
    */
-  public readonly isResizable = input<boolean, unknown>(true, {
+  public readonly resizable = input<boolean, unknown>(true, {
     transform: booleanAttribute,
   });
 
@@ -95,7 +95,7 @@ export class SkyDataGridColumnComponent {
    * Whether the column sorts the grid when users click the column header.
    * @default true
    */
-  public readonly isSortable = input<boolean, unknown>(true, {
+  public readonly sortable = input<boolean, unknown>(true, {
     transform: booleanAttribute,
   });
 
@@ -122,7 +122,9 @@ export class SkyDataGridColumnComponent {
    * The data type of the column used for filtering, sorting, and rendering when a template is not provided.
    * @default 'text'
    */
-  public readonly type = input<'text' | 'number' | 'date' | 'boolean'>('text');
+  public readonly dataType = input<'text' | 'number' | 'date' | 'boolean'>(
+    'text',
+  );
 
   /**
    * The width of the column in pixels. When set to `0`, the column width is evenly distributed.

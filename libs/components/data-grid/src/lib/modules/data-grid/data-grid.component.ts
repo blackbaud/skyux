@@ -53,6 +53,7 @@ import {
   RowSelectionOptions,
   SelectionChangedEvent,
   SortChangedEvent,
+  SortDirection,
 } from 'ag-grid-community';
 import {
   Observable,
@@ -110,7 +111,8 @@ function arrayIsEqual(
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyDataGridComponent<
-  T extends { id: string } = { id: string } & Record<string, unknown>,
+  T extends Record<'id', string> = Record<'id', string> &
+    Record<string, unknown>,
 > {
   /**
    * The filter state from a
@@ -141,8 +143,10 @@ export class SkyDataGridComponent<
 
   /**
    * The data for the grid. Each item requires an `id`, and other properties should map to a `field` of the grid columns.
+   * When `data` is `null` or `undefined`, the grid will show a loading indicator, and when `data` is an empty array,
+   * the grid will show a "no rows" message.
    */
-  public readonly data = input<T[]>();
+  public readonly data = input<T[] | null | undefined>();
 
   /**
    * How the grid fits to its parent. The valid options are `width`,
@@ -172,13 +176,6 @@ export class SkyDataGridComponent<
   });
 
   /**
-   * Show a loading indicator. Set to `true` when `data` is being refreshed from an asynchronous source and then `false`
-   * once the load is complete.
-   * @default false
-   */
-  public readonly loading = input<boolean>(false);
-
-  /**
    * Whether to enable the multiselect feature to display a column of
    * checkboxes on the left side of the grid. You can specify a unique ID with
    * the `multiselectRowId` property, but multiselect defaults to the `id` property on
@@ -193,9 +190,7 @@ export class SkyDataGridComponent<
    * The unique ID that matches a property on the `data` object.
    * @default 'id'
    */
-  public readonly multiselectRowId = input<keyof T, unknown>('id', {
-    transform: (value: unknown) => String(value) as keyof T,
-  });
+  public readonly multiselectRowId = input<keyof T>('id');
 
   /**
    * The number of items to display per page. Set to `0` to disable pagination.
@@ -300,7 +295,7 @@ export class SkyDataGridComponent<
   /**
    * The sort setting for the grid.
    */
-  public readonly sort = model<SkyDataGridSort | undefined>(undefined);
+  public readonly sortField = model<SkyDataGridSort | undefined>(undefined);
 
   /**
    * Emits a row count after filters are updated. Not used when `totalRowCount` is set.
@@ -369,6 +364,7 @@ export class SkyDataGridComponent<
     const useInternalFilters = this.#useInternalFilters();
     return hasFilters && useInternalFilters;
   });
+
   protected readonly doesExternalFilterPass = computed(
     (): ((node: Pick<IRowNode<T>, 'data'>) => boolean) => {
       const appliedFilters = this.appliedFilters();
@@ -376,10 +372,15 @@ export class SkyDataGridComponent<
         filterId: col.filterId(),
         field: col.field() as keyof T | undefined,
         filterOperator: col.filterOperator(),
-        type: col.type(),
+        type: col.dataType(),
       }));
       return (node: Pick<IRowNode<T>, 'data'>): boolean =>
-        doesFilterPass(appliedFilters, node.data as T, columns, this.#logger);
+        doesFilterPass(
+          appliedFilters,
+          node.data as Record<'id', string> & Partial<T>,
+          columns,
+          this.#logger,
+        );
     },
   );
 
@@ -436,68 +437,17 @@ export class SkyDataGridComponent<
 
   readonly #columnDefs = computed<ColDef<T>[]>(() => {
     const columns = this.columns();
-    const sort = this.sort();
+    const sort = this.sortField();
     const displayed = [
       ...this.selectedColumnIds().filter(Boolean),
-      ...this.#dataManagerSelectedColumnIds().filter(Boolean),
+      ...this.#dataManagerSelectedColumnIds(),
     ];
     const hidden = this.hiddenColumnIds().filter(Boolean);
-    return columns.map((col): ColDef => {
-      const field = col.field();
-      const colDef: ColDef = {
-        colId: col.columnId(),
-        field,
-        headerName: col.heading(),
-        headerComponentParams: {
-          headerHidden: col.headingHidden(),
-          helpPopoverTitle: col.helpPopoverTitle(),
-          helpPopoverContent: col.helpPopoverContent() || col.description(),
-          inlineHelpComponent: SkyDataGridColumnInlineHelpComponent,
-        },
-        hide: this.#hideColumn(col, displayed, hidden),
-        resizable: col.isResizable(),
-        sortable: col.isSortable(),
-        lockPosition: col.locked(),
-        suppressMovable: col.locked(),
-        type: [],
-        autoHeight: col.wrapText(),
-        wrapText: col.wrapText(),
-        sort:
-          sort?.field === field ? (sort?.descending ? 'desc' : 'asc') : null,
-      };
-      if (col.type() === 'date') {
-        (colDef.type as string[]).push(SkyCellType.Date);
-        colDef.cellDataType = 'dateString';
-      } else if (field && col.type() === 'number') {
-        (colDef.type as string[]).push(SkyCellType.Number);
-        colDef.cellDataType = 'number';
-        colDef.valueGetter = (params): number => Number(params.data[field]);
-      } else if (col.type() === 'boolean') {
-        colDef.cellDataType = 'boolean';
-      } else {
-        (colDef.type as string[]).push(SkyCellType.Text);
-        colDef.cellDataType = 'text';
-      }
-      if (col.cellTemplate()) {
-        (colDef.type as string[]).push(SkyCellType.Template);
-        colDef.cellRendererParams = { template: col.cellTemplate };
-      }
-      if (col.flexWidth() > -1) {
-        colDef.initialFlex = col.flexWidth();
-      } else if (col.width() > 0) {
-        colDef.initialWidth = col.width();
-      }
-      if (col.width() > 0) {
-        colDef.minWidth = col.width();
-        colDef.suppressSizeToFit = true;
-      }
-      if (!col.isResizable() || col.flexWidth() === 0) {
-        colDef.suppressSizeToFit = true;
-        colDef.suppressAutoSize = true;
-      }
-      return colDef;
-    });
+    return columns.map((col) =>
+      this.#createColDef(col, displayed, hidden, sort),
+    );
   });
+
   readonly #gridDestroyed = toObservable(this.gridApi).pipe(
     filter(Boolean),
     switchMap((api) =>
@@ -545,7 +495,7 @@ export class SkyDataGridComponent<
           if (sortColumn) {
             return {
               descending: sortColumn.getSort() === 'desc',
-              field: sortColumn.getColId(),
+              fieldSelector: sortColumn.getColId(),
             };
           }
           return undefined;
@@ -583,7 +533,7 @@ export class SkyDataGridComponent<
     });
     effect(() => {
       const api = untracked(() => this.gridApi());
-      const loading = this.loading();
+      const loading = (this.data() ?? 'loading') === 'loading';
       api?.setGridOption('loading', loading);
     });
     effect(() => {
@@ -662,11 +612,11 @@ export class SkyDataGridComponent<
       });
     this.#gridSortChange.pipe(takeUntilDestroyed()).subscribe((sortChange) => {
       if (sortChange) {
-        this.sort.update((sort) => {
+        this.sortField.update((sort) => {
           if (
             !!sort !== !!sortChange ||
-            sort?.descending !== sortChange?.descending ||
-            sort?.field !== sortChange?.field
+            !!sort?.descending !== !!sortChange?.descending ||
+            sort?.fieldSelector !== sortChange?.fieldSelector
           ) {
             return sortChange;
           }
@@ -730,6 +680,88 @@ export class SkyDataGridComponent<
     } else if (page && page !== this.page()) {
       this.page.set(page);
     }
+  }
+
+  #createColDef(
+    col: SkyDataGridColumnComponent,
+    displayed: string[],
+    hidden: string[],
+    sort: SkyDataGridSort | undefined,
+  ): ColDef {
+    const field = col.field();
+    const colDef: ColDef = {
+      colId: col.columnId(),
+      field,
+      headerName: col.headingText(),
+      headerComponentParams: this.#getHeaderComponentParams(col),
+      hide: this.#hideColumn(col, displayed, hidden),
+      resizable: col.resizable(),
+      sortable: col.sortable(),
+      lockPosition: col.locked(),
+      suppressMovable: col.locked(),
+      type: [],
+      autoHeight: col.wrapText(),
+      wrapText: col.wrapText(),
+      sort: this.#getSort(sort, col),
+    };
+    if (col.dataType() === 'date') {
+      (colDef.type as string[]).push(SkyCellType.Date);
+      colDef.cellDataType = 'dateString';
+    } else if (field && col.dataType() === 'number') {
+      (colDef.type as string[]).push(SkyCellType.Number);
+      colDef.cellDataType = 'number';
+      colDef.valueGetter = (params): number => Number(params.data[field]);
+    } else if (col.dataType() === 'boolean') {
+      colDef.cellDataType = 'boolean';
+    } else {
+      (colDef.type as string[]).push(SkyCellType.Text);
+      colDef.cellDataType = 'text';
+    }
+    if (col.cellTemplate()) {
+      (colDef.type as string[]).push(SkyCellType.Template);
+      colDef.cellRendererParams = { template: col.cellTemplate };
+    }
+    this.#applyColumnWidthSettings(col, colDef);
+    return colDef;
+  }
+
+  #applyColumnWidthSettings(
+    col: SkyDataGridColumnComponent,
+    colDef: ColDef,
+  ): void {
+    if (col.flexWidth() > -1) {
+      colDef.initialFlex = col.flexWidth();
+    } else if (col.width() > 0) {
+      colDef.initialWidth = col.width();
+    }
+    if (col.width() > 0) {
+      colDef.minWidth = col.width();
+      colDef.suppressSizeToFit = true;
+    }
+    if (!col.resizable() || col.flexWidth() === 0) {
+      colDef.suppressSizeToFit = true;
+      colDef.suppressAutoSize = true;
+    }
+  }
+
+  #getSort(
+    sort: SkyDataGridSort | undefined,
+    col: SkyDataGridColumnComponent,
+  ): SortDirection {
+    return sort?.fieldSelector === col.field()
+      ? sort?.descending
+        ? 'desc'
+        : 'asc'
+      : null;
+  }
+
+  #getHeaderComponentParams(col: SkyDataGridColumnComponent): object {
+    return {
+      headerHidden: col.headingHidden(),
+      helpPopoverTitle: col.helpPopoverTitle(),
+      helpPopoverContent: col.helpPopoverContent() || col.description(),
+      inlineHelpComponent: SkyDataGridColumnInlineHelpComponent,
+    };
   }
 
   #getColumnIdOrField(col: SkyDataGridColumnComponent): string {

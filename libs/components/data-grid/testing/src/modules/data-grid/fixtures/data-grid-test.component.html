@@ -12,13 +12,13 @@
     (selectedColumnIdsChange)="visibleColumnIds.set($event)"
   >
     @if (showAllColumns()) {
-      <sky-data-grid-column field="column1" heading="Column1" />
-      <sky-data-grid-column field="column2" heading="Column2" />
+      <sky-data-grid-column field="column1" headingText="Column1" />
+      <sky-data-grid-column field="column2" headingText="Column2" />
       @if (showCol3()) {
         <sky-data-grid-column
           field="column3"
-          type="boolean"
-          [heading]="showCol3HeaderText() ? 'Column3' : ''"
+          dataType="boolean"
+          [headingText]="showCol3HeaderText() ? 'Column3' : ''"
         />
       }
     }
@@ -50,14 +50,18 @@
     (selectedRowIdsChange)="selectedRowIds.set($event)"
   >
     @if (showAllColumns()) {
-      <sky-data-grid-column field="myId" heading="Custom Id" type="number" />
-      <sky-data-grid-column field="column1" heading="Column1" />
-      <sky-data-grid-column field="column2" heading="Column2" />
+      <sky-data-grid-column
+        field="myId"
+        headingText="Custom Id"
+        dataType="number"
+      />
+      <sky-data-grid-column field="column1" headingText="Column1" />
+      <sky-data-grid-column field="column2" headingText="Column2" />
       @if (showCol3()) {
         <sky-data-grid-column
           field="column3"
-          type="boolean"
-          [heading]="showCol3HeaderText() ? 'Column3' : ''"
+          dataType="boolean"
+          [headingText]="showCol3HeaderText() ? 'Column3' : ''"
         />
       }
     }
@@ -78,10 +82,10 @@
     @if (showAllColumns()) {
       <sky-data-grid-column
         columnId="contsm"
-        heading=""
+        headingText=""
         width="40"
         [locked]="true"
-        [isSortable]="false"
+        [sortable]="false"
       >
         <ng-template let-row="row">
           <!-- The `ngIf` here was added to verify that templates with Angular controls work when built. -->
@@ -100,20 +104,20 @@
       </sky-data-grid-column>
       <sky-data-grid-column
         field="column1"
-        heading="Column1"
+        headingText="Column1"
         [helpPopoverContent]="staticPopoverRef"
       />
-      <sky-data-grid-column field="column2" heading="Column2" />
+      <sky-data-grid-column field="column2" headingText="Column2" />
       @if (showCol3()) {
         <sky-data-grid-column
           field="column3"
-          type="boolean"
+          dataType="boolean"
           helpPopoverTitle="This popover is asynchronous!"
-          [heading]="showCol3HeaderText() ? 'Column3' : ''"
+          [headingText]="showCol3HeaderText() ? 'Column3' : ''"
           [helpPopoverContent]="staticPopoverRef"
         />
       } @else {
-        <sky-data-grid-column field="date" type="date" heading="Date" />
+        <sky-data-grid-column field="date" dataType="date" headingText="Date" />
       }
     }
   </sky-data-grid>
@@ -133,21 +137,21 @@
   >
     @if (showAllColumns()) {
       <sky-data-grid-column
-        type="number"
+        dataType="number"
         field="column1"
-        heading="Column1"
+        headingText="Column1"
         [helpPopoverContent]="staticPopoverRef"
       />
       <sky-data-grid-column
         field="column2"
-        heading="Column2"
+        headingText="Column2"
         [helpPopoverContent]="staticPopoverRef"
       />
       @if (showCol3()) {
         <sky-data-grid-column
           field="column3"
-          type="boolean"
-          [heading]="showCol3HeaderText() ? 'Column3' : ''"
+          dataType="boolean"
+          [headingText]="showCol3HeaderText() ? 'Column3' : ''"
           [helpPopoverContent]="staticPopoverRef"
         />
       }
