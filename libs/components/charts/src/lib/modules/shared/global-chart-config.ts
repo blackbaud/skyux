@@ -110,10 +110,10 @@ export const SkyuxChartStyles = {
     return remToPixels(size || '13px'); // Fallback
   },
 
-  get axisTickFontWeight(): string {
+  get axisTickFontWeight(): number {
     const weight = resolveCssVariable('--sky-font-style-body-s');
     // console.log('SKY UX Axis Tick Font Weight:', weight);
-    return weight || '400'; // Fallback
+    return Number(weight) || 400; // Fallback
   },
 
   get axisTickPadding(): number {

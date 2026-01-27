@@ -2,108 +2,40 @@ import { ChartOptions } from 'chart.js';
 
 import { SkyuxChartStyles } from '../shared/global-chart-config';
 import { getLegendPluginOptions } from '../shared/plugins/legend-plugin';
-
-/**
- * SKY UX Doughnut Chart Configuration
- * Specific style options for doughnut and pie charts
- * Provides reusable configurations aligned with SKY UX design system
- */
+import { getTooltipPluginOptions } from '../shared/plugins/tooltip-plugin';
 
 /**
  * Get Base Doughnut Chart Configuration
  * Returns a fresh config with resolved colors at runtime
- * Use this as a starting point for doughnut/pie charts
  */
 function getBaseDoughnutChartConfig(): Partial<
   ChartOptions<'pie' | 'doughnut'>
 > {
-  const textColor = SkyuxChartStyles.axisTickColor;
-  const fontSize = SkyuxChartStyles.axisTickFontSize;
-  const fontFamily = SkyuxChartStyles.fontFamily;
-  const fontWeight = SkyuxChartStyles.axisTickFontWeight as any;
-
-  // Get the border color from CSS custom property
-  const borderColor =
-    getComputedStyle(document.documentElement)
-      .getPropertyValue('--sky-color-background-container-base')
-      .trim() || '#000000';
-
-  return {
+  const options: ChartOptions<'pie' | 'doughnut'> = {
     responsive: true,
     maintainAspectRatio: false,
 
     datasets: {
       doughnut: {
         borderWidth: 2,
-        borderColor: borderColor,
+        borderColor: SkyuxChartStyles.barBorderColor,
+      },
+      pie: {
+        borderWidth: 2,
+        borderColor: SkyuxChartStyles.barBorderColor,
       },
     },
 
     plugins: {
-      legend: {
-        display: true,
-        position: 'right',
-        labels: {
-          usePointStyle: true,
-          pointStyle: 'circle',
-          padding: 12,
-          font: {
-            size: fontSize,
-            family: fontFamily,
-            weight: fontWeight,
-          },
-          color: textColor,
-          boxWidth: 12,
-          boxHeight: 12,
-        },
-      },
-      tooltip: {
-        enabled: true,
-        backgroundColor: SkyuxChartStyles.tooltipBackgroundColor,
-        titleColor: SkyuxChartStyles.tooltipTitleColor,
-        bodyColor: SkyuxChartStyles.tooltipBodyColor,
-        borderColor: 'transparent',
-        borderWidth: 0,
-        padding: SkyuxChartStyles.tooltipPadding,
-        displayColors: true,
-        multiKeyBackground: 'transparent',
-        bodySpacing: SkyuxChartStyles.tooltipBodySpacing,
-        titleMarginBottom: SkyuxChartStyles.tooltipTitleMarginBottom,
-        caretSize: SkyuxChartStyles.tooltipCaretSize,
-        boxPadding: SkyuxChartStyles.tooltipBoxPadding,
-        caretPadding: 4,
-        usePointStyle: true,
-        titleFont: {
-          family: SkyuxChartStyles.fontFamily,
-          size: SkyuxChartStyles.tooltipTitleFontSize,
-          weight: SkyuxChartStyles.tooltipTitleFontWeight as any,
-        },
-        bodyFont: {
-          family: SkyuxChartStyles.fontFamily,
-          size: SkyuxChartStyles.tooltipBodyFontSize,
-          weight: SkyuxChartStyles.tooltipBodyFontWeight as any,
-        },
-      },
+      // TODO: Previously set boxWidth: 12, boxHeight: 12,
+      legend: getLegendPluginOptions({ position: 'right' }),
+      // TODO: used the default for mode/intersect
+      tooltip: getTooltipPluginOptions(),
     },
   };
-}
 
-/**
- * Doughnut Chart Configuration (deprecated - use getSkyuxDoughnutChartConfig instead)
- * @deprecated Use getSkyuxDoughnutChartConfig() for proper color resolution
- */
-export const skyuxDoughnutChartConfig: Partial<
-  ChartOptions<'pie' | 'doughnut'>
-> = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: getLegendPluginOptions({ position: 'right' }),
-    tooltip: {
-      enabled: true,
-    },
-  },
-};
+  return options;
+}
 
 /**
  * Helper function to get complete doughnut chart configuration

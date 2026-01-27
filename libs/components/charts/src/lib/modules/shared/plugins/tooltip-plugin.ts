@@ -13,10 +13,8 @@ export function getTooltipPluginOptions(): Partial<TooltipOptions> {
     borderColor: 'transparent',
     borderWidth: 0,
     padding: SkyuxChartStyles.tooltipPadding,
-    // Hide default caret since we draw our own colored one
-    displayColors: true,
-    // multiKeyBackground sets caret color
-    multiKeyBackground: 'transparent',
+    displayColors: true, // Hide default caret since we draw our own colored one
+    multiKeyBackground: 'transparent', // multiKeyBackground sets caret color
     bodySpacing: SkyuxChartStyles.tooltipBodySpacing,
     titleMarginBottom: SkyuxChartStyles.tooltipTitleMarginBottom,
     caretSize: SkyuxChartStyles.tooltipCaretSize,

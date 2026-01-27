@@ -5,15 +5,8 @@ import { getLegendPluginOptions } from '../shared/plugins/legend-plugin';
 import { getTooltipPluginOptions } from '../shared/plugins/tooltip-plugin';
 
 /**
- * SKY UX Line Chart Configuration
- * Specific style options for line charts
- * Provides reusable configurations aligned with SKY UX design system
- */
-
-/**
  * Get Base Line Chart Configuration
  * Returns a fresh config with resolved colors at runtime
- * Use this as a starting point for line charts
  */
 function getBaseLineChartConfig(): Partial<ChartOptions<'line'>> {
   const axisColor = SkyuxChartStyles.axisLineColor;
@@ -21,7 +14,7 @@ function getBaseLineChartConfig(): Partial<ChartOptions<'line'>> {
   const textColor = SkyuxChartStyles.axisTickColor;
   const fontSize = SkyuxChartStyles.axisTickFontSize;
   const fontFamily = SkyuxChartStyles.fontFamily;
-  const fontWeight = SkyuxChartStyles.axisTickFontWeight as any;
+  const fontWeight = SkyuxChartStyles.axisTickFontWeight;
   const labelPadding = SkyuxChartStyles.axisTickPadding;
   const lineTension = SkyuxChartStyles.lineTension;
   const lineBorderWidth = SkyuxChartStyles.lineBorderWidth;
@@ -29,7 +22,7 @@ function getBaseLineChartConfig(): Partial<ChartOptions<'line'>> {
   const pointHoverRadius = SkyuxChartStyles.linePointHoverRadius;
   const pointBorderWidth = SkyuxChartStyles.linePointBorderWidth;
 
-  return {
+  const options: ChartOptions<'line'> = {
     responsive: true,
     maintainAspectRatio: false,
 
@@ -102,6 +95,8 @@ function getBaseLineChartConfig(): Partial<ChartOptions<'line'>> {
       intersect: false,
     },
   };
+
+  return options;
 }
 
 /**

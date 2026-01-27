@@ -10,11 +10,14 @@ export function getLegendPluginOptions(options?: {
     position: options?.position ?? 'bottom',
     labels: {
       usePointStyle: true,
-      padding: 10,
+      pointStyle: 'circle',
+      padding: 12,
       font: {
-        size: 11,
+        size: SkyuxChartStyles.axisTickFontSize,
         family: SkyuxChartStyles.fontFamily,
+        weight: SkyuxChartStyles.axisTickFontWeight,
       },
+      color: SkyuxChartStyles.axisTickColor,
     } as LegendOptions<ChartType>['labels'],
   };
 

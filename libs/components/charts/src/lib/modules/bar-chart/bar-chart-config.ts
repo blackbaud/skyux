@@ -16,7 +16,7 @@ function getBaseBarChartConfig(): Partial<ChartOptions<'bar'>> {
   const barBorderRadius = SkyuxChartStyles.barBorderRadius;
   const fontSize = SkyuxChartStyles.axisTickFontSize;
   const fontFamily = SkyuxChartStyles.fontFamily;
-  const fontWeight = SkyuxChartStyles.axisTickFontWeight as unknown as number;
+  const fontWeight = SkyuxChartStyles.axisTickFontWeight;
   const labelPadding = SkyuxChartStyles.axisTickPadding;
 
   const options: ChartOptions<'bar'> = {
@@ -28,9 +28,8 @@ function getBaseBarChartConfig(): Partial<ChartOptions<'bar'>> {
 
     datasets: {
       bar: {
-        // categoryPercentage: 0.7,
+        categoryPercentage: 0.7,
         // barPercentage: 0.7,
-        barThickness: 10,
       },
     },
     elements: {
