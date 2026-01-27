@@ -18,7 +18,6 @@ import { ModalComponent } from './modal.component';
  * @title Modal with a help key
  */
 @Component({
-  standalone: true,
   selector: 'app-modals-modal-basic-with-harness-help-key-example',
   templateUrl: './example.component.html',
 })

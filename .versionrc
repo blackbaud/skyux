@@ -1,0 +1,38 @@
+{
+  "//": "Configuration for https://github.com/absolute-version/commit-and-tag-version",
+  "releaseAs": "14.0.0-alpha.0",
+  "prerelease": true,
+  "preset": "conventionalcommits",
+  "header": "# Changelog\n\n",
+  "issuePrefixes": [
+    "AB#"
+  ],
+  "issueUrlFormat": "https://dev.azure.com/blackbaud/Products/_workitems/edit/{{id}}",
+  "releaseCommitMessageFormat": "chore: release {{currentTag}}",
+  "scripts": {
+    "prebump": "npx skyux-dev release-version"
+  },
+  "skip": {
+    "commit": true,
+    "tag": true
+  },
+  "tagPrefix": "",
+  "types": [
+    {
+      "type": "feat",
+      "section": "Features"
+    },
+    {
+      "type": "fix",
+      "section": "Bug Fixes"
+    },
+    {
+      "type": "deprecation",
+      "section": "Deprecations"
+    },
+    {
+      "type": "revert",
+      "section": "Reverts"
+    }
+  ]
+}

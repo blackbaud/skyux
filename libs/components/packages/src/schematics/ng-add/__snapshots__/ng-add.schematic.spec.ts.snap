@@ -1,9 +1,9 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`ng-add.schematic should install dependencies 1`] = `
 "{
   "dependencies": {
-    "@angular/cdk": "^20.0.0",
+    "@angular/cdk": "^21.0.0",
     "@skyux/assets": "^0.0.0-PLACEHOLDER",
     "@skyux/core": "^0.0.0-PLACEHOLDER",
     "@skyux/i18n": "^0.0.0-PLACEHOLDER",
@@ -37,7 +37,7 @@ exports[`ng-add.schematic should not update workspace config if a workspace has 
           "defaultConfiguration": "production"
         },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
             "tsConfig": "projects/my-project/tsconfig.spec.json"
           }
@@ -105,27 +105,8 @@ exports[`ng-add.schematic should not update workspace config if a workspace has 
           },
           "defaultConfiguration": "development"
         },
-        "extract-i18n": {
-          "builder": "@angular/build:extract-i18n"
-        },
         "test": {
-          "builder": "@angular/build:karma",
-          "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
-            "tsConfig": "projects/my-project-showcase/tsconfig.spec.json",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "projects/my-project-showcase/public"
-              }
-            ],
-            "styles": [
-              "projects/my-project-showcase/src/styles.css"
-            ]
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }
@@ -218,24 +199,13 @@ exports[`ng-add.schematic should update workspace config if a workspace only has
           },
           "defaultConfiguration": "development"
         },
-        "extract-i18n": {
-          "builder": "@angular/build:extract-i18n"
-        },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "polyfills": [
               "zone.js",
               "zone.js/testing",
               "@skyux/packages/polyfills"
-            ],
-            "tsConfig": "tsconfig.spec.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
             ],
             "styles": [
               "src/styles.scss",
@@ -247,6 +217,5 @@ exports[`ng-add.schematic should update workspace config if a workspace only has
       }
     }
   }
-}
-"
+}"
 `;

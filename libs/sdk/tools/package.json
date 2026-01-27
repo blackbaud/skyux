@@ -2,6 +2,6 @@
   "name": "@skyux-sdk/tools",
   "generators": "./generators.json",
   "peerDependencies": {
-    "@nx/devkit": "^21.2.1"
+    "@nx/devkit": "^22.3.3"
   }
 }

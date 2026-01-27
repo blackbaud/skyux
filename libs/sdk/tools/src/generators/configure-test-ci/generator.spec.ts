@@ -42,50 +42,14 @@ describe('configure-test-ci generator', () => {
     await configureTestCiGenerator(tree, { skipFormat: true });
     const config = readProjectConfiguration(tree, 'test');
     expect(config.targets?.['test']).toBeDefined();
-    expect(config.targets?.['test']).toMatchInlineSnapshot(`
-      Object {
-        "configurations": Object {
-          "ci": Object {
-            "browsers": "ChromeHeadlessNoSandbox",
-            "codeCoverage": true,
-            "progress": false,
-            "sourceMap": true,
-            "watch": false,
-          },
-        },
-        "executor": "@angular-devkit/build-angular:karma",
-        "options": Object {
-          "jestConfig": "test/jest.config.ts",
-        },
-        "outputs": Array [
-          "{workspaceRoot}/coverage/{projectRoot}",
-        ],
-      }
-    `);
+    expect(config.targets?.['test']).toMatchSnapshot();
   });
 
   it('should update jest project', async () => {
     await configureTestCiGenerator(tree, { skipFormat: true });
     const config = readProjectConfiguration(tree, 'test');
     expect(config.targets?.['test']).toBeDefined();
-    expect(config.targets?.['test']).toMatchInlineSnapshot(`
-      Object {
-        "configurations": Object {
-          "ci": Object {
-            "ci": true,
-            "codeCoverage": true,
-            "runInBand": true,
-          },
-        },
-        "executor": "@nx/jest:jest",
-        "options": Object {
-          "jestConfig": "test/jest.config.ts",
-        },
-        "outputs": Array [
-          "{workspaceRoot}/coverage/{projectRoot}",
-        ],
-      }
-    `);
+    expect(config.targets?.['test']).toMatchSnapshot();
   });
 
   it('should ignore other project', async () => {
@@ -101,16 +65,6 @@ describe('configure-test-ci generator', () => {
     await configureTestCiGenerator(tree, { skipFormat: true });
     const config = readProjectConfiguration(tree, 'test');
     expect(config.targets?.['test']).toBeDefined();
-    expect(config.targets?.['test']).toMatchInlineSnapshot(`
-      Object {
-        "executor": "nx:run-commands",
-        "options": Object {
-          "command": "echo 'Hello world.'",
-        },
-        "outputs": Array [
-          "{workspaceRoot}/coverage/{projectRoot}",
-        ],
-      }
-    `);
+    expect(config.targets?.['test']).toMatchSnapshot();
   });
 });

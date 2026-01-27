@@ -55,7 +55,6 @@ const SKY_DATEPICKER_VALIDATOR = {
   },
   providers: [SKY_DATEPICKER_VALUE_ACCESSOR, SKY_DATEPICKER_VALIDATOR],
   selector: '[skyDatepickerInput]',
-  standalone: true,
 })
 export class SkyDatepickerInputDirective
   implements
@@ -128,7 +127,7 @@ export class SkyDatepickerInputDirective
 
   /**
    * The earliest date that is available in the calendar. Place this attribute on
-   * the `input` element to override the default in `SkyDatepickerConfigService`. To avoid validation errors, the time associated with the minimum date must be midnight. This is necessary because the datepicker automatically sets the time on the `Date` object for selected dates to midnight in the current user's time zone.
+   * the `input` element to override the default in `SkyDatepickerConfigService`. To avoid validation errors, the time associated with the minimum date is midnight. This is necessary because the datepicker automatically sets the time on the Date object for selected dates to midnight in the current user's time zone.
    */
   @Input()
   public set minDate(value: Date | undefined) {
@@ -187,8 +186,8 @@ export class SkyDatepickerInputDirective
   public skyDatepickerNoValidate: boolean | undefined = false;
 
   /**
-   * The starting day of the week in the calendar, where `0` sets the starting day
-   * to Sunday. Place this attribute on the `input` element to override the default
+   * The starting day of the week in the calendar. `0` sets the starting day to Sunday.
+   * Place this attribute on the `input` element to override the default
    * in `SkyDatepickerConfigService`.
    * @default 0
    */

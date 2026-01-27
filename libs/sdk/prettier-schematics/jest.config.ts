@@ -12,7 +12,11 @@ export default {
     ],
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
+  moduleNameMapper: {
+    '^ora$': '<rootDir>/__mocks__/ora.ts',
+  },
   coverageDirectory: '../../../coverage/libs/sdk/prettier-schematics',
+  coverageProvider: 'v8',
   coverageThreshold: {
     global: {
       branches: 100,

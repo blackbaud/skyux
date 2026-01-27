@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`pr-comment generator should generate files with apps: dist/README.md 1`] = `
 "# Sky UX Pull Request Preview
@@ -43,7 +43,7 @@ Preview build for [PR #123](https://github.com/blackbaud/skyux/pull/123)
 
 Component Storybooks:
 
-- _(no component storybooks affected in this pr)_ 
+- _(no component storybooks affected in this pr)_
 
 Apps:
 
@@ -57,7 +57,7 @@ exports[`pr-comment generator should generate files with no storybooks: dist/pr_
 
 Component Storybooks:
 
-- _(no component storybooks affected in this pr)_ 
+- _(no component storybooks affected in this pr)_
 
 Apps:
 
@@ -91,3 +91,7 @@ Component Storybooks:
 `;
 
 exports[`pr-comment generator should throw errors 1`] = `"Invalid PR number"`;
+
+exports[`pr-comment generator should throw errors 2`] = `"Invalid repo URL"`;
+
+exports[`pr-comment generator should throw errors 3`] = `"Invalid preview URL"`;

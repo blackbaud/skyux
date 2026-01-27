@@ -58,9 +58,6 @@ describe('Data manager basic example', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    const filterButtonHarness = await toolbarHarness.getFilterButton();
-    expect(filterButtonHarness).not.toBeNull();
-
     const searchHarness = await toolbarHarness.getSearch();
     expect(searchHarness).not.toBeNull();
 

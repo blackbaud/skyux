@@ -1,13 +1,23 @@
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { provideZoneChangeDetection } from '@angular/core';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideRouter, withHashLocation } from '@angular/router';
+import { SKY_LOG_LEVEL, SkyHelpService, SkyLogLevel } from '@skyux/core';
+import { provideIconPreview } from '@skyux/storybook/icon-preview';
+import { SkyThemeService } from '@skyux/theme';
 
-import { AppModule } from './app/app.module';
-import { environment } from './environments/environment';
+import { AppComponent } from './app/app.component';
+import { routes } from './app/app.routes';
+import { PlaygroundHelpService } from './app/shared/help.service';
 
-if (environment.production) {
-  enableProdMode();
-}
-
-platformBrowserDynamic()
-  .bootstrapModule(AppModule)
-  .catch((err) => console.error(err));
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideZoneChangeDetection(),
+    provideAnimations(),
+    provideIconPreview(),
+    provideRouter(routes, withHashLocation()),
+    SkyThemeService,
+    { provide: SkyHelpService, useClass: PlaygroundHelpService },
+    { provide: SKY_LOG_LEVEL, useValue: SkyLogLevel.Info },
+  ],
+}).catch((err) => console.error(err));

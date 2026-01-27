@@ -16,6 +16,7 @@ export { AgGridDataGridTemplateRefColumnExampleComponent } from './lib/modules/a
 export { AgGridDataGridTopScrollExampleComponent } from './lib/modules/ag-grid/data-grid/top-scroll/example.component';
 export { AngularTreeComponentAngularTreeBasicExampleComponent } from './lib/modules/angular-tree-component/angular-tree/basic/example.component';
 export { AngularTreeComponentAngularTreeHelpKeyExampleComponent } from './lib/modules/angular-tree-component/angular-tree/help-key/example.component';
+export { AngularTreeComponentAngularTreePreselectedNodesExampleComponent } from './lib/modules/angular-tree-component/angular-tree/preselected-nodes/example.component';
 export { AutonumericCurrencyExampleComponent } from './lib/modules/autonumeric/autonumeric/currency/example.component';
 export { AutonumericInternationalFormattingExampleComponent } from './lib/modules/autonumeric/autonumeric/international-formatting/example.component';
 export { AutonumericOptionsProviderExampleComponent } from './lib/modules/autonumeric/autonumeric/options-provider/example.component';
@@ -39,6 +40,9 @@ export { DatetimeDatepickerFuzzyExampleComponent } from './lib/modules/datetime/
 export { DatetimeTimepickerBasicExampleComponent } from './lib/modules/datetime/timepicker/basic/example.component';
 export { ErrorsErrorEmbeddedExampleComponent } from './lib/modules/errors/error/embedded/example.component';
 export { ErrorsErrorModalExampleComponent } from './lib/modules/errors/error/modal/example.component';
+export { FilterBarLookupExampleComponent } from './lib/modules/filter-bar/filter-bar/lookup/example.component';
+export { FilterBarModalExampleComponent } from './lib/modules/filter-bar/filter-bar/modal/example.component';
+export { FilterBarSelectableExampleComponent } from './lib/modules/filter-bar/filter-bar/selectable/example.component';
 export { FlyoutBasicExampleComponent } from './lib/modules/flyout/flyout/basic/example.component';
 export { FlyoutCustomHeadersExampleComponent } from './lib/modules/flyout/flyout/custom-headers/example.component';
 export { FormsCharacterCountExampleComponent } from './lib/modules/forms/character-count/example.component';
@@ -107,6 +111,7 @@ export { LayoutToolbarSectionedExampleComponent } from './lib/modules/layout/too
 export { ListsFilterInlineExampleComponent } from './lib/modules/lists/filter/inline/example.component';
 export { ListsFilterModalExampleComponent } from './lib/modules/lists/filter/modal/example.component';
 export { ListsInfiniteScrollRepeaterExampleComponent } from './lib/modules/lists/infinite-scroll/repeater/example.component';
+export { ListsListSummaryBasicExampleComponent } from './lib/modules/lists/list-summary/basic/example.component';
 export { ListsPagingBasicExampleComponent } from './lib/modules/lists/paging/basic/example.component';
 export { ListsPagingWithContentExampleComponent } from './lib/modules/lists/paging/with-content/example.component';
 export { ListsRepeaterAddRemoveExampleComponent } from './lib/modules/lists/repeater/add-remove/example.component';
@@ -135,6 +140,7 @@ export { ModalsModalBasicWithHarnessExampleComponent } from './lib/modules/modal
 export { ModalsModalWithErrorExampleComponent } from './lib/modules/modals/modal/with-error/example.component';
 export { NavbarExampleComponent } from './lib/modules/navbar/navbar/example.component';
 export { PagesActionHubExampleComponent } from './lib/modules/pages/action-hub/example.component';
+export { PagesPageDataManagerSplitViewFitLayoutExampleComponent } from './lib/modules/pages/page/data-manager-split-view-fit-layout/example.component';
 export { PagesPageHomePageBlocksLayoutExampleComponent } from './lib/modules/pages/page/home-page-blocks-layout-demo/example.component';
 export { PagesPageListPageListLayoutExampleComponent } from './lib/modules/pages/page/list-page-list-layout-demo/example.component';
 export { PagesPageListPageTabsLayoutExampleComponent } from './lib/modules/pages/page/list-page-tabs-layout-demo/example.component';

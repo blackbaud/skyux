@@ -18,7 +18,6 @@ import { ModalComponent } from './modal.component';
  * @title Modal with form errors
  */
 @Component({
-  standalone: true,
   selector: 'app-modals-modal-with-error-example',
   templateUrl: './example.component.html',
 })

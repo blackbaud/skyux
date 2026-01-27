@@ -1,0 +1,12 @@
+:host {
+  display: block;
+}
+
+.view-container {
+  width: 100%;
+  height: 300px;
+
+  &.view-1 {
+    background-color: yellow;
+  }
+}

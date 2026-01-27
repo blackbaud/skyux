@@ -1,21 +1,20 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
+  effect,
   inject,
+  signal,
 } from '@angular/core';
 import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkySearchModule } from '@skyux/lookup';
 import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
-import { AgGridModule } from 'ag-grid-angular';
+import { AgGridAngular } from 'ag-grid-angular';
 import {
   AllCommunityModule,
   ColDef,
   GridApi,
-  GridOptions,
-  GridReadyEvent,
   ModuleRegistry,
   ValueFormatterParams,
 } from 'ag-grid-community';
@@ -35,15 +34,12 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   selector: 'app-ag-grid-data-entry-grid-basic-example',
   templateUrl: './example.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AgGridModule, SkyAgGridModule, SkySearchModule, SkyToolbarModule],
+  imports: [AgGridAngular, SkyAgGridModule, SkySearchModule, SkyToolbarModule],
 })
 export class AgGridDataEntryGridBasicExampleComponent {
-  protected gridData = AG_GRID_DEMO_DATA;
-  protected gridOptions: GridOptions;
-  protected noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
-  protected searchText = '';
+  protected readonly gridData = signal<AgGridDemoRow[]>(AG_GRID_DEMO_DATA);
 
-  #columnDefs: ColDef[] = [
+  readonly #columnDefs: ColDef[] = [
     {
       field: 'selected',
       type: SkyCellType.RowSelector,
@@ -129,39 +125,33 @@ export class AgGridDataEntryGridBasicExampleComponent {
     },
   ];
 
-  #gridApi: GridApi | undefined;
-
-  readonly #agGridSvc = inject(SkyAgGridService);
-  readonly #changeDetectorRef = inject(ChangeDetectorRef);
   readonly #modalSvc = inject(SkyModalService);
+  readonly #gridApi = signal<GridApi | undefined>(undefined);
+
+  protected gridOptions = inject(SkyAgGridService).getGridOptions({
+    gridOptions: {
+      columnDefs: this.#columnDefs,
+      onGridReady: (params) => {
+        this.#gridApi.set(params.api);
+      },
+      onGridPreDestroyed: () => {
+        this.#gridApi.set(undefined);
+      },
+    },
+  });
 
   constructor() {
-    const gridOptions: GridOptions = {
-      columnDefs: this.#columnDefs,
-      onGridReady: (gridReadyEvent): void => {
-        this.onGridReady(gridReadyEvent);
-      },
-    };
-
-    this.gridOptions = this.#agGridSvc.getEditableGridOptions({
-      gridOptions,
+    effect(() => {
+      const rowData = this.gridData();
+      this.#gridApi()?.setGridOption('rowData', rowData);
     });
-
-    this.#changeDetectorRef.markForCheck();
-  }
-
-  public onGridReady(gridReadyEvent: GridReadyEvent): void {
-    this.#gridApi = gridReadyEvent.api;
-    this.#changeDetectorRef.markForCheck();
   }
 
   protected openModal(): void {
     const context = new EditModalContext();
-
-    context.gridData = this.gridData;
+    context.gridData = structuredClone(this.gridData());
 
     const options: SkyModalConfigurationInterface = {
-      ariaDescribedBy: 'docs-edit-grid-modal-content',
       providers: [
         {
           provide: EditModalContext,
@@ -177,31 +167,13 @@ export class AgGridDataEntryGridBasicExampleComponent {
       if (result.reason === 'cancel' || result.reason === 'close') {
         alert('Edits canceled!');
       } else {
-        this.gridData = result.data as AgGridDemoRow[];
-
-        if (this.#gridApi) {
-          this.#gridApi.refreshCells();
-        }
-
-        alert('Saving data!');
+        this.gridData.set(result.data as AgGridDemoRow[]);
       }
     });
   }
 
   protected searchApplied(searchText: string | void): void {
-    this.searchText = searchText ?? '';
-
-    if (this.#gridApi) {
-      this.#gridApi.updateGridOptions({ quickFilterText: this.searchText });
-
-      const displayedRowCount = this.#gridApi.getDisplayedRowCount();
-
-      if (displayedRowCount > 0) {
-        this.#gridApi.hideOverlay();
-      } else {
-        this.#gridApi.showNoRowsOverlay();
-      }
-    }
+    this.#gridApi()?.setGridOption('quickFilterText', searchText ?? '');
   }
 
   #endDateFormatter(params: ValueFormatterParams<AgGridDemoRow, Date>): string {

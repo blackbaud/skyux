@@ -7,7 +7,6 @@ import { FlyoutComponent } from './flyout.component';
  * @title Flyout with basic setup
  */
 @Component({
-  standalone: true,
   selector: 'app-flyout-basic-example',
   templateUrl: './example.component.html',
 })

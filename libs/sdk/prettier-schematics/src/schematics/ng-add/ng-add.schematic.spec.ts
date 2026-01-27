@@ -425,52 +425,7 @@ test.ts`);
 
     const updatedTree = await runSchematic();
 
-    expect(updatedTree.readText('eslint.config.js')).toEqual(`// @ts-check
-const eslint = require("@eslint/js");
-const tseslint = require("typescript-eslint");
-const angular = require("angular-eslint");
-const prettier = require("eslint-config-prettier/flat");
-
-module.exports = tseslint.config(
-  {
-    files: ["**/*.ts"],
-    extends: [
-      eslint.configs.recommended,
-      ...tseslint.configs.recommended,
-      ...tseslint.configs.stylistic,
-      ...angular.configs.tsRecommended,
-    ],
-    processor: angular.processInlineTemplates,
-    rules: {
-      "@angular-eslint/directive-selector": [
-        "error",
-        {
-          type: "attribute",
-          prefix: "app",
-          style: "camelCase",
-        },
-      ],
-      "@angular-eslint/component-selector": [
-        "error",
-        {
-          type: "element",
-          prefix: "app",
-          style: "kebab-case",
-        },
-      ],
-    },
-  },
-  {
-    files: ["**/*.html"],
-    extends: [
-      ...angular.configs.templateRecommended,
-      ...angular.configs.templateAccessibility,
-    ],
-    rules: {},
-  }
-  ,prettier
-);
-`);
+    expect(updatedTree.readText('eslint.config.js')).toMatchSnapshot();
   });
 
   it('should work with ESLint flat config files (library)', async () => {
@@ -481,35 +436,7 @@ module.exports = tseslint.config(
 
     const updatedTree = await runSchematic();
 
-    expect(updatedTree.readText('/eslint.config.js')).toEqual(`// @ts-check
-const eslint = require("@eslint/js");
-const tseslint = require("typescript-eslint");
-const angular = require("angular-eslint");
-const prettier = require("eslint-config-prettier/flat");
-
-module.exports = tseslint.config(
-  {
-    files: ["**/*.ts"],
-    extends: [
-      eslint.configs.recommended,
-      ...tseslint.configs.recommended,
-      ...tseslint.configs.stylistic,
-      ...angular.configs.tsRecommended,
-    ],
-    processor: angular.processInlineTemplates,
-    rules: {},
-  },
-  {
-    files: ["**/*.html"],
-    extends: [
-      ...angular.configs.templateRecommended,
-      ...angular.configs.templateAccessibility,
-    ],
-    rules: {},
-  }
-  ,prettier
-);
-`);
+    expect(updatedTree.readText('/eslint.config.js')).toMatchSnapshot();
   });
 
   it('should setup prettier import sorting', async () => {
@@ -598,52 +525,7 @@ export default tseslint.config(
 
     const updatedTree = await runSchematic();
 
-    expect(updatedTree.readText('eslint.config.mjs')).toEqual(`// @ts-check
-import eslint from '@eslint/js';
-import tseslint from 'typescript-eslint';
-import angular from 'angular-eslint';
-import prettier from "eslint-config-prettier";
-
-export default tseslint.config(
-  {
-    files: ['**/*.ts'],
-    extends: [
-      eslint.configs.recommended,
-      ...tseslint.configs.recommended,
-      ...tseslint.configs.stylistic,
-      ...angular.configs.tsRecommended,
-    ],
-    processor: angular.processInlineTemplates,
-    rules: {
-      '@angular-eslint/directive-selector': [
-        'error',
-        {
-          type: 'attribute',
-          prefix: 'app',
-          style: 'camelCase',
-        },
-      ],
-      '@angular-eslint/component-selector': [
-        'error',
-        {
-          type: 'element',
-          prefix: 'app',
-          style: 'kebab-case',
-        },
-      ],
-    },
-  },
-  {
-    files: ['**/*.html'],
-    extends: [
-      ...angular.configs.templateRecommended,
-      ...angular.configs.templateAccessibility,
-    ],
-    rules: {},
-  },
-  prettier
-);
-`);
+    expect(updatedTree.readText('eslint.config.mjs')).toMatchSnapshot();
   });
 
   it('should be idempotent', async () => {
@@ -654,18 +536,19 @@ export default tseslint.config(
 
     const expectedConfig = `// @ts-check
 const eslint = require("@eslint/js");
+const { defineConfig } = require("eslint/config");
 const tseslint = require("typescript-eslint");
 const angular = require("angular-eslint");
 const prettier = require("eslint-config-prettier/flat");
 
-module.exports = tseslint.config(
+module.exports = defineConfig([
   {
     files: ["**/*.ts"],
     extends: [
       eslint.configs.recommended,
-      ...tseslint.configs.recommended,
-      ...tseslint.configs.stylistic,
-      ...angular.configs.tsRecommended,
+      tseslint.configs.recommended,
+      tseslint.configs.stylistic,
+      angular.configs.tsRecommended,
     ],
     processor: angular.processInlineTemplates,
     rules: {
@@ -690,12 +573,12 @@ module.exports = tseslint.config(
   {
     files: ["**/*.html"],
     extends: [
-      ...angular.configs.templateRecommended,
-      ...angular.configs.templateAccessibility,
+      angular.configs.templateRecommended,
+      angular.configs.templateAccessibility,
     ],
     rules: {},
   }
-  ,prettier
+]  ,prettier
 );
 `;
 
@@ -707,5 +590,164 @@ module.exports = tseslint.config(
     updatedTree = await runSchematic();
 
     expect(updatedTree.readText('/eslint.config.js')).toEqual(expectedConfig);
+  });
+
+  it('should handle flat config without export statement', async () => {
+    const { runSchematic, tree } = await setup({
+      setupAngularEslint: false,
+      projectType: 'application',
+    });
+
+    // Create a flat config file with closing parenthesis but no module.exports
+    tree.create(
+      '/eslint.config.js',
+      `const eslint = require("@eslint/js");
+
+defineConfig([
+  {
+    files: ["**/*.ts"],
+    extends: [eslint.configs.recommended],
+  }
+])
+`,
+    );
+
+    const updatedTree = await runSchematic();
+
+    // Should not modify the file since there's no export statement
+    expect(updatedTree.readText('/eslint.config.js')).toEqual(
+      tree.readText('/eslint.config.js'),
+    );
+  });
+
+  it('should handle flat config without closing parenthesis', async () => {
+    const { runSchematic, tree } = await setup({
+      setupAngularEslint: false,
+      projectType: 'application',
+    });
+
+    tree.create(
+      '/eslint.config.js',
+      `const eslint = require("@eslint/js");
+
+module.exports = {
+  extends: [eslint.configs.recommended],
+};
+`,
+    );
+
+    const updatedTree = await runSchematic();
+
+    // Should not modify the file since there's no array pattern with closing parenthesis
+    expect(updatedTree.readText('/eslint.config.js')).toEqual(
+      tree.readText('/eslint.config.js'),
+    );
+  });
+
+  it('should add comma when needed in flat config', async () => {
+    const { runSchematic, tree } = await setup({
+      setupAngularEslint: false,
+      projectType: 'application',
+    });
+
+    tree.create(
+      '/eslint.config.js',
+      `const eslint = require("@eslint/js");
+
+module.exports = defineConfig([
+  {
+    files: ["**/*.ts"],
+    extends: [eslint.configs.recommended]
+  }
+]);
+`,
+    );
+
+    const updatedTree = await runSchematic();
+
+    expect(updatedTree.readText('/eslint.config.js')).toContain(',prettier');
+  });
+
+  it('should not add comma when already present in flat config', async () => {
+    const { runSchematic, tree } = await setup({
+      setupAngularEslint: false,
+      projectType: 'application',
+    });
+
+    tree.create(
+      '/eslint.config.js',
+      `const eslint = require("@eslint/js");
+
+module.exports = defineConfig([
+  {
+    files: ["**/*.ts"],
+    extends: [eslint.configs.recommended],
+  }
+]);
+`,
+    );
+
+    const updatedTree = await runSchematic();
+
+    const content = updatedTree.readText('/eslint.config.js');
+    // Should not have double comma
+    expect(content).not.toContain(',,prettier');
+    expect(content).toContain('prettier');
+  });
+
+  it('should be idempotent for flat config with trailing whitespace', async () => {
+    const { runSchematic, tree } = await setup({
+      setupAngularEslint: false,
+      projectType: 'application',
+    });
+
+    tree.create(
+      '/eslint.config.js',
+      `const eslint = require("@eslint/js");
+const prettier = require("eslint-config-prettier/flat");
+
+module.exports = defineConfig([
+  {
+    files: ["**/*.ts"],
+    extends: [eslint.configs.recommended]
+  }
+]  ,prettier
+);
+`,
+    );
+
+    const originalContent = tree.readText('/eslint.config.js');
+    const updatedTree = await runSchematic();
+
+    // Should not modify since prettier import already exists
+    expect(updatedTree.readText('/eslint.config.js')).toEqual(originalContent);
+  });
+
+  it('should be idempotent for ESM flat config', async () => {
+    const { runSchematic, tree } = await setup({
+      setupAngularEslint: false,
+      projectType: 'application',
+    });
+
+    tree.create(
+      '/eslint.config.mjs',
+      `import eslint from "@eslint/js";
+import prettier from "eslint-config-prettier";
+
+export default defineConfig([
+  {
+    files: ["**/*.ts"],
+    extends: [eslint.configs.recommended],
+  }
+],prettier
+);
+`,
+    );
+
+    const originalContent = tree.readText('/eslint.config.mjs');
+    const updatedTree = await runSchematic();
+
+    // Should not modify since prettier import already exists
+    expect(updatedTree.readText('/eslint.config.mjs')).toEqual(originalContent);
   });
 });

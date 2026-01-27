@@ -4,7 +4,9 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  computed,
   inject,
+  input,
 } from '@angular/core';
 import { SkyLiveAnnouncerService, SkyViewkeeperModule } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
@@ -20,8 +22,10 @@ import { take, takeUntil } from 'rxjs/operators';
 import { SkyDataManagerService } from './data-manager.service';
 import { SkyDataManagerState } from './models/data-manager-state';
 import { SkyDataManagerSummary } from './models/data-manager-summary';
+import { SkyDataManagerDockType } from './types/data-manager-dock-type';
 
 const VIEWKEEPER_CLASSES_DEFAULT = ['.sky-data-manager-toolbar'];
+const DEFAULT_DOCK_TYPE: SkyDataManagerDockType = 'none';
 
 /**
  * The top-level data manager component. Provide `SkyDataManagerService` at this level.
@@ -29,6 +33,7 @@ const VIEWKEEPER_CLASSES_DEFAULT = ['.sky-data-manager-toolbar'];
 @Component({
   selector: 'sky-data-manager',
   templateUrl: './data-manager.component.html',
+  styleUrl: './data-manager.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkyBackToTopModule, SkyViewkeeperModule],
 })
@@ -53,6 +58,20 @@ export class SkyDataManagerComponent implements OnDestroy, OnInit {
     this.#_isInitialized = value;
     this.#changeDetection.markForCheck();
   }
+
+  /**
+   * How the data manager docks to the page. Use `fill` to dock the data manager
+   * to the container's size where the container is a `sky-page` component with
+   * its `layout` set to `fit`, or where the container is another element with
+   * a `relative` or `absolute` position and a fixed size.
+   * `sky-data-manager-toolbar` will be docked to the top of all other content.
+   * @default "none"
+   */
+  public readonly dock = input<SkyDataManagerDockType>(DEFAULT_DOCK_TYPE);
+
+  protected readonly dockClass = computed(() => {
+    return 'sky-data-manager-dock-' + (this.dock() || DEFAULT_DOCK_TYPE);
+  });
 
   public backToTopController = new Subject<SkyBackToTopMessage>();
 

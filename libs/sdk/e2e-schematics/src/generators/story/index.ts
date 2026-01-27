@@ -65,10 +65,11 @@ function normalizeOptions(
   options.cypressProject = options.cypressProject || `${projectName}-e2e`;
   const e2eProjectConfig = projects.get(options.cypressProject);
 
-  // istanbul ignore if
+  /* v8 ignore start */
   if (!e2eProjectConfig) {
     throw new Error('e2e project configuration not found');
   }
+  /* v8 ignore stop */
 
   const e2eSourceRoot =
     e2eProjectConfig.sourceRoot ??

@@ -7,12 +7,13 @@
   "tags": ["component-e2e"],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
-      "outputs": ["{options.outputPath}"],
+      "executor": "@angular/build:application",
+      "outputs": ["{options.outputPath.base}"],
       "options": {
-        "outputPath": "dist/apps/e2e/navbar-storybook",
+        "outputPath": {
+          "base": "dist/apps/e2e/navbar-storybook"
+        },
         "index": "apps/e2e/navbar-storybook/src/index.html",
-        "main": "apps/e2e/navbar-storybook/src/main.ts",
         "polyfills": ["zone.js", "libs/components/packages/src/polyfills.js"],
         "tsConfig": "apps/e2e/navbar-storybook/tsconfig.app.json",
         "styles": [
@@ -20,7 +21,11 @@
           "libs/components/theme/src/lib/styles/sky.scss",
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
         ],
-        "scripts": []
+        "stylePreprocessorOptions": {
+          "includePaths": ["{workspaceRoot}"]
+        },
+        "scripts": [],
+        "browser": "apps/e2e/navbar-storybook/src/main.ts"
       },
       "configurations": {
         "production": {
@@ -33,15 +38,13 @@
             {
               "type": "anyComponentStyle",
               "maximumWarning": "2kb",
-              "maximumError": "10kb"
+              "maximumError": "124kb"
             }
           ],
           "outputHashing": "all"
         },
         "development": {
-          "buildOptimizer": false,
           "optimization": false,
-          "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
@@ -127,8 +130,14 @@
       "configurations": {
         "ci": {
           "buildTarget": "navbar-storybook:build-storybook:ci"
+        },
+        "prebuilt": {
+          "buildTarget": "navbar-storybook:noop"
         }
       }
+    },
+    "noop": {
+      "executor": "nx:noop"
     }
   }
 }

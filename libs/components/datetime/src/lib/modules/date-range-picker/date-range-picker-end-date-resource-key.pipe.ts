@@ -4,7 +4,6 @@ import { SkyDateRangeCalculatorType } from './types/date-range-calculator-type';
 
 @Pipe({
   name: 'skyDateRangePickerEndDateResourceKey',
-  standalone: true,
 })
 export class SkyDateRangePickerEndDateResourceKeyPipe implements PipeTransform {
   public transform(

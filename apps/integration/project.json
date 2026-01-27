@@ -7,15 +7,20 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
-      "outputs": ["{options.outputPath}"],
+      "executor": "@angular/build:application",
+      "outputs": ["{options.outputPath.base}"],
       "options": {
-        "outputPath": "dist/apps/integration",
+        "outputPath": {
+          "base": "dist/apps/integration",
+          "browser": "."
+        },
         "index": "apps/integration/src/index.html",
-        "main": "apps/integration/src/main.ts",
         "polyfills": ["zone.js", "libs/components/packages/src/polyfills.js"],
         "tsConfig": "apps/integration/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
+        "stylePreprocessorOptions": {
+          "includePaths": ["{workspaceRoot}"]
+        },
         "assets": [
           "apps/integration/src/favicon.ico",
           "apps/integration/src/assets"
@@ -26,7 +31,8 @@
           "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss",
           "apps/integration/src/styles.scss"
         ],
-        "scripts": []
+        "scripts": [],
+        "browser": "apps/integration/src/main.ts"
       },
       "configurations": {
         "production": {
@@ -42,18 +48,10 @@
               "maximumError": "1mb"
             }
           ],
-          "fileReplacements": [
-            {
-              "replace": "apps/integration/src/environments/environment.ts",
-              "with": "apps/integration/src/environments/environment.prod.ts"
-            }
-          ],
           "outputHashing": "all"
         },
         "development": {
-          "buildOptimizer": false,
           "optimization": false,
-          "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true

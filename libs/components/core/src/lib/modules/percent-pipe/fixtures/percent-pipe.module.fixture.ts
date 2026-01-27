@@ -5,8 +5,7 @@ import { SkyPercentPipeModule } from '../percent-pipe.module';
 import { PercentPipeTestComponent } from './percent-pipe.component.fixture';
 
 @NgModule({
-  declarations: [PercentPipeTestComponent],
   exports: [PercentPipeTestComponent],
-  imports: [SkyPercentPipeModule],
+  imports: [SkyPercentPipeModule, PercentPipeTestComponent],
 })
 export class PercentPipeTestModule {}

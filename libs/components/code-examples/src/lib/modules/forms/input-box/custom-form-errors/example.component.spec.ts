@@ -20,6 +20,17 @@ describe('Input box with custom form errors example', () => {
     return { fixture, inputBoxHarness };
   }
 
+  async function triggerInvalidColorError(
+    inputBoxHarness: SkyInputBoxHarness,
+  ): Promise<void> {
+    const selectEl = await inputBoxHarness.querySelector('select');
+    await selectEl.selectOptions(7);
+
+    await expectAsync(
+      inputBoxHarness.hasCustomFormError('invalid'),
+    ).toBeResolvedTo(true);
+  }
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [FormsInputBoxWithCustomFormErrorsExampleComponent],
@@ -33,13 +44,22 @@ describe('Input box with custom form errors example', () => {
 
     fixture.detectChanges();
 
-    const selectEl = await inputBoxHarness.querySelector('select');
+    await triggerInvalidColorError(inputBoxHarness);
+  });
 
-    // Select the "invalid" option.
-    await selectEl.selectOptions(7);
+  it('should set custom form error details', async () => {
+    const { fixture, inputBoxHarness } = await setupTest({
+      dataSkyId: 'input-box-favorite-color',
+    });
 
-    await expectAsync(
-      inputBoxHarness.hasCustomFormError('invalid'),
-    ).toBeResolvedTo(true);
+    fixture.detectChanges();
+
+    await triggerInvalidColorError(inputBoxHarness);
+
+    const customFormError = await inputBoxHarness.getCustomFormError('invalid');
+
+    await expectAsync(customFormError.getErrorText()).toBeResolvedTo(
+      'The color Invalid Color is not a color',
+    );
   });
 });

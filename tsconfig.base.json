@@ -15,7 +15,7 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "ES2022",
-    "module": "ES2022",
+    "module": "preserve",
     "lib": ["es2022", "dom", "DOM.Iterable"],
     "useDefineForClassFields": false,
     "skipLibCheck": true,
@@ -77,7 +77,7 @@
         "libs/components/errors/testing/src/public-api.ts"
       ],
       "@skyux/filter-bar": ["libs/components/filter-bar/src/index.ts"],
-      "@skyux/filter-bar-testing": [
+      "@skyux/filter-bar/testing": [
         "libs/components/filter-bar/testing/src/public-api.ts"
       ],
       "@skyux/flyout": ["libs/components/flyout/src/index.ts"],
@@ -176,6 +176,9 @@
       ],
       "@skyux/storybook/font-loading": [
         "libs/components/storybook/src/lib/font-loading/font-loading.service.ts"
+      ],
+      "@skyux/storybook/icon-preview": [
+        "libs/components/storybook/src/lib/icon-preview/icon-preview.service.ts"
       ],
       "@skyux/tabs": ["libs/components/tabs/src/index.ts"],
       "@skyux/tabs/testing": ["libs/components/tabs/testing/src/public-api.ts"],

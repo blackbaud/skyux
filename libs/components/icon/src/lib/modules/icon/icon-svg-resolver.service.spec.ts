@@ -35,12 +35,20 @@ describe('Icon SVG resolver service', () => {
     // Fetch should only be called once per instance of the resolver service
     // and the result shared across subsequent calls to resolveHref().
     expect(fetchMock).toHaveBeenCalledOnceWith(
-      'https://sky.blackbaudcdn.net/static/skyux-icons/9/assets/svg/skyux-icons.svg',
+      'https://sky.blackbaudcdn.net/static/skyux-icons/10/assets/svg/skyux-icons.svg',
     );
   }
 
   beforeAll(() => {
-    fetchMock = spyOn(window, 'fetch').and.resolveTo(
+    fetchMock = spyOn(window, 'fetch');
+  });
+
+  beforeEach(() => {
+    // Reset the fetch spy call count
+    fetchMock.calls.reset();
+
+    // Reset the fetch mock to return a fresh Response for each test
+    fetchMock.and.resolveTo(
       new Response(
         `<svg id="sky-icon-svg-sprite" width="0" height="0" style="position:absolute">
     ${buildSymbolHtml('single-size', 12, 'line')}
@@ -54,9 +62,7 @@ describe('Icon SVG resolver service', () => {
   </svg>`,
       ),
     );
-  });
 
-  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [SkyIconSvgResolverService],
     });
@@ -65,6 +71,7 @@ describe('Icon SVG resolver service', () => {
   });
 
   afterEach(() => {
+    resolverSvc.resetIconMap();
     document.getElementById('sky-icon-svg-sprite')?.remove();
   });
 
@@ -81,6 +88,33 @@ describe('Icon SVG resolver service', () => {
       undefined,
       `Icon with name 'invalid' was not found.`,
     );
+  });
+
+  it('should refresh the icon map when new icons are added to the sprite', async () => {
+    // First, resolve an icon to ensure the icon map is initialized
+    await expectAsync(
+      resolverSvc.resolveHref('single-size', 12, 'line'),
+    ).toBeResolvedTo('#sky-i-single-size-12-line');
+
+    // Verify that a new icon doesn't exist yet
+    await expectAsync(
+      resolverSvc.resolveHref('new-icon', 16, 'line'),
+    ).toBeRejectedWithError(`Icon with name 'new-icon' was not found.`);
+
+    // Add a new icon to the existing sprite
+    const spriteEl = document.getElementById('sky-icon-svg-sprite');
+    spriteEl?.insertAdjacentHTML(
+      'beforeend',
+      buildSymbolHtml('new-icon', 16, 'line'),
+    );
+
+    // Refresh the icon map to pick up the new icon
+    resolverSvc.refreshIconMap();
+
+    // Verify the new icon can now be resolved
+    await expectAsync(
+      resolverSvc.resolveHref('new-icon', 16, 'line'),
+    ).toBeResolvedTo('#sky-i-new-icon-16-line');
   });
 
   describe('with single size icons', () => {

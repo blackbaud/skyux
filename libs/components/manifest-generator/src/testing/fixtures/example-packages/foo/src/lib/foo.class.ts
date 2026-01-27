@@ -135,3 +135,34 @@ export class FooWithDocsIdOverrideClass {}
  * @foobar This is an unrecognized tag
  */
 export class FooWithExtraTagsClass {}
+
+/**
+ * This class has Angular lifecycle methods that should be excluded.
+ */
+export class FooWithAngularLifecycleClass {
+  /**
+   * This is ngOnInit and should not appear in the manifest.
+   */
+  public ngOnInit(): void {
+    return;
+  }
+
+  /**
+   * This is ngOnDestroy and should not appear in the manifest.
+   */
+  public ngOnDestroy(): void {
+    return;
+  }
+
+  /**
+   * This is a regular method that should appear in the manifest.
+   */
+  public regularMethod(): void {
+    return;
+  }
+}
+
+/**
+ * This is an empty class with no properties or methods.
+ */
+export class FooEmptyClass {}

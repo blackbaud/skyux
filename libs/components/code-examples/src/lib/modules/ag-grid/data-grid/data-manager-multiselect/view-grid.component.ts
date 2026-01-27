@@ -1,37 +1,33 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  Input,
-  OnDestroy,
-  OnInit,
+  computed,
+  effect,
   inject,
+  input,
+  signal,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import {
-  SkyDataManagerColumnPickerOption,
+  SkyDataManagerModule,
   SkyDataManagerService,
   SkyDataManagerState,
-  SkyDataViewConfig,
-  SkyDataViewState,
 } from '@skyux/data-manager';
+import { SkyFilterBarFilterState } from '@skyux/filter-bar';
 
-import { AgGridModule } from 'ag-grid-angular';
+import { AgGridAngular } from 'ag-grid-angular';
 import {
   AllCommunityModule,
   ColDef,
   GridApi,
-  GridOptions,
-  GridReadyEvent,
   ModuleRegistry,
-  RowSelectedEvent,
   ValueFormatterParams,
 } from 'ag-grid-community';
-import { Subject, of, takeUntil } from 'rxjs';
+import { of } from 'rxjs';
 
 import { ContextMenuComponent } from './context-menu.component';
-import { AgGridDemoRow } from './data';
-import { Filters } from './filters';
+import { AgGridDemoRow, AutocompleteOption } from './data';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -39,23 +35,22 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   selector: 'app-view-grid',
   templateUrl: './view-grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AgGridModule, SkyAgGridModule],
+  imports: [AgGridAngular, SkyAgGridModule, SkyDataManagerModule],
 })
-export class ViewGridComponent implements OnInit, OnDestroy {
-  @Input()
-  public items: AgGridDemoRow[] = [];
+export class ViewGridComponent {
+  public readonly items = input<AgGridDemoRow[]>([]);
 
-  protected displayedItems: AgGridDemoRow[] = [];
-  protected gridOptions!: GridOptions;
-  protected isGridReadyForInitialization = false;
-  protected isViewActive = false;
+  protected readonly viewId = 'dataGridMultiselectWithDataManagerView';
+
   protected noRowsTemplate = `<div class="sky-deemphasized">No results found.</div>`;
-  protected viewConfig: SkyDataViewConfig;
 
-  #columnDefs: ColDef[] = [
+  readonly #columnDefs: ColDef[] = [
     {
       field: 'selected',
       type: SkyCellType.RowSelector,
+      suppressMovable: true,
+      lockPosition: true,
+      lockVisible: true,
       cellRendererParams: {
         // Could be a SkyAppResourcesService.getString call that returns an observable.
         label: (data: AgGridDemoRow) => of(`Select ${data.name}`),
@@ -101,169 +96,92 @@ export class ViewGridComponent implements OnInit, OnDestroy {
       type: SkyCellType.Autocomplete,
     },
   ];
-
-  #columnPickerOptions: SkyDataManagerColumnPickerOption[] = [
-    {
-      id: 'selected',
-      label: '',
-      alwaysDisplayed: true,
-    },
-    {
-      id: 'context',
-      label: '',
-      alwaysDisplayed: true,
-    },
-    {
-      id: 'name',
-      label: 'Name',
-      description: 'The name of the employee.',
-    },
-    {
-      id: 'age',
-      label: 'Age',
-      description: 'The age of the employee.',
-    },
-    {
-      id: 'startDate',
-      label: 'Start date',
-      description: 'The start date of the employee.',
-    },
-    {
-      id: 'endDate',
-      label: 'End date',
-      description: 'The end date of the employee.',
-    },
-    {
-      id: 'department',
-      label: 'Department',
-      description: 'The department of the employee',
-    },
-    {
-      id: 'jobTitle',
-      label: 'Title',
-      description: 'The job title of the employee.',
-    },
-  ];
-
-  #dataState = new SkyDataManagerState({});
-  #gridApi?: GridApi;
-  #ngUnsubscribe = new Subject<void>();
-  #viewId = 'dataGridMultiselectWithDataManagerView';
-
-  readonly #agGridSvc = inject(SkyAgGridService);
-  readonly #changeDetectorRef = inject(ChangeDetectorRef);
   readonly #dataManagerSvc = inject(SkyDataManagerService);
+  readonly #dataState = toSignal(
+    this.#dataManagerSvc.getDataStateUpdates(this.viewId),
+    { initialValue: new SkyDataManagerState({}) },
+  );
+  readonly #gridApi = signal<GridApi | undefined>(undefined);
+
+  protected readonly displayedItems = computed(() =>
+    this.#filterItems(this.#searchItems(this.items())),
+  );
+  protected readonly gridOptions = inject(SkyAgGridService).getGridOptions({
+    gridOptions: {
+      columnDefs: this.#columnDefs,
+      onGridReady: (params) => {
+        this.#gridApi.set(params.api);
+      },
+      onGridPreDestroyed: () => {
+        this.#gridApi.set(undefined);
+      },
+    },
+  });
 
   constructor() {
-    this.viewConfig = {
-      id: this.#viewId,
+    effect(() => {
+      this.#dataManagerSvc.updateDataSummary(
+        {
+          totalItems: this.items().length,
+          itemsMatching: this.displayedItems().length,
+        },
+        this.viewId,
+      );
+    });
+    effect(() => {
+      const gridApi = this.#gridApi();
+      const rowData = this.displayedItems();
+      gridApi?.setGridOption('rowData', rowData);
+    });
+    this.#dataManagerSvc.initDataView({
+      id: this.viewId,
       name: 'Data Grid View',
       iconName: 'table',
       searchEnabled: true,
-      multiselectToolbarEnabled: true,
       columnPickerEnabled: true,
-      filterButtonEnabled: true,
-      columnOptions: this.#columnPickerOptions,
-    };
-  }
-
-  public ngOnInit(): void {
-    this.displayedItems = this.items;
-
-    this.#dataManagerSvc.initDataView(this.viewConfig);
-
-    this.gridOptions = this.#agGridSvc.getGridOptions({
-      gridOptions: {
-        columnDefs: this.#columnDefs,
-        onGridReady: this.onGridReady.bind(this),
-      },
+      columnOptions: [
+        {
+          id: 'selected',
+          label: '',
+          alwaysDisplayed: true,
+        },
+        {
+          id: 'context',
+          label: '',
+          alwaysDisplayed: true,
+        },
+        {
+          id: 'name',
+          label: 'Name',
+          description: 'The name of the employee.',
+        },
+        {
+          id: 'age',
+          label: 'Age',
+          description: 'The age of the employee.',
+        },
+        {
+          id: 'startDate',
+          label: 'Start date',
+          description: 'The start date of the employee.',
+        },
+        {
+          id: 'endDate',
+          label: 'End date',
+          description: 'The end date of the employee.',
+        },
+        {
+          id: 'department',
+          label: 'Department',
+          description: 'The department of the employee',
+        },
+        {
+          id: 'jobTitle',
+          label: 'Title',
+          description: 'The job title of the employee.',
+        },
+      ],
     });
-
-    this.#dataManagerSvc
-      .getDataStateUpdates(this.#viewId)
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((state) => {
-        this.#dataState = state;
-        this.#updateColumnOrder();
-        this.isGridReadyForInitialization = true;
-        this.#updateDisplayedItems();
-        this.#changeDetectorRef.detectChanges();
-      });
-
-    this.#dataManagerSvc
-      .getActiveViewIdUpdates()
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((id) => {
-        this.isViewActive = id === this.#viewId;
-        this.#changeDetectorRef.detectChanges();
-      });
-  }
-
-  public ngOnDestroy(): void {
-    this.#ngUnsubscribe.next();
-    this.#ngUnsubscribe.complete();
-  }
-
-  public onGridReady(gridReadyEvent: GridReadyEvent): void {
-    this.#gridApi = gridReadyEvent.api;
-    this.#updateDisplayedItems();
-  }
-
-  protected onRowSelected(
-    rowSelectedEvent: RowSelectedEvent<AgGridDemoRow>,
-  ): void {
-    if (!rowSelectedEvent.data?.selected) {
-      this.#updateDisplayedItems();
-    }
-  }
-
-  #searchItems(items: AgGridDemoRow[]): AgGridDemoRow[] {
-    let searchedItems = items;
-    const searchText = this.#dataState && this.#dataState.searchText;
-
-    if (searchText) {
-      searchedItems = items.filter((item) => {
-        let property: keyof typeof item;
-
-        for (property in item) {
-          if (
-            Object.prototype.hasOwnProperty.call(item, property) &&
-            property === 'name'
-          ) {
-            const propertyText = item[property].toLowerCase();
-            if (propertyText.includes(searchText)) {
-              return true;
-            }
-          }
-        }
-
-        return false;
-      });
-    }
-
-    return searchedItems;
-  }
-
-  #filterItems(items: AgGridDemoRow[]): AgGridDemoRow[] {
-    let filteredItems = items;
-    const filterData = this.#dataState && this.#dataState.filterData;
-
-    if (filterData?.filters) {
-      const filters = filterData.filters as Filters;
-
-      filteredItems = items.filter((item) => {
-        return (
-          (!!(filters.hideSales && item.department.name !== 'Sales') ||
-            !filters.hideSales) &&
-          ((filters.jobTitle !== 'any' &&
-            item.jobTitle?.name === filters.jobTitle) ||
-            !filters.jobTitle ||
-            filters.jobTitle === 'any')
-        );
-      });
-    }
-
-    return filteredItems;
   }
 
   #endDateFormatter(params: ValueFormatterParams<AgGridDemoRow, Date>): string {
@@ -276,69 +194,64 @@ export class ViewGridComponent implements OnInit, OnDestroy {
       : 'N/A';
   }
 
-  #updateColumnOrder(): void {
-    const viewState: SkyDataViewState | undefined =
-      this.#dataState.getViewStateById(this.#viewId);
+  #filterItems(items: AgGridDemoRow[]): AgGridDemoRow[] {
+    let filteredItems = items;
+    const filterState = this.#dataState().filterData?.filters as
+      | SkyFilterBarFilterState
+      | undefined;
 
-    if (viewState) {
-      this.#columnDefs.sort((columnDefinition1, columnDefinition2) => {
-        const displayedColumnIdIndex1: number =
-          viewState.displayedColumnIds.findIndex(
-            (aDisplayedColumnId: string) =>
-              aDisplayedColumnId === columnDefinition1.field,
-          );
+    if (filterState?.appliedFilters) {
+      const filters = filterState.appliedFilters;
+      const hideSales = filters.some(
+        (filter) =>
+          filter.filterId === 'hideSales' && !!filter.filterValue?.value,
+      );
+      const jobTitleFilter = filters.find((f) => f.filterId === 'jobTitle');
+      const selectedTypes: string[] = Array.isArray(
+        jobTitleFilter?.filterValue?.value,
+      )
+        ? (jobTitleFilter.filterValue.value as AutocompleteOption[]).map(
+            (v) => v.id,
+          )
+        : [];
 
-        const displayedColumnIdIndex2: number =
-          viewState.displayedColumnIds.findIndex(
-            (aDisplayedColumnId: string) =>
-              aDisplayedColumnId === columnDefinition2.field,
-          );
-
-        if (displayedColumnIdIndex1 === -1) {
-          return 0;
-        } else if (displayedColumnIdIndex2 === -1) {
-          return 0;
-        } else {
-          return displayedColumnIdIndex1 - displayedColumnIdIndex2;
+      filteredItems = items.filter((item: AgGridDemoRow) => {
+        if (hideSales && item.department.name === 'Sales') {
+          return false;
         }
+        return !(
+          selectedTypes.length &&
+          (!item.jobTitle || !selectedTypes.includes(item.jobTitle.id))
+        );
       });
-
-      this.#changeDetectorRef.markForCheck();
     }
+
+    return filteredItems;
   }
 
-  #updateDisplayedItems(): void {
-    const sortOption = this.#dataState.activeSortOption;
+  #searchItems(items: AgGridDemoRow[]): AgGridDemoRow[] {
+    let searchedItems = items;
+    const searchText = this.#dataState().searchText;
 
-    if (this.#gridApi && sortOption) {
-      this.#gridApi.applyColumnState({
-        state: [
-          {
-            colId: sortOption.propertyName,
-            sort: sortOption.descending ? 'desc' : 'asc',
-          },
-        ],
+    if (searchText) {
+      searchedItems = items.filter((item: AgGridDemoRow) => {
+        let property: keyof typeof item;
+        for (property in item) {
+          if (
+            Object.prototype.hasOwnProperty.call(item, property) &&
+            property === 'name'
+          ) {
+            const propertyText = item[property]?.toLowerCase();
+            if (propertyText.includes(searchText.toLowerCase())) {
+              return true;
+            }
+          }
+        }
+
+        return false;
       });
     }
 
-    this.displayedItems = this.#filterItems(this.#searchItems(this.items));
-
-    if (this.#dataState.onlyShowSelected) {
-      this.displayedItems = this.displayedItems.filter((item) => item.selected);
-    }
-
-    if (this.displayedItems.length > 0) {
-      this.#gridApi?.hideOverlay();
-    } else {
-      this.#gridApi?.showNoRowsOverlay();
-    }
-
-    this.#dataManagerSvc.updateDataSummary(
-      {
-        totalItems: this.items.length,
-        itemsMatching: this.displayedItems.length,
-      },
-      this.#viewId,
-    );
+    return searchedItems;
   }
 }

@@ -3,6 +3,7 @@ export {
   shouldHaveCodeExampleDefaultLanguageComment,
   shouldHaveCodeExampleMarkupLanguageComment,
   shouldHaveCodeExampleUnknownLanguageComment,
+  shouldHaveCommentWithoutBlockTags,
   shouldHaveDeprecatedComment,
   shouldHaveDeprecatedReasonComment,
   shouldHaveInternalComment,
@@ -13,6 +14,8 @@ export {
   FooBasicTypeParamClass,
   FooBasicTypeParamDefaultValueClass,
   FooClass,
+  FooEmptyClass,
+  FooWithAngularLifecycleClass,
   FooWithDocsIdOverrideClass,
   FooWithExtraTagsClass,
   FooWithStaticPropertiesClass,
@@ -22,13 +25,18 @@ export {
   SkyFooStandaloneComponent,
   FooComponent as λ1,
 } from './lib/foo.component';
-export { FOO_BREAKPOINTS, FooBreakpoint } from './lib/foo.const-assertion';
+export {
+  FOO_BREAKPOINTS,
+  FooBreakpoint,
+  FooRegularArrayType,
+} from './lib/foo.const-assertion';
 export {
   FooDirective,
+  FooEmptyDirective,
   FooWithInputsOutputsDirective,
   λ2,
 } from './lib/foo.directive';
-export { FooEnum } from './lib/foo.enum';
+export { FooEnum, FooEmptyEnum } from './lib/foo.enum';
 export { createFoo } from './lib/foo.function';
 export {
   FooEmptyExtendedInterface,

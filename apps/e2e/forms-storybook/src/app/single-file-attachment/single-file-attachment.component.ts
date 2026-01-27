@@ -19,6 +19,7 @@ export class SingleFileAttachmentComponent {
   public fileAttachment: UntypedFormControl;
   public attachment: UntypedFormControl;
   public disabled: UntypedFormControl;
+  public errored: UntypedFormControl;
 
   public fileForm: UntypedFormGroup;
 
@@ -52,12 +53,16 @@ export class SingleFileAttachmentComponent {
       },
       Validators.required,
     );
+    this.errored = new UntypedFormControl(undefined, Validators.required);
+    this.errored.markAsTouched();
     this.fileForm = formBuilder.group({
       attachment: this.attachment,
+      attachmentNotRequired: new UntypedFormControl(undefined),
+      disabled: this.disabled,
       imageAttachment: this.imageAttachment,
       fileAttachment: this.fileAttachment,
+      errored: this.errored,
     });
-    this.attachment.markAsTouched();
   }
 
   public reactiveFileUpdated(result: SkyFileAttachmentChange): void {

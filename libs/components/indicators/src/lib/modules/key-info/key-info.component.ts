@@ -1,17 +1,20 @@
+import { NgClass } from '@angular/common';
 import { Component, Input, TemplateRef } from '@angular/core';
+import { SkyIdModule } from '@skyux/core';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
 
 import { SkyKeyInfoLayoutType } from './key-info-layout-type';
 
 @Component({
+  imports: [NgClass, SkyHelpInlineModule, SkyIdModule],
   selector: 'sky-key-info',
   templateUrl: './key-info.component.html',
-  styleUrls: ['./key-info.component.scss'],
-  standalone: false,
+  styleUrl: './key-info.component.scss',
 })
 export class SkyKeyInfoComponent {
   /**
    * A help key that identifies the global help content to display. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline) button is
-   * placed beside the key info. Clicking the button invokes global help as configured by the application.
+   * placed beside the key info. Clicking the button invokes [global help](https://developer.blackbaud.com/skyux/learn/develop/global-help) as configured by the application.
    */
   @Input()
   public helpKey: string | undefined;

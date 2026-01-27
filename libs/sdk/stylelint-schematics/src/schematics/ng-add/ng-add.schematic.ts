@@ -54,6 +54,7 @@ function configureVSCode(): Rule {
         tree.create(extensionsPath, '{}');
       }
 
+      /* v8 ignore else -- @preserve */
       if (!tree.exists(settingsPath)) {
         tree.create(settingsPath, '{}');
       }

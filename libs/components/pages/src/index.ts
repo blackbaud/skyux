@@ -11,6 +11,10 @@ export { SkyActionHubNeedsAttentionInput } from './lib/modules/action-hub/types/
 export { SkyPageLink } from './lib/modules/action-hub/types/page-link';
 export { SkyPageLinksInput } from './lib/modules/action-hub/types/page-links-input';
 export { SkyPageModalLink } from './lib/modules/action-hub/types/page-modal-link';
+export {
+  SkyPageModalLinkClickHandler,
+  SkyPageModalLinkClickHandlerArgs,
+} from './lib/modules/action-hub/types/page-modal-link-click-handler';
 export { SkyPageModalLinksInput } from './lib/modules/action-hub/types/page-modal-links-input';
 export { SkyRecentLink } from './lib/modules/action-hub/types/recent-link';
 export { SkyRecentLinksInput } from './lib/modules/action-hub/types/recent-links-input';

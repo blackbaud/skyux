@@ -179,7 +179,7 @@ export class SkySplitViewDrawerComponent implements OnInit, OnDestroy {
     this.#setMaxWidth();
   }
 
-  @HostListener('window:resize', ['$event'])
+  @HostListener('window:resize')
   public onWindowResize(): void {
     const window = this.#windowRef.nativeWindow;
 

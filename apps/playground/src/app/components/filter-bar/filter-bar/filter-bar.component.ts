@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
-import { SkyFilterBarFilterItem } from '@skyux/filter-bar';
+import {
+  SkyFilterBarFilterItem,
+  SkyFilterItemLookupSearchAsyncArgs,
+} from '@skyux/filter-bar';
+
+import { of } from 'rxjs';
 
 import { TestModalComponent } from './test-modal.component';
 
@@ -10,16 +15,16 @@ import { TestModalComponent } from './test-modal.component';
   standalone: false,
 })
 export class FilterBarComponent {
-  public get filters(): SkyFilterBarFilterItem[] | undefined {
+  public get appliedFilters(): SkyFilterBarFilterItem[] | undefined {
     return this.#_filters;
   }
 
-  public set filters(value: SkyFilterBarFilterItem[] | undefined) {
+  public set appliedFilters(value: SkyFilterBarFilterItem[] | undefined) {
     if (value) {
       value.toString = (): string => {
         return (
-          '[' +
-          this.filters
+          '[ ' +
+          this.appliedFilters
             .map(
               (filter) =>
                 `{ ${filter.filterId}${filter.filterValue ? ': ' + (filter.filterValue.displayValue ?? filter.filterValue.value) : ''} }`,
@@ -38,7 +43,7 @@ export class FilterBarComponent {
   public selectedFilterIds: string[] | undefined;
   #selectedFilterIds: string[] | undefined;
 
-  public filterModalConfig = { modalComponent: TestModalComponent };
+  public modalComponent = TestModalComponent;
 
   public labelText = 'filter 1';
 
@@ -52,8 +57,19 @@ export class FilterBarComponent {
     this.resetFilters();
   }
 
+  public onSearchAsync(args: SkyFilterItemLookupSearchAsyncArgs): void {
+    args.result = of({
+      items: [
+        { id: '1', name: '1' },
+        { id: '2', name: '2' },
+        { id: '3', name: '3' },
+      ],
+      totalCount: 3,
+    });
+  }
+
   public resetFilters(): void {
-    this.filters = this.#defaultFilters;
+    this.appliedFilters = this.#defaultFilters;
     this.selectedFilterIds = ['1', '2', '3'];
     this.#selectedFilterIds = undefined;
   }

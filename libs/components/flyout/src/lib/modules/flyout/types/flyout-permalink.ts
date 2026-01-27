@@ -8,7 +8,7 @@ export interface SkyFlyoutPermalink {
 
   /**
    * The object that represents the
-   * [Angular application route](https://angular.io/api/router/Router#navigate).
+   * [Angular application route](https://angular.dev/api/router/Router#navigate).
    * The object includes two properties that are mapped to Angular's
    * `Router.navigate(commands, extras?)` method.
    */

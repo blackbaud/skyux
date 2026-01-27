@@ -11,19 +11,14 @@
           New
         </button>
       </sky-data-manager-toolbar-primary-item>
+      <sky-list-summary>
+        <sky-list-summary-item labelText="Dashboards" [value]="items.length" />
+      </sky-list-summary>
     </sky-data-manager-toolbar>
-  </div>
-  <div class="sky-margin-stacked-sm">
-    <sky-key-info class="sky-padding-horizontal-sm" layout="horizontal">
-      <sky-key-info-value class="sky-font-display-4">
-        {{ items.length }}
-      </sky-key-info-value>
-      <sky-key-info-label> Dashboards </sky-key-info-label>
-    </sky-key-info>
   </div>
   <sky-data-view skyAgGridDataManagerAdapter viewId="gridView">
     <sky-ag-grid-wrapper>
-      <ag-grid-angular [gridOptions]="gridOptions" [rowData]="items" />
+      <ag-grid-angular [gridOptions]="gridOptions" />
     </sky-ag-grid-wrapper>
   </sky-data-view>
 </sky-data-manager>

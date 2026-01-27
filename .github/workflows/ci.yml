@@ -27,11 +27,11 @@ jobs:
     outputs:
       node-version: ${{ steps.setup-node.outputs.node-version }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           # We need to fetch all branches and commits so that Nx affected has a base to compare against.
           fetch-depth: 0
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         id: setup-node
         with:
           cache: 'npm'
@@ -51,8 +51,8 @@ jobs:
     env:
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         id: setup-node
         with:
           cache: 'npm'
@@ -75,10 +75,10 @@ jobs:
     env:
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           cache: 'npm'
           node-version-file: '.nvmrc'
@@ -90,7 +90,7 @@ jobs:
         run: npm ci
         env:
           CYPRESS_INSTALL_BINARY: 0
-      - uses: nrwl/nx-set-shas@v4
+      - uses: nrwl/nx-set-shas@9885af301bd1be213e975f11ae32c6daeadc4a87 # 4.3.3
       - name: Run build, lint, test, and posttest for npm packages
         run: |
           npx nx affected --target build postbuild lint test posttest --configuration ci --parallel 1 --exclude '*,!tag:npm'
@@ -143,11 +143,11 @@ jobs:
     needs: install-deps
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           # We need to fetch all branches and commits so that Nx affected has a base to compare against.
           fetch-depth: 0
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           cache: 'npm'
           node-version-file: '.nvmrc'
@@ -179,16 +179,16 @@ jobs:
     needs: install-deps
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           # We need to fetch all branches and commits so that Nx affected has a base to compare against.
           fetch-depth: 0
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           cache: 'npm'
           node-version-file: '.nvmrc'
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        uses: nrwl/nx-set-shas@v4
+        uses: nrwl/nx-set-shas@9885af301bd1be213e975f11ae32c6daeadc4a87 # 4.3.3
       - name: npm install
         run: npm ci
         env:
@@ -204,8 +204,8 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event_name != 'pull_request' }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           cache: 'npm'
           node-version-file: '.nvmrc'
@@ -217,7 +217,7 @@ jobs:
         run: npx skyux-dev create-packages-dist --skipNxCache
       - name: Notify Slack (failure)
         if: ${{ failure() }}
-        uses: rtCamp/action-slack-notify@v2
+        uses: rtCamp/action-slack-notify@07cbdbfd6c6190970778d8f98f11d073b2932aae # v2.3.3
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_COLOR: ${{ job.status }}

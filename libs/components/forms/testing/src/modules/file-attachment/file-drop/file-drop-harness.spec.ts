@@ -22,7 +22,6 @@ import { SkyFileDropHarness } from './file-drop-harness';
 import { SkyFileItemHarness } from './file-item-harness';
 
 @Component({
-  standalone: true,
   imports: [SkyFileDropModule, FormsModule, ReactiveFormsModule],
   template: `
     <form [formGroup]="formGroup">
@@ -324,6 +323,20 @@ describe('File drop harness', () => {
 
     await expectAsync(harness.hasCustomError('customError')).toBeResolvedTo(
       true,
+    );
+  });
+
+  it('should get custom form error', async () => {
+    const { fixture, harness } = await setupTest();
+
+    fixture.componentInstance.fileDrop.markAsTouched();
+    fixture.componentInstance.showCustomError = true;
+    fixture.detectChanges();
+
+    const customFormError = await harness.getCustomError('customError');
+
+    await expectAsync(customFormError.getErrorText()).toBeResolvedTo(
+      'This is a custom error.',
     );
   });
 

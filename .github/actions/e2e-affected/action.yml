@@ -32,7 +32,7 @@ runs:
   steps:
     - name: Check if e2e tests are affected by the changes
       id: affected
-      uses: actions/github-script@v7
+      uses: actions/github-script@v8
       with:
         script: |
           if ('${{ inputs.percy-token }}'.trim() === '') {
@@ -92,7 +92,7 @@ runs:
 
           if (lastGoodCommit === '${{ inputs.head }}') {
             const fs = require('fs');
-            fs.writeFileSync(`${{ runner.temp }}/percy-build-${{ inputs.project }}.txt`, buildId);
+            fs.writeFileSync(`${{ runner.temp }}/percy-build-${{ inputs.project }}.txt`, String(buildId));
             core.info(`The build for ${lastGoodCommit.substring(0, 7)} already passed.`);
             core.setOutput('affected', 'false');
             process.exit(0);

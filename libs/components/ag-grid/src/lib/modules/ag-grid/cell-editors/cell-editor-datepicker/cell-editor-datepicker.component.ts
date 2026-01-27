@@ -19,9 +19,7 @@ import { SkyI18nModule } from '@skyux/i18n';
 import { SkyThemeService } from '@skyux/theme';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
-import { PopupComponent } from 'ag-grid-community';
-import { fromEvent } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { first, fromEvent } from 'rxjs';
 
 import { SkyCellEditorDatepickerParams } from '../../types/cell-editor-datepicker-params';
 import { SkyAgGridCellEditorInitialAction } from '../../types/cell-editor-initial-action';
@@ -45,7 +43,6 @@ import { SkyAgGridDatepickerProperties } from '../../types/datepicker-properties
   ],
 })
 export class SkyAgGridCellEditorDatepickerComponent
-  extends PopupComponent
   implements ICellEditorAngularComp
 {
   public columnHeader: string | undefined;
@@ -70,10 +67,6 @@ export class SkyAgGridCellEditorDatepickerComponent
   #elementRef = inject(ElementRef) as ElementRef<HTMLElement>;
   #changeDetector = inject(ChangeDetectorRef);
   #themeSvc = inject(SkyThemeService, { optional: true }) || undefined;
-
-  constructor() {
-    super();
-  }
 
   @HostListener('focusout', ['$event'])
   public onFocusOut(event: FocusEvent): void {
@@ -152,6 +145,10 @@ export class SkyAgGridCellEditorDatepickerComponent
         );
       }
     });
+  }
+
+  public isPopup(): boolean {
+    return true;
   }
 
   public getPopupPosition(): 'over' | 'under' | undefined {

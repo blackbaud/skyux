@@ -235,6 +235,18 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     );
   });
 
+  it('should not apply data state column widths when grid is not present', async () => {
+    agGridDataManagerFixtureComponent.displayFirstGrid = false;
+    agGridDataManagerFixture.detectChanges();
+    await agGridDataManagerFixture.whenStable();
+    expect(agGridDataManagerDirective.agGridList().length).toBe(0);
+    mediaQueryController.setBreakpoint('sm');
+    agGridDataManagerFixture.detectChanges();
+    await agGridDataManagerFixture.whenStable();
+    // No errors should be thrown
+    expect(agGridDataManagerFixtureComponent).toBeTruthy();
+  });
+
   it('should update the data state when a column is moved', async () => {
     await agGridDataManagerFixture.whenStable();
 
@@ -706,7 +718,6 @@ it('should move the horizontal scroll based on enableTopScroll check', async () 
   };
   fixture.detectChanges();
   await fixture.whenStable();
-  fixture.componentInstance.agGrid?.gridReady.emit();
   fixture.detectChanges();
   await fixture.whenStable();
   const gridComponents: string[] = Array.from(
@@ -723,4 +734,139 @@ it('should move the horizontal scroll based on enableTopScroll check', async () 
     'ag-floating-bottom',
     'ag-overlay',
   ]);
+
+  const agGrid = fixture.componentInstance.agGrid;
+  expect(agGrid).toBeDefined();
+  expect(agGrid!.api.getGridOption('context')?.enableTopScroll).toBeTrue();
+
+  const dataManagerService = TestBed.inject(SkyDataManagerService);
+  fixture.detectChanges();
+  await fixture.whenStable();
+  const viewkeeperClasses =
+    dataManagerService.viewkeeperClasses.value[
+      fixture.componentInstance.viewConfig.id
+    ];
+  expect(viewkeeperClasses).toEqual([
+    '.ag-header',
+    '.ag-body-horizontal-scroll',
+  ]);
+});
+
+it('should refresh the grid when a view is reactivated', async () => {
+  TestBed.configureTestingModule({
+    imports: [SkyAgGridFixtureModule],
+    providers: [SkyDataManagerService],
+  });
+
+  const fixture = TestBed.createComponent(SkyAgGridDataManagerFixtureComponent);
+  fixture.componentInstance.displayOtherView = true;
+  fixture.detectChanges();
+  await fixture.whenStable();
+
+  const agGrid = fixture.componentInstance.agGrid;
+  expect(agGrid).toBeDefined();
+  spyOn(agGrid!.api, 'refreshCells');
+
+  const dataManagerService = TestBed.inject(SkyDataManagerService);
+  const viewConfig = dataManagerService.getViewById(
+    fixture.componentInstance.viewConfig.id,
+  );
+  expect(viewConfig).toBeDefined();
+  dataManagerService.updateActiveViewId(viewConfig!.id);
+
+  fixture.detectChanges();
+  await fixture.whenStable();
+
+  expect(agGrid!.api.refreshCells).toHaveBeenCalled();
+});
+
+describe('Read columnOptions from grid API', () => {
+  it("when column picker enabled, should get columnOptions when they're not provided in viewConfig", async () => {
+    TestBed.configureTestingModule({
+      imports: [SkyAgGridFixtureModule],
+      providers: [SkyDataManagerService, provideSkyMediaQueryTesting()],
+    });
+
+    const fixture = TestBed.createComponent(
+      SkyAgGridDataManagerFixtureComponent,
+    );
+    const dataManagerService = TestBed.inject(SkyDataManagerService);
+
+    // Verify viewConfig initially has no columnOptions
+    const viewConfig = fixture.componentInstance.viewConfig;
+    expect(viewConfig.columnOptions).toBeUndefined();
+    viewConfig.columnPickerEnabled = true;
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    // After grid ready, columnOptions should be populated from grid API
+    const updatedViewConfig = dataManagerService.getViewById(viewConfig.id);
+    expect(updatedViewConfig).toBeDefined();
+    expect(updatedViewConfig!.columnOptions).toBeDefined();
+    expect(updatedViewConfig!.columnOptions!.length).toBeGreaterThan(0);
+
+    // Verify the columnOptions were read from the grid API
+    // The method #readColumnOptionsFromGrid marks the following as alwaysDisplayed:
+    // - Pinned columns
+    // - Columns with lockVisible set
+    // - Columns without a headerName
+    // It still includes all columns from the grid in the returned columnOptions
+    const columnOptions = updatedViewConfig!.columnOptions!;
+
+    // Verify we have the expected columns (name, target, noHeader at minimum)
+    expect(columnOptions.length).toBeGreaterThan(0);
+
+    // Check that each column option has the required properties
+    columnOptions.forEach((option) => {
+      expect(option.id).toBeDefined();
+      expect(option.label).toBeDefined();
+      // alwaysDisplayed can be undefined when lockVisible is not set on the column
+      expect(
+        option.alwaysDisplayed === undefined ||
+          typeof option.alwaysDisplayed === 'boolean',
+      ).toBe(true);
+    });
+
+    // Verify specific columns that should be present
+    const nameColumn = columnOptions.find((opt) => opt.id === 'name');
+    expect(nameColumn).toBeDefined();
+    expect(nameColumn!.label).toBe('First Name');
+    expect(nameColumn!.alwaysDisplayed).toBeTrue();
+
+    const targetColumn = columnOptions.find((opt) => opt.id === 'target');
+    expect(targetColumn).toBeDefined();
+    expect(targetColumn!.label).toBe('Goal');
+
+    // The noHeader column has no headerName, so label becomes an empty string
+    const noHeaderColumn = columnOptions.find((opt) => opt.id === 'noHeader');
+    expect(noHeaderColumn).toBeDefined();
+    expect(noHeaderColumn!.label).toBe('');
+    expect(noHeaderColumn!.alwaysDisplayed).toBeTrue();
+  });
+
+  it('when column picker not enabled, should not get columnOptions', async () => {
+    TestBed.configureTestingModule({
+      imports: [SkyAgGridFixtureModule],
+      providers: [SkyDataManagerService, provideSkyMediaQueryTesting()],
+    });
+
+    const fixture = TestBed.createComponent(
+      SkyAgGridDataManagerFixtureComponent,
+    );
+    const dataManagerService = TestBed.inject(SkyDataManagerService);
+
+    // Verify viewConfig initially has no columnOptions
+    const viewConfig = fixture.componentInstance.viewConfig;
+    expect(viewConfig.columnOptions).toBeUndefined();
+    expect(viewConfig.columnPickerEnabled).toBeUndefined();
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    // After grid ready, columnOptions should remain undefined when column picker is not enabled
+    const updatedViewConfig = dataManagerService.getViewById(viewConfig.id);
+    expect(updatedViewConfig).toBeDefined();
+    expect(updatedViewConfig!.columnOptions).toBeUndefined();
+  });
 });

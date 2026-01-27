@@ -1,16 +1,15 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  OnDestroy,
-  OnInit,
+  effect,
   inject,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import { SkyPagingModule } from '@skyux/lists';
 
-import { AgGridModule } from 'ag-grid-angular';
+import { AgGridAngular } from 'ag-grid-angular';
 import {
   AllCommunityModule,
   ColDef,
@@ -20,7 +19,6 @@ import {
   ModuleRegistry,
   ValueFormatterParams,
 } from 'ag-grid-community';
-import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
 import { ContextMenuComponent } from './context-menu.component';
@@ -35,11 +33,10 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   selector: 'app-ag-grid-data-grid-paging-example',
   templateUrl: './example.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AgGridModule, SkyAgGridModule, SkyPagingModule],
+  imports: [AgGridAngular, SkyAgGridModule, SkyPagingModule],
 })
-export class AgGridDataGridPagingExampleComponent implements OnInit, OnDestroy {
+export class AgGridDataGridPagingExampleComponent {
   protected currentPage = 1;
-
   protected readonly pageSize = 3;
 
   #columnDefs: ColDef[] = [
@@ -88,12 +85,21 @@ export class AgGridDataGridPagingExampleComponent implements OnInit, OnDestroy {
   protected gridOptions: GridOptions;
 
   #gridApi: GridApi | undefined;
-  #subscriptions = new Subscription();
 
   readonly #activatedRoute = inject(ActivatedRoute);
   readonly #agGridSvc = inject(SkyAgGridService);
-  readonly #changeDetectorRef = inject(ChangeDetectorRef);
   readonly #router = inject(Router);
+
+  readonly #pageFromRoute = toSignal(
+    this.#activatedRoute.queryParamMap.pipe(
+      map((params) => Number(params.get('page') ?? '1')),
+    ),
+    { initialValue: 1 },
+  );
+
+  readonly #navigationEnd = toSignal(
+    this.#router.events.pipe(filter((event) => event instanceof NavigationEnd)),
+  );
 
   constructor() {
     const gridOptions: GridOptions = {
@@ -110,37 +116,21 @@ export class AgGridDataGridPagingExampleComponent implements OnInit, OnDestroy {
     this.gridOptions = this.#agGridSvc.getGridOptions({
       gridOptions,
     });
-  }
 
-  public ngOnInit(): void {
-    this.#subscriptions.add(
-      this.#activatedRoute.queryParamMap
-        .pipe(map((params) => params.get('page') ?? '1'))
-        .subscribe((page) => {
-          this.currentPage = Number(page);
-          this.#gridApi?.paginationGoToPage(this.currentPage - 1);
-          this.#changeDetectorRef.detectChanges();
-        }),
-    );
+    effect(() => {
+      const page = this.#pageFromRoute();
+      this.currentPage = page;
+      this.#gridApi?.paginationGoToPage(this.currentPage - 1);
+    });
 
-    this.#subscriptions.add(
-      this.#router.events
-        .pipe(filter((event) => event instanceof NavigationEnd))
-        .subscribe(() => {
-          const page = this.#activatedRoute.snapshot.paramMap.get('page');
-
-          if (page) {
-            this.currentPage = Number(page);
-          }
-
-          this.#gridApi?.paginationGoToPage(this.currentPage - 1);
-          this.#changeDetectorRef.detectChanges();
-        }),
-    );
-  }
-
-  public ngOnDestroy(): void {
-    this.#subscriptions.unsubscribe();
+    effect(() => {
+      this.#navigationEnd();
+      const page = this.#activatedRoute.snapshot.paramMap.get('page');
+      if (page) {
+        this.currentPage = Number(page);
+        this.#gridApi?.paginationGoToPage(this.currentPage - 1);
+      }
+    });
   }
 
   public onGridReady(gridReadyEvent: GridReadyEvent): void {

@@ -6,7 +6,7 @@ import type { SkyDataManagerColumnPickerComponent } from './data-manager-column-
  * Service that provides the column picker component type so it can be dynamically
  * created in the toolbar component. This avoids a circular reference between column
  * picker and toolbar.
- * https://angular.io/errors/NG3003
+ * https://angular.dev/errors/NG3003
  */
 @Injectable()
 export abstract class SkyDataManagerColumnPickerService {

@@ -19,7 +19,6 @@ import {
 export type InsertionIndex = (properties: string[]) => number;
 export type JsonPath = (string | number)[];
 
-/* istanbul ignore next */
 /**
  * Handles JSONC files (JSON files that include comments).
  * @internal

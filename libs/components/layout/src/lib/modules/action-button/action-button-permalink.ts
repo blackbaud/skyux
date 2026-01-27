@@ -10,16 +10,16 @@ export interface SkyActionButtonPermalink {
    * The Angular router link for the action button. This property accepts a
    * custom object with a `commands` property to specify router commands and an `extras`
    * property to specify
-   * [Angular `NavigationExtras`](https://angular.io/api/router/NavigationExtras).
+   * [Angular `NavigationExtras`](https://angular.dev/api/router/NavigationExtras).
    * This property passes the following properties:
    * - `permalink.route?.extras?.fragment` to
-   * [`fragment`](https://angular.io/api/router/NavigationExtras#fragment)
+   * [`fragment`](https://angular.dev/api/router/NavigationExtras#fragment)
    * - `permalink.route?.extras?.queryParams` to
-   * [`queryParams`](https://angular.io/api/router/NavigationExtras#queryParams)
+   * [`queryParams`](https://angular.dev/api/router/NavigationExtras#queryParams)
    * - `permalink.route?.extras?.queryParamsHandling` to
-   * [`queryParamsHandling`](https://angular.io/api/router/NavigationExtras#queryParamsHandling)
+   * [`queryParamsHandling`](https://angular.dev/api/router/NavigationExtras#queryParamsHandling)
    * - `permalink.route?.commands` to
-   * [`routerLink`](https://angular.io/api/router/RouterLink)
+   * [`routerLink`](https://angular.dev/api/router/RouterLink)
    */
   route?: {
     commands?: any[] | string;

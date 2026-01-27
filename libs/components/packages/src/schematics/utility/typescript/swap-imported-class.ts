@@ -1,5 +1,4 @@
 import { UpdateRecorder } from '@angular-devkit/schematics';
-import { isImported } from '@angular/cdk/schematics';
 import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 import { findNodes, insertImport } from '@schematics/angular/utility/ast-utils';
 import {
@@ -8,6 +7,7 @@ import {
 } from '@schematics/angular/utility/change';
 import { getEOL } from '@schematics/angular/utility/eol';
 
+import { isImportedFromPackage } from './ng-ast';
 import { removeImport } from './remove-import';
 
 export interface SwapImportedClassOptions {
@@ -64,8 +64,8 @@ export function swapImportedClass(
   const applicableOptions = options.filter((option) =>
     Object.keys(option.classNames).some((className) =>
       typeof option.moduleName === 'object'
-        ? isImported(sourceFile, className, option.moduleName.old)
-        : isImported(sourceFile, className, option.moduleName),
+        ? isImportedFromPackage(sourceFile, className, option.moduleName.old)
+        : isImportedFromPackage(sourceFile, className, option.moduleName),
     ),
   );
   if (applicableOptions.length === 0) {
@@ -94,14 +94,13 @@ export function swapImportedClass(
       if (referencesFiltered.length > 0) {
         const allReferencesToBeReplaced =
           referencesFiltered.length === referencesInCode.length;
-        if (!isImported(sourceFile, newClassName, newModuleName)) {
+        if (!isImportedFromPackage(sourceFile, newClassName, newModuleName)) {
           if (allReferencesToBeReplaced) {
             if (oldModuleName === newModuleName) {
               const referencesInImport = findReferences(
                 sourceFile,
                 oldClassName,
               ).filter((reference) => reference.getEnd() <= endOfImports);
-              /* istanbul ignore if */
               if (referencesInImport.length !== 1) {
                 throw new Error(
                   `Expected exactly one import for ${oldClassName} from ${oldModuleName}, found ${referencesInImport.length}.`,

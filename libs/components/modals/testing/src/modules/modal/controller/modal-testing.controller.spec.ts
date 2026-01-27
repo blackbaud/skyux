@@ -60,13 +60,12 @@ class ModalTestComponent {
   }
 
   protected saveForm(): void {
-    this.#instance.save({});
+    this.#instance.save({ filterValue: undefined });
   }
 }
 
 @Component({
-  standalone: true,
-  template: ``,
+  template: '',
 })
 class TestComponent implements OnDestroy {
   public hasErrors = false;
@@ -111,7 +110,6 @@ class TestComponent implements OnDestroy {
 }
 
 @Component({
-  standalone: true,
   template: '',
 })
 class AnotherComponent {}

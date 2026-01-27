@@ -6,6 +6,7 @@ import {
   inject,
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { SkyDateRangeCalculatorId } from '@skyux/datetime';
 import { SkyThemeService } from '@skyux/theme';
 
@@ -72,6 +73,7 @@ export class FieldHeightsComponent implements AfterViewInit, OnDestroy {
 
   #elementRef = inject(ElementRef<HTMLElement>);
   #formBuilder = inject(FormBuilder);
+  #route = inject(ActivatedRoute);
   #subscription = new Subscription();
   #themeSvc = inject(SkyThemeService);
 
@@ -102,6 +104,14 @@ export class FieldHeightsComponent implements AfterViewInit, OnDestroy {
       ?.valueChanges.pipe(
         map((value) => value?.length > this.characterCounterLimit),
       ) as Observable<boolean>;
+
+    this.#subscription.add(
+      this.#route.queryParams.subscribe((params) => {
+        if (params['disabled'] === 'true') {
+          this.favoritesForm.disable();
+        }
+      }),
+    );
   }
 
   public ngAfterViewInit(): void {
@@ -139,6 +149,7 @@ export class FieldHeightsComponent implements AfterViewInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
+    this.#subscription.unsubscribe();
     this.ready.complete();
   }
 

@@ -9,6 +9,18 @@ const routes: Routes = [
         (m) => m.AngularTreeComponentModule,
       ),
   },
+  {
+    path: 'angular-tree-component-state',
+    loadComponent: () =>
+      import(
+        './angular-tree-component-state/angular-tree-component-state.component'
+      ).then((m) => m.AngularTreeComponentStateComponent),
+    data: {
+      name: 'Angular tree component state',
+      icon: 'cube-tree',
+      library: 'angular-tree-component',
+    },
+  },
 ];
 
 @NgModule({

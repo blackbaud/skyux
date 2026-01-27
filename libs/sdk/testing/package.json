@@ -23,9 +23,9 @@
     }
   },
   "peerDependencies": {
-    "@angular/common": "^20.0.5",
-    "@angular/core": "^20.0.5",
-    "@angular/platform-browser": "^20.0.5",
+    "@angular/common": "^21.0.8",
+    "@angular/core": "^21.0.8",
+    "@angular/platform-browser": "^21.0.8",
     "@skyux/i18n": "0.0.0-PLACEHOLDER",
     "axe-core": "^3.5.6 || ~4.6.3 || ~4.7.2 || ~4.10.3"
   },

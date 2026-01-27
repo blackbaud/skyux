@@ -2,24 +2,32 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  OnDestroy,
-  OnInit,
   inject,
+  signal,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   SkyDataManagerModule,
   SkyDataManagerService,
   SkyDataManagerState,
 } from '@skyux/data-manager';
+import {
+  SkyFilterBarModule,
+  SkyFilterItemLookupSearchAsyncArgs,
+} from '@skyux/filter-bar';
+import { SkyListSummaryModule } from '@skyux/lists';
 import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
-import { Subject, takeUntil } from 'rxjs';
+import { map } from 'rxjs';
 
 import { AG_GRID_DEMO_DATA, AgGridDemoRow } from './data';
 import { EditModalContext } from './edit-modal-context';
 import { EditModalComponent } from './edit-modal.component';
-import { FilterModalComponent } from './filter-modal.component';
+import { ExampleService } from './example.service';
+import { SalesModalComponent } from './sales-modal.component';
 import { ViewGridComponent } from './view-grid.component';
+
+const SOURCE_ID = 'data_entry_grid_data_manager_example_id';
 
 /**
  * @title Data manager setup
@@ -29,43 +37,19 @@ import { ViewGridComponent } from './view-grid.component';
   templateUrl: './example.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SkyDataManagerService],
-  imports: [ViewGridComponent, SkyDataManagerModule],
+  imports: [
+    ViewGridComponent,
+    SkyDataManagerModule,
+    SkyFilterBarModule,
+    SkyListSummaryModule,
+  ],
 })
-export class AgGridDataEntryGridDataManagerAddedExampleComponent
-  implements OnInit, OnDestroy
-{
-  protected items = AG_GRID_DEMO_DATA;
+export class AgGridDataEntryGridDataManagerAddedExampleComponent {
+  protected readonly items = signal<AgGridDemoRow[]>(AG_GRID_DEMO_DATA);
 
-  #activeViewId = 'dataEntryGridWithDataManagerView';
+  protected readonly salesModal = SalesModalComponent;
 
-  #defaultDataState = new SkyDataManagerState({
-    filterData: {
-      filtersApplied: false,
-      filters: {
-        hideSales: false,
-      },
-    },
-    views: [
-      {
-        viewId: 'dataEntryGridWithDataManagerView',
-        displayedColumnIds: [
-          'selected',
-          'context',
-          'name',
-          'age',
-          'startDate',
-          'endDate',
-          'department',
-          'jobTitle',
-          'validationCurrency',
-          'validationDate',
-        ],
-      },
-    ],
-  });
-
-  #dataManagerConfig = {
-    filterModalComponent: FilterModalComponent,
+  readonly #dataManagerConfig = {
     sortOptions: [
       {
         id: 'az',
@@ -82,43 +66,33 @@ export class AgGridDataEntryGridDataManagerAddedExampleComponent
     ],
   };
 
-  #ngUnsubscribe = new Subject<void>();
-
   readonly #changeDetectorRef = inject(ChangeDetectorRef);
   readonly #dataManagerSvc = inject(SkyDataManagerService);
+  readonly #exampleSvc = inject(ExampleService);
   readonly #modalSvc = inject(SkyModalService);
 
-  constructor() {
+  protected readonly recordCount = toSignal(
     this.#dataManagerSvc
-      .getActiveViewIdUpdates()
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((activeViewId) => {
-        this.#activeViewId = activeViewId;
-        this.#changeDetectorRef.detectChanges();
-      });
-  }
+      .getDataSummaryUpdates(SOURCE_ID)
+      .pipe(map((summary) => summary.itemsMatching)),
+    { initialValue: 0 },
+  );
 
-  public ngOnInit(): void {
+  constructor() {
     this.#dataManagerSvc.initDataManager({
-      activeViewId: this.#activeViewId,
+      activeViewId: 'dataEntryGridWithDataManagerView',
       dataManagerConfig: this.#dataManagerConfig,
-      defaultDataState: this.#defaultDataState,
+      defaultDataState: new SkyDataManagerState({}),
     });
-  }
-
-  public ngOnDestroy(): void {
-    this.#ngUnsubscribe.next();
-    this.#ngUnsubscribe.complete();
   }
 
   protected openModal(): void {
     const context = new EditModalContext();
-    context.gridData = this.items.slice();
+    context.gridData = structuredClone(this.items());
 
     this.#changeDetectorRef.markForCheck();
 
     const options: SkyModalConfigurationInterface = {
-      ariaDescribedBy: 'docs-edit-grid-modal-content',
       providers: [
         {
           provide: EditModalContext,
@@ -134,11 +108,17 @@ export class AgGridDataEntryGridDataManagerAddedExampleComponent
       if (result.reason === 'cancel' || result.reason === 'close') {
         alert('Edits canceled!');
       } else {
-        this.items = result.data as AgGridDemoRow[];
-        alert('Saving data!');
+        this.items.set(result.data as AgGridDemoRow[]);
       }
-
       this.#changeDetectorRef.markForCheck();
     });
+  }
+
+  public onJobTitleSearchAsync(args: SkyFilterItemLookupSearchAsyncArgs): void {
+    // In a real-world application the search service might return an Observable
+    // created by calling HttpClient.get(). Assigning that Observable to the result
+    // allows the lookup component to cancel the web request if it does not complete
+    // before the user searches again.
+    args.result = this.#exampleSvc.search(args.searchText);
   }
 }

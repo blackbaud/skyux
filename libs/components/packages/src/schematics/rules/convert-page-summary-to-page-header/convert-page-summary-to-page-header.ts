@@ -6,9 +6,10 @@ import {
   chain,
 } from '@angular-devkit/schematics';
 import { empty } from '@angular-devkit/schematics/src/tree/static';
-import { isImported, parse5, parseSourceFile } from '@angular/cdk/schematics';
 import { ExistingBehavior, addDependency } from '@schematics/angular/utility';
 import { getEOL } from '@schematics/angular/utility/eol';
+
+import type { DefaultTreeAdapterTypes } from 'parse5';
 
 import { logOnce } from '../../utility/log-once';
 import {
@@ -19,7 +20,11 @@ import {
   parseTemplate,
   swapTags,
 } from '../../utility/template';
-import { getInlineTemplates } from '../../utility/typescript/ng-ast';
+import {
+  getInlineTemplates,
+  isImportedFromPackage,
+  parseSourceFile,
+} from '../../utility/typescript/ng-ast';
 import { swapImportedClass } from '../../utility/typescript/swap-imported-class';
 import { visitProjectFiles } from '../../utility/visit-project-files';
 
@@ -40,7 +45,7 @@ function getPageTitle(pageSummary: ElementWithLocation): string {
     heading.childNodes[0].nodeName === '#text'
   ) {
     return (
-      heading.childNodes[0] as parse5.DefaultTreeAdapterTypes.TextNode
+      heading.childNodes[0] as DefaultTreeAdapterTypes.TextNode
     ).value.trim();
   } else if (!heading) {
     return '';
@@ -253,7 +258,7 @@ function convertTypescriptFile(
       );
     }
   }
-  if (isImported(source, 'SkyPageSummaryModule', '@skyux/layout')) {
+  if (isImportedFromPackage(source, 'SkyPageSummaryModule', '@skyux/layout')) {
     swapImportedClass(recorder, filePath, source, [
       {
         classNames: {
@@ -280,7 +285,7 @@ export function convertPageSummaryToPageHeader(projectPath: string): Rule {
             convertTypescriptFile(tree, filePath, context);
           }
         } catch (error) {
-          /* istanbul ignore next */
+          /* v8 ignore next -- @preserve */
           const msg = error instanceof Error ? error.message : String(error);
           throw new Error(`Error converting '${filePath}': ${msg}`);
         }

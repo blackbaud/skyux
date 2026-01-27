@@ -1,8 +1,6 @@
 import {
   Directive,
   ElementRef,
-  HostBinding,
-  HostListener,
   Injector,
   Input,
   OnChanges,
@@ -58,7 +56,12 @@ const SKY_COLORPICKER_DEFAULT_COLOR = '#FFFFFF';
       inputs: ['required'],
     },
   ],
-  standalone: false,
+  host: {
+    class: 'sky-colorpicker-input',
+    readonly: 'true',
+    '(input)': 'changeInput()',
+    '(change)': 'onChange()',
+  },
 })
 export class SkyColorpickerInputDirective
   implements OnInit, OnChanges, ControlValueAccessor, Validator, OnDestroy
@@ -145,12 +148,6 @@ export class SkyColorpickerInputDirective
   @Input()
   public allowTransparency = true;
 
-  @HostBinding('readonly')
-  protected readonly readonly = true;
-
-  @HostBinding('class.sky-colorpicker-input')
-  protected readonly colorInputClass = true;
-
   #modelValue: SkyColorpickerOutput | undefined;
   #elementRef: ElementRef;
   #renderer: Renderer2;
@@ -180,14 +177,12 @@ export class SkyColorpickerInputDirective
     this.#injector = injector;
   }
 
-  @HostListener('input')
   public changeInput(): void {
     const value = this.#elementRef.nativeElement.value;
     this.skyColorpickerInput.updatePickerValues(value);
     this.skyColorpickerInput.backgroundColorForDisplay = value;
   }
 
-  @HostListener('change')
   public onChange(): void {
     const newValue = this.#elementRef.nativeElement.value;
     const formattedValue = this.#formatter(newValue);

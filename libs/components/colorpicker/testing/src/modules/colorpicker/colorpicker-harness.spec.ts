@@ -12,6 +12,7 @@ import {
 } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyColorpickerModule } from '@skyux/colorpicker';
+import { SkyFormErrorModule } from '@skyux/forms';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -116,6 +117,7 @@ describe('Colorpicker harness', () => {
       declarations: [TestComponent],
       imports: [
         SkyColorpickerModule,
+        SkyFormErrorModule,
         NoopAnimationsModule,
         FormsModule,
         ReactiveFormsModule,
@@ -263,6 +265,22 @@ describe('Colorpicker harness', () => {
 
     await expectAsync(colorpickerHarness.hasError('wrongColor')).toBeResolvedTo(
       true,
+    );
+  });
+
+  it('should get custom form error', async () => {
+    const { colorpickerHarness, fixture } = await setupTest();
+
+    fixture.componentInstance.labelText = 'colorpicker';
+    fixture.componentInstance.showCustomError = true;
+    fixture.componentInstance.myForm.markAllAsTouched();
+    fixture.detectChanges();
+
+    const customFormError =
+      await colorpickerHarness.getCustomError('wrongColor');
+
+    await expectAsync(customFormError.getErrorText()).toBeResolvedTo(
+      'That is not a good color.',
     );
   });
 

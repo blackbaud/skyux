@@ -85,20 +85,13 @@
             </sky-toolbar-item>
             <sky-toolbar-view-actions>
               <sky-checkbox
-                [label]="
-                  'skyux_lookup_show_more_show_selected_option_aria_label'
+                [labelText]="
+                  'skyux_lookup_show_more_show_selected_option_title'
                     | skyLibResources: context.selectionDescriptor
                 "
                 [(checked)]="onlyShowSelected"
                 (change)="updateDisplayedItems()"
-              >
-                <sky-checkbox-label>
-                  {{
-                    'skyux_lookup_show_more_show_selected_option_title'
-                      | skyLibResources
-                  }}
-                </sky-checkbox-label>
-              </sky-checkbox>
+              />
             </sky-toolbar-view-actions>
           </sky-toolbar-section>
         </sky-toolbar>
@@ -116,10 +109,12 @@
     >
       @for (item of displayedItems; track item) {
         <sky-repeater-item
+          #repeaterItem
           [isSelected]="
             item[context.idProperty]
               | skySelectionModalItemSelected: selectedIdMap
           "
+          [itemName]="item[context.descriptorProperty]"
           [selectable]="context.selectMode === 'multiple'"
           (click)="itemClick(item)"
           (keyup.enter)="itemClick(item)"
@@ -129,7 +124,15 @@
             <ng-container
               *ngTemplateOutlet="
                 repeaterItemTemplate ?? defaultItemTemplate;
-                context: { item: item }
+                context: {
+                  item: item,
+                  checkboxId:
+                    context.selectMode === 'multiple'
+                      ? 'sky-checkbox-' +
+                        repeaterItem.contentId +
+                        '-item-checkbox-input'
+                      : undefined
+                }
               "
             />
           </sky-repeater-item-content>
@@ -137,7 +140,7 @@
       }
     </sky-repeater>
     <sky-infinite-scroll
-      [enabled]="hasMoreItems"
+      [enabled]="hasMoreItems && (!onlyShowSelected || !!searchText)"
       [loading]="isLoadingMore"
       (scrollEnd)="infiniteScrollEnd()"
     />
@@ -165,6 +168,12 @@
   </sky-modal-footer>
 </sky-modal>
 
-<ng-template #defaultItemTemplate let-item="item">
-  {{ item[context.descriptorProperty] }}
+<ng-template #defaultItemTemplate let-item="item" let-checkboxId="checkboxId">
+  @if (checkboxId) {
+    <label class="selection-modal-item-label" [attr.for]="checkboxId">{{
+      item[context.descriptorProperty]
+    }}</label>
+  } @else {
+    {{ item[context.descriptorProperty] }}
+  }
 </ng-template>

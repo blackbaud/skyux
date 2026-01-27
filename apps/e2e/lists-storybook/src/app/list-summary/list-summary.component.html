@@ -1,0 +1,11 @@
+<sky-list-summary>
+  @for (summaryItem of summaryItems; track summaryItem.labelText) {
+    <sky-list-summary-item
+      [helpPopoverContent]="summaryItem.helpPopoverContent"
+      [labelText]="summaryItem.labelText"
+      [value]="summaryItem.value"
+      [valueFormat]="summaryItem.valueFormat"
+    />
+  }
+  Additional content here.
+</sky-list-summary>

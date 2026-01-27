@@ -24,10 +24,25 @@ env:
   PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
   SB_CHROMIUM_PATH: /usr/bin/chromium
 
+permissions:
+  actions: read
+  contents: read
+  pull-requests: read
+
 jobs:
+  environment-check:
+    name: Environment Check
+    if: ${{ !startsWith( github.head_ref || github.ref_name, 'release-please--' ) && !contains( github.event.pull_request.labels.*.name, 'skip e2e' ) }}
+    runs-on: ubuntu-latest
+    environment: ${{ github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository && 'e2e-external-contribution' || 'e2e-team-members' }}
+    steps:
+      - name: Environment approved
+        run: echo "Approved to run E2E tests"
+
   install-deps:
     name: Install and cache dependencies
     if: ${{ !startsWith( github.head_ref || github.ref_name, 'release-please--' ) && !contains( github.event.pull_request.labels.*.name, 'skip e2e' ) }}
+    needs: environment-check
     runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.workflow }}-install-deps-${{ github.head_ref || github.ref_name || github.event.ref }}
@@ -41,12 +56,12 @@ jobs:
       base-branch: ${{ steps.set-shas.outputs.base-branch }}
       head: ${{ steps.set-shas.outputs.head }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
           repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
           ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         id: setup-node
         with:
           cache: 'npm'
@@ -61,7 +76,7 @@ jobs:
         with:
           workflow-id: e2e.yml
         env:
-          GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Set workflow parameters
         id: parameters
         shell: bash
@@ -103,13 +118,13 @@ jobs:
       matrix:
         project: ${{ fromJSON(needs.install-deps.outputs.parameters).projects }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
           repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
           ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
         if: ${{ matrix.project != 'skip' }}
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           cache: 'npm'
           node-version-file: '.nvmrc'
@@ -151,15 +166,17 @@ jobs:
           - integration
           - playground
     env:
+      NX_BASE: ${{ needs.install-deps.outputs.base }}
+      NX_HEAD: ${{ needs.install-deps.outputs.head }}
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
           repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
           ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
         if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' }}
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           cache: 'npm'
           node-version-file: '.nvmrc'
@@ -201,12 +218,12 @@ jobs:
       - build-storybook
       - build-apps
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
           repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
-          ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
-      - uses: actions/setup-node@v4
+          ref: ${{ github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository && github.base_ref || github.head_ref || github.ref_name || github.event.ref }}
+      - uses: actions/setup-node@v5
         with:
           cache: 'npm'
           node-version-file: '.nvmrc'
@@ -216,7 +233,7 @@ jobs:
         env:
           CYPRESS_INSTALL_BINARY: 0
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           path: ./dist/${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}
       - name: Move apps
@@ -244,7 +261,7 @@ jobs:
       - name: Build Storybook Composition
         run: npx nx run storybook:build-storybook:ci --outputDir=dist/storybook --no-parallel
       - name: Checkout ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: ${{ env.GH_PAGES_OWNER }}/${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
           ref: 'main'
@@ -272,13 +289,13 @@ jobs:
       matrix:
         include: ${{ fromJSON(needs.install-deps.outputs.parameters).e2eTargets }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
           repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
           ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
         if: ${{ matrix.project != 'skip' }}
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           cache: 'npm'
           node-version-file: '.nvmrc'
@@ -410,24 +427,24 @@ jobs:
       - publish
     if: ${{ always() && !startsWith( github.head_ref || github.ref_name, 'release-please--' ) && !contains( github.event.pull_request.labels.*.name, 'skip e2e' ) }}
     steps:
-      - uses: actions/github-script@v7
+      - uses: actions/github-script@v8
         if: ${{ job.status == 'cancelled' || contains(needs.*.result, 'cancelled') }}
         with:
           script: 'core.setFailed("Cancelled.");'
-      - uses: actions/github-script@v7
+      - uses: actions/github-script@v8
         if: ${{ contains(needs.*.result, 'skipped') }}
         with:
           script: 'core.setFailed("Skipped a step.");'
-      - uses: actions/github-script@v7
+      - uses: actions/github-script@v8
         if: ${{ contains(needs.*.result, 'failure') }}
         with:
           script: 'core.setFailed("Failed.");'
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
           repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
-          ref: ${{ github.head_ref || github.ref_name || github.event.ref }}
-      - uses: actions/setup-node@v4
+          ref: ${{ github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository && github.base_ref || github.head_ref || github.ref_name || github.event.ref }}
+      - uses: actions/setup-node@v5
         with:
           cache: 'npm'
           node-version-file: '.nvmrc'
@@ -446,7 +463,7 @@ jobs:
         if: steps.cache-e2e-schematics.outputs.cache-hit != 'true'
         run: 'npx nx build e2e-schematics --no-parallel'
       - name: Download Percy Build Numbers
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
           path: ${{ runner.temp }}/percy-builds
@@ -468,7 +485,7 @@ jobs:
               cat $f
             done
           fi
-      - uses: actions/github-script@v7
+      - uses: actions/github-script@v8
         name: Verify E2E Visual Review
         id: verify-e2e
         with:
@@ -536,7 +553,7 @@ jobs:
 
       - name: Notify Slack (failure)
         if: ${{ failure() && steps.verify-e2e.outputs.shouldAlertSlack != 'false' && !steps.verify-e2e.outputs.missingScreenshots }}
-        uses: rtCamp/action-slack-notify@v2
+        uses: rtCamp/action-slack-notify@07cbdbfd6c6190970778d8f98f11d073b2932aae # v2.3.3
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_COLOR: 'fail'
@@ -548,7 +565,7 @@ jobs:
           SLACK_FOOTER: 'Blackbaud Sky Build User'
       - name: Notify Slack (missing screenshots)
         if: ${{ failure() && steps.verify-e2e.outputs.missingScreenshots }}
-        uses: rtCamp/action-slack-notify@v2
+        uses: rtCamp/action-slack-notify@07cbdbfd6c6190970778d8f98f11d073b2932aae # v2.3.3
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_COLOR: 'fail'

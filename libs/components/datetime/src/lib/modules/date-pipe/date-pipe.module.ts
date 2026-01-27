@@ -6,9 +6,8 @@ import { SkyDatePipe } from './date.pipe';
 import { SkyFuzzyDatePipe } from './fuzzy-date.pipe';
 
 @NgModule({
-  declarations: [SkyDatePipe, SkyFuzzyDatePipe],
+  imports: [SkyDatetimeResourcesModule, SkyDatePipe, SkyFuzzyDatePipe],
   providers: [SkyDatePipe, SkyFuzzyDatePipe],
-  imports: [SkyDatetimeResourcesModule],
   exports: [SkyDatePipe, SkyFuzzyDatePipe],
 })
 export class SkyDatePipeModule {}

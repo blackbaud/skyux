@@ -1,0 +1,42 @@
+{
+  "$schema": "../manifest-generator/documentation-schema.json",
+  "groups": {
+    "filter-bar": {
+      "development": {
+        "docsIds": [
+          "SkyFilterBarModule",
+          "SkyFilterBarComponent",
+          "SkyFilterBarFilterState",
+          "SkyFilterBarFilterItem",
+          "SkyFilterBarFilterValue",
+          "SkyFilterItemLookupComponent",
+          "SkyFilterItemLookupSearchAsyncArgs",
+          "SkyFilterItemLookupSearchAsyncResult",
+          "SkyFilterItemModalComponent",
+          "SkyFilterItemModal",
+          "SkyFilterItemModalInstance",
+          "SkyFilterItemModalContext",
+          "SkyFilterItemModalOpenedArgs",
+          "SkyFilterItemModalSavedArgs",
+          "SkyFilterItemModalSizeType"
+        ],
+        "primaryDocsId": "SkyFilterBarModule"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyFilterBarHarness",
+          "SkyFilterBarHarnessFilters",
+          "SkyFilterItemHarness",
+          "SkyFilterItemHarnessFilters"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "FilterBarModalExampleComponent",
+          "FilterBarLookupExampleComponent",
+          "FilterBarSelectableExampleComponent"
+        ]
+      }
+    }
+  }
+}

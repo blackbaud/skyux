@@ -37,15 +37,14 @@ export function skyAutocompleteDefaultSearchFunction(
   ): SkyAutocompleteSearchFunctionResponse {
     const results: any[] = [];
 
-    /* Sanity check - autocomplete will not call search with empty search text */
-    /* istanbul ignore if */
-    if (!searchText) {
-      return results;
-    }
-
     const searchTextNormalized = normalizeDiacritics(searchText).toUpperCase();
 
     const filteredData = filterData(searchText, data, args);
+
+    /* Autocomplete can now send empty text, return all filtered data in that scenario */
+    if (searchText === '') {
+      return filteredData;
+    }
 
     for (let i = 0, n = filteredData.length; i < n; i++) {
       const result = filteredData[i];

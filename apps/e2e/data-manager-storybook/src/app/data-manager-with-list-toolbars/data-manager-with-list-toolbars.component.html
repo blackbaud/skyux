@@ -1,0 +1,19 @@
+<sky-data-manager>
+  <sky-data-manager-toolbar>
+    <sky-filter-bar>
+      <sky-filter-item-lookup
+        filterId="filter-1"
+        labelText="Filter 1"
+        searchDescriptorProperty="description"
+        searchIdProperty="id"
+        (searchAsync)="onSearchAsync($event)"
+      />
+    </sky-filter-bar>
+    <sky-list-summary>
+      <sky-list-summary-item labelText="Items" value="10" />
+    </sky-list-summary>
+  </sky-data-manager-toolbar>
+  <sky-data-view viewId="view-1">
+    <div class="view-container view-1">View 1</div>
+  </sky-data-view>
+</sky-data-manager>

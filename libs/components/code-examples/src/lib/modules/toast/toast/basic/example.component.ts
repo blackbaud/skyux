@@ -5,7 +5,6 @@ import { SkyToastService, SkyToastType } from '@skyux/toast';
  * @title Toast with basic setup
  */
 @Component({
-  standalone: true,
   selector: 'app-toast-basic-example',
   templateUrl: './example.component.html',
 })

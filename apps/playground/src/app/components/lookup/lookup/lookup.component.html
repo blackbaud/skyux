@@ -46,6 +46,24 @@
         [enableShowMore]="true"
       />
     </sky-input-box>
+
+    <sky-input-box
+      labelText="Search text minimum characters set to 0"
+      mode="detect"
+      class="sky-margin-stacked-lg"
+      [disabled]="disabled"
+    >
+      <sky-lookup
+        required
+        formControlName="emptyFriends"
+        idProperty="id"
+        [data]="people"
+        [debounceTime]="1000"
+        [disabled]="disabled"
+        [enableShowMore]="true"
+        [searchTextMinimumCharacters]="0"
+      />
+    </sky-input-box>
   </form>
 </div>
 

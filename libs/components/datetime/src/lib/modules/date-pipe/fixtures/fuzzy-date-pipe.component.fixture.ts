@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 
 import { SkyFuzzyDate } from '../../datepicker/fuzzy/fuzzy-date';
+import { SkyDatePipeModule } from '../date-pipe.module';
 import { SkyFuzzyDatePipe } from '../fuzzy-date.pipe';
 
 @Component({
   selector: 'sky-fuzzy-date-pipe-test',
   templateUrl: './fuzzy-date-pipe.component.fixture.html',
-  standalone: false,
+  imports: [SkyDatePipeModule],
+  providers: [SkyFuzzyDatePipe],
 })
 export class FuzzyDatePipeTestComponent {
   public dateValue: SkyFuzzyDate | undefined = {

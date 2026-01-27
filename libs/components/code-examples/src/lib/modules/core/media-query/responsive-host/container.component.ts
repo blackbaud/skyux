@@ -5,7 +5,6 @@ import { SkyMediaQueryService, SkyResponsiveHostDirective } from '@skyux/core';
 @Component({
   hostDirectives: [SkyResponsiveHostDirective],
   selector: 'app-container',
-  standalone: true,
   styles: `
     :host {
       border: 1px solid var(--sky-border-color-neutral-medium-dark);

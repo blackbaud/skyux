@@ -125,7 +125,12 @@ export class SkyThemeService {
     let settings: SkyThemeSettings;
 
     if (settingsOrTheme instanceof SkyThemeSettings) {
-      settings = settingsOrTheme;
+      settings = new SkyThemeSettings(
+        settingsOrTheme.theme,
+        settingsOrTheme.mode,
+        settingsOrTheme.spacing,
+        this.#getEffectiveBrandFromSettings(settingsOrTheme),
+      );
     } else {
       const current = this.#current;
 
@@ -135,7 +140,7 @@ export class SkyThemeService {
         settingsOrTheme,
         current.mode,
         current.spacing,
-        settingsOrTheme.supportsBranding ? current.brand : undefined,
+        this.#getEffectiveBrandFromTheme(settingsOrTheme, current),
       );
     }
 
@@ -154,10 +159,7 @@ export class SkyThemeService {
       this.#brandSvc.updateBrand(
         this.#hostEl,
         this.#getRenderer(),
-        settings.brand ??
-          (settings.theme === SkyTheme.presets.modern
-            ? new SkyThemeBrand('blackbaud', '1.0.0')
-            : undefined),
+        settings.brand,
         previous?.brand,
       );
     }
@@ -276,6 +278,29 @@ export class SkyThemeService {
 
   #removeHostClass(className: string): void {
     this.#getRenderer().removeClass(this.#hostEl, className);
+  }
+
+  #getEffectiveBrandFromSettings(
+    settings: SkyThemeSettings,
+  ): SkyThemeBrand | undefined {
+    return settings.brand ?? this.#getEffectiveBrand(settings.theme);
+  }
+
+  #getEffectiveBrandFromTheme(
+    theme: SkyTheme,
+    currentSettings: SkyThemeSettings,
+  ): SkyThemeBrand | undefined {
+    if (theme.supportsBranding) {
+      return currentSettings.brand ?? this.#getEffectiveBrand(theme);
+    }
+
+    return undefined;
+  }
+
+  #getEffectiveBrand(theme: SkyTheme): SkyThemeBrand | undefined {
+    return theme === SkyTheme.presets.modern
+      ? new SkyThemeBrand('blackbaud', '1.0.0')
+      : undefined;
   }
 
   #getRenderer(): Renderer2 {

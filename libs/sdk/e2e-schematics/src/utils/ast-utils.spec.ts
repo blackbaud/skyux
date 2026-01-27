@@ -183,9 +183,7 @@ describe('ast-utils', () => {
       `import * from './lib/x-component';`,
       ts.ScriptTarget.Latest,
     ).statements[0] as ts.ImportDeclaration;
-    expect(() =>
-      getNamedImport(noNameImportStatement, 'XComponent'),
-    ).toThrowError(
+    expect(() => getNamedImport(noNameImportStatement, 'XComponent')).toThrow(
       `The import from ./lib/x-component does not have named imports.`,
     );
     const nonImportStatement = ts.createSourceFile(
@@ -193,7 +191,7 @@ describe('ast-utils', () => {
       `var foo = 'bar';`,
       ts.ScriptTarget.Latest,
     ).statements[0] as ts.ImportDeclaration;
-    expect(() => getNamedImport(nonImportStatement, 'XComponent')).toThrowError(
+    expect(() => getNamedImport(nonImportStatement, 'XComponent')).toThrow(
       `Could not find an import.`,
     );
   });
@@ -209,7 +207,7 @@ describe('ast-utils', () => {
     `,
       ts.ScriptTarget.Latest,
     );
-    expect(() => findNgModuleClass(source)).toThrowError(
+    expect(() => findNgModuleClass(source)).toThrow(
       `Could not find @angular/core import.`,
     );
   });
@@ -226,7 +224,7 @@ describe('ast-utils', () => {
     `,
       ts.ScriptTarget.Latest,
     );
-    expect(() => findNgModuleClass(source)).toThrowError(
+    expect(() => findNgModuleClass(source)).toThrow(
       `Could not find NgModule import.`,
     );
   });
@@ -330,7 +328,7 @@ describe('ast-utils', () => {
       findComponentClass(
         readSourceFile(tree, 'apps/test/src/app/test/test.component.ts'),
       ),
-    ).toThrowError(
+    ).toThrow(
       `The Component options for TestComponent are not an object literal`,
     );
   });

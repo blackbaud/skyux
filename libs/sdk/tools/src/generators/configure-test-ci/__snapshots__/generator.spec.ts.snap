@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`configure-test-ci generator should ignore other project 1`] = `
+Object {
+  "executor": "nx:run-commands",
+  "options": Object {
+    "command": "echo 'Hello world.'",
+  },
+  "outputs": Array [
+    "{workspaceRoot}/coverage/{projectRoot}",
+  ],
+}
+`;
+
+exports[`configure-test-ci generator should update jest project 1`] = `
+Object {
+  "configurations": Object {
+    "ci": Object {
+      "ci": true,
+      "codeCoverage": true,
+      "runInBand": true,
+    },
+  },
+  "executor": "@nx/jest:jest",
+  "options": Object {
+    "jestConfig": "test/jest.config.cts",
+    "tsConfig": "test/tsconfig.spec.json",
+  },
+  "outputs": Array [
+    "{workspaceRoot}/coverage/{projectRoot}",
+  ],
+}
+`;
+
+exports[`configure-test-ci generator should update karma project 1`] = `
+Object {
+  "configurations": Object {
+    "ci": Object {
+      "browsers": "ChromeHeadlessNoSandbox",
+      "codeCoverage": true,
+      "progress": false,
+      "sourceMap": true,
+      "watch": false,
+    },
+  },
+  "executor": "@angular-devkit/build-angular:karma",
+  "options": Object {
+    "jestConfig": "test/jest.config.cts",
+    "tsConfig": "test/tsconfig.spec.json",
+  },
+  "outputs": Array [
+    "{workspaceRoot}/coverage/{projectRoot}",
+  ],
+}
+`;

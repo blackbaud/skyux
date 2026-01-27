@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Convert progress indicator wizard to tab wizard should convert progress indicator wizard to tab wizard 1`] = `
 "import { Component } from '@angular/core';
@@ -47,7 +47,7 @@ exports[`Convert progress indicator wizard to tab wizard should convert progress
 selector: 'app-test',
 standalone: false,
 templateUrl: './test.component.html',
-styleUrl: './test.component.scss'
+styleUrl: './test.component.scss',
 })
 export class TestComponent {
 

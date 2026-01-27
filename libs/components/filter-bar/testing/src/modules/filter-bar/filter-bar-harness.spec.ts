@@ -108,13 +108,13 @@ describe('Filter bar test harness', () => {
     } as SkyModalInstance);
 
     const filterItem1 = await filterBarHarness.getItem({ filterId: 'filter1' });
-    await expectAsync(filterItem1.hasActiveValue()).toBeResolvedTo(true);
+    await expectAsync(filterItem1.getFilterValue()).toBeResolvedTo('value1');
     await expectAsync(filterItem1.click()).toBeResolved();
 
     const filterItem2 = await filterBarHarness.getItem({
       labelText: 'Test filter 2',
     });
-    await expectAsync(filterItem2.hasActiveValue()).toBeResolvedTo(false);
+    await expectAsync(filterItem2.getFilterValue()).toBeResolvedTo(undefined);
   });
 
   it('should get an array of all filter items', async () => {

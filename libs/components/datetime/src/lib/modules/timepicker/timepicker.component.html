@@ -53,7 +53,7 @@
     <div class="sky-timepicker-content">
       <section
         class="sky-timepicker-column sky-timepicker-column-hours"
-        [ngClass]="{ 'sky-timepicker-24hour-hours': is8601 }"
+        [class.sky-timepicker-24hour-hours]="is8601"
       >
         <ol>
           @for (hour of hours; track hour) {
@@ -61,7 +61,7 @@
               <button
                 name="hour"
                 type="button"
-                [ngClass]="{ 'sky-btn-active': selectedHour === hour }"
+                [class.sky-btn-active]="selectedHour === hour"
                 (click)="setTime($event)"
               >
                 {{ hour }}
@@ -72,7 +72,7 @@
       </section>
       <section
         class="sky-timepicker-column sky-timepicker-column-minutes"
-        [ngClass]="{ 'sky-timepicker-24hour-minutes': is8601 }"
+        [class.sky-timepicker-24hour-minutes]="is8601"
       >
         <ol>
           @for (minute of minutes; track minute) {
@@ -80,9 +80,7 @@
               <button
                 name="minute"
                 type="button"
-                [ngClass]="{
-                  'sky-btn-active': highlightMinute(selectedMinute, minute)
-                }"
+                [class.sky-btn-active]="highlightMinute(selectedMinute, minute)"
                 (click)="setTime($event)"
               >
                 {{ '00'.substring(0, 2 - minute.toString().length) + minute }}
@@ -98,7 +96,7 @@
               <button
                 name="meridie"
                 type="button"
-                [ngClass]="{ 'sky-btn-active': selectedMeridies === 'AM' }"
+                [class.sky-btn-active]="selectedMeridies === 'AM'"
                 (click)="setTime($event)"
               >
                 AM
@@ -108,7 +106,7 @@
               <button
                 name="meridie"
                 type="button"
-                [ngClass]="{ 'sky-btn-active': selectedMeridies === 'PM' }"
+                [class.sky-btn-active]="selectedMeridies === 'PM'"
                 (click)="setTime($event)"
               >
                 PM

@@ -1,7 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`generate-manifest > should generate manifest 1`] = `
-[MockFunction spy] {
+[MockFunction] {
   "calls": [
     [
       "/dist/public-api.json",
@@ -93,6 +93,16 @@ exports[`generate-manifest > should generate manifest 1`] = `
         "kind": "variable",
         "name": "shouldHaveCodeExampleUnknownLanguageComment",
         "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/comments.ts#L43",
+        "type": "true"
+      },
+      {
+        "anchorId": "variable_should-have-comment-without-block-tags",
+        "description": "This is just a description with no block tags.",
+        "docsId": "shouldHaveCommentWithoutBlockTags",
+        "filePath": "libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/comments.ts",
+        "kind": "variable",
+        "name": "shouldHaveCommentWithoutBlockTags",
+        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/comments.ts#L48",
         "type": "true"
       },
       {
@@ -303,6 +313,32 @@ exports[`generate-manifest > should generate manifest 1`] = `
         "typeParameters": "<TClass extends FooBaseClass>"
       },
       {
+        "anchorId": "class_foo-empty-class",
+        "description": "This is an empty class with no properties or methods.",
+        "docsId": "FooEmptyClass",
+        "filePath": "libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.class.ts",
+        "kind": "class",
+        "name": "FooEmptyClass",
+        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.class.ts#L168"
+      },
+      {
+        "anchorId": "class_foo-with-angular-lifecycle-class",
+        "children": [
+          {
+            "description": "This is a regular method that should appear in the manifest.",
+            "kind": "class-method",
+            "name": "regularMethod",
+            "type": "void"
+          }
+        ],
+        "description": "This class has Angular lifecycle methods that should be excluded.",
+        "docsId": "FooWithAngularLifecycleClass",
+        "filePath": "libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.class.ts",
+        "kind": "class",
+        "name": "FooWithAngularLifecycleClass",
+        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.class.ts#L142"
+      },
+      {
         "anchorId": "class_foo-with-docs-id-override-class",
         "docsId": "docs-id-override",
         "filePath": "libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.class.ts",
@@ -361,7 +397,7 @@ exports[`generate-manifest > should generate manifest 1`] = `
         "filePath": "libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.component.ts",
         "kind": "component",
         "name": "SkyFooNonStandaloneComponent",
-        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.component.ts#L95",
+        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.component.ts#L94",
         "selector": "sky-foo-non-standalone"
       },
       {
@@ -371,7 +407,7 @@ exports[`generate-manifest > should generate manifest 1`] = `
         "filePath": "libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.component.ts",
         "kind": "component",
         "name": "SkyFooStandaloneComponent",
-        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.component.ts#L105",
+        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.component.ts#L104",
         "selector": "sky-foo-standalone"
       },
       {
@@ -439,7 +475,7 @@ exports[`generate-manifest > should generate manifest 1`] = `
         "filePath": "libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.component.ts",
         "kind": "component",
         "name": "FooComponent",
-        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.component.ts#L21",
+        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.component.ts#L20",
         "selector": "lib-foo"
       },
       {
@@ -451,6 +487,16 @@ exports[`generate-manifest > should generate manifest 1`] = `
         "name": "FooBreakpoint",
         "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.const-assertion.ts#L10",
         "type": "readonly [\\"xs\\", \\"sm\\", \\"md\\", \\"lg\\"]"
+      },
+      {
+        "anchorId": "type-alias_foo-regular-array-type",
+        "description": "Type from a non-const array - should not use special formatting.",
+        "docsId": "FooRegularArrayType",
+        "filePath": "libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.const-assertion.ts",
+        "kind": "type-alias",
+        "name": "FooRegularArrayType",
+        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.const-assertion.ts#L20",
+        "type": "typeof FOO_REGULAR_ARRAY[number]"
       },
       {
         "anchorId": "variable_foo-breakpoints",
@@ -470,8 +516,18 @@ exports[`generate-manifest > should generate manifest 1`] = `
         "filePath": "libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts",
         "kind": "directive",
         "name": "FooDirective",
-        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts#L27",
+        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts#L25",
         "selector": "[foo]"
+      },
+      {
+        "anchorId": "class_foo-empty-directive",
+        "description": "This is an empty directive class without any properties.",
+        "docsId": "FooEmptyDirective",
+        "filePath": "libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts",
+        "kind": "directive",
+        "name": "FooEmptyDirective",
+        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts#L33",
+        "selector": "[fooEmpty]"
       },
       {
         "anchorId": "class_foo-with-inputs-outputs-directive",
@@ -535,7 +591,7 @@ exports[`generate-manifest > should generate manifest 1`] = `
         "filePath": "libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts",
         "kind": "directive",
         "name": "FooWithInputsOutputsDirective",
-        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts#L33",
+        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts#L38",
         "selector": "[foo]"
       },
       {
@@ -545,8 +601,18 @@ exports[`generate-manifest > should generate manifest 1`] = `
         "filePath": "libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts",
         "kind": "directive",
         "name": "λ2",
-        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts#L18",
+        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts#L17",
         "selector": "[fooLambda]"
+      },
+      {
+        "anchorId": "enum_foo-empty-enum",
+        "description": "This describes an empty enum.",
+        "docsId": "FooEmptyEnum",
+        "filePath": "libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.enum.ts",
+        "kind": "enumeration",
+        "children": [],
+        "name": "FooEmptyEnum",
+        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.enum.ts#L18"
       },
       {
         "anchorId": "enum_foo-enum",
@@ -816,40 +882,8 @@ exports[`generate-manifest > should generate manifest 1`] = `
   }
 }",
     ],
-    [
-      "/dist/code-examples.json",
-      "{
-  "examples": {
-    "FooCodeExample1": {
-      "componentName": "FooCodeExample1",
-      "files": {
-        "types.ts": "import { Component } from '@angular/core';\\n\\n/**\\n * @title This is a title\\n */\\n@Component({\\n  selector: 'foo-example-1',\\n})\\nexport class FooCodeExample1 {}\\n\\n/**\\n * @title This code example hides its demo.\\n * @docsDemoHidden\\n */\\n@Component({\\n  selector: 'foo-example-2',\\n})\\nexport class FooCodeExample2 {}\\n"
-      },
-      "importPath": "@skyux/code-examples",
-      "primaryFile": "types.ts",
-      "selector": "foo-example-1",
-      "title": "This is a title"
-    },
-    "FooCodeExample2": {
-      "componentName": "FooCodeExample2",
-      "demoHidden": true,
-      "files": {
-        "types.ts": "import { Component } from '@angular/core';\\n\\n/**\\n * @title This is a title\\n */\\n@Component({\\n  selector: 'foo-example-1',\\n})\\nexport class FooCodeExample1 {}\\n\\n/**\\n * @title This code example hides its demo.\\n * @docsDemoHidden\\n */\\n@Component({\\n  selector: 'foo-example-2',\\n})\\nexport class FooCodeExample2 {}\\n"
-      },
-      "importPath": "@skyux/code-examples",
-      "primaryFile": "types.ts",
-      "selector": "foo-example-2",
-      "title": "This code example hides its demo."
-    }
-  }
-}",
-    ],
   ],
   "results": [
-    {
-      "type": "return",
-      "value": undefined,
-    },
     {
       "type": "return",
       "value": undefined,
@@ -869,6 +903,5 @@ exports[`generate-manifest > should throw for invalid documentation.json 1`] = `
  - The @docsId "Duplicate1" referenced by "invalid.development" is not recognized.
  - The @docsId "Duplicate1" referenced by "invalid.development" is not recognized.
  - The @docsId "Invalid2" referenced by "invalid.development" is not recognized.
- - The value for primaryDocsId ("ModuleNotListed") must be included in the docsIds array for group "invalid.development" (current: FooInternalClass, Duplicate1, Duplicate1, Invalid2).
- - The following code example docsIds are not being referenced within a documentation.json file. Either delete the code example, or add its docsId to a documentation.json file: "FooCodeExample1", "FooCodeExample2"]
+ - The value for primaryDocsId ("ModuleNotListed") must be included in the docsIds array for group "invalid.development" (current: FooInternalClass, Duplicate1, Duplicate1, Invalid2).]
 `;

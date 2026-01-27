@@ -18,7 +18,6 @@ import { ModalComponent } from './modal.component';
  * @title Modal with basic setup, tested with harness
  */
 @Component({
-  standalone: true,
   selector: 'app-modals-modal-basic-with-harness-example',
   templateUrl: './example.component.html',
 })

@@ -180,11 +180,13 @@ export class SkyAgGridService implements OnDestroy {
   }
 
   /**
-   * Returns [AG Grid `gridOptions`](https://www.ag-grid.com/javascript-grid-properties/) with default SKY UX options, styling, and cell renderers registered for read-only grids.
+   * Returns [AG Grid `gridOptions`](https://www.ag-grid.com/angular-data-grid/grid-options/) with default SKY UX options, styling, and cell renderers registered for read-only grids.
    * @param args
    * @returns
    */
-  public getGridOptions(args: SkyGetGridOptionsArgs): GridOptions {
+  public getGridOptions<T = any>(
+    args: SkyGetGridOptionsArgs<T>,
+  ): GridOptions<T> {
     const defaultGridOptions = this.#getDefaultGridOptions(args);
     const mergedGridOptions = this.#mergeGridOptions(
       defaultGridOptions,
@@ -195,13 +197,15 @@ export class SkyAgGridService implements OnDestroy {
   }
 
   /**
-   * Returns [AG Grid `gridOptions`](https://www.ag-grid.com/javascript-grid-properties/) with default SKY UX options, styling, and cell editors registered for editable grids.
+   * Returns [AG Grid `gridOptions`](https://www.ag-grid.com/angular-data-grid/grid-options/) with default SKY UX options, styling, and cell editors registered for editable grids.
    * @param args
    * @returns
    */
-  public getEditableGridOptions(args: SkyGetGridOptionsArgs): GridOptions {
+  public getEditableGridOptions<T = any>(
+    args: SkyGetGridOptionsArgs<T>,
+  ): GridOptions<T> {
     const defaultGridOptions = this.#getDefaultEditableGridOptions(args);
-    const mergedGridOptions = this.#mergeGridOptions(
+    const mergedGridOptions = this.#mergeGridOptions<T>(
       defaultGridOptions,
       args.gridOptions,
     );
@@ -209,12 +213,12 @@ export class SkyAgGridService implements OnDestroy {
     return mergedGridOptions;
   }
 
-  #mergeGridOptions(
-    defaultGridOptions: GridOptions & {
+  #mergeGridOptions<T>(
+    defaultGridOptions: GridOptions<T> & {
       getRowClass: (params: RowClassParams) => string[];
     },
-    providedGridOptions: GridOptions,
-  ): GridOptions {
+    providedGridOptions: GridOptions<T>,
+  ): GridOptions<T> {
     if ('enableRangeSelection' in providedGridOptions) {
       if (providedGridOptions.enableRangeSelection) {
         providedGridOptions.cellSelection = true;
@@ -308,7 +312,7 @@ export class SkyAgGridService implements OnDestroy {
     return mergedGridOptions;
   }
 
-  #getDefaultGridOptions(args: SkyGetGridOptionsArgs): GridOptions & {
+  #getDefaultGridOptions<T>(args: SkyGetGridOptionsArgs<T>): GridOptions<T> & {
     getRowClass: (params: RowClassParams) => string[];
   } {
     // cellClassRules can be functions or string expressions
@@ -687,7 +691,9 @@ export class SkyAgGridService implements OnDestroy {
     return shouldFocus;
   }
 
-  #getDefaultEditableGridOptions(args: SkyGetGridOptionsArgs): GridOptions & {
+  #getDefaultEditableGridOptions<T>(
+    args: SkyGetGridOptionsArgs<T>,
+  ): GridOptions<T> & {
     getRowClass: (params: RowClassParams) => string[];
   } {
     const defaultGridOptions = this.#getDefaultGridOptions(args);

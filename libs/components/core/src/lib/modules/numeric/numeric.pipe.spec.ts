@@ -24,8 +24,7 @@ describe('Numeric pipe', () => {
     expectedConfig.iso = 'USD';
 
     TestBed.configureTestingModule({
-      declarations: [NumericPipeFixtureComponent],
-      imports: [SkyNumericModule],
+      imports: [SkyNumericModule, NumericPipeFixtureComponent],
     });
 
     numericService = TestBed.inject(SkyNumericService);

@@ -28,7 +28,8 @@
       "options": {
         "jestConfig": "libs/sdk/eslint-config-skyux/jest.config.ts",
         "coverage": true
-      }
+      },
+      "dependsOn": [{ "target": "build", "projects": "manifest" }]
     }
   }
 }

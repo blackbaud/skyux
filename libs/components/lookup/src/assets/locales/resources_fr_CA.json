@@ -27,6 +27,10 @@
     "_description": "Texte de l’élément du menu à afficher à l’utilisateur qui a effectué la recherche lorsqu’il n’y a plus d’éléments à afficher",
     "message": "Afficher les correspondances ({0})"
   },
+  "skyux_country_field_dropdown_hint_text": {
+    "_description": "Texte d’aide dans la liste déroulante du champ pays",
+    "message": "Recherchez un pays"
+  },
   "skyux_country_field_search_placeholder": {
     "_description": "Signet pour la saisie automatique de la recherche d’un pays",
     "message": "Rechercher un pays"
@@ -63,13 +67,9 @@
     "_description": "Texte pour le bouton effacer tout dans la barre de recherche à sélection multiple afficher plus",
     "message": "Effacer tout"
   },
-  "skyux_lookup_show_more_show_selected_option_aria_label": {
-    "_description": "Texte de l’étiquette Aria pour la case afficher la sélection dans la barre de recherche à sélection multiple afficher plus",
-    "message": "Montrer seulement ce qui est sélectionné {0}"
-  },
   "skyux_lookup_show_more_show_selected_option_title": {
     "_description": "Texte pour le bouton afficher la sélection dans la barre de recherche à sélection multiple afficher plus",
-    "message": "Montrer seulement les éléments sélectionnés"
+    "message": "Montrer seulement ce qui est sélectionné {0}"
   },
   "skyux_lookup_show_more_cancel": {
     "_description": "Étiquette pour le bouton modal annuler de la recherche afficher plus",

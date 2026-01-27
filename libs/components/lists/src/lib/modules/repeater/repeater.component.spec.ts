@@ -502,6 +502,20 @@ describe('Repeater item component', () => {
     flushDropdownTimer();
   }));
 
+  it('should remove repeater item from tab order when not selectable', fakeAsync(() => {
+    const fixture = TestBed.createComponent(RepeaterTestComponent);
+    const component = fixture.componentInstance;
+    component.selectable = false;
+
+    fixture.detectChanges();
+    tick();
+
+    const repeaterItems = component.repeater?.items?.toArray() || [];
+    for (const item of repeaterItems) {
+      expect(item.tabindex).toBe(-1);
+    }
+  }));
+
   describe('with expand mode of "single"', () => {
     it('should disabled collapse animations on initial render', fakeAsync(() => {
       const fixture = TestBed.createComponent(RepeaterTestComponent);
@@ -1108,6 +1122,52 @@ describe('Repeater item component', () => {
       // Expect the isSelectedChange event to have been called with 'false'.
       expect(isSelectedChangeSpy).toHaveBeenCalledWith(false);
       // Expect the event to have occurred twice.
+      expect(isSelectedChangeSpy).toHaveBeenCalledTimes(1);
+    }));
+
+    it('should select item when clicking around the content area when there is not another click target', fakeAsync(() => {
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      const cmp: RepeaterTestComponent = fixture.componentInstance;
+      const el = fixture.nativeElement;
+
+      fixture.detectChanges();
+      tick();
+      cmp.selectable = true;
+      fixture.detectChanges();
+
+      const items = getRepeaterItems(el);
+
+      const isSelectedChangeSpy = spyOn(
+        cmp,
+        'onIsSelectedChange',
+      ).and.callThrough();
+
+      const firstItem = items[0];
+      const firstItemTitle = items[0].querySelector('sky-repeater-item-title');
+      const firstItemContent = items[0].querySelector(
+        'sky-repeater-item-content',
+      );
+      const inputField = firstItemContent?.querySelector('#inputField');
+      expect(firstItemTitle && firstItemContent && inputField).toBeTruthy();
+
+      // Expect first item NOT to be selected.
+      expect(firstItem).not.toHaveCssClass('sky-repeater-item-selected');
+
+      // Clicking the title does not select the item.
+      SkyAppTestUtility.fireDomEvent(firstItemTitle, 'click');
+      fixture.detectChanges();
+      expect(firstItem).not.toHaveCssClass('sky-repeater-item-selected');
+
+      // Clicking the input does not select the item.
+      SkyAppTestUtility.fireDomEvent(inputField, 'click');
+      fixture.detectChanges();
+      expect(firstItem).not.toHaveCssClass('sky-repeater-item-selected');
+
+      // Clicking the content selects the item.
+      SkyAppTestUtility.fireDomEvent(firstItemContent, 'click');
+      fixture.detectChanges();
+      expect(firstItem).toHaveCssClass('sky-repeater-item-selected');
+      expect(isSelectedChangeSpy).toHaveBeenCalledWith(true);
       expect(isSelectedChangeSpy).toHaveBeenCalledTimes(1);
     }));
   });
@@ -2093,6 +2153,21 @@ describe('Repeater item component', () => {
       expect(
         el.querySelector('.sky-repeater-item-content').getAttribute('role'),
       ).toEqual('gridcell');
+    });
+
+    it('should calculate aria role as grid when the only interactable element is the context menu', async () => {
+      cmp.showRepeaterWithActiveIndex = false;
+      cmp.expandMode = 'none';
+      cmp.reorderable = false;
+      cmp.selectable = false;
+      cmp.showContextMenu = true;
+      fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(el.querySelector('.sky-repeater').getAttribute('role')).toEqual(
+        'grid',
+      );
     });
   });
 

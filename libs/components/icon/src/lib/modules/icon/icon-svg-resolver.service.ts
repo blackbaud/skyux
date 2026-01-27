@@ -4,7 +4,7 @@ import { SkyIconVariantType } from './types/icon-variant-type';
 
 async function getIconMap(): Promise<Map<string, number[]>> {
   const response = await fetch(
-    `https://sky.blackbaudcdn.net/static/skyux-icons/9/assets/svg/skyux-icons.svg`,
+    `https://sky.blackbaudcdn.net/static/skyux-icons/10/assets/svg/skyux-icons.svg`,
   );
 
   /* istanbul ignore next */
@@ -15,7 +15,10 @@ async function getIconMap(): Promise<Map<string, number[]>> {
   const markup = await response.text();
 
   document.body.insertAdjacentHTML('afterbegin', markup);
+  return buildIconMap();
+}
 
+function buildIconMap(): Map<string, number[]> {
   const iconMap = Array.from<SVGSymbolElement>(
     document.querySelectorAll('#sky-icon-svg-sprite symbol'),
   ).reduce((map, el) => {
@@ -113,5 +116,13 @@ export class SkyIconSvgResolverService {
     href = `${href}-${nearestSize}-${variant}`;
 
     return href;
+  }
+
+  public refreshIconMap(): void {
+    iconMapPromise = Promise.resolve(buildIconMap());
+  }
+
+  public resetIconMap(): void {
+    iconMapPromise = undefined;
   }
 }

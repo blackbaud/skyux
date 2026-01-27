@@ -9,16 +9,16 @@ import {
 import { SkyIconModule } from '@skyux/icon';
 import { SkyKeyInfoModule } from '@skyux/indicators';
 
-import { AgGridModule } from 'ag-grid-angular';
+import { AgGridAngular } from 'ag-grid-angular';
 import {
   AllCommunityModule,
   ColDef,
   GridOptions,
-  ICellRendererParams,
   ModuleRegistry,
 } from 'ag-grid-community';
 
 import { Attachment } from './attachment';
+import { AttachmentLinkCellRendererComponent } from './attachment-link-cell-renderer.component';
 import { AttachmentsGridContextMenuComponent } from './attachments-grid-context-menu.component';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
@@ -28,7 +28,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   templateUrl: './record-page-attachments-tab.component.html',
   providers: [SkyDataManagerService],
   imports: [
-    AgGridModule,
+    AgGridAngular,
     SkyAgGridModule,
     SkyDataManagerModule,
     SkyKeyInfoModule,
@@ -68,9 +68,7 @@ export class RecordPageAttachmentsTabComponent implements OnInit {
       field: 'name',
       headerName: 'Name',
       width: 150,
-      cellRenderer: (params: ICellRendererParams): string => {
-        return `<a href="/">${params.value}</a>`;
-      },
+      cellRenderer: AttachmentLinkCellRendererComponent,
     },
     {
       colId: 'description',

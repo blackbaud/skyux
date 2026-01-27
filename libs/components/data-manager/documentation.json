@@ -12,12 +12,14 @@
           "SkyDataManagerToolbarPrimaryItemComponent",
           "SkyDataManagerToolbarLeftItemComponent",
           "SkyDataManagerToolbarRightItemComponent",
+          "SkyDataManagerFilterControllerDirective",
           "SkyDataViewComponent",
           "SkyDataViewConfig",
           "SkyDataViewColumnWidths",
           "SkyDataViewState",
           "SkyDataViewStateOptions",
           "SkyDataManagerConfig",
+          "SkyDataManagerDockType",
           "SkyDataManagerFilterData",
           "SkyDataManagerInitArgs",
           "SkyDataManagerSortOption",
@@ -55,7 +57,8 @@
       "codeExamples": {
         "docsIds": [
           "DataManagerBasicExampleComponent",
-          "PagesPageListPageListLayoutExampleComponent"
+          "PagesPageListPageListLayoutExampleComponent",
+          "PagesPageDataManagerSplitViewFitLayoutExampleComponent"
         ]
       }
     }

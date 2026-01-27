@@ -18,6 +18,9 @@
         "polyfills": ["zone.js", "libs/components/packages/src/polyfills.js"],
         "tsConfig": "apps/code-examples/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
+        "stylePreprocessorOptions": {
+          "includePaths": ["{workspaceRoot}"]
+        },
         "assets": [
           "apps/code-examples/src/favicon.ico",
           "apps/code-examples/src/assets"
@@ -45,18 +48,10 @@
               "maximumError": "1mb"
             }
           ],
-          "fileReplacements": [
-            {
-              "replace": "apps/code-examples/src/environments/environment.ts",
-              "with": "apps/code-examples/src/environments/environment.prod.ts"
-            }
-          ],
           "outputHashing": "all"
         },
         "development": {
-          "buildOptimizer": false,
           "optimization": false,
-          "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
@@ -66,7 +61,7 @@
       "dependsOn": [
         "^build",
         {
-          "target": "build",
+          "target": "postbuild",
           "projects": "manifest"
         }
       ]
@@ -84,7 +79,7 @@
       "defaultConfiguration": "development",
       "dependsOn": [
         {
-          "target": "build",
+          "target": "postbuild",
           "projects": "manifest"
         }
       ],

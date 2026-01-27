@@ -99,8 +99,13 @@ export class SkyInputBoxComponent
   public labelText: string | undefined;
 
   /**
-   * The maximum number of characters allowed in the input. A [SKY UX character count](https://developer.blackbaud.com/skyux/components/character-count)
-   * will be placed on the input element with the appropriate validator.
+   * The maximum number of characters to allow in the input box. This property places a
+   * [SKY UX character count](https://developer.blackbaud.com/skyux/components/character-count)
+   * on the input element with the appropriate validator, so don't use it with inputs where
+   * users are unlikely to exceed character limits. Instead, use
+   * [Angular's max length validator](https://angular.io/api/forms/MaxLengthValidator) and a
+   * `maxLength` attribute on the input element to handle maximum length validation.
+   *
    */
   @Input()
   public set characterLimit(value: NumberInput) {

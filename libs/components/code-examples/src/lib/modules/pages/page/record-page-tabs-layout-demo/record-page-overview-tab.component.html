@@ -79,7 +79,7 @@
       <sky-box headingText="Recent activity">
         <sky-box-content>
           <sky-repeater>
-            @for (activity of recentActivity; track activity.activity) {
+            @for (activity of recentActivity; track activity.id) {
               <sky-repeater-item>
                 <sky-repeater-item-content>
                   <div class="sky-margin-stacked-xs">

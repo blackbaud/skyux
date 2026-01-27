@@ -7,7 +7,6 @@
   },
   "allowedNonPeerDependencies": [
     "@blackbaud/skyux-design-tokens",
-    "@skyux/icons",
     "fontfaceobserver"
   ],
   "inlineStyleLanguage": "scss"

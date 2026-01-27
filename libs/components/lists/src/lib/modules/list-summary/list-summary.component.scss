@@ -1,0 +1,45 @@
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+
+@include compatMixins.sky-default-host-overrides() {
+  --sky-override-list-summary-item-gap: 15px;
+  --sky-override-list-summary-padding: 5px 10px 10px;
+  --sky-override-list-summary-background-color: #{$sky-color-white};
+  --sky-override-list-summary-border-bottom: #{1px solid $sky-color-gray-20};
+}
+
+:host {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(
+    --sky-override-list-summary-item-gap,
+    var(--sky-space-inline-xl)
+  );
+  align-items: baseline;
+  padding: var(
+    --sky-override-list-summary-padding,
+    var(--sky-comp-list_summary-space-inset-top)
+      var(--sky-comp-list_summary-space-inset-right)
+      var(--sky-comp-list_summary-space-inset-bottom)
+      var(--sky-comp-list_summary-space-inset-left)
+  );
+  background-color: var(
+    --sky-override-list-summary-background-color,
+    var(--sky-comp-override-list-header-background-color)
+  );
+  border-bottom: var(--sky-override-list-summary-border-bottom, none);
+}
+
+:host-context(.sky-viewkeeper-fixed) {
+  background-color: var(
+    --sky-override-list-summary-background-color,
+    var(
+      --sky-comp-override-list-header-background-color,
+      var(--sky-background-color-page-default, var(--sky-color-background-page))
+    )
+  );
+}
+
+.sky-list-summary-content-container {
+  display: inline-block;
+}

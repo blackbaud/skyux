@@ -7,18 +7,18 @@ import {
   SkyDataViewConfig,
 } from '@skyux/data-manager';
 import { SkyIconModule } from '@skyux/icon';
-import { SkyKeyInfoModule } from '@skyux/indicators';
+import { SkyListSummaryModule } from '@skyux/lists';
 
-import { AgGridModule } from 'ag-grid-angular';
+import { AgGridAngular } from 'ag-grid-angular';
 import {
   AllCommunityModule,
   ColDef,
   GridOptions,
-  ICellRendererParams,
   ModuleRegistry,
 } from 'ag-grid-community';
 
 import { ContactContextMenuComponent } from './contact-context-menu.component';
+import { ContactLinkCellRendererComponent } from './contact-link-cell-renderer.component';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -33,11 +33,11 @@ interface Contact {
   templateUrl: './list-page-contacts-grid.component.html',
   providers: [SkyDataManagerService],
   imports: [
-    AgGridModule,
+    AgGridAngular,
     SkyAgGridModule,
     SkyDataManagerModule,
     SkyIconModule,
-    SkyKeyInfoModule,
+    SkyListSummaryModule,
   ],
 })
 export class ListPageContactsGridComponent implements OnInit {
@@ -62,9 +62,7 @@ export class ListPageContactsGridComponent implements OnInit {
       field: 'name',
       headerName: 'Name',
       width: 150,
-      cellRenderer: (params: ICellRendererParams): string => {
-        return `<a href="/">${params.value}</a>`;
-      },
+      cellRenderer: ContactLinkCellRendererComponent,
     },
     {
       colId: 'organization',

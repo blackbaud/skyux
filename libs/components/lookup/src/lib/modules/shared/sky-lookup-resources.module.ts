@@ -41,11 +41,8 @@ const RESOURCES: Record<string, SkyLibResources> = {
       message: 'Clear all selected {0}',
     },
     skyux_lookup_show_more_clear_all_button_title: { message: 'Clear all' },
-    skyux_lookup_show_more_show_selected_option_aria_label: {
-      message: 'Show only selected {0}',
-    },
     skyux_lookup_show_more_show_selected_option_title: {
-      message: 'Show only selected items',
+      message: 'Show only selected {0}',
     },
     skyux_lookup_show_more_cancel: { message: 'Cancel' },
     skyux_lookup_show_more_modal_title: { message: 'Select {0}' },
@@ -71,6 +68,7 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_autocomplete_show_matches_count: {
       message: 'Afficher les correspondances ({0})',
     },
+    skyux_country_field_dropdown_hint_text: { message: 'Recherchez un pays' },
     skyux_country_field_search_placeholder: { message: 'Rechercher un pays' },
     skyux_lookup_search_button_show_more: {
       message: 'Afficher tous les résultats de la recherche',
@@ -90,11 +88,8 @@ const RESOURCES: Record<string, SkyLibResources> = {
       message: 'Supprimer tous les éléments sélectionnés {0}',
     },
     skyux_lookup_show_more_clear_all_button_title: { message: 'Effacer tout' },
-    skyux_lookup_show_more_show_selected_option_aria_label: {
-      message: 'Montrer seulement ce qui est sélectionné {0}',
-    },
     skyux_lookup_show_more_show_selected_option_title: {
-      message: 'Montrer seulement les éléments sélectionnés',
+      message: 'Montrer seulement ce qui est sélectionné {0}',
     },
     skyux_lookup_show_more_cancel: { message: 'Annuler' },
     skyux_lookup_show_more_modal_title: { message: 'Sélectionner {0}' },

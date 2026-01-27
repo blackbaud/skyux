@@ -26,9 +26,23 @@ export const componentRoutes: Routes = [
       ),
   },
   {
+    path: 'autonumeric',
+    loadChildren: () =>
+      import('./autonumeric/autonumeric.module').then(
+        (m) => m.AutonumericModule,
+      ),
+  },
+  {
     path: 'avatar',
     loadChildren: () =>
       import('./avatar/avatar.module').then((m) => m.AvatarModule),
+  },
+  {
+    path: 'autonmeric',
+    loadChildren: () =>
+      import('./autonumeric/autonumeric.module').then(
+        (m) => m.AutonumericModule,
+      ),
   },
   {
     path: 'colorpicker',

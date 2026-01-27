@@ -147,6 +147,7 @@
   "namedInputs": {
     "buildInputs": [
       "{projectRoot}/**/*",
+      "{workspaceRoot}/scripts/build-{projectName}.ts",
       "{workspaceRoot}/scripts/postbuild-{projectName}.ts",
       "{workspaceRoot}/scripts/utils/**",
       "!{projectRoot}/**/*.spec.[jt]s",
@@ -160,6 +161,12 @@
       "!{projectRoot}/src/test-setup.[jt]s",
       "!{projectRoot}/tsconfig.spec.json",
       "!{projectRoot}/tsconfig.storybook.json"
+    ],
+    "codeExampleInputs": [
+      "{workspaceRoot}/libs/components/code-examples/src/**/*"
+    ],
+    "documentationInputs": [
+      "{workspaceRoot}/libs/components/*/documentation.json"
     ],
     "e2eInputs": [
       "{workspaceRoot}/.github/workflows/e2e.yml",

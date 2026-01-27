@@ -1,0 +1,17 @@
+<sky-modal [headingText]="modalLabel">
+  <sky-modal-content>
+    <sky-checkbox labelText="Hide orange fruits" [formControl]="hideOrange" />
+  </sky-modal-content>
+  <sky-modal-footer>
+    <button
+      class="sky-btn sky-btn-primary"
+      type="button"
+      (click)="applyFilters()"
+    >
+      Apply
+    </button>
+    <button class="sky-btn sky-btn-link" type="button" (click)="cancel()">
+      Cancel
+    </button>
+  </sky-modal-footer>
+</sky-modal>
