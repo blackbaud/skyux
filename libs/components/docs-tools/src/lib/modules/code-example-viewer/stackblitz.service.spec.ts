@@ -12,6 +12,7 @@ describe('stackblitz.service', () => {
   function setupTest(options: {
     assetsMap?: Record<string, string>;
     provideHttpClient?: boolean;
+    useRouter?: boolean;
     templateFiles?: Record<string, string>;
   }): {
     defaultConfig: SkyDocsStackBlitzLaunchConfig;
@@ -64,7 +65,7 @@ describe('stackblitz.service', () => {
         'example.component.ts': 'TS_CONTENTS',
       },
       primaryFile: 'example.component.ts',
-      title: 'Foo basic example',
+      title: `Foo basic example${options.useRouter ? ' with router' : ''}`,
     };
 
     const openProjectSpy = spyOn(stackblitz, 'openProject');
@@ -344,13 +345,12 @@ export class ExampleHelpService extends SkyHelpService {
     <link rel="stylesheet" type="text/css" href="https://sky.blackbaudcdn.net/static/skyux-icons/9/assets/css/skyux-icons.min.css" crossorigin="anonymous">
   </head>
   <body>
-    <app-root>Loading...</app-root>
+    <foo-example></foo-example>
   </body>
 </html>
 `,
           'src/main.ts': `import { provideHttpClient } from '@angular/common/http';
 import {
-  Component,
   EnvironmentProviders,
   makeEnvironmentProviders,
 } from '@angular/core';
@@ -358,7 +358,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { SkyHelpService } from '@skyux/core';
 import { provideInitialTheme } from '@skyux/theme';
-import { provideRouter, RouterOutlet, withComponentInputBinding } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { FooExampleComponent } from './example/example.component';
 
 import { ExampleHelpService } from './help.service';
@@ -375,16 +375,13 @@ function provideExampleHelpService(): EnvironmentProviders {
   ]);
 }
 
-@Component({ selector: 'app-root', template: '<router-outlet />', imports: [RouterOutlet] })
-class App {}
-
-bootstrapApplication(App, {
+bootstrapApplication(FooExampleComponent, {
   providers: [
     provideAnimations(),
     provideInitialTheme('modern'),
     provideHttpClient(),
     provideExampleHelpService(),
-    provideRouter([{ path: '', component: FooExampleComponent }], withComponentInputBinding()),
+    provideRouter([]),
   ],
 }).catch((err) => console.error(err));
 `,
@@ -411,6 +408,33 @@ const context = (import.meta as any).webpackContext('./', {
 context.keys().map(context);
 `,
         },
+        template: 'node',
+      },
+      { openFile: defaultConfig.primaryFile },
+    );
+  });
+
+  it('should launch StackBlitz for a router example', async () => {
+    const { defaultConfig, openProjectSpy, stackblitzSvc } = setupTest({
+      templateFiles: {
+        'assets/stack-blitz/package.json': 'PACKAGE_JSON_CONTENTS',
+        'assets/stack-blitz/package-lock.json': 'PACKAGE_LOCK_JSON_CONTENTS',
+      },
+      useRouter: true,
+    });
+
+    await stackblitzSvc.launch(defaultConfig);
+
+    expect(openProjectSpy).toHaveBeenCalledWith(
+      {
+        title: defaultConfig.title,
+        files: jasmine.objectContaining({
+          'src/app.ts': jasmine.stringContaining(`export class App {}`),
+          'src/index.html': jasmine.stringContaining(`<app-root></app-root>`),
+          'src/main.ts': jasmine.stringContaining(
+            `bootstrapApplication(App, {`,
+          ),
+        }),
         template: 'node',
       },
       { openFile: defaultConfig.primaryFile },

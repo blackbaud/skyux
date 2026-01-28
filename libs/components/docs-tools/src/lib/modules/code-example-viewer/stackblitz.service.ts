@@ -22,6 +22,7 @@ export class SkyDocsStackBlitzService {
 
   public async launch(config: SkyDocsStackBlitzLaunchConfig): Promise<void> {
     const files: Record<string, string> = {};
+    const usesRouter = config.title.toLowerCase().includes('route');
 
     for (const [file, contents] of Object.entries(config.files)) {
       files[`src/example/${file}`] = contents;
@@ -302,15 +303,26 @@ export class ExampleHelpService extends SkyHelpService {
     <link rel="stylesheet" type="text/css" href="https://sky.blackbaudcdn.net/static/skyux-icons/9/assets/css/skyux-icons.min.css" crossorigin="anonymous">
   </head>
   <body>
-    <app-root>Loading...</app-root>
+    ${usesRouter ? `<app-root></app-root>` : `<${config.componentSelector}></${config.componentSelector}>`}
   </body>
 </html>
 `;
 
+    if (usesRouter) {
+      files['src/app.ts'] = `import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+
+@Component({
+  selector: 'app-root',
+  template: '<router-outlet />',
+  imports: [RouterOutlet],
+})
+export class App {}
+`;
+    }
     files['src/main.ts'] =
       `import { provideHttpClient } from '@angular/common/http';
 import {
-  Component,
   EnvironmentProviders,
   makeEnvironmentProviders,
 } from '@angular/core';
@@ -318,9 +330,14 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { SkyHelpService } from '@skyux/core';
 import { provideInitialTheme } from '@skyux/theme';
-import { provideRouter, RouterOutlet, withComponentInputBinding } from '@angular/router';
+import { provideRouter${usesRouter ? ', withComponentInputBinding' : ''} } from '@angular/router';
 import { ${config.componentName} } from '${bootstrapImportPath}';
-
+${
+  usesRouter
+    ? `
+import { App } from './app';`
+    : ''
+}
 import { ExampleHelpService } from './help.service';
 
 /**
@@ -335,16 +352,13 @@ function provideExampleHelpService(): EnvironmentProviders {
   ]);
 }
 
-@Component({ selector: 'app-root', template: '<router-outlet />', imports: [RouterOutlet] })
-class App {}
-
-bootstrapApplication(App, {
+bootstrapApplication(${usesRouter ? 'App' : config.componentName}, {
   providers: [
     provideAnimations(),
     provideInitialTheme('modern'),
     provideHttpClient(),
     provideExampleHelpService(),
-    provideRouter([{ path: '', component: ${config.componentName} }], withComponentInputBinding()),
+    provideRouter(${usesRouter ? `[{ path: '', component: ${config.componentName} }], withComponentInputBinding()` : '[]'}),
   ],
 }).catch((err) => console.error(err));
 `;
