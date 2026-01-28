@@ -23,7 +23,7 @@ import { SkyBarChartConfig } from '../shared/chart-types';
 import { exportChartToPng } from '../shared/export-chart-to-png';
 import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
 
-import { transformToChartJsConfig } from './bar-chart-transform';
+import { getChartJsBarChartConfig } from './bar-chart-config';
 
 // Register Chart.js components globally
 Chart.register(...registerables);
@@ -135,7 +135,7 @@ export class SkyBarChartComponent implements AfterViewInit, OnDestroy {
 
   #getChartConfig(): ChartConfiguration<'bar'> {
     const userConfig = this.config();
-    return transformToChartJsConfig(userConfig);
+    return getChartJsBarChartConfig(userConfig);
   }
 
   #onThemeChange(): void {

@@ -1,31 +1,54 @@
-import { ChartOptions } from 'chart.js';
+import {
+  ChartConfiguration,
+  ChartOptions,
+  ChartTypeRegistry,
+  ScaleOptionsByType,
+} from 'chart.js';
 
+import { DeepPartial, SkyBarChartConfig } from '../shared/chart-types';
 import { SkyuxChartStyles } from '../shared/global-chart-config';
 import { getLegendPluginOptions } from '../shared/plugin-config/legend-plugin';
 import { getTooltipPluginOptions } from '../shared/plugin-config/tooltip-plugin';
+import { createAutoColorPlugin } from '../shared/plugins/auto-color-plugin';
+import { createChartA11yPlugin } from '../shared/plugins/chart-a11y-plugin';
+import { createLegendA11yPlugin } from '../shared/plugins/legend-a11y-plugin';
+import { createLegendBackgroundPlugin } from '../shared/plugins/legend-background-plugin';
+import { createTooltipShadowPlugin } from '../shared/plugins/tooltip-shadow-plugin';
 
 /**
- * Get Base Bar Chart Configuration
- * Returns a fresh config with resolved colors at runtime
+ * Transforms a consumer-friendly SkyBarChartConfig into a ChartJS ChartConfiguration.
  */
-function getBaseBarChartConfig(): Partial<ChartOptions<'bar'>> {
-  const axisColor = SkyuxChartStyles.axisLineColor;
-  const gridLineColor = SkyuxChartStyles.axisGridLineColor;
-  const textColor = SkyuxChartStyles.axisTickColor;
-  const barBorderColor = SkyuxChartStyles.barBorderColor;
-  const barBorderRadius = SkyuxChartStyles.barBorderRadius;
-  const fontSize = SkyuxChartStyles.axisTickFontSize;
-  const fontFamily = SkyuxChartStyles.fontFamily;
-  const fontWeight = SkyuxChartStyles.axisTickFontWeight;
-  const labelPadding = SkyuxChartStyles.axisTickPadding;
+export function getChartJsBarChartConfig(
+  skyConfig: SkyBarChartConfig,
+): ChartConfiguration<'bar'> {
+  const orientation = skyConfig.orientation || 'vertical';
+  const isHorizontal = orientation === 'horizontal';
 
+  // Build datasets from series
+  const datasets = skyConfig.series.map((series) => ({
+    label: series.label,
+    data: series.data.map((dp) => dp.value),
+  }));
+
+  // Build Plugin options
+  const pluginOptions: ChartOptions['plugins'] = {
+    legend: getLegendPluginOptions(),
+    tooltip: getTooltipPluginOptions(),
+  };
+
+  if (skyConfig.title) {
+    pluginOptions.title = { display: true, text: skyConfig.title };
+  }
+
+  if (skyConfig.subtitle) {
+    pluginOptions.subtitle = { display: true, text: skyConfig.subtitle };
+  }
+
+  // Build chart options
   const options: ChartOptions<'bar'> = {
-    indexAxis: 'x',
-
-    // Responsiveness
+    indexAxis: isHorizontal ? 'y' : 'x',
     responsive: true,
     maintainAspectRatio: false,
-
     datasets: {
       bar: {
         categoryPercentage: 0.7,
@@ -35,140 +58,96 @@ function getBaseBarChartConfig(): Partial<ChartOptions<'bar'>> {
     elements: {
       bar: {
         borderWidth: 2,
-        borderColor: barBorderColor,
-        borderRadius: barBorderRadius,
+        borderColor: SkyuxChartStyles.barBorderColor,
+        borderRadius: SkyuxChartStyles.barBorderRadius,
       },
     },
-    scales: {
-      x: {
-        grid: {
-          display: true,
-          color: gridLineColor,
-          drawTicks: false,
-        },
-        border: {
-          display: true,
-          color: axisColor,
-        },
-        ticks: {
-          color: textColor,
-          font: {
-            size: fontSize,
-            family: fontFamily,
-            weight: fontWeight,
-          },
-          padding: labelPadding,
-        },
-      },
-      y: {
-        beginAtZero: true,
-        grid: {
-          display: true,
-          color: gridLineColor,
-          drawTicks: false,
-        },
-        border: {
-          display: true,
-          color: axisColor,
-        },
-        ticks: {
-          color: textColor,
-          font: {
-            size: fontSize,
-            family: fontFamily,
-            weight: fontWeight,
-          },
-          padding: labelPadding,
-        },
-      },
-    },
-    plugins: {
-      legend: getLegendPluginOptions(),
-      tooltip: getTooltipPluginOptions(),
-    },
-  };
-
-  console.log('Base bar chart config:', options);
-
-  return options;
-}
-
-/**
- * Helper function to get complete bar chart configuration
- * Merges bar chart config with custom configuration
- * Colors are resolved at runtime for proper theme support
- */
-export function getSkyuxBarChartConfig(
-  customConfig?: Partial<ChartOptions<'bar'>>,
-): Partial<ChartOptions<'bar'>> {
-  const baseConfig = getBaseBarChartConfig();
-
-  if (!customConfig) {
-    return baseConfig;
-  }
-
-  // Deep merge scales configuration
-  const mergedScales = {
-    ...(baseConfig.scales || {}),
-  };
-
-  if (customConfig.scales) {
-    Object.keys(customConfig.scales).forEach((scaleKey) => {
-      const customScale = (customConfig.scales as any)[scaleKey];
-      const baseScale = mergedScales[scaleKey] || {};
-
-      mergedScales[scaleKey] = {
-        ...baseScale,
-        ...customScale,
-        grid: {
-          ...(baseScale.grid || {}),
-          ...(customScale.grid || {}),
-        },
-        border: {
-          ...(baseScale.border || {}),
-          ...(customScale.border || {}),
-        },
-        ticks: {
-          ...(baseScale.ticks || {}),
-          ...(customScale.ticks || {}),
-        },
-      };
-    });
-  }
-
-  // Deep merge plugins configuration, especially tooltip
-  const mergedPlugins: any = {
-    ...(baseConfig.plugins || {}),
-  };
-
-  if (customConfig.plugins) {
-    Object.keys(customConfig.plugins).forEach((pluginKey) => {
-      const customPlugin = (customConfig.plugins as any)[pluginKey];
-      const basePlugin = mergedPlugins[pluginKey] || {};
-
-      if (pluginKey === 'tooltip' && customPlugin) {
-        // Deep merge tooltip to preserve backgroundColor, titleColor, bodyColor
-        mergedPlugins[pluginKey] = {
-          ...basePlugin,
-          ...customPlugin,
-          callbacks: {
-            ...(basePlugin.callbacks || {}),
-            ...(customPlugin.callbacks || {}),
-          },
-        };
-      } else {
-        mergedPlugins[pluginKey] = {
-          ...basePlugin,
-          ...customPlugin,
-        };
+    scales: createLinearScales(skyConfig),
+    plugins: pluginOptions,
+    onClick: (e, elements, chart) => {
+      if (elements.length === 0) {
+        return;
       }
-    });
-  }
+
+      const seriesIndex = elements[0]?.datasetIndex;
+      const dataIndex = elements[0]?.index;
+
+      const dataset = chart.data.datasets[seriesIndex];
+      const dataValue = dataset.data[dataIndex];
+
+      const category = dataset.label;
+      const value = dataValue;
+
+      console.log('Clicked', { seriesIndex, dataIndex, category, value });
+    },
+  };
 
   return {
-    ...baseConfig,
-    ...customConfig,
-    scales: mergedScales,
-    plugins: mergedPlugins,
+    type: 'bar',
+    data: {
+      labels: skyConfig.categories,
+      datasets: datasets,
+    },
+    options: options,
+    plugins: [
+      createChartA11yPlugin(),
+      createLegendA11yPlugin(),
+      createAutoColorPlugin(),
+      createTooltipShadowPlugin(),
+      createLegendBackgroundPlugin(),
+    ],
   };
+}
+
+type PartialLinearScale = DeepPartial<
+  ScaleOptionsByType<ChartTypeRegistry['bar']['scales']>
+>;
+
+function createLinearScales(
+  skyConfig: SkyBarChartConfig,
+): ChartOptions<'bar'>['scales'] {
+  const orientation = skyConfig.orientation ?? 'vertical';
+  const isHorizontal = orientation === 'horizontal';
+  const valueAxis = isHorizontal ? 'x' : 'y';
+
+  const base: PartialLinearScale = {
+    grid: {
+      display: true,
+      color: SkyuxChartStyles.axisGridLineColor,
+      drawTicks: false,
+    },
+    border: {
+      display: true,
+      color: SkyuxChartStyles.axisLineColor,
+    },
+    ticks: {
+      color: SkyuxChartStyles.axisTickColor,
+      font: {
+        size: SkyuxChartStyles.axisTickFontSize,
+        family: SkyuxChartStyles.fontFamily,
+        weight: SkyuxChartStyles.axisTickFontWeight,
+      },
+      padding: SkyuxChartStyles.axisTickPadding,
+    },
+  };
+
+  const x: PartialLinearScale = {
+    type: valueAxis === 'x' ? 'linear' : undefined,
+    beginAtZero: skyConfig.valueAxis?.beginAtZero ?? true,
+    // spread syntax does not work
+    grid: base.grid,
+    border: base.border,
+    ticks: base.ticks,
+  };
+
+  const y: PartialLinearScale = {
+    type: valueAxis === 'y' ? 'linear' : undefined,
+    beginAtZero: skyConfig.valueAxis?.beginAtZero ?? true,
+    // spread syntax does not work
+    grid: base.grid,
+    border: base.border,
+    ticks: base.ticks,
+  };
+
+  return { x, y };
 }

@@ -13,12 +13,14 @@ export interface SkyChartConfigBase {
 export interface SkyChartSeries {
   /** The label for the series */
   label: string;
+  /** The data points for the series */
   data: SkyChartDataPoint[];
 }
 
 export interface SkyChartDataPoint {
   /** The label for the datapoint */
   label: string;
+  /** The value for the datapoint */
   value: number;
 }
 
@@ -69,3 +71,15 @@ export type SkyLineChartConfig = SkyCartesianChartConfig;
 /** Configuration for the pie chart component. */
 export type SkyPieChartConfig = SkyRadialChartConfig;
 // #endregion
+
+// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+export type DeepPartial<T> = T extends Function
+  ? T
+  : T extends Array<infer U>
+    ? DeepPartialArray<U>
+    : T extends object
+      ? DeepPartialObject<T>
+      : T | undefined;
+
+type DeepPartialArray<T> = Array<DeepPartial<T>>;
+type DeepPartialObject<T> = { [P in keyof T]?: DeepPartial<T[P]> };
