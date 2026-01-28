@@ -44,14 +44,14 @@ const gridColumnInputMap = Object.fromEntries(
   Object.entries({
     id: 'columnId',
     inlineHelpPopover: 'helpPopoverContent',
+    isSortable: 'sortable',
+    heading: 'headingText',
   }).map(([oldValue, newValue]) => [oldValue.toLowerCase(), newValue]),
 );
 const gridColumnInputUnchanged = [
   `description`,
   `field`,
-  `heading`,
   `hidden`,
-  `isSortable`,
   `locked`,
   `template`,
   `width`,

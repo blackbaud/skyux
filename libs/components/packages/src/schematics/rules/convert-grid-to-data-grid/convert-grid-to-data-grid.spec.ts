@@ -19,21 +19,21 @@ describe('Convert Grid to Data Grid', () => {
     });
     const input = stripIndents`
       <sky-grid [data]="data">
-        <sky-grid-column field="field1" />
-        <sky-grid-column field="field2">
+        <sky-grid-column field="field1" heading="Field 1" />
+        <sky-grid-column field="field2" heading="Field 2">
           <ng-template><em>{{ value }}</em></ng-template>
         </sky-grid-column>
-        <sky-grid-column field="field3" [hidden]="true" />
+        <sky-grid-column field="field3" heading="Field 3" [hidden]="true" />
       </sky-grid>
     `;
     tree.create('src/app/test.component.html', input);
     const output = stripIndents`
       <sky-data-grid [data]="data">
-        <sky-data-grid-column field="field1" />
-        <sky-data-grid-column field="field2">
+        <sky-data-grid-column field="field1" headingText="Field 1" />
+        <sky-data-grid-column field="field2" headingText="Field 2">
           <ng-template><em>{{ value }}</em></ng-template>
         </sky-data-grid-column>
-        <sky-data-grid-column field="field3" [hidden]="true" />
+        <sky-data-grid-column field="field3" headingText="Field 3" [hidden]="true" />
       </sky-data-grid>
     `;
     await firstValueFrom(runner.callRule(convertGridToDataGrid(''), tree));
