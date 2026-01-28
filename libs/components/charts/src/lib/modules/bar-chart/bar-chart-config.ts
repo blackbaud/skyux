@@ -132,7 +132,7 @@ function createLinearScales(
   };
 
   const x: PartialLinearScale = {
-    type: valueAxis === 'x' ? 'linear' : undefined,
+    type: valueAxis === 'x' ? 'linear' : 'category',
     beginAtZero: skyConfig.valueAxis?.beginAtZero ?? true,
     // spread syntax does not work
     grid: base.grid,
@@ -141,7 +141,7 @@ function createLinearScales(
   };
 
   const y: PartialLinearScale = {
-    type: valueAxis === 'y' ? 'linear' : undefined,
+    type: valueAxis === 'y' ? 'linear' : 'category',
     beginAtZero: skyConfig.valueAxis?.beginAtZero ?? true,
     // spread syntax does not work
     grid: base.grid,
