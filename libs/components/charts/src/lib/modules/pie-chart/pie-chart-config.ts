@@ -1,8 +1,8 @@
 import { ChartOptions } from 'chart.js';
 
 import { SkyuxChartStyles } from '../shared/global-chart-config';
-import { getLegendPluginOptions } from '../shared/plugins/legend-plugin';
-import { getTooltipPluginOptions } from '../shared/plugins/tooltip-plugin';
+import { getLegendPluginOptions } from '../shared/plugin-config/legend-plugin';
+import { getTooltipPluginOptions } from '../shared/plugin-config/tooltip-plugin';
 
 /**
  * Get Base Doughnut Chart Configuration
