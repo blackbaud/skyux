@@ -1,4 +1,10 @@
-<sky-data-grid height="270" pageSize="5" [data]="data">
+<sky-data-grid
+  height="270"
+  pageSize="5"
+  [data]="data"
+  [page]="page()"
+  [pageQueryParam]="pageQueryParam"
+>
   <sky-data-grid-column field="name" headingText="Name" />
   <sky-data-grid-column
     field="age"
