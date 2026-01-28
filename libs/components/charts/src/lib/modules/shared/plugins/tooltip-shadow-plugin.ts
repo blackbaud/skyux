@@ -7,8 +7,8 @@ import { SkyuxChartStyles } from '../global-chart-config';
  * @returns
  */
 export function createTooltipShadowPlugin(): Plugin {
-  const tooltipShadowPlugin: Plugin = {
-    id: 'skyTooltipShadow',
+  const plugins: Plugin = {
+    id: 'sky_tooltip_shadow',
     beforeTooltipDraw: (chart) => {
       const tooltip = chart.tooltip;
       if (!tooltip || tooltip.opacity === 0) return;
@@ -112,5 +112,5 @@ export function createTooltipShadowPlugin(): Plugin {
     },
   };
 
-  return tooltipShadowPlugin;
+  return plugins;
 }

@@ -2,6 +2,8 @@ import { ChartConfiguration, ChartDataset } from 'chart.js';
 
 import { SkyPieChartConfig } from '../shared/chart-types';
 import { createAutoColorPlugin } from '../shared/plugins/auto-color-plugin';
+import { createChartA11yPlugin } from '../shared/plugins/chart-a11y-plugin';
+import { createLegendA11yPlugin } from '../shared/plugins/legend-a11y-plugin';
 import { createTooltipShadowPlugin } from '../shared/plugins/tooltip-shadow-plugin';
 
 import {
@@ -63,7 +65,12 @@ export function transformToChartJsConfig(
       datasets: [dataset],
     },
     options: chartOptions,
-    plugins: [createAutoColorPlugin(), createTooltipShadowPlugin()],
+    plugins: [
+      createChartA11yPlugin(),
+      createLegendA11yPlugin(),
+      createAutoColorPlugin(),
+      createTooltipShadowPlugin(),
+    ],
   };
 
   console.log('ChartJsConfig', chartJsConfig);

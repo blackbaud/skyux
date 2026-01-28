@@ -2,31 +2,35 @@ import type { Chart, Plugin } from 'chart.js';
 
 import { getChartType } from '../chart-helpers';
 
-export const LegendA11yPlugin: Plugin = {
-  id: 'a11y_legend',
-  afterInit: (chart) => {
-    const manager = initialize(chart);
-    updateForLegends(chart, manager);
-  },
-  beforeDraw: (chart) => {
-    let manager = chartStates.get(chart);
+export function createLegendA11yPlugin(): Plugin {
+  const plugin: Plugin = {
+    id: 'sky_legend_a11y',
+    afterInit: (chart) => {
+      const manager = initialize(chart);
+      updateForLegends(chart, manager);
+    },
+    beforeDraw: (chart) => {
+      let manager = chartStates.get(chart);
 
-    if (manager === undefined) {
-      manager = initialize(chart);
-    }
+      if (manager === undefined) {
+        manager = initialize(chart);
+      }
 
-    if (!chart.options.plugins?.legend?.display) {
-      manager.suppressFocusBox();
-      return;
-    }
+      if (!chart.options.plugins?.legend?.display) {
+        manager.suppressFocusBox();
+        return;
+      }
 
-    manager.reviveFocusBox();
-    updateForLegends(chart, manager);
-  },
-  afterDestroy(chart: Chart) {
-    chartStates.delete(chart);
-  },
-};
+      manager.reviveFocusBox();
+      updateForLegends(chart, manager);
+    },
+    afterDestroy(chart: Chart) {
+      chartStates.delete(chart);
+    },
+  };
+
+  return plugin;
+}
 
 const chartStates = new Map<Chart, ChartLegendManager>();
 

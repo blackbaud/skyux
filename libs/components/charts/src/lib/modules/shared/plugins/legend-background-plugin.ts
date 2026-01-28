@@ -7,7 +7,7 @@ import { SkyuxChartStyles } from '../global-chart-config';
  */
 export function createLegendBackgroundPlugin(): Plugin {
   const plugin: Plugin = {
-    id: 'skyLegendBackgroundPlugin',
+    id: 'sky_legend_background',
     beforeDraw(chart) {
       const { ctx, legend } = chart;
       if (!legend) return;

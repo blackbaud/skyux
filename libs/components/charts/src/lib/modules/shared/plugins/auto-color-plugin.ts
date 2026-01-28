@@ -8,8 +8,8 @@ import { SkyuxChartStyles } from '../global-chart-config';
  * @returns Plugin that auto-colors datasets based on the specified mode
  */
 export function createAutoColorPlugin(): Plugin<ChartType> {
-  return {
-    id: 'skyAutoColor',
+  const plugin: Plugin = {
+    id: 'sky_auto_color',
     beforeUpdate(chart): boolean | void {
       const colorMode = deriveMode(chart);
       const colors = SkyuxChartStyles.series;
@@ -21,6 +21,8 @@ export function createAutoColorPlugin(): Plugin<ChartType> {
       }
     },
   };
+
+  return plugin;
 }
 
 function getChartType(chart: Chart): string {

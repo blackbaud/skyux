@@ -2,6 +2,8 @@ import { ChartConfiguration, ChartOptions } from 'chart.js';
 
 import { SkyBarChartConfig, SkyChartAxisConfig } from '../shared/chart-types';
 import { createAutoColorPlugin } from '../shared/plugins/auto-color-plugin';
+import { createChartA11yPlugin } from '../shared/plugins/chart-a11y-plugin';
+import { createLegendA11yPlugin } from '../shared/plugins/legend-a11y-plugin';
 import { createTooltipShadowPlugin } from '../shared/plugins/tooltip-shadow-plugin';
 
 import { getSkyuxLineChartConfig } from './line-chart-config';
@@ -72,7 +74,12 @@ export function transformToChartJsConfig(
       datasets: datasets,
     },
     options: chartOptions,
-    plugins: [createAutoColorPlugin(), createTooltipShadowPlugin()],
+    plugins: [
+      createChartA11yPlugin(),
+      createLegendA11yPlugin(),
+      createAutoColorPlugin(),
+      createTooltipShadowPlugin(),
+    ],
   };
 }
 

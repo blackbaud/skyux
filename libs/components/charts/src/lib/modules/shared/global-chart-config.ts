@@ -319,4 +319,8 @@ export const SkyuxChartStyles = {
     const color = resolveCssVariable('--sky-theme-color-viz-marker');
     return color || '#252b33'; // Fallback to gray-900
   },
+
+  get focusIndicatorColor(): string {
+    return '#1c84ff';
+  },
 };
