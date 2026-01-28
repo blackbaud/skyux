@@ -30,6 +30,7 @@ describe('Basic data grid example', () => {
       }),
     );
     expect(await gridHarness.getDisplayedColumnIds()).toEqual([
+      'ag-Grid-SelectionColumn',
       'context',
       'name',
       'age',
@@ -39,6 +40,7 @@ describe('Basic data grid example', () => {
       'jobTitle',
     ]);
     expect(await gridHarness.getDisplayedColumnHeaderNames()).toEqual([
+      '',
       '',
       'Name',
       'Age',
@@ -66,11 +68,11 @@ describe('Basic data grid example', () => {
       fixture,
     ).getHarness(SkyDropdownMenuHarness);
     const deleteButton = await menuHarness.querySelector(
-      'button[aria-label="Delete Jane Deere"]',
+      'button[aria-label="More info for Jane Deere"]',
     );
     expect(deleteButton).toBeTruthy();
     const actionSpy = spyOn(window, 'alert').and.stub();
     await deleteButton?.click();
-    expect(actionSpy).toHaveBeenCalledWith('Delete clicked for Jane Deere');
+    expect(actionSpy).toHaveBeenCalledWith('More info clicked for Jane Deere');
   });
 });
