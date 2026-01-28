@@ -302,7 +302,7 @@ export class ExampleHelpService extends SkyHelpService {
     <link rel="stylesheet" type="text/css" href="https://sky.blackbaudcdn.net/static/skyux-icons/9/assets/css/skyux-icons.min.css" crossorigin="anonymous">
   </head>
   <body>
-    <${config.componentSelector}></${config.componentSelector}>
+    <app-root>Loading...</app-root>
   </body>
 </html>
 `;
@@ -310,6 +310,7 @@ export class ExampleHelpService extends SkyHelpService {
     files['src/main.ts'] =
       `import { provideHttpClient } from '@angular/common/http';
 import {
+  Component,
   EnvironmentProviders,
   makeEnvironmentProviders,
 } from '@angular/core';
@@ -317,7 +318,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { SkyHelpService } from '@skyux/core';
 import { provideInitialTheme } from '@skyux/theme';
-import { provideRouter } from '@angular/router';
+import { provideRouter, RouterOutlet, withComponentInputBinding } from '@angular/router';
 import { ${config.componentName} } from '${bootstrapImportPath}';
 
 import { ExampleHelpService } from './help.service';
@@ -334,13 +335,16 @@ function provideExampleHelpService(): EnvironmentProviders {
   ]);
 }
 
-bootstrapApplication(${config.componentName}, {
+@Component({ selector: 'app-root', template: '<router-outlet />', imports: [RouterOutlet] })
+class App {}
+
+bootstrapApplication(App, {
   providers: [
     provideAnimations(),
     provideInitialTheme('modern'),
     provideHttpClient(),
     provideExampleHelpService(),
-    provideRouter([]),
+    provideRouter([{ path: '', component: ${config.componentName} }], withComponentInputBinding()),
   ],
 }).catch((err) => console.error(err));
 `;
