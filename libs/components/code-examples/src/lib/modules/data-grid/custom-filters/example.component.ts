@@ -11,7 +11,6 @@ import { SkyNumericPipe } from '@skyux/core';
 import {
   SkyDataGridModule,
   SkyDataGridNumberRangeFilterValue,
-  SkyDataGridSort,
 } from '@skyux/data-grid';
 import {
   SkyDataManagerModule,
@@ -20,13 +19,7 @@ import {
 } from '@skyux/data-manager';
 import { SkyDatePipe, SkyDateRange } from '@skyux/datetime';
 import { SkyFilterBarModule } from '@skyux/filter-bar';
-import {
-  SkyFilterState,
-  SkyFilterStateFilterItem,
-  SkyListSummaryModule,
-} from '@skyux/lists';
-
-import { map } from 'rxjs';
+import { SkyFilterStateFilterItem, SkyListSummaryModule } from '@skyux/lists';
 
 import { Employee, employees } from './data';
 import { dataSortAndFilter } from './data-sort-and-filter';
@@ -58,16 +51,13 @@ export class CustomFilterDataGridComponent {
   protected readonly hideInactiveModal = HideInactiveFilterModalComponent;
   protected readonly startDateFilterModal = StartDateFilterModalComponent;
 
-  protected readonly sort = signal<SkyDataGridSort | undefined>(undefined);
   protected readonly viewId = 'dataGridWithCustomFilters' as const;
 
   // Computed client side in this example, but could be an HTTP resource where parameters are sent to the server for determining data to show.
   protected readonly recordsToShow = resource({
     params: () => ({
-      appliedFilters: this.#dataManagerFilters() ?? [],
-      sort: this.sort(),
       allEmployees: this.#allEmployees(),
-      searchText: this.#dataManagerSearchText(),
+      dataManagerUpdates: this.#dataManagerUpdates(),
     }),
     loader: ({ params }): Promise<Employee[]> =>
       new Promise((resolve) =>
@@ -75,9 +65,15 @@ export class CustomFilterDataGridComponent {
           resolve(
             dataSortAndFilter(
               params.allEmployees,
-              params.appliedFilters,
-              params.sort,
-              params.searchText,
+              (params.dataManagerUpdates?.filterData?.filters?.appliedFilters ??
+                []) as SkyFilterStateFilterItem<
+                | string
+                | SkyDataGridNumberRangeFilterValue
+                | SkyDateRange
+                | boolean
+              >[],
+              params.dataManagerUpdates?.activeSortOption,
+              params.dataManagerUpdates?.searchText ?? '',
             ),
           );
         }, 800),
@@ -92,31 +88,8 @@ export class CustomFilterDataGridComponent {
   readonly #allEmployees = signal(employees).asReadonly();
 
   readonly #dataManagerSvc = inject(SkyDataManagerService);
-  readonly #dataManagerFilters = toSignal(
-    this.#dataManagerSvc
-      .getDataStateUpdates(this.viewId, {
-        properties: ['filterData'],
-      })
-      .pipe(
-        map(
-          ({ filterData }) =>
-            ((filterData?.filters as SkyFilterState | undefined)
-              ?.appliedFilters ?? []) as SkyFilterStateFilterItem<
-              | string
-              | SkyDataGridNumberRangeFilterValue
-              | SkyDateRange
-              | boolean
-            >[],
-        ),
-      ),
-  );
-  readonly #dataManagerSearchText = toSignal(
-    this.#dataManagerSvc
-      .getDataStateUpdates(this.viewId, {
-        properties: ['searchText'],
-      })
-      .pipe(map((state) => `${state.searchText ?? ''}`)),
-    { initialValue: '' },
+  readonly #dataManagerUpdates = toSignal(
+    this.#dataManagerSvc.getDataStateUpdates('dataManagerUpdates'),
   );
 
   constructor() {

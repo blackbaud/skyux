@@ -1,7 +1,5 @@
-import {
-  SkyDataGridNumberRangeFilterValue,
-  SkyDataGridSort,
-} from '@skyux/data-grid';
+import { SkyDataGridNumberRangeFilterValue } from '@skyux/data-grid';
+import { SkyDataManagerSortOption } from '@skyux/data-manager';
 import { SkyDateRange } from '@skyux/datetime';
 import { SkyFilterStateFilterItem } from '@skyux/lists';
 
@@ -12,13 +10,13 @@ export function dataSortAndFilter(
   appliedFilters: SkyFilterStateFilterItem<
     string | SkyDataGridNumberRangeFilterValue | SkyDateRange | boolean
   >[],
-  sort: SkyDataGridSort | undefined,
-  searchText: string,
+  sort: SkyDataManagerSortOption | undefined,
+  searchText: string | undefined,
 ): Employee[] {
-  const normalSearch = searchText.normalize().toLowerCase();
+  const normalSearch = searchText?.normalize().toLowerCase();
   const records = allEmployees.filter((employee: Employee) => {
     let includeEmployee = true;
-    if (searchText) {
+    if (normalSearch) {
       includeEmployee &&= Object.values(employee).some((value) =>
         String(value ?? '')
           .normalize()
@@ -58,7 +56,7 @@ export function dataSortAndFilter(
     return includeEmployee;
   });
   if (sort) {
-    switch (sort.fieldSelector) {
+    switch (sort.propertyName) {
       case 'name':
         records.sort(
           (a, b) => a.name.localeCompare(b.name) * (sort.descending ? -1 : 1),
