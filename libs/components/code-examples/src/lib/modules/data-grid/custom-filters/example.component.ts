@@ -36,7 +36,7 @@ import { SalaryFilterModalComponent } from './salary-filter-modal.component';
 import { StartDateFilterModalComponent } from './start-date-filter-modal.component';
 
 /**
- * @title Custom filters and delayed loading data grid
+ * @title Asynchronous data loading
  */
 @Component({
   selector: 'app-custom-filters-data-grid',
@@ -58,7 +58,7 @@ export class CustomFilterDataGridComponent {
   protected readonly hideInactiveModal = HideInactiveFilterModalComponent;
   protected readonly startDateFilterModal = StartDateFilterModalComponent;
 
-  protected sort = signal<SkyDataGridSort | undefined>(undefined);
+  protected readonly sort = signal<SkyDataGridSort | undefined>(undefined);
   protected readonly viewId = 'dataGridWithCustomFilters' as const;
 
   // Computed client side in this example, but could be an HTTP resource where parameters are sent to the server for determining data to show.

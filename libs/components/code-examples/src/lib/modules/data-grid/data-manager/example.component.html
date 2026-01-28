@@ -32,13 +32,17 @@
 
   <sky-data-grid
     [appliedFilters]="appliedFilters()"
-    [data]="items"
+    [data]="gridData()"
     [viewId]="viewId"
+    [(rowDeleteIds)]="rowDeleteIds"
     (rowCountChange)="recordCount.set($event)"
+    (rowDeleteCancel)="rowDeleteCancel($event)"
+    (rowDeleteConfirm)="rowDeleteConfirm($event)"
   >
     <sky-data-grid-column
       columnId="context"
       width="50"
+      [resizable]="false"
       [sortable]="false"
       [template]="contextMenu"
     />

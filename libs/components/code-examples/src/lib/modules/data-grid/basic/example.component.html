@@ -1,7 +1,17 @@
-<sky-data-grid data-sky-id="example-data-grid" [data]="gridData">
+<sky-data-grid
+  data-sky-id="example-data-grid"
+  multiselect
+  stacked
+  [data]="gridData()"
+  [(selectedRowIds)]="selectedRowIds"
+  [(rowDeleteIds)]="rowDeleteIds"
+  (rowDeleteCancel)="rowDeleteCancel($event)"
+  (rowDeleteConfirm)="rowDeleteConfirm($event)"
+>
   <sky-data-grid-column
     columnId="context"
     width="50"
+    [resizable]="false"
     [sortable]="false"
     [template]="contextMenu"
   />
@@ -29,6 +39,17 @@
     <ng-template let-row="row">{{ row.jobTitle?.name }}</ng-template>
   </sky-data-grid-column>
 </sky-data-grid>
+
+@let names = selectedNames();
+
+<sky-box>
+  <sky-box-content>
+    Selected rows: {{ names }}
+    @if (!names) {
+      <em class="sky-deemphasized">no rows selected</em>
+    }
+  </sky-box-content>
+</sky-box>
 
 <ng-template #contextMenu let-row="row">
   <sky-dropdown
