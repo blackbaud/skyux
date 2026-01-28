@@ -15,6 +15,8 @@
           "SkyPageLink",
           "SkyPageLinksInput",
           "SkyPageModalLink",
+          "SkyPageModalLinkClickHandler",
+          "SkyPageModalLinkClickHandlerArgs",
           "SkyPageModalLinksInput",
           "SkyRecentLink",
           "SkyRecentLinksInput",
