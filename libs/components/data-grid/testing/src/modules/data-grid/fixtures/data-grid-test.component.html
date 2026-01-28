@@ -4,12 +4,12 @@
     height="200"
     width="600"
     [data]="dataForSimpleGrid"
-    [selectedColumnIds]="displayedColumns()"
+    [displayedColumnIds]="displayedColumns()"
     [page]="page"
     [pageQueryParam]="pageQueryParam"
     [pageSize]="pageSize"
     [rowHighlightedId]="rowHighlightedId()"
-    (selectedColumnIdsChange)="visibleColumnIds.set($event)"
+    (displayedColumnIdsChange)="visibleColumnIds.set($event)"
   >
     @if (showAllColumns()) {
       <sky-data-grid-column field="column1" headingText="Column1" />
@@ -45,7 +45,7 @@
     fit="scroll"
     multiselectRowId="myId"
     [data]="dataForSimpleGridWithMultiselect"
-    [selectedColumnIds]="displayedColumns()"
+    [displayedColumnIds]="displayedColumns()"
     [selectedRowIds]="selectedRowIds()"
     (selectedRowIdsChange)="selectedRowIds.set($event)"
   >
@@ -75,7 +75,7 @@
   <sky-data-grid
     data-sky-id="row-delete-grid"
     [data]="dataForRowDeleteGrid"
-    [selectedColumnIds]="displayedColumns()"
+    [displayedColumnIds]="displayedColumns()"
     (rowDeleteCancel)="cancelRowDelete($event)"
     (rowDeleteConfirm)="finishRowDelete($event)"
   >
@@ -133,7 +133,7 @@
     data-sky-id="inline-help-grid"
     fit="scroll"
     [data]="dataForSimpleGrid"
-    [selectedColumnIds]="displayedColumns()"
+    [displayedColumnIds]="displayedColumns()"
   >
     @if (showAllColumns()) {
       <sky-data-grid-column

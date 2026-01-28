@@ -11,7 +11,7 @@ import { SkyDataGridModule } from '@skyux/data-grid';
 import { DATA_GRID_DEMO_DATA } from './data';
 
 /**
- * @title Data grid with paging
+ * @title Data grid with paging using router query parameters
  */
 @Component({
   selector: 'app-data-grid-paging',

@@ -43,6 +43,7 @@ import {
   AllCommunityModule,
   AutoSizeStrategy,
   ColDef,
+  ColumnMovedEvent,
   DisplayedColumnsChangedEvent,
   GetRowIdParams,
   GridApi,
@@ -62,6 +63,7 @@ import {
   fromEvent,
   fromEventPattern,
   map,
+  merge,
   switchMap,
   takeUntil,
 } from 'rxjs';
@@ -169,7 +171,7 @@ export class SkyDataGridComponent<
   });
 
   /**
-   * The column IDs or fields for columns to hide. Should not be combined with `selectedColumnIds`.
+   * The column IDs or fields for columns to hide. Should not be combined with `displayedColumnIds`.
    */
   public readonly hiddenColumnIds = input<string[], unknown>([], {
     transform: coerceStringArray,
@@ -266,15 +268,9 @@ export class SkyDataGridComponent<
   public readonly page = model<number>(1);
 
   /**
-   * The set of IDs for the rows to prompt for delete confirmation.
-   * The IDs match the `multiselectRowId` properties of the `data` objects.
+   * The column IDs or fields for columns to show. Should not be combined with `hiddenColumnIds`.
    */
-  public readonly rowDeleteIds = model<string[]>([]);
-
-  /**
-   * The column IDs or fields for columns to show. Should not be combined with `hiddenColumns`.
-   */
-  public readonly selectedColumnIds = input<string[], unknown>([], {
+  public readonly displayedColumnIds = input<string[], unknown>([], {
     transform: coerceStringArray,
   });
 
@@ -283,7 +279,13 @@ export class SkyDataGridComponent<
    * to the order of columns. The event emits an array of IDs for the displayed columns that
    * reflects the column order.
    */
-  public readonly selectedColumnIdsChange = output<string[]>();
+  public readonly displayedColumnIdsChange = output<string[]>();
+
+  /**
+   * The set of IDs for the rows to prompt for delete confirmation.
+   * The IDs match the `multiselectRowId` properties of the `data` objects.
+   */
+  public readonly rowDeleteIds = model<string[]>([]);
 
   /**
    * The set of IDs for the rows to select in a multiselect grid.
@@ -398,7 +400,7 @@ export class SkyDataGridComponent<
   readonly #dataManagerService = inject(SkyDataManagerService, {
     optional: true,
   });
-  readonly #dataManagerSelectedColumnIds = toSignal(
+  readonly #dataManagerDisplayedColumnIds = toSignal(
     toObservable(this.viewId).pipe(
       filter(Boolean),
       switchMap(
@@ -439,8 +441,8 @@ export class SkyDataGridComponent<
     const columns = this.columns();
     const sort = this.sortField();
     const displayed = [
-      ...this.selectedColumnIds().filter(Boolean),
-      ...this.#dataManagerSelectedColumnIds(),
+      ...this.displayedColumnIds().filter(Boolean),
+      ...this.#dataManagerDisplayedColumnIds(),
     ];
     const hidden = this.hiddenColumnIds().filter(Boolean);
     return columns.map((col) =>
@@ -471,17 +473,27 @@ export class SkyDataGridComponent<
   readonly #gridDisplayedColumnIds = toObservable(this.gridApi).pipe(
     filter(Boolean),
     switchMap((api) =>
-      fromEvent<DisplayedColumnsChangedEvent>(
-        api,
-        'displayedColumnsChanged',
-      ).pipe(
-        takeUntil(this.#gridDestroyed),
-        map((columnsEvent) =>
-          columnsEvent.api
-            .getAllDisplayedColumns()
-            .map((col) => col.getColId()),
+      merge(
+        fromEvent<ColumnMovedEvent>(api, 'columnMoved').pipe(
+          takeUntil(this.#gridDestroyed),
+          map((columnsEvent) =>
+            columnsEvent.api
+              .getAllDisplayedColumns()
+              .map((col) => col.getColId()),
+          ),
         ),
-        distinctUntilChanged(arrayIsEqual),
+        fromEvent<DisplayedColumnsChangedEvent>(
+          api,
+          'displayedColumnsChanged',
+        ).pipe(
+          takeUntil(this.#gridDestroyed),
+          map((columnsEvent) =>
+            columnsEvent.api
+              .getAllDisplayedColumns()
+              .map((col) => col.getColId()),
+          ),
+          distinctUntilChanged(arrayIsEqual),
+        ),
       ),
     ),
   );
@@ -608,7 +620,7 @@ export class SkyDataGridComponent<
         map((ids) => coerceStringArray(ids)),
       )
       .subscribe((columnIds) => {
-        this.selectedColumnIdsChange.emit(columnIds);
+        this.displayedColumnIdsChange.emit(columnIds);
       });
     this.#gridSortChange.pipe(takeUntilDestroyed()).subscribe((sortChange) => {
       if (sortChange) {
