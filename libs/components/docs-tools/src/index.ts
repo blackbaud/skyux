@@ -2,6 +2,7 @@ export { SkyDocsCategoryColor } from './lib/modules/category-tag/category-color'
 export { SkyDocsCategoryTagModule } from './lib/modules/category-tag/category-tag.module';
 export { SkyDocsClipboardModule } from './lib/modules/clipboard/clipboard.module';
 export { SkyDocsClipboardService } from './lib/modules/clipboard/clipboard.service';
+export { SKY_DOCS_CODE_EXAMPLE_ROUTE } from './lib/modules/code-example-viewer/code-example-route';
 export { SkyDocsCodeExampleViewerModule } from './lib/modules/code-example-viewer/code-example-viewer.module';
 export { SkyDocsStackBlitzLaunchConfig } from './lib/modules/code-example-viewer/stackblitz-launch-config';
 export {

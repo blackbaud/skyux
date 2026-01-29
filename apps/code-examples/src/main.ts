@@ -8,6 +8,7 @@ import {
 } from '@angular/router';
 import * as codeExampleExports from '@skyux/code-examples';
 import {
+  SKY_DOCS_CODE_EXAMPLE_ROUTE,
   SkyDocsCodeExampleComponentTypes,
   provideSkyDocsCodeExampleTypes,
 } from '@skyux/docs-tools';
@@ -32,6 +33,10 @@ bootstrapApplication(AppComponent, {
       }),
     ),
     provideSkyDocsCodeExampleTypes(CODE_EXAMPLES),
+    {
+      provide: SKY_DOCS_CODE_EXAMPLE_ROUTE,
+      useValue: 'examples',
+    },
   ],
 }).catch((err) => {
   console.error(err);
