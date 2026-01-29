@@ -8,6 +8,7 @@ import {
   input,
   signal,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { SkyIdModule } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyBoxModule } from '@skyux/layout';
@@ -20,6 +21,7 @@ import {
 import { SkyDocsCodeSnippetModule } from '../code-snippet/code-snippet.module';
 import { SkyDocsToolsResourcesModule } from '../shared/sky-docs-tools-resources.module';
 
+import { SKY_DOCS_CODE_EXAMPLE_ROUTE } from './code-example-route';
 import { SkyDocsStackBlitzService } from './stackblitz.service';
 
 /**
@@ -39,6 +41,7 @@ import { SkyDocsStackBlitzService } from './stackblitz.service';
     SkyIconModule,
     SkyIdModule,
     SkyVerticalTabsetModule,
+    RouterLink,
   ],
   selector: 'sky-docs-code-example-viewer',
   styleUrl: './code-example-viewer.component.scss',
@@ -58,6 +61,9 @@ export class SkyDocsCodeExampleViewerComponent {
   public readonly stacked = input(false, { transform: booleanAttribute });
 
   protected readonly isCodeVisible = signal(false);
+  protected readonly codeExampleRoute = inject(SKY_DOCS_CODE_EXAMPLE_ROUTE, {
+    optional: true,
+  });
 
   protected getCodeLanguage(fileName: string): SkyDocsCodeHighlightLanguage {
     const extension = fileName.split('.').pop();
