@@ -33,7 +33,7 @@ export { DataGridBasicExampleComponent } from './lib/modules/data-grid/basic/exa
 export { FilteredDataGridComponent } from './lib/modules/data-grid/filtered/example.component';
 export { DataGridPagingComponent } from './lib/modules/data-grid/paging/example.component';
 export { DataGridDataManagerExampleComponent } from './lib/modules/data-grid/data-manager/example.component';
-export { CustomFilterDataGridComponent } from './lib/modules/data-grid/custom-filters/example.component';
+export { DataGridAsynchronousDataComponent } from './lib/modules/data-grid/asynchronous-data/example.component';
 export { DataManagerBasicExampleComponent } from './lib/modules/data-manager/data-manager/basic/example.component';
 export { DatetimeDatePipeBasicExampleComponent } from './lib/modules/datetime/date-pipe/basic/example.component';
 export { DatetimeDateRangePickerBasicExampleComponent } from './lib/modules/datetime/date-range-picker/basic/example.component';

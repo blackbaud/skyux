@@ -36,7 +36,7 @@ import { StartDateFilterModalComponent } from './start-date-filter-modal.compone
  * @title Asynchronous data loading
  */
 @Component({
-  selector: 'app-custom-filters-data-grid',
+  selector: 'app-data-grid-asynchronous-data',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SkyDataManagerService],
   imports: [
@@ -49,7 +49,7 @@ import { StartDateFilterModalComponent } from './start-date-filter-modal.compone
   ],
   templateUrl: './example.component.html',
 })
-export class CustomFilterDataGridComponent {
+export class DataGridAsynchronousDataComponent {
   protected readonly nameFilterModal = NameFilterModalComponent;
   protected readonly salaryFilterModal = SalaryFilterModalComponent;
   protected readonly hideInactiveModal = HideInactiveFilterModalComponent;
