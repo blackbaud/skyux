@@ -19,7 +19,11 @@ import {
 } from '@skyux/data-manager';
 import { SkyDatePipe, SkyDateRange } from '@skyux/datetime';
 import { SkyFilterBarModule } from '@skyux/filter-bar';
-import { SkyFilterStateFilterItem, SkyListSummaryModule } from '@skyux/lists';
+import {
+  SkyFilterState,
+  SkyFilterStateFilterItem,
+  SkyListSummaryModule,
+} from '@skyux/lists';
 
 import { Employee, employees } from './data';
 import { dataSortAndFilter } from './data-sort-and-filter';
@@ -65,8 +69,11 @@ export class CustomFilterDataGridComponent {
           resolve(
             dataSortAndFilter(
               params.allEmployees,
-              (params.dataManagerUpdates?.filterData?.filters?.appliedFilters ??
-                []) as SkyFilterStateFilterItem<
+              ((
+                params.dataManagerUpdates?.filterData?.filters as
+                  | SkyFilterState
+                  | undefined
+              )?.appliedFilters ?? []) as SkyFilterStateFilterItem<
                 | string
                 | SkyDataGridNumberRangeFilterValue
                 | SkyDateRange
