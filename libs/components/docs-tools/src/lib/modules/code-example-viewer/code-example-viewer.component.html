@@ -1,5 +1,14 @@
 <sky-box headingLevel="3" headingStyle="3" [headingText]="headingText()">
   <sky-box-controls>
+    @if (codeExampleRoute) {
+      <a
+        class="sky-padding-horizontal-xl"
+        [routerLink]="[codeExampleRoute, componentName()]"
+      >
+        Open in full page
+        <sky-icon iconName="open" />
+      </a>
+    }
     <button
       class="sky-btn sky-btn-default"
       data-sky-id="stackblitz-btn"
