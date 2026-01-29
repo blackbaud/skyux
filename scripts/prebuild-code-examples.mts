@@ -1,5 +1,6 @@
 import { formatFiles, workspaceRoot } from '@nx/devkit';
 
+import { flushChanges } from 'nx/src/generators/tree';
 import { FsTree } from 'nx/src/generators/tree.js';
 import ts from 'typescript';
 
@@ -52,4 +53,5 @@ export default routes;
   tree.write(codeExampleRoutesFile, codeExamplesRoutesFileCode);
 
   await formatFiles(tree);
+  flushChanges(workspaceRoot, tree.listChanges());
 })();

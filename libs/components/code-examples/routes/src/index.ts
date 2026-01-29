@@ -131,7 +131,9 @@ export const routes: Routes = [
     path: 'AngularTreeComponentAngularTreePreselectedNodesExampleComponent',
     loadComponent: () =>
       import('@skyux/code-examples').then(
-        ({ AngularTreeComponentAngularTreePreselectedNodesExampleComponent: c }) => c,
+        ({
+          AngularTreeComponentAngularTreePreselectedNodesExampleComponent: c,
+        }) => c,
       ),
   },
   {
@@ -165,9 +167,7 @@ export const routes: Routes = [
   {
     path: 'AvatarExampleComponent',
     loadComponent: () =>
-      import('@skyux/code-examples').then(
-        ({ AvatarExampleComponent: c }) => c,
-      ),
+      import('@skyux/code-examples').then(({ AvatarExampleComponent: c }) => c),
   },
   {
     path: 'ColorpickerBasicExampleComponent',
@@ -193,9 +193,7 @@ export const routes: Routes = [
   {
     path: 'CoreIdExampleComponent',
     loadComponent: () =>
-      import('@skyux/code-examples').then(
-        ({ CoreIdExampleComponent: c }) => c,
-      ),
+      import('@skyux/code-examples').then(({ CoreIdExampleComponent: c }) => c),
   },
   {
     path: 'CoreMediaQueryBasicExampleComponent',
@@ -216,34 +214,6 @@ export const routes: Routes = [
     loadComponent: () =>
       import('@skyux/code-examples').then(
         ({ CoreNumericBasicExampleComponent: c }) => c,
-      ),
-  },
-  {
-    path: 'DataGridAsynchronousDataComponent',
-    loadComponent: () =>
-      import('@skyux/code-examples').then(
-        ({ DataGridAsynchronousDataComponent: c }) => c,
-      ),
-  },
-  {
-    path: 'DataGridBasicExampleComponent',
-    loadComponent: () =>
-      import('@skyux/code-examples').then(
-        ({ DataGridBasicExampleComponent: c }) => c,
-      ),
-  },
-  {
-    path: 'DataGridDataManagerExampleComponent',
-    loadComponent: () =>
-      import('@skyux/code-examples').then(
-        ({ DataGridDataManagerExampleComponent: c }) => c,
-      ),
-  },
-  {
-    path: 'DataGridPagingComponent',
-    loadComponent: () =>
-      import('@skyux/code-examples').then(
-        ({ DataGridPagingComponent: c }) => c,
       ),
   },
   {
@@ -342,13 +312,6 @@ export const routes: Routes = [
     loadComponent: () =>
       import('@skyux/code-examples').then(
         ({ FilterBarSelectableExampleComponent: c }) => c,
-      ),
-  },
-  {
-    path: 'FilteredDataGridComponent',
-    loadComponent: () =>
-      import('@skyux/code-examples').then(
-        ({ FilteredDataGridComponent: c }) => c,
       ),
   },
   {
@@ -1019,9 +982,7 @@ export const routes: Routes = [
   {
     path: 'NavbarExampleComponent',
     loadComponent: () =>
-      import('@skyux/code-examples').then(
-        ({ NavbarExampleComponent: c }) => c,
-      ),
+      import('@skyux/code-examples').then(({ NavbarExampleComponent: c }) => c),
   },
   {
     path: 'PagesActionHubExampleComponent',
