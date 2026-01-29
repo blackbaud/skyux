@@ -1,7 +1,46 @@
 import { TestBed } from '@angular/core/testing';
 import { SkyLogService } from '@skyux/core';
+import { SkyDateRange } from '@skyux/datetime';
+import { SkyFilterStateFilterItem } from '@skyux/lists';
+
+import { SkyDataGridFilterOperator } from '../types/data-grid-filter-operator';
+import { SkyDataGridFilterValue } from '../types/data-grid-filter-value';
+import { SkyDataGridNumberRangeFilterValue } from '../types/data-grid-number-range-filter-value';
 
 import { doesFilterPass } from './data-grid-filter';
+
+interface TestDataRow {
+  id: string;
+  test?: string;
+  text?: string;
+  num?: number;
+  date?: Date | string;
+  bool?: boolean;
+}
+
+interface TestColumnFilter {
+  filterId: string | undefined;
+  field: keyof TestDataRow | undefined;
+  filterOperator: SkyDataGridFilterOperator | undefined;
+  type: 'text' | 'number' | 'date' | 'boolean';
+}
+
+/**
+ * Helper function to call doesFilterPass with consistent typing.
+ */
+function testFilterPass(
+  filters: SkyFilterStateFilterItem<SkyDataGridFilterValue>[],
+  data: TestDataRow | undefined,
+  columns: TestColumnFilter[],
+  logger: SkyLogService,
+): boolean {
+  return doesFilterPass<TestDataRow>(
+    filters,
+    data as TestDataRow,
+    columns,
+    logger,
+  );
+}
 
 describe('data-grid-filter', () => {
   let logService: SkyLogService;
@@ -15,7 +54,7 @@ describe('data-grid-filter', () => {
 
   it('should apply filters for data grid', () => {
     expect(
-      doesFilterPass(
+      testFilterPass(
         [{ filterId: 'test', filterValue: { value: 'example' } }],
         { id: '1', test: 'example' },
         [
@@ -34,7 +73,7 @@ describe('data-grid-filter', () => {
 
   it('should pass if column is not found', () => {
     expect(
-      doesFilterPass(
+      testFilterPass(
         [{ filterId: 'missing', filterValue: { value: 'example' } }],
         { id: '1', test: 'example' },
         [
@@ -52,7 +91,7 @@ describe('data-grid-filter', () => {
 
   it('should pass if filter value is undefined', () => {
     expect(
-      doesFilterPass(
+      testFilterPass(
         [
           {
             filterId: 'test',
@@ -75,9 +114,9 @@ describe('data-grid-filter', () => {
 
   it('should not pass if data is undefined', () => {
     expect(
-      doesFilterPass(
+      testFilterPass(
         [{ filterId: 'test', filterValue: { value: 'example' } }],
-        undefined as any,
+        undefined,
         [
           {
             filterId: 'test',
@@ -85,7 +124,7 @@ describe('data-grid-filter', () => {
             filterOperator: 'contains',
             type: 'text',
           },
-        ] as any,
+        ],
         logService,
       ),
     ).toBeFalse();
@@ -93,7 +132,7 @@ describe('data-grid-filter', () => {
 
   it('should not pass if data field is undefined', () => {
     expect(
-      doesFilterPass(
+      testFilterPass(
         [{ filterId: 'test', filterValue: { value: 'example' } }],
         { id: '1', test: undefined },
         [
@@ -110,20 +149,24 @@ describe('data-grid-filter', () => {
   });
 
   describe('text filters', () => {
-    const columns = [
-      {
-        filterId: 'text',
-        field: 'text',
-        filterOperator: undefined, // defaults
-        type: 'text',
-      },
-    ] as const;
+    function createTextColumn(
+      operator: SkyDataGridFilterOperator | undefined,
+    ): TestColumnFilter[] {
+      return [
+        {
+          filterId: 'text',
+          field: 'text',
+          filterOperator: operator,
+          type: 'text',
+        },
+      ];
+    }
 
     it('should filter with "equals"', () => {
-      const cols = [{ ...columns[0], filterOperator: 'equals' }] as any;
+      const cols = createTextColumn('equals');
       // Match
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'text', filterValue: { value: 'abc' } }],
           { id: '1', text: 'abc' },
           cols,
@@ -132,7 +175,7 @@ describe('data-grid-filter', () => {
       ).toBeTrue();
       // No match
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'text', filterValue: { value: 'abc' } }],
           { id: '1', text: 'def' },
           cols,
@@ -141,7 +184,7 @@ describe('data-grid-filter', () => {
       ).toBeFalse();
       // Case insensitive
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'text', filterValue: { value: 'ABC' } }],
           { id: '1', text: 'abc' },
           cols,
@@ -151,10 +194,10 @@ describe('data-grid-filter', () => {
     });
 
     it('should filter with "notEqual"', () => {
-      const cols = [{ ...columns[0], filterOperator: 'notEqual' }] as any;
+      const cols = createTextColumn('notEqual');
       // Match (fail)
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'text', filterValue: { value: 'abc' } }],
           { id: '1', text: 'abc' },
           cols,
@@ -163,7 +206,7 @@ describe('data-grid-filter', () => {
       ).toBeFalse();
       // No match (pass)
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'text', filterValue: { value: 'abc' } }],
           { id: '1', text: 'def' },
           cols,
@@ -173,9 +216,9 @@ describe('data-grid-filter', () => {
     });
 
     it('should filter with "contains"', () => {
-      const cols = [{ ...columns[0], filterOperator: 'contains' }] as any;
+      const cols = createTextColumn('contains');
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'text', filterValue: { value: 'bc' } }],
           { id: '1', text: 'abc' },
           cols,
@@ -183,7 +226,7 @@ describe('data-grid-filter', () => {
         ),
       ).toBeTrue();
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'text', filterValue: { value: 'de' } }],
           { id: '1', text: 'abc' },
           cols,
@@ -193,9 +236,9 @@ describe('data-grid-filter', () => {
     });
 
     it('should filter with "notContains"', () => {
-      const cols = [{ ...columns[0], filterOperator: 'notContains' }] as any;
+      const cols = createTextColumn('notContains');
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'text', filterValue: { value: 'bc' } }],
           { id: '1', text: 'abc' },
           cols,
@@ -203,7 +246,7 @@ describe('data-grid-filter', () => {
         ),
       ).toBeFalse();
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'text', filterValue: { value: 'de' } }],
           { id: '1', text: 'abc' },
           cols,
@@ -213,9 +256,9 @@ describe('data-grid-filter', () => {
     });
 
     it('should filter with "startsWith"', () => {
-      const cols = [{ ...columns[0], filterOperator: 'startsWith' }] as any;
+      const cols = createTextColumn('startsWith');
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'text', filterValue: { value: 'ab' } }],
           { id: '1', text: 'abc' },
           cols,
@@ -223,7 +266,7 @@ describe('data-grid-filter', () => {
         ),
       ).toBeTrue();
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'text', filterValue: { value: 'bc' } }],
           { id: '1', text: 'abc' },
           cols,
@@ -233,9 +276,9 @@ describe('data-grid-filter', () => {
     });
 
     it('should filter with "endsWith"', () => {
-      const cols = [{ ...columns[0], filterOperator: 'endsWith' }] as any;
+      const cols = createTextColumn('endsWith');
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'text', filterValue: { value: 'bc' } }],
           { id: '1', text: 'abc' },
           cols,
@@ -243,7 +286,7 @@ describe('data-grid-filter', () => {
         ),
       ).toBeTrue();
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'text', filterValue: { value: 'ab' } }],
           { id: '1', text: 'abc' },
           cols,
@@ -253,9 +296,9 @@ describe('data-grid-filter', () => {
     });
 
     it('should handle undefined/null values gracefully', () => {
-      const cols = [{ ...columns[0], filterOperator: 'contains' }] as any;
+      const cols = createTextColumn('contains');
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'text', filterValue: { value: 'null' } }],
           { id: '1', text: 'null' },
           cols,
@@ -265,9 +308,11 @@ describe('data-grid-filter', () => {
     });
 
     it('should warn and pass for unsupported operator', () => {
-      const cols = [{ ...columns[0], filterOperator: 'unknown' }] as any;
+      const cols = createTextColumn(
+        'unknown' as unknown as SkyDataGridFilterOperator,
+      );
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'text', filterValue: { value: 'abc' } }],
           { id: '1', text: 'abc' },
           cols,
@@ -280,9 +325,9 @@ describe('data-grid-filter', () => {
     });
 
     it('should filter with array values (OR logic)', () => {
-      const cols = [{ ...columns[0], filterOperator: 'equals' }] as any;
+      const cols = createTextColumn('equals');
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'text', filterValue: { value: ['abc', 'xyz'] } }],
           { id: '1', text: 'abc' },
           cols,
@@ -291,7 +336,7 @@ describe('data-grid-filter', () => {
       ).toBeTrue();
 
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'text', filterValue: { value: ['xyz', 'uvw'] } }],
           { id: '1', text: 'abc' },
           cols,
@@ -301,10 +346,12 @@ describe('data-grid-filter', () => {
     });
 
     it('should support "val" property for filter value', () => {
-      const cols = [{ ...columns[0], filterOperator: 'equals' }] as any;
+      const cols = createTextColumn('equals');
       expect(
-        doesFilterPass(
-          [{ filterId: 'text', filterValue: { val: 'abc' } as any }],
+        testFilterPass(
+          [
+            { filterId: 'text', filterValue: { val: 'abc' } },
+          ] as unknown as SkyFilterStateFilterItem<SkyDataGridFilterValue>[],
           { id: '1', text: 'abc' },
           cols,
           logService,
@@ -314,20 +361,24 @@ describe('data-grid-filter', () => {
   });
 
   describe('number filters', () => {
-    const columns = [
-      {
-        filterId: 'num',
-        field: 'num',
-        filterOperator: undefined,
-        type: 'number',
-      },
-    ] as const;
+    function createNumColumn(
+      operator: SkyDataGridFilterOperator | undefined,
+    ): TestColumnFilter[] {
+      return [
+        {
+          filterId: 'num',
+          field: 'num',
+          filterOperator: operator,
+          type: 'number',
+        },
+      ];
+    }
 
     it('should filter single values with basic operators', () => {
       // equals
-      let cols = [{ ...columns[0], filterOperator: 'equals' }] as any;
+      let cols = createNumColumn('equals');
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'num', filterValue: { value: 10 } }],
           { id: '1', num: 10 },
           cols,
@@ -335,7 +386,7 @@ describe('data-grid-filter', () => {
         ),
       ).toBeTrue();
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'num', filterValue: { value: 10 } }],
           { id: '1', num: 11 },
           cols,
@@ -344,9 +395,9 @@ describe('data-grid-filter', () => {
       ).toBeFalse();
 
       // notEqual
-      cols = [{ ...columns[0], filterOperator: 'notEqual' }] as any;
+      cols = createNumColumn('notEqual');
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'num', filterValue: { value: 10 } }],
           { id: '1', num: 11 },
           cols,
@@ -354,7 +405,7 @@ describe('data-grid-filter', () => {
         ),
       ).toBeTrue();
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'num', filterValue: { value: 10 } }],
           { id: '1', num: 10 },
           cols,
@@ -363,9 +414,9 @@ describe('data-grid-filter', () => {
       ).toBeFalse();
 
       // lessThan
-      cols = [{ ...columns[0], filterOperator: 'lessThan' }] as any;
+      cols = createNumColumn('lessThan');
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'num', filterValue: { value: 10 } }],
           { id: '1', num: 9 },
           cols,
@@ -373,7 +424,7 @@ describe('data-grid-filter', () => {
         ),
       ).toBeTrue();
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'num', filterValue: { value: 10 } }],
           { id: '1', num: 10 },
           cols,
@@ -382,9 +433,9 @@ describe('data-grid-filter', () => {
       ).toBeFalse();
 
       // lessThanOrEqual
-      cols = [{ ...columns[0], filterOperator: 'lessThanOrEqual' }] as any;
+      cols = createNumColumn('lessThanOrEqual');
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'num', filterValue: { value: 10 } }],
           { id: '1', num: 10 },
           cols,
@@ -392,7 +443,7 @@ describe('data-grid-filter', () => {
         ),
       ).toBeTrue();
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'num', filterValue: { value: 10 } }],
           { id: '1', num: 11 },
           cols,
@@ -401,9 +452,9 @@ describe('data-grid-filter', () => {
       ).toBeFalse();
 
       // greaterThan
-      cols = [{ ...columns[0], filterOperator: 'greaterThan' }] as any;
+      cols = createNumColumn('greaterThan');
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'num', filterValue: { value: 10 } }],
           { id: '1', num: 11 },
           cols,
@@ -411,7 +462,7 @@ describe('data-grid-filter', () => {
         ),
       ).toBeTrue();
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'num', filterValue: { value: 10 } }],
           { id: '1', num: 10 },
           cols,
@@ -420,9 +471,9 @@ describe('data-grid-filter', () => {
       ).toBeFalse();
 
       // greaterThanOrEqual
-      cols = [{ ...columns[0], filterOperator: 'greaterThanOrEqual' }] as any;
+      cols = createNumColumn('greaterThanOrEqual');
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'num', filterValue: { value: 10 } }],
           { id: '1', num: 10 },
           cols,
@@ -430,7 +481,7 @@ describe('data-grid-filter', () => {
         ),
       ).toBeTrue();
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'num', filterValue: { value: 10 } }],
           { id: '1', num: 9 },
           cols,
@@ -440,16 +491,17 @@ describe('data-grid-filter', () => {
     });
 
     it('should filter number ranges', () => {
-      const cols = [{ ...columns[0], filterOperator: undefined }] as any;
+      const cols = createNumColumn(undefined);
+      const rangeFilter = (
+        from: number | null,
+        to: number | null,
+      ): { value: SkyDataGridNumberRangeFilterValue } => ({
+        value: { from, to } as SkyDataGridNumberRangeFilterValue,
+      });
       // In range
       expect(
-        doesFilterPass(
-          [
-            {
-              filterId: 'num',
-              filterValue: { value: { from: 5, to: 15 } as any },
-            },
-          ],
+        testFilterPass(
+          [{ filterId: 'num', filterValue: rangeFilter(5, 15) }],
           { id: '1', num: 10 },
           cols,
           logService,
@@ -457,13 +509,8 @@ describe('data-grid-filter', () => {
       ).toBeTrue();
       // Out range (low)
       expect(
-        doesFilterPass(
-          [
-            {
-              filterId: 'num',
-              filterValue: { value: { from: 5, to: 15 } as any },
-            },
-          ],
+        testFilterPass(
+          [{ filterId: 'num', filterValue: rangeFilter(5, 15) }],
           { id: '1', num: 4 },
           cols,
           logService,
@@ -471,13 +518,8 @@ describe('data-grid-filter', () => {
       ).toBeFalse();
       // Out range (high)
       expect(
-        doesFilterPass(
-          [
-            {
-              filterId: 'num',
-              filterValue: { value: { from: 5, to: 15 } as any },
-            },
-          ],
+        testFilterPass(
+          [{ filterId: 'num', filterValue: rangeFilter(5, 15) }],
           { id: '1', num: 16 },
           cols,
           logService,
@@ -485,26 +527,16 @@ describe('data-grid-filter', () => {
       ).toBeFalse();
       // Open ended (from)
       expect(
-        doesFilterPass(
-          [
-            {
-              filterId: 'num',
-              filterValue: { value: { from: 5, to: null } as any },
-            },
-          ],
+        testFilterPass(
+          [{ filterId: 'num', filterValue: rangeFilter(5, null) }],
           { id: '1', num: 6 },
           cols,
           logService,
         ),
       ).toBeTrue();
       expect(
-        doesFilterPass(
-          [
-            {
-              filterId: 'num',
-              filterValue: { value: { from: 5, to: null } as any },
-            },
-          ],
+        testFilterPass(
+          [{ filterId: 'num', filterValue: rangeFilter(5, null) }],
           { id: '1', num: 4 },
           cols,
           logService,
@@ -512,26 +544,16 @@ describe('data-grid-filter', () => {
       ).toBeFalse();
       // Open ended (to)
       expect(
-        doesFilterPass(
-          [
-            {
-              filterId: 'num',
-              filterValue: { value: { from: null, to: 15 } as any },
-            },
-          ],
+        testFilterPass(
+          [{ filterId: 'num', filterValue: rangeFilter(null, 15) }],
           { id: '1', num: 14 },
           cols,
           logService,
         ),
       ).toBeTrue();
       expect(
-        doesFilterPass(
-          [
-            {
-              filterId: 'num',
-              filterValue: { value: { from: null, to: 15 } as any },
-            },
-          ],
+        testFilterPass(
+          [{ filterId: 'num', filterValue: rangeFilter(null, 15) }],
           { id: '1', num: 16 },
           cols,
           logService,
@@ -540,9 +562,11 @@ describe('data-grid-filter', () => {
     });
 
     it('should warn and pass for unsupported operator', () => {
-      const cols = [{ ...columns[0], filterOperator: 'unknown' }] as any;
+      const cols = createNumColumn(
+        'unknown' as unknown as SkyDataGridFilterOperator,
+      );
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'num', filterValue: { value: 10 } }],
           { id: '1', num: 10 },
           cols,
@@ -557,14 +581,25 @@ describe('data-grid-filter', () => {
   });
 
   describe('date filters', () => {
-    const columns = [
-      {
-        filterId: 'date',
-        field: 'date',
-        filterOperator: undefined,
-        type: 'date',
-      },
-    ] as const;
+    function createDateColumn(
+      operator: SkyDataGridFilterOperator | undefined,
+    ): TestColumnFilter[] {
+      return [
+        {
+          filterId: 'date',
+          field: 'date',
+          filterOperator: operator,
+          type: 'date',
+        },
+      ];
+    }
+
+    function dateRangeFilter(
+      startDate: Date | undefined,
+      endDate?: Date,
+    ): { value: SkyDateRange } {
+      return { value: { startDate, endDate } as SkyDateRange };
+    }
 
     it('should filter single dates', () => {
       const date = new Date(2022, 1, 1);
@@ -572,9 +607,9 @@ describe('data-grid-filter', () => {
       const nextDate = new Date(2022, 1, 2);
 
       // equals
-      const cols = [{ ...columns[0], filterOperator: 'equals' }] as any;
+      const cols = createDateColumn('equals');
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'date', filterValue: { value: date } }],
           { id: '1', date: sameDate },
           cols,
@@ -582,7 +617,7 @@ describe('data-grid-filter', () => {
         ),
       ).toBeTrue();
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'date', filterValue: { value: date } }],
           { id: '1', date: nextDate },
           cols,
@@ -592,7 +627,7 @@ describe('data-grid-filter', () => {
 
       // date string handling
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'date', filterValue: { value: '2022-02-01' } }], // Note: Timezone sensitive if not careful, but zeroHour uses local parts
           { id: '1', date: date }, // Date in local time
           cols,
@@ -602,7 +637,7 @@ describe('data-grid-filter', () => {
     });
 
     it('should filter date ranges', () => {
-      const cols = [{ ...columns[0], filterOperator: undefined }] as any;
+      const cols = createDateColumn(undefined);
       const start = new Date(2022, 1, 1);
       const end = new Date(2022, 1, 10);
       const mid = new Date(2022, 1, 5);
@@ -614,13 +649,8 @@ describe('data-grid-filter', () => {
 
       // In range
       expect(
-        doesFilterPass(
-          [
-            {
-              filterId: 'date',
-              filterValue: { value: { startDate: start, endDate: end } as any },
-            },
-          ],
+        testFilterPass(
+          [{ filterId: 'date', filterValue: dateRangeFilter(start, end) }],
           { id: '1', date: mid },
           cols,
           logService,
@@ -629,13 +659,8 @@ describe('data-grid-filter', () => {
 
       // Mid day should pass
       expect(
-        doesFilterPass(
-          [
-            {
-              filterId: 'date',
-              filterValue: { value: { startDate: start, endDate: end } as any },
-            },
-          ],
+        testFilterPass(
+          [{ filterId: 'date', filterValue: dateRangeFilter(start, end) }],
           { id: '1', date: midDay },
           cols,
           logService,
@@ -644,13 +669,8 @@ describe('data-grid-filter', () => {
 
       // End day (end of day) should pass
       expect(
-        doesFilterPass(
-          [
-            {
-              filterId: 'date',
-              filterValue: { value: { startDate: start, endDate: end } as any },
-            },
-          ],
+        testFilterPass(
+          [{ filterId: 'date', filterValue: dateRangeFilter(start, end) }],
           { id: '1', date: endDay },
           cols,
           logService,
@@ -659,26 +679,16 @@ describe('data-grid-filter', () => {
 
       // Out range
       expect(
-        doesFilterPass(
-          [
-            {
-              filterId: 'date',
-              filterValue: { value: { startDate: start, endDate: end } as any },
-            },
-          ],
+        testFilterPass(
+          [{ filterId: 'date', filterValue: dateRangeFilter(start, end) }],
           { id: '1', date: before },
           cols,
           logService,
         ),
       ).toBeFalse();
       expect(
-        doesFilterPass(
-          [
-            {
-              filterId: 'date',
-              filterValue: { value: { startDate: start, endDate: end } as any },
-            },
-          ],
+        testFilterPass(
+          [{ filterId: 'date', filterValue: dateRangeFilter(start, end) }],
           { id: '1', date: after },
           cols,
           logService,
@@ -687,26 +697,16 @@ describe('data-grid-filter', () => {
 
       // Open ended
       expect(
-        doesFilterPass(
-          [
-            {
-              filterId: 'date',
-              filterValue: { value: { startDate: start } as any },
-            },
-          ],
+        testFilterPass(
+          [{ filterId: 'date', filterValue: dateRangeFilter(start) }],
           { id: '1', date: mid },
           cols,
           logService,
         ),
       ).toBeTrue();
       expect(
-        doesFilterPass(
-          [
-            {
-              filterId: 'date',
-              filterValue: { value: { startDate: start } as any },
-            },
-          ],
+        testFilterPass(
+          [{ filterId: 'date', filterValue: dateRangeFilter(start) }],
           { id: '1', date: before },
           cols,
           logService,
@@ -716,20 +716,24 @@ describe('data-grid-filter', () => {
   });
 
   describe('boolean filters', () => {
-    const columns = [
-      {
-        filterId: 'bool',
-        field: 'bool',
-        filterOperator: undefined,
-        type: 'boolean',
-      },
-    ] as const;
+    function createBoolColumn(
+      operator: SkyDataGridFilterOperator | undefined,
+    ): TestColumnFilter[] {
+      return [
+        {
+          filterId: 'bool',
+          field: 'bool',
+          filterOperator: operator,
+          type: 'boolean',
+        },
+      ];
+    }
 
     it('should filter boolean values', () => {
       // equals
-      let cols = [{ ...columns[0], filterOperator: 'equals' }] as any;
+      let cols = createBoolColumn('equals');
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'bool', filterValue: { value: true } }],
           { id: '1', bool: true },
           cols,
@@ -737,7 +741,7 @@ describe('data-grid-filter', () => {
         ),
       ).toBeTrue();
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'bool', filterValue: { value: true } }],
           { id: '1', bool: false },
           cols,
@@ -746,9 +750,9 @@ describe('data-grid-filter', () => {
       ).toBeFalse();
 
       // notEqual
-      cols = [{ ...columns[0], filterOperator: 'notEqual' }] as any;
+      cols = createBoolColumn('notEqual');
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'bool', filterValue: { value: true } }],
           { id: '1', bool: false },
           cols,
@@ -756,7 +760,7 @@ describe('data-grid-filter', () => {
         ),
       ).toBeTrue();
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'bool', filterValue: { value: true } }],
           { id: '1', bool: true },
           cols,
@@ -766,9 +770,9 @@ describe('data-grid-filter', () => {
     });
 
     it('should warn for unsupported boolean operator', () => {
-      const cols = [{ ...columns[0], filterOperator: 'contains' }] as any;
+      const cols = createBoolColumn('contains');
       expect(
-        doesFilterPass(
+        testFilterPass(
           [{ filterId: 'bool', filterValue: { value: true } }],
           { id: '1', bool: true },
           cols,

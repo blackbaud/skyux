@@ -4,9 +4,12 @@ import {
   booleanAttribute,
   computed,
   contentChild,
+  effect,
+  inject,
   input,
   numberAttribute,
 } from '@angular/core';
+import { SkyLogService } from '@skyux/core';
 
 import { SkyDataGridFilterOperator } from '../types/data-grid-filter-operator';
 
@@ -27,6 +30,14 @@ export class SkyDataGridColumnComponent {
   public readonly columnId = input<string>();
 
   /**
+   * The data type of the column used for filtering, sorting, and rendering when a template is not provided.
+   * @default 'text'
+   */
+  public readonly dataType = input<'text' | 'number' | 'date' | 'boolean'>(
+    'text',
+  );
+
+  /**
    * The description for the column.
    */
   public readonly description = input<string>();
@@ -40,19 +51,18 @@ export class SkyDataGridColumnComponent {
   public readonly field = input<string>();
 
   /**
-   * When set to a value greater than `-1`, it overrides `width` and works like
+   * When set, `flexWidth` overrides `width` and works like
    * [CSS flex-grow](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/flex-grow), where a column
    * with `flexWidth="2"` is twice the width of a column with `flexWidth="1"`, and `flexWidth="0"` does not auto-expand.
-   * @default -1
    */
   public readonly flexWidth = input<number, unknown>(-1, {
-    transform: numberAttribute,
+    transform: (value) => numberAttribute(value, -1),
   });
 
   /**
    * Text to display in the column header.
    */
-  public readonly headingText = input<string>();
+  public readonly headingText = input.required<string>();
 
   /**
    * Whether to prevent `heading` text from being visibly displayed.
@@ -87,17 +97,13 @@ export class SkyDataGridColumnComponent {
    * Whether the column can be resized by dragging the column header border.
    * @default true
    */
-  public readonly resizable = input<boolean, unknown>(true, {
-    transform: booleanAttribute,
-  });
+  public readonly resizable = input<boolean>(true);
 
   /**
    * Whether the column sorts the grid when users click the column header.
    * @default true
    */
-  public readonly sortable = input<boolean, unknown>(true, {
-    transform: booleanAttribute,
-  });
+  public readonly sortable = input<boolean>(true);
 
   /**
    * Whether the column is locked. The intent is to display locked columns first
@@ -119,19 +125,10 @@ export class SkyDataGridColumnComponent {
   public readonly template = input<TemplateRef<unknown>>();
 
   /**
-   * The data type of the column used for filtering, sorting, and rendering when a template is not provided.
-   * @default 'text'
-   */
-  public readonly dataType = input<'text' | 'number' | 'date' | 'boolean'>(
-    'text',
-  );
-
-  /**
-   * The width of the column in pixels. When set to `0`, the column width is evenly distributed.
-   * @default 0
+   * The width of the column in pixels. When no width is set, the column width is evenly distributed.
    */
   public readonly width = input<number, unknown>(0, {
-    transform: numberAttribute,
+    transform: (value) => numberAttribute(value, 0),
   });
 
   /**
@@ -163,6 +160,19 @@ export class SkyDataGridColumnComponent {
   public readonly filterOperator = input<SkyDataGridFilterOperator>();
 
   protected readonly templateChild = contentChild(TemplateRef);
+
+  constructor() {
+    const logger = inject(SkyLogService);
+    effect(() => {
+      const columnId = this.columnId();
+      const field = this.field();
+      if (columnId && field) {
+        logger.warn(
+          `A <sky-data-grid-column> should have either a columnId or a field, but not both.`,
+        );
+      }
+    });
+  }
 
   /**
    * @internal

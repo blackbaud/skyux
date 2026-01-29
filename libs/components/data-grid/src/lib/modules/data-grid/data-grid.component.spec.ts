@@ -411,6 +411,238 @@ describe('SkyDataGridComponent', () => {
       expect(api?.getSelectedNodes()).toHaveSize(3);
     });
 
+    it('should update selectedRowIds when data changes to remove IDs no longer in data', async () => {
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      // Select some rows
+      component.selectedRowIds.set(['101', '102', '103', '104', '105']);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(component.selectedRowIds()).toEqual([
+        '101',
+        '102',
+        '103',
+        '104',
+        '105',
+      ]);
+
+      // Remove some items from the data (remove myId 102, 104)
+      component.dataForSimpleGridWithMultiselect = [
+        { id: '1', column1: '1', column2: 'Apple', column3: true, myId: '101' },
+        {
+          id: '3',
+          column1: '11',
+          column2: 'Banana',
+          column3: true,
+          myId: '103',
+        },
+        {
+          id: '5',
+          column1: '13',
+          column2: 'Edamame',
+          column3: true,
+          myId: '105',
+        },
+      ];
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      // selectedRowIds should be updated to only include IDs still in the data
+      expect(component.selectedRowIds()).toEqual(['101', '103', '105']);
+    });
+
+    it('should update selectedRowIds when data changes from populated to fewer items', async () => {
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      // Select all rows
+      component.selectedRowIds.set([
+        '101',
+        '102',
+        '103',
+        '104',
+        '105',
+        '106',
+        '107',
+      ]);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(component.selectedRowIds()).toHaveSize(7);
+
+      // Reduce data to just 2 items
+      component.dataForSimpleGridWithMultiselect = [
+        { id: '1', column1: '1', column2: 'Apple', column3: true, myId: '101' },
+        {
+          id: '2',
+          column1: '01',
+          column2: 'Banana',
+          column3: false,
+          myId: '102',
+        },
+      ];
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      // selectedRowIds should only include IDs that are still in the data
+      expect(component.selectedRowIds()).toEqual(['101', '102']);
+    });
+
+    it('should clear selectedRowIds when data changes to empty', async () => {
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      // Select some rows
+      component.selectedRowIds.set(['101', '102', '103']);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(component.selectedRowIds()).toEqual(['101', '102', '103']);
+
+      // Clear the data
+      component.dataForSimpleGridWithMultiselect = [];
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      // selectedRowIds should be empty
+      expect(component.selectedRowIds()).toEqual([]);
+    });
+
+    it('should update selectedRowIds when filters are applied to remove IDs of filtered-out rows', async () => {
+      fixture.componentRef.setInput('showAllGrids', false);
+      fixture.componentRef.setInput('showFilteredMultiselectGrid', true);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const api = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="filtered-multiselect-grid"] ag-grid-angular',
+        ),
+      );
+      expect(api).toBeTruthy();
+      expect(api?.getDisplayedRowCount()).toBe(7);
+
+      // Select some rows (ids 1, 2, 3, 4, 5)
+      component.selectedRowIds.set(['1', '2', '3', '4', '5']);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(component.selectedRowIds()).toEqual(['1', '2', '3', '4', '5']);
+
+      // Apply a filter that only shows rows where column2 starts with 'B' (Banana)
+      // This should only include rows with ids 2 and 3
+      fixture.componentRef.setInput('appliedFilters', [
+        {
+          filterId: 'column2Filter',
+          filterValue: { value: 'B', displayValue: 'Starts with B' },
+        },
+      ]);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      // Should have 2 rows displayed
+      expect(api?.getDisplayedRowCount()).toBe(2);
+
+      // selectedRowIds should only include IDs of visible rows (2 and 3)
+      expect(component.selectedRowIds()).toEqual(['2', '3']);
+    });
+
+    it('should restore selectedRowIds when filters are cleared', async () => {
+      fixture.componentRef.setInput('showAllGrids', false);
+      fixture.componentRef.setInput('showFilteredMultiselectGrid', true);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const api = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="filtered-multiselect-grid"] ag-grid-angular',
+        ),
+      );
+      expect(api).toBeTruthy();
+
+      // Select rows 2 and 3 (Banana rows)
+      component.selectedRowIds.set(['2', '3']);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      // Apply filter that shows Banana rows
+      fixture.componentRef.setInput('appliedFilters', [
+        {
+          filterId: 'column2Filter',
+          filterValue: { value: 'B', displayValue: 'Starts with B' },
+        },
+      ]);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(api?.getDisplayedRowCount()).toBe(2);
+      expect(component.selectedRowIds()).toEqual(['2', '3']);
+
+      // Clear filters - all rows should be visible again
+      fixture.componentRef.setInput('appliedFilters', []);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(api?.getDisplayedRowCount()).toBe(7);
+
+      // selectedRowIds should still be ['2', '3'] since those IDs are still valid
+      expect(component.selectedRowIds()).toEqual(['2', '3']);
+    });
+
+    it('should update selectedRowIds when filter changes to a more restrictive filter', async () => {
+      fixture.componentRef.setInput('showAllGrids', false);
+      fixture.componentRef.setInput('showFilteredMultiselectGrid', true);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const api = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="filtered-multiselect-grid"] ag-grid-angular',
+        ),
+      );
+      expect(api).toBeTruthy();
+
+      // Select all rows
+      component.selectedRowIds.set(['1', '2', '3', '4', '5', '6', '7']);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(component.selectedRowIds()).toHaveSize(7);
+
+      // Apply a filter that shows rows where column1 contains '1'
+      // Rows: 1 (column1='1'), 2 (column1='01'), 3 (column1='11'), 4 (column1='12'), 5 (column1='13'), 7 (column1='21')
+      fixture.componentRef.setInput('appliedFilters', [
+        {
+          filterId: 'column1Filter',
+          filterValue: { value: '1', displayValue: 'Contains 1' },
+        },
+      ]);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(api?.getDisplayedRowCount()).toBe(6);
+      expect(component.selectedRowIds()).toEqual([
+        '1',
+        '2',
+        '3',
+        '4',
+        '5',
+        '7',
+      ]);
+
+      // Apply a more restrictive filter that shows only rows starting with 'B'
+      fixture.componentRef.setInput('appliedFilters', [
+        {
+          filterId: 'column1Filter',
+          filterValue: { value: '1', displayValue: 'Contains 1' },
+        },
+        {
+          filterId: 'column2Filter',
+          filterValue: { value: 'B', displayValue: 'Starts with B' },
+        },
+      ]);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      // Only rows 2 and 3 match both filters
+      expect(api?.getDisplayedRowCount()).toBe(2);
+      expect(component.selectedRowIds()).toEqual(['2', '3']);
+    });
+
     it('should highlight row', async () => {
       fixture.detectChanges();
       expect(component).toBeTruthy();

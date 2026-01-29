@@ -165,6 +165,33 @@
   </sky-data-grid>
 }
 
+@if (showFilteredMultiselectGrid()) {
+  <h1>Grid with filters and multiselect</h1>
+  <sky-data-grid
+    data-sky-id="filtered-multiselect-grid"
+    height="200"
+    multiselect
+    [data]="dataForFilteredGrid"
+    [appliedFilters]="appliedFilters()"
+    [(selectedRowIds)]="selectedRowIds"
+  >
+    <sky-data-grid-column
+      field="column1"
+      headingText="Column1"
+      dataType="text"
+      filterId="column1Filter"
+      filterOperator="contains"
+    />
+    <sky-data-grid-column
+      field="column2"
+      headingText="Column2"
+      dataType="text"
+      filterId="column2Filter"
+      filterOperator="startsWith"
+    />
+  </sky-data-grid>
+}
+
 @if (showFilteredGrid()) {
   <h1>Grid with filters</h1>
   <sky-data-grid

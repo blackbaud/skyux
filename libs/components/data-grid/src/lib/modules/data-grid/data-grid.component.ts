@@ -166,7 +166,6 @@ export class SkyDataGridComponent<
    * `wrapText` on any column so that rows can be virtually drawn as needed. When `wrapText` is  enabled on any column,
    * or when `height` is not set, the grid needs to build every row in order to determine the scroll height, creating
    * hundreds or thousands of invisible DOM elements and slowing down the browser.
-   * @default 0
    */
   public readonly height = input<number, unknown>(0, {
     transform: (val: unknown) => coerceNumberProperty(val, 0),
@@ -197,11 +196,10 @@ export class SkyDataGridComponent<
   public readonly multiselectRowId = input<keyof T>('id');
 
   /**
-   * The number of items to display per page. Set to `0` to disable pagination.
-   * @default 0
+   * The number of items to display per page. Setting this value enables pagination.
    */
   public readonly pageSize = input<number, unknown>(0, {
-    transform: (val: unknown) => coerceNumberProperty(val, 0),
+    transform: (value: unknown) => coerceNumberProperty(value, 0),
   });
 
   /**
@@ -219,7 +217,7 @@ export class SkyDataGridComponent<
   public readonly rowHighlightedId = input<string>();
 
   /**
-   * Whether the data grid is stacked on another data grid. When specified, the appropriate
+   * Whether the data grid is stacked with another element below it. When specified, the appropriate
    * vertical spacing is automatically added to the data grid.
    * @default false
    */
@@ -240,7 +238,6 @@ export class SkyDataGridComponent<
    * `page` change, `sort` change, `appliedFilters` change, and search (when using search such as with a SKY UX data manager).
    * If this input is not set, the data grid will page, sort, filter, and apply SKY UX data manager search text to the
    * `data` provided, and the total row count is assumed to be `data.length`.
-   * @default undefined
    */
   public readonly totalRowCount = input<number | undefined>(undefined);
 
@@ -253,8 +250,7 @@ export class SkyDataGridComponent<
   public readonly viewId = input<string>();
 
   /**
-   * The width of the grid in CSS pixels. When set to `0`, the grid will use the width of its container.
-   * @default 0
+   * The width of the grid in CSS pixels. When no width is set, the grid will use the width of its container.
    */
   public readonly width = input<number, unknown>(0, {
     transform: (val: unknown) => coerceNumberProperty(val, 0),
@@ -275,8 +271,7 @@ export class SkyDataGridComponent<
   public readonly displayedColumnIdsChange = output<string[]>();
 
   /**
-   * The current page number of the grid. When using `pageQueryParam`, this value should come from the query parameter.
-   * @default 1
+   * The current page number of the grid when `pageSize` has been set.
    */
   public readonly page = model<number>(1);
 
@@ -583,12 +578,21 @@ export class SkyDataGridComponent<
     // Apply inputs once the grid is loaded and on subsequent changes.
     effect(() => {
       const api = this.gridApi();
+      const multiselectRowId = this.multiselectRowId();
+      const validRowIds = this.rowData().map((row): string =>
+        String(row[multiselectRowId as keyof T]),
+      );
       const selectedRowIds = coerceStringArray(this.selectedRowIds());
-      this.rowData();
+      const validSelectedRowIds = selectedRowIds.filter((id) =>
+        validRowIds.includes(id),
+      );
+      if (!arrayIsEqual(validSelectedRowIds, selectedRowIds)) {
+        this.selectedRowIds.set(validSelectedRowIds);
+      }
       const currentSelectedRowIds = this.#getRowIds(api?.getSelectedNodes());
-      if (!arrayIsEqual(selectedRowIds, currentSelectedRowIds)) {
+      if (!arrayIsEqual(validSelectedRowIds, currentSelectedRowIds)) {
         api?.deselectAll();
-        selectedRowIds.forEach((rowId) =>
+        validSelectedRowIds.forEach((rowId) =>
           api?.getRowNode(rowId)?.setSelected(true),
         );
       }
@@ -665,6 +669,7 @@ export class SkyDataGridComponent<
         .normalize()
         .toLowerCase();
       const useInternalFilters = this.#useInternalFilters();
+      const multiselectRowId = this.multiselectRowId();
       if (useInternalFilters) {
         if (isExternalFilterPresent) {
           rowData = rowData.filter((data) => doesExternalFilterPass({ data }));
@@ -678,6 +683,16 @@ export class SkyDataGridComponent<
                 .includes(searchText),
             ),
           );
+        }
+        const validRowIds = rowData.map((row): string =>
+          String(row[multiselectRowId as keyof T]),
+        );
+        const selectedRowIds = coerceStringArray(this.selectedRowIds());
+        const validSelectedRowIds = selectedRowIds.filter((id) =>
+          validRowIds.includes(id),
+        );
+        if (!arrayIsEqual(validSelectedRowIds, selectedRowIds)) {
+          this.selectedRowIds.set(validSelectedRowIds);
         }
         this.rowCountChange.emit(rowData.length);
       }
