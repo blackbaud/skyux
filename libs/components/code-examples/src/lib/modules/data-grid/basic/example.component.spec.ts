@@ -41,7 +41,7 @@ describe('Basic data grid example', () => {
     ]);
     expect(await gridHarness.getDisplayedColumnHeaderNames()).toEqual([
       '',
-      '',
+      'Context menu',
       'Name',
       'Age',
       'Start date',
