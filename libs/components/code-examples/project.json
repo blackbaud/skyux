@@ -18,7 +18,7 @@
     },
     "build": {
       "inputs": ["{projectRoot}/**/*", "^buildInputs"],
-      "dependsOn": ["prebuild"],
+      "dependsOn": ["prebuild", "^build"],
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/code-examples"],
       "options": {

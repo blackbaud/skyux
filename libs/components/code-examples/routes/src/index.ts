@@ -131,7 +131,9 @@ export const routes: Routes = [
     path: 'AngularTreeComponentAngularTreePreselectedNodesExampleComponent',
     loadComponent: () =>
       import('@skyux/code-examples').then(
-        ({ AngularTreeComponentAngularTreePreselectedNodesExampleComponent: c }) => c,
+        ({
+          AngularTreeComponentAngularTreePreselectedNodesExampleComponent: c,
+        }) => c,
       ),
   },
   {
@@ -165,9 +167,7 @@ export const routes: Routes = [
   {
     path: 'AvatarExampleComponent',
     loadComponent: () =>
-      import('@skyux/code-examples').then(
-        ({ AvatarExampleComponent: c }) => c,
-      ),
+      import('@skyux/code-examples').then(({ AvatarExampleComponent: c }) => c),
   },
   {
     path: 'ColorpickerBasicExampleComponent',
@@ -193,9 +193,7 @@ export const routes: Routes = [
   {
     path: 'CoreIdExampleComponent',
     loadComponent: () =>
-      import('@skyux/code-examples').then(
-        ({ CoreIdExampleComponent: c }) => c,
-      ),
+      import('@skyux/code-examples').then(({ CoreIdExampleComponent: c }) => c),
   },
   {
     path: 'CoreMediaQueryBasicExampleComponent',
@@ -1019,9 +1017,7 @@ export const routes: Routes = [
   {
     path: 'NavbarExampleComponent',
     loadComponent: () =>
-      import('@skyux/code-examples').then(
-        ({ NavbarExampleComponent: c }) => c,
-      ),
+      import('@skyux/code-examples').then(({ NavbarExampleComponent: c }) => c),
   },
   {
     path: 'PagesActionHubExampleComponent',
