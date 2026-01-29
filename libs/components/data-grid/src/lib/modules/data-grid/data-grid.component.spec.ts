@@ -462,7 +462,7 @@ describe('SkyDataGridComponent', () => {
       await expectAsync(pagingHarness.getCurrentPage()).toBeResolvedTo(1);
       await pagingHarness.clickPageButton(2);
       await expectAsync(pagingHarness.getCurrentPage()).toBeResolvedTo(2);
-      expect(navSpy).toHaveBeenCalledWith(['.'], {
+      expect(navSpy).toHaveBeenCalledWith([], {
         relativeTo: jasmine.any(ActivatedRoute),
         queryParams: { page: 2 },
         queryParamsHandling: 'merge',
@@ -474,7 +474,7 @@ describe('SkyDataGridComponent', () => {
 
       await pagingHarness.clickPageButton(1);
       await expectAsync(pagingHarness.getCurrentPage()).toBeResolvedTo(1);
-      expect(navSpy).toHaveBeenCalledWith(['.'], {
+      expect(navSpy).toHaveBeenCalledWith([], {
         relativeTo: jasmine.any(ActivatedRoute),
         queryParams: { page: null },
         queryParamsHandling: 'merge',
@@ -486,7 +486,7 @@ describe('SkyDataGridComponent', () => {
 
       await pagingHarness.clickPageButton(3);
       await expectAsync(pagingHarness.getCurrentPage()).toBeResolvedTo(3);
-      expect(navSpy).toHaveBeenCalledWith(['.'], {
+      expect(navSpy).toHaveBeenCalledWith([], {
         relativeTo: jasmine.any(ActivatedRoute),
         queryParams: { page: 3 },
         queryParamsHandling: 'merge',
@@ -498,7 +498,7 @@ describe('SkyDataGridComponent', () => {
 
       await pagingHarness.clickPageButton(2);
       await expectAsync(pagingHarness.getCurrentPage()).toBeResolvedTo(2);
-      expect(navSpy).toHaveBeenCalledWith(['.'], {
+      expect(navSpy).toHaveBeenCalledWith([], {
         relativeTo: jasmine.any(ActivatedRoute),
         queryParams: { page: 2 },
         queryParamsHandling: 'merge',
@@ -507,7 +507,7 @@ describe('SkyDataGridComponent', () => {
 
       component.page = 0;
       fixture.detectChanges();
-      expect(navSpy).not.toHaveBeenCalledWith(['.'], {
+      expect(navSpy).not.toHaveBeenCalledWith([], {
         relativeTo: jasmine.any(ActivatedRoute),
         queryParams: { page: 0 },
         queryParamsHandling: 'merge',
@@ -515,7 +515,7 @@ describe('SkyDataGridComponent', () => {
 
       component.page = Number.POSITIVE_INFINITY;
       fixture.detectChanges();
-      expect(navSpy).not.toHaveBeenCalledWith(['.'], {
+      expect(navSpy).not.toHaveBeenCalledWith([], {
         relativeTo: jasmine.any(ActivatedRoute),
         queryParams: { page: Number.POSITIVE_INFINITY },
         queryParamsHandling: 'merge',

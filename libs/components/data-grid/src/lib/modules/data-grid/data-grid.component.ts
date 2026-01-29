@@ -58,12 +58,14 @@ import {
 } from 'ag-grid-community';
 import {
   Observable,
+  ObservableInput,
   distinctUntilChanged,
   filter,
   fromEvent,
   fromEventPattern,
   map,
   merge,
+  startWith,
   switchMap,
   takeUntil,
 } from 'rxjs';
@@ -205,9 +207,6 @@ export class SkyDataGridComponent<
   /**
    * The query parameter name that stores the current page number.
    * When set, the grid syncs page changes to the URL for deep linking, and there should only be one grid on the page.
-   * The value should match the name of an input on the route component, the value of that input should be passed to the
-   * `SkyDataGridComponent` `page` input, and the SPA's `Router` should be configured to use
-   * [`withComponentInputBinding`](https://angular.dev/api/router/withComponentInputBinding).
    */
   public readonly pageQueryParam = input<string>();
 
@@ -262,12 +261,6 @@ export class SkyDataGridComponent<
   });
 
   /**
-   * The current page number of the grid. When using `pageQueryParam`, this value should come from the query parameter.
-   * @default 1
-   */
-  public readonly page = model<number>(1);
-
-  /**
    * The column IDs or fields for columns to show. Should not be combined with `hiddenColumnIds`.
    */
   public readonly displayedColumnIds = input<string[], unknown>([], {
@@ -280,6 +273,12 @@ export class SkyDataGridComponent<
    * reflects the column order.
    */
   public readonly displayedColumnIdsChange = output<string[]>();
+
+  /**
+   * The current page number of the grid. When using `pageQueryParam`, this value should come from the query parameter.
+   * @default 1
+   */
+  public readonly page = model<number>(1);
 
   /**
    * The set of IDs for the rows to prompt for delete confirmation.
@@ -530,6 +529,22 @@ export class SkyDataGridComponent<
     const totalRowCount = this.totalRowCount();
     return typeof totalRowCount === 'undefined';
   });
+  readonly #queryParamPage = toSignal(
+    toObservable(this.pageQueryParam).pipe(
+      switchMap(
+        (pageQueryParam): ObservableInput<number> =>
+          pageQueryParam && this.#activatedRoute
+            ? this.#activatedRoute.queryParamMap.pipe(
+                startWith(this.#activatedRoute.snapshot.queryParamMap),
+                map((params) =>
+                  coerceNumberProperty(params.get(pageQueryParam), 1),
+                ),
+              )
+            : [],
+      ),
+    ),
+    { initialValue: 1 },
+  );
 
   constructor() {
     // Update specific grid options after the grid has been loaded.
@@ -597,6 +612,12 @@ export class SkyDataGridComponent<
         return;
       }
       api.paginationGoToPage(page - 1);
+    });
+
+    // Sync page from URL query parameter.
+    effect(() => {
+      const queryParamPage = this.#queryParamPage();
+      this.page.set(queryParamPage);
     });
 
     this.#gridDestroyed.pipe(takeUntilDestroyed()).subscribe(() => {
@@ -673,24 +694,20 @@ export class SkyDataGridComponent<
   }
 
   protected currentPageChange(page: number): void {
-    const pageQueryParam = this.pageQueryParam();
-    const pageNumber = coerceNumberProperty(page, 1);
-    if (
-      pageQueryParam &&
-      this.#activatedRoute &&
-      this.#activatedRoute.snapshot.queryParamMap.get(pageQueryParam) !==
-        `${page}`
-    ) {
-      // When using a query parameter, send the change through the router.
-      void this.#router?.navigate(['.'], {
-        relativeTo: this.#activatedRoute,
-        queryParams: {
-          [pageQueryParam]: pageNumber === 1 ? null : pageNumber,
-        },
-        queryParamsHandling: 'merge',
-      });
-    } else if (page && page !== this.page()) {
-      this.page.set(page);
+    if (page && page !== this.page()) {
+      const pageQueryParam = this.pageQueryParam();
+      if (pageQueryParam) {
+        // When using a query parameter, send the change through the router.
+        void this.#router?.navigate([], {
+          relativeTo: this.#activatedRoute,
+          queryParams: {
+            [pageQueryParam]: page === 1 ? null : page,
+          },
+          queryParamsHandling: 'merge',
+        });
+      } else {
+        this.page.set(page);
+      }
     }
   }
 
