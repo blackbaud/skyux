@@ -7,8 +7,8 @@ const DONUT_CHART_ROUTES: Routes = [
     path: '',
     component: DonutChartDemoComponent,
     data: {
-      name: 'Pie chart (basic)',
-      icon: 'pie-chart',
+      name: 'Donut chart (basic)',
+      icon: 'donut-chart',
       library: 'charts',
     },
   },
