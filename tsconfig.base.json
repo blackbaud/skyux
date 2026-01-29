@@ -45,6 +45,9 @@
         "libs/components/action-bars/testing/src/public-api.ts"
       ],
       "@skyux/ag-grid": ["libs/components/ag-grid/src/index.ts"],
+      "@skyux/ag-grid/testing": [
+        "libs/components/ag-grid/testing/src/public-api.ts"
+      ],
       "@skyux/angular-tree-component": [
         "libs/components/angular-tree-component/src/index.ts"
       ],
@@ -60,6 +63,9 @@
         "libs/components/charts/testing/src/public-api.ts"
       ],
       "@skyux/code-examples": ["libs/components/code-examples/src/index.ts"],
+      "@skyux/code-examples/routes": [
+        "libs/components/code-examples/routes/src/index.ts"
+      ],
       "@skyux/colorpicker": ["libs/components/colorpicker/src/index.ts"],
       "@skyux/colorpicker/testing": [
         "libs/components/colorpicker/testing/src/public-api.ts"
