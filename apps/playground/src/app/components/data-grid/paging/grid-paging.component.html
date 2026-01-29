@@ -1,4 +1,13 @@
 <h2>Updates query string</h2>
+
+<button
+  class="sky-btn sky-margin-stacked-xl"
+  type="button"
+  (click)="setQueryParamAndReload()"
+>
+  Set query param and reload
+</button>
+
 <sky-data-grid pageSize="5" pageQueryParam="page" [data]="data" [page]="page()">
   <sky-data-grid-column field="name" headingText="name" />
   <sky-data-grid-column

@@ -64,6 +64,7 @@ import {
   fromEventPattern,
   map,
   merge,
+  startWith,
   switchMap,
   takeUntil,
 } from 'rxjs';
@@ -530,6 +531,22 @@ export class SkyDataGridComponent<
     const totalRowCount = this.totalRowCount();
     return typeof totalRowCount === 'undefined';
   });
+  readonly #queryParamPage = toSignal(
+    toObservable(this.pageQueryParam).pipe(
+      switchMap((pageQueryParam) =>
+        pageQueryParam && this.#activatedRoute
+          ? this.#activatedRoute.queryParamMap.pipe(
+              startWith(this.#activatedRoute.snapshot.queryParamMap),
+              map((params) => {
+                const pageValue = params.get(pageQueryParam);
+
+                return pageValue ? coerceNumberProperty(pageValue, 1) : 1;
+              }),
+            )
+          : [],
+      ),
+    ),
+  );
 
   constructor() {
     // Update specific grid options after the grid has been loaded.
@@ -597,6 +614,15 @@ export class SkyDataGridComponent<
         return;
       }
       api.paginationGoToPage(page - 1);
+    });
+
+    // Sync page from URL query parameter.
+    effect(() => {
+      const queryParamPage = this.#queryParamPage();
+
+      if (queryParamPage && queryParamPage !== this.page()) {
+        this.page.set(queryParamPage);
+      }
     });
 
     this.#gridDestroyed.pipe(takeUntilDestroyed()).subscribe(() => {
