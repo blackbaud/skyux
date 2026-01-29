@@ -1,174 +1,160 @@
-import { ChartOptions } from 'chart.js';
+import {
+  ChartConfiguration,
+  ChartOptions,
+  ChartTypeRegistry,
+  ScaleOptionsByType,
+} from 'chart.js';
 
+import { DeepPartial, SkyLineChartConfig } from '../shared/chart-types';
 import { SkyuxChartStyles } from '../shared/global-chart-config';
 import { getLegendPluginOptions } from '../shared/plugin-config/legend-plugin';
 import { getTooltipPluginOptions } from '../shared/plugin-config/tooltip-plugin';
+import { createAutoColorPlugin } from '../shared/plugins/auto-color-plugin';
+import { createChartA11yPlugin } from '../shared/plugins/chart-a11y-plugin';
+import { createLegendA11yPlugin } from '../shared/plugins/legend-a11y-plugin';
+import { createLegendBackgroundPlugin } from '../shared/plugins/legend-background-plugin';
+import { createTooltipShadowPlugin } from '../shared/plugins/tooltip-shadow-plugin';
 
 /**
- * Get Base Line Chart Configuration
- * Returns a fresh config with resolved colors at runtime
+ * Transforms a consumer-friendly SkyBarChartConfig into a ChartJS ChartConfiguration.
+ * This function encapsulates all ChartJS implementation details and provides
+ * a clean mapping from the public API to the internal representation.
  */
-function getBaseLineChartConfig(): Partial<ChartOptions<'line'>> {
-  const axisColor = SkyuxChartStyles.axisLineColor;
-  const gridLineColor = SkyuxChartStyles.axisGridLineColor;
-  const textColor = SkyuxChartStyles.axisTickColor;
-  const fontSize = SkyuxChartStyles.axisTickFontSize;
-  const fontFamily = SkyuxChartStyles.fontFamily;
-  const fontWeight = SkyuxChartStyles.axisTickFontWeight;
-  const labelPadding = SkyuxChartStyles.axisTickPadding;
-  const lineTension = SkyuxChartStyles.lineTension;
-  const lineBorderWidth = SkyuxChartStyles.lineBorderWidth;
-  const pointRadius = SkyuxChartStyles.linePointRadius;
-  const pointHoverRadius = SkyuxChartStyles.linePointHoverRadius;
-  const pointBorderWidth = SkyuxChartStyles.linePointBorderWidth;
+export function getChartJsLineChartConfig(
+  skyConfig: SkyLineChartConfig,
+): ChartConfiguration<'line'> {
+  const orientation = skyConfig.orientation || 'vertical';
+  const isHorizontal = orientation === 'horizontal';
 
+  // Build datasets from series
+  const datasets = skyConfig.series.map((series) => ({
+    label: series.label,
+    data: series.data.map((dp) => dp.value),
+  }));
+
+  // Build Plugin options
+  const pluginOptions: ChartOptions['plugins'] = {
+    legend: getLegendPluginOptions(),
+    tooltip: getTooltipPluginOptions(),
+  };
+
+  if (skyConfig.title) {
+    pluginOptions.title = { display: true, text: skyConfig.title };
+  }
+
+  if (skyConfig.subtitle) {
+    pluginOptions.subtitle = { display: true, text: skyConfig.subtitle };
+  }
+
+  // Build ChartJS options
   const options: ChartOptions<'line'> = {
     responsive: true,
     maintainAspectRatio: false,
-
+    indexAxis: isHorizontal ? 'y' : 'x',
     elements: {
       line: {
-        tension: lineTension,
-        borderWidth: lineBorderWidth,
+        tension: SkyuxChartStyles.lineTension,
+        borderWidth: SkyuxChartStyles.lineBorderWidth,
       },
       point: {
-        radius: pointRadius,
-        hoverRadius: pointHoverRadius,
-        borderWidth: pointBorderWidth,
-        hoverBorderWidth: pointBorderWidth,
+        radius: SkyuxChartStyles.linePointRadius,
+        hoverRadius: SkyuxChartStyles.linePointHoverRadius,
+        borderWidth: SkyuxChartStyles.linePointBorderWidth,
+        hoverBorderWidth: SkyuxChartStyles.linePointBorderWidth,
         pointStyle: 'circle',
       },
     },
-
-    scales: {
-      x: {
-        grid: {
-          display: true,
-          color: gridLineColor,
-          drawTicks: false,
-        },
-        border: {
-          display: true,
-          color: axisColor,
-        },
-        ticks: {
-          color: textColor,
-          font: {
-            size: fontSize,
-            family: fontFamily,
-            weight: fontWeight,
-          },
-          padding: labelPadding,
-        },
-      },
-      y: {
-        beginAtZero: true,
-        grid: {
-          display: true,
-          color: gridLineColor,
-          drawTicks: false,
-        },
-        border: {
-          display: true,
-          color: axisColor,
-        },
-        ticks: {
-          color: textColor,
-          font: {
-            size: fontSize,
-            family: fontFamily,
-            weight: fontWeight,
-          },
-          padding: labelPadding,
-        },
-      },
-    },
-
-    plugins: {
-      legend: getLegendPluginOptions(),
-      tooltip: getTooltipPluginOptions(),
-    },
-
     interaction: {
       mode: 'nearest',
       axis: 'x',
       intersect: false,
     },
+    scales: createLinearScales(skyConfig),
+    plugins: pluginOptions,
+    onClick: (e, elements, chart) => {
+      if (elements.length === 0) {
+        return;
+      }
+
+      const seriesIndex = elements[0]?.datasetIndex;
+      const dataIndex = elements[0]?.index;
+
+      const dataset = chart.data.datasets[seriesIndex];
+      const dataValue = dataset.data[dataIndex];
+
+      const category = dataset.label;
+      const value = dataValue;
+
+      console.log('Clicked', { seriesIndex, dataIndex, category, value });
+    },
   };
 
-  return options;
+  return {
+    type: 'line',
+    data: {
+      labels: skyConfig.categories,
+      datasets: datasets,
+    },
+    options: options,
+    plugins: [
+      createChartA11yPlugin(),
+      createLegendA11yPlugin(),
+      createAutoColorPlugin(),
+      createTooltipShadowPlugin(),
+      createLegendBackgroundPlugin(),
+    ],
+  };
 }
 
-/**
- * Get SKY UX Line Chart Configuration with custom options
- * Merges base config with custom options provided
- * @param customConfig Optional custom chart options to merge
- * @returns Merged chart configuration
- */
-export function getSkyuxLineChartConfig(
-  customConfig?: Partial<ChartOptions<'line'>>,
-): Partial<ChartOptions<'line'>> {
-  const baseConfig = getBaseLineChartConfig();
+type PartialLinearScale = DeepPartial<
+  ScaleOptionsByType<ChartTypeRegistry['line']['scales']>
+>;
 
-  if (!customConfig) {
-    return baseConfig;
-  }
+function createLinearScales(
+  skyConfig: SkyLineChartConfig,
+): ChartOptions<'line'>['scales'] {
+  const orientation = skyConfig.orientation ?? 'vertical';
+  const isHorizontal = orientation === 'horizontal';
+  const valueAxis = isHorizontal ? 'x' : 'y';
 
-  // Deep merge scales configuration
-  const mergedScales: any = {
-    ...(baseConfig.scales || {}),
+  const base: PartialLinearScale = {
+    grid: {
+      display: true,
+      color: SkyuxChartStyles.axisGridLineColor,
+      drawTicks: false,
+    },
+    border: {
+      display: true,
+      color: SkyuxChartStyles.axisLineColor,
+    },
+    ticks: {
+      color: SkyuxChartStyles.axisTickColor,
+      font: {
+        size: SkyuxChartStyles.axisTickFontSize,
+        family: SkyuxChartStyles.fontFamily,
+        weight: SkyuxChartStyles.axisTickFontWeight,
+      },
+      padding: SkyuxChartStyles.axisTickPadding,
+    },
   };
 
-  if (customConfig.scales) {
-    Object.keys(customConfig.scales).forEach((scaleKey) => {
-      const customScale = (customConfig.scales as any)[scaleKey];
-      const baseScale = mergedScales[scaleKey] || {};
-
-      mergedScales[scaleKey] = {
-        ...baseScale,
-        ...customScale,
-        grid: {
-          ...(baseScale.grid || {}),
-          ...(customScale.grid || {}),
-        },
-        border: {
-          ...(baseScale.border || {}),
-          ...(customScale.border || {}),
-        },
-        ticks: {
-          ...(baseScale.ticks || {}),
-          ...(customScale.ticks || {}),
-        },
-      };
-    });
-  }
-
-  // Deep merge plugins configuration
-  const mergedPlugins: any = {
-    ...(baseConfig.plugins || {}),
+  const x: PartialLinearScale = {
+    type: valueAxis === 'x' ? 'linear' : 'category',
+    beginAtZero: skyConfig.valueAxis?.beginAtZero ?? true,
+    // spread syntax does not work
+    grid: base.grid,
+    border: base.border,
+    ticks: base.ticks,
   };
 
-  if (customConfig.plugins) {
-    Object.keys(customConfig.plugins).forEach((pluginKey) => {
-      const customPlugin = (customConfig.plugins as any)[pluginKey];
-      const basePlugin = mergedPlugins[pluginKey] || {};
-
-      if (typeof customPlugin === 'object' && customPlugin !== null) {
-        mergedPlugins[pluginKey] = {
-          ...basePlugin,
-          ...customPlugin,
-        };
-      } else {
-        mergedPlugins[pluginKey] = customPlugin;
-      }
-    });
-  }
-
-  // Merge everything together
-  return {
-    ...baseConfig,
-    ...customConfig,
-    scales: mergedScales,
-    plugins: mergedPlugins,
+  const y: PartialLinearScale = {
+    type: valueAxis === 'y' ? 'linear' : 'category',
+    beginAtZero: skyConfig.valueAxis?.beginAtZero ?? true,
+    // spread syntax does not work
+    grid: base.grid,
+    border: base.border,
+    ticks: base.ticks,
   };
+
+  return { x, y };
 }

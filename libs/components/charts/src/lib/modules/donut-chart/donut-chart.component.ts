@@ -19,23 +19,23 @@ import { SkyThemeService } from '@skyux/theme';
 
 import { Chart, ChartConfiguration, UpdateMode, registerables } from 'chart.js';
 
-import { SkyPieChartConfig } from '../shared/chart-types';
+import { SkyDonutChartConfig } from '../shared/chart-types';
 import { exportChartToPng } from '../shared/export-chart-to-png';
 import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
 
-import { transformToChartJsConfig } from './pie-chart-transform';
+import { getChartJsDonutChartConfig } from './donut-chart-config';
 
 // Register Chart.js components globally
 Chart.register(...registerables);
 
 @Component({
-  selector: 'sky-pie-chart',
-  templateUrl: 'pie-chart.component.html',
-  styleUrl: 'pie-chart.component.scss',
+  selector: 'sky-donut-chart',
+  templateUrl: 'donut-chart.component.html',
+  styleUrl: 'donut-chart.component.scss',
   imports: [SkyChartsResourcesModule, SkyDropdownModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyPieChartComponent implements AfterViewInit, OnDestroy {
+export class SkyDonutChartComponent implements AfterViewInit, OnDestroy {
   // #region Dependency Injection
   readonly #destroyRef = inject(DestroyRef);
   readonly #changeDetector = inject(ChangeDetectorRef);
@@ -57,7 +57,7 @@ export class SkyPieChartComponent implements AfterViewInit, OnDestroy {
   /**
    * Configuration for the bar chart. Defines categories, series data, orientation, and display options.
    */
-  public readonly config = input.required<SkyPieChartConfig>();
+  public readonly config = input.required<SkyDonutChartConfig>();
   // #endregion
 
   // #region Outputs
@@ -71,7 +71,7 @@ export class SkyPieChartComponent implements AfterViewInit, OnDestroy {
 
   protected readonly height = signal(300);
 
-  #chart: Chart<'pie' | 'doughnut'> | undefined;
+  #chart: Chart<'doughnut'> | undefined;
 
   public ngAfterViewInit(): void {
     this.#renderChart();
@@ -133,9 +133,9 @@ export class SkyPieChartComponent implements AfterViewInit, OnDestroy {
     return canvasContext;
   }
 
-  #getChartConfig(): ChartConfiguration<'pie' | 'doughnut'> {
+  #getChartConfig(): ChartConfiguration<'doughnut'> {
     const userConfig = this.config();
-    return transformToChartJsConfig(userConfig);
+    return getChartJsDonutChartConfig(userConfig);
   }
 
   #onThemeChange(): void {

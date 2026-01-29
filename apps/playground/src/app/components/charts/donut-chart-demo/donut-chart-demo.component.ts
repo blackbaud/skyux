@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SkyPieChartComponent, SkyPieChartConfig } from '@skyux/charts';
+import { SkyDonutChartComponent, SkyDonutChartConfig } from '@skyux/charts';
 import { SkyBoxModule } from '@skyux/layout';
 import { SkyFluidGridModule } from '@skyux/layout';
 
 @Component({
-  selector: 'app-bar-chart-demo',
-  templateUrl: 'pie-chart-demo.component.html',
+  selector: 'app-donut-chart-demo',
+  templateUrl: 'donut-chart-demo.component.html',
   styles: [
     `
       :host {
@@ -14,10 +14,10 @@ import { SkyFluidGridModule } from '@skyux/layout';
       }
     `,
   ],
-  imports: [SkyPieChartComponent, SkyBoxModule, SkyFluidGridModule],
+  imports: [SkyDonutChartComponent, SkyBoxModule, SkyFluidGridModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PieChartDemoComponent {
+export class DonutChartDemoComponent {
   protected assetCategories = [
     {
       name: 'Securities - WP',
@@ -45,7 +45,7 @@ export class PieChartDemoComponent {
     },
   ];
 
-  protected readonly chart1: SkyPieChartConfig = {
+  protected readonly chart1: SkyDonutChartConfig = {
     title: undefined,
     subtitle: undefined,
     categories: this.assetCategories.map((c) => c.name),
@@ -58,7 +58,7 @@ export class PieChartDemoComponent {
     },
   };
 
-  protected readonly chart2: SkyPieChartConfig = {
+  protected readonly chart2: SkyDonutChartConfig = {
     title: undefined,
     subtitle: undefined,
     categories: this.assetCategories.map((c) => c.name),
@@ -71,7 +71,7 @@ export class PieChartDemoComponent {
     },
   };
 
-  protected readonly chart3: SkyPieChartConfig = {
+  protected readonly chart3: SkyDonutChartConfig = {
     title: undefined,
     subtitle: undefined,
     categories: this.assetCategories.map((c) => c.name),

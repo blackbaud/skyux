@@ -10,8 +10,8 @@ const CHARTS_ROUTES: Routes = [
     loadChildren: () => import('./line-chart-demo/line-chart-routes'),
   },
   {
-    path: 'pie-chart-demos',
-    loadChildren: () => import('./pie-chart-demo/pie-chart-demo-routes'),
+    path: 'donut-chart-demos',
+    loadChildren: () => import('./donut-chart-demo/donut-chart-demo-routes'),
   },
 ];
 

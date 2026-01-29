@@ -23,7 +23,7 @@ import { SkyLineChartConfig } from '../shared/chart-types';
 import { exportChartToPng } from '../shared/export-chart-to-png';
 import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
 
-import { transformToChartJsConfig } from './line-chart-transform';
+import { getChartJsLineChartConfig } from './line-chart-config';
 
 // Register Chart.js components globally
 Chart.register(...registerables);
@@ -135,7 +135,7 @@ export class SkyLineChartComponent implements AfterViewInit, OnDestroy {
 
   #getChartConfig(): ChartConfiguration<'line'> {
     const userConfig = this.config();
-    return transformToChartJsConfig(userConfig);
+    return getChartJsLineChartConfig(userConfig);
   }
 
   #onThemeChange(): void {

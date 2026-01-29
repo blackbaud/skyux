@@ -169,7 +169,7 @@ class ChartKeyboardManager {
         dataElement as unknown as { x: number; y: number },
       );
     } else if (chartType === 'pie' || chartType === 'doughnut') {
-      this.#drawPieFocusIndicator(
+      this.#drawDonutFocusIndicator(
         ctx,
         dataElement as unknown as {
           x: number;
@@ -465,7 +465,7 @@ class ChartKeyboardManager {
     ctx.stroke();
   }
 
-  #drawPieFocusIndicator(
+  #drawDonutFocusIndicator(
     ctx: CanvasRenderingContext2D,
     element: {
       x: number;

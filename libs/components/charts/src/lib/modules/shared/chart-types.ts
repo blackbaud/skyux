@@ -68,8 +68,8 @@ export type SkyBarChartConfig = SkyCartesianChartConfig;
 /** Configuration for the bar chart component. */
 export type SkyLineChartConfig = SkyCartesianChartConfig;
 
-/** Configuration for the pie chart component. */
-export type SkyPieChartConfig = SkyRadialChartConfig;
+/** Configuration for the donut chart component. */
+export type SkyDonutChartConfig = SkyRadialChartConfig;
 // #endregion
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type

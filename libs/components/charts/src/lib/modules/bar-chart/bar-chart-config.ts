@@ -46,9 +46,9 @@ export function getChartJsBarChartConfig(
 
   // Build chart options
   const options: ChartOptions<'bar'> = {
-    indexAxis: isHorizontal ? 'y' : 'x',
     responsive: true,
     maintainAspectRatio: false,
+    indexAxis: isHorizontal ? 'y' : 'x',
     datasets: {
       bar: {
         categoryPercentage: 0.7,
