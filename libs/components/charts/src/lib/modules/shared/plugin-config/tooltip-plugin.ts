@@ -24,12 +24,12 @@ export function getTooltipPluginOptions(): Partial<TooltipOptions> {
     titleFont: {
       family: SkyuxChartStyles.fontFamily,
       size: SkyuxChartStyles.tooltipTitleFontSize,
-      weight: SkyuxChartStyles.tooltipTitleFontWeight as any,
+      weight: SkyuxChartStyles.tooltipTitleFontWeight,
     },
     bodyFont: {
       family: SkyuxChartStyles.fontFamily,
       size: SkyuxChartStyles.tooltipBodyFontSize,
-      weight: SkyuxChartStyles.tooltipBodyFontWeight as any,
+      weight: SkyuxChartStyles.tooltipBodyFontWeight,
     },
   };
 }

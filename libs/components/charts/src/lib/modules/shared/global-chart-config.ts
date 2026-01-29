@@ -238,10 +238,10 @@ export const SkyuxChartStyles = {
     return remToPixels(size || '15px'); // Fallback
   },
 
-  get tooltipTitleFontWeight(): string {
+  get tooltipTitleFontWeight(): number {
     const weight = resolveCssVariable('--sky-font-style-heading-4');
     // console.log('SKY UX Tooltip Title Font Weight:', weight);
-    return weight || '600'; // Fallback
+    return Number(weight) || 600; // Fallback
   },
 
   get tooltipBodyFontSize(): number {
@@ -250,10 +250,10 @@ export const SkyuxChartStyles = {
     return remToPixels(size || '15px'); // Fallback
   },
 
-  get tooltipBodyFontWeight(): string {
+  get tooltipBodyFontWeight(): number {
     const weight = resolveCssVariable('--sky-font-style-body-m');
     // console.log('SKY UX Tooltip Body Font Weight:', weight);
-    return weight || '400'; // Fallback
+    return Number(weight) || 400; // Fallback
   },
 
   get tooltipBoxPadding(): number {
