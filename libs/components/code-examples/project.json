@@ -5,8 +5,20 @@
   "sourceRoot": "libs/components/code-examples/src",
   "prefix": "sky",
   "targets": {
+    "prebuild": {
+      "inputs": [
+        "{projectRoot}/src/index.ts",
+        "{workspaceRoot}/scripts/prebuild-code-examples.mts"
+      ],
+      "executor": "nx:run-commands",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "command": "npx vite-node ./scripts/prebuild-code-examples.mts"
+      }
+    },
     "build": {
       "inputs": ["{projectRoot}/**/*", "^buildInputs"],
+      "dependsOn": ["prebuild", "^build"],
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/code-examples"],
       "options": {
