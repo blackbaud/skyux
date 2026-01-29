@@ -7,7 +7,7 @@ const LINE_CHART_ROUTES: Routes = [
     path: '',
     component: LineChartDemoComponent,
     data: {
-      name: 'Line chart (basic)',
+      name: 'Line chart',
       icon: 'line-chart',
       library: 'charts',
     },

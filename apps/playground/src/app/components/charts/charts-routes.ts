@@ -3,11 +3,11 @@ import { Routes } from '@angular/router';
 const CHARTS_ROUTES: Routes = [
   {
     path: 'bar-chart-demos',
-    loadChildren: () => import('./bar-chart-demo/bar-chart-routes'),
+    loadChildren: () => import('./bar-chart-demo/bar-chart-demo-routes'),
   },
   {
     path: 'line-chart-demos',
-    loadChildren: () => import('./line-chart-demo/line-chart-routes'),
+    loadChildren: () => import('./line-chart-demo/line-chart-demo-routes'),
   },
   {
     path: 'donut-chart-demos',
