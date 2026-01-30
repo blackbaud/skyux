@@ -1,4 +1,3 @@
-import { animate, style, transition, trigger } from '@angular/animations';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -34,33 +33,6 @@ const DISPLAY_WITH_DEFAULT = 'name';
   templateUrl: './tokens.component.html',
   styleUrls: ['./tokens.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [
-    trigger('blockAnimationOnLoad', [transition(':enter', [])]),
-    trigger('dismiss', [
-      transition(':enter', [
-        style({
-          opacity: 0,
-          width: 0,
-        }),
-        animate(
-          '150ms ease-in',
-          style({
-            opacity: 1,
-            width: '*',
-          }),
-        ),
-      ]),
-      transition(':leave', [
-        animate(
-          '150ms ease-in',
-          style({
-            opacity: 0,
-            width: 0,
-          }),
-        ),
-      ]),
-    ]),
-  ],
   standalone: false,
 })
 export class SkyTokensComponent implements OnDestroy {

@@ -1,11 +1,4 @@
 import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
-import {
   AfterContentInit,
   Component,
   ElementRef,
@@ -28,28 +21,6 @@ import { SkyTextExpandModalComponent } from './text-expand-modal.component';
 let nextId = 0;
 
 @Component({
-  animations: [
-    trigger('expansionAnimation', [
-      transition(':enter', []),
-      state(
-        'true',
-        style({
-          maxHeight: '{{transitionHeight}}px',
-        }),
-        { params: { transitionHeight: 0 } },
-      ),
-      state(
-        'false',
-        style({
-          maxHeight: '{{transitionHeight}}px',
-        }),
-        { params: { transitionHeight: 0 } },
-      ),
-      transition('true => false', animate('250ms ease')),
-      transition('false => true', animate('250ms ease')),
-      transition('void => *', []),
-    ]),
-  ],
   selector: 'sky-text-expand',
   templateUrl: './text-expand.component.html',
   styleUrls: ['./text-expand.component.scss'],

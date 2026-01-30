@@ -30,7 +30,6 @@ import {
   takeUntil,
 } from 'rxjs';
 
-import { skyPopoverAnimation } from './popover-animation';
 import { SkyPopoverAnimationState } from './popover-animation-state';
 import { SkyPopoverContext } from './popover-context';
 import {
@@ -48,7 +47,6 @@ import { SkyPopoverType } from './types/popover-type';
   selector: 'sky-popover-content',
   templateUrl: './popover-content.component.html',
   styleUrls: ['./popover-content.component.scss'],
-  animations: [skyPopoverAnimation],
   standalone: false,
 })
 export class SkyPopoverContentComponent implements OnInit, OnDestroy {

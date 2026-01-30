@@ -13,7 +13,6 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
-import { skyAnimationEmerge } from '@skyux/animations';
 import { SkyIdModule } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeModule } from '@skyux/theme';
@@ -36,7 +35,6 @@ const SKY_TOAST_TYPE_DEFAULT = SkyToastType.Info;
   selector: 'sky-toast',
   templateUrl: './toast.component.html',
   styleUrls: ['./toast.component.scss'],
-  animations: [skyAnimationEmerge],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   imports: [

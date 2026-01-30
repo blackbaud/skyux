@@ -1,12 +1,4 @@
-import {
-  AnimationEvent,
-  animate,
-  group,
-  query,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
+import { AnimationEvent } from '@angular/animations';
 import {
   ChangeDetectorRef,
   Component,
@@ -32,54 +24,6 @@ let nextId = 0;
   selector: 'sky-inline-delete',
   styleUrls: ['./inline-delete.component.scss'],
   templateUrl: './inline-delete.component.html',
-  animations: [
-    trigger('inlineDeleteAnimation', [
-      transition('* => shown', [
-        style({
-          opacity: 0,
-        }),
-        query(
-          '.sky-inline-delete-content-animation-container',
-          style({ transform: 'scale(0.0)' }),
-        ),
-        group([
-          animate('300ms ease-in-out', style({ opacity: 1 })),
-          query(
-            '.sky-inline-delete-content-animation-container',
-            animate(
-              '300ms ease-in-out',
-              style({
-                transform: 'scale(1)',
-              }),
-            ),
-          ),
-        ]),
-      ]),
-      transition(`shown <=> *`, [
-        query(
-          '.sky-inline-delete-content-animation-container',
-          style({ transform: 'scale(1)' }),
-        ),
-        group([
-          animate(
-            '300ms ease-in-out',
-            style({
-              opacity: 0,
-            }),
-          ),
-          query(
-            '.sky-inline-delete-content-animation-container',
-            animate(
-              '300ms ease-in-out',
-              style({
-                transform: 'scale(0.0)',
-              }),
-            ),
-          ),
-        ]),
-      ]),
-    ]),
-  ],
   providers: [SkyCoreAdapterService, SkyInlineDeleteAdapterService],
   standalone: false,
 })

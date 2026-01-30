@@ -1,10 +1,3 @@
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -33,17 +26,6 @@ import { SkySplitViewMessageType } from './types/split-view-message-type';
  * and take actions.
  */
 @Component({
-  animations: [
-    trigger('blockAnimationOnLoad', [transition(':enter', [])]),
-    trigger('drawerEnter', [
-      state('false', style({ transform: 'translate(-100%)' })),
-      transition('* => true', animate('150ms ease-in')),
-    ]),
-    trigger('workspaceEnter', [
-      state('false', style({ transform: 'translate(100%)' })),
-      transition('* => true', animate('150ms ease-in')),
-    ]),
-  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [SkyResponsiveHostDirective],
   imports: [CommonModule],

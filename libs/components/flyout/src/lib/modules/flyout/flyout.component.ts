@@ -1,11 +1,4 @@
-import {
-  AnimationEvent,
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
+import { AnimationEvent } from '@angular/animations';
 import { A11yModule } from '@angular/cdk/a11y';
 import { CommonModule } from '@angular/common';
 import {
@@ -64,17 +57,6 @@ let nextId = 0;
   templateUrl: './flyout.component.html',
   styleUrls: ['./flyout.component.scss'],
   providers: [SkyFlyoutAdapterService],
-  animations: [
-    trigger('flyoutState', [
-      state(FLYOUT_OPEN_STATE, style({ transform: 'initial' })),
-      state(FLYOUT_CLOSED_STATE, style({ transform: 'translateX(100%)' })),
-      transition('void => *', [
-        style({ transform: 'translateX(100%)' }),
-        animate(250),
-      ]),
-      transition(`* <=> *`, animate('250ms ease-in')),
-    ]),
-  ],
   // Allow automatic change detection for child components.
   changeDetection: ChangeDetectionStrategy.Default,
   imports: [

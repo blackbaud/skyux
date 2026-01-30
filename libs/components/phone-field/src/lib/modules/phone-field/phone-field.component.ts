@@ -1,10 +1,4 @@
-import {
-  AnimationEvent,
-  animate,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
+import { AnimationEvent } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -88,73 +82,6 @@ const DEFAULT_COUNTRY_CODE = 'us';
       provide: SKY_COUNTRY_FIELD_CONTEXT,
       useValue: { inPhoneField: true },
     },
-  ],
-  animations: [
-    trigger('blockAnimationOnLoad', [transition(':enter', [])]),
-    trigger('countrySearchAnimation', [
-      transition('void => open', [
-        style({
-          opacity: 0,
-          width: 0,
-        }),
-        animate(
-          '200ms ease-in',
-          style({
-            opacity: 1,
-            width: '*',
-          }),
-        ),
-      ]),
-      transition('open => void', [
-        animate(
-          '200ms ease-in',
-          style({
-            opacity: 0,
-            width: 0,
-          }),
-        ),
-      ]),
-      transition('void => open-modern', [
-        style({
-          opacity: 0,
-        }),
-        animate(
-          '200ms ease-in',
-          style({
-            opacity: 1,
-          }),
-        ),
-      ]),
-      transition('open-modern => void', [
-        animate(
-          '200ms ease-in',
-          style({
-            opacity: 0,
-          }),
-        ),
-      ]),
-    ]),
-    trigger('phoneInputAnimation', [
-      transition('void => open', [
-        style({
-          opacity: 0,
-        }),
-        animate(
-          '200ms ease-in',
-          style({
-            opacity: 1,
-          }),
-        ),
-      ]),
-      transition('open => void', [
-        animate(
-          '200ms ease-in',
-          style({
-            opacity: 0,
-          }),
-        ),
-      ]),
-    ]),
   ],
 })
 export class SkyPhoneFieldComponent implements OnDestroy, OnInit {

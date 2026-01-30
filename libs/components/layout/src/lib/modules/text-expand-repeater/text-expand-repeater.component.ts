@@ -1,11 +1,4 @@
 import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
-import {
   ChangeDetectorRef,
   Component,
   ElementRef,
@@ -30,28 +23,6 @@ import { SkyTextExpandRepeaterListStyleType } from './types/text-expand-repeater
 let nextId = 0;
 
 @Component({
-  animations: [
-    trigger('expansionAnimation', [
-      transition(':enter', []),
-      state(
-        'true',
-        style({
-          maxHeight: '{{transitionHeight}}px',
-        }),
-        { params: { transitionHeight: 0 } },
-      ),
-      state(
-        'false',
-        style({
-          maxHeight: '{{transitionHeight}}px',
-        }),
-        { params: { transitionHeight: 0 } },
-      ),
-      transition('true => false', animate('250ms ease')),
-      transition('false => true', animate('250ms ease')),
-      transition('void => *', []),
-    ]),
-  ],
   selector: 'sky-text-expand-repeater',
   templateUrl: './text-expand-repeater.component.html',
   styleUrls: ['./text-expand-repeater.component.scss'],

@@ -16,7 +16,6 @@ import {
   signal,
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { skyAnimationSlide } from '@skyux/animations';
 import {
   SkyAppWindowRef,
   SkyMediaQueryService,
@@ -45,7 +44,6 @@ let nextId = 0;
  * `sky-summary-action-bar-summary` components.
  */
 @Component({
-  animations: [skyAnimationSlide],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,

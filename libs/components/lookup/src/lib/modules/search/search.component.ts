@@ -1,11 +1,4 @@
-import {
-  AnimationEvent,
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
+import { AnimationEvent } from '@angular/animations';
 import {
   ChangeDetectorRef,
   Component,
@@ -45,25 +38,6 @@ const EXPAND_MODE_NONE = 'none';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  animations: [
-    trigger('inputState', [
-      state(
-        INPUT_HIDDEN_STATE,
-        style({
-          opacity: 0,
-          width: 0,
-        }),
-      ),
-      state(
-        INPUT_SHOWN_STATE,
-        style({
-          opacity: 1,
-          width: '100%',
-        }),
-      ),
-      transition('* <=> *', animate('150ms')),
-    ]),
-  ],
   providers: [SkySearchAdapterService],
   standalone: false,
 })
