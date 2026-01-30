@@ -78,7 +78,7 @@ Array [
       "parser": Object {
         "meta": Object {
           "name": "typescript-eslint/parser",
-          "version": "8.43.0",
+          "version": "8.54.0",
         },
         "parseForESLint": [Function],
       },
@@ -179,9 +179,11 @@ Array [
               "@typescript-eslint/no-unsafe-type-assertion": "error",
               "@typescript-eslint/no-unsafe-unary-minus": "error",
               "@typescript-eslint/no-unused-expressions": "error",
+              "@typescript-eslint/no-unused-private-class-members": "error",
               "@typescript-eslint/no-unused-vars": "error",
               "@typescript-eslint/no-use-before-define": "error",
               "@typescript-eslint/no-useless-constructor": "error",
+              "@typescript-eslint/no-useless-default-assignment": "error",
               "@typescript-eslint/no-useless-empty-export": "error",
               "@typescript-eslint/no-wrapper-object-types": "error",
               "@typescript-eslint/non-nullable-type-assertion-style": "error",
@@ -213,6 +215,7 @@ Array [
               "@typescript-eslint/restrict-template-expressions": "error",
               "@typescript-eslint/return-await": "error",
               "@typescript-eslint/strict-boolean-expressions": "error",
+              "@typescript-eslint/strict-void-return": "error",
               "@typescript-eslint/switch-exhaustiveness-check": "error",
               "@typescript-eslint/triple-slash-reference": "error",
               "@typescript-eslint/unbound-method": "error",
@@ -237,6 +240,7 @@ Array [
               "no-shadow": "off",
               "no-throw-literal": "off",
               "no-unused-expressions": "off",
+              "no-unused-private-class-members": "off",
               "no-unused-vars": "off",
               "no-use-before-define": "off",
               "no-useless-constructor": "off",
@@ -295,6 +299,7 @@ Array [
               "@typescript-eslint/no-unsafe-return": "off",
               "@typescript-eslint/no-unsafe-type-assertion": "off",
               "@typescript-eslint/no-unsafe-unary-minus": "off",
+              "@typescript-eslint/no-useless-default-assignment": "off",
               "@typescript-eslint/non-nullable-type-assertion-style": "off",
               "@typescript-eslint/only-throw-error": "off",
               "@typescript-eslint/prefer-destructuring": "off",
@@ -317,6 +322,7 @@ Array [
               "@typescript-eslint/restrict-template-expressions": "off",
               "@typescript-eslint/return-await": "off",
               "@typescript-eslint/strict-boolean-expressions": "off",
+              "@typescript-eslint/strict-void-return": "off",
               "@typescript-eslint/switch-exhaustiveness-check": "off",
               "@typescript-eslint/unbound-method": "off",
               "@typescript-eslint/use-unknown-in-catch-callback-variable": "off",
@@ -365,7 +371,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.43.0",
+                    "version": "8.54.0",
                   },
                   "parseForESLint": [Function],
                 },
@@ -498,9 +504,11 @@ Array [
                 "@typescript-eslint/no-unsafe-type-assertion": "error",
                 "@typescript-eslint/no-unsafe-unary-minus": "error",
                 "@typescript-eslint/no-unused-expressions": "error",
+                "@typescript-eslint/no-unused-private-class-members": "error",
                 "@typescript-eslint/no-unused-vars": "error",
                 "@typescript-eslint/no-use-before-define": "error",
                 "@typescript-eslint/no-useless-constructor": "error",
+                "@typescript-eslint/no-useless-default-assignment": "error",
                 "@typescript-eslint/no-useless-empty-export": "error",
                 "@typescript-eslint/no-wrapper-object-types": "error",
                 "@typescript-eslint/non-nullable-type-assertion-style": "error",
@@ -532,6 +540,7 @@ Array [
                 "@typescript-eslint/restrict-template-expressions": "error",
                 "@typescript-eslint/return-await": "error",
                 "@typescript-eslint/strict-boolean-expressions": "error",
+                "@typescript-eslint/strict-void-return": "error",
                 "@typescript-eslint/switch-exhaustiveness-check": "error",
                 "@typescript-eslint/triple-slash-reference": "error",
                 "@typescript-eslint/unbound-method": "error",
@@ -556,6 +565,7 @@ Array [
                 "no-shadow": "off",
                 "no-throw-literal": "off",
                 "no-unused-expressions": "off",
+                "no-unused-private-class-members": "off",
                 "no-unused-vars": "off",
                 "no-use-before-define": "off",
                 "no-useless-constructor": "off",
@@ -570,7 +580,7 @@ Array [
               "parser": Object {
                 "meta": Object {
                   "name": "typescript-eslint/parser",
-                  "version": "8.43.0",
+                  "version": "8.54.0",
                 },
                 "parseForESLint": [Function],
               },
@@ -625,6 +635,7 @@ Array [
               "@typescript-eslint/no-unsafe-return": "off",
               "@typescript-eslint/no-unsafe-type-assertion": "off",
               "@typescript-eslint/no-unsafe-unary-minus": "off",
+              "@typescript-eslint/no-useless-default-assignment": "off",
               "@typescript-eslint/non-nullable-type-assertion-style": "off",
               "@typescript-eslint/only-throw-error": "off",
               "@typescript-eslint/prefer-destructuring": "off",
@@ -647,6 +658,7 @@ Array [
               "@typescript-eslint/restrict-template-expressions": "off",
               "@typescript-eslint/return-await": "off",
               "@typescript-eslint/strict-boolean-expressions": "off",
+              "@typescript-eslint/strict-void-return": "off",
               "@typescript-eslint/switch-exhaustiveness-check": "off",
               "@typescript-eslint/unbound-method": "off",
               "@typescript-eslint/use-unknown-in-catch-callback-variable": "off",
@@ -692,7 +704,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.43.0",
+                    "version": "8.54.0",
                   },
                   "parseForESLint": [Function],
                 },
@@ -772,7 +784,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.43.0",
+                    "version": "8.54.0",
                   },
                   "parseForESLint": [Function],
                 },
@@ -877,7 +889,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.43.0",
+                    "version": "8.54.0",
                   },
                   "parseForESLint": [Function],
                 },
@@ -961,7 +973,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.43.0",
+                    "version": "8.54.0",
                   },
                   "parseForESLint": [Function],
                 },
@@ -1055,7 +1067,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.43.0",
+                    "version": "8.54.0",
                   },
                   "parseForESLint": [Function],
                 },
@@ -1158,6 +1170,7 @@ Array [
                 "@typescript-eslint/no-unused-expressions": "error",
                 "@typescript-eslint/no-unused-vars": "error",
                 "@typescript-eslint/no-useless-constructor": "error",
+                "@typescript-eslint/no-useless-default-assignment": "error",
                 "@typescript-eslint/no-wrapper-object-types": "error",
                 "@typescript-eslint/only-throw-error": "error",
                 "@typescript-eslint/prefer-as-const": "error",
@@ -1215,7 +1228,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.43.0",
+                    "version": "8.54.0",
                   },
                   "parseForESLint": [Function],
                 },
@@ -1291,6 +1304,7 @@ Array [
                 "@typescript-eslint/no-unsafe-member-access": "error",
                 "@typescript-eslint/no-unsafe-return": "error",
                 "@typescript-eslint/no-unsafe-unary-minus": "error",
+                "@typescript-eslint/no-useless-default-assignment": "error",
                 "@typescript-eslint/only-throw-error": "error",
                 "@typescript-eslint/prefer-promise-reject-errors": "error",
                 "@typescript-eslint/prefer-reduce-type-parameter": "error",
@@ -1338,7 +1352,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.43.0",
+                    "version": "8.54.0",
                   },
                   "parseForESLint": [Function],
                 },
@@ -1409,7 +1423,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.43.0",
+                    "version": "8.54.0",
                   },
                   "parseForESLint": [Function],
                 },
@@ -1489,7 +1503,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.43.0",
+                    "version": "8.54.0",
                   },
                   "parseForESLint": [Function],
                 },
@@ -1837,6 +1851,7 @@ Array [
               "@typescript-eslint/no-unused-expressions": "error",
               "@typescript-eslint/no-unused-vars": "error",
               "@typescript-eslint/no-useless-constructor": "error",
+              "@typescript-eslint/no-useless-default-assignment": "error",
               "@typescript-eslint/no-wrapper-object-types": "error",
               "@typescript-eslint/only-throw-error": "error",
               "@typescript-eslint/prefer-as-const": "error",
@@ -1921,6 +1936,7 @@ Array [
               "@typescript-eslint/no-unsafe-member-access": "error",
               "@typescript-eslint/no-unsafe-return": "error",
               "@typescript-eslint/no-unsafe-unary-minus": "error",
+              "@typescript-eslint/no-useless-default-assignment": "error",
               "@typescript-eslint/only-throw-error": "error",
               "@typescript-eslint/prefer-promise-reject-errors": "error",
               "@typescript-eslint/prefer-reduce-type-parameter": "error",
@@ -2034,7 +2050,8 @@ Array [
         },
         "meta": Object {
           "name": "@typescript-eslint/eslint-plugin",
-          "version": "8.43.0",
+          "namespace": "@typescript-eslint",
+          "version": "8.54.0",
         },
         "rules": Object {
           "adjacent-overload-signatures": Object {
@@ -2052,6 +2069,7 @@ Array [
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "adjacent-overload-signatures",
           },
           "array-type": Object {
             "create": [Function],
@@ -2103,6 +2121,7 @@ Array [
               ],
               "type": "suggestion",
             },
+            "name": "array-type",
           },
           "await-thenable": Object {
             "create": [Function],
@@ -2120,11 +2139,13 @@ Array [
                 "awaitUsingOfNonAsyncDisposable": "Unexpected \`await using\` of a value that is not async disposable.",
                 "convertToOrdinaryFor": "Convert to an ordinary \`for...of\` loop.",
                 "forAwaitOfNonAsyncIterable": "Unexpected \`for await...of\` of a value that is not async iterable.",
+                "invalidPromiseAggregatorInput": "Unexpected iterable of non-Promise (non-\\"Thenable\\") values passed to promise aggregator.",
                 "removeAwait": "Remove unnecessary \`await\`.",
               },
               "schema": Array [],
               "type": "problem",
             },
+            "name": "await-thenable",
           },
           "ban-ts-comment": Object {
             "create": [Function],
@@ -2193,15 +2214,19 @@ Array [
                     },
                     "ts-check": Object {
                       "$ref": "#/items/0/$defs/directiveConfigSchema",
+                      "description": "Whether allow ts-check directives, and with which restrictions.",
                     },
                     "ts-expect-error": Object {
                       "$ref": "#/items/0/$defs/directiveConfigSchema",
+                      "description": "Whether and when expect-error directives, and with which restrictions.",
                     },
                     "ts-ignore": Object {
                       "$ref": "#/items/0/$defs/directiveConfigSchema",
+                      "description": "Whether allow ts-ignore directives, and with which restrictions.",
                     },
                     "ts-nocheck": Object {
                       "$ref": "#/items/0/$defs/directiveConfigSchema",
+                      "description": "Whether allow ts-nocheck directives, and with which restrictions.",
                     },
                   },
                   "type": "object",
@@ -2209,6 +2234,7 @@ Array [
               ],
               "type": "problem",
             },
+            "name": "ban-ts-comment",
           },
           "ban-tslint-comment": Object {
             "create": [Function],
@@ -2226,6 +2252,7 @@ Array [
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "ban-tslint-comment",
           },
           "class-literal-property-style": Object {
             "create": [Function],
@@ -2257,6 +2284,7 @@ Array [
               ],
               "type": "problem",
             },
+            "name": "class-literal-property-style",
           },
           "class-methods-use-this": Object {
             "create": [Function],
@@ -2319,6 +2347,7 @@ Array [
               ],
               "type": "suggestion",
             },
+            "name": "class-methods-use-this",
           },
           "consistent-generic-constructors": Object {
             "create": [Function],
@@ -2348,6 +2377,7 @@ Array [
               ],
               "type": "suggestion",
             },
+            "name": "consistent-generic-constructors",
           },
           "consistent-indexed-object-style": Object {
             "create": [Function],
@@ -2379,6 +2409,7 @@ Array [
               ],
               "type": "suggestion",
             },
+            "name": "consistent-indexed-object-style",
           },
           "consistent-return": Object {
             "create": [Function],
@@ -2418,6 +2449,7 @@ Array [
               ],
               "type": "suggestion",
             },
+            "name": "consistent-return",
           },
           "consistent-type-assertions": Object {
             "create": [Function],
@@ -2503,6 +2535,7 @@ Array [
               ],
               "type": "suggestion",
             },
+            "name": "consistent-type-assertions",
           },
           "consistent-type-definitions": Object {
             "create": [Function],
@@ -2532,6 +2565,7 @@ Array [
               ],
               "type": "suggestion",
             },
+            "name": "consistent-type-definitions",
           },
           "consistent-type-exports": Object {
             "create": [Function],
@@ -2566,6 +2600,7 @@ Array [
               ],
               "type": "suggestion",
             },
+            "name": "consistent-type-exports",
           },
           "consistent-type-imports": Object {
             "create": [Function],
@@ -2618,6 +2653,7 @@ Array [
               ],
               "type": "suggestion",
             },
+            "name": "consistent-type-imports",
           },
           "default-param-last": Object {
             "create": [Function],
@@ -2635,6 +2671,7 @@ Array [
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "default-param-last",
           },
           "dot-notation": Object {
             "create": [Function],
@@ -2701,6 +2738,7 @@ Array [
               ],
               "type": "suggestion",
             },
+            "name": "dot-notation",
           },
           "explicit-function-return-type": Object {
             "create": [Function],
@@ -2769,6 +2807,7 @@ Array [
               ],
               "type": "problem",
             },
+            "name": "explicit-function-return-type",
           },
           "explicit-member-accessibility": Object {
             "create": [Function],
@@ -2837,18 +2876,23 @@ Array [
                       "properties": Object {
                         "accessors": Object {
                           "$ref": "#/items/0/$defs/accessibilityLevel",
+                          "description": "Which member accessibility modifier requirements to apply for accessors.",
                         },
                         "constructors": Object {
                           "$ref": "#/items/0/$defs/accessibilityLevel",
+                          "description": "Which member accessibility modifier requirements to apply for constructors.",
                         },
                         "methods": Object {
                           "$ref": "#/items/0/$defs/accessibilityLevel",
+                          "description": "Which member accessibility modifier requirements to apply for methods.",
                         },
                         "parameterProperties": Object {
                           "$ref": "#/items/0/$defs/accessibilityLevel",
+                          "description": "Which member accessibility modifier requirements to apply for parameterProperties.",
                         },
                         "properties": Object {
                           "$ref": "#/items/0/$defs/accessibilityLevel",
+                          "description": "Which member accessibility modifier requirements to apply for properties.",
                         },
                       },
                       "type": "object",
@@ -2859,6 +2903,7 @@ Array [
               ],
               "type": "problem",
             },
+            "name": "explicit-member-accessibility",
           },
           "explicit-module-boundary-types": Object {
             "create": [Function],
@@ -2923,6 +2968,7 @@ You must still type the parameters of the function.",
               ],
               "type": "problem",
             },
+            "name": "explicit-module-boundary-types",
           },
           "init-declarations": Object {
             "create": [Function],
@@ -2980,6 +3026,7 @@ You must still type the parameters of the function.",
               },
               "type": "suggestion",
             },
+            "name": "init-declarations",
           },
           "max-params": Object {
             "create": [Function],
@@ -3022,6 +3069,7 @@ You must still type the parameters of the function.",
               ],
               "type": "suggestion",
             },
+            "name": "max-params",
           },
           "member-ordering": Object {
             "create": [Function],
@@ -3483,18 +3531,23 @@ You must still type the parameters of the function.",
                   "properties": Object {
                     "classExpressions": Object {
                       "$ref": "#/items/0/$defs/baseConfig",
+                      "description": "Which ordering to enforce for classExpressions.",
                     },
                     "classes": Object {
                       "$ref": "#/items/0/$defs/baseConfig",
+                      "description": "Which ordering to enforce for classes.",
                     },
                     "default": Object {
                       "$ref": "#/items/0/$defs/baseConfig",
+                      "description": "Which ordering to enforce for default.",
                     },
                     "interfaces": Object {
                       "$ref": "#/items/0/$defs/typesConfig",
+                      "description": "Which ordering to enforce for interfaces.",
                     },
                     "typeLiterals": Object {
                       "$ref": "#/items/0/$defs/typesConfig",
+                      "description": "Which ordering to enforce for typeLiterals.",
                     },
                   },
                   "type": "object",
@@ -3502,6 +3555,7 @@ You must still type the parameters of the function.",
               ],
               "type": "suggestion",
             },
+            "name": "member-ordering",
           },
           "method-signature-style": Object {
             "create": [Function],
@@ -3520,6 +3574,7 @@ You must still type the parameters of the function.",
               },
               "schema": Array [
                 Object {
+                  "description": "The method signature style to enforce using.",
                   "enum": Array [
                     "property",
                     "method",
@@ -3529,6 +3584,7 @@ You must still type the parameters of the function.",
               ],
               "type": "suggestion",
             },
+            "name": "method-signature-style",
           },
           "naming-convention": Object {
             "create": [Function],
@@ -5479,6 +5535,7 @@ You must still type the parameters of the function.",
               },
               "type": "suggestion",
             },
+            "name": "naming-convention",
           },
           "no-array-constructor": Object {
             "create": [Function],
@@ -5497,6 +5554,7 @@ You must still type the parameters of the function.",
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "no-array-constructor",
           },
           "no-array-delete": Object {
             "create": [Function],
@@ -5516,6 +5574,7 @@ You must still type the parameters of the function.",
               "schema": Array [],
               "type": "problem",
             },
+            "name": "no-array-delete",
           },
           "no-base-to-string": Object {
             "create": [Function],
@@ -5550,7 +5609,7 @@ You must still type the parameters of the function.",
                       "type": "boolean",
                     },
                     "ignoredTypeNames": Object {
-                      "description": "Stringified regular expressions of type names to ignore.",
+                      "description": "Stringified type names to ignore.",
                       "items": Object {
                         "type": "string",
                       },
@@ -5562,6 +5621,7 @@ You must still type the parameters of the function.",
               ],
               "type": "suggestion",
             },
+            "name": "no-base-to-string",
           },
           "no-confusing-non-null-assertion": Object {
             "create": [Function],
@@ -5585,6 +5645,7 @@ You must still type the parameters of the function.",
               "schema": Array [],
               "type": "problem",
             },
+            "name": "no-confusing-non-null-assertion",
           },
           "no-confusing-void-expression": Object {
             "create": [Function],
@@ -5636,6 +5697,7 @@ You must still type the parameters of the function.",
               ],
               "type": "problem",
             },
+            "name": "no-confusing-void-expression",
           },
           "no-deprecated": Object {
             "create": [Function],
@@ -5776,6 +5838,7 @@ You must still type the parameters of the function.",
               ],
               "type": "problem",
             },
+            "name": "no-deprecated",
           },
           "no-dupe-class-members": Object {
             "create": [Function],
@@ -5793,6 +5856,7 @@ You must still type the parameters of the function.",
               "schema": Array [],
               "type": "problem",
             },
+            "name": "no-dupe-class-members",
           },
           "no-duplicate-enum-values": Object {
             "create": [Function],
@@ -5810,6 +5874,7 @@ You must still type the parameters of the function.",
               "schema": Array [],
               "type": "problem",
             },
+            "name": "no-duplicate-enum-values",
           },
           "no-duplicate-type-constituents": Object {
             "create": [Function],
@@ -5849,6 +5914,7 @@ You must still type the parameters of the function.",
               ],
               "type": "suggestion",
             },
+            "name": "no-duplicate-type-constituents",
           },
           "no-dynamic-delete": Object {
             "create": [Function],
@@ -5859,13 +5925,13 @@ You must still type the parameters of the function.",
                 "recommended": "strict",
                 "url": "https://typescript-eslint.io/rules/no-dynamic-delete",
               },
-              "fixable": "code",
               "messages": Object {
                 "dynamicDelete": "Do not delete dynamically computed property keys.",
               },
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "no-dynamic-delete",
           },
           "no-empty-function": Object {
             "create": [Function],
@@ -5886,8 +5952,9 @@ You must still type the parameters of the function.",
                 "recommended": "stylistic",
                 "url": "https://typescript-eslint.io/rules/no-empty-function",
               },
-              "hasSuggestions": undefined,
+              "hasSuggestions": true,
               "messages": Object {
+                "suggestComment": "Add comment inside empty {{name}}.",
                 "unexpected": "Unexpected empty {{name}}.",
               },
               "schema": Array [
@@ -5924,6 +5991,7 @@ You must still type the parameters of the function.",
               ],
               "type": "suggestion",
             },
+            "name": "no-empty-function",
           },
           "no-empty-interface": Object {
             "create": [Function],
@@ -5972,6 +6040,7 @@ You must still type the parameters of the function.",
               ],
               "type": "suggestion",
             },
+            "name": "no-empty-interface",
           },
           "no-empty-object-type": Object {
             "create": [Function],
@@ -6033,6 +6102,7 @@ You must still type the parameters of the function.",
               ],
               "type": "suggestion",
             },
+            "name": "no-empty-object-type",
           },
           "no-explicit-any": Object {
             "create": [Function],
@@ -6074,6 +6144,7 @@ You must still type the parameters of the function.",
               ],
               "type": "suggestion",
             },
+            "name": "no-explicit-any",
           },
           "no-extra-non-null-assertion": Object {
             "create": [Function],
@@ -6091,6 +6162,7 @@ You must still type the parameters of the function.",
               "schema": Array [],
               "type": "problem",
             },
+            "name": "no-extra-non-null-assertion",
           },
           "no-extraneous-class": Object {
             "create": [Function],
@@ -6139,6 +6211,7 @@ You must still type the parameters of the function.",
               ],
               "type": "suggestion",
             },
+            "name": "no-extraneous-class",
           },
           "no-floating-promises": Object {
             "create": [Function],
@@ -6413,6 +6486,7 @@ You must still type the parameters of the function.",
               ],
               "type": "problem",
             },
+            "name": "no-floating-promises",
           },
           "no-for-in-array": Object {
             "create": [Function],
@@ -6430,6 +6504,7 @@ You must still type the parameters of the function.",
               "schema": Array [],
               "type": "problem",
             },
+            "name": "no-for-in-array",
           },
           "no-implied-eval": Object {
             "create": [Function],
@@ -6449,6 +6524,7 @@ You must still type the parameters of the function.",
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "no-implied-eval",
           },
           "no-import-type-side-effects": Object {
             "create": [Function],
@@ -6465,6 +6541,7 @@ You must still type the parameters of the function.",
               "schema": Array [],
               "type": "problem",
             },
+            "name": "no-import-type-side-effects",
           },
           "no-inferrable-types": Object {
             "create": [Function],
@@ -6502,6 +6579,7 @@ You must still type the parameters of the function.",
               ],
               "type": "suggestion",
             },
+            "name": "no-inferrable-types",
           },
           "no-invalid-this": Object {
             "create": [Function],
@@ -6538,6 +6616,7 @@ You must still type the parameters of the function.",
               ],
               "type": "suggestion",
             },
+            "name": "no-invalid-this",
           },
           "no-invalid-void-type": Object {
             "create": [Function],
@@ -6592,6 +6671,7 @@ You must still type the parameters of the function.",
               ],
               "type": "problem",
             },
+            "name": "no-invalid-void-type",
           },
           "no-loop-func": Object {
             "create": [Function],
@@ -6609,6 +6689,7 @@ You must still type the parameters of the function.",
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "no-loop-func",
           },
           "no-loss-of-precision": Object {
             "create": [Function],
@@ -6638,6 +6719,7 @@ You must still type the parameters of the function.",
               "schema": Array [],
               "type": "problem",
             },
+            "name": "no-loss-of-precision",
           },
           "no-magic-numbers": Object {
             "create": [Function],
@@ -6729,6 +6811,7 @@ You must still type the parameters of the function.",
               ],
               "type": "suggestion",
             },
+            "name": "no-magic-numbers",
           },
           "no-meaningless-void-operator": Object {
             "create": [Function],
@@ -6764,6 +6847,7 @@ You must still type the parameters of the function.",
               ],
               "type": "suggestion",
             },
+            "name": "no-meaningless-void-operator",
           },
           "no-misused-new": Object {
             "create": [Function],
@@ -6781,6 +6865,7 @@ You must still type the parameters of the function.",
               "schema": Array [],
               "type": "problem",
             },
+            "name": "no-misused-new",
           },
           "no-misused-promises": Object {
             "create": [Function],
@@ -6801,7 +6886,7 @@ You must still type the parameters of the function.",
               "messages": Object {
                 "conditional": "Expected non-Promise value in a boolean conditional.",
                 "predicate": "Expected a non-Promise value to be returned.",
-                "spread": "Expected a non-Promise value to be spreaded in an object.",
+                "spread": "Expected a non-Promise value to be spread in an object.",
                 "voidReturnArgument": "Promise returned in function argument where a void return was expected.",
                 "voidReturnAttribute": "Promise-returning function provided to attribute where a void return was expected.",
                 "voidReturnInheritedMethod": "Promise-returning method provided where a void return was expected by extended/implemented type '{{ heritageTypeName }}'.",
@@ -6867,6 +6952,7 @@ You must still type the parameters of the function.",
               ],
               "type": "problem",
             },
+            "name": "no-misused-promises",
           },
           "no-misused-spread": Object {
             "create": [Function],
@@ -7020,6 +7106,7 @@ Otherwise, if you don't need to preserve emojis or other non-Ascii characters, d
               ],
               "type": "problem",
             },
+            "name": "no-misused-spread",
           },
           "no-mixed-enums": Object {
             "create": [Function],
@@ -7037,6 +7124,7 @@ Otherwise, if you don't need to preserve emojis or other non-Ascii characters, d
               "schema": Array [],
               "type": "problem",
             },
+            "name": "no-mixed-enums",
           },
           "no-namespace": Object {
             "create": [Function],
@@ -7073,6 +7161,7 @@ Otherwise, if you don't need to preserve emojis or other non-Ascii characters, d
               ],
               "type": "suggestion",
             },
+            "name": "no-namespace",
           },
           "no-non-null-asserted-nullish-coalescing": Object {
             "create": [Function],
@@ -7091,6 +7180,7 @@ Otherwise, if you don't need to preserve emojis or other non-Ascii characters, d
               "schema": Array [],
               "type": "problem",
             },
+            "name": "no-non-null-asserted-nullish-coalescing",
           },
           "no-non-null-asserted-optional-chain": Object {
             "create": [Function],
@@ -7109,6 +7199,7 @@ Otherwise, if you don't need to preserve emojis or other non-Ascii characters, d
               "schema": Array [],
               "type": "problem",
             },
+            "name": "no-non-null-asserted-optional-chain",
           },
           "no-non-null-assertion": Object {
             "create": [Function],
@@ -7127,6 +7218,7 @@ Otherwise, if you don't need to preserve emojis or other non-Ascii characters, d
               "schema": Array [],
               "type": "problem",
             },
+            "name": "no-non-null-assertion",
           },
           "no-redeclare": Object {
             "create": [Function],
@@ -7165,6 +7257,7 @@ Otherwise, if you don't need to preserve emojis or other non-Ascii characters, d
               ],
               "type": "suggestion",
             },
+            "name": "no-redeclare",
           },
           "no-redundant-type-constituents": Object {
             "create": [Function],
@@ -7186,6 +7279,7 @@ Otherwise, if you don't need to preserve emojis or other non-Ascii characters, d
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "no-redundant-type-constituents",
           },
           "no-require-imports": Object {
             "create": [Function],
@@ -7225,6 +7319,7 @@ Otherwise, if you don't need to preserve emojis or other non-Ascii characters, d
               ],
               "type": "problem",
             },
+            "name": "no-require-imports",
           },
           "no-restricted-imports": Object {
             "create": [Function],
@@ -7430,6 +7525,7 @@ Otherwise, if you don't need to preserve emojis or other non-Ascii characters, d
               },
               "type": "suggestion",
             },
+            "name": "no-restricted-imports",
           },
           "no-restricted-types": Object {
             "create": [Function],
@@ -7503,6 +7599,7 @@ Otherwise, if you don't need to preserve emojis or other non-Ascii characters, d
               ],
               "type": "suggestion",
             },
+            "name": "no-restricted-types",
           },
           "no-shadow": Object {
             "create": [Function],
@@ -7570,6 +7667,7 @@ Otherwise, if you don't need to preserve emojis or other non-Ascii characters, d
               ],
               "type": "suggestion",
             },
+            "name": "no-shadow",
           },
           "no-this-alias": Object {
             "create": [Function],
@@ -7610,6 +7708,7 @@ Otherwise, if you don't need to preserve emojis or other non-Ascii characters, d
               ],
               "type": "suggestion",
             },
+            "name": "no-this-alias",
           },
           "no-type-alias": Object {
             "create": [Function],
@@ -7707,6 +7806,7 @@ Otherwise, if you don't need to preserve emojis or other non-Ascii characters, d
               ],
               "type": "suggestion",
             },
+            "name": "no-type-alias",
           },
           "no-unnecessary-boolean-literal-compare": Object {
             "create": [Function],
@@ -7755,6 +7855,7 @@ Otherwise, if you don't need to preserve emojis or other non-Ascii characters, d
               ],
               "type": "suggestion",
             },
+            "name": "no-unnecessary-boolean-literal-compare",
           },
           "no-unnecessary-condition": Object {
             "create": [Function],
@@ -7796,9 +7897,11 @@ Otherwise, if you don't need to preserve emojis or other non-Ascii characters, d
                       "description": "Whether to ignore constant loop conditions, such as \`while (true)\`.",
                       "oneOf": Array [
                         Object {
+                          "description": "Always ignore or not ignore the loop conditions",
                           "type": "boolean",
                         },
                         Object {
+                          "description": "Which situations to ignore constant conditions in.",
                           "enum": Array [
                             "always",
                             "never",
@@ -7822,6 +7925,7 @@ Otherwise, if you don't need to preserve emojis or other non-Ascii characters, d
               ],
               "type": "suggestion",
             },
+            "name": "no-unnecessary-condition",
           },
           "no-unnecessary-parameter-property-assignment": Object {
             "create": [Function],
@@ -7837,6 +7941,7 @@ Otherwise, if you don't need to preserve emojis or other non-Ascii characters, d
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "no-unnecessary-parameter-property-assignment",
           },
           "no-unnecessary-qualifier": Object {
             "create": [Function],
@@ -7854,6 +7959,7 @@ Otherwise, if you don't need to preserve emojis or other non-Ascii characters, d
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "no-unnecessary-qualifier",
           },
           "no-unnecessary-template-expression": Object {
             "create": [Function],
@@ -7872,6 +7978,7 @@ Otherwise, if you don't need to preserve emojis or other non-Ascii characters, d
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "no-unnecessary-template-expression",
           },
           "no-unnecessary-type-arguments": Object {
             "create": [Function],
@@ -7890,6 +7997,7 @@ Otherwise, if you don't need to preserve emojis or other non-Ascii characters, d
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "no-unnecessary-type-arguments",
           },
           "no-unnecessary-type-assertion": Object {
             "create": [Function],
@@ -7929,6 +8037,7 @@ Otherwise, if you don't need to preserve emojis or other non-Ascii characters, d
               ],
               "type": "suggestion",
             },
+            "name": "no-unnecessary-type-assertion",
           },
           "no-unnecessary-type-constraint": Object {
             "create": [Function],
@@ -7947,6 +8056,7 @@ Otherwise, if you don't need to preserve emojis or other non-Ascii characters, d
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "no-unnecessary-type-constraint",
           },
           "no-unnecessary-type-conversion": Object {
             "create": [Function],
@@ -7967,6 +8077,7 @@ Otherwise, if you don't need to preserve emojis or other non-Ascii characters, d
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "no-unnecessary-type-conversion",
           },
           "no-unnecessary-type-parameters": Object {
             "create": [Function],
@@ -7986,6 +8097,7 @@ Otherwise, if you don't need to preserve emojis or other non-Ascii characters, d
               "schema": Array [],
               "type": "problem",
             },
+            "name": "no-unnecessary-type-parameters",
           },
           "no-unsafe-argument": Object {
             "create": [Function],
@@ -8006,6 +8118,7 @@ Otherwise, if you don't need to preserve emojis or other non-Ascii characters, d
               "schema": Array [],
               "type": "problem",
             },
+            "name": "no-unsafe-argument",
           },
           "no-unsafe-assignment": Object {
             "create": [Function],
@@ -8030,6 +8143,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               "schema": Array [],
               "type": "problem",
             },
+            "name": "no-unsafe-assignment",
           },
           "no-unsafe-call": Object {
             "create": [Function],
@@ -8042,15 +8156,20 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
                 "url": "https://typescript-eslint.io/rules/no-unsafe-call",
               },
               "messages": Object {
-                "unsafeCall": "Unsafe call of a(n) {{type}} typed value.",
-                "unsafeCallThis": "Unsafe call of a(n) {{type}} typed value. \`this\` is typed as {{type}}.
+                "errorCall": "Unsafe call of a type that could not be resolved.",
+                "errorCallThis": "Unsafe call of a \`this\` type that could not be resolved.",
+                "errorNew": "Unsafe construction of a type that could not be resolved.",
+                "errorTemplateTag": "Unsafe use of a template tag whose type could not be resolved.",
+                "unsafeCall": "Unsafe call of {{type}} typed value.",
+                "unsafeCallThis": "Unsafe call of {{type}} typed value. \`this\` is typed as {{type}}.
 You can try to fix this by turning on the \`noImplicitThis\` compiler option, or adding a \`this\` parameter to the function.",
-                "unsafeNew": "Unsafe construction of a(n) {{type}} typed value.",
-                "unsafeTemplateTag": "Unsafe use of a(n) {{type}} typed template tag.",
+                "unsafeNew": "Unsafe construction of {{type}} typed value.",
+                "unsafeTemplateTag": "Unsafe use of {{type}} typed template tag.",
               },
               "schema": Array [],
               "type": "problem",
             },
+            "name": "no-unsafe-call",
           },
           "no-unsafe-declaration-merging": Object {
             "create": [Function],
@@ -8068,6 +8187,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               "schema": Array [],
               "type": "problem",
             },
+            "name": "no-unsafe-declaration-merging",
           },
           "no-unsafe-enum-comparison": Object {
             "create": [Function],
@@ -8088,6 +8208,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "no-unsafe-enum-comparison",
           },
           "no-unsafe-function-type": Object {
             "create": [Function],
@@ -8105,10 +8226,15 @@ Prefer explicitly defining any function parameters and return type.",
               "schema": Array [],
               "type": "problem",
             },
+            "name": "no-unsafe-function-type",
           },
           "no-unsafe-member-access": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": Array [
+              Object {
+                "allowOptionalChaining": false,
+              },
+            ],
             "meta": Object {
               "docs": Object {
                 "description": "Disallow member access on a value with type \`any\`",
@@ -8117,14 +8243,30 @@ Prefer explicitly defining any function parameters and return type.",
                 "url": "https://typescript-eslint.io/rules/no-unsafe-member-access",
               },
               "messages": Object {
-                "unsafeComputedMemberAccess": "Computed name {{property}} resolves to an {{type}} value.",
-                "unsafeMemberExpression": "Unsafe member access {{property}} on an {{type}} value.",
+                "errorComputedMemberAccess": "The type of computed name {{property}} cannot be resolved.",
+                "errorMemberExpression": "Unsafe member access {{property}} on a type that cannot be resolved.",
+                "errorThisMemberExpression": "Unsafe member access {{property}}. The type of \`this\` cannot be resolved.
+You can try to fix this by turning on the \`noImplicitThis\` compiler option, or adding a \`this\` parameter to the function.",
+                "unsafeComputedMemberAccess": "Computed name {{property}} resolves to an \`any\` value.",
+                "unsafeMemberExpression": "Unsafe member access {{property}} on an \`any\` value.",
                 "unsafeThisMemberExpression": "Unsafe member access {{property}} on an \`any\` value. \`this\` is typed as \`any\`.
 You can try to fix this by turning on the \`noImplicitThis\` compiler option, or adding a \`this\` parameter to the function.",
               },
-              "schema": Array [],
+              "schema": Array [
+                Object {
+                  "additionalProperties": false,
+                  "properties": Object {
+                    "allowOptionalChaining": Object {
+                      "description": "Whether to allow \`?.\` optional chains on \`any\` values.",
+                      "type": "boolean",
+                    },
+                  },
+                  "type": "object",
+                },
+              ],
               "type": "problem",
             },
+            "name": "no-unsafe-member-access",
           },
           "no-unsafe-return": Object {
             "create": [Function],
@@ -8145,6 +8287,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               "schema": Array [],
               "type": "problem",
             },
+            "name": "no-unsafe-return",
           },
           "no-unsafe-type-assertion": Object {
             "create": [Function],
@@ -8165,6 +8308,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               "schema": Array [],
               "type": "problem",
             },
+            "name": "no-unsafe-type-assertion",
           },
           "no-unsafe-unary-minus": Object {
             "create": [Function],
@@ -8182,6 +8326,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               "schema": Array [],
               "type": "problem",
             },
+            "name": "no-unsafe-unary-minus",
           },
           "no-unused-expressions": Object {
             "create": [Function],
@@ -8235,6 +8380,25 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               ],
               "type": "suggestion",
             },
+            "name": "no-unused-expressions",
+          },
+          "no-unused-private-class-members": Object {
+            "create": [Function],
+            "defaultOptions": Array [],
+            "meta": Object {
+              "docs": Object {
+                "description": "Disallow unused private class members",
+                "extendsBaseRule": true,
+                "requiresTypeChecking": false,
+                "url": "https://typescript-eslint.io/rules/no-unused-private-class-members",
+              },
+              "messages": Object {
+                "unusedPrivateClassMember": "Private class member '{{classMemberName}}' is defined but never used.",
+              },
+              "schema": Array [],
+              "type": "problem",
+            },
+            "name": "no-unused-private-class-members",
           },
           "no-unused-vars": Object {
             "create": [Function],
@@ -8248,7 +8412,11 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
                 "recommended": "recommended",
                 "url": "https://typescript-eslint.io/rules/no-unused-vars",
               },
+              "fixable": "code",
+              "hasSuggestions": true,
               "messages": Object {
+                "removeUnusedImportDeclaration": "Remove unused import declaration.",
+                "removeUnusedVar": "Remove unused variable \\"{{varName}}\\".",
                 "unusedVar": "'{{varName}}' is {{action}} but never used{{additional}}.",
                 "usedIgnoredVar": "'{{varName}}' is marked as ignored but is used{{additional}}.",
                 "usedOnlyAsType": "'{{varName}}' is {{action}} but only used as a type{{additional}}.",
@@ -8257,6 +8425,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
                 Object {
                   "oneOf": Array [
                     Object {
+                      "description": "Broad setting for unused variables to target.",
                       "enum": Array [
                         "all",
                         "local",
@@ -8295,12 +8464,27 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
                           "description": "Regular expressions of destructured array variable names to not check for usage.",
                           "type": "string",
                         },
+                        "enableAutofixRemoval": Object {
+                          "additionalProperties": false,
+                          "description": "Configurable automatic fixes for different types of unused variables.",
+                          "properties": Object {
+                            "imports": Object {
+                              "description": "Whether to enable automatic removal of unused imports.",
+                              "type": "boolean",
+                            },
+                          },
+                          "type": "object",
+                        },
                         "ignoreClassWithStaticInitBlock": Object {
                           "description": "Whether to ignore classes with at least one static initialization block.",
                           "type": "boolean",
                         },
                         "ignoreRestSiblings": Object {
                           "description": "Whether to ignore sibling properties in \`...\` destructurings.",
+                          "type": "boolean",
+                        },
+                        "ignoreUsingDeclarations": Object {
+                          "description": "Whether to ignore using or await using declarations.",
                           "type": "boolean",
                         },
                         "reportUsedIgnorePattern": Object {
@@ -8327,6 +8511,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               ],
               "type": "problem",
             },
+            "name": "no-unused-vars",
           },
           "no-use-before-define": Object {
             "create": [Function],
@@ -8354,6 +8539,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
                 Object {
                   "oneOf": Array [
                     Object {
+                      "description": "Broadly set functions and allowNamedExports to false.",
                       "enum": Array [
                         "nofunc",
                       ],
@@ -8398,6 +8584,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               ],
               "type": "problem",
             },
+            "name": "no-use-before-define",
           },
           "no-useless-constructor": Object {
             "create": [Function],
@@ -8417,6 +8604,28 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               "schema": Array [],
               "type": "problem",
             },
+            "name": "no-useless-constructor",
+          },
+          "no-useless-default-assignment": Object {
+            "create": [Function],
+            "defaultOptions": Array [],
+            "meta": Object {
+              "docs": Object {
+                "description": "Disallow default values that will never be used",
+                "recommended": "strict",
+                "requiresTypeChecking": true,
+                "url": "https://typescript-eslint.io/rules/no-useless-default-assignment",
+              },
+              "fixable": "code",
+              "messages": Object {
+                "preferOptionalSyntax": "Using \`= undefined\` to make a parameter optional adds unnecessary runtime logic. Use the \`?\` optional syntax instead.",
+                "uselessDefaultAssignment": "Default value is useless because the {{ type }} is not optional.",
+                "uselessUndefined": "Default value is useless because it is undefined. Optional {{ type }}s are already undefined by default.",
+              },
+              "schema": Array [],
+              "type": "suggestion",
+            },
+            "name": "no-useless-default-assignment",
           },
           "no-useless-empty-export": Object {
             "create": [Function],
@@ -8434,6 +8643,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "no-useless-empty-export",
           },
           "no-var-requires": Object {
             "create": [Function],
@@ -8482,6 +8692,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               ],
               "type": "problem",
             },
+            "name": "no-var-requires",
           },
           "no-wrapper-object-types": Object {
             "create": [Function],
@@ -8499,6 +8710,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               "schema": Array [],
               "type": "problem",
             },
+            "name": "no-wrapper-object-types",
           },
           "non-nullable-type-assertion-style": Object {
             "create": [Function],
@@ -8517,6 +8729,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "non-nullable-type-assertion-style",
           },
           "only-throw-error": Object {
             "create": [Function],
@@ -8673,6 +8886,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               ],
               "type": "problem",
             },
+            "name": "only-throw-error",
           },
           "parameter-properties": Object {
             "create": [Function],
@@ -8730,6 +8944,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               ],
               "type": "problem",
             },
+            "name": "parameter-properties",
           },
           "prefer-as-const": Object {
             "create": [Function],
@@ -8750,6 +8965,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "prefer-as-const",
           },
           "prefer-destructuring": Object {
             "create": [Function],
@@ -8843,6 +9059,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               ],
               "type": "suggestion",
             },
+            "name": "prefer-destructuring",
           },
           "prefer-enum-initializers": Object {
             "create": [Function],
@@ -8860,6 +9077,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "prefer-enum-initializers",
           },
           "prefer-find": Object {
             "create": [Function],
@@ -8879,6 +9097,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "prefer-find",
           },
           "prefer-for-of": Object {
             "create": [Function],
@@ -8895,6 +9114,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "prefer-for-of",
           },
           "prefer-function-type": Object {
             "create": [Function],
@@ -8913,6 +9133,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "prefer-function-type",
           },
           "prefer-includes": Object {
             "create": [Function],
@@ -8932,6 +9153,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "prefer-includes",
           },
           "prefer-literal-enum-member": Object {
             "create": [Function],
@@ -8965,6 +9187,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               ],
               "type": "suggestion",
             },
+            "name": "prefer-literal-enum-member",
           },
           "prefer-namespace-keyword": Object {
             "create": [Function],
@@ -8982,6 +9205,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "prefer-namespace-keyword",
           },
           "prefer-nullish-coalescing": Object {
             "create": [Function],
@@ -9085,6 +9309,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               ],
               "type": "suggestion",
             },
+            "name": "prefer-nullish-coalescing",
           },
           "prefer-optional-chain": Object {
             "create": [Function],
@@ -9155,6 +9380,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               ],
               "type": "suggestion",
             },
+            "name": "prefer-optional-chain",
           },
           "prefer-promise-reject-errors": Object {
             "create": [Function],
@@ -9198,6 +9424,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               ],
               "type": "suggestion",
             },
+            "name": "prefer-promise-reject-errors",
           },
           "prefer-readonly": Object {
             "create": [Function],
@@ -9230,6 +9457,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               ],
               "type": "suggestion",
             },
+            "name": "prefer-readonly",
           },
           "prefer-readonly-parameter-types": Object {
             "create": [Function],
@@ -9383,6 +9611,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               ],
               "type": "suggestion",
             },
+            "name": "prefer-readonly-parameter-types",
           },
           "prefer-reduce-type-parameter": Object {
             "create": [Function],
@@ -9401,6 +9630,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               "schema": Array [],
               "type": "problem",
             },
+            "name": "prefer-reduce-type-parameter",
           },
           "prefer-regexp-exec": Object {
             "create": [Function],
@@ -9419,6 +9649,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "prefer-regexp-exec",
           },
           "prefer-return-this-type": Object {
             "create": [Function],
@@ -9437,6 +9668,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "prefer-return-this-type",
           },
           "prefer-string-starts-ends-with": Object {
             "create": [Function],
@@ -9475,6 +9707,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               ],
               "type": "suggestion",
             },
+            "name": "prefer-string-starts-ends-with",
           },
           "prefer-ts-expect-error": Object {
             "create": [Function],
@@ -9506,6 +9739,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               "schema": Array [],
               "type": "problem",
             },
+            "name": "prefer-ts-expect-error",
           },
           "promise-function-async": Object {
             "create": [Function],
@@ -9567,6 +9801,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               ],
               "type": "suggestion",
             },
+            "name": "promise-function-async",
           },
           "related-getter-setter-pairs": Object {
             "create": [Function],
@@ -9584,6 +9819,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               "schema": Array [],
               "type": "problem",
             },
+            "name": "related-getter-setter-pairs",
           },
           "require-array-sort-compare": Object {
             "create": [Function],
@@ -9615,6 +9851,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               ],
               "type": "problem",
             },
+            "name": "require-array-sort-compare",
           },
           "require-await": Object {
             "create": [Function],
@@ -9635,6 +9872,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "require-await",
           },
           "restrict-plus-operands": Object {
             "create": [Function],
@@ -9705,6 +9943,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               ],
               "type": "problem",
             },
+            "name": "restrict-plus-operands",
           },
           "restrict-template-expressions": Object {
             "create": [Function],
@@ -9898,6 +10137,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               ],
               "type": "problem",
             },
+            "name": "restrict-template-expressions",
           },
           "return-await": Object {
             "create": [Function],
@@ -9961,6 +10201,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               ],
               "type": "problem",
             },
+            "name": "return-await",
           },
           "sort-type-constituents": Object {
             "create": [Function],
@@ -10070,6 +10311,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               ],
               "type": "suggestion",
             },
+            "name": "sort-type-constituents",
           },
           "strict-boolean-expressions": Object {
             "create": [Function],
@@ -10168,6 +10410,41 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               ],
               "type": "suggestion",
             },
+            "name": "strict-boolean-expressions",
+          },
+          "strict-void-return": Object {
+            "create": [Function],
+            "defaultOptions": Array [
+              Object {
+                "allowReturnAny": false,
+              },
+            ],
+            "meta": Object {
+              "docs": Object {
+                "description": "Disallow passing a value-returning function in a position accepting a void function",
+                "requiresTypeChecking": true,
+                "url": "https://typescript-eslint.io/rules/strict-void-return",
+              },
+              "messages": Object {
+                "asyncFunc": "Async function used in a context where a void function is expected.",
+                "nonVoidFunc": "Value-returning function used in a context where a void function is expected.",
+                "nonVoidReturn": "Value returned in a context where a void return is expected.",
+              },
+              "schema": Array [
+                Object {
+                  "additionalProperties": false,
+                  "properties": Object {
+                    "allowReturnAny": Object {
+                      "description": "Whether to allow functions returning \`any\` to be used in place expecting a \`void\` function.",
+                      "type": "boolean",
+                    },
+                  },
+                  "type": "object",
+                },
+              ],
+              "type": "problem",
+            },
+            "name": "strict-void-return",
           },
           "switch-exhaustiveness-check": Object {
             "create": [Function],
@@ -10216,6 +10493,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               ],
               "type": "suggestion",
             },
+            "name": "switch-exhaustiveness-check",
           },
           "triple-slash-reference": Object {
             "create": [Function],
@@ -10270,6 +10548,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               ],
               "type": "suggestion",
             },
+            "name": "triple-slash-reference",
           },
           "typedef": Object {
             "create": [Function],
@@ -10340,6 +10619,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               ],
               "type": "suggestion",
             },
+            "name": "typedef",
           },
           "unbound-method": Object {
             "create": [Function],
@@ -10356,9 +10636,11 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
                 "url": "https://typescript-eslint.io/rules/unbound-method",
               },
               "messages": Object {
-                "unbound": "Avoid referencing unbound methods which may cause unintentional scoping of \`this\`.",
-                "unboundWithoutThisAnnotation": "Avoid referencing unbound methods which may cause unintentional scoping of \`this\`.
-If your function does not access \`this\`, you can annotate it with \`this: void\`, or consider using an arrow function instead.",
+                "unbound": "A method that is not declared with \`this: void\` may cause unintentional scoping of \`this\` when separated from its object.
+Consider using an arrow function or explicitly \`.bind()\`ing the method to avoid calling the method with an unintended \`this\` value. ",
+                "unboundWithoutThisAnnotation": "A method that is not declared with \`this: void\` may cause unintentional scoping of \`this\` when separated from its object.
+Consider using an arrow function or explicitly \`.bind()\`ing the method to avoid calling the method with an unintended \`this\` value. 
+If a function does not access \`this\`, it can be annotated with \`this: void\`.",
               },
               "schema": Array [
                 Object {
@@ -10374,6 +10656,7 @@ If your function does not access \`this\`, you can annotate it with \`this: void
               ],
               "type": "problem",
             },
+            "name": "unbound-method",
           },
           "unified-signatures": Object {
             "create": [Function],
@@ -10412,6 +10695,7 @@ If your function does not access \`this\`, you can annotate it with \`this: void
               ],
               "type": "suggestion",
             },
+            "name": "unified-signatures",
           },
           "use-unknown-in-catch-callback-variable": Object {
             "create": [Function],
@@ -10436,6 +10720,7 @@ If your function does not access \`this\`, you can annotate it with \`this: void
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "use-unknown-in-catch-callback-variable",
           },
         },
       },
@@ -10538,7 +10823,7 @@ If your function does not access \`this\`, you can annotate it with \`this: void
       "parser": Object {
         "meta": Object {
           "name": "typescript-eslint/parser",
-          "version": "8.43.0",
+          "version": "8.54.0",
         },
         "parseForESLint": [Function],
       },
@@ -10569,6 +10854,7 @@ If your function does not access \`this\`, you can annotate it with \`this: void
               "@angular-eslint/no-empty-lifecycle-method": "error",
               "@angular-eslint/no-experimental": "error",
               "@angular-eslint/no-forward-ref": "error",
+              "@angular-eslint/no-implicit-take-until-destroyed": "error",
               "@angular-eslint/no-input-prefix": "error",
               "@angular-eslint/no-input-rename": "error",
               "@angular-eslint/no-inputs-metadata-property": "error",
@@ -11141,6 +11427,21 @@ If your function does not access \`this\`, you can annotate it with \`this: void
               },
               "schema": Array [],
               "type": "suggestion",
+            },
+          },
+          "no-implicit-take-until-destroyed": Object {
+            "create": [Function],
+            "defaultOptions": Array [],
+            "meta": Object {
+              "docs": Object {
+                "description": "Ensures that \`takeUntilDestroyed()\` is called with an explicit \`DestroyRef\` when used outside of an injection context",
+                "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-implicit-take-until-destroyed.md",
+              },
+              "messages": Object {
+                "noImplicitTakeUntilDestroyed": "\`takeUntilDestroyed()\` must be called with an explicit \`DestroyRef\` parameter when used outside of an injection context. See more at https://angular.dev/guide/di/dependency-injection-context and https://angular.dev/ecosystem/rxjs-interop/take-until-destroyed",
+              },
+              "schema": Array [],
+              "type": "problem",
             },
           },
           "no-input-prefix": Object {
@@ -11922,6 +12223,7 @@ If your function does not access \`this\`, you can annotate it with \`this: void
               "schema": Array [],
               "type": "problem",
             },
+            "name": "no-lambda-imports",
           },
           "no-sky-selectors": Object {
             "create": [Function],
@@ -11937,6 +12239,7 @@ If your function does not access \`this\`, you can annotate it with \`this: void
               "schema": Array [],
               "type": "problem",
             },
+            "name": "no-sky-selectors",
           },
         },
       },
@@ -11973,7 +12276,7 @@ If your function does not access \`this\`, you can annotate it with \`this: void
       "parser": Object {
         "meta": Object {
           "name": "angular-eslint/template-parser",
-          "version": "21.1.0",
+          "version": "21.2.0",
         },
         "parseForESLint": [Function],
       },
@@ -12034,6 +12337,7 @@ If your function does not access \`this\`, you can annotate it with \`this: void
               "@angular-eslint/template/prefer-at-else": "error",
               "@angular-eslint/template/prefer-at-empty": "error",
               "@angular-eslint/template/prefer-built-in-pipes": "error",
+              "@angular-eslint/template/prefer-class-binding": "error",
               "@angular-eslint/template/prefer-contextual-for-variables": "error",
               "@angular-eslint/template/prefer-control-flow": "error",
               "@angular-eslint/template/prefer-ngsrc": "error",
@@ -13016,6 +13320,21 @@ For example, when set to \`true\` the following code will not fail for the \`alt
               "type": "suggestion",
             },
           },
+          "prefer-class-binding": Object {
+            "create": [Function],
+            "defaultOptions": Array [],
+            "meta": Object {
+              "docs": Object {
+                "description": "Suggests using [class] bindings over ngClass where applicable",
+                "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/prefer-class-binding.md",
+              },
+              "messages": Object {
+                "preferClassBinding": "Consider using [class] bindings instead of [ngClass] where applicable.",
+              },
+              "schema": Array [],
+              "type": "suggestion",
+            },
+          },
           "prefer-contextual-for-variables": Object {
             "create": [Function],
             "defaultOptions": Array [
@@ -13156,7 +13475,9 @@ For example, when set to \`true\` the following code will not fail for the \`alt
           },
           "prefer-static-string-properties": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": Array [
+              Object {},
+            ],
             "meta": Object {
               "docs": Object {
                 "description": "Ensures that static string values use property assignment instead of property binding.",
@@ -13166,7 +13487,22 @@ For example, when set to \`true\` the following code will not fail for the \`alt
               "messages": Object {
                 "preferStaticStringProperties": "Using a property is more efficient than binding a static string.",
               },
-              "schema": Array [],
+              "schema": Array [
+                Object {
+                  "additionalProperties": false,
+                  "properties": Object {
+                    "ignore": Object {
+                      "description": "An array of property names that should be ignored by this rule",
+                      "items": Object {
+                        "type": "string",
+                      },
+                      "type": "array",
+                      "uniqueItems": true,
+                    },
+                  },
+                  "type": "object",
+                },
+              ],
               "type": "layout",
             },
           },
@@ -13320,6 +13656,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
               "schema": Array [],
               "type": "problem",
             },
+            "name": "no-deprecated-classnames",
           },
           "no-deprecated-directives": Object {
             "create": [Function],
@@ -13336,6 +13673,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
               "schema": Array [],
               "type": "problem",
             },
+            "name": "no-deprecated-directives",
           },
           "no-legacy-icons": Object {
             "create": [Function],
@@ -13352,6 +13690,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
               "schema": Array [],
               "type": "problem",
             },
+            "name": "no-legacy-icons",
           },
           "no-radio-group-with-nested-list": Object {
             "create": [Function],
@@ -13368,6 +13707,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
               "schema": Array [],
               "type": "problem",
             },
+            "name": "no-radio-group-with-nested-list",
           },
           "no-unbound-id": Object {
             "create": [Function],
@@ -13383,6 +13723,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
               "schema": Array [],
               "type": "problem",
             },
+            "name": "no-unbound-id",
           },
           "prefer-disabled-attr": Object {
             "create": [Function],
@@ -13399,6 +13740,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
               "schema": Array [],
               "type": "problem",
             },
+            "name": "prefer-disabled-attr",
           },
           "prefer-label-text": Object {
             "create": [Function],
@@ -13415,6 +13757,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
               "schema": Array [],
               "type": "problem",
             },
+            "name": "prefer-label-text",
           },
         },
       },

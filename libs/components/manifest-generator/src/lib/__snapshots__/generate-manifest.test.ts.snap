@@ -293,7 +293,7 @@ exports[`generate-manifest > should generate manifest 1`] = `
           {
             "kind": "class-property",
             "name": "unionType",
-            "type": "null | true | \\"a\\" | \\"b\\" | undefined"
+            "type": "true | \\"a\\" | \\"b\\" | null | undefined"
           },
           {
             "description": "This is a static getter without a setter.",
@@ -425,7 +425,7 @@ exports[`generate-manifest > should generate manifest 1`] = `
             "description": "This describes the foo input.",
             "kind": "directive-input",
             "name": "foo",
-            "type": "InputSignal<undefined | string>"
+            "type": "InputSignal<string | undefined>"
           },
           {
             "description": "This describes the fooRequired input.",
@@ -443,7 +443,7 @@ exports[`generate-manifest > should generate manifest 1`] = `
             "description": "This describes the items model.",
             "kind": "directive-input",
             "name": "items",
-            "type": "ModelSignal<undefined | string[]>"
+            "type": "ModelSignal<string[] | undefined>"
           },
           {
             "description": "This describes the requiredItems model.",
