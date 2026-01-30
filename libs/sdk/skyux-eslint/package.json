@@ -27,10 +27,10 @@
     }
   },
   "peerDependencies": {
-    "@angular-eslint/bundled-angular-compiler": "^21.1.0",
-    "@angular-eslint/eslint-plugin-template": "^21.1.0",
-    "@angular-eslint/utils": "^21.1.0",
-    "@typescript-eslint/utils": "^8.43.0"
+    "@angular-eslint/bundled-angular-compiler": "^21.2.0",
+    "@angular-eslint/eslint-plugin-template": "^21.2.0",
+    "@angular-eslint/utils": "^21.2.0",
+    "@typescript-eslint/utils": "^8.54.0"
   },
   "dependencies": {
     "@skyux-sdk/eslint-schematics": "0.0.0-PLACEHOLDER",

@@ -7,12 +7,9 @@ const { constants } = require('karma');
 module.exports = () => {
   return {
     basePath: '',
-    frameworks: ['waitwebpack', 'jasmine', '@angular-devkit/build-angular'],
+    frameworks: ['jasmine', '@angular-devkit/build-angular'],
     middleware: ['fake-url'],
     plugins: [
-      // Tell karma to wait for bundle to be completed before launching browsers.
-      // See: https://github.com/karma-runner/karma-chrome-launcher/issues/154#issuecomment-986661937
-      require('./config/plugins/karma.waitwebpack'),
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
       require('karma-coverage'),

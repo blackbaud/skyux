@@ -8,13 +8,6 @@ module.exports = tsEslint.config(
   ...config,
   ...skyuxConfig,
   {
-    languageOptions: {
-      parserOptions: {
-        project: './libs/components/code-examples/tsconfig.json',
-      },
-    },
-  },
-  {
     files: ['**/*.ts'],
     extends: [
       // Stylistic rules are not included in our "recommended" config, but we
