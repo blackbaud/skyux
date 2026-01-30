@@ -1,6 +1,7 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
+import { SkyModalConfigurationSizeType } from '@skyux/modals';
 
 import { SkyModalHarnessFilters } from './modal-harness-filters';
 
@@ -83,7 +84,7 @@ export class SkyModalHarness extends SkyComponentHarness {
   /**
    * Gets the modal size.
    */
-  public async getSize(): Promise<string> {
+  public async getSize(): Promise<SkyModalConfigurationSizeType> {
     if (await this.isFullPage()) {
       throw new Error(
         'Size cannot be determined because size property is overridden when modal is full page',
