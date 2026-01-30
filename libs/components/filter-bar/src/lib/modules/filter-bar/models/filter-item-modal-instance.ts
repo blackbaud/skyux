@@ -13,7 +13,7 @@ export abstract class SkyFilterItemModalInstance<
   /**
    * The context provided to the filter modal component.
    */
-  public abstract readonly context: SkyFilterItemModalContext<TData>;
+  public abstract readonly context: SkyFilterItemModalContext<TValue, TData>;
 
   /**
    * Closes the modal instance with `reason="cancel"`.

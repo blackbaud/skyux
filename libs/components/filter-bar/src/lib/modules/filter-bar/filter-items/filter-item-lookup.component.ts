@@ -71,7 +71,9 @@ export class SkyFilterItemLookupComponent<TValue = unknown>
    * @required
    */
   @Output()
-  public searchAsync = new EventEmitter<SkyFilterItemLookupSearchAsyncArgs>();
+  public searchAsync = new EventEmitter<
+    SkyFilterItemLookupSearchAsyncArgs<TValue>
+  >();
 
   public readonly templateRef = viewChild(TemplateRef<unknown>);
 

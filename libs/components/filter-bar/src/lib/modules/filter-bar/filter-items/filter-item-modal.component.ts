@@ -120,7 +120,7 @@ export class SkyFilterItemModalComponent<
         const saved = new Subject<SkyFilterItemModalSavedArgs<TValue>>();
         const canceled = new Subject<void>();
 
-        const context = inject<SkyFilterItemModalContext<TData>>(
+        const context = inject<SkyFilterItemModalContext<TValue, TData>>(
           SkyFilterItemModalContext,
         );
 
