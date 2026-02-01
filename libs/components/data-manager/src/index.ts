@@ -22,6 +22,7 @@ export { SkyDataManagerDockType } from './lib/modules/data-manager/types/data-ma
 // Obscure names are used to indicate types are not part of public API.
 export { SkyDataManagerColumnPickerComponent as λ1 } from './lib/modules/data-manager/data-manager-column-picker/data-manager-column-picker.component';
 export { SkyDataManagerFilterControllerDirective as λ9 } from './lib/modules/data-manager/data-manager-filters/data-manager-filter-controller.directive';
+export { SkyDataManagerStateControllerDirective as λ10 } from './lib/modules/data-manager/data-manager-state/data-manager-state-controller.directive';
 export { SkyDataManagerToolbarLeftItemComponent as λ3 } from './lib/modules/data-manager/data-manager-toolbar/data-manager-toolbar-left-item.component';
 export { SkyDataManagerToolbarPrimaryItemComponent as λ4 } from './lib/modules/data-manager/data-manager-toolbar/data-manager-toolbar-primary-item.component';
 export { SkyDataManagerToolbarRightItemComponent as λ5 } from './lib/modules/data-manager/data-manager-toolbar/data-manager-toolbar-right-item.component';
