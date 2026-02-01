@@ -8,3 +8,6 @@ export {
   SkyDataGridNumberRangeFilterFormGroup,
 } from './lib/modules/types/data-grid-number-range-filter-value';
 export { SkyDataGridSort } from './lib/modules/types/data-grid-sort';
+
+// Re-export from @skyux/lists for convenience
+export { SkyDataHost } from '@skyux/lists';
