@@ -36,7 +36,11 @@ import {
   SkyDataManagerService,
 } from '@skyux/data-manager';
 import { SkyWaitModule } from '@skyux/indicators';
-import { SkyFilterStateFilterItem, SkyPagingModule } from '@skyux/lists';
+import {
+  SkyDataHost,
+  SkyFilterStateFilterItem,
+  SkyPagingModule,
+} from '@skyux/lists';
 
 import { AgGridAngular } from 'ag-grid-angular';
 import {
@@ -262,6 +266,13 @@ export class SkyDataGridComponent<
   public readonly displayedColumnIds = input<string[], unknown>([], {
     transform: coerceStringArray,
   });
+
+  /**
+   * The current data state for integration with data management systems. This includes information about
+   * displayed columns, sort order, current page, and selected rows. Use this with two-way binding when
+   * you need to manage data state externally, such as with a data manager.
+   */
+  public readonly dataState = model<SkyDataHost | undefined>(undefined);
 
   /**
    * Fires when columns change. This includes changes to the displayed columns and changes
@@ -704,6 +715,86 @@ export class SkyDataGridComponent<
       const useInternalFilters = this.#useInternalFilters();
       if (useInternalFilters) {
         api?.setGridOption('quickFilterText', searchText);
+      }
+    });
+
+    // Sync dataState input to internal state
+    effect(() => {
+      const dataState = this.dataState();
+      if (dataState) {
+        const currentDisplayedColumnIds = this.displayedColumnIds();
+        if (
+          dataState.displayedColumnIds &&
+          !arrayIsEqual(dataState.displayedColumnIds, currentDisplayedColumnIds)
+        ) {
+          // Note: We don't set displayedColumnIds here as it's an input
+          // The displayedColumnIds input will be set by the parent component
+        }
+
+        if (dataState.sort) {
+          const currentSort = this.sortField();
+          if (
+            !currentSort ||
+            currentSort.fieldSelector !== dataState.sort.fieldSelector ||
+            currentSort.descending !== dataState.sort.descending
+          ) {
+            this.sortField.set({
+              fieldSelector: dataState.sort.fieldSelector,
+              descending: dataState.sort.descending,
+            });
+          }
+        }
+
+        if (dataState.page !== undefined) {
+          const currentPage = this.page();
+          if (currentPage !== dataState.page) {
+            this.page.set(dataState.page);
+          }
+        }
+
+        if (dataState.selectedIds) {
+          const currentSelectedIds = this.selectedRowIds();
+          if (!arrayIsEqual(dataState.selectedIds, currentSelectedIds)) {
+            this.selectedRowIds.set([...dataState.selectedIds]);
+          }
+        }
+      }
+    });
+
+    // Emit dataState changes from internal state
+    effect(() => {
+      const displayedColumnIds = this.displayedColumnIds();
+      const sort = this.sortField();
+      const page = this.page();
+      const selectedIds = this.selectedRowIds();
+
+      const currentDataState = this.dataState();
+      const newDataState: SkyDataHost = {
+        displayedColumnIds: displayedColumnIds.length ? displayedColumnIds : undefined,
+        sort: sort
+          ? {
+              fieldSelector: sort.fieldSelector,
+              descending: !!sort.descending,
+            }
+          : undefined,
+        page,
+        selectedIds: selectedIds.length ? selectedIds : undefined,
+      };
+
+      // Only update if the state has changed
+      const hasChanged =
+        !currentDataState ||
+        !arrayIsEqual(
+          currentDataState.displayedColumnIds,
+          newDataState.displayedColumnIds,
+        ) ||
+        currentDataState.sort?.fieldSelector !== newDataState.sort?.fieldSelector ||
+        currentDataState.sort?.descending !== newDataState.sort?.descending ||
+        currentDataState.page !== newDataState.page ||
+        !arrayIsEqual(currentDataState.selectedIds, newDataState.selectedIds);
+
+      if (hasChanged) {
+        this.dataState.set(newDataState);
       }
     });
   }

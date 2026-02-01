@@ -10,6 +10,8 @@ export { SkyPagingContentChangeArgs } from './lib/modules/paging/types/paging-co
 export { SkyRepeaterExpandModeType } from './lib/modules/repeater/repeater-expand-mode-type';
 export { SkyRepeaterModule } from './lib/modules/repeater/repeater.module';
 
+export { SkyDataHost } from './lib/modules/shared/data-host';
+
 export { SkyFilterStateService } from './lib/modules/shared/filter-state-service/filter-state.service';
 export { SkyFilterState } from './lib/modules/shared/filter-state-service/filter-state';
 export { SkyFilterStateFilterItem } from './lib/modules/shared/filter-state-service/filter-state-filter-item';
