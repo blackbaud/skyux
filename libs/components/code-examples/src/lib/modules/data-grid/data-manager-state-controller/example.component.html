@@ -1,0 +1,30 @@
+<sky-data-manager>
+  <sky-data-manager-toolbar />
+
+  <sky-data-grid
+    skyDataManagerStateController
+    [viewId]="viewId"
+    [(dataState)]="gridState"
+    [data]="gridData()"
+  >
+    <sky-data-grid-column field="name" headingText="Name" />
+    <sky-data-grid-column
+      field="age"
+      headingText="Age"
+      dataType="number"
+      width="60"
+    />
+    <sky-data-grid-column
+      field="startDate"
+      headingText="Start date"
+      dataType="date"
+    />
+    <sky-data-grid-column
+      field="endDate"
+      headingText="End date"
+      dataType="date"
+    />
+    <sky-data-grid-column field="department" headingText="Department" />
+    <sky-data-grid-column field="jobTitle" headingText="Title" />
+  </sky-data-grid>
+</sky-data-manager>
