@@ -45,8 +45,8 @@ import { SKY_FILTER_ITEM } from './filter-item.token';
   ],
 })
 export class SkyFilterItemModalComponent<
-  TValue = unknown,
   TData = Record<string, unknown> | undefined,
+  TValue = unknown,
 > implements SkyFilterItem<TValue>
 {
   /**
@@ -68,7 +68,7 @@ export class SkyFilterItemModalComponent<
    * @required
    */
   public readonly modalComponent =
-    input.required<Type<SkyFilterItemModal<TValue, TData>>>();
+    input.required<Type<SkyFilterItemModal<TData, TValue>>>();
 
   /**
    * The size of the modal to display. The valid options are `"small"`, `"medium"`, `"large"`, and `"fullScreen"`.
@@ -103,7 +103,7 @@ export class SkyFilterItemModalComponent<
     const filterValue = this.filterValue();
 
     this.#openFilterCallback().subscribe((additionalContext) => {
-      const context = new SkyFilterItemModalContext<TValue, TData>({
+      const context = new SkyFilterItemModalContext<TData, TValue>({
         filterLabelText: labelText,
         filterValue,
         additionalContext,
@@ -120,11 +120,11 @@ export class SkyFilterItemModalComponent<
         const saved = new Subject<SkyFilterItemModalSavedArgs<TValue>>();
         const canceled = new Subject<void>();
 
-        const context = inject<SkyFilterItemModalContext<TValue, TData>>(
+        const context = inject<SkyFilterItemModalContext<TData, TValue>>(
           SkyFilterItemModalContext,
         );
 
-        const filterModalInstance: SkyFilterItemModalInstance<TValue, TData> = {
+        const filterModalInstance: SkyFilterItemModalInstance<TData, TValue> = {
           context,
           cancel() {
             canceled.next();

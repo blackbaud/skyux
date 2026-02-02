@@ -7,13 +7,13 @@ import { SkyFilterItemModalSavedArgs } from './filter-item-modal-saved-args';
  * @typeParam TData - The type of the additional context data. Defaults to `Record<string, unknown>`.
  */
 export abstract class SkyFilterItemModalInstance<
-  TValue = unknown,
   TData = Record<string, unknown>,
+  TValue = unknown,
 > {
   /**
    * The context provided to the filter modal component.
    */
-  public abstract readonly context: SkyFilterItemModalContext<TValue, TData>;
+  public abstract readonly context: SkyFilterItemModalContext<TData, TValue>;
 
   /**
    * Closes the modal instance with `reason="cancel"`.
