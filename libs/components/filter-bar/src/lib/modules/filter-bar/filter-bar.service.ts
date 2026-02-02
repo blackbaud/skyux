@@ -30,7 +30,10 @@ export class SkyFilterBarService {
   ): Observable<SkyFilterBarFilterValue<TValue> | undefined> {
     return this.#filterValueUpdates.pipe(
       filter((update) => update.filterId === filterId),
-      map((item) => item.filterValue as SkyFilterBarFilterValue<TValue>),
+      map(
+        (item) =>
+          item.filterValue as SkyFilterBarFilterValue<TValue> | undefined,
+      ),
     );
   }
   /**
