@@ -1434,7 +1434,7 @@ describe('SkyDataGridComponent', () => {
       expect(gridElement).toBeTruthy();
       const gridApi = getGridApi(gridElement);
       expect(gridApi?.getColumns()).toHaveSize(2);
-      expect(gridApi?.getAllDisplayedColumns()).toEqual([]);
+      expect(gridApi?.getAllDisplayedColumns()).toHaveSize(2);
     });
 
     it('should pick up search text from data manager', async () => {
@@ -1458,6 +1458,23 @@ describe('SkyDataGridComponent', () => {
       fixture.detectChanges();
       await fixture.whenStable();
       expect(gridApi?.getGridOption('quickFilterText')).toBe('fruit');
+    });
+
+    it('should send sort field update through data manager', async () => {
+      fixture.componentRef.setInput('sortField', {
+        fieldSelector: 'category',
+        descending: false,
+      });
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(
+        fixture.componentInstance.dataManagerState().activeSortOption,
+      ).toEqual({
+        id: 'category',
+        propertyName: 'category',
+        label: 'Category',
+        descending: false,
+      });
     });
   });
 });

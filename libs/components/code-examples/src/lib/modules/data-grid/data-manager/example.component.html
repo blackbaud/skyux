@@ -30,49 +30,50 @@
     </sky-list-summary>
   </sky-data-manager-toolbar>
 
-  <sky-data-grid
-    [appliedFilters]="appliedFilters()"
-    [data]="gridData()"
-    [viewId]="viewId"
-    [(rowDeleteIds)]="rowDeleteIds"
-    (rowCountChange)="recordCount.set($event)"
-    (rowDeleteCancel)="rowDeleteCancel($event)"
-    (rowDeleteConfirm)="rowDeleteConfirm($event)"
-  >
-    <sky-data-grid-column
-      columnId="context"
-      headingText="Context menu"
-      headingHidden
-      width="50"
-      [resizable]="false"
-      [sortable]="false"
-      [template]="contextMenu"
-    />
-    <sky-data-grid-column field="name" headingText="Name" />
-    <sky-data-grid-column
-      field="age"
-      headingText="Age"
-      dataType="number"
-      width="60"
-    />
-    <sky-data-grid-column
-      field="startDate"
-      headingText="Start date"
-      dataType="date"
-    />
-    <sky-data-grid-column
-      field="endDate"
-      headingText="End date"
-      dataType="date"
-    />
-    <sky-data-grid-column
-      field="department"
-      headingText="Department"
-      filterId="hideSales"
-      filterOperator="notEqual"
-    />
-    <sky-data-grid-column field="jobTitle" headingText="Title" />
-  </sky-data-grid>
+  <sky-data-view skyDataManagerHostController [viewId]="viewId">
+    <sky-data-grid
+      [appliedFilters]="appliedFilters()"
+      [data]="gridData()"
+      [(rowDeleteIds)]="rowDeleteIds"
+      (rowCountChange)="recordCount.set($event)"
+      (rowDeleteCancel)="rowDeleteCancel($event)"
+      (rowDeleteConfirm)="rowDeleteConfirm($event)"
+    >
+      <sky-data-grid-column
+        columnId="context"
+        headingText="Context menu"
+        headingHidden
+        width="50"
+        [resizable]="false"
+        [sortable]="false"
+        [template]="contextMenu"
+      />
+      <sky-data-grid-column field="name" headingText="Name" />
+      <sky-data-grid-column
+        field="age"
+        headingText="Age"
+        dataType="number"
+        width="60"
+      />
+      <sky-data-grid-column
+        field="startDate"
+        headingText="Start date"
+        dataType="date"
+      />
+      <sky-data-grid-column
+        field="endDate"
+        headingText="End date"
+        dataType="date"
+      />
+      <sky-data-grid-column
+        field="department"
+        headingText="Department"
+        filterId="hideSales"
+        filterOperator="notEqual"
+      />
+      <sky-data-grid-column field="jobTitle" headingText="Title" />
+    </sky-data-grid>
+  </sky-data-view>
 </sky-data-manager>
 
 <ng-template #contextMenu let-row="row">

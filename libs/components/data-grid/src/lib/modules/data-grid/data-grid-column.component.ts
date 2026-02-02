@@ -157,7 +157,9 @@ export class SkyDataGridColumnComponent {
    * - number: 'equals'
    * - date: 'equals'
    */
-  public readonly filterOperator = input<SkyDataGridFilterOperator>();
+  public readonly filterOperator = input<
+    SkyDataGridFilterOperator | undefined
+  >();
 
   protected readonly templateChild = contentChild(TemplateRef);
 

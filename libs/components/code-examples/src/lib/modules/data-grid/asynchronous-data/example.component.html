@@ -34,49 +34,51 @@
     </sky-list-summary>
   </sky-data-manager-toolbar>
 
-  <sky-data-grid
-    height="400"
-    [data]="recordsToShow.value()"
-    [totalRowCount]="totalRecordCount()"
-    [viewId]="viewId"
-  >
-    <sky-data-grid-column
-      field="name"
-      headingText="Employee Name"
-      dataType="text"
-      flexWidth="5"
-    />
-    <sky-data-grid-column
-      field="department"
-      headingText="Department"
-      dataType="text"
-      flexWidth="8"
-    />
-    <sky-data-grid-column
-      field="salary"
-      headingText="Salary"
-      dataType="number"
-      flexWidth="2"
+  <sky-data-view skyDataManagerHostController [viewId]="viewId">
+    <sky-data-grid
+      height="400"
+      [data]="recordsToShow.value()"
+      [totalRowCount]="totalRecordCount()"
     >
-      <ng-template let-value="value">{{
-        value | skyNumeric: { format: 'currency', iso: 'USD', truncate: false }
-      }}</ng-template>
-    </sky-data-grid-column>
-    <sky-data-grid-column
-      field="startDate"
-      headingText="Start Date"
-      dataType="date"
-      flexWidth="0"
-    >
-      <ng-template let-value="value">{{
-        value | skyDate: 'mediumDate'
-      }}</ng-template>
-    </sky-data-grid-column>
-    <sky-data-grid-column
-      field="active"
-      headingText="Active"
-      dataType="boolean"
-      flexWidth="0"
-    />
-  </sky-data-grid>
+      <sky-data-grid-column
+        field="name"
+        headingText="Employee Name"
+        dataType="text"
+        flexWidth="5"
+      />
+      <sky-data-grid-column
+        field="department"
+        headingText="Department"
+        dataType="text"
+        flexWidth="8"
+      />
+      <sky-data-grid-column
+        field="salary"
+        headingText="Salary"
+        dataType="number"
+        flexWidth="2"
+      >
+        <ng-template let-value="value">{{
+          value
+            | skyNumeric: { format: 'currency', iso: 'USD', truncate: false }
+        }}</ng-template>
+      </sky-data-grid-column>
+      <sky-data-grid-column
+        field="startDate"
+        headingText="Start Date"
+        dataType="date"
+        flexWidth="0"
+      >
+        <ng-template let-value="value">{{
+          value | skyDate: 'mediumDate'
+        }}</ng-template>
+      </sky-data-grid-column>
+      <sky-data-grid-column
+        field="active"
+        headingText="Active"
+        dataType="boolean"
+        flexWidth="0"
+      />
+    </sky-data-grid>
+  </sky-data-view>
 </sky-data-manager>

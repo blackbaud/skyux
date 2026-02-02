@@ -31,12 +31,14 @@ import {
   SkyCellType,
 } from '@skyux/ag-grid';
 import { SkyLogService } from '@skyux/core';
-import {
-  SkyDataManagerModule,
-  SkyDataManagerService,
-} from '@skyux/data-manager';
+import { SkyDataManagerService } from '@skyux/data-manager';
 import { SkyWaitModule } from '@skyux/indicators';
-import { SkyFilterStateFilterItem, SkyPagingModule } from '@skyux/lists';
+import {
+  SkyDataHost,
+  SkyDataHostService,
+  SkyFilterStateFilterItem,
+  SkyPagingModule,
+} from '@skyux/lists';
 
 import { AgGridAngular } from 'ag-grid-angular';
 import {
@@ -57,7 +59,7 @@ import {
   SortDirection,
 } from 'ag-grid-community';
 import {
-  Observable,
+  EMPTY,
   ObservableInput,
   distinctUntilChanged,
   filter,
@@ -99,13 +101,7 @@ function arrayIsEqual(
  */
 @Component({
   selector: 'sky-data-grid',
-  imports: [
-    AgGridAngular,
-    SkyAgGridModule,
-    SkyDataManagerModule,
-    SkyPagingModule,
-    SkyWaitModule,
-  ],
+  imports: [AgGridAngular, SkyAgGridModule, SkyPagingModule, SkyWaitModule],
   templateUrl: './data-grid.component.html',
   styleUrl: './data-grid.component.css',
   host: {
@@ -206,7 +202,7 @@ export class SkyDataGridComponent<
    * The query parameter name that stores the current page number.
    * When set, the grid syncs page changes to the URL for deep linking, and there should only be one grid on the page.
    */
-  public readonly pageQueryParam = input<string>();
+  public readonly pageQueryParam = input<string | undefined>();
 
   /**
    * The ID of the row to highlight. The ID matches the `multiselectRowId` property
@@ -214,7 +210,7 @@ export class SkyDataGridComponent<
    * the flyout component to indicate the currently selected row. Other rows
    * are de-selected in the grid.
    */
-  public readonly rowHighlightedId = input<string>();
+  public readonly rowHighlightedId = input<string | undefined>();
 
   /**
    * Whether the data grid is stacked with another element below it. When specified, the appropriate
@@ -240,14 +236,6 @@ export class SkyDataGridComponent<
    * `data` provided, and the total row count is assumed to be `data.length`.
    */
   public readonly totalRowCount = input<number | undefined>(undefined);
-
-  /**
-   * View ID when using SKY UX Data Manager. When this input is set, `sky-data-grid` provides a `sky-data-view` for a
-   * SKY UX Data Manager. Requires a
-   * [`SkyDataManagerService`](https://developer.blackbaud.com/skyux/components/data-manager?docs-active-tab=development#class_sky-data-manager-service)
-   * be provided and configured.
-   */
-  public readonly viewId = input<string>();
 
   /**
    * The width of the grid in CSS pixels. When no width is set, the grid will use the width of its container.
@@ -391,42 +379,24 @@ export class SkyDataGridComponent<
     return Math.ceil((totalRowCount ?? dataLength) / pageSize);
   });
 
-  readonly #dataManagerService = inject(SkyDataManagerService, {
+  protected readonly useDataManager = !!inject(SkyDataManagerService, {
     optional: true,
   });
-  readonly #dataManagerDisplayedColumnIds = toSignal(
-    toObservable(this.viewId).pipe(
-      filter(Boolean),
-      switchMap(
-        (viewId): Observable<string[]> =>
-          (this.#dataManagerService as SkyDataManagerService)
-            .getDataStateUpdates(viewId, { properties: ['views'] })
-            .pipe(
-              map(
-                (state) =>
-                  /* istanbul ignore next */
-                  state.views.find((view) => view.viewId === viewId)
-                    ?.displayedColumnIds ?? [],
-              ),
-            ),
-      ),
-    ),
-    { initialValue: [] },
+  protected readonly viewId = computed(
+    () => this.#dataHostService?.hostId() ?? '',
   );
-  readonly #dataManagerSearchText = toSignal(
-    toObservable(this.viewId).pipe(
-      filter(Boolean),
-      switchMap((viewId) =>
-        (this.#dataManagerService as SkyDataManagerService)
-          .getDataStateUpdates(viewId)
-          .pipe(map((state) => `${state.searchText ?? ''}`)),
-      ),
-    ),
-    { initialValue: '' },
-  );
-  protected readonly useDataManager = !!this.#dataManagerService;
 
   readonly #activatedRoute = inject(ActivatedRoute, { optional: true });
+  readonly #dataHostService = inject(SkyDataHostService, { optional: true });
+  readonly #dataHostServiceUpdates = toSignal(
+    this.#dataHostService?.getDataHostUpdates('SkyDataGridComponent') ?? EMPTY,
+  );
+  readonly #dataHostDisplayedColumnIds = computed(
+    () => this.#dataHostServiceUpdates()?.displayedColumnIds ?? [],
+  );
+  readonly #dataHostSearchText = computed(
+    () => this.#dataHostServiceUpdates()?.searchText ?? '',
+  );
   readonly #gridService = inject(SkyAgGridService);
   readonly #logger = inject(SkyLogService);
   readonly #router = inject(Router, { optional: true });
@@ -434,14 +404,47 @@ export class SkyDataGridComponent<
   readonly #columnDefs = computed<ColDef<T>[]>(() => {
     const columns = this.columns();
     const sort = this.sortField();
-    const displayed = [
-      ...this.displayedColumnIds().filter(Boolean),
-      ...this.#dataManagerDisplayedColumnIds(),
-    ];
+    const displayed = this.#displayedColumnIds();
     const hidden = this.hiddenColumnIds().filter(Boolean);
     return columns.map((col) =>
       this.#createColDef(col, displayed, hidden, sort),
     );
+  });
+  readonly #displayedColumnIds = computed(() => {
+    const displayedColumnIds = this.displayedColumnIds().filter(Boolean);
+    const dataHostDisplayedColumnIds = this.#dataHostDisplayedColumnIds();
+    const notHidden = this.columns()
+      .filter((col) => !col.hidden())
+      .map((col) => this.#getColumnIdOrField(col));
+    if (dataHostDisplayedColumnIds.length > 0) {
+      return dataHostDisplayedColumnIds;
+    }
+    if (displayedColumnIds.length > 0) {
+      return displayedColumnIds;
+    }
+    return notHidden;
+  });
+
+  readonly #dataHost = computed<SkyDataHost | undefined>(() => {
+    const sortField = this.sortField();
+    const id = this.viewId();
+    const dataHost = untracked(() => this.#dataHostServiceUpdates());
+    if (dataHost) {
+      return {
+        activeSortOption: sortField
+          ? {
+              propertyName: sortField.fieldSelector,
+              descending: !!sortField.descending,
+            }
+          : undefined,
+        displayedColumnIds: this.#displayedColumnIds(),
+        id,
+        page: this.page(),
+        searchText: dataHost.searchText,
+        selectedIds: this.selectedRowIds(),
+      };
+    }
+    return undefined;
   });
 
   readonly #gridDestroyed = toObservable(this.gridApi).pipe(
@@ -665,9 +668,7 @@ export class SkyDataGridComponent<
       const isExternalFilterPresent = this.isExternalFilterPresent();
       const doesExternalFilterPass = this.doesExternalFilterPass();
       let rowData = [...this.rowData()];
-      const searchText = this.#dataManagerSearchText()
-        .normalize()
-        .toLowerCase();
+      const searchText = this.#dataHostSearchText().normalize().toLowerCase();
       const useInternalFilters = this.#useInternalFilters();
       const multiselectRowId = this.multiselectRowId();
       if (useInternalFilters) {
@@ -699,11 +700,18 @@ export class SkyDataGridComponent<
     });
 
     effect(() => {
-      const searchText = this.#dataManagerSearchText();
+      const searchText = this.#dataHostSearchText();
       const api = this.gridApi();
       const useInternalFilters = this.#useInternalFilters();
       if (useInternalFilters) {
         api?.setGridOption('quickFilterText', searchText);
+      }
+    });
+
+    effect(() => {
+      const dataHost = this.#dataHost();
+      if (dataHost) {
+        this.#dataHostService?.updateDataHost(dataHost, 'SkyDataGridComponent');
       }
     });
   }

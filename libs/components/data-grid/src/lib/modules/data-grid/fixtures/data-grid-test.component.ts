@@ -10,6 +10,7 @@ import {
   SkyAgGridRowDeleteCancelArgs,
   SkyAgGridRowDeleteConfirmArgs,
 } from '@skyux/ag-grid';
+import { SkyDataGridFilterValue } from '@skyux/data-grid';
 import { SkyFilterBarFilterItem } from '@skyux/filter-bar';
 import { SkyDropdownModule, SkyPopoverModule } from '@skyux/popovers';
 
@@ -137,7 +138,9 @@ export class DataGridTestComponent {
   ];
 
   public readonly displayedColumns = input<string[]>([]);
-  public readonly appliedFilters = input<SkyFilterBarFilterItem[]>([]);
+  public readonly appliedFilters = input<
+    SkyFilterBarFilterItem<SkyDataGridFilterValue>[]
+  >([]);
   public readonly removeRowIds = model<string[]>([]);
   public readonly rowHighlightedId = model<string | undefined>();
   public readonly selectedRowIds = model<string[]>([]);

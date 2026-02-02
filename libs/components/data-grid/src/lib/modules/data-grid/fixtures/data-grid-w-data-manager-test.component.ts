@@ -3,7 +3,10 @@ import {
   Component,
   OnInit,
   inject,
+  model,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { SkyDataGridSort } from '@skyux/data-grid';
 import {
   SkyDataManagerModule,
   SkyDataManagerService,
@@ -39,10 +42,33 @@ export class DataGridWDataManagerTestComponent implements OnInit {
   public searchEnabled = true;
   public columnPickerEnabled = true;
 
+  public readonly dataManagerState = toSignal(
+    this.dataManagerService.getDataStateUpdates(
+      'DataGridWDataManagerTestComponent',
+    ),
+    { initialValue: new SkyDataManagerState({}) },
+  );
+  public sortField = model<SkyDataGridSort>();
+
   public ngOnInit(): void {
     this.dataManagerService.initDataManager({
       activeViewId: this.viewId,
-      dataManagerConfig: {},
+      dataManagerConfig: {
+        sortOptions: [
+          {
+            id: 'name',
+            propertyName: 'name',
+            label: 'Name',
+            descending: false,
+          },
+          {
+            id: 'category',
+            propertyName: 'category',
+            label: 'Category',
+            descending: false,
+          },
+        ],
+      },
       defaultDataState: new SkyDataManagerState({
         views: [
           {

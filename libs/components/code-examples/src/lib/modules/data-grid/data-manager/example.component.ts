@@ -7,6 +7,7 @@ import {
   signal,
 } from '@angular/core';
 import {
+  SkyAgGridModule,
   SkyAgGridRowDeleteCancelArgs,
   SkyAgGridRowDeleteConfirmArgs,
 } from '@skyux/ag-grid';
@@ -38,6 +39,7 @@ import { SalesModalComponent } from './sales-modal.component';
   providers: [SkyDataManagerService],
   imports: [
     I18nPluralPipe,
+    SkyAgGridModule,
     SkyDataGridModule,
     SkyDataManagerModule,
     SkyDropdownModule,

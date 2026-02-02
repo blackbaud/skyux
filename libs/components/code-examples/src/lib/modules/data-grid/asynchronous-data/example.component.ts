@@ -7,6 +7,7 @@ import {
   signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { SkyAgGridModule } from '@skyux/ag-grid';
 import { SkyNumericPipe } from '@skyux/core';
 import {
   SkyDataGridModule,
@@ -40,12 +41,13 @@ import { StartDateFilterModalComponent } from './start-date-filter-modal.compone
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SkyDataManagerService],
   imports: [
+    SkyAgGridModule,
     SkyDataGridModule,
     SkyDataManagerModule,
+    SkyDatePipe,
     SkyFilterBarModule,
     SkyListSummaryModule,
     SkyNumericPipe,
-    SkyDatePipe,
   ],
   templateUrl: './example.component.html',
 })

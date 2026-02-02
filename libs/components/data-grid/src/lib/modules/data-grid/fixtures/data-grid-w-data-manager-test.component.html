@@ -1,7 +1,9 @@
 <sky-data-manager data-sky-id="my-data-manager">
   <sky-data-manager-toolbar />
-  <sky-data-grid [data]="data" [viewId]="viewId">
-    <sky-data-grid-column field="name" headingText="Name" />
-    <sky-data-grid-column field="category" headingText="Category" />
-  </sky-data-grid>
+  <sky-data-view skyDataManagerHostController [viewId]="viewId">
+    <sky-data-grid [data]="data" [(sortField)]="sortField">
+      <sky-data-grid-column field="name" headingText="Name" />
+      <sky-data-grid-column field="category" headingText="Category" />
+    </sky-data-grid>
+  </sky-data-view>
 </sky-data-manager>
