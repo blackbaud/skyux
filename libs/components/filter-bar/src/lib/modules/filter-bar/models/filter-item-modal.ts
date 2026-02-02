@@ -5,9 +5,10 @@ import { SkyFilterItemModalInstance } from './filter-item-modal-instance';
  */
 export interface SkyFilterItemModal<
   TData = Record<string, unknown> | undefined,
+  TValue = unknown,
 > {
   /**
    * The filter modal instance to be injected into the component.
    */
-  readonly modalInstance: SkyFilterItemModalInstance<TData>;
+  readonly modalInstance: SkyFilterItemModalInstance<TData, TValue>;
 }
