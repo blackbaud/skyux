@@ -47,8 +47,7 @@ import { SKY_FILTER_ITEM } from './filter-item.token';
 export class SkyFilterItemModalComponent<
   TData = Record<string, unknown> | undefined,
   TValue = unknown,
-> implements SkyFilterItem<TValue>
-{
+> implements SkyFilterItem<TValue> {
   /**
    * A unique identifier for the filter item.
    * @required
