@@ -1,7 +1,7 @@
 # Changelog
 
 
-# [13.13.0](https://github.com/blackbaud/skyux/compare/13.12.0...13.13.0) (2026-01-29)
+# [13.13.0](https://github.com/blackbaud/skyux/compare/13.12.0...13.13.0) (2026-02-02)
 
 
 ### Bug Fixes
@@ -12,6 +12,7 @@
 
 ### Features
 
+* **components/filter-bar:** extend generics for filter types in filter items ([#4175](https://github.com/blackbaud/skyux/issues/4175)) ([1a2e08c](https://github.com/blackbaud/skyux/commit/1a2e08cca87e6ffbb2ff031544fdc9da0bc75137))
 * **components/pages:** modal link list items may provide a click handler ([#4169](https://github.com/blackbaud/skyux/issues/4169)) ([0f9bb8e](https://github.com/blackbaud/skyux/commit/0f9bb8e6b79764b5e32fce611de1caf17389b383)), closes [AB#3682483](https://github.com/AB/issues/3682483)
 
 
