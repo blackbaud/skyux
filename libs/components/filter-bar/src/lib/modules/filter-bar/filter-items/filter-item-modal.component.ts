@@ -46,7 +46,8 @@ import { SKY_FILTER_ITEM } from './filter-item.token';
 })
 export class SkyFilterItemModalComponent<
   TData = Record<string, unknown> | undefined,
-> implements SkyFilterItem
+  TValue = unknown,
+> implements SkyFilterItem<TValue>
 {
   /**
    * A unique identifier for the filter item.
@@ -67,7 +68,7 @@ export class SkyFilterItemModalComponent<
    * @required
    */
   public readonly modalComponent =
-    input.required<Type<SkyFilterItemModal<TData>>>();
+    input.required<Type<SkyFilterItemModal<TData, TValue>>>();
 
   /**
    * The size of the modal to display. The valid options are `"small"`, `"medium"`, `"large"`, and `"fullScreen"`.
@@ -90,7 +91,7 @@ export class SkyFilterItemModalComponent<
   public readonly filterValue = toSignal(
     toObservable(this.filterId).pipe(
       switchMap((filterId) =>
-        this.#filterBarSvc.getFilterValueUpdates(filterId),
+        this.#filterBarSvc.getFilterValueUpdates<TValue>(filterId),
       ),
     ),
   );
@@ -102,7 +103,7 @@ export class SkyFilterItemModalComponent<
     const filterValue = this.filterValue();
 
     this.#openFilterCallback().subscribe((additionalContext) => {
-      const context = new SkyFilterItemModalContext<TData>({
+      const context = new SkyFilterItemModalContext<TData, TValue>({
         filterLabelText: labelText,
         filterValue,
         additionalContext,
@@ -116,14 +117,14 @@ export class SkyFilterItemModalComponent<
       runInInjectionContext(injector, () => {
         const destroyRef = injector.get(DestroyRef);
 
-        const saved = new Subject<SkyFilterItemModalSavedArgs>();
+        const saved = new Subject<SkyFilterItemModalSavedArgs<TValue>>();
         const canceled = new Subject<void>();
 
-        const context = inject<SkyFilterItemModalContext<TData>>(
+        const context = inject<SkyFilterItemModalContext<TData, TValue>>(
           SkyFilterItemModalContext,
         );
 
-        const filterModalInstance: SkyFilterItemModalInstance<TData> = {
+        const filterModalInstance: SkyFilterItemModalInstance<TData, TValue> = {
           context,
           cancel() {
             canceled.next();
