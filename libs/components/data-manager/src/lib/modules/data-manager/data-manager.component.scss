@@ -1,9 +1,6 @@
 .sky-data-manager-dock-fill.sky-data-manager {
   position: absolute;
-  top: 0px;
-  right: var(--sky-viewport-right);
-  bottom: var(--sky-viewport-bottom);
-  left: var(--sky-viewport-left);
+  inset: 0;
   display: flex;
   flex-direction: column;
 
