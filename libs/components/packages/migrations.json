@@ -19,6 +19,11 @@
       "version": "0.0.0-PLACEHOLDER",
       "factory": "./src/schematics/migrations/all/workspace-check/workspace-check.schematic",
       "description": "Log warnings if the workspace is not configured correctly."
+    },
+    "axe-core": {
+      "version": "0.0.0-PLACEHOLDER",
+      "factory": "./src/schematics/migrations/update-14/axe-core/axe-core.schematic",
+      "description": "Update axe-core if @skyux-sdk/testing installed."
     }
   }
 }
