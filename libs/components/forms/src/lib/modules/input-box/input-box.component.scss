@@ -116,8 +116,7 @@ sky-input-box {
         --sky-override-input-box-select-background,
         var(--sky-color-background-input-base)
           url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCjxwYXRoIGQ9Ik0xMC41MzAzIDIuNzE5NjdDMTAuMjM3NCAyLjQyNjc4IDkuNzYyNTYgMi40MjY3OCA5LjQ2OTY3IDIuNzE5NjdMNS4yMTk2NyA2Ljk2OTY3QzQuOTI2NzggNy4yNjI1NiA0LjkyNjc4IDcuNzM3NDQgNS4yMTk2NyA4LjAzMDMzQzUuNTEyNTYgOC4zMjMyMiA1Ljk4NzQ0IDguMzIzMjIgNi4yODAzMyA4LjAzMDMzTDEwIDQuMzEwNjZMMTMuNzE5NyA4LjAzMDMzQzE0LjAxMjYgOC4zMjMyMiAxNC40ODc0IDguMzIzMjIgMTQuNzgwMyA4LjAzMDMzQzE1LjA3MzIgNy43Mzc0NCAxNS4wNzMyIDcuMjYyNTYgMTQuNzgwMyA2Ljk2OTY3TDEwLjUzMDMgMi43MTk2N1pNMTQuNzgwMyAxMy4wMzAzTDEwLjUzMDMgMTcuMjgwM0MxMC4yMzc0IDE3LjU3MzIgOS43NjI1NiAxNy41NzMyIDkuNDY5NjcgMTcuMjgwM0w1LjIxOTY3IDEzLjAzMDNDNC45MjY3OCAxMi43Mzc0IDQuOTI2NzggMTIuMjYyNiA1LjIxOTY3IDExLjk2OTdDNS41MTI1NiAxMS42NzY4IDUuOTg3NDQgMTEuNjc2OCA2LjI4MDMzIDExLjk2OTdMMTAgMTUuNjg5M0wxMy43MTk3IDExLjk2OTdDMTQuMDEyNiAxMS42NzY4IDE0LjQ4NzQgMTEuNjc2OCAxNC43ODAzIDExLjk2OTdDMTUuMDczMiAxMi4yNjI2IDE1LjA3MzIgMTIuNzM3NCAxNC43ODAzIDEzLjAzMDNaIiBmaWxsPSIjMmI2YmQ1Ii8+DQo8L3N2Zz4NCg==)
-          no-repeat right/var(--sky-input-box-button-width)
-          var(--sky-size-icon-m)
+          no-repeat right/var(--sky-size-icon-m) var(--sky-size-icon-m)
       );
       // This rule is not specific enough for modern theme. The modern theme version is specified in the modern section below.
       padding-right: var(--sky-override-input-box-select-padding-right);
@@ -126,8 +125,7 @@ sky-input-box {
           --sky-override-input-box-select-background-disabled,
           var(--sky-color-background-input-base)
             url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEwLjUzMDMgMi43MTk2N0MxMC4yMzc0IDIuNDI2NzggOS43NjI1NiAyLjQyNjc4IDkuNDY5NjcgMi43MTk2N0w1LjIxOTY3IDYuOTY5NjdDNC45MjY3OCA3LjI2MjU2IDQuOTI2NzggNy43Mzc0NCA1LjIxOTY3IDguMDMwMzNDNS41MTI1NiA4LjMyMzIyIDUuOTg3NDQgOC4zMjMyMiA2LjI4MDMzIDguMDMwMzNMMTAgNC4zMTA2NkwxMy43MTk3IDguMDMwMzNDMTQuMDEyNiA4LjMyMzIyIDE0LjQ4NzQgOC4zMjMyMiAxNC43ODAzIDguMDMwMzNDMTUuMDczMiA3LjczNzQ0IDE1LjA3MzIgNy4yNjI1NiAxNC43ODAzIDYuOTY5NjdMMTAuNTMwMyAyLjcxOTY3Wk0xNC43ODAzIDEzLjAzMDNMMTAuNTMwMyAxNy4yODAzQzEwLjIzNzQgMTcuNTczMiA5Ljc2MjU2IDE3LjU3MzIgOS40Njk2NyAxNy4yODAzTDUuMjE5NjcgMTMuMDMwM0M0LjkyNjc4IDEyLjczNzQgNC45MjY3OCAxMi4yNjI2IDUuMjE5NjcgMTEuOTY5N0M1LjUxMjU2IDExLjY3NjggNS45ODc0NCAxMS42NzY4IDYuMjgwMzMgMTEuOTY5N0wxMCAxNS42ODkzTDEzLjcxOTcgMTEuOTY5N0MxNC4wMTI2IDExLjY3NjggMTQuNDg3NCAxMS42NzY4IDE0Ljc4MDMgMTEuOTY5N0MxNS4wNzMyIDEyLjI2MjYgMTUuMDczMiAxMi43Mzc0IDE0Ljc4MDMgMTMuMDMwM1oiIGZpbGw9IiM2NjZiNzAiLz4KPC9zdmc+)
-            no-repeat right/var(--sky-input-box-button-width)
-            var(--sky-size-icon-m)
+            no-repeat right/var(--sky-size-icon-m) var(--sky-size-icon-m)
         );
       }
     }
@@ -549,17 +547,16 @@ sky-input-box {
       }
 
       select.sky-form-control {
-        background-position-x: 100%;
+        // Position the icon to be .75rem from the right to effectively give us that visual "padding"
+        background-position-x: calc(100% - 0.75rem);
         /*
           Clicking on the label of a select element doesn't expand the select element;
           placing the select element above the label, in addition to the padding, effectively
           opens the select element when the label clicked.
         */
         z-index: 3;
-        padding-right: calc(
-          var(--sky-comp-input-value-space-inset-right) +
-            var(--sky-input-box-button-width)
-        );
+        // We want the padding to add up to bè the size of the icon plus .25rem of padding on the left and .75rem of padding on the right.
+        padding-right: calc(var(--sky-size-icon-m) + 1rem);
       }
 
       textarea.sky-form-control {
