@@ -23,11 +23,11 @@
     }
   },
   "peerDependencies": {
-    "@angular/common": "^21.0.8",
-    "@angular/core": "^21.0.8",
-    "@angular/platform-browser": "^21.0.8",
+    "@angular/common": "^21.1.2",
+    "@angular/core": "^21.1.2",
+    "@angular/platform-browser": "^21.1.2",
     "@skyux/i18n": "0.0.0-PLACEHOLDER",
-    "axe-core": "^3.5.6 || ~4.6.3 || ~4.7.2 || ~4.10.3"
+    "axe-core": "^3.5.6 || ~4.6.3 || ~4.7.2 || ~4.11.1"
   },
   "dependencies": {
     "tslib": "^2.8.1"
