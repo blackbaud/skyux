@@ -50,7 +50,7 @@ export class DonutChartDemoComponent {
     subtitle: undefined,
     categories: this.assetCategories.map((c) => c.name),
     series: {
-      label: '',
+      label: 'Series 1',
       data: this.assetCategories.map((c) => ({
         label: c.label,
         value: c.value,
@@ -63,7 +63,7 @@ export class DonutChartDemoComponent {
     subtitle: undefined,
     categories: this.assetCategories.map((c) => c.name),
     series: {
-      label: '',
+      label: 'Series 1',
       data: this.assetCategories.map((c) => ({
         label: c.label,
         value: c.value,
@@ -76,7 +76,7 @@ export class DonutChartDemoComponent {
     subtitle: undefined,
     categories: this.assetCategories.map((c) => c.name),
     series: {
-      label: '',
+      label: 'Series 1',
       data: this.assetCategories.map((c) => ({
         label: c.label,
         value: c.value,

@@ -19,6 +19,7 @@ import { SkyThemeService } from '@skyux/theme';
 
 import { Chart, ChartConfiguration, UpdateMode, registerables } from 'chart.js';
 
+import { SkyChartDataGridComponent } from '../chart-data-grid/chart-data-grid.component';
 import {
   SkyBarChartConfig,
   SkyChartDataPointClickEvent,
@@ -35,7 +36,11 @@ Chart.register(...registerables);
   selector: 'sky-bar-chart',
   templateUrl: 'bar-chart.component.html',
   styleUrl: 'bar-chart.component.scss',
-  imports: [SkyChartsResourcesModule, SkyDropdownModule],
+  imports: [
+    SkyChartsResourcesModule,
+    SkyDropdownModule,
+    SkyChartDataGridComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyBarChartComponent implements AfterViewInit, OnDestroy {
@@ -73,6 +78,7 @@ export class SkyBarChartComponent implements AfterViewInit, OnDestroy {
   // #endregion
 
   protected readonly height = signal(300);
+  protected readonly showDataGrid = signal(false);
 
   #chart: Chart<'bar'> | undefined;
 
@@ -92,8 +98,9 @@ export class SkyBarChartComponent implements AfterViewInit, OnDestroy {
     this.#chart = undefined;
   }
 
-  protected onViewDataTable(): void {
-    console.log('View data table');
+  protected onToggleDataGrid(): void {
+    const current = this.showDataGrid();
+    this.showDataGrid.set(!current);
   }
 
   protected exportToPng(): void {

@@ -1,1 +1,18 @@
-{}
+{
+  "chart.menu.download_png": {
+    "_description": "The label for the 'Download PNG' chart menu item",
+    "message": "Download PNG image"
+  },
+  "chart.menu.hide_data_table": {
+    "_description": "The label for the 'Hide data table' chart menu item",
+    "message": "Hide data table"
+  },
+  "chart.menu.view_data_table": {
+    "_description": "The label for the 'View data table' chart menu item",
+    "message": "View data table"
+  },
+  "chart_data_grid.category_column_name": {
+    "_description": "The label for the pinned category column",
+    "message": "Category"
+  }
+}
