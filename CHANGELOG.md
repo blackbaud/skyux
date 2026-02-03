@@ -7,6 +7,7 @@
 ### Features
 
 * **components/pages:** modal link list items may provide a click handler ([#4169](https://github.com/blackbaud/skyux/issues/4169)) ([#4170](https://github.com/blackbaud/skyux/issues/4170)) ([76e6d4d](https://github.com/blackbaud/skyux/commit/76e6d4da9528f546be1c536514becd1553a8bb2e)), closes [AB#3682483](https://github.com/blackbaud/AB/issues/3682483)
+* **sdk/testing:** update axe-core to 4.11.1 ([#4185](https://github.com/blackbaud/skyux/issues/4185)) ([6c3f370](https://github.com/blackbaud/skyux/commit/6c3f370c989c9068fce0779d84c6f48f31b3c8f4)), closes [AB#3642976](https://github.com/blackbaud/AB/issues/3642976) [AB#3691545](https://github.com/blackbaud/AB/issues/3691545)
 
 
 ### Bug Fixes
