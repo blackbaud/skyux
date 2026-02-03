@@ -3,15 +3,17 @@ import { SkyFilterItemModalSavedArgs } from './filter-item-modal-saved-args';
 
 /**
  * A specialized `SkyModalInstance` wrapper.
+ * @typeParam TValue - The type of the filter value. Defaults to `unknown` for backward compatibility.
  * @typeParam TData - The type of the additional context data. Defaults to `Record<string, unknown>`.
  */
 export abstract class SkyFilterItemModalInstance<
   TData = Record<string, unknown>,
+  TValue = unknown,
 > {
   /**
    * The context provided to the filter modal component.
    */
-  public abstract readonly context: SkyFilterItemModalContext<TData>;
+  public abstract readonly context: SkyFilterItemModalContext<TData, TValue>;
 
   /**
    * Closes the modal instance with `reason="cancel"`.
@@ -22,5 +24,5 @@ export abstract class SkyFilterItemModalInstance<
    * Closes the modal instance with `reason="save"`.
    * @param args
    */
-  public abstract save(args: SkyFilterItemModalSavedArgs): void;
+  public abstract save(args: SkyFilterItemModalSavedArgs<TValue>): void;
 }
