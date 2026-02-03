@@ -24,6 +24,16 @@ export interface SkyChartDataPoint {
   value: number;
 }
 
+/**
+ * Data emitted when a chart's data point is clicked.
+ */
+export interface SkyChartDataPointClickEvent {
+  /** The index of the series/dataset that was clicked. */
+  seriesIndex: number;
+  /** * The index of the data point within the series. */
+  dataIndex: number;
+}
+
 // #region Cartesian Charts (Bar, Line, Area, Scatter, Bubble)
 
 /**
@@ -72,6 +82,7 @@ export type SkyLineChartConfig = SkyCartesianChartConfig;
 export type SkyDonutChartConfig = SkyRadialChartConfig;
 // #endregion
 
+// #region Utility Types
 // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 export type DeepPartial<T> = T extends Function
   ? T
@@ -83,3 +94,4 @@ export type DeepPartial<T> = T extends Function
 
 type DeepPartialArray<T> = Array<DeepPartial<T>>;
 type DeepPartialObject<T> = { [P in keyof T]?: DeepPartial<T[P]> };
+// #endregion

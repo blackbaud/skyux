@@ -19,7 +19,10 @@ import { SkyThemeService } from '@skyux/theme';
 
 import { Chart, ChartConfiguration, UpdateMode, registerables } from 'chart.js';
 
-import { SkyDonutChartConfig } from '../shared/chart-types';
+import {
+  SkyChartDataPointClickEvent,
+  SkyDonutChartConfig,
+} from '../shared/chart-types';
 import { exportChartToPng } from '../shared/export-chart-to-png';
 import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
 
@@ -61,7 +64,7 @@ export class SkyDonutChartComponent implements AfterViewInit, OnDestroy {
   // #endregion
 
   // #region Outputs
-  public readonly chartClicked = output<unknown>();
+  public readonly dataPointClicked = output<SkyChartDataPointClickEvent>();
   // #endregion
 
   // #region View Child(ren)
@@ -109,7 +112,6 @@ export class SkyDonutChartComponent implements AfterViewInit, OnDestroy {
 
     const canvasContext = this.#getCanvasContext();
     const config = this.#getChartConfig();
-    console.log('[renderChart] Chart config', config);
 
     this.#zone.runOutsideAngular(
       () => (this.#chart = new Chart(canvasContext, config)),
@@ -135,7 +137,9 @@ export class SkyDonutChartComponent implements AfterViewInit, OnDestroy {
 
   #getChartConfig(): ChartConfiguration<'doughnut'> {
     const userConfig = this.config();
-    return getChartJsDonutChartConfig(userConfig);
+    return getChartJsDonutChartConfig(userConfig, {
+      onDataPointClick: (event) => this.dataPointClicked.emit(event),
+    });
   }
 
   #onThemeChange(): void {

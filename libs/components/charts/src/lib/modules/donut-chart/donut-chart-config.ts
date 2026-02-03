@@ -1,6 +1,9 @@
 import { ChartConfiguration, ChartDataset, ChartOptions } from 'chart.js';
 
-import { SkyDonutChartConfig } from '../shared/chart-types';
+import {
+  SkyChartDataPointClickEvent,
+  SkyDonutChartConfig,
+} from '../shared/chart-types';
 import { SkyuxChartStyles } from '../shared/global-chart-config';
 import { getLegendPluginOptions } from '../shared/plugin-config/legend-plugin';
 import { getTooltipPluginOptions } from '../shared/plugin-config/tooltip-plugin';
@@ -15,6 +18,9 @@ import { createTooltipShadowPlugin } from '../shared/plugins/tooltip-shadow-plug
  */
 export function getChartJsDonutChartConfig(
   skyConfig: SkyDonutChartConfig,
+  callbacks: {
+    onDataPointClick: (event: SkyChartDataPointClickEvent) => void;
+  },
 ): ChartConfiguration<'doughnut'> {
   const { borderWidth, borderColor } = getSkyuxDonutDatasetBorder();
 
@@ -53,21 +59,16 @@ export function getChartJsDonutChartConfig(
       },
     },
     plugins: pluginOptions,
-    onClick: (e, elements, chart) => {
+    onClick: (e, elements) => {
       if (elements.length === 0) {
         return;
       }
 
-      const seriesIndex = elements[0]?.datasetIndex;
-      const dataIndex = elements[0]?.index;
+      const element = elements[0];
+      const seriesIndex = element.datasetIndex;
+      const dataIndex = element.index;
 
-      const dataset = chart.data.datasets[seriesIndex];
-      const dataValue = dataset.data[dataIndex];
-
-      const category = dataset.label;
-      const value = dataValue;
-
-      console.log('Clicked', { seriesIndex, dataIndex, category, value });
+      callbacks.onDataPointClick({ seriesIndex, dataIndex });
     },
   };
 
