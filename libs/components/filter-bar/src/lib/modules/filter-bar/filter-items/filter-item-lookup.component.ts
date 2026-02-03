@@ -37,8 +37,8 @@ import { SKY_FILTER_ITEM } from './filter-item.token';
     { provide: SKY_FILTER_ITEM, useExisting: SkyFilterItemLookupComponent },
   ],
 })
-export class SkyFilterItemLookupComponent
-  implements SkyFilterItem, AfterViewInit
+export class SkyFilterItemLookupComponent<TValue = unknown>
+  implements SkyFilterItem<TValue[]>, AfterViewInit
 {
   /**
    * A unique identifier for the filter item.
@@ -71,7 +71,9 @@ export class SkyFilterItemLookupComponent
    * @required
    */
   @Output()
-  public searchAsync = new EventEmitter<SkyFilterItemLookupSearchAsyncArgs>();
+  public searchAsync = new EventEmitter<
+    SkyFilterItemLookupSearchAsyncArgs<TValue>
+  >();
 
   public readonly templateRef = viewChild(TemplateRef<unknown>);
 
@@ -82,7 +84,7 @@ export class SkyFilterItemLookupComponent
   public readonly filterValue = toSignal(
     toObservable(this.filterId).pipe(
       switchMap((filterId) =>
-        this.#filterBarSvc.getFilterValueUpdates(filterId),
+        this.#filterBarSvc.getFilterValueUpdates<TValue[]>(filterId),
       ),
     ),
   );
@@ -106,7 +108,7 @@ export class SkyFilterItemLookupComponent
       descriptorProperty: descriptorProperty,
       idProperty: idProperty,
       searchAsync: (args) => {
-        const searchAsyncArgs: SkyFilterItemLookupSearchAsyncArgs = {
+        const searchAsyncArgs: SkyFilterItemLookupSearchAsyncArgs<TValue> = {
           filterId: filterId,
           offset: args.offset,
           searchText: args.searchText,
@@ -118,49 +120,55 @@ export class SkyFilterItemLookupComponent
         return searchAsyncArgs.result;
       },
       selectMode: 'multiple',
-      value: filterValue?.value as unknown[] | undefined,
+      value: filterValue?.value,
     });
 
     instance.closed
       .pipe(
-        switchMap((args): Observable<SkyFilterBarFilterValue | undefined> => {
-          if (args.reason !== 'save') {
-            return of(undefined);
-          }
+        switchMap(
+          (
+            args,
+          ): Observable<
+            SkyFilterBarFilterValue<TValue[] | undefined> | undefined
+          > => {
+            if (args.reason !== 'save') {
+              return of(undefined);
+            }
 
-          const selected = args.selectedItems;
-          if (!selected?.length) {
-            return of({ value: undefined });
-          }
+            const selected = args.selectedItems as TValue[];
+            if (!selected?.length) {
+              return of({ value: undefined });
+            }
 
-          if (selected.length === 1) {
-            const item = selected[0] as Record<string, unknown>;
+            if (selected.length === 1) {
+              const item = selected[0] as Record<string, unknown>;
 
-            return of({
-              value: selected,
-              displayValue: item[descriptorProperty] as string,
-            });
-          }
-
-          // Multiple selections: get localized "n selected" string.
-          return this.#resourceSvc
-            .getString('skyux_filter_item_n_selected', selected.length)
-            .pipe(
-              take(1),
-              map((displayValue) => ({
+              return of({
                 value: selected,
-                displayValue,
-              })),
-            );
-        }),
+                displayValue: item[descriptorProperty] as string,
+              });
+            }
+
+            // Multiple selections: get localized "n selected" string.
+            return this.#resourceSvc
+              .getString('skyux_filter_item_n_selected', selected.length)
+              .pipe(
+                take(1),
+                map((displayValue) => ({
+                  value: selected,
+                  displayValue,
+                })),
+              );
+          },
+        ),
       )
       .subscribe((filter) => {
         // no filter means the modal was not saved
         if (filter) {
-          let filterValue: SkyFilterBarFilterValue | undefined;
+          let filterValue: SkyFilterBarFilterValue<TValue[]> | undefined;
           // no filter value means the save result was empty, so emit undefined
           if (filter.value) {
-            filterValue = filter;
+            filterValue = filter as SkyFilterBarFilterValue<TValue[]>;
           }
           this.#filterBarSvc.updateFilter({
             filterId: this.filterId(),

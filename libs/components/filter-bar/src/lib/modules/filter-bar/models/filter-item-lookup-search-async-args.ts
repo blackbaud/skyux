@@ -5,8 +5,9 @@ import { SkyFilterItemLookupSearchAsyncResult } from './filter-item-lookup-searc
 /**
  * Arguments passed when an asynchronous search is executed from the selection modal opened by a
  * filter item lookup component.
+ * @typeParam TValue - The type of the filter value. Defaults to `unknown` for backward compatibility.
  */
-export interface SkyFilterItemLookupSearchAsyncArgs {
+export interface SkyFilterItemLookupSearchAsyncArgs<TValue = unknown> {
   /**
    * The unique identifier for the filter.
    */
@@ -35,5 +36,5 @@ export interface SkyFilterItemLookupSearchAsyncArgs {
    * when the event fires so the filter item lookup component can subscribe
    * to it and then display the results.
    */
-  result?: Observable<SkyFilterItemLookupSearchAsyncResult>;
+  result?: Observable<SkyFilterItemLookupSearchAsyncResult<TValue>>;
 }
