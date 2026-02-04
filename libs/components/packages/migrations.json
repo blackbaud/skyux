@@ -23,7 +23,12 @@
     "axe-core": {
       "version": "0.0.0-PLACEHOLDER",
       "factory": "./src/schematics/migrations/update-14/axe-core/axe-core.schematic",
-      "description": "Update axe-core if @skyux-sdk/testing installed."
+      "description": "Update axe-core if @skyux-sdk/testing is installed."
+    },
+    "stylelint": {
+      "version": "0.0.0-PLACEHOLDER",
+      "factory": "./src/schematics/migrations/update-14/stylelint/stylelint.schematic",
+      "description": "Update stylelint and stylelint-config-recommended-scss if stylelint-config-skyux is installed."
     }
   }
 }

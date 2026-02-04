@@ -65,7 +65,7 @@ describe('ng-add.schematic', () => {
     };
 
     return {
-      runSchematic,
+      runRule: runSchematic,
       tree,
     };
   }
