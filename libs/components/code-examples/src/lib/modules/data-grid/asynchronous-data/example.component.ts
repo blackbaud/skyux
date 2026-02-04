@@ -105,8 +105,8 @@ export class DataGridAsynchronousDataComponent {
       ),
   });
 
-  // Keep the previous row count when the resource is loading.
-  protected readonly totalRecordCount = linkedSignal<
+  // Keep the previous row count while the resource is loading.
+  protected readonly externalRowCount = linkedSignal<
     number | undefined,
     number
   >({

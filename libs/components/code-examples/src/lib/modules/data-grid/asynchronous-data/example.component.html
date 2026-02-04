@@ -28,8 +28,8 @@
     </sky-filter-bar>
     <sky-list-summary>
       <sky-list-summary-item
-        [labelText]="totalRecordCount() === 1 ? 'Record' : 'Records'"
-        [value]="totalRecordCount()"
+        [labelText]="externalRowCount() === 1 ? 'Record' : 'Records'"
+        [value]="externalRowCount()"
       />
     </sky-list-summary>
   </sky-data-manager-toolbar>
@@ -39,7 +39,7 @@
       height="270"
       pageSize="5"
       [data]="recordsToShow.value()?.data"
-      [externalRowCount]="totalRecordCount()"
+      [externalRowCount]="externalRowCount()"
       (pageRequest)="pageRequest.set($event)"
     >
       <sky-data-grid-column
