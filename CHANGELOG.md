@@ -8,6 +8,7 @@
 
 * **components/filter-bar:** extend generics for filter types in filter items ([#4175](https://github.com/blackbaud/skyux/issues/4175)) ([#4182](https://github.com/blackbaud/skyux/issues/4182)) ([8278d17](https://github.com/blackbaud/skyux/commit/8278d17f5063c5c306d441cbdb033498cb615112))
 * **components/pages:** modal link list items may provide a click handler ([#4169](https://github.com/blackbaud/skyux/issues/4169)) ([#4170](https://github.com/blackbaud/skyux/issues/4170)) ([76e6d4d](https://github.com/blackbaud/skyux/commit/76e6d4da9528f546be1c536514becd1553a8bb2e)), closes [AB#3682483](https://github.com/blackbaud/AB/issues/3682483)
+* **sdk/stylelint-config-skyux:** update stylelint to 17.1.0 ([#4187](https://github.com/blackbaud/skyux/issues/4187)) ([86fafb0](https://github.com/blackbaud/skyux/commit/86fafb028ff9320c57051f722a87956cdce7d161)), closes [AB#3642976](https://github.com/blackbaud/AB/issues/3642976) [AB#3691772](https://github.com/blackbaud/AB/issues/3691772)
 * **sdk/testing:** update axe-core to 4.11.1 ([#4185](https://github.com/blackbaud/skyux/issues/4185)) ([6c3f370](https://github.com/blackbaud/skyux/commit/6c3f370c989c9068fce0779d84c6f48f31b3c8f4)), closes [AB#3642976](https://github.com/blackbaud/AB/issues/3642976) [AB#3691545](https://github.com/blackbaud/AB/issues/3691545)
 
 
