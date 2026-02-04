@@ -10,11 +10,11 @@ import {
   SkyAgGridRowDeleteCancelArgs,
   SkyAgGridRowDeleteConfirmArgs,
 } from '@skyux/ag-grid';
-import { SkyDataGridFilterValue } from '../../types/data-grid-filter-value';
 import { SkyFilterBarFilterItem } from '@skyux/filter-bar';
 import { SkyDropdownModule, SkyPopoverModule } from '@skyux/popovers';
 
 import { SkyDataGridFilterOperator } from '../../types/data-grid-filter-operator';
+import { SkyDataGridFilterValue } from '../../types/data-grid-filter-value';
 import { SkyDataGridSort } from '../../types/data-grid-sort';
 import { SkyDataGridColumnComponent } from '../data-grid-column.component';
 import { SkyDataGridComponent } from '../data-grid.component';

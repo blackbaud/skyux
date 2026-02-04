@@ -6,13 +6,13 @@ import {
   model,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { SkyDataGridSort } from '../../types/data-grid-sort';
 import {
   SkyDataManagerModule,
   SkyDataManagerService,
   SkyDataManagerState,
 } from '@skyux/data-manager';
 
+import { SkyDataGridSort } from '../../types/data-grid-sort';
 import { SkyDataGridModule } from '../data-grid.module';
 
 interface RowModel {
