@@ -1,8 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
   inject,
+  linkedSignal,
   resource,
   signal,
 } from '@angular/core';
@@ -12,6 +12,7 @@ import { SkyNumericPipe } from '@skyux/core';
 import {
   SkyDataGridModule,
   SkyDataGridNumberRangeFilterValue,
+  SkyDataGridPageRequest,
 } from '@skyux/data-grid';
 import {
   SkyDataManagerModule,
@@ -56,6 +57,9 @@ export class DataGridAsynchronousDataComponent {
   protected readonly salaryFilterModal = SalaryFilterModalComponent;
   protected readonly hideInactiveModal = HideInactiveFilterModalComponent;
   protected readonly startDateFilterModal = StartDateFilterModalComponent;
+  protected readonly pageRequest = signal<SkyDataGridPageRequest | undefined>(
+    undefined,
+  );
 
   protected readonly viewId = 'dataGridWithCustomFilters' as const;
 
@@ -64,12 +68,15 @@ export class DataGridAsynchronousDataComponent {
     params: () => ({
       allEmployees: this.#allEmployees(),
       dataManagerUpdates: this.#dataManagerUpdates(),
+      pageRequest: this.pageRequest(),
     }),
-    loader: ({ params }): Promise<Employee[]> =>
+    loader: ({ params }): Promise<{ data: Employee[] | null; count: number }> =>
       new Promise((resolve) =>
         setTimeout(() => {
-          resolve(
-            dataSortAndFilter(
+          if (params.pageRequest?.pageSize) {
+            const pageNumber = params.pageRequest.pageNumber;
+            const pageSize = params.pageRequest.pageSize;
+            const data = dataSortAndFilter(
               params.allEmployees,
               ((
                 params.dataManagerUpdates?.filterData?.filters as
@@ -83,15 +90,29 @@ export class DataGridAsynchronousDataComponent {
               >[],
               params.dataManagerUpdates?.activeSortOption,
               params.dataManagerUpdates?.searchText ?? '',
-            ),
-          );
+            );
+            resolve({
+              data: data.slice(
+                (pageNumber - 1) * pageSize,
+                pageNumber * pageSize,
+              ),
+              count: data.length,
+            });
+          } else {
+            resolve({ data: [], count: 0 });
+          }
         }, 800),
       ),
   });
 
-  protected readonly totalRecordCount = computed(
-    () => this.recordsToShow.value()?.length ?? 0,
-  );
+  // Keep the previous row count when the resource is loading.
+  protected readonly totalRecordCount = linkedSignal<
+    number | undefined,
+    number
+  >({
+    source: () => this.recordsToShow.value()?.count,
+    computation: (count, previous) => count ?? previous?.source ?? 0,
+  });
 
   // Static example, but could be loaded from HTTP resource.
   readonly #allEmployees = signal(employees).asReadonly();

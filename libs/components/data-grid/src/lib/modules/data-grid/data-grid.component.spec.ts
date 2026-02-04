@@ -116,7 +116,7 @@ describe('SkyDataGridComponent', () => {
       ).toHaveSize(0);
     });
 
-    it('should respond to displayedColumns input', async () => {
+    it('should respond to displayedColumnIds input', async () => {
       fixture.detectChanges();
       await fixture.whenStable();
       expect(component).toBeTruthy();
@@ -127,7 +127,10 @@ describe('SkyDataGridComponent', () => {
         ).then((cols) => cols.flatMap((id) => id).length),
       ).toEqual(4 * 3 + 3); // 4 grids with 3 columns each, plus 3 extra headers for the multi-select and row delete grid
 
-      fixture.componentRef.setInput('displayedColumns', ['column1', 'column2']);
+      fixture.componentRef.setInput('displayedColumnIds', [
+        'column1',
+        'column2',
+      ]);
       fixture.detectChanges();
       await fixture.whenStable();
       expect(
@@ -137,7 +140,7 @@ describe('SkyDataGridComponent', () => {
       ).toEqual(4 * 2 + 1); // 4 grids with 2 columns each, plus 1 extra header for multi-select
       expect(component.visibleColumnIds()).toEqual(['column1', 'column2']);
 
-      fixture.componentRef.setInput('displayedColumns', [
+      fixture.componentRef.setInput('displayedColumnIds', [
         'column1',
         'column2',
         'column3',
@@ -229,7 +232,7 @@ describe('SkyDataGridComponent', () => {
       expect(api).toBeTruthy();
       expect(api?.getState()?.sort?.sortModel).toBeUndefined();
 
-      fixture.componentRef.setInput('gridSort', {
+      fixture.componentRef.setInput('sortField', {
         fieldSelector: 'column1',
         descending: false,
       });
@@ -242,7 +245,7 @@ describe('SkyDataGridComponent', () => {
         },
       ]);
 
-      fixture.componentRef.setInput('gridSort', {
+      fixture.componentRef.setInput('sortField', {
         fieldSelector: 'column1',
         descending: true,
       });
@@ -264,7 +267,7 @@ describe('SkyDataGridComponent', () => {
       SkyAppTestUtility.fireDomEvent(column2SortButton, 'click');
       await fixture.whenStable();
 
-      expect(fixture.componentInstance.gridSort()).toEqual({
+      expect(fixture.componentInstance.sortField()).toEqual({
         fieldSelector: 'column2',
         descending: true,
       });
@@ -275,7 +278,7 @@ describe('SkyDataGridComponent', () => {
         },
       ]);
 
-      fixture.componentRef.setInput('gridSort', undefined);
+      fixture.componentRef.setInput('sortField', undefined);
       fixture.detectChanges();
       await fixture.whenStable();
       expect(api?.getState()?.sort?.sortModel).toBeUndefined();
@@ -299,9 +302,9 @@ describe('SkyDataGridComponent', () => {
       expect(api?.getGridOption('paginationPageSize')).toBe(2);
     });
 
-    it('should constrict grid page size when using totalRowCount', async () => {
+    it('should constrict grid page size when using externalRowCount', async () => {
       fixture.componentRef.setInput('pageSize', 2);
-      fixture.componentRef.setInput('totalRowCount', 123);
+      fixture.componentRef.setInput('externalRowCount', 123);
       fixture.detectChanges();
       await fixture.whenStable();
       const api = getGridApi(
@@ -312,6 +315,26 @@ describe('SkyDataGridComponent', () => {
       expect(api).toBeTruthy();
       expect(api?.getGridOption('pagination')).toBeFalsy();
       expect(api?.getDisplayedRowCount()).toBe(2);
+    });
+
+    it('should reset page number when it is no longer valid', async () => {
+      fixture.componentRef.setInput('pageSize', 2);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      const grid = await loader.getHarness(SkyAgGridWrapperHarness);
+      expect(await grid.isGridReady()).toBeTrue();
+      expect(component.page()).toBe(1);
+      component.page.set(2);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      const gridApi = getGridApi(
+        fixture.nativeElement.querySelector('ag-grid-angular'),
+      );
+      expect(gridApi?.paginationGetCurrentPage()).toBe(1); // zero-based
+      fixture.componentRef.setInput('pageSize', 10);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(component.page()).toBe(1);
     });
 
     it('should update grid options when height changes', async () => {
@@ -336,7 +359,7 @@ describe('SkyDataGridComponent', () => {
       expect(api?.getGridOption('domLayout')).toBe('autoHeight');
     });
 
-    it('should update grid options when enableMultiselect changes', async () => {
+    it('should update grid options when multiselect changes', async () => {
       fixture.detectChanges();
       await fixture.whenStable();
       const api = getGridApi(
@@ -354,7 +377,7 @@ describe('SkyDataGridComponent', () => {
         }),
       );
 
-      fixture.componentRef.setInput('enableMultiselect', true);
+      fixture.componentRef.setInput('multiselect', true);
       fixture.detectChanges();
       await fixture.whenStable();
       expect(api?.getGridOption('rowSelection')).toEqual({
@@ -701,7 +724,7 @@ describe('SkyDataGridComponent', () => {
       });
       navSpy.calls.reset();
 
-      component.page = 2;
+      component.page.set(2);
       fixture.detectChanges();
 
       await pagingHarness.clickPageButton(1);
@@ -713,7 +736,7 @@ describe('SkyDataGridComponent', () => {
       });
       navSpy.calls.reset();
 
-      component.page = 1;
+      component.page.set(1);
       fixture.detectChanges();
 
       await pagingHarness.clickPageButton(3);
@@ -725,7 +748,7 @@ describe('SkyDataGridComponent', () => {
       });
       navSpy.calls.reset();
 
-      component.page = 3;
+      component.page.set(3);
       fixture.detectChanges();
 
       await pagingHarness.clickPageButton(2);
@@ -737,7 +760,7 @@ describe('SkyDataGridComponent', () => {
       });
       navSpy.calls.reset();
 
-      component.page = 0;
+      component.page.set(0);
       fixture.detectChanges();
       expect(navSpy).not.toHaveBeenCalledWith([], {
         relativeTo: jasmine.any(ActivatedRoute),
@@ -745,7 +768,7 @@ describe('SkyDataGridComponent', () => {
         queryParamsHandling: 'merge',
       });
 
-      component.page = Number.POSITIVE_INFINITY;
+      component.page.set(Number.POSITIVE_INFINITY);
       fixture.detectChanges();
       expect(navSpy).not.toHaveBeenCalledWith([], {
         relativeTo: jasmine.any(ActivatedRoute),
@@ -755,10 +778,10 @@ describe('SkyDataGridComponent', () => {
     });
 
     describe('apply filters', () => {
-      it('should not apply filter when totalRowCount is set', async () => {
+      it('should not apply filter when externalRowCount is set', async () => {
         fixture.componentRef.setInput('showAllGrids', false);
         fixture.componentRef.setInput('showFilteredGrid', true);
-        fixture.componentRef.setInput('totalRowCount', 123);
+        fixture.componentRef.setInput('externalRowCount', 123);
         fixture.detectChanges();
         await fixture.whenStable();
 
@@ -784,7 +807,7 @@ describe('SkyDataGridComponent', () => {
         fixture.detectChanges();
         await fixture.whenStable();
 
-        // Should not filter rows because totalRowCount is set and data has not been updated.
+        // Should not filter rows because externalRowCount is set and data has not been updated.
         expect(api?.getDisplayedRowCount()).toBe(7);
       });
 
@@ -1426,15 +1449,14 @@ describe('SkyDataGridComponent', () => {
       fixture.componentInstance.displayedColumnIds = undefined;
       fixture.detectChanges();
       await fixture.whenStable();
-      await new Promise((resolve) => setTimeout(resolve));
-      fixture.detectChanges();
-      await fixture.whenStable();
+      const grid = await loader.getHarness(SkyAgGridWrapperHarness);
+      expect(await grid.isGridReady()).toBeTrue();
       const gridElement =
         fixture.nativeElement.querySelector('ag-grid-angular');
       expect(gridElement).toBeTruthy();
       const gridApi = getGridApi(gridElement);
       expect(gridApi?.getColumns()).toHaveSize(2);
-      expect(gridApi?.getAllDisplayedColumns()).toHaveSize(2);
+      expect(await grid.getDisplayedColumnIds()).toHaveSize(2);
     });
 
     it('should pick up search text from data manager', async () => {

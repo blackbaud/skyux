@@ -30,7 +30,7 @@ import {
   SkyAgGridService,
   SkyCellType,
 } from '@skyux/ag-grid';
-import { SkyLogService } from '@skyux/core';
+import { SkyLogService, SkyViewkeeperModule } from '@skyux/core';
 import { SkyDataManagerService } from '@skyux/data-manager';
 import { SkyWaitModule } from '@skyux/indicators';
 import {
@@ -73,6 +73,7 @@ import {
 } from 'rxjs';
 
 import { SkyDataGridFilterValue } from '../types/data-grid-filter-value';
+import { SkyDataGridPageRequest } from '../types/data-grid-page-request';
 import { SkyDataGridSort } from '../types/data-grid-sort';
 
 import { SkyDataGridColumnInlineHelpComponent } from './data-grid-column-inline-help.component';
@@ -101,7 +102,13 @@ function arrayIsEqual(
  */
 @Component({
   selector: 'sky-data-grid',
-  imports: [AgGridAngular, SkyAgGridModule, SkyPagingModule, SkyWaitModule],
+  imports: [
+    AgGridAngular,
+    SkyAgGridModule,
+    SkyPagingModule,
+    SkyViewkeeperModule,
+    SkyWaitModule,
+  ],
   templateUrl: './data-grid.component.html',
   styleUrl: './data-grid.component.css',
   host: {
@@ -126,7 +133,7 @@ export class SkyDataGridComponent<
    * - For a number column, use a `SkyDataGridNumberRangeFilterValue` or a `number`.
    * - For a text column, use `string` or `string[]` as the filter value to match one or more text values.
    *
-   * To provide custom filtering functions, use the `totalRowCount` input and update the `data` input when filters change.
+   * To provide custom filtering functions, use the `externalRowCount` input and update the `data` input when filters change.
    */
   public readonly appliedFilters = input<
     SkyFilterStateFilterItem<SkyDataGridFilterValue>[]
@@ -147,6 +154,15 @@ export class SkyDataGridComponent<
    * the grid will show a "no rows" message.
    */
   public readonly data = input<T[] | null | undefined>();
+
+  /**
+   * The number of records when using a remote data source.
+   * When `externalRowCount` is set, it is expected that `data` will be updated whenever `pageRequest` emits a new value.
+   * When both `externalRowCount` and `pageSize` are set, the number of pages is assumed to be `Math.ceil(externalRowCount / pageSize)`.
+   * If `externalRowCount` is not set, the data grid will page, sort, filter, and apply SKY UX data manager search text to the
+   * `data` provided, and the row count is assumed to be `data.length`.
+   */
+  public readonly externalRowCount = input<number | undefined>(undefined);
 
   /**
    * How the grid fits to its parent. The valid options are `width`,
@@ -230,14 +246,6 @@ export class SkyDataGridComponent<
   });
 
   /**
-   * The total number of records. When this input is set, it is expected that `data` will be updated for each
-   * `page` change, `sort` change, `appliedFilters` change, and search (when using search such as with a SKY UX data manager).
-   * If this input is not set, the data grid will page, sort, filter, and apply SKY UX data manager search text to the
-   * `data` provided, and the total row count is assumed to be `data.length`.
-   */
-  public readonly totalRowCount = input<number | undefined>(undefined);
-
-  /**
    * The width of the grid in CSS pixels. When no width is set, the grid will use the width of its container.
    */
   public readonly width = input<number, unknown>(0, {
@@ -282,7 +290,12 @@ export class SkyDataGridComponent<
   public readonly sortField = model<SkyDataGridSort | undefined>(undefined);
 
   /**
-   * Emits a row count after filters are updated. Not used when `totalRowCount` is set.
+   * Fires when sorting or page number changes.
+   */
+  public readonly pageRequest = output<SkyDataGridPageRequest>();
+
+  /**
+   * Emits a row count after filters are updated. Not used when `externalRowCount` is set.
    */
   public readonly rowCountChange = output<number>();
 
@@ -370,13 +383,13 @@ export class SkyDataGridComponent<
 
   protected readonly pageCount = computed(() => {
     const dataLength = this.rowData().length;
-    const totalRowCount = this.totalRowCount();
+    const externalRowCount = this.externalRowCount();
     const pageSize = this.pageSize();
     const gridReady = this.gridReady();
     if (!gridReady || pageSize === 0) {
       return 0;
     }
-    return Math.ceil((totalRowCount ?? dataLength) / pageSize);
+    return Math.ceil((externalRowCount ?? dataLength) / pageSize);
   });
 
   protected readonly useDataManager = !!inject(SkyDataManagerService, {
@@ -385,6 +398,13 @@ export class SkyDataGridComponent<
   protected readonly viewId = computed(
     () => this.#dataHostService?.hostId() ?? '',
   );
+  protected readonly skyViewkeeper = computed(() => {
+    const classes = ['.ag-header'];
+    if (this.topScrollEnabled()) {
+      classes.push('.ag-body-horizontal-scroll');
+    }
+    return classes;
+  });
 
   readonly #activatedRoute = inject(ActivatedRoute, { optional: true });
   readonly #dataHostService = inject(SkyDataHostService, { optional: true });
@@ -524,8 +544,8 @@ export class SkyDataGridComponent<
     };
   });
   readonly #useInternalFilters = computed(() => {
-    const totalRowCount = this.totalRowCount();
-    return typeof totalRowCount === 'undefined';
+    const externalRowCount = this.externalRowCount();
+    return typeof externalRowCount === 'undefined';
   });
   readonly #queryParamPage = toSignal(
     toObservable(this.pageQueryParam).pipe(
@@ -615,10 +635,14 @@ export class SkyDataGridComponent<
       const api = this.gridApi();
       const page = this.page();
       const pageCount = this.pageCount();
-      if (!pageCount || page < 1 || page > pageCount || !api) {
+      if (!pageCount || !api) {
         return;
       }
-      api.paginationGoToPage(page - 1);
+      if (page < 1 || page > pageCount) {
+        this.page.set(1);
+      } else {
+        api.paginationGoToPage(page - 1);
+      }
     });
 
     // Sync page from URL query parameter.
@@ -714,6 +738,14 @@ export class SkyDataGridComponent<
         this.#dataHostService?.updateDataHost(dataHost, 'SkyDataGridComponent');
       }
     });
+
+    effect(() => {
+      this.pageRequest.emit({
+        pageNumber: this.page(),
+        pageSize: this.pageSize() || undefined,
+        sortField: this.sortField(),
+      });
+    }, {});
   }
 
   protected currentPageChange(page: number): void {

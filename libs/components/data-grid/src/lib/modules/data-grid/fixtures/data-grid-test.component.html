@@ -4,15 +4,15 @@
     height="200"
     width="600"
     [data]="dataForSimpleGrid"
-    [multiselect]="enableMultiselect()"
+    [displayedColumnIds]="displayedColumnIds()"
+    [externalRowCount]="externalRowCount()"
     [height]="height()"
-    [displayedColumnIds]="displayedColumns()"
-    [page]="page"
+    [multiselect]="multiselect()"
     [pageQueryParam]="pageQueryParam"
     [pageSize]="pageSize()"
     [rowHighlightedId]="rowHighlightedId()"
-    [totalRowCount]="totalRowCount()"
-    [(sortField)]="gridSort"
+    [(page)]="page"
+    [(sortField)]="sortField"
     (displayedColumnIdsChange)="visibleColumnIds.set($event)"
   >
     @if (showAllColumns()) {
@@ -48,9 +48,10 @@
     multiselect
     fit="scroll"
     multiselectRowId="myId"
+    topScrollEnabled
     [data]="dataForSimpleGridWithMultiselect"
-    [displayedColumnIds]="displayedColumns()"
-    [totalRowCount]="totalRowCount()"
+    [displayedColumnIds]="displayedColumnIds()"
+    [externalRowCount]="externalRowCount()"
     [(selectedRowIds)]="selectedRowIds"
   >
     @if (showAllColumns()) {
@@ -79,8 +80,8 @@
   <sky-data-grid
     data-sky-id="row-delete-grid"
     [data]="dataForRowDeleteGrid"
-    [displayedColumnIds]="displayedColumns()"
-    [totalRowCount]="totalRowCount()"
+    [displayedColumnIds]="displayedColumnIds()"
+    [externalRowCount]="externalRowCount()"
     (rowDeleteCancel)="cancelRowDelete($event)"
     (rowDeleteConfirm)="finishRowDelete($event)"
   >
@@ -138,8 +139,8 @@
     data-sky-id="inline-help-grid"
     fit="scroll"
     [data]="dataForSimpleGrid"
-    [displayedColumnIds]="displayedColumns()"
-    [totalRowCount]="totalRowCount()"
+    [displayedColumnIds]="displayedColumnIds()"
+    [externalRowCount]="externalRowCount()"
   >
     @if (showAllColumns()) {
       <sky-data-grid-column
@@ -199,7 +200,7 @@
     height="200"
     [data]="dataForFilteredGrid"
     [appliedFilters]="appliedFilters()"
-    [totalRowCount]="totalRowCount()"
+    [externalRowCount]="externalRowCount()"
   >
     <sky-data-grid-column
       field="column1"

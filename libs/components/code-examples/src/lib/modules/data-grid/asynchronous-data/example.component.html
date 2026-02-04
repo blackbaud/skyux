@@ -36,9 +36,11 @@
 
   <sky-data-view skyDataManagerHostController [viewId]="viewId">
     <sky-data-grid
-      height="400"
-      [data]="recordsToShow.value()"
-      [totalRowCount]="totalRecordCount()"
+      height="270"
+      pageSize="5"
+      [data]="recordsToShow.value()?.data"
+      [externalRowCount]="totalRecordCount()"
+      (pageRequest)="pageRequest.set($event)"
     >
       <sky-data-grid-column
         field="name"

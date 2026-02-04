@@ -10,7 +10,7 @@ import {
   SkyAgGridRowDeleteCancelArgs,
   SkyAgGridRowDeleteConfirmArgs,
 } from '@skyux/ag-grid';
-import { SkyDataGridFilterValue } from '@skyux/data-grid';
+import { SkyDataGridFilterValue } from '../../types/data-grid-filter-value';
 import { SkyFilterBarFilterItem } from '@skyux/filter-bar';
 import { SkyDropdownModule, SkyPopoverModule } from '@skyux/popovers';
 
@@ -137,7 +137,7 @@ export class DataGridTestComponent {
     },
   ];
 
-  public readonly displayedColumns = input<string[]>([]);
+  public readonly displayedColumnIds = input<string[]>([]);
   public readonly appliedFilters = input<
     SkyFilterBarFilterItem<SkyDataGridFilterValue>[]
   >([]);
@@ -146,19 +146,19 @@ export class DataGridTestComponent {
   public readonly selectedRowIds = model<string[]>([]);
   public readonly showFilteredGrid = input<boolean>(false);
   protected readonly showFilteredMultiselectGrid = input<boolean>(false);
-  public readonly totalRowCount = input<number | undefined>();
+  public readonly externalRowCount = input<number | undefined>();
   public readonly visibleColumnIds = model<string[]>([]);
   public readonly textFilterOperator = input<SkyDataGridFilterOperator>();
   public readonly numberFilterOperator = input<SkyDataGridFilterOperator>();
   public readonly booleanFilterOperator = input<SkyDataGridFilterOperator>();
 
-  public readonly gridSort = model<SkyDataGridSort | undefined>(undefined);
+  public readonly sortField = model<SkyDataGridSort | undefined>(undefined);
 
-  public readonly enableMultiselect = input<boolean>();
+  public readonly multiselect = input<boolean>();
   public readonly height = input<number>();
   public readonly pageSize = input<number>();
 
-  public page = 1;
+  public page = model(1);
   public pageQueryParam = '';
 
   protected readonly showAllColumns = input<boolean>(true);

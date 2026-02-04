@@ -4,6 +4,7 @@ import {
   effect,
   inject,
   input,
+  linkedSignal,
   untracked,
 } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
@@ -15,6 +16,7 @@ import { SkyDataManagerFilterControllerDirective } from '../data-manager-filters
 import { SkyDataManagerService } from '../data-manager.service';
 import { SkyDataManagerSortOption } from '../models/data-manager-sort-option';
 import { SkyDataManagerState } from '../models/data-manager-state';
+import { SkyDataViewState } from '../models/data-view-state';
 
 import { SkyDataManagerHostService } from './data-manager-host.service';
 
@@ -68,31 +70,50 @@ export class SkyDataManagerHostControllerDirective {
   readonly #dataHostState = toSignal(
     this.#adapterService.getDataHostUpdates(this.#sourceId),
   );
+  readonly #lastSentDataHost = linkedSignal(() => this.#dataHostState());
+  readonly #lastSentDataManagerState = linkedSignal(() =>
+    this.#dataManagerState(),
+  );
 
   constructor() {
     effect(() => {
       const dataManagerState = this.#dataManagerState();
-      const dataHost = untracked(() => this.#dataHostState());
+      const lastSentDataHost = untracked(() => this.#lastSentDataHost());
       const newState = this.#dataHostStateFromDataManagerState(
         dataManagerState,
-        dataHost,
+        lastSentDataHost,
       );
-      if (newState) {
+      if (
+        newState &&
+        (!lastSentDataHost ||
+          this.#dataHostHasChanges(lastSentDataHost, newState))
+      ) {
+        this.#lastSentDataHost.set(newState);
         this.#adapterService.updateDataHost(newState, this.#sourceId);
       }
     });
     effect(() => {
-      const dataManagerState = untracked(() => this.#dataManagerState());
+      const lastSentDataManagerState = untracked(() =>
+        this.#lastSentDataManagerState(),
+      );
       const dataHost = this.#dataHostState();
-      if (dataManagerState && dataHost) {
+      if (lastSentDataManagerState && dataHost) {
         const newDataManagerState = this.#dataManagerStateFromDataHostState(
-          dataManagerState,
+          lastSentDataManagerState,
           dataHost,
         );
-        this.#dataManagerService.updateDataState(
-          newDataManagerState,
-          this.#dataManagerSourceId(),
-        );
+        if (
+          this.#dataManagerStateHasChanges(
+            lastSentDataManagerState,
+            newDataManagerState,
+          )
+        ) {
+          this.#lastSentDataManagerState.set(newDataManagerState);
+          this.#dataManagerService.updateDataState(
+            newDataManagerState,
+            this.#dataManagerSourceId(),
+          );
+        }
       }
     });
   }
@@ -117,7 +138,7 @@ export class SkyDataManagerHostControllerDirective {
             ? viewState.displayedColumnIds
             : (dataHost?.displayedColumnIds ?? []),
         id: viewId,
-        page: viewState.additionalData?.page ?? dataHost?.page ?? 1,
+        page: Number(viewState.additionalData?.page ?? dataHost?.page ?? 1),
         searchText: dataState.searchText,
         selectedIds: dataState.selectedIds,
       };
@@ -129,25 +150,88 @@ export class SkyDataManagerHostControllerDirective {
     dataState: SkyDataManagerState,
     dataHost: SkyDataHost,
   ): SkyDataManagerState {
-    const viewId = this.viewId();
-    const newDataState = new SkyDataManagerState(dataState);
-    newDataState.activeSortOption = this.#dataManagerSortOptions().find(
+    const id = this.viewId();
+    const activeSortOption = this.#dataManagerSortOptions().find(
       (option) =>
-        option.propertyName === dataHost.activeSortOption?.propertyName,
+        option.propertyName === dataHost.activeSortOption?.propertyName &&
+        option.descending === !!dataHost.activeSortOption?.descending,
     );
-    if (newDataState.activeSortOption) {
-      newDataState.activeSortOption.descending =
-        !!dataState.activeSortOption?.descending;
-    }
-    newDataState.searchText = dataState.searchText;
+    const viewState = dataState.getViewStateById(id);
+    return new SkyDataManagerState({
+      ...dataState,
+      activeSortOption,
+      searchText: dataHost.searchText,
+      selectedIds: dataHost.selectedIds,
+      views: [
+        ...dataState.views.filter(({ viewId }) => viewId !== id),
+        new SkyDataViewState({
+          viewId: id,
+          columnIds: viewState?.columnIds,
+          columnWidths: viewState?.columnWidths,
+          displayedColumnIds: dataHost.displayedColumnIds,
+          additionalData: {
+            ...(viewState?.additionalData ?? {}),
+            page: dataHost.page,
+          },
+        }),
+      ],
+    });
+  }
 
-    const viewState = newDataState.getViewStateById(viewId);
-    if (viewState) {
-      viewState.displayedColumnIds = dataHost.displayedColumnIds;
-      viewState.additionalData ??= {};
-      viewState.additionalData.page = dataHost.page;
-    }
+  #dataHostHasChanges(
+    oldDataHost: SkyDataHost,
+    newDataHost: SkyDataHost,
+  ): boolean {
+    return (
+      String(oldDataHost.activeSortOption?.propertyName) !==
+        String(newDataHost.activeSortOption?.propertyName) ||
+      !!oldDataHost.activeSortOption?.descending !==
+        !!newDataHost.activeSortOption?.descending ||
+      oldDataHost.id !== newDataHost.id ||
+      Number(oldDataHost.page) !== Number(newDataHost.page) ||
+      String(oldDataHost.searchText) !== String(newDataHost.searchText) ||
+      oldDataHost.displayedColumnIds.length !==
+        newDataHost.displayedColumnIds.length ||
+      oldDataHost.displayedColumnIds.some(
+        (id, idx) => String(id) !== String(newDataHost.displayedColumnIds[idx]),
+      ) ||
+      Number(oldDataHost.selectedIds?.length) !==
+        Number(newDataHost.selectedIds?.length) ||
+      !!oldDataHost.selectedIds?.some(
+        (id, idx) => id !== newDataHost.selectedIds?.[idx],
+      )
+    );
+  }
 
-    return newDataState;
+  #dataManagerStateHasChanges(
+    oldDataManagerState: SkyDataManagerState,
+    newDataManagerState: SkyDataManagerState,
+  ): boolean {
+    const viewId = this.viewId();
+    const oldDataViewState = oldDataManagerState.getViewStateById(viewId);
+    const newDataViewState = newDataManagerState.getViewStateById(viewId);
+    return (
+      String(oldDataManagerState.activeSortOption?.propertyName) !==
+        String(newDataManagerState.activeSortOption?.propertyName) ||
+      !!oldDataManagerState.activeSortOption?.descending !==
+        !!newDataManagerState.activeSortOption?.descending ||
+      !!oldDataViewState?.additionalData !==
+        !!newDataViewState?.additionalData ||
+      Number(oldDataViewState?.additionalData?.page) !==
+        Number(newDataViewState?.additionalData?.page) ||
+      String(oldDataManagerState.searchText) !==
+        String(newDataManagerState.searchText) ||
+      Number(oldDataManagerState.selectedIds?.length ?? 0) !==
+        Number(newDataManagerState.selectedIds?.length ?? 0) ||
+      !!oldDataManagerState.selectedIds?.some(
+        (id, idx) =>
+          String(id) !== String(newDataManagerState.selectedIds?.[idx]),
+      ) ||
+      Number(oldDataViewState?.displayedColumnIds?.length) !==
+        Number(newDataViewState?.displayedColumnIds?.length) ||
+      !!oldDataViewState?.displayedColumnIds?.some(
+        (id, idx) => id !== newDataViewState?.displayedColumnIds?.[idx],
+      )
+    );
   }
 }

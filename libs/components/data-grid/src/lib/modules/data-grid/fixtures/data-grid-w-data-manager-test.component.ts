@@ -6,7 +6,7 @@ import {
   model,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { SkyDataGridSort } from '@skyux/data-grid';
+import { SkyDataGridSort } from '../../types/data-grid-sort';
 import {
   SkyDataManagerModule,
   SkyDataManagerService,

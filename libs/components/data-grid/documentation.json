@@ -10,6 +10,7 @@
           "SkyDataGridFilterOperator",
           "SkyDataGridFilterValue",
           "SkyDataGridNumberRangeFilterValue",
+          "SkyDataGridPageRequest",
           "SkyDataGridSort"
         ],
         "primaryDocsId": "SkyDataGridModule"
