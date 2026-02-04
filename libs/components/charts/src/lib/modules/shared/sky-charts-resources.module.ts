@@ -15,9 +15,9 @@ import {
 const RESOURCES: Record<string, SkyLibResources> = {
   'EN-US': {
     'chart.menu.download_png': { message: 'Download PNG image' },
-    'chart.menu.hide_data_table': { message: 'Hide data table' },
     'chart.menu.view_data_table': { message: 'View data table' },
     'chart_data_grid.category_column_name': { message: 'Category' },
+    'chart_data_grid.close_button': { message: 'Close' },
   },
 };
 

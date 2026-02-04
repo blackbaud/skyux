@@ -1,0 +1,18 @@
+<sky-modal [headingText]="title">
+  <sky-modal-content>
+    <sky-ag-grid-wrapper>
+      <ag-grid-angular
+        domLayout="autoHeight"
+        [gridOptions]="gridOptions"
+        [columnDefs]="columnDefs()"
+        [rowData]="rowData()"
+      />
+    </sky-ag-grid-wrapper>
+  </sky-modal-content>
+
+  <sky-modal-footer>
+    <button class="sky-btn sky-btn-link" type="button" (click)="close()">
+      {{ 'chart_data_grid.close_button' | skyLibResources }}
+    </button>
+  </sky-modal-footer>
+</sky-modal>

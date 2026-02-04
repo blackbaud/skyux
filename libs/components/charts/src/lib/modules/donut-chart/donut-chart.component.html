@@ -8,12 +8,8 @@
   <sky-dropdown buttonType="context-menu">
     <sky-dropdown-menu>
       <sky-dropdown-item>
-        <button type="button" (click)="onToggleDataGrid()">
-          @if (showDataGrid()) {
-            {{ 'chart.menu.hide_data_table' | skyLibResources }}
-          } @else {
-            {{ 'chart.menu.view_data_table' | skyLibResources }}
-          }
+        <button type="button" (click)="openChartDataGridModal()">
+          {{ 'chart.menu.view_data_table' | skyLibResources }}
         </button>
       </sky-dropdown-item>
       <sky-dropdown-item>
@@ -32,11 +28,3 @@
 >
   <canvas #canvas role="img" [attr.aria-label]="ariaLabel()"></canvas>
 </div>
-
-<!-- Data grid -->
-@if (showDataGrid()) {
-  <sky-chart-data-grid
-    [categories]="config().categories"
-    [series]="[config().series]"
-  />
-}

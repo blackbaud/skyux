@@ -4,11 +4,12 @@ import {
   computed,
   effect,
   inject,
-  input,
+  signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyAgGridModule, SkyAgGridService } from '@skyux/ag-grid';
 import { SkyLibResourcesService } from '@skyux/i18n';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 import { AgGridAngular } from 'ag-grid-angular';
 import {
@@ -23,28 +24,34 @@ import {
 import { SkyChartSeries } from '../shared/chart-types';
 import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
 
+import { SkyChartGridModalContext } from './chart-data-grid-modal-context';
+
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({
-  selector: 'sky-chart-data-grid',
-  templateUrl: 'chart-data-grid.component.html',
-  styleUrl: 'chart-data-grid.component.scss',
-  imports: [SkyChartsResourcesModule, AgGridAngular, SkyAgGridModule],
+  selector: 'sky-chart-data-grid-modal',
+  templateUrl: 'chart-data-grid-modal.component.html',
+  styleUrl: 'chart-data-grid-modal.component.scss',
+  imports: [
+    SkyChartsResourcesModule,
+    SkyModalModule,
+    AgGridAngular,
+    SkyAgGridModule,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyChartDataGridComponent {
+export class SkyChartDataGridModalComponent {
   // #region Dependency Injection
+  readonly #context = inject(SkyChartGridModalContext);
+  readonly #instance = inject(SkyModalInstance);
   readonly #agGridSvc = inject(SkyAgGridService);
   readonly #resources = inject(SkyLibResourcesService);
   // #endregion
 
-  // #region Inputs
-  /** The category labels for the chart data. */
-  public readonly categories = input.required<string[]>();
+  public readonly title = this.#context.modalTitle;
 
-  /** The data series to display in the grid. */
-  public readonly series = input.required<SkyChartSeries[]>();
-  // #endregion
+  readonly #categories = signal<string[]>(this.#context.categories);
+  readonly #series = signal<SkyChartSeries[]>(this.#context.series);
 
   protected readonly categoryHeaderName = toSignal(
     this.#resources.getString('chart_data_grid.category_column_name'),
@@ -53,13 +60,12 @@ export class SkyChartDataGridComponent {
 
   protected readonly gridOptions: GridOptions;
   protected readonly columnDefs = computed(() => {
-    const series = this.series();
+    const series = this.#series();
     return this.#buildColumnDefs(series);
   });
   protected readonly rowData = computed(() => {
-    const categories = this.categories();
-    const series = this.series();
-
+    const categories = this.#categories();
+    const series = this.#series();
     return this.#buildRowData(categories, series);
   });
 
@@ -83,6 +89,10 @@ export class SkyChartDataGridComponent {
         this.#gridApi.setGridOption('rowData', rows);
       }
     });
+  }
+
+  public close(): void {
+    this.#instance.close();
   }
 
   #onGridReady(params: GridReadyEvent): void {

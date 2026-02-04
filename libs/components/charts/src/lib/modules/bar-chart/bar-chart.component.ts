@@ -14,12 +14,14 @@ import {
   viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { SkyModalService } from '@skyux/modals';
 import { SkyDropdownModule } from '@skyux/popovers';
 import { SkyThemeService } from '@skyux/theme';
 
 import { Chart, ChartConfiguration, UpdateMode, registerables } from 'chart.js';
 
-import { SkyChartDataGridComponent } from '../chart-data-grid/chart-data-grid.component';
+import { SkyChartGridModalContext } from '../chart-data-grid-modal/chart-data-grid-modal-context';
+import { SkyChartDataGridModalComponent } from '../chart-data-grid-modal/chart-data-grid-modal.component';
 import {
   SkyBarChartConfig,
   SkyChartDataPointClickEvent,
@@ -36,11 +38,7 @@ Chart.register(...registerables);
   selector: 'sky-bar-chart',
   templateUrl: 'bar-chart.component.html',
   styleUrl: 'bar-chart.component.scss',
-  imports: [
-    SkyChartsResourcesModule,
-    SkyDropdownModule,
-    SkyChartDataGridComponent,
-  ],
+  imports: [SkyChartsResourcesModule, SkyDropdownModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyBarChartComponent implements AfterViewInit, OnDestroy {
@@ -49,6 +47,7 @@ export class SkyBarChartComponent implements AfterViewInit, OnDestroy {
   readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #themeSvc = inject(SkyThemeService, { optional: true });
   readonly #zone = inject(NgZone);
+  readonly #modalService = inject(SkyModalService);
   // #endregion
 
   // #region Inputs
@@ -78,7 +77,6 @@ export class SkyBarChartComponent implements AfterViewInit, OnDestroy {
   // #endregion
 
   protected readonly height = signal(300);
-  protected readonly showDataGrid = signal(false);
 
   #chart: Chart<'bar'> | undefined;
 
@@ -98,9 +96,19 @@ export class SkyBarChartComponent implements AfterViewInit, OnDestroy {
     this.#chart = undefined;
   }
 
-  protected onToggleDataGrid(): void {
-    const current = this.showDataGrid();
-    this.showDataGrid.set(!current);
+  protected openChartDataGridModal(): void {
+    const modalContext = new SkyChartGridModalContext({
+      modalTitle: this.headingText(),
+      categories: this.config().categories,
+      series: this.config().series,
+    });
+
+    this.#modalService.open(SkyChartDataGridModalComponent, {
+      size: 'large',
+      providers: [
+        { provide: SkyChartGridModalContext, useValue: modalContext },
+      ],
+    });
   }
 
   protected exportToPng(): void {
