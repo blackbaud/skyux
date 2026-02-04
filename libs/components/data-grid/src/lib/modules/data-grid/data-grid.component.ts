@@ -399,6 +399,7 @@ export class SkyDataGridComponent<
     () => this.#dataHostService?.hostId() ?? '',
   );
   protected readonly skyViewkeeper = computed(() => {
+    // Only used when not using SkyDataManagerService because data manager handles SkyViewkeeper.
     const classes = ['.ag-header'];
     if (this.topScrollEnabled()) {
       classes.push('.ag-body-horizontal-scroll');
