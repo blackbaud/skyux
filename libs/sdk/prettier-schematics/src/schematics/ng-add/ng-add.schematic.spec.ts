@@ -43,7 +43,7 @@ describe('ng-add.schematic', () => {
 
     return {
       runner,
-      runRule: (options?: SkyPrettierAddOptions) =>
+      runSchematic: (options?: SkyPrettierAddOptions) =>
         runner.runSchematic('ng-add', options, tree),
       tree,
     };

@@ -29,7 +29,7 @@ describe('ng-add', () => {
           });
 
     return {
-      runRule: () => runner.runSchematic('ng-add', {}, tree),
+      runSchematic: () => runner.runSchematic('ng-add', {}, tree),
       tree,
     };
   }
