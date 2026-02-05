@@ -12,6 +12,7 @@
 ### Bug Fixes
 
 * **components/action-bars:** default theme summary action bar secondary action button dropdown uses correct button class ([#4188](https://github.com/blackbaud/skyux/issues/4188)) ([#4193](https://github.com/blackbaud/skyux/issues/4193)) ([bc8ede1](https://github.com/blackbaud/skyux/commit/bc8ede1505bab528fc25ddad6faea46c38c3497b)), closes [AB#3696493](https://github.com/blackbaud/AB/issues/3696493)
+* **components/forms:** select inputs have proper text overflow and right padding ([#4168](https://github.com/blackbaud/skyux/issues/4168)) ([#4194](https://github.com/blackbaud/skyux/issues/4194)) ([7e04020](https://github.com/blackbaud/skyux/commit/7e04020fa8bf8cecec67a2ab4d56d66c6a3e7797)), closes [AB#3673505](https://github.com/blackbaud/AB/issues/3673505)
 
 ## [14.0.0-alpha.1](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.0...14.0.0-alpha.1) (2026-02-04)
 
