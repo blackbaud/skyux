@@ -288,6 +288,23 @@ Value</textarea
   </sky-input-box>
 </div>
 
+<div class="sky-padding-even-md" id="input-box-select-overflow">
+  <sky-input-box stacked="true">
+    <label class="sky-control-label" [for]="inputBoxSelectOverflow.id">
+      Select with very long option
+    </label>
+    <select #inputBoxSelectOverflow="skyId" class="sky-form-control" skyId>
+      <option>
+        Input with a select option with overflowing text. The option text should
+        use ellipsis when it hits the end of the input box space available.
+      </option>
+      <option>Option 2</option>
+      <option>Option 3</option>
+      <option>Option 4</option>
+    </select>
+  </sky-input-box>
+</div>
+
 <!-- For automation to click to set focus -->
 <label class="test-label" [for]="inputBoxBasicNoLabel.id"></label>
 <div class="sky-padding-even-md" id="input-box-basic-no-label">
