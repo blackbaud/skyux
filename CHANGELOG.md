@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.0.0-alpha.2](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.1...14.0.0-alpha.2) (2026-02-05)
+
+
+### Features
+
+* **components/text-editor:** update dompurify ([#4190](https://github.com/blackbaud/skyux/issues/4190)) ([8868e16](https://github.com/blackbaud/skyux/commit/8868e1628841f2f211e8987dff34bbcd544f9770)), closes [AB#3642976](https://github.com/blackbaud/AB/issues/3642976) [AB#3691546](https://github.com/blackbaud/AB/issues/3691546)
+
 ## [14.0.0-alpha.1](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.0...14.0.0-alpha.1) (2026-02-04)
 
 
