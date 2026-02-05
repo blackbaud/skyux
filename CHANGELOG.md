@@ -1,11 +1,12 @@
 # Changelog
 
 
-# [13.13.0](https://github.com/blackbaud/skyux/compare/13.12.0...13.13.0) (2026-02-03)
+# [13.13.0](https://github.com/blackbaud/skyux/compare/13.12.0...13.13.0) (2026-02-05)
 
 
 ### Bug Fixes
 
+* **components/action-bars:** default theme summary action bar secondary action button dropdown uses correct button class ([#4188](https://github.com/blackbaud/skyux/issues/4188)) ([89beb76](https://github.com/blackbaud/skyux/commit/89beb76cfa1deb78e09c0dca40ac33bddf604a78)), closes [AB#3696493](https://github.com/AB/issues/3696493)
 * **components/data-manager:** set docked data manager to be `inset`  ([#4180](https://github.com/blackbaud/skyux/issues/4180)) ([7e7a9ae](https://github.com/blackbaud/skyux/commit/7e7a9ae07a9f2c3fca89291f01c081979d33f57c)), closes [AB#3689062](https://github.com/AB/issues/3689062)
 * **components/filter-bar:** ensure order of selected filters remains constant ([#4158](https://github.com/blackbaud/skyux/issues/4158)) ([a233c63](https://github.com/blackbaud/skyux/commit/a233c63bf8d516b49636a5f8a6649f2f7791b6a5))
 * **components/indicators:** use correct info icon matte token ([#4161](https://github.com/blackbaud/skyux/issues/4161)) ([3b4fe65](https://github.com/blackbaud/skyux/commit/3b4fe652a60f6103b4241e239129cb2b1c4a3963))
