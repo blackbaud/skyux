@@ -8,6 +8,11 @@
 
 * **components/text-editor:** update dompurify ([#4190](https://github.com/blackbaud/skyux/issues/4190)) ([8868e16](https://github.com/blackbaud/skyux/commit/8868e1628841f2f211e8987dff34bbcd544f9770)), closes [AB#3642976](https://github.com/blackbaud/AB/issues/3642976) [AB#3691546](https://github.com/blackbaud/AB/issues/3691546)
 
+
+### Bug Fixes
+
+* **components/action-bars:** default theme summary action bar secondary action button dropdown uses correct button class ([#4188](https://github.com/blackbaud/skyux/issues/4188)) ([#4193](https://github.com/blackbaud/skyux/issues/4193)) ([bc8ede1](https://github.com/blackbaud/skyux/commit/bc8ede1505bab528fc25ddad6faea46c38c3497b)), closes [AB#3696493](https://github.com/blackbaud/AB/issues/3696493)
+
 ## [14.0.0-alpha.1](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.0...14.0.0-alpha.1) (2026-02-04)
 
 
