@@ -1,12 +1,7 @@
 <sky-modal [headingText]="title">
   <sky-modal-content>
     <sky-ag-grid-wrapper>
-      <ag-grid-angular
-        domLayout="autoHeight"
-        [gridOptions]="gridOptions"
-        [columnDefs]="columnDefs()"
-        [rowData]="rowData()"
-      />
+      <ag-grid-angular [gridOptions]="gridOptions" />
     </sky-ag-grid-wrapper>
   </sky-modal-content>
 

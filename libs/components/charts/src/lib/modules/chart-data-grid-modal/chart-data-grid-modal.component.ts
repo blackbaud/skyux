@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  inject,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyAgGridModule, SkyAgGridService } from '@skyux/ag-grid';
 import { SkyLibResourcesService } from '@skyux/i18n';
@@ -13,12 +6,17 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 import { AgGridAngular } from 'ag-grid-angular';
 import {
-  AllCommunityModule,
+  CellStyleModule,
+  ClientSideRowModelModule,
   ColDef,
-  GridApi,
-  GridOptions,
+  ColumnApiModule,
+  ColumnAutoSizeModule,
+  EventApiModule,
   GridReadyEvent,
   ModuleRegistry,
+  RowSelectionModule,
+  RowStyleModule,
+  ValidationModule,
 } from 'ag-grid-community';
 
 import { SkyChartSeries } from '../shared/chart-types';
@@ -26,7 +24,16 @@ import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module'
 
 import { SkyChartGridModalContext } from './chart-data-grid-modal-context';
 
-ModuleRegistry.registerModules([AllCommunityModule]);
+ModuleRegistry.registerModules([
+  ClientSideRowModelModule,
+  RowSelectionModule,
+  CellStyleModule,
+  EventApiModule,
+  ColumnAutoSizeModule,
+  RowStyleModule,
+  ColumnApiModule,
+  ValidationModule,
+]);
 
 @Component({
   selector: 'sky-chart-data-grid-modal',
@@ -50,53 +57,28 @@ export class SkyChartDataGridModalComponent {
 
   public readonly title = this.#context.modalTitle;
 
-  readonly #categories = signal<string[]>(this.#context.categories);
-  readonly #series = signal<SkyChartSeries[]>(this.#context.series);
+  readonly #categories = this.#context.categories;
+  readonly #series = this.#context.series;
 
   protected readonly categoryHeaderName = toSignal(
     this.#resources.getString('chart_data_grid.category_column_name'),
     { initialValue: 'Category' },
   );
 
-  protected readonly gridOptions: GridOptions;
-  protected readonly columnDefs = computed(() => {
-    const series = this.#series();
-    return this.#buildColumnDefs(series);
+  protected readonly gridOptions = this.#agGridSvc.getGridOptions({
+    gridOptions: {
+      defaultColDef: { lockPinned: true },
+      columnDefs: this.#buildColumnDefs(this.#series),
+      rowData: this.#buildRowData(this.#categories, this.#series),
+      onGridReady: this.#onGridReady.bind(this),
+    },
   });
-  protected readonly rowData = computed(() => {
-    const categories = this.#categories();
-    const series = this.#series();
-    return this.#buildRowData(categories, series);
-  });
-
-  #gridApi: GridApi | undefined;
-
-  constructor() {
-    this.gridOptions = this.#agGridSvc.getGridOptions({
-      gridOptions: {
-        defaultColDef: { lockPinned: true },
-        onGridReady: this.#onGridReady.bind(this),
-      },
-    });
-
-    // Update grid when data changes (also handles initial load)
-    effect(() => {
-      const cols = this.columnDefs();
-      const rows = this.rowData();
-
-      if (this.#gridApi) {
-        this.#gridApi.setGridOption('columnDefs', cols);
-        this.#gridApi.setGridOption('rowData', rows);
-      }
-    });
-  }
 
   public close(): void {
     this.#instance.close();
   }
 
   #onGridReady(params: GridReadyEvent): void {
-    this.#gridApi = params.api;
     params.api.sizeColumnsToFit();
   }
 
@@ -146,6 +128,12 @@ export class SkyChartDataGridModalComponent {
 }
 
 interface ChartDataGridRow {
+  /** The category for this row. */
   category: string;
-  [key: string]: string | number;
+
+  /**
+   * Key: the series' label
+   * Value: the data point's label
+   */
+  [key: string]: string;
 }
