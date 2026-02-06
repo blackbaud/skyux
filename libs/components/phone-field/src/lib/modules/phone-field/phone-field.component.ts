@@ -276,7 +276,15 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
    */
   @Input()
   public set allowExampleText(value: boolean | undefined) {
-    this.#_allowExampleText = value !== false;
+    const newValue = value !== false;
+    if (this.#_allowExampleText !== newValue) {
+      this.#_allowExampleText = newValue;
+      if (!newValue && this.inputBoxHostSvc) {
+        this.inputBoxHostSvc.setHintText(undefined);
+      } else {
+        this.#populateInputBoxHelpText();
+      }
+    }
   }
 
   public get allowExampleText(): boolean {
