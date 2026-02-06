@@ -20,3 +20,4 @@ export class DataGridComponent {
     alert(`${action} clicked for ${row.name}`);
   }
 }
+export default DataGridComponent;

@@ -1,9 +1,18 @@
-import { platformBrowser } from '@angular/platform-browser';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import {
+  provideRouter,
+  withEnabledBlockingInitialNavigation,
+} from '@angular/router';
+import { provideInitialTheme } from '@skyux/theme';
 
-import { AppModule } from './app/app.module';
+import { AppComponent } from './app/app.component';
+import { routes } from './app/app.routes';
 
-platformBrowser()
-  .bootstrapModule(AppModule, {
-    ngZoneEventCoalescing: true,
-  })
-  .catch((err) => console.error(err));
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideInitialTheme('modern'),
+    provideAnimationsAsync(),
+    provideRouter(routes, withEnabledBlockingInitialNavigation()),
+  ],
+}).catch((err) => console.error(err));
