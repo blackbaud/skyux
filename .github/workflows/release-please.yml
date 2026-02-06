@@ -103,6 +103,10 @@ jobs:
           echo tag_name=$(jq -r .version package.json) >> $GITHUB_OUTPUT
       - name: Build
         run: npx skyux-dev create-packages-dist ${{ needs.next-release.outputs.dry_run != 'true' && '--skipNxCache' || '' }}
+      # Using Node 24 to publish with NPM 11, which supports trusted publishers.
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
       - name: Publish
         run: npx skyux-dev publish-packages-dist --skip-registry-config --dry-run=${{ needs.next-release.outputs.dry_run }}
       - name: Capture logs
