@@ -12,3 +12,4 @@ export { SkyDataGridSort } from './lib/modules/types/data-grid-sort';
 export { SkyDataGridPageRequest } from './lib/modules/types/data-grid-page-request';
 export { SkyDataGridRowDeleteCancelArgs } from './lib/modules/types/data-grid-row-delete-cancel-args';
 export { SkyDataGridRowDeleteConfirmArgs } from './lib/modules/types/data-grid-row-delete-confirm-args';
+export { SkyDataGridDirective as λ1 } from './lib/modules/data-grid/data-grid.directive';
