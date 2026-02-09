@@ -1,10 +1,10 @@
-<sky-wait [isWaiting]="!gridReady()" />
-@if (gridOptions(); as gridOptions) {
-  @if (useDataManager) {
+<sky-wait [isWaiting]="!directive.gridReady()" />
+@if (directive.gridOptions(); as gridOptions) {
+  @if (directive.useDataManager) {
     <sky-ag-grid-wrapper
       skyAgGridRowDelete
       skyAgGridDataManagerAdapter
-      [viewId]="viewId()"
+      [viewId]="directive.viewId()"
       [compact]="compact()"
       [(rowDeleteIds)]="rowDeleteIds"
       (rowDeleteCancel)="rowDeleteCancel.emit($event)"
@@ -12,8 +12,8 @@
     >
       <ag-grid-angular
         [gridOptions]="gridOptions"
-        [isExternalFilterPresent]="isExternalFilterPresent"
-        [doesExternalFilterPass]="doesExternalFilterPass()"
+        [isExternalFilterPresent]="directive.isExternalFilterPresent"
+        [doesExternalFilterPass]="directive.doesExternalFilterPass()"
         [style.height.px]="height() || undefined"
         [style.width.px]="width() || undefined"
       />
@@ -28,22 +28,22 @@
     >
       <ag-grid-angular
         skyViewkeeperOmitShadow=".ag-body-horizontal-scroll"
-        [skyViewkeeper]="skyViewkeeper()"
+        [skyViewkeeper]="directive.skyViewkeeper()"
         [gridOptions]="gridOptions"
-        [isExternalFilterPresent]="isExternalFilterPresent"
-        [doesExternalFilterPass]="doesExternalFilterPass()"
+        [isExternalFilterPresent]="directive.isExternalFilterPresent"
+        [doesExternalFilterPass]="directive.doesExternalFilterPass()"
         [style.height.px]="height() || undefined"
         [style.width.px]="width() || undefined"
       />
     </sky-ag-grid-wrapper>
   }
 
-  @if (pageCount(); as pageCount) {
+  @if (directive.pageCount(); as pageCount) {
     <sky-paging
-      [currentPage]="page() || 1"
+      [currentPage]="directive.page() || 1"
       [itemCount]="pageCount * pageSize()"
       [pageSize]="pageSize()"
-      (currentPageChange)="currentPageChange($event)"
+      (currentPageChange)="directive.currentPageChange($event)"
     />
   }
 }

@@ -1,7 +1,6 @@
 import {
   coerceBooleanProperty,
   coerceNumberProperty,
-  coerceStringArray,
 } from '@angular/cdk/coercion';
 import {
   ChangeDetectionStrategy,
@@ -10,6 +9,7 @@ import {
   input,
   model,
   output,
+  signal,
 } from '@angular/core';
 import { SkyAgGridModule } from '@skyux/ag-grid';
 import { SkyViewkeeperModule } from '@skyux/core';
@@ -19,10 +19,8 @@ import { SkyFilterStateFilterItem, SkyPagingModule } from '@skyux/lists';
 import { AgGridAngular } from 'ag-grid-angular';
 
 import { SkyDataGridFilterValue } from '../types/data-grid-filter-value';
-import { SkyDataGridPageRequest } from '../types/data-grid-page-request';
 import { SkyDataGridRowDeleteCancelArgs } from '../types/data-grid-row-delete-cancel-args';
 import { SkyDataGridRowDeleteConfirmArgs } from '../types/data-grid-row-delete-confirm-args';
-import { SkyDataGridSort } from '../types/data-grid-sort';
 
 import { SkyDataGridDirective } from './data-grid.directive';
 
@@ -30,7 +28,7 @@ import { SkyDataGridDirective } from './data-grid.directive';
  * @preview
  */
 @Component({
-  selector: 'sky-data-grid',
+  selector: 'sky-data-grid-lite',
   imports: [
     AgGridAngular,
     SkyAgGridModule,
@@ -38,16 +36,15 @@ import { SkyDataGridDirective } from './data-grid.directive';
     SkyViewkeeperModule,
     SkyWaitModule,
   ],
-  templateUrl: './data-grid.component.html',
+  templateUrl: './data-grid-lite.component.html',
   styleUrl: './data-grid.component.css',
   hostDirectives: [
     {
       directive: SkyDataGridDirective,
       inputs: [
+        'appliedFilters',
         'compact',
         'data',
-        'displayedColumnIds',
-        'externalRowCount',
         'fit',
         'height',
         'multiselect',
@@ -56,25 +53,23 @@ import { SkyDataGridDirective } from './data-grid.directive';
         'rowDeleteIds',
         'rowHighlightedId',
         'selectedRowIds',
-        'sortField',
         'stacked',
         'topScrollEnabled',
         'width',
+        'useInternalFilters',
       ],
       outputs: [
-        'displayedColumnIdsChange',
-        'pageRequest',
+        'rowCountChange',
         'rowDeleteCancel',
         'rowDeleteConfirm',
         'rowDeleteIdsChange',
         'selectedRowIdsChange',
-        'sortFieldChange',
       ],
     },
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyDataGridComponent<
+export class SkyDataGridLiteComponent<
   T extends Record<'id', string> = Record<'id', string> & object,
 > {
   /**
@@ -112,15 +107,6 @@ export class SkyDataGridComponent<
   public readonly data = input<T[] | null | undefined>();
 
   /**
-   * The number of records when using a remote data source.
-   * When `externalRowCount` is set, it is expected that `data` will be updated whenever `pageRequest` emits a new value.
-   * When both `externalRowCount` and `pageSize` are set, the number of pages is assumed to be `Math.ceil(externalRowCount / pageSize)`.
-   * If `externalRowCount` is not set, the data grid will page, sort, filter, and apply SKY UX data manager search text to the
-   * `data` provided, and the row count is assumed to be `data.length`.
-   */
-  public readonly externalRowCount = input<number | undefined>(undefined);
-
-  /**
    * How the grid fits to its parent. The valid options are `width`,
    * which fits the grid to the parent's full width, and `scroll`, which allows the grid
    * to exceed the parent's width. If the grid does not have enough columns to fill
@@ -140,13 +126,6 @@ export class SkyDataGridComponent<
   });
 
   /**
-   * The column IDs or fields for columns to hide. Should not be combined with `displayedColumnIds`.
-   */
-  public readonly hiddenColumnIds = input<string[], unknown>([], {
-    transform: coerceStringArray,
-  });
-
-  /**
    * Whether to enable the multiselect feature to display a column of
    * checkboxes on the left side of the grid. You can specify a unique ID with
    * the `multiselectRowId` property, but multiselect defaults to the `id` property on
@@ -156,12 +135,6 @@ export class SkyDataGridComponent<
   public readonly multiselect = input<boolean, unknown>(false, {
     transform: coerceBooleanProperty,
   });
-
-  /**
-   * The unique ID that matches a property on the `data` object.
-   * @default 'id'
-   */
-  public readonly multiselectRowId = input<keyof T>('id');
 
   /**
    * The number of items to display per page. Setting this value enables pagination.
@@ -209,25 +182,6 @@ export class SkyDataGridComponent<
   });
 
   /**
-   * The column IDs or fields for columns to show. Should not be combined with `hiddenColumnIds`.
-   */
-  public readonly displayedColumnIds = input<string[], unknown>([], {
-    transform: coerceStringArray,
-  });
-
-  /**
-   * Fires when columns change. This includes changes to the displayed columns and changes
-   * to the order of columns. The event emits an array of IDs for the displayed columns that
-   * reflects the column order.
-   */
-  public readonly displayedColumnIdsChange = output<string[]>();
-
-  /**
-   * The current page number of the grid when `pageSize` has been set.
-   */
-  public readonly page = model<number>(1);
-
-  /**
    * The set of IDs for the rows to prompt for delete confirmation.
    * The IDs match the `multiselectRowId` properties of the `data` objects.
    */
@@ -239,16 +193,6 @@ export class SkyDataGridComponent<
    * Rows with IDs that are not included are de-selected in the grid.
    */
   public readonly selectedRowIds = model<string[]>([]);
-
-  /**
-   * The sort setting for the grid.
-   */
-  public readonly sortField = model<SkyDataGridSort | undefined>(undefined);
-
-  /**
-   * Fires when sorting or page number changes.
-   */
-  public readonly pageRequest = output<SkyDataGridPageRequest>();
 
   /**
    * Emits a row count after filters are updated. Not used when `externalRowCount` is set.
@@ -266,4 +210,5 @@ export class SkyDataGridComponent<
   public readonly rowDeleteConfirm = output<SkyDataGridRowDeleteConfirmArgs>();
 
   protected readonly directive = inject(SkyDataGridDirective, { self: true });
+  protected readonly useInternalFilters = signal(true).asReadonly();
 }

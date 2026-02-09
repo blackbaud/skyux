@@ -5,6 +5,7 @@
       "development": {
         "docsIds": [
           "SkyDataGridModule",
+          "SkyDataGridLiteComponent",
           "SkyDataGridComponent",
           "SkyDataGridColumnComponent",
           "SkyDataGridFilterOperator",
