@@ -11,6 +11,8 @@
           "SkyDataGridFilterValue",
           "SkyDataGridNumberRangeFilterValue",
           "SkyDataGridPageRequest",
+          "SkyDataGridRowDeleteCancelArgs",
+          "SkyDataGridRowDeleteConfirmArgs",
           "SkyDataGridSort"
         ],
         "primaryDocsId": "SkyDataGridModule"

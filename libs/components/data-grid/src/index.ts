@@ -9,3 +9,5 @@ export {
 } from './lib/modules/types/data-grid-number-range-filter-value';
 export { SkyDataGridSort } from './lib/modules/types/data-grid-sort';
 export { SkyDataGridPageRequest } from './lib/modules/types/data-grid-page-request';
+export { SkyDataGridRowDeleteCancelArgs } from './lib/modules/types/data-grid-row-delete-cancel-args';
+export { SkyDataGridRowDeleteConfirmArgs } from './lib/modules/types/data-grid-row-delete-confirm-args';

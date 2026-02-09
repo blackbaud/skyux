@@ -23,13 +23,7 @@ import {
   toSignal,
 } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  SkyAgGridModule,
-  SkyAgGridRowDeleteCancelArgs,
-  SkyAgGridRowDeleteConfirmArgs,
-  SkyAgGridService,
-  SkyCellType,
-} from '@skyux/ag-grid';
+import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import { SkyLogService, SkyViewkeeperModule } from '@skyux/core';
 import { SkyDataManagerService } from '@skyux/data-manager';
 import { SkyWaitModule } from '@skyux/indicators';
@@ -74,6 +68,8 @@ import {
 
 import { SkyDataGridFilterValue } from '../types/data-grid-filter-value';
 import { SkyDataGridPageRequest } from '../types/data-grid-page-request';
+import { SkyDataGridRowDeleteCancelArgs } from '../types/data-grid-row-delete-cancel-args';
+import { SkyDataGridRowDeleteConfirmArgs } from '../types/data-grid-row-delete-confirm-args';
 import { SkyDataGridSort } from '../types/data-grid-sort';
 
 import { SkyDataGridColumnInlineHelpComponent } from './data-grid-column-inline-help.component';
@@ -302,12 +298,12 @@ export class SkyDataGridComponent<
   /**
    * Fires when users cancel the deletion of a row.
    */
-  public readonly rowDeleteCancel = output<SkyAgGridRowDeleteCancelArgs>();
+  public readonly rowDeleteCancel = output<SkyDataGridRowDeleteCancelArgs>();
 
   /**
    * Fires when users confirm the deletion of a row.
    */
-  public readonly rowDeleteConfirm = output<SkyAgGridRowDeleteConfirmArgs>();
+  public readonly rowDeleteConfirm = output<SkyDataGridRowDeleteConfirmArgs>();
 
   protected readonly columns = contentChildren(SkyDataGridColumnComponent);
   protected readonly gridApi = signal<GridApi<T> | undefined>(undefined);

@@ -1,3 +1,15 @@
+import {
+  SkyDataGridNumberRangeFilterValue,
+  SkyDataGridPageRequest,
+} from '@skyux/data-grid';
+import { SkyDataManagerState } from '@skyux/data-manager';
+import { SkyDateRange } from '@skyux/datetime';
+import { SkyFilterState, SkyFilterStateFilterItem } from '@skyux/lists';
+
+import { Observable, delay, of } from 'rxjs';
+
+import { dataSortAndFilter } from './data-sort-and-filter';
+
 export interface Employee {
   id: string;
   name: string;
@@ -7,7 +19,7 @@ export interface Employee {
   active: boolean;
 }
 
-export const employees = [
+const employees = [
   {
     id: '1',
     name: 'Alice Johnson',
@@ -89,3 +101,30 @@ export const employees = [
     active: true,
   },
 ];
+
+export function remoteService(params: {
+  dataManagerUpdates: SkyDataManagerState | undefined;
+  pageRequest: SkyDataGridPageRequest | undefined;
+}): Observable<{ data: Employee[] | null; count: number } | null> {
+  if (params.pageRequest?.pageSize) {
+    const pageNumber = params.pageRequest.pageNumber;
+    const pageSize = params.pageRequest.pageSize;
+    const data = dataSortAndFilter(
+      employees,
+      ((
+        params.dataManagerUpdates?.filterData?.filters as
+          | SkyFilterState
+          | undefined
+      )?.appliedFilters ?? []) as SkyFilterStateFilterItem<
+        string | SkyDataGridNumberRangeFilterValue | SkyDateRange | boolean
+      >[],
+      params.dataManagerUpdates?.activeSortOption,
+      params.dataManagerUpdates?.searchText ?? '',
+    );
+    return of({
+      data: data.slice((pageNumber - 1) * pageSize, pageNumber * pageSize),
+      count: data.length,
+    }).pipe(delay(800));
+  }
+  return of(null).pipe(delay(800));
+}

@@ -6,10 +6,10 @@ import {
   signal,
 } from '@angular/core';
 import {
-  SkyAgGridRowDeleteCancelArgs,
-  SkyAgGridRowDeleteConfirmArgs,
-} from '@skyux/ag-grid';
-import { SkyDataGridModule } from '@skyux/data-grid';
+  SkyDataGridModule,
+  SkyDataGridRowDeleteCancelArgs,
+  SkyDataGridRowDeleteConfirmArgs,
+} from '@skyux/data-grid';
 import { SkyBoxModule } from '@skyux/layout';
 import { SkyDropdownModule } from '@skyux/popovers';
 
@@ -48,7 +48,7 @@ export class DataGridBasicExampleComponent {
     }
   }
 
-  protected rowDeleteConfirm($event: SkyAgGridRowDeleteConfirmArgs): void {
+  protected rowDeleteConfirm($event: SkyDataGridRowDeleteConfirmArgs): void {
     this.gridData.update((gridData) =>
       gridData.filter(({ id }) => id !== $event.id),
     );
@@ -57,7 +57,7 @@ export class DataGridBasicExampleComponent {
     );
   }
 
-  protected rowDeleteCancel($event: SkyAgGridRowDeleteCancelArgs): void {
+  protected rowDeleteCancel($event: SkyDataGridRowDeleteCancelArgs): void {
     this.rowDeleteIds.update((rowDeleteIds) =>
       rowDeleteIds.filter((id) => id !== $event.id),
     );

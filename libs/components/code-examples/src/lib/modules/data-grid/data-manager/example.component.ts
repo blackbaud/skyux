@@ -7,11 +7,11 @@ import {
   signal,
 } from '@angular/core';
 import {
-  SkyAgGridModule,
-  SkyAgGridRowDeleteCancelArgs,
-  SkyAgGridRowDeleteConfirmArgs,
-} from '@skyux/ag-grid';
-import { SkyDataGridFilterValue, SkyDataGridModule } from '@skyux/data-grid';
+  SkyDataGridFilterValue,
+  SkyDataGridModule,
+  SkyDataGridRowDeleteCancelArgs,
+  SkyDataGridRowDeleteConfirmArgs,
+} from '@skyux/data-grid';
 import {
   SkyDataManagerModule,
   SkyDataManagerService,
@@ -39,7 +39,6 @@ import { SalesModalComponent } from './sales-modal.component';
   providers: [SkyDataManagerService],
   imports: [
     I18nPluralPipe,
-    SkyAgGridModule,
     SkyDataGridModule,
     SkyDataManagerModule,
     SkyDropdownModule,
@@ -113,7 +112,7 @@ export class DataGridDataManagerExampleComponent {
     }
   }
 
-  protected rowDeleteConfirm($event: SkyAgGridRowDeleteConfirmArgs): void {
+  protected rowDeleteConfirm($event: SkyDataGridRowDeleteConfirmArgs): void {
     this.gridData.update((gridData) =>
       gridData.filter(({ id }) => id !== $event.id),
     );
@@ -122,7 +121,7 @@ export class DataGridDataManagerExampleComponent {
     );
   }
 
-  protected rowDeleteCancel($event: SkyAgGridRowDeleteCancelArgs): void {
+  protected rowDeleteCancel($event: SkyDataGridRowDeleteCancelArgs): void {
     this.rowDeleteIds.update((rowDeleteIds) =>
       rowDeleteIds.filter((id) => id !== $event.id),
     );

@@ -7,12 +7,10 @@ import {
   model,
 } from '@angular/core';
 import {
-  SkyAgGridRowDeleteCancelArgs,
-  SkyAgGridRowDeleteConfirmArgs,
-} from '@skyux/ag-grid';
-import {
   SkyDataGridColumnComponent,
   SkyDataGridComponent,
+  SkyDataGridRowDeleteCancelArgs,
+  SkyDataGridRowDeleteConfirmArgs,
 } from '@skyux/data-grid';
 import { SkyDropdownModule, SkyPopoverModule } from '@skyux/popovers';
 
@@ -97,7 +95,7 @@ export class DataGridTestComponent {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public cancelRowDelete(_cancelArgs: SkyAgGridRowDeleteCancelArgs): void {
+  public cancelRowDelete(_cancelArgs: SkyDataGridRowDeleteCancelArgs): void {
     // noop
   }
 
@@ -105,7 +103,7 @@ export class DataGridTestComponent {
     this.removeRowIds.update((removeRowIds) => [id, ...removeRowIds]);
   }
 
-  public finishRowDelete(confirmArgs: SkyAgGridRowDeleteConfirmArgs): void {
+  public finishRowDelete(confirmArgs: SkyDataGridRowDeleteConfirmArgs): void {
     this.dataForRowDeleteGrid = (this.dataForRowDeleteGrid ?? []).filter(
       (data: RowModel) => data.id !== confirmArgs.id,
     );

@@ -1,3 +1,4 @@
+@let records = recordsToShow | async;
 <sky-data-manager>
   <sky-data-manager-toolbar>
     <sky-filter-bar skyDataManagerFilterController>
@@ -28,8 +29,8 @@
     </sky-filter-bar>
     <sky-list-summary>
       <sky-list-summary-item
-        [labelText]="externalRowCount() === 1 ? 'Record' : 'Records'"
-        [value]="externalRowCount()"
+        [labelText]="(records?.count ?? 0) === 1 ? 'Record' : 'Records'"
+        [value]="records?.count ?? 0"
       />
     </sky-list-summary>
   </sky-data-manager-toolbar>
@@ -38,8 +39,8 @@
     <sky-data-grid
       height="270"
       pageSize="5"
-      [data]="recordsToShow.value()?.data"
-      [externalRowCount]="externalRowCount()"
+      [data]="records?.data"
+      [externalRowCount]="records?.count ?? 0"
       (pageRequest)="pageRequest.set($event)"
     >
       <sky-data-grid-column
