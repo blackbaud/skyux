@@ -34,7 +34,7 @@
     "@skyux/validation": "0.0.0-PLACEHOLDER"
   },
   "dependencies": {
-    "dompurify": "3.2.6",
+    "dompurify": "3.3.1",
     "he": "1.2.0",
     "tslib": "^2.8.1"
   },

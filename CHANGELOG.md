@@ -1,6 +1,41 @@
 # Changelog
 
 
+# [13.13.0](https://github.com/blackbaud/skyux/compare/13.12.0...13.13.0) (2026-02-05)
+
+
+### Bug Fixes
+
+* **components/action-bars:** default theme summary action bar secondary action button dropdown uses correct button class ([#4188](https://github.com/blackbaud/skyux/issues/4188)) ([89beb76](https://github.com/blackbaud/skyux/commit/89beb76cfa1deb78e09c0dca40ac33bddf604a78)), closes [AB#3696493](https://github.com/AB/issues/3696493)
+* **components/data-manager:** set docked data manager to be `inset`  ([#4180](https://github.com/blackbaud/skyux/issues/4180)) ([7e7a9ae](https://github.com/blackbaud/skyux/commit/7e7a9ae07a9f2c3fca89291f01c081979d33f57c)), closes [AB#3689062](https://github.com/AB/issues/3689062)
+* **components/filter-bar:** ensure order of selected filters remains constant ([#4158](https://github.com/blackbaud/skyux/issues/4158)) ([a233c63](https://github.com/blackbaud/skyux/commit/a233c63bf8d516b49636a5f8a6649f2f7791b6a5))
+* **components/forms:** select inputs have proper text overflow and right padding ([#4168](https://github.com/blackbaud/skyux/issues/4168)) ([85d3357](https://github.com/blackbaud/skyux/commit/85d3357a787217ed0a9e875fe791c51d998d23fd)), closes [AB#3673505](https://github.com/AB/issues/3673505)
+* **components/indicators:** use correct info icon matte token ([#4161](https://github.com/blackbaud/skyux/issues/4161)) ([3b4fe65](https://github.com/blackbaud/skyux/commit/3b4fe652a60f6103b4241e239129cb2b1c4a3963))
+
+
+### Features
+
+* **components/filter-bar:** extend generics for filter types in filter items ([#4175](https://github.com/blackbaud/skyux/issues/4175)) ([1a2e08c](https://github.com/blackbaud/skyux/commit/1a2e08cca87e6ffbb2ff031544fdc9da0bc75137))
+* **components/pages:** modal link list items may provide a click handler ([#4169](https://github.com/blackbaud/skyux/issues/4169)) ([0f9bb8e](https://github.com/blackbaud/skyux/commit/0f9bb8e6b79764b5e32fce611de1caf17389b383)), closes [AB#3682483](https://github.com/AB/issues/3682483)
+
+
+
+## [14.0.0-alpha.1](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.0...14.0.0-alpha.1) (2026-02-04)
+
+
+### Features
+
+* **components/filter-bar:** extend generics for filter types in filter items ([#4175](https://github.com/blackbaud/skyux/issues/4175)) ([#4182](https://github.com/blackbaud/skyux/issues/4182)) ([8278d17](https://github.com/blackbaud/skyux/commit/8278d17f5063c5c306d441cbdb033498cb615112))
+* **components/pages:** modal link list items may provide a click handler ([#4169](https://github.com/blackbaud/skyux/issues/4169)) ([#4170](https://github.com/blackbaud/skyux/issues/4170)) ([76e6d4d](https://github.com/blackbaud/skyux/commit/76e6d4da9528f546be1c536514becd1553a8bb2e)), closes [AB#3682483](https://github.com/blackbaud/AB/issues/3682483)
+* **sdk/stylelint-config-skyux:** update stylelint to 17.1.0 ([#4187](https://github.com/blackbaud/skyux/issues/4187)) ([86fafb0](https://github.com/blackbaud/skyux/commit/86fafb028ff9320c57051f722a87956cdce7d161)), closes [AB#3642976](https://github.com/blackbaud/AB/issues/3642976) [AB#3691772](https://github.com/blackbaud/AB/issues/3691772)
+* **sdk/testing:** update axe-core to 4.11.1 ([#4185](https://github.com/blackbaud/skyux/issues/4185)) ([6c3f370](https://github.com/blackbaud/skyux/commit/6c3f370c989c9068fce0779d84c6f48f31b3c8f4)), closes [AB#3642976](https://github.com/blackbaud/AB/issues/3642976) [AB#3691545](https://github.com/blackbaud/AB/issues/3691545)
+
+
+### Bug Fixes
+
+* **components/filter-bar:** ensure order of selected filters remains constant ([#4158](https://github.com/blackbaud/skyux/issues/4158)) ([#4166](https://github.com/blackbaud/skyux/issues/4166)) ([833f7ce](https://github.com/blackbaud/skyux/commit/833f7ce813b7a6568a009ad4c514fea8432218b1))
+* **components/indicators:** use correct info icon matte token ([#4161](https://github.com/blackbaud/skyux/issues/4161)) ([#4165](https://github.com/blackbaud/skyux/issues/4165)) ([f4bfe2b](https://github.com/blackbaud/skyux/commit/f4bfe2bdcc7f9d5acd067bfaa7e6cd68aa88d204))
+
 ## [14.0.0-alpha.0](https://github.com/blackbaud/skyux/compare/13.12.0...14.0.0-alpha.0) (2026-01-16)
 
 

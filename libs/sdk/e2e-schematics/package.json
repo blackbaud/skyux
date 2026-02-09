@@ -4,15 +4,15 @@
   "peerDependencies": {
     "@angular-devkit/core": "^21.1.2",
     "@angular/cli": "^21.1.2",
-    "@nx/angular": "^22.4.3",
-    "@nx/cypress": "^22.4.3",
-    "@nx/devkit": "^22.4.3",
-    "@nx/eslint": "^22.4.3",
-    "@nx/storybook": "^22.4.3",
-    "@nx/workspace": "^22.4.3",
+    "@nx/angular": "^22.4.5",
+    "@nx/cypress": "^22.4.5",
+    "@nx/devkit": "^22.4.5",
+    "@nx/eslint": "^22.4.5",
+    "@nx/storybook": "^22.4.5",
+    "@nx/workspace": "^22.4.5",
     "@percy/sdk-utils": "^1.31.8",
     "@schematics/angular": "^21.1.2",
-    "nx": "^22.4.3"
+    "nx": "^22.4.5"
   },
   "dependencies": {
     "@nx/devkit": "*",
