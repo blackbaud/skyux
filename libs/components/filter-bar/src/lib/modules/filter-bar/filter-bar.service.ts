@@ -25,12 +25,15 @@ export class SkyFilterBarService {
    * @param filterId the
    * @returns
    */
-  public getFilterValueUpdates(
+  public getFilterValueUpdates<TValue = unknown>(
     filterId: string,
-  ): Observable<SkyFilterBarFilterValue | undefined> {
+  ): Observable<SkyFilterBarFilterValue<TValue> | undefined> {
     return this.#filterValueUpdates.pipe(
       filter((update) => update.filterId === filterId),
-      map((item) => item.filterValue),
+      map(
+        (item) =>
+          item.filterValue as SkyFilterBarFilterValue<TValue> | undefined,
+      ),
     );
   }
   /**

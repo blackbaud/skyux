@@ -29,7 +29,7 @@
   },
   "peerDependencies": {
     "skyux-stylelint": "0.0.0-PLACEHOLDER",
-    "stylelint-config-recommended-scss": "^16.0.1"
+    "stylelint-config-recommended-scss": "^17.0.0"
   },
   "dependencies": {
     "@skyux-sdk/stylelint-schematics": "0.0.0-PLACEHOLDER",
