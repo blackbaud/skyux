@@ -1,0 +1,29 @@
+<sky-wait [isWaiting]="!directive.gridReady()" />
+@if (directive.gridOptions(); as gridOptions) {
+  <sky-ag-grid-wrapper
+    skyAgGridRowDelete
+    [compact]="compact()"
+    [(rowDeleteIds)]="rowDeleteIds"
+    (rowDeleteCancel)="rowDeleteCancel.emit($event)"
+    (rowDeleteConfirm)="rowDeleteConfirm.emit($event)"
+  >
+    <ag-grid-angular
+      skyViewkeeperOmitShadow=".ag-body-horizontal-scroll"
+      [skyViewkeeper]="directive.skyViewkeeper()"
+      [gridOptions]="gridOptions"
+      [isExternalFilterPresent]="directive.isExternalFilterPresent"
+      [doesExternalFilterPass]="directive.doesExternalFilterPass()"
+      [style.height.px]="height() || undefined"
+      [style.width.px]="width() || undefined"
+    />
+  </sky-ag-grid-wrapper>
+
+  @if (directive.pageCount(); as pageCount) {
+    <sky-paging
+      [currentPage]="directive.page() || 1"
+      [itemCount]="pageCount * pageSize()"
+      [pageSize]="pageSize()"
+      (currentPageChange)="directive.currentPageChange($event)"
+    />
+  }
+}

@@ -12,7 +12,7 @@ export class SkyDataGridHarness extends SkyQueryableComponentHarness {
   /**
    * @internal
    */
-  public static hostSelector = 'sky-data-grid';
+  public static hostSelector = 'sky-data-grid, sky-data-grid-lite';
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a

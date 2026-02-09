@@ -9,7 +9,7 @@
   </sky-box-content>
 </sky-box>
 
-<sky-data-grid
+<sky-data-grid-lite
   data-sky-id="example-data-grid"
   multiselect
   [data]="gridData()"
@@ -50,7 +50,7 @@
   <sky-data-grid-column field="jobTitle" headingText="Title">
     <ng-template let-row="row">{{ row.jobTitle?.name }}</ng-template>
   </sky-data-grid-column>
-</sky-data-grid>
+</sky-data-grid-lite>
 
 <ng-template #contextMenu let-row="row">
   <sky-dropdown

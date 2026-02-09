@@ -12,7 +12,6 @@ import { SkyDataHost, SkyDataHostService } from '@skyux/lists';
 
 import { filter, map, switchMap } from 'rxjs';
 
-import { SkyDataManagerFilterControllerDirective } from '../data-manager-filters/data-manager-filter-controller.directive';
 import { SkyDataManagerService } from '../data-manager.service';
 import { SkyDataManagerSortOption } from '../models/data-manager-sort-option';
 import { SkyDataManagerState } from '../models/data-manager-state';
@@ -21,12 +20,12 @@ import { SkyDataViewState } from '../models/data-view-state';
 import { SkyDataManagerHostService } from './data-manager-host.service';
 
 /**
- * A directive applied to a data-displaying component (like `sky-data-grid`) that enables integration with a data manager.
- * This directive synchronizes the component's data state with the data manager's state, including displayed columns,
- * sort order, current page, and selected rows.
+ * A directive applied to `sky-data-view` when data-displaying component (like `sky-data-grid`) that enables integration
+ * with a data manager. This directive synchronizes the component's data state with the data manager's state, including
+ * displayed columns, sort order, current page, and selected rows.
  */
 @Directive({
-  selector: '[skyDataManagerHostController]',
+  selector: 'sky-data-view[skyDataManagerHostController]',
   providers: [
     SkyDataManagerHostService,
     {
@@ -34,7 +33,6 @@ import { SkyDataManagerHostService } from './data-manager-host.service';
       useExisting: SkyDataManagerHostService,
     },
   ],
-  hostDirectives: [SkyDataManagerFilterControllerDirective],
 })
 export class SkyDataManagerHostControllerDirective {
   /**
