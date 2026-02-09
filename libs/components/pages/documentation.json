@@ -65,7 +65,9 @@
           "SkyModalLinkListComponent",
           "SkyPageModalLink",
           "SkyPageModalLinksInput",
-          "SkyPageModalLinkClickHandler"
+          "SkyPageModalLinkClickHandler",
+          "SkyActionHubNeedsAttentionClickHandlerArgs",
+          "SkyActionHubNeedsAttentionClickHandler"
         ],
         "primaryDocsId": "SkyPageModule"
       },
