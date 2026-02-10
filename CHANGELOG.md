@@ -3,6 +3,11 @@
 
 ## [14.0.0-alpha.2](https://github.com/blackbaud/skyux/compare/13.13.0...14.0.0-alpha.2) (2026-02-10)
 
+
+### Bug Fixes
+
+* **components/data-manager:** set docked data manager to be `inset`  ([#4180](https://github.com/blackbaud/skyux/issues/4180)) ([#4186](https://github.com/blackbaud/skyux/issues/4186)) ([0281ca1](https://github.com/blackbaud/skyux/commit/0281ca1f70804b1922786b711fae90325f082dc7)), closes [AB#3689062](https://github.com/blackbaud/AB/issues/3689062)
+
 # [13.13.0](https://github.com/blackbaud/skyux/compare/13.12.0...13.13.0) (2026-02-05)
 
 
