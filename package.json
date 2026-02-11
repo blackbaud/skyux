@@ -172,7 +172,7 @@
     "@ryansonshine/commitizen": "4.2.8",
     "@ryansonshine/cz-conventional-changelog": "3.3.4",
     "@schematics/angular": "21.1.2",
-    "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#12.0.0-alpha.18",
+    "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#12.0.0-alpha.19",
     "@storybook/addon-a11y": "10.2.6",
     "@storybook/angular": "10.2.6",
     "@swc-node/register": "1.10.10",
