@@ -11,6 +11,7 @@ import {
   SkyChartDataPointClickEvent,
   SkyLineChartConfig,
 } from '../shared/chart-types';
+import { mergeChartConfig } from '../shared/global-chart-config';
 import { getLegendPluginOptions } from '../shared/plugin-config/legend-plugin';
 import { getTooltipPluginOptions } from '../shared/plugin-config/tooltip-plugin';
 import { createAutoColorPlugin } from '../shared/plugins/auto-color-plugin';
@@ -54,29 +55,7 @@ export function getChartJsLineChartConfig(
   }
 
   // Build ChartJS options
-  const options: ChartOptions<'line'> = {
-    // Responsiveness
-    responsive: true,
-    maintainAspectRatio: false,
-
-    // Layout padding
-    layout: {
-      padding: SkyuxChartStyles.chartPadding,
-    },
-
-    // Interaction options
-    interaction: {
-      mode: 'nearest',
-      axis: 'x',
-      intersect: false,
-    },
-
-    // Animation options
-    animation: {
-      duration: 400,
-      easing: 'easeInOutQuart',
-    },
-
+  const options = mergeChartConfig<'line'>({
     indexAxis: isHorizontal ? 'y' : 'x',
     elements: {
       line: {
@@ -104,7 +83,7 @@ export function getChartJsLineChartConfig(
 
       callbacks.onDataPointClick({ seriesIndex, dataIndex });
     },
-  };
+  });
 
   return {
     type: 'line',

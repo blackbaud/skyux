@@ -5,6 +5,7 @@ import {
   SkyChartDataPointClickEvent,
   SkyDonutChartConfig,
 } from '../shared/chart-types';
+import { mergeChartConfig } from '../shared/global-chart-config';
 import { getLegendPluginOptions } from '../shared/plugin-config/legend-plugin';
 import { getTooltipPluginOptions } from '../shared/plugin-config/tooltip-plugin';
 import { createAutoColorPlugin } from '../shared/plugins/auto-color-plugin';
@@ -47,28 +48,7 @@ export function getChartJsDonutChartConfig(
   }
 
   // Build chart options
-  const options: ChartOptions<'doughnut'> = {
-    // Responsiveness
-    responsive: true,
-    maintainAspectRatio: false,
-
-    // Layout padding
-    layout: {
-      padding: SkyuxChartStyles.chartPadding,
-    },
-
-    // Interaction options
-    interaction: {
-      mode: 'nearest',
-      intersect: false,
-    },
-
-    // Animation options
-    animation: {
-      duration: 400,
-      easing: 'easeInOutQuart',
-    },
-
+  const options = mergeChartConfig<'doughnut'>({
     datasets: {
       doughnut: {
         borderWidth: 2,
@@ -87,7 +67,7 @@ export function getChartJsDonutChartConfig(
 
       callbacks.onDataPointClick({ seriesIndex, dataIndex });
     },
-  };
+  });
 
   return {
     type: 'doughnut',
