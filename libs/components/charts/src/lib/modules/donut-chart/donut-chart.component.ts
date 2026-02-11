@@ -26,7 +26,6 @@ import {
   SkyChartDataPointClickEvent,
   SkyDonutChartConfig,
 } from '../shared/chart-types';
-import { exportChartToPng } from '../shared/export-chart-to-png';
 import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
 
 import { getChartJsDonutChartConfig } from './donut-chart-config';
@@ -51,7 +50,7 @@ export class SkyDonutChartComponent implements AfterViewInit, OnDestroy {
   // #endregion
 
   // #region Inputs
-  public readonly headingText = input<string | undefined>();
+  public readonly headingText = input.required<string>();
   public readonly chartHeight = input.required<number>();
 
   /**
@@ -109,14 +108,6 @@ export class SkyDonutChartComponent implements AfterViewInit, OnDestroy {
         { provide: SkyChartGridModalContext, useValue: modalContext },
       ],
     });
-  }
-
-  protected exportToPng(): void {
-    if (!this.#chart) {
-      return;
-    }
-
-    exportChartToPng(this.#chart, this.canvasRef());
   }
 
   // #region Private
