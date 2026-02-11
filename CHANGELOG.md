@@ -7,6 +7,7 @@
 ### Bug Fixes
 
 * **components/data-manager:** set docked data manager to be `inset`  ([#4180](https://github.com/blackbaud/skyux/issues/4180)) ([#4186](https://github.com/blackbaud/skyux/issues/4186)) ([0281ca1](https://github.com/blackbaud/skyux/commit/0281ca1f70804b1922786b711fae90325f082dc7)), closes [AB#3689062](https://github.com/blackbaud/AB/issues/3689062)
+* **components/filter-bar:** recast filter value type as interface for documentation parsing ([#4202](https://github.com/blackbaud/skyux/issues/4202)) ([#4203](https://github.com/blackbaud/skyux/issues/4203)) ([2344664](https://github.com/blackbaud/skyux/commit/2344664241c5ace8adc7231db59db45392fbccb0))
 
 # [13.13.0](https://github.com/blackbaud/skyux/compare/13.12.0...13.13.0) (2026-02-05)
 
