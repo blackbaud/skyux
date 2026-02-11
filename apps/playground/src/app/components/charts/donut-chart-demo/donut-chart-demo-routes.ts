@@ -6,6 +6,7 @@ const DONUT_CHART_ROUTES: Routes = [
   {
     path: '',
     component: DonutChartDemoComponent,
+    title: 'Charts - Donut chart demo',
     data: {
       name: 'Donut chart',
       icon: 'donut-chart',

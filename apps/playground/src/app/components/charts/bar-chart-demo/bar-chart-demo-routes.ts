@@ -6,6 +6,7 @@ const BAR_CHART_ROUTES: Routes = [
   {
     path: '',
     component: BarChartDemoComponent,
+    title: 'Charts - Bar chart demo',
     data: {
       name: 'Bar chart',
       icon: 'bar-chart-horizontal',

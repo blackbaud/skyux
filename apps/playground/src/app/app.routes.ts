@@ -4,6 +4,7 @@ export const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
+    title: 'Home',
   },
   {
     path: 'components',

@@ -6,6 +6,7 @@ const LINE_CHART_ROUTES: Routes = [
   {
     path: '',
     component: LineChartDemoComponent,
+    title: 'Charts - Line chart demo',
     data: {
       name: 'Line chart',
       icon: 'line-chart',
