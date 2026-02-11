@@ -1,5 +1,5 @@
 ---
-applyTo: '**'
+applyTo: '**/libs/components/**/testing/src/modules/**'
 description: 'SKY UX Copilot instructions for generating harnesses for components.'
 ---
 
