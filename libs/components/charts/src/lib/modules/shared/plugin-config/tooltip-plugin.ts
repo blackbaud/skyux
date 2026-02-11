@@ -1,6 +1,6 @@
 import { TooltipOptions } from 'chart.js';
 
-import { SkyuxChartStyles } from '../global-chart-config';
+import { SkyuxChartStyles } from '../chart-styles';
 
 export function getTooltipPluginOptions(): Partial<TooltipOptions> {
   return {
@@ -10,8 +10,8 @@ export function getTooltipPluginOptions(): Partial<TooltipOptions> {
     backgroundColor: SkyuxChartStyles.tooltipBackgroundColor,
     titleColor: SkyuxChartStyles.tooltipTitleColor,
     bodyColor: SkyuxChartStyles.tooltipBodyColor,
-    borderColor: 'transparent',
-    borderWidth: 0,
+    borderColor: SkyuxChartStyles.tooltipBorderColor,
+    borderWidth: SkyuxChartStyles.tooltipBorderWidth,
     padding: SkyuxChartStyles.tooltipPadding,
     displayColors: true, // Hide default caret since we draw our own colored one
     multiKeyBackground: 'transparent', // multiKeyBackground sets caret color

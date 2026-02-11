@@ -1,6 +1,6 @@
 import { Plugin } from 'chart.js';
 
-import { SkyuxChartStyles } from '../global-chart-config';
+import { SkyuxChartStyles } from '../chart-styles';
 
 /**
  * Creates a Chart.js plugin that draws a background behind the chart legend.

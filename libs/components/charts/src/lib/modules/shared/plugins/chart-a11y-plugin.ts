@@ -1,7 +1,7 @@
 import type { Chart, ChartEvent, InteractionItem, Plugin } from 'chart.js';
 
 import { getChartType } from '../chart-helpers';
-import { SkyuxChartStyles } from '../global-chart-config';
+import { SkyuxChartStyles } from '../chart-styles';
 
 /**
  * Plugin that adds comprehensive keyboard navigation support to ChartJS charts.

@@ -1,6 +1,6 @@
 import { ChartType, LegendOptions } from 'chart.js';
 
-import { SkyuxChartStyles } from '../global-chart-config';
+import { SkyuxChartStyles } from '../chart-styles';
 
 export function getLegendPluginOptions(options?: {
   position: 'bottom' | 'right';
@@ -11,13 +11,16 @@ export function getLegendPluginOptions(options?: {
     labels: {
       usePointStyle: true,
       pointStyle: 'circle',
-      padding: 12,
+      boxWidth: SkyuxChartStyles.legendPointSize,
+      boxHeight: SkyuxChartStyles.legendPointSize,
+      padding: SkyuxChartStyles.legendLabelsPadding,
       font: {
         size: SkyuxChartStyles.axisTickFontSize,
         family: SkyuxChartStyles.fontFamily,
         weight: SkyuxChartStyles.axisTickFontWeight,
+        lineHeight: SkyuxChartStyles.legendFontLineHeight,
       },
-      color: SkyuxChartStyles.axisTickColor,
+      color: SkyuxChartStyles.legendLabelColor,
     } as LegendOptions<ChartType>['labels'],
   };
 

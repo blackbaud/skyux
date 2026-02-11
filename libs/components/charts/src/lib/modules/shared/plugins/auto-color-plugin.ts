@@ -1,6 +1,6 @@
 import { Chart, ChartDataset, ChartType, Plugin } from 'chart.js';
 
-import { SkyuxChartStyles } from '../global-chart-config';
+import { SkyuxChartStyles } from '../chart-styles';
 
 /**
  * Creates a ChartJS plugin that automatically applies SKY UX color palette to chart datasets.

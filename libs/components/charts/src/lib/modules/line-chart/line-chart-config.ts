@@ -5,12 +5,12 @@ import {
   ScaleOptionsByType,
 } from 'chart.js';
 
+import { SkyuxChartStyles } from '../shared/chart-styles';
 import {
   DeepPartial,
   SkyChartDataPointClickEvent,
   SkyLineChartConfig,
 } from '../shared/chart-types';
-import { SkyuxChartStyles } from '../shared/global-chart-config';
 import { getLegendPluginOptions } from '../shared/plugin-config/legend-plugin';
 import { getTooltipPluginOptions } from '../shared/plugin-config/tooltip-plugin';
 import { createAutoColorPlugin } from '../shared/plugins/auto-color-plugin';
@@ -55,8 +55,28 @@ export function getChartJsLineChartConfig(
 
   // Build ChartJS options
   const options: ChartOptions<'line'> = {
+    // Responsiveness
     responsive: true,
     maintainAspectRatio: false,
+
+    // Layout padding
+    layout: {
+      padding: SkyuxChartStyles.chartPadding,
+    },
+
+    // Interaction options
+    interaction: {
+      mode: 'nearest',
+      axis: 'x',
+      intersect: false,
+    },
+
+    // Animation options
+    animation: {
+      duration: 400,
+      easing: 'easeInOutQuart',
+    },
+
     indexAxis: isHorizontal ? 'y' : 'x',
     elements: {
       line: {
@@ -70,11 +90,6 @@ export function getChartJsLineChartConfig(
         hoverBorderWidth: SkyuxChartStyles.linePointBorderWidth,
         pointStyle: 'circle',
       },
-    },
-    interaction: {
-      mode: 'nearest',
-      axis: 'x',
-      intersect: false,
     },
     scales: createLinearScales(skyConfig),
     plugins: pluginOptions,
@@ -118,12 +133,14 @@ function createLinearScales(
   const orientation = skyConfig.orientation ?? 'vertical';
   const isHorizontal = orientation === 'horizontal';
   const valueAxis = isHorizontal ? 'x' : 'y';
+  const categoryAxis = isHorizontal ? 'y' : 'x';
 
   const base: PartialLinearScale = {
     grid: {
       display: true,
       color: SkyuxChartStyles.axisGridLineColor,
-      drawTicks: false,
+      tickColor: SkyuxChartStyles.axisGridLineColor,
+      drawTicks: true,
     },
     border: {
       display: true,
@@ -136,26 +153,69 @@ function createLinearScales(
         family: SkyuxChartStyles.fontFamily,
         weight: SkyuxChartStyles.axisTickFontWeight,
       },
-      padding: SkyuxChartStyles.axisTickPadding,
     },
+    title: {
+      display: false,
+      font: {
+        size: SkyuxChartStyles.scaleTitleFontSize,
+        family: SkyuxChartStyles.scaleTitleFontFamily,
+      },
+      color: SkyuxChartStyles.scaleTitleColor,
+      padding: {
+        top: SkyuxChartStyles.scaleXTitlePaddingTop,
+        bottom: SkyuxChartStyles.scaleXTitlePaddingBottom,
+      },
+    },
+  };
+  const noGridLines: PartialLinearScale['grid'] = {
+    display: false,
+    lineWidth: 0,
+    drawTicks: false,
+    tickLength: 0,
   };
 
   const x: PartialLinearScale = {
     type: valueAxis === 'x' ? 'linear' : 'category',
     beginAtZero: skyConfig.valueAxis?.beginAtZero ?? true,
-    // spread syntax does not work
-    grid: base.grid,
+    grid: {
+      ...base.grid,
+      tickLength: SkyuxChartStyles.axisTickLengthX,
+    },
     border: base.border,
-    ticks: base.ticks,
+    ticks: {
+      ...base.ticks,
+      padding: SkyuxChartStyles.axisTickPaddingX,
+      ...(categoryAxis === 'x' ? noGridLines : {}),
+    },
+    title: {
+      ...base.title,
+      padding: {
+        top: SkyuxChartStyles.scaleXTitlePaddingTop,
+        bottom: SkyuxChartStyles.scaleXTitlePaddingBottom,
+      },
+    },
   };
 
   const y: PartialLinearScale = {
     type: valueAxis === 'y' ? 'linear' : 'category',
     beginAtZero: skyConfig.valueAxis?.beginAtZero ?? true,
-    // spread syntax does not work
-    grid: base.grid,
+    grid: {
+      ...base.grid,
+      tickLength: SkyuxChartStyles.axisTickLengthY,
+    },
     border: base.border,
-    ticks: base.ticks,
+    ticks: {
+      ...base.ticks,
+      padding: SkyuxChartStyles.axisTickPaddingY,
+      ...(categoryAxis === 'y' ? noGridLines : {}),
+    },
+    title: {
+      ...base.title,
+      padding: {
+        top: SkyuxChartStyles.scaleYTitlePaddingLeft,
+        bottom: SkyuxChartStyles.scaleYTitlePaddingRight,
+      },
+    },
   };
 
   return { x, y };
