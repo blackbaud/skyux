@@ -54,6 +54,14 @@ export interface SkyCartesianChartConfig extends SkyChartConfigBase {
  * Used by cartesian charts (Bar, Line) that have X and Y axes.
  */
 export interface SkyChartAxisConfig {
+  /**
+   * Should the data be stacked.
+   *
+   * One stack per category: Set both axes to stacked
+   * Multiple stacks per category: Stack the Value Axis only
+   */
+  stacked?: boolean;
+
   /** Whether to always start the axis at zero. */
   beginAtZero?: boolean;
 }

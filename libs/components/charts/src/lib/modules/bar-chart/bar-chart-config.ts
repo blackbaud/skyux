@@ -104,6 +104,7 @@ type PartialLinearScale = DeepPartial<
   ScaleOptionsByType<ChartTypeRegistry['bar']['scales']>
 >;
 
+// eslint-disable-next-line complexity
 function createLinearScales(
   skyConfig: SkyBarChartConfig,
 ): ChartOptions<'bar'>['scales'] {
@@ -145,7 +146,6 @@ function createLinearScales(
     },
   };
   const noGridLines: PartialLinearScale['grid'] = {
-    display: false,
     lineWidth: 0,
     drawTicks: false,
     tickLength: 0,
@@ -153,7 +153,14 @@ function createLinearScales(
 
   const x: PartialLinearScale = {
     type: valueAxis === 'x' ? 'linear' : 'category',
-    beginAtZero: skyConfig.valueAxis?.beginAtZero ?? true,
+    stacked:
+      valueAxis === 'x'
+        ? skyConfig.valueAxis?.stacked
+        : skyConfig.categoryAxis?.stacked,
+    beginAtZero:
+      valueAxis === 'x'
+        ? skyConfig.valueAxis?.stacked
+        : skyConfig.categoryAxis?.stacked,
     grid: {
       ...base.grid,
       tickLength: SkyuxChartStyles.axisTickLengthX,
@@ -175,7 +182,14 @@ function createLinearScales(
 
   const y: PartialLinearScale = {
     type: valueAxis === 'y' ? 'linear' : 'category',
-    beginAtZero: skyConfig.valueAxis?.beginAtZero ?? true,
+    stacked:
+      valueAxis === 'y'
+        ? skyConfig.valueAxis?.stacked
+        : skyConfig.categoryAxis?.stacked,
+    beginAtZero:
+      valueAxis === 'y'
+        ? skyConfig.valueAxis?.stacked
+        : skyConfig.categoryAxis?.stacked,
     grid: {
       ...base.grid,
       tickLength: SkyuxChartStyles.axisTickLengthY,
