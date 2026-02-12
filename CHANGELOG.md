@@ -1,6 +1,22 @@
 # Changelog
 
 
+## [14.0.0-alpha.2](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.1...14.0.0-alpha.2) (2026-02-12)
+
+
+### Features
+
+* **components/text-editor:** update dompurify ([#4190](https://github.com/blackbaud/skyux/issues/4190)) ([8868e16](https://github.com/blackbaud/skyux/commit/8868e1628841f2f211e8987dff34bbcd544f9770)), closes [AB#3642976](https://dev.azure.com/blackbaud/Products/_workitems/edit/3642976) [AB#3691546](https://dev.azure.com/blackbaud/Products/_workitems/edit/3691546)
+* update ng2-dragula ([#4192](https://github.com/blackbaud/skyux/issues/4192)) ([2f5b748](https://github.com/blackbaud/skyux/commit/2f5b7481302277e3a308bc16e08e6bc4df39b4fe)), closes [AB#3642976](https://dev.azure.com/blackbaud/Products/_workitems/edit/3642976) [AB#3691547](https://dev.azure.com/blackbaud/Products/_workitems/edit/3691547)
+
+
+### Bug Fixes
+
+* **components/action-bars:** default theme summary action bar secondary action button dropdown uses correct button class ([#4188](https://github.com/blackbaud/skyux/issues/4188)) ([#4193](https://github.com/blackbaud/skyux/issues/4193)) ([bc8ede1](https://github.com/blackbaud/skyux/commit/bc8ede1505bab528fc25ddad6faea46c38c3497b)), closes [AB#3696493](https://dev.azure.com/blackbaud/Products/_workitems/edit/3696493)
+* **components/data-manager:** set docked data manager to be `inset`  ([#4180](https://github.com/blackbaud/skyux/issues/4180)) ([#4186](https://github.com/blackbaud/skyux/issues/4186)) ([0281ca1](https://github.com/blackbaud/skyux/commit/0281ca1f70804b1922786b711fae90325f082dc7)), closes [AB#3689062](https://dev.azure.com/blackbaud/Products/_workitems/edit/3689062)
+* **components/filter-bar:** recast filter value type as interface for documentation parsing ([#4202](https://github.com/blackbaud/skyux/issues/4202)) ([#4203](https://github.com/blackbaud/skyux/issues/4203)) ([2344664](https://github.com/blackbaud/skyux/commit/2344664241c5ace8adc7231db59db45392fbccb0))
+* **components/forms:** select inputs have proper text overflow and right padding ([#4168](https://github.com/blackbaud/skyux/issues/4168)) ([#4194](https://github.com/blackbaud/skyux/issues/4194)) ([7e04020](https://github.com/blackbaud/skyux/commit/7e04020fa8bf8cecec67a2ab4d56d66c6a3e7797)), closes [AB#3673505](https://dev.azure.com/blackbaud/Products/_workitems/edit/3673505)
+
 ## [13.14.1](https://github.com/blackbaud/skyux/compare/13.14.0...13.14.1) (2026-02-12)
 
 
