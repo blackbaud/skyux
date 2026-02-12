@@ -10,6 +10,20 @@
 
 
 
+# [13.14.0](https://github.com/blackbaud/skyux/compare/13.13.0...13.14.0) (2026-02-12)
+
+
+### Bug Fixes
+
+* **components/filter-bar:** recast filter value type as interface for documentation parsing ([#4202](https://github.com/blackbaud/skyux/issues/4202)) ([cc87b2c](https://github.com/blackbaud/skyux/commit/cc87b2c5dced44a52852c8ee3e4b7345a23c550f))
+
+
+### Features
+
+* **components/theme:** update design tokens to 4.3.0 ([#4208](https://github.com/blackbaud/skyux/issues/4208)) ([ceebf95](https://github.com/blackbaud/skyux/commit/ceebf957853810d3fc24739fee9bfca644d0f386))
+
+
+
 # [13.13.0](https://github.com/blackbaud/skyux/compare/13.12.0...13.13.0) (2026-02-05)
 
 
