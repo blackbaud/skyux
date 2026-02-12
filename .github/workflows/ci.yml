@@ -22,7 +22,6 @@ env:
 jobs:
   install-deps:
     name: Install and cache dependencies
-    if: ${{ !startsWith( github.head_ref || github.ref_name, 'release-please--' ) }}
     runs-on: ubuntu-latest
     outputs:
       node-version: ${{ steps.setup-node.outputs.node-version }}
@@ -43,6 +42,7 @@ jobs:
 
   agents:
     name: Bootup Nx Cloud agent
+    if: ${{ !startsWith( github.head_ref || github.ref_name, 'release-please--' ) }}
     runs-on: ubuntu-latest
     needs: install-deps
     strategy:
@@ -139,7 +139,6 @@ jobs:
 
   check-workspace:
     name: Check dependencies and resources
-    if: ${{ !cancelled() && !startsWith( github.head_ref || github.ref_name, 'release-please--' ) }}
     needs: install-deps
     runs-on: ubuntu-latest
     steps:
