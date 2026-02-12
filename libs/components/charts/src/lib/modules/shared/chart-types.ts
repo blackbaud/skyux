@@ -13,8 +13,15 @@ export interface SkyChartConfigBase {
 export interface SkyChartSeries {
   /** The label for the series */
   label: string;
+
   /** The data points for the series */
   data: SkyChartDataPoint[];
+
+  /**
+   * The stack identifier. When stacking is enabled series with the same stackId will be stacked together
+   * TODO: api - I believe this is only for Bar, Line, Area charts
+   */
+  stackId?: string;
 }
 
 export interface SkyChartDataPoint {
@@ -45,6 +52,9 @@ export interface SkyCartesianChartConfig extends SkyChartConfigBase {
   series: SkyChartSeries[];
   orientation?: 'horizontal' | 'vertical';
 
+  /** Should the data be stacked */
+  stacked?: boolean;
+
   categoryAxis?: SkyChartAxisConfig;
   valueAxis?: SkyChartAxisConfig;
 }
@@ -54,14 +64,6 @@ export interface SkyCartesianChartConfig extends SkyChartConfigBase {
  * Used by cartesian charts (Bar, Line) that have X and Y axes.
  */
 export interface SkyChartAxisConfig {
-  /**
-   * Should the data be stacked.
-   *
-   * One stack per category: Set both axes to stacked
-   * Multiple stacks per category: Stack the Value Axis only
-   */
-  stacked?: boolean;
-
   /** Whether to always start the axis at zero. */
   beginAtZero?: boolean;
 }

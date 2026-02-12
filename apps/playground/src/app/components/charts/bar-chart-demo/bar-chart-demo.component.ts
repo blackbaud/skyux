@@ -20,25 +20,9 @@ import { ChartDemoUtils } from '../shared/chart-demo-utils';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BarChartDemoComponent {
+  // #region Horizontal
   protected readonly singleSeriesHorizontal: SkyBarChartConfig = {
     orientation: 'horizontal',
-    categories: ['January', 'February', 'March', 'April'],
-    series: [
-      {
-        label: 'Spending',
-        data: [
-          { label: '$50K', value: 50_000 },
-          { label: '$100K', value: 100_000 },
-          { label: '$150K', value: 150_000 },
-          { label: '$200K', value: 200_000 },
-        ],
-      },
-    ],
-    valueAxis: { beginAtZero: true },
-  };
-
-  protected readonly singleSeriesVertical: SkyBarChartConfig = {
-    orientation: 'vertical',
     categories: ['January', 'February', 'March', 'April'],
     series: [
       {
@@ -76,6 +60,112 @@ export class BarChartDemoComponent {
     valueAxis: { beginAtZero: true },
   };
 
+  protected readonly stackedHorizontal: SkyBarChartConfig = {
+    orientation: 'horizontal',
+    categories: ChartDemoUtils.months({ count: 7 }),
+    stacked: true,
+    series: [
+      {
+        label: 'Dataset 1',
+        data: ChartDemoUtils.numbers({ count: 7, min: -100, max: 100 }).map(
+          (value) => {
+            return {
+              label: `$${value}`,
+              value,
+            };
+          },
+        ),
+      },
+      {
+        label: 'Dataset 2',
+        data: ChartDemoUtils.numbers({ count: 7, min: -100, max: 100 }).map(
+          (value) => {
+            return {
+              label: `$${value}`,
+              value,
+            };
+          },
+        ),
+      },
+      {
+        label: 'Dataset 3',
+        data: ChartDemoUtils.numbers({ count: 7, min: -100, max: 100 }).map(
+          (value) => {
+            return {
+              label: `$${value}`,
+              value,
+            };
+          },
+        ),
+      },
+    ],
+    valueAxis: { beginAtZero: true },
+    categoryAxis: { beginAtZero: true },
+  };
+
+  protected readonly stackedGroupedHorizontal: SkyBarChartConfig = {
+    orientation: 'horizontal',
+    categories: ChartDemoUtils.months({ count: 7 }),
+    stacked: true,
+    series: [
+      {
+        label: 'Dataset 1',
+        data: ChartDemoUtils.numbers({ count: 7, min: -100, max: 100 }).map(
+          (value) => {
+            return {
+              label: `$${value}`,
+              value,
+            };
+          },
+        ),
+      },
+      {
+        label: 'Dataset 2',
+        data: ChartDemoUtils.numbers({ count: 7, min: -100, max: 100 }).map(
+          (value) => {
+            return {
+              label: `$${value}`,
+              value,
+            };
+          },
+        ),
+      },
+      {
+        label: 'Dataset 3',
+        data: ChartDemoUtils.numbers({ count: 7, min: -100, max: 100 }).map(
+          (value) => {
+            return {
+              label: `$${value}`,
+              value,
+            };
+          },
+        ),
+        stackId: 'uniqueStack',
+      },
+    ],
+    valueAxis: { beginAtZero: true },
+    categoryAxis: { beginAtZero: true },
+  };
+  // #endregion
+
+  // #region Vertical
+  protected readonly singleSeriesVertical: SkyBarChartConfig = {
+    orientation: 'vertical',
+    categories: ['January', 'February', 'March', 'April'],
+    series: [
+      {
+        label: 'Spending',
+        data: [
+          { label: '$50K', value: 50_000 },
+          { label: '$100K', value: 100_000 },
+          { label: '$150K', value: 150_000 },
+          { label: '$200K', value: 200_000 },
+        ],
+      },
+    ],
+    valueAxis: { beginAtZero: true },
+  };
+
   protected readonly multiSeriesVertical: SkyBarChartConfig = {
     orientation: 'vertical',
     categories: ['Revenue', 'Expenses'],
@@ -98,93 +188,10 @@ export class BarChartDemoComponent {
     valueAxis: { beginAtZero: true },
   };
 
-  protected readonly fullyStackedHorizontal: SkyBarChartConfig = {
-    orientation: 'horizontal',
-    categories: ChartDemoUtils.months({ count: 7 }),
-    series: [
-      {
-        label: 'Dataset 1',
-        data: ChartDemoUtils.numbers({ count: 7, min: -100, max: 100 }).map(
-          (value) => {
-            return {
-              label: `$${value}`,
-              value,
-            };
-          },
-        ),
-      },
-      {
-        label: 'Dataset 2',
-        data: ChartDemoUtils.numbers({ count: 7, min: -100, max: 100 }).map(
-          (value) => {
-            return {
-              label: `$${value}`,
-              value,
-            };
-          },
-        ),
-      },
-      {
-        label: 'Dataset 3',
-        data: ChartDemoUtils.numbers({ count: 7, min: -100, max: 100 }).map(
-          (value) => {
-            return {
-              label: `$${value}`,
-              value,
-            };
-          },
-        ),
-      },
-    ],
-    valueAxis: { stacked: true, beginAtZero: true },
-    categoryAxis: { stacked: true, beginAtZero: true },
-  };
-
-  protected readonly stackedByValueHorizontal: SkyBarChartConfig = {
-    orientation: 'horizontal',
-    categories: ChartDemoUtils.months({ count: 7 }),
-    series: [
-      {
-        label: 'Dataset 1',
-        data: ChartDemoUtils.numbers({ count: 7, min: -100, max: 100 }).map(
-          (value) => {
-            return {
-              label: `$${value}`,
-              value,
-            };
-          },
-        ),
-      },
-      {
-        label: 'Dataset 2',
-        data: ChartDemoUtils.numbers({ count: 7, min: -100, max: 100 }).map(
-          (value) => {
-            return {
-              label: `$${value}`,
-              value,
-            };
-          },
-        ),
-      },
-      {
-        label: 'Dataset 3',
-        data: ChartDemoUtils.numbers({ count: 7, min: -100, max: 100 }).map(
-          (value) => {
-            return {
-              label: `$${value}`,
-              value,
-            };
-          },
-        ),
-      },
-    ],
-    valueAxis: { stacked: true, beginAtZero: true },
-    categoryAxis: { stacked: false, beginAtZero: true },
-  };
-
-  protected readonly fullyStackedVertical: SkyBarChartConfig = {
+  protected readonly stackedVertical: SkyBarChartConfig = {
     orientation: 'vertical',
     categories: ChartDemoUtils.months({ count: 7 }),
+    stacked: true,
     series: [
       {
         label: 'Dataset 1',
@@ -220,13 +227,14 @@ export class BarChartDemoComponent {
         ),
       },
     ],
-    valueAxis: { stacked: true, beginAtZero: true },
-    categoryAxis: { stacked: true, beginAtZero: true },
+    valueAxis: { beginAtZero: true },
+    categoryAxis: { beginAtZero: true },
   };
 
-  protected readonly stackedByValueVertical: SkyBarChartConfig = {
+  protected readonly stackedGroupedVertical: SkyBarChartConfig = {
     orientation: 'vertical',
     categories: ChartDemoUtils.months({ count: 7 }),
+    stacked: true,
     series: [
       {
         label: 'Dataset 1',
@@ -260,9 +268,12 @@ export class BarChartDemoComponent {
             };
           },
         ),
+        stackId: 'uniqueStack',
       },
     ],
-    valueAxis: { stacked: true, beginAtZero: true },
-    categoryAxis: { stacked: false, beginAtZero: true },
+    valueAxis: { beginAtZero: true },
+    categoryAxis: { beginAtZero: true },
   };
+
+  // #endregion
 }

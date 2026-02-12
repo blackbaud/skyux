@@ -155,14 +155,11 @@ function createLinearScales(
 
   const x: PartialLinearScale = {
     type: valueAxis === 'x' ? 'linear' : 'category',
-    stacked:
-      valueAxis === 'x'
-        ? skyConfig.valueAxis?.stacked
-        : skyConfig.categoryAxis?.stacked,
+    stacked: skyConfig.stacked ?? false,
     beginAtZero:
       valueAxis === 'x'
-        ? skyConfig.valueAxis?.stacked
-        : skyConfig.categoryAxis?.stacked,
+        ? skyConfig.valueAxis?.beginAtZero
+        : skyConfig.categoryAxis?.beginAtZero,
     grid: {
       ...base.grid,
       tickLength: SkyuxChartStyles.axisTickLengthX,
@@ -184,14 +181,11 @@ function createLinearScales(
 
   const y: PartialLinearScale = {
     type: valueAxis === 'y' ? 'linear' : 'category',
-    stacked:
-      valueAxis === 'y'
-        ? skyConfig.valueAxis?.stacked
-        : skyConfig.categoryAxis?.stacked,
+    stacked: skyConfig.stacked ?? false,
     beginAtZero:
       valueAxis === 'y'
-        ? skyConfig.valueAxis?.stacked
-        : skyConfig.categoryAxis?.stacked,
+        ? skyConfig.valueAxis?.beginAtZero
+        : skyConfig.categoryAxis?.beginAtZero,
     grid: {
       ...base.grid,
       tickLength: SkyuxChartStyles.axisTickLengthY,

@@ -1,173 +1,165 @@
 <h2>Charts Playground</h2>
 
-<sky-fluid-grid>
-  <sky-row>
-    <!-- Single series (horizontal)  -->
-    <sky-column
-      [screenXSmall]="12"
-      [screenSmall]="12"
-      [screenMedium]="6"
-      [screenLarge]="6"
-    >
-      <sky-box
-        headingText="Single series (horizontal)"
-        class="sky-margin-stacked-xl"
-      >
-        <sky-box-content>
-          <sky-bar-chart
-            headingText="Project Budget vs Actuals"
-            chartHeight="300"
-            [config]="singleSeriesHorizontal"
-          />
-        </sky-box-content>
-      </sky-box>
-    </sky-column>
+<div>
+  <h3>Horizontal</h3>
 
-    <!-- Single series (vertical) -->
-    <sky-column
-      [screenXSmall]="12"
-      [screenSmall]="12"
-      [screenMedium]="6"
-      [screenLarge]="6"
-    >
-      <sky-box
-        headingText="Single series (vertical)"
-        class="sky-margin-stacked-xl"
+  <sky-fluid-grid>
+    <sky-row>
+      <!-- Single series   -->
+      <sky-column
+        [screenXSmall]="12"
+        [screenSmall]="12"
+        [screenMedium]="6"
+        [screenLarge]="6"
       >
-        <sky-box-content>
-          <sky-bar-chart
-            headingText="Project Budget vs Actuals"
-            chartHeight="300"
-            [config]="singleSeriesVertical"
-          />
-        </sky-box-content>
-      </sky-box>
-    </sky-column>
+        <sky-box headingText="Single series " class="sky-margin-stacked-xl">
+          <sky-box-content>
+            <sky-bar-chart
+              headingText="Monthly spendings"
+              chartHeight="300"
+              [config]="singleSeriesHorizontal"
+            />
+          </sky-box-content>
+        </sky-box>
+      </sky-column>
 
-    <!-- Multi series (horizontal) -->
-    <sky-column
-      [screenXSmall]="12"
-      [screenSmall]="12"
-      [screenMedium]="6"
-      [screenLarge]="6"
-    >
-      <sky-box
-        headingText="Multi series (horizontal)"
-        class="sky-margin-stacked-xl"
+      <!-- Multi series  -->
+      <sky-column
+        [screenXSmall]="12"
+        [screenSmall]="12"
+        [screenMedium]="6"
+        [screenLarge]="6"
       >
-        <sky-box-content>
-          <sky-bar-chart
-            headingText="Project Budget vs Actuals"
-            chartHeight="300"
-            [config]="multiSeriesHorizontal"
-          />
-        </sky-box-content>
-      </sky-box>
-    </sky-column>
+        <sky-box headingText="Multi series " class="sky-margin-stacked-xl">
+          <sky-box-content>
+            <sky-bar-chart
+              headingText="Project Budget vs Actuals"
+              chartHeight="300"
+              [config]="multiSeriesHorizontal"
+            />
+          </sky-box-content>
+        </sky-box>
+      </sky-column>
 
-    <!-- Multi series (vertical) -->
-    <sky-column
-      [screenXSmall]="12"
-      [screenSmall]="12"
-      [screenMedium]="6"
-      [screenLarge]="6"
-    >
-      <sky-box
-        headingText="Multi series (vertical)"
-        class="sky-margin-stacked-xl"
+      <!-- #region Stacked -->
+      <sky-column
+        [screenXSmall]="12"
+        [screenSmall]="12"
+        [screenMedium]="6"
+        [screenLarge]="6"
       >
-        <sky-box-content>
-          <sky-bar-chart
-            headingText="Project Budget vs Actuals"
-            chartHeight="300"
-            [config]="multiSeriesVertical"
-          />
-        </sky-box-content>
-      </sky-box>
-    </sky-column>
+        <sky-box headingText="Stacked " class="sky-margin-stacked-xl">
+          <sky-box-content>
+            <sky-bar-chart
+              headingText="Monthly spendings"
+              chartHeight="300"
+              [config]="stackedHorizontal"
+            />
+          </sky-box-content>
+        </sky-box>
+      </sky-column>
+      <!-- #endregion -->
 
-    <!-- #region Stacked Horizontal -->
-    <sky-column
-      [screenXSmall]="12"
-      [screenSmall]="12"
-      [screenMedium]="6"
-      [screenLarge]="6"
-    >
-      <sky-box
-        headingText="Stacked Fully (horizontal)"
-        class="sky-margin-stacked-xl"
+      <!-- #region Stacked + Groups  -->
+      <sky-column
+        [screenXSmall]="12"
+        [screenSmall]="12"
+        [screenMedium]="6"
+        [screenLarge]="6"
       >
-        <sky-box-content>
-          <sky-bar-chart
-            headingText="Monthly spendings"
-            chartHeight="300"
-            [config]="fullyStackedHorizontal"
-          />
-        </sky-box-content>
-      </sky-box>
-    </sky-column>
+        <sky-box headingText="Stacked + Grouped " class="sky-margin-stacked-xl">
+          <sky-box-content>
+            <sky-bar-chart
+              headingText="Monthly spendings"
+              chartHeight="300"
+              [config]="stackedGroupedHorizontal"
+            />
+          </sky-box-content>
+        </sky-box>
+      </sky-column>
+      <!-- #endregion -->
+    </sky-row>
+  </sky-fluid-grid>
+</div>
 
-    <sky-column
-      [screenXSmall]="12"
-      [screenSmall]="12"
-      [screenMedium]="6"
-      [screenLarge]="6"
-    >
-      <sky-box
-        headingText="Stacked by value (horizontal)"
-        class="sky-margin-stacked-xl"
-      >
-        <sky-box-content>
-          <sky-bar-chart
-            headingText="Monthly spendings"
-            chartHeight="300"
-            [config]="stackedByValueHorizontal"
-          />
-        </sky-box-content>
-      </sky-box>
-    </sky-column>
-    <!-- #endregion -->
+<div>
+  <h3>Vertical</h3>
 
-    <!-- #region Stacked Vertical -->
-    <sky-column
-      [screenXSmall]="12"
-      [screenSmall]="12"
-      [screenMedium]="6"
-      [screenLarge]="6"
-    >
-      <sky-box
-        headingText="Stacked Fully (vertical)"
-        class="sky-margin-stacked-xl"
+  <sky-fluid-grid>
+    <sky-row>
+      <!-- Single series -->
+      <sky-column
+        [screenXSmall]="12"
+        [screenSmall]="12"
+        [screenMedium]="6"
+        [screenLarge]="6"
       >
-        <sky-box-content>
-          <sky-bar-chart
-            headingText="Monthly spendings"
-            chartHeight="300"
-            [config]="fullyStackedVertical"
-          />
-        </sky-box-content>
-      </sky-box>
-    </sky-column>
+        <sky-box headingText="Single series " class="sky-margin-stacked-xl">
+          <sky-box-content>
+            <sky-bar-chart
+              headingText="Monthly spendings"
+              chartHeight="300"
+              [config]="singleSeriesVertical"
+            />
+          </sky-box-content>
+        </sky-box>
+      </sky-column>
 
-    <sky-column
-      [screenXSmall]="12"
-      [screenSmall]="12"
-      [screenMedium]="6"
-      [screenLarge]="6"
-    >
-      <sky-box
-        headingText="Stacked by value (vertical)"
-        class="sky-margin-stacked-xl"
+      <!-- Multi series -->
+      <sky-column
+        [screenXSmall]="12"
+        [screenSmall]="12"
+        [screenMedium]="6"
+        [screenLarge]="6"
       >
-        <sky-box-content>
-          <sky-bar-chart
-            headingText="Monthly spendings"
-            chartHeight="300"
-            [config]="stackedByValueVertical"
-          />
-        </sky-box-content>
-      </sky-box>
-    </sky-column>
-    <!-- #endregion -->
-  </sky-row>
-</sky-fluid-grid>
+        <sky-box headingText="Multi series " class="sky-margin-stacked-xl">
+          <sky-box-content>
+            <sky-bar-chart
+              headingText="Project Budget vs Actuals"
+              chartHeight="300"
+              [config]="multiSeriesVertical"
+            />
+          </sky-box-content>
+        </sky-box>
+      </sky-column>
+
+      <!-- #region Stacked -->
+      <sky-column
+        [screenXSmall]="12"
+        [screenSmall]="12"
+        [screenMedium]="6"
+        [screenLarge]="6"
+      >
+        <sky-box headingText="Stacked " class="sky-margin-stacked-xl">
+          <sky-box-content>
+            <sky-bar-chart
+              headingText="Monthly spendings"
+              chartHeight="300"
+              [config]="stackedVertical"
+            />
+          </sky-box-content>
+        </sky-box>
+      </sky-column>
+      <!-- #endregion -->
+
+      <!-- #region Stacked + Groups  -->
+      <sky-column
+        [screenXSmall]="12"
+        [screenSmall]="12"
+        [screenMedium]="6"
+        [screenLarge]="6"
+      >
+        <sky-box headingText="Stacked + Grouped" class="sky-margin-stacked-xl">
+          <sky-box-content>
+            <sky-bar-chart
+              headingText="Monthly spendings"
+              chartHeight="300"
+              [config]="stackedGroupedVertical"
+            />
+          </sky-box-content>
+        </sky-box>
+      </sky-column>
+      <!-- #endregion -->
+    </sky-row>
+  </sky-fluid-grid>
+</div>
