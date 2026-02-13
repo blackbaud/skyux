@@ -1,5 +1,3 @@
-import { SkyTimepickerTimeOutputMeridieType } from './timepicker-time-output-meridie-type';
-
 export interface SkyTimepickerTimeOutput {
   /**
    * The hour.
@@ -14,7 +12,7 @@ export interface SkyTimepickerTimeOutput {
   /**
    * The meridian (`AM` or `PM`).
    */
-  meridie: SkyTimepickerTimeOutputMeridieType;
+  meridie: string;
 
   /**
    * The time zone.

@@ -24,7 +24,6 @@ export { SkyFuzzyDateService } from './lib/modules/datepicker/fuzzy/fuzzy-date.s
 
 export { SkyTimepickerTimeFormatType } from './lib/modules/timepicker/timepicker-time-format-type';
 export { SkyTimepickerTimeOutput } from './lib/modules/timepicker/timepicker-time-output';
-export { SkyTimepickerTimeOutputMeridieType } from './lib/modules/timepicker/timepicker-time-output-meridie-type';
 export { SkyTimepickerModule } from './lib/modules/timepicker/timepicker.module';
 
 // Components and directives must be exported to support Angular’s “partial” Ivy compiler.

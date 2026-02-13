@@ -39,7 +39,6 @@ import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.mod
 
 import { SkyTimepickerTimeFormatType } from './timepicker-time-format-type';
 import { SkyTimepickerTimeOutput } from './timepicker-time-output';
-import { SkyTimepickerTimeOutputMeridieType } from './timepicker-time-output-meridie-type';
 
 let nextId = 0;
 
@@ -162,9 +161,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
     const time: SkyTimepickerTimeOutput = {
       hour: moment(this.activeTime).hour(),
       minute: moment(this.activeTime).minute(),
-      meridie: moment(this.activeTime).format(
-        'A',
-      ) as SkyTimepickerTimeOutputMeridieType,
+      meridie: moment(this.activeTime).format('A'),
       timezone: parseInt(moment(this.activeTime).format('Z'), 10),
       iso8601: this.activeTime,
       local: moment(this.activeTime).format(this.localeFormat),
