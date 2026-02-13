@@ -11,6 +11,7 @@ Previously, certain properties were typed as `string` or `string | undefined`, b
 ### Example
 
 **Before:**
+
 ```typescript
 export interface MyComponentOptions {
   timeFormat?: string;  // Could be any string, but only 'hh' or 'HH' were valid
@@ -23,6 +24,7 @@ public config: MyComponentOptions = {
 ```
 
 **After:**
+
 ```typescript
 import { SkyTimepickerTimeFormatType } from '@skyux/datetime';
 
@@ -53,12 +55,14 @@ I need to update my TypeScript code to use the new SKY UX type aliases that repl
 Find all interface and type declarations in my codebase that have properties using SKY UX components, and update properties that previously used `string` to use the appropriate type alias.
 
 **Pattern to find:**
+
 - Interface properties typed as `string | undefined` or `string`
 - Type alias properties typed as `string | undefined` or `string`
 - Class properties typed as `string | undefined` or `string`
 - That correspond to SKY UX component inputs
 
 **Common properties affected:**
+
 - `timeFormat` → use `SkyTimepickerTimeFormatType` (from `@skyux/datetime`)
 - `buttonType` → use `SkyDropdownButtonType` (from `@skyux/popovers`)
 - `buttonStyle` → use `SkyDropdownButtonStyleType` (from `@skyux/popovers`)
@@ -96,10 +100,13 @@ Add the appropriate import statements for each type alias used:
 ```typescript
 // Examples:
 import { SkyTimepickerTimeFormatType } from '@skyux/datetime';
-import { SkyDropdownButtonType, SkyDropdownButtonStyleType } from '@skyux/popovers';
-import { SkyTabLayoutType } from '@skyux/tabs';
 import { SkyRepeaterExpandModeType } from '@skyux/lists';
 import { SkyModalConfigurationSizeType } from '@skyux/modals';
+import {
+  SkyDropdownButtonStyleType,
+  SkyDropdownButtonType,
+} from '@skyux/popovers';
+import { SkyTabLayoutType } from '@skyux/tabs';
 ```
 
 ### 3. Update Type Annotations on Variables
@@ -124,50 +131,50 @@ Update function signatures that accept or return these values:
 
 ```typescript
 // Before:
-function setTimeFormat(format: string): void { }
-function getLayout(): string | undefined { }
+function setTimeFormat(format: string): void {}
+function getLayout(): string | undefined {}
 
 // After:
-function setTimeFormat(format: SkyTimepickerTimeFormatType): void { }
-function getLayout(): SkyTabLayoutType | undefined { }
+function setTimeFormat(format: SkyTimepickerTimeFormatType): void {}
+function getLayout(): SkyTabLayoutType | undefined {}
 ```
 
 ## Type Alias Reference
 
 For each affected property, use the following type imports:
 
-| Property Pattern | Type Alias | Package |
-|-----------------|------------|---------|
-| `timeFormat` | `SkyTimepickerTimeFormatType` | `@skyux/datetime` |
-| `buttonType` (dropdown) | `SkyDropdownButtonType` | `@skyux/popovers` |
-| `buttonStyle` | `SkyDropdownButtonStyleType` | `@skyux/popovers` |
-| `triggerType` | `SkyDropdownTriggerType` | `@skyux/popovers` |
-| `popoverType`, `type` (popover) | `SkyPopoverType` | `@skyux/popovers` |
-| `layout` (tab) | `SkyTabLayoutType` | `@skyux/tabs` |
-| `navButtonType`, `buttonType` (tabset) | `SkyTabsetNavButtonType` | `@skyux/tabs` |
-| `expandMode` | `SkyRepeaterExpandModeType` | `@skyux/lists` |
-| `role` (repeater) | `SkyRepeaterRoleType` | `@skyux/lists` |
-| `expandMode` (search) | `SkySearchExpandModeType` | `@skyux/lookup` |
-| `selectMode` | `SkyLookupSelectModeType` | `@skyux/lookup` |
-| `closeReason` | `SkySelectionModalCloseReasonType` | `@skyux/lookup` |
-| `size` | `SkyModalConfigurationSizeType` | `@skyux/modals` |
-| `gutterSize` | `SkyFluidGridGutterSizeType` | `@skyux/layout` |
-| `alignItems` (action button) | `SkyActionButtonContainerAlignItemsType` | `@skyux/layout` |
-| `layout` (page) | `SkyPageLayoutType` | `@skyux/pages` |
-| `dockType` (split view) | `SkySplitViewDockType` | `@skyux/split-view` |
-| `dockType` (data manager) | `SkyDataManagerDockType` | `@skyux/data-manager` |
-| `type` (radio) | `SkyRadioType` | `@skyux/forms` |
-| `alignItems` (selection box) | `SkySelectionBoxGridAlignItemsType` | `@skyux/forms` |
-| `type` (indicator) | `SkyIndicatorIconType` | `@skyux/indicators` |
-| `type` (label) | `SkyLabelType` | `@skyux/indicators` |
-| `layout` (key info) | `SkyKeyInfoLayoutType` | `@skyux/indicators` |
-| `errorType` | `SkyErrorType` | `@skyux/errors` |
-| `variant` | `SkyIconVariantType` | `@skyux/icon` |
-| `styleType` (inline form button) | `SkyInlineFormButtonConfigStyleType` | `@skyux/inline-form` |
-| `alphaChannel` | `SkyColorpickerAlphaChannelType` | `@skyux/colorpicker` |
-| `outputFormat` | `SkyColorpickerOutputFormatType` | `@skyux/colorpicker` |
-| `linkWindowOptions` | `SkyTextEditorLinkWindowOptionsType` | `@skyux/text-editor` |
-| `menuType` | `SkyTextEditorMenuType` | `@skyux/text-editor` |
+| Property Pattern                       | Type Alias                               | Package               |
+| -------------------------------------- | ---------------------------------------- | --------------------- |
+| `timeFormat`                           | `SkyTimepickerTimeFormatType`            | `@skyux/datetime`     |
+| `buttonType` (dropdown)                | `SkyDropdownButtonType`                  | `@skyux/popovers`     |
+| `buttonStyle`                          | `SkyDropdownButtonStyleType`             | `@skyux/popovers`     |
+| `triggerType`                          | `SkyDropdownTriggerType`                 | `@skyux/popovers`     |
+| `popoverType`, `type` (popover)        | `SkyPopoverType`                         | `@skyux/popovers`     |
+| `layout` (tab)                         | `SkyTabLayoutType`                       | `@skyux/tabs`         |
+| `navButtonType`, `buttonType` (tabset) | `SkyTabsetNavButtonType`                 | `@skyux/tabs`         |
+| `expandMode`                           | `SkyRepeaterExpandModeType`              | `@skyux/lists`        |
+| `role` (repeater)                      | `SkyRepeaterRoleType`                    | `@skyux/lists`        |
+| `expandMode` (search)                  | `SkySearchExpandModeType`                | `@skyux/lookup`       |
+| `selectMode`                           | `SkyLookupSelectModeType`                | `@skyux/lookup`       |
+| `closeReason`                          | `SkySelectionModalCloseReasonType`       | `@skyux/lookup`       |
+| `size`                                 | `SkyModalConfigurationSizeType`          | `@skyux/modals`       |
+| `gutterSize`                           | `SkyFluidGridGutterSizeType`             | `@skyux/layout`       |
+| `alignItems` (action button)           | `SkyActionButtonContainerAlignItemsType` | `@skyux/layout`       |
+| `layout` (page)                        | `SkyPageLayoutType`                      | `@skyux/pages`        |
+| `dockType` (split view)                | `SkySplitViewDockType`                   | `@skyux/split-view`   |
+| `dockType` (data manager)              | `SkyDataManagerDockType`                 | `@skyux/data-manager` |
+| `type` (radio)                         | `SkyRadioType`                           | `@skyux/forms`        |
+| `alignItems` (selection box)           | `SkySelectionBoxGridAlignItemsType`      | `@skyux/forms`        |
+| `type` (indicator)                     | `SkyIndicatorIconType`                   | `@skyux/indicators`   |
+| `type` (label)                         | `SkyLabelType`                           | `@skyux/indicators`   |
+| `layout` (key info)                    | `SkyKeyInfoLayoutType`                   | `@skyux/indicators`   |
+| `errorType`                            | `SkyErrorType`                           | `@skyux/errors`       |
+| `variant`                              | `SkyIconVariantType`                     | `@skyux/icon`         |
+| `styleType` (inline form button)       | `SkyInlineFormButtonConfigStyleType`     | `@skyux/inline-form`  |
+| `alphaChannel`                         | `SkyColorpickerAlphaChannelType`         | `@skyux/colorpicker`  |
+| `outputFormat`                         | `SkyColorpickerOutputFormatType`         | `@skyux/colorpicker`  |
+| `linkWindowOptions`                    | `SkyTextEditorLinkWindowOptionsType`     | `@skyux/text-editor`  |
+| `menuType`                             | `SkyTextEditorMenuType`                  | `@skyux/text-editor`  |
 
 ## What to Look For
 
@@ -188,6 +195,7 @@ For each affected property, use the following type imports:
 ## Example Complete Migration
 
 **Before:**
+
 ```typescript
 import { Component } from '@angular/core';
 
@@ -199,18 +207,18 @@ export interface TimePickerConfig {
 @Component({
   selector: 'app-time-selector',
   template: `<sky-timepicker>
-    <input 
-      type="text" 
+    <input
+      type="text"
       [skyTimepickerInput]="timepicker"
       [timeFormat]="config.timeFormat"
     />
-  </sky-timepicker>`
+  </sky-timepicker>`,
 })
 export class TimeSelectorComponent {
   public config: TimePickerConfig = {
-    timeFormat: 'HH'
+    timeFormat: 'HH',
   };
-  
+
   public setFormat(format: string): void {
     this.config.timeFormat = format;
   }
@@ -218,30 +226,31 @@ export class TimeSelectorComponent {
 ```
 
 **After:**
+
 ```typescript
 import { Component } from '@angular/core';
 import { SkyTimepickerTimeFormatType } from '@skyux/datetime';
 
 export interface TimePickerConfig {
   timeFormat?: SkyTimepickerTimeFormatType;
-  returnFormat?: string;  // This remains string - it's free-form
+  returnFormat?: string; // This remains string - it's free-form
 }
 
 @Component({
   selector: 'app-time-selector',
   template: `<sky-timepicker>
-    <input 
-      type="text" 
+    <input
+      type="text"
       [skyTimepickerInput]="timepicker"
       [timeFormat]="config.timeFormat"
     />
-  </sky-timepicker>`
+  </sky-timepicker>`,
 })
 export class TimeSelectorComponent {
   public config: TimePickerConfig = {
-    timeFormat: 'HH'
+    timeFormat: 'HH',
   };
-  
+
   public setFormat(format: SkyTimepickerTimeFormatType): void {
     this.config.timeFormat = format;
   }
@@ -260,6 +269,7 @@ After making these changes:
 ## Benefits
 
 After this migration, you'll get:
+
 - ✅ Compile-time validation of property values
 - ✅ Better IntelliSense autocomplete in your IDE
 - ✅ Explicit documentation of valid values in type signatures
