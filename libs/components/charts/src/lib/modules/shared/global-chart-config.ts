@@ -1,7 +1,6 @@
 import { ChartOptions, ChartType } from 'chart.js';
 
 import { SkyuxChartStyles } from './chart-styles';
-import { getLegendPluginOptions } from './plugin-config/legend-plugin';
 import { getTooltipPluginOptions } from './plugin-config/tooltip-plugin';
 
 /**
@@ -35,7 +34,7 @@ function getSkyuxGlobalChartConfig(): Partial<ChartOptions> {
 
     // Global plugin options
     plugins: {
-      legend: getLegendPluginOptions(),
+      legend: { display: false },
       tooltip: getTooltipPluginOptions(),
     },
   };

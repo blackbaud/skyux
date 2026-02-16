@@ -14,8 +14,6 @@ import {
   SkyChartDataPointClickEvent,
 } from '../shared/chart-types';
 import { mergeChartConfig } from '../shared/global-chart-config';
-import { getLegendPluginOptions } from '../shared/plugin-config/legend-plugin';
-import { getTooltipPluginOptions } from '../shared/plugin-config/tooltip-plugin';
 import { createAutoColorPlugin } from '../shared/plugins/auto-color-plugin';
 import { createChartA11yPlugin } from '../shared/plugins/chart-a11y-plugin';
 import { createTooltipShadowPlugin } from '../shared/plugins/tooltip-shadow-plugin';
@@ -60,13 +58,7 @@ export function getChartJsLineChartConfig(
   });
 
   // Build Plugin options
-  const legendOptions = getLegendPluginOptions();
-  legendOptions.display = false;
-
-  const pluginOptions: ChartOptions['plugins'] = {
-    legend: legendOptions,
-    tooltip: getTooltipPluginOptions(),
-  };
+  const pluginOptions: ChartOptions['plugins'] = {};
 
   if (skyConfig.title) {
     pluginOptions.title = { display: true, text: skyConfig.title };

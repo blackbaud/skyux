@@ -14,7 +14,6 @@ import {
   SkyChartDataPointClickEvent,
 } from '../shared/chart-types';
 import { mergeChartConfig } from '../shared/global-chart-config';
-import { getLegendPluginOptions } from '../shared/plugin-config/legend-plugin';
 import { createAutoColorPlugin } from '../shared/plugins/auto-color-plugin';
 // import { createChartA11yPlugin } from '../shared/plugins/chart-a11y-plugin';
 // import { createLegendA11yPlugin } from '../shared/plugins/legend-a11y-plugin';
@@ -59,13 +58,8 @@ export function getChartJsBarChartConfig(
     return dataset;
   });
 
-  const legendOptions = getLegendPluginOptions();
-  legendOptions.display = false;
-
   // Build Plugin options
-  const pluginOptions: ChartOptions['plugins'] = {
-    legend: legendOptions,
-  };
+  const pluginOptions: ChartOptions['plugins'] = {};
 
   if (skyConfig.title) {
     pluginOptions.title = { display: true, text: skyConfig.title };
