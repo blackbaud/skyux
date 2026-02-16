@@ -1,0 +1,17 @@
+.sky-chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sky-chart-legend-marker {
+  border-style: solid;
+  display: inline-block;
+  flex-shrink: 0;
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+}

@@ -1,7 +1,7 @@
 {
-  "chart.menu.download_png": {
-    "_description": "The label for the 'Download PNG' chart menu item",
-    "message": "Download PNG image"
+  "chart.legend.list_label": {
+    "_description": "The label for the chart legend",
+    "message": "Chart legend"
   },
   "chart.menu.view_data_table": {
     "_description": "The label for the 'View data table' chart menu item",
