@@ -2,18 +2,55 @@
 
 <sky-fluid-grid>
   <sky-row>
+    <!-- Single series -->
     <sky-column
       [screenXSmall]="12"
       [screenSmall]="12"
-      [screenMedium]="12"
-      [screenLarge]="12"
+      [screenMedium]="6"
+      [screenLarge]="6"
     >
-      <sky-box headingText="Chart 1">
+      <sky-box headingText="Single series" class="sky-margin-stacked-xl">
         <sky-box-content>
           <sky-line-chart
             headingText="Month-by-month revenue"
             chartHeight="300"
-            [config]="chart1"
+            [config]="singleSeries"
+          />
+        </sky-box-content>
+      </sky-box>
+    </sky-column>
+
+    <!-- Multi series -->
+    <sky-column
+      [screenXSmall]="12"
+      [screenSmall]="12"
+      [screenMedium]="6"
+      [screenLarge]="6"
+    >
+      <sky-box headingText="Multi series" class="sky-margin-stacked-xl">
+        <sky-box-content>
+          <sky-line-chart
+            headingText="Month-by-month revenue"
+            chartHeight="300"
+            [config]="multiSeries"
+          />
+        </sky-box-content>
+      </sky-box>
+    </sky-column>
+
+    <!-- Stacked -->
+    <sky-column
+      [screenXSmall]="12"
+      [screenSmall]="12"
+      [screenMedium]="6"
+      [screenLarge]="6"
+    >
+      <sky-box headingText="Stacked" class="sky-margin-stacked-xl">
+        <sky-box-content>
+          <sky-line-chart
+            headingText="Month-by-month revenue"
+            chartHeight="300"
+            [config]="stacked"
           />
         </sky-box-content>
       </sky-box>

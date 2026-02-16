@@ -1,24 +1,26 @@
 import {
   ChartConfiguration,
+  ChartDataset,
   ChartOptions,
   ChartTypeRegistry,
   ScaleOptionsByType,
 } from 'chart.js';
 
+import { parseCategories } from '../shared/chart-helpers';
 import { SkyuxChartStyles } from '../shared/chart-styles';
 import {
   DeepPartial,
-  SkyBarChartConfig,
+  SkyCategory,
   SkyChartDataPointClickEvent,
 } from '../shared/chart-types';
 import { mergeChartConfig } from '../shared/global-chart-config';
 import { getLegendPluginOptions } from '../shared/plugin-config/legend-plugin';
-import { getTooltipPluginOptions } from '../shared/plugin-config/tooltip-plugin';
 import { createAutoColorPlugin } from '../shared/plugins/auto-color-plugin';
-import { createChartA11yPlugin } from '../shared/plugins/chart-a11y-plugin';
-import { createLegendA11yPlugin } from '../shared/plugins/legend-a11y-plugin';
-import { createLegendBackgroundPlugin } from '../shared/plugins/legend-background-plugin';
+// import { createChartA11yPlugin } from '../shared/plugins/chart-a11y-plugin';
+// import { createLegendA11yPlugin } from '../shared/plugins/legend-a11y-plugin';
 import { createTooltipShadowPlugin } from '../shared/plugins/tooltip-shadow-plugin';
+
+import { SkyBarChartConfig } from './bar-chart-types';
 
 /**
  * Transforms a consumer-friendly SkyBarChartConfig into a ChartJS ChartConfiguration.
@@ -30,19 +32,39 @@ export function getChartJsBarChartConfig(
   },
 ): ChartConfiguration<'bar'> {
   const orientation = skyConfig.orientation || 'vertical';
-  const isHorizontal = orientation === 'horizontal';
+  const isVertical = orientation === 'vertical';
+
+  // Build categories from series data
+  const categories = parseCategories(skyConfig.series);
 
   // Build datasets from series
-  const datasets = skyConfig.series.map((series) => ({
-    label: series.label,
-    data: series.data.map((dp) => dp.value),
-    stack: series.stackId ?? undefined,
-  }));
+  const datasets = skyConfig.series.map((series) => {
+    const byCategory = new Map<SkyCategory, number | [number, number] | null>();
+
+    for (const p of series.data) {
+      byCategory.set(p.category, p.value);
+    }
+
+    const data: (number | [number, number] | null)[] = categories.map(
+      (category) => {
+        return byCategory.get(category) ?? null;
+      },
+    );
+
+    const dataset: ChartDataset<'bar'> = {
+      label: series.label,
+      data: data,
+    };
+
+    return dataset;
+  });
+
+  const legendOptions = getLegendPluginOptions();
+  legendOptions.display = false;
 
   // Build Plugin options
   const pluginOptions: ChartOptions['plugins'] = {
-    legend: getLegendPluginOptions(),
-    tooltip: getTooltipPluginOptions(),
+    legend: legendOptions,
   };
 
   if (skyConfig.title) {
@@ -55,7 +77,8 @@ export function getChartJsBarChartConfig(
 
   // Build chart options
   const options = mergeChartConfig<'bar'>({
-    indexAxis: isHorizontal ? 'y' : 'x',
+    indexAxis: isVertical ? 'x' : 'y',
+    interaction: getInteraction(skyConfig),
     datasets: {
       bar: {
         categoryPercentage: 0.7,
@@ -87,18 +110,40 @@ export function getChartJsBarChartConfig(
   return {
     type: 'bar',
     data: {
-      labels: skyConfig.categories,
+      labels: categories,
       datasets: datasets,
     },
     options: options,
     plugins: [
-      createChartA11yPlugin(),
-      createLegendA11yPlugin(),
+      // createChartA11yPlugin(),
       createAutoColorPlugin(),
       createTooltipShadowPlugin(),
-      createLegendBackgroundPlugin(),
     ],
   };
+}
+
+function getInteraction(
+  skyConfig: SkyBarChartConfig,
+): ChartOptions['interaction'] {
+  const interaction: ChartOptions['interaction'] = {
+    mode: 'nearest',
+    intersect: false,
+    axis: 'x',
+  };
+
+  if (skyConfig.orientation === 'vertical') {
+    interaction.axis = 'x';
+  }
+
+  if (skyConfig.orientation === 'horizontal') {
+    interaction.axis = 'y';
+  }
+
+  if (skyConfig.series.length > 1) {
+    interaction.axis = 'xy';
+  }
+
+  return interaction;
 }
 
 type PartialLinearScale = DeepPartial<
@@ -110,9 +155,9 @@ function createLinearScales(
   skyConfig: SkyBarChartConfig,
 ): ChartOptions<'bar'>['scales'] {
   const orientation = skyConfig.orientation ?? 'vertical';
-  const isHorizontal = orientation === 'horizontal';
-  const valueAxis = isHorizontal ? 'x' : 'y';
-  const categoryAxis = isHorizontal ? 'y' : 'x';
+  const isVertical = orientation === 'vertical';
+  const valueAxis = isVertical ? 'y' : 'x';
+  const categoryAxis = isVertical ? 'x' : 'y';
 
   const base: PartialLinearScale = {
     grid: {

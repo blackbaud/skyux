@@ -3,7 +3,7 @@
  */
 export class ChartDemoUtils {
   // Adapted from http://indiegamr.com/generate-repeatable-random-numbers-in-js/
-  static #seed = 6; //Date.now();
+  static #seed = Date.now();
 
   static #Months = [
     'January',
@@ -35,7 +35,7 @@ export class ChartDemoUtils {
     count?: number;
     decimals?: number;
     continuity?: number;
-  }): number[] {
+  }): (number | null)[] {
     const cfg = config || {};
     const min = cfg.min ?? 0;
     const max = cfg.max ?? 100;
@@ -44,8 +44,8 @@ export class ChartDemoUtils {
     const decimals = cfg.decimals ?? 8;
     const continuity = cfg.continuity ?? 1;
     const dfactor = Math.pow(10, decimals) || 0;
-    const data = [];
 
+    const data: (number | null)[] = [];
     let value: number;
 
     for (let i = 0; i < count; ++i) {

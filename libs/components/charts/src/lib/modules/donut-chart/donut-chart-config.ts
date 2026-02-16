@@ -1,18 +1,15 @@
 import { ChartConfiguration, ChartDataset, ChartOptions } from 'chart.js';
 
 import { SkyuxChartStyles } from '../shared/chart-styles';
-import {
-  SkyChartDataPointClickEvent,
-  SkyDonutChartConfig,
-} from '../shared/chart-types';
+import { SkyChartDataPointClickEvent } from '../shared/chart-types';
 import { mergeChartConfig } from '../shared/global-chart-config';
 import { getLegendPluginOptions } from '../shared/plugin-config/legend-plugin';
 import { getTooltipPluginOptions } from '../shared/plugin-config/tooltip-plugin';
 import { createAutoColorPlugin } from '../shared/plugins/auto-color-plugin';
 import { createChartA11yPlugin } from '../shared/plugins/chart-a11y-plugin';
-import { createLegendA11yPlugin } from '../shared/plugins/legend-a11y-plugin';
-import { createLegendBackgroundPlugin } from '../shared/plugins/legend-background-plugin';
 import { createTooltipShadowPlugin } from '../shared/plugins/tooltip-shadow-plugin';
+
+import { SkyDonutChartConfig } from './donut-chart-types';
 
 /**
  * Transforms a consumer-friendly SkyDonutChartConfig into a ChartJS ChartConfiguration.
@@ -34,8 +31,11 @@ export function getChartJsDonutChartConfig(
   };
 
   // Build Plugin options
+  const legendOptions = getLegendPluginOptions({ position: 'right' });
+  legendOptions.display = false;
+
   const pluginOptions: ChartOptions['plugins'] = {
-    legend: getLegendPluginOptions({ position: 'right' }),
+    legend: legendOptions,
     tooltip: getTooltipPluginOptions(),
   };
 
@@ -49,6 +49,10 @@ export function getChartJsDonutChartConfig(
 
   // Build chart options
   const options = mergeChartConfig<'doughnut'>({
+    interaction: {
+      mode: 'nearest',
+      intersect: true,
+    },
     datasets: {
       doughnut: {
         borderWidth: 2,
@@ -72,16 +76,14 @@ export function getChartJsDonutChartConfig(
   return {
     type: 'doughnut',
     data: {
-      labels: skyConfig.categories,
+      labels: skyConfig.series.data.map((d) => d.category),
       datasets: [dataset],
     },
     options: options,
     plugins: [
       createChartA11yPlugin(),
-      createLegendA11yPlugin(),
       createAutoColorPlugin(),
       createTooltipShadowPlugin(),
-      createLegendBackgroundPlugin(),
     ],
   };
 }

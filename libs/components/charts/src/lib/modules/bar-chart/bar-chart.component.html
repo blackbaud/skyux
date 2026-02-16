@@ -1,25 +1,37 @@
-<!-- Header Container -->
-<div class="chart-header">
-  @if (headingText()) {
-    <h3 class="sky-margin-stacked-xs">{{ headingText() }}</h3>
-  }
+<div class="chart-shell">
+  <!-- Header Container -->
+  <div class="chart-header">
+    @if (headingText()) {
+      <h3 class="sky-margin-stacked-xs">{{ headingText() }}</h3>
+    }
+  </div>
+
+  <!-- Chart -->
+  <div
+    class="chart-container sky-margin-stacked-lg"
+    [style.height.px]="chartHeight()"
+  >
+    <canvas
+      #canvas
+      tabindex="0"
+      role="img"
+      [attr.aria-label]="ariaLabel()"
+    ></canvas>
+  </div>
+
+  <!-- Legend -->
+  <sky-chart-legend [chart]="chartInstance()" />
 
   <!-- Actions -->
-  <sky-dropdown buttonType="context-menu">
-    <sky-dropdown-menu>
-      <sky-dropdown-item>
-        <button type="button" (click)="openChartDataGridModal()">
-          {{ 'chart.menu.view_data_table' | skyLibResources }}
-        </button>
-      </sky-dropdown-item>
-    </sky-dropdown-menu>
-  </sky-dropdown>
-</div>
-
-<!-- Chart -->
-<div
-  class="chart-container sky-margin-stacked-lg"
-  [style.height.px]="chartHeight()"
->
-  <canvas #canvas role="img" [attr.aria-label]="ariaLabel()"></canvas>
+  <div class="chart-header-actions">
+    <sky-dropdown buttonType="context-menu">
+      <sky-dropdown-menu>
+        <sky-dropdown-item>
+          <button type="button" (click)="openChartDataGridModal()">
+            {{ 'chart.menu.view_data_table' | skyLibResources }}
+          </button>
+        </sky-dropdown-item>
+      </sky-dropdown-menu>
+    </sky-dropdown>
+  </div>
 </div>

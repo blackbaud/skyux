@@ -48,10 +48,10 @@ export class DonutChartDemoComponent {
   protected readonly chart1: SkyDonutChartConfig = {
     title: undefined,
     subtitle: undefined,
-    categories: this.assetCategories.map((c) => c.name),
     series: {
       label: 'Series 1',
       data: this.assetCategories.map((c) => ({
+        category: c.name,
         label: c.label,
         value: c.value,
       })),
@@ -61,10 +61,10 @@ export class DonutChartDemoComponent {
   protected readonly chart2: SkyDonutChartConfig = {
     title: undefined,
     subtitle: undefined,
-    categories: this.assetCategories.map((c) => c.name),
     series: {
       label: 'Series 1',
       data: this.assetCategories.map((c) => ({
+        category: c.name,
         label: c.label,
         value: c.value,
       })),
@@ -74,10 +74,10 @@ export class DonutChartDemoComponent {
   protected readonly chart3: SkyDonutChartConfig = {
     title: undefined,
     subtitle: undefined,
-    categories: this.assetCategories.map((c) => c.name),
     series: {
       label: 'Series 1',
       data: this.assetCategories.map((c) => ({
+        category: c.name,
         label: c.label,
         value: c.value,
       })),

@@ -14,12 +14,13 @@ import {
   EventApiModule,
   GridReadyEvent,
   ModuleRegistry,
+  RowApiModule,
   RowSelectionModule,
   RowStyleModule,
   ValidationModule,
 } from 'ag-grid-community';
 
-import { SkyChartSeries } from '../shared/chart-types';
+import { SkyChartDataPoint, SkyChartSeries } from '../shared/chart-types';
 import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
 
 import { SkyChartGridModalContext } from './chart-data-grid-modal-context';
@@ -32,6 +33,7 @@ ModuleRegistry.registerModules([
   ColumnAutoSizeModule,
   RowStyleModule,
   ColumnApiModule,
+  RowApiModule,
   ValidationModule,
 ]);
 
@@ -82,7 +84,9 @@ export class SkyChartDataGridModalComponent {
     params.api.sizeColumnsToFit();
   }
 
-  #buildColumnDefs(series: SkyChartSeries[]): ColDef[] {
+  #buildColumnDefs(
+    series: readonly SkyChartSeries<SkyChartDataPoint>[],
+  ): ColDef[] {
     const columns: ColDef[] = [
       {
         field: 'category',
@@ -104,8 +108,8 @@ export class SkyChartDataGridModalComponent {
   }
 
   #buildRowData(
-    categories: string[],
-    series: SkyChartSeries[],
+    categories: readonly (string | number)[],
+    series: readonly SkyChartSeries<SkyChartDataPoint>[],
   ): ChartDataGridRow[] {
     const rows: ChartDataGridRow[] = [];
 
@@ -129,11 +133,11 @@ export class SkyChartDataGridModalComponent {
 
 interface ChartDataGridRow {
   /** The category for this row. */
-  category: string;
+  category: string | number;
 
   /**
    * Key: the series' label
    * Value: the data point's label
    */
-  [key: string]: string;
+  [key: string]: string | number;
 }

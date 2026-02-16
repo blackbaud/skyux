@@ -1,27 +1,29 @@
 import {
   ChartConfiguration,
+  ChartDataset,
   ChartOptions,
   ChartTypeRegistry,
   ScaleOptionsByType,
 } from 'chart.js';
 
+import { parseCategories } from '../shared/chart-helpers';
 import { SkyuxChartStyles } from '../shared/chart-styles';
 import {
   DeepPartial,
+  SkyCategory,
   SkyChartDataPointClickEvent,
-  SkyLineChartConfig,
 } from '../shared/chart-types';
 import { mergeChartConfig } from '../shared/global-chart-config';
 import { getLegendPluginOptions } from '../shared/plugin-config/legend-plugin';
 import { getTooltipPluginOptions } from '../shared/plugin-config/tooltip-plugin';
 import { createAutoColorPlugin } from '../shared/plugins/auto-color-plugin';
 import { createChartA11yPlugin } from '../shared/plugins/chart-a11y-plugin';
-import { createLegendA11yPlugin } from '../shared/plugins/legend-a11y-plugin';
-import { createLegendBackgroundPlugin } from '../shared/plugins/legend-background-plugin';
 import { createTooltipShadowPlugin } from '../shared/plugins/tooltip-shadow-plugin';
 
+import { SkyLineChartConfig } from './line-chart-types';
+
 /**
- * Transforms a consumer-friendly SkyBarChartConfig into a ChartJS ChartConfiguration.
+ * Transforms a consumer-friendly SkyLineChartConfig into a ChartJS ChartConfiguration.
  * This function encapsulates all ChartJS implementation details and provides
  * a clean mapping from the public API to the internal representation.
  */
@@ -32,17 +34,37 @@ export function getChartJsLineChartConfig(
   },
 ): ChartConfiguration<'line'> {
   const orientation = skyConfig.orientation || 'vertical';
-  const isHorizontal = orientation === 'horizontal';
+  const isVertical = orientation === 'vertical';
+
+  // Build categories from series data
+  const categories = parseCategories(skyConfig.series);
 
   // Build datasets from series
-  const datasets = skyConfig.series.map((series) => ({
-    label: series.label,
-    data: series.data.map((dp) => dp.value),
-  }));
+  const datasets = skyConfig.series.map((series) => {
+    const byCategory = new Map<SkyCategory, number | null>();
+
+    for (const p of series.data) {
+      byCategory.set(p.category, p.value);
+    }
+
+    const data: (number | null)[] = categories.map((category) => {
+      return byCategory.get(category) ?? null;
+    });
+
+    const dataset: ChartDataset<'line'> = {
+      label: series.label,
+      data: data,
+    };
+
+    return dataset;
+  });
 
   // Build Plugin options
+  const legendOptions = getLegendPluginOptions();
+  legendOptions.display = false;
+
   const pluginOptions: ChartOptions['plugins'] = {
-    legend: getLegendPluginOptions(),
+    legend: legendOptions,
     tooltip: getTooltipPluginOptions(),
   };
 
@@ -56,7 +78,7 @@ export function getChartJsLineChartConfig(
 
   // Build ChartJS options
   const options = mergeChartConfig<'line'>({
-    indexAxis: isHorizontal ? 'y' : 'x',
+    indexAxis: isVertical ? 'x' : 'y',
     elements: {
       line: {
         tension: SkyuxChartStyles.lineTension,
@@ -88,16 +110,14 @@ export function getChartJsLineChartConfig(
   return {
     type: 'line',
     data: {
-      labels: skyConfig.categories,
+      labels: categories,
       datasets: datasets,
     },
     options: options,
     plugins: [
       createChartA11yPlugin(),
-      createLegendA11yPlugin(),
       createAutoColorPlugin(),
       createTooltipShadowPlugin(),
-      createLegendBackgroundPlugin(),
     ],
   };
 }

@@ -1,7 +1,12 @@
+.chart-shell {
+  position: relative;
+}
+
 .chart-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  // display: flex;
+  // justify-content: space-between;
+  // align-items: center;
+  padding-right: 3rem; // reserve space for context menu button
 }
 
 .context-menu {
@@ -12,4 +17,10 @@
 // See: https://www.chartjs.org/docs/latest/configuration/responsive.html
 .chart-container {
   position: relative;
+}
+
+.chart-header-actions {
+  position: absolute;
+  top: 0;
+  right: 0;
 }

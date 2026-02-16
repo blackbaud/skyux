@@ -1,5 +1,7 @@
 import { Chart, ChartConfiguration } from 'chart.js';
 
+import { SkyCategory, SkyChartDataPoint, SkyChartSeries } from './chart-types';
+
 /**
  * Gets the chart type of the given chart
  * @param chart
@@ -23,4 +25,20 @@ export function isChartConfiguration(
   config: Chart['config'],
 ): config is ChartConfiguration {
   return 'type' in config && typeof config.type === 'string';
+}
+
+/**
+ * Parses categories from the given series data.
+ * @param series
+ */
+export function parseCategories(
+  series: readonly SkyChartSeries<SkyChartDataPoint>[],
+): SkyCategory[] {
+  const allCategories = series.flatMap((series) =>
+    series.data.map((dp) => dp.category),
+  );
+
+  const uniqueCategories = Array.from(new Set(allCategories));
+
+  return uniqueCategories;
 }

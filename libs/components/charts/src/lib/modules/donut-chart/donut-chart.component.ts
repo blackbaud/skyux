@@ -22,13 +22,12 @@ import { Chart, ChartConfiguration, UpdateMode, registerables } from 'chart.js';
 
 import { SkyChartGridModalContext } from '../chart-data-grid-modal/chart-data-grid-modal-context';
 import { SkyChartDataGridModalComponent } from '../chart-data-grid-modal/chart-data-grid-modal.component';
-import {
-  SkyChartDataPointClickEvent,
-  SkyDonutChartConfig,
-} from '../shared/chart-types';
+import { SkyChartLegendComponent } from '../shared/chart-legend/chart-legend.component';
+import { SkyChartDataPointClickEvent } from '../shared/chart-types';
 import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
 
 import { getChartJsDonutChartConfig } from './donut-chart-config';
+import { SkyDonutChartConfig } from './donut-chart-types';
 
 // Register Chart.js components globally
 Chart.register(...registerables);
@@ -37,7 +36,11 @@ Chart.register(...registerables);
   selector: 'sky-donut-chart',
   templateUrl: 'donut-chart.component.html',
   styleUrl: 'donut-chart.component.scss',
-  imports: [SkyChartsResourcesModule, SkyDropdownModule],
+  imports: [
+    SkyChartsResourcesModule,
+    SkyDropdownModule,
+    SkyChartLegendComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyDonutChartComponent implements AfterViewInit, OnDestroy {
@@ -76,8 +79,9 @@ export class SkyDonutChartComponent implements AfterViewInit, OnDestroy {
   // #endregion
 
   protected readonly height = signal(300);
+  protected readonly chartInstance = signal<Chart | undefined>(undefined);
 
-  #chart: Chart<'doughnut'> | undefined;
+  #chart: Chart | undefined;
 
   public ngAfterViewInit(): void {
     this.#renderChart();
@@ -93,12 +97,12 @@ export class SkyDonutChartComponent implements AfterViewInit, OnDestroy {
   public ngOnDestroy(): void {
     this.#chart?.destroy();
     this.#chart = undefined;
+    this.chartInstance.set(undefined);
   }
 
   protected openChartDataGridModal(): void {
     const modalContext = new SkyChartGridModalContext({
       modalTitle: this.headingText(),
-      categories: this.config().categories,
       series: [this.config().series],
     });
 
@@ -122,6 +126,8 @@ export class SkyDonutChartComponent implements AfterViewInit, OnDestroy {
     this.#zone.runOutsideAngular(
       () => (this.#chart = new Chart(canvasContext, config)),
     );
+
+    this.chartInstance.set(this.#chart);
   }
 
   #updateChart(mode?: UpdateMode): void {
