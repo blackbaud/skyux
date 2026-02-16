@@ -11,7 +11,7 @@ import {
 
 import { Chart, LegendItem } from 'chart.js';
 
-import { getChartType } from '../chart-helpers';
+import { getChartType, isDonutOrPieChart } from '../chart-helpers';
 import { SkyChartsResourcesModule } from '../sky-charts-resources.module';
 
 @Component({
@@ -153,25 +153,19 @@ export class SkyChartLegendComponent {
     );
   }
 
-  #toLegendItem(chart: Chart, item: LegendItem): SkyChartLegendItem {
-    const chartType = getChartType(chart);
-    const itemIndex = item.index ?? 0;
-    const datasetIndex = item.datasetIndex ?? itemIndex;
-    const isVisible =
-      chartType === 'pie' || chartType === 'doughnut'
-        ? chart.getDataVisibility(itemIndex)
-        : chart.isDatasetVisible(datasetIndex);
+  #toLegendItem(chart: Chart, legendItem: LegendItem): SkyChartLegendItem {
+    const itemIndex = legendItem.index ?? 0;
+    const datasetIndex = legendItem.datasetIndex ?? itemIndex;
+    const isVisible = isDonutOrPieChart(chart)
+      ? chart.getDataVisibility(itemIndex)
+      : chart.isDatasetVisible(datasetIndex);
 
     return {
       datasetIndex: datasetIndex,
       index: itemIndex,
       isVisible: isVisible,
-      label: item.text,
-      legendMarker: {
-        fillStyle: String(item.fillStyle ?? 'transparent'),
-        lineWidth: Number(item.lineWidth ?? 0),
-        strokeStyle: String(item.strokeStyle ?? 'transparent'),
-      },
+      label: legendItem.text,
+      seriesColor: String(legendItem.fillStyle ?? 'transparent'),
     };
   }
 
@@ -190,10 +184,6 @@ interface SkyChartLegendItem {
   isVisible: boolean;
   /** The legend item's label */
   label: string;
-  /** The legend marker styling */
-  legendMarker: {
-    fillStyle: string;
-    strokeStyle: string;
-    lineWidth: number;
-  };
+  /** The series color */
+  seriesColor: string;
 }

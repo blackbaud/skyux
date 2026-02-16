@@ -23,9 +23,7 @@
           <span
             aria-hidden="true"
             class="sky-chart-legend-marker sky-margin-inline-xs"
-            [style.background]="item.legendMarker.fillStyle"
-            [style.border-color]="item.legendMarker.strokeStyle"
-            [style.border-width.px]="item.legendMarker.lineWidth"
+            [style.background]="item.seriesColor"
           ></span>
 
           <span [style.text-decoration]="item.isVisible ? '' : 'line-through'">

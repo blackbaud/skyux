@@ -8,10 +8,11 @@
 }
 
 .sky-chart-legend-marker {
-  border-style: solid;
   display: inline-block;
   flex-shrink: 0;
   height: 12px;
   width: 12px;
+
+  // Makes the legend marker circular
   border-radius: 50%;
 }

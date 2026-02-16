@@ -17,6 +17,14 @@ export function getChartType(chart: Chart): string {
 }
 
 /**
+ * Checks if the given chart is a Pie or Donut chart
+ */
+export function isDonutOrPieChart(chart: Chart): boolean {
+  const chartType = getChartType(chart);
+  return chartType === 'pie' || chartType === 'doughnut';
+}
+
+/**
  * Checks if the given configuration is a ChartConfiguration
  * @param config
  * @returns Type Guard asserting that the configuration is `ChartConfiguration`
