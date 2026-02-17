@@ -20,7 +20,10 @@
   </div>
 
   <!-- Legend -->
-  <sky-chart-legend [chart]="chart()" />
+  <sky-chart-legend
+    [legendItems]="legendItems()"
+    (legendItemToggled)="onLegendItemToggled($event)"
+  />
 
   <!-- Actions -->
   <div class="sky-chart-header-actions">

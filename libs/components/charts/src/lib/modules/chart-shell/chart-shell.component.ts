@@ -22,7 +22,9 @@ import { Chart, ChartConfiguration, registerables } from 'chart.js';
 
 import { SkyChartGridModalContext } from '../chart-data-grid-modal/chart-data-grid-modal-context';
 import { SkyChartDataGridModalComponent } from '../chart-data-grid-modal/chart-data-grid-modal.component';
+import { SkyChartLegendItem } from '../chart-legend/chart-legend-item';
 import { SkyChartLegendComponent } from '../chart-legend/chart-legend.component';
+import { isDonutOrPieChart } from '../shared/chart-helpers';
 import {
   SkyChartDataPoint,
   SkyChartDataPointClickEvent,
@@ -78,9 +80,11 @@ export class SkyChartShellComponent implements AfterViewInit, OnDestroy {
   // #endregion
 
   protected readonly chart = signal<Chart | undefined>(undefined);
+  protected readonly legendItems = signal<SkyChartLegendItem[]>([]);
 
   public ngAfterViewInit(): void {
     this.#renderChart();
+    this.#updateLegendItems();
 
     /* istanbul ignore else */
     if (this.#themeSvc) {
@@ -93,6 +97,24 @@ export class SkyChartShellComponent implements AfterViewInit, OnDestroy {
   public ngOnDestroy(): void {
     this.chart()?.destroy();
     this.chart.set(undefined);
+  }
+
+  protected onLegendItemToggled(item: SkyChartLegendItem): void {
+    const chart = this.chart();
+
+    if (!chart) {
+      return;
+    }
+
+    if (isDonutOrPieChart(chart)) {
+      chart.toggleDataVisibility(item.index);
+    } else {
+      const isVisible = chart.isDatasetVisible(item.datasetIndex);
+      chart.setDatasetVisibility(item.datasetIndex, !isVisible);
+    }
+
+    chart.update();
+    this.#updateLegendItems();
   }
 
   protected openChartDataGridModal(): void {
@@ -158,6 +180,34 @@ export class SkyChartShellComponent implements AfterViewInit, OnDestroy {
     }
 
     this.#changeDetector.markForCheck();
+  }
+
+  #updateLegendItems(): void {
+    const chart = this.chart();
+    if (!chart) {
+      return;
+    }
+
+    const labels = chart.options.plugins?.legend?.labels;
+    const legendItems = labels?.generateLabels?.(chart) ?? [];
+
+    const newLegendItems = legendItems.map((legendItem) => {
+      const itemIndex = legendItem.index ?? 0;
+      const datasetIndex = legendItem.datasetIndex ?? 0;
+      const isVisible = isDonutOrPieChart(chart)
+        ? chart.getDataVisibility(itemIndex)
+        : chart.isDatasetVisible(datasetIndex);
+
+      return {
+        datasetIndex: datasetIndex,
+        index: itemIndex,
+        isVisible: isVisible,
+        label: legendItem.text,
+        seriesColor: String(legendItem.fillStyle ?? 'transparent'),
+      };
+    });
+
+    this.legendItems.set(newLegendItems);
   }
   // #endregion
 }

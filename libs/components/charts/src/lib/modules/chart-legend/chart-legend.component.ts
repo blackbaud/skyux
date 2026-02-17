@@ -5,14 +5,14 @@ import {
   computed,
   effect,
   input,
+  output,
   signal,
   viewChildren,
 } from '@angular/core';
 
-import { Chart, LegendItem } from 'chart.js';
-
-import { getChartType, isDonutOrPieChart } from '../shared/chart-helpers';
 import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
+
+import { SkyChartLegendItem } from './chart-legend-item';
 
 @Component({
   selector: 'sky-chart-legend',
@@ -22,27 +22,22 @@ import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyChartLegendComponent {
-  /** The Chart instance */
-  public readonly chart = input<Chart | undefined>();
+  /** The legend items */
+  public readonly legendItems = input.required<SkyChartLegendItem[]>();
+
+  /** Emits when a legend item is toggled (clicked or activated via keyboard). */
+  public readonly legendItemToggled = output<SkyChartLegendItem>();
 
   /** The list of legend item buttons */
   protected readonly legendButtons =
     viewChildren<ElementRef<HTMLButtonElement>>('legendButton');
 
-  protected readonly legendItems = signal<SkyChartLegendItem[]>([]);
   protected readonly hasLegendItems = computed(
     () => this.legendItems().length > 0,
   );
   protected readonly activeLegendIndex = signal(0);
 
   constructor() {
-    effect(() => {
-      const chart = this.chart();
-      if (chart) {
-        this.#updateLegendItems();
-      }
-    });
-
     effect(() => {
       const count = this.legendItems().length;
       const index = this.activeLegendIndex();
@@ -116,74 +111,11 @@ export class SkyChartLegendComponent {
       this.activeLegendIndex.set(index);
     }
 
-    const chart = this.chart();
-
-    if (!chart) {
-      return;
-    }
-
-    const chartType = getChartType(chart);
-
-    if (chartType === 'pie' || chartType === 'doughnut') {
-      chart.toggleDataVisibility(item.index);
-    } else {
-      chart.setDatasetVisibility(
-        item.datasetIndex,
-        !chart.isDatasetVisible(item.datasetIndex),
-      );
-    }
-
-    chart.update();
-    this.#updateLegendItems();
-  }
-
-  #updateLegendItems(): void {
-    const chart = this.chart();
-
-    if (!chart) {
-      this.legendItems.set([]);
-      return;
-    }
-
-    const labels = chart.options.plugins?.legend?.labels;
-    const legendItems = labels?.generateLabels?.(chart) ?? [];
-
-    this.legendItems.set(
-      legendItems.map((item) => this.#toLegendItem(chart, item)),
-    );
-  }
-
-  #toLegendItem(chart: Chart, legendItem: LegendItem): SkyChartLegendItem {
-    const itemIndex = legendItem.index ?? 0;
-    const datasetIndex = legendItem.datasetIndex ?? itemIndex;
-    const isVisible = isDonutOrPieChart(chart)
-      ? chart.getDataVisibility(itemIndex)
-      : chart.isDatasetVisible(datasetIndex);
-
-    return {
-      datasetIndex: datasetIndex,
-      index: itemIndex,
-      isVisible: isVisible,
-      label: legendItem.text,
-      seriesColor: String(legendItem.fillStyle ?? 'transparent'),
-    };
+    this.legendItemToggled.emit(item);
   }
 
   #focusLegendButton(index: number): void {
     const button = this.legendButtons()[index]?.nativeElement;
     button?.focus();
   }
-}
-
-interface SkyChartLegendItem {
-  /** The dataset index */
-  datasetIndex: number;
-  /** The legend item index */
-  index: number;
-  /** Is the dataset visible in the chart */
-  isVisible: boolean;
-  /** The legend item's label */
-  label: string;
-  /** The series color */
-  seriesColor: string;
 }
