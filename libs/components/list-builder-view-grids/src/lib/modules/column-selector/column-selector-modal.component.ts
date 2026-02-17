@@ -9,7 +9,7 @@ import { SkyColumnSelectorContext } from './column-selector-context';
   standalone: false,
 })
 export class SkyColumnSelectorComponent {
-  public newSelectedColumnIds: string[] = [];
+  public newSelectedColumnIds: string[];
 
   constructor(
     public context: SkyColumnSelectorContext,

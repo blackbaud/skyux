@@ -1,18 +1,13 @@
 <sky-modal
   class="sky-lookup-show-more-modal"
   [attr.id]="id"
+  [headingText]="
+    context.userConfig?.title ||
+    ('skyux_lookup_show_more_modal_title'
+      | skyLibResources: context.selectionDescriptor)
+  "
   [ngClass]="'sky-lookup-show-more-modal-' + context.selectMode"
 >
-  <sky-modal-header>
-    @if (context.userConfig?.title) {
-      {{ context.userConfig.title }}
-    } @else {
-      {{
-        'skyux_lookup_show_more_modal_title'
-          | skyLibResources: context.selectionDescriptor
-      }}
-    }
-  </sky-modal-header>
   <sky-modal-content
     [skyViewkeeper]="['.sky-lookup-show-more-toolbar-wrapper']"
   >
