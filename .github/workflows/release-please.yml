@@ -64,7 +64,14 @@ jobs:
             const releaseExists = await github.rest.repos.getReleaseByTag({ ...context.repo, tag: nextVersion }).then(() => true).catch(() => false);
             if (!releaseExists) {
               const releaseNotes = (await exec.getExecOutput('npx', ['skyux-dev', 'release-notes', `--releaseName=${nextVersion}`])).stdout;
-              await github.rest.repos.createRelease({ ...context.repo, name: `v${nextVersion}`, tag_name: nextVersion, body: releaseNotes, prerelease: nextVersion.includes('-') });
+              await github.rest.repos.createRelease({
+                ...context.repo,
+                name: `v${nextVersion}`,
+                tag_name: nextVersion,
+                target_commitish: context.ref,
+                body: releaseNotes,
+                prerelease: nextVersion.includes('-')
+              });
             }
       - name: Notify Slack (failure)
         if: ${{ failure() }}

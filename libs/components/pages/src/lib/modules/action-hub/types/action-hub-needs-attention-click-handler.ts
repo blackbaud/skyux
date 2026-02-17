@@ -3,5 +3,8 @@ export type SkyActionHubNeedsAttentionClickHandler = (
 ) => void;
 
 export interface SkyActionHubNeedsAttentionClickHandlerArgs {
+  /**
+   * The `SkyPageLink`, `SkyPageModalLink`, or `SkyRecentLink` that was clicked.
+   */
   item: unknown;
 }
