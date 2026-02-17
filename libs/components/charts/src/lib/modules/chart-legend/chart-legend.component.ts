@@ -11,8 +11,8 @@ import {
 
 import { Chart, LegendItem } from 'chart.js';
 
-import { getChartType, isDonutOrPieChart } from '../chart-helpers';
-import { SkyChartsResourcesModule } from '../sky-charts-resources.module';
+import { getChartType, isDonutOrPieChart } from '../shared/chart-helpers';
+import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
 
 @Component({
   selector: 'sky-chart-legend',

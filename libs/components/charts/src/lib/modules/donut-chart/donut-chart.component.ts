@@ -1,71 +1,33 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  DestroyRef,
-  ElementRef,
-  NgZone,
-  OnDestroy,
-  inject,
+  computed,
+  effect,
   input,
   output,
   signal,
-  viewChild,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { SkyModalService } from '@skyux/modals';
-import { SkyDropdownModule } from '@skyux/popovers';
-import { SkyThemeService } from '@skyux/theme';
 
-import { Chart, ChartConfiguration, UpdateMode, registerables } from 'chart.js';
+import { ChartConfiguration } from 'chart.js';
 
-import { SkyChartGridModalContext } from '../chart-data-grid-modal/chart-data-grid-modal-context';
-import { SkyChartDataGridModalComponent } from '../chart-data-grid-modal/chart-data-grid-modal.component';
-import { SkyChartLegendComponent } from '../shared/chart-legend/chart-legend.component';
+import { SkyChartShellComponent } from '../chart-shell/chart-shell.component';
 import { SkyChartDataPointClickEvent } from '../shared/chart-types';
-import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
 
 import { getChartJsDonutChartConfig } from './donut-chart-config';
 import { SkyDonutChartConfig } from './donut-chart-types';
-
-// Register Chart.js components globally
-Chart.register(...registerables);
 
 @Component({
   selector: 'sky-donut-chart',
   templateUrl: 'donut-chart.component.html',
   styleUrl: 'donut-chart.component.scss',
-  imports: [
-    SkyChartsResourcesModule,
-    SkyDropdownModule,
-    SkyChartLegendComponent,
-  ],
+  imports: [SkyChartShellComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyDonutChartComponent implements AfterViewInit, OnDestroy {
-  // #region Dependency Injection
-  readonly #destroyRef = inject(DestroyRef);
-  readonly #changeDetector = inject(ChangeDetectorRef);
-  readonly #themeSvc = inject(SkyThemeService, { optional: true });
-  readonly #zone = inject(NgZone);
-  readonly #modalService = inject(SkyModalService);
-  // #endregion
-
+export class SkyDonutChartComponent {
   // #region Inputs
   public readonly headingText = input.required<string>();
   public readonly chartHeight = input.required<number>();
-
-  /**
-   * The ARIA label for the box. This sets the box's `aria-label` attribute to provide a text equivalent for screen readers
-   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
-   * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
-   */
   public readonly ariaLabel = input<string>();
-
-  /**
-   * Configuration for the bar chart. Defines categories, series data, orientation, and display options.
-   */
   public readonly config = input.required<SkyDonutChartConfig>();
   // #endregion
 
@@ -73,102 +35,29 @@ export class SkyDonutChartComponent implements AfterViewInit, OnDestroy {
   public readonly dataPointClicked = output<SkyChartDataPointClickEvent>();
   // #endregion
 
-  // #region View Child(ren)
-  public readonly canvasRef =
-    viewChild.required<ElementRef<HTMLCanvasElement>>('canvas');
-  // #endregion
+  protected chartConfiguration = signal<ChartConfiguration | undefined>(
+    undefined,
+  );
+  protected readonly series = computed(() => [this.config().series]);
 
-  protected readonly height = signal(300);
-  protected readonly chartInstance = signal<Chart | undefined>(undefined);
-
-  #chart: Chart | undefined;
-
-  public ngAfterViewInit(): void {
-    this.#renderChart();
-
-    /* istanbul ignore else */
-    if (this.#themeSvc) {
-      this.#themeSvc.settingsChange
-        .pipe(takeUntilDestroyed(this.#destroyRef))
-        .subscribe(() => this.#onThemeChange());
-    }
-  }
-
-  public ngOnDestroy(): void {
-    this.#chart?.destroy();
-    this.#chart = undefined;
-    this.chartInstance.set(undefined);
-  }
-
-  protected openChartDataGridModal(): void {
-    const modalContext = new SkyChartGridModalContext({
-      modalTitle: this.headingText(),
-      series: [this.config().series],
-    });
-
-    this.#modalService.open(SkyChartDataGridModalComponent, {
-      size: 'large',
-      providers: [
-        { provide: SkyChartGridModalContext, useValue: modalContext },
-      ],
+  constructor() {
+    effect(() => {
+      this.config();
+      this.refreshChartConfiguration();
     });
   }
 
-  // #region Private
-  #renderChart(): void {
-    if (this.#chart) {
-      this.#chart.destroy();
-    }
-
-    const canvasContext = this.#getCanvasContext();
-    const config = this.#getChartConfig();
-
-    this.#zone.runOutsideAngular(
-      () => (this.#chart = new Chart(canvasContext, config)),
-    );
-
-    this.chartInstance.set(this.#chart);
+  protected refreshChartConfiguration(): void {
+    const newConfig = this.#getChartConfig();
+    this.chartConfiguration.set(newConfig);
   }
 
-  #updateChart(mode?: UpdateMode): void {
-    if (this.#chart) {
-      this.#zone.runOutsideAngular(() => this.#chart?.update(mode));
-    }
-  }
-
-  #getCanvasContext(): CanvasRenderingContext2D {
-    const canvasEle = this.canvasRef().nativeElement;
-    const canvasContext = canvasEle.getContext('2d');
-
-    if (!canvasContext) {
-      throw new Error('Cannot create chart without a canvas');
-    }
-
-    return canvasContext;
-  }
-
-  #getChartConfig(): ChartConfiguration<'doughnut'> {
+  #getChartConfig(): ChartConfiguration {
     const userConfig = this.config();
-    return getChartJsDonutChartConfig(userConfig, {
+    const newConfig = getChartJsDonutChartConfig(userConfig, {
       onDataPointClick: (event) => this.dataPointClicked.emit(event),
     });
+
+    return newConfig;
   }
-
-  #onThemeChange(): void {
-    if (this.#chart?.config.options) {
-      // See https://www.chartjs.org/docs/latest/developers/updates.html#updating-options
-
-      // 1. If the options are mutated in place, other option properties would be preserved, including those calculated by Chart.js.
-      const newOptions = this.#getChartConfig().options;
-      Object.assign(this.#chart.config.options, newOptions);
-
-      // 2. If created as a new object, it would be like creating a new chart with the options - old options would be discarded.
-      // this.#chart.config.options = this.#getChartConfig().options;
-
-      this.#updateChart();
-    }
-
-    this.#changeDetector.markForCheck();
-  }
-  // #endregion
 }

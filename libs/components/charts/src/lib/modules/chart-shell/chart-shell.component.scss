@@ -1,0 +1,19 @@
+.sky-chart-shell {
+  position: relative;
+}
+
+.sky-chart-header {
+  padding-right: 3rem; // reserve space for context menu button
+}
+
+// ChartJS requires the Canvas to have a parent container that is dedicated to the element
+// See: https://www.chartjs.org/docs/latest/configuration/responsive.html
+.sky-chart-container {
+  position: relative;
+}
+
+.sky-chart-header-actions {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
