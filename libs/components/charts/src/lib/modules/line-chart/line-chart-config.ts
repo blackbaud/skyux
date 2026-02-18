@@ -125,7 +125,6 @@ function createLinearScales(
   const orientation = skyConfig.orientation ?? 'vertical';
   const isHorizontal = orientation === 'horizontal';
   const valueAxis = isHorizontal ? 'x' : 'y';
-  const categoryAxis = isHorizontal ? 'y' : 'x';
 
   const base: PartialLinearScale = {
     grid: {
@@ -145,6 +144,7 @@ function createLinearScales(
         family: SkyuxChartStyles.fontFamily,
         weight: SkyuxChartStyles.axisTickFontWeight,
       },
+      major: { enabled: true },
     },
     title: {
       display: false,
@@ -159,11 +159,7 @@ function createLinearScales(
       },
     },
   };
-  const noGridLines: PartialLinearScale['grid'] = {
-    lineWidth: 0,
-    drawTicks: false,
-    tickLength: 0,
-  };
+
 
   const x: PartialLinearScale = {
     type: valueAxis === 'x' ? 'linear' : 'category',
@@ -174,13 +170,12 @@ function createLinearScales(
         : skyConfig.categoryAxis?.beginAtZero,
     grid: {
       ...base.grid,
-      tickLength: SkyuxChartStyles.axisTickLengthX,
+      tickLength: SkyuxChartStyles.axisTickLengthX
     },
     border: base.border,
     ticks: {
       ...base.ticks,
-      padding: SkyuxChartStyles.axisTickPaddingX,
-      ...(categoryAxis === 'x' ? noGridLines : {}),
+      padding: SkyuxChartStyles.axisTickPaddingX
     },
     title: {
       ...base.title,
@@ -200,13 +195,12 @@ function createLinearScales(
         : skyConfig.categoryAxis?.beginAtZero,
     grid: {
       ...base.grid,
-      tickLength: SkyuxChartStyles.axisTickLengthY,
+      tickLength: SkyuxChartStyles.axisTickLengthY
     },
     border: base.border,
     ticks: {
       ...base.ticks,
-      padding: SkyuxChartStyles.axisTickPaddingY,
-      ...(categoryAxis === 'y' ? noGridLines : {}),
+      padding: SkyuxChartStyles.axisTickPaddingY
     },
     title: {
       ...base.title,
