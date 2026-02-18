@@ -81,7 +81,7 @@
     "@skyux-sdk/testing": "^13.11.5",
     "@types/jasmine": "~5.1.8",
     "@types/node": "^20.19.4",
-    "axe-core": "^4.11.1",
+    "axe-core": "~4.11.1",
     "jasmine-core": "~5.8.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.1",
