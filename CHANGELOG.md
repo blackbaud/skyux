@@ -1,7 +1,7 @@
 # Changelog
 
 
-## [14.0.0-alpha.2](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.1...14.0.0-alpha.2) (2026-02-17)
+## [14.0.0-alpha.2](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.1...14.0.0-alpha.2) (2026-02-18)
 
 
 ### Features
