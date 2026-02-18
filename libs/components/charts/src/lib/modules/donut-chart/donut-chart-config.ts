@@ -4,7 +4,6 @@ import { SkyuxChartStyles } from '../shared/chart-styles';
 import { SkyChartDataPointClickEvent } from '../shared/chart-types';
 import { mergeChartConfig } from '../shared/global-chart-config';
 import { createAutoColorPlugin } from '../shared/plugins/auto-color-plugin';
-import { createChartA11yPlugin } from '../shared/plugins/chart-a11y-plugin';
 import { createTooltipShadowPlugin } from '../shared/plugins/tooltip-shadow-plugin';
 
 import { SkyDonutChartConfig } from './donut-chart-types';
@@ -72,11 +71,7 @@ export function getChartJsDonutChartConfig(
       datasets: [dataset],
     },
     options: options,
-    plugins: [
-      createChartA11yPlugin(),
-      createAutoColorPlugin(),
-      createTooltipShadowPlugin(),
-    ],
+    plugins: [createAutoColorPlugin(), createTooltipShadowPlugin()],
   };
 }
 

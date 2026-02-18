@@ -15,8 +15,6 @@ import {
 } from '../shared/chart-types';
 import { mergeChartConfig } from '../shared/global-chart-config';
 import { createAutoColorPlugin } from '../shared/plugins/auto-color-plugin';
-// import { createChartA11yPlugin } from '../shared/plugins/chart-a11y-plugin';
-// import { createLegendA11yPlugin } from '../shared/plugins/legend-a11y-plugin';
 import { createTooltipShadowPlugin } from '../shared/plugins/tooltip-shadow-plugin';
 
 import { SkyBarChartConfig } from './bar-chart-types';
@@ -108,11 +106,7 @@ export function getChartJsBarChartConfig(
       datasets: datasets,
     },
     options: options,
-    plugins: [
-      // createChartA11yPlugin(),
-      createAutoColorPlugin(),
-      createTooltipShadowPlugin(),
-    ],
+    plugins: [createAutoColorPlugin(), createTooltipShadowPlugin()],
   };
 }
 
@@ -151,15 +145,9 @@ function createLinearScales(
   const orientation = skyConfig.orientation ?? 'vertical';
   const isVertical = orientation === 'vertical';
   const valueAxis = isVertical ? 'y' : 'x';
-  const categoryAxis = isVertical ? 'x' : 'y';
+  const categoryAxis = isVertical ? 'y' : 'x';
 
   const base: PartialLinearScale = {
-    grid: {
-      display: true,
-      color: SkyuxChartStyles.axisGridLineColor,
-      tickColor: SkyuxChartStyles.axisGridLineColor,
-      drawTicks: true,
-    },
     border: {
       display: true,
       color: SkyuxChartStyles.axisLineColor,
@@ -174,7 +162,7 @@ function createLinearScales(
       major: { enabled: true },
     },
     title: {
-      display: false,
+      display: true,
       font: {
         size: SkyuxChartStyles.scaleTitleFontSize,
         family: SkyuxChartStyles.scaleTitleFontFamily,
@@ -186,24 +174,15 @@ function createLinearScales(
       },
     },
   };
-  const noGridLines: PartialLinearScale['grid'] = {
-    display: false,
-    lineWidth: 0,
-    drawTicks: false,
-    tickLength: 0,
-  };
 
-  const x: PartialLinearScale = {
-    type: valueAxis === 'x' ? 'linear' : 'category',
+  const categoryScale: PartialLinearScale = {
+    type: 'category',
     stacked: skyConfig.stacked ?? false,
-    beginAtZero:
-      valueAxis === 'x'
-        ? skyConfig.valueAxis?.beginAtZero
-        : skyConfig.categoryAxis?.beginAtZero,
     grid: {
-      ...base.grid,
-      ...(categoryAxis === 'x' ? noGridLines : {}),
-      tickLength: categoryAxis === 'x' ? SkyuxChartStyles.axisTickLengthXHidden : SkyuxChartStyles.axisTickLengthX,
+      display: false,
+      lineWidth: 0,
+      drawTicks: false,
+      tickLength: 0,
     },
     border: base.border,
     ticks: {
@@ -212,24 +191,33 @@ function createLinearScales(
     },
     title: {
       ...base.title,
+      display: !!skyConfig.categoryAxis?.label,
+      text: skyConfig.categoryAxis?.label,
       padding: {
-        top: SkyuxChartStyles.scaleXTitlePaddingTop,
-        bottom: SkyuxChartStyles.scaleXTitlePaddingBottom,
+        top:
+          categoryAxis === 'x'
+            ? SkyuxChartStyles.scaleXTitlePaddingTop
+            : SkyuxChartStyles.scaleYTitlePaddingLeft,
+        bottom:
+          categoryAxis === 'x'
+            ? SkyuxChartStyles.scaleXTitlePaddingBottom
+            : SkyuxChartStyles.scaleYTitlePaddingRight,
       },
     },
   };
 
-  const y: PartialLinearScale = {
-    type: valueAxis === 'y' ? 'linear' : 'category',
+  const valueScale: PartialLinearScale = {
+    type: 'linear',
     stacked: skyConfig.stacked ?? false,
-    beginAtZero:
-      valueAxis === 'y'
-        ? skyConfig.valueAxis?.beginAtZero
-        : skyConfig.categoryAxis?.beginAtZero,
+    beginAtZero: true,
+    suggestedMin: skyConfig.valueAxis?.suggestedMin,
+    suggestedMax: skyConfig.valueAxis?.suggestedMax,
     grid: {
-      ...base.grid,
-      ...(categoryAxis === 'y' ? noGridLines : {}),
-      tickLength: categoryAxis === 'y' ? SkyuxChartStyles.axisTickLengthYHidden : SkyuxChartStyles.axisTickLengthY,
+      display: true,
+      color: SkyuxChartStyles.axisGridLineColor,
+      tickColor: SkyuxChartStyles.axisGridLineColor,
+      drawTicks: true,
+      tickLength: SkyuxChartStyles.axisTickLength,
     },
     border: base.border,
     ticks: {
@@ -238,12 +226,24 @@ function createLinearScales(
     },
     title: {
       ...base.title,
+      display: !!skyConfig.valueAxis?.label,
+      text: skyConfig.valueAxis?.label,
       padding: {
-        top: SkyuxChartStyles.scaleYTitlePaddingLeft,
-        bottom: SkyuxChartStyles.scaleYTitlePaddingRight,
+        top:
+          valueAxis === 'y'
+            ? SkyuxChartStyles.scaleYTitlePaddingLeft
+            : SkyuxChartStyles.scaleXTitlePaddingTop,
+        bottom:
+          valueAxis === 'y'
+            ? SkyuxChartStyles.scaleYTitlePaddingRight
+            : SkyuxChartStyles.scaleXTitlePaddingBottom,
       },
     },
   };
 
-  return { x, y };
+  if (isVertical) {
+    return { x: categoryScale, y: valueScale };
+  } else {
+    return { x: valueScale, y: categoryScale };
+  }
 }

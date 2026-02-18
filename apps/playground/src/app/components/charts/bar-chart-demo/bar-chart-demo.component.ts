@@ -34,7 +34,8 @@ export class BarChartDemoComponent {
         ],
       },
     ],
-    valueAxis: { beginAtZero: true },
+    valueAxis: { label: 'Amount' },
+    categoryAxis: { label: 'Month' },
   };
 
   protected readonly multiSeriesVertical: SkyBarChartConfig = {
@@ -55,7 +56,8 @@ export class BarChartDemoComponent {
         ],
       },
     ],
-    valueAxis: { beginAtZero: true },
+    valueAxis: { label: 'Value' },
+    categoryAxis: { label: 'Month' },
   };
 
   protected readonly stackedVertical: SkyBarChartConfig = {
@@ -64,7 +66,7 @@ export class BarChartDemoComponent {
     series: [
       {
         label: 'Dataset 1',
-        data: ChartDemoUtils.numbers({ count: 7, min: -100, max: 100 }).map(
+        data: ChartDemoUtils.numbers({ count: 7, min: 0, max: 100 }).map(
           (value, index) => {
             return {
               category: ChartDemoUtils.months({ count: 7 })[index],
@@ -76,7 +78,7 @@ export class BarChartDemoComponent {
       },
       {
         label: 'Dataset 2',
-        data: ChartDemoUtils.numbers({ count: 7, min: -100, max: 100 }).map(
+        data: ChartDemoUtils.numbers({ count: 7, min: 0, max: 100 }).map(
           (value, index) => {
             return {
               category: ChartDemoUtils.months({ count: 7 })[index],
@@ -88,7 +90,7 @@ export class BarChartDemoComponent {
       },
       {
         label: 'Dataset 3',
-        data: ChartDemoUtils.numbers({ count: 7, min: -100, max: 100 }).map(
+        data: ChartDemoUtils.numbers({ count: 7, min: 0, max: 100 }).map(
           (value, index) => {
             return {
               category: ChartDemoUtils.months({ count: 7 })[index],
@@ -99,8 +101,8 @@ export class BarChartDemoComponent {
         ),
       },
     ],
-    valueAxis: { beginAtZero: true },
-    categoryAxis: { beginAtZero: true },
+    valueAxis: { label: 'Value' },
+    categoryAxis: { label: 'Month' },
   };
   // #endregion
 
@@ -118,7 +120,8 @@ export class BarChartDemoComponent {
         ],
       },
     ],
-    valueAxis: { beginAtZero: true },
+    valueAxis: { label: 'Amount' },
+    categoryAxis: { label: 'Month' },
   };
 
   protected readonly multiSeriesHorizontal: SkyBarChartConfig = {
@@ -139,7 +142,8 @@ export class BarChartDemoComponent {
         ],
       },
     ],
-    valueAxis: { beginAtZero: true },
+    valueAxis: { label: 'Amount' },
+    categoryAxis: { label: 'Month' },
   };
 
   protected readonly stackedHorizontal: SkyBarChartConfig = {
@@ -148,7 +152,7 @@ export class BarChartDemoComponent {
     series: [
       {
         label: 'Dataset 1',
-        data: ChartDemoUtils.numbers({ count: 7, min: -100, max: 100 }).map(
+        data: ChartDemoUtils.numbers({ count: 7, min: 0, max: 100 }).map(
           (value, index) => {
             return {
               category: ChartDemoUtils.months({ count: 7 })[index],
@@ -160,7 +164,7 @@ export class BarChartDemoComponent {
       },
       {
         label: 'Dataset 2',
-        data: ChartDemoUtils.numbers({ count: 7, min: -100, max: 100 }).map(
+        data: ChartDemoUtils.numbers({ count: 7, min: 0, max: 100 }).map(
           (value, index) => {
             return {
               category: ChartDemoUtils.months({ count: 7 })[index],
@@ -172,7 +176,7 @@ export class BarChartDemoComponent {
       },
       {
         label: 'Dataset 3',
-        data: ChartDemoUtils.numbers({ count: 7, min: -100, max: 100 }).map(
+        data: ChartDemoUtils.numbers({ count: 7, min: 0, max: 100 }).map(
           (value, index) => {
             return {
               category: ChartDemoUtils.months({ count: 7 })[index],
@@ -183,8 +187,8 @@ export class BarChartDemoComponent {
         ),
       },
     ],
-    valueAxis: { beginAtZero: true },
-    categoryAxis: { beginAtZero: true },
+    valueAxis: { label: 'Amount' },
+    categoryAxis: { label: 'Month' },
   };
   // #endregion
 }

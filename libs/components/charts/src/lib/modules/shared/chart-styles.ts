@@ -77,6 +77,10 @@ export const SkyuxChartStyles = {
     return 0;
   },
 
+  get axisTickLength(): number {
+    return 12;
+  },
+
   // =============================================================================
   // LEGEND
   // =============================================================================
@@ -149,7 +153,8 @@ export const SkyuxChartStyles = {
   // =============================================================================
 
   get scaleTitleFontSize(): number {
-    return 13;
+    const size = resolveCssVariable('--sky-font-size-body-s');
+    return remToPixels(size || '13px'); // Fallback
   },
 
   get scaleTitleFontFamily(): string {

@@ -4,7 +4,8 @@ export { SkyDonutChartComponent } from './lib/modules/donut-chart/donut-chart.co
 
 // Shared chart types that can be used across different chart components
 export {
-  SkyChartAxisConfig,
+  SkyChartCategoryAxisConfig,
+  SkyChartValueAxisConfig,
   SkyChartConfigBase,
   SkyChartSeries,
   SkyRadialChartConfig,

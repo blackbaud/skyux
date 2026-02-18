@@ -42,14 +42,32 @@ export interface SkyChartDataPointClickEvent {
 }
 
 // #region Axis
+export interface SkyChartAxisConfig {
+  label?: string;
+}
 
 /**
  * Configuration for chart axis settings.
  * Used by cartesian charts (Bar, Line) that have X and Y axes.
  */
-export interface SkyChartAxisConfig {
-  /** Whether to always start the axis at zero. */
-  beginAtZero?: boolean;
+export type SkyChartCategoryAxisConfig = SkyChartAxisConfig;
+
+/**
+ * Configuration for chart axis settings.
+ * Used by cartesian charts (Bar, Line) that have X and Y axes.
+ */
+export interface SkyChartValueAxisConfig extends SkyChartAxisConfig {
+  /**
+   * The suggested minimum value for the axis.
+   * If not specified, the chart will automatically determine the minimum based on the data.
+   */
+  suggestedMin?: number;
+
+  /**
+   * The suggested maximum value for the axis.
+   * If not specified, the chart will automatically determine the minimum based on the data.
+   */
+  suggestedMax?: number;
 }
 // #endregion
 
@@ -65,8 +83,8 @@ export interface SkyCartesianChartConfig<TData extends SkyChartDataPoint>
   /** Should the data be stacked */
   stacked?: boolean;
 
-  categoryAxis?: SkyChartAxisConfig;
-  valueAxis?: SkyChartAxisConfig;
+  categoryAxis?: SkyChartCategoryAxisConfig;
+  valueAxis?: SkyChartValueAxisConfig;
 }
 
 /**

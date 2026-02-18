@@ -40,7 +40,8 @@ export class LineChartDemoComponent {
         ],
       },
     ],
-    valueAxis: { beginAtZero: true },
+    valueAxis: { label: 'Amount' },
+    categoryAxis: { label: 'Month' },
   };
 
   protected readonly multiSeries: SkyLineChartConfig = {
@@ -94,7 +95,8 @@ export class LineChartDemoComponent {
         ),
       },
     ],
-    valueAxis: { beginAtZero: true },
+    valueAxis: { label: 'Amount' },
+    categoryAxis: { label: 'Month' },
   };
 
   protected readonly stacked: SkyLineChartConfig = {
@@ -149,6 +151,7 @@ export class LineChartDemoComponent {
         ),
       },
     ],
-    valueAxis: { beginAtZero: true },
+    valueAxis: { label: 'Amount' },
+    categoryAxis: { label: 'Month' },
   };
 }
