@@ -4,6 +4,18 @@
 
 .sky-chart-header {
   padding-right: 3rem; // reserve space for context menu button
+
+  h2,
+  h3,
+  h4,
+  h5 {
+    display: inline;
+    margin-block: 0;
+  }
+}
+
+.sky-chart-subtitle {
+  color: var(--sky-text-color-deemphasized);
 }
 
 // ChartJS requires the Canvas to have a parent container that is dedicated to the element

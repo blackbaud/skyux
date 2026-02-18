@@ -7,8 +7,11 @@ import {
   ElementRef,
   NgZone,
   OnDestroy,
+  booleanAttribute,
+  computed,
   inject,
   input,
+  numberAttribute,
   output,
   signal,
   viewChild,
@@ -32,6 +35,19 @@ import {
 } from '../shared/chart-types';
 import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
 
+import {
+  SKY_CHART_HEADER_ID,
+  provideSkyChartHeaderId,
+} from './chart-header-id-token';
+import {
+  SkyChartHeadingLevel,
+  isSkyChartHeadingLevel,
+} from './chart-heading-level';
+import {
+  SkyChartHeadingStyle,
+  isSkyChartHeadingStyle,
+} from './chart-heading-style';
+
 // Register Chart.js components globally
 Chart.register(...registerables);
 
@@ -48,6 +64,7 @@ Chart.register(...registerables);
     SkyDropdownModule,
     SkyChartLegendComponent,
   ],
+  providers: [provideSkyChartHeaderId()],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyChartShellComponent implements AfterViewInit, OnDestroy {
@@ -57,10 +74,62 @@ export class SkyChartShellComponent implements AfterViewInit, OnDestroy {
   readonly #themeSvc = inject(SkyThemeService, { optional: true });
   readonly #zone = inject(NgZone);
   readonly #modalService = inject(SkyModalService);
+  protected readonly headerId = inject(SKY_CHART_HEADER_ID);
   // #endregion
 
   // #region Inputs
+  /**
+   * The text to display as the chart's heading.
+   */
   public readonly headingText = input.required<string>();
+
+  /**
+   * Indicates whether to hide the `headingText`.
+   */
+  public readonly headingHidden = input(false, { transform: booleanAttribute });
+
+  /**
+   * The semantic heading level in the document structure. The default is 3.
+   * @default 3
+   */
+  public readonly headingLevel = input<SkyChartHeadingLevel, unknown>(3, {
+    transform: (value: unknown) => {
+      const numberValue = numberAttribute(value, 3);
+      if (isSkyChartHeadingLevel(numberValue)) {
+        return numberValue;
+      }
+
+      return 3;
+    },
+  });
+
+  /**
+   * The heading [font style](https://developer.blackbaud.com/skyux/design/styles/typography#headings).
+   * @default 3
+   */
+  public readonly headingStyle = input<SkyChartHeadingStyle, unknown>(3, {
+    transform: (value: unknown) => {
+      const numberValue = numberAttribute(value, 3);
+      if (isSkyChartHeadingStyle(numberValue)) {
+        return numberValue;
+      }
+
+      return 3;
+    },
+  });
+
+  /**
+   * Indicates whether to hide the `headingText`.
+   */
+  public readonly subtitleHidden = input(false, {
+    transform: booleanAttribute,
+  });
+
+  /**
+   * The text to display as the chart's subtitle.
+   */
+  public readonly subtitleText = input<string>();
+
   public readonly chartHeight = input.required<number>();
   public readonly ariaLabel = input<string>();
 
@@ -79,6 +148,9 @@ export class SkyChartShellComponent implements AfterViewInit, OnDestroy {
     viewChild.required<ElementRef<HTMLCanvasElement>>('canvas');
   // #endregion
 
+  protected headingClass = computed(
+    () => `sky-font-heading-${this.headingLevel()}`,
+  );
   protected readonly chart = signal<Chart | undefined>(undefined);
   protected readonly legendItems = signal<SkyChartLegendItem[]>([]);
 

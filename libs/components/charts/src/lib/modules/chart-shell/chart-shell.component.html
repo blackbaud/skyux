@@ -1,10 +1,61 @@
-<div class="sky-chart-shell">
-  <!-- Header Container -->
+<section
+  class="sky-chart-shell"
+  [attr.aria-label]="headingText()"
+  [attr.aria-labelledby]="headerId"
+>
+  <!-- Header -->
   <div class="sky-chart-header">
     @if (headingText()) {
-      <h3 class="sky-margin-stacked-xs">{{ headingText() }}</h3>
+      @switch (headingLevel()) {
+        @case (2) {
+          <h2
+            [id]="headerId"
+            [class]="headingClass()"
+            [class.sky-screen-reader-only]="headingHidden()"
+          >
+            {{ headingText() }}
+          </h2>
+        }
+        @case (4) {
+          <h4
+            [id]="headerId"
+            [class]="headingClass()"
+            [class.sky-screen-reader-only]="headingHidden()"
+          >
+            {{ headingText() }}
+          </h4>
+        }
+        @case (5) {
+          <h5
+            [id]="headerId"
+            [class]="headingClass()"
+            [class.sky-screen-reader-only]="headingHidden()"
+          >
+            {{ headingText() }}
+          </h5>
+        }
+        @default {
+          <h3
+            [id]="headerId"
+            [class]="headingClass()"
+            [class.sky-screen-reader-only]="headingHidden()"
+          >
+            {{ headingText() }}
+          </h3>
+        }
+      }
     }
   </div>
+
+  <!-- Subtitle -->
+  @if (subtitleText()) {
+    <div
+      class="sky-font-body-default sky-chart-subtitle"
+      [class.sky-screen-reader-only]="subtitleHidden()"
+    >
+      {{ subtitleText() }}
+    </div>
+  }
 
   <!-- Chart -->
   <div
@@ -37,4 +88,4 @@
       </sky-dropdown-menu>
     </sky-dropdown>
   </div>
-</div>
+</section>

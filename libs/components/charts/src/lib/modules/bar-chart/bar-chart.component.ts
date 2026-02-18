@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  booleanAttribute,
   computed,
   effect,
   input,
@@ -10,6 +11,8 @@ import {
 
 import { ChartConfiguration } from 'chart.js';
 
+import { SkyChartHeadingLevel } from '../chart-shell/chart-heading-level';
+import { SkyChartHeadingStyle } from '../chart-shell/chart-heading-style';
 import { SkyChartShellComponent } from '../chart-shell/chart-shell.component';
 import { SkyChartDataPointClickEvent } from '../shared/chart-types';
 
@@ -25,7 +28,40 @@ import { SkyBarChartConfig } from './bar-chart-types';
 })
 export class SkyBarChartComponent {
   // #region Inputs
+  /**
+   * The text to display as the chart's heading.
+   */
   public readonly headingText = input.required<string>();
+
+  /**
+   * Indicates whether to hide the `headingText`.
+   */
+  public readonly headingHidden = input(false, { transform: booleanAttribute });
+
+  /**
+   * The semantic heading level in the document structure. The default is 3.
+   * @default 3
+   */
+  public readonly headingLevel = input<SkyChartHeadingLevel>(3);
+
+  /**
+   * The heading [font style](https://developer.blackbaud.com/skyux/design/styles/typography#headings).
+   * @default 3
+   */
+  public readonly headingStyle = input<SkyChartHeadingStyle>(3);
+
+  /**
+   * Indicates whether to hide the `headingText`.
+   */
+  public readonly subtitleHidden = input(false, {
+    transform: booleanAttribute,
+  });
+
+  /**
+   * The text to display as the chart's subtitle.
+   */
+  public readonly subtitleText = input<string>();
+
   public readonly chartHeight = input.required<number>();
   public readonly ariaLabel = input<string>();
   public readonly config = input.required<SkyBarChartConfig>();
