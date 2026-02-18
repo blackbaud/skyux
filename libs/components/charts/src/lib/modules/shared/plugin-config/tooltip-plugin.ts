@@ -7,6 +7,7 @@ export function getTooltipPluginOptions(): Partial<TooltipOptions> {
     enabled: true,
     mode: 'index',
     intersect: false,
+    cornerRadius: SkyuxChartStyles.tooltipCornerRadius,
     backgroundColor: SkyuxChartStyles.tooltipBackgroundColor,
     titleColor: SkyuxChartStyles.tooltipTitleColor,
     bodyColor: SkyuxChartStyles.tooltipBodyColor,
@@ -30,6 +31,11 @@ export function getTooltipPluginOptions(): Partial<TooltipOptions> {
       family: SkyuxChartStyles.fontFamily,
       size: SkyuxChartStyles.tooltipBodyFontSize,
       weight: SkyuxChartStyles.tooltipBodyFontWeight,
+    },
+    footerFont: {
+      family: SkyuxChartStyles.fontFamily,
+      size: SkyuxChartStyles.tooltipFooterFontSize,
+      weight: SkyuxChartStyles.tooltipFooterFontWeight,
     },
   };
 }

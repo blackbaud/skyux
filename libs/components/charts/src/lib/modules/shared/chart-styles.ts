@@ -322,6 +322,16 @@ export const SkyuxChartStyles = {
     return Number(weight) || 400; // Fallback
   },
 
+  get tooltipFooterFontSize(): number {
+    const size = resolveCssVariable('--sky-font-size-body-m');
+    return remToPixels(size || '15px'); // Fallback
+  },
+
+  get tooltipFooterFontWeight(): number {
+    const weight = resolveCssVariable('--sky-font-style-body-m');
+    return Number(weight) || 400; // Fallback
+  },
+
   get tooltipBoxPadding(): number {
     const space = resolveCssVariable('--sky-space-gap-label-s');
     // console.log('SKY UX Tooltip Box Padding:', space);
@@ -337,6 +347,12 @@ export const SkyuxChartStyles = {
 
     return overrideColor;
   },
+
+  get tooltipCornerRadius(): number {
+    const space = resolveCssVariable('--sky-border-radius-s');
+    return remToPixels(space || '4px'); // Fallback
+  },
+
   // =============================================================================
   // SHARED/GENERAL
   // =============================================================================
