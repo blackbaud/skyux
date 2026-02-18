@@ -10,9 +10,13 @@
 .sky-chart-legend-marker {
   display: inline-block;
   flex-shrink: 0;
-  height: 12px;
-  width: 12px;
+  height: var(--sky-size-icon-xs);
+  width: var(--sky-size-icon-xs);
 
   // Makes the legend marker circular
   border-radius: 50%;
+}
+
+.sky-chart-legend-item {
+  color: var(--sky-text-color-deemphasized);
 }
