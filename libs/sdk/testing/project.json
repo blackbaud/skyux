@@ -19,7 +19,15 @@
           "tsConfig": "libs/sdk/testing/tsconfig.lib.json"
         }
       },
-      "defaultConfiguration": "production"
+      "defaultConfiguration": "production",
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/sdk/testing/private/src/**/*",
+        "!{workspaceRoot}/libs/sdk/testing/private/src/**/*.spec.ts",
+        "{workspaceRoot}/libs/sdk/testing/vitest/src/**/*",
+        "!{workspaceRoot}/libs/sdk/testing/vitest/src/**/*.spec.ts"
+      ]
     },
     "test": {
       "dependsOn": ["test-integration", "testing-private:test"],
