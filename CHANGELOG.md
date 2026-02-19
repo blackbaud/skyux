@@ -1,6 +1,15 @@
 # Changelog
 
 
+## [13.14.2](https://github.com/blackbaud/skyux/compare/13.14.1...13.14.2) (2026-02-19)
+
+
+### Bug Fixes
+
+* **components/list-builder:** stop overriding dropdown button padding ([#4181](https://github.com/blackbaud/skyux/issues/4181)) ([ca99b56](https://github.com/blackbaud/skyux/commit/ca99b56c2bcc3f208fbaec31cd49c3bb30067216))
+
+
+
 ## [13.14.1](https://github.com/blackbaud/skyux/compare/13.14.0...13.14.1) (2026-02-12)
 
 
