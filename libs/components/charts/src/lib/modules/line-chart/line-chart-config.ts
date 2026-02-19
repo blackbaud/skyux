@@ -9,10 +9,10 @@ import {
 import { parseCategories } from '../shared/chart-helpers';
 import { SkyuxChartStyles } from '../shared/chart-styles';
 import {
-  DeepPartial,
   SkyCategory,
   SkyChartDataPointClickEvent,
 } from '../shared/chart-types';
+import { DeepPartial } from '../shared/deep-partial-type';
 import { mergeChartConfig } from '../shared/global-chart-config';
 import { createAutoColorPlugin } from '../shared/plugins/auto-color-plugin';
 import { createTooltipShadowPlugin } from '../shared/plugins/tooltip-shadow-plugin';
@@ -25,19 +25,19 @@ import { SkyLineChartConfig } from './line-chart-types';
  * a clean mapping from the public API to the internal representation.
  */
 export function getChartJsLineChartConfig(
-  skyConfig: SkyLineChartConfig,
+  config: SkyLineChartConfig,
   callbacks: {
     onDataPointClick: (event: SkyChartDataPointClickEvent) => void;
   },
 ): ChartConfiguration<'line'> {
-  const orientation = skyConfig.orientation || 'vertical';
+  const orientation = config.orientation || 'vertical';
   const isVertical = orientation === 'vertical';
 
   // Build categories from series data
-  const categories = parseCategories(skyConfig.series);
+  const categories = parseCategories(config.series);
 
   // Build datasets from series
-  const datasets = skyConfig.series.map((series) => {
+  const datasets = config.series.map((series) => {
     const byCategory = new Map<SkyCategory, number | null>();
 
     for (const p of series.data) {
@@ -59,12 +59,12 @@ export function getChartJsLineChartConfig(
   // Build Plugin options
   const pluginOptions: ChartOptions['plugins'] = {};
 
-  if (skyConfig.title) {
-    pluginOptions.title = { display: true, text: skyConfig.title };
+  if (config.title) {
+    pluginOptions.title = { display: true, text: config.title };
   }
 
-  if (skyConfig.subtitle) {
-    pluginOptions.subtitle = { display: true, text: skyConfig.subtitle };
+  if (config.subtitle) {
+    pluginOptions.subtitle = { display: true, text: config.subtitle };
   }
 
   // Build ChartJS options
@@ -83,7 +83,7 @@ export function getChartJsLineChartConfig(
         pointStyle: 'circle',
       },
     },
-    scales: createLinearScales(skyConfig),
+    scales: createScales(config),
     plugins: pluginOptions,
     onClick: (e, elements) => {
       if (elements.length === 0) {
@@ -109,20 +109,32 @@ export function getChartJsLineChartConfig(
   };
 }
 
-type PartialLinearScale = DeepPartial<
+type PartialLineScale = DeepPartial<
   ScaleOptionsByType<ChartTypeRegistry['line']['scales']>
 >;
 
-// eslint-disable-next-line complexity
-function createLinearScales(
-  skyConfig: SkyLineChartConfig,
+/**
+ * Creates the scales configuration for the line chart.
+ * @param config
+ * @returns
+ */
+function createScales(
+  config: SkyLineChartConfig,
 ): ChartOptions<'line'>['scales'] {
-  const orientation = skyConfig.orientation ?? 'vertical';
-  const isVertical = orientation === 'vertical';
-  const valueAxis = isVertical ? 'y' : 'x';
-  const categoryAxis = isVertical ? 'y' : 'x';
+  const orientation = config.orientation ?? 'vertical';
 
-  const base: PartialLinearScale = {
+  const categoryScale = createCategoryScale(config);
+  const valueScale = createValueScale(config);
+
+  if (orientation === 'vertical') {
+    return { x: categoryScale, y: valueScale };
+  } else {
+    return { x: valueScale, y: categoryScale };
+  }
+}
+
+function getBaseScale(): PartialLineScale {
+  const base: PartialLineScale = {
     grid: {
       display: true,
       color: SkyuxChartStyles.axisGridLineColor,
@@ -157,9 +169,19 @@ function createLinearScales(
     },
   };
 
-  const categoryScale: PartialLinearScale = {
+  return base;
+}
+
+function createCategoryScale(config: SkyLineChartConfig): PartialLineScale {
+  const orientation = config.orientation ?? 'vertical';
+  const isVertical = orientation === 'vertical';
+  const categoryAxis = isVertical ? 'y' : 'x';
+
+  const base = getBaseScale();
+
+  const categoryScale: PartialLineScale = {
     type: 'category',
-    stacked: skyConfig.stacked ?? false,
+    stacked: config.stacked ?? false,
     grid: base.grid,
     border: base.border,
     ticks: {
@@ -168,8 +190,8 @@ function createLinearScales(
     },
     title: {
       ...base.title,
-      display: !!skyConfig.categoryAxis?.label,
-      text: skyConfig.categoryAxis?.label,
+      display: !!config.categoryAxis?.label,
+      text: config.categoryAxis?.label,
       padding: {
         top:
           categoryAxis === 'x'
@@ -183,11 +205,29 @@ function createLinearScales(
     },
   };
 
-  const valueScale: PartialLinearScale = {
+  return categoryScale;
+}
+
+function createValueScale(config: SkyLineChartConfig): PartialLineScale {
+  if (config.valueAxis?.scaleType === 'logarithmic') {
+    return createLogarithmicValueScale(config);
+  } else {
+    return createLinearValueScale(config);
+  }
+}
+
+function createLinearValueScale(config: SkyLineChartConfig): PartialLineScale {
+  const orientation = config.orientation ?? 'vertical';
+  const isVertical = orientation === 'vertical';
+  const valueAxis = isVertical ? 'y' : 'x';
+
+  const base = getBaseScale();
+
+  const valueScale: PartialLineScale = {
     type: 'linear',
-    stacked: skyConfig.stacked ?? false,
-    suggestedMin: skyConfig.valueAxis?.suggestedMin,
-    suggestedMax: skyConfig.valueAxis?.suggestedMax,
+    stacked: config.stacked ?? false,
+    suggestedMin: config.valueAxis?.suggestedMin,
+    suggestedMax: config.valueAxis?.suggestedMax,
     grid: base.grid,
     border: base.border,
     ticks: {
@@ -196,8 +236,8 @@ function createLinearScales(
     },
     title: {
       ...base.title,
-      display: !!skyConfig.valueAxis?.label,
-      text: skyConfig.valueAxis?.label,
+      display: !!config.valueAxis?.label,
+      text: config.valueAxis?.label,
       padding: {
         top:
           valueAxis === 'y'
@@ -211,9 +251,45 @@ function createLinearScales(
     },
   };
 
-  if (isVertical) {
-    return { x: categoryScale, y: valueScale };
-  } else {
-    return { x: valueScale, y: valueScale };
-  }
+  return valueScale;
+}
+
+function createLogarithmicValueScale(
+  config: SkyLineChartConfig,
+): PartialLineScale {
+  const orientation = config.orientation ?? 'vertical';
+  const isVertical = orientation === 'vertical';
+  const valueAxis = isVertical ? 'y' : 'x';
+
+  const base = getBaseScale();
+
+  const valueScale: PartialLineScale = {
+    type: 'logarithmic',
+    stacked: config.stacked ?? false,
+    suggestedMin: config.valueAxis?.suggestedMin,
+    suggestedMax: config.valueAxis?.suggestedMax,
+    grid: base.grid,
+    border: base.border,
+    ticks: {
+      ...base.ticks,
+      padding: SkyuxChartStyles.axisTickPaddingY,
+    },
+    title: {
+      ...base.title,
+      display: !!config.valueAxis?.label,
+      text: config.valueAxis?.label,
+      padding: {
+        top:
+          valueAxis === 'y'
+            ? SkyuxChartStyles.scaleYTitlePaddingLeft
+            : SkyuxChartStyles.scaleXTitlePaddingTop,
+        bottom:
+          valueAxis === 'y'
+            ? SkyuxChartStyles.scaleYTitlePaddingRight
+            : SkyuxChartStyles.scaleXTitlePaddingBottom,
+      },
+    },
+  };
+
+  return valueScale;
 }

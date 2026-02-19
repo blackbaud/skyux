@@ -1,13 +1,14 @@
-<h2>Charts Playground</h2>
+<h1>Charts Playground</h1>
 
 <sky-fluid-grid>
+  <!-- Linear -->
   <sky-row>
     <!-- Single series -->
     <sky-column
       [screenXSmall]="12"
       [screenSmall]="12"
-      [screenMedium]="6"
-      [screenLarge]="6"
+      [screenMedium]="4"
+      [screenLarge]="4"
     >
       <sky-box headingText="Single series" class="sky-margin-stacked-xl">
         <sky-box-content>
@@ -24,8 +25,8 @@
     <sky-column
       [screenXSmall]="12"
       [screenSmall]="12"
-      [screenMedium]="6"
-      [screenLarge]="6"
+      [screenMedium]="4"
+      [screenLarge]="4"
     >
       <sky-box headingText="Multi series" class="sky-margin-stacked-xl">
         <sky-box-content>
@@ -42,8 +43,8 @@
     <sky-column
       [screenXSmall]="12"
       [screenSmall]="12"
-      [screenMedium]="6"
-      [screenLarge]="6"
+      [screenMedium]="4"
+      [screenLarge]="4"
     >
       <sky-box headingText="Stacked" class="sky-margin-stacked-xl">
         <sky-box-content>
@@ -51,6 +52,69 @@
             headingText="Month-by-month revenue"
             chartHeight="300"
             [config]="stacked"
+          />
+        </sky-box-content>
+      </sky-box>
+    </sky-column>
+  </sky-row>
+
+  <!-- Logarithmic -->
+  <sky-row>
+    <!-- Single series Log -->
+    <sky-column
+      [screenXSmall]="12"
+      [screenSmall]="12"
+      [screenMedium]="4"
+      [screenLarge]="4"
+    >
+      <sky-box
+        headingText="Single series Logarithmic"
+        class="sky-margin-stacked-xl"
+      >
+        <sky-box-content>
+          <sky-line-chart
+            headingText="Month-by-month revenue"
+            chartHeight="300"
+            [config]="singleSeriesLog"
+          />
+        </sky-box-content>
+      </sky-box>
+    </sky-column>
+
+    <!-- Multi series Log -->
+    <sky-column
+      [screenXSmall]="12"
+      [screenSmall]="12"
+      [screenMedium]="4"
+      [screenLarge]="4"
+    >
+      <sky-box
+        headingText="Multi series Logarithmic"
+        class="sky-margin-stacked-xl"
+      >
+        <sky-box-content>
+          <sky-line-chart
+            headingText="Month-by-month revenue"
+            chartHeight="300"
+            [config]="multiSeriesLog"
+          />
+        </sky-box-content>
+      </sky-box>
+    </sky-column>
+
+    <!-- Stacked Log -->
+    <sky-column
+      [screenXSmall]="12"
+      [screenSmall]="12"
+      [screenMedium]="4"
+      [screenLarge]="4"
+    >
+      <sky-box headingText="Stacked Logarithmic" class="sky-margin-stacked-xl">
+        <sky-box-content>
+          <sky-line-chart
+            headingText="Month-by-month revenue"
+            chartHeight="300"
+            [config]="stackedLog"
           />
         </sky-box-content>
       </sky-box>

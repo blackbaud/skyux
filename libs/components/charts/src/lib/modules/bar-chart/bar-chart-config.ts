@@ -9,10 +9,10 @@ import {
 import { parseCategories } from '../shared/chart-helpers';
 import { SkyuxChartStyles } from '../shared/chart-styles';
 import {
-  DeepPartial,
   SkyCategory,
   SkyChartDataPointClickEvent,
 } from '../shared/chart-types';
+import { DeepPartial } from '../shared/deep-partial-type';
 import { mergeChartConfig } from '../shared/global-chart-config';
 import { createAutoColorPlugin } from '../shared/plugins/auto-color-plugin';
 import { createTooltipShadowPlugin } from '../shared/plugins/tooltip-shadow-plugin';
@@ -84,7 +84,7 @@ export function getChartJsBarChartConfig(
         borderRadius: SkyuxChartStyles.barBorderRadius,
       },
     },
-    scales: createLinearScales(skyConfig),
+    scales: createScales(skyConfig),
     plugins: pluginOptions,
     onClick: (e, elements) => {
       if (elements.length === 0) {
@@ -134,20 +134,32 @@ function getInteraction(
   return interaction;
 }
 
-type PartialLinearScale = DeepPartial<
+type PartialBarScale = DeepPartial<
   ScaleOptionsByType<ChartTypeRegistry['bar']['scales']>
 >;
 
-// eslint-disable-next-line complexity
-function createLinearScales(
+/**
+ * Creates the scales configuration for the bar chart.
+ * @param skyConfig
+ * @returns
+ */
+function createScales(
   skyConfig: SkyBarChartConfig,
 ): ChartOptions<'bar'>['scales'] {
   const orientation = skyConfig.orientation ?? 'vertical';
-  const isVertical = orientation === 'vertical';
-  const valueAxis = isVertical ? 'y' : 'x';
-  const categoryAxis = isVertical ? 'y' : 'x';
 
-  const base: PartialLinearScale = {
+  const categoryScale = createCategoryScale(skyConfig);
+  const valueScale = createValueScale(skyConfig);
+
+  if (orientation === 'vertical') {
+    return { x: categoryScale, y: valueScale };
+  } else {
+    return { x: valueScale, y: categoryScale };
+  }
+}
+
+function getBaseScale(): PartialBarScale {
+  const base: PartialBarScale = {
     border: {
       display: true,
       color: SkyuxChartStyles.axisLineColor,
@@ -175,9 +187,19 @@ function createLinearScales(
     },
   };
 
-  const categoryScale: PartialLinearScale = {
+  return base;
+}
+
+function createCategoryScale(config: SkyBarChartConfig): PartialBarScale {
+  const orientation = config.orientation ?? 'vertical';
+  const isVertical = orientation === 'vertical';
+  const categoryAxis = isVertical ? 'y' : 'x';
+
+  const base = getBaseScale();
+
+  const categoryScale: PartialBarScale = {
     type: 'category',
-    stacked: skyConfig.stacked ?? false,
+    stacked: config.stacked ?? false,
     grid: {
       display: false,
       lineWidth: 0,
@@ -191,8 +213,8 @@ function createLinearScales(
     },
     title: {
       ...base.title,
-      display: !!skyConfig.categoryAxis?.label,
-      text: skyConfig.categoryAxis?.label,
+      display: !!config.categoryAxis?.label,
+      text: config.categoryAxis?.label ?? '',
       padding: {
         top:
           categoryAxis === 'x'
@@ -206,12 +228,30 @@ function createLinearScales(
     },
   };
 
-  const valueScale: PartialLinearScale = {
+  return categoryScale;
+}
+
+function createValueScale(config: SkyBarChartConfig): PartialBarScale {
+  if (config.valueAxis?.scaleType === 'logarithmic') {
+    return createLogarithmicValueScale(config);
+  } else {
+    return createLinearValueScale(config);
+  }
+}
+
+function createLinearValueScale(config: SkyBarChartConfig): PartialBarScale {
+  const orientation = config.orientation ?? 'vertical';
+  const isVertical = orientation === 'vertical';
+  const valueAxis = isVertical ? 'y' : 'x';
+
+  const base = getBaseScale();
+
+  const valueScale: PartialBarScale = {
     type: 'linear',
-    stacked: skyConfig.stacked ?? false,
+    stacked: config.stacked ?? false,
     beginAtZero: true,
-    suggestedMin: skyConfig.valueAxis?.suggestedMin,
-    suggestedMax: skyConfig.valueAxis?.suggestedMax,
+    suggestedMin: config.valueAxis?.suggestedMin,
+    suggestedMax: config.valueAxis?.suggestedMax,
     grid: {
       display: true,
       color: SkyuxChartStyles.axisGridLineColor,
@@ -226,8 +266,8 @@ function createLinearScales(
     },
     title: {
       ...base.title,
-      display: !!skyConfig.valueAxis?.label,
-      text: skyConfig.valueAxis?.label,
+      display: !!config.valueAxis?.label,
+      text: config.valueAxis?.label,
       padding: {
         top:
           valueAxis === 'y'
@@ -241,9 +281,51 @@ function createLinearScales(
     },
   };
 
-  if (isVertical) {
-    return { x: categoryScale, y: valueScale };
-  } else {
-    return { x: valueScale, y: categoryScale };
-  }
+  return valueScale;
+}
+
+function createLogarithmicValueScale(
+  config: SkyBarChartConfig,
+): PartialBarScale {
+  const orientation = config.orientation ?? 'vertical';
+  const isVertical = orientation === 'vertical';
+  const valueAxis = isVertical ? 'y' : 'x';
+
+  const base = getBaseScale();
+
+  const valueScale: PartialBarScale = {
+    type: 'logarithmic',
+    stacked: config.stacked ?? false,
+    suggestedMin: config.valueAxis?.suggestedMin,
+    suggestedMax: config.valueAxis?.suggestedMax,
+    grid: {
+      display: true,
+      color: SkyuxChartStyles.axisGridLineColor,
+      tickColor: SkyuxChartStyles.axisGridLineColor,
+      drawTicks: true,
+      tickLength: SkyuxChartStyles.axisTickLength,
+    },
+    border: base.border,
+    ticks: {
+      ...base.ticks,
+      padding: SkyuxChartStyles.axisTickPaddingY,
+    },
+    title: {
+      ...base.title,
+      display: !!config.valueAxis?.label,
+      text: config.valueAxis?.label,
+      padding: {
+        top:
+          valueAxis === 'y'
+            ? SkyuxChartStyles.scaleYTitlePaddingLeft
+            : SkyuxChartStyles.scaleXTitlePaddingTop,
+        bottom:
+          valueAxis === 'y'
+            ? SkyuxChartStyles.scaleYTitlePaddingRight
+            : SkyuxChartStyles.scaleXTitlePaddingBottom,
+      },
+    },
+  };
+
+  return valueScale;
 }

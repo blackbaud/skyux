@@ -58,6 +58,12 @@ export type SkyChartCategoryAxisConfig = SkyChartAxisConfig;
  */
 export interface SkyChartValueAxisConfig extends SkyChartAxisConfig {
   /**
+   * The type of scale to use for the value axis.
+   * @default 'linear'
+   */
+  scaleType?: 'linear' | 'logarithmic';
+
+  /**
    * The suggested minimum value for the axis.
    * If not specified, the chart will automatically determine the minimum based on the data.
    */
@@ -94,18 +100,4 @@ export interface SkyRadialChartConfig<TData extends SkyChartDataPoint>
   extends SkyChartConfigBase {
   series: SkyChartSeries<TData>;
 }
-// #endregion
-
-// #region Utility Types
-// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-export type DeepPartial<T> = T extends Function
-  ? T
-  : T extends Array<infer U>
-    ? DeepPartialArray<U>
-    : T extends object
-      ? DeepPartialObject<T>
-      : T | undefined;
-
-type DeepPartialArray<T> = Array<DeepPartial<T>>;
-type DeepPartialObject<T> = { [P in keyof T]?: DeepPartial<T[P]> };
 // #endregion

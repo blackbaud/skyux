@@ -104,6 +104,90 @@ export class BarChartDemoComponent {
     valueAxis: { label: 'Value' },
     categoryAxis: { label: 'Month' },
   };
+
+  protected readonly singleSeriesVerticalLog: SkyBarChartConfig = {
+    orientation: 'vertical',
+    series: [
+      {
+        label: 'Spending',
+        data: [
+          { category: 'Jan', label: '$50K', value: 50_000 },
+          { category: 'Feb', label: '$100K', value: 100_000 },
+          { category: 'Mar', label: '$150K', value: 150_000 },
+          { category: 'Apr', label: '$200K', value: 200_000 },
+        ],
+      },
+    ],
+    valueAxis: { label: 'Value', scaleType: 'logarithmic' },
+    categoryAxis: { label: 'Month' },
+  };
+
+  protected readonly multiSeriesVerticalLog: SkyBarChartConfig = {
+    orientation: 'vertical',
+    series: [
+      {
+        label: 'Budget',
+        data: [
+          { category: 'Revenue', label: '$120K', value: 120_000 },
+          { category: 'Expenses', label: '$85K', value: 85_000 },
+        ],
+      },
+      {
+        label: 'Actuals',
+        data: [
+          { category: 'Revenue', label: '$115K', value: 115_000 },
+          { category: 'Expenses', label: '$78K', value: 78_000 },
+        ],
+      },
+    ],
+    valueAxis: { label: 'Value', scaleType: 'logarithmic' },
+    categoryAxis: { label: 'Month' },
+  };
+
+  protected readonly stackedVerticalLog: SkyBarChartConfig = {
+    orientation: 'vertical',
+    stacked: true,
+    series: [
+      {
+        label: 'Dataset 1',
+        data: ChartDemoUtils.numbers({ count: 7, min: 0, max: 100 }).map(
+          (value, index) => {
+            return {
+              category: ChartDemoUtils.months({ count: 7 })[index],
+              label: `$${value}`,
+              value,
+            };
+          },
+        ),
+      },
+      {
+        label: 'Dataset 2',
+        data: ChartDemoUtils.numbers({ count: 7, min: 0, max: 100 }).map(
+          (value, index) => {
+            return {
+              category: ChartDemoUtils.months({ count: 7 })[index],
+              label: `$${value}`,
+              value,
+            };
+          },
+        ),
+      },
+      {
+        label: 'Dataset 3',
+        data: ChartDemoUtils.numbers({ count: 7, min: 0, max: 100 }).map(
+          (value, index) => {
+            return {
+              category: ChartDemoUtils.months({ count: 7 })[index],
+              label: `$${value}`,
+              value,
+            };
+          },
+        ),
+      },
+    ],
+    valueAxis: { label: 'Value', scaleType: 'logarithmic' },
+    categoryAxis: { label: 'Month' },
+  };
   // #endregion
 
   // #region Horizontal
@@ -188,6 +272,90 @@ export class BarChartDemoComponent {
       },
     ],
     valueAxis: { label: 'Amount' },
+    categoryAxis: { label: 'Month' },
+  };
+
+  protected readonly singleSeriesHorizontalLog: SkyBarChartConfig = {
+    orientation: 'horizontal',
+    series: [
+      {
+        label: 'Spending',
+        data: [
+          { category: 'Jan', label: '$50K', value: 50_000 },
+          { category: 'Feb', label: '$100K', value: 100_000 },
+          { category: 'Mar', label: '$150K', value: 150_000 },
+          { category: 'Apr', label: '$200K', value: 200_000 },
+        ],
+      },
+    ],
+    valueAxis: { label: 'Amount', scaleType: 'logarithmic' },
+    categoryAxis: { label: 'Month' },
+  };
+
+  protected readonly multiSeriesHorizontalLog: SkyBarChartConfig = {
+    orientation: 'horizontal',
+    series: [
+      {
+        label: 'Budget',
+        data: [
+          { category: 'Revenue', label: '$120K', value: 120_000 },
+          { category: 'Expenses', label: '$85K', value: 85_000 },
+        ],
+      },
+      {
+        label: 'Actuals',
+        data: [
+          { category: 'Revenue', label: '$115K', value: 115_000 },
+          { category: 'Expenses', label: '$78K', value: 78_000 },
+        ],
+      },
+    ],
+    valueAxis: { label: 'Amount', scaleType: 'logarithmic' },
+    categoryAxis: { label: 'Month' },
+  };
+
+  protected readonly stackedHorizontalLog: SkyBarChartConfig = {
+    orientation: 'horizontal',
+    stacked: true,
+    series: [
+      {
+        label: 'Dataset 1',
+        data: ChartDemoUtils.numbers({ count: 7, min: 0, max: 1_000 }).map(
+          (value, index) => {
+            return {
+              category: ChartDemoUtils.months({ count: 7 })[index],
+              label: `$${value}`,
+              value,
+            };
+          },
+        ),
+      },
+      {
+        label: 'Dataset 2',
+        data: ChartDemoUtils.numbers({ count: 7, min: 0, max: 1_000 }).map(
+          (value, index) => {
+            return {
+              category: ChartDemoUtils.months({ count: 7 })[index],
+              label: `$${value}`,
+              value,
+            };
+          },
+        ),
+      },
+      {
+        label: 'Dataset 3',
+        data: ChartDemoUtils.numbers({ count: 7, min: 0, max: 1_000 }).map(
+          (value, index) => {
+            return {
+              category: ChartDemoUtils.months({ count: 7 })[index],
+              label: `$${value}`,
+              value,
+            };
+          },
+        ),
+      },
+    ],
+    valueAxis: { label: 'Amount', scaleType: 'logarithmic' },
     categoryAxis: { label: 'Month' },
   };
   // #endregion
