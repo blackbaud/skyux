@@ -119,6 +119,11 @@ export class SkyChartShellComponent implements AfterViewInit, OnDestroy {
   });
 
   /**
+   * The text to display as the chart's subtitle.
+   */
+  public readonly subtitleText = input<string>();
+
+  /**
    * Indicates whether to hide the `headingText`.
    */
   public readonly subtitleHidden = input(false, {
@@ -126,14 +131,13 @@ export class SkyChartShellComponent implements AfterViewInit, OnDestroy {
   });
 
   /**
-   * The text to display as the chart's subtitle.
+   * The Chart.js configuration object that defines the chart's data and options.
    */
-  public readonly subtitleText = input<string>();
-
-  public readonly chartHeight = input.required<number>();
-  public readonly ariaLabel = input<string>();
-
   public readonly chartConfiguration = input.required<ChartConfiguration>();
+
+  /**
+   * The series data to render in the chart
+   */
   public readonly series =
     input.required<SkyChartSeries<SkyChartDataPoint>[]>();
   // #endregion
@@ -147,6 +151,9 @@ export class SkyChartShellComponent implements AfterViewInit, OnDestroy {
   public readonly canvasRef =
     viewChild.required<ElementRef<HTMLCanvasElement>>('canvas');
   // #endregion
+
+  /** TODO: Figure out chart height */
+  public readonly chartHeight = signal<number>(300);
 
   protected headingClass = computed(
     () => `sky-font-heading-${this.headingLevel()}`,

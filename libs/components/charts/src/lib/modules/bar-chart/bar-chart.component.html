@@ -1,8 +1,11 @@
 @if (chartConfiguration(); as chartConfiguration) {
   <sky-chart-shell
     [headingText]="headingText()"
-    [chartHeight]="chartHeight()"
-    [ariaLabel]="ariaLabel()"
+    [headingHidden]="headingHidden()"
+    [headingLevel]="headingLevel()"
+    [headingStyle]="headingStyle()"
+    [subtitleText]="subtitleText()"
+    [subtitleHidden]="subtitleHidden()"
     [chartConfiguration]="chartConfiguration"
     [series]="series()"
     (refreshConfiguration)="refreshChartConfiguration()"
