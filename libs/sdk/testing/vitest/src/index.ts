@@ -1,5 +1,8 @@
-import { SkyA11yAnalyzer } from '@skyux-sdk/testing/private';
-import type { SkyA11yAnalyzerConfig } from '@skyux-sdk/testing/private';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import {
+  SkyA11yAnalyzer,
+  type SkyA11yAnalyzerConfig,
+} from '@skyux-sdk/testing/private';
 
 import { expect } from 'vitest';
 

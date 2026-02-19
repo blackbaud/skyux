@@ -22,7 +22,7 @@
       "defaultConfiguration": "production"
     },
     "test": {
-      "dependsOn": ["test-integration"],
+      "dependsOn": ["test-integration", "testing-private:test"],
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
         "tsConfig": "libs/sdk/testing/tsconfig.spec.json",
