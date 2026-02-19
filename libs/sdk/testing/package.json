@@ -6,6 +6,12 @@
     "blackbaud",
     "skyux"
   ],
+  "exports": {
+    "./vitest/setup-matchers.js": {
+      "types": "./types/skyux-sdk-testing-vitest.d.ts",
+      "default": "./fesm2022/skyux-sdk-testing-vitest.mjs"
+    }
+  },
   "license": "MIT",
   "repository": {
     "type": "git",

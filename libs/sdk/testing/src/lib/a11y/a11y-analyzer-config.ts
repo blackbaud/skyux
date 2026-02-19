@@ -1,8 +1,1 @@
-export interface SkyA11yAnalyzerConfig {
-  rules: Record<
-    string,
-    {
-      enabled: boolean;
-    }
-  >;
-}
+export { SkyA11yAnalyzerConfig } from '@skyux-sdk/testing/private';
