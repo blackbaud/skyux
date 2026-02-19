@@ -2,61 +2,6 @@ import axe from 'axe-core';
 
 import { SkyA11yAnalyzerConfig } from './a11y-analyzer-config';
 
-/**
- * @internal
- */
-export abstract class SkyA11yAnalyzer {
-  private static analyzer = axe;
-
-  public static run(
-    element?: axe.ElementContext,
-    config?: SkyA11yAnalyzerConfig,
-  ): Promise<void> {
-    if (element === undefined) {
-      throw new Error('No element was specified for accessibility checking.');
-    }
-
-    SkyA11yAnalyzer.analyzer.reset();
-
-    const defaults: SkyA11yAnalyzerConfig = {
-      rules: {},
-    };
-
-    // Disable autocomplete-valid
-    // Chrome browsers ignore autocomplete="off", which forces us to use non-standard values
-    // to disable the browser's native autofill.
-    // https://bugs.chromium.org/p/chromium/issues/detail?id=468153#c164
-    defaults.rules['autocomplete-valid'] = { enabled: false };
-
-    return new Promise((resolve, reject) => {
-      const callback: axe.RunCallback = (error, results) => {
-        if (error?.message) {
-          reject(error);
-          return;
-        }
-
-        const violations = results.violations.filter((violation) =>
-          violation.nodes.some(filterViolationNodeResults(violation)),
-        );
-
-        if (violations.length > 0) {
-          const message = parseMessage(violations);
-          reject(new Error(message));
-          return;
-        }
-
-        resolve();
-      };
-
-      SkyA11yAnalyzer.analyzer.run(
-        element,
-        { ...defaults, ...config },
-        callback,
-      );
-    });
-  }
-}
-
 function parseMessage(violations: axe.Result[]): string {
   let message = 'Expected element to pass accessibility checks.\n\n';
 
@@ -137,4 +82,59 @@ function filterViolationNodeResults(
   }
 
   return () => true;
+}
+
+/**
+ * @internal
+ */
+export abstract class SkyA11yAnalyzer {
+  private static analyzer = axe;
+
+  public static run(
+    element?: axe.ElementContext,
+    config?: SkyA11yAnalyzerConfig,
+  ): Promise<void> {
+    if (element === undefined) {
+      throw new Error('No element was specified for accessibility checking.');
+    }
+
+    SkyA11yAnalyzer.analyzer.reset();
+
+    const defaults: SkyA11yAnalyzerConfig = {
+      rules: {},
+    };
+
+    // Disable autocomplete-valid
+    // Chrome browsers ignore autocomplete="off", which forces us to use non-standard values
+    // to disable the browser's native autofill.
+    // https://bugs.chromium.org/p/chromium/issues/detail?id=468153#c164
+    defaults.rules['autocomplete-valid'] = { enabled: false };
+
+    return new Promise((resolve, reject) => {
+      const callback: axe.RunCallback = (error, results) => {
+        if (error?.message) {
+          reject(error);
+          return;
+        }
+
+        const violations = results.violations.filter((violation) =>
+          violation.nodes.some(filterViolationNodeResults(violation)),
+        );
+
+        if (violations.length > 0) {
+          const message = parseMessage(violations);
+          reject(new Error(message));
+          return;
+        }
+
+        resolve();
+      };
+
+      SkyA11yAnalyzer.analyzer.run(
+        element,
+        { ...defaults, ...config },
+        callback,
+      );
+    });
+  }
 }

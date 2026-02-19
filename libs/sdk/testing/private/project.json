@@ -13,15 +13,6 @@
         "karmaConfig": "libs/sdk/testing/private/karma.conf.js",
         "codeCoverage": true,
         "codeCoverageExclude": ["**/fixtures/**"],
-        "styles": [
-          "libs/components/theme/src/lib/styles/sky.scss",
-          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
-        ],
-        "polyfills": [
-          "zone.js",
-          "zone.js/testing",
-          "libs/components/packages/src/polyfills.js"
-        ],
         "inlineStyleLanguage": "scss",
         "stylePreprocessorOptions": {
           "includePaths": ["{workspaceRoot}"]
