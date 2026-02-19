@@ -1,11 +1,9 @@
-import { waitForAsync } from '@angular/core/testing';
-
 import axe from 'axe-core';
 
 import { SkyA11yAnalyzer } from './a11y-analyzer';
 
 describe('A11y analyzer', () => {
-  it('should handle axe errors', () => {
+  it('should handle axe errors', async () => {
     function mockRun(
       context: axe.ElementContext,
       options: axe.RunOptions,
@@ -16,12 +14,15 @@ describe('A11y analyzer', () => {
 
     spyOn(SkyA11yAnalyzer['analyzer'], 'run').and.callFake(mockRun as any);
 
-    SkyA11yAnalyzer.run('element').catch((err) => {
-      expect(err.message).toEqual('some error');
-    });
+    try {
+      await SkyA11yAnalyzer.run('element');
+      fail('Expected error to be thrown');
+    } catch (err) {
+      expect((err as Error).message).toEqual('some error');
+    }
   });
 
-  it('should filter known ag-grid axe errors', waitForAsync(() => {
+  it('should filter known ag-grid axe errors', async () => {
     function mockRun(
       context: axe.ElementContext,
       options: axe.RunOptions,
@@ -61,12 +62,10 @@ describe('A11y analyzer', () => {
 
     spyOn(SkyA11yAnalyzer['analyzer'], 'run').and.callFake(mockRun as any);
 
-    void SkyA11yAnalyzer.run('element').then(() => {
-      expect(true).toBe(true);
-    });
-  }));
+    await SkyA11yAnalyzer.run('element');
+  });
 
-  it('should filter error for radiogroup on a fieldset (pre-4.0.0 compat)', waitForAsync(() => {
+  it('should filter error for radiogroup on a fieldset (pre-4.0.0 compat)', async () => {
     function mockRun(
       context: axe.ElementContext,
       options: axe.RunOptions,
@@ -95,12 +94,10 @@ describe('A11y analyzer', () => {
 
     spyOn(SkyA11yAnalyzer['analyzer'], 'run').and.callFake(mockRun as any);
 
-    void SkyA11yAnalyzer.run('element').then(() => {
-      expect(true).toBe(true);
-    });
-  }));
+    await SkyA11yAnalyzer.run('element');
+  });
 
-  it('should not filter error for radiogroup on an invalid element', waitForAsync(() => {
+  it('should not filter error for radiogroup on an invalid element', async () => {
     function mockRun(
       context: axe.ElementContext,
       options: axe.RunOptions,
@@ -129,16 +126,15 @@ describe('A11y analyzer', () => {
 
     spyOn(SkyA11yAnalyzer['analyzer'], 'run').and.callFake(mockRun as any);
 
-    SkyA11yAnalyzer.run('element')
-      .then(() => {
-        fail('Other: Expected error to be thrown');
-      })
-      .catch((result) => {
-        expect(result).toMatch(/<p role="radiogroup">/);
-      });
-  }));
+    try {
+      await SkyA11yAnalyzer.run('element');
+      fail('Expected error to be thrown');
+    } catch (err) {
+      expect(err).toMatch(/<p role="radiogroup">/);
+    }
+  });
 
-  it('should not filter error for an invalid role on a fieldset element', waitForAsync(() => {
+  it('should not filter error for an invalid role on a fieldset element', async () => {
     function mockRun(
       context: axe.ElementContext,
       options: axe.RunOptions,
@@ -167,16 +163,15 @@ describe('A11y analyzer', () => {
 
     spyOn(SkyA11yAnalyzer['analyzer'], 'run').and.callFake(mockRun as any);
 
-    SkyA11yAnalyzer.run('element')
-      .then(() => {
-        fail('Other: Expected error to be thrown');
-      })
-      .catch((result) => {
-        expect(result).toMatch(/<fieldset role="alert">/);
-      });
-  }));
+    try {
+      await SkyA11yAnalyzer.run('element');
+      fail('Expected error to be thrown');
+    } catch (err) {
+      expect(err).toMatch(/<fieldset role="alert">/);
+    }
+  });
 
-  it('should return detailed results', waitForAsync(() => {
+  it('should return detailed results', async () => {
     function mockRun(
       context: axe.ElementContext,
       options: axe.RunOptions,
@@ -217,16 +212,15 @@ describe('A11y analyzer', () => {
 
     spyOn(SkyA11yAnalyzer['analyzer'], 'run').and.callFake(mockRun as any);
 
-    SkyA11yAnalyzer.run('element')
-      .then(() => {
-        fail('Other: Expected error to be thrown');
-      })
-      .catch((result) => {
-        expect(result).toMatch(
-          /<div class="other-header" aria-description="test"><\/div>/,
-        );
-      });
-  }));
+    try {
+      await SkyA11yAnalyzer.run('element');
+      fail('Expected error to be thrown');
+    } catch (err) {
+      expect(err).toMatch(
+        /<div class="other-header" aria-description="test"><\/div>/,
+      );
+    }
+  });
 
   it('should handle undefined elements', () => {
     expect(() => SkyA11yAnalyzer.run()).toThrowError(
