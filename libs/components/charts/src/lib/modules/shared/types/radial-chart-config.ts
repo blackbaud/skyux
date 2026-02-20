@@ -6,16 +6,6 @@ import { SkyChartSeries } from './chart-series';
  */
 export interface SkyRadialChartConfig<TData extends SkyChartDataPoint> {
   /**
-   * Title for the chart.
-   */
-  title?: string;
-
-  /**
-   * Subtitle for the chart.
-   */
-  subtitle?: string;
-
-  /**
    * The data series for the chart.
    */
   series: SkyChartSeries<TData>;

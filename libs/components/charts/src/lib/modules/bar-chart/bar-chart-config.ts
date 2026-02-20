@@ -57,14 +57,6 @@ export function getChartJsBarChartConfig(
   // Build Plugin options
   const pluginOptions: ChartOptions['plugins'] = {};
 
-  if (skyConfig.title) {
-    pluginOptions.title = { display: true, text: skyConfig.title };
-  }
-
-  if (skyConfig.subtitle) {
-    pluginOptions.subtitle = { display: true, text: skyConfig.subtitle };
-  }
-
   // Build chart options
   const options = mergeChartConfig<'bar'>({
     indexAxis: isVertical ? 'x' : 'y',

@@ -30,14 +30,6 @@ export function getChartJsDonutChartConfig(
   // Build Plugin options
   const pluginOptions: ChartOptions['plugins'] = {};
 
-  if (skyConfig.title) {
-    pluginOptions.title = { display: true, text: skyConfig.title };
-  }
-
-  if (skyConfig.subtitle) {
-    pluginOptions.subtitle = { display: true, text: skyConfig.subtitle };
-  }
-
   // Build chart options
   const options = mergeChartConfig<'doughnut'>({
     interaction: {

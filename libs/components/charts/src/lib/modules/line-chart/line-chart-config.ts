@@ -52,14 +52,6 @@ export function getChartJsLineChartConfig(
   // Build Plugin options
   const pluginOptions: ChartOptions['plugins'] = {};
 
-  if (config.title) {
-    pluginOptions.title = { display: true, text: config.title };
-  }
-
-  if (config.subtitle) {
-    pluginOptions.subtitle = { display: true, text: config.subtitle };
-  }
-
   // Build ChartJS options
   const options = mergeChartConfig<'line'>({
     indexAxis: 'x',

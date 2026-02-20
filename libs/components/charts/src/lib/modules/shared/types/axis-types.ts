@@ -1,20 +1,17 @@
 /**
- * Configuration for cartesian chart axes.
- * This includes both category and value axes, as they share common properties.
+ * Configuration for chart axes.
  */
 export interface SkyChartAxisConfig {
   label?: string;
 }
 
 /**
- * Configuration for chart axis settings.
- * Used by cartesian charts (Bar, Line) that have X and Y axes.
+ * Configuration for chart category axis settings.
  */
 export type SkyChartCategoryAxisConfig = SkyChartAxisConfig;
 
 /**
- * Configuration for chart axis settings.
- * Used by cartesian charts (Bar, Line) that have X and Y axes.
+ * Configuration for chart value axis settings.
  */
 export interface SkyChartValueAxisConfig extends SkyChartAxisConfig {
   /**
