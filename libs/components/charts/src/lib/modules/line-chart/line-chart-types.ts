@@ -12,11 +12,4 @@ export interface SkyLineChartPoint extends SkyChartDataPoint {
 }
 
 /** Configuration for the line chart component. */
-export interface SkyLineChartConfig
-  extends SkyCartesianChartConfig<SkyLineChartPoint> {
-  /**
-   * Orientation of the chart.
-   * @default 'vertical'
-   */
-  orientation?: 'horizontal' | 'vertical';
-}
+export type SkyLineChartConfig = SkyCartesianChartConfig<SkyLineChartPoint>;

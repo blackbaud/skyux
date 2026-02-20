@@ -147,9 +147,12 @@ function createScales(
   skyConfig: SkyBarChartConfig,
 ): ChartOptions<'bar'>['scales'] {
   const orientation = skyConfig.orientation ?? 'vertical';
+  const isVertical = orientation === 'vertical';
+  const categoryAxis = isVertical ? 'y' : 'x';
+  const valueAxis = isVertical ? 'x' : 'y';
 
-  const categoryScale = createCategoryScale(skyConfig);
-  const valueScale = createValueScale(skyConfig);
+  const categoryScale = createCategoryScale(skyConfig, categoryAxis);
+  const valueScale = createValueScale(skyConfig, valueAxis);
 
   if (orientation === 'vertical') {
     return { x: categoryScale, y: valueScale };
@@ -180,21 +183,16 @@ function getBaseScale(): PartialBarScale {
         family: SkyuxChartStyles.scaleTitleFontFamily,
       },
       color: SkyuxChartStyles.scaleTitleColor,
-      padding: {
-        top: SkyuxChartStyles.scaleXTitlePaddingTop,
-        bottom: SkyuxChartStyles.scaleXTitlePaddingBottom,
-      },
     },
   };
 
   return base;
 }
 
-function createCategoryScale(config: SkyBarChartConfig): PartialBarScale {
-  const orientation = config.orientation ?? 'vertical';
-  const isVertical = orientation === 'vertical';
-  const categoryAxis = isVertical ? 'y' : 'x';
-
+function createCategoryScale(
+  config: SkyBarChartConfig,
+  axis: 'x' | 'y',
+): PartialBarScale {
   const base = getBaseScale();
 
   const categoryScale: PartialBarScale = {
@@ -215,35 +213,28 @@ function createCategoryScale(config: SkyBarChartConfig): PartialBarScale {
       ...base.title,
       display: !!config.categoryAxis?.label,
       text: config.categoryAxis?.label ?? '',
-      padding: {
-        top:
-          categoryAxis === 'x'
-            ? SkyuxChartStyles.scaleXTitlePaddingTop
-            : SkyuxChartStyles.scaleYTitlePaddingLeft,
-        bottom:
-          categoryAxis === 'x'
-            ? SkyuxChartStyles.scaleXTitlePaddingBottom
-            : SkyuxChartStyles.scaleYTitlePaddingRight,
-      },
+      padding: getScaleTitlePadding(axis),
     },
   };
 
   return categoryScale;
 }
 
-function createValueScale(config: SkyBarChartConfig): PartialBarScale {
+function createValueScale(
+  config: SkyBarChartConfig,
+  axis: 'x' | 'y',
+): PartialBarScale {
   if (config.valueAxis?.scaleType === 'logarithmic') {
-    return createLogarithmicValueScale(config);
+    return createLogarithmicValueScale(config, axis);
   } else {
-    return createLinearValueScale(config);
+    return createLinearValueScale(config, axis);
   }
 }
 
-function createLinearValueScale(config: SkyBarChartConfig): PartialBarScale {
-  const orientation = config.orientation ?? 'vertical';
-  const isVertical = orientation === 'vertical';
-  const valueAxis = isVertical ? 'y' : 'x';
-
+function createLinearValueScale(
+  config: SkyBarChartConfig,
+  axis: 'x' | 'y',
+): PartialBarScale {
   const base = getBaseScale();
 
   const valueScale: PartialBarScale = {
@@ -268,16 +259,7 @@ function createLinearValueScale(config: SkyBarChartConfig): PartialBarScale {
       ...base.title,
       display: !!config.valueAxis?.label,
       text: config.valueAxis?.label,
-      padding: {
-        top:
-          valueAxis === 'y'
-            ? SkyuxChartStyles.scaleYTitlePaddingLeft
-            : SkyuxChartStyles.scaleXTitlePaddingTop,
-        bottom:
-          valueAxis === 'y'
-            ? SkyuxChartStyles.scaleYTitlePaddingRight
-            : SkyuxChartStyles.scaleXTitlePaddingBottom,
-      },
+      padding: getScaleTitlePadding(axis),
     },
   };
 
@@ -286,11 +268,8 @@ function createLinearValueScale(config: SkyBarChartConfig): PartialBarScale {
 
 function createLogarithmicValueScale(
   config: SkyBarChartConfig,
+  axis: 'x' | 'y',
 ): PartialBarScale {
-  const orientation = config.orientation ?? 'vertical';
-  const isVertical = orientation === 'vertical';
-  const valueAxis = isVertical ? 'y' : 'x';
-
   const base = getBaseScale();
 
   const valueScale: PartialBarScale = {
@@ -314,18 +293,25 @@ function createLogarithmicValueScale(
       ...base.title,
       display: !!config.valueAxis?.label,
       text: config.valueAxis?.label,
-      padding: {
-        top:
-          valueAxis === 'y'
-            ? SkyuxChartStyles.scaleYTitlePaddingLeft
-            : SkyuxChartStyles.scaleXTitlePaddingTop,
-        bottom:
-          valueAxis === 'y'
-            ? SkyuxChartStyles.scaleYTitlePaddingRight
-            : SkyuxChartStyles.scaleXTitlePaddingBottom,
-      },
+      padding: getScaleTitlePadding(axis),
     },
   };
 
   return valueScale;
+}
+
+function getScaleTitlePadding(axis: 'x' | 'y'): {
+  top: number;
+  bottom: number;
+} {
+  return {
+    top:
+      axis === 'x'
+        ? SkyuxChartStyles.scaleXTitlePaddingTop
+        : SkyuxChartStyles.scaleYTitlePaddingLeft,
+    bottom:
+      axis === 'x'
+        ? SkyuxChartStyles.scaleXTitlePaddingBottom
+        : SkyuxChartStyles.scaleYTitlePaddingRight,
+  };
 }

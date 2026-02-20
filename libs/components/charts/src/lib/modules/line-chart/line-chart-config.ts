@@ -21,8 +21,6 @@ import { SkyLineChartConfig } from './line-chart-types';
 
 /**
  * Transforms a consumer-friendly SkyLineChartConfig into a ChartJS ChartConfiguration.
- * This function encapsulates all ChartJS implementation details and provides
- * a clean mapping from the public API to the internal representation.
  */
 export function getChartJsLineChartConfig(
   config: SkyLineChartConfig,
@@ -30,9 +28,6 @@ export function getChartJsLineChartConfig(
     onDataPointClick: (event: SkyChartDataPointClickEvent) => void;
   },
 ): ChartConfiguration<'line'> {
-  const orientation = config.orientation || 'vertical';
-  const isVertical = orientation === 'vertical';
-
   // Build categories from series data
   const categories = parseCategories(config.series);
 
@@ -69,7 +64,7 @@ export function getChartJsLineChartConfig(
 
   // Build ChartJS options
   const options = mergeChartConfig<'line'>({
-    indexAxis: isVertical ? 'x' : 'y',
+    indexAxis: 'x',
     elements: {
       line: {
         tension: SkyuxChartStyles.lineTension,
@@ -121,16 +116,10 @@ type PartialLineScale = DeepPartial<
 function createScales(
   config: SkyLineChartConfig,
 ): ChartOptions<'line'>['scales'] {
-  const orientation = config.orientation ?? 'vertical';
-
   const categoryScale = createCategoryScale(config);
   const valueScale = createValueScale(config);
 
-  if (orientation === 'vertical') {
-    return { x: categoryScale, y: valueScale };
-  } else {
-    return { x: valueScale, y: categoryScale };
-  }
+  return { x: categoryScale, y: valueScale };
 }
 
 function getBaseScale(): PartialLineScale {
@@ -173,10 +162,6 @@ function getBaseScale(): PartialLineScale {
 }
 
 function createCategoryScale(config: SkyLineChartConfig): PartialLineScale {
-  const orientation = config.orientation ?? 'vertical';
-  const isVertical = orientation === 'vertical';
-  const categoryAxis = isVertical ? 'y' : 'x';
-
   const base = getBaseScale();
 
   const categoryScale: PartialLineScale = {
@@ -192,16 +177,7 @@ function createCategoryScale(config: SkyLineChartConfig): PartialLineScale {
       ...base.title,
       display: !!config.categoryAxis?.label,
       text: config.categoryAxis?.label,
-      padding: {
-        top:
-          categoryAxis === 'x'
-            ? SkyuxChartStyles.scaleXTitlePaddingTop
-            : SkyuxChartStyles.scaleYTitlePaddingLeft,
-        bottom:
-          categoryAxis === 'x'
-            ? SkyuxChartStyles.scaleXTitlePaddingBottom
-            : SkyuxChartStyles.scaleYTitlePaddingRight,
-      },
+      padding: getScaleTitlePadding('x'),
     },
   };
 
@@ -217,10 +193,6 @@ function createValueScale(config: SkyLineChartConfig): PartialLineScale {
 }
 
 function createLinearValueScale(config: SkyLineChartConfig): PartialLineScale {
-  const orientation = config.orientation ?? 'vertical';
-  const isVertical = orientation === 'vertical';
-  const valueAxis = isVertical ? 'y' : 'x';
-
   const base = getBaseScale();
 
   const valueScale: PartialLineScale = {
@@ -238,16 +210,7 @@ function createLinearValueScale(config: SkyLineChartConfig): PartialLineScale {
       ...base.title,
       display: !!config.valueAxis?.label,
       text: config.valueAxis?.label,
-      padding: {
-        top:
-          valueAxis === 'y'
-            ? SkyuxChartStyles.scaleYTitlePaddingLeft
-            : SkyuxChartStyles.scaleXTitlePaddingTop,
-        bottom:
-          valueAxis === 'y'
-            ? SkyuxChartStyles.scaleYTitlePaddingRight
-            : SkyuxChartStyles.scaleXTitlePaddingBottom,
-      },
+      padding: getScaleTitlePadding('y'),
     },
   };
 
@@ -257,10 +220,6 @@ function createLinearValueScale(config: SkyLineChartConfig): PartialLineScale {
 function createLogarithmicValueScale(
   config: SkyLineChartConfig,
 ): PartialLineScale {
-  const orientation = config.orientation ?? 'vertical';
-  const isVertical = orientation === 'vertical';
-  const valueAxis = isVertical ? 'y' : 'x';
-
   const base = getBaseScale();
 
   const valueScale: PartialLineScale = {
@@ -278,18 +237,25 @@ function createLogarithmicValueScale(
       ...base.title,
       display: !!config.valueAxis?.label,
       text: config.valueAxis?.label,
-      padding: {
-        top:
-          valueAxis === 'y'
-            ? SkyuxChartStyles.scaleYTitlePaddingLeft
-            : SkyuxChartStyles.scaleXTitlePaddingTop,
-        bottom:
-          valueAxis === 'y'
-            ? SkyuxChartStyles.scaleYTitlePaddingRight
-            : SkyuxChartStyles.scaleXTitlePaddingBottom,
-      },
+      padding: getScaleTitlePadding('y'),
     },
   };
 
   return valueScale;
+}
+
+function getScaleTitlePadding(axis: 'x' | 'y'): {
+  top: number;
+  bottom: number;
+} {
+  return {
+    top:
+      axis === 'x'
+        ? SkyuxChartStyles.scaleXTitlePaddingTop
+        : SkyuxChartStyles.scaleYTitlePaddingLeft,
+    bottom:
+      axis === 'x'
+        ? SkyuxChartStyles.scaleXTitlePaddingBottom
+        : SkyuxChartStyles.scaleYTitlePaddingRight,
+  };
 }
