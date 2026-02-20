@@ -14,7 +14,7 @@ export function getChartType(chart: Chart): string {
     return chart.config.type;
   }
 
-  // SkyUX doesn't support Combo Charts (ChartConfigurationCustomTypesPerDataset)
+  // SkyUX doesn't support Combo Charts
   throw new Error('Unsupported chart type');
 }
 
