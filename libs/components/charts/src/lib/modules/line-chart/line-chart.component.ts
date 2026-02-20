@@ -30,7 +30,6 @@ export class SkyLineChartComponent extends SkyChartJsChart {
   protected readonly chartConfiguration = computed(() =>
     this.#getChartConfig(this.config()),
   );
-  protected readonly series = computed(() => this.config().series);
 
   #getChartConfig(userConfig: SkyLineChartConfig): ChartConfiguration {
     const newConfig = getChartJsLineChartConfig(userConfig, {

@@ -30,7 +30,6 @@ export class SkyDonutChartComponent extends SkyChartJsChart {
   protected readonly chartConfiguration = computed(() =>
     this.#getChartConfig(this.config()),
   );
-  protected readonly series = computed(() => [this.config().series]);
 
   #getChartConfig(userConfig: SkyDonutChartConfig): ChartConfiguration {
     const newConfig = getChartJsDonutChartConfig(userConfig, {
