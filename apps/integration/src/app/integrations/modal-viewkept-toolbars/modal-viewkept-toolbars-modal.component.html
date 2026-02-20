@@ -1,7 +1,4 @@
-<sky-modal>
-  <sky-modal-header>{{
-    'viewkeeper inside a modal' | skyAppResources
-  }}</sky-modal-header>
+<sky-modal [headingText]="'viewkeeper inside a modal' | skyAppResources">
   <sky-modal-content
     skyBackToTop
     [skyViewkeeper]="['.sky-lookup-show-more-toolbar-wrapper']"

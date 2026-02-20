@@ -1,5 +1,4 @@
-<sky-modal>
-  <sky-modal-header> Filter by library </sky-modal-header>
+<sky-modal [headingText]="'Filter by library'">
   <sky-modal-content>
     <sky-repeater>
       @for (library of libraries; track library) {

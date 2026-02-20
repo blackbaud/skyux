@@ -1,9 +1,6 @@
 @if (myForm) {
   <form [formGroup]="myForm" (ngSubmit)="onSave()">
-    <sky-modal>
-      <sky-modal-header>
-        {{ title }}
-      </sky-modal-header>
+    <sky-modal [headingText]="title">
       <sky-modal-content>
         <sky-tabset
           #wizardDemo

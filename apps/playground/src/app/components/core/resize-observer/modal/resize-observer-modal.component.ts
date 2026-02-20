@@ -34,6 +34,10 @@ export class ResizeObserverModalComponent implements AfterViewInit, OnInit {
 
   public tabsHidden = false;
 
+  public get headingText(): string {
+    return `Modal title | Breakpoint: ${this.breakpoint}`;
+  }
+
   public sizes: SizeOptions[] = ['small', 'medium', 'large'];
 
   public identifier: number;

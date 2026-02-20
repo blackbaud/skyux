@@ -4,10 +4,7 @@
   [formGroup]="lookupDemoForm"
   (ngSubmit)="onSubmit()"
 >
-  <sky-modal data-sky-id="modal-lookup">
-    <sky-modal-header>
-      <h2 class="sky-modal-title">Look. Up.</h2>
-    </sky-modal-header>
+  <sky-modal data-sky-id="modal-lookup" [headingText]="'Look. Up.'">
     <sky-modal-content>
       <p>
         Look up at the stars and not down at your feet. Try to make sense of

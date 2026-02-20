@@ -1,8 +1,5 @@
 <form novalidate [formGroup]="formGroup" (ngSubmit)="save()">
-  <sky-modal>
-    <sky-modal-header>
-      <h2>Add Item</h2>
-    </sky-modal-header>
+  <sky-modal [headingText]="'Add Item'">
     <sky-modal-content>
       <sky-input-box>
         <label class="sky-control-label">Name</label>

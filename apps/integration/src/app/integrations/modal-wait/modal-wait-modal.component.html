@@ -1,5 +1,4 @@
-<sky-modal>
-  <sky-modal-header>Wait inside a Modal</sky-modal-header>
+<sky-modal [headingText]="'Wait inside a Modal'">
   <sky-modal-content>
     <!-- Using `ngIf` as the live announcer is constructed when the wait is constructed and for testing purposes we want to control this -->
     @if (isWaiting) {

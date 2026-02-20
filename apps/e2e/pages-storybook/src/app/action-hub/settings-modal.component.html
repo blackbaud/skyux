@@ -1,5 +1,4 @@
-<sky-modal>
-  <sky-modal-header>{{ title }}</sky-modal-header>
+<sky-modal [headingText]="title">
   <sky-modal-content>
     <form [formGroup]="form" (submit)="modal.save()">
       @for (field of fields; track field) {

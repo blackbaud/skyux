@@ -1,10 +1,4 @@
-<sky-modal [tiledBody]="true">
-  <sky-modal-header>
-    {{ title }}
-    @if (showHelp) {
-      <sky-help-inline class="sky-control-help" />
-    }
-  </sky-modal-header>
+<sky-modal [tiledBody]="true" [headingText]="title">
   <sky-modal-content>
     <sky-tile>
       <sky-tile-title>Section 1</sky-tile-title>

@@ -1,10 +1,4 @@
-<sky-modal>
-  <sky-modal-header>
-    Title
-    @if (showHelp) {
-      <sky-help-inline class="sky-control-help" />
-    }
-  </sky-modal-header>
+<sky-modal [headingText]="'Title'">
   <sky-modal-content>
     <label for="unsaved-work-checkbox">
       Is there unsaved work?
