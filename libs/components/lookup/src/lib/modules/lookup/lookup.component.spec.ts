@@ -323,7 +323,7 @@ describe('Lookup component', function () {
   function getShowMoreModalTitle(): string {
     return (
       document
-        .querySelector('sky-modal-header-internal')
+        .querySelector('sky-modal-heading')
         ?.textContent?.trim() ?? ''
     );
   }

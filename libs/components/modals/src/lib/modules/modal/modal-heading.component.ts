@@ -8,9 +8,9 @@ import { SkyThemeModule } from '@skyux/theme';
  * This is not exported publicly and should not be used by consumers.
  */
 @Component({
-  selector: 'sky-modal-header-internal',
-  templateUrl: './modal-header-internal.component.html',
-  styleUrls: ['./modal-header-internal.component.scss'],
+  selector: 'sky-modal-heading',
+  templateUrl: './modal-heading.component.html',
+  styleUrls: ['./modal-heading.component.scss'],
   imports: [SkyThemeModule, SkyTrimModule],
 })
-export class SkyModalHeaderInternalComponent {}
+export class SkyModalHeadingComponent {}
