@@ -4,13 +4,13 @@ import {
   computed,
   effect,
   input,
-  signal,
 } from '@angular/core';
 
 import { ChartConfiguration } from 'chart.js';
 
-import { SkyBaseChart } from '../base-chart';
 import { SkyChartShellComponent } from '../chart-shell/chart-shell.component';
+import { SkyChartJsChart } from '../chartjs-chart';
+import { SkyChartJsDirective } from '../chartjs.directive';
 
 import { getChartJsBarChartConfig } from './bar-chart-config';
 import { SkyBarChartConfig } from './bar-chart-types';
@@ -19,17 +19,15 @@ import { SkyBarChartConfig } from './bar-chart-types';
   selector: 'sky-bar-chart',
   templateUrl: 'bar-chart.component.html',
   styleUrl: 'bar-chart.component.scss',
-  imports: [SkyChartShellComponent],
+  imports: [SkyChartShellComponent, SkyChartJsDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyBarChartComponent extends SkyBaseChart {
-  // #region Inputs
+export class SkyBarChartComponent extends SkyChartJsChart {
+  /**
+   * The configuration object for a bar chart.
+   */
   public readonly config = input.required<SkyBarChartConfig>();
-  // #endregion
 
-  protected chartConfiguration = signal<ChartConfiguration | undefined>(
-    undefined,
-  );
   protected readonly series = computed(() => this.config().series);
 
   constructor() {

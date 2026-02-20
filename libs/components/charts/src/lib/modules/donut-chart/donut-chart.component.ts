@@ -4,13 +4,13 @@ import {
   computed,
   effect,
   input,
-  signal,
 } from '@angular/core';
 
 import { ChartConfiguration } from 'chart.js';
 
-import { SkyBaseChart } from '../base-chart';
 import { SkyChartShellComponent } from '../chart-shell/chart-shell.component';
+import { SkyChartJsChart } from '../chartjs-chart';
+import { SkyChartJsDirective } from '../chartjs.directive';
 
 import { getChartJsDonutChartConfig } from './donut-chart-config';
 import { SkyDonutChartConfig } from './donut-chart-types';
@@ -19,17 +19,15 @@ import { SkyDonutChartConfig } from './donut-chart-types';
   selector: 'sky-donut-chart',
   templateUrl: 'donut-chart.component.html',
   styleUrl: 'donut-chart.component.scss',
-  imports: [SkyChartShellComponent],
+  imports: [SkyChartShellComponent, SkyChartJsDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyDonutChartComponent extends SkyBaseChart {
-  // #region Inputs
+export class SkyDonutChartComponent extends SkyChartJsChart {
+  /**
+   * The configuration object for a donut chart.
+   */
   public readonly config = input.required<SkyDonutChartConfig>();
-  // #endregion
 
-  protected chartConfiguration = signal<ChartConfiguration | undefined>(
-    undefined,
-  );
   protected readonly series = computed(() => [this.config().series]);
 
   constructor() {

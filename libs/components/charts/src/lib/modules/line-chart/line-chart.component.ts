@@ -4,13 +4,13 @@ import {
   computed,
   effect,
   input,
-  signal,
 } from '@angular/core';
 
 import { ChartConfiguration } from 'chart.js';
 
-import { SkyBaseChart } from '../base-chart';
 import { SkyChartShellComponent } from '../chart-shell/chart-shell.component';
+import { SkyChartJsChart } from '../chartjs-chart';
+import { SkyChartJsDirective } from '../chartjs.directive';
 
 import { getChartJsLineChartConfig } from './line-chart-config';
 import { SkyLineChartConfig } from './line-chart-types';
@@ -19,17 +19,15 @@ import { SkyLineChartConfig } from './line-chart-types';
   selector: 'sky-line-chart',
   templateUrl: 'line-chart.component.html',
   styleUrl: 'line-chart.component.scss',
-  imports: [SkyChartShellComponent],
+  imports: [SkyChartShellComponent, SkyChartJsDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyLineChartComponent extends SkyBaseChart {
-  // #region Inputs
+export class SkyLineChartComponent extends SkyChartJsChart {
+  /**
+   * The configuration object for a line chart.
+   */
   public readonly config = input.required<SkyLineChartConfig>();
-  // #endregion
 
-  protected chartConfiguration = signal<ChartConfiguration | undefined>(
-    undefined,
-  );
   protected readonly series = computed(() => this.config().series);
 
   constructor() {

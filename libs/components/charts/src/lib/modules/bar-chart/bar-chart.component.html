@@ -6,7 +6,10 @@
     [headingStyle]="headingStyle()"
     [subtitleText]="subtitleText()"
     [subtitleHidden]="subtitleHidden()"
-    [chartConfiguration]="chartConfiguration"
     [series]="series()"
-  />
+    [legendItems]="legendItems()"
+    (legendItemToggled)="onLegendItemToggled($event)"
+  >
+    <canvas skyChartJs [chartConfiguration]="chartConfiguration"></canvas>
+  </sky-chart-shell>
 }

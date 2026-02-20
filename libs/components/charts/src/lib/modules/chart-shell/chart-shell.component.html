@@ -59,22 +59,20 @@
 
   <!-- Chart -->
   <div
-    class="sky-chart-container sky-margin-stacked-lg"
+    class="sky-chart-container"
+    [ngClass]="{ 'sky-margin-stacked-lg': showLegend() }"
     [style.height.px]="chartHeight()"
   >
-    <canvas
-      #canvas
-      tabindex="0"
-      role="img"
-      [attr.aria-label]="headingText()"
-    ></canvas>
+    <ng-content />
   </div>
 
   <!-- Legend -->
-  <sky-chart-legend
-    [legendItems]="legendItems()"
-    (legendItemToggled)="onLegendItemToggled($event)"
-  />
+  @if (showLegend()) {
+    <sky-chart-legend
+      [legendItems]="legendItems()"
+      (legendItemToggled)="onLegendItemToggled($event)"
+    />
+  }
 
   <!-- Actions -->
   <div class="sky-chart-header-actions">
