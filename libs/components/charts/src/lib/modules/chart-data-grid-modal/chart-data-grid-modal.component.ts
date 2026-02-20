@@ -20,8 +20,9 @@ import {
   ValidationModule,
 } from 'ag-grid-community';
 
-import { SkyChartDataPoint, SkyChartSeries } from '../shared/chart-types';
 import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
+import { SkyChartDataPoint } from '../shared/types/chart-data-point';
+import { SkyChartSeries } from '../shared/types/chart-series';
 
 import { SkyChartGridModalContext } from './chart-data-grid-modal-context';
 

@@ -18,8 +18,9 @@ import { SkyChartGridModalContext } from '../chart-data-grid-modal/chart-data-gr
 import { SkyChartDataGridModalComponent } from '../chart-data-grid-modal/chart-data-grid-modal.component';
 import { SkyChartLegendItem } from '../chart-legend/chart-legend-item';
 import { SkyChartLegendComponent } from '../chart-legend/chart-legend.component';
-import { SkyChartDataPoint, SkyChartSeries } from '../shared/chart-types';
 import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
+import { SkyChartDataPoint } from '../shared/types/chart-data-point';
+import { SkyChartSeries } from '../shared/types/chart-series';
 
 import {
   SKY_CHART_HEADER_ID,

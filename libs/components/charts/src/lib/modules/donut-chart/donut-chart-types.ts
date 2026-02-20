@@ -1,4 +1,5 @@
-import { SkyChartDataPoint, SkyRadialChartConfig } from '../shared/chart-types';
+import { SkyChartDataPoint } from '../shared/types/chart-data-point';
+import { SkyRadialChartConfig } from '../shared/types/radial-chart-config';
 
 export type SkyDonutDatum = number;
 

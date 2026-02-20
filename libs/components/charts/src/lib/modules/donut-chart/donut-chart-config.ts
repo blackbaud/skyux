@@ -1,10 +1,10 @@
 import { ChartConfiguration, ChartDataset, ChartOptions } from 'chart.js';
 
 import { SkyuxChartStyles } from '../shared/chart-styles';
-import { SkyChartDataPointClickEvent } from '../shared/chart-types';
 import { mergeChartConfig } from '../shared/global-chart-config';
 import { createAutoColorPlugin } from '../shared/plugins/auto-color-plugin';
 import { createTooltipShadowPlugin } from '../shared/plugins/tooltip-shadow-plugin';
+import { SkySelectedChartDataPoint } from '../shared/types/selected-chart-data-point';
 
 import { SkyDonutChartConfig } from './donut-chart-types';
 
@@ -14,7 +14,7 @@ import { SkyDonutChartConfig } from './donut-chart-types';
 export function getChartJsDonutChartConfig(
   skyConfig: SkyDonutChartConfig,
   callbacks: {
-    onDataPointClick: (event: SkyChartDataPointClickEvent) => void;
+    onDataPointClick: (event: SkySelectedChartDataPoint) => void;
   },
 ): ChartConfiguration<'doughnut'> {
   const { borderWidth, borderColor } = getSkyuxDonutDatasetBorder();

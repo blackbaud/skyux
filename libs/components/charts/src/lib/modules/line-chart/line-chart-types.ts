@@ -1,10 +1,7 @@
-import {
-  SkyBaseDatum,
-  SkyCartesianChartConfig,
-  SkyChartDataPoint,
-} from '../shared/chart-types';
+import { SkyCartesianChartConfig } from '../shared/types/cartesian-chart-config';
+import { SkyChartDataPoint } from '../shared/types/chart-data-point';
 
-export type SkyLineDatum = SkyBaseDatum;
+export type SkyLineDatum = number | null;
 
 export interface SkyLineChartPoint extends SkyChartDataPoint {
   /** Numeric value */

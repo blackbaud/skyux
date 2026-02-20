@@ -1,5 +1,6 @@
 import { parseCategories } from '../shared/chart-helpers';
-import { SkyChartDataPoint, SkyChartSeries } from '../shared/chart-types';
+import { SkyChartDataPoint } from '../shared/types/chart-data-point';
+import { SkyChartSeries } from '../shared/types/chart-series';
 
 export class SkyChartGridModalContext {
   public readonly modalTitle: string;

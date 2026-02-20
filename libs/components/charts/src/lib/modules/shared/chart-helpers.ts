@@ -1,6 +1,8 @@
 import { Chart, ChartConfiguration } from 'chart.js';
 
-import { SkyCategory, SkyChartDataPoint, SkyChartSeries } from './chart-types';
+import { SkyCategory } from './types/category';
+import { SkyChartDataPoint } from './types/chart-data-point';
+import { SkyChartSeries } from './types/chart-series';
 
 /**
  * Gets the chart type of the given chart

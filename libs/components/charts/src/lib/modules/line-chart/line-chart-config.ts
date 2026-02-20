@@ -8,14 +8,12 @@ import {
 
 import { parseCategories } from '../shared/chart-helpers';
 import { SkyuxChartStyles } from '../shared/chart-styles';
-import {
-  SkyCategory,
-  SkyChartDataPointClickEvent,
-} from '../shared/chart-types';
-import { DeepPartial } from '../shared/deep-partial-type';
 import { mergeChartConfig } from '../shared/global-chart-config';
 import { createAutoColorPlugin } from '../shared/plugins/auto-color-plugin';
 import { createTooltipShadowPlugin } from '../shared/plugins/tooltip-shadow-plugin';
+import { SkyCategory } from '../shared/types/category';
+import { DeepPartial } from '../shared/types/deep-partial-type';
+import { SkySelectedChartDataPoint } from '../shared/types/selected-chart-data-point';
 
 import { SkyLineChartConfig } from './line-chart-types';
 
@@ -25,7 +23,7 @@ import { SkyLineChartConfig } from './line-chart-types';
 export function getChartJsLineChartConfig(
   config: SkyLineChartConfig,
   callbacks: {
-    onDataPointClick: (event: SkyChartDataPointClickEvent) => void;
+    onDataPointClick: (event: SkySelectedChartDataPoint) => void;
   },
 ): ChartConfiguration<'line'> {
   // Build categories from series data

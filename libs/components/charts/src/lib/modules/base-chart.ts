@@ -10,7 +10,7 @@ import {
   SkyChartHeadingStyle,
   headingStyleInputTransformer,
 } from './chart-shell/chart-heading-style';
-import { SkyChartDataPointClickEvent } from './shared/chart-types';
+import { SkySelectedChartDataPoint } from './shared/types/selected-chart-data-point';
 
 /**
  * Base class for all chart types.
@@ -61,6 +61,6 @@ export abstract class SkyBaseChart {
   // #endregion
 
   // #region Outputs
-  public readonly dataPointClicked = output<SkyChartDataPointClickEvent>();
+  public readonly dataPointClicked = output<SkySelectedChartDataPoint>();
   // #endregion
 }
