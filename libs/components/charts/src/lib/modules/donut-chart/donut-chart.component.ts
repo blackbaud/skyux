@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  effect,
   input,
 } from '@angular/core';
 
@@ -28,16 +27,10 @@ export class SkyDonutChartComponent extends SkyChartJsChart {
    */
   public readonly config = input.required<SkyDonutChartConfig>();
 
+  protected readonly chartConfiguration = computed(() =>
+    this.#getChartConfig(this.config()),
+  );
   protected readonly series = computed(() => [this.config().series]);
-
-  constructor() {
-    super();
-
-    effect(() => {
-      const newConfig = this.#getChartConfig(this.config());
-      this.chartConfiguration.set(newConfig);
-    });
-  }
 
   #getChartConfig(userConfig: SkyDonutChartConfig): ChartConfiguration {
     const newConfig = getChartJsDonutChartConfig(userConfig, {

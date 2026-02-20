@@ -1,4 +1,4 @@
-import { Directive, computed, signal, viewChild } from '@angular/core';
+import { Directive, Signal, computed, signal, viewChild } from '@angular/core';
 
 import { Chart, ChartConfiguration } from 'chart.js';
 
@@ -16,9 +16,9 @@ export abstract class SkyChartJsChart extends SkyBaseChart {
   protected readonly chartDirective = viewChild.required(SkyChartJsDirective);
   protected readonly chart = computed(() => this.chartDirective()?.chart());
 
-  protected chartConfiguration = signal<ChartConfiguration | undefined>(
-    undefined,
-  );
+  protected abstract readonly chartConfiguration: Signal<
+    ChartConfiguration | undefined
+  >;
 
   readonly #refreshLegendItems = signal(0);
   protected readonly legendItems = computed(() => {
