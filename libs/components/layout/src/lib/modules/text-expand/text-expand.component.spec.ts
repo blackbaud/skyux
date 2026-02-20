@@ -365,8 +365,9 @@ describe('Text expand component', () => {
       fixture.detectChanges();
 
       modal = document.querySelector('.sky-modal');
-      const modalHeader: HTMLElement | null =
-        document.querySelector('sky-modal-header-internal');
+      const modalHeader: HTMLElement | null = document.querySelector(
+        'sky-modal-header-internal',
+      );
       const modalContent: HTMLElement | null =
         document.querySelector('sky-modal-content');
       const closeButton: HTMLElement | null = document.querySelector(
@@ -414,8 +415,9 @@ describe('Text expand component', () => {
       fixture.detectChanges();
 
       modal = document.querySelector('.sky-modal');
-      const modalHeader: HTMLElement | null =
-        document.querySelector('sky-modal-header-internal');
+      const modalHeader: HTMLElement | null = document.querySelector(
+        'sky-modal-header-internal',
+      );
       const modalContent: HTMLElement | null =
         document.querySelector('sky-modal-content');
       const closeButton: HTMLElement | null = document.querySelector(
@@ -480,8 +482,9 @@ describe('Text expand component', () => {
       fixture.detectChanges();
 
       modal = document.querySelector('.sky-modal');
-      const modalHeader: HTMLElement | null =
-        document.querySelector('sky-modal-header-internal');
+      const modalHeader: HTMLElement | null = document.querySelector(
+        'sky-modal-header-internal',
+      );
       const modalContent: HTMLElement | null =
         document.querySelector('sky-modal-content');
       const closeButton: HTMLElement | null = document.querySelector(

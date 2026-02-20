@@ -129,7 +129,9 @@ describe('SkyDataManagerColumnPickerComponent', () => {
   describe('column search', () => {
     it('should display the expected title', () => {
       expect(
-        dataManagerColumnPickerElement.querySelector('sky-modal-header-internal'),
+        dataManagerColumnPickerElement.querySelector(
+          'sky-modal-header-internal',
+        ),
       ).toHaveText('Choose columns to show in the list');
     });
 
