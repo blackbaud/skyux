@@ -11,8 +11,6 @@ import {
   computed,
   inject,
   input,
-  numberAttribute,
-  output,
   signal,
   viewChild,
 } from '@angular/core';
@@ -28,11 +26,7 @@ import { SkyChartDataGridModalComponent } from '../chart-data-grid-modal/chart-d
 import { SkyChartLegendItem } from '../chart-legend/chart-legend-item';
 import { SkyChartLegendComponent } from '../chart-legend/chart-legend.component';
 import { isDonutOrPieChart } from '../shared/chart-helpers';
-import {
-  SkyChartDataPoint,
-  SkyChartDataPointClickEvent,
-  SkyChartSeries,
-} from '../shared/chart-types';
+import { SkyChartDataPoint, SkyChartSeries } from '../shared/chart-types';
 import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
 
 import {
@@ -40,12 +34,14 @@ import {
   provideSkyChartHeaderId,
 } from './chart-header-id-token';
 import {
+  DefaultHeadingLevel,
   SkyChartHeadingLevel,
-  isSkyChartHeadingLevel,
+  headingLevelInputTransformer,
 } from './chart-heading-level';
 import {
+  DefaultHeadingStyle,
   SkyChartHeadingStyle,
-  isSkyChartHeadingStyle,
+  headingStyleInputTransformer,
 } from './chart-heading-style';
 
 // Register Chart.js components globally
@@ -92,31 +88,19 @@ export class SkyChartShellComponent implements AfterViewInit, OnDestroy {
    * The semantic heading level in the document structure. The default is 3.
    * @default 3
    */
-  public readonly headingLevel = input<SkyChartHeadingLevel, unknown>(3, {
-    transform: (value: unknown) => {
-      const numberValue = numberAttribute(value, 3);
-      if (isSkyChartHeadingLevel(numberValue)) {
-        return numberValue;
-      }
-
-      return 3;
-    },
-  });
+  public readonly headingLevel = input<SkyChartHeadingLevel, unknown>(
+    DefaultHeadingLevel,
+    { transform: headingLevelInputTransformer },
+  );
 
   /**
    * The heading [font style](https://developer.blackbaud.com/skyux/design/styles/typography#headings).
    * @default 3
    */
-  public readonly headingStyle = input<SkyChartHeadingStyle, unknown>(3, {
-    transform: (value: unknown) => {
-      const numberValue = numberAttribute(value, 3);
-      if (isSkyChartHeadingStyle(numberValue)) {
-        return numberValue;
-      }
-
-      return 3;
-    },
-  });
+  public readonly headingStyle = input<SkyChartHeadingStyle, unknown>(
+    DefaultHeadingStyle,
+    { transform: headingStyleInputTransformer },
+  );
 
   /**
    * The text to display as the chart's subtitle.
@@ -140,11 +124,6 @@ export class SkyChartShellComponent implements AfterViewInit, OnDestroy {
    */
   public readonly series =
     input.required<SkyChartSeries<SkyChartDataPoint>[]>();
-  // #endregion
-
-  // #region Outputs
-  public readonly refreshConfiguration = output<void>();
-  public readonly dataPointClicked = output<SkyChartDataPointClickEvent>();
   // #endregion
 
   // #region View Child(ren)
