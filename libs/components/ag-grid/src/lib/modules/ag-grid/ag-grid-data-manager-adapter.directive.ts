@@ -30,16 +30,9 @@ import {
   IColumnLimit,
   RowSelectedEvent,
 } from 'ag-grid-community';
-import {
-  Subject,
-  filter,
-  fromEvent,
-  map,
-  of,
-  switchMap,
-  takeUntil,
-} from 'rxjs';
+import { Subject, filter, map, of, switchMap, takeUntil } from 'rxjs';
 
+import { fromGridEvent } from './ag-grid-event-utils';
 import { SkyAgGridWrapperComponent } from './ag-grid-wrapper.component';
 
 function toColumnWidthName(breakpoint: SkyBreakpoint): 'xs' | 'sm' {
@@ -247,7 +240,7 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
       agGrid.gridReady
         .pipe(
           takeUntil(this.#ngUnsubscribe),
-          switchMap(() => fromEvent(agGrid.api, 'gridPreDestroyed')),
+          switchMap(() => fromGridEvent(agGrid.api, 'gridPreDestroyed')),
         )
         .subscribe(() => {
           this.#unregisterAgGrid();

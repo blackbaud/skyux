@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, OnInit } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  OnInit,
+  booleanAttribute,
+  input,
+} from '@angular/core';
 import {
   SkyAgGridModule,
   SkyAgGridRowDeleteConfirmArgs,
@@ -47,6 +53,10 @@ export class ReadonlyGridComponent implements OnInit {
   public gridOptions: GridOptions;
   public hasMore = true;
 
+  public readonly normal = input<boolean, unknown>(false, {
+    transform: booleanAttribute,
+  });
+
   public columnDefs = [
     {
       field: 'selected',
@@ -66,7 +76,7 @@ export class ReadonlyGridComponent implements OnInit {
     {
       field: 'name',
       headerName: 'Goal Name',
-      autoHeight: true,
+      autoHeight: !this.normal(),
     },
     {
       field: 'value',
@@ -88,8 +98,8 @@ export class ReadonlyGridComponent implements OnInit {
       field: 'comment',
       headerName: 'Comment',
       maxWidth: 500,
-      autoHeight: true,
-      wrapText: true,
+      autoHeight: !this.normal(),
+      wrapText: !this.normal(),
     },
     {
       field: 'status',
@@ -118,10 +128,9 @@ export class ReadonlyGridComponent implements OnInit {
 
   public deleteConfirm(confirmArgs: SkyAgGridRowDeleteConfirmArgs): void {
     setTimeout(() => {
-      this.gridData = this.gridData.filter(
-        (data) => data.id !== confirmArgs.id,
-      );
-      this.gridApi.setGridOption('rowData', this.gridData);
+      this.gridApi.applyTransaction({
+        remove: this.gridData.filter((data) => data.id === confirmArgs.id),
+      });
     }, 3000);
   }
 
@@ -191,6 +200,7 @@ export class ReadonlyGridComponent implements OnInit {
   private getGridOptions(): void {
     this.gridOptions = {
       columnDefs: this.columnDefs,
+      domLayout: this.normal() ? 'normal' : 'autoHeight',
       onGridReady: (gridReadyEvent): void => this.onGridReady(gridReadyEvent),
       context: {
         rowDeleteIds: this.gridData

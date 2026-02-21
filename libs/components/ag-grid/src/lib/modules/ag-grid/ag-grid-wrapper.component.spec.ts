@@ -1,4 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import {
   SkyTheme,
@@ -557,18 +562,19 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
         previousSettings: undefined,
       }),
     };
-  });
-
-  it('should move the horizontal scroll based on enableTopScroll check, static data', async () => {
     TestBed.configureTestingModule({
       imports: [SkyAgGridFixtureModule],
       providers: [
         {
-          provide: EnableTopScroll,
-          useValue: true,
+          provide: SkyThemeService,
+          useValue: mockThemeSvc,
         },
       ],
     });
+  });
+
+  it('should move the horizontal scroll based on enableTopScroll check, static data', async () => {
+    TestBed.overrideProvider(EnableTopScroll, { useValue: true });
     gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
     gridWrapperNativeElement = gridWrapperFixture.nativeElement;
 
@@ -589,9 +595,6 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
   });
 
   it('should move the horizontal scroll based on enableTopScroll check, async loading', async () => {
-    TestBed.configureTestingModule({
-      imports: [SkyAgGridFixtureModule],
-    });
     gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
     gridWrapperNativeElement = gridWrapperFixture.nativeElement;
 
@@ -646,19 +649,7 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
   });
 
   it('should have sky-ag-grid-text-selection class', async () => {
-    TestBed.configureTestingModule({
-      imports: [SkyAgGridFixtureModule],
-      providers: [
-        {
-          provide: Editable,
-          useValue: false,
-        },
-        {
-          provide: SkyThemeService,
-          useValue: mockThemeSvc,
-        },
-      ],
-    });
+    TestBed.overrideProvider(Editable, { useValue: false });
     gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
     gridWrapperNativeElement = gridWrapperFixture.nativeElement;
 
@@ -674,19 +665,6 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
   });
 
   it('should not have sky-ag-grid-text-selection class when editing', async () => {
-    TestBed.configureTestingModule({
-      imports: [SkyAgGridFixtureModule],
-      providers: [
-        {
-          provide: Editable,
-          useValue: true,
-        },
-        {
-          provide: SkyThemeService,
-          useValue: mockThemeSvc,
-        },
-      ],
-    });
     gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
     gridWrapperNativeElement = gridWrapperFixture.nativeElement;
 
@@ -698,15 +676,12 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
     ).not.toHaveCssClass('sky-ag-grid-text-selection');
   });
 
-  it('should show inline help', async () => {
-    TestBed.configureTestingModule({
-      imports: [SkyAgGridFixtureModule],
-    });
+  it('should show inline help', fakeAsync(() => {
     gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
     gridWrapperNativeElement = gridWrapperFixture.nativeElement;
 
     gridWrapperFixture.detectChanges();
-    await gridWrapperFixture.whenStable();
+    tick();
 
     expect(
       gridWrapperNativeElement.querySelector(
@@ -754,8 +729,7 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
       }),
     });
     gridWrapperFixture.detectChanges();
-    await gridWrapperFixture.whenStable();
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    tick(1000);
 
     expect(
       gridWrapperNativeElement.querySelector(
@@ -772,25 +746,16 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
         .querySelector(`[col-id="value"] .sky-control-help`)
         ?.getAttribute('title'),
     ).toEqual('Current Value help replaced');
-  });
+  }));
 
   describe('accessibility', () => {
     [false, true].forEach((enableTopScroll) => {
       it(`should be accessible in view mode ${
         enableTopScroll ? 'with' : 'without'
       } top scroll`, async () => {
-        TestBed.configureTestingModule({
-          imports: [SkyAgGridFixtureModule],
-          providers: [
-            {
-              provide: Editable,
-              useValue: false,
-            },
-            {
-              provide: EnableTopScroll,
-              useValue: enableTopScroll,
-            },
-          ],
+        TestBed.overrideProvider(Editable, { useValue: false });
+        TestBed.overrideProvider(EnableTopScroll, {
+          useValue: enableTopScroll,
         });
         gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
         gridWrapperNativeElement = gridWrapperFixture.nativeElement;
@@ -803,19 +768,6 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
     });
 
     it(`should be accessible in edit mode`, async () => {
-      TestBed.configureTestingModule({
-        imports: [SkyAgGridFixtureModule],
-        providers: [
-          {
-            provide: Editable,
-            useValue: true,
-          },
-          {
-            provide: EnableTopScroll,
-            useValue: false,
-          },
-        ],
-      });
       gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
       gridWrapperNativeElement = gridWrapperFixture.nativeElement;
 
@@ -826,19 +778,6 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
     });
 
     it(`should be accessible in edit mode, lookup field single mode`, async () => {
-      TestBed.configureTestingModule({
-        imports: [SkyAgGridFixtureModule],
-        providers: [
-          {
-            provide: Editable,
-            useValue: true,
-          },
-          {
-            provide: EnableTopScroll,
-            useValue: false,
-          },
-        ],
-      });
       gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
       gridWrapperNativeElement = gridWrapperFixture.nativeElement;
 
@@ -883,19 +822,6 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
     });
 
     it(`should be accessible in edit mode, lookup field multiple mode`, async () => {
-      TestBed.configureTestingModule({
-        imports: [SkyAgGridFixtureModule],
-        providers: [
-          {
-            provide: Editable,
-            useValue: true,
-          },
-          {
-            provide: EnableTopScroll,
-            useValue: false,
-          },
-        ],
-      });
       gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
       gridWrapperNativeElement = gridWrapperFixture.nativeElement;
 

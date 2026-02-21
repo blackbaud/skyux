@@ -200,14 +200,21 @@ describe('SkyAgGridRowDeleteDirective', () => {
   it('should set clip path for normal layout', async () => {
     setupTest();
     fixture.componentInstance.rowDeleteIds = ['0'];
-    fixture.componentInstance.domLayout = 'normal';
+    fixture.componentRef.setInput('domLayout', 'normal');
     fixture.detectChanges();
     await fixture.whenStable();
     expect(document.querySelector('#row-delete-ref-0')).not.toBeNull();
     expect(
       document.querySelector<HTMLElement>('sky-overlay > .sky-overlay')?.style
         .clipPath,
-    ).not.toBeNull();
+    ).toEqual('none');
+    fixture.componentRef.setInput('domLayout', 'autoHeight');
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(
+      document.querySelector<HTMLElement>('sky-overlay > .sky-overlay')?.style
+        .clipPath,
+    ).toEqual('none');
   });
 
   it('should cancel row delete elements correctly via them being removed from the id array', async () => {

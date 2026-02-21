@@ -15,12 +15,7 @@ import {
   IRowNode,
   RowNodeSelectedEvent,
 } from 'ag-grid-community';
-import {
-  BehaviorSubject,
-  Subscription,
-  fromEventPattern,
-  isObservable,
-} from 'rxjs';
+import { BehaviorSubject, Subscription, isObservable } from 'rxjs';
 
 /**
  * @internal
@@ -99,10 +94,10 @@ export class SkyAgGridCellRendererRowSelectorComponent
     this.#subscription = new Subscription();
     this.#setLabel();
 
-    const rowSelected = !!this.#params.node?.isSelected();
+    const rowSelected = !!this.#params?.node?.isSelected();
 
     if (this.dataField) {
-      this.checked.next(!!this.#params.value);
+      this.checked.next(!!this.#params?.value);
       if (rowSelected !== this.checked.value) {
         this.rowNode?.setSelected(this.checked.value);
       }
@@ -110,11 +105,11 @@ export class SkyAgGridCellRendererRowSelectorComponent
       this.checked.next(rowSelected);
     }
 
-    this.#subscription.add(
-      fromEventPattern<RowNodeSelectedEvent>(
-        (handler) => this.rowNode?.addEventListener('rowSelected', handler),
-        (handler) => this.rowNode?.removeEventListener('rowSelected', handler),
-      ).subscribe((event) => this.#rowSelectedListener(event)),
+    const handler = (event: RowNodeSelectedEvent): void =>
+      this.#rowSelectedListener(event);
+    this.rowNode?.addEventListener('rowSelected', handler);
+    this.#subscription.add(() =>
+      this.rowNode?.removeEventListener('rowSelected', handler),
     );
   }
 

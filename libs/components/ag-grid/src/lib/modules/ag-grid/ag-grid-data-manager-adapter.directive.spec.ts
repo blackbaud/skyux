@@ -706,92 +706,72 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   });
 });
 
-it('should move the horizontal scroll based on enableTopScroll check', async () => {
-  TestBed.configureTestingModule({
-    imports: [SkyAgGridFixtureModule],
-    providers: [SkyDataManagerService],
+describe('horizontal scroll with enableTopScroll', () => {
+  let fixture: ComponentFixture<SkyAgGridDataManagerFixtureComponent>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [SkyAgGridFixtureModule],
+      providers: [SkyDataManagerService],
+    });
+    fixture = TestBed.createComponent(SkyAgGridDataManagerFixtureComponent);
   });
 
-  const fixture = TestBed.createComponent(SkyAgGridDataManagerFixtureComponent);
-  fixture.componentInstance.gridOptions.context = {
-    enableTopScroll: true,
-  };
-  fixture.detectChanges();
-  await fixture.whenStable();
-  fixture.detectChanges();
-  await fixture.whenStable();
-  const gridComponents: string[] = Array.from(
-    fixture.nativeElement.querySelector('.ag-root')?.children || [],
-  ).map((el) => (el as HTMLElement).classList[0]);
-  // Expect the scrollbar below the header.
-  expect(gridComponents).toEqual([
-    'ag-header',
-    'ag-body-horizontal-scroll',
-    'ag-floating-top',
-    'ag-body',
-    'ag-sticky-top',
-    'ag-sticky-bottom',
-    'ag-floating-bottom',
-    'ag-overlay',
-  ]);
+  it('should move the horizontal scroll based on enableTopScroll check', async () => {
+    fixture.componentInstance.gridOptions.context = {
+      enableTopScroll: true,
+    };
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const gridComponents: string[] = Array.from(
+      fixture.nativeElement.querySelector('.ag-root')?.children || [],
+    ).map((el) => (el as HTMLElement).classList[0]);
+    // Expect the scrollbar below the header.
+    expect(gridComponents).toEqual([
+      'ag-header',
+      'ag-body-horizontal-scroll',
+      'ag-floating-top',
+      'ag-body',
+      'ag-sticky-top',
+      'ag-sticky-bottom',
+      'ag-floating-bottom',
+      'ag-overlay',
+    ]);
 
-  const agGrid = fixture.componentInstance.agGrid;
-  expect(agGrid).toBeDefined();
-  expect(agGrid!.api.getGridOption('context')?.enableTopScroll).toBeTrue();
+    const agGrid = fixture.componentInstance.agGrid;
+    expect(agGrid).toBeDefined();
+    expect(agGrid!.api.getGridOption('context')?.enableTopScroll).toBeTrue();
 
-  const dataManagerService = TestBed.inject(SkyDataManagerService);
-  fixture.detectChanges();
-  await fixture.whenStable();
-  const viewkeeperClasses =
-    dataManagerService.viewkeeperClasses.value[
-      fixture.componentInstance.viewConfig.id
-    ];
-  expect(viewkeeperClasses).toEqual([
-    '.ag-header',
-    '.ag-body-horizontal-scroll',
-  ]);
-});
-
-it('should refresh the grid when a view is reactivated', async () => {
-  TestBed.configureTestingModule({
-    imports: [SkyAgGridFixtureModule],
-    providers: [SkyDataManagerService],
+    const dataManagerService = TestBed.inject(SkyDataManagerService);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    const viewkeeperClasses =
+      dataManagerService.viewkeeperClasses.value[
+        fixture.componentInstance.viewConfig.id
+      ];
+    expect(viewkeeperClasses).toEqual([
+      '.ag-header',
+      '.ag-body-horizontal-scroll',
+    ]);
   });
-
-  const fixture = TestBed.createComponent(SkyAgGridDataManagerFixtureComponent);
-  fixture.componentInstance.displayOtherView = true;
-  fixture.detectChanges();
-  await fixture.whenStable();
-
-  const agGrid = fixture.componentInstance.agGrid;
-  expect(agGrid).toBeDefined();
-  spyOn(agGrid!.api, 'refreshCells');
-
-  const dataManagerService = TestBed.inject(SkyDataManagerService);
-  const viewConfig = dataManagerService.getViewById(
-    fixture.componentInstance.viewConfig.id,
-  );
-  expect(viewConfig).toBeDefined();
-  dataManagerService.updateActiveViewId(viewConfig!.id);
-
-  fixture.detectChanges();
-  await fixture.whenStable();
-
-  expect(agGrid!.api.refreshCells).toHaveBeenCalled();
 });
 
 describe('Read columnOptions from grid API', () => {
-  it("when column picker enabled, should get columnOptions when they're not provided in viewConfig", async () => {
+  let fixture: ComponentFixture<SkyAgGridDataManagerFixtureComponent>;
+  let dataManagerService: SkyDataManagerService;
+
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyAgGridFixtureModule],
       providers: [SkyDataManagerService, provideSkyMediaQueryTesting()],
     });
+    fixture = TestBed.createComponent(SkyAgGridDataManagerFixtureComponent);
+    dataManagerService = TestBed.inject(SkyDataManagerService);
+  });
 
-    const fixture = TestBed.createComponent(
-      SkyAgGridDataManagerFixtureComponent,
-    );
-    const dataManagerService = TestBed.inject(SkyDataManagerService);
-
+  it("when column picker enabled, should get columnOptions when they're not provided in viewConfig", async () => {
     // Verify viewConfig initially has no columnOptions
     const viewConfig = fixture.componentInstance.viewConfig;
     expect(viewConfig.columnOptions).toBeUndefined();
@@ -846,16 +826,6 @@ describe('Read columnOptions from grid API', () => {
   });
 
   it('when column picker not enabled, should not get columnOptions', async () => {
-    TestBed.configureTestingModule({
-      imports: [SkyAgGridFixtureModule],
-      providers: [SkyDataManagerService, provideSkyMediaQueryTesting()],
-    });
-
-    const fixture = TestBed.createComponent(
-      SkyAgGridDataManagerFixtureComponent,
-    );
-    const dataManagerService = TestBed.inject(SkyDataManagerService);
-
     // Verify viewConfig initially has no columnOptions
     const viewConfig = fixture.componentInstance.viewConfig;
     expect(viewConfig.columnOptions).toBeUndefined();

@@ -11,13 +11,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SkyCheckboxChange, SkyCheckboxModule } from '@skyux/forms';
 
 import { IHeaderAngularComp } from 'ag-grid-angular';
-import {
-  GridApi,
-  IHeaderParams,
-  RowDataUpdatedEvent,
-  SelectionChangedEvent,
-} from 'ag-grid-community';
-import { asyncScheduler, fromEvent, observeOn } from 'rxjs';
+import { GridApi, IHeaderParams } from 'ag-grid-community';
+import { asyncScheduler, observeOn } from 'rxjs';
+
+import { fromGridEvent } from '../../ag-grid-event-utils';
 
 @Component({
   selector: 'sky-ag-grid-row-selector-header',
@@ -56,7 +53,7 @@ export class SkyAgGridHeaderRowSelectorComponent implements IHeaderAngularComp {
     );
 
     if (this.multiSelect()) {
-      fromEvent<SelectionChangedEvent>(params.api, 'selectionChanged')
+      fromGridEvent(params.api, 'selectionChanged')
         .pipe(takeUntilDestroyed(this.#destroyRef), observeOn(asyncScheduler))
         .subscribe((change): void => {
           if (change.source.match(/selectall/i)) {
@@ -69,7 +66,7 @@ export class SkyAgGridHeaderRowSelectorComponent implements IHeaderAngularComp {
           }
         });
 
-      fromEvent<RowDataUpdatedEvent>(params.api, 'rowDataUpdated')
+      fromGridEvent(params.api, 'rowDataUpdated')
         .pipe(takeUntilDestroyed(this.#destroyRef))
         .subscribe((): void => {
           this.indeterminate.set(!!this.#api?.getSelectedNodes().length);

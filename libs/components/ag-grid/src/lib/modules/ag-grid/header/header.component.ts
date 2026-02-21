@@ -22,9 +22,9 @@ import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { IHeaderAngularComp } from 'ag-grid-angular';
-import { ColumnMovedEvent } from 'ag-grid-community';
-import { BehaviorSubject, Subscription, fromEvent, takeUntil } from 'rxjs';
+import { BehaviorSubject, Subscription, takeUntil } from 'rxjs';
 
+import { fromGridEvent } from '../ag-grid-event-utils';
 import { SkyAgGridHeaderInfo } from '../types/header-info';
 import { SkyAgGridHeaderParams } from '../types/header-params';
 
@@ -115,33 +115,29 @@ export class SkyAgGridHeaderComponent
     this.#leftPosition = params.column.getLeft() ?? 0;
     this.#subscriptions = new Subscription();
     if (params.column.isFilterAllowed()) {
-      this.#subscriptions.add(
-        fromEvent(params.column, 'filterChanged')
-          .pipe(takeUntil(fromEvent(params.api, 'gridPreDestroyed')))
-          .subscribe(() => {
-            const isFilterActive = params.column.isFilterActive();
-            if (isFilterActive !== this.filterEnabled$.getValue()) {
-              this.filterEnabled$.next(isFilterActive);
-            }
-          }),
+      const handler = (): void => {
+        const isFilterActive = params.column.isFilterActive();
+        if (isFilterActive !== this.filterEnabled$.getValue()) {
+          this.filterEnabled$.next(isFilterActive);
+        }
+      };
+      params.column.addEventListener('filterChanged', handler);
+      this.#subscriptions.add(() =>
+        params.column.removeEventListener('filterChanged', handler),
       );
     }
     if (params.enableSorting) {
       // Column sort state changes
-      this.#subscriptions.add(
-        fromEvent(params.column, 'sortChanged')
-          .pipe(takeUntil(fromEvent(params.api, 'gridPreDestroyed')))
-          .subscribe(() => {
-            this.#updateSort();
-          }),
+      const handler = (): void => this.#updateSort();
+      params.column.addEventListener('sortChanged', handler);
+      this.#subscriptions.add(() =>
+        params.column.removeEventListener('sortChanged', handler),
       );
       // Other column sort state changes, for multi-column sorting
       this.#subscriptions.add(
-        fromEvent(params.api, 'sortChanged')
-          .pipe(takeUntil(fromEvent(params.api, 'gridPreDestroyed')))
-          .subscribe(() => {
-            this.#updateSortIndex();
-          }),
+        fromGridEvent(params.api, 'sortChanged').subscribe(() =>
+          this.#updateSortIndex(),
+        ),
       );
       this.#updateSort();
       this.#updateSortIndex();
@@ -150,8 +146,8 @@ export class SkyAgGridHeaderComponent
     // When the column is moved left via the keyboard, the element is detached
     // and reattached to the DOM to maintain DOM order, and its focus is lost.
     this.#subscriptions.add(
-      fromEvent<ColumnMovedEvent>(params.api, 'columnMoved')
-        .pipe(takeUntil(fromEvent(params.api, 'gridPreDestroyed')))
+      fromGridEvent(params.api, 'columnMoved')
+        .pipe(takeUntil(fromGridEvent(params.api, 'gridPreDestroyed')))
         .subscribe((event) => {
           const left = event.column?.getLeft() ?? 0;
           const oldLeft = this.#leftPosition;
