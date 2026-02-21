@@ -1,3 +1,4 @@
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import {
   AfterContentInit,
   AfterViewInit,
@@ -34,7 +35,6 @@ import {
   ListSortFieldSelectorModel,
 } from '@skyux/list-builder-common';
 
-import { DragulaService } from 'ng2-dragula';
 import {
   BehaviorSubject,
   Observable,
@@ -77,7 +77,6 @@ let nextId = 0;
   selector: 'sky-grid',
   templateUrl: './grid.component.html',
   styleUrls: ['./grid.component.scss'],
-  viewProviders: [DragulaService],
   providers: [SkyGridAdapterService],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
@@ -297,7 +296,6 @@ export class SkyGridComponent
   public columnResizeStep = 10;
   public currentSortField: BehaviorSubject<ListSortFieldSelectorModel>;
   public displayedColumns: SkyGridColumnModel[];
-  public dragulaGroupName: string;
   public gridId: number = ++nextId;
   public rowDeleteConfigs: SkyGridRowDeleteConfig[] = [];
   public items: any[];
@@ -350,7 +348,6 @@ export class SkyGridComponent
   constructor(
     private affixService: SkyAffixService,
     private changeDetector: ChangeDetectorRef,
-    private dragulaService: DragulaService,
     private gridAdapter: SkyGridAdapterService,
     private overlayService: SkyOverlayService,
     private skyWindow: SkyAppWindowRef,
@@ -369,7 +366,6 @@ export class SkyGridComponent
       fieldSelector: '',
       descending: false,
     });
-    this.dragulaGroupName = `sky-grids-group-${this.gridId}`;
   }
 
   public ngOnInit(): void {
@@ -388,15 +384,6 @@ export class SkyGridComponent
     } else {
       this.initColumns();
     }
-
-    // Setup column drag-and-drop.
-    this.gridAdapter.initializeDragAndDrop(
-      this.dragulaGroupName,
-      this.dragulaService,
-      (selectedColumnIds: string[]) => {
-        this.onHeaderDrop(selectedColumnIds);
-      },
-    );
 
     this.applySelectedRows();
   }
@@ -464,8 +451,6 @@ export class SkyGridComponent
     Object.keys(this.rowDeleteContents).forEach((id) => {
       this.destroyRowDelete(id);
     });
-
-    this.dragulaService.destroy(this.dragulaGroupName);
   }
 
   @HostListener('window:resize')
@@ -804,6 +789,20 @@ export class SkyGridComponent
 
   public getRowDeleteItem(id: string): SkyGridRowDeleteConfig {
     return this.rowDeleteConfigs.find((rowDelete) => rowDelete.id === id);
+  }
+
+  /**
+   * Handles the CDK drag-and-drop event when a column header is dropped.
+   */
+  public onColumnDropped(event: CdkDragDrop<SkyGridColumnModel[]>): void {
+    const newColumnIds = this.gridAdapter.onColumnDrop(
+      event,
+      this.displayedColumns,
+    );
+
+    if (newColumnIds) {
+      this.onHeaderDrop(newColumnIds);
+    }
   }
 
   // Prevent touch devices from inadvertently scrolling grid while dragging columns.

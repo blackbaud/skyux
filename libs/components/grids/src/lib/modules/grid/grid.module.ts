@@ -1,3 +1,4 @@
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -8,8 +9,6 @@ import { SkyIconModule } from '@skyux/icon';
 import { SkyTextHighlightModule } from '@skyux/indicators';
 import { SkyInlineDeleteModule } from '@skyux/layout';
 import { SkyPopoverModule } from '@skyux/popovers';
-
-import { DragulaModule } from 'ng2-dragula';
 
 import { SkyGridsResourcesModule } from '../shared/sky-grids-resources.module';
 
@@ -28,7 +27,7 @@ import { SkyGridComponent } from './grid.component';
   ],
   imports: [
     CommonModule,
-    DragulaModule,
+    DragDropModule,
     FormsModule,
     SkyAffixModule,
     SkyCheckboxModule,

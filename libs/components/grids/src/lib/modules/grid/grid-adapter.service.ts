@@ -1,3 +1,4 @@
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import {
   ElementRef,
   Injectable,
@@ -5,13 +6,7 @@ import {
   RendererFactory2,
 } from '@angular/core';
 
-import { DragulaService } from 'ng2-dragula';
-
-const GRID_HEADER_DRAGGING_CLASS = 'sky-grid-header-dragging';
-const GRID_HEADER_LOCKED_SELECTOR = '.sky-grid-header-locked';
-const GRID_HEADER_RESIZE_HANDLE = '.sky-grid-resize-handle';
-const GRID_ROW_DELETE_SELECTOR = '.sky-grid-row-delete-heading';
-const GRID_MULTISELECT_SELECTOR = '.sky-grid-multiselect-cell';
+import { SkyGridColumnModel } from './grid-column.model';
 
 /**
  * @internal
@@ -24,72 +19,46 @@ export class SkyGridAdapterService {
     this.renderer = this.rendererFactory.createRenderer(undefined, undefined);
   }
 
-  public initializeDragAndDrop(
-    dragulaGroupName: string,
-    dragulaService: DragulaService,
-    dropCallback: (newColumnIds: string[]) => void,
-  ): void {
-    dragulaService
-      .drag(dragulaGroupName)
-      .subscribe((args) => args.el.classList.add(GRID_HEADER_DRAGGING_CLASS));
-
-    dragulaService
-      .dragend(dragulaGroupName)
-      .subscribe((args) =>
-        args.el.classList.remove(GRID_HEADER_DRAGGING_CLASS),
-      );
-
-    dragulaService.drop(dragulaGroupName).subscribe((args) => {
-      const columnIds: string[] = [];
-      const nodes = Array.from<HTMLElement>(
-        args.target.querySelectorAll(
-          `th:not(${GRID_MULTISELECT_SELECTOR}):not(${GRID_ROW_DELETE_SELECTOR})`,
-        ),
-      );
-      for (const el of nodes) {
-        const id = el.getAttribute('sky-cmp-id');
-        columnIds.push(id);
-      }
-      dropCallback(columnIds);
-    });
-
-    dragulaService.createGroup(dragulaGroupName, {
-      moves: (el: HTMLElement, container: HTMLElement, handle: HTMLElement) => {
-        const columns: NodeListOf<HTMLElement> =
-          container.querySelectorAll('th div');
-        const isLeftOfLocked = this.isLeftOfLocked(handle, columns);
-
-        return (
-          !el.querySelector(GRID_HEADER_LOCKED_SELECTOR) &&
-          handle !== undefined &&
-          !handle.matches(GRID_HEADER_RESIZE_HANDLE) &&
-          !handle.matches(GRID_MULTISELECT_SELECTOR) &&
-          !handle.matches(GRID_ROW_DELETE_SELECTOR) &&
-          !isLeftOfLocked
-        );
-      },
-      accepts: (
-        el: HTMLElement,
-        target: HTMLElement,
-        source: HTMLElement,
-        sibling: HTMLElement,
-      ) => {
-        if (sibling === undefined || !sibling) {
-          return true;
+  /**
+   * Determines whether a column can be dropped at the given position.
+   * Columns cannot be dropped to the left of locked columns.
+   */
+  public canDrop(
+    displayedColumns: SkyGridColumnModel[],
+    currentIndex: number,
+    targetIndex: number,
+  ): boolean {
+    // Cannot drop to the left of a locked column.
+    if (targetIndex < currentIndex) {
+      for (let i = targetIndex; i < currentIndex; i++) {
+        if (displayedColumns[i]?.locked) {
+          return false;
         }
+      }
+    }
+    return true;
+  }
 
-        const columns: NodeListOf<HTMLElement> =
-          source.querySelectorAll('th div');
-        const siblingDiv = sibling.querySelector('div');
-        const isLeftOfLocked = this.isLeftOfLocked(siblingDiv, columns);
+  /**
+   * Handles the CDK drop event and returns the updated column IDs.
+   */
+  public onColumnDrop(
+    event: CdkDragDrop<SkyGridColumnModel[]>,
+    displayedColumns: SkyGridColumnModel[],
+  ): string[] | undefined {
+    if (event.previousIndex === event.currentIndex) {
+      return undefined;
+    }
 
-        return (
-          !sibling.matches(GRID_HEADER_LOCKED_SELECTOR) &&
-          !sibling.matches(GRID_HEADER_RESIZE_HANDLE) &&
-          !isLeftOfLocked
-        );
-      },
-    });
+    if (
+      !this.canDrop(displayedColumns, event.previousIndex, event.currentIndex)
+    ) {
+      return undefined;
+    }
+
+    const columnIds = displayedColumns.map((col) => col.id);
+    moveItemInArray(columnIds, event.previousIndex, event.currentIndex);
+    return columnIds;
   }
 
   public getRowHeight(el: ElementRef, index: number): string {
@@ -102,29 +71,5 @@ export class SkyGridAdapterService {
     if (el) {
       this.renderer.setStyle(el.nativeElement, style, value);
     }
-  }
-
-  private isLeftOfLocked(
-    handle: HTMLElement,
-    columns: NodeListOf<HTMLElement>,
-  ): boolean {
-    let sourceColumn = handle;
-    for (const column of Array.from(columns)) {
-      if (column.contains(handle)) {
-        sourceColumn = column;
-      }
-    }
-
-    for (let i = columns.length - 1; i >= 0; i--) {
-      if (columns[i].classList.contains('sky-grid-header-locked')) {
-        return true;
-      }
-
-      if (columns[i] === sourceColumn) {
-        break;
-      }
-    }
-
-    return false;
   }
 }
