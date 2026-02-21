@@ -3,15 +3,12 @@ import { RouterModule } from '@angular/router';
 
 import { ComponentRouteInfo } from '../../shared/component-info/component-route-info';
 
-import {
-  GridVisualComponent,
-  GridVisualComponentModule,
-} from './grid/grid-visual.component';
+import { GridPlaygroundComponent } from './grid/grid.component';
 
 const routes: ComponentRouteInfo[] = [
   {
     path: 'grid',
-    component: GridVisualComponent,
+    component: GridPlaygroundComponent,
     data: {
       name: 'Grid',
       icon: 'table',
@@ -27,7 +24,7 @@ const routes: ComponentRouteInfo[] = [
 export class GridsFeatureRoutingModule {}
 
 @NgModule({
-  imports: [GridVisualComponentModule, GridsFeatureRoutingModule],
+  imports: [GridPlaygroundComponent, GridsFeatureRoutingModule],
 })
 export class GridsFeatureModule {
   public static routes = routes;

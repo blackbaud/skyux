@@ -1,4 +1,4 @@
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
 import { DebugElement } from '@angular/core';
 import {
   ComponentFixture,
@@ -2238,9 +2238,9 @@ describe('Grid Component', () => {
       return {
         previousIndex,
         currentIndex,
-        previousContainer: {} as any,
-        container: {} as any,
-        item: {} as any,
+        previousContainer: {} as never,
+        container: {} as never,
+        item: {} as never,
         isPointerOverContainer: true,
         distance: { x: 0, y: 0 },
         dropPoint: { x: 0, y: 0 },
@@ -2248,13 +2248,20 @@ describe('Grid Component', () => {
       } as CdkDragDrop<SkyGridColumnModel[]>;
     }
 
+    function simulateDrop(previousIndex: number, currentIndex: number): void {
+      const dropList = element.query(By.directive(CdkDropList));
+      dropList.triggerEventHandler(
+        'cdkDropListDropped',
+        createDropEvent(previousIndex, currentIndex),
+      );
+    }
+
     it('should set selectedColumnIds to the new column order on drop and update headers and data', fakeAsync(() => {
       fixture.detectChanges();
       fixture.detectChanges();
 
       // Simulate dropping column at index 0 to index 1 (swap column1 and column2)
-      const dropEvent = createDropEvent(0, 1);
-      component.grid.onColumnDropped(dropEvent);
+      simulateDrop(0, 1);
 
       tick();
       fixture.detectChanges();
@@ -2285,8 +2292,7 @@ describe('Grid Component', () => {
       ).and.callThrough();
 
       // Simulate dropping column at index 0 to index 1 (swap column1 and column2)
-      const dropEvent = createDropEvent(0, 1);
-      component.grid.onColumnDropped(dropEvent);
+      simulateDrop(0, 1);
 
       tick();
       fixture.detectChanges();
@@ -2303,8 +2309,7 @@ describe('Grid Component', () => {
         'onSelectedColumnIdsChange',
       ).and.callThrough();
 
-      const dropEvent = createDropEvent(1, 1);
-      component.grid.onColumnDropped(dropEvent);
+      simulateDrop(1, 1);
 
       tick();
       fixture.detectChanges();
@@ -2322,8 +2327,7 @@ describe('Grid Component', () => {
       ).and.callThrough();
 
       // column1 (index 0) is locked. Try to drop column2 (index 1) to index 0.
-      const dropEvent = createDropEvent(1, 0);
-      component.grid.onColumnDropped(dropEvent);
+      simulateDrop(1, 0);
 
       tick();
       fixture.detectChanges();

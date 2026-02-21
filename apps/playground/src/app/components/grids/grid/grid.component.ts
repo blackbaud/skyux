@@ -1,20 +1,20 @@
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyGridModule } from '@skyux/grids';
 import { ListSortFieldSelectorModel } from '@skyux/list-builder-common';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-grid-visual',
-  standalone: false,
+  imports: [SkyGridModule],
+  selector: 'app-grid',
   styles: `
     :host {
       display: block;
       padding: 16px;
     }
   `,
-  templateUrl: './grid-visual.component.html',
+  templateUrl: './grid.component.html',
 })
-export class GridVisualComponent {
+export class GridPlaygroundComponent {
   public data = [
     {
       id: '1',
@@ -85,10 +85,3 @@ export class GridVisualComponent {
     console.log('Sort field changed:', sortField);
   }
 }
-
-@NgModule({
-  imports: [SkyGridModule],
-  declarations: [GridVisualComponent],
-  exports: [GridVisualComponent],
-})
-export class GridVisualComponentModule {}

@@ -794,7 +794,7 @@ export class SkyGridComponent
   /**
    * Handles the CDK drag-and-drop event when a column header is dropped.
    */
-  public onColumnDropped(event: CdkDragDrop<SkyGridColumnModel[]>): void {
+  protected onColumnDropped(event: CdkDragDrop<SkyGridColumnModel[]>): void {
     const newColumnIds = this.gridAdapter.onColumnDrop(
       event,
       this.displayedColumns,
