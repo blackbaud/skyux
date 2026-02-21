@@ -8,8 +8,7 @@ import {
   input,
   viewChild,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { toObservable } from '@angular/core/rxjs-interop';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkySelectionModalService } from '@skyux/lookup';
 

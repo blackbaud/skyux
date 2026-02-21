@@ -19,8 +19,11 @@ import {
   numberAttribute,
   viewChild,
 } from '@angular/core';
-import { SkyIdModule, SkyMutationObserverService } from '@skyux/core';
-import { SkyViewkeeperModule } from '@skyux/core';
+import {
+  SkyIdModule,
+  SkyMutationObserverService,
+  SkyViewkeeperModule,
+} from '@skyux/core';
 import {
   SkyThemeService,
   SkyThemeSettings,

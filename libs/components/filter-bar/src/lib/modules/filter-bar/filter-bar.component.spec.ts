@@ -10,10 +10,10 @@ import {
 import {
   SkyConfirmInstance,
   SkyConfirmService,
+  SkyModalCloseArgs,
   SkyModalInstance,
   SkyModalService,
 } from '@skyux/modals';
-import { SkyModalCloseArgs } from '@skyux/modals';
 
 import { Subject, of } from 'rxjs';
 

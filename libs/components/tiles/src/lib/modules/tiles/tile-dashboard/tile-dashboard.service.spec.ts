@@ -34,11 +34,11 @@ import { SkyTilesModule } from '../tiles.module';
 
 import { MockDragulaService } from './fixtures/mock-dragula.service';
 import { MockSkyUIConfigService } from './fixtures/mock-ui-config.service';
-import { Tile1TestComponent } from './fixtures/tile1.component.fixture';
-import { Tile2TestComponent } from './fixtures/tile2.component.fixture';
 import { TileTestContext } from './fixtures/tile-context.fixture';
 import { SkyTileDashboardFixturesModule } from './fixtures/tile-dashboard-fixtures.module';
 import { TileDashboardTestComponent } from './fixtures/tile-dashboard.component.fixture';
+import { Tile1TestComponent } from './fixtures/tile1.component.fixture';
+import { Tile2TestComponent } from './fixtures/tile2.component.fixture';
 
 describe('Tile dashboard service', () => {
   let dashboardConfig: SkyTileDashboardConfig;

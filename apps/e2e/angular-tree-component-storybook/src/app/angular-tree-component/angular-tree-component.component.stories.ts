@@ -1,5 +1,5 @@
-import { moduleMetadata } from '@storybook/angular';
 import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 
 import { AngularTreeComponentComponent } from './angular-tree-component.component';
 import { AngularTreeComponentModule } from './angular-tree-component.module';

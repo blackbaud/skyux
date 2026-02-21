@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { SkyNumericOptions } from '@skyux/core';
-import { SkyNumericModule } from '@skyux/core';
+import { SkyNumericModule, SkyNumericOptions } from '@skyux/core';
 
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 
@@ -17,9 +16,7 @@ import { SkyAgGridValidatorProperties } from '../../types/validator-properties';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkyNumericModule],
 })
-export class SkyAgGridCellRendererCurrencyComponent
-  implements ICellRendererAngularComp
-{
+export class SkyAgGridCellRendererCurrencyComponent implements ICellRendererAngularComp {
   @Input()
   public set params(value: SkyCellRendererCurrencyParams) {
     this.agInit(value);

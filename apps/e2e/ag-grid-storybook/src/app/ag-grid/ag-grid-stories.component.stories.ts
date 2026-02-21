@@ -1,5 +1,5 @@
-import { moduleMetadata } from '@storybook/angular';
 import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 
 import { AgGridStoriesComponent } from './ag-grid-stories.component';
 import { AgGridStoriesModule } from './ag-grid-stories.module';

@@ -1,5 +1,5 @@
-import { moduleMetadata } from '@storybook/angular';
 import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 
 import { InfiniteScrollComponent } from './infinite-scroll.component';
 import { InfiniteScrollModule } from './infinite-scroll.module';

@@ -9,8 +9,11 @@ import {
   signal,
 } from '@angular/core';
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
-import { SkyPopoverMessage, SkyPopoverMessageType } from '@skyux/popovers';
-import { SkyPopoverModule } from '@skyux/popovers';
+import {
+  SkyPopoverMessage,
+  SkyPopoverMessageType,
+  SkyPopoverModule,
+} from '@skyux/popovers';
 
 import { AgColumn, CellFocusedEvent } from 'ag-grid-community';
 import { Subject } from 'rxjs';

@@ -1,5 +1,5 @@
-import { moduleMetadata } from '@storybook/angular';
 import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 
 import { KeyInfoComponent } from './key-info.component';
 import { KeyInfoModule } from './key-info.module';
