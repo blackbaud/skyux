@@ -1,3 +1,4 @@
+import { DragDrop, DropListRef } from '@angular/cdk/drag-drop';
 import { EventEmitter } from '@angular/core';
 import {
   ComponentFixture,
@@ -22,7 +23,6 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import { DragulaOptions, DragulaService, Group } from 'ng2-dragula';
 import { BehaviorSubject } from 'rxjs';
 
 import { SkyTileDashboardConfig } from '../tile-dashboard-config/tile-dashboard-config';
@@ -32,7 +32,6 @@ import { SKY_TILE_TITLE_ID } from '../tile/tile-title-id-token';
 import { SkyTileComponent } from '../tile/tile.component';
 import { SkyTilesModule } from '../tiles.module';
 
-import { MockDragulaService } from './fixtures/mock-dragula.service';
 import { MockSkyUIConfigService } from './fixtures/mock-ui-config.service';
 import { Tile1TestComponent } from './fixtures/tile1.component.fixture';
 import { Tile2TestComponent } from './fixtures/tile2.component.fixture';
@@ -43,7 +42,6 @@ import { TileDashboardTestComponent } from './fixtures/tile-dashboard.component.
 describe('Tile dashboard service', () => {
   let dashboardConfig: SkyTileDashboardConfig;
   let dashboardService: SkyTileDashboardService;
-  let mockDragulaService: MockDragulaService;
   let mediaQueryController: SkyMediaQueryTestingController;
   let mockUIConfigService: MockSkyUIConfigService;
   let mockThemeSvc: {
@@ -73,7 +71,6 @@ describe('Tile dashboard service', () => {
         SkyTilesModule,
       ],
       providers: [
-        { provide: DragulaService, useClass: MockDragulaService },
         provideSkyMediaQueryTesting(),
         { provide: SkyUIConfigService, useValue: mockUIConfigService },
         SkyTileDashboardService,
@@ -86,7 +83,6 @@ describe('Tile dashboard service', () => {
     });
 
     mediaQueryController = TestBed.inject(SkyMediaQueryTestingController);
-    mockDragulaService = TestBed.inject(DragulaService) as MockDragulaService;
     dashboardService = TestBed.inject(SkyTileDashboardService);
 
     dashboardConfig = {
@@ -255,7 +251,7 @@ describe('Tile dashboard service', () => {
 
     columnEls[1].appendChild(columnEls[0].querySelector('div.sky-test-tile-1'));
 
-    mockDragulaService.drop().next({});
+    dashboardService.handleDrop();
     tick();
 
     expect(configChanged).toBe(true);
@@ -266,27 +262,110 @@ describe('Tile dashboard service', () => {
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
-    const tile: Element = fixture.nativeElement.querySelector(
-      'div.sky-test-tile-1',
-    );
-    const handle = tile.querySelector('.sky-tile-grab-handle sky-icon-svg');
-    const setOptionsSpy = spyOn(mockDragulaService, 'createGroup').and.callFake(
-      (name: string, options: DragulaOptions) => {
-        if (options.moves && handle) {
-          const result = options.moves(tile, undefined, handle);
-          expect(result).toBe(true);
-        } else {
-          fail('Missing moves handler and/or handle');
-        }
-        return {} as Group;
+
+    const tile = fixture.nativeElement.querySelector('div.sky-test-tile-1');
+    const handle = tile.querySelector('.sky-tile-grab-handle');
+
+    expect(handle).toBeTruthy();
+  }));
+
+  it('should move the DOM element and update config when CDK drop fires', fakeAsync(() => {
+    const dragDrop = TestBed.inject(DragDrop);
+    const capturedDropListRefs: DropListRef[] = [];
+
+    const originalCreateDropList = dragDrop.createDropList.bind(dragDrop);
+    spyOn(dragDrop, 'createDropList').and.callFake(
+      (...args: Parameters<typeof dragDrop.createDropList>) => {
+        const ref = originalCreateDropList(...args);
+        capturedDropListRefs.push(ref);
+        return ref;
       },
     );
 
-    TestBed.runInInjectionContext(() => {
-      return new SkyTileDashboardService();
+    const fixture = createDashboardTestComponent();
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+
+    // Verify drop list refs were created (one per column: 2 multi + 1 single).
+    expect(capturedDropListRefs.length).toBe(3);
+
+    const el = fixture.nativeElement;
+    const columnEls = el.querySelectorAll('.sky-tile-dashboard-column');
+    const tileEl = columnEls[0].querySelector('div.sky-test-tile-1');
+
+    let configChanged = false;
+    const componentDashboardService = fixture.debugElement
+      .query(By.directive(SkyTileDashboardComponent))
+      .injector.get(SkyTileDashboardService);
+
+    componentDashboardService.configChange.subscribe(() => {
+      configChanged = true;
     });
 
-    expect(setOptionsSpy).toHaveBeenCalled();
+    // Simulate CDK drop: move tile-1 from column 0 to end of column 1.
+    capturedDropListRefs[0].dropped.next({
+      item: { getRootElement: () => tileEl } as any,
+      container: capturedDropListRefs[1],
+      previousContainer: capturedDropListRefs[0],
+      previousIndex: 0,
+      currentIndex: 1,
+      distance: { x: 0, y: 0 },
+      dropPoint: { x: 0, y: 0 },
+      isPointerOverContainer: true,
+      event: new MouseEvent('mouseup'),
+    });
+
+    tick();
+
+    // Tile should have moved to column 1 (appendChild path, since currentIndex >= children count).
+    expect(columnEls[0].querySelector('div.sky-test-tile-1')).toBeFalsy();
+    expect(columnEls[1].querySelector('div.sky-test-tile-1')).toBeTruthy();
+    expect(configChanged).toBe(true);
+  }));
+
+  it('should insert the DOM element before a reference node when CDK drop fires at a specific index', fakeAsync(() => {
+    const dragDrop = TestBed.inject(DragDrop);
+    const capturedDropListRefs: DropListRef[] = [];
+
+    const originalCreateDropList = dragDrop.createDropList.bind(dragDrop);
+    spyOn(dragDrop, 'createDropList').and.callFake(
+      (...args: Parameters<typeof dragDrop.createDropList>) => {
+        const ref = originalCreateDropList(...args);
+        capturedDropListRefs.push(ref);
+        return ref;
+      },
+    );
+
+    const fixture = createDashboardTestComponent();
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+
+    const el = fixture.nativeElement;
+    const columnEls = el.querySelectorAll('.sky-tile-dashboard-column');
+    const tileEl = columnEls[0].querySelector('div.sky-test-tile-1');
+
+    // Simulate CDK drop: insert tile-1 at position 0 of column 1 (before existing tile).
+    capturedDropListRefs[0].dropped.next({
+      item: { getRootElement: () => tileEl } as any,
+      container: capturedDropListRefs[1],
+      previousContainer: capturedDropListRefs[0],
+      previousIndex: 0,
+      currentIndex: 0,
+      distance: { x: 0, y: 0 },
+      dropPoint: { x: 0, y: 0 },
+      isPointerOverContainer: true,
+      event: new MouseEvent('mouseup'),
+    });
+
+    tick();
+
+    // Tile-1 should be the first tile in column 1 (insertBefore path).
+    const column1Tiles = columnEls[1].querySelectorAll(
+      '[_sky-tile-dashboard-tile-id]',
+    );
+    expect(column1Tiles[0]).toHaveCssClass('sky-test-tile-1');
   }));
 
   function testIntercolumnNavigation(
@@ -671,11 +750,15 @@ describe('Tile dashboard service', () => {
     fixture.detectChanges();
     tick();
 
+    const componentDashboardService = fixture.debugElement
+      .query(By.directive(SkyTileDashboardComponent))
+      .injector.get(SkyTileDashboardService);
+
     mediaQueryController.setBreakpoint('xs');
 
     fixture.detectChanges();
 
-    mockDragulaService.drop().next({});
+    componentDashboardService.handleDrop();
 
     fixture.detectChanges();
     tick();
@@ -686,7 +769,7 @@ describe('Tile dashboard service', () => {
 
     fixture.detectChanges();
 
-    mockDragulaService.drop().next({});
+    componentDashboardService.handleDrop();
 
     fixture.detectChanges();
     tick();
