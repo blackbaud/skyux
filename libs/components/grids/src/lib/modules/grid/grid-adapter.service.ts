@@ -28,6 +28,9 @@ export class SkyGridAdapterService {
     currentIndex: number,
     targetIndex: number,
   ): boolean {
+    if (displayedColumns[currentIndex]?.locked) {
+      return false;
+    }
     // Cannot drop to the left of a locked column.
     if (targetIndex < currentIndex) {
       for (let i = targetIndex; i < currentIndex; i++) {

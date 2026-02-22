@@ -2260,26 +2260,26 @@ describe('Grid Component', () => {
       fixture.detectChanges();
       fixture.detectChanges();
 
-      // Simulate dropping column at index 0 to index 1 (swap column1 and column2)
-      simulateDrop(0, 1);
+      // Simulate dropping column at index 1 to index 2 (swap column2 and column3)
+      simulateDrop(1, 2);
 
       tick();
       fixture.detectChanges();
 
-      expect(component.grid.selectedColumnIds[0]).toBe('column2');
-      expect(component.grid.selectedColumnIds[1]).toBe('column1');
+      expect(component.grid.selectedColumnIds[1]).toBe('column3');
+      expect(component.grid.selectedColumnIds[2]).toBe('column2');
 
       const headerAttribute = element.nativeElement
-        .getElementsByTagName('th')[0]
+        .getElementsByTagName('th')[1]
         .getAttribute('sky-cmp-id');
 
-      expect(headerAttribute).toBe('column2');
+      expect(headerAttribute).toBe('column3');
 
       const cellAttribute = element.nativeElement
-        .getElementsByTagName('sky-grid-cell')[0]
+        .getElementsByTagName('sky-grid-cell')[1]
         .getAttribute('sky-cmp-id');
 
-      expect(cellAttribute).toBe('column2');
+      expect(cellAttribute).toBe('column3');
     }));
 
     it('should emit selectedColumnIds when a column is reordered on drop', fakeAsync(() => {
@@ -2291,8 +2291,8 @@ describe('Grid Component', () => {
         'onSelectedColumnIdsChange',
       ).and.callThrough();
 
-      // Simulate dropping column at index 0 to index 1 (swap column1 and column2)
-      simulateDrop(0, 1);
+      // Simulate dropping column at index 1 to index 2 (column2 is not locked)
+      simulateDrop(1, 2);
 
       tick();
       fixture.detectChanges();
@@ -2334,6 +2334,49 @@ describe('Grid Component', () => {
 
       // The drop should not be applied because column1 is locked.
       expect(spy).not.toHaveBeenCalled();
+    }));
+
+    it('should not allow dragging a locked column', fakeAsync(() => {
+      fixture.detectChanges();
+      fixture.detectChanges();
+
+      const spy = spyOn(
+        component,
+        'onSelectedColumnIdsChange',
+      ).and.callThrough();
+
+      // column1 (index 0) is locked. Try to drag it to index 1.
+      simulateDrop(0, 1);
+
+      tick();
+      fixture.detectChanges();
+
+      // The drop should not be applied because the source column is locked.
+      expect(spy).not.toHaveBeenCalled();
+    }));
+
+    it('should apply sky-grid-header-dragging class on drag start and remove it on drag end', fakeAsync(() => {
+      fixture.detectChanges();
+      fixture.detectChanges();
+
+      const headerCells = element.nativeElement.querySelectorAll(
+        'th.sky-grid-heading',
+      );
+      const draggableColumn = headerCells[1];
+
+      const mockElement = { nativeElement: draggableColumn };
+      const mockDragItem = { element: mockElement };
+      const dragStartEvent = { source: mockDragItem };
+      const dragEndEvent = { source: mockDragItem };
+
+      const thElements = element.queryAll(By.css('th.sky-grid-heading'));
+      thElements[1].triggerEventHandler('cdkDragStarted', dragStartEvent);
+      expect(draggableColumn.classList).toContain('sky-grid-header-dragging');
+
+      thElements[1].triggerEventHandler('cdkDragEnded', dragEndEvent);
+      expect(draggableColumn.classList).not.toContain(
+        'sky-grid-header-dragging',
+      );
     }));
 
     it('should disable drag on locked columns via cdkDragDisabled', fakeAsync(() => {
