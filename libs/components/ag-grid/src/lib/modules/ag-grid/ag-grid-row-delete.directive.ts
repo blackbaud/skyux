@@ -140,16 +140,16 @@ export class SkyAgGridRowDeleteDirective
       takeUntil(this.#ngUnsubscribe),
     );
     agGridReady.subscribe((ready) => {
-      this.#agGridRootElement.next([
-        new ElementRef(
-          this.#elementRef.nativeElement.querySelector(
-            'div.ag-root-wrapper',
-          ) as HTMLDivElement,
-        ),
-      ]);
+      const rootWrapper = this.#elementRef.nativeElement.querySelector(
+        'div.ag-root-wrapper',
+      );
+      if (rootWrapper) {
+        this.#agGridRootElement.next([
+          new ElementRef(rootWrapper as HTMLDivElement),
+        ]);
+      }
       this.#rowDeleteSvc.gridApi.set(ready.api);
     });
-    // Set div.ag-root-wrapper boundaries as a clip path once it is present.
     this.#agGridRootElement
       .pipe(takeUntilDestroyed())
       .subscribe((el) => this.#agGridBodyClipElements.next(el));

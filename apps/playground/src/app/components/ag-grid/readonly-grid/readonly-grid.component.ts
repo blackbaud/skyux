@@ -19,6 +19,7 @@ import { SkyThemeService } from '@skyux/theme';
 import { AgGridModule } from 'ag-grid-angular';
 import {
   AllCommunityModule,
+  ColDef,
   GridApi,
   GridOptions,
   GridReadyEvent,
@@ -57,58 +58,7 @@ export class ReadonlyGridComponent implements OnInit {
     transform: booleanAttribute,
   });
 
-  public columnDefs = [
-    {
-      field: 'selected',
-      colId: 'selected',
-      type: SkyCellType.RowSelector,
-    },
-    {
-      colId: 'contextMenu',
-      headerName: 'Context menu',
-      sortable: false,
-      cellRenderer: ReadonlyGridContextMenuComponent,
-      maxWidth: 55,
-      headerComponentParams: {
-        headerHidden: true,
-      },
-    },
-    {
-      field: 'name',
-      headerName: 'Goal Name',
-      autoHeight: !this.normal(),
-    },
-    {
-      field: 'value',
-      headerName: 'Current Value',
-      type: SkyCellType.Number,
-      maxWidth: 200,
-    },
-    {
-      field: 'startDate',
-      headerName: 'Start Date',
-      type: [SkyCellType.RightAligned, SkyCellType.Date],
-    },
-    {
-      field: 'endDate',
-      headerName: 'End Date',
-      type: SkyCellType.Date,
-    },
-    {
-      field: 'comment',
-      headerName: 'Comment',
-      maxWidth: 500,
-      autoHeight: !this.normal(),
-      wrapText: !this.normal(),
-    },
-    {
-      field: 'status',
-      headerName: 'Status',
-      sortable: false,
-      cellRenderer: this.statusRenderer,
-      minWidth: 300,
-    },
-  ];
+  public columnDefs: ColDef[] = [];
 
   @HostListener('window:resize')
   public onWindowResize(): void {
@@ -123,6 +73,58 @@ export class ReadonlyGridComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
+    this.columnDefs = [
+      {
+        field: 'selected',
+        colId: 'selected',
+        type: SkyCellType.RowSelector,
+      },
+      {
+        colId: 'contextMenu',
+        headerName: 'Context menu',
+        sortable: false,
+        cellRenderer: ReadonlyGridContextMenuComponent,
+        maxWidth: 55,
+        headerComponentParams: {
+          headerHidden: true,
+        },
+      },
+      {
+        field: 'name',
+        headerName: 'Goal Name',
+        autoHeight: !this.normal(),
+      },
+      {
+        field: 'value',
+        headerName: 'Current Value',
+        type: SkyCellType.Number,
+        maxWidth: 200,
+      },
+      {
+        field: 'startDate',
+        headerName: 'Start Date',
+        type: [SkyCellType.RightAligned, SkyCellType.Date],
+      },
+      {
+        field: 'endDate',
+        headerName: 'End Date',
+        type: SkyCellType.Date,
+      },
+      {
+        field: 'comment',
+        headerName: 'Comment',
+        maxWidth: 500,
+        autoHeight: !this.normal(),
+        wrapText: !this.normal(),
+      },
+      {
+        field: 'status',
+        headerName: 'Status',
+        sortable: false,
+        cellRenderer: this.statusRenderer,
+        minWidth: 300,
+      },
+    ];
     this.getGridOptions();
   }
 

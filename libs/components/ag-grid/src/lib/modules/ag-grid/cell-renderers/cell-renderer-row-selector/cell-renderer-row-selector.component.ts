@@ -105,11 +105,12 @@ export class SkyAgGridCellRendererRowSelectorComponent
       this.checked.next(rowSelected);
     }
 
+    const node = this.rowNode;
     const handler = (event: RowNodeSelectedEvent): void =>
       this.#rowSelectedListener(event);
-    this.rowNode?.addEventListener('rowSelected', handler);
+    node?.addEventListener('rowSelected', handler);
     this.#subscription.add(() =>
-      this.rowNode?.removeEventListener('rowSelected', handler),
+      node?.removeEventListener('rowSelected', handler),
     );
   }
 

@@ -6,27 +6,10 @@ import {
 } from 'ag-grid-community';
 import { Observable } from 'rxjs';
 
-/**
- * Creates an Observable from an AG Grid event that properly handles cleanup
- * when the Observable is unsubscribed. This is a replacement for RxJS's `fromEvent`
- * which is incompatible with AG Grid 35's addEventListener/removeEventListener types.
- *
- * @param target The AG Grid GridApi.
- * @param eventType The event name (e.g., 'gridPreDestroyed', 'rowDataUpdated', 'filterChanged')
- * @returns An Observable that emits when the event fires
- *
- * @example
- * ```typescript
- * // Grid API events
- * createGridEvent(agGrid.api, 'gridPreDestroyed')
- *   .pipe(takeUntil(destroy$))
- *   .subscribe(() => console.log('Grid destroyed'));
- * ```
- */
 export function fromGridEvent<
   TEventType extends AgPublicEventType,
-  TData = any,
-  TContext = any,
+  TData = unknown,
+  TContext = unknown,
 >(
   target: Pick<GridApi, 'addEventListener' | 'removeEventListener'>,
   eventType: TEventType,
@@ -38,7 +21,6 @@ export function fromGridEvent<
       ): void => subscriber.next(event);
       target.addEventListener(eventType, handler);
 
-      // Cleanup function called when Observable is unsubscribed
       return () => {
         target.removeEventListener(eventType, handler);
       };
