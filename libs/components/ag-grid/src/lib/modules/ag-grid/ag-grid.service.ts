@@ -601,6 +601,9 @@ export class SkyAgGridService implements OnDestroy {
       styleNonce: this.#cspNonce ?? undefined,
       suppressDragLeaveHidesColumns: true,
       theme: getSkyAgGridTheme('data-grid'),
+      // `themeStyleContainer: document.head` matches the default behavior,
+      // but if we do not set it, AG Grid uses an interval to check for a shadow DOM root,
+      // which can prevent tests from stabilizing when using a test harness.
       themeStyleContainer: document.head,
     };
 
