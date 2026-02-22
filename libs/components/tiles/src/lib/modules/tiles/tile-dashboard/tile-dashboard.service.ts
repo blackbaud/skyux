@@ -1,5 +1,6 @@
 import { DragDrop, DragRef, DropListRef } from '@angular/cdk/drag-drop';
 import {
+  AfterRenderRef,
   ComponentRef,
   DestroyRef,
   EventEmitter,
@@ -68,6 +69,7 @@ export class SkyTileDashboardService {
   readonly #injector = inject(Injector);
   readonly #dragRefs: DragRef[] = [];
   readonly #dropListRefs: DropListRef[] = [];
+  #pendingRenderRef: AfterRenderRef | undefined;
   readonly #dynamicComponentService = inject(SkyDynamicComponentService);
   readonly #renderer = inject(RendererFactory2).createRenderer(undefined, null);
   readonly #uiConfigService = inject(SkyUIConfigService);
@@ -692,11 +694,13 @@ export class SkyTileDashboardService {
         const dropListRef = this.#dragDrop.createDropList(columnEl);
         dropListRef.withOrientation('vertical');
 
-        dropListRef.dropped.subscribe((event) => {
-          this.#moveDomElement(event);
-          this.handleDrop();
-          this.#syncDragDropItems();
-        });
+        dropListRef.dropped
+          .pipe(takeUntilDestroyed(this.#destroyRef))
+          .subscribe((event) => {
+            this.#moveDomElement(event);
+            this.handleDrop();
+            this.#syncDragDropItems();
+          });
 
         this.#dropListRefs.push(dropListRef);
       }
@@ -709,7 +713,8 @@ export class SkyTileDashboardService {
 
     // Defer drag ref creation to after Angular renders tile templates
     // so that grab handle elements are available.
-    afterNextRender(
+    this.#pendingRenderRef?.destroy();
+    this.#pendingRenderRef = afterNextRender(
       () => {
         this.#initDragRefs();
       },
