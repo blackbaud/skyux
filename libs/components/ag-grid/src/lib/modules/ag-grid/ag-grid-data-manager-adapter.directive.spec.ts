@@ -110,6 +110,44 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     );
   });
 
+  it('should update the data state when a row is selected and selectedIds is undefined', async () => {
+    await agGridDataManagerFixture.whenStable();
+    agGridComponent.api.deselectAll();
+    dataState.selectedIds = undefined;
+    dataManagerService.updateDataState(dataState, 'unitTest');
+
+    agGridDataManagerFixture.detectChanges();
+
+    const rowNode = new RowNode({} as BeanCollection);
+    rowNode.data = { id: '1' };
+    spyOn(rowNode, 'isSelected').and.returnValue(true);
+    spyOn(dataManagerService, 'updateDataState');
+
+    const rowSelected = {
+      node: rowNode,
+      source: 'api',
+      context: {},
+      type: 'rowSelected',
+      rowIndex: 0,
+      api: {} as GridApi,
+      data: {} as any,
+
+      rowPinned: null,
+    } as RowSelectedEvent;
+
+    const newDataState = new SkyDataManagerState({ ...dataState });
+    newDataState.selectedIds = ['1'];
+
+    agGridDataManagerFixture.detectChanges();
+
+    agGridComponent.rowSelected.emit(rowSelected);
+
+    expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
+      newDataState,
+      agGridDataManagerFixtureComponent.viewConfig.id,
+    );
+  });
+
   it('should update the data state when a row is deselected', async () => {
     await agGridDataManagerFixture.whenStable();
 

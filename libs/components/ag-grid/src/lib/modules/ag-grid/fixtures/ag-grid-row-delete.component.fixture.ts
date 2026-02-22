@@ -1,9 +1,14 @@
-import { Component, ViewEncapsulation, inject } from '@angular/core';
+import {
+  Component,
+  ViewEncapsulation,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 
 import { AgGridAngular } from 'ag-grid-angular';
 import {
   AllCommunityModule,
-  ColDef,
   GridApi,
   GridOptions,
   GridReadyEvent,
@@ -37,65 +42,75 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   ],
 })
 export class SkyAgGridRowDeleteFixtureComponent {
-  public allColumnWidth = 0;
-  public hideFirstColumn = false;
-  public domLayout: GridOptions['domLayout'] | undefined = undefined;
+  public readonly allColumnWidth = signal(0);
+  public readonly hideFirstColumn = signal(false);
+  public readonly domLayout = signal<GridOptions['domLayout'] | undefined>(
+    undefined,
+  );
 
-  public columnDefs: () => ColDef[] = () => [
-    {
-      field: 'selected',
-      headerName: '',
-      maxWidth: 50,
-      sortable: false,
-      type: SkyCellType.RowSelector,
-      width: this.allColumnWidth,
-      hide: this.hideFirstColumn,
-    },
-    {
-      field: 'name',
-      headerName: 'First Name',
-      width: this.allColumnWidth,
-      filter: 'agTextColumnFilter',
-    },
-    {
-      field: 'nickname',
-      headerName: 'Nickname',
-      editable: true,
-      type: SkyCellType.Text,
-      width: this.allColumnWidth,
-    },
-    {
-      field: 'value',
-      headerName: 'Current Value',
-      editable: true,
-      type: SkyCellType.Number,
-      width: this.allColumnWidth,
-    },
-    {
-      field: 'target',
-      headerName: 'Goal',
-      type: SkyCellType.Number,
-      width: this.allColumnWidth,
-    },
-    {
-      field: 'date',
-      headerName: 'Completed Date',
-      editable: true,
-      type: SkyCellType.Date,
-      width: this.allColumnWidth,
-    },
-  ];
+  readonly #agGridService = inject(SkyAgGridService);
+
+  public readonly columnDefs = computed(() => {
+    const width = this.allColumnWidth();
+    const hide = this.hideFirstColumn();
+    return [
+      {
+        field: 'selected',
+        headerName: '',
+        maxWidth: 50,
+        sortable: false,
+        type: SkyCellType.RowSelector,
+        width,
+        hide,
+      },
+      {
+        field: 'name',
+        headerName: 'First Name',
+        width,
+        filter: 'agTextColumnFilter',
+      },
+      {
+        field: 'nickname',
+        headerName: 'Nickname',
+        editable: true,
+        type: SkyCellType.Text,
+        width,
+      },
+      {
+        field: 'value',
+        headerName: 'Current Value',
+        editable: true,
+        type: SkyCellType.Number,
+        width,
+      },
+      {
+        field: 'target',
+        headerName: 'Goal',
+        type: SkyCellType.Number,
+        width,
+      },
+      {
+        field: 'date',
+        headerName: 'Completed Date',
+        editable: true,
+        type: SkyCellType.Date,
+        width,
+      },
+    ];
+  });
 
   public gridApi: GridApi | undefined;
   public gridData = SKY_AG_GRID_DATA;
 
-  public gridOptions = inject(SkyAgGridService).getEditableGridOptions({
-    gridOptions: {
-      columnDefs: this.columnDefs(),
-      domLayout: this.domLayout,
-      onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),
-    },
-  });
+  public readonly gridOptions = computed(() =>
+    this.#agGridService.getEditableGridOptions({
+      gridOptions: {
+        columnDefs: this.columnDefs(),
+        domLayout: this.domLayout(),
+        onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),
+      },
+    }),
+  );
 
   public rowDeleteIds: string[] | undefined;
 

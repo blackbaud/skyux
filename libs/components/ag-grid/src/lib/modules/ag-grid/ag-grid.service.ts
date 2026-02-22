@@ -5,10 +5,11 @@ import {
   OnDestroy,
   inject,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyLogService } from '@skyux/core';
 import { SkyDateService } from '@skyux/datetime';
 import { SkyLibResourcesService } from '@skyux/i18n';
-import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
+import { SkyThemeService } from '@skyux/theme';
 
 import {
   AgColumn,
@@ -28,7 +29,7 @@ import {
   SuppressKeyboardEventParams,
   ValueFormatterParams,
 } from 'ag-grid-community';
-import { Subject, takeUntil } from 'rxjs';
+import { EMPTY, Subject, map, takeUntil } from 'rxjs';
 
 import { getSkyAgGridTheme } from '../../styles/ag-grid-theme';
 
@@ -149,21 +150,17 @@ export class SkyAgGridService implements OnDestroy {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   #keyMap = new WeakMap<any, string>();
   #ngUnsubscribe = new Subject<void>();
-  #currentTheme: SkyThemeSettings | undefined = undefined;
   readonly #agGridAdapterService = inject(SkyAgGridAdapterService);
   readonly #resources = inject(SkyLibResourcesService, { optional: true });
   readonly #dateService = inject(SkyDateService);
   readonly #logService = inject(SkyLogService);
   readonly #cspNonce = inject(CSP_NONCE, { optional: true });
   readonly #doc = inject(DOCUMENT);
-
-  constructor() {
-    inject(SkyThemeService, { optional: true })
-      ?.settingsChange.pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((settingsChange) => {
-        this.#currentTheme = settingsChange.currentSettings;
-      });
-  }
+  readonly #currentTheme = toSignal(
+    inject(SkyThemeService, { optional: true })?.settingsChange.pipe(
+      map((settingsChange) => settingsChange.currentSettings),
+    ) ?? EMPTY,
+  );
 
   public ngOnDestroy(): void {
     this.#ngUnsubscribe.next();
@@ -410,7 +407,7 @@ export class SkyAgGridService implements OnDestroy {
           },
           cellEditor: SkyAgGridCellEditorDatepickerComponent,
           comparator: dateComparator,
-          minWidth: this.#currentTheme?.theme?.name === 'modern' ? 180 : 160,
+          minWidth: this.#currentTheme()?.theme?.name === 'modern' ? 180 : 160,
           valueFormatter: (params: ValueFormatterParams) => {
             try {
               return (
