@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
 import { of } from 'rxjs';
 
-import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
 import { SkyCellRendererValidatorParams } from '../../types/cell-renderer-validator-params';
 
 import { SkyAgGridCellRendererValidatorTooltipComponent } from './cell-renderer-validator-tooltip.component';
@@ -14,7 +14,7 @@ const NOOP = (): void => {
 describe('SkyAgGridCellRendererValidatorTooltipComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkyAgGridFixtureModule],
+      providers: [provideNoopAnimations()],
     });
   });
 

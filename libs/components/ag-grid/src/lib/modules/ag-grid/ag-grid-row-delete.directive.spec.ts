@@ -13,7 +13,6 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 
 import { SkyAgGridRowDeleteDirective } from './ag-grid-row-delete.directive';
 import { SkyAgGridRowDeleteFixtureComponent } from './fixtures/ag-grid-row-delete.component.fixture';
-import { SkyAgGridFixtureModule } from './fixtures/ag-grid.module.fixture';
 
 describe('SkyAgGridRowDeleteDirective', () => {
   let fixture: ComponentFixture<SkyAgGridRowDeleteFixtureComponent>;
@@ -23,7 +22,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     hideFirstColumn?: boolean;
   }): void {
     TestBed.configureTestingModule({
-      imports: [SkyAgGridFixtureModule],
+      imports: [SkyAgGridRowDeleteFixtureComponent],
       providers: [
         provideNoopAnimations(),
         {

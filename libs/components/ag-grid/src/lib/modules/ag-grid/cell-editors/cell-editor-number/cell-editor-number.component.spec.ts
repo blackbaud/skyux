@@ -4,6 +4,7 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import {
@@ -15,10 +16,14 @@ import {
   RowNode,
 } from 'ag-grid-community';
 
-import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
-import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
+import {
+  MinimalColumnDefs,
+  MinimalRowData,
+  SkyAgGridMinimalFixtureComponent,
+} from '../../fixtures/ag-grid-minimal.component.fixture';
 import { SkyCellClass } from '../../types/cell-class';
 import { SkyCellEditorNumberParams } from '../../types/cell-editor-number-params';
+import { SkyCellType } from '../../types/cell-type';
 import { SkyAgGridCellEditorNumberComponent } from '../cell-editor-number/cell-editor-number.component';
 
 describe('SkyCellEditorNumberComponent', () => {
@@ -28,7 +33,24 @@ describe('SkyCellEditorNumberComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkyAgGridFixtureModule],
+      imports: [SkyAgGridMinimalFixtureComponent],
+      providers: [
+        provideNoopAnimations(),
+        {
+          provide: MinimalColumnDefs,
+          useValue: [
+            {
+              field: 'value',
+              editable: true,
+              type: SkyCellType.Number,
+            },
+          ],
+        },
+        {
+          provide: MinimalRowData,
+          useValue: [{ value: 15 }],
+        },
+      ],
     });
 
     numberEditorFixture = TestBed.createComponent(
@@ -39,7 +61,9 @@ describe('SkyCellEditorNumberComponent', () => {
   });
 
   it('renders a numeric input when editing a number cell in an ag grid', () => {
-    const gridFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+    const gridFixture = TestBed.createComponent(
+      SkyAgGridMinimalFixtureComponent,
+    );
     const gridNativeElement = gridFixture.nativeElement;
 
     gridFixture.detectChanges();

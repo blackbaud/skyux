@@ -1,6 +1,7 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { expect } from '@skyux-sdk/testing';
 import {
   SkyMediaQueryTestingController,
@@ -27,7 +28,6 @@ import {
 
 import { SkyAgGridDataManagerAdapterDirective } from './ag-grid-data-manager-adapter.directive';
 import { SkyAgGridDataManagerFixtureComponent } from './fixtures/ag-grid-data-manager.component.fixture';
-import { SkyAgGridFixtureModule } from './fixtures/ag-grid.module.fixture';
 
 describe('SkyAgGridDataManagerAdapterDirective', () => {
   let agGridDataManagerFixture: ComponentFixture<SkyAgGridDataManagerFixtureComponent>;
@@ -41,8 +41,12 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkyAgGridFixtureModule],
-      providers: [SkyDataManagerService, provideSkyMediaQueryTesting()],
+      imports: [SkyAgGridDataManagerFixtureComponent],
+      providers: [
+        provideNoopAnimations(),
+        SkyDataManagerService,
+        provideSkyMediaQueryTesting(),
+      ],
     });
 
     agGridDataManagerFixture = TestBed.createComponent(
@@ -743,8 +747,8 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
 
 it('should move the horizontal scroll based on enableTopScroll check', async () => {
   TestBed.configureTestingModule({
-    imports: [SkyAgGridFixtureModule],
-    providers: [SkyDataManagerService],
+    imports: [SkyAgGridDataManagerFixtureComponent],
+    providers: [provideNoopAnimations(), SkyDataManagerService],
   });
 
   const fixture = TestBed.createComponent(SkyAgGridDataManagerFixtureComponent);
@@ -793,8 +797,12 @@ describe('Read columnOptions from grid API', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkyAgGridFixtureModule],
-      providers: [SkyDataManagerService, provideSkyMediaQueryTesting()],
+      imports: [SkyAgGridDataManagerFixtureComponent],
+      providers: [
+        provideNoopAnimations(),
+        SkyDataManagerService,
+        provideSkyMediaQueryTesting(),
+      ],
     });
     fixture = TestBed.createComponent(SkyAgGridDataManagerFixtureComponent);
     dataManagerService = TestBed.inject(SkyDataManagerService);

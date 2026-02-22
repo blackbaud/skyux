@@ -4,6 +4,7 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import {
   SkyTheme,
@@ -37,7 +38,6 @@ import {
   EnableTopScroll,
   SkyAgGridFixtureComponent,
 } from './fixtures/ag-grid.component.fixture';
-import { SkyAgGridFixtureModule } from './fixtures/ag-grid.module.fixture';
 import { SecondInlineHelpComponent } from './fixtures/inline-help.component';
 import { SkyCellType } from './types/cell-type';
 
@@ -64,12 +64,13 @@ describe('SkyAgGridWrapperComponent', () => {
       }),
     };
     TestBed.configureTestingModule({
-      imports: [SkyAgGridFixtureModule],
+      imports: [SkyAgGridFixtureComponent],
       providers: [
         {
           provide: SkyThemeService,
           useValue: mockThemeSvc,
         },
+        provideNoopAnimations(),
       ],
     });
     gridFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
@@ -565,12 +566,13 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
       }),
     };
     TestBed.configureTestingModule({
-      imports: [SkyAgGridFixtureModule],
+      imports: [SkyAgGridFixtureComponent],
       providers: [
         {
           provide: SkyThemeService,
           useValue: mockThemeSvc,
         },
+        provideNoopAnimations(),
       ],
     });
   });
