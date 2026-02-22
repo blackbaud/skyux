@@ -18,6 +18,7 @@ import { RepeaterAsyncItemsTestComponent } from './fixtures/repeater-async-items
 import { SkyRepeaterFixturesModule } from './fixtures/repeater-fixtures.module';
 import { RepeaterInlineFormFixtureComponent } from './fixtures/repeater-inline-form.component.fixture';
 import { RepeaterWithMissingTagsFixtureComponent } from './fixtures/repeater-missing-tag.fixture';
+import { RepeaterScrollableHostTestComponent } from './fixtures/repeater-scrollable-host.component.fixture';
 import { RepeaterTestComponent } from './fixtures/repeater.component.fixture';
 import { SkyRepeaterExpandModeType } from './repeater-expand-mode-type';
 import { SkyRepeaterService } from './repeater.service';
@@ -1659,6 +1660,41 @@ describe('Repeater item component', () => {
       tick();
 
       expect(cmp.sortedItemTags).toEqual(['item3', 'item1', 'item2']);
+
+      flushDropdownTimer();
+    }));
+
+    it('should register scrollable host as a scrollable parent for the drop list', fakeAsync(() => {
+      const fixture = TestBed.createComponent(
+        RepeaterScrollableHostTestComponent,
+      );
+
+      const dragDrop = TestBed.inject(DragDrop);
+
+      let capturedDropListRef: any;
+      const origCreateDropList = dragDrop.createDropList.bind(dragDrop);
+
+      spyOn(dragDrop, 'createDropList').and.callFake((element: any) => {
+        const ref = origCreateDropList(element);
+        spyOn(ref, 'withScrollableParents');
+        capturedDropListRef = ref;
+        return ref;
+      });
+
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      expect(capturedDropListRef).toBeTruthy();
+
+      const scrollableDiv = fixture.nativeElement.querySelector(
+        '[style*="overflow-y"]',
+      );
+
+      expect(capturedDropListRef.withScrollableParents).toHaveBeenCalledWith([
+        scrollableDiv,
+      ]);
 
       flushDropdownTimer();
     }));

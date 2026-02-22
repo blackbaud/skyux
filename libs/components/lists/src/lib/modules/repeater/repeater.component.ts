@@ -318,7 +318,6 @@ export class SkyRepeaterComponent
       this.#elementRef,
     );
 
-    /* istanbul ignore if */
     if (scrollableHost instanceof HTMLElement) {
       this.#dropListRef.withScrollableParents([scrollableHost]);
     }
