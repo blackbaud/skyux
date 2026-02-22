@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
  * when the Observable is unsubscribed. This is a replacement for RxJS's `fromEvent`
  * which is incompatible with AG Grid 35's addEventListener/removeEventListener types.
  *
- * @param target The AG Grid object (GridApi, Column, etc.)
+ * @param target The AG Grid GridApi.
  * @param eventType The event name (e.g., 'gridPreDestroyed', 'rowDataUpdated', 'filterChanged')
  * @returns An Observable that emits when the event fires
  *
@@ -21,11 +21,6 @@ import { Observable } from 'rxjs';
  * createGridEvent(agGrid.api, 'gridPreDestroyed')
  *   .pipe(takeUntil(destroy$))
  *   .subscribe(() => console.log('Grid destroyed'));
- *
- * // Column events
- * createGridEvent(column, 'filterChanged')
- *   .pipe(takeUntil(destroy$))
- *   .subscribe(() => console.log('Filter changed'));
  * ```
  */
 export function fromGridEvent<

@@ -1,18 +1,9 @@
-import {
-  Component,
-  OnInit,
-  ViewEncapsulation,
-  effect,
-  input,
-  signal,
-  untracked,
-} from '@angular/core';
+import { Component, ViewEncapsulation, inject } from '@angular/core';
 
 import { AgGridAngular } from 'ag-grid-angular';
 import {
   AllCommunityModule,
   ColDef,
-  DomLayoutType,
   GridApi,
   GridOptions,
   GridReadyEvent,
@@ -45,11 +36,10 @@ ModuleRegistry.registerModules([AllCommunityModule]);
     AgGridAngular,
   ],
 })
-export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
+export class SkyAgGridRowDeleteFixtureComponent {
   public allColumnWidth = 0;
   public hideFirstColumn = false;
-
-  public domLayout = input<GridOptions['domLayout'] | undefined>(undefined);
+  public domLayout: GridOptions['domLayout'] | undefined = undefined;
 
   public columnDefs: () => ColDef[] = () => [
     {
@@ -96,38 +86,21 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
     },
   ];
 
-  public gridApi = signal<GridApi | undefined>(undefined);
+  public gridApi: GridApi | undefined;
   public gridData = SKY_AG_GRID_DATA;
 
-  public gridOptions: GridOptions | undefined;
+  public gridOptions = inject(SkyAgGridService).getEditableGridOptions({
+    gridOptions: {
+      columnDefs: this.columnDefs(),
+      domLayout: this.domLayout,
+      onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),
+    },
+  });
 
   public rowDeleteIds: string[] | undefined;
 
-  #gridService: SkyAgGridService;
-
-  constructor(gridService: SkyAgGridService) {
-    this.#gridService = gridService;
-    effect(() => {
-      const api: GridApi | undefined = untracked(this.gridApi);
-      const domLayout: DomLayoutType | undefined = this.domLayout();
-      if (domLayout) {
-        api?.setGridOption('domLayout', domLayout);
-      }
-    });
-  }
-
-  public ngOnInit(): void {
-    this.gridOptions = this.#gridService.getEditableGridOptions({
-      gridOptions: {
-        columnDefs: this.columnDefs(),
-        domLayout: this.domLayout(),
-        onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),
-      },
-    });
-  }
-
   public addDataPoint(): void {
-    this.gridApi()?.applyTransaction({
+    this.gridApi?.applyTransaction({
       add: [
         {
           id: '4',
@@ -146,15 +119,15 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
 
   public changeToLongData(): void {
     this.gridData = SKY_AG_GRID_LONG_DATA;
-    this.gridApi()?.setGridOption('rowData', this.gridData);
+    this.gridApi?.setGridOption('rowData', this.gridData);
   }
 
   public async filterName(filter: string): Promise<void> {
     const filterChangedPromise = firstValueFrom(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      fromGridEvent(this.gridApi()!, 'filterChanged'),
+      fromGridEvent(this.gridApi!, 'filterChanged'),
     );
-    this.gridApi()?.setFilterModel({
+    this.gridApi?.setFilterModel({
       name: {
         filterType: 'text',
         type: 'startsWith',
@@ -167,9 +140,9 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
   public async clearFilter(): Promise<void> {
     const filterChangedPromise = firstValueFrom(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      fromGridEvent(this.gridApi()!, 'filterChanged'),
+      fromGridEvent(this.gridApi!, 'filterChanged'),
     );
-    this.gridApi()?.destroyFilter('name');
+    this.gridApi?.destroyFilter('name');
     await filterChangedPromise.then(() => undefined);
   }
 
@@ -179,25 +152,25 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
   }
 
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
-    this.gridApi.set(gridReadyEvent.api);
+    this.gridApi = gridReadyEvent.api;
   }
 
   public async removeFirstItem(): Promise<void> {
     const dataChangedPromise = firstValueFrom(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      fromGridEvent(this.gridApi()!, 'rowDataUpdated'),
+      fromGridEvent(this.gridApi!, 'rowDataUpdated'),
     );
     this.gridData = this.gridData.slice(1);
-    this.gridApi()?.setGridOption('rowData', this.gridData);
+    this.gridApi?.setGridOption('rowData', this.gridData);
     await dataChangedPromise.then(() => undefined);
   }
 
   public async sortName(): Promise<void> {
     const sortChangedPromise = firstValueFrom(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      fromGridEvent(this.gridApi()!, 'sortChanged'),
+      fromGridEvent(this.gridApi!, 'sortChanged'),
     );
-    this.gridApi()?.applyColumnState({
+    this.gridApi?.applyColumnState({
       state: [
         {
           colId: 'name',

@@ -12,7 +12,6 @@ import { SkyCheckboxChange, SkyCheckboxModule } from '@skyux/forms';
 
 import { IHeaderAngularComp } from 'ag-grid-angular';
 import { GridApi, IHeaderParams } from 'ag-grid-community';
-import { asyncScheduler, observeOn } from 'rxjs';
 
 import { fromGridEvent } from '../../ag-grid-event-utils';
 
@@ -54,7 +53,7 @@ export class SkyAgGridHeaderRowSelectorComponent implements IHeaderAngularComp {
 
     if (this.multiSelect()) {
       fromGridEvent(params.api, 'selectionChanged')
-        .pipe(takeUntilDestroyed(this.#destroyRef), observeOn(asyncScheduler))
+        .pipe(takeUntilDestroyed(this.#destroyRef))
         .subscribe((change): void => {
           if (change.source.match(/selectall/i)) {
             // Either select all or clear selection.

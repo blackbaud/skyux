@@ -22,7 +22,7 @@ import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { IHeaderAngularComp } from 'ag-grid-angular';
-import { BehaviorSubject, Subscription, takeUntil } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 import { fromGridEvent } from '../ag-grid-event-utils';
 import { SkyAgGridHeaderInfo } from '../types/header-info';
@@ -146,20 +146,24 @@ export class SkyAgGridHeaderComponent
     // When the column is moved left via the keyboard, the element is detached
     // and reattached to the DOM to maintain DOM order, and its focus is lost.
     this.#subscriptions.add(
-      fromGridEvent(params.api, 'columnMoved')
-        .pipe(takeUntil(fromGridEvent(params.api, 'gridPreDestroyed')))
-        .subscribe((event) => {
-          const left = event.column?.getLeft() ?? 0;
-          const oldLeft = this.#leftPosition;
-          if (
-            event.column === params.column &&
-            event.source === 'uiColumnMoved' &&
-            left < oldLeft
-          ) {
-            params.eGridHeader.focus();
-          }
-          this.#leftPosition = left;
-        }),
+      fromGridEvent(params.api, 'columnMoved').subscribe((event) => {
+        const left = event.column?.getLeft() ?? 0;
+        const oldLeft = this.#leftPosition;
+        if (
+          event.column === params.column &&
+          event.source === 'uiColumnMoved' &&
+          left < oldLeft
+        ) {
+          params.eGridHeader.focus();
+        }
+        this.#leftPosition = left;
+      }),
+    );
+
+    this.#subscriptions.add(
+      fromGridEvent(params.api, 'gridPreDestroyed').subscribe(() =>
+        this.#subscriptions.unsubscribe(),
+      ),
     );
 
     this.#updateInlineHelp();

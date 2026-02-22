@@ -594,9 +594,6 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
         agGridDataManagerFixtureComponent.viewConfig.id,
       );
       viewConfig?.onClearAllClick?.();
-      agGridDataManagerFixture.detectChanges();
-      await agGridDataManagerFixture.whenStable();
-
       expect(agGridComponent.api.getSelectedRows()).toEqual([]);
     });
   });
@@ -706,56 +703,50 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   });
 });
 
-describe('horizontal scroll with enableTopScroll', () => {
-  let fixture: ComponentFixture<SkyAgGridDataManagerFixtureComponent>;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [SkyAgGridFixtureModule],
-      providers: [SkyDataManagerService],
-    });
-    fixture = TestBed.createComponent(SkyAgGridDataManagerFixtureComponent);
+it('should move the horizontal scroll based on enableTopScroll check', async () => {
+  TestBed.configureTestingModule({
+    imports: [SkyAgGridFixtureModule],
+    providers: [SkyDataManagerService],
   });
 
-  it('should move the horizontal scroll based on enableTopScroll check', async () => {
-    fixture.componentInstance.gridOptions.context = {
-      enableTopScroll: true,
-    };
-    fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
-    await fixture.whenStable();
-    const gridComponents: string[] = Array.from(
-      fixture.nativeElement.querySelector('.ag-root')?.children || [],
-    ).map((el) => (el as HTMLElement).classList[0]);
-    // Expect the scrollbar below the header.
-    expect(gridComponents).toEqual([
-      'ag-header',
-      'ag-body-horizontal-scroll',
-      'ag-floating-top',
-      'ag-body',
-      'ag-sticky-top',
-      'ag-sticky-bottom',
-      'ag-floating-bottom',
-      'ag-overlay',
-    ]);
+  const fixture = TestBed.createComponent(SkyAgGridDataManagerFixtureComponent);
+  fixture.componentInstance.gridOptions.context = {
+    enableTopScroll: true,
+  };
+  fixture.detectChanges();
+  await fixture.whenStable();
+  fixture.detectChanges();
+  await fixture.whenStable();
+  const gridComponents: string[] = Array.from(
+    fixture.nativeElement.querySelector('.ag-root')?.children || [],
+  ).map((el) => (el as HTMLElement).classList[0]);
+  // Expect the scrollbar below the header.
+  expect(gridComponents).toEqual([
+    'ag-header',
+    'ag-body-horizontal-scroll',
+    'ag-floating-top',
+    'ag-body',
+    'ag-sticky-top',
+    'ag-sticky-bottom',
+    'ag-floating-bottom',
+    'ag-overlay',
+  ]);
 
-    const agGrid = fixture.componentInstance.agGrid;
-    expect(agGrid).toBeDefined();
-    expect(agGrid!.api.getGridOption('context')?.enableTopScroll).toBeTrue();
+  const agGrid = fixture.componentInstance.agGrid;
+  expect(agGrid).toBeDefined();
+  expect(agGrid!.api.getGridOption('context')?.enableTopScroll).toBeTrue();
 
-    const dataManagerService = TestBed.inject(SkyDataManagerService);
-    fixture.detectChanges();
-    await fixture.whenStable();
-    const viewkeeperClasses =
-      dataManagerService.viewkeeperClasses.value[
-        fixture.componentInstance.viewConfig.id
-      ];
-    expect(viewkeeperClasses).toEqual([
-      '.ag-header',
-      '.ag-body-horizontal-scroll',
-    ]);
-  });
+  const dataManagerService = TestBed.inject(SkyDataManagerService);
+  fixture.detectChanges();
+  await fixture.whenStable();
+  const viewkeeperClasses =
+    dataManagerService.viewkeeperClasses.value[
+      fixture.componentInstance.viewConfig.id
+    ];
+  expect(viewkeeperClasses).toEqual([
+    '.ag-header',
+    '.ag-body-horizontal-scroll',
+  ]);
 });
 
 describe('Read columnOptions from grid API', () => {

@@ -600,7 +600,9 @@ export class SkyAgGridService implements OnDestroy {
       singleClickEdit: true,
       styleNonce: this.#cspNonce ?? undefined,
       suppressDragLeaveHidesColumns: true,
+      suppressAnimationFrame: true,
       theme: getSkyAgGridTheme('data-grid'),
+      themeStyleContainer: document.head,
     };
 
     const columnTypes = defaultSkyGridOptions.columnTypes as Record<

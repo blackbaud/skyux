@@ -72,7 +72,7 @@ export class SkyAgGridRowDeleteDirective
 
   protected readonly agGrid = contentChild(AgGridAngular);
 
-  readonly #agGridBodyViewport = new BehaviorSubject<
+  readonly #agGridRootElement = new BehaviorSubject<
     ElementRef<HTMLDivElement>[]
   >([]);
   readonly #agGridBodyClipElements = new BehaviorSubject<
@@ -109,7 +109,7 @@ export class SkyAgGridRowDeleteDirective
 
     this.#rowDeleteSvc = new SkyAgGridRowDeleteContext(
       this.#rowDeleteIdsInternal.asReadonly(),
-      toSignal(this.#agGridBodyViewport),
+      toSignal(this.#agGridRootElement),
       signal<GridApi | undefined>(undefined),
     );
 
@@ -140,7 +140,7 @@ export class SkyAgGridRowDeleteDirective
       takeUntil(this.#ngUnsubscribe),
     );
     agGridReady.subscribe((ready) => {
-      this.#agGridBodyViewport.next([
+      this.#agGridRootElement.next([
         new ElementRef(
           this.#elementRef.nativeElement.querySelector(
             'div.ag-root-wrapper',
@@ -149,7 +149,8 @@ export class SkyAgGridRowDeleteDirective
       ]);
       this.#rowDeleteSvc.gridApi.set(ready.api);
     });
-    this.#agGridBodyViewport
+    // Set div.ag-root-wrapper boundaries as a clip path once it is present.
+    this.#agGridRootElement
       .pipe(takeUntilDestroyed())
       .subscribe((el) => this.#agGridBodyClipElements.next(el));
 

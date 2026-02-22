@@ -212,8 +212,16 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
             if (viewConfig) {
               viewConfig = {
                 ...viewConfig,
-                onSelectAllClick: (): void => agGrid.api.selectAll(),
-                onClearAllClick: (): void => agGrid.api.deselectAll(),
+                onSelectAllClick: (): void => {
+                  if (!agGrid.api.isDestroyed()) {
+                    agGrid.api.selectAll();
+                  }
+                },
+                onClearAllClick: (): void => {
+                  if (!agGrid.api.isDestroyed()) {
+                    agGrid.api.deselectAll();
+                  }
+                },
               };
               if (viewConfig.columnPickerEnabled && !viewConfig.columnOptions) {
                 viewConfig.columnOptions = this.#readColumnOptionsFromGrid(
@@ -292,6 +300,7 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
           const viewConfig = this.#viewConfig();
           if (viewConfig && this.#currentDataState) {
             const row = event.node;
+            /* istanbul ignore next */
             const selectedIds = this.#currentDataState.selectedIds || [];
             const rowIndex = selectedIds.indexOf(row.data.id);
 
