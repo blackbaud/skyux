@@ -32,9 +32,6 @@ import { SkyCellEditorDatepickerParams } from '../../types/cell-editor-datepicke
 import { SkyAgGridCellEditorDatepickerComponent } from '../cell-editor-datepicker/cell-editor-datepicker.component';
 
 describe('SkyCellEditorDatepickerComponent', () => {
-  // We've had some issue with grid rendering causing the specs to timeout in IE. Extending it slightly to help.
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 7500;
-
   let datepickerEditorFixture: ComponentFixture<SkyAgGridCellEditorDatepickerComponent>;
   let datepickerEditorComponent: SkyAgGridCellEditorDatepickerComponent;
   let datepickerEditorNativeElement: HTMLElement;
@@ -744,9 +741,6 @@ describe('SkyCellEditorDatepickerComponent', () => {
 });
 
 describe('SkyCellEditorDatepickerComponent without theme', () => {
-  // We've had some issue with grid rendering causing the specs to timeout in IE. Extending it slightly to help.
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 7500;
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyAgGridFixtureModule],

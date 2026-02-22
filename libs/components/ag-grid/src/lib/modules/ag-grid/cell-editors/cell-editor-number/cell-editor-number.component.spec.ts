@@ -22,9 +22,6 @@ import { SkyCellEditorNumberParams } from '../../types/cell-editor-number-params
 import { SkyAgGridCellEditorNumberComponent } from '../cell-editor-number/cell-editor-number.component';
 
 describe('SkyCellEditorNumberComponent', () => {
-  // We've had some issue with grid rendering causing the specs to timeout in IE. Extending it slightly to help.
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 7500;
-
   let numberEditorFixture: ComponentFixture<SkyAgGridCellEditorNumberComponent>;
   let numberEditorComponent: SkyAgGridCellEditorNumberComponent;
   let numberEditorNativeElement: HTMLElement;

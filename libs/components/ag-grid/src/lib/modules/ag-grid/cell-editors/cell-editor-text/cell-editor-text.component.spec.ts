@@ -23,9 +23,6 @@ import { SkyCellEditorTextParams } from '../../types/cell-editor-text-params';
 import { SkyAgGridCellEditorTextComponent } from './cell-editor-text.component';
 
 describe('SkyCellEditorTextComponent', () => {
-  // We've had some issue with grid rendering causing the specs to timeout in IE. Extending it slightly to help.
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 7500;
-
   let textEditorFixture: ComponentFixture<SkyAgGridCellEditorTextComponent>;
   let textEditorComponent: SkyAgGridCellEditorTextComponent;
   let textEditorNativeElement: HTMLElement;

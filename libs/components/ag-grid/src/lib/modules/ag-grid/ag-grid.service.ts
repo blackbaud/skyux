@@ -1,10 +1,4 @@
-import {
-  CSP_NONCE,
-  DOCUMENT,
-  Injectable,
-  OnDestroy,
-  inject,
-} from '@angular/core';
+import { CSP_NONCE, DOCUMENT, Injectable, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyLogService } from '@skyux/core';
 import { SkyDateService } from '@skyux/datetime';
@@ -29,7 +23,7 @@ import {
   SuppressKeyboardEventParams,
   ValueFormatterParams,
 } from 'ag-grid-community';
-import { EMPTY, Subject, map, takeUntil } from 'rxjs';
+import { EMPTY, map, of } from 'rxjs';
 
 import { getSkyAgGridTheme } from '../../styles/ag-grid-theme';
 
@@ -146,10 +140,9 @@ let rowNodeId = -1;
 @Injectable({
   providedIn: 'root',
 })
-export class SkyAgGridService implements OnDestroy {
+export class SkyAgGridService {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   #keyMap = new WeakMap<any, string>();
-  #ngUnsubscribe = new Subject<void>();
   readonly #agGridAdapterService = inject(SkyAgGridAdapterService);
   readonly #resources = inject(SkyLibResourcesService, { optional: true });
   readonly #dateService = inject(SkyDateService);
@@ -161,11 +154,20 @@ export class SkyAgGridService implements OnDestroy {
       map((settingsChange) => settingsChange.currentSettings),
     ) ?? EMPTY,
   );
-
-  public ngOnDestroy(): void {
-    this.#ngUnsubscribe.next();
-    this.#ngUnsubscribe.complete();
-  }
+  readonly #currencyValidatorMsg = toSignal(
+    this.#resources?.getString(
+      'sky_ag_grid_cell_renderer_currency_validator_message',
+    ) ?? /* istanbul ignore next */ of('Please enter a valid currency'),
+  );
+  readonly #numberValidatorMsg = toSignal(
+    this.#resources?.getString(
+      'sky_ag_grid_cell_renderer_number_validator_message',
+    ) ?? /* istanbul ignore next */ of('Please enter a valid number'),
+  );
+  readonly #rowSelectorHeading = toSignal(
+    this.#resources?.getString('sky_ag_grid_row_selector_column_heading') ??
+      /* istanbul ignore next */ of(''),
+  );
 
   /**
    * Returns [AG Grid `gridOptions`](https://www.ag-grid.com/angular-data-grid/grid-options/) with default SKY UX options, styling, and cell renderers registered for read-only grids.
@@ -476,7 +478,9 @@ export class SkyAgGridService implements OnDestroy {
           },
           cellRenderer: SkyAgGridCellRendererRowSelectorComponent,
           headerComponent: SkyAgGridHeaderRowSelectorComponent,
-          headerName: 'Row selection',
+          headerName:
+            this.#rowSelectorHeading() ||
+            /* istanbul ignore next */ 'Row selection',
           minWidth: 55,
           maxWidth: 55,
           resizable: false,
@@ -604,21 +608,10 @@ export class SkyAgGridService implements OnDestroy {
           validator: (value: string): boolean => {
             return !!`${value || ''}`.match(/^[^0-9]*(\d+[,.]?)+\d*[^0-9]*$/);
           },
-          validatorMessage: 'Please enter a valid currency',
+          validatorMessage: this.#currencyValidatorMsg,
         },
       },
     };
-    /*istanbul ignore else*/
-    if (this.#resources) {
-      this.#resources
-        .getString('sky_ag_grid_cell_renderer_currency_validator_message')
-        .pipe(takeUntil(this.#ngUnsubscribe))
-        .subscribe((value) => {
-          columnTypes[
-            SkyCellType.CurrencyValidator
-          ].cellRendererParams.skyComponentProperties.validatorMessage = value;
-        });
-    }
 
     columnTypes[SkyCellType.NumberValidator] = {
       ...columnTypes[SkyCellType.Validator],
@@ -632,27 +625,10 @@ export class SkyAgGridService implements OnDestroy {
           validator: (value: string): boolean => {
             return !!value && !isNaN(parseFloat(value));
           },
-          validatorMessage: 'Please enter a valid number',
+          validatorMessage: this.#numberValidatorMsg,
         },
       },
     };
-    /*istanbul ignore else*/
-    if (this.#resources) {
-      this.#resources
-        .getString('sky_ag_grid_cell_renderer_number_validator_message')
-        .pipe(takeUntil(this.#ngUnsubscribe))
-        .subscribe((value) => {
-          columnTypes[
-            SkyCellType.NumberValidator
-          ].cellRendererParams.skyComponentProperties.validatorMessage = value;
-        });
-      this.#resources
-        .getString('sky_ag_grid_row_selector_column_heading')
-        .pipe(takeUntil(this.#ngUnsubscribe))
-        .subscribe((value) => {
-          columnTypes[SkyCellType.RowSelector].headerName = value;
-        });
-    }
 
     return defaultSkyGridOptions;
   }

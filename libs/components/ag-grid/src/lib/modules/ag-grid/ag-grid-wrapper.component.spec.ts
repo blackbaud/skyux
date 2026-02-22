@@ -200,8 +200,8 @@ describe('SkyAgGridWrapperComponent', () => {
     ).toHaveCssClass('ag-theme-sky-data-grid-default');
   });
 
-  it('should get compact mode from theme', async () => {
-    expect(await firstValueFrom(gridWrapperComponent.wrapperClasses$)).toEqual(
+  it('should get compact mode from theme', () => {
+    expect(gridWrapperComponent.wrapperClasses()).toEqual(
       jasmine.arrayContaining(['ag-theme-sky-data-grid-default']),
     );
 
@@ -214,13 +214,13 @@ describe('SkyAgGridWrapperComponent', () => {
       previousSettings: undefined,
     });
     gridWrapperFixture.detectChanges();
-    expect(await firstValueFrom(gridWrapperComponent.wrapperClasses$)).toEqual(
+    expect(gridWrapperComponent.wrapperClasses()).toEqual(
       jasmine.arrayContaining(['ag-theme-sky-data-grid-modern-light-compact']),
     );
   });
 
-  it('should get compact mode from input', async () => {
-    expect(await firstValueFrom(gridWrapperComponent.wrapperClasses$)).toEqual(
+  it('should get compact mode from input', () => {
+    expect(gridWrapperComponent.wrapperClasses()).toEqual(
       jasmine.arrayContaining(['ag-theme-sky-data-grid-default']),
     );
 
@@ -233,13 +233,12 @@ describe('SkyAgGridWrapperComponent', () => {
       previousSettings: undefined,
     });
     gridWrapperFixture.detectChanges();
-    expect(await firstValueFrom(gridWrapperComponent.wrapperClasses$)).toEqual(
+    expect(gridWrapperComponent.wrapperClasses()).toEqual(
       jasmine.arrayContaining(['ag-theme-sky-data-grid-modern-light']),
     );
     gridWrapperFixture.componentInstance.compact = true;
     gridWrapperFixture.detectChanges();
-    await gridWrapperFixture.whenStable();
-    expect(await firstValueFrom(gridWrapperComponent.wrapperClasses$)).toEqual(
+    expect(gridWrapperComponent.wrapperClasses()).toEqual(
       jasmine.arrayContaining(['ag-theme-sky-data-grid-modern-light-compact']),
     );
   });
