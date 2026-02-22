@@ -1,8 +1,8 @@
 import {
   CSP_NONCE,
+  DOCUMENT,
   Injectable,
   OnDestroy,
-  Optional,
   inject,
 } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
@@ -150,28 +150,19 @@ export class SkyAgGridService implements OnDestroy {
   #keyMap = new WeakMap<any, string>();
   #ngUnsubscribe = new Subject<void>();
   #currentTheme: SkyThemeSettings | undefined = undefined;
-  #agGridAdapterService: SkyAgGridAdapterService;
-  #resources: SkyLibResourcesService | undefined;
-  #dateService = inject(SkyDateService);
-  #logService = inject(SkyLogService);
+  readonly #agGridAdapterService = inject(SkyAgGridAdapterService);
+  readonly #resources = inject(SkyLibResourcesService, { optional: true });
+  readonly #dateService = inject(SkyDateService);
+  readonly #logService = inject(SkyLogService);
   readonly #cspNonce = inject(CSP_NONCE, { optional: true });
+  readonly #doc = inject(DOCUMENT);
 
-  constructor(
-    agGridAdapterService: SkyAgGridAdapterService,
-    @Optional() themeSvc?: SkyThemeService,
-    @Optional() resources?: SkyLibResourcesService,
-  ) {
-    this.#agGridAdapterService = agGridAdapterService;
-    this.#resources = resources;
-
-    /*istanbul ignore else*/
-    if (themeSvc) {
-      themeSvc.settingsChange
-        .pipe(takeUntil(this.#ngUnsubscribe))
-        .subscribe((settingsChange) => {
-          this.#currentTheme = settingsChange.currentSettings;
-        });
-    }
+  constructor() {
+    inject(SkyThemeService, { optional: true })
+      ?.settingsChange.pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((settingsChange) => {
+        this.#currentTheme = settingsChange.currentSettings;
+      });
   }
 
   public ngOnDestroy(): void {
@@ -601,7 +592,7 @@ export class SkyAgGridService implements OnDestroy {
       styleNonce: this.#cspNonce ?? undefined,
       suppressDragLeaveHidesColumns: true,
       theme: getSkyAgGridTheme('data-grid'),
-      themeStyleContainer: document.head,
+      themeStyleContainer: this.#doc.head,
     };
 
     const columnTypes = defaultSkyGridOptions.columnTypes as Record<
