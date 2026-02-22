@@ -8,8 +8,6 @@ import {
   DOCUMENT,
   DestroyRef,
   ElementRef,
-  HostBinding,
-  Input,
   booleanAttribute,
   computed,
   effect,
@@ -48,6 +46,9 @@ let idIndex = 0;
   templateUrl: './ag-grid-wrapper.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgClass, SkyIdModule, SkyViewkeeperModule],
+  host: {
+    '[class.sky-ag-grid-layout-normal]': 'isNormalLayout',
+  },
 })
 export class SkyAgGridWrapperComponent
   implements AfterContentInit, AfterViewInit
@@ -57,17 +58,13 @@ export class SkyAgGridWrapperComponent
   })
   public agGrid: AgGridAngular | undefined;
 
-  @HostBinding('class.sky-ag-grid-layout-normal')
   public isNormalLayout = false;
 
   /**
    * Enable a compact layout for the grid when using modern theme. Compact layout uses
    * a smaller font size and row height to display more data in a smaller space.
    */
-  @Input({ transform: booleanAttribute })
-  public set compact(value: boolean) {
-    this.#isCompact.set(value);
-  }
+  public readonly compact = input(false, { transform: booleanAttribute });
 
   /**
    * The minimum height of the grid in pixels. The default value is `50`.
@@ -80,13 +77,7 @@ export class SkyAgGridWrapperComponent
   public beforeAnchorId: string;
   public gridId: string;
 
-  public get viewkeeperClasses(): string[] {
-    return this.#_viewkeeperClasses;
-  }
-
-  public set viewkeeperClasses(value: string[]) {
-    this.#_viewkeeperClasses = value;
-  }
+  public readonly viewkeeperClasses = signal<string[]>([]);
 
   get #isInEditMode(): boolean {
     if (this.agGrid && this.agGrid.api) {
@@ -110,7 +101,6 @@ export class SkyAgGridWrapperComponent
   protected readonly skyAgGridDiv =
     viewChild<ElementRef<HTMLElement>>('skyAgGridDiv');
 
-  #_viewkeeperClasses: string[] = [];
   readonly #destroyRef = inject(DestroyRef);
   readonly #themeSvc = inject(SkyThemeService, {
     optional: true,
@@ -120,13 +110,12 @@ export class SkyAgGridWrapperComponent
   readonly #elementRef = inject(ElementRef<HTMLElement>);
   readonly #document = inject(DOCUMENT);
   readonly #mutationObserverService = inject(SkyMutationObserverService);
-  readonly #isCompact = signal(false);
   readonly #hasEditableClass = signal(false);
   readonly #cellEditingClasses = signal<string[]>([]);
 
   public readonly wrapperClasses = computed(() => {
     const hasEditableClass = this.#hasEditableClass();
-    const isCompact = this.#isCompact();
+    const isCompact = this.compact();
     const themeSettings = this.#themeSettings()?.currentSettings;
     const cellEditingClasses = this.#cellEditingClasses();
 
@@ -180,12 +169,13 @@ export class SkyAgGridWrapperComponent
       const domLayout = this.agGrid.gridOptions?.domLayout;
       if (domLayout === 'autoHeight') {
         if (this.agGrid.gridOptions?.context?.enableTopScroll) {
-          this.viewkeeperClasses.push(
+          this.viewkeeperClasses.update((prev) => [
+            ...prev,
             '.ag-header',
             '.ag-body-horizontal-scroll',
-          );
+          ]);
         } else {
-          this.viewkeeperClasses.push('.ag-header');
+          this.viewkeeperClasses.update((prev) => [...prev, '.ag-header']);
         }
       } else if (domLayout === 'normal') {
         this.isNormalLayout = true;

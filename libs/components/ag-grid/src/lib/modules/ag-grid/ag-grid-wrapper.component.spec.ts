@@ -73,6 +73,9 @@ describe('SkyAgGridWrapperComponent', () => {
       ],
     });
     gridFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+    // Two cycles are required: the first triggers AG Grid's internal async
+    // initialization; the second resolves the resulting microtasks so the
+    // grid API is fully available before tests run.
     gridFixture.detectChanges();
     await gridFixture.whenStable();
     gridFixture.detectChanges();
@@ -151,7 +154,7 @@ describe('SkyAgGridWrapperComponent', () => {
     autoHeightGridWrapperFixture.detectChanges();
 
     expect(
-      autoHeightGridWrapperComponent.viewkeeperClasses.indexOf('.ag-header'),
+      autoHeightGridWrapperComponent.viewkeeperClasses().indexOf('.ag-header'),
     ).not.toEqual(-1);
   });
 
@@ -236,7 +239,7 @@ describe('SkyAgGridWrapperComponent', () => {
     expect(gridWrapperComponent.wrapperClasses()).toEqual(
       jasmine.arrayContaining(['ag-theme-sky-data-grid-modern-light']),
     );
-    gridWrapperFixture.componentInstance.compact = true;
+    gridWrapperFixture.componentRef.setInput('compact', true);
     gridWrapperFixture.detectChanges();
     expect(gridWrapperComponent.wrapperClasses()).toEqual(
       jasmine.arrayContaining(['ag-theme-sky-data-grid-modern-light-compact']),

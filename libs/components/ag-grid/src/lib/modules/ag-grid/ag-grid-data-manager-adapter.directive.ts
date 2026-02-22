@@ -193,7 +193,7 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
 
     setTimeout(() => {
       if (this.#currentSkyAgGridWrapper) {
-        this.#currentSkyAgGridWrapper.viewkeeperClasses = [];
+        this.#currentSkyAgGridWrapper.viewkeeperClasses.set([]);
       }
     });
   }
