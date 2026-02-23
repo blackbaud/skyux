@@ -34,7 +34,10 @@ export class BarChartDemoComponent {
         ],
       },
     ],
-    valueAxis: { label: 'Amount' },
+    valueAxis: {
+      label: 'Amount',
+      tickFormatter: (value) => `$${Number(value) / 1000}K`,
+    },
     categoryAxis: { label: 'Month' },
   };
 

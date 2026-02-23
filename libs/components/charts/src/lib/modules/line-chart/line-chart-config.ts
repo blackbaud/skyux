@@ -195,6 +195,7 @@ function createLinearValueScale(config: SkyLineChartConfig): PartialLineScale {
     ticks: {
       ...base.ticks,
       padding: SkyuxChartStyles.axisTickPaddingY,
+      callback: config.valueAxis?.tickFormatter,
     },
     title: {
       ...base.title,
@@ -222,6 +223,7 @@ function createLogarithmicValueScale(
     ticks: {
       ...base.ticks,
       padding: SkyuxChartStyles.axisTickPaddingY,
+      callback: config.valueAxis?.tickFormatter,
     },
     title: {
       ...base.title,
