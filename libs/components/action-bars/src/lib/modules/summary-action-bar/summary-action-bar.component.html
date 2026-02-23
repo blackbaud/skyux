@@ -33,9 +33,10 @@
     <div
       class="sky-summary-action-bar-summary"
       [id]="summaryId"
-      [@skyAnimationSlide]="slideDirection()"
-      (@skyAnimationSlide.start)="summaryTransitionStart()"
-      (@skyAnimationSlide.done)="summaryTransitionEnd($event)"
+      [class.sky-animation-slide-down]="slideDirection() === 'down'"
+      [class.sky-animation-slide-up]="slideDirection() === 'up'"
+      (transitionstart)="summaryTransitionStart()"
+      (transitionend)="summaryTransitionEnd($event)"
     >
       <div class="sky-summary-action-bar-summary-body">
         <div

@@ -1,3 +1,4 @@
+@use 'libs/components/theme/src/lib/styles/animations' as animations;
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
@@ -163,6 +164,7 @@
   border-style: var(--sky-override-tile-content-border-style, none);
   border-width: var(--sky-override-tile-content-border-width, 0);
   border-image: none;
+  @include animations.sky-animation-slide();
 }
 
 :host-context(

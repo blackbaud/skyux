@@ -157,8 +157,9 @@
       #itemContentRef
       class="sky-repeater-item-content"
       [id]="contentId"
-      [@.disabled]="animationDisabled"
-      [@skyAnimationSlide]="slideDirection"
+      [class.sky-animation-disabled]="animationDisabled"
+      [class.sky-animation-slide-down]="slideDirection === 'down'"
+      [class.sky-animation-slide-up]="slideDirection === 'up'"
       [attr.role]="(itemRole$ | async)?.content"
     >
       <ng-content select="sky-repeater-item-content" />

@@ -7,6 +7,11 @@ import {
   trigger,
 } from '@angular/animations';
 
+/**
+ * @deprecated `skyAnimationSlide` is deprecated. Use native CSS transitions with
+ * `.sky-animation-slide-down` / `.sky-animation-slide-up` classes instead.
+ * See the Angular animations migration guide: https://angular.dev/guide/animations/migration
+ */
 export const skyAnimationSlide: AnimationTriggerMetadata = trigger(
   'skyAnimationSlide',
   [

@@ -1,0 +1,70 @@
+/// Applies the base slide animation styles to a container element.
+/// The container uses `display: grid` with `grid-template-rows` to animate
+/// height to/from zero. Apply `.sky-animation-slide-down` (expanded) or
+/// `.sky-animation-slide-up` (collapsed) classes to toggle state.
+/// Add `.sky-animation-disabled` to disable the transition.
+@mixin sky-animation-slide() {
+  display: grid;
+  transition:
+    grid-template-rows 150ms ease-in,
+    visibility 150ms ease-in;
+
+  > * {
+    overflow: hidden;
+  }
+
+  &.sky-animation-slide-down {
+    grid-template-rows: 1fr;
+    overflow: visible;
+    visibility: visible;
+  }
+
+  &.sky-animation-slide-up {
+    grid-template-rows: 0fr;
+    overflow: hidden;
+    visibility: hidden;
+  }
+
+  &.sky-animation-disabled {
+    transition: none;
+  }
+}
+
+/// Applies the base emerge animation styles to an element.
+/// The element uses `opacity` and `transform: scale()` to animate
+/// in/out. Apply `.sky-animation-emerge-open` (visible) or
+/// `.sky-animation-emerge-closed` (hidden) classes to toggle state.
+/// Includes `@starting-style` for DOM entry animation.
+@mixin sky-animation-emerge() {
+  transition:
+    opacity 300ms ease-in-out,
+    transform 300ms ease-in-out;
+
+  &.sky-animation-emerge-open {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  &.sky-animation-emerge-closed {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  @starting-style {
+    &.sky-animation-emerge-open {
+      opacity: 0;
+      transform: scale(0);
+    }
+  }
+}
+
+// Global utility classes for external consumers.
+// Internal components should `@include` the mixins directly instead.
+
+.sky-animation-slide {
+  @include sky-animation-slide();
+}
+
+.sky-animation-emerge {
+  @include sky-animation-emerge();
+}

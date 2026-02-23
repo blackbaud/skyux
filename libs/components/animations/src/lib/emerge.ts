@@ -7,6 +7,11 @@ import {
   trigger,
 } from '@angular/animations';
 
+/**
+ * @deprecated `skyAnimationEmerge` is deprecated. Use native CSS transitions with
+ * `.sky-animation-emerge-open` / `.sky-animation-emerge-closed` classes instead.
+ * See the Angular animations migration guide: https://angular.dev/guide/animations/migration
+ */
 export const skyAnimationEmerge: AnimationTriggerMetadata = trigger(
   'skyAnimationEmerge',
   [
