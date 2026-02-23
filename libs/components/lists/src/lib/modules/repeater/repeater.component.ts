@@ -127,8 +127,8 @@ export class SkyRepeaterComponent
   public role: SkyRepeaterRoleType | undefined;
 
   #dragDropReady = false;
-  #dropListRef: DropListRef | undefined;
-  #dragRefs: DragRef[] = [];
+  #dropListRef: DropListRef<unknown> | undefined;
+  #dragRefs: DragRef<unknown>[] = [];
   #ngUnsubscribe = new Subject<void>();
   #itemNameWarned = false;
 
@@ -371,8 +371,8 @@ export class SkyRepeaterComponent
   }
 
   #moveDomElement(event: {
-    item: DragRef;
-    container: DropListRef;
+    item: DragRef<unknown>;
+    container: DropListRef<unknown>;
     previousIndex: number;
     currentIndex: number;
   }): void {
