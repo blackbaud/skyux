@@ -745,12 +745,18 @@ export class SkyTileDashboardService {
   }
 
   #syncDragDropItems(): void {
+    const dragRefByEl = new Map(
+      this.#dragRefs.map((dragRef) => [dragRef.getRootElement(), dragRef]),
+    );
+
     for (const dropListRef of this.#dropListRefs) {
       const containerEl = dropListRef.element as HTMLElement;
 
-      const dragRefsInContainer = this.#dragRefs.filter((dragRef) =>
-        containerEl.contains(dragRef.getRootElement()),
-      );
+      const dragRefsInContainer = Array.from(
+        containerEl.querySelectorAll(`[${ATTR_TILE_ID}]`),
+      )
+        .map((el) => dragRefByEl.get(el as HTMLElement))
+        .filter((ref): ref is DragRef => ref !== undefined);
 
       dropListRef.withItems(dragRefsInContainer);
     }
@@ -760,11 +766,15 @@ export class SkyTileDashboardService {
     for (const ref of this.#dragRefs) {
       ref.dispose();
     }
+
     for (const ref of this.#dropListRefs) {
       ref.dispose();
     }
+
     this.#dragRefs.length = 0;
     this.#dropListRefs.length = 0;
+    this.#pendingRenderRef?.destroy();
+    this.#pendingRenderRef = undefined;
   }
 
   #getColumnEl(
