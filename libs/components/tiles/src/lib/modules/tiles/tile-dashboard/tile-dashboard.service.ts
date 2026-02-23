@@ -1,4 +1,9 @@
-import { DragDrop, DragRef, DropListRef } from '@angular/cdk/drag-drop';
+import {
+  DragRef,
+  DropListRef,
+  createDragRef,
+  createDropListRef,
+} from '@angular/cdk/drag-drop';
 import {
   AfterRenderRef,
   ComponentRef,
@@ -65,7 +70,6 @@ export class SkyTileDashboardService {
   );
 
   readonly #destroyRef = inject(DestroyRef);
-  readonly #dragDrop = inject(DragDrop);
   readonly #injector = inject(Injector);
   readonly #dragRefs: DragRef[] = [];
   readonly #dropListRefs: DropListRef[] = [];
@@ -244,6 +248,7 @@ export class SkyTileDashboardService {
       } else {
         this.#moveTilesToMultiColumn();
       }
+
       this.#syncDragDropItems();
     }
   }
@@ -691,7 +696,7 @@ export class SkyTileDashboardService {
       const columnEl = this.#getColumnEl(column);
 
       if (columnEl) {
-        const dropListRef = this.#dragDrop.createDropList(columnEl);
+        const dropListRef = createDropListRef(this.#injector, columnEl);
         dropListRef.withOrientation('vertical');
 
         dropListRef.dropped
@@ -726,7 +731,7 @@ export class SkyTileDashboardService {
     if (this.#tileComponents) {
       for (const tileComponent of this.#tileComponents) {
         const tileEl = tileComponent.location.nativeElement as HTMLElement;
-        const dragRef = this.#dragDrop.createDrag(tileEl);
+        const dragRef = createDragRef(this.#injector, tileEl);
 
         const handle = tileEl.querySelector('.sky-tile-grab-handle');
 
