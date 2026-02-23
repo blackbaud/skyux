@@ -147,13 +147,16 @@
   </sky-modal-content>
   <sky-modal-footer>
     <button
-      class="sky-btn sky-btn-primary sky-margin-inline-compact sky-lookup-show-more-modal-save"
+      class="sky-btn sky-btn-primary sky-lookup-show-more-modal-save"
       type="button"
       [attr.aria-label]="
         'skyux_lookup_show_more_select_context'
           | skyLibResources: context.selectionDescriptor
       "
       [disabled]="isSearching"
+      [skyThemeClass]="{
+        'sky-margin-inline-compact': 'default'
+      }"
       (click)="save()"
     >
       {{ 'skyux_lookup_show_more_select' | skyLibResources }}
