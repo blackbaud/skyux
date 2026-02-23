@@ -55,6 +55,24 @@ describe('Summary Action Bar component', () => {
     )?.nativeElement;
   }
 
+  function dispatchTransitionEnd(debugElement: DebugElement): void {
+    const summaryEl = debugElement.query(
+      By.css('.sky-summary-action-bar-summary'),
+    )?.nativeElement as HTMLElement;
+    summaryEl.dispatchEvent(
+      new TransitionEvent('transitionend', {
+        propertyName: 'grid-template-rows',
+      }),
+    );
+  }
+
+  function dispatchTransitionStart(debugElement: DebugElement): void {
+    const summaryEl = debugElement.query(
+      By.css('.sky-summary-action-bar-summary'),
+    )?.nativeElement as HTMLElement;
+    summaryEl.dispatchEvent(new TransitionEvent('transitionstart', {}));
+  }
+
   function getModalActionBar(debugElement: DebugElement): HTMLElement {
     return debugElement.query(By.css('.sky-summary-action-bar-modal'))
       ?.nativeElement;
@@ -389,6 +407,26 @@ describe('Summary Action Bar component', () => {
     });
 
     describe('animations', () => {
+      it('should ignore transitionend for non-grid-template-rows properties', fakeAsync(() => {
+        fixture.detectChanges();
+        mediaQueryController.setBreakpoint('xs');
+        fixture.detectChanges();
+        clickCollapseButton(debugElement);
+        fixture.detectChanges();
+        // Dispatch a transitionend with a different property name.
+        const summaryEl = debugElement.query(
+          By.css('.sky-summary-action-bar-summary'),
+        )?.nativeElement as HTMLElement;
+        summaryEl.dispatchEvent(
+          new TransitionEvent('transitionend', {
+            propertyName: 'visibility',
+          }),
+        );
+        fixture.detectChanges();
+        // isSummaryCollapsed should still be false because the handler returned early.
+        expect(cmp.summaryActionBar?.isSummaryCollapsed()).toBeFalsy();
+      }));
+
       it('should update slide direction and isSummaryCollapsed when collapsing the summary', fakeAsync(() => {
         fixture.detectChanges();
         mediaQueryController.setBreakpoint('xs');
@@ -398,6 +436,7 @@ describe('Summary Action Bar component', () => {
         expect(cmp.summaryActionBar?.slideDirection()).toBe('down');
         clickCollapseButton(debugElement);
         fixture.detectChanges();
+        dispatchTransitionEnd(debugElement);
         tick();
         fixture.detectChanges();
         expect(cmp.summaryActionBar?.isSummaryCollapsed()).toBeTruthy();
@@ -410,6 +449,8 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         clickCollapseButton(debugElement);
         fixture.detectChanges();
+        dispatchTransitionEnd(debugElement);
+        fixture.detectChanges();
         tick();
         fixture.detectChanges();
         expect(cmp.summaryActionBar).toBeTruthy();
@@ -417,49 +458,47 @@ describe('Summary Action Bar component', () => {
         expect(cmp.summaryActionBar?.slideDirection()).toBe('up');
         clickExpandButton(debugElement);
         fixture.detectChanges();
-        tick();
+        dispatchTransitionStart(debugElement);
         fixture.detectChanges();
         expect(cmp.summaryActionBar?.isSummaryCollapsed()).toBeFalsy();
         expect(cmp.summaryActionBar?.slideDirection()).toBe('down');
       }));
 
-      it(`should move focus to the collapsed summary's chevron after collapsing`, async () => {
+      it(`should move focus to the collapsed summary's chevron after collapsing`, fakeAsync(() => {
         fixture.detectChanges();
         mediaQueryController.setBreakpoint('xs');
         fixture.detectChanges();
         clickCollapseButton(debugElement);
-        // Allow animation to finish
         fixture.detectChanges();
-        await fixture.whenRenderingDone();
+        dispatchTransitionEnd(debugElement);
         fixture.detectChanges();
-        // ALlow focusing to take place
+        tick();
         fixture.detectChanges();
-        await fixture.whenStable();
         const expandButton = getExpandButton(debugElement);
         expect(document.activeElement).toEqual(expandButton);
-      });
+      }));
 
-      it(`should move focus to the expanded summary's chevron after expanding`, async () => {
+      it(`should move focus to the expanded summary's chevron after expanding`, fakeAsync(() => {
         fixture.detectChanges();
         mediaQueryController.setBreakpoint('xs');
         fixture.detectChanges();
         clickCollapseButton(debugElement);
-        // Allow animation to finish
         fixture.detectChanges();
-        await fixture.whenStable();
-        // ALlow focusing to take place
+        dispatchTransitionEnd(debugElement);
         fixture.detectChanges();
-        await fixture.whenStable();
+        tick();
+        fixture.detectChanges();
         clickExpandButton(debugElement);
-        // Allow animation to finish
         fixture.detectChanges();
-        await fixture.whenStable();
-        // ALlow focusing to take place
+        dispatchTransitionStart(debugElement);
         fixture.detectChanges();
-        await fixture.whenStable();
+        dispatchTransitionEnd(debugElement);
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
         const collapseButton = getCollapseButton(debugElement);
         expect(document.activeElement).toEqual(collapseButton);
-      });
+      }));
     });
 
     describe('switching', () => {
@@ -703,6 +742,24 @@ describe('Summary Action Bar component', () => {
           });
         });
       });
+    });
+
+    describe('animations', () => {
+      it('should restyle body element after collapsing the summary', fakeAsync(() => {
+        fixture.detectChanges();
+        mediaQueryController.setBreakpoint('xs');
+        fixture.detectChanges();
+        clickCollapseButton(debugElement);
+        fixture.detectChanges();
+        dispatchTransitionEnd(debugElement);
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        // Verify the body margin was updated after the transition ended.
+        expect(document.body.style.marginBottom).toContain(
+          'var(--sky-dock-height, 0px)',
+        );
+      }));
     });
 
     describe('a11y', () => {

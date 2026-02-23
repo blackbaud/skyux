@@ -130,9 +130,8 @@ function expectGroupTabsAreVisible(
   const groupContent = getTabGroups(fixture)[index].querySelector(
     '.sky-vertical-tabset-group-content',
   ) as HTMLElement;
-  expect(groupContent.style.visibility).toEqual('visible');
-  expect(groupContent.style.height).not.toEqual('0px');
-  expect(groupContent.style.height).not.toEqual('0');
+  expect(groupContent).toHaveClass('sky-animation-slide-down');
+  expect(groupContent).not.toHaveClass('sky-animation-slide-up');
 }
 
 function expectGroupTabsAreNotVisible(
@@ -142,8 +141,8 @@ function expectGroupTabsAreNotVisible(
   const groupContent = getTabGroups(fixture)[index].querySelector(
     '.sky-vertical-tabset-group-content',
   ) as HTMLElement;
-  expect(groupContent.style.visibility).toEqual('hidden');
-  expect(['0', '0px']).toContain(groupContent.style.height);
+  expect(groupContent).toHaveClass('sky-animation-slide-up');
+  expect(groupContent).not.toHaveClass('sky-animation-slide-down');
 }
 
 function expectActiveGroup(

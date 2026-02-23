@@ -5,6 +5,12 @@ import { Component } from '@angular/core';
  */
 @Component({
   selector: 'sky-tile-content',
+  styles: `
+    :host {
+      display: block;
+      overflow: hidden;
+    }
+  `,
   templateUrl: 'tile-content.component.html',
 })
 export class SkyTileContentComponent {}

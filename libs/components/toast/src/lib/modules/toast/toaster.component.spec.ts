@@ -81,6 +81,13 @@ describe('Toaster component', () => {
     return document.querySelectorAll('sky-toast');
   }
 
+  function dispatchTransitionEnd(toastEl: Element): void {
+    const aside = toastEl.querySelector('aside');
+    aside?.dispatchEvent(
+      new TransitionEvent('transitionend', { propertyName: 'opacity' }),
+    );
+  }
+
   function openMessage(
     message = '',
     config?: SkyToastConfig,
@@ -173,6 +180,23 @@ describe('Toaster component', () => {
     fixture.detectChanges();
     tick();
 
+    // A transitionend event for a non-opacity property should not close the toast.
+    toasts
+      .item(0)
+      .querySelector('aside')
+      ?.dispatchEvent(
+        new TransitionEvent('transitionend', { propertyName: 'transform' }),
+      );
+    fixture.detectChanges();
+    tick();
+
+    toasts = getToastElements();
+    expect(toasts.length).toEqual(3);
+
+    dispatchTransitionEnd(toasts.item(0));
+    fixture.detectChanges();
+    tick();
+
     toasts = getToastElements();
     expect(toasts.length).toEqual(2);
   }));
@@ -190,6 +214,10 @@ describe('Toaster component', () => {
     clickElement(
       toasts.item(0).querySelector('.sky-toast-body-test-btn-close'),
     );
+    fixture.detectChanges();
+    tick();
+
+    dispatchTransitionEnd(toasts.item(0));
     fixture.detectChanges();
     tick();
 
@@ -212,6 +240,9 @@ describe('Toaster component', () => {
     toastService.closeAll();
     fixture.detectChanges();
     tick();
+
+    toasts = getToastElements();
+    toasts.forEach((toast) => dispatchTransitionEnd(toast));
     fixture.detectChanges();
     tick();
 
