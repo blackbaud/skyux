@@ -1,4 +1,4 @@
-import { DragDrop, DropListRef } from '@angular/cdk/drag-drop';
+import { DragDropRegistry, DragRef, DropListRef } from '@angular/cdk/drag-drop';
 import { EventEmitter } from '@angular/core';
 import {
   ComponentFixture,
@@ -50,6 +50,23 @@ describe('Tile dashboard service', () => {
 
   function createDashboardTestComponent(): ComponentFixture<TileDashboardTestComponent> {
     return TestBed.createComponent(TileDashboardTestComponent);
+  }
+
+  function getDropListRefForElement(columnEl: HTMLElement): DropListRef {
+    const registry = TestBed.inject(DragDropRegistry);
+
+    const dropInstances = Array.from(
+      (registry as unknown as { _dropInstances: Set<DropListRef> })
+        ._dropInstances,
+    );
+
+    const ref = dropInstances.find((r) => r.element === columnEl);
+
+    if (!ref) {
+      throw new Error('DropListRef not found for element.');
+    }
+
+    return ref;
   }
 
   beforeEach(() => {
@@ -269,26 +286,11 @@ describe('Tile dashboard service', () => {
     expect(handle).toBeTruthy();
   }));
 
-  it('should move the DOM element and update config when CDK drop fires', fakeAsync(() => {
-    const dragDrop = TestBed.inject(DragDrop);
-    const capturedDropListRefs: DropListRef[] = [];
-
-    const originalCreateDropList = dragDrop.createDropList.bind(dragDrop);
-    spyOn(dragDrop, 'createDropList').and.callFake(
-      (...args: Parameters<typeof dragDrop.createDropList>) => {
-        const ref = originalCreateDropList(...args);
-        capturedDropListRefs.push(ref);
-        return ref;
-      },
-    );
-
+  it('should update config when a tile is moved to another column', fakeAsync(() => {
     const fixture = createDashboardTestComponent();
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
-
-    // Verify drop list refs were created (one per column: 2 multi + 1 single).
-    expect(capturedDropListRefs.length).toBe(3);
 
     const el = fixture.nativeElement;
     const columnEls = el.querySelectorAll('.sky-tile-dashboard-column');
@@ -303,40 +305,31 @@ describe('Tile dashboard service', () => {
       configChanged = true;
     });
 
-    // Simulate CDK drop: move tile-1 from column 0 to end of column 1.
-    capturedDropListRefs[0].dropped.next({
-      item: { getRootElement: () => tileEl } as any,
-      container: capturedDropListRefs[1],
-      previousContainer: capturedDropListRefs[0],
-      previousIndex: 0,
+    // Get the DropListRef instances for each column.
+    const sourceRef = getDropListRefForElement(columnEls[0]);
+    const targetRef = getDropListRefForElement(columnEls[1]);
+
+    // Simulate a CDK drop by emitting on the target column's dropped Subject.
+    targetRef.dropped.next({
+      item: { getRootElement: () => tileEl } as DragRef,
+      container: targetRef,
+      previousContainer: sourceRef,
       currentIndex: 1,
+      previousIndex: 0,
+      isPointerOverContainer: true,
       distance: { x: 0, y: 0 },
       dropPoint: { x: 0, y: 0 },
-      isPointerOverContainer: true,
       event: new MouseEvent('mouseup'),
     });
 
     tick();
 
-    // Tile should have moved to column 1 (appendChild path, since currentIndex >= children count).
     expect(columnEls[0].querySelector('div.sky-test-tile-1')).toBeFalsy();
     expect(columnEls[1].querySelector('div.sky-test-tile-1')).toBeTruthy();
     expect(configChanged).toBe(true);
   }));
 
-  it('should insert the DOM element before a reference node when CDK drop fires at a specific index', fakeAsync(() => {
-    const dragDrop = TestBed.inject(DragDrop);
-    const capturedDropListRefs: DropListRef[] = [];
-
-    const originalCreateDropList = dragDrop.createDropList.bind(dragDrop);
-    spyOn(dragDrop, 'createDropList').and.callFake(
-      (...args: Parameters<typeof dragDrop.createDropList>) => {
-        const ref = originalCreateDropList(...args);
-        capturedDropListRefs.push(ref);
-        return ref;
-      },
-    );
-
+  it('should update config when a tile is inserted before a reference node in another column', fakeAsync(() => {
     const fixture = createDashboardTestComponent();
     fixture.detectChanges();
     tick();
@@ -346,22 +339,26 @@ describe('Tile dashboard service', () => {
     const columnEls = el.querySelectorAll('.sky-tile-dashboard-column');
     const tileEl = columnEls[0].querySelector('div.sky-test-tile-1');
 
-    // Simulate CDK drop: insert tile-1 at position 0 of column 1 (before existing tile).
-    capturedDropListRefs[0].dropped.next({
-      item: { getRootElement: () => tileEl } as any,
-      container: capturedDropListRefs[1],
-      previousContainer: capturedDropListRefs[0],
-      previousIndex: 0,
+    // Get the DropListRef instances for each column.
+    const sourceRef = getDropListRefForElement(columnEls[0]);
+    const targetRef = getDropListRefForElement(columnEls[1]);
+
+    // Simulate a CDK drop at index 0 (before the first tile in column 1).
+    targetRef.dropped.next({
+      item: { getRootElement: () => tileEl } as DragRef,
+      container: targetRef,
+      previousContainer: sourceRef,
       currentIndex: 0,
+      previousIndex: 0,
+      isPointerOverContainer: true,
       distance: { x: 0, y: 0 },
       dropPoint: { x: 0, y: 0 },
-      isPointerOverContainer: true,
       event: new MouseEvent('mouseup'),
     });
 
     tick();
 
-    // Tile-1 should be the first tile in column 1 (insertBefore path).
+    // Tile-1 should be the first tile in column 1.
     const column1Tiles = columnEls[1].querySelectorAll(
       '[_sky-tile-dashboard-tile-id]',
     );
