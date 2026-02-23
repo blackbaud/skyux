@@ -2355,30 +2355,6 @@ describe('Grid Component', () => {
       expect(spy).not.toHaveBeenCalled();
     }));
 
-    it('should apply sky-grid-header-dragging class on drag start and remove it on drag end', fakeAsync(() => {
-      fixture.detectChanges();
-      fixture.detectChanges();
-
-      const headerCells = element.nativeElement.querySelectorAll(
-        'th.sky-grid-heading',
-      );
-      const draggableColumn = headerCells[1];
-
-      const mockElement = { nativeElement: draggableColumn };
-      const mockDragItem = { element: mockElement };
-      const dragStartEvent = { source: mockDragItem };
-      const dragEndEvent = { source: mockDragItem };
-
-      const thElements = element.queryAll(By.css('th.sky-grid-heading'));
-      thElements[1].triggerEventHandler('cdkDragStarted', dragStartEvent);
-      expect(draggableColumn.classList).toContain('sky-grid-header-dragging');
-
-      thElements[1].triggerEventHandler('cdkDragEnded', dragEndEvent);
-      expect(draggableColumn.classList).not.toContain(
-        'sky-grid-header-dragging',
-      );
-    }));
-
     it('should disable drag on locked columns via cdkDragDisabled', fakeAsync(() => {
       fixture.detectChanges();
       fixture.detectChanges();

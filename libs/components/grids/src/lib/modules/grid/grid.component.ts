@@ -1,4 +1,4 @@
-import { CdkDragDrop, CdkDragEnd, CdkDragStart } from '@angular/cdk/drag-drop';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import {
   AfterContentInit,
   AfterViewInit,
@@ -803,18 +803,6 @@ export class SkyGridComponent
     if (newColumnIds) {
       this.onHeaderDrop(newColumnIds);
     }
-  }
-
-  protected onColumnDragStarted(event: CdkDragStart): void {
-    event.source.element.nativeElement.classList.add(
-      'sky-grid-header-dragging',
-    );
-  }
-
-  protected onColumnDragEnded(event: CdkDragEnd): void {
-    event.source.element.nativeElement.classList.remove(
-      'sky-grid-header-dragging',
-    );
   }
 
   // Prevent touch devices from inadvertently scrolling grid while dragging columns.
