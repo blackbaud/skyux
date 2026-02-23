@@ -31,6 +31,7 @@ export class SkyGridAdapterService {
     if (displayedColumns[currentIndex]?.locked) {
       return false;
     }
+
     // Cannot drop to the left of a locked column.
     if (targetIndex < currentIndex) {
       for (let i = targetIndex; i < currentIndex; i++) {
@@ -61,6 +62,7 @@ export class SkyGridAdapterService {
 
     const columnIds = displayedColumns.map((col) => col.id);
     moveItemInArray(columnIds, event.previousIndex, event.currentIndex);
+
     return columnIds;
   }
 
