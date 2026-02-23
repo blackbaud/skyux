@@ -25,18 +25,18 @@ export class LineChartDemoComponent {
       {
         label: '2022',
         data: [
-          { label: '$25K', category: 'Jan', value: 25 },
-          { label: '$28K', category: 'Feb', value: 28 },
-          { label: '$22K', category: 'Mar', value: 22 },
-          { label: '$35K', category: 'Apr', value: 35 },
+          { label: '$25K', category: 'January', value: 25 },
+          { label: '$28K', category: 'February', value: 28 },
+          { label: '$22K', category: 'March', value: 22 },
+          { label: '$35K', category: 'April', value: 35 },
           { label: '$30K', category: 'May', value: 30 },
-          { label: '$45K', category: 'Jun', value: 45 },
-          { label: '$38K', category: 'Jul', value: 38 },
-          { label: '$42K', category: 'Aug', value: 42 },
-          { label: '$50K', category: 'Sep', value: 50 },
-          { label: '$40K', category: 'Oct', value: 40 },
-          { label: '$55K', category: 'Nov', value: 55 },
-          { label: '$48K', category: 'Dec', value: 48 },
+          { label: '$45K', category: 'June', value: 45 },
+          { label: '$38K', category: 'July', value: 38 },
+          { label: '$42K', category: 'August', value: 42 },
+          { label: '$50K', category: 'September', value: 50 },
+          { label: '$40K', category: 'October', value: 40 },
+          { label: '$55K', category: 'November', value: 55 },
+          { label: '$48K', category: 'December', value: 48 },
         ],
       },
     ],
@@ -48,51 +48,63 @@ export class LineChartDemoComponent {
     series: [
       {
         label: '2022',
-        data: ChartDemoUtils.numbers({ count: 12, min: 0, max: 100 }).map(
-          (value, index) => {
-            return {
-              category: ChartDemoUtils.months({ count: 12 })[index],
-              label: `$${value}`,
-              value,
-            };
-          },
-        ),
+        data: ChartDemoUtils.numbers({
+          count: 12,
+          min: 0,
+          max: 100,
+          decimals: 0,
+        }).map((value, index) => {
+          return {
+            category: ChartDemoUtils.months({ count: 12 })[index],
+            label: `$${value}`,
+            value,
+          };
+        }),
       },
       {
         label: '2023',
-        data: ChartDemoUtils.numbers({ count: 12, min: 0, max: 100 }).map(
-          (value, index) => {
-            return {
-              category: ChartDemoUtils.months({ count: 12 })[index],
-              label: `$${value}`,
-              value,
-            };
-          },
-        ),
+        data: ChartDemoUtils.numbers({
+          count: 12,
+          min: 0,
+          max: 100,
+          decimals: 0,
+        }).map((value, index) => {
+          return {
+            category: ChartDemoUtils.months({ count: 12 })[index],
+            label: `$${value}`,
+            value,
+          };
+        }),
       },
       {
         label: '2024',
-        data: ChartDemoUtils.numbers({ count: 12, min: 0, max: 100 }).map(
-          (value, index) => {
-            return {
-              category: ChartDemoUtils.months({ count: 12 })[index],
-              label: `$${value}`,
-              value,
-            };
-          },
-        ),
+        data: ChartDemoUtils.numbers({
+          count: 12,
+          min: 0,
+          max: 100,
+          decimals: 0,
+        }).map((value, index) => {
+          return {
+            category: ChartDemoUtils.months({ count: 12 })[index],
+            label: `$${value}`,
+            value,
+          };
+        }),
       },
       {
         label: '2025',
-        data: ChartDemoUtils.numbers({ count: 12, min: 0, max: 100 }).map(
-          (value, index) => {
-            return {
-              category: ChartDemoUtils.months({ count: 12 })[index],
-              label: `$${value}`,
-              value,
-            };
-          },
-        ),
+        data: ChartDemoUtils.numbers({
+          count: 12,
+          min: 0,
+          max: 100,
+          decimals: 0,
+        }).map((value, index) => {
+          return {
+            category: ChartDemoUtils.months({ count: 12 })[index],
+            label: `$${value}`,
+            value,
+          };
+        }),
       },
     ],
     valueAxis: { label: 'Amount' },
@@ -104,51 +116,63 @@ export class LineChartDemoComponent {
     series: [
       {
         label: '2022',
-        data: ChartDemoUtils.numbers({ count: 12, min: 0, max: 100 }).map(
-          (value, index) => {
-            return {
-              category: ChartDemoUtils.months({ count: 12 })[index],
-              label: `$${value}`,
-              value,
-            };
-          },
-        ),
+        data: ChartDemoUtils.numbers({
+          count: 12,
+          min: 0,
+          max: 100,
+          decimals: 0,
+        }).map((value, index) => {
+          return {
+            category: ChartDemoUtils.months({ count: 12 })[index],
+            label: `$${value}`,
+            value,
+          };
+        }),
       },
       {
         label: '2023',
-        data: ChartDemoUtils.numbers({ count: 12, min: 0, max: 100 }).map(
-          (value, index) => {
-            return {
-              category: ChartDemoUtils.months({ count: 12 })[index],
-              label: `$${value}`,
-              value,
-            };
-          },
-        ),
+        data: ChartDemoUtils.numbers({
+          count: 12,
+          min: 0,
+          max: 100,
+          decimals: 0,
+        }).map((value, index) => {
+          return {
+            category: ChartDemoUtils.months({ count: 12 })[index],
+            label: `$${value}`,
+            value,
+          };
+        }),
       },
       {
         label: '2024',
-        data: ChartDemoUtils.numbers({ count: 12, min: 0, max: 100 }).map(
-          (value, index) => {
-            return {
-              category: ChartDemoUtils.months({ count: 12 })[index],
-              label: `$${value}`,
-              value,
-            };
-          },
-        ),
+        data: ChartDemoUtils.numbers({
+          count: 12,
+          min: 0,
+          max: 100,
+          decimals: 0,
+        }).map((value, index) => {
+          return {
+            category: ChartDemoUtils.months({ count: 12 })[index],
+            label: `$${value}`,
+            value,
+          };
+        }),
       },
       {
         label: '2025',
-        data: ChartDemoUtils.numbers({ count: 12, min: 0, max: 100 }).map(
-          (value, index) => {
-            return {
-              category: ChartDemoUtils.months({ count: 12 })[index],
-              label: `$${value}`,
-              value,
-            };
-          },
-        ),
+        data: ChartDemoUtils.numbers({
+          count: 12,
+          min: 0,
+          max: 100,
+          decimals: 0,
+        }).map((value, index) => {
+          return {
+            category: ChartDemoUtils.months({ count: 12 })[index],
+            label: `$${value}`,
+            value,
+          };
+        }),
       },
     ],
     valueAxis: { label: 'Amount' },
@@ -160,18 +184,18 @@ export class LineChartDemoComponent {
       {
         label: '2022',
         data: [
-          { label: '$25K', category: 'Jan', value: 25 },
-          { label: '$28K', category: 'Feb', value: 28 },
-          { label: '$22K', category: 'Mar', value: 22 },
-          { label: '$35K', category: 'Apr', value: 35 },
+          { label: '$25K', category: 'January', value: 25 },
+          { label: '$28K', category: 'February', value: 28 },
+          { label: '$22K', category: 'March', value: 22 },
+          { label: '$35K', category: 'April', value: 35 },
           { label: '$30K', category: 'May', value: 30 },
-          { label: '$45K', category: 'Jun', value: 45 },
-          { label: '$38K', category: 'Jul', value: 38 },
-          { label: '$42K', category: 'Aug', value: 42 },
-          { label: '$50K', category: 'Sep', value: 50 },
-          { label: '$40K', category: 'Oct', value: 40 },
-          { label: '$55K', category: 'Nov', value: 55 },
-          { label: '$48K', category: 'Dec', value: 48 },
+          { label: '$45K', category: 'June', value: 45 },
+          { label: '$38K', category: 'July', value: 38 },
+          { label: '$42K', category: 'August', value: 42 },
+          { label: '$50K', category: 'September', value: 50 },
+          { label: '$40K', category: 'October', value: 40 },
+          { label: '$55K', category: 'November', value: 55 },
+          { label: '$48K', category: 'December', value: 48 },
         ],
       },
     ],
@@ -183,51 +207,63 @@ export class LineChartDemoComponent {
     series: [
       {
         label: '2022',
-        data: ChartDemoUtils.numbers({ count: 12, min: 0, max: 1_000 }).map(
-          (value, index) => {
-            return {
-              category: ChartDemoUtils.months({ count: 12 })[index],
-              label: `$${value}`,
-              value,
-            };
-          },
-        ),
+        data: ChartDemoUtils.numbers({
+          count: 12,
+          min: 0,
+          max: 1_000,
+          decimals: 0,
+        }).map((value, index) => {
+          return {
+            category: ChartDemoUtils.months({ count: 12 })[index],
+            label: `$${value}`,
+            value,
+          };
+        }),
       },
       {
         label: '2023',
-        data: ChartDemoUtils.numbers({ count: 12, min: 0, max: 1_000 }).map(
-          (value, index) => {
-            return {
-              category: ChartDemoUtils.months({ count: 12 })[index],
-              label: `$${value}`,
-              value,
-            };
-          },
-        ),
+        data: ChartDemoUtils.numbers({
+          count: 12,
+          min: 0,
+          max: 1_000,
+          decimals: 0,
+        }).map((value, index) => {
+          return {
+            category: ChartDemoUtils.months({ count: 12 })[index],
+            label: `$${value}`,
+            value,
+          };
+        }),
       },
       {
         label: '2024',
-        data: ChartDemoUtils.numbers({ count: 12, min: 0, max: 1_000 }).map(
-          (value, index) => {
-            return {
-              category: ChartDemoUtils.months({ count: 12 })[index],
-              label: `$${value}`,
-              value,
-            };
-          },
-        ),
+        data: ChartDemoUtils.numbers({
+          count: 12,
+          min: 0,
+          max: 1_000,
+          decimals: 0,
+        }).map((value, index) => {
+          return {
+            category: ChartDemoUtils.months({ count: 12 })[index],
+            label: `$${value}`,
+            value,
+          };
+        }),
       },
       {
         label: '2025',
-        data: ChartDemoUtils.numbers({ count: 12, min: 0, max: 1_000 }).map(
-          (value, index) => {
-            return {
-              category: ChartDemoUtils.months({ count: 12 })[index],
-              label: `$${value}`,
-              value,
-            };
-          },
-        ),
+        data: ChartDemoUtils.numbers({
+          count: 12,
+          min: 0,
+          max: 1_000,
+          decimals: 0,
+        }).map((value, index) => {
+          return {
+            category: ChartDemoUtils.months({ count: 12 })[index],
+            label: `$${value}`,
+            value,
+          };
+        }),
       },
     ],
     valueAxis: { label: 'Amount', scaleType: 'logarithmic' },
@@ -239,51 +275,63 @@ export class LineChartDemoComponent {
     series: [
       {
         label: '2022',
-        data: ChartDemoUtils.numbers({ count: 12, min: 0, max: 1_000 }).map(
-          (value, index) => {
-            return {
-              category: ChartDemoUtils.months({ count: 12 })[index],
-              label: `$${value}`,
-              value,
-            };
-          },
-        ),
+        data: ChartDemoUtils.numbers({
+          count: 12,
+          min: 0,
+          max: 1_000,
+          decimals: 0,
+        }).map((value, index) => {
+          return {
+            category: ChartDemoUtils.months({ count: 12 })[index],
+            label: `$${value}`,
+            value,
+          };
+        }),
       },
       {
         label: '2023',
-        data: ChartDemoUtils.numbers({ count: 12, min: 0, max: 1_000 }).map(
-          (value, index) => {
-            return {
-              category: ChartDemoUtils.months({ count: 12 })[index],
-              label: `$${value}`,
-              value,
-            };
-          },
-        ),
+        data: ChartDemoUtils.numbers({
+          count: 12,
+          min: 0,
+          max: 1_000,
+          decimals: 0,
+        }).map((value, index) => {
+          return {
+            category: ChartDemoUtils.months({ count: 12 })[index],
+            label: `$${value}`,
+            value,
+          };
+        }),
       },
       {
         label: '2024',
-        data: ChartDemoUtils.numbers({ count: 12, min: 0, max: 1_000 }).map(
-          (value, index) => {
-            return {
-              category: ChartDemoUtils.months({ count: 12 })[index],
-              label: `$${value}`,
-              value,
-            };
-          },
-        ),
+        data: ChartDemoUtils.numbers({
+          count: 12,
+          min: 0,
+          max: 1_000,
+          decimals: 0,
+        }).map((value, index) => {
+          return {
+            category: ChartDemoUtils.months({ count: 12 })[index],
+            label: `$${value}`,
+            value,
+          };
+        }),
       },
       {
         label: '2025',
-        data: ChartDemoUtils.numbers({ count: 12, min: 0, max: 1_000 }).map(
-          (value, index) => {
-            return {
-              category: ChartDemoUtils.months({ count: 12 })[index],
-              label: `$${value}`,
-              value,
-            };
-          },
-        ),
+        data: ChartDemoUtils.numbers({
+          count: 12,
+          min: 0,
+          max: 1_000,
+          decimals: 0,
+        }).map((value, index) => {
+          return {
+            category: ChartDemoUtils.months({ count: 12 })[index],
+            label: `$${value}`,
+            value,
+          };
+        }),
       },
     ],
     valueAxis: { label: 'Amount', scaleType: 'logarithmic' },

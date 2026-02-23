@@ -27,10 +27,10 @@ export class BarChartDemoComponent {
       {
         label: 'Spending',
         data: [
-          { category: 'Jan', label: '$50K', value: 50_000 },
-          { category: 'Feb', label: '$100K', value: 100_000 },
-          { category: 'Mar', label: '$150K', value: 150_000 },
-          { category: 'Apr', label: '$200K', value: 200_000 },
+          { category: 'January', label: '$50,000', value: 50_000 },
+          { category: 'February', label: '$100,000', value: 100_000 },
+          { category: 'March', label: '$150,000', value: 150_000 },
+          { category: 'April', label: '$200,000', value: 200_000 },
         ],
       },
     ],
@@ -47,15 +47,15 @@ export class BarChartDemoComponent {
       {
         label: 'Budget',
         data: [
-          { category: 'Revenue', label: '$120K', value: 120_000 },
-          { category: 'Expenses', label: '$85K', value: 85_000 },
+          { category: 'Revenue', label: '$120,000', value: 120_000 },
+          { category: 'Expenses', label: '$85,000', value: 85_000 },
         ],
       },
       {
         label: 'Actuals',
         data: [
-          { category: 'Revenue', label: '$115K', value: 115_000 },
-          { category: 'Expenses', label: '$78K', value: 78_000 },
+          { category: 'Revenue', label: '$115,000', value: 115_000 },
+          { category: 'Expenses', label: '$78,000', value: 78_000 },
         ],
       },
     ],
@@ -69,39 +69,48 @@ export class BarChartDemoComponent {
     series: [
       {
         label: 'Dataset 1',
-        data: ChartDemoUtils.numbers({ count: 7, min: 0, max: 100 }).map(
-          (value, index) => {
-            return {
-              category: ChartDemoUtils.months({ count: 7 })[index],
-              label: `$${value}`,
-              value,
-            };
-          },
-        ),
+        data: ChartDemoUtils.numbers({
+          count: 7,
+          min: 0,
+          max: 100,
+          decimals: 0,
+        }).map((value, index) => {
+          return {
+            category: ChartDemoUtils.months({ count: 7 })[index],
+            label: `$${value}`,
+            value,
+          };
+        }),
       },
       {
         label: 'Dataset 2',
-        data: ChartDemoUtils.numbers({ count: 7, min: 0, max: 100 }).map(
-          (value, index) => {
-            return {
-              category: ChartDemoUtils.months({ count: 7 })[index],
-              label: `$${value}`,
-              value,
-            };
-          },
-        ),
+        data: ChartDemoUtils.numbers({
+          count: 7,
+          min: 0,
+          max: 100,
+          decimals: 0,
+        }).map((value, index) => {
+          return {
+            category: ChartDemoUtils.months({ count: 7 })[index],
+            label: `$${value}`,
+            value,
+          };
+        }),
       },
       {
         label: 'Dataset 3',
-        data: ChartDemoUtils.numbers({ count: 7, min: 0, max: 100 }).map(
-          (value, index) => {
-            return {
-              category: ChartDemoUtils.months({ count: 7 })[index],
-              label: `$${value}`,
-              value,
-            };
-          },
-        ),
+        data: ChartDemoUtils.numbers({
+          count: 7,
+          min: 0,
+          max: 100,
+          decimals: 0,
+        }).map((value, index) => {
+          return {
+            category: ChartDemoUtils.months({ count: 7 })[index],
+            label: `$${value}`,
+            value,
+          };
+        }),
       },
     ],
     valueAxis: { label: 'Value' },
@@ -114,10 +123,10 @@ export class BarChartDemoComponent {
       {
         label: 'Spending',
         data: [
-          { category: 'Jan', label: '$50K', value: 50_000 },
-          { category: 'Feb', label: '$100K', value: 100_000 },
-          { category: 'Mar', label: '$150K', value: 150_000 },
-          { category: 'Apr', label: '$200K', value: 200_000 },
+          { category: 'January', label: '$50,000', value: 50_000 },
+          { category: 'February', label: '$100,000', value: 100_000 },
+          { category: 'March', label: '$150,000', value: 150_000 },
+          { category: 'April', label: '$200,000', value: 200_000 },
         ],
       },
     ],
@@ -131,15 +140,15 @@ export class BarChartDemoComponent {
       {
         label: 'Budget',
         data: [
-          { category: 'Revenue', label: '$120K', value: 120_000 },
-          { category: 'Expenses', label: '$85K', value: 85_000 },
+          { category: 'Revenue', label: '$120,000', value: 120_000 },
+          { category: 'Expenses', label: '$85,000', value: 85_000 },
         ],
       },
       {
         label: 'Actuals',
         data: [
-          { category: 'Revenue', label: '$115K', value: 115_000 },
-          { category: 'Expenses', label: '$78K', value: 78_000 },
+          { category: 'Revenue', label: '$115,000', value: 115_000 },
+          { category: 'Expenses', label: '$78,000', value: 78_000 },
         ],
       },
     ],
@@ -153,39 +162,48 @@ export class BarChartDemoComponent {
     series: [
       {
         label: 'Dataset 1',
-        data: ChartDemoUtils.numbers({ count: 7, min: 0, max: 100 }).map(
-          (value, index) => {
-            return {
-              category: ChartDemoUtils.months({ count: 7 })[index],
-              label: `$${value}`,
-              value,
-            };
-          },
-        ),
+        data: ChartDemoUtils.numbers({
+          count: 7,
+          min: 0,
+          max: 100,
+          decimals: 0,
+        }).map((value, index) => {
+          return {
+            category: ChartDemoUtils.months({ count: 7 })[index],
+            label: `$${value}`,
+            value,
+          };
+        }),
       },
       {
         label: 'Dataset 2',
-        data: ChartDemoUtils.numbers({ count: 7, min: 0, max: 100 }).map(
-          (value, index) => {
-            return {
-              category: ChartDemoUtils.months({ count: 7 })[index],
-              label: `$${value}`,
-              value,
-            };
-          },
-        ),
+        data: ChartDemoUtils.numbers({
+          count: 7,
+          min: 0,
+          max: 100,
+          decimals: 0,
+        }).map((value, index) => {
+          return {
+            category: ChartDemoUtils.months({ count: 7 })[index],
+            label: `$${value}`,
+            value,
+          };
+        }),
       },
       {
         label: 'Dataset 3',
-        data: ChartDemoUtils.numbers({ count: 7, min: 0, max: 100 }).map(
-          (value, index) => {
-            return {
-              category: ChartDemoUtils.months({ count: 7 })[index],
-              label: `$${value}`,
-              value,
-            };
-          },
-        ),
+        data: ChartDemoUtils.numbers({
+          count: 7,
+          min: 0,
+          max: 100,
+          decimals: 0,
+        }).map((value, index) => {
+          return {
+            category: ChartDemoUtils.months({ count: 7 })[index],
+            label: `$${value}`,
+            value,
+          };
+        }),
       },
     ],
     valueAxis: { label: 'Value', scaleType: 'logarithmic' },
@@ -200,10 +218,10 @@ export class BarChartDemoComponent {
       {
         label: 'Spending',
         data: [
-          { category: 'Jan', label: '$50K', value: 50_000 },
-          { category: 'Feb', label: '$100K', value: 100_000 },
-          { category: 'Mar', label: '$150K', value: 150_000 },
-          { category: 'Apr', label: '$200K', value: 200_000 },
+          { category: 'January', label: '$50,000', value: 50_000 },
+          { category: 'February', label: '$100,000', value: 100_000 },
+          { category: 'March', label: '$150,000', value: 150_000 },
+          { category: 'April', label: '$200,000', value: 200_000 },
         ],
       },
     ],
@@ -217,15 +235,15 @@ export class BarChartDemoComponent {
       {
         label: 'Budget',
         data: [
-          { category: 'Revenue', label: '$120K', value: 120_000 },
-          { category: 'Expenses', label: '$85K', value: 85_000 },
+          { category: 'Revenue', label: '$120,000', value: 120_000 },
+          { category: 'Expenses', label: '$85,000', value: 85_000 },
         ],
       },
       {
         label: 'Actuals',
         data: [
-          { category: 'Revenue', label: '$115K', value: 115_000 },
-          { category: 'Expenses', label: '$78K', value: 78_000 },
+          { category: 'Revenue', label: '$115,000', value: 115_000 },
+          { category: 'Expenses', label: '$78,000', value: 78_000 },
         ],
       },
     ],
@@ -239,39 +257,48 @@ export class BarChartDemoComponent {
     series: [
       {
         label: 'Dataset 1',
-        data: ChartDemoUtils.numbers({ count: 7, min: 0, max: 100 }).map(
-          (value, index) => {
-            return {
-              category: ChartDemoUtils.months({ count: 7 })[index],
-              label: `$${value}`,
-              value,
-            };
-          },
-        ),
+        data: ChartDemoUtils.numbers({
+          count: 7,
+          min: 0,
+          max: 100,
+          decimals: 0,
+        }).map((value, index) => {
+          return {
+            category: ChartDemoUtils.months({ count: 7 })[index],
+            label: `$${value}`,
+            value,
+          };
+        }),
       },
       {
         label: 'Dataset 2',
-        data: ChartDemoUtils.numbers({ count: 7, min: 0, max: 100 }).map(
-          (value, index) => {
-            return {
-              category: ChartDemoUtils.months({ count: 7 })[index],
-              label: `$${value}`,
-              value,
-            };
-          },
-        ),
+        data: ChartDemoUtils.numbers({
+          count: 7,
+          min: 0,
+          max: 100,
+          decimals: 0,
+        }).map((value, index) => {
+          return {
+            category: ChartDemoUtils.months({ count: 7 })[index],
+            label: `$${value}`,
+            value,
+          };
+        }),
       },
       {
         label: 'Dataset 3',
-        data: ChartDemoUtils.numbers({ count: 7, min: 0, max: 100 }).map(
-          (value, index) => {
-            return {
-              category: ChartDemoUtils.months({ count: 7 })[index],
-              label: `$${value}`,
-              value,
-            };
-          },
-        ),
+        data: ChartDemoUtils.numbers({
+          count: 7,
+          min: 0,
+          max: 100,
+          decimals: 0,
+        }).map((value, index) => {
+          return {
+            category: ChartDemoUtils.months({ count: 7 })[index],
+            label: `$${value}`,
+            value,
+          };
+        }),
       },
     ],
     valueAxis: { label: 'Amount' },
@@ -284,10 +311,10 @@ export class BarChartDemoComponent {
       {
         label: 'Spending',
         data: [
-          { category: 'Jan', label: '$50K', value: 50_000 },
-          { category: 'Feb', label: '$100K', value: 100_000 },
-          { category: 'Mar', label: '$150K', value: 150_000 },
-          { category: 'Apr', label: '$200K', value: 200_000 },
+          { category: 'January', label: '$50,000', value: 50_000 },
+          { category: 'February', label: '$100,000', value: 100_000 },
+          { category: 'March', label: '$150,000', value: 150_000 },
+          { category: 'April', label: '$200,000', value: 200_000 },
         ],
       },
     ],
@@ -301,15 +328,15 @@ export class BarChartDemoComponent {
       {
         label: 'Budget',
         data: [
-          { category: 'Revenue', label: '$120K', value: 120_000 },
-          { category: 'Expenses', label: '$85K', value: 85_000 },
+          { category: 'Revenue', label: '$120,000', value: 120_000 },
+          { category: 'Expenses', label: '$85,000', value: 85_000 },
         ],
       },
       {
         label: 'Actuals',
         data: [
-          { category: 'Revenue', label: '$115K', value: 115_000 },
-          { category: 'Expenses', label: '$78K', value: 78_000 },
+          { category: 'Revenue', label: '$115,000', value: 115_000 },
+          { category: 'Expenses', label: '$78,000', value: 78_000 },
         ],
       },
     ],

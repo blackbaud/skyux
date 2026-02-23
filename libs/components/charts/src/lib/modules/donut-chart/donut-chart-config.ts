@@ -1,4 +1,9 @@
-import { ChartConfiguration, ChartDataset, ChartOptions } from 'chart.js';
+import {
+  ChartConfiguration,
+  ChartDataset,
+  ChartOptions,
+  TooltipItem,
+} from 'chart.js';
 
 import { SkyuxChartStyles } from '../shared/chart-styles';
 import { mergeChartConfig } from '../shared/global-chart-config';
@@ -28,7 +33,20 @@ export function getChartJsDonutChartConfig(
   };
 
   // Build Plugin options
-  const pluginOptions: ChartOptions['plugins'] = {};
+  const pluginOptions: ChartOptions['plugins'] = {
+    tooltip: {
+      callbacks: {
+        label(context) {
+          const { dataIndex } = context;
+          const dataset = skyConfig.series;
+          const dataPoint = dataset.data[dataIndex];
+
+          const percent = percentOfVisibleDataset(context);
+          return `${dataPoint.label} (${percent.toFixed(2)}%)`;
+        },
+      },
+    },
+  };
 
   // Build chart options
   const options = mergeChartConfig<'doughnut'>({
@@ -81,4 +99,20 @@ function getSkyuxDonutDatasetBorder(): {
     borderWidth: 2,
     borderColor: borderColor,
   };
+}
+
+function percentOfVisibleDataset(context: TooltipItem<'doughnut'>): number {
+  const value = Number(context.raw) || 0;
+  const chart = context.chart;
+
+  // Total up the visible data points in the dataset
+  const visibleTotal = context.dataset.data.reduce((sum, v, i) => {
+    if (!chart.getDataVisibility(i)) {
+      return sum;
+    }
+
+    return sum + (Number(v) || 0);
+  }, 0);
+
+  return visibleTotal ? (value / visibleTotal) * 100 : 0;
 }

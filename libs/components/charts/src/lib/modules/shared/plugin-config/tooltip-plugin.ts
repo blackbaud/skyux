@@ -1,8 +1,9 @@
 import { TooltipOptions } from 'chart.js';
 
 import { SkyuxChartStyles } from '../chart-styles';
+import { DeepPartial } from '../types/deep-partial-type';
 
-export function getTooltipPluginOptions(): Partial<TooltipOptions> {
+export function getTooltipPluginOptions(): DeepPartial<TooltipOptions> {
   return {
     enabled: true,
     mode: 'index',

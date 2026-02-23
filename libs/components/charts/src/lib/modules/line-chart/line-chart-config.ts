@@ -21,16 +21,16 @@ import { SkyLineChartConfig } from './line-chart-types';
  * Transforms a consumer-friendly SkyLineChartConfig into a ChartJS ChartConfiguration.
  */
 export function getChartJsLineChartConfig(
-  config: SkyLineChartConfig,
+  skyConfig: SkyLineChartConfig,
   callbacks: {
     onDataPointClick: (event: SkySelectedChartDataPoint) => void;
   },
 ): ChartConfiguration<'line'> {
   // Build categories from series data
-  const categories = parseCategories(config.series);
+  const categories = parseCategories(skyConfig.series);
 
   // Build datasets from series
-  const datasets = config.series.map((series) => {
+  const datasets = skyConfig.series.map((series) => {
     const byCategory = new Map<SkyCategory, number | null>();
 
     for (const p of series.data) {
@@ -50,7 +50,19 @@ export function getChartJsLineChartConfig(
   });
 
   // Build Plugin options
-  const pluginOptions: ChartOptions['plugins'] = {};
+  const pluginOptions: ChartOptions['plugins'] = {
+    tooltip: {
+      callbacks: {
+        label: function (context) {
+          const { datasetIndex, dataIndex } = context;
+          const dataset = skyConfig.series[datasetIndex];
+          const dataPoint = dataset.data[dataIndex];
+
+          return `${dataset.label}: ${dataPoint.label}`;
+        },
+      },
+    },
+  };
 
   // Build ChartJS options
   const options = mergeChartConfig<'line'>({
@@ -68,7 +80,7 @@ export function getChartJsLineChartConfig(
         pointStyle: 'circle',
       },
     },
-    scales: createScales(config),
+    scales: createScales(skyConfig),
     plugins: pluginOptions,
     onClick: (e, elements) => {
       if (elements.length === 0) {

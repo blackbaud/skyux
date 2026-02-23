@@ -73,30 +73,6 @@ export class ChartDemoUtils {
     return xs.map((x, i) => ({ x, y: ys[i] }));
   }
 
-  public static labels(config: {
-    min?: number;
-    max?: number;
-    count?: number;
-    decimals?: number;
-    prefix?: string;
-  }): string[] {
-    const cfg = config || {};
-    const min = cfg.min || 0;
-    const max = cfg.max || 100;
-    const count = cfg.count || 8;
-    const step = (max - min) / count;
-    const decimals = cfg.decimals || 8;
-    const dfactor = Math.pow(10, decimals) || 0;
-    const prefix = cfg.prefix || '';
-    const values = [];
-
-    for (let i = min; i < max; i += step) {
-      values.push(prefix + Math.round(dfactor * i) / dfactor);
-    }
-
-    return values;
-  }
-
   public static months(config: { count?: number; section?: number }): string[] {
     const cfg = config || {};
     const count = cfg.count || 12;

@@ -55,7 +55,19 @@ export function getChartJsBarChartConfig(
   });
 
   // Build Plugin options
-  const pluginOptions: ChartOptions['plugins'] = {};
+  const pluginOptions: ChartOptions['plugins'] = {
+    tooltip: {
+      callbacks: {
+        label: function (context) {
+          const { datasetIndex, dataIndex } = context;
+          const dataset = skyConfig.series[datasetIndex];
+          const dataPoint = dataset.data[dataIndex];
+
+          return `${dataset.label}: ${dataPoint.label}`;
+        },
+      },
+    },
+  };
 
   // Build chart options
   const options = mergeChartConfig<'bar'>({
