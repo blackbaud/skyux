@@ -4,8 +4,13 @@
 ## [14.0.0-alpha.2](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.1...14.0.0-alpha.2) (2026-02-23)
 
 
+### ⚠ BREAKING CHANGES
+
+* **components/grids:** replace `dragula` with `@angular/cdk/drag-drop` (#4224)
+
 ### Features
 
+* **components/grids:** replace `dragula` with `@angular/cdk/drag-drop` ([#4224](https://github.com/blackbaud/skyux/issues/4224)) ([6f96cb0](https://github.com/blackbaud/skyux/commit/6f96cb0c36bb6e006fbaf6c88fb87c78b43fec7e))
 * **components/text-editor:** update dompurify ([#4190](https://github.com/blackbaud/skyux/issues/4190)) ([8868e16](https://github.com/blackbaud/skyux/commit/8868e1628841f2f211e8987dff34bbcd544f9770)), closes [AB#3642976](https://dev.azure.com/blackbaud/Products/_workitems/edit/3642976) [AB#3691546](https://dev.azure.com/blackbaud/Products/_workitems/edit/3691546)
 * **sdk/testing:** remove support for older versions of axe-core ([#4215](https://github.com/blackbaud/skyux/issues/4215)) ([410a073](https://github.com/blackbaud/skyux/commit/410a073603cba6b4a5472bfc0ddb9eb741aa5717))
 * update ng2-dragula ([#4192](https://github.com/blackbaud/skyux/issues/4192)) ([2f5b748](https://github.com/blackbaud/skyux/commit/2f5b7481302277e3a308bc16e08e6bc4df39b4fe)), closes [AB#3642976](https://dev.azure.com/blackbaud/Products/_workitems/edit/3642976) [AB#3691547](https://dev.azure.com/blackbaud/Products/_workitems/edit/3691547)
