@@ -1,4 +1,9 @@
-import { DragDrop, DragRef, DropListRef } from '@angular/cdk/drag-drop';
+import {
+  DragRef,
+  DropListRef,
+  createDragRef,
+  createDropListRef,
+} from '@angular/cdk/drag-drop';
 import {
   AfterContentInit,
   AfterViewChecked,
@@ -8,6 +13,7 @@ import {
   ContentChildren,
   ElementRef,
   EventEmitter,
+  Injector,
   Input,
   OnChanges,
   OnDestroy,
@@ -120,9 +126,9 @@ export class SkyRepeaterComponent
 
   public role: SkyRepeaterRoleType | undefined;
 
-  #dragDrop = inject(DragDrop);
   #dragDropInitialized = false;
   #dragRefs: DragRef[] = [];
+  #injector = inject(Injector);
   #dropListRef: DropListRef | undefined;
   #ngUnsubscribe = new Subject<void>();
   #itemNameWarned = false;
@@ -311,7 +317,7 @@ export class SkyRepeaterComponent
 
     this.#destroyDragAndDrop();
 
-    this.#dropListRef = this.#dragDrop.createDropList(containerEl);
+    this.#dropListRef = createDropListRef(this.#injector, containerEl);
     this.#dropListRef.autoScrollDisabled = false;
 
     const scrollableHost = this.#scrollableHostSvc.getScrollableHost(
@@ -330,7 +336,7 @@ export class SkyRepeaterComponent
       const handleEl = itemEl.querySelector<HTMLElement>(
         '.sky-repeater-item-grab-handle',
       );
-      const dragRef = this.#dragDrop.createDrag(itemEl);
+      const dragRef = createDragRef(this.#injector, itemEl);
 
       if (handleEl) {
         dragRef.withHandles([handleEl]);
@@ -371,13 +377,18 @@ export class SkyRepeaterComponent
   }): void {
     const movedEl = event.item.getRootElement();
     const containerEl = event.container.element as HTMLElement;
+
+    // Remove the element first so the remaining children array
+    // reflects accurate indices for the insertion point.
+    movedEl.remove();
+
     const children = Array.from(
       containerEl.querySelectorAll(':scope > sky-repeater-item'),
     );
-    const nextSibling = children[event.currentIndex + 1];
+    const refChild = children[event.currentIndex];
 
-    if (nextSibling) {
-      containerEl.insertBefore(movedEl, nextSibling);
+    if (refChild) {
+      containerEl.insertBefore(movedEl, refChild);
     } else {
       containerEl.appendChild(movedEl);
     }

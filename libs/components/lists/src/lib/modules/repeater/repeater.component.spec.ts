@@ -1,4 +1,4 @@
-import { DragDrop } from '@angular/cdk/drag-drop';
+import { DragDropRegistry, DragRef, DropListRef } from '@angular/cdk/drag-drop';
 import {
   ComponentFixture,
   TestBed,
@@ -1514,29 +1514,28 @@ describe('Repeater item component', () => {
       const fixture = TestBed.createComponent(RepeaterTestComponent);
       fixture.componentInstance.reorderable = true;
 
-      // Get the root-injected DragDrop service and spy before afterNextRender fires.
-      const dragDrop = TestBed.inject(DragDrop);
-
-      const capturedDragRefs: any[] = [];
-      const origCreateDrag = dragDrop.createDrag.bind(dragDrop);
-      spyOn(dragDrop, 'createDrag').and.callFake((element: any) => {
-        const ref = origCreateDrag(element);
-        capturedDragRefs.push(ref);
-        return ref;
-      });
-
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
       tick();
 
-      expect(capturedDragRefs.length).toBeGreaterThan(0);
+      // Get the DragRef instances registered with the DragDropRegistry.
+      const registry = TestBed.inject(DragDropRegistry);
+      const dragRefs = Array.from(
+        (registry as unknown as { _dragInstances: Set<DragRef> })
+          ._dragInstances,
+      );
+
+      expect(dragRefs.length).toBeGreaterThan(0);
 
       const firstItemEl: HTMLElement =
         fixture.nativeElement.querySelectorAll('sky-repeater-item')[0];
 
       // Trigger the 'started' event on the first drag ref.
-      capturedDragRefs[0].started.next();
+      dragRefs[0].started.next({
+        source: dragRefs[0],
+        event: new MouseEvent('mousedown'),
+      });
       fixture.detectChanges();
 
       expect(
@@ -1544,7 +1543,12 @@ describe('Repeater item component', () => {
       ).toBeTrue();
 
       // Trigger the 'ended' event on the first drag ref.
-      capturedDragRefs[0].ended.next();
+      dragRefs[0].ended.next({
+        source: dragRefs[0],
+        distance: { x: 0, y: 0 },
+        dropPoint: { x: 0, y: 0 },
+        event: new MouseEvent('mouseup'),
+      });
       fixture.detectChanges();
 
       expect(
@@ -1559,42 +1563,35 @@ describe('Repeater item component', () => {
       const cmp = fixture.componentInstance;
       cmp.reorderable = true;
 
-      // Get the root-injected DragDrop service and spy before afterNextRender fires.
-      const dragDrop = TestBed.inject(DragDrop);
-
-      const capturedDragRefs: any[] = [];
-      let capturedDropListRef: any;
-      const origCreateDrag = dragDrop.createDrag.bind(dragDrop);
-      const origCreateDropList = dragDrop.createDropList.bind(dragDrop);
-
-      spyOn(dragDrop, 'createDrag').and.callFake((element: any) => {
-        const ref = origCreateDrag(element);
-        capturedDragRefs.push(ref);
-        return ref;
-      });
-      spyOn(dragDrop, 'createDropList').and.callFake((element: any) => {
-        const ref = origCreateDropList(element);
-        capturedDropListRef = ref;
-        return ref;
-      });
-
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
       tick();
 
-      expect(capturedDropListRef).toBeTruthy();
+      // Get the DropListRef and DragRef instances from the DragDropRegistry.
+      const registry = TestBed.inject(DragDropRegistry);
+      const dropListRefs = Array.from(
+        (registry as unknown as { _dropInstances: Set<DropListRef> })
+          ._dropInstances,
+      );
+      const dragRefs = Array.from(
+        (registry as unknown as { _dragInstances: Set<DragRef> })
+          ._dragInstances,
+      );
+
+      expect(dropListRefs.length).toBe(1);
       expect(cmp.sortedItemTags).toBeUndefined();
 
+      const dropListRef = dropListRefs[0];
       const containerEl = fixture.nativeElement.querySelector('.sky-repeater');
 
       // Simulate a CDK drop event: move item from index 0 to index 2.
-      capturedDropListRef.dropped.next({
-        item: capturedDragRefs[0],
-        container: capturedDropListRef,
+      dropListRef.dropped.next({
+        item: dragRefs[0],
+        container: dropListRef,
         previousIndex: 0,
         currentIndex: 2,
-        previousContainer: capturedDropListRef,
+        previousContainer: dropListRef,
         isPointerOverContainer: true,
         distance: { x: 0, y: 0 },
         dropPoint: { x: 0, y: 0 },
@@ -1620,36 +1617,31 @@ describe('Repeater item component', () => {
       const cmp = fixture.componentInstance;
       cmp.reorderable = true;
 
-      const dragDrop = TestBed.inject(DragDrop);
-
-      const capturedDragRefs: any[] = [];
-      let capturedDropListRef: any;
-      const origCreateDrag = dragDrop.createDrag.bind(dragDrop);
-      const origCreateDropList = dragDrop.createDropList.bind(dragDrop);
-
-      spyOn(dragDrop, 'createDrag').and.callFake((element: any) => {
-        const ref = origCreateDrag(element);
-        capturedDragRefs.push(ref);
-        return ref;
-      });
-      spyOn(dragDrop, 'createDropList').and.callFake((element: any) => {
-        const ref = origCreateDropList(element);
-        capturedDropListRef = ref;
-        return ref;
-      });
-
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
       tick();
+
+      // Get the DropListRef and DragRef instances from the DragDropRegistry.
+      const registry = TestBed.inject(DragDropRegistry);
+      const dropListRefs = Array.from(
+        (registry as unknown as { _dropInstances: Set<DropListRef> })
+          ._dropInstances,
+      );
+      const dragRefs = Array.from(
+        (registry as unknown as { _dragInstances: Set<DragRef> })
+          ._dragInstances,
+      );
+
+      const dropListRef = dropListRefs[0];
 
       // Drop item from index 2 to index 0 (inserts before existing item at index 0).
-      capturedDropListRef.dropped.next({
-        item: capturedDragRefs[2],
-        container: capturedDropListRef,
+      dropListRef.dropped.next({
+        item: dragRefs[2],
+        container: dropListRef,
         previousIndex: 2,
         currentIndex: 0,
-        previousContainer: capturedDropListRef,
+        previousContainer: dropListRef,
         isPointerOverContainer: true,
         distance: { x: 0, y: 0 },
         dropPoint: { x: 0, y: 0 },
@@ -1661,6 +1653,19 @@ describe('Repeater item component', () => {
 
       expect(cmp.sortedItemTags).toEqual(['item3', 'item1', 'item2']);
 
+      // Verify the DOM was reordered correctly: item3 moved to index 0.
+      const containerEl = fixture.nativeElement.querySelector('.sky-repeater');
+      const items = containerEl.querySelectorAll('sky-repeater-item');
+      expect(
+        items[0].querySelector('.sky-repeater-item-title')?.textContent?.trim(),
+      ).toContain('Title 3');
+      expect(
+        items[1].querySelector('.sky-repeater-item-title')?.textContent?.trim(),
+      ).toContain('Title 1');
+      expect(
+        items[2].querySelector('.sky-repeater-item-title')?.textContent?.trim(),
+      ).toContain('Title 2');
+
       flushDropdownTimer();
     }));
 
@@ -1669,32 +1674,33 @@ describe('Repeater item component', () => {
         RepeaterScrollableHostTestComponent,
       );
 
-      const dragDrop = TestBed.inject(DragDrop);
-
-      let capturedDropListRef: any;
-      const origCreateDropList = dragDrop.createDropList.bind(dragDrop);
-
-      spyOn(dragDrop, 'createDropList').and.callFake((element: any) => {
-        const ref = origCreateDropList(element);
-        spyOn(ref, 'withScrollableParents');
-        capturedDropListRef = ref;
-        return ref;
-      });
-
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
       tick();
 
-      expect(capturedDropListRef).toBeTruthy();
+      // Get the DropListRef instance from the DragDropRegistry.
+      const registry = TestBed.inject(DragDropRegistry);
+      const dropListRefs = Array.from(
+        (registry as unknown as { _dropInstances: Set<DropListRef> })
+          ._dropInstances,
+      );
+
+      expect(dropListRefs.length).toBe(1);
+
+      const dropListRef = dropListRefs[0];
+
+      // Verify the scrollable parent was registered by checking the
+      // DropListRef's internal _scrollableElements.
+      const scrollableElements = (
+        dropListRef as unknown as { _scrollableElements: HTMLElement[] }
+      )._scrollableElements;
 
       const scrollableDiv = fixture.nativeElement.querySelector(
         '[style*="overflow-y"]',
       );
 
-      expect(capturedDropListRef.withScrollableParents).toHaveBeenCalledWith([
-        scrollableDiv,
-      ]);
+      expect(scrollableElements).toContain(scrollableDiv);
 
       flushDropdownTimer();
     }));
