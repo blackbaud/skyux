@@ -3,6 +3,7 @@ import {
   EnvironmentInjector,
   ViewChild,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
@@ -18,15 +19,13 @@ let columnIdIndex = 0;
   hostDirectives: [SkyThemeComponentClassDirective],
 })
 export class SkyTileDashboardColumnComponent {
-  public columnId: string;
+  public readonly injector = inject(EnvironmentInjector);
+
+  public columnId = `tile-dashboard-column-${++columnIdIndex}`;
 
   @ViewChild('content', {
     read: ViewContainerRef,
     static: false,
   })
   public content: ViewContainerRef | undefined;
-
-  constructor(public injector: EnvironmentInjector) {
-    this.columnId = `tile-dashboard-column-${++columnIdIndex}`;
-  }
 }
