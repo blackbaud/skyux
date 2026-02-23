@@ -673,9 +673,7 @@ export class SkyTileDashboardService {
 
     // Get the tile elements currently in the target container (excluding the dragged item).
     const tileChildren = Array.from(
-      targetContainer.querySelectorAll(
-        `:scope > [${ATTR_TILE_ID}]`,
-      ),
+      targetContainer.querySelectorAll(`:scope > [${ATTR_TILE_ID}]`),
     ).filter((el) => el !== element);
 
     const referenceNode = tileChildren[event.currentIndex];
