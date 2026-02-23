@@ -20,7 +20,12 @@
   >
     <table #gridTable class="sky-grid-table" [ngClass]="getTableClassNames()">
       <thead>
-        <tr [dragula]="dragulaGroupName">
+        <tr
+          cdkDropList
+          cdkDropListOrientation="horizontal"
+          [cdkDropListData]="displayedColumns"
+          (cdkDropListDropped)="onColumnDropped($event)"
+        >
           @if (enableMultiselect) {
             <th
               class="sky-grid-heading sky-grid-multiselect-cell sky-grid-header-locked"
@@ -41,11 +46,13 @@
           ) {
             <th
               #gridCol
+              cdkDrag
               class="sky-grid-heading sky-field-label"
               scope="col"
               [attr.sky-cmp-index]="i"
               [attr.sky-cmp-id]="column.id || column.field"
               [attr.aria-sort]="getAriaSortDirection(column) | async"
+              [cdkDragDisabled]="column.locked"
               [id]="'sky-grid-' + gridId + '-column-' + i"
               [ngClass]="'sky-grid-column-alignment-' + column.alignment"
               [style.max-width.px]="column.width"
