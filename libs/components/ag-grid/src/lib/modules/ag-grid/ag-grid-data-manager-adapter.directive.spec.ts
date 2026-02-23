@@ -134,8 +134,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
       type: 'rowSelected',
       rowIndex: 0,
       api: {} as GridApi,
-      data: {} as any,
-
+      data: rowNode.data,
       rowPinned: null,
     } as RowSelectedEvent;
 
@@ -145,6 +144,8 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     agGridDataManagerFixture.detectChanges();
 
     agGridComponent.rowSelected.emit(rowSelected);
+    agGridDataManagerFixture.detectChanges();
+    await agGridDataManagerFixture.whenStable();
 
     expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
       newDataState,

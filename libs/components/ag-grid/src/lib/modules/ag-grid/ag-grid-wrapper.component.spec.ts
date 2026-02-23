@@ -74,9 +74,7 @@ describe('SkyAgGridWrapperComponent', () => {
       ],
     });
     gridFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
-    // Two cycles are required: the first triggers AG Grid's internal async
-    // initialization; the second resolves the resulting microtasks so the
-    // grid API is fully available before tests run.
+
     gridFixture.detectChanges();
     await gridFixture.whenStable();
     gridFixture.detectChanges();
