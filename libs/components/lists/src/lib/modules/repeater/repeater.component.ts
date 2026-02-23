@@ -126,16 +126,16 @@ export class SkyRepeaterComponent
 
   public role: SkyRepeaterRoleType | undefined;
 
-  #dragDropInitialized = false;
-  #dragRefs: DragRef[] = [];
-  #injector = inject(Injector);
+  #dragDropReady = false;
   #dropListRef: DropListRef | undefined;
+  #dragRefs: DragRef[] = [];
   #ngUnsubscribe = new Subject<void>();
   #itemNameWarned = false;
 
   #adapterService = inject(SkyRepeaterAdapterService);
   #changeDetector = inject(ChangeDetectorRef);
   #elementRef = inject(ElementRef);
+  readonly #injector = inject(Injector);
   #renderer = inject(Renderer2);
   #repeaterService = inject(SkyRepeaterService);
   #scrollableHostSvc = inject(SkyScrollableHostService);
@@ -179,7 +179,7 @@ export class SkyRepeaterComponent
 
     afterNextRender(() => {
       this.#initializeDragAndDrop();
-      this.#dragDropInitialized = true;
+      this.#dragDropReady = true;
     });
   }
 
@@ -202,7 +202,7 @@ export class SkyRepeaterComponent
 
           this.#updateReorderability();
 
-          if (this.#dragDropInitialized) {
+          if (this.#dragDropReady) {
             this.#initializeDragAndDrop();
           }
 
@@ -336,6 +336,7 @@ export class SkyRepeaterComponent
       const handleEl = itemEl.querySelector<HTMLElement>(
         '.sky-repeater-item-grab-handle',
       );
+
       const dragRef = createDragRef(this.#injector, itemEl);
 
       if (handleEl) {
@@ -385,6 +386,7 @@ export class SkyRepeaterComponent
     const children = Array.from(
       containerEl.querySelectorAll(':scope > sky-repeater-item'),
     );
+
     const refChild = children[event.currentIndex];
 
     if (refChild) {

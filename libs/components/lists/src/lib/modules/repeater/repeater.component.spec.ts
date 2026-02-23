@@ -122,14 +122,20 @@ describe('Repeater item component', () => {
     }
   }
 
+  function getRepeaterService(
+    fixture: ComponentFixture<unknown>,
+  ): SkyRepeaterService {
+    return fixture.debugElement
+      .query(By.css('sky-repeater'))
+      .injector.get(SkyRepeaterService);
+  }
+
   function validateRepeaterItemOrder(
     fixture: ComponentFixture<RepeaterTestComponent>,
     firstItemTag: string,
   ): void {
     const cmp = fixture.componentInstance;
-    const repeaterSvc = fixture.debugElement
-      .query(By.css('sky-repeater'))
-      .injector.get(SkyRepeaterService);
+    const repeaterSvc = getRepeaterService(fixture);
 
     const repeaterItems = cmp.repeater?.items?.toArray();
 
@@ -1816,9 +1822,7 @@ describe('Repeater item component', () => {
 
       // Simulate CDK drop by calling the repeater service directly
       // and emitting tags (same end result as a CDK drop event).
-      const repeaterService = fixture.debugElement
-        .query(By.css('sky-repeater'))
-        .injector.get(SkyRepeaterService);
+      const repeaterService = getRepeaterService(fixture);
 
       const repeaterItem: HTMLElement =
         el.querySelectorAll('sky-repeater-item')[0];
@@ -1849,9 +1853,7 @@ describe('Repeater item component', () => {
       expect(cmp.sortedItemTags).toBeUndefined();
 
       // Simulate reorder via service
-      const repeaterService = fixture.debugElement
-        .query(By.css('sky-repeater'))
-        .injector.get(SkyRepeaterService);
+      const repeaterService = getRepeaterService(fixture);
 
       const repeaterItem: HTMLElement =
         el.querySelectorAll('sky-repeater-item')[0];
@@ -2040,9 +2042,7 @@ describe('Repeater item component', () => {
       expect(cmp.sortedItemTags).toBeUndefined();
 
       // Simulate a CDK drop by calling the repeater service directly.
-      const repeaterService = fixture.debugElement
-        .query(By.css('sky-repeater'))
-        .injector.get(SkyRepeaterService);
+      const repeaterService = getRepeaterService(fixture);
 
       repeaterService.reorderItem(0, 2);
       repeaterService.registerOrderChange();
@@ -2064,9 +2064,7 @@ describe('Repeater item component', () => {
       expect(cmp.sortedItemTags).toBeUndefined();
 
       // Simulate a CDK drop by calling the repeater service directly.
-      const repeaterService = fixture.debugElement
-        .query(By.css('sky-repeater'))
-        .injector.get(SkyRepeaterService);
+      const repeaterService = getRepeaterService(fixture);
 
       repeaterService.reorderItem(0, 2);
       repeaterService.registerOrderChange();
