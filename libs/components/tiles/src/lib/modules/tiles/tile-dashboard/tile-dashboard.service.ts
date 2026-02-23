@@ -690,9 +690,7 @@ export class SkyTileDashboardService {
   #initDragDrop(): void {
     this.#disposeDragDrop();
 
-    const allColumns = this.#columns!.toArray();
-
-    for (const column of allColumns) {
+    this.#columns?.forEach((column) => {
       const columnEl = this.#getColumnEl(column);
 
       if (columnEl) {
@@ -709,7 +707,7 @@ export class SkyTileDashboardService {
 
         this.#dropListRefs.push(dropListRef);
       }
-    }
+    });
 
     // Connect all drop lists for cross-column dragging.
     for (const ref of this.#dropListRefs) {
