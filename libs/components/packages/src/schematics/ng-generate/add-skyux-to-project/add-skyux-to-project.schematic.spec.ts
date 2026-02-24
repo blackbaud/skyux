@@ -56,8 +56,6 @@ describe(SCHEMATIC_NAME, () => {
     ).toEqual([
       '@skyux/icons',
       'autonumeric',
-      'dom-autoscroller',
-      'dragula',
       'fontfaceobserver',
       'intl-tel-input',
       'moment',
