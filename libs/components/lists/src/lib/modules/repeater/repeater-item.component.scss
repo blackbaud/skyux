@@ -428,10 +428,8 @@ sky-repeater-item {
     }
   }
 
-  .sky-repeater-item-collapsed {
-    .sky-repeater-item-content {
-      @include animations.sky-animation-slide();
-    }
+  .sky-repeater-item-content {
+    @include animations.sky-animation-slide();
   }
 
   .sky-repeater-item-grab-handle {

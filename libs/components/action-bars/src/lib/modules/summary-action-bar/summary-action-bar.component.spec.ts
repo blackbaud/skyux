@@ -59,6 +59,7 @@ describe('Summary Action Bar component', () => {
     const summaryEl = debugElement.query(
       By.css('.sky-summary-action-bar-summary'),
     )?.nativeElement as HTMLElement;
+
     summaryEl.dispatchEvent(
       new TransitionEvent('transitionend', {
         propertyName: 'grid-template-rows',
@@ -70,6 +71,7 @@ describe('Summary Action Bar component', () => {
     const summaryEl = debugElement.query(
       By.css('.sky-summary-action-bar-summary'),
     )?.nativeElement as HTMLElement;
+
     summaryEl.dispatchEvent(new TransitionEvent('transitionstart', {}));
   }
 
@@ -409,20 +411,26 @@ describe('Summary Action Bar component', () => {
     describe('animations', () => {
       it('should ignore transitionend for non-grid-template-rows properties', fakeAsync(() => {
         fixture.detectChanges();
+
         mediaQueryController.setBreakpoint('xs');
         fixture.detectChanges();
+
         clickCollapseButton(debugElement);
         fixture.detectChanges();
+
         // Dispatch a transitionend with a different property name.
         const summaryEl = debugElement.query(
           By.css('.sky-summary-action-bar-summary'),
         )?.nativeElement as HTMLElement;
+
         summaryEl.dispatchEvent(
           new TransitionEvent('transitionend', {
             propertyName: 'visibility',
           }),
         );
+
         fixture.detectChanges();
+
         // isSummaryCollapsed should still be false because the handler returned early.
         expect(cmp.summaryActionBar?.isSummaryCollapsed()).toBeFalsy();
       }));
@@ -747,14 +755,18 @@ describe('Summary Action Bar component', () => {
     describe('animations', () => {
       it('should restyle body element after collapsing the summary', fakeAsync(() => {
         fixture.detectChanges();
+
         mediaQueryController.setBreakpoint('xs');
         fixture.detectChanges();
+
         clickCollapseButton(debugElement);
         fixture.detectChanges();
+
         dispatchTransitionEnd(debugElement);
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
+
         // Verify the body margin was updated after the transition ended.
         expect(document.body.style.marginBottom).toContain(
           'var(--sky-dock-height, 0px)',

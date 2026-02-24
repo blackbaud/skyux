@@ -99,6 +99,8 @@
     [class.sky-animation-slide-down]="!isCollapsed"
     [class.sky-animation-slide-up]="isCollapsed"
   >
-    <ng-content select="sky-tile-content" />
+    <div class="sky-animation-target">
+      <ng-content select="sky-tile-content" />
+    </div>
   </div>
 </section>

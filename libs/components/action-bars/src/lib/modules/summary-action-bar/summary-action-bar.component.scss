@@ -82,6 +82,7 @@
 .sky-summary-action-bar-summary {
   margin: var(--sky-override-summary-action-bar-summary-margin);
   border-left: var(--sky-override-summary-action-bar-summary-border-left, none);
+
   @include animations.sky-animation-slide();
 
   &.sky-animation-slide-up {

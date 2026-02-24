@@ -26,9 +26,6 @@ let nextId = 0;
   templateUrl: './vertical-tab.component.html',
   styleUrls: ['./vertical-tab.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    style: 'display: block; overflow: hidden',
-  },
   standalone: false,
 })
 export class SkyVerticalTabComponent implements OnInit, OnDestroy {
