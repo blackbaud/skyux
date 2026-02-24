@@ -1,0 +1,73 @@
+<sky-page layout="blocks">
+  <sky-page-header pageTitle="Block page data grid" />
+  <sky-page-links>
+    <sky-link-list>
+      <sky-link-list-item>
+        <a routerLink="/components/pages/layouts/fit-page-data-grid"
+          >Fit page layout with data grid</a
+        >
+      </sky-link-list-item>
+    </sky-link-list>
+  </sky-page-links>
+  <sky-page-content>
+    <sky-fluid-grid gutterSize="medium" [disableMargin]="true">
+      <sky-row>
+        <sky-column [screenSmall]="12">
+          <sky-box class="sky-margin-stacked-xl" headingText="What is this?">
+            <sky-box-content>
+              This page demonstrates data grids using the "domLayout: 'normal'"
+              configuration, which allows for row virtualization on large data
+              sets.
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
+      </sky-row>
+      <sky-row>
+        <sky-column [screenSmall]="6">
+          <sky-box
+            class="sky-margin-stacked-xl"
+            headingText="Course catalog wrapped in a data manager"
+          >
+            <sky-box-content>
+              <div style="height: 550px; position: relative">
+                <app-course-catalog dataManager />
+              </div>
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
+        <sky-column [screenSmall]="6">
+          <sky-box
+            class="sky-margin-stacked-xl"
+            headingText="Course catalog without data manager"
+          >
+            <sky-box-content>
+              <div style="height: 550px; position: relative">
+                <app-course-catalog />
+              </div>
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
+      </sky-row>
+      <sky-row>
+        <sky-column [screenSmall]="12">
+          <sky-box class="sky-margin-stacked-xl" headingText="Museum data">
+            <sky-box-content>
+              <div style="height: 550px; position: relative; overflow-y: auto">
+                <app-data-manager-large [domLayout]="'normal'" />
+              </div>
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
+      </sky-row>
+      <sky-row>
+        <sky-column [screenSmall]="12">
+          <sky-box class="sky-margin-stacked-xl" headingText="Lorem ipsum">
+            <sky-box-content>
+              <app-lipsum />
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
+      </sky-row>
+    </sky-fluid-grid>
+  </sky-page-content>
+</sky-page>

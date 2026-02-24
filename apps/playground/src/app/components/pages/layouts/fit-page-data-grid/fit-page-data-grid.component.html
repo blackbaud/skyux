@@ -1,0 +1,33 @@
+<sky-page layout="fit">
+  <sky-page-header pageTitle="Fit page data grid">
+    <sky-page-header-actions>
+      @for (option of options; track option[0]) {
+        <button
+          type="button"
+          class="sky-btn sky-btn-default sky-margin-inline-md"
+          [routerLink]="['.']"
+          [queryParams]="{ show: option[0] }"
+          [disabled]="option[0] === show()"
+        >
+          {{ option[1] }}
+        </button>
+      }
+      <a routerLink="/components/pages/layouts/blocks-page-data-grid"
+        >Block page layout with data grid</a
+      >
+    </sky-page-header-actions>
+  </sky-page-header>
+  <sky-page-content>
+    @switch (show()) {
+      @case ('courseCatalog') {
+        <app-course-catalog dataManager />
+      }
+      @case ('courseCatalogNoDm') {
+        <app-course-catalog />
+      }
+      @case ('museum') {
+        <app-data-manager-large dock="fill" [domLayout]="'normal'" />
+      }
+    }
+  </sky-page-content>
+</sky-page>

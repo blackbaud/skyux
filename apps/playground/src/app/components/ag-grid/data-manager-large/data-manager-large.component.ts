@@ -4,8 +4,9 @@ import {
   HostBinding,
   Input,
   OnInit,
-  ViewEncapsulation,
+  computed,
   inject,
+  input,
   model,
   viewChild,
 } from '@angular/core';
@@ -66,8 +67,11 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 @Component({
   selector: 'app-data-manager-large',
   templateUrl: './data-manager-large.component.html',
-  styleUrls: ['./data-manager-large.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+  styles: `
+    ::ng-deep fieldset {
+      display: inline;
+    }
+  `,
   imports: [
     AgGridModule,
     CommonModule,
@@ -91,19 +95,29 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 export class DataManagerLargeComponent implements OnInit {
   @HostBinding('class.use-normal-dom-layout')
   public get useNormalDomLayout(): boolean {
-    return this.domLayout === 'normal';
+    return this.domLayout() === 'normal';
   }
 
   @HostBinding('class.use-auto-height-dom-layout')
   public get useAutoHeightDomLayout(): boolean {
-    return this.domLayout === 'autoHeight';
+    return this.domLayout() === 'autoHeight';
   }
 
   @Input()
   public compact = false;
 
-  @Input()
-  public domLayout: 'normal' | 'autoHeight' | 'print' = 'autoHeight';
+  public readonly dock = input<'none' | 'fill'>('none');
+  public readonly domLayout = model<'normal' | 'autoHeight' | 'print'>(
+    'autoHeight',
+  );
+  protected readonly dockComputed = computed(() => {
+    const dock = this.dock();
+    const domLayout = this.domLayout();
+    if (dock === 'none' && domLayout === 'normal') {
+      return 'fill';
+    }
+    return dock;
+  });
 
   @Input()
   public enableTopScroll = true;
@@ -175,7 +189,7 @@ export class DataManagerLargeComponent implements OnInit {
       useColumnGroups: formBuilder.nonNullable.control(this.useColumnGroups),
       showSelect: formBuilder.nonNullable.control(this.showSelect),
       showDelete: formBuilder.nonNullable.control(this.showDelete),
-      domLayout: formBuilder.nonNullable.control(this.domLayout),
+      domLayout: formBuilder.nonNullable.control(this.domLayout()),
       compact: formBuilder.nonNullable.control(this.compact),
       wrapText: formBuilder.nonNullable.control(this.wrapText),
       autoHeightColumns: formBuilder.nonNullable.control(
@@ -187,7 +201,7 @@ export class DataManagerLargeComponent implements OnInit {
   public ngOnInit(): void {
     this.gridSettings.setValue({
       enableTopScroll: this.enableTopScroll,
-      domLayout: this.domLayout,
+      domLayout: this.domLayout(),
       autoHeightColumns: this.autoHeightColumns,
       wrapText: this.wrapText,
       compact: this.compact,
@@ -214,7 +228,7 @@ export class DataManagerLargeComponent implements OnInit {
       iconName: 'table',
       searchEnabled: false,
       sortEnabled: true,
-      multiselectToolbarEnabled: true,
+      multiselectToolbarEnabled: false,
       columnPickerEnabled: true,
       filterButtonEnabled: true,
       showFilterButtonText: true,
@@ -234,7 +248,7 @@ export class DataManagerLargeComponent implements OnInit {
       this.showSelect = !!value.showSelect;
       this.showDelete = !!value.showDelete;
       this.useColumnGroups = !!value.useColumnGroups;
-      this.domLayout = value.domLayout ?? 'autoHeight';
+      this.domLayout.set(value.domLayout ?? 'autoHeight');
       this.compact = !!value.compact;
       this.wrapText = !!value.wrapText;
       this.autoHeightColumns = !!value.autoHeightColumns;
@@ -286,7 +300,7 @@ export class DataManagerLargeComponent implements OnInit {
             ? columnDefinitionsGrouped
             : columnDefinitions.map((col) => {
                 if (col.field === 'object_name') {
-                  col.rowDrag = this.domLayout === 'normal';
+                  col.rowDrag = this.domLayout() === 'normal';
                 }
                 return col;
               })),
@@ -299,12 +313,12 @@ export class DataManagerLargeComponent implements OnInit {
         context: {
           enableTopScroll: this.enableTopScroll,
         },
-        domLayout: this.domLayout,
+        domLayout: this.domLayout(),
         defaultColDef: {
           wrapText: this.wrapText,
           autoHeight: this.autoHeightColumns,
         },
-        rowDragManaged: !this.useColumnGroups && this.domLayout === 'normal',
+        rowDragManaged: !this.useColumnGroups && this.domLayout() === 'normal',
       },
     });
   }

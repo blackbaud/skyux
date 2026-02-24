@@ -27,13 +27,7 @@ import { SkyDataManagerState } from './models/data-manager-state';
   templateUrl: './data-view.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [SkyResponsiveHostDirective, SkyTextHighlightDirective],
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-    `,
-  ],
+  styleUrl: './data-view.component.scss',
 })
 export class SkyDataViewComponent implements OnDestroy, OnInit {
   /**

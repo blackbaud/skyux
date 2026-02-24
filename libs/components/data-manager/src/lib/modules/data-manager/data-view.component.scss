@@ -1,0 +1,11 @@
+:host {
+  display: block;
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+:host-context(.sky-data-manager-dock-fill.sky-data-manager) {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
