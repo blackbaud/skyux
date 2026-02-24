@@ -9,6 +9,7 @@ import { NestedRepeaterTestComponent } from './nested-repeater.component.fixture
 import { RepeaterAsyncItemsTestComponent } from './repeater-async-items.component.fixture';
 import { RepeaterInlineFormFixtureComponent } from './repeater-inline-form.component.fixture';
 import { RepeaterWithMissingTagsFixtureComponent } from './repeater-missing-tag.fixture';
+import { RepeaterScrollableHostTestComponent } from './repeater-scrollable-host.component.fixture';
 import { RepeaterTestComponent } from './repeater.component.fixture';
 
 @NgModule({
@@ -16,6 +17,7 @@ import { RepeaterTestComponent } from './repeater.component.fixture';
     RepeaterAsyncItemsTestComponent,
     RepeaterInlineFormFixtureComponent,
     RepeaterTestComponent,
+    RepeaterScrollableHostTestComponent,
     RepeaterWithMissingTagsFixtureComponent,
     NestedRepeaterTestComponent,
     A11yRepeaterTestComponent,
@@ -25,6 +27,7 @@ import { RepeaterTestComponent } from './repeater.component.fixture';
     RepeaterAsyncItemsTestComponent,
     RepeaterInlineFormFixtureComponent,
     RepeaterTestComponent,
+    RepeaterScrollableHostTestComponent,
     RepeaterWithMissingTagsFixtureComponent,
     NestedRepeaterTestComponent,
     A11yRepeaterTestComponent,
