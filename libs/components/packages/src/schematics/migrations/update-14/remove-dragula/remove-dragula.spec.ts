@@ -114,6 +114,36 @@ export class AutoscrollerComponent {
     expect(updatedPackageJson.dependencies['dom-autoscroller']).toBe('3.0.0');
   });
 
+  it('should remove unused packages while keeping used ones', async () => {
+    const { runSchematic, tree } = await setup();
+
+    const packageJson = JSON.parse(tree.readText('/package.json'));
+    packageJson.dependencies['dragula'] = '1.0.0';
+    packageJson.dependencies['ng2-dragula'] = '2.0.0';
+    packageJson.dependencies['dom-autoscroller'] = '3.0.0';
+    tree.overwrite('/package.json', JSON.stringify(packageJson, null, 2));
+
+    // Create files that import ng2-dragula and dom-autoscroller, but not dragula
+    tree.create(
+      '/src/app/dragula.component.ts',
+      `import { DragulaService } from 'ng2-dragula';`,
+    );
+    tree.create(
+      '/src/app/autoscroller.component.ts',
+      `import autoScroll from 'dom-autoscroller';`,
+    );
+
+    const updatedTree = await runSchematic();
+
+    const updatedPackageJson = JSON.parse(
+      updatedTree.readText('/package.json'),
+    );
+
+    expect(updatedPackageJson.dependencies['dragula']).toBeUndefined();
+    expect(updatedPackageJson.dependencies['ng2-dragula']).toBe('2.0.0');
+    expect(updatedPackageJson.dependencies['dom-autoscroller']).toBe('3.0.0');
+  });
+
   it('should succeed if dragula packages are not installed', async () => {
     const { runSchematic } = await setup();
 

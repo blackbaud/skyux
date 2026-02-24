@@ -4,11 +4,6 @@ import { getDependency } from '@schematics/angular/utility/dependency';
 import { removeUnusedDependencies } from '../../../rules/remove-unused-dependencies';
 import { JsonFile } from '../../../utility/json-file';
 
-interface PackageJson {
-  overrides?: Record<string, unknown>;
-  [key: string]: unknown;
-}
-
 const NG2_DRAGULA = 'ng2-dragula';
 
 /**
@@ -35,38 +30,31 @@ function removeNg2DragulaOverrides(): Rule {
       return tree;
     }
 
-    // Don't remove overrides if the package is still in use
     if (getDependency(tree, NG2_DRAGULA)) {
       return tree;
     }
 
     const jsonFile = new JsonFile(tree, packageJsonPath);
-    const packageJson = jsonFile.get([]) as PackageJson;
+    const overrides = jsonFile.get(['overrides']) as
+      | Record<string, unknown>
+      | undefined;
 
-    if (!packageJson.overrides || typeof packageJson.overrides !== 'object') {
+    if (!overrides || typeof overrides !== 'object') {
       return tree;
     }
 
-    let hasChanges = false;
-    const overrideKeys = Object.keys(packageJson.overrides);
-
-    for (const overrideKey of overrideKeys) {
+    for (const overrideKey of Object.keys(overrides)) {
       if (overrideKey.startsWith(NG2_DRAGULA)) {
-        delete packageJson.overrides[overrideKey];
-        hasChanges = true;
+        jsonFile.remove(['overrides', overrideKey]);
       }
     }
 
-    // If overrides is now empty, remove the entire overrides section
-    if (Object.keys(packageJson.overrides).length === 0) {
-      delete packageJson.overrides;
-    }
+    const remainingOverrides = jsonFile.get(['overrides']) as
+      | Record<string, unknown>
+      | undefined;
 
-    if (hasChanges) {
-      tree.overwrite(
-        packageJsonPath,
-        JSON.stringify(packageJson, null, '\t') + '\n',
-      );
+    if (remainingOverrides && Object.keys(remainingOverrides).length === 0) {
+      jsonFile.remove(['overrides']);
     }
 
     return tree;

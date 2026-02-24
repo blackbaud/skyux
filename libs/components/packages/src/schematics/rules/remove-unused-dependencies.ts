@@ -17,7 +17,6 @@ export function removeUnusedDependencies(
 ): Rule {
   return async (tree) => {
     const workspace = await getWorkspace(tree);
-
     const packages = Array.isArray(packageNames)
       ? packageNames
       : [packageNames];
