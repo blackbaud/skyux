@@ -12,7 +12,7 @@
   <sky-page-content>
     <sky-fluid-grid gutterSize="medium" [disableMargin]="true">
       <sky-row>
-        <sky-column [screenSmall]="12">
+        <sky-column [screenMedium]="12">
           <sky-box class="sky-margin-stacked-xl" headingText="What is this?">
             <sky-box-content>
               This page demonstrates data grids using the "domLayout: 'normal'"
@@ -23,7 +23,7 @@
         </sky-column>
       </sky-row>
       <sky-row>
-        <sky-column [screenSmall]="6">
+        <sky-column [screenMedium]="6">
           <sky-box
             class="sky-margin-stacked-xl"
             headingText="Course catalog wrapped in a data manager"
@@ -35,7 +35,7 @@
             </sky-box-content>
           </sky-box>
         </sky-column>
-        <sky-column [screenSmall]="6">
+        <sky-column [screenMedium]="6">
           <sky-box
             class="sky-margin-stacked-xl"
             headingText="Course catalog without data manager"
@@ -49,10 +49,10 @@
         </sky-column>
       </sky-row>
       <sky-row>
-        <sky-column [screenSmall]="12">
+        <sky-column [screenMedium]="12">
           <sky-box class="sky-margin-stacked-xl" headingText="Museum data">
             <sky-box-content>
-              <div style="height: 550px; position: relative; overflow-y: auto">
+              <div style="height: 550px; position: relative">
                 <app-data-manager-large [domLayout]="'normal'" />
               </div>
             </sky-box-content>
@@ -60,7 +60,7 @@
         </sky-column>
       </sky-row>
       <sky-row>
-        <sky-column [screenSmall]="12">
+        <sky-column [screenMedium]="12">
           <sky-box class="sky-margin-stacked-xl" headingText="Lorem ipsum">
             <sky-box-content>
               <app-lipsum />

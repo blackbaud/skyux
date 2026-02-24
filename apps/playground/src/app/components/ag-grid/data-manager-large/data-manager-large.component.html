@@ -1,96 +1,109 @@
-<sky-data-manager [dock]="dockComputed()">
-  <ng-container [formGroup]="gridSettings">
-    <sky-data-manager-toolbar>
-      <sky-data-manager-toolbar-primary-item>
-        <sky-checkbox
-          formControlName="enableTopScroll"
-          iconName="arrow-fit"
-          title="Top scroll"
-          labelText="Top scroll"
-          labelHidden
-        />
-        <sky-checkbox
-          formControlName="useColumnGroups"
-          iconName="group"
-          title="Use column groups"
-          labelText="Use column groups"
-          labelHidden
-        />
-        <sky-checkbox
-          formControlName="wrapText"
-          iconName="text-align-left"
-          title="Wrap text"
-          labelText="Wrap text"
-          labelHidden
-        />
-        <sky-checkbox
-          formControlName="autoHeightColumns"
-          iconName="arrow-maximize"
-          title="Autoheight columns"
-          labelText="Autoheight columns"
-          labelHidden
-        />
-        <sky-checkbox
-          formControlName="compact"
-          iconName="crop"
-          title="Compact layout"
-          labelText="Compact layout"
-          labelHidden
-        />
-        <sky-checkbox
-          formControlName="showDelete"
-          iconName="delete"
-          title="Delete button"
-          labelText="Delete button"
-          labelHidden
-        />
-        <sky-radio-group
-          labelText="DOM layout"
-          labelHidden
-          formControlName="domLayout"
-          class="sky-switch-icon-group"
-        >
-          <sky-radio
-            iconName="square"
-            title="Normal DOM layout"
-            labelText="Normal"
+<ng-template #content>
+  <sky-data-manager [dock]="dockComputed()">
+    <ng-container [formGroup]="gridSettings">
+      <sky-data-manager-toolbar>
+        <sky-data-manager-toolbar-primary-item>
+          <sky-checkbox
+            formControlName="enableTopScroll"
+            iconName="arrow-fit"
+            title="Top scroll"
+            labelText="Top scroll"
             labelHidden
-            value="normal"
           />
-          <sky-radio
+          <sky-checkbox
+            formControlName="useColumnGroups"
+            iconName="group"
+            title="Use column groups"
+            labelText="Use column groups"
+            labelHidden
+          />
+          <sky-checkbox
+            formControlName="wrapText"
+            iconName="text-align-left"
+            title="Wrap text"
+            labelText="Wrap text"
+            labelHidden
+          />
+          <sky-checkbox
+            formControlName="autoHeightColumns"
             iconName="arrow-maximize"
-            title="Auto-height DOM layout"
-            labelText="Auto-height"
+            title="Autoheight columns"
+            labelText="Autoheight columns"
             labelHidden
-            value="autoHeight"
           />
-        </sky-radio-group>
-      </sky-data-manager-toolbar-primary-item>
-      <sky-data-manager-toolbar-primary-item>
-        <sky-dropdown buttonStyle="link">
-          <sky-dropdown-button> Show dropdown </sky-dropdown-button>
-          <sky-dropdown-menu>
-            <sky-dropdown-item>
-              <button type="button" click>Option 1</button>
-            </sky-dropdown-item>
-            <sky-dropdown-item>
-              <button type="button">Option 2</button>
-            </sky-dropdown-item>
-          </sky-dropdown-menu>
-        </sky-dropdown>
-      </sky-data-manager-toolbar-primary-item>
-    </sky-data-manager-toolbar>
-  </ng-container>
-  <sky-data-view skyAgGridDataManagerAdapter [viewId]="viewId">
-    @if (isActive$ | async) {
-      <sky-ag-grid-wrapper
-        skyAgGridRowDelete
-        [compact]="compact"
-        [(rowDeleteIds)]="rowDeleteIds"
-        (rowDeleteConfirm)="deleteConfirm($event)"
-      >
-        <ag-grid-angular [gridOptions]="gridOptions" [rowData]="items" />
-      </sky-ag-grid-wrapper>
-    }
-  </sky-data-view>
-</sky-data-manager>
+          <sky-checkbox
+            formControlName="compact"
+            iconName="crop"
+            title="Compact layout"
+            labelText="Compact layout"
+            labelHidden
+          />
+          <sky-checkbox
+            formControlName="showDelete"
+            iconName="delete"
+            title="Delete button"
+            labelText="Delete button"
+            labelHidden
+          />
+          <sky-radio-group
+            labelText="DOM layout"
+            labelHidden
+            formControlName="domLayout"
+            class="sky-switch-icon-group"
+            style="display: inline-block"
+          >
+            <sky-radio
+              iconName="square"
+              title="Normal DOM layout"
+              labelText="Normal"
+              labelHidden
+              value="normal"
+            />
+            <sky-radio
+              iconName="arrow-maximize"
+              title="Auto-height DOM layout"
+              labelText="Auto-height"
+              labelHidden
+              value="autoHeight"
+            />
+          </sky-radio-group>
+        </sky-data-manager-toolbar-primary-item>
+        <sky-data-manager-toolbar-primary-item>
+          <sky-dropdown buttonStyle="link">
+            <sky-dropdown-button> Show dropdown </sky-dropdown-button>
+            <sky-dropdown-menu>
+              <sky-dropdown-item>
+                <button type="button" click>Option 1</button>
+              </sky-dropdown-item>
+              <sky-dropdown-item>
+                <button type="button">Option 2</button>
+              </sky-dropdown-item>
+            </sky-dropdown-menu>
+          </sky-dropdown>
+        </sky-data-manager-toolbar-primary-item>
+      </sky-data-manager-toolbar>
+    </ng-container>
+    <sky-data-view skyAgGridDataManagerAdapter [viewId]="viewId">
+      @if (isActive$ | async) {
+        <sky-ag-grid-wrapper
+          skyAgGridRowDelete
+          [compact]="compact()"
+          [(rowDeleteIds)]="rowDeleteIds"
+          (rowDeleteConfirm)="deleteConfirm($event)"
+        >
+          <ag-grid-angular [gridOptions]="gridOptions" [rowData]="items" />
+        </sky-ag-grid-wrapper>
+      }
+    </sky-data-view>
+  </sky-data-manager>
+</ng-template>
+
+@if (isActiveRoute) {
+  <sky-page layout="fit">
+    <sky-page-content>
+      <ng-container *ngTemplateOutlet="content" />
+    </sky-page-content>
+  </sky-page>
+} @else {
+  <ng-container *ngTemplateOutlet="content" />
+}

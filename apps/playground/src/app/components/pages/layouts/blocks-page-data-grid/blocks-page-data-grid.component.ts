@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { SkyBoxModule, SkyFluidGridModule } from '@skyux/layout';
@@ -29,6 +29,7 @@ import { CourseCatalogComponent } from '../shared/course-catalog/course-catalog'
       overflow-y: auto;
     }
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BlocksPageDataGridComponent {
   protected readonly options = [

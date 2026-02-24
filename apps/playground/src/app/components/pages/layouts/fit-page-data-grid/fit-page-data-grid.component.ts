@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { SkyPageModule } from '@skyux/pages';
@@ -17,6 +17,7 @@ import { CourseCatalogComponent } from '../shared/course-catalog/course-catalog'
     RouterLink,
   ],
   templateUrl: './fit-page-data-grid.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FitPageDataGridComponent {
   protected readonly options = [
