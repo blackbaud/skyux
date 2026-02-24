@@ -159,15 +159,18 @@ export class SkyAgGridService {
     this.#resources?.getString(
       'sky_ag_grid_cell_renderer_currency_validator_message',
     ) ?? of('Please enter a valid currency'),
+    { initialValue: 'Please enter a valid currency' },
   );
   readonly #numberValidatorMsg = toSignal(
     this.#resources?.getString(
       'sky_ag_grid_cell_renderer_number_validator_message',
     ) ?? of('Please enter a valid number'),
+    { initialValue: 'Please enter a valid number' },
   );
   readonly #rowSelectorHeading = toSignal(
     this.#resources?.getString('sky_ag_grid_row_selector_column_heading') ??
-      of(''),
+      of('Row selection'),
+    { initialValue: 'Row selection' },
   );
 
   /**
@@ -479,7 +482,7 @@ export class SkyAgGridService {
           },
           cellRenderer: SkyAgGridCellRendererRowSelectorComponent,
           headerComponent: SkyAgGridHeaderRowSelectorComponent,
-          headerName: this.#rowSelectorHeading() || 'Row selection',
+          headerValueGetter: () => this.#rowSelectorHeading(),
           minWidth: 55,
           maxWidth: 55,
           resizable: false,

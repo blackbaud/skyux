@@ -1134,7 +1134,10 @@ describe('SkyAgGridService', () => {
         gridOptions: {},
       });
 
-      expect(options.columnTypes?.[SkyCellType.RowSelector].headerName).toEqual(
+      const headerValueGetter =
+        options.columnTypes?.[SkyCellType.RowSelector].headerValueGetter;
+      expect(typeof headerValueGetter).toBe('function');
+      expect((headerValueGetter as CallableFunction)()).toEqual(
         'Row selection',
       );
     });
