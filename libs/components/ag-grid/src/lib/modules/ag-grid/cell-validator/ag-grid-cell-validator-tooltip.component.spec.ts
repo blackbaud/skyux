@@ -62,7 +62,7 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
     fixture.detectChanges();
     expect(fixture.componentInstance).toBeTruthy();
 
-    component.tooltip()?.showPopover();
+    fixture.nativeElement.dispatchEvent(new Event('mouseenter'));
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -126,7 +126,7 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
     await fixture.whenStable();
     expect(fixture.componentInstance).toBeTruthy();
 
-    component.tooltip()?.showPopover();
+    fixture.nativeElement.dispatchEvent(new Event('mouseenter'));
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -160,7 +160,7 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
       fixture.debugElement.query(By.css('.sky-validator-cell')),
     ).toBeTruthy();
 
-    component.tooltip()?.showPopover();
+    fixture.nativeElement.dispatchEvent(new Event('mouseenter'));
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -207,7 +207,7 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
     await fixture.whenStable();
     expect(fixture.componentInstance).toBeTruthy();
 
-    component.tooltip()?.showPopover();
+    fixture.nativeElement.dispatchEvent(new Event('mouseenter'));
     fixture.detectChanges();
     await fixture.whenStable();
 

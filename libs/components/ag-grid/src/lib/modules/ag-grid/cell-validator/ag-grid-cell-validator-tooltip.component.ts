@@ -1,12 +1,11 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  Input,
-  OnDestroy,
-  inject,
-  signal,
+  computed,
+  effect,
+  input,
+  isSignal,
 } from '@angular/core';
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
 import { SkyPopoverMessage, SkyPopoverMessageType } from '@skyux/popovers';
@@ -16,6 +15,7 @@ import { AgColumn, CellFocusedEvent } from 'ag-grid-community';
 import { Subject } from 'rxjs';
 
 import { SkyCellRendererValidatorParams } from '../types/cell-renderer-validator-params';
+import { SkyAgGridValidatorProperties } from '../types/validator-properties';
 
 /**
  * @internal
@@ -27,103 +27,117 @@ import { SkyCellRendererValidatorParams } from '../types/cell-renderer-validator
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgTemplateOutlet, SkyPopoverModule, SkyStatusIndicatorModule],
 })
-export class SkyAgGridCellValidatorTooltipComponent implements OnDestroy {
-  @Input()
-  public set params(value: SkyCellRendererValidatorParams | undefined) {
-    this.cellRendererParams = value;
+export class SkyAgGridCellValidatorTooltipComponent {
+  public readonly params = input<SkyCellRendererValidatorParams>();
 
-    if (value?.api && !this.#listenersAdded) {
-      this.#listenersAdded = true;
-      value.api.addEventListener('cellFocused', this.#cellFocusHandler);
-      value.api.addEventListener('cellEditingStarted', this.#blurHandler);
-      value.eGridCell?.addEventListener('keyup', this.#keyupHandler);
-      value.eGridCell?.addEventListener('mouseenter', this.#focusHandler);
-      value.eGridCell?.addEventListener('mouseleave', this.#blurHandler);
+  protected readonly popoverMessageStream = new Subject<SkyPopoverMessage>();
+  protected readonly validatorProperties = computed<
+    SkyAgGridValidatorProperties | undefined
+  >(
+    () =>
+      this.params()?.skyComponentProperties as
+        | SkyAgGridValidatorProperties
+        | undefined,
+  );
+  protected readonly validatorMessage = computed((): string => {
+    const params = this.params();
+    const validatorProperties = this.validatorProperties();
+    const validatorMessage = validatorProperties?.validatorMessage;
+    if (!validatorMessage || !params) {
+      return '';
     }
-
-    if (typeof value?.skyComponentProperties?.validatorMessage === 'function') {
-      this.validatorMessage = value.skyComponentProperties.validatorMessage(
-        value.value,
-        value.data,
-        value?.node?.rowIndex,
+    if (isSignal(validatorMessage)) {
+      return validatorMessage();
+    }
+    if (typeof validatorMessage === 'function') {
+      return validatorMessage(
+        params.value,
+        params.data,
+        params?.node?.rowIndex,
       );
-    } else {
-      this.validatorMessage = value?.skyComponentProperties?.validatorMessage;
     }
-
-    this.showValidatorMessage.set(this.#showValidatorMessage());
-    this.#changeDetector.markForCheck();
-  }
-
-  public popoverMessageStream = new Subject<SkyPopoverMessage>();
-  public validatorMessage: string | undefined;
-  public cellRendererParams: SkyCellRendererValidatorParams | undefined;
-
-  protected readonly showValidatorMessage = signal(false);
-
-  readonly #changeDetector = inject(ChangeDetectorRef);
-  #listenersAdded = false;
+    return validatorMessage;
+  });
+  protected readonly showValidatorMessage = computed(() => {
+    const validatorMessage = this.validatorMessage();
+    const validatorProperties = this.validatorProperties();
+    const params = this.params();
+    if (!validatorMessage || !validatorProperties || !params) {
+      return false;
+    }
+    const validator = validatorProperties.validator;
+    if (typeof validator === 'function') {
+      return !validator(params.value, params.data, params.node?.rowIndex);
+    }
+    return true;
+  });
 
   readonly #keyupHandler = (event: KeyboardEvent): void => {
     if (
       ['ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowUp'].includes(event.key)
     ) {
-      this.showPopover();
+      this.#showPopover();
     }
   };
-  readonly #focusHandler = (): void => this.showPopover();
+  readonly #focusHandler = (): void => this.#showPopover();
   readonly #cellFocusHandler = (eventParams: CellFocusedEvent): void => {
-    // We want to close any popovers that are opened when other cells are focused, but open a popover if the current cell is focused.
+    const params = this.params();
     if (
       (eventParams.column as AgColumn).getColId() ===
-        this.cellRendererParams?.column?.getColId() &&
-      eventParams.rowIndex === this.cellRendererParams?.node?.rowIndex
+        params?.column?.getColId() &&
+      eventParams.rowIndex === params?.node?.rowIndex
     ) {
-      this.showPopover();
+      this.#showPopover();
     } else {
-      this.hidePopover();
+      this.#hidePopover();
     }
   };
-  readonly #blurHandler = (): void => this.hidePopover();
+  readonly #blurHandler = (): void => this.#hidePopover();
 
-  public ngOnDestroy(): void {
-    const params = this.cellRendererParams;
-    if (params?.api && (!params.api.isDestroyed || !params.api.isDestroyed())) {
-      params.api.removeEventListener('cellFocused', this.#cellFocusHandler);
-      params.api.removeEventListener('cellEditingStarted', this.#blurHandler);
-    }
-    if (params?.eGridCell) {
-      params.eGridCell.removeEventListener('keyup', this.#keyupHandler);
-      params.eGridCell.removeEventListener('mouseenter', this.#focusHandler);
-      params.eGridCell.removeEventListener('mouseleave', this.#blurHandler);
-    }
+  constructor() {
+    effect((onCleanup) => {
+      const value = this.params();
+      if (value?.api) {
+        value.api.addEventListener('cellFocused', this.#cellFocusHandler);
+        value.api.addEventListener('cellEditingStarted', this.#blurHandler);
+        value.eGridCell?.addEventListener('keyup', this.#keyupHandler);
+        value.eGridCell?.addEventListener('mouseenter', this.#focusHandler);
+        value.eGridCell?.addEventListener('mouseleave', this.#blurHandler);
+
+        onCleanup(() => {
+          if (!value.api.isDestroyed || !value.api.isDestroyed()) {
+            value.api.removeEventListener(
+              'cellFocused',
+              this.#cellFocusHandler,
+            );
+            value.api.removeEventListener(
+              'cellEditingStarted',
+              this.#blurHandler,
+            );
+          }
+          if (value.eGridCell) {
+            value.eGridCell.removeEventListener('keyup', this.#keyupHandler);
+            value.eGridCell.removeEventListener(
+              'mouseenter',
+              this.#focusHandler,
+            );
+            value.eGridCell.removeEventListener(
+              'mouseleave',
+              this.#blurHandler,
+            );
+          }
+        });
+      }
+    });
   }
 
-  public hidePopover(): void {
+  #hidePopover(): void {
     this.popoverMessageStream.next({ type: SkyPopoverMessageType.Close });
   }
 
-  public showPopover(): void {
+  #showPopover(): void {
     if (this.#shouldShowPopover()) {
       this.popoverMessageStream.next({ type: SkyPopoverMessageType.Open });
-    }
-  }
-
-  #showValidatorMessage(): boolean {
-    if (!this.validatorMessage) {
-      return false;
-    }
-    if (
-      typeof this.cellRendererParams?.skyComponentProperties?.validator ===
-      'function'
-    ) {
-      return !this.cellRendererParams.skyComponentProperties.validator(
-        this.cellRendererParams.value,
-        this.cellRendererParams.data,
-        this.cellRendererParams.node?.rowIndex,
-      );
-    } else {
-      return true;
     }
   }
 
@@ -131,7 +145,7 @@ export class SkyAgGridCellValidatorTooltipComponent implements OnDestroy {
     if (!this.showValidatorMessage()) {
       return false;
     }
-    const editingCells = this.cellRendererParams?.api.getEditingCells() ?? [];
+    const editingCells = this.params()?.api.getEditingCells() ?? [];
     return editingCells.length === 0;
   }
 }
