@@ -31,6 +31,7 @@
 * **components/list-builder:** stop overriding dropdown button padding ([#4181](https://github.com/blackbaud/skyux/issues/4181)) ([#4217](https://github.com/blackbaud/skyux/issues/4217)) ([695f7d6](https://github.com/blackbaud/skyux/commit/695f7d6eb141539f7da289879afd0a17e9fdf8b1))
 * **components/lookup:** lookup and selections modals use correct footer button spacing in modern theme ([#4229](https://github.com/blackbaud/skyux/issues/4229)) ([#4230](https://github.com/blackbaud/skyux/issues/4230)) ([401f83e](https://github.com/blackbaud/skyux/commit/401f83e7a8a332a48077a1e88c90eeaa9de22a82)), closes [AB#3704526](https://dev.azure.com/blackbaud/Products/_workitems/edit/3704526)
 * run check-workspace on release pr ([#4210](https://github.com/blackbaud/skyux/issues/4210)) ([#4213](https://github.com/blackbaud/skyux/issues/4213)) ([823d2c8](https://github.com/blackbaud/skyux/commit/823d2c81acefb6aaaad8a97a2e5cac22ca1e8b31)), closes [AB#3647615](https://dev.azure.com/blackbaud/Products/_workitems/edit/3647615)
+* use accessible text colors via design tokens update ([#4234](https://github.com/blackbaud/skyux/issues/4234)) ([#4236](https://github.com/blackbaud/skyux/issues/4236)) ([7732ede](https://github.com/blackbaud/skyux/commit/7732ede2433cd2d6891ce2d7d1709f13c5d0b3eb))
 
 ## [13.14.1](https://github.com/blackbaud/skyux/compare/13.14.0...13.14.1) (2026-02-12)
 
