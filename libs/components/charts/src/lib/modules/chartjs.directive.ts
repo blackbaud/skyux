@@ -6,7 +6,6 @@ import {
   ElementRef,
   NgZone,
   OnDestroy,
-  computed,
   inject,
   input,
   signal,
@@ -38,13 +37,12 @@ export class SkyChartJsDirective implements OnDestroy, AfterViewInit {
    * The Chart.js configuration object that defines the chart's data and options.
    */
   public readonly chartConfiguration = input.required<ChartConfiguration>();
-  // #endregion
 
-  public readonly ariaLabel = computed(() => {
-    const chartConfiguration = this.chartConfiguration();
-    const title = chartConfiguration?.options?.plugins?.title;
-    return title ?? '';
-  });
+  /**
+   * The text used for the chart's ARIA label.
+   */
+  public readonly ariaLabel = input.required<string>();
+  // #endregion
 
   readonly #canvasContext: CanvasRenderingContext2D;
 
