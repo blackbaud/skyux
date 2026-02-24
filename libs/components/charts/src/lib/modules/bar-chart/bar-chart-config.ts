@@ -10,6 +10,7 @@ import { parseCategories } from '../shared/chart-helpers';
 import { SkyuxChartStyles } from '../shared/chart-styles';
 import { mergeChartConfig } from '../shared/global-chart-config';
 import { createAutoColorPlugin } from '../shared/plugins/auto-color-plugin';
+import { createChartA11yPlugin } from '../shared/plugins/chart-a11y-plugin';
 import { createTooltipShadowPlugin } from '../shared/plugins/tooltip-shadow-plugin';
 import { SkyCategory } from '../shared/types/category';
 import { DeepPartial } from '../shared/types/deep-partial-type';
@@ -108,7 +109,11 @@ export function getChartJsBarChartConfig(
       datasets: datasets,
     },
     options: options,
-    plugins: [createAutoColorPlugin(), createTooltipShadowPlugin()],
+    plugins: [
+      createAutoColorPlugin(),
+      createTooltipShadowPlugin(),
+      createChartA11yPlugin(),
+    ],
   };
 }
 

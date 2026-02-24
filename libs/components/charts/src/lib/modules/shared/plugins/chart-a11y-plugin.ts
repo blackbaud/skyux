@@ -44,29 +44,35 @@ export function createChartA11yPlugin(): Plugin {
     id: 'sky_chart_a11y',
     afterInit: (chart) => {
       const manager = new ChartKeyboardManager(chart);
+
       chartManagers.set(chart, manager);
       manager.initialize();
     },
     afterDestroy: (chart) => {
       const manager = chartManagers.get(chart);
-      if (manager) {
-        manager.destroy();
-        chartManagers.delete(chart);
-      }
+
+      manager?.destroy();
+      chartManagers.delete(chart);
     },
     afterDatasetsDraw: (chart) => {
       const manager = chartManagers.get(chart);
-      if (manager) {
-        manager.drawFocusIndicator();
-      }
+
+      manager?.drawFocusIndicator();
     },
   };
 
   return plugin;
 }
 
+/**
+ * Maintains a mapping of Chart instances to their corresponding keyboard managers.
+ * This allows the plugin to manage keyboard interactions for multiple charts on the same page.
+ */
 const chartManagers = new Map<Chart, ChartKeyboardManager>();
 
+/**
+ * Represents the currently focused data point in the chart, identified by its dataset index and data index.
+ */
 interface FocusedElement {
   datasetIndex: number;
   index: number;
@@ -78,11 +84,12 @@ interface FocusedElement {
 class ChartKeyboardManager {
   readonly #chart: Chart;
   readonly #canvas: HTMLCanvasElement;
+  readonly #boundKeyDownHandler: (e: KeyboardEvent) => void;
+  readonly #boundFocusHandler: () => void;
+  readonly #boundBlurHandler: () => void;
+
   #focusedElement: FocusedElement | null = null;
   #isNavigating = false;
-  #boundKeyDownHandler: (e: KeyboardEvent) => void;
-  #boundFocusHandler: () => void;
-  #boundBlurHandler: () => void;
 
   constructor(chart: Chart) {
     this.#chart = chart;
@@ -94,6 +101,9 @@ class ChartKeyboardManager {
     this.#boundBlurHandler = this.#handleBlur.bind(this);
   }
 
+  /**
+   * Initializes the chart keyboard manager
+   */
   public initialize(): void {
     // Make canvas focusable
     if (!this.#canvas.hasAttribute('tabindex')) {
@@ -111,12 +121,19 @@ class ChartKeyboardManager {
     this.#canvas.addEventListener('blur', this.#boundBlurHandler);
   }
 
+  /**
+   * Cleans up after the chart keyboard manager is destroyed to prevent memory leaks.
+   */
   public destroy(): void {
+    // Remove event listeners
     this.#canvas.removeEventListener('keydown', this.#boundKeyDownHandler);
     this.#canvas.removeEventListener('focus', this.#boundFocusHandler);
     this.#canvas.removeEventListener('blur', this.#boundBlurHandler);
   }
 
+  /**
+   * Draws a focus indicator around the currently focused data point, if any.
+   */
   public drawFocusIndicator(): void {
     if (!this.#isNavigating || !this.#focusedElement) {
       return;
@@ -268,23 +285,12 @@ class ChartKeyboardManager {
     } else if (chartType === 'bar' || chartType === 'line') {
       // For cartesian charts, navigate based on orientation
       this.#navigateCartesianChart(key);
+    } else {
+      console.warn(
+        'Unsupported chart type for keyboard navigation:',
+        chartType,
+      );
     }
-  }
-
-  #navigatePieChart(key: string): void {
-    if (!this.#focusedElement) return;
-
-    const dataLength = this.#chart.data.datasets[0]?.data.length ?? 0;
-    let newIndex = this.#focusedElement.index;
-
-    if (key === 'ArrowRight' || key === 'ArrowDown') {
-      newIndex = (newIndex + 1) % dataLength;
-    } else if (key === 'ArrowLeft' || key === 'ArrowUp') {
-      newIndex = (newIndex - 1 + dataLength) % dataLength;
-    }
-
-    this.#focusedElement.index = newIndex;
-    this.#updateChartWithFocus();
   }
 
   #navigateCartesianChart(key: string): void {
@@ -314,6 +320,22 @@ class ChartKeyboardManager {
     }
 
     this.#focusedElement.datasetIndex = newDatasetIndex;
+    this.#focusedElement.index = newIndex;
+    this.#updateChartWithFocus();
+  }
+
+  #navigatePieChart(key: string): void {
+    if (!this.#focusedElement) return;
+
+    const dataLength = this.#chart.data.datasets[0]?.data.length ?? 0;
+    let newIndex = this.#focusedElement.index;
+
+    if (key === 'ArrowRight' || key === 'ArrowDown') {
+      newIndex = (newIndex + 1) % dataLength;
+    } else if (key === 'ArrowLeft' || key === 'ArrowUp') {
+      newIndex = (newIndex - 1 + dataLength) % dataLength;
+    }
+
     this.#focusedElement.index = newIndex;
     this.#updateChartWithFocus();
   }

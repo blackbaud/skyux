@@ -385,7 +385,74 @@ export const SkyuxChartStyles = {
 
   get focusIndicatorColor(): string {
     // TODO: Confirm from UX
+
     return '#1c84ff';
+  },
+
+  get hoverIndicatorBorderWidth(): number {
+    const width = resolveCssVariable('--sky-border-width-action-hover');
+    console.log('SKY UX Hover Border Width:', width);
+    return remToPixels(width || '1px'); // TODO: set fallback value
+  },
+
+  get hoverIndicatorBorderColor(): string {
+    const color = resolveCssVariable(
+      '--sky-color-border-action-tertiary-hover',
+    );
+    console.log('SKY UX Hover Color:', color);
+    return color || '#c2c4c6'; // TODO: set fallback value
+  },
+
+  get hoverIndicatorBackgroundColor(): string {
+    const color = resolveCssVariable(
+      '--sky-color-background-action-tertiary-hover',
+    );
+    console.log('SKY UX Hover Background Color:', color);
+    return color || '#f0f1f2'; // TODO: set fallback value
+  },
+
+  get activeIndicatorBorderWidth(): number {
+    const width = resolveCssVariable('--sky-border-width-action-active');
+    console.log('SKY UX Active Border Width:', width);
+    return remToPixels(width || '1px'); // TODO: set fallback value
+  },
+
+  get activeIndicatorBorderColor(): string {
+    const color = resolveCssVariable(
+      '--sky-color-border-action-tertiary-active',
+    );
+    console.log('SKY UX Active Color:', color);
+    return color || '#c2c4c6'; // TODO: set fallback value
+  },
+
+  get activeIndicatorBackgroundColor(): string {
+    const color = resolveCssVariable(
+      '--sky-color-background-action-tertiary-active',
+    );
+    console.log('SKY UX Active Background Color:', color);
+    return color || '#f0f1f2'; // TODO: set fallback value
+  },
+
+  get focusIndicatorBorderWidth(): number {
+    const width = resolveCssVariable('--sky-border-width-action-focus');
+    console.log('SKY UX Focus Border Width:', width);
+    return remToPixels(width || '1px'); // TODO: set fallback value
+  },
+
+  get focusIndicatorBorderColor(): string {
+    const color = resolveCssVariable(
+      '--sky-color-border-action-tertiary-focus',
+    );
+    console.log('SKY UX Focus Color:', color);
+    return color || '#c2c4c6'; // TODO: set fallback value
+  },
+
+  get focusIndicatorBackgroundColor(): string {
+    const color = resolveCssVariable(
+      '--sky-color-background-action-tertiary-focus',
+    );
+    console.log('SKY UX Focus Background Color:', color);
+    return color || '#f0f1f2'; // TODO: set fallback value
   },
 };
 
