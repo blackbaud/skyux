@@ -18,14 +18,8 @@ const STYLE_ID = 'sky-noop-animations';
  *
  * @example
  * ```typescript
- * // In a unit test:
  * TestBed.configureTestingModule({
  *   imports: [MyComponent],
- *   providers: [provideNoopSkyAnimations()],
- * });
- *
- * // In an application:
- * bootstrapApplication(AppComponent, {
  *   providers: [provideNoopSkyAnimations()],
  * });
  * ```
@@ -39,7 +33,7 @@ export function provideNoopSkyAnimations(): EnvironmentProviders {
 
       style.id = STYLE_ID;
       style.textContent =
-        '*, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }';
+        ':root { --sky-animation-duration-noop: 0.01ms; } *, *::before, *::after { transition-duration: var(--sky-animation-duration-noop) !important; animation-duration: var(--sky-animation-duration-noop) !important; animation-iteration-count: 1 !important; }';
 
       doc.head.appendChild(style);
     }

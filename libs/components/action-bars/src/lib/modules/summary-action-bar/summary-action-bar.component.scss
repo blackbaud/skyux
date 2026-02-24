@@ -82,19 +82,10 @@
 .sky-summary-action-bar-summary {
   margin: var(--sky-override-summary-action-bar-summary-margin);
   border-left: var(--sky-override-summary-action-bar-summary-border-left, none);
-
   @include animations.sky-animation-slide();
-
-  &.sky-animation-slide-up {
-    .sky-summary-action-bar-summary-body {
-      padding-top: 0;
-      padding-bottom: 0;
-    }
-  }
 }
 
 .sky-summary-action-bar-summary-body {
-  transition: padding 150ms ease-in;
   padding: var(
     --sky-override-summary-action-bar-summary-body-padding,
     var(--sky-comp-sab-summary-inline-space-inset-top)

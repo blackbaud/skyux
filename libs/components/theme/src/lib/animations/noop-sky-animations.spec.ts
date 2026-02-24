@@ -27,10 +27,13 @@ describe('provideNoopSkyAnimations', () => {
     const styleEl = document.getElementById('sky-noop-animations');
     expect(styleEl).toBeTruthy();
     expect(styleEl?.textContent).toContain(
-      'transition-duration: 0.01ms !important',
+      '--sky-animation-duration-noop: 0.01ms',
     );
     expect(styleEl?.textContent).toContain(
-      'animation-duration: 0.01ms !important',
+      'transition-duration: var(--sky-animation-duration-noop) !important',
+    );
+    expect(styleEl?.textContent).toContain(
+      'animation-duration: var(--sky-animation-duration-noop) !important',
     );
   });
 

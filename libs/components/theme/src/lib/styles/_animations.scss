@@ -1,3 +1,7 @@
+:root {
+  --sky-animation-duration-noop: 0.01ms;
+}
+
 /// Applies the base slide animation styles to a container element.
 /// The container uses `display: grid` with `grid-template-rows` to animate
 /// height to/from zero. Apply `.sky-animation-slide-down` (expanded) or
@@ -7,8 +11,6 @@
   display: grid;
   transition:
     grid-template-rows 150ms ease-in,
-    padding-top 150ms ease-in,
-    padding-bottom 150ms ease-in,
     visibility 150ms ease-in;
 
   > .sky-animation-target {
@@ -29,7 +31,7 @@
 
   &.sky-animation-disabled {
     // Use near-zero durations so that transitionend events still fire.
-    transition: 0.01ms !important;
+    transition-duration: var(--sky-animation-duration-noop) !important;
   }
 }
 
@@ -61,20 +63,17 @@
   }
 }
 
-// Global utility classes for external consumers.
-// Internal components should `@include` the mixins directly instead.
-
 .sky-animation-disabled {
   // Use near-zero durations so that transitionend events still fire.
-  transition: 0.01ms !important;
+  transition-duration: var(--sky-animation-duration-noop) !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
+    animation-duration: var(--sky-animation-duration-noop) !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    transition-duration: var(--sky-animation-duration-noop) !important;
   }
 }
