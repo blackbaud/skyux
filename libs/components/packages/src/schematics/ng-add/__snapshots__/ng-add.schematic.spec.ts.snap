@@ -137,8 +137,7 @@ exports[`ng-add.schematic should update workspace config if a workspace only has
           "options": {
             "browser": "src/main.ts",
             "polyfills": [
-              "zone.js",
-              "@skyux/packages/polyfills"
+              "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
@@ -204,8 +203,7 @@ exports[`ng-add.schematic should update workspace config if a workspace only has
           "options": {
             "polyfills": [
               "zone.js",
-              "zone.js/testing",
-              "@skyux/packages/polyfills"
+              "zone.js/testing"
             ],
             "styles": [
               "src/styles.scss",

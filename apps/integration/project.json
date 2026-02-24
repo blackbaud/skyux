@@ -15,7 +15,7 @@
           "browser": "."
         },
         "index": "apps/integration/src/index.html",
-        "polyfills": ["zone.js", "libs/components/packages/src/polyfills.js"],
+        "polyfills": ["zone.js"],
         "tsConfig": "apps/integration/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "stylePreprocessorOptions": {
@@ -92,11 +92,7 @@
       "options": {
         "tsConfig": "apps/integration/tsconfig.spec.json",
         "karmaConfig": "apps/integration/karma.conf.js",
-        "polyfills": [
-          "zone.js",
-          "zone.js/testing",
-          "libs/components/packages/src/polyfills.js"
-        ],
+        "polyfills": ["zone.js", "zone.js/testing"],
         "styles": [
           "libs/components/theme/src/lib/styles/sky.scss",
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss"

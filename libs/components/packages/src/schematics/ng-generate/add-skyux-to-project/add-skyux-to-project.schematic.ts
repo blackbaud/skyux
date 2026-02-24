@@ -33,7 +33,6 @@ function modifyWorkspaceConfig(projectName: string): Rule {
     const project = workspace.projects.get(projectName) as ProjectDefinition;
 
     configureAllowedCommonJsDependencies(project);
-    configurePolyfills(project);
     configureStyles(project);
   });
 }
@@ -67,27 +66,6 @@ function configureAllowedCommonJsDependencies(
   }
 }
 
-function configurePolyfills(project: ProjectDefinition): void {
-  const supportedBuilders = SUPPORTED_BUILD_BUILDERS.concat(
-    SUPPORTED_TEST_BUILDERS,
-  );
-
-  for (const target of ['build', 'test']) {
-    const def = project.targets.get(target);
-
-    if (def && supportedBuilders.includes(def.builder)) {
-      def.options ??= {};
-
-      const polyfills = normalizePolyfills(def.options['polyfills']);
-      const polyfill = '@skyux/packages/polyfills';
-
-      if (!polyfills.includes(polyfill)) {
-        def.options['polyfills'] = polyfills.concat(polyfill);
-      }
-    }
-  }
-}
-
 function configureStyles(project: ProjectDefinition): void {
   const ourStylesheets = [
     '@skyux/theme/css/sky.css',
@@ -110,16 +88,4 @@ function configureStyles(project: ProjectDefinition): void {
       def.options['styles'] = [...new Set(stylesheets.concat(ourStylesheets))];
     }
   }
-}
-
-function normalizePolyfills(polyfills: unknown): string[] {
-  if (typeof polyfills === 'string') {
-    return [polyfills];
-  }
-
-  if (Array.isArray(polyfills)) {
-    return polyfills;
-  }
-
-  return [];
 }

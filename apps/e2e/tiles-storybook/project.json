@@ -15,7 +15,7 @@
           "base": "dist/apps/e2e/tiles-storybook"
         },
         "index": "apps/e2e/tiles-storybook/src/index.html",
-        "polyfills": ["zone.js", "libs/components/packages/src/polyfills.js"],
+        "polyfills": ["zone.js"],
         "tsConfig": "apps/e2e/tiles-storybook/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "stylePreprocessorOptions": {
