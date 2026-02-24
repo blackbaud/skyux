@@ -21,3 +21,5 @@ export {
   SkyDonutChartSlice,
   SkyDonutChartConfig,
 } from './lib/modules/donut-chart/donut-chart-types';
+
+export { SkySelectedChartDataPoint } from './lib/modules/shared/types/selected-chart-data-point';

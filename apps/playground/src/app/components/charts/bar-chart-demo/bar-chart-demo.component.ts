@@ -1,5 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SkyBarChartComponent, SkyBarChartConfig } from '@skyux/charts';
+import {
+  SkyBarChartComponent,
+  SkyBarChartConfig,
+  SkySelectedChartDataPoint,
+} from '@skyux/charts';
 import { SkyBoxModule } from '@skyux/layout';
 import { SkyFluidGridModule } from '@skyux/layout';
 
@@ -23,6 +27,7 @@ export class BarChartDemoComponent {
   // #region Vertical
   protected readonly singleSeriesVertical: SkyBarChartConfig = {
     orientation: 'vertical',
+    stacked: false,
     series: [
       {
         label: 'Spending',
@@ -34,15 +39,17 @@ export class BarChartDemoComponent {
         ],
       },
     ],
+    categoryAxis: { label: 'Month' },
     valueAxis: {
       label: 'Amount',
       tickFormatter: (value) => `$${Number(value) / 1000}K`,
     },
-    categoryAxis: { label: 'Month' },
+
   };
 
   protected readonly multiSeriesVertical: SkyBarChartConfig = {
     orientation: 'vertical',
+    stacked: false,
     series: [
       {
         label: 'Budget',
@@ -59,8 +66,11 @@ export class BarChartDemoComponent {
         ],
       },
     ],
-    valueAxis: { label: 'Value' },
     categoryAxis: { label: 'Month' },
+    valueAxis: { 
+      label: 'Amount', 
+      tickFormatter: (value) => `$${Number(value) / 1000}K`, 
+    },
   };
 
   protected readonly stackedVertical: SkyBarChartConfig = {
@@ -389,4 +399,8 @@ export class BarChartDemoComponent {
     categoryAxis: { label: 'Month' },
   };
   // #endregion
+
+  public onDataPointClicked(event: SkySelectedChartDataPoint): void {
+    window.alert('Datapoint Clicked: ' + JSON.stringify(event, null ,2));
+  }
 }

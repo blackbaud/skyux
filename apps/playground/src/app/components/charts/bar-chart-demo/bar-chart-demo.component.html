@@ -18,8 +18,14 @@
           <sky-box headingText="Single series" class="sky-margin-stacked-xl">
             <sky-box-content>
               <sky-bar-chart
-                headingText="Monthly spendings"
+                [headingText]="'Monthly spendings'"
+                [headingHidden]="false"
+                [headingLevel]="3"
+                [headingStyle]="3"
+                [subtitleText]="'Spending over a month'"
+                [subtitleHidden]="false"
                 [config]="singleSeriesVertical"
+                (dataPointClicked)="onDataPointClicked($event)"
               />
             </sky-box-content>
           </sky-box>
@@ -37,6 +43,7 @@
               <sky-bar-chart
                 headingText="Project Budget vs Actuals"
                 [config]="multiSeriesVertical"
+                (dataPointClicked)="onDataPointClicked($event)"
               />
             </sky-box-content>
           </sky-box>
@@ -54,6 +61,7 @@
               <sky-bar-chart
                 headingText="Monthly spendings"
                 [config]="stackedVertical"
+                (dataPointClicked)="onDataPointClicked($event)"
               />
             </sky-box-content>
           </sky-box>
@@ -79,6 +87,7 @@
               <sky-bar-chart
                 headingText="Monthly spendings"
                 [config]="singleSeriesHorizontal"
+                (dataPointClicked)="onDataPointClicked($event)"
               />
             </sky-box-content>
           </sky-box>
@@ -96,6 +105,7 @@
               <sky-bar-chart
                 headingText="Project Budget vs Actuals"
                 [config]="multiSeriesHorizontal"
+                (dataPointClicked)="onDataPointClicked($event)"
               />
             </sky-box-content>
           </sky-box>
@@ -113,6 +123,7 @@
               <sky-bar-chart
                 headingText="Monthly spendings"
                 [config]="stackedHorizontal"
+                (dataPointClicked)="onDataPointClicked($event)"
               />
             </sky-box-content>
           </sky-box>
@@ -143,6 +154,7 @@
                 headingText="Monthly spendings"
                 legendPosition="right"
                 [config]="singleSeriesVerticalLog"
+                (dataPointClicked)="onDataPointClicked($event)"
               />
             </sky-box-content>
           </sky-box>
@@ -160,6 +172,7 @@
               <sky-bar-chart
                 headingText="Project Budget vs Actuals"
                 [config]="multiSeriesVerticalLog"
+                (dataPointClicked)="onDataPointClicked($event)"
               />
             </sky-box-content>
           </sky-box>
@@ -177,6 +190,7 @@
               <sky-bar-chart
                 headingText="Monthly spendings"
                 [config]="stackedVerticalLog"
+                (dataPointClicked)="onDataPointClicked($event)"
               />
             </sky-box-content>
           </sky-box>
@@ -202,6 +216,7 @@
               <sky-bar-chart
                 headingText="Monthly spendings"
                 [config]="singleSeriesHorizontalLog"
+                (dataPointClicked)="onDataPointClicked($event)"
               />
             </sky-box-content>
           </sky-box>
@@ -219,6 +234,7 @@
               <sky-bar-chart
                 headingText="Project Budget vs Actuals"
                 [config]="multiSeriesHorizontalLog"
+                (dataPointClicked)="onDataPointClicked($event)"
               />
             </sky-box-content>
           </sky-box>
@@ -236,6 +252,7 @@
               <sky-bar-chart
                 headingText="Monthly spendings"
                 [config]="stackedHorizontalLog"
+                (dataPointClicked)="onDataPointClicked($event)"
               />
             </sky-box-content>
           </sky-box>

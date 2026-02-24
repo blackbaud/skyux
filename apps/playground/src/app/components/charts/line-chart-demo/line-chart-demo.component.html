@@ -12,9 +12,15 @@
     >
       <sky-box headingText="Single series" class="sky-margin-stacked-xl">
         <sky-box-content>
-          <sky-line-chart
-            headingText="Month-by-month revenue"
+          <sky-line-chart          
+            [headingText]="'Month-by-month revenue'"
+            [headingHidden]="false"
+            [headingLevel]="3"
+            [headingStyle]="3"
+            [subtitleText]="'Revenue over time'"
+            [subtitleHidden]="false"
             [config]="singleSeries"
+            (dataPointClicked)="onDataPointClicked($event)"
           />
         </sky-box-content>
       </sky-box>
@@ -32,6 +38,7 @@
           <sky-line-chart
             headingText="Month-by-month revenue"
             [config]="multiSeries"
+            (dataPointClicked)="onDataPointClicked($event)"
           />
         </sky-box-content>
       </sky-box>
@@ -49,6 +56,7 @@
           <sky-line-chart
             headingText="Month-by-month revenue"
             [config]="stacked"
+            (dataPointClicked)="onDataPointClicked($event)"
           />
         </sky-box-content>
       </sky-box>
@@ -72,6 +80,7 @@
           <sky-line-chart
             headingText="Month-by-month revenue"
             [config]="singleSeriesLog"
+            (dataPointClicked)="onDataPointClicked($event)"
           />
         </sky-box-content>
       </sky-box>
@@ -92,6 +101,7 @@
           <sky-line-chart
             headingText="Month-by-month revenue"
             [config]="multiSeriesLog"
+            (dataPointClicked)="onDataPointClicked($event)"
           />
         </sky-box-content>
       </sky-box>
@@ -109,6 +119,7 @@
           <sky-line-chart
             headingText="Month-by-month revenue"
             [config]="stackedLog"
+            (dataPointClicked)="onDataPointClicked($event)"
           />
         </sky-box-content>
       </sky-box>

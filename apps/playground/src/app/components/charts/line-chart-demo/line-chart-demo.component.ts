@@ -1,5 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SkyLineChartComponent, SkyLineChartConfig } from '@skyux/charts';
+import {
+  SkyLineChartComponent,
+  SkyLineChartConfig,
+  SkySelectedChartDataPoint,
+} from '@skyux/charts';
 import { SkyBoxModule } from '@skyux/layout';
 import { SkyFluidGridModule } from '@skyux/layout';
 
@@ -337,4 +341,8 @@ export class LineChartDemoComponent {
     valueAxis: { label: 'Amount', scaleType: 'logarithmic' },
     categoryAxis: { label: 'Month' },
   };
+
+  public onDataPointClicked(event: SkySelectedChartDataPoint): void {
+    window.alert('Datapoint Clicked: ' + JSON.stringify(event, null, 2));
+  }
 }

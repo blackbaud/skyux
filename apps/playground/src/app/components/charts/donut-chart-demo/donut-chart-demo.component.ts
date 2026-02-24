@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SkyDonutChartComponent, SkyDonutChartConfig } from '@skyux/charts';
+import { SkyDonutChartComponent, SkyDonutChartConfig, SkySelectedChartDataPoint } from '@skyux/charts';
 import { SkyBoxModule } from '@skyux/layout';
 import { SkyFluidGridModule } from '@skyux/layout';
 
@@ -89,4 +89,8 @@ export class DonutChartDemoComponent {
       }),
     },
   };
+
+  public onDataPointClicked(event: SkySelectedChartDataPoint): void {
+    window.alert('Datapoint Clicked: ' + JSON.stringify(event, null ,2));
+  }
 }
