@@ -1,4 +1,5 @@
 :root {
+  // Use near-zero durations so that transitionend events still fire.
   --sky-animation-duration-noop: 0.01ms;
 }
 
@@ -7,6 +8,7 @@
 /// height to/from zero. Apply `.sky-animation-slide-down` (expanded) or
 /// `.sky-animation-slide-up` (collapsed) classes to toggle state.
 /// Add `.sky-animation-disabled` to disable the transition.
+/// See: https://angular.dev/guide/animations/css
 @mixin sky-animation-slide() {
   display: grid;
   transition:
@@ -30,7 +32,6 @@
   }
 
   &.sky-animation-disabled {
-    // Use near-zero durations so that transitionend events still fire.
     transition-duration: var(--sky-animation-duration-noop) !important;
   }
 }
@@ -64,7 +65,6 @@
 }
 
 .sky-animation-disabled {
-  // Use near-zero durations so that transitionend events still fire.
   transition-duration: var(--sky-animation-duration-noop) !important;
 }
 
