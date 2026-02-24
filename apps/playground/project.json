@@ -12,8 +12,6 @@
       "options": {
         "allowedCommonJsDependencies": [
           "autonumeric",
-          "dragula",
-          "ng2-dragula",
           "moment",
           "google-libphonenumber",
           "fontfaceobserver"

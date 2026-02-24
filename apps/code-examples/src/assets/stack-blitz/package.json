@@ -89,12 +89,5 @@
     "karma-jasmine": "~5.1.0",
     "karma": "~6.4.4",
     "typescript": "~5.9.2"
-  },
-  "overrides": {
-    "ng2-dragula@5.1.0": {
-      "@angular/animations": ">=19.0.0",
-      "@angular/core": ">=19.0.0",
-      "@angular/common": ">=19.0.0"
-    }
   }
 }

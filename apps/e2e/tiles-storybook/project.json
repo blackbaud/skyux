@@ -10,7 +10,6 @@
       "executor": "@angular/build:application",
       "outputs": ["{options.outputPath.base}"],
       "options": {
-        "allowedCommonJsDependencies": ["dragula", "ng2-dragula"],
         "outputPath": {
           "base": "dist/apps/e2e/tiles-storybook"
         },
