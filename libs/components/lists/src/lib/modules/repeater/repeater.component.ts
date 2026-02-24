@@ -1,4 +1,10 @@
 import {
+  DragRef,
+  DropListRef,
+  createDragRef,
+  createDropListRef,
+} from '@angular/cdk/drag-drop';
+import {
   AfterContentInit,
   AfterViewChecked,
   ChangeDetectionStrategy,
@@ -7,6 +13,7 @@ import {
   ContentChildren,
   ElementRef,
   EventEmitter,
+  Injector,
   Input,
   OnChanges,
   OnDestroy,
@@ -15,17 +22,15 @@ import {
   QueryList,
   Renderer2,
   SimpleChanges,
+  afterNextRender,
   inject,
 } from '@angular/core';
 import { SkyLogService, SkyScrollableHostService } from '@skyux/core';
 
-import { DragulaService } from 'ng2-dragula';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyRepeaterAdapterService } from './repeater-adapter.service';
-import { SkyRepeaterAutoScrollService } from './repeater-auto-scroll.service';
-import { SkyRepeaterAutoScroller } from './repeater-auto-scroller';
 import { SkyRepeaterExpandModeType } from './repeater-expand-mode-type';
 import { SkyRepeaterItemRolesType } from './repeater-item-roles.type';
 import { SkyRepeaterItemComponent } from './repeater-item.component';
@@ -39,11 +44,7 @@ import { SkyRepeaterService } from './repeater.service';
   selector: 'sky-repeater',
   styleUrls: ['./repeater.component.scss'],
   templateUrl: './repeater.component.html',
-  providers: [
-    SkyRepeaterService,
-    SkyRepeaterAdapterService,
-    SkyRepeaterAutoScrollService,
-  ],
+  providers: [SkyRepeaterService, SkyRepeaterAdapterService],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
@@ -123,27 +124,24 @@ export class SkyRepeaterComponent
   @ContentChildren(SkyRepeaterItemComponent)
   public items: QueryList<SkyRepeaterItemComponent> | undefined;
 
-  public dragulaGroupName: string;
-
   public role: SkyRepeaterRoleType | undefined;
 
-  #autoScroller: SkyRepeaterAutoScroller | undefined;
+  #dragDropReady = false;
+  #dropListRef: DropListRef<unknown> | undefined;
+  #dragRefs: DragRef<unknown>[] = [];
   #ngUnsubscribe = new Subject<void>();
   #itemNameWarned = false;
 
   #adapterService = inject(SkyRepeaterAdapterService);
   #changeDetector = inject(ChangeDetectorRef);
-  #dragulaService = inject(DragulaService);
   #elementRef = inject(ElementRef);
+  readonly #injector = inject(Injector);
   #renderer = inject(Renderer2);
   #repeaterService = inject(SkyRepeaterService);
-  #autoScrollSvc = inject(SkyRepeaterAutoScrollService);
   #scrollableHostSvc = inject(SkyScrollableHostService);
   #logSvc = inject(SkyLogService);
 
   constructor() {
-    this.dragulaGroupName = `sky-repeater-dragula-${this.#repeaterService.repeaterGroupId}`;
-
     this.#repeaterService.itemCollapseStateChange
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((item: SkyRepeaterItemComponent) => {
@@ -179,7 +177,10 @@ export class SkyRepeaterComponent
 
     this.#adapterService.setRepeaterHost(this.#elementRef);
 
-    this.#initializeDragAndDrop();
+    afterNextRender(() => {
+      this.#initializeDragAndDrop();
+      this.#dragDropReady = true;
+    });
   }
 
   public ngAfterContentInit(): void {
@@ -200,6 +201,10 @@ export class SkyRepeaterComponent
           this.#updateForExpandMode(this.items.last);
 
           this.#updateReorderability();
+
+          if (this.#dragDropReady) {
+            this.#initializeDragAndDrop();
+          }
 
           this.#repeaterService.items = this.items.toArray();
         }
@@ -302,85 +307,104 @@ export class SkyRepeaterComponent
   }
 
   #initializeDragAndDrop(): void {
-    /* Sanity check that we haven't already set up dragging abilities */
-    /* istanbul ignore else */
-    if (!this.#dragulaService.find(this.dragulaGroupName)) {
-      this.#dragulaService.createGroup(this.dragulaGroupName, {
-        moves: (el, _container, handle) => {
-          const target = el?.querySelector('.sky-repeater-item-grab-handle');
-          return !!(
-            this.reorderable && target?.contains(handle as Element | null)
-          );
-        },
-      });
+    const containerEl: HTMLElement =
+      this.#elementRef.nativeElement.querySelector('.sky-repeater');
+
+    /* istanbul ignore next */
+    if (!containerEl) {
+      return;
     }
 
-    let draggedItemIndex = -1;
+    this.#destroyDragAndDrop();
 
-    this.#dragulaService
-      .drag(this.dragulaGroupName)
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((args) => {
-        /* istanbul ignore else */
-        if (args.name === this.dragulaGroupName) {
-          this.#destroyAutoScroll();
+    this.#dropListRef = createDropListRef(this.#injector, containerEl);
+    this.#dropListRef.autoScrollDisabled = false;
 
-          this.#autoScroller = this.#autoScrollSvc.autoScroll(
-            [this.#scrollableHostSvc.getScrollableHost(this.#elementRef)],
-            {
-              margin: 20,
-              maxSpeed: 10,
-              scrollWhenOutside: true,
-              autoScroll: () => true,
-            },
-          );
+    const scrollableHost = this.#scrollableHostSvc.getScrollableHost(
+      this.#elementRef,
+    );
 
-          this.#renderer.addClass(args.el, 'sky-repeater-item-dragging');
-          draggedItemIndex = this.#adapterService.getRepeaterItemIndex(
-            args.el as HTMLElement,
-          );
-        }
+    if (scrollableHost instanceof HTMLElement) {
+      this.#dropListRef.withScrollableParents([scrollableHost]);
+    }
+
+    const itemElements: HTMLElement[] = Array.from(
+      containerEl.querySelectorAll(':scope > sky-repeater-item'),
+    );
+
+    for (const itemEl of itemElements) {
+      const handleEl = itemEl.querySelector<HTMLElement>(
+        '.sky-repeater-item-grab-handle',
+      );
+
+      const dragRef = createDragRef(this.#injector, itemEl);
+
+      if (handleEl) {
+        dragRef.withHandles([handleEl]);
+      }
+
+      dragRef.disabled = !this.reorderable;
+
+      dragRef.started.pipe(takeUntil(this.#ngUnsubscribe)).subscribe(() => {
+        this.#renderer.addClass(itemEl, 'sky-repeater-item-dragging');
       });
 
-    this.#dragulaService
-      .dragend(this.dragulaGroupName)
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((args) => {
-        /* istanbul ignore else */
-        if (args.name === this.dragulaGroupName) {
-          this.#destroyAutoScroll();
-
-          this.#renderer.removeClass(args.el, 'sky-repeater-item-dragging');
-          const newItemIndex = this.#adapterService.getRepeaterItemIndex(
-            args.el as HTMLElement,
-          );
-
-          /* sanity check */
-          /* istanbul ignore else */
-          if (draggedItemIndex >= 0) {
-            this.#repeaterService.reorderItem(draggedItemIndex, newItemIndex);
-            draggedItemIndex = -1;
-          }
-
-          this.#emitTags();
-        }
+      dragRef.ended.pipe(takeUntil(this.#ngUnsubscribe)).subscribe(() => {
+        this.#renderer.removeClass(itemEl, 'sky-repeater-item-dragging');
       });
+
+      this.#dragRefs.push(dragRef);
+    }
+
+    this.#dropListRef.withItems(this.#dragRefs);
+
+    this.#dropListRef.dropped
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((event) => {
+        this.#moveDomElement(event);
+        this.#repeaterService.reorderItem(
+          event.previousIndex,
+          event.currentIndex,
+        );
+        this.#emitTags();
+      });
+  }
+
+  #moveDomElement(event: {
+    item: DragRef<unknown>;
+    container: DropListRef<unknown>;
+    previousIndex: number;
+    currentIndex: number;
+  }): void {
+    const movedEl = event.item.getRootElement();
+    const containerEl = event.container.element as HTMLElement;
+
+    // Remove the element first so the remaining children array
+    // reflects accurate indices for the insertion point.
+    movedEl.remove();
+
+    const children = Array.from(
+      containerEl.querySelectorAll(':scope > sky-repeater-item'),
+    );
+
+    const refChild = children[event.currentIndex];
+
+    if (refChild) {
+      containerEl.insertBefore(movedEl, refChild);
+    } else {
+      containerEl.appendChild(movedEl);
+    }
   }
 
   #destroyDragAndDrop(): void {
-    /* Sanity check that we have set up dragging abilities */
-    /* istanbul ignore else */
-    if (this.#dragulaService.find(this.dragulaGroupName)) {
-      this.#dragulaService.destroy(this.dragulaGroupName);
+    for (const dragRef of this.#dragRefs) {
+      dragRef.dispose();
     }
+    this.#dragRefs = [];
 
-    this.#destroyAutoScroll();
-  }
-
-  #destroyAutoScroll(): void {
-    if (this.#autoScroller) {
-      this.#autoScroller.destroy();
-      this.#autoScroller = undefined;
+    if (this.#dropListRef) {
+      this.#dropListRef.dispose();
+      this.#dropListRef = undefined;
     }
   }
 

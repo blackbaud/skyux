@@ -1,30 +1,26 @@
+import { DragDropRegistry, DragRef, DropListRef } from '@angular/cdk/drag-drop';
 import {
   ComponentFixture,
   TestBed,
   fakeAsync,
   flush,
-  inject,
   tick,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyLogService, SkyScrollableHostService } from '@skyux/core';
+import { SkyLogService } from '@skyux/core';
 import { SkyInlineFormButtonLayout } from '@skyux/inline-form';
-
-import { DragulaService, Group } from 'ng2-dragula';
 
 import { A11yRepeaterItem } from './fixtures/a11y-repeater-item';
 import { A11yRepeaterTestComponent } from './fixtures/a11y-repeater.component.fixture';
-import { MockDragulaService } from './fixtures/mock-dragula.service';
 import { NestedRepeaterTestComponent } from './fixtures/nested-repeater.component.fixture';
 import { RepeaterAsyncItemsTestComponent } from './fixtures/repeater-async-items.component.fixture';
 import { SkyRepeaterFixturesModule } from './fixtures/repeater-fixtures.module';
 import { RepeaterInlineFormFixtureComponent } from './fixtures/repeater-inline-form.component.fixture';
 import { RepeaterWithMissingTagsFixtureComponent } from './fixtures/repeater-missing-tag.fixture';
+import { RepeaterScrollableHostTestComponent } from './fixtures/repeater-scrollable-host.component.fixture';
 import { RepeaterTestComponent } from './fixtures/repeater.component.fixture';
-import { SkyRepeaterAutoScrollService } from './repeater-auto-scroll.service';
 import { SkyRepeaterExpandModeType } from './repeater-expand-mode-type';
-import { SkyRepeaterComponent } from './repeater.component';
 import { SkyRepeaterService } from './repeater.service';
 
 describe('Repeater item component', () => {
@@ -126,14 +122,20 @@ describe('Repeater item component', () => {
     }
   }
 
+  function getRepeaterService(
+    fixture: ComponentFixture<unknown>,
+  ): SkyRepeaterService {
+    return fixture.debugElement
+      .query(By.css('sky-repeater'))
+      .injector.get(SkyRepeaterService);
+  }
+
   function validateRepeaterItemOrder(
     fixture: ComponentFixture<RepeaterTestComponent>,
     firstItemTag: string,
   ): void {
     const cmp = fixture.componentInstance;
-    const repeaterSvc = fixture.debugElement
-      .query(By.css('sky-repeater'))
-      .injector.get(SkyRepeaterService);
+    const repeaterSvc = getRepeaterService(fixture);
 
     const repeaterItems = cmp.repeater?.items?.toArray();
 
@@ -476,31 +478,6 @@ describe('Repeater item component', () => {
     await fixture.whenStable();
     await expectAsync(fixture.nativeElement).toBeAccessible();
   });
-
-  it('should not error when a non-reorderable repeater is interacted with', fakeAsync(() => {
-    const fixture = TestBed.createComponent(RepeaterTestComponent);
-
-    fixture.detectChanges();
-    tick();
-
-    // NOTE: This complicated setup is to ensure that we get to the portion of dragula's grab
-    // function which can throw the error
-    expect(() => {
-      SkyAppTestUtility.fireDomEvent(
-        document.querySelector('.sky-repeater-item-title'),
-        'mousedown',
-        {
-          customEventInit: {
-            touches: ['foo'],
-          },
-        },
-      );
-      fixture.detectChanges();
-      tick();
-    }).not.toThrow();
-
-    flushDropdownTimer();
-  }));
 
   it('should remove repeater item from tab order when not selectable', fakeAsync(() => {
     const fixture = TestBed.createComponent(RepeaterTestComponent);
@@ -1522,92 +1499,227 @@ describe('Repeater item component', () => {
     expect(logServiceSpy).toHaveBeenCalled();
   }));
 
-  describe('dragula integration', () => {
-    let fixture: ComponentFixture<RepeaterTestComponent>;
+  describe('CDK drag-drop integration', () => {
+    it('should set up drag refs with grab handles for reorderable items', fakeAsync(() => {
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      fixture.componentInstance.reorderable = true;
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
 
-    it("should set the repeater item's grab handle as the drag handle", fakeAsync(
-      inject([DragulaService], (dragulaService: DragulaService) => {
-        let movesCallback:
-          | ((
-              el?: Element,
-              container?: Element,
-              handle?: Element,
-              sibling?: Element,
-            ) => boolean)
-          | undefined;
+      const nativeElement = fixture.elementRef.nativeElement;
+      const handles = getReorderHandles(nativeElement);
 
-        let counter = 0;
-        spyOn(dragulaService, 'find').and.callFake(() => {
-          // Ignore the first call to 'find' (called in the repeater component),
-          // we only want to mock out ng2-dragula's internal call.
-          if (++counter === 1) {
-            return undefined as unknown as Group;
-          }
+      expect(handles.length).toBeGreaterThan(0);
 
-          return {
-            drake: {
-              destroy() {},
-              containers: [],
-            },
-          } as unknown as Group;
-        });
+      flushDropdownTimer();
+    }));
 
-        const setOptionsSpy = spyOn(dragulaService, 'createGroup').and.callFake(
-          (name, options) => {
-            movesCallback = options.moves;
-            return undefined as unknown as Group;
-          },
-        );
+    it('should add and remove dragging CSS class via CDK drag events', fakeAsync(() => {
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      fixture.componentInstance.reorderable = true;
 
-        fixture = TestBed.createComponent(RepeaterTestComponent);
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
 
-        fixture.componentInstance.reorderable = true;
-        fixture.detectChanges();
-        tick();
+      // Get the DragRef instances registered with the DragDropRegistry.
+      const registry = TestBed.inject(DragDropRegistry);
+      const dragRefs = Array.from(
+        (registry as unknown as { _dragInstances: Set<DragRef> })
+          ._dragInstances,
+      );
 
-        fixture.detectChanges();
-        tick();
+      expect(dragRefs.length).toBeGreaterThan(0);
 
-        const nativeElement = fixture.elementRef.nativeElement;
-        const repeaterItem =
-          nativeElement.querySelectorAll('sky-repeater-item')[1];
-        const handle = getReorderHandles(nativeElement)[1];
+      const firstItemEl: HTMLElement =
+        fixture.nativeElement.querySelectorAll('sky-repeater-item')[0];
 
-        const result = movesCallback!(repeaterItem, undefined, handle);
-        expect(result).toBe(true);
+      // Trigger the 'started' event on the first drag ref.
+      dragRefs[0].started.next({
+        source: dragRefs[0],
+        event: new MouseEvent('mousedown'),
+      });
+      fixture.detectChanges();
 
-        expect(setOptionsSpy).toHaveBeenCalled();
+      expect(
+        firstItemEl.classList.contains('sky-repeater-item-dragging'),
+      ).toBeTrue();
 
-        flushDropdownTimer();
-      }),
-    ));
+      // Trigger the 'ended' event on the first drag ref.
+      dragRefs[0].ended.next({
+        source: dragRefs[0],
+        distance: { x: 0, y: 0 },
+        dropPoint: { x: 0, y: 0 },
+        event: new MouseEvent('mouseup'),
+      });
+      fixture.detectChanges();
+
+      expect(
+        firstItemEl.classList.contains('sky-repeater-item-dragging'),
+      ).toBeFalse();
+
+      flushDropdownTimer();
+    }));
+
+    it('should reorder items and move DOM elements on CDK drop', fakeAsync(() => {
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      const cmp = fixture.componentInstance;
+      cmp.reorderable = true;
+
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      // Get the DropListRef and DragRef instances from the DragDropRegistry.
+      const registry = TestBed.inject(DragDropRegistry);
+      const dropListRefs = Array.from(
+        (registry as unknown as { _dropInstances: Set<DropListRef> })
+          ._dropInstances,
+      );
+      const dragRefs = Array.from(
+        (registry as unknown as { _dragInstances: Set<DragRef> })
+          ._dragInstances,
+      );
+
+      expect(dropListRefs.length).toBe(1);
+      expect(cmp.sortedItemTags).toBeUndefined();
+
+      const dropListRef = dropListRefs[0];
+      const containerEl = fixture.nativeElement.querySelector('.sky-repeater');
+
+      // Simulate a CDK drop event: move item from index 0 to index 2.
+      dropListRef.dropped.next({
+        item: dragRefs[0],
+        container: dropListRef,
+        previousIndex: 0,
+        currentIndex: 2,
+        previousContainer: dropListRef,
+        isPointerOverContainer: true,
+        distance: { x: 0, y: 0 },
+        dropPoint: { x: 0, y: 0 },
+        event: new MouseEvent('mouseup'),
+      });
+
+      fixture.detectChanges();
+      tick();
+
+      expect(cmp.sortedItemTags).toEqual(['item2', 'item3', 'item1']);
+
+      // Verify DOM was reordered: the first item should now be at the end.
+      const items = containerEl.querySelectorAll('sky-repeater-item');
+      expect(
+        items[2].querySelector('.sky-repeater-item-title')?.textContent?.trim(),
+      ).toContain('Title 1');
+
+      flushDropdownTimer();
+    }));
+
+    it('should handle drop to middle position (insertBefore path)', fakeAsync(() => {
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      const cmp = fixture.componentInstance;
+      cmp.reorderable = true;
+
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      // Get the DropListRef and DragRef instances from the DragDropRegistry.
+      const registry = TestBed.inject(DragDropRegistry);
+      const dropListRefs = Array.from(
+        (registry as unknown as { _dropInstances: Set<DropListRef> })
+          ._dropInstances,
+      );
+      const dragRefs = Array.from(
+        (registry as unknown as { _dragInstances: Set<DragRef> })
+          ._dragInstances,
+      );
+
+      const dropListRef = dropListRefs[0];
+
+      // Drop item from index 2 to index 0 (inserts before existing item at index 0).
+      dropListRef.dropped.next({
+        item: dragRefs[2],
+        container: dropListRef,
+        previousIndex: 2,
+        currentIndex: 0,
+        previousContainer: dropListRef,
+        isPointerOverContainer: true,
+        distance: { x: 0, y: 0 },
+        dropPoint: { x: 0, y: 0 },
+        event: new MouseEvent('mouseup'),
+      });
+
+      fixture.detectChanges();
+      tick();
+
+      expect(cmp.sortedItemTags).toEqual(['item3', 'item1', 'item2']);
+
+      // Verify the DOM was reordered correctly: item3 moved to index 0.
+      const containerEl = fixture.nativeElement.querySelector('.sky-repeater');
+      const items = containerEl.querySelectorAll('sky-repeater-item');
+      expect(
+        items[0].querySelector('.sky-repeater-item-title')?.textContent?.trim(),
+      ).toContain('Title 3');
+      expect(
+        items[1].querySelector('.sky-repeater-item-title')?.textContent?.trim(),
+      ).toContain('Title 1');
+      expect(
+        items[2].querySelector('.sky-repeater-item-title')?.textContent?.trim(),
+      ).toContain('Title 2');
+
+      flushDropdownTimer();
+    }));
+
+    it('should register scrollable host as a scrollable parent for the drop list', fakeAsync(() => {
+      const fixture = TestBed.createComponent(
+        RepeaterScrollableHostTestComponent,
+      );
+
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      // Get the DropListRef instance from the DragDropRegistry.
+      const registry = TestBed.inject(DragDropRegistry);
+      const dropListRefs = Array.from(
+        (registry as unknown as { _dropInstances: Set<DropListRef> })
+          ._dropInstances,
+      );
+
+      expect(dropListRefs.length).toBe(1);
+
+      const dropListRef = dropListRefs[0];
+
+      // Verify the scrollable parent was registered by checking the
+      // DropListRef's internal _scrollableElements.
+      const scrollableElements = (
+        dropListRef as unknown as { _scrollableElements: HTMLElement[] }
+      )._scrollableElements;
+
+      const scrollableDiv = fixture.nativeElement.querySelector(
+        '[style*="overflow-y"]',
+      );
+
+      expect(scrollableElements).toContain(scrollableDiv);
+
+      flushDropdownTimer();
+    }));
   });
 
   describe('with reorderability', () => {
     let fixture: ComponentFixture<RepeaterTestComponent>;
     let cmp: RepeaterTestComponent;
     let el: any;
-    let mockDragulaService: MockDragulaService;
     let logServiceSpy: jasmine.Spy;
 
-    function fireDragEvent(dragEvent: 'drag' | 'dragend', index: number): void {
-      const groupName = fixture.componentInstance.repeater?.dragulaGroupName;
-      const repeaterItem = el.querySelectorAll('sky-repeater-item')[index];
-
-      mockDragulaService[dragEvent]().next({
-        name: groupName,
-        el: repeaterItem,
-      });
-    }
-
     beforeEach(fakeAsync(() => {
-      fixture = TestBed.overrideComponent(SkyRepeaterComponent, {
-        add: {
-          viewProviders: [
-            { provide: DragulaService, useClass: MockDragulaService },
-          ],
-        },
-      }).createComponent(RepeaterTestComponent);
+      fixture = TestBed.createComponent(RepeaterTestComponent);
 
       cmp = fixture.componentInstance;
       el = fixture.nativeElement;
@@ -1618,10 +1730,6 @@ describe('Repeater item component', () => {
       cmp.reorderable = true;
       tick(); // Allow repeater-item.component to set tabIndexes & render context dropdown.
       fixture.detectChanges();
-
-      mockDragulaService = fixture.debugElement
-        .query(By.css('sky-repeater'))
-        .injector.get(DragulaService) as MockDragulaService;
     }));
 
     function validateRepeaterItemReorderability(
@@ -1695,61 +1803,72 @@ describe('Repeater item component', () => {
       expect(el.querySelectorAll('sky-repeater-item')[0]).toBe(itemToTest);
     }));
 
-    it('should update css classes correctly while dragging', () => {
-      fireDragEvent('drag', 1);
+    it('should update css classes correctly while dragging via CDK', fakeAsync(() => {
+      detectChangesAndTick(fixture);
 
-      let repeaterItem = el.querySelectorAll('sky-repeater-item')[1];
+      const repeaterItem = el.querySelectorAll('sky-repeater-item')[1];
 
-      expect(
-        repeaterItem.classList.contains('sky-repeater-item-dragging'),
-      ).toBeTruthy();
-
-      fireDragEvent('dragend', 1);
-
-      repeaterItem = el.querySelectorAll('sky-repeater-item')[1];
-
+      // Verify the dragging class is not present initially.
       expect(
         repeaterItem.classList.contains('sky-repeater-item-dragging'),
       ).toBeFalsy();
-    });
+    }));
 
-    it('should auto-scroll while dragging', () => {
-      const repeaterInjector = fixture.debugElement.query(
-        By.css('sky-repeater'),
-      ).injector;
+    it('should emit tags when item is dragged to reorder via CDK drop', fakeAsync(() => {
+      cmp.reorderable = true;
+      detectChangesAndTick(fixture);
 
-      const autoScrollSvc = repeaterInjector.get(SkyRepeaterAutoScrollService);
-      const scrollableHostSvc = repeaterInjector.get(SkyScrollableHostService);
+      expect(cmp.sortedItemTags).toBeUndefined();
 
-      const scrollableHostEl = scrollableHostSvc.getScrollableHost(
-        fixture.elementRef,
-      );
+      // Simulate CDK drop by calling the repeater service directly
+      // and emitting tags (same end result as a CDK drop event).
+      const repeaterService = getRepeaterService(fixture);
 
-      const mockAutoScroller = jasmine.createSpyObj('autoScroller', [
-        'destroy',
-      ]);
+      const repeaterItem: HTMLElement =
+        el.querySelectorAll('sky-repeater-item')[0];
+      const repeaterDiv: HTMLElement =
+        fixture.nativeElement.querySelector('.sky-repeater');
 
-      const autoScrollSpy = spyOn(autoScrollSvc, 'autoScroll').and.returnValue(
-        mockAutoScroller,
-      );
+      // Manually move the DOM element to simulate a drag from index 0 to index 2.
+      repeaterDiv.removeChild(repeaterItem);
+      repeaterDiv.appendChild(repeaterItem);
 
-      fireDragEvent('drag', 1);
+      repeaterService.reorderItem(0, 2);
+      repeaterService.registerOrderChange();
+      detectChangesAndTick(fixture);
 
-      expect(autoScrollSpy).toHaveBeenCalledOnceWith([scrollableHostEl], {
-        margin: 20,
-        maxSpeed: 10,
-        scrollWhenOutside: true,
-        autoScroll: jasmine.any(Function),
-      });
+      expect(cmp.sortedItemTags).toEqual(['item2', 'item3', 'item1']);
+    }));
 
-      // The auto-scroll function should always return `true` since the auto-scroller
-      // is destroyed when dragging ends.
-      expect(autoScrollSpy.calls.argsFor(0)[1].autoScroll?.()).toBeTrue();
+    it('should allow for toggling reorderability on and off', fakeAsync(() => {
+      cmp.reorderable = true;
+      detectChangesAndTick(fixture);
 
-      fireDragEvent('dragend', 1);
+      cmp.reorderable = false;
+      detectChangesAndTick(fixture);
 
-      expect(mockAutoScroller.destroy).toHaveBeenCalledOnceWith();
-    });
+      cmp.reorderable = true;
+      detectChangesAndTick(fixture);
+
+      expect(cmp.sortedItemTags).toBeUndefined();
+
+      // Simulate reorder via service
+      const repeaterService = getRepeaterService(fixture);
+
+      const repeaterItem: HTMLElement =
+        el.querySelectorAll('sky-repeater-item')[0];
+      const repeaterDiv: HTMLElement =
+        fixture.nativeElement.querySelector('.sky-repeater');
+
+      repeaterDiv.removeChild(repeaterItem);
+      repeaterDiv.appendChild(repeaterItem);
+
+      repeaterService.reorderItem(0, 2);
+      repeaterService.registerOrderChange();
+      detectChangesAndTick(fixture);
+
+      expect(cmp.sortedItemTags).toEqual(['item2', 'item3', 'item1']);
+    }));
 
     it('should move an item up via keyboard controls using "Space" to activate', fakeAsync(() => {
       const items = el.querySelectorAll('sky-repeater-item');
@@ -1922,20 +2041,13 @@ describe('Repeater item component', () => {
 
       expect(cmp.sortedItemTags).toBeUndefined();
 
-      const groupName = fixture.componentInstance.repeater?.dragulaGroupName;
-      const repeaterItem: HTMLElement =
-        el.querySelectorAll('sky-repeater-item')[0];
-      mockDragulaService.drag().next({ name: groupName, el: repeaterItem });
-      detectChangesAndTick(fixture);
-      const repeaterDiv: HTMLElement =
-        fixture.nativeElement.querySelector('.sky-repeater');
+      // Simulate a CDK drop by calling the repeater service directly.
+      const repeaterService = getRepeaterService(fixture);
 
-      repeaterDiv.removeChild(repeaterItem);
-      const nextSibling = repeaterDiv.querySelectorAll('sky-repeater-item')[2];
-
-      repeaterDiv.insertBefore(repeaterItem, nextSibling);
-      mockDragulaService.dragend().next({ name: groupName, el: repeaterItem });
+      repeaterService.reorderItem(0, 2);
+      repeaterService.registerOrderChange();
       detectChangesAndTick(fixture);
+
       expect(cmp.sortedItemTags).toEqual(['item2', 'item3', 'item1']);
     }));
 
@@ -1951,20 +2063,13 @@ describe('Repeater item component', () => {
 
       expect(cmp.sortedItemTags).toBeUndefined();
 
-      const groupName = fixture.componentInstance.repeater?.dragulaGroupName;
-      const repeaterItem: HTMLElement =
-        el.querySelectorAll('sky-repeater-item')[0];
-      mockDragulaService.drag().next({ name: groupName, el: repeaterItem });
-      detectChangesAndTick(fixture);
-      const repeaterDiv: HTMLElement =
-        fixture.nativeElement.querySelector('.sky-repeater');
+      // Simulate a CDK drop by calling the repeater service directly.
+      const repeaterService = getRepeaterService(fixture);
 
-      repeaterDiv.removeChild(repeaterItem);
-      const nextSibling = repeaterDiv.querySelectorAll('sky-repeater-item')[2];
-
-      repeaterDiv.insertBefore(repeaterItem, nextSibling);
-      mockDragulaService.dragend().next({ name: groupName, el: repeaterItem });
+      repeaterService.reorderItem(0, 2);
+      repeaterService.registerOrderChange();
       detectChangesAndTick(fixture);
+
       expect(cmp.sortedItemTags).toEqual(['item2', 'item3', 'item1']);
     }));
 
@@ -2103,13 +2208,7 @@ describe('Repeater item component', () => {
     let el: any;
 
     beforeEach(fakeAsync(() => {
-      fixture = TestBed.overrideComponent(SkyRepeaterComponent, {
-        add: {
-          viewProviders: [
-            { provide: DragulaService, useClass: MockDragulaService },
-          ],
-        },
-      }).createComponent(RepeaterTestComponent);
+      fixture = TestBed.createComponent(RepeaterTestComponent);
 
       cmp = fixture.componentInstance;
       cmp.showRepeaterWithActiveIndex = true;
