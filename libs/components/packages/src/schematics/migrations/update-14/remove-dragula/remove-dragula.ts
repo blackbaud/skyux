@@ -22,13 +22,6 @@ export default function (): Rule {
 }
 
 /**
- * Checks if an override key is for ng2-dragula (handles "ng2-dragula" or "ng2-dragula@version").
- */
-function isNg2DragulaOverride(overrideKey: string): boolean {
-  return overrideKey.startsWith(NG2_DRAGULA);
-}
-
-/**
  * Removes ng2-dragula package overrides from package.json if ng2-dragula
  * is not present in dependencies or devDependencies.
  * This handles override keys like "ng2-dragula@version".
@@ -58,7 +51,7 @@ function removeNg2DragulaOverrides(): Rule {
     const overrideKeys = Object.keys(packageJson.overrides);
 
     for (const overrideKey of overrideKeys) {
-      if (isNg2DragulaOverride(overrideKey)) {
+      if (overrideKey.startsWith(NG2_DRAGULA)) {
         delete packageJson.overrides[overrideKey];
         hasChanges = true;
       }

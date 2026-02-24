@@ -11,8 +11,6 @@ import { getSourceRoot } from '../utility/workspace';
 /**
  * Removes one or more dependencies if they are not being used by TypeScript source files in any project.
  * Accepts either a single package name or an array of package names for efficiency when checking multiple packages.
- * @param packageNames - The name(s) of the package(s) to check and potentially remove
- * @returns A rule that removes unused dependencies
  */
 export function removeUnusedDependencies(
   packageNames: string | string[],
