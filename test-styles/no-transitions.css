@@ -1,0 +1,12 @@
+/**
+ * Suppress CSS transitions and animations during unit tests.
+ * This prevents native browser `transitionend` events from firing
+ * (in Chrome via karma-chrome-launcher) while manual `dispatchEvent()`
+ * calls in test helpers remain unaffected.
+ */
+*,
+*::before,
+*::after {
+  transition: none !important;
+  animation: none !important;
+}

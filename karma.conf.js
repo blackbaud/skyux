@@ -9,6 +9,14 @@ module.exports = () => {
     basePath: '',
     frameworks: ['jasmine', '@angular-devkit/build-angular'],
     middleware: ['fake-url'],
+    // files: [
+    //   {
+    //     pattern: 'test-styles/no-transitions.css',
+    //     watched: false,
+    //     included: true,
+    //     served: true,
+    //   },
+    // ],
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),

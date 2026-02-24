@@ -190,6 +190,9 @@
       "@skyux/tabs/testing": ["libs/components/tabs/testing/src/public-api.ts"],
       "@skyux/text-editor": ["libs/components/text-editor/src/index.ts"],
       "@skyux/theme": ["libs/components/theme/src/index.ts"],
+      "@skyux/theme/testing": [
+        "libs/components/theme/testing/src/public-api.ts"
+      ],
       "@skyux/tiles": ["libs/components/tiles/src/index.ts"],
       "@skyux/tiles/testing": [
         "libs/components/tiles/testing/src/public-api.ts"

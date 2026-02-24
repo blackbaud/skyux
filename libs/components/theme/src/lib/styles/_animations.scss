@@ -28,7 +28,8 @@
   }
 
   &.sky-animation-disabled {
-    transition: none;
+    // Use near-zero durations so that transitionend events still fire.
+    transition: 0.01ms !important;
   }
 }
 
@@ -63,10 +64,17 @@
 // Global utility classes for external consumers.
 // Internal components should `@include` the mixins directly instead.
 
-// .sky-animation-slide {
-//   @include sky-animation-slide();
-// }
+.sky-animation-disabled {
+  // Use near-zero durations so that transitionend events still fire.
+  transition: 0.01ms !important;
+}
 
-// .sky-animation-emerge {
-//   @include sky-animation-emerge();
-// }
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
