@@ -169,7 +169,9 @@ describe('SkyAgGridWrapperComponent', () => {
 
     normalGridWrapperFixture.detectChanges();
 
-    expect(autoHeightGridWrapperComponent.isNormalLayout).toEqual(true);
+    expect(normalGridWrapperFixture.nativeElement).toHaveCssClass(
+      'sky-ag-grid-layout-normal',
+    );
   });
 
   it('should apply ag-theme', () => {

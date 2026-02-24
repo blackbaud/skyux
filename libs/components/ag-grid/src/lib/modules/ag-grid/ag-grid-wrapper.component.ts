@@ -47,7 +47,7 @@ let idIndex = 0;
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgClass, SkyIdModule, SkyViewkeeperModule],
   host: {
-    '[class.sky-ag-grid-layout-normal]': 'isNormalLayout',
+    '[class.sky-ag-grid-layout-normal]': 'isNormalLayout()',
   },
 })
 export class SkyAgGridWrapperComponent
@@ -58,7 +58,7 @@ export class SkyAgGridWrapperComponent
   })
   public agGrid: AgGridAngular | undefined;
 
-  public isNormalLayout = false;
+  protected readonly isNormalLayout = signal(false);
 
   /**
    * Enable a compact layout for the grid when using modern theme. Compact layout uses
@@ -77,6 +77,9 @@ export class SkyAgGridWrapperComponent
   public beforeAnchorId: string;
   public gridId: string;
 
+  /**
+   * @internal
+   */
   public readonly viewkeeperClasses = signal<string[]>([]);
 
   get #isInEditMode(): boolean {
@@ -178,7 +181,7 @@ export class SkyAgGridWrapperComponent
           this.viewkeeperClasses.update((prev) => [...prev, '.ag-header']);
         }
       } else if (domLayout === 'normal') {
-        this.isNormalLayout = true;
+        this.isNormalLayout.set(true);
       }
 
       merge(
@@ -248,7 +251,8 @@ export class SkyAgGridWrapperComponent
 
   public ngAfterViewInit(): void {
     const agGridElement: HTMLElement | undefined =
-      this.#elementRef.nativeElement.querySelector('ag-grid-angular');
+      this.#elementRef.nativeElement.querySelector('ag-grid-angular') ??
+      undefined;
     const callback = (): void => {
       this.#hasEditableClass.set(
         !!agGridElement?.classList.contains('sky-ag-grid-editable'),

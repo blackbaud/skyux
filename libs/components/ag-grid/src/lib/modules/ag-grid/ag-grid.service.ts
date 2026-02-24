@@ -153,6 +153,7 @@ export class SkyAgGridService {
     inject(SkyThemeService, { optional: true })?.settingsChange.pipe(
       map((settingsChange) => settingsChange.currentSettings),
     ) ?? EMPTY,
+    { initialValue: undefined },
   );
   readonly #currencyValidatorMsg = toSignal(
     this.#resources?.getString(
