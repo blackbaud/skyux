@@ -162,7 +162,7 @@
       [class.sky-animation-slide-up]="slideDirection === 'up'"
       [attr.role]="(itemRole$ | async)?.content"
     >
-      <div class="sky-animation-target">
+      <div class="sky-animation-slide-content">
         <ng-content select="sky-repeater-item-content" />
       </div>
     </div>

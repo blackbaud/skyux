@@ -92,12 +92,9 @@
   overflow: hidden;
   border-top: var(--sky-override-vertical-tabset-group-border, none);
   @include animations.sky-animation-slide();
-  // Override transition to include padding animation.
-  transition:
-    grid-template-rows 150ms ease-in,
-    padding-top 150ms ease-in,
-    padding-bottom 150ms ease-in,
-    visibility 150ms ease-in;
+}
+
+.sky-vertical-tabset-group-content-gutter {
   // Left and right padding is handled by the component.
   padding-left: var(
     --sky-override-vertical-tabset-group-content-padding-left,
@@ -107,16 +104,6 @@
     --sky-override-vertical-tabset-group-content-padding-right,
     var(--sky-comp-tab-vertical-subgroup-space-inset-right)
   );
-
-  &.sky-animation-slide-down {
-    padding-top: var(--sky-comp-tab-vertical-subgroup-space-inset-top);
-    padding-bottom: var(--sky-comp-tab-vertical-subgroup-space-inset-bottom);
-  }
-
-  &.sky-animation-slide-up {
-    padding-top: 0;
-    padding-bottom: 0;
-  }
 }
 
 @include verticalTabsetButtonMixins.sky-vertical-tabset-button();
