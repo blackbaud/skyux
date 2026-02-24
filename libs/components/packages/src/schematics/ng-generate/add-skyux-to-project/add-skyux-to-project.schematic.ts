@@ -53,8 +53,6 @@ function configureAllowedCommonJsDependencies(
     allowedCommonJsDependencies.push(
       '@skyux/icons',
       'autonumeric',
-      'dom-autoscroller',
-      'dragula',
       'fontfaceobserver',
       'intl-tel-input',
       'moment',

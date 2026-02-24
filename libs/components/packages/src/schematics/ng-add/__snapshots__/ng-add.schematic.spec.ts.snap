@@ -155,8 +155,6 @@ exports[`ng-add.schematic should update workspace config if a workspace only has
             "allowedCommonJsDependencies": [
               "@skyux/icons",
               "autonumeric",
-              "dom-autoscroller",
-              "dragula",
               "fontfaceobserver",
               "intl-tel-input",
               "moment"

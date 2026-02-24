@@ -24,8 +24,6 @@
       "version": "0.0.0-PLACEHOLDER",
       "factory": "./src/schematics/migrations/update-14/uninstall-prettier-schematics/uninstall-prettier-schematics",
       "description": "Uninstall the @skyux-sdk/prettier-schematics package"
-<<<<<<< Updated upstream
-=======
     },
     "remove-dragula": {
       "version": "0.0.0-PLACEHOLDER",
@@ -36,7 +34,6 @@
       "version": "0.0.0-PLACEHOLDER",
       "factory": "./src/schematics/migrations/update-14/remove-packages-polyfills/remove-packages-polyfills",
       "description": "Remove @skyux/packages/polyfills from project build and test targets"
->>>>>>> Stashed changes
     }
   }
 }
