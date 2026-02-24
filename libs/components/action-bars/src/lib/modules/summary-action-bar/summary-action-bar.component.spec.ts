@@ -11,6 +11,7 @@ import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
 } from '@skyux/core/testing';
+import { provideNoopSkyAnimations } from '@skyux/theme';
 
 import { SkySummaryActionBarSplitViewTestComponent } from './fixtures/summary-action-bar-split-view.component.fixture';
 import { SkySummaryActionBarTabsTestComponent } from './fixtures/summary-action-bar-tabs.component.fixture';
@@ -144,7 +145,7 @@ describe('Summary Action Bar component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkySummaryActionBarFixtureModule],
-      providers: [provideSkyMediaQueryTesting()],
+      providers: [provideSkyMediaQueryTesting(), provideNoopSkyAnimations()],
     });
 
     mediaQueryController = TestBed.inject(SkyMediaQueryTestingController);

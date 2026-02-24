@@ -10,6 +10,7 @@ import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyLogService, SkyScrollableHostService } from '@skyux/core';
 import { SkyInlineFormButtonLayout } from '@skyux/inline-form';
+import { provideNoopSkyAnimations } from '@skyux/theme';
 
 import { DragulaService, Group } from 'ng2-dragula';
 
@@ -150,6 +151,7 @@ describe('Repeater item component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyRepeaterFixturesModule],
+      providers: [provideNoopSkyAnimations()],
     });
   });
 

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SkyKeyInfoModule } from '@skyux/indicators';
 import { SkyModalModule } from '@skyux/modals';
@@ -26,7 +25,6 @@ import { SkySummaryActionBarTestComponent } from './summary-action-bar.component
   ],
   imports: [
     BrowserModule,
-    NoopAnimationsModule,
     RouterTestingModule,
     SkyKeyInfoModule,
     SkyModalModule,
