@@ -8,17 +8,24 @@ import {
 const STYLE_ID = 'sky-noop-animations';
 
 /**
- * Provides a mechanism to disable CSS transitions and animations during tests.
- * Add this to the `providers` array in `TestBed.configureTestingModule()` to
- * prevent CSS `transition` and `animation` properties from running.
+ * Disables CSS transitions and animations by injecting a global `<style>`
+ * element that sets near-zero durations. Transition and animation events
+ * (e.g. `transitionend`) still fire, so application logic that depends
+ * on them continues to work.
  *
- * This is analogous to Angular's `provideNoopAnimations()`, but targets
- * CSS-based animations instead of Angular's `@angular/animations` system.
+ * Use this in unit tests or in applications that need to suppress
+ * motion globally.
  *
  * @example
  * ```typescript
+ * // In a unit test:
  * TestBed.configureTestingModule({
  *   imports: [MyComponent],
+ *   providers: [provideNoopSkyAnimations()],
+ * });
+ *
+ * // In an application:
+ * bootstrapApplication(AppComponent, {
  *   providers: [provideNoopSkyAnimations()],
  * });
  * ```

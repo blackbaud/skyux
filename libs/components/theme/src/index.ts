@@ -14,6 +14,8 @@ export { SkyAppViewportService } from './lib/viewport/viewport.service';
 
 export { provideInitialTheme } from './lib/providers/provide-initial-theme';
 
+export { provideNoopSkyAnimations } from './lib/animations/noop-sky-animations';
+
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.
 export { SkyThemeClassDirective as λ2 } from './lib/theming/theme-class.directive';
