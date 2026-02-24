@@ -6,6 +6,7 @@ import {
 import { firstValueFrom } from 'rxjs';
 
 import { createTestApp } from '../testing/scaffold';
+import { JsonFile } from '../utility/json-file';
 
 import { removeUnusedDependencies } from './remove-unused-dependencies';
 
@@ -21,10 +22,8 @@ describe('removeUnusedDependencies rule', () => {
     });
 
     // Add the test package to package.json
-    const packageJson = JSON.parse(tree.readText('/package.json'));
-    packageJson.dependencies = packageJson.dependencies || {};
-    packageJson.dependencies[packageName] = '1.0.0';
-    tree.overwrite('/package.json', JSON.stringify(packageJson, null, 2));
+    const packageJson = new JsonFile(tree, '/package.json');
+    packageJson.modify(['dependencies', packageName], '1.0.0');
 
     return tree;
   }
@@ -41,8 +40,8 @@ describe('removeUnusedDependencies rule', () => {
       runner.callRule(removeUnusedDependencies(packageName), tree),
     );
 
-    const packageJson = JSON.parse(updatedTree.readText('/package.json'));
-    expect(packageJson.dependencies[packageName]).toBeUndefined();
+    const packageJson = new JsonFile(updatedTree, '/package.json');
+    expect(packageJson.get(['dependencies', packageName])).toBeUndefined();
   });
 
   it('should keep package if used with standard import syntax', async () => {
@@ -57,8 +56,8 @@ describe('removeUnusedDependencies rule', () => {
       runner.callRule(removeUnusedDependencies(packageName), tree),
     );
 
-    const packageJson = JSON.parse(updatedTree.readText('/package.json'));
-    expect(packageJson.dependencies[packageName]).toBe('1.0.0');
+    const packageJson = new JsonFile(updatedTree, '/package.json');
+    expect(packageJson.get(['dependencies', packageName])).toBe('1.0.0');
   });
 
   it('should keep package if used with namespace import', async () => {
@@ -73,8 +72,8 @@ describe('removeUnusedDependencies rule', () => {
       runner.callRule(removeUnusedDependencies(packageName), tree),
     );
 
-    const packageJson = JSON.parse(updatedTree.readText('/package.json'));
-    expect(packageJson.dependencies[packageName]).toBe('1.0.0');
+    const packageJson = new JsonFile(updatedTree, '/package.json');
+    expect(packageJson.get(['dependencies', packageName])).toBe('1.0.0');
   });
 
   it('should keep package if used with default import', async () => {
@@ -89,8 +88,8 @@ describe('removeUnusedDependencies rule', () => {
       runner.callRule(removeUnusedDependencies(packageName), tree),
     );
 
-    const packageJson = JSON.parse(updatedTree.readText('/package.json'));
-    expect(packageJson.dependencies[packageName]).toBe('1.0.0');
+    const packageJson = new JsonFile(updatedTree, '/package.json');
+    expect(packageJson.get(['dependencies', packageName])).toBe('1.0.0');
   });
 
   it('should keep package if used with subpath import', async () => {
@@ -105,8 +104,8 @@ describe('removeUnusedDependencies rule', () => {
       runner.callRule(removeUnusedDependencies(packageName), tree),
     );
 
-    const packageJson = JSON.parse(updatedTree.readText('/package.json'));
-    expect(packageJson.dependencies[packageName]).toBe('1.0.0');
+    const packageJson = new JsonFile(updatedTree, '/package.json');
+    expect(packageJson.get(['dependencies', packageName])).toBe('1.0.0');
   });
 
   it('should keep package if used with dynamic import', async () => {
@@ -121,8 +120,8 @@ describe('removeUnusedDependencies rule', () => {
       runner.callRule(removeUnusedDependencies(packageName), tree),
     );
 
-    const packageJson = JSON.parse(updatedTree.readText('/package.json'));
-    expect(packageJson.dependencies[packageName]).toBe('1.0.0');
+    const packageJson = new JsonFile(updatedTree, '/package.json');
+    expect(packageJson.get(['dependencies', packageName])).toBe('1.0.0');
   });
 
   it('should keep package if used with require', async () => {
@@ -137,8 +136,8 @@ describe('removeUnusedDependencies rule', () => {
       runner.callRule(removeUnusedDependencies(packageName), tree),
     );
 
-    const packageJson = JSON.parse(updatedTree.readText('/package.json'));
-    expect(packageJson.dependencies[packageName]).toBe('1.0.0');
+    const packageJson = new JsonFile(updatedTree, '/package.json');
+    expect(packageJson.get(['dependencies', packageName])).toBe('1.0.0');
   });
 
   it('should remove package if only mentioned in comments', async () => {
@@ -153,8 +152,8 @@ describe('removeUnusedDependencies rule', () => {
       runner.callRule(removeUnusedDependencies(packageName), tree),
     );
 
-    const packageJson = JSON.parse(updatedTree.readText('/package.json'));
-    expect(packageJson.dependencies[packageName]).toBeUndefined();
+    const packageJson = new JsonFile(updatedTree, '/package.json');
+    expect(packageJson.get(['dependencies', packageName])).toBeUndefined();
   });
 
   it('should remove package if only mentioned in string literals', async () => {
@@ -169,8 +168,8 @@ describe('removeUnusedDependencies rule', () => {
       runner.callRule(removeUnusedDependencies(packageName), tree),
     );
 
-    const packageJson = JSON.parse(updatedTree.readText('/package.json'));
-    expect(packageJson.dependencies[packageName]).toBeUndefined();
+    const packageJson = new JsonFile(updatedTree, '/package.json');
+    expect(packageJson.get(['dependencies', packageName])).toBeUndefined();
   });
 
   it('should ignore non-TypeScript files', async () => {
@@ -185,8 +184,8 @@ describe('removeUnusedDependencies rule', () => {
       runner.callRule(removeUnusedDependencies(packageName), tree),
     );
 
-    const packageJson = JSON.parse(updatedTree.readText('/package.json'));
-    expect(packageJson.dependencies[packageName]).toBeUndefined();
+    const packageJson = new JsonFile(updatedTree, '/package.json');
+    expect(packageJson.get(['dependencies', packageName])).toBeUndefined();
   });
 
   it('should check multiple TypeScript files', async () => {
@@ -203,17 +202,16 @@ describe('removeUnusedDependencies rule', () => {
       runner.callRule(removeUnusedDependencies(packageName), tree),
     );
 
-    const packageJson = JSON.parse(updatedTree.readText('/package.json'));
-    expect(packageJson.dependencies[packageName]).toBe('1.0.0');
+    const packageJson = new JsonFile(updatedTree, '/package.json');
+    expect(packageJson.get(['dependencies', packageName])).toBe('1.0.0');
   });
 
   it('should handle package names with special characters', async () => {
     const tree = await setup();
     const specialPackageName = '@scope/package-name.utils';
 
-    const packageJson = JSON.parse(tree.readText('/package.json'));
-    packageJson.dependencies[specialPackageName] = '1.0.0';
-    tree.overwrite('/package.json', JSON.stringify(packageJson, null, 2));
+    const packageJson = new JsonFile(tree, '/package.json');
+    packageJson.modify(['dependencies', specialPackageName], '1.0.0');
 
     tree.create(
       '/src/app/test.ts',
@@ -224,10 +222,10 @@ describe('removeUnusedDependencies rule', () => {
       runner.callRule(removeUnusedDependencies(specialPackageName), tree),
     );
 
-    const updatedPackageJson = JSON.parse(
-      updatedTree.readText('/package.json'),
+    const updatedPackageJson = new JsonFile(updatedTree, '/package.json');
+    expect(updatedPackageJson.get(['dependencies', specialPackageName])).toBe(
+      '1.0.0',
     );
-    expect(updatedPackageJson.dependencies[specialPackageName]).toBe('1.0.0');
   });
 
   it('should remove package if not used in any workspace project', async () => {
@@ -240,27 +238,25 @@ describe('removeUnusedDependencies rule', () => {
       runner.callRule(removeUnusedDependencies(packageName), tree),
     );
 
-    const packageJson = JSON.parse(updatedTree.readText('/package.json'));
-    expect(packageJson.dependencies[packageName]).toBeUndefined();
+    const packageJson = new JsonFile(updatedTree, '/package.json');
+    expect(packageJson.get(['dependencies', packageName])).toBeUndefined();
   });
 
   it('should remove from devDependencies if present', async () => {
     const tree = await setup();
 
-    const packageJson = JSON.parse(tree.readText('/package.json'));
-    delete packageJson.dependencies[packageName];
-    packageJson.devDependencies = packageJson.devDependencies || {};
-    packageJson.devDependencies[packageName] = '1.0.0';
-    tree.overwrite('/package.json', JSON.stringify(packageJson, null, 2));
+    const packageJson = new JsonFile(tree, '/package.json');
+    packageJson.remove(['dependencies', packageName]);
+    packageJson.modify(['devDependencies', packageName], '1.0.0');
 
     const updatedTree = await firstValueFrom(
       runner.callRule(removeUnusedDependencies(packageName), tree),
     );
 
-    const updatedPackageJson = JSON.parse(
-      updatedTree.readText('/package.json'),
-    );
-    expect(updatedPackageJson.devDependencies?.[packageName]).toBeUndefined();
+    const updatedPackageJson = new JsonFile(updatedTree, '/package.json');
+    expect(
+      updatedPackageJson.get(['devDependencies', packageName]),
+    ).toBeUndefined();
   });
 
   it('should handle files with syntax errors gracefully', async () => {
@@ -280,8 +276,8 @@ describe('removeUnusedDependencies rule', () => {
 
     // TypeScript AST is lenient and will still parse imports even with syntax errors
     // So the package should be kept
-    const packageJson = JSON.parse(updatedTree.readText('/package.json'));
-    expect(packageJson.dependencies[packageName]).toBe('1.0.0');
+    const packageJson = new JsonFile(updatedTree, '/package.json');
+    expect(packageJson.get(['dependencies', packageName])).toBe('1.0.0');
   });
 
   it('should remove package when only other packages are imported', async () => {
@@ -300,8 +296,8 @@ export class TestComponent {}`,
       runner.callRule(removeUnusedDependencies(packageName), tree),
     );
 
-    const packageJson = JSON.parse(updatedTree.readText('/package.json'));
-    expect(packageJson.dependencies[packageName]).toBeUndefined();
+    const packageJson = new JsonFile(updatedTree, '/package.json');
+    expect(packageJson.get(['dependencies', packageName])).toBeUndefined();
   });
 
   it('should skip files that cannot be parsed and continue checking others', async () => {
@@ -322,7 +318,7 @@ export class TestComponent {}`,
     );
 
     // Even though one file couldn't be parsed, the valid file should be detected
-    const packageJson = JSON.parse(updatedTree.readText('/package.json'));
-    expect(packageJson.dependencies[packageName]).toBe('1.0.0');
+    const packageJson = new JsonFile(updatedTree, '/package.json');
+    expect(packageJson.get(['dependencies', packageName])).toBe('1.0.0');
   });
 });

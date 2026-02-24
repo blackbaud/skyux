@@ -28,7 +28,9 @@ export function removeUnusedDependencies(
       const sourceRoot = getSourceRoot(project);
       const projectUsedPackages = findUsedPackages(tree, packages, sourceRoot);
 
-      projectUsedPackages.forEach((pkg) => usedPackages.add(pkg));
+      projectUsedPackages.forEach((pkg) => {
+        usedPackages.add(pkg);
+      });
     });
 
     const packagesToRemove = packages.filter((pkg) => !usedPackages.has(pkg));
@@ -163,13 +165,15 @@ function findUsedPackages(
     try {
       const sourceFile = parseSourceFile(tree, filePath);
 
-      // Check standard import declarations
       const importsUsed = getUsedPackagesFromImports(sourceFile, packageNames);
-      importsUsed.forEach((pkg) => usedPackages.add(pkg));
+      importsUsed.forEach((pkg) => {
+        usedPackages.add(pkg);
+      });
 
-      // Check dynamic imports/requires
       const callsUsed = getUsedPackagesFromCalls(sourceFile, packageNames);
-      callsUsed.forEach((pkg) => usedPackages.add(pkg));
+      callsUsed.forEach((pkg) => {
+        usedPackages.add(pkg);
+      });
 
       /* v8 ignore next 4 -- @preserve */
     } catch {
