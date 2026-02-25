@@ -6,7 +6,6 @@ import {
   tick,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import { SkyInlineFormFixtureComponent } from './fixtures/inline-form.fixture';
@@ -104,7 +103,7 @@ describe('Inline form component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, SkyInlineFormFixtureModule],
+      imports: [SkyInlineFormFixtureModule],
     });
 
     fixture = TestBed.createComponent(SkyInlineFormFixtureComponent);

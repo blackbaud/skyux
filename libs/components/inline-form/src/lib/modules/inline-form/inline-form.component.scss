@@ -2,6 +2,71 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
+:host {
+  interpolate-size: allow-keywords;
+}
+
+// Enter animation for the form: expand height (200ms), then fade in (200ms).
+@keyframes sky-slide-dissolve-last-enter {
+  0% {
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+  }
+
+  50% {
+    height: auto;
+    opacity: 0;
+    overflow: hidden;
+  }
+
+  100% {
+    height: auto;
+    opacity: 1;
+  }
+}
+
+// Leave animation for the form: fade out immediately, then collapse height (200ms).
+@keyframes sky-slide-dissolve-last-leave {
+  0% {
+    height: auto;
+    opacity: 0;
+    overflow: hidden;
+  }
+
+  100% {
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+  }
+}
+
+// Enter animation for the content: expand and fade in (100ms).
+@keyframes sky-slide-dissolve-first-enter {
+  0% {
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+  }
+
+  100% {
+    height: auto;
+    opacity: 1;
+  }
+}
+
+.sky-slide-dissolve-last {
+  animation: sky-slide-dissolve-last-enter 400ms ease-in;
+
+  &.ng-leave {
+    animation: sky-slide-dissolve-last-leave 200ms ease-in;
+  }
+}
+
+.sky-slide-dissolve-first {
+  animation: sky-slide-dissolve-first-enter 100ms ease-in;
+}
+
 @include compatMixins.sky-default-overrides('.sky-inline-form') {
   --sky-override-inline-form-background-color: #{$sky-background-color-neutral-light};
   --sky-override-inline-form-border: 1px solid

@@ -1,10 +1,10 @@
-<div [@skySlideDissolve]="showForm">
+<div>
   @if (!showForm) {
-    <div class="sky-slide-dissolve-first">
+    <div class="sky-slide-dissolve-first" animate.enter animate.leave>
       <ng-content />
     </div>
   } @else if (template) {
-    <div class="sky-slide-dissolve-last">
+    <div class="sky-slide-dissolve-last" animate.enter animate.leave>
       <div
         class="sky-inline-form sky-shadow sky-box sky-elevation-1-bordered sky-padding-even-md"
       >
