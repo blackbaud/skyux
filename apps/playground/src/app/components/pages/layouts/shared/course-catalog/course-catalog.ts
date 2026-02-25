@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   booleanAttribute,
   effect,
@@ -49,6 +50,7 @@ const VIEW_ID = 'grid';
   `,
   imports: [AgGridAngular, SkyAgGridModule, SkyDataManagerModule],
   providers: [SkyDataManagerService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CourseCatalogComponent {
   public readonly dataManager = input<boolean, unknown>(false, {
