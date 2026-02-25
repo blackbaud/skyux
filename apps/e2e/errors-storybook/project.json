@@ -14,7 +14,7 @@
           "base": "dist/apps/e2e/errors-storybook"
         },
         "index": "apps/e2e/errors-storybook/src/index.html",
-        "polyfills": ["zone.js", "libs/components/packages/src/polyfills.js"],
+        "polyfills": ["zone.js"],
         "tsConfig": "apps/e2e/errors-storybook/tsconfig.app.json",
         "styles": [
           "apps/e2e/errors-storybook/src/styles.scss",
