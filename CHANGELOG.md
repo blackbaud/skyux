@@ -6,11 +6,13 @@
 
 ### ⚠ BREAKING CHANGES
 
+* **components/packages:** do not add `@skyux/packages/polyfills` to new SKY UX projects (#4242)
 * **components/ag-grid:** support AG Grid 35.1.0 (#4221)
 
 ### Features
 
 * **components/ag-grid:** support AG Grid 35.1.0 ([#4221](https://github.com/blackbaud/skyux/issues/4221)) ([41cd068](https://github.com/blackbaud/skyux/commit/41cd068af7ae82ce682a008445a80765d1417a4e))
+* **components/packages:** do not add `@skyux/packages/polyfills` to new SKY UX projects ([#4242](https://github.com/blackbaud/skyux/issues/4242)) ([8100400](https://github.com/blackbaud/skyux/commit/8100400d79c94a85772aec079313f91025e67011))
 
 
 ### Bug Fixes
