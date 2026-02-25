@@ -4,6 +4,7 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import {
@@ -15,24 +16,42 @@ import {
   RowNode,
 } from 'ag-grid-community';
 
-import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
-import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
+import {
+  MinimalColumnDefs,
+  MinimalRowData,
+  SkyAgGridMinimalFixtureComponent,
+} from '../../fixtures/ag-grid-minimal.component.fixture';
 import { SkyCellClass } from '../../types/cell-class';
 import { SkyCellEditorTextParams } from '../../types/cell-editor-text-params';
+import { SkyCellType } from '../../types/cell-type';
 
 import { SkyAgGridCellEditorTextComponent } from './cell-editor-text.component';
 
 describe('SkyCellEditorTextComponent', () => {
-  // We've had some issue with grid rendering causing the specs to timeout in IE. Extending it slightly to help.
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 7500;
-
   let textEditorFixture: ComponentFixture<SkyAgGridCellEditorTextComponent>;
   let textEditorComponent: SkyAgGridCellEditorTextComponent;
   let textEditorNativeElement: HTMLElement;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkyAgGridFixtureModule],
+      imports: [SkyAgGridMinimalFixtureComponent],
+      providers: [
+        provideNoopAnimations(),
+        {
+          provide: MinimalColumnDefs,
+          useValue: [
+            {
+              field: 'nickname',
+              editable: true,
+              type: SkyCellType.Text,
+            },
+          ],
+        },
+        {
+          provide: MinimalRowData,
+          useValue: [{ nickname: 'test' }],
+        },
+      ],
     });
 
     textEditorFixture = TestBed.createComponent(
@@ -43,7 +62,9 @@ describe('SkyCellEditorTextComponent', () => {
   });
 
   it('renders a text input when editing a text cell in an ag grid', () => {
-    const gridFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+    const gridFixture = TestBed.createComponent(
+      SkyAgGridMinimalFixtureComponent,
+    );
     const gridNativeElement = gridFixture.nativeElement;
 
     gridFixture.detectChanges();

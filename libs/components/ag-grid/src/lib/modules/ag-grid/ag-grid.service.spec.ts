@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 import { SkyLogService } from '@skyux/core';
 import { SkyDateService } from '@skyux/datetime';
+import { SkyLibResourcesService } from '@skyux/i18n';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -1098,6 +1099,69 @@ describe('SkyAgGridService', () => {
             },
           } as RowClassParams),
       ).toEqual(['sky-ag-grid-row-123', 'custom-class']);
+    });
+  });
+
+  describe('when SkyLibResourcesService is not provided', () => {
+    let serviceWithoutResources: SkyAgGridService;
+
+    beforeEach(() => {
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        providers: [
+          SkyAgGridService,
+          SkyAgGridAdapterService,
+          {
+            provide: SkyThemeService,
+            useValue: mockThemeSvc,
+          },
+          {
+            provide: SkyDateService,
+            useValue: dateService,
+          },
+          {
+            provide: SkyLibResourcesService,
+            useValue: undefined,
+          },
+        ],
+      });
+
+      serviceWithoutResources = TestBed.inject(SkyAgGridService);
+    });
+
+    it('should use fallback row selector heading', () => {
+      const options = serviceWithoutResources.getGridOptions({
+        gridOptions: {},
+      });
+
+      const headerValueGetter =
+        options.columnTypes?.[SkyCellType.RowSelector].headerValueGetter;
+      expect(typeof headerValueGetter).toBe('function');
+      expect((headerValueGetter as CallableFunction)()).toEqual(
+        'Row selection',
+      );
+    });
+
+    it('should use fallback currency validator message', () => {
+      const options = serviceWithoutResources.getGridOptions({
+        gridOptions: {},
+      });
+      const validatorMessage =
+        options.columnTypes?.[SkyCellType.CurrencyValidator].cellRendererParams
+          .skyComponentProperties.validatorMessage;
+
+      expect(validatorMessage()).toEqual('Please enter a valid currency');
+    });
+
+    it('should use fallback number validator message', () => {
+      const options = serviceWithoutResources.getGridOptions({
+        gridOptions: {},
+      });
+      const validatorMessage =
+        options.columnTypes?.[SkyCellType.NumberValidator].cellRendererParams
+          .skyComponentProperties.validatorMessage;
+
+      expect(validatorMessage()).toEqual('Please enter a valid number');
     });
   });
 });

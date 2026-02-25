@@ -4,6 +4,7 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import {
@@ -15,24 +16,42 @@ import {
   RowNode,
 } from 'ag-grid-community';
 
-import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
-import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
+import {
+  MinimalColumnDefs,
+  MinimalRowData,
+  SkyAgGridMinimalFixtureComponent,
+} from '../../fixtures/ag-grid-minimal.component.fixture';
 import { SkyCellClass } from '../../types/cell-class';
 import { SkyCellEditorCurrencyParams } from '../../types/cell-editor-currency-params';
+import { SkyCellType } from '../../types/cell-type';
 
 import { SkyAgGridCellEditorCurrencyComponent } from './cell-editor-currency.component';
 
 describe('SkyCellEditorCurrencyComponent', () => {
-  // We've had some issue with grid rendering causing the specs to timeout in IE. Extending it slightly to help.
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 7500;
-
   let currencyEditorFixture: ComponentFixture<SkyAgGridCellEditorCurrencyComponent>;
   let currencyEditorComponent: SkyAgGridCellEditorCurrencyComponent;
   let currencyEditorNativeElement: HTMLElement;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkyAgGridFixtureModule],
+      imports: [SkyAgGridMinimalFixtureComponent],
+      providers: [
+        provideNoopAnimations(),
+        {
+          provide: MinimalColumnDefs,
+          useValue: [
+            {
+              field: 'currency',
+              editable: true,
+              type: SkyCellType.Currency,
+            },
+          ],
+        },
+        {
+          provide: MinimalRowData,
+          useValue: [{ currency: 100 }],
+        },
+      ],
     });
 
     currencyEditorFixture = TestBed.createComponent(
@@ -43,7 +62,9 @@ describe('SkyCellEditorCurrencyComponent', () => {
   });
 
   it('renders a numeric input when editing a currency cell in an ag grid', () => {
-    const gridFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+    const gridFixture = TestBed.createComponent(
+      SkyAgGridMinimalFixtureComponent,
+    );
     const gridNativeElement = gridFixture.nativeElement;
 
     gridFixture.detectChanges();

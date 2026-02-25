@@ -1,16 +1,22 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  ViewEncapsulation,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 
 import { AgGridAngular } from 'ag-grid-angular';
 import {
   AllCommunityModule,
-  ColDef,
   GridApi,
   GridOptions,
   GridReadyEvent,
   ModuleRegistry,
 } from 'ag-grid-community';
-import { firstValueFrom, fromEvent } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 
+import { fromGridEvent } from '../ag-grid-event-utils';
 import { SkyAgGridRowDeleteDirective } from '../ag-grid-row-delete.directive';
 import { SkyAgGridWrapperComponent } from '../ag-grid-wrapper.component';
 import { SkyAgGridService } from '../ag-grid.service';
@@ -35,78 +41,78 @@ ModuleRegistry.registerModules([AllCommunityModule]);
     AgGridAngular,
   ],
 })
-export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
-  public allColumnWidth = 0;
-  public hideFirstColumn = false;
-  public domLayout: GridOptions['domLayout'] | undefined = undefined;
+export class SkyAgGridRowDeleteFixtureComponent {
+  public readonly allColumnWidth = signal(0);
+  public readonly hideFirstColumn = signal(false);
+  public readonly domLayout = signal<GridOptions['domLayout'] | undefined>(
+    undefined,
+  );
 
-  public columnDefs: () => ColDef[] = () => [
-    {
-      field: 'selected',
-      headerName: '',
-      maxWidth: 50,
-      sortable: false,
-      type: SkyCellType.RowSelector,
-      width: this.allColumnWidth,
-      hide: this.hideFirstColumn,
-    },
-    {
-      field: 'name',
-      headerName: 'First Name',
-      width: this.allColumnWidth,
-      filter: 'agTextColumnFilter',
-    },
-    {
-      field: 'nickname',
-      headerName: 'Nickname',
-      editable: true,
-      type: SkyCellType.Text,
-      width: this.allColumnWidth,
-    },
-    {
-      field: 'value',
-      headerName: 'Current Value',
-      editable: true,
-      type: SkyCellType.Number,
-      width: this.allColumnWidth,
-    },
-    {
-      field: 'target',
-      headerName: 'Goal',
-      type: SkyCellType.Number,
-      width: this.allColumnWidth,
-    },
-    {
-      field: 'date',
-      headerName: 'Completed Date',
-      editable: true,
-      type: SkyCellType.Date,
-      width: this.allColumnWidth,
-    },
-  ];
+  readonly #agGridService = inject(SkyAgGridService);
+
+  public readonly columnDefs = computed(() => {
+    const width = this.allColumnWidth();
+    const hide = this.hideFirstColumn();
+    return [
+      {
+        field: 'selected',
+        headerName: '',
+        maxWidth: 50,
+        sortable: false,
+        type: SkyCellType.RowSelector,
+        width,
+        hide,
+      },
+      {
+        field: 'name',
+        headerName: 'First Name',
+        width,
+        filter: 'agTextColumnFilter',
+      },
+      {
+        field: 'nickname',
+        headerName: 'Nickname',
+        editable: true,
+        type: SkyCellType.Text,
+        width,
+      },
+      {
+        field: 'value',
+        headerName: 'Current Value',
+        editable: true,
+        type: SkyCellType.Number,
+        width,
+      },
+      {
+        field: 'target',
+        headerName: 'Goal',
+        type: SkyCellType.Number,
+        width,
+      },
+      {
+        field: 'date',
+        headerName: 'Completed Date',
+        editable: true,
+        type: SkyCellType.Date,
+        width,
+      },
+    ];
+  });
 
   public gridApi: GridApi | undefined;
   public gridData = SKY_AG_GRID_DATA;
 
-  public gridOptions: GridOptions | undefined;
-
-  public rowDeleteIds: string[] | undefined;
-
-  #gridService: SkyAgGridService;
-
-  constructor(gridService: SkyAgGridService) {
-    this.#gridService = gridService;
-  }
-
-  public ngOnInit(): void {
-    this.gridOptions = this.#gridService.getEditableGridOptions({
+  public readonly gridOptions = computed(() =>
+    this.#agGridService.getEditableGridOptions({
       gridOptions: {
         columnDefs: this.columnDefs(),
-        domLayout: this.domLayout,
+        domLayout: this.domLayout(),
         onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),
       },
-    });
-  }
+    }),
+  );
+
+  public rowDeleteIds: string[] | undefined;
 
   public addDataPoint(): void {
     this.gridApi?.applyTransaction({
@@ -134,7 +140,7 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
   public async filterName(filter: string): Promise<void> {
     const filterChangedPromise = firstValueFrom(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      fromEvent(this.gridApi!, 'filterChanged'),
+      fromGridEvent(this.gridApi!, 'filterChanged'),
     );
     this.gridApi?.setFilterModel({
       name: {
@@ -149,7 +155,7 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
   public async clearFilter(): Promise<void> {
     const filterChangedPromise = firstValueFrom(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      fromEvent(this.gridApi!, 'filterChanged'),
+      fromGridEvent(this.gridApi!, 'filterChanged'),
     );
     this.gridApi?.destroyFilter('name');
     await filterChangedPromise.then(() => undefined);
@@ -167,7 +173,7 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
   public async removeFirstItem(): Promise<void> {
     const dataChangedPromise = firstValueFrom(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      fromEvent(this.gridApi!, 'rowDataUpdated'),
+      fromGridEvent(this.gridApi!, 'rowDataUpdated'),
     );
     this.gridData = this.gridData.slice(1);
     this.gridApi?.setGridOption('rowData', this.gridData);
@@ -177,7 +183,7 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
   public async sortName(): Promise<void> {
     const sortChangedPromise = firstValueFrom(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      fromEvent(this.gridApi!, 'sortChanged'),
+      fromGridEvent(this.gridApi!, 'sortChanged'),
     );
     this.gridApi?.applyColumnState({
       state: [
