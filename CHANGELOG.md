@@ -1,6 +1,17 @@
 # Changelog
 
 
+## [14.0.0-alpha.3](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.2...14.0.0-alpha.3) (2026-02-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/ag-grid:** support AG Grid 35.1.0 (#4221)
+
+### Features
+
+* **components/ag-grid:** support AG Grid 35.1.0 ([#4221](https://github.com/blackbaud/skyux/issues/4221)) ([41cd068](https://github.com/blackbaud/skyux/commit/41cd068af7ae82ce682a008445a80765d1417a4e))
+
 ## [14.0.0-alpha.2](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.1...14.0.0-alpha.2) (2026-02-24)
 
 
