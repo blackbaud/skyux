@@ -23,6 +23,9 @@
     },
     "./package.json": {
       "default": "./package.json"
+    },
+    "./polyfills": {
+      "default": "./src/polyfills.js"
     }
   },
   "schematics": "./collection.json",
