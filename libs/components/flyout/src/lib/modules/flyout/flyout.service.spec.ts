@@ -34,6 +34,15 @@ describe('Flyout service', () => {
     },
   ));
 
+  function completeFlyoutTransition(): void {
+    const flyoutEl = document.querySelector('.sky-flyout');
+    if (flyoutEl) {
+      flyoutEl.dispatchEvent(
+        new TransitionEvent('transitionend', { propertyName: 'transform' }),
+      );
+    }
+  }
+
   it('should only create a single host component', () => {
     service.open(SkyFlyoutHostsTestComponent);
     service.open(SkyFlyoutHostsTestComponent);
@@ -57,6 +66,7 @@ describe('Flyout service', () => {
     const spy = spyOn(dynamicService, 'removeComponent').and.callThrough();
     service.close();
     applicationRef.tick();
+    completeFlyoutTransition();
     tick();
     expect(spy).toHaveBeenCalled();
   }));
@@ -76,6 +86,7 @@ describe('Flyout service', () => {
     const spy = spyOn(dynamicService, 'removeComponent').and.callThrough();
     service.close({ ignoreBeforeClose: true });
     applicationRef.tick();
+    completeFlyoutTransition();
     tick();
     expect(spy).toHaveBeenCalled();
   }));
@@ -160,6 +171,7 @@ describe('Flyout service', () => {
 
     tick();
     applicationRef.tick();
+    completeFlyoutTransition();
 
     expect(closeSpy).toHaveBeenCalled();
     closeSpy.calls.reset();
