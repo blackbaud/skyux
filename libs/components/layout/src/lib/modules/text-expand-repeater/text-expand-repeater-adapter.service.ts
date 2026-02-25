@@ -34,6 +34,18 @@ export class SkyTextExpandRepeaterAdapterService {
     return containerEl.nativeElement.offsetHeight;
   }
 
+  public getContainerScrollHeight(containerEl: ElementRef): number {
+    return containerEl.nativeElement.scrollHeight;
+  }
+
+  public setContainerMaxHeight(containerEl: ElementRef, height: number): void {
+    this.#renderer.setStyle(
+      containerEl.nativeElement,
+      'max-height',
+      `${height}px`,
+    );
+  }
+
   public removeContainerMaxHeight(containerEl: ElementRef): void {
     this.#renderer.removeStyle(containerEl.nativeElement, 'max-height');
   }
