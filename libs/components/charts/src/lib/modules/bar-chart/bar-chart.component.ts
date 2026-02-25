@@ -27,15 +27,24 @@ export class SkyBarChartComponent extends SkyChartJsChart {
    */
   public readonly config = input.required<SkyBarChartConfig>();
 
-  protected readonly chartConfiguration = computed(() =>
-    this.#getChartConfig(this.config()),
-  );
+  protected readonly chartConfiguration = computed(() => {
+    this.themeVersion(); // Include themeVersion to trigger recalculation on theme changes
 
-  #getChartConfig(userConfig: SkyBarChartConfig): ChartConfiguration {
-    const newConfig = getChartJsBarChartConfig(userConfig, {
+    return this.createChartConfiguration();
+  });
+
+  /**
+   * Generates the Chart.js configuration for the bar chart.
+   * This method is called automatically when the `config` input changes or when the theme changes.
+   *
+   * @returns The Chart.js configuration object
+   */
+  protected createChartConfiguration(): ChartConfiguration {
+    const config = this.config();
+    const chartConfiguration = getChartJsBarChartConfig(config, {
       onDataPointClick: (event) => this.dataPointClicked.emit(event),
     });
 
-    return newConfig;
+    return chartConfiguration;
   }
 }

@@ -6,8 +6,10 @@ import {
   ElementRef,
   NgZone,
   OnDestroy,
+  effect,
   inject,
   input,
+  output,
   signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -15,6 +17,10 @@ import { SkyThemeService } from '@skyux/theme';
 
 import { Chart, ChartConfiguration } from 'chart.js';
 
+/**
+ * Directive that renders a Chart.js chart on a canvas element and manages its lifecycle.
+ * @internal
+ */
 @Directive({
   selector: 'canvas[skyChartJs]',
   host: {
@@ -44,13 +50,44 @@ export class SkyChartJsDirective implements OnDestroy, AfterViewInit {
   public readonly ariaLabel = input.required<string>();
   // #endregion
 
+  // #region Outputs
+  /**
+   * Emitted when the theme changes, indicating that the chart should regenerate its configuration to apply new theme values.
+   */
+  public readonly themeChanged = output<void>();
+  // #endregion
+
   readonly #canvasContext: CanvasRenderingContext2D;
 
-  /** The ChartJS Chart instance */
+  /**
+   * Signal containing the Chart.js Chart instance.
+   * This is undefined until the chart is created.
+   */
   public chart = signal<Chart | undefined>(undefined);
 
   constructor() {
     this.#canvasContext = this.#getCanvasContext();
+
+    // Re-render the chart whenever the ChartJS configuration changes. This allows dynamic updates to the chart when inputs change.
+    effect(() => {
+      const config = this.chartConfiguration();
+      const chart = this.chart();
+
+      // Only update the chart if it already exists.
+      // Initial creation is handled in ngAfterViewInit to ensure the canvas is ready.
+      if (chart?.config.options && config.options) {
+        // See https://www.chartjs.org/docs/latest/developers/updates.html#updating-options
+
+        // 1. If the options are mutated in place, other option properties would be preserved, including those calculated by Chart.js.
+        const newOptions = this.chartConfiguration().options;
+        Object.assign(chart.config.options, newOptions);
+
+        // 2. If created as a new object, it would be like creating a new chart with the options - old options would be discarded.
+        // this.#chart.config.options = this.chartConfigProvider().options;
+
+        this.#updateChart();
+      }
+    });
   }
 
   public ngOnDestroy(): void {
@@ -69,6 +106,10 @@ export class SkyChartJsDirective implements OnDestroy, AfterViewInit {
     }
   }
 
+  /**
+   * Creates the initial Chart.js chart instance.
+   * This is called once in `ngAfterViewInit` after the canvas element is ready.
+   */
   #renderChart(): void {
     const config = this.chartConfiguration();
 
@@ -77,12 +118,20 @@ export class SkyChartJsDirective implements OnDestroy, AfterViewInit {
     });
   }
 
+  /**
+   * Updates the chart by calling its `update()` method.
+   * This should be called whenever the chart's data or options change to re-render the chart with the new configuration.
+   */
   #updateChart(): void {
     if (this.chart) {
       this.#zone.runOutsideAngular(() => this.chart()?.update());
     }
   }
 
+  /**
+   * Gets the 2D rendering context for the canvas element.
+   * @throws Error if the canvas context cannot be created
+   */
   #getCanvasContext(): CanvasRenderingContext2D {
     const canvasEle = this.#element.nativeElement;
     const canvasContext = canvasEle.getContext('2d');
@@ -94,21 +143,13 @@ export class SkyChartJsDirective implements OnDestroy, AfterViewInit {
     return canvasContext;
   }
 
+  /**
+   * Handles theme changes from the SKY UX theme service.
+   * Emits the `themeChanged` event to notify the parent component so it can
+   * regenerate the chart configuration with updated theme values.
+   */
   #onThemeChange(): void {
-    const chart = this.chart();
-    if (chart?.config.options) {
-      // See https://www.chartjs.org/docs/latest/developers/updates.html#updating-options
-
-      // 1. If the options are mutated in place, other option properties would be preserved, including those calculated by Chart.js.
-      const newOptions = this.chartConfiguration().options;
-      Object.assign(chart.config.options, newOptions);
-
-      // 2. If created as a new object, it would be like creating a new chart with the options - old options would be discarded.
-      // this.#chart.config.options = this.chartConfigProvider().options;
-
-      this.#updateChart();
-    }
-
+    this.themeChanged.emit();
     this.#changeDetector.markForCheck();
   }
 }

@@ -14,6 +14,9 @@ import { SkySelectedChartDataPoint } from './shared/types/selected-chart-data-po
 
 /**
  * Base class for all chart types.
+ *
+ * Provides common inputs and outputs that are shared across all chart components.
+ *
  * @internal
  */
 @Directive()
@@ -53,7 +56,7 @@ export abstract class SkyBaseChart {
   public readonly subtitleText = input<string>();
 
   /**
-   * Indicates whether to hide the `headingText`.
+   * Indicates whether to hide the `subtitleText`.
    */
   public readonly subtitleHidden = input(false, {
     transform: booleanAttribute,
@@ -61,6 +64,9 @@ export abstract class SkyBaseChart {
   // #endregion
 
   // #region Outputs
+  /**
+   * Emitted when a data point on the chart is clicked.
+   */
   public readonly dataPointClicked = output<SkySelectedChartDataPoint>();
   // #endregion
 }

@@ -27,15 +27,18 @@ export class SkyDonutChartComponent extends SkyChartJsChart {
    */
   public readonly config = input.required<SkyDonutChartConfig>();
 
-  protected readonly chartConfiguration = computed(() =>
-    this.#getChartConfig(this.config()),
-  );
+  protected readonly chartConfiguration = computed(() => {
+    this.themeVersion(); // Include themeVersion to trigger recalculation on theme changes
 
-  #getChartConfig(userConfig: SkyDonutChartConfig): ChartConfiguration {
-    const newConfig = getChartJsDonutChartConfig(userConfig, {
+    return this.createChartConfiguration();
+  });
+
+  protected createChartConfiguration(): ChartConfiguration {
+    const config = this.config();
+    const chartConfiguration = getChartJsDonutChartConfig(config, {
       onDataPointClick: (event) => this.dataPointClicked.emit(event),
     });
 
-    return newConfig;
+    return chartConfiguration;
   }
 }

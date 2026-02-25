@@ -1,6 +1,6 @@
-import { Directive, Signal, computed, signal, viewChild } from '@angular/core';
+import { Directive, computed, signal, viewChild } from '@angular/core';
 
-import { Chart, ChartConfiguration } from 'chart.js';
+import { Chart } from 'chart.js';
 
 import { SkyBaseChart } from './base-chart';
 import { SkyChartLegendItem } from './chart-legend/chart-legend-item';
@@ -13,21 +13,53 @@ import { isDonutOrPieChart } from './shared/chart-helpers';
  */
 @Directive()
 export abstract class SkyChartJsChart extends SkyBaseChart {
+  /**
+   * Reference to the Chart.js directive that manages the canvas and Chart.js instance.
+   */
   protected readonly chartDirective = viewChild.required(SkyChartJsDirective);
+
+  /**
+   * The Chart.js Chart instance, accessed through the directive.
+   */
   protected readonly chart = computed(() => this.chartDirective()?.chart());
 
-  protected abstract readonly chartConfiguration: Signal<
-    ChartConfiguration | undefined
-  >;
-
+  /**
+   * Signal used to trigger legend items recalculation.
+   * Incremented when legend visibility changes.
+   */
   readonly #refreshLegendItems = signal(0);
+
+  /**
+   * Computed signal that generates the legend items from the Chart.js chart.
+   * Automatically updates when the chart changes or when legend visibility is toggled.
+   */
   protected readonly legendItems = computed(() => {
     const chart = this.chart();
-    this.#refreshLegendItems();
+    this.#refreshLegendItems(); // Include refreshLegendItems to trigger recalculation when legend visibility changes
 
     return this.#getLegendItems(chart);
   });
 
+  /**
+   * Signal that tracks theme version to trigger configuration recalculation.
+   * Incremented each time the theme changes.
+   */
+  protected readonly themeVersion = signal(0);
+
+  /**
+   * Called when the theme changes.
+   * Increments the theme version to trigger chart configuration recalculation.
+   */
+  protected onThemeChanged(): void {
+    this.themeVersion.update((v) => v + 1);
+  }
+
+  /**
+   * Handles legend item toggle events.
+   * Updates the chart's dataset visibility and refreshes the legend items.
+   *
+   * @param item The legend item that was toggled
+   */
   protected onLegendItemToggled(item: SkyChartLegendItem): void {
     const chart = this.chart();
 
@@ -46,6 +78,12 @@ export abstract class SkyChartJsChart extends SkyBaseChart {
     this.#refreshLegendItems.update((value) => value + 1);
   }
 
+  /**
+   * Generates legend items from the Chart.js chart's legend labels.
+   *
+   * @param chart The Chart.js chart instance
+   * @returns Array of legend items with visibility state and styling information
+   */
   #getLegendItems(chart: Chart | undefined): SkyChartLegendItem[] {
     if (!chart) {
       return [];
