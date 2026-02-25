@@ -198,7 +198,7 @@ describe('stackblitz.service', () => {
             "main": "src/test.ts",
             "polyfills": [
               "zone.js",
-              "zone.js/testing",
+              "zone.js/testing"
             ],
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
