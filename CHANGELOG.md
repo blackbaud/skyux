@@ -12,6 +12,11 @@
 
 * **components/ag-grid:** support AG Grid 35.1.0 ([#4221](https://github.com/blackbaud/skyux/issues/4221)) ([41cd068](https://github.com/blackbaud/skyux/commit/41cd068af7ae82ce682a008445a80765d1417a4e))
 
+
+### Bug Fixes
+
+* **components/packages:** install `ng2-dragula` if used in source code ([#4240](https://github.com/blackbaud/skyux/issues/4240)) ([f0ed850](https://github.com/blackbaud/skyux/commit/f0ed850c94caee254c2cb743c34a53dff4e6fffc))
+
 ## [14.0.0-alpha.2](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.1...14.0.0-alpha.2) (2026-02-24)
 
 
