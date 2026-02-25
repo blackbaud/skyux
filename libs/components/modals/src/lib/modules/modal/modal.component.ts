@@ -37,7 +37,7 @@ import { SkyModalComponentAdapterService } from './modal-component-adapter.servi
 import { SkyModalConfiguration } from './modal-configuration';
 import { SkyModalError } from './modal-error';
 import { SkyModalErrorsService } from './modal-errors.service';
-import { SkyModalHeaderComponent } from './modal-header.component';
+import { SkyModalHeaderInternal } from './modal-header-internal';
 import { SkyModalHostService } from './modal-host.service';
 
 const ARIA_ROLE_DEFAULT = 'dialog';
@@ -62,7 +62,7 @@ const ARIA_ROLE_DEFAULT = 'dialog';
     SkyIconModule,
     SkyIdModule,
     SkyLayoutHostDirective,
-    SkyModalHeaderComponent,
+    SkyModalHeaderInternal,
     SkyModalsResourcesModule,
     SkyScrollShadowDirective,
     SkyThemeModule,

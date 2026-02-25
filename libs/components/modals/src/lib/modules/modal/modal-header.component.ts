@@ -4,6 +4,7 @@ import { SkyThemeModule } from '@skyux/theme';
 
 /**
  * Specifies a header for the modal.
+ * @deprecated Use `headingText` on the `sky-modal` component, instead.
  */
 @Component({
   selector: 'sky-modal-header',
