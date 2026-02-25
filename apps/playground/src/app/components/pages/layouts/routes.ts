@@ -11,16 +11,6 @@ export default [
     },
   },
   {
-    path: 'blocks-page-data-grid',
-    loadComponent: () =>
-      import('./blocks-page-data-grid/blocks-page-data-grid.component'),
-    data: {
-      name: 'Page (Blocks) - Data Grid',
-      icon: 'table',
-      library: 'pages',
-    },
-  },
-  {
     path: 'blocks-tile-dashboard-page',
     loadComponent: () =>
       import(

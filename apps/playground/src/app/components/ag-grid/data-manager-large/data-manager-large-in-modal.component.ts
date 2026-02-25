@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   SkyModalInstance,
   SkyModalModule,
@@ -13,19 +13,17 @@ import { DataManagerLargeComponent } from './data-manager-large.component';
   imports: [SkyModalModule],
 })
 export class DataManagerLargeInModalModalComponent {
-  constructor(
-    public modal: SkyModalInstance,
-    private modalService: SkyModalService,
-  ) {}
+  public readonly modal = inject(SkyModalInstance);
+  readonly #modalService = inject(SkyModalService);
 
   public openGridModal(): void {
-    this.modalService.open(DataManagerLargeInModalModalGridComponent, {
+    this.#modalService.open(DataManagerLargeInModalModalGridComponent, {
       size: 'large',
     });
   }
 
   public openNotGridModal(): void {
-    this.modalService.open(DataManagerLargeInModalModalNotGridComponent, {
+    this.#modalService.open(DataManagerLargeInModalModalNotGridComponent, {
       size: 'large',
     });
   }
@@ -58,10 +56,10 @@ export class DataManagerLargeInModalModalNotGridComponent {}
   template: '',
 })
 export class DataManagerLargeInModalComponent implements OnInit {
-  constructor(private modalService: SkyModalService) {}
+  readonly #modalService = inject(SkyModalService);
 
   public ngOnInit(): void {
-    this.modalService.open(DataManagerLargeInModalModalGridComponent, {
+    this.#modalService.open(DataManagerLargeInModalModalGridComponent, {
       size: 'large',
     });
   }

@@ -67,6 +67,11 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 @Component({
   selector: 'app-data-manager-large',
   templateUrl: './data-manager-large.component.html',
+  styles: `
+    :host {
+      display: contents;
+    }
+  `,
   imports: [
     AgGridModule,
     CommonModule,
@@ -80,10 +85,6 @@ ModuleRegistry.registerModules([AllCommunityModule]);
     ReactiveFormsModule,
     SkyHelpInlineModule,
   ],
-  host: {
-    '[class.use-normal-dom-layout]': 'domLayout() === "normal"',
-    '[class.use-auto-height-dom-layout]': 'domLayout() === "autoHeight"',
-  },
   providers: [
     SkyDataManagerService,
     {

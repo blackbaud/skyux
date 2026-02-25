@@ -1,5 +1,10 @@
 <sky-page layout="fit">
   <sky-page-header pageTitle="Fit page data grid">
+    <sky-page-header-alerts>
+      <sky-alert alertType="danger" descriptionType="danger">
+        This is a proof of concept and not a recommended pattern.
+      </sky-alert>
+    </sky-page-header-alerts>
     <sky-page-header-actions>
       @for (option of options; track option[0]) {
         <button
@@ -12,9 +17,6 @@
           {{ option[1] }}
         </button>
       }
-      <a routerLink="/components/pages/layouts/blocks-page-data-grid"
-        >Block page layout with data grid</a
-      >
     </sky-page-header-actions>
   </sky-page-header>
   <sky-page-content>

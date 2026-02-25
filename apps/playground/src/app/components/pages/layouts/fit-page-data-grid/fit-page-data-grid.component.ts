@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { SkyAlertModule } from '@skyux/indicators';
 import { SkyPageModule } from '@skyux/pages';
 
 import { map } from 'rxjs/operators';
@@ -11,10 +12,11 @@ import { CourseCatalogComponent } from '../shared/course-catalog/course-catalog'
 @Component({
   selector: 'app-fit-page-data-grid',
   imports: [
-    SkyPageModule,
-    DataManagerLargeComponent,
     CourseCatalogComponent,
+    DataManagerLargeComponent,
     RouterLink,
+    SkyAlertModule,
+    SkyPageModule,
   ],
   templateUrl: './fit-page-data-grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
