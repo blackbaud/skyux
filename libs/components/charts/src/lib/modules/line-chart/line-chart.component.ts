@@ -7,8 +7,8 @@ import {
 
 import { ChartConfiguration } from 'chart.js';
 
+import { SkyBaseChartJsChart } from '../base-chartjs-chart';
 import { SkyChartShellComponent } from '../chart-shell/chart-shell.component';
-import { SkyChartJsChart } from '../chartjs-chart';
 import { SkyChartJsDirective } from '../chartjs.directive';
 
 import { getChartJsLineChartConfig } from './line-chart-config';
@@ -21,7 +21,7 @@ import { SkyLineChartConfig } from './line-chart-types';
   imports: [SkyChartShellComponent, SkyChartJsDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyLineChartComponent extends SkyChartJsChart {
+export class SkyLineChartComponent extends SkyBaseChartJsChart {
   /**
    * The configuration object for a line chart.
    */

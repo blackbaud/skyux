@@ -12,7 +12,7 @@ import { isDonutOrPieChart } from './shared/chart-helpers';
  * @internal
  */
 @Directive()
-export abstract class SkyChartJsChart extends SkyBaseChart {
+export abstract class SkyBaseChartJsChart extends SkyBaseChart {
   /**
    * Reference to the Chart.js directive that manages the canvas and Chart.js instance.
    */

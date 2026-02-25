@@ -7,8 +7,8 @@ import {
 
 import { ChartConfiguration } from 'chart.js';
 
+import { SkyBaseChartJsChart } from '../base-chartjs-chart';
 import { SkyChartShellComponent } from '../chart-shell/chart-shell.component';
-import { SkyChartJsChart } from '../chartjs-chart';
 import { SkyChartJsDirective } from '../chartjs.directive';
 
 import { getChartJsDonutChartConfig } from './donut-chart-config';
@@ -21,7 +21,7 @@ import { SkyDonutChartConfig } from './donut-chart-types';
   imports: [SkyChartShellComponent, SkyChartJsDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyDonutChartComponent extends SkyChartJsChart {
+export class SkyDonutChartComponent extends SkyBaseChartJsChart {
   /**
    * The configuration object for a donut chart.
    */
