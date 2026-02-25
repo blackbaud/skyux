@@ -2,6 +2,66 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
+$sky-tokens-gutter-size: 2px;
+
+@keyframes sky-token-enter-animation {
+  from {
+    opacity: 0;
+    width: 0;
+    padding: 0;
+  }
+
+  to {
+    opacity: 1;
+    width: auto;
+  }
+}
+
+@keyframes sky-token-leave-animation {
+  from {
+    opacity: 1;
+    width: auto;
+  }
+
+  to {
+    opacity: 0;
+    width: 0;
+    padding: 0;
+  }
+}
+
+:host {
+  interpolate-size: allow-keywords;
+  flex: 0 0 auto;
+  display: inline-flex;
+  padding: $sky-tokens-gutter-size;
+
+  &.sky-token-enter {
+    animation: sky-token-enter-animation 150ms ease-in;
+    overflow: hidden;
+  }
+
+  &.sky-token-leave {
+    animation: sky-token-leave-animation 150ms ease-in forwards;
+    overflow: hidden;
+  }
+}
+
+// Suppress enter animations on initial render (replaces blockAnimationOnLoad).
+:host-context(.sky-tokens:not(.sky-tokens-initialized)) {
+  &.sky-token-enter {
+    animation-duration: 1ms !important;
+  }
+}
+
+// Disable animations when trackWith is not set.
+:host-context(.sky-tokens:not(.sky-tokens-animated)) {
+  &.sky-token-enter,
+  &.sky-token-leave {
+    animation-duration: 1ms !important;
+  }
+}
+
 @include compatMixins.sky-default-overrides('.sky-token') {
   --sky-override-token-active-background-color: #{darken(
       $sky-background-color-info-light,
