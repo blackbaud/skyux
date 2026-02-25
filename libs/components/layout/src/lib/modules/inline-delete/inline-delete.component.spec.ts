@@ -15,6 +15,15 @@ describe('Inline delete component', () => {
   let cmp: InlineDeleteTestComponent;
   let el: any;
 
+  function dispatchTransitionEnd(): void {
+    const container = el.querySelector(
+      '.sky-inline-delete-content-animation-container',
+    );
+    container?.dispatchEvent(
+      new TransitionEvent('transitionend', { propertyName: 'transform' }),
+    );
+  }
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyInlineDeleteFixturesModule],
@@ -47,8 +56,24 @@ describe('Inline delete component', () => {
     tick();
     fixture.nativeElement.querySelector('.sky-btn-default').click();
     fixture.detectChanges();
+    dispatchTransitionEnd();
     tick();
     expect(cancelTriggeredSpy).toHaveBeenCalled();
+  }));
+
+  it('should ignore non-transform transition events', fakeAsync(() => {
+    const cancelTriggeredSpy = spyOn(cmp, 'onCancelTriggered');
+    fixture.detectChanges();
+    tick();
+    const container = el.querySelector(
+      '.sky-inline-delete-content-animation-container',
+    );
+    container?.dispatchEvent(
+      new TransitionEvent('transitionend', { propertyName: 'opacity' }),
+    );
+    fixture.detectChanges();
+    tick();
+    expect(cancelTriggeredSpy).not.toHaveBeenCalled();
   }));
 
   it('should maintain css classes for card types correctly', fakeAsync(() => {
@@ -95,6 +120,7 @@ describe('Inline delete component', () => {
   describe('focus handling', () => {
     it('should focus the delete button on load', async () => {
       fixture.detectChanges();
+      dispatchTransitionEnd();
       await fixture.whenStable();
       expect(document.activeElement).toBe(el.querySelector('.sky-btn-danger'));
     });
@@ -102,6 +128,7 @@ describe('Inline delete component', () => {
     it('should skip items that are under the overlay when tabbing forward', fakeAsync(() => {
       fixture.componentInstance.showExtraButtons = true;
       fixture.detectChanges();
+      dispatchTransitionEnd();
       tick();
       fixture.detectChanges();
       el.querySelector('#noop-button-1').focus();
@@ -121,6 +148,7 @@ describe('Inline delete component', () => {
     it('should skip items that are under the overlay when tabbing backward', fakeAsync(() => {
       fixture.componentInstance.showExtraButtons = true;
       fixture.detectChanges();
+      dispatchTransitionEnd();
       tick();
       el.querySelector('.sky-btn-danger').focus();
       SkyAppTestUtility.fireDomEvent(
@@ -138,6 +166,7 @@ describe('Inline delete component', () => {
 
     it('should wrap around to the next focusable item on the screen when no direct item is found and tabbing backwards', fakeAsync(() => {
       fixture.detectChanges();
+      dispatchTransitionEnd();
       tick();
       fixture.detectChanges();
       el.querySelector('.sky-btn-danger').focus();
@@ -159,6 +188,7 @@ describe('Inline delete component', () => {
     it('should leave focus on the parent if it is focused', fakeAsync(() => {
       fixture.componentInstance.parentTabIndex = 0;
       fixture.detectChanges();
+      dispatchTransitionEnd();
       tick();
       fixture.detectChanges();
       el.querySelector('#inline-delete-fixture').focus();
