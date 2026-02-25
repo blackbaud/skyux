@@ -27,6 +27,14 @@ describe('Text expand component', () => {
   async function clickTextExpandButton(buttonElem: HTMLElement | null) {
     buttonElem?.click();
     fixture.detectChanges();
+
+    // Dispatch transitionend to complete the CSS max-height transition.
+    const container = el.querySelector('.sky-text-expand-container');
+    container?.dispatchEvent(
+      new TransitionEvent('transitionend', { propertyName: 'max-height' }),
+    );
+
+    fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();
     await fixture.whenStable();
@@ -294,6 +302,39 @@ describe('Text expand component', () => {
       expect(seeMoreButton?.innerText.trim()).toBe('See more');
       expect(ellipsis).not.toBeNull();
       expect(textArea?.innerText.trim()).toBe(collapsedText);
+    });
+
+    it('should ignore transitionend events for properties other than max-height', async () => {
+      cmp.text = LONG_TEXT;
+      fixture.detectChanges();
+
+      const seeMoreButton: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-see-more',
+      );
+      const container: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-container',
+      );
+
+      seeMoreButton?.click();
+      fixture.detectChanges();
+
+      // Dispatch a transitionend for a different property — should be ignored.
+      container?.dispatchEvent(
+        new TransitionEvent('transitionend', { propertyName: 'color' }),
+      );
+      fixture.detectChanges();
+
+      // max-height should still be set since the correct transitionend hasn't fired.
+      expect(container?.style.maxHeight).not.toBe('');
+
+      // Now dispatch the correct transitionend to clean up.
+      container?.dispatchEvent(
+        new TransitionEvent('transitionend', { propertyName: 'max-height' }),
+      );
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(container?.style.maxHeight).toBe('');
     });
 
     it('should render newlines if requested', () => {

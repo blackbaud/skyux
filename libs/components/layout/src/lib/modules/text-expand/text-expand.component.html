@@ -1,11 +1,7 @@
 <div
   #container
   class="sky-text-expand-container"
-  [@expansionAnimation]="{
-    value: isExpanded,
-    params: { transitionHeight: transitionHeight }
-  }"
-  (@expansionAnimation.done)="animationEnd()"
+  (transitionend)="animationEnd($event)"
 >
   <span #text class="sky-text-expand-text" [id]="contentSectionId"></span>
   @if (expandable) {
