@@ -19,7 +19,7 @@
           "base": "dist/apps/e2e/datetime-storybook"
         },
         "index": "apps/e2e/datetime-storybook/src/index.html",
-        "polyfills": ["zone.js", "libs/components/packages/src/polyfills.js"],
+        "polyfills": ["zone.js"],
         "tsConfig": "apps/e2e/datetime-storybook/tsconfig.app.json",
         "styles": [
           "apps/e2e/datetime-storybook/src/styles.scss",
