@@ -1,7 +1,11 @@
 import { provideZoneChangeDetection } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideRouter, withHashLocation } from '@angular/router';
+import {
+  provideRouter,
+  withComponentInputBinding,
+  withHashLocation,
+} from '@angular/router';
 import { SKY_LOG_LEVEL, SkyHelpService, SkyLogLevel } from '@skyux/core';
 import { provideIconPreview } from '@skyux/storybook/icon-preview';
 import { provideInitialTheme } from '@skyux/theme';
@@ -16,7 +20,7 @@ bootstrapApplication(AppComponent, {
     provideAnimations(),
     provideIconPreview(),
     provideInitialTheme('modern'),
-    provideRouter(routes, withHashLocation()),
+    provideRouter(routes, withHashLocation(), withComponentInputBinding()),
     { provide: SkyHelpService, useClass: PlaygroundHelpService },
     { provide: SKY_LOG_LEVEL, useValue: SkyLogLevel.Info },
   ],

@@ -1,0 +1,20 @@
+<sky-grid
+  fit="scroll"
+  [data]="data"
+  [selectedColumnIds]="selectedColumnIds"
+  (selectedColumnIdsChange)="onSelectedColumnIdsChange($event)"
+  (sortFieldChange)="onSortFieldChange($event)"
+>
+  <sky-grid-column field="name" heading="Name" id="name" [width]="200" />
+  <sky-grid-column field="email" heading="Email" id="email" [width]="250" />
+  <sky-grid-column field="amount" heading="Amount" id="amount" [width]="120" />
+  <sky-grid-column field="status" heading="Status" id="status" [width]="120" />
+  <sky-grid-column field="role" heading="Role" id="role" [width]="150" />
+</sky-grid>
+
+<p>
+  Drag and drop columns to reorder them. The current column order is displayed
+  below.
+</p>
+
+<p><strong>Selected column IDs:</strong> {{ selectedColumnIds.join(', ') }}</p>

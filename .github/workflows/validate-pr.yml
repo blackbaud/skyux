@@ -96,7 +96,6 @@ jobs:
             sdk/eslint-config-skyux
             sdk/eslint-config
             sdk/eslint-schematics
-            sdk/prettier-schematics
             sdk/skyux-eslint
             sdk/skyux-stylelint
             sdk/stylelint-config-skyux

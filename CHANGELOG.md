@@ -1,6 +1,39 @@
 # Changelog
 
 
+## [14.0.0-alpha.2](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.1...14.0.0-alpha.2) (2026-02-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/lists:** replace `dragula` with `@angular/cdk/drag-drop` (#4228)
+* **components/tiles:** replace `dragula` with `@angular/cdk/drag-drop` (#4225)
+* delete source for `@skyux-sdk/prettier-schematics` (#4222)
+* **components/grids:** replace `dragula` with `@angular/cdk/drag-drop` (#4224)
+
+### Features
+
+* **components/grids:** replace `dragula` with `@angular/cdk/drag-drop` ([#4224](https://github.com/blackbaud/skyux/issues/4224)) ([6f96cb0](https://github.com/blackbaud/skyux/commit/6f96cb0c36bb6e006fbaf6c88fb87c78b43fec7e))
+* **components/lists:** replace `dragula` with `@angular/cdk/drag-drop` ([#4228](https://github.com/blackbaud/skyux/issues/4228)) ([fd18fcb](https://github.com/blackbaud/skyux/commit/fd18fcbc2d2a27ce1f197c977e3245f3eaec3dfc)), closes [AB#3390474](https://dev.azure.com/blackbaud/Products/_workitems/edit/3390474)
+* **components/packages:** remove `dragula`, `ng2-dragula`, and `dom-autoscroller` if not used ([#4233](https://github.com/blackbaud/skyux/issues/4233)) ([5b41e02](https://github.com/blackbaud/skyux/commit/5b41e02a8c1ae1ecf72bc69f796ec58223175f1e)), closes [AB#3390474](https://dev.azure.com/blackbaud/Products/_workitems/edit/3390474)
+* **components/text-editor:** update dompurify ([#4190](https://github.com/blackbaud/skyux/issues/4190)) ([8868e16](https://github.com/blackbaud/skyux/commit/8868e1628841f2f211e8987dff34bbcd544f9770)), closes [AB#3642976](https://dev.azure.com/blackbaud/Products/_workitems/edit/3642976) [AB#3691546](https://dev.azure.com/blackbaud/Products/_workitems/edit/3691546)
+* **components/tiles:** replace `dragula` with `@angular/cdk/drag-drop` ([#4225](https://github.com/blackbaud/skyux/issues/4225)) ([d8a7eb1](https://github.com/blackbaud/skyux/commit/d8a7eb1dad802f9e0290a75ee0f4f5e368e87b21)), closes [AB#3390474](https://dev.azure.com/blackbaud/Products/_workitems/edit/3390474)
+* delete source for `@skyux-sdk/prettier-schematics` ([#4222](https://github.com/blackbaud/skyux/issues/4222)) ([6579df0](https://github.com/blackbaud/skyux/commit/6579df0de9da832470dcabc28f441d8d245ccb0e)), closes [AB#3674220](https://dev.azure.com/blackbaud/Products/_workitems/edit/3674220)
+* **sdk/testing:** remove support for older versions of axe-core ([#4215](https://github.com/blackbaud/skyux/issues/4215)) ([410a073](https://github.com/blackbaud/skyux/commit/410a073603cba6b4a5472bfc0ddb9eb741aa5717))
+* update ng2-dragula ([#4192](https://github.com/blackbaud/skyux/issues/4192)) ([2f5b748](https://github.com/blackbaud/skyux/commit/2f5b7481302277e3a308bc16e08e6bc4df39b4fe)), closes [AB#3642976](https://dev.azure.com/blackbaud/Products/_workitems/edit/3642976) [AB#3691547](https://dev.azure.com/blackbaud/Products/_workitems/edit/3691547)
+
+
+### Bug Fixes
+
+* **components/action-bars:** default theme summary action bar secondary action button dropdown uses correct button class ([#4188](https://github.com/blackbaud/skyux/issues/4188)) ([#4193](https://github.com/blackbaud/skyux/issues/4193)) ([bc8ede1](https://github.com/blackbaud/skyux/commit/bc8ede1505bab528fc25ddad6faea46c38c3497b)), closes [AB#3696493](https://dev.azure.com/blackbaud/Products/_workitems/edit/3696493)
+* **components/data-manager:** set docked data manager to be `inset`  ([#4180](https://github.com/blackbaud/skyux/issues/4180)) ([#4186](https://github.com/blackbaud/skyux/issues/4186)) ([0281ca1](https://github.com/blackbaud/skyux/commit/0281ca1f70804b1922786b711fae90325f082dc7)), closes [AB#3689062](https://dev.azure.com/blackbaud/Products/_workitems/edit/3689062)
+* **components/filter-bar:** recast filter value type as interface for documentation parsing ([#4202](https://github.com/blackbaud/skyux/issues/4202)) ([#4203](https://github.com/blackbaud/skyux/issues/4203)) ([2344664](https://github.com/blackbaud/skyux/commit/2344664241c5ace8adc7231db59db45392fbccb0))
+* **components/forms:** select inputs have proper text overflow and right padding ([#4168](https://github.com/blackbaud/skyux/issues/4168)) ([#4194](https://github.com/blackbaud/skyux/issues/4194)) ([7e04020](https://github.com/blackbaud/skyux/commit/7e04020fa8bf8cecec67a2ab4d56d66c6a3e7797)), closes [AB#3673505](https://dev.azure.com/blackbaud/Products/_workitems/edit/3673505)
+* **components/list-builder:** stop overriding dropdown button padding ([#4181](https://github.com/blackbaud/skyux/issues/4181)) ([#4217](https://github.com/blackbaud/skyux/issues/4217)) ([695f7d6](https://github.com/blackbaud/skyux/commit/695f7d6eb141539f7da289879afd0a17e9fdf8b1))
+* **components/lookup:** lookup and selections modals use correct footer button spacing in modern theme ([#4229](https://github.com/blackbaud/skyux/issues/4229)) ([#4230](https://github.com/blackbaud/skyux/issues/4230)) ([401f83e](https://github.com/blackbaud/skyux/commit/401f83e7a8a332a48077a1e88c90eeaa9de22a82)), closes [AB#3704526](https://dev.azure.com/blackbaud/Products/_workitems/edit/3704526)
+* run check-workspace on release pr ([#4210](https://github.com/blackbaud/skyux/issues/4210)) ([#4213](https://github.com/blackbaud/skyux/issues/4213)) ([823d2c8](https://github.com/blackbaud/skyux/commit/823d2c81acefb6aaaad8a97a2e5cac22ca1e8b31)), closes [AB#3647615](https://dev.azure.com/blackbaud/Products/_workitems/edit/3647615)
+* use accessible text colors via design tokens update ([#4234](https://github.com/blackbaud/skyux/issues/4234)) ([#4236](https://github.com/blackbaud/skyux/issues/4236)) ([7732ede](https://github.com/blackbaud/skyux/commit/7732ede2433cd2d6891ce2d7d1709f13c5d0b3eb))
+
 ## [13.14.1](https://github.com/blackbaud/skyux/compare/13.14.0...13.14.1) (2026-02-12)
 
 

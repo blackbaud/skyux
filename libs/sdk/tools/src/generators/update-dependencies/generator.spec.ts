@@ -184,17 +184,6 @@ describe('update dependencies generator', () => {
       tags: 'npm',
     });
     await libraryGenerator(appTree, {
-      name: 'prettier-schematics',
-      buildable: true,
-      publishable: true,
-      importPath: '@skyux-sdk/prettier-schematics',
-      directory: 'libs/components/prettier-schematics',
-      skipFormat: true,
-      skipPackageJson: true,
-      skipTests: true,
-      tags: 'npm',
-    });
-    await libraryGenerator(appTree, {
       name: 'allowed-package',
       buildable: true,
       publishable: true,
@@ -248,7 +237,7 @@ describe('update dependencies generator', () => {
           '@skyux/packages': '0.0.0-PLACEHOLDER',
           '@proj/allowed-package': '0.0.0-PLACEHOLDER',
           '@proj/one': '1.1.0',
-          // @skyux-sdk/eslint-config and @skyux-sdk/prettier-schematics should be filtered out
+          // @skyux-sdk/eslint-config should be filtered out
         },
       },
     });

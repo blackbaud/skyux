@@ -19,6 +19,16 @@
       "version": "0.0.0-PLACEHOLDER",
       "factory": "./src/schematics/migrations/all/workspace-check/workspace-check.schematic",
       "description": "Log warnings if the workspace is not configured correctly."
+    },
+    "uninstall-prettier-schematics": {
+      "version": "0.0.0-PLACEHOLDER",
+      "factory": "./src/schematics/migrations/update-14/uninstall-prettier-schematics/uninstall-prettier-schematics",
+      "description": "Uninstall the @skyux-sdk/prettier-schematics package"
+    },
+    "remove-dragula": {
+      "version": "0.0.0-PLACEHOLDER",
+      "factory": "./src/schematics/migrations/update-14/remove-dragula/remove-dragula",
+      "description": "Remove dragula, ng2-dragula, and dom-autoscroller packages if not used"
     }
   }
 }

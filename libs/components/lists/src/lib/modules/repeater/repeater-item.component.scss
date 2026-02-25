@@ -478,27 +478,6 @@ sky-repeater-item {
   }
 
   &.sky-repeater-item-dragging {
-    &.gu-mirror {
-      opacity: initial;
-      -ms-filter: initial;
-      filter: initial;
-      background-color: var(
-        --sky-override-repeater-item-dragging-background-color,
-        var(--sky-color-background-container-base)
-      );
-      box-shadow: var(
-        --sky-override-repeater-item-dragging-box-shadow,
-        var(--sky-elevation-overflow)
-      );
-    }
-
-    &.gu-transit .sky-repeater-item {
-      background-color: var(
-        --sky-override-repeater-item-dragging-background-color-static,
-        var(--sky-color-background-action-soft)
-      );
-    }
-
     .sky-repeater-item-grab-handle {
       cursor: grabbing;
       cursor: -moz-grabbing;

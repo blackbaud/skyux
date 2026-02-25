@@ -7,8 +7,6 @@ import { SkyIconModule } from '@skyux/icon';
 import { SkyChevronModule } from '@skyux/indicators';
 import { SkyInlineFormModule } from '@skyux/inline-form';
 
-import { DragulaModule, DragulaService } from 'ng2-dragula';
-
 import { SkyListsResourcesModule } from '../shared/sky-lists-resources.module';
 
 import { SkyRepeaterItemContentComponent } from './repeater-item-content.component';
@@ -27,7 +25,6 @@ import { SkyRepeaterComponent } from './repeater.component';
   ],
   imports: [
     CommonModule,
-    DragulaModule,
     ObserversModule,
     SkyChevronModule,
     SkyCheckboxModule,
@@ -43,6 +40,5 @@ import { SkyRepeaterComponent } from './repeater.component';
     SkyRepeaterItemContextMenuComponent,
     SkyRepeaterItemTitleComponent,
   ],
-  providers: [DragulaService],
 })
 export class SkyRepeaterModule {}

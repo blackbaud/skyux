@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
 import { of } from 'rxjs';
 
-import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
 import { SkyCellRendererValidatorParams } from '../../types/cell-renderer-validator-params';
 
 import { SkyAgGridCellRendererValidatorTooltipComponent } from './cell-renderer-validator-tooltip.component';
@@ -14,7 +14,7 @@ const NOOP = (): void => {
 describe('SkyAgGridCellRendererValidatorTooltipComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkyAgGridFixtureModule],
+      providers: [provideNoopAnimations()],
     });
   });
 
@@ -22,7 +22,7 @@ describe('SkyAgGridCellRendererValidatorTooltipComponent', () => {
     const fixture = TestBed.createComponent(
       SkyAgGridCellRendererValidatorTooltipComponent,
     );
-    fixture.componentInstance.cellRendererParams = {
+    fixture.componentRef.setInput('params', {
       addRenderedRowListener: NOOP,
       column: {
         getActualWidth(): number {
@@ -35,19 +35,19 @@ describe('SkyAgGridCellRendererValidatorTooltipComponent', () => {
       rowIndex: 0,
       setValue: NOOP,
       skyComponentProperties: {},
-    } as unknown as SkyCellRendererValidatorParams;
+    });
     fixture.detectChanges();
     expect(fixture.componentInstance).toBeTruthy();
 
-    fixture.componentInstance.params = {
-      ...fixture.componentInstance.cellRendererParams,
-    };
+    fixture.componentRef.setInput('params', {
+      ...fixture.componentInstance.params(),
+    });
     fixture.detectChanges();
     expect(fixture.componentInstance).toBeTruthy();
 
     expect(
       fixture.componentInstance.refresh(
-        fixture.componentInstance.cellRendererParams,
+        fixture.componentInstance.params() as SkyCellRendererValidatorParams,
       ),
     ).toBeFalse();
   });
@@ -56,14 +56,14 @@ describe('SkyAgGridCellRendererValidatorTooltipComponent', () => {
     const fixture = TestBed.createComponent(
       SkyAgGridCellRendererValidatorTooltipComponent,
     );
-    fixture.componentInstance.params = {
+    fixture.componentRef.setInput('params', {
       skyComponentProperties: {
         valueResourceObservable: () => of('Test value ABC'),
         validator: () => false,
         validatorMessage: 'Test message ABC',
       },
       value: 'Test value',
-    } as unknown as SkyCellRendererValidatorParams;
+    });
     fixture.detectChanges();
     await fixture.whenStable();
     expect(fixture.componentInstance).toBeTruthy();
