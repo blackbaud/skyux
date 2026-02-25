@@ -30,16 +30,9 @@ import {
   IColumnLimit,
   RowSelectedEvent,
 } from 'ag-grid-community';
-import {
-  Subject,
-  filter,
-  fromEvent,
-  map,
-  of,
-  switchMap,
-  takeUntil,
-} from 'rxjs';
+import { Subject, filter, map, of, switchMap, takeUntil } from 'rxjs';
 
+import { fromGridEvent } from './ag-grid-event-utils';
 import { SkyAgGridWrapperComponent } from './ag-grid-wrapper.component';
 
 function toColumnWidthName(breakpoint: SkyBreakpoint): 'xs' | 'sm' {
@@ -200,7 +193,7 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
 
     setTimeout(() => {
       if (this.#currentSkyAgGridWrapper) {
-        this.#currentSkyAgGridWrapper.viewkeeperClasses = [];
+        this.#currentSkyAgGridWrapper.viewkeeperClasses.set([]);
       }
     });
   }
@@ -219,8 +212,16 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
             if (viewConfig) {
               viewConfig = {
                 ...viewConfig,
-                onSelectAllClick: (): void => agGrid.api.selectAll(),
-                onClearAllClick: (): void => agGrid.api.deselectAll(),
+                onSelectAllClick: (): void => {
+                  if (!agGrid.api.isDestroyed()) {
+                    agGrid.api.selectAll();
+                  }
+                },
+                onClearAllClick: (): void => {
+                  if (!agGrid.api.isDestroyed()) {
+                    agGrid.api.deselectAll();
+                  }
+                },
               };
               if (viewConfig.columnPickerEnabled && !viewConfig.columnOptions) {
                 viewConfig.columnOptions = this.#readColumnOptionsFromGrid(
@@ -247,7 +248,7 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
       agGrid.gridReady
         .pipe(
           takeUntil(this.#ngUnsubscribe),
-          switchMap(() => fromEvent(agGrid.api, 'gridPreDestroyed')),
+          switchMap(() => fromGridEvent(agGrid.api, 'gridPreDestroyed')),
         )
         .subscribe(() => {
           this.#unregisterAgGrid();
