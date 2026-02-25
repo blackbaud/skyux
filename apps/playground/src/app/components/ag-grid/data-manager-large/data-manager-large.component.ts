@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   OnInit,
   computed,
@@ -72,6 +73,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
       display: contents;
     }
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     AgGridModule,
     CommonModule,
@@ -168,17 +170,22 @@ export class DataManagerLargeComponent implements OnInit {
 
   readonly #agGridService = inject(SkyAgGridService);
   readonly #dataManagerService = inject(SkyDataManagerService);
+  readonly #formBuilder = inject(FormBuilder);
 
-  constructor(formBuilder: FormBuilder) {
-    this.gridSettings = formBuilder.group<GridSettingsType>({
-      enableTopScroll: formBuilder.nonNullable.control(this.enableTopScroll()),
-      useColumnGroups: formBuilder.nonNullable.control(this.useColumnGroups()),
-      showSelect: formBuilder.nonNullable.control(this.showSelect()),
-      showDelete: formBuilder.nonNullable.control(this.showDelete()),
-      domLayout: formBuilder.nonNullable.control(this.domLayout()),
-      compact: formBuilder.nonNullable.control(this.compact()),
-      wrapText: formBuilder.nonNullable.control(this.wrapText()),
-      autoHeightColumns: formBuilder.nonNullable.control(
+  constructor() {
+    this.gridSettings = this.#formBuilder.group<GridSettingsType>({
+      enableTopScroll: this.#formBuilder.nonNullable.control(
+        this.enableTopScroll(),
+      ),
+      useColumnGroups: this.#formBuilder.nonNullable.control(
+        this.useColumnGroups(),
+      ),
+      showSelect: this.#formBuilder.nonNullable.control(this.showSelect()),
+      showDelete: this.#formBuilder.nonNullable.control(this.showDelete()),
+      domLayout: this.#formBuilder.nonNullable.control(this.domLayout()),
+      compact: this.#formBuilder.nonNullable.control(this.compact()),
+      wrapText: this.#formBuilder.nonNullable.control(this.wrapText()),
+      autoHeightColumns: this.#formBuilder.nonNullable.control(
         this.autoHeightColumns(),
       ),
     });
@@ -286,7 +293,7 @@ export class DataManagerLargeComponent implements OnInit {
             ? columnDefinitionsGrouped
             : columnDefinitions.map((col) => {
                 if (col.field === 'object_name') {
-                  col.rowDrag = this.domLayout() === 'normal';
+                  return { ...col, rowDrag: this.domLayout() === 'normal' };
                 }
                 return col;
               })),

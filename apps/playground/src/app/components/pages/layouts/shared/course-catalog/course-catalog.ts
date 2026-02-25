@@ -1,11 +1,11 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   booleanAttribute,
   effect,
   inject,
   input,
   signal,
-  untracked,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
@@ -50,6 +50,7 @@ const VIEW_ID = 'grid';
   `,
   imports: [AgGridAngular, SkyAgGridModule, SkyDataManagerModule],
   providers: [SkyDataManagerService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CourseCatalogComponent {
   public readonly dataManager = input<boolean, unknown>(false, {
@@ -144,7 +145,7 @@ export class CourseCatalogComponent {
     );
     effect(() => {
       const searchText = searchTextSignal();
-      const gridApi = untracked(this.#gridApi);
+      const gridApi = this.#gridApi();
       gridApi?.setGridOption('quickFilterText', searchText);
     });
   }

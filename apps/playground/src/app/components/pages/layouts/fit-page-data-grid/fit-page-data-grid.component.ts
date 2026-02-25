@@ -9,6 +9,8 @@ import { map } from 'rxjs/operators';
 import { DataManagerLargeComponent } from '../../../ag-grid/data-manager-large/data-manager-large.component';
 import { CourseCatalogComponent } from '../shared/course-catalog/course-catalog';
 
+type Show = 'courseCatalog' | 'courseCatalogNoDm' | 'museum';
+
 @Component({
   selector: 'app-fit-page-data-grid',
   imports: [
@@ -22,15 +24,16 @@ import { CourseCatalogComponent } from '../shared/course-catalog/course-catalog'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FitPageDataGridComponent {
-  protected readonly options = [
+  protected readonly options: readonly [Show, string][] = [
     ['courseCatalog', 'Course catalog'],
     ['courseCatalogNoDm', 'Course catalog without data manager'],
     ['museum', 'Museum data'],
   ];
   protected readonly show = toSignal(
     inject(ActivatedRoute).queryParamMap.pipe(
-      map((params) => params.get('show') || 'courseCatalog'),
+      map((params) => (params.get('show') as Show | null) ?? 'courseCatalog'),
     ),
+    { initialValue: 'courseCatalog' as Show },
   );
 }
 export default FitPageDataGridComponent;
