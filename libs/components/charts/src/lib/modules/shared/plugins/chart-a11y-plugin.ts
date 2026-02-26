@@ -1,6 +1,6 @@
 import type { Chart, ChartEvent, InteractionItem, Plugin } from 'chart.js';
 
-import { getChartType } from '../chart-helpers';
+import { getChartType, isDonutOrPieChart } from '../chart-helpers';
 import { SkyuxChartStyles } from '../chart-styles';
 
 /**
@@ -185,7 +185,7 @@ class ChartKeyboardManager {
         ctx,
         dataElement as unknown as { x: number; y: number },
       );
-    } else if (chartType === 'pie' || chartType === 'doughnut') {
+    } else if (isDonutOrPieChart(this.#chart)) {
       this.#drawDonutFocusIndicator(
         ctx,
         dataElement as unknown as {
@@ -279,7 +279,7 @@ class ChartKeyboardManager {
 
     const chartType = getChartType(this.#chart);
 
-    if (chartType === 'pie' || chartType === 'doughnut') {
+    if (isDonutOrPieChart(this.#chart)) {
       // For pie charts, navigate through segments
       this.#navigatePieChart(key);
     } else if (chartType === 'bar' || chartType === 'line') {

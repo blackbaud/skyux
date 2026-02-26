@@ -1,5 +1,6 @@
 import { Chart, ChartDataset, ChartType, Plugin } from 'chart.js';
 
+import { isDonutOrPieChart } from '../chart-helpers';
 import { SkyuxChartStyles } from '../chart-styles';
 
 /**
@@ -31,14 +32,8 @@ function getChartType(chart: Chart): string {
 }
 
 function deriveMode(chart: Chart): SkyAutoColorMode {
-  const chartType = getChartType(chart);
-
   // For pie and doughnut charts, use 'data' mode to assign a color to each segment
-  if (
-    chart.data.datasets.length === 1 ||
-    chartType === 'pie' ||
-    chartType === 'doughnut'
-  ) {
+  if (chart.data.datasets.length === 1 || isDonutOrPieChart(chart)) {
     return 'data';
   }
 
