@@ -1,6 +1,17 @@
 # Changelog
 
 
+## [13.14.2](https://github.com/blackbaud/skyux/compare/13.14.1...13.14.2) (2026-02-25)
+
+
+### Bug Fixes
+
+* **components/list-builder:** stop overriding dropdown button padding ([#4181](https://github.com/blackbaud/skyux/issues/4181)) ([ca99b56](https://github.com/blackbaud/skyux/commit/ca99b56c2bcc3f208fbaec31cd49c3bb30067216))
+* **components/lookup:** lookup and selections modals use correct footer button spacing in modern theme ([#4229](https://github.com/blackbaud/skyux/issues/4229)) ([6453f81](https://github.com/blackbaud/skyux/commit/6453f81286687035440e68106dfc9f2762c2dc7e)), closes [AB#3704526](https://github.com/AB/issues/3704526)
+* use accessible text colors via design tokens update ([#4234](https://github.com/blackbaud/skyux/issues/4234)) ([ade98fb](https://github.com/blackbaud/skyux/commit/ade98fbf5cbc97bb103b8aa17daf51ee44d7c2f0))
+
+
+
 ## [14.0.0-alpha.3](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.2...14.0.0-alpha.3) (2026-02-25)
 
 
