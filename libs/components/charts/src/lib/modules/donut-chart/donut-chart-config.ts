@@ -42,6 +42,7 @@ export function getChartJsDonutChartConfig(
           const dataset = skyConfig.series;
           const dataPoint = dataset.data[dataIndex];
 
+          // TODO: Localization
           const percent = percentOfVisibleDataset(context);
           return `${dataPoint.label} (${percent.toFixed(2)}%)`;
         },

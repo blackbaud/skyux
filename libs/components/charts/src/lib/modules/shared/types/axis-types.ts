@@ -38,5 +38,6 @@ export interface SkyChartValueAxisConfig extends SkyChartAxisConfig {
    * @param value
    * @returns
    */
+  // TODO: Chart localization
   tickFormatter?: (value: number | string) => string;
 }

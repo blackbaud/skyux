@@ -64,6 +64,7 @@ export function getChartJsBarChartConfig(
           const dataset = skyConfig.series[datasetIndex];
           const dataPoint = dataset.data[dataIndex];
 
+          // TODO: Chart localization
           return `${dataset.label}: ${dataPoint.label}`;
         },
       },
@@ -261,6 +262,7 @@ function createLinearValueScale(
     ticks: {
       ...base.ticks,
       padding: SkyuxChartStyles.axisTickPaddingY,
+      // TODO: Chart localization
       callback: config.valueAxis?.tickFormatter,
     },
     title: {
@@ -296,6 +298,7 @@ function createLogarithmicValueScale(
     ticks: {
       ...base.ticks,
       padding: SkyuxChartStyles.axisTickPaddingY,
+      // TODO: Chart localization
       callback: config.valueAxis?.tickFormatter,
     },
     title: {

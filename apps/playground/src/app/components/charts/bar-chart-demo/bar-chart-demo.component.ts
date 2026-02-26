@@ -42,6 +42,7 @@ export class BarChartDemoComponent {
     categoryAxis: { label: 'Month' },
     valueAxis: {
       label: 'Amount',
+      // TODO: Chart localization
       tickFormatter: (value) => `$${Number(value) / 1000}K`,
     },
 
@@ -69,6 +70,7 @@ export class BarChartDemoComponent {
     categoryAxis: { label: 'Month' },
     valueAxis: { 
       label: 'Amount', 
+      // TODO: Chart localization
       tickFormatter: (value) => `$${Number(value) / 1000}K`, 
     },
   };
