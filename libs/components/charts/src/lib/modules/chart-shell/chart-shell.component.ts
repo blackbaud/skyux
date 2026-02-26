@@ -12,8 +12,6 @@ import {
 import { SkyModalService } from '@skyux/modals';
 import { SkyDropdownModule } from '@skyux/popovers';
 
-import { Chart, registerables } from 'chart.js';
-
 import { SkyChartGridModalContext } from '../chart-data-grid-modal/chart-data-grid-modal-context';
 import { SkyChartDataGridModalComponent } from '../chart-data-grid-modal/chart-data-grid-modal.component';
 import { SkyChartLegendItem } from '../chart-legend/chart-legend-item';
@@ -37,12 +35,8 @@ import {
   provideSkyChartHeaderId,
 } from './chart-header-id-token';
 
-// Register Chart.js components globally
-Chart.register(...registerables);
-
 /**
- * Shell component for all chart types. Handles common Chart.js lifecycle,
- * rendering, theme changes, and modal integration.
+ * Shell component for all chart types.
  */
 @Component({
   selector: 'sky-chart-shell',

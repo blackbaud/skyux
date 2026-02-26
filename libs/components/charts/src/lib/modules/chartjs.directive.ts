@@ -15,7 +15,10 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SkyThemeService } from '@skyux/theme';
 
-import { Chart, ChartConfiguration } from 'chart.js';
+import { Chart, ChartConfiguration, registerables } from 'chart.js';
+
+// Register Chart.js components globally
+Chart.register(...registerables);
 
 /**
  * Directive that renders a Chart.js chart on a canvas element and manages its lifecycle.
