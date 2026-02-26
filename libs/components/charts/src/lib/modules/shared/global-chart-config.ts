@@ -41,10 +41,9 @@ function getSkyuxGlobalChartConfig(): Partial<ChartOptions> {
 }
 
 /**
- * Helper function to merge global config with chart-specific config
- * Colors are resolved at runtime for proper theme support
+ * Helper function to merge global chart options with chart-specific options
  */
-export function mergeChartConfig<T extends ChartType = ChartType>(
+export function mergeChartOptions<T extends ChartType = ChartType>(
   chartSpecificConfig: ChartOptions<T>,
 ): ChartOptions<T> {
   const globalConfig = getSkyuxGlobalChartConfig();

@@ -6,7 +6,7 @@ import {
 } from 'chart.js';
 
 import { SkyuxChartStyles } from '../shared/chart-styles';
-import { mergeChartConfig } from '../shared/global-chart-config';
+import { mergeChartOptions } from '../shared/global-chart-config';
 import { createAutoColorPlugin } from '../shared/plugins/auto-color-plugin';
 import { createChartA11yPlugin } from '../shared/plugins/chart-a11y-plugin';
 import { createTooltipShadowPlugin } from '../shared/plugins/tooltip-shadow-plugin';
@@ -50,7 +50,7 @@ export function getChartJsDonutChartConfig(
   };
 
   // Build chart options
-  const options = mergeChartConfig<'doughnut'>({
+  const options = mergeChartOptions<'doughnut'>({
     interaction: {
       mode: 'nearest',
       intersect: true,
