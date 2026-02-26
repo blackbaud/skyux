@@ -5,7 +5,6 @@ import {
   inject,
   tick,
 } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import {
   SKY_STACKING_CONTEXT,
@@ -989,7 +988,7 @@ describe('Popover directive accessibility', () => {
 
   it('should be accessible', async () => {
     TestBed.configureTestingModule({
-      imports: [PopoverA11yTestComponent, NoopAnimationsModule],
+      imports: [PopoverA11yTestComponent],
     });
 
     const fixture = TestBed.createComponent(PopoverA11yTestComponent);

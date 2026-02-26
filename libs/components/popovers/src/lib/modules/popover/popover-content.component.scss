@@ -26,6 +26,12 @@ $popover-max-width: 276px;
         )
     )
   );
+  opacity: 0;
+  transition: opacity 150ms ease-in;
+
+  &.sky-popover-open {
+    opacity: 1;
+  }
 
   &.sky-popover-hidden {
     visibility: hidden;
