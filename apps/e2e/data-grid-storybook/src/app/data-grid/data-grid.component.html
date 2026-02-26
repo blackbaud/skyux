@@ -1,0 +1,72 @@
+<div class="sky-padding-even-lg">
+  <sky-data-grid [data]="gridData">
+    <sky-data-grid-column
+      columnId="context"
+      headingText="Context menu"
+      headingHidden
+      width="50"
+      [sortable]="false"
+      [template]="contextMenu"
+    />
+    <sky-data-grid-column field="name" headingText="Name" />
+    <sky-data-grid-column
+      field="age"
+      headingText="Age"
+      dataType="number"
+      width="60"
+    />
+    <sky-data-grid-column
+      field="startDate"
+      headingText="Start date"
+      dataType="date"
+    />
+    <sky-data-grid-column
+      field="endDate"
+      headingText="End date"
+      dataType="date"
+    />
+    <sky-data-grid-column field="department" headingText="Department">
+      <ng-template let-row="row">{{ row.department?.name }}</ng-template>
+    </sky-data-grid-column>
+    <sky-data-grid-column field="jobTitle" headingText="Title">
+      <ng-template let-row="row">{{ row.jobTitle?.name }}</ng-template>
+    </sky-data-grid-column>
+  </sky-data-grid>
+</div>
+
+<ng-template #contextMenu let-row="row">
+  <sky-dropdown
+    buttonType="context-menu"
+    [label]="`Context menu for ${row?.name}`"
+  >
+    <sky-dropdown-menu>
+      <sky-dropdown-item>
+        <button
+          type="button"
+          [attr.aria-label]="`Delete ${row?.name}`"
+          (click)="actionClicked(row, 'Delete')"
+        >
+          Delete
+        </button>
+      </sky-dropdown-item>
+      <sky-dropdown-item>
+        <button
+          type="button"
+          [attr.aria-label]="`Mark ${row?.name} inactive`"
+          (click)="actionClicked(row, 'Mark inactive')"
+        >
+          Mark inactive
+        </button>
+      </sky-dropdown-item>
+      <sky-dropdown-item>
+        <button
+          type="button"
+          [attr.aria-label]="`More info for ${row?.name}`"
+          (click)="actionClicked(row, 'More info')"
+        >
+          More info
+        </button>
+      </sky-dropdown-item>
+    </sky-dropdown-menu>
+  </sky-dropdown>
+</ng-template>

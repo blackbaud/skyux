@@ -1,0 +1,75 @@
+<sky-filter-bar [(appliedFilters)]="appliedFilters">
+  <sky-filter-item-modal
+    filterId="name"
+    labelText="Name"
+    modalSize="medium"
+    [modalComponent]="nameFilterModal"
+  />
+  <sky-filter-item-modal
+    filterId="salary"
+    labelText="Salary Range"
+    modalSize="medium"
+    [modalComponent]="salaryFilterModal"
+  />
+  <sky-filter-item-modal
+    filterId="startDate"
+    labelText="Start Date"
+    modalSize="large"
+    [modalComponent]="startDateFilterModal"
+  />
+  <sky-filter-item-modal
+    filterId="hideInactive"
+    labelText="Active Status"
+    modalSize="small"
+    [modalComponent]="hideInactiveModal"
+  />
+</sky-filter-bar>
+
+<sky-data-grid
+  height="400"
+  [data]="allEmployees"
+  [appliedFilters]="appliedFilters()"
+>
+  <sky-data-grid-column
+    field="name"
+    headingText="Employee Name"
+    dataType="text"
+    filterId="name"
+    filterOperator="contains"
+    flexWidth="5"
+  />
+  <sky-data-grid-column
+    field="department"
+    headingText="Department"
+    dataType="text"
+    flexWidth="8"
+  />
+  <sky-data-grid-column
+    field="salary"
+    headingText="Salary"
+    dataType="number"
+    filterId="salary"
+    flexWidth="2"
+  >
+    <ng-template let-value="value">{{
+      value | skyNumeric: { format: 'currency', iso: 'USD', truncate: false }
+    }}</ng-template>
+  </sky-data-grid-column>
+  <sky-data-grid-column
+    field="startDate"
+    headingText="Start Date"
+    dataType="date"
+    flexWidth="0"
+  >
+    <ng-template let-value="value">{{
+      value | skyDate: 'mediumDate'
+    }}</ng-template>
+  </sky-data-grid-column>
+  <sky-data-grid-column
+    field="active"
+    headingText="Active"
+    dataType="boolean"
+    filterId="hideInactive"
+    flexWidth="0"
+  />
+</sky-data-grid>
