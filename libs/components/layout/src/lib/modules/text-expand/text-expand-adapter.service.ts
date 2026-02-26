@@ -28,10 +28,7 @@ export class SkyTextExpandAdapterService {
     this.#renderer.removeStyle(containerEl.nativeElement, 'max-height');
   }
 
-  public setContainerMaxHeight(
-    containerEl: ElementRef,
-    height: number,
-  ): void {
+  public setContainerMaxHeight(containerEl: ElementRef, height: number): void {
     this.#renderer.setStyle(
       containerEl.nativeElement,
       'max-height',
