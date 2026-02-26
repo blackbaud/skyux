@@ -26,6 +26,12 @@
 .sky-phone-field-container {
   width: 100%;
   display: flex;
+  opacity: 1;
+  transition: opacity 200ms ease-in;
+
+  @starting-style {
+    opacity: 0;
+  }
 }
 
 .sky-phone-field-country-search {

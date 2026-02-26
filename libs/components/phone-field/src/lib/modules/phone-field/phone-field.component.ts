@@ -1,10 +1,3 @@
-import {
-  AnimationEvent,
-  animate,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -58,9 +51,6 @@ import { SkyPhoneFieldNumberReturnFormat } from './types/number-return-format';
 
 const DEFAULT_COUNTRY_CODE = 'us';
 
-// NOTE: The no-op animation is here in order to block the input's "fade in" animation
-// from firing on initial load. For more information on this technique you can see
-// https://www.bennadel.com/blog/3417-using-no-op-transitions-to-prevent-animation-during-the-initial-render-of-ngfor-in-angular-5-2-6.htm
 @Component({
   imports: [
     CommonModule,
@@ -88,73 +78,6 @@ const DEFAULT_COUNTRY_CODE = 'us';
       provide: SKY_COUNTRY_FIELD_CONTEXT,
       useValue: { inPhoneField: true },
     },
-  ],
-  animations: [
-    trigger('blockAnimationOnLoad', [transition(':enter', [])]),
-    trigger('countrySearchAnimation', [
-      transition('void => open', [
-        style({
-          opacity: 0,
-          width: 0,
-        }),
-        animate(
-          '200ms ease-in',
-          style({
-            opacity: 1,
-            width: '*',
-          }),
-        ),
-      ]),
-      transition('open => void', [
-        animate(
-          '200ms ease-in',
-          style({
-            opacity: 0,
-            width: 0,
-          }),
-        ),
-      ]),
-      transition('void => open-modern', [
-        style({
-          opacity: 0,
-        }),
-        animate(
-          '200ms ease-in',
-          style({
-            opacity: 1,
-          }),
-        ),
-      ]),
-      transition('open-modern => void', [
-        animate(
-          '200ms ease-in',
-          style({
-            opacity: 0,
-          }),
-        ),
-      ]),
-    ]),
-    trigger('phoneInputAnimation', [
-      transition('void => open', [
-        style({
-          opacity: 0,
-        }),
-        animate(
-          '200ms ease-in',
-          style({
-            opacity: 1,
-          }),
-        ),
-      ]),
-      transition('open => void', [
-        animate(
-          '200ms ease-in',
-          style({
-            opacity: 0,
-          }),
-        ),
-      ]),
-    ]),
   ],
 })
 export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
@@ -290,7 +213,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
 
   #defaultCountryData: SkyPhoneFieldCountry | undefined;
 
-  #focusPhoneInputAfterAnimation = false;
+  #focusPhoneInputAfterToggle = false;
 
   #phoneNumberFormatHintTextTemplateString = '';
 
@@ -310,7 +233,6 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   #dismissCountrySearchFocusListenerFn: (() => void) | undefined;
 
   #formBuilder: FormBuilder;
-  #adapterService: SkyPhoneFieldAdapterService;
   readonly #appFormat = inject(SkyAppFormat);
   #changeDetector: ChangeDetectorRef;
   #ngUnsubscribe = new Subject<void>();
@@ -320,13 +242,11 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
 
   constructor(
     formBuilder: FormBuilder,
-    adapterService: SkyPhoneFieldAdapterService,
     changeDetector: ChangeDetectorRef,
     @Optional() public themeSvc?: SkyThemeService,
     @Optional() @SkipSelf() public inputBoxHostSvc?: SkyInputBoxHostService,
   ) {
     this.#formBuilder = formBuilder;
-    this.#adapterService = adapterService;
     this.#changeDetector = changeDetector;
 
     this.countries = cloneCountryData(intlTelInput.getCountryData());
@@ -398,7 +318,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
         (countryInfo) => countryInfo.iso2 === newCountry.iso2,
       );
 
-      this.#focusPhoneInputAfterAnimation = true;
+      this.#focusPhoneInputAfterToggle = true;
       this.toggleCountrySearch(false);
     }
   }
@@ -406,8 +326,10 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   public toggleCountrySearch(showSearch: boolean): void {
     if (showSearch) {
       this.phoneInputShown = false;
+      this.countrySearchShown = true;
     } else {
       this.countrySearchShown = false;
+      this.phoneInputShown = true;
 
       this.#countrySearchFormControl.setValue(undefined);
     }
@@ -417,6 +339,14 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     }
 
     this.#changeDetector.markForCheck();
+
+    setTimeout(() => {
+      if (showSearch) {
+        this.#onCountrySearchShown();
+      } else {
+        this.#onPhoneInputShown();
+      }
+    });
   }
 
   // TODO: remove this if no longer needed after a scalable focus monitor service is implemented
@@ -432,69 +362,9 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     }
   }
 
-  public countrySearchAnimationEnd(e: AnimationEvent): void {
-    if (!this.countrySearchShown) {
-      this.phoneInputShown = true;
-    } else {
-      this.#adapterService.focusCountrySearchElement(e.element);
-
-      let countryFlagButton: HTMLElement | undefined;
-      let dismissCountrySearchButton: HTMLElement | undefined;
-
-      // add event listeners for focusout from the buttons on either side of country search field.
-      if (!this.inputBoxHostSvc) {
-        countryFlagButton = this.#elementRef.nativeElement.querySelector(
-          'button.sky-phone-field-country-select-btn',
-        );
-        dismissCountrySearchButton =
-          this.#elementRef.nativeElement.querySelector(
-            'button.sky-phone-field-search-btn-dismiss',
-          );
-      } else {
-        countryFlagButton = this.inputBoxHostSvc.queryHost(
-          'button.sky-phone-field-country-select-btn',
-        );
-        dismissCountrySearchButton = this.inputBoxHostSvc.queryHost(
-          'button.sky-phone-field-search-btn-dismiss',
-        );
-      }
-
-      if (countryFlagButton && dismissCountrySearchButton) {
-        this.#countryFlagFocusListenerFn =
-          this.addFocusEventListener(countryFlagButton);
-        this.#dismissCountrySearchFocusListenerFn = this.addFocusEventListener(
-          dismissCountrySearchButton,
-        );
-      }
-    }
-
-    this.#changeDetector.markForCheck();
-  }
-
   public dismissButtonClicked(): void {
-    this.#focusPhoneInputAfterAnimation = true;
+    this.#focusPhoneInputAfterToggle = true;
     this.toggleCountrySearch(false);
-  }
-
-  public phoneInputAnimationEnd(e: AnimationEvent): void {
-    if (!this.phoneInputShown) {
-      this.countrySearchShown = true;
-    } else {
-      if (this.#focusPhoneInputAfterAnimation) {
-        this.#adapterService.focusPhoneInput(e.element);
-        this.#focusPhoneInputAfterAnimation = false;
-      }
-
-      // Remove focus out event listeners now that country search is closed.
-      if (this.#countryFlagFocusListenerFn) {
-        this.#countryFlagFocusListenerFn();
-      }
-      if (this.#dismissCountrySearchFocusListenerFn) {
-        this.#dismissCountrySearchFocusListenerFn();
-      }
-    }
-
-    this.#changeDetector.markForCheck();
   }
 
   // TODO: remove this if no longer needed after a scalable focus monitor service is implemented
@@ -511,6 +381,66 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
         }
       }
     });
+  }
+
+  #onCountrySearchShown(): void {
+    this.#focusElement('textarea');
+
+    let countryFlagButton: HTMLElement | undefined;
+    let dismissCountrySearchButton: HTMLElement | undefined;
+
+    // Add event listeners for focusout from the buttons on either side of country search field.
+    if (!this.inputBoxHostSvc) {
+      countryFlagButton = this.#elementRef.nativeElement.querySelector(
+        'button.sky-phone-field-country-select-btn',
+      );
+      dismissCountrySearchButton = this.#elementRef.nativeElement.querySelector(
+        'button.sky-phone-field-search-btn-dismiss',
+      );
+    } else {
+      countryFlagButton = this.inputBoxHostSvc.queryHost(
+        'button.sky-phone-field-country-select-btn',
+      );
+      dismissCountrySearchButton = this.inputBoxHostSvc.queryHost(
+        'button.sky-phone-field-search-btn-dismiss',
+      );
+    }
+
+    if (countryFlagButton && dismissCountrySearchButton) {
+      this.#countryFlagFocusListenerFn =
+        this.addFocusEventListener(countryFlagButton);
+      this.#dismissCountrySearchFocusListenerFn = this.addFocusEventListener(
+        dismissCountrySearchButton,
+      );
+    }
+  }
+
+  #onPhoneInputShown(): void {
+    if (this.#focusPhoneInputAfterToggle) {
+      this.#focusElement('input');
+      this.#focusPhoneInputAfterToggle = false;
+    }
+
+    // Remove focusout event listeners now that country search is closed.
+    if (this.#countryFlagFocusListenerFn) {
+      this.#countryFlagFocusListenerFn();
+    }
+    if (this.#dismissCountrySearchFocusListenerFn) {
+      this.#dismissCountrySearchFocusListenerFn();
+    }
+  }
+
+  #focusElement(selector: string): void {
+    let el: HTMLElement | undefined | null;
+    if (this.inputBoxHostSvc) {
+      el = this.inputBoxHostSvc.queryHost(selector);
+    } else {
+      el = this.#elementRef.nativeElement.querySelector(selector);
+    }
+    if (el) {
+      el.focus();
+      el.dispatchEvent(new FocusEvent('focus'));
+    }
   }
 
   public setCountryByDialCode(phoneNumberRaw: string | undefined): void {
