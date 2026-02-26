@@ -26,6 +26,10 @@ import {
   RULE_NAME as preferDisabledAttrRuleName,
 } from '../rules/template/prefer-disabled-attr';
 import {
+  rule as preferInputBox,
+  RULE_NAME as preferInputBoxRuleName,
+} from '../rules/template/prefer-input-box';
+import {
   rule as preferLabelText,
   RULE_NAME as preferLabelTextRuleName,
 } from '../rules/template/prefer-label-text';
@@ -41,6 +45,7 @@ export default {
     [noLegacyIconsRuleName]: noLegacyIcons,
     [noRadioGroupWithNestedListRuleName]: noRadioGroupWithNestedList,
     [preferDisabledAttrRuleName]: preferDisabledAttr,
+    [preferInputBoxRuleName]: preferInputBox,
     [noUnboundIdRuleName]: noUnboundId,
     [preferLabelTextRuleName]: preferLabelText,
   },
