@@ -1,7 +1,7 @@
 import { ChartOptions, ChartType } from 'chart.js';
 
 import { SkyuxChartStyles } from './chart-styles';
-import { getTooltipPluginOptions } from './plugin-config/tooltip-plugin';
+import { getTooltipPluginOptions } from './plugins/get-tooltip-plugin-options';
 
 /**
  * Get SKY UX Global Chart.js Configuration

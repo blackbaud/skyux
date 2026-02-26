@@ -3,6 +3,9 @@ import { TooltipOptions } from 'chart.js';
 import { SkyuxChartStyles } from '../chart-styles';
 import { DeepPartial } from '../types/deep-partial-type';
 
+/**
+ * Get default tooltip options for Chart.JS Tooltips
+ */
 export function getTooltipPluginOptions(): DeepPartial<TooltipOptions> {
   return {
     enabled: true,
