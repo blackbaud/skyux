@@ -14,9 +14,9 @@ import { SkyHelpInlineModule } from '@skyux/help-inline';
   imports: [SkyHelpInlineModule],
   selector: 'sky-modal-header-internal',
   styleUrl: './modal-header.component.scss',
-  templateUrl: './modal-header-internal.html',
+  templateUrl: './modal-header-internal.component.html',
 })
-export class SkyModalHeaderInternal {
+export class SkyModalHeaderInternalComponent {
   public readonly headingText = input.required<string>();
   public readonly helpKey = input<string>();
   public readonly helpPopoverContent = input<string | TemplateRef<unknown>>();
