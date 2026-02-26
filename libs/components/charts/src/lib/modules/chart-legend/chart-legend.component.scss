@@ -7,16 +7,35 @@
   padding: 0;
 }
 
-.sky-chart-legend-marker {
+.sky-chart-legend-button {
+  display: flex;
+  align-items: center;
+  border-radius: var(--sky-border-radius-s, 3px);
+  border: 0;
+
+  padding-top: var(--sky-comp-chart-legend_item-space-inset-top, 6px);
+  padding-right: var(--sky-comp-chart-legend_item-space-inset-right, 12px);
+  padding-bottom: var(--sky-comp-chart-legend_item-space-inset-bottom, 6px);
+  padding-left: var(--sky-comp-chart-legend_item-space-inset-left, 12px);
+}
+
+.sky-chart-legend-button-icon {
   display: inline-block;
   flex-shrink: 0;
-  height: var(--sky-size-icon-xs);
-  width: var(--sky-size-icon-xs);
+
+  height: var(--sky-size-icon-xs, 12px);
+  width: var(--sky-size-icon-xs, 12px);
+
+  margin-right: var(--sky-space-gap-icon-s, var(--sky-margin-inline-xs));
 
   // Makes the legend marker circular
   border-radius: 50%;
 }
 
-.sky-chart-legend-item {
-  color: var(--sky-text-color-deemphasized);
+.sky-chart-legend-button-label {
+  font-family: var(--sky-font-family-primary);
+  font-size: var(--sky-font-size-body-s);
+  font-weight: var(--sky-font-style-body-s);
+  line-height: var(--sky-font-line_height-body-s);
+  color: var(--sky-color-text-deemphasized);
 }
