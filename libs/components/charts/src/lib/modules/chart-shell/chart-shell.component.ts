@@ -20,22 +20,22 @@ import { SkyChartLegendItem } from '../chart-legend/chart-legend-item';
 import { SkyChartLegendComponent } from '../chart-legend/chart-legend.component';
 import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
 import { SkyChartDataPoint } from '../shared/types/chart-data-point';
+import {
+  DefaultHeadingLevel,
+  SkyChartHeadingLevel,
+  headingLevelInputTransformer,
+} from '../shared/types/chart-heading-level';
+import {
+  DefaultHeadingStyle,
+  SkyChartHeadingStyle,
+  headingStyleInputTransformer,
+} from '../shared/types/chart-heading-style';
 import { SkyChartSeries } from '../shared/types/chart-series';
 
 import {
   SKY_CHART_HEADER_ID,
   provideSkyChartHeaderId,
 } from './chart-header-id-token';
-import {
-  DefaultHeadingLevel,
-  SkyChartHeadingLevel,
-  headingLevelInputTransformer,
-} from './chart-heading-level';
-import {
-  DefaultHeadingStyle,
-  SkyChartHeadingStyle,
-  headingStyleInputTransformer,
-} from './chart-heading-style';
 
 // Register Chart.js components globally
 Chart.register(...registerables);

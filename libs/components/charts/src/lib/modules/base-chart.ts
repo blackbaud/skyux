@@ -4,12 +4,12 @@ import {
   DefaultHeadingLevel,
   SkyChartHeadingLevel,
   headingLevelInputTransformer,
-} from './chart-shell/chart-heading-level';
+} from './shared/types/chart-heading-level';
 import {
   DefaultHeadingStyle,
   SkyChartHeadingStyle,
   headingStyleInputTransformer,
-} from './chart-shell/chart-heading-style';
+} from './shared/types/chart-heading-style';
 import { SkySelectedChartDataPoint } from './shared/types/selected-chart-data-point';
 
 /**
