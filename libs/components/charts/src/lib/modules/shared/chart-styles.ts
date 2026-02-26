@@ -8,12 +8,24 @@ export const SkyuxChartStyles = {
   // =============================================================================
   // CHART SERIES COLORS
   // =============================================================================
-
-  // Chart series colors for multi-series charts
-  // Uses SKY UX visualization category colors resolved from CSS custom properties
-  // Always start with category 1 and increment for each additional series
+  /**
+   * Chart series colors for multi-series charts
+   */
   get series(): string[] {
-    return getCategoryColors();
+    const colors = [
+      resolveCssVariable('--sky-theme-color-viz-category-1'),
+      resolveCssVariable('--sky-theme-color-viz-category-2'),
+      resolveCssVariable('--sky-theme-color-viz-category-3'),
+      resolveCssVariable('--sky-theme-color-viz-category-4'),
+      resolveCssVariable('--sky-theme-color-viz-category-5'),
+      resolveCssVariable('--sky-theme-color-viz-category-6'),
+      resolveCssVariable('--sky-theme-color-viz-category-7'),
+      resolveCssVariable('--sky-theme-color-viz-category-8'),
+    ];
+
+    // console.debug('SKY UX Chart Series Colors:', colors);
+
+    return colors;
   },
 
   // =============================================================================
@@ -573,26 +585,4 @@ function colorToRgbaWithAlpha(color: string, alpha: number): string | null {
 
   return null;
 }
-
-/**
- * Get SKY UX visualization category colors
- * Resolves CSS custom properties at runtime
- */
-function getCategoryColors(): string[] {
-  const colors = [
-    resolveCssVariable('--sky-theme-color-viz-category-1'),
-    resolveCssVariable('--sky-theme-color-viz-category-2'),
-    resolveCssVariable('--sky-theme-color-viz-category-3'),
-    resolveCssVariable('--sky-theme-color-viz-category-4'),
-    resolveCssVariable('--sky-theme-color-viz-category-5'),
-    resolveCssVariable('--sky-theme-color-viz-category-6'),
-    resolveCssVariable('--sky-theme-color-viz-category-7'),
-    resolveCssVariable('--sky-theme-color-viz-category-8'),
-  ];
-
-  // console.debug('SKY UX Chart Series Colors:', colors);
-
-  return colors;
-}
-
 // #endregion
