@@ -67,7 +67,7 @@ export class BarChartDemoComponent {
         ],
       },
     ],
-    categoryAxis: { label: 'Month' },
+    categoryAxis: { label: 'Categories' },
     valueAxis: { 
       label: 'Amount', 
       // TODO: Chart localization
@@ -165,7 +165,7 @@ export class BarChartDemoComponent {
       },
     ],
     valueAxis: { label: 'Value', scaleType: 'logarithmic' },
-    categoryAxis: { label: 'Month' },
+    categoryAxis: { label: 'Categories' },
   };
 
   protected readonly stackedVerticalLog: SkyBarChartConfig = {
@@ -260,7 +260,7 @@ export class BarChartDemoComponent {
       },
     ],
     valueAxis: { label: 'Amount' },
-    categoryAxis: { label: 'Month' },
+    categoryAxis: { label: 'Categories' },
   };
 
   protected readonly stackedHorizontal: SkyBarChartConfig = {
@@ -353,7 +353,7 @@ export class BarChartDemoComponent {
       },
     ],
     valueAxis: { label: 'Amount', scaleType: 'logarithmic' },
-    categoryAxis: { label: 'Month' },
+    categoryAxis: { label: 'Categories' },
   };
 
   protected readonly stackedHorizontalLog: SkyBarChartConfig = {
