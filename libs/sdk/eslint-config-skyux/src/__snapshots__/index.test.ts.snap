@@ -13742,6 +13742,22 @@ For example, when set to \`true\` the following code will not fail for the \`alt
             },
             "name": "prefer-disabled-attr",
           },
+          "prefer-input-box": Object {
+            "create": [Function],
+            "defaultOptions": Array [],
+            "meta": Object {
+              "docs": Object {
+                "description": "Require native form control elements to be placed inside a <sky-input-box> component.",
+                "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/template/prefer-input-box.md",
+              },
+              "messages": Object {
+                "preferInputBox": "<{{element}}> elements should be placed inside a <sky-input-box> component.",
+              },
+              "schema": Array [],
+              "type": "problem",
+            },
+            "name": "prefer-input-box",
+          },
           "prefer-label-text": Object {
             "create": [Function],
             "defaultOptions": Array [],
@@ -13775,6 +13791,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
       "skyux-eslint-template/no-radio-group-with-nested-list": "error",
       "skyux-eslint-template/no-unbound-id": "error",
       "skyux-eslint-template/prefer-disabled-attr": "error",
+      "skyux-eslint-template/prefer-input-box": "error",
       "skyux-eslint-template/prefer-label-text": "error",
     },
   },
