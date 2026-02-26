@@ -88,7 +88,6 @@ Replaces the deprecated `<sky-toggle-switch-label>` child element. Setting `labe
 #### ❌ Invalid Code
 
 ```html
-<!-- sky-checkbox: using a legacy label child element -->
 <sky-checkbox>
 ~~~~~~~~~~~~~~
   <sky-checkbox-label>
@@ -100,7 +99,6 @@ Replaces the deprecated `<sky-toggle-switch-label>` child element. Setting `labe
 </sky-checkbox>
 ~~~~~~~~~~~~~~~
 
-<!-- sky-input-box: using a <label> child element -->
 <sky-input-box>
 ~~~~~~~~~~~~~~~
   <label>First name</label>
@@ -110,7 +108,6 @@ Replaces the deprecated `<sky-toggle-switch-label>` child element. Setting `labe
 </sky-input-box>
 ~~~~~~~~~~~~~~~~
 
-<!-- sky-modal: using a legacy header child element -->
 <sky-modal>
   <sky-modal-header>My modal</sky-modal-header>
 </sky-modal>
@@ -121,14 +118,11 @@ Replaces the deprecated `<sky-toggle-switch-label>` child element. Setting `labe
 #### ✅ Valid Code
 
 ```html
-<!-- sky-checkbox: labelText enables helpKey, hintText, and error messages -->
 <sky-checkbox [labelText]="'first_name' | skyAppResources" />
 
-<!-- sky-input-box: labelText handles label association automatically -->
 <sky-input-box labelText="First name">
   <input type="text" />
 </sky-input-box>
 
-<!-- sky-modal: headingText enables helpKey and helpPopoverContent -->
 <sky-modal headingText="My modal" />
 ```
