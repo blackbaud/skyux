@@ -28,10 +28,36 @@
   margin: var(--sky-layout-host-content-spacing, 0);
   max-height: 100%;
 
+  .sky-split-view-drawer-flex-container {
+    &:not(.sky-split-view-drawer-visible) {
+      display: none;
+    }
+
+    &.sky-split-view-animate.sky-split-view-drawer-visible {
+      transition: transform 150ms ease-in;
+
+      @starting-style {
+        transform: translate(-100%);
+      }
+    }
+  }
+
   .sky-split-view-workspace-flex-container {
     flex-grow: 1;
     flex-shrink: 99;
     overflow: auto;
+
+    &:not(.sky-split-view-workspace-visible) {
+      display: none;
+    }
+
+    &.sky-split-view-animate.sky-split-view-workspace-visible {
+      transition: transform 150ms ease-in;
+
+      @starting-style {
+        transform: translate(100%);
+      }
+    }
   }
 }
 

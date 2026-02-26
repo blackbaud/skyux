@@ -1,10 +1,3 @@
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -33,17 +26,6 @@ import { SkySplitViewMessageType } from './types/split-view-message-type';
  * and take actions.
  */
 @Component({
-  animations: [
-    trigger('blockAnimationOnLoad', [transition(':enter', [])]),
-    trigger('drawerEnter', [
-      state('false', style({ transform: 'translate(-100%)' })),
-      transition('* => true', animate('150ms ease-in')),
-    ]),
-    trigger('workspaceEnter', [
-      state('false', style({ transform: 'translate(100%)' })),
-      transition('* => true', animate('150ms ease-in')),
-    ]),
-  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [SkyResponsiveHostDirective],
   imports: [CommonModule],
@@ -128,6 +110,7 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
     return !this.isMobile || this.#_drawerVisible;
   }
 
+  public animationEnabled = false;
   public isMobile = false;
   public nextButtonDisabled = false;
   public previousButtonDisabled = false;
@@ -166,6 +149,12 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    // Enable CSS transitions after initial render to prevent animations on load.
+    setTimeout(() => {
+      this.animationEnabled = true;
+      this.#changeDetectorRef.markForCheck();
+    });
+
     this.#splitViewService.isMobileStream
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((mobile: boolean) => {
@@ -196,8 +185,10 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
     this.#ngUnsubscribe.complete();
   }
 
-  public onWorkspaceEnterComplete(): void {
-    this.#animationComplete.next();
+  public onWorkspaceTransitionEnd(event: TransitionEvent): void {
+    if (event.propertyName === 'transform') {
+      this.#animationComplete.next();
+    }
   }
 
   #applyAutofocus(): void {

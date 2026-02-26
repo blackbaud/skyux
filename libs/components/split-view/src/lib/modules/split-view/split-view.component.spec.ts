@@ -12,7 +12,6 @@ import {
   waitForAsync,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import {
   SkyMediaQueryTestingController,
@@ -50,7 +49,7 @@ function listPanelHidden(): boolean {
   const listPanel = document.querySelector(
     '.sky-split-view-drawer-flex-container',
   ) as HTMLElement;
-  return listPanel.hasAttribute('hidden');
+  return !listPanel.classList.contains('sky-split-view-drawer-visible');
 }
 
 function getWorkspacePanel(): HTMLElement {
@@ -211,7 +210,7 @@ describe('Split view component', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, SplitViewFixturesModule],
+      imports: [SplitViewFixturesModule],
       providers: [
         provideSkyMediaQueryTesting(),
         {
@@ -699,6 +698,15 @@ describe('Split view component', () => {
         type: SkySplitViewMessageType.FocusWorkspace,
       };
       component.splitViewMessageStream.next(message);
+      fixture.detectChanges();
+
+      // Simulate the CSS transition completing on the workspace panel.
+      const workspaceEl = document.querySelector(
+        '.sky-split-view-workspace-flex-container',
+      );
+      workspaceEl?.dispatchEvent(
+        new TransitionEvent('transitionend', { propertyName: 'transform' }),
+      );
       fixture.detectChanges();
       tick();
 
