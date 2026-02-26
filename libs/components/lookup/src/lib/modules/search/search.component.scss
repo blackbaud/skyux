@@ -30,6 +30,17 @@ sky-search {
   // Search input (.sky-form-control) has z-index 2.
   // This ensures the button's focus border won't get clipped by input.
   .sky-search-input-container {
+    width: 100%;
+    transition:
+      opacity 150ms,
+      width 150ms;
+
+    &.sky-search-input-hidden {
+      opacity: 0;
+      width: 0;
+      overflow: hidden;
+    }
+
     .sky-input-group-btn > button:focus {
       z-index: 3;
     }

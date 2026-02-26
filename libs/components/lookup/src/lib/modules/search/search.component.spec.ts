@@ -6,7 +6,6 @@ import {
   tick,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyContentInfoProvider } from '@skyux/core';
 import {
@@ -47,7 +46,7 @@ describe('Search component', () => {
 
     TestBed.configureTestingModule({
       declarations: [SearchTestComponent],
-      imports: [SkySearchModule, NoopAnimationsModule],
+      imports: [SkySearchModule],
       providers: [
         provideSkyMediaQueryTesting(),
         {
@@ -72,6 +71,20 @@ describe('Search component', () => {
 
   function getInput(): DebugElement {
     return element.query(By.css('input'));
+  }
+
+  function dispatchInputTransitionEvents(): void {
+    const container = element.nativeElement.querySelector(
+      '.sky-search-input-container',
+    );
+    if (container) {
+      container.dispatchEvent(
+        new TransitionEvent('transitionstart', { propertyName: 'opacity' }),
+      );
+      container.dispatchEvent(
+        new TransitionEvent('transitionend', { propertyName: 'opacity' }),
+      );
+    }
   }
 
   function setInput(text: string): void {
@@ -131,6 +144,8 @@ describe('Search component', () => {
     const openEl = element.query(By.css('.sky-search-btn-open'));
     openEl.triggerEventHandler('click', undefined);
     fixture.detectChanges();
+    dispatchInputTransitionEvents();
+    fixture.detectChanges();
     return fixture.whenStable();
   }
 
@@ -138,17 +153,23 @@ describe('Search component', () => {
     const dismissEl = element.query(By.css('.sky-search-btn-dismiss'));
     dismissEl.triggerEventHandler('click', undefined);
     fixture.detectChanges();
+    dispatchInputTransitionEvents();
+    fixture.detectChanges();
     return fixture.whenStable();
   }
 
   function triggerXsBreakpoint(): Promise<void> {
     mediaQueryController.setBreakpoint('xs');
     fixture.detectChanges();
+    dispatchInputTransitionEvents();
+    fixture.detectChanges();
     return fixture.whenStable();
   }
 
   function triggerLgBreakpoint(): Promise<void> {
     mediaQueryController.setBreakpoint('lg');
+    fixture.detectChanges();
+    dispatchInputTransitionEvents();
     fixture.detectChanges();
     return fixture.whenStable();
   }
@@ -467,6 +488,7 @@ describe('Search component', () => {
           fixture.detectChanges();
           component.searchText = 'my search text';
           fixture.detectChanges();
+          dispatchInputTransitionEvents();
           await fixture.whenStable();
           verifySearchOpenMobile();
           expect(getInput().properties['value']).toBe('my search text');
@@ -513,6 +535,23 @@ describe('Search component', () => {
           By.css('.sky-search-input-container'),
         ).nativeElement;
         expect(containerEl.style.minWidth).toBeFalsy();
+      });
+
+      it('should ignore non-opacity transition events', async () => {
+        await triggerXsBreakpoint();
+        fixture.detectChanges();
+        const containerEl = element.query(
+          By.css('.sky-search-input-container'),
+        ).nativeElement;
+        containerEl.dispatchEvent(
+          new TransitionEvent('transitionstart', { propertyName: 'width' }),
+        );
+        containerEl.dispatchEvent(
+          new TransitionEvent('transitionend', { propertyName: 'width' }),
+        );
+        fixture.detectChanges();
+        // State should not have changed from the 'width' events.
+        verifySearchClosed();
       });
     });
 
