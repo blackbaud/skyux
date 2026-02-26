@@ -14,7 +14,7 @@
           "base": "dist/apps/e2e/pages-storybook"
         },
         "index": "apps/e2e/pages-storybook/src/index.html",
-        "polyfills": ["zone.js", "libs/components/packages/src/polyfills.js"],
+        "polyfills": ["zone.js"],
         "tsConfig": "apps/e2e/pages-storybook/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "stylePreprocessorOptions": {
