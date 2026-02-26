@@ -28,10 +28,12 @@
     <div
       #groupContainerWrapper
       class="sky-vertical-tabset-group-container"
-      [@tabGroupEnter]="tabService.animationTabsVisibleState"
+      [class.sky-vertical-tab-tabs-enter]="
+        tabService.animationTabsVisibleState === 'shown'
+      "
       [ngClass]="{ 'sky-vertical-tabset-hidden': !tabService.tabsVisible() }"
       [tabIndex]="tablistHasFocus ? -1 : 0"
-      (@tabGroupEnter.done)="tabsetFocus()"
+      (animationend)="tabsetFocus()"
       (keydown.arrowDown)="tabGroupsArrowDown(); $event.preventDefault()"
       (keydown.arrowUp)="tabGroupsArrowUp(); $event.preventDefault()"
       (focusin)="trapFocusInTablist()"
@@ -47,7 +49,9 @@
       [ngClass]="{
         'sky-vertical-tabset-content-hidden': !tabService.contentVisible()
       }"
-      [@contentEnter]="tabService.animationContentVisibleState"
+      [class.sky-vertical-tab-content-enter]="
+        tabService.animationContentVisibleState === 'shown'
+      "
       (focusin)="resetTabIndex()"
     >
       <div #skySideContent></div>

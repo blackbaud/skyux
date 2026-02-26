@@ -1,0 +1,27 @@
+@keyframes sky-vertical-tab-slide-in-left {
+  from {
+    transform: translate(-100%);
+  }
+
+  to {
+    transform: translate(0);
+  }
+}
+
+@keyframes sky-vertical-tab-slide-in-right {
+  from {
+    transform: translate(100%);
+  }
+
+  to {
+    transform: translate(0);
+  }
+}
+
+.sky-vertical-tab-tabs-enter {
+  animation: sky-vertical-tab-slide-in-left 150ms ease-in;
+}
+
+.sky-vertical-tab-content-enter {
+  animation: sky-vertical-tab-slide-in-right 150ms ease-in;
+}

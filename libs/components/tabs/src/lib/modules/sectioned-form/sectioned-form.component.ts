@@ -1,4 +1,3 @@
-import { animate, style, transition, trigger } from '@angular/animations';
 import {
   AfterViewChecked,
   ChangeDetectionStrategy,
@@ -20,7 +19,6 @@ import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { SkyTabIdService } from '../shared/tab-id.service';
 
 import {
-  HIDDEN_STATE,
   SkyVerticalTabsetService,
   VISIBLE_STATE,
 } from './../vertical-tabset/vertical-tabset.service';
@@ -36,20 +34,6 @@ import { SkySectionedFormMessageType } from './types/sectioned-form-message-type
   styleUrls: ['./sectioned-form.component.scss'],
   providers: [SkyTabIdService, SkyVerticalTabsetService],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [
-    trigger('tabEnter', [
-      transition(`${HIDDEN_STATE} => ${VISIBLE_STATE}`, [
-        style({ transform: 'translate(-100%)' }),
-        animate('150ms ease-in'),
-      ]),
-    ]),
-    trigger('contentEnter', [
-      transition(`${HIDDEN_STATE} => ${VISIBLE_STATE}`, [
-        style({ transform: 'translate(100%)' }),
-        animate('150ms ease-in'),
-      ]),
-    ]),
-  ],
   standalone: false,
 })
 export class SkySectionedFormComponent

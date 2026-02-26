@@ -449,6 +449,11 @@ describe('Vertical tabset component', () => {
     fixture.detectChanges();
 
     //wait for animation to finish
+    const groupContainer = el.querySelector(
+      '.sky-vertical-tabset-group-container',
+    );
+    groupContainer.dispatchEvent(new Event('animationend'));
+    fixture.detectChanges();
     tick();
 
     expect(elementHasFocus(getTab(fixture, 1, 1))).toBeTrue();
