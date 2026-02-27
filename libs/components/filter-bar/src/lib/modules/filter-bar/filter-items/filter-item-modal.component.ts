@@ -12,8 +12,11 @@ import {
   runInInjectionContext,
   viewChild,
 } from '@angular/core';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { toObservable } from '@angular/core/rxjs-interop';
+import {
+  takeUntilDestroyed,
+  toObservable,
+  toSignal,
+} from '@angular/core/rxjs-interop';
 import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
 import { Observable, Subject, of } from 'rxjs';

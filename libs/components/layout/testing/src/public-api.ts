@@ -34,10 +34,10 @@ export { SkyToolbarSectionHarness } from './modules/toolbar/toolbar-section-harn
 export { SkyToolbarSectionHarnessFilters } from './modules/toolbar/toolbar-section-harness-filters';
 export { SkyToolbarViewActionsHarness } from './modules/toolbar/toolbar-view-actions-harness';
 
-export { SkyActionButtonContainerHarnessFilters } from './modules/action-button/action-button-container-harness.filters';
 export { SkyActionButtonContainerHarness } from './modules/action-button/action-button-container-harness';
-export { SkyActionButtonHarnessFilters } from './modules/action-button/action-button-harness.filters';
+export { SkyActionButtonContainerHarnessFilters } from './modules/action-button/action-button-container-harness.filters';
 export { SkyActionButtonHarness } from './modules/action-button/action-button-harness';
+export { SkyActionButtonHarnessFilters } from './modules/action-button/action-button-harness.filters';
 
 export { SkyInlineDeleteHarness } from './modules/inline-delete/inline-delete-harness';
 export { SkyInlineDeleteHarnessFilters } from './modules/inline-delete/inline-delete-harness.filters';

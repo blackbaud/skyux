@@ -1,7 +1,7 @@
 import { UpdateRecorder } from '@angular-devkit/schematics';
 
-import { parseFragment } from 'parse5';
 import type { DefaultTreeAdapterTypes, Token } from 'parse5';
+import { parseFragment } from 'parse5';
 
 export type ElementWithLocation = DefaultTreeAdapterTypes.Element & {
   sourceCodeLocation: Required<Token.ElementLocation>;

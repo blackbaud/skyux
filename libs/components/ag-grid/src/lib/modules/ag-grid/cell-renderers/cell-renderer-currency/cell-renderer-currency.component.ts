@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { SkyNumericOptions } from '@skyux/core';
-import { SkyNumericModule } from '@skyux/core';
+import { SkyNumericModule, SkyNumericOptions } from '@skyux/core';
 
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 

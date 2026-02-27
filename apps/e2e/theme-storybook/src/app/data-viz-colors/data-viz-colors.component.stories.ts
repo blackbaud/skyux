@@ -1,5 +1,5 @@
-import { moduleMetadata } from '@storybook/angular';
 import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 
 import { DataVizColorsComponent } from './data-viz-colors.component';
 import { DataVizColorsModule } from './data-viz-colors.module';

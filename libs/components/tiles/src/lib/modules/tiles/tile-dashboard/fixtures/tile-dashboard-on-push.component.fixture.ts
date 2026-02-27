@@ -6,9 +6,9 @@ import { SkyTileDashboardConfig } from '../../../tiles/tile-dashboard-config/til
 import { SkyTileDashboardComponent } from '../../../tiles/tile-dashboard/tile-dashboard.component';
 import { SkyTileDashboardMessage } from '../tile-dashboard-message';
 
+import { TileTestContext } from './tile-context.fixture';
 import { Tile1TestComponent } from './tile1.component.fixture';
 import { Tile2TestComponent } from './tile2.component.fixture';
-import { TileTestContext } from './tile-context.fixture';
 
 @Component({
   selector: 'sky-demo-app',

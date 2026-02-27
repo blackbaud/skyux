@@ -17,10 +17,11 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { SkyIdModule, SkyMutationObserverService } from '@skyux/core';
-import { SkyViewkeeperModule } from '@skyux/core';
+import {
+  SkyIdModule,
+  SkyMutationObserverService,
+  SkyViewkeeperModule,
+} from '@skyux/core';
 import { SkyThemeService } from '@skyux/theme';
 
 import { AgGridAngular } from 'ag-grid-angular';
@@ -36,6 +37,7 @@ import {
   getSkyAgGridThemeClassName,
 } from '../../styles/ag-grid-theme';
 
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
 import { SkyCellType } from './types/cell-type';
 
