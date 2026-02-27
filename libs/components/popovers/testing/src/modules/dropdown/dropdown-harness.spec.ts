@@ -2,7 +2,7 @@ import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkyDropdownModule } from '@skyux/popovers';
+import { SkyDropdownButtonStyleType, SkyDropdownModule } from '@skyux/popovers';
 
 import { SkyDropdownHarness } from './dropdown-harness';
 
@@ -197,7 +197,11 @@ describe('Dropdown test harness', () => {
 
     it('should get the button style', async () => {
       const { dropdownHarness, fixture } = await setupTest();
-      const styles = ['default', 'primary', 'link'];
+      const styles: SkyDropdownButtonStyleType[] = [
+        'default',
+        'primary',
+        'link',
+      ];
 
       for (const style of styles) {
         fixture.componentInstance.buttonStyle = style;

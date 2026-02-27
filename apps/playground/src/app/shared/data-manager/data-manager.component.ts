@@ -8,7 +8,11 @@ import {
   SkyDataManagerService,
   SkyDataManagerState,
 } from '@skyux/data-manager';
-import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
+import {
+  SkyModalCloseArgs,
+  SkyModalConfigurationInterface,
+  SkyModalService,
+} from '@skyux/modals';
 
 import { AG_GRID_DEMO_DATA } from './data-manager-data';
 import { DataManagerEditModalContext } from './data-manager-edit-modal-context';
@@ -104,7 +108,7 @@ export class DataManagerComponent implements OnInit {
     context.gridData = this.items.slice();
     this.changeDetector.markForCheck();
 
-    const options = {
+    const options: SkyModalConfigurationInterface = {
       providers: [{ provide: DataManagerEditModalContext, useValue: context }],
       ariaDescribedBy: 'docs-edit-grid-modal-content',
       size: 'large',

@@ -27,12 +27,14 @@ export { SkyLookupShowMoreCustomPickerContext } from './lib/modules/lookup/types
 export { SkyLookupShowMoreNativePickerConfig } from './lib/modules/lookup/types/lookup-show-more-native-picker-config';
 
 export { SkySearchModule } from './lib/modules/search/search.module';
+export { SkySearchExpandModeType } from './lib/modules/search/search-expand-mode-type';
 
 export { SkySelectionModalModule } from './lib/modules/selection-modal/selection-modal.module';
 export { SkySelectionModalService } from './lib/modules/selection-modal/selection-modal.service';
 export { SkySelectionModalAddCallbackArgs } from './lib/modules/selection-modal/types/selection-modal-add-click-callback-args';
 export { SkySelectionModalAddClickEventArgs } from './lib/modules/selection-modal/types/selection-modal-add-click-event-args';
 export { SkySelectionModalCloseArgs } from './lib/modules/selection-modal/types/selection-modal-close-args';
+export { SkySelectionModalCloseReasonType } from './lib/modules/selection-modal/types/selection-modal-close-reason-type';
 export { SkySelectionModalInstance } from './lib/modules/selection-modal/types/selection-modal-instance';
 export { SkySelectionModalOpenArgs } from './lib/modules/selection-modal/types/selection-modal-open-args';
 export { SkySelectionModalResult } from './lib/modules/selection-modal/types/selection-modal-result';

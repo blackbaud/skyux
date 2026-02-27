@@ -1,3 +1,5 @@
+import { SkyConfirmButtonStyleType } from './confirm-button-style-type';
+
 export interface SkyConfirmButtonConfig {
   /**
    * The identifier to return when users select the button to close the
@@ -14,7 +16,7 @@ export interface SkyConfirmButtonConfig {
    * buttons that trigger less-common actions, `link` for a button that closes
    * the dialog, and `danger` for a primary action that deletes existing data.
    */
-  styleType?: 'primary' | 'default' | 'link' | string;
+  styleType?: SkyConfirmButtonStyleType;
   /**
    * Whether to place focus on this button by default.
    * @deprecated The confirm component automatically focuses the first interactive

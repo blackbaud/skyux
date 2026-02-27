@@ -1,5 +1,7 @@
 import { StaticProvider } from '@angular/core';
 
+import { SkyModalConfigurationSizeType } from './modal-configuration-size-type';
+
 // TODO: defaults won't show in the generated docs until this work is done:
 // https://github.com/blackbaud/skyux-docs-tools/issues/38
 
@@ -17,7 +19,7 @@ export interface SkyModalConfigurationInterface {
    * The size for the modal. The valid options are `small`, `medium`, and `large`.
    * This property defaults to `medium`.
    */
-  size?: string;
+  size?: SkyModalConfigurationSizeType;
 
   /**
    * An array property of `providers`.

@@ -26,7 +26,9 @@ import { Subject, Subscription, distinctUntilChanged, takeUntil } from 'rxjs';
 import { SkyColorpickerInputService } from './colorpicker-input.service';
 import { SkyColorpickerComponent } from './colorpicker.component';
 import { SkyColorpickerService } from './colorpicker.service';
+import { SkyColorpickerAlphaChannelType } from './types/colorpicker-alpha-channel-type';
 import { SkyColorpickerOutput } from './types/colorpicker-output';
+import { SkyColorpickerOutputFormatType } from './types/colorpicker-output-format-type';
 
 const SKY_COLORPICKER_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
@@ -123,7 +125,7 @@ export class SkyColorpickerInputDirective
    * @default "rgba"
    */
   @Input()
-  public outputFormat = 'rgba';
+  public outputFormat: SkyColorpickerOutputFormatType = 'rgba';
 
   /**
    * The array of colors to load as preset choices. The colorpicker displays the
@@ -137,7 +139,7 @@ export class SkyColorpickerInputDirective
    *@default "hex6"
    */
   @Input()
-  public alphaChannel = 'hex6';
+  public alphaChannel: SkyColorpickerAlphaChannelType = 'hex6';
 
   /**
    * Whether to display a transparency slider for users to select transparency

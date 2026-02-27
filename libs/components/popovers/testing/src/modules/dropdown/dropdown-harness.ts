@@ -1,5 +1,6 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
+import { SkyDropdownButtonStyleType } from '@skyux/popovers';
 
 import { SkyDropdownHarnessFilters } from './dropdown-harness.filters';
 import { SkyDropdownMenuHarness } from './dropdown-menu-harness';
@@ -49,7 +50,7 @@ export class SkyDropdownHarness extends SkyComponentHarness {
   /**
    * Gets the dropdown button style.
    */
-  public async getButtonStyle(): Promise<string> {
+  public async getButtonStyle(): Promise<SkyDropdownButtonStyleType> {
     const button = await this.#getDropdownButton();
 
     if (await button.hasClass('sky-btn-primary')) {

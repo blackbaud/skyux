@@ -1,6 +1,10 @@
 import { Component, OnDestroy, inject } from '@angular/core';
 import { SkyWaitService } from '@skyux/indicators';
-import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
+import {
+  SkyModalConfigurationInterface,
+  SkyModalConfigurationSizeType,
+  SkyModalService,
+} from '@skyux/modals';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -17,10 +21,8 @@ import { ModalComponent } from './modal.component';
   selector: 'app-modals-modal-basic-with-harness-help-key-example',
   templateUrl: './example.component.html',
 })
-export class ModalsModalBasicWithHarnessHelpKeyExampleComponent
-  implements OnDestroy
-{
-  protected modalSize = 'medium';
+export class ModalsModalBasicWithHarnessHelpKeyExampleComponent implements OnDestroy {
+  protected modalSize: SkyModalConfigurationSizeType = 'medium';
   protected exampleValue: string | null | undefined;
 
   #ngUnsubscribe = new Subject<void>();

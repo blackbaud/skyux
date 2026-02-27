@@ -1,4 +1,5 @@
 export { SkyDropdownModule } from './lib/modules/dropdown/dropdown.module';
+export { SkyDropdownButtonStyleType } from './lib/modules/dropdown/types/dropdown-button-style-type';
 export { SkyDropdownButtonType } from './lib/modules/dropdown/types/dropdown-button-type';
 export { SkyDropdownHorizontalAlignment } from './lib/modules/dropdown/types/dropdown-horizontal-alignment';
 export { SkyDropdownMenuChange } from './lib/modules/dropdown/types/dropdown-menu-change';
