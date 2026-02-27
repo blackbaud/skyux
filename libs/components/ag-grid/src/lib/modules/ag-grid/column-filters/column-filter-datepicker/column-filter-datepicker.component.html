@@ -1,0 +1,18 @@
+<form
+  [class.sky-ag-grid-cell-editor-datepicker]="isHeaderFiler()"
+  [formGroup]="formGroup"
+>
+  <sky-datepicker
+    pickerClass="ag-custom-component-popup"
+    (openChange)="openChange($event)"
+  >
+    <input
+      formControlName="date"
+      skyDatepickerInput
+      type="text"
+      [minDate]="minDate()"
+      [maxDate]="maxDate()"
+      (focus)="focused()"
+    />
+  </sky-datepicker>
+</form>
