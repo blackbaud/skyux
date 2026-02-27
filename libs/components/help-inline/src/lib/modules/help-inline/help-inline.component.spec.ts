@@ -7,7 +7,6 @@ import {
   tick,
 } from '@angular/core/testing';
 import { BrowserModule } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import {
   SKY_HELP_GLOBAL_OPTIONS,
@@ -119,8 +118,7 @@ describe('Help inline component', () => {
     ).and.returnValue(readyStateChange);
 
     const providers: Provider[] = [
-      { provide: SkyThemeService, useValue: mockThemeSvc },
-    ];
+      { provide: SkyThemeService, useValue: mockThemeSvc }];
 
     if (provideHelpSvc) {
       providers.push({ provide: SkyHelpService, useValue: mockHelpSvc });
@@ -134,7 +132,7 @@ describe('Help inline component', () => {
     }
 
     TestBed.configureTestingModule({
-      imports: [BrowserModule, NoopAnimationsModule, HelpInlineTestComponent],
+      imports: [BrowserModule, HelpInlineTestComponent],
       providers,
     });
 

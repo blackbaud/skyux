@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TextExpandHarnessTestComponent } from './fixtures/text-expand-harness-test.component';
 import { SkyTextExpandHarness } from './text-expand-harness';
@@ -14,7 +13,7 @@ describe('Text expand test harness', () => {
     textExpandHarness: SkyTextExpandHarness;
   }> {
     await TestBed.configureTestingModule({
-      imports: [TextExpandHarnessTestComponent, NoopAnimationsModule],
+      imports: [TextExpandHarnessTestComponent],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(TextExpandHarnessTestComponent);

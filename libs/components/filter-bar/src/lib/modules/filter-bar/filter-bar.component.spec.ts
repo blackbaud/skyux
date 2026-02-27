@@ -1,6 +1,5 @@
 import { StaticProvider } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { SkyFilterState, SkyFilterStateService } from '@skyux/lists';
 import {
   SkySelectionModalInstance,
@@ -65,13 +64,11 @@ describe('Filter bar component', () => {
     );
 
     const providers: StaticProvider[] = [
-      provideNoopAnimations(),
       { provide: SkyConfirmService, useValue: confirmServiceSpy },
       {
         provide: SkySelectionModalService,
         useValue: selectionModalServiceSpy,
-      },
-    ];
+      }];
 
     if (options?.includeModalService) {
       modalServiceSpy = jasmine.createSpyObj('SkyModalService', ['open']);
@@ -85,8 +82,7 @@ describe('Filter bar component', () => {
       stateUpdates$ = new Subject<SkyFilterState>();
       filterStateServiceSpy = jasmine.createSpyObj('SkyFilterStateService', [
         'getFilterStateUpdates',
-        'updateFilterState',
-      ]);
+        'updateFilterState']);
       filterStateServiceSpy.getFilterStateUpdates.and.returnValue(
         stateUpdates$.asObservable(),
       );
@@ -146,8 +142,7 @@ describe('Filter bar component', () => {
         reason: 'save',
         selectedItems: [
           { id: '2', name: 'filter2' },
-          { id: '5', name: 'filter5' },
-        ],
+          { id: '5', name: 'filter5' }],
       });
       selectionModalServiceSpy.open.and.returnValue({
         closed: closed$,
@@ -185,8 +180,7 @@ describe('Filter bar component', () => {
       component.appliedFilters.set([
         { filterId: '1', filterValue: { value: 'value1' } },
         { filterId: '2', filterValue: { value: 'value2' } },
-        { filterId: '3', filterValue: { value: 'value3' } },
-      ]);
+        { filterId: '3', filterValue: { value: 'value3' } }]);
       fixture.detectChanges();
 
       // User deselects filter '2', keeping only '1' and '3'
@@ -194,8 +188,7 @@ describe('Filter bar component', () => {
         reason: 'save',
         selectedItems: [
           { filterId: '1', labelText: 'filter 1' },
-          { filterId: '3', labelText: 'filter 3' },
-        ],
+          { filterId: '3', labelText: 'filter 3' }],
       });
       selectionModalServiceSpy.open.and.returnValue({
         closed: closed$,
@@ -229,8 +222,7 @@ describe('Filter bar component', () => {
       component.appliedFilters.set([
         { filterId: '1', filterValue: { value: 'value1' } },
         { filterId: '2', filterValue: { value: 'value2' } },
-        { filterId: '3', filterValue: { value: 'value3' } },
-      ]);
+        { filterId: '3', filterValue: { value: 'value3' } }]);
 
       component.selectedFilterIds.set(['2', '3', '1']);
       fixture.detectChanges();
@@ -240,8 +232,7 @@ describe('Filter bar component', () => {
         reason: 'save',
         selectedItems: [
           { filterId: '1', labelText: 'filter 1' },
-          { filterId: '2', labelText: 'filter 2' },
-        ],
+          { filterId: '2', labelText: 'filter 2' }],
       });
       selectionModalServiceSpy.open.and.returnValue({
         closed: closed$,
@@ -266,8 +257,7 @@ describe('Filter bar component', () => {
 
       // Set filter values directly on the model
       component.appliedFilters.set([
-        { filterId: '1', filterValue: newFilterValue },
-      ]);
+        { filterId: '1', filterValue: newFilterValue }]);
       fixture.detectChanges();
 
       expect(component.appliedFilters()?.[0]?.filterValue).toEqual(
@@ -278,8 +268,7 @@ describe('Filter bar component', () => {
     it('should clear individual filter values', () => {
       // Set initial filter value
       component.appliedFilters.set([
-        { filterId: '1', filterValue: { value: 'initial' } },
-      ]);
+        { filterId: '1', filterValue: { value: 'initial' } }]);
       fixture.detectChanges();
 
       // Clear by setting to undefined
@@ -293,8 +282,7 @@ describe('Filter bar component', () => {
       // Start with multiple filters applied
       component.appliedFilters.set([
         { filterId: '1', filterValue: { value: 'value1' } },
-        { filterId: '2', filterValue: { value: 'value2' } },
-      ]);
+        { filterId: '2', filterValue: { value: 'value2' } }]);
       fixture.detectChanges();
 
       expect(component.appliedFilters()?.length).toBe(2);
@@ -334,8 +322,7 @@ describe('Filter bar component', () => {
       const newFilterValue = { value: 'emitted value' };
 
       component.appliedFilters.set([
-        { filterId: '1', filterValue: newFilterValue },
-      ]);
+        { filterId: '1', filterValue: newFilterValue }]);
       fixture.detectChanges();
 
       expect(component.appliedFilters()?.[0]?.filterValue).toEqual(
@@ -349,8 +336,7 @@ describe('Filter bar component', () => {
 
       // Add filter value
       component.appliedFilters.set([
-        { filterId: '1', filterValue: { value: 'test' } },
-      ]);
+        { filterId: '1', filterValue: { value: 'test' } }]);
       fixture.detectChanges();
 
       expect(getClearFiltersButton()).toBeTruthy();
@@ -360,8 +346,7 @@ describe('Filter bar component', () => {
       // Set initial filter values
       component.appliedFilters.set([
         { filterId: '1', filterValue: { value: 'value1' } },
-        { filterId: '2', filterValue: { value: 'value2' } },
-      ]);
+        { filterId: '2', filterValue: { value: 'value2' } }]);
       fixture.detectChanges();
 
       const closed$ = of({ action: 'save' });
@@ -377,8 +362,7 @@ describe('Filter bar component', () => {
 
     it('should not clear filters when cancelled', () => {
       const initialFilterValues: SkyFilterBarFilterItem[] = [
-        { filterId: '1', filterValue: { value: 'value1' } },
-      ];
+        { filterId: '1', filterValue: { value: 'value1' } }];
       component.appliedFilters.set(initialFilterValues);
       fixture.detectChanges();
 
@@ -402,8 +386,7 @@ describe('Filter bar component', () => {
     it('should handle complete user workflow: add, update, clear', () => {
       // 1. Add filter value
       component.appliedFilters.set([
-        { filterId: '1', filterValue: { value: 'test value' } },
-      ]);
+        { filterId: '1', filterValue: { value: 'test value' } }]);
       fixture.detectChanges();
 
       expect(getClearFiltersButton()).toBeTruthy();
@@ -472,8 +455,7 @@ describe('Filter bar component', () => {
     it('should update filter value when modal is saved with new data', () => {
       // Set up initial filter state
       component.appliedFilters.set([
-        { filterId: '1', filterValue: { value: 'initial' } },
-      ]);
+        { filterId: '1', filterValue: { value: 'initial' } }]);
       fixture.detectChanges();
 
       // Verify initial state
@@ -517,8 +499,7 @@ describe('Filter bar component', () => {
     it('should accept filter modal context', () => {
       // Set up filter with a value
       component.appliedFilters.set([
-        { filterId: '3', filterValue: { value: 'test' } },
-      ]);
+        { filterId: '3', filterValue: { value: 'test' } }]);
       fixture.detectChanges();
 
       // Set up modal response
@@ -553,8 +534,7 @@ describe('Filter bar component', () => {
 
       // Set up filter with a value
       component.appliedFilters.set([
-        { filterId: '3', filterValue: { value: 'test' } },
-      ]);
+        { filterId: '3', filterValue: { value: 'test' } }]);
       fixture.detectChanges();
 
       // Set up modal response
@@ -584,8 +564,7 @@ describe('Filter bar component', () => {
     it('should handle modal with displayValue different from value', () => {
       // Set up initial filter state
       component.appliedFilters.set([
-        { filterId: '1', filterValue: { value: 'code123' } },
-      ]);
+        { filterId: '1', filterValue: { value: 'code123' } }]);
       fixture.detectChanges();
 
       // Set up modal to return value with displayValue
@@ -624,8 +603,7 @@ describe('Filter bar component', () => {
       // Set up initial filter state
       const initialValue = { value: 'original value' };
       component.appliedFilters.set([
-        { filterId: '1', filterValue: initialValue },
-      ]);
+        { filterId: '1', filterValue: initialValue }]);
       fixture.detectChanges();
 
       // Verify initial state
@@ -672,8 +650,7 @@ describe('Filter bar component', () => {
 
       // Set up filter with a value
       component.appliedFilters.set([
-        { filterId: '1', filterValue: { value: 'test' } },
-      ]);
+        { filterId: '1', filterValue: { value: 'test' } }]);
       fixture.detectChanges();
 
       // Set up modal response
@@ -706,8 +683,7 @@ describe('Filter bar component', () => {
       component.appliedFilters.set([
         { filterId: '1', filterValue: { value: 'filter1 value' } },
         { filterId: '2', filterValue: { value: 'filter2 value' } },
-        { filterId: '3', filterValue: { value: 'filter3 value' } },
-      ]);
+        { filterId: '3', filterValue: { value: 'filter3 value' } }]);
       fixture.detectChanges();
 
       // Set up modal to update only the second filter
@@ -749,8 +725,7 @@ describe('Filter bar component', () => {
     it('should handle clearing the only set filter', () => {
       // Set up initial state with only one filter having a value
       component.appliedFilters.set([
-        { filterId: '2', filterValue: { value: 'only filter value' } },
-      ]);
+        { filterId: '2', filterValue: { value: 'only filter value' } }]);
       fixture.detectChanges();
 
       // Verify initial state
@@ -850,8 +825,7 @@ describe('Filter bar component', () => {
       // Set up initial state with some filters set, but not the third one
       component.appliedFilters.set([
         { filterId: '1', filterValue: { value: 'existing filter1' } },
-        { filterId: '2', filterValue: { value: 'existing filter2' } },
-      ]);
+        { filterId: '2', filterValue: { value: 'existing filter2' } }]);
       fixture.detectChanges();
 
       // Verify initial state
@@ -896,8 +870,7 @@ describe('Filter bar component', () => {
     it('should update DOM correctly when adding filter to existing filters', () => {
       // Set up initial state with some filters
       component.appliedFilters.set([
-        { filterId: '1', filterValue: { value: 'existing filter1' } },
-      ]);
+        { filterId: '1', filterValue: { value: 'existing filter1' } }]);
       fixture.detectChanges();
 
       // Set up modal to add second filter
@@ -999,8 +972,7 @@ describe('Filter bar component', () => {
               reason: 'save',
               selectedItems: [
                 { id: '4', name: 'Alpha' },
-                { id: '5', name: 'Beta' },
-              ],
+                { id: '5', name: 'Beta' }],
             }),
           } as unknown as SkySelectionModalInstance;
         },
@@ -1060,8 +1032,7 @@ describe('Filter bar component', () => {
             reason: 'save',
             selectedItems: [
               { id: '4', name: 'Alpha' },
-              { id: '5', name: 'Beta' },
-            ],
+              { id: '5', name: 'Beta' }],
           }),
         } as unknown as SkySelectionModalInstance;
       });
@@ -1088,8 +1059,7 @@ describe('Filter bar component', () => {
         reason: 'save',
         selectedItems: [
           { id: '4', name: 'Alpha' },
-          { id: '5', name: 'Beta' },
-        ],
+          { id: '5', name: 'Beta' }],
       });
       selectionModalServiceSpy.open.and.returnValue({
         closed: closed$,
@@ -1117,8 +1087,7 @@ describe('Filter bar component', () => {
         {
           filterId: '4',
           filterValue: { value: 'existing', displayValue: 'Existing' },
-        },
-      ]);
+        }]);
       fixture.detectChanges();
 
       const closed$ = of({ reason: 'save', selectedItems: [] });
@@ -1147,8 +1116,7 @@ describe('Filter bar component', () => {
         displayValue: 'Original',
       };
       component.appliedFilters.set([
-        { filterId: '4', filterValue: initialFilterValue },
-      ]);
+        { filterId: '4', filterValue: initialFilterValue }]);
       fixture.detectChanges();
 
       const closed$ = of({
@@ -1187,23 +1155,20 @@ describe('Filter bar component', () => {
       // Simulate external update through state
       stateUpdates$.next({
         appliedFilters: [
-          { filterId: '3', filterValue: { value: 'external value' } },
-        ],
+          { filterId: '3', filterValue: { value: 'external value' } }],
         selectedFilterIds: ['3'],
       });
       fixture.detectChanges();
 
       expect(component.appliedFilters()).toEqual([
-        { filterId: '3', filterValue: { value: 'external value' } },
-      ]);
+        { filterId: '3', filterValue: { value: 'external value' } }]);
       expect(component.selectedFilterIds()).toEqual(['3']);
     });
 
     it('should update local signals when receiving empty state updates', () => {
       // First set some local values
       component.appliedFilters.set([
-        { filterId: '1', filterValue: { value: 'local value' } },
-      ]);
+        { filterId: '1', filterValue: { value: 'local value' } }]);
       component.selectedFilterIds.set(['1']);
       fixture.detectChanges();
 
@@ -1223,8 +1188,7 @@ describe('Filter bar component', () => {
         reason: 'save',
         selectedItems: [
           { id: '4', name: 'Alpha' },
-          { id: '5', name: 'Beta' },
-        ],
+          { id: '5', name: 'Beta' }],
       });
       selectionModalServiceSpy.open.and.returnValue({
         closed: closed$,
@@ -1245,12 +1209,10 @@ describe('Filter bar component', () => {
               filterValue: {
                 value: [
                   { id: '4', name: 'Alpha' },
-                  { id: '5', name: 'Beta' },
-                ],
+                  { id: '5', name: 'Beta' }],
                 displayValue: '2 selected',
               },
-            },
-          ],
+            }],
           selectedFilterIds: ['1', '2', '3', '4'],
         },
         'skyFilterBar',
@@ -1261,8 +1223,7 @@ describe('Filter bar component', () => {
       // Simulate external update through state
       stateUpdates$.next({
         appliedFilters: [
-          { filterId: '3', filterValue: { value: 'external value' } },
-        ],
+          { filterId: '3', filterValue: { value: 'external value' } }],
         selectedFilterIds: ['1', '2', '3', '4'],
       });
       fixture.detectChanges();
@@ -1271,8 +1232,7 @@ describe('Filter bar component', () => {
         reason: 'save',
         selectedItems: [
           { filterId: '2', labelText: 'filter 2' },
-          { filterId: '3', labelText: 'filter 3' },
-        ],
+          { filterId: '3', labelText: 'filter 3' }],
       });
       selectionModalServiceSpy.open.and.returnValue({
         closed: closed$,
@@ -1284,8 +1244,7 @@ describe('Filter bar component', () => {
       expect(filterStateServiceSpy.updateFilterState).toHaveBeenCalledWith(
         {
           appliedFilters: [
-            { filterId: '3', filterValue: { value: 'external value' } },
-          ],
+            { filterId: '3', filterValue: { value: 'external value' } }],
           selectedFilterIds: ['2', '3'],
         },
         'skyFilterBar',
@@ -1296,8 +1255,7 @@ describe('Filter bar component', () => {
       // Set initial filters
       component.appliedFilters.set([
         { filterId: '1', filterValue: { value: 'value1' } },
-        { filterId: '2', filterValue: { value: 'value2' } },
-      ]);
+        { filterId: '2', filterValue: { value: 'value2' } }]);
       fixture.detectChanges();
 
       // Clear spy calls from initial setup
@@ -1329,8 +1287,7 @@ describe('Filter bar component', () => {
         reason: 'save',
         selectedItems: [
           { filterId: '1', labelText: 'filter 1' },
-          { filterId: '3', labelText: 'filter 3' },
-        ],
+          { filterId: '3', labelText: 'filter 3' }],
       });
       selectionModalServiceSpy.open.and.returnValue({
         closed: closed$,

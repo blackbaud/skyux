@@ -5,7 +5,6 @@ import {
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RendererFactory2 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
 import {
@@ -66,15 +65,12 @@ describe('Modals with viewkept toolbars', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        NoopAnimationsModule,
         RouterTestingModule,
-        ModalViewkeptToolbarsModule,
-      ],
+        ModalViewkeptToolbarsModule],
       providers: [
         SkyThemeService,
         provideHttpClient(withInterceptorsFromDi()),
-        provideHttpClientTesting(),
-      ],
+        provideHttpClientTesting()],
     });
 
     fixture = TestBed.createComponent(ModalViewkeptToolbarsComponent);

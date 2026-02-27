@@ -7,6 +7,8 @@
   "@skyux/ag-grid:SkyAgGridLookupProperties:searchFilters",
   "@skyux/ag-grid:SkyAutocompleteProperties",
   "@skyux/ag-grid:SkyDatepickerProperties",
+  "@skyux/animations:skyAnimationEmerge",
+  "@skyux/animations:skyAnimationSlide",
   "@skyux/avatar/testing:SkyAvatarFixture",
   "@skyux/colorpicker/testing:SkyColorpickerFixture",
   "@skyux/colorpicker:SkyColorpickerInputDirective:initialColor",

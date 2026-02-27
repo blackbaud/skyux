@@ -1,11 +1,4 @@
 import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
-import {
   AfterContentInit,
   Component,
   ElementRef,
@@ -28,28 +21,6 @@ import { SkyTextExpandModalComponent } from './text-expand-modal.component';
 let nextId = 0;
 
 @Component({
-  animations: [
-    trigger('expansionAnimation', [
-      transition(':enter', []),
-      state(
-        'true',
-        style({
-          maxHeight: '{{transitionHeight}}px',
-        }),
-        { params: { transitionHeight: 0 } },
-      ),
-      state(
-        'false',
-        style({
-          maxHeight: '{{transitionHeight}}px',
-        }),
-        { params: { transitionHeight: 0 } },
-      ),
-      transition('true => false', animate('250ms ease')),
-      transition('false => true', animate('250ms ease')),
-      transition('void => *', []),
-    ]),
-  ],
   selector: 'sky-text-expand',
   templateUrl: './text-expand.component.html',
   styleUrls: ['./text-expand.component.scss'],
@@ -153,8 +124,6 @@ export class SkyTextExpandComponent implements AfterContentInit {
 
   public isModal = false;
 
-  public transitionHeight = 1;
-
   @ViewChild('container', {
     read: ElementRef,
     static: true,
@@ -234,17 +203,17 @@ export class SkyTextExpandComponent implements AfterContentInit {
     }
   }
 
-  public animationEnd(): void {
+  public animationEnd(event?: TransitionEvent): void {
+    if (event && event.propertyName !== 'max-height') {
+      return;
+    }
+
     if (this.textEl && this.containerEl) {
       // Ensure the correct text is displayed
       this.#textExpandAdapter.setText(this.textEl, this.#textToShow);
 
-      setTimeout(() => {
-        if (this.containerEl) {
-          // Set height back to auto so the browser can change the height as needed with window changes
-          this.#textExpandAdapter.removeContainerMaxHeight(this.containerEl);
-        }
-      });
+      // Set height back to auto so the browser can change the height as needed with window changes
+      this.#textExpandAdapter.removeContainerMaxHeight(this.containerEl);
     }
   }
 
@@ -328,6 +297,11 @@ export class SkyTextExpandComponent implements AfterContentInit {
     if (this.containerEl && this.textEl) {
       const adapter = this.#textExpandAdapter;
       const container = this.containerEl;
+
+      // Capture the current height and lock it to establish a CSS transition start point.
+      const startHeight = adapter.getContainerHeight(container);
+      adapter.setContainerMaxHeight(container, startHeight);
+
       if (expanding) {
         adapter.setText(this.textEl, this.text);
         this.#textToShow = this.text;
@@ -336,13 +310,22 @@ export class SkyTextExpandComponent implements AfterContentInit {
         this.#textToShow = this.#collapsedText;
       }
       this.buttonText = expanding ? this.#seeLessText : this.#seeMoreText;
-      // Measure the new height so we can animate to it.
-      const newHeight = adapter.getContainerHeight(container);
-      this.transitionHeight = newHeight;
-      // Always show all text while animating so that the animation is smooth. The animation callback will set this back if needed.
+
+      // Use scrollHeight to measure the target content height regardless of the max-height constraint.
+      const targetHeight = adapter.getContainerScrollHeight(container);
+
+      // Always show all text while animating so that the animation is smooth.
+      // The animation callback will set this back if needed.
       if (!expanding) {
         adapter.setText(this.textEl, this.text);
       }
+
+      // Force a reflow so the browser registers the starting max-height.
+      void container.nativeElement.offsetHeight;
+
+      // Set the target max-height to trigger the CSS transition.
+      adapter.setContainerMaxHeight(container, targetHeight);
+
       this.isExpanded = expanding;
     }
   }

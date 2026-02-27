@@ -5,7 +5,6 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 
 import { SkyDatepickerModule } from '../datepicker.module';
@@ -81,13 +80,12 @@ describe('daypicker cell', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [],
-      imports: [SkyDatepickerModule, NoopAnimationsModule],
+      imports: [SkyDatepickerModule],
       providers: [
         {
           provide: SkyDatepickerCalendarInnerComponent,
           useValue: calendarInnerComponent,
-        },
-      ],
+        }],
     });
 
     fixture = TestBed.createComponent(SkyDayPickerCellComponent);

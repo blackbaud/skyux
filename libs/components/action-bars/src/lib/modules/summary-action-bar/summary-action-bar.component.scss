@@ -1,3 +1,4 @@
+@use 'libs/components/theme/src/lib/styles/animations' as animations;
 @use 'libs/components/theme/src/lib/styles/mixins' as defaultMixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
@@ -81,6 +82,7 @@
 .sky-summary-action-bar-summary {
   margin: var(--sky-override-summary-action-bar-summary-margin);
   border-left: var(--sky-override-summary-action-bar-summary-border-left, none);
+  @include animations.sky-animation-slide();
 }
 
 .sky-summary-action-bar-summary-body {

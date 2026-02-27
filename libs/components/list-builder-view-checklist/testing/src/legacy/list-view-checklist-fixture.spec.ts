@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyListModule, SkyListToolbarModule } from '@skyux/list-builder';
 import { SkyListViewChecklistModule } from '@skyux/list-builder-view-checklist';
 
@@ -21,8 +20,7 @@ const testItems = [
     column1: 707,
     column2: 'Strawberry',
     column3: 'Sally eats strawberries',
-  },
-];
+  }];
 
 //#region Test component
 @Component({
@@ -71,11 +69,9 @@ describe('List view checklist fixture', () => {
     TestBed.configureTestingModule({
       declarations: [TestComponent],
       imports: [
-        NoopAnimationsModule,
         SkyListModule,
         SkyListToolbarModule,
-        SkyListViewChecklistModule,
-      ],
+        SkyListViewChecklistModule],
     });
   });
 

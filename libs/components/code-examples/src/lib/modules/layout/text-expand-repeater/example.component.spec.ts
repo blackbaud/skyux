@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyTextExpandRepeaterHarness } from '@skyux/layout/testing';
 
 import { LayoutTextExpandRepeaterExampleComponent } from './example.component';
@@ -14,7 +13,7 @@ describe('Text expand inline example', () => {
     textExpandRepeaterHarness: SkyTextExpandRepeaterHarness;
   }> {
     await TestBed.configureTestingModule({
-      imports: [LayoutTextExpandRepeaterExampleComponent, NoopAnimationsModule],
+      imports: [LayoutTextExpandRepeaterExampleComponent],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(

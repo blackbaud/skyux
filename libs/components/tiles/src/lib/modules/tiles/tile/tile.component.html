@@ -96,8 +96,11 @@
     skyId
     [attr.aria-label]="tileName"
     [attr.aria-labelledby]="!tileName && titleRef ? tileTitleId : undefined"
-    [@skyAnimationSlide]="isCollapsed ? 'up' : 'down'"
+    [class.sky-animation-slide-down]="!isCollapsed"
+    [class.sky-animation-slide-up]="isCollapsed"
   >
-    <ng-content select="sky-tile-content" />
+    <div class="sky-animation-slide-content">
+      <ng-content select="sky-tile-content" />
+    </div>
   </div>
 </section>

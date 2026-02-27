@@ -7,7 +7,6 @@ import {
   waitForAsync,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect } from '@skyux-sdk/testing';
 import { ListItemModel } from '@skyux/list-builder-common';
 
@@ -42,11 +41,10 @@ describe('List Toolbar Component', () => {
 
     TestBed.configureTestingModule({
       declarations: [ListToolbarTestComponent],
-      imports: [SkyListToolbarModule, NoopAnimationsModule],
+      imports: [SkyListToolbarModule],
       providers: [
         { provide: ListState, useValue: state },
-        { provide: ListStateDispatcher, useValue: dispatcher },
-      ],
+        { provide: ListStateDispatcher, useValue: dispatcher }],
     });
 
     fixture = TestBed.createComponent(ListToolbarTestComponent);
@@ -318,8 +316,7 @@ describe('List Toolbar Component', () => {
           fieldSelector: 'number',
           global: true,
           descending: false,
-        }),
-      ]);
+        })]);
     }));
 
     it('should display when sort provided', waitForAsync(() => {
@@ -606,8 +603,7 @@ describe('List Toolbar Component', () => {
             new ListItemModel('4', {}),
             new ListItemModel('5', {}),
             new ListItemModel('6', {}),
-            new ListItemModel('7', {}),
-          ],
+            new ListItemModel('7', {})],
           true,
         ),
       );
@@ -815,8 +811,7 @@ describe('List Toolbar Component', () => {
             location: 'center',
             view: 'myView',
             template: component.default,
-          }),
-        ]),
+          })]),
       );
       fixture.detectChanges();
 
@@ -836,8 +831,7 @@ describe('List Toolbar Component', () => {
             location: 'center',
             view: 'myView1',
             template: component.default,
-          }),
-        ]),
+          })]),
       );
       fixture.detectChanges();
 

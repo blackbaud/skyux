@@ -69,6 +69,7 @@ describe('Flyout component', () => {
 
     tick();
     fixture.detectChanges();
+    completeFlyoutTransition();
 
     return flyoutInstance;
   }
@@ -78,6 +79,7 @@ describe('Flyout component', () => {
 
     tick();
     fixture.detectChanges();
+    completeFlyoutTransition();
 
     return flyoutInstance;
   }
@@ -87,10 +89,21 @@ describe('Flyout component', () => {
     closeButton.click();
     tick();
     fixture.detectChanges();
+    completeFlyoutTransition();
     tick();
     // Second detection allows for the flyout service to remove the flyout host when appropriate
     fixture.detectChanges();
     tick();
+  }
+
+  function completeFlyoutTransition(): void {
+    const flyoutEl = document.querySelector('.sky-flyout');
+    if (flyoutEl) {
+      flyoutEl.dispatchEvent(
+        new TransitionEvent('transitionend', { propertyName: 'transform' }),
+      );
+      fixture.detectChanges();
+    }
   }
 
   function makeEvent(eventType: string, evtObj: any): void {
@@ -326,6 +339,7 @@ describe('Flyout component', () => {
     flyoutService.close();
     tick();
     fixture.detectChanges();
+    completeFlyoutTransition();
     flyoutService.ngOnDestroy();
     fixture.destroy();
   }));
@@ -346,6 +360,7 @@ describe('Flyout component', () => {
     fixture.nativeElement.click();
     fixture.detectChanges();
     tick();
+    completeFlyoutTransition();
 
     expect(flyout.isOpen).toBe(false);
   }));
@@ -493,6 +508,7 @@ describe('Flyout component', () => {
     flyout.close();
     tick();
     fixture.detectChanges();
+    completeFlyoutTransition();
     tick();
 
     expect(flyout.isOpen).toBe(false);
@@ -532,6 +548,7 @@ describe('Flyout component', () => {
     }
     tick();
     fixture.detectChanges();
+    completeFlyoutTransition();
     tick();
 
     expect(flyout.isOpen).toBe(false);
@@ -552,6 +569,7 @@ describe('Flyout component', () => {
     flyout.close({ ignoreBeforeClose: true });
     tick();
     fixture.detectChanges();
+    completeFlyoutTransition();
     tick();
 
     expect(flyout.isOpen).toBe(false);
@@ -1228,6 +1246,8 @@ describe('Flyout component', () => {
 
       // let the close message propagate
       tick();
+      fixture.detectChanges();
+      completeFlyoutTransition();
 
       expect(flyoutInstance.isOpen).toBeFalsy();
     }));

@@ -5,7 +5,6 @@ import {
   inject,
   tick,
 } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 import { SkyModalService } from '@skyux/modals';
 
@@ -132,7 +131,7 @@ describe('Select field component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, SkySelectFieldFixturesModule],
+      imports: [SkySelectFieldFixturesModule],
     });
 
     fixture = TestBed.createComponent(SkySelectFieldTestComponent);
@@ -304,8 +303,7 @@ describe('Select field component', () => {
       setValue([
         component.staticData[0],
         component.staticData[3],
-        component.staticData[5],
-      ]);
+        component.staticData[5]]);
       openPicker();
       selectOptions(2); // Click the selected option to unselect it!
       savePicker();
@@ -520,8 +518,7 @@ describe('Select field component', () => {
 
       expect(selectField.value).toEqual([
         component.staticData[4],
-        component.staticData[6],
-      ]);
+        component.staticData[6]]);
 
       // Test single-select mode.
       fixture.componentInstance.selectMode = 'single';

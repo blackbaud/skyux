@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { expect } from '@skyux-sdk/testing';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkyRepeaterModule, SkySortModule } from '@skyux/lists';
@@ -60,7 +59,7 @@ describe('Sort fixture', () => {
     TestBed.configureTestingModule({
       declarations: [SortFixtureTestComponent],
       imports: [SkyRepeaterModule, SkySortModule, SkyToolbarModule],
-      providers: [provideNoopAnimations()],
+      providers: [],
     });
 
     fixture = TestBed.createComponent(SortFixtureTestComponent);
@@ -171,8 +170,7 @@ describe('Sort fixture', () => {
         selectMenuItem: async (item: SkySortFixtureMenuItem): Promise<void> => {
           await sortFixture.selectMenuItemByIndex(item.index);
         },
-      },
-    ];
+      }];
 
     parameters.forEach((parameter) => {
       it(`${parameter.selectLabel} should select inactive item if available`, async () => {

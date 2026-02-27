@@ -1,7 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
   SkySummaryActionBarError,
   SkySummaryActionBarModule,
@@ -83,7 +82,7 @@ describe('Summary action harness', () => {
     mediaQuery: SkyMediaQueryTestingController;
   }> {
     TestBed.configureTestingModule({
-      imports: [TestComponent, NoopAnimationsModule],
+      imports: [TestComponent],
       providers: [provideSkyMediaQueryTesting()],
     });
     const fixture = TestBed.createComponent(TestComponent);

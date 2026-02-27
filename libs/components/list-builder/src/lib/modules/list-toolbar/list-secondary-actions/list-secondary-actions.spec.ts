@@ -5,7 +5,6 @@ import {
   tick,
   waitForAsync,
 } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect } from '@skyux-sdk/testing';
 
 import { SkyListToolbarModule } from '../../list-toolbar/list-toolbar.module';
@@ -30,13 +29,10 @@ describe('List Secondary Actions Component', () => {
       declarations: [ListSecondaryActionsTestComponent],
       imports: [
         SkyListToolbarModule,
-        SkyListSecondaryActionsModule,
-        NoopAnimationsModule,
-      ],
+        SkyListSecondaryActionsModule],
       providers: [
         { provide: ListState, useValue: state },
-        { provide: ListStateDispatcher, useValue: dispatcher },
-      ],
+        { provide: ListStateDispatcher, useValue: dispatcher }],
     });
 
     fixture = TestBed.createComponent(ListSecondaryActionsTestComponent);

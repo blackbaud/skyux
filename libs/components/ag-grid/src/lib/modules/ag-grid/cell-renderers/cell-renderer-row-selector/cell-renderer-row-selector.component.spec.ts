@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyCheckboxHarness } from '@skyux/forms/testing';
 
@@ -35,15 +34,13 @@ describe('SkyAgGridCellRendererRowSelectorComponent', () => {
     TestBed.configureTestingModule({
       imports: [SkyAgGridMinimalFixtureComponent],
       providers: [
-        provideNoopAnimations(),
         {
           provide: MinimalColumnDefs,
           useValue: [
             {
               field: 'selected',
               type: SkyCellType.RowSelector,
-            },
-          ],
+            }],
         },
         {
           provide: MinimalRowData,
@@ -52,8 +49,7 @@ describe('SkyAgGridCellRendererRowSelectorComponent', () => {
         {
           provide: MinimalEditable,
           useValue: false,
-        },
-      ],
+        }],
     });
 
     rowSelectorCellFixture = TestBed.createComponent(

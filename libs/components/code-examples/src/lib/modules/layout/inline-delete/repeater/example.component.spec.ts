@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyInlineDeleteHarness } from '@skyux/layout/testing';
 
 import { LayoutInlineDeleteRepeaterExampleComponent } from './example.component';
@@ -12,9 +11,7 @@ describe('Custom component inline delete example', () => {
   }> {
     TestBed.configureTestingModule({
       imports: [
-        LayoutInlineDeleteRepeaterExampleComponent,
-        NoopAnimationsModule,
-      ],
+        LayoutInlineDeleteRepeaterExampleComponent],
     });
     const fixture = TestBed.createComponent(
       LayoutInlineDeleteRepeaterExampleComponent,

@@ -1,11 +1,4 @@
 import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
-import {
   ChangeDetectorRef,
   Component,
   ElementRef,
@@ -30,28 +23,6 @@ import { SkyTextExpandRepeaterListStyleType } from './types/text-expand-repeater
 let nextId = 0;
 
 @Component({
-  animations: [
-    trigger('expansionAnimation', [
-      transition(':enter', []),
-      state(
-        'true',
-        style({
-          maxHeight: '{{transitionHeight}}px',
-        }),
-        { params: { transitionHeight: 0 } },
-      ),
-      state(
-        'false',
-        style({
-          maxHeight: '{{transitionHeight}}px',
-        }),
-        { params: { transitionHeight: 0 } },
-      ),
-      transition('true => false', animate('250ms ease')),
-      transition('false => true', animate('250ms ease')),
-      transition('void => *', []),
-    ]),
-  ],
   selector: 'sky-text-expand-repeater',
   templateUrl: './text-expand-repeater.component.html',
   styleUrls: ['./text-expand-repeater.component.scss'],
@@ -88,7 +59,6 @@ export class SkyTextExpandRepeaterComponent<TData = unknown> {
   public contentSectionId = `sky-text-expand-repeater-content-${++nextId}`;
 
   protected readonly isExpanded = signal(false);
-  protected transitionHeight = 1;
 
   readonly #resources = inject(SkyLibResourcesService);
   readonly #seeMoreText = toSignal(
@@ -130,20 +100,21 @@ export class SkyTextExpandRepeaterComponent<TData = unknown> {
     });
   }
 
-  public animationEnd(): void {
+  public animationEnd(event?: TransitionEvent): void {
+    if (event && event.propertyName !== 'max-height') {
+      return;
+    }
+
     // Ensure all items that should be hidden are hidden. This is because we need them shown during the animation window for visual purposes.
     if (!this.isExpanded()) {
       this.#hideItems();
     }
 
-    // This set timeout is needed as the `animationEnd` function is called by the angular animation callback prior to the animation setting the style on the element
-    setTimeout(() => {
-      const containerEl = this.containerEl();
-      if (containerEl) {
-        // Set height back to auto so the browser can change the height as needed with window changes
-        this.#textExpandRepeaterAdapter.removeContainerMaxHeight(containerEl);
-      }
-    });
+    const containerEl = this.containerEl();
+    if (containerEl) {
+      // Set height back to auto so the browser can change the height as needed with window changes
+      this.#textExpandRepeaterAdapter.removeContainerMaxHeight(containerEl);
+    }
   }
 
   public repeaterExpand(): void {
@@ -158,22 +129,35 @@ export class SkyTextExpandRepeaterComponent<TData = unknown> {
     const adapter = this.#textExpandRepeaterAdapter;
     const container = this.containerEl();
     if (container) {
+      // Lock the container at its current height to establish a CSS transition start point.
+      const startHeight = adapter.getContainerHeight(container);
+      adapter.setContainerMaxHeight(container, startHeight);
+
       if (expanding) {
         this.#showItems();
       } else {
         this.#hideItems();
       }
-      this.transitionHeight = adapter.getContainerHeight(container);
+
+      // Use scrollHeight to measure the target content height regardless of the max-height constraint.
+      const targetHeight = adapter.getContainerScrollHeight(container);
+
       if (!expanding) {
         // Show all items during animation for visual purposes.
         this.#showItems();
       }
+
+      // Force a reflow so the browser registers the starting max-height.
+      void container.nativeElement.offsetHeight;
+
+      // Set the target max-height to trigger the CSS transition.
+      adapter.setContainerMaxHeight(container, targetHeight);
+
       this.isExpanded.set(expanding);
     }
   }
 
   #setup(): void {
-    const container = this.containerEl();
     const maxItems = this.maxItems();
     const value = this.trackedData();
     this.expandable = false;
@@ -183,10 +167,6 @@ export class SkyTextExpandRepeaterComponent<TData = unknown> {
       if (maxItems && length > maxItems) {
         this.expandable = true;
         this.#hideItems();
-        if (container) {
-          this.transitionHeight =
-            this.#textExpandRepeaterAdapter.getContainerHeight(container);
-        }
       }
     }
     this.#changeDetector.detectChanges();

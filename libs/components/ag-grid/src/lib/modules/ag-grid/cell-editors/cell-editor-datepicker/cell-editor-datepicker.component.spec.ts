@@ -6,7 +6,6 @@ import {
   tick,
 } from '@angular/core/testing';
 import { AbstractControl } from '@angular/forms';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyDatepickerHarness } from '@skyux/datetime/testing';
 import {
@@ -58,7 +57,6 @@ describe('SkyCellEditorDatepickerComponent', () => {
     TestBed.configureTestingModule({
       imports: [SkyAgGridMinimalFixtureComponent],
       providers: [
-        provideNoopAnimations(),
         {
           provide: MinimalColumnDefs,
           useValue: [
@@ -66,8 +64,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
               field: 'date',
               editable: true,
               type: SkyCellType.Date,
-            },
-          ],
+            }],
         },
         {
           provide: MinimalRowData,
@@ -76,8 +73,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
         {
           provide: SkyThemeService,
           useValue: mockThemeSvc,
-        },
-      ],
+        }],
     });
 
     datepickerEditorFixture = TestBed.createComponent(
@@ -122,8 +118,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
       const api = jasmine.createSpyObj<GridApi>('GridApi', [
         'getDisplayNameForColumn',
         'getGridOption',
-        'stopEditing',
-      ]);
+        'stopEditing']);
       api.getGridOption.and.returnValue(true);
       datepickerEditorComponent.agInit({
         ...(datepickerEditorComponent as any).params,
@@ -148,8 +143,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
     it('should set hint text in the element `title` popover based on the date format', fakeAsync(() => {
       const api = jasmine.createSpyObj<GridApi>('GridApi', [
         'getDisplayNameForColumn',
-        'stopEditing',
-      ]);
+        'stopEditing']);
       datepickerEditorComponent.agInit({
         ...(datepickerEditorComponent as any).params,
         api,
@@ -182,8 +176,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
     const api = jasmine.createSpyObj<GridApi>('api', [
       'getDisplayNameForColumn',
       'stopEditing',
-      'setFocusedCell',
-    ]);
+      'setFocusedCell']);
     let cellEditorParams: Partial<SkyCellEditorDatepickerParams>;
     let column: AgColumn;
     const rowNode = new RowNode({} as BeanCollection);
@@ -466,8 +459,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
 
   describe('afterGuiAttached', () => {
     const api = jasmine.createSpyObj<GridApi>('api', [
-      'getDisplayNameForColumn',
-    ]);
+      'getDisplayNameForColumn']);
     let cellEditorParams: Partial<SkyCellEditorDatepickerParams>;
     let column: AgColumn;
     let gridCell: HTMLElement;
@@ -765,7 +757,6 @@ describe('SkyCellEditorDatepickerComponent without theme', () => {
     TestBed.configureTestingModule({
       imports: [SkyAgGridMinimalFixtureComponent],
       providers: [
-        provideNoopAnimations(),
         {
           provide: MinimalColumnDefs,
           useValue: [
@@ -773,8 +764,7 @@ describe('SkyCellEditorDatepickerComponent without theme', () => {
               field: 'date',
               editable: true,
               type: SkyCellType.Date,
-            },
-          ],
+            }],
         },
         {
           provide: MinimalRowData,
@@ -783,8 +773,7 @@ describe('SkyCellEditorDatepickerComponent without theme', () => {
         {
           provide: SkyThemeService,
           useValue: undefined,
-        },
-      ],
+        }],
     });
   });
 

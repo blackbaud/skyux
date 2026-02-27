@@ -1,7 +1,6 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { expect } from '@skyux-sdk/testing';
 import {
   SkyMediaQueryTestingController,
@@ -43,10 +42,8 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     TestBed.configureTestingModule({
       imports: [SkyAgGridDataManagerFixtureComponent],
       providers: [
-        provideNoopAnimations(),
         SkyDataManagerService,
-        provideSkyMediaQueryTesting(),
-      ],
+        provideSkyMediaQueryTesting()],
     });
 
     agGridDataManagerFixture = TestBed.createComponent(
@@ -198,8 +195,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
           viewId:
             agGridDataManagerFixtureComponent.initialDataState.views[0].viewId,
           displayedColumnIds: ['selected', 'name'],
-        },
-      ],
+        }],
     });
     dataManagerService.updateDataState(newDataState, 'unitTest');
 
@@ -225,8 +221,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
             xs: { name: 180, target: 220 },
             sm: { name: 300, target: 400 },
           },
-        },
-      ],
+        }],
     });
 
     dataManagerService.updateDataState(columnRemovedState, 'unitTest');
@@ -244,8 +239,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
             xs: { name: 180 },
             sm: { name: 300 },
           },
-        },
-      ],
+        }],
     });
 
     expect(updateDataState).toHaveBeenCalledWith(
@@ -313,8 +307,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
         {
           colId: 'noHeader',
           hide: false,
-        },
-      ],
+        }],
       applyOrder: true,
     });
     agGridDataManagerFixture.detectChanges();
@@ -338,8 +331,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
         views: [
           jasmine.objectContaining({
             displayedColumnIds: ['selected', 'target', 'name', 'noHeader'],
-          }),
-        ],
+          })],
       }),
       agGridDataManagerFixtureComponent.viewConfig.id,
     );
@@ -484,8 +476,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
         },
         {
           colId: 'noHeader',
-        },
-      ],
+        }],
       applyOrder: false,
     });
     spyOn(dataManagerService, 'updateDataState');
@@ -521,8 +512,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
         },
         {
           colId: 'noHeader',
-        },
-      ],
+        }],
       applyOrder: false,
     });
     spyOn(dataManagerService, 'updateDataState');
@@ -554,8 +544,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
         {
           colId: 'noHeader',
           sort: 'desc',
-        },
-      ],
+        }],
       applyOrder: false,
     });
     spyOn(dataManagerService, 'updateDataState');
@@ -593,8 +582,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
           colId: 'noHeader',
           sort: 'desc',
           sortIndex: 0,
-        },
-      ],
+        }],
       applyOrder: false,
     });
     spyOn(dataManagerService, 'updateDataState');
@@ -707,8 +695,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
       jasmine.objectContaining({
         colId: 'noHeader',
         sort: null,
-      }),
-    ]);
+      })]);
   });
 
   it('should apply ascending sort to rows when data manager active sort changes', async () => {
@@ -741,15 +728,14 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
       jasmine.objectContaining({
         colId: 'noHeader',
         sort: null,
-      }),
-    ]);
+      })]);
   });
 });
 
 it('should move the horizontal scroll based on enableTopScroll check', async () => {
   TestBed.configureTestingModule({
     imports: [SkyAgGridDataManagerFixtureComponent],
-    providers: [provideNoopAnimations(), SkyDataManagerService],
+    providers: [SkyDataManagerService],
   });
 
   const fixture = TestBed.createComponent(SkyAgGridDataManagerFixtureComponent);
@@ -772,8 +758,7 @@ it('should move the horizontal scroll based on enableTopScroll check', async () 
     'ag-sticky-top',
     'ag-sticky-bottom',
     'ag-floating-bottom',
-    'ag-overlay',
-  ]);
+    'ag-overlay']);
 
   const agGrid = fixture.componentInstance.agGrid;
   expect(agGrid).toBeDefined();
@@ -788,8 +773,7 @@ it('should move the horizontal scroll based on enableTopScroll check', async () 
     ];
   expect(viewkeeperClasses).toEqual([
     '.ag-header',
-    '.ag-body-horizontal-scroll',
-  ]);
+    '.ag-body-horizontal-scroll']);
 });
 
 describe('Read columnOptions from grid API', () => {
@@ -800,10 +784,8 @@ describe('Read columnOptions from grid API', () => {
     TestBed.configureTestingModule({
       imports: [SkyAgGridDataManagerFixtureComponent],
       providers: [
-        provideNoopAnimations(),
         SkyDataManagerService,
-        provideSkyMediaQueryTesting(),
-      ],
+        provideSkyMediaQueryTesting()],
     });
     fixture = TestBed.createComponent(SkyAgGridDataManagerFixtureComponent);
     dataManagerService = TestBed.inject(SkyDataManagerService);

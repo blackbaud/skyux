@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { SkyDatepickerModule } from '../datepicker.module';
 import { FuzzyDatepickerNoFormatTestComponent } from '../fuzzy/fixtures/fuzzy-datepicker-no-format.component.fixture';
@@ -12,19 +11,15 @@ import { SkyFuzzyDateService } from '../fuzzy/fuzzy-date.service';
   declarations: [
     FuzzyDatepickerNoFormatTestComponent,
     FuzzyDatepickerReactiveTestComponent,
-    FuzzyDatepickerTestComponent,
-  ],
+    FuzzyDatepickerTestComponent],
   imports: [
     SkyDatepickerModule,
-    NoopAnimationsModule,
     FormsModule,
-    ReactiveFormsModule,
-  ],
+    ReactiveFormsModule],
   providers: [SkyFuzzyDateService],
   exports: [
     FuzzyDatepickerNoFormatTestComponent,
     FuzzyDatepickerReactiveTestComponent,
-    FuzzyDatepickerTestComponent,
-  ],
+    FuzzyDatepickerTestComponent],
 })
 export class FuzzyDatepickerTestModule {}

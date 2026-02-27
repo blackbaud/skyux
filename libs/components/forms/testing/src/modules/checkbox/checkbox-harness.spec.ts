@@ -1,7 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyHelpService } from '@skyux/core';
 import { SkyHelpTestingModule } from '@skyux/core/testing';
 
@@ -18,9 +17,7 @@ async function setupTest(
   await TestBed.configureTestingModule({
     imports: [
       CheckboxHarnessTestComponent,
-      SkyHelpTestingModule,
-      NoopAnimationsModule,
-    ],
+      SkyHelpTestingModule],
   }).compileComponents();
 
   const fixture = TestBed.createComponent(CheckboxHarnessTestComponent);

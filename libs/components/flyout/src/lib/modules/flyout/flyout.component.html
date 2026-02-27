@@ -21,11 +21,11 @@
     'sky-shadow': 'default',
     'sky-elevation-8': 'modern'
   }"
-  [@flyoutState]="getAnimationState()"
+  [class.sky-flyout-open]="instanceReady && isOpening"
   [style.width.px]="flyoutWidth"
   [cdkTrapFocus]="enableTrapFocus"
   [cdkTrapFocusAutoCapture]="enableTrapFocusAutoCapture"
-  (@flyoutState.done)="animationDone($event)"
+  (transitionend)="animationDone($event)"
 >
   <div
     #flyoutHeader

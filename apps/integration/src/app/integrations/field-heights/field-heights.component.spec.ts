@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { provideRouter } from '@angular/router';
 import { expectAsync } from '@skyux-sdk/testing';
@@ -17,7 +16,7 @@ describe('FieldHeightsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [FieldHeightsModule, NoopAnimationsModule],
+      imports: [FieldHeightsModule],
       providers: [SkyThemeService, provideRouter([])],
     });
 
@@ -69,12 +68,11 @@ describe('FieldHeightsComponent with disabled route query parameter', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [FieldHeightsModule, NoopAnimationsModule],
+      imports: [FieldHeightsModule],
       providers: [
         SkyThemeService,
         provideRouter([]),
-        { provide: ActivatedRoute, useValue: mockActivatedRoute },
-      ],
+        { provide: ActivatedRoute, useValue: mockActivatedRoute }],
     });
 
     fixture = TestBed.createComponent(FieldHeightsComponent);

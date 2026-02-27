@@ -159,7 +159,7 @@ describe('Tokens component', () => {
   });
 
   describe('events', () => {
-    it('should fire the change and rendered events when the tokens change', fakeAsync(() => {
+    it('should fire the change and rendered events when the tokens change', () => {
       const changeSpy = spyOn(component, 'onTokensChange');
       const renderedSpy = spyOn(component, 'onTokensRendered');
       component.publishTokens();
@@ -167,10 +167,16 @@ describe('Tokens component', () => {
       expect(changeSpy).toHaveBeenCalled();
       expect(renderedSpy).not.toHaveBeenCalled();
 
-      // Tick fires the animation callback
-      tick();
+      // Simulate the CSS animation completing on a token element.
+      const tokenEl = fixture.nativeElement.querySelector('sky-token');
+      tokenEl.dispatchEvent(
+        new AnimationEvent('animationend', {
+          animationName: 'sky-token-enter-animation',
+        }),
+      );
+      fixture.detectChanges();
       expect(renderedSpy).toHaveBeenCalled();
-    }));
+    });
 
     it('should emit when the focus index is greater than the number of tokens', () => {
       component.publishMessageStream();

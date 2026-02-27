@@ -1,7 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -18,7 +17,7 @@ describe('Split view harness', () => {
     loader: HarnessLoader;
   }> {
     await TestBed.configureTestingModule({
-      imports: [SplitViewHarnessTestComponent, NoopAnimationsModule],
+      imports: [SplitViewHarnessTestComponent],
       providers: [provideSkyMediaQueryTesting()],
     }).compileComponents();
 

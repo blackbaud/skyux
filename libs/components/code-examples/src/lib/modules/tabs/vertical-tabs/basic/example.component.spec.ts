@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyVerticalTabsetHarness } from '@skyux/tabs/testing';
 
 import { TabsVerticalTabsBasicExampleComponent } from './example.component';
@@ -24,7 +23,7 @@ describe('Basic vertical tabs example', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TabsVerticalTabsBasicExampleComponent, NoopAnimationsModule],
+      imports: [TabsVerticalTabsBasicExampleComponent],
     });
   });
 

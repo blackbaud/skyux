@@ -8,7 +8,6 @@ import {
   waitForAsync,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 import { SkyUIConfigService } from '@skyux/core';
 import {
@@ -83,10 +82,8 @@ describe('Tile dashboard service', () => {
 
     TestBed.configureTestingModule({
       imports: [
-        NoopAnimationsModule,
         SkyTileDashboardFixturesModule,
-        SkyTilesModule,
-      ],
+        SkyTilesModule],
       providers: [
         provideSkyMediaQueryTesting(),
         { provide: SkyUIConfigService, useValue: mockUIConfigService },
@@ -95,8 +92,7 @@ describe('Tile dashboard service', () => {
           provide: SkyThemeService,
           useValue: mockThemeSvc,
         },
-        { provide: SKY_TILE_TITLE_ID, useValue: '1' },
-      ],
+        { provide: SKY_TILE_TITLE_ID, useValue: '1' }],
     });
 
     mediaQueryController = TestBed.inject(SkyMediaQueryTestingController);
@@ -111,8 +107,7 @@ describe('Tile dashboard service', () => {
         {
           id: 'tile-2',
           componentType: Tile2TestComponent,
-        },
-      ],
+        }],
       layout: {
         multiColumn: [
           {
@@ -120,18 +115,15 @@ describe('Tile dashboard service', () => {
               {
                 id: 'tile-1',
                 isCollapsed: false,
-              },
-            ],
+              }],
           },
           {
             tiles: [
               {
                 id: 'tile-2',
                 isCollapsed: false,
-              },
-            ],
-          },
-        ],
+              }],
+          }],
         singleColumn: {
           tiles: [
             {
@@ -141,8 +133,7 @@ describe('Tile dashboard service', () => {
             {
               id: 'tile-1',
               isCollapsed: true,
-            },
-          ],
+            }],
         },
       },
     };
@@ -177,8 +168,7 @@ describe('Tile dashboard service', () => {
                   useValue: {
                     id: 3,
                   },
-                },
-              ],
+                }],
             },
             {
               id: 'sky-test-tile-3',
@@ -189,8 +179,7 @@ describe('Tile dashboard service', () => {
                   useValue: {
                     id: 3,
                   },
-                },
-              ],
+                }],
             },
             {
               id: 'sky-test-tile-4',
@@ -201,10 +190,8 @@ describe('Tile dashboard service', () => {
                   useValue: {
                     id: 3,
                   },
-                },
-              ],
-            },
-          ],
+                }],
+            }],
           layout: {
             singleColumn: {
               tiles: [
@@ -223,8 +210,7 @@ describe('Tile dashboard service', () => {
                 {
                   id: 'sky-test-tile-4',
                   isCollapsed: false,
-                },
-              ],
+                }],
             },
             multiColumn: [
               {
@@ -236,8 +222,7 @@ describe('Tile dashboard service', () => {
                   {
                     id: 'sky-test-tile-4',
                     isCollapsed: false,
-                  },
-                ],
+                  }],
               },
               {
                 tiles: [
@@ -248,10 +233,8 @@ describe('Tile dashboard service', () => {
                   {
                     id: 'sky-test-tile-1',
                     isCollapsed: true,
-                  },
-                ],
-              },
-            ],
+                  }],
+              }],
           },
         };
 
@@ -833,8 +816,7 @@ describe('Tile dashboard service', () => {
               {
                 id: 'tile-2',
                 isCollapsed: true,
-              },
-            ],
+              }],
           },
           multiColumn: [
             {
@@ -842,18 +824,15 @@ describe('Tile dashboard service', () => {
                 {
                   id: 'tile-2',
                   isCollapsed: true,
-                },
-              ],
+                }],
             },
             {
               tiles: [
                 {
                   id: 'tile-1',
                   isCollapsed: true,
-                },
-              ],
-            },
-          ],
+                }],
+            }],
         };
         expect(config.layout).toEqual(expectedLayout);
       },
@@ -878,8 +857,7 @@ describe('Tile dashboard service', () => {
         {
           id: 'tile-4',
           componentType: Tile1TestComponent,
-        },
-      ],
+        }],
       layout: {
         multiColumn: [
           {
@@ -887,8 +865,7 @@ describe('Tile dashboard service', () => {
               {
                 id: 'tile-1',
                 isCollapsed: false,
-              },
-            ],
+              }],
           },
           {
             tiles: [
@@ -903,10 +880,8 @@ describe('Tile dashboard service', () => {
               {
                 id: 'tile-4',
                 isCollapsed: true,
-              },
-            ],
-          },
-        ],
+              }],
+          }],
         singleColumn: {
           tiles: [
             {
@@ -924,8 +899,7 @@ describe('Tile dashboard service', () => {
             {
               id: 'tile-4',
               isCollapsed: true,
-            },
-          ],
+            }],
         },
       },
     };
@@ -950,8 +924,7 @@ describe('Tile dashboard service', () => {
               {
                 id: 'tile-4',
                 isCollapsed: false,
-              },
-            ],
+              }],
           },
           multiColumn: [
             {
@@ -963,8 +936,7 @@ describe('Tile dashboard service', () => {
                 {
                   id: 'tile-3',
                   isCollapsed: false,
-                },
-              ],
+                }],
             },
             {
               tiles: [
@@ -975,10 +947,8 @@ describe('Tile dashboard service', () => {
                 {
                   id: 'tile-4',
                   isCollapsed: false,
-                },
-              ],
-            },
-          ],
+                }],
+            }],
         };
         expect(config.layout).toEqual(expectedLayout);
       },
@@ -1008,8 +978,7 @@ describe('Tile dashboard service', () => {
         {
           id: 'tile-4',
           componentType: Tile1TestComponent,
-        },
-      ],
+        }],
       layout: {
         multiColumn: [
           {
@@ -1017,13 +986,11 @@ describe('Tile dashboard service', () => {
               {
                 id: 'tile-1',
                 isCollapsed: false,
-              },
-            ],
+              }],
           },
           {
             tiles: [],
-          },
-        ],
+          }],
         singleColumn: {
           tiles: [
             {
@@ -1033,8 +1000,7 @@ describe('Tile dashboard service', () => {
             {
               id: 'tile-2',
               isCollapsed: true,
-            },
-          ],
+            }],
         },
       },
     };
@@ -1059,8 +1025,7 @@ describe('Tile dashboard service', () => {
               {
                 id: 'tile-4',
                 isCollapsed: false,
-              },
-            ],
+              }],
           },
           multiColumn: [
             {
@@ -1072,8 +1037,7 @@ describe('Tile dashboard service', () => {
                 {
                   id: 'tile-3',
                   isCollapsed: false,
-                },
-              ],
+                }],
             },
             {
               tiles: [
@@ -1084,10 +1048,8 @@ describe('Tile dashboard service', () => {
                 {
                   id: 'tile-4',
                   isCollapsed: false,
-                },
-              ],
-            },
-          ],
+                }],
+            }],
         };
         expect(config.layout).toEqual(expectedLayout);
         done();
@@ -1111,18 +1073,15 @@ describe('Tile dashboard service', () => {
                 {
                   id: 'tile-1',
                   isCollapsed: false,
-                },
-              ],
+                }],
             },
             {
               tiles: [
                 {
                   id: 'tile-2',
                   isCollapsed: false,
-                },
-              ],
-            },
-          ],
+                }],
+            }],
           singleColumn: {
             tiles: [
               {
@@ -1132,8 +1091,7 @@ describe('Tile dashboard service', () => {
               {
                 id: 'tile-2',
                 isCollapsed: false,
-              },
-            ],
+              }],
           },
         });
         done();
@@ -1154,8 +1112,7 @@ describe('Tile dashboard service', () => {
         {
           id: 'tile-2',
           componentType: Tile2TestComponent,
-        },
-      ],
+        }],
       layout: {
         multiColumn: [
           {
@@ -1166,17 +1123,14 @@ describe('Tile dashboard service', () => {
               {
                 id: 'tile-2',
                 isCollapsed: false,
-              },
-            ],
-          },
-        ],
+              }],
+          }],
         singleColumn: {
           tiles: [
             {
               id: 'tile-2',
               isCollapsed: true,
-            },
-          ],
+            }],
         },
       },
     };
@@ -1189,8 +1143,7 @@ describe('Tile dashboard service', () => {
               {
                 id: 'tile-2',
                 isCollapsed: true,
-              },
-            ],
+              }],
           },
           multiColumn: [
             {
@@ -1198,13 +1151,11 @@ describe('Tile dashboard service', () => {
                 {
                   id: 'tile-2',
                   isCollapsed: true,
-                },
-              ],
+                }],
             },
             {
               tiles: [],
-            },
-          ],
+            }],
         };
         expect(config.layout).toEqual(expectedLayout);
       },

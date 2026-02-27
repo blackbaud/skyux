@@ -1,10 +1,9 @@
 <div
   class="sky-inline-delete sky-inline-delete-{{ type }}"
   role="alertdialog"
-  [@inlineDeleteAnimation]="animationState"
   [attr.aria-describedby]="assistiveTextId"
   [attr.aria-label]="'skyux_inline_delete_confirm_deletion' | skyLibResources"
-  (@inlineDeleteAnimation.done)="onAnimationDone($event)"
+  [class.sky-inline-delete-shown]="animationState === 'shown'"
 >
   <span
     class="sky-inline-delete-assistive-text sky-screen-reader-only"
@@ -14,7 +13,10 @@
   </span>
   <sky-wait class="sky-inline-delete-wait" [isWaiting]="pending" />
   <div class="sky-inline-delete-content">
-    <div class="sky-inline-delete-content-animation-container">
+    <div
+      class="sky-inline-delete-content-animation-container"
+      (transitionend)="onTransitionDone($event)"
+    >
       <button
         #delete
         class="sky-btn sky-btn-danger sky-inline-delete-button"

@@ -12,6 +12,14 @@ describe('Text expand repeater component', () => {
   async function clickTextExpandButton(buttonElem: HTMLElement) {
     buttonElem.click();
     fixture.detectChanges();
+
+    // Dispatch transitionend to complete the CSS max-height transition.
+    const container = el.querySelector('.sky-text-expand-repeater-container');
+    container?.dispatchEvent(
+      new TransitionEvent('transitionend', { propertyName: 'max-height' }),
+    );
+
+    fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();
     await fixture.whenStable();
@@ -243,6 +251,41 @@ describe('Text expand repeater component', () => {
       expect(seeMoreButton.innerText.trim()).toBe('See more');
       expect(shownItems.length).toBe(2);
       expect(hiddenItems.length).toBe(1);
+    });
+
+    it('should ignore transitionend events for properties other than max-height', async () => {
+      cmp.data = ['john', 'bob', 'hank'];
+      cmp.numItems = 2;
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      const seeMoreButton = el.querySelector(
+        '.sky-text-expand-repeater-see-more',
+      ) as HTMLElement;
+      const container = el.querySelector('.sky-text-expand-repeater-container');
+
+      seeMoreButton.click();
+      fixture.detectChanges();
+
+      // Dispatch a transitionend for a different property — should be ignored.
+      container?.dispatchEvent(
+        new TransitionEvent('transitionend', { propertyName: 'color' }),
+      );
+      fixture.detectChanges();
+
+      // max-height should still be set since the correct transitionend hasn't fired.
+      expect((container as HTMLElement)?.style.maxHeight).not.toBe('');
+
+      // Now dispatch the correct transitionend to clean up.
+      container?.dispatchEvent(
+        new TransitionEvent('transitionend', { propertyName: 'max-height' }),
+      );
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect((container as HTMLElement)?.style.maxHeight).toBe('');
     });
 
     it('should not display anything if no value is given for the text', () => {

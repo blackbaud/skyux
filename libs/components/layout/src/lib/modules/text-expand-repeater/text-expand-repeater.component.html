@@ -3,15 +3,11 @@
     <ul
       #container
       class="sky-text-expand-repeater-container"
-      [@expansionAnimation]="{
-        value: isExpanded(),
-        params: { transitionHeight: transitionHeight }
-      }"
       [id]="contentSectionId"
       [ngClass]="{
         'sky-text-expand-repeater-list-style-none': listStyle() === 'unstyled'
       }"
-      (@expansionAnimation.done)="animationEnd()"
+      (transitionend)="animationEnd($event)"
     >
       <ng-template [ngTemplateOutlet]="listItemTemplate" />
     </ul>
@@ -19,12 +15,8 @@
     <ol
       #container
       class="sky-text-expand-repeater-container"
-      [@expansionAnimation]="{
-        value: isExpanded(),
-        params: { transitionHeight: transitionHeight }
-      }"
       [id]="contentSectionId"
-      (@expansionAnimation.done)="animationEnd()"
+      (transitionend)="animationEnd($event)"
     >
       <ng-template [ngTemplateOutlet]="listItemTemplate" />
     </ol>

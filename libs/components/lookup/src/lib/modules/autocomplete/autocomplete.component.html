@@ -4,8 +4,10 @@
   class="sky-autocomplete"
   role="combobox"
   [attr.aria-expanded]="
-    isOpen &&
-    (showActionsArea || dropdownHintText || (isResultsVisible | async))
+    !!(
+      isOpen &&
+      (showActionsArea || dropdownHintText || (isResultsVisible | async))
+    )
   "
   [attr.aria-labelledby]="ariaLabelledBy"
   [attr.aria-controls]="

@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
 import { SkyLookupHarness } from '@skyux/lookup/testing';
 
@@ -34,13 +33,12 @@ describe('Lookup asynchronous search example', () => {
     mockSvc = jasmine.createSpyObj<DemoService>('DemoService', ['search']);
 
     TestBed.configureTestingModule({
-      imports: [LookupAddItemExampleComponent, NoopAnimationsModule],
+      imports: [LookupAddItemExampleComponent],
       providers: [
         {
           provide: DemoService,
           useValue: mockSvc,
-        },
-      ],
+        }],
     });
   });
 
@@ -48,8 +46,7 @@ describe('Lookup asynchronous search example', () => {
     const { lookupHarness } = await setupTest();
 
     await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([
-      'Shirley',
-    ]);
+      'Shirley']);
   });
 
   it('should update the form control when a favorite name is selected', async () => {
@@ -64,8 +61,7 @@ describe('Lookup asynchronous search example', () => {
                 {
                   id: '21',
                   name: 'Bernard',
-                },
-              ]
+                }]
             : [],
         totalCount: 1,
       }),
@@ -79,8 +75,7 @@ describe('Lookup asynchronous search example', () => {
     expect(fixture.componentInstance.favoritesForm.value.favoriteNames).toEqual(
       [
         { id: '16', name: 'Shirley' },
-        { id: '21', name: 'Bernard' },
-      ],
+        { id: '21', name: 'Bernard' }],
     );
   });
 
@@ -94,8 +89,7 @@ describe('Lookup asynchronous search example', () => {
           {
             id: '21',
             name: 'Bernard',
-          },
-        ],
+          }],
         totalCount: 1,
       }),
     );

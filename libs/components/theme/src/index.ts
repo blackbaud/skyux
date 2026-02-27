@@ -1,3 +1,4 @@
+export { provideNoopSkyAnimations } from './lib/animations/noop-sky-animations';
 export { SkyAppStyleLoader } from './lib/style-loader';
 export { SkyThemeModule } from './lib/theme.module';
 export { SkyTheme } from './lib/theming/theme';

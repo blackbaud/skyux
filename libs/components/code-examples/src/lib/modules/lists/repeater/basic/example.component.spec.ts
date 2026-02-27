@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
   SkyRepeaterHarness,
   SkyRepeaterItemHarness,
@@ -28,7 +27,7 @@ describe('Repeater basic example', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ListsRepeaterBasicExampleComponent, NoopAnimationsModule],
+      imports: [ListsRepeaterBasicExampleComponent],
     });
   });
 
@@ -55,8 +54,7 @@ describe('Repeater basic example', () => {
       {
         title: '',
         body: 'Three other tasks were not displayed',
-      },
-    ];
+      }];
 
     expect(repeaterItems?.length).toBe(expectedContent.length);
 

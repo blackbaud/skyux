@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyFlyoutHarness } from '@skyux/flyout/testing';
 
 import { FlyoutBasicExampleComponent } from './example.component';
@@ -11,7 +10,7 @@ describe('Basic flyout example', () => {
     fixture: ComponentFixture<FlyoutBasicExampleComponent>;
   }> {
     await TestBed.configureTestingModule({
-      imports: [FlyoutBasicExampleComponent, NoopAnimationsModule],
+      imports: [FlyoutBasicExampleComponent],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(FlyoutBasicExampleComponent);

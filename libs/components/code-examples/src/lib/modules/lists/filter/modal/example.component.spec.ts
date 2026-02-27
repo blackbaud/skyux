@@ -1,7 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
   SkyFilterButtonHarness,
   SkyFilterSummaryHarness,
@@ -28,9 +27,7 @@ describe('Filter modal example', () => {
     await TestBed.configureTestingModule({
       imports: [
         ListsFilterModalExampleComponent,
-        SkyModalTestingModule,
-        NoopAnimationsModule,
-      ],
+        SkyModalTestingModule],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(ListsFilterModalExampleComponent);
@@ -68,8 +65,7 @@ describe('Filter modal example', () => {
         name: 'hideOrange',
         value: true,
         label: 'hide orange fruits',
-      },
-    ];
+      }];
     modalController.expectCount(1);
     modalController.expectOpen(FilterModalComponent);
     modalController.closeTopModal({ data: saveData, reason: 'save' });

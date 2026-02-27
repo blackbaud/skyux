@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyInlineFormHarness } from '@skyux/inline-form/testing';
 import { SkyRepeaterHarness } from '@skyux/lists/testing';
 
@@ -13,7 +12,7 @@ describe('Inline form with repeater demo', () => {
     fixture: ComponentFixture<InlineFormRepeatersExampleComponent>;
   }> {
     await TestBed.configureTestingModule({
-      imports: [InlineFormRepeatersExampleComponent, NoopAnimationsModule],
+      imports: [InlineFormRepeatersExampleComponent],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(

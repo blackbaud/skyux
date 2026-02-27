@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
 import { SkyLookupHarness } from '@skyux/lookup/testing';
 
@@ -37,13 +36,12 @@ describe('Lookup result templates example', () => {
     mockSvc = jasmine.createSpyObj<DemoService>('DemoService', ['search']);
 
     TestBed.configureTestingModule({
-      imports: [LookupResultTemplatesExampleComponent, NoopAnimationsModule],
+      imports: [LookupResultTemplatesExampleComponent],
       providers: [
         {
           provide: DemoService,
           useValue: mockSvc,
-        },
-      ],
+        }],
     });
   });
 
@@ -51,8 +49,7 @@ describe('Lookup result templates example', () => {
     const { lookupHarness } = await setupTest();
 
     await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([
-      'Shirley',
-    ]);
+      'Shirley']);
   });
 
   it('should use the expected dropdown item template', async () => {
@@ -65,8 +62,7 @@ describe('Lookup result templates example', () => {
           {
             name: 'Abed',
             formal: 'Mr. Nadir',
-          },
-        ],
+          }],
         totalCount: 1,
       }),
     );
@@ -93,8 +89,7 @@ describe('Lookup result templates example', () => {
           {
             name: 'Abed',
             formal: 'Mr. Nadir',
-          },
-        ],
+          }],
         totalCount: 1,
       }),
     );
@@ -124,8 +119,7 @@ describe('Lookup result templates example', () => {
           {
             name: 'Abed',
             formal: 'Mr. Nadir',
-          },
-        ],
+          }],
         totalCount: 1,
       }),
     );
@@ -140,8 +134,7 @@ describe('Lookup result templates example', () => {
       fixture.componentInstance.favoritesForm.controls.favoriteNames.value,
     ).toEqual([
       { name: 'Shirley', formal: 'Ms. Bennett' },
-      { name: 'Abed', formal: 'Mr. Nadir' },
-    ]);
+      { name: 'Abed', formal: 'Mr. Nadir' }]);
   });
 
   it('should respect the selection descriptor', async () => {
@@ -154,8 +147,7 @@ describe('Lookup result templates example', () => {
           {
             name: 'Abed',
             formal: 'Mr. Nadir',
-          },
-        ],
+          }],
         totalCount: 1,
       }),
     );

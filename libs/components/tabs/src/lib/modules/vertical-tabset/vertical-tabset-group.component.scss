@@ -1,3 +1,4 @@
+@use 'libs/components/theme/src/lib/styles/animations' as animations;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 @use 'libs/components/tabs/src/lib/modules/vertical-tabset/vertical-tabset-button.scss'
@@ -90,7 +91,11 @@
 .sky-vertical-tabset-group-content {
   overflow: hidden;
   border-top: var(--sky-override-vertical-tabset-group-border, none);
-  // Left and right padding is handled by the component, top and bottom by animation
+  @include animations.sky-animation-slide();
+}
+
+.sky-vertical-tabset-group-content-gutter {
+  // Left and right padding is handled by the component.
   padding-left: var(
     --sky-override-vertical-tabset-group-content-padding-left,
     var(--sky-comp-tab-vertical-subgroup-space-inset-left)

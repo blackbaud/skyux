@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyPopoverAlignment, SkyPopoverPlacement } from '@skyux/popovers';
 import { SkyPopoverHarness } from '@skyux/popovers/testing';
 
@@ -40,7 +39,7 @@ describe('Basic popover', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [PopoversPopoverBasicExampleComponent, NoopAnimationsModule],
+      imports: [PopoversPopoverBasicExampleComponent],
     });
   });
 

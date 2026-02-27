@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { skip, take } from 'rxjs/operators';
 
@@ -24,13 +23,10 @@ describe('List filter button', () => {
       declarations: [ListFilterButtonTestComponent],
       imports: [
         SkyListToolbarModule,
-        SkyListFiltersModule,
-        NoopAnimationsModule,
-      ],
+        SkyListFiltersModule],
       providers: [
         { provide: ListState, useValue: state },
-        { provide: ListStateDispatcher, useValue: dispatcher },
-      ],
+        { provide: ListStateDispatcher, useValue: dispatcher }],
     });
 
     fixture = TestBed.createComponent(ListFilterButtonTestComponent);

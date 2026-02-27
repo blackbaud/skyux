@@ -1,7 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyCheckboxHarness } from '@skyux/forms/testing';
 
 import { SkyFilterButtonHarness } from './filter-button-harness';
@@ -20,7 +19,7 @@ describe('Filter test harness', () => {
     loader: HarnessLoader;
   }> {
     await TestBed.configureTestingModule({
-      imports: [FilterHarnessTestComponent, NoopAnimationsModule],
+      imports: [FilterHarnessTestComponent],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(FilterHarnessTestComponent);

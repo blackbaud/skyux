@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyTokensHarness } from '@skyux/indicators/testing';
 
 import { IndicatorsTokensCustomExampleComponent } from './example.component';
@@ -40,11 +39,10 @@ describe('Tokens basic example', () => {
       'Canada',
       'Older than 55',
       'Employed',
-      'Added before 2018',
-    ];
+      'Added before 2018'];
 
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, IndicatorsTokensCustomExampleComponent],
+      imports: [IndicatorsTokensCustomExampleComponent],
     });
   });
 
@@ -77,8 +75,7 @@ describe('Tokens basic example', () => {
     await expectAsync(tokensHarness.getTokensText()).toBeResolvedTo([
       'Paid',
       'Pending',
-      'Past due',
-    ]);
+      'Past due']);
   });
 
   it('should reset tokens when the user clicks the "Reset tokens" button', async () => {

@@ -1,4 +1,3 @@
-import { AnimationEvent } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
@@ -16,7 +15,6 @@ import {
   signal,
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { skyAnimationSlide } from '@skyux/animations';
 import {
   SkyAppWindowRef,
   SkyMediaQueryService,
@@ -45,7 +43,6 @@ let nextId = 0;
  * `sky-summary-action-bar-summary` components.
  */
 @Component({
-  animations: [skyAnimationSlide],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
@@ -172,29 +169,28 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
   }
 
   // NOTE: This function is needed so that the button is not removed until post-animation
-  public summaryTransitionEnd(animationEvent: AnimationEvent): void {
-    if (
-      animationEvent.toState !== 'void' &&
-      animationEvent.fromState !== 'void'
-    ) {
-      if (this.slideDirection() === 'up') {
-        this.isSummaryCollapsed.set(true);
-      }
-
-      const type = this.type();
-
-      if (
-        type === SkySummaryActionBarType.Page ||
-        type === SkySummaryActionBarType.Tab
-      ) {
-        this.#adapterService.styleBodyElementForActionBar(this.#elementRef);
-      }
-
-      // Ensure that the correct chevron is fully rendered prior to setting focus.
-      setTimeout(() => {
-        this.#adapterService.focusChevron(this.chevronElementRef);
-      });
+  public summaryTransitionEnd(event: TransitionEvent): void {
+    if (event.propertyName !== 'grid-template-rows') {
+      return;
     }
+
+    if (this.slideDirection() === 'up') {
+      this.isSummaryCollapsed.set(true);
+    }
+
+    const type = this.type();
+
+    if (
+      type === SkySummaryActionBarType.Page ||
+      type === SkySummaryActionBarType.Tab
+    ) {
+      this.#adapterService.styleBodyElementForActionBar(this.#elementRef);
+    }
+
+    // Ensure that the correct chevron is fully rendered prior to setting focus.
+    setTimeout(() => {
+      this.#adapterService.focusChevron(this.chevronElementRef);
+    });
   }
 
   // NOTE: This function is needed so that the button is added before animation

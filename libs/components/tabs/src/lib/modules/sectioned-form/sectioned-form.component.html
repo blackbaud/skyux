@@ -22,7 +22,9 @@
         'sky-sectioned-form-tabs-hidden': !tabService.tabsVisible(),
         'sky-sectioned-form-tabs-only': !tabService.contentVisible()
       }"
-      [@tabEnter]="tabService.animationTabsVisibleState"
+      [class.sky-vertical-tab-tabs-enter]="
+        tabService.animationTabsVisibleState === 'shown'
+      "
     >
       <ng-content />
     </div>
@@ -34,7 +36,9 @@
       [ngClass]="{
         'sky-sectioned-form-content-hidden': !tabService.contentVisible()
       }"
-      [@contentEnter]="tabService.animationContentVisibleState"
+      [class.sky-vertical-tab-content-enter]="
+        tabService.animationContentVisibleState === 'shown'
+      "
     ></div>
   }
 </div>

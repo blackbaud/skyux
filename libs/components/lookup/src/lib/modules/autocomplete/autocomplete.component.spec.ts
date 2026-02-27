@@ -1380,6 +1380,27 @@ describe('Autocomplete component', () => {
       expect(dropdownElement).toBeNull();
     }));
 
+    it('should reposition the dropdown via the message stream', fakeAsync(() => {
+      component.messageStream = new Subject();
+      fixture.detectChanges();
+
+      // Type 'r' to activate the autocomplete dropdown.
+      enterSearch('r', fixture);
+
+      expect(getSearchResultsContainer()).not.toBeNull();
+
+      component.messageStream.next({
+        type: SkyAutocompleteMessageType.RepositionDropdown,
+      });
+
+      // Advance the setTimeout inside the RepositionDropdown handler.
+      tick();
+      fixture.detectChanges();
+
+      // Dropdown should remain open after repositioning.
+      expect(getSearchResultsContainer()).not.toBeNull();
+    }));
+
     it('should allow overwriting the message stream', fakeAsync(() => {
       fixture.detectChanges();
 

@@ -7,7 +7,6 @@ import {
   waitForAsync,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
   ListItemsLoadAction,
   ListState,
@@ -164,8 +163,7 @@ const itemsArray = [
     column1: '0',
     column2: 'Fuzz',
     column4: 11,
-  }),
-];
+  })];
 //#endregion
 
 describe('List View Checklist Component', () => {
@@ -183,11 +181,10 @@ describe('List View Checklist Component', () => {
 
       TestBed.configureTestingModule({
         declarations: [ListViewChecklistTestComponent],
-        imports: [NoopAnimationsModule, SkyListViewChecklistModule],
+        imports: [SkyListViewChecklistModule],
         providers: [
           { provide: ListState, useValue: state },
-          { provide: ListStateDispatcher, useValue: dispatcher },
-        ],
+          { provide: ListStateDispatcher, useValue: dispatcher }],
       });
 
       fixture = TestBed.createComponent(ListViewChecklistTestComponent);
@@ -232,14 +229,12 @@ describe('List View Checklist Component', () => {
           column2: 'Grape',
           column4: 7,
         }),
-        new ListItemModel('8', { column1: '22' }),
-      ];
+        new ListItemModel('8', { column1: '22' })];
 
       dispatcher.next(new ListItemsLoadAction(items, true));
       dispatcher.next(
         new ListViewsLoadAction([
-          new ListViewModel(component.checklist.id, component.checklist.label),
-        ]),
+          new ListViewModel(component.checklist.id, component.checklist.label)]),
       );
       dispatcher.viewsSetActive(component.checklist.id);
       fixture.detectChanges();
@@ -316,11 +311,10 @@ describe('List View Checklist Component', () => {
 
       TestBed.configureTestingModule({
         declarations: [ListViewChecklistEmptyTestComponent],
-        imports: [NoopAnimationsModule, SkyListViewChecklistModule],
+        imports: [SkyListViewChecklistModule],
         providers: [
           { provide: ListState, useValue: state },
-          { provide: ListStateDispatcher, useValue: dispatcher },
-        ],
+          { provide: ListStateDispatcher, useValue: dispatcher }],
       });
 
       fixture = TestBed.createComponent(ListViewChecklistEmptyTestComponent);
@@ -334,14 +328,12 @@ describe('List View Checklist Component', () => {
           column2: 'Apple',
           column3: 1,
           column4: 1,
-        }),
-      ];
+        })];
 
       dispatcher.next(new ListItemsLoadAction(items, true));
       dispatcher.next(
         new ListViewsLoadAction([
-          new ListViewModel(component.checklist.id, component.checklist.label),
-        ]),
+          new ListViewModel(component.checklist.id, component.checklist.label)]),
       );
       dispatcher.viewsSetActive(component.checklist.id);
       fixture.detectChanges();
@@ -387,18 +379,15 @@ describe('List View Checklist Component', () => {
       TestBed.configureTestingModule({
         declarations: [ListViewChecklistPaginationTestComponent],
         imports: [
-          NoopAnimationsModule,
           SkyListModule,
           SkyListToolbarModule,
           SkyListViewChecklistModule,
-          SkyListPagingModule,
-        ],
+          SkyListPagingModule],
       }).overrideComponent(SkyListComponent, {
         set: {
           providers: [
             { provide: ListState, useValue: state },
-            { provide: ListStateDispatcher, useValue: dispatcher },
-          ],
+            { provide: ListStateDispatcher, useValue: dispatcher }],
         },
       });
 
@@ -455,18 +444,15 @@ describe('List View Checklist Component', () => {
       TestBed.configureTestingModule({
         declarations: [ListViewChecklistToolbarTestComponent],
         imports: [
-          NoopAnimationsModule,
           SkyListModule,
           SkyListToolbarModule,
-          SkyListViewChecklistModule,
-        ],
+          SkyListViewChecklistModule],
         providers: [{ provide: 'items', useValue: items }],
       }).overrideComponent(SkyListComponent, {
         set: {
           providers: [
             { provide: ListState, useValue: state },
-            { provide: ListStateDispatcher, useValue: dispatcher },
-          ],
+            { provide: ListStateDispatcher, useValue: dispatcher }],
         },
       });
 
@@ -765,8 +751,7 @@ describe('List View Checklist Component', () => {
       );
       const items = [
         new ListViewChecklistItemModel('1', false),
-        new ListViewChecklistItemModel('2', false),
-      ];
+        new ListViewChecklistItemModel('2', false)];
 
       checklistDispatcher.next(new ListViewChecklistItemsLoadAction());
       checklistDispatcher.next(new ListViewChecklistItemsLoadAction(items));
@@ -797,18 +782,15 @@ describe('List View Checklist Component', () => {
       TestBed.configureTestingModule({
         declarations: [ListViewChecklistToolbarTestComponent],
         imports: [
-          NoopAnimationsModule,
           SkyListModule,
           SkyListToolbarModule,
-          SkyListViewChecklistModule,
-        ],
+          SkyListViewChecklistModule],
         providers: [{ provide: 'items', useValue: items }],
       }).overrideComponent(SkyListComponent, {
         set: {
           providers: [
             { provide: ListState, useValue: state },
-            { provide: ListStateDispatcher, useValue: dispatcher },
-          ],
+            { provide: ListStateDispatcher, useValue: dispatcher }],
         },
       });
 
@@ -846,18 +828,15 @@ describe('List View Checklist Component', () => {
       TestBed.configureTestingModule({
         declarations: [ListViewChecklistToolbarTestComponent],
         imports: [
-          NoopAnimationsModule,
           SkyListModule,
           SkyListToolbarModule,
-          SkyListViewChecklistModule,
-        ],
+          SkyListViewChecklistModule],
         providers: [{ provide: 'items', useValue: items }],
       }).overrideComponent(SkyListComponent, {
         set: {
           providers: [
             { provide: ListState, useValue: state },
-            { provide: ListStateDispatcher, useValue: dispatcher },
-          ],
+            { provide: ListStateDispatcher, useValue: dispatcher }],
         },
       });
 
@@ -935,18 +914,15 @@ describe('List View Checklist Component', () => {
       TestBed.configureTestingModule({
         declarations: [ListViewChecklistToolbarTestComponent],
         imports: [
-          NoopAnimationsModule,
           SkyListModule,
           SkyListToolbarModule,
-          SkyListViewChecklistModule,
-        ],
+          SkyListViewChecklistModule],
         providers: [{ provide: 'items', useValue: items }],
       }).overrideComponent(SkyListComponent, {
         set: {
           providers: [
             { provide: ListState, useValue: state },
-            { provide: ListStateDispatcher, useValue: dispatcher },
-          ],
+            { provide: ListStateDispatcher, useValue: dispatcher }],
         },
       });
 

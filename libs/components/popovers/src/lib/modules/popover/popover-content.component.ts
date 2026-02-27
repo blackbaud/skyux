@@ -1,4 +1,3 @@
-import { AnimationEvent } from '@angular/animations';
 import {
   ChangeDetectorRef,
   Component,
@@ -30,8 +29,6 @@ import {
   takeUntil,
 } from 'rxjs';
 
-import { skyPopoverAnimation } from './popover-animation';
-import { SkyPopoverAnimationState } from './popover-animation-state';
 import { SkyPopoverContext } from './popover-context';
 import {
   parseAffixHorizontalAlignment,
@@ -48,14 +45,11 @@ import { SkyPopoverType } from './types/popover-type';
   selector: 'sky-popover-content',
   templateUrl: './popover-content.component.html',
   styleUrls: ['./popover-content.component.scss'],
-  animations: [skyPopoverAnimation],
   standalone: false,
 })
 export class SkyPopoverContentComponent implements OnInit, OnDestroy {
   @HostBinding('id')
   protected popoverId: string | undefined;
-
-  public animationState: SkyPopoverAnimationState = 'closed';
 
   public get closed(): Observable<void> {
     return this.#_closed.asObservable();
@@ -77,7 +71,12 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
 
   public set isOpen(value: boolean) {
     this.#_isOpen = value;
-    this.animationState = value ? 'open' : 'closed';
+
+    if (value) {
+      this.#_opened.next();
+    } else {
+      this.#_closed.next();
+    }
   }
 
   public get isOpen(): boolean {
@@ -190,20 +189,6 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     if (this.#arrowAffixer) {
       this.#arrowAffixer.destroy();
       this.#arrowAffixer = undefined;
-    }
-  }
-
-  public onAnimationEvent(event: AnimationEvent): void {
-    if (event.fromState === 'void') {
-      return;
-    }
-
-    if (event.phaseName === 'done') {
-      if (event.toState === 'open') {
-        this.#_opened.next();
-      } else {
-        this.#_closed.next();
-      }
     }
   }
 

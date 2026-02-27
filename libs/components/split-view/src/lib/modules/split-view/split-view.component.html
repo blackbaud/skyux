@@ -1,21 +1,17 @@
-<div
-  class="sky-split-view"
-  [ngClass]="'sky-split-view-dock-' + dock"
-  [@blockAnimationOnLoad]
->
+<div class="sky-split-view" [ngClass]="'sky-split-view-dock-' + dock">
   <div
     class="sky-split-view-drawer-flex-container"
-    [hidden]="!drawerVisible"
-    [@drawerEnter]="drawerVisible"
+    [class.sky-split-view-animate]="animationEnabled"
+    [class.sky-split-view-drawer-visible]="drawerVisible"
   >
     <ng-content select="sky-split-view-drawer" />
   </div>
 
   <div
     class="sky-split-view-workspace-flex-container"
-    [hidden]="!workspaceVisible"
-    [@workspaceEnter]="workspaceVisible"
-    (@workspaceEnter.done)="onWorkspaceEnterComplete()"
+    [class.sky-split-view-animate]="animationEnabled"
+    [class.sky-split-view-workspace-visible]="workspaceVisible"
+    (transitionend)="onWorkspaceTransitionEnd($event)"
   >
     <ng-content select="sky-split-view-workspace" />
   </div>

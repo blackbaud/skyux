@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import { expectAsync } from '@skyux-sdk/testing';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
@@ -16,7 +15,7 @@ describe('ModalLookupComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [LookupInModalModule, NoopAnimationsModule],
+      imports: [LookupInModalModule],
       providers: [SkyThemeService, provideRouter([])],
     });
 

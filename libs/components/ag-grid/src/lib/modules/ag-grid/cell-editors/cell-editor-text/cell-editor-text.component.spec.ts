@@ -4,7 +4,6 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import {
@@ -36,7 +35,6 @@ describe('SkyCellEditorTextComponent', () => {
     TestBed.configureTestingModule({
       imports: [SkyAgGridMinimalFixtureComponent],
       providers: [
-        provideNoopAnimations(),
         {
           provide: MinimalColumnDefs,
           useValue: [
@@ -44,14 +42,12 @@ describe('SkyCellEditorTextComponent', () => {
               field: 'nickname',
               editable: true,
               type: SkyCellType.Text,
-            },
-          ],
+            }],
         },
         {
           provide: MinimalRowData,
           useValue: [{ nickname: 'test' }],
-        },
-      ],
+        }],
     });
 
     textEditorFixture = TestBed.createComponent(
@@ -86,8 +82,7 @@ describe('SkyCellEditorTextComponent', () => {
 
   describe('agInit', () => {
     const api = jasmine.createSpyObj<GridApi>('api', [
-      'getDisplayNameForColumn',
-    ]);
+      'getDisplayNameForColumn']);
     let cellEditorParams: Partial<SkyCellEditorTextParams>;
     let column: AgColumn;
     let gridCell: HTMLDivElement;
@@ -171,8 +166,7 @@ describe('SkyCellEditorTextComponent', () => {
       const api = jasmine.createSpyObj<GridApi>([
         'getDisplayNameForColumn',
         'stopEditing',
-        'getGridOption',
-      ]);
+        'getGridOption']);
       api.getDisplayNameForColumn.and.returnValue('');
       api.getGridOption.and.returnValue(true);
 

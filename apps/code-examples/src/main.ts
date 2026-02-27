@@ -38,8 +38,7 @@ bootstrapApplication(AppComponent, {
     {
       provide: SKY_DOCS_CODE_EXAMPLE_ROUTE,
       useValue: 'examples',
-    },
-  ],
+    }],
 }).catch((err) => {
   console.error(err);
 });

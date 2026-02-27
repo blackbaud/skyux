@@ -1,4 +1,3 @@
-import { animate, style, transition, trigger } from '@angular/animations';
 import {
   AfterViewChecked,
   ChangeDetectionStrategy,
@@ -21,7 +20,6 @@ import { SkyTabIdService } from '../shared/tab-id.service';
 
 import { SkyVerticalTabsetAdapterService } from './vertical-tabset-adapter.service';
 import {
-  HIDDEN_STATE,
   SkyVerticalTabsetService,
   VISIBLE_STATE,
 } from './vertical-tabset.service';
@@ -32,20 +30,6 @@ import {
   styleUrls: ['./vertical-tabset.component.scss'],
   providers: [SkyTabIdService, SkyVerticalTabsetService],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [
-    trigger('tabGroupEnter', [
-      transition(`${HIDDEN_STATE} => ${VISIBLE_STATE}`, [
-        style({ transform: 'translate(-100%)' }),
-        animate('150ms ease-in'),
-      ]),
-    ]),
-    trigger('contentEnter', [
-      transition(`${HIDDEN_STATE} => ${VISIBLE_STATE}`, [
-        style({ transform: 'translate(100%)' }),
-        animate('150ms ease-in'),
-      ]),
-    ]),
-  ],
   standalone: false,
 })
 export class SkyVerticalTabsetComponent

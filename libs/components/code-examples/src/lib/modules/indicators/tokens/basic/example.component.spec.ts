@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyToken } from '@skyux/indicators';
 import { SkyTokensHarness } from '@skyux/indicators/testing';
 
@@ -25,7 +24,7 @@ describe('Tokens basic example', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, IndicatorsTokensBasicExampleComponent],
+      imports: [IndicatorsTokensBasicExampleComponent],
     });
   });
 
@@ -43,8 +42,7 @@ describe('Tokens basic example', () => {
       'Purple',
       'Turquoise',
       'White',
-      'Yellow',
-    ]);
+      'Yellow']);
   });
 
   it('should update the tokens array when one is dismissed', async () => {

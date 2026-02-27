@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { SkyDataManagerColumnPickerHarness } from './data-manager-column-picker-harness';
 import { SkyDataManagerHarness } from './data-manager-harness';
@@ -13,7 +12,7 @@ describe('Data manager harness', () => {
     fixture: ComponentFixture<DataManagerHarnessTestComponent>;
   }> {
     await TestBed.configureTestingModule({
-      imports: [DataManagerHarnessTestComponent, NoopAnimationsModule],
+      imports: [DataManagerHarnessTestComponent],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(DataManagerHarnessTestComponent);
@@ -266,8 +265,7 @@ describe('Data manager harness', () => {
 
         expect(fixture.componentInstance.selectedColumns).toEqual([
           'selected',
-          'name',
-        ]);
+          'name']);
       });
 
       it('should cancel selecting columns', async () => {
@@ -297,8 +295,7 @@ describe('Data manager harness', () => {
         expect(fixture.componentInstance.selectedColumns).toEqual([
           'selected',
           'name',
-          'description',
-        ]);
+          'description']);
       });
 
       it('should search for results and clear them', async () => {

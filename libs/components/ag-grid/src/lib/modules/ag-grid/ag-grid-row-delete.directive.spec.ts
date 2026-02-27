@@ -1,7 +1,6 @@
 import { ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { expectAsync } from '@skyux-sdk/testing';
 import {
   SKY_STACKING_CONTEXT,
@@ -24,7 +23,6 @@ describe('SkyAgGridRowDeleteDirective', () => {
     TestBed.configureTestingModule({
       imports: [SkyAgGridRowDeleteFixtureComponent],
       providers: [
-        provideNoopAnimations(),
         {
           provide: SKY_STACKING_CONTEXT,
           useValue: options?.stackingContextZIndex
@@ -43,8 +41,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
               .createSpy('watchScrollableHostClipPathChanges')
               .and.returnValue(of('none')),
           },
-        },
-      ],
+        }],
     });
 
     fixture = TestBed.createComponent(SkyAgGridRowDeleteFixtureComponent);

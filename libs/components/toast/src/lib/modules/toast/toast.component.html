@@ -1,6 +1,7 @@
 <aside
-  [@skyAnimationEmerge]="isOpen ? 'open' : 'closed'"
-  (@skyAnimationEmerge.done)="onAnimationDone($event)"
+  [class.sky-animation-emerge-open]="isOpen"
+  [class.sky-animation-emerge-closed]="!isOpen"
+  (transitionend)="onAnimationDone($event)"
 >
   <div
     class="sky-toast sky-shadow sky-rounded-corners sky-box sky-elevation-16"

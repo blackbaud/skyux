@@ -8,7 +8,6 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyDatepickerModule } from '@skyux/datetime';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
@@ -70,17 +69,14 @@ describe('Datepicker harness', () => {
         FormsModule,
         ReactiveFormsModule,
         SkyDatepickerModule,
-        SkyInputBoxModule,
-        NoopAnimationsModule,
-      ],
+        SkyInputBoxModule],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(TestComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
     const datepickerHarness: SkyDatepickerHarness = [
       'input-wrapped',
-      'fuzzy-date',
-    ].includes(options.dataSkyId)
+      'fuzzy-date'].includes(options.dataSkyId)
       ? await (
           await loader.getHarness(
             SkyInputBoxHarness.with({ dataSkyId: options.dataSkyId }),

@@ -26,6 +26,29 @@
     --sky-override-inline-delete-border,
     var(--sky-border-width-selected-m) solid var(--sky-color-border-danger)
   );
+  opacity: 0;
+  transition: opacity 300ms ease-in-out;
+
+  &.sky-inline-delete-shown {
+    opacity: 1;
+
+    @starting-style {
+      opacity: 0;
+    }
+
+    .sky-inline-delete-content-animation-container {
+      transform: scale(1);
+
+      @starting-style {
+        transform: scale(0);
+      }
+    }
+  }
+}
+
+.sky-inline-delete-content-animation-container {
+  transform: scale(0);
+  transition: transform 300ms ease-in-out;
 }
 
 .sky-inline-delete-button {

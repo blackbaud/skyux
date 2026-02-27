@@ -10,6 +10,7 @@ import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyLogService } from '@skyux/core';
 import { SkyInlineFormButtonLayout } from '@skyux/inline-form';
+import { provideNoopSkyAnimations } from '@skyux/theme';
 
 import { A11yRepeaterItem } from './fixtures/a11y-repeater-item';
 import { A11yRepeaterTestComponent } from './fixtures/a11y-repeater.component.fixture';
@@ -152,6 +153,7 @@ describe('Repeater item component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyRepeaterFixturesModule],
+      providers: [provideNoopSkyAnimations()],
     });
   });
 

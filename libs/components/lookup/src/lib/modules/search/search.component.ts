@@ -1,12 +1,4 @@
 import {
-  AnimationEvent,
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
-import {
   ChangeDetectorRef,
   Component,
   DestroyRef,
@@ -45,25 +37,6 @@ const EXPAND_MODE_NONE = 'none';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  animations: [
-    trigger('inputState', [
-      state(
-        INPUT_HIDDEN_STATE,
-        style({
-          opacity: 0,
-          width: 0,
-        }),
-      ),
-      state(
-        INPUT_SHOWN_STATE,
-        style({
-          opacity: 1,
-          width: '100%',
-        }),
-      ),
-      transition('* <=> *', animate('150ms')),
-    ]),
-  ],
   providers: [SkySearchAdapterService],
   standalone: false,
 })
@@ -310,28 +283,39 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
     }
   }
 
-  public inputAnimationStart(event: AnimationEvent): void {
+  public inputAnimationStart(event: TransitionEvent): void {
+    if (event.propertyName !== 'opacity') {
+      return;
+    }
+
     if (this.#searchShouldCollapse()) {
       this.#searchAdapter.startInputAnimation(this.#elRef);
 
-      if (event.toState === INPUT_SHOWN_STATE && this.#breakpoint() === 'xs') {
+      if (
+        this.inputAnimate === INPUT_SHOWN_STATE &&
+        this.#breakpoint() === 'xs'
+      ) {
         this.mobileSearchShown = true;
         this.searchButtonShown = false;
       }
     }
   }
 
-  public inputAnimationEnd(event: AnimationEvent): void {
+  public inputAnimationEnd(event: TransitionEvent): void {
+    if (event.propertyName !== 'opacity') {
+      return;
+    }
+
     if (this.#searchShouldCollapse()) {
       this.#searchAdapter.endInputAnimation(this.#elRef);
 
       const breakpoint = this.#breakpoint();
 
       this.searchButtonShown =
-        event.toState === INPUT_HIDDEN_STATE && breakpoint === 'xs';
+        this.inputAnimate === INPUT_HIDDEN_STATE && breakpoint === 'xs';
 
       if (
-        (event.toState === INPUT_HIDDEN_STATE && breakpoint === 'xs') ||
+        (this.inputAnimate === INPUT_HIDDEN_STATE && breakpoint === 'xs') ||
         breakpoint !== 'xs'
       ) {
         this.mobileSearchShown = false;
@@ -379,6 +363,11 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
         this.inputAnimate = INPUT_HIDDEN_STATE;
       } else if (this.inputAnimate !== INPUT_SHOWN_STATE) {
         this.inputAnimate = INPUT_SHOWN_STATE;
+        // When transitioning from mobile to desktop, the dismiss container
+        // may be hidden which prevents CSS transitions from firing.
+        // Update state directly to ensure the search bar expands.
+        this.searchButtonShown = false;
+        this.mobileSearchShown = false;
       } else {
         this.mobileSearchShown = false;
       }

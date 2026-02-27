@@ -1,6 +1,7 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+@use '../shared/vertical-tab-animations';
 
 @include compatMixins.sky-default-overrides('.sky-sectioned-form') {
   --sky-override-sectioned-form-content-border-left: 1px solid

@@ -12,7 +12,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SKY_STACKING_CONTEXT } from '@skyux/core';
 import { SkyInputBoxModule } from '@skyux/forms';
@@ -172,7 +171,7 @@ describe('Timepicker', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
         declarations: [TimepickerTestComponent],
-        imports: [SkyTimepickerModule, NoopAnimationsModule, FormsModule],
+        imports: [SkyTimepickerModule, FormsModule],
         providers: [
           {
             provide: SkyThemeService,
@@ -183,8 +182,7 @@ describe('Timepicker', () => {
             useValue: {
               zIndex: new BehaviorSubject(111),
             },
-          },
-        ],
+          }],
       });
 
       fixture = TestBed.createComponent(TimepickerTestComponent);
@@ -554,7 +552,7 @@ describe('Timepicker', () => {
       TestBed.configureTestingModule({
         declarations: [TimepickerTestComponent],
         providers: [NgModel],
-        imports: [SkyTimepickerModule, NoopAnimationsModule, FormsModule],
+        imports: [SkyTimepickerModule, FormsModule],
       });
 
       fixture = TestBed.createComponent(TimepickerTestComponent);
@@ -689,10 +687,8 @@ describe('Timepicker', () => {
         declarations: [TimepickerReactiveTestComponent],
         imports: [
           SkyTimepickerModule,
-          NoopAnimationsModule,
           FormsModule,
-          ReactiveFormsModule,
-        ],
+          ReactiveFormsModule],
       });
 
       fixture = TestBed.createComponent(TimepickerReactiveTestComponent);
@@ -842,8 +838,7 @@ describe('Timepicker', () => {
           {
             provide: SkyThemeService,
             useValue: mockThemeSvc,
-          },
-        ],
+          }],
       });
 
       fixture = TestBed.createComponent(TimepickerInputBoxTestComponent);

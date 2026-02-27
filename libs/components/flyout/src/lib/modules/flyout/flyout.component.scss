@@ -22,6 +22,17 @@
   top: 0;
   bottom: 0;
   height: 100%;
+  transform: translateX(100%);
+  transition: transform 250ms ease-in;
+
+  &.sky-flyout-open {
+    transform: translateX(0);
+
+    @starting-style {
+      transform: translateX(100%);
+    }
+  }
+
   background-color: var(
     --sky-override-flyout-background,
     var(--sky-color-background-container-base)

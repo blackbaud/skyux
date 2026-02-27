@@ -37,10 +37,16 @@
     class="sky-vertical-tabset-group-content"
     skyId
     [attr.labelledby]="groupId"
-    [@.disabled]="animationDisabled"
-    [@skyAnimationSlide]="slideDirection"
-    [@skyVerticalTabsetPaddingAnimation]="slideDirection"
+    [class.sky-animation-disabled]="animationDisabled"
+    [class.sky-animation-slide-down]="slideDirection === 'down'"
+    [class.sky-animation-slide-up]="
+      slideDirection === 'up' || slideDirection === 'void'
+    "
   >
-    <ng-content />
+    <div class="sky-animation-slide-content">
+      <div class="sky-vertical-tabset-group-content-gutter">
+        <ng-content />
+      </div>
+    </div>
   </div>
 </div>

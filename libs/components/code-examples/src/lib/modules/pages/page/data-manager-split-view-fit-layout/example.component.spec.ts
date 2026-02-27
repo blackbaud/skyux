@@ -1,7 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { SkyDataManagerHarness } from '@skyux/data-manager/testing';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
 import { SkyRepeaterHarness } from '@skyux/lists/testing';
@@ -18,7 +17,7 @@ describe('Data manager with split view in a fit layout page example', () => {
   }> {
     await TestBed.configureTestingModule({
       imports: [PagesPageDataManagerSplitViewFitLayoutExampleComponent],
-      providers: [provideNoopAnimations()],
+      providers: [],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(

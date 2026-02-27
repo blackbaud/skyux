@@ -6,7 +6,6 @@ import {
   inject,
   tick,
 } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 
 import { SkyToastBodyTestContext } from './fixtures/toast-body-context';
@@ -31,15 +30,14 @@ describe('Toaster component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkyToastFixturesModule, NoopAnimationsModule],
+      imports: [SkyToastFixturesModule],
       providers: [
         {
           provide: SkyToastContainerOptions,
           useValue: {
             displayDirection: SkyToastDisplayDirection.OldestOnTop,
           } as SkyToastContainerOptions,
-        },
-      ],
+        }],
     });
 
     toasterService = new SkyToasterService();
@@ -50,8 +48,7 @@ describe('Toaster component', () => {
           {
             provide: SkyToasterService,
             useValue: toasterService,
-          },
-        ],
+          }],
       },
     }).createComponent(SkyToasterTestComponent);
   });
@@ -81,6 +78,13 @@ describe('Toaster component', () => {
     return document.querySelectorAll('sky-toast');
   }
 
+  function dispatchTransitionEnd(toastEl: Element): void {
+    const aside = toastEl.querySelector('aside');
+    aside?.dispatchEvent(
+      new TransitionEvent('transitionend', { propertyName: 'opacity' }),
+    );
+  }
+
   function openMessage(
     message = '',
     config?: SkyToastConfig,
@@ -96,8 +100,7 @@ describe('Toaster component', () => {
       {
         provide: SkyToastBodyTestContext,
         useValue: new SkyToastBodyTestContext(message),
-      },
-    ];
+      }];
     const instance = toastService.openComponent(
       SkyToastBodyTestComponent,
       {},
@@ -173,6 +176,23 @@ describe('Toaster component', () => {
     fixture.detectChanges();
     tick();
 
+    // A transitionend event for a non-opacity property should not close the toast.
+    toasts
+      .item(0)
+      .querySelector('aside')
+      ?.dispatchEvent(
+        new TransitionEvent('transitionend', { propertyName: 'transform' }),
+      );
+    fixture.detectChanges();
+    tick();
+
+    toasts = getToastElements();
+    expect(toasts.length).toEqual(3);
+
+    dispatchTransitionEnd(toasts.item(0));
+    fixture.detectChanges();
+    tick();
+
     toasts = getToastElements();
     expect(toasts.length).toEqual(2);
   }));
@@ -190,6 +210,10 @@ describe('Toaster component', () => {
     clickElement(
       toasts.item(0).querySelector('.sky-toast-body-test-btn-close'),
     );
+    fixture.detectChanges();
+    tick();
+
+    dispatchTransitionEnd(toasts.item(0));
     fixture.detectChanges();
     tick();
 
@@ -212,6 +236,9 @@ describe('Toaster component', () => {
     toastService.closeAll();
     fixture.detectChanges();
     tick();
+
+    toasts = getToastElements();
+    toasts.forEach((toast) => dispatchTransitionEnd(toast));
     fixture.detectChanges();
     tick();
 

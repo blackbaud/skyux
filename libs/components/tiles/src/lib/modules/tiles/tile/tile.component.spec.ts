@@ -4,7 +4,6 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyLogService } from '@skyux/core';
 import {
@@ -77,13 +76,12 @@ describe('Tile component', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, SkyHelpTestingModule, TileTestComponent],
+      imports: [SkyHelpTestingModule, TileTestComponent],
       providers: [
         {
           provide: SkyThemeService,
           useValue: mockThemeSvc,
-        },
-      ],
+        }],
     });
   });
 
@@ -187,8 +185,7 @@ describe('Tile component', () => {
           {
             provide: SkyTileDashboardService,
             useValue: mockTileDashboardService,
-          },
-        ],
+          }],
       },
     }).createComponent(TileTestComponent);
 
