@@ -5,5 +5,4 @@ import { BaseHarnessFilters } from '@angular/cdk/testing';
  * @internal
  */
 // eslint-disable-next-line @typescript-eslint/no-empty-interface, @typescript-eslint/no-empty-object-type
-export interface SkyTimepickerSelectorHarnessFilters
-  extends BaseHarnessFilters {}
+export interface SkyTimepickerSelectorHarnessFilters extends BaseHarnessFilters {}
