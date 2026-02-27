@@ -15,6 +15,12 @@
     "url": "https://github.com/blackbaud/skyux/issues"
   },
   "homepage": "https://github.com/blackbaud/skyux#readme",
+  "exports": {
+    "./vitest/setup-matchers.js": {
+      "types": "./types/skyux-sdk-testing-vitest.d.ts",
+      "default": "./fesm2022/skyux-sdk-testing-vitest.mjs"
+    }
+  },
   "ng-update": {
     "packageGroupName": "@skyux-sdk/testing",
     "packageGroup": {
@@ -27,9 +33,15 @@
     "@angular/core": "^21.1.2",
     "@angular/platform-browser": "^21.1.2",
     "@skyux/i18n": "0.0.0-PLACEHOLDER",
-    "axe-core": "~4.11.1"
+    "axe-core": "~4.11.1",
+    "vitest": "^4.0.18"
   },
   "dependencies": {
     "tslib": "^2.8.1"
+  },
+  "peerDependenciesMeta": {
+    "vitest": {
+      "optional": true
+    }
   }
 }
