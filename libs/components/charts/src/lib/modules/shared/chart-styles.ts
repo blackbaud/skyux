@@ -23,8 +23,6 @@ export const SkyuxChartStyles = {
       resolveCssVariable('--sky-theme-color-viz-category-8'),
     ];
 
-    // console.debug('SKY UX Chart Series Colors:', colors);
-
     return colors;
   },
 
@@ -33,9 +31,8 @@ export const SkyuxChartStyles = {
   // =============================================================================
 
   get axisLineColor(): string {
-    const color = resolveCssVariable('--sky-theme-color-viz-axis');
-    // console.log('SKY UX Axis Line Color:', color);
-    return color || '#85888d'; // Fallback to gray-250
+    const color = resolveCssVariable('--sky-theme-color-viz-axis', '#85888d');
+    return color;
   },
 
   get axisGridLineColor(): string {
@@ -44,33 +41,28 @@ export const SkyuxChartStyles = {
   },
 
   get axisTickColor(): string {
-    const color = resolveCssVariable('--sky-color-text-default');
-    // console.log('SKY UX Axis Tick Color:', color);
-    return color || '#252b33'; // Fallback to gray-900
+    const color = resolveCssVariable('--sky-color-text-default', '#252b33');
+    return color;
   },
 
   get axisTickFontSize(): number {
-    const size = resolveCssVariable('--sky-font-size-body-s');
-    // console.log('SKY UX Axis Tick Font Size:', size);
-    return remToPixels(size || '13px'); // Fallback
+    const size = resolveCssVariable('--sky-font-size-body-s', '13px');
+    return remToPixels(size);
   },
 
   get axisTickFontWeight(): number {
-    const weight = resolveCssVariable('--sky-font-style-body-s');
-    // console.log('SKY UX Axis Tick Font Weight:', weight);
-    return Number(weight) || 400; // Fallback
+    const weight = resolveCssVariable('--sky-font-style-body-s', '400');
+    return Number(weight);
   },
 
   get axisTickPaddingX(): number {
-    const space = resolveCssVariable('--sky-space-gap-label-m');
-    // console.log('SKY UX Axis Tick Padding (X):', space);
-    return remToPixels(space || '0.5rem'); // Fallback to 8px
+    const space = resolveCssVariable('--sky-space-gap-label-m', '0.5rem');
+    return remToPixels(space);
   },
 
   get axisTickPaddingY(): number {
-    const space = resolveCssVariable('--sky-space-gap-label-m');
-    // console.log('SKY UX Axis Tick Padding (Y):', space);
-    return remToPixels(space || '0.5rem'); // Fallback to 8px
+    const space = resolveCssVariable('--sky-space-gap-label-m', '0.5rem');
+    return remToPixels(space);
   },
 
   get axisTickLengthX(): number {
@@ -94,79 +86,12 @@ export const SkyuxChartStyles = {
   },
 
   // =============================================================================
-  // LEGEND
-  // =============================================================================
-  get legendBackground(): string {
-    const family = resolveCssVariable(
-      '--sky-background-color-container-default',
-    );
-    return family || '#ffffff';
-  },
-
-  get legendTextColor(): string {
-    return resolveCssVariableToHex('--sky-color-text-deemphasized');
-  },
-
-  // Legend label styling for chart style demonstrations
-  get legendLabelFontSize(): number {
-    return 13;
-  },
-
-  get legendLabelFontWeight(): string {
-    return '400';
-  },
-
-  get legendLabelFontFamily(): string {
-    return 'BLKB Sans, Arial, sans-serif';
-  },
-
-  get legendLabelColor(): string {
-    return '#51555C';
-  },
-
-  get legendPointSize(): number {
-    const size = resolveCssVariable('--sky-size-icon-xs');
-    // console.log('SKY UX Legend Point Size:', size);
-    return remToPixels(size || '12px'); // Fallback
-  },
-
-  get legendLabelsPadding(): number {
-    const space = resolveCssVariable('--sky-space-gap-action_group-l');
-    // console.log('SKY UX Legend Labels Padding:', space);
-    return remToPixels(space || '8px'); // Fallback
-  },
-
-  get legendFontSize(): number {
-    const size = resolveCssVariable('--sky-font-size-body-s');
-    // console.log('SKY UX Legend Font Size:', size);
-    return remToPixels(size || '13px'); // Fallback
-  },
-
-  get legendFontWeight(): number {
-    const weight = resolveCssVariable('--sky-font-style-body-s');
-    // console.log('SKY UX Legend Font Weight:', weight);
-    return Number(weight) || 400; // Fallback
-  },
-
-  get legendFontFamily(): string {
-    const family = resolveCssVariable('--sky-font-family-primary');
-    // console.log('SKY UX Legend Font Family:', family);
-    return family || 'Blackbaud Sans, Arial, sans-serif'; // Fallback
-  },
-
-  get legendFontLineHeight(): string {
-    const lineHeight = resolveCssVariable('--sky-font-line_height-body-s');
-    // console.log('SKY UX Legend Font Line Height:', lineHeight);
-    return lineHeight || '1.5'; // Fallback
-  },
-
-  // =============================================================================
   // SCALE TITLES (Axis Labels)
   // =============================================================================
 
   get scaleTitleFontSize(): number {
-    const size = resolveCssVariable('--sky-font-size-body-s');
-    return remToPixels(size || '13px'); // Fallback
+    const size = resolveCssVariable('--sky-font-size-body-s', '13px');
+    return remToPixels(size);
   },
 
   get scaleTitleFontFamily(): string {
@@ -174,7 +99,8 @@ export const SkyuxChartStyles = {
   },
 
   get scaleTitleColor(): string {
-    return resolveCssVariableToHex('--sky-color-text-deemphasized');
+    const color = resolveCssVariable('--sky-text-color-deemphasized');
+    return color;
   },
 
   get scaleTitlePaddingTop(): number {
@@ -183,28 +109,24 @@ export const SkyuxChartStyles = {
 
   // X-axis title padding (top and bottom)
   get scaleXTitlePaddingTop(): number {
-    const space = resolveCssVariable('--sky-space-stacked-0');
-    // console.log('SKY UX Scale X Title Padding Top:', space);
-    return remToPixels(space || '0px'); // Fallback
+    const space = resolveCssVariable('--sky-space-stacked-0', '0px');
+    return remToPixels(space);
   },
 
   get scaleXTitlePaddingBottom(): number {
-    const space = resolveCssVariable('--sky-space-stacked-l');
-    // console.log('SKY UX Scale X Title Padding Bottom:', space);
-    return remToPixels(space || '16px'); // Fallback
+    const space = resolveCssVariable('--sky-space-stacked-l', '16px');
+    return remToPixels(space);
   },
 
   // Y-axis title padding (right and left)
   get scaleYTitlePaddingRight(): number {
-    const space = resolveCssVariable('--sky-space-inline-0');
-    // console.log('SKY UX Scale Y Title Padding Right:', space);
-    return remToPixels(space || '0px'); // Fallback
+    const space = resolveCssVariable('--sky-space-inline-0', '0px');
+    return remToPixels(space);
   },
 
   get scaleYTitlePaddingLeft(): number {
-    const space = resolveCssVariable('--sky-space-inline-l');
-    // console.log('SKY UX Scale Y Title Padding Left:', space);
-    return remToPixels(space || '16px'); // Fallback
+    const space = resolveCssVariable('--sky-space-inline-l', '16px');
+    return remToPixels(space);
   },
 
   // =============================================================================
@@ -212,21 +134,21 @@ export const SkyuxChartStyles = {
   // =============================================================================
 
   get barBorderColor(): string {
-    const color = resolveCssVariable('--sky-color-background-container-base');
-    // console.log('SKY UX Bar Border Color:', color);
-    return color || '#ffffff'; // Fallback to white
+    const color = resolveCssVariable(
+      '--sky-color-background-container-base',
+      '#ffffff',
+    );
+    return color;
   },
 
   get barBorderWidth(): number {
-    const width = resolveCssVariable('--sky-border-width-default');
-    // console.log('SKY UX Bar Border Width:', width);
-    return remToPixels(width || '1px'); // Fallback
+    const width = resolveCssVariable('--sky-border-width-default', '1px');
+    return remToPixels(width);
   },
 
   get barBorderRadius(): number {
-    const radius = resolveCssVariable('--sky-border-radius-xs');
-    // console.log('SKY UX Bar Border Radius:', radius);
-    return remToPixels(radius || '2px'); // Fallback
+    const radius = resolveCssVariable('--sky-border-radius-xs', '2px');
+    return remToPixels(radius);
   },
 
   // =============================================================================
@@ -242,9 +164,9 @@ export const SkyuxChartStyles = {
   },
 
   get linePointRadius(): number {
-    const size = resolveCssVariable('--sky-size-icon-xxxs');
-    // console.log('SKY UX Line Point Radius:', size);
-    return remToPixels(size || '4px'); // Fallback
+    const size = resolveCssVariable('--sky-size-icon-xxxs', '4px');
+    const pixels = remToPixels(size);
+    return pixels;
   },
 
   get linePointHoverRadius(): number {
@@ -260,103 +182,100 @@ export const SkyuxChartStyles = {
   // =============================================================================
 
   get tooltipBackgroundColor(): string {
-    const color = resolveCssVariable('--sky-color-background-container-base');
-    // console.log('SKY UX Tooltip Background Color:', color);
-    return color || '#ffffff'; // Fallback to white
+    const color = resolveCssVariable(
+      '--sky-color-background-container-base',
+      '#ffffff',
+    );
+    return color;
   },
 
   get tooltipBorderColor(): string {
-    const color = resolveCssVariable('--sky-color-border-container-base');
-    // console.log('SKY UX Tooltip Border Color:', color);
-    return color || '#c2c4c6'; // Fallback to gray-300
+    const color = resolveCssVariable(
+      '--sky-color-border-container-base',
+      '#c2c4c6',
+    );
+    return color;
   },
 
   get tooltipBorderWidth(): number {
-    const width = resolveCssVariable('--sky-border-width-container-base');
-    // console.log('SKY UX Tooltip Border Width:', width);
-    // Convert border width string (like "1px") to number
-    const numWidth = parseInt(width) || 1;
-    return numWidth; // Fallback to 1px
+    const width = resolveCssVariable(
+      '--sky-border-width-container-base',
+      '1px',
+    );
+    const numWidth = parseInt(width);
+    return numWidth;
   },
 
   get tooltipTitleColor(): string {
-    const color = resolveCssVariable('--sky-color-text-default');
-    // console.log('SKY UX Tooltip Title Color:', color);
-    return color || '#252b33'; // Fallback to gray-900
+    const color = resolveCssVariable('--sky-color-text-default', '#252b33');
+    return color;
   },
 
   get tooltipBodyColor(): string {
-    const color = resolveCssVariable('--sky-color-text-default');
-    // console.log('SKY UX Tooltip Body Color:', color);
-    return color || '#252b33'; // Fallback to gray-900
+    const color = resolveCssVariable('--sky-color-text-default', '#252b33');
+    return color;
   },
 
   get tooltipPadding(): number {
-    const space = resolveCssVariable('--sky-space-inset-balanced-m');
-    // console.log('SKY UX Tooltip Padding:', space);
-    return remToPixels(space || '8px'); // Fallback
+    const space = resolveCssVariable('--sky-space-inset-balanced-m', '8px');
+    return remToPixels(space);
   },
 
   get tooltipTitleMarginBottom(): number {
-    const space = resolveCssVariable('--sky-space-stacked-s');
-    // console.log('SKY UX Tooltip Title Margin Bottom:', space);
-    return remToPixels(space || '8px'); // Fallback
+    const space = resolveCssVariable('--sky-space-stacked-s', '8px');
+    return remToPixels(space);
   },
 
   get tooltipBodySpacing(): number {
-    const space = resolveCssVariable('--sky-space-stacked-xs');
-    // console.log('SKY UX Tooltip Body Spacing:', space);
-    return remToPixels(space || '4px'); // Fallback
+    const space = resolveCssVariable('--sky-space-stacked-xs', '4px');
+    return remToPixels(space);
   },
 
   get tooltipCaretSize(): number {
-    const size = resolveCssVariable('--sky-size-icon-xxs');
-    // console.log('SKY UX Tooltip Caret Size:', size);
-    return remToPixels(size || '8px'); // Fallback
+    const size = resolveCssVariable('--sky-size-icon-xxs', '8px');
+    return remToPixels(size);
   },
 
   get tooltipTitleFontSize(): number {
-    const size = resolveCssVariable('--sky-font-size-body-m');
-    // console.log('SKY UX Tooltip Title Font Size:', size);
-    return remToPixels(size || '15px'); // Fallback
+    const size = resolveCssVariable('--sky-font-size-body-m', '15px');
+    return remToPixels(size);
   },
 
   get tooltipTitleFontWeight(): number {
-    const weight = resolveCssVariable('--sky-font-style-emphasized');
-    // console.log('SKY UX Tooltip Title Font Weight:', weight);
-    return Number(weight) || 600; // Fallback
+    const weight = resolveCssVariable('--sky-font-style-emphasized', '600');
+    return Number(weight);
   },
 
   get tooltipBodyFontSize(): number {
-    const size = resolveCssVariable('--sky-font-size-body-m');
-    // console.log('SKY UX Tooltip Body Font Size:', size);
-    return remToPixels(size || '15px'); // Fallback
+    const size = resolveCssVariable('--sky-font-size-body-m', '15px');
+    return remToPixels(size);
   },
 
   get tooltipBodyFontWeight(): number {
-    const weight = resolveCssVariable('--sky-font-style-body-m');
-    // console.log('SKY UX Tooltip Body Font Weight:', weight);
-    return Number(weight) || 400; // Fallback
+    const weight = resolveCssVariable('--sky-font-style-body-m', '400');
+    return Number(weight);
   },
 
   get tooltipFooterFontSize(): number {
-    const size = resolveCssVariable('--sky-font-size-body-m');
-    return remToPixels(size || '15px'); // Fallback
+    const size = resolveCssVariable('--sky-font-size-body-m', '15px');
+    return remToPixels(size);
   },
 
   get tooltipFooterFontWeight(): number {
-    const weight = resolveCssVariable('--sky-font-style-body-m');
-    return Number(weight) || 400; // Fallback
+    const weight = resolveCssVariable('--sky-font-style-body-m', '400');
+    return Number(weight);
   },
 
   get tooltipBoxPadding(): number {
-    const space = resolveCssVariable('--sky-space-gap-label-s');
-    // console.log('SKY UX Tooltip Box Padding:', space);
-    return remToPixels(space || '4px'); // Fallback
+    const space = resolveCssVariable('--sky-space-gap-label-s', '4px');
+    return remToPixels(space);
   },
 
   get tooltipShadowColor(): string {
-    const shadowVar = resolveCssVariable('--sky-elevation-overlay-100');
+    const shadowVar = resolveCssVariable(
+      '--sky-elevation-overlay-100',
+      '0 0 5px 0 rgba(0, 0, 0, 0.3);',
+    );
     const baseShadowColor =
       extractShadowColor(shadowVar) || 'rgba(0, 0, 0, 0.15)';
     const overrideColor =
@@ -366,8 +285,8 @@ export const SkyuxChartStyles = {
   },
 
   get tooltipCornerRadius(): number {
-    const space = resolveCssVariable('--sky-border-radius-s');
-    return remToPixels(space || '4px'); // Fallback
+    const space = resolveCssVariable('--sky-border-radius-s', '4px');
+    return remToPixels(space);
   },
 
   // =============================================================================
@@ -375,14 +294,16 @@ export const SkyuxChartStyles = {
   // =============================================================================
 
   get fontFamily(): string {
-    const family = resolveCssVariable('--sky-font-family-primary');
-    // console.log('SKY UX Font Family:', family);
-    return family || 'Blackbaud Sans, Arial, sans-serif'; // Fallback
+    const family = resolveCssVariable(
+      '--sky-font-family-primary',
+      'Blackbaud Sans, Arial, sans-serif',
+    );
+    return family;
   },
 
   get markerColor(): string {
-    const color = resolveCssVariable('--sky-theme-color-viz-marker');
-    return color || '#252b33'; // Fallback to gray-900
+    const color = resolveCssVariable('--sky-theme-color-viz-marker', '#252b33');
+    return color;
   },
 
   // =============================================================================
@@ -390,9 +311,8 @@ export const SkyuxChartStyles = {
   // =============================================================================
 
   get chartPadding(): number {
-    const space = resolveCssVariable('--sky-space-inset-balanced-none');
-    // console.log('SKY UX Chart Padding:', space);
-    return remToPixels(space || '4px'); // Fallback to 4px
+    const space = resolveCssVariable('--sky-space-inset-balanced-none', '4px');
+    return remToPixels(space);
   },
 
   get focusIndicatorColor(): string {
@@ -402,73 +322,108 @@ export const SkyuxChartStyles = {
   },
 
   get hoverIndicatorBorderWidth(): number {
-    const width = resolveCssVariable('--sky-border-width-action-hover');
-    console.log('SKY UX Hover Border Width:', width);
-    return remToPixels(width || '1px'); // TODO: set fallback value
+    const width = resolveCssVariable('--sky-border-width-action-hover', '1px');
+    return remToPixels(width);
   },
 
   get hoverIndicatorBorderColor(): string {
     const color = resolveCssVariable(
       '--sky-color-border-action-tertiary-hover',
+      '#2b6bd5',
     );
-    console.log('SKY UX Hover Color:', color);
-    return color || '#c2c4c6'; // TODO: set fallback value
+    return color;
   },
 
   get hoverIndicatorBackgroundColor(): string {
     const color = resolveCssVariable(
       '--sky-color-background-action-tertiary-hover',
+      '#f4f8fd',
     );
-    console.log('SKY UX Hover Background Color:', color);
-    return color || '#f0f1f2'; // TODO: set fallback value
+    return color;
   },
 
   get activeIndicatorBorderWidth(): number {
-    const width = resolveCssVariable('--sky-border-width-action-active');
-    console.log('SKY UX Active Border Width:', width);
-    return remToPixels(width || '1px'); // TODO: set fallback value
+    const width = resolveCssVariable('--sky-border-width-action-active', '2px');
+    return remToPixels(width);
   },
 
   get activeIndicatorBorderColor(): string {
     const color = resolveCssVariable(
       '--sky-color-border-action-tertiary-active',
+      '#2b6bd5',
     );
-    console.log('SKY UX Active Color:', color);
-    return color || '#c2c4c6'; // TODO: set fallback value
+    return color;
   },
 
   get activeIndicatorBackgroundColor(): string {
     const color = resolveCssVariable(
       '--sky-color-background-action-tertiary-active',
+      '#eef3fc',
     );
-    console.log('SKY UX Active Background Color:', color);
-    return color || '#f0f1f2'; // TODO: set fallback value
+    return color;
   },
 
   get focusIndicatorBorderWidth(): number {
-    const width = resolveCssVariable('--sky-border-width-action-focus');
-    console.log('SKY UX Focus Border Width:', width);
-    return remToPixels(width || '1px'); // TODO: set fallback value
+    const width = resolveCssVariable('--sky-border-width-action-focus', '2px');
+    return remToPixels(width);
   },
 
   get focusIndicatorBorderColor(): string {
     const color = resolveCssVariable(
       '--sky-color-border-action-tertiary-focus',
+      '#2b6bd5',
     );
-    console.log('SKY UX Focus Color:', color);
-    return color || '#c2c4c6'; // TODO: set fallback value
+    return color;
   },
 
   get focusIndicatorBackgroundColor(): string {
     const color = resolveCssVariable(
       '--sky-color-background-action-tertiary-focus',
+      'rgba(0, 0, 0, 0)',
     );
-    console.log('SKY UX Focus Background Color:', color);
-    return color || '#f0f1f2'; // TODO: set fallback value
+    return color;
   },
 };
 
 // #region Private helper functions
+
+/**
+ * Resolve a CSS custom property value with an optional fallback
+ * @see https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/var
+ *
+ * @param varName Required. The variable name (must start with two dashes)
+ * @param fallbackValue Optional. The fallback value (used if the variable is not found)
+ * @returns The resolved CSS variable value, or the fallback if not found. Returns empty string if neither is found.
+ */
+function resolveCssVariable(varName: string, fallbackValue?: string): string {
+  // Try to get from body first (where theme classes are typically applied)
+  let value = window
+    .getComputedStyle(document.body)
+    .getPropertyValue(varName)
+    .trim();
+
+  // Fallback to document element
+  if (!value) {
+    value = window
+      .getComputedStyle(document.documentElement)
+      .getPropertyValue(varName)
+      .trim();
+  }
+
+  if (value === '') {
+    if (!fallbackValue) {
+      console.warn(
+        `CSS custom property not found and default was not provided`,
+        varName,
+      );
+      return '';
+    } else {
+      return fallbackValue;
+    }
+  }
+
+  return value;
+}
 
 /**
  * Convert rem values to pixels
@@ -488,62 +443,6 @@ function remToPixels(remValue: string): number {
 
   // Try to parse as pixels
   return parseInt(remValue) || 0;
-}
-
-/**
- * Resolve CSS custom property value
- * Checks both document body and document element for theme classes
- */
-function resolveCssVariable(varName: string): string {
-  if (typeof document === 'undefined') {
-    return ''; // Return empty for SSR
-  }
-
-  // Try to get from body first (where theme classes are typically applied)
-  let value = window
-    .getComputedStyle(document.body)
-    .getPropertyValue(varName)
-    .trim();
-
-  // Fallback to document element
-  if (!value) {
-    value = window
-      .getComputedStyle(document.documentElement)
-      .getPropertyValue(varName)
-      .trim();
-  }
-
-  return value || '';
-}
-
-/**
- * Convert CSS color value (rgb, rgba, or hex) to hex format
- */
-function colorToHex(color: string): string {
-  // If already hex, return as-is
-  if (color.startsWith('#')) {
-    return color;
-  }
-
-  // Handle rgb/rgba format
-  const rgbMatch = color.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
-  if (rgbMatch) {
-    const r = parseInt(rgbMatch[1]).toString(16).padStart(2, '0');
-    const g = parseInt(rgbMatch[2]).toString(16).padStart(2, '0');
-    const b = parseInt(rgbMatch[3]).toString(16).padStart(2, '0');
-    return `#${r}${g}${b}`;
-  }
-
-  // Fallback to original color
-  return color;
-}
-
-/**
- * Resolve CSS custom property and convert to hex value
- */
-function resolveCssVariableToHex(varName: string): string {
-  const colorValue = resolveCssVariable(varName);
-  return colorToHex(colorValue);
 }
 
 function extractShadowColor(shadowValue: string): string | null {
