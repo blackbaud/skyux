@@ -12,8 +12,6 @@
       "options": {
         "allowedCommonJsDependencies": [
           "autonumeric",
-          "dragula",
-          "ng2-dragula",
           "moment",
           "google-libphonenumber",
           "fontfaceobserver"
@@ -21,7 +19,7 @@
         "outputPath": "dist/apps/playground",
         "index": "apps/playground/src/index.html",
         "main": "apps/playground/src/main.ts",
-        "polyfills": ["zone.js", "libs/components/packages/src/polyfills.js"],
+        "polyfills": ["zone.js"],
         "tsConfig": "apps/playground/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [

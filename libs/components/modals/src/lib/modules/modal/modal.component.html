@@ -26,18 +26,12 @@
     >
       <div #headerId="skyId" class="sky-modal-header-content" skyId>
         @if (headingText) {
-          <sky-modal-header>
-            {{ headingText }}
-            @if (helpKey || helpPopoverContent) {
-              <sky-help-inline
-                class="sky-control-help"
-                [helpKey]="helpKey"
-                [labelText]="headingText"
-                [popoverContent]="helpPopoverContent"
-                [popoverTitle]="helpPopoverTitle"
-              />
-            }
-          </sky-modal-header>
+          <sky-modal-header-internal
+            [headingText]="headingText"
+            [helpKey]="helpKey"
+            [helpPopoverContent]="helpPopoverContent"
+            [helpPopoverTitle]="helpPopoverTitle"
+          />
         } @else {
           <ng-content select="sky-modal-header" />
         }

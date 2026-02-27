@@ -28,17 +28,7 @@
     "@skyux/theme": "0.0.0-PLACEHOLDER"
   },
   "dependencies": {
-    "@types/dragula": "2.1.39",
-    "dragula": "3.7.3",
-    "ng2-dragula": "6.0.0",
     "tslib": "^2.8.1"
   },
-  "sideEffects": false,
-  "overrides": {
-    "ng2-dragula@5.1.0": {
-      "@angular/animations": ">=19.0.0",
-      "@angular/core": ">=19.0.0",
-      "@angular/common": ">=19.0.0"
-    }
-  }
+  "sideEffects": false
 }

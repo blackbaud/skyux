@@ -21,7 +21,7 @@
     data-sky-id="validatorPopover"
     popoverType="danger"
   >
-    {{ validatorMessage }}
+    {{ validatorMessage() }}
   </sky-popover>
 } @else {
   <ng-container *ngTemplateOutlet="displayValue" />

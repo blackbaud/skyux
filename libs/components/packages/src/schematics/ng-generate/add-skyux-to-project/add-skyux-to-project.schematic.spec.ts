@@ -56,93 +56,10 @@ describe(SCHEMATIC_NAME, () => {
     ).toEqual([
       '@skyux/icons',
       'autonumeric',
-      'dom-autoscroller',
-      'dragula',
       'fontfaceobserver',
       'intl-tel-input',
       'moment',
     ]);
-  });
-
-  it('should set polyfills in workspace config', async () => {
-    const { runSchematic } = await setup({ projectType: 'application' });
-
-    const updatedTree = await runSchematic({ project: 'my-project' });
-    const angularJson = new JsonFile(updatedTree, '/angular.json');
-
-    expect(
-      angularJson.get([
-        'projects',
-        'my-project',
-        'architect',
-        'build',
-        'options',
-        'polyfills',
-      ]),
-    ).toEqual(['zone.js', '@skyux/packages/polyfills']);
-
-    expect(
-      angularJson.get([
-        'projects',
-        'my-project',
-        'architect',
-        'test',
-        'options',
-        'polyfills',
-      ]),
-    ).toEqual(['zone.js', 'zone.js/testing', '@skyux/packages/polyfills']);
-  });
-
-  it('should handle existing polyfills set to a string', async () => {
-    const { runSchematic, tree } = await setup({ projectType: 'application' });
-
-    const angularJson = new JsonFile(tree, '/angular.json');
-    angularJson.modify(
-      ['projects', 'my-project', 'architect', 'build', 'options', 'polyfills'],
-      'my-polyfills.js',
-    );
-
-    const updatedTree = await runSchematic({ project: 'my-project' });
-    const updatedAngularJson = new JsonFile(updatedTree, '/angular.json');
-
-    expect(
-      updatedAngularJson.get([
-        'projects',
-        'my-project',
-        'architect',
-        'build',
-        'options',
-        'polyfills',
-      ]),
-    ).toEqual(['my-polyfills.js', '@skyux/packages/polyfills']);
-  });
-
-  it('should handle existing polyfills undefined', async () => {
-    const { runSchematic, tree } = await setup({ projectType: 'application' });
-
-    const angularJson = new JsonFile(tree, '/angular.json');
-    angularJson.remove([
-      'projects',
-      'my-project',
-      'architect',
-      'build',
-      'options',
-      'polyfills',
-    ]);
-
-    const updatedTree = await runSchematic({ project: 'my-project' });
-    const updatedAngularJson = new JsonFile(updatedTree, '/angular.json');
-
-    expect(
-      updatedAngularJson.get([
-        'projects',
-        'my-project',
-        'architect',
-        'build',
-        'options',
-        'polyfills',
-      ]),
-    ).toEqual(['@skyux/packages/polyfills']);
   });
 
   it('should set styles in workspace config', async () => {
