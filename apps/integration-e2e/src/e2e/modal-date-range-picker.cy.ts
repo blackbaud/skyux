@@ -16,7 +16,7 @@ describe('Modal Date range picker', () => {
         .should('be.visible')
         .should('contain.text', 'Open modal')
         .click();
-      cy.get('sky-modal-header')
+      cy.get('.sky-modal-header')
         .should('be.visible')
         .should('contain', 'Date range picker inside a Modal');
       cy.get('.sky-date-range-picker-form-group')

@@ -78,7 +78,7 @@ describe(`ag-grid-storybook data manager`, () => {
           // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.wait(1000).get('.sky-col-picker-btn').click();
 
-          cy.get('sky-modal-header')
+          cy.get('.sky-modal-header')
             .should('exist')
             .should('be.visible')
             .click();
