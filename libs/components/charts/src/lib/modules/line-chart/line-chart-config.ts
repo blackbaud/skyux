@@ -59,7 +59,7 @@ export function getChartJsLineChartConfig(
           const dataset = skyConfig.series[datasetIndex];
           const dataPoint = dataset.data[dataIndex];
 
-          // TODO: Localization
+          // TODO: Chart Localization
           return `${dataset.label}: ${dataPoint.label}`;
         },
       },
