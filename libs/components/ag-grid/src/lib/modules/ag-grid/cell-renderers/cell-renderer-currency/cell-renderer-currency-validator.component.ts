@@ -29,9 +29,7 @@ import { SkyAgGridCellRendererCurrencyComponent } from './cell-renderer-currency
     SkyAgGridCellRendererCurrencyComponent,
   ],
 })
-export class SkyAgGridCellRendererCurrencyValidatorComponent
-  implements ICellRendererAngularComp
-{
+export class SkyAgGridCellRendererCurrencyValidatorComponent implements ICellRendererAngularComp {
   @Input()
   public set parameters(value: SkyCellRendererCurrencyParams) {
     this.agInit(value);

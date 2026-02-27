@@ -47,9 +47,8 @@ describe('get-documentation-config', () => {
 
     setup({ documentationConfig });
 
-    const { getDocumentationConfig } = await import(
-      './get-documentation-config'
-    );
+    const { getDocumentationConfig } =
+      await import('./get-documentation-config');
 
     const result = getDocumentationConfig();
 

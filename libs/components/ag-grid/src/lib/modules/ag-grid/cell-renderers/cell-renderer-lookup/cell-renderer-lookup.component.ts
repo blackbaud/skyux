@@ -19,9 +19,7 @@ import { SkyCellRendererLookupParams } from '../../types/cell-renderer-lookup-pa
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkyI18nModule],
 })
-export class SkyAgGridCellRendererLookupComponent
-  implements ICellRendererAngularComp
-{
+export class SkyAgGridCellRendererLookupComponent implements ICellRendererAngularComp {
   protected value = '';
   protected summaryCount = 0;
 

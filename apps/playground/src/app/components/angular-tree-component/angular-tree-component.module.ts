@@ -12,9 +12,9 @@ const routes: Routes = [
   {
     path: 'angular-tree-component-state',
     loadComponent: () =>
-      import(
-        './angular-tree-component-state/angular-tree-component-state.component'
-      ).then((m) => m.AngularTreeComponentStateComponent),
+      import('./angular-tree-component-state/angular-tree-component-state.component').then(
+        (m) => m.AngularTreeComponentStateComponent,
+      ),
     data: {
       name: 'Angular tree component state',
       icon: 'cube-tree',
