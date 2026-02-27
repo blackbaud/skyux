@@ -17,9 +17,7 @@ import { ModalComponent } from './modal.component';
   selector: 'app-modals-modal-basic-with-harness-help-key-example',
   templateUrl: './example.component.html',
 })
-export class ModalsModalBasicWithHarnessHelpKeyExampleComponent
-  implements OnDestroy
-{
+export class ModalsModalBasicWithHarnessHelpKeyExampleComponent implements OnDestroy {
   protected modalSize = 'medium';
   protected exampleValue: string | null | undefined;
 

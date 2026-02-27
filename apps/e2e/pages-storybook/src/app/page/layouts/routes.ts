@@ -45,9 +45,7 @@ export default [
   {
     path: 'blocks-tile-dashboard',
     loadComponent: () =>
-      import(
-        './blocks-tile-dashboard-page/blocks-tile-dashboard-page.component'
-      ),
+      import('./blocks-tile-dashboard-page/blocks-tile-dashboard-page.component'),
     data: {
       name: 'Page (Blocks - tile dashboard)',
       icon: 'list',
@@ -57,9 +55,7 @@ export default [
   {
     path: 'blocks-tile-dashboard-with-links',
     loadComponent: () =>
-      import(
-        './blocks-tile-dashboard-page/blocks-tile-dashboard-page.component'
-      ),
+      import('./blocks-tile-dashboard-page/blocks-tile-dashboard-page.component'),
     data: {
       showLinks: true,
     },

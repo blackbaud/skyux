@@ -11,9 +11,7 @@ import { Item } from './item';
   templateUrl: './dashboards-grid-context-menu.component.html',
   imports: [SkyDropdownModule],
 })
-export class DashboardGridContextMenuComponent
-  implements ICellRendererAngularComp
-{
+export class DashboardGridContextMenuComponent implements ICellRendererAngularComp {
   protected dashboardName = '';
 
   public agInit(params: ICellRendererParams<Item>): void {

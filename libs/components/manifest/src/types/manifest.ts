@@ -66,8 +66,7 @@ export interface SkyManifestCodeExamples {
  * Information about a parent type definition used for documentation purposes.
  * @internal
  */
-export interface SkyManifestDocumentationTypeDefinition
-  extends SkyManifestParentDefinition {
+export interface SkyManifestDocumentationTypeDefinition extends SkyManifestParentDefinition {
   packageName: string;
 }
 
