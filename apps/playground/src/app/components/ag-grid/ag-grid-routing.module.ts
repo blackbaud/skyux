@@ -50,6 +50,10 @@ const routes: Routes = [
         (m) => m.ReadonlyGridModule,
       ),
   },
+  {
+    path: 'test',
+    loadChildren: () => import('./test/test.module').then((m) => m.TestModule),
+  },
 ];
 
 @NgModule({
