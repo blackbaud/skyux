@@ -41,6 +41,7 @@ import { SkyAgGridCellRendererLookupComponent } from './cell-renderers/cell-rend
 import { SkyAgGridCellRendererRowSelectorComponent } from './cell-renderers/cell-renderer-row-selector/cell-renderer-row-selector.component';
 import { SkyAgGridCellRendererTemplateComponent } from './cell-renderers/cell-renderer-template/cell-renderer-template.component';
 import { SkyAgGridCellRendererValidatorTooltipComponent } from './cell-renderers/cell-renderer-validator-tooltip/cell-renderer-validator-tooltip.component';
+import { SkyAgGridColumnFilterDatepickerComponent } from './column-filters/column-filter-datepicker/column-filter-datepicker.component';
 import { SkyAgGridHeaderGroupComponent } from './header/header-group.component';
 import { SkyAgGridHeaderRowSelectorComponent } from './header/header-row-selector/header-row-selector.component';
 import { SkyAgGridHeaderComponent } from './header/header.component';
@@ -519,6 +520,7 @@ export class SkyAgGridService {
       },
       defaultColDef: {
         cellClassRules: editableCellClassRules,
+        dateComponent: SkyAgGridColumnFilterDatepickerComponent,
         headerClass: getHeaderClass(),
         headerComponent: SkyAgGridHeaderComponent,
         minWidth: 100,

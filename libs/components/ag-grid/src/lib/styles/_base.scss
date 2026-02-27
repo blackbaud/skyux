@@ -26,6 +26,22 @@
     cursor: initial;
   }
 
+  .ag-header-row.ag-header-row-filter > .ag-header-cell.ag-floating-filter {
+    padding-block: 0;
+    padding-inline-start: 0;
+
+    .ag-floating-filter-input > *,
+    .ag-date-floating-filter-wrapper {
+      height: 100%;
+
+      .ag-input-field-input {
+        appearance: none;
+        border-radius: 0;
+        height: calc(var(--ag-header-height) - 2px);
+      }
+    }
+  }
+
   .ag-layout-auto-height .ag-body .ag-center-cols-viewport {
     min-height: var(--sky-ag-grid-min-height, 50px);
   }

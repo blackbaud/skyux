@@ -2,12 +2,14 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   ElementRef,
   HostListener,
   ViewChild,
   ViewEncapsulation,
   inject,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -62,9 +64,10 @@ export class SkyAgGridCellEditorDatepickerComponent implements ICellEditorAngula
   #params: SkyCellEditorDatepickerParams | undefined;
   #triggerType: SkyAgGridCellEditorInitialAction | undefined;
 
-  #elementRef = inject(ElementRef) as ElementRef<HTMLElement>;
-  #changeDetector = inject(ChangeDetectorRef);
-  #themeSvc = inject(SkyThemeService, { optional: true }) || undefined;
+  readonly #elementRef = inject(ElementRef) as ElementRef<HTMLElement>;
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #destroyRef = inject(DestroyRef);
+  readonly #themeSvc = inject(SkyThemeService, { optional: true }) || undefined;
 
   @HostListener('focusout', ['$event'])
   public onFocusOut(event: FocusEvent): void {
@@ -130,19 +133,22 @@ export class SkyAgGridCellEditorDatepickerComponent implements ICellEditorAngula
     this.rowHeightWithoutBorders = (this.#params.node.rowHeight as number) - 3;
     this.rowNumber = this.#params.rowIndex + 1;
 
-    this.#themeSvc?.settingsChange.subscribe((themeSettings) => {
-      if (themeSettings.currentSettings.theme.name === 'modern') {
-        this.columnWidthWithoutBorders = this.columnWidth;
-        this.rowHeightWithoutBorders = this.#params?.node?.rowHeight;
-      } else {
-        this.columnWidthWithoutBorders =
-          this.columnWidth === undefined ? undefined : this.columnWidth - 2;
-        this.rowHeightWithoutBorders = SkyAgGridCellEditorUtils.subtractOrZero(
-          this.#params?.node.rowHeight,
-          3,
-        );
-      }
-    });
+    this.#themeSvc?.settingsChange
+      ?.pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((themeSettings) => {
+        if (themeSettings.currentSettings.theme.name === 'modern') {
+          this.columnWidthWithoutBorders = this.columnWidth;
+          this.rowHeightWithoutBorders = this.#params?.node?.rowHeight;
+        } else {
+          this.columnWidthWithoutBorders =
+            this.columnWidth === undefined ? undefined : this.columnWidth - 2;
+          this.rowHeightWithoutBorders =
+            SkyAgGridCellEditorUtils.subtractOrZero(
+              this.#params?.node.rowHeight,
+              3,
+            );
+        }
+      });
   }
 
   public isPopup(): boolean {
