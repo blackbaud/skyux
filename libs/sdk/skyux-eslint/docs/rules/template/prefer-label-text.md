@@ -1,6 +1,6 @@
 # skyux-eslint-template/prefer-label-text
 
-Ensures form components set the `labelText` (or `headingText`) attribute, which automatically activates key usability and accessibility features.
+Ensures form components set the `labelText` (or `headingText`) attribute, which automatically activates key usability and accessibility features, including proper ARIA labeling and label-to-control association without requiring manual `id` or `aria-*` attribute management.
 
 Setting `labelText` (or `headingText`) on a component is the preferred, modern approach to labeling SKY UX form components. It replaces older patterns that placed a dedicated label child element (e.g. `<sky-checkbox-label>`, `<sky-input-box><label>`) inside the component.
 
