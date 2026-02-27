@@ -6,7 +6,6 @@ import {
   inject,
   tick,
 } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 
 import { SkyToastBodyTestContext } from './fixtures/toast-body-context';
@@ -31,15 +30,14 @@ describe('Toaster component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkyToastFixturesModule, NoopAnimationsModule],
+      imports: [SkyToastFixturesModule],
       providers: [
         {
           provide: SkyToastContainerOptions,
           useValue: {
             displayDirection: SkyToastDisplayDirection.OldestOnTop,
           } as SkyToastContainerOptions,
-        },
-      ],
+        }],
     });
 
     toasterService = new SkyToasterService();
@@ -50,8 +48,7 @@ describe('Toaster component', () => {
           {
             provide: SkyToasterService,
             useValue: toasterService,
-          },
-        ],
+          }],
       },
     }).createComponent(SkyToasterTestComponent);
   });
@@ -103,8 +100,7 @@ describe('Toaster component', () => {
       {
         provide: SkyToastBodyTestContext,
         useValue: new SkyToastBodyTestContext(message),
-      },
-    ];
+      }];
     const instance = toastService.openComponent(
       SkyToastBodyTestComponent,
       {},

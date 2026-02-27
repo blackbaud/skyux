@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
   SkyHelpTestingController,
   SkyHelpTestingModule,
@@ -35,10 +34,8 @@ describe('Basic toggle switch example', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        NoopAnimationsModule,
         FormsToggleSwitchHelpKeyExampleComponent,
-        SkyHelpTestingModule,
-      ],
+        SkyHelpTestingModule],
     });
   });
 

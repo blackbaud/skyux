@@ -7,7 +7,6 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
   SkyDateRangeCalculation,
   SkyDateRangeCalculator,
@@ -108,9 +107,7 @@ describe('Date range picker harness', () => {
       imports: [
         FormsModule,
         ReactiveFormsModule,
-        SkyDateRangePickerModule,
-        NoopAnimationsModule,
-      ],
+        SkyDateRangePickerModule],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(TestComponent);

@@ -1,7 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component, inject } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
   SkyToastInstance,
   SkyToastModule,
@@ -44,7 +43,7 @@ describe('Toast harness', () => {
     fixture: ComponentFixture<TestComponent>;
   }> {
     await TestBed.configureTestingModule({
-      imports: [TestComponent, CustomComponent, NoopAnimationsModule],
+      imports: [TestComponent, CustomComponent],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(TestComponent);

@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkySelectionModalHarness } from '@skyux/lookup/testing';
 
 import { of } from 'rxjs';
@@ -37,8 +36,7 @@ describe('Selection modal example', () => {
     // Create a mock search service. In a real-world application, the search
     // service would make a web request which should be avoided in unit tests.
     mockSvc = jasmine.createSpyObj<ExampleService>('ExampleService', [
-      'search',
-    ]);
+      'search']);
 
     mockSvc.search.and.callFake((searchText) => {
       return of({
@@ -49,8 +47,7 @@ describe('Selection modal example', () => {
                 {
                   id: '1',
                   name: 'Rachel',
-                },
-              ]
+                }]
             : [],
         totalCount: 1,
       });
@@ -58,9 +55,7 @@ describe('Selection modal example', () => {
 
     TestBed.configureTestingModule({
       imports: [
-        LookupSelectionModalBasicExampleComponent,
-        NoopAnimationsModule,
-      ],
+        LookupSelectionModalBasicExampleComponent],
       providers: [{ provide: ExampleService, useValue: mockSvc }],
     });
   });

@@ -1,7 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -75,15 +74,13 @@ class TestComponent {
           tabHeading: 'Tab 4',
           content: 'Tab 4 content',
           disabled: true,
-        },
-      ],
+        }],
     },
     {
       heading: 'Disabled group',
       isDisabled: true,
       subTabs: [],
-    },
-  ];
+    }];
 }
 interface TabGroup {
   heading: string;
@@ -104,7 +101,7 @@ describe('Vertical Tabset harness', () => {
     fixture: ComponentFixture<TestComponent>;
   }> {
     await TestBed.configureTestingModule({
-      imports: [TestComponent, NoopAnimationsModule],
+      imports: [TestComponent],
       providers: [provideSkyMediaQueryTesting()],
     }).compileComponents();
     const fixture = TestBed.createComponent(TestComponent);

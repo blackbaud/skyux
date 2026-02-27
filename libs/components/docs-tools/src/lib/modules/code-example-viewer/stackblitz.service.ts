@@ -187,8 +187,7 @@ module.exports = function (config) {
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage'),
-      require('@angular-devkit/build-angular/plugins/karma'),
-    ],
+      require('@angular-devkit/build-angular/plugins/karma')],
     client: {
       jasmine: {
         // you can add configuration options for Jasmine here
@@ -314,7 +313,6 @@ import {
   makeEnvironmentProviders,
 } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import { SkyHelpService } from '@skyux/core';
 import { provideInitialTheme } from '@skyux/theme';
 import { provideRouter } from '@angular/router';
@@ -330,18 +328,15 @@ import { ExampleHelpService } from './help.service';
  */
 function provideExampleHelpService(): EnvironmentProviders {
   return makeEnvironmentProviders([
-    { provide: SkyHelpService, useClass: ExampleHelpService },
-  ]);
+    { provide: SkyHelpService, useClass: ExampleHelpService }]);
 }
 
 bootstrapApplication(${config.componentName}, {
   providers: [
-    provideAnimations(),
     provideInitialTheme('modern'),
     provideHttpClient(),
     provideExampleHelpService(),
-    provideRouter([]),
-  ],
+    provideRouter([])],
 }).catch((err) => console.error(err));
 `;
 

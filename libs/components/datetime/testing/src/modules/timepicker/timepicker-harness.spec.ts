@@ -8,7 +8,6 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyTimepickerModule } from '@skyux/datetime';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
@@ -65,9 +64,7 @@ describe('Timepicker harness', () => {
         FormsModule,
         ReactiveFormsModule,
         SkyTimepickerModule,
-        SkyInputBoxModule,
-        NoopAnimationsModule,
-      ],
+        SkyInputBoxModule],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(TestComponent);

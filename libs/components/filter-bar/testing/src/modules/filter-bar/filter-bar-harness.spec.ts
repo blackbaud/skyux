@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyModalInstance, SkyModalService } from '@skyux/modals';
 
 import { of } from 'rxjs';
@@ -17,7 +16,7 @@ describe('Filter bar test harness', () => {
     filterBarHarness: SkyFilterBarHarness;
   }> {
     await TestBed.configureTestingModule({
-      imports: [FilterBarHarnessTestComponent, NoopAnimationsModule],
+      imports: [FilterBarHarnessTestComponent],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(FilterBarHarnessTestComponent);

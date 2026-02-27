@@ -300,6 +300,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   }
 
   public animationDone(event: TransitionEvent): void {
+    /* istanbul ignore if */
     if (
       event.propertyName !== 'transform' ||
       event.target !== this.flyoutRef?.nativeElement

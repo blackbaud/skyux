@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect } from '@skyux-sdk/testing';
 import { SkyWaitService } from '@skyux/indicators';
 import { SkyModalHarness } from '@skyux/modals/testing';
@@ -23,7 +22,7 @@ describe('ModalSplitViewTileDashboardComponent', () => {
     fixture: ComponentFixture<ModalSplitViewTileDashboardComponent>;
   }> {
     TestBed.configureTestingModule({
-      imports: [ModalSplitViewTileDashboardModule, NoopAnimationsModule],
+      imports: [ModalSplitViewTileDashboardModule],
       providers: [
         {
           provide: SkyWaitService,
@@ -32,8 +31,7 @@ describe('ModalSplitViewTileDashboardComponent', () => {
         {
           provide: ModalDemoDataServiceDelay,
           useValue: 0,
-        },
-      ],
+        }],
     });
     const fixture = TestBed.createComponent(
       ModalSplitViewTileDashboardComponent,

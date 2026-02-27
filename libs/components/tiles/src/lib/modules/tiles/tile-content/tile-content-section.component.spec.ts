@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import {
   SkyTheme,
@@ -33,13 +32,12 @@ describe('Tile content section component', () => {
 
     TestBed.configureTestingModule({
       declarations: [TileContentSectionTestComponent],
-      imports: [NoopAnimationsModule, SkyTilesModule],
+      imports: [SkyTilesModule],
       providers: [
         {
           provide: SkyThemeService,
           useValue: mockThemeSvc,
-        },
-      ],
+        }],
     });
   });
 

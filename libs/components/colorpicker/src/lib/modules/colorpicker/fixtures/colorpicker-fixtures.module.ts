@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyHelpTestingModule } from '@skyux/core/testing';
 import { SkyInputBoxModule } from '@skyux/forms';
 
@@ -16,8 +15,6 @@ import { ColorpickerReactiveTestComponent } from './colorpicker-reactive-compone
     ReactiveFormsModule,
     SkyColorpickerModule,
     SkyHelpTestingModule,
-    SkyInputBoxModule,
-    NoopAnimationsModule,
-  ],
+    SkyInputBoxModule],
 })
 export class SkyColorpickerFixturesModule {}

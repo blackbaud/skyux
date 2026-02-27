@@ -9,7 +9,6 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideSkyFileReaderTesting } from '@skyux/core/testing';
 import {
   SkyFileDropModule,
@@ -99,7 +98,7 @@ describe('File drop harness', () => {
     loader: HarnessLoader;
   }> {
     await TestBed.configureTestingModule({
-      imports: [TestComponent, NoopAnimationsModule],
+      imports: [TestComponent],
       providers: [provideSkyFileReaderTesting()],
     }).compileComponents();
 
@@ -125,8 +124,7 @@ describe('File drop harness', () => {
       {
         file: testFile,
         url: jasmine.any(String),
-      },
-    ]);
+      }]);
   });
 
   it('should get accepted types', async () => {
@@ -262,8 +260,7 @@ describe('File drop harness', () => {
     fixture.detectChanges();
 
     await harness.loadFiles([
-      new File([], 'wrongFile.jpg', { type: 'image/jpg' }),
-    ]);
+      new File([], 'wrongFile.jpg', { type: 'image/jpg' })]);
 
     await expectAsync(harness.hasFileTypeError()).toBeResolvedTo(true);
   });
@@ -275,8 +272,7 @@ describe('File drop harness', () => {
     fixture.detectChanges();
 
     await harness.loadFiles([
-      new File([], 'wrongFile.jpg', { type: 'image/jpg' }),
-    ]);
+      new File([], 'wrongFile.jpg', { type: 'image/jpg' })]);
 
     await expectAsync(harness.hasMaxFileSizeError()).toBeResolvedTo(true);
   });
@@ -288,8 +284,7 @@ describe('File drop harness', () => {
     fixture.detectChanges();
 
     await harness.loadFiles([
-      new File([], 'wrongFile.jpg', { type: 'image/jpg' }),
-    ]);
+      new File([], 'wrongFile.jpg', { type: 'image/jpg' })]);
 
     await expectAsync(harness.hasMinFileSizeError()).toBeResolvedTo(true);
   });
@@ -307,8 +302,7 @@ describe('File drop harness', () => {
     fixture.detectChanges();
 
     await harness.loadFiles([
-      new File([], 'aWrongFile.jpg', { type: 'image/jpg' }),
-    ]);
+      new File([], 'aWrongFile.jpg', { type: 'image/jpg' })]);
 
     await expectAsync(harness.hasValidateFnError()).toBeResolvedTo(true);
   });
@@ -393,8 +387,7 @@ describe('File drop harness', () => {
       expect(fixture.componentInstance.fileDrop.value).toEqual([
         {
           url: 'foo.bar',
-        },
-      ]);
+        }]);
     });
   });
 
@@ -404,8 +397,7 @@ describe('File drop harness', () => {
       loader: HarnessLoader,
     ): Promise<SkyFileItemHarness> {
       await harness.loadFiles([
-        new File(['a'.repeat(20)], 'FileName', { type: 'image/png' }),
-      ]);
+        new File(['a'.repeat(20)], 'FileName', { type: 'image/png' })]);
       return await loader.getHarness(SkyFileItemHarness);
     }
     it('should get the file name', async () => {
@@ -445,8 +437,7 @@ describe('File drop harness', () => {
 
       await harness.loadFiles([
         new File(['a'.repeat(20)], 'FileName', { type: 'image/png' }),
-        new File(['a'.repeat(10)], 'OtherFile', { type: 'image/png' }),
-      ]);
+        new File(['a'.repeat(10)], 'OtherFile', { type: 'image/png' })]);
 
       const fileItemHarness = await loader.getHarness(
         SkyFileItemHarness.with({

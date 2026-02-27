@@ -1,7 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
   SkyInlineFormButtonLayout,
   SkyInlineFormConfig,
@@ -46,7 +45,7 @@ describe('Inline form harness', () => {
     fixture: ComponentFixture<TestComponent>;
   }> {
     TestBed.configureTestingModule({
-      imports: [TestComponent, NoopAnimationsModule],
+      imports: [TestComponent],
     });
     const fixture = TestBed.createComponent(TestComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
@@ -131,8 +130,7 @@ describe('Inline form harness', () => {
           text: 'Cancel',
           styleType: 'link',
           action: 'cancel',
-        },
-      ],
+        }],
     };
     fixture.detectChanges();
     fixture.componentInstance.onOpen();
@@ -229,8 +227,7 @@ describe('Inline form harness', () => {
             text: 'Delete',
             styleType: 'default',
             action: 'delete',
-          },
-        ],
+          }],
       };
       fixture.detectChanges();
       fixture.componentInstance.onOpen();
@@ -259,8 +256,7 @@ describe('Inline form harness', () => {
             text: 'Cancel',
             styleType: 'link',
             action: 'cancel',
-          },
-        ],
+          }],
       };
       fixture.detectChanges();
       fixture.componentInstance.onOpen();

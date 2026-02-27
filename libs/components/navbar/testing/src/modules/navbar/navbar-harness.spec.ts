@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NavbarHarnessTestComponent } from './fixtures/navbar-harness-test.component';
 import { SkyNavbarHarness } from './navbar-harness';
@@ -14,7 +13,7 @@ describe('Navbar test harness', () => {
     navbarHarness: SkyNavbarHarness;
   }> {
     await TestBed.configureTestingModule({
-      imports: [NavbarHarnessTestComponent, NoopAnimationsModule],
+      imports: [NavbarHarnessTestComponent],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(NavbarHarnessTestComponent);

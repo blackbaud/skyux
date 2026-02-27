@@ -9,6 +9,7 @@ import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyLogService } from '@skyux/core';
 import { SkyModalHostService, SkyModalService } from '@skyux/modals';
+import { provideNoopSkyAnimations } from '@skyux/theme';
 
 import { SkyAutocompleteMessageType } from '../autocomplete/types/autocomplete-message-type';
 import { SkyAutocompleteSearchArgs } from '../autocomplete/types/autocomplete-search-args';
@@ -542,7 +543,9 @@ describe('Lookup component', function () {
 
   beforeEach(function () {
     TestBed.configureTestingModule({
+      animationsEnabled: true,
       imports: [SkyLookupFixturesModule],
+      providers: [provideNoopSkyAnimations()],
     });
 
     // Confirm all modals are closed before another test is executed.
@@ -870,6 +873,25 @@ describe('Lookup component', function () {
           '.sky-token-btn-close',
         );
         closeTokenButton.click();
+
+        // tick() is required before detectChanges() so Angular processes its
+        // deferred animate.leave class application, which adds sky-token-leave
+        // to the leaving element and keeps it in the DOM until animationend fires.
+        tick();
+        fixture.detectChanges();
+
+        // Dispatch animationend on the leaving token. Angular's animate.leave
+        // keeps the element in the DOM until this event fires, so the
+        // (animationend)="animationDone()" template binding is still active.
+        (
+          fixture.nativeElement.querySelector(
+            'sky-token.sky-token-leave',
+          ) as HTMLElement
+        )?.dispatchEvent(
+          new AnimationEvent('animationend', {
+            animationName: 'sky-token-leave-animation',
+          }),
+        );
         fixture.detectChanges();
         tick();
 
@@ -3957,6 +3979,20 @@ describe('Lookup component', function () {
             SkyAppTestUtility.fireDomEvent(tokensHostElement, 'keyup', {
               keyboardEventInit: { key },
             });
+            tick();
+            fixture.detectChanges();
+
+            // Dispatch animationend on the leaving token so Angular can remove it from the DOM.
+            (
+              document.querySelector(
+                '#my-lookup sky-token.sky-token-leave',
+              ) as HTMLElement
+            )?.dispatchEvent(
+              new AnimationEvent('animationend', {
+                animationName: 'sky-token-leave-animation',
+              }),
+            );
+
             tick();
             fixture.detectChanges();
             tick();
@@ -7378,6 +7414,18 @@ describe('Lookup component', function () {
           });
           tick();
           fixture.detectChanges();
+
+          // Dispatch animationend on the leaving token so Angular can remove it from the DOM.
+          (
+            document.querySelector('sky-token.sky-token-leave') as HTMLElement
+          )?.dispatchEvent(
+            new AnimationEvent('animationend', {
+              animationName: 'sky-token-leave-animation',
+            }),
+          );
+
+          tick();
+          fixture.detectChanges();
           tick();
 
           tokenHostElements = document.querySelectorAll('sky-token');
@@ -7389,6 +7437,18 @@ describe('Lookup component', function () {
           SkyAppTestUtility.fireDomEvent(tokensHostElement, 'keyup', {
             keyboardEventInit: { key: 'Delete' },
           });
+          tick();
+          fixture.detectChanges();
+
+          // Dispatch animationend on the leaving token so Angular can remove it from the DOM.
+          (
+            document.querySelector('sky-token.sky-token-leave') as HTMLElement
+          )?.dispatchEvent(
+            new AnimationEvent('animationend', {
+              animationName: 'sky-token-leave-animation',
+            }),
+          );
+
           tick();
           fixture.detectChanges();
           tick();

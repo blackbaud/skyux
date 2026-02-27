@@ -1,7 +1,6 @@
 import { QueryList } from '@angular/core';
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyUIConfigService } from '@skyux/core';
 import {
@@ -62,9 +61,8 @@ describe('Tile dashboard component', () => {
         {
           provide: SkyThemeService,
           useValue: mockThemeSvc,
-        },
-      ],
-      imports: [NoopAnimationsModule, SkyTileDashboardFixturesModule],
+        }],
+      imports: [SkyTileDashboardFixturesModule],
     });
   });
 
@@ -75,8 +73,7 @@ describe('Tile dashboard component', () => {
           {
             provide: SkyTileDashboardService,
             useValue: mockTileDashboardService,
-          },
-        ],
+          }],
       },
     }).createComponent(TileDashboardTestComponent);
 
@@ -89,8 +86,7 @@ describe('Tile dashboard component', () => {
         {
           id: 'tile-2',
           componentType: Tile2TestComponent,
-        },
-      ],
+        }],
       layout: {
         multiColumn: [
           {
@@ -102,10 +98,8 @@ describe('Tile dashboard component', () => {
               {
                 id: 'tile-1',
                 isCollapsed: false,
-              },
-            ],
-          },
-        ],
+              }],
+          }],
         singleColumn: {
           tiles: [
             {
@@ -115,8 +109,7 @@ describe('Tile dashboard component', () => {
             {
               id: 'tile-1',
               isCollapsed: false,
-            },
-          ],
+            }],
         },
       },
     };
@@ -139,8 +132,7 @@ describe('Tile dashboard component', () => {
           {
             provide: SkyTileDashboardService,
             useValue: mockTileDashboardService,
-          },
-        ],
+          }],
       },
     }).createComponent(TileDashboardTestComponent);
 
@@ -155,8 +147,7 @@ describe('Tile dashboard component', () => {
         {
           id: 'tile-2',
           componentType: Tile2TestComponent,
-        },
-      ],
+        }],
       layout: {
         multiColumn: [
           {
@@ -168,10 +159,8 @@ describe('Tile dashboard component', () => {
               {
                 id: 'tile-1',
                 isCollapsed: false,
-              },
-            ],
-          },
-        ],
+              }],
+          }],
         singleColumn: {
           tiles: [
             {
@@ -181,8 +170,7 @@ describe('Tile dashboard component', () => {
             {
               id: 'tile-1',
               isCollapsed: false,
-            },
-          ],
+            }],
         },
       },
     };
@@ -216,8 +204,7 @@ describe('Tile dashboard component', () => {
           {
             provide: SkyTileDashboardService,
             useValue: mockTileDashboardService,
-          },
-        ],
+          }],
       },
     }).createComponent(TileDashboardAfterInitTestComponent);
 
@@ -227,8 +214,7 @@ describe('Tile dashboard component', () => {
         {
           id: 'tile-1',
           componentType: Tile1TestComponent,
-        },
-      ],
+        }],
       layout: {
         multiColumn: [
           {
@@ -236,17 +222,14 @@ describe('Tile dashboard component', () => {
               {
                 id: 'tile-1',
                 isCollapsed: false,
-              },
-            ],
-          },
-        ],
+              }],
+          }],
         singleColumn: {
           tiles: [
             {
               id: 'tile-1',
               isCollapsed: false,
-            },
-          ],
+            }],
         },
       },
     };
@@ -370,8 +353,7 @@ describe('Tile dashboard component', () => {
               useValue: {
                 id: 3,
               },
-            },
-          ],
+            }],
         },
         {
           id: 'sky-test-tile-3',
@@ -382,8 +364,7 @@ describe('Tile dashboard component', () => {
               useValue: {
                 id: 3,
               },
-            },
-          ],
+            }],
         },
         {
           id: 'sky-test-tile-4',
@@ -394,10 +375,8 @@ describe('Tile dashboard component', () => {
               useValue: {
                 id: 3,
               },
-            },
-          ],
-        },
-      ],
+            }],
+        }],
       layout: {
         singleColumn: {
           tiles: [
@@ -416,8 +395,7 @@ describe('Tile dashboard component', () => {
             {
               id: 'sky-test-tile-4',
               isCollapsed: false,
-            },
-          ],
+            }],
         },
         multiColumn: [
           {
@@ -433,18 +411,15 @@ describe('Tile dashboard component', () => {
               {
                 id: 'sky-test-tile-4',
                 isCollapsed: false,
-              },
-            ],
+              }],
           },
           {
             tiles: [
               {
                 id: 'sky-test-tile-2',
                 isCollapsed: false,
-              },
-            ],
-          },
-        ],
+              }],
+          }],
       },
     };
 
@@ -492,8 +467,7 @@ describe('Tile dashboard component', () => {
               useValue: {
                 id: 3,
               },
-            },
-          ],
+            }],
         },
         {
           id: 'sky-test-tile-3',
@@ -504,8 +478,7 @@ describe('Tile dashboard component', () => {
               useValue: {
                 id: 3,
               },
-            },
-          ],
+            }],
         },
         {
           id: 'sky-test-tile-4',
@@ -516,10 +489,8 @@ describe('Tile dashboard component', () => {
               useValue: {
                 id: 3,
               },
-            },
-          ],
-        },
-      ],
+            }],
+        }],
       layout: {
         singleColumn: {
           tiles: [
@@ -538,8 +509,7 @@ describe('Tile dashboard component', () => {
             {
               id: 'sky-test-tile-4',
               isCollapsed: true,
-            },
-          ],
+            }],
         },
         multiColumn: [
           {
@@ -555,18 +525,15 @@ describe('Tile dashboard component', () => {
               {
                 id: 'sky-test-tile-4',
                 isCollapsed: true,
-              },
-            ],
+              }],
           },
           {
             tiles: [
               {
                 id: 'sky-test-tile-2',
                 isCollapsed: true,
-              },
-            ],
-          },
-        ],
+              }],
+          }],
       },
     };
 

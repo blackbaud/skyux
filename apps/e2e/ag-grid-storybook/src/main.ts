@@ -15,6 +15,5 @@ bootstrapApplication(AppComponent, {
     provideZoneChangeDetection(),
     provideInitialTheme('modern'),
     provideAnimationsAsync(),
-    provideRouter(routes, withEnabledBlockingInitialNavigation()),
-  ],
+    provideRouter(routes, withEnabledBlockingInitialNavigation())],
 }).catch((err) => console.error(err));

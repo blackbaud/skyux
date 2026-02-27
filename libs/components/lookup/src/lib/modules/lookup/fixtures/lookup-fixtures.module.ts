@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SkyInputBoxModule } from '@skyux/forms';
 import {
@@ -43,7 +42,6 @@ export function themeServiceFactory(): any {
     RouterTestingModule,
     SkyInputBoxModule,
     SkyLookupModule,
-    NoopAnimationsModule,
   ],
   exports: [SkyLookupTestComponent, SkyLookupTemplateTestComponent],
   providers: [

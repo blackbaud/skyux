@@ -10,7 +10,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyColorpickerModule } from '@skyux/colorpicker';
 import { SkyFormErrorModule } from '@skyux/forms';
 import {
@@ -118,16 +117,13 @@ describe('Colorpicker harness', () => {
       imports: [
         SkyColorpickerModule,
         SkyFormErrorModule,
-        NoopAnimationsModule,
         FormsModule,
-        ReactiveFormsModule,
-      ],
+        ReactiveFormsModule],
       providers: [
         {
           provide: SkyThemeService,
           useValue: mockThemeSvc,
-        },
-      ],
+        }],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(TestComponent);

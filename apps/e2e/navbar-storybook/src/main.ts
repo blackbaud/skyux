@@ -13,6 +13,5 @@ bootstrapApplication(AppComponent, {
   providers: [
     provideZoneChangeDetection(),
     provideAnimationsAsync(),
-    provideRouter(routes, withEnabledBlockingInitialNavigation()),
-  ],
+    provideRouter(routes, withEnabledBlockingInitialNavigation())],
 }).catch((err) => console.error(err));

@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
 import { SkyLookupHarness } from '@skyux/lookup/testing';
 
@@ -34,13 +33,12 @@ describe('Lookup multi-select example', () => {
     mockSvc = jasmine.createSpyObj<DemoService>('DemoService', ['search']);
 
     TestBed.configureTestingModule({
-      imports: [LookupMultiSelectExampleComponent, NoopAnimationsModule],
+      imports: [LookupMultiSelectExampleComponent],
       providers: [
         {
           provide: DemoService,
           useValue: mockSvc,
-        },
-      ],
+        }],
     });
   });
 
@@ -48,8 +46,7 @@ describe('Lookup multi-select example', () => {
     const { lookupHarness } = await setupTest();
 
     await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([
-      'Shirley',
-    ]);
+      'Shirley']);
   });
 
   it('should update the form control when a favorite name is selected', async () => {
@@ -63,8 +60,7 @@ describe('Lookup multi-select example', () => {
             ? [
                 {
                   name: 'Bernard',
-                },
-              ]
+                }]
             : [],
         totalCount: 1,
       }),
@@ -90,8 +86,7 @@ describe('Lookup multi-select example', () => {
           {
             id: '21',
             name: 'Bernard',
-          },
-        ],
+          }],
         totalCount: 1,
       }),
     );

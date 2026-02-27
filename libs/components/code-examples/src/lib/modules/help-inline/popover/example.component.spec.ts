@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 
 import { HelpInlinePopoverExampleComponent } from './example.component';
@@ -24,7 +23,7 @@ describe('Help inline with popover', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HelpInlinePopoverExampleComponent],
-      providers: [provideNoopAnimations()],
+      providers: [],
     });
   });
 

@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
 import { SkyLookupHarness } from '@skyux/lookup/testing';
 
@@ -91,8 +90,7 @@ const people: Person[] = [
   {
     name: 'Vicki',
     formal: 'Ms. Jenkins',
-  },
-];
+  }];
 
 describe('Lookup custom picker example', () => {
   let mockSvc!: jasmine.SpyObj<DemoService>;
@@ -119,13 +117,12 @@ describe('Lookup custom picker example', () => {
     mockSvc = jasmine.createSpyObj<DemoService>('DemoService', ['search']);
 
     TestBed.configureTestingModule({
-      imports: [LookupCustomPickerExampleComponent, NoopAnimationsModule],
+      imports: [LookupCustomPickerExampleComponent],
       providers: [
         {
           provide: DemoService,
           useValue: mockSvc,
-        },
-      ],
+        }],
     });
   });
 
@@ -133,8 +130,7 @@ describe('Lookup custom picker example', () => {
     const { lookupHarness } = await setupTest();
 
     await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([
-      'Shirley',
-    ]);
+      'Shirley']);
   });
 
   it('should update the form control when a favorite name is selected', async () => {
@@ -147,8 +143,7 @@ describe('Lookup custom picker example', () => {
           {
             name: 'Abed',
             formal: 'Mr. Nadir',
-          },
-        ],
+          }],
         totalCount: 1,
       }),
     );
@@ -165,8 +160,7 @@ describe('Lookup custom picker example', () => {
     expect(fixture.componentInstance.favoritesForm.value.favoriteNames).toEqual(
       [
         { name: 'Shirley', formal: 'Ms. Bennett' },
-        { name: 'Abed', formal: 'Mr. Nadir' },
-      ],
+        { name: 'Abed', formal: 'Mr. Nadir' }],
     );
   });
 
@@ -198,8 +192,7 @@ describe('Lookup custom picker example', () => {
     expect(fixture.componentInstance.favoritesForm.value.favoriteNames).toEqual(
       [
         { name: 'Ben', formal: 'Mr. Chang' },
-        { name: 'Garrett', formal: 'Mr. Lambert' },
-      ],
+        { name: 'Garrett', formal: 'Mr. Lambert' }],
     );
   });
 });

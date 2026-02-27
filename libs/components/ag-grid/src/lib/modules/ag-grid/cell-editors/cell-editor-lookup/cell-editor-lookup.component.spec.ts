@@ -5,7 +5,6 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 import { SkyLookupSelectModeType } from '@skyux/lookup';
 
@@ -29,8 +28,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
     { id: '1', name: 'John Doe', town: 'Daniel Island' },
     { id: '2', name: 'Jane Doe', town: 'Daniel Island' },
     { id: '3', name: 'John Smith', town: 'West Ashley' },
-    { id: '4', name: 'Jane Smith', town: 'Mt Pleasant' },
-  ];
+    { id: '4', name: 'Jane Smith', town: 'Mt Pleasant' }];
   let fixture: ComponentFixture<SkyAgGridCellEditorLookupComponent>;
   let gridCell: HTMLDivElement;
   let nativeElement: HTMLElement;
@@ -45,19 +43,16 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
     };
     TestBed.configureTestingModule({
       providers: [
-        provideNoopAnimations(),
         {
           provide: ElementRef,
           useValue: elementRef,
-        },
-      ],
+        }],
     });
 
     api = jasmine.createSpyObj('GridApi', [
       'addEventListener',
       'getGridOption',
-      'stopEditing',
-    ]);
+      'stopEditing']);
     api.addEventListener.and.callFake(
       (_event: string, listener: (params: any) => void) => {
         callback = listener;
@@ -318,8 +313,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
             .map((call) => call.args[0]),
         ).toEqual([
           'stopEditingWhenCellsLoseFocus',
-          'stopEditingWhenCellsLoseFocus',
-        ]);
+          'stopEditingWhenCellsLoseFocus']);
         expect(cellEditorParams.api?.stopEditing).toHaveBeenCalledTimes(1);
       }));
 
@@ -345,8 +339,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
             .map((call) => call.args[0]),
         ).toEqual([
           'stopEditingWhenCellsLoseFocus',
-          'stopEditingWhenCellsLoseFocus',
-        ]);
+          'stopEditingWhenCellsLoseFocus']);
         expect(cellEditorParams.api?.stopEditing).toHaveBeenCalledTimes(1);
       }));
 

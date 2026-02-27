@@ -1,7 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyModalHarness } from '@skyux/modals/testing';
 import { SkyActionHubHarness } from '@skyux/pages/testing';
 
@@ -29,13 +28,12 @@ describe('SettingsModalComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [PagesActionHubExampleComponent, NoopAnimationsModule],
+      imports: [PagesActionHubExampleComponent],
       providers: [
         {
           provide: MODAL_TITLE,
           useValue: 'Settings Modal Test',
-        },
-      ],
+        }],
     });
   });
 

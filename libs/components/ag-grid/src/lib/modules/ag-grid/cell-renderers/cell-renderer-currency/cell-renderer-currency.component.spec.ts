@@ -4,7 +4,6 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { NumericOptions } from '@skyux/core';
 
@@ -43,7 +42,6 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
     TestBed.configureTestingModule({
       imports: [SkyAgGridMinimalFixtureComponent],
       providers: [
-        provideNoopAnimations(),
         {
           provide: MinimalColumnDefs,
           useValue: [
@@ -51,14 +49,12 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
               field: 'currency',
               editable: true,
               type: SkyCellType.Currency,
-            },
-          ],
+            }],
         },
         {
           provide: MinimalRowData,
           useValue: [{ currency: 100 }],
-        },
-      ],
+        }],
     });
 
     currencyFixture = TestBed.createComponent(

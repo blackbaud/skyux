@@ -4,7 +4,6 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import {
@@ -36,7 +35,6 @@ describe('SkyCellEditorCurrencyComponent', () => {
     TestBed.configureTestingModule({
       imports: [SkyAgGridMinimalFixtureComponent],
       providers: [
-        provideNoopAnimations(),
         {
           provide: MinimalColumnDefs,
           useValue: [
@@ -44,14 +42,12 @@ describe('SkyCellEditorCurrencyComponent', () => {
               field: 'currency',
               editable: true,
               type: SkyCellType.Currency,
-            },
-          ],
+            }],
         },
         {
           provide: MinimalRowData,
           useValue: [{ currency: 100 }],
-        },
-      ],
+        }],
     });
 
     currencyEditorFixture = TestBed.createComponent(
@@ -98,8 +94,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
       api = jasmine.createSpyObj<GridApi>('api', [
         'getDisplayNameForColumn',
         'stopEditing',
-        'setFocusedCell',
-      ]);
+        'setFocusedCell']);
 
       cellEditorParams = {
         value: value,
@@ -193,8 +188,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
 
         const api = jasmine.createSpyObj<GridApi>([
           'getDisplayNameForColumn',
-          'stopEditing',
-        ]);
+          'stopEditing']);
 
         api.getDisplayNameForColumn.and.returnValue('');
         gridCell = document.createElement('div');
@@ -557,8 +551,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
         const api = jasmine.createSpyObj<GridApi>([
           'getDisplayNameForColumn',
           'stopEditing',
-          'getGridOption',
-        ]);
+          'getGridOption']);
         api.getDisplayNameForColumn.and.returnValue('');
         api.getGridOption.and.returnValue(true);
 

@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import {
   SkyHelpTestingController,
   SkyHelpTestingModule,
@@ -31,7 +30,7 @@ describe('Help inline with help key', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HelpInlineHelpKeyExampleComponent, SkyHelpTestingModule],
-      providers: [provideNoopAnimations()],
+      providers: [],
     });
   });
 

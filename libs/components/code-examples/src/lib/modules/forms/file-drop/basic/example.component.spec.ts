@@ -2,7 +2,6 @@ import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyFileItem, SkyFileLink } from '@skyux/forms';
 import {
   SkyFileDropHarness,
@@ -43,8 +42,7 @@ describe('Basic file drop example', () => {
     await harness.loadFiles([
       new File([], 'validFile1', { type: 'image/png' }),
       new File([], 'validFile2', { type: 'image/png' }),
-      new File([], 'validFile3', { type: 'image/png' }),
-    ]);
+      new File([], 'validFile3', { type: 'image/png' })]);
 
     await harness.enterLinkUploadText('foo.bar');
     await harness.clickLinkUploadDoneButton();
@@ -55,7 +53,7 @@ describe('Basic file drop example', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [FormsFileDropBasicExampleComponent, NoopAnimationsModule],
+      imports: [FormsFileDropBasicExampleComponent],
     });
   });
 
@@ -85,8 +83,7 @@ describe('Basic file drop example', () => {
 
     const filesToUpload: File[] = [
       new File([], 'aWrongFile', { type: 'image/png' }),
-      new File([], 'validFile', { type: 'image/png' }),
-    ];
+      new File([], 'validFile', { type: 'image/png' })];
 
     await harness.loadFiles(filesToUpload);
 

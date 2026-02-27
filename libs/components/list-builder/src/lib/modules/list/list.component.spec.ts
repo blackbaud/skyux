@@ -8,7 +8,6 @@ import {
 } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
   ListItemModel,
   ListSortFieldSelectorModel,
@@ -94,8 +93,7 @@ describe('List Component', () => {
             column4: 5,
           },
           { id: '6', column1: null, column2: null, column3: 20, column4: 3 },
-          { id: '7', column1: '22', column2: 'Grape', column3: 21, column4: 7 },
-        ];
+          { id: '7', column1: '22', column2: 'Grape', column3: 21, column4: 7 }];
 
         bs = new BehaviorSubject<any[]>(itemsArray);
         items = bs.asObservable();
@@ -105,16 +103,13 @@ describe('List Component', () => {
             ListFixturesModule,
             SkyListModule,
             SkyListToolbarModule,
-            FormsModule,
-            NoopAnimationsModule,
-          ],
+            FormsModule],
           providers: [{ provide: 'items', useValue: items }],
         }).overrideComponent(SkyListComponent, {
           set: {
             providers: [
               { provide: ListState, useValue: state },
-              { provide: ListStateDispatcher, useValue: dispatcher },
-            ],
+              { provide: ListStateDispatcher, useValue: dispatcher }],
           },
         });
 
@@ -185,8 +180,7 @@ describe('List Component', () => {
               column2: 'Medium',
               column3: 4,
               column4: 45,
-            },
-          ]);
+            }]);
           fixture.detectChanges();
           validateRowCount(element, 3);
         });
@@ -206,8 +200,7 @@ describe('List Component', () => {
               column2: 'Tea',
               column3: 12,
               column4: 12,
-            },
-          ];
+            }];
 
           bs.next(newItems);
           fixture.detectChanges();
@@ -239,8 +232,7 @@ describe('List Component', () => {
               {
                 fieldSelector: 'column1',
                 descending: true,
-              },
-            ]),
+              }]),
           );
 
           validateRowValue(0, 1, '30');
@@ -251,8 +243,7 @@ describe('List Component', () => {
               {
                 fieldSelector: 'column1',
                 descending: false,
-              },
-            ]),
+              }]),
           );
           fixture.detectChanges();
           validateRowValue(0, 1, '01');
@@ -262,8 +253,7 @@ describe('List Component', () => {
               {
                 fieldSelector: 'column3',
                 descending: true,
-              },
-            ]),
+              }]),
           );
           fixture.detectChanges();
           validateRowValue(0, 3, '21');
@@ -308,8 +298,7 @@ describe('List Component', () => {
             {
               fieldSelector: 'column3',
               descending: true,
-            },
-          ];
+            }];
 
           initializeList();
           tick();
@@ -404,8 +393,7 @@ describe('List Component', () => {
             column4: 5,
           },
           { id: '6', column1: null, column2: null, column3: 20, column4: 3 },
-          { id: '7', column1: '22', column2: 'Grape', column3: 21, column4: 7 },
-        ];
+          { id: '7', column1: '22', column2: 'Grape', column3: 21, column4: 7 }];
 
         bs = new BehaviorSubject<any[]>(itemsArray);
         items = bs.asObservable();
@@ -415,16 +403,13 @@ describe('List Component', () => {
             ListFixturesModule,
             SkyListModule,
             SkyListToolbarModule,
-            FormsModule,
-            NoopAnimationsModule,
-          ],
+            FormsModule],
           providers: [{ provide: 'items', useValue: items }],
         }).overrideComponent(SkyListComponent, {
           set: {
             providers: [
               { provide: ListState, useValue: state },
-              { provide: ListStateDispatcher, useValue: dispatcher },
-            ],
+              { provide: ListStateDispatcher, useValue: dispatcher }],
           },
         });
 
@@ -715,8 +700,7 @@ describe('List Component', () => {
         const filters = [
           new ListFilterModel({
             name: 'show-selected',
-          }),
-        ];
+          })];
 
         // Select rows and apply "Show only selected" filter.
         dispatcher.setSelected(['1', '2'], true);
@@ -753,8 +737,7 @@ describe('List Component', () => {
         const filters = [
           new ListFilterModel({
             name: 'show-selected',
-          }),
-        ];
+          })];
         dispatcher.filtersUpdate(filters);
         fixture.detectChanges();
 
@@ -829,8 +812,7 @@ describe('List Component', () => {
             column4: 5,
           },
           { id: '6', column1: null, column2: null, column3: 20, column4: 3 },
-          { id: '7', column1: '22', column2: 'Grape', column3: 21, column4: 7 },
-        ];
+          { id: '7', column1: '22', column2: 'Grape', column3: 21, column4: 7 }];
 
         bs = new BehaviorSubject<any[]>(itemsArray);
         items = bs.asObservable();
@@ -840,16 +822,13 @@ describe('List Component', () => {
             ListFixturesModule,
             SkyListModule,
             SkyListToolbarModule,
-            FormsModule,
-            NoopAnimationsModule,
-          ],
+            FormsModule],
           providers: [{ provide: 'items', useValue: items }],
         }).overrideComponent(SkyListComponent, {
           set: {
             providers: [
               { provide: ListState, useValue: state },
-              { provide: ListStateDispatcher, useValue: dispatcher },
-            ],
+              { provide: ListStateDispatcher, useValue: dispatcher }],
           },
         });
 
@@ -874,8 +853,7 @@ describe('List Component', () => {
             name: 'filter1',
             value: 'Apple',
             filterFunction: appleFilterFunction,
-          }),
-        ];
+          })];
 
         component.listFilters = appliedFilters;
         fixture.detectChanges();
@@ -903,8 +881,7 @@ describe('List Component', () => {
             name: 'filter1',
             value: 'Apple',
             filterFunction: appleFilterFunction,
-          }),
-        ];
+          })];
 
         component.listFilters = appliedFilters;
         fixture.detectChanges();
@@ -933,8 +910,7 @@ describe('List Component', () => {
             name: 'filter1',
             value: 'Apple',
             filterFunction: appleFilterFunction,
-          }),
-        ];
+          })];
 
         component.listFilters = appliedFilters;
         fixture.detectChanges();
@@ -953,8 +929,7 @@ describe('List Component', () => {
             name: 'filter1',
             value: 'Apple',
             filterFunction: appleFilterFunction,
-          }),
-        ];
+          })];
         spyOn(component.list.appliedFiltersChange, 'emit').and.callThrough();
         dispatcher.filtersUpdate(appliedFilters);
         fixture.detectChanges();
@@ -1021,24 +996,20 @@ describe('List Component', () => {
             column4: 5,
           },
           { id: '6', column1: '20', column2: 'Fig', column3: 20, column4: 3 },
-          { id: '7', column1: '21', column2: 'Grape', column3: 21, column4: 7 },
-        ];
+          { id: '7', column1: '21', column2: 'Grape', column3: 21, column4: 7 }];
 
         TestBed.configureTestingModule({
           imports: [
             ListFixturesModule,
             SkyListModule,
             SkyListToolbarModule,
-            FormsModule,
-            NoopAnimationsModule,
-          ],
+            FormsModule],
           providers: [{ provide: 'items', useValue: items }],
         }).overrideComponent(SkyListComponent, {
           set: {
             providers: [
               { provide: ListState, useValue: state },
-              { provide: ListStateDispatcher, useValue: dispatcher },
-            ],
+              { provide: ListStateDispatcher, useValue: dispatcher }],
           },
         });
 
@@ -1074,8 +1045,7 @@ describe('List Component', () => {
 
         const itemsArray = [
           { id: '1', column1: '1', column2: 'Apple', column3: 1, column4: 1 },
-          { id: '2', column1: '01', column2: 'Banana', column3: 1, column4: 6 },
-        ];
+          { id: '2', column1: '01', column2: 'Banana', column3: 1, column4: 6 }];
 
         bs = new BehaviorSubject<any[]>(itemsArray);
         items = bs.asObservable();
@@ -1086,19 +1056,15 @@ describe('List Component', () => {
             ListFixturesModule,
             SkyListModule,
             SkyListToolbarModule,
-            FormsModule,
-            NoopAnimationsModule,
-          ],
+            FormsModule],
           providers: [
             { provide: 'items', useValue: items },
-            { provide: SkyListInMemoryDataProvider, useValue: dataProvider },
-          ],
+            { provide: SkyListInMemoryDataProvider, useValue: dataProvider }],
         }).overrideComponent(SkyListComponent, {
           set: {
             providers: [
               { provide: ListState, useValue: state },
-              { provide: ListStateDispatcher, useValue: dispatcher },
-            ],
+              { provide: ListStateDispatcher, useValue: dispatcher }],
           },
         });
 
@@ -1132,8 +1098,7 @@ describe('List Component', () => {
 
         bs.next([
           { column1: '1', column2: 'Apple', column3: 1, column4: 1 },
-          { column1: '01', column2: 'Banana', column3: 1, column4: 6 },
-        ]);
+          { column1: '01', column2: 'Banana', column3: 1, column4: 6 }]);
         fixture.detectChanges();
 
         list.displayedItems.subscribe((d: any) => {
@@ -1195,19 +1160,15 @@ describe('List Component', () => {
             ListFixturesModule,
             SkyListModule,
             SkyListToolbarModule,
-            FormsModule,
-            NoopAnimationsModule,
-          ],
+            FormsModule],
           providers: [
             { provide: 'items', useValue: null },
-            { provide: SkyListInMemoryDataProvider, useValue: dataProvider },
-          ],
+            { provide: SkyListInMemoryDataProvider, useValue: dataProvider }],
         }).overrideComponent(SkyListComponent, {
           set: {
             providers: [
               { provide: ListState, useValue: state },
-              { provide: ListStateDispatcher, useValue: dispatcher },
-            ],
+              { provide: ListStateDispatcher, useValue: dispatcher }],
           },
         });
 
@@ -1247,19 +1208,15 @@ describe('List Component', () => {
             ListFixturesModule,
             SkyListModule,
             SkyListToolbarModule,
-            FormsModule,
-            NoopAnimationsModule,
-          ],
+            FormsModule],
           providers: [
             { provide: 'items', useValue: null },
-            { provide: SkyListInMemoryDataProvider, useValue: null },
-          ],
+            { provide: SkyListInMemoryDataProvider, useValue: null }],
         }).overrideComponent(SkyListComponent, {
           set: {
             providers: [
               { provide: ListState, useValue: state },
-              { provide: ListStateDispatcher, useValue: dispatcher },
-            ],
+              { provide: ListStateDispatcher, useValue: dispatcher }],
           },
         });
 
@@ -1324,8 +1281,7 @@ describe('List Component', () => {
             column4: 5,
           },
           { id: '6', column1: null, column2: null, column3: 20, column4: 3 },
-          { id: '7', column1: '22', column2: 'Grape', column3: 21, column4: 7 },
-        ];
+          { id: '7', column1: '22', column2: 'Grape', column3: 21, column4: 7 }];
 
         bs = new BehaviorSubject<any[]>(itemsArray);
         items = bs.asObservable();
@@ -1335,16 +1291,13 @@ describe('List Component', () => {
             ListFixturesModule,
             SkyListModule,
             SkyListToolbarModule,
-            FormsModule,
-            NoopAnimationsModule,
-          ],
+            FormsModule],
           providers: [{ provide: 'items', useValue: items }],
         }).overrideComponent(SkyListComponent, {
           set: {
             providers: [
               { provide: ListState, useValue: state },
-              { provide: ListStateDispatcher, useValue: dispatcher },
-            ],
+              { provide: ListStateDispatcher, useValue: dispatcher }],
           },
         });
 
@@ -1434,8 +1387,7 @@ describe('List Component', () => {
 
     it('should construct ListToolbarItemsLoadAction action', waitForAsync(() => {
       const action = new ListToolbarItemsLoadAction([
-        new ListToolbarItemModel(),
-      ]);
+        new ListToolbarItemModel()]);
       expect(action).not.toBeUndefined();
     }));
 
@@ -1511,8 +1463,7 @@ describe('List Component', () => {
           }),
           new ListToolbarItemModel({
             id: '2',
-          }),
-        ];
+          })];
         dispatcher.toolbarAddItems(newItems, -1);
 
         tick();
@@ -1526,8 +1477,7 @@ describe('List Component', () => {
         newItems = [
           new ListToolbarItemModel({
             id: 'blue',
-          }),
-        ];
+          })];
 
         dispatcher.toolbarAddItems(newItems, 6);
 
@@ -1547,8 +1497,7 @@ describe('List Component', () => {
           }),
           new ListToolbarItemModel({
             id: '2',
-          }),
-        ];
+          })];
         dispatcher.toolbarAddItems(newItems);
 
         tick();
@@ -1556,8 +1505,7 @@ describe('List Component', () => {
         newItems = [
           new ListToolbarItemModel({
             id: 'blue',
-          }),
-        ];
+          })];
 
         dispatcher.toolbarAddItems(newItems, 0);
 
@@ -1579,8 +1527,7 @@ describe('List Component', () => {
           }),
           new ListToolbarItemModel({
             id: '2',
-          }),
-        ];
+          })];
         dispatcher.toolbarAddItems(newItems);
 
         tick();
@@ -1588,8 +1535,7 @@ describe('List Component', () => {
         newItems = [
           new ListToolbarItemModel({
             id: 'blue',
-          }),
-        ];
+          })];
 
         dispatcher.toolbarAddItems(newItems, 1);
 
@@ -1613,8 +1559,7 @@ describe('List Component', () => {
           new ListToolbarItemModel({
             id: '2',
             index: 0,
-          }),
-        ];
+          })];
         dispatcher.toolbarAddItems(newItems);
 
         tick();
@@ -1623,8 +1568,7 @@ describe('List Component', () => {
           new ListToolbarItemModel({
             id: 'blue',
             index: 1,
-          }),
-        ];
+          })];
 
         dispatcher.toolbarAddItems(newItems);
 

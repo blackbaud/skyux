@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import {
   SkyHelpTestingController,
   SkyHelpTestingModule,
@@ -39,7 +38,7 @@ describe('Basic key info', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [IndicatorsKeyInfoHelpKeyExampleComponent, SkyHelpTestingModule],
-      providers: [provideNoopAnimations()],
+      providers: [],
     });
   });
 

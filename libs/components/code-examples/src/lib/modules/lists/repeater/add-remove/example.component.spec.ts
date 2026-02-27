@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyRepeaterHarness } from '@skyux/lists/testing';
 
 import { ListsRepeaterAddRemoveExampleComponent } from './example.component';
@@ -27,7 +26,7 @@ describe('Repeater add remove example', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ListsRepeaterAddRemoveExampleComponent, NoopAnimationsModule],
+      imports: [ListsRepeaterAddRemoveExampleComponent],
     });
   });
 
@@ -73,8 +72,7 @@ describe('Repeater add remove example', () => {
       {
         title: 'Process gift receipts  Due next week',
         body: 'There are 28 recent gifts that are not receipted.',
-      },
-    ];
+      }];
 
     let repeaterItems = await repeaterHarness.getRepeaterItems();
 

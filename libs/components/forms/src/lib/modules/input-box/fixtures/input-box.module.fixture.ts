@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyIdModule } from '@skyux/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyIconModule } from '@skyux/icon';
@@ -14,7 +13,6 @@ import { InputBoxFixtureComponent } from './input-box.component.fixture';
 
 @NgModule({
   imports: [
-    NoopAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
     SkyCharacterCounterModule,
@@ -22,8 +20,7 @@ import { InputBoxFixtureComponent } from './input-box.component.fixture';
     SkyIconModule,
     SkyIdModule,
     SkyInputBoxModule,
-    SkyStatusIndicatorModule,
-  ],
+    SkyStatusIndicatorModule],
   exports: [InputBoxFixtureComponent, InputBoxHostServiceFixtureComponent],
   declarations: [InputBoxFixtureComponent, InputBoxHostServiceFixtureComponent],
 })

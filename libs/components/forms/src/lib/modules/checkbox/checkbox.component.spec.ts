@@ -17,7 +17,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyIdService, SkyLogService } from '@skyux/core';
 import {
@@ -332,15 +331,12 @@ describe('Checkbox component', () => {
         CheckboxWithRequiredAttributeComponent,
         CheckboxWithRequiredInputComponent,
         MultipleCheckboxesComponent,
-        SingleCheckboxComponent,
-      ],
+        SingleCheckboxComponent],
       imports: [
         FormsModule,
         ReactiveFormsModule,
         SkyCheckboxModule,
-        NoopAnimationsModule,
-        SkyHelpTestingModule,
-      ],
+        SkyHelpTestingModule],
       providers: [NgForm],
     });
 

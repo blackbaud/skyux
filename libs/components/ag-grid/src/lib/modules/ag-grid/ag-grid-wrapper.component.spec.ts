@@ -4,7 +4,6 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import {
   SkyTheme,
@@ -69,9 +68,7 @@ describe('SkyAgGridWrapperComponent', () => {
         {
           provide: SkyThemeService,
           useValue: mockThemeSvc,
-        },
-        provideNoopAnimations(),
-      ],
+        }],
     });
     gridFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
 
@@ -315,8 +312,7 @@ describe('SkyAgGridWrapperComponent', () => {
       const col = {} as AgColumn;
       spyOn(gridAdapterService, 'setFocusedElementById');
       (agGrid.api.getEditingCells as jasmine.Spy).and.returnValue([
-        { rowIndex: 0, column: col, rowPinned: undefined },
-      ]);
+        { rowIndex: 0, column: col, rowPinned: undefined }]);
 
       fireKeydownOnGrid('Tab', false);
 
@@ -571,9 +567,7 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
         {
           provide: SkyThemeService,
           useValue: mockThemeSvc,
-        },
-        provideNoopAnimations(),
-      ],
+        }],
     });
   });
 
@@ -594,8 +588,7 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
       'ag-sticky-top',
       'ag-sticky-bottom',
       'ag-floating-bottom',
-      'ag-overlay',
-    ]);
+      'ag-overlay']);
   });
 
   it('should move the horizontal scroll based on enableTopScroll check, async loading', async () => {
@@ -614,8 +607,7 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
       'ag-sticky-bottom',
       'ag-floating-bottom',
       'ag-body-horizontal-scroll',
-      'ag-overlay',
-    ]);
+      'ag-overlay']);
 
     gridWrapperFixture.componentInstance.gridOptions.context = {
       enableTopScroll: true,
@@ -631,8 +623,7 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
       'ag-sticky-top',
       'ag-sticky-bottom',
       'ag-floating-bottom',
-      'ag-overlay',
-    ]);
+      'ag-overlay']);
 
     gridWrapperFixture.componentInstance.gridOptions.context = {
       enableTopScroll: false,
@@ -648,8 +639,7 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
       'ag-sticky-bottom',
       'ag-floating-bottom',
       'ag-body-horizontal-scroll',
-      'ag-overlay',
-    ]);
+      'ag-overlay']);
   });
 
   it('should have sky-ag-grid-text-selection class', async () => {

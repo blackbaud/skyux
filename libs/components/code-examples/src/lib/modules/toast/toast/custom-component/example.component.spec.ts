@@ -1,7 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyToastType } from '@skyux/toast';
 import { SkyToasterHarness } from '@skyux/toast/testing';
 
@@ -14,7 +13,7 @@ describe('Custom component toast demo', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ToastCustomComponentExampleComponent, NoopAnimationsModule],
+      imports: [ToastCustomComponentExampleComponent],
     });
 
     fixture = TestBed.createComponent(ToastCustomComponentExampleComponent);

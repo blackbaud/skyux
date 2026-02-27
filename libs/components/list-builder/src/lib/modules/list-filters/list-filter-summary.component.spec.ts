@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect } from '@skyux-sdk/testing';
 
 import { skip, take } from 'rxjs/operators';
@@ -43,8 +42,7 @@ describe('List filter summary', () => {
         filterFunction: function () {
           return true;
         },
-      }),
-    ];
+      })];
 
   beforeEach(waitForAsync(() => {
     dispatcher = new ListStateDispatcher();
@@ -54,13 +52,10 @@ describe('List filter summary', () => {
       declarations: [ListFilterSummaryTestComponent],
       imports: [
         SkyListToolbarModule,
-        SkyListFiltersModule,
-        NoopAnimationsModule,
-      ],
+        SkyListFiltersModule],
       providers: [
         { provide: ListState, useValue: state },
-        { provide: ListStateDispatcher, useValue: dispatcher },
-      ],
+        { provide: ListStateDispatcher, useValue: dispatcher }],
     });
 
     fixture = TestBed.createComponent(ListFilterSummaryTestComponent);
@@ -129,8 +124,7 @@ describe('List filter summary', () => {
         filterFunction: function () {
           return true;
         },
-      }),
-    ]);
+      })]);
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       fixture.detectChanges();

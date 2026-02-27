@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 import { SkyKeyInfoHarness } from '@skyux/indicators/testing';
 
@@ -33,7 +32,7 @@ describe('Basic key info', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [IndicatorsKeyInfoBasicExampleComponent],
-      providers: [provideNoopAnimations()],
+      providers: [],
     });
   });
 

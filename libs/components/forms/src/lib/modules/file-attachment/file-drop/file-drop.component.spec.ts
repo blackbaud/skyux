@@ -2,7 +2,6 @@ import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyIdService, SkyLiveAnnouncerService } from '@skyux/core';
 import {
@@ -40,9 +39,7 @@ describe('File drop component', () => {
       imports: [
         FileDropContentComponent,
         SkyFileDropModule,
-        SkyHelpTestingModule,
-        NoopAnimationsModule,
-      ],
+        SkyHelpTestingModule],
     });
 
     let uniqueId = 0;
@@ -205,8 +202,7 @@ describe('File drop component', () => {
           name: 'woo.txt',
           size: 2000,
           type: 'image/jpeg',
-        },
-      ];
+        }];
     }
     triggerChangeEvent(files);
 
@@ -265,8 +261,7 @@ describe('File drop component', () => {
           name: 'bat.pdf',
           size: 2000,
           type: 'pdf',
-        },
-      ];
+        }];
     }
     triggerChangeEvent(files);
 
@@ -571,8 +566,7 @@ describe('File drop component', () => {
       {
         name: 'goo.txt',
         size: 3000,
-      },
-    ]);
+      }]);
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -919,8 +913,7 @@ describe('File drop component', () => {
         name: 'woo.txt',
         size: 2000,
         type: 'image/jpeg',
-      },
-    ];
+      }];
 
     await setupStandardFileChangeEvent(files);
     await fixture.whenStable();
@@ -989,16 +982,14 @@ describe('File drop component', () => {
         name: 'foo.txt',
         size: 1000,
         type: 'image/png',
-      },
-    ];
+      }];
 
     const invalidFiles = [
       {
         name: 'foo.txt',
         size: 1000,
         type: 'image/jpeg',
-      },
-    ];
+      }];
 
     triggerDragEnter('sky-drop', dropDebugEl);
     triggerDragOver(files, dropDebugEl);
@@ -1062,8 +1053,7 @@ describe('File drop component', () => {
   it(
     [
       'should accept a file of rejected type on drag (but not on drop)',
-      'if the browser does not support dataTransfer.items',
-    ].join(' '),
+      'if the browser does not support dataTransfer.items'].join(' '),
     () => {
       componentInstance.acceptedTypes = 'image/png, image/tiff';
 
@@ -1076,8 +1066,7 @@ describe('File drop component', () => {
           name: 'foo.txt',
           size: 1000,
           type: 'image/jpeg',
-        },
-      ];
+        }];
 
       const dropElWrapper = getDropElWrapper();
 
@@ -1101,8 +1090,7 @@ describe('File drop component', () => {
         name: 'goo.txt',
         size: 1000,
         type: 'image/png',
-      },
-    ];
+      }];
 
     const fileReaderSpy = setupFileReaderSpy();
 
@@ -1128,8 +1116,7 @@ describe('File drop component', () => {
         name: 'goo.txt',
         size: 1000,
         type: 'image/png',
-      },
-    ];
+      }];
 
     const fileReaderSpy = setupFileReaderSpy();
 
@@ -1155,8 +1142,7 @@ describe('File drop component', () => {
             isDirectory: true,
           };
         },
-      },
-    ];
+      }];
 
     const fileReaderSpy = setupFileReaderSpy();
     fixture.detectChanges();
@@ -1532,8 +1518,7 @@ describe('File drop reactive component', () => {
 
       {
         url: undefined,
-      },
-    ]);
+      }]);
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -1554,8 +1539,7 @@ describe('File drop reactive component', () => {
       },
       {
         url: undefined,
-      },
-    ]);
+      }]);
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -1570,8 +1554,7 @@ describe('File drop reactive component', () => {
       {
         file: new File([], 'foo.foo', { type: 'abcd/png' }),
         url: 'foo.bar.bar',
-      },
-    ]);
+      }]);
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -1589,8 +1572,7 @@ describe('File drop reactive component', () => {
       {
         file: new File([], 'foo.foo', { type: 'abcd/png' }),
         url: 'foo.bar.bar',
-      },
-    ]);
+      }]);
 
     fixture.detectChanges();
     await fixture.whenStable();
@@ -1607,8 +1589,7 @@ describe('File drop reactive component', () => {
       {
         file: undefined,
         url: 'foo.bar.bar',
-      },
-    ]);
+      }]);
     fixture.detectChanges();
     await fixture.whenStable();
 

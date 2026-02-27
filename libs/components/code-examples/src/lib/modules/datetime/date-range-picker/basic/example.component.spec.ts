@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyDateRangeCalculatorId } from '@skyux/datetime';
 import { SkyDateRangePickerHarness } from '@skyux/datetime/testing';
 
@@ -29,9 +28,7 @@ describe('Basic date range picker example', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        DatetimeDateRangePickerBasicExampleComponent,
-        NoopAnimationsModule,
-      ],
+        DatetimeDateRangePickerBasicExampleComponent],
     });
   });
 

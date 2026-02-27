@@ -1,7 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { SkyDataManagerHarness } from '@skyux/data-manager/testing';
 import { SkyRepeaterHarness } from '@skyux/lists/testing';
 
@@ -15,7 +14,7 @@ describe('Data manager basic example', () => {
   }> {
     await TestBed.configureTestingModule({
       imports: [DataManagerBasicExampleComponent],
-      providers: [provideNoopAnimations()],
+      providers: [],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(DataManagerBasicExampleComponent);

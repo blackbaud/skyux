@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { PagingHarnessTestComponent } from './fixtures/paging-harness-test.component';
 import { SkyPagingHarness } from './paging-harness';
@@ -17,7 +16,7 @@ describe('Paging test harness', () => {
     fixture: ComponentFixture<PagingHarnessTestComponent>;
   }> {
     await TestBed.configureTestingModule({
-      imports: [PagingHarnessTestComponent, NoopAnimationsModule],
+      imports: [PagingHarnessTestComponent],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(PagingHarnessTestComponent);

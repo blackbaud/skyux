@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyHelpTestingModule } from '@skyux/core/testing';
 import { SkyDescriptionListHarness } from '@skyux/layout/testing';
 
@@ -14,9 +13,7 @@ describe('Long description list', () => {
     await TestBed.configureTestingModule({
       imports: [
         LayoutDescriptionListLongDescriptionExampleComponent,
-        SkyHelpTestingModule,
-        NoopAnimationsModule,
-      ],
+        SkyHelpTestingModule],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(

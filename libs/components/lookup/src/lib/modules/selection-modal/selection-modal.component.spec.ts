@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expectAsync } from '@skyux-sdk/testing';
 import { SkyLiveAnnouncerService } from '@skyux/core';
 import {
@@ -56,8 +55,7 @@ describe('Selection modal component', () => {
       set: {
         providers: [
           { provide: SkySelectionModalContext, useValue: configWithDefaults },
-          { provide: SkyModalInstance, useValue: modalInstance },
-        ],
+          { provide: SkyModalInstance, useValue: modalInstance }],
       },
     });
 
@@ -123,12 +121,11 @@ describe('Selection modal component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule],
+      imports: [],
       providers: [
         SelectionModalFixtureService,
         { provide: SkyModalHostService, useValue: modalHost },
-        { provide: SkyModalConfiguration, useValue: {} },
-      ],
+        { provide: SkyModalConfiguration, useValue: {} }],
     });
   });
 
@@ -211,8 +208,7 @@ describe('Selection modal component', () => {
   it('should display all selected items when showing only selected and not searching', async () => {
     const initialSelected = [
       { id: '1', name: 'Abed' },
-      { id: '21', name: 'Walter' },
-    ];
+      { id: '21', name: 'Walter' }];
 
     const fixture = createSelectionModal({
       selectionDescriptor: 'people',

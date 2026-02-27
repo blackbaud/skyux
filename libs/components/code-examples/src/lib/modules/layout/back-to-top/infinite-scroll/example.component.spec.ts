@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
 import { SkyBackToTopHarness } from '@skyux/layout/testing';
 import { SkyInfiniteScrollHarness } from '@skyux/lists/testing';
@@ -23,9 +22,7 @@ describe('Back to top repeater with infinite scroll example', () => {
   it('should set up the component', async () => {
     await TestBed.configureTestingModule({
       imports: [
-        LayoutBackToTopInfiniteScrollExampleComponent,
-        NoopAnimationsModule,
-      ],
+        LayoutBackToTopInfiniteScrollExampleComponent],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(
