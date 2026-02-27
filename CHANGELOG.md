@@ -1,6 +1,17 @@
 # Changelog
 
 
+## [14.0.0-alpha.4](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.3...14.0.0-alpha.4) (2026-02-27)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/modals:** deprecate `SkyModalHeaderComponent` (#4244)
+
+### Features
+
+* **components/modals:** deprecate `SkyModalHeaderComponent` ([#4244](https://github.com/blackbaud/skyux/issues/4244)) ([5c80f39](https://github.com/blackbaud/skyux/commit/5c80f39f7ddc02bfd9fdd0fcdbabe145eeda5b75))
+
 ## [14.0.0-alpha.3](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.2...14.0.0-alpha.3) (2026-02-25)
 
 
