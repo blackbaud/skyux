@@ -47,8 +47,7 @@ export interface SkyManifestJsDocDefinition {
  * Information shared by all top-level entities exported from the public API.
  * @internal
  */
-export interface SkyManifestParentDefinition
-  extends SkyManifestJsDocDefinition {
+export interface SkyManifestParentDefinition extends SkyManifestJsDocDefinition {
   anchorId: string;
   children?: SkyManifestChildDefinition[];
   docsId: string;

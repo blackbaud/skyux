@@ -13,9 +13,7 @@ export default [
   {
     path: 'blocks-tile-dashboard-page',
     loadComponent: () =>
-      import(
-        './blocks-page-tile-dashboard/blocks-page-tile-dashboard.component'
-      ),
+      import('./blocks-page-tile-dashboard/blocks-page-tile-dashboard.component'),
     data: {
       name: 'Page (Blocks - tile dashboard)',
       icon: 'square',

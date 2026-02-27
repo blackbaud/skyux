@@ -10,9 +10,7 @@ import {
 @Pipe({
   name: 'skyDocsPropertyDefaultValue',
 })
-export class SkyDocsPropertyTypeDefinitionDefaultValuePipe
-  implements PipeTransform
-{
+export class SkyDocsPropertyTypeDefinitionDefaultValuePipe implements PipeTransform {
   public transform(prop: SkyManifestChildDefinition): string | undefined {
     return (prop as SkyManifestClassPropertyDefinition)?.defaultValue;
   }

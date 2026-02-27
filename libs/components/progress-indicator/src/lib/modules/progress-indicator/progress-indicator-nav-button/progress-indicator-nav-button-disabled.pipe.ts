@@ -7,9 +7,7 @@ import { SkyProgressIndicatorNavButtonType } from '../types/progress-indicator-n
   name: 'skyProgressIndicatorNavButtonDisabled',
   standalone: false,
 })
-export class SkyProgressIndicatorNavButtonDisabledPipe
-  implements PipeTransform
-{
+export class SkyProgressIndicatorNavButtonDisabledPipe implements PipeTransform {
   public transform(
     disabled: boolean | undefined,
     buttonType: SkyProgressIndicatorNavButtonType,
