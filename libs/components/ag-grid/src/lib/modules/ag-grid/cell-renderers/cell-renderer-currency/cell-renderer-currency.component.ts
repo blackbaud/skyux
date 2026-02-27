@@ -17,9 +17,7 @@ import { SkyAgGridValidatorProperties } from '../../types/validator-properties';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkyNumericModule],
 })
-export class SkyAgGridCellRendererCurrencyComponent
-  implements ICellRendererAngularComp
-{
+export class SkyAgGridCellRendererCurrencyComponent implements ICellRendererAngularComp {
   @Input()
   public set params(value: SkyCellRendererCurrencyParams) {
     this.agInit(value);
