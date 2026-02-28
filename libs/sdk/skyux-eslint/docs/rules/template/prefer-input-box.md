@@ -1,8 +1,10 @@
 # skyux-eslint-template/prefer-input-box
 
-Require native form control elements to be placed inside a `<sky-input-box>` component.
+Require text-like form control elements to be placed inside a `<sky-input-box>` component.
 
-Native form control elements (`<input>`, `<select>`, `<textarea>`) in SKY UX templates should be wrapped in a `<sky-input-box>` component to ensure consistent styling, accessibility (labels, error messages, ARIA attributes), and UX patterns. See the [SKY UX input box documentation](https://developer.blackbaud.com/skyux/components/input-box) for more details.
+Text-like form control elements (`<input>` with types like `text`, `email`, `number`, etc.), `<select>`, and `<textarea>` in SKY UX templates should be wrapped in a `<sky-input-box>` component to ensure consistent styling, accessibility (labels, error messages, ARIA attributes), and UX patterns. See the [SKY UX input box documentation](https://developer.blackbaud.com/skyux/components/input-box) for more details.
+
+> **Note:** Input types that have dedicated SKY UX component equivalents (e.g., `checkbox`, `radio`, `date`) are handled by the [`prefer-form-control-component`](./prefer-form-control-component.md) rule instead.
 
 - Type: problem
 
@@ -30,38 +32,19 @@ The rule does not have any configuration options.
 
 ## Affected Elements
 
-This rule applies to the following native form control elements:
+This rule applies to the following elements:
 
-- `<input>`
 - `<select>`
 - `<textarea>`
-
-### Exempt Input Types
-
-The following `<input>` types are exempt because they are not text or selection controls:
-
-- `hidden`
-- `button`
-- `submit`
-- `reset`
-- `image`
-- `checkbox`
-- `radio`
-
-### Recognized Wrapper Components
-
-The rule is satisfied when the element is inside any of these components:
-
-- `<sky-input-box>`
-- `<sky-datepicker>`
-- `<sky-lookup>`
-- `<sky-autocomplete>`
-- `<sky-country-field>`
-- `<sky-phone-field>`
-- `<sky-colorpicker>`
-- `<sky-timepicker>`
-
-SKY UX wrapper components place their internal inputs inside `<sky-input-box>` themselves, so their children are not flagged.
+- `<input>` with the following types (or no `type` attribute, which defaults to `text`):
+  - `email`
+  - `month`
+  - `number`
+  - `password`
+  - `range`
+  - `text`
+  - `url`
+  - `week`
 
 <br>
 
@@ -72,7 +55,7 @@ SKY UX wrapper components place their internal inputs inside `<sky-input-box>` t
 <input />
 ~~~~~~~~~
 
-<!-- Explicit non-exempt type with no wrapper -->
+<!-- Explicit text type with no wrapper -->
 <input type="text" />
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -100,15 +83,18 @@ SKY UX wrapper components place their internal inputs inside `<sky-input-box>` t
   </div>
 </sky-input-box>
 
-<!-- Inside a SKY UX wrapper component -->
-<sky-datepicker>
-  <input />
-</sky-datepicker>
+<!-- Inside sky-colorpicker (wraps its own input) -->
+<sky-colorpicker>
+  <input type="text" />
+</sky-colorpicker>
 
-<!-- Exempt input types do not require a wrapper -->
-<input type="hidden" />
+<!-- Input types handled by prefer-form-control-component are not flagged -->
 <input type="checkbox" />
 <input type="radio" />
+<input type="date" />
+
+<!-- Non-form-control input types are not flagged -->
+<input type="hidden" />
 <input type="button" />
 ```
 

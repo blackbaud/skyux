@@ -11,25 +11,15 @@ export const messageId = 'preferInputBox';
 
 const TARGET_ELEMENTS = new Set(['input', 'select', 'textarea']);
 
-const EXEMPT_INPUT_TYPES = new Set([
-  'hidden',
-  'button',
-  'submit',
-  'reset',
-  'image',
-  'checkbox',
-  'radio',
-]);
-
-const WRAPPER_COMPONENTS = new Set([
-  'sky-input-box',
-  'sky-datepicker',
-  'sky-lookup',
-  'sky-autocomplete',
-  'sky-country-field',
-  'sky-phone-field',
-  'sky-colorpicker',
-  'sky-timepicker',
+const INPUT_BOX_INPUT_TYPES = new Set([
+  'email',
+  'month',
+  'number',
+  'password',
+  'range',
+  'text',
+  'url',
+  'week',
 ]);
 
 export const rule = createESLintTemplateRule({
@@ -48,22 +38,22 @@ export const rule = createESLintTemplateRule({
           return;
         }
 
-        // Check for exempt input types.
+        // For input elements, only flag types that belong in sky-input-box.
         if (name === 'input') {
           const typeAttr = element.attributes.find(
             (attr) => attr.name === 'type',
           );
-          if (
-            typeAttr &&
-            EXEMPT_INPUT_TYPES.has(typeAttr.value.toLowerCase())
-          ) {
+          const inputType = typeAttr?.value.toLowerCase() ?? 'text';
+          if (!INPUT_BOX_INPUT_TYPES.has(inputType)) {
             return;
           }
         }
 
-        // Check if any ancestor is a wrapper component.
-        const hasWrapper = ancestorStack.some((ancestor) =>
-          WRAPPER_COMPONENTS.has(ancestor),
+        // Check if any ancestor is sky-input-box or sky-colorpicker
+        // (sky-colorpicker wraps its own input internally).
+        const hasWrapper = ancestorStack.some(
+          (ancestor) =>
+            ancestor === 'sky-input-box' || ancestor === 'sky-colorpicker',
         );
 
         if (!hasWrapper) {
@@ -85,7 +75,7 @@ export const rule = createESLintTemplateRule({
   meta: {
     docs: {
       description:
-        'Require native form control elements to be placed inside a <sky-input-box> component.',
+        'Require text-like form control elements to be placed inside a <sky-input-box> component.',
     },
     messages: {
       [messageId]:

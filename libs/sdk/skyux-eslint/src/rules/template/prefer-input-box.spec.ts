@@ -16,23 +16,36 @@ ruleTester.run(RULE_NAME, rule, {
     // Nested deeper inside sky-input-box
     `<sky-input-box><div><input /></div></sky-input-box>`,
 
-    // Exempt input types
+    // Input types not handled by this rule (handled by prefer-form-control-component)
+    `<input type="checkbox" />`,
+    `<input type="radio" />`,
+    `<input type="color" />`,
+    `<input type="date" />`,
+    `<input type="datetime-local" />`,
+    `<input type="file" />`,
+    `<input type="search" />`,
+    `<input type="tel" />`,
+    `<input type="time" />`,
+
+    // Input types not handled by this rule (no SKY UX equivalent)
     `<input type="hidden" />`,
     `<input type="button" />`,
     `<input type="submit" />`,
     `<input type="reset" />`,
     `<input type="image" />`,
-    `<input type="checkbox" />`,
-    `<input type="radio" />`,
 
-    // Inside wrapper components
-    `<sky-datepicker><input /></sky-datepicker>`,
-    `<sky-lookup><input /></sky-lookup>`,
-    `<sky-autocomplete><input /></sky-autocomplete>`,
-    `<sky-country-field><input /></sky-country-field>`,
-    `<sky-phone-field><input /></sky-phone-field>`,
-    `<sky-colorpicker><input /></sky-colorpicker>`,
-    `<sky-timepicker><input /></sky-timepicker>`,
+    // Explicit input-box types inside sky-input-box
+    `<sky-input-box><input type="text" /></sky-input-box>`,
+    `<sky-input-box><input type="email" /></sky-input-box>`,
+    `<sky-input-box><input type="number" /></sky-input-box>`,
+    `<sky-input-box><input type="password" /></sky-input-box>`,
+    `<sky-input-box><input type="url" /></sky-input-box>`,
+    `<sky-input-box><input type="month" /></sky-input-box>`,
+    `<sky-input-box><input type="week" /></sky-input-box>`,
+    `<sky-input-box><input type="range" /></sky-input-box>`,
+
+    // Inside sky-colorpicker (wraps its own input internally)
+    `<sky-colorpicker><input type="text" /></sky-colorpicker>`,
 
     // Non-target elements
     `<div></div>`,
@@ -74,7 +87,7 @@ ruleTester.run(RULE_NAME, rule, {
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail when input has explicit non-exempt type with no wrapper',
+        'should fail when input has explicit text type with no wrapper',
       annotatedSource: `
       <input type="text" />
       ~~~~~~~~~~~~~~~~~~~~~
@@ -89,6 +102,30 @@ ruleTester.run(RULE_NAME, rule, {
       annotatedSource: `
       <div><input /></div>
            ~~~~~~~~~
+      `,
+      messageId,
+      data: {
+        element: 'input',
+      },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail when input type="email" has no sky-input-box wrapper',
+      annotatedSource: `
+      <input type="email" />
+      ~~~~~~~~~~~~~~~~~~~~~~
+      `,
+      messageId,
+      data: {
+        element: 'input',
+      },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail when input type="number" has no sky-input-box wrapper',
+      annotatedSource: `
+      <input type="number" />
+      ~~~~~~~~~~~~~~~~~~~~~~~
       `,
       messageId,
       data: {
