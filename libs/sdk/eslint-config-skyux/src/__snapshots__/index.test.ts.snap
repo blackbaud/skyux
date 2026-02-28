@@ -13675,6 +13675,39 @@ For example, when set to \`true\` the following code will not fail for the \`alt
             },
             "name": "no-deprecated-directives",
           },
+          "no-invalid-input-box-children": Object {
+            "create": [Function],
+            "defaultOptions": Array [],
+            "meta": Object {
+              "docs": Object {
+                "description": "Disallow invalid form control elements inside <sky-input-box>.",
+                "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/template/no-invalid-input-box-children.md",
+              },
+              "messages": Object {
+                "multipleInputBoxChildren": "<sky-input-box> should contain only one form control, but found {{count}}.",
+                "noInvalidInputBoxChildren": "{{element}} is not a valid child of <sky-input-box>.",
+              },
+              "schema": Array [],
+              "type": "problem",
+            },
+            "name": "no-invalid-input-box-children",
+          },
+          "no-invalid-input-types": Object {
+            "create": [Function],
+            "defaultOptions": Array [],
+            "meta": Object {
+              "docs": Object {
+                "description": "Disallow invalid type attribute values on <input> elements.",
+                "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/template/no-invalid-input-types.md",
+              },
+              "messages": Object {
+                "noInvalidInputTypes": "The type \\"{{type}}\\" is not a valid HTML input type.",
+              },
+              "schema": Array [],
+              "type": "problem",
+            },
+            "name": "no-invalid-input-types",
+          },
           "no-legacy-icons": Object {
             "create": [Function],
             "defaultOptions": Array [],
@@ -13742,12 +13775,36 @@ For example, when set to \`true\` the following code will not fail for the \`alt
             },
             "name": "prefer-disabled-attr",
           },
+          "prefer-form-control-component": Object {
+            "create": [Function],
+            "defaultOptions": Array [],
+            "meta": Object {
+              "docs": Object {
+                "description": "Recommend SKY UX components instead of native HTML input elements for certain input types.",
+                "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/template/prefer-form-control-component.md",
+              },
+              "messages": Object {
+                "preferSkyCheckbox": "Use <sky-checkbox> (optionally with <sky-checkbox-group>) instead of <input type=\\"checkbox\\">.",
+                "preferSkyColorpicker": "Use <sky-colorpicker> instead of <input type=\\"color\\">.",
+                "preferSkyDatepicker": "Use <sky-datepicker> instead of <input type=\\"date\\">.",
+                "preferSkyDatepickerTimepicker": "Use <sky-datepicker> and <sky-timepicker> (two separate fields) instead of <input type=\\"datetime-local\\">.",
+                "preferSkyFileAttachment": "Use <sky-file-attachment> (single file) or <sky-file-drop> (multiple files) instead of <input type=\\"file\\">.",
+                "preferSkyPhoneField": "Use <sky-phone-field> instead of <input type=\\"tel\\">.",
+                "preferSkyRadio": "Use <sky-radio-group> and <sky-radio> instead of <input type=\\"radio\\">.",
+                "preferSkySearch": "Use <sky-search> instead of <input type=\\"search\\">.",
+                "preferSkyTimepicker": "Use <sky-timepicker> instead of <input type=\\"time\\">.",
+              },
+              "schema": Array [],
+              "type": "suggestion",
+            },
+            "name": "prefer-form-control-component",
+          },
           "prefer-input-box": Object {
             "create": [Function],
             "defaultOptions": Array [],
             "meta": Object {
               "docs": Object {
-                "description": "Require native form control elements to be placed inside a <sky-input-box> component.",
+                "description": "Require text-like form control elements to be placed inside a <sky-input-box> component.",
                 "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/template/prefer-input-box.md",
               },
               "messages": Object {
@@ -13757,6 +13814,22 @@ For example, when set to \`true\` the following code will not fail for the \`alt
               "type": "problem",
             },
             "name": "prefer-input-box",
+          },
+          "prefer-input-box-for-sky-components": Object {
+            "create": [Function],
+            "defaultOptions": Array [],
+            "meta": Object {
+              "docs": Object {
+                "description": "Require certain SKY UX form control components to be placed inside a <sky-input-box> component.",
+                "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/template/prefer-input-box-for-sky-components.md",
+              },
+              "messages": Object {
+                "preferInputBoxForSkyComponents": "<{{element}}> should be placed inside a <sky-input-box> component.",
+              },
+              "schema": Array [],
+              "type": "problem",
+            },
+            "name": "prefer-input-box-for-sky-components",
           },
           "prefer-label-text": Object {
             "create": [Function],
@@ -13787,11 +13860,15 @@ For example, when set to \`true\` the following code will not fail for the \`alt
     "rules": Object {
       "skyux-eslint-template/no-deprecated-classnames": "error",
       "skyux-eslint-template/no-deprecated-directives": "error",
+      "skyux-eslint-template/no-invalid-input-box-children": "error",
+      "skyux-eslint-template/no-invalid-input-types": "error",
       "skyux-eslint-template/no-legacy-icons": "error",
       "skyux-eslint-template/no-radio-group-with-nested-list": "error",
       "skyux-eslint-template/no-unbound-id": "error",
       "skyux-eslint-template/prefer-disabled-attr": "error",
+      "skyux-eslint-template/prefer-form-control-component": "error",
       "skyux-eslint-template/prefer-input-box": "error",
+      "skyux-eslint-template/prefer-input-box-for-sky-components": "error",
       "skyux-eslint-template/prefer-label-text": "error",
     },
   },
