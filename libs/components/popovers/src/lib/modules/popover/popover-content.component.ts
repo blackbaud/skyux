@@ -17,7 +17,7 @@ import {
   SkyAffixer,
   SkyCoreAdapterService,
 } from '@skyux/core';
-import { SkyThemeService } from '@skyux/theme';
+import { SkyThemeService, skyAnimationsEnabled } from '@skyux/theme';
 
 import {
   Observable,
@@ -258,12 +258,20 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
 
       this.isOpen.set(true);
       this.#changeDetector.markForCheck();
+
+      if (this.#areAnimationsDisabled()) {
+        this.#_opened.next();
+      }
     });
   }
 
   public close(): void {
     this.isOpen.set(false);
     this.#changeDetector.markForCheck();
+
+    if (this.#areAnimationsDisabled()) {
+      this.#_closed.next();
+    }
   }
 
   public applyFocus(): void {
@@ -315,6 +323,13 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
         position: 'absolute',
       });
     }
+  }
+
+  #areAnimationsDisabled(): boolean {
+    return (
+      !this.enableAnimations ||
+      !skyAnimationsEnabled(this.#elementRef.nativeElement)
+    );
   }
 
   #isFocusLeavingElement(event: KeyboardEvent): boolean {

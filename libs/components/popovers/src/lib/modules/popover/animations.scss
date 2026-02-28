@@ -2,7 +2,7 @@
 
 .sky-popover-container {
   opacity: 0;
-  transition: opacity $sky-transition-time-short;
+  transition: opacity var(--sky-theme-animations-transition-duration);
 }
 
 .sky-popover-container.sky-popover-open {

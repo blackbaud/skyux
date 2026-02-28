@@ -3,6 +3,7 @@ import { SkyComponentHarness } from '@skyux/core/testing';
 
 import { SkyPopoverContentHarness } from './popover-content-harness';
 import { SkyPopoverHarnessFilters } from './popover-harness-filters';
+import { triggerTransitionEnd } from './utils';
 
 /**
  * Harness for interacting with a popover component in tests.
@@ -30,6 +31,7 @@ export class SkyPopoverHarness extends SkyComponentHarness {
    */
   public async clickPopoverButton(): Promise<void> {
     await (await this.host()).click();
+    await this.#triggerTransitionEnd();
   }
 
   /**
@@ -71,5 +73,10 @@ export class SkyPopoverHarness extends SkyComponentHarness {
     )();
 
     return await pointerEl?.getAttribute('aria-owns');
+  }
+
+  async #triggerTransitionEnd(): Promise<void> {
+    const content = await this.#getContent();
+    await triggerTransitionEnd(content);
   }
 }

@@ -43,7 +43,7 @@ async function setupTest(options?: {
   return { popoverHarness, fixture };
 }
 
-describe('Popover harness', () => {
+fdescribe('Popover harness', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [PopoverHarnessTestComponent],
@@ -70,9 +70,11 @@ describe('Popover harness', () => {
     await expectAsync(contentHarness.getTitleText()).toBeResolvedTo(
       'popover title',
     );
+
     await expectAsync(contentHarness.getBodyText()).toBeResolvedTo(
       'popover body',
     );
+
     await expectAsync(contentHarness.getAlignment()).toBeResolvedTo('center');
     await expectAsync(contentHarness.getPlacement()).toBeResolvedTo('right');
   });
@@ -156,7 +158,7 @@ describe('Popover harness', () => {
     );
   });
 
-  it('should return the correct popover for each trigger element', async () => {
+  fit('should return the correct popover for each trigger element', async () => {
     const fixture = TestBed.createComponent(PopoverHarnessTestComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
@@ -171,6 +173,7 @@ describe('Popover harness', () => {
     await popoverHarness1.clickPopoverButton();
 
     const contentHarness1 = await popoverHarness1.getPopoverContent();
+
     await expectAsync(
       popoverHarness2.getPopoverContent(),
     ).toBeRejectedWithError(

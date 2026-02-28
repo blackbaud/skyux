@@ -6,6 +6,7 @@ import {
 
 import { SkyPopoverBodyHarness } from './popover-body-harness';
 import { SkyPopoverContentHarnessFilters } from './popover-content-harness-filters';
+import { triggerTransitionEnd } from './utils';
 
 /**
  * Harness for interacting with a popover content component in tests.
@@ -85,5 +86,6 @@ export class SkyPopoverContentHarness extends SkyQueryableComponentHarness {
    */
   public async clickOut(): Promise<void> {
     await (await (await this.#getOverlay())?.host())?.click();
+    await triggerTransitionEnd(this);
   }
 }

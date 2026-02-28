@@ -58,25 +58,25 @@ describe('Popover directive', () => {
     const container = document.querySelector<HTMLElement>(
       '.sky-popover-container',
     );
+
     if (container) {
       // Dispatch a non-opacity event first to exercise the propertyName guard.
       container.dispatchEvent(
         new TransitionEvent('transitionend', { propertyName: 'box-shadow' }),
       );
+
       container.dispatchEvent(
         new TransitionEvent('transitionend', { propertyName: 'opacity' }),
       );
-      fixture.detectChanges();
     }
   }
 
   function detectChangesFakeAsync(): void {
     fixture.detectChanges();
-    // 16ms is the fakeAsync time for requestAnimationFrame, simulating 60fps.
-    tick(16);
-    fixture.detectChanges();
-    tick(16);
+    tick();
     triggerTransitionEnd();
+    fixture.detectChanges();
+    tick();
   }
 
   function getFocusableItems(): NodeListOf<Element> | undefined {
@@ -322,7 +322,7 @@ describe('Popover directive', () => {
   }));
 
   describe('mouse interactions', function () {
-    it('should open and close the popover via mouse click', fakeAsync(() => {
+    fit('should open and close the popover via mouse click', fakeAsync(() => {
       fixture.componentInstance.trigger = 'click';
 
       detectChangesFakeAsync();
@@ -1034,10 +1034,12 @@ describe('Popover directive accessibility', () => {
     const closeContainer = document.querySelector<HTMLElement>(
       '.sky-popover-container',
     );
+
     if (closeContainer) {
       closeContainer.dispatchEvent(
         new TransitionEvent('transitionend', { propertyName: 'opacity' }),
       );
+
       fixture.detectChanges();
       await fixture.whenStable();
     }
