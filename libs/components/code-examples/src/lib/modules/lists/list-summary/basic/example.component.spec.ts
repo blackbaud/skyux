@@ -4,6 +4,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { expectAsync } from '@skyux-sdk/testing';
 import { SkyListSummaryHarness } from '@skyux/lists/testing';
+import { provideNoopSkyAnimations } from '@skyux/theme';
 
 import { ListsListSummaryBasicExampleComponent } from './example.component';
 
@@ -15,7 +16,7 @@ describe('Lists list summary basic example', () => {
   }> {
     await TestBed.configureTestingModule({
       imports: [ListsListSummaryBasicExampleComponent],
-      providers: [provideNoopAnimations()],
+      providers: [provideNoopAnimations(), provideNoopSkyAnimations()],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(
