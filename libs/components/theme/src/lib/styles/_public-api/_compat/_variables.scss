@@ -42,3 +42,5 @@ $sky-tile-header-tool-padding: $sky-padding-plus-half !default;
 
 $sky-transition-time-short: 150ms !default;
 $sky-transition-time-medium: 250ms !default;
+// Using 0.001ms instead of `none` so `transitionend` still fires.
+$sky-transition-time-noop: 0.001ms !default;

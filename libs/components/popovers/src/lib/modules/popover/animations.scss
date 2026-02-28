@@ -1,0 +1,14 @@
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+
+.sky-popover-container {
+  opacity: 0;
+  transition: opacity $sky-transition-time-short;
+}
+
+.sky-popover-container.sky-popover-open {
+  opacity: 1;
+}
+
+.sky-popover-container.sky-popover-animations-disabled {
+  transition-duration: $sky-transition-time-noop;
+}

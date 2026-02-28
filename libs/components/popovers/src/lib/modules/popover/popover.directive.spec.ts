@@ -5,7 +5,6 @@ import {
   inject,
   tick,
 } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import {
   SKY_STACKING_CONTEXT,
@@ -55,12 +54,29 @@ describe('Popover directive', () => {
     return !!elem && getComputedStyle(elem).visibility !== 'hidden';
   }
 
+  function triggerTransitionEnd(): void {
+    const container = document.querySelector<HTMLElement>(
+      '.sky-popover-container',
+    );
+    if (container) {
+      // Dispatch a non-opacity event first to exercise the propertyName guard.
+      container.dispatchEvent(
+        new TransitionEvent('transitionend', { propertyName: 'box-shadow' }),
+      );
+      container.dispatchEvent(
+        new TransitionEvent('transitionend', { propertyName: 'opacity' }),
+      );
+      fixture.detectChanges();
+    }
+  }
+
   function detectChangesFakeAsync(): void {
     fixture.detectChanges();
     // 16ms is the fakeAsync time for requestAnimationFrame, simulating 60fps.
     tick(16);
     fixture.detectChanges();
     tick(16);
+    triggerTransitionEnd();
   }
 
   function getFocusableItems(): NodeListOf<Element> | undefined {
@@ -989,7 +1005,7 @@ describe('Popover directive accessibility', () => {
 
   it('should be accessible', async () => {
     TestBed.configureTestingModule({
-      imports: [PopoverA11yTestComponent, NoopAnimationsModule],
+      imports: [PopoverA11yTestComponent],
     });
 
     const fixture = TestBed.createComponent(PopoverA11yTestComponent);
@@ -1013,6 +1029,18 @@ describe('Popover directive accessibility', () => {
     btn?.click();
     fixture.detectChanges();
     await fixture.whenStable();
+
+    // Manually fire transitionend since CSS transitions don't run in tests.
+    const closeContainer = document.querySelector<HTMLElement>(
+      '.sky-popover-container',
+    );
+    if (closeContainer) {
+      closeContainer.dispatchEvent(
+        new TransitionEvent('transitionend', { propertyName: 'opacity' }),
+      );
+      fixture.detectChanges();
+      await fixture.whenStable();
+    }
 
     await expectAccessible(btn, {
       ariaExpanded: 'false',

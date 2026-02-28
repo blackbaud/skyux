@@ -1,4 +1,3 @@
-import { AnimationEvent } from '@angular/animations';
 import {
   ChangeDetectorRef,
   Component,
@@ -9,6 +8,7 @@ import {
   Optional,
   ViewChild,
   ViewContainerRef,
+  signal,
 } from '@angular/core';
 import {
   SkyAffixAutoFitContext,
@@ -30,8 +30,6 @@ import {
   takeUntil,
 } from 'rxjs';
 
-import { skyPopoverAnimation } from './popover-animation';
-import { SkyPopoverAnimationState } from './popover-animation-state';
 import { SkyPopoverContext } from './popover-context';
 import {
   parseAffixHorizontalAlignment,
@@ -47,15 +45,12 @@ import { SkyPopoverType } from './types/popover-type';
 @Component({
   selector: 'sky-popover-content',
   templateUrl: './popover-content.component.html',
-  styleUrls: ['./popover-content.component.scss'],
-  animations: [skyPopoverAnimation],
+  styleUrls: ['./popover-content.component.scss', './animations.scss'],
   standalone: false,
 })
 export class SkyPopoverContentComponent implements OnInit, OnDestroy {
   @HostBinding('id')
   protected popoverId: string | undefined;
-
-  public animationState: SkyPopoverAnimationState = 'closed';
 
   public get closed(): Observable<void> {
     return this.#_closed.asObservable();
@@ -75,14 +70,7 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
 
   public horizontalAlignment: SkyPopoverAlignment = 'center';
 
-  public set isOpen(value: boolean) {
-    this.#_isOpen = value;
-    this.animationState = value ? 'open' : 'closed';
-  }
-
-  public get isOpen(): boolean {
-    return this.#_isOpen;
-  }
+  public isOpen = signal(false);
 
   public placement: SkyPopoverPlacement | null = null;
 
@@ -121,8 +109,6 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
   #_closed = new Subject<void>();
 
   #_isMouseEnter = new Subject<boolean>();
-
-  #_isOpen = false;
 
   #_opened = new Subject<void>();
 
@@ -193,17 +179,15 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onAnimationEvent(event: AnimationEvent): void {
-    if (event.fromState === 'void') {
+  protected onTransitionEnd(event: TransitionEvent): void {
+    if (event.propertyName !== 'opacity') {
       return;
     }
 
-    if (event.phaseName === 'done') {
-      if (event.toState === 'open') {
-        this.#_opened.next();
-      } else {
-        this.#_closed.next();
-      }
+    if (this.isOpen()) {
+      this.#_opened.next();
+    } else {
+      this.#_closed.next();
     }
   }
 
@@ -234,7 +218,7 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     // states simultaneously without the overhead of event listeners.
     /* istanbul ignore if */
     if (config.isStatic) {
-      this.isOpen = true;
+      this.isOpen.set(true);
       this.#changeDetector.markForCheck();
       return;
     }
@@ -272,18 +256,18 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
 
       this.#updateArrowOffset();
 
-      this.isOpen = true;
+      this.isOpen.set(true);
       this.#changeDetector.markForCheck();
     });
   }
 
   public close(): void {
-    this.isOpen = false;
+    this.isOpen.set(false);
     this.#changeDetector.markForCheck();
   }
 
   public applyFocus(): void {
-    if (this.popoverRef && this.isOpen) {
+    if (this.popoverRef && this.isOpen()) {
       this.#coreAdapterService.getFocusableChildrenAndApplyFocus(
         this.popoverRef,
         '.sky-popover',
