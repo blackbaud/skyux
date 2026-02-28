@@ -2,6 +2,14 @@
   *,
   *::before,
   *::after {
-    --sky-theme-animations-transition-duration: none !important;
+    --sky-theme-animations-duration: 0s !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    --sky-theme-animations-duration: 0s !important;
   }
 }
