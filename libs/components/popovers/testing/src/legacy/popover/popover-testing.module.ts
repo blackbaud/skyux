@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { SkyPopoverModule } from '@skyux/popovers';
-import { SkyThemeModule } from '@skyux/theme';
+import { SkyThemeModule, provideNoopSkyAnimations } from '@skyux/theme';
 
 /**
  * @internal
@@ -8,5 +8,6 @@ import { SkyThemeModule } from '@skyux/theme';
 @NgModule({
   exports: [SkyPopoverModule],
   imports: [SkyThemeModule],
+  providers: [provideNoopSkyAnimations()],
 })
 export class SkyPopoverTestingModule {}

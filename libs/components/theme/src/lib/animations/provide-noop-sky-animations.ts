@@ -6,10 +6,7 @@ import {
 } from '@angular/core';
 
 /**
- * Disables CSS transitions and animations by adding the
- * `sky-theme-animations-disabled` class to the document body. This sets
- * `--sky-theme-animations-transition-duration` to `none` for all elements,
- * which suppresses motion globally.
+ * Disables CSS transitions and animations for SKY UX components.
  *
  * Use this in unit tests or in applications that need to suppress
  * motion globally.
