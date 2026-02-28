@@ -84,6 +84,20 @@ export const rule = createESLintTemplateRule({
         ancestorStack.push(name);
 
         if (name === 'sky-input-box') {
+          const parentInputBox = getCurrentInputBox();
+
+          if (parentInputBox && !isInsideValidSkyComponent()) {
+            context.report({
+              loc: parserServices.convertNodeSourceSpanToLoc(
+                element.sourceSpan,
+              ),
+              messageId: invalidChildMessageId,
+              data: {
+                element: '<sky-input-box>',
+              },
+            });
+          }
+
           inputBoxStack.push({ element, formControlCount: 0 });
           return;
         }

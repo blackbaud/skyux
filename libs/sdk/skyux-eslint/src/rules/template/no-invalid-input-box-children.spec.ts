@@ -142,6 +142,20 @@ ruleTester.run(RULE_NAME, rule, {
       },
     }),
 
+    // Nested sky-input-box inside sky-input-box
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail when sky-input-box is nested inside sky-input-box',
+      annotatedSource: `
+      <sky-input-box><sky-input-box><input /></sky-input-box></sky-input-box>
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+      messageId: invalidChildMessageId,
+      data: {
+        element: '<sky-input-box>',
+      },
+    }),
+
     // Multiple form controls inside sky-input-box
     convertAnnotatedSourceToFailureCase({
       description:
