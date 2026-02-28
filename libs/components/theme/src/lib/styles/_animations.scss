@@ -1,3 +1,9 @@
+@property --sky-theme-animations-duration {
+  syntax: '<time>';
+  inherits: true;
+  initial-value: 150ms;
+}
+
 .sky-theme-animations-disabled {
   *,
   *::before,
