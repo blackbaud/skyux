@@ -1,3 +1,8 @@
+---
+applyTo: '**/.scss'
+description: 'SKY UX Copilot instructions for adding a CSS variable to the appropriate SCSS override mixin. Follow these guidelines to maintain consistency and organization in our SCSS files.'
+---
+
 Add given css variable to either the `sky-default-overrides` mixin based on the input.
 
 Add the variable to the mixin in alphabetical order.
