@@ -66,8 +66,6 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
 
   public affixer: SkyAffixer | undefined;
 
-  public enableAnimations = true;
-
   public horizontalAlignment: SkyPopoverAlignment = 'center';
 
   public isOpen = signal(false);
@@ -180,6 +178,8 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
   }
 
   protected onTransitionEnd(event: TransitionEvent): void {
+    console.log('onTransitionEnd()');
+    // TODO: Check event target is self
     if (event.propertyName !== 'opacity') {
       return;
     }
@@ -194,7 +194,6 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
   public open(
     caller: ElementRef,
     config: {
-      enableAnimations: boolean;
       horizontalAlignment: SkyPopoverAlignment;
       id: string;
       isStatic: boolean;
@@ -204,7 +203,6 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     },
   ): void {
     this.#caller = caller;
-    this.enableAnimations = config.enableAnimations;
     this.horizontalAlignment = config.horizontalAlignment;
     this.popoverId = config.id;
     this.placement = config.placement;
@@ -270,6 +268,7 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     this.#changeDetector.markForCheck();
 
     if (this.#areAnimationsDisabled()) {
+      console.log('ANIMATIONS DISABLED!!');
       this.#_closed.next();
     }
   }
@@ -326,10 +325,8 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
   }
 
   #areAnimationsDisabled(): boolean {
-    return (
-      !this.enableAnimations ||
-      !skyAnimationsEnabled(this.#elementRef.nativeElement)
-    );
+    console.log('eh?', skyAnimationsEnabled(this.#elementRef.nativeElement));
+    return skyAnimationsEnabled(this.#elementRef.nativeElement) === false;
   }
 
   #isFocusLeavingElement(event: KeyboardEvent): boolean {

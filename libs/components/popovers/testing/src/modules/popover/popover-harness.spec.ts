@@ -70,11 +70,9 @@ fdescribe('Popover harness', () => {
     await expectAsync(contentHarness.getTitleText()).toBeResolvedTo(
       'popover title',
     );
-
     await expectAsync(contentHarness.getBodyText()).toBeResolvedTo(
       'popover body',
     );
-
     await expectAsync(contentHarness.getAlignment()).toBeResolvedTo('center');
     await expectAsync(contentHarness.getPlacement()).toBeResolvedTo('right');
   });
@@ -173,7 +171,6 @@ fdescribe('Popover harness', () => {
     await popoverHarness1.clickPopoverButton();
 
     const contentHarness1 = await popoverHarness1.getPopoverContent();
-
     await expectAsync(
       popoverHarness2.getPopoverContent(),
     ).toBeRejectedWithError(

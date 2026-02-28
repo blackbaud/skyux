@@ -1,3 +1,7 @@
-.sky-theme-animations-disabled * {
-  --sky-theme-animations-transition-duration: none !important;
+.sky-theme-animations-disabled {
+  *,
+  *::before,
+  *::after {
+    --sky-theme-animations-transition-duration: none !important;
+  }
 }

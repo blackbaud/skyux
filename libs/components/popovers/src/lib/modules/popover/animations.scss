@@ -3,12 +3,8 @@
 .sky-popover-container {
   opacity: 0;
   transition: opacity var(--sky-theme-animations-transition-duration);
-}
 
-.sky-popover-container.sky-popover-open {
-  opacity: 1;
-}
-
-.sky-popover-container.sky-popover-animations-disabled {
-  transition-duration: $sky-transition-time-noop;
+  &.sky-popover-open {
+    opacity: 1;
+  }
 }
