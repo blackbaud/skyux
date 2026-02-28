@@ -1,8 +1,5 @@
 /**
- * Returns `true` if CSS animations and transitions are enabled on the given
- * element based on the computed value of `--sky-theme-animations-duration`.
- * The value is set to `0s` when animations are globally disabled (e.g. via
- * the `sky-theme-animations-disabled` class on the document body).
+ * Whether CSS animations or transitions are enabled on the given element.
  */
 export function skyAnimationsEnabled(element: Element): boolean {
   return (

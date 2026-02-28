@@ -1,5 +1,3 @@
-@use 'libs/components/theme/src/lib/styles/variables' as *;
-
 .sky-popover-container {
   opacity: 0;
   transition: opacity var(--sky-theme-animations-duration);
