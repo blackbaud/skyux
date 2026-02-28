@@ -103,13 +103,6 @@ export class SkyPopoverComponent implements OnDestroy {
    */
   public isActive = false;
 
-  /**
-   * Used by unit tests to disable animations since the component is injected at the bottom of the
-   * document body.
-   * @internal
-   */
-  public enableAnimations = true;
-
   public isMouseEnter = false;
 
   public popoverId: string;
@@ -194,7 +187,6 @@ export class SkyPopoverComponent implements OnDestroy {
 
   #openPopover(caller: ElementRef): void {
     this.#contentRef.open(caller, {
-      enableAnimations: this.enableAnimations,
       horizontalAlignment: this.alignment,
       id: this.popoverId,
       isStatic: false,

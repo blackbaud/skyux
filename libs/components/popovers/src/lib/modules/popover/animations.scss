@@ -1,0 +1,8 @@
+.sky-popover-container {
+  opacity: 0;
+  transition: opacity var(--sky-theme-animations-duration);
+
+  &.sky-popover-open {
+    opacity: 1;
+  }
+}

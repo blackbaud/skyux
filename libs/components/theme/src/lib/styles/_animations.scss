@@ -1,0 +1,22 @@
+@property --sky-theme-animations-duration {
+  syntax: '<time>';
+  inherits: true;
+  initial-value: 150ms;
+}
+
+.sky-theme-animations-disabled {
+  *,
+  *::before,
+  *::after {
+    --sky-theme-animations-duration: 0s !important;
+  }
+}
+
+/* suppress motion globally based on user preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    --sky-theme-animations-duration: 0s !important;
+  }
+}

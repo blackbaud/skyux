@@ -1,7 +1,7 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyPopoverAlignment, SkyPopoverPlacement } from '@skyux/popovers';
+import { provideNoopSkyAnimations } from '@skyux/theme';
 
 import { NonexistentHarness } from './fixtures/nonexistent-harness';
 import { PopoverHarnessTestItemHarness } from './fixtures/popover-harness-test-item-harness';
@@ -47,7 +47,8 @@ async function setupTest(options?: {
 describe('Popover harness', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PopoverHarnessTestComponent, NoopAnimationsModule],
+      imports: [PopoverHarnessTestComponent],
+      providers: [provideNoopSkyAnimations()],
     }).compileComponents();
   });
 
