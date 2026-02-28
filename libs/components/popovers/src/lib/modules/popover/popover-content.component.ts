@@ -178,11 +178,14 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
   }
 
   protected onTransitionEnd(event: TransitionEvent): void {
-    console.log('onTransitionEnd()');
-    // TODO: Check event target is self
-    if (event.propertyName !== 'opacity') {
+    if (
+      event.propertyName !== 'opacity' ||
+      event.target !== this.popoverRef?.nativeElement
+    ) {
       return;
     }
+
+    event.stopPropagation();
 
     if (this.isOpen()) {
       this.#_opened.next();
@@ -257,7 +260,7 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
       this.isOpen.set(true);
       this.#changeDetector.markForCheck();
 
-      if (this.#areAnimationsDisabled()) {
+      if (!skyAnimationsEnabled(this.#elementRef.nativeElement)) {
         this.#_opened.next();
       }
     });
@@ -267,8 +270,7 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     this.isOpen.set(false);
     this.#changeDetector.markForCheck();
 
-    if (this.#areAnimationsDisabled()) {
-      console.log('ANIMATIONS DISABLED!!');
+    if (!skyAnimationsEnabled(this.#elementRef.nativeElement)) {
       this.#_closed.next();
     }
   }
@@ -322,11 +324,6 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
         position: 'absolute',
       });
     }
-  }
-
-  #areAnimationsDisabled(): boolean {
-    console.log('eh?', skyAnimationsEnabled(this.#elementRef.nativeElement));
-    return skyAnimationsEnabled(this.#elementRef.nativeElement) === false;
   }
 
   #isFocusLeavingElement(event: KeyboardEvent): boolean {
