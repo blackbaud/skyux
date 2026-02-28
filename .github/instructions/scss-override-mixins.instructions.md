@@ -1,3 +1,8 @@
+---
+applyTo: '**/.scss'
+description: 'SKY UX Copilot instructions for adding empty compat mixins to the scss file for a component. Follow these guidelines to maintain consistency and organization in our SCSS files.'
+---
+
 Your goal is to have two empty mixins at the top of the scss file for the component.
 
 Add compat mixins:
