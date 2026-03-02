@@ -90,12 +90,24 @@ export function getChartJsBarChartConfig(
     },
     scales: createScales(skyConfig),
     plugins: pluginOptions,
-    onClick: (e, elements) => {
-      if (elements.length === 0) {
+    onClick: (e, _, chart) => {
+      if (!e.native) {
         return;
       }
 
-      const element = elements[0];
+      // Get the chart element(s) at the click location using a precise interaction mode rather than what tooltips use for accuracy
+      const hits = chart.getElementsAtEventForMode(
+        e.native,
+        'nearest',
+        { intersect: true },
+        true,
+      );
+
+      if (!hits?.length) {
+        return;
+      }
+
+      const element = hits[0];
       const seriesIndex = element.datasetIndex;
       const dataIndex = element.index;
 
