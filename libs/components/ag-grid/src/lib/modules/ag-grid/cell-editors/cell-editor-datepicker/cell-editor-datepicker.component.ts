@@ -148,6 +148,7 @@ export class SkyAgGridCellEditorDatepickerComponent implements ICellEditorAngula
               3,
             );
         }
+        this.#changeDetector.markForCheck();
       });
   }
 

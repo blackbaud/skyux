@@ -112,12 +112,16 @@ describe('SkyAgGridDatePickerComponent', () => {
         SkyDatepickerHarness.with({ dataSkyId: 'column-filter-datepicker' }),
       );
       await datepickerHarness.clickCalendarButton();
+      await fixture.whenStable();
+      fixture.detectChanges();
       const calendar = await datepickerHarness.getDatepickerCalendar();
       await calendar.clickDate('Thursday, January 3rd 2019');
       fixture.detectChanges();
-      expect(component.getDate()?.toISOString().substring(0, 10)).toEqual(
-        '2019-01-03',
-      );
+      const selectedDate = component.getDate();
+      expect(selectedDate).toEqual(jasmine.any(Date));
+      expect(selectedDate?.getFullYear()).toBe(2019);
+      expect(selectedDate?.getMonth()).toBe(0);
+      expect(selectedDate?.getDate()).toBe(3);
       await fixture.whenStable();
       fixture.detectChanges();
       expect(params.onDateChanged).toHaveBeenCalledTimes(2);

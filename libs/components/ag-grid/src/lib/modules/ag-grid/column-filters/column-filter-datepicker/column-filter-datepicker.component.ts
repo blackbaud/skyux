@@ -43,7 +43,7 @@ export class SkyAgGridColumnFilterDatepickerComponent implements IDateAngularCom
     return undefined;
   });
   protected readonly minDate = computed(() => {
-    const minValidDate = this.params()?.filterParams.minValidDate;
+    const minValidDate = this.params()?.filterParams?.minValidDate;
     if (minValidDate && minValidDate instanceof Date) {
       return minValidDate;
     }
