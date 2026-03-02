@@ -39,20 +39,22 @@ export class SkyAgGridColumnFilterDatepickerComponent implements IDateAngularCom
   protected readonly maxDate = computed(() => {
     const maxValidDate = this.params()?.filterParams?.maxValidDate;
     if (maxValidDate && maxValidDate instanceof Date) {
-      return maxValidDate;
+      return Number.isNaN(maxValidDate.getTime()) ? undefined : maxValidDate;
     }
     if (maxValidDate) {
-      return new Date(maxValidDate);
+      const parsed = new Date(maxValidDate);
+      return Number.isNaN(parsed.getTime()) ? undefined : parsed;
     }
     return undefined;
   });
   protected readonly minDate = computed(() => {
     const minValidDate = this.params()?.filterParams?.minValidDate;
     if (minValidDate && minValidDate instanceof Date) {
-      return minValidDate;
+      return Number.isNaN(minValidDate.getTime()) ? undefined : minValidDate;
     }
     if (minValidDate) {
-      return new Date(minValidDate);
+      const parsed = new Date(minValidDate);
+      return Number.isNaN(parsed.getTime()) ? undefined : parsed;
     }
     return undefined;
   });

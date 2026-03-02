@@ -103,10 +103,14 @@ describe('SkyAgGridDatePickerComponent', () => {
       component.agInit(params);
       component.setDate(new Date('2019-01-01T00:00:00'));
       fixture.detectChanges();
+      // Verify onDateChanged not called on initial setDate.
       expect(params.onDateChanged).not.toHaveBeenCalled();
+
       component.setDate(new Date('2019-01-02T00:00:00'));
       fixture.detectChanges();
+      // Verify onDateChanged called on subsequent setDate.
       expect(params.onDateChanged).toHaveBeenCalledTimes(1);
+
       const datepickerHarness = await TestbedHarnessEnvironment.loader(
         fixture,
       ).getHarness(
@@ -123,8 +127,7 @@ describe('SkyAgGridDatePickerComponent', () => {
       expect(selectedDate?.getFullYear()).toBe(2019);
       expect(selectedDate?.getMonth()).toBe(0);
       expect(selectedDate?.getDate()).toBe(3);
-      await fixture.whenStable();
-      fixture.detectChanges();
+      // Verify onDateChanged called on form value changes.
       expect(params.onDateChanged).toHaveBeenCalledTimes(2);
     });
   });
@@ -170,6 +173,24 @@ describe('SkyAgGridDatePickerComponent', () => {
       expect(result).toEqual(jasmine.any(Date));
       expect(result?.toISOString()).toContain('2025-12-31');
     });
+
+    it('should return undefined when maxValidDate is an invalid Date', () => {
+      const params = createMockParams({
+        filterParams: {
+          maxValidDate: new Date('invalid'),
+        } as DateFilterParams,
+      });
+      component.agInit(params);
+      expect(component['maxDate']()).toBeUndefined();
+    });
+
+    it('should return undefined when maxValidDate is an invalid string', () => {
+      const params = createMockParams({
+        filterParams: { maxValidDate: 'not-a-date' } as DateFilterParams,
+      });
+      component.agInit(params);
+      expect(component['maxDate']()).toBeUndefined();
+    });
   });
 
   describe('minDate', () => {
@@ -196,6 +217,24 @@ describe('SkyAgGridDatePickerComponent', () => {
       const result = component['minDate']();
       expect(result).toEqual(jasmine.any(Date));
       expect(result?.toISOString()).toContain('2019-01-01');
+    });
+
+    it('should return undefined when minValidDate is an invalid Date', () => {
+      const params = createMockParams({
+        filterParams: {
+          minValidDate: new Date('invalid'),
+        } as DateFilterParams,
+      });
+      component.agInit(params);
+      expect(component['minDate']()).toBeUndefined();
+    });
+
+    it('should return undefined when minValidDate is an invalid string', () => {
+      const params = createMockParams({
+        filterParams: { minValidDate: 'not-a-date' } as DateFilterParams,
+      });
+      component.agInit(params);
+      expect(component['minDate']()).toBeUndefined();
     });
   });
 
