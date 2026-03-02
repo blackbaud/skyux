@@ -64,7 +64,11 @@ export class SkyAgGridColumnFilterDatepickerComponent implements IDateAngularCom
   readonly #dateValue = linkedSignal(
     () => {
       const value = this.#formValue();
-      return value ? new Date(value) : null;
+      if (!value) {
+        return null;
+      }
+      const parsed = new Date(value);
+      return Number.isNaN(parsed.getTime()) ? null : parsed;
     },
     {
       equal: (a, b) => {
