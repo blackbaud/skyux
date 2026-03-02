@@ -1,21 +1,23 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   computed,
   effect,
   linkedSignal,
   signal,
+  untracked,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { SkyDatepickerModule } from '@skyux/datetime';
-import { SkyInputBoxModule } from '@skyux/forms';
 
 import { IDateAngularComp } from 'ag-grid-angular';
 import { IDateParams } from 'ag-grid-community';
 
+/** @internal */
 @Component({
   selector: 'sky-ag-grid-date-picker',
-  imports: [SkyDatepickerModule, ReactiveFormsModule, SkyInputBoxModule],
+  imports: [SkyDatepickerModule, ReactiveFormsModule],
   templateUrl: './column-filter-datepicker.component.html',
   styleUrls: [
     '../../cell-editors/cell-editor-datepicker/cell-editor-datepicker.component.scss',
@@ -25,6 +27,7 @@ import { IDateParams } from 'ag-grid-community';
     '[class.sky-ag-grid-cell-editor-datepicker]': 'isHeaderFilter()',
     '(focusin)': 'focused()',
   },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyAgGridColumnFilterDatepickerComponent implements IDateAngularComp {
   protected readonly dateControl = new FormControl<string | null>(null);
@@ -32,6 +35,7 @@ export class SkyAgGridColumnFilterDatepickerComponent implements IDateAngularCom
   protected readonly isHeaderFilter = computed(
     () => this.params()?.location === 'filter',
   );
+  protected readonly label = signal<string>('');
   protected readonly maxDate = computed(() => {
     const maxValidDate = this.params()?.filterParams?.maxValidDate;
     if (maxValidDate && maxValidDate instanceof Date) {
@@ -72,6 +76,7 @@ export class SkyAgGridColumnFilterDatepickerComponent implements IDateAngularCom
   readonly #dateValueString = computed(
     () => this.#dateValue()?.toISOString() ?? '',
   );
+  // Does not emit on the initial value, only tracks if a value has ever been set after initialization. This is used to determine whether to call onDateChanged.
   readonly #hadValue = linkedSignal({
     source: () => !!this.#formValue(),
     computation: (_hasValue, previous) =>
@@ -81,7 +86,7 @@ export class SkyAgGridColumnFilterDatepickerComponent implements IDateAngularCom
   constructor() {
     effect(() => {
       const hasValue = this.#hadValue();
-      const params = this.params();
+      const params = untracked(() => this.params());
       const onDateChanged = params?.onDateChanged;
       if (onDateChanged && hasValue) {
         onDateChanged();
@@ -107,6 +112,10 @@ export class SkyAgGridColumnFilterDatepickerComponent implements IDateAngularCom
     if (newDate !== currentDate) {
       this.dateControl.setValue(newDate || null);
     }
+  }
+
+  public setInputAriaLabel(placeholder: string): void {
+    this.label.set(placeholder);
   }
 
   public setDisabled(disabled: boolean): void {

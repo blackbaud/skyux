@@ -1,6 +1,7 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { expectAsync } from '@skyux-sdk/testing';
 import { SkyDatepickerHarness } from '@skyux/datetime/testing';
 
 import { DateFilterParams, IDateParams } from 'ag-grid-community';
@@ -220,6 +221,15 @@ describe('SkyAgGridDatePickerComponent', () => {
       component.agInit(params);
       component['openChange'](false);
       expect(params.onFocusIn).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('setInputAriaLabel', () => {
+    it('should set input aria label', async () => {
+      const params = createMockParams();
+      component.agInit(params);
+      component.setInputAriaLabel('Test Aria Label');
+      await expectAsync(fixture.nativeElement).toBeAccessible();
     });
   });
 });
