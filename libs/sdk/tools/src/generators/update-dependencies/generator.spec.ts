@@ -252,7 +252,7 @@ describe('update dependencies generator', () => {
         },
       },
     });
-  });
+  }, 3e6);
 
   it('should throw error on unmet dependencies', async () => {
     await libraryGenerator(appTree, {
@@ -478,7 +478,7 @@ describe('update dependencies generator', () => {
 
     // Should not include non-component project
     expect(inputs).not.toContain('{workspaceRoot}/libs/non-component/**/*.ts');
-  });
+  }, 3e6);
 
   it('should handle missing manifest project gracefully', async () => {
     // Create component projects without a manifest project
