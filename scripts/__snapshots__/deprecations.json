@@ -292,6 +292,7 @@
   "@skyux/modals:SkyModalConfigurationInterface:ariaLabelledBy",
   "@skyux/modals:SkyModalConfigurationInterface:helpKey",
   "@skyux/modals:SkyModalConfigurationInterface:tiledBody",
+  "@skyux/modals:SkyModalHeaderComponent",
   "@skyux/modals:SkyModalHostService:backdropZIndex",
   "@skyux/modals:SkyModalHostService:onOpenHelp",
   "@skyux/modals:SkyModalHostService:openHelp",

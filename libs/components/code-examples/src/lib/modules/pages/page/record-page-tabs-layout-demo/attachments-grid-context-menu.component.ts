@@ -11,9 +11,7 @@ import { Attachment } from './attachment';
   templateUrl: './attachments-grid-context-menu.component.html',
   imports: [SkyDropdownModule],
 })
-export class AttachmentsGridContextMenuComponent
-  implements ICellRendererAngularComp
-{
+export class AttachmentsGridContextMenuComponent implements ICellRendererAngularComp {
   protected attachmentName = '';
 
   public agInit(params: ICellRendererParams<Attachment>): void {

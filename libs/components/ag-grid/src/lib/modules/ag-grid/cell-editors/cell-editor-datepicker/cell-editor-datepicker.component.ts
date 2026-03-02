@@ -42,9 +42,7 @@ import { SkyAgGridDatepickerProperties } from '../../types/datepicker-properties
     SkyI18nModule,
   ],
 })
-export class SkyAgGridCellEditorDatepickerComponent
-  implements ICellEditorAngularComp
-{
+export class SkyAgGridCellEditorDatepickerComponent implements ICellEditorAngularComp {
   public columnHeader: string | undefined;
   public columnWidth: number | undefined;
   public columnWidthWithoutBorders: number | undefined;

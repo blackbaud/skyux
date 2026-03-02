@@ -38,9 +38,9 @@ const routes: Routes = [
   {
     path: 'vertical-tabset-back-to-top',
     loadChildren: () =>
-      import(
-        './vertical-tabset-back-to-top/vertical-tabset-back-to-top.module'
-      ).then((m) => m.VerticalTabsetBackToTopModule),
+      import('./vertical-tabset-back-to-top/vertical-tabset-back-to-top.module').then(
+        (m) => m.VerticalTabsetBackToTopModule,
+      ),
   },
   {
     path: 'toast',
@@ -71,9 +71,9 @@ const routes: Routes = [
   {
     path: 'modal-split-view-tile-dashboard',
     loadChildren: () =>
-      import(
-        './modal-split-view-tile-dashboard/modal-split-view-tile-dashboard.module'
-      ).then((m) => m.ModalSplitViewTileDashboardModule),
+      import('./modal-split-view-tile-dashboard/modal-split-view-tile-dashboard.module').then(
+        (m) => m.ModalSplitViewTileDashboardModule,
+      ),
   },
   {
     path: 'modal-date-range-picker',
@@ -85,9 +85,9 @@ const routes: Routes = [
   {
     path: 'page-data-manager-split-view',
     loadChildren: () =>
-      import(
-        './page-data-manager-split-view/page-data-manager-split-view.module'
-      ).then((m) => m.PageDataManagerSplitViewModule),
+      import('./page-data-manager-split-view/page-data-manager-split-view.module').then(
+        (m) => m.PageDataManagerSplitViewModule,
+      ),
   },
 ];
 

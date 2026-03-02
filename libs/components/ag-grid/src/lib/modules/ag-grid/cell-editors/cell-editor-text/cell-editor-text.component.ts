@@ -30,9 +30,7 @@ import { SkyAgGridCellEditorUtils } from '../../types/cell-editor-utils';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FormsModule, ReactiveFormsModule, SkyI18nModule],
 })
-export class SkyAgGridCellEditorTextComponent
-  implements ICellEditorAngularComp
-{
+export class SkyAgGridCellEditorTextComponent implements ICellEditorAngularComp {
   public columnHeader: string | undefined;
   public editorForm = new UntypedFormGroup({
     text: new UntypedFormControl(),

@@ -157,9 +157,8 @@ export class FooCodeExample1 {}`,
       },
     });
 
-    const { generateCodeExamplesManifest } = await import(
-      './generate-code-examples-manifest.js'
-    );
+    const { generateCodeExamplesManifest } =
+      await import('./generate-code-examples-manifest.js');
 
     await generateCodeExamplesManifest({
       codeExamplesPackageName: '@skyux/code-examples',
@@ -195,9 +194,8 @@ export class FooCodeExample1 {}`,
       documentationConfigJson,
     });
 
-    const { generateCodeExamplesManifest } = await import(
-      './generate-code-examples-manifest.js'
-    );
+    const { generateCodeExamplesManifest } =
+      await import('./generate-code-examples-manifest.js');
 
     await generateCodeExamplesManifest({
       codeExamplesPackageName: '@skyux/code-examples',
@@ -253,9 +251,8 @@ export class FooCodeExampleNoSelector {}`,
       },
     });
 
-    const { generateCodeExamplesManifest } = await import(
-      './generate-code-examples-manifest.js'
-    );
+    const { generateCodeExamplesManifest } =
+      await import('./generate-code-examples-manifest.js');
 
     await expect(
       generateCodeExamplesManifest({
@@ -297,9 +294,8 @@ export class FooCodeExampleNoSelector {}`,
       documentationConfigJson,
     });
 
-    const { generateCodeExamplesManifest } = await import(
-      './generate-code-examples-manifest.js'
-    );
+    const { generateCodeExamplesManifest } =
+      await import('./generate-code-examples-manifest.js');
 
     await generateCodeExamplesManifest({
       codeExamplesPackageName: '@skyux/code-examples',
@@ -386,9 +382,8 @@ export class FooCodeExampleHiddenDemo {}`,
       },
     });
 
-    const { generateCodeExamplesManifest } = await import(
-      './generate-code-examples-manifest.js'
-    );
+    const { generateCodeExamplesManifest } =
+      await import('./generate-code-examples-manifest.js');
 
     await generateCodeExamplesManifest({
       codeExamplesPackageName: '@skyux/code-examples',

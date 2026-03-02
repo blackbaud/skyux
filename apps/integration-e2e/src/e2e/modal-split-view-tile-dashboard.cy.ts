@@ -14,7 +14,7 @@ describe('Modal Split View Tile Dashboard', () => {
           .get('button[title="Open full page modal"]')
           .should('be.visible')
           .click();
-        cy.get('sky-modal-header')
+        cy.get('.sky-modal-header')
           .should('exist')
           .should('be.visible')
           .should('contain.text', 'Modal title');
@@ -47,7 +47,7 @@ describe('Modal Split View Tile Dashboard', () => {
         .get('button[title="Open large modal with fit layout"]')
         .should('be.visible')
         .click();
-      cy.get('sky-modal-header')
+      cy.get('.sky-modal-header')
         .should('exist')
         .should('be.visible')
         .should('contain.text', 'Modal title');

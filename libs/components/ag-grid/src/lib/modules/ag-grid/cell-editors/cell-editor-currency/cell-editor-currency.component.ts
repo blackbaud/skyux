@@ -38,9 +38,7 @@ import { SkyAgGridCurrencyProperties } from '../../types/currency-properties';
     SkyI18nModule,
   ],
 })
-export class SkyAgGridCellEditorCurrencyComponent
-  implements ICellEditorAngularComp
-{
+export class SkyAgGridCellEditorCurrencyComponent implements ICellEditorAngularComp {
   public skyComponentProperties: SkyAgGridCurrencyProperties & {
     isCancellable: boolean;
   } = {
