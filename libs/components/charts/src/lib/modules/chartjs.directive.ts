@@ -79,13 +79,14 @@ export class SkyChartJsDirective implements OnDestroy, AfterViewInit {
       // Only update the chart if it already exists.
       // Initial creation is handled in ngAfterViewInit to ensure the canvas is ready.
       if (chart?.config.options && config.options) {
+        // TODO: Evaluate options
         // See https://www.chartjs.org/docs/latest/developers/updates.html#updating-options
 
-        // 1. If the options are mutated in place, other option properties would be preserved, including those calculated by Chart.js.
+        // Option 1. If the options are mutated in place, other option properties would be preserved, including those calculated by Chart.js.
         const newOptions = this.chartConfiguration().options;
         Object.assign(chart.config.options, newOptions);
 
-        // 2. If created as a new object, it would be like creating a new chart with the options - old options would be discarded.
+        // Option 2. If created as a new object, it would be like creating a new chart with the options - old options would be discarded.
         // this.#chart.config.options = this.chartConfigProvider().options;
 
         this.#updateChart();
