@@ -1,7 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
+  SkyChartCategoryAxisComponent,
+  SkyChartComponent,
+  SkyChartValueAxisComponent,
+  SkyDeclarativeLineChartComponent,
   SkyLineChartComponent,
   SkyLineChartConfig,
+  SkyLineChartSeriesComponent,
+  SkyLineChartSeriesDatapointComponent,
   SkySelectedChartDataPoint,
 } from '@skyux/charts';
 import { SkyBoxModule } from '@skyux/layout';
@@ -20,7 +26,17 @@ import { ChartDemoUtils } from '../shared/chart-demo-utils';
       }
     `,
   ],
-  imports: [SkyLineChartComponent, SkyBoxModule, SkyFluidGridModule],
+  imports: [
+    SkyLineChartComponent,
+    SkyBoxModule,
+    SkyFluidGridModule,
+    SkyChartComponent,
+    SkyDeclarativeLineChartComponent,
+    SkyLineChartSeriesComponent,
+    SkyLineChartSeriesDatapointComponent,
+    SkyChartCategoryAxisComponent,
+    SkyChartValueAxisComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LineChartDemoComponent {

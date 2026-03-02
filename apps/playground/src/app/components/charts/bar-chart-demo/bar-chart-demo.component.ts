@@ -2,6 +2,12 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   SkyBarChartComponent,
   SkyBarChartConfig,
+  SkyBarChartSeriesComponent,
+  SkyBarChartSeriesDatapointComponent,
+  SkyChartCategoryAxisComponent,
+  SkyChartComponent,
+  SkyChartValueAxisComponent,
+  SkyDeclarativeBarChartComponent,
   SkySelectedChartDataPoint,
 } from '@skyux/charts';
 import { SkyBoxModule } from '@skyux/layout';
@@ -20,7 +26,17 @@ import { ChartDemoUtils } from '../shared/chart-demo-utils';
       }
     `,
   ],
-  imports: [SkyBarChartComponent, SkyBoxModule, SkyFluidGridModule],
+  imports: [
+    SkyBarChartComponent,
+    SkyBoxModule,
+    SkyFluidGridModule,
+    SkyDeclarativeBarChartComponent,
+    SkyBarChartSeriesComponent,
+    SkyBarChartSeriesDatapointComponent,
+    SkyChartCategoryAxisComponent,
+    SkyChartValueAxisComponent,
+    SkyChartComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BarChartDemoComponent {
@@ -45,7 +61,6 @@ export class BarChartDemoComponent {
       // TODO: Chart localization
       tickFormatter: (value) => `$${Number(value) / 1000}K`,
     },
-
   };
 
   protected readonly multiSeriesVertical: SkyBarChartConfig = {
@@ -68,10 +83,10 @@ export class BarChartDemoComponent {
       },
     ],
     categoryAxis: { label: 'Categories' },
-    valueAxis: { 
-      label: 'Amount', 
+    valueAxis: {
+      label: 'Amount',
       // TODO: Chart localization
-      tickFormatter: (value) => `$${Number(value) / 1000}K`, 
+      tickFormatter: (value) => `$${Number(value) / 1000}K`,
     },
   };
 
@@ -403,6 +418,6 @@ export class BarChartDemoComponent {
   // #endregion
 
   public onDataPointClicked(event: SkySelectedChartDataPoint): void {
-    window.alert('Datapoint Clicked: ' + JSON.stringify(event, null ,2));
+    window.alert('Datapoint Clicked: ' + JSON.stringify(event, null, 2));
   }
 }

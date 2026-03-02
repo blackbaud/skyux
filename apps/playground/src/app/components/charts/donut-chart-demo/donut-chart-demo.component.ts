@@ -1,5 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SkyDonutChartComponent, SkyDonutChartConfig, SkySelectedChartDataPoint } from '@skyux/charts';
+import {
+  SkyChartComponent,
+  SkyDeclarativeDonutChartComponent,
+  SkyDonutChartComponent,
+  SkyDonutChartConfig,
+  SkyDonutChartSeriesComponent,
+  SkyDonutChartSeriesDatapointComponent,
+  SkySelectedChartDataPoint,
+} from '@skyux/charts';
 import { SkyBoxModule } from '@skyux/layout';
 import { SkyFluidGridModule } from '@skyux/layout';
 
@@ -16,7 +24,15 @@ import { ChartDemoUtils } from '../shared/chart-demo-utils';
       }
     `,
   ],
-  imports: [SkyDonutChartComponent, SkyBoxModule, SkyFluidGridModule],
+  imports: [
+    SkyDonutChartComponent,
+    SkyBoxModule,
+    SkyFluidGridModule,
+    SkyChartComponent,
+    SkyDeclarativeDonutChartComponent,
+    SkyDonutChartSeriesComponent,
+    SkyDonutChartSeriesDatapointComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DonutChartDemoComponent {
@@ -91,6 +107,6 @@ export class DonutChartDemoComponent {
   };
 
   public onDataPointClicked(event: SkySelectedChartDataPoint): void {
-    window.alert('Datapoint Clicked: ' + JSON.stringify(event, null ,2));
+    window.alert('Datapoint Clicked: ' + JSON.stringify(event, null, 2));
   }
 }

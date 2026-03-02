@@ -1,5 +1,130 @@
 <h1>Charts Playground</h1>
 
+<!-- Declarative -->
+<div>
+  <h2>Declarative</h2>
+  <div>
+    <sky-fluid-grid>
+      <sky-row>
+        <sky-column
+          [screenXSmall]="12"
+          [screenSmall]="12"
+          [screenMedium]="6"
+          [screenLarge]="6"
+        >
+          <sky-box headingText="Single series" class="sky-margin-stacked-xl">
+            <sky-box-content>
+              <sky-chart
+                [headingText]="'Monthly spendings'"
+                [headingHidden]="false"
+                [headingLevel]="3"
+                [headingStyle]="3"
+                [subtitleText]="'Spending over a month'"
+                [subtitleHidden]="false"
+              >
+                <sky-bar-chart-declarative
+                  orientation="vertical"
+                  [stacked]="false"
+                  (dataPointClicked)="onDataPointClicked($event)"
+                >
+                  <sky-chart-category-axis labelText="Revenue" />
+                  <sky-chart-value-axis labelText="Amount" scaleType="linear" />
+
+                  <sky-bar-chart-series labelText="Budget">
+                    <sky-bar-chart-series-datapoint
+                      category="January"
+                      label="$50,000"
+                      [value]="50000"
+                    />
+
+                    <sky-bar-chart-series-datapoint
+                      category="February"
+                      label="$100,000"
+                      [value]="100000"
+                    />
+
+                    <sky-bar-chart-series-datapoint
+                      category="March"
+                      label="$150,000"
+                      [value]="150000"
+                    />
+
+                    <sky-bar-chart-series-datapoint
+                      category="April"
+                      label="$200,000"
+                      [value]="200000"
+                    />
+                  </sky-bar-chart-series>
+                </sky-bar-chart-declarative>
+              </sky-chart>
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
+
+        <sky-column
+          [screenXSmall]="12"
+          [screenSmall]="12"
+          [screenMedium]="6"
+          [screenLarge]="6"
+        >
+          <sky-box headingText="Single series" class="sky-margin-stacked-xl">
+            <sky-box-content>
+              <sky-chart
+                [headingText]="'Monthly spendings'"
+                [headingHidden]="false"
+                [headingLevel]="3"
+                [headingStyle]="3"
+                [subtitleText]="'Spending over a month'"
+                [subtitleHidden]="false"
+              >
+                <sky-bar-chart-declarative
+                  orientation="vertical"
+                  [stacked]="false"
+                  (dataPointClicked)="onDataPointClicked($event)"
+                >
+                  <sky-chart-category-axis labelText="Categories" />
+                  <sky-chart-value-axis
+                    labelText="Amount in $"
+                    scaleType="linear"
+                  />
+
+                  <sky-bar-chart-series labelText="Budget">
+                    <sky-bar-chart-series-datapoint
+                      category="Revenue"
+                      label="$120,000"
+                      [value]="120000"
+                    />
+
+                    <sky-bar-chart-series-datapoint
+                      category="Expenses"
+                      label="$115,000"
+                      [value]="115000"
+                    />
+                  </sky-bar-chart-series>
+
+                  <sky-bar-chart-series labelText="Actuals">
+                    <sky-bar-chart-series-datapoint
+                      category="Revenue"
+                      label="$85,000"
+                      [value]="85000"
+                    />
+
+                    <sky-bar-chart-series-datapoint
+                      category="Expenses"
+                      label="$78,000"
+                      [value]="78000"
+                    />
+                  </sky-bar-chart-series>
+                </sky-bar-chart-declarative>
+              </sky-chart>
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
+      </sky-row>
+    </sky-fluid-grid>
+  </div>
+</div>
+
 <!-- Linear -->
 <div>
   <h2>Linear</h2>

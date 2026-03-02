@@ -1,5 +1,66 @@
 <h2>Charts Playground</h2>
 
+<!-- Declarative -->
+<div>
+  <h2>Declarative</h2>
+  <div>
+    <sky-fluid-grid>
+      <sky-row>
+        <sky-column
+          [screenXSmall]="12"
+          [screenSmall]="12"
+          [screenMedium]="6"
+          [screenLarge]="6"
+        >
+          <sky-box headingText="Single series" class="sky-margin-stacked-xl">
+            <sky-box-content>
+              <sky-chart
+                [headingText]="'Project Budget vs Actuals'"
+                [headingHidden]="false"
+                [headingLevel]="3"
+                [headingStyle]="3"
+                [subtitleText]="'Spending over a month'"
+                [subtitleHidden]="false"
+              >
+                <sky-donut-chart-declarative
+                  (dataPointClicked)="onDataPointClicked($event)"
+                >
+                  <sky-donut-chart-series labelText="Budget">
+                    <sky-donut-chart-series-datapoint
+                      category="Securities - WP"
+                      label="$5,000,000"
+                      [value]="5000000"
+                    />
+
+                    <sky-donut-chart-series-datapoint
+                      category="Income/Compensation - WP"
+                      label="$2,500,000"
+                      [value]="2500000"
+                    />
+
+                    <sky-donut-chart-series-datapoint
+                      category="Private Co. Valuation - WP"
+                      label="$1,500,000"
+                      [value]="1500000"
+                    />
+
+                    <sky-donut-chart-series-datapoint
+                      category="Real Estate - WP"
+                      label="$1,000,000"
+                      [value]="1000000"
+                    />
+                  </sky-donut-chart-series>
+                </sky-donut-chart-declarative>
+              </sky-chart>
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
+      </sky-row>
+    </sky-fluid-grid>
+  </div>
+</div>
+
+<!-- Imperative -->
 <sky-fluid-grid>
   <sky-row>
     <sky-column

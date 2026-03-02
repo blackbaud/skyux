@@ -23,3 +23,25 @@ export {
 } from './lib/modules/donut-chart/donut-chart-types';
 
 export { SkySelectedChartDataPoint } from './lib/modules/shared/types/selected-chart-data-point';
+
+// #region Declarative Charting Components
+export { SkyChartComponent } from './lib/modules/declarative/chart/chart.component';
+
+export { SkyChartCategoryAxisComponent } from './lib/modules/declarative/axis/chart-category-axis.component';
+export { SkyChartValueAxisComponent } from './lib/modules/declarative/axis/chart-value-axis.component';
+
+// Bar Chart
+export { SkyDeclarativeBarChartComponent } from './lib/modules/declarative/bar-chart/bar-chart.component';
+export { SkyBarChartSeriesComponent } from './lib/modules/declarative/bar-chart/bar-chart-series.component';
+export { SkyBarChartSeriesDatapointComponent } from './lib/modules/declarative/bar-chart/bar-chart-series-datapoint.component';
+
+// Line Chart
+export { SkyDeclarativeLineChartComponent } from './lib/modules/declarative/line-chart/line-chart.component';
+export { SkyLineChartSeriesComponent } from './lib/modules/declarative/line-chart/line-chart-series.component';
+export { SkyLineChartSeriesDatapointComponent } from './lib/modules/declarative/line-chart/line-chart-series-datapoint.component';
+// Donut
+export { SkyDeclarativeDonutChartComponent } from './lib/modules/declarative/donut-chart/donut-chart.component';
+export { SkyDonutChartSeriesComponent } from './lib/modules/declarative/donut-chart/donut-chart-series.component';
+export { SkyDonutChartSeriesDatapointComponent } from './lib/modules/declarative/donut-chart/donut-chart-series-datapoint.component';
+
+// #endregion

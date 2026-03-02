@@ -1,5 +1,108 @@
 <h1>Charts Playground</h1>
 
+<!-- Declarative -->
+<div>
+  <h2>Declarative</h2>
+  <div>
+    <sky-fluid-grid>
+      <sky-row>
+        <sky-column
+          [screenXSmall]="12"
+          [screenSmall]="12"
+          [screenMedium]="6"
+          [screenLarge]="6"
+        >
+          <sky-box headingText="Single series" class="sky-margin-stacked-xl">
+            <sky-box-content>
+              <sky-chart
+                [headingText]="'Month-by-month revenue'"
+                [headingHidden]="false"
+                [headingLevel]="3"
+                [headingStyle]="3"
+                [subtitleText]="'Revenue over time'"
+                [subtitleHidden]="false"
+              >
+                <sky-line-chart-declarative
+                  [stacked]="false"
+                  (dataPointClicked)="onDataPointClicked($event)"
+                >
+                  <sky-chart-category-axis labelText="Month" />
+
+                  <sky-chart-value-axis labelText="Amount" scaleType="linear" />
+
+                  <sky-line-chart-series labelText="Budget">
+                    <sky-line-chart-series-datapoint
+                      category="January"
+                      label="$25K"
+                      [value]="25"
+                    />
+                    <sky-line-chart-series-datapoint
+                      category="February"
+                      label="$28K"
+                      [value]="28"
+                    />
+                    <sky-line-chart-series-datapoint
+                      category="March"
+                      label="$22K"
+                      [value]="22"
+                    />
+                    <sky-line-chart-series-datapoint
+                      category="April"
+                      label="$35K"
+                      [value]="35"
+                    />
+                    <sky-line-chart-series-datapoint
+                      category="May"
+                      label="$30K"
+                      [value]="30"
+                    />
+                    <sky-line-chart-series-datapoint
+                      category="June"
+                      label="$45K"
+                      [value]="45"
+                    />
+                    <sky-line-chart-series-datapoint
+                      category="July"
+                      label="$38K"
+                      [value]="38"
+                    />
+                    <sky-line-chart-series-datapoint
+                      category="August"
+                      label="$42K"
+                      [value]="42"
+                    />
+                    <sky-line-chart-series-datapoint
+                      category="September"
+                      label="$50K"
+                      [value]="50"
+                    />
+                    <sky-line-chart-series-datapoint
+                      category="October"
+                      label="$40K"
+                      [value]="40"
+                    />
+                    <sky-line-chart-series-datapoint
+                      category="November"
+                      label="$55K"
+                      [value]="55"
+                    />
+                    <sky-line-chart-series-datapoint
+                      category="December"
+                      label="$48K"
+                      [value]="48"
+                    />
+                  </sky-line-chart-series>
+                </sky-line-chart-declarative>
+              </sky-chart>
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
+      </sky-row>
+    </sky-fluid-grid>
+  </div>
+</div>
+
+<!-- Imperative -->
 <sky-fluid-grid>
   <!-- Linear -->
   <sky-row>
@@ -12,7 +115,7 @@
     >
       <sky-box headingText="Single series" class="sky-margin-stacked-xl">
         <sky-box-content>
-          <sky-line-chart          
+          <sky-line-chart
             [headingText]="'Month-by-month revenue'"
             [headingHidden]="false"
             [headingLevel]="3"
