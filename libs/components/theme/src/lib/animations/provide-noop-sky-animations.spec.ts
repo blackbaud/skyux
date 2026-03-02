@@ -1,4 +1,8 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  EnvironmentInjector,
+  createEnvironmentInjector,
+} from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
 import { provideNoopSkyAnimations } from './provide-noop-sky-animations';
@@ -48,5 +52,24 @@ describe('provideNoopSkyAnimations', () => {
     ).length;
 
     expect(count).toBe(1);
+  });
+
+  it('should remove the class when the environment injector is destroyed', () => {
+    const parentInjector = TestBed.inject(EnvironmentInjector);
+
+    const childInjector = createEnvironmentInjector(
+      [provideNoopSkyAnimations()],
+      parentInjector,
+    );
+
+    expect(
+      document.body.classList.contains('sky-theme-animations-disabled'),
+    ).toBeTrue();
+
+    childInjector.destroy();
+
+    expect(
+      document.body.classList.contains('sky-theme-animations-disabled'),
+    ).toBeFalse();
   });
 });

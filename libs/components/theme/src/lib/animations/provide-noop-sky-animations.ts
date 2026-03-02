@@ -1,5 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import {
+  DestroyRef,
   EnvironmentProviders,
   inject,
   provideEnvironmentInitializer,
@@ -22,7 +23,12 @@ import {
 export function provideNoopSkyAnimations(): EnvironmentProviders {
   return provideEnvironmentInitializer(() => {
     const doc = inject(DOCUMENT);
+    const destroyRef = inject(DestroyRef);
 
     doc.body.classList.add('sky-theme-animations-disabled');
+
+    destroyRef.onDestroy(() => {
+      doc.body.classList.remove('sky-theme-animations-disabled');
+    });
   });
 }
