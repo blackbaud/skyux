@@ -1,4 +1,11 @@
+---
+applyTo: '**'
+description: 'SKY UX commit message instructions. Follow these guidelines to write clear and consistent commit messages for SKY UX components. These guidelines are based on the conventional commits standard and include specific requirements for SKY UX projects.'
+---
+
 Commit messages should be based on the conventional commits standard at https://www.conventionalcommits.org/en/v1.0.0/#specification
+
+Commit messages are used to generate changelogs, determine semantic versioning, and provide clear history of changes. Following a consistent format helps maintain clarity and organization in the project.
 
 ## SKY UX Specifics
 
