@@ -1,5 +1,7 @@
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { SkyDatepickerHarness } from '@skyux/datetime/testing';
 
 import { DateFilterParams, IDateParams } from 'ag-grid-community';
 
@@ -73,13 +75,13 @@ describe('SkyAgGridDatePickerComponent', () => {
   describe('setDisabled', () => {
     it('should disable the form control', () => {
       component.setDisabled(true);
-      expect(component['formGroup'].controls.date.disabled).toBeTrue();
+      expect(component['dateControl'].disabled).toBeTrue();
     });
 
     it('should enable the form control', () => {
       component.setDisabled(true);
       component.setDisabled(false);
-      expect(component['formGroup'].controls.date.enabled).toBeTrue();
+      expect(component['dateControl'].enabled).toBeTrue();
     });
   });
 
@@ -90,16 +92,35 @@ describe('SkyAgGridDatePickerComponent', () => {
       component.agInit(params1);
       component.refresh(params2);
       fixture.detectChanges();
-      expect(component['isHeaderFiler']()).toBeTrue();
+      expect(component['isHeaderFilter']()).toBeTrue();
     });
   });
 
   describe('onDateChanged callback', () => {
-    it('should call onDateChanged when the date value changes', () => {
+    it('should call onDateChanged when the date value changes', async () => {
       const params = createMockParams();
       component.agInit(params);
       component.setDate(new Date('2019-01-01T00:00:00'));
-      expect(params.onDateChanged).toHaveBeenCalled();
+      fixture.detectChanges();
+      expect(params.onDateChanged).not.toHaveBeenCalled();
+      component.setDate(new Date('2019-01-02T00:00:00'));
+      fixture.detectChanges();
+      expect(params.onDateChanged).toHaveBeenCalledTimes(1);
+      const datepickerHarness = await TestbedHarnessEnvironment.loader(
+        fixture,
+      ).getHarness(
+        SkyDatepickerHarness.with({ dataSkyId: 'column-filter-datepicker' }),
+      );
+      await datepickerHarness.clickCalendarButton();
+      const calendar = await datepickerHarness.getDatepickerCalendar();
+      await calendar.clickDate('Thursday, January 3rd 2019');
+      fixture.detectChanges();
+      expect(component.getDate()?.toISOString().substring(0, 10)).toEqual(
+        '2019-01-03',
+      );
+      await fixture.whenStable();
+      fixture.detectChanges();
+      expect(params.onDateChanged).toHaveBeenCalledTimes(2);
     });
   });
 
@@ -108,14 +129,14 @@ describe('SkyAgGridDatePickerComponent', () => {
       const params = createMockParams({ location: 'filter' });
       component.agInit(params);
       fixture.detectChanges();
-      expect(component['isHeaderFiler']()).toBeTrue();
+      expect(component['isHeaderFilter']()).toBeTrue();
     });
 
     it('should return false when location is not filter', () => {
       const params = createMockParams({ location: 'floatingFilter' });
       component.agInit(params);
       fixture.detectChanges();
-      expect(component['isHeaderFiler']()).toBeFalse();
+      expect(component['isHeaderFilter']()).toBeFalse();
     });
   });
 

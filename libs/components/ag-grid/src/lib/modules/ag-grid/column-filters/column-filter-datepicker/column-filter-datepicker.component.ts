@@ -1,6 +1,12 @@
-import { Component, computed, inject, signal } from '@angular/core';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
+import {
+  Component,
+  computed,
+  effect,
+  linkedSignal,
+  signal,
+} from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { SkyDatepickerModule } from '@skyux/datetime';
 import { SkyInputBoxModule } from '@skyux/forms';
 
@@ -15,13 +21,15 @@ import { IDateParams } from 'ag-grid-community';
     '../../cell-editors/cell-editor-datepicker/cell-editor-datepicker.component.scss',
     './column-filter-datepicker.component.scss',
   ],
+  host: {
+    '[class.sky-ag-grid-cell-editor-datepicker]': 'isHeaderFilter()',
+    '(focusin)': 'focused()',
+  },
 })
 export class SkyAgGridColumnFilterDatepickerComponent implements IDateAngularComp {
-  protected readonly formGroup = inject(FormBuilder).group({
-    date: new FormControl<string | null>(null),
-  });
+  protected readonly dateControl = new FormControl<string | null>(null);
   protected readonly params = signal<IDateParams | undefined>(undefined);
-  protected readonly isHeaderFiler = computed(
+  protected readonly isHeaderFilter = computed(
     () => this.params()?.location === 'filter',
   );
   protected readonly maxDate = computed(() => {
@@ -44,21 +52,41 @@ export class SkyAgGridColumnFilterDatepickerComponent implements IDateAngularCom
     }
     return undefined;
   });
-  readonly #formValue = toSignal(this.formGroup.controls.date.valueChanges, {
+  readonly #formValue = toSignal(this.dateControl.valueChanges, {
     initialValue: null,
   });
-  readonly #dateValue = computed(() => {
-    const value = this.#formValue();
-    return value ? new Date(value) : null;
+  readonly #dateValue = linkedSignal(
+    () => {
+      const value = this.#formValue();
+      return value ? new Date(value) : null;
+    },
+    {
+      equal: (a, b) => {
+        if (!!a !== !!b) {
+          return false;
+        }
+        return a?.getTime() === b?.getTime();
+      },
+    },
+  );
+  readonly #dateValueString = computed(
+    () => this.#dateValue()?.toISOString() ?? '',
+  );
+  readonly #hadValue = linkedSignal({
+    source: () => !!this.#formValue(),
+    computation: (_hasValue, previous) =>
+      !!previous?.source || !!previous?.value,
   });
 
   constructor() {
-    this.formGroup.controls.date.valueChanges
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => {
-        const params = this.params();
-        params?.onDateChanged?.();
-      });
+    effect(() => {
+      const hasValue = this.#hadValue();
+      const params = this.params();
+      const onDateChanged = params?.onDateChanged;
+      if (onDateChanged && hasValue) {
+        onDateChanged();
+      }
+    });
   }
 
   public agInit(params: IDateParams): void {
@@ -74,14 +102,18 @@ export class SkyAgGridColumnFilterDatepickerComponent implements IDateAngularCom
   }
 
   public setDate(date: Date | null): void {
-    this.formGroup.controls.date.setValue(date?.toISOString() ?? null);
+    const currentDate = this.#dateValueString();
+    const newDate = date?.toISOString() ?? '';
+    if (newDate !== currentDate) {
+      this.dateControl.setValue(newDate || null);
+    }
   }
 
   public setDisabled(disabled: boolean): void {
     if (disabled) {
-      this.formGroup.controls.date.disable();
+      this.dateControl.disable();
     } else {
-      this.formGroup.controls.date.enable();
+      this.dateControl.enable();
     }
   }
 
@@ -93,5 +125,9 @@ export class SkyAgGridColumnFilterDatepickerComponent implements IDateAngularCom
     if ($event) {
       this.focused();
     }
+  }
+
+  protected dateChange(): void {
+    this.params()?.onDateChanged?.();
   }
 }
