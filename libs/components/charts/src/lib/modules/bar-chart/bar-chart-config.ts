@@ -169,15 +169,15 @@ function createScales(
   const orientation = skyConfig.orientation ?? 'vertical';
   const isVertical = orientation === 'vertical';
   const categoryAxis = isVertical ? 'y' : 'x';
-  const valueAxis = isVertical ? 'x' : 'y';
+  const measureAxis = isVertical ? 'x' : 'y';
 
   const categoryScale = createCategoryScale(skyConfig, categoryAxis);
-  const valueScale = createValueScale(skyConfig, valueAxis);
+  const measureScale = createMeasureScale(skyConfig, measureAxis);
 
   if (orientation === 'vertical') {
-    return { x: categoryScale, y: valueScale };
+    return { x: categoryScale, y: measureScale };
   } else {
-    return { x: valueScale, y: categoryScale };
+    return { x: measureScale, y: categoryScale };
   }
 }
 
@@ -240,11 +240,11 @@ function createCategoryScale(
   return categoryScale;
 }
 
-function createValueScale(
+function createMeasureScale(
   config: SkyBarChartConfig,
   axis: 'x' | 'y',
 ): PartialBarScale {
-  if (config.valueAxis?.scaleType === 'logarithmic') {
+  if (config.measureAxis?.scaleType === 'logarithmic') {
     return createLogarithmicValueScale(config, axis);
   } else {
     return createLinearValueScale(config, axis);
@@ -261,8 +261,8 @@ function createLinearValueScale(
     type: 'linear',
     stacked: config.stacked ?? false,
     beginAtZero: true,
-    suggestedMin: config.valueAxis?.suggestedMin,
-    suggestedMax: config.valueAxis?.suggestedMax,
+    suggestedMin: config.measureAxis?.suggestedMin,
+    suggestedMax: config.measureAxis?.suggestedMax,
     grid: {
       display: true,
       color: SkyuxChartStyles.axisGridLineColor,
@@ -275,12 +275,12 @@ function createLinearValueScale(
       ...base.ticks,
       padding: SkyuxChartStyles.axisTickPaddingY,
       // TODO: Chart localization
-      callback: config.valueAxis?.tickFormatter,
+      callback: config.measureAxis?.tickFormatter,
     },
     title: {
       ...base.title,
-      display: !!config.valueAxis?.label,
-      text: config.valueAxis?.label,
+      display: !!config.measureAxis?.label,
+      text: config.measureAxis?.label,
       padding: getScaleTitlePadding(axis),
     },
   };
@@ -297,8 +297,8 @@ function createLogarithmicValueScale(
   const valueScale: PartialBarScale = {
     type: 'logarithmic',
     stacked: config.stacked ?? false,
-    suggestedMin: config.valueAxis?.suggestedMin,
-    suggestedMax: config.valueAxis?.suggestedMax,
+    suggestedMin: config.measureAxis?.suggestedMin,
+    suggestedMax: config.measureAxis?.suggestedMax,
     grid: {
       display: true,
       color: SkyuxChartStyles.axisGridLineColor,
@@ -311,12 +311,12 @@ function createLogarithmicValueScale(
       ...base.ticks,
       padding: SkyuxChartStyles.axisTickPaddingY,
       // TODO: Chart localization
-      callback: config.valueAxis?.tickFormatter,
+      callback: config.measureAxis?.tickFormatter,
     },
     title: {
       ...base.title,
-      display: !!config.valueAxis?.label,
-      text: config.valueAxis?.label,
+      display: !!config.measureAxis?.label,
+      text: config.measureAxis?.label,
       padding: getScaleTitlePadding(axis),
     },
   };

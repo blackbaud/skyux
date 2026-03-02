@@ -137,9 +137,9 @@ function createScales(
   config: SkyLineChartConfig,
 ): ChartOptions<'line'>['scales'] {
   const categoryScale = createCategoryScale(config);
-  const valueScale = createValueScale(config);
+  const measureScale = createMeasureScale(config);
 
-  return { x: categoryScale, y: valueScale };
+  return { x: categoryScale, y: measureScale };
 }
 
 function getBaseScale(): PartialLineScale {
@@ -204,8 +204,8 @@ function createCategoryScale(config: SkyLineChartConfig): PartialLineScale {
   return categoryScale;
 }
 
-function createValueScale(config: SkyLineChartConfig): PartialLineScale {
-  if (config.valueAxis?.scaleType === 'logarithmic') {
+function createMeasureScale(config: SkyLineChartConfig): PartialLineScale {
+  if (config.measureAxis?.scaleType === 'logarithmic') {
     return createLogarithmicValueScale(config);
   } else {
     return createLinearValueScale(config);
@@ -218,20 +218,20 @@ function createLinearValueScale(config: SkyLineChartConfig): PartialLineScale {
   const valueScale: PartialLineScale = {
     type: 'linear',
     stacked: config.stacked ?? false,
-    suggestedMin: config.valueAxis?.suggestedMin,
-    suggestedMax: config.valueAxis?.suggestedMax,
+    suggestedMin: config.measureAxis?.suggestedMin,
+    suggestedMax: config.measureAxis?.suggestedMax,
     grid: base.grid,
     border: base.border,
     ticks: {
       ...base.ticks,
       padding: SkyuxChartStyles.axisTickPaddingY,
       // TODO: Chart localization
-      callback: config.valueAxis?.tickFormatter,
+      callback: config.measureAxis?.tickFormatter,
     },
     title: {
       ...base.title,
-      display: !!config.valueAxis?.label,
-      text: config.valueAxis?.label,
+      display: !!config.measureAxis?.label,
+      text: config.measureAxis?.label,
       padding: getScaleTitlePadding('y'),
     },
   };
@@ -247,20 +247,20 @@ function createLogarithmicValueScale(
   const valueScale: PartialLineScale = {
     type: 'logarithmic',
     stacked: config.stacked ?? false,
-    suggestedMin: config.valueAxis?.suggestedMin,
-    suggestedMax: config.valueAxis?.suggestedMax,
+    suggestedMin: config.measureAxis?.suggestedMin,
+    suggestedMax: config.measureAxis?.suggestedMax,
     grid: base.grid,
     border: base.border,
     ticks: {
       ...base.ticks,
       padding: SkyuxChartStyles.axisTickPaddingY,
       // TODO: Chart localization
-      callback: config.valueAxis?.tickFormatter,
+      callback: config.measureAxis?.tickFormatter,
     },
     title: {
       ...base.title,
-      display: !!config.valueAxis?.label,
-      text: config.valueAxis?.label,
+      display: !!config.measureAxis?.label,
+      text: config.measureAxis?.label,
       padding: getScaleTitlePadding('y'),
     },
   };

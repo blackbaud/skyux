@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   SkyChartCategoryAxisComponent,
   SkyChartComponent,
-  SkyChartValueAxisComponent,
+  SkyChartMeasureAxisComponent,
   SkyDeclarativeLineChartComponent,
   SkyLineChartComponent,
   SkyLineChartConfig,
@@ -35,7 +35,7 @@ import { ChartDemoUtils } from '../shared/chart-demo-utils';
     SkyLineChartSeriesComponent,
     SkyLineChartSeriesDatapointComponent,
     SkyChartCategoryAxisComponent,
-    SkyChartValueAxisComponent,
+    SkyChartMeasureAxisComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -60,8 +60,8 @@ export class LineChartDemoComponent {
         ],
       },
     ],
-    valueAxis: { label: 'Amount' },
     categoryAxis: { label: 'Month' },
+    measureAxis: { label: 'Amount' },
   };
 
   protected readonly multiSeries: SkyLineChartConfig = {
@@ -127,8 +127,8 @@ export class LineChartDemoComponent {
         }),
       },
     ],
-    valueAxis: { label: 'Amount' },
     categoryAxis: { label: 'Month' },
+    measureAxis: { label: 'Amount' },
   };
 
   protected readonly stacked: SkyLineChartConfig = {
@@ -195,8 +195,8 @@ export class LineChartDemoComponent {
         }),
       },
     ],
-    valueAxis: { label: 'Amount' },
     categoryAxis: { label: 'Month' },
+    measureAxis: { label: 'Amount' },
   };
 
   protected readonly singleSeriesLog: SkyLineChartConfig = {
@@ -219,8 +219,8 @@ export class LineChartDemoComponent {
         ],
       },
     ],
-    valueAxis: { label: 'Amount', scaleType: 'logarithmic' },
     categoryAxis: { label: 'Month' },
+    measureAxis: { label: 'Amount', scaleType: 'logarithmic' },
   };
 
   protected readonly multiSeriesLog: SkyLineChartConfig = {
@@ -286,7 +286,7 @@ export class LineChartDemoComponent {
         }),
       },
     ],
-    valueAxis: { label: 'Amount', scaleType: 'logarithmic' },
+    measureAxis: { label: 'Amount', scaleType: 'logarithmic' },
     categoryAxis: { label: 'Month' },
   };
 
@@ -354,8 +354,8 @@ export class LineChartDemoComponent {
         }),
       },
     ],
-    valueAxis: { label: 'Amount', scaleType: 'logarithmic' },
     categoryAxis: { label: 'Month' },
+    measureAxis: { label: 'Amount', scaleType: 'logarithmic' },
   };
 
   public onDataPointClicked(event: SkySelectedChartDataPoint): void {

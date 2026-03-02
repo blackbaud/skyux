@@ -1,6 +1,6 @@
 import {
   SkyChartCategoryAxisConfig,
-  SkyChartValueAxisConfig,
+  SkyChartMeasureAxisConfig,
 } from './axis-types';
 import { SkyChartDataPoint } from './chart-data-point';
 import { SkyChartSeries } from './chart-series';
@@ -25,7 +25,7 @@ export interface SkyCartesianChartConfig<TData extends SkyChartDataPoint> {
   categoryAxis?: SkyChartCategoryAxisConfig;
 
   /**
-   * Configuration for the value axis.
+   * Configuration for the measure axis.
    */
-  valueAxis?: SkyChartValueAxisConfig;
+  measureAxis?: SkyChartMeasureAxisConfig;
 }

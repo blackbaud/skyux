@@ -25,7 +25,7 @@ import {
 import { SkyChartSeries } from '../../shared/types/chart-series';
 import { SkySelectedChartDataPoint } from '../../shared/types/selected-chart-data-point';
 import { SkyChartCategoryAxisComponent } from '../axis/chart-category-axis.component';
-import { SkyChartValueAxisComponent } from '../axis/chart-value-axis.component';
+import { SkyChartMeasureAxisComponent } from '../axis/chart-measure-axis.component';
 import { SkyChartComponent } from '../chart/chart.component';
 import { SkyChartService } from '../chart/chart.service';
 
@@ -69,8 +69,8 @@ export class SkyDeclarativeLineChartComponent {
   protected readonly categoryAxisComponent = contentChild.required(
     SkyChartCategoryAxisComponent,
   );
-  protected readonly valueAxisComponent = contentChild.required(
-    SkyChartValueAxisComponent,
+  protected readonly measureAxisComponent = contentChild.required(
+    SkyChartMeasureAxisComponent,
   );
   /** 1 to many series data for the chart  */
   protected readonly seriesComponents = contentChildren(
@@ -92,7 +92,7 @@ export class SkyDeclarativeLineChartComponent {
 
   readonly #barChartConfig = computed<SkyLineChartConfig>(() => {
     const categoryAxis = this.categoryAxisComponent();
-    const valueAxis = this.valueAxisComponent();
+    const measureAxis = this.measureAxisComponent();
 
     const series: SkyChartSeries<SkyLineChartPoint>[] =
       this.seriesComponents().map((seriesComp) => ({
@@ -110,12 +110,12 @@ export class SkyDeclarativeLineChartComponent {
       categoryAxis: categoryAxis
         ? { label: categoryAxis.labelText() }
         : undefined,
-      valueAxis: valueAxis
+      measureAxis: measureAxis
         ? {
-            label: valueAxis.labelText(),
-            scaleType: valueAxis.scaleType(),
-            suggestedMin: valueAxis.suggestedMin(),
-            suggestedMax: valueAxis.suggestedMax(),
+            label: measureAxis.labelText(),
+            scaleType: measureAxis.scaleType(),
+            suggestedMin: measureAxis.suggestedMin(),
+            suggestedMax: measureAxis.suggestedMax(),
           }
         : undefined,
     };

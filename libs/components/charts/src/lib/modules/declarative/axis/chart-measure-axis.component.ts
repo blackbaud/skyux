@@ -4,11 +4,11 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
  * Configures the Chart's value axis.
  */
 @Component({
-  selector: 'sky-chart-value-axis',
+  selector: 'sky-chart-measure-axis',
   template: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyChartValueAxisComponent {
+export class SkyChartMeasureAxisComponent {
   /**
    * The label displayed alongside the value axis.
    */

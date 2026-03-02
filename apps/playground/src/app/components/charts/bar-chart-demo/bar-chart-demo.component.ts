@@ -6,7 +6,7 @@ import {
   SkyBarChartSeriesDatapointComponent,
   SkyChartCategoryAxisComponent,
   SkyChartComponent,
-  SkyChartValueAxisComponent,
+  SkyChartMeasureAxisComponent,
   SkyDeclarativeBarChartComponent,
   SkySelectedChartDataPoint,
 } from '@skyux/charts';
@@ -34,7 +34,7 @@ import { ChartDemoUtils } from '../shared/chart-demo-utils';
     SkyBarChartSeriesComponent,
     SkyBarChartSeriesDatapointComponent,
     SkyChartCategoryAxisComponent,
-    SkyChartValueAxisComponent,
+    SkyChartMeasureAxisComponent,
     SkyChartComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -56,7 +56,7 @@ export class BarChartDemoComponent {
       },
     ],
     categoryAxis: { label: 'Month' },
-    valueAxis: {
+    measureAxis: {
       label: 'Amount',
       // TODO: Chart localization
       tickFormatter: (value) => `$${Number(value) / 1000}K`,
@@ -83,7 +83,7 @@ export class BarChartDemoComponent {
       },
     ],
     categoryAxis: { label: 'Categories' },
-    valueAxis: {
+    measureAxis: {
       label: 'Amount',
       // TODO: Chart localization
       tickFormatter: (value) => `$${Number(value) / 1000}K`,
@@ -140,8 +140,8 @@ export class BarChartDemoComponent {
         }),
       },
     ],
-    valueAxis: { label: 'Value' },
     categoryAxis: { label: 'Month' },
+    measureAxis: { label: 'Value' },
   };
 
   protected readonly singleSeriesVerticalLog: SkyBarChartConfig = {
@@ -157,8 +157,8 @@ export class BarChartDemoComponent {
         ],
       },
     ],
-    valueAxis: { label: 'Value', scaleType: 'logarithmic' },
     categoryAxis: { label: 'Month' },
+    measureAxis: { label: 'Value', scaleType: 'logarithmic' },
   };
 
   protected readonly multiSeriesVerticalLog: SkyBarChartConfig = {
@@ -179,8 +179,8 @@ export class BarChartDemoComponent {
         ],
       },
     ],
-    valueAxis: { label: 'Value', scaleType: 'logarithmic' },
     categoryAxis: { label: 'Categories' },
+    measureAxis: { label: 'Value', scaleType: 'logarithmic' },
   };
 
   protected readonly stackedVerticalLog: SkyBarChartConfig = {
@@ -233,8 +233,8 @@ export class BarChartDemoComponent {
         }),
       },
     ],
-    valueAxis: { label: 'Value', scaleType: 'logarithmic' },
     categoryAxis: { label: 'Month' },
+    measureAxis: { label: 'Value', scaleType: 'logarithmic' },
   };
   // #endregion
 
@@ -252,8 +252,8 @@ export class BarChartDemoComponent {
         ],
       },
     ],
-    valueAxis: { label: 'Amount' },
     categoryAxis: { label: 'Month' },
+    measureAxis: { label: 'Amount' },
   };
 
   protected readonly multiSeriesHorizontal: SkyBarChartConfig = {
@@ -274,8 +274,8 @@ export class BarChartDemoComponent {
         ],
       },
     ],
-    valueAxis: { label: 'Amount' },
     categoryAxis: { label: 'Categories' },
+    measureAxis: { label: 'Amount' },
   };
 
   protected readonly stackedHorizontal: SkyBarChartConfig = {
@@ -328,8 +328,8 @@ export class BarChartDemoComponent {
         }),
       },
     ],
-    valueAxis: { label: 'Amount' },
     categoryAxis: { label: 'Month' },
+    measureAxis: { label: 'Amount' },
   };
 
   protected readonly singleSeriesHorizontalLog: SkyBarChartConfig = {
@@ -345,8 +345,8 @@ export class BarChartDemoComponent {
         ],
       },
     ],
-    valueAxis: { label: 'Amount', scaleType: 'logarithmic' },
     categoryAxis: { label: 'Month' },
+    measureAxis: { label: 'Amount', scaleType: 'logarithmic' },
   };
 
   protected readonly multiSeriesHorizontalLog: SkyBarChartConfig = {
@@ -367,8 +367,8 @@ export class BarChartDemoComponent {
         ],
       },
     ],
-    valueAxis: { label: 'Amount', scaleType: 'logarithmic' },
     categoryAxis: { label: 'Categories' },
+    measureAxis: { label: 'Amount', scaleType: 'logarithmic' },
   };
 
   protected readonly stackedHorizontalLog: SkyBarChartConfig = {
@@ -412,8 +412,8 @@ export class BarChartDemoComponent {
         ),
       },
     ],
-    valueAxis: { label: 'Amount', scaleType: 'logarithmic' },
     categoryAxis: { label: 'Month' },
+    measureAxis: { label: 'Amount', scaleType: 'logarithmic' },
   };
   // #endregion
 

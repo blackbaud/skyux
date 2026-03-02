@@ -28,7 +28,7 @@ export { SkySelectedChartDataPoint } from './lib/modules/shared/types/selected-c
 export { SkyChartComponent } from './lib/modules/declarative/chart/chart.component';
 
 export { SkyChartCategoryAxisComponent } from './lib/modules/declarative/axis/chart-category-axis.component';
-export { SkyChartValueAxisComponent } from './lib/modules/declarative/axis/chart-value-axis.component';
+export { SkyChartMeasureAxisComponent } from './lib/modules/declarative/axis/chart-measure-axis.component';
 
 // Bar Chart
 export { SkyDeclarativeBarChartComponent } from './lib/modules/declarative/bar-chart/bar-chart.component';

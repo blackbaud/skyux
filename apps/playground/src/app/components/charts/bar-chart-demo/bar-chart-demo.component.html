@@ -28,7 +28,7 @@
                   (dataPointClicked)="onDataPointClicked($event)"
                 >
                   <sky-chart-category-axis labelText="Revenue" />
-                  <sky-chart-value-axis labelText="Amount" scaleType="linear" />
+                  <sky-chart-measure-axis labelText="Amount" scaleType="linear" />
 
                   <sky-bar-chart-series labelText="Budget">
                     <sky-bar-chart-series-datapoint
@@ -67,14 +67,14 @@
           [screenMedium]="6"
           [screenLarge]="6"
         >
-          <sky-box headingText="Single series" class="sky-margin-stacked-xl">
+          <sky-box headingText="Multi series" class="sky-margin-stacked-xl">
             <sky-box-content>
               <sky-chart
-                [headingText]="'Monthly spendings'"
+                [headingText]="'Project Budget vs Actuals'"
                 [headingHidden]="false"
                 [headingLevel]="3"
                 [headingStyle]="3"
-                [subtitleText]="'Spending over a month'"
+                [subtitleText]="'Budgeted vs actual revenue and expenses'"
                 [subtitleHidden]="false"
               >
                 <sky-bar-chart-declarative
@@ -83,7 +83,7 @@
                   (dataPointClicked)="onDataPointClicked($event)"
                 >
                   <sky-chart-category-axis labelText="Categories" />
-                  <sky-chart-value-axis
+                  <sky-chart-measure-axis
                     labelText="Amount in $"
                     scaleType="linear"
                   />

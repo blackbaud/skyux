@@ -11,9 +11,9 @@ export interface SkyChartAxisConfig {
 export type SkyChartCategoryAxisConfig = SkyChartAxisConfig;
 
 /**
- * Configuration for chart value axis settings.
+ * Configuration for chart measure axis settings.
  */
-export interface SkyChartValueAxisConfig extends SkyChartAxisConfig {
+export interface SkyChartMeasureAxisConfig extends SkyChartAxisConfig {
   /**
    * The type of scale to use for the value axis.
    * @default 'linear'
