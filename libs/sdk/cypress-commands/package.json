@@ -1,9 +1,8 @@
 {
   "name": "@skyux-sdk/cypress-commands",
   "version": "0.0.1",
-  "dependencies": {},
   "peerDependencies": {
-    "cypress": "15.8.2"
+    "cypress": "15.11.0"
   },
   "private": true
 }
