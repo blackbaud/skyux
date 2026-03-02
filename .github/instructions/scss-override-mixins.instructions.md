@@ -1,5 +1,5 @@
 ---
-applyTo: '**/.scss'
+applyTo: '**/*.scss'
 description: 'SKY UX Copilot instructions for adding empty compat mixins to the scss file for a component. Follow these guidelines to maintain consistency and organization in our SCSS files.'
 ---
 

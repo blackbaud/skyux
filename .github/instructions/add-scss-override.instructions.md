@@ -1,5 +1,5 @@
 ---
-applyTo: '**/.scss'
+applyTo: '**/*.scss'
 description: 'SKY UX Copilot instructions for adding a CSS variable to the appropriate SCSS override mixin. Follow these guidelines to maintain consistency and organization in our SCSS files.'
 ---
 
