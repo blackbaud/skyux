@@ -71,8 +71,7 @@
   display: none;
 }
 
-.sky-modal-btn-help,
-.sky-modal-btn-close {
+.sky-modal-btn-help {
   display: var(--sky-override-modal-help-close-display, none);
 }
 
@@ -225,7 +224,7 @@
   border-bottom: var(--sky-override-modal-header-bottom-border);
 
   display: flex;
-  align-items: baseline;
+  align-items: center;
 }
 
 .sky-modal-header-buttons {
