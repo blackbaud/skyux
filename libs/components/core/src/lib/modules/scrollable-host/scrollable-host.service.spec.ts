@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
 import { Subject, firstValueFrom, of } from 'rxjs';
-import { delay, take, takeUntil } from 'rxjs/operators';
+import { delay, skip, take, takeUntil } from 'rxjs/operators';
 
 import { SkyMutationObserverService } from '../mutation/mutation-observer-service';
 import { SkyResizeObserverService } from '../resize-observer/resize-observer.service';
@@ -621,6 +621,71 @@ describe('Scrollable host service', () => {
         expect(clipPath).toBe(
           `inset(10px ${viewport.width - 90}px ${viewport.height - 130}px 12px)`,
         );
+        done();
+      });
+  });
+
+  it('should not emit duplicate clip paths for repeated identical updates', (done) => {
+    const scrollableHostSvc = TestBed.inject(SkyScrollableHostService);
+
+    cmp.isParentPositioned = true;
+    cmp.positionedParentWidth = '100px';
+    fixture.detectChanges();
+
+    const done$ = new Subject<void>();
+    let duplicateEmissionCount = 0;
+
+    scrollableHostSvc
+      .watchScrollableHostClipPathChanges(cmp.target)
+      .pipe(skip(1), takeUntil(done$))
+      .subscribe(() => {
+        duplicateEmissionCount++;
+      });
+
+    scrollableHostSvc
+      .watchScrollableHostClipPathChanges(cmp.target)
+      .pipe(take(1))
+      .subscribe(() => {
+        SkyAppTestUtility.fireDomEvent(window, 'scroll');
+        SkyAppTestUtility.fireDomEvent(window, 'scroll');
+
+        setTimeout(() => {
+          expect(duplicateEmissionCount).toBe(0);
+          done$.next();
+          done$.complete();
+          done();
+        });
+      });
+  });
+
+  it('should only observe shared additional host parent once', (done) => {
+    const scrollableHostSvc = TestBed.inject(SkyScrollableHostService);
+    const resizeObserverSvc = TestBed.inject(SkyResizeObserverService);
+
+    cmp.isParentPositioned = true;
+    cmp.positionedParentWidth = '100px';
+    fixture.detectChanges();
+
+    const additionalHost =
+      fixture.nativeElement.querySelector('.additional-host');
+
+    const additionalHosts = of([
+      new ElementRef(additionalHost),
+      new ElementRef(additionalHost),
+    ]);
+
+    const sharedParent = additionalHost.offsetParent as HTMLElement;
+    const observeSpy = spyOn(resizeObserverSvc, 'observe').and.callThrough();
+
+    scrollableHostSvc
+      .watchScrollableHostClipPathChanges(cmp.target, additionalHosts)
+      .pipe(take(1))
+      .subscribe(() => {
+        const parentObserveCalls = observeSpy.calls
+          .allArgs()
+          .filter((args) => args[0].nativeElement === sharedParent);
+
+        expect(parentObserveCalls.length).toBe(1);
         done();
       });
   });

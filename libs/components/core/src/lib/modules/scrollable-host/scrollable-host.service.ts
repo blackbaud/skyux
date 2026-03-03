@@ -9,6 +9,7 @@ import {
   combineLatestWith,
   concat,
   debounceTime,
+  distinctUntilChanged,
   fromEvent,
   map,
   observeOn,
@@ -31,6 +32,8 @@ function notifySubscribers(
 }
 
 type HostRect = Pick<DOMRect, 'top' | 'left' | 'right' | 'bottom'>;
+
+const SCROLLABLE_OVERFLOW_REGEX = /(auto|scroll)/;
 
 @Injectable({
   providedIn: 'root',
@@ -188,7 +191,9 @@ export class SkyScrollableHostService {
           // Only subscribe to scroll events if the host element is defined.
           /* istanbul ignore else */
           if (newScrollableHost) {
-            scrollEventSubscription = fromEvent(newScrollableHost, 'scroll')
+            scrollEventSubscription = fromEvent(newScrollableHost, 'scroll', {
+              passive: true,
+            })
               .pipe(takeUntil(newScrollableHostObservable))
               .subscribe(() => {
                 notifySubscribers(subscribers);
@@ -239,11 +244,17 @@ export class SkyScrollableHostService {
 
           const hostsParents: HTMLElement[] = additionalHosts
             .map((container) => container.nativeElement?.offsetParent)
-            .filter(Boolean);
+            .filter(Boolean)
+            .filter(
+              (hostsParent, index, parents) =>
+                parents.indexOf(hostsParent) === index,
+            );
           const inputs = [
             of(undefined),
             fromEvent(this.#windowRef.nativeWindow, 'resize'),
-            fromEvent(this.#windowRef.nativeWindow, 'scroll'),
+            fromEvent(this.#windowRef.nativeWindow, 'scroll', {
+              passive: true,
+            }),
             ...additionalHosts.map((container) =>
               resizeObserverSvc.observe(container),
             ),
@@ -292,6 +303,7 @@ export class SkyScrollableHostService {
               left = Math.max(0, left);
               return `inset(${top}px ${viewportSize.width - right}px ${viewportSize.height - bottom}px ${left}px)`;
             }),
+            distinctUntilChanged(),
           );
         }),
       );
@@ -304,7 +316,6 @@ export class SkyScrollableHostService {
   }
 
   #findScrollableHost(element: HTMLElement | undefined): HTMLElement | Window {
-    const regex = /(auto|scroll)/;
     const windowObj = this.#windowRef.nativeWindow;
     const bodyObj = windowObj.document.body;
 
@@ -325,8 +336,8 @@ export class SkyScrollableHostService {
 
       style = windowObj.getComputedStyle(parent);
     } while (
-      !regex.test(style.overflow) &&
-      !regex.test(style.overflowY) &&
+      !SCROLLABLE_OVERFLOW_REGEX.test(style.overflow) &&
+      !SCROLLABLE_OVERFLOW_REGEX.test(style.overflowY) &&
       parent !== bodyObj
     );
 
