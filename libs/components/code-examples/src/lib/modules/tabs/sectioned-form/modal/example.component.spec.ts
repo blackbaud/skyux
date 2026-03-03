@@ -2,7 +2,6 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
-import { SkyModalService } from '@skyux/modals';
 import { SkySectionedFormHarness } from '@skyux/tabs/testing';
 
 import { TabsSectionedFormModalExampleComponent } from './example.component';
@@ -28,10 +27,6 @@ describe('Sectioned form in a modal example', () => {
 
     return { sectionedFormHarness, fixture };
   }
-
-  afterEach(() => {
-    TestBed.inject(SkyModalService).dispose();
-  });
 
   it('should set up the sectioned form', async () => {
     const { sectionedFormHarness } = await setupTest();

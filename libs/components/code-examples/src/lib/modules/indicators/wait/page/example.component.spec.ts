@@ -1,7 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkyWaitService } from '@skyux/indicators';
 import { SkyWaitHarness } from '@skyux/indicators/testing';
 
 import { IndicatorsWaitPageExampleComponent } from './example.component';
@@ -18,10 +17,6 @@ describe('Page wait', () => {
 
     return { rootLoader, el, fixture };
   }
-
-  afterEach(() => {
-    TestBed.inject(SkyWaitService).dispose();
-  });
 
   beforeEach(() => {
     TestBed.configureTestingModule({
