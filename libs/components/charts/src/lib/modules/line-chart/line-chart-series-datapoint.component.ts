@@ -1,7 +1,13 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from '@angular/core';
 
-import { SkyLineDatum } from '../../line-chart/line-chart-types';
-import { SkyCategory } from '../../shared/types/category';
+import { SkyCategory } from '../shared/types/category';
+
+import { SkyLineChartPoint, SkyLineDatum } from './line-chart-types';
 
 /**
  * Represents a single data point within a chart series.
@@ -26,4 +32,16 @@ export class SkyLineChartSeriesDatapointComponent {
    * The numeric value for this data point.
    */
   public readonly value = input.required<SkyLineDatum>();
+
+  /**
+   * The data point object
+   * @internal
+   */
+  public readonly datapoint = computed<SkyLineChartPoint>(() => {
+    return {
+      category: this.category(),
+      label: this.labelText(),
+      value: this.value(),
+    };
+  });
 }

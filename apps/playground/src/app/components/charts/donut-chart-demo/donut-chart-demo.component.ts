@@ -1,17 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   SkyChartComponent,
-  SkyDeclarativeDonutChartComponent,
   SkyDonutChartComponent,
-  SkyDonutChartConfig,
   SkyDonutChartSeriesComponent,
   SkyDonutChartSeriesDatapointComponent,
   SkySelectedChartDataPoint,
 } from '@skyux/charts';
 import { SkyBoxModule } from '@skyux/layout';
 import { SkyFluidGridModule } from '@skyux/layout';
-
-import { ChartDemoUtils } from '../shared/chart-demo-utils';
 
 @Component({
   selector: 'app-donut-chart-demo',
@@ -29,14 +25,14 @@ import { ChartDemoUtils } from '../shared/chart-demo-utils';
     SkyBoxModule,
     SkyFluidGridModule,
     SkyChartComponent,
-    SkyDeclarativeDonutChartComponent,
+    SkyDonutChartComponent,
     SkyDonutChartSeriesComponent,
     SkyDonutChartSeriesDatapointComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DonutChartDemoComponent {
-  protected assetCategories = [
+  protected chart1 = [
     {
       name: 'Securities - WP',
       value: 5_000_000,
@@ -58,53 +54,6 @@ export class DonutChartDemoComponent {
       label: '$1,000,000',
     },
   ];
-
-  protected readonly chart1: SkyDonutChartConfig = {
-    series: {
-      label: 'Series 1',
-      data: this.assetCategories.map((c) => ({
-        category: c.name,
-        label: c.label,
-        value: c.value,
-      })),
-    },
-  };
-
-  protected readonly chart2: SkyDonutChartConfig = {
-    series: {
-      label: 'Series 1',
-      data: ChartDemoUtils.numbers({
-        count: 4,
-        min: 1,
-        max: 100,
-        decimals: 0,
-      }).map((value, index) => {
-        return {
-          category: ChartDemoUtils.months({ count: 4 })[index],
-          label: `$${value}`,
-          value,
-        };
-      }),
-    },
-  };
-
-  protected readonly chart3: SkyDonutChartConfig = {
-    series: {
-      label: 'Series 1',
-      data: ChartDemoUtils.numbers({
-        count: 8,
-        min: 1,
-        max: 100,
-        decimals: 0,
-      }).map((value, index) => {
-        return {
-          category: ChartDemoUtils.months({ count: 8 })[index],
-          label: `$${value}`,
-          value,
-        };
-      }),
-    },
-  };
 
   public onDataPointClicked(event: SkySelectedChartDataPoint): void {
     window.alert('Datapoint Clicked: ' + JSON.stringify(event, null, 2));

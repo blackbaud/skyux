@@ -1,7 +1,13 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from '@angular/core';
 
-import { SkyDonutDatum } from '../../donut-chart/donut-chart-types';
-import { SkyCategory } from '../../shared/types/category';
+import { SkyCategory } from '../shared/types/category';
+
+import { SkyDonutChartSlice, SkyDonutDatum } from './donut-chart-types';
 
 /**
  * Represents a single data point within a chart series.
@@ -27,4 +33,16 @@ export class SkyDonutChartSeriesDatapointComponent {
    * Accepts a single number, a floating-bar range `[min, max]`, or `null` for a gap.
    */
   public readonly value = input.required<SkyDonutDatum>();
+
+  /**
+   * The data point object
+   * @internal
+   */
+  public readonly datapoint = computed<SkyDonutChartSlice>(() => {
+    return {
+      category: this.category(),
+      label: this.labelText(),
+      value: this.value(),
+    };
+  });
 }

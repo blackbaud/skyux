@@ -10,26 +10,26 @@ import {
 import { SkyModalService } from '@skyux/modals';
 import { SkyDropdownModule } from '@skyux/popovers';
 
-import { SkyChartGridModalContext } from '../../chart-data-grid-modal/chart-data-grid-modal-context';
-import { SkyChartDataGridModalComponent } from '../../chart-data-grid-modal/chart-data-grid-modal.component';
-import { SkyChartLegendItem } from '../../chart-legend/chart-legend-item';
-import { SkyChartLegendComponent } from '../../chart-legend/chart-legend.component';
-import {
-  SKY_CHART_HEADER_ID,
-  provideSkyChartHeaderId,
-} from '../../chart-shell/chart-header-id-token';
-import { SkyChartsResourcesModule } from '../../shared/sky-charts-resources.module';
+import { SkyChartGridModalContext } from '../chart-data-grid-modal/chart-data-grid-modal-context';
+import { SkyChartDataGridModalComponent } from '../chart-data-grid-modal/chart-data-grid-modal.component';
+import { SkyChartLegendItem } from '../chart-legend/chart-legend-item';
+import { SkyChartLegendComponent } from '../chart-legend/chart-legend.component';
+import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
 import {
   DefaultHeadingLevel,
   SkyChartHeadingLevel,
   headingLevelInputTransformer,
-} from '../../shared/types/chart-heading-level';
+} from '../shared/types/chart-heading-level';
 import {
   DefaultHeadingStyle,
   SkyChartHeadingStyle,
   headingStyleInputTransformer,
-} from '../../shared/types/chart-heading-style';
+} from '../shared/types/chart-heading-style';
 
+import {
+  SKY_CHART_HEADER_ID,
+  provideSkyChartHeaderId,
+} from './chart-header-id-token';
 import { SkyChartService } from './chart.service';
 
 /**

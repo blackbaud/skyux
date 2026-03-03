@@ -1,7 +1,13 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from '@angular/core';
 
-import { SkyBarDatum } from '../../bar-chart/bar-chart-types';
-import { SkyCategory } from '../../shared/types/category';
+import { SkyCategory } from '../shared/types/category';
+
+import { SkyBarChartPoint, SkyBarDatum } from './bar-chart-types';
 
 /**
  * Represents a single data point within a chart series.
@@ -27,4 +33,16 @@ export class SkyBarChartSeriesDatapointComponent {
    * Accepts a single number, a floating-bar range `[min, max]`, or `null` for a gap.
    */
   public readonly value = input.required<SkyBarDatum>();
+
+  /**
+   * The data point object
+   * @internal
+   */
+  public readonly datapoint = computed<SkyBarChartPoint>(() => {
+    return {
+      category: this.category(),
+      label: this.labelText(),
+      value: this.value(),
+    };
+  });
 }

@@ -1,50 +1,190 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  booleanAttribute,
   computed,
+  contentChild,
+  contentChildren,
+  effect,
+  inject,
   input,
+  output,
+  signal,
+  viewChild,
 } from '@angular/core';
 
-import { ChartConfiguration } from 'chart.js';
+import { Chart } from 'chart.js';
 
-import { SkyBaseChartJsChart } from '../base-chartjs-chart';
-import { SkyChartShellComponent } from '../chart-shell/chart-shell.component';
+import { SkyChartCategoryAxisComponent } from '../axis/chart-category-axis.component';
+import { SkyChartMeasureAxisComponent } from '../axis/chart-measure-axis.component';
+import { SkyChartLegendItem } from '../chart-legend/chart-legend-item';
+import { SkyChartComponent } from '../chart/chart.component';
+import { SkyChartService } from '../chart/chart.service';
 import { SkyChartJsDirective } from '../chartjs.directive';
+import { SkySelectedChartDataPoint } from '../shared/types/selected-chart-data-point';
 
 import { getChartJsBarChartConfig } from './bar-chart-config';
+import { SkyBarChartSeriesComponent } from './bar-chart-series.component';
 import { SkyBarChartConfig } from './bar-chart-types';
 
 @Component({
   selector: 'sky-bar-chart',
-  templateUrl: 'bar-chart.component.html',
-  styleUrl: 'bar-chart.component.scss',
-  imports: [SkyChartShellComponent, SkyChartJsDirective],
+  template: `
+    @if (chartConfiguration(); as config) {
+      <div class="chart-container" [style.height.px]="'300'">
+        <canvas
+          skyChartJs
+          [chartConfiguration]="config"
+          [ariaLabel]="headingText()"
+          (themeChanged)="onThemeChanged()"
+        ></canvas>
+      </div>
+    }
+  `,
+  // ChartJS requires the Canvas to have a parent container that is dedicated to the element
+  // See: https://www.chartjs.org/docs/latest/configuration/responsive.html
+  styles: '.chart-container { position: relative; }',
+  imports: [SkyChartJsDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyBarChartComponent extends SkyBaseChartJsChart {
-  /**
-   * The configuration object for a bar chart.
-   */
-  public readonly config = input.required<SkyBarChartConfig>();
+export class SkyBarChartComponent {
+  // #region Dependency Injection
+  protected readonly chartComponent = inject(SkyChartComponent);
+  protected readonly chartService = inject(SkyChartService);
+  // #endregion
 
-  protected readonly chartConfiguration = computed(() => {
-    this.themeVersion(); // Include themeVersion to trigger recalculation on theme changes
+  // #region Inputs
+  public readonly orientation = input<'horizontal' | 'vertical'>('vertical');
+  public readonly stacked = input(false, { transform: booleanAttribute });
+  // #endregion
 
-    return this.createChartConfiguration();
+  // #region Outputs
+  public readonly dataPointClicked = output<SkySelectedChartDataPoint>();
+  // #endregion
+
+  // #region Content Children
+  protected readonly categoryAxisComponent = contentChild(
+    SkyChartCategoryAxisComponent,
+  );
+  protected readonly measureAxisComponent = contentChild(
+    SkyChartMeasureAxisComponent,
+  );
+  /** The one to many series data for the chart  */
+  protected readonly seriesComponents = contentChildren(
+    SkyBarChartSeriesComponent,
+  );
+  // #endregion
+
+  // #region View Children
+  protected readonly chartDirective = viewChild(SkyChartJsDirective);
+  protected readonly chart = computed(() => this.chartDirective()?.chart());
+  // #endregion
+
+  protected readonly headingText = computed(() =>
+    this.chartComponent.headingText(),
+  );
+
+  readonly #themeVersion = signal(0);
+  readonly #refreshLegendItems = signal(0);
+
+  readonly #barChartConfig = computed<SkyBarChartConfig>(() => {
+    const categoryAxis = this.categoryAxisComponent();
+    const measureAxis = this.measureAxisComponent();
+    const series = this.seriesComponents().map((seriesComp) =>
+      seriesComp.series(),
+    );
+
+    return {
+      orientation: this.orientation(),
+      stacked: this.stacked(),
+      series: series,
+      categoryAxis: categoryAxis
+        ? { label: categoryAxis.labelText() }
+        : undefined,
+      measureAxis: measureAxis
+        ? {
+            label: measureAxis.labelText(),
+            scaleType: measureAxis.scaleType(),
+            suggestedMin: measureAxis.suggestedMin(),
+            suggestedMax: measureAxis.suggestedMax(),
+          }
+        : undefined,
+    };
   });
+  protected readonly chartConfiguration = computed(() => {
+    this.#themeVersion(); // Track theme version so recalculation triggers on theme change.
+    const config = this.#barChartConfig(); // Track chart config so recalculation triggers on content changes.
 
-  /**
-   * Generates the Chart.js configuration for the bar chart.
-   * This method is called automatically when the `config` input changes or when the theme changes.
-   *
-   * @returns The Chart.js configuration object
-   */
-  protected createChartConfiguration(): ChartConfiguration {
-    const config = this.config();
     const chartConfiguration = getChartJsBarChartConfig(config, {
-      onDataPointClick: (event) => this.dataPointClicked.emit(event),
+      onDataPointClick: (dataPoint) => this.dataPointClicked.emit(dataPoint),
     });
 
     return chartConfiguration;
+  });
+  protected readonly legendItems = computed(() => {
+    const chart = this.chart();
+    this.#refreshLegendItems(); // Track to trigger recalculation when legend visibility changes.
+    return this.#getLegendItems(chart);
+  });
+
+  constructor() {
+    // Sync series data to the chart service
+    effect(() => {
+      const config = this.#barChartConfig();
+      this.chartService.setSeries(config.series);
+    });
+
+    // Sync legend items to the chart service
+    effect(() => {
+      const items = this.legendItems();
+      this.chartService.setLegendItems(items);
+    });
+
+    // Handle legend toggle requests
+    effect(() => {
+      const item = this.chartService.legendItemToggleRequested();
+      if (item) {
+        this.#onLegendItemToggled(item);
+      }
+    });
   }
+
+  protected onThemeChanged(): void {
+    this.#themeVersion.update((v) => v + 1);
+  }
+
+  // #region Private
+  #getLegendItems(chart: Chart | undefined): SkyChartLegendItem[] {
+    if (!chart) {
+      return [];
+    }
+
+    const labels = chart.options.plugins?.legend?.labels;
+    const legendItems = labels?.generateLabels?.(chart) ?? [];
+
+    return legendItems.map((legendItem) => ({
+      datasetIndex: legendItem.datasetIndex ?? 0,
+      index: legendItem.index ?? 0,
+      isVisible: chart.isDatasetVisible(legendItem.datasetIndex ?? 0),
+      label: legendItem.text,
+      seriesColor: String(legendItem.fillStyle ?? 'transparent'),
+    }));
+  }
+
+  #onLegendItemToggled(item: SkyChartLegendItem): void {
+    const chart = this.chart();
+
+    if (!chart) {
+      return;
+    }
+
+    const isVisible = chart.isDatasetVisible(item.datasetIndex);
+    chart.setDatasetVisibility(item.datasetIndex, !isVisible);
+
+    chart.update();
+
+    // Refetch the legend items to reflect the updated visibility state
+    this.#refreshLegendItems.update((v) => v + 1);
+  }
+  // #endregion
 }

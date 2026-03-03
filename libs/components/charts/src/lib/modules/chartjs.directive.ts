@@ -11,6 +11,7 @@ import {
   input,
   output,
   signal,
+  untracked,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SkyThemeService } from '@skyux/theme';
@@ -73,32 +74,31 @@ export class SkyChartJsDirective implements OnDestroy, AfterViewInit {
 
     // Re-render the chart whenever the ChartJS configuration changes. This allows dynamic updates to the chart when inputs change.
     effect(() => {
-      const config = this.chartConfiguration();
-      const chart = this.chart();
+      const newConfig = this.chartConfiguration();
+      const chart = untracked(() => this.chart());
 
-      // Only update the chart if it already exists.
-      // Initial creation is handled in ngAfterViewInit to ensure the canvas is ready.
-      if (chart?.config.options && config.options) {
-        // TODO: Evaluate options
-        // See https://www.chartjs.org/docs/latest/developers/updates.html#updating-options
-
-        // Option 1. If the options are mutated in place, other option properties would be preserved, including those calculated by Chart.js.
-        const newOptions = this.chartConfiguration().options;
-        Object.assign(chart.config.options, newOptions);
-
-        // Option 2. If created as a new object, it would be like creating a new chart with the options - old options would be discarded.
-        // this.#chart.config.options = this.chartConfigProvider().options;
+      if (chart) {
+        if (chart?.config.options && newConfig.options) {
+          const newOptions = newConfig.options;
+          Object.assign(chart.config.options, newOptions);
+        }
+        chart.data = newConfig.data;
 
         this.#updateChart();
       }
     });
   }
 
+  /**
+   * @inheritdoc
+   */
   public ngOnDestroy(): void {
-    this.chart()?.destroy();
-    this.chart.set(undefined);
+    this.#destroyChart();
   }
 
+  /**
+   * @inheritdoc
+   */
   public ngAfterViewInit(): void {
     this.#renderChart();
 
@@ -108,6 +108,11 @@ export class SkyChartJsDirective implements OnDestroy, AfterViewInit {
         .pipe(takeUntilDestroyed(this.#destroyRef))
         .subscribe(() => this.#onThemeChange());
     }
+  }
+
+  #destroyChart(): void {
+    this.chart()?.destroy();
+    this.chart.set(undefined);
   }
 
   /**

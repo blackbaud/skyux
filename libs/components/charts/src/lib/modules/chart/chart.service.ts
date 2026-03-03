@@ -1,8 +1,8 @@
 import { Injectable, signal } from '@angular/core';
 
-import { SkyChartLegendItem } from '../../chart-legend/chart-legend-item';
-import { SkyChartDataPoint } from '../../shared/types/chart-data-point';
-import { SkyChartSeries } from '../../shared/types/chart-series';
+import { SkyChartLegendItem } from '../chart-legend/chart-legend-item';
+import { SkyChartDataPoint } from '../shared/types/chart-data-point';
+import { SkyChartSeries } from '../shared/types/chart-series';
 
 /**
  * Service for sharing state between the chart component and nested chart type components.

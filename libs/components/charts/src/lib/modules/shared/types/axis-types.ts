@@ -15,7 +15,7 @@ export type SkyChartCategoryAxisConfig = SkyChartAxisConfig;
  */
 export interface SkyChartMeasureAxisConfig extends SkyChartAxisConfig {
   /**
-   * The type of scale to use for the value axis.
+   * The type of scale to use for the measure axis.
    * @default 'linear'
    */
   scaleType?: 'linear' | 'logarithmic';
@@ -33,7 +33,7 @@ export interface SkyChartMeasureAxisConfig extends SkyChartAxisConfig {
   suggestedMax?: number;
 
   /**
-   * A callback function to format the tick labels on the value axis.
+   * A callback function to format the tick labels on the measure axis.
    * This function receives the tick value and should return a formatted string.
    * @param value
    * @returns
