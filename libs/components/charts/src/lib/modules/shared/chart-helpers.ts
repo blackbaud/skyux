@@ -1,5 +1,7 @@
 import { Chart, ChartConfiguration } from 'chart.js';
 
+import { SkyChartLegendItem } from '../chart-legend/chart-legend-item';
+
 import { SkyCategory } from './types/category';
 import { SkyChartDataPoint } from './types/chart-data-point';
 import { SkyChartSeries } from './types/chart-series';
@@ -51,4 +53,48 @@ export function parseCategories(
   const uniqueCategories = Array.from(new Set(allCategories));
 
   return uniqueCategories;
+}
+
+/**
+ * Gets legend items for the given chart
+ *
+ * @param context.chart The ChartJS chart instance
+ * @param context.legendMode The legend mode determines whether the legend items correspond to series or categories in the chart.
+ * @param context.labels The labels corresponding to the categories or series in the chart
+ * @returns An array of legend items
+ */
+export function getLegendItems(context: {
+  chart: Chart | undefined;
+  legendMode: 'series' | 'category';
+  labels: readonly string[];
+}): SkyChartLegendItem[] {
+  const { chart, legendMode, labels } = context;
+
+  if (!chart) {
+    return [];
+  }
+
+  const chartJsLabels = chart.options.plugins?.legend?.labels;
+  const chartJsLegendItems = chartJsLabels?.generateLabels?.(chart) ?? [];
+
+  return chartJsLegendItems.map((legendItem) => {
+    const datasetIndex = legendItem.datasetIndex ?? 0;
+    const dataIndex = legendItem.index ?? 0;
+
+    const index = legendMode === 'series' ? datasetIndex : dataIndex;
+    const label = labels[index];
+
+    const isVisible =
+      legendMode === 'series'
+        ? chart.isDatasetVisible(datasetIndex)
+        : chart.getDataVisibility(dataIndex);
+
+    return {
+      datasetIndex: legendItem.datasetIndex ?? 0,
+      index: legendItem.index ?? 0,
+      isVisible: isVisible,
+      label: label,
+      seriesColor: String(legendItem.fillStyle ?? 'transparent'),
+    };
+  });
 }

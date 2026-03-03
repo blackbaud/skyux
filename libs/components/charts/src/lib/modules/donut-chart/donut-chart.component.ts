@@ -1,6 +1,8 @@
 import {
+  AfterContentInit,
   ChangeDetectionStrategy,
   Component,
+  Injector,
   computed,
   contentChildren,
   effect,
@@ -10,12 +12,11 @@ import {
   viewChild,
 } from '@angular/core';
 
-import { Chart } from 'chart.js';
-
 import { SkyChartLegendItem } from '../chart-legend/chart-legend-item';
 import { SkyChartComponent } from '../chart/chart.component';
 import { SkyChartService } from '../chart/chart.service';
 import { SkyChartJsDirective } from '../chartjs.directive';
+import { getLegendItems } from '../shared/chart-helpers';
 import { SkySelectedChartDataPoint } from '../shared/types/selected-chart-data-point';
 
 import { getChartJsDonutChartConfig } from './donut-chart-config';
@@ -42,8 +43,9 @@ import { SkyDonutChartConfig } from './donut-chart-types';
   imports: [SkyChartJsDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyDonutChartComponent {
+export class SkyDonutChartComponent implements AfterContentInit {
   // #region Dependency Injection
+  readonly #injector = inject(Injector);
   protected readonly chartComponent = inject(SkyChartComponent);
   protected readonly chartService = inject(SkyChartService);
   // #endregion
@@ -74,21 +76,14 @@ export class SkyDonutChartComponent {
   readonly #themeVersion = signal(0);
   readonly #refreshLegendItems = signal(0);
 
-  readonly #chartConfig = computed<SkyDonutChartConfig>(() => {
-    const series = this.seriesComponents().map((seriesComp) =>
-      seriesComp.series(),
-    );
-
-    // Donut charts only supports a single series
-    if (this.seriesComponents().length > 1) {
-      throw new Error('Donut charts only support a single series.');
-    }
-
-    return { series: series[0] };
-  });
+  readonly #donutConfig = signal<SkyDonutChartConfig | undefined>(undefined);
   protected readonly chartConfiguration = computed(() => {
     this.#themeVersion(); // Track theme version so recalculation triggers on theme change.
-    const config = this.#chartConfig(); // Get the latest sky config, so recalculation triggers on content changes.
+    const config = this.#donutConfig(); // Get the latest sky config, so recalculation triggers on content changes.
+
+    if (!config) {
+      return undefined;
+    }
 
     const chartConfiguration = getChartJsDonutChartConfig(config, {
       onDataPointClick: (dataPoint) => this.dataPointClicked.emit(dataPoint),
@@ -98,21 +93,26 @@ export class SkyDonutChartComponent {
   });
   protected readonly legendItems = computed(() => {
     const chart = this.chart();
+    const config = this.#donutConfig();
     this.#refreshLegendItems(); // Track to trigger recalculation when legend visibility changes.
-    return this.#getLegendItems(chart);
+
+    const categoryLabels =
+      config?.series.data.map((dp) => dp.category.toString()) ?? [];
+
+    return getLegendItems({
+      chart: chart,
+      legendMode: 'category',
+      labels: categoryLabels,
+    });
   });
 
   constructor() {
     // Sync series data to the chart service
     effect(() => {
-      const config = this.#chartConfig();
-      this.chartService.setSeries([config.series]);
-    });
-
-    // Sync legend items to the chart service
-    effect(() => {
-      const items = this.legendItems();
-      this.chartService.setLegendItems(items);
+      const config = this.#donutConfig();
+      if (config) {
+        this.chartService.setSeries([config.series]);
+      }
     });
 
     // Handle legend toggle requests
@@ -124,26 +124,49 @@ export class SkyDonutChartComponent {
     });
   }
 
+  public ngAfterContentInit(): void {
+    // Whenever the content children change, re-parse the chart config from the content
+    effect(
+      () => {
+        const series = this.seriesComponents();
+
+        const config = this.#parseConfigFromContent({
+          seriesComponents: series,
+        });
+
+        this.#donutConfig.set(config);
+      },
+      { injector: this.#injector },
+    );
+
+    // Sync legend items to the chart service
+    effect(
+      () => {
+        const items = this.legendItems();
+        this.chartService.setLegendItems(items);
+      },
+      { injector: this.#injector },
+    );
+  }
+
   protected onThemeChanged(): void {
     this.#themeVersion.update((v) => v + 1);
   }
 
   // #region Private
-  #getLegendItems(chart: Chart | undefined): SkyChartLegendItem[] {
-    if (!chart) {
-      return [];
+  #parseConfigFromContent(context: {
+    seriesComponents: readonly SkyDonutChartSeriesComponent[];
+  }): SkyDonutChartConfig {
+    const { seriesComponents } = context;
+
+    // Donut charts only supports a single series
+    if (this.seriesComponents().length > 1) {
+      throw new Error('Donut charts only support a single series.');
     }
 
-    const labels = chart.options.plugins?.legend?.labels;
-    const legendItems = labels?.generateLabels?.(chart) ?? [];
+    const series = seriesComponents.map((seriesComp) => seriesComp.series());
 
-    return legendItems.map((legendItem) => ({
-      datasetIndex: legendItem.datasetIndex ?? 0,
-      index: legendItem.index ?? 0,
-      isVisible: chart.isDatasetVisible(legendItem.datasetIndex ?? 0),
-      label: legendItem.text,
-      seriesColor: String(legendItem.fillStyle ?? 'transparent'),
-    }));
+    return { series: series[0] };
   }
 
   #onLegendItemToggled(item: SkyChartLegendItem): void {
@@ -154,7 +177,6 @@ export class SkyDonutChartComponent {
     }
 
     chart.toggleDataVisibility(item.index);
-
     chart.update();
 
     // Refetch the legend items to reflect the updated visibility state

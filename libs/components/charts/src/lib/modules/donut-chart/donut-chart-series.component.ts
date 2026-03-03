@@ -52,11 +52,7 @@ export class SkyDonutChartSeriesComponent implements AfterContentInit {
     effect(
       () => {
         const datapoints = this.datapoints().map((d) => d.datapoint());
-
-        this.series.set({
-          label: this.labelText(),
-          data: datapoints,
-        });
+        this.series.set({ label: this.labelText(), data: datapoints });
       },
       { injector: this.#injector },
     );

@@ -34,22 +34,22 @@ import { SkyFluidGridModule } from '@skyux/layout';
 export class DonutChartDemoComponent {
   protected chart1 = [
     {
-      name: 'Securities - WP',
+      name: 'Securities',
       value: 5_000_000,
       label: '$5,000,000',
     },
     {
-      name: 'Income/Compensation - WP',
+      name: 'Income/Compensation',
       value: 2_500_000,
       label: '$2,500,000',
     },
     {
-      name: 'Private Co. Valuation - WP',
+      name: 'Private Co. Valuation',
       value: 1_500_000,
       label: '$1,500,000',
     },
     {
-      name: 'Real Estate - WP',
+      name: 'Real Estate',
       value: 1_000_000,
       label: '$1,000,000',
     },
