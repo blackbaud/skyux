@@ -6,21 +6,13 @@ import {
 
 import { createESLintTemplateRule } from '../utils/create-eslint-template-rule';
 
+import {
+  NATIVE_FORM_CONTROLS,
+  VALID_INPUT_BOX_INPUT_TYPES,
+} from './utils/input-box-types';
+
 export const RULE_NAME = 'prefer-input-box';
 export const messageId = 'preferInputBox';
-
-const TARGET_ELEMENTS = new Set(['input', 'select', 'textarea']);
-
-const INPUT_BOX_INPUT_TYPES = new Set([
-  'email',
-  'month',
-  'number',
-  'password',
-  'range',
-  'text',
-  'url',
-  'week',
-]);
 
 export const rule = createESLintTemplateRule({
   create(context) {
@@ -34,7 +26,7 @@ export const rule = createESLintTemplateRule({
         const name = element.name.toLowerCase();
         ancestorStack.push(name);
 
-        if (!TARGET_ELEMENTS.has(name)) {
+        if (!NATIVE_FORM_CONTROLS.has(name)) {
           return;
         }
 
@@ -44,7 +36,7 @@ export const rule = createESLintTemplateRule({
             (attr) => attr.name === 'type',
           );
           const inputType = typeAttr?.value.toLowerCase() ?? 'text';
-          if (!INPUT_BOX_INPUT_TYPES.has(inputType)) {
+          if (!VALID_INPUT_BOX_INPUT_TYPES.has(inputType)) {
             return;
           }
         }
@@ -75,7 +67,7 @@ export const rule = createESLintTemplateRule({
   meta: {
     docs: {
       description:
-        'Require text-like form control elements to be placed inside a <sky-input-box> component.',
+        'Require `select`, `textarea`, and text-entry `input` elements to be placed inside a <sky-input-box> component.',
     },
     messages: {
       [messageId]:

@@ -80,7 +80,7 @@ export const rule = createESLintTemplateRule({
         'Use <sky-timepicker> instead of <input type="time">.',
     },
     schema: [],
-    type: 'suggestion',
+    type: 'problem',
   },
   name: RULE_NAME,
 });

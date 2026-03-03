@@ -6,29 +6,15 @@ import {
 
 import { createESLintTemplateRule } from '../utils/create-eslint-template-rule';
 
+import {
+  NATIVE_FORM_CONTROLS,
+  VALID_INPUT_BOX_INPUT_TYPES,
+  VALID_INPUT_BOX_SKY_COMPONENTS,
+} from './utils/input-box-types';
+
 export const RULE_NAME = 'no-invalid-input-box-children';
 export const invalidChildMessageId = 'noInvalidInputBoxChildren';
 export const multipleChildrenMessageId = 'multipleInputBoxChildren';
-
-const VALID_INPUT_BOX_INPUT_TYPES = new Set([
-  'email',
-  'month',
-  'number',
-  'password',
-  'range',
-  'text',
-  'url',
-  'week',
-]);
-
-const VALID_SKY_COMPONENTS = new Set([
-  'sky-autocomplete',
-  'sky-country-field',
-  'sky-datepicker',
-  'sky-lookup',
-  'sky-phone-field',
-  'sky-timepicker',
-]);
 
 /**
  * SKY UX components that are valid inside sky-input-box but are not
@@ -39,8 +25,6 @@ const ALLOWED_NON_CONTROL_SKY_COMPONENTS = new Set([
   'sky-form-error',
   'sky-status-indicator',
 ]);
-
-const NATIVE_FORM_CONTROLS = new Set(['input', 'select', 'textarea']);
 
 export const rule = createESLintTemplateRule({
   create(context) {
@@ -65,7 +49,7 @@ export const rule = createESLintTemplateRule({
         if (ancestor === 'sky-input-box') {
           break;
         }
-        if (VALID_SKY_COMPONENTS.has(ancestor)) {
+        if (VALID_INPUT_BOX_SKY_COMPONENTS.has(ancestor)) {
           return true;
         }
       }
@@ -151,7 +135,7 @@ export const rule = createESLintTemplateRule({
             });
           }
         } else if (isSkyComponent) {
-          if (VALID_SKY_COMPONENTS.has(name)) {
+          if (VALID_INPUT_BOX_SKY_COMPONENTS.has(name)) {
             currentInputBox.formControlCount++;
           } else {
             context.report({

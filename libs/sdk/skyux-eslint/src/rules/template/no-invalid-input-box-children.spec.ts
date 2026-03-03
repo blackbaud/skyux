@@ -20,9 +20,6 @@ ruleTester.run(RULE_NAME, rule, {
     `<sky-input-box><input type="number" /></sky-input-box>`,
     `<sky-input-box><input type="password" /></sky-input-box>`,
     `<sky-input-box><input type="url" /></sky-input-box>`,
-    `<sky-input-box><input type="month" /></sky-input-box>`,
-    `<sky-input-box><input type="week" /></sky-input-box>`,
-    `<sky-input-box><input type="range" /></sky-input-box>`,
     `<sky-input-box><select></select></sky-input-box>`,
     `<sky-input-box><textarea></textarea></sky-input-box>`,
 

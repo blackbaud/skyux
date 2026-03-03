@@ -42,22 +42,6 @@ Use `<sky-checkbox>` instead of `<input type="checkbox">`. For groups of checkbo
 <sky-checkbox />
 ```
 
-### color
-
-Use `<sky-colorpicker>` instead of `<input type="color">`.
-
-```html
-<!-- Before -->
-<input type="color" />
-
-<!-- After -->
-<sky-input-box>
-  <sky-colorpicker>
-    <input />
-  </sky-colorpicker>
-</sky-input-box>
-```
-
 ### date
 
 Use `<sky-datepicker>` instead of `<input type="date">`.
