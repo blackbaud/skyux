@@ -13795,7 +13795,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
                 "preferSkyTimepicker": "Use <sky-timepicker> instead of <input type=\\"time\\">.",
               },
               "schema": Array [],
-              "type": "suggestion",
+              "type": "problem",
             },
             "name": "prefer-form-control-component",
           },
@@ -13804,7 +13804,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
             "defaultOptions": Array [],
             "meta": Object {
               "docs": Object {
-                "description": "Require text-like form control elements to be placed inside a <sky-input-box> component.",
+                "description": "Require \`select\`, \`textarea\`, and text-entry \`input\` elements to be placed inside a <sky-input-box> component.",
                 "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/template/prefer-input-box.md",
               },
               "messages": Object {
