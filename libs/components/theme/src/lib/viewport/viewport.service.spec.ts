@@ -27,6 +27,140 @@ describe('Viewport service', () => {
     expect(svc.visible instanceof ReplaySubject).toEqual(true);
   });
 
+  it('should register a passive scroll listener', () => {
+    const addEventListenerSpy = spyOn(document, 'addEventListener');
+
+    TestBed.runInInjectionContext(() => new SkyAppViewportService());
+
+    expect(addEventListenerSpy).toHaveBeenCalledWith(
+      'scroll',
+      jasmine.any(Function),
+      jasmine.objectContaining({ passive: true }),
+    );
+  });
+
+  it('should recompute visibility from DOM geometry when observer callback runs', async () => {
+    const originalIntersectionObserver = window.IntersectionObserver;
+    let callback: IntersectionObserverCallback | undefined;
+    let capturedOptions: IntersectionObserverInit | undefined;
+
+    class FakeIntersectionObserver implements IntersectionObserver {
+      public readonly root: Element | Document | null = null;
+      public readonly rootMargin = '0px';
+      public readonly thresholds = [0, 1];
+
+      public constructor(
+        cb: IntersectionObserverCallback,
+        options?: IntersectionObserverInit,
+      ) {
+        callback = cb;
+        capturedOptions = options;
+      }
+
+      public disconnect(): void {
+        return;
+      }
+
+      public observe(_target: Element): void {
+        return;
+      }
+
+      public takeRecords(): IntersectionObserverEntry[] {
+        return [];
+      }
+
+      public unobserve(_target: Element): void {
+        return;
+      }
+    }
+
+    Object.defineProperty(window, 'IntersectionObserver', {
+      configurable: true,
+      value: FakeIntersectionObserver,
+      writable: true,
+    });
+
+    try {
+      const service = TestBed.runInInjectionContext(
+        () => new SkyAppViewportService(),
+      );
+
+      const element = document.createElement('div');
+      let inView = true;
+      spyOn(element, 'getBoundingClientRect').and.callFake(
+        (): DOMRect =>
+          ({
+            bottom: inView ? 100 : -20,
+            height: 40,
+            left: 0,
+            right: 100,
+            top: inView ? 60 : -60,
+            width: 100,
+            x: 0,
+            y: inView ? 60 : -60,
+            toJSON: (): object => ({}),
+          }) as DOMRect,
+      );
+      spyOn(document, 'elementFromPoint').and.returnValue(element);
+
+      service.reserveSpace({
+        id: 'observer-callback-test',
+        position: 'top',
+        reserveForElement: element,
+        size: 25,
+      });
+
+      await new Promise((resolve) => requestAnimationFrame(resolve));
+      validateViewportSpace('top', 25);
+
+      inView = false;
+      callback?.([], {} as IntersectionObserver);
+
+      await new Promise((resolve) => requestAnimationFrame(resolve));
+      validateViewportSpace('top', 0);
+
+      expect(capturedOptions?.threshold).toEqual([0, 1]);
+
+      service.unreserveSpace('observer-callback-test');
+      await new Promise((resolve) => requestAnimationFrame(resolve));
+    } finally {
+      Object.defineProperty(window, 'IntersectionObserver', {
+        configurable: true,
+        value: originalIntersectionObserver,
+        writable: true,
+      });
+    }
+  });
+
+  it('should not rewrite CSS variables when reserved values are unchanged', async () => {
+    const setPropertySpy = spyOn(
+      document.documentElement.style,
+      'setProperty',
+    ).and.callThrough();
+
+    svc.reserveSpace({
+      id: 'left-test-a',
+      position: 'left',
+      size: 20,
+    });
+
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+    const initialSetPropertyCalls = setPropertySpy.calls.count();
+
+    svc.reserveSpace({
+      id: 'left-test-b',
+      position: 'left',
+      size: 0,
+    });
+
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+    expect(setPropertySpy.calls.count()).toBe(initialSetPropertyCalls);
+
+    svc.unreserveSpace('left-test-b');
+    svc.unreserveSpace('left-test-a');
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+  });
+
   it('should reserve and unreserve space', async () => {
     svc.reserveSpace({
       id: 'left-test',
