@@ -1,6 +1,15 @@
 # Changelog
 
 
+## [13.14.3](https://github.com/blackbaud/skyux/compare/13.14.2...13.14.3) (2026-03-03)
+
+
+### Bug Fixes
+
+* update to `@angular/build@20.3.18` ([#4255](https://github.com/blackbaud/skyux/issues/4255)) ([f822ac9](https://github.com/blackbaud/skyux/commit/f822ac986316791797bb1a5019bcd1d967c2eb96))
+
+
+
 ## [13.14.2](https://github.com/blackbaud/skyux/compare/13.14.1...13.14.2) (2026-02-25)
 
 
