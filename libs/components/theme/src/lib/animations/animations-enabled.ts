@@ -4,7 +4,7 @@
 export function skyAnimationsEnabled(element: Element): boolean {
   return (
     getComputedStyle(element)
-      .getPropertyValue('--sky-theme-animations-duration')
+      .getPropertyValue('--sky-transition-time-short')
       .trim() !== '0s'
   );
 }

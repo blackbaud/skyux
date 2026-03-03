@@ -1,14 +1,23 @@
-@property --sky-theme-animations-duration {
+@use 'public-api/compat/variables' as vars;
+
+@property --sky-transition-time-short {
   syntax: '<time>';
   inherits: true;
-  initial-value: 150ms;
+  initial-value: vars.$sky-transition-time-short;
+}
+
+@property --sky-transition-time-medium {
+  syntax: '<time>';
+  inherits: true;
+  initial-value: vars.$sky-transition-time-medium;
 }
 
 .sky-theme-animations-disabled {
   *,
   *::before,
   *::after {
-    --sky-theme-animations-duration: 0s !important;
+    --sky-transition-time-short: 0s !important;
+    --sky-transition-time-medium: 0s !important;
   }
 }
 
@@ -17,6 +26,7 @@
   *,
   *::before,
   *::after {
-    --sky-theme-animations-duration: 0s !important;
+    --sky-transition-time-short: 0s !important;
+    --sky-transition-time-medium: 0s !important;
   }
 }

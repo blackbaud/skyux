@@ -13,19 +13,19 @@ describe('skyAnimationsEnabled', () => {
   });
 
   it('should return `true` when animations are enabled', () => {
-    element.style.setProperty('--sky-theme-animations-duration', '150ms');
+    element.style.setProperty('--sky-transition-time-short', '150ms');
 
     expect(skyAnimationsEnabled(element)).toBeTrue();
   });
 
   it('should return `false` when the duration is `0s`', () => {
-    element.style.setProperty('--sky-theme-animations-duration', '0s');
+    element.style.setProperty('--sky-transition-time-short', '0s');
 
     expect(skyAnimationsEnabled(element)).toBeFalse();
   });
 
   it('should return `false` when the duration is `0s` with extra whitespace', () => {
-    element.style.setProperty('--sky-theme-animations-duration', '  0s  ');
+    element.style.setProperty('--sky-transition-time-short', '  0s  ');
 
     expect(skyAnimationsEnabled(element)).toBeFalse();
   });
