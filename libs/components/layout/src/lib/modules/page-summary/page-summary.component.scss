@@ -1,8 +1,15 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
+@include compatMixins.sky-default-overrides('.sky-page-summary') {
+  --sky-override-page-summary-background-color: #fff;
+}
+
 .sky-page-summary {
-  background-color: #fff;
+  background-color: var(
+    --sky-override-page-summary-background-color,
+    var(--sky-color-background-page)
+  );
   padding: $sky-padding-double $sky-padding-plus-half;
 }
 
