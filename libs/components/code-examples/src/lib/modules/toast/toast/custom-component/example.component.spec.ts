@@ -2,7 +2,7 @@ import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { SkyToastType } from '@skyux/toast';
+import { SkyToastService, SkyToastType } from '@skyux/toast';
 import { SkyToasterHarness } from '@skyux/toast/testing';
 
 import { CustomToastHarness } from './custom-toast-harness';
@@ -19,6 +19,10 @@ describe('Custom component toast demo', () => {
 
     fixture = TestBed.createComponent(ToastCustomComponentExampleComponent);
     loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
+  });
+
+  afterEach(() => {
+    TestBed.inject(SkyToastService).closeAll();
   });
 
   async function setupTest(): Promise<{

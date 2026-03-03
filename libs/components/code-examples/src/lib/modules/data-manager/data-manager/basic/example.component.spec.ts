@@ -4,6 +4,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { SkyDataManagerHarness } from '@skyux/data-manager/testing';
 import { SkyRepeaterHarness } from '@skyux/lists/testing';
+import { SkyModalService } from '@skyux/modals';
 
 import { DataManagerBasicExampleComponent } from './example.component';
 
@@ -29,6 +30,10 @@ describe('Data manager basic example', () => {
 
     return { dataManagerHarness, fixture, loader };
   }
+
+  afterEach(() => {
+    TestBed.inject(SkyModalService).dispose();
+  });
 
   it('should set up the component', async () => {
     const { dataManagerHarness, fixture } = await setupTest();

@@ -1,6 +1,7 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { SkyFlyoutService } from '@skyux/flyout';
 import { SkyFlyoutHarness } from '@skyux/flyout/testing';
 
 import { FlyoutCustomHeadersExampleComponent } from './example.component';
@@ -36,6 +37,10 @@ describe('Custom headers flyout example', () => {
 
     return { flyoutHarness, fixture };
   }
+
+  afterEach(() => {
+    TestBed.inject(SkyFlyoutService).close();
+  });
 
   it('should set up the flyout with iterators', async () => {
     const { flyoutHarness, fixture } = await setupTest();

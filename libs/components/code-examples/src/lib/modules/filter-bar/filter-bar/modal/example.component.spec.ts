@@ -2,6 +2,7 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 import { SkyFilterBarHarness } from '@skyux/filter-bar/testing';
+import { SkyModalService } from '@skyux/modals';
 import { SkyModalHarness } from '@skyux/modals/testing';
 
 import { FilterBarModalExampleComponent } from './example.component';
@@ -18,6 +19,10 @@ describe('Filter bar with modal filter', () => {
 
     return { filterBarHarness, fixture };
   }
+
+  afterEach(() => {
+    TestBed.inject(SkyModalService).dispose();
+  });
 
   beforeEach(() => {
     TestBed.configureTestingModule({

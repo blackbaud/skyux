@@ -6,6 +6,7 @@ import {
   SkyHelpTestingModule,
 } from '@skyux/core/testing';
 import { SkyWaitService } from '@skyux/indicators';
+import { SkyModalService } from '@skyux/modals';
 import { SkyModalHarness } from '@skyux/modals/testing';
 
 import { Observable, of } from 'rxjs';
@@ -41,6 +42,10 @@ describe('Basic modal', () => {
 
     return { modalHarness, fixture, helpController };
   }
+
+  afterEach(() => {
+    TestBed.inject(SkyModalService).dispose();
+  });
 
   beforeEach(() => {
     TestBed.configureTestingModule({
