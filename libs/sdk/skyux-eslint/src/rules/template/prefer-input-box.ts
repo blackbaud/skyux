@@ -32,6 +32,12 @@ export const rule = createESLintTemplateRule({
 
         // For input elements, only flag types that belong in sky-input-box.
         if (name === 'input') {
+          const hasBoundType = element.inputs.some((attr) =>
+            ['type', 'attr.type'].includes(attr.name),
+          );
+          if (hasBoundType) {
+            return;
+          }
           const typeAttr = element.attributes.find(
             (attr) => attr.name === 'type',
           );

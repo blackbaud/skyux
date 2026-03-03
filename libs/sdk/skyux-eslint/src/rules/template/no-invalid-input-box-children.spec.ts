@@ -42,6 +42,9 @@ ruleTester.run(RULE_NAME, rule, {
     `<sky-input-box><input /><sky-status-indicator></sky-status-indicator></sky-input-box>`,
     `<sky-input-box><input /><sky-form-error></sky-form-error></sky-input-box>`,
 
+    // Dynamically bound input type inside sky-input-box is allowed
+    `<sky-input-box><input [attr.type]="boundVariable" /></sky-input-box>`,
+
     // Elements outside sky-input-box are not checked
     `<input type="checkbox" />`,
     `<sky-checkbox />`,

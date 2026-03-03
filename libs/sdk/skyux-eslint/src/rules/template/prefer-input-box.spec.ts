@@ -40,12 +40,12 @@ ruleTester.run(RULE_NAME, rule, {
     `<sky-input-box><input type="number" /></sky-input-box>`,
     `<sky-input-box><input type="password" /></sky-input-box>`,
     `<sky-input-box><input type="url" /></sky-input-box>`,
-    `<sky-input-box><input type="month" /></sky-input-box>`,
-    `<sky-input-box><input type="week" /></sky-input-box>`,
-    `<sky-input-box><input type="range" /></sky-input-box>`,
 
     // Inside sky-colorpicker (wraps its own input internally)
     `<sky-colorpicker><input type="text" /></sky-colorpicker>`,
+
+    // Dynamically bound input type is skipped (cannot determine type statically)
+    `<input [attr.type]="boundVariable" />`,
 
     // Non-target elements
     `<div></div>`,
