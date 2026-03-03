@@ -1,0 +1,114 @@
+<sky-data-manager>
+  <sky-data-manager-toolbar skyDataManagerFilterController>
+    <sky-filter-bar [(appliedFilters)]="appliedFilters">
+      <sky-filter-item-modal
+        filterId="hideSales"
+        labelText="Hide sales"
+        modalSize="small"
+        [modalComponent]="salesModal"
+      />
+      <sky-filter-item-lookup
+        filterId="jobTitle"
+        labelText="Job title"
+        searchDescriptorProperty="name"
+        searchIdProperty="id"
+        (searchAsync)="onJobTitleSearchAsync($event)"
+      />
+    </sky-filter-bar>
+    <sky-list-summary>
+      <sky-list-summary-item
+        [labelText]="
+          recordCount()
+            | i18nPlural
+              : {
+                  '=1': 'Record',
+                  other: 'Records'
+                }
+        "
+        [value]="recordCount()"
+      />
+    </sky-list-summary>
+  </sky-data-manager-toolbar>
+
+  <sky-data-view skyDataManagerHostController [viewId]="viewId">
+    <sky-data-grid
+      [appliedFilters]="appliedFilters()"
+      [data]="gridData()"
+      [(rowDeleteIds)]="rowDeleteIds"
+      (rowCountChange)="recordCount.set($event)"
+      (rowDeleteCancel)="rowDeleteCancel($event)"
+      (rowDeleteConfirm)="rowDeleteConfirm($event)"
+    >
+      <sky-data-grid-column
+        columnId="context"
+        headingText="Context menu"
+        headingHidden
+        width="50"
+        [resizable]="false"
+        [sortable]="false"
+        [template]="contextMenu"
+      />
+      <sky-data-grid-column field="name" headingText="Name" />
+      <sky-data-grid-column
+        field="age"
+        headingText="Age"
+        dataType="number"
+        width="60"
+      />
+      <sky-data-grid-column
+        field="startDate"
+        headingText="Start date"
+        dataType="date"
+      />
+      <sky-data-grid-column
+        field="endDate"
+        headingText="End date"
+        dataType="date"
+      />
+      <sky-data-grid-column
+        field="department"
+        headingText="Department"
+        filterId="hideSales"
+        filterOperator="notEqual"
+      />
+      <sky-data-grid-column field="jobTitle" headingText="Title" />
+    </sky-data-grid>
+  </sky-data-view>
+</sky-data-manager>
+
+<ng-template #contextMenu let-row="row">
+  <sky-dropdown
+    buttonType="context-menu"
+    [label]="`Context menu for ${row?.name}`"
+  >
+    <sky-dropdown-menu>
+      <sky-dropdown-item>
+        <button
+          type="button"
+          [attr.aria-label]="`Delete ${row?.name}`"
+          (click)="actionClicked(row, 'Delete')"
+        >
+          Delete
+        </button>
+      </sky-dropdown-item>
+      <sky-dropdown-item>
+        <button
+          type="button"
+          [attr.aria-label]="`Mark ${row?.name} inactive`"
+          (click)="actionClicked(row, 'Mark inactive')"
+        >
+          Mark inactive
+        </button>
+      </sky-dropdown-item>
+      <sky-dropdown-item>
+        <button
+          type="button"
+          [attr.aria-label]="`More info for ${row?.name}`"
+          (click)="actionClicked(row, 'More info')"
+        >
+          More info
+        </button>
+      </sky-dropdown-item>
+    </sky-dropdown-menu>
+  </sky-dropdown>
+</ng-template>

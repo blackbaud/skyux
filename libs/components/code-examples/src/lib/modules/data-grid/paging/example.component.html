@@ -1,0 +1,30 @@
+<sky-data-grid
+  height="270"
+  pageSize="5"
+  [data]="data"
+  [pageQueryParam]="pageQueryParam"
+>
+  <sky-data-grid-column field="name" headingText="Name" />
+  <sky-data-grid-column
+    field="age"
+    headingText="Age"
+    dataType="number"
+    width="55"
+  />
+  <sky-data-grid-column
+    field="startDate"
+    headingText="Start date"
+    dataType="date"
+  />
+  <sky-data-grid-column
+    field="endDate"
+    headingText="End date"
+    dataType="date"
+  />
+  <sky-data-grid-column field="department" headingText="Department">
+    <ng-template let-value="value">{{ value?.name ?? '' }}</ng-template>
+  </sky-data-grid-column>
+  <sky-data-grid-column field="jobTitle" headingText="Job title">
+    <ng-template let-value="value">{{ value?.name ?? '' }}</ng-template>
+  </sky-data-grid-column>
+</sky-data-grid>
