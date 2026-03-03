@@ -39,6 +39,8 @@ module.exports = () => {
         flags: [
           '--headless=new',
           '--window-size=1920,1080',
+          // Prevent Chrome from throttling timers and animations when the window is
+          // occluded, which avoids flaky timeouts in CI environments.
           '--disable-backgrounding-occluded-windows',
         ],
       },
