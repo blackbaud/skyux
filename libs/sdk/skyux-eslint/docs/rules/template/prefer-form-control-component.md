@@ -4,7 +4,7 @@ Recommend SKY UX components instead of native HTML input elements for certain in
 
 When a native `<input>` element's type has a dedicated SKY UX component equivalent, this rule flags the native input and recommends the appropriate SKY UX component. SKY UX components provide consistent styling, accessibility, and behavior out of the box.
 
-- Type: suggestion
+- Type: problem
 
 <br>
 

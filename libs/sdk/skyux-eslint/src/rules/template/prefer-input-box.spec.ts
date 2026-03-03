@@ -48,6 +48,9 @@ ruleTester.run(RULE_NAME, rule, {
     `<input [attr.type]="boundVariable" />`,
 
     // Non-target elements
+    `<input type="month" />`,
+    `<input type="week" />`,
+    `<input type="range" />`,
     `<div></div>`,
     `<span></span>`,
   ],

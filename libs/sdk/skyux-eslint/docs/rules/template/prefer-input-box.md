@@ -38,13 +38,10 @@ This rule applies to the following elements:
 - `<textarea>`
 - `<input>` with the following types (or no `type` attribute, which defaults to `text`):
   - `email`
-  - `month`
   - `number`
   - `password`
-  - `range`
   - `text`
   - `url`
-  - `week`
 
 <br>
 

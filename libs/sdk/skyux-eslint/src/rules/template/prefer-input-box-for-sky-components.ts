@@ -6,17 +6,10 @@ import {
 
 import { createESLintTemplateRule } from '../utils/create-eslint-template-rule';
 
+import { VALID_INPUT_BOX_SKY_COMPONENTS } from './utils/input-box-types';
+
 export const RULE_NAME = 'prefer-input-box-for-sky-components';
 export const messageId = 'preferInputBoxForSkyComponents';
-
-const TARGET_SKY_COMPONENTS = new Set([
-  'sky-autocomplete',
-  'sky-country-field',
-  'sky-datepicker',
-  'sky-lookup',
-  'sky-phone-field',
-  'sky-timepicker',
-]);
 
 export const rule = createESLintTemplateRule({
   create(context) {
@@ -30,7 +23,7 @@ export const rule = createESLintTemplateRule({
         const name = element.name.toLowerCase();
         ancestorStack.push(name);
 
-        if (!TARGET_SKY_COMPONENTS.has(name)) {
+        if (!VALID_INPUT_BOX_SKY_COMPONENTS.has(name)) {
           return;
         }
 

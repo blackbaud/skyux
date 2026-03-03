@@ -36,7 +36,7 @@ The following elements are valid inside `<sky-input-box>`:
 
 - `<select>`
 - `<textarea>`
-- `<input>` with types: `email`, `month`, `number`, `password`, `range`, `text`, `url`, `week` (or no `type` attribute)
+- `<input>` with types: `email`, `number`, `password`, `text`, `url` (or no `type` attribute)
 
 ### SKY UX Form Control Components
 
