@@ -53,6 +53,9 @@
           type="button"
           class="sky-btn sky-modal-btn-close"
           [attr.aria-label]="'skyux_modal_close' | skyLibResources"
+          [skyThemeClass]="{
+            'sky-btn-icon-borderless': 'modern'
+          }"
           (click)="closeButtonClick()"
         >
           <sky-icon iconName="close" />
