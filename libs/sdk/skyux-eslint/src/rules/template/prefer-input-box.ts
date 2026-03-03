@@ -35,7 +35,7 @@ export const rule = createESLintTemplateRule({
           const typeAttr = element.attributes.find(
             (attr) => attr.name === 'type',
           );
-          const inputType = typeAttr?.value.toLowerCase() || 'text';
+          const inputType = typeAttr?.value.trim().toLowerCase() || 'text';
           if (!VALID_INPUT_BOX_INPUT_TYPES.has(inputType)) {
             return;
           }
