@@ -59,6 +59,23 @@ describe('Infinite scroll', () => {
     fixture.detectChanges();
   }
 
+  function getScrollableWrapper(): HTMLElement {
+    const wrapper = fixture.componentInstance.wrapper
+      ?.nativeElement as HTMLElement;
+
+    wrapper.setAttribute('style', 'height:200px;overflow:auto;');
+
+    return wrapper;
+  }
+
+  async function waitForMutationObserverTurn(): Promise<void> {
+    await new Promise<void>((resolve) => {
+      requestAnimationFrame(() => {
+        resolve();
+      });
+    });
+  }
+
   it('should set defaults', () => {
     expect(fixture.componentInstance.infiniteScrollComponent.enabled).toEqual(
       false,
@@ -171,8 +188,7 @@ describe('Infinite scroll', () => {
   });
 
   it('should emit a scrollEnd event on scroll when an element is the scrollable parent', () => {
-    const wrapper = fixture.componentInstance.wrapper?.nativeElement;
-    wrapper.setAttribute('style', 'height:200px;overflow:auto;');
+    const wrapper = getScrollableWrapper();
 
     fixture.componentInstance.enabled = true;
     fixture.componentInstance.loadItems(1000);
@@ -299,14 +315,13 @@ describe('Infinite scroll', () => {
   });
 
   it('should notify of parent changes when elements are added outside the infinite scroll element', async () => {
-    const wrapper = fixture.componentInstance.wrapper?.nativeElement;
-    wrapper.setAttribute('style', 'height:200px;overflow:auto;');
+    const wrapper = getScrollableWrapper();
 
     fixture.componentInstance.enabled = true;
     fixture.detectChanges();
 
     // Wait for any initial MutationObserver callbacks from the first render.
-    await new Promise((resolve) => setTimeout(resolve));
+    await waitForMutationObserverTurn();
 
     // Set isWaiting to true so we can verify it gets reset by parentChanges.
     fixture.componentInstance.infiniteScrollComponent.isWaiting = true;
@@ -317,7 +332,7 @@ describe('Infinite scroll', () => {
     wrapper.appendChild(newElement);
 
     // Wait for the MutationObserver callback to fire.
-    await new Promise((resolve) => setTimeout(resolve));
+    await waitForMutationObserverTurn();
 
     expect(fixture.componentInstance.infiniteScrollComponent.isWaiting).toBe(
       false,
@@ -327,14 +342,13 @@ describe('Infinite scroll', () => {
   });
 
   it('should not notify of parent changes when elements are added inside the infinite scroll element', async () => {
-    const wrapper = fixture.componentInstance.wrapper?.nativeElement;
-    wrapper.setAttribute('style', 'height:200px;overflow:auto;');
+    getScrollableWrapper();
 
     fixture.componentInstance.enabled = true;
     fixture.detectChanges();
 
     // Wait for any initial MutationObserver callbacks from the first render.
-    await new Promise((resolve) => setTimeout(resolve));
+    await waitForMutationObserverTurn();
 
     fixture.componentInstance.infiniteScrollComponent.isWaiting = true;
 
@@ -348,7 +362,7 @@ describe('Infinite scroll', () => {
     infiniteScrollEl.appendChild(newElement);
 
     // Wait for the MutationObserver callback to fire.
-    await new Promise((resolve) => setTimeout(resolve));
+    await waitForMutationObserverTurn();
 
     expect(fixture.componentInstance.infiniteScrollComponent.isWaiting).toBe(
       true,
