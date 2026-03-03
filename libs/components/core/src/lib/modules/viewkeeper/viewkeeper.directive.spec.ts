@@ -318,11 +318,7 @@ describe('Viewkeeper directive', () => {
     );
     const el1 = fixture.nativeElement.querySelector('.el1');
 
-    // Fire the event outside of fakeAsync zone control since the callback
-    // runs outside Angular's zone with a real animationFrameScheduler.
-    ngZone.runOutsideAngular(() => {
-      SkyAppTestUtility.fireDomEvent(el1, 'afterViewkeeperSync');
-    });
+    SkyAppTestUtility.fireDomEvent(el1, 'afterViewkeeperSync');
     tick(16);
 
     expect(shadowEl.classList).toContain('sky-viewkeeper-shadow--active');
