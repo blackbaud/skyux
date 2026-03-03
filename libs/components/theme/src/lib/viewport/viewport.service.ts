@@ -97,37 +97,33 @@ export class SkyAppViewportService {
   }
 
   #updateViewportArea(): void {
-    this.#updateRequest ??= this.#ngZone.runOutsideAngular(() =>
-      requestAnimationFrame(() => {
-        this.#updateRequest = undefined;
-        const reservedSpaces: Record<
-          SkyAppViewportReservedPositionType,
-          number
-        > = {
+    this.#updateRequest ??= requestAnimationFrame(() => {
+      this.#updateRequest = undefined;
+      const reservedSpaces: Record<SkyAppViewportReservedPositionType, number> =
+        {
           bottom: 0,
           left: 0,
           right: 0,
           top: 0,
         };
 
-        for (const args of this.#reserveItems.values()) {
-          args.active = this.#isElementVisible(args, reservedSpaces);
-          if (args.active) {
-            reservedSpaces[args.position] += args.size;
-          }
+      for (const args of this.#reserveItems.values()) {
+        args.active = this.#isElementVisible(args, reservedSpaces);
+        if (args.active) {
+          reservedSpaces[args.position] += args.size;
         }
+      }
 
-        this.#reservedSpaces = reservedSpaces;
-        const documentElementStyle = this.#document.documentElement.style;
+      this.#reservedSpaces = reservedSpaces;
+      const documentElementStyle = this.#document.documentElement.style;
 
-        for (const [position, size] of Object.entries(reservedSpaces)) {
-          documentElementStyle.setProperty(
-            `--sky-viewport-${position}`,
-            size + 'px',
-          );
-        }
-      }),
-    );
+      for (const [position, size] of Object.entries(reservedSpaces)) {
+        documentElementStyle.setProperty(
+          `--sky-viewport-${position}`,
+          size + 'px',
+        );
+      }
+    });
   }
 
   #watchVisibility(item: ReserveItemType): void {

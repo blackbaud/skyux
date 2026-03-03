@@ -28,7 +28,6 @@ export class SkyInfiniteScrollDomAdapterService implements OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.#observer?.disconnect();
     this.#parentChanges.complete();
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();

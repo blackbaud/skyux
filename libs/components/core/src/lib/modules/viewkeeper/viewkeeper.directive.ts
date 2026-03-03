@@ -3,7 +3,6 @@ import {
   Directive,
   ElementRef,
   Input,
-  NgZone,
   OnDestroy,
   OnInit,
   Optional,
@@ -59,7 +58,6 @@ export class SkyViewkeeperDirective
   #viewkeeperSvc: SkyViewkeeperService;
 
   readonly #renderer = inject(RendererFactory2).createRenderer(undefined, null);
-  readonly #ngZone = inject(NgZone);
   #shadowElement: HTMLElement | undefined;
 
   constructor(
@@ -194,56 +192,50 @@ export class SkyViewkeeperDirective
       this.#scrollableHostWatchUnsubscribe.pipe(take(1)).subscribe(() => {
         this.#shadowElement?.classList.remove('sky-viewkeeper-shadow--active');
       });
-      // Run the animationFrameScheduler subscription outside Angular zone
-      // to prevent requestAnimationFrame from being tracked as a zone macrotask.
-      // In headless browsers, document.hidden is true, which prevents rAF callbacks
-      // from firing, causing permanent pending macrotasks in the Angular zone.
-      this.#ngZone.runOutsideAngular(() => {
-        fromEvent(viewkeeperEls, 'afterViewkeeperSync')
-          .pipe(
-            takeUntil(this.#scrollableHostWatchUnsubscribe!),
-            observeOn(animationFrameScheduler),
-          )
-          .subscribe(() => {
-            const applicable = viewkeeperEls.filter(
-              (el) =>
-                el.classList.contains('sky-viewkeeper-fixed') &&
-                (!this.skyViewkeeperOmitShadow ||
-                  !el.matches(this.skyViewkeeperOmitShadow)),
+      fromEvent(viewkeeperEls, 'afterViewkeeperSync')
+        .pipe(
+          takeUntil(this.#scrollableHostWatchUnsubscribe),
+          observeOn(animationFrameScheduler),
+        )
+        .subscribe(() => {
+          const applicable = viewkeeperEls.filter(
+            (el) =>
+              el.classList.contains('sky-viewkeeper-fixed') &&
+              (!this.skyViewkeeperOmitShadow ||
+                !el.matches(this.skyViewkeeperOmitShadow)),
+          );
+          if (applicable.length === 0) {
+            this.#shadowElement?.classList.remove(
+              'sky-viewkeeper-shadow--active',
             );
-            if (applicable.length === 0) {
-              this.#shadowElement?.classList.remove(
-                'sky-viewkeeper-shadow--active',
-              );
-              return;
-            }
-            this.#shadowElement?.classList.add('sky-viewkeeper-shadow--active');
-            const boundingRectangles = applicable.map((el) =>
-              el.getBoundingClientRect(),
-            );
-            const left = boundingRectangles.reduce(
-              (num, rect) => Math.min(num, rect.left),
-              Number.POSITIVE_INFINITY,
-            );
-            const right = boundingRectangles.reduce(
-              (num, rect) => Math.max(num, rect.right),
-              Number.NEGATIVE_INFINITY,
-            );
-            const top = boundingRectangles.reduce(
-              (num, rect) => Math.min(num, rect.top),
-              Number.POSITIVE_INFINITY,
-            );
-            const bottom = boundingRectangles.reduce(
-              (num, rect) => Math.max(num, rect.bottom),
-              Number.NEGATIVE_INFINITY,
-            );
-            this.#renderer.setStyle(
-              this.#shadowElement,
-              'inset',
-              `${top}px ${window.innerWidth - right}px ${window.innerHeight - bottom}px ${left}px`,
-            );
-          });
-      });
+            return;
+          }
+          this.#shadowElement?.classList.add('sky-viewkeeper-shadow--active');
+          const boundingRectangles = applicable.map((el) =>
+            el.getBoundingClientRect(),
+          );
+          const left = boundingRectangles.reduce(
+            (num, rect) => Math.min(num, rect.left),
+            Number.POSITIVE_INFINITY,
+          );
+          const right = boundingRectangles.reduce(
+            (num, rect) => Math.max(num, rect.right),
+            Number.NEGATIVE_INFINITY,
+          );
+          const top = boundingRectangles.reduce(
+            (num, rect) => Math.min(num, rect.top),
+            Number.POSITIVE_INFINITY,
+          );
+          const bottom = boundingRectangles.reduce(
+            (num, rect) => Math.max(num, rect.bottom),
+            Number.NEGATIVE_INFINITY,
+          );
+          this.#renderer.setStyle(
+            this.#shadowElement,
+            'inset',
+            `${top}px ${window.innerWidth - right}px ${window.innerHeight - bottom}px ${left}px`,
+          );
+        });
 
       this.#currentViewkeeperEls = viewkeeperEls;
     }
