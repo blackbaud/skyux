@@ -1,6 +1,25 @@
 # Changelog
 
 
+## [14.0.0-alpha.4](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.3...14.0.0-alpha.4) (2026-03-03)
+
+
+### ⚠ BREAKING CHANGES
+
+* **sdk/skyux-eslint:** add prefer-input-box rule (#4243)
+* **sdk/skyux-eslint:** modify `skyux-eslint-template/prefer-label-text` ESLint rule to require `labelText` for all `sky-input-box` implementations (#4245)
+* **components/modals:** deprecate `SkyModalHeaderComponent` (#4244)
+
+### Features
+
+* **components/modals:** deprecate `SkyModalHeaderComponent` ([#4244](https://github.com/blackbaud/skyux/issues/4244)) ([5c80f39](https://github.com/blackbaud/skyux/commit/5c80f39f7ddc02bfd9fdd0fcdbabe145eeda5b75))
+* **sdk/skyux-eslint:** add prefer-input-box rule ([#4243](https://github.com/blackbaud/skyux/issues/4243)) ([bed5acf](https://github.com/blackbaud/skyux/commit/bed5acf45f883aac74529510f22860097a319a4a))
+
+
+### Bug Fixes
+
+* **sdk/skyux-eslint:** modify `skyux-eslint-template/prefer-label-text` ESLint rule to require `labelText` for all `sky-input-box` implementations ([#4245](https://github.com/blackbaud/skyux/issues/4245)) ([842e235](https://github.com/blackbaud/skyux/commit/842e235d6de47070a67889c9abb801ac21d54638))
+
 ## [13.14.2](https://github.com/blackbaud/skyux/compare/13.14.1...13.14.2) (2026-02-25)
 
 
