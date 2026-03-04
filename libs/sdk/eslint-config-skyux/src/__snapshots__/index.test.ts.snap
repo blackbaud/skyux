@@ -12230,7 +12230,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
             "defaultOptions": Array [],
             "meta": Object {
               "docs": Object {
-                "description": "Prevents wildcard re-exports (\`export * from\`) to ensure explicit public API surfaces.",
+                "description": "Prevents wildcard (\`export * from\`) and namespace (\`export * as ns from\`) re-exports to ensure explicit public API surfaces.",
                 "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/no-barrel-exports.md",
               },
               "fixable": "code",
