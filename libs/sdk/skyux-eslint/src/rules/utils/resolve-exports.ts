@@ -28,45 +28,104 @@ export function resolveModulePath(
   return undefined;
 }
 
+export interface ExtractedNamedExports {
+  valueExports: string[];
+  typeExports: string[];
+}
+
 /**
  * Extracts named exports from a TypeScript file's content using regex.
- * Returns a sorted, deduplicated array of export names.
+ * Returns sorted, deduplicated arrays of value exports and type-only exports.
  */
-export function extractNamedExports(fileContent: string): string[] {
-  const exports: string[] = [];
+export function extractNamedExports(
+  fileContent: string,
+): ExtractedNamedExports {
+  const valueExports: string[] = [];
+  const typeExports: string[] = [];
 
-  // Match: export (abstract|async)? class|interface|type|function|const|let|var|enum <Name>
-  const declarationRegex =
-    /export\s+(?:(?:abstract|async|declare)\s+)*(?:class|interface|type|function|const|let|var|enum)\s+(\w+)/g;
+  // Match value declarations: class (including abstract), function (including async), enum
+  const valueDeclarationRegex =
+    /export\s+(?:(?:abstract|async|declare)\s+)*(?:class|function|enum)\s+(\w+)/g;
   let match: RegExpExecArray | null;
-  while ((match = declarationRegex.exec(fileContent)) !== null) {
-    exports.push(match[1]);
+  while ((match = valueDeclarationRegex.exec(fileContent)) !== null) {
+    valueExports.push(match[1]);
   }
 
-  // Match: export { A, B, C } or export { A as B } (with optional 'from')
-  const namedExportRegex = /export\s*\{([^}]+)\}/g;
-  while ((match = namedExportRegex.exec(fileContent)) !== null) {
+  // Match type-only declarations: interface, type alias
+  const typeDeclarationRegex =
+    /export\s+(?:declare\s+)*(?:interface|type)\s+(\w+)/g;
+  while ((match = typeDeclarationRegex.exec(fileContent)) !== null) {
+    typeExports.push(match[1]);
+  }
+
+  // Match variable declarations (const/let/var), including multi-declarator
+  // e.g. export const a = 1, b = 2;
+  const variableDeclarationRegex =
+    /export\s+(?:declare\s+)?(?:const|let|var)\s+([^;\n]+)/g;
+  while ((match = variableDeclarationRegex.exec(fileContent)) !== null) {
+    const names = match[1]
+      .split(',')
+      .map((segment) => segment.trim().match(/^([A-Za-z_$][\w$]*)/)?.[1])
+      .filter((name): name is string => Boolean(name));
+    valueExports.push(...names);
+  }
+
+  // Match type-only named re-exports: export type { A, B as C } (with optional 'from')
+  const namedTypeExportRegex = /export\s+type\s*\{([^}]+)\}/g;
+  while ((match = namedTypeExportRegex.exec(fileContent)) !== null) {
     const names = match[1].split(',').map((name) => {
       const parts = name.trim().split(/\s+as\s+/);
       return parts[parts.length - 1].trim();
     });
-    exports.push(...names.filter(Boolean));
+    typeExports.push(...names.filter(Boolean));
   }
 
-  return [...new Set(exports)].sort();
+  // Match value named re-exports: export { A, B } (with optional 'from')
+  // Also handles inline type modifier: export { type Foo, Bar }
+  // Note: export\s*\{ does not match "export type {" since "type" intervenes before "{"
+  const namedValueExportRegex = /export\s*\{([^}]+)\}/g;
+  while ((match = namedValueExportRegex.exec(fileContent)) !== null) {
+    const specifiers = match[1].split(',');
+    for (const specifier of specifiers) {
+      const cleaned = specifier.trim();
+      if (!cleaned) {
+        continue;
+      }
+
+      const isTypeSpecifier = /^type\s+/.test(cleaned);
+      const withoutType = isTypeSpecifier
+        ? cleaned.replace(/^type\s+/, '')
+        : cleaned;
+      const parts = withoutType.split(/\s+as\s+/);
+      const exportedName = parts[parts.length - 1].trim();
+
+      if (isTypeSpecifier) {
+        typeExports.push(exportedName);
+      } else {
+        valueExports.push(exportedName);
+      }
+    }
+  }
+
+  return {
+    valueExports: [...new Set(valueExports)].sort(),
+    typeExports: [...new Set(typeExports)].sort(),
+  };
 }
 
 /**
  * Reads a file and extracts its named exports.
- * Returns undefined if the file cannot be read.
+ * Returns undefined if the file cannot be read or has no named exports.
  */
 export function getNamedExportsFromFile(
   filePath: string,
-): string[] | undefined {
+): ExtractedNamedExports | undefined {
   try {
     const content = readFileSync(filePath, 'utf-8');
     const exports = extractNamedExports(content);
-    return exports.length > 0 ? exports : undefined;
+    const hasExports =
+      exports.valueExports.length > 0 || exports.typeExports.length > 0;
+    return hasExports ? exports : undefined;
   } catch {
     return undefined;
   }
