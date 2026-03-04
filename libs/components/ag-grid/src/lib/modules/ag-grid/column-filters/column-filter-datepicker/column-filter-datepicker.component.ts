@@ -120,8 +120,6 @@ export class SkyAgGridColumnFilterDatepickerComponent implements IDateAngularCom
       this.dateControl.setValue(newDate || null);
     }
   }
-    }
-  }
 
   public setInputAriaLabel(placeholder: string): void {
     this.label.set(placeholder);
