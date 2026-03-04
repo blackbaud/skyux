@@ -25,13 +25,13 @@ import { SkyAnimationSlideDirection } from './slide-direction';
   styleUrl: './slide.scss',
   templateUrl: './slide.html',
 })
-export class SkyAnimationSlide {
+export class SkyAnimationSlideComponent {
   readonly #elementRef = inject(ElementRef);
   readonly #renderer = inject(Renderer2);
   readonly #animationsDisabled = _skyAnimationsDisabled();
 
   public readonly slideDirection = input.required<SkyAnimationSlideDirection>();
-  public readonly animationEnd = output<void>();
+  public readonly transitionEnd = output<void>();
 
   constructor() {
     effect(() => {
@@ -47,14 +47,14 @@ export class SkyAnimationSlide {
       }
 
       if (this.#animationsDisabled) {
-        this.animationEnd.emit();
+        this.transitionEnd.emit();
       }
     });
   }
 
   protected onTransitionEnd(evt: TransitionEvent): void {
     if (evt.currentTarget === this.#elementRef.nativeElement) {
-      this.animationEnd.emit();
+      this.transitionEnd.emit();
       evt.stopPropagation();
     }
   }

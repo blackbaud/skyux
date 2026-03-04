@@ -597,7 +597,7 @@ export class SkyRepeaterItemComponent
 
   #slideForExpanded(animate: boolean): void {
     this.animationDisabled = !animate;
-    this.slideDirection = this.isExpanded ? 'in' : 'out';
+    this.slideDirection = this.isExpanded ? 'out' : 'in';
   }
 
   #keyboardReorderUp(): void {

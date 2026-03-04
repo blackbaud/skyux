@@ -7,13 +7,13 @@
   transition-timing-function: ease-in;
 
   &.sky-animation-slide-in {
-    grid-template-rows: 1fr;
-    visibility: visible;
+    grid-template-rows: 0fr;
+    visibility: hidden;
   }
 
   &.sky-animation-slide-out {
-    grid-template-rows: 0fr;
-    visibility: hidden;
+    grid-template-rows: 1fr;
+    visibility: visible;
   }
 
   > .sky-animation-slide-content {

@@ -71,9 +71,9 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
 
   @ViewChild('groupHeadingButton')
   public groupHeadingButton: ElementRef | undefined;
+  protected slideDirection: SkyAnimationSlideDirection = 'in';
 
   protected groupId: string;
-  protected slideDirection: SkyAnimationSlideDirection = 'out';
 
   #ngUnsubscribe = new Subject<void>();
 
@@ -180,7 +180,7 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
   }
 
   #updateSlideDirection(): void {
-    this.slideDirection = this.open && !this.disabled ? 'in' : 'out';
+    this.slideDirection = this.open && !this.disabled ? 'out' : 'in';
   }
 
   #focusButton(): void {

@@ -20,7 +20,10 @@ import {
   SkyMediaQueryService,
   SkyMutationObserverService,
 } from '@skyux/core';
-import { SkyAnimationSlide, SkyAnimationSlideDirection } from '@skyux/core';
+import {
+  SkyAnimationSlideComponent,
+  SkyAnimationSlideDirection,
+} from '@skyux/core';
 import { SkyChevronModule, SkyStatusIndicatorModule } from '@skyux/indicators';
 import { SkyThemeModule } from '@skyux/theme';
 
@@ -48,7 +51,7 @@ let nextId = 0;
   imports: [
     CommonModule,
     SkyActionBarsResourcesModule,
-    SkyAnimationSlide,
+    SkyAnimationSlideComponent,
     SkyChevronModule,
     SkyThemeModule,
     SkyStatusIndicatorModule,
@@ -68,7 +71,7 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
   readonly #windowRef = inject(SkyAppWindowRef);
 
   public isSummaryCollapsed = signal<boolean>(false);
-  protected readonly slideDirection = signal<SkyAnimationSlideDirection>('in');
+  protected readonly slideDirection = signal<SkyAnimationSlideDirection>('out');
 
   public summaryId = `sky-summary-action-bar-summary-${++nextId}`;
 
@@ -105,24 +108,6 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
   readonly #breakpoint = toSignal(this.#mediaQuerySvc.breakpointChange);
 
   #_summaryElement: ElementRef | undefined;
-
-  protected onAnimationEnd(): void {
-    this.isSummaryCollapsed.set(this.slideDirection() === 'out');
-
-    const type = this.type();
-
-    if (
-      type === SkySummaryActionBarType.Page ||
-      type === SkySummaryActionBarType.Tab
-    ) {
-      this.#adapterService.styleBodyElementForActionBar(this.#elementRef);
-    }
-
-    // Ensure that the correct chevron is fully rendered prior to setting focus.
-    setTimeout(() => {
-      this.#adapterService.focusChevron(this.chevronElementRef);
-    });
-  }
 
   public ngAfterViewInit(): void {
     const type = this.#adapterService.getSummaryActionBarType(
@@ -183,11 +168,11 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
   protected onChevronDirectionChange(direction: string): void {
     switch (direction) {
       case 'up':
-        this.slideDirection.set('out');
+        this.slideDirection.set('in');
         break;
       default:
       case 'down':
-        this.slideDirection.set('in');
+        this.slideDirection.set('out');
         break;
     }
   }
@@ -196,13 +181,31 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
     return !!(this.summaryElement?.nativeElement.children.length || 0 > 0);
   }
 
+  protected onTransitionEnd(): void {
+    this.isSummaryCollapsed.set(this.slideDirection() === 'in');
+
+    const type = this.type();
+
+    if (
+      type === SkySummaryActionBarType.Page ||
+      type === SkySummaryActionBarType.Tab
+    ) {
+      this.#adapterService.styleBodyElementForActionBar(this.#elementRef);
+    }
+
+    // Ensure that the correct chevron is fully rendered prior to setting focus.
+    setTimeout(() => {
+      this.#adapterService.focusChevron(this.chevronElementRef);
+    });
+  }
+
   #setupReactiveState(): void {
     this.#mediaQuerySvc.breakpointChange
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((breakpoint) => {
         if (breakpoint !== 'xs') {
           this.isSummaryCollapsed.set(false);
-          this.slideDirection.set('in');
+          this.slideDirection.set('out');
         }
         this.#changeDetector.detectChanges();
       });

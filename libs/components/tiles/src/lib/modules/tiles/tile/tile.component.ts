@@ -16,7 +16,7 @@ import {
   inject,
 } from '@angular/core';
 import {
-  SkyAnimationSlide,
+  SkyAnimationSlideComponent,
   SkyIdModule,
   SkyIdService,
   SkyLogService,
@@ -44,7 +44,7 @@ import { SkyTileTitleComponent } from './tile-title.component';
   templateUrl: './tile.component.html',
   imports: [
     CommonModule,
-    SkyAnimationSlide,
+    SkyAnimationSlideComponent,
     SkyChevronModule,
     SkyHelpInlineModule,
     SkyIconModule,

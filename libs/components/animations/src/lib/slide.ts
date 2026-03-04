@@ -7,6 +7,9 @@ import {
   trigger,
 } from '@angular/animations';
 
+/**
+ * @deprecated
+ */
 export const skyAnimationSlide: AnimationTriggerMetadata = trigger(
   'skyAnimationSlide',
   [

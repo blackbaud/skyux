@@ -1,4 +1,5 @@
 :host {
+  display: block;
   transition-duration: var(--sky-transition-time-medium);
   transition-property: opacity, transform;
   transition-timing-function: ease-in-out;

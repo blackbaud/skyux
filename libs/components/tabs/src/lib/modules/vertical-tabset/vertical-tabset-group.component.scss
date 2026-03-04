@@ -101,4 +101,9 @@
   );
 }
 
+.sky-vertical-tabset-group-content-gutter {
+  padding-top: var(--sky-comp-tab-vertical-subgroup-space-inset-top);
+  padding-bottom: var(--sky-comp-tab-vertical-subgroup-space-inset-bottom);
+}
+
 @include verticalTabsetButtonMixins.sky-vertical-tabset-button();

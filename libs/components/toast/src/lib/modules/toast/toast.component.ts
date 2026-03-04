@@ -13,7 +13,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { SkyAnimationEmerge, SkyIdModule } from '@skyux/core';
+import { SkyAnimationEmergeComponent, SkyIdModule } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeModule } from '@skyux/theme';
 
@@ -39,7 +39,7 @@ const SKY_TOAST_TYPE_DEFAULT = SkyToastType.Info;
   encapsulation: ViewEncapsulation.None,
   imports: [
     CommonModule,
-    SkyAnimationEmerge,
+    SkyAnimationEmergeComponent,
     SkyIconModule,
     SkyIdModule,
     SkyThemeModule,
@@ -75,14 +75,14 @@ export class SkyToastComponent implements OnInit, OnDestroy {
   public iconName = 'info';
   public toastTypeOrDefault: SkyToastType = SKY_TOAST_TYPE_DEFAULT;
 
+  protected readonly isOpen = signal(true);
+
   #autoCloseTimeoutId: unknown;
   #ngUnsubscribe = new Subject<void>();
 
   readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #toasterService = inject(SkyToasterService, { optional: true });
   readonly #ngZone = inject(NgZone);
-
-  protected readonly isOpen = signal(true);
 
   public ngOnInit(): void {
     this.startAutoCloseTimer();
@@ -112,7 +112,7 @@ export class SkyToastComponent implements OnInit, OnDestroy {
     this.stopAutoCloseTimer();
   }
 
-  protected onAnimationDone(): void {
+  protected onTransitionEnd(): void {
     if (!this.isOpen()) {
       this.closed.emit();
       this.closed.complete();

@@ -23,13 +23,13 @@ import { _skyAnimationsDisabled } from '../utility/animations-disabled';
   styleUrl: './emerge.scss',
   template: '<ng-content />',
 })
-export class SkyAnimationEmerge {
+export class SkyAnimationEmergeComponent {
   readonly #elementRef = inject(ElementRef);
   readonly #renderer = inject(Renderer2);
   readonly #animationsDisabled = _skyAnimationsDisabled();
 
   public readonly visible = input.required<boolean>();
-  public readonly animationDone = output<void>();
+  public readonly transitionEnd = output<void>();
 
   constructor() {
     effect(() => {
@@ -43,14 +43,14 @@ export class SkyAnimationEmerge {
       }
 
       if (this.#animationsDisabled) {
-        this.animationDone.emit();
+        this.transitionEnd.emit();
       }
     });
   }
 
   protected onTransitionEnd(evt: TransitionEvent): void {
     if (evt.currentTarget === this.#elementRef.nativeElement) {
-      this.animationDone.emit();
+      this.transitionEnd.emit();
       evt.stopPropagation();
     }
   }

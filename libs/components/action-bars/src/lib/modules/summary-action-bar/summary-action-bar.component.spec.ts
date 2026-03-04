@@ -420,27 +420,6 @@ describe('Summary Action Bar component', () => {
         expect(cmp.summaryActionBar?.isSummaryCollapsed()).toBeFalsy();
       }));
 
-      it('should default to expanding the summary when chevron direction is unexpected', fakeAsync(() => {
-        fixture.detectChanges();
-        mediaQueryController.setBreakpoint('xs');
-        fixture.detectChanges();
-
-        const summaryActionBar = cmp.summaryActionBar as any;
-        expect(summaryActionBar).toBeTruthy();
-
-        summaryActionBar.onChevronDirectionChange('up');
-        summaryActionBar.onAnimationEnd();
-        tick();
-        fixture.detectChanges();
-        expect(cmp.summaryActionBar?.isSummaryCollapsed()).toBeTruthy();
-
-        summaryActionBar.onChevronDirectionChange('unexpected-value');
-        summaryActionBar.onAnimationEnd();
-        tick();
-        fixture.detectChanges();
-        expect(cmp.summaryActionBar?.isSummaryCollapsed()).toBeFalsy();
-      }));
-
       it(`should move focus to the collapsed summary's chevron after collapsing`, async () => {
         fixture.detectChanges();
         mediaQueryController.setBreakpoint('xs');

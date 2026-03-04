@@ -3,11 +3,9 @@ import {
   DestroyRef,
   EnvironmentProviders,
   inject,
-  makeEnvironmentProviders,
   provideEnvironmentInitializer,
 } from '@angular/core';
 
-import { SKY_ANIMATIONS_DISABLED } from './animations-disabled-token';
 import { SKY_DISABLED_ANIMATIONS_CLASS_NAME } from './constants';
 
 /**
@@ -25,22 +23,16 @@ import { SKY_DISABLED_ANIMATIONS_CLASS_NAME } from './constants';
  * ```
  */
 export function provideNoopSkyAnimations(): EnvironmentProviders {
-  return makeEnvironmentProviders([
-    {
-      provide: SKY_ANIMATIONS_DISABLED,
-      useValue: true,
-    },
-    provideEnvironmentInitializer(() => {
-      const doc = inject(DOCUMENT);
-      const destroyRef = inject(DestroyRef);
+  return provideEnvironmentInitializer(() => {
+    const doc = inject(DOCUMENT);
+    const destroyRef = inject(DestroyRef);
 
-      if (!doc.body.classList.contains(SKY_DISABLED_ANIMATIONS_CLASS_NAME)) {
-        doc.body.classList.add(SKY_DISABLED_ANIMATIONS_CLASS_NAME);
+    if (!doc.body.classList.contains(SKY_DISABLED_ANIMATIONS_CLASS_NAME)) {
+      doc.body.classList.add(SKY_DISABLED_ANIMATIONS_CLASS_NAME);
 
-        destroyRef.onDestroy(() => {
-          doc.body.classList.remove(SKY_DISABLED_ANIMATIONS_CLASS_NAME);
-        });
-      }
-    }),
-  ]);
+      destroyRef.onDestroy(() => {
+        doc.body.classList.remove(SKY_DISABLED_ANIMATIONS_CLASS_NAME);
+      });
+    }
+  });
 }
