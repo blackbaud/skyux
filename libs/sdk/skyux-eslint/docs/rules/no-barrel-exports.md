@@ -15,7 +15,7 @@ The rule does not have any configuration options.
 
 ## Usage Examples
 
-#### Default Config
+### Default Config
 
 ```json
 {
@@ -27,7 +27,7 @@ The rule does not have any configuration options.
 
 <br>
 
-#### :x: Invalid Code
+### :x: Invalid Code
 
 ```ts
 export * from './foo';
@@ -41,7 +41,7 @@ export * as foo from './foo';
 
 <br>
 
-#### :white_check_mark: Valid Code
+### :white_check_mark: Valid Code
 
 ```ts
 export { FooComponent, FooService } from './foo';

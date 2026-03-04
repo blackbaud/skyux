@@ -1,4 +1,4 @@
-import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
@@ -30,7 +30,7 @@ describe('resolveModulePath', () => {
   it('should resolve an index.ts file', () => {
     const dir = join(tempDir, 'bar');
     const filePath = join(dir, 'index.ts');
-    require('node:fs').mkdirSync(dir);
+    mkdirSync(dir);
     writeFileSync(filePath, 'export class Bar {}');
 
     const result = resolveModulePath(join(tempDir, 'index.ts'), './bar');
@@ -61,7 +61,10 @@ describe('getNamedExportsFromFile', () => {
     const filePath = join(tempDir, 'foo.ts');
     writeFileSync(filePath, 'export class Foo {}\nexport const bar = 1;');
 
-    expect(getNamedExportsFromFile(filePath)).toEqual(['Foo', 'bar']);
+    expect(getNamedExportsFromFile(filePath)).toEqual({
+      valueExports: ['Foo', 'bar'],
+      typeExports: [],
+    });
   });
 
   it('should return undefined for a file with no exports', () => {
@@ -80,65 +83,116 @@ describe('getNamedExportsFromFile', () => {
 
 describe('extractNamedExports', () => {
   it('should extract class exports', () => {
-    expect(extractNamedExports('export class Foo {}')).toEqual(['Foo']);
+    expect(extractNamedExports('export class Foo {}')).toEqual({
+      valueExports: ['Foo'],
+      typeExports: [],
+    });
   });
 
   it('should extract abstract class exports', () => {
-    expect(extractNamedExports('export abstract class Foo {}')).toEqual([
-      'Foo',
-    ]);
+    expect(extractNamedExports('export abstract class Foo {}')).toEqual({
+      valueExports: ['Foo'],
+      typeExports: [],
+    });
   });
 
-  it('should extract interface exports', () => {
-    expect(extractNamedExports('export interface Foo {}')).toEqual(['Foo']);
+  it('should extract interface exports as type-only', () => {
+    expect(extractNamedExports('export interface Foo {}')).toEqual({
+      valueExports: [],
+      typeExports: ['Foo'],
+    });
   });
 
-  it('should extract type exports', () => {
-    expect(extractNamedExports('export type Foo = string;')).toEqual(['Foo']);
+  it('should extract type alias exports as type-only', () => {
+    expect(extractNamedExports('export type Foo = string;')).toEqual({
+      valueExports: [],
+      typeExports: ['Foo'],
+    });
   });
 
   it('should extract function exports', () => {
-    expect(extractNamedExports('export function foo() {}')).toEqual(['foo']);
+    expect(extractNamedExports('export function foo() {}')).toEqual({
+      valueExports: ['foo'],
+      typeExports: [],
+    });
   });
 
   it('should extract async function exports', () => {
-    expect(extractNamedExports('export async function foo() {}')).toEqual([
-      'foo',
-    ]);
+    expect(extractNamedExports('export async function foo() {}')).toEqual({
+      valueExports: ['foo'],
+      typeExports: [],
+    });
   });
 
   it('should extract const exports', () => {
-    expect(extractNamedExports('export const foo = 1;')).toEqual(['foo']);
+    expect(extractNamedExports('export const foo = 1;')).toEqual({
+      valueExports: ['foo'],
+      typeExports: [],
+    });
   });
 
   it('should extract let exports', () => {
-    expect(extractNamedExports('export let foo = 1;')).toEqual(['foo']);
+    expect(extractNamedExports('export let foo = 1;')).toEqual({
+      valueExports: ['foo'],
+      typeExports: [],
+    });
   });
 
   it('should extract var exports', () => {
-    expect(extractNamedExports('export var foo = 1;')).toEqual(['foo']);
+    expect(extractNamedExports('export var foo = 1;')).toEqual({
+      valueExports: ['foo'],
+      typeExports: [],
+    });
   });
 
   it('should extract enum exports', () => {
-    expect(extractNamedExports('export enum Foo { A, B }')).toEqual(['Foo']);
+    expect(extractNamedExports('export enum Foo { A, B }')).toEqual({
+      valueExports: ['Foo'],
+      typeExports: [],
+    });
   });
 
-  it('should extract declare exports', () => {
-    expect(extractNamedExports('export declare const foo: string;')).toEqual([
-      'foo',
-    ]);
+  it('should extract declare const exports as value exports', () => {
+    expect(
+      extractNamedExports('export declare const foo: string;'),
+    ).toEqual({ valueExports: ['foo'], typeExports: [] });
   });
 
-  it('should extract named re-exports', () => {
+  it('should extract multi-declarator variable exports', () => {
+    expect(extractNamedExports('export const a = 1, b = 2;')).toEqual({
+      valueExports: ['a', 'b'],
+      typeExports: [],
+    });
+  });
+
+  it('should extract named re-exports as value exports', () => {
     expect(
       extractNamedExports("export { Foo, Bar } from './foo';"),
-    ).toEqual(['Bar', 'Foo']);
+    ).toEqual({ valueExports: ['Bar', 'Foo'], typeExports: [] });
   });
 
   it('should extract aliased re-exports using the alias name', () => {
     expect(
       extractNamedExports("export { Foo as Bar } from './foo';"),
-    ).toEqual(['Bar']);
+    ).toEqual({ valueExports: ['Bar'], typeExports: [] });
+  });
+
+  it('should extract type-only named re-exports (export type { })', () => {
+    expect(
+      extractNamedExports("export type { Foo, Bar } from './foo';"),
+    ).toEqual({ valueExports: [], typeExports: ['Bar', 'Foo'] });
+  });
+
+  it('should extract inline type specifiers in export { type Foo, Bar }', () => {
+    expect(
+      extractNamedExports("export { type Foo, Bar } from './foo';"),
+    ).toEqual({ valueExports: ['Bar'], typeExports: ['Foo'] });
+  });
+
+  it('should handle empty specifiers from trailing commas gracefully', () => {
+    expect(
+      extractNamedExports("export { Foo, } from './foo';"),
+    ).toEqual({ valueExports: ['Foo'], typeExports: [] });
   });
 
   it('should deduplicate exports', () => {
@@ -146,7 +200,10 @@ describe('extractNamedExports', () => {
       'export class Foo {}',
       "export { Foo } from './other';",
     ].join('\n');
-    expect(extractNamedExports(content)).toEqual(['Foo']);
+    expect(extractNamedExports(content)).toEqual({
+      valueExports: ['Foo'],
+      typeExports: [],
+    });
   });
 
   it('should sort exports alphabetically', () => {
@@ -155,11 +212,10 @@ describe('extractNamedExports', () => {
       'export class Alpha {}',
       'export class Middle {}',
     ].join('\n');
-    expect(extractNamedExports(content)).toEqual([
-      'Alpha',
-      'Middle',
-      'Zebra',
-    ]);
+    expect(extractNamedExports(content)).toEqual({
+      valueExports: ['Alpha', 'Middle', 'Zebra'],
+      typeExports: [],
+    });
   });
 
   it('should extract multiple export types from a single file', () => {
@@ -171,21 +227,23 @@ describe('extractNamedExports', () => {
       'export enum FooEnum { A }',
       "export { BarService } from './bar';",
     ].join('\n');
-    expect(extractNamedExports(content)).toEqual([
-      'BarService',
-      'FOO_TOKEN',
-      'FooComponent',
-      'FooConfig',
-      'FooEnum',
-      'FooType',
-    ]);
+    expect(extractNamedExports(content)).toEqual({
+      valueExports: ['BarService', 'FOO_TOKEN', 'FooComponent', 'FooEnum'],
+      typeExports: ['FooConfig', 'FooType'],
+    });
   });
 
-  it('should return empty array for file with no exports', () => {
-    expect(extractNamedExports('const foo = 1;')).toEqual([]);
+  it('should return empty arrays for file with no exports', () => {
+    expect(extractNamedExports('const foo = 1;')).toEqual({
+      valueExports: [],
+      typeExports: [],
+    });
   });
 
   it('should not extract default exports', () => {
-    expect(extractNamedExports('export default class Foo {}')).toEqual([]);
+    expect(extractNamedExports('export default class Foo {}')).toEqual({
+      valueExports: [],
+      typeExports: [],
+    });
   });
 });

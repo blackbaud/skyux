@@ -15,6 +15,12 @@ jest.mock('./utils/resolve-exports', () => ({
     if (specifier === './resolvable') {
       return '/fake/resolvable.ts';
     }
+    if (specifier === './resolvable-mixed') {
+      return '/fake/resolvable-mixed.ts';
+    }
+    if (specifier === './resolvable-types-only') {
+      return '/fake/resolvable-types-only.ts';
+    }
     if (specifier === './empty-exports') {
       return '/fake/empty-exports.ts';
     }
@@ -22,7 +28,16 @@ jest.mock('./utils/resolve-exports', () => ({
   },
   getNamedExportsFromFile: (filePath: string) => {
     if (filePath === '/fake/resolvable.ts') {
-      return ['Bar', 'Foo'];
+      return { valueExports: ['Bar', 'Foo'], typeExports: [] };
+    }
+    if (filePath === '/fake/resolvable-mixed.ts') {
+      return {
+        valueExports: ['FooComponent'],
+        typeExports: ['FooConfig', 'FooType'],
+      };
+    }
+    if (filePath === '/fake/resolvable-types-only.ts') {
+      return { valueExports: [], typeExports: ['BarConfig', 'FooConfig'] };
     }
     return undefined;
   },
@@ -73,6 +88,16 @@ ruleTester.run(RULE_NAME, rule, {
     {
       code: `export * from './resolvable';`,
       output: `export { Bar, Foo } from './resolvable';`,
+      errors: [{ messageId }],
+    },
+    {
+      code: `export * from './resolvable-mixed';`,
+      output: `export { FooComponent } from './resolvable-mixed';\nexport type { FooConfig, FooType } from './resolvable-mixed';`,
+      errors: [{ messageId }],
+    },
+    {
+      code: `export * from './resolvable-types-only';`,
+      output: `export type { BarConfig, FooConfig } from './resolvable-types-only';`,
       errors: [{ messageId }],
     },
     {

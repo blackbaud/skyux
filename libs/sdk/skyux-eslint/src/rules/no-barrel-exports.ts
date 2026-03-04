@@ -55,10 +55,21 @@ export const rule = createESLintRule({
               return null;
             }
 
-            return fixer.replaceText(
-              node,
-              `export { ${namedExports.join(', ')} } from '${moduleSpecifier}';`,
-            );
+            const parts: string[] = [];
+
+            if (namedExports.valueExports.length > 0) {
+              parts.push(
+                `export { ${namedExports.valueExports.join(', ')} } from '${moduleSpecifier}';`,
+              );
+            }
+
+            if (namedExports.typeExports.length > 0) {
+              parts.push(
+                `export type { ${namedExports.typeExports.join(', ')} } from '${moduleSpecifier}';`,
+              );
+            }
+
+            return fixer.replaceText(node, parts.join('\n'));
           },
         });
       },
@@ -68,7 +79,7 @@ export const rule = createESLintRule({
   meta: {
     docs: {
       description:
-        'Prevents wildcard re-exports (`export * from`) to ensure explicit public API surfaces.',
+        'Prevents wildcard (`export * from`) and namespace (`export * as ns from`) re-exports to ensure explicit public API surfaces.',
     },
     fixable: 'code',
     messages: {
