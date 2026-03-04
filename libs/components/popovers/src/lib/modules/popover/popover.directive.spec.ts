@@ -1,11 +1,10 @@
+import { EnvironmentProviders } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
   fakeAsync,
-  inject,
   tick,
 } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import {
   SKY_STACKING_CONTEXT,
@@ -20,6 +19,7 @@ import {
   SkyThemeService,
   SkyThemeSettings,
   SkyThemeSettingsChange,
+  provideNoopSkyAnimations,
 } from '@skyux/theme';
 
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -69,7 +69,7 @@ describe('Popover directive', () => {
 
   //#endregion
 
-  beforeEach(() => {
+  function setup(options?: { enableAnimations: boolean }): void {
     mockThemeSvc = {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
@@ -79,6 +79,12 @@ describe('Popover directive', () => {
         previousSettings: undefined,
       }),
     };
+
+    const providers: EnvironmentProviders[] = [];
+
+    if (options?.enableAnimations !== true) {
+      providers.push(provideNoopSkyAnimations());
+    }
 
     TestBed.configureTestingModule({
       imports: [PopoverFixturesModule],
@@ -93,11 +99,12 @@ describe('Popover directive', () => {
             zIndex: new BehaviorSubject(111),
           },
         },
+        ...providers,
       ],
     });
 
     fixture = TestBed.createComponent(PopoverFixtureComponent);
-  });
+  }
 
   afterEach(() => {
     (
@@ -106,6 +113,7 @@ describe('Popover directive', () => {
   });
 
   it('should set defaults', fakeAsync(() => {
+    setup();
     detectChangesFakeAsync();
 
     const directiveRef = fixture.componentInstance.directiveRef;
@@ -120,6 +128,8 @@ describe('Popover directive', () => {
   }));
 
   it('should use placement and alignment values of the popover component', fakeAsync(() => {
+    setup();
+
     // Ensure alignment/placement are undefined for directive.
     fixture.componentInstance.alignment = undefined;
     fixture.componentInstance.placement = undefined;
@@ -146,6 +156,8 @@ describe('Popover directive', () => {
   }));
 
   it('should place the popover on all four sides of the caller', fakeAsync(() => {
+    setup();
+
     fixture.componentInstance.placement = 'above';
     detectChangesFakeAsync();
 
@@ -199,6 +211,8 @@ describe('Popover directive', () => {
   }));
 
   it('should set horizontal alignments', fakeAsync(() => {
+    setup();
+
     fixture.componentInstance.placement = 'above';
     fixture.componentInstance.alignment = 'left';
     detectChangesFakeAsync();
@@ -240,6 +254,8 @@ describe('Popover directive', () => {
   }));
 
   it('should show a title for the popover', fakeAsync(() => {
+    setup();
+
     fixture.componentInstance.popoverTitle = 'Did you know?';
     detectChangesFakeAsync();
 
@@ -256,6 +272,8 @@ describe('Popover directive', () => {
   }));
 
   it('should add scrollbars for tall popover', fakeAsync(() => {
+    setup();
+
     detectChangesFakeAsync();
 
     const button = getCallerElement();
@@ -277,6 +295,8 @@ describe('Popover directive', () => {
   }));
 
   it('should apply popup type', fakeAsync(() => {
+    setup();
+
     detectChangesFakeAsync();
 
     const button = getCallerElement();
@@ -307,6 +327,8 @@ describe('Popover directive', () => {
 
   describe('mouse interactions', function () {
     it('should open and close the popover via mouse click', fakeAsync(() => {
+      setup();
+
       fixture.componentInstance.trigger = 'click';
 
       detectChangesFakeAsync();
@@ -334,6 +356,8 @@ describe('Popover directive', () => {
     }));
 
     it('should open and close popover via mouse hover', fakeAsync(() => {
+      setup();
+
       fixture.componentInstance.trigger = 'mouseenter';
 
       detectChangesFakeAsync();
@@ -428,6 +452,8 @@ describe('Popover directive', () => {
     }));
 
     it('should open and close popover via focus when a hover trigger is used', fakeAsync(() => {
+      setup();
+
       fixture.componentInstance.trigger = 'mouseenter';
 
       detectChangesFakeAsync();
@@ -487,6 +513,7 @@ describe('Popover directive', () => {
     }));
 
     it('should close popover when clicking outside', fakeAsync(() => {
+      setup();
       detectChangesFakeAsync();
 
       const button = getCallerElement();
@@ -506,6 +533,7 @@ describe('Popover directive', () => {
     }));
 
     it('should handle undefined popover', fakeAsync(() => {
+      setup();
       detectChangesFakeAsync();
 
       fixture.componentInstance.skyPopover = undefined;
@@ -529,6 +557,7 @@ describe('Popover directive', () => {
 
   describe('keyboard interactions', function () {
     it('should close popover with escape key while trigger button is focused', fakeAsync(() => {
+      setup();
       detectChangesFakeAsync();
 
       const button = getCallerElement();
@@ -569,6 +598,7 @@ describe('Popover directive', () => {
     }));
 
     it('should close popover with escape key while popover is focused', fakeAsync(() => {
+      setup();
       detectChangesFakeAsync();
 
       const button = getCallerElement();
@@ -594,6 +624,7 @@ describe('Popover directive', () => {
     }));
 
     it('should close the popover with interactable elements after popover loses focus', fakeAsync(() => {
+      setup();
       fixture.componentInstance.showFocusableChildren = true;
       detectChangesFakeAsync();
 
@@ -667,6 +698,7 @@ describe('Popover directive', () => {
     }));
 
     it('should close the popover after trigger loses focus', fakeAsync(() => {
+      setup();
       detectChangesFakeAsync();
 
       const button = getCallerElement();
@@ -692,6 +724,7 @@ describe('Popover directive', () => {
 
   describe('message stream', function () {
     it('should setup a message stream if none provided', fakeAsync(() => {
+      setup();
       detectChangesFakeAsync();
 
       expect(
@@ -700,6 +733,7 @@ describe('Popover directive', () => {
     }));
 
     it('should setup a message stream if set to `undefined`', fakeAsync(() => {
+      setup();
       detectChangesFakeAsync();
 
       expect(fixture.componentInstance.messageStream).toEqual(
@@ -716,6 +750,7 @@ describe('Popover directive', () => {
     }));
 
     it('should open and close the popover', fakeAsync(() => {
+      setup();
       detectChangesFakeAsync();
 
       fixture.componentInstance.sendMessage(SkyPopoverMessageType.Open);
@@ -734,6 +769,7 @@ describe('Popover directive', () => {
     }));
 
     it('should focus the popover', fakeAsync(() => {
+      setup();
       detectChangesFakeAsync();
 
       fixture.componentInstance.sendMessage(SkyPopoverMessageType.Open);
@@ -761,66 +797,69 @@ describe('Popover directive', () => {
       expect(applyFocusSpy).not.toHaveBeenCalled();
     }));
 
-    it('should allow repositioning the popover', fakeAsync(
-      inject([SkyAffixService], (affixService: SkyAffixService) => {
-        const mockAffixer: any = {
-          placementChange: new Subject(),
-          affixTo() {},
-          destroy() {},
-          reaffix() {},
-        };
+    it('should allow repositioning the popover', fakeAsync(() => {
+      setup();
 
-        spyOn(affixService, 'createAffixer').and.returnValue(mockAffixer);
+      const affixService = TestBed.inject(SkyAffixService);
+      const mockAffixer: any = {
+        placementChange: new Subject(),
+        affixTo() {},
+        destroy() {},
+        reaffix() {},
+      };
 
-        fixture.componentInstance.placement = 'below';
-        detectChangesFakeAsync();
+      spyOn(affixService, 'createAffixer').and.returnValue(mockAffixer);
 
-        let popover = getPopoverElement();
-        const affixSpy = spyOn(mockAffixer, 'affixTo').and.callThrough();
+      fixture.componentInstance.placement = 'below';
+      detectChangesFakeAsync();
 
-        fixture.componentInstance.sendMessage(SkyPopoverMessageType.Reposition);
-        detectChangesFakeAsync();
+      let popover = getPopoverElement();
+      const affixSpy = spyOn(mockAffixer, 'affixTo').and.callThrough();
 
-        // Repositioning should only happen if popover is open.
-        expect(affixSpy).not.toHaveBeenCalled();
+      fixture.componentInstance.sendMessage(SkyPopoverMessageType.Reposition);
+      detectChangesFakeAsync();
 
-        // Open the popover.
-        fixture.componentInstance.sendMessage(SkyPopoverMessageType.Open);
-        detectChangesFakeAsync();
+      // Repositioning should only happen if popover is open.
+      expect(affixSpy).not.toHaveBeenCalled();
 
-        // Trigger a temporary placement change.
-        mockAffixer.placementChange.next({
-          placement: 'above',
-        });
+      // Open the popover.
+      fixture.componentInstance.sendMessage(SkyPopoverMessageType.Open);
+      detectChangesFakeAsync();
 
-        detectChangesFakeAsync();
+      // Trigger a temporary placement change.
+      mockAffixer.placementChange.next({
+        placement: 'above',
+      });
 
-        popover = getPopoverElement();
+      detectChangesFakeAsync();
 
-        // Confirm that the new temporary placement was recognized.
-        expect(popover).toHaveCssClass('sky-popover-placement-above');
+      popover = getPopoverElement();
 
-        affixSpy.calls.reset();
+      // Confirm that the new temporary placement was recognized.
+      expect(popover).toHaveCssClass('sky-popover-placement-above');
 
-        // Make a call to reposition the popover.
-        fixture.componentInstance.sendMessage(SkyPopoverMessageType.Reposition);
-        detectChangesFakeAsync();
+      affixSpy.calls.reset();
 
-        // The original, preferred placement should be re-applied.
-        expect(
-          (affixSpy.calls.argsFor(0)[1] as SkyAffixPlacementChange).placement,
-        ).toEqual('below');
-        expect(popover).toHaveCssClass('sky-popover-placement-below');
-      }),
-    ));
+      // Make a call to reposition the popover.
+      fixture.componentInstance.sendMessage(SkyPopoverMessageType.Reposition);
+      detectChangesFakeAsync();
+
+      // The original, preferred placement should be re-applied.
+      expect(
+        (affixSpy.calls.argsFor(0)[1] as SkyAffixPlacementChange).placement,
+      ).toEqual('below');
+      expect(popover).toHaveCssClass('sky-popover-placement-below');
+    }));
   });
 
   describe('affixer events', function () {
     let mockAffixer: any;
     let affixService: SkyAffixService;
 
-    beforeEach(inject([SkyAffixService], (_affixService: SkyAffixService) => {
-      affixService = _affixService;
+    beforeEach(() => {
+      setup();
+
+      affixService = TestBed.inject(SkyAffixService);
       mockAffixer = {
         placementChange: new Subject(),
         affixTo() {},
@@ -828,7 +867,7 @@ describe('Popover directive', () => {
       };
 
       spyOn(affixService, 'createAffixer').and.returnValue(mockAffixer);
-    }));
+    });
 
     it('should create the affixer with proper arguments', fakeAsync(() => {
       const affixToSpy = spyOn(mockAffixer, 'affixTo').and.callThrough();
@@ -944,6 +983,94 @@ describe('Popover directive', () => {
       expect(popover).toHaveCssClass('sky-popover-hidden');
     }));
   });
+
+  describe('Popover transition events', () => {
+    beforeEach(() => {
+      setup({ enableAnimations: true });
+    });
+
+    it('should ignore transitionend events for properties other than opacity', fakeAsync(() => {
+      detectChangesFakeAsync();
+
+      const button = getCallerElement();
+      button?.click();
+      detectChangesFakeAsync();
+
+      const popover = getPopoverElement();
+      expect(popover).toExist();
+
+      const openedSpy = spyOn(fixture.componentInstance, 'onPopoverOpened');
+
+      // Dispatch a transitionend event with a non-opacity property.
+      popover?.dispatchEvent(
+        new TransitionEvent('transitionend', { propertyName: 'transform' }),
+      );
+
+      detectChangesFakeAsync();
+
+      // The opened event should not have been emitted for a non-opacity transition.
+      expect(openedSpy).not.toHaveBeenCalled();
+    }));
+
+    it('should emit opened when transitionend fires with opacity while popover is open', fakeAsync(() => {
+      detectChangesFakeAsync();
+
+      const button = getCallerElement();
+      button?.click();
+      detectChangesFakeAsync();
+
+      const popover = getPopoverElement();
+      expect(popover).toExist();
+
+      const openedSpy = spyOn(fixture.componentInstance, 'onPopoverOpened');
+
+      // Dispatch a transitionend event with opacity while the popover is open.
+      popover?.dispatchEvent(
+        new TransitionEvent('transitionend', { propertyName: 'opacity' }),
+      );
+
+      detectChangesFakeAsync();
+
+      expect(openedSpy).toHaveBeenCalledTimes(1);
+    }));
+
+    it('should emit closed when transitionend fires with opacity while popover is closed', fakeAsync(() => {
+      detectChangesFakeAsync();
+
+      const button = getCallerElement();
+      button?.click();
+      detectChangesFakeAsync();
+
+      const popover = getPopoverElement();
+      expect(popover).toExist();
+
+      // Dispatch the opacity transitionend to complete the open cycle.
+      popover?.dispatchEvent(
+        new TransitionEvent('transitionend', { propertyName: 'opacity' }),
+      );
+      detectChangesFakeAsync();
+
+      const closedSpy = spyOn(fixture.componentInstance, 'onPopoverClosed');
+
+      // Close the popover (without noop animations, the overlay persists until
+      // the transitionend handler emits the closed event).
+      button?.click();
+      detectChangesFakeAsync();
+
+      // The popover container should still exist (animations are enabled, so
+      // the overlay waits for the transition to end before being destroyed).
+      expect(popover).toExist();
+
+      // Dispatch the opacity transitionend to complete the close cycle.
+      popover?.dispatchEvent(
+        new TransitionEvent('transitionend', { propertyName: 'opacity' }),
+      );
+
+      detectChangesFakeAsync();
+
+      expect(closedSpy).toHaveBeenCalledTimes(1);
+    }));
+  });
 });
 
 describe('Popover directive accessibility', () => {
@@ -989,7 +1116,8 @@ describe('Popover directive accessibility', () => {
 
   it('should be accessible', async () => {
     TestBed.configureTestingModule({
-      imports: [PopoverA11yTestComponent, NoopAnimationsModule],
+      imports: [PopoverA11yTestComponent],
+      providers: [provideNoopSkyAnimations()],
     });
 
     const fixture = TestBed.createComponent(PopoverA11yTestComponent);

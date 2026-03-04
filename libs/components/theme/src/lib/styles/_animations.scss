@@ -1,0 +1,32 @@
+@use './_public-api/_compat/variables' as vars;
+
+@property --sky-transition-time-short {
+  syntax: '<time>';
+  inherits: true;
+  initial-value: vars.$sky-transition-time-short;
+}
+
+@property --sky-transition-time-medium {
+  syntax: '<time>';
+  inherits: true;
+  initial-value: vars.$sky-transition-time-medium;
+}
+
+.sky-theme-animations-disabled {
+  *,
+  *::before,
+  *::after {
+    --sky-transition-time-short: 0s !important;
+    --sky-transition-time-medium: 0s !important;
+  }
+}
+
+/* suppress motion globally based on user preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    --sky-transition-time-short: 0s !important;
+    --sky-transition-time-medium: 0s !important;
+  }
+}

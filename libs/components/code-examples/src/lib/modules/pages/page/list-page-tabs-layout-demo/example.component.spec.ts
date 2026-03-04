@@ -7,6 +7,7 @@ import {
   SkyHelpTestingModule,
 } from '@skyux/core/testing';
 import { SkyPageHarness } from '@skyux/pages/testing';
+import { provideNoopSkyAnimations } from '@skyux/theme';
 
 import { PagesPageListPageTabsLayoutExampleComponent } from './example.component';
 
@@ -34,7 +35,7 @@ describe('List page tabs layout example', () => {
         SkyHelpTestingModule,
         NoopAnimationsModule,
       ],
-      providers: [provideRouter([])],
+      providers: [provideNoopSkyAnimations(), provideRouter([])],
     });
   });
 

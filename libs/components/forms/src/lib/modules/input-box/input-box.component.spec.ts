@@ -19,6 +19,7 @@ import {
   SkyThemeService,
   SkyThemeSettings,
   SkyThemeSettingsChange,
+  provideNoopSkyAnimations,
 } from '@skyux/theme';
 
 import { BehaviorSubject } from 'rxjs';
@@ -487,6 +488,7 @@ describe('Input box component', () => {
       TestBed.configureTestingModule({
         imports: [InputBoxFixturesModule, SkyHelpTestingModule],
         providers: [
+          provideNoopSkyAnimations(),
           {
             provide: SkyThemeService,
             useValue: mockThemeSvc,
