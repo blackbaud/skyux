@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.0.0-alpha.5](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.4...14.0.0-alpha.5) (2026-03-04)
+
+
+### Bug Fixes
+
+* update to `@angular/build@21.2.0` ([#4266](https://github.com/blackbaud/skyux/issues/4266)) ([e2c8ec0](https://github.com/blackbaud/skyux/commit/e2c8ec0121ad403b8228b7212600a916541dd41f))
+
 ## [14.0.0-alpha.4](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.3...14.0.0-alpha.4) (2026-03-03)
 
 
