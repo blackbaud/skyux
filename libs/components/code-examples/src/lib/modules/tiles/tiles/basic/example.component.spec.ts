@@ -1,7 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -21,7 +20,7 @@ describe('Tile dashboard example', () => {
     fixture: ComponentFixture<TilesBasicExampleComponent>;
   }> {
     await TestBed.configureTestingModule({
-      imports: [TilesBasicExampleComponent, NoopAnimationsModule],
+      imports: [TilesBasicExampleComponent],
       providers: [provideSkyMediaQueryTesting()],
     }).compileComponents();
 
