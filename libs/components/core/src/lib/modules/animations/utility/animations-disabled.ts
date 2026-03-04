@@ -1,12 +1,10 @@
-import { DOCUMENT, inject } from '@angular/core';
+import { inject } from '@angular/core';
 
-import { SKY_DISABLED_ANIMATIONS_CLASS_NAME } from './constants';
+import { SKY_ANIMATIONS_DISABLED } from './animations-disabled-token';
 
 /**
  * @internal
  */
 export function _skyAnimationsDisabled(): boolean {
-  return inject(DOCUMENT).body.classList.contains(
-    SKY_DISABLED_ANIMATIONS_CLASS_NAME,
-  );
+  return !!inject(SKY_ANIMATIONS_DISABLED, { optional: true });
 }

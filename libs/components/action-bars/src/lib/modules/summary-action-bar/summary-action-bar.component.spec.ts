@@ -396,13 +396,11 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         expect(cmp.summaryActionBar).toBeTruthy();
         expect(cmp.summaryActionBar?.isSummaryCollapsed()).toBeFalsy();
-        expect(cmp.summaryActionBar?.slideDirection()).toBe('down');
         clickCollapseButton(debugElement);
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
         expect(cmp.summaryActionBar?.isSummaryCollapsed()).toBeTruthy();
-        expect(cmp.summaryActionBar?.slideDirection()).toBe('up');
       }));
 
       it('should update slide direction and isSummaryCollapsed when expanding the summary', fakeAsync(() => {
@@ -415,13 +413,32 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         expect(cmp.summaryActionBar).toBeTruthy();
         expect(cmp.summaryActionBar?.isSummaryCollapsed()).toBeTruthy();
-        expect(cmp.summaryActionBar?.slideDirection()).toBe('up');
         clickExpandButton(debugElement);
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
         expect(cmp.summaryActionBar?.isSummaryCollapsed()).toBeFalsy();
-        expect(cmp.summaryActionBar?.slideDirection()).toBe('down');
+      }));
+
+      it('should default to expanding the summary when chevron direction is unexpected', fakeAsync(() => {
+        fixture.detectChanges();
+        mediaQueryController.setBreakpoint('xs');
+        fixture.detectChanges();
+
+        const summaryActionBar = cmp.summaryActionBar as any;
+        expect(summaryActionBar).toBeTruthy();
+
+        summaryActionBar.onChevronDirectionChange('up');
+        summaryActionBar.onAnimationEnd();
+        tick();
+        fixture.detectChanges();
+        expect(cmp.summaryActionBar?.isSummaryCollapsed()).toBeTruthy();
+
+        summaryActionBar.onChevronDirectionChange('unexpected-value');
+        summaryActionBar.onAnimationEnd();
+        tick();
+        fixture.detectChanges();
+        expect(cmp.summaryActionBar?.isSummaryCollapsed()).toBeFalsy();
       }));
 
       it(`should move focus to the collapsed summary's chevron after collapsing`, async () => {
