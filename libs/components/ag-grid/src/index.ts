@@ -50,3 +50,4 @@ export { SkyAgGridCellRendererValidatorTooltipComponent as λ10 } from './lib/mo
 export { SkyAgGridCellValidatorTooltipComponent as λ11 } from './lib/modules/ag-grid/cell-validator/ag-grid-cell-validator-tooltip.component';
 export { SkyAgGridHeaderGroupComponent as λ18 } from './lib/modules/ag-grid/header/header-group.component';
 export { SkyAgGridHeaderComponent as λ17 } from './lib/modules/ag-grid/header/header.component';
+export { SkyAgGridColumnFilterDatepickerComponent as λ19 } from './lib/modules/ag-grid/column-filters/column-filter-datepicker/column-filter-datepicker.component';
