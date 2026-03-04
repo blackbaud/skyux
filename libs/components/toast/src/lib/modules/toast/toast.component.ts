@@ -114,8 +114,15 @@ export class SkyToastComponent implements OnInit, OnDestroy {
 
   protected onTransitionEnd(): void {
     if (!this.isOpen()) {
-      this.closed.emit();
-      this.closed.complete();
+      // Defer the closed emission so that view destruction triggered by
+      // removing the toast from the toaster happens outside the current
+      // change detection cycle. Without this, the noop animation's
+      // synchronous transitionEnd during change detection would cause
+      // a "view[EFFECTS] is not iterable" error.
+      setTimeout(() => {
+        this.closed.emit();
+        this.closed.complete();
+      });
     }
   }
 

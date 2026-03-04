@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  Renderer2,
   effect,
   inject,
   input,
@@ -17,6 +16,7 @@ import { _skyAnimationsDisabled } from '../utility/animations-disabled';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
+    '[class.sky-animation-emerge-visible]': 'visible()',
     '(transitionend)': 'onTransitionEnd($event)',
   },
   selector: 'sky-animation-emerge',
@@ -25,27 +25,18 @@ import { _skyAnimationsDisabled } from '../utility/animations-disabled';
 })
 export class SkyAnimationEmergeComponent {
   readonly #elementRef = inject(ElementRef);
-  readonly #renderer = inject(Renderer2);
   readonly #animationsDisabled = _skyAnimationsDisabled();
 
   public readonly visible = input.required<boolean>();
   public readonly transitionEnd = output<void>();
 
   constructor() {
-    effect(() => {
-      const visible = this.visible();
-      const el = this.#elementRef.nativeElement;
-
-      if (visible) {
-        this.#renderer.addClass(el, 'sky-animation-emerge-visible');
-      } else {
-        this.#renderer.removeClass(el, 'sky-animation-emerge-visible');
-      }
-
-      if (this.#animationsDisabled) {
+    if (this.#animationsDisabled) {
+      effect(() => {
+        this.visible();
         this.transitionEnd.emit();
-      }
-    });
+      });
+    }
   }
 
   protected onTransitionEnd(evt: TransitionEvent): void {

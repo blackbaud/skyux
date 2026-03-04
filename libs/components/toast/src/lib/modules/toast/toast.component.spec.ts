@@ -5,11 +5,11 @@ import {
   tick,
 } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import { provideNoopSkyAnimations } from '@skyux/core';
 
 import { SkyToastFixturesModule } from './fixtures/toast-fixtures.module';
 import { SkyToastWithToasterServiceTestComponent } from './fixtures/toast-with-toaster-service.component.fixture';
 import { SkyToastTestComponent } from './fixtures/toast.component.fixture';
-import { SkyToastComponent } from './toast.component';
 import { SkyToastService } from './toast.service';
 import { SkyToasterService } from './toaster.service';
 import { SkyToastType } from './types/toast-type';
@@ -21,6 +21,7 @@ describe('Toast component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyToastFixturesModule],
+      providers: [provideNoopSkyAnimations()],
     });
 
     TestBed.overrideComponent(SkyToastWithToasterServiceTestComponent, {
@@ -72,6 +73,21 @@ describe('Toast component', () => {
     expect(iconEl?.getAttribute('data-sky-icon')).toBe(expectedIcon);
   }
 
+  function validateToastOpen(
+    open: boolean,
+    targetFixture: ComponentFixture<unknown> = fixture,
+  ): void {
+    const openToastEl = (
+      targetFixture.nativeElement as HTMLElement
+    ).querySelector('sky-animation-emerge.sky-animation-emerge-visible');
+
+    if (open) {
+      expect(openToastEl).not.toBeNull();
+    } else {
+      expect(openToastEl).toBeNull();
+    }
+  }
+
   function setupTest(): void {
     fixture.detectChanges();
     component = fixture.componentInstance;
@@ -98,10 +114,10 @@ describe('Toast component', () => {
   it('should close the toast when clicking close button', () => {
     setupTest();
     fixture.detectChanges();
-    expect(component.toastComponent?.isOpen).toEqual(true);
+    validateToastOpen(true);
     fixture.nativeElement.querySelector('.sky-toast-btn-close').click();
     fixture.detectChanges();
-    expect(component.toastComponent?.isOpen).toEqual(false);
+    validateToastOpen(false);
   });
 
   it('should pass accessibility', async () => {
@@ -121,21 +137,17 @@ describe('Toast component', () => {
 
       setupTest();
 
-      expect(component.toastComponent?.isOpen).toBe(true);
+      validateToastOpen(true);
 
       waitForAutoClose();
+      fixture.detectChanges();
 
-      expect(component.toastComponent?.isOpen).toBe(false);
+      validateToastOpen(false);
     }));
 
     describe('with toaster service', () => {
       let withServiceFixture: ComponentFixture<SkyToastWithToasterServiceTestComponent>;
       let withServiceComponent: SkyToastWithToasterServiceTestComponent;
-      let withServiceToastComponent: SkyToastComponent | undefined;
-
-      function validateToastOpen(open: boolean) {
-        expect(withServiceToastComponent?.isOpen).toBe(open);
-      }
 
       beforeEach(() => {
         withServiceFixture = TestBed.createComponent(
@@ -143,7 +155,6 @@ describe('Toast component', () => {
         );
         fixture.detectChanges();
         withServiceComponent = withServiceFixture.componentInstance;
-        withServiceToastComponent = withServiceComponent.toastComponent;
       });
 
       it('should not auto-close when the toaster service reports the cursor is over the toast area', fakeAsync(() => {
@@ -155,13 +166,14 @@ describe('Toast component', () => {
 
         waitForAutoClose();
 
-        validateToastOpen(true);
+        validateToastOpen(true, withServiceFixture);
 
         withServiceComponent.toasterService.mouseOver.next(false);
 
         waitForAutoClose();
+        withServiceFixture.detectChanges();
 
-        validateToastOpen(false);
+        validateToastOpen(false, withServiceFixture);
       }));
 
       it('should not auto-close when the toaster service reports focus is in the toast area', fakeAsync(() => {
@@ -173,13 +185,14 @@ describe('Toast component', () => {
 
         waitForAutoClose();
 
-        validateToastOpen(true);
+        validateToastOpen(true, withServiceFixture);
 
         withServiceComponent.toasterService.focusIn.next(false);
 
         waitForAutoClose();
+        withServiceFixture.detectChanges();
 
-        validateToastOpen(false);
+        validateToastOpen(false, withServiceFixture);
       }));
     });
   });
