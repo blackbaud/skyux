@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from '@angular/core';
+
+import { SkyChartMeasureAxisConfig } from '../shared/types/axis-types';
 
 /**
  * Configures the Chart's measure axis.
@@ -36,5 +43,20 @@ export class SkyChartMeasureAxisComponent {
    * A function that formats the tick values for display on the measure axis.
    * If not provided, the default numeric formatting will be used
    */
-  public readonly tickFormatter = input<(tickValue: number) => string>();
+  public readonly tickFormatter =
+    input<(tickValue: number | string) => string>();
+
+  /**
+   * The axis object
+   * @internal
+   */
+  public readonly axis = computed<SkyChartMeasureAxisConfig>(() => {
+    return {
+      label: this.labelText(),
+      scaleType: this.scaleType(),
+      suggestedMin: this.suggestedMin(),
+      suggestedMax: this.suggestedMax(),
+      tickFormatter: this.tickFormatter(),
+    };
+  });
 }

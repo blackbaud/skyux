@@ -48,7 +48,7 @@ export class SkyLineChartSeriesComponent implements AfterContentInit {
   });
 
   public ngAfterContentInit(): void {
-    // This effect runs whenever the Series' label any children datapoint change
+    // This effect runs whenever the Series' label or children datapoints change
     effect(
       () => {
         const datapoints = this.datapoints().map((d) => d.datapoint());

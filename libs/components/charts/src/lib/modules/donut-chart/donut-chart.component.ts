@@ -16,6 +16,7 @@ import { SkyChartLegendItem } from '../chart-legend/chart-legend-item';
 import { SkyChartService } from '../chart/chart.service';
 import { SkyChartJsDirective } from '../chartjs.directive';
 import { getLegendItems } from '../shared/chart-helpers';
+import { SkyChartSeries } from '../shared/types/chart-series';
 import { SkySelectedChartDataPoint } from '../shared/types/selected-chart-data-point';
 
 import {
@@ -23,6 +24,7 @@ import {
   getChartJsDonutChartConfig,
 } from './donut-chart-config';
 import { SkyDonutChartSeriesComponent } from './donut-chart-series.component';
+import { SkyDonutChartSlice } from './donut-chart-types';
 
 @Component({
   selector: 'sky-donut-chart',
@@ -111,6 +113,12 @@ export class SkyDonutChartComponent implements AfterContentInit {
       }
     });
 
+    // Sync legend items to the chart service
+    effect(() => {
+      const items = this.legendItems();
+      this.#chartService.setLegendItems(items);
+    });
+
     // Handle legend toggle requests
     effect(() => {
       const item = this.#chartService.legendItemToggleRequested();
@@ -124,22 +132,15 @@ export class SkyDonutChartComponent implements AfterContentInit {
     // Whenever the content children change, re-parse the chart config from the content
     effect(
       () => {
-        const series = this.seriesComponents();
+        const series = this.seriesComponents().map((component) =>
+          component.series(),
+        );
 
         const config = this.#parseConfigFromContent({
-          seriesComponents: series,
+          series: series,
         });
 
         this.#donutConfig.set(config);
-      },
-      { injector: this.#injector },
-    );
-
-    // Sync legend items to the chart service
-    effect(
-      () => {
-        const items = this.legendItems();
-        this.#chartService.setLegendItems(items);
       },
       { injector: this.#injector },
     );
@@ -151,16 +152,14 @@ export class SkyDonutChartComponent implements AfterContentInit {
 
   // #region Private
   #parseConfigFromContent(context: {
-    seriesComponents: readonly SkyDonutChartSeriesComponent[];
+    series: SkyChartSeries<SkyDonutChartSlice>[];
   }): SkyDonutChartOptions {
-    const { seriesComponents } = context;
+    const { series } = context;
 
     // Donut charts only supports a single series
-    if (this.seriesComponents().length > 1) {
+    if (series.length > 1) {
       throw new Error('Donut charts only support a single series.');
     }
-
-    const series = seriesComponents.map((seriesComp) => seriesComp.series());
 
     return {
       series: series[0],

@@ -21,6 +21,11 @@ import { SkyChartLegendItem } from '../chart-legend/chart-legend-item';
 import { SkyChartService } from '../chart/chart.service';
 import { SkyChartJsDirective } from '../chartjs.directive';
 import { getLegendItems } from '../shared/chart-helpers';
+import {
+  SkyChartCategoryAxisConfig,
+  SkyChartMeasureAxisConfig,
+} from '../shared/types/axis-types';
+import { SkyChartSeries } from '../shared/types/chart-series';
 import { SkySelectedChartDataPoint } from '../shared/types/selected-chart-data-point';
 
 import {
@@ -28,6 +33,7 @@ import {
   getChartJsBarChartConfig,
 } from './bar-chart-config';
 import { SkyBarChartSeriesComponent } from './bar-chart-series.component';
+import { SkyBarChartPoint } from './bar-chart-types';
 
 @Component({
   selector: 'sky-bar-chart',
@@ -100,13 +106,13 @@ export class SkyBarChartComponent implements AfterContentInit {
   });
   protected readonly legendItems = computed(() => {
     const chart = this.chart();
-    const series = this.seriesComponents();
+    const series = this.#chartService.series();
     this.#refreshLegendItems(); // Track to trigger recalculation when legend visibility changes.
 
     return getLegendItems({
       chart: chart,
       legendMode: 'series',
-      labels: series.map((s) => s.labelText()),
+      labels: series.map((s) => s.label),
     });
   });
 
@@ -115,6 +121,12 @@ export class SkyBarChartComponent implements AfterContentInit {
     effect(() => {
       const config = this.#barChartConfig();
       this.#chartService.setSeries(config?.series ?? []);
+    });
+
+    // Sync legend items to the chart service
+    effect(() => {
+      const items = this.legendItems();
+      this.#chartService.setLegendItems(items);
     });
 
     // Handle legend toggle requests
@@ -127,29 +139,26 @@ export class SkyBarChartComponent implements AfterContentInit {
   }
 
   public ngAfterContentInit(): void {
-    // Whenever the content children change, re-parse the chart config from the content
+    // Whenever this chart-impacting input change (either in this component or its children), reparse the chart config
     effect(
       () => {
-        const categoryAxis = this.categoryAxisComponent();
-        const measureAxis = this.measureAxisComponent();
-        const series = this.seriesComponents();
+        const orientation = this.orientation();
+        const stacked = this.stacked();
+        const categoryAxis = this.categoryAxisComponent()?.axis();
+        const measureAxis = this.measureAxisComponent()?.axis();
+        const series = this.seriesComponents().map((component) =>
+          component.series(),
+        );
 
         const config = this.#parseConfigFromContent({
-          categoryAxisComponent: categoryAxis,
-          measureAxisComponent: measureAxis,
-          seriesComponents: series,
+          orientation: orientation,
+          stacked: stacked,
+          categoryAxis: categoryAxis,
+          measureAxis: measureAxis,
+          series: series,
         });
 
         this.#barChartConfig.set(config);
-      },
-      { injector: this.#injector },
-    );
-
-    // Sync legend items to the chart service
-    effect(
-      () => {
-        const items = this.legendItems();
-        this.#chartService.setLegendItems(items);
       },
       { injector: this.#injector },
     );
@@ -161,32 +170,20 @@ export class SkyBarChartComponent implements AfterContentInit {
 
   // #region Private
   #parseConfigFromContent(context: {
-    categoryAxisComponent: Readonly<SkyChartCategoryAxisComponent> | undefined;
-    measureAxisComponent: Readonly<SkyChartMeasureAxisComponent> | undefined;
-    seriesComponents: readonly SkyBarChartSeriesComponent[];
+    orientation: 'horizontal' | 'vertical';
+    stacked: boolean;
+    categoryAxis: Readonly<SkyChartCategoryAxisConfig> | undefined;
+    measureAxis: Readonly<SkyChartMeasureAxisConfig> | undefined;
+    series: SkyChartSeries<SkyBarChartPoint>[];
   }): SkyBarChartOptions {
-    const { categoryAxisComponent, measureAxisComponent, seriesComponents } =
-      context;
-
-    const categoryAxis = categoryAxisComponent;
-    const measureAxis = measureAxisComponent;
-    const series = seriesComponents.map((seriesComp) => seriesComp.series());
+    const { orientation, stacked, categoryAxis, measureAxis, series } = context;
 
     return {
-      orientation: this.orientation(),
-      stacked: this.stacked(),
+      orientation: orientation,
+      stacked: stacked,
       series: series,
-      categoryAxis: categoryAxis
-        ? { label: categoryAxis.labelText() }
-        : undefined,
-      measureAxis: measureAxis
-        ? {
-            label: measureAxis.labelText(),
-            scaleType: measureAxis.scaleType(),
-            suggestedMin: measureAxis.suggestedMin(),
-            suggestedMax: measureAxis.suggestedMax(),
-          }
-        : undefined,
+      categoryAxis: categoryAxis ? categoryAxis : undefined,
+      measureAxis: measureAxis ? measureAxis : undefined,
       callbacks: {
         onDataPointClick: (dataPoint) => this.dataPointClicked.emit(dataPoint),
       },
