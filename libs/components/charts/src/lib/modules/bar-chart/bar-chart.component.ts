@@ -23,9 +23,11 @@ import { SkyChartJsDirective } from '../chartjs.directive';
 import { getLegendItems } from '../shared/chart-helpers';
 import { SkySelectedChartDataPoint } from '../shared/types/selected-chart-data-point';
 
-import { getChartJsBarChartConfig } from './bar-chart-config';
+import {
+  SkyBarChartOptions,
+  getChartJsBarChartConfig,
+} from './bar-chart-config';
 import { SkyBarChartSeriesComponent } from './bar-chart-series.component';
-import { SkyBarChartConfig } from './bar-chart-types';
 
 @Component({
   selector: 'sky-bar-chart',
@@ -85,7 +87,7 @@ export class SkyBarChartComponent implements AfterContentInit {
   readonly #themeVersion = signal(0);
   readonly #refreshLegendItems = signal(0);
 
-  readonly #barChartConfig = signal<SkyBarChartConfig | undefined>(undefined);
+  readonly #barChartConfig = signal<SkyBarChartOptions | undefined>(undefined);
   protected readonly chartConfiguration = computed(() => {
     this.#themeVersion(); // Track theme version so recalculation triggers on theme change.
     const config = this.#barChartConfig(); // Track chart config so recalculation triggers on content changes.
@@ -94,11 +96,7 @@ export class SkyBarChartComponent implements AfterContentInit {
       return undefined;
     }
 
-    const chartConfiguration = getChartJsBarChartConfig(config, {
-      onDataPointClick: (dataPoint) => this.dataPointClicked.emit(dataPoint),
-    });
-
-    return chartConfiguration;
+    return getChartJsBarChartConfig(config);
   });
   protected readonly legendItems = computed(() => {
     const chart = this.chart();
@@ -166,7 +164,7 @@ export class SkyBarChartComponent implements AfterContentInit {
     categoryAxisComponent: Readonly<SkyChartCategoryAxisComponent> | undefined;
     measureAxisComponent: Readonly<SkyChartMeasureAxisComponent> | undefined;
     seriesComponents: readonly SkyBarChartSeriesComponent[];
-  }): SkyBarChartConfig {
+  }): SkyBarChartOptions {
     const { categoryAxisComponent, measureAxisComponent, seriesComponents } =
       context;
 
@@ -189,6 +187,9 @@ export class SkyBarChartComponent implements AfterContentInit {
             suggestedMax: measureAxis.suggestedMax(),
           }
         : undefined,
+      callbacks: {
+        onDataPointClick: (dataPoint) => this.dataPointClicked.emit(dataPoint),
+      },
     };
   }
 

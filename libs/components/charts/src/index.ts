@@ -12,7 +12,6 @@ export { SkyBarChartSeriesDatapointComponent } from './lib/modules/bar-chart/bar
 export {
   SkyBarDatum,
   SkyBarChartPoint,
-  SkyBarChartConfig,
 } from './lib/modules/bar-chart/bar-chart-types';
 
 // Line Chart
@@ -22,7 +21,6 @@ export { SkyLineChartSeriesDatapointComponent } from './lib/modules/line-chart/l
 export {
   SkyLineDatum,
   SkyLineChartPoint,
-  SkyLineChartConfig,
 } from './lib/modules/line-chart/line-chart-types';
 
 // Donut Chart
@@ -32,5 +30,4 @@ export { SkyDonutChartSeriesDatapointComponent } from './lib/modules/donut-chart
 export {
   SkyDonutDatum,
   SkyDonutChartSlice,
-  SkyDonutChartConfig,
 } from './lib/modules/donut-chart/donut-chart-types';

@@ -12,29 +12,63 @@ import { mergeChartOptions } from '../shared/global-chart-config';
 import { createAutoColorPlugin } from '../shared/plugins/auto-color-plugin';
 import { createChartA11yPlugin } from '../shared/plugins/chart-a11y-plugin';
 import { createTooltipShadowPlugin } from '../shared/plugins/tooltip-shadow-plugin';
+import {
+  SkyChartCategoryAxisConfig,
+  SkyChartMeasureAxisConfig,
+} from '../shared/types/axis-types';
 import { SkyCategory } from '../shared/types/category';
+import { SkyChartSeries } from '../shared/types/chart-series';
 import { DeepPartial } from '../shared/types/deep-partial-type';
 import { SkySelectedChartDataPoint } from '../shared/types/selected-chart-data-point';
 
-import { SkyBarChartConfig } from './bar-chart-types';
+import { SkyBarChartPoint } from './bar-chart-types';
+
+/** Configuration for the bar chart component. */
+export interface SkyBarChartOptions {
+  /**
+   * Orientation of the chart.
+   */
+  orientation?: 'horizontal' | 'vertical';
+
+  /**
+   * The data series for the chart.
+   */
+  series: SkyChartSeries<SkyBarChartPoint>[];
+
+  /**
+   * Whether the chart should display stacked series.
+   */
+  stacked?: boolean;
+
+  /**
+   * Configuration for the category axis.
+   */
+  categoryAxis?: SkyChartCategoryAxisConfig;
+
+  /**
+   * Configuration for the measure axis.
+   */
+  measureAxis?: SkyChartMeasureAxisConfig;
+
+  callbacks: {
+    onDataPointClick: (event: SkySelectedChartDataPoint) => void;
+  };
+}
 
 /**
  * Transforms a consumer-friendly SkyBarChartConfig into a ChartJS ChartConfiguration.
  */
 export function getChartJsBarChartConfig(
-  skyConfig: SkyBarChartConfig,
-  callbacks: {
-    onDataPointClick: (event: SkySelectedChartDataPoint) => void;
-  },
+  config: SkyBarChartOptions,
 ): ChartConfiguration<'bar'> {
-  const orientation = skyConfig.orientation || 'vertical';
+  const orientation = config.orientation || 'vertical';
   const isVertical = orientation === 'vertical';
 
   // Build categories from series data
-  const categories = parseCategories(skyConfig.series);
+  const categories = parseCategories(config.series);
 
   // Build datasets from series
-  const datasets = skyConfig.series.map((series) => {
+  const datasets = config.series.map((series) => {
     const byCategory = new Map<SkyCategory, number | [number, number] | null>();
 
     for (const p of series.data) {
@@ -61,7 +95,7 @@ export function getChartJsBarChartConfig(
       callbacks: {
         label: function (context) {
           const { datasetIndex, dataIndex } = context;
-          const dataset = skyConfig.series[datasetIndex];
+          const dataset = config.series[datasetIndex];
           const dataPoint = dataset.data[dataIndex];
 
           // TODO: Chart localization
@@ -74,7 +108,7 @@ export function getChartJsBarChartConfig(
   // Build chart options
   const options = mergeChartOptions<'bar'>({
     indexAxis: isVertical ? 'x' : 'y',
-    interaction: getInteraction(skyConfig),
+    interaction: getInteraction(config),
     datasets: {
       bar: {
         categoryPercentage: 0.7,
@@ -88,7 +122,7 @@ export function getChartJsBarChartConfig(
         borderRadius: SkyuxChartStyles.barBorderRadius,
       },
     },
-    scales: createScales(skyConfig),
+    scales: createScales(config),
     plugins: pluginOptions,
     onClick: (e, _, chart) => {
       if (!e.native) {
@@ -111,7 +145,7 @@ export function getChartJsBarChartConfig(
       const seriesIndex = element.datasetIndex;
       const dataIndex = element.index;
 
-      callbacks.onDataPointClick({ seriesIndex, dataIndex });
+      config.callbacks.onDataPointClick({ seriesIndex, dataIndex });
     },
   });
 
@@ -131,7 +165,7 @@ export function getChartJsBarChartConfig(
 }
 
 function getInteraction(
-  skyConfig: SkyBarChartConfig,
+  skyConfig: SkyBarChartOptions,
 ): ChartOptions['interaction'] {
   const interaction: ChartOptions['interaction'] = {
     mode: 'nearest',
@@ -164,7 +198,7 @@ type PartialBarScale = DeepPartial<
  * @returns
  */
 function createScales(
-  skyConfig: SkyBarChartConfig,
+  skyConfig: SkyBarChartOptions,
 ): ChartOptions<'bar'>['scales'] {
   const orientation = skyConfig.orientation ?? 'vertical';
   const isVertical = orientation === 'vertical';
@@ -210,7 +244,7 @@ function getBaseScale(): PartialBarScale {
 }
 
 function createCategoryScale(
-  config: SkyBarChartConfig,
+  config: SkyBarChartOptions,
   axis: 'x' | 'y',
 ): PartialBarScale {
   const base = getBaseScale();
@@ -241,7 +275,7 @@ function createCategoryScale(
 }
 
 function createMeasureScale(
-  config: SkyBarChartConfig,
+  config: SkyBarChartOptions,
   axis: 'x' | 'y',
 ): PartialBarScale {
   if (config.measureAxis?.scaleType === 'logarithmic') {
@@ -252,7 +286,7 @@ function createMeasureScale(
 }
 
 function createLinearValueScale(
-  config: SkyBarChartConfig,
+  config: SkyBarChartOptions,
   axis: 'x' | 'y',
 ): PartialBarScale {
   const base = getBaseScale();
@@ -289,7 +323,7 @@ function createLinearValueScale(
 }
 
 function createLogarithmicValueScale(
-  config: SkyBarChartConfig,
+  config: SkyBarChartOptions,
   axis: 'x' | 'y',
 ): PartialBarScale {
   const base = getBaseScale();

@@ -12,26 +12,55 @@ import { mergeChartOptions } from '../shared/global-chart-config';
 import { createAutoColorPlugin } from '../shared/plugins/auto-color-plugin';
 import { createChartA11yPlugin } from '../shared/plugins/chart-a11y-plugin';
 import { createTooltipShadowPlugin } from '../shared/plugins/tooltip-shadow-plugin';
+import {
+  SkyChartCategoryAxisConfig,
+  SkyChartMeasureAxisConfig,
+} from '../shared/types/axis-types';
 import { SkyCategory } from '../shared/types/category';
+import { SkyChartSeries } from '../shared/types/chart-series';
 import { DeepPartial } from '../shared/types/deep-partial-type';
 import { SkySelectedChartDataPoint } from '../shared/types/selected-chart-data-point';
 
-import { SkyLineChartConfig } from './line-chart-types';
+import { SkyLineChartPoint } from './line-chart-types';
+
+/** Configuration for the line chart component. */
+export interface SkyLineChartOptions {
+  /**
+   * The data series for the chart.
+   */
+  series: SkyChartSeries<SkyLineChartPoint>[];
+
+  /**
+   * Whether the chart should display stacked series.
+   */
+  stacked?: boolean;
+
+  /**
+   * Configuration for the category axis.
+   */
+  categoryAxis?: SkyChartCategoryAxisConfig;
+
+  /**
+   * Configuration for the measure axis.
+   */
+  measureAxis?: SkyChartMeasureAxisConfig;
+
+  callbacks: {
+    onDataPointClick: (event: SkySelectedChartDataPoint) => void;
+  };
+}
 
 /**
  * Transforms a consumer-friendly SkyLineChartConfig into a ChartJS ChartConfiguration.
  */
 export function getChartJsLineChartConfig(
-  skyConfig: SkyLineChartConfig,
-  callbacks: {
-    onDataPointClick: (event: SkySelectedChartDataPoint) => void;
-  },
+  config: SkyLineChartOptions,
 ): ChartConfiguration<'line'> {
   // Build categories from series data
-  const categories = parseCategories(skyConfig.series);
+  const categories = parseCategories(config.series);
 
   // Build datasets from series
-  const datasets = skyConfig.series.map((series) => {
+  const datasets = config.series.map((series) => {
     const byCategory = new Map<SkyCategory, number | null>();
 
     for (const p of series.data) {
@@ -56,7 +85,7 @@ export function getChartJsLineChartConfig(
       callbacks: {
         label: function (context) {
           const { datasetIndex, dataIndex } = context;
-          const dataset = skyConfig.series[datasetIndex];
+          const dataset = config.series[datasetIndex];
           const dataPoint = dataset.data[dataIndex];
 
           // TODO: Chart Localization
@@ -82,7 +111,7 @@ export function getChartJsLineChartConfig(
         pointStyle: 'circle',
       },
     },
-    scales: createScales(skyConfig),
+    scales: createScales(config),
     plugins: pluginOptions,
     onClick: (e, _, chart) => {
       if (!e.native) {
@@ -105,7 +134,7 @@ export function getChartJsLineChartConfig(
       const seriesIndex = element.datasetIndex;
       const dataIndex = element.index;
 
-      callbacks.onDataPointClick({ seriesIndex, dataIndex });
+      config.callbacks.onDataPointClick({ seriesIndex, dataIndex });
     },
   });
 
@@ -134,7 +163,7 @@ type PartialLineScale = DeepPartial<
  * @returns
  */
 function createScales(
-  config: SkyLineChartConfig,
+  config: SkyLineChartOptions,
 ): ChartOptions<'line'>['scales'] {
   const categoryScale = createCategoryScale(config);
   const measureScale = createMeasureScale(config);
@@ -181,7 +210,7 @@ function getBaseScale(): PartialLineScale {
   return base;
 }
 
-function createCategoryScale(config: SkyLineChartConfig): PartialLineScale {
+function createCategoryScale(config: SkyLineChartOptions): PartialLineScale {
   const base = getBaseScale();
 
   const categoryScale: PartialLineScale = {
@@ -204,7 +233,7 @@ function createCategoryScale(config: SkyLineChartConfig): PartialLineScale {
   return categoryScale;
 }
 
-function createMeasureScale(config: SkyLineChartConfig): PartialLineScale {
+function createMeasureScale(config: SkyLineChartOptions): PartialLineScale {
   if (config.measureAxis?.scaleType === 'logarithmic') {
     return createLogarithmicValueScale(config);
   } else {
@@ -212,7 +241,7 @@ function createMeasureScale(config: SkyLineChartConfig): PartialLineScale {
   }
 }
 
-function createLinearValueScale(config: SkyLineChartConfig): PartialLineScale {
+function createLinearValueScale(config: SkyLineChartOptions): PartialLineScale {
   const base = getBaseScale();
 
   const valueScale: PartialLineScale = {
@@ -240,7 +269,7 @@ function createLinearValueScale(config: SkyLineChartConfig): PartialLineScale {
 }
 
 function createLogarithmicValueScale(
-  config: SkyLineChartConfig,
+  config: SkyLineChartOptions,
 ): PartialLineScale {
   const base = getBaseScale();
 

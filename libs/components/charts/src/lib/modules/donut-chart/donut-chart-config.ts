@@ -10,25 +10,35 @@ import { mergeChartOptions } from '../shared/global-chart-config';
 import { createAutoColorPlugin } from '../shared/plugins/auto-color-plugin';
 import { createChartA11yPlugin } from '../shared/plugins/chart-a11y-plugin';
 import { createTooltipShadowPlugin } from '../shared/plugins/tooltip-shadow-plugin';
+import { SkyChartSeries } from '../shared/types/chart-series';
 import { SkySelectedChartDataPoint } from '../shared/types/selected-chart-data-point';
 
-import { SkyDonutChartConfig } from './donut-chart-types';
+import { SkyDonutChartSlice } from './donut-chart-types';
+
+/** Configuration for the donut chart component. */
+export interface SkyDonutChartOptions {
+  /**
+   * The data series for the chart.
+   */
+  series: SkyChartSeries<SkyDonutChartSlice>;
+
+  callbacks: {
+    onDataPointClick: (event: SkySelectedChartDataPoint) => void;
+  };
+}
 
 /**
  * Transforms a consumer-friendly SkyDonutChartConfig into a ChartJS ChartConfiguration.
  */
 export function getChartJsDonutChartConfig(
-  skyConfig: SkyDonutChartConfig,
-  callbacks: {
-    onDataPointClick: (event: SkySelectedChartDataPoint) => void;
-  },
+  config: SkyDonutChartOptions,
 ): ChartConfiguration<'doughnut'> {
   const { borderWidth, borderColor } = getSkyuxDonutDatasetBorder();
 
   // Build datasets from series
   const dataset: ChartDataset<'doughnut'> = {
-    label: skyConfig.series.label,
-    data: skyConfig.series.data.map((dp) => dp.value),
+    label: config.series.label,
+    data: config.series.data.map((dp) => dp.value),
     borderWidth,
     borderColor,
   };
@@ -39,7 +49,7 @@ export function getChartJsDonutChartConfig(
       callbacks: {
         label(context) {
           const { dataIndex } = context;
-          const dataset = skyConfig.series;
+          const dataset = config.series;
           const dataPoint = dataset.data[dataIndex];
 
           // TODO: Chart Localization
@@ -84,14 +94,14 @@ export function getChartJsDonutChartConfig(
       const seriesIndex = element.datasetIndex;
       const dataIndex = element.index;
 
-      callbacks.onDataPointClick({ seriesIndex, dataIndex });
+      config.callbacks.onDataPointClick({ seriesIndex, dataIndex });
     },
   });
 
   return {
     type: 'doughnut',
     data: {
-      labels: skyConfig.series.data.map((d) => d.category),
+      labels: config.series.data.map((d) => d.category),
       datasets: [dataset],
     },
     options: options,

@@ -18,9 +18,11 @@ import { SkyChartJsDirective } from '../chartjs.directive';
 import { getLegendItems } from '../shared/chart-helpers';
 import { SkySelectedChartDataPoint } from '../shared/types/selected-chart-data-point';
 
-import { getChartJsDonutChartConfig } from './donut-chart-config';
+import {
+  SkyDonutChartOptions,
+  getChartJsDonutChartConfig,
+} from './donut-chart-config';
 import { SkyDonutChartSeriesComponent } from './donut-chart-series.component';
-import { SkyDonutChartConfig } from './donut-chart-types';
 
 @Component({
   selector: 'sky-donut-chart',
@@ -72,7 +74,7 @@ export class SkyDonutChartComponent implements AfterContentInit {
   readonly #themeVersion = signal(0);
   readonly #refreshLegendItems = signal(0);
 
-  readonly #donutConfig = signal<SkyDonutChartConfig | undefined>(undefined);
+  readonly #donutConfig = signal<SkyDonutChartOptions | undefined>(undefined);
   protected readonly chartConfiguration = computed(() => {
     this.#themeVersion(); // Track theme version so recalculation triggers on theme change.
     const config = this.#donutConfig(); // Get the latest sky config, so recalculation triggers on content changes.
@@ -81,9 +83,7 @@ export class SkyDonutChartComponent implements AfterContentInit {
       return undefined;
     }
 
-    const chartConfiguration = getChartJsDonutChartConfig(config, {
-      onDataPointClick: (dataPoint) => this.dataPointClicked.emit(dataPoint),
-    });
+    const chartConfiguration = getChartJsDonutChartConfig(config);
 
     return chartConfiguration;
   });
@@ -152,7 +152,7 @@ export class SkyDonutChartComponent implements AfterContentInit {
   // #region Private
   #parseConfigFromContent(context: {
     seriesComponents: readonly SkyDonutChartSeriesComponent[];
-  }): SkyDonutChartConfig {
+  }): SkyDonutChartOptions {
     const { seriesComponents } = context;
 
     // Donut charts only supports a single series
@@ -162,7 +162,12 @@ export class SkyDonutChartComponent implements AfterContentInit {
 
     const series = seriesComponents.map((seriesComp) => seriesComp.series());
 
-    return { series: series[0] };
+    return {
+      series: series[0],
+      callbacks: {
+        onDataPointClick: (dataPoint) => this.dataPointClicked.emit(dataPoint),
+      },
+    };
   }
 
   #onLegendItemToggled(item: SkyChartLegendItem): void {

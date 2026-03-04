@@ -23,9 +23,11 @@ import { SkyChartJsDirective } from '../chartjs.directive';
 import { getLegendItems } from '../shared/chart-helpers';
 import { SkySelectedChartDataPoint } from '../shared/types/selected-chart-data-point';
 
-import { getChartJsLineChartConfig } from './line-chart-config';
+import {
+  SkyLineChartOptions,
+  getChartJsLineChartConfig,
+} from './line-chart-config';
 import { SkyLineChartSeriesComponent } from './line-chart-series.component';
-import { SkyLineChartConfig } from './line-chart-types';
 
 @Component({
   selector: 'sky-line-chart',
@@ -84,7 +86,9 @@ export class SkyLineChartComponent implements AfterContentInit {
   readonly #themeVersion = signal(0);
   readonly #refreshLegendItems = signal(0);
 
-  readonly #lineChartConfig = signal<SkyLineChartConfig | undefined>(undefined);
+  readonly #lineChartConfig = signal<SkyLineChartOptions | undefined>(
+    undefined,
+  );
   protected readonly chartConfiguration = computed(() => {
     this.#themeVersion(); // Track theme version so recalculation triggers on theme change.
     const config = this.#lineChartConfig(); // Track chart config so recalculation triggers on content changes.
@@ -93,9 +97,7 @@ export class SkyLineChartComponent implements AfterContentInit {
       return undefined;
     }
 
-    const chartConfiguration = getChartJsLineChartConfig(config, {
-      onDataPointClick: (dataPoint) => this.dataPointClicked.emit(dataPoint),
-    });
+    const chartConfiguration = getChartJsLineChartConfig(config);
 
     return chartConfiguration;
   });
@@ -165,7 +167,7 @@ export class SkyLineChartComponent implements AfterContentInit {
     categoryAxisComponent: Readonly<SkyChartCategoryAxisComponent> | undefined;
     measureAxisComponent: Readonly<SkyChartMeasureAxisComponent> | undefined;
     seriesComponents: readonly SkyLineChartSeriesComponent[];
-  }): SkyLineChartConfig {
+  }): SkyLineChartOptions {
     const { categoryAxisComponent, measureAxisComponent, seriesComponents } =
       context;
 
@@ -187,6 +189,9 @@ export class SkyLineChartComponent implements AfterContentInit {
             suggestedMax: measureAxis.suggestedMax(),
           }
         : undefined,
+      callbacks: {
+        onDataPointClick: (dataPoint) => this.dataPointClicked.emit(dataPoint),
+      },
     };
   }
 
