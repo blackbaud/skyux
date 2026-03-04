@@ -1,4 +1,4 @@
-export { ____, Foo1, FooWithOnlyLetters } from './lib/anchor-id';
+export { Foo1, FooWithOnlyLetters, ____ } from './lib/anchor-id';
 export {
   shouldHaveCodeExampleDefaultLanguageComment,
   shouldHaveCodeExampleMarkupLanguageComment,
@@ -36,7 +36,7 @@ export {
   FooWithInputsOutputsDirective,
   λ2,
 } from './lib/foo.directive';
-export { FooEnum, FooEmptyEnum } from './lib/foo.enum';
+export { FooEmptyEnum, FooEnum } from './lib/foo.enum';
 export { createFoo } from './lib/foo.function';
 export {
   FooEmptyExtendedInterface,

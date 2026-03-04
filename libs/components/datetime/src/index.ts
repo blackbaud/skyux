@@ -30,8 +30,8 @@ export { SkyTimepickerModule } from './lib/modules/timepicker/timepicker.module'
 // Obscure names are used to indicate types are not part of the public API.
 export { SkyDateRangePickerComponent as λ5 } from './lib/modules/date-range-picker/date-range-picker.component';
 export { SkyDatepickerCalendarComponent as λ1 } from './lib/modules/datepicker/calendar/datepicker-calendar.component';
-export { SkyFuzzyDatepickerInputDirective as λ4 } from './lib/modules/datepicker/fuzzy/datepicker-input-fuzzy.directive';
 export { SkyDatepickerInputDirective as λ3 } from './lib/modules/datepicker/datepicker-input.directive';
 export { SkyDatepickerComponent as λ2 } from './lib/modules/datepicker/datepicker.component';
+export { SkyFuzzyDatepickerInputDirective as λ4 } from './lib/modules/datepicker/fuzzy/datepicker-input-fuzzy.directive';
 export { SkyTimepickerComponent as λ6 } from './lib/modules/timepicker/timepicker.component';
 export { SkyTimepickerInputDirective as λ7 } from './lib/modules/timepicker/timepicker.directive';
