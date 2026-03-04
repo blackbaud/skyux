@@ -57,6 +57,11 @@ describe('SkyAgGridDatePickerComponent', () => {
       expect(result).toEqual(jasmine.any(Date));
       expect(result?.toISOString()).toBe(date.toISOString());
     });
+
+    it('should return null when the form value is an invalid date string', () => {
+      component['dateControl'].setValue('not-a-date');
+      expect(component.getDate()).toBeNull();
+    });
   });
 
   describe('setDate', () => {
