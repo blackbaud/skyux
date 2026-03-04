@@ -18,7 +18,6 @@ import {
 import { SkyChartCategoryAxisComponent } from '../axis/chart-category-axis.component';
 import { SkyChartMeasureAxisComponent } from '../axis/chart-measure-axis.component';
 import { SkyChartLegendItem } from '../chart-legend/chart-legend-item';
-import { SkyChartComponent } from '../chart/chart.component';
 import { SkyChartService } from '../chart/chart.service';
 import { SkyChartJsDirective } from '../chartjs.directive';
 import { getLegendItems } from '../shared/chart-helpers';
@@ -36,7 +35,7 @@ import { SkyBarChartConfig } from './bar-chart-types';
         <canvas
           skyChartJs
           [chartConfiguration]="config"
-          [ariaLabel]="headingText()"
+          [ariaLabel]="arialLabel()"
           (themeChanged)="onThemeChanged()"
         ></canvas>
       </div>
@@ -51,8 +50,7 @@ import { SkyBarChartConfig } from './bar-chart-types';
 export class SkyBarChartComponent implements AfterContentInit {
   // #region Dependency Injection
   readonly #injector = inject(Injector);
-  protected readonly chartComponent = inject(SkyChartComponent);
-  protected readonly chartService = inject(SkyChartService);
+  readonly #chartService = inject(SkyChartService);
   // #endregion
 
   // #region Inputs
@@ -82,9 +80,7 @@ export class SkyBarChartComponent implements AfterContentInit {
   protected readonly chart = computed(() => this.chartDirective()?.chart());
   // #endregion
 
-  protected readonly headingText = computed(() =>
-    this.chartComponent.headingText(),
-  );
+  protected readonly arialLabel = this.#chartService.headingText;
 
   readonly #themeVersion = signal(0);
   readonly #refreshLegendItems = signal(0);
@@ -120,12 +116,12 @@ export class SkyBarChartComponent implements AfterContentInit {
     // Sync series data to the chart service
     effect(() => {
       const config = this.#barChartConfig();
-      this.chartService.setSeries(config?.series ?? []);
+      this.#chartService.setSeries(config?.series ?? []);
     });
 
     // Handle legend toggle requests
     effect(() => {
-      const item = this.chartService.legendItemToggleRequested();
+      const item = this.#chartService.legendItemToggleRequested();
       if (item) {
         this.#onLegendItemToggled(item);
       }
@@ -155,7 +151,7 @@ export class SkyBarChartComponent implements AfterContentInit {
     effect(
       () => {
         const items = this.legendItems();
-        this.chartService.setLegendItems(items);
+        this.#chartService.setLegendItems(items);
       },
       { injector: this.#injector },
     );

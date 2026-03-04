@@ -4,6 +4,7 @@ import {
   Component,
   booleanAttribute,
   computed,
+  effect,
   inject,
   input,
 } from '@angular/core';
@@ -78,6 +79,10 @@ export class SkyChartComponent {
   );
   protected readonly legendItems = this.#chartService.legendItems;
   protected readonly showLegend = computed(() => this.legendItems().length > 1);
+
+  constructor() {
+    effect(() => this.#chartService.headingText.set(this.headingText()));
+  }
 
   protected onLegendItemToggled(item: SkyChartLegendItem): void {
     this.#chartService.toggleLegendItem(item);

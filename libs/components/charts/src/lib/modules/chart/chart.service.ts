@@ -9,6 +9,7 @@ import { SkyChartSeries } from '../shared/types/chart-series';
  */
 @Injectable()
 export class SkyChartService {
+  public readonly headingText = signal<string>('');
   public readonly series = signal<SkyChartSeries<SkyChartDataPoint>[]>([]);
   public readonly legendItems = signal<SkyChartLegendItem[]>([]);
   public readonly legendItemToggleRequested = signal<
