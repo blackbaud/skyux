@@ -1,0 +1,15 @@
+<sky-datepicker
+  data-sky-id="column-filter-datepicker"
+  pickerClass="ag-custom-component-popup"
+  (calendarDateChange)="dateChange()"
+  (openChange)="openChange($event)"
+>
+  <input
+    skyDatepickerInput
+    type="text"
+    [attr.aria-label]="label()"
+    [formControl]="dateControl"
+    [maxDate]="maxDate()"
+    [minDate]="minDate()"
+  />
+</sky-datepicker>
