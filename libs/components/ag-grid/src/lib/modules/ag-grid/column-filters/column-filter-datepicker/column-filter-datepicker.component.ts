@@ -114,9 +114,12 @@ export class SkyAgGridColumnFilterDatepickerComponent implements IDateAngularCom
 
   public setDate(date: Date | null): void {
     const currentDate = this.#dateValueString();
-    const newDate = date?.toISOString() ?? '';
+    const newDate =
+      date && !Number.isNaN(date.getTime()) ? date.toISOString() : '';
     if (newDate !== currentDate) {
       this.dateControl.setValue(newDate || null);
+    }
+  }
     }
   }
 
