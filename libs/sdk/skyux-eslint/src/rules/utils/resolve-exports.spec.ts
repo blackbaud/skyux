@@ -153,9 +153,10 @@ describe('extractNamedExports', () => {
   });
 
   it('should extract declare const exports as value exports', () => {
-    expect(
-      extractNamedExports('export declare const foo: string;'),
-    ).toEqual({ valueExports: ['foo'], typeExports: [] });
+    expect(extractNamedExports('export declare const foo: string;')).toEqual({
+      valueExports: ['foo'],
+      typeExports: [],
+    });
   });
 
   it('should extract multi-declarator variable exports', () => {
@@ -166,15 +167,17 @@ describe('extractNamedExports', () => {
   });
 
   it('should extract named re-exports as value exports', () => {
-    expect(
-      extractNamedExports("export { Foo, Bar } from './foo';"),
-    ).toEqual({ valueExports: ['Bar', 'Foo'], typeExports: [] });
+    expect(extractNamedExports("export { Foo, Bar } from './foo';")).toEqual({
+      valueExports: ['Bar', 'Foo'],
+      typeExports: [],
+    });
   });
 
   it('should extract aliased re-exports using the alias name', () => {
-    expect(
-      extractNamedExports("export { Foo as Bar } from './foo';"),
-    ).toEqual({ valueExports: ['Bar'], typeExports: [] });
+    expect(extractNamedExports("export { Foo as Bar } from './foo';")).toEqual({
+      valueExports: ['Bar'],
+      typeExports: [],
+    });
   });
 
   it('should extract type-only named re-exports (export type { })', () => {
@@ -190,9 +193,10 @@ describe('extractNamedExports', () => {
   });
 
   it('should handle empty specifiers from trailing commas gracefully', () => {
-    expect(
-      extractNamedExports("export { Foo, } from './foo';"),
-    ).toEqual({ valueExports: ['Foo'], typeExports: [] });
+    expect(extractNamedExports("export { Foo, } from './foo';")).toEqual({
+      valueExports: ['Foo'],
+      typeExports: [],
+    });
   });
 
   it('should deduplicate exports', () => {
