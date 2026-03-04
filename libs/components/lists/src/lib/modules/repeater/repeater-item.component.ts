@@ -18,8 +18,11 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
-import { skyAnimationSlide } from '@skyux/animations';
-import { SkyContentInfoProvider, SkyIdService } from '@skyux/core';
+import {
+  SkyAnimationSlideDirection,
+  SkyContentInfoProvider,
+  SkyIdService,
+} from '@skyux/core';
 import { SkyCheckboxChange } from '@skyux/forms';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import {
@@ -46,7 +49,6 @@ let nextContentId = 0;
   selector: 'sky-repeater-item',
   styleUrls: ['./repeater-item.component.scss'],
   templateUrl: './repeater-item.component.html',
-  animations: [skyAnimationSlide],
   providers: [SkyContentInfoProvider],
   encapsulation: ViewEncapsulation.None,
   standalone: false,
@@ -241,7 +243,7 @@ export class SkyRepeaterItemComponent
 
   public reorderState: string | undefined;
 
-  public slideDirection: string | undefined;
+  protected slideDirection: SkyAnimationSlideDirection | undefined;
 
   public animationDisabled = false;
 
@@ -595,7 +597,7 @@ export class SkyRepeaterItemComponent
 
   #slideForExpanded(animate: boolean): void {
     this.animationDisabled = !animate;
-    this.slideDirection = this.isExpanded ? 'down' : 'up';
+    this.slideDirection = this.isExpanded ? 'in' : 'out';
   }
 
   #keyboardReorderUp(): void {

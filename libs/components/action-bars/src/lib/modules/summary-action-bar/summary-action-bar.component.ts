@@ -1,4 +1,3 @@
-import { AnimationEvent } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
@@ -16,12 +15,12 @@ import {
   signal,
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { skyAnimationSlide } from '@skyux/animations';
 import {
   SkyAppWindowRef,
   SkyMediaQueryService,
   SkyMutationObserverService,
 } from '@skyux/core';
+import { SkyAnimationSlide, SkyAnimationSlideDirection } from '@skyux/core';
 import { SkyChevronModule, SkyStatusIndicatorModule } from '@skyux/indicators';
 import { SkyThemeModule } from '@skyux/theme';
 
@@ -45,11 +44,11 @@ let nextId = 0;
  * `sky-summary-action-bar-summary` components.
  */
 @Component({
-  animations: [skyAnimationSlide],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     SkyActionBarsResourcesModule,
+    SkyAnimationSlide,
     SkyChevronModule,
     SkyThemeModule,
     SkyStatusIndicatorModule,
@@ -69,7 +68,7 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
   readonly #windowRef = inject(SkyAppWindowRef);
 
   public isSummaryCollapsed = signal<boolean>(false);
-  public slideDirection = signal<string>('down');
+  protected readonly slideDirection = signal<SkyAnimationSlideDirection>('in');
 
   public summaryId = `sky-summary-action-bar-summary-${++nextId}`;
 
@@ -106,6 +105,24 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
   readonly #breakpoint = toSignal(this.#mediaQuerySvc.breakpointChange);
 
   #_summaryElement: ElementRef | undefined;
+
+  protected onAnimationEnd(): void {
+    this.isSummaryCollapsed.set(this.slideDirection() === 'out');
+
+    const type = this.type();
+
+    if (
+      type === SkySummaryActionBarType.Page ||
+      type === SkySummaryActionBarType.Tab
+    ) {
+      this.#adapterService.styleBodyElementForActionBar(this.#elementRef);
+    }
+
+    // Ensure that the correct chevron is fully rendered prior to setting focus.
+    setTimeout(() => {
+      this.#adapterService.focusChevron(this.chevronElementRef);
+    });
+  }
 
   public ngAfterViewInit(): void {
     const type = this.#adapterService.getSummaryActionBarType(
@@ -163,45 +180,20 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
     this.#idled.complete();
   }
 
-  public onDirectionChange(direction: string): void {
-    this.slideDirection.set(direction);
+  protected onChevronDirectionChange(direction: string): void {
+    switch (direction) {
+      case 'up':
+        this.slideDirection.set('out');
+        break;
+      default:
+      case 'down':
+        this.slideDirection.set('in');
+        break;
+    }
   }
 
   public summaryContentExists(): boolean {
     return !!(this.summaryElement?.nativeElement.children.length || 0 > 0);
-  }
-
-  // NOTE: This function is needed so that the button is not removed until post-animation
-  public summaryTransitionEnd(animationEvent: AnimationEvent): void {
-    if (
-      animationEvent.toState !== 'void' &&
-      animationEvent.fromState !== 'void'
-    ) {
-      if (this.slideDirection() === 'up') {
-        this.isSummaryCollapsed.set(true);
-      }
-
-      const type = this.type();
-
-      if (
-        type === SkySummaryActionBarType.Page ||
-        type === SkySummaryActionBarType.Tab
-      ) {
-        this.#adapterService.styleBodyElementForActionBar(this.#elementRef);
-      }
-
-      // Ensure that the correct chevron is fully rendered prior to setting focus.
-      setTimeout(() => {
-        this.#adapterService.focusChevron(this.chevronElementRef);
-      });
-    }
-  }
-
-  // NOTE: This function is needed so that the button is added before animation
-  public summaryTransitionStart(): void {
-    if (this.slideDirection() === 'down') {
-      this.isSummaryCollapsed.set(false);
-    }
   }
 
   #setupReactiveState(): void {
@@ -210,7 +202,7 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
       .subscribe((breakpoint) => {
         if (breakpoint !== 'xs') {
           this.isSummaryCollapsed.set(false);
-          this.slideDirection.set('down');
+          this.slideDirection.set('in');
         }
         this.#changeDetector.detectChanges();
       });

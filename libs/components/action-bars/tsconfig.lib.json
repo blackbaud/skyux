@@ -7,5 +7,5 @@
     "inlineSources": true
   },
   "exclude": ["src/test.ts", "**/*.spec.ts"],
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts", "../core/src/lib/modules/animations/slide/slide.ts"]
 }

@@ -1,4 +1,3 @@
-import { AnimationEvent } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -12,9 +11,9 @@ import {
   Output,
   ViewEncapsulation,
   inject,
+  signal,
 } from '@angular/core';
-import { skyAnimationEmerge } from '@skyux/animations';
-import { SkyIdModule } from '@skyux/core';
+import { SkyAnimationEmerge, SkyIdModule } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeModule } from '@skyux/theme';
 
@@ -36,11 +35,11 @@ const SKY_TOAST_TYPE_DEFAULT = SkyToastType.Info;
   selector: 'sky-toast',
   templateUrl: './toast.component.html',
   styleUrls: ['./toast.component.scss'],
-  animations: [skyAnimationEmerge],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   imports: [
     CommonModule,
+    SkyAnimationEmerge,
     SkyIconModule,
     SkyIdModule,
     SkyThemeModule,
@@ -70,10 +69,6 @@ export class SkyToastComponent implements OnInit, OnDestroy {
   @Output()
   public closed = new EventEmitter<void>();
 
-  public get isOpen(): boolean {
-    return this.#isOpen;
-  }
-
   public ariaLive = 'polite';
   public ariaRole: string | undefined;
   public classNames = '';
@@ -81,16 +76,15 @@ export class SkyToastComponent implements OnInit, OnDestroy {
   public toastTypeOrDefault: SkyToastType = SKY_TOAST_TYPE_DEFAULT;
 
   #autoCloseTimeoutId: unknown;
-  #isOpen = false;
   #ngUnsubscribe = new Subject<void>();
 
   readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #toasterService = inject(SkyToasterService, { optional: true });
   readonly #ngZone = inject(NgZone);
 
-  public ngOnInit(): void {
-    this.#isOpen = true;
+  protected readonly isOpen = signal(true);
 
+  public ngOnInit(): void {
     this.startAutoCloseTimer();
 
     if (this.#toasterService) {
@@ -118,8 +112,8 @@ export class SkyToastComponent implements OnInit, OnDestroy {
     this.stopAutoCloseTimer();
   }
 
-  public onAnimationDone(event: AnimationEvent): void {
-    if (event.toState === 'closed') {
+  protected onAnimationDone(): void {
+    if (!this.isOpen()) {
       this.closed.emit();
       this.closed.complete();
     }
@@ -127,8 +121,7 @@ export class SkyToastComponent implements OnInit, OnDestroy {
 
   public close(): void {
     this.stopAutoCloseTimer();
-
-    this.#isOpen = false;
+    this.isOpen.set(false);
     this.#changeDetector.markForCheck();
   }
 

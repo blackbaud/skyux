@@ -15,8 +15,12 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { skyAnimationSlide } from '@skyux/animations';
-import { SkyIdModule, SkyIdService, SkyLogService } from '@skyux/core';
+import {
+  SkyAnimationSlide,
+  SkyIdModule,
+  SkyIdService,
+  SkyLogService,
+} from '@skyux/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyChevronModule } from '@skyux/indicators';
@@ -38,9 +42,9 @@ import { SkyTileTitleComponent } from './tile-title.component';
   selector: 'sky-tile',
   styleUrls: ['./tile.component.scss'],
   templateUrl: './tile.component.html',
-  animations: [skyAnimationSlide],
   imports: [
     CommonModule,
+    SkyAnimationSlide,
     SkyChevronModule,
     SkyHelpInlineModule,
     SkyIconModule,
