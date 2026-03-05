@@ -157,6 +157,23 @@ describe('SkyAnimationTransitionHandler', () => {
   });
 
   describe('when animations are disabled', () => {
+    it('should not emit transitionEnd on initial render', () => {
+      const { fixture } = setupTest({ noopAnimations: true });
+
+      let transitionEndEmitted = false;
+
+      const handler = fixture.debugElement.injector.get(
+        _SkyAnimationTransitionHandlerDirective,
+      );
+      handler.transitionEnd.subscribe(() => {
+        transitionEndEmitted = true;
+      });
+
+      fixture.detectChanges();
+
+      expect(transitionEndEmitted).toBeFalse();
+    });
+
     it('should emit transitionEnd synchronously when the transitionSignal changes', () => {
       const { fixture } = setupTest({ noopAnimations: true });
 

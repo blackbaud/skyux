@@ -46,9 +46,16 @@ export class _SkyAnimationTransitionHandlerDirective {
 
   constructor() {
     if (_skyAnimationsDisabled()) {
+      let initialized = false;
+
       effect(() => {
         this.transitionSignal();
-        this.transitionEnd.emit();
+
+        if (initialized) {
+          this.transitionEnd.emit();
+        }
+
+        initialized = true;
       });
     }
   }
