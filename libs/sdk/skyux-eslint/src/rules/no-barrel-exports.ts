@@ -1,5 +1,7 @@
 import type { TSESTree } from '@typescript-eslint/utils';
 
+import { isAbsolute } from 'node:path';
+
 import { createESLintRule } from './utils/create-eslint-rule';
 import {
   getNamedExportsFromFile,
@@ -34,6 +36,9 @@ export const rule = createESLintRule({
           messageId,
           fix(fixer) {
             if (
+              // Skip fix when linting from stdin — context.filename is not a
+              // real file path, so relative module resolution is unreliable.
+              !isAbsolute(context.filename) ||
               typeof moduleSpecifier !== 'string' ||
               !moduleSpecifier.startsWith('.')
             ) {

@@ -46,3 +46,9 @@ export * as foo from './foo';
 ```ts
 export { FooComponent, FooService } from './foo';
 ```
+
+<br>
+
+## Auto-fix Notes
+
+The auto-fix reads the target file and replaces `export *` with explicit named exports. It only resolves direct exports from the target file — transitive re-exports (i.e., `export *` chains) are not followed. Fix barrel files from the innermost level outward for complete results.

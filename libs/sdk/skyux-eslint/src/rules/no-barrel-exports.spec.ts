@@ -87,25 +87,35 @@ ruleTester.run(RULE_NAME, rule, {
     }),
     {
       code: `export * from './resolvable';`,
+      filename: '/fake/index.ts',
       output: `export { Bar, Foo } from './resolvable';`,
       errors: [{ messageId }],
     },
     {
       code: `export * from './resolvable-mixed';`,
+      filename: '/fake/index.ts',
       output: `export { FooComponent } from './resolvable-mixed';\nexport type { FooConfig, FooType } from './resolvable-mixed';`,
       errors: [{ messageId }],
     },
     {
       code: `export * from './resolvable-types-only';`,
+      filename: '/fake/index.ts',
       output: `export type { BarConfig, FooConfig } from './resolvable-types-only';`,
       errors: [{ messageId }],
     },
     {
       code: `export * from './unresolvable';`,
+      filename: '/fake/index.ts',
       errors: [{ messageId }],
     },
     {
       code: `export * from './empty-exports';`,
+      filename: '/fake/index.ts',
+      errors: [{ messageId }],
+    },
+    {
+      code: `export * from './resolvable';`,
+      filename: '<input>',
       errors: [{ messageId }],
     },
   ],

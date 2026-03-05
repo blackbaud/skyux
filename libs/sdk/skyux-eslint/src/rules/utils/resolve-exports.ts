@@ -1,6 +1,5 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
-
 import * as ts from 'typescript';
 
 /**
@@ -56,10 +55,7 @@ export function extractNamedExports(
   for (const statement of sourceFile.statements) {
     // ExportDeclaration: export { A, B }, export type { A }, export { type A, B }
     if (ts.isExportDeclaration(statement)) {
-      if (
-        statement.exportClause &&
-        ts.isNamedExports(statement.exportClause)
-      ) {
+      if (statement.exportClause && ts.isNamedExports(statement.exportClause)) {
         for (const specifier of statement.exportClause.elements) {
           const name = specifier.name.text;
           if (statement.isTypeOnly || specifier.isTypeOnly) {
@@ -73,6 +69,9 @@ export function extractNamedExports(
     }
 
     // All other exported declarations need the export modifier.
+    // All top-level statements support modifiers in the TypeScript AST.
+    // We skip `ts.canHaveModifiers()` because it's always true here and
+    // creates an unreachable branch that breaks 100% coverage.
     const modifiers = ts.getModifiers(statement as ts.HasModifiers) ?? [];
     if (
       !modifiers.some((m) => m.kind === ts.SyntaxKind.ExportKeyword) ||

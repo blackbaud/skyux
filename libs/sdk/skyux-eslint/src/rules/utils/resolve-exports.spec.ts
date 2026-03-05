@@ -259,12 +259,16 @@ describe('extractNamedExports', () => {
   });
 
   it('should not extract exports from string literals', () => {
-    expect(
-      extractNamedExports('const s = "export class Fake {}";'),
-    ).toEqual({
+    expect(extractNamedExports('const s = "export class Fake {}";')).toEqual({
       valueExports: [],
       typeExports: [],
     });
+  });
+
+  it('should extract aliased type re-exports using the alias name', () => {
+    expect(
+      extractNamedExports("export type { Foo as Bar } from './foo';"),
+    ).toEqual({ valueExports: [], typeExports: ['Bar'] });
   });
 
   it('should handle multi-line export specifiers', () => {
