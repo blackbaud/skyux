@@ -12225,6 +12225,24 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           "name": "skyux-eslint",
         },
         "rules": Object {
+          "no-barrel-exports": Object {
+            "create": [Function],
+            "defaultOptions": Array [],
+            "meta": Object {
+              "docs": Object {
+                "description": "Prevents wildcard (\`export * from\`) and namespace (\`export * as ns from\`) re-exports to ensure explicit public API surfaces.",
+                "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/no-barrel-exports.md",
+              },
+              "fixable": "code",
+              "messages": Object {
+                "noBarrelExports": "Avoid wildcard re-exports. Use explicit named exports instead (e.g., \`export { A, B } from './foo'\`).",
+                "noNamespaceReExports": "Avoid namespace re-exports (\`export * as {{namespace}}\`). Use explicit named exports instead.",
+              },
+              "schema": Array [],
+              "type": "problem",
+            },
+            "name": "no-barrel-exports",
+          },
           "no-lambda-imports": Object {
             "create": [Function],
             "defaultOptions": Array [],
@@ -12267,6 +12285,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
     ],
     "name": "skyux-eslint/ts-recommended",
     "rules": Object {
+      "skyux-eslint/no-barrel-exports": "error",
       "skyux-eslint/no-lambda-imports": "error",
       "skyux-eslint/no-sky-selectors": "error",
     },
