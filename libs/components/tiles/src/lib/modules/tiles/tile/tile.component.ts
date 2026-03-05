@@ -43,7 +43,6 @@ import { SkyTileTitleComponent } from './tile-title.component';
   styleUrls: ['./tile.component.scss'],
   templateUrl: './tile.component.html',
   imports: [
-    _SkyAnimationSlideComponent,
     CommonModule,
     SkyChevronModule,
     SkyHelpInlineModule,
@@ -51,6 +50,7 @@ import { SkyTileTitleComponent } from './tile-title.component';
     SkyIdModule,
     SkyThemeModule,
     SkyTilesResourcesModule,
+    _SkyAnimationSlideComponent,
   ],
   providers: [
     {

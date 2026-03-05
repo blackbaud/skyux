@@ -11,7 +11,6 @@ import {
   Output,
   ViewEncapsulation,
   inject,
-  signal,
 } from '@angular/core';
 import { SkyIdModule, _SkyAnimationEmergeComponent } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
@@ -69,15 +68,18 @@ export class SkyToastComponent implements OnInit, OnDestroy {
   @Output()
   public closed = new EventEmitter<void>();
 
+  public get isOpen(): boolean {
+    return this.#isOpen;
+  }
+
   public ariaLive = 'polite';
   public ariaRole: string | undefined;
   public classNames = '';
   public iconName = 'info';
   public toastTypeOrDefault: SkyToastType = SKY_TOAST_TYPE_DEFAULT;
 
-  protected readonly isOpen = signal(true);
-
   #autoCloseTimeoutId: unknown;
+  #isOpen = false;
   #ngUnsubscribe = new Subject<void>();
 
   readonly #changeDetector = inject(ChangeDetectorRef);
@@ -85,6 +87,8 @@ export class SkyToastComponent implements OnInit, OnDestroy {
   readonly #ngZone = inject(NgZone);
 
   public ngOnInit(): void {
+    this.#isOpen = true;
+
     this.startAutoCloseTimer();
 
     if (this.#toasterService) {
@@ -113,7 +117,7 @@ export class SkyToastComponent implements OnInit, OnDestroy {
   }
 
   protected onTransitionEnd(): void {
-    if (!this.isOpen()) {
+    if (!this.isOpen) {
       this.closed.emit();
       this.closed.complete();
     }
@@ -121,7 +125,8 @@ export class SkyToastComponent implements OnInit, OnDestroy {
 
   public close(): void {
     this.stopAutoCloseTimer();
-    this.isOpen.set(false);
+
+    this.#isOpen = false;
     this.#changeDetector.markForCheck();
   }
 

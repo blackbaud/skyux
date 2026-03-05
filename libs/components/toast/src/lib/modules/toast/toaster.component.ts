@@ -57,6 +57,7 @@ export class SkyToasterComponent implements AfterViewInit, OnDestroy {
   protected zIndex$ = new BehaviorSubject(1051);
 
   #ngUnsubscribe = new Subject<void>();
+  #destroyed = false;
 
   readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #containerOptions = inject(SkyToastContainerOptions, {
@@ -89,13 +90,25 @@ export class SkyToasterComponent implements AfterViewInit, OnDestroy {
             this.#domAdapter.scrollBottom(this.toaster);
           }
 
-          this.#changeDetector.detectChanges();
+          this.#changeDetector.markForCheck();
+
+          // Defer detectChanges to avoid re-entrant change detection when
+          // noop animations cause transitionEnd to fire synchronously.
+          void Promise.resolve().then(() => {
+            if (!this.#destroyed) {
+              this.#changeDetector.detectChanges();
+            }
+          });
         });
     }
   }
 
   public onToastClosed(toast: SkyToast): void {
-    toast.instance.close();
+    // Defer the close to avoid modifying the toast array (and potentially
+    // destroying the host component) during an active change detection cycle.
+    // With noop animations, the transitionEnd event fires synchronously
+    // during CD, which would otherwise cause re-entrant view mutations.
+    void Promise.resolve().then(() => toast.instance.close());
   }
 
   public closeAll(): void {
@@ -125,6 +138,7 @@ export class SkyToasterComponent implements AfterViewInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
+    this.#destroyed = true;
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
   }

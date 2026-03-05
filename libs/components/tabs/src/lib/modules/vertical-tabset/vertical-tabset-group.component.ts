@@ -71,7 +71,7 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
 
   @ViewChild('groupHeadingButton')
   public groupHeadingButton: ElementRef | undefined;
-  protected slideDirection: 'down' | 'up' = 'up';
+  public slideDirection: 'down' | 'up' = 'up';
 
   protected groupId: string;
 
