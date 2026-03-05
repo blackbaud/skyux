@@ -3,12 +3,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { provideNoopSkyAnimations } from '../utility/provide-noop-animations';
 
-import { _SkyAnimationTransitionHandler } from './transition-handler';
+import { _SkyAnimationTransitionHandlerDirective } from './transition-handler';
 
 @Component({
   hostDirectives: [
     {
-      directive: _SkyAnimationTransitionHandler,
+      directive: _SkyAnimationTransitionHandlerDirective,
       inputs: ['transitionSignal: trigger'],
       outputs: ['transitionEnd'],
     },
@@ -45,7 +45,7 @@ describe('SkyAnimationTransitionHandler', () => {
 
     if (options?.trackProperty) {
       const handler = fixture.debugElement.injector.get(
-        _SkyAnimationTransitionHandler,
+        _SkyAnimationTransitionHandlerDirective,
       );
 
       handler.cssPropertyToTrack(options.trackProperty);
@@ -62,7 +62,7 @@ describe('SkyAnimationTransitionHandler', () => {
     const { fixture } = setupTest();
 
     const handler = fixture.debugElement.injector.get(
-      _SkyAnimationTransitionHandler,
+      _SkyAnimationTransitionHandlerDirective,
     );
 
     expect(handler).toBeTruthy();
@@ -109,7 +109,7 @@ describe('SkyAnimationTransitionHandler', () => {
       let transitionEndEmitted = false;
 
       const handler = fixture.debugElement.injector.get(
-        _SkyAnimationTransitionHandler,
+        _SkyAnimationTransitionHandlerDirective,
       );
 
       handler.transitionEnd.subscribe(() => {
@@ -135,7 +135,7 @@ describe('SkyAnimationTransitionHandler', () => {
       let transitionEndEmitted = false;
 
       const handler = fixture.debugElement.injector.get(
-        _SkyAnimationTransitionHandler,
+        _SkyAnimationTransitionHandlerDirective,
       );
 
       handler.transitionEnd.subscribe(() => {
@@ -163,7 +163,7 @@ describe('SkyAnimationTransitionHandler', () => {
       let transitionEndEmitted = false;
 
       const handler = fixture.debugElement.injector.get(
-        _SkyAnimationTransitionHandler,
+        _SkyAnimationTransitionHandlerDirective,
       );
       handler.transitionEnd.subscribe(() => {
         transitionEndEmitted = true;

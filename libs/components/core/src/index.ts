@@ -16,6 +16,7 @@ export { SkyAffixService } from './lib/modules/affix/affix.service';
 export { SkyAffixer } from './lib/modules/affix/affixer';
 
 export { _SkyAnimationEmergeComponent } from './lib/modules/animations/emerge/emerge';
+export { _SkyAnimationTransitionHandlerDirective } from './lib/modules/animations/shared/transition-handler';
 export { _SkyAnimationSlideComponent } from './lib/modules/animations/slide/slide';
 export { provideNoopSkyAnimations } from './lib/modules/animations/utility/provide-noop-animations';
 
