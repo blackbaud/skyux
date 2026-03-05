@@ -4,9 +4,14 @@
 ## [14.0.0-alpha.5](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.4...14.0.0-alpha.5) (2026-03-05)
 
 
+### ⚠ BREAKING CHANGES
+
+* **sdk/skyux-eslint:** add no-barrel-exports rule (#4268)
+
 ### Features
 
 * **components/ag-grid:** use datepicker component for column filter ([#4249](https://github.com/blackbaud/skyux/issues/4249)) ([d026f28](https://github.com/blackbaud/skyux/commit/d026f280dd4b12cae271e7836c431f99ac1a37bf)), closes [AB#3648062](https://dev.azure.com/blackbaud/Products/_workitems/edit/3648062)
+* **sdk/skyux-eslint:** add no-barrel-exports rule ([#4268](https://github.com/blackbaud/skyux/issues/4268)) ([d7a8332](https://github.com/blackbaud/skyux/commit/d7a833296bd7b856e91df7f331f3454633650627))
 
 
 ### Bug Fixes
