@@ -1,6 +1,8 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 
+import * as ts from 'typescript';
+
 /**
  * Resolves a relative module specifier to an absolute file path.
  * Returns undefined if the file cannot be found.
@@ -34,75 +36,66 @@ export interface ExtractedNamedExports {
 }
 
 /**
- * Extracts named exports from a TypeScript file's content using regex.
- * Returns sorted, deduplicated arrays of value exports and type-only exports.
+ * Extracts named exports from a TypeScript file's content using the TypeScript
+ * compiler API. Returns sorted, deduplicated arrays of value exports and
+ * type-only exports.
  */
 export function extractNamedExports(
   fileContent: string,
 ): ExtractedNamedExports {
+  const sourceFile = ts.createSourceFile(
+    'file.ts',
+    fileContent,
+    ts.ScriptTarget.Latest,
+    false,
+  );
+
   const valueExports: string[] = [];
   const typeExports: string[] = [];
 
-  // Match value declarations: class (including abstract), function (including async), enum
-  const valueDeclarationRegex =
-    /export\s+(?:(?:abstract|async|declare)\s+)*(?:class|function|enum)\s+(\w+)/g;
-  let match: RegExpExecArray | null;
-  while ((match = valueDeclarationRegex.exec(fileContent)) !== null) {
-    valueExports.push(match[1]);
-  }
-
-  // Match type-only declarations: interface, type alias
-  const typeDeclarationRegex =
-    /export\s+(?:declare\s+)*(?:interface|type)\s+(\w+)/g;
-  while ((match = typeDeclarationRegex.exec(fileContent)) !== null) {
-    typeExports.push(match[1]);
-  }
-
-  // Match variable declarations (const/let/var), including multi-declarator
-  // e.g. export const a = 1, b = 2;
-  const variableDeclarationRegex =
-    /export\s+(?:declare\s+)?(?:const|let|var)\s+([^;\n]+)/g;
-  while ((match = variableDeclarationRegex.exec(fileContent)) !== null) {
-    const names = match[1]
-      .split(',')
-      .map((segment) => segment.trim().match(/^([A-Za-z_$][\w$]*)/)?.[1])
-      .filter((name): name is string => Boolean(name));
-    valueExports.push(...names);
-  }
-
-  // Match type-only named re-exports: export type { A, B as C } (with optional 'from')
-  const namedTypeExportRegex = /export\s+type\s*\{([^}]+)\}/g;
-  while ((match = namedTypeExportRegex.exec(fileContent)) !== null) {
-    const names = match[1].split(',').map((name) => {
-      const parts = name.trim().split(/\s+as\s+/);
-      return parts[parts.length - 1].trim();
-    });
-    typeExports.push(...names.filter(Boolean));
-  }
-
-  // Match value named re-exports: export { A, B } (with optional 'from')
-  // Also handles inline type modifier: export { type Foo, Bar }
-  // Note: export\s*\{ does not match "export type {" since "type" intervenes before "{"
-  const namedValueExportRegex = /export\s*\{([^}]+)\}/g;
-  while ((match = namedValueExportRegex.exec(fileContent)) !== null) {
-    const specifiers = match[1].split(',');
-    for (const specifier of specifiers) {
-      const cleaned = specifier.trim();
-      if (!cleaned) {
-        continue;
+  for (const statement of sourceFile.statements) {
+    // ExportDeclaration: export { A, B }, export type { A }, export { type A, B }
+    if (ts.isExportDeclaration(statement)) {
+      if (
+        statement.exportClause &&
+        ts.isNamedExports(statement.exportClause)
+      ) {
+        for (const specifier of statement.exportClause.elements) {
+          const name = specifier.name.text;
+          if (statement.isTypeOnly || specifier.isTypeOnly) {
+            typeExports.push(name);
+          } else {
+            valueExports.push(name);
+          }
+        }
       }
+      continue;
+    }
 
-      const isTypeSpecifier = /^type\s+/.test(cleaned);
-      const withoutType = isTypeSpecifier
-        ? cleaned.replace(/^type\s+/, '')
-        : cleaned;
-      const parts = withoutType.split(/\s+as\s+/);
-      const exportedName = parts[parts.length - 1].trim();
+    // All other exported declarations need the export modifier.
+    const modifiers = ts.getModifiers(statement as ts.HasModifiers) ?? [];
+    if (
+      !modifiers.some((m) => m.kind === ts.SyntaxKind.ExportKeyword) ||
+      modifiers.some((m) => m.kind === ts.SyntaxKind.DefaultKeyword)
+    ) {
+      continue;
+    }
 
-      if (isTypeSpecifier) {
-        typeExports.push(exportedName);
-      } else {
-        valueExports.push(exportedName);
+    if (ts.isClassDeclaration(statement) && statement.name) {
+      valueExports.push(statement.name.text);
+    } else if (ts.isFunctionDeclaration(statement) && statement.name) {
+      valueExports.push(statement.name.text);
+    } else if (ts.isEnumDeclaration(statement)) {
+      valueExports.push(statement.name.text);
+    } else if (ts.isInterfaceDeclaration(statement)) {
+      typeExports.push(statement.name.text);
+    } else if (ts.isTypeAliasDeclaration(statement)) {
+      typeExports.push(statement.name.text);
+    } else if (ts.isVariableStatement(statement)) {
+      for (const decl of statement.declarationList.declarations) {
+        if (ts.isIdentifier(decl.name)) {
+          valueExports.push(decl.name.text);
+        }
       }
     }
   }

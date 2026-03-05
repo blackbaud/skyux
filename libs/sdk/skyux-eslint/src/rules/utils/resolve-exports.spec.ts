@@ -250,4 +250,29 @@ describe('extractNamedExports', () => {
       typeExports: [],
     });
   });
+
+  it('should not extract exports from comments', () => {
+    expect(extractNamedExports('// export class Fake {}')).toEqual({
+      valueExports: [],
+      typeExports: [],
+    });
+  });
+
+  it('should not extract exports from string literals', () => {
+    expect(
+      extractNamedExports('const s = "export class Fake {}";'),
+    ).toEqual({
+      valueExports: [],
+      typeExports: [],
+    });
+  });
+
+  it('should handle multi-line export specifiers', () => {
+    expect(
+      extractNamedExports("export {\n  Foo,\n  Bar\n} from './foo';"),
+    ).toEqual({
+      valueExports: ['Bar', 'Foo'],
+      typeExports: [],
+    });
+  });
 });
