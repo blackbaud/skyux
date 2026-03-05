@@ -1,12 +1,8 @@
 import {
-  AfterContentInit,
   ChangeDetectionStrategy,
   Component,
-  Injector,
   booleanAttribute,
   computed,
-  contentChild,
-  contentChildren,
   effect,
   inject,
   input,
@@ -15,8 +11,7 @@ import {
   viewChild,
 } from '@angular/core';
 
-import { SkyChartCategoryAxisComponent } from '../axis/chart-category-axis.component';
-import { SkyChartMeasureAxisComponent } from '../axis/chart-measure-axis.component';
+import { SKY_CHART_AXIS_REGISTRY } from '../axis/sky-chart-registry.service';
 import { SkyChartLegendItem } from '../chart-legend/chart-legend-item';
 import { SkyChartService } from '../chart/chart.service';
 import { SkyChartJsDirective } from '../chartjs.directive';
@@ -32,7 +27,7 @@ import {
   SkyLineChartOptions,
   getChartJsLineChartConfig,
 } from './line-chart-config';
-import { SkyLineChartSeriesComponent } from './line-chart-series.component';
+import { SkyLineChartRegistry } from './line-chart-registery.service';
 import { SkyLineChartPoint } from './line-chart-types';
 
 @Component({
@@ -45,6 +40,7 @@ import { SkyLineChartPoint } from './line-chart-types';
           [chartConfiguration]="config"
           [ariaLabel]="arialLabel()"
           (themeChanged)="onThemeChanged()"
+          (chartUpdated)="onChartUpdated()"
         ></canvas>
       </div>
     }
@@ -53,12 +49,16 @@ import { SkyLineChartPoint } from './line-chart-types';
   // See: https://www.chartjs.org/docs/latest/configuration/responsive.html
   styles: '.chart-container { position: relative; }',
   imports: [SkyChartJsDirective],
+  providers: [
+    SkyLineChartRegistry,
+    { provide: SKY_CHART_AXIS_REGISTRY, useClass: SkyLineChartRegistry },
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyLineChartComponent implements AfterContentInit {
+export class SkyLineChartComponent {
   // #region Dependency Injection
-  readonly #injector = inject(Injector);
   readonly #chartService = inject(SkyChartService);
+  readonly #chartRegistry = inject(SkyLineChartRegistry);
   // #endregion
 
   // #region Inputs
@@ -69,48 +69,34 @@ export class SkyLineChartComponent implements AfterContentInit {
   public readonly dataPointClicked = output<SkySelectedChartDataPoint>();
   // #endregion
 
-  // #region Content Children
-  protected readonly categoryAxisComponent = contentChild.required(
-    SkyChartCategoryAxisComponent,
-  );
-  protected readonly measureAxisComponent = contentChild.required(
-    SkyChartMeasureAxisComponent,
-  );
-  /** The one to many series data for the chart  */
-  protected readonly seriesComponents = contentChildren(
-    SkyLineChartSeriesComponent,
-  );
-  // #endregion
-
   // #region View Children
   protected readonly chartDirective = viewChild(SkyChartJsDirective);
-  protected readonly chart = computed(() => this.chartDirective()?.chart());
   // #endregion
 
   protected readonly arialLabel = this.#chartService.headingText;
-
+  readonly #chart = computed(() => this.chartDirective()?.chart());
   readonly #themeVersion = signal(0);
+  readonly #chartUpdated = signal(0);
   readonly #refreshLegendItems = signal(0);
+  readonly #chartOptions = signal<SkyLineChartOptions | undefined>(undefined);
 
-  readonly #lineChartConfig = signal<SkyLineChartOptions | undefined>(
-    undefined,
-  );
   protected readonly chartConfiguration = computed(() => {
-    this.#themeVersion(); // Track theme version so recalculation triggers on theme change.
-    const config = this.#lineChartConfig(); // Track chart config so recalculation triggers on content changes.
+    // Track theme and chart configuration changes
+    this.#themeVersion();
+    const config = this.#chartOptions();
 
     if (!config) {
       return undefined;
     }
 
-    const chartConfiguration = getChartJsLineChartConfig(config);
-
-    return chartConfiguration;
+    return getChartJsLineChartConfig(config);
   });
   protected readonly legendItems = computed(() => {
-    const chart = this.chart();
+    // Track chart, chart updates, series, and refresh triggers to update legend items
+    const chart = this.#chart();
+    this.#chartUpdated(); // We rely on ChartJS to track the visibility and color state
     const series = this.#chartService.series();
-    this.#refreshLegendItems(); // Track to trigger recalculation when legend visibility changes.
+    this.#refreshLegendItems();
 
     return getLegendItems({
       chart: chart,
@@ -122,7 +108,7 @@ export class SkyLineChartComponent implements AfterContentInit {
   constructor() {
     // Sync series data to the chart service
     effect(() => {
-      const config = this.#lineChartConfig();
+      const config = this.#chartOptions();
       this.#chartService.setSeries(config?.series ?? []);
     });
 
@@ -139,34 +125,34 @@ export class SkyLineChartComponent implements AfterContentInit {
         this.#onLegendItemToggled(item);
       }
     });
-  }
 
-  public ngAfterContentInit(): void {
     // Whenever this chart-impacting input change (either in this component or its children), reparse the chart config
-    effect(
-      () => {
-        const stacked = this.stacked();
-        const categoryAxis = this.categoryAxisComponent()?.axis();
-        const measureAxis = this.measureAxisComponent()?.axis();
-        const series = this.seriesComponents().map((component) =>
-          component.series(),
-        );
+    effect(() => {
+      const stacked = this.stacked();
 
-        const config = this.#parseConfigFromContent({
-          stacked: stacked,
-          categoryAxis: categoryAxis,
-          measureAxis: measureAxis,
-          series: series,
-        });
+      const categoryAxis = this.#chartRegistry.categoryAxis();
+      const measureAxis = this.#chartRegistry.measureAxis();
+      const series = this.#chartRegistry.series();
 
-        this.#lineChartConfig.set(config);
-      },
-      { injector: this.#injector },
-    );
+      const config = this.#parseConfigFromContent({
+        stacked: stacked,
+        categoryAxis: categoryAxis,
+        measureAxis: measureAxis,
+        series: series,
+      });
+
+      this.#chartOptions.set(config);
+    });
   }
 
+  /** Handle theme changes */
   protected onThemeChanged(): void {
     this.#themeVersion.update((v) => v + 1);
+  }
+
+  /** Handle chart updates */
+  protected onChartUpdated(): void {
+    this.#chartUpdated.update((v) => v + 1);
   }
 
   // #region Private
@@ -190,7 +176,7 @@ export class SkyLineChartComponent implements AfterContentInit {
   }
 
   #onLegendItemToggled(item: SkyChartLegendItem): void {
-    const chart = this.chart();
+    const chart = this.#chart();
 
     if (!chart) {
       return;

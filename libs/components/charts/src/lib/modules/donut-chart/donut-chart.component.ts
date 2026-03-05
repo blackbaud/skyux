@@ -1,15 +1,10 @@
 import {
-  AfterContentInit,
   ChangeDetectionStrategy,
-  Component,
-  Injector,
-  computed,
-  contentChildren,
-  effect,
+  Component, computed, effect,
   inject,
   output,
   signal,
-  viewChild,
+  viewChild
 } from '@angular/core';
 
 import { SkyChartLegendItem } from '../chart-legend/chart-legend-item';
@@ -23,8 +18,8 @@ import {
   SkyDonutChartOptions,
   getChartJsDonutChartConfig,
 } from './donut-chart-config';
-import { SkyDonutChartSeriesComponent } from './donut-chart-series.component';
 import { SkyDonutChartSlice } from './donut-chart-types';
+import { SkyDonutChartRegistry } from './donut-chart-registry.service';
 
 @Component({
   selector: 'sky-donut-chart',
@@ -36,6 +31,7 @@ import { SkyDonutChartSlice } from './donut-chart-types';
           [chartConfiguration]="config"
           [ariaLabel]="arialLabel()"
           (themeChanged)="onThemeChanged()"
+          (chartUpdated)="onChartUpdated()"
         ></canvas>
       </div>
     }
@@ -44,42 +40,34 @@ import { SkyDonutChartSlice } from './donut-chart-types';
   // See: https://www.chartjs.org/docs/latest/configuration/responsive.html
   styles: '.chart-container { position: relative; }',
   imports: [SkyChartJsDirective],
+  providers: [SkyDonutChartRegistry],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyDonutChartComponent implements AfterContentInit {
+export class SkyDonutChartComponent {
   // #region Dependency Injection
-  readonly #injector = inject(Injector);
   readonly #chartService = inject(SkyChartService);
-  // #endregion
-
-  // #region Inputs
+  readonly #chartRegistry = inject(SkyDonutChartRegistry);
   // #endregion
 
   // #region Outputs
   public readonly dataPointClicked = output<SkySelectedChartDataPoint>();
   // #endregion
 
-  // #region Content Children
-  /** The one to many series data for the chart  */
-  protected readonly seriesComponents = contentChildren(
-    SkyDonutChartSeriesComponent,
-  );
-  // #endregion
-
   // #region View Children
   protected readonly chartDirective = viewChild(SkyChartJsDirective);
-  protected readonly chart = computed(() => this.chartDirective()?.chart());
   // #endregion
 
   protected readonly arialLabel = this.#chartService.headingText;
-
+  readonly #chart = computed(() => this.chartDirective()?.chart());
   readonly #themeVersion = signal(0);
+  readonly #chartUpdated = signal(0);
   readonly #refreshLegendItems = signal(0);
+  readonly #chartOptions = signal<SkyDonutChartOptions | undefined>(undefined);
 
-  readonly #donutConfig = signal<SkyDonutChartOptions | undefined>(undefined);
   protected readonly chartConfiguration = computed(() => {
-    this.#themeVersion(); // Track theme version so recalculation triggers on theme change.
-    const config = this.#donutConfig(); // Get the latest sky config, so recalculation triggers on content changes.
+    // Track theme and chart configuration changes
+    this.#themeVersion();
+    const config = this.#chartOptions();
 
     if (!config) {
       return undefined;
@@ -90,12 +78,14 @@ export class SkyDonutChartComponent implements AfterContentInit {
     return chartConfiguration;
   });
   protected readonly legendItems = computed(() => {
-    const chart = this.chart();
-    const config = this.#donutConfig();
-    this.#refreshLegendItems(); // Track to trigger recalculation when legend visibility changes.
+    // Track chart, chart updates, series, and refresh triggers to update legend items
+    const chart = this.#chart();
+    this.#chartUpdated(); // We rely on ChartJS to track the visibility and color state
+    const series = this.#chartService.series();
+    this.#refreshLegendItems();
 
-    const categoryLabels =
-      config?.series.data.map((dp) => dp.category.toString()) ?? [];
+    const data = series[0]?.data ?? [];
+    const categoryLabels = data.map((dp) => dp.category.toString());
 
     return getLegendItems({
       chart: chart,
@@ -107,10 +97,9 @@ export class SkyDonutChartComponent implements AfterContentInit {
   constructor() {
     // Sync series data to the chart service
     effect(() => {
-      const config = this.#donutConfig();
-      if (config) {
-        this.#chartService.setSeries([config.series]);
-      }
+      const config = this.#chartOptions();
+      const series = config?.series ? [config.series] : [];
+      this.#chartService.setSeries(series);
     });
 
     // Sync legend items to the chart service
@@ -126,29 +115,28 @@ export class SkyDonutChartComponent implements AfterContentInit {
         this.#onLegendItemToggled(item);
       }
     });
-  }
 
-  public ngAfterContentInit(): void {
     // Whenever the content children change, re-parse the chart config from the content
     effect(
       () => {
-        const series = this.seriesComponents().map((component) =>
-          component.series(),
-        );
+        const series = this.#chartRegistry.series();
 
-        const config = this.#parseConfigFromContent({
-          series: series,
-        });
+        const config = this.#parseConfigFromContent({ series: series });
 
-        this.#donutConfig.set(config);
-      },
-      { injector: this.#injector },
-    );
+        this.#chartOptions.set(config);
+      });
   }
 
+  /** Handle theme changes */
   protected onThemeChanged(): void {
     this.#themeVersion.update((v) => v + 1);
   }
+
+  /** Handle chart updates */
+  protected onChartUpdated(): void {
+    this.#chartUpdated.update((v) => v + 1);
+  }
+
 
   // #region Private
   #parseConfigFromContent(context: {
@@ -170,7 +158,7 @@ export class SkyDonutChartComponent implements AfterContentInit {
   }
 
   #onLegendItemToggled(item: SkyChartLegendItem): void {
-    const chart = this.chart();
+    const chart = this.#chart();
 
     if (!chart) {
       return;

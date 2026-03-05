@@ -58,7 +58,7 @@ import { SkyBarChartPoint } from './bar-chart-types';
 export class SkyBarChartComponent {
   // #region Dependency Injection
   readonly #chartService = inject(SkyChartService);
-  readonly #barChartRegistry = inject(SkyBarChartRegistry);
+  readonly #chartRegistry = inject(SkyBarChartRegistry);
   // #endregion
 
   // #region Inputs
@@ -79,12 +79,12 @@ export class SkyBarChartComponent {
   readonly #themeVersion = signal(0);
   readonly #chartUpdated = signal(0);
   readonly #refreshLegendItems = signal(0);
-  readonly #barChartConfig = signal<SkyBarChartOptions | undefined>(undefined);
+  readonly #chartOptions = signal<SkyBarChartOptions | undefined>(undefined);
 
   protected readonly chartConfiguration = computed(() => {
     // Track theme and chart configuration changes
     this.#themeVersion();
-    const config = this.#barChartConfig();
+    const config = this.#chartOptions();
 
     if (!config) {
       return undefined;
@@ -109,7 +109,7 @@ export class SkyBarChartComponent {
   constructor() {
     // Sync series data to the chart service
     effect(() => {
-      const config = this.#barChartConfig();
+      const config = this.#chartOptions();
       this.#chartService.setSeries(config?.series ?? []);
     });
 
@@ -132,9 +132,9 @@ export class SkyBarChartComponent {
       const orientation = this.orientation();
       const stacked = this.stacked();
 
-      const categoryAxis = this.#barChartRegistry.categoryAxis();
-      const measureAxis = this.#barChartRegistry.measureAxis();
-      const series = this.#barChartRegistry.series();
+      const categoryAxis = this.#chartRegistry.categoryAxis();
+      const measureAxis = this.#chartRegistry.measureAxis();
+      const series = this.#chartRegistry.series();
 
       const config = this.#parseConfigFromContent({
         orientation: orientation,
@@ -144,7 +144,7 @@ export class SkyBarChartComponent {
         series: series,
       });
 
-      this.#barChartConfig.set(config);
+      this.#chartOptions.set(config);
     });
   }
 

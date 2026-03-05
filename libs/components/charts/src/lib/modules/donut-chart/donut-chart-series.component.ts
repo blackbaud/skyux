@@ -1,19 +1,17 @@
 import {
-  AfterContentInit,
   ChangeDetectionStrategy,
-  Component,
-  Injector,
-  contentChildren,
-  effect,
+  Component, OnDestroy,
+  computed, effect,
   inject,
-  input,
-  signal,
+  input
 } from '@angular/core';
 
 import { SkyChartSeries } from '../shared/types/chart-series';
 
-import { SkyDonutChartSeriesDatapointComponent } from './donut-chart-series-datapoint.component';
+import { SkyDonutChartRegistry } from './donut-chart-registry.service';
 import { SkyDonutChartSlice } from './donut-chart-types';
+
+let nextId = 0;
 
 /**
  * Represents a named data series in a chart.
@@ -23,8 +21,8 @@ import { SkyDonutChartSlice } from './donut-chart-types';
   template: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyDonutChartSeriesComponent implements AfterContentInit {
-  readonly #injector = inject(Injector);
+export class SkyDonutChartSeriesComponent implements OnDestroy {
+  readonly #registry = inject(SkyDonutChartRegistry);
 
   /**
    * The display label for this series. Shown in the chart legend and tooltips.
@@ -32,29 +30,24 @@ export class SkyDonutChartSeriesComponent implements AfterContentInit {
   public readonly labelText = input.required<string>();
 
   /**
-   * @internal
+   * A unique ID for this series component instance.
    */
-  protected readonly datapoints = contentChildren(
-    SkyDonutChartSeriesDatapointComponent,
-  );
+  public readonly id = nextId++;
 
-  /**
-   * The series data
-   * @internal
-   */
-  public readonly series = signal<SkyChartSeries<SkyDonutChartSlice>>({
-    label: '',
-    data: [],
-  });
+  readonly #series = computed<SkyChartSeries<SkyDonutChartSlice>>(() => ({
+    id: this.id,
+    label: this.labelText(),
+    data: [], // Data will be dynamically set from children datapoints
+  }));
 
-  public ngAfterContentInit(): void {
-    // This effect runs whenever the Series' label or children datapoints change
-    effect(
-      () => {
-        const datapoints = this.datapoints().map((d) => d.datapoint());
-        this.series.set({ label: this.labelText(), data: datapoints });
-      },
-      { injector: this.#injector },
-    );
+  constructor() {
+    effect(() => {
+      const series = this.#series();
+      this.#registry.upsertSeries(series);
+    });
+  }
+
+  public ngOnDestroy(): void {
+    this.#registry.removeSeries(this.id);
   }
 }
