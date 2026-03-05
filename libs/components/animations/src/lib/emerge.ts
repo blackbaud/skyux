@@ -9,7 +9,7 @@ import {
 
 /**
  * @deprecated `skyAnimationEmerge` is not included in the public API and is
- * planned for removal in SKY UX 15. Remove it from your application.
+ * planned for removal in SKY UX 15.
  */
 export const skyAnimationEmerge: AnimationTriggerMetadata = trigger(
   'skyAnimationEmerge',
