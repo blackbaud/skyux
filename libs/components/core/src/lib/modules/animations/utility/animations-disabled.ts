@@ -5,7 +5,7 @@ import { SKY_DISABLED_ANIMATIONS_CLASS_NAME } from './constants';
 /**
  * @internal
  */
-export function skyAnimationsDisabled(): boolean {
+export function _skyAnimationsDisabled(): boolean {
   return inject(DOCUMENT).body.classList.contains(
     SKY_DISABLED_ANIMATIONS_CLASS_NAME,
   );

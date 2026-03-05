@@ -159,7 +159,7 @@
       [id]="contentId"
       [attr.role]="(itemRole$ | async)?.content"
     >
-      <sky-animation-slide [slideDirection]="slideDirection">
+      <sky-animation-slide [opened]="slideDirection === 'down'">
         <ng-content select="sky-repeater-item-content" />
       </sky-animation-slide>
     </div>

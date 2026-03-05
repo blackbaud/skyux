@@ -11,7 +11,7 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { SkyAnimationSlideDirection, SkyIdService } from '@skyux/core';
+import { SkyIdService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -71,7 +71,7 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
 
   @ViewChild('groupHeadingButton')
   public groupHeadingButton: ElementRef | undefined;
-  protected slideDirection: SkyAnimationSlideDirection = 'in';
+  protected slideDirection: 'down' | 'up' = 'up';
 
   protected groupId: string;
 
@@ -168,7 +168,7 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
 
   #tabsHidden(): void {
     // Angular will sometimes place the animation into the "void" state when tabs are hidden. Update our internal variable to reflect that.
-    this.slideDirection = 'in';
+    this.slideDirection = 'down';
     this.#changeRef.markForCheck();
   }
 
@@ -180,7 +180,7 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
   }
 
   #updateSlideDirection(): void {
-    this.slideDirection = this.open && !this.disabled ? 'out' : 'in';
+    this.slideDirection = this.open && !this.disabled ? 'down' : 'up';
   }
 
   #focusButton(): void {

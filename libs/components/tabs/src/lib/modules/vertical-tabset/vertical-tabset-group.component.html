@@ -38,7 +38,7 @@
     skyId
     [attr.labelledby]="groupId"
   >
-    <sky-animation-slide [slideDirection]="slideDirection">
+    <sky-animation-slide [opened]="slideDirection === 'down'">
       <div class="sky-vertical-tabset-group-content-gutter"><ng-content /></div>
     </sky-animation-slide>
   </div>

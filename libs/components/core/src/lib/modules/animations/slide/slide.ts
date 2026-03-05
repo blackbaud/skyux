@@ -1,16 +1,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
   inject,
   input,
-  output,
 } from '@angular/core';
 
-import { skyAnimationsDisabled } from '../utility/animations-disabled';
-import { setupNoopTransitionEnd } from '../utility/setup-noop-transition-end';
-
-import { SkyAnimationSlideDirection } from './slide-direction';
+import { SkyAnimationTransitionHandler } from '../shared/transition-handler';
 
 /**
  * @internal
@@ -18,33 +13,24 @@ import { SkyAnimationSlideDirection } from './slide-direction';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    '[class.sky-animation-slide-in]': 'slideDirection() !== "out"',
-    '[class.sky-animation-slide-out]': 'slideDirection() === "out"',
-    '(transitionend)': 'onTransitionEnd($event)',
+    '[class.sky-animation-slide-in]': '!opened()',
+    '[class.sky-animation-slide-out]': 'opened()',
   },
+  hostDirectives: [
+    {
+      directive: SkyAnimationTransitionHandler,
+      inputs: ['transitionSignal: opened'],
+      outputs: ['transitionEnd'],
+    },
+  ],
   selector: 'sky-animation-slide',
   styleUrl: './slide.scss',
-  templateUrl: './slide.html',
+  template: '<div class="sky-animation-slide-content"><ng-content /></div>',
 })
 export class SkyAnimationSlideComponent {
-  readonly #elementRef = inject(ElementRef);
-
-  public readonly slideDirection = input.required<SkyAnimationSlideDirection>();
-  public readonly transitionEnd = output<void>();
+  public readonly opened = input.required<boolean>();
 
   constructor() {
-    if (skyAnimationsDisabled()) {
-      setupNoopTransitionEnd(this.slideDirection, this.transitionEnd);
-    }
-  }
-
-  protected onTransitionEnd(evt: TransitionEvent): void {
-    if (
-      evt.currentTarget === this.#elementRef.nativeElement &&
-      evt.propertyName === 'visibility'
-    ) {
-      this.transitionEnd.emit();
-      evt.stopPropagation();
-    }
+    inject(SkyAnimationTransitionHandler).cssPropertyToTrack('visibility');
   }
 }

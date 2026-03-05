@@ -20,10 +20,7 @@ import {
   SkyMediaQueryService,
   SkyMutationObserverService,
 } from '@skyux/core';
-import {
-  SkyAnimationSlideComponent,
-  SkyAnimationSlideDirection,
-} from '@skyux/core';
+import { SkyAnimationSlideComponent } from '@skyux/core';
 import { SkyChevronModule, SkyStatusIndicatorModule } from '@skyux/indicators';
 import { SkyThemeModule } from '@skyux/theme';
 
@@ -71,7 +68,7 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
   readonly #windowRef = inject(SkyAppWindowRef);
 
   public isSummaryCollapsed = signal<boolean>(false);
-  protected readonly slideDirection = signal<SkyAnimationSlideDirection>('out');
+  protected readonly slideDirection = signal<string>('down');
 
   public summaryId = `sky-summary-action-bar-summary-${++nextId}`;
 
@@ -165,24 +162,17 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
     this.#idled.complete();
   }
 
-  protected onChevronDirectionChange(direction: string): void {
-    switch (direction) {
-      case 'up':
-        this.slideDirection.set('in');
-        break;
-      default:
-      case 'down':
-        this.slideDirection.set('out');
-        break;
-    }
+  public onDirectionChange(direction: string): void {
+    this.slideDirection.set(direction);
   }
 
   public summaryContentExists(): boolean {
     return !!(this.summaryElement?.nativeElement.children.length || 0 > 0);
   }
 
-  protected onTransitionEnd(): void {
-    this.isSummaryCollapsed.set(this.slideDirection() === 'in');
+  // NOTE: This function is needed so that the button is not removed until post-animation
+  public summaryTransitionEnd(): void {
+    this.isSummaryCollapsed.set(this.slideDirection() === 'up');
 
     const type = this.type();
 
@@ -205,7 +195,7 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
       .subscribe((breakpoint) => {
         if (breakpoint !== 'xs') {
           this.isSummaryCollapsed.set(false);
-          this.slideDirection.set('out');
+          this.slideDirection.set('down');
         }
         this.#changeDetector.detectChanges();
       });

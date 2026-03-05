@@ -32,8 +32,8 @@
   @if (summaryContentExists()) {
     <div class="sky-summary-action-bar-summary" [id]="summaryId">
       <sky-animation-slide
-        [slideDirection]="slideDirection()"
-        (transitionEnd)="onTransitionEnd()"
+        [opened]="slideDirection() === 'down'"
+        (transitionEnd)="summaryTransitionEnd()"
       >
         <div class="sky-summary-action-bar-summary-body">
           <div
@@ -65,6 +65,6 @@
     [attr.aria-controls]="summaryId"
     [ariaLabel]="'skyux_summary_action_bar_expand' | skyLibResources"
     [direction]="isSummaryCollapsed() ? 'up' : 'down'"
-    (directionChange)="onChevronDirectionChange($event)"
+    (directionChange)="onDirectionChange($event)"
   />
 </ng-template>
