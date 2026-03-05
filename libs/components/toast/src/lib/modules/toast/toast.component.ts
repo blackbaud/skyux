@@ -37,12 +37,12 @@ const SKY_TOAST_TYPE_DEFAULT = SkyToastType.Info;
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   imports: [
-    _SkyAnimationEmergeComponent,
     CommonModule,
     SkyIconModule,
     SkyIdModule,
     SkyThemeModule,
     SkyToastResourcesModule,
+    _SkyAnimationEmergeComponent,
   ],
 })
 export class SkyToastComponent implements OnInit, OnDestroy {

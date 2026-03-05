@@ -1,24 +1,23 @@
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, NgComponentOutlet } from '@angular/common';
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
   EnvironmentInjector,
   OnDestroy,
+  OnInit,
   QueryList,
-  StaticProvider,
   ViewChild,
   ViewChildren,
-  ViewContainerRef,
   ViewEncapsulation,
+  createEnvironmentInjector,
   inject,
 } from '@angular/core';
-import { SKY_STACKING_CONTEXT, SkyDynamicComponentService } from '@skyux/core';
+import { SKY_STACKING_CONTEXT } from '@skyux/core';
 
 import { BehaviorSubject, Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
 import { SkyToastResourcesModule } from '../shared/sky-toast-resources.module';
 
@@ -40,75 +39,61 @@ import { SkyToastDisplayDirection } from './types/toast-display-direction';
   providers: [SkyToastAdapterService, SkyToasterService],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [CommonModule, SkyToastComponent, SkyToastResourcesModule],
+  imports: [
+    AsyncPipe,
+    NgComponentOutlet,
+    SkyToastComponent,
+    SkyToastResourcesModule,
+  ],
 })
-export class SkyToasterComponent implements AfterViewInit, OnDestroy {
+export class SkyToasterComponent implements OnInit, OnDestroy {
   public toastsForDisplay: SkyToast[] | undefined;
 
   @ViewChild('toaster')
   public toaster: ElementRef | undefined;
 
-  @ViewChildren('toastContent', { read: ViewContainerRef })
-  public toastContent: QueryList<ViewContainerRef> | undefined;
-
   @ViewChildren(SkyToastComponent)
   public toastComponents: QueryList<SkyToastComponent> | undefined;
 
+  protected toastInjectors = new Map<number, EnvironmentInjector>();
   protected zIndex$ = new BehaviorSubject(1051);
 
   #ngUnsubscribe = new Subject<void>();
-  #destroyed = false;
 
   readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #containerOptions = inject(SkyToastContainerOptions, {
     optional: true,
   });
-  readonly #dynamicComponentSvc = inject(SkyDynamicComponentService);
   readonly #domAdapter = inject(SkyToastAdapterService);
   readonly #environmentInjector = inject(EnvironmentInjector);
   readonly #toastService = inject(SkyToastService);
   readonly #toasterService = inject(SkyToasterService);
 
-  public ngAfterViewInit(): void {
-    if (this.toastContent) {
-      this.toastContent.changes.subscribe(() => {
-        this.#injectToastContent();
+  public ngOnInit(): void {
+    this.#toastService.toastStream
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((toasts: SkyToast[]) => {
+        this.#updateInjectors(toasts);
+        this.toastsForDisplay = this.#sortToastsForDisplay(toasts);
+
+        // Scroll to the bottom of the toaster element when a new toast is added.
+        if (
+          this.toaster &&
+          (!this.#containerOptions ||
+            this.#containerOptions.displayDirection ===
+              SkyToastDisplayDirection.OldestOnTop)
+        ) {
+          this.#domAdapter.scrollBottom(this.toaster);
+        }
+
+        this.#changeDetector.markForCheck();
       });
-
-      this.#toastService.toastStream
-        .pipe(takeUntil(this.#ngUnsubscribe))
-        .subscribe((toasts: SkyToast[]) => {
-          this.toastsForDisplay = this.#sortToastsForDisplay(toasts);
-
-          // Scroll to the bottom of the toaster element when a new toast is added.
-          if (
-            this.toaster &&
-            (!this.#containerOptions ||
-              this.#containerOptions.displayDirection ===
-                SkyToastDisplayDirection.OldestOnTop)
-          ) {
-            this.#domAdapter.scrollBottom(this.toaster);
-          }
-
-          this.#changeDetector.markForCheck();
-
-          // Defer detectChanges to avoid re-entrant change detection when
-          // noop animations cause transitionEnd to fire synchronously.
-          void Promise.resolve().then(() => {
-            if (!this.#destroyed) {
-              this.#changeDetector.detectChanges();
-            }
-          });
-        });
-    }
   }
 
   public onToastClosed(toast: SkyToast): void {
-    // Defer the close to avoid modifying the toast array (and potentially
-    // destroying the host component) during an active change detection cycle.
-    // With noop animations, the transitionEnd event fires synchronously
-    // during CD, which would otherwise cause re-entrant view mutations.
-    void Promise.resolve().then(() => toast.instance.close());
+    // Defer close to prevent the host from being destroyed during
+    // its own change detection cycle.
+    queueMicrotask(() => toast.instance.close());
   }
 
   public closeAll(): void {
@@ -138,25 +123,34 @@ export class SkyToasterComponent implements AfterViewInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.#destroyed = true;
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
+
+    for (const injector of this.toastInjectors.values()) {
+      injector.destroy();
+    }
+
+    this.toastInjectors.clear();
   }
 
-  #injectToastContent(): void {
-    // Dynamically inject each toast's body content when the number of toasts changes.
-    this.#toastService.toastStream.pipe(take(1)).subscribe((toasts) => {
-      /* istanbul ignore else */
-      if (this.toastContent) {
-        for (const target of this.toastContent) {
-          const toastId = this.#domAdapter.getToastId(target);
+  #updateInjectors(toasts: SkyToast[]): void {
+    const activeIds = new Set(toasts.map((t) => t.toastId));
 
-          const toast = toasts.find((item) => item.toastId === toastId);
+    // Clean up injectors for removed toasts.
+    for (const [id, injector] of this.toastInjectors) {
+      if (!activeIds.has(id)) {
+        injector.destroy();
+        this.toastInjectors.delete(id);
+      }
+    }
 
-          if (toast && !toast.isRendered) {
-            target.clear();
-
-            const providers = [
+    // Create injectors for new toasts.
+    for (const toast of toasts) {
+      if (!this.toastInjectors.has(toast.toastId)) {
+        this.toastInjectors.set(
+          toast.toastId,
+          createEnvironmentInjector(
+            [
               ...toast.bodyComponentProviders,
               {
                 provide: SKY_STACKING_CONTEXT,
@@ -166,32 +160,12 @@ export class SkyToasterComponent implements AfterViewInit, OnDestroy {
                     .pipe(takeUntil(this.#ngUnsubscribe)),
                 },
               },
-            ] as StaticProvider[];
-
-            const componentRef = this.#dynamicComponentSvc.createComponent(
-              toast.bodyComponent,
-              {
-                environmentInjector: this.#environmentInjector,
-                providers,
-              },
-            );
-
-            const toastEl = document.querySelector(
-              `[data-toast-id="${toast.toastId}"]`,
-            );
-
-            /* istanbul ignore else */
-            if (toastEl) {
-              toastEl.appendChild(componentRef.location.nativeElement);
-            }
-
-            componentRef.changeDetectorRef.detectChanges();
-
-            toast.isRendered = true;
-          }
-        }
+            ],
+            this.#environmentInjector,
+          ),
+        );
       }
-    });
+    }
   }
 
   #sortToastsForDisplay(toasts: SkyToast[]): SkyToast[] {
