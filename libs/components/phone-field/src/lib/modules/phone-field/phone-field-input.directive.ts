@@ -7,6 +7,7 @@ import {
   OnInit,
   booleanAttribute,
   inject,
+  input,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -67,7 +68,7 @@ export class SkyPhoneFieldInputDirective
   @Input({ transform: booleanAttribute })
   public set disabled(value: boolean) {
     if (this.#phoneFieldComponent) {
-      this.#phoneFieldComponent.countrySelectDisabled = value;
+      this.#phoneFieldComponent.countrySelectDisabled.set(value);
       this.#adapterSvc?.setElementDisabledState(this.#elRef, value);
     }
 
@@ -85,8 +86,9 @@ export class SkyPhoneFieldInputDirective
    * set this property to `true`.
    * @default false
    */
-  @Input({ transform: booleanAttribute })
-  public skyPhoneFieldNoValidate = false;
+  public readonly skyPhoneFieldNoValidate = input<boolean, unknown>(false, {
+    transform: booleanAttribute,
+  });
 
   #_disabled = false;
   #_value = '';
@@ -158,7 +160,7 @@ export class SkyPhoneFieldInputDirective
 
     const value = control.value;
 
-    if (!value || this.skyPhoneFieldNoValidate) {
+    if (!value || this.skyPhoneFieldNoValidate()) {
       return null;
     }
 
@@ -283,7 +285,7 @@ export class SkyPhoneFieldInputDirective
   #isValidPhoneNumber(value: string): boolean {
     const defaultCountry = this.#getDefaultCountry();
     const regionCode = this.#getRegionCode() ?? defaultCountry;
-    const allowExtensions = !!this.#phoneFieldComponent?.allowExtensions;
+    const allowExtensions = !!this.#phoneFieldComponent?.allowExtensions();
 
     try {
       const phoneNumber = this.#phoneUtils.parseAndKeepRawInput(

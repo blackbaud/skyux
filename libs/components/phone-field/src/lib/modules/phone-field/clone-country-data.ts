@@ -2,14 +2,16 @@ import { type Country } from 'intl-tel-input/data';
 
 import type { SkyPhoneFieldCountry } from './types/country';
 
-const displayNames = new Intl.DisplayNames(['en'], { type: 'region' });
-
 /**
  * Clone the country data for each component instance to avoid overwriting
  * the global country data.
  */
-export function cloneCountryData(data: Country[]): SkyPhoneFieldCountry[] {
+export function cloneCountryData(
+  data: Country[],
+  locales: Intl.LocalesArgument,
+): SkyPhoneFieldCountry[] {
   const clone = [...data];
+  const displayNames = new Intl.DisplayNames(locales, { type: 'region' });
 
   return clone.map((country) => {
     const mapped: SkyPhoneFieldCountry = {

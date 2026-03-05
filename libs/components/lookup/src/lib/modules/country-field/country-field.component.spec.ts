@@ -1504,14 +1504,13 @@ describe('Country Field Component', () => {
         searchAndSelect('Austr', 0, fixture);
         fixture.detectChanges();
         tick();
-        expect(changeEventSpy).toHaveBeenCalledWith(
-          jasmine.objectContaining({
-            name: 'Australia',
-            iso2: 'au',
-            dialCode: '61',
-            priority: 0,
-          }),
-        );
+        expect(changeEventSpy).toHaveBeenCalledWith({
+          name: 'Australia',
+          iso2: 'au',
+          dialCode: '61',
+          priority: 0,
+          areaCodes: ['4'],
+        });
 
         const searchResults = searchAndGetResults('Austr', fixture);
         expect(

@@ -1,3 +1,4 @@
+import { coerceStringArray } from '@angular/cdk/coercion';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -7,15 +8,17 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   Output,
   TemplateRef,
   Type,
   ViewChild,
   ViewEncapsulation,
+  effect,
   forwardRef,
   inject,
+  input,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -27,10 +30,10 @@ import {
   Validator,
 } from '@angular/forms';
 import { SkyInputBoxHostService } from '@skyux/forms';
+import { SkyAppLocaleProvider } from '@skyux/i18n';
 
 import intlTelInput from 'intl-tel-input';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Observable, Subject, map, takeUntil } from 'rxjs';
 
 import { SkyAutocompleteInputDirective } from '../autocomplete/autocomplete-input.directive';
 import { SkyAutocompleteSelectionChange } from '../autocomplete/types/autocomplete-selection-change';
@@ -76,26 +79,12 @@ export class SkyCountryFieldComponent
    * When search results include the default country, it appears at the top of the list.
    * @default "us"
    */
-  @Input()
-  public set defaultCountry(value: string | undefined) {
-    if (!value) {
-      value = DEFAULT_COUNTRY_CODE;
-    }
-
-    if (value !== this.#_defaultCountry) {
-      this.#_defaultCountry = value.toLowerCase();
-
-      this.#defaultCountryData = this.countries.find(
-        (country) => country.iso2 === this.#_defaultCountry,
-      );
-
-      this.#sortCountriesWithSelectedAndDefault(this.selectedCountry);
-    }
-  }
-
-  public get defaultCountry(): string | undefined {
-    return this.#_defaultCountry;
-  }
+  public readonly defaultCountry = input<string, unknown>(
+    DEFAULT_COUNTRY_CODE,
+    {
+      transform: (value) => String(value || DEFAULT_COUNTRY_CODE).toLowerCase(),
+    },
+  );
 
   /**
    * Whether to disable the country field on template-driven forms. Don't use this input on reactive forms because they may overwrite the input or leave the control out of sync.
@@ -123,20 +112,9 @@ export class SkyCountryFieldComponent
    * The [International Organization for Standardization Alpha 2](https://www.nationsonline.org/oneworld/country_code_list.htm)
    * country codes for the countries that users can select. By default, all countries are available.
    */
-  @Input()
-  public set supportedCountryISOs(value: string[] | undefined) {
-    // Ensure all values are the same case.
-    if (Array.isArray(value)) {
-      value = value.map((v) => v.toLowerCase());
-    }
-
-    this.#_supportedCountryISOs = value;
-    this.#setupCountries();
-  }
-
-  public get supportedCountryISOs(): string[] {
-    return this.#_supportedCountryISOs || [];
-  }
+  public readonly supportedCountryISOs = input<string[], unknown>([], {
+    transform: (value) => coerceStringArray(value).map((v) => v.toLowerCase()),
+  });
 
   /**
    * Fires when the selected country changes.
@@ -156,7 +134,7 @@ export class SkyCountryFieldComponent
 
   public countries: SkyCountryFieldCountry[] = [];
 
-  public countrySearchFormControl: UntypedFormControl;
+  public readonly countrySearchFormControl = new UntypedFormControl();
 
   public searchTextMinimumCharacters = 2;
 
@@ -220,7 +198,7 @@ export class SkyCountryFieldComponent
     },
   );
 
-  public inputId: string;
+  public inputId = `sky-country-field-input-${uniqueId++}`;
   protected ariaDescribedBy: Observable<string | undefined> | undefined;
 
   @ViewChild('inputTemplateRef', {
@@ -229,11 +207,15 @@ export class SkyCountryFieldComponent
   })
   public inputTemplateRef: TemplateRef<unknown> | undefined;
 
-  #changeDetector: ChangeDetectorRef;
+  public readonly inputBoxHostSvc = inject(SkyInputBoxHostService, {
+    optional: true,
+  });
+
+  readonly #changeDetector = inject(ChangeDetectorRef);
 
   #defaultCountryData: SkyCountryFieldCountry | undefined;
 
-  #injector: Injector;
+  readonly #injector = inject(Injector);
 
   #internalFormChange = false;
 
@@ -241,29 +223,25 @@ export class SkyCountryFieldComponent
 
   #ngControl: NgControl | null = null;
 
-  #ngUnsubscribe = new Subject<void>();
-
-  #_defaultCountry: string | undefined;
+  readonly #ngUnsubscribe = new Subject<void>();
 
   #_disabled = false;
 
   #_selectedCountry: SkyCountryFieldCountry | undefined;
 
-  #_supportedCountryISOs: string[] | undefined;
+  readonly #localeProvider = inject(SkyAppLocaleProvider);
+  readonly #locale = toSignal(
+    this.#localeProvider.getLocaleInfo().pipe(map((loc) => loc.locale)),
+    {
+      initialValue: this.#localeProvider.defaultLocale,
+    },
+  );
 
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    injector: Injector,
-    @Optional() public inputBoxHostSvc?: SkyInputBoxHostService,
-  ) {
-    this.#changeDetector = changeDetector;
-    this.#injector = injector;
-
-    this.inputId = `sky-country-field-input-${uniqueId++}`;
-
+  constructor() {
     this.#setupCountries();
-
-    this.countrySearchFormControl = new UntypedFormControl();
+    effect(() => {
+      this.#setupCountries();
+    });
   }
 
   /**
@@ -286,10 +264,6 @@ export class SkyCountryFieldComponent
        * is present we don't want to ignore the first change.
        */
       this.#isInitialChange = false;
-    }
-
-    if (!this.defaultCountry) {
-      this.defaultCountry = DEFAULT_COUNTRY_CODE;
     }
 
     this.countrySearchFormControl.valueChanges
@@ -370,10 +344,10 @@ export class SkyCountryFieldComponent
 
   public validate(control: AbstractControl): ValidationErrors | null {
     if (control.value) {
+      const supportedCountryISOs = this.supportedCountryISOs();
       if (
-        (this.supportedCountryISOs &&
-          this.supportedCountryISOs.length > 0 &&
-          this.supportedCountryISOs.indexOf(control.value.iso2) < 0) ||
+        (supportedCountryISOs.length > 0 &&
+          supportedCountryISOs.indexOf(control.value.iso2) < 0) ||
         !this.countries.find((country) => country.iso2 === control.value.iso2)
       ) {
         return { unsupportedCountry: true };
@@ -414,7 +388,10 @@ export class SkyCountryFieldComponent
   }
 
   #setupCountries(): void {
-    this.countries = cloneCountryData(intlTelInput.getCountryData());
+    this.countries = cloneCountryData(
+      intlTelInput.getCountryData(),
+      this.#locale(),
+    );
 
     /* istanbul ignore else */
     if (!this.context?.inPhoneField) {
@@ -429,12 +406,17 @@ export class SkyCountryFieldComponent
       });
     }
 
+    const defaultCountry = this.defaultCountry();
+    this.#defaultCountryData = this.countries.find(
+      (country) => country.iso2 === defaultCountry,
+    );
     this.#sortCountriesWithSelectedAndDefault(this.selectedCountry);
 
-    if (this.supportedCountryISOs && this.supportedCountryISOs.length > 0) {
+    const supportedCountryISOs = this.supportedCountryISOs();
+    if (supportedCountryISOs.length > 0) {
       this.countries = this.countries.filter(
         (country: SkyCountryFieldCountry) => {
-          return this.supportedCountryISOs.indexOf(country.iso2) >= 0;
+          return supportedCountryISOs.indexOf(country.iso2) >= 0;
         },
       );
     }

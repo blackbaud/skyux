@@ -28,7 +28,7 @@
         ('skyux_phone_field_country_selected_label'
           | skyLibResources: selectedCountry?.name)
       "
-      [disabled]="countrySelectDisabled"
+      [disabled]="countrySelectDisabled()"
       (click)="toggleCountrySearch(true)"
     >
       <div class="sky-phone-field-flag">
