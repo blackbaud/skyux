@@ -1,5 +1,10 @@
 import { Component, input } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 
 import { provideNoopSkyAnimations } from '../utility/provide-noop-animations';
 
@@ -81,9 +86,28 @@ describe('SkyAnimationEmergeComponent', () => {
     const fixture = createFixture();
     const el = getHostElement(fixture);
 
-    el.dispatchEvent(new TransitionEvent('transitionend', { bubbles: true }));
+    el.dispatchEvent(
+      new TransitionEvent('transitionend', {
+        bubbles: true,
+        propertyName: 'opacity',
+      }),
+    );
 
     expect(fixture.componentInstance.transitionEndCount).toBe(1);
+  });
+
+  it('should ignore transitionend events with a non-opacity propertyName', () => {
+    const fixture = createFixture();
+    const el = getHostElement(fixture);
+
+    el.dispatchEvent(
+      new TransitionEvent('transitionend', {
+        bubbles: true,
+        propertyName: 'transform',
+      }),
+    );
+
+    expect(fixture.componentInstance.transitionEndCount).toBe(0);
   });
 
   it('should ignore transitionend events originating from child elements', () => {
@@ -96,7 +120,10 @@ describe('SkyAnimationEmergeComponent', () => {
     fixture.nativeElement.addEventListener('transitionend', parentSpy);
 
     child.dispatchEvent(
-      new TransitionEvent('transitionend', { bubbles: true }),
+      new TransitionEvent('transitionend', {
+        bubbles: true,
+        propertyName: 'opacity',
+      }),
     );
 
     // The host listener intercepts and stops propagation.
@@ -109,24 +136,31 @@ describe('SkyAnimationEmergeComponent', () => {
     const parentSpy = jasmine.createSpy('parentTransitionEnd');
 
     fixture.nativeElement.addEventListener('transitionend', parentSpy);
-    el.dispatchEvent(new TransitionEvent('transitionend', { bubbles: true }));
+    el.dispatchEvent(
+      new TransitionEvent('transitionend', {
+        bubbles: true,
+        propertyName: 'opacity',
+      }),
+    );
 
     expect(parentSpy).not.toHaveBeenCalled();
   });
 
   describe('with noop animations', () => {
-    it('should emit transitionEnd when visibility changes', () => {
+    it('should emit transitionEnd when visibility changes', fakeAsync(() => {
       const fixture = createFixture({ noopAnimations: true });
+      tick();
 
       // The effect fires once initially during creation.
       const initialCount = fixture.componentInstance.transitionEndCount;
 
       fixture.componentRef.setInput('visible', true);
       fixture.detectChanges();
+      tick();
 
       expect(fixture.componentInstance.transitionEndCount).toBeGreaterThan(
         initialCount,
       );
-    });
+    }));
   });
 });

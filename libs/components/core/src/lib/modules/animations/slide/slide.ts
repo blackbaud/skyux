@@ -2,13 +2,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  effect,
   inject,
   input,
   output,
 } from '@angular/core';
 
 import { _skyAnimationsDisabled } from '../utility/animations-disabled';
+import { _setupNoopTransitionEnd } from '../utility/setup-noop-transition-end';
 
 import { SkyAnimationSlideDirection } from './slide-direction';
 
@@ -28,19 +28,13 @@ import { SkyAnimationSlideDirection } from './slide-direction';
 })
 export class SkyAnimationSlideComponent {
   readonly #elementRef = inject(ElementRef);
-  readonly #animationsDisabled = _skyAnimationsDisabled();
 
   public readonly slideDirection = input.required<SkyAnimationSlideDirection>();
   public readonly transitionEnd = output<void>();
 
   constructor() {
-    // When animations are disabled, the native `transitionend` event is not
-    // emitted. Emit the event manually when the slide direction changes.
-    if (this.#animationsDisabled) {
-      effect(() => {
-        this.slideDirection();
-        this.transitionEnd.emit();
-      });
+    if (_skyAnimationsDisabled()) {
+      _setupNoopTransitionEnd(this.slideDirection, this.transitionEnd);
     }
   }
 

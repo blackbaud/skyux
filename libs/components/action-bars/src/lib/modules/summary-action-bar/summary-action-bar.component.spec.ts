@@ -457,6 +457,13 @@ describe('Summary Action Bar component', () => {
         const collapseButton = getCollapseButton(debugElement);
         expect(document.activeElement).toEqual(collapseButton);
       });
+
+      it('should default to slide out for an unrecognized chevron direction', () => {
+        fixture.detectChanges();
+        cmp.summaryActionBar?.['onChevronDirectionChange']('unknown');
+        fixture.detectChanges();
+        expect(cmp.summaryActionBar?.['slideDirection']()).toBe('out');
+      });
     });
 
     describe('switching', () => {

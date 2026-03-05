@@ -2,13 +2,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  effect,
   inject,
   input,
   output,
 } from '@angular/core';
 
 import { _skyAnimationsDisabled } from '../utility/animations-disabled';
+import { _setupNoopTransitionEnd } from '../utility/setup-noop-transition-end';
 
 /**
  * @internal
@@ -25,19 +25,13 @@ import { _skyAnimationsDisabled } from '../utility/animations-disabled';
 })
 export class SkyAnimationEmergeComponent {
   readonly #elementRef = inject(ElementRef);
-  readonly #animationsDisabled = _skyAnimationsDisabled();
 
   public readonly visible = input.required<boolean>();
   public readonly transitionEnd = output<void>();
 
   constructor() {
-    // When animations are disabled, the native `transitionend` event is not
-    // emitted. Emit the event manually when visibility changes.
-    if (this.#animationsDisabled) {
-      effect(() => {
-        this.visible();
-        this.transitionEnd.emit();
-      });
+    if (_skyAnimationsDisabled()) {
+      _setupNoopTransitionEnd(this.visible, this.transitionEnd);
     }
   }
 

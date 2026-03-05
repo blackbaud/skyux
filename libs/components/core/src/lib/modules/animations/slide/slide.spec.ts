@@ -1,5 +1,10 @@
 import { Component, input } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 
 import { provideNoopSkyAnimations } from '../utility/provide-noop-animations';
 
@@ -95,9 +100,28 @@ describe('SkyAnimationSlideComponent', () => {
     const fixture = createFixture();
     const el = getHostElement(fixture);
 
-    el.dispatchEvent(new TransitionEvent('transitionend', { bubbles: true }));
+    el.dispatchEvent(
+      new TransitionEvent('transitionend', {
+        bubbles: true,
+        propertyName: 'visibility',
+      }),
+    );
 
     expect(fixture.componentInstance.transitionEndCount).toBe(1);
+  });
+
+  it('should ignore transitionend events with a non-visibility propertyName', () => {
+    const fixture = createFixture();
+    const el = getHostElement(fixture);
+
+    el.dispatchEvent(
+      new TransitionEvent('transitionend', {
+        bubbles: true,
+        propertyName: 'max-height',
+      }),
+    );
+
+    expect(fixture.componentInstance.transitionEndCount).toBe(0);
   });
 
   it('should stop propagation of transitionend events originating from child elements', () => {
@@ -108,7 +132,10 @@ describe('SkyAnimationSlideComponent', () => {
     fixture.nativeElement.addEventListener('transitionend', parentSpy);
 
     child.dispatchEvent(
-      new TransitionEvent('transitionend', { bubbles: true }),
+      new TransitionEvent('transitionend', {
+        bubbles: true,
+        propertyName: 'visibility',
+      }),
     );
 
     // The host listener intercepts and stops propagation.
@@ -121,7 +148,12 @@ describe('SkyAnimationSlideComponent', () => {
     const parentSpy = jasmine.createSpy('parentTransitionEnd');
 
     fixture.nativeElement.addEventListener('transitionend', parentSpy);
-    el.dispatchEvent(new TransitionEvent('transitionend', { bubbles: true }));
+    el.dispatchEvent(
+      new TransitionEvent('transitionend', {
+        bubbles: true,
+        propertyName: 'visibility',
+      }),
+    );
 
     expect(parentSpy).not.toHaveBeenCalled();
   });
@@ -137,18 +169,20 @@ describe('SkyAnimationSlideComponent', () => {
   });
 
   describe('with noop animations', () => {
-    it('should emit transitionEnd when slideDirection changes', () => {
+    it('should emit transitionEnd when slideDirection changes', fakeAsync(() => {
       const fixture = createFixture({ noopAnimations: true });
+      tick();
 
       // The effect fires once initially during creation.
       const initialCount = fixture.componentInstance.transitionEndCount;
 
       fixture.componentRef.setInput('slideDirection', 'out');
       fixture.detectChanges();
+      tick();
 
       expect(fixture.componentInstance.transitionEndCount).toBeGreaterThan(
         initialCount,
       );
-    });
+    }));
   });
 });
