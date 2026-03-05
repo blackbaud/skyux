@@ -10,7 +10,7 @@ import {
 
 import { SkyChartMeasureAxisConfig } from '../shared/types/axis-types';
 
-import { SKY_CHART_AXIS_REGISTRY } from './sky-chart-registry.service';
+import { SKY_CHART_AXIS_REGISTRY } from './sky-chart-axis-registry.service';
 
 /**
  * Configures the Chart's measure axis.

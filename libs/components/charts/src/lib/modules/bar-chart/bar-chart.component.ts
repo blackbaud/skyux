@@ -11,7 +11,7 @@ import {
   viewChild,
 } from '@angular/core';
 
-import { SKY_CHART_AXIS_REGISTRY } from '../axis/sky-chart-registry.service';
+import { SKY_CHART_AXIS_REGISTRY } from '../axis/sky-chart-axis-registry.service';
 import { SkyChartLegendItem } from '../chart-legend/chart-legend-item';
 import { SkyChartService } from '../chart/chart.service';
 import { SkyChartJsDirective } from '../chartjs.directive';

@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 
-import { SkyChartAxisRegistry } from '../axis/sky-chart-registry.service';
+import { SkyChartAxisRegistry } from '../axis/sky-chart-axis-registry.service';
 import { SkyChartRegistry } from '../shared/services/chart-registry.service';
 import {
   SkyChartCategoryAxisConfig,
