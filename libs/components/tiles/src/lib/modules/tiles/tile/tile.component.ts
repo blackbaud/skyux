@@ -16,10 +16,10 @@ import {
   inject,
 } from '@angular/core';
 import {
-  SkyAnimationSlideComponent,
   SkyIdModule,
   SkyIdService,
   SkyLogService,
+  _SkyAnimationSlideComponent,
 } from '@skyux/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyIconModule } from '@skyux/icon';
@@ -43,8 +43,8 @@ import { SkyTileTitleComponent } from './tile-title.component';
   styleUrls: ['./tile.component.scss'],
   templateUrl: './tile.component.html',
   imports: [
+    _SkyAnimationSlideComponent,
     CommonModule,
-    SkyAnimationSlideComponent,
     SkyChevronModule,
     SkyHelpInlineModule,
     SkyIconModule,

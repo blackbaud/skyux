@@ -20,7 +20,7 @@ import {
   SkyMediaQueryService,
   SkyMutationObserverService,
 } from '@skyux/core';
-import { SkyAnimationSlideComponent } from '@skyux/core';
+import { _SkyAnimationSlideComponent } from '@skyux/core';
 import { SkyChevronModule, SkyStatusIndicatorModule } from '@skyux/indicators';
 import { SkyThemeModule } from '@skyux/theme';
 
@@ -48,10 +48,10 @@ let nextId = 0;
   imports: [
     CommonModule,
     SkyActionBarsResourcesModule,
-    SkyAnimationSlideComponent,
     SkyChevronModule,
     SkyThemeModule,
     SkyStatusIndicatorModule,
+    _SkyAnimationSlideComponent,
   ],
   providers: [SkySummaryActionBarAdapterService],
   selector: 'sky-summary-action-bar',

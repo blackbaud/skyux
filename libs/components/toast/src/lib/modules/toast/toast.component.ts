@@ -13,7 +13,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { SkyAnimationEmergeComponent, SkyIdModule } from '@skyux/core';
+import { SkyIdModule, _SkyAnimationEmergeComponent } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeModule } from '@skyux/theme';
 
@@ -38,8 +38,8 @@ const SKY_TOAST_TYPE_DEFAULT = SkyToastType.Info;
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   imports: [
+    _SkyAnimationEmergeComponent,
     CommonModule,
-    SkyAnimationEmergeComponent,
     SkyIconModule,
     SkyIdModule,
     SkyThemeModule,

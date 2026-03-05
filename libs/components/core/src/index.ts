@@ -15,8 +15,8 @@ export { SkyAffixModule } from './lib/modules/affix/affix.module';
 export { SkyAffixService } from './lib/modules/affix/affix.service';
 export { SkyAffixer } from './lib/modules/affix/affixer';
 
-export { SkyAnimationEmergeComponent } from './lib/modules/animations/emerge/emerge';
-export { SkyAnimationSlideComponent } from './lib/modules/animations/slide/slide';
+export { _SkyAnimationEmergeComponent } from './lib/modules/animations/emerge/emerge';
+export { _SkyAnimationSlideComponent } from './lib/modules/animations/slide/slide';
 export { provideNoopSkyAnimations } from './lib/modules/animations/utility/provide-noop-animations';
 
 export { SkyContentInfo } from './lib/modules/content-info-provider/content-info';

@@ -1,7 +1,7 @@
 import { ObserversModule } from '@angular/cdk/observers';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SkyAnimationSlideComponent, SkyIdModule } from '@skyux/core';
+import { SkyIdModule, _SkyAnimationSlideComponent } from '@skyux/core';
 import { SkyCheckboxModule } from '@skyux/forms';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyChevronModule } from '@skyux/indicators';
@@ -26,13 +26,13 @@ import { SkyRepeaterComponent } from './repeater.component';
   imports: [
     CommonModule,
     ObserversModule,
-    SkyAnimationSlideComponent,
     SkyChevronModule,
     SkyCheckboxModule,
     SkyIconModule,
     SkyIdModule,
     SkyInlineFormModule,
     SkyListsResourcesModule,
+    _SkyAnimationSlideComponent,
   ],
   exports: [
     SkyRepeaterComponent,
