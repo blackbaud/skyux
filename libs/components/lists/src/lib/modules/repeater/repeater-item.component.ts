@@ -239,7 +239,7 @@ export class SkyRepeaterItemComponent
 
   public reorderState: string | undefined;
 
-  protected slideDirection = 'up';
+  public slideDirection: string | undefined;
 
   public animationDisabled = false;
 

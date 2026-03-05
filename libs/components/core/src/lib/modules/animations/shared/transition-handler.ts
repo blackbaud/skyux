@@ -1,7 +1,6 @@
 import {
   Directive,
   ElementRef,
-  Signal,
   effect,
   inject,
   input,
@@ -35,7 +34,7 @@ export class _SkyAnimationTransitionHandlerDirective {
    * When animations are disabled, changes to this signal cause
    * `transitionEnd` to emit synchronously instead.
    */
-  public readonly transitionSignal = input.required<Signal<unknown>>();
+  public readonly transitionSignal = input.required<unknown>();
 
   /**
    * Emits when the tracked CSS property's `transitionend` event fires
