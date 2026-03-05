@@ -39,8 +39,7 @@ export const rule = createESLintRule({
               // Skip fix when linting from stdin — context.filename is not a
               // real file path, so relative module resolution is unreliable.
               !isAbsolute(context.filename) ||
-              typeof moduleSpecifier !== 'string' ||
-              !moduleSpecifier.startsWith('.')
+              typeof moduleSpecifier !== 'string'
             ) {
               return null;
             }

@@ -5,6 +5,7 @@ import { join } from 'node:path';
 import {
   extractNamedExports,
   getNamedExportsFromFile,
+  resetResolveCache,
   resolveModulePath,
 } from './resolve-exports';
 
@@ -42,6 +43,74 @@ describe('resolveModulePath', () => {
       join(tempDir, 'index.ts'),
       './nonexistent',
     );
+    expect(result).toBeUndefined();
+  });
+});
+
+describe('resolveModulePath with baseUrl', () => {
+  let tempDir: string;
+
+  beforeEach(() => {
+    tempDir = mkdtempSync(join(tmpdir(), 'resolve-exports-'));
+    resetResolveCache();
+  });
+
+  afterEach(() => {
+    rmSync(tempDir, { recursive: true });
+    resetResolveCache();
+  });
+
+  it('should resolve bare specifier from tsconfig baseUrl', () => {
+    writeFileSync(
+      join(tempDir, 'tsconfig.json'),
+      JSON.stringify({ compilerOptions: { baseUrl: '.' } }),
+    );
+    mkdirSync(join(tempDir, 'src'));
+    writeFileSync(join(tempDir, 'src', 'foo.ts'), 'export class Foo {}');
+
+    const result = resolveModulePath(join(tempDir, 'index.ts'), 'src/foo');
+    expect(result).toBe(join(tempDir, 'src', 'foo.ts'));
+  });
+
+  it('should resolve bare specifier from nested baseUrl', () => {
+    writeFileSync(
+      join(tempDir, 'tsconfig.json'),
+      JSON.stringify({ compilerOptions: { baseUrl: './src' } }),
+    );
+    mkdirSync(join(tempDir, 'src'));
+    writeFileSync(join(tempDir, 'src', 'bar.ts'), 'export class Bar {}');
+
+    const result = resolveModulePath(join(tempDir, 'src', 'index.ts'), 'bar');
+    expect(result).toBe(join(tempDir, 'src', 'bar.ts'));
+  });
+
+  it('should return undefined for bare specifier with no tsconfig', () => {
+    const result = resolveModulePath(join(tempDir, 'index.ts'), 'src/foo');
+    expect(result).toBeUndefined();
+  });
+
+  it('should use cached baseUrl on subsequent calls', () => {
+    writeFileSync(
+      join(tempDir, 'tsconfig.json'),
+      JSON.stringify({ compilerOptions: { baseUrl: '.' } }),
+    );
+    mkdirSync(join(tempDir, 'src'));
+    writeFileSync(join(tempDir, 'src', 'foo.ts'), 'export class Foo {}');
+    writeFileSync(join(tempDir, 'src', 'bar.ts'), 'export class Bar {}');
+
+    const first = resolveModulePath(join(tempDir, 'index.ts'), 'src/foo');
+    const second = resolveModulePath(join(tempDir, 'index.ts'), 'src/bar');
+    expect(first).toBe(join(tempDir, 'src', 'foo.ts'));
+    expect(second).toBe(join(tempDir, 'src', 'bar.ts'));
+  });
+
+  it('should return undefined for bare specifier with no baseUrl in tsconfig', () => {
+    writeFileSync(
+      join(tempDir, 'tsconfig.json'),
+      JSON.stringify({ compilerOptions: {} }),
+    );
+
+    const result = resolveModulePath(join(tempDir, 'index.ts'), 'src/foo');
     expect(result).toBeUndefined();
   });
 });

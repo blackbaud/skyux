@@ -2,17 +2,39 @@ import { existsSync, readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import * as ts from 'typescript';
 
-/**
- * Resolves a relative module specifier to an absolute file path.
- * Returns undefined if the file cannot be found.
- */
-export function resolveModulePath(
-  currentFilePath: string,
-  moduleSpecifier: string,
-): string | undefined {
-  const dir = dirname(currentFilePath);
-  const basePath = resolve(dir, moduleSpecifier);
+const tsconfigCache = new Map<string, string | undefined>();
 
+/**
+ * Finds the baseUrl from the nearest tsconfig.json.
+ * Caches results per directory to avoid repeated filesystem walks.
+ */
+function findBaseUrl(fromDir: string): string | undefined {
+  if (tsconfigCache.has(fromDir)) {
+    return tsconfigCache.get(fromDir);
+  }
+
+  const configPath = ts.findConfigFile(
+    fromDir,
+    ts.sys.fileExists,
+    'tsconfig.json',
+  );
+
+  if (!configPath) {
+    tsconfigCache.set(fromDir, undefined);
+    return undefined;
+  }
+
+  const { config } = ts.readConfigFile(configPath, ts.sys.readFile);
+  const rawBaseUrl = config?.compilerOptions?.baseUrl;
+  const baseUrl = rawBaseUrl
+    ? resolve(dirname(configPath), rawBaseUrl)
+    : undefined;
+
+  tsconfigCache.set(fromDir, baseUrl);
+  return baseUrl;
+}
+
+function tryResolve(basePath: string): string | undefined {
   const candidates = [
     basePath + '.ts',
     basePath + '.tsx',
@@ -27,6 +49,37 @@ export function resolveModulePath(
   }
 
   return undefined;
+}
+
+/**
+ * Resolves a module specifier to an absolute file path.
+ * Handles relative specifiers (./foo) and bare specifiers (src/foo)
+ * resolved via the nearest tsconfig.json baseUrl.
+ * Returns undefined if the file cannot be found.
+ */
+export function resolveModulePath(
+  currentFilePath: string,
+  moduleSpecifier: string,
+): string | undefined {
+  const dir = dirname(currentFilePath);
+
+  if (moduleSpecifier.startsWith('.')) {
+    return tryResolve(resolve(dir, moduleSpecifier));
+  }
+
+  const baseUrl = findBaseUrl(dir);
+  if (baseUrl) {
+    return tryResolve(resolve(baseUrl, moduleSpecifier));
+  }
+
+  return undefined;
+}
+
+/**
+ * Clears the tsconfig baseUrl cache. Exported for testing.
+ */
+export function resetResolveCache(): void {
+  tsconfigCache.clear();
 }
 
 export interface ExtractedNamedExports {
