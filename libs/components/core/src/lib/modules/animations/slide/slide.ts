@@ -7,8 +7,8 @@ import {
   output,
 } from '@angular/core';
 
-import { _skyAnimationsDisabled } from '../utility/animations-disabled';
-import { _setupNoopTransitionEnd } from '../utility/setup-noop-transition-end';
+import { skyAnimationsDisabled } from '../utility/animations-disabled';
+import { setupNoopTransitionEnd } from '../utility/setup-noop-transition-end';
 
 import { SkyAnimationSlideDirection } from './slide-direction';
 
@@ -33,8 +33,8 @@ export class SkyAnimationSlideComponent {
   public readonly transitionEnd = output<void>();
 
   constructor() {
-    if (_skyAnimationsDisabled()) {
-      _setupNoopTransitionEnd(this.slideDirection, this.transitionEnd);
+    if (skyAnimationsDisabled()) {
+      setupNoopTransitionEnd(this.slideDirection, this.transitionEnd);
     }
   }
 

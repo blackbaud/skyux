@@ -14,7 +14,7 @@ import {
  *
  * @internal
  */
-export function _setupNoopTransitionEnd(
+export function setupNoopTransitionEnd(
   triggerSignal: Signal<unknown>,
   transitionEnd: OutputEmitterRef<void>,
 ): void {
