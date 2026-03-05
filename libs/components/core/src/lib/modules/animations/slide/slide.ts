@@ -34,6 +34,8 @@ export class SkyAnimationSlideComponent {
   public readonly transitionEnd = output<void>();
 
   constructor() {
+    // When animations are disabled, the native `transitionend` event is not
+    // emitted. Emit the event manually when the slide direction changes.
     if (this.#animationsDisabled) {
       effect(() => {
         this.slideDirection();
@@ -43,7 +45,10 @@ export class SkyAnimationSlideComponent {
   }
 
   protected onTransitionEnd(evt: TransitionEvent): void {
-    if (evt.currentTarget === this.#elementRef.nativeElement) {
+    if (
+      evt.currentTarget === this.#elementRef.nativeElement &&
+      evt.propertyName === 'visibility'
+    ) {
       this.transitionEnd.emit();
       evt.stopPropagation();
     }

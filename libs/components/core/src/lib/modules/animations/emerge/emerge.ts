@@ -31,6 +31,8 @@ export class SkyAnimationEmergeComponent {
   public readonly transitionEnd = output<void>();
 
   constructor() {
+    // When animations are disabled, the native `transitionend` event is not
+    // emitted. Emit the event manually when visibility changes.
     if (this.#animationsDisabled) {
       effect(() => {
         this.visible();
@@ -40,7 +42,10 @@ export class SkyAnimationEmergeComponent {
   }
 
   protected onTransitionEnd(evt: TransitionEvent): void {
-    if (evt.currentTarget === this.#elementRef.nativeElement) {
+    if (
+      evt.currentTarget === this.#elementRef.nativeElement &&
+      evt.propertyName === 'opacity'
+    ) {
       this.transitionEnd.emit();
       evt.stopPropagation();
     }
