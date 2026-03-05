@@ -27,7 +27,7 @@ import { _skyAnimationsDisabled } from '../utility/animations-disabled';
     '(transitionend)': 'onTransitionEnd($event)',
   },
 })
-export class SkyAnimationTransitionHandler {
+export class _SkyAnimationTransitionHandler {
   readonly #elementRef = inject(ElementRef<HTMLElement>);
 
   /**

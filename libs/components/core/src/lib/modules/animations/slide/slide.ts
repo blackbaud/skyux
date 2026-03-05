@@ -5,7 +5,7 @@ import {
   input,
 } from '@angular/core';
 
-import { SkyAnimationTransitionHandler } from '../shared/transition-handler';
+import { _SkyAnimationTransitionHandler } from '../shared/transition-handler';
 
 /**
  * @internal
@@ -18,7 +18,7 @@ import { SkyAnimationTransitionHandler } from '../shared/transition-handler';
   },
   hostDirectives: [
     {
-      directive: SkyAnimationTransitionHandler,
+      directive: _SkyAnimationTransitionHandler,
       inputs: ['transitionSignal: opened'],
       outputs: ['transitionEnd'],
     },
@@ -27,10 +27,10 @@ import { SkyAnimationTransitionHandler } from '../shared/transition-handler';
   styleUrl: './slide.scss',
   template: '<div class="sky-animation-slide-content"><ng-content /></div>',
 })
-export class SkyAnimationSlideComponent {
+export class _SkyAnimationSlideComponent {
   public readonly opened = input.required<boolean>();
 
   constructor() {
-    inject(SkyAnimationTransitionHandler).cssPropertyToTrack('visibility');
+    inject(_SkyAnimationTransitionHandler).cssPropertyToTrack('visibility');
   }
 }
