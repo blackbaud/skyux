@@ -68,7 +68,7 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
   readonly #windowRef = inject(SkyAppWindowRef);
 
   public isSummaryCollapsed = signal<boolean>(false);
-  protected readonly slideDirection = signal<string>('down');
+  public slideDirection = signal<string>('down');
 
   public summaryId = `sky-summary-action-bar-summary-${++nextId}`;
 

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-import { SKY_DISABLED_ANIMATIONS_CLASS_NAME } from './constants';
+import { SKY_ANIMATIONS_DISABLED_CLASS_NAME } from './constants';
 import { provideNoopSkyAnimations } from './provide-noop-animations';
 
 @Component({
@@ -11,7 +11,7 @@ class TestComponent {}
 
 describe('_skyAnimationsDisabled', () => {
   afterEach(() => {
-    document.body.classList.remove(SKY_DISABLED_ANIMATIONS_CLASS_NAME);
+    document.body.classList.remove(SKY_ANIMATIONS_DISABLED_CLASS_NAME);
   });
 
   it('should return false when the disabled class is not present', () => {
@@ -21,7 +21,7 @@ describe('_skyAnimationsDisabled', () => {
     });
 
     expect(
-      document.body.classList.contains(SKY_DISABLED_ANIMATIONS_CLASS_NAME),
+      document.body.classList.contains(SKY_ANIMATIONS_DISABLED_CLASS_NAME),
     ).toBe(false);
   });
 
@@ -35,7 +35,7 @@ describe('_skyAnimationsDisabled', () => {
     TestBed.createComponent(TestComponent);
 
     expect(
-      document.body.classList.contains(SKY_DISABLED_ANIMATIONS_CLASS_NAME),
+      document.body.classList.contains(SKY_ANIMATIONS_DISABLED_CLASS_NAME),
     ).toBe(true);
   });
 });

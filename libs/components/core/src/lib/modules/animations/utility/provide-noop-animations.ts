@@ -6,7 +6,7 @@ import {
   provideEnvironmentInitializer,
 } from '@angular/core';
 
-import { SKY_DISABLED_ANIMATIONS_CLASS_NAME } from './constants';
+import { SKY_ANIMATIONS_DISABLED_CLASS_NAME } from './constants';
 
 /**
  * Disables CSS transitions and animations for SKY UX components.
@@ -27,11 +27,11 @@ export function provideNoopSkyAnimations(): EnvironmentProviders {
     const doc = inject(DOCUMENT);
     const destroyRef = inject(DestroyRef);
 
-    if (!doc.body.classList.contains(SKY_DISABLED_ANIMATIONS_CLASS_NAME)) {
-      doc.body.classList.add(SKY_DISABLED_ANIMATIONS_CLASS_NAME);
+    if (!doc.body.classList.contains(SKY_ANIMATIONS_DISABLED_CLASS_NAME)) {
+      doc.body.classList.add(SKY_ANIMATIONS_DISABLED_CLASS_NAME);
 
       destroyRef.onDestroy(() => {
-        doc.body.classList.remove(SKY_DISABLED_ANIMATIONS_CLASS_NAME);
+        doc.body.classList.remove(SKY_ANIMATIONS_DISABLED_CLASS_NAME);
       });
     }
   });

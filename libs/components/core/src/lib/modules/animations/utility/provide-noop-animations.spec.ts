@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-import { SKY_DISABLED_ANIMATIONS_CLASS_NAME } from './constants';
+import { SKY_ANIMATIONS_DISABLED_CLASS_NAME } from './constants';
 import { provideNoopSkyAnimations } from './provide-noop-animations';
 
 @Component({
@@ -11,7 +11,7 @@ class TestComponent {}
 
 describe('provideNoopSkyAnimations', () => {
   afterEach(() => {
-    document.body.classList.remove(SKY_DISABLED_ANIMATIONS_CLASS_NAME);
+    document.body.classList.remove(SKY_ANIMATIONS_DISABLED_CLASS_NAME);
   });
 
   it('should add the disabled animations class to the body', () => {
@@ -23,7 +23,7 @@ describe('provideNoopSkyAnimations', () => {
     TestBed.createComponent(TestComponent);
 
     expect(
-      document.body.classList.contains(SKY_DISABLED_ANIMATIONS_CLASS_NAME),
+      document.body.classList.contains(SKY_ANIMATIONS_DISABLED_CLASS_NAME),
     ).toBe(true);
   });
 
@@ -36,7 +36,7 @@ describe('provideNoopSkyAnimations', () => {
     TestBed.createComponent(TestComponent);
 
     expect(
-      document.body.classList.contains(SKY_DISABLED_ANIMATIONS_CLASS_NAME),
+      document.body.classList.contains(SKY_ANIMATIONS_DISABLED_CLASS_NAME),
     ).toBe(true);
 
     // Resetting the testing module destroys the environment injector,
@@ -44,12 +44,12 @@ describe('provideNoopSkyAnimations', () => {
     TestBed.resetTestingModule();
 
     expect(
-      document.body.classList.contains(SKY_DISABLED_ANIMATIONS_CLASS_NAME),
+      document.body.classList.contains(SKY_ANIMATIONS_DISABLED_CLASS_NAME),
     ).toBe(false);
   });
 
   it('should not add the class twice if already present', () => {
-    document.body.classList.add(SKY_DISABLED_ANIMATIONS_CLASS_NAME);
+    document.body.classList.add(SKY_ANIMATIONS_DISABLED_CLASS_NAME);
 
     TestBed.configureTestingModule({
       imports: [TestComponent],
@@ -59,7 +59,7 @@ describe('provideNoopSkyAnimations', () => {
     TestBed.createComponent(TestComponent);
 
     expect(
-      document.body.classList.contains(SKY_DISABLED_ANIMATIONS_CLASS_NAME),
+      document.body.classList.contains(SKY_ANIMATIONS_DISABLED_CLASS_NAME),
     ).toBe(true);
 
     // When the class was already present before the provider ran,
@@ -67,7 +67,7 @@ describe('provideNoopSkyAnimations', () => {
     TestBed.resetTestingModule();
 
     expect(
-      document.body.classList.contains(SKY_DISABLED_ANIMATIONS_CLASS_NAME),
+      document.body.classList.contains(SKY_ANIMATIONS_DISABLED_CLASS_NAME),
     ).toBe(true);
   });
 });

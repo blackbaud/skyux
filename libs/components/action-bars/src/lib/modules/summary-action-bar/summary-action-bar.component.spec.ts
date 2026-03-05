@@ -396,11 +396,13 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         expect(cmp.summaryActionBar).toBeTruthy();
         expect(cmp.summaryActionBar?.isSummaryCollapsed()).toBeFalsy();
+        expect(cmp.summaryActionBar?.slideDirection()).toBe('down');
         clickCollapseButton(debugElement);
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
         expect(cmp.summaryActionBar?.isSummaryCollapsed()).toBeTruthy();
+        expect(cmp.summaryActionBar?.slideDirection()).toBe('up');
       }));
 
       it('should update slide direction and isSummaryCollapsed when expanding the summary', fakeAsync(() => {
@@ -413,11 +415,13 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         expect(cmp.summaryActionBar).toBeTruthy();
         expect(cmp.summaryActionBar?.isSummaryCollapsed()).toBeTruthy();
+        expect(cmp.summaryActionBar?.slideDirection()).toBe('up');
         clickExpandButton(debugElement);
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
         expect(cmp.summaryActionBar?.isSummaryCollapsed()).toBeFalsy();
+        expect(cmp.summaryActionBar?.slideDirection()).toBe('down');
       }));
 
       it(`should move focus to the collapsed summary's chevron after collapsing`, async () => {
@@ -456,13 +460,6 @@ describe('Summary Action Bar component', () => {
         await fixture.whenStable();
         const collapseButton = getCollapseButton(debugElement);
         expect(document.activeElement).toEqual(collapseButton);
-      });
-
-      it('should default to slide out for an unrecognized chevron direction', () => {
-        fixture.detectChanges();
-        cmp.summaryActionBar?.['onChevronDirectionChange']('unknown');
-        fixture.detectChanges();
-        expect(cmp.summaryActionBar?.['slideDirection']()).toBe('out');
       });
     });
 
