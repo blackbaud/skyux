@@ -1,11 +1,16 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  OnDestroy,
   computed,
+  effect,
+  inject,
   input,
 } from '@angular/core';
 
 import { SkyChartMeasureAxisConfig } from '../shared/types/axis-types';
+
+import { SKY_CHART_AXIS_REGISTRY } from './sky-chart-registry.service';
 
 /**
  * Configures the Chart's measure axis.
@@ -15,7 +20,9 @@ import { SkyChartMeasureAxisConfig } from '../shared/types/axis-types';
   template: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyChartMeasureAxisComponent {
+export class SkyChartMeasureAxisComponent implements OnDestroy {
+  readonly #registry = inject(SKY_CHART_AXIS_REGISTRY);
+
   /**
    * The label displayed alongside the measure axis.
    */
@@ -59,4 +66,15 @@ export class SkyChartMeasureAxisComponent {
       tickFormatter: this.tickFormatter(),
     };
   });
+
+  constructor() {
+    effect(() => {
+      const axis = this.axis();
+      this.#registry.upsertMeasureAxis(axis);
+    });
+  }
+
+  public ngOnDestroy(): void {
+    this.#registry.removeMeasureAxis();
+  }
 }

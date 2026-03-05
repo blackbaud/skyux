@@ -1,12 +1,8 @@
 import {
-  AfterContentInit,
   ChangeDetectionStrategy,
   Component,
-  Injector,
   booleanAttribute,
   computed,
-  contentChild,
-  contentChildren,
   effect,
   inject,
   input,
@@ -15,8 +11,7 @@ import {
   viewChild,
 } from '@angular/core';
 
-import { SkyChartCategoryAxisComponent } from '../axis/chart-category-axis.component';
-import { SkyChartMeasureAxisComponent } from '../axis/chart-measure-axis.component';
+import { SKY_CHART_AXIS_REGISTRY } from '../axis/sky-chart-registry.service';
 import { SkyChartLegendItem } from '../chart-legend/chart-legend-item';
 import { SkyChartService } from '../chart/chart.service';
 import { SkyChartJsDirective } from '../chartjs.directive';
@@ -32,7 +27,7 @@ import {
   SkyBarChartOptions,
   getChartJsBarChartConfig,
 } from './bar-chart-config';
-import { SkyBarChartSeriesComponent } from './bar-chart-series.component';
+import { SkyBarChartRegistry } from './bar-chart-registery.service';
 import { SkyBarChartPoint } from './bar-chart-types';
 
 @Component({
@@ -45,6 +40,7 @@ import { SkyBarChartPoint } from './bar-chart-types';
           [chartConfiguration]="config"
           [ariaLabel]="arialLabel()"
           (themeChanged)="onThemeChanged()"
+          (chartUpdated)="onChartUpdated()"
         ></canvas>
       </div>
     }
@@ -53,12 +49,16 @@ import { SkyBarChartPoint } from './bar-chart-types';
   // See: https://www.chartjs.org/docs/latest/configuration/responsive.html
   styles: '.chart-container { position: relative; }',
   imports: [SkyChartJsDirective],
+  providers: [
+    SkyBarChartRegistry,
+    { provide: SKY_CHART_AXIS_REGISTRY, useClass: SkyBarChartRegistry },
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyBarChartComponent implements AfterContentInit {
+export class SkyBarChartComponent {
   // #region Dependency Injection
-  readonly #injector = inject(Injector);
   readonly #chartService = inject(SkyChartService);
+  readonly #barChartRegistry = inject(SkyBarChartRegistry);
   // #endregion
 
   // #region Inputs
@@ -70,33 +70,21 @@ export class SkyBarChartComponent implements AfterContentInit {
   public readonly dataPointClicked = output<SkySelectedChartDataPoint>();
   // #endregion
 
-  // #region Content Children
-  protected readonly categoryAxisComponent = contentChild(
-    SkyChartCategoryAxisComponent,
-  );
-  protected readonly measureAxisComponent = contentChild(
-    SkyChartMeasureAxisComponent,
-  );
-  /** The one to many series data for the chart  */
-  protected readonly seriesComponents = contentChildren(
-    SkyBarChartSeriesComponent,
-  );
-  // #endregion
-
   // #region View Children
   protected readonly chartDirective = viewChild(SkyChartJsDirective);
-  protected readonly chart = computed(() => this.chartDirective()?.chart());
   // #endregion
 
   protected readonly arialLabel = this.#chartService.headingText;
-
+  readonly #chart = computed(() => this.chartDirective()?.chart());
   readonly #themeVersion = signal(0);
+  readonly #chartUpdated = signal(0);
   readonly #refreshLegendItems = signal(0);
-
   readonly #barChartConfig = signal<SkyBarChartOptions | undefined>(undefined);
+
   protected readonly chartConfiguration = computed(() => {
-    this.#themeVersion(); // Track theme version so recalculation triggers on theme change.
-    const config = this.#barChartConfig(); // Track chart config so recalculation triggers on content changes.
+    // Track theme and chart configuration changes
+    this.#themeVersion();
+    const config = this.#barChartConfig();
 
     if (!config) {
       return undefined;
@@ -105,9 +93,11 @@ export class SkyBarChartComponent implements AfterContentInit {
     return getChartJsBarChartConfig(config);
   });
   protected readonly legendItems = computed(() => {
-    const chart = this.chart();
+    // Track chart, chart updates, series, and refresh triggers to update legend items
+    const chart = this.#chart();
+    this.#chartUpdated(); // We rely on ChartJS to track the visibility and color state
     const series = this.#chartService.series();
-    this.#refreshLegendItems(); // Track to trigger recalculation when legend visibility changes.
+    this.#refreshLegendItems();
 
     return getLegendItems({
       chart: chart,
@@ -136,36 +126,36 @@ export class SkyBarChartComponent implements AfterContentInit {
         this.#onLegendItemToggled(item);
       }
     });
+
+    // Whenever chart-impacting input change recreate the chart config
+    effect(() => {
+      const orientation = this.orientation();
+      const stacked = this.stacked();
+
+      const categoryAxis = this.#barChartRegistry.categoryAxis();
+      const measureAxis = this.#barChartRegistry.measureAxis();
+      const series = this.#barChartRegistry.series();
+
+      const config = this.#parseConfigFromContent({
+        orientation: orientation,
+        stacked: stacked,
+        categoryAxis: categoryAxis,
+        measureAxis: measureAxis,
+        series: series,
+      });
+
+      this.#barChartConfig.set(config);
+    });
   }
 
-  public ngAfterContentInit(): void {
-    // Whenever this chart-impacting input change (either in this component or its children), reparse the chart config
-    effect(
-      () => {
-        const orientation = this.orientation();
-        const stacked = this.stacked();
-        const categoryAxis = this.categoryAxisComponent()?.axis();
-        const measureAxis = this.measureAxisComponent()?.axis();
-        const series = this.seriesComponents().map((component) =>
-          component.series(),
-        );
-
-        const config = this.#parseConfigFromContent({
-          orientation: orientation,
-          stacked: stacked,
-          categoryAxis: categoryAxis,
-          measureAxis: measureAxis,
-          series: series,
-        });
-
-        this.#barChartConfig.set(config);
-      },
-      { injector: this.#injector },
-    );
-  }
-
+  /** Handle theme changes */
   protected onThemeChanged(): void {
     this.#themeVersion.update((v) => v + 1);
+  }
+
+  /** Handle chart updates */
+  protected onChartUpdated(): void {
+    this.#chartUpdated.update((v) => v + 1);
   }
 
   // #region Private
@@ -191,7 +181,7 @@ export class SkyBarChartComponent implements AfterContentInit {
   }
 
   #onLegendItemToggled(item: SkyChartLegendItem): void {
-    const chart = this.chart();
+    const chart = this.#chart();
 
     if (!chart) {
       return;

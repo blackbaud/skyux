@@ -4,6 +4,9 @@ import { SkyChartDataPoint } from './chart-data-point';
  * Represents a data series in a chart.
  */
 export interface SkyChartSeries<TData extends SkyChartDataPoint> {
+  // TODO: Make this required after I update Line/Donut
+  id?: number;
+
   /**
    * The label for the series
    */

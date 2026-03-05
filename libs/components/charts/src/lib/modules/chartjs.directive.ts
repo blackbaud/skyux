@@ -56,9 +56,15 @@ export class SkyChartJsDirective implements OnDestroy, AfterViewInit {
 
   // #region Outputs
   /**
-   * Emitted when the theme changes, indicating that the chart should regenerate its configuration to apply new theme values.
+   * An event emitted when the theme changes, indicating that parent components should regenerate its configuration to apply new theme values.
    */
   public readonly themeChanged = output<void>();
+
+  /**
+   * An event emitted after the chart has been updated with new data or options.
+   * @remarks This allows parent components to react to chart updates, such as by performing additional calculations or triggering change detection.
+   */
+  public readonly chartUpdated = output<void>();
   // #endregion
 
   readonly #canvasContext: CanvasRenderingContext2D;
@@ -72,7 +78,7 @@ export class SkyChartJsDirective implements OnDestroy, AfterViewInit {
   constructor() {
     this.#canvasContext = this.#getCanvasContext();
 
-    // Re-render the chart whenever the ChartJS configuration changes. This allows dynamic updates to the chart when inputs change.
+    // Update the chart whenever the ChartJS configuration changes. This allows dynamic updates to the chart when inputs change.
     effect(() => {
       const newConfig = this.chartConfiguration();
       const chart = untracked(() => this.chart());
@@ -134,6 +140,7 @@ export class SkyChartJsDirective implements OnDestroy, AfterViewInit {
   #updateChart(): void {
     if (this.chart) {
       this.#zone.runOutsideAngular(() => this.chart()?.update());
+      this.chartUpdated.emit();
     }
   }
 

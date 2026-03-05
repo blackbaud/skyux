@@ -1,12 +1,17 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  OnDestroy,
   computed,
+  effect,
+  inject,
   input,
 } from '@angular/core';
 
 import { SkyCategory } from '../shared/types/category';
 
+import { SkyBarChartRegistry } from './bar-chart-registery.service';
+import { SkyBarChartSeriesComponent } from './bar-chart-series.component';
 import { SkyBarChartPoint, SkyBarDatum } from './bar-chart-types';
 
 /**
@@ -17,7 +22,10 @@ import { SkyBarChartPoint, SkyBarDatum } from './bar-chart-types';
   template: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyBarChartSeriesDatapointComponent {
+export class SkyBarChartSeriesDatapointComponent implements OnDestroy {
+  readonly #registry = inject(SkyBarChartRegistry);
+  readonly #series = inject(SkyBarChartSeriesComponent);
+
   /**
    * The category bucket this data point belongs to (e.g. a month name or a label on the category axis).
    */
@@ -45,4 +53,15 @@ export class SkyBarChartSeriesDatapointComponent {
       value: this.value(),
     };
   });
+
+  constructor() {
+    effect(() => {
+      const datapoint = this.datapoint();
+      this.#registry.upsertPoint(this.#series.id, datapoint);
+    });
+  }
+
+  public ngOnDestroy(): void {
+    this.#registry.removePoint(this.#series.id, this.category());
+  }
 }
