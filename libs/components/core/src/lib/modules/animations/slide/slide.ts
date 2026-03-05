@@ -9,6 +9,9 @@ import { _SkyAnimationTransitionHandler } from '../shared/transition-handler';
 
 /**
  * @internal
+ *
+ * Animates content open and closed by sliding the host element's
+ * height.
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

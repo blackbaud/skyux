@@ -12,6 +12,8 @@ import {
 import { _skyAnimationsDisabled } from '../utility/animations-disabled';
 
 /**
+ * @internal
+ *
  * Listens for CSS `transitionend` events on the host element and emits
  * a `transitionEnd` output when the tracked CSS property finishes
  * transitioning. When animations are globally disabled, the output
@@ -19,8 +21,6 @@ import { _skyAnimationsDisabled } from '../utility/animations-disabled';
  *
  * Consumers **must** call `cssPropertyToTrack()` to specify which CSS
  * property to monitor before any transition occurs on the host element.
- *
- * @internal
  */
 @Directive({
   host: {

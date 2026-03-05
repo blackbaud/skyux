@@ -9,6 +9,9 @@ import { _SkyAnimationTransitionHandler } from '../shared/transition-handler';
 
 /**
  * @internal
+ *
+ * Animates content in and out by transitioning the host element's
+ * `opacity` and `scale`.
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
