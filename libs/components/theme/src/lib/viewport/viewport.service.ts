@@ -41,7 +41,7 @@ export class SkyAppViewportService {
     () =>
       new IntersectionObserver(
         () => this.#ngZone.run(() => this.#updateViewportArea()),
-        { threshold: Array.from({ length: 101 }, (_, i) => i / 100) },
+        { threshold: [0, 1] },
       ),
   );
   #reservedSpaces: Record<SkyAppViewportReservedPositionType, number> = {
@@ -51,20 +51,28 @@ export class SkyAppViewportService {
     top: 0,
   };
 
+  #stylesInitialized = false;
+
   constructor() {
     const onScroll = (): void => {
       if (this.#conditionallyReserveItems.size > 0) {
         this.#updateViewportArea();
       }
     };
-    this.#document.addEventListener('scroll', onScroll);
+
+    const eventOptions: AddEventListenerOptions = { passive: true };
+
+    this.#ngZone.runOutsideAngular(() => {
+      this.#document.addEventListener('scroll', onScroll, eventOptions);
+    });
+
     inject(DestroyRef).onDestroy(() => {
       /* istanbul ignore next */
       if (this.#updateRequest !== undefined) {
         cancelAnimationFrame(this.#updateRequest);
       }
       this.#intersectionObserver.disconnect();
-      this.#document.removeEventListener('scroll', onScroll);
+      this.#document.removeEventListener('scroll', onScroll, eventOptions);
     });
   }
 
@@ -114,15 +122,23 @@ export class SkyAppViewportService {
         }
       }
 
-      this.#reservedSpaces = reservedSpaces;
       const documentElementStyle = this.#document.documentElement.style;
 
       for (const [position, size] of Object.entries(reservedSpaces)) {
-        documentElementStyle.setProperty(
-          `--sky-viewport-${position}`,
-          size + 'px',
-        );
+        if (
+          !this.#stylesInitialized ||
+          size !==
+            this.#reservedSpaces[position as SkyAppViewportReservedPositionType]
+        ) {
+          documentElementStyle.setProperty(
+            `--sky-viewport-${position}`,
+            size + 'px',
+          );
+        }
       }
+
+      this.#reservedSpaces = reservedSpaces;
+      this.#stylesInitialized = true;
     });
   }
 
