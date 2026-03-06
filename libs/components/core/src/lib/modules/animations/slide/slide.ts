@@ -22,7 +22,7 @@ import { _SkyAnimationTransitionHandlerDirective } from '../shared/transition-ha
   hostDirectives: [
     {
       directive: _SkyAnimationTransitionHandlerDirective,
-      inputs: ['transitionSignal: opened'],
+      inputs: ['transitionTrigger: opened'],
       outputs: ['transitionEnd'],
     },
   ],

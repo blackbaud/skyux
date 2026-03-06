@@ -16,7 +16,7 @@ import { _skyAnimationsDisabled } from '../utility/animations-disabled';
  * Listens for CSS `transitionend` events on the host element and emits
  * a `transitionEnd` output when the tracked CSS property finishes
  * transitioning. When animations are globally disabled, the output
- * emits synchronously whenever the `transitionSignal` input changes.
+ * emits synchronously whenever the `transitionTrigger` input changes.
  *
  * Consumers **must** call `cssPropertyToTrack()` to specify which CSS
  * property to monitor before any transition occurs on the host element.
@@ -30,11 +30,12 @@ export class _SkyAnimationTransitionHandlerDirective {
   readonly #elementRef = inject(ElementRef<HTMLElement>);
 
   /**
-   * A signal whose value changes trigger the start of a CSS transition.
-   * When animations are disabled, changes to this signal cause
-   * `transitionEnd` to emit synchronously instead.
+   * Drives the CSS transition on the host element. When the value
+   * changes and animations are enabled, a CSS transition runs and
+   * `transitionEnd` emits on completion. When animations are
+   * disabled, `transitionEnd` emits synchronously instead.
    */
-  public readonly transitionSignal = input.required<unknown>();
+  public readonly transitionTrigger = input.required<unknown>();
 
   /**
    * Emits when the tracked CSS property's `transitionend` event fires
@@ -49,7 +50,7 @@ export class _SkyAnimationTransitionHandlerDirective {
       let initialized = false;
 
       effect(() => {
-        this.transitionSignal();
+        this.transitionTrigger();
 
         if (initialized) {
           this.transitionEnd.emit();

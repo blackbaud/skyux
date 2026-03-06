@@ -9,7 +9,7 @@ import { _SkyAnimationTransitionHandlerDirective } from './transition-handler';
   hostDirectives: [
     {
       directive: _SkyAnimationTransitionHandlerDirective,
-      inputs: ['transitionSignal: trigger'],
+      inputs: ['transitionTrigger: trigger'],
       outputs: ['transitionEnd'],
     },
   ],
@@ -174,7 +174,7 @@ describe('SkyAnimationTransitionHandler', () => {
       expect(transitionEndEmitted).toBeFalse();
     });
 
-    it('should emit transitionEnd synchronously when the transitionSignal changes', () => {
+    it('should emit transitionEnd synchronously when the transitionTrigger changes', () => {
       const { fixture } = setupTest({ noopAnimations: true });
 
       let transitionEndEmitted = false;
