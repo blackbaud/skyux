@@ -53,8 +53,8 @@ export class SkyBarChartRegistry
     });
   }
 
-  public removeSeries(id: number): void {
-    this.series.update((list) => list.filter((s) => s.id !== id));
+  public removeSeries(seriesId: number): void {
+    this.series.update((list) => list.filter((s) => s.id !== seriesId));
   }
 
   public upsertPoint(seriesId: number, point: SkyBarChartPoint): void {

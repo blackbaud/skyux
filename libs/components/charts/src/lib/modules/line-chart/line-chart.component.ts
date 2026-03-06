@@ -27,7 +27,7 @@ import {
   SkyLineChartOptions,
   getChartJsLineChartConfig,
 } from './line-chart-config';
-import { SkyLineChartRegistry } from './line-chart-registery.service';
+import { SkyLineChartRegistry } from './line-chart-registry.service';
 import { SkyLineChartPoint } from './line-chart-types';
 
 /**

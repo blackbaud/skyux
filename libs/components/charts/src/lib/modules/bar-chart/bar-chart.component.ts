@@ -27,7 +27,7 @@ import {
   SkyBarChartOptions,
   getChartJsBarChartConfig,
 } from './bar-chart-config';
-import { SkyBarChartRegistry } from './bar-chart-registery.service';
+import { SkyBarChartRegistry } from './bar-chart-registry.service';
 import { SkyBarChartPoint } from './bar-chart-types';
 
 /**

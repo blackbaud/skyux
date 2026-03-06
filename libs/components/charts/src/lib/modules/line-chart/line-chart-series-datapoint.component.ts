@@ -10,7 +10,7 @@ import {
 
 import { SkyCategory } from '../shared/types/category';
 
-import { SkyLineChartRegistry } from './line-chart-registery.service';
+import { SkyLineChartRegistry } from './line-chart-registry.service';
 import { SkyLineChartSeriesComponent } from './line-chart-series.component';
 import { SkyLineChartPoint, SkyLineDatum } from './line-chart-types';
 

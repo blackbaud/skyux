@@ -10,7 +10,7 @@ import {
 
 import { SkyCategory } from '../shared/types/category';
 
-import { SkyBarChartRegistry } from './bar-chart-registery.service';
+import { SkyBarChartRegistry } from './bar-chart-registry.service';
 import { SkyBarChartSeriesComponent } from './bar-chart-series.component';
 import { SkyBarChartPoint, SkyBarDatum } from './bar-chart-types';
 

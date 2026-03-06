@@ -10,7 +10,7 @@ import {
 
 import { SkyChartSeries } from '../shared/types/chart-series';
 
-import { SkyBarChartRegistry } from './bar-chart-registery.service';
+import { SkyBarChartRegistry } from './bar-chart-registry.service';
 import { SkyBarChartPoint } from './bar-chart-types';
 
 let nextId = 0;

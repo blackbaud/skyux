@@ -11,7 +11,7 @@ import {
 
 import { SkyChartSeries } from '../shared/types/chart-series';
 
-import { SkyLineChartRegistry } from './line-chart-registery.service';
+import { SkyLineChartRegistry } from './line-chart-registry.service';
 import { SkyLineChartSeriesDatapointComponent } from './line-chart-series-datapoint.component';
 import { SkyLineChartPoint } from './line-chart-types';
 
