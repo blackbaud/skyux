@@ -255,7 +255,10 @@ function createLinearValueScale(config: SkyLineChartOptions): PartialLineScale {
       ...base.ticks,
       padding: SkyuxChartStyles.axisTickPaddingY,
       // TODO: Chart localization
-      callback: config.measureAxis?.tickFormatter,
+      // If a tick formatter is provided, use it. Otherwise this syntax allows us to fallback to ChartJS's default formatting.
+      ...(config.measureAxis?.tickFormatter && {
+        callback: config.measureAxis.tickFormatter,
+      }),
     },
     title: {
       ...base.title,
@@ -284,7 +287,10 @@ function createLogarithmicValueScale(
       ...base.ticks,
       padding: SkyuxChartStyles.axisTickPaddingY,
       // TODO: Chart localization
-      callback: config.measureAxis?.tickFormatter,
+      // If a tick formatter is provided, use it. Otherwise this syntax allows us to fallback to ChartJS's default formatting.
+      ...(config.measureAxis?.tickFormatter && {
+        callback: config.measureAxis.tickFormatter,
+      }),
     },
     title: {
       ...base.title,
