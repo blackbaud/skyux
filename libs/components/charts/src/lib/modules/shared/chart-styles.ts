@@ -311,8 +311,7 @@ export const SkyuxChartStyles = {
   // =============================================================================
 
   get chartPadding(): number {
-    const space = resolveCssVariable('--sky-space-inset-balanced-none', '4px');
-    return remToPixels(space);
+    return 0;
   },
 
   get focusIndicatorColor(): string {
