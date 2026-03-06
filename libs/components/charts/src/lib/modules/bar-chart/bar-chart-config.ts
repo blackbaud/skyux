@@ -21,14 +21,14 @@ import { SkyChartSeries } from '../shared/types/chart-series';
 import { DeepPartial } from '../shared/types/deep-partial-type';
 import { SkySelectedChartDataPoint } from '../shared/types/selected-chart-data-point';
 
-import { SkyBarChartPoint } from './bar-chart-types';
+import { SkyBarChartOrientation, SkyBarChartPoint } from './bar-chart-types';
 
 /** Configuration for the bar chart component. */
 export interface SkyBarChartOptions {
   /**
    * Orientation of the chart.
    */
-  orientation?: 'horizontal' | 'vertical';
+  orientation?: SkyBarChartOrientation;
 
   /**
    * The data series for the chart.

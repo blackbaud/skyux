@@ -28,7 +28,7 @@ import {
   getChartJsBarChartConfig,
 } from './bar-chart-config';
 import { SkyBarChartRegistry } from './bar-chart-registry.service';
-import { SkyBarChartPoint } from './bar-chart-types';
+import { SkyBarChartOrientation, SkyBarChartPoint } from './bar-chart-types';
 
 /**
  * Displays a bar chart visualization.
@@ -65,7 +65,7 @@ export class SkyBarChartComponent {
   // #endregion
 
   // #region Inputs
-  public readonly orientation = input<'horizontal' | 'vertical'>('vertical');
+  public readonly orientation = input<SkyBarChartOrientation>('vertical');
   public readonly stacked = input(false, { transform: booleanAttribute });
   // #endregion
 
@@ -163,7 +163,7 @@ export class SkyBarChartComponent {
 
   // #region Private
   #parseConfigFromContent(context: {
-    orientation: 'horizontal' | 'vertical';
+    orientation: SkyBarChartOrientation;
     stacked: boolean;
     categoryAxis: Readonly<SkyChartCategoryAxisConfig> | undefined;
     measureAxis: Readonly<SkyChartMeasureAxisConfig> | undefined;
