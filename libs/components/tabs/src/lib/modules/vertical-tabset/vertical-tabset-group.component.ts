@@ -167,14 +167,11 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
   }
 
   #tabsHidden(): void {
-    // Angular will sometimes place the animation into the "void" state when tabs are hidden. Update our internal variable to reflect that.
     this.slideDirection = 'down';
     this.#changeRef.markForCheck();
   }
 
   #tabsShown(): void {
-    // Set the animation back up so that the "void" state is returned to where it was prior to the tabs being hidden.
-    // This will be instantaneous due to there not being a "void -> *" state on the slide animation.
     this.#updateSlideDirection();
     this.#changeRef.markForCheck();
   }

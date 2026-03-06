@@ -19,8 +19,8 @@ import {
   SkyAppWindowRef,
   SkyMediaQueryService,
   SkyMutationObserverService,
+  _SkyAnimationSlideComponent,
 } from '@skyux/core';
-import { _SkyAnimationSlideComponent } from '@skyux/core';
 import { SkyChevronModule, SkyStatusIndicatorModule } from '@skyux/indicators';
 import { SkyThemeModule } from '@skyux/theme';
 
