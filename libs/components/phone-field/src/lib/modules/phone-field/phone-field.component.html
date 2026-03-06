@@ -33,8 +33,10 @@
     >
       <div class="sky-phone-field-flag">
         <div
-          class="iti__flag"
-          [ngClass]="'iti__' + selectedCountry()?.iso2"
+          [class]="
+            'iti__flag' +
+            (selectedCountry()?.iso2 ? ' iti__' + selectedCountry()?.iso2 : '')
+          "
         ></div>
       </div>
     </button>

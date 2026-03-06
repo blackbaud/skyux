@@ -180,8 +180,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   public readonly defaultCountry = input<string, unknown>(
     DEFAULT_COUNTRY_CODE,
     {
-      transform: (value) =>
-        String(value || DEFAULT_COUNTRY_CODE).toLocaleLowerCase(),
+      transform: (value) => String(value || DEFAULT_COUNTRY_CODE).toLowerCase(),
     },
   );
 
@@ -215,10 +214,6 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
 
     for (const country of countries) {
       country.dialCode = '+' + country.dialCode;
-
-      if (country.dialCode.length > this.#longestDialCodeLength) {
-        this.#longestDialCodeLength = country.dialCode.length;
-      }
     }
     return countries;
   });
@@ -273,7 +268,16 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
 
   #phoneUtils = PhoneNumberUtil.getInstance();
 
-  #longestDialCodeLength = 0;
+  readonly #longestDialCodeLength = computed(() => {
+    const countries = this.countries();
+    return countries
+      .map((country) => Number(country.dialCode?.length))
+      .filter(Boolean)
+      .reduce(
+        (max, dialCodeLength) => (dialCodeLength > max ? dialCodeLength : max),
+        0,
+      );
+  });
 
   #_selectedCountry: SkyPhoneFieldCountry | undefined;
 
@@ -551,7 +555,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
       !selectedCountryDialCode ||
       !phoneNumberRaw.startsWith(selectedCountryDialCode)
     ) {
-      for (let i = 1; i < this.#longestDialCodeLength + 1; i++) {
+      for (let i = 1; i < this.#longestDialCodeLength() + 1; i++) {
         const dialCode = phoneNumberRaw.substring(0, i);
 
         if (defaultDialCode === dialCode) {

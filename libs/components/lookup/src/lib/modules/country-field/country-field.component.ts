@@ -12,6 +12,7 @@ import {
   ViewChild,
   ViewEncapsulation,
   computed,
+  effect,
   forwardRef,
   inject,
   input,
@@ -33,7 +34,7 @@ import { SkyInputBoxHostService } from '@skyux/forms';
 import { SkyAppLocaleProvider } from '@skyux/i18n';
 
 import intlTelInput from 'intl-tel-input';
-import { Observable, Subject, map, takeUntil } from 'rxjs';
+import { Observable, Subject, map } from 'rxjs';
 
 import { SkyAutocompleteInputDirective } from '../autocomplete/autocomplete-input.directive';
 import { SkyAutocompleteSelectionChange } from '../autocomplete/types/autocomplete-selection-change';
@@ -138,54 +139,6 @@ export class SkyCountryFieldComponent
     | SkyAutocompleteInputDirective
     | undefined;
 
-  public set selectedCountry(newCountry: SkyCountryFieldCountry | undefined) {
-    if (!this.#countriesAreEqual(this.selectedCountry, newCountry)) {
-      const newCountryIso = newCountry?.iso2;
-      if (newCountryIso) {
-        const isoCountry = this.countries().find(
-          (country) => country.iso2 === newCountryIso,
-        );
-
-        if (isoCountry) {
-          newCountry = isoCountry;
-        }
-      }
-
-      this.#_selectedCountry.set(newCountry);
-
-      this.#internalFormChange = true;
-      this.countrySearchFormControl.setValue(this.selectedCountry);
-
-      if (!this.#isInitialChange) {
-        this.onChange(newCountry);
-        this.onTouched();
-
-        if (newCountry) {
-          this.selectedCountryChange.emit(newCountry);
-        }
-      } else if (this.#ngControl?.control) {
-        // Do not mark the field as "dirty"
-        // if the field has been initialized with a value.
-        this.#ngControl.control.markAsPristine();
-      }
-
-      this.#isInitialChange = false;
-
-      /**
-       * The if statement is complex. The control type check ensures that
-       * we only watch for the initial time through this function on reactive forms. However,
-       * template forms will send through `null` and then `undefined` on empty initialization
-       * so we have to check for when the non-null pass through happens.
-       */
-    } else if (!(this.#ngControl instanceof NgModel) || newCountry !== null) {
-      this.#isInitialChange = false;
-    }
-  }
-
-  public get selectedCountry(): SkyCountryFieldCountry | undefined {
-    return this.#_selectedCountry();
-  }
-
   public context: SkyCountryFieldContext | null = inject(
     SKY_COUNTRY_FIELD_CONTEXT,
     {
@@ -212,8 +165,6 @@ export class SkyCountryFieldComponent
 
   readonly #injector = inject(Injector);
 
-  #internalFormChange = false;
-
   #isInitialChange = true;
 
   #ngControl: NgControl | null = null;
@@ -225,6 +176,24 @@ export class SkyCountryFieldComponent
   readonly #_selectedCountry = signal<SkyCountryFieldCountry | undefined>(
     undefined,
   );
+  readonly #_selectedIsoCountry = computed(
+    () => {
+      let selectedCountry = this.#_selectedCountry();
+      const selectedCountryIso = selectedCountry?.iso2?.toLowerCase();
+      if (selectedCountryIso) {
+        const isoCountry = this.countries().find(
+          (country) => country.iso2 === selectedCountryIso,
+        );
+        if (isoCountry) {
+          selectedCountry = isoCountry;
+        }
+      }
+      return selectedCountry;
+    },
+    {
+      equal: (a, b) => a?.name === b?.name,
+    },
+  );
 
   readonly #localeProvider = inject(SkyAppLocaleProvider);
   readonly #locale = toSignal(
@@ -233,6 +202,15 @@ export class SkyCountryFieldComponent
       initialValue: this.#localeProvider.defaultLocale,
     },
   );
+
+  constructor() {
+    // Sync the form control with the resolved selected country.
+    // This handles locale changes and ISO normalization reactively.
+    effect(() => {
+      const newCountry = this.#_selectedIsoCountry();
+      this.countrySearchFormControl.setValue(newCountry);
+    });
+  }
 
   /**
    * Angular lifecycle hook for when the component is initialized
@@ -256,13 +234,6 @@ export class SkyCountryFieldComponent
       this.#isInitialChange = false;
     }
 
-    this.countrySearchFormControl.valueChanges
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((newValue) => {
-        if (newValue && !this.#internalFormChange) {
-          this.selectedCountry = newValue;
-        }
-      });
     this.#changeDetector.markForCheck();
   }
 
@@ -334,10 +305,11 @@ export class SkyCountryFieldComponent
   public validate(control: AbstractControl): ValidationErrors | null {
     if (control.value) {
       const supportedCountryISOs = this.supportedCountryISOs();
+      const valueIso2 = control.value.iso2?.toLowerCase();
       if (
         (supportedCountryISOs.length > 0 &&
-          supportedCountryISOs.indexOf(control.value.iso2) < 0) ||
-        !this.countries().find((country) => country.iso2 === control.value.iso2)
+          supportedCountryISOs.indexOf(valueIso2) < 0) ||
+        !this.countries().find((country) => country.iso2 === valueIso2)
       ) {
         return { unsupportedCountry: true };
       }
@@ -347,7 +319,29 @@ export class SkyCountryFieldComponent
   }
 
   public writeValue(value: SkyCountryFieldCountry | undefined): void {
-    this.selectedCountry = value;
+    const current = this.#_selectedIsoCountry();
+    if (!this.#countriesAreEqual(current, value)) {
+      this.#_selectedCountry.set(value);
+
+      if (!this.#isInitialChange) {
+        const resolved = this.#_selectedIsoCountry();
+        this.onChange(resolved);
+        this.onTouched();
+
+        if (resolved) {
+          this.selectedCountryChange.emit(resolved);
+        }
+      } else if (this.#ngControl?.control) {
+        // Do not mark the field as "dirty"
+        // if the field has been initialized with a value.
+        this.#ngControl.control.markAsPristine();
+      }
+
+      this.#isInitialChange = false;
+    } else if (!(this.#ngControl instanceof NgModel) || value !== null) {
+      this.#isInitialChange = false;
+    }
+
     this.#changeDetector.markForCheck();
   }
 
@@ -363,7 +357,7 @@ export class SkyCountryFieldComponent
       return country1.iso2 === country2.iso2;
     }
 
-    // NOTE: We are doing this in  this way because template forms will send through `null`
+    // NOTE: We are doing this in this way because template forms will send through `null`
     // and then `undefined` on empty initialization. These are functionally equivalent but will
     // not pass a standard triple equals check.
     return !country1 && !country2;
@@ -435,7 +429,7 @@ export class SkyCountryFieldComponent
       // Note: We are looking up this data here to ensure we are using the official data from the
       // library and not the data provided by the user on initialization of the component
       const foundCountry = countries.find(
-        (country) => country.iso2 === selectedCountry.iso2.toLocaleLowerCase(),
+        (country) => country.iso2 === selectedCountry.iso2.toLowerCase(),
       );
 
       if (foundCountry) {
