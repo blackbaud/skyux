@@ -158,13 +158,6 @@
   cursor: -moz-grab;
 }
 
-.sky-tile-content {
-  border-color: var(--sky-override-tile-content-border-color, none);
-  border-style: var(--sky-override-tile-content-border-style, none);
-  border-width: var(--sky-override-tile-content-border-width, 0);
-  border-image: none;
-}
-
 :host-context(
     .sky-tile-dashboard-xs
       .sky-tile-dashboard-column

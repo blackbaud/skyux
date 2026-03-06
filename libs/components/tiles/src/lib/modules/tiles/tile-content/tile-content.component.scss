@@ -1,0 +1,7 @@
+:host {
+  display: block;
+  border-color: var(--sky-override-tile-content-border-color, none);
+  border-style: var(--sky-override-tile-content-border-style, none);
+  border-width: var(--sky-override-tile-content-border-width, 0);
+  border-image: none;
+}

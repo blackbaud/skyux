@@ -32,14 +32,14 @@
       />
     </button>
   </div>
-  <div
-    #groupContent
-    class="sky-vertical-tabset-group-content"
-    skyId
-    [attr.labelledby]="groupId"
-  >
-    <sky-animation-slide [opened]="slideDirection === 'down'">
-      <div class="sky-vertical-tabset-group-content-gutter"><ng-content /></div>
-    </sky-animation-slide>
-  </div>
+  <sky-animation-slide [opened]="slideDirection === 'down'">
+    <div
+      #groupContent
+      class="sky-vertical-tabset-group-content"
+      skyId
+      [attr.labelledby]="groupId"
+    >
+      <ng-content />
+    </div>
+  </sky-animation-slide>
 </div>
