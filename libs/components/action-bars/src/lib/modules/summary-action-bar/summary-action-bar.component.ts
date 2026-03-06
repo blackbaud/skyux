@@ -1,4 +1,3 @@
-import { AnimationEvent } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
@@ -16,11 +15,11 @@ import {
   signal,
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { skyAnimationSlide } from '@skyux/animations';
 import {
   SkyAppWindowRef,
   SkyMediaQueryService,
   SkyMutationObserverService,
+  _SkyAnimationSlideComponent,
 } from '@skyux/core';
 import { SkyChevronModule, SkyStatusIndicatorModule } from '@skyux/indicators';
 import { SkyThemeModule } from '@skyux/theme';
@@ -45,7 +44,6 @@ let nextId = 0;
  * `sky-summary-action-bar-summary` components.
  */
 @Component({
-  animations: [skyAnimationSlide],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
@@ -53,6 +51,7 @@ let nextId = 0;
     SkyChevronModule,
     SkyThemeModule,
     SkyStatusIndicatorModule,
+    _SkyAnimationSlideComponent,
   ],
   providers: [SkySummaryActionBarAdapterService],
   selector: 'sky-summary-action-bar',
@@ -172,36 +171,22 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
   }
 
   // NOTE: This function is needed so that the button is not removed until post-animation
-  public summaryTransitionEnd(animationEvent: AnimationEvent): void {
+  public summaryTransitionEnd(): void {
+    this.isSummaryCollapsed.set(this.slideDirection() === 'up');
+
+    const type = this.type();
+
     if (
-      animationEvent.toState !== 'void' &&
-      animationEvent.fromState !== 'void'
+      type === SkySummaryActionBarType.Page ||
+      type === SkySummaryActionBarType.Tab
     ) {
-      if (this.slideDirection() === 'up') {
-        this.isSummaryCollapsed.set(true);
-      }
-
-      const type = this.type();
-
-      if (
-        type === SkySummaryActionBarType.Page ||
-        type === SkySummaryActionBarType.Tab
-      ) {
-        this.#adapterService.styleBodyElementForActionBar(this.#elementRef);
-      }
-
-      // Ensure that the correct chevron is fully rendered prior to setting focus.
-      setTimeout(() => {
-        this.#adapterService.focusChevron(this.chevronElementRef);
-      });
+      this.#adapterService.styleBodyElementForActionBar(this.#elementRef);
     }
-  }
 
-  // NOTE: This function is needed so that the button is added before animation
-  public summaryTransitionStart(): void {
-    if (this.slideDirection() === 'down') {
-      this.isSummaryCollapsed.set(false);
-    }
+    // Ensure that the correct chevron is fully rendered prior to setting focus.
+    setTimeout(() => {
+      this.#adapterService.focusChevron(this.chevronElementRef);
+    });
   }
 
   #setupReactiveState(): void {

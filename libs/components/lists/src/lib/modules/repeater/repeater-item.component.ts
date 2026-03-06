@@ -18,7 +18,6 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
-import { skyAnimationSlide } from '@skyux/animations';
 import { SkyContentInfoProvider, SkyIdService } from '@skyux/core';
 import { SkyCheckboxChange } from '@skyux/forms';
 import { SkyLibResourcesService } from '@skyux/i18n';
@@ -46,7 +45,6 @@ let nextContentId = 0;
   selector: 'sky-repeater-item',
   styleUrls: ['./repeater-item.component.scss'],
   templateUrl: './repeater-item.component.html',
-  animations: [skyAnimationSlide],
   providers: [SkyContentInfoProvider],
   encapsulation: ViewEncapsulation.None,
   standalone: false,

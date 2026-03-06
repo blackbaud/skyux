@@ -1,7 +1,4 @@
-<aside
-  [@skyAnimationEmerge]="isOpen ? 'open' : 'closed'"
-  (@skyAnimationEmerge.done)="onAnimationDone($event)"
->
+<sky-animation-emerge [visible]="isOpen" (transitionEnd)="onTransitionEnd()">
   <div
     class="sky-toast sky-shadow sky-rounded-corners sky-box sky-elevation-16"
     [ngClass]="classNames"
@@ -36,4 +33,4 @@
     skyId="toastCloseMessage"
     >{{ 'skyux_toast_close_button_aria_label' | skyLibResources }}</span
   >
-</aside>
+</sky-animation-emerge>

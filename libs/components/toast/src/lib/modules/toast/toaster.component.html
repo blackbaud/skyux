@@ -13,7 +13,12 @@
       [toastType]="toast.config?.type"
       (closed)="onToastClosed(toast)"
     >
-      <div #toastContent [attr.data-toast-id]="toast.toastId"></div>
+      <ng-container
+        [ngComponentOutlet]="toast.bodyComponent"
+        [ngComponentOutletEnvironmentInjector]="
+          toastInjectors.get(toast.toastId)
+        "
+      />
     </sky-toast>
   }
 </div>

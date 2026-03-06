@@ -5,6 +5,7 @@ import {
   tick,
 } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import { provideNoopSkyAnimations } from '@skyux/core';
 
 import { SkyToastFixturesModule } from './fixtures/toast-fixtures.module';
 import { SkyToastWithToasterServiceTestComponent } from './fixtures/toast-with-toaster-service.component.fixture';
@@ -21,6 +22,7 @@ describe('Toast component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyToastFixturesModule],
+      providers: [provideNoopSkyAnimations()],
     });
 
     TestBed.overrideComponent(SkyToastWithToasterServiceTestComponent, {
