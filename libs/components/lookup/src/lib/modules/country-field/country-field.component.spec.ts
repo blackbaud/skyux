@@ -880,7 +880,7 @@ describe('Country Field Component', () => {
         tick();
         fixture.detectChanges();
 
-        expect(component.countryFieldComponent.countries.length).toBe(
+        expect(component.countryFieldComponent.countries().length).toBe(
           3,
           'Expected total number of countries to be "3".',
         );
@@ -891,7 +891,7 @@ describe('Country Field Component', () => {
         fixture.detectChanges();
 
         expect(
-          component.countryFieldComponent.countries.length,
+          component.countryFieldComponent.countries().length,
         ).toBeGreaterThan(
           2,
           'Expected total number of countries to be greater than 2.',

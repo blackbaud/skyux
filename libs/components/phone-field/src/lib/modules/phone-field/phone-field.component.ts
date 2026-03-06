@@ -5,25 +5,26 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { coerceStringArray } from '@angular/cdk/coercion';
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
-  EventEmitter,
-  Input,
   OnDestroy,
   OnInit,
-  Output,
   Renderer2,
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
   booleanAttribute,
+  computed,
   effect,
   inject,
   input,
+  model,
+  output,
   signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -165,7 +166,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
    * Whether phone number extensions are allowed.
    * @default true
    */
-  public readonly allowExtensions = input<boolean, unknown>(false, {
+  public readonly allowExtensions = input<boolean, unknown>(true, {
     transform: booleanAttribute,
   });
 
@@ -176,50 +177,51 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
    * icon for this default country until users select a different country.
    * @default "us"
    */
-  @Input()
-  public set defaultCountry(value: string | undefined) {
-    if (value !== this.#_defaultCountry) {
-      value ??= DEFAULT_COUNTRY_CODE;
-      this.#_defaultCountry = value.toLocaleLowerCase();
-      this.#defaultCountryData = this.#getDefaultCountryData();
-    }
-  }
-
-  public get defaultCountry(): string {
-    return this.#_defaultCountry;
-  }
+  public readonly defaultCountry = input<string, unknown>(
+    DEFAULT_COUNTRY_CODE,
+    {
+      transform: (value) =>
+        String(value || DEFAULT_COUNTRY_CODE).toLocaleLowerCase(),
+    },
+  );
 
   /**
    * The format for validated phone numbers.
    * Options include: `"default"`, `"international"`, and `"national"`.
    * @default "default"
    */
-  @Input()
-  public get returnFormat(): SkyPhoneFieldNumberReturnFormat {
-    return this.#_returnFormat;
-  }
-
-  public set returnFormat(value: SkyPhoneFieldNumberReturnFormat | undefined) {
-    this.#_returnFormat = value || 'default';
-  }
-
-  #_returnFormat: SkyPhoneFieldNumberReturnFormat = 'default';
+  public readonly returnFormat =
+    input<SkyPhoneFieldNumberReturnFormat>('default');
 
   /**
    * The [International Organization for Standardization Alpha 2](https://www.nationsonline.org/oneworld/country_code_list.htm)
    * country codes for the countries that users can select. By default, all countries are available.
    */
-  @Input()
-  public supportedCountryISOs: string[] | undefined;
+  public readonly supportedCountryISOs = input<string[], unknown>([], {
+    transform: coerceStringArray,
+  });
 
   /**
    * Emits a `SkyPhoneFieldCountry` object when the selected country in the country search
    * input changes.
    */
-  @Output()
-  public selectedCountryChange = new EventEmitter<SkyPhoneFieldCountry>();
+  public readonly selectedCountryChange = output<SkyPhoneFieldCountry>();
 
-  public countries: SkyPhoneFieldCountry[] = [];
+  public readonly countries = computed<SkyPhoneFieldCountry[]>(() => {
+    const countries = cloneCountryData(
+      intlTelInput.getCountryData(),
+      this.#locale(),
+    );
+
+    for (const country of countries) {
+      country.dialCode = '+' + country.dialCode;
+
+      if (country.dialCode.length > this.#longestDialCodeLength) {
+        this.#longestDialCodeLength = country.dialCode.length;
+      }
+    }
+    return countries;
+  });
 
   public readonly countrySelectDisabled = signal(false);
 
@@ -240,37 +242,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   /**
    * The currently selected country to validate against.
    */
-  @Input()
-  public set selectedCountry(newCountry: SkyPhoneFieldCountry | undefined) {
-    if (
-      newCountry &&
-      (!this.#_selectedCountry ||
-        this.#_selectedCountry.iso2 !== newCountry.iso2)
-    ) {
-      this.#_selectedCountry = this.countries.find(
-        (country) => country.iso2 === newCountry.iso2,
-      );
-
-      if (this.#_selectedCountry && !this.#_selectedCountry.exampleNumber) {
-        const numberObj = this.#phoneUtils.getExampleNumberForType(
-          newCountry.iso2,
-          PhoneNumberType.FIXED_LINE,
-        );
-
-        this.#_selectedCountry.exampleNumber = this.#phoneUtils.format(
-          numberObj,
-          PhoneNumberFormat.NATIONAL,
-        );
-      }
-
-      this.#populateInputBoxHelpText();
-      this.selectedCountryChange.emit(this.#_selectedCountry);
-    }
-  }
-
-  public get selectedCountry(): SkyPhoneFieldCountry | undefined {
-    return this.#_selectedCountry;
-  }
+  public readonly selectedCountry = model<SkyPhoneFieldCountry | undefined>();
 
   @ViewChild('inputTemplateRef', {
     read: TemplateRef,
@@ -290,7 +262,10 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   })
   public buttonsInsetTemplateRef: TemplateRef<unknown> | undefined;
 
-  #defaultCountryData: SkyPhoneFieldCountry | undefined;
+  readonly #defaultCountryData = computed(() => {
+    const defaultCountry = this.defaultCountry();
+    return this.countries().find((country) => country.iso2 === defaultCountry);
+  });
 
   #focusPhoneInputAfterAnimation = false;
 
@@ -299,8 +274,6 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   #phoneUtils = PhoneNumberUtil.getInstance();
 
   #longestDialCodeLength = 0;
-
-  #_defaultCountry = DEFAULT_COUNTRY_CODE;
 
   #_selectedCountry: SkyPhoneFieldCountry | undefined;
 
@@ -321,18 +294,13 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   readonly #renderer = inject(Renderer2);
   readonly #localeProvider = inject(SkyAppLocaleProvider);
   readonly #locale = toSignal(
-    this.#localeProvider.getLocaleInfo()?.pipe(map((loc) => loc.locale)),
+    this.#localeProvider.getLocaleInfo().pipe(map((loc) => loc.locale)),
     {
       initialValue: this.#localeProvider.defaultLocale,
     },
   );
 
   constructor() {
-    this.#setupCountries();
-    effect(() => {
-      this.#setupCountries();
-    });
-
     this.countrySearchForm = this.#formBuilder.group({
       countrySearch: this.#countrySearchFormControl,
     });
@@ -344,6 +312,34 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
         this.#phoneNumberFormatHintTextTemplateString = templateString;
         this.#populateInputBoxHelpText();
       });
+
+    effect(() => {
+      const newCountry = this.selectedCountry();
+      this.#_selectedCountry = this.countries().find(
+        (country) => country.iso2 === newCountry?.iso2,
+      );
+
+      if (
+        newCountry &&
+        this.#_selectedCountry &&
+        !this.#_selectedCountry.exampleNumber
+      ) {
+        const numberObj = this.#phoneUtils.getExampleNumberForType(
+          newCountry.iso2,
+          PhoneNumberType.FIXED_LINE,
+        );
+
+        this.#_selectedCountry.exampleNumber = this.#phoneUtils.format(
+          numberObj,
+          PhoneNumberFormat.NATIONAL,
+        );
+      }
+
+      this.#populateInputBoxHelpText();
+      if (this.#_selectedCountry) {
+        this.selectedCountryChange.emit(this.#_selectedCountry);
+      }
+    });
   }
 
   public ngOnInit(): void {
@@ -358,22 +354,23 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
         });
       }
 
-      this.selectedCountry ??= this.#defaultCountryData;
+      this.selectedCountry.update(
+        (value) => value ?? this.#defaultCountryData(),
+      );
 
       this.#changeDetector.markForCheck();
     }, 0);
 
     this.#countrySearchFormControl.valueChanges.subscribe(
       (newValue: SkyCountryFieldCountry | undefined | null) => {
-        if (newValue?.iso2 !== this.selectedCountry?.iso2) {
-          this.selectedCountry = newValue || undefined;
+        if (newValue && newValue.iso2 !== this.selectedCountry()?.iso2) {
+          this.selectedCountry.set(newValue);
         }
       },
     );
   }
 
   public ngOnDestroy(): void {
-    this.selectedCountryChange.complete();
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
   }
@@ -386,8 +383,10 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
    */
   public onCountrySelected(newCountry: SkyCountryFieldCountry): void {
     if (newCountry) {
-      this.selectedCountry = this.countries.find(
-        (countryInfo) => countryInfo.iso2 === newCountry.iso2,
+      this.selectedCountry.set(
+        this.countries().find(
+          (countryInfo) => countryInfo.iso2 === newCountry.iso2,
+        ),
       );
 
       this.#focusPhoneInputAfterAnimation = true;
@@ -520,7 +519,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
         this.#phoneUtils.getRegionCodeForNumber(phoneNumberParsed);
 
       if (regionCode !== undefined) {
-        foundCountry = this.countries.find(
+        foundCountry = this.countries().find(
           (country) =>
             country.iso2.toLocaleUpperCase() === regionCode.toLocaleUpperCase(),
         );
@@ -533,8 +532,8 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
       foundCountry = undefined;
     }
 
-    if (foundCountry !== this.selectedCountry) {
-      this.selectedCountry = foundCountry;
+    if (foundCountry && foundCountry !== this.#_selectedCountry) {
+      this.selectedCountry.set(foundCountry);
       this.#changeDetector.markForCheck();
     }
   }
@@ -542,8 +541,9 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   #findCountryByDialCode(
     phoneNumberRaw: string,
   ): SkyPhoneFieldCountry | undefined {
-    const defaultDialCode = this.#defaultCountryData?.dialCode;
-    const selectedCountryDialCode = this.selectedCountry?.dialCode;
+    const defaultDialCode = this.#defaultCountryData()?.dialCode;
+    const selectedCountryDialCode = this.#_selectedCountry?.dialCode;
+    const countries = this.countries();
 
     let foundCountry: SkyPhoneFieldCountry | undefined;
 
@@ -555,9 +555,9 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
         const dialCode = phoneNumberRaw.substring(0, i);
 
         if (defaultDialCode === dialCode) {
-          foundCountry = this.#defaultCountryData;
+          foundCountry = this.#defaultCountryData();
         } else if (selectedCountryDialCode !== dialCode) {
-          const dialCodeCountries = this.countries.filter(
+          const dialCodeCountries = countries.filter(
             (country) => country.dialCode === dialCode,
           );
 
@@ -573,12 +573,6 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     return foundCountry;
   }
 
-  #getDefaultCountryData(): SkyPhoneFieldCountry | undefined {
-    return this.countries.find(
-      (country) => country.iso2 === this.#_defaultCountry,
-    );
-  }
-
   #populateInputBoxHelpText(): void {
     if (this.inputBoxHostSvc && this.inputTemplateRef) {
       this.inputBoxHostSvc?.setHintText(
@@ -590,29 +584,13 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     }
   }
 
-  #setupCountries(): void {
-    this.countries = cloneCountryData(
-      intlTelInput.getCountryData(),
-      this.#locale(),
-    );
-
-    for (const country of this.countries) {
-      country.dialCode = '+' + country.dialCode;
-
-      if (country.dialCode.length > this.#longestDialCodeLength) {
-        this.#longestDialCodeLength = country.dialCode.length;
-      }
-    }
-
-    this.#defaultCountryData = this.#getDefaultCountryData();
-  }
-
   #validateSupportedCountry(country: SkyPhoneFieldCountry): boolean {
+    const supported = this.supportedCountryISOs();
     return (
-      !this.supportedCountryISOs ||
-      this.supportedCountryISOs.findIndex(
+      supported.length === 0 ||
+      supported.some(
         (isoCode) => isoCode.toUpperCase() === country.iso2.toUpperCase(),
-      ) >= 0
+      )
     );
   }
 }

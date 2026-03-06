@@ -1,13 +1,13 @@
 import {
   Directive,
   ElementRef,
-  HostListener,
-  Input,
   OnDestroy,
   OnInit,
   booleanAttribute,
+  effect,
   inject,
   input,
+  linkedSignal,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -56,6 +56,10 @@ import { SkyPhoneFieldNumberReturnFormat } from './types/number-return-format';
       multi: true,
     },
   ],
+  host: {
+    '(blur)': 'onBlur()',
+    '(input)': 'onInput()',
+  },
 })
 export class SkyPhoneFieldInputDirective
   implements OnInit, OnDestroy, ControlValueAccessor, Validator
@@ -65,19 +69,9 @@ export class SkyPhoneFieldInputDirective
    * To set the disabled state on reactive forms, use the `FormControl` instead.
    * @default false
    */
-  @Input({ transform: booleanAttribute })
-  public set disabled(value: boolean) {
-    if (this.#phoneFieldComponent) {
-      this.#phoneFieldComponent.countrySelectDisabled.set(value);
-      this.#adapterSvc?.setElementDisabledState(this.#elRef, value);
-    }
-
-    this.#_disabled = value;
-  }
-
-  public get disabled(): boolean {
-    return this.#_disabled;
-  }
+  public readonly disabled = input<boolean, unknown>(false, {
+    transform: booleanAttribute,
+  });
 
   /**
    * Whether to prevent validation on the phone number input. For validation,
@@ -90,7 +84,7 @@ export class SkyPhoneFieldInputDirective
     transform: booleanAttribute,
   });
 
-  #_disabled = false;
+  readonly #disabled = linkedSignal(() => this.disabled());
   #_value = '';
   #control: AbstractControl | undefined;
   #ngUnsubscribe = new Subject<void>();
@@ -110,6 +104,16 @@ export class SkyPhoneFieldInputDirective
     optional: true,
   });
 
+  constructor() {
+    effect(() => {
+      const value = this.#disabled();
+      if (this.#phoneFieldComponent) {
+        this.#phoneFieldComponent.countrySelectDisabled.set(value);
+        this.#adapterSvc?.setElementDisabledState(this.#elRef, value);
+      }
+    });
+  }
+
   public ngOnInit(): void {
     if (!this.#phoneFieldComponent) {
       throw new Error(
@@ -121,13 +125,11 @@ export class SkyPhoneFieldInputDirective
     this.#adapterSvc?.setElementType(this.#elRef);
     this.#adapterSvc?.addElementClass(this.#elRef, 'sky-form-control');
 
-    this.#phoneFieldComponent?.selectedCountryChange
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe(() => {
-        const value = this.#adapterSvc?.getInputValue(this.#elRef);
-        this.#setValue(value);
-        this.#control?.updateValueAndValidity();
-      });
+    this.#phoneFieldComponent?.selectedCountryChange.subscribe(() => {
+      const value = this.#adapterSvc?.getInputValue(this.#elRef);
+      this.#setValue(value);
+      this.#control?.updateValueAndValidity();
+    });
 
     this.#phoneFieldComponent.countrySearchForm
       .get('countrySearch')
@@ -152,7 +154,7 @@ export class SkyPhoneFieldInputDirective
   }
 
   public setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
+    this.#disabled.set(isDisabled);
   }
 
   public validate(control: AbstractControl): ValidationErrors | null {
@@ -200,12 +202,10 @@ export class SkyPhoneFieldInputDirective
     }
   }
 
-  @HostListener('blur')
   protected onBlur(): void {
     this.#notifyTouched?.();
   }
 
-  @HostListener('input')
   protected onInput(): void {
     const value = this.#adapterSvc?.getInputValue(this.#elRef);
     this.#phoneFieldComponent?.setCountryByDialCode(value);
@@ -220,7 +220,7 @@ export class SkyPhoneFieldInputDirective
 
     const defaultCountry = this.#getDefaultCountry();
     const regionCode = this.#getRegionCode();
-    const returnFormat = this.#phoneFieldComponent?.returnFormat;
+    const returnFormat = this.#phoneFieldComponent?.returnFormat();
 
     try {
       const phoneNumber = this.#phoneUtils.parseAndKeepRawInput(
@@ -271,11 +271,11 @@ export class SkyPhoneFieldInputDirective
   }
 
   #getDefaultCountry(): string | undefined {
-    return this.#phoneFieldComponent?.defaultCountry;
+    return this.#phoneFieldComponent?.defaultCountry();
   }
 
   #getRegionCode(): string | undefined {
-    return this.#phoneFieldComponent?.selectedCountry?.iso2;
+    return this.#phoneFieldComponent?.selectedCountry()?.iso2;
   }
 
   #getValue(): string {

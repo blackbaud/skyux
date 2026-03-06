@@ -9,8 +9,8 @@
 <ng-template #countryBtnTemplateRef>
   <div
     class="sky-input-group-btn sky-phone-field-country-btn"
-    [attr.data-sky-test-iso2]="selectedCountry?.iso2"
-    [attr.data-sky-test-name]="selectedCountry?.name"
+    [attr.data-sky-test-iso2]="selectedCountry()?.iso2"
+    [attr.data-sky-test-name]="selectedCountry()?.name"
   >
     <button
       aria-live="polite"
@@ -20,13 +20,13 @@
         ('skyux_phone_field_country_select_label' | skyLibResources) +
         ' ' +
         ('skyux_phone_field_country_selected_label'
-          | skyLibResources: selectedCountry?.name)
+          | skyLibResources: selectedCountry()?.name)
       "
       [attr.aria-label]="
         ('skyux_phone_field_country_select_label' | skyLibResources) +
         ' ' +
         ('skyux_phone_field_country_selected_label'
-          | skyLibResources: selectedCountry?.name)
+          | skyLibResources: selectedCountry()?.name)
       "
       [disabled]="countrySelectDisabled()"
       (click)="toggleCountrySearch(true)"
@@ -34,7 +34,7 @@
       <div class="sky-phone-field-flag">
         <div
           class="iti__flag"
-          [ngClass]="'iti__' + selectedCountry?.iso2"
+          [ngClass]="'iti__' + selectedCountry()?.iso2"
         ></div>
       </div>
     </button>
@@ -68,8 +68,8 @@
       >
         <sky-country-field
           formControlName="countrySearch"
-          [defaultCountry]="defaultCountry"
-          [supportedCountryISOs]="supportedCountryISOs"
+          [defaultCountry]="defaultCountry()"
+          [supportedCountryISOs]="supportedCountryISOs()"
           (selectedCountryChange)="onCountrySelected($event)"
           (countryFieldFocusout)="onCountryFieldFocusout($event)"
         />

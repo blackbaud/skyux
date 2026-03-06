@@ -3,20 +3,20 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  EventEmitter,
   Injector,
   Input,
   OnDestroy,
   OnInit,
-  Output,
   TemplateRef,
   Type,
   ViewChild,
   ViewEncapsulation,
-  effect,
+  computed,
   forwardRef,
   inject,
   input,
+  output,
+  signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
@@ -70,8 +70,7 @@ export class SkyCountryFieldComponent
    * @default 'off'
    * @deprecated SKY UX only supports browser autofill on components where the direct input matches the return value. This input may not behave as expected due to the dropdown selection interaction.
    */
-  @Input()
-  public autocompleteAttribute: string | undefined;
+  public autocompleteAttribute = input<string>();
 
   /**
    * The [International Organization for Standardization Alpha 2](https://www.nationsonline.org/oneworld/country_code_list.htm)
@@ -119,20 +118,16 @@ export class SkyCountryFieldComponent
   /**
    * Fires when the selected country changes.
    */
-  @Output()
-  public selectedCountryChange: EventEmitter<SkyCountryFieldCountry> =
-    new EventEmitter<SkyCountryFieldCountry>();
+  public readonly selectedCountryChange = output<SkyCountryFieldCountry>();
 
   /**
    * Fires when the country field is focused out.
    * @internal
    */
   // TODO: remove this if no longer needed after a scalable focus monitor service is implemented
-  @Output()
-  public countryFieldFocusout: EventEmitter<FocusEvent> =
-    new EventEmitter<FocusEvent>();
+  public countryFieldFocusout = output<FocusEvent>();
 
-  public countries: SkyCountryFieldCountry[] = [];
+  public readonly countries = computed(() => this.#setupCountries());
 
   public readonly countrySearchFormControl = new UntypedFormControl();
 
@@ -147,7 +142,7 @@ export class SkyCountryFieldComponent
     if (!this.#countriesAreEqual(this.selectedCountry, newCountry)) {
       const newCountryIso = newCountry?.iso2;
       if (newCountryIso) {
-        const isoCountry = this.countries.find(
+        const isoCountry = this.countries().find(
           (country) => country.iso2 === newCountryIso,
         );
 
@@ -156,9 +151,7 @@ export class SkyCountryFieldComponent
         }
       }
 
-      this.#_selectedCountry = newCountry;
-
-      this.#sortCountriesWithSelectedAndDefault(newCountry);
+      this.#_selectedCountry.set(newCountry);
 
       this.#internalFormChange = true;
       this.countrySearchFormControl.setValue(this.selectedCountry);
@@ -167,7 +160,9 @@ export class SkyCountryFieldComponent
         this.onChange(newCountry);
         this.onTouched();
 
-        this.selectedCountryChange.emit(newCountry);
+        if (newCountry) {
+          this.selectedCountryChange.emit(newCountry);
+        }
       } else if (this.#ngControl?.control) {
         // Do not mark the field as "dirty"
         // if the field has been initialized with a value.
@@ -188,7 +183,7 @@ export class SkyCountryFieldComponent
   }
 
   public get selectedCountry(): SkyCountryFieldCountry | undefined {
-    return this.#_selectedCountry;
+    return this.#_selectedCountry();
   }
 
   public context: SkyCountryFieldContext | null = inject(
@@ -227,7 +222,9 @@ export class SkyCountryFieldComponent
 
   #_disabled = false;
 
-  #_selectedCountry: SkyCountryFieldCountry | undefined;
+  readonly #_selectedCountry = signal<SkyCountryFieldCountry | undefined>(
+    undefined,
+  );
 
   readonly #localeProvider = inject(SkyAppLocaleProvider);
   readonly #locale = toSignal(
@@ -236,13 +233,6 @@ export class SkyCountryFieldComponent
       initialValue: this.#localeProvider.defaultLocale,
     },
   );
-
-  constructor() {
-    this.#setupCountries();
-    effect(() => {
-      this.#setupCountries();
-    });
-  }
 
   /**
    * Angular lifecycle hook for when the component is initialized
@@ -281,7 +271,6 @@ export class SkyCountryFieldComponent
    * @internal
    */
   public ngOnDestroy(): void {
-    this.selectedCountryChange.complete();
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
   }
@@ -303,7 +292,7 @@ export class SkyCountryFieldComponent
   public onCountrySelected(newCountry: SkyAutocompleteSelectionChange): void {
     if (newCountry.selectedItem) {
       this.writeValue(
-        this.countries.find(
+        this.countries().find(
           (countryInfo) => countryInfo.iso2 === newCountry.selectedItem.iso2,
         ),
       );
@@ -348,7 +337,7 @@ export class SkyCountryFieldComponent
       if (
         (supportedCountryISOs.length > 0 &&
           supportedCountryISOs.indexOf(control.value.iso2) < 0) ||
-        !this.countries.find((country) => country.iso2 === control.value.iso2)
+        !this.countries().find((country) => country.iso2 === control.value.iso2)
       ) {
         return { unsupportedCountry: true };
       }
@@ -387,8 +376,8 @@ export class SkyCountryFieldComponent
     return a.iso2 === b.iso2 && a.name === b.name;
   }
 
-  #setupCountries(): void {
-    this.countries = cloneCountryData(
+  #setupCountries(): SkyCountryFieldCountry[] {
+    let countries = cloneCountryData(
       intlTelInput.getCountryData(),
       this.#locale(),
     );
@@ -399,7 +388,7 @@ export class SkyCountryFieldComponent
        * The library we get the country data from includes extra phone properties.
        * We want to remove these unless we are in a phone field
        */
-      this.countries.forEach((country) => {
+      countries.forEach((country) => {
         delete country.dialCode;
         delete country.areaCodes;
         delete country.priority;
@@ -407,28 +396,28 @@ export class SkyCountryFieldComponent
     }
 
     const defaultCountry = this.defaultCountry();
-    this.#defaultCountryData = this.countries.find(
+    this.#defaultCountryData = countries.find(
       (country) => country.iso2 === defaultCountry,
     );
-    this.#sortCountriesWithSelectedAndDefault(this.selectedCountry);
+    countries = this.#sortCountriesWithSelectedAndDefault(countries);
 
     const supportedCountryISOs = this.supportedCountryISOs();
     if (supportedCountryISOs.length > 0) {
-      this.countries = this.countries.filter(
-        (country: SkyCountryFieldCountry) => {
-          return supportedCountryISOs.indexOf(country.iso2) >= 0;
-        },
-      );
+      countries = countries.filter((country: SkyCountryFieldCountry) => {
+        return supportedCountryISOs.indexOf(country.iso2) >= 0;
+      });
     }
+    return countries;
   }
 
   #sortCountriesWithSelectedAndDefault(
-    selectedCountry: SkyCountryFieldCountry | undefined,
-  ): void {
+    countries: SkyCountryFieldCountry[],
+  ): SkyCountryFieldCountry[] {
+    const selectedCountry = this.#_selectedCountry();
     let selectedCountryIndex: number;
     let selectedCountryData: SkyCountryFieldCountry;
 
-    const sortedNewCountries = this.countries.sort((a, b) => {
+    const sortedNewCountries = countries.sort((a, b) => {
       if (
         ((this.#defaultCountryData &&
           this.#countriesEqual(a, this.#defaultCountryData)) ||
@@ -445,22 +434,22 @@ export class SkyCountryFieldComponent
     if (selectedCountry) {
       // Note: We are looking up this data here to ensure we are using the official data from the
       // library and not the data provided by the user on initialization of the component
-      const foundCountry = this.countries.find(
+      const foundCountry = countries.find(
         (country) => country.iso2 === selectedCountry.iso2.toLocaleLowerCase(),
       );
 
       if (foundCountry) {
         selectedCountryData = foundCountry;
-        selectedCountryIndex = this.countries.indexOf(selectedCountryData);
+        selectedCountryIndex = countries.indexOf(selectedCountryData);
 
         if (selectedCountryIndex >= 0) {
-          this.countries.splice(selectedCountryIndex, 1);
+          countries.splice(selectedCountryIndex, 1);
           sortedNewCountries.splice(0, 0, selectedCountryData);
         }
       }
     }
 
-    this.countries = sortedNewCountries;
+    return countries;
   }
 
   #updateInputBox(): void {

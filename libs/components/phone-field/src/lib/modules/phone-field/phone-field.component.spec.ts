@@ -724,7 +724,9 @@ describe('Phone Field Component', () => {
         await fixture.whenStable();
         const countryInput = getCountrySearchToggleButton(fixture);
 
-        expect(fixture.componentInstance.inputDirective?.disabled).toBeTruthy();
+        expect(
+          fixture.componentInstance.inputDirective?.disabled(),
+        ).toBeTruthy();
         expect(
           fixture.debugElement.query(By.css('input')).nativeElement.disabled,
         ).toBeTruthy();
@@ -736,7 +738,9 @@ describe('Phone Field Component', () => {
         fixture.detectChanges();
         const countryInput = getCountrySearchToggleButton(fixture);
 
-        expect(fixture.componentInstance.inputDirective?.disabled).toBeFalsy();
+        expect(
+          fixture.componentInstance.inputDirective?.disabled(),
+        ).toBeFalsy();
         expect(
           fixture.debugElement.query(By.css('input')).nativeElement.disabled,
         ).toBeFalsy();
@@ -828,7 +832,9 @@ describe('Phone Field Component', () => {
         fixture.detectChanges();
         tick();
 
-        expect(component.phoneFieldComponent?.selectedCountry?.iso2).toBe('al');
+        expect(component.phoneFieldComponent?.selectedCountry()?.iso2).toBe(
+          'al',
+        );
         validateInputAndModel(
           '+3556675555309',
           '+3556675555309',
@@ -862,7 +868,9 @@ describe('Phone Field Component', () => {
         blurInput(nativeElement, fixture);
         detectChangesAndTick(fixture);
 
-        expect(component.phoneFieldComponent?.selectedCountry?.iso2).toBe('al');
+        expect(component.phoneFieldComponent?.selectedCountry()?.iso2).toBe(
+          'al',
+        );
         validateInputAndModel(
           '+3556675555309',
           '+3556675555309',
@@ -897,7 +905,9 @@ describe('Phone Field Component', () => {
         blurInput(nativeElement, fixture);
         detectChangesAndTick(fixture);
 
-        expect(component.phoneFieldComponent?.selectedCountry?.iso2).toBe('us');
+        expect(component.phoneFieldComponent?.selectedCountry()?.iso2).toBe(
+          'us',
+        );
         validateInputAndModel(
           '+3556675555309',
           '+3556675555309',
@@ -932,7 +942,9 @@ describe('Phone Field Component', () => {
         blurInput(nativeElement, fixture);
         detectChangesAndTick(fixture);
 
-        expect(component.phoneFieldComponent?.selectedCountry?.iso2).toBe('us');
+        expect(component.phoneFieldComponent?.selectedCountry()?.iso2).toBe(
+          'us',
+        );
         validateInputAndModel('+3556', '+3556', false, true, ngModel, fixture);
       }));
 
@@ -965,7 +977,9 @@ describe('Phone Field Component', () => {
         fixture.detectChanges();
         tick();
 
-        expect(component.phoneFieldComponent?.selectedCountry?.iso2).toBe('us');
+        expect(component.phoneFieldComponent?.selectedCountry()?.iso2).toBe(
+          'us',
+        );
         validateInputAndModel(
           '+1116675555309',
           '+1116675555309',
@@ -1005,7 +1019,9 @@ describe('Phone Field Component', () => {
         fixture.detectChanges();
         tick();
 
-        expect(component.phoneFieldComponent?.selectedCountry?.iso2).toBe('au');
+        expect(component.phoneFieldComponent?.selectedCountry()?.iso2).toBe(
+          'au',
+        );
 
         validateInputAndModel('+61', '+61', false, true, ngModel, fixture);
       }));
@@ -1043,7 +1059,9 @@ describe('Phone Field Component', () => {
         fixture.detectChanges();
         tick();
 
-        expect(component.phoneFieldComponent?.selectedCountry?.iso2).toBe('ca');
+        expect(component.phoneFieldComponent?.selectedCountry()?.iso2).toBe(
+          'ca',
+        );
 
         validateInputAndModel('+1', '+1', false, true, ngModel, fixture);
       }));
@@ -1081,7 +1099,9 @@ describe('Phone Field Component', () => {
         fixture.detectChanges();
         tick();
 
-        expect(component.phoneFieldComponent?.selectedCountry?.iso2).toBe('us');
+        expect(component.phoneFieldComponent?.selectedCountry()?.iso2).toBe(
+          'us',
+        );
 
         validateInputAndModel('+1', '+1', false, true, ngModel, fixture);
       }));
@@ -1119,7 +1139,9 @@ describe('Phone Field Component', () => {
         fixture.detectChanges();
         tick();
 
-        expect(component.phoneFieldComponent?.selectedCountry?.iso2).toBe('us');
+        expect(component.phoneFieldComponent?.selectedCountry()?.iso2).toBe(
+          'us',
+        );
 
         validateInputAndModel('+1', '+1', false, true, ngModel, fixture);
       }));
@@ -1130,9 +1152,9 @@ describe('Phone Field Component', () => {
         const ngModel = inputElement.injector.get(NgModel);
 
         if (component.phoneFieldComponent) {
-          const unitedStates = component.phoneFieldComponent.countries.find(
-            (country) => country.iso2 === 'us',
-          );
+          const unitedStates = component.phoneFieldComponent
+            .countries()
+            .find((country) => country.iso2 === 'us');
           if (unitedStates) {
             unitedStates.priority = undefined;
           }
@@ -1166,7 +1188,9 @@ describe('Phone Field Component', () => {
         fixture.detectChanges();
         tick();
 
-        expect(component.phoneFieldComponent?.selectedCountry?.iso2).toBe('as');
+        expect(component.phoneFieldComponent?.selectedCountry()?.iso2).toBe(
+          'as',
+        );
 
         validateInputAndModel('+1', '+1', false, true, ngModel, fixture);
       }));
@@ -1199,7 +1223,9 @@ describe('Phone Field Component', () => {
         fixture.detectChanges();
         tick();
 
-        expect(component.phoneFieldComponent?.selectedCountry?.iso2).toBe('ca');
+        expect(component.phoneFieldComponent?.selectedCountry()?.iso2).toBe(
+          'ca',
+        );
         validateInputAndModel(
           '+12045555555',
           '+1 204-555-5555',
@@ -1956,7 +1982,9 @@ describe('Phone Field Component', () => {
         detectChangesAndTick(fixture);
         const countryInput = getCountrySearchToggleButton(fixture);
 
-        expect(fixture.componentInstance.inputDirective?.disabled).toBeTruthy();
+        expect(
+          component.phoneFieldComponent?.countrySelectDisabled(),
+        ).toBeTruthy();
         expect(
           fixture.debugElement.query(By.css('input')).nativeElement.disabled,
         ).toBeTruthy();
@@ -1969,7 +1997,9 @@ describe('Phone Field Component', () => {
         detectChangesAndTick(fixture);
         const countryInput = getCountrySearchToggleButton(fixture);
 
-        expect(fixture.componentInstance.inputDirective?.disabled).toBeFalsy();
+        expect(
+          component.phoneFieldComponent?.countrySelectDisabled(),
+        ).toBeFalsy();
         expect(
           fixture.debugElement.query(By.css('input')).nativeElement.disabled,
         ).toBeFalsy();
@@ -2066,7 +2096,9 @@ describe('Phone Field Component', () => {
         fixture.detectChanges();
         tick();
 
-        expect(component.phoneFieldComponent?.selectedCountry?.iso2).toBe('al');
+        expect(component.phoneFieldComponent?.selectedCountry()?.iso2).toBe(
+          'al',
+        );
         validateInputAndModel(
           '+3556675555309',
           '+3556675555309',
@@ -2103,7 +2135,9 @@ describe('Phone Field Component', () => {
         fixture.detectChanges();
         tick();
 
-        expect(component.phoneFieldComponent?.selectedCountry?.iso2).toBe('al');
+        expect(component.phoneFieldComponent?.selectedCountry()?.iso2).toBe(
+          'al',
+        );
         validateInputAndModel(
           '+3556675555309',
           '+3556675555309',
@@ -2141,7 +2175,9 @@ describe('Phone Field Component', () => {
         fixture.detectChanges();
         tick();
 
-        expect(component.phoneFieldComponent?.selectedCountry?.iso2).toBe('us');
+        expect(component.phoneFieldComponent?.selectedCountry()?.iso2).toBe(
+          'us',
+        );
         validateInputAndModel(
           '+3556675555309',
           '+3556675555309',
@@ -2175,7 +2211,9 @@ describe('Phone Field Component', () => {
         blurInput(nativeElement, fixture);
         detectChangesAndTick(fixture);
 
-        expect(component.phoneFieldComponent?.selectedCountry?.iso2).toBe('us');
+        expect(component.phoneFieldComponent?.selectedCountry()?.iso2).toBe(
+          'us',
+        );
         validateInputAndModel(
           '+1116675555309',
           '+1116675555309',
@@ -2210,7 +2248,9 @@ describe('Phone Field Component', () => {
         blurInput(nativeElement, fixture);
         detectChangesAndTick(fixture);
 
-        expect(component.phoneFieldComponent?.selectedCountry?.iso2).toBe('au');
+        expect(component.phoneFieldComponent?.selectedCountry()?.iso2).toBe(
+          'au',
+        );
         validateInputAndModel(
           '+61',
           '+61',
