@@ -1,5 +1,3 @@
-export { SkyA11yAnalyzer } from './lib/a11y/a11y-analyzer';
-export { SkyA11yAnalyzerConfig } from './lib/a11y/a11y-analyzer-config';
 export {
   SkyAsyncMatchers,
   SkyMatchers,
