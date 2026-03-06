@@ -365,13 +365,13 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
       this.#changeDetector.markForCheck();
     }, 0);
 
-    this.#countrySearchFormControl.valueChanges.subscribe(
-      (newValue: SkyCountryFieldCountry | undefined | null) => {
+    this.#countrySearchFormControl.valueChanges
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((newValue: SkyCountryFieldCountry | undefined | null) => {
         if (newValue && newValue.iso2 !== this.selectedCountry()?.iso2) {
           this.selectedCountry.set(newValue);
         }
-      },
-    );
+      });
   }
 
   public ngOnDestroy(): void {
