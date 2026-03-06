@@ -81,7 +81,7 @@ export class _SkyAnimationTransitionHandlerDirective {
     }
 
     if (
-      evt.currentTarget === this.#elementRef.nativeElement &&
+      evt.target === this.#elementRef.nativeElement &&
       evt.propertyName === this.#propertyName()
     ) {
       this.transitionEnd.emit();

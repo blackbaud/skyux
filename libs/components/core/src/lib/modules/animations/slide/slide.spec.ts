@@ -1,8 +1,26 @@
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { provideNoopSkyAnimations } from '../utility/provide-noop-animations';
 
 import { _SkyAnimationSlideComponent } from './slide';
+
+@Component({
+  imports: [_SkyAnimationSlideComponent],
+  template: `
+    <sky-animation-slide [opened]="opened" (transitionEnd)="onTransitionEnd()">
+      <span class="projected-content">Hello</span>
+    </sky-animation-slide>
+  `,
+})
+class TestComponent {
+  public opened = false;
+  public transitionEndEmitted = false;
+
+  public onTransitionEnd(): void {
+    this.transitionEndEmitted = true;
+  }
+}
 
 describe('SkyAnimationSlideComponent', () => {
   function setupTest(options?: { noopAnimations?: boolean }): {
@@ -19,6 +37,20 @@ describe('SkyAnimationSlideComponent', () => {
     fixture.detectChanges();
 
     return { fixture, component: fixture.componentInstance };
+  }
+
+  function setupHostTest(): {
+    fixture: ComponentFixture<TestComponent>;
+    hostComponent: TestComponent;
+  } {
+    TestBed.configureTestingModule({
+      imports: [TestComponent],
+    });
+
+    const fixture = TestBed.createComponent(TestComponent);
+    fixture.detectChanges();
+
+    return { fixture, hostComponent: fixture.componentInstance };
   }
 
   afterEach(() => {
@@ -76,31 +108,35 @@ describe('SkyAnimationSlideComponent', () => {
   });
 
   it('should render projected content inside the slide-content wrapper', () => {
-    const { fixture } = setupTest();
+    const { fixture } = setupHostTest();
 
-    const content = fixture.nativeElement.querySelector(
-      '.sky-animation-slide-content',
+    const projected = fixture.nativeElement.querySelector(
+      '.sky-animation-slide-content .projected-content',
     );
 
-    expect(content).toBeTruthy();
+    expect(projected).toBeTruthy();
+    expect(projected.textContent).toBe('Hello');
   });
 
   it('should emit transitionEnd when the visibility transition completes', () => {
-    const { fixture } = setupTest();
+    const { fixture, hostComponent } = setupHostTest();
 
-    fixture.componentRef.setInput('opened', true);
+    hostComponent.opened = true;
     fixture.detectChanges();
+
+    const slideEl = fixture.nativeElement.querySelector('sky-animation-slide');
 
     const evt = new TransitionEvent('transitionend', {
       propertyName: 'visibility',
     });
 
-    Object.defineProperty(evt, 'currentTarget', {
-      value: fixture.nativeElement,
+    Object.defineProperty(evt, 'target', {
+      value: slideEl,
     });
 
-    // No error should be thrown since cssPropertyToTrack('visibility') was called.
-    expect(() => fixture.nativeElement.dispatchEvent(evt)).not.toThrow();
+    slideEl.dispatchEvent(evt);
+
+    expect(hostComponent.transitionEndEmitted).toBeTrue();
   });
 
   it('should not emit transitionEnd for non-tracked properties', () => {
@@ -113,7 +149,7 @@ describe('SkyAnimationSlideComponent', () => {
       propertyName: 'grid-template-rows',
     });
 
-    Object.defineProperty(evt, 'currentTarget', {
+    Object.defineProperty(evt, 'target', {
       value: fixture.nativeElement,
     });
 

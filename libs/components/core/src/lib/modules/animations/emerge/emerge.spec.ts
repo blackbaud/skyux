@@ -1,8 +1,21 @@
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { provideNoopSkyAnimations } from '../utility/provide-noop-animations';
 
 import { _SkyAnimationEmergeComponent } from './emerge';
+
+@Component({
+  imports: [_SkyAnimationEmergeComponent],
+  template: `
+    <sky-animation-emerge [visible]="visible">
+      <span class="projected-content">Hello</span>
+    </sky-animation-emerge>
+  `,
+})
+class TestComponent {
+  public visible = false;
+}
 
 describe('SkyAnimationEmergeComponent', () => {
   function setupTest(options?: { noopAnimations?: boolean }): {
@@ -19,6 +32,20 @@ describe('SkyAnimationEmergeComponent', () => {
     fixture.detectChanges();
 
     return { fixture, component: fixture.componentInstance };
+  }
+
+  function setupHostTest(): {
+    fixture: ComponentFixture<TestComponent>;
+    hostComponent: TestComponent;
+  } {
+    TestBed.configureTestingModule({
+      imports: [TestComponent],
+    });
+
+    const fixture = TestBed.createComponent(TestComponent);
+    fixture.detectChanges();
+
+    return { fixture, hostComponent: fixture.componentInstance };
   }
 
   afterEach(() => {
@@ -56,12 +83,11 @@ describe('SkyAnimationEmergeComponent', () => {
   });
 
   it('should render projected content', () => {
-    const { fixture } = setupTest();
+    const { fixture } = setupHostTest();
 
-    // The template is <ng-content />, so native element should accept projection.
-    expect(
-      fixture.nativeElement.querySelector('*') || fixture.nativeElement,
-    ).toBeTruthy();
+    const projected = fixture.nativeElement.querySelector('.projected-content');
+    expect(projected).toBeTruthy();
+    expect(projected.textContent).toBe('Hello');
   });
 
   it('should emit transitionEnd when the opacity transition completes', () => {
@@ -81,7 +107,7 @@ describe('SkyAnimationEmergeComponent', () => {
       propertyName: 'opacity',
     });
 
-    Object.defineProperty(evt, 'currentTarget', {
+    Object.defineProperty(evt, 'target', {
       value: fixture.nativeElement,
     });
 

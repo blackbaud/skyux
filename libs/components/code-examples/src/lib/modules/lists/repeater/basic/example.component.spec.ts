@@ -1,5 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideNoopSkyAnimations } from '@skyux/core';
 import {
   SkyRepeaterHarness,
   SkyRepeaterItemHarness,
@@ -28,6 +29,7 @@ describe('Repeater basic example', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ListsRepeaterBasicExampleComponent],
+      providers: [provideNoopSkyAnimations()],
     });
   });
 

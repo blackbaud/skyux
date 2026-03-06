@@ -1,6 +1,7 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkySummaryActionBarHarness } from '@skyux/action-bars/testing';
+import { provideNoopSkyAnimations } from '@skyux/core';
 import { SkyKeyInfoHarness } from '@skyux/indicators/testing';
 
 import { ActionBarsSummaryActionBarErrorExampleComponent } from './example.component';
@@ -25,6 +26,7 @@ describe('Error summary action bar example', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ActionBarsSummaryActionBarErrorExampleComponent],
+      providers: [provideNoopSkyAnimations()],
     });
   });
 

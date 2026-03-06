@@ -6,7 +6,6 @@ import {
   inject,
   tick,
 } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 import { provideNoopSkyAnimations } from '@skyux/core';
 
@@ -32,7 +31,7 @@ describe('Toaster component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkyToastFixturesModule, NoopAnimationsModule],
+      imports: [SkyToastFixturesModule],
       providers: [
         provideNoopSkyAnimations(),
         {
