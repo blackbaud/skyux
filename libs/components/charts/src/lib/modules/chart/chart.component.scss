@@ -3,7 +3,8 @@
 }
 
 .sky-chart-header {
-  padding-right: 3rem; // reserve space for context menu button
+  // reserve space for context menu button
+  padding-right: 3rem;
 
   h2,
   h3,
@@ -15,7 +16,11 @@
 }
 
 .sky-chart-subtitle {
-  color: var(--sky-text-color-deemphasized);
+  font-family: var(--sky-font-family-primary);
+  font-size: var(--sky-font-size-body-m);
+  font-weight: var(--sky-font-style-body-m);
+  line-height: var(--sky-font-line_height-body-m);
+  color: var(--sky-color-text-deemphasized);
 }
 
 .sky-chart-header-actions {
