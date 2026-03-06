@@ -1,3 +1,4 @@
+import { NgZone } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -98,6 +99,13 @@ describe('Viewkeeper directive', () => {
     }
   }
 
+  function flushNextAnimationFrame(): void {
+    // The viewkeeper sync stream uses animationFrameScheduler. A full frame at
+    // 60Hz is ~16.67ms, so we tick slightly beyond that to avoid boundary
+    // timing flakes across environments.
+    tick(20);
+  }
+
   beforeEach(() => {
     mutationCallbacks = [];
 
@@ -157,7 +165,7 @@ describe('Viewkeeper directive', () => {
     expect(shadowEl).toBeTruthy();
     const el1 = fixture.nativeElement.querySelector('.el1');
     SkyAppTestUtility.fireDomEvent(el1, 'afterViewkeeperSync');
-    tick(16);
+    flushNextAnimationFrame();
     expect(shadowEl.classList).toContain('sky-viewkeeper-shadow--active');
 
     fixture.componentInstance.showEl1 = false;
@@ -165,7 +173,7 @@ describe('Viewkeeper directive', () => {
     triggerMutationChange();
     const el2 = fixture.nativeElement.querySelector('.el2');
     SkyAppTestUtility.fireDomEvent(el2, 'afterViewkeeperSync');
-    tick(16);
+    flushNextAnimationFrame();
     expect(shadowEl.classList).not.toContain('sky-viewkeeper-shadow--active');
   }));
 
@@ -288,5 +296,42 @@ describe('Viewkeeper directive', () => {
 
     // Called twice from the scrollable host service when we unsubscribe from the observable and once for the viewkeepers own mutation observer.
     expect(mockMutationObserver.disconnect).toHaveBeenCalledTimes(3);
+  });
+
+  it('should subscribe to afterViewkeeperSync outside Angular zone', async () => {
+    const ngZone = TestBed.inject(NgZone);
+    const originalRunOutsideAngular = ngZone.runOutsideAngular.bind(ngZone);
+    let outsideAngularCallbackCount = 0;
+
+    spyOn(ngZone, 'runOutsideAngular').and.callFake((fn: () => never) => {
+      outsideAngularCallbackCount++;
+      return originalRunOutsideAngular(fn);
+    });
+
+    const fixture = TestBed.createComponent(ViewkeeperTestComponent);
+    fixture.componentInstance.scrollableHost = true;
+
+    const callCountBefore = outsideAngularCallbackCount;
+    fixture.detectChanges();
+    triggerMutationChange();
+    const callCountAfter = outsideAngularCallbackCount;
+
+    // The directive should call runOutsideAngular at least once when detecting elements.
+    expect(callCountAfter).toBeGreaterThan(callCountBefore);
+
+    // Verify the subscription still works correctly outside the zone.
+    const shadowEl = fixture.nativeElement.querySelector(
+      '.sky-viewkeeper-shadow',
+    );
+    const el1 = fixture.nativeElement.querySelector('.el1');
+
+    SkyAppTestUtility.fireDomEvent(el1, 'afterViewkeeperSync');
+    await new Promise<void>((resolve) => {
+      requestAnimationFrame(() => {
+        resolve();
+      });
+    });
+
+    expect(shadowEl.classList).toContain('sky-viewkeeper-shadow--active');
   });
 });
