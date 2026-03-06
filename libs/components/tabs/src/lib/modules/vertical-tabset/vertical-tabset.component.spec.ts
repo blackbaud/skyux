@@ -1048,25 +1048,25 @@ describe('Vertical tabset component', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    expectResponsiveCssClass(activeTab?.tabContent?.nativeElement, 'xs');
+    expectResponsiveCssClass(activeTab?.tabContent()?.nativeElement, 'xs');
 
     mediaQueryController.setBreakpoint('sm');
     fixture.detectChanges();
     await fixture.whenStable();
 
-    expectResponsiveCssClass(activeTab?.tabContent?.nativeElement, 'sm');
+    expectResponsiveCssClass(activeTab?.tabContent()?.nativeElement, 'sm');
 
     mediaQueryController.setBreakpoint('md');
     fixture.detectChanges();
     await fixture.whenStable();
 
-    expectResponsiveCssClass(activeTab?.tabContent?.nativeElement, 'md');
+    expectResponsiveCssClass(activeTab?.tabContent()?.nativeElement, 'md');
 
     mediaQueryController.setBreakpoint('lg');
     fixture.detectChanges();
     await fixture.whenStable();
 
-    expectResponsiveCssClass(activeTab?.tabContent?.nativeElement, 'lg');
+    expectResponsiveCssClass(activeTab?.tabContent()?.nativeElement, 'lg');
   });
 
   it('should scroll back to the top of the content pane when switching tabs', () => {

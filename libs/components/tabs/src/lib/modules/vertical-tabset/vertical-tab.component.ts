@@ -2,16 +2,19 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   ElementRef,
   Input,
-  OnDestroy,
-  OnInit,
-  Optional,
-  ViewChild,
+  computed,
   inject,
+  input,
+  signal,
+  viewChild,
 } from '@angular/core';
-
-import { Subject } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { SkyIdModule, SkyResponsiveHostDirective } from '@skyux/core';
+import { SkyIconModule } from '@skyux/icon';
+import { SkyStatusIndicatorModule } from '@skyux/indicators';
 
 import { SkyTabIdService } from '../shared/tab-id.service';
 
@@ -26,9 +29,14 @@ let nextId = 0;
   templateUrl: './vertical-tab.component.html',
   styleUrls: ['./vertical-tab.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    SkyIconModule,
+    SkyIdModule,
+    SkyResponsiveHostDirective,
+    SkyStatusIndicatorModule,
+  ],
 })
-export class SkyVerticalTabComponent implements OnInit, OnDestroy {
+export class SkyVerticalTabComponent {
   /**
    * Whether the tab is active when the tabset loads.
    * @default false
@@ -57,8 +65,7 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
    * For more information about the `aria-controls` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-controls).
    * @deprecated Now that the vertical tabs provide aria labels automatically, this input is no longer necessary.
    */
-  @Input()
-  public ariaControls: string | undefined;
+  public readonly ariaControls = input<string | undefined>();
 
   /**
    * The ARIA role for the vertical tab
@@ -70,53 +77,41 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
    * @deprecated Any other value than `tab` could lead to a poor user experience for users with assistive technology.
    * In the next major version, this property will be automatically set to `tab`.
    */
-  @Input()
-  public get ariaRole(): string {
-    return this.#_ariaRole;
-  }
-  public set ariaRole(value: string | undefined) {
-    this.#_ariaRole = value ?? 'tab';
-  }
+  public readonly ariaRole = input<string | undefined>();
 
   /**
    * Whether to disable the tab.
    */
-  @Input()
-  public disabled: boolean | undefined = false;
+  public readonly disabled = input<boolean | undefined>(false);
 
   /**
    * Whether to indicate that the tab has an error.
    * @internal This is used for sectioned forms and is not currently a supported design for pure vertical tabs.
    */
-  @Input()
-  public errorIndicator: boolean | undefined = false;
+  public readonly errorIndicator = input<boolean | undefined>(false);
 
   /**
    * Whether to indicate that the tab has required content.
    * @internal This is used for sectioned forms and is not currently a supported design for pure vertical tabs.
    */
-  @Input()
-  public requiredIndicator: boolean | undefined = false;
+  public readonly requiredIndicator = input<boolean | undefined>(false);
 
   /**
    * Displays an item count alongside the tab header to indicate how many list items the tab contains.
    */
-  @Input()
-  public tabHeaderCount: number | undefined;
+  public readonly tabHeaderCount = input<number | undefined>();
 
   /**
    * The tab header.
    * @required
    */
-  @Input()
-  public tabHeading: string | undefined;
+  public readonly tabHeading = input<string | undefined>();
 
   /**
    * Whether to display a chevron-right icon on the right hand side of the tab.
    * @internal
    */
-  @Input()
-  public showTabRightArrow: boolean | undefined;
+  public readonly showTabRightArrow = input<boolean | undefined>();
 
   /**
    * The ID for the tab.
@@ -140,7 +135,7 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
       // NOTE: Trigger another change detection cycle when the service marks
       // this tab as "rendered".
       setTimeout(() => {
-        if (this.tabContent) {
+        if (this.tabContent()) {
           this.#changeRef.markForCheck();
         }
       });
@@ -153,19 +148,18 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
 
   public index: number | undefined;
 
-  public isMobile = false;
+  public readonly isMobile = signal(false);
 
-  @ViewChild('tabButton')
-  public tabButton: ElementRef | undefined;
+  public readonly tabButton = viewChild<ElementRef>('tabButton');
+  public readonly tabContent = viewChild<ElementRef>('tabContentWrapper');
 
-  @ViewChild('tabContentWrapper')
-  public tabContent: ElementRef | undefined;
-
-  public groupService = inject(SkyVerticalTabsetGroupService, {
+  public readonly groupService = inject(SkyVerticalTabsetGroupService, {
     optional: true,
   });
 
-  #_ariaRole = 'tab';
+  protected readonly resolvedAriaRole = computed(
+    () => this.ariaRole() ?? 'tab',
+  );
 
   #_contentRendered = false;
 
@@ -173,52 +167,36 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
 
   #defaultTabId: string;
 
-  #mobileSubscription = new Subject();
+  readonly #adapterService = inject(SkyVerticalTabsetAdapterService);
+  readonly #changeRef = inject(ChangeDetectorRef);
+  readonly #tabsetService = inject(SkyVerticalTabsetService);
+  readonly #tabIdSvc = inject(SkyTabIdService, { optional: true });
 
-  #ngUnsubscribe = new Subject<void>();
-
-  #adapterService: SkyVerticalTabsetAdapterService;
-  #changeRef: ChangeDetectorRef;
-  #tabsetService: SkyVerticalTabsetService;
-  #tabIdSvc: SkyTabIdService | undefined;
-
-  constructor(
-    adapterService: SkyVerticalTabsetAdapterService,
-    changeRef: ChangeDetectorRef,
-    tabsetService: SkyVerticalTabsetService,
-    @Optional() tabIdSvc?: SkyTabIdService,
-  ) {
-    this.#adapterService = adapterService;
-    this.#changeRef = changeRef;
-    this.#tabsetService = tabsetService;
-    this.#tabIdSvc = tabIdSvc;
+  constructor() {
+    const destroyRef = inject(DestroyRef);
 
     this.#tabIdOrDefault = this.#defaultTabId = `sky-vertical-tab-${++nextId}`;
     this.tabId = this.#defaultTabId;
-  }
 
-  public ngOnInit(): void {
-    this.isMobile = this.#tabsetService.isMobile();
-    this.#changeRef.markForCheck();
+    this.isMobile.set(this.#tabsetService.isMobile());
 
-    this.#tabsetService.switchingMobile.subscribe((mobile: boolean) => {
-      this.isMobile = mobile;
-      this.#changeRef.markForCheck();
-    });
+    this.#tabsetService.switchingMobile
+      .pipe(takeUntilDestroyed())
+      .subscribe((mobile: boolean) => {
+        this.isMobile.set(mobile);
+        this.#changeRef.markForCheck();
+      });
 
     this.#tabsetService.addTab(this);
-  }
 
-  public ngOnDestroy(): void {
-    this.#tabIdSvc?.unregister(this.#defaultTabId);
-    this.#mobileSubscription.unsubscribe();
-    this.#ngUnsubscribe.next();
-    this.#ngUnsubscribe.complete();
-    this.#tabsetService.destroyTab(this);
+    destroyRef.onDestroy(() => {
+      this.#tabIdSvc?.unregister(this.#defaultTabId);
+      this.#tabsetService.destroyTab(this);
+    });
   }
 
   public activateTab(): void {
-    if (!this.disabled) {
+    if (!this.disabled()) {
       this.active = true;
       this.#tabsetService.activateTab(this);
 
@@ -227,7 +205,7 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
   }
 
   public focusButton(): void {
-    this.#adapterService.focusButton(this.tabButton);
+    this.#adapterService.focusButton(this.tabButton());
   }
 
   public tabButtonActivate(event: Event): void {

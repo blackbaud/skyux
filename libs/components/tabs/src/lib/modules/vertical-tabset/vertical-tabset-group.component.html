@@ -1,12 +1,9 @@
 <div class="sky-vertical-tabset-group">
-  <!-- [ngClass] includes font classes for both modern and default styles -->
   <div
     class="sky-vertical-tabset-group-header"
-    [ngClass]="{
-      'sky-vertical-tabset-group-header-active': isActive(),
-      'sky-vertical-tabset-group-header-sub-open': open,
-      'sky-font-deemphasized': disabled
-    }"
+    [class.sky-vertical-tabset-group-header-active]="isActive()"
+    [class.sky-vertical-tabset-group-header-sub-open]="open()"
+    [class.sky-font-deemphasized]="disabled()"
   >
     <button
       #groupHeadingButton
@@ -14,25 +11,23 @@
       role="tab"
       type="button"
       [attr.aria-controls]="groupContent.id"
-      [attr.aria-disabled]="disabled || undefined"
-      [attr.aria-expanded]="!disabled && open"
+      [attr.aria-disabled]="disabled() || undefined"
+      [attr.aria-expanded]="!disabled() && open()"
+      [class.sky-vertical-tabset-button-disabled]="disabled()"
       [id]="groupId"
-      [ngClass]="{
-        'sky-vertical-tabset-button-disabled': disabled
-      }"
       [tabIndex]="-1"
       (click)="toggleMenuOpen()"
       (keyup.arrowleft)="groupButtonArrowLeft($event)"
       (keyup.arrowright)="groupButtonArrowRight($event)"
     >
-      {{ groupHeading }}
+      {{ groupHeading() }}
       <sky-expansion-indicator
         class="sky-vertical-tabset-group-expansion-indicator"
-        [direction]="!disabled && open ? 'up' : 'down'"
+        [direction]="!disabled() && open() ? 'up' : 'down'"
       />
     </button>
   </div>
-  <sky-animation-slide [opened]="slideDirection === 'down'">
+  <sky-animation-slide [opened]="slideDirection() === 'down'">
     <div
       #groupContent
       class="sky-vertical-tabset-group-content"

@@ -1,21 +1,23 @@
 import { animate, style, transition, trigger } from '@angular/animations';
+import { AsyncPipe } from '@angular/common';
 import {
   AfterViewChecked,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  ViewChild,
+  computed,
+  inject,
+  input,
+  output,
+  signal,
+  viewChild,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SkyLibResourcesService } from '@skyux/i18n';
+import { SkyIconModule } from '@skyux/icon';
 
-import { Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 
 import { SkyTabIdService } from '../shared/tab-id.service';
 
@@ -27,11 +29,12 @@ import {
 } from './vertical-tabset.service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [AsyncPipe, SkyIconModule],
+  providers: [SkyTabIdService, SkyVerticalTabsetService],
   selector: 'sky-vertical-tabset',
   templateUrl: './vertical-tabset.component.html',
-  styleUrls: ['./vertical-tabset.component.scss'],
-  providers: [SkyTabIdService, SkyVerticalTabsetService],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './vertical-tabset.component.scss',
   animations: [
     trigger('tabGroupEnter', [
       transition(`${HIDDEN_STATE} => ${VISIBLE_STATE}`, [
@@ -46,16 +49,12 @@ import {
       ]),
     ]),
   ],
-  standalone: false,
 })
-export class SkyVerticalTabsetComponent
-  implements OnInit, AfterViewChecked, OnDestroy
-{
+export class SkyVerticalTabsetComponent implements AfterViewChecked {
   /**
    * The text to display on the show tabs button on mobile devices.
    */
-  @Input()
-  public showTabsText: string | undefined;
+  public readonly showTabsText = input<string>();
 
   /**
    * The ARIA label for the tabset. This sets the tabset's `aria-label` attribute to provide a text equivalent for screen readers
@@ -63,8 +62,7 @@ export class SkyVerticalTabsetComponent
    * If the tabset includes a visible label, use `ariaLabelledBy` instead.
    * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    */
-  @Input()
-  public ariaLabel: string | undefined;
+  public readonly ariaLabel = input<string>();
 
   /**
    * The HTML element ID of the element that labels
@@ -73,8 +71,7 @@ export class SkyVerticalTabsetComponent
    * If the tabset does not include a visible label, use `ariaLabel` instead.
    * For more information about the `aria-labelledby` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-labelledby).
    */
-  @Input()
-  public ariaLabelledBy: string | undefined;
+  public readonly ariaLabelledBy = input<string>();
 
   /**
    * The ARIA role for the vertical tabset
@@ -86,132 +83,106 @@ export class SkyVerticalTabsetComponent
    * @deprecated Any other value than `tablist` could lead to a poor user experience for users with assistive technology.
    * In the next major version, this property will be automatically set to `tablist`.
    */
-  @Input()
-  public get ariaRole(): string {
-    return this.#_ariaRole;
-  }
-
-  public set ariaRole(value: string | undefined) {
-    this.#_ariaRole = value ?? 'tablist';
-  }
+  public readonly ariaRole = input<string | undefined>();
 
   /**
    * Whether the vertical tabset loads tab content during initialization so that it
    * displays content without moving around elements in the content container.
    * @default false
    */
-  @Input()
-  public maintainTabContent: boolean | undefined = false;
+  public readonly maintainTabContent = input<boolean | undefined>(false);
 
   /**
    * Fires when the active tab changes. Emits the index of the active tab. The
    * index is based on the tab's position when it loads.
    */
-  @Output()
-  public activeChange = new EventEmitter<number>();
+  public readonly activeChange = output<number>();
 
-  @ViewChild('groupContainerWrapper')
-  public tabGroups: ElementRef | undefined;
+  public readonly tabGroups = viewChild<ElementRef>('groupContainerWrapper');
+  public readonly content = viewChild<ElementRef>('skySideContent');
+  public readonly contentWrapper = viewChild<ElementRef>(
+    'contentContainerWrapper',
+  );
 
-  @ViewChild('skySideContent')
-  public content: ElementRef | undefined;
+  public readonly isMobile = signal(false);
 
-  @ViewChild('contentContainerWrapper')
-  public contentWrapper: ElementRef | undefined;
+  protected readonly tablistHasFocus = signal(false);
 
-  public ariaOwns: string | undefined;
+  protected readonly resolvedAriaRole = computed(
+    () => this.ariaRole() ?? 'tablist',
+  );
 
-  public isMobile = false;
+  readonly #defaultShowTabsText = signal('');
+  protected readonly resolvedShowTabsText = computed(
+    () => this.showTabsText() || this.#defaultShowTabsText(),
+  );
 
-  protected tablistHasFocus = false;
+  public readonly adapterService = inject(SkyVerticalTabsetAdapterService);
+  public readonly tabService = inject(SkyVerticalTabsetService);
+  public readonly tabIdSvc = inject(SkyTabIdService);
 
-  #ngUnsubscribe = new Subject<void>();
-  #_ariaRole = 'tablist';
+  readonly #changeRef = inject(ChangeDetectorRef);
 
-  #resources: SkyLibResourcesService;
-  #changeRef: ChangeDetectorRef;
-
-  constructor(
-    public adapterService: SkyVerticalTabsetAdapterService,
-    public tabService: SkyVerticalTabsetService,
-    resources: SkyLibResourcesService,
-    changeRef: ChangeDetectorRef,
-    public tabIdSvc: SkyTabIdService,
-  ) {
-    this.#resources = resources;
-    this.#changeRef = changeRef;
-  }
-
-  public ngOnInit(): void {
-    this.tabService.maintainTabContent = this.maintainTabContent;
+  constructor() {
+    inject(SkyLibResourcesService)
+      .getString('skyux_vertical_tabs_show_tabs_text')
+      .pipe(take(1), takeUntilDestroyed())
+      .subscribe((resource) => {
+        this.#defaultShowTabsText.set(resource);
+      });
 
     this.tabService.indexChanged
-      .pipe(takeUntil(this.#ngUnsubscribe))
+      .pipe(takeUntilDestroyed())
       .subscribe((index) => {
-        this.activeChange.emit(index);
-        if (this.contentWrapper) {
-          this.adapterService.scrollToContentTop(this.contentWrapper);
+        if (index !== undefined) {
+          this.activeChange.emit(index);
         }
+
+        const wrapper = this.contentWrapper();
+
+        if (wrapper) {
+          this.adapterService.scrollToContentTop(wrapper);
+        }
+
         this.#changeRef.markForCheck();
       });
 
     this.tabService.switchingMobile
-      .pipe(takeUntil(this.#ngUnsubscribe))
+      .pipe(takeUntilDestroyed())
       .subscribe((mobile: boolean) => {
-        this.isMobile = mobile;
+        this.isMobile.set(mobile);
         this.#changeRef.markForCheck();
       });
 
     if (this.tabService.isMobile()) {
-      this.isMobile = true;
+      this.isMobile.set(true);
       this.tabService.animationContentVisibleState = VISIBLE_STATE;
-      this.#changeRef.markForCheck();
-    }
-    if (!this.showTabsText) {
-      this.#resources
-        .getString('skyux_vertical_tabs_show_tabs_text')
-        .pipe(take(1))
-        .subscribe((resource) => {
-          /* sanity check */
-          /* istanbul ignore else */
-          if (!this.showTabsText) {
-            this.showTabsText = resource;
-          }
-        });
     }
   }
 
   public ngAfterViewChecked(): void {
-    this.tabService.content = this.content;
+    this.tabService.maintainTabContent = this.maintainTabContent();
+    this.tabService.content = this.content();
     this.tabService.updateContent();
   }
 
-  public ngOnDestroy(): void {
-    this.#ngUnsubscribe.next();
-    this.#ngUnsubscribe.complete();
-  }
-
   protected tabsetFocus(): void {
-    this.tabService.focusActiveTab(this.tabGroups);
+    this.tabService.focusActiveTab(this.tabGroups());
   }
 
   protected trapFocusInTablist(): void {
-    // This will set the tab index of the the vertical tabset element to -1
-    // while focus is inside the tab list, allowing Shift+Tab to move
-    // to the next element above the tab list element. Otherwise focus would
-    // be trapped on the currently focused tab.
-    this.tablistHasFocus = true;
+    this.tablistHasFocus.set(true);
   }
 
   protected resetTabIndex(): void {
-    this.tablistHasFocus = false;
+    this.tablistHasFocus.set(false);
   }
 
   protected tabGroupsArrowDown(): void {
-    this.adapterService.focusNextButton(this.tabGroups);
+    this.adapterService.focusNextButton(this.tabGroups());
   }
 
   protected tabGroupsArrowUp(): void {
-    this.adapterService.focusPreviousButton(this.tabGroups);
+    this.adapterService.focusPreviousButton(this.tabGroups());
   }
 }

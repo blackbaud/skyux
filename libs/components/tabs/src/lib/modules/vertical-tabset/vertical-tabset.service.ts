@@ -99,9 +99,9 @@ export class SkyVerticalTabsetService {
       this.maintainTabContent &&
       tab.contentRendered &&
       /* istanbul ignore next */
-      this.content?.nativeElement.contains(tab.tabContent?.nativeElement)
+      this.content?.nativeElement.contains(tab.tabContent()?.nativeElement)
     ) {
-      this.content?.nativeElement.removeChild(tab.tabContent?.nativeElement);
+      this.content?.nativeElement.removeChild(tab.tabContent()?.nativeElement);
     }
 
     this.tabs.splice(tabIndex, 1);
@@ -168,7 +168,7 @@ export class SkyVerticalTabsetService {
       this.tabs.forEach((tab) => {
         if (!tab.contentRendered) {
           this.content?.nativeElement.appendChild(
-            tab.tabContent?.nativeElement,
+            tab.tabContent()?.nativeElement,
           );
           tab.contentRendered = true;
         }
@@ -201,9 +201,9 @@ export class SkyVerticalTabsetService {
       const parentGroup = this.#findParentGroup(activeTab);
 
       const buttonToFocus =
-        parentGroup && !parentGroup.open
-          ? parentGroup.groupHeadingButton
-          : activeTab.tabButton;
+        parentGroup && !parentGroup.open()
+          ? parentGroup.groupHeadingButton()
+          : activeTab.tabButton();
 
       focused = this.#adapterSvc.focusButton(buttonToFocus);
     }
@@ -217,7 +217,7 @@ export class SkyVerticalTabsetService {
     tab: SkyVerticalTabComponent,
   ): SkyVerticalTabsetGroupComponent | undefined {
     return this.#groups.find((group) =>
-      group.tabs?.some((groupTab) => tab === groupTab),
+      group.tabs().some((groupTab) => tab === groupTab),
     );
   }
 
@@ -232,7 +232,7 @@ export class SkyVerticalTabsetService {
     /* istanbul ignore else */
     if (this.content && !this.#contentAdded) {
       const activeTab = this.activeTab();
-      const activeContent = activeTab ? activeTab.tabContent : undefined;
+      const activeContent = activeTab ? activeTab.tabContent() : undefined;
 
       if (activeContent && activeTab && activeContent.nativeElement) {
         this.content.nativeElement.appendChild(activeContent.nativeElement);

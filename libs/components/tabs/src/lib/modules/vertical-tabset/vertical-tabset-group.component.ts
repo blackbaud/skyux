@@ -1,20 +1,23 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  ContentChildren,
+  DestroyRef,
   ElementRef,
-  Input,
-  OnDestroy,
-  OnInit,
-  QueryList,
-  ViewChild,
+  computed,
+  contentChildren,
   inject,
+  input,
+  model,
+  signal,
+  viewChild,
 } from '@angular/core';
-import { SkyIdService } from '@skyux/core';
-
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import {
+  SkyIdModule,
+  SkyIdService,
+  _SkyAnimationSlideComponent,
+} from '@skyux/core';
+import { SkyExpansionIndicatorModule } from '@skyux/indicators';
 
 import { SkyTabIdService } from '../shared/tab-id.service';
 
@@ -29,119 +32,97 @@ import { SkyVerticalTabsetService } from './vertical-tabset.service';
   styleUrls: ['./vertical-tabset-group.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SkyVerticalTabsetGroupService],
-  standalone: false,
+  imports: [
+    SkyExpansionIndicatorModule,
+    SkyIdModule,
+    _SkyAnimationSlideComponent,
+  ],
 })
-export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
+export class SkyVerticalTabsetGroupComponent {
   /**
    * Whether to disable the ability to expand and collapse the group.
    * @default false
    */
-  @Input()
-  public set disabled(value: boolean | undefined) {
-    this.#_disabled = value;
-    this.#updateSlideDirection();
-  }
-
-  public get disabled(): boolean | undefined {
-    return this.#_disabled;
-  }
+  public readonly disabled = input<boolean | undefined>(false);
 
   /**
    * The header for the collapsible group of tabs.
    */
-  @Input()
-  public groupHeading: string | undefined;
+  public readonly groupHeading = input<string | undefined>();
 
   /**
    * Whether the collapsible group is expanded.
    * @default false
    */
-  @Input()
-  public set open(value: boolean | undefined) {
-    this.#_open = value;
-    this.#updateSlideDirection();
-  }
+  public readonly open = model<boolean | undefined>(false);
 
-  public get open(): boolean | undefined {
-    return this.#_open;
-  }
+  public readonly tabs = contentChildren(SkyVerticalTabComponent);
 
-  @ContentChildren(SkyVerticalTabComponent)
-  public tabs: QueryList<SkyVerticalTabComponent> | undefined;
+  public readonly groupHeadingButton =
+    viewChild<ElementRef>('groupHeadingButton');
 
-  @ViewChild('groupHeadingButton')
-  public groupHeadingButton: ElementRef | undefined;
-  public slideDirection: 'down' | 'up' = 'up';
+  public readonly slideDirection = computed<'down' | 'up'>(() =>
+    this.#forceOpen() || (this.open() && !this.disabled()) ? 'down' : 'up',
+  );
 
-  protected groupId: string;
+  protected readonly groupId: string;
 
-  #ngUnsubscribe = new Subject<void>();
+  protected readonly isActive = computed(() => {
+    this.#tabClickVersion();
+    const tabs = this.tabs();
+    return tabs.length > 0 && tabs.some((t) => t.active);
+  });
 
-  #tabService: SkyVerticalTabsetService;
-  #changeRef: ChangeDetectorRef;
-  #adapterService = inject(SkyVerticalTabsetAdapterService);
-  #idService = inject(SkyIdService);
-  #tabIdService = inject(SkyTabIdService);
-  #groupService = inject(SkyVerticalTabsetGroupService);
+  readonly #tabService = inject(SkyVerticalTabsetService);
+  readonly #adapterService = inject(SkyVerticalTabsetAdapterService);
+  readonly #groupService = inject(SkyVerticalTabsetGroupService);
 
-  #_disabled: boolean | undefined;
-  #_open: boolean | undefined = false;
+  readonly #forceOpen = signal(false);
+  readonly #tabClickVersion = signal(0);
 
-  constructor(
-    tabService: SkyVerticalTabsetService,
-    changeRef: ChangeDetectorRef,
-  ) {
-    this.#tabService = tabService;
-    this.#changeRef = changeRef;
+  constructor() {
+    const idService = inject(SkyIdService);
+    const tabIdService = inject(SkyTabIdService);
+    const destroyRef = inject(DestroyRef);
 
-    this.groupId = this.#idService.generateId();
-
-    this.#groupService.messageStream.subscribe((message) => {
-      switch (message.messageType) {
-        case 'focus':
-          this.#focusButton();
-      }
-    });
-  }
-
-  public ngOnInit(): void {
-    this.#tabIdService.register(this.groupId, this.groupId);
-
+    this.groupId = idService.generateId();
+    tabIdService.register(this.groupId, this.groupId);
     this.#tabService.addGroup(this);
 
+    destroyRef.onDestroy(() => {
+      this.#tabService.destroyGroup(this);
+      tabIdService.unregister(this.groupId);
+    });
+
+    this.#groupService.messageStream
+      .pipe(takeUntilDestroyed())
+      .subscribe((message) => {
+        if (message.messageType === 'focus') {
+          this.#adapterService.focusButton(this.groupHeadingButton());
+        }
+      });
+
     this.#tabService.hidingTabs
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe(() => this.#tabsHidden());
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => this.#forceOpen.set(true));
 
     this.#tabService.showingTabs
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe(() => this.#tabsShown());
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => this.#forceOpen.set(false));
 
     this.#tabService.tabClicked
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe(() => this.#tabClicked());
-  }
-
-  public ngOnDestroy(): void {
-    this.#tabService.destroyGroup(this);
-
-    this.#ngUnsubscribe.next();
-    this.#ngUnsubscribe.complete();
-
-    this.#tabIdService.unregister(this.groupId);
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => this.#tabClickVersion.update((v) => v + 1));
   }
 
   public toggleMenuOpen(): void {
-    if (!this.disabled) {
-      this.open = !this.open;
+    if (!this.disabled()) {
+      this.open.set(!this.open());
     }
-
-    this.#updateSlideDirection();
-    this.#changeRef.markForCheck();
   }
 
   protected groupButtonArrowLeft(event: Event): void {
-    if (this.open) {
+    if (this.open()) {
       this.toggleMenuOpen();
     }
 
@@ -149,38 +130,12 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
   }
 
   protected groupButtonArrowRight(event: Event): void {
-    if (this.open) {
-      this.tabs?.get(0)?.focusButton();
+    if (this.open()) {
+      this.tabs()[0]?.focusButton();
     } else {
       this.toggleMenuOpen();
     }
 
     event.preventDefault();
-  }
-
-  public isActive(): boolean {
-    return !!this.tabs && this.tabs.find((t) => !!t.active) !== undefined;
-  }
-
-  #tabClicked(): void {
-    this.#changeRef.markForCheck();
-  }
-
-  #tabsHidden(): void {
-    this.slideDirection = 'down';
-    this.#changeRef.markForCheck();
-  }
-
-  #tabsShown(): void {
-    this.#updateSlideDirection();
-    this.#changeRef.markForCheck();
-  }
-
-  #updateSlideDirection(): void {
-    this.slideDirection = this.open && !this.disabled ? 'down' : 'up';
-  }
-
-  #focusButton(): void {
-    this.#adapterService.focusButton(this.groupHeadingButton);
   }
 }

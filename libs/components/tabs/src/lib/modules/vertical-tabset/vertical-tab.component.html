@@ -2,17 +2,15 @@
   #tabButton
   class="sky-vertical-tab sky-vertical-tabset-button"
   [attr.aria-controls]="
-    isMobile ? undefined : ariaControls || tabContentPane.id
+    isMobile() ? undefined : ariaControls() || tabContentPane.id
   "
-  [attr.aria-disabled]="isMobile ? undefined : disabled || undefined"
-  [attr.aria-selected]="isMobile ? undefined : active"
+  [attr.aria-disabled]="isMobile() ? undefined : disabled() || undefined"
+  [attr.aria-selected]="isMobile() ? undefined : active"
   [attr.id]="tabId"
-  [attr.role]="isMobile ? undefined : ariaRole"
-  [ngClass]="{
-    'sky-vertical-tab-active': active,
-    'sky-vertical-tabset-button-disabled': disabled,
-    'sky-font-deemphasized': disabled
-  }"
+  [attr.role]="isMobile() ? undefined : resolvedAriaRole()"
+  [class.sky-vertical-tab-active]="active"
+  [class.sky-vertical-tabset-button-disabled]="disabled()"
+  [class.sky-font-deemphasized]="disabled()"
   [tabIndex]="-1"
   (click)="activateTab()"
   (keyup.arrowleft)="tabButtonArrowLeft($event)"
@@ -22,21 +20,21 @@
   <div class="sky-vertical-tab-display">
     <div
       class="sky-vertical-tab-heading"
-      [ngClass]="{ 'sky-control-label-required': requiredIndicator }"
+      [class.sky-control-label-required]="requiredIndicator()"
     >
-      <span class="sky-vertical-tab-heading-value">{{ tabHeading }}</span>
-      @if (tabHeaderCount || tabHeaderCount === 0) {
-        <span class="sky-vertical-tab-count"> ({{ tabHeaderCount }}) </span>
+      <span class="sky-vertical-tab-heading-value">{{ tabHeading() }}</span>
+      @if (tabHeaderCount() || tabHeaderCount() === 0) {
+        <span class="sky-vertical-tab-count"> ({{ tabHeaderCount() }}) </span>
       }
     </div>
-    @if (errorIndicator) {
+    @if (errorIndicator()) {
       <sky-status-indicator
         class="sky-vertical-tab-heading-error"
         descriptionType="error"
         indicatorType="danger"
       />
     }
-    @if (isMobile && showTabRightArrow) {
+    @if (isMobile() && showTabRightArrow()) {
       <sky-icon class="sky-vertical-tab-right-arrow" iconName="chevron-right" />
     }
   </div>
@@ -50,7 +48,7 @@
     tabindex="0"
     skyId
     [attr.aria-labelledby]="tabId"
-    [ngClass]="{ 'sky-vertical-tab-hidden': !active }"
+    [class.sky-vertical-tab-hidden]="!active"
   >
     <ng-content />
   </div>
