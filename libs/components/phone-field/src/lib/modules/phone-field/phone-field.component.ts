@@ -524,8 +524,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
 
       if (regionCode !== undefined) {
         foundCountry = this.countries().find(
-          (country) =>
-            country.iso2.toLocaleUpperCase() === regionCode.toLocaleUpperCase(),
+          (country) => country.iso2.toUpperCase() === regionCode.toUpperCase(),
         );
       }
     } catch {
