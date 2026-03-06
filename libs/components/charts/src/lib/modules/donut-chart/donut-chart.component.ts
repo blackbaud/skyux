@@ -13,8 +13,8 @@ import { SkyChartLegendItem } from '../chart-legend/chart-legend-item';
 import { SkyChartService } from '../chart/chart.service';
 import { SkyChartJsDirective } from '../chartjs.directive';
 import { getLegendItems } from '../shared/chart-helpers';
+import { SkyChartActivatedDatapoint } from '../shared/types/chart-activated-datapoint';
 import { SkyChartSeries } from '../shared/types/chart-series';
-import { SkySelectedChartDataPoint } from '../shared/types/selected-chart-data-point';
 
 import {
   SkyDonutChartOptions,
@@ -55,7 +55,7 @@ export class SkyDonutChartComponent {
   // #endregion
 
   // #region Outputs
-  public readonly dataPointClicked = output<SkySelectedChartDataPoint>();
+  public readonly datapointActivated = output<SkyChartActivatedDatapoint>();
   // #endregion
 
   // #region View Children
@@ -155,7 +155,8 @@ export class SkyDonutChartComponent {
     return {
       series: series[0],
       callbacks: {
-        onDataPointClick: (dataPoint) => this.dataPointClicked.emit(dataPoint),
+        onDatapointClick: (dataPoint) =>
+          this.datapointActivated.emit(dataPoint),
       },
     };
   }

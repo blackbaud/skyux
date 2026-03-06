@@ -73,7 +73,7 @@ export class SkyChartJsDirective implements OnDestroy, AfterViewInit {
    * Signal containing the Chart.js Chart instance.
    * This is undefined until the chart is created.
    */
-  public chart = signal<Chart | undefined>(undefined);
+  public readonly chart = signal<Chart | undefined>(undefined);
 
   constructor() {
     this.#canvasContext = this.#getCanvasContext();
@@ -84,10 +84,13 @@ export class SkyChartJsDirective implements OnDestroy, AfterViewInit {
       const chart = untracked(() => this.chart());
 
       if (chart) {
+        // Update chart config options
         if (chart?.config.options && newConfig.options) {
           const newOptions = newConfig.options;
           Object.assign(chart.config.options, newOptions);
         }
+
+        // Update chart data
         chart.data = newConfig.data;
 
         this.#updateChart();

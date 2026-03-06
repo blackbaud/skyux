@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
+  SkyChartActivatedDatapoint,
   SkyChartCategoryAxisComponent,
   SkyChartComponent,
   SkyChartMeasureAxisComponent,
   SkyLineChartComponent,
   SkyLineChartSeriesComponent,
   SkyLineChartSeriesDatapointComponent,
-  SkySelectedChartDataPoint,
 } from '@skyux/charts';
 import { SkyBoxModule } from '@skyux/layout';
 import { SkyFluidGridModule } from '@skyux/layout';
@@ -290,7 +290,7 @@ export class LineChartDemoComponent {
     },
   ];
 
-  public onDataPointClicked(event: SkySelectedChartDataPoint): void {
+  public onDatapointActivated(event: SkyChartActivatedDatapoint): void {
     window.alert('Datapoint Clicked: ' + JSON.stringify(event, null, 2));
   }
 }

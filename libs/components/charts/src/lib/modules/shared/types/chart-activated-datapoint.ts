@@ -1,7 +1,7 @@
 /**
- * Data emitted when a chart's data point is selected.
+ * Data emitted when a chart's data point is activated.
  */
-export interface SkySelectedChartDataPoint {
+export interface SkyChartActivatedDatapoint {
   /** The index of the series that was selected. */
   seriesIndex: number;
 

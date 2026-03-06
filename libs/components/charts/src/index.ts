@@ -1,5 +1,5 @@
 export { SkyChartComponent } from './lib/modules/chart/chart.component';
-export { SkySelectedChartDataPoint } from './lib/modules/shared/types/selected-chart-data-point';
+export { SkyChartActivatedDatapoint } from './lib/modules/shared/types/chart-activated-datapoint';
 
 // Axis
 export { SkyChartCategoryAxisComponent } from './lib/modules/axis/chart-category-axis.component';

@@ -6,7 +6,10 @@ import {
   ScaleOptionsByType,
 } from 'chart.js';
 
-import { parseCategories } from '../shared/chart-helpers';
+import {
+  getActivatedChartDataElement,
+  parseCategories,
+} from '../shared/chart-helpers';
 import { SkyuxChartStyles } from '../shared/chart-styles';
 import { mergeChartOptions } from '../shared/global-chart-config';
 import { createAutoColorPlugin } from '../shared/plugins/auto-color-plugin';
@@ -17,9 +20,9 @@ import {
   SkyChartMeasureAxisConfig,
 } from '../shared/types/axis-types';
 import { SkyCategory } from '../shared/types/category';
+import { SkyChartActivatedDatapoint } from '../shared/types/chart-activated-datapoint';
 import { SkyChartSeries } from '../shared/types/chart-series';
 import { DeepPartial } from '../shared/types/deep-partial-type';
-import { SkySelectedChartDataPoint } from '../shared/types/selected-chart-data-point';
 
 import { SkyBarChartOrientation, SkyBarChartPoint } from './bar-chart-types';
 
@@ -51,7 +54,7 @@ export interface SkyBarChartOptions {
   measureAxis?: SkyChartMeasureAxisConfig;
 
   callbacks: {
-    onDataPointClick: (event: SkySelectedChartDataPoint) => void;
+    onDatapointClick: (event: SkyChartActivatedDatapoint) => void;
   };
 }
 
@@ -125,27 +128,11 @@ export function getChartJsBarChartConfig(
     scales: createScales(config),
     plugins: pluginOptions,
     onClick: (e, _, chart) => {
-      if (!e.native) {
+      const clickedElement = getActivatedChartDataElement(e, chart);
+      if (!clickedElement) {
         return;
       }
-
-      // Get the chart element(s) at the click location using a precise interaction mode rather than what tooltips use for accuracy
-      const hits = chart.getElementsAtEventForMode(
-        e.native,
-        'nearest',
-        { intersect: true },
-        true,
-      );
-
-      if (!hits?.length) {
-        return;
-      }
-
-      const element = hits[0];
-      const seriesIndex = element.datasetIndex;
-      const dataIndex = element.index;
-
-      config.callbacks.onDataPointClick({ seriesIndex, dataIndex });
+      config.callbacks.onDatapointClick(clickedElement);
     },
   });
 

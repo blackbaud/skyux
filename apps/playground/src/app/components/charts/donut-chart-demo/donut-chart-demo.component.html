@@ -18,7 +18,9 @@
             [subtitleText]="'Spending over a month'"
             [subtitleHidden]="false"
           >
-            <sky-donut-chart (dataPointClicked)="onDataPointClicked($event)">
+            <sky-donut-chart
+              (datapointActivated)="onDatapointActivated($event)"
+            >
               <sky-donut-chart-series labelText="Series 1">
                 @for (item of chart1; track $index) {
                   <sky-donut-chart-series-datapoint

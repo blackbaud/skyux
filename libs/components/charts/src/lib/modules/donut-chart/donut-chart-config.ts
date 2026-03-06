@@ -5,13 +5,14 @@ import {
   TooltipItem,
 } from 'chart.js';
 
+import { getActivatedChartDataElement } from '../shared/chart-helpers';
 import { SkyuxChartStyles } from '../shared/chart-styles';
 import { mergeChartOptions } from '../shared/global-chart-config';
 import { createAutoColorPlugin } from '../shared/plugins/auto-color-plugin';
 import { createChartA11yPlugin } from '../shared/plugins/chart-a11y-plugin';
 import { createTooltipShadowPlugin } from '../shared/plugins/tooltip-shadow-plugin';
+import { SkyChartActivatedDatapoint } from '../shared/types/chart-activated-datapoint';
 import { SkyChartSeries } from '../shared/types/chart-series';
-import { SkySelectedChartDataPoint } from '../shared/types/selected-chart-data-point';
 
 import { SkyDonutChartSlice } from './donut-chart-types';
 
@@ -23,7 +24,7 @@ export interface SkyDonutChartOptions {
   series: SkyChartSeries<SkyDonutChartSlice>;
 
   callbacks: {
-    onDataPointClick: (event: SkySelectedChartDataPoint) => void;
+    onDatapointClick: (event: SkyChartActivatedDatapoint) => void;
   };
 }
 
@@ -74,27 +75,11 @@ export function getChartJsDonutChartConfig(
     },
     plugins: pluginOptions,
     onClick: (e, _, chart) => {
-      if (!e.native) {
+      const clickedElement = getActivatedChartDataElement(e, chart);
+      if (!clickedElement) {
         return;
       }
-
-      // Get the chart element(s) at the click location using a precise interaction mode rather than what tooltips use for accuracy
-      const hits = chart.getElementsAtEventForMode(
-        e.native,
-        'nearest',
-        { intersect: true },
-        true,
-      );
-
-      if (!hits?.length) {
-        return;
-      }
-
-      const element = hits[0];
-      const seriesIndex = element.datasetIndex;
-      const dataIndex = element.index;
-
-      config.callbacks.onDataPointClick({ seriesIndex, dataIndex });
+      config.callbacks.onDatapointClick(clickedElement);
     },
   });
 

@@ -3,10 +3,10 @@ import {
   SkyBarChartComponent,
   SkyBarChartSeriesComponent,
   SkyBarChartSeriesDatapointComponent,
+  SkyChartActivatedDatapoint,
   SkyChartCategoryAxisComponent,
   SkyChartComponent,
   SkyChartMeasureAxisComponent,
-  SkySelectedChartDataPoint,
 } from '@skyux/charts';
 import { SkyBoxModule } from '@skyux/layout';
 import { SkyFluidGridModule } from '@skyux/layout';
@@ -225,7 +225,7 @@ export class BarChartDemoComponent {
   ];
   // #endregion
 
-  public onDataPointClicked(event: SkySelectedChartDataPoint): void {
+  public onDatapointActivated(event: SkyChartActivatedDatapoint): void {
     window.alert('Datapoint Clicked: ' + JSON.stringify(event, null, 2));
   }
 }

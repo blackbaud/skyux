@@ -20,8 +20,8 @@ import {
   SkyChartCategoryAxisConfig,
   SkyChartMeasureAxisConfig,
 } from '../shared/types/axis-types';
+import { SkyChartActivatedDatapoint } from '../shared/types/chart-activated-datapoint';
 import { SkyChartSeries } from '../shared/types/chart-series';
-import { SkySelectedChartDataPoint } from '../shared/types/selected-chart-data-point';
 
 import {
   SkyBarChartOptions,
@@ -70,7 +70,7 @@ export class SkyBarChartComponent {
   // #endregion
 
   // #region Outputs
-  public readonly dataPointClicked = output<SkySelectedChartDataPoint>();
+  public readonly datapointActivated = output<SkyChartActivatedDatapoint>();
   // #endregion
 
   // #region View Children
@@ -178,7 +178,8 @@ export class SkyBarChartComponent {
       categoryAxis: categoryAxis ? categoryAxis : undefined,
       measureAxis: measureAxis ? measureAxis : undefined,
       callbacks: {
-        onDataPointClick: (dataPoint) => this.dataPointClicked.emit(dataPoint),
+        onDatapointClick: (dataPoint) =>
+          this.datapointActivated.emit(dataPoint),
       },
     };
   }
