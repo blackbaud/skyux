@@ -3,11 +3,12 @@ import { Injectable, signal } from '@angular/core';
 import { SkyChartRegistry } from '../shared/services/chart-registry.service';
 import { SkyCategory } from '../shared/types/category';
 import { SkyChartSeries } from '../shared/types/chart-series';
+
 import { SkyDonutChartSlice } from './donut-chart-types';
 
 @Injectable()
 export class SkyDonutChartRegistry
-  implements SkyChartRegistry<SkyDonutChartSlice> 
+  implements SkyChartRegistry<SkyDonutChartSlice>
 {
   public readonly series = signal<SkyChartSeries<SkyDonutChartSlice>[]>([]);
 
@@ -25,8 +26,8 @@ export class SkyDonutChartRegistry
     });
   }
 
-  public removeSeries(id: number): void {
-    this.series.update((list) => list.filter((s) => s.id !== id));
+  public removeSeries(seriesId: number): void {
+    this.series.update((list) => list.filter((s) => s.id !== seriesId));
   }
 
   public upsertPoint(seriesId: number, point: SkyDonutChartSlice): void {
