@@ -34,7 +34,7 @@ export class SkyChartCategoryAxisComponent implements OnDestroy {
    */
   public readonly axis = computed<SkyChartCategoryAxisConfig>(() => {
     return {
-      label: this.labelText(),
+      labelText: this.labelText(),
     };
   });
 

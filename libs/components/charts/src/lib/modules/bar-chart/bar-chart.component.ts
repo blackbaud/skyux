@@ -30,6 +30,9 @@ import {
 import { SkyBarChartRegistry } from './bar-chart-registery.service';
 import { SkyBarChartPoint } from './bar-chart-types';
 
+/**
+ * Displays a bar chart visualization.
+ */
 @Component({
   selector: 'sky-bar-chart',
   template: `
@@ -51,7 +54,7 @@ import { SkyBarChartPoint } from './bar-chart-types';
   imports: [SkyChartJsDirective],
   providers: [
     SkyBarChartRegistry,
-    { provide: SKY_CHART_AXIS_REGISTRY, useClass: SkyBarChartRegistry },
+    { provide: SKY_CHART_AXIS_REGISTRY, useExisting: SkyBarChartRegistry },
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -102,7 +105,7 @@ export class SkyBarChartComponent {
     return getLegendItems({
       chart: chart,
       legendMode: 'series',
-      labels: series.map((s) => s.label),
+      labels: series.map((s) => s.labelText),
     });
   });
 

@@ -49,7 +49,7 @@ export class SkyBarChartSeriesDatapointComponent implements OnDestroy {
   public readonly datapoint = computed<SkyBarChartPoint>(() => {
     return {
       category: this.category(),
-      label: this.labelText(),
+      labelText: this.labelText(),
       value: this.value(),
     };
   });

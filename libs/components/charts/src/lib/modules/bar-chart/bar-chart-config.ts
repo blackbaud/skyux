@@ -82,7 +82,7 @@ export function getChartJsBarChartConfig(
     );
 
     const dataset: ChartDataset<'bar'> = {
-      label: series.label,
+      label: series.labelText,
       data: data,
     };
 
@@ -99,7 +99,7 @@ export function getChartJsBarChartConfig(
           const dataPoint = dataset.data[dataIndex];
 
           // TODO: Chart localization
-          return `${dataset.label}: ${dataPoint.label}`;
+          return `${dataset.labelText}: ${dataPoint.labelText}`;
         },
       },
     },
@@ -265,8 +265,8 @@ function createCategoryScale(
     },
     title: {
       ...base.title,
-      display: !!config.categoryAxis?.label,
-      text: config.categoryAxis?.label ?? '',
+      display: !!config.categoryAxis?.labelText,
+      text: config.categoryAxis?.labelText ?? '',
       padding: getScaleTitlePadding(axis),
     },
   };
@@ -313,8 +313,8 @@ function createLinearValueScale(
     },
     title: {
       ...base.title,
-      display: !!config.measureAxis?.label,
-      text: config.measureAxis?.label,
+      display: !!config.measureAxis?.labelText,
+      text: config.measureAxis?.labelText,
       padding: getScaleTitlePadding(axis),
     },
   };
@@ -349,8 +349,8 @@ function createLogarithmicValueScale(
     },
     title: {
       ...base.title,
-      display: !!config.measureAxis?.label,
-      text: config.measureAxis?.label,
+      display: !!config.measureAxis?.labelText,
+      text: config.measureAxis?.labelText,
       padding: getScaleTitlePadding(axis),
     },
   };

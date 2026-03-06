@@ -99,8 +99,8 @@ export class SkyChartDataGridModalComponent {
     // Add a column for each series
     series.forEach((seriesItem) => {
       columns.push({
-        field: seriesItem.label,
-        headerName: seriesItem.label,
+        field: seriesItem.labelText,
+        headerName: seriesItem.labelText,
         minWidth: 120,
       });
     });
@@ -121,8 +121,8 @@ export class SkyChartDataGridModalComponent {
       // Add data from each series for this category
       series.forEach((seriesItem) => {
         const dataPoint = seriesItem.data[categoryIndex];
-        const fieldName = seriesItem.label;
-        row[fieldName] = dataPoint.label;
+        const fieldName = seriesItem.labelText;
+        row[fieldName] = dataPoint.labelText;
       });
 
       rows.push(row);

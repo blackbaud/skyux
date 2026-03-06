@@ -9,7 +9,7 @@ export interface SkyChartLegendItem {
   /** Is the dataset visible in the chart */
   isVisible: boolean;
   /** The legend item's label */
-  label: string;
+  labelText: string;
   /** The series color */
   seriesColor: string;
 }

@@ -89,12 +89,14 @@ export function getLegendItems(context: {
         ? chart.isDatasetVisible(datasetIndex)
         : chart.getDataVisibility(dataIndex);
 
-    return {
+    const item: SkyChartLegendItem = {
       datasetIndex: legendItem.datasetIndex ?? 0,
       index: legendItem.index ?? 0,
       isVisible: isVisible,
-      label: label,
+      labelText: label,
       seriesColor: String(legendItem.fillStyle ?? 'transparent'),
     };
+
+    return item;
   });
 }

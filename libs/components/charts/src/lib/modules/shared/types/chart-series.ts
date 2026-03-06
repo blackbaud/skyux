@@ -10,7 +10,7 @@ export interface SkyChartSeries<TData extends SkyChartDataPoint> {
   /**
    * The label for the series
    */
-  label: string;
+  labelText: string;
 
   /**
    * The data points for the series

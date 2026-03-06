@@ -6,7 +6,7 @@ import {
   contentChildren,
   effect,
   inject,
-  input
+  input,
 } from '@angular/core';
 
 import { SkyChartSeries } from '../shared/types/chart-series';
@@ -47,7 +47,7 @@ export class SkyLineChartSeriesComponent implements OnDestroy {
 
   readonly #series = computed<SkyChartSeries<SkyLineChartPoint>>(() => ({
     id: this.id,
-    label: this.labelText(),
+    labelText: this.labelText(),
     data: [], // Data will be dynamically set from children datapoints
   }));
 

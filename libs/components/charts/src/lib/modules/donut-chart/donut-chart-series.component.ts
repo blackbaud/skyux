@@ -1,9 +1,11 @@
 import {
   ChangeDetectionStrategy,
-  Component, OnDestroy,
-  computed, effect,
+  Component,
+  OnDestroy,
+  computed,
+  effect,
   inject,
-  input
+  input,
 } from '@angular/core';
 
 import { SkyChartSeries } from '../shared/types/chart-series';
@@ -36,7 +38,7 @@ export class SkyDonutChartSeriesComponent implements OnDestroy {
 
   readonly #series = computed<SkyChartSeries<SkyDonutChartSlice>>(() => ({
     id: this.id,
-    label: this.labelText(),
+    labelText: this.labelText(),
     data: [], // Data will be dynamically set from children datapoints
   }));
 

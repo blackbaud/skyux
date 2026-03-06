@@ -2,7 +2,7 @@
  * Configuration for chart axes.
  */
 export interface SkyChartAxisConfig {
-  label?: string;
+  labelText?: string;
 }
 
 /**

@@ -5,7 +5,7 @@ import { SkyCategory } from './category';
  */
 export interface SkyChartDataPoint {
   /** The label for the datapoint */
-  label: string;
+  labelText: string;
 
   /** The category */
   category: SkyCategory;

@@ -30,6 +30,9 @@ import {
 import { SkyLineChartRegistry } from './line-chart-registery.service';
 import { SkyLineChartPoint } from './line-chart-types';
 
+/**
+ * Displays a line chart visualization.
+ */
 @Component({
   selector: 'sky-line-chart',
   template: `
@@ -51,7 +54,7 @@ import { SkyLineChartPoint } from './line-chart-types';
   imports: [SkyChartJsDirective],
   providers: [
     SkyLineChartRegistry,
-    { provide: SKY_CHART_AXIS_REGISTRY, useClass: SkyLineChartRegistry },
+    { provide: SKY_CHART_AXIS_REGISTRY, useExisting: SkyLineChartRegistry },
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -101,7 +104,7 @@ export class SkyLineChartComponent {
     return getLegendItems({
       chart: chart,
       legendMode: 'series',
-      labels: series.map((s) => s.label),
+      labels: series.map((s) => s.labelText),
     });
   });
 

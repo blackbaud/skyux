@@ -38,7 +38,7 @@ export class SkyBarChartSeriesComponent implements OnDestroy {
 
   readonly #series = computed<SkyChartSeries<SkyBarChartPoint>>(() => ({
     id: this.id,
-    label: this.labelText(),
+    labelText: this.labelText(),
     data: [], // Data will be dynamically set from children datapoints
   }));
 

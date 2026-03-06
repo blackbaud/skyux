@@ -59,7 +59,7 @@ export class SkyChartMeasureAxisComponent implements OnDestroy {
    */
   public readonly axis = computed<SkyChartMeasureAxisConfig>(() => {
     return {
-      label: this.labelText(),
+      labelText: this.labelText(),
       scaleType: this.scaleType(),
       suggestedMin: this.suggestedMin(),
       suggestedMax: this.suggestedMax(),

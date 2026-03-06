@@ -37,7 +37,7 @@ export function getChartJsDonutChartConfig(
 
   // Build datasets from series
   const dataset: ChartDataset<'doughnut'> = {
-    label: config.series.label,
+    label: config.series.labelText,
     data: config.series.data.map((dp) => dp.value),
     borderWidth,
     borderColor,
@@ -54,7 +54,7 @@ export function getChartJsDonutChartConfig(
 
           // TODO: Chart Localization
           const percent = percentOfVisibleDataset(context);
-          return `${dataPoint.label} (${percent.toFixed(2)}%)`;
+          return `${dataPoint.labelText} (${percent.toFixed(2)}%)`;
         },
       },
     },

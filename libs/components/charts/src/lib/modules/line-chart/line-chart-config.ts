@@ -72,7 +72,7 @@ export function getChartJsLineChartConfig(
     });
 
     const dataset: ChartDataset<'line'> = {
-      label: series.label,
+      label: series.labelText,
       data: data,
     };
 
@@ -89,7 +89,7 @@ export function getChartJsLineChartConfig(
           const dataPoint = dataset.data[dataIndex];
 
           // TODO: Chart Localization
-          return `${dataset.label}: ${dataPoint.label}`;
+          return `${dataset.labelText}: ${dataPoint.labelText}`;
         },
       },
     },
@@ -224,8 +224,8 @@ function createCategoryScale(config: SkyLineChartOptions): PartialLineScale {
     },
     title: {
       ...base.title,
-      display: !!config.categoryAxis?.label,
-      text: config.categoryAxis?.label,
+      display: !!config.categoryAxis?.labelText,
+      text: config.categoryAxis?.labelText,
       padding: getScaleTitlePadding('x'),
     },
   };
@@ -259,8 +259,8 @@ function createLinearValueScale(config: SkyLineChartOptions): PartialLineScale {
     },
     title: {
       ...base.title,
-      display: !!config.measureAxis?.label,
-      text: config.measureAxis?.label,
+      display: !!config.measureAxis?.labelText,
+      text: config.measureAxis?.labelText,
       padding: getScaleTitlePadding('y'),
     },
   };
@@ -288,8 +288,8 @@ function createLogarithmicValueScale(
     },
     title: {
       ...base.title,
-      display: !!config.measureAxis?.label,
-      text: config.measureAxis?.label,
+      display: !!config.measureAxis?.labelText,
+      text: config.measureAxis?.labelText,
       padding: getScaleTitlePadding('y'),
     },
   };

@@ -1,10 +1,12 @@
 import {
   ChangeDetectionStrategy,
-  Component, computed, effect,
+  Component,
+  computed,
+  effect,
   inject,
   output,
   signal,
-  viewChild
+  viewChild,
 } from '@angular/core';
 
 import { SkyChartLegendItem } from '../chart-legend/chart-legend-item';
@@ -18,9 +20,12 @@ import {
   SkyDonutChartOptions,
   getChartJsDonutChartConfig,
 } from './donut-chart-config';
-import { SkyDonutChartSlice } from './donut-chart-types';
 import { SkyDonutChartRegistry } from './donut-chart-registry.service';
+import { SkyDonutChartSlice } from './donut-chart-types';
 
+/**
+ * Displays a donut chart visualization.
+ */
 @Component({
   selector: 'sky-donut-chart',
   template: `
@@ -117,14 +122,13 @@ export class SkyDonutChartComponent {
     });
 
     // Whenever the content children change, re-parse the chart config from the content
-    effect(
-      () => {
-        const series = this.#chartRegistry.series();
+    effect(() => {
+      const series = this.#chartRegistry.series();
 
-        const config = this.#parseConfigFromContent({ series: series });
+      const config = this.#parseConfigFromContent({ series: series });
 
-        this.#chartOptions.set(config);
-      });
+      this.#chartOptions.set(config);
+    });
   }
 
   /** Handle theme changes */
@@ -136,7 +140,6 @@ export class SkyDonutChartComponent {
   protected onChartUpdated(): void {
     this.#chartUpdated.update((v) => v + 1);
   }
-
 
   // #region Private
   #parseConfigFromContent(context: {

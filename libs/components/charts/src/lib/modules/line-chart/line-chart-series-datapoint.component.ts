@@ -48,7 +48,7 @@ export class SkyLineChartSeriesDatapointComponent implements OnDestroy {
   public readonly datapoint = computed<SkyLineChartPoint>(() => {
     return {
       category: this.category(),
-      label: this.labelText(),
+      labelText: this.labelText(),
       value: this.value(),
     };
   });
