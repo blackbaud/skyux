@@ -1,5 +1,5 @@
 ---
-applyTo: '**/libs/components/code-examples/**'
+applyTo: '**/libs/components/code-examples/**|**/libs/components/*/src/**|**/libs/components/*/documentation.json'
 description: 'SKY UX Copilot instructions for generating code example unit tests.'
 ---
 
