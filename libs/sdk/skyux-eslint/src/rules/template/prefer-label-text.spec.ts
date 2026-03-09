@@ -12,11 +12,6 @@ ruleTester.run(RULE_NAME, rule, {
     `<sky-checkbox labelText="foo">`,
     `<sky-checkbox [labelText]="foo">`,
     `<sky-checkbox labelText="{{ foo }}">`,
-    `
-    <sky-input-box>
-      <label [for]="myInput.id">My label</label>
-      <input #myInput="skyId" skyId class="sky-form-control" type="text" />
-    </sky-input-box>`,
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
@@ -87,6 +82,36 @@ ruleTester.run(RULE_NAME, rule, {
       annotatedOutput: `
         <sky-input-box labelText="foo"></sky-input-box>
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+      messageId,
+      data: {
+        selector: 'sky-input-box',
+        labelInputName: 'labelText',
+        labelSelector: 'label',
+      },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fix sky-input-box with label and input without class',
+      annotatedSource: `
+        <sky-input-box>
+        ~~~~~~~~~~~~~~~~
+          <label>My label</label>
+          ~~~~~~~~~~~~~~~~~~~~~~~
+          <input type="text" />
+          ~~~~~~~~~~~~~~~~~~~~~
+        </sky-input-box>
+        ~~~~~~~~~~~~~~~~
+      `,
+      annotatedOutput: `
+        <sky-input-box labelText="My label">
+        ~
+          ~
+          ~
+          <input type="text" />
+          ~
+        </sky-input-box>
+        ~
       `,
       messageId,
       data: {
@@ -327,6 +352,26 @@ ruleTester.run(RULE_NAME, rule, {
         selector: 'sky-checkbox',
         labelInputName: 'labelText',
         labelSelector: 'sky-checkbox-label',
+      },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail but not fix for sky-input-box with label using [for] binding',
+      annotatedSource: `
+        <sky-input-box>
+        ~~~~~~~~~~~~~~~
+          <label [for]="myInput.id">My label</label>
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+          <input #myInput="skyId" skyId class="sky-form-control" type="text" />
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        </sky-input-box>
+        ~~~~~~~~~~~~~~~~
+      `,
+      messageId,
+      data: {
+        selector: 'sky-input-box',
+        labelInputName: 'labelText',
+        labelSelector: 'label',
       },
     }),
     convertAnnotatedSourceToFailureCase({

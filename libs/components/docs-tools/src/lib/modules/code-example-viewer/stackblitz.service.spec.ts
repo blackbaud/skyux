@@ -126,7 +126,7 @@ describe('stackblitz.service', () => {
             "outputPath": "dist/example-app",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": ["zone.js", "@skyux/packages/polyfills"],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": ["src/assets"],
@@ -198,8 +198,7 @@ describe('stackblitz.service', () => {
             "main": "src/test.ts",
             "polyfills": [
               "zone.js",
-              "zone.js/testing",
-              "@skyux/packages/polyfills"
+              "zone.js/testing"
             ],
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",

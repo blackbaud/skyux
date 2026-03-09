@@ -17,7 +17,7 @@ describe('IconPreviewService', () => {
   let fetchSpy: jasmine.Spy;
 
   beforeEach(() => {
-    fetchSpy = spyOn(global, 'fetch').and.stub();
+    fetchSpy = spyOn(window, 'fetch').and.stub();
     doc = {
       querySelector: jasmine.createSpy('querySelector').and.returnValue(null),
       createElement: jasmine.createSpy('createElement').and.returnValue({

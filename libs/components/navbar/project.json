@@ -47,11 +47,7 @@
         ],
         "codeCoverage": true,
         "codeCoverageExclude": ["**/fixtures/**"],
-        "polyfills": [
-          "zone.js",
-          "zone.js/testing",
-          "libs/components/packages/src/polyfills.js"
-        ],
+        "polyfills": ["zone.js", "zone.js/testing"],
         "inlineStyleLanguage": "scss",
         "stylePreprocessorOptions": {
           "includePaths": ["{workspaceRoot}"]

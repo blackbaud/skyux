@@ -193,7 +193,7 @@ jobs:
         env:
           CYPRESS_INSTALL_BINARY: 0
       - name: Check code formatting
-        run: npx nx format:check
+        run: npx nx format:check --all
         env:
           NX_VERBOSE_LOGGING: ${{ runner.debug || '' }}
 

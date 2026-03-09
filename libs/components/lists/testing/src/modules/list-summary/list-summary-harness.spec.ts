@@ -35,9 +35,7 @@ class TestComponent {}
         data-sky-id="test-item-with-help"
         [labelText]="'Revenue'"
         [value]="1000000"
-        [helpPopoverContent]="
-          'This represents the total revenue for the current period.'
-        "
+        [helpPopoverContent]="'This represents the total revenue for the current period.'"
         [helpPopoverTitle]="'Revenue Help'"
       />
       <sky-list-summary-item

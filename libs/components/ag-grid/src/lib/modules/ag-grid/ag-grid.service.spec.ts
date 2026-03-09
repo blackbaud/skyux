@@ -31,6 +31,7 @@ import { BehaviorSubject } from 'rxjs';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
 import { SkyAgGridService } from './ag-grid.service';
+import { SkyAgGridColumnFilterDatepickerComponent } from './column-filters/column-filter-datepicker/column-filter-datepicker.component';
 import { SkyAgGridHeaderComponent } from './header/header.component';
 import { SkyCellClass } from './types/cell-class';
 import { SkyCellType } from './types/cell-type';
@@ -341,6 +342,7 @@ describe('SkyAgGridService', () => {
         jasmine.objectContaining({
           defaultColDef: {
             cellClassRules: jasmine.any(Object),
+            dateComponent: SkyAgGridColumnFilterDatepickerComponent,
             headerClass: jasmine.any(Function),
             headerComponent: SkyAgGridHeaderComponent,
             minWidth: 100,

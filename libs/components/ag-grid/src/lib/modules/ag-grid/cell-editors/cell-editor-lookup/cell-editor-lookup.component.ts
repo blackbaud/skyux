@@ -42,9 +42,7 @@ import { SkyAgGridLookupProperties } from '../../types/lookup-properties';
     SkyIdModule,
   ],
 })
-export class SkyAgGridCellEditorLookupComponent
-  implements ICellEditorAngularComp
-{
+export class SkyAgGridCellEditorLookupComponent implements ICellEditorAngularComp {
   @HostBinding('style.width.px')
   public width: number | undefined;
 

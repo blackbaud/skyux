@@ -27,211 +27,180 @@ async function setup(): Promise<{
 }
 
 describe('remove-dragula', () => {
-  it('should remove dragula packages when not used', async () => {
+  it('should remove dom-autoscroller from package.json', async () => {
     const { runSchematic, tree } = await setup();
 
-    const packageJson = new JsonFile(tree, '/package.json');
-    packageJson.modify(['dependencies', 'dragula'], '1.0.0');
-    packageJson.modify(['dependencies', 'ng2-dragula'], '2.0.0');
-    packageJson.modify(['dependencies', 'dom-autoscroller'], '3.0.0');
+    new JsonFile(tree, '/package.json').modify(
+      ['dependencies', 'dom-autoscroller'],
+      '2.3.4',
+    );
 
     const updatedTree = await runSchematic();
-    const updatedPackageJson = new JsonFile(updatedTree, '/package.json');
-
-    expect(updatedPackageJson.get(['dependencies', 'dragula'])).toBeUndefined();
 
     expect(
-      updatedPackageJson.get(['dependencies', 'ng2-dragula']),
-    ).toBeUndefined();
-
-    expect(
-      updatedPackageJson.get(['dependencies', 'dom-autoscroller']),
+      new JsonFile(updatedTree, '/package.json').get([
+        'dependencies',
+        'dom-autoscroller',
+      ]),
     ).toBeUndefined();
   });
 
-  it('should keep dragula package if it is being used', async () => {
-    const { runSchematic, tree } = await setup();
-
-    const packageJson = new JsonFile(tree, '/package.json');
-    packageJson.modify(['dependencies', 'dragula'], '1.0.0');
-    packageJson.modify(['dependencies', 'ng2-dragula'], '2.0.0');
-
-    tree.create(
-      '/src/app/dragula.component.ts',
-      `import { Component } from '@angular/core';
-import { DragulaService } from 'ng2-dragula';
-
-@Component({
-  selector: 'app-dragula',
-  template: '<div></div>',
-})
-export class DragulaComponent {
-  constructor(private dragulaService: DragulaService) {}
-}`,
-    );
-
-    const updatedTree = await runSchematic();
-    const updatedPackageJson = new JsonFile(updatedTree, '/package.json');
-
-    expect(updatedPackageJson.get(['dependencies', 'dragula'])).toBeUndefined();
-    expect(updatedPackageJson.get(['dependencies', 'ng2-dragula'])).toBe(
-      '2.0.0',
-    );
-  });
-
-  it('should keep dom-autoscroller if it is being used', async () => {
-    const { runSchematic, tree } = await setup();
-
-    const packageJson = new JsonFile(tree, '/package.json');
-    packageJson.modify(['dependencies', 'dom-autoscroller'], '3.0.0');
-
-    tree.create(
-      '/src/app/autoscroller.component.ts',
-      `import { Component } from '@angular/core';
-import autoScroll from 'dom-autoscroller';
-
-@Component({
-  selector: 'app-autoscroller',
-  template: '<div></div>',
-})
-export class AutoscrollerComponent {
-  ngOnInit() {
-    autoScroll([document.querySelector('.container')]);
-  }
-}`,
-    );
-
-    const updatedTree = await runSchematic();
-    const updatedPackageJson = new JsonFile(updatedTree, '/package.json');
-
-    expect(updatedPackageJson.get(['dependencies', 'dom-autoscroller'])).toBe(
-      '3.0.0',
-    );
-  });
-
-  it('should remove unused packages while keeping used ones', async () => {
-    const { runSchematic, tree } = await setup();
-
-    const packageJson = new JsonFile(tree, '/package.json');
-    packageJson.modify(['dependencies', 'dragula'], '1.0.0');
-    packageJson.modify(['dependencies', 'ng2-dragula'], '2.0.0');
-    packageJson.modify(['dependencies', 'dom-autoscroller'], '3.0.0');
-
-    tree.create(
-      '/src/app/dragula.component.ts',
-      `import { DragulaService } from 'ng2-dragula';`,
-    );
-
-    tree.create(
-      '/src/app/autoscroller.component.ts',
-      `import autoScroll from 'dom-autoscroller';`,
-    );
-
-    const updatedTree = await runSchematic();
-    const updatedPackageJson = new JsonFile(updatedTree, '/package.json');
-
-    expect(updatedPackageJson.get(['dependencies', 'dragula'])).toBeUndefined();
-    expect(updatedPackageJson.get(['dependencies', 'ng2-dragula'])).toBe(
-      '2.0.0',
-    );
-    expect(updatedPackageJson.get(['dependencies', 'dom-autoscroller'])).toBe(
-      '3.0.0',
-    );
-  });
-
-  it('should succeed if dragula packages are not installed', async () => {
-    const { runSchematic } = await setup();
-
-    await expect(runSchematic()).resolves.toBeInstanceOf(UnitTestTree);
-  });
-
-  describe('ng2-dragula overrides', () => {
-    it('should remove ng2-dragula override when package is removed', async () => {
+  describe('when ng2-dragula is not used', () => {
+    it('should remove @types/dragula from package.json', async () => {
       const { runSchematic, tree } = await setup();
 
-      const packageJson = new JsonFile(tree, '/package.json');
-      packageJson.modify(['dependencies', 'ng2-dragula'], '2.0.0');
-      packageJson.modify(['overrides'], {
-        'ng2-dragula@2.0.0': {
-          '@angular/animations': '>=21.0.0',
-          '@angular/core': '>=21.0.0',
-          '@angular/common': '>=21.0.0',
-        },
-      });
+      new JsonFile(tree, '/package.json').modify(
+        ['devDependencies', '@types/dragula'],
+        '2.1.36',
+      );
 
       const updatedTree = await runSchematic();
-      const updatedPackageJson = new JsonFile(updatedTree, '/package.json');
 
       expect(
-        updatedPackageJson.get(['dependencies', 'ng2-dragula']),
+        new JsonFile(updatedTree, '/package.json').get([
+          'devDependencies',
+          '@types/dragula',
+        ]),
       ).toBeUndefined();
-      expect(updatedPackageJson.get(['overrides'])).toBeUndefined();
     });
 
-    it('should remove ng2-dragula override without version', async () => {
+    it('should remove dragula from package.json', async () => {
       const { runSchematic, tree } = await setup();
 
-      const packageJson = new JsonFile(tree, '/package.json');
-      packageJson.modify(['dependencies', 'ng2-dragula'], '2.0.0');
-      packageJson.modify(['overrides'], {
-        'ng2-dragula': {
-          '@angular/core': '>=21.0.0',
-        },
-      });
+      new JsonFile(tree, '/package.json').modify(
+        ['dependencies', 'dragula'],
+        '3.7.3',
+      );
 
       const updatedTree = await runSchematic();
-      const updatedPackageJson = new JsonFile(updatedTree, '/package.json');
 
       expect(
-        updatedPackageJson.get(['dependencies', 'ng2-dragula']),
+        new JsonFile(updatedTree, '/package.json').get([
+          'dependencies',
+          'dragula',
+        ]),
       ).toBeUndefined();
-      expect(updatedPackageJson.get(['overrides'])).toBeUndefined();
     });
 
-    it('should keep overrides section when other packages have overrides', async () => {
+    it('should remove ng2-dragula from package.json', async () => {
+      const { runSchematic, tree } = await setup();
+
+      new JsonFile(tree, '/package.json').modify(
+        ['dependencies', 'ng2-dragula'],
+        '4.0.0',
+      );
+
+      const updatedTree = await runSchematic();
+
+      expect(
+        new JsonFile(updatedTree, '/package.json').get([
+          'dependencies',
+          'ng2-dragula',
+        ]),
+      ).toBeUndefined();
+    });
+
+    it('should remove ng2-dragula overrides from package.json', async () => {
       const { runSchematic, tree } = await setup();
 
       const packageJson = new JsonFile(tree, '/package.json');
-      packageJson.modify(['dependencies', 'ng2-dragula'], '2.0.0');
-      packageJson.modify(['overrides'], {
-        'ng2-dragula@2.0.0': {
-          '@angular/core': '>=21.0.0',
-        },
-        'other-package@1.0.0': {
-          '@angular/common': '>=21.0.0',
-        },
+      packageJson.modify(['overrides', 'ng2-dragula@5.1.0'], {
+        '@angular/core': '>=21.0.0',
+      });
+      packageJson.modify(['overrides', 'other-package'], {
+        dep: '1.0.0',
       });
 
       const updatedTree = await runSchematic();
       const updatedPackageJson = new JsonFile(updatedTree, '/package.json');
 
       expect(
-        updatedPackageJson.get(['dependencies', 'ng2-dragula']),
-      ).toBeUndefined();
-      expect(updatedPackageJson.get(['overrides'])).toBeDefined();
-      expect(
-        updatedPackageJson.get(['overrides', 'ng2-dragula@2.0.0']),
+        updatedPackageJson.get(['overrides', 'ng2-dragula@5.1.0']),
       ).toBeUndefined();
       expect(
-        updatedPackageJson.get(['overrides', 'other-package@1.0.0']),
+        updatedPackageJson.get(['overrides', 'other-package']),
       ).toBeDefined();
     });
 
-    it('should keep ng2-dragula override when package is still in use', async () => {
+    it('should remove the overrides section if empty after removing ng2-dragula', async () => {
       const { runSchematic, tree } = await setup();
+
+      new JsonFile(tree, '/package.json').modify(
+        ['overrides', 'ng2-dragula@5.1.0'],
+        {
+          '@angular/core': '>=21.0.0',
+        },
+      );
+
+      const updatedTree = await runSchematic();
+
+      expect(
+        new JsonFile(updatedTree, '/package.json').get(['overrides']),
+      ).toBeUndefined();
+    });
+
+    it('should succeed if dragula packages are not installed', async () => {
+      const { runSchematic } = await setup();
+
+      await expect(runSchematic()).resolves.toBeInstanceOf(UnitTestTree);
+    });
+  });
+
+  describe('when ng2-dragula is used', () => {
+    it('should add dragula dependencies to package.json', async () => {
+      const { runSchematic, tree } = await setup();
+
+      tree.create(
+        '/src/app/my-component.ts',
+        `import { DragulaModule } from 'ng2-dragula';`,
+      );
+
+      const updatedTree = await runSchematic();
+      const updatedPackageJson = new JsonFile(updatedTree, '/package.json');
+
+      expect(
+        updatedPackageJson.get(['devDependencies', '@types/dragula']),
+      ).toBe('2.1.36');
+      expect(updatedPackageJson.get(['dependencies', 'dragula'])).toBe('3.7.3');
+      expect(updatedPackageJson.get(['dependencies', 'ng2-dragula'])).toBe(
+        '5.1.0',
+      );
+    });
+
+    it('should add ng2-dragula overrides to package.json', async () => {
+      const { runSchematic, tree } = await setup();
+
+      tree.create(
+        '/src/app/my-component.ts',
+        `import { DragulaModule } from 'ng2-dragula';`,
+      );
+
+      const updatedTree = await runSchematic();
+
+      expect(
+        new JsonFile(updatedTree, '/package.json').get([
+          'overrides',
+          'ng2-dragula@5.1.0',
+        ]),
+      ).toEqual({
+        '@angular/animations': '>=21.0.0',
+        '@angular/core': '>=21.0.0',
+        '@angular/common': '>=21.0.0',
+      });
+    });
+
+    it('should not overwrite existing dragula dependencies', async () => {
+      const { runSchematic, tree } = await setup();
+
+      tree.create(
+        '/src/app/my-component.ts',
+        `import { DragulaService } from 'ng2-dragula';`,
+      );
 
       const packageJson = new JsonFile(tree, '/package.json');
       packageJson.modify(['dependencies', 'ng2-dragula'], '2.0.0');
-      packageJson.modify(['overrides'], {
-        'ng2-dragula@2.0.0': {
-          '@angular/core': '>=21.0.0',
-        },
-      });
-
-      tree.create(
-        '/src/app/dragula.component.ts',
-        `import { DragulaService } from 'ng2-dragula';`,
-      );
+      packageJson.modify(['dependencies', 'dragula'], '3.0.0');
+      packageJson.modify(['devDependencies', '@types/dragula'], '2.0.0');
 
       const updatedTree = await runSchematic();
       const updatedPackageJson = new JsonFile(updatedTree, '/package.json');
@@ -239,19 +208,51 @@ export class AutoscrollerComponent {
       expect(updatedPackageJson.get(['dependencies', 'ng2-dragula'])).toBe(
         '2.0.0',
       );
-
+      expect(updatedPackageJson.get(['dependencies', 'dragula'])).toBe('3.0.0');
       expect(
-        updatedPackageJson.get(['overrides', 'ng2-dragula@2.0.0']),
-      ).toBeDefined();
+        updatedPackageJson.get(['devDependencies', '@types/dragula']),
+      ).toBe('2.0.0');
     });
 
-    it('should not fail when package.json has no overrides', async () => {
+    it('should detect ng2-dragula usage via dynamic import', async () => {
       const { runSchematic, tree } = await setup();
 
-      const packageJson = new JsonFile(tree, '/package.json');
-      packageJson.modify(['dependencies', 'ng2-dragula'], '2.0.0');
+      tree.create(
+        '/src/app/my-component.ts',
+        `const mod = import('ng2-dragula');`,
+      );
 
-      await expect(runSchematic()).resolves.toBeInstanceOf(UnitTestTree);
+      const updatedTree = await runSchematic();
+
+      expect(
+        new JsonFile(updatedTree, '/package.json').get([
+          'dependencies',
+          'ng2-dragula',
+        ]),
+      ).toBe('5.1.0');
+    });
+
+    it('should still remove dom-autoscroller', async () => {
+      const { runSchematic, tree } = await setup();
+
+      tree.create(
+        '/src/app/my-component.ts',
+        `import { DragulaModule } from 'ng2-dragula';`,
+      );
+
+      new JsonFile(tree, '/package.json').modify(
+        ['dependencies', 'dom-autoscroller'],
+        '2.3.4',
+      );
+
+      const updatedTree = await runSchematic();
+
+      expect(
+        new JsonFile(updatedTree, '/package.json').get([
+          'dependencies',
+          'dom-autoscroller',
+        ]),
+      ).toBeUndefined();
     });
   });
 });

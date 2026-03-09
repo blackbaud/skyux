@@ -53,9 +53,8 @@ describe('getComponentProjectNames', () => {
 
     vi.mocked(getProjects).mockReturnValue(mockProjects as never);
 
-    const { getComponentProjectNames } = await import(
-      './get-component-project-names.js'
-    );
+    const { getComponentProjectNames } =
+      await import('./get-component-project-names.js');
 
     const result = getComponentProjectNames();
 
@@ -83,9 +82,8 @@ describe('getComponentProjectNames', () => {
 
     vi.mocked(getProjects).mockReturnValue(mockProjects as never);
 
-    const { getComponentProjectNames } = await import(
-      './get-component-project-names.js'
-    );
+    const { getComponentProjectNames } =
+      await import('./get-component-project-names.js');
 
     const result = getComponentProjectNames();
 
@@ -111,9 +109,8 @@ describe('getComponentProjectNames', () => {
 
     vi.mocked(getProjects).mockReturnValue(mockProjects as never);
 
-    const { getComponentProjectNames } = await import(
-      './get-component-project-names.js'
-    );
+    const { getComponentProjectNames } =
+      await import('./get-component-project-names.js');
 
     const result = getComponentProjectNames();
 
@@ -125,9 +122,8 @@ describe('getComponentProjectNames', () => {
 
     vi.mocked(getProjects).mockReturnValue(mockProjects as never);
 
-    const { getComponentProjectNames } = await import(
-      './get-component-project-names.js'
-    );
+    const { getComponentProjectNames } =
+      await import('./get-component-project-names.js');
 
     const result = getComponentProjectNames();
 
