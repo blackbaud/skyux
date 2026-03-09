@@ -167,7 +167,7 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
   }
 
   #tabsHidden(): void {
-    this.slideDirection = 'down';
+    this.#updateSlideDirection();
     this.#changeRef.markForCheck();
   }
 
