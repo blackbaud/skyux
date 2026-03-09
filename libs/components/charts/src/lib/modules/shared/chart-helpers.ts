@@ -1,4 +1,10 @@
-import { Chart, ChartConfiguration, ChartEvent } from 'chart.js';
+import {
+  Chart,
+  ChartConfiguration,
+  ChartDataset,
+  ChartEvent,
+  ChartType,
+} from 'chart.js';
 
 import { SkyChartLegendItem } from '../chart-legend/chart-legend-item';
 
@@ -8,25 +14,61 @@ import { SkyChartDataPoint } from './types/chart-data-point';
 import { SkyChartSeries } from './types/chart-series';
 
 /**
+ * Determines the dataset type for the given dataset.
+ * @remarks This takes into account both the dataset's explicit type and the chart's root type.
+ * @param chart The ChartJS chart instance that the dataset belongs to
+ * @param dataset The dataset to determine the type of
+ * @returns The ChartJS Chart Type of the dataset
+ */
+function getDatasetType(chart: Chart, dataset: ChartDataset): ChartType {
+  const datasetType = dataset.type;
+
+  // If the dataset has an explicit type, use it
+  if (datasetType !== undefined) {
+    return datasetType;
+  }
+
+  // Otherwise, use the root chart type
+  const chartType = getChartType(chart);
+
+  return chartType;
+}
+
+/**
+ * Type guard to check if the given dataset is of the specified type.
+ * @remarks This takes into account both the dataset's explicit type and the chart's root type.
+ * @param chart The ChartJS chart instance that the dataset belongs to
+ * @param dataset The dataset to check the type of
+ * @param type The chart type to check against
+ * @returns Type Guard asserting that the dataset is of the specified type
+ */
+export function isDatasetType<T extends ChartType>(
+  chart: Chart,
+  dataset: ChartDataset,
+  type: T,
+): dataset is ChartDataset & { type: T } {
+  return getDatasetType(chart, dataset) === type;
+}
+
+/**
  * Gets the chart type of the given chart
  * @param chart
  * @returns the ChartJS Chart Type
  */
-export function getChartType(chart: Chart): string {
+export function getChartType(chart: Chart): ChartType {
   if (isChartConfiguration(chart.config)) {
     return chart.config.type;
   }
 
-  // SkyUX doesn't support Combo Charts
-  throw new Error('Unsupported chart type');
+  throw new Error('Unknown chart type');
 }
 
 /**
  * Checks if the given chart is a Pie or Donut chart
  */
-export function isDonutOrPieChart(chart: Chart): boolean {
+export function isDonutChart(chart: Chart): chart is Chart<'doughnut'> {
   const chartType = getChartType(chart);
-  return chartType === 'pie' || chartType === 'doughnut';
+  return chartType === 'doughnut';
 }
 
 /**
@@ -34,7 +76,7 @@ export function isDonutOrPieChart(chart: Chart): boolean {
  * @param config
  * @returns Type Guard asserting that the configuration is `ChartConfiguration`
  */
-export function isChartConfiguration(
+function isChartConfiguration(
   config: Chart['config'],
 ): config is ChartConfiguration {
   return 'type' in config && typeof config.type === 'string';

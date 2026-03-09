@@ -1,7 +1,7 @@
 import type { Chart, ChartEvent, InteractionItem, Plugin } from 'chart.js';
 
-import { getChartType, isDonutOrPieChart } from '../chart-helpers';
-import { SkyuxChartStyles } from '../chart-styles';
+import { getChartType, isDonutChart } from '../chart-helpers';
+import { SkyChartStyleService } from '../services/chart-style.service';
 
 /**
  * Plugin that adds comprehensive keyboard navigation support to ChartJS charts.
@@ -39,11 +39,17 @@ import { SkyuxChartStyles } from '../chart-styles';
  * - Visual focus indicators follow SKY UX design system
  * - Supports all chart types (bar, line, pie, doughnut)
  */
-export function createChartA11yPlugin(): Plugin {
+export function createChartA11yPlugin(
+  styleService: SkyChartStyleService,
+): Plugin {
+  // Maintain a mapping of Chart instances to their corresponding keyboard managers.
+  // This allows the plugin to manage keyboard interactions for multiple charts on the same page.
+  const chartManagers = new Map<Chart, ChartKeyboardManager>();
+
   const plugin: Plugin = {
     id: 'sky_chart_a11y',
     afterInit: (chart) => {
-      const manager = new ChartKeyboardManager(chart);
+      const manager = new ChartKeyboardManager(chart, styleService);
 
       chartManagers.set(chart, manager);
       manager.initialize();
@@ -65,12 +71,6 @@ export function createChartA11yPlugin(): Plugin {
 }
 
 /**
- * Maintains a mapping of Chart instances to their corresponding keyboard managers.
- * This allows the plugin to manage keyboard interactions for multiple charts on the same page.
- */
-const chartManagers = new Map<Chart, ChartKeyboardManager>();
-
-/**
  * Represents the currently focused data point in the chart, identified by its dataset index and data index.
  */
 interface FocusedElement {
@@ -84,6 +84,8 @@ interface FocusedElement {
 class ChartKeyboardManager {
   readonly #chart: Chart;
   readonly #canvas: HTMLCanvasElement;
+  readonly #styleService: SkyChartStyleService;
+
   readonly #boundKeyDownHandler: (e: KeyboardEvent) => void;
   readonly #boundFocusHandler: () => void;
   readonly #boundBlurHandler: () => void;
@@ -91,9 +93,10 @@ class ChartKeyboardManager {
   #focusedElement: FocusedElement | null = null;
   #isNavigating = false;
 
-  constructor(chart: Chart) {
+  constructor(chart: Chart, styleService: SkyChartStyleService) {
     this.#chart = chart;
     this.#canvas = chart.canvas;
+    this.#styleService = styleService;
 
     // Bind handlers
     this.#boundKeyDownHandler = this.#handleKeyDown.bind(this);
@@ -159,7 +162,7 @@ class ChartKeyboardManager {
     ctx.save();
 
     // Draw focus outline
-    ctx.strokeStyle = SkyuxChartStyles.focusIndicatorColor;
+    ctx.strokeStyle = this.#styleService.styles().focusIndicator.color;
     ctx.lineWidth = 3;
     ctx.setLineDash([]);
 
@@ -185,7 +188,7 @@ class ChartKeyboardManager {
         ctx,
         dataElement as unknown as { x: number; y: number },
       );
-    } else if (isDonutOrPieChart(this.#chart)) {
+    } else if (isDonutChart(this.#chart)) {
       this.#drawDonutFocusIndicator(
         ctx,
         dataElement as unknown as {
@@ -279,7 +282,7 @@ class ChartKeyboardManager {
 
     const chartType = getChartType(this.#chart);
 
-    if (isDonutOrPieChart(this.#chart)) {
+    if (isDonutChart(this.#chart)) {
       // For pie charts, navigate through segments
       this.#navigatePieChart(key);
     } else if (chartType === 'bar' || chartType === 'line') {

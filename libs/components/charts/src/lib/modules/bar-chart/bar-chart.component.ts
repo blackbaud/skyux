@@ -24,9 +24,9 @@ import { SkyChartActivatedDatapoint } from '../shared/types/chart-activated-data
 import { SkyChartSeries } from '../shared/types/chart-series';
 
 import {
+  SkyBarChartConfigService,
   SkyBarChartOptions,
-  getChartJsBarChartConfig,
-} from './bar-chart-config';
+} from './bar-chart-config.service';
 import { SkyBarChartRegistry } from './bar-chart-registry.service';
 import { SkyBarChartOrientation, SkyBarChartPoint } from './bar-chart-types';
 
@@ -42,7 +42,6 @@ import { SkyBarChartOrientation, SkyBarChartPoint } from './bar-chart-types';
           skyChartJs
           [chartConfiguration]="config"
           [ariaLabel]="arialLabel()"
-          (themeChanged)="onThemeChanged()"
           (chartUpdated)="onChartUpdated()"
         ></canvas>
       </div>
@@ -62,6 +61,7 @@ export class SkyBarChartComponent {
   // #region Dependency Injection
   readonly #chartService = inject(SkyChartService);
   readonly #chartRegistry = inject(SkyBarChartRegistry);
+  readonly #chartConfigService = inject(SkyBarChartConfigService);
   // #endregion
 
   // #region Inputs
@@ -79,26 +79,42 @@ export class SkyBarChartComponent {
 
   protected readonly arialLabel = this.#chartService.headingText;
   readonly #chart = computed(() => this.chartDirective()?.chart());
-  readonly #themeVersion = signal(0);
   readonly #chartUpdated = signal(0);
   readonly #refreshLegendItems = signal(0);
-  readonly #chartOptions = signal<SkyBarChartOptions | undefined>(undefined);
+
+  readonly #chartOptions = computed(() => {
+    const orientation = this.orientation();
+    const stacked = this.stacked();
+
+    const categoryAxis = this.#chartRegistry.categoryAxis();
+    const measureAxis = this.#chartRegistry.measureAxis();
+    const series = this.#chartRegistry.series();
+
+    const options = this.#parseOptions({
+      orientation: orientation,
+      stacked: stacked,
+      categoryAxis: categoryAxis,
+      measureAxis: measureAxis,
+      series: series,
+    });
+
+    return options;
+  });
 
   protected readonly chartConfiguration = computed(() => {
-    // Track theme and chart configuration changes
-    this.#themeVersion();
-    const config = this.#chartOptions();
+    const options = this.#chartOptions();
 
-    if (!config) {
+    if (!options) {
       return undefined;
     }
 
-    return getChartJsBarChartConfig(config);
+    return this.#chartConfigService.buildConfig(options);
   });
-  protected readonly legendItems = computed(() => {
+
+  readonly #legendItems = computed(() => {
     // Track chart, chart updates, series, and refresh triggers to update legend items
     const chart = this.#chart();
-    this.#chartUpdated(); // We rely on ChartJS to track the visibility and color state
+    this.#chartUpdated(); // Recalculate on ChartJs updates since we rely on it to track visibility and color state
     const series = this.#chartService.series();
     this.#refreshLegendItems();
 
@@ -110,7 +126,7 @@ export class SkyBarChartComponent {
   });
 
   constructor() {
-    // Sync series data to the chart service
+    // Sync series to the chart service
     effect(() => {
       const config = this.#chartOptions();
       this.#chartService.setSeries(config?.series ?? []);
@@ -118,7 +134,7 @@ export class SkyBarChartComponent {
 
     // Sync legend items to the chart service
     effect(() => {
-      const items = this.legendItems();
+      const items = this.#legendItems();
       this.#chartService.setLegendItems(items);
     });
 
@@ -129,31 +145,6 @@ export class SkyBarChartComponent {
         this.#onLegendItemToggled(item);
       }
     });
-
-    // Whenever chart-impacting input change recreate the chart config
-    effect(() => {
-      const orientation = this.orientation();
-      const stacked = this.stacked();
-
-      const categoryAxis = this.#chartRegistry.categoryAxis();
-      const measureAxis = this.#chartRegistry.measureAxis();
-      const series = this.#chartRegistry.series();
-
-      const config = this.#parseConfigFromContent({
-        orientation: orientation,
-        stacked: stacked,
-        categoryAxis: categoryAxis,
-        measureAxis: measureAxis,
-        series: series,
-      });
-
-      this.#chartOptions.set(config);
-    });
-  }
-
-  /** Handle theme changes */
-  protected onThemeChanged(): void {
-    this.#themeVersion.update((v) => v + 1);
   }
 
   /** Handle chart updates */
@@ -162,7 +153,7 @@ export class SkyBarChartComponent {
   }
 
   // #region Private
-  #parseConfigFromContent(context: {
+  #parseOptions(context: {
     orientation: SkyBarChartOrientation;
     stacked: boolean;
     categoryAxis: Readonly<SkyChartCategoryAxisConfig> | undefined;

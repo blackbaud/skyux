@@ -1,7 +1,5 @@
 import {
   AfterViewInit,
-  ChangeDetectorRef,
-  DestroyRef,
   Directive,
   ElementRef,
   NgZone,
@@ -13,8 +11,6 @@ import {
   signal,
   untracked,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { SkyThemeService } from '@skyux/theme';
 
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
 
@@ -36,9 +32,6 @@ Chart.register(...registerables);
 export class SkyChartJsDirective implements OnDestroy, AfterViewInit {
   // #region Dependency Injection
   readonly #element: ElementRef<HTMLCanvasElement> = inject(ElementRef);
-  readonly #destroyRef = inject(DestroyRef);
-  readonly #changeDetector = inject(ChangeDetectorRef);
-  readonly #themeSvc = inject(SkyThemeService, { optional: true });
   readonly #zone = inject(NgZone);
   // #endregion
 
@@ -55,11 +48,6 @@ export class SkyChartJsDirective implements OnDestroy, AfterViewInit {
   // #endregion
 
   // #region Outputs
-  /**
-   * An event emitted when the theme changes, indicating that parent components should regenerate its configuration to apply new theme values.
-   */
-  public readonly themeChanged = output<void>();
-
   /**
    * An event emitted after the chart has been updated with new data or options.
    * @remarks This allows parent components to react to chart updates, such as by performing additional calculations or triggering change detection.
@@ -110,13 +98,6 @@ export class SkyChartJsDirective implements OnDestroy, AfterViewInit {
    */
   public ngAfterViewInit(): void {
     this.#renderChart();
-
-    /* istanbul ignore else */
-    if (this.#themeSvc) {
-      this.#themeSvc.settingsChange
-        .pipe(takeUntilDestroyed(this.#destroyRef))
-        .subscribe(() => this.#onThemeChange());
-    }
   }
 
   #destroyChart(): void {
@@ -160,15 +141,5 @@ export class SkyChartJsDirective implements OnDestroy, AfterViewInit {
     }
 
     return canvasContext;
-  }
-
-  /**
-   * Handles theme changes from the SKY UX theme service.
-   * Emits the `themeChanged` event to notify the parent component so it can
-   * regenerate the chart configuration with updated theme values.
-   */
-  #onThemeChange(): void {
-    this.themeChanged.emit();
-    this.#changeDetector.markForCheck();
   }
 }

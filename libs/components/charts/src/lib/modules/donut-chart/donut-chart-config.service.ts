@@ -1,0 +1,123 @@
+import { Injectable, inject } from '@angular/core';
+
+import {
+  ChartConfiguration,
+  ChartDataset,
+  ChartOptions,
+  TooltipItem,
+} from 'chart.js';
+
+import { getActivatedChartDataElement } from '../shared/chart-helpers';
+import { SkyChartStyleService } from '../shared/services/chart-style.service';
+import { SkyChartGlobalConfigService } from '../shared/services/global-chart-config.service';
+import { SkyChartActivatedDatapoint } from '../shared/types/chart-activated-datapoint';
+import { SkyChartSeries } from '../shared/types/chart-series';
+
+import { SkyDonutChartSlice } from './donut-chart-types';
+
+/**
+ * Configuration service for the Donut Chart component.
+ */
+@Injectable({ providedIn: 'root' })
+export class SkyDonutChartConfigService {
+  readonly #chartStyleService = inject(SkyChartStyleService);
+  readonly #globalConfig = inject(SkyChartGlobalConfigService);
+
+  /**
+   * Builds a Chart.js Donut Chart configuration based on provided options.
+   * @remarks This uses the `SkyChartStyleService.styles` signal to support runtime theming recalculations
+   * @param options bar chart options
+   */
+  public buildConfig(
+    options: SkyDonutChartOptions,
+  ): ChartConfiguration<'doughnut'> {
+    const styles = this.#chartStyleService.styles();
+
+    // Build datasets from series
+    const dataset: ChartDataset<'doughnut'> = {
+      label: options.series.labelText,
+      data: options.series.data.map((dp) => dp.value),
+    };
+
+    // Build Plugin options
+    const pluginOptions: ChartOptions<'doughnut'>['plugins'] = {
+      tooltip: {
+        callbacks: {
+          label(context) {
+            const { dataIndex } = context;
+            const dataset = options.series;
+            const dataPoint = dataset.data[dataIndex];
+
+            // TODO: Chart Localization
+            const percent = percentOfVisibleDataset(context);
+            return `${dataPoint.labelText} (${percent.toFixed(2)}%)`;
+          },
+        },
+      },
+    };
+
+    // Build chart options
+    const chartOptions: ChartOptions<'doughnut'> = {
+      interaction: {
+        mode: 'nearest',
+        intersect: true,
+      },
+      datasets: {
+        doughnut: {
+          borderWidth: styles.charts.donut.borderWidth,
+          borderColor: styles.charts.donut.borderColor,
+        },
+      },
+      plugins: pluginOptions,
+      onClick: (e, _, chart) => {
+        const clickedElement = getActivatedChartDataElement(e, chart);
+        if (!clickedElement) {
+          return;
+        }
+        options.callbacks.onDatapointClick(clickedElement);
+      },
+    };
+
+    const config = this.#globalConfig.getMergedChartConfiguration<'doughnut'>({
+      type: 'doughnut',
+      data: {
+        labels: options.series.data.map((d) => d.category),
+        datasets: [dataset],
+      },
+      options: chartOptions,
+      plugins: [],
+    });
+
+    return config;
+  }
+}
+
+function percentOfVisibleDataset(context: TooltipItem<'doughnut'>): number {
+  const value = Number(context.raw) || 0;
+  const chart = context.chart;
+
+  // Total up the visible data points in the dataset
+  const visibleTotal = context.dataset.data.reduce((sum, v, i) => {
+    if (!chart.getDataVisibility(i)) {
+      return sum;
+    }
+
+    return sum + (Number(v) || 0);
+  }, 0);
+
+  return visibleTotal ? (value / visibleTotal) * 100 : 0;
+}
+
+// #region Types
+/** Configuration for the donut chart component. */
+export interface SkyDonutChartOptions {
+  /**
+   * The data series for the chart.
+   */
+  series: SkyChartSeries<SkyDonutChartSlice>;
+
+  callbacks: {
+    onDatapointClick: (event: SkyChartActivatedDatapoint) => void;
+  };
+}
+// #endregion

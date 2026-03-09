@@ -1,45 +1,47 @@
 import { TooltipOptions } from 'chart.js';
 
-import { SkyuxChartStyles } from '../chart-styles';
+import { SkyChartStyles } from '../services/chart-style.service';
 import { DeepPartial } from '../types/deep-partial-type';
 
 /**
  * Get default tooltip options for Chart.JS Tooltips
  */
-export function getTooltipPluginOptions(): DeepPartial<TooltipOptions> {
+export function getTooltipPluginOptions(
+  styles: SkyChartStyles,
+): DeepPartial<TooltipOptions> {
   return {
     enabled: true,
     mode: 'index',
     intersect: false,
-    cornerRadius: SkyuxChartStyles.tooltipCornerRadius,
-    backgroundColor: SkyuxChartStyles.tooltipBackgroundColor,
-    titleColor: SkyuxChartStyles.tooltipTitleColor,
-    bodyColor: SkyuxChartStyles.tooltipBodyColor,
-    borderColor: SkyuxChartStyles.tooltipBorderColor,
-    borderWidth: SkyuxChartStyles.tooltipBorderWidth,
-    padding: SkyuxChartStyles.tooltipPadding,
+    cornerRadius: styles.tooltip.cornerRadius,
+    backgroundColor: styles.tooltip.backgroundColor,
+    titleColor: styles.tooltip.titleColor,
+    bodyColor: styles.tooltip.bodyColor,
+    borderColor: styles.tooltip.borderColor,
+    borderWidth: styles.tooltip.borderWidth,
+    padding: styles.tooltip.padding,
     displayColors: true,
     multiKeyBackground: 'transparent',
-    bodySpacing: SkyuxChartStyles.tooltipBodySpacing,
-    titleMarginBottom: SkyuxChartStyles.tooltipTitleMarginBottom,
-    caretSize: SkyuxChartStyles.tooltipCaretSize,
-    boxPadding: SkyuxChartStyles.tooltipBoxPadding,
+    bodySpacing: styles.tooltip.bodySpacing,
+    titleMarginBottom: styles.tooltip.titleMarginBottom,
+    caretSize: styles.tooltip.caretSize,
+    boxPadding: styles.tooltip.boxPadding,
     caretPadding: 4,
     usePointStyle: true,
     titleFont: {
-      family: SkyuxChartStyles.fontFamily,
-      size: SkyuxChartStyles.tooltipTitleFontSize,
-      weight: SkyuxChartStyles.tooltipTitleFontWeight,
+      family: styles.fontFamily,
+      size: styles.tooltip.titleFontSize,
+      weight: styles.tooltip.titleFontWeight,
     },
     bodyFont: {
-      family: SkyuxChartStyles.fontFamily,
-      size: SkyuxChartStyles.tooltipBodyFontSize,
-      weight: SkyuxChartStyles.tooltipBodyFontWeight,
+      family: styles.fontFamily,
+      size: styles.tooltip.bodyFontSize,
+      weight: styles.tooltip.bodyFontWeight,
     },
     footerFont: {
-      family: SkyuxChartStyles.fontFamily,
-      size: SkyuxChartStyles.tooltipFooterFontSize,
-      weight: SkyuxChartStyles.tooltipFooterFontWeight,
+      family: styles.fontFamily,
+      size: styles.tooltip.footerFontSize,
+      weight: styles.tooltip.footerFontWeight,
     },
   };
 }
