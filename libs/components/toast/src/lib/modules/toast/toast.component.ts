@@ -12,7 +12,7 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
-import { SkyIdModule, _SkyAnimationEmergeComponent } from '@skyux/core';
+import { SkyIdModule } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeModule } from '@skyux/theme';
 
@@ -42,7 +42,6 @@ const SKY_TOAST_TYPE_DEFAULT = SkyToastType.Info;
     SkyIdModule,
     SkyThemeModule,
     SkyToastResourcesModule,
-    _SkyAnimationEmergeComponent,
   ],
 })
 export class SkyToastComponent implements OnInit, OnDestroy {
@@ -116,17 +115,16 @@ export class SkyToastComponent implements OnInit, OnDestroy {
     this.stopAutoCloseTimer();
   }
 
-  protected onTransitionEnd(): void {
-    if (!this.isOpen) {
-      this.closed.emit();
-      this.closed.complete();
-    }
-  }
-
   public close(): void {
+    if (!this.#isOpen) {
+      return;
+    }
+
     this.stopAutoCloseTimer();
 
     this.#isOpen = false;
+    this.closed.emit();
+    this.closed.complete();
     this.#changeDetector.markForCheck();
   }
 

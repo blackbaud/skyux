@@ -7,7 +7,6 @@ import {
   tick,
 } from '@angular/core/testing';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
-import { provideNoopSkyAnimations } from '@skyux/core';
 
 import { SkyToastBodyTestContext } from './fixtures/toast-body-context';
 import { SkyToastBodyTestComponent } from './fixtures/toast-body.component.fixture';
@@ -33,7 +32,6 @@ describe('Toaster component', () => {
     TestBed.configureTestingModule({
       imports: [SkyToastFixturesModule],
       providers: [
-        provideNoopSkyAnimations(),
         {
           provide: SkyToastContainerOptions,
           useValue: {

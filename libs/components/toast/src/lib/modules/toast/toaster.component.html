@@ -9,6 +9,8 @@
 >
   @for (toast of toastsForDisplay; track toast.toastId) {
     <sky-toast
+      animate.enter="sky-animation-emerge-enter"
+      animate.leave="sky-animation-emerge-leave"
       [autoClose]="toast.config?.autoClose"
       [toastType]="toast.config?.type"
       (closed)="onToastClosed(toast)"
