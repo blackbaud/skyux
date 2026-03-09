@@ -129,7 +129,7 @@ export class SkyRepeaterItemComponent
    */
   @Input()
   public set isExpanded(value: boolean | undefined) {
-    this.updateForExpanded(value !== false, true);
+    this.updateForExpanded(value !== false);
   }
 
   public get isExpanded(): boolean {
@@ -222,7 +222,7 @@ export class SkyRepeaterItemComponent
 
       /*istanbul ignore else */
       if (!this.#_isCollapsible) {
-        this.updateForExpanded(true, true);
+        this.updateForExpanded(true);
       }
     }
 
@@ -240,8 +240,6 @@ export class SkyRepeaterItemComponent
   public reorderState: string | undefined;
 
   public slideDirection: string | undefined;
-
-  public animationDisabled = false;
 
   @HostBinding('class')
   public get repeaterGroupClass(): string {
@@ -310,7 +308,7 @@ export class SkyRepeaterItemComponent
     this.#elementRef = elementRef;
     this.#resourceService = resourceService;
 
-    this.#slideForExpanded(false);
+    this.#slideForExpanded();
 
     observableForkJoin([
       this.#resourceService.getString('skyux_repeater_item_reorder_cancel'),
@@ -451,12 +449,12 @@ export class SkyRepeaterItemComponent
 
   public headerClick(): void {
     if (this.isCollapsible) {
-      this.updateForExpanded(!this.isExpanded, true);
+      this.updateForExpanded(!this.isExpanded);
     }
   }
 
   public chevronDirectionChange(direction: string): void {
-    this.updateForExpanded(direction === 'up', true);
+    this.updateForExpanded(direction === 'up');
   }
 
   public onRepeaterItemClick(event: MouseEvent): void {
@@ -483,7 +481,7 @@ export class SkyRepeaterItemComponent
     }
   }
 
-  public updateForExpanded(value: boolean, animate: boolean): void {
+  public updateForExpanded(value: boolean): void {
     if (this.isCollapsible === false && value === false) {
       console.warn(
         `Setting isExpanded to false when the repeater item is not collapsible
@@ -499,7 +497,7 @@ export class SkyRepeaterItemComponent
       }
 
       this.#repeaterService.onItemCollapseStateChange(this);
-      this.#slideForExpanded(animate);
+      this.#slideForExpanded();
       this.#changeDetector.markForCheck();
     }
   }
@@ -591,8 +589,7 @@ export class SkyRepeaterItemComponent
     );
   }
 
-  #slideForExpanded(animate: boolean): void {
-    this.animationDisabled = !animate;
+  #slideForExpanded(): void {
     this.slideDirection = this.isExpanded ? 'down' : 'up';
   }
 
