@@ -8,6 +8,9 @@ import {
 import { ModalBasicComponent } from './modals/modal-basic.component';
 import { ModalTestContext } from './modals/modal-context';
 
+const BANNER_IMAGE_SRC =
+  'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjM4MCIgdmlld0JveD0iMCAwIDYwMCAzODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI2MDAiIGhlaWdodD0iMzgwIiBmaWxsPSIjRENGNkY1Ii8+CjxyZWN0IHg9IjQyIiB5PSI0NiIgd2lkdGg9IjE0MCIgaGVpZ2h0PSIxNDAiIGZpbGw9IiNERUJERkEiLz4KPHJlY3QgeD0iMjMwIiB5PSIxOTQiIHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIiByeD0iNzAiIGZpbGw9IiM2MEQ1RDIiLz4KPHBhdGggZD0iTTQ3OCA3OEw1NDcuMjgyIDE5OEg0MDguNzE4TDQ3OCA3OFoiIGZpbGw9IiM2NkUyRkYiLz4KPC9zdmc+Cg==';
+
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
@@ -87,6 +90,82 @@ export class ModalComponent {
     // and size of the body element and would be pushed off the screen.
     this.#showPositionedEl();
     this.openModal(ModalBasicComponent, { size: 'medium' });
+  }
+
+  protected onOpenHeadingHiddenModalClick(): void {
+    this.openModal(ModalBasicComponent, {
+      providers: [
+        {
+          provide: ModalTestContext,
+          useFactory: (): ModalTestContext => {
+            const context = new ModalTestContext();
+            context.headingHidden = true;
+            context.headingText = 'My heading';
+            context.modalContent = 'Modal content';
+
+            return context;
+          },
+        },
+      ],
+    });
+  }
+
+  protected onOpenBannerContentModalClick(): void {
+    this.openModal(ModalBasicComponent, {
+      providers: [
+        {
+          provide: ModalTestContext,
+          useFactory: (): ModalTestContext => {
+            const context = new ModalTestContext();
+            context.bannerContent = 'Banner content';
+            context.headingHidden = true;
+            context.headingText = 'My heading';
+            context.modalContent = 'Modal content';
+
+            return context;
+          },
+        },
+      ],
+    });
+  }
+
+  protected onOpenBannerImageModalClick(): void {
+    this.openModal(ModalBasicComponent, {
+      providers: [
+        {
+          provide: ModalTestContext,
+          useFactory: (): ModalTestContext => {
+            const context = new ModalTestContext();
+            context.bannerImageSrc = BANNER_IMAGE_SRC;
+            context.headingHidden = true;
+            context.headingText = 'My heading';
+            context.modalContent = 'Modal content';
+
+            return context;
+          },
+        },
+      ],
+    });
+  }
+
+  protected onOpenBannerContentImageModalClick(): void {
+    this.openModal(ModalBasicComponent, {
+      providers: [
+        {
+          provide: ModalTestContext,
+          useFactory: (): ModalTestContext => {
+            const context = new ModalTestContext();
+            context.bannerContent = 'Banner content with image';
+            context.bannerImageSrc = BANNER_IMAGE_SRC;
+            context.headingHidden = true;
+            context.headingText = 'My heading';
+            context.modalContent = 'Modal content';
+
+            return context;
+          },
+        },
+      ],
+    });
   }
 
   private openModal(

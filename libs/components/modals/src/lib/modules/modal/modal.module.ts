@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 
+import { SkyModalBannerComponent } from './modal-banner.component';
 import { SkyModalContentComponent } from './modal-content.component';
 import { SkyModalFooterComponent } from './modal-footer.component';
 import { SkyModalHeaderComponent } from './modal-header.component';
@@ -9,6 +10,7 @@ import { SkyModalComponent } from './modal.component';
 @NgModule({
   imports: [
     SkyModalComponent,
+    SkyModalBannerComponent,
     SkyModalContentComponent,
     SkyModalFooterComponent,
     SkyModalHeaderComponent,
@@ -16,6 +18,7 @@ import { SkyModalComponent } from './modal.component';
   ],
   exports: [
     SkyModalComponent,
+    SkyModalBannerComponent,
     SkyModalContentComponent,
     SkyModalFooterComponent,
     SkyModalHeaderComponent,

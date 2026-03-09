@@ -961,6 +961,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'ModalsModalBasicWithBannerExampleComponent',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ ModalsModalBasicWithBannerExampleComponent: c }) => c,
+      ),
+  },
+  {
     path: 'ModalsModalBasicWithControllerExampleComponent',
     loadComponent: () =>
       import('@skyux/code-examples').then(

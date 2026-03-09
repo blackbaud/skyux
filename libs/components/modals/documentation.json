@@ -61,7 +61,8 @@
           "ModalsModalBasicWithControllerExampleComponent",
           "ModalsModalBasicWithHarnessExampleComponent",
           "ModalsModalBasicWithHarnessHelpKeyExampleComponent",
-          "ModalsModalWithErrorExampleComponent"
+          "ModalsModalWithErrorExampleComponent",
+          "ModalsModalBasicWithBannerExampleComponent"
         ]
       }
     }

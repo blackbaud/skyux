@@ -2,6 +2,7 @@ import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 
+import { SkyModalBannerHarness } from './modal-banner-harness';
 import { SkyModalHarnessFilters } from './modal-harness-filters';
 
 /**
@@ -25,6 +26,13 @@ export class SkyModalHarness extends SkyComponentHarness {
     filters: SkyModalHarnessFilters,
   ): HarnessPredicate<SkyModalHarness> {
     return SkyModalHarness.getDataSkyIdPredicate(filters);
+  }
+
+  /**
+   * Gets the modal banner harness, or `null` if no banner is present.
+   */
+  public async getBanner(): Promise<SkyModalBannerHarness | null> {
+    return await this.locatorForOptional(SkyModalBannerHarness)();
   }
 
   /**
