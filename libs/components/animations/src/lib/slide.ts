@@ -7,6 +7,10 @@ import {
   trigger,
 } from '@angular/animations';
 
+/**
+ * @deprecated `skyAnimationSlide` is not included in the public API and is
+ * planned for removal in SKY UX 15.
+ */
 export const skyAnimationSlide: AnimationTriggerMetadata = trigger(
   'skyAnimationSlide',
   [
