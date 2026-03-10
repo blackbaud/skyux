@@ -18,6 +18,9 @@ describe('modals-storybook', () => {
         'help-inline',
         'error',
         'positioned-background',
+        'banner-content',
+        'banner-image',
+        'banner-content-image',
       ]) {
         it(`should render the ${modalType} modal on desktop`, () => {
           cy.skyReady('app-modal');
