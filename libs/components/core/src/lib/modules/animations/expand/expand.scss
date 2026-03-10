@@ -6,11 +6,11 @@
   transition-duration: var(--sky-transition-time-medium);
   transition-timing-function: ease;
 
-  &.sky-animation-expand-collapsed {
+  &.sky-animation-expand-closed {
     grid-template-rows: 0fr;
   }
 
-  &.sky-animation-expand-expanded {
+  &.sky-animation-expand-opened {
     grid-template-rows: 1fr;
   }
 

@@ -77,13 +77,13 @@ describe('SkyAnimationExpandComponent', () => {
 
     expect(
       fixture.nativeElement.classList.contains(
-        'sky-animation-expand-collapsed',
+        'sky-animation-expand-closed',
       ),
     ).toBeTrue();
 
     expect(
       fixture.nativeElement.classList.contains(
-        'sky-animation-expand-expanded',
+        'sky-animation-expand-opened',
       ),
     ).toBeFalse();
   });
@@ -96,13 +96,13 @@ describe('SkyAnimationExpandComponent', () => {
 
     expect(
       fixture.nativeElement.classList.contains(
-        'sky-animation-expand-expanded',
+        'sky-animation-expand-opened',
       ),
     ).toBeTrue();
 
     expect(
       fixture.nativeElement.classList.contains(
-        'sky-animation-expand-collapsed',
+        'sky-animation-expand-closed',
       ),
     ).toBeFalse();
   });
@@ -115,7 +115,7 @@ describe('SkyAnimationExpandComponent', () => {
 
     expect(
       fixture.nativeElement.classList.contains(
-        'sky-animation-expand-expanded',
+        'sky-animation-expand-opened',
       ),
     ).toBeTrue();
 
@@ -124,7 +124,7 @@ describe('SkyAnimationExpandComponent', () => {
 
     expect(
       fixture.nativeElement.classList.contains(
-        'sky-animation-expand-collapsed',
+        'sky-animation-expand-closed',
       ),
     ).toBeTrue();
   });
@@ -214,7 +214,7 @@ describe('SkyAnimationExpandComponent', () => {
       expect(fixture.componentInstance.opened()).toBeTrue();
       expect(
         fixture.nativeElement.classList.contains(
-          'sky-animation-expand-expanded',
+          'sky-animation-expand-opened',
         ),
       ).toBeTrue();
     });

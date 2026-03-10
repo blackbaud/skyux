@@ -18,8 +18,8 @@ import { _SkyAnimationTransitionHandlerDirective } from '../shared/transition-ha
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    '[class.sky-animation-expand-expanded]': 'opened()',
-    '[class.sky-animation-expand-collapsed]': '!opened()',
+    '[class.sky-animation-expand-opened]': 'opened()',
+    '[class.sky-animation-expand-closed]': '!opened()',
     '[style.--sky-animation-expand-min-height]': 'minHeight()',
   },
   hostDirectives: [
