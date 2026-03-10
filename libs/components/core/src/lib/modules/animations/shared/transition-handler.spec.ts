@@ -154,6 +154,21 @@ describe('SkyAnimationTransitionHandler', () => {
 
       expect(transitionEndEmitted).toBeFalse();
     });
+
+    it('should ignore transitionend events that bubble from child elements', () => {
+      const { fixture } = setupTest();
+
+      const child = fixture.nativeElement.querySelector('.sky-test-child');
+
+      const evt = new TransitionEvent('transitionend', {
+        bubbles: true,
+        propertyName: 'opacity',
+      });
+
+      child.dispatchEvent(evt);
+
+      expect(errorHandlerSpy).not.toHaveBeenCalled();
+    });
   });
 
   describe('when animations are disabled', () => {

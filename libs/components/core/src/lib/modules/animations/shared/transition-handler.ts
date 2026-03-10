@@ -72,6 +72,10 @@ export class _SkyAnimationTransitionHandlerDirective {
   }
 
   protected onTransitionEnd(evt: TransitionEvent): void {
+    if (evt.target !== this.#elementRef.nativeElement) {
+      return;
+    }
+
     if (!this.#propertyName()) {
       throw new Error(
         `SkyAnimationTransitionHandler: No CSS property specified for transition tracking on element ` +
@@ -80,10 +84,7 @@ export class _SkyAnimationTransitionHandlerDirective {
       );
     }
 
-    if (
-      evt.target === this.#elementRef.nativeElement &&
-      evt.propertyName === this.#propertyName()
-    ) {
+    if (evt.propertyName === this.#propertyName()) {
       this.transitionEnd.emit();
       evt.stopPropagation();
     }
