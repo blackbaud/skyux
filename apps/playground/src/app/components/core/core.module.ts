@@ -6,6 +6,16 @@ import { ViewkeeperModule } from './viewkeeper/viewkeeper.module';
 
 const routes: Routes = [
   {
+    path: 'animation-show-more',
+    loadComponent: () =>
+      import('./animation-show-more/animation-show-more.component'),
+    data: {
+      name: 'Animation show more',
+      icon: 'circle',
+      library: 'core',
+    },
+  },
+  {
     path: 'resize-observer',
     loadChildren: () =>
       import('./resize-observer/resize-observer.module').then(

@@ -1,0 +1,55 @@
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  input,
+} from '@angular/core';
+
+import { _SkyAnimationTransitionHandlerDirective } from '../shared/transition-handler';
+
+/**
+ * @internal
+ *
+ * Animates content to expand and collapse using CSS grid
+ * `grid-template-rows` transitions. Unlike `sky-animation-slide`,
+ * this component does **not** toggle `visibility` and supports a
+ * configurable `minHeight` for the collapsed state.
+ */
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[class.sky-animation-show-more-expanded]': 'opened()',
+    '[class.sky-animation-show-more-collapsed]': '!opened()',
+    '[style.--sky-animation-show-more-min-height]': 'minHeight()',
+  },
+  hostDirectives: [
+    {
+      directive: _SkyAnimationTransitionHandlerDirective,
+      inputs: ['transitionTrigger: opened'],
+      outputs: ['transitionEnd'],
+    },
+  ],
+  selector: 'sky-animation-show-more',
+  styleUrl: './show-more.scss',
+  template: '<div class="sky-animation-show-more-content"><ng-content /></div>',
+})
+export class _SkyAnimationShowMoreComponent {
+  /**
+   * Whether the content is expanded (`true`) or collapsed (`false`).
+   */
+  public readonly opened = input.required<boolean>();
+
+  /**
+   * The CSS `min-height` applied to the content wrapper in the
+   * collapsed state. Accepts any valid CSS length value
+   * (e.g. `'0'`, `'3em'`, `'48px'`).
+   * @default '0'
+   */
+  public readonly minHeight = input<string>('0');
+
+  constructor() {
+    inject(_SkyAnimationTransitionHandlerDirective).cssPropertyToTrack(
+      'grid-template-rows',
+    );
+  }
+}

@@ -1,12 +1,6 @@
 import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
-import {
   AfterContentInit,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   Input,
@@ -28,28 +22,6 @@ import { SkyTextExpandModalComponent } from './text-expand-modal.component';
 let nextId = 0;
 
 @Component({
-  animations: [
-    trigger('expansionAnimation', [
-      transition(':enter', []),
-      state(
-        'true',
-        style({
-          maxHeight: '{{transitionHeight}}px',
-        }),
-        { params: { transitionHeight: 0 } },
-      ),
-      state(
-        'false',
-        style({
-          maxHeight: '{{transitionHeight}}px',
-        }),
-        { params: { transitionHeight: 0 } },
-      ),
-      transition('true => false', animate('250ms ease')),
-      transition('false => true', animate('250ms ease')),
-      transition('void => *', []),
-    ]),
-  ],
   selector: 'sky-text-expand',
   templateUrl: './text-expand.component.html',
   styleUrls: ['./text-expand.component.scss'],
@@ -147,19 +119,19 @@ export class SkyTextExpandComponent implements AfterContentInit {
 
   public contentSectionId = `sky-text-expand-content-${++nextId}`;
 
+  public collapsedMinHeight = '0';
+
   public expandable = false;
 
   public isExpanded: boolean | undefined;
 
   public isModal = false;
 
-  public transitionHeight = 1;
-
-  @ViewChild('container', {
+  @ViewChild('content', {
     read: ElementRef,
     static: true,
   })
-  public containerEl: ElementRef | undefined;
+  public contentEl: ElementRef | undefined;
 
   @ViewChild('text', {
     read: ElementRef,
@@ -194,15 +166,19 @@ export class SkyTextExpandComponent implements AfterContentInit {
 
   #_textEl: ElementRef | undefined;
 
+  #cdr: ChangeDetectorRef;
+  #measureId: number | undefined;
   #resources: SkyLibResourcesService;
   #modalSvc: SkyModalService;
   #textExpandAdapter: SkyTextExpandAdapterService;
 
   constructor(
+    cdr: ChangeDetectorRef,
     resources: SkyLibResourcesService,
     modalSvc: SkyModalService,
     textExpandAdapter: SkyTextExpandAdapterService,
   ) {
+    this.#cdr = cdr;
     this.#resources = resources;
     this.#modalSvc = modalSvc;
     this.#textExpandAdapter = textExpandAdapter;
@@ -235,16 +211,9 @@ export class SkyTextExpandComponent implements AfterContentInit {
   }
 
   public animationEnd(): void {
-    if (this.textEl && this.containerEl) {
-      // Ensure the correct text is displayed
+    if (this.textEl) {
+      // Ensure the correct text is displayed after the transition completes.
       this.#textExpandAdapter.setText(this.textEl, this.#textToShow);
-
-      setTimeout(() => {
-        if (this.containerEl) {
-          // Set height back to auto so the browser can change the height as needed with window changes
-          this.#textExpandAdapter.removeContainerMaxHeight(this.containerEl);
-        }
-      });
     }
   }
 
@@ -284,6 +253,7 @@ export class SkyTextExpandComponent implements AfterContentInit {
           this.text.length > this.maxExpandedLength;
       } else {
         this.expandable = false;
+        this.isExpanded = true;
       }
       this.#textToShow = this.#collapsedText;
     } else {
@@ -293,6 +263,7 @@ export class SkyTextExpandComponent implements AfterContentInit {
     if (this.textEl) {
       this.#textExpandAdapter.setText(this.textEl, this.#textToShow);
     }
+    this.#scheduleMeasure();
   }
 
   #getNewlineCount(value: string): number {
@@ -324,25 +295,35 @@ export class SkyTextExpandComponent implements AfterContentInit {
     return value.substring(0, length);
   }
 
+  #scheduleMeasure(): void {
+    if (this.#measureId !== undefined) {
+      cancelAnimationFrame(this.#measureId);
+    }
+    this.#measureId = requestAnimationFrame(() => {
+      this.#measureId = undefined;
+      if (this.contentEl && this.expandable && !this.isExpanded) {
+        const height = this.contentEl.nativeElement.offsetHeight + 'px';
+        if (height !== this.collapsedMinHeight) {
+          this.collapsedMinHeight = height;
+          this.#cdr.detectChanges();
+        }
+      }
+    });
+  }
+
   #animateText(expanding: boolean): void {
-    if (this.containerEl && this.textEl) {
+    if (this.textEl) {
       const adapter = this.#textExpandAdapter;
-      const container = this.containerEl;
       if (expanding) {
         adapter.setText(this.textEl, this.text);
         this.#textToShow = this.text;
       } else {
-        adapter.setText(this.textEl, this.#collapsedText);
+        // Show full text during the collapse animation for a smooth transition.
+        // The animationEnd callback will set the truncated text after it completes.
+        adapter.setText(this.textEl, this.text);
         this.#textToShow = this.#collapsedText;
       }
       this.buttonText = expanding ? this.#seeLessText : this.#seeMoreText;
-      // Measure the new height so we can animate to it.
-      const newHeight = adapter.getContainerHeight(container);
-      this.transitionHeight = newHeight;
-      // Always show all text while animating so that the animation is smooth. The animation callback will set this back if needed.
-      if (!expanding) {
-        adapter.setText(this.textEl, this.text);
-      }
       this.isExpanded = expanding;
     }
   }

@@ -1,0 +1,21 @@
+:host {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  transition-property: grid-template-rows;
+  transition-duration: var(--sky-transition-time-medium);
+  transition-timing-function: ease;
+
+  &.sky-animation-show-more-collapsed {
+    grid-template-rows: 0fr;
+  }
+
+  &.sky-animation-show-more-expanded {
+    grid-template-rows: 1fr;
+  }
+
+  > .sky-animation-show-more-content {
+    min-height: var(--sky-animation-show-more-min-height, 0);
+    overflow: hidden;
+  }
+}

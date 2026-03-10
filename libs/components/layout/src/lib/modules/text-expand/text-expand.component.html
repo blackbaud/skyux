@@ -1,26 +1,25 @@
-<div
+<sky-animation-show-more
   #container
-  class="sky-text-expand-container"
-  [@expansionAnimation]="{
-    value: isExpanded,
-    params: { transitionHeight: transitionHeight }
-  }"
-  (@expansionAnimation.done)="animationEnd()"
+  [minHeight]="collapsedMinHeight"
+  [opened]="!!isExpanded"
+  (transitionEnd)="animationEnd()"
 >
-  <span #text class="sky-text-expand-text" [id]="contentSectionId"></span>
-  @if (expandable) {
-    @if (!isExpanded) {
-      <span class="sky-text-expand-ellipsis">... </span>
+  <div #content class="sky-text-expand-container">
+    <span #text class="sky-text-expand-text" [id]="contentSectionId"></span>
+    @if (expandable) {
+      @if (!isExpanded) {
+        <span class="sky-text-expand-ellipsis">... </span>
+      }
+      <button
+        type="button"
+        class="sky-btn sky-btn-link-inline sky-text-expand-see-more"
+        [attr.aria-expanded]="isModal ? undefined : !!isExpanded"
+        [attr.aria-controls]="isModal ? undefined : contentSectionId"
+        [attr.aria-haspopup]="isModal ? 'dialog' : undefined"
+        (click)="textExpand()"
+      >
+        {{ buttonText }}
+      </button>
     }
-    <button
-      type="button"
-      class="sky-btn sky-btn-link-inline sky-text-expand-see-more"
-      [attr.aria-expanded]="isModal ? undefined : !!isExpanded"
-      [attr.aria-controls]="isModal ? undefined : contentSectionId"
-      [attr.aria-haspopup]="isModal ? 'dialog' : undefined"
-      (click)="textExpand()"
-    >
-      {{ buttonText }}
-    </button>
-  }
-</div>
+  </div>
+</sky-animation-show-more>

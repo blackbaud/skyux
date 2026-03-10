@@ -268,9 +268,6 @@ describe('Text expand component', () => {
       let textArea: HTMLElement | null = el.querySelector(
         '.sky-text-expand-text',
       );
-      const container: HTMLElement | null = el.querySelector(
-        '.sky-text-expand-container',
-      );
       expect(ellipsis).not.toBeNull();
       expect(seeMoreButton?.innerText.trim()).toBe('See more');
       expect(textArea?.innerText.trim()).toBe(collapsedText);
@@ -280,7 +277,6 @@ describe('Text expand component', () => {
       ellipsis = el.querySelector('.sky-text-expand-ellipsis');
       textArea = el.querySelector('.sky-text-expand-text');
 
-      expect(container?.style.maxHeight).toBe('');
       expect(seeMoreButton?.innerText.trim()).toBe('See less');
       expect(ellipsis).toBeNull();
       expect(textArea?.innerText.trim()).toBe(expandedText);
@@ -290,7 +286,6 @@ describe('Text expand component', () => {
       ellipsis = el.querySelector('.sky-text-expand-ellipsis');
       textArea = el.querySelector('.sky-text-expand-text');
 
-      expect(container?.style.maxHeight).toBe('');
       expect(seeMoreButton?.innerText.trim()).toBe('See more');
       expect(ellipsis).not.toBeNull();
       expect(textArea?.innerText.trim()).toBe(collapsedText);
