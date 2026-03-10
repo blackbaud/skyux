@@ -5,8 +5,7 @@ import { TextExpandRoutingModule } from './text-expand-routing.module';
 import { TextExpandComponent } from './text-expand.component';
 
 @NgModule({
-  declarations: [TextExpandComponent],
-  imports: [TextExpandRoutingModule, SkyTextExpandModule],
+  imports: [TextExpandComponent, TextExpandRoutingModule, SkyTextExpandModule],
 })
 export class TextExpandModule {
   public static routes = TextExpandRoutingModule.routes;
