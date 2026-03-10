@@ -36,7 +36,16 @@ module.exports = () => {
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
         base: 'ChromeHeadless',
-        flags: ['--headless=new', '--window-size=1920,1080'],
+        flags: [
+          '--headless=new',
+          '--window-size=1920,1080',
+          // By default, Chrome throttles timers (setTimeout, setInterval),
+          // requestAnimationFrame, and other scheduled work in windows covered by
+          // other windows. This flag disables that behavior so tests relying on
+          // timers, animations, or Angular change detection run at full speed and
+          // don't produce flaky timeouts in CI environments.
+          '--disable-backgrounding-occluded-windows',
+        ],
       },
     },
     restartOnFileChange: true,

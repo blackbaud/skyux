@@ -293,9 +293,7 @@ export class SkyRepeaterComponent
         // Collapse any items that aren't the item that was just added.
         if (item !== itemAdded && isSingle && item.isExpanded) {
           if (foundExpanded) {
-            // If this item is being collapsed because a new item was
-            // added, animate it.
-            item.updateForExpanded(false, !!itemAdded);
+            item.updateForExpanded(false);
           }
 
           foundExpanded = true;

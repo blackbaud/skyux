@@ -7,6 +7,7 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { provideNoopSkyAnimations } from '@skyux/core';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -124,7 +125,7 @@ describe('Summary Action Bar component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkySummaryActionBarFixtureModule],
-      providers: [provideSkyMediaQueryTesting()],
+      providers: [provideNoopSkyAnimations(), provideSkyMediaQueryTesting()],
     });
 
     mediaQueryController = TestBed.inject(SkyMediaQueryTestingController);
