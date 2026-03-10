@@ -137,6 +137,7 @@ export { ModalsConfirmBasicWithHarnessExampleComponent } from './lib/modules/mod
 export { ModalsModalBasicWithControllerExampleComponent } from './lib/modules/modals/modal/basic-with-controller/example.component';
 export { ModalsModalBasicWithHarnessHelpKeyExampleComponent } from './lib/modules/modals/modal/basic-with-harness-help-key/example.component';
 export { ModalsModalBasicWithHarnessExampleComponent } from './lib/modules/modals/modal/basic-with-harness/example.component';
+export { ModalsModalBasicWithBannerExampleComponent } from './lib/modules/modals/modal/with-banner/example.component';
 export { ModalsModalWithErrorExampleComponent } from './lib/modules/modals/modal/with-error/example.component';
 export { NavbarExampleComponent } from './lib/modules/navbar/navbar/example.component';
 export { PagesActionHubExampleComponent } from './lib/modules/pages/action-hub/example.component';

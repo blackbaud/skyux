@@ -20,6 +20,7 @@
   >
     <div
       class="sky-modal-header"
+      [hidden]="headingHidden()"
       [ngStyle]="{
         'box-shadow': scrollShadow?.topShadow
       }"
@@ -75,6 +76,7 @@
       }"
       (skyScrollShadow)="scrollShadowChange($event)"
     >
+      <ng-content select="sky-modal-banner" />
       <ng-content select="sky-modal-content" />
     </div>
     <div
