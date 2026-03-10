@@ -126,20 +126,17 @@ export class SkyToasterComponent implements OnInit, OnDestroy {
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
 
-    for (const injector of this.toastInjectors.values()) {
-      injector.destroy();
-    }
-
     this.toastInjectors.clear();
   }
 
   #updateInjectors(toasts: SkyToast[]): void {
     const activeIds = new Set(toasts.map((t) => t.toastId));
 
-    // Clean up injectors for removed toasts.
-    for (const [id, injector] of this.toastInjectors) {
+    // Remove entries for removed toasts.
+    // The injector itself is destroyed by SkyToastComponent.ngOnDestroy
+    // after the leave animation completes.
+    for (const id of this.toastInjectors.keys()) {
       if (!activeIds.has(id)) {
-        injector.destroy();
         this.toastInjectors.delete(id);
       }
     }

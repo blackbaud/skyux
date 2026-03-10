@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  EnvironmentInjector,
   EventEmitter,
   Input,
   NgZone,
@@ -11,6 +12,7 @@ import {
   Output,
   ViewEncapsulation,
   inject,
+  input,
 } from '@angular/core';
 import { SkyIdModule } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
@@ -51,6 +53,13 @@ export class SkyToastComponent implements OnInit, OnDestroy {
    */
   @Input()
   public autoClose: boolean | undefined;
+
+  /**
+   * The environment injector created for this toast's body component.
+   * Destroyed in `ngOnDestroy` so that cleanup is deferred until after
+   * the leave animation completes.
+   */
+  public readonly environmentInjector = input<EnvironmentInjector>();
 
   /**
    * The `SkyToastType` type for the toast to determine the color and icon to display.
@@ -113,6 +122,7 @@ export class SkyToastComponent implements OnInit, OnDestroy {
     this.#ngUnsubscribe.complete();
 
     this.stopAutoCloseTimer();
+    this.environmentInjector()?.destroy();
   }
 
   public close(): void {
