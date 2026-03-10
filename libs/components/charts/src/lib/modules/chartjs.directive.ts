@@ -122,7 +122,7 @@ export class SkyChartJsDirective implements OnDestroy, AfterViewInit {
    * This should be called whenever the chart's data or options change to re-render the chart with the new configuration.
    */
   #updateChart(): void {
-    if (this.chart) {
+    if (this.chart()) {
       this.#zone.runOutsideAngular(() => this.chart()?.update());
       this.chartUpdated.emit();
     }
