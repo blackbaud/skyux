@@ -6,16 +6,16 @@
   transition-duration: var(--sky-transition-time-medium);
   transition-timing-function: ease;
 
-  &.sky-animation-show-more-collapsed {
+  &.sky-animation-expand-collapsed {
     grid-template-rows: 0fr;
   }
 
-  &.sky-animation-show-more-expanded {
+  &.sky-animation-expand-expanded {
     grid-template-rows: 1fr;
   }
 
-  > .sky-animation-show-more-content {
-    min-height: var(--sky-animation-show-more-min-height, 0);
+  > .sky-animation-expand-content {
+    min-height: var(--sky-animation-expand-min-height, 0);
     overflow: hidden;
   }
 }

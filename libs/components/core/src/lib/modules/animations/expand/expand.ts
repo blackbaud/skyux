@@ -18,9 +18,9 @@ import { _SkyAnimationTransitionHandlerDirective } from '../shared/transition-ha
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    '[class.sky-animation-show-more-expanded]': 'opened()',
-    '[class.sky-animation-show-more-collapsed]': '!opened()',
-    '[style.--sky-animation-show-more-min-height]': 'minHeight()',
+    '[class.sky-animation-expand-expanded]': 'opened()',
+    '[class.sky-animation-expand-collapsed]': '!opened()',
+    '[style.--sky-animation-expand-min-height]': 'minHeight()',
   },
   hostDirectives: [
     {
@@ -29,11 +29,11 @@ import { _SkyAnimationTransitionHandlerDirective } from '../shared/transition-ha
       outputs: ['transitionEnd'],
     },
   ],
-  selector: 'sky-animation-show-more',
-  styleUrl: './show-more.scss',
-  template: '<div class="sky-animation-show-more-content"><ng-content /></div>',
+  selector: 'sky-animation-expand',
+  styleUrl: './expand.scss',
+  template: '<div class="sky-animation-expand-content"><ng-content /></div>',
 })
-export class _SkyAnimationShowMoreComponent {
+export class _SkyAnimationExpandComponent {
   /**
    * Whether the content is expanded (`true`) or collapsed (`false`).
    */

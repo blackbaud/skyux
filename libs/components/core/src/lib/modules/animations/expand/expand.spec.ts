@@ -3,18 +3,18 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { provideNoopSkyAnimations } from '../utility/provide-noop-animations';
 
-import { _SkyAnimationShowMoreComponent } from './show-more';
+import { _SkyAnimationExpandComponent } from './expand';
 
 @Component({
-  imports: [_SkyAnimationShowMoreComponent],
+  imports: [_SkyAnimationExpandComponent],
   template: `
-    <sky-animation-show-more
+    <sky-animation-expand
       [minHeight]="minHeight"
       [opened]="opened"
       (transitionEnd)="onTransitionEnd()"
     >
       <span class="projected-content">Hello</span>
-    </sky-animation-show-more>
+    </sky-animation-expand>
   `,
 })
 class TestComponent {
@@ -27,17 +27,17 @@ class TestComponent {
   }
 }
 
-describe('SkyAnimationShowMoreComponent', () => {
+describe('SkyAnimationExpandComponent', () => {
   function setupTest(options?: { noopAnimations?: boolean }): {
-    fixture: ComponentFixture<_SkyAnimationShowMoreComponent>;
-    component: _SkyAnimationShowMoreComponent;
+    fixture: ComponentFixture<_SkyAnimationExpandComponent>;
+    component: _SkyAnimationExpandComponent;
   } {
     TestBed.configureTestingModule({
-      imports: [_SkyAnimationShowMoreComponent],
+      imports: [_SkyAnimationExpandComponent],
       providers: options?.noopAnimations ? [provideNoopSkyAnimations()] : [],
     });
 
-    const fixture = TestBed.createComponent(_SkyAnimationShowMoreComponent);
+    const fixture = TestBed.createComponent(_SkyAnimationExpandComponent);
     fixture.componentRef.setInput('opened', false);
     fixture.detectChanges();
 
@@ -77,13 +77,13 @@ describe('SkyAnimationShowMoreComponent', () => {
 
     expect(
       fixture.nativeElement.classList.contains(
-        'sky-animation-show-more-collapsed',
+        'sky-animation-expand-collapsed',
       ),
     ).toBeTrue();
 
     expect(
       fixture.nativeElement.classList.contains(
-        'sky-animation-show-more-expanded',
+        'sky-animation-expand-expanded',
       ),
     ).toBeFalse();
   });
@@ -96,13 +96,13 @@ describe('SkyAnimationShowMoreComponent', () => {
 
     expect(
       fixture.nativeElement.classList.contains(
-        'sky-animation-show-more-expanded',
+        'sky-animation-expand-expanded',
       ),
     ).toBeTrue();
 
     expect(
       fixture.nativeElement.classList.contains(
-        'sky-animation-show-more-collapsed',
+        'sky-animation-expand-collapsed',
       ),
     ).toBeFalse();
   });
@@ -115,7 +115,7 @@ describe('SkyAnimationShowMoreComponent', () => {
 
     expect(
       fixture.nativeElement.classList.contains(
-        'sky-animation-show-more-expanded',
+        'sky-animation-expand-expanded',
       ),
     ).toBeTrue();
 
@@ -124,7 +124,7 @@ describe('SkyAnimationShowMoreComponent', () => {
 
     expect(
       fixture.nativeElement.classList.contains(
-        'sky-animation-show-more-collapsed',
+        'sky-animation-expand-collapsed',
       ),
     ).toBeTrue();
   });
@@ -133,7 +133,7 @@ describe('SkyAnimationShowMoreComponent', () => {
     const { fixture } = setupHostTest();
 
     const projected = fixture.nativeElement.querySelector(
-      '.sky-animation-show-more-content .projected-content',
+      '.sky-animation-expand-content .projected-content',
     );
 
     expect(projected).toBeTruthy();
@@ -144,11 +144,11 @@ describe('SkyAnimationShowMoreComponent', () => {
     const { fixture } = setupHostTest({ minHeight: '48px' });
 
     const gridEl: HTMLElement = fixture.nativeElement.querySelector(
-      'sky-animation-show-more',
+      'sky-animation-expand',
     );
 
     expect(
-      gridEl.style.getPropertyValue('--sky-animation-show-more-min-height'),
+      gridEl.style.getPropertyValue('--sky-animation-expand-min-height'),
     ).toBe('48px');
   });
 
@@ -156,11 +156,11 @@ describe('SkyAnimationShowMoreComponent', () => {
     const { fixture } = setupHostTest();
 
     const gridEl: HTMLElement = fixture.nativeElement.querySelector(
-      'sky-animation-show-more',
+      'sky-animation-expand',
     );
 
     expect(
-      gridEl.style.getPropertyValue('--sky-animation-show-more-min-height'),
+      gridEl.style.getPropertyValue('--sky-animation-expand-min-height'),
     ).toBe('0');
   });
 
@@ -171,7 +171,7 @@ describe('SkyAnimationShowMoreComponent', () => {
     fixture.detectChanges();
 
     const gridEl = fixture.nativeElement.querySelector(
-      'sky-animation-show-more',
+      'sky-animation-expand',
     );
 
     const evt = new TransitionEvent('transitionend', {
@@ -214,7 +214,7 @@ describe('SkyAnimationShowMoreComponent', () => {
       expect(fixture.componentInstance.opened()).toBeTrue();
       expect(
         fixture.nativeElement.classList.contains(
-          'sky-animation-show-more-expanded',
+          'sky-animation-expand-expanded',
         ),
       ).toBeTrue();
     });

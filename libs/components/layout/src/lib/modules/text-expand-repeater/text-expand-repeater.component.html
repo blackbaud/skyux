@@ -1,5 +1,5 @@
 <div class="sky-text-expand-repeater">
-  <sky-animation-show-more
+  <sky-animation-expand
     [minHeight]="collapsedMinHeight"
     [opened]="isExpanded()"
     (transitionEnd)="animationEnd()"
@@ -24,7 +24,7 @@
         <ng-template [ngTemplateOutlet]="listItemTemplate" />
       </ol>
     }
-  </sky-animation-show-more>
+  </sky-animation-expand>
   @if (expandable) {
     <button
       type="button"
