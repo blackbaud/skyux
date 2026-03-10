@@ -164,17 +164,6 @@ export const rule = createESLintTemplateRule({
         const inputEl = getChildNodeOf(el, ['input', 'select', 'textarea']);
 
         if (labelEl) {
-          // Abort if the `skyId` directive is used on a child input of the
-          // `<sky-input-box />` component since its inclusion usually means the
-          // user wishes to implement "hard mode".
-          if (
-            el.name === 'sky-input-box' &&
-            inputEl &&
-            getAttributeByName(inputEl, 'skyId')
-          ) {
-            return;
-          }
-
           const hasElementChildren = labelEl.children.some(
             (child) => child instanceof TmplAstElement,
           );

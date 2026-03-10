@@ -78,7 +78,7 @@ Array [
       "parser": Object {
         "meta": Object {
           "name": "typescript-eslint/parser",
-          "version": "8.54.0",
+          "version": "8.56.1",
         },
         "parseForESLint": [Function],
       },
@@ -371,7 +371,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.54.0",
+                    "version": "8.56.1",
                   },
                   "parseForESLint": [Function],
                 },
@@ -580,7 +580,7 @@ Array [
               "parser": Object {
                 "meta": Object {
                   "name": "typescript-eslint/parser",
-                  "version": "8.54.0",
+                  "version": "8.56.1",
                 },
                 "parseForESLint": [Function],
               },
@@ -704,7 +704,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.54.0",
+                    "version": "8.56.1",
                   },
                   "parseForESLint": [Function],
                 },
@@ -784,7 +784,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.54.0",
+                    "version": "8.56.1",
                   },
                   "parseForESLint": [Function],
                 },
@@ -889,7 +889,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.54.0",
+                    "version": "8.56.1",
                   },
                   "parseForESLint": [Function],
                 },
@@ -973,7 +973,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.54.0",
+                    "version": "8.56.1",
                   },
                   "parseForESLint": [Function],
                 },
@@ -1067,7 +1067,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.54.0",
+                    "version": "8.56.1",
                   },
                   "parseForESLint": [Function],
                 },
@@ -1228,7 +1228,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.54.0",
+                    "version": "8.56.1",
                   },
                   "parseForESLint": [Function],
                 },
@@ -1352,7 +1352,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.54.0",
+                    "version": "8.56.1",
                   },
                   "parseForESLint": [Function],
                 },
@@ -1423,7 +1423,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.54.0",
+                    "version": "8.56.1",
                   },
                   "parseForESLint": [Function],
                 },
@@ -1503,7 +1503,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.54.0",
+                    "version": "8.56.1",
                   },
                   "parseForESLint": [Function],
                 },
@@ -2051,7 +2051,7 @@ Array [
         "meta": Object {
           "name": "@typescript-eslint/eslint-plugin",
           "namespace": "@typescript-eslint",
-          "version": "8.54.0",
+          "version": "8.56.1",
         },
         "rules": Object {
           "adjacent-overload-signatures": Object {
@@ -8608,7 +8608,11 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
           },
           "no-useless-default-assignment": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": Array [
+              Object {
+                "allowRuleToRunWithoutStrictNullChecksIKnowWhatIAmDoing": false,
+              },
+            ],
             "meta": Object {
               "docs": Object {
                 "description": "Disallow default values that will never be used",
@@ -8618,11 +8622,23 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               },
               "fixable": "code",
               "messages": Object {
+                "noStrictNullCheck": "This rule requires the \`strictNullChecks\` compiler option to be turned on to function correctly.",
                 "preferOptionalSyntax": "Using \`= undefined\` to make a parameter optional adds unnecessary runtime logic. Use the \`?\` optional syntax instead.",
                 "uselessDefaultAssignment": "Default value is useless because the {{ type }} is not optional.",
                 "uselessUndefined": "Default value is useless because it is undefined. Optional {{ type }}s are already undefined by default.",
               },
-              "schema": Array [],
+              "schema": Array [
+                Object {
+                  "additionalProperties": false,
+                  "properties": Object {
+                    "allowRuleToRunWithoutStrictNullChecksIKnowWhatIAmDoing": Object {
+                      "description": "Unless this is set to \`true\`, the rule will error on every file whose \`tsconfig.json\` does _not_ have the \`strictNullChecks\` compiler option (or \`strict\`) set to \`true\`.",
+                      "type": "boolean",
+                    },
+                  },
+                  "type": "object",
+                },
+              ],
               "type": "suggestion",
             },
             "name": "no-useless-default-assignment",
@@ -10823,7 +10839,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
       "parser": Object {
         "meta": Object {
           "name": "typescript-eslint/parser",
-          "version": "8.54.0",
+          "version": "8.56.1",
         },
         "parseForESLint": [Function],
       },
@@ -12209,6 +12225,24 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           "name": "skyux-eslint",
         },
         "rules": Object {
+          "no-barrel-exports": Object {
+            "create": [Function],
+            "defaultOptions": Array [],
+            "meta": Object {
+              "docs": Object {
+                "description": "Prevents wildcard (\`export * from\`) and namespace (\`export * as ns from\`) re-exports to ensure explicit public API surfaces.",
+                "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/no-barrel-exports.md",
+              },
+              "fixable": "code",
+              "messages": Object {
+                "noBarrelExports": "Avoid wildcard re-exports. Use explicit named exports instead (e.g., \`export { A, B } from './foo'\`).",
+                "noNamespaceReExports": "Avoid namespace re-exports (\`export * as {{namespace}}\`). Use explicit named exports instead.",
+              },
+              "schema": Array [],
+              "type": "problem",
+            },
+            "name": "no-barrel-exports",
+          },
           "no-lambda-imports": Object {
             "create": [Function],
             "defaultOptions": Array [],
@@ -12251,6 +12285,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
     ],
     "name": "skyux-eslint/ts-recommended",
     "rules": Object {
+      "skyux-eslint/no-barrel-exports": "error",
       "skyux-eslint/no-lambda-imports": "error",
       "skyux-eslint/no-sky-selectors": "error",
     },
@@ -13675,6 +13710,39 @@ For example, when set to \`true\` the following code will not fail for the \`alt
             },
             "name": "no-deprecated-directives",
           },
+          "no-invalid-input-box-children": Object {
+            "create": [Function],
+            "defaultOptions": Array [],
+            "meta": Object {
+              "docs": Object {
+                "description": "Disallow invalid form control elements inside <sky-input-box>.",
+                "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/template/no-invalid-input-box-children.md",
+              },
+              "messages": Object {
+                "multipleInputBoxChildren": "<sky-input-box> should contain only one form control, but found {{count}}.",
+                "noInvalidInputBoxChildren": "{{element}} is not a valid child of <sky-input-box>.",
+              },
+              "schema": Array [],
+              "type": "problem",
+            },
+            "name": "no-invalid-input-box-children",
+          },
+          "no-invalid-input-types": Object {
+            "create": [Function],
+            "defaultOptions": Array [],
+            "meta": Object {
+              "docs": Object {
+                "description": "Disallow invalid type attribute values on <input> elements.",
+                "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/template/no-invalid-input-types.md",
+              },
+              "messages": Object {
+                "noInvalidInputTypes": "The type \\"{{type}}\\" is not a valid HTML input type.",
+              },
+              "schema": Array [],
+              "type": "problem",
+            },
+            "name": "no-invalid-input-types",
+          },
           "no-legacy-icons": Object {
             "create": [Function],
             "defaultOptions": Array [],
@@ -13742,6 +13810,62 @@ For example, when set to \`true\` the following code will not fail for the \`alt
             },
             "name": "prefer-disabled-attr",
           },
+          "prefer-form-control-component": Object {
+            "create": [Function],
+            "defaultOptions": Array [],
+            "meta": Object {
+              "docs": Object {
+                "description": "Recommend SKY UX components instead of native HTML input elements for certain input types.",
+                "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/template/prefer-form-control-component.md",
+              },
+              "messages": Object {
+                "preferSkyCheckbox": "Use <sky-checkbox> (optionally with <sky-checkbox-group>) instead of <input type=\\"checkbox\\">.",
+                "preferSkyColorpicker": "Use <sky-colorpicker> instead of <input type=\\"color\\">.",
+                "preferSkyDatepicker": "Use <sky-datepicker> instead of <input type=\\"date\\">.",
+                "preferSkyDatepickerTimepicker": "Use <sky-datepicker> and <sky-timepicker> (two separate fields) instead of <input type=\\"datetime-local\\">.",
+                "preferSkyFileAttachment": "Use <sky-file-attachment> (single file) or <sky-file-drop> (multiple files) instead of <input type=\\"file\\">.",
+                "preferSkyPhoneField": "Use <sky-phone-field> instead of <input type=\\"tel\\">.",
+                "preferSkyRadio": "Use <sky-radio-group> and <sky-radio> instead of <input type=\\"radio\\">.",
+                "preferSkySearch": "Use <sky-search> instead of <input type=\\"search\\">.",
+                "preferSkyTimepicker": "Use <sky-timepicker> instead of <input type=\\"time\\">.",
+              },
+              "schema": Array [],
+              "type": "problem",
+            },
+            "name": "prefer-form-control-component",
+          },
+          "prefer-input-box": Object {
+            "create": [Function],
+            "defaultOptions": Array [],
+            "meta": Object {
+              "docs": Object {
+                "description": "Require \`select\`, \`textarea\`, and text-entry \`input\` elements to be placed inside a <sky-input-box> component.",
+                "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/template/prefer-input-box.md",
+              },
+              "messages": Object {
+                "preferInputBox": "<{{element}}> elements should be placed inside a <sky-input-box> component.",
+              },
+              "schema": Array [],
+              "type": "problem",
+            },
+            "name": "prefer-input-box",
+          },
+          "prefer-input-box-for-sky-components": Object {
+            "create": [Function],
+            "defaultOptions": Array [],
+            "meta": Object {
+              "docs": Object {
+                "description": "Require certain SKY UX form control components to be placed inside a <sky-input-box> component.",
+                "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/template/prefer-input-box-for-sky-components.md",
+              },
+              "messages": Object {
+                "preferInputBoxForSkyComponents": "<{{element}}> should be placed inside a <sky-input-box> component.",
+              },
+              "schema": Array [],
+              "type": "problem",
+            },
+            "name": "prefer-input-box-for-sky-components",
+          },
           "prefer-label-text": Object {
             "create": [Function],
             "defaultOptions": Array [],
@@ -13771,10 +13895,15 @@ For example, when set to \`true\` the following code will not fail for the \`alt
     "rules": Object {
       "skyux-eslint-template/no-deprecated-classnames": "error",
       "skyux-eslint-template/no-deprecated-directives": "error",
+      "skyux-eslint-template/no-invalid-input-box-children": "error",
+      "skyux-eslint-template/no-invalid-input-types": "error",
       "skyux-eslint-template/no-legacy-icons": "error",
       "skyux-eslint-template/no-radio-group-with-nested-list": "error",
       "skyux-eslint-template/no-unbound-id": "error",
       "skyux-eslint-template/prefer-disabled-attr": "error",
+      "skyux-eslint-template/prefer-form-control-component": "error",
+      "skyux-eslint-template/prefer-input-box": "error",
+      "skyux-eslint-template/prefer-input-box-for-sky-components": "error",
       "skyux-eslint-template/prefer-label-text": "error",
     },
   },

@@ -10,6 +10,14 @@ import {
   RULE_NAME as noDeprecatedDirectivesRuleName,
 } from '../rules/template/no-deprecated-directives';
 import {
+  rule as noInvalidInputBoxChildren,
+  RULE_NAME as noInvalidInputBoxChildrenRuleName,
+} from '../rules/template/no-invalid-input-box-children';
+import {
+  rule as noInvalidInputTypes,
+  RULE_NAME as noInvalidInputTypesRuleName,
+} from '../rules/template/no-invalid-input-types';
+import {
   rule as noLegacyIcons,
   RULE_NAME as noLegacyIconsRuleName,
 } from '../rules/template/no-legacy-icons';
@@ -26,6 +34,18 @@ import {
   RULE_NAME as preferDisabledAttrRuleName,
 } from '../rules/template/prefer-disabled-attr';
 import {
+  rule as preferFormControlComponent,
+  RULE_NAME as preferFormControlComponentRuleName,
+} from '../rules/template/prefer-form-control-component';
+import {
+  rule as preferInputBox,
+  RULE_NAME as preferInputBoxRuleName,
+} from '../rules/template/prefer-input-box';
+import {
+  rule as preferInputBoxForSkyComponents,
+  RULE_NAME as preferInputBoxForSkyComponentsRuleName,
+} from '../rules/template/prefer-input-box-for-sky-components';
+import {
   rule as preferLabelText,
   RULE_NAME as preferLabelTextRuleName,
 } from '../rules/template/prefer-label-text';
@@ -38,10 +58,15 @@ export default {
   rules: {
     [noDeprecatedClassnamesRuleName]: noDeprecatedClassnames,
     [noDeprecatedDirectivesRuleName]: noDeprecatedDirectives,
+    [noInvalidInputBoxChildrenRuleName]: noInvalidInputBoxChildren,
+    [noInvalidInputTypesRuleName]: noInvalidInputTypes,
     [noLegacyIconsRuleName]: noLegacyIcons,
     [noRadioGroupWithNestedListRuleName]: noRadioGroupWithNestedList,
-    [preferDisabledAttrRuleName]: preferDisabledAttr,
     [noUnboundIdRuleName]: noUnboundId,
+    [preferDisabledAttrRuleName]: preferDisabledAttr,
+    [preferFormControlComponentRuleName]: preferFormControlComponent,
+    [preferInputBoxRuleName]: preferInputBox,
+    [preferInputBoxForSkyComponentsRuleName]: preferInputBoxForSkyComponents,
     [preferLabelTextRuleName]: preferLabelText,
   },
 } satisfies TSESLint.FlatConfig.Plugin;
