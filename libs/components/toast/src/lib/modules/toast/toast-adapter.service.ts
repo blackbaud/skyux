@@ -1,4 +1,4 @@
-import { ElementRef, Injectable, ViewContainerRef } from '@angular/core';
+import { ElementRef, Injectable } from '@angular/core';
 import { SkyAppWindowRef } from '@skyux/core';
 
 /**
@@ -16,9 +16,5 @@ export class SkyToastAdapterService {
     this.#windowRef.nativeWindow.setTimeout(() => {
       element.scrollTop = element.scrollHeight;
     });
-  }
-
-  public getToastId(containerRef: ViewContainerRef): number {
-    return +containerRef.element.nativeElement.dataset.toastId;
   }
 }

@@ -78,7 +78,7 @@ Array [
       "parser": Object {
         "meta": Object {
           "name": "typescript-eslint/parser",
-          "version": "8.54.0",
+          "version": "8.56.1",
         },
         "parseForESLint": [Function],
       },
@@ -371,7 +371,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.54.0",
+                    "version": "8.56.1",
                   },
                   "parseForESLint": [Function],
                 },
@@ -580,7 +580,7 @@ Array [
               "parser": Object {
                 "meta": Object {
                   "name": "typescript-eslint/parser",
-                  "version": "8.54.0",
+                  "version": "8.56.1",
                 },
                 "parseForESLint": [Function],
               },
@@ -704,7 +704,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.54.0",
+                    "version": "8.56.1",
                   },
                   "parseForESLint": [Function],
                 },
@@ -784,7 +784,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.54.0",
+                    "version": "8.56.1",
                   },
                   "parseForESLint": [Function],
                 },
@@ -889,7 +889,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.54.0",
+                    "version": "8.56.1",
                   },
                   "parseForESLint": [Function],
                 },
@@ -973,7 +973,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.54.0",
+                    "version": "8.56.1",
                   },
                   "parseForESLint": [Function],
                 },
@@ -1067,7 +1067,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.54.0",
+                    "version": "8.56.1",
                   },
                   "parseForESLint": [Function],
                 },
@@ -1228,7 +1228,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.54.0",
+                    "version": "8.56.1",
                   },
                   "parseForESLint": [Function],
                 },
@@ -1352,7 +1352,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.54.0",
+                    "version": "8.56.1",
                   },
                   "parseForESLint": [Function],
                 },
@@ -1423,7 +1423,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.54.0",
+                    "version": "8.56.1",
                   },
                   "parseForESLint": [Function],
                 },
@@ -1503,7 +1503,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.54.0",
+                    "version": "8.56.1",
                   },
                   "parseForESLint": [Function],
                 },
@@ -2051,7 +2051,7 @@ Array [
         "meta": Object {
           "name": "@typescript-eslint/eslint-plugin",
           "namespace": "@typescript-eslint",
-          "version": "8.54.0",
+          "version": "8.56.1",
         },
         "rules": Object {
           "adjacent-overload-signatures": Object {
@@ -8608,7 +8608,11 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
           },
           "no-useless-default-assignment": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": Array [
+              Object {
+                "allowRuleToRunWithoutStrictNullChecksIKnowWhatIAmDoing": false,
+              },
+            ],
             "meta": Object {
               "docs": Object {
                 "description": "Disallow default values that will never be used",
@@ -8618,11 +8622,23 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
               },
               "fixable": "code",
               "messages": Object {
+                "noStrictNullCheck": "This rule requires the \`strictNullChecks\` compiler option to be turned on to function correctly.",
                 "preferOptionalSyntax": "Using \`= undefined\` to make a parameter optional adds unnecessary runtime logic. Use the \`?\` optional syntax instead.",
                 "uselessDefaultAssignment": "Default value is useless because the {{ type }} is not optional.",
                 "uselessUndefined": "Default value is useless because it is undefined. Optional {{ type }}s are already undefined by default.",
               },
-              "schema": Array [],
+              "schema": Array [
+                Object {
+                  "additionalProperties": false,
+                  "properties": Object {
+                    "allowRuleToRunWithoutStrictNullChecksIKnowWhatIAmDoing": Object {
+                      "description": "Unless this is set to \`true\`, the rule will error on every file whose \`tsconfig.json\` does _not_ have the \`strictNullChecks\` compiler option (or \`strict\`) set to \`true\`.",
+                      "type": "boolean",
+                    },
+                  },
+                  "type": "object",
+                },
+              ],
               "type": "suggestion",
             },
             "name": "no-useless-default-assignment",
@@ -10823,7 +10839,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
       "parser": Object {
         "meta": Object {
           "name": "typescript-eslint/parser",
-          "version": "8.54.0",
+          "version": "8.56.1",
         },
         "parseForESLint": [Function],
       },
@@ -12209,6 +12225,24 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           "name": "skyux-eslint",
         },
         "rules": Object {
+          "no-barrel-exports": Object {
+            "create": [Function],
+            "defaultOptions": Array [],
+            "meta": Object {
+              "docs": Object {
+                "description": "Prevents wildcard (\`export * from\`) and namespace (\`export * as ns from\`) re-exports to ensure explicit public API surfaces.",
+                "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/no-barrel-exports.md",
+              },
+              "fixable": "code",
+              "messages": Object {
+                "noBarrelExports": "Avoid wildcard re-exports. Use explicit named exports instead (e.g., \`export { A, B } from './foo'\`).",
+                "noNamespaceReExports": "Avoid namespace re-exports (\`export * as {{namespace}}\`). Use explicit named exports instead.",
+              },
+              "schema": Array [],
+              "type": "problem",
+            },
+            "name": "no-barrel-exports",
+          },
           "no-lambda-imports": Object {
             "create": [Function],
             "defaultOptions": Array [],
@@ -12251,6 +12285,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
     ],
     "name": "skyux-eslint/ts-recommended",
     "rules": Object {
+      "skyux-eslint/no-barrel-exports": "error",
       "skyux-eslint/no-lambda-imports": "error",
       "skyux-eslint/no-sky-selectors": "error",
     },

@@ -1,6 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SkyIdModule, SkyResponsiveHostDirective } from '@skyux/core';
+import {
+  SkyIdModule,
+  SkyResponsiveHostDirective,
+  _SkyAnimationSlideComponent,
+} from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
 import {
   SkyExpansionIndicatorModule,
@@ -30,6 +34,7 @@ import { SkyVerticalTabsetComponent } from './vertical-tabset.component';
     SkyStatusIndicatorModule,
     SkyTabsResourcesModule,
     SkyThemeModule,
+    _SkyAnimationSlideComponent,
   ],
   providers: [SkyVerticalTabsetAdapterService],
   exports: [

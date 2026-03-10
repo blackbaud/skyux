@@ -51,6 +51,8 @@
 }
 
 sky-toast {
+  display: block;
+
   .sky-toast {
     padding: var(
       --sky-override-toast-padding,
