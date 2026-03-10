@@ -152,9 +152,13 @@ export function extractNamedExports(
     }
   }
 
+  const valueSet = new Set(valueExports);
+
   return {
-    valueExports: [...new Set(valueExports)].sort(),
-    typeExports: [...new Set(typeExports)].sort(),
+    valueExports: [...valueSet].sort(),
+    typeExports: [...new Set(typeExports)]
+      .filter((name) => !valueSet.has(name))
+      .sort(),
   };
 }
 
