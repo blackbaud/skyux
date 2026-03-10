@@ -48,9 +48,7 @@ describe('provideNoopSkyAnimations', () => {
     ).toBe(false);
   });
 
-  it('should not add the class twice if already present', () => {
-    document.body.classList.add(SKY_ANIMATIONS_DISABLED_CLASS_NAME);
-
+  it('should register onDestroy cleanup for each consumer', () => {
     TestBed.configureTestingModule({
       imports: [TestComponent],
       providers: [provideNoopSkyAnimations()],
@@ -62,12 +60,30 @@ describe('provideNoopSkyAnimations', () => {
       document.body.classList.contains(SKY_ANIMATIONS_DISABLED_CLASS_NAME),
     ).toBe(true);
 
-    // When the class was already present before the provider ran,
-    // destroying should not remove it (the provider skipped adding).
+    // Resetting and re-configuring simulates serial test runs where
+    // each test provides its own noop animations.
     TestBed.resetTestingModule();
 
     expect(
       document.body.classList.contains(SKY_ANIMATIONS_DISABLED_CLASS_NAME),
+    ).toBe(false);
+
+    // A second serial test also registers and cleans up correctly.
+    TestBed.configureTestingModule({
+      imports: [TestComponent],
+      providers: [provideNoopSkyAnimations()],
+    });
+
+    TestBed.createComponent(TestComponent);
+
+    expect(
+      document.body.classList.contains(SKY_ANIMATIONS_DISABLED_CLASS_NAME),
     ).toBe(true);
+
+    TestBed.resetTestingModule();
+
+    expect(
+      document.body.classList.contains(SKY_ANIMATIONS_DISABLED_CLASS_NAME),
+    ).toBe(false);
   });
 });
