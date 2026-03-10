@@ -168,6 +168,24 @@ export class ModalComponent {
     });
   }
 
+  protected onOpenBannerHeadingVisibleModalClick(): void {
+    this.openModal(ModalBasicComponent, {
+      providers: [
+        {
+          provide: ModalTestContext,
+          useFactory: (): ModalTestContext => {
+            const context = new ModalTestContext();
+            context.bannerImageSrc = BANNER_IMAGE_SRC;
+            context.headingText = 'My heading';
+            context.modalContent = 'Modal content';
+
+            return context;
+          },
+        },
+      ],
+    });
+  }
+
   private openModal(
     modalInstance: any,
     options?: SkyModalConfigurationInterface,

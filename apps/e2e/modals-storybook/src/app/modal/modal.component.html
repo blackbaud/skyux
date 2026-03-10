@@ -104,6 +104,16 @@
 >
   Open banner content and image modal
 </button>
+<button
+  class="sky-btn sky-btn-default open-banner-heading-visible-modal-btn"
+  type="button"
+  [ngClass]="{
+    'modal-screenshot-buttons-hidden': buttonsHidden
+  }"
+  (click)="onOpenBannerHeadingVisibleModalClick()"
+>
+  Open banner image with heading visible modal
+</button>
 
 @if (showPositionedEl) {
   <div class="modal-screenshot-positioned"></div>
