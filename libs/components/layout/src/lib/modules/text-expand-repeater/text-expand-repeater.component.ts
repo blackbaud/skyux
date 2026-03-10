@@ -1,11 +1,4 @@
 import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
-import {
   ChangeDetectorRef,
   Component,
   ElementRef,
@@ -30,28 +23,6 @@ import { SkyTextExpandRepeaterListStyleType } from './types/text-expand-repeater
 let nextId = 0;
 
 @Component({
-  animations: [
-    trigger('expansionAnimation', [
-      transition(':enter', []),
-      state(
-        'true',
-        style({
-          maxHeight: '{{transitionHeight}}px',
-        }),
-        { params: { transitionHeight: 0 } },
-      ),
-      state(
-        'false',
-        style({
-          maxHeight: '{{transitionHeight}}px',
-        }),
-        { params: { transitionHeight: 0 } },
-      ),
-      transition('true => false', animate('250ms ease')),
-      transition('false => true', animate('250ms ease')),
-      transition('void => *', []),
-    ]),
-  ],
   selector: 'sky-text-expand-repeater',
   templateUrl: './text-expand-repeater.component.html',
   styleUrls: ['./text-expand-repeater.component.scss'],
@@ -88,7 +59,7 @@ export class SkyTextExpandRepeaterComponent<TData = unknown> {
   public contentSectionId = `sky-text-expand-repeater-content-${++nextId}`;
 
   protected readonly isExpanded = signal(false);
-  protected transitionHeight = 1;
+  protected collapsedMinHeight = '0';
 
   readonly #resources = inject(SkyLibResourcesService);
   readonly #seeMoreText = toSignal(
@@ -131,19 +102,9 @@ export class SkyTextExpandRepeaterComponent<TData = unknown> {
   }
 
   public animationEnd(): void {
-    // Ensure all items that should be hidden are hidden. This is because we need them shown during the animation window for visual purposes.
     if (!this.isExpanded()) {
       this.#hideItems();
     }
-
-    // This set timeout is needed as the `animationEnd` function is called by the angular animation callback prior to the animation setting the style on the element
-    setTimeout(() => {
-      const containerEl = this.containerEl();
-      if (containerEl) {
-        // Set height back to auto so the browser can change the height as needed with window changes
-        this.#textExpandRepeaterAdapter.removeContainerMaxHeight(containerEl);
-      }
-    });
   }
 
   public repeaterExpand(): void {
@@ -155,21 +116,10 @@ export class SkyTextExpandRepeaterComponent<TData = unknown> {
   }
 
   #animateRepeater(expanding: boolean): void {
-    const adapter = this.#textExpandRepeaterAdapter;
-    const container = this.containerEl();
-    if (container) {
-      if (expanding) {
-        this.#showItems();
-      } else {
-        this.#hideItems();
-      }
-      this.transitionHeight = adapter.getContainerHeight(container);
-      if (!expanding) {
-        // Show all items during animation for visual purposes.
-        this.#showItems();
-      }
-      this.isExpanded.set(expanding);
+    if (expanding) {
+      this.#showItems();
     }
+    this.isExpanded.set(expanding);
   }
 
   #setup(): void {
@@ -184,10 +134,14 @@ export class SkyTextExpandRepeaterComponent<TData = unknown> {
         this.expandable = true;
         this.#hideItems();
         if (container) {
-          this.transitionHeight =
-            this.#textExpandRepeaterAdapter.getContainerHeight(container);
+          this.collapsedMinHeight =
+            container.nativeElement.offsetHeight + 'px';
         }
+      } else {
+        this.isExpanded.set(true);
       }
+    } else {
+      this.isExpanded.set(true);
     }
     this.#changeDetector.detectChanges();
   }
