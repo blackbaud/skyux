@@ -1,6 +1,19 @@
 # Changelog
 
 
+## [14.0.0-alpha.6](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.5...14.0.0-alpha.6) (2026-03-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/animations:** deprecate `@skyux/animations` (#4270)
+* Along with changes in `google-libphonenumber` and `intl-tel-input`, country names are now localized in the country field and phone field components.
+
+### Features
+
+* **components/animations:** deprecate `@skyux/animations` ([#4270](https://github.com/blackbaud/skyux/issues/4270)) ([ba7f9e8](https://github.com/blackbaud/skyux/commit/ba7f9e88e1e04ab13378149cc3d7df5aea89dd61))
+* update `google-libphonenumber` and `intl-tel-input` and localize country names in phone field and country field ([#4271](https://github.com/blackbaud/skyux/issues/4271)) ([e175ac9](https://github.com/blackbaud/skyux/commit/e175ac993952f4b1eff778a4a4a9ba5f1fcb55db))
+
 ## [13.14.3](https://github.com/blackbaud/skyux/compare/13.14.2...13.14.3) (2026-03-03)
 
 
