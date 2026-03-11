@@ -226,6 +226,11 @@ sky-search {
         var(--sky-comp-button-toolbar-space-inset-left);
     }
 
+    .sky-search-container {
+      --sky-comp-override-list-header-background-color: var(
+        --sky-color-background-container-dimmed
+      );
+    }
     .sky-search-container .sky-search-input-container {
       .sky-input-box-disabled {
         .sky-input-box-group .sky-input-box-group-form-control .sky-form-group {
