@@ -79,11 +79,7 @@ export class SkySummaryActionBarAdapterService {
     );
 
     if (splitViewWorkspaceContent) {
-      this.#renderer.setStyle(
-        splitViewWorkspaceContent,
-        'padding-bottom',
-        'none',
-      );
+      this.#renderer.removeStyle(splitViewWorkspaceContent, 'padding-bottom');
     }
 
     if (splitViewWorkspaceFooter) {
