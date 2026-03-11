@@ -101,6 +101,7 @@
     "@angular/platform-browser-dynamic": "21.2.0",
     "@angular/router": "21.2.0",
     "@blackbaud/angular-tree-component": "1.0.0",
+    "@blackbaud/skyux-branding-builder": "1.1.0",
     "@blackbaud/skyux-design-tokens": "5.0.0",
     "@eslint/js": "9.39.3",
     "@nx/angular": "22.5.3",
