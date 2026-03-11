@@ -50,7 +50,7 @@ function listPanelHidden(): boolean {
   const listPanel = document.querySelector(
     '.sky-split-view-drawer-flex-container',
   ) as HTMLElement;
-  return !listPanel.classList.contains('sky-split-view-drawer-visible');
+  return listPanel.hasAttribute('hidden');
 }
 
 function getWorkspacePanel(): HTMLElement {

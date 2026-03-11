@@ -1,4 +1,4 @@
-import { Component, ErrorHandler, signal } from '@angular/core';
+import { Component, ErrorHandler, input, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { provideNoopSkyAnimations } from '../utility/provide-noop-animations';
@@ -24,18 +24,18 @@ class TestComponent {}
   template: `
     <div
       skyAnimationTransitionHandler
-      [transitionPropertyToTrack]="propertyToTrack"
-      [transitionTrigger]="trigger"
+      [transitionPropertyToTrack]="propertyToTrack()"
+      [transitionTrigger]="trigger()"
       (transitionEnd)="onTransitionEnd()"
     ></div>
   `,
 })
 class TemplateTestComponent {
-  public propertyToTrack: string | undefined;
-  public trigger: unknown = false;
+  public readonly propertyToTrack = input<string>();
+  public readonly trigger = input<unknown>(false);
   public transitionEndEmitted = false;
 
-  public onTransitionEnd(): void {
+  protected onTransitionEnd(): void {
     this.transitionEndEmitted = true;
   }
 }
@@ -243,7 +243,7 @@ describe('SkyAnimationTransitionHandler', () => {
       });
 
       const fixture = TestBed.createComponent(TemplateTestComponent);
-      fixture.componentInstance.propertyToTrack = 'opacity';
+      fixture.componentRef.setInput('propertyToTrack', 'opacity');
       fixture.detectChanges();
 
       return fixture;

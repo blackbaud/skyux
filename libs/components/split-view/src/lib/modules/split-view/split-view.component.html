@@ -5,8 +5,8 @@
 >
   <div
     class="sky-split-view-drawer-flex-container"
-    [class.sky-split-view-animate]="animationEnabled()"
-    [class.sky-split-view-drawer-visible]="drawerVisible"
+    [class.sky-animation-slide-enter-left]="animationEnabled()"
+    [hidden]="!drawerVisible"
   >
     <ng-content select="sky-split-view-drawer" />
   </div>
@@ -15,8 +15,8 @@
     class="sky-split-view-workspace-flex-container"
     skyAnimationTransitionHandler
     transitionPropertyToTrack="transform"
-    [class.sky-split-view-animate]="animationEnabled()"
-    [class.sky-split-view-workspace-visible]="workspaceVisible"
+    [class.sky-animation-slide-enter-right]="animationEnabled()"
+    [hidden]="!workspaceVisible"
     [transitionTrigger]="workspaceVisible"
     (transitionEnd)="onWorkspaceAnimationEnd()"
   >

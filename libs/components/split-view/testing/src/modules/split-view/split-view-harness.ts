@@ -73,7 +73,7 @@ export class SkySplitViewHarness extends SkyComponentHarness {
    */
   public async getDrawerIsVisible(): Promise<boolean> {
     const drawerContainer = await this.#getSplitViewDrawerContainer();
-    return await drawerContainer.hasClass('sky-split-view-drawer-visible');
+    return (await drawerContainer.getAttribute('hidden')) === null;
   }
 
   /**
@@ -94,9 +94,7 @@ export class SkySplitViewHarness extends SkyComponentHarness {
    */
   public async getWorkspaceIsVisible(): Promise<boolean> {
     const workspaceContainer = await this.#getSplitViewWorkspaceContainer();
-    return await workspaceContainer.hasClass(
-      'sky-split-view-workspace-visible',
-    );
+    return (await workspaceContainer.getAttribute('hidden')) === null;
   }
 
   /**

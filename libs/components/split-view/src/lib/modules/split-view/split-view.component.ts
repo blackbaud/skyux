@@ -151,6 +151,7 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
 
     splitViewService.splitViewElementRef = elementRef;
 
+    // Enable animations after the first render.
     afterNextRender(() => {
       this.animationEnabled.set(true);
     });
