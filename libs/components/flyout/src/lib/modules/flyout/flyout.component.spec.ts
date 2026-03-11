@@ -340,6 +340,15 @@ describe('Flyout component', () => {
 
     const flyoutEl = getFlyoutElement();
 
+    // Manually dispatch the transitionend event because the directive's
+    // effect-based path cannot be flushed for dynamically created components
+    // within fakeAsync zones.
+    flyoutEl.dispatchEvent(
+      new TransitionEvent('transitionend', { propertyName: 'transform' }),
+    );
+
+    fixture.detectChanges();
+
     expect(flyoutEl).not.toHaveCssClass('sky-flyout-hidden');
   }));
 
