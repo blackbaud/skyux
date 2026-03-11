@@ -10,10 +10,10 @@ import { _SkyAnimationTransitionHandlerDirective } from '../shared/transition-ha
 /**
  * @internal
  *
- * Animates content to expand and collapse using CSS grid
- * `grid-template-rows` transitions. Unlike `sky-animation-slide`,
- * this component does **not** toggle `visibility` and supports a
- * configurable `minHeight` for the collapsed state.
+ * Animates content open and closed using CSS grid `grid-template-rows`
+ * transitions. Unlike `sky-animation-slide`, this component supports
+ * a configurable `minHeight` for the collapsed state, allowing a
+ * preview of the content to remain visible.
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
