@@ -15,6 +15,7 @@ export interface SkyDataManagerConfig {
    * The modal component to launch when the filter button is selected. The same filter options are
    * used for all views, but views can use `SkyDataViewConfig` to indicate whether to display
    * the filter button. The modal receives the `filterData` in the data state as context.
+   * @deprecated Use [filter bar](https://developer.blackbaud.com/skyux/components/filter-bar) in a data manager toolbar instead.
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   filterModalComponent?: any;
