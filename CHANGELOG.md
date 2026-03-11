@@ -1,6 +1,22 @@
 # Changelog
 
 
+## [14.0.0-alpha.7](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.6...14.0.0-alpha.7) (2026-03-10)
+
+
+### Bug Fixes
+
+* **sdk/skyux-eslint:** avoid creating duplicate identifiers ([#4278](https://github.com/blackbaud/skyux/issues/4278)) ([e2346a0](https://github.com/blackbaud/skyux/commit/e2346a0dcc4842972b34e40937b7d7a6c1be5c59)), closes [AB#3614172](https://dev.azure.com/blackbaud/Products/_workitems/edit/3614172)
+
+# [13.15.0](https://github.com/blackbaud/skyux/compare/13.14.3...13.15.0) (2026-03-10)
+
+
+### Features
+
+* **components/modals:** add modal banner ([#4275](https://github.com/blackbaud/skyux/issues/4275)) ([c6cf820](https://github.com/blackbaud/skyux/commit/c6cf820017fcb46232234cba0d06011af620b54d))
+
+
+
 ## [14.0.0-alpha.6](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.5...14.0.0-alpha.6) (2026-03-10)
 
 

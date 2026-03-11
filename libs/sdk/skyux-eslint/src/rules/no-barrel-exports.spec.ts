@@ -21,6 +21,9 @@ jest.mock('./utils/resolve-exports', () => ({
     if (specifier === './resolvable-types-only') {
       return '/fake/resolvable-types-only.ts';
     }
+    if (specifier === './resolvable-overlap') {
+      return '/fake/resolvable-overlap.ts';
+    }
     if (specifier === './empty-exports') {
       return '/fake/empty-exports.ts';
     }
@@ -34,6 +37,12 @@ jest.mock('./utils/resolve-exports', () => ({
       return {
         valueExports: ['FooComponent'],
         typeExports: ['FooConfig', 'FooType'],
+      };
+    }
+    if (filePath === '/fake/resolvable-overlap.ts') {
+      return {
+        valueExports: ['Foo'],
+        typeExports: ['Bar'],
       };
     }
     if (filePath === '/fake/resolvable-types-only.ts') {
@@ -95,6 +104,12 @@ ruleTester.run(RULE_NAME, rule, {
       code: `export * from './resolvable-mixed';`,
       filename: '/fake/index.ts',
       output: `export { FooComponent } from './resolvable-mixed';\nexport type { FooConfig, FooType } from './resolvable-mixed';`,
+      errors: [{ messageId }],
+    },
+    {
+      code: `export * from './resolvable-overlap';`,
+      filename: '/fake/index.ts',
+      output: `export { Foo } from './resolvable-overlap';\nexport type { Bar } from './resolvable-overlap';`,
       errors: [{ messageId }],
     },
     {
