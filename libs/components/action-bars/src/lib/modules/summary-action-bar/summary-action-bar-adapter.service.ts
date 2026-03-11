@@ -77,12 +77,18 @@ export class SkySummaryActionBarAdapterService {
     const splitViewWorkspaceFooter = document.querySelector(
       '.sky-split-view-workspace-footer',
     );
-    this.#renderer.setStyle(
-      splitViewWorkspaceContent,
-      'padding-bottom',
-      'none',
-    );
-    this.#renderer.setStyle(splitViewWorkspaceFooter, 'padding', '10px');
+
+    if (splitViewWorkspaceContent) {
+      this.#renderer.setStyle(
+        splitViewWorkspaceContent,
+        'padding-bottom',
+        'none',
+      );
+    }
+
+    if (splitViewWorkspaceFooter) {
+      this.#renderer.setStyle(splitViewWorkspaceFooter, 'padding', '10px');
+    }
   }
 
   public styleModalFooter(summaryActionBarRef: ElementRef): void {
