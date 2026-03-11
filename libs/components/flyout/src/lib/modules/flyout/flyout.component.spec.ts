@@ -8,7 +8,11 @@ import {
 import { Router, provideRouter } from '@angular/router';
 import '@angular/router/testing';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
-import { SkyBreakpoint, SkyUIConfigService } from '@skyux/core';
+import {
+  SkyBreakpoint,
+  SkyUIConfigService,
+  provideNoopSkyAnimations,
+} from '@skyux/core';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -298,6 +302,7 @@ describe('Flyout component', () => {
     TestBed.configureTestingModule({
       imports: [SkyFlyoutFixturesModule],
       providers: [
+        provideNoopSkyAnimations(),
         provideRouter([]),
         provideSkyMediaQueryTesting(),
         {
@@ -328,6 +333,18 @@ describe('Flyout component', () => {
     fixture.detectChanges();
     flyoutService.ngOnDestroy();
     fixture.destroy();
+  }));
+
+  it('should set isOpen after the open transition completes', fakeAsync(() => {
+    openFlyout({});
+
+    const flyoutEl = getFlyoutElement();
+    flyoutEl.dispatchEvent(
+      new TransitionEvent('transitionend', { propertyName: 'transform' }),
+    );
+    fixture.detectChanges();
+
+    expect(flyoutEl).not.toHaveCssClass('sky-flyout-hidden');
   }));
 
   it('should close when the close button is clicked', fakeAsync(() => {

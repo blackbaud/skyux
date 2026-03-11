@@ -34,6 +34,17 @@
 
   border-left: var(--sky-override-flyout-border-left);
 
+  transform: translateX(100%);
+  transition: transform 250ms ease-in;
+
+  &.sky-flyout-open {
+    transform: translateX(0);
+
+    @starting-style {
+      transform: translateX(100%);
+    }
+  }
+
   &:focus {
     outline: none;
   }

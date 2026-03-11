@@ -48,7 +48,7 @@ describe('SkyAnimationTransitionHandler', () => {
         _SkyAnimationTransitionHandlerDirective,
       );
 
-      handler.cssPropertyToTrack(options.trackProperty);
+      handler.setPropertyToTrack(options.trackProperty);
     }
 
     return { fixture, component: fixture.componentInstance };
