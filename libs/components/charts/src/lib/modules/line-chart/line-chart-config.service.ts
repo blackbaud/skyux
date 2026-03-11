@@ -133,14 +133,14 @@ export class SkyLineChartConfigService {
     const base: PartialLineScale = {
       grid: {
         display: true,
-        color: styles.axis.gridLineColor,
-        tickColor: styles.axis.gridLineColor,
+        color: styles.axis.grid.color,
+        tickColor: styles.axis.grid.color,
         drawTicks: true,
         tickLength: styles.axis.ticks.length,
       },
       border: {
         display: true,
-        color: styles.axis.lineColor,
+        color: styles.axis.border.color,
       },
       ticks: {
         color: styles.axis.ticks.color,
@@ -245,7 +245,13 @@ export class SkyLineChartConfigService {
       stacked: config.stacked ?? false,
       suggestedMin: config.measureAxis?.suggestedMin,
       suggestedMax: config.measureAxis?.suggestedMax,
-      grid: base.grid,
+      grid: {
+        ...base.grid,
+        lineWidth: (ctx) => {
+          const tick = ctx.tick;
+          return !tick?.label ? 0 : styles.axis.grid.width;
+        },
+      },
       border: base.border,
       ticks: {
         ...base.ticks,

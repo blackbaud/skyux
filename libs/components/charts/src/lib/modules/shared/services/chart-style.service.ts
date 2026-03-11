@@ -68,7 +68,17 @@ export class SkyChartStyleService {
   }
 
   #axis(): SkyChartStyles['axis'] {
-    const ticks = {
+    const border: SkyChartStyles['axis']['border'] = {
+      color: this.#css('--sky-theme-color-viz-axis', '#85888d'),
+      width: 1,
+    };
+
+    const grid: SkyChartStyles['axis']['grid'] = {
+      color: '#d5d6d8', // Hardcoded to specific color instead of theme variable
+      width: 1,
+    };
+
+    const ticks: SkyChartStyles['axis']['ticks'] = {
       color: this.#css('--sky-color-text-default', '#252b33'),
       fontSize: this.#cssRemToPx('--sky-font-size-body-s', '13px'),
       fontWeight: this.#cssNumber('--sky-font-style-body-s', '400'),
@@ -82,8 +92,8 @@ export class SkyChartStyleService {
     };
 
     return {
-      lineColor: this.#css('--sky-theme-color-viz-axis', '#85888d'),
-      gridLineColor: '#d5d6d8', // Hardcoded to specific color instead of theme variable
+      border: border,
+      grid: grid,
       ticks: ticks,
     };
   }
@@ -357,8 +367,14 @@ export interface SkyChartStyles {
   chartPadding: number;
   fontFamily: string;
   axis: {
-    lineColor: string;
-    gridLineColor: string;
+    border: {
+      color: string;
+      width: number;
+    };
+    grid: {
+      color: string;
+      width: number;
+    };
     ticks: {
       color: string;
       fontSize: number;

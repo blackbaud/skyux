@@ -175,9 +175,16 @@ export class SkyBarChartConfigService {
 
   #getBaseScale(styles: SkyChartStyles): PartialBarScale {
     const base: PartialBarScale = {
+      grid: {
+        display: true,
+        color: styles.axis.grid.color,
+        tickColor: styles.axis.grid.color,
+        drawTicks: true,
+        tickLength: styles.axis.ticks.length,
+      },
       border: {
         display: true,
-        color: styles.axis.lineColor,
+        color: styles.axis.border.color,
       },
       ticks: {
         color: styles.axis.ticks.color,
@@ -258,13 +265,7 @@ export class SkyBarChartConfigService {
       beginAtZero: true,
       suggestedMin: options.measureAxis?.suggestedMin,
       suggestedMax: options.measureAxis?.suggestedMax,
-      grid: {
-        display: true,
-        color: styles.axis.gridLineColor,
-        tickColor: styles.axis.gridLineColor,
-        drawTicks: true,
-        tickLength: styles.axis.ticks.length,
-      },
+      grid: base.grid,
       border: base.border,
       ticks: {
         ...base.ticks,
@@ -299,11 +300,11 @@ export class SkyBarChartConfigService {
       suggestedMin: options.measureAxis?.suggestedMin,
       suggestedMax: options.measureAxis?.suggestedMax,
       grid: {
-        display: true,
-        color: styles.axis.gridLineColor,
-        tickColor: styles.axis.gridLineColor,
-        drawTicks: true,
-        tickLength: styles.axis.ticks.length,
+        ...base.grid,
+        lineWidth: (ctx) => {
+          const tick = ctx.tick;
+          return !tick?.label ? 0 : styles.axis.grid.width;
+        },
       },
       border: base.border,
       ticks: {
