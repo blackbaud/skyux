@@ -1,6 +1,7 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideNoopSkyAnimations } from '@skyux/core';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -10,7 +11,6 @@ import { SkyRepeaterItemHarness } from '@skyux/lists/testing';
 import { SkySplitViewHarness } from '@skyux/split-view/testing';
 
 import { SplitViewPageBoundExampleComponent } from './example.component';
-import { provideNoopSkyAnimations } from '@skyux/core';
 
 describe('Split view example', () => {
   async function setupTest(options: { dataSkyId?: string } = {}): Promise<{
