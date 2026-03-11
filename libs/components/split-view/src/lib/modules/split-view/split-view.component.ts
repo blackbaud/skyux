@@ -1,12 +1,4 @@
 import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
-import { CommonModule } from '@angular/common';
-import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -16,7 +8,11 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { SkyCoreAdapterService, SkyResponsiveHostDirective } from '@skyux/core';
+import {
+  SkyCoreAdapterService,
+  SkyResponsiveHostDirective,
+  _SkyAnimationTransitionHandlerDirective,
+} from '@skyux/core';
 
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
@@ -33,20 +29,9 @@ import { SkySplitViewMessageType } from './types/split-view-message-type';
  * and take actions.
  */
 @Component({
-  animations: [
-    trigger('blockAnimationOnLoad', [transition(':enter', [])]),
-    trigger('drawerEnter', [
-      state('false', style({ transform: 'translate(-100%)' })),
-      transition('* => true', animate('150ms ease-in')),
-    ]),
-    trigger('workspaceEnter', [
-      state('false', style({ transform: 'translate(100%)' })),
-      transition('* => true', animate('150ms ease-in')),
-    ]),
-  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [SkyResponsiveHostDirective],
-  imports: [CommonModule],
+  imports: [_SkyAnimationTransitionHandlerDirective],
   providers: [SkySplitViewAdapterService, SkySplitViewService],
   selector: 'sky-split-view',
   styleUrl: './split-view.component.scss',
@@ -128,6 +113,7 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
     return !this.isMobile || this.#_drawerVisible;
   }
 
+  public animationEnabled = false;
   public isMobile = false;
   public nextButtonDisabled = false;
   public previousButtonDisabled = false;
@@ -166,6 +152,12 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    // Enable CSS transitions after initial render to prevent animations on load.
+    setTimeout(() => {
+      this.animationEnabled = true;
+      this.#changeDetectorRef.markForCheck();
+    });
+
     this.#splitViewService.isMobileStream
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((mobile: boolean) => {
@@ -196,7 +188,7 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
     this.#ngUnsubscribe.complete();
   }
 
-  public onWorkspaceEnterComplete(): void {
+  public onWorkspaceAnimationEnd(): void {
     this.#animationComplete.next();
   }
 

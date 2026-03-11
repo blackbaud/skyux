@@ -11,6 +11,16 @@
     #{$sky-border-color-neutral-medium};
 }
 
+@mixin split-view-panel-transition($translate-x) {
+  transition-duration: var(--sky-transition-time-short);
+  transition-property: transform;
+  transition-timing-function: ease-in;
+
+  @starting-style {
+    transform: translate($translate-x);
+  }
+}
+
 :host {
   display: block;
 }
@@ -32,6 +42,24 @@
     flex-grow: 1;
     flex-shrink: 99;
     overflow: auto;
+
+    &:not(.sky-split-view-workspace-visible) {
+      display: none;
+    }
+
+    &.sky-split-view-animate.sky-split-view-workspace-visible {
+      @include split-view-panel-transition(100%);
+    }
+  }
+
+  .sky-split-view-drawer-flex-container {
+    &:not(.sky-split-view-drawer-visible) {
+      display: none;
+    }
+
+    &.sky-split-view-animate.sky-split-view-drawer-visible {
+      @include split-view-panel-transition(-100%);
+    }
   }
 }
 

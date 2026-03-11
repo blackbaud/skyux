@@ -12,8 +12,8 @@ import {
   waitForAsync,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { provideNoopSkyAnimations } from '@skyux/core';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -50,7 +50,7 @@ function listPanelHidden(): boolean {
   const listPanel = document.querySelector(
     '.sky-split-view-drawer-flex-container',
   ) as HTMLElement;
-  return listPanel.hasAttribute('hidden');
+  return !listPanel.classList.contains('sky-split-view-drawer-visible');
 }
 
 function getWorkspacePanel(): HTMLElement {
@@ -211,8 +211,9 @@ describe('Split view component', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, SplitViewFixturesModule],
+      imports: [SplitViewFixturesModule],
       providers: [
+        provideNoopSkyAnimations(),
         provideSkyMediaQueryTesting(),
         {
           provide: SkyThemeService,
