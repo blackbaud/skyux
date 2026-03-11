@@ -17,7 +17,9 @@ import { SkyModalCloseArgs } from '@skyux/modals';
 
 import { Subject, of } from 'rxjs';
 
+import { SkyFilterBarForLoopTestComponent } from './fixtures/filter-bar-for-loop.component.fixture';
 import { SkyFilterBarTestComponent } from './fixtures/filter-bar.component.fixture';
+import { SkyFilterBarModalTestComponent } from './fixtures/filter-modal-test.component.fixture';
 import { SkyFilterBarFilterItem } from './models/filter-bar-filter-item';
 import { SkyFilterItemModalInstance } from './models/filter-item-modal-instance';
 
@@ -1346,6 +1348,94 @@ describe('Filter bar component', () => {
         },
         'skyFilterBar',
       );
+    });
+  });
+
+  describe('dynamic filter items via @for loop', () => {
+    let forLoopFixture: ComponentFixture<SkyFilterBarForLoopTestComponent>;
+
+    beforeEach(async () => {
+      await TestBed.configureTestingModule({
+        imports: [SkyFilterBarForLoopTestComponent],
+        providers: [
+          provideNoopAnimations(),
+          {
+            provide: SkyConfirmService,
+            useValue: jasmine.createSpyObj('SkyConfirmService', ['open']),
+          },
+          {
+            provide: SkySelectionModalService,
+            useValue: jasmine.createSpyObj('SkySelectionModalService', [
+              'open',
+            ]),
+          },
+        ],
+      }).compileComponents();
+
+      forLoopFixture = TestBed.createComponent(
+        SkyFilterBarForLoopTestComponent,
+      );
+      forLoopFixture.detectChanges();
+    });
+
+    it('should create a filter bar with filter items generated via @for loop', () => {
+      expect(() => {
+        forLoopFixture.componentInstance.filterItems = [
+          {
+            filterId: 'filter-1',
+            modalComponent: SkyFilterBarModalTestComponent,
+          },
+          {
+            filterId: 'filter-2',
+            modalComponent: SkyFilterBarModalTestComponent,
+          },
+          {
+            filterId: 'filter-3',
+            modalComponent: SkyFilterBarModalTestComponent,
+          },
+        ];
+        forLoopFixture.detectChanges();
+      }).not.toThrow();
+    });
+
+    it('should update visible filters when @for list changes', () => {
+      forLoopFixture.componentInstance.filterItems = [
+        {
+          filterId: 'filter-1',
+          modalComponent: SkyFilterBarModalTestComponent,
+        },
+        {
+          filterId: 'filter-2',
+          modalComponent: SkyFilterBarModalTestComponent,
+        },
+      ];
+      forLoopFixture.detectChanges();
+
+      expect(
+        forLoopFixture.nativeElement.querySelectorAll('sky-filter-item-base')
+          .length,
+      ).toBe(2);
+
+      forLoopFixture.componentInstance.filterItems = [
+        {
+          filterId: 'filter-1',
+          modalComponent: SkyFilterBarModalTestComponent,
+        },
+        {
+          filterId: 'filter-2',
+          modalComponent: SkyFilterBarModalTestComponent,
+        },
+        {
+          filterId: 'filter-3',
+          modalComponent: SkyFilterBarModalTestComponent,
+        },
+      ];
+      forLoopFixture.detectChanges();
+
+      expect(
+        forLoopFixture.nativeElement.querySelectorAll('sky-filter-item-base')
+          .length,
+      ).toBe(3);
     });
   });
 });
