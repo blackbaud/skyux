@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.0.0-alpha.8](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.7...14.0.0-alpha.8) (2026-03-11)
+
+
+### Features
+
+* **components/data-manager:** filter button and modal options now deprecated ([#4277](https://github.com/blackbaud/skyux/issues/4277)) ([e630769](https://github.com/blackbaud/skyux/commit/e6307699ca42d6e8c4bc559498e9a1b05fa34ea0)), closes [AB#3611499](https://dev.azure.com/blackbaud/Products/_workitems/edit/3611499)
+
 ## [14.0.0-alpha.7](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.6...14.0.0-alpha.7) (2026-03-10)
 
 
