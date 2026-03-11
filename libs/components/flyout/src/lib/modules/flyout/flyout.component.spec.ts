@@ -339,10 +339,6 @@ describe('Flyout component', () => {
     openFlyout({});
 
     const flyoutEl = getFlyoutElement();
-    flyoutEl.dispatchEvent(
-      new TransitionEvent('transitionend', { propertyName: 'transform' }),
-    );
-    fixture.detectChanges();
 
     expect(flyoutEl).not.toHaveCssClass('sky-flyout-hidden');
   }));

@@ -306,6 +306,10 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
       this.isOpen = true;
     } else {
       this.isOpen = false;
+      // When animations are disabled, the transition handler directive
+      // emits synchronously during the same change detection cycle that
+      // triggered the close. Deferring to a microtask lets the current
+      // cycle finish before the host component is destroyed.
       queueMicrotask(() => {
         this.#notifyClosed();
         this.#cleanTemplate();
