@@ -116,8 +116,6 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
   }
 
   public isMobile = false;
-  public nextButtonDisabled = false;
-  public previousButtonDisabled = false;
 
   public get workspaceVisible(): boolean {
     return !this.isMobile || !this.#_drawerVisible;
