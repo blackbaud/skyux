@@ -7,6 +7,8 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  afterNextRender,
+  signal,
 } from '@angular/core';
 import {
   SkyCoreAdapterService,
@@ -113,7 +115,6 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
     return !this.isMobile || this.#_drawerVisible;
   }
 
-  public animationEnabled = false;
   public isMobile = false;
   public nextButtonDisabled = false;
   public previousButtonDisabled = false;
@@ -121,6 +122,8 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
   public get workspaceVisible(): boolean {
     return !this.isMobile || !this.#_drawerVisible;
   }
+
+  protected readonly animationEnabled = signal(false);
 
   #animationComplete = new Subject<void>();
   #bindHeightToWindowUnsubscribe: Subject<void> | undefined;
@@ -149,15 +152,13 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
     this.#splitViewService = splitViewService;
 
     splitViewService.splitViewElementRef = elementRef;
+
+    afterNextRender(() => {
+      this.animationEnabled.set(true);
+    });
   }
 
   public ngOnInit(): void {
-    // Enable CSS transitions after initial render to prevent animations on load.
-    setTimeout(() => {
-      this.animationEnabled = true;
-      this.#changeDetectorRef.markForCheck();
-    });
-
     this.#splitViewService.isMobileStream
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((mobile: boolean) => {
