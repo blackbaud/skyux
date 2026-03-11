@@ -2,9 +2,14 @@ import {
   AfterContentInit,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   ElementRef,
+  inject,
+  Injector,
   Input,
-  ViewChild,
+  afterNextRender,
+  signal,
+  ViewChild
 } from '@angular/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyModalService } from '@skyux/modals';
@@ -119,19 +124,26 @@ export class SkyTextExpandComponent implements AfterContentInit {
 
   public contentSectionId = `sky-text-expand-content-${++nextId}`;
 
-  public collapsedMinHeight = '0';
+  protected collapsedMinHeight = signal('0');
 
   public expandable = false;
 
-  public isExpanded: boolean | undefined;
+  public isExpanded = false;
 
   public isModal = false;
 
-  @ViewChild('content', {
+  @ViewChild('container', {
     read: ElementRef,
     static: true,
   })
-  public contentEl: ElementRef | undefined;
+  public set containerEl(value: ElementRef | undefined) {
+    this.#_containerEl = value;
+    this.#observeResize();
+  }
+
+  public get containerEl(): ElementRef | undefined {
+    return this.#_containerEl;
+  }
 
   @ViewChild('text', {
     read: ElementRef,
@@ -148,7 +160,13 @@ export class SkyTextExpandComponent implements AfterContentInit {
 
   #collapsedText = '';
 
+  #injector = inject(Injector);
+
+  #measurePending = false;
+
   #newlineCount = 0;
+
+  #resizeObserver: ResizeObserver | undefined;
 
   #seeMoreText = '';
 
@@ -166,23 +184,13 @@ export class SkyTextExpandComponent implements AfterContentInit {
 
   #_textEl: ElementRef | undefined;
 
-  #cdr: ChangeDetectorRef;
-  #measureId: number | undefined;
-  #resources: SkyLibResourcesService;
-  #modalSvc: SkyModalService;
-  #textExpandAdapter: SkyTextExpandAdapterService;
+  #_containerEl: ElementRef | undefined;
 
-  constructor(
-    cdr: ChangeDetectorRef,
-    resources: SkyLibResourcesService,
-    modalSvc: SkyModalService,
-    textExpandAdapter: SkyTextExpandAdapterService,
-  ) {
-    this.#cdr = cdr;
-    this.#resources = resources;
-    this.#modalSvc = modalSvc;
-    this.#textExpandAdapter = textExpandAdapter;
-  }
+  #cdr = inject(ChangeDetectorRef);
+  #destroyRef = inject(DestroyRef);
+  #resources = inject(SkyLibResourcesService);
+  #modalSvc = inject(SkyModalService);
+  #textExpandAdapter = inject(SkyTextExpandAdapterService);
 
   public textExpand(): void {
     if (this.isModal) {
@@ -255,14 +263,17 @@ export class SkyTextExpandComponent implements AfterContentInit {
         this.expandable = false;
         this.isExpanded = true;
       }
+
       this.#textToShow = this.#collapsedText;
     } else {
       this.#textToShow = '';
       this.expandable = false;
     }
+
     if (this.textEl) {
       this.#textExpandAdapter.setText(this.textEl, this.#textToShow);
     }
+
     this.#scheduleMeasure();
   }
 
@@ -295,22 +306,6 @@ export class SkyTextExpandComponent implements AfterContentInit {
     return value.substring(0, length);
   }
 
-  #scheduleMeasure(): void {
-    if (this.#measureId !== undefined) {
-      cancelAnimationFrame(this.#measureId);
-    }
-    this.#measureId = requestAnimationFrame(() => {
-      this.#measureId = undefined;
-      if (this.contentEl && this.expandable && !this.isExpanded) {
-        const height = this.contentEl.nativeElement.offsetHeight + 'px';
-        if (height !== this.collapsedMinHeight) {
-          this.collapsedMinHeight = height;
-          this.#cdr.detectChanges();
-        }
-      }
-    });
-  }
-
   #animateText(expanding: boolean): void {
     if (this.textEl) {
       const adapter = this.#textExpandAdapter;
@@ -323,8 +318,48 @@ export class SkyTextExpandComponent implements AfterContentInit {
         adapter.setText(this.textEl, this.text);
         this.#textToShow = this.#collapsedText;
       }
+
       this.buttonText = expanding ? this.#seeLessText : this.#seeMoreText;
       this.isExpanded = expanding;
+    }
+  }
+
+  #scheduleMeasure(): void {
+    if (this.#measurePending) {
+      return;
+    }
+
+    this.#measurePending = true;
+
+    afterNextRender(
+      () => {
+        this.#measurePending = false;
+
+        if (this.containerEl && this.expandable && !this.isExpanded) {
+          const height = this.containerEl.nativeElement.offsetHeight + 'px';
+
+          if (height !== this.collapsedMinHeight()) {
+            this.collapsedMinHeight.set(height);
+            this.#cdr.detectChanges();
+          }
+        }
+      },
+      { injector: this.#injector },
+    );
+  }
+
+  #observeResize(): void {
+    this.#resizeObserver?.disconnect();
+
+    if (this.#_containerEl) {
+      this.#resizeObserver = new ResizeObserver(() => {
+        this.#scheduleMeasure();
+      });
+      this.#resizeObserver.observe(this.#_containerEl.nativeElement);
+
+      this.#destroyRef.onDestroy(() => {
+        this.#resizeObserver?.disconnect();
+      });
     }
   }
 }

@@ -1,9 +1,9 @@
 <sky-animation-expand
-  [minHeight]="collapsedMinHeight"
-  [opened]="!!isExpanded"
+  [minHeight]="collapsedMinHeight()"
+  [opened]="isExpanded"
   (transitionEnd)="animationEnd()"
 >
-  <div #content class="sky-text-expand-container">
+  <div #container class="sky-text-expand-container">
     <span #text class="sky-text-expand-text" [id]="contentSectionId"></span>
     @if (expandable) {
       @if (!isExpanded) {
@@ -12,7 +12,7 @@
       <button
         type="button"
         class="sky-btn sky-btn-link-inline sky-text-expand-see-more"
-        [attr.aria-expanded]="isModal ? undefined : !!isExpanded"
+        [attr.aria-expanded]="isModal ? undefined : isExpanded"
         [attr.aria-controls]="isModal ? undefined : contentSectionId"
         [attr.aria-haspopup]="isModal ? 'dialog' : undefined"
         (click)="textExpand()"
