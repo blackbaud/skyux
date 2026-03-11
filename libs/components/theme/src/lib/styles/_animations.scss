@@ -65,6 +65,10 @@
     ease-in-out;
 }
 
+/*
+Slides an element from a horizontal offset to its natural position as it
+enters the DOM via @starting-style.
+*/
 @mixin sky-animation-slide-enter($translate-x) {
   transition-duration: var(--sky-transition-time-short);
   transition-property: transform;

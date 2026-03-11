@@ -18,7 +18,7 @@
     [class.sky-animation-slide-enter-right]="animationEnabled()"
     [hidden]="!workspaceVisible"
     [transitionTrigger]="workspaceVisible"
-    (transitionEnd)="onWorkspaceAnimationEnd()"
+    (transitionEnd)="onWorkspaceEnterComplete()"
   >
     <ng-content select="sky-split-view-workspace" />
   </div>

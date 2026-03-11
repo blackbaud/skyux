@@ -188,7 +188,7 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
     this.#ngUnsubscribe.complete();
   }
 
-  public onWorkspaceAnimationEnd(): void {
+  public onWorkspaceEnterComplete(): void {
     this.#animationComplete.next();
   }
 
