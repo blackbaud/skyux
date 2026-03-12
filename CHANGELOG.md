@@ -16,6 +16,7 @@
 
 ### Bug Fixes
 
+* **components/filter-bar:** filter items can be created via for loop ([#4287](https://github.com/blackbaud/skyux/issues/4287)) ([#4291](https://github.com/blackbaud/skyux/issues/4291)) ([32d567e](https://github.com/blackbaud/skyux/commit/32d567e6ac814dab7536ce590399a8960f520863))
 * **components/lookup:** update search background when using expand mode fit ([#4290](https://github.com/blackbaud/skyux/issues/4290)) ([#4297](https://github.com/blackbaud/skyux/issues/4297)) ([f593ca7](https://github.com/blackbaud/skyux/commit/f593ca7cd76a7805aa5ffd8f70f724910cb61c07)), closes [AB#3647693](https://dev.azure.com/blackbaud/Products/_workitems/edit/3647693)
 * **components/split-view:** replace `@angular/animations` with CSS transitions ([#4284](https://github.com/blackbaud/skyux/issues/4284)) ([607e7f5](https://github.com/blackbaud/skyux/commit/607e7f517bbe5246bd74a6cf481e2b315b522da1))
 
