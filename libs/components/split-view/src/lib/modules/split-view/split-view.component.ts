@@ -1,12 +1,4 @@
 import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
-import { CommonModule } from '@angular/common';
-import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -15,8 +7,14 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  afterNextRender,
+  signal,
 } from '@angular/core';
-import { SkyCoreAdapterService, SkyResponsiveHostDirective } from '@skyux/core';
+import {
+  SkyCoreAdapterService,
+  SkyResponsiveHostDirective,
+  _SkyAnimationTransitionHandlerDirective,
+} from '@skyux/core';
 
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
@@ -33,20 +31,9 @@ import { SkySplitViewMessageType } from './types/split-view-message-type';
  * and take actions.
  */
 @Component({
-  animations: [
-    trigger('blockAnimationOnLoad', [transition(':enter', [])]),
-    trigger('drawerEnter', [
-      state('false', style({ transform: 'translate(-100%)' })),
-      transition('* => true', animate('150ms ease-in')),
-    ]),
-    trigger('workspaceEnter', [
-      state('false', style({ transform: 'translate(100%)' })),
-      transition('* => true', animate('150ms ease-in')),
-    ]),
-  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [SkyResponsiveHostDirective],
-  imports: [CommonModule],
+  imports: [_SkyAnimationTransitionHandlerDirective],
   providers: [SkySplitViewAdapterService, SkySplitViewService],
   selector: 'sky-split-view',
   styleUrl: './split-view.component.scss',
@@ -129,12 +116,12 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
   }
 
   public isMobile = false;
-  public nextButtonDisabled = false;
-  public previousButtonDisabled = false;
 
   public get workspaceVisible(): boolean {
     return !this.isMobile || !this.#_drawerVisible;
   }
+
+  protected readonly animationEnabled = signal(false);
 
   #animationComplete = new Subject<void>();
   #bindHeightToWindowUnsubscribe: Subject<void> | undefined;
@@ -163,6 +150,11 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
     this.#splitViewService = splitViewService;
 
     splitViewService.splitViewElementRef = elementRef;
+
+    // Enable animations after the first render.
+    afterNextRender(() => {
+      this.animationEnabled.set(true);
+    });
   }
 
   public ngOnInit(): void {

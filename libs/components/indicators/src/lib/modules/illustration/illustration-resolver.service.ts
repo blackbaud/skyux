@@ -17,4 +17,11 @@ export abstract class SkyIllustrationResolverService {
   public resolveHref(name: string): Promise<string> {
     return Promise.resolve('');
   }
+
+  /**
+   * Gets the names of all available illustrations.
+   */
+  public getNames(): Promise<string[]> {
+    return Promise.resolve([]);
+  }
 }
