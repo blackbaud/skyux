@@ -37,7 +37,7 @@ export class _SkyAnimationTransitionHandlerDirective {
    * `transitionEnd` emits on completion. When animations are
    * disabled, `transitionEnd` emits synchronously instead.
    */
-  public readonly transitionTrigger = input.required<unknown>();
+  public readonly transitionTrigger = input.required<boolean>();
 
   /**
    * The CSS property name to monitor for `transitionend` events
@@ -59,9 +59,13 @@ export class _SkyAnimationTransitionHandlerDirective {
       let initialized = false;
 
       effect(() => {
-        this.transitionTrigger();
+        const trigger = this.transitionTrigger();
 
-        if (initialized) {
+        // Emit when the trigger is already true on first render to
+        // match CSS @starting-style behavior, which fires a
+        // transitionend event when an element enters the DOM with
+        // an active transition.
+        if (initialized || trigger) {
           this.transitionEnd.emit();
         }
 

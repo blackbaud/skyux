@@ -184,12 +184,6 @@ export class SkyVerticalTabsetComponent
     this.tabService.focusActiveTab(this.tabGroups);
   }
 
-  protected onTabGroupAnimationEnd(): void {
-    if (this.tabService.tabsVisible()) {
-      this.tabsetFocus();
-    }
-  }
-
   protected trapFocusInTablist(): void {
     // This will set the tab index of the the vertical tabset element to -1
     // while focus is inside the tab list, allowing Shift+Tab to move
