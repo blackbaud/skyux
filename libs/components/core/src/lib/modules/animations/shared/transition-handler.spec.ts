@@ -194,23 +194,6 @@ describe('SkyAnimationTransitionHandler', () => {
   });
 
   describe('when animations are disabled', () => {
-    it('should not emit transitionEnd on initial render when trigger starts falsy', () => {
-      const { fixture } = setupTest({ noopAnimations: true });
-
-      let transitionEndEmitted = false;
-
-      const handler = fixture.debugElement.injector.get(
-        _SkyAnimationTransitionHandlerDirective,
-      );
-      handler.transitionEnd.subscribe(() => {
-        transitionEndEmitted = true;
-      });
-
-      fixture.detectChanges();
-
-      expect(transitionEndEmitted).toBeFalse();
-    });
-
     it('should emit transitionEnd on initial render when trigger starts truthy', () => {
       const { fixture } = setupTest({ noopAnimations: true });
 
@@ -243,6 +226,50 @@ describe('SkyAnimationTransitionHandler', () => {
       });
 
       fixture.componentRef.setInput('trigger', true);
+      fixture.detectChanges();
+
+      expect(transitionEndEmitted).toBeTrue();
+    });
+
+    it('should not emit transitionEnd when the element is display: none', () => {
+      const { fixture } = setupTest({ noopAnimations: true });
+
+      let transitionEndEmitted = false;
+
+      const handler = fixture.debugElement.injector.get(
+        _SkyAnimationTransitionHandlerDirective,
+      );
+      handler.transitionEnd.subscribe(() => {
+        transitionEndEmitted = true;
+      });
+
+      fixture.nativeElement.style.display = 'none';
+      fixture.componentRef.setInput('trigger', true);
+      fixture.detectChanges();
+
+      expect(transitionEndEmitted).toBeFalse();
+    });
+
+    it('should resume emitting transitionEnd when the element is no longer display: none', () => {
+      const { fixture } = setupTest({ noopAnimations: true });
+
+      let transitionEndEmitted = false;
+
+      const handler = fixture.debugElement.injector.get(
+        _SkyAnimationTransitionHandlerDirective,
+      );
+      handler.transitionEnd.subscribe(() => {
+        transitionEndEmitted = true;
+      });
+
+      fixture.nativeElement.style.display = 'none';
+      fixture.componentRef.setInput('trigger', true);
+      fixture.detectChanges();
+
+      expect(transitionEndEmitted).toBeFalse();
+
+      fixture.nativeElement.style.display = '';
+      fixture.componentRef.setInput('trigger', false);
       fixture.detectChanges();
 
       expect(transitionEndEmitted).toBeTrue();

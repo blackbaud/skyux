@@ -10,8 +10,6 @@ import {
   OnInit,
   Output,
   ViewChild,
-  afterNextRender,
-  signal,
 } from '@angular/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
@@ -102,8 +100,6 @@ export class SkyVerticalTabsetComponent
   @ViewChild('contentContainerWrapper')
   public contentWrapper: ElementRef | undefined;
 
-  protected readonly animationEnabled = signal(false);
-
   public ariaOwns: string | undefined;
 
   public isMobile = false;
@@ -125,11 +121,6 @@ export class SkyVerticalTabsetComponent
   ) {
     this.#resources = resources;
     this.#changeRef = changeRef;
-
-    // Enable animations after the first render.
-    afterNextRender(() => {
-      this.animationEnabled.set(true);
-    });
   }
 
   public ngOnInit(): void {

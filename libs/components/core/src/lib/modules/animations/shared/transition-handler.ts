@@ -56,20 +56,14 @@ export class _SkyAnimationTransitionHandlerDirective {
 
   constructor() {
     if (_skyAnimationsDisabled()) {
-      let initialized = false;
+      const el = this.#elementRef.nativeElement;
 
       effect(() => {
-        const trigger = this.transitionTrigger();
+        this.transitionTrigger();
 
-        // Emit when the trigger is already true on first render to
-        // match CSS @starting-style behavior, which fires a
-        // transitionend event when an element enters the DOM with
-        // an active transition.
-        if (initialized || trigger) {
+        if (getComputedStyle(el).display !== 'none') {
           this.transitionEnd.emit();
         }
-
-        initialized = true;
       });
     }
   }

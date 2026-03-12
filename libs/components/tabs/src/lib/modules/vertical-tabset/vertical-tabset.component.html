@@ -30,7 +30,7 @@
       class="sky-vertical-tabset-group-container"
       skyAnimationTransitionHandler
       transitionPropertyToTrack="transform"
-      [class.sky-animation-slide-enter-left]="animationEnabled()"
+      [class.sky-animation-slide-enter-left]="tabService.isMobile()"
       [ngClass]="{ 'sky-vertical-tabset-hidden': !tabService.tabsVisible() }"
       [tabIndex]="tablistHasFocus ? -1 : 0"
       [transitionTrigger]="tabService.tabsVisible()"
@@ -47,7 +47,7 @@
     <div
       #contentContainerWrapper
       class="sky-vertical-tabset-content"
-      [class.sky-animation-slide-enter-right]="animationEnabled()"
+      [class.sky-animation-slide-enter-right]="tabService.isMobile()"
       [ngClass]="{
         'sky-vertical-tabset-content-hidden': !tabService.contentVisible()
       }"
