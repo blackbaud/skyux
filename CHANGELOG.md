@@ -1,6 +1,15 @@
 # Changelog
 
 
+## [13.16.1](https://github.com/blackbaud/skyux/compare/13.16.0...13.16.1) (2026-03-12)
+
+
+### Bug Fixes
+
+* **components/lookup:** update search background when using expand mode fit ([#4290](https://github.com/blackbaud/skyux/issues/4290)) ([5156ff5](https://github.com/blackbaud/skyux/commit/5156ff5b4577a7970f29a23f91de7fe39e3f5994)), closes [AB#3647693](https://github.com/AB/issues/3647693)
+
+
+
 # [13.16.0](https://github.com/blackbaud/skyux/compare/13.15.0...13.16.0) (2026-03-12)
 
 
