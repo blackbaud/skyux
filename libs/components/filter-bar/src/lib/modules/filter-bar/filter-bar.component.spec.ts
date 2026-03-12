@@ -17,7 +17,9 @@ import { SkyModalCloseArgs } from '@skyux/modals';
 
 import { Subject, of } from 'rxjs';
 
+import { SkyFilterBarForLoopTestComponent } from './fixtures/filter-bar-for-loop.component.fixture';
 import { SkyFilterBarTestComponent } from './fixtures/filter-bar.component.fixture';
+import { SkyFilterBarModalTestComponent } from './fixtures/filter-modal-test.component.fixture';
 import { SkyFilterBarFilterItem } from './models/filter-bar-filter-item';
 import { SkyFilterItemModalInstance } from './models/filter-item-modal-instance';
 
@@ -326,6 +328,38 @@ describe('Filter bar component', () => {
       const secondButton = filterItems[1].querySelector('button');
       expect(firstButton?.getAttribute('aria-pressed')).toBe('false');
       expect(secondButton?.getAttribute('aria-pressed')).toBe('false');
+    });
+
+    it('should clear a filter value when appliedFilters is updated to a non-empty array that omits it', () => {
+      // Start with two filters applied
+      component.appliedFilters.set([
+        { filterId: '1', filterValue: { value: 'value1' } },
+        { filterId: '2', filterValue: { value: 'value2' } },
+      ]);
+      fixture.detectChanges();
+
+      const filter1Button = fixture.nativeElement.querySelector(
+        '[data-filter-id="1"]',
+      ) as HTMLButtonElement;
+      const filter2Button = fixture.nativeElement.querySelector(
+        '[data-filter-id="2"]',
+      ) as HTMLButtonElement;
+
+      expect(filter1Button.getAttribute('aria-pressed')).toBe('true');
+      expect(filter2Button.getAttribute('aria-pressed')).toBe('true');
+
+      // Update to a non-empty array that no longer includes filter 1
+      component.appliedFilters.set([
+        { filterId: '2', filterValue: { value: 'value2' } },
+      ]);
+      fixture.detectChanges();
+
+      // Filter 1 should be unset even though appliedFilters is still non-empty
+      expect(filter1Button.getAttribute('aria-pressed')).toBe('false');
+      expect(filter1Button.querySelector('.sky-filter-item-value')).toBeNull();
+
+      // Filter 2 should still be set
+      expect(filter2Button.getAttribute('aria-pressed')).toBe('true');
     });
 
     it('should emit filterUpdated event when filter item is updated', () => {
@@ -1346,6 +1380,94 @@ describe('Filter bar component', () => {
         },
         'skyFilterBar',
       );
+    });
+  });
+
+  describe('dynamic filter items via @for loop', () => {
+    let forLoopFixture: ComponentFixture<SkyFilterBarForLoopTestComponent>;
+
+    beforeEach(async () => {
+      await TestBed.configureTestingModule({
+        imports: [SkyFilterBarForLoopTestComponent],
+        providers: [
+          provideNoopAnimations(),
+          {
+            provide: SkyConfirmService,
+            useValue: jasmine.createSpyObj('SkyConfirmService', ['open']),
+          },
+          {
+            provide: SkySelectionModalService,
+            useValue: jasmine.createSpyObj('SkySelectionModalService', [
+              'open',
+            ]),
+          },
+        ],
+      }).compileComponents();
+
+      forLoopFixture = TestBed.createComponent(
+        SkyFilterBarForLoopTestComponent,
+      );
+      forLoopFixture.detectChanges();
+    });
+
+    it('should create a filter bar with filter items generated via @for loop', () => {
+      expect(() => {
+        forLoopFixture.componentInstance.filterItems = [
+          {
+            filterId: 'filter-1',
+            modalComponent: SkyFilterBarModalTestComponent,
+          },
+          {
+            filterId: 'filter-2',
+            modalComponent: SkyFilterBarModalTestComponent,
+          },
+          {
+            filterId: 'filter-3',
+            modalComponent: SkyFilterBarModalTestComponent,
+          },
+        ];
+        forLoopFixture.detectChanges();
+      }).not.toThrow();
+    });
+
+    it('should update visible filters when @for list changes', () => {
+      forLoopFixture.componentInstance.filterItems = [
+        {
+          filterId: 'filter-1',
+          modalComponent: SkyFilterBarModalTestComponent,
+        },
+        {
+          filterId: 'filter-2',
+          modalComponent: SkyFilterBarModalTestComponent,
+        },
+      ];
+      forLoopFixture.detectChanges();
+
+      expect(
+        forLoopFixture.nativeElement.querySelectorAll('sky-filter-item-base')
+          .length,
+      ).toBe(2);
+
+      forLoopFixture.componentInstance.filterItems = [
+        {
+          filterId: 'filter-1',
+          modalComponent: SkyFilterBarModalTestComponent,
+        },
+        {
+          filterId: 'filter-2',
+          modalComponent: SkyFilterBarModalTestComponent,
+        },
+        {
+          filterId: 'filter-3',
+          modalComponent: SkyFilterBarModalTestComponent,
+        },
+      ];
+      forLoopFixture.detectChanges();
+
+      expect(
+        forLoopFixture.nativeElement.querySelectorAll('sky-filter-item-base')
+          .length,
+      ).toBe(3);
     });
   });
 });
