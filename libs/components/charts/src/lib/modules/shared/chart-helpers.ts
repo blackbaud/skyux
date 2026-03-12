@@ -179,43 +179,28 @@ export function getLegendItems(context: {
 }
 
 /**
- * Creates a tick filter function for logarithmic scales based on the specified density mode.
- * @param mode
- * @returns
+ * Creates a tick filter function for logarithmic axes that only shows ticks at powers of 10.
+ * @param value The tick value
+ * @param formatter An optional formatter function to format the tick label
+ * @returns The formatted tick label if it's a power of 10, otherwise an empty string for no tick
  */
 export function createLogTickFilter(
-  mode: 'decades' | 'preferred' | 'detailed' | 'full',
-) {
-  const decades = [1];
-  const preferred = [1, 2, 5];
-  const detailed = [1, 2, 3, 5];
-  const full = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  value: string | number, 
+  formatter: ((value: number | string) => string) | undefined
+): string {
+  const noTick = '';
+  const numeric = Number(value);
 
-  let allowedMultipliers = new Set<number>();
-  if (mode === 'decades') {
-    allowedMultipliers = new Set(decades);
-  } else if (mode === 'preferred') {
-    allowedMultipliers = new Set(preferred);
-  } else if (mode === 'detailed') {
-    allowedMultipliers = new Set(detailed);
-  } else {
-    allowedMultipliers = new Set(full);
+  // Show only powers of 10
+  const isPowerOf10 = numeric > 0 && Math.log10(numeric) % 1 === 0;
+
+  if (!isPowerOf10) {
+    return noTick;
   }
 
-  return (value: string | number): string => {
-    const numeric = Number(value);
-    const noTick = '';
-
-    if (!Number.isFinite(numeric) || numeric <= 0) {
-      return noTick;
-    }
-
-    const exponent = Math.floor(Math.log10(numeric));
-    const base = Math.pow(10, exponent);
-    const multiplier = numeric / base;
-
-    return allowedMultipliers.has(multiplier)
-      ? numeric.toLocaleString()
-      : noTick;
-  };
+  if (formatter) {
+    return formatter(numeric);
+  } else {
+    return numeric.toLocaleString();
+  }
 }

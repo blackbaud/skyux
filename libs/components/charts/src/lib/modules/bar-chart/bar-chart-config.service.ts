@@ -312,11 +312,7 @@ export class SkyBarChartConfigService {
         ...base.ticks,
         padding: styles.axis.ticks.paddingY,
         // TODO: Chart localization
-        // If a tick formatter is provided, use it. Otherwise this syntax allows us to fallback to ChartJS's default formatting.
-        ...(options.measureAxis?.tickFormatter && {
-          callback: options.measureAxis.tickFormatter,
-        }),
-        callback: createLogTickFilter('decades'),
+        callback: value => createLogTickFilter(value, options.measureAxis?.tickFormatter),
       },
       title: {
         ...base.title,
