@@ -356,9 +356,7 @@ describe('Filter bar component', () => {
 
       // Filter 1 should be unset even though appliedFilters is still non-empty
       expect(filter1Button.getAttribute('aria-pressed')).toBe('false');
-      expect(
-        filter1Button.querySelector('.sky-filter-item-value'),
-      ).toBeNull();
+      expect(filter1Button.querySelector('.sky-filter-item-value')).toBeNull();
 
       // Filter 2 should still be set
       expect(filter2Button.getAttribute('aria-pressed')).toBe('true');
