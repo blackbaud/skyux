@@ -1,6 +1,15 @@
 # Changelog
 
 
+## [13.15.1](https://github.com/blackbaud/skyux/compare/13.15.0...13.15.1) (2026-03-12)
+
+
+### Bug Fixes
+
+* **components/filter-bar:** filter items can be created via for loop ([#4287](https://github.com/blackbaud/skyux/issues/4287)) ([9f266e9](https://github.com/blackbaud/skyux/commit/9f266e9310954fda5d6897fb11d28e2b582dccf2))
+
+
+
 # [13.15.0](https://github.com/blackbaud/skyux/compare/13.14.3...13.15.0) (2026-03-10)
 
 
