@@ -1,4 +1,4 @@
-import { Component, ErrorHandler, signal } from '@angular/core';
+import { Component, ErrorHandler, input, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { provideNoopSkyAnimations } from '../utility/provide-noop-animations';
@@ -17,6 +17,28 @@ import { _SkyAnimationTransitionHandlerDirective } from './transition-handler';
   template: '<span class="sky-test-child"></span>',
 })
 class TestComponent {}
+
+@Component({
+  imports: [_SkyAnimationTransitionHandlerDirective],
+  selector: 'sky-test-template',
+  template: `
+    <div
+      skyAnimationTransitionHandler
+      [transitionPropertyToTrack]="propertyToTrack()"
+      [transitionTrigger]="trigger()"
+      (transitionEnd)="onTransitionEnd()"
+    ></div>
+  `,
+})
+class TemplateTestComponent {
+  public readonly propertyToTrack = input<string>();
+  public readonly trigger = input<unknown>(false);
+  public transitionEndEmitted = false;
+
+  protected onTransitionEnd(): void {
+    this.transitionEndEmitted = true;
+  }
+}
 
 describe('SkyAnimationTransitionHandler', () => {
   let errorHandlerSpy: jasmine.Spy;
@@ -206,6 +228,83 @@ describe('SkyAnimationTransitionHandler', () => {
       fixture.detectChanges();
 
       expect(transitionEndEmitted).toBeTrue();
+    });
+  });
+
+  describe('transitionPropertyToTrack input', () => {
+    function setupTemplateTest(options?: {
+      noopAnimations?: boolean;
+    }): ComponentFixture<TemplateTestComponent> {
+      TestBed.configureTestingModule({
+        imports: [TemplateTestComponent],
+        providers: [
+          ...(options?.noopAnimations ? [provideNoopSkyAnimations()] : []),
+        ],
+      });
+
+      const fixture = TestBed.createComponent(TemplateTestComponent);
+      fixture.componentRef.setInput('propertyToTrack', 'opacity');
+      fixture.detectChanges();
+
+      return fixture;
+    }
+
+    function getDirectiveHost(
+      fixture: ComponentFixture<TemplateTestComponent>,
+    ): HTMLElement {
+      return fixture.nativeElement.querySelector(
+        '[skyAnimationTransitionHandler]',
+      );
+    }
+
+    it('should emit transitionEnd when the tracked property transitions', () => {
+      const fixture = setupTemplateTest();
+      const host = getDirectiveHost(fixture);
+
+      host.dispatchEvent(
+        new TransitionEvent('transitionend', { propertyName: 'opacity' }),
+      );
+
+      expect(fixture.componentInstance.transitionEndEmitted).toBeTrue();
+    });
+
+    it('should not emit transitionEnd when a different property transitions', () => {
+      const fixture = setupTemplateTest();
+      const host = getDirectiveHost(fixture);
+
+      host.dispatchEvent(
+        new TransitionEvent('transitionend', { propertyName: 'transform' }),
+      );
+
+      expect(fixture.componentInstance.transitionEndEmitted).toBeFalse();
+    });
+
+    it('should take precedence over setPropertyToTrack()', () => {
+      const fixture = setupTemplateTest();
+      const host = getDirectiveHost(fixture);
+
+      const handler = fixture.debugElement.children[0].injector.get(
+        _SkyAnimationTransitionHandlerDirective,
+      );
+
+      // Set a different property programmatically.
+      handler.setPropertyToTrack('transform');
+
+      // Dispatch a transitionend for the input value ('opacity').
+      host.dispatchEvent(
+        new TransitionEvent('transitionend', { propertyName: 'opacity' }),
+      );
+
+      expect(fixture.componentInstance.transitionEndEmitted).toBeTrue();
+
+      // Reset and verify the programmatic value is ignored.
+      fixture.componentInstance.transitionEndEmitted = false;
+
+      host.dispatchEvent(
+        new TransitionEvent('transitionend', { propertyName: 'transform' }),
+      );
+
+      expect(fixture.componentInstance.transitionEndEmitted).toBeFalse();
     });
   });
 });
