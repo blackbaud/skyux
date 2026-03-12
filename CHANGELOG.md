@@ -1,6 +1,20 @@
 # Changelog
 
 
+# [13.16.0](https://github.com/blackbaud/skyux/compare/13.15.0...13.16.0) (2026-03-12)
+
+
+### Bug Fixes
+
+* **components/filter-bar:** filter items can be created via for loop ([#4287](https://github.com/blackbaud/skyux/issues/4287)) ([9f266e9](https://github.com/blackbaud/skyux/commit/9f266e9310954fda5d6897fb11d28e2b582dccf2))
+
+
+### Features
+
+* **components/indicators:** add `getNames()` method to illustration resolver service ([#4289](https://github.com/blackbaud/skyux/issues/4289)) ([a88efbc](https://github.com/blackbaud/skyux/commit/a88efbce92d99d9921696eb48efafde71ac6f8a9))
+
+
+
 ## [14.0.0-alpha.7](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.6...14.0.0-alpha.7) (2026-03-10)
 
 
