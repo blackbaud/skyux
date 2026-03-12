@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.0.0-alpha.9](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.8...14.0.0-alpha.9) (2026-03-12)
+
+
+### Features
+
+* **components/modals:** add modal banner ([#4275](https://github.com/blackbaud/skyux/issues/4275)) ([#4280](https://github.com/blackbaud/skyux/issues/4280)) ([b186fc2](https://github.com/blackbaud/skyux/commit/b186fc26bd5f591efb33c444d01d3d040578a81d))
+
 ## [14.0.0-alpha.8](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.7...14.0.0-alpha.8) (2026-03-12)
 
 
