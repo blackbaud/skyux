@@ -35,7 +35,9 @@
   border-left: var(--sky-override-flyout-border-left);
 
   transform: translateX(100%);
-  transition: transform 250ms ease-in;
+  transition-duration: var(--sky-transition-time-medium);
+  transition-property: transform;
+  transition-timing-function: ease-in;
 
   &.sky-flyout-open {
     transform: translateX(0);
