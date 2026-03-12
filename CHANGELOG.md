@@ -16,6 +16,7 @@
 
 ### Bug Fixes
 
+* **components/lookup:** update search background when using expand mode fit ([#4290](https://github.com/blackbaud/skyux/issues/4290)) ([#4297](https://github.com/blackbaud/skyux/issues/4297)) ([f593ca7](https://github.com/blackbaud/skyux/commit/f593ca7cd76a7805aa5ffd8f70f724910cb61c07)), closes [AB#3647693](https://dev.azure.com/blackbaud/Products/_workitems/edit/3647693)
 * **components/split-view:** replace `@angular/animations` with CSS transitions ([#4284](https://github.com/blackbaud/skyux/issues/4284)) ([607e7f5](https://github.com/blackbaud/skyux/commit/607e7f517bbe5246bd74a6cf481e2b315b522da1))
 
 ## [14.0.0-alpha.7](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.6...14.0.0-alpha.7) (2026-03-10)
