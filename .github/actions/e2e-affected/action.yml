@@ -92,7 +92,7 @@ runs:
 
           if (lastGoodCommit === '${{ inputs.head }}') {
             const fs = require('fs');
-            fs.writeFileSync(`${{ runner.temp }}/percy-build-${{ inputs.project }}.txt`, buildId);
+            fs.writeFileSync(`${{ runner.temp }}/percy-build-${{ inputs.project }}.txt`, String(buildId));
             core.info(`The build for ${lastGoodCommit.substring(0, 7)} already passed.`);
             core.setOutput('affected', 'false');
             process.exit(0);
