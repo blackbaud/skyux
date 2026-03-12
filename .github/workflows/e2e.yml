@@ -84,16 +84,20 @@ jobs:
           set -exo pipefail
           if [ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" ]; then
             echo -n parameters= >> $GITHUB_OUTPUT
-            npx skyux-dev e2e-workflow --workflowTrigger=pull_request --pr=${{ steps.set-shas.outputs.pr-number }} >> $GITHUB_OUTPUT
+            npx skyux-dev e2e-workflow --workflowTrigger=pull_request --pr="$PR_NUMBER" >> $GITHUB_OUTPUT
           else
             echo -n parameters= >> $GITHUB_OUTPUT
-            npx skyux-dev e2e-workflow --pr=${{ steps.set-shas.outputs.pr-number }} >> $GITHUB_OUTPUT
+            npx skyux-dev e2e-workflow --pr="$PR_NUMBER" >> $GITHUB_OUTPUT
           fi
+        env:
+          PR_NUMBER: ${{ steps.set-shas.outputs.pr-number }}
       - name: Show workflow parameters
         run: |
           echo 'Using workflow parameters:'
           echo ''
-          echo '${{ steps.parameters.outputs.parameters }}' | jq
+          echo "$PARAMETERS" | jq
+        env:
+          PARAMETERS: ${{ steps.parameters.outputs.parameters }}
       - name: Cache e2e-schematics
         uses: actions/cache@v4
         id: cache-e2e-schematics

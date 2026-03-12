@@ -35,11 +35,18 @@ runs:
       uses: actions/github-script@v8
       with:
         script: |
-          if ('${{ inputs.percy-token }}'.trim() === '') {
-            core.warning(`
-              The secret PERCY_TOKEN_${'${{ inputs.project }}'.toUpperCase()} is not set. Unabled to check for previous run.
+          const percyToken = ${{ toJson(inputs.percy-token) }};
+          const project = ${{ toJson(inputs.project) }};
+          const branch = ${{ toJson(inputs.branch) }};
+          const base = ${{ toJson(inputs.base) }};
+          const head = ${{ toJson(inputs.head) }};
+          const allowDeletedScreenshots = ${{ toJson(inputs.allow-deleted-screenshots) }};
 
-              Generate a project token at https://percy.io/82a32315/web/skyux-${{ inputs.project }}/settings and add it to https://github.com/${{ github.repository }}/settings/secrets/actions\n`);
+          if (percyToken.trim() === '') {
+            core.warning(`
+              The secret PERCY_TOKEN_${project.toUpperCase()} is not set. Unabled to check for previous run.
+
+              Generate a project token at https://percy.io/82a32315/web/skyux-${project}/settings and add it to https://github.com/${{ github.repository }}/settings/secrets/actions\n`);
             core.setOutput('affected', 'true');
             process.exit(0);
           }
@@ -47,7 +54,7 @@ runs:
           const options = {
             method: 'GET',
             headers: {
-              Authorization: 'Token ${{ inputs.percy-token }}'
+              Authorization: `Token ${percyToken}`
             }
           };
 
@@ -56,20 +63,20 @@ runs:
             owner: context.repo.owner,
             repo: context.repo.repo,
             workflow_id: 'e2e.yml',
-            branch: '${{ inputs.branch }}',
+            branch,
             status: 'completed',
           })
             .then(({data}) => data.workflow_runs.map(run => run.head_sha).filter(Boolean))
             .catch(() => []);
 
           // Getting 500 commits to the base branch, looking for one where this e2e test was affected and run.
-          const targetBranchCommits = await exec.getExecOutput('git', ['log', '--format=%H', '-500', '${{ inputs.base }}'])
+          const targetBranchCommits = await exec.getExecOutput('git', ['log', '--format=%H', '-500', base])
             .then(({stdout}) => stdout.trim().split('\n'))
             .catch(() => []);
 
           const { getLastGoodPercyBuild, getPercyTargetCommit } = require('./dist/libs/sdk/e2e-schematics/src/workflow');
           const targetCommit = await getPercyTargetCommit(
-            'skyux-${{ inputs.project }}',
+            `skyux-${project}`,
             targetBranchCommits,
             core,
             (url) => fetch(url, options)
@@ -77,9 +84,9 @@ runs:
             .catch(() => '');
           core.setOutput('percy_target_commit', targetCommit);
           const { lastGoodCommit, buildId } = await getLastGoodPercyBuild(
-            'skyux-${{ inputs.project }}',
+            `skyux-${project}`,
             prBranchCommitsBuilt,
-            '${{ inputs.allow-deleted-screenshots }}' !== 'false',
+            allowDeletedScreenshots !== 'false',
             core,
             (url) => fetch(url, options)
           );
@@ -90,9 +97,9 @@ runs:
             process.exit(0);
           }
 
-          if (lastGoodCommit === '${{ inputs.head }}') {
+          if (lastGoodCommit === head) {
             const fs = require('fs');
-            fs.writeFileSync(`${{ runner.temp }}/percy-build-${{ inputs.project }}.txt`, String(buildId));
+            fs.writeFileSync(`${{ runner.temp }}/percy-build-${project}.txt`, String(buildId));
             core.info(`The build for ${lastGoodCommit.substring(0, 7)} already passed.`);
             core.setOutput('affected', 'false');
             process.exit(0);
@@ -103,12 +110,12 @@ runs:
             'show',
             'projects',
             `--base=${lastGoodCommit}`,
-            '--head=${{ inputs.head }}',
+            `--head=${head}`,
             '--withTarget=e2e',
             '--affected',
             '--json'
-          ]).then(({stdout}) => JSON.parse(stdout)).catch(() => ['${{ inputs.project }}']);
-          const projectAffected = affectedProjects.includes('${{ inputs.project }}');
+          ]).then(({stdout}) => JSON.parse(stdout)).catch(() => [project]);
+          const projectAffected = affectedProjects.includes(project);
           if (projectAffected) {
             core.info(`E2E tests affected`);
             core.setOutput('affected', 'true');
