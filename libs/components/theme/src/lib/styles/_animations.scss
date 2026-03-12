@@ -64,3 +64,25 @@
   animation: sky-animation-emerge-leave var(--sky-transition-time-medium)
     ease-in-out;
 }
+
+/*
+Slides an element from a horizontal offset to its natural position as it
+enters the DOM via @starting-style.
+*/
+@mixin sky-animation-slide-enter($translate-x) {
+  transition-duration: var(--sky-transition-time-short);
+  transition-property: transform;
+  transition-timing-function: ease-in;
+
+  @starting-style {
+    transform: translate($translate-x);
+  }
+}
+
+.sky-animation-slide-enter-left {
+  @include sky-animation-slide-enter(-100%);
+}
+
+.sky-animation-slide-enter-right {
+  @include sky-animation-slide-enter(100%);
+}
