@@ -1,6 +1,25 @@
 # Changelog
 
 
+## [14.0.0-alpha.8](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.7...14.0.0-alpha.8) (2026-03-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/split-view:** replace `@angular/animations` with CSS transitions (#4284)
+
+### Features
+
+* **components/data-manager:** filter button and modal options now deprecated ([#4277](https://github.com/blackbaud/skyux/issues/4277)) ([e630769](https://github.com/blackbaud/skyux/commit/e6307699ca42d6e8c4bc559498e9a1b05fa34ea0)), closes [AB#3611499](https://dev.azure.com/blackbaud/Products/_workitems/edit/3611499)
+* **components/indicators:** add `getNames()` method to illustration resolver service ([#4289](https://github.com/blackbaud/skyux/issues/4289)) ([#4294](https://github.com/blackbaud/skyux/issues/4294)) ([23c86cf](https://github.com/blackbaud/skyux/commit/23c86cfcb52c8769c082a4a07390f474d5344856))
+
+
+### Bug Fixes
+
+* **components/filter-bar:** filter items can be created via for loop ([#4287](https://github.com/blackbaud/skyux/issues/4287)) ([#4291](https://github.com/blackbaud/skyux/issues/4291)) ([32d567e](https://github.com/blackbaud/skyux/commit/32d567e6ac814dab7536ce590399a8960f520863))
+* **components/lookup:** update search background when using expand mode fit ([#4290](https://github.com/blackbaud/skyux/issues/4290)) ([#4297](https://github.com/blackbaud/skyux/issues/4297)) ([f593ca7](https://github.com/blackbaud/skyux/commit/f593ca7cd76a7805aa5ffd8f70f724910cb61c07)), closes [AB#3647693](https://dev.azure.com/blackbaud/Products/_workitems/edit/3647693)
+* **components/split-view:** replace `@angular/animations` with CSS transitions ([#4284](https://github.com/blackbaud/skyux/issues/4284)) ([607e7f5](https://github.com/blackbaud/skyux/commit/607e7f517bbe5246bd74a6cf481e2b315b522da1))
+
 ## [13.16.1](https://github.com/blackbaud/skyux/compare/13.16.0...13.16.1) (2026-03-12)
 
 
