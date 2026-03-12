@@ -11,6 +11,7 @@
 ### Features
 
 * **components/data-manager:** filter button and modal options now deprecated ([#4277](https://github.com/blackbaud/skyux/issues/4277)) ([e630769](https://github.com/blackbaud/skyux/commit/e6307699ca42d6e8c4bc559498e9a1b05fa34ea0)), closes [AB#3611499](https://dev.azure.com/blackbaud/Products/_workitems/edit/3611499)
+* **components/indicators:** add `getNames()` method to illustration resolver service ([#4289](https://github.com/blackbaud/skyux/issues/4289)) ([#4294](https://github.com/blackbaud/skyux/issues/4294)) ([23c86cf](https://github.com/blackbaud/skyux/commit/23c86cfcb52c8769c082a4a07390f474d5344856))
 
 
 ### Bug Fixes
