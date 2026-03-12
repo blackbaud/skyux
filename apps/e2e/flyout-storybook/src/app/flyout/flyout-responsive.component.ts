@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
+import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { SkyMediaQueryService } from '@skyux/core';
 
 @Component({
   selector: 'app-flyout-responsive',
@@ -8,28 +9,7 @@ import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
   standalone: false,
 })
 export class FlyoutResponsiveComponent {
-  public currentMediaBreakpoint: 'xs' | 'sm' | 'md' | 'lg' = 'lg';
-
-  constructor(private mediaQueryService: SkyMediaQueryService) {
-    this.mediaQueryService.subscribe((breakpoint) => {
-      switch (breakpoint) {
-        case SkyMediaBreakpoints.xs: {
-          this.currentMediaBreakpoint = 'xs';
-          break;
-        }
-        case SkyMediaBreakpoints.sm: {
-          this.currentMediaBreakpoint = 'sm';
-          break;
-        }
-        case SkyMediaBreakpoints.md: {
-          this.currentMediaBreakpoint = 'md';
-          break;
-        }
-        default: {
-          this.currentMediaBreakpoint = 'lg';
-          break;
-        }
-      }
-    });
-  }
+  protected readonly currentMediaBreakpoint = toSignal(
+    inject(SkyMediaQueryService).breakpointChange,
+  );
 }
