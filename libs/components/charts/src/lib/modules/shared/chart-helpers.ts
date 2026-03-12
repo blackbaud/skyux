@@ -177,3 +177,45 @@ export function getLegendItems(context: {
     return item;
   });
 }
+
+/**
+ * Creates a tick filter function for logarithmic scales based on the specified density mode.
+ * @param mode
+ * @returns
+ */
+export function createLogTickFilter(
+  mode: 'decades' | 'preferred' | 'detailed' | 'full',
+) {
+  const decades = [1];
+  const preferred = [1, 2, 5];
+  const detailed = [1, 2, 3, 5];
+  const full = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+  let allowedMultipliers = new Set<number>();
+  if (mode === 'decades') {
+    allowedMultipliers = new Set(decades);
+  } else if (mode === 'preferred') {
+    allowedMultipliers = new Set(preferred);
+  } else if (mode === 'detailed') {
+    allowedMultipliers = new Set(detailed);
+  } else {
+    allowedMultipliers = new Set(full);
+  }
+
+  return (value: string | number): string => {
+    const numeric = Number(value);
+    const noTick = '';
+
+    if (!Number.isFinite(numeric) || numeric <= 0) {
+      return noTick;
+    }
+
+    const exponent = Math.floor(Math.log10(numeric));
+    const base = Math.pow(10, exponent);
+    const multiplier = numeric / base;
+
+    return allowedMultipliers.has(multiplier)
+      ? numeric.toLocaleString()
+      : noTick;
+  };
+}

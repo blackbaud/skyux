@@ -87,6 +87,21 @@ export class BarChartDemoComponent {
     },
   ];
 
+  public readonly verticalLog = [
+    {
+      label: 'Dataset 1',
+      data: [1, 1.1, 1.9, 2.1, 4.9, 5.1, 9, 11, 90, 110, 900, 1100, 9000].map(
+        (value, index) => {
+          return {
+            category: 'Cat-' + (index + 1),
+            label: `$${value}`,
+            value: value,
+          };
+        },
+      ),
+    },
+  ];
+
   public readonly stackedVerticalLog = [
     {
       label: 'Dataset 1',

@@ -9,6 +9,7 @@ import {
 } from 'chart.js';
 
 import {
+  createLogTickFilter,
   getActivatedChartDataElement,
   parseCategories,
 } from '../shared/chart-helpers';
@@ -315,6 +316,7 @@ export class SkyBarChartConfigService {
         ...(options.measureAxis?.tickFormatter && {
           callback: options.measureAxis.tickFormatter,
         }),
+        callback: createLogTickFilter('decades'),
       },
       title: {
         ...base.title,
