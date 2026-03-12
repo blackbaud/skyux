@@ -89,10 +89,6 @@ export class SkyFilterBarComponent {
   readonly #confirmSvc = inject(SkyConfirmService);
   readonly #filterBarSvc = inject(SkyFilterBarService);
   readonly #filterStateSvc = inject(SkyFilterStateService, { optional: true });
-  // Tracks IDs of filters that have been pushed to the service, so we can
-  // notify child filter items when filters are cleared without reading child
-  // component signals (which may not have their required inputs set yet).
-  #previousFilterIds: string[] = [];
   readonly #filterItemUpdated = toSignal(this.#filterBarSvc.filterItemUpdated);
   readonly #modalSvc = inject(SkySelectionModalService);
   readonly #resourceSvc = inject(SkyLibResourcesService);
@@ -116,20 +112,22 @@ export class SkyFilterBarComponent {
       }
     });
 
-    // Push filter value updates to child filter items. Note: we cannot read
-    // filterItems() here because parent effects run before child inputs are
-    // bound, so required inputs like filterId() would throw NG0950.
+    // Push filter value updates to child filter items. When applied filters
+    // are changed, use the previous value to determine which items to reset
+    // rather than reading filterId() from content children, which may
+    // not have their required inputs bound yet (e.g. when used with @for).
+    let previousFilterIds: string[] = [];
     effect(() => {
-      const appliedFilters = this.appliedFilters();
-      if (appliedFilters?.length) {
-        this.#previousFilterIds = appliedFilters.map((f) => f.filterId);
-        this.#filterBarSvc.updateFilters(appliedFilters);
-      } else {
-        this.#filterBarSvc.updateFilters(
-          this.#previousFilterIds.map((filterId) => ({ filterId })),
-        );
-        this.#previousFilterIds = [];
-      }
+      const appliedFilters = this.appliedFilters() ?? [];
+      const newFilterIds = new Set(appliedFilters.map((f) => f.filterId));
+
+      // Send clear signals for filters that were previously set but are no longer present.
+      const removedFilters = previousFilterIds
+        .filter((id) => !newFilterIds.has(id))
+        .map((filterId) => ({ filterId }));
+
+      this.#filterBarSvc.updateFilters([...appliedFilters, ...removedFilters]);
+      previousFilterIds = [...newFilterIds];
     });
 
     // If a filter state service is present, subscribe to its updates and reflect into local signals.
@@ -250,7 +248,7 @@ export class SkyFilterBarComponent {
     this.selectedFilterIds.set(selectedIds);
 
     if (removedFilterItems.length) {
-      this.#updateFilters(removedFilterItems);
+      this.#filterBarSvc.updateFilters(removedFilterItems);
       const newFilters = newFilterItems.filter(
         (filter) => !!filter.filterValue,
       );
@@ -342,7 +340,7 @@ export class SkyFilterBarComponent {
         if (updatedFilter.filterValue) {
           newFilterValues.push(updatedFilter);
         } else {
-          this.#updateFilters([updatedFilter]);
+          this.#filterBarSvc.updateFilters([updatedFilter]);
         }
         replaceFilter = true;
       } else {
@@ -358,10 +356,6 @@ export class SkyFilterBarComponent {
       newFilterValues.length ? newFilterValues : undefined,
     );
     this.#updateFilterData();
-  }
-
-  #updateFilters(updatedFilters: SkyFilterBarFilterItem[]): void {
-    this.#filterBarSvc.updateFilters(updatedFilters);
   }
 
   #updateFilterData(): void {

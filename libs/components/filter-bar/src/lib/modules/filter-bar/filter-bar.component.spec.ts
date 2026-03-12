@@ -330,6 +330,40 @@ describe('Filter bar component', () => {
       expect(secondButton?.getAttribute('aria-pressed')).toBe('false');
     });
 
+    it('should clear a filter value when appliedFilters is updated to a non-empty array that omits it', () => {
+      // Start with two filters applied
+      component.appliedFilters.set([
+        { filterId: '1', filterValue: { value: 'value1' } },
+        { filterId: '2', filterValue: { value: 'value2' } },
+      ]);
+      fixture.detectChanges();
+
+      const filter1Button = fixture.nativeElement.querySelector(
+        '[data-filter-id="1"]',
+      ) as HTMLButtonElement;
+      const filter2Button = fixture.nativeElement.querySelector(
+        '[data-filter-id="2"]',
+      ) as HTMLButtonElement;
+
+      expect(filter1Button.getAttribute('aria-pressed')).toBe('true');
+      expect(filter2Button.getAttribute('aria-pressed')).toBe('true');
+
+      // Update to a non-empty array that no longer includes filter 1
+      component.appliedFilters.set([
+        { filterId: '2', filterValue: { value: 'value2' } },
+      ]);
+      fixture.detectChanges();
+
+      // Filter 1 should be unset even though appliedFilters is still non-empty
+      expect(filter1Button.getAttribute('aria-pressed')).toBe('false');
+      expect(
+        filter1Button.querySelector('.sky-filter-item-value'),
+      ).toBeNull();
+
+      // Filter 2 should still be set
+      expect(filter2Button.getAttribute('aria-pressed')).toBe('true');
+    });
+
     it('should emit filterUpdated event when filter item is updated', () => {
       // This test needs to be rethought since the architecture changed
       // The filter bar now uses effects to monitor filter updates
