@@ -593,6 +593,47 @@ describe('Flyout component', () => {
     expect(closedCalled).toEqual(true);
   }));
 
+  it('should not emit closed on a newly attached flyout during deferred close cleanup', fakeAsync(() => {
+    const firstFlyout = openFlyout({});
+
+    let firstFlyoutClosedCalled = false;
+    firstFlyout.closed.subscribe(() => {
+      firstFlyoutClosedCalled = true;
+    });
+
+    firstFlyout.close();
+    fixture.detectChanges();
+
+    const flyoutElement = getFlyoutElement();
+    expect(flyoutElement).not.toBeNull();
+    flyoutElement.dispatchEvent(
+      new TransitionEvent('transitionend', { propertyName: 'transform' }),
+    );
+    fixture.detectChanges();
+
+    const secondFlyout = fixture.componentInstance.openFlyout({
+      providers: [
+        {
+          provide: SkyFlyoutTestSampleContext,
+          useValue: new SkyFlyoutTestSampleContext('Sam'),
+        },
+      ],
+    });
+    fixture.detectChanges();
+
+    let secondFlyoutClosedCalled = false;
+    secondFlyout.closed.subscribe(() => {
+      secondFlyoutClosedCalled = true;
+    });
+
+    // Flush the deferred microtask from the first flyout close.
+    tick();
+    fixture.detectChanges();
+
+    expect(firstFlyoutClosedCalled).toBe(true);
+    expect(secondFlyoutClosedCalled).toBe(false);
+  }));
+
   it('should pass providers to the flyout', fakeAsync(() => {
     const context = new SkyFlyoutTestSampleContext('Sally');
     openFlyout({
