@@ -1,5 +1,5 @@
-import { animate, style, transition, trigger } from '@angular/animations';
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -34,36 +34,9 @@ const DISPLAY_WITH_DEFAULT = 'name';
   templateUrl: './tokens.component.html',
   styleUrls: ['./tokens.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [
-    trigger('blockAnimationOnLoad', [transition(':enter', [])]),
-    trigger('dismiss', [
-      transition(':enter', [
-        style({
-          opacity: 0,
-          width: 0,
-        }),
-        animate(
-          '150ms ease-in',
-          style({
-            opacity: 1,
-            width: '*',
-          }),
-        ),
-      ]),
-      transition(':leave', [
-        animate(
-          '150ms ease-in',
-          style({
-            opacity: 0,
-            width: 0,
-          }),
-        ),
-      ]),
-    ]),
-  ],
   standalone: false,
 })
-export class SkyTokensComponent implements OnDestroy {
+export class SkyTokensComponent implements AfterViewInit, OnDestroy {
   /**
    * Whether to disable the tokens list to prevent users from selecting tokens,
    * dismissing tokens, or navigating through the list with the arrow keys. When the tokens list
@@ -229,6 +202,12 @@ export class SkyTokensComponent implements OnDestroy {
   #_activeIndex = 0;
   #_messageStream = new Subject<SkyTokensMessage>();
 
+  /**
+   * Tracks whether the component has completed its initial render.
+   * Used to suppress enter animations on first load.
+   */
+  protected initialized = false;
+
   constructor() {
     this.#initMessageStream();
 
@@ -242,6 +221,10 @@ export class SkyTokensComponent implements OnDestroy {
 
       return item;
     };
+  }
+
+  public ngAfterViewInit(): void {
+    this.initialized = true;
   }
 
   public ngOnDestroy(): void {

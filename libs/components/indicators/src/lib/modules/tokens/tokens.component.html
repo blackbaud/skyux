@@ -1,6 +1,7 @@
 <div
   class="sky-tokens"
-  [@blockAnimationOnLoad]
+  [class.sky-tokens-initialized]="initialized"
+  [class.sky-tokens-animated]="trackWith"
   [attr.role]="tokens.length ? 'grid' : null"
 >
   <!--
@@ -9,13 +10,13 @@
     -->
   @for (token of tokens; track trackTokenFn(i, token); let i = $index) {
     <sky-token
-      [@.disabled]="!trackWith"
-      [@dismiss]
+      animate.enter="sky-token-enter"
+      animate.leave="sky-token-leave"
       [disabled]="disabled"
       [dismissible]="dismissible"
       [focusable]="focusable"
       [role]="'row'"
-      (@dismiss.done)="animationDone()"
+      (animationend)="animationDone()"
       (dismiss)="removeToken(token)"
       (click)="onTokenClick(token)"
       (keydown)="onTokenKeyDown($event)"
