@@ -1,664 +1,645 @@
-<h1>Charts Playground</h1>
+<sky-page layout="tabs">
+  <sky-page-header pageTitle="Bar chart" />
 
-<!-- Linear -->
-<div>
-  <h2>Linear</h2>
-  <div>
-    <h3>Vertical</h3>
-
-    <sky-fluid-grid>
-      <sky-row>
-        <!-- Single series -->
-        <sky-column
-          [screenXSmall]="12"
-          [screenSmall]="12"
-          [screenMedium]="6"
-          [screenLarge]="6"
-        >
-          <sky-box headingText="Single series" class="sky-margin-stacked-xl">
-            <sky-box-content>
-              <sky-chart
-                [headingText]="'Monthly spendings'"
-                [headingHidden]="false"
-                [headingLevel]="3"
-                [headingStyle]="3"
-                [subtitleText]="'Spending over a month'"
-                [subtitleHidden]="false"
+  <sky-page-content>
+    <sky-tabset>
+      <sky-tab tabHeading="Vertical - Linear">
+        <sky-fluid-grid>
+          <sky-row>
+            <!-- Single series -->
+            <sky-column
+              [screenXSmall]="12"
+              [screenSmall]="12"
+              [screenMedium]="6"
+              [screenLarge]="6"
+            >
+              <sky-box
+                headingText="Single series"
+                class="sky-margin-stacked-xl"
               >
-                <sky-bar-chart
-                  orientation="vertical"
-                  [stacked]="false"
-                  (datapointActivated)="onDatapointActivated($event)"
-                >
-                  <sky-chart-category-axis labelText="Month" />
-                  <sky-chart-measure-axis
-                    labelText="Amount"
-                    scaleType="linear"
-                  />
-
-                  <sky-bar-chart-series labelText="Spending">
-                    <sky-bar-chart-series-datapoint
-                      category="January"
-                      labelText="$50,000"
-                      [value]="50000"
-                    />
-
-                    <sky-bar-chart-series-datapoint
-                      category="February"
-                      labelText="$100,000"
-                      [value]="100000"
-                    />
-
-                    <sky-bar-chart-series-datapoint
-                      category="March"
-                      labelText="$150,000"
-                      [value]="150000"
-                    />
-
-                    <sky-bar-chart-series-datapoint
-                      category="April"
-                      labelText="$200,000"
-                      [value]="200000"
-                    />
-                  </sky-bar-chart-series>
-                </sky-bar-chart>
-              </sky-chart>
-            </sky-box-content>
-          </sky-box>
-        </sky-column>
-
-        <!-- Multi series -->
-        <sky-column
-          [screenXSmall]="12"
-          [screenSmall]="12"
-          [screenMedium]="6"
-          [screenLarge]="6"
-        >
-          <sky-box headingText="Multi series" class="sky-margin-stacked-xl">
-            <sky-box-content>
-              <sky-chart
-                [headingText]="'Project Budget vs Actuals'"
-                [headingHidden]="false"
-                [headingLevel]="3"
-                [headingStyle]="3"
-              >
-                <sky-bar-chart
-                  orientation="vertical"
-                  [stacked]="false"
-                  (datapointActivated)="onDatapointActivated($event)"
-                >
-                  <sky-chart-category-axis labelText="Categories" />
-                  <sky-chart-measure-axis
-                    labelText="Amount"
-                    scaleType="linear"
-                  />
-
-                  <sky-bar-chart-series labelText="Budget">
-                    <sky-bar-chart-series-datapoint
-                      category="Revenue"
-                      labelText="$120,000"
-                      [value]="120000"
-                    />
-
-                    <sky-bar-chart-series-datapoint
-                      category="Expenses"
-                      labelText="$85,000"
-                      [value]="85000"
-                    />
-                  </sky-bar-chart-series>
-
-                  <sky-bar-chart-series labelText="Actuals">
-                    <sky-bar-chart-series-datapoint
-                      category="Revenue"
-                      labelText="$115,000"
-                      [value]="115000"
-                    />
-
-                    <sky-bar-chart-series-datapoint
-                      category="Expenses"
-                      labelText="$78,000"
-                      [value]="78000"
-                    />
-                  </sky-bar-chart-series>
-                </sky-bar-chart>
-              </sky-chart>
-            </sky-box-content>
-          </sky-box>
-        </sky-column>
-
-        <!-- Stacked -->
-        <sky-column
-          [screenXSmall]="12"
-          [screenSmall]="12"
-          [screenMedium]="6"
-          [screenLarge]="6"
-        >
-          <sky-box headingText="Stacked" class="sky-margin-stacked-xl">
-            <sky-box-content>
-              <sky-chart
-                [headingText]="'Monthly spendings'"
-                [headingHidden]="false"
-                [headingLevel]="3"
-                [headingStyle]="3"
-              >
-                <sky-bar-chart
-                  orientation="vertical"
-                  [stacked]="true"
-                  (datapointActivated)="onDatapointActivated($event)"
-                >
-                  <sky-chart-category-axis labelText="Month" />
-                  <sky-chart-measure-axis
-                    labelText="Value"
-                    scaleType="linear"
-                  />
-
-                  @for (series of stackedVertical; track series.label) {
-                    <sky-bar-chart-series [labelText]="series.label">
-                      @for (point of series.data; track $index) {
-                        <sky-bar-chart-series-datapoint
-                          [category]="point.category"
-                          [labelText]="point.label"
-                          [value]="point.value"
-                        />
-                      }
-                    </sky-bar-chart-series>
-                  }
-                </sky-bar-chart>
-              </sky-chart>
-            </sky-box-content>
-          </sky-box>
-        </sky-column>
-      </sky-row>
-    </sky-fluid-grid>
-  </div>
-
-  <div>
-    <h3>Horizontal</h3>
-
-    <sky-fluid-grid>
-      <sky-row>
-        <!-- Single series -->
-        <sky-column
-          [screenXSmall]="12"
-          [screenSmall]="12"
-          [screenMedium]="6"
-          [screenLarge]="6"
-        >
-          <sky-box headingText="Single series" class="sky-margin-stacked-xl">
-            <sky-box-content>
-              <sky-chart
-                [headingText]="'Monthly spendings'"
-                [headingHidden]="false"
-                [headingLevel]="3"
-                [headingStyle]="3"
-              >
-                <sky-bar-chart
-                  orientation="horizontal"
-                  [stacked]="false"
-                  (datapointActivated)="onDatapointActivated($event)"
-                >
-                  <sky-chart-category-axis labelText="Month" />
-                  <sky-chart-measure-axis
-                    labelText="Amount"
-                    scaleType="linear"
-                  />
-
-                  <sky-bar-chart-series labelText="Spending">
-                    <sky-bar-chart-series-datapoint
-                      category="January"
-                      labelText="$50,000"
-                      [value]="50000"
-                    />
-
-                    <sky-bar-chart-series-datapoint
-                      category="February"
-                      labelText="$100,000"
-                      [value]="100000"
-                    />
-
-                    <sky-bar-chart-series-datapoint
-                      category="March"
-                      labelText="$150,000"
-                      [value]="150000"
-                    />
-
-                    <sky-bar-chart-series-datapoint
-                      category="April"
-                      labelText="$200,000"
-                      [value]="200000"
-                    />
-                  </sky-bar-chart-series>
-                </sky-bar-chart>
-              </sky-chart>
-            </sky-box-content>
-          </sky-box>
-        </sky-column>
-
-        <!-- Multi series -->
-        <sky-column
-          [screenXSmall]="12"
-          [screenSmall]="12"
-          [screenMedium]="6"
-          [screenLarge]="6"
-        >
-          <sky-box headingText="Multi series" class="sky-margin-stacked-xl">
-            <sky-box-content>
-              <sky-chart
-                [headingText]="'Project Budget vs Actuals'"
-                [headingHidden]="false"
-                [headingLevel]="3"
-                [headingStyle]="3"
-              >
-                <sky-bar-chart
-                  orientation="horizontal"
-                  [stacked]="false"
-                  (datapointActivated)="onDatapointActivated($event)"
-                >
-                  <sky-chart-category-axis labelText="Categories" />
-                  <sky-chart-measure-axis
-                    labelText="Amount"
-                    scaleType="linear"
-                  />
-
-                  <sky-bar-chart-series labelText="Budget">
-                    <sky-bar-chart-series-datapoint
-                      category="Revenue"
-                      labelText="$120,000"
-                      [value]="120000"
-                    />
-
-                    <sky-bar-chart-series-datapoint
-                      category="Expenses"
-                      labelText="$85,000"
-                      [value]="85000"
-                    />
-                  </sky-bar-chart-series>
-
-                  <sky-bar-chart-series labelText="Actuals">
-                    <sky-bar-chart-series-datapoint
-                      category="Revenue"
-                      labelText="$115,000"
-                      [value]="115000"
-                    />
-
-                    <sky-bar-chart-series-datapoint
-                      category="Expenses"
-                      labelText="$78,000"
-                      [value]="78000"
-                    />
-                  </sky-bar-chart-series>
-                </sky-bar-chart>
-              </sky-chart>
-            </sky-box-content>
-          </sky-box>
-        </sky-column>
-
-        <!-- Stacked -->
-        <sky-column
-          [screenXSmall]="12"
-          [screenSmall]="12"
-          [screenMedium]="6"
-          [screenLarge]="6"
-        >
-          <sky-box headingText="Stacked" class="sky-margin-stacked-xl">
-            <sky-box-content>
-              <sky-chart
-                [headingText]="'Monthly spendings'"
-                [headingHidden]="false"
-                [headingLevel]="3"
-                [headingStyle]="3"
-              >
-                <sky-bar-chart
-                  orientation="horizontal"
-                  [stacked]="true"
-                  (datapointActivated)="onDatapointActivated($event)"
-                >
-                  <sky-chart-category-axis labelText="Month" />
-                  <sky-chart-measure-axis
-                    labelText="Amount"
-                    scaleType="linear"
-                  />
-
-                  @for (series of stackedHorizontal; track series.label) {
-                    <sky-bar-chart-series [labelText]="series.label">
-                      @for (point of series.data; track $index) {
-                        <sky-bar-chart-series-datapoint
-                          [category]="point.category"
-                          [labelText]="point.label"
-                          [value]="point.value"
-                        />
-                      }
-                    </sky-bar-chart-series>
-                  }
-                </sky-bar-chart>
-              </sky-chart>
-            </sky-box-content>
-          </sky-box>
-        </sky-column>
-      </sky-row>
-    </sky-fluid-grid>
-  </div>
-</div>
-
-<!-- Logarithmic  -->
-<div>
-  <h2>Logarithmic</h2>
-  <div>
-    <h3>Vertical</h3>
-
-    <sky-fluid-grid>
-      <sky-row>
-        <!-- Single series -->
-        <sky-column
-          [screenXSmall]="12"
-          [screenSmall]="12"
-          [screenMedium]="6"
-          [screenLarge]="6"
-        >
-          <sky-box headingText="Single series" class="sky-margin-stacked-xl">
-            <sky-box-content>
-              <sky-chart
-                legendPosition="right"
-                [headingText]="'Monthly spendings'"
-                [headingHidden]="false"
-                [headingLevel]="3"
-                [headingStyle]="3"
-              >
-                <sky-bar-chart
-                  orientation="vertical"
-                  [stacked]="false"
-                  (datapointActivated)="onDatapointActivated($event)"
-                >
-                  <sky-chart-category-axis labelText="Month" />
-                  <sky-chart-measure-axis
-                    labelText="Value"
-                    scaleType="logarithmic"
-                  />
-
-                  <sky-bar-chart-series labelText="Spending">
-                    @for (point of verticalLog[0].data; track $index) {
-                      <sky-bar-chart-series-datapoint
-                        [category]="point.category"
-                        [labelText]="point.label"
-                        [value]="point.value"
+                <sky-box-content>
+                  <sky-chart
+                    [headingText]="'Monthly spendings'"
+                    [headingHidden]="false"
+                    [headingLevel]="3"
+                    [headingStyle]="3"
+                    [subtitleText]="'Spending over a month'"
+                    [subtitleHidden]="false"
+                  >
+                    <sky-bar-chart
+                      orientation="vertical"
+                      [stacked]="false"
+                      (datapointActivated)="onDatapointActivated($event)"
+                    >
+                      <sky-chart-category-axis labelText="Month" />
+                      <sky-chart-measure-axis
+                        labelText="Amount"
+                        scaleType="linear"
                       />
-                    }
-                  </sky-bar-chart-series>
-                </sky-bar-chart>
-              </sky-chart>
-            </sky-box-content>
-          </sky-box>
-        </sky-column>
 
-        <!-- Multi series -->
-        <sky-column
-          [screenXSmall]="12"
-          [screenSmall]="12"
-          [screenMedium]="6"
-          [screenLarge]="6"
-        >
-          <sky-box headingText="Multi series" class="sky-margin-stacked-xl">
-            <sky-box-content>
-              <sky-chart
-                [headingText]="'Project Budget vs Actuals'"
-                [headingHidden]="false"
-                [headingLevel]="3"
-                [headingStyle]="3"
-              >
-                <sky-bar-chart
-                  orientation="vertical"
-                  [stacked]="false"
-                  (datapointActivated)="onDatapointActivated($event)"
-                >
-                  <sky-chart-category-axis labelText="Categories" />
-                  <sky-chart-measure-axis
-                    labelText="Value"
-                    scaleType="logarithmic"
-                  />
-
-                  <sky-bar-chart-series labelText="Budget">
-                    <sky-bar-chart-series-datapoint
-                      category="Revenue"
-                      labelText="$120,000"
-                      [value]="120000"
-                    />
-
-                    <sky-bar-chart-series-datapoint
-                      category="Expenses"
-                      labelText="$85,000"
-                      [value]="85000"
-                    />
-                  </sky-bar-chart-series>
-
-                  <sky-bar-chart-series labelText="Actuals">
-                    <sky-bar-chart-series-datapoint
-                      category="Revenue"
-                      labelText="$115,000"
-                      [value]="115000"
-                    />
-
-                    <sky-bar-chart-series-datapoint
-                      category="Expenses"
-                      labelText="$78,000"
-                      [value]="78000"
-                    />
-                  </sky-bar-chart-series>
-                </sky-bar-chart>
-              </sky-chart>
-            </sky-box-content>
-          </sky-box>
-        </sky-column>
-
-        <!-- Stacked -->
-        <sky-column
-          [screenXSmall]="12"
-          [screenSmall]="12"
-          [screenMedium]="6"
-          [screenLarge]="6"
-        >
-          <sky-box headingText="Stacked" class="sky-margin-stacked-xl">
-            <sky-box-content>
-              <sky-chart
-                [headingText]="'Monthly spendings'"
-                [headingHidden]="false"
-                [headingLevel]="3"
-                [headingStyle]="3"
-              >
-                <sky-bar-chart
-                  orientation="vertical"
-                  [stacked]="true"
-                  (datapointActivated)="onDatapointActivated($event)"
-                >
-                  <sky-chart-category-axis labelText="Month" />
-                  <sky-chart-measure-axis
-                    labelText="Value"
-                    scaleType="logarithmic"
-                  />
-
-                  @for (series of stackedVerticalLog; track series.label) {
-                    <sky-bar-chart-series [labelText]="series.label">
-                      @for (point of series.data; track $index) {
-                        <sky-bar-chart-series-datapoint
-                          [category]="point.category"
-                          [labelText]="point.label"
-                          [value]="point.value"
-                        />
+                      @for (
+                        series of verticalSingleSeries;
+                        track series.labelText
+                      ) {
+                        <sky-bar-chart-series [labelText]="series.label">
+                          @for (point of series.data; track $index) {
+                            <sky-bar-chart-series-datapoint
+                              [category]="point.category"
+                              [labelText]="point.label"
+                              [value]="point.value"
+                            />
+                          }
+                        </sky-bar-chart-series>
                       }
-                    </sky-bar-chart-series>
-                  }
-                </sky-bar-chart>
-              </sky-chart>
-            </sky-box-content>
-          </sky-box>
-        </sky-column>
-      </sky-row>
-    </sky-fluid-grid>
-  </div>
+                    </sky-bar-chart>
+                  </sky-chart>
+                </sky-box-content>
+              </sky-box>
+            </sky-column>
 
-  <div>
-    <h3>Horizontal</h3>
+            <!-- Multi series -->
+            <sky-column
+              [screenXSmall]="12"
+              [screenSmall]="12"
+              [screenMedium]="6"
+              [screenLarge]="6"
+            >
+              <sky-box headingText="Multi series" class="sky-margin-stacked-xl">
+                <sky-box-content>
+                  <sky-chart
+                    [headingText]="'Project Budget vs Actuals'"
+                    [headingHidden]="false"
+                    [headingLevel]="3"
+                    [headingStyle]="3"
+                  >
+                    <sky-bar-chart
+                      orientation="vertical"
+                      [stacked]="false"
+                      (datapointActivated)="onDatapointActivated($event)"
+                    >
+                      <sky-chart-category-axis labelText="Categories" />
+                      <sky-chart-measure-axis
+                        labelText="Amount"
+                        scaleType="linear"
+                      />
 
-    <sky-fluid-grid>
-      <sky-row>
-        <!-- Single series -->
-        <sky-column
-          [screenXSmall]="12"
-          [screenSmall]="12"
-          [screenMedium]="6"
-          [screenLarge]="6"
-        >
-          <sky-box headingText="Single series" class="sky-margin-stacked-xl">
-            <sky-box-content>
-              <sky-chart
-                [headingText]="'Monthly spendings'"
-                [headingHidden]="false"
-                [headingLevel]="3"
-                [headingStyle]="3"
-              >
-                <sky-bar-chart
-                  orientation="horizontal"
-                  [stacked]="false"
-                  (datapointActivated)="onDatapointActivated($event)"
-                >
-                  <sky-chart-category-axis labelText="Month" />
-                  <sky-chart-measure-axis
-                    labelText="Amount"
-                    scaleType="logarithmic"
-                  />
-
-                  <sky-bar-chart-series labelText="Spending">
-                    <sky-bar-chart-series-datapoint
-                      category="January"
-                      labelText="$50,000"
-                      [value]="50000"
-                    />
-
-                    <sky-bar-chart-series-datapoint
-                      category="February"
-                      labelText="$100,000"
-                      [value]="100000"
-                    />
-
-                    <sky-bar-chart-series-datapoint
-                      category="March"
-                      labelText="$150,000"
-                      [value]="150000"
-                    />
-
-                    <sky-bar-chart-series-datapoint
-                      category="April"
-                      labelText="$200,000"
-                      [value]="200000"
-                    />
-                  </sky-bar-chart-series>
-                </sky-bar-chart>
-              </sky-chart>
-            </sky-box-content>
-          </sky-box>
-        </sky-column>
-
-        <!-- Multi series -->
-        <sky-column
-          [screenXSmall]="12"
-          [screenSmall]="12"
-          [screenMedium]="6"
-          [screenLarge]="6"
-        >
-          <sky-box headingText="Multi series" class="sky-margin-stacked-xl">
-            <sky-box-content>
-              <sky-chart
-                [headingText]="'Project Budget vs Actuals'"
-                [headingHidden]="false"
-                [headingLevel]="3"
-                [headingStyle]="3"
-              >
-                <sky-bar-chart
-                  orientation="horizontal"
-                  [stacked]="false"
-                  (datapointActivated)="onDatapointActivated($event)"
-                >
-                  <sky-chart-category-axis labelText="Categories" />
-                  <sky-chart-measure-axis
-                    labelText="Amount"
-                    scaleType="logarithmic"
-                  />
-
-                  <sky-bar-chart-series labelText="Budget">
-                    <sky-bar-chart-series-datapoint
-                      category="Revenue"
-                      labelText="$120,000"
-                      [value]="120000"
-                    />
-
-                    <sky-bar-chart-series-datapoint
-                      category="Expenses"
-                      labelText="$85,000"
-                      [value]="85000"
-                    />
-                  </sky-bar-chart-series>
-
-                  <sky-bar-chart-series labelText="Actuals">
-                    <sky-bar-chart-series-datapoint
-                      category="Revenue"
-                      labelText="$115,000"
-                      [value]="115000"
-                    />
-
-                    <sky-bar-chart-series-datapoint
-                      category="Expenses"
-                      labelText="$78,000"
-                      [value]="78000"
-                    />
-                  </sky-bar-chart-series>
-                </sky-bar-chart>
-              </sky-chart>
-            </sky-box-content>
-          </sky-box>
-        </sky-column>
-
-        <!-- Stacked -->
-        <sky-column
-          [screenXSmall]="12"
-          [screenSmall]="12"
-          [screenMedium]="6"
-          [screenLarge]="6"
-        >
-          <sky-box headingText="Stacked" class="sky-margin-stacked-xl">
-            <sky-box-content>
-              <sky-chart
-                [headingText]="'Monthly spendings'"
-                [headingHidden]="false"
-                [headingLevel]="3"
-                [headingStyle]="3"
-              >
-                <sky-bar-chart
-                  orientation="horizontal"
-                  [stacked]="true"
-                  (datapointActivated)="onDatapointActivated($event)"
-                >
-                  <sky-chart-category-axis labelText="Month" />
-                  <sky-chart-measure-axis
-                    labelText="Amount"
-                    scaleType="logarithmic"
-                  />
-
-                  @for (series of stackedHorizontalLog; track series.label) {
-                    <sky-bar-chart-series [labelText]="series.label">
-                      @for (point of series.data; track $index) {
-                        <sky-bar-chart-series-datapoint
-                          [category]="point.category"
-                          [labelText]="point.label"
-                          [value]="point.value"
-                        />
+                      @for (
+                        series of verticalMultiSeries;
+                        track series.labelText
+                      ) {
+                        <sky-bar-chart-series [labelText]="series.label">
+                          @for (point of series.data; track $index) {
+                            <sky-bar-chart-series-datapoint
+                              [category]="point.category"
+                              [labelText]="point.label"
+                              [value]="point.value"
+                            />
+                          }
+                        </sky-bar-chart-series>
                       }
-                    </sky-bar-chart-series>
-                  }
-                </sky-bar-chart>
-              </sky-chart>
-            </sky-box-content>
-          </sky-box>
-        </sky-column>
-      </sky-row>
-    </sky-fluid-grid>
-  </div>
-</div>
+                    </sky-bar-chart>
+                  </sky-chart>
+                </sky-box-content>
+              </sky-box>
+            </sky-column>
+
+            <!-- Stacked -->
+            <sky-column
+              [screenXSmall]="12"
+              [screenSmall]="12"
+              [screenMedium]="6"
+              [screenLarge]="6"
+            >
+              <sky-box headingText="Stacked" class="sky-margin-stacked-xl">
+                <sky-box-content>
+                  <sky-chart
+                    [headingText]="'Monthly spendings'"
+                    [headingHidden]="false"
+                    [headingLevel]="3"
+                    [headingStyle]="3"
+                  >
+                    <sky-bar-chart
+                      orientation="vertical"
+                      [stacked]="true"
+                      (datapointActivated)="onDatapointActivated($event)"
+                    >
+                      <sky-chart-category-axis labelText="Month" />
+                      <sky-chart-measure-axis
+                        labelText="Value"
+                        scaleType="linear"
+                      />
+
+                      @for (series of verticalStacked; track series.label) {
+                        <sky-bar-chart-series [labelText]="series.label">
+                          @for (point of series.data; track $index) {
+                            <sky-bar-chart-series-datapoint
+                              [category]="point.category"
+                              [labelText]="point.label"
+                              [value]="point.value"
+                            />
+                          }
+                        </sky-bar-chart-series>
+                      }
+                    </sky-bar-chart>
+                  </sky-chart>
+                </sky-box-content>
+              </sky-box>
+            </sky-column>
+          </sky-row>
+        </sky-fluid-grid>
+      </sky-tab>
+
+      <sky-tab tabHeading="Vertical - Logarithmic">
+        <sky-fluid-grid>
+          <sky-row>
+            <!-- Single series -->
+            <sky-column
+              [screenXSmall]="12"
+              [screenSmall]="12"
+              [screenMedium]="6"
+              [screenLarge]="6"
+            >
+              <sky-box
+                headingText="Single series"
+                class="sky-margin-stacked-xl"
+              >
+                <sky-box-content>
+                  <sky-chart
+                    legendPosition="right"
+                    [headingText]="'Monthly spendings'"
+                    [headingHidden]="false"
+                    [headingLevel]="3"
+                    [headingStyle]="3"
+                  >
+                    <sky-bar-chart
+                      orientation="vertical"
+                      [stacked]="false"
+                      (datapointActivated)="onDatapointActivated($event)"
+                    >
+                      <sky-chart-category-axis labelText="Month" />
+                      <sky-chart-measure-axis
+                        labelText="Value"
+                        scaleType="logarithmic"
+                      />
+
+                      <sky-bar-chart-series labelText="Spending">
+                        @for (point of verticalLog[0].data; track $index) {
+                          <sky-bar-chart-series-datapoint
+                            [category]="point.category"
+                            [labelText]="point.label"
+                            [value]="point.value"
+                          />
+                        }
+                      </sky-bar-chart-series>
+                    </sky-bar-chart>
+                  </sky-chart>
+                </sky-box-content>
+              </sky-box>
+            </sky-column>
+
+            <!-- Multi series -->
+            <sky-column
+              [screenXSmall]="12"
+              [screenSmall]="12"
+              [screenMedium]="6"
+              [screenLarge]="6"
+            >
+              <sky-box headingText="Multi series" class="sky-margin-stacked-xl">
+                <sky-box-content>
+                  <sky-chart
+                    [headingText]="'Project Budget vs Actuals'"
+                    [headingHidden]="false"
+                    [headingLevel]="3"
+                    [headingStyle]="3"
+                  >
+                    <sky-bar-chart
+                      orientation="vertical"
+                      [stacked]="false"
+                      (datapointActivated)="onDatapointActivated($event)"
+                    >
+                      <sky-chart-category-axis labelText="Categories" />
+                      <sky-chart-measure-axis
+                        labelText="Value"
+                        scaleType="logarithmic"
+                      />
+
+                      <sky-bar-chart-series labelText="Budget">
+                        <sky-bar-chart-series-datapoint
+                          category="Revenue"
+                          labelText="$120,000"
+                          [value]="120000"
+                        />
+
+                        <sky-bar-chart-series-datapoint
+                          category="Expenses"
+                          labelText="$85,000"
+                          [value]="85000"
+                        />
+                      </sky-bar-chart-series>
+
+                      <sky-bar-chart-series labelText="Actuals">
+                        <sky-bar-chart-series-datapoint
+                          category="Revenue"
+                          labelText="$115,000"
+                          [value]="115000"
+                        />
+
+                        <sky-bar-chart-series-datapoint
+                          category="Expenses"
+                          labelText="$78,000"
+                          [value]="78000"
+                        />
+                      </sky-bar-chart-series>
+                    </sky-bar-chart>
+                  </sky-chart>
+                </sky-box-content>
+              </sky-box>
+            </sky-column>
+
+            <!-- Stacked -->
+            <sky-column
+              [screenXSmall]="12"
+              [screenSmall]="12"
+              [screenMedium]="6"
+              [screenLarge]="6"
+            >
+              <sky-box headingText="Stacked" class="sky-margin-stacked-xl">
+                <sky-box-content>
+                  <sky-chart
+                    [headingText]="'Monthly spendings'"
+                    [headingHidden]="false"
+                    [headingLevel]="3"
+                    [headingStyle]="3"
+                  >
+                    <sky-bar-chart
+                      orientation="vertical"
+                      [stacked]="true"
+                      (datapointActivated)="onDatapointActivated($event)"
+                    >
+                      <sky-chart-category-axis labelText="Month" />
+                      <sky-chart-measure-axis
+                        labelText="Value"
+                        scaleType="logarithmic"
+                      />
+
+                      @for (series of verticalStackedLog; track series.label) {
+                        <sky-bar-chart-series [labelText]="series.label">
+                          @for (point of series.data; track $index) {
+                            <sky-bar-chart-series-datapoint
+                              [category]="point.category"
+                              [labelText]="point.label"
+                              [value]="point.value"
+                            />
+                          }
+                        </sky-bar-chart-series>
+                      }
+                    </sky-bar-chart>
+                  </sky-chart>
+                </sky-box-content>
+              </sky-box>
+            </sky-column>
+          </sky-row>
+        </sky-fluid-grid>
+      </sky-tab>
+
+      <sky-tab tabHeading="Horizontal - Linear">
+        <sky-fluid-grid>
+          <sky-row>
+            <!-- Single series -->
+            <sky-column
+              [screenXSmall]="12"
+              [screenSmall]="12"
+              [screenMedium]="6"
+              [screenLarge]="6"
+            >
+              <sky-box
+                headingText="Single series"
+                class="sky-margin-stacked-xl"
+              >
+                <sky-box-content>
+                  <sky-chart
+                    [headingText]="'Monthly spendings'"
+                    [headingHidden]="false"
+                    [headingLevel]="3"
+                    [headingStyle]="3"
+                  >
+                    <sky-bar-chart
+                      orientation="horizontal"
+                      [stacked]="false"
+                      (datapointActivated)="onDatapointActivated($event)"
+                    >
+                      <sky-chart-category-axis labelText="Month" />
+                      <sky-chart-measure-axis
+                        labelText="Amount"
+                        scaleType="linear"
+                      />
+
+                      <sky-bar-chart-series labelText="Spending">
+                        <sky-bar-chart-series-datapoint
+                          category="January"
+                          labelText="$50,000"
+                          [value]="50000"
+                        />
+
+                        <sky-bar-chart-series-datapoint
+                          category="February"
+                          labelText="$100,000"
+                          [value]="100000"
+                        />
+
+                        <sky-bar-chart-series-datapoint
+                          category="March"
+                          labelText="$150,000"
+                          [value]="150000"
+                        />
+
+                        <sky-bar-chart-series-datapoint
+                          category="April"
+                          labelText="$200,000"
+                          [value]="200000"
+                        />
+                      </sky-bar-chart-series>
+                    </sky-bar-chart>
+                  </sky-chart>
+                </sky-box-content>
+              </sky-box>
+            </sky-column>
+
+            <!-- Multi series -->
+            <sky-column
+              [screenXSmall]="12"
+              [screenSmall]="12"
+              [screenMedium]="6"
+              [screenLarge]="6"
+            >
+              <sky-box headingText="Multi series" class="sky-margin-stacked-xl">
+                <sky-box-content>
+                  <sky-chart
+                    [headingText]="'Project Budget vs Actuals'"
+                    [headingHidden]="false"
+                    [headingLevel]="3"
+                    [headingStyle]="3"
+                  >
+                    <sky-bar-chart
+                      orientation="horizontal"
+                      [stacked]="false"
+                      (datapointActivated)="onDatapointActivated($event)"
+                    >
+                      <sky-chart-category-axis labelText="Categories" />
+                      <sky-chart-measure-axis
+                        labelText="Amount"
+                        scaleType="linear"
+                      />
+
+                      <sky-bar-chart-series labelText="Budget">
+                        <sky-bar-chart-series-datapoint
+                          category="Revenue"
+                          labelText="$120,000"
+                          [value]="120000"
+                        />
+
+                        <sky-bar-chart-series-datapoint
+                          category="Expenses"
+                          labelText="$85,000"
+                          [value]="85000"
+                        />
+                      </sky-bar-chart-series>
+
+                      <sky-bar-chart-series labelText="Actuals">
+                        <sky-bar-chart-series-datapoint
+                          category="Revenue"
+                          labelText="$115,000"
+                          [value]="115000"
+                        />
+
+                        <sky-bar-chart-series-datapoint
+                          category="Expenses"
+                          labelText="$78,000"
+                          [value]="78000"
+                        />
+                      </sky-bar-chart-series>
+                    </sky-bar-chart>
+                  </sky-chart>
+                </sky-box-content>
+              </sky-box>
+            </sky-column>
+
+            <!-- Stacked -->
+            <sky-column
+              [screenXSmall]="12"
+              [screenSmall]="12"
+              [screenMedium]="6"
+              [screenLarge]="6"
+            >
+              <sky-box headingText="Stacked" class="sky-margin-stacked-xl">
+                <sky-box-content>
+                  <sky-chart
+                    [headingText]="'Monthly spendings'"
+                    [headingHidden]="false"
+                    [headingLevel]="3"
+                    [headingStyle]="3"
+                  >
+                    <sky-bar-chart
+                      orientation="horizontal"
+                      [stacked]="true"
+                      (datapointActivated)="onDatapointActivated($event)"
+                    >
+                      <sky-chart-category-axis labelText="Month" />
+                      <sky-chart-measure-axis
+                        labelText="Amount"
+                        scaleType="linear"
+                      />
+
+                      @for (series of horizontalStacked; track series.label) {
+                        <sky-bar-chart-series [labelText]="series.label">
+                          @for (point of series.data; track $index) {
+                            <sky-bar-chart-series-datapoint
+                              [category]="point.category"
+                              [labelText]="point.label"
+                              [value]="point.value"
+                            />
+                          }
+                        </sky-bar-chart-series>
+                      }
+                    </sky-bar-chart>
+                  </sky-chart>
+                </sky-box-content>
+              </sky-box>
+            </sky-column>
+          </sky-row>
+        </sky-fluid-grid>
+      </sky-tab>
+
+      <sky-tab tabHeading="Horizontal - Logarithmic">
+        <sky-fluid-grid>
+          <sky-row>
+            <!-- Single series -->
+            <sky-column
+              [screenXSmall]="12"
+              [screenSmall]="12"
+              [screenMedium]="6"
+              [screenLarge]="6"
+            >
+              <sky-box
+                headingText="Single series"
+                class="sky-margin-stacked-xl"
+              >
+                <sky-box-content>
+                  <sky-chart
+                    [headingText]="'Monthly spendings'"
+                    [headingHidden]="false"
+                    [headingLevel]="3"
+                    [headingStyle]="3"
+                  >
+                    <sky-bar-chart
+                      orientation="horizontal"
+                      [stacked]="false"
+                      (datapointActivated)="onDatapointActivated($event)"
+                    >
+                      <sky-chart-category-axis labelText="Month" />
+                      <sky-chart-measure-axis
+                        labelText="Amount"
+                        scaleType="logarithmic"
+                      />
+
+                      <sky-bar-chart-series labelText="Spending">
+                        <sky-bar-chart-series-datapoint
+                          category="January"
+                          labelText="$50,000"
+                          [value]="50000"
+                        />
+
+                        <sky-bar-chart-series-datapoint
+                          category="February"
+                          labelText="$100,000"
+                          [value]="100000"
+                        />
+
+                        <sky-bar-chart-series-datapoint
+                          category="March"
+                          labelText="$150,000"
+                          [value]="150000"
+                        />
+
+                        <sky-bar-chart-series-datapoint
+                          category="April"
+                          labelText="$200,000"
+                          [value]="200000"
+                        />
+                      </sky-bar-chart-series>
+                    </sky-bar-chart>
+                  </sky-chart>
+                </sky-box-content>
+              </sky-box>
+            </sky-column>
+
+            <!-- Multi series -->
+            <sky-column
+              [screenXSmall]="12"
+              [screenSmall]="12"
+              [screenMedium]="6"
+              [screenLarge]="6"
+            >
+              <sky-box headingText="Multi series" class="sky-margin-stacked-xl">
+                <sky-box-content>
+                  <sky-chart
+                    [headingText]="'Project Budget vs Actuals'"
+                    [headingHidden]="false"
+                    [headingLevel]="3"
+                    [headingStyle]="3"
+                  >
+                    <sky-bar-chart
+                      orientation="horizontal"
+                      [stacked]="false"
+                      (datapointActivated)="onDatapointActivated($event)"
+                    >
+                      <sky-chart-category-axis labelText="Categories" />
+                      <sky-chart-measure-axis
+                        labelText="Amount"
+                        scaleType="logarithmic"
+                      />
+
+                      <sky-bar-chart-series labelText="Budget">
+                        <sky-bar-chart-series-datapoint
+                          category="Revenue"
+                          labelText="$120,000"
+                          [value]="120000"
+                        />
+
+                        <sky-bar-chart-series-datapoint
+                          category="Expenses"
+                          labelText="$85,000"
+                          [value]="85000"
+                        />
+                      </sky-bar-chart-series>
+
+                      <sky-bar-chart-series labelText="Actuals">
+                        <sky-bar-chart-series-datapoint
+                          category="Revenue"
+                          labelText="$115,000"
+                          [value]="115000"
+                        />
+
+                        <sky-bar-chart-series-datapoint
+                          category="Expenses"
+                          labelText="$78,000"
+                          [value]="78000"
+                        />
+                      </sky-bar-chart-series>
+                    </sky-bar-chart>
+                  </sky-chart>
+                </sky-box-content>
+              </sky-box>
+            </sky-column>
+
+            <!-- Stacked -->
+            <sky-column
+              [screenXSmall]="12"
+              [screenSmall]="12"
+              [screenMedium]="6"
+              [screenLarge]="6"
+            >
+              <sky-box headingText="Stacked" class="sky-margin-stacked-xl">
+                <sky-box-content>
+                  <sky-chart
+                    [headingText]="'Monthly spendings'"
+                    [headingHidden]="false"
+                    [headingLevel]="3"
+                    [headingStyle]="3"
+                  >
+                    <sky-bar-chart
+                      orientation="horizontal"
+                      [stacked]="true"
+                      (datapointActivated)="onDatapointActivated($event)"
+                    >
+                      <sky-chart-category-axis labelText="Month" />
+                      <sky-chart-measure-axis
+                        labelText="Amount"
+                        scaleType="logarithmic"
+                      />
+
+                      @for (
+                        series of horizontalLogStacked;
+                        track series.label
+                      ) {
+                        <sky-bar-chart-series [labelText]="series.label">
+                          @for (point of series.data; track $index) {
+                            <sky-bar-chart-series-datapoint
+                              [category]="point.category"
+                              [labelText]="point.label"
+                              [value]="point.value"
+                            />
+                          }
+                        </sky-bar-chart-series>
+                      }
+                    </sky-bar-chart>
+                  </sky-chart>
+                </sky-box-content>
+              </sky-box>
+            </sky-column>
+          </sky-row>
+        </sky-fluid-grid>
+      </sky-tab>
+    </sky-tabset>
+  </sky-page-content>
+</sky-page>

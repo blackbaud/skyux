@@ -10,23 +10,20 @@ import {
 } from '@skyux/charts';
 import { SkyBoxModule } from '@skyux/layout';
 import { SkyFluidGridModule } from '@skyux/layout';
+import { SkyPageModule } from '@skyux/pages';
+import { SkyTabsModule } from '@skyux/tabs';
 
 import { ChartDemoUtils } from '../shared/chart-demo-utils';
 
 @Component({
   selector: 'app-bar-chart-demo',
   templateUrl: './bar-chart-demo.component.html',
-  styles: [
-    `
-      :host {
-        display: block;
-        margin: 20px;
-      }
-    `,
-  ],
+  styles: [],
   imports: [
+    SkyPageModule,
     SkyBarChartComponent,
     SkyBoxModule,
+    SkyTabsModule,
     SkyFluidGridModule,
     SkyBarChartComponent,
     SkyBarChartSeriesComponent,
@@ -39,7 +36,36 @@ import { ChartDemoUtils } from '../shared/chart-demo-utils';
 })
 export class BarChartDemoComponent {
   // #region Vertical
-  public readonly stackedVertical = [
+  public readonly verticalSingleSeries = [
+    {
+      labelText: 'Spending',
+      data: [
+        { category: 'January', label: '$50,000', value: 50_000 },
+        { category: 'February', label: '$100,000', value: 100_000 },
+        { category: 'March', label: '$150,000', value: 150_000 },
+        { category: 'April', label: '$200,000', value: 200_000 },
+      ],
+    },
+  ];
+
+  public readonly verticalMultiSeries = [
+    {
+      labelText: 'Budget',
+      data: [
+        { category: 'Revenue', label: '$120,000', value: 120_000 },
+        { category: 'Expense', label: '$85,000', value: 85_000 },
+      ],
+    },
+    {
+      labelText: 'Actuals',
+      data: [
+        { category: 'Revenue', label: '$15,000', value: 115_000 },
+        { category: 'Expense', label: '$78,000', value: 78_000 },
+      ],
+    },
+  ];
+
+  public readonly verticalStacked = [
     {
       label: 'Dataset 1',
       data: ChartDemoUtils.numbers({
@@ -102,7 +128,7 @@ export class BarChartDemoComponent {
     },
   ];
 
-  public readonly stackedVerticalLog = [
+  public readonly verticalStackedLog = [
     {
       label: 'Dataset 1',
       data: ChartDemoUtils.numbers({
@@ -152,7 +178,11 @@ export class BarChartDemoComponent {
   // #endregion
 
   // #region Horizontal
-  public readonly stackedHorizontal = [
+  public readonly horizontalSingleSeries = [];
+
+  public readonly horizontalMultiSeries = [];
+
+  public readonly horizontalStacked = [
     {
       label: 'Dataset 1',
       data: ChartDemoUtils.numbers({
@@ -200,7 +230,9 @@ export class BarChartDemoComponent {
     },
   ];
 
-  public readonly stackedHorizontalLog = [
+  public readonly horizontalLog = [];
+
+  public readonly horizontalLogStacked = [
     {
       label: 'Dataset 1',
       data: ChartDemoUtils.numbers({ count: 7, min: 0, max: 1_000 }).map(

@@ -8,19 +8,14 @@ import {
 } from '@skyux/charts';
 import { SkyBoxModule } from '@skyux/layout';
 import { SkyFluidGridModule } from '@skyux/layout';
+import { SkyPageModule } from '@skyux/pages';
 
 @Component({
   selector: 'app-donut-chart-demo',
   templateUrl: 'donut-chart-demo.component.html',
-  styles: [
-    `
-      :host {
-        display: block;
-        margin: 20px;
-      }
-    `,
-  ],
+  styles: [],
   imports: [
+    SkyPageModule,
     SkyDonutChartComponent,
     SkyBoxModule,
     SkyFluidGridModule,
