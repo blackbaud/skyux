@@ -48,7 +48,7 @@ export class _SkyAnimationExpandComponent {
   public readonly minHeight = input<string>('0');
 
   constructor() {
-    inject(_SkyAnimationTransitionHandlerDirective).cssPropertyToTrack(
+    inject(_SkyAnimationTransitionHandlerDirective).setPropertyToTrack(
       'grid-template-rows',
     );
   }
