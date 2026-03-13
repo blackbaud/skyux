@@ -17,7 +17,7 @@ import { _skyAnimationsDisabled } from '../utility/animations-disabled';
  * Listens for CSS `transitionend` events on the host element and emits
  * a `transitionEnd` output when the tracked CSS property finishes
  * transitioning. When animations are globally disabled, the output
- * emits synchronously whenever the `transitionTrigger` input changes.
+ * emits via a microtask whenever the `transitionTrigger` input changes.
  *
  * The CSS property to monitor can be set via the `transitionPropertyToTrack`
  * input (for template usage) or by calling `setPropertyToTrack()`
@@ -36,7 +36,7 @@ export class _SkyAnimationTransitionHandlerDirective {
    * Drives the CSS transition on the host element. When the value
    * changes and animations are enabled, a CSS transition runs and
    * `transitionEnd` emits on completion. When animations are
-   * disabled, `transitionEnd` emits synchronously instead.
+   * disabled, `transitionEnd` emits via a microtask instead.
    */
   public readonly transitionTrigger = input.required<boolean>();
 
@@ -49,7 +49,7 @@ export class _SkyAnimationTransitionHandlerDirective {
 
   /**
    * Emits when the tracked CSS property's `transitionend` event fires
-   * on the host element, or synchronously when animations are disabled.
+   * on the host element, or via a microtask when animations are disabled.
    */
   public readonly transitionEnd = output<void>();
 
