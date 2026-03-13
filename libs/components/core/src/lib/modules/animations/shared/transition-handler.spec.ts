@@ -1,4 +1,4 @@
-import { Component, input, signal } from '@angular/core';
+import { Component, ErrorHandler, input, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { provideNoopSkyAnimations } from '../utility/provide-noop-animations';
@@ -85,41 +85,37 @@ describe('SkyTransitionEndHandler', () => {
   describe('onTransitionEnd', () => {
     it('should throw when no CSS property has been specified', () => {
       const { fixture } = setupTest({ skipTrackProperty: true });
-      const handler = fixture.debugElement.injector.get(
-        _SkyTransitionEndHandlerDirective,
+      const errorHandler = TestBed.inject(ErrorHandler);
+      const spy = spyOn(errorHandler, 'handleError');
+
+      fixture.nativeElement.dispatchEvent(
+        new TransitionEvent('transitionend', { propertyName: 'opacity' }),
       );
 
-      const evt = new TransitionEvent('transitionend', {
-        propertyName: 'opacity',
-      });
-
-      Object.defineProperty(evt, 'target', {
-        value: fixture.nativeElement,
-      });
-
-      expect(() => {
-        (handler as any).onTransitionEnd(evt);
-      }).toThrowError(/No CSS property specified for transition tracking/);
+      expect(spy).toHaveBeenCalledOnceWith(
+        jasmine.objectContaining({
+          message: jasmine.stringMatching(
+            /No CSS property specified for transition tracking/,
+          ),
+        }),
+      );
     });
 
     it('should include the element tag name in the error', () => {
       const { fixture } = setupTest({ skipTrackProperty: true });
-      const handler = fixture.debugElement.injector.get(
-        _SkyTransitionEndHandlerDirective,
+      const errorHandler = TestBed.inject(ErrorHandler);
+      const spy = spyOn(errorHandler, 'handleError');
+
+      fixture.nativeElement.dispatchEvent(
+        new TransitionEvent('transitionend', { propertyName: 'opacity' }),
       );
 
-      const evt = new TransitionEvent('transitionend', {
-        propertyName: 'opacity',
-      });
-
-      Object.defineProperty(evt, 'target', {
-        value: fixture.nativeElement,
-      });
-
-      expect(() => {
-        (handler as any).onTransitionEnd(evt);
-      }).toThrowError(
-        new RegExp(`'<${fixture.nativeElement.tagName.toLowerCase()}>'`),
+      expect(spy).toHaveBeenCalledOnceWith(
+        jasmine.objectContaining({
+          message: jasmine.stringMatching(
+            new RegExp(`'<${fixture.nativeElement.tagName.toLowerCase()}>'`),
+          ),
+        }),
       );
     });
 

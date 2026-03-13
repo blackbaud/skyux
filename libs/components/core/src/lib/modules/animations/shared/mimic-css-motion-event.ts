@@ -32,10 +32,10 @@ export function mimicCssMotionEvent(
   effect(() => {
     triggerSignal();
 
-    // CSS animation/transition events do not fire when the element is `display: none`
+    // CSS animation/transition events do not fire when the element is `display: none`.
     if (initialized && getComputedStyle(el).display !== 'none') {
       // Defer the emit to a microtask so it fires after the current
-      // change detection pass, matching real transitionend timing.
+      // change detection pass, matching real transition timing.
       queueMicrotask(() => {
         if (!destroyed) {
           output.emit();
