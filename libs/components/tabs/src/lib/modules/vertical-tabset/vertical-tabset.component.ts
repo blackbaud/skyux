@@ -143,6 +143,24 @@ export class SkyVerticalTabsetComponent
         this.#changeRef.markForCheck();
       });
 
+    // When the tabs container is conditionally rendered via @if, the
+    // animation transition handler directive is destroyed and recreated
+    // each time tabs toggle visibility. In noop-animation mode the
+    // directive skips its first emission, so transitionEnd never fires
+    // and the active tab is never focused. This subscription covers
+    // that case by deferring focus until after change detection has
+    // created the view.
+    this.tabService.showingTabs
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((showing) => {
+        if (showing) {
+          // Wait for view to render before focusing.
+          setTimeout(() => {
+            this.tabsetFocus();
+          });
+        }
+      });
+
     if (this.tabService.isMobile()) {
       this.isMobile = true;
       this.#changeRef.markForCheck();
