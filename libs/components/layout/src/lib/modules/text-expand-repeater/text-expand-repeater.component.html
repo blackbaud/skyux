@@ -1,34 +1,30 @@
 <div class="sky-text-expand-repeater">
-  @if (listStyle() !== 'ordered') {
-    <ul
-      #container
-      class="sky-text-expand-repeater-container"
-      [@expansionAnimation]="{
-        value: isExpanded(),
-        params: { transitionHeight: transitionHeight }
-      }"
-      [id]="contentSectionId"
-      [ngClass]="{
-        'sky-text-expand-repeater-list-style-none': listStyle() === 'unstyled'
-      }"
-      (@expansionAnimation.done)="animationEnd()"
-    >
-      <ng-template [ngTemplateOutlet]="listItemTemplate" />
-    </ul>
-  } @else {
-    <ol
-      #container
-      class="sky-text-expand-repeater-container"
-      [@expansionAnimation]="{
-        value: isExpanded(),
-        params: { transitionHeight: transitionHeight }
-      }"
-      [id]="contentSectionId"
-      (@expansionAnimation.done)="animationEnd()"
-    >
-      <ng-template [ngTemplateOutlet]="listItemTemplate" />
-    </ol>
-  }
+  <sky-animation-expand
+    [minHeight]="collapsedMinHeight"
+    [opened]="isExpanded()"
+    (transitionEnd)="animationEnd()"
+  >
+    @if (listStyle() !== 'ordered') {
+      <ul
+        #container
+        class="sky-text-expand-repeater-container"
+        [id]="contentSectionId"
+        [ngClass]="{
+          'sky-text-expand-repeater-list-style-none': listStyle() === 'unstyled'
+        }"
+      >
+        <ng-template [ngTemplateOutlet]="listItemTemplate" />
+      </ul>
+    } @else {
+      <ol
+        #container
+        class="sky-text-expand-repeater-container"
+        [id]="contentSectionId"
+      >
+        <ng-template [ngTemplateOutlet]="listItemTemplate" />
+      </ol>
+    }
+  </sky-animation-expand>
   @if (expandable) {
     <button
       type="button"

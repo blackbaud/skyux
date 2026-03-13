@@ -1,16 +1,15 @@
 import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
-import {
   AfterContentInit,
+  ChangeDetectorRef,
   Component,
+  DestroyRef,
   ElementRef,
+  inject,
+  Injector,
   Input,
-  ViewChild,
+  afterNextRender,
+  signal,
+  ViewChild
 } from '@angular/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyModalService } from '@skyux/modals';
@@ -28,28 +27,6 @@ import { SkyTextExpandModalComponent } from './text-expand-modal.component';
 let nextId = 0;
 
 @Component({
-  animations: [
-    trigger('expansionAnimation', [
-      transition(':enter', []),
-      state(
-        'true',
-        style({
-          maxHeight: '{{transitionHeight}}px',
-        }),
-        { params: { transitionHeight: 0 } },
-      ),
-      state(
-        'false',
-        style({
-          maxHeight: '{{transitionHeight}}px',
-        }),
-        { params: { transitionHeight: 0 } },
-      ),
-      transition('true => false', animate('250ms ease')),
-      transition('false => true', animate('250ms ease')),
-      transition('void => *', []),
-    ]),
-  ],
   selector: 'sky-text-expand',
   templateUrl: './text-expand.component.html',
   styleUrls: ['./text-expand.component.scss'],
@@ -147,19 +124,26 @@ export class SkyTextExpandComponent implements AfterContentInit {
 
   public contentSectionId = `sky-text-expand-content-${++nextId}`;
 
+  protected collapsedMinHeight = signal('0');
+
   public expandable = false;
 
-  public isExpanded: boolean | undefined;
+  public isExpanded = false;
 
   public isModal = false;
-
-  public transitionHeight = 1;
 
   @ViewChild('container', {
     read: ElementRef,
     static: true,
   })
-  public containerEl: ElementRef | undefined;
+  public set containerEl(value: ElementRef | undefined) {
+    this.#_containerEl = value;
+    this.#observeResize();
+  }
+
+  public get containerEl(): ElementRef | undefined {
+    return this.#_containerEl;
+  }
 
   @ViewChild('text', {
     read: ElementRef,
@@ -176,7 +160,13 @@ export class SkyTextExpandComponent implements AfterContentInit {
 
   #collapsedText = '';
 
+  #injector = inject(Injector);
+
+  #measurePending = false;
+
   #newlineCount = 0;
+
+  #resizeObserver: ResizeObserver | undefined;
 
   #seeMoreText = '';
 
@@ -194,19 +184,13 @@ export class SkyTextExpandComponent implements AfterContentInit {
 
   #_textEl: ElementRef | undefined;
 
-  #resources: SkyLibResourcesService;
-  #modalSvc: SkyModalService;
-  #textExpandAdapter: SkyTextExpandAdapterService;
+  #_containerEl: ElementRef | undefined;
 
-  constructor(
-    resources: SkyLibResourcesService,
-    modalSvc: SkyModalService,
-    textExpandAdapter: SkyTextExpandAdapterService,
-  ) {
-    this.#resources = resources;
-    this.#modalSvc = modalSvc;
-    this.#textExpandAdapter = textExpandAdapter;
-  }
+  #cdr = inject(ChangeDetectorRef);
+  #destroyRef = inject(DestroyRef);
+  #resources = inject(SkyLibResourcesService);
+  #modalSvc = inject(SkyModalService);
+  #textExpandAdapter = inject(SkyTextExpandAdapterService);
 
   public textExpand(): void {
     if (this.isModal) {
@@ -235,16 +219,9 @@ export class SkyTextExpandComponent implements AfterContentInit {
   }
 
   public animationEnd(): void {
-    if (this.textEl && this.containerEl) {
-      // Ensure the correct text is displayed
+    if (this.textEl) {
+      // Ensure the correct text is displayed after the transition completes.
       this.#textExpandAdapter.setText(this.textEl, this.#textToShow);
-
-      setTimeout(() => {
-        if (this.containerEl) {
-          // Set height back to auto so the browser can change the height as needed with window changes
-          this.#textExpandAdapter.removeContainerMaxHeight(this.containerEl);
-        }
-      });
     }
   }
 
@@ -284,15 +261,20 @@ export class SkyTextExpandComponent implements AfterContentInit {
           this.text.length > this.maxExpandedLength;
       } else {
         this.expandable = false;
+        this.isExpanded = true;
       }
+
       this.#textToShow = this.#collapsedText;
     } else {
       this.#textToShow = '';
       this.expandable = false;
     }
+
     if (this.textEl) {
       this.#textExpandAdapter.setText(this.textEl, this.#textToShow);
     }
+
+    this.#scheduleMeasure();
   }
 
   #getNewlineCount(value: string): number {
@@ -325,25 +307,59 @@ export class SkyTextExpandComponent implements AfterContentInit {
   }
 
   #animateText(expanding: boolean): void {
-    if (this.containerEl && this.textEl) {
+    if (this.textEl) {
       const adapter = this.#textExpandAdapter;
-      const container = this.containerEl;
       if (expanding) {
         adapter.setText(this.textEl, this.text);
         this.#textToShow = this.text;
       } else {
-        adapter.setText(this.textEl, this.#collapsedText);
+        // Show full text during the collapse animation for a smooth transition.
+        // The animationEnd callback will set the truncated text after it completes.
+        adapter.setText(this.textEl, this.text);
         this.#textToShow = this.#collapsedText;
       }
+
       this.buttonText = expanding ? this.#seeLessText : this.#seeMoreText;
-      // Measure the new height so we can animate to it.
-      const newHeight = adapter.getContainerHeight(container);
-      this.transitionHeight = newHeight;
-      // Always show all text while animating so that the animation is smooth. The animation callback will set this back if needed.
-      if (!expanding) {
-        adapter.setText(this.textEl, this.text);
-      }
       this.isExpanded = expanding;
+    }
+  }
+
+  #scheduleMeasure(): void {
+    if (this.#measurePending) {
+      return;
+    }
+
+    this.#measurePending = true;
+
+    afterNextRender(
+      () => {
+        this.#measurePending = false;
+
+        if (this.containerEl && this.expandable && !this.isExpanded) {
+          const height = this.containerEl.nativeElement.offsetHeight + 'px';
+
+          if (height !== this.collapsedMinHeight()) {
+            this.collapsedMinHeight.set(height);
+            this.#cdr.detectChanges();
+          }
+        }
+      },
+      { injector: this.#injector },
+    );
+  }
+
+  #observeResize(): void {
+    this.#resizeObserver?.disconnect();
+
+    if (this.#_containerEl) {
+      this.#resizeObserver = new ResizeObserver(() => {
+        this.#scheduleMeasure();
+      });
+      this.#resizeObserver.observe(this.#_containerEl.nativeElement);
+
+      this.#destroyRef.onDestroy(() => {
+        this.#resizeObserver?.disconnect();
+      });
     }
   }
 }

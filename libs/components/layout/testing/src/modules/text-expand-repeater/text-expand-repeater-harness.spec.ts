@@ -1,9 +1,9 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TextExpandRepeaterHarnessTestComponent } from './fixtures/text-expand-repeater-harness-test.component';
 import { SkyTextExpandRepeaterHarness } from './text-expand-repeater-harness';
+import { provideNoopSkyAnimations } from '@skyux/core';
 
 describe('Text expand repeater test harness', () => {
   async function setupTest(
@@ -15,7 +15,8 @@ describe('Text expand repeater test harness', () => {
     fixture: ComponentFixture<TextExpandRepeaterHarnessTestComponent>;
   }> {
     await TestBed.configureTestingModule({
-      imports: [TextExpandRepeaterHarnessTestComponent, NoopAnimationsModule],
+      imports: [TextExpandRepeaterHarnessTestComponent],
+      providers: [provideNoopSkyAnimations()]
     }).compileComponents();
 
     const fixture = TestBed.createComponent(

@@ -29,12 +29,4 @@ export class SkyTextExpandRepeaterAdapterService {
   public showItem(item: HTMLElement): void {
     this.#renderer.removeStyle(item, 'display');
   }
-
-  public getContainerHeight(containerEl: ElementRef): number {
-    return containerEl.nativeElement.offsetHeight;
-  }
-
-  public removeContainerMaxHeight(containerEl: ElementRef): void {
-    this.#renderer.removeStyle(containerEl.nativeElement, 'max-height');
-  }
 }

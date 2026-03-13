@@ -1,9 +1,9 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyTextExpandHarness } from '@skyux/layout/testing';
 
 import { LayoutTextExpandModalExampleComponent } from './example.component';
+import { provideNoopSkyAnimations } from '@skyux/core';
 
 describe('Text expand modal example', () => {
   async function setupTest(
@@ -14,7 +14,8 @@ describe('Text expand modal example', () => {
     textExpandHarness: SkyTextExpandHarness;
   }> {
     await TestBed.configureTestingModule({
-      imports: [LayoutTextExpandModalExampleComponent, NoopAnimationsModule],
+      imports: [LayoutTextExpandModalExampleComponent],
+      providers: [provideNoopSkyAnimations()]
     }).compileComponents();
 
     const fixture = TestBed.createComponent(

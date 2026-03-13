@@ -1,0 +1,19 @@
+<h3>Short text (no truncation)</h3>
+
+<sky-text-expand [text]="shortText" />
+
+<h3>Long text (inline expand)</h3>
+
+<sky-text-expand [text]="longText" />
+
+<h3>Long text with newlines (modal expand)</h3>
+
+<sky-text-expand
+  expandModalTitle="Full text"
+  [maxExpandedNewlines]="2"
+  [text]="longTextWithNewlines"
+/>
+
+<h3>Custom max length</h3>
+
+<sky-text-expand [maxLength]="50" [text]="longText" />
