@@ -1,4 +1,5 @@
 import {
+  DestroyRef,
   Directive,
   ElementRef,
   effect,
@@ -16,28 +17,28 @@ import { _skyAnimationsDisabled } from '../utility/animations-disabled';
  * Listens for CSS `transitionend` events on the host element and emits
  * a `transitionEnd` output when the tracked CSS property finishes
  * transitioning. When animations are globally disabled, the output
- * emits synchronously whenever the `transitionTrigger` input changes.
+ * emits via a microtask whenever the `transitionTrigger` input changes.
  *
  * The CSS property to monitor can be set via the `transitionPropertyToTrack`
  * input (for template usage) or by calling `setPropertyToTrack()`
  * (for `hostDirectives` usage).
  */
 @Directive({
-  selector: '[skyAnimationTransitionHandler]',
+  selector: '[skyTransitionEndHandler]',
   host: {
     '(transitionend)': 'onTransitionEnd($event)',
   },
 })
-export class _SkyAnimationTransitionHandlerDirective {
+export class _SkyTransitionEndHandlerDirective {
   readonly #elementRef = inject(ElementRef<HTMLElement>);
 
   /**
    * Drives the CSS transition on the host element. When the value
    * changes and animations are enabled, a CSS transition runs and
    * `transitionEnd` emits on completion. When animations are
-   * disabled, `transitionEnd` emits synchronously instead.
+   * disabled, `transitionEnd` emits via a microtask instead.
    */
-  public readonly transitionTrigger = input.required<unknown>();
+  public readonly transitionTrigger = input.required<boolean>();
 
   /**
    * The CSS property name to monitor for `transitionend` events
@@ -48,7 +49,7 @@ export class _SkyAnimationTransitionHandlerDirective {
 
   /**
    * Emits when the tracked CSS property's `transitionend` event fires
-   * on the host element, or synchronously when animations are disabled.
+   * on the host element, or via a microtask when animations are disabled.
    */
   public readonly transitionEnd = output<void>();
 
@@ -56,13 +57,27 @@ export class _SkyAnimationTransitionHandlerDirective {
 
   constructor() {
     if (_skyAnimationsDisabled()) {
+      const el = this.#elementRef.nativeElement;
+      const destroyRef = inject(DestroyRef);
+
       let initialized = false;
+      let destroyed = false;
+
+      destroyRef.onDestroy(() => {
+        destroyed = true;
+      });
 
       effect(() => {
         this.transitionTrigger();
 
-        if (initialized) {
-          this.transitionEnd.emit();
+        if (initialized && getComputedStyle(el).display !== 'none') {
+          // Defer the emit to a microtask so it fires after the current
+          // change detection pass, matching real transitionend timing.
+          queueMicrotask(() => {
+            if (!destroyed) {
+              this.transitionEnd.emit();
+            }
+          });
         }
 
         initialized = true;
@@ -89,7 +104,7 @@ export class _SkyAnimationTransitionHandlerDirective {
 
     if (!propertyName) {
       throw new Error(
-        `SkyAnimationTransitionHandler: No CSS property specified for transition tracking on element ` +
+        `SkyTransitionEndHandler: No CSS property specified for transition tracking on element ` +
           `'<${this.#elementRef.nativeElement.tagName.toLowerCase()}>'. ` +
           `Set the 'transitionPropertyToTrack' input or call 'setPropertyToTrack()' with a valid CSS property name before a transition occurs.`,
       );
