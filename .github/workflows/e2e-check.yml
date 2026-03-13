@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/github-script@v8
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
           script: |
             const sha = (context.payload && context.payload.commit && context.payload.commit.sha) || (context.payload && context.payload.after);
             if (!sha) {

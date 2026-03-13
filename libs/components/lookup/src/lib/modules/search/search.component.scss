@@ -150,10 +150,7 @@ sky-search {
     position: absolute;
     background-color: var(
       --sky-override-search-mobile-background-color,
-      var(
-        --sky-comp-override-list-header-background-color,
-        var(--sky-background-color-page-default)
-      )
+      var(--sky-comp-override-list-header-background-color)
     );
     top: 0;
     left: 0;

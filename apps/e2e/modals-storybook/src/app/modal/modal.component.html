@@ -64,6 +64,56 @@
 >
   Open help inline modal (heading text)
 </button>
+<button
+  class="sky-btn sky-btn-default open-heading-hidden-modal-btn"
+  type="button"
+  [ngClass]="{
+    'modal-screenshot-buttons-hidden': buttonsHidden
+  }"
+  (click)="onOpenHeadingHiddenModalClick()"
+>
+  Open heading hidden modal
+</button>
+<button
+  class="sky-btn sky-btn-default open-banner-content-modal-btn"
+  type="button"
+  [ngClass]="{
+    'modal-screenshot-buttons-hidden': buttonsHidden
+  }"
+  (click)="onOpenBannerContentModalClick()"
+>
+  Open banner content modal
+</button>
+<button
+  class="sky-btn sky-btn-default open-banner-image-modal-btn"
+  type="button"
+  [ngClass]="{
+    'modal-screenshot-buttons-hidden': buttonsHidden
+  }"
+  (click)="onOpenBannerImageModalClick()"
+>
+  Open banner image modal
+</button>
+<button
+  class="sky-btn sky-btn-default open-banner-content-image-modal-btn"
+  type="button"
+  [ngClass]="{
+    'modal-screenshot-buttons-hidden': buttonsHidden
+  }"
+  (click)="onOpenBannerContentImageModalClick()"
+>
+  Open banner content and image modal
+</button>
+<button
+  class="sky-btn sky-btn-default open-banner-heading-visible-modal-btn"
+  type="button"
+  [ngClass]="{
+    'modal-screenshot-buttons-hidden': buttonsHidden
+  }"
+  (click)="onOpenBannerHeadingVisibleModalClick()"
+>
+  Open banner image with heading visible modal
+</button>
 
 @if (showPositionedEl) {
   <div class="modal-screenshot-positioned"></div>
