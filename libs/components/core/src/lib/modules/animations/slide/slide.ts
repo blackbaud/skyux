@@ -34,7 +34,7 @@ export class _SkyAnimationSlideComponent {
   public readonly opened = input.required<boolean>();
 
   constructor() {
-    inject(_SkyAnimationTransitionHandlerDirective).cssPropertyToTrack(
+    inject(_SkyAnimationTransitionHandlerDirective).setPropertyToTrack(
       'visibility',
     );
   }

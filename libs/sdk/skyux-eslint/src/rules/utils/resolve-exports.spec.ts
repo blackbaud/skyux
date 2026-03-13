@@ -279,6 +279,16 @@ describe('extractNamedExports', () => {
     });
   });
 
+  it('should exclude type exports that overlap with value exports', () => {
+    const content = ['export class Foo {}', 'export interface Foo {}'].join(
+      '\n',
+    );
+    expect(extractNamedExports(content)).toEqual({
+      valueExports: ['Foo'],
+      typeExports: [],
+    });
+  });
+
   it('should sort exports alphabetically', () => {
     const content = [
       'export class Zebra {}',

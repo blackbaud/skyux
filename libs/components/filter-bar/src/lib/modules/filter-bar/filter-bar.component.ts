@@ -112,10 +112,22 @@ export class SkyFilterBarComponent {
       }
     });
 
-    // Push filter value updates to child filter items
+    // Push filter value updates to child filter items. When applied filters
+    // are changed, use the previous value to determine which items to reset
+    // rather than reading filterId() from content children, which may
+    // not have their required inputs bound yet (e.g. when used with @for).
+    let previousFilterIds: string[] = [];
     effect(() => {
-      const filters = this.appliedFilters();
-      this.#updateFilters(filters);
+      const appliedFilters = this.appliedFilters() ?? [];
+      const newFilterIds = new Set(appliedFilters.map((f) => f.filterId));
+
+      // Send clear signals for filters that were previously set but are no longer present.
+      const removedFilters = previousFilterIds
+        .filter((id) => !newFilterIds.has(id))
+        .map((filterId) => ({ filterId }));
+
+      this.#filterBarSvc.updateFilters([...appliedFilters, ...removedFilters]);
+      previousFilterIds = [...newFilterIds];
     });
 
     // If a filter state service is present, subscribe to its updates and reflect into local signals.
@@ -236,7 +248,7 @@ export class SkyFilterBarComponent {
     this.selectedFilterIds.set(selectedIds);
 
     if (removedFilterItems.length) {
-      this.#updateFilters(removedFilterItems);
+      this.#filterBarSvc.updateFilters(removedFilterItems);
       const newFilters = newFilterItems.filter(
         (filter) => !!filter.filterValue,
       );
@@ -328,7 +340,7 @@ export class SkyFilterBarComponent {
         if (updatedFilter.filterValue) {
           newFilterValues.push(updatedFilter);
         } else {
-          this.#updateFilters([updatedFilter]);
+          this.#filterBarSvc.updateFilters([updatedFilter]);
         }
         replaceFilter = true;
       } else {
@@ -344,18 +356,6 @@ export class SkyFilterBarComponent {
       newFilterValues.length ? newFilterValues : undefined,
     );
     this.#updateFilterData();
-  }
-
-  #updateFilters(updatedFilters: SkyFilterBarFilterItem[] | undefined): void {
-    if (updatedFilters?.length) {
-      this.#filterBarSvc.updateFilters(updatedFilters);
-    } else {
-      this.#filterBarSvc.updateFilters(
-        untracked(() => this.filterItems()).map((filterItem) => ({
-          filterId: filterItem.filterId(),
-        })),
-      );
-    }
   }
 
   #updateFilterData(): void {
