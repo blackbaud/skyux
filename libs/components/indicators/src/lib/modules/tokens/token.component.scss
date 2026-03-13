@@ -37,12 +37,17 @@ $sky-tokens-gutter-size: 2px;
   padding: $sky-tokens-gutter-size;
 
   &.sky-token-enter {
-    animation: sky-token-enter-animation 150ms ease-in;
+    animation-duration: var(--sky-transition-time-short);
+    animation-timing-function: ease-in;
+    animation-name: sky-token-enter-animation;
     overflow: hidden;
   }
 
   &.sky-token-leave {
-    animation: sky-token-leave-animation 150ms ease-in forwards;
+    animation-duration: var(--sky-transition-time-short);
+    animation-fill-mode: forwards;
+    animation-name: sky-token-leave-animation;
+    animation-timing-function: ease-in;
     overflow: hidden;
   }
 }

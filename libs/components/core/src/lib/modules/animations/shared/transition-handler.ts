@@ -1,4 +1,5 @@
 import {
+  DestroyRef,
   Directive,
   ElementRef,
   effect,
@@ -37,7 +38,7 @@ export class _SkyAnimationTransitionHandlerDirective {
    * `transitionEnd` emits on completion. When animations are
    * disabled, `transitionEnd` emits synchronously instead.
    */
-  public readonly transitionTrigger = input.required<unknown>();
+  public readonly transitionTrigger = input.required<boolean>();
 
   /**
    * The CSS property name to monitor for `transitionend` events
@@ -56,13 +57,27 @@ export class _SkyAnimationTransitionHandlerDirective {
 
   constructor() {
     if (_skyAnimationsDisabled()) {
+      const el = this.#elementRef.nativeElement;
+      const destroyRef = inject(DestroyRef);
+
       let initialized = false;
+      let destroyed = false;
+
+      destroyRef.onDestroy(() => {
+        destroyed = true;
+      });
 
       effect(() => {
         this.transitionTrigger();
 
-        if (initialized) {
-          this.transitionEnd.emit();
+        if (initialized && getComputedStyle(el).display !== 'none') {
+          // Defer the emit to a microtask so it fires after the current
+          // change detection pass, matching real transitionend timing.
+          queueMicrotask(() => {
+            if (!destroyed) {
+              this.transitionEnd.emit();
+            }
+          });
         }
 
         initialized = true;

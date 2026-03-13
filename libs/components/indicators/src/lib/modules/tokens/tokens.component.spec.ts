@@ -5,7 +5,7 @@ import {
   tick,
 } from '@angular/core/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyLiveAnnouncerService } from '@skyux/core';
+import { SkyLiveAnnouncerService, provideNoopSkyAnimations } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 
@@ -84,6 +84,7 @@ describe('Tokens component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyTokensFixturesModule],
+      providers: [provideNoopSkyAnimations()],
     });
 
     fixture = TestBed.createComponent(SkyTokensTestComponent);
@@ -171,6 +172,33 @@ describe('Tokens component', () => {
       tick();
       expect(renderedSpy).toHaveBeenCalled();
     }));
+
+    it('should not emit tokensRendered twice when animationDone fires before the fallback timer', fakeAsync(() => {
+      const renderedSpy = spyOn(component, 'onTokensRendered');
+
+      component.publishTokens();
+      fixture.detectChanges();
+
+      component.tokensComponent?.animationDone();
+
+      expect(renderedSpy).toHaveBeenCalledTimes(1);
+
+      tick();
+
+      expect(renderedSpy).toHaveBeenCalledTimes(1);
+    }));
+
+    it('should ignore animationDone calls after the pending render has completed', () => {
+      const renderedSpy = spyOn(component, 'onTokensRendered');
+
+      component.publishTokens();
+      fixture.detectChanges();
+
+      component.tokensComponent?.animationDone();
+      component.tokensComponent?.animationDone();
+
+      expect(renderedSpy).toHaveBeenCalledTimes(1);
+    });
 
     it('should emit when the focus index is greater than the number of tokens', () => {
       component.publishMessageStream();

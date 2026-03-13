@@ -111,6 +111,7 @@ export class SkyTokensComponent implements AfterViewInit, OnDestroy {
     // get accessor when set to `undefined`. Emitting `value` instead of `this.#_tokensOrDefault`
     // preserves that behavior.
     this.tokensChange.emit(value);
+    this.#queueTokensRenderedEmit();
   }
 
   public get tokens(): SkyToken[] {
@@ -196,6 +197,8 @@ export class SkyTokensComponent implements AfterViewInit, OnDestroy {
 
   #messageStreamSub: Subscription | undefined;
   #ngUnsubscribe = new Subject<void>();
+  #tokensRenderedPending = false;
+  #tokensRenderedTimeout: ReturnType<typeof setTimeout> | undefined;
 
   #changeDetector = inject(ChangeDetectorRef);
 
@@ -230,6 +233,11 @@ export class SkyTokensComponent implements AfterViewInit, OnDestroy {
   public ngOnDestroy(): void {
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
+
+    if (this.#tokensRenderedTimeout) {
+      clearTimeout(this.#tokensRenderedTimeout);
+      this.#tokensRenderedTimeout = undefined;
+    }
   }
 
   public onTokenClick(token: SkyToken): void {
@@ -241,6 +249,17 @@ export class SkyTokensComponent implements AfterViewInit, OnDestroy {
   }
 
   public animationDone(): void {
+    if (!this.#tokensRenderedPending) {
+      return;
+    }
+
+    this.#tokensRenderedPending = false;
+
+    if (this.#tokensRenderedTimeout) {
+      clearTimeout(this.#tokensRenderedTimeout);
+      this.#tokensRenderedTimeout = undefined;
+    }
+
     this.tokensRendered.emit();
   }
 
@@ -350,6 +369,18 @@ export class SkyTokensComponent implements AfterViewInit, OnDestroy {
   #notifyTokenSelected(token: SkyToken): void {
     this.tokenSelected.emit({
       token,
+    });
+  }
+
+  #queueTokensRenderedEmit(): void {
+    this.#tokensRenderedPending = true;
+
+    if (this.#tokensRenderedTimeout) {
+      clearTimeout(this.#tokensRenderedTimeout);
+    }
+
+    this.#tokensRenderedTimeout = setTimeout(() => {
+      this.animationDone();
     });
   }
 }

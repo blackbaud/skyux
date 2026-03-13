@@ -1,6 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SkyIdModule, SkyScreenReaderLabelDirective } from '@skyux/core';
+import {
+  SkyIdModule,
+  SkyScreenReaderLabelDirective,
+  _SkyAnimationAnimationHandlerDirective,
+} from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
 
 import { SkyIndicatorsResourcesModule } from '../shared/sky-indicators-resources.module';
@@ -16,6 +20,7 @@ import { SkyTokensComponent } from './tokens.component';
     SkyIndicatorsResourcesModule,
     SkyIdModule,
     SkyScreenReaderLabelDirective,
+    _SkyAnimationAnimationHandlerDirective,
   ],
   exports: [SkyTokenComponent, SkyTokensComponent],
 })
