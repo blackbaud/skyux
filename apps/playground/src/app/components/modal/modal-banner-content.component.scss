@@ -1,0 +1,11 @@
+.banner-content {
+  display: flex;
+  background-color: var(--sky-background-color-info);
+  height: 200px;
+  align-items: center;
+
+  h2 {
+    width: 100%;
+    text-align: center;
+  }
+}

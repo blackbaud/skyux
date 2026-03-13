@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { SkyThemeService } from '@skyux/theme';
 
 import { SkyModalModule } from '../modal.module';
 
 import { ModalMockThemeService } from './mock-theme.service';
 import { ModalAutofocusTestComponent } from './modal-autofocus.component.fixture';
+import { ModalBannerTestComponent } from './modal-banner.component.fixture';
 import { ModalFooterTestComponent } from './modal-footer.component.fixture';
 import { ModalIsDirtyTestComponent } from './modal-is-dirty.component.fixture';
 import { ModalLauncherTestComponent } from './modal-launcher.component.fixture';
@@ -22,6 +23,7 @@ import { ModalTestComponent } from './modal.component.fixture';
     ModalTestComponent,
     ModalWithValuesTestComponent,
     ModalAutofocusTestComponent,
+    ModalBannerTestComponent,
     ModalFooterTestComponent,
     ModalNoHeaderTestComponent,
     ModalTiledBodyTestComponent,
@@ -31,7 +33,7 @@ import { ModalTestComponent } from './modal.component.fixture';
     ModalWithScrollingContentTestComponent,
     ModalIsDirtyTestComponent,
   ],
-  imports: [RouterTestingModule, SkyModalModule],
+  imports: [RouterModule, SkyModalModule],
   providers: [
     {
       provide: SkyThemeService,
