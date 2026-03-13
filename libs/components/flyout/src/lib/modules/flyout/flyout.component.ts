@@ -21,7 +21,7 @@ import {
   SkyDynamicComponentService,
   SkyResponsiveHostDirective,
   SkyUIConfigService,
-  _SkyAnimationTransitionHandlerDirective,
+  _SkyTransitionEndHandlerDirective,
 } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/icon';
@@ -66,7 +66,7 @@ let nextId = 0;
     SkyFlyoutIteratorComponent,
     SkyFlyoutResourcesModule,
     SkyThemeModule,
-    _SkyAnimationTransitionHandlerDirective,
+    _SkyTransitionEndHandlerDirective,
   ],
 })
 export class SkyFlyoutComponent implements OnDestroy, OnInit {
