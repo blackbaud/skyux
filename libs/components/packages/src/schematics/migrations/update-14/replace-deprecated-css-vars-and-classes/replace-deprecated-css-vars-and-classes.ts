@@ -1,8 +1,8 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import type {
-  PublicApiClass,
-  PublicApiClassGroup,
-  PublicApiClasses,
+  PublicApiStyle,
+  PublicApiStyleGroup,
+  PublicApiStyles,
   PublicApiToken,
   PublicApiTokenGroup,
   PublicApiTokens,
@@ -22,12 +22,17 @@ export default function (): Rule {
 }
 
 export function traverseClasses(
-  node: { groups?: PublicApiClassGroup[]; classes?: PublicApiClass[] },
+  node: { groups?: PublicApiStyleGroup[]; styles?: PublicApiStyle[] },
   result: Record<string, string>,
 ): void {
-  for (const cls of node.classes ?? []) {
-    if (cls.deprecatedClassName) {
-      result[cls.deprecatedClassName] = cls.className;
+  for (const cls of node.styles ?? []) {
+    if (cls.className) {
+      for (const deprecated of cls.deprecatedClassNames ?? []) {
+        result[deprecated] = cls.className;
+      }
+      for (const obsolete of cls.obsoleteClassNames ?? []) {
+        result[obsolete] = cls.className;
+      }
     }
   }
   for (const group of node.groups ?? []) {
@@ -40,8 +45,13 @@ export function traverseTokens(
   result: Record<string, string>,
 ): void {
   for (const token of node.tokens ?? []) {
-    if (token.deprecatedCustomProperty) {
-      result[token.deprecatedCustomProperty] = token.customProperty;
+    if (token.customProperty) {
+      for (const deprecated of token.deprecatedCustomProperties ?? []) {
+        result[deprecated] = token.customProperty;
+      }
+      for (const obsolete of token.obsoleteCustomProperties ?? []) {
+        result[obsolete] = token.customProperty;
+      }
     }
   }
   for (const group of node.groups ?? []) {
@@ -52,7 +62,7 @@ export function traverseTokens(
 function buildClassReplacements(): Record<string, string> {
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   const data =
-    require('@blackbaud/skyux-design-tokens/bundles/public-api-classes.json') as PublicApiClasses;
+    require('@blackbaud/skyux-design-tokens/bundles/public-api-styles.json') as PublicApiStyles;
   const result: Record<string, string> = {};
   traverseClasses(data, result);
   return result;

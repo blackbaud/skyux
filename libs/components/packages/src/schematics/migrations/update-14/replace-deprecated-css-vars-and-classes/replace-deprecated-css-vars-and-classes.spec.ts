@@ -399,28 +399,68 @@ export class TestComponent {
   });
 
   describe('traverseClasses', () => {
-    it('should map deprecatedClassName to className', () => {
+    it('should map each deprecatedClassNames entry to className', () => {
       const result: Record<string, string> = {};
       traverseClasses(
         {
-          classes: [
+          styles: [
             {
               name: 'Test',
               className: 'sky-new-class',
-              deprecatedClassName: 'sky-old-class',
-              properties: {},
+              deprecatedClassNames: ['sky-old-class', 'sky-also-old-class'],
             },
           ],
         },
         result,
       );
-      expect(result).toEqual({ 'sky-old-class': 'sky-new-class' });
+      expect(result).toEqual({
+        'sky-old-class': 'sky-new-class',
+        'sky-also-old-class': 'sky-new-class',
+      });
     });
 
-    it('should ignore classes without a deprecatedClassName', () => {
+    it('should map each obsoleteClassNames entry to className', () => {
       const result: Record<string, string> = {};
       traverseClasses(
-        { classes: [{ name: 'Test', className: 'sky-class', properties: {} }] },
+        {
+          styles: [
+            {
+              name: 'Test',
+              className: 'sky-new-class',
+              obsoleteClassNames: ['sky-obsolete-class'],
+            },
+          ],
+        },
+        result,
+      );
+      expect(result).toEqual({ 'sky-obsolete-class': 'sky-new-class' });
+    });
+
+    it('should map both deprecatedClassNames and obsoleteClassNames', () => {
+      const result: Record<string, string> = {};
+      traverseClasses(
+        {
+          styles: [
+            {
+              name: 'Test',
+              className: 'sky-new-class',
+              deprecatedClassNames: ['sky-old-class'],
+              obsoleteClassNames: ['sky-obsolete-class'],
+            },
+          ],
+        },
+        result,
+      );
+      expect(result).toEqual({
+        'sky-old-class': 'sky-new-class',
+        'sky-obsolete-class': 'sky-new-class',
+      });
+    });
+
+    it('should ignore styles without deprecatedClassNames or obsoleteClassNames', () => {
+      const result: Record<string, string> = {};
+      traverseClasses(
+        { styles: [{ name: 'Test', className: 'sky-class' }] },
         result,
       );
       expect(result).toEqual({});
@@ -433,12 +473,11 @@ export class TestComponent {
           groups: [
             {
               name: 'Group',
-              classes: [
+              styles: [
                 {
                   name: 'Nested',
                   className: 'sky-new-nested',
-                  deprecatedClassName: 'sky-old-nested',
-                  properties: {},
+                  deprecatedClassNames: ['sky-old-nested'],
                 },
               ],
             },
@@ -451,7 +490,7 @@ export class TestComponent {
   });
 
   describe('traverseTokens', () => {
-    it('should map deprecatedCustomProperty to customProperty', () => {
+    it('should map each deprecatedCustomProperties entry to customProperty', () => {
       const result: Record<string, string> = {};
       traverseTokens(
         {
@@ -459,16 +498,60 @@ export class TestComponent {
             {
               name: 'Test',
               customProperty: '--sky-new-var',
-              deprecatedCustomProperty: '--sky-old-var',
+              deprecatedCustomProperties: [
+                '--sky-old-var',
+                '--sky-also-old-var',
+              ],
             },
           ],
         },
         result,
       );
-      expect(result).toEqual({ '--sky-old-var': '--sky-new-var' });
+      expect(result).toEqual({
+        '--sky-old-var': '--sky-new-var',
+        '--sky-also-old-var': '--sky-new-var',
+      });
     });
 
-    it('should ignore tokens without a deprecatedCustomProperty', () => {
+    it('should map each obsoleteCustomProperties entry to customProperty', () => {
+      const result: Record<string, string> = {};
+      traverseTokens(
+        {
+          tokens: [
+            {
+              name: 'Test',
+              customProperty: '--sky-new-var',
+              obsoleteCustomProperties: ['--sky-obsolete-var'],
+            },
+          ],
+        },
+        result,
+      );
+      expect(result).toEqual({ '--sky-obsolete-var': '--sky-new-var' });
+    });
+
+    it('should map both deprecatedCustomProperties and obsoleteCustomProperties', () => {
+      const result: Record<string, string> = {};
+      traverseTokens(
+        {
+          tokens: [
+            {
+              name: 'Test',
+              customProperty: '--sky-new-var',
+              deprecatedCustomProperties: ['--sky-old-var'],
+              obsoleteCustomProperties: ['--sky-obsolete-var'],
+            },
+          ],
+        },
+        result,
+      );
+      expect(result).toEqual({
+        '--sky-old-var': '--sky-new-var',
+        '--sky-obsolete-var': '--sky-new-var',
+      });
+    });
+
+    it('should ignore tokens without deprecatedCustomProperties or obsoleteCustomProperties', () => {
       const result: Record<string, string> = {};
       traverseTokens(
         { tokens: [{ name: 'Test', customProperty: '--sky-var' }] },
@@ -488,7 +571,7 @@ export class TestComponent {
                 {
                   name: 'Nested',
                   customProperty: '--sky-new-nested',
-                  deprecatedCustomProperty: '--sky-old-nested',
+                  deprecatedCustomProperties: ['--sky-old-nested'],
                 },
               ],
             },
