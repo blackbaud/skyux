@@ -40,7 +40,7 @@
       <div class="sky-modal-header-buttons">
         @if (legacyHelpKey) {
           <button
-            class="sky-btn sky-modal-btn-help"
+            class="sky-btn sky-btn-borderless sky-modal-btn-help"
             name="help-button"
             type="button"
             [attr.aria-label]="'skyux_modal_open_help' | skyLibResources"
@@ -54,6 +54,10 @@
           type="button"
           class="sky-btn sky-modal-btn-close"
           [attr.aria-label]="'skyux_modal_close' | skyLibResources"
+          [skyThemeClass]="{
+            'sky-btn-borderless': 'default',
+            'sky-btn-icon-borderless': 'modern'
+          }"
           (click)="closeButtonClick()"
         >
           <sky-icon iconName="close" />
