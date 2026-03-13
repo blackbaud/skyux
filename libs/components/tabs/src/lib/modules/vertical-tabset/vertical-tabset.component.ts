@@ -1,4 +1,3 @@
-import { animate, style, transition, trigger } from '@angular/animations';
 import {
   AfterViewChecked,
   ChangeDetectionStrategy,
@@ -20,11 +19,7 @@ import { take, takeUntil } from 'rxjs/operators';
 import { SkyTabIdService } from '../shared/tab-id.service';
 
 import { SkyVerticalTabsetAdapterService } from './vertical-tabset-adapter.service';
-import {
-  HIDDEN_STATE,
-  SkyVerticalTabsetService,
-  VISIBLE_STATE,
-} from './vertical-tabset.service';
+import { SkyVerticalTabsetService } from './vertical-tabset.service';
 
 @Component({
   selector: 'sky-vertical-tabset',
@@ -32,20 +27,6 @@ import {
   styleUrls: ['./vertical-tabset.component.scss'],
   providers: [SkyTabIdService, SkyVerticalTabsetService],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [
-    trigger('tabGroupEnter', [
-      transition(`${HIDDEN_STATE} => ${VISIBLE_STATE}`, [
-        style({ transform: 'translate(-100%)' }),
-        animate('150ms ease-in'),
-      ]),
-    ]),
-    trigger('contentEnter', [
-      transition(`${HIDDEN_STATE} => ${VISIBLE_STATE}`, [
-        style({ transform: 'translate(100%)' }),
-        animate('150ms ease-in'),
-      ]),
-    ]),
-  ],
   standalone: false,
 })
 export class SkyVerticalTabsetComponent
@@ -162,9 +143,26 @@ export class SkyVerticalTabsetComponent
         this.#changeRef.markForCheck();
       });
 
+    // When the tabs container is conditionally rendered via @if, the
+    // animation transition handler directive is destroyed and recreated
+    // each time tabs toggle visibility. In noop-animation mode the
+    // directive skips its first emission, so transitionEnd never fires
+    // and the active tab is never focused. This subscription covers
+    // that case by deferring focus until after change detection has
+    // created the view.
+    this.tabService.showingTabs
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((showing) => {
+        if (showing) {
+          // Wait for view to render before focusing.
+          setTimeout(() => {
+            this.tabsetFocus();
+          });
+        }
+      });
+
     if (this.tabService.isMobile()) {
       this.isMobile = true;
-      this.tabService.animationContentVisibleState = VISIBLE_STATE;
       this.#changeRef.markForCheck();
     }
     if (!this.showTabsText) {

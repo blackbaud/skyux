@@ -28,14 +28,17 @@
     <div
       #groupContainerWrapper
       class="sky-vertical-tabset-group-container"
-      [@tabGroupEnter]="tabService.animationTabsVisibleState"
+      skyAnimationTransitionHandler
+      transitionPropertyToTrack="transform"
+      [class.sky-animation-slide-enter-left]="tabService.isMobile()"
       [ngClass]="{ 'sky-vertical-tabset-hidden': !tabService.tabsVisible() }"
       [tabIndex]="tablistHasFocus ? -1 : 0"
-      (@tabGroupEnter.done)="tabsetFocus()"
+      [transitionTrigger]="tabService.tabsVisible()"
       (keydown.arrowDown)="tabGroupsArrowDown(); $event.preventDefault()"
       (keydown.arrowUp)="tabGroupsArrowUp(); $event.preventDefault()"
       (focusin)="trapFocusInTablist()"
       (focusout)="resetTabIndex()"
+      (transitionEnd)="tabsetFocus()"
     >
       <ng-content />
     </div>
@@ -44,10 +47,10 @@
     <div
       #contentContainerWrapper
       class="sky-vertical-tabset-content"
+      [class.sky-animation-slide-enter-right]="tabService.isMobile()"
       [ngClass]="{
         'sky-vertical-tabset-content-hidden': !tabService.contentVisible()
       }"
-      [@contentEnter]="tabService.animationContentVisibleState"
       (focusin)="resetTabIndex()"
     >
       <div #skySideContent></div>

@@ -1,5 +1,10 @@
-import { Component, ErrorHandler, input, signal } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component, ErrorHandler, input } from '@angular/core';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  flush,
+} from '@angular/core/testing';
 
 import { provideNoopSkyAnimations } from '../utility/provide-noop-animations';
 
@@ -32,7 +37,7 @@ class TestComponent {}
 })
 class TemplateTestComponent {
   public readonly propertyToTrack = input<string>();
-  public readonly trigger = input<unknown>(false);
+  public readonly trigger = input<boolean>(false);
   public transitionEndEmitted = false;
 
   protected onTransitionEnd(): void {
@@ -62,7 +67,7 @@ describe('SkyAnimationTransitionHandler', () => {
     });
 
     const fixture = TestBed.createComponent(TestComponent);
-    fixture.componentRef.setInput('trigger', signal(false));
+    fixture.componentRef.setInput('trigger', false);
     fixture.detectChanges();
 
     if (options?.trackProperty) {
@@ -194,7 +199,27 @@ describe('SkyAnimationTransitionHandler', () => {
   });
 
   describe('when animations are disabled', () => {
-    it('should not emit transitionEnd on initial render', () => {
+    it('should emit transitionEnd on initial render when trigger starts truthy', fakeAsync(() => {
+      const { fixture } = setupTest({ noopAnimations: true });
+
+      let transitionEndEmitted = false;
+
+      const handler = fixture.debugElement.injector.get(
+        _SkyAnimationTransitionHandlerDirective,
+      );
+
+      handler.transitionEnd.subscribe(() => {
+        transitionEndEmitted = true;
+      });
+
+      fixture.componentRef.setInput('trigger', true);
+      fixture.detectChanges();
+      flush();
+
+      expect(transitionEndEmitted).toBeTrue();
+    }));
+
+    it('should emit transitionEnd when the transitionTrigger changes', fakeAsync(() => {
       const { fixture } = setupTest({ noopAnimations: true });
 
       let transitionEndEmitted = false;
@@ -206,12 +231,33 @@ describe('SkyAnimationTransitionHandler', () => {
         transitionEndEmitted = true;
       });
 
+      fixture.componentRef.setInput('trigger', true);
+      fixture.detectChanges();
+      flush();
+
+      expect(transitionEndEmitted).toBeTrue();
+    }));
+
+    it('should not emit transitionEnd when the element is display: none', () => {
+      const { fixture } = setupTest({ noopAnimations: true });
+
+      let transitionEndEmitted = false;
+
+      const handler = fixture.debugElement.injector.get(
+        _SkyAnimationTransitionHandlerDirective,
+      );
+      handler.transitionEnd.subscribe(() => {
+        transitionEndEmitted = true;
+      });
+
+      fixture.nativeElement.style.display = 'none';
+      fixture.componentRef.setInput('trigger', true);
       fixture.detectChanges();
 
       expect(transitionEndEmitted).toBeFalse();
     });
 
-    it('should emit transitionEnd synchronously when the transitionTrigger changes', () => {
+    it('should resume emitting transitionEnd when the element is no longer display: none', fakeAsync(() => {
       const { fixture } = setupTest({ noopAnimations: true });
 
       let transitionEndEmitted = false;
@@ -223,12 +269,20 @@ describe('SkyAnimationTransitionHandler', () => {
         transitionEndEmitted = true;
       });
 
-      // Change the input to a new signal to trigger the effect.
-      fixture.componentRef.setInput('trigger', signal(true));
+      fixture.nativeElement.style.display = 'none';
+      fixture.componentRef.setInput('trigger', true);
       fixture.detectChanges();
+      flush();
+
+      expect(transitionEndEmitted).toBeFalse();
+
+      fixture.nativeElement.style.display = '';
+      fixture.componentRef.setInput('trigger', false);
+      fixture.detectChanges();
+      flush();
 
       expect(transitionEndEmitted).toBeTrue();
-    });
+    }));
   });
 
   describe('transitionPropertyToTrack input', () => {

@@ -433,7 +433,7 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         await fixture.whenRenderingDone();
         fixture.detectChanges();
-        // ALlow focusing to take place
+        // Allow focusing to take place
         fixture.detectChanges();
         await fixture.whenStable();
         const expandButton = getExpandButton(debugElement);
@@ -448,14 +448,14 @@ describe('Summary Action Bar component', () => {
         // Allow animation to finish
         fixture.detectChanges();
         await fixture.whenStable();
-        // ALlow focusing to take place
+        // Allow focusing to take place
         fixture.detectChanges();
         await fixture.whenStable();
         clickExpandButton(debugElement);
         // Allow animation to finish
         fixture.detectChanges();
         await fixture.whenStable();
-        // ALlow focusing to take place
+        // Allow focusing to take place
         fixture.detectChanges();
         await fixture.whenStable();
         const collapseButton = getCollapseButton(debugElement);
