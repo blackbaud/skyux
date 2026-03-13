@@ -174,6 +174,19 @@ describe('SkyTransitionEndHandler', () => {
     it('should ignore transitionend events that bubble from child elements', () => {
       const { fixture } = setupTest();
 
+      let transitionEndEmitted = false;
+
+      const handler = fixture.debugElement.injector.get(
+        _SkyTransitionEndHandlerDirective,
+      );
+
+      handler.transitionEnd.subscribe(() => {
+        transitionEndEmitted = true;
+      });
+
+      const errorHandler = TestBed.inject(ErrorHandler);
+      spyOn(errorHandler, 'handleError');
+
       const child = fixture.nativeElement.querySelector('.sky-test-child');
 
       const evt = new TransitionEvent('transitionend', {
@@ -183,7 +196,8 @@ describe('SkyTransitionEndHandler', () => {
 
       child.dispatchEvent(evt);
 
-      expect().nothing();
+      expect(transitionEndEmitted).toBeFalse();
+      expect(errorHandler.handleError).not.toHaveBeenCalled();
     });
   });
 
