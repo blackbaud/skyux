@@ -2,13 +2,14 @@ import {
   DestroyRef,
   Directive,
   ElementRef,
-  effect,
   inject,
   input,
   output,
 } from '@angular/core';
 
 import { _skyAnimationsDisabled } from '../utility/animations-disabled';
+
+import { mimicCssMotionEvent } from './mimic-css-motion-event';
 
 /**
  * @internal
@@ -25,8 +26,6 @@ import { _skyAnimationsDisabled } from '../utility/animations-disabled';
   },
 })
 export class _SkyAnimationEndHandlerDirective {
-  readonly #elementRef = inject(ElementRef);
-
   /**
    * Drives animation lifecycle tracking on the host element. When the
    * value changes and animations are disabled, `animationEnd` emits
@@ -42,31 +41,12 @@ export class _SkyAnimationEndHandlerDirective {
 
   constructor() {
     if (_skyAnimationsDisabled()) {
-      const el = this.#elementRef.nativeElement;
-      const destroyRef = inject(DestroyRef);
-
-      let initialized = false;
-      let destroyed = false;
-
-      destroyRef.onDestroy(() => {
-        destroyed = true;
-      });
-
-      effect(() => {
-        this.animationTrigger();
-
-        if (initialized && getComputedStyle(el).display !== 'none') {
-          // Defer the emit to a microtask so it fires after the current
-          // change detection pass, matching real transitionend timing.
-          queueMicrotask(() => {
-            if (!destroyed) {
-              this.animationEnd.emit();
-            }
-          });
-        }
-
-        initialized = true;
-      });
+      mimicCssMotionEvent(
+        inject(ElementRef),
+        inject(DestroyRef),
+        this.animationTrigger,
+        this.animationEnd,
+      );
     }
   }
 
