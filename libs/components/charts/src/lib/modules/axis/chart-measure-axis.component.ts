@@ -8,7 +8,7 @@ import {
   input,
 } from '@angular/core';
 
-import { SkyChartMeasureAxisConfig } from '../shared/types/axis-types';
+import { SkyChartMeasureAxisConfig, SkyChartAxisLabelText } from '../shared/types/axis-types';
 
 import { SKY_CHART_AXIS_REGISTRY } from './sky-chart-axis-registry.service';
 
@@ -26,7 +26,7 @@ export class SkyChartMeasureAxisComponent implements OnDestroy {
   /**
    * The label displayed alongside the measure axis.
    */
-  public readonly labelText = input.required<string>();
+  public readonly labelText = input.required<SkyChartAxisLabelText>();
 
   /**
    * The scale type for the measure axis.

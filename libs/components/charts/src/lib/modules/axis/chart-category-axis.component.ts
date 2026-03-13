@@ -8,7 +8,7 @@ import {
   input,
 } from '@angular/core';
 
-import { SkyChartCategoryAxisConfig } from '../shared/types/axis-types';
+import { SkyChartCategoryAxisConfig, SkyChartAxisLabelText } from '../shared/types/axis-types';
 
 import { SKY_CHART_AXIS_REGISTRY } from './sky-chart-axis-registry.service';
 
@@ -26,7 +26,7 @@ export class SkyChartCategoryAxisComponent implements OnDestroy {
   /**
    * The label displayed alongside the category axis.
    */
-  public readonly labelText = input.required<string>();
+  public readonly labelText = input.required<SkyChartAxisLabelText>();
 
   /**
    * The axis object
