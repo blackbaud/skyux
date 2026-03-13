@@ -47,6 +47,13 @@
     }
   }
 
+  // After the open transition completes, remove the transform so that
+  // `position: fixed` descendants (e.g. viewkeeper) are positioned
+  // relative to the viewport instead of this element.
+  &.sky-flyout-opened {
+    transform: none;
+  }
+
   &:focus {
     outline: none;
   }

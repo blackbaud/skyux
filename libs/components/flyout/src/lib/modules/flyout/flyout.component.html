@@ -14,6 +14,7 @@
   "
   [attr.hidden]="!instanceReady ? true : undefined"
   [class.sky-flyout-open]="instanceReady && isOpening"
+  [class.sky-flyout-opened]="isOpen && isOpening"
   [id]="flyoutId"
   [ngClass]="{
     'sky-flyout-hidden': !isOpen && !isOpening,
