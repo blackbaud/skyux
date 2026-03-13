@@ -1,8 +1,8 @@
 import { importProvidersFrom } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { SkyDataManagerModule } from '@skyux/data-manager';
-import { applicationConfig, moduleMetadata } from '@storybook/angular';
 import type { Meta, StoryObj } from '@storybook/angular';
+import { applicationConfig, moduleMetadata } from '@storybook/angular';
 
 import { DataManagerComponent } from './data-manager.component';
 import { DataManagerModule } from './data-manager.module';

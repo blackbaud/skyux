@@ -8,12 +8,12 @@ export { SkySectionedFormSectionContentHarnessFilters } from './modules/sectione
 export { SkySectionedFormSectionHarness } from './modules/sectioned-form/sectioned-form-section-harness';
 export { SkySectionedFormSectionHarnessFilters } from './modules/sectioned-form/sectioned-form-section-harness-filters';
 
-export { SkyTabsetHarness } from './modules/tabs/tabset-harness';
-export { SkyTabsetHarnessFilters } from './modules/tabs/tabset-harness-filters';
 export { SkyTabButtonHarness } from './modules/tabs/tab-button-harness';
 export { SkyTabButtonHarnessFilters } from './modules/tabs/tab-button-harness-filters';
 export { SkyTabContentHarness } from './modules/tabs/tab-content-harness';
 export { SkyTabContentHarnessFilters } from './modules/tabs/tab-content-harness-filters';
+export { SkyTabsetHarness } from './modules/tabs/tabset-harness';
+export { SkyTabsetHarnessFilters } from './modules/tabs/tabset-harness-filters';
 export { SkyTabsetNavButtonHarness } from './modules/tabs/tabset-nav-button-harness';
 export { SkyTabsetNavButtonHarnessFilters } from './modules/tabs/tabset-nav-button-harness-filters';
 

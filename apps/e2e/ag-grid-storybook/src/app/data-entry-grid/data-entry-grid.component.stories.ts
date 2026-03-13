@@ -1,5 +1,5 @@
-import { moduleMetadata } from '@storybook/angular';
 import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 
 import { DataEntryGridComponent } from './data-entry-grid.component';
 import { DataEntryGridModule } from './data-entry-grid.module';

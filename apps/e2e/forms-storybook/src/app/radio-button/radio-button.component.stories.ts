@@ -1,5 +1,5 @@
-import { moduleMetadata } from '@storybook/angular';
 import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 
 import { RadioButtonComponent } from './radio-button.component';
 import { RadioButtonModule } from './radio-button.module';

@@ -10,10 +10,10 @@ export { SkyPagingContentChangeArgs } from './lib/modules/paging/types/paging-co
 export { SkyRepeaterExpandModeType } from './lib/modules/repeater/repeater-expand-mode-type';
 export { SkyRepeaterModule } from './lib/modules/repeater/repeater.module';
 
-export { SkyFilterStateService } from './lib/modules/shared/filter-state-service/filter-state.service';
 export { SkyFilterState } from './lib/modules/shared/filter-state-service/filter-state';
 export { SkyFilterStateFilterItem } from './lib/modules/shared/filter-state-service/filter-state-filter-item';
 export { SkyFilterStateFilterValue } from './lib/modules/shared/filter-state-service/filter-state-filter-value';
+export { SkyFilterStateService } from './lib/modules/shared/filter-state-service/filter-state.service';
 
 export { SkySortModule } from './lib/modules/sort/sort.module';
 
@@ -25,8 +25,9 @@ export { SkyFilterInlineComponent as λ2 } from './lib/modules/filter/filter-inl
 export { SkyFilterSummaryItemComponent as λ4 } from './lib/modules/filter/filter-summary-item.component';
 export { SkyFilterSummaryComponent as λ5 } from './lib/modules/filter/filter-summary.component';
 export { SkyInfiniteScrollComponent as λ6 } from './lib/modules/infinite-scroll/infinite-scroll.component';
-export { SkyListSummaryComponent as λ16 } from './lib/modules/list-summary/list-summary.component';
 export { SkyListSummaryItemComponent as λ17 } from './lib/modules/list-summary/list-summary-item.component';
+export { SkyListSummaryComponent as λ16 } from './lib/modules/list-summary/list-summary.component';
+export { SkyPagingContentComponent as λ15 } from './lib/modules/paging/paging-content.component';
 export { SkyPagingComponent as λ7 } from './lib/modules/paging/paging.component';
 export { SkyRepeaterItemContentComponent as λ8 } from './lib/modules/repeater/repeater-item-content.component';
 export { SkyRepeaterItemContextMenuComponent as λ9 } from './lib/modules/repeater/repeater-item-context-menu.component';
@@ -35,4 +36,3 @@ export { SkyRepeaterItemComponent as λ10 } from './lib/modules/repeater/repeate
 export { SkyRepeaterComponent as λ11 } from './lib/modules/repeater/repeater.component';
 export { SkySortItemComponent as λ13 } from './lib/modules/sort/sort-item.component';
 export { SkySortComponent as λ14 } from './lib/modules/sort/sort.component';
-export { SkyPagingContentComponent as λ15 } from './lib/modules/paging/paging-content.component';
