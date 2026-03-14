@@ -34,8 +34,8 @@
 
 .sky-chart-legend-button-label {
   font-family: var(--sky-font-family-primary);
-  font-size: var(--sky-font-size-body-s);
-  font-weight: var(--sky-font-style-body-s);
-  line-height: var(--sky-font-line_height-body-s);
-  color: var(--sky-color-text-deemphasized);
+  font-size: var(--sky-font-size-body-s, 13px);
+  font-weight: var(--sky-font-style-body-s, 400);
+  line-height: var(--sky-font-line_height-body-s, 18px);
+  color: var(--sky-color-text-deemphasized, #686c73);
 }
