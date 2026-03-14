@@ -191,13 +191,13 @@ export class SkyBarChartConfigService {
       title: {
         display: true,
         font: {
-          size: styles.scale.titleFontSize,
+          size: styles.axis.title.fontSize,
           family: styles.fontFamily,
         },
-        color: styles.scale.titleColor,
+        color: styles.axis.title.color,
         padding: {
-          top: styles.scale.titlePaddingTop,
-          bottom: styles.scale.titlePaddingBottom,
+          top: styles.axis.title.paddingTop,
+          bottom: styles.axis.title.paddingBottom,
         },
       },
     };

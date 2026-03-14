@@ -30,7 +30,6 @@ export class SkyChartStyleService {
       ),
       chartPadding: 0,
       axis: this.#axis(),
-      scale: this.#scale(),
       tooltip: this.#tooltip(),
       hoverIndicator: this.#hoverIndicator(),
       activeIndicator: this.#activeIndicator(),
@@ -95,24 +94,20 @@ export class SkyChartStyleService {
       ),
     };
 
+    const title: SkyChartStyles['axis']['title'] = {
+      fontSize: this.#cssRemToPx('--sky-font-size-body-s', '13px'),
+      fontWeight: this.#cssNumber('--sky-font-style-body-s', '400'),
+      lineHeight: this.#cssRemToPx('--sky-font-line_height-body-s', '18px'),
+      color: this.#css('--sky-text-color-deemphasized', '#686C73'),
+      paddingTop: this.#cssNumber('--sky-space-stacked-0', '0'),
+      paddingBottom: this.#cssRemToPx('--sky-space-stacked-m', '9px'),
+    };
+
     return {
       border: border,
       grid: grid,
       ticks: ticks,
-    };
-  }
-
-  #scale(): SkyChartStyles['scale'] {
-    return {
-      titleFontSize: this.#cssRemToPx('--sky-font-size-body-s', '13px'),
-      titleFontWeight: this.#cssNumber('--sky-font-style-body-s', '400'),
-      titleLineHeight: this.#cssRemToPx(
-        '--sky-font-line_height-body-s',
-        '18px',
-      ),
-      titleColor: this.#css('--sky-text-color-deemphasized', '#686C73'),
-      titlePaddingTop: this.#cssNumber('--sky-space-stacked-0', '0'),
-      titlePaddingBottom: this.#cssRemToPx('--sky-space-stacked-m', '9px'),
+      title: title,
     };
   }
 
@@ -440,14 +435,14 @@ export interface SkyChartStyles {
       measureLength: number;
       categoryLength: number;
     };
-  };
-  scale: {
-    titleFontSize: number;
-    titleFontWeight: number;
-    titleLineHeight: number;
-    titleColor: string;
-    titlePaddingTop: number;
-    titlePaddingBottom: number;
+    title: {
+      fontSize: number;
+      fontWeight: number;
+      lineHeight: number;
+      color: string;
+      paddingTop: number;
+      paddingBottom: number;
+    };
   };
   tooltip: {
     backgroundColor: string;
