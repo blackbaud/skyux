@@ -134,10 +134,10 @@ export class SkyLineChartConfigService {
     const base: PartialLineScale = {
       grid: {
         display: true,
+        drawTicks: true,
         color: styles.axis.grid.color,
         tickColor: styles.axis.grid.color,
-        drawTicks: true,
-        tickLength: styles.axis.ticks.length,
+        tickLength: styles.axis.ticks.measureLength,
       },
       border: {
         display: true,
@@ -156,9 +156,13 @@ export class SkyLineChartConfigService {
         display: true,
         font: {
           size: styles.scale.titleFontSize,
-          family: styles.scale.titleFontFamily,
+          family: styles.fontFamily,
         },
         color: styles.scale.titleColor,
+        padding: {
+          top: styles.scale.titlePaddingTop,
+          bottom: styles.scale.titlePaddingBottom,
+        },
       },
     };
 
@@ -178,13 +182,12 @@ export class SkyLineChartConfigService {
       border: base.border,
       ticks: {
         ...base.ticks,
-        padding: styles.axis.ticks.paddingX,
+        padding: styles.axis.ticks.padding,
       },
       title: {
         ...base.title,
         display: !!config.categoryAxis?.labelText,
         text: config.categoryAxis?.labelText,
-        padding: this.#getScaleTitlePadding(styles, 'x'),
       },
     };
 
@@ -217,7 +220,7 @@ export class SkyLineChartConfigService {
       border: base.border,
       ticks: {
         ...base.ticks,
-        padding: styles.axis.ticks.paddingY,
+        padding: styles.axis.ticks.padding,
         // TODO: Chart localization
         // If a tick formatter is provided, use it. Otherwise this syntax allows us to fallback to ChartJS's default formatting.
         ...(config.measureAxis?.tickFormatter && {
@@ -228,7 +231,6 @@ export class SkyLineChartConfigService {
         ...base.title,
         display: !!config.measureAxis?.labelText,
         text: config.measureAxis?.labelText,
-        padding: this.#getScaleTitlePadding(styles, 'y'),
       },
     };
 
@@ -256,36 +258,19 @@ export class SkyLineChartConfigService {
       border: base.border,
       ticks: {
         ...base.ticks,
-        padding: styles.axis.ticks.paddingY,
+        padding: styles.axis.ticks.padding,
         // TODO: Chart localization
-        callback: value => createLogTickFilter(value, config.measureAxis?.tickFormatter),
+        callback: (value) =>
+          createLogTickFilter(value, config.measureAxis?.tickFormatter),
       },
       title: {
         ...base.title,
         display: !!config.measureAxis?.labelText,
         text: config.measureAxis?.labelText,
-        padding: this.#getScaleTitlePadding(styles, 'y'),
       },
     };
 
     return valueScale;
-  }
-
-  #getScaleTitlePadding(
-    styles: SkyChartStyles,
-    axis: 'x' | 'y',
-  ): { top: number; bottom: number } {
-    if (axis === 'x') {
-      return {
-        top: styles.scale.titleXPaddingTop,
-        bottom: styles.scale.titleXPaddingBottom,
-      };
-    } else {
-      return {
-        top: styles.scale.titleYPaddingLeft,
-        bottom: styles.scale.titleYPaddingRight,
-      };
-    }
   }
 }
 

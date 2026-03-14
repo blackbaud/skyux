@@ -9,39 +9,82 @@ import { DeepPartial } from '../types/deep-partial-type';
 export function getTooltipPluginOptions(
   styles: SkyChartStyles,
 ): DeepPartial<TooltipOptions> {
-  return {
+  const options: DeepPartial<TooltipOptions> = {
     enabled: true,
     mode: 'index',
     intersect: false,
-    cornerRadius: styles.tooltip.cornerRadius,
-    backgroundColor: styles.tooltip.backgroundColor,
-    titleColor: styles.tooltip.titleColor,
-    bodyColor: styles.tooltip.bodyColor,
-    borderColor: styles.tooltip.borderColor,
-    borderWidth: styles.tooltip.borderWidth,
-    padding: styles.tooltip.padding,
     displayColors: true,
-    multiKeyBackground: 'transparent',
-    bodySpacing: styles.tooltip.bodySpacing,
-    titleMarginBottom: styles.tooltip.titleMarginBottom,
-    caretSize: styles.tooltip.caretSize,
-    boxPadding: styles.tooltip.boxPadding,
-    caretPadding: 4,
     usePointStyle: true,
+    ...getTypographyStyles(styles),
+    ...getSizingAndSpacingStyles(styles),
+    ...getElementColors(styles),
+  };
+
+  return options;
+}
+
+function getTypographyStyles(
+  styles: SkyChartStyles,
+): DeepPartial<TooltipOptions> {
+  const title: DeepPartial<TooltipOptions> = {
+    titleColor: styles.tooltip.title.color,
     titleFont: {
       family: styles.fontFamily,
-      size: styles.tooltip.titleFontSize,
-      weight: styles.tooltip.titleFontWeight,
+      size: styles.tooltip.title.fontSize,
+      weight: styles.tooltip.title.fontWeight,
+      lineHeight: styles.tooltip.title.lineHeight,
     },
+  };
+
+  const body: DeepPartial<TooltipOptions> = {
+    bodyColor: styles.tooltip.body.color,
     bodyFont: {
       family: styles.fontFamily,
-      size: styles.tooltip.bodyFontSize,
-      weight: styles.tooltip.bodyFontWeight,
+      size: styles.tooltip.body.fontSize,
+      weight: styles.tooltip.body.fontWeight,
+      lineHeight: styles.tooltip.body.lineHeight,
     },
+  };
+
+  const footer: DeepPartial<TooltipOptions> = {
+    footerColor: styles.tooltip.footer.color,
     footerFont: {
       family: styles.fontFamily,
-      size: styles.tooltip.footerFontSize,
-      weight: styles.tooltip.footerFontWeight,
+      size: styles.tooltip.footer.fontSize,
+      weight: styles.tooltip.footer.fontWeight,
+      lineHeight: styles.tooltip.footer.lineHeight,
     },
+  };
+
+  return { ...title, ...footer, ...body };
+}
+
+function getSizingAndSpacingStyles(
+  styles: SkyChartStyles,
+): DeepPartial<TooltipOptions> {
+  return {
+    // Container
+    padding: styles.tooltip.padding,
+    cornerRadius: styles.tooltip.cornerRadius,
+    borderWidth: styles.tooltip.borderWidth,
+    // Caret
+    caretSize: styles.tooltip.caret.size,
+    caretPadding: styles.tooltip.caret.padding,
+    // Icon
+    boxHeight: styles.tooltip.box.height,
+    boxWidth: styles.tooltip.box.width,
+    boxPadding: styles.tooltip.box.padding,
+    multiKeyBackground: 'transparent', // Removes the colored box behind the icon
+    // Text Spacing
+    titleMarginBottom: styles.tooltip.title.marginBottom,
+    bodySpacing: styles.tooltip.body.bodySpacing,
+    footerMarginTop: styles.tooltip.footer.marginTop,
+  };
+}
+
+function getElementColors(styles: SkyChartStyles): DeepPartial<TooltipOptions> {
+  return {
+    backgroundColor: styles.tooltip.backgroundColor,
+    borderColor: styles.tooltip.borderColor,
   };
 }

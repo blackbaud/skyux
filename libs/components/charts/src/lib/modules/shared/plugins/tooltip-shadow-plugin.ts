@@ -22,7 +22,7 @@ export function createTooltipShadowPlugin(
 
       const ctx = chart.ctx;
       const { x, y, width, height } = tooltip;
-      const borderRadius = 6;
+      const borderRadius = styles.tooltip.cornerRadius;
 
       ctx.save();
 
@@ -30,10 +30,10 @@ export function createTooltipShadowPlugin(
       ctx.globalCompositeOperation = 'destination-over';
 
       ctx.fillStyle = styles.tooltip.backgroundColor;
-      ctx.shadowColor = styles.tooltip.shadowColor;
-      ctx.shadowBlur = 4;
-      ctx.shadowOffsetX = 1;
-      ctx.shadowOffsetY = 2;
+      ctx.shadowColor = styles.tooltip.shadow.color;
+      ctx.shadowBlur = styles.tooltip.shadow.blur;
+      ctx.shadowOffsetX = styles.tooltip.shadow.offsetX;
+      ctx.shadowOffsetY = styles.tooltip.shadow.offsetY;
 
       ctx.beginPath();
       ctx.roundRect(x, y, width, height, borderRadius);

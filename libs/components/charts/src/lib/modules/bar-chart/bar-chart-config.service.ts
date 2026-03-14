@@ -156,16 +156,8 @@ export class SkyBarChartConfigService {
     options: SkyBarChartOptions,
   ): ChartOptions<'bar'>['scales'] {
     const orientation = options.orientation ?? 'vertical';
-    const isVertical = orientation === 'vertical';
-    const categoryAxis = isVertical ? 'y' : 'x';
-    const measureAxis = isVertical ? 'x' : 'y';
-
-    const categoryScale = this.#createCategoryScale(
-      styles,
-      options,
-      categoryAxis,
-    );
-    const measureScale = this.#createMeasureScale(styles, options, measureAxis);
+    const categoryScale = this.#createCategoryScale(styles, options);
+    const measureScale = this.#createMeasureScale(styles, options);
 
     if (orientation === 'vertical') {
       return { x: categoryScale, y: measureScale };
@@ -178,10 +170,10 @@ export class SkyBarChartConfigService {
     const base: PartialBarScale = {
       grid: {
         display: true,
+        drawTicks: true,
         color: styles.axis.grid.color,
         tickColor: styles.axis.grid.color,
-        drawTicks: true,
-        tickLength: styles.axis.ticks.length,
+        tickLength: styles.axis.ticks.measureLength,
       },
       border: {
         display: true,
@@ -200,9 +192,13 @@ export class SkyBarChartConfigService {
         display: true,
         font: {
           size: styles.scale.titleFontSize,
-          family: styles.scale.titleFontFamily,
+          family: styles.fontFamily,
         },
         color: styles.scale.titleColor,
+        padding: {
+          top: styles.scale.titlePaddingTop,
+          bottom: styles.scale.titlePaddingBottom,
+        },
       },
     };
 
@@ -212,7 +208,6 @@ export class SkyBarChartConfigService {
   #createCategoryScale(
     styles: SkyChartStyles,
     options: SkyBarChartOptions,
-    axis: 'x' | 'y',
   ): PartialBarScale {
     const base = this.#getBaseScale(styles);
 
@@ -228,13 +223,12 @@ export class SkyBarChartConfigService {
       border: base.border,
       ticks: {
         ...base.ticks,
-        padding: styles.axis.ticks.paddingX,
+        padding: styles.axis.ticks.padding,
       },
       title: {
         ...base.title,
         display: !!options.categoryAxis?.labelText,
         text: options.categoryAxis?.labelText ?? '',
-        padding: this.#getScaleTitlePadding(styles, axis),
       },
     };
 
@@ -244,19 +238,17 @@ export class SkyBarChartConfigService {
   #createMeasureScale(
     styles: SkyChartStyles,
     options: SkyBarChartOptions,
-    axis: 'x' | 'y',
   ): PartialBarScale {
     if (options.measureAxis?.scaleType === 'logarithmic') {
-      return this.#createLogarithmicMeasureScale(styles, options, axis);
+      return this.#createLogarithmicMeasureScale(styles, options);
     } else {
-      return this.#createLinearMeasureScale(styles, options, axis);
+      return this.#createLinearMeasureScale(styles, options);
     }
   }
 
   #createLinearMeasureScale(
     styles: SkyChartStyles,
     options: SkyBarChartOptions,
-    axis: 'x' | 'y',
   ): PartialBarScale {
     const base = this.#getBaseScale(styles);
 
@@ -270,7 +262,7 @@ export class SkyBarChartConfigService {
       border: base.border,
       ticks: {
         ...base.ticks,
-        padding: styles.axis.ticks.paddingY,
+        padding: styles.axis.ticks.padding,
         // TODO: Chart localization
         // If a tick formatter is provided, use it. Otherwise this syntax allows us to fallback to ChartJS's default formatting.
         ...(options.measureAxis?.tickFormatter && {
@@ -281,7 +273,6 @@ export class SkyBarChartConfigService {
         ...base.title,
         display: !!options.measureAxis?.labelText,
         text: options.measureAxis?.labelText,
-        padding: this.#getScaleTitlePadding(styles, axis),
       },
     };
 
@@ -291,7 +282,6 @@ export class SkyBarChartConfigService {
   #createLogarithmicMeasureScale(
     styles: SkyChartStyles,
     options: SkyBarChartOptions,
-    axis: 'x' | 'y',
   ): PartialBarScale {
     const base = this.#getBaseScale(styles);
 
@@ -310,36 +300,19 @@ export class SkyBarChartConfigService {
       border: base.border,
       ticks: {
         ...base.ticks,
-        padding: styles.axis.ticks.paddingY,
+        padding: styles.axis.ticks.padding,
         // TODO: Chart localization
-        callback: value => createLogTickFilter(value, options.measureAxis?.tickFormatter),
+        callback: (value) =>
+          createLogTickFilter(value, options.measureAxis?.tickFormatter),
       },
       title: {
         ...base.title,
         display: !!options.measureAxis?.labelText,
         text: options.measureAxis?.labelText,
-        padding: this.#getScaleTitlePadding(styles, axis),
       },
     };
 
     return valueScale;
-  }
-
-  #getScaleTitlePadding(
-    styles: SkyChartStyles,
-    axis: 'x' | 'y',
-  ): { top: number; bottom: number } {
-    if (axis === 'x') {
-      return {
-        top: styles.scale.titleXPaddingTop,
-        bottom: styles.scale.titleXPaddingBottom,
-      };
-    } else {
-      return {
-        top: styles.scale.titleYPaddingLeft,
-        bottom: styles.scale.titleYPaddingRight,
-      };
-    }
   }
 }
 

@@ -69,26 +69,30 @@ export class SkyChartStyleService {
 
   #axis(): SkyChartStyles['axis'] {
     const border: SkyChartStyles['axis']['border'] = {
-      color: this.#css('--sky-theme-color-viz-axis', '#85888d'),
+      color: this.#css('--sky-color-viz-axis', '#85888d'),
       width: 1,
     };
 
     const grid: SkyChartStyles['axis']['grid'] = {
-      color: '#d5d6d8', // Hardcoded to specific color instead of theme variable
+      color: this.#css('--sky-color-viz-gridline', '#d5d6d8'),
       width: 1,
     };
 
     const ticks: SkyChartStyles['axis']['ticks'] = {
-      color: this.#css('--sky-color-text-default', '#252b33'),
       fontSize: this.#cssRemToPx('--sky-font-size-body-s', '13px'),
       fontWeight: this.#cssNumber('--sky-font-style-body-s', '400'),
-      paddingX: this.#cssRemToPx('--sky-space-gap-label-m', '0.5rem'),
-      paddingY: this.#cssRemToPx('--sky-space-gap-label-m', '0.5rem'),
-      lengthX: 12,
-      lengthY: 12,
-      lengthXHidden: 0,
-      lengthYHidden: 0,
-      length: 12,
+      lineHeight: this.#cssRemToPx('--sky-font-line_height-body-s', '18px'),
+      color: this.#css('--sky-color-text-default', '#252b33'),
+      // color: this.#css('--sky-color-viz-gridline', '#d5d6d8'), // TODO: this is in the Figma design but looks bad in practice - confirm with UX if this is correct
+      padding: this.#cssRemToPx('--sky-space-gap-label-s', '5px'),
+      measureLength: this.#cssRemToPx(
+        '--sky-size-chart-tick_length-measure',
+        '12px',
+      ),
+      categoryLength: this.#cssRemToPx(
+        '--sky-size-chart-tick_length-category',
+        '0px',
+      ),
     };
 
     return {
@@ -101,48 +105,89 @@ export class SkyChartStyleService {
   #scale(): SkyChartStyles['scale'] {
     return {
       titleFontSize: this.#cssRemToPx('--sky-font-size-body-s', '13px'),
-      titleFontFamily: 'BLKB Sans, Arial, sans-serif',
-      titleColor: this.#css('--sky-text-color-deemphasized'),
-      titlePaddingTop: 0,
-      titleXPaddingTop: this.#cssRemToPx('--sky-space-stacked-0', '0px'),
-      titleXPaddingBottom: this.#cssRemToPx('--sky-space-stacked-l', '16px'),
-      titleYPaddingRight: this.#cssRemToPx('--sky-space-inline-0', '0px'),
-      titleYPaddingLeft: this.#cssRemToPx('--sky-space-inline-l', '16px'),
+      titleFontWeight: this.#cssNumber('--sky-font-style-body-s', '400'),
+      titleLineHeight: this.#cssRemToPx(
+        '--sky-font-line_height-body-s',
+        '18px',
+      ),
+      titleColor: this.#css('--sky-text-color-deemphasized', '#686C73'),
+      titlePaddingTop: this.#cssNumber('--sky-space-stacked-0', '0'),
+      titlePaddingBottom: this.#cssRemToPx('--sky-space-stacked-m', '9px'),
     };
   }
 
   #tooltip(): SkyChartStyles['tooltip'] {
-    const shadowVar = this.#css(
-      '--sky-elevation-overlay-100',
-      '0 0 5px 0 rgba(0, 0, 0, 0.3);',
+    const shadow = this.#css(
+      '--sky-elevation-overlay-simple-100', // 1px 2px 4px 0 rgba(33, 44, 63, 0.5)
+      '1px 2px 4px 0 rgba(33, 35, 39, 0.5)',
     );
-    const baseShadowColor =
-      this.#extractShadowColor(shadowVar) || 'rgba(0, 0, 0, 0.15)';
-    const tooltipShadowColor =
-      this.#colorToRgbaWithAlpha(baseShadowColor, 0.6) || baseShadowColor;
+    // prettier-ignore
+    const baseShadowColor = this.#extractShadowColor(shadow) || 'rgba(0, 0, 0, 0.15)';
+    // prettier-ignore
+    const tooltipShadowColor = this.#colorToRgbaWithAlpha(baseShadowColor, 0.6) || baseShadowColor;
 
     return {
       backgroundColor: this.#css(
         '--sky-color-background-container-base',
         '#ffffff',
       ),
-      borderColor: this.#css('--sky-color-border-container-base', '#c2c4c6'),
+      borderColor: this.#css('--sky-color-border-container-base', '#cdcfd2'),
       borderWidth: this.#cssInt('--sky-border-width-container-base', '1px'),
-      titleColor: this.#css('--sky-color-text-default', '#252b33'),
-      bodyColor: this.#css('--sky-color-text-default', '#252b33'),
-      padding: this.#cssRemToPx('--sky-space-inset-balanced-m', '8px'),
-      titleMarginBottom: this.#cssRemToPx('--sky-space-stacked-s', '8px'),
-      bodySpacing: this.#cssRemToPx('--sky-space-stacked-xs', '4px'),
-      caretSize: this.#cssRemToPx('--sky-size-icon-xxs', '8px'),
-      titleFontSize: this.#cssRemToPx('--sky-font-size-body-m', '15px'),
-      titleFontWeight: this.#cssNumber('--sky-font-style-emphasized', '600'),
-      bodyFontSize: this.#cssRemToPx('--sky-font-size-body-m', '15px'),
-      bodyFontWeight: this.#cssNumber('--sky-font-style-body-m', '400'),
-      footerFontSize: this.#cssRemToPx('--sky-font-size-body-m', '15px'),
-      footerFontWeight: this.#cssNumber('--sky-font-style-body-m', '400'),
-      boxPadding: this.#cssRemToPx('--sky-space-gap-label-s', '4px'),
-      shadowColor: tooltipShadowColor,
-      cornerRadius: this.#cssRemToPx('--sky-border-radius-s', '4px'),
+      cornerRadius: this.#cssRemToPx('--sky-border-radius-s', '3px'),
+      padding: {
+        top: this.#cssRemToPx(
+          '--sky-comp-chart-tooltip-space-inset-top',
+          '8px',
+        ),
+        right: this.#cssRemToPx(
+          '--sky-comp-chart-tooltip-space-inset-right',
+          '8px',
+        ),
+        bottom: this.#cssRemToPx(
+          '--sky-comp-chart-tooltip-space-inset-bottom',
+          '8px',
+        ),
+        left: this.#cssRemToPx(
+          '--sky-comp-chart-tooltip-space-inset-left',
+          '8px',
+        ),
+      },
+      shadow: {
+        color: tooltipShadowColor,
+        blur: 4,
+        offsetX: 1,
+        offsetY: 2,
+      },
+      caret: {
+        size: 8,
+        padding: 4,
+      },
+      box: {
+        height: this.#cssRemToPx('--sky-size-icon-xs', '12px'),
+        width: this.#cssRemToPx('--sky-size-icon-xs', '12px'),
+        padding: this.#cssRemToPx('--sky-space-gap-icon-s', '4px'),
+      },
+      title: {
+        fontSize: this.#cssRemToPx('--sky-font-size-body-m', '15px'),
+        fontWeight: this.#cssNumber('--sky-font-style-emphasized', '600'),
+        lineHeight: this.#cssCalcNumber('--sky-font-line_height-body-m', '2px'),
+        color: this.#css('--sky-color-text-default', '#212327'),
+        marginBottom: this.#cssRemToPx('--sky-space-stacked-s', '5px'),
+      },
+      body: {
+        fontSize: this.#cssRemToPx('--sky-font-size-body-m', '15px'),
+        fontWeight: this.#cssNumber('--sky-font-style-body-m', '400'),
+        lineHeight: this.#cssCalcNumber('--sky-font-line_height-body-m', '2px'),
+        color: this.#css('--sky-color-text-default', '#212327'),
+        bodySpacing: this.#cssRemToPx('--sky-space-stacked-0', '0'),
+      },
+      footer: {
+        fontSize: this.#cssRemToPx('--sky-font-size-body-m', '15px'),
+        fontWeight: this.#cssNumber('--sky-font-style-body-m', '400'),
+        lineHeight: this.#cssCalcNumber('--sky-font-line_height-body-m', '2px'),
+        color: this.#css('--sky-color-text-default', '#212327'),
+        marginTop: this.#cssRemToPx('--sky-space-stacked-s', '5px'),
+      },
     };
   }
 
@@ -195,7 +240,7 @@ export class SkyChartStyleService {
         '--sky-color-background-container-base',
         '#ffffff',
       ),
-      borderWidth: this.#cssRemToPx('--sky-border-width-default', '1px'),
+      borderWidth: 1,
       borderRadius: this.#cssRemToPx('--sky-border-radius-xs', '2px'),
     };
   }
@@ -315,9 +360,20 @@ export class SkyChartStyleService {
   }
 
   /**
-   * Convert rem values to pixels
-   * Chart.js requires pixel values, not rem units
+   * Resolves a CSS property that is expected to be a number but may be defined using CSS calc() function.
+   * This method creates a temporary element, applies the CSS value to it, and then reads the computed pixel value.
    */
+  #cssCalcNumber(varName: `--${string}`, cssFallback?: string): number {
+    const calcText = this.#css(varName, cssFallback);
+    const el = document.createElement('div');
+    el.style.opacity = calcText;
+    document.body.appendChild(el);
+
+    const out = getComputedStyle(el).opacity;
+    el.remove();
+
+    return Number(out);
+  }
 
   #extractShadowColor(shadowValue: string): string | null {
     const rgbaMatch = shadowValue.match(
@@ -364,8 +420,8 @@ export class SkyChartStyleService {
 /** Defines the structure of chart styles */
 export interface SkyChartStyles {
   series: string[];
-  chartPadding: number;
   fontFamily: string;
+  chartPadding: number;
   axis: {
     border: {
       color: string;
@@ -376,47 +432,65 @@ export interface SkyChartStyles {
       width: number;
     };
     ticks: {
-      color: string;
       fontSize: number;
       fontWeight: number;
-      paddingX: number;
-      paddingY: number;
-      lengthX: number;
-      lengthY: number;
-      lengthXHidden: number;
-      lengthYHidden: number;
-      length: number;
+      lineHeight: number;
+      color: string;
+      padding: number;
+      measureLength: number;
+      categoryLength: number;
     };
   };
   scale: {
     titleFontSize: number;
-    titleFontFamily: string;
+    titleFontWeight: number;
+    titleLineHeight: number;
     titleColor: string;
     titlePaddingTop: number;
-    titleXPaddingTop: number;
-    titleXPaddingBottom: number;
-    titleYPaddingRight: number;
-    titleYPaddingLeft: number;
+    titlePaddingBottom: number;
   };
   tooltip: {
     backgroundColor: string;
     borderColor: string;
     borderWidth: number;
-    titleColor: string;
-    bodyColor: string;
-    padding: number;
-    titleMarginBottom: number;
-    bodySpacing: number;
-    caretSize: number;
-    titleFontSize: number;
-    titleFontWeight: number;
-    bodyFontSize: number;
-    bodyFontWeight: number;
-    footerFontSize: number;
-    footerFontWeight: number;
-    boxPadding: number;
-    shadowColor: string;
     cornerRadius: number;
+    padding: { top: number; right: number; bottom: number; left: number };
+    shadow: {
+      color: string;
+      blur: number;
+      offsetX: number;
+      offsetY: number;
+    };
+    caret: {
+      padding: number;
+      size: number;
+    };
+    box: {
+      height: number;
+      width: number;
+      padding: number;
+    };
+    title: {
+      fontSize: number;
+      fontWeight: number;
+      lineHeight: number;
+      color: string;
+      marginBottom: number;
+    };
+    body: {
+      fontSize: number;
+      fontWeight: number;
+      lineHeight: number;
+      color: string;
+      bodySpacing: number;
+    };
+    footer: {
+      fontSize: number;
+      fontWeight: number;
+      lineHeight: number;
+      color: string;
+      marginTop: number;
+    };
   };
   hoverIndicator: {
     borderWidth: number;
