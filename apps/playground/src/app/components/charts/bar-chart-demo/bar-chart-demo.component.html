@@ -41,7 +41,7 @@
                         series of verticalSingleSeries;
                         track series.labelText
                       ) {
-                        <sky-bar-chart-series [labelText]="series.label">
+                        <sky-bar-chart-series [labelText]="series.labelText">
                           @for (point of series.data; track $index) {
                             <sky-bar-chart-series-datapoint
                               [category]="point.category"
