@@ -4,7 +4,7 @@ import {
   SkyIdModule,
   SkyResponsiveHostDirective,
   _SkyAnimationSlideComponent,
-  _SkyAnimationTransitionHandlerDirective,
+  _SkyTransitionEndHandlerDirective,
 } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
 import {
@@ -36,7 +36,7 @@ import { SkyVerticalTabsetComponent } from './vertical-tabset.component';
     SkyTabsResourcesModule,
     SkyThemeModule,
     _SkyAnimationSlideComponent,
-    _SkyAnimationTransitionHandlerDirective,
+    _SkyTransitionEndHandlerDirective,
   ],
   providers: [SkyVerticalTabsetAdapterService],
   exports: [
