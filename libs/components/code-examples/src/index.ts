@@ -109,7 +109,6 @@ export { LayoutTextExpandNewlineExampleComponent } from './lib/modules/layout/te
 export { LayoutToolbarBasicExampleComponent } from './lib/modules/layout/toolbar/basic/example.component';
 export { LayoutToolbarSectionedExampleComponent } from './lib/modules/layout/toolbar/sectioned/example.component';
 export { ListsFilterInlineExampleComponent } from './lib/modules/lists/filter/inline/example.component';
-export { ListsFilterModalExampleComponent } from './lib/modules/lists/filter/modal/example.component';
 export { ListsInfiniteScrollRepeaterExampleComponent } from './lib/modules/lists/infinite-scroll/repeater/example.component';
 export { ListsListSummaryBasicExampleComponent } from './lib/modules/lists/list-summary/basic/example.component';
 export { ListsPagingBasicExampleComponent } from './lib/modules/lists/paging/basic/example.component';

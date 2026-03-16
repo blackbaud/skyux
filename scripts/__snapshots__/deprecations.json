@@ -242,6 +242,8 @@
   "@skyux/lists/testing:SkyInfiniteScrollFixture",
   "@skyux/lists/testing:SkyPagingFixture",
   "@skyux/lists/testing:SkySortFixture",
+  "@skyux/lists:SkyFilterSummaryComponent",
+  "@skyux/lists:SkyFilterSummaryItemComponent",
   "@skyux/lookup/testing:SkyAutocompleteHarness:blur",
   "@skyux/lookup/testing:SkyAutocompleteHarness:clear",
   "@skyux/lookup/testing:SkyAutocompleteHarness:enterText",
