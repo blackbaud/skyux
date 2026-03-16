@@ -2,11 +2,51 @@
 
 $sky-tokens-gutter-size: 2px;
 
+@keyframes sky-token-enter-animation {
+  from {
+    opacity: 0;
+    width: 0;
+    padding: 0;
+  }
+
+  to {
+    opacity: 1;
+    width: auto;
+  }
+}
+
+@keyframes sky-token-leave-animation {
+  from {
+    opacity: 1;
+    width: auto;
+  }
+
+  to {
+    opacity: 0;
+    width: 0;
+    padding: 0;
+  }
+}
+
 .sky-tokens {
+  --sky-token-gutter: #{$sky-tokens-gutter-size};
+
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
   margin: -1 * $sky-tokens-gutter-size;
+
+  &.sky-tokens-animated sky-token.sky-token-leave {
+    animation: sky-token-leave-animation var(--sky-transition-time-short)
+      ease-in forwards;
+    overflow: hidden;
+  }
+
+  &.sky-tokens-initialized.sky-tokens-animated sky-token.sky-token-enter {
+    animation: sky-token-enter-animation var(--sky-transition-time-short)
+      ease-in;
+    overflow: hidden;
+  }
 
   .sky-tokens-content {
     flex: 0 0 auto;

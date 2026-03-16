@@ -4,67 +4,11 @@
 
 $sky-tokens-gutter-size: 2px;
 
-@keyframes sky-token-enter-animation {
-  from {
-    opacity: 0;
-    width: 0;
-    padding: 0;
-  }
-
-  to {
-    opacity: 1;
-    width: auto;
-  }
-}
-
-@keyframes sky-token-leave-animation {
-  from {
-    opacity: 1;
-    width: auto;
-  }
-
-  to {
-    opacity: 0;
-    width: 0;
-    padding: 0;
-  }
-}
-
 :host {
   interpolate-size: allow-keywords;
   flex: 0 0 auto;
   display: inline-flex;
-  padding: $sky-tokens-gutter-size;
-
-  &.sky-token-enter {
-    animation-duration: var(--sky-transition-time-short);
-    animation-timing-function: ease-in;
-    animation-name: sky-token-enter-animation;
-    overflow: hidden;
-  }
-
-  &.sky-token-leave {
-    animation-duration: var(--sky-transition-time-short);
-    animation-fill-mode: forwards;
-    animation-name: sky-token-leave-animation;
-    animation-timing-function: ease-in;
-    overflow: hidden;
-  }
-}
-
-/* Suppress enter animations on initial render. */
-:host-context(.sky-tokens:not(.sky-tokens-initialized)) {
-  &.sky-token-enter {
-    animation-duration: 1ms !important;
-  }
-}
-
-/* Disable animations when trackWith is not set. */
-:host-context(.sky-tokens:not(.sky-tokens-animated)) {
-  &.sky-token-enter,
-  &.sky-token-leave {
-    animation-duration: 1ms !important;
-  }
+  padding: var(--sky-token-gutter, 0);
 }
 
 @include compatMixins.sky-default-overrides('.sky-token') {
