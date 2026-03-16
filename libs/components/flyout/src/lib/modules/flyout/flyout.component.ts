@@ -1,11 +1,3 @@
-import {
-  AnimationEvent,
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
 import { A11yModule } from '@angular/cdk/a11y';
 import { CommonModule } from '@angular/common';
 import {
@@ -29,6 +21,7 @@ import {
   SkyDynamicComponentService,
   SkyResponsiveHostDirective,
   SkyUIConfigService,
+  _SkyTransitionEndHandlerDirective,
 } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/icon';
@@ -51,9 +44,6 @@ import { SkyFlyoutMessage } from './types/flyout-message';
 import { SkyFlyoutMessageType } from './types/flyout-message-type';
 import { SkyFlyoutPermalink } from './types/flyout-permalink';
 
-const FLYOUT_OPEN_STATE = 'flyoutOpen';
-const FLYOUT_CLOSED_STATE = 'flyoutClosed';
-
 let nextId = 0;
 
 /**
@@ -64,17 +54,6 @@ let nextId = 0;
   templateUrl: './flyout.component.html',
   styleUrls: ['./flyout.component.scss'],
   providers: [SkyFlyoutAdapterService],
-  animations: [
-    trigger('flyoutState', [
-      state(FLYOUT_OPEN_STATE, style({ transform: 'initial' })),
-      state(FLYOUT_CLOSED_STATE, style({ transform: 'translateX(100%)' })),
-      transition('void => *', [
-        style({ transform: 'translateX(100%)' }),
-        animate(250),
-      ]),
-      transition(`* <=> *`, animate('250ms ease-in')),
-    ]),
-  ],
   // Allow automatic change detection for child components.
   changeDetection: ChangeDetectionStrategy.Default,
   imports: [
@@ -87,6 +66,7 @@ let nextId = 0;
     SkyFlyoutIteratorComponent,
     SkyFlyoutResourcesModule,
     SkyThemeModule,
+    _SkyTransitionEndHandlerDirective,
   ],
 })
 export class SkyFlyoutComponent implements OnDestroy, OnInit {
@@ -99,7 +79,6 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   public enableTrapFocus = false;
   public enableTrapFocusAutoCapture = false;
   public flyoutId = `sky-flyout-${++nextId}`;
-  public flyoutState = FLYOUT_CLOSED_STATE;
   public isOpen = false;
   public isOpening = false;
 
@@ -322,21 +301,26 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     return true;
   }
 
-  public getAnimationState(): string {
-    return this.instanceReady && this.isOpening
-      ? FLYOUT_OPEN_STATE
-      : FLYOUT_CLOSED_STATE;
-  }
-
-  public animationDone(event: AnimationEvent): void {
-    if (event.toState === FLYOUT_OPEN_STATE) {
+  protected onTransitionEnd(): void {
+    if (this.isOpening) {
       this.isOpen = true;
-    }
-
-    if (event.toState === FLYOUT_CLOSED_STATE) {
+    } else {
       this.isOpen = false;
-      this.#notifyClosed();
-      this.#cleanTemplate();
+      const instanceToClose = this.#flyoutInstance;
+
+      // When animations are disabled, the transition handler directive
+      // emits synchronously during the same change detection cycle that
+      // triggered the close. Deferring to a microtask lets the current
+      // cycle finish before the host component is destroyed.
+      queueMicrotask(() => {
+        this.#notifyClosed(instanceToClose);
+
+        // If a new flyout was attached before this microtask ran,
+        // don't clear its template.
+        if (this.#flyoutInstance === instanceToClose) {
+          this.#cleanTemplate();
+        }
+      });
     }
   }
 
@@ -498,9 +482,9 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     this.#changeDetector.markForCheck();
   }
 
-  #notifyClosed(): void {
-    this.#flyoutInstance?.closed.emit();
-    this.#flyoutInstance?.closed.complete();
+  #notifyClosed(flyoutInstance = this.#flyoutInstance): void {
+    flyoutInstance?.closed.emit();
+    flyoutInstance?.closed.complete();
   }
 
   #cleanTemplate(): void {

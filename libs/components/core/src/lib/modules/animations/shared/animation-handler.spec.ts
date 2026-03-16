@@ -3,12 +3,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { provideNoopSkyAnimations } from '../utility/provide-noop-animations';
 
-import { _SkyAnimationAnimationHandlerDirective } from './animation-handler';
+import { _SkyAnimationEndHandlerDirective } from './animation-handler';
 
 @Component({
   hostDirectives: [
     {
-      directive: _SkyAnimationAnimationHandlerDirective,
+      directive: _SkyAnimationEndHandlerDirective,
       inputs: ['animationTrigger: trigger'],
       outputs: ['animationEnd'],
     },
@@ -19,11 +19,11 @@ import { _SkyAnimationAnimationHandlerDirective } from './animation-handler';
 class TestComponent {}
 
 @Component({
-  imports: [_SkyAnimationAnimationHandlerDirective],
+  imports: [_SkyAnimationEndHandlerDirective],
   selector: 'sky-test-template',
   template: `
     <div
-      skyAnimationAnimationHandler
+      skyAnimationEndHandler
       [animationTrigger]="trigger()"
       (animationEnd)="onAnimationEnd()"
     ></div>
@@ -38,7 +38,7 @@ class TemplateTestComponent {
   }
 }
 
-describe('SkyAnimationAnimationHandler', () => {
+describe('SkyAnimationEndHandler', () => {
   function setupTest(options?: { noopAnimations?: boolean }): {
     fixture: ComponentFixture<TestComponent>;
     component: TestComponent;
@@ -65,7 +65,7 @@ describe('SkyAnimationAnimationHandler', () => {
     const { fixture } = setupTest();
 
     const handler = fixture.debugElement.injector.get(
-      _SkyAnimationAnimationHandlerDirective,
+      _SkyAnimationEndHandlerDirective,
     );
 
     expect(handler).toBeTruthy();
@@ -78,7 +78,7 @@ describe('SkyAnimationAnimationHandler', () => {
       let animationEndEmitted = false;
 
       const handler = fixture.debugElement.injector.get(
-        _SkyAnimationAnimationHandlerDirective,
+        _SkyAnimationEndHandlerDirective,
       );
 
       handler.animationEnd.subscribe(() => {
@@ -96,7 +96,7 @@ describe('SkyAnimationAnimationHandler', () => {
       let animationEndEmitted = false;
 
       const handler = fixture.debugElement.injector.get(
-        _SkyAnimationAnimationHandlerDirective,
+        _SkyAnimationEndHandlerDirective,
       );
 
       handler.animationEnd.subscribe(() => {
@@ -120,7 +120,7 @@ describe('SkyAnimationAnimationHandler', () => {
       let animationEndEmitted = false;
 
       const handler = fixture.debugElement.injector.get(
-        _SkyAnimationAnimationHandlerDirective,
+        _SkyAnimationEndHandlerDirective,
       );
       handler.animationEnd.subscribe(() => {
         animationEndEmitted = true;
@@ -131,13 +131,13 @@ describe('SkyAnimationAnimationHandler', () => {
       expect(animationEndEmitted).toBeFalse();
     });
 
-    it('should emit animationEnd synchronously when the animationTrigger changes', () => {
+    it('should emit animationEnd in a microtask when the animationTrigger changes', async () => {
       const { fixture } = setupTest({ noopAnimations: true });
 
       let animationEndEmitted = false;
 
       const handler = fixture.debugElement.injector.get(
-        _SkyAnimationAnimationHandlerDirective,
+        _SkyAnimationEndHandlerDirective,
       );
       handler.animationEnd.subscribe(() => {
         animationEndEmitted = true;
@@ -145,6 +145,10 @@ describe('SkyAnimationAnimationHandler', () => {
 
       fixture.componentRef.setInput('trigger', signal(true));
       fixture.detectChanges();
+
+      expect(animationEndEmitted).toBeFalse();
+
+      await fixture.whenStable();
 
       expect(animationEndEmitted).toBeTrue();
     });
@@ -170,9 +174,7 @@ describe('SkyAnimationAnimationHandler', () => {
     function getDirectiveHost(
       fixture: ComponentFixture<TemplateTestComponent>,
     ): HTMLElement {
-      return fixture.nativeElement.querySelector(
-        '[skyAnimationAnimationHandler]',
-      );
+      return fixture.nativeElement.querySelector('[skyAnimationEndHandler]');
     }
 
     it('should emit animationEnd when animationend fires', () => {

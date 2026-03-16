@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import {
   SkyIdModule,
   SkyScreenReaderLabelDirective,
-  _SkyAnimationAnimationHandlerDirective,
+  _SkyAnimationEndHandlerDirective,
 } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
 
@@ -20,7 +20,7 @@ import { SkyTokensComponent } from './tokens.component';
     SkyIndicatorsResourcesModule,
     SkyIdModule,
     SkyScreenReaderLabelDirective,
-    _SkyAnimationAnimationHandlerDirective,
+    _SkyAnimationEndHandlerDirective,
   ],
   exports: [SkyTokenComponent, SkyTokensComponent],
 })

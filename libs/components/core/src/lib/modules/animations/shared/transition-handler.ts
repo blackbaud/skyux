@@ -2,7 +2,6 @@ import {
   DestroyRef,
   Directive,
   ElementRef,
-  effect,
   inject,
   input,
   output,
@@ -10,6 +9,8 @@ import {
 } from '@angular/core';
 
 import { _skyAnimationsDisabled } from '../utility/animations-disabled';
+
+import { mimicCssMotionEvent } from './mimic-css-motion-event';
 
 /**
  * @internal
@@ -24,12 +25,12 @@ import { _skyAnimationsDisabled } from '../utility/animations-disabled';
  * (for `hostDirectives` usage).
  */
 @Directive({
-  selector: '[skyAnimationTransitionHandler]',
+  selector: '[skyTransitionEndHandler]',
   host: {
     '(transitionend)': 'onTransitionEnd($event)',
   },
 })
-export class _SkyAnimationTransitionHandlerDirective {
+export class _SkyTransitionEndHandlerDirective {
   readonly #elementRef = inject(ElementRef<HTMLElement>);
 
   /**
@@ -57,31 +58,12 @@ export class _SkyAnimationTransitionHandlerDirective {
 
   constructor() {
     if (_skyAnimationsDisabled()) {
-      const el = this.#elementRef.nativeElement;
-      const destroyRef = inject(DestroyRef);
-
-      let initialized = false;
-      let destroyed = false;
-
-      destroyRef.onDestroy(() => {
-        destroyed = true;
-      });
-
-      effect(() => {
-        this.transitionTrigger();
-
-        if (initialized && getComputedStyle(el).display !== 'none') {
-          // Defer the emit to a microtask so it fires after the current
-          // change detection pass, matching real transitionend timing.
-          queueMicrotask(() => {
-            if (!destroyed) {
-              this.transitionEnd.emit();
-            }
-          });
-        }
-
-        initialized = true;
-      });
+      mimicCssMotionEvent(
+        this.#elementRef,
+        inject(DestroyRef),
+        this.transitionTrigger,
+        this.transitionEnd,
+      );
     }
   }
 
@@ -104,7 +86,7 @@ export class _SkyAnimationTransitionHandlerDirective {
 
     if (!propertyName) {
       throw new Error(
-        `SkyAnimationTransitionHandler: No CSS property specified for transition tracking on element ` +
+        `SkyTransitionEndHandler: No CSS property specified for transition tracking on element ` +
           `'<${this.#elementRef.nativeElement.tagName.toLowerCase()}>'. ` +
           `Set the 'transitionPropertyToTrack' input or call 'setPropertyToTrack()' with a valid CSS property name before a transition occurs.`,
       );
