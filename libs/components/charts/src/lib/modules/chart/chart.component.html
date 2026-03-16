@@ -4,7 +4,7 @@
   [attr.aria-labelledby]="headerId"
 >
   <!-- Header -->
-  <div class="sky-chart-header">
+  <div class="sky-chart-header sky-margin-stacked-xs">
     @if (headingText()) {
       @switch (headingLevel()) {
         @case (2) {
@@ -50,7 +50,7 @@
   <!-- Subtitle -->
   @if (subtitleText()) {
     <div
-      class="sky-chart-subtitle"
+      class="sky-chart-subtitle sky-margin-stacked-xs"
       [class.sky-screen-reader-only]="subtitleHidden()"
     >
       {{ subtitleText() }}
