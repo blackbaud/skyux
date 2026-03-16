@@ -13,7 +13,7 @@ import {
 import {
   SkyCoreAdapterService,
   SkyResponsiveHostDirective,
-  _SkyAnimationTransitionHandlerDirective,
+  _SkyTransitionEndHandlerDirective,
 } from '@skyux/core';
 
 import { Subject } from 'rxjs';
@@ -33,7 +33,7 @@ import { SkySplitViewMessageType } from './types/split-view-message-type';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [SkyResponsiveHostDirective],
-  imports: [_SkyAnimationTransitionHandlerDirective],
+  imports: [_SkyTransitionEndHandlerDirective],
   providers: [SkySplitViewAdapterService, SkySplitViewService],
   selector: 'sky-split-view',
   styleUrl: './split-view.component.scss',

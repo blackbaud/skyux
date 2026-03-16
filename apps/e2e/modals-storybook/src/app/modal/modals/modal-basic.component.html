@@ -1,6 +1,7 @@
 <sky-modal
   [formErrors]="errors"
   [headingText]="context?.headingText"
+  [headingHidden]="context?.headingHidden"
   [helpPopoverContent]="context?.helpPopoverContent"
 >
   <sky-modal-header>
@@ -9,7 +10,12 @@
       <sky-help-inline class="sky-control-help" />
     }
   </sky-modal-header>
-  <sky-modal-content />
+  @if (context?.bannerImageSrc || context?.bannerContent) {
+    <sky-modal-banner [imageSrc]="context.bannerImageSrc">{{
+      context.bannerContent
+    }}</sky-modal-banner>
+  }
+  <sky-modal-content>{{ context?.modalContent }}</sky-modal-content>
   <sky-modal-footer>
     <button
       class="sky-btn sky-btn-link sky-btn-close"
