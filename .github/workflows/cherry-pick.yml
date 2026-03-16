@@ -98,6 +98,7 @@ jobs:
             exit 0
           fi
 
+          echo "package_version=$(git cat-file --textconv origin/${{ env.FROM_BRANCH }}:package.json | jq -r .version)" >> $GITHUB_OUTPUT
           echo "commit_message=$(git log -1 --pretty=%s)" >> $GITHUB_OUTPUT
         env:
           GH_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
@@ -127,9 +128,9 @@ jobs:
               core.exportVariable('CHERRY_PICK_RESULT', 'success');
               const labels = pr.labels.map(label => label.name).filter(label => label.startsWith('risk level') || label === 'skip e2e');
               const assignees = pr.user.login && pr.user.type === 'User' && pr.user.login !== 'blackbaud-sky-build-user' ? [pr.user.login] : [];
-              if (labels.length === 0 && pr.labels.find(label => label.name.startsWith('autorelease'))) {
+              if (labels.length === 0 && pr.title === 'chore: release ' + ${{ toJson(steps.cherry-pick.outputs.package_version) }}) {
                 // Changelog PR, so add minimal risk level labels.
-                labels.push('risk level (author): 1');
+                labels.push('risk level (author): 1', 'skip e2e');
               }
               return github.rest.issues.update({
                 owner: context.repo.owner,
