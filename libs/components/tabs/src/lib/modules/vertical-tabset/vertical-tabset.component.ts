@@ -11,6 +11,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { Subject } from 'rxjs';
@@ -121,6 +122,17 @@ export class SkyVerticalTabsetComponent
   ) {
     this.#resources = resources;
     this.#changeRef = changeRef;
+
+    // Focus the active tab when the tabs panel slides into view.
+    this.tabService.showingTabs
+      .pipe(takeUntilDestroyed())
+      .subscribe((showing) => {
+        if (showing) {
+          setTimeout(() => {
+            this.tabsetFocus();
+          });
+        }
+      });
   }
 
   public ngOnInit(): void {
@@ -141,24 +153,6 @@ export class SkyVerticalTabsetComponent
       .subscribe((mobile: boolean) => {
         this.isMobile = mobile;
         this.#changeRef.markForCheck();
-      });
-
-    // When the tabs container is conditionally rendered via @if, the
-    // animation transition handler directive is destroyed and recreated
-    // each time tabs toggle visibility. In noop-animation mode the
-    // directive skips its first emission, so transitionEnd never fires
-    // and the active tab is never focused. This subscription covers
-    // that case by deferring focus until after change detection has
-    // created the view.
-    this.tabService.showingTabs
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((showing) => {
-        if (showing) {
-          // Wait for view to render before focusing.
-          setTimeout(() => {
-            this.tabsetFocus();
-          });
-        }
       });
 
     if (this.tabService.isMobile()) {
