@@ -24,21 +24,23 @@
     "
     [attr.role]="isMobile ? undefined : ariaRole"
   ></span>
-  @if (maintainTabContent || tabService.tabsVisible()) {
-    <div
-      #groupContainerWrapper
-      class="sky-vertical-tabset-group-container"
-      [class.sky-animation-slide-enter-left]="tabService.isMobile()"
-      [ngClass]="{ 'sky-vertical-tabset-hidden': !tabService.tabsVisible() }"
-      [tabIndex]="tablistHasFocus ? -1 : 0"
-      (keydown.arrowDown)="tabGroupsArrowDown(); $event.preventDefault()"
-      (keydown.arrowUp)="tabGroupsArrowUp(); $event.preventDefault()"
-      (focusin)="trapFocusInTablist()"
-      (focusout)="resetTabIndex()"
-    >
-      <ng-content />
-    </div>
-  }
+  <div
+    #groupContainerWrapper
+    class="sky-vertical-tabset-group-container"
+    skyTransitionEndHandler
+    transitionPropertyToTrack="transform"
+    [class.sky-animation-slide-enter-left]="tabService.isMobile()"
+    [ngClass]="{ 'sky-vertical-tabset-hidden': !tabService.tabsVisible() }"
+    [tabIndex]="tablistHasFocus ? -1 : 0"
+    [transitionTrigger]="tabService.tabsVisible()"
+    (keydown.arrowDown)="tabGroupsArrowDown(); $event.preventDefault()"
+    (keydown.arrowUp)="tabGroupsArrowUp(); $event.preventDefault()"
+    (focusin)="trapFocusInTablist()"
+    (focusout)="resetTabIndex()"
+    (transitionEnd)="tabsetFocus()"
+  >
+    <ng-content />
+  </div>
   @if (maintainTabContent || tabService.contentVisible()) {
     <div
       #contentContainerWrapper

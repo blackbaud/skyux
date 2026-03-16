@@ -11,7 +11,6 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { Subject } from 'rxjs';
@@ -122,17 +121,6 @@ export class SkyVerticalTabsetComponent
   ) {
     this.#resources = resources;
     this.#changeRef = changeRef;
-
-    // Focus the active tab when the tabs panel slides into view.
-    this.tabService.showingTabs
-      .pipe(takeUntilDestroyed())
-      .subscribe((showing) => {
-        if (showing) {
-          setTimeout(() => {
-            this.tabsetFocus();
-          });
-        }
-      });
   }
 
   public ngOnInit(): void {
