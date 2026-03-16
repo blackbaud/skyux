@@ -239,6 +239,27 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
    */
   public readonly selectedCountry = model<SkyPhoneFieldCountry | undefined>();
 
+  /**
+   * Whether phone number example format hints are shown in the input help text.
+   * @default true
+   */
+  @Input()
+  public set allowExampleText(value: boolean | undefined) {
+    const newValue = value !== false;
+    if (this.#_allowExampleText !== newValue) {
+      this.#_allowExampleText = newValue;
+      if (!newValue && this.inputBoxHostSvc) {
+        this.inputBoxHostSvc.setHintText(undefined);
+      } else {
+        this.#populateInputBoxHelpText();
+      }
+    }
+  }
+
+  public get allowExampleText(): boolean {
+    return this.#_allowExampleText;
+  }
+
   @ViewChild('inputTemplateRef', {
     read: TemplateRef,
     static: true,
@@ -280,6 +301,8 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   });
 
   #_selectedCountry: SkyPhoneFieldCountry | undefined;
+
+  #_allowExampleText = true;
 
   #countrySearchFormControl = new FormControl<
     SkyCountryFieldCountry | undefined | null
@@ -577,7 +600,11 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   }
 
   #populateInputBoxHelpText(): void {
-    if (this.inputBoxHostSvc && this.inputTemplateRef) {
+    if (
+      this.inputBoxHostSvc &&
+      this.inputTemplateRef &&
+      this.#_allowExampleText
+    ) {
       this.inputBoxHostSvc?.setHintText(
         this.#appFormat.formatText(
           this.#phoneNumberFormatHintTextTemplateString,
