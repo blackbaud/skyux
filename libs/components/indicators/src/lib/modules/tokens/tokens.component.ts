@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  Injector,
   Input,
   OnDestroy,
   Output,
@@ -112,6 +113,7 @@ export class SkyTokensComponent implements OnDestroy {
     // get accessor when set to `undefined`. Emitting `value` instead of `this.#_tokensOrDefault`
     // preserves that behavior.
     this.tokensChange.emit(value);
+
     this.#queueTokensRenderedEmit();
   }
 
@@ -198,9 +200,10 @@ export class SkyTokensComponent implements OnDestroy {
 
   #messageStreamSub: Subscription | undefined;
   #ngUnsubscribe = new Subject<void>();
-  #tokensRenderedTimeout: ReturnType<typeof setTimeout> | undefined;
+  #tokensRenderedQueued = false;
 
-  #changeDetector = inject(ChangeDetectorRef);
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #injector = inject(Injector);
 
   #_activeIndex = 0;
   #_messageStream = new Subject<SkyTokensMessage>();
@@ -239,11 +242,6 @@ export class SkyTokensComponent implements OnDestroy {
   public ngOnDestroy(): void {
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
-
-    if (this.#tokensRenderedTimeout) {
-      clearTimeout(this.#tokensRenderedTimeout);
-      this.#tokensRenderedTimeout = undefined;
-    }
   }
 
   public onTokenClick(token: SkyToken): void {
@@ -368,13 +366,20 @@ export class SkyTokensComponent implements OnDestroy {
    * (e.g. bulk additions or removals) result in a single event.
    */
   #queueTokensRenderedEmit(): void {
-    if (this.#tokensRenderedTimeout) {
-      clearTimeout(this.#tokensRenderedTimeout);
+    if (this.#tokensRenderedQueued) {
+      return;
     }
 
-    this.#tokensRenderedTimeout = setTimeout(() => {
-      this.#tokensRenderedTimeout = undefined;
-      this.tokensRendered.emit();
-    });
+    this.#tokensRenderedQueued = true;
+
+    afterNextRender(
+      () => {
+        this.#tokensRenderedQueued = false;
+        this.tokensRendered.emit();
+      },
+      {
+        injector: this.#injector,
+      },
+    );
   }
 }
