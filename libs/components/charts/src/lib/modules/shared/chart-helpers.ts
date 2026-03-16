@@ -184,10 +184,7 @@ export function getLegendItems(context: {
  * @param formatter An optional formatter function to format the tick label
  * @returns The formatted tick label if it's a power of 10, otherwise an empty string for no tick
  */
-export function createLogTickFilter(
-  value: string | number, 
-  formatter: ((value: number | string) => string) | undefined
-): string {
+export function createLogTickFilter(value: string | number): string {
   const noTick = '';
   const numeric = Number(value);
 
@@ -198,9 +195,5 @@ export function createLogTickFilter(
     return noTick;
   }
 
-  if (formatter) {
-    return formatter(numeric);
-  } else {
-    return numeric.toLocaleString();
-  }
+  return numeric.toLocaleString();
 }

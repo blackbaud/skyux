@@ -47,13 +47,6 @@ export class SkyChartMeasureAxisComponent implements OnDestroy {
   public readonly suggestedMax = input<number>();
 
   /**
-   * A function that formats the tick values for display on the measure axis.
-   * If not provided, the default numeric formatting will be used
-   */
-  public readonly tickFormatter =
-    input<(tickValue: number | string) => string>();
-
-  /**
    * The axis object
    * @internal
    */
@@ -62,8 +55,7 @@ export class SkyChartMeasureAxisComponent implements OnDestroy {
       labelText: this.labelText(),
       scaleType: this.scaleType(),
       suggestedMin: this.suggestedMin(),
-      suggestedMax: this.suggestedMax(),
-      tickFormatter: this.tickFormatter(),
+      suggestedMax: this.suggestedMax()
     };
   });
 

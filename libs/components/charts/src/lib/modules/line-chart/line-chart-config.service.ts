@@ -221,11 +221,6 @@ export class SkyLineChartConfigService {
       ticks: {
         ...base.ticks,
         padding: styles.axis.ticks.padding,
-        // TODO: Chart localization
-        // If a tick formatter is provided, use it. Otherwise this syntax allows us to fallback to ChartJS's default formatting.
-        ...(config.measureAxis?.tickFormatter && {
-          callback: config.measureAxis.tickFormatter,
-        }),
       },
       title: {
         ...base.title,
@@ -260,8 +255,7 @@ export class SkyLineChartConfigService {
         ...base.ticks,
         padding: styles.axis.ticks.padding,
         // TODO: Chart localization
-        callback: (value) =>
-          createLogTickFilter(value, config.measureAxis?.tickFormatter),
+        callback: createLogTickFilter
       },
       title: {
         ...base.title,

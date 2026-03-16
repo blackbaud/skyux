@@ -41,13 +41,4 @@ export interface SkyChartMeasureAxisConfig extends SkyChartAxisConfig {
    * If not specified, the chart will automatically determine the minimum based on the data.
    */
   suggestedMax?: number;
-
-  /**
-   * A callback function to format the tick labels on the measure axis.
-   * This function receives the tick value and should return a formatted string.
-   * @param value
-   * @returns
-   */
-  // TODO: Chart localization
-  tickFormatter?: (value: number | string) => string;
 }
