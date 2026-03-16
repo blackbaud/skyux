@@ -282,7 +282,7 @@ export class SkyTokensComponent implements OnDestroy {
 
   public removeToken(token: SkyToken): void {
     this.tokens = this.tokens.filter((t) => t !== token);
-    this.#changeDetector.markForCheck();
+    this.#changeDetector.detectChanges();
   }
 
   #focusPreviousToken(): void {
