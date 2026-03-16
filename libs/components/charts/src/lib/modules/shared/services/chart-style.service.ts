@@ -82,7 +82,6 @@ export class SkyChartStyleService {
       fontWeight: this.#cssNumber('--sky-font-style-body-s', '400'),
       lineHeight: this.#cssRemToPx('--sky-font-line_height-body-s', '18px'),
       color: this.#css('--sky-color-text-default', '#252b33'),
-      // color: this.#css('--sky-color-viz-gridline', '#d5d6d8'), // TODO: this is in the Figma design but looks bad in practice - confirm with UX if this is correct
       padding: this.#cssRemToPx('--sky-space-gap-label-s', '5px'),
       measureLength: this.#cssRemToPx(
         '--sky-size-chart-tick_length-measure',
