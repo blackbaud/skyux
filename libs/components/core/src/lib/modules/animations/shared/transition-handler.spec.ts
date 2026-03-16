@@ -3,12 +3,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { provideNoopSkyAnimations } from '../utility/provide-noop-animations';
 
-import { _SkyAnimationTransitionHandlerDirective } from './transition-handler';
+import { _SkyTransitionEndHandlerDirective } from './transition-handler';
 
 @Component({
   hostDirectives: [
     {
-      directive: _SkyAnimationTransitionHandlerDirective,
+      directive: _SkyTransitionEndHandlerDirective,
       inputs: ['transitionTrigger: trigger'],
       outputs: ['transitionEnd'],
     },
@@ -19,11 +19,11 @@ import { _SkyAnimationTransitionHandlerDirective } from './transition-handler';
 class TestComponent {}
 
 @Component({
-  imports: [_SkyAnimationTransitionHandlerDirective],
+  imports: [_SkyTransitionEndHandlerDirective],
   selector: 'sky-test-template',
   template: `
     <div
-      skyAnimationTransitionHandler
+      skyTransitionEndHandler
       [transitionPropertyToTrack]="propertyToTrack()"
       [transitionTrigger]="trigger()"
       (transitionEnd)="onTransitionEnd()"
@@ -31,7 +31,7 @@ class TestComponent {}
   `,
 })
 class TemplateTestComponent {
-  public readonly propertyToTrack = input<string>();
+  public readonly propertyToTrack = input<string>('opacity');
   public readonly trigger = input<unknown>(false);
   public transitionEndEmitted = false;
 
@@ -40,38 +40,30 @@ class TemplateTestComponent {
   }
 }
 
-describe('SkyAnimationTransitionHandler', () => {
-  let errorHandlerSpy: jasmine.Spy;
-
+describe('SkyTransitionEndHandler', () => {
   function setupTest(options?: {
     noopAnimations?: boolean;
     trackProperty?: string;
+    skipTrackProperty?: boolean;
   }): { fixture: ComponentFixture<TestComponent>; component: TestComponent } {
-    const mockErrorHandler = jasmine.createSpyObj('ErrorHandler', [
-      'handleError',
-    ]);
-
-    errorHandlerSpy = mockErrorHandler.handleError;
-
     TestBed.configureTestingModule({
       imports: [TestComponent],
       providers: [
-        { provide: ErrorHandler, useValue: mockErrorHandler },
         ...(options?.noopAnimations ? [provideNoopSkyAnimations()] : []),
       ],
     });
 
     const fixture = TestBed.createComponent(TestComponent);
+    const handler = fixture.debugElement.injector.get(
+      _SkyTransitionEndHandlerDirective,
+    );
+
+    if (!options?.skipTrackProperty) {
+      handler.setPropertyToTrack(options?.trackProperty ?? 'opacity');
+    }
+
     fixture.componentRef.setInput('trigger', signal(false));
     fixture.detectChanges();
-
-    if (options?.trackProperty) {
-      const handler = fixture.debugElement.injector.get(
-        _SkyAnimationTransitionHandlerDirective,
-      );
-
-      handler.setPropertyToTrack(options.trackProperty);
-    }
 
     return { fixture, component: fixture.componentInstance };
   }
@@ -84,7 +76,7 @@ describe('SkyAnimationTransitionHandler', () => {
     const { fixture } = setupTest();
 
     const handler = fixture.debugElement.injector.get(
-      _SkyAnimationTransitionHandlerDirective,
+      _SkyTransitionEndHandlerDirective,
     );
 
     expect(handler).toBeTruthy();
@@ -92,36 +84,38 @@ describe('SkyAnimationTransitionHandler', () => {
 
   describe('onTransitionEnd', () => {
     it('should throw when no CSS property has been specified', () => {
-      const { fixture } = setupTest();
+      const { fixture } = setupTest({ skipTrackProperty: true });
+      const errorHandler = TestBed.inject(ErrorHandler);
+      const spy = spyOn(errorHandler, 'handleError');
 
-      const evt = new TransitionEvent('transitionend', {
-        propertyName: 'opacity',
-      });
+      fixture.nativeElement.dispatchEvent(
+        new TransitionEvent('transitionend', { propertyName: 'opacity' }),
+      );
 
-      fixture.nativeElement.dispatchEvent(evt);
-
-      expect(errorHandlerSpy).toHaveBeenCalledTimes(1);
-
-      const error = errorHandlerSpy.calls.mostRecent().args[0];
-
-      expect(error.message).toMatch(
-        /No CSS property specified for transition tracking/,
+      expect(spy).toHaveBeenCalledOnceWith(
+        jasmine.objectContaining({
+          message: jasmine.stringMatching(
+            /No CSS property specified for transition tracking/,
+          ),
+        }),
       );
     });
 
     it('should include the element tag name in the error', () => {
-      const { fixture } = setupTest();
+      const { fixture } = setupTest({ skipTrackProperty: true });
+      const errorHandler = TestBed.inject(ErrorHandler);
+      const spy = spyOn(errorHandler, 'handleError');
 
-      const evt = new TransitionEvent('transitionend', {
-        propertyName: 'opacity',
-      });
+      fixture.nativeElement.dispatchEvent(
+        new TransitionEvent('transitionend', { propertyName: 'opacity' }),
+      );
 
-      fixture.nativeElement.dispatchEvent(evt);
-
-      const error = errorHandlerSpy.calls.mostRecent().args[0];
-
-      expect(error.message).toContain(
-        `'<${fixture.nativeElement.tagName.toLowerCase()}>'`,
+      expect(spy).toHaveBeenCalledOnceWith(
+        jasmine.objectContaining({
+          message: jasmine.stringMatching(
+            new RegExp(`'<${fixture.nativeElement.tagName.toLowerCase()}>'`),
+          ),
+        }),
       );
     });
 
@@ -131,7 +125,7 @@ describe('SkyAnimationTransitionHandler', () => {
       let transitionEndEmitted = false;
 
       const handler = fixture.debugElement.injector.get(
-        _SkyAnimationTransitionHandlerDirective,
+        _SkyTransitionEndHandlerDirective,
       );
 
       handler.transitionEnd.subscribe(() => {
@@ -157,7 +151,7 @@ describe('SkyAnimationTransitionHandler', () => {
       let transitionEndEmitted = false;
 
       const handler = fixture.debugElement.injector.get(
-        _SkyAnimationTransitionHandlerDirective,
+        _SkyTransitionEndHandlerDirective,
       );
 
       handler.transitionEnd.subscribe(() => {
@@ -180,6 +174,19 @@ describe('SkyAnimationTransitionHandler', () => {
     it('should ignore transitionend events that bubble from child elements', () => {
       const { fixture } = setupTest();
 
+      let transitionEndEmitted = false;
+
+      const handler = fixture.debugElement.injector.get(
+        _SkyTransitionEndHandlerDirective,
+      );
+
+      handler.transitionEnd.subscribe(() => {
+        transitionEndEmitted = true;
+      });
+
+      const errorHandler = TestBed.inject(ErrorHandler);
+      spyOn(errorHandler, 'handleError');
+
       const child = fixture.nativeElement.querySelector('.sky-test-child');
 
       const evt = new TransitionEvent('transitionend', {
@@ -189,7 +196,8 @@ describe('SkyAnimationTransitionHandler', () => {
 
       child.dispatchEvent(evt);
 
-      expect(errorHandlerSpy).not.toHaveBeenCalled();
+      expect(transitionEndEmitted).toBeFalse();
+      expect(errorHandler.handleError).not.toHaveBeenCalled();
     });
   });
 
@@ -200,7 +208,7 @@ describe('SkyAnimationTransitionHandler', () => {
       let transitionEndEmitted = false;
 
       const handler = fixture.debugElement.injector.get(
-        _SkyAnimationTransitionHandlerDirective,
+        _SkyTransitionEndHandlerDirective,
       );
       handler.transitionEnd.subscribe(() => {
         transitionEndEmitted = true;
@@ -211,13 +219,13 @@ describe('SkyAnimationTransitionHandler', () => {
       expect(transitionEndEmitted).toBeFalse();
     });
 
-    it('should emit transitionEnd synchronously when the transitionTrigger changes', () => {
+    it('should emit transitionEnd in a microtask when the transitionTrigger changes', async () => {
       const { fixture } = setupTest({ noopAnimations: true });
 
       let transitionEndEmitted = false;
 
       const handler = fixture.debugElement.injector.get(
-        _SkyAnimationTransitionHandlerDirective,
+        _SkyTransitionEndHandlerDirective,
       );
       handler.transitionEnd.subscribe(() => {
         transitionEndEmitted = true;
@@ -226,6 +234,10 @@ describe('SkyAnimationTransitionHandler', () => {
       // Change the input to a new signal to trigger the effect.
       fixture.componentRef.setInput('trigger', signal(true));
       fixture.detectChanges();
+
+      expect(transitionEndEmitted).toBeFalse();
+
+      await fixture.whenStable();
 
       expect(transitionEndEmitted).toBeTrue();
     });
@@ -252,9 +264,7 @@ describe('SkyAnimationTransitionHandler', () => {
     function getDirectiveHost(
       fixture: ComponentFixture<TemplateTestComponent>,
     ): HTMLElement {
-      return fixture.nativeElement.querySelector(
-        '[skyAnimationTransitionHandler]',
-      );
+      return fixture.nativeElement.querySelector('[skyTransitionEndHandler]');
     }
 
     it('should emit transitionEnd when the tracked property transitions', () => {
@@ -284,7 +294,7 @@ describe('SkyAnimationTransitionHandler', () => {
       const host = getDirectiveHost(fixture);
 
       const handler = fixture.debugElement.children[0].injector.get(
-        _SkyAnimationTransitionHandlerDirective,
+        _SkyTransitionEndHandlerDirective,
       );
 
       // Set a different property programmatically.

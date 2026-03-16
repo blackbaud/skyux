@@ -5,7 +5,7 @@ import {
   input,
 } from '@angular/core';
 
-import { _SkyAnimationTransitionHandlerDirective } from '../shared/transition-handler';
+import { _SkyTransitionEndHandlerDirective } from '../shared/transition-handler';
 
 /**
  * @internal
@@ -24,7 +24,7 @@ import { _SkyAnimationTransitionHandlerDirective } from '../shared/transition-ha
   },
   hostDirectives: [
     {
-      directive: _SkyAnimationTransitionHandlerDirective,
+      directive: _SkyTransitionEndHandlerDirective,
       inputs: ['transitionTrigger: opened'],
       outputs: ['transitionEnd'],
     },
@@ -48,7 +48,7 @@ export class _SkyAnimationExpandComponent {
   public readonly minHeight = input<string>('0');
 
   constructor() {
-    inject(_SkyAnimationTransitionHandlerDirective).setPropertyToTrack(
+    inject(_SkyTransitionEndHandlerDirective).setPropertyToTrack(
       'grid-template-rows',
     );
   }
