@@ -31,6 +31,9 @@
   word-wrap: break-word;
   overflow: hidden;
   height: auto;
+  transition-duration: var(--sky-transition-time-medium);
+  transition-property: max-height;
+  transition-timing-function: ease;
 }
 
 .sky-text-expand-modal-content {
