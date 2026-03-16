@@ -2,8 +2,6 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
-$sky-tokens-gutter-size: 2px;
-
 :host {
   interpolate-size: allow-keywords;
   flex: 0 0 auto;

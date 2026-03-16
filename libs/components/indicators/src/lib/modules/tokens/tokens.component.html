@@ -1,7 +1,7 @@
 <div
   class="sky-tokens"
-  [class.sky-tokens-initialized]="initialized"
-  [class.sky-tokens-animated]="trackWith"
+  [class.sky-tokens-animation-ready]="animationReady()"
+  [class.sky-tokens-animation-enabled]="trackWith"
   [attr.role]="tokens.length ? 'grid' : null"
 >
   <!--

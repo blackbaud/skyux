@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -10,7 +9,9 @@ import {
   QueryList,
   TrackByFunction,
   ViewChildren,
+  afterNextRender,
   inject,
+  signal,
 } from '@angular/core';
 
 import { Subject, Subscription } from 'rxjs';
@@ -36,7 +37,7 @@ const DISPLAY_WITH_DEFAULT = 'name';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class SkyTokensComponent implements AfterViewInit, OnDestroy {
+export class SkyTokensComponent implements OnDestroy {
   /**
    * Whether to disable the tokens list to prevent users from selecting tokens,
    * dismissing tokens, or navigating through the list with the arrow keys. When the tokens list
@@ -208,9 +209,19 @@ export class SkyTokensComponent implements AfterViewInit, OnDestroy {
    * Tracks whether the component has completed its initial render.
    * Used to suppress enter animations on first load.
    */
-  protected initialized = false;
+  protected readonly animationReady = signal(false);
 
   constructor() {
+    // Wait for Angular's animation scheduler to remove initial enter classes
+    // before enabling enter animations for future token changes.
+    afterNextRender({
+      read: () => {
+        requestAnimationFrame(() => {
+          this.animationReady.set(true);
+        });
+      },
+    });
+
     this.#initMessageStream();
 
     // Angular calls the trackBy function without applying the component instance's scope.
@@ -223,10 +234,6 @@ export class SkyTokensComponent implements AfterViewInit, OnDestroy {
 
       return item;
     };
-  }
-
-  public ngAfterViewInit(): void {
-    this.initialized = true;
   }
 
   public ngOnDestroy(): void {
@@ -277,7 +284,7 @@ export class SkyTokensComponent implements AfterViewInit, OnDestroy {
 
   public removeToken(token: SkyToken): void {
     this.tokens = this.tokens.filter((t) => t !== token);
-    this.#changeDetector.detectChanges();
+    this.#changeDetector.markForCheck();
   }
 
   #focusPreviousToken(): void {
@@ -356,6 +363,10 @@ export class SkyTokensComponent implements AfterViewInit, OnDestroy {
     });
   }
 
+  /**
+   * Debounces the tokensRendered emit so that rapid token changes
+   * (e.g. bulk additions or removals) result in a single event.
+   */
   #queueTokensRenderedEmit(): void {
     if (this.#tokensRenderedTimeout) {
       clearTimeout(this.#tokensRenderedTimeout);
