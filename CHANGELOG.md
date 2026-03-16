@@ -10,6 +10,7 @@
 
 ### Features
 
+* **components/lists:** deprecate filter summary ([#4307](https://github.com/blackbaud/skyux/issues/4307)) ([b5567d9](https://github.com/blackbaud/skyux/commit/b5567d96f8a6c0f52d33e1cd3dc3822224dbd1d0)), closes [AB#3611503](https://dev.azure.com/blackbaud/Products/_workitems/edit/3611503)
 * **components/modals:** add modal banner ([#4275](https://github.com/blackbaud/skyux/issues/4275)) ([#4280](https://github.com/blackbaud/skyux/issues/4280)) ([b186fc2](https://github.com/blackbaud/skyux/commit/b186fc26bd5f591efb33c444d01d3d040578a81d))
 
 
