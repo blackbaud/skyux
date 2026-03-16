@@ -4,7 +4,7 @@
   skyTransitionEndHandler
   transitionPropertyToTrack="max-height"
   [transitionTrigger]="isExpanded"
-  (transitionEnd)="onTransitionEnd()"
+  (transitionEnd)="animationEnd()"
 >
   <span #text class="sky-text-expand-text" [id]="contentSectionId"></span>
   @if (expandable) {

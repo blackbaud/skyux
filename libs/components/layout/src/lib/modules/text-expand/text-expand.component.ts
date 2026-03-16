@@ -204,8 +204,14 @@ export class SkyTextExpandComponent implements AfterContentInit {
     }
   }
 
-  public onTransitionEnd(): void {
-    this.#finishAnimation();
+  public animationEnd(): void {
+    if (this.textEl && this.containerEl) {
+      // Ensure the correct text is displayed
+      this.#textExpandAdapter.setText(this.textEl, this.#textToShow);
+
+      // Set height back to auto so the browser can change the height as needed with window changes
+      this.#textExpandAdapter.removeContainerMaxHeight(this.containerEl);
+    }
   }
 
   public ngAfterContentInit(): void {
@@ -322,13 +328,6 @@ export class SkyTextExpandComponent implements AfterContentInit {
       adapter.setContainerMaxHeight(container, targetHeight);
 
       this.isExpanded = expanding;
-    }
-  }
-
-  #finishAnimation(): void {
-    if (this.textEl && this.containerEl) {
-      this.#textExpandAdapter.setText(this.textEl, this.#textToShow);
-      this.#textExpandAdapter.removeContainerMaxHeight(this.containerEl);
     }
   }
 }
