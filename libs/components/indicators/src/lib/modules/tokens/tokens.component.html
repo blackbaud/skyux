@@ -12,13 +12,10 @@
     <sky-token
       animate.enter="sky-token-enter"
       animate.leave="sky-token-leave"
-      skyAnimationEndHandler
       [disabled]="disabled"
       [dismissible]="dismissible"
       [focusable]="focusable"
       [role]="'row'"
-      [animationTrigger]="tokens.length"
-      (animationEnd)="animationDone()"
       (dismiss)="removeToken(token)"
       (click)="onTokenClick(token)"
       (keydown)="onTokenKeyDown($event)"

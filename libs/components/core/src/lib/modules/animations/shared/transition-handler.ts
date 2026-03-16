@@ -39,7 +39,7 @@ export class _SkyTransitionEndHandlerDirective {
    * `transitionEnd` emits on completion. When animations are
    * disabled, `transitionEnd` emits via a microtask instead.
    */
-  public readonly transitionTrigger = input.required<boolean>();
+  public readonly transitionTrigger = input.required<unknown>();
 
   /**
    * The CSS property name to monitor for `transitionend` events

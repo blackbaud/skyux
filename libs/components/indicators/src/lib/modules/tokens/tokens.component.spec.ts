@@ -173,33 +173,6 @@ describe('Tokens component', () => {
       expect(renderedSpy).toHaveBeenCalled();
     }));
 
-    it('should not emit tokensRendered twice when animationDone fires before the fallback timer', fakeAsync(() => {
-      const renderedSpy = spyOn(component, 'onTokensRendered');
-
-      component.publishTokens();
-      fixture.detectChanges();
-
-      component.tokensComponent?.animationDone();
-
-      expect(renderedSpy).toHaveBeenCalledTimes(1);
-
-      tick();
-
-      expect(renderedSpy).toHaveBeenCalledTimes(1);
-    }));
-
-    it('should ignore animationDone calls after the pending render has completed', () => {
-      const renderedSpy = spyOn(component, 'onTokensRendered');
-
-      component.publishTokens();
-      fixture.detectChanges();
-
-      component.tokensComponent?.animationDone();
-      component.tokensComponent?.animationDone();
-
-      expect(renderedSpy).toHaveBeenCalledTimes(1);
-    });
-
     it('should emit when the focus index is greater than the number of tokens', () => {
       component.publishMessageStream();
       fixture.detectChanges();
