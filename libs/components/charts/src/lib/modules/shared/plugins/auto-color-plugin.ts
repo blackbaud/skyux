@@ -1,6 +1,6 @@
 import { Chart, ChartDataset, ChartType, Plugin } from 'chart.js';
 
-import { isDatasetType } from '../chart-helpers';
+import { isDatasetType, isDonutChart } from '../chart-helpers';
 import {
   SkyChartStyleService,
   SkyChartStyles,
@@ -20,12 +20,11 @@ export function createAutoColorPlugin(
       // Get styles at runtime to ensure colors are up to date with current theme
       const styles = styleService.styles();
 
-      const hasMultipleDatasets = chart.data.datasets.length > 1;
-
-      if (hasMultipleDatasets) {
-        applyDatasetMode(chart, styles);
-      } else {
+      // For donut charts, always apply colors in 'data' mode
+      if (isDonutChart(chart)) {
         applyDataMode(chart, styles);
+      } else {
+        applyDatasetMode(chart, styles);
       }
     },
   };
@@ -33,35 +32,26 @@ export function createAutoColorPlugin(
   return plugin;
 }
 
-/** Sets the background and border colors for a dataset */
-function setDatasetColors(
-  chart: Chart,
-  dataset: ChartDataset,
-  backgroundColor: string[],
-): void {
-  if (isDatasetType(chart, dataset, 'bar')) {
-    dataset.backgroundColor = backgroundColor;
-  } else if (isDatasetType(chart, dataset, 'line')) {
-    dataset.backgroundColor = backgroundColor;
-    dataset.borderColor = backgroundColor;
-    dataset.pointBackgroundColor = backgroundColor;
-  } else {
-    dataset.backgroundColor = backgroundColor;
-  }
-}
-
-/** Applies colors in 'dataset' mode - each `dataset` (series) gets a unique color. */
+/**
+ * Applies colors in 'dataset' mode - each `dataset` (series) gets a unique color.
+ * @param chart The chart instance
+ * @param styles The chart styles to use
+ */
 function applyDatasetMode(chart: Chart, styles: SkyChartStyles): void {
   const datasets = chart.data.datasets;
   const colors = styles.series;
 
   datasets.forEach((dataset, datasetIndex) => {
     const color = colors[datasetIndex % colors.length];
-    setDatasetColors(chart, dataset, [color]);
+    setDatasetColors(chart, dataset, color);
   });
 }
 
-/** Applies colors in 'data' mode - each `dataset.data` (series datapoint) gets a unique color. */
+/**
+ * Applies colors in 'data' mode - each `dataset.data` (series datapoint) gets a unique color.
+ * @param chart The chart instance
+ * @param styles The chart styles to use
+ */
 function applyDataMode(chart: Chart, styles: SkyChartStyles): void {
   const datasets = chart.data.datasets;
   const colors = styles.series;
@@ -76,4 +66,28 @@ function applyDataMode(chart: Chart, styles: SkyChartStyles): void {
 
     setDatasetColors(chart, dataset, backgroundColors);
   });
+}
+
+/**
+ * Sets the colors on the given dataset based on the chart type.
+ * @param chart The chart instance
+ * @param dataset The dataset to update
+ * @param backgroundColor The background color(s) to apply to the dataset
+ */
+function setDatasetColors(
+  chart: Chart,
+  dataset: ChartDataset,
+  backgroundColor: string | string[],
+): void {
+  if (isDatasetType(chart, dataset, 'bar')) {
+    dataset.backgroundColor = backgroundColor;
+  } else if (isDatasetType(chart, dataset, 'line')) {
+    dataset.backgroundColor = backgroundColor;
+    dataset.borderColor = backgroundColor;
+    dataset.pointBackgroundColor = backgroundColor;
+  } else if (isDatasetType(chart, dataset, 'doughnut')) {
+    dataset.backgroundColor = backgroundColor;
+  } else {
+    dataset.backgroundColor = backgroundColor;
+  }
 }
