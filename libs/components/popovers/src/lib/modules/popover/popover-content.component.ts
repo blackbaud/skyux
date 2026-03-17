@@ -66,8 +66,6 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
 
   public affixer: SkyAffixer | undefined;
 
-  public enableAnimations = true;
-
   public horizontalAlignment: SkyPopoverAlignment = 'center';
 
   protected readonly isOpen = signal(false);
@@ -190,7 +188,6 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
   public open(
     caller: ElementRef,
     config: {
-      enableAnimations: boolean;
       horizontalAlignment: SkyPopoverAlignment;
       id: string;
       isStatic: boolean;
@@ -200,7 +197,6 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     },
   ): void {
     this.#caller = caller;
-    this.enableAnimations = config.enableAnimations;
     this.horizontalAlignment = config.horizontalAlignment;
     this.popoverId = config.id;
     this.placement = config.placement;

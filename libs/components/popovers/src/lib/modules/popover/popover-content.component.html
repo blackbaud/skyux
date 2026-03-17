@@ -9,7 +9,6 @@
     'sky-popover-' + popoverType
   ]"
   [class.sky-popover-visible]="isOpen()"
-  [class.sky-popover-animations-disabled]="!enableAnimations"
   [transitionPropertyToTrack]="'opacity'"
   [transitionTrigger]="isOpen()"
   (transitionEnd)="onAnimationsComplete()"
