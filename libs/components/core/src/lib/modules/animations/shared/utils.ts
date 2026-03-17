@@ -156,10 +156,20 @@ function isTransitionDisabledForProperty(args: {
   const { trackedProperty, transitionDuration, transitionProperty } = args;
   const properties = transitionProperty.split(',').map((p) => p.trim());
   const durations = transitionDuration.split(',').map((d) => d.trim());
-  const index = properties.indexOf(trackedProperty);
 
+  let index = properties.indexOf(trackedProperty);
+
+  // If the tracked property is not explicitly listed, fall back to an `all`
+  // entry if present. Per CSS, `transition-property: all` applies to every
+  // property and uses its paired duration.
   if (index === -1) {
-    return true;
+    const allIndex = properties.findIndex((p) => p.toLowerCase() === 'all');
+
+    if (allIndex === -1) {
+      return true;
+    }
+
+    index = allIndex;
   }
 
   const duration = durations[index % durations.length];

@@ -347,6 +347,30 @@ describe('SkyTransitionEndHandler', () => {
 
       expect(transitionEndEmitted).toBeTrue();
     });
+
+    it('should not emit via microtask when transition-property is "all" with an active duration', async () => {
+      const { fixture } = setupTest({ trackProperty: 'visibility' });
+
+      let transitionEndEmitted = false;
+
+      const handler = fixture.debugElement.injector.get(
+        _SkyTransitionEndHandlerDirective,
+      );
+
+      handler.transitionEnd.subscribe(() => {
+        transitionEndEmitted = true;
+      });
+
+      fixture.nativeElement.style.transitionProperty = 'all';
+      fixture.nativeElement.style.transitionDuration = '250ms';
+
+      fixture.componentRef.setInput('trigger', signal(true));
+      fixture.detectChanges();
+
+      await fixture.whenStable();
+
+      expect(transitionEndEmitted).toBeFalse();
+    });
   });
 
   describe('transitionPropertyToTrack input', () => {
