@@ -118,6 +118,12 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
   #context: SkyPopoverContext;
   #themeSvc: SkyThemeService | undefined;
 
+  /**
+   * Tracks the pending `setTimeout` in `open()` so `close()` and
+   * `ngOnDestroy()` can cancel it before it fires.
+   */
+  #openTimeoutId: ReturnType<typeof setTimeout> | undefined;
+
   constructor(
     changeDetector: ChangeDetectorRef,
     elementRef: ElementRef,
@@ -157,6 +163,8 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
+    clearTimeout(this.#openTimeoutId);
+
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
 
@@ -216,7 +224,8 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     }
 
     // Let the styles render before gauging the affix dimensions.
-    setTimeout(() => {
+    clearTimeout(this.#openTimeoutId);
+    this.#openTimeoutId = setTimeout(() => {
       /* istanbul ignore if */
       if (!this.popoverRef?.nativeElement || this.#ngUnsubscribe.closed) {
         return;
@@ -254,6 +263,9 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
   }
 
   public close(): void {
+    clearTimeout(this.#openTimeoutId);
+    this.#openTimeoutId = undefined;
+
     this.isOpen.set(false);
     this.#changeDetector.markForCheck();
   }

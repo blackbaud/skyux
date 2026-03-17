@@ -733,6 +733,31 @@ describe('Popover directive', () => {
       expect(popover).toBeNull();
     }));
 
+    it('should not reopen the popover if close is called before the open timer fires', fakeAsync(() => {
+      detectChangesFakeAsync();
+
+      // Open, let it fully render, then close it.
+      fixture.componentInstance.sendMessage(SkyPopoverMessageType.Open);
+      detectChangesFakeAsync();
+
+      expect(isElementVisible(getPopoverElement())).toEqual(true);
+
+      fixture.componentInstance.sendMessage(SkyPopoverMessageType.Close);
+      detectChangesFakeAsync();
+
+      expect(getPopoverElement()).toBeNull();
+
+      // Open again, but close immediately before the pending setTimeout
+      // in contentRef.open() can fire.
+      fixture.componentInstance.sendMessage(SkyPopoverMessageType.Open);
+      fixture.componentInstance.sendMessage(SkyPopoverMessageType.Close);
+
+      detectChangesFakeAsync();
+
+      // The popover should not have re-opened.
+      expect(isElementVisible(getPopoverElement())).not.toEqual(true);
+    }));
+
     it('should focus the popover', fakeAsync(() => {
       detectChangesFakeAsync();
 
