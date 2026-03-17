@@ -860,6 +860,179 @@ describe('SkyDataManagerService', () => {
     });
   });
 
+  describe('distinctUntilChanged with shared mutable state', () => {
+    const otherSourceId = 'otherSource';
+
+    beforeEach(() => {
+      initTestComponent();
+    });
+
+    it('should emit via getDataStateUpdates with property filter after initDataView', () => {
+      let emitCount = 0;
+
+      dataManagerService
+        .getDataStateUpdates(otherSourceId, {
+          properties: ['searchText'],
+        })
+        .subscribe(() => {
+          emitCount++;
+        });
+
+      // initDataView triggers addOrUpdateView which calls updateDataState
+      // with the init source. The subscription above should receive it.
+      const initialEmitCount = emitCount;
+
+      dataManagerService.updateDataState(
+        new SkyDataManagerState({ searchText: 'changed' }),
+        'someSource',
+      );
+
+      expect(emitCount).toBeGreaterThan(initialEmitCount);
+    });
+
+    it('should emit after in-place mutation of state followed by updateDataState', () => {
+      let latestState: SkyDataManagerState | undefined;
+      let emitCount = 0;
+
+      dataManagerService
+        .getDataStateUpdates(otherSourceId, {
+          properties: ['selectedIds'],
+        })
+        .subscribe((state) => {
+          latestState = state;
+          emitCount++;
+        });
+
+      const emitCountAfterInit = emitCount;
+
+      // Simulate consumer mutating state in-place then calling updateDataState
+      const stateToMutate = new SkyDataManagerState({
+        selectedIds: ['1', '2'],
+      });
+      dataManagerService.updateDataState(stateToMutate, 'someSource');
+
+      const emitCountAfterFirst = emitCount;
+      expect(emitCountAfterFirst).toBeGreaterThan(emitCountAfterInit);
+
+      // Mutate and update again with different selectedIds
+      const stateToMutate2 = new SkyDataManagerState({
+        selectedIds: ['1', '2', '3'],
+      });
+      dataManagerService.updateDataState(stateToMutate2, 'someSource');
+
+      expect(emitCount).toBeGreaterThan(emitCountAfterFirst);
+      expect(latestState?.selectedIds).toEqual(['1', '2', '3']);
+    });
+
+    it('should preserve onlyShowSelected through addOrUpdateView', () => {
+      let latestState: SkyDataManagerState | undefined;
+
+      dataManagerService
+        .getDataStateUpdates(otherSourceId)
+        .subscribe((state) => {
+          latestState = state;
+        });
+
+      const stateWithFlag = new SkyDataManagerState({
+        onlyShowSelected: true,
+        searchText: 'test',
+      });
+      dataManagerService.updateDataState(stateWithFlag, 'someSource');
+
+      // Now add a view — addOrUpdateView should preserve onlyShowSelected
+      const newView: SkyDataViewConfig = {
+        id: 'testView',
+        name: 'Test View',
+      };
+      dataManagerService.initDataView(newView);
+
+      expect(latestState?.onlyShowSelected).toBeTrue();
+    });
+
+    it('should return cloned additionalData from SkyDataViewState getViewStateOptions', () => {
+      const additionalData = { nested: { value: 42 }, list: [1, 2, 3] };
+      const viewState = new SkyDataViewState({
+        viewId: 'view1',
+        additionalData,
+      });
+
+      const options = viewState.getViewStateOptions();
+
+      expect(options.additionalData).toEqual(additionalData);
+      expect(options.additionalData).not.toBe(additionalData);
+      expect(options.additionalData.nested).not.toBe(additionalData.nested);
+
+      // Mutating the clone should not affect the original
+      options.additionalData.nested.value = 999;
+      expect(viewState.additionalData.nested.value).toBe(42);
+    });
+
+    it('should return cloned activeSortOption, additionalData, and filterData without filters from SkyDataManagerState getStateOptions', () => {
+      const activeSortOption = {
+        id: 'sort1',
+        label: 'Name',
+        propertyName: 'name',
+        descending: false,
+      };
+      const additionalData = { key: 'value', items: [1, 2] };
+      const state = new SkyDataManagerState({
+        activeSortOption,
+        additionalData,
+        filterData: { filtersApplied: true },
+      });
+
+      const options = state.getStateOptions();
+
+      expect(options.activeSortOption).toEqual(activeSortOption);
+      expect(options.activeSortOption).not.toBe(activeSortOption);
+
+      expect(options.additionalData).toEqual(additionalData);
+      expect(options.additionalData).not.toBe(additionalData);
+
+      expect(options.filterData).toEqual({
+        filtersApplied: true,
+        filters: undefined,
+      });
+      expect(options.filterData).not.toBe(state.filterData);
+
+      // Mutating clones should not affect the original
+      options.activeSortOption!.descending = true;
+      expect(state.activeSortOption!.descending).toBe(false);
+
+      options.additionalData.items.push(3);
+      expect(state.additionalData.items).toEqual([1, 2]);
+    });
+
+    it('should add a new view via addOrUpdateView when another view already exists', () => {
+      const state = new SkyDataManagerState({
+        searchText: 'test',
+        views: [{ viewId: 'existingView', columnIds: ['col1'] }],
+      });
+
+      const newView = new SkyDataViewState({
+        viewId: 'newView',
+        columnIds: ['col2', 'col3'],
+      });
+
+      const updatedState = state.addOrUpdateView('newView', newView);
+
+      expect(updatedState.views.length).toBe(2);
+      expect(updatedState.getViewStateById('existingView')).toBeDefined();
+      expect(updatedState.getViewStateById('existingView')?.columnIds).toEqual([
+        'col1',
+      ]);
+      expect(updatedState.getViewStateById('newView')).toBeDefined();
+      expect(updatedState.getViewStateById('newView')?.columnIds).toEqual([
+        'col2',
+        'col3',
+      ]);
+      expect(updatedState.searchText).toBe('test');
+
+      // Original state should not be mutated
+      expect(state.views.length).toBe(1);
+    });
+  });
+
   it('should set the viewkeeper classes for the given viewId when setViewkeeperClasses is called', () => {
     initTestComponent();
 

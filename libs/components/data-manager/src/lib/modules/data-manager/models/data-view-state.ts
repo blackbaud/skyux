@@ -44,10 +44,16 @@ export class SkyDataViewState {
   public getViewStateOptions(): SkyDataViewStateOptions {
     return {
       viewId: this.viewId,
-      columnIds: this.columnIds,
-      columnWidths: this.columnWidths,
-      displayedColumnIds: this.displayedColumnIds,
-      additionalData: this.additionalData,
+      columnIds: [...this.columnIds],
+      columnWidths: {
+        xs: { ...this.columnWidths.xs },
+        sm: { ...this.columnWidths.sm },
+      },
+      displayedColumnIds: [...this.displayedColumnIds],
+      additionalData:
+        this.additionalData !== undefined
+          ? structuredClone(this.additionalData)
+          : undefined,
     };
   }
 }
