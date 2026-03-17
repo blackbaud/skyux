@@ -55,25 +55,42 @@
   }
 }
 
+// When the read-only content re-enters after closing the form, fade it in.
+.sky-slide-dissolve-first {
+  @starting-style {
+    opacity: 0;
+  }
+
+  transition-property: opacity;
+  transition-duration: 100ms;
+  transition-timing-function: ease-in;
+}
+
+// When the form enters, expand height first, then fade in opacity (sequential).
+// When the form leaves, snap opacity to 0 immediately, then collapse height.
 .sky-slide-dissolve-last {
   interpolate-size: allow-keywords;
-  height: auto;
   opacity: 1;
   overflow: hidden;
-  transition:
-    height var(--sky-transition-time-short) ease-in,
-    opacity var(--sky-transition-time-short) ease-in;
+  // On enter: height expands (no delay), then opacity fades in after height finishes.
+  // On leave (.sky-slide-dissolve-leaving): overrides below snap opacity and collapse height.
+  transition-property: height, opacity;
+  transition-duration: 200ms, 200ms;
+  transition-timing-function: ease-in, ease-in;
+  transition-delay: 0ms, 200ms;
 
   @starting-style {
     height: 0;
     opacity: 0;
   }
+}
 
-  &.sky-slide-dissolve-leaving {
-    height: 0;
-    opacity: 0;
-    transition:
-      height var(--sky-transition-time-short) ease-in,
-      opacity 0ms;
-  }
+.sky-slide-dissolve-leaving {
+  height: 0;
+  opacity: 0;
+  // Snap opacity immediately; height collapses while already invisible.
+  transition-property: height, opacity;
+  transition-duration: 200ms, 0ms;
+  transition-timing-function: ease-in, ease-in;
+  transition-delay: 0ms, 0ms;
 }
