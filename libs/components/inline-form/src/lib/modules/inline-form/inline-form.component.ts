@@ -70,7 +70,7 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
     /* istanbul ignore else */
     if (value) {
       // setTimeout() prevents applyAutofocus() from firing
-      // until after @if has added the form element to the DOM.
+      // until after *ngIf has added the form element to the DOM.
       this.#skyAppWindowRef.nativeWindow.setTimeout(() => {
         this.#adapter.applyAutofocus(this.#elementRef);
       });

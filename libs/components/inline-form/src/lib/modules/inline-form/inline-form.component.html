@@ -3,8 +3,7 @@
     <div class="sky-slide-dissolve-first">
       <ng-content />
     </div>
-  }
-  @if (showForm && template) {
+  } @else if (template) {
     <div
       class="sky-slide-dissolve-last"
       animate.leave="sky-slide-dissolve-leaving"
