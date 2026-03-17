@@ -8,17 +8,17 @@ import {
   signal,
 } from '@angular/core';
 
-import { watchForDisabledCssTransitions } from './utils';
+import { _skyAnimationsDisabled } from '../utility/animations-disabled';
+
+import { mimicCssMotionEvent } from './mimic-css-motion-event';
 
 /**
  * @internal
  *
  * Listens for CSS `transitionend` events on the host element and emits
  * a `transitionEnd` output when the tracked CSS property finishes
- * transitioning. When the element's CSS transition is disabled
- * (e.g. `transition-property: none` or `transition-duration: 0s`), the
- * output emits via a microtask whenever the `transitionTrigger` input
- * changes.
+ * transitioning. When animations are globally disabled, the output
+ * emits via a microtask whenever the `transitionTrigger` input changes.
  *
  * The CSS property to monitor can be set via the `transitionPropertyToTrack`
  * input (for template usage) or by calling `setPropertyToTrack()`
@@ -35,9 +35,9 @@ export class _SkyTransitionEndHandlerDirective {
 
   /**
    * Drives the CSS transition on the host element. When the value
-   * changes and a CSS transition runs, `transitionEnd` emits on
-   * completion. When the transition is disabled, `transitionEnd`
-   * emits via a microtask instead.
+   * changes and animations are enabled, a CSS transition runs and
+   * `transitionEnd` emits on completion. When animations are
+   * disabled, `transitionEnd` emits via a microtask instead.
    */
   public readonly transitionTrigger = input.required<unknown>();
 
@@ -50,20 +50,21 @@ export class _SkyTransitionEndHandlerDirective {
 
   /**
    * Emits when the tracked CSS property's `transitionend` event fires
-   * on the host element, or via a microtask when the CSS transition is
-   * disabled.
+   * on the host element, or via a microtask when animations are disabled.
    */
   public readonly transitionEnd = output<void>();
 
   readonly #propertyNameOverride = signal<string | undefined>(undefined);
 
   constructor() {
-    watchForDisabledCssTransitions({
-      destroyRef: inject(DestroyRef),
-      elementRef: this.#elementRef,
-      emitter: this.transitionEnd,
-      trigger: this.transitionTrigger,
-    });
+    if (_skyAnimationsDisabled()) {
+      mimicCssMotionEvent(
+        this.#elementRef,
+        inject(DestroyRef),
+        this.transitionTrigger,
+        this.transitionEnd,
+      );
+    }
   }
 
   /**
