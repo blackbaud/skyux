@@ -54,3 +54,26 @@
     }
   }
 }
+
+.sky-slide-dissolve-last {
+  interpolate-size: allow-keywords;
+  height: auto;
+  opacity: 1;
+  overflow: hidden;
+  transition:
+    height var(--sky-transition-time-short) ease-in,
+    opacity var(--sky-transition-time-short) ease-in;
+
+  @starting-style {
+    height: 0;
+    opacity: 0;
+  }
+
+  &.sky-slide-dissolve-leaving {
+    height: 0;
+    opacity: 0;
+    transition:
+      height var(--sky-transition-time-short) ease-in,
+      opacity 0ms;
+  }
+}

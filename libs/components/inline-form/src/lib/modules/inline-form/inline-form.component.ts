@@ -17,7 +17,6 @@ import { SkyLibResourcesService } from '@skyux/i18n';
 import { Observable, ReplaySubject, Subject, zip as observableZip } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { skySlideDissolve } from './animations/slide-dissolve';
 import { SkyInlineFormAdapterService } from './inline-form-adapter.service';
 import { SkyInlineFormButtonConfig } from './types/inline-form-button-config';
 import { SkyInlineFormButtonLayout } from './types/inline-form-button-layout';
@@ -33,7 +32,6 @@ import { SkyInlineFormConfig } from './types/inline-form-config';
   styleUrls: ['./inline-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SkyInlineFormAdapterService],
-  animations: [skySlideDissolve],
   standalone: false,
 })
 export class SkyInlineFormComponent implements OnInit, OnDestroy {
@@ -72,7 +70,7 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
     /* istanbul ignore else */
     if (value) {
       // setTimeout() prevents applyAutofocus() from firing
-      // until after *ngIf has added the form element to the DOM.
+      // until after @if has added the form element to the DOM.
       this.#skyAppWindowRef.nativeWindow.setTimeout(() => {
         this.#adapter.applyAutofocus(this.#elementRef);
       });
