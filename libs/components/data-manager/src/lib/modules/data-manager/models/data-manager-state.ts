@@ -3,6 +3,7 @@ import { SkyDataManagerSortOption } from './data-manager-sort-option';
 import { SkyDataManagerStateOptions } from './data-manager-state-options';
 import { SkyDataViewState } from './data-view-state';
 import { SkyDataViewStateOptions } from './data-view-state-options';
+import { safeStructuredClone } from './safe-structured-clone';
 
 /**
  * Provides options that control which data to display.
@@ -63,12 +64,25 @@ export class SkyDataManagerState {
     });
 
     return {
-      activeSortOption: this.activeSortOption,
-      additionalData: this.additionalData,
-      filterData: this.filterData,
+      activeSortOption: this.activeSortOption
+        ? { ...this.activeSortOption }
+        : undefined,
+      additionalData:
+        this.additionalData !== undefined
+          ? safeStructuredClone(this.additionalData)
+          : undefined,
+      filterData: this.filterData
+        ? {
+            filtersApplied: this.filterData.filtersApplied,
+            filters:
+              this.filterData.filters !== undefined
+                ? safeStructuredClone(this.filterData.filters)
+                : undefined,
+          }
+        : undefined,
       onlyShowSelected: this.onlyShowSelected,
       searchText: this.searchText,
-      selectedIds: this.selectedIds,
+      selectedIds: this.selectedIds ? [...this.selectedIds] : undefined,
       views: viewStates,
     };
   }
@@ -94,19 +108,16 @@ export class SkyDataManagerState {
   ): SkyDataManagerState {
     const existingViewIndex = this.views.findIndex((v) => v.viewId === viewId);
 
+    const newViews = this.views.slice();
     if (existingViewIndex !== -1) {
-      this.views[existingViewIndex] = view;
+      newViews.splice(existingViewIndex, 1, view);
     } else {
-      this.views.push(view);
+      newViews.push(view);
     }
 
-    return new SkyDataManagerState({
-      activeSortOption: this.activeSortOption,
-      additionalData: this.additionalData,
-      filterData: this.filterData,
-      searchText: this.searchText,
-      selectedIds: this.selectedIds,
-      views: this.views,
-    });
+    const options = this.getStateOptions();
+    options.views = newViews.map((v) => v.getViewStateOptions());
+
+    return new SkyDataManagerState(options);
   }
 }
