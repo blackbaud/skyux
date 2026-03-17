@@ -1,5 +1,8 @@
 import { Component, TemplateRef, ViewChild } from '@angular/core';
-import { SkyInlineFormButtonLayout, SkyInlineFormCloseArgs } from '@skyux/inline-form';
+import {
+  SkyInlineFormButtonLayout,
+  SkyInlineFormCloseArgs,
+} from '@skyux/inline-form';
 
 @Component({
   selector: 'app-inline-form',
