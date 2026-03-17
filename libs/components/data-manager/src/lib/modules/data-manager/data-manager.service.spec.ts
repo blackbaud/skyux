@@ -867,7 +867,7 @@ describe('SkyDataManagerService', () => {
       initTestComponent();
     });
 
-    it('should emit via getDataStateUpdates with property filter after initDataView', () => {
+    it('should emit via getDataStateUpdates with property filter after updateDataState', () => {
       let emitCount = 0;
 
       dataManagerService
@@ -878,8 +878,8 @@ describe('SkyDataManagerService', () => {
           emitCount++;
         });
 
-      // initDataView triggers addOrUpdateView which calls updateDataState
-      // with the init source. The subscription above should receive it.
+      // Capture the initial emit count before updateDataState is called.
+      // The subsequent updateDataState call should trigger another emission.
       const initialEmitCount = emitCount;
 
       dataManagerService.updateDataState(
@@ -914,11 +914,9 @@ describe('SkyDataManagerService', () => {
       const emitCountAfterFirst = emitCount;
       expect(emitCountAfterFirst).toBeGreaterThan(emitCountAfterInit);
 
-      // Mutate and update again with different selectedIds
-      const stateToMutate2 = new SkyDataManagerState({
-        selectedIds: ['1', '2', '3'],
-      });
-      dataManagerService.updateDataState(stateToMutate2, 'someSource');
+      // Mutate the previously emitted state in-place and update again
+      stateToMutate.selectedIds?.push('3');
+      dataManagerService.updateDataState(stateToMutate, 'someSource');
 
       expect(emitCount).toBeGreaterThan(emitCountAfterFirst);
       expect(latestState?.selectedIds).toEqual(['1', '2', '3']);

@@ -32,9 +32,24 @@ export class SkyDataViewState {
   constructor(data: SkyDataViewStateOptions) {
     this.viewId = data.viewId;
     this.columnIds = data.columnIds || [];
-    this.columnWidths = data.columnWidths || { xs: {}, sm: {} };
+    const widths = data.columnWidths ?? {};
+    this.columnWidths = {
+      xs: widths.xs ?? {},
+      sm: widths.sm ?? {},
+    };
     this.displayedColumnIds = data.displayedColumnIds || [];
     this.additionalData = data.additionalData;
+  }
+
+  private safeCloneAdditionalData(value: unknown): unknown {
+    try {
+      // Use structuredClone when available to avoid mutating the original value.
+      // If cloning fails (e.g., for non-cloneable values), fall back to the original.
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return structuredClone(value as any);
+    } catch {
+      return value;
+    }
   }
 
   /**
@@ -46,13 +61,13 @@ export class SkyDataViewState {
       viewId: this.viewId,
       columnIds: [...this.columnIds],
       columnWidths: {
-        xs: { ...this.columnWidths.xs },
-        sm: { ...this.columnWidths.sm },
+        xs: { ...(this.columnWidths?.xs ?? {}) },
+        sm: { ...(this.columnWidths?.sm ?? {}) },
       },
       displayedColumnIds: [...this.displayedColumnIds],
       additionalData:
         this.additionalData !== undefined
-          ? structuredClone(this.additionalData)
+          ? this.safeCloneAdditionalData(this.additionalData)
           : undefined,
     };
   }

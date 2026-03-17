@@ -53,6 +53,20 @@ export class SkyDataManagerState {
     this.views = views || [];
   }
 
+  private static safeStructuredClone<T>(value: T): T {
+    if (value === undefined || value === null) {
+      return value;
+    }
+
+    try {
+      // structuredClone may throw if the value is not cloneable.
+      return structuredClone(value);
+    } catch {
+      // Fall back to returning the original reference to avoid unexpected runtime errors.
+      return value;
+    }
+  }
+
   /**
    * Returns the `SkyDataManagerStateOptions` for the data manager.
    * @returns The `SkyDataManagerStateOptions` for the data manager.
@@ -68,14 +82,16 @@ export class SkyDataManagerState {
         : undefined,
       additionalData:
         this.additionalData !== undefined
-          ? structuredClone(this.additionalData)
+          ? SkyDataManagerState.safeStructuredClone(this.additionalData)
           : undefined,
       filterData: this.filterData
         ? {
             filtersApplied: this.filterData.filtersApplied,
             filters:
               this.filterData.filters !== undefined
-                ? structuredClone(this.filterData.filters)
+                ? SkyDataManagerState.safeStructuredClone(
+                    this.filterData.filters,
+                  )
                 : undefined,
           }
         : undefined,
