@@ -156,7 +156,6 @@ function isTransitionDisabledForProperty(args: {
   const { trackedProperty, transitionDuration, transitionProperty } = args;
   const properties = transitionProperty.split(',').map((p) => p.trim());
   const durations = transitionDuration.split(',').map((d) => d.trim());
-
   const index = properties.indexOf(trackedProperty);
 
   if (index === -1) {
@@ -164,5 +163,6 @@ function isTransitionDisabledForProperty(args: {
   }
 
   const duration = durations[index % durations.length];
+
   return parseFloat(duration) <= 0;
 }
