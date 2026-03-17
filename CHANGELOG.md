@@ -1,6 +1,15 @@
 # Changelog
 
 
+## [13.16.2](https://github.com/blackbaud/skyux/compare/13.16.1...13.16.2) (2026-03-17)
+
+
+### Bug Fixes
+
+* **components/data-manager:** address data mutation during view updates ([#4309](https://github.com/blackbaud/skyux/issues/4309)) ([328efab](https://github.com/blackbaud/skyux/commit/328efabc7ef53c81f59db64cc8619faa3b4c033f)), closes [AB#3705639](https://github.com/AB/issues/3705639)
+
+
+
 ## [14.0.0-alpha.8](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.7...14.0.0-alpha.8) (2026-03-12)
 
 
