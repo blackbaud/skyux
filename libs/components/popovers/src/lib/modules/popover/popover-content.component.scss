@@ -26,6 +26,21 @@ $popover-max-width: 276px;
         )
     )
   );
+  opacity: 0;
+  transition: opacity 150ms;
+
+  @starting-style {
+    opacity: 0;
+  }
+
+  &.sky-popover-visible {
+    opacity: 1;
+    transition-duration: 250ms;
+  }
+
+  &.sky-popover-animations-disabled {
+    transition: none;
+  }
 
   &.sky-popover-hidden {
     visibility: hidden;

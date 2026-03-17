@@ -1,16 +1,18 @@
 <div
   #popoverRef
+  skyTransitionEndHandler
   class="sky-popover-container sky-popover-max-height"
-  [@.disabled]="!enableAnimations"
-  [@skyPopoverAnimation]="animationState"
   [class.sky-popover-hidden]="!placement"
   [ngClass]="[
     'sky-popover-alignment-' + horizontalAlignment,
     'sky-popover-placement-' + placement,
     'sky-popover-' + popoverType
   ]"
-  (@skyPopoverAnimation.done)="onAnimationEvent($event)"
-  (@skyPopoverAnimation.start)="onAnimationEvent($event)"
+  [class.sky-popover-visible]="isOpen()"
+  [class.sky-popover-animations-disabled]="!enableAnimations"
+  [transitionPropertyToTrack]="'opacity'"
+  [transitionTrigger]="isOpen()"
+  (transitionEnd)="onAnimationsComplete()"
 >
   <div
     class="sky-popover"
