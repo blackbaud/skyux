@@ -4,9 +4,10 @@ import {
   OutputEmitterRef,
   Signal,
   effect,
+  untracked,
 } from '@angular/core';
 
-interface EmitWhenMotionDisabledArgs {
+interface WatchMotionArgs {
   /** The directive's `DestroyRef`, used to suppress emissions after teardown. */
   destroyRef: DestroyRef;
 
@@ -26,22 +27,12 @@ interface EmitWhenMotionDisabledArgs {
  * `animation-duration` resolves to `0` or less, the emitter fires via a
  * microtask.
  */
-export function watchForDisabledCssAnimations(
-  args: EmitWhenMotionDisabledArgs,
-): void {
-  const { destroyRef, elementRef, emitter, trigger } = args;
-
-  emitWhenMotionDisabled({
-    destroyRef,
-    elementRef,
-    emitter,
-    isMotionDisabled: (style) => {
-      return (
-        allMotionPropertiesDisabled(style.animationName) ||
-        allDurationsNonPositive(style.animationDuration)
-      );
-    },
-    trigger,
+export function watchForDisabledCssAnimations(args: WatchMotionArgs): void {
+  emitWhenMotionDisabled(args, (style) => {
+    return (
+      allValuesEqual(style.animationName, 'none') ||
+      allDurationsNonPositive(style.animationDuration)
+    );
   });
 }
 
@@ -52,36 +43,30 @@ export function watchForDisabledCssAnimations(
  * `0` or less), the emitter fires via a microtask.
  */
 export function watchForDisabledCssTransitions(
-  args: EmitWhenMotionDisabledArgs & {
+  args: WatchMotionArgs & {
     /**
      * The specific CSS property being tracked (e.g. `'visibility'`).
      */
     propertyToTrack: Signal<string | undefined>;
   },
 ): void {
-  const { destroyRef, elementRef, emitter, propertyToTrack, trigger } = args;
+  const { propertyToTrack, ...watchArgs } = args;
 
-  emitWhenMotionDisabled({
-    destroyRef,
-    elementRef,
-    emitter,
-    isMotionDisabled: (style) => {
-      if (allMotionPropertiesDisabled(style.transitionProperty)) {
-        return true;
-      }
+  emitWhenMotionDisabled(watchArgs, (style) => {
+    if (allValuesEqual(style.transitionProperty, 'none')) {
+      return true;
+    }
 
-      const trackedProperty = propertyToTrack();
-      if (!trackedProperty) {
-        return allDurationsNonPositive(style.transitionDuration);
-      }
+    const trackedProperty = propertyToTrack();
+    if (!trackedProperty) {
+      return allDurationsNonPositive(style.transitionDuration);
+    }
 
-      return isTransitionDisabledForProperty({
-        trackedProperty,
-        transitionDuration: style.transitionDuration,
-        transitionProperty: style.transitionProperty,
-      });
-    },
-    trigger,
+    return isTransitionDisabledForProperty({
+      trackedProperty,
+      transitionDuration: style.transitionDuration,
+      transitionProperty: style.transitionProperty,
+    });
   });
 }
 
@@ -91,11 +76,10 @@ export function watchForDisabledCssTransitions(
  * run and unrendered elements to match native CSS behavior.
  */
 function emitWhenMotionDisabled(
-  args: EmitWhenMotionDisabledArgs & {
-    isMotionDisabled: (style: CSSStyleDeclaration) => boolean;
-  },
+  args: WatchMotionArgs,
+  isMotionDisabled: (style: CSSStyleDeclaration) => boolean,
 ): void {
-  const { destroyRef, elementRef, emitter, isMotionDisabled, trigger } = args;
+  const { destroyRef, elementRef, emitter, trigger } = args;
   const el = elementRef.nativeElement;
 
   let destroyed = false;
@@ -113,16 +97,14 @@ function emitWhenMotionDisabled(
 
     // Skip the first effect run (and unrendered elements) to match native CSS behavior.
     // Motion events only fire on rendered elements when a property value changes.
-    if (initialized && isRendered) {
-      if (isMotionDisabled(style)) {
-        // Defer the emit to a microtask so it fires after the current
-        // change detection pass, matching real transition timing.
-        queueMicrotask(() => {
-          if (!destroyed) {
-            emitter.emit();
-          }
-        });
-      }
+    if (initialized && isRendered && untracked(() => isMotionDisabled(style))) {
+      // Defer the emit to a microtask so it fires after the current
+      // change detection pass, matching real transition timing.
+      queueMicrotask(() => {
+        if (!destroyed) {
+          emitter.emit();
+        }
+      });
     }
 
     initialized = true;
@@ -130,10 +112,10 @@ function emitWhenMotionDisabled(
 }
 
 /**
- * Returns `true` if every entry in a comma-separated CSS property list is `'none'`.
+ * Returns `true` if every entry in a comma-separated list equals `target`.
  */
-function allMotionPropertiesDisabled(value: string): boolean {
-  return value.split(',').every((p) => p.trim() === 'none');
+function allValuesEqual(csv: string, target: string): boolean {
+  return csv.split(',').every((v) => v.trim() === target);
 }
 
 /**
