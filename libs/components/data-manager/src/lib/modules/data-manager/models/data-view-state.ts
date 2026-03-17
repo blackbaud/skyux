@@ -1,5 +1,6 @@
 import { SkyDataViewColumnWidths } from './data-view-column-widths';
 import { SkyDataViewStateOptions } from './data-view-state-options';
+import { safeStructuredClone } from './safe-structured-clone';
 
 /**
  * Provides options for defining how data is displayed, such as which columns appear.
@@ -32,24 +33,13 @@ export class SkyDataViewState {
   constructor(data: SkyDataViewStateOptions) {
     this.viewId = data.viewId;
     this.columnIds = data.columnIds || [];
-    const widths = data.columnWidths ?? {};
+    const widths = data.columnWidths || { xs: {}, sm: {} };
     this.columnWidths = {
       xs: widths.xs ?? {},
       sm: widths.sm ?? {},
     };
     this.displayedColumnIds = data.displayedColumnIds || [];
     this.additionalData = data.additionalData;
-  }
-
-  private safeCloneAdditionalData(value: unknown): unknown {
-    try {
-      // Use structuredClone when available to avoid mutating the original value.
-      // If cloning fails (e.g., for non-cloneable values), fall back to the original.
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      return structuredClone(value as any);
-    } catch {
-      return value;
-    }
   }
 
   /**
@@ -67,7 +57,7 @@ export class SkyDataViewState {
       displayedColumnIds: [...this.displayedColumnIds],
       additionalData:
         this.additionalData !== undefined
-          ? this.safeCloneAdditionalData(this.additionalData)
+          ? safeStructuredClone(this.additionalData)
           : undefined,
     };
   }

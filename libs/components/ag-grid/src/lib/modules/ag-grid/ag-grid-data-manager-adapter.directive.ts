@@ -300,9 +300,7 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
           const viewConfig = this.#viewConfig();
           if (viewConfig && this.#currentDataState) {
             const row = event.node;
-            const selectedIds = [
-              ...(this.#currentDataState.selectedIds || []),
-            ];
+            const selectedIds = [...(this.#currentDataState.selectedIds || [])];
             const rowIndex = selectedIds.indexOf(row.data.id);
 
             if (row.isSelected() && rowIndex === -1) {
