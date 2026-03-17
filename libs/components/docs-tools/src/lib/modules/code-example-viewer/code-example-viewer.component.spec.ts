@@ -2,8 +2,8 @@ import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expectAsync } from '@skyux-sdk/testing';
+import { provideNoopSkyAnimations } from '@skyux/core';
 import { SkyBoxHarness } from '@skyux/layout/testing';
 
 import { SkyDocsCodeExampleViewerComponent } from './code-example-viewer.component';
@@ -101,7 +101,8 @@ class FooExampleComponent {}`,
     };
 
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, SkyDocsCodeExampleViewerModule],
+      imports: [SkyDocsCodeExampleViewerModule],
+      providers: [provideNoopSkyAnimations()],
     });
   });
 
