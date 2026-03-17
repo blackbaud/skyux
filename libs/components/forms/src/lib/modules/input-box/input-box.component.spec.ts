@@ -1195,6 +1195,7 @@ describe('Input box component', () => {
       TestBed.configureTestingModule({
         imports: [InputBoxFixturesModule],
         providers: [
+          provideNoopSkyAnimations(),
           {
             provide: SkyThemeService,
             useValue: mockThemeSvc,
