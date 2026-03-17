@@ -6,6 +6,7 @@
 
 ### ⚠ BREAKING CHANGES
 
+* **components/tabs:** replace `@angular/animations` with CSS transitions (#4288)
 * **components/flyout:** replace `@angular/animations` with CSS transitions (#4285)
 
 ### Features
@@ -18,6 +19,7 @@
 
 * **components/core:** transition handler emits via microtask when animations disabled ([#4304](https://github.com/blackbaud/skyux/issues/4304)) ([3b9cd2d](https://github.com/blackbaud/skyux/commit/3b9cd2dab374714cb4e7a63b31e2e11dd385045e))
 * **components/flyout:** replace `@angular/animations` with CSS transitions ([#4285](https://github.com/blackbaud/skyux/issues/4285)) ([96aa341](https://github.com/blackbaud/skyux/commit/96aa341bda2c8863550dc2fa26f619fd10b71e75))
+* **components/tabs:** replace `@angular/animations` with CSS transitions ([#4288](https://github.com/blackbaud/skyux/issues/4288)) ([90b183b](https://github.com/blackbaud/skyux/commit/90b183b1524dbbc9bfe2a1a2e0f5c1d2aa570503))
 
 ## [14.0.0-alpha.8](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.7...14.0.0-alpha.8) (2026-03-12)
 
