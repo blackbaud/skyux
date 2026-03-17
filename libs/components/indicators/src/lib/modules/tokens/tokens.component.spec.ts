@@ -5,7 +5,7 @@ import {
   tick,
 } from '@angular/core/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyLiveAnnouncerService } from '@skyux/core';
+import { SkyLiveAnnouncerService, provideNoopSkyAnimations } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 
@@ -84,6 +84,7 @@ describe('Tokens component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyTokensFixturesModule],
+      providers: [provideNoopSkyAnimations()],
     });
 
     fixture = TestBed.createComponent(SkyTokensTestComponent);
