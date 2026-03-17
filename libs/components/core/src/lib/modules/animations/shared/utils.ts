@@ -11,7 +11,7 @@ interface EmitWhenMotionDisabledArgs {
   destroyRef: DestroyRef;
 
   /** A reference to the host element whose computed styles are inspected. */
-  elementRef: ElementRef;
+  elementRef: ElementRef<Element>;
 
   /** The output emitter to call when CSS motion is disabled. */
   emitter: OutputEmitterRef<void>;
@@ -37,8 +37,8 @@ export function watchForDisabledCssAnimations(
     emitter,
     isMotionDisabled: (style) => {
       return (
-        style.animationName === 'none' ||
-        parseFloat(style.animationDuration) <= 0
+        allMotionPropertiesDisabled(style.animationName) ||
+        allDurationsNonPositive(style.animationDuration)
       );
     },
     trigger,
@@ -47,24 +47,39 @@ export function watchForDisabledCssAnimations(
 
 /**
  * Watches the host element for disabled CSS transitions. When the trigger
- * signal changes and the element's `transition-property` is `'none'` or its
- * `transition-duration` resolves to `0` or less, the emitter fires via a
- * microtask.
+ * signal changes and the tracked property's transition is disabled
+ * (e.g. `transition-property: none` or its paired duration resolves to
+ * `0` or less), the emitter fires via a microtask.
  */
 export function watchForDisabledCssTransitions(
-  args: EmitWhenMotionDisabledArgs,
+  args: EmitWhenMotionDisabledArgs & {
+    /**
+     * The specific CSS property being tracked (e.g. `'visibility'`).
+     */
+    propertyToTrack: Signal<string | undefined>;
+  },
 ): void {
-  const { destroyRef, elementRef, emitter, trigger } = args;
+  const { destroyRef, elementRef, emitter, propertyToTrack, trigger } = args;
 
   emitWhenMotionDisabled({
     destroyRef,
     elementRef,
     emitter,
     isMotionDisabled: (style) => {
-      return (
-        style.transitionProperty === 'none' ||
-        parseFloat(style.transitionDuration) <= 0
-      );
+      if (allMotionPropertiesDisabled(style.transitionProperty)) {
+        return true;
+      }
+
+      const trackedProperty = propertyToTrack();
+      if (!trackedProperty) {
+        return allDurationsNonPositive(style.transitionDuration);
+      }
+
+      return isTransitionDisabledForProperty({
+        trackedProperty,
+        transitionDuration: style.transitionDuration,
+        transitionProperty: style.transitionProperty,
+      });
     },
     trigger,
   });
@@ -112,4 +127,42 @@ function emitWhenMotionDisabled(
 
     initialized = true;
   });
+}
+
+/**
+ * Returns `true` if every entry in a comma-separated CSS property list is `'none'`.
+ */
+function allMotionPropertiesDisabled(value: string): boolean {
+  return value.split(',').every((p) => p.trim() === 'none');
+}
+
+/**
+ * Returns `true` if every entry in a comma-separated CSS duration list resolves to `0` or less.
+ */
+function allDurationsNonPositive(value: string): boolean {
+  return value.split(',').every((d) => parseFloat(d.trim()) <= 0);
+}
+
+/**
+ * Returns `true` if the tracked property's paired duration is `0` or less,
+ * or if the property isn't listed. Per the CSS spec, durations cycle over
+ * the property list.
+ */
+function isTransitionDisabledForProperty(args: {
+  trackedProperty: string;
+  transitionDuration: string;
+  transitionProperty: string;
+}): boolean {
+  const { trackedProperty, transitionDuration, transitionProperty } = args;
+  const properties = transitionProperty.split(',').map((p) => p.trim());
+  const durations = transitionDuration.split(',').map((d) => d.trim());
+
+  const index = properties.indexOf(trackedProperty);
+
+  if (index === -1) {
+    return true;
+  }
+
+  const duration = durations[index % durations.length];
+  return parseFloat(duration) <= 0;
 }

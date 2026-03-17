@@ -52,10 +52,6 @@ describe('SkyAnimationEndHandler', () => {
     return { fixture, component: fixture.componentInstance };
   }
 
-  afterEach(() => {
-    document.body.classList.remove('sky-animations-disabled');
-  });
-
   it('should create the directive', () => {
     const { fixture } = setupTest();
 

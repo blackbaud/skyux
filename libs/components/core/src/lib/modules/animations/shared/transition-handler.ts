@@ -2,6 +2,7 @@ import {
   DestroyRef,
   Directive,
   ElementRef,
+  computed,
   inject,
   input,
   output,
@@ -56,12 +57,16 @@ export class _SkyTransitionEndHandlerDirective {
   public readonly transitionEnd = output<void>();
 
   readonly #propertyNameOverride = signal<string | undefined>(undefined);
+  readonly #propertyToTrack = computed(
+    () => this.transitionPropertyToTrack() ?? this.#propertyNameOverride(),
+  );
 
   constructor() {
     watchForDisabledCssTransitions({
       destroyRef: inject(DestroyRef),
       elementRef: this.#elementRef,
       emitter: this.transitionEnd,
+      propertyToTrack: this.#propertyToTrack,
       trigger: this.transitionTrigger,
     });
   }
@@ -80,8 +85,7 @@ export class _SkyTransitionEndHandlerDirective {
       return;
     }
 
-    const propertyName =
-      this.transitionPropertyToTrack() ?? this.#propertyNameOverride();
+    const propertyName = this.#propertyToTrack();
 
     if (!propertyName) {
       throw new Error(

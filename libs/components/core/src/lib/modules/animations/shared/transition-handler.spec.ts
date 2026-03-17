@@ -69,10 +69,6 @@ describe('SkyTransitionEndHandler', () => {
     return { fixture, component: fixture.componentInstance };
   }
 
-  afterEach(() => {
-    document.body.classList.remove('sky-animations-disabled');
-  });
-
   it('should create the directive', () => {
     const { fixture } = setupTest();
 
@@ -215,10 +211,12 @@ describe('SkyTransitionEndHandler', () => {
       const handler = fixture.debugElement.injector.get(
         _SkyTransitionEndHandlerDirective,
       );
+
       handler.transitionEnd.subscribe(() => {
         transitionEndEmitted = true;
       });
 
+      fixture.nativeElement.style.transitionProperty = 'none';
       fixture.detectChanges();
 
       expect(transitionEndEmitted).toBeFalse();
@@ -296,6 +294,58 @@ describe('SkyTransitionEndHandler', () => {
       await fixture.whenStable();
 
       expect(transitionEndEmitted).toBeFalse();
+    });
+
+    it('should emit via microtask when no property is tracked and all durations are 0s', async () => {
+      const { fixture } = setupTest({ skipTrackProperty: true });
+
+      let transitionEndEmitted = false;
+
+      const handler = fixture.debugElement.injector.get(
+        _SkyTransitionEndHandlerDirective,
+      );
+
+      handler.transitionEnd.subscribe(() => {
+        transitionEndEmitted = true;
+      });
+
+      fixture.nativeElement.style.transitionProperty = 'opacity';
+      fixture.nativeElement.style.transitionDuration = '0s';
+
+      fixture.componentRef.setInput('trigger', signal(true));
+      fixture.detectChanges();
+
+      expect(transitionEndEmitted).toBeFalse();
+
+      await fixture.whenStable();
+
+      expect(transitionEndEmitted).toBeTrue();
+    });
+
+    it('should emit via microtask when the tracked property is not in the transition-property list', async () => {
+      const { fixture } = setupTest({ trackProperty: 'visibility' });
+
+      let transitionEndEmitted = false;
+
+      const handler = fixture.debugElement.injector.get(
+        _SkyTransitionEndHandlerDirective,
+      );
+
+      handler.transitionEnd.subscribe(() => {
+        transitionEndEmitted = true;
+      });
+
+      fixture.nativeElement.style.transitionProperty = 'opacity';
+      fixture.nativeElement.style.transitionDuration = '250ms';
+
+      fixture.componentRef.setInput('trigger', signal(true));
+      fixture.detectChanges();
+
+      expect(transitionEndEmitted).toBeFalse();
+
+      await fixture.whenStable();
+
+      expect(transitionEndEmitted).toBeTrue();
     });
   });
 
