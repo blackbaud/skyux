@@ -1,8 +1,6 @@
 import { Component, input, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { provideNoopSkyAnimations } from '../utility/provide-noop-animations';
-
 import { _SkyAnimationEndHandlerDirective } from './animation-handler';
 
 @Component({
@@ -39,15 +37,12 @@ class TemplateTestComponent {
 }
 
 describe('SkyAnimationEndHandler', () => {
-  function setupTest(options?: { noopAnimations?: boolean }): {
+  function setupTest(): {
     fixture: ComponentFixture<TestComponent>;
     component: TestComponent;
   } {
     TestBed.configureTestingModule({
       imports: [TestComponent],
-      providers: [
-        ...(options?.noopAnimations ? [provideNoopSkyAnimations()] : []),
-      ],
     });
 
     const fixture = TestBed.createComponent(TestComponent);
@@ -113,15 +108,16 @@ describe('SkyAnimationEndHandler', () => {
     });
   });
 
-  describe('when animations are disabled', () => {
+  describe('when CSS animations are disabled', () => {
     it('should not emit animationEnd on initial render', () => {
-      const { fixture } = setupTest({ noopAnimations: true });
+      const { fixture } = setupTest();
 
       let animationEndEmitted = false;
 
       const handler = fixture.debugElement.injector.get(
         _SkyAnimationEndHandlerDirective,
       );
+
       handler.animationEnd.subscribe(() => {
         animationEndEmitted = true;
       });
@@ -131,17 +127,20 @@ describe('SkyAnimationEndHandler', () => {
       expect(animationEndEmitted).toBeFalse();
     });
 
-    it('should emit animationEnd in a microtask when the animationTrigger changes', async () => {
-      const { fixture } = setupTest({ noopAnimations: true });
+    it('should emit via microtask when animation-name is none', async () => {
+      const { fixture } = setupTest();
 
       let animationEndEmitted = false;
 
       const handler = fixture.debugElement.injector.get(
         _SkyAnimationEndHandlerDirective,
       );
+
       handler.animationEnd.subscribe(() => {
         animationEndEmitted = true;
       });
+
+      fixture.nativeElement.style.animationName = 'none';
 
       fixture.componentRef.setInput('trigger', signal(true));
       fixture.detectChanges();
@@ -152,17 +151,61 @@ describe('SkyAnimationEndHandler', () => {
 
       expect(animationEndEmitted).toBeTrue();
     });
+
+    it('should emit via microtask when animation-duration is 0s', async () => {
+      const { fixture } = setupTest();
+
+      let animationEndEmitted = false;
+
+      const handler = fixture.debugElement.injector.get(
+        _SkyAnimationEndHandlerDirective,
+      );
+      handler.animationEnd.subscribe(() => {
+        animationEndEmitted = true;
+      });
+
+      fixture.nativeElement.style.animationName = 'some-anim';
+      fixture.nativeElement.style.animationDuration = '0s';
+
+      fixture.componentRef.setInput('trigger', signal(true));
+      fixture.detectChanges();
+
+      expect(animationEndEmitted).toBeFalse();
+
+      await fixture.whenStable();
+
+      expect(animationEndEmitted).toBeTrue();
+    });
+
+    it('should not emit via microtask when a CSS animation is active', async () => {
+      const { fixture } = setupTest();
+
+      let animationEndEmitted = false;
+
+      const handler = fixture.debugElement.injector.get(
+        _SkyAnimationEndHandlerDirective,
+      );
+
+      handler.animationEnd.subscribe(() => {
+        animationEndEmitted = true;
+      });
+
+      fixture.nativeElement.style.animationName = 'sky-animation-emerge-enter';
+      fixture.nativeElement.style.animationDuration = '250ms';
+
+      fixture.componentRef.setInput('trigger', signal(true));
+      fixture.detectChanges();
+
+      await fixture.whenStable();
+
+      expect(animationEndEmitted).toBeFalse();
+    });
   });
 
   describe('animationTrigger input', () => {
-    function setupTemplateTest(options?: {
-      noopAnimations?: boolean;
-    }): ComponentFixture<TemplateTestComponent> {
+    function setupTemplateTest(): ComponentFixture<TemplateTestComponent> {
       TestBed.configureTestingModule({
         imports: [TemplateTestComponent],
-        providers: [
-          ...(options?.noopAnimations ? [provideNoopSkyAnimations()] : []),
-        ],
       });
 
       const fixture = TestBed.createComponent(TemplateTestComponent);

@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyTextExpandModule } from '@skyux/layout';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkyTextExpandModule],
   selector: 'app-text-expand',
   templateUrl: './text-expand.component.html',
