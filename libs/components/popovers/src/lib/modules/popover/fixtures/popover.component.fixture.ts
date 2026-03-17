@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 
 import { Subject } from 'rxjs';
 
@@ -22,7 +16,7 @@ import { SkyPopoverTrigger } from '../types/popover-trigger';
   styleUrls: ['./popover.component.fixture.scss'],
   standalone: false,
 })
-export class PopoverFixtureComponent implements OnInit, AfterViewInit {
+export class PopoverFixtureComponent implements AfterViewInit {
   //#region directive properties
 
   public alignment: SkyPopoverAlignment | undefined;
@@ -73,12 +67,6 @@ export class PopoverFixtureComponent implements OnInit, AfterViewInit {
   public showFocusableChildren: boolean | undefined;
 
   public popoverType: 'info' | 'danger' | undefined;
-
-  public ngOnInit(): void {
-    if (this.popoverRef) {
-      this.popoverRef.enableAnimations = false;
-    }
-  }
 
   public ngAfterViewInit(): void {
     // Avoid expression changed after checked errors in unit tests.
