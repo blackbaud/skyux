@@ -1,5 +1,6 @@
 import { SkyDataViewColumnWidths } from './data-view-column-widths';
 import { SkyDataViewStateOptions } from './data-view-state-options';
+import { safeStructuredClone } from './safe-structured-clone';
 
 /**
  * Provides options for defining how data is displayed, such as which columns appear.
@@ -32,7 +33,11 @@ export class SkyDataViewState {
   constructor(data: SkyDataViewStateOptions) {
     this.viewId = data.viewId;
     this.columnIds = data.columnIds || [];
-    this.columnWidths = data.columnWidths || { xs: {}, sm: {} };
+    const widths = data.columnWidths || { xs: {}, sm: {} };
+    this.columnWidths = {
+      xs: widths.xs ?? {},
+      sm: widths.sm ?? {},
+    };
     this.displayedColumnIds = data.displayedColumnIds || [];
     this.additionalData = data.additionalData;
   }
@@ -44,10 +49,16 @@ export class SkyDataViewState {
   public getViewStateOptions(): SkyDataViewStateOptions {
     return {
       viewId: this.viewId,
-      columnIds: this.columnIds,
-      columnWidths: this.columnWidths,
-      displayedColumnIds: this.displayedColumnIds,
-      additionalData: this.additionalData,
+      columnIds: [...this.columnIds],
+      columnWidths: {
+        xs: { ...(this.columnWidths?.xs ?? {}) },
+        sm: { ...(this.columnWidths?.sm ?? {}) },
+      },
+      displayedColumnIds: [...this.displayedColumnIds],
+      additionalData:
+        this.additionalData !== undefined
+          ? safeStructuredClone(this.additionalData)
+          : undefined,
     };
   }
 }
