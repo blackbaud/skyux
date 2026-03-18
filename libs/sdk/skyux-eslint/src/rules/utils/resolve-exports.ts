@@ -122,6 +122,9 @@ export function extractNamedExports(
             valueExports.push(name);
           }
         }
+      } else if (ts.isNamespaceExport(statement.exportClause)) {
+        // export * as ns from '...' — the namespace name is a value export
+        valueExports.push(statement.exportClause.name.text);
       }
       continue;
     }

@@ -404,6 +404,14 @@ describe('extractNamedExports', () => {
     });
   });
 
+  it('should extract namespace re-export name as value export', () => {
+    expect(extractNamedExports("export * as ns from './bar';")).toEqual({
+      valueExports: ['ns'],
+      typeExports: [],
+      hasWildcardReExports: false,
+    });
+  });
+
   it('should detect wildcard re-exports alongside named exports', () => {
     const content = ['export class Foo {}', "export * from './bar';"].join(
       '\n',
