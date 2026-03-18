@@ -12,6 +12,7 @@
   --sky-override-modal-full-page-margin-xs: 0;
   --sky-override-modal-full-page-margin: 0;
   --sky-override-modal-full-page-width: 100%;
+  --sky-override-modal-header-align-items: baseline;
   --sky-override-modal-header-bottom-border: #{1px solid
     $sky-border-color-neutral-light};
   --sky-override-modal-header-padding: #{9px 3px 9px $sky-padding-plus-half};
@@ -71,8 +72,7 @@
   display: none;
 }
 
-.sky-modal-btn-help,
-.sky-modal-btn-close {
+.sky-modal-btn-help {
   display: var(--sky-override-modal-help-close-display, none);
 }
 
@@ -225,7 +225,7 @@
   border-bottom: var(--sky-override-modal-header-bottom-border);
 
   display: flex;
-  align-items: baseline;
+  align-items: var(--sky-override-modal-header-align-items, center);
 }
 
 .sky-modal-header-buttons {
@@ -233,9 +233,8 @@
   // buttons to wrap on extra-small breakpoints (<200px).
   flex-shrink: 0.0001;
 
-  .sky-btn {
-    border: none;
-    @include mixins.sky-icon-button-borderless;
+  .sky-modal-btn-close {
+    margin-left: var(--sky-space-gap-text_action-l);
   }
 }
 
