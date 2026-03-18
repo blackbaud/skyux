@@ -189,24 +189,6 @@ export function buildNamedExportStatement(
  * Returns nodes in leaf-first order (nodes with no dependencies first).
  */
 export function topologicalSort(graph: Map<string, string[]>): string[] {
-  // Build in-degree map (how many files depend on this file).
-  const inDegree = new Map<string, number>();
-  for (const node of graph.keys()) {
-    /* istanbul ignore else */
-    if (!inDegree.has(node)) {
-      inDegree.set(node, 0);
-    }
-  }
-  for (const deps of graph.values()) {
-    for (const dep of deps) {
-      inDegree.set(dep, (inDegree.get(dep) ?? 0) + 1);
-    }
-  }
-
-  // Start with leaf nodes (no one depends on them in the wildcard graph,
-  // but they themselves may have deps that are already resolved).
-  // Actually, we want nodes whose dependencies are all outside the graph
-  // (i.e., they don't depend on other barrel files).
   const queue: string[] = [];
   const outDegree = new Map<string, number>();
 
@@ -223,12 +205,10 @@ export function topologicalSort(graph: Map<string, string[]>): string[] {
     const node = queue.shift()!;
     sorted.push(node);
 
-    // Find all nodes that depend on this node and decrement their out-degree.
     for (const [other, deps] of graph) {
       if (deps.includes(node)) {
         const newDeg = outDegree.get(other)! - 1;
         outDegree.set(other, newDeg);
-        /* istanbul ignore else */
         if (newDeg === 0) {
           queue.push(other);
         }

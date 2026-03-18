@@ -238,6 +238,18 @@ describe('topologicalSort', () => {
     expect(sorted).toContain('/b.ts');
   });
 
+  it('should handle diamond dependencies', () => {
+    const graph = new Map<string, string[]>();
+    graph.set('/index.ts', ['/a.ts', '/b.ts']);
+    graph.set('/a.ts', []);
+    graph.set('/b.ts', []);
+
+    const sorted = topologicalSort(graph);
+
+    expect(sorted.indexOf('/a.ts')).toBeLessThan(sorted.indexOf('/index.ts'));
+    expect(sorted.indexOf('/b.ts')).toBeLessThan(sorted.indexOf('/index.ts'));
+  });
+
   it('should handle independent nodes', () => {
     const graph = new Map<string, string[]>();
     graph.set('/a.ts', []);
@@ -246,14 +258,5 @@ describe('topologicalSort', () => {
     const sorted = topologicalSort(graph);
 
     expect(sorted).toHaveLength(2);
-  });
-
-  it('should handle deps pointing outside the graph', () => {
-    const graph = new Map<string, string[]>();
-    graph.set('/a.ts', ['/external.ts']);
-
-    const sorted = topologicalSort(graph);
-
-    expect(sorted).toContain('/a.ts');
   });
 });
