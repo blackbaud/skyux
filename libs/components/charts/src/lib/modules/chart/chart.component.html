@@ -3,9 +3,9 @@
   [attr.aria-label]="headingText()"
   [attr.aria-labelledby]="headerId"
 >
-  <!-- Header -->
-  <div class="sky-chart-header sky-margin-stacked-xs">
-    @if (headingText()) {
+  <div [class.sky-margin-stacked-sm]="showHeadingArea()">
+    <!-- Header -->
+    <div class="sky-chart-header">
       @switch (headingLevel()) {
         @case (2) {
           <h2
@@ -44,21 +44,21 @@
           </h3>
         }
       }
+    </div>
+
+    <!-- Subtitle -->
+    @if (subtitleText()) {
+      <div
+        class="sky-chart-subtitle"
+        [class.sky-screen-reader-only]="subtitleHidden()"
+      >
+        {{ subtitleText() }}
+      </div>
     }
   </div>
 
-  <!-- Subtitle -->
-  @if (subtitleText()) {
-    <div
-      class="sky-chart-subtitle sky-margin-stacked-xs"
-      [class.sky-screen-reader-only]="subtitleHidden()"
-    >
-      {{ subtitleText() }}
-    </div>
-  }
-
   <!-- Chart -->
-  <div [ngClass]="{ 'sky-margin-stacked-md': showLegend() }">
+  <div [class.sky-margin-stacked-md]="showLegend()">
     <ng-content />
   </div>
 

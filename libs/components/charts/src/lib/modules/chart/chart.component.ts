@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -45,7 +44,6 @@ import { SkyChartService } from './chart.service';
     SkyChartsResourcesModule,
     SkyDropdownModule,
     SkyChartLegendComponent,
-    NgClass,
   ],
   providers: [provideSkyChartHeaderId(), SkyChartService],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -77,6 +75,11 @@ export class SkyChartComponent {
   protected readonly headingClass = computed(
     () => `sky-font-heading-${this.headingLevel()}`,
   );
+  protected readonly showHeadingArea = computed(() => {
+    const isHeadingVisible = !this.headingHidden();
+    const isSubtitleVisible = !!this.subtitleText() && !this.subtitleHidden();
+    return isHeadingVisible || isSubtitleVisible;
+  });
   protected readonly legendItems = this.#chartService.legendItems;
   protected readonly showLegend = computed(() => this.legendItems().length > 1);
 
