@@ -16,7 +16,6 @@
   *,
   *::before,
   *::after {
-    --sky-transition-time-noop: 0s !important;
     --sky-transition-time-short: 0s !important;
     --sky-transition-time-medium: 0s !important;
   }
@@ -27,7 +26,6 @@
   *,
   *::before,
   *::after {
-    --sky-transition-time-noop: 1s !important;
     --sky-transition-time-short: 1ms !important;
     --sky-transition-time-medium: 1ms !important;
   }

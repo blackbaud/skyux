@@ -2,8 +2,6 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
-$dissolve-duration: 200ms;
-
 @include compatMixins.sky-default-overrides('.sky-inline-form') {
   --sky-override-inline-form-background-color: #{$sky-background-color-neutral-light};
   --sky-override-inline-form-border: 1px solid
@@ -64,7 +62,7 @@ $dissolve-duration: 200ms;
   }
 
   transition-property: opacity;
-  transition-duration: var(--sky-transition-time-noop, 100ms);
+  transition-duration: var(--sky-transition-time-short);
   transition-timing-function: ease-in;
 }
 
@@ -79,10 +77,9 @@ $dissolve-duration: 200ms;
   // On leave (.sky-slide-dissolve-leaving): overrides below snap opacity and collapse height.
   transition-property: grid-template-rows, opacity;
   transition-duration:
-    var(--sky-transition-time-noop, #{$dissolve-duration}),
-    var(--sky-transition-time-noop, #{$dissolve-duration});
+    var(--sky-transition-time-medium), var(--sky-transition-time-medium);
   transition-timing-function: ease-in, ease-in;
-  transition-delay: 0ms, var(--sky-transition-time-noop, #{$dissolve-duration});
+  transition-delay: 0ms, var(--sky-transition-time-medium);
 
   @starting-style {
     grid-template-rows: 0fr;
@@ -101,8 +98,7 @@ $dissolve-duration: 200ms;
 
   // Snap opacity immediately; height collapses while already invisible.
   transition-property: grid-template-rows, opacity;
-  transition-duration:
-    var(--sky-transition-time-noop, #{$dissolve-duration}), 0ms;
+  transition-duration: var(--sky-transition-time-medium), 0ms;
   transition-timing-function: ease-in, ease-in;
   transition-delay: 0ms, 0ms;
 }
