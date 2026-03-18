@@ -71,12 +71,13 @@ $-dissolve-duration: 200ms;
 // When the form enters, expand height first, then fade in opacity (sequential).
 // When the form leaves, snap opacity to 0 immediately, then collapse height.
 .sky-slide-dissolve-last {
-  interpolate-size: allow-keywords;
+  display: grid;
+  grid-template-rows: 1fr;
   opacity: 1;
 
   // On enter: height expands (no delay), then opacity fades in after height finishes.
   // On leave (.sky-slide-dissolve-leaving): overrides below snap opacity and collapse height.
-  transition-property: height, opacity;
+  transition-property: grid-template-rows, opacity;
   transition-duration:
     var(--sky-transition-time-noop, #{$-dissolve-duration}),
     var(--sky-transition-time-noop, #{$-dissolve-duration});
@@ -85,21 +86,21 @@ $-dissolve-duration: 200ms;
     0ms, var(--sky-transition-time-noop, #{$-dissolve-duration});
 
   @starting-style {
-    height: 0;
+    grid-template-rows: 0fr;
     opacity: 0;
+  }
+
+  > .sky-inline-form {
+    min-height: 0;
+    overflow: hidden;
   }
 }
 
-.sky-slide-dissolve-entering,
 .sky-slide-dissolve-leaving {
-  overflow: hidden;
-}
-
-.sky-slide-dissolve-leaving {
-  height: 0;
+  grid-template-rows: 0fr;
   opacity: 0;
   // Snap opacity immediately; height collapses while already invisible.
-  transition-property: height, opacity;
+  transition-property: grid-template-rows, opacity;
   transition-duration:
     var(--sky-transition-time-noop, #{$-dissolve-duration}), 0ms;
   transition-timing-function: ease-in, ease-in;
