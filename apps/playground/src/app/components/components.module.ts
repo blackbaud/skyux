@@ -88,13 +88,6 @@ export const componentRoutes: Routes = [
       ),
   },
   {
-    path: 'inline-form',
-    loadChildren: () =>
-      import('./inline-form/inline-form.module').then(
-        (m) => m.InlineFormModule,
-      ),
-  },
-  {
     path: 'indicators',
     loadChildren: () =>
       import('./indicators/indicators.module').then((m) => m.IndicatorsModule),
