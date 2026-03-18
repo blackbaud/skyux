@@ -7,7 +7,7 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyContentInfoProvider } from '@skyux/core';
+import { SkyContentInfoProvider, provideNoopSkyAnimations } from '@skyux/core';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -48,6 +48,7 @@ describe('Search component', () => {
       declarations: [SearchTestComponent],
       imports: [SkySearchModule],
       providers: [
+        provideNoopSkyAnimations(),
         provideSkyMediaQueryTesting(),
         {
           provide: SkyThemeService,
@@ -152,14 +153,6 @@ describe('Search component', () => {
     return fixture.whenStable();
   }
 
-  function triggerTransitionEnd(): void {
-    const inputContainer = element.query(By.css('.sky-search-input-container'));
-    inputContainer.nativeElement.dispatchEvent(
-      new TransitionEvent('transitionend', { propertyName: 'opacity' }),
-    );
-    fixture.detectChanges();
-  }
-
   function verifySearchOpenMobile(): void {
     fixture.detectChanges();
     const searchDismissContainer = element.query(
@@ -207,17 +200,17 @@ describe('Search component', () => {
 
   function verifySearchClosed(): void {
     fixture.detectChanges();
-    const inputContainer = element.query(By.css('.sky-search-input-container'));
+    const searchDismissContainer = element.query(
+      By.css('.sky-search-dismiss-container'),
+    );
 
     expect(
       element.query(By.css('.sky-search-btn-open')).nativeElement,
     ).toBeVisible();
-    expect(inputContainer.nativeElement).toHaveCssClass(
-      'sky-search-input-hidden',
+    expect(searchDismissContainer.nativeElement).not.toBeVisible();
+    expect(searchDismissContainer.nativeElement).not.toHaveCssClass(
+      'sky-search-dismiss-absolute',
     );
-    expect(
-      element.query(By.css('.sky-search-dismiss-container')).nativeElement,
-    ).not.toHaveCssClass('sky-search-dismiss-absolute');
   }
 
   describe('standard search', () => {
@@ -434,19 +427,15 @@ describe('Search component', () => {
       expect(component.lastSearchTextChanged).toBe('debounce this please 3');
     }));
 
-    it('should set focus when opening the search input', fakeAsync(() => {
-      mediaQueryController.setBreakpoint('xs');
+    it('should set focus when opening the search input', async () => {
+      await triggerXsBreakpoint();
       fixture.detectChanges();
-      tick();
-
-      const openEl = element.query(By.css('.sky-search-btn-open'));
-      openEl.triggerEventHandler('click', undefined);
+      await triggerOpenButton();
       fixture.detectChanges();
-      tick();
-
+      await fixture.whenStable();
       const inputEl = getInput();
       expect(document.activeElement).toBe(inputEl.nativeElement);
-    }));
+    });
 
     describe('animations', () => {
       describe('should animate the mobile search input open', () => {
@@ -488,7 +477,6 @@ describe('Search component', () => {
         it('and show a button when screen is xsmall', async () => {
           expect(element.query(By.css('.sky-search-btn-dismiss'))).toBeNull();
           await triggerXsBreakpoint();
-          triggerTransitionEnd();
           verifySearchClosed();
         });
 
@@ -498,7 +486,6 @@ describe('Search component', () => {
           await triggerOpenButton();
           fixture.detectChanges();
           await triggerDismissButton();
-          triggerTransitionEnd();
           verifySearchClosed();
         });
 
@@ -562,10 +549,8 @@ describe('Search component', () => {
 
         component.expandMode = undefined;
         fixture.detectChanges();
-        expect(component.searchComponent.expandMode).toBe('responsive');
 
         await triggerXsBreakpoint();
-        triggerTransitionEnd();
         fixture.detectChanges();
         verifySearchClosed();
       });

@@ -4,6 +4,7 @@ import {
   DestroyRef,
   ElementRef,
   EventEmitter,
+  Injector,
   Input,
   OnChanges,
   OnDestroy,
@@ -11,6 +12,7 @@ import {
   Output,
   SimpleChanges,
   ViewEncapsulation,
+  afterNextRender,
   computed,
   inject,
   signal,
@@ -94,11 +96,11 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
    */
   @Input()
   public set expandMode(value: string | undefined) {
-    this.#expandModeValue.set(value ?? EXPAND_MODE_RESPONSIVE);
+    this.#_expandMode.set(value ?? EXPAND_MODE_RESPONSIVE);
   }
 
   public get expandMode(): string {
-    return this.#expandModeValue();
+    return this.#_expandMode();
   }
 
   /**
@@ -138,15 +140,16 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
 
   public clearButtonShown = false;
 
-  public readonly isCollapsible = computed(
-    () => this.#expandModeValue() === EXPAND_MODE_RESPONSIVE,
-  );
-
-  public readonly isFullWidth = computed(
-    () => this.#expandModeValue() === EXPAND_MODE_FIT,
-  );
-
   protected contentInfoObs: Observable<SkyContentInfo> | undefined;
+
+  protected readonly isCollapsible = computed(
+    () => this.#_expandMode() === EXPAND_MODE_RESPONSIVE,
+  );
+
+  protected readonly isFullWidth = computed(
+    () => this.#_expandMode() === EXPAND_MODE_FIT,
+  );
+
   protected readonly inputShown = signal(true);
   protected readonly mobileSearchShown = signal(false);
   protected readonly searchButtonShown = signal(false);
@@ -167,10 +170,12 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
 
   #_disabled = false;
 
+  readonly #_expandMode = signal(EXPAND_MODE_RESPONSIVE);
+
   readonly #destroyRef = inject(DestroyRef);
+  readonly #injector = inject(Injector);
   readonly #mediaQuerySvc = inject(SkyMediaQueryService);
   readonly #breakpoint = toSignal(this.#mediaQuerySvc.breakpointChange);
-  readonly #expandModeValue = signal(EXPAND_MODE_RESPONSIVE);
 
   constructor(
     elRef: ElementRef,
@@ -262,9 +267,12 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
       }
 
       if (showInput) {
-        setTimeout(() => {
-          this.#searchAdapter.focusInput(this.#elRef);
-        });
+        afterNextRender(
+          () => {
+            this.#searchAdapter.focusInput(this.#elRef);
+          },
+          { injector: this.#injector },
+        );
       }
     }
   }
