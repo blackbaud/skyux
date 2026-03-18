@@ -4,7 +4,7 @@
       class="sky-btn sky-btn-default sky-btn-icon sky-search-btn-open"
       type="button"
       [attr.aria-label]="'skyux_search_open' | skyLibResources"
-      [hidden]="!searchButtonShown"
+      [hidden]="!searchButtonShown()"
       [ngClass]="{ 'sky-search-btn-open-applied': clearButtonShown }"
       (click)="toggleSearchInput(true)"
     >
@@ -13,20 +13,22 @@
   </div>
   <div
     class="sky-search-dismiss-container"
-    [hidden]="searchButtonShown"
+    [hidden]="searchButtonShown()"
     [ngClass]="{
-      'sky-search-dismiss-absolute': mobileSearchShown || isFullWidth
+      'sky-search-dismiss-absolute': mobileSearchShown() || isFullWidth()
     }"
   >
     <div class="sky-search-item-input">
       <div
         class="sky-search-input-container"
-        [@inputState]="inputAnimate"
+        skyTransitionEndHandler
+        transitionPropertyToTrack="opacity"
+        [class.sky-search-input-hidden]="!inputShown()"
         [ngClass]="{
           'sky-search-input-container-has-value': searchText?.trim()
         }"
-        (@inputState.start)="inputAnimationStart($event)"
-        (@inputState.done)="inputAnimationEnd($event)"
+        [transitionTrigger]="inputShown()"
+        (transitionEnd)="onInputTransitionEnd()"
       >
         <sky-input-box [disabled]="disabled">
           <input
@@ -93,7 +95,7 @@
       </div>
     </div>
     <div class="sky-search-item-dismiss">
-      @if (mobileSearchShown) {
+      @if (mobileSearchShown()) {
         <button
           class="sky-btn sky-search-btn-dismiss"
           type="button"
