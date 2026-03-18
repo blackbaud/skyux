@@ -15,7 +15,7 @@ export default function flattenBarrelExports(): Rule {
     const filesWithWildcards = new Map<string, WildcardReExport[]>();
 
     tree.visit((filePath) => {
-      if (!filePath.endsWith('.ts') || filePath.includes('node_modules')) {
+      if (!filePath.endsWith('.ts') || filePath.includes('/node_modules/')) {
         return;
       }
 

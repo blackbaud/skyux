@@ -91,7 +91,7 @@ export interface WildcardReExport {
   specifier: string;
   /** Start offset of the `export * from '...'` statement in the source. */
   start: number;
-  /** End offset of the statement (including trailing semicolon/newline). */
+  /** End offset of the statement text (including trailing semicolon if present). */
   end: number;
 }
 
