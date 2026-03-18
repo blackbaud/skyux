@@ -98,8 +98,8 @@ export class SkyChartStyleService {
       fontWeight: this.#cssNumber('--sky-font-style-body-s', '400'),
       lineHeight: this.#cssRemToPx('--sky-font-line_height-body-s', '18px'),
       color: this.#css('--sky-text-color-deemphasized', '#686C73'),
-      paddingTop: this.#cssNumber('--sky-space-stacked-0', '0'),
-      paddingBottom: this.#cssRemToPx('--sky-space-stacked-m', '9px'),
+      paddingTop: this.#cssRemToPx('--sky-space-stacked-xs', '5px'),
+      paddingBottom: this.#cssRemToPx('--sky-space-stacked-xs', '5px'),
     };
 
     return {
