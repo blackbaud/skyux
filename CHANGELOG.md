@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.0.0-alpha.10](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.9...14.0.0-alpha.10) (2026-03-18)
+
+
+### Bug Fixes
+
+* **components/core:** animationend and transitionend handlers detect suppressed animations via `getComputedStyle` ([#4310](https://github.com/blackbaud/skyux/issues/4310)) ([88d7b0f](https://github.com/blackbaud/skyux/commit/88d7b0f6b178b0990bf8d59f5822658123697e0b))
+
 ## [14.0.0-alpha.9](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.8...14.0.0-alpha.9) (2026-03-17)
 
 
