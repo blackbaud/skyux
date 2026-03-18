@@ -1,6 +1,6 @@
 import type { Tree } from '@angular-devkit/schematics';
 
-import { dirname, resolve } from 'node:path';
+import { dirname, resolve } from 'node:path/posix';
 import * as ts from 'typescript';
 
 export interface ExtractedNamedExports {
