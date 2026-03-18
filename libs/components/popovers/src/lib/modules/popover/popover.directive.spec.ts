@@ -5,7 +5,6 @@ import {
   inject,
   tick,
 } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import {
   SKY_STACKING_CONTEXT,
@@ -13,6 +12,7 @@ import {
   SkyAffixPlacementChange,
   SkyAffixService,
   SkyCoreAdapterService,
+  provideNoopSkyAnimations,
 } from '@skyux/core';
 import {
   SkyTheme,
@@ -733,6 +733,31 @@ describe('Popover directive', () => {
       expect(popover).toBeNull();
     }));
 
+    it('should not reopen the popover if close is called before the open timer fires', fakeAsync(() => {
+      detectChangesFakeAsync();
+
+      // Open, let it fully render, then close it.
+      fixture.componentInstance.sendMessage(SkyPopoverMessageType.Open);
+      detectChangesFakeAsync();
+
+      expect(isElementVisible(getPopoverElement())).toEqual(true);
+
+      fixture.componentInstance.sendMessage(SkyPopoverMessageType.Close);
+      detectChangesFakeAsync();
+
+      expect(getPopoverElement()).toBeNull();
+
+      // Open again, but close immediately before the pending setTimeout
+      // in contentRef.open() can fire.
+      fixture.componentInstance.sendMessage(SkyPopoverMessageType.Open);
+      fixture.componentInstance.sendMessage(SkyPopoverMessageType.Close);
+
+      detectChangesFakeAsync();
+
+      // The popover should not have re-opened.
+      expect(isElementVisible(getPopoverElement())).not.toEqual(true);
+    }));
+
     it('should focus the popover', fakeAsync(() => {
       detectChangesFakeAsync();
 
@@ -989,7 +1014,8 @@ describe('Popover directive accessibility', () => {
 
   it('should be accessible', async () => {
     TestBed.configureTestingModule({
-      imports: [PopoverA11yTestComponent, NoopAnimationsModule],
+      imports: [PopoverA11yTestComponent],
+      providers: [provideNoopSkyAnimations()],
     });
 
     const fixture = TestBed.createComponent(PopoverA11yTestComponent);

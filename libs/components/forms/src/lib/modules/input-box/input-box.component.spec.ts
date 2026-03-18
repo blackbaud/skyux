@@ -8,6 +8,7 @@ import {
 import { AbstractControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { provideNoopSkyAnimations } from '@skyux/core';
 import {
   SkyHelpTestingController,
   SkyHelpTestingModule,
@@ -487,6 +488,7 @@ describe('Input box component', () => {
       TestBed.configureTestingModule({
         imports: [InputBoxFixturesModule, SkyHelpTestingModule],
         providers: [
+          provideNoopSkyAnimations(),
           {
             provide: SkyThemeService,
             useValue: mockThemeSvc,
@@ -1193,6 +1195,7 @@ describe('Input box component', () => {
       TestBed.configureTestingModule({
         imports: [InputBoxFixturesModule],
         providers: [
+          provideNoopSkyAnimations(),
           {
             provide: SkyThemeService,
             useValue: mockThemeSvc,
