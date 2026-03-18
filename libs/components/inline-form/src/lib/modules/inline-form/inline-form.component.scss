@@ -73,7 +73,7 @@ $-dissolve-duration: 200ms;
 .sky-slide-dissolve-last {
   interpolate-size: allow-keywords;
   opacity: 1;
-  overflow: hidden;
+
   // On enter: height expands (no delay), then opacity fades in after height finishes.
   // On leave (.sky-slide-dissolve-leaving): overrides below snap opacity and collapse height.
   transition-property: height, opacity;
@@ -88,6 +88,11 @@ $-dissolve-duration: 200ms;
     height: 0;
     opacity: 0;
   }
+}
+
+.sky-slide-dissolve-entering,
+.sky-slide-dissolve-leaving {
+  overflow: hidden;
 }
 
 .sky-slide-dissolve-leaving {
