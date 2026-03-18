@@ -1,5 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideNoopSkyAnimations } from '@skyux/core';
 import { SkyInlineFormHarness } from '@skyux/inline-form/testing';
 
 import { InlineFormCustomButtonsExampleComponent } from './example.component';
@@ -11,6 +12,7 @@ describe('Inline form custom button demo', () => {
   }> {
     await TestBed.configureTestingModule({
       imports: [InlineFormCustomButtonsExampleComponent],
+      providers: [provideNoopSkyAnimations()],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(
