@@ -31,7 +31,7 @@
   },
   "peerDependencies": {
     "@angular/cli": "^21.2.0",
-    "typescript": ">=5.5.0"
+    "typescript": "^5.9.3"
   },
   "dependencies": {
     "jsonc-parser": "3.3.1",
