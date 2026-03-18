@@ -11,6 +11,11 @@
 * **components/inline-form:** replace `@angular/animations` with CSS transitions (#4315)
 * **components/popovers:** replace `@angular/animations` with CSS transitions (#4313)
 
+### Features
+
+* **components/modals:** modal header close button is shown in modern theme ([#4265](https://github.com/blackbaud/skyux/issues/4265)) ([db2a615](https://github.com/blackbaud/skyux/commit/db2a615722cd5770dbe801867d6484c4354bcc21))
+
+
 ### Bug Fixes
 
 * **components/core:** animationend and transitionend handlers detect suppressed animations via `getComputedStyle` ([#4310](https://github.com/blackbaud/skyux/issues/4310)) ([88d7b0f](https://github.com/blackbaud/skyux/commit/88d7b0f6b178b0990bf8d59f5822658123697e0b))
