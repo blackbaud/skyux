@@ -1,6 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideNoopSkyAnimations } from '@skyux/core';
 import { SkyInlineFormHarness } from '@skyux/inline-form/testing';
 
 import { InlineFormBasicExampleComponent } from './example.component';
@@ -11,7 +11,8 @@ describe('Inline form basic demo', () => {
     fixture: ComponentFixture<InlineFormBasicExampleComponent>;
   }> {
     await TestBed.configureTestingModule({
-      imports: [InlineFormBasicExampleComponent, NoopAnimationsModule],
+      imports: [InlineFormBasicExampleComponent],
+      providers: [provideNoopSkyAnimations()],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(InlineFormBasicExampleComponent);
