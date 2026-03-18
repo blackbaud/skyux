@@ -110,10 +110,7 @@ sky-repeater-item {
       display: block;
       width: 100%;
 
-      // Force inline-forms to play nicely with repeater's flex-enabled structure.
-      > :first-child,
-      .sky-slide-dissolve-first,
-      .sky-slide-dissolve-last {
+      .sky-repeater-item-inline-form-contents {
         display: flex;
         align-items: flex-start;
         flex: 1 0 auto;
