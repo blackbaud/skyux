@@ -6,6 +6,7 @@
 
 ### ⚠ BREAKING CHANGES
 
+* **components/layout:** replace `@angular/animations` in text expand component with CSS transitions (#4308)
 * **components/inline-form:** replace `@angular/animations` with CSS transitions (#4315)
 * **components/popovers:** replace `@angular/animations` with CSS transitions (#4313)
 
@@ -13,6 +14,7 @@
 
 * **components/core:** animationend and transitionend handlers detect suppressed animations via `getComputedStyle` ([#4310](https://github.com/blackbaud/skyux/issues/4310)) ([88d7b0f](https://github.com/blackbaud/skyux/commit/88d7b0f6b178b0990bf8d59f5822658123697e0b))
 * **components/inline-form:** replace `@angular/animations` with CSS transitions ([#4315](https://github.com/blackbaud/skyux/issues/4315)) ([5254dbb](https://github.com/blackbaud/skyux/commit/5254dbb21ed18fa016e57d722c2c34f0846c1710))
+* **components/layout:** replace `@angular/animations` in text expand component with CSS transitions ([#4308](https://github.com/blackbaud/skyux/issues/4308)) ([bbde359](https://github.com/blackbaud/skyux/commit/bbde3592197c88aced6c2cb747a95d63bb5093fb))
 * **components/popovers:** replace `@angular/animations` with CSS transitions ([#4313](https://github.com/blackbaud/skyux/issues/4313)) ([28088aa](https://github.com/blackbaud/skyux/commit/28088aac3e5bcfed6134629560718f0179df5f69))
 
 ## [14.0.0-alpha.9](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.8...14.0.0-alpha.9) (2026-03-17)
