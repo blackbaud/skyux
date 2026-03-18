@@ -6,8 +6,8 @@ import {
 } from '@angular/core/testing';
 import { NgModel, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { provideNoopSkyAnimations } from '@skyux/core';
 
 import { PhoneFieldInputBoxTestComponent } from './fixtures/phone-field-input-box.component.fixture';
 import { PhoneFieldReactiveTestComponent } from './fixtures/phone-field-reactive.component.fixture';
@@ -272,7 +272,8 @@ describe('Phone Field Component', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [PhoneFieldTestComponent, NoopAnimationsModule],
+        imports: [PhoneFieldTestComponent],
+        providers: [provideNoopSkyAnimations()],
       });
 
       fixture = TestBed.createComponent(PhoneFieldTestComponent);
@@ -1487,7 +1488,8 @@ describe('Phone Field Component', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [PhoneFieldReactiveTestComponent, NoopAnimationsModule],
+        imports: [PhoneFieldReactiveTestComponent],
+        providers: [provideNoopSkyAnimations()],
       });
 
       fixture = TestBed.createComponent(PhoneFieldReactiveTestComponent);
@@ -2369,7 +2371,8 @@ describe('Phone Field Component', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [PhoneFieldInputBoxTestComponent, NoopAnimationsModule],
+        imports: [PhoneFieldInputBoxTestComponent],
+        providers: [provideNoopSkyAnimations()],
       });
 
       fixture = TestBed.createComponent(PhoneFieldInputBoxTestComponent);
