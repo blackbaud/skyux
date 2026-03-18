@@ -178,6 +178,10 @@ export class SkyDataManagerService implements OnDestroy {
 
           this.updateDataState(newDataState, this.#initSource);
         } else {
+          const updatedViewState = new SkyDataViewState(
+            currentViewState.getViewStateOptions(),
+          );
+
           const currentAvailableColumnIds =
             viewConfig.columnOptions?.map((columnOptions) => {
               return columnOptions.id;
@@ -187,9 +191,9 @@ export class SkyDataManagerService implements OnDestroy {
           // add new columns to the `displayedColumnIds` as long as they are not `initialHide`.
           // We only add columns to `displayedColumnsIds` if we had previously tracked
           // `columnIds` to avoid breaking changes.
-          if (currentViewState.columnIds.length > 0) {
+          if (updatedViewState.columnIds.length > 0) {
             let newColumnIds = currentAvailableColumnIds?.filter(
-              (id) => currentViewState.columnIds.indexOf(id) < 0,
+              (id) => updatedViewState.columnIds.indexOf(id) < 0,
             );
             newColumnIds = newColumnIds?.filter((columnId) => {
               return viewConfig.columnOptions?.find(
@@ -200,16 +204,16 @@ export class SkyDataManagerService implements OnDestroy {
 
             // Add the column IDs that now exist to the data manager state both as available
             // and as shown.
-            currentViewState.displayedColumnIds =
-              currentViewState.displayedColumnIds.concat(newColumnIds);
+            updatedViewState.displayedColumnIds =
+              updatedViewState.displayedColumnIds.concat(newColumnIds);
           }
           // Add the column IDs that now exist to the data manager state both as available
           // and as shown.
-          currentViewState.columnIds = currentAvailableColumnIds;
+          updatedViewState.columnIds = currentAvailableColumnIds;
 
           const newDataState = dataState.addOrUpdateView(
             viewConfig.id,
-            currentViewState,
+            updatedViewState,
           );
 
           this.updateDataState(newDataState, this.#initSource);
