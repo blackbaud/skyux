@@ -1,6 +1,30 @@
 # Changelog
 
 
+## [14.0.0-alpha.10](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.9...14.0.0-alpha.10) (2026-03-18)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/layout:** replace `@angular/animations` in text expand repeater component with CSS transitions (#4317)
+* **components/layout:** replace `@angular/animations` in text expand component with CSS transitions (#4308)
+* **components/inline-form:** replace `@angular/animations` with CSS transitions (#4315)
+* **components/popovers:** replace `@angular/animations` with CSS transitions (#4313)
+
+### Features
+
+* **components/modals:** modal header close button is shown in modern theme ([#4265](https://github.com/blackbaud/skyux/issues/4265)) ([db2a615](https://github.com/blackbaud/skyux/commit/db2a615722cd5770dbe801867d6484c4354bcc21))
+
+
+### Bug Fixes
+
+* **components/core:** animationend and transitionend handlers detect suppressed animations via `getComputedStyle` ([#4310](https://github.com/blackbaud/skyux/issues/4310)) ([88d7b0f](https://github.com/blackbaud/skyux/commit/88d7b0f6b178b0990bf8d59f5822658123697e0b))
+* **components/inline-form:** replace `@angular/animations` with CSS transitions ([#4315](https://github.com/blackbaud/skyux/issues/4315)) ([5254dbb](https://github.com/blackbaud/skyux/commit/5254dbb21ed18fa016e57d722c2c34f0846c1710))
+* **components/layout:** replace `@angular/animations` in text expand component with CSS transitions ([#4308](https://github.com/blackbaud/skyux/issues/4308)) ([bbde359](https://github.com/blackbaud/skyux/commit/bbde3592197c88aced6c2cb747a95d63bb5093fb))
+* **components/layout:** replace `@angular/animations` in text expand repeater component with CSS transitions ([#4317](https://github.com/blackbaud/skyux/issues/4317)) ([bb4a3c7](https://github.com/blackbaud/skyux/commit/bb4a3c7a74385c551547e80f1cb4e2390f4ce7ba))
+* **components/popovers:** replace `@angular/animations` with CSS transitions ([#4313](https://github.com/blackbaud/skyux/issues/4313)) ([28088aa](https://github.com/blackbaud/skyux/commit/28088aac3e5bcfed6134629560718f0179df5f69))
+* **sdk/skyux-eslint:** remove `no-barrel-exports` rule ([#4320](https://github.com/blackbaud/skyux/issues/4320)) ([73dafd6](https://github.com/blackbaud/skyux/commit/73dafd665e988d468847738a6d8f3e3a3fb22d25)), closes [AB#3614172](https://dev.azure.com/blackbaud/Products/_workitems/edit/3614172) [#4268](https://github.com/blackbaud/skyux/issues/4268)
+
 ## [14.0.0-alpha.9](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.8...14.0.0-alpha.9) (2026-03-17)
 
 
