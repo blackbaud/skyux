@@ -42,9 +42,9 @@ describe('extractNamedExports', () => {
     });
   });
 
-  it('should not flag namespace re-exports as wildcards', () => {
+  it('should extract namespace re-export name as value export', () => {
     expect(extractNamedExports("export * as ns from './bar';")).toEqual({
-      valueExports: [],
+      valueExports: ['ns'],
       typeExports: [],
       hasWildcardReExports: false,
     });
@@ -105,6 +105,11 @@ describe('findWildcardReExports', () => {
 
   it('should not include namespace re-exports', () => {
     const content = "export * as ns from './foo';";
+    expect(findWildcardReExports(content)).toHaveLength(0);
+  });
+
+  it('should not include type-only wildcard re-exports', () => {
+    const content = "export type * from './foo';";
     expect(findWildcardReExports(content)).toHaveLength(0);
   });
 

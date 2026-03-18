@@ -42,6 +42,9 @@ export function extractNamedExports(
             valueExports.push(name);
           }
         }
+      } else if (ts.isNamespaceExport(statement.exportClause)) {
+        // export * as ns from '...' — the namespace name is a value export
+        valueExports.push(statement.exportClause.name.text);
       }
       continue;
     }
@@ -113,6 +116,7 @@ export function findWildcardReExports(content: string): WildcardReExport[] {
     if (
       ts.isExportDeclaration(statement) &&
       !statement.exportClause &&
+      !statement.isTypeOnly &&
       statement.moduleSpecifier &&
       ts.isStringLiteral(statement.moduleSpecifier)
     ) {
