@@ -80,10 +80,6 @@ sky-search {
   }
 
   .sky-btn.sky-search-btn-open {
-    &.sky-search-btn-open-hidden {
-      display: none;
-    }
-
     padding-top: var(
       --sky-override-search-mobile-button-vertical-padding,
       var(--sky-comp-button-space-inset-top)
