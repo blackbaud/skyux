@@ -55,7 +55,7 @@ export const rule = createESLintRule({
 
             const namedExports = getNamedExportsFromFile(resolvedPath);
 
-            if (!namedExports) {
+            if (!namedExports || namedExports.hasWildcardReExports) {
               return null;
             }
 

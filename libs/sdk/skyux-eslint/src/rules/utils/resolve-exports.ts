@@ -85,6 +85,7 @@ export function resetResolveCache(): void {
 export interface ExtractedNamedExports {
   valueExports: string[];
   typeExports: string[];
+  hasWildcardReExports: boolean;
 }
 
 /**
@@ -104,11 +105,15 @@ export function extractNamedExports(
 
   const valueExports: string[] = [];
   const typeExports: string[] = [];
+  let hasWildcardReExports = false;
 
   for (const statement of sourceFile.statements) {
     // ExportDeclaration: export { A, B }, export type { A }, export { type A, B }
     if (ts.isExportDeclaration(statement)) {
-      if (statement.exportClause && ts.isNamedExports(statement.exportClause)) {
+      if (!statement.exportClause) {
+        // export * from '...' — bare wildcard re-export
+        hasWildcardReExports = true;
+      } else if (ts.isNamedExports(statement.exportClause)) {
         for (const specifier of statement.exportClause.elements) {
           const name = specifier.name.text;
           if (statement.isTypeOnly || specifier.isTypeOnly) {
@@ -159,6 +164,7 @@ export function extractNamedExports(
     typeExports: [...new Set(typeExports)]
       .filter((name) => !valueSet.has(name))
       .sort(),
+    hasWildcardReExports,
   };
 }
 

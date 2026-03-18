@@ -133,6 +133,7 @@ describe('getNamedExportsFromFile', () => {
     expect(getNamedExportsFromFile(filePath)).toEqual({
       valueExports: ['Foo', 'bar'],
       typeExports: [],
+      hasWildcardReExports: false,
     });
   });
 
@@ -155,6 +156,7 @@ describe('extractNamedExports', () => {
     expect(extractNamedExports('export class Foo {}')).toEqual({
       valueExports: ['Foo'],
       typeExports: [],
+      hasWildcardReExports: false,
     });
   });
 
@@ -162,6 +164,7 @@ describe('extractNamedExports', () => {
     expect(extractNamedExports('export abstract class Foo {}')).toEqual({
       valueExports: ['Foo'],
       typeExports: [],
+      hasWildcardReExports: false,
     });
   });
 
@@ -169,6 +172,7 @@ describe('extractNamedExports', () => {
     expect(extractNamedExports('export interface Foo {}')).toEqual({
       valueExports: [],
       typeExports: ['Foo'],
+      hasWildcardReExports: false,
     });
   });
 
@@ -176,6 +180,7 @@ describe('extractNamedExports', () => {
     expect(extractNamedExports('export type Foo = string;')).toEqual({
       valueExports: [],
       typeExports: ['Foo'],
+      hasWildcardReExports: false,
     });
   });
 
@@ -183,6 +188,7 @@ describe('extractNamedExports', () => {
     expect(extractNamedExports('export function foo() {}')).toEqual({
       valueExports: ['foo'],
       typeExports: [],
+      hasWildcardReExports: false,
     });
   });
 
@@ -190,6 +196,7 @@ describe('extractNamedExports', () => {
     expect(extractNamedExports('export async function foo() {}')).toEqual({
       valueExports: ['foo'],
       typeExports: [],
+      hasWildcardReExports: false,
     });
   });
 
@@ -197,6 +204,7 @@ describe('extractNamedExports', () => {
     expect(extractNamedExports('export const foo = 1;')).toEqual({
       valueExports: ['foo'],
       typeExports: [],
+      hasWildcardReExports: false,
     });
   });
 
@@ -204,6 +212,7 @@ describe('extractNamedExports', () => {
     expect(extractNamedExports('export let foo = 1;')).toEqual({
       valueExports: ['foo'],
       typeExports: [],
+      hasWildcardReExports: false,
     });
   });
 
@@ -211,6 +220,7 @@ describe('extractNamedExports', () => {
     expect(extractNamedExports('export var foo = 1;')).toEqual({
       valueExports: ['foo'],
       typeExports: [],
+      hasWildcardReExports: false,
     });
   });
 
@@ -218,6 +228,7 @@ describe('extractNamedExports', () => {
     expect(extractNamedExports('export enum Foo { A, B }')).toEqual({
       valueExports: ['Foo'],
       typeExports: [],
+      hasWildcardReExports: false,
     });
   });
 
@@ -225,6 +236,7 @@ describe('extractNamedExports', () => {
     expect(extractNamedExports('export declare const foo: string;')).toEqual({
       valueExports: ['foo'],
       typeExports: [],
+      hasWildcardReExports: false,
     });
   });
 
@@ -232,6 +244,7 @@ describe('extractNamedExports', () => {
     expect(extractNamedExports('export const a = 1, b = 2;')).toEqual({
       valueExports: ['a', 'b'],
       typeExports: [],
+      hasWildcardReExports: false,
     });
   });
 
@@ -239,6 +252,7 @@ describe('extractNamedExports', () => {
     expect(extractNamedExports("export { Foo, Bar } from './foo';")).toEqual({
       valueExports: ['Bar', 'Foo'],
       typeExports: [],
+      hasWildcardReExports: false,
     });
   });
 
@@ -246,25 +260,35 @@ describe('extractNamedExports', () => {
     expect(extractNamedExports("export { Foo as Bar } from './foo';")).toEqual({
       valueExports: ['Bar'],
       typeExports: [],
+      hasWildcardReExports: false,
     });
   });
 
   it('should extract type-only named re-exports (export type { })', () => {
     expect(
       extractNamedExports("export type { Foo, Bar } from './foo';"),
-    ).toEqual({ valueExports: [], typeExports: ['Bar', 'Foo'] });
+    ).toEqual({
+      valueExports: [],
+      typeExports: ['Bar', 'Foo'],
+      hasWildcardReExports: false,
+    });
   });
 
   it('should extract inline type specifiers in export { type Foo, Bar }', () => {
     expect(
       extractNamedExports("export { type Foo, Bar } from './foo';"),
-    ).toEqual({ valueExports: ['Bar'], typeExports: ['Foo'] });
+    ).toEqual({
+      valueExports: ['Bar'],
+      typeExports: ['Foo'],
+      hasWildcardReExports: false,
+    });
   });
 
   it('should handle empty specifiers from trailing commas gracefully', () => {
     expect(extractNamedExports("export { Foo, } from './foo';")).toEqual({
       valueExports: ['Foo'],
       typeExports: [],
+      hasWildcardReExports: false,
     });
   });
 
@@ -276,6 +300,7 @@ describe('extractNamedExports', () => {
     expect(extractNamedExports(content)).toEqual({
       valueExports: ['Foo'],
       typeExports: [],
+      hasWildcardReExports: false,
     });
   });
 
@@ -286,6 +311,7 @@ describe('extractNamedExports', () => {
     expect(extractNamedExports(content)).toEqual({
       valueExports: ['Foo'],
       typeExports: [],
+      hasWildcardReExports: false,
     });
   });
 
@@ -298,6 +324,7 @@ describe('extractNamedExports', () => {
     expect(extractNamedExports(content)).toEqual({
       valueExports: ['Alpha', 'Middle', 'Zebra'],
       typeExports: [],
+      hasWildcardReExports: false,
     });
   });
 
@@ -313,6 +340,7 @@ describe('extractNamedExports', () => {
     expect(extractNamedExports(content)).toEqual({
       valueExports: ['BarService', 'FOO_TOKEN', 'FooComponent', 'FooEnum'],
       typeExports: ['FooConfig', 'FooType'],
+      hasWildcardReExports: false,
     });
   });
 
@@ -320,6 +348,7 @@ describe('extractNamedExports', () => {
     expect(extractNamedExports('const foo = 1;')).toEqual({
       valueExports: [],
       typeExports: [],
+      hasWildcardReExports: false,
     });
   });
 
@@ -327,6 +356,7 @@ describe('extractNamedExports', () => {
     expect(extractNamedExports('export default class Foo {}')).toEqual({
       valueExports: [],
       typeExports: [],
+      hasWildcardReExports: false,
     });
   });
 
@@ -334,6 +364,7 @@ describe('extractNamedExports', () => {
     expect(extractNamedExports('// export class Fake {}')).toEqual({
       valueExports: [],
       typeExports: [],
+      hasWildcardReExports: false,
     });
   });
 
@@ -341,13 +372,18 @@ describe('extractNamedExports', () => {
     expect(extractNamedExports('const s = "export class Fake {}";')).toEqual({
       valueExports: [],
       typeExports: [],
+      hasWildcardReExports: false,
     });
   });
 
   it('should extract aliased type re-exports using the alias name', () => {
     expect(
       extractNamedExports("export type { Foo as Bar } from './foo';"),
-    ).toEqual({ valueExports: [], typeExports: ['Bar'] });
+    ).toEqual({
+      valueExports: [],
+      typeExports: ['Bar'],
+      hasWildcardReExports: false,
+    });
   });
 
   it('should handle multi-line export specifiers', () => {
@@ -356,6 +392,26 @@ describe('extractNamedExports', () => {
     ).toEqual({
       valueExports: ['Bar', 'Foo'],
       typeExports: [],
+      hasWildcardReExports: false,
+    });
+  });
+
+  it('should detect wildcard re-exports', () => {
+    expect(extractNamedExports("export * from './bar';")).toEqual({
+      valueExports: [],
+      typeExports: [],
+      hasWildcardReExports: true,
+    });
+  });
+
+  it('should detect wildcard re-exports alongside named exports', () => {
+    const content = ['export class Foo {}', "export * from './bar';"].join(
+      '\n',
+    );
+    expect(extractNamedExports(content)).toEqual({
+      valueExports: ['Foo'],
+      typeExports: [],
+      hasWildcardReExports: true,
     });
   });
 });

@@ -27,26 +27,46 @@ jest.mock('./utils/resolve-exports', () => ({
     if (specifier === './empty-exports') {
       return '/fake/empty-exports.ts';
     }
+    if (specifier === './resolvable-with-wildcard') {
+      return '/fake/resolvable-with-wildcard.ts';
+    }
     return undefined;
   },
   getNamedExportsFromFile: (filePath: string) => {
     if (filePath === '/fake/resolvable.ts') {
-      return { valueExports: ['Bar', 'Foo'], typeExports: [] };
+      return {
+        valueExports: ['Bar', 'Foo'],
+        typeExports: [],
+        hasWildcardReExports: false,
+      };
     }
     if (filePath === '/fake/resolvable-mixed.ts') {
       return {
         valueExports: ['FooComponent'],
         typeExports: ['FooConfig', 'FooType'],
+        hasWildcardReExports: false,
       };
     }
     if (filePath === '/fake/resolvable-overlap.ts') {
       return {
         valueExports: ['Foo'],
         typeExports: ['Bar'],
+        hasWildcardReExports: false,
       };
     }
     if (filePath === '/fake/resolvable-types-only.ts') {
-      return { valueExports: [], typeExports: ['BarConfig', 'FooConfig'] };
+      return {
+        valueExports: [],
+        typeExports: ['BarConfig', 'FooConfig'],
+        hasWildcardReExports: false,
+      };
+    }
+    if (filePath === '/fake/resolvable-with-wildcard.ts') {
+      return {
+        valueExports: ['Foo'],
+        typeExports: [],
+        hasWildcardReExports: true,
+      };
     }
     return undefined;
   },
@@ -131,6 +151,11 @@ ruleTester.run(RULE_NAME, rule, {
     {
       code: `export * from './resolvable';`,
       filename: '<input>',
+      errors: [{ messageId }],
+    },
+    {
+      code: `export * from './resolvable-with-wildcard';`,
+      filename: '/fake/index.ts',
       errors: [{ messageId }],
     },
   ],
