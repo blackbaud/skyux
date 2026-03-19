@@ -44,11 +44,11 @@
 </ng-template>
 
 <ng-template #inputTemplateRef>
-  @if (phoneInputShown) {
+  @if (!countrySearchShown) {
     <span class="sky-phone-field-container">
       <ng-content />
     </span>
-  } @else if (countrySearchShown) {
+  } @else {
     <span class="sky-phone-field-container">
       <div
         class="sky-phone-field-country-search"
