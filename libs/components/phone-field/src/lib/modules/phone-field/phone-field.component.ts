@@ -5,12 +5,14 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  Injector,
   OnDestroy,
   OnInit,
   Renderer2,
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
+  afterNextRender,
   booleanAttribute,
   computed,
   effect,
@@ -214,6 +216,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   readonly #adapterService = inject(SkyPhoneFieldAdapterService);
   readonly #appFormat = inject(SkyAppFormat);
   readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #injector = inject(Injector);
   readonly #ngUnsubscribe = new Subject<void>();
   readonly #resourceSvc = inject(SkyLibResourcesService);
   readonly #elementRef = inject(ElementRef<HTMLElement>);
@@ -337,13 +340,16 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
 
     this.#changeDetector.markForCheck();
 
-    setTimeout(() => {
-      if (showSearch) {
-        this.#focusCountrySearch();
-      } else {
-        this.#handlePhoneInputShown();
-      }
-    });
+    afterNextRender(
+      () => {
+        if (showSearch) {
+          this.#focusCountrySearch();
+        } else {
+          this.#handlePhoneInputShown();
+        }
+      },
+      { injector: this.#injector },
+    );
   }
 
   // TODO: remove this if no longer needed after a scalable focus monitor service is implemented
