@@ -54,7 +54,6 @@ export class SkyPhoneFieldAdapterService implements OnDestroy {
 
   public focusCountrySearchElement(el: Element): void {
     const input: HTMLElement | null = el.querySelector('textarea');
-    console.log('eh?', input);
     input?.focus();
   }
 

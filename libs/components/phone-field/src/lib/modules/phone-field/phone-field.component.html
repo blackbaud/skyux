@@ -45,17 +45,11 @@
 
 <ng-template #inputTemplateRef>
   @if (phoneInputShown) {
-    <span
-      class="sky-phone-field-container"
-      [animate.enter]="'sky-phone-field-enter-fade'"
-    >
+    <span class="sky-phone-field-container">
       <ng-content />
     </span>
   } @else if (countrySearchShown) {
-    <span
-      class="sky-phone-field-container"
-      [animate.enter]="countrySearchEnterAnimation()"
-    >
+    <span class="sky-phone-field-container">
       <div
         class="sky-phone-field-country-search"
         [formGroup]="countrySearchForm"
@@ -78,16 +72,11 @@
       class="sky-input-group-btn sky-input-box-btn-inset sky-search-item-dismiss"
     >
       <button
-        class="sky-btn sky-phone-field-search-btn-dismiss"
+        class="sky-btn sky-btn-default sky-phone-field-search-btn-dismiss"
         type="button"
         [attr.title]="
           'skyux_phone_field_country_search_dismiss' | skyLibResources
         "
-        [ngClass]="{
-          'sky-btn-default':
-            (themeSvc?.settingsChange | async)?.currentSettings?.theme?.name ===
-            'modern'
-        }"
         (click)="dismissButtonClicked()"
       >
         <sky-icon *skyThemeIf="'default'" iconName="chevron-double-left" />

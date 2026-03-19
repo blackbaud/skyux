@@ -5,14 +5,12 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  Injector,
   OnDestroy,
   OnInit,
   Renderer2,
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
-  afterNextRender,
   booleanAttribute,
   computed,
   effect,
@@ -38,7 +36,7 @@ import {
   SkyCountryFieldCountry,
   SkyCountryFieldModule,
 } from '@skyux/lookup';
-import { SkyThemeModule, SkyThemeService } from '@skyux/theme';
+import { SkyThemeModule } from '@skyux/theme';
 
 import {
   PhoneNumberFormat,
@@ -87,12 +85,6 @@ const DEFAULT_COUNTRY_CODE = 'us';
   ],
 })
 export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
-  readonly #themeName = toSignal(
-    inject(SkyThemeService, { optional: true })?.settingsChange.pipe(
-      map((change) => change.currentSettings?.theme?.name),
-    ) ?? new Subject<string>(),
-  );
-
   /**
    * Whether phone number extensions are allowed.
    * @default true
@@ -159,12 +151,6 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     countrySearch: FormControl<SkyCountryFieldCountry | undefined | null>;
   }>;
 
-  public readonly countrySearchEnterAnimation = computed(() =>
-    this.#themeName() === 'modern'
-      ? 'sky-phone-field-enter-fade'
-      : 'sky-phone-field-enter-slide-fade',
-  );
-
   public readonly inputBoxHostSvc = inject(SkyInputBoxHostService, {
     optional: true,
     skipSelf: true,
@@ -228,7 +214,6 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   readonly #adapterService = inject(SkyPhoneFieldAdapterService);
   readonly #appFormat = inject(SkyAppFormat);
   readonly #changeDetector = inject(ChangeDetectorRef);
-  readonly #injector = inject(Injector);
   readonly #ngUnsubscribe = new Subject<void>();
   readonly #resourceSvc = inject(SkyLibResourcesService);
   readonly #elementRef = inject(ElementRef<HTMLElement>);
@@ -352,17 +337,13 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
 
     this.#changeDetector.markForCheck();
 
-    afterNextRender(
-      () => {
-        if (showSearch) {
-          console.log('focus!!!!');
-          this.#focusCountrySearch();
-        } else {
-          this.#handlePhoneInputShown();
-        }
-      },
-      { injector: this.#injector },
-    );
+    setTimeout(() => {
+      if (showSearch) {
+        this.#focusCountrySearch();
+      } else {
+        this.#handlePhoneInputShown();
+      }
+    });
   }
 
   // TODO: remove this if no longer needed after a scalable focus monitor service is implemented
@@ -376,11 +357,6 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
         this.toggleCountrySearch(false);
       }
     }
-  }
-
-  public dismissButtonClicked(): void {
-    this.#focusPhoneInputAfterAnimation = true;
-    this.toggleCountrySearch(false);
   }
 
   #focusCountrySearch(): void {
@@ -421,6 +397,11 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     }
 
     this.#changeDetector.markForCheck();
+  }
+
+  public dismissButtonClicked(): void {
+    this.#focusPhoneInputAfterAnimation = true;
+    this.toggleCountrySearch(false);
   }
 
   #handlePhoneInputShown(): void {
