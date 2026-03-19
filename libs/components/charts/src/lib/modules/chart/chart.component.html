@@ -1,11 +1,11 @@
 <section
-  class="sky-chart-shell"
+  class="sky-chart"
   [attr.aria-label]="headingText()"
   [attr.aria-labelledby]="headerId"
 >
-  <div [class.sky-margin-stacked-sm]="showHeadingArea()">
-    <!-- Header -->
-    <div class="sky-chart-header">
+  <div class="sky-chart-header sky-margin-stacked-sm">
+    <!-- Heading -->
+    <div class="sky-chart-heading">
       @switch (headingLevel()) {
         @case (2) {
           <h2
@@ -58,7 +58,7 @@
   </div>
 
   <!-- Chart -->
-  <div [class.sky-margin-stacked-md]="showLegend()">
+  <div class="sky-chart-content" [class.sky-margin-stacked-md]="showLegend()">
     <ng-content />
   </div>
 
@@ -71,7 +71,7 @@
   }
 
   <!-- Actions -->
-  <div class="sky-chart-header-actions">
+  <div class="sky-chart-actions">
     <sky-dropdown buttonType="context-menu">
       <sky-dropdown-menu>
         <sky-dropdown-item>

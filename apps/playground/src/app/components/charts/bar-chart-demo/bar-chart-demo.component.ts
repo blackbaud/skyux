@@ -51,7 +51,7 @@ export class BarChartDemoComponent {
         { category: 'September', label: '$450,000', value: 450_000 },
         { category: 'October', label: '$500,000', value: 500_000 },
         { category: 'November', label: '$550,000', value: 550_000 },
-        { category: 'December', label: '$600,000', value: 600_000 },
+        { category: 'December', label: '$575,000', value: 575_000 },
       ],
     },
   ];

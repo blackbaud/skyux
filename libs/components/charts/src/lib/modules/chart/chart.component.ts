@@ -75,11 +75,6 @@ export class SkyChartComponent {
   protected readonly headingClass = computed(
     () => `sky-font-heading-${this.headingLevel()}`,
   );
-  protected readonly showHeadingArea = computed(() => {
-    const isHeadingVisible = !this.headingHidden();
-    const isSubtitleVisible = !!this.subtitleText() && !this.subtitleHidden();
-    return isHeadingVisible || isSubtitleVisible;
-  });
   protected readonly legendItems = this.#chartService.legendItems;
   protected readonly showLegend = computed(() => this.legendItems().length > 1);
 

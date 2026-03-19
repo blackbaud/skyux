@@ -1,11 +1,13 @@
-.sky-chart-shell {
-  position: relative;
+.sky-chart {
+  display: grid;
+  grid-template-columns: 1fr auto;
 }
 
 .sky-chart-header {
-  // reserve space for context menu button
-  padding-right: 3rem;
+  grid-column: 1;
+}
 
+.sky-chart-heading {
   h2,
   h3,
   h4,
@@ -23,8 +25,16 @@
   color: var(--sky-color-text-deemphasized);
 }
 
-.sky-chart-header-actions {
-  position: absolute;
-  top: 0;
-  right: 0;
+.sky-chart-content {
+  grid-column: 1 / -1;
+}
+
+sky-chart-legend {
+  grid-column: 1 / -1;
+}
+
+.sky-chart-actions {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: end;
 }
