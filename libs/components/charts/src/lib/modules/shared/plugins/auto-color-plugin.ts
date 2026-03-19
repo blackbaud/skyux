@@ -79,15 +79,11 @@ function setDatasetColors(
   dataset: ChartDataset,
   backgroundColor: string | string[],
 ): void {
-  if (isDatasetType(chart, dataset, 'bar')) {
-    dataset.backgroundColor = backgroundColor;
-  } else if (isDatasetType(chart, dataset, 'line')) {
-    dataset.backgroundColor = backgroundColor;
+  dataset.backgroundColor = backgroundColor;
+  dataset.hoverBackgroundColor = backgroundColor;
+
+  if (isDatasetType(chart, dataset, 'line')) {
     dataset.borderColor = backgroundColor;
     dataset.pointBackgroundColor = backgroundColor;
-  } else if (isDatasetType(chart, dataset, 'doughnut')) {
-    dataset.backgroundColor = backgroundColor;
-  } else {
-    dataset.backgroundColor = backgroundColor;
   }
 }
