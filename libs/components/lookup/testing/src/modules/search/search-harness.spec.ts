@@ -1,6 +1,7 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideNoopSkyAnimations } from '@skyux/core';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -19,7 +20,7 @@ describe('Search harness', () => {
   }> {
     await TestBed.configureTestingModule({
       imports: [SearchHarnessTestModule],
-      providers: [provideSkyMediaQueryTesting()],
+      providers: [provideNoopSkyAnimations(), provideSkyMediaQueryTesting()],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(SearchHarnessTestComponent);

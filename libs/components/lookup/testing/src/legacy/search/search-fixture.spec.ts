@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideNoopSkyAnimations } from '@skyux/core';
 
 import { SkySearchFixture } from './search-fixture';
 import { SkySearchTestingModule } from './search-testing.module';
@@ -37,7 +37,8 @@ describe('Search fixture', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TestComponent],
-      imports: [NoopAnimationsModule, SkySearchTestingModule],
+      imports: [SkySearchTestingModule],
+      providers: [provideNoopSkyAnimations()],
     });
   });
 
