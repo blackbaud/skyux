@@ -186,7 +186,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     return this.countries().find((country) => country.iso2 === defaultCountry);
   });
 
-  #focusPhoneInputAfterAnimation = false;
+  #focusPhoneInputAfterToggle = false;
 
   #phoneNumberFormatHintTextTemplateString = '';
 
@@ -318,13 +318,27 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
         ),
       );
 
-      this.#focusPhoneInputAfterAnimation = true;
+      this.#focusPhoneInputAfterToggle = true;
       this.toggleCountrySearch(false);
     }
   }
 
   public toggleCountrySearch(showSearch: boolean): void {
     if (showSearch) {
+      // Blur the phone input before removing it from the DOM.
+      // Without this, Angular's structural directive removal fires a blur
+      // event during change detection, which marks the form control as
+      // touched and causes ExpressionChangedAfterItHasBeenCheckedError.
+      const phoneInput = this.inputBoxHostSvc
+        ? this.inputBoxHostSvc.queryHost('.sky-phone-field-container input')
+        : this.#elementRef.nativeElement.querySelector(
+            '.sky-phone-field-container input',
+          );
+
+      if (phoneInput instanceof HTMLElement) {
+        phoneInput.blur();
+      }
+
       this.phoneInputShown = false;
       this.countrySearchShown = true;
     } else {
@@ -401,17 +415,15 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
         dismissCountrySearchButton,
       );
     }
-
-    this.#changeDetector.markForCheck();
   }
 
   public dismissButtonClicked(): void {
-    this.#focusPhoneInputAfterAnimation = true;
+    this.#focusPhoneInputAfterToggle = true;
     this.toggleCountrySearch(false);
   }
 
   #handlePhoneInputShown(): void {
-    if (this.#focusPhoneInputAfterAnimation) {
+    if (this.#focusPhoneInputAfterToggle) {
       if (this.inputBoxHostSvc) {
         this.inputBoxHostSvc
           .queryHost('.sky-phone-field-container input')
@@ -419,7 +431,8 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
       } else {
         this.#adapterService.focusPhoneInput(this.#elementRef.nativeElement);
       }
-      this.#focusPhoneInputAfterAnimation = false;
+
+      this.#focusPhoneInputAfterToggle = false;
     }
 
     // Remove focus out event listeners now that country search is closed.
@@ -429,8 +442,6 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     if (this.#dismissCountrySearchFocusListenerFn) {
       this.#dismissCountrySearchFocusListenerFn();
     }
-
-    this.#changeDetector.markForCheck();
   }
 
   // TODO: remove this if no longer needed after a scalable focus monitor service is implemented
