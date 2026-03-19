@@ -5,6 +5,7 @@ import {
   tick,
 } from '@angular/core/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { provideNoopSkyAnimations } from '@skyux/core';
 
 import { SkyInlineDeleteFixturesModule } from './fixtures/inline-delete-fixtures.module';
 import { InlineDeleteTestComponent } from './fixtures/inline-delete.component.fixture';
@@ -18,18 +19,13 @@ describe('Inline delete component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyInlineDeleteFixturesModule],
+      providers: [provideNoopSkyAnimations()],
     });
 
     fixture = TestBed.createComponent(InlineDeleteTestComponent);
     cmp = fixture.componentInstance;
     el = fixture.nativeElement;
   });
-
-  function simulateAnimationEnd(): void {
-    el.querySelector('.sky-inline-delete').dispatchEvent(
-      new AnimationEvent('animationend', { bubbles: true }),
-    );
-  }
 
   afterEach(fakeAsync(() => {
     cmp.showDelete = false;
@@ -101,7 +97,7 @@ describe('Inline delete component', () => {
   describe('focus handling', () => {
     it('should focus the delete button on load', async () => {
       fixture.detectChanges();
-      simulateAnimationEnd();
+      fixture.detectChanges();
       await fixture.whenStable();
       expect(document.activeElement).toBe(el.querySelector('.sky-btn-danger'));
     });
@@ -109,7 +105,6 @@ describe('Inline delete component', () => {
     it('should skip items that are under the overlay when tabbing forward', fakeAsync(() => {
       fixture.componentInstance.showExtraButtons = true;
       fixture.detectChanges();
-      simulateAnimationEnd();
       tick();
       fixture.detectChanges();
       el.querySelector('#noop-button-1').focus();
@@ -129,7 +124,6 @@ describe('Inline delete component', () => {
     it('should skip items that are under the overlay when tabbing backward', fakeAsync(() => {
       fixture.componentInstance.showExtraButtons = true;
       fixture.detectChanges();
-      simulateAnimationEnd();
       tick();
       el.querySelector('.sky-btn-danger').focus();
       SkyAppTestUtility.fireDomEvent(
@@ -147,7 +141,6 @@ describe('Inline delete component', () => {
 
     it('should wrap around to the next focusable item on the screen when no direct item is found and tabbing backwards', fakeAsync(() => {
       fixture.detectChanges();
-      simulateAnimationEnd();
       tick();
       fixture.detectChanges();
       el.querySelector('.sky-btn-danger').focus();

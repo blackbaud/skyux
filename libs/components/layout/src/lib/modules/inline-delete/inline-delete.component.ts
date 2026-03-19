@@ -1,11 +1,11 @@
 import {
+  AfterViewInit,
   ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
   Input,
   OnDestroy,
-  OnInit,
   Output,
   ViewChild,
   signal,
@@ -27,7 +27,7 @@ let nextId = 0;
   providers: [SkyCoreAdapterService, SkyInlineDeleteAdapterService],
   standalone: false,
 })
-export class SkyInlineDeleteComponent implements OnDestroy, OnInit {
+export class SkyInlineDeleteComponent implements AfterViewInit, OnDestroy {
   /**
    * Whether the deletion is pending.
    * @default false
@@ -49,8 +49,6 @@ export class SkyInlineDeleteComponent implements OnDestroy, OnInit {
 
   public assistiveTextId = `sky-inline-delete-assistive-text-${++nextId}`;
 
-  public enterAnimationTrigger = signal(false);
-
   public type: SkyInlineDeleteType = SkyInlineDeleteType.Standard;
 
   @ViewChild('delete', {
@@ -59,9 +57,12 @@ export class SkyInlineDeleteComponent implements OnDestroy, OnInit {
   })
   public deleteButton: ElementRef | undefined;
 
+  protected readonly enterAnimationTrigger = signal(false);
+
   #adapterService: SkyInlineDeleteAdapterService;
   #changeDetector: ChangeDetectorRef;
   #elRef: ElementRef;
+  #initialized = false;
 
   constructor(
     adapterService: SkyInlineDeleteAdapterService,
@@ -73,27 +74,19 @@ export class SkyInlineDeleteComponent implements OnDestroy, OnInit {
     this.#elRef = elRef;
   }
 
-  /**
-   * @internal
-   */
-  public ngOnInit(): void {
+  public ngAfterViewInit(): void {
     this.enterAnimationTrigger.set(true);
   }
 
-  /**
-   * @internal
-   */
-  public onAnimationEnd(): void {
-    this.deleteButton?.nativeElement.focus();
-    /* istanbul ignore else */
-    if (this.#elRef) {
+  protected onAnimationEnd(): void {
+    if (!this.#initialized) {
+      this.#initialized = true;
       this.#adapterService.setEl(this.#elRef.nativeElement);
     }
+
+    this.deleteButton?.nativeElement.focus();
   }
 
-  /**
-   * @internal
-   */
   public ngOnDestroy(): void {
     this.#adapterService.clearListeners();
     this.cancelTriggered.complete();
