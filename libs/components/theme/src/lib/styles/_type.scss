@@ -1,40 +1,11 @@
 @use 'mixins' as mixins;
 @use 'variables' as *;
 
-.sky-page-heading {
-  font-family: $sky-font-family-condensed;
-  color: var(--sky-text-color-default);
-  font-weight: 300;
-  font-size: 34px;
-}
-
-.sky-section-heading {
-  font-family: $sky-font-family-condensed;
-  color: var(--sky-text-color-default);
-  font-weight: 300;
-  font-size: 26px;
-}
-
-.sky-subsection-heading {
-  @include mixins.sky-subsection-heading();
-}
-
 .sky-headline {
   font-family: $sky-font-family-condensed;
   color: var(--sky-text-color-default);
   font-weight: 600;
   font-size: 22px;
-}
-
-.sky-emphasized {
-  font-family: $sky-font-family;
-  color: var(--sky-text-color-default);
-  font-weight: 600;
-  font-size: 16px;
-}
-
-.sky-deemphasized {
-  @include mixins.sky-deemphasized();
 }
 
 .sky-field-label {

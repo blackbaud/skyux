@@ -6,33 +6,40 @@
       var(--sky-color-border-elevation);
   }
 
+  // DEPRECATED: remove in SKY UX 15
   .sky-elevation-1,
   .sky-elevation-1-bordered {
     box-shadow: var(--sky-elevation-raised-100);
   }
 
+  // DEPRECATED: remove in SKY UX 15
   .sky-elevation-1-bordered {
     border: var(--sky-border-style-elevation)
       var(--sky-border-width-container-base)
       var(--sky-color-border-container-base);
   }
 
+  // DEPRECATED: remove in SKY UX 15
   .sky-elevation-3 {
     box-shadow: var(--sky-elevation-overflow);
   }
 
+  // DEPRECATED: remove in SKY UX 15
   .sky-elevation-4 {
     box-shadow: var(--sky-elevation-overlay-100);
   }
 
+  // DEPRECATED: remove in SKY UX 15
   .sky-elevation-8 {
     box-shadow: var(--sky-elevation-overlay-200);
   }
 
+  // DEPRECATED: remove in SKY UX 15
   .sky-elevation-16 {
     box-shadow: var(--sky-elevation-overlay-300);
   }
 
+  // DEPRECATED: remove in SKY UX 15
   .sky-elevation-24 {
     box-shadow: var(--sky-elevation-overlay-400);
   }

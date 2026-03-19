@@ -3,7 +3,7 @@
     <ng-content />
   </span>
   @if (!valueEl.textContent?.trim()) {
-    <span class="sky-deemphasized">
+    <span class="sky-theme-font-body-deemphasized-m">
       {{
         (service.defaultValue | async) ||
           ('skyux_definition_list_none_found' | skyLibResources)

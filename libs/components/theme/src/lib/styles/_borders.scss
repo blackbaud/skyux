@@ -8,6 +8,7 @@
   --sky-override-border-row: #{1px dotted $sky-border-color-neutral-medium};
 }
 
+// DEPRECATED: remove in SKY UX 15
 .sky-border-bottom-dark {
   border-bottom: var(
     --sky-override-border-dark,
@@ -16,6 +17,8 @@
   );
 }
 
+// TODO: CONFIRM THIS IS DEPRECATED
+// DEPRECATED: remove in SKY UX 15
 .sky-border-bottom-light {
   border-bottom: var(
     --sky-override-border-light,
@@ -25,6 +28,7 @@
   );
 }
 
+// DEPRECATED: remove in SKY UX 15
 .sky-border-bottom-row {
   border-bottom: var(
     --sky-override-border-row,
@@ -33,6 +37,7 @@
   );
 }
 
+// DEPRECATED: remove in SKY UX 15
 .sky-border-dark {
   border: var(
     --sky-override-border-dark,
@@ -41,6 +46,8 @@
   );
 }
 
+// TODO: CONFIRM THIS IS DEPRECATED
+// DEPRECATED: remove in SKY UX 15
 .sky-border-light {
   border: var(
     --sky-override-border-light,

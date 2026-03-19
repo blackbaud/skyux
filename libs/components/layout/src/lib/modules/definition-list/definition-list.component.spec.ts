@@ -34,7 +34,7 @@ describe('Definition list component', () => {
   function getDefaultValueEl(
     valueEl: Element | undefined,
   ): Element | null | undefined {
-    return valueEl?.querySelector('.sky-deemphasized');
+    return valueEl?.querySelector('.sky-theme-font-body-deemphasized-m');
   }
 
   it('should render the heading in the expected location', () => {
@@ -50,7 +50,7 @@ describe('Definition list component', () => {
     );
 
     expect(headingEl).toHaveText('Personal information');
-    expect(headingEl).toHaveCssClass('sky-subsection-heading');
+    expect(headingEl).toHaveCssClass('sky-theme-font-heading-3');
   });
 
   it('should render labels and values in the expected locations', () => {
@@ -80,7 +80,9 @@ describe('Definition list component', () => {
 
     const valueEls = getValueEls(list1El);
 
-    const defaultValueEl = valueEls?.[2].querySelector('.sky-deemphasized');
+    const defaultValueEl = valueEls?.[2].querySelector(
+      '.sky-theme-font-body-deemphasized-m',
+    );
 
     expect(defaultValueEl).toHaveText('None found.');
   });

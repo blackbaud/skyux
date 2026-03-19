@@ -2,7 +2,10 @@
   <h1>Sky tree view</h1>
 
   <h2>Basic</h2>
-  <div class="sky-padding-even-default" id="screenshot-tree-view-basic">
+  <div
+    class="sky-theme-padding-inset-balanced-m"
+    id="screenshot-tree-view-basic"
+  >
     <sky-angular-tree-wrapper>
       <tree-root #treeBasic [nodes]="nodes" [options]="basicOptions">
         <ng-template
@@ -22,7 +25,10 @@
   </div>
 
   <h2>Read-only mode</h2>
-  <div class="sky-padding-even-default" id="screenshot-tree-view-basic">
+  <div
+    class="sky-theme-padding-inset-balanced-m"
+    id="screenshot-tree-view-basic"
+  >
     <sky-angular-tree-wrapper [readOnly]="true">
       <tree-root #treeReadOnly [nodes]="nodes" [options]="basicOptions">
         <ng-template
@@ -44,7 +50,7 @@
   <h2>Checkboxes and context menus</h2>
   <div
     id="screenshot-tree-view-context-menus-and-checkboxes"
-    class="sky-padding-even-default"
+    class="sky-theme-padding-inset-balanced-m"
   >
     <sky-angular-tree-wrapper>
       <tree-root [nodes]="nodes" [options]="optionsNonCascading">
@@ -82,7 +88,7 @@
   <h2>Checkboxes (multiselect, cascading)</h2>
   <div
     id="screenshot-tree-view-cascading-checkboxes"
-    class="sky-padding-even-default"
+    class="sky-theme-padding-inset-balanced-m"
   >
     <sky-angular-tree-wrapper [showToolbar]="true">
       <tree-root #treeCascading [nodes]="nodes" [options]="optionsCascading">
@@ -105,7 +111,7 @@
   <h2>Checkboxes (multiselect, non-cascading)</h2>
   <div
     id="screenshot-tree-view-non-cascading-checkboxes"
-    class="sky-padding-even-default"
+    class="sky-theme-padding-inset-balanced-m"
   >
     <sky-angular-tree-wrapper [showToolbar]="true">
       <tree-root
@@ -132,7 +138,7 @@
   <h2>Checkboxes (leaf select only)</h2>
   <div
     id="screenshot-tree-view-leaf-selection-only"
-    class="sky-padding-even-default"
+    class="sky-theme-padding-inset-balanced-m"
   >
     <sky-angular-tree-wrapper [selectLeafNodesOnly]="true" [showToolbar]="true">
       <tree-root
@@ -157,7 +163,10 @@
   </div>
 
   <h2>Checkboxes (single select)</h2>
-  <div id="screenshot-tree-view-single-select" class="sky-padding-even-default">
+  <div
+    id="screenshot-tree-view-single-select"
+    class="sky-theme-padding-inset-balanced-m"
+  >
     <sky-angular-tree-wrapper [selectSingle]="true" [showToolbar]="true">
       <tree-root
         #treeSingleNodeSelectionOnly
@@ -181,7 +190,7 @@
   </div>
 
   <h2>Binding to events</h2>
-  <div class="sky-padding-even-default">
+  <div class="sky-theme-padding-inset-balanced-m">
     <table>
       <tr>
         <th>Selected node ids</th>
