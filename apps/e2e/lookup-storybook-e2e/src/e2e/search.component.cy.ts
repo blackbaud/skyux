@@ -42,6 +42,9 @@ describe('lookup-storybook', () => {
           .should('be.visible')
           .click();
         cy.get('#empty-search .sky-search-btn-open').click();
+        cy.get('#empty-search .sky-search-input-container').should(
+          'be.visible',
+        );
         cy.get('app-search').screenshot(
           `searchcomponent-search--search-${theme}-mobile-open`,
         );
