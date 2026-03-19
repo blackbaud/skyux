@@ -77,9 +77,12 @@ export class SkyInlineDeleteComponent implements OnDestroy {
     if (!this.#initialized) {
       this.#initialized = true;
       this.#adapterService.setEl(this.#elRef.nativeElement);
-    }
 
-    this.deleteButton?.nativeElement.focus();
+      // Defer focus so it runs after the animationend event handler completes.
+      setTimeout(() => {
+        this.deleteButton?.nativeElement.focus();
+      });
+    }
   }
 
   public ngOnDestroy(): void {
