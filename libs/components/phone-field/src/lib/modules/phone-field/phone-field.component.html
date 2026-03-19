@@ -44,7 +44,7 @@
 </ng-template>
 
 <ng-template #inputTemplateRef>
-  @if (!countrySearchShown) {
+  @if (!countrySearchShown()) {
     <span class="sky-phone-field-container">
       <ng-content />
     </span>
@@ -67,7 +67,7 @@
 </ng-template>
 
 <ng-template #buttonsInsetTemplateRef>
-  @if (countrySearchShown) {
+  @if (countrySearchShown()) {
     <div
       class="sky-input-group-btn sky-input-box-btn-inset sky-search-item-dismiss"
     >

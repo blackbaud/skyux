@@ -140,7 +140,7 @@ export class SkyPhoneFieldComponent implements OnDestroy {
 
   public readonly countrySelectDisabled = signal(false);
 
-  public countrySearchShown = false;
+  public readonly countrySearchShown = signal(false);
 
   public countrySearchForm: FormGroup<{
     countrySearch: FormControl<SkyCountryFieldCountry | undefined | null>;
@@ -240,6 +240,8 @@ export class SkyPhoneFieldComponent implements OnDestroy {
         this.#populateInputBoxHelpText();
       });
 
+    let previousIso: string | undefined;
+
     effect(() => {
       const country = this.#selectedCountryData();
 
@@ -257,9 +259,13 @@ export class SkyPhoneFieldComponent implements OnDestroy {
 
       this.#populateInputBoxHelpText();
 
-      if (country) {
+      // Only emit when the selected country actually changes, not when locale
+      // changes cause #selectedCountryData to return a new object reference.
+      if (country && country.iso2 !== previousIso) {
         this.selectedCountryChange.emit(country);
       }
+
+      previousIso = country?.iso2;
     });
 
     // Defer initial setup to avoid ExpressionChangedAfterItHasBeenCheckedError
@@ -292,6 +298,10 @@ export class SkyPhoneFieldComponent implements OnDestroy {
   public ngOnDestroy(): void {
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
+
+    this.#afterRenderRef?.destroy();
+    this.#countryFlagFocusListenerFn?.();
+    this.#dismissCountrySearchFocusListenerFn?.();
   }
 
   /**
@@ -314,7 +324,7 @@ export class SkyPhoneFieldComponent implements OnDestroy {
   }
 
   public toggleCountrySearch(showSearch: boolean): void {
-    if (showSearch === this.countrySearchShown) {
+    if (showSearch === this.countrySearchShown()) {
       return;
     }
 
@@ -322,18 +332,16 @@ export class SkyPhoneFieldComponent implements OnDestroy {
       this.#countrySearchFormControl.setValue(undefined);
     }
 
-    this.countrySearchShown = showSearch;
+    this.countrySearchShown.set(showSearch);
 
     if (this.inputBoxHostSvc && this.inputTemplateRef) {
       this.inputBoxHostSvc.setHintTextHidden(showSearch);
     }
 
-    this.#changeDetector.markForCheck();
-
     this.#afterRenderRef?.destroy();
     this.#afterRenderRef = afterNextRender(
       () => {
-        if (this.countrySearchShown) {
+        if (this.countrySearchShown()) {
           this.#focusCountrySearch();
         } else {
           this.#handlePhoneInputShown();
