@@ -366,13 +366,13 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   }
 
   #focusCountrySearch(): void {
-    this.#queryElement<HTMLElement>('textarea')?.focus();
+    this.#queryElement('textarea')?.focus();
 
-    const countryFlagButton = this.#queryElement<HTMLElement>(
+    const countryFlagButton = this.#queryElement(
       'button.sky-phone-field-country-select-btn',
     );
 
-    const dismissCountrySearchButton = this.#queryElement<HTMLElement>(
+    const dismissCountrySearchButton = this.#queryElement(
       'button.sky-phone-field-search-btn-dismiss',
     );
 
@@ -392,9 +392,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
 
   #handlePhoneInputShown(): void {
     if (this.#focusPhoneInputAfterToggle) {
-      this.#queryElement<HTMLElement>(
-        '.sky-phone-field-container input',
-      )?.focus();
+      this.#queryElement('.sky-phone-field-container input')?.focus();
 
       this.#focusPhoneInputAfterToggle = false;
     }
@@ -488,10 +486,12 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     return foundCountry;
   }
 
-  #queryElement<T extends Element>(selector: string): T | undefined {
+  #queryElement(selector: string): HTMLElement | undefined {
     return (
-      (this.inputBoxHostSvc?.queryHost(selector) as T | undefined) ??
-      (this.#elementRef.nativeElement.querySelector(selector) as T | null) ??
+      this.inputBoxHostSvc?.queryHost(selector) ??
+      (this.#elementRef.nativeElement.querySelector(
+        selector,
+      ) as HTMLElement | null) ??
       undefined
     );
   }
