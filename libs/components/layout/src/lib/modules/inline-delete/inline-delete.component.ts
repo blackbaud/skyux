@@ -1,20 +1,11 @@
 import {
-  AnimationEvent,
-  animate,
-  group,
-  query,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
-import {
+  AfterViewInit,
   ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
   Input,
   OnDestroy,
-  OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -32,58 +23,10 @@ let nextId = 0;
   selector: 'sky-inline-delete',
   styleUrls: ['./inline-delete.component.scss'],
   templateUrl: './inline-delete.component.html',
-  animations: [
-    trigger('inlineDeleteAnimation', [
-      transition('* => shown', [
-        style({
-          opacity: 0,
-        }),
-        query(
-          '.sky-inline-delete-content-animation-container',
-          style({ transform: 'scale(0.0)' }),
-        ),
-        group([
-          animate('300ms ease-in-out', style({ opacity: 1 })),
-          query(
-            '.sky-inline-delete-content-animation-container',
-            animate(
-              '300ms ease-in-out',
-              style({
-                transform: 'scale(1)',
-              }),
-            ),
-          ),
-        ]),
-      ]),
-      transition(`shown <=> *`, [
-        query(
-          '.sky-inline-delete-content-animation-container',
-          style({ transform: 'scale(1)' }),
-        ),
-        group([
-          animate(
-            '300ms ease-in-out',
-            style({
-              opacity: 0,
-            }),
-          ),
-          query(
-            '.sky-inline-delete-content-animation-container',
-            animate(
-              '300ms ease-in-out',
-              style({
-                transform: 'scale(0.0)',
-              }),
-            ),
-          ),
-        ]),
-      ]),
-    ]),
-  ],
   providers: [SkyCoreAdapterService, SkyInlineDeleteAdapterService],
   standalone: false,
 })
-export class SkyInlineDeleteComponent implements OnDestroy, OnInit {
+export class SkyInlineDeleteComponent implements AfterViewInit, OnDestroy {
   /**
    * Whether the deletion is pending.
    * @default false
@@ -102,8 +45,6 @@ export class SkyInlineDeleteComponent implements OnDestroy, OnInit {
    */
   @Output()
   public deleteTriggered = new EventEmitter<void>();
-
-  public animationState = 'shown';
 
   public assistiveTextId = `sky-inline-delete-assistive-text-${++nextId}`;
 
@@ -130,15 +71,17 @@ export class SkyInlineDeleteComponent implements OnDestroy, OnInit {
   }
 
   /**
-   * Initialization lifecycle hook
    * @internal
    */
-  public ngOnInit(): void {
-    this.animationState = 'shown';
+  public ngAfterViewInit(): void {
+    this.deleteButton?.nativeElement.focus();
+    /* istanbul ignore else */
+    if (this.#elRef) {
+      this.#adapterService.setEl(this.#elRef.nativeElement);
+    }
   }
 
   /**
-   * Destruction lifecycle hook
    * @internal
    */
   public ngOnDestroy(): void {
@@ -151,7 +94,7 @@ export class SkyInlineDeleteComponent implements OnDestroy, OnInit {
    * @internal
    */
   public onCancelClick(): void {
-    this.animationState = 'hidden';
+    this.cancelTriggered.emit();
   }
 
   /**
@@ -169,22 +112,5 @@ export class SkyInlineDeleteComponent implements OnDestroy, OnInit {
   public setType(type: SkyInlineDeleteType): void {
     this.type = type;
     this.#changeDetector.detectChanges();
-  }
-
-  /**
-   * Handles actions that should be taken after the inline delete animates
-   * @param event The animation event
-   * @internal
-   */
-  public onAnimationDone(event: AnimationEvent): void {
-    if (event.toState === 'hidden') {
-      this.cancelTriggered.emit();
-    } else {
-      this.deleteButton?.nativeElement.focus();
-      /* istanbul ignore else */
-      if (this.#elRef) {
-        this.#adapterService.setEl(this.#elRef.nativeElement);
-      }
-    }
   }
 }

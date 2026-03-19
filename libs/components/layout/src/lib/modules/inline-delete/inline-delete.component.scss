@@ -60,3 +60,55 @@
 .sky-inline-delete-wait {
   height: 100%;
 }
+
+@keyframes sky-inline-delete-enter-overlay {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes sky-inline-delete-enter-content {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes sky-inline-delete-leave-overlay {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes sky-inline-delete-leave-content {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0);
+  }
+}
+
+.sky-inline-delete-entering {
+  animation: sky-inline-delete-enter-overlay 300ms ease-in-out;
+}
+
+.sky-inline-delete-entering .sky-inline-delete-content-animation-container {
+  animation: sky-inline-delete-enter-content 300ms ease-in-out;
+}
+
+.sky-inline-delete-leaving {
+  animation: sky-inline-delete-leave-overlay 300ms ease-in-out forwards;
+}
+
+.sky-inline-delete-leaving .sky-inline-delete-content-animation-container {
+  animation: sky-inline-delete-leave-content 300ms ease-in-out forwards;
+}
