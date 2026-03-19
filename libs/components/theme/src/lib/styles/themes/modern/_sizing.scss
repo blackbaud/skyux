@@ -1,27 +1,27 @@
 @use '../../variables' as *;
 
 .sky-theme-modern {
-  // DEPRECATED: remove ins SKY UX 15
+  // DEPRECATED: remove in future major version
   .sky-padding-even-sm {
     padding: var(--sky-space-inset-balanced-s);
   }
 
-  // DEPRECATED: remove ins SKY UX 15
+  // DEPRECATED: remove in future major version
   .sky-padding-even-md {
     padding: var(--sky-space-inset-balanced-m);
   }
 
-  // DEPRECATED: remove ins SKY UX 15
+  // DEPRECATED: remove in future major version
   .sky-padding-even-lg {
     padding: var(--sky-space-inset-balanced-l);
   }
 
-  // DEPRECATED: remove ins SKY UX 15
+  // DEPRECATED: remove in future major version
   .sky-padding-even-xl {
     padding: var(--sky-space-inset-balanced-xl);
   }
 
-  // DEPRECATED: remove ins SKY UX 15
+  // DEPRECATED: remove in future major version
   .sky-padding-horizontal-sm {
     padding: var(--sky-space-inset-horizontal-top-s)
       var(--sky-space-inset-horizontal-right-s)
@@ -29,7 +29,7 @@
       var(--sky-space-inset-horizontal-left-s);
   }
 
-  // DEPRECATED: remove ins SKY UX 15
+  // DEPRECATED: remove in future major version
   .sky-padding-horizontal-md {
     padding: var(--sky-space-inset-horizontal-top-m)
       var(--sky-space-inset-horizontal-right-m)
@@ -37,7 +37,7 @@
       var(--sky-space-inset-horizontal-left-m);
   }
 
-  // DEPRECATED: remove ins SKY UX 15
+  // DEPRECATED: remove in future major version
   .sky-padding-horizontal-xl {
     padding: var(--sky-space-inset-horizontal-top-xl)
       var(--sky-space-inset-horizontal-right-xl)
@@ -45,7 +45,7 @@
       var(--sky-space-inset-horizontal-left-xl);
   }
 
-  // DEPRECATED: remove ins SKY UX 15
+  // DEPRECATED: remove in future major version
   .sky-padding-vertical-md {
     padding: var(--sky-space-inset-vertical-top-m)
       var(--sky-space-inset-vertical-right-m)
@@ -53,7 +53,7 @@
       var(--sky-space-inset-vertical-left-m);
   }
 
-  // DEPRECATED: remove ins SKY UX 15
+  // DEPRECATED: remove in future major version
   .sky-padding-vertical-lg {
     padding: var(--sky-space-inset-vertical-top-l)
       var(--sky-space-inset-vertical-right-l)
@@ -61,67 +61,67 @@
       var(--sky-space-inset-vertical-left-l);
   }
 
-  // DEPRECATED: remove ins SKY UX 15
+  // DEPRECATED: remove in future major version
   .sky-margin-inline-xs {
     margin-right: var(--sky-space-inline-xs);
   }
 
-  // DEPRECATED: remove ins SKY UX 15
+  // DEPRECATED: remove in future major version
   .sky-margin-inline-sm {
     margin-right: var(--sky-space-inline-s);
   }
 
-  // DEPRECATED: remove ins SKY UX 15
+  // DEPRECATED: remove in future major version
   .sky-margin-inline-md {
     margin-right: var(--sky-space-inline-m);
   }
 
-  // DEPRECATED: remove ins SKY UX 15
+  // DEPRECATED: remove in future major version
   .sky-margin-inline-lg {
     margin-right: var(--sky-space-inline-l);
   }
 
-  // DEPRECATED: remove ins SKY UX 15
+  // DEPRECATED: remove in future major version
   .sky-margin-inline-xl {
     margin-right: var(--sky-space-inline-xl);
   }
 
-  // DEPRECATED: remove ins SKY UX 15
+  // DEPRECATED: remove in future major version
   .sky-margin-inline-xxl {
     margin-right: var(--sky-space-inline-xxl);
   }
 
-  // DEPRECATED: remove ins SKY UX 15
+  // DEPRECATED: remove in future major version
   .sky-margin-stacked-xs {
     margin-top: 0;
     margin-bottom: var(--sky-space-stacked-xs);
   }
 
-  // DEPRECATED: remove ins SKY UX 15
+  // DEPRECATED: remove in future major version
   .sky-margin-stacked-sm {
     margin-top: 0;
     margin-bottom: var(--sky-space-stacked-s);
   }
 
-  // DEPRECATED: remove ins SKY UX 15
+  // DEPRECATED: remove in future major version
   .sky-margin-stacked-md {
     margin-top: 0;
     margin-bottom: var(--sky-space-stacked-m);
   }
 
-  // DEPRECATED: remove ins SKY UX 15
+  // DEPRECATED: remove in future major version
   .sky-margin-stacked-lg {
     margin-top: 0;
     margin-bottom: var(--sky-space-stacked-l);
   }
 
-  // DEPRECATED: remove ins SKY UX 15
+  // DEPRECATED: remove in future major version
   .sky-margin-stacked-xl {
     margin-top: 0;
     margin-bottom: var(--sky-space-stacked-xl);
   }
 
-  // DEPRECATED: remove ins SKY UX 15
+  // DEPRECATED: remove in future major version
   .sky-margin-stacked-xxl {
     margin-top: 0;
     margin-bottom: var(--sky-space-stacked-xxl);

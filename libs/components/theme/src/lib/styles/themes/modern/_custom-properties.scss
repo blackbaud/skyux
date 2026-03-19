@@ -1,7 +1,7 @@
 @use '../../variables' as *;
 
 .sky-theme-modern {
-  // DEPRECATED: remove in SKY UX 15. Remove all, paying special attention to --sky-background-color-page-default.
+  // DEPRECATED: remove in future major version. Remove all, paying special attention to --sky-background-color-page-default.
   // Ensure you replace any usages of these within the monorepo.
   // If any must remain (like viewkeeper), find a new home for them and adopt the component naming convention.
 

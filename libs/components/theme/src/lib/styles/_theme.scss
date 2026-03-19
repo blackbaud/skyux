@@ -89,6 +89,7 @@ a {
   float: right;
 }
 
+// DEPRECATED: remove in future major version
 .sky-list-unstyled {
   list-style: none;
   padding-left: 0;
@@ -105,7 +106,7 @@ mark.sky-highlight-mark {
   color: var(--sky-text-color-default);
 }
 
-// DEPRECATED: REMOVE IN SKY UX 15
+// DEPRECATED: remove in future major version
 .sky-rounded-corners {
   border-radius: $sky-border-radius;
 }
@@ -114,6 +115,7 @@ mark.sky-highlight-mark {
   border-radius: 50%;
 }
 
+// DEPRECATED: remove in future major version
 .sky-shadow {
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
 }

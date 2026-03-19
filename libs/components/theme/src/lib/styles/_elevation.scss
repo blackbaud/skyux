@@ -1,12 +1,12 @@
 @use 'mixins' as mixins;
 
-// DEPRECATED: remove in SKY UX 15
+// DEPRECATED: remove in future major version
 .sky-elevation-0-bordered,
 .sky-elevation-1-bordered {
   @include mixins.sky-border(dark, top, bottom, left, right);
 }
 
-// DEPRECATED: remove in SKY UX 15
+// DEPRECATED: remove in future major version
 .sky-elevation-1,
 .sky-elevation-1-bordered,
 .sky-elevation-3,

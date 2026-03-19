@@ -4,7 +4,7 @@
 @use 'variables' as compatVars;
 @use 'sass:color';
 
-// DEPRECATED: remove in SKY UX 15
+// DEPRECATED: remove in future major version
 @mixin sky-deemphasized {
   font-family: compatVars.$sky-font-family;
   color: var(--sky-text-color-deemphasized);
@@ -177,7 +177,7 @@
   white-space: nowrap;
 }
 
-// DEPRECATED: remove in SKY UX 15
+// DEPRECATED: remove in future major version
 @mixin sky-subsection-heading {
   font-family: compatVars.$sky-font-family;
   color: var(--sky-text-color-deemphasized);

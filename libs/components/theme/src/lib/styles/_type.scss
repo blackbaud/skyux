@@ -1,6 +1,19 @@
 @use 'mixins' as mixins;
 @use 'variables' as *;
 
+// DEPRECATED: remove in future major version
+.sky-deemphasized {
+  @include mixins.sky-deemphasized();
+}
+
+// DEPRECATED: remove in future major version
+.sky-field-label {
+  font-family: $sky-font-family;
+  color: var(--sky-text-color-deemphasized);
+  font-weight: 400;
+  font-size: $sky-font-size-base;
+}
+
 // Status text
 .sky-text-info {
   color: var(--sky-text-color-default);
@@ -52,18 +65,21 @@
 
 // Retconning modern theme classes
 
+// DEPRECATED: remove in future major version
 .sky-font-body-default {
   font-size: $sky-font-size-base;
   font-family: $sky-font-family;
   color: var(--sky-text-color-default);
 }
 
+// DEPRECATED: remove in future major version
 .sky-font-body-sm {
   font-size: 13px;
   font-family: $sky-font-family;
   color: var(--sky-text-color-default);
 }
 
+// DEPRECATED: remove in future major version
 .sky-font-body-lg {
   font-size: 16px;
   font-family: $sky-font-family;
@@ -77,6 +93,7 @@
   font-size: $sky-font-size-base;
 }
 
+// DEPRECATED: remove in future major version
 .sky-font-deemphasized {
   font-family: $sky-font-family;
   color: var(--sky-text-color-deemphasized);
@@ -85,10 +102,12 @@
   font-style: italic;
 }
 
+// DEPRECATED: remove in future major version
 .sky-font-emphasized {
   font-weight: 600;
 }
 
+// DEPRECATED: remove in future major version (the font heading classes)
 h1,
 .sky-font-heading-1 {
   font-family: $sky-font-family-condensed;
@@ -133,6 +152,7 @@ h5,
   line-height: 1.5;
 }
 
+// DEPRECATED: remove in future major version
 .sky-font-display-1 {
   font-family: $sky-font-family-condensed;
   color: var(--sky-text-color-default);
@@ -140,6 +160,7 @@ h5,
   font-size: 34px;
 }
 
+// DEPRECATED: remove in future major version
 .sky-font-display-2 {
   font-family: $sky-font-family-condensed;
   color: var(--sky-text-color-default);
@@ -147,6 +168,7 @@ h5,
   font-size: 26px;
 }
 
+// DEPRECATED: remove in future major version
 .sky-font-display-3 {
   font-family: $sky-font-family-condensed;
   color: var(--sky-text-color-default);
@@ -154,6 +176,7 @@ h5,
   font-size: 22px;
 }
 
+// DEPRECATED: remove in future major version
 .sky-font-display-4 {
   font-family: $sky-font-family;
   color: var(--sky-text-color-default);
@@ -165,6 +188,7 @@ h5,
   @include mixins.sky-screen-reader-only;
 }
 
+// DEPRECATED: remove in future major version
 .sky-font-data-label {
   font-family: $sky-font-family;
   color: var(--sky-text-color-deemphasized);
