@@ -124,6 +124,7 @@ export class SkyBarChartConfigService {
       type: 'bar',
       data: { labels: categories, datasets: datasets },
       options: chartOptions,
+      plugins: [],
     });
 
     return config;
@@ -262,7 +263,7 @@ export class SkyBarChartConfigService {
       border: base.border,
       ticks: {
         ...base.ticks,
-        padding: styles.axis.ticks.padding
+        padding: styles.axis.ticks.padding,
       },
       title: {
         ...base.title,
@@ -296,7 +297,7 @@ export class SkyBarChartConfigService {
       ticks: {
         ...base.ticks,
         padding: styles.axis.ticks.padding,
-        callback: createLogTickFilter
+        callback: createLogTickFilter,
       },
       title: {
         ...base.title,

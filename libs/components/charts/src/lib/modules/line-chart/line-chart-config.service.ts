@@ -115,6 +115,7 @@ export class SkyLineChartConfigService {
       type: 'line',
       data: { labels: categories, datasets: datasets },
       options: chartOptions,
+      plugins: [],
     });
 
     return config;
@@ -255,7 +256,7 @@ export class SkyLineChartConfigService {
         ...base.ticks,
         padding: styles.axis.ticks.padding,
         // TODO: Chart localization
-        callback: createLogTickFilter
+        callback: createLogTickFilter,
       },
       title: {
         ...base.title,
