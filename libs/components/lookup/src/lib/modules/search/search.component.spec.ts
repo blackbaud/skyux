@@ -546,9 +546,11 @@ describe('Search component', () => {
       it('should become the selected mode when expandMode is cleared', async () => {
         component.expandMode = 'fit';
         fixture.detectChanges();
+        expect(component.searchComponent.expandMode).toBe('fit');
 
         component.expandMode = undefined;
         fixture.detectChanges();
+        expect(component.searchComponent.expandMode).toBe('responsive');
 
         await triggerXsBreakpoint();
         fixture.detectChanges();

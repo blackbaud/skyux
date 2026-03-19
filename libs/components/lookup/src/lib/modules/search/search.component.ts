@@ -15,7 +15,6 @@ import {
   afterNextRender,
   computed,
   inject,
-  input,
   signal,
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
@@ -95,9 +94,14 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
    * devices, and `"fit"` to extend the search input to fit the width of its container.
    * @default "responsive"
    */
-  public readonly expandMode = input(EXPAND_MODE_RESPONSIVE, {
-    transform: (value: string | undefined) => value ?? EXPAND_MODE_RESPONSIVE,
-  });
+  @Input()
+  public set expandMode(value: string | undefined) {
+    this.#expandMode.set(value ?? EXPAND_MODE_RESPONSIVE);
+  }
+
+  public get expandMode(): string {
+    return this.#expandMode();
+  }
 
   /**
    * How many milliseconds to wait before searching after users enter text in the search input.
@@ -139,11 +143,11 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   protected contentInfoObs: Observable<SkyContentInfo> | undefined;
 
   protected readonly isCollapsible = computed(
-    () => this.expandMode() === EXPAND_MODE_RESPONSIVE,
+    () => this.#expandMode() === EXPAND_MODE_RESPONSIVE,
   );
 
   protected readonly isFullWidth = computed(
-    () => this.expandMode() === EXPAND_MODE_FIT,
+    () => this.#expandMode() === EXPAND_MODE_FIT,
   );
 
   protected readonly inputShown = signal(true);
@@ -165,6 +169,8 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   #_debounceTime = 0;
 
   #_disabled = false;
+
+  readonly #expandMode = signal(EXPAND_MODE_RESPONSIVE);
 
   readonly #destroyRef = inject(DestroyRef);
   readonly #injector = inject(Injector);
