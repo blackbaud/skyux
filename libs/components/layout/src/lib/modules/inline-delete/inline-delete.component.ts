@@ -1,13 +1,14 @@
 import {
-  AfterViewInit,
   ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
   Input,
   OnDestroy,
+  OnInit,
   Output,
   ViewChild,
+  signal,
 } from '@angular/core';
 import { SkyCoreAdapterService } from '@skyux/core';
 
@@ -26,7 +27,7 @@ let nextId = 0;
   providers: [SkyCoreAdapterService, SkyInlineDeleteAdapterService],
   standalone: false,
 })
-export class SkyInlineDeleteComponent implements AfterViewInit, OnDestroy {
+export class SkyInlineDeleteComponent implements OnDestroy, OnInit {
   /**
    * Whether the deletion is pending.
    * @default false
@@ -47,6 +48,8 @@ export class SkyInlineDeleteComponent implements AfterViewInit, OnDestroy {
   public deleteTriggered = new EventEmitter<void>();
 
   public assistiveTextId = `sky-inline-delete-assistive-text-${++nextId}`;
+
+  public enterAnimationTrigger = signal(false);
 
   public type: SkyInlineDeleteType = SkyInlineDeleteType.Standard;
 
@@ -73,7 +76,14 @@ export class SkyInlineDeleteComponent implements AfterViewInit, OnDestroy {
   /**
    * @internal
    */
-  public ngAfterViewInit(): void {
+  public ngOnInit(): void {
+    this.enterAnimationTrigger.set(true);
+  }
+
+  /**
+   * @internal
+   */
+  public onAnimationEnd(): void {
     this.deleteButton?.nativeElement.focus();
     /* istanbul ignore else */
     if (this.#elRef) {

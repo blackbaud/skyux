@@ -98,17 +98,21 @@
 }
 
 .sky-inline-delete-entering {
-  animation: sky-inline-delete-enter-overlay 300ms ease-in-out;
+  animation: sky-inline-delete-enter-overlay var(--sky-transition-time-medium)
+    ease-in-out;
 }
 
 .sky-inline-delete-entering .sky-inline-delete-content-animation-container {
-  animation: sky-inline-delete-enter-content 300ms ease-in-out;
+  animation: sky-inline-delete-enter-content var(--sky-transition-time-medium)
+    ease-in-out;
 }
 
 .sky-inline-delete-leaving {
-  animation: sky-inline-delete-leave-overlay 300ms ease-in-out forwards;
+  animation: sky-inline-delete-leave-overlay var(--sky-transition-time-medium)
+    ease-in-out forwards;
 }
 
 .sky-inline-delete-leaving .sky-inline-delete-content-animation-container {
-  animation: sky-inline-delete-leave-content 300ms ease-in-out forwards;
+  animation: sky-inline-delete-leave-content var(--sky-transition-time-medium)
+    ease-in-out forwards;
 }
