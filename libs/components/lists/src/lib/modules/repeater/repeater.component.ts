@@ -195,27 +195,29 @@ export class SkyRepeaterComponent
 
     // HACK: Not updating for expand mode in a timeout causes an error.
     // https://github.com/angular/angular/issues/6005
-    this.items?.changes.pipe(delay(0), takeUntil(this.#ngUnsubscribe)).subscribe(() => {
-      if (this.items?.length) {
-        this.#updateForExpandMode(this.items.last);
+    this.items?.changes
+      .pipe(delay(0), takeUntil(this.#ngUnsubscribe))
+      .subscribe(() => {
+        if (this.items?.length) {
+          this.#updateForExpandMode(this.items.last);
 
-        this.#updateReorderability();
+          this.#updateReorderability();
 
-        if (this.#dragDropReady) {
-          this.#initializeDragAndDrop();
+          if (this.#dragDropReady) {
+            this.#initializeDragAndDrop();
+          }
+
+          this.#repeaterService.items = this.items.toArray();
         }
 
-        this.#repeaterService.items = this.items.toArray();
-      }
+        if (this.activeIndex !== undefined) {
+          this.#repeaterService.activateItemByIndex(this.activeIndex);
+        }
 
-      if (this.activeIndex !== undefined) {
-        this.#repeaterService.activateItemByIndex(this.activeIndex);
-      }
+        this.#updateRole();
 
-      this.#updateRole();
-
-      this.#validateTags();
-    });
+        this.#validateTags();
+      });
 
     setTimeout(() => {
       this.#updateForExpandMode();
