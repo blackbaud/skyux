@@ -1,20 +1,6 @@
 @use 'mixins' as mixins;
 @use 'variables' as *;
 
-.sky-headline {
-  font-family: $sky-font-family-condensed;
-  color: var(--sky-text-color-default);
-  font-weight: 600;
-  font-size: 22px;
-}
-
-.sky-field-label {
-  font-family: $sky-font-family;
-  color: var(--sky-text-color-deemphasized);
-  font-weight: 400;
-  font-size: $sky-font-size-base;
-}
-
 // Status text
 .sky-text-info {
   color: var(--sky-text-color-default);

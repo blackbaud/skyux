@@ -64,7 +64,7 @@ describe('Definition list component', () => {
     const labelEls = getLabelEls(list1El);
     const valueEls = getValueEls(list1El);
 
-    expect(labelEls?.[0]).toHaveCssClass('sky-field-label');
+    expect(labelEls?.[0]).toHaveCssClass('sky-theme-font-body-deemphasized-m');
     expect(labelEls?.[0]).toHaveText('Job title');
 
     expect(valueEls?.[0]).toHaveText('Engineer');
