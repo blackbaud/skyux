@@ -1,23 +1,18 @@
-import {
-  AnimationEvent,
-  animate,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
 import { coerceStringArray } from '@angular/cdk/coercion';
 import { CommonModule } from '@angular/common';
 import {
+  AfterRenderRef,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
+  Injector,
   OnDestroy,
-  OnInit,
   Renderer2,
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
+  afterNextRender,
   booleanAttribute,
   computed,
   effect,
@@ -28,12 +23,7 @@ import {
   signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { SkyAppFormat } from '@skyux/core';
 import { SkyInputBoxHostService } from '@skyux/forms';
 import { SkyAppLocaleProvider, SkyLibResourcesService } from '@skyux/i18n';
@@ -43,7 +33,7 @@ import {
   SkyCountryFieldCountry,
   SkyCountryFieldModule,
 } from '@skyux/lookup';
-import { SkyThemeModule, SkyThemeService } from '@skyux/theme';
+import { SkyThemeModule } from '@skyux/theme';
 
 import {
   PhoneNumberFormat,
@@ -62,9 +52,6 @@ import { SkyPhoneFieldNumberReturnFormat } from './types/number-return-format';
 
 const DEFAULT_COUNTRY_CODE = 'us';
 
-// NOTE: The no-op animation is here in order to block the input's "fade in" animation
-// from firing on initial load. For more information on this technique you can see
-// https://www.bennadel.com/blog/3417-using-no-op-transitions-to-prevent-animation-during-the-initial-render-of-ngfor-in-angular-5-2-6.htm
 @Component({
   imports: [
     CommonModule,
@@ -93,75 +80,8 @@ const DEFAULT_COUNTRY_CODE = 'us';
       useValue: { inPhoneField: true },
     },
   ],
-  animations: [
-    trigger('blockAnimationOnLoad', [transition(':enter', [])]),
-    trigger('countrySearchAnimation', [
-      transition('void => open', [
-        style({
-          opacity: 0,
-          width: 0,
-        }),
-        animate(
-          '200ms ease-in',
-          style({
-            opacity: 1,
-            width: '*',
-          }),
-        ),
-      ]),
-      transition('open => void', [
-        animate(
-          '200ms ease-in',
-          style({
-            opacity: 0,
-            width: 0,
-          }),
-        ),
-      ]),
-      transition('void => open-modern', [
-        style({
-          opacity: 0,
-        }),
-        animate(
-          '200ms ease-in',
-          style({
-            opacity: 1,
-          }),
-        ),
-      ]),
-      transition('open-modern => void', [
-        animate(
-          '200ms ease-in',
-          style({
-            opacity: 0,
-          }),
-        ),
-      ]),
-    ]),
-    trigger('phoneInputAnimation', [
-      transition('void => open', [
-        style({
-          opacity: 0,
-        }),
-        animate(
-          '200ms ease-in',
-          style({
-            opacity: 1,
-          }),
-        ),
-      ]),
-      transition('open => void', [
-        animate(
-          '200ms ease-in',
-          style({
-            opacity: 0,
-          }),
-        ),
-      ]),
-    ]),
-  ],
 })
-export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
+export class SkyPhoneFieldComponent implements OnDestroy {
   /**
    * Whether phone number extensions are allowed.
    * @default true
@@ -220,15 +140,12 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
 
   public readonly countrySelectDisabled = signal(false);
 
-  public countrySearchShown = false;
-
-  public phoneInputShown = true;
+  public readonly countrySearchShown = signal(false);
 
   public countrySearchForm: FormGroup<{
     countrySearch: FormControl<SkyCountryFieldCountry | undefined | null>;
   }>;
 
-  public readonly themeSvc = inject(SkyThemeService, { optional: true });
   public readonly inputBoxHostSvc = inject(SkyInputBoxHostService, {
     optional: true,
     skipSelf: true,
@@ -262,7 +179,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     return this.countries().find((country) => country.iso2 === defaultCountry);
   });
 
-  #focusPhoneInputAfterAnimation = false;
+  #focusPhoneInputAfterToggle = false;
 
   #phoneNumberFormatHintTextTemplateString = '';
 
@@ -279,19 +196,25 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
       );
   });
 
-  #_selectedCountry: SkyPhoneFieldCountry | undefined;
+  readonly #selectedCountryData = computed(() => {
+    const selected = this.selectedCountry();
+
+    return selected
+      ? this.countries().find((c) => c.iso2 === selected.iso2)
+      : undefined;
+  });
 
   #countrySearchFormControl = new FormControl<
     SkyCountryFieldCountry | undefined | null
   >(undefined);
 
+  #afterRenderRef: AfterRenderRef | undefined;
   #countryFlagFocusListenerFn: (() => void) | undefined;
   #dismissCountrySearchFocusListenerFn: (() => void) | undefined;
 
-  readonly #formBuilder = inject(FormBuilder);
-  readonly #adapterService = inject(SkyPhoneFieldAdapterService);
   readonly #appFormat = inject(SkyAppFormat);
   readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #injector = inject(Injector);
   readonly #ngUnsubscribe = new Subject<void>();
   readonly #resourceSvc = inject(SkyLibResourcesService);
   readonly #elementRef = inject(ElementRef<HTMLElement>);
@@ -305,7 +228,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   );
 
   constructor() {
-    this.countrySearchForm = this.#formBuilder.group({
+    this.countrySearchForm = new FormGroup({
       countrySearch: this.#countrySearchFormControl,
     });
 
@@ -317,39 +240,37 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
         this.#populateInputBoxHelpText();
       });
 
-    effect(() => {
-      const newCountry = this.selectedCountry();
-      this.#_selectedCountry = this.countries().find(
-        (country) => country.iso2 === newCountry?.iso2,
-      );
+    let previousIso: string | undefined;
 
-      if (
-        newCountry &&
-        this.#_selectedCountry &&
-        !this.#_selectedCountry.exampleNumber
-      ) {
+    effect(() => {
+      const country = this.#selectedCountryData();
+
+      if (country && !country.exampleNumber) {
         const numberObj = this.#phoneUtils.getExampleNumberForType(
-          newCountry.iso2,
+          country.iso2,
           PhoneNumberType.FIXED_LINE,
         );
 
-        this.#_selectedCountry.exampleNumber = this.#phoneUtils.format(
+        country.exampleNumber = this.#phoneUtils.format(
           numberObj,
           PhoneNumberFormat.NATIONAL,
         );
       }
 
       this.#populateInputBoxHelpText();
-      if (this.#_selectedCountry) {
-        this.selectedCountryChange.emit(this.#_selectedCountry);
-      }
-    });
-  }
 
-  public ngOnInit(): void {
-    // The timeout here is needed to avoid a change before checked error when a user specifies
-    // a selected country on initialization of the component.
-    setTimeout(() => {
+      // Only emit when the selected country actually changes, not when locale
+      // changes cause #selectedCountryData to return a new object reference.
+      if (country && country.iso2 !== previousIso) {
+        this.selectedCountryChange.emit(country);
+      }
+
+      previousIso = country?.iso2;
+    });
+
+    // Defer initial setup to avoid ExpressionChangedAfterItHasBeenCheckedError
+    // when a selected country is set during component initialization.
+    afterNextRender(() => {
       if (this.inputBoxHostSvc && this.inputTemplateRef) {
         this.inputBoxHostSvc.populate({
           inputTemplate: this.inputTemplateRef,
@@ -363,7 +284,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
       );
 
       this.#changeDetector.markForCheck();
-    }, 0);
+    });
 
     this.#countrySearchFormControl.valueChanges
       .pipe(takeUntil(this.#ngUnsubscribe))
@@ -377,6 +298,10 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   public ngOnDestroy(): void {
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
+
+    this.#afterRenderRef?.destroy();
+    this.#countryFlagFocusListenerFn?.();
+    this.#dismissCountrySearchFocusListenerFn?.();
   }
 
   /**
@@ -393,25 +318,37 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
         ),
       );
 
-      this.#focusPhoneInputAfterAnimation = true;
+      this.#focusPhoneInputAfterToggle = true;
       this.toggleCountrySearch(false);
     }
   }
 
   public toggleCountrySearch(showSearch: boolean): void {
-    if (showSearch) {
-      this.phoneInputShown = false;
-    } else {
-      this.countrySearchShown = false;
+    if (showSearch === this.countrySearchShown()) {
+      return;
+    }
 
+    if (!showSearch) {
       this.#countrySearchFormControl.setValue(undefined);
     }
+
+    this.countrySearchShown.set(showSearch);
 
     if (this.inputBoxHostSvc && this.inputTemplateRef) {
       this.inputBoxHostSvc.setHintTextHidden(showSearch);
     }
 
-    this.#changeDetector.markForCheck();
+    this.#afterRenderRef?.destroy();
+    this.#afterRenderRef = afterNextRender(
+      () => {
+        if (this.countrySearchShown()) {
+          this.#focusCountrySearch();
+        } else {
+          this.#handlePhoneInputShown();
+        }
+      },
+      { injector: this.#injector },
+    );
   }
 
   // TODO: remove this if no longer needed after a scalable focus monitor service is implemented
@@ -427,69 +364,41 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     }
   }
 
-  public countrySearchAnimationEnd(e: AnimationEvent): void {
-    if (!this.countrySearchShown) {
-      this.phoneInputShown = true;
-    } else {
-      this.#adapterService.focusCountrySearchElement(e.element);
+  #focusCountrySearch(): void {
+    this.#queryElement('textarea')?.focus();
 
-      let countryFlagButton: HTMLElement | undefined;
-      let dismissCountrySearchButton: HTMLElement | undefined;
+    const countryFlagButton = this.#queryElement(
+      'button.sky-phone-field-country-select-btn',
+    );
 
-      // add event listeners for focusout from the buttons on either side of country search field.
-      if (!this.inputBoxHostSvc) {
-        countryFlagButton = this.#elementRef.nativeElement.querySelector(
-          'button.sky-phone-field-country-select-btn',
-        );
-        dismissCountrySearchButton =
-          this.#elementRef.nativeElement.querySelector(
-            'button.sky-phone-field-search-btn-dismiss',
-          );
-      } else {
-        countryFlagButton = this.inputBoxHostSvc.queryHost(
-          'button.sky-phone-field-country-select-btn',
-        );
-        dismissCountrySearchButton = this.inputBoxHostSvc.queryHost(
-          'button.sky-phone-field-search-btn-dismiss',
-        );
-      }
+    const dismissCountrySearchButton = this.#queryElement(
+      'button.sky-phone-field-search-btn-dismiss',
+    );
 
-      if (countryFlagButton && dismissCountrySearchButton) {
-        this.#countryFlagFocusListenerFn =
-          this.addFocusEventListener(countryFlagButton);
-        this.#dismissCountrySearchFocusListenerFn = this.addFocusEventListener(
-          dismissCountrySearchButton,
-        );
-      }
+    if (countryFlagButton && dismissCountrySearchButton) {
+      this.#countryFlagFocusListenerFn =
+        this.addFocusEventListener(countryFlagButton);
+      this.#dismissCountrySearchFocusListenerFn = this.addFocusEventListener(
+        dismissCountrySearchButton,
+      );
     }
-
-    this.#changeDetector.markForCheck();
   }
 
   public dismissButtonClicked(): void {
-    this.#focusPhoneInputAfterAnimation = true;
+    this.#focusPhoneInputAfterToggle = true;
     this.toggleCountrySearch(false);
   }
 
-  public phoneInputAnimationEnd(e: AnimationEvent): void {
-    if (!this.phoneInputShown) {
-      this.countrySearchShown = true;
-    } else {
-      if (this.#focusPhoneInputAfterAnimation) {
-        this.#adapterService.focusPhoneInput(e.element);
-        this.#focusPhoneInputAfterAnimation = false;
-      }
+  #handlePhoneInputShown(): void {
+    if (this.#focusPhoneInputAfterToggle) {
+      this.#queryElement('.sky-phone-field-container input')?.focus();
 
-      // Remove focus out event listeners now that country search is closed.
-      if (this.#countryFlagFocusListenerFn) {
-        this.#countryFlagFocusListenerFn();
-      }
-      if (this.#dismissCountrySearchFocusListenerFn) {
-        this.#dismissCountrySearchFocusListenerFn();
-      }
+      this.#focusPhoneInputAfterToggle = false;
     }
 
-    this.#changeDetector.markForCheck();
+    // Remove focus out event listeners now that country search is closed.
+    this.#countryFlagFocusListenerFn?.();
+    this.#dismissCountrySearchFocusListenerFn?.();
   }
 
   // TODO: remove this if no longer needed after a scalable focus monitor service is implemented
@@ -535,7 +444,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
       foundCountry = undefined;
     }
 
-    if (foundCountry && foundCountry !== this.#_selectedCountry) {
+    if (foundCountry && foundCountry !== this.#selectedCountryData()) {
       this.selectedCountry.set(foundCountry);
       this.#changeDetector.markForCheck();
     }
@@ -545,7 +454,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     phoneNumberRaw: string,
   ): SkyPhoneFieldCountry | undefined {
     const defaultDialCode = this.#defaultCountryData()?.dialCode;
-    const selectedCountryDialCode = this.#_selectedCountry?.dialCode;
+    const selectedCountryDialCode = this.#selectedCountryData()?.dialCode;
     const countries = this.countries();
 
     let foundCountry: SkyPhoneFieldCountry | undefined;
@@ -576,12 +485,21 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     return foundCountry;
   }
 
+  #queryElement(selector: string): HTMLElement | undefined {
+    return (
+      this.inputBoxHostSvc?.queryHost(selector) ??
+      (this.#elementRef.nativeElement.querySelector(selector) as
+        | HTMLElement
+        | undefined)
+    );
+  }
+
   #populateInputBoxHelpText(): void {
     if (this.inputBoxHostSvc && this.inputTemplateRef) {
-      this.inputBoxHostSvc?.setHintText(
+      this.inputBoxHostSvc.setHintText(
         this.#appFormat.formatText(
           this.#phoneNumberFormatHintTextTemplateString,
-          this.#_selectedCountry?.exampleNumber,
+          this.#selectedCountryData()?.exampleNumber,
         ),
       );
     }
