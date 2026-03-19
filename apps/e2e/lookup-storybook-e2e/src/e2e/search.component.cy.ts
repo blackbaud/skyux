@@ -23,6 +23,7 @@ describe('lookup-storybook', () => {
       it('should render the component collapsed on mobile', () => {
         cy.skyReady('app-search');
         cy.viewport(E2eVariations.MOBILE_WIDTHS[0], 800);
+        cy.get('.sky-search-btn-open').should('be.visible');
         cy.get('app-search').screenshot(
           `searchcomponent-search--search-${theme}-mobile`,
         );
@@ -37,7 +38,9 @@ describe('lookup-storybook', () => {
       it('should render the component collapsed on mobile', () => {
         cy.skyReady('app-search');
         cy.viewport(E2eVariations.MOBILE_WIDTHS[0], 800);
-        cy.get('#filled-search .sky-search-btn-open').click();
+        cy.get('#filled-search .sky-search-btn-open')
+          .should('be.visible')
+          .click();
         cy.get('#empty-search .sky-search-btn-open').click();
         cy.get('app-search').screenshot(
           `searchcomponent-search--search-${theme}-mobile-open`,
