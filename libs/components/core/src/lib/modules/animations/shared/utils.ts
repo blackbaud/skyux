@@ -75,8 +75,10 @@ export function watchForDisabledCssTransitions(
 
 /**
  * Creates an effect that watches a trigger signal and emits via a microtask
- * when the host element's CSS motion is disabled. Skips the initial effect
- * run and unrendered elements to match native CSS behavior.
+ * when the host element's CSS motion is disabled. By default, skips the
+ * initial effect run to match native CSS behavior. When `emitOnAnimateEnter`
+ * is `true`, the first run is not skipped, allowing emission for elements
+ * that use `animate.enter` (where DOM insertion is the animation event).
  */
 function emitWhenMotionDisabled(
   args: WatchMotionArgs,
@@ -103,8 +105,9 @@ function emitWhenMotionDisabled(
     const style = getComputedStyle(el);
     const isRendered = style.display !== 'none';
 
-    // Skip the first effect run (and unrendered elements) to match native CSS behavior.
-    // Motion events only fire on rendered elements when a property value changes.
+    // By default, skip the first effect run (and unrendered elements) to match
+    // native CSS behavior. When emitOnAnimateEnter is true, the first run is
+    // treated as initialized, allowing emission for enter animations.
     if (initialized && isRendered && untracked(() => isMotionDisabled(style))) {
       // Defer the emit to a microtask so it fires after the current
       // change detection pass, matching real transition timing.
