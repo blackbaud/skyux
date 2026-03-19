@@ -97,7 +97,6 @@ describe('Inline delete component', () => {
   describe('focus handling', () => {
     it('should focus the delete button on load', async () => {
       fixture.detectChanges();
-      fixture.detectChanges();
       await fixture.whenStable();
       expect(document.activeElement).toBe(el.querySelector('.sky-btn-danger'));
     });
