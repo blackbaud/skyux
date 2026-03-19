@@ -13,9 +13,7 @@ import {
   SimpleChanges,
   ViewEncapsulation,
   afterNextRender,
-  computed,
   inject,
-  signal,
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import {
@@ -32,6 +30,7 @@ import { SkySearchAdapterService } from './search-adapter.service';
 
 const EXPAND_MODE_RESPONSIVE = 'responsive';
 const EXPAND_MODE_FIT = 'fit';
+const EXPAND_MODE_NONE = 'none';
 
 @Component({
   selector: 'sky-search',
@@ -96,11 +95,11 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
    */
   @Input()
   public set expandMode(value: string | undefined) {
-    this.#expandMode.set(value ?? EXPAND_MODE_RESPONSIVE);
+    this.#_expandMode = value ?? EXPAND_MODE_RESPONSIVE;
   }
 
   public get expandMode(): string {
-    return this.#expandMode();
+    return this.#_expandMode;
   }
 
   /**
@@ -140,19 +139,17 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
 
   public clearButtonShown = false;
 
+  public inputShown = true;
+
+  public isCollapsible = true;
+
+  public isFullWidth = false;
+
+  public mobileSearchShown = false;
+
+  public searchButtonShown = false;
+
   protected contentInfoObs: Observable<SkyContentInfo> | undefined;
-
-  protected readonly isCollapsible = computed(
-    () => this.#expandMode() === EXPAND_MODE_RESPONSIVE,
-  );
-
-  protected readonly isFullWidth = computed(
-    () => this.#expandMode() === EXPAND_MODE_FIT,
-  );
-
-  protected readonly inputShown = signal(true);
-  protected readonly mobileSearchShown = signal(false);
-  protected readonly searchButtonShown = signal(false);
 
   #changeRef: ChangeDetectorRef;
 
@@ -170,7 +167,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
 
   #_disabled = false;
 
-  readonly #expandMode = signal(EXPAND_MODE_RESPONSIVE);
+  #_expandMode = EXPAND_MODE_RESPONSIVE;
 
   readonly #destroyRef = inject(DestroyRef);
   readonly #injector = inject(Injector);
@@ -190,7 +187,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   }
 
   public ngOnInit(): void {
-    if (this.isCollapsible()) {
+    if (this.#searchShouldCollapse()) {
       this.#mediaQuerySvc.breakpointChange
         .pipe(takeUntilDestroyed(this.#destroyRef))
         .subscribe((breakpoint) => {
@@ -202,13 +199,30 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
+    if (this.#expandModeBindingChanged(changes)) {
+      switch (this.expandMode) {
+        case EXPAND_MODE_NONE:
+          this.isCollapsible = false;
+          this.isFullWidth = false;
+          break;
+        case EXPAND_MODE_FIT:
+          this.isCollapsible = false;
+          this.isFullWidth = true;
+          break;
+        default:
+          this.isCollapsible = true;
+          this.isFullWidth = false;
+          break;
+      }
+    }
+
     if (this.#searchBindingChanged(changes)) {
       this.#searchUpdated.next(this.searchText ?? '');
       this.clearButtonShown = !!(this.searchText && this.searchText !== '');
       if (this.#shouldOpenInput()) {
-        this.inputShown.set(true);
-        this.mobileSearchShown.set(true);
-        this.searchButtonShown.set(false);
+        this.inputShown = true;
+        this.mobileSearchShown = true;
+        this.searchButtonShown = false;
       }
     }
     this.#changeRef.detectChanges();
@@ -258,12 +272,12 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   }
 
   public toggleSearchInput(showInput: boolean): void {
-    if (this.isCollapsible()) {
-      this.inputShown.set(showInput);
+    if (this.#searchShouldCollapse()) {
+      this.inputShown = showInput;
 
       if (showInput && this.#breakpoint() === 'xs') {
-        this.mobileSearchShown.set(true);
-        this.searchButtonShown.set(false);
+        this.mobileSearchShown = true;
+        this.searchButtonShown = false;
       }
 
       if (showInput) {
@@ -278,11 +292,12 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   }
 
   protected onInputTransitionEnd(): void {
-    if (!this.inputShown()) {
-      if (this.#breakpoint() === 'xs' && this.isCollapsible()) {
-        this.searchButtonShown.set(true);
+    if (!this.inputShown) {
+      if (this.#breakpoint() === 'xs' && this.#searchShouldCollapse()) {
+        this.searchButtonShown = true;
       }
-      this.mobileSearchShown.set(false);
+
+      this.mobileSearchShown = false;
     }
   }
 
@@ -298,27 +313,41 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
     );
   }
 
+  #expandModeBindingChanged(changes: SimpleChanges): boolean {
+    return (
+      changes['expandMode'] &&
+      changes['expandMode'].previousValue !== changes['expandMode'].currentValue
+    );
+  }
+
   #shouldOpenInput(): boolean {
     return (
       this.searchText !== '' &&
       this.#breakpoint() === 'xs' &&
-      this.isCollapsible()
+      this.#searchShouldCollapse()
     );
   }
 
   #mediaQueryCallback(breakpoint: SkyBreakpoint): void {
-    if (this.isCollapsible()) {
+    if (this.#searchShouldCollapse()) {
       if (breakpoint === 'xs') {
-        this.inputShown.set(false);
-      } else if (!this.inputShown()) {
-        this.inputShown.set(true);
-        this.searchButtonShown.set(false);
-        this.mobileSearchShown.set(false);
+        this.inputShown = false;
+      } else if (!this.inputShown) {
+        this.inputShown = true;
+        this.searchButtonShown = false;
+        this.mobileSearchShown = false;
       } else {
-        this.mobileSearchShown.set(false);
+        this.mobileSearchShown = false;
       }
     }
     this.#changeRef.markForCheck();
+  }
+
+  #searchShouldCollapse(): boolean {
+    return (
+      (this.isCollapsible || this.isCollapsible === undefined) &&
+      this.isFullWidth !== true
+    );
   }
 
   #setupSearchChangedEvent(): void {
