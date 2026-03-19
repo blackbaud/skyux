@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectorRef,
   Component,
   ElementRef,
@@ -27,7 +26,7 @@ let nextId = 0;
   providers: [SkyCoreAdapterService, SkyInlineDeleteAdapterService],
   standalone: false,
 })
-export class SkyInlineDeleteComponent implements AfterViewInit, OnDestroy {
+export class SkyInlineDeleteComponent implements OnDestroy {
   /**
    * Whether the deletion is pending.
    * @default false
@@ -57,7 +56,7 @@ export class SkyInlineDeleteComponent implements AfterViewInit, OnDestroy {
   })
   public deleteButton: ElementRef | undefined;
 
-  protected readonly enterAnimationTrigger = signal(false);
+  protected readonly enterAnimationTrigger = signal(true);
 
   #adapterService: SkyInlineDeleteAdapterService;
   #changeDetector: ChangeDetectorRef;
@@ -72,10 +71,6 @@ export class SkyInlineDeleteComponent implements AfterViewInit, OnDestroy {
     this.#adapterService = adapterService;
     this.#changeDetector = changeDetector;
     this.#elRef = elRef;
-  }
-
-  public ngAfterViewInit(): void {
-    this.enterAnimationTrigger.set(true);
   }
 
   protected onAnimationEnd(): void {

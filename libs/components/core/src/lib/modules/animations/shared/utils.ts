@@ -14,6 +14,9 @@ interface WatchMotionArgs {
   /** A reference to the host element whose computed styles are inspected. */
   elementRef: ElementRef<Element>;
 
+  /** When `true`, the disabled-animation fallback fires on the first effect run instead of skipping it. */
+  emitOnAnimateEnter?: Signal<boolean>;
+
   /** The output emitter to call when CSS motion is disabled. */
   emitter: OutputEmitterRef<void>;
 
@@ -79,7 +82,7 @@ function emitWhenMotionDisabled(
   args: WatchMotionArgs,
   isMotionDisabled: (style: CSSStyleDeclaration) => boolean,
 ): void {
-  const { destroyRef, elementRef, emitter, trigger } = args;
+  const { destroyRef, elementRef, emitOnAnimateEnter, emitter, trigger } = args;
   const el = elementRef.nativeElement;
 
   let destroyed = false;
@@ -91,6 +94,11 @@ function emitWhenMotionDisabled(
 
   effect(() => {
     trigger();
+
+    // On the first run, check if emitOnAnimateEnter opts out of skipping.
+    if (!initialized && emitOnAnimateEnter) {
+      initialized = untracked(() => emitOnAnimateEnter());
+    }
 
     const style = getComputedStyle(el);
     const isRendered = style.display !== 'none';
