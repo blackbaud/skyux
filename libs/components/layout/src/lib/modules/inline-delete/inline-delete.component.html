@@ -2,10 +2,10 @@
   class="sky-inline-delete sky-inline-delete-{{ type }}"
   role="alertdialog"
   skyAnimationEndHandler
+  emitOnAnimateEnter
   animate.enter="sky-inline-delete-entering"
   animate.leave="sky-inline-delete-leaving"
   [animationTrigger]="enterAnimationTrigger()"
-  emitOnAnimateEnter
   [attr.aria-describedby]="assistiveTextId"
   [attr.aria-label]="'skyux_inline_delete_confirm_deletion' | skyLibResources"
   (animationEnd)="onAnimationEnd()"
