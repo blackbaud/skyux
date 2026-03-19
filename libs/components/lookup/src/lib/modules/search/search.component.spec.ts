@@ -6,9 +6,8 @@ import {
   tick,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyContentInfoProvider } from '@skyux/core';
+import { SkyContentInfoProvider, provideNoopSkyAnimations } from '@skyux/core';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -47,8 +46,9 @@ describe('Search component', () => {
 
     TestBed.configureTestingModule({
       declarations: [SearchTestComponent],
-      imports: [SkySearchModule, NoopAnimationsModule],
+      imports: [SkySearchModule],
       providers: [
+        provideNoopSkyAnimations(),
         provideSkyMediaQueryTesting(),
         {
           provide: SkyThemeService,
