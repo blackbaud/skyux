@@ -3,7 +3,7 @@
   grid-template-rows: 0fr;
   overflow: hidden;
   transition-property: grid-template-rows, visibility;
-  transition-duration: var(--sky-transition-time-short);
+  transition-duration: var(--sky-global-duration-short);
   transition-timing-function: ease-in;
 
   &.sky-animation-slide-in {

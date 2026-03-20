@@ -1,23 +1,29 @@
 @use './_public-api/_compat/variables' as vars;
+@use './compat-tokens-mixins' as compatMixins;
 
-@property --sky-transition-time-short {
-  syntax: '<time>';
-  inherits: true;
-  initial-value: vars.$sky-transition-time-short;
+@include compatMixins.sky-default-overrides('body') {
+  --sky-override-duration-medium: #{vars.$sky-transition-time-medium};
+  --sky-override-duration-short: #{vars.$sky-transition-time-short};
 }
 
-@property --sky-transition-time-medium {
-  syntax: '<time>';
-  inherits: true;
-  initial-value: vars.$sky-transition-time-medium;
+body {
+  --sky-global-duration-medium: var(
+    --sky-override-duration-medium,
+    var(--sky-duration-medium)
+  );
+  --sky-global-duration-short: var(
+    --sky-override-duration-short,
+    var(--sky-duration-short)
+  );
 }
 
-.sky-animations-disabled {
+/* disable motion globally */
+body.sky-animations-disabled {
   *,
   *::before,
   *::after {
-    --sky-transition-time-short: 0s !important;
-    --sky-transition-time-medium: 0s !important;
+    --sky-global-duration-medium: 0s !important;
+    --sky-global-duration-short: 0s !important;
   }
 }
 
@@ -26,8 +32,8 @@
   *,
   *::before,
   *::after {
-    --sky-transition-time-short: 1ms !important;
-    --sky-transition-time-medium: 1ms !important;
+    --sky-global-duration-medium: 1ms !important;
+    --sky-global-duration-short: 1ms !important;
   }
 }
 
@@ -56,12 +62,12 @@
 }
 
 .sky-animation-emerge-enter {
-  animation: sky-animation-emerge-enter var(--sky-transition-time-medium)
+  animation: sky-animation-emerge-enter var(--sky-global-duration-medium)
     ease-in-out;
 }
 
 .sky-animation-emerge-leave {
-  animation: sky-animation-emerge-leave var(--sky-transition-time-medium)
+  animation: sky-animation-emerge-leave var(--sky-global-duration-medium)
     ease-in-out;
 }
 
@@ -70,7 +76,7 @@ Slides an element from a horizontal offset to its natural position as it
 enters the DOM via @starting-style.
 */
 @mixin sky-animation-slide-enter($translate-x) {
-  transition-duration: var(--sky-transition-time-short);
+  transition-duration: var(--sky-global-duration-short);
   transition-property: transform;
   transition-timing-function: ease-in;
 
