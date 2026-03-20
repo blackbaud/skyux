@@ -25,7 +25,6 @@ import { SkySummaryActionBarTestComponent } from './summary-action-bar.component
   ],
   imports: [
     BrowserModule,
-
     RouterTestingModule,
     SkyKeyInfoModule,
     SkyModalModule,
