@@ -1,3 +1,4 @@
+import { AsyncPipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyDropdownModule } from '@skyux/popovers';
 
@@ -21,7 +22,7 @@ import { RepeaterTestComponent } from './repeater.component.fixture';
     NestedRepeaterTestComponent,
     A11yRepeaterTestComponent,
   ],
-  imports: [SkyDropdownModule, SkyRepeaterModule],
+  imports: [AsyncPipe, SkyDropdownModule, SkyRepeaterModule],
   exports: [
     RepeaterAsyncItemsTestComponent,
     RepeaterInlineFormFixtureComponent,
