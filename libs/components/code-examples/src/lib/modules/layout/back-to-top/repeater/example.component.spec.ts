@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
 import { SkyBackToTopHarness } from '@skyux/layout/testing';
 
@@ -21,7 +20,7 @@ describe('Back to top repeater example', () => {
 
   it('should set up the component', async () => {
     await TestBed.configureTestingModule({
-      imports: [LayoutBackToTopRepeaterExampleComponent, NoopAnimationsModule],
+      imports: [LayoutBackToTopRepeaterExampleComponent],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(

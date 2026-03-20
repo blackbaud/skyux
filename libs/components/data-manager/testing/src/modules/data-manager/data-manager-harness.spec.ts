@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { SkyDataManagerColumnPickerHarness } from './data-manager-column-picker-harness';
 import { SkyDataManagerHarness } from './data-manager-harness';
@@ -13,7 +12,7 @@ describe('Data manager harness', () => {
     fixture: ComponentFixture<DataManagerHarnessTestComponent>;
   }> {
     await TestBed.configureTestingModule({
-      imports: [DataManagerHarnessTestComponent, NoopAnimationsModule],
+      imports: [DataManagerHarnessTestComponent],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(DataManagerHarnessTestComponent);

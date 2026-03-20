@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { expectAsync } from '@skyux-sdk/testing';
 import { SkyDatepickerHarness } from '@skyux/datetime/testing';
 
@@ -25,7 +24,6 @@ describe('SkyAgGridDatePickerComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [SkyAgGridColumnFilterDatepickerComponent],
-      providers: [provideNoopAnimations()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SkyAgGridColumnFilterDatepickerComponent);

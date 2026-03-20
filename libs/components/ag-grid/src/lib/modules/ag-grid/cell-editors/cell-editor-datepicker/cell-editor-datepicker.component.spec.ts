@@ -6,7 +6,6 @@ import {
   tick,
 } from '@angular/core/testing';
 import { AbstractControl } from '@angular/forms';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyDatepickerHarness } from '@skyux/datetime/testing';
 import {
@@ -58,7 +57,6 @@ describe('SkyCellEditorDatepickerComponent', () => {
     TestBed.configureTestingModule({
       imports: [SkyAgGridMinimalFixtureComponent],
       providers: [
-        provideNoopAnimations(),
         {
           provide: MinimalColumnDefs,
           useValue: [
@@ -765,7 +763,6 @@ describe('SkyCellEditorDatepickerComponent without theme', () => {
     TestBed.configureTestingModule({
       imports: [SkyAgGridMinimalFixtureComponent],
       providers: [
-        provideNoopAnimations(),
         {
           provide: MinimalColumnDefs,
           useValue: [
