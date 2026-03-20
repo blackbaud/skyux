@@ -190,11 +190,11 @@ export class SkyChartStyleService {
       borderWidth: this.#cssRemToPx('--sky-border-width-action-hover', '1px'),
       borderColor: this.#css(
         '--sky-color-border-action-tertiary-hover',
-        '#2b6bd5',
+        '#0974A1',
       ),
       backgroundColor: this.#css(
         '--sky-color-background-action-tertiary-hover',
-        '#f4f8fd',
+        '#eeeeef',
       ),
     };
   }
@@ -204,26 +204,25 @@ export class SkyChartStyleService {
       borderWidth: this.#cssRemToPx('--sky-border-width-action-active', '2px'),
       borderColor: this.#css(
         '--sky-color-border-action-tertiary-active',
-        '#2b6bd5',
+        '#0974A1',
       ),
       backgroundColor: this.#css(
         '--sky-color-background-action-tertiary-active',
-        '#eef3fc',
+        '#eeeeef',
       ),
     };
   }
 
   #focusIndicator(): SkyChartStyles['focusIndicator'] {
     return {
-      color: '#1c84ff', // TODO: Confirm with UX
       borderWidth: this.#cssRemToPx('--sky-border-width-action-focus', '2px'),
       borderColor: this.#css(
         '--sky-color-border-action-tertiary-focus',
-        '#2b6bd5',
+        '#0974A1',
       ),
       backgroundColor: this.#css(
         '--sky-color-background-action-tertiary-focus',
-        'rgba(0, 0, 0, 0)',
+        '#eeeeef',
       ),
     };
   }
@@ -497,7 +496,6 @@ export interface SkyChartStyles {
     backgroundColor: string;
   };
   focusIndicator: {
-    color: string;
     borderWidth: number;
     borderColor: string;
     backgroundColor: string;
