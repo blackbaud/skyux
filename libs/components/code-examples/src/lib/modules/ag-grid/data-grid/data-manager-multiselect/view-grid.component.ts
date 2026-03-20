@@ -42,7 +42,7 @@ export class ViewGridComponent {
 
   protected readonly viewId = 'dataGridMultiselectWithDataManagerView';
 
-  protected noRowsTemplate = `<div class="sky-theme-font-body-deemphasized-m">No results found.</div>`;
+  protected noRowsTemplate = `<div class="sky-deemphasized">No results found.</div>`;
 
   readonly #columnDefs: ColDef[] = [
     {

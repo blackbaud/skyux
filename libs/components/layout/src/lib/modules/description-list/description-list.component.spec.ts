@@ -210,7 +210,7 @@ describe('Description list component', () => {
     let hasSpans = false;
     for (let i = 0; i < (spans?.length ?? 0); i++) {
       hasSpans = true;
-      expect(spans?.[i]).toHaveCssClass('sky-theme-font-body-deemphasized-m');
+      expect(spans?.[i]).toHaveCssClass('sky-deemphasized');
     }
 
     expect(hasSpans).toBeTruthy();
