@@ -117,7 +117,6 @@ describe('Colorpicker harness', () => {
       imports: [
         SkyColorpickerModule,
         SkyFormErrorModule,
-
         FormsModule,
         ReactiveFormsModule,
       ],

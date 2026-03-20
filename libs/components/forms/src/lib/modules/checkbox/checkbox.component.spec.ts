@@ -337,7 +337,6 @@ describe('Checkbox component', () => {
         FormsModule,
         ReactiveFormsModule,
         SkyCheckboxModule,
-
         SkyHelpTestingModule,
       ],
       providers: [NgForm],

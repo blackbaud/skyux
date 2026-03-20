@@ -34,7 +34,6 @@ describe('Basic date range picker example', () => {
     TestBed.configureTestingModule({
       imports: [
         DatetimeDateRangePickerHelpKeyExampleComponent,
-
         SkyHelpTestingModule,
       ],
     });

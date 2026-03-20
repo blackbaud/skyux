@@ -45,7 +45,6 @@ describe('Basic modal', () => {
     TestBed.configureTestingModule({
       imports: [
         ModalsModalBasicWithHarnessHelpKeyExampleComponent,
-
         SkyHelpTestingModule,
       ],
       providers: [

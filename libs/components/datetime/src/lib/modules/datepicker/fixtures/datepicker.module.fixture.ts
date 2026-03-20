@@ -21,7 +21,6 @@ import { DatepickerTestComponent } from './datepicker.component.fixture';
   ],
   imports: [
     SkyDatepickerModule,
-
     FormsModule,
     ReactiveFormsModule,
     SkyInputBoxModule,
