@@ -50,13 +50,11 @@
 }
 
 .sky-animation-emerge-enter {
-  animation: sky-animation-emerge-enter var(--sky-transition-time-medium)
-    ease-in-out;
+  animation: sky-animation-emerge-enter var(--sky-duration-medium) ease-in-out;
 }
 
 .sky-animation-emerge-leave {
-  animation: sky-animation-emerge-leave var(--sky-transition-time-medium)
-    ease-in-out;
+  animation: sky-animation-emerge-leave var(--sky-duration-medium) ease-in-out;
 }
 
 /*
