@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expectAsync } from '@skyux-sdk/testing';
 import { SkyLiveAnnouncerService } from '@skyux/core';
 import {
@@ -123,7 +122,6 @@ describe('Selection modal component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule],
       providers: [
         SelectionModalFixtureService,
         { provide: SkyModalHostService, useValue: modalHost },

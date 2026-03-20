@@ -1,4 +1,3 @@
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SkyThemeService } from '@skyux/theme';
 import type { AngularRenderer } from '@storybook/angular';
@@ -26,7 +25,6 @@ export const previewWrapperDecorators: DecoratorFunction<
   applicationConfig({
     providers: [
       provideIconPreview(),
-      provideNoopAnimations(),
       SkyThemeService,
       {
         provide: 'BODY',

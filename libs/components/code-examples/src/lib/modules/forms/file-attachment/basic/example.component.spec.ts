@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
   SkyFileAttachmentHarness,
   provideSkyFileAttachmentTesting,
@@ -44,7 +43,7 @@ describe('Basic file attachment example', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [FormsFileAttachmentBasicExampleComponent, NoopAnimationsModule],
+      imports: [FormsFileAttachmentBasicExampleComponent],
     });
   });
 

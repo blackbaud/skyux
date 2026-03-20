@@ -1,7 +1,6 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { expect } from '@skyux-sdk/testing';
 import {
   SkyMediaQueryTestingController,
@@ -42,11 +41,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyAgGridDataManagerFixtureComponent],
-      providers: [
-        provideNoopAnimations(),
-        SkyDataManagerService,
-        provideSkyMediaQueryTesting(),
-      ],
+      providers: [SkyDataManagerService, provideSkyMediaQueryTesting()],
     });
 
     agGridDataManagerFixture = TestBed.createComponent(
@@ -749,7 +744,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
 it('should move the horizontal scroll based on enableTopScroll check', async () => {
   TestBed.configureTestingModule({
     imports: [SkyAgGridDataManagerFixtureComponent],
-    providers: [provideNoopAnimations(), SkyDataManagerService],
+    providers: [SkyDataManagerService],
   });
 
   const fixture = TestBed.createComponent(SkyAgGridDataManagerFixtureComponent);
@@ -799,11 +794,7 @@ describe('Read columnOptions from grid API', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyAgGridDataManagerFixtureComponent],
-      providers: [
-        provideNoopAnimations(),
-        SkyDataManagerService,
-        provideSkyMediaQueryTesting(),
-      ],
+      providers: [SkyDataManagerService, provideSkyMediaQueryTesting()],
     });
     fixture = TestBed.createComponent(SkyAgGridDataManagerFixtureComponent);
     dataManagerService = TestBed.inject(SkyDataManagerService);

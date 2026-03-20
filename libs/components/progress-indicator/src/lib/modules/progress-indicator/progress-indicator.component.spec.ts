@@ -4,7 +4,6 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import {
   SkyHelpTestingController,
@@ -123,11 +122,7 @@ describe('Progress indicator component', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [
-        SkyProgressIndicatorFixtureModule,
-        SkyHelpTestingModule,
-        NoopAnimationsModule,
-      ],
+      imports: [SkyProgressIndicatorFixtureModule, SkyHelpTestingModule],
       providers: [
         {
           provide: SkyThemeService,

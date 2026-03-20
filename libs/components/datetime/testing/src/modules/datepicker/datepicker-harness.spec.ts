@@ -8,7 +8,6 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyDatepickerModule } from '@skyux/datetime';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
@@ -71,7 +70,6 @@ describe('Datepicker harness', () => {
         ReactiveFormsModule,
         SkyDatepickerModule,
         SkyInputBoxModule,
-        NoopAnimationsModule,
       ],
     }).compileComponents();
 

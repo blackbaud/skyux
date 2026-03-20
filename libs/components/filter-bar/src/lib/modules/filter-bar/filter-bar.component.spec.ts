@@ -1,6 +1,5 @@
 import { StaticProvider } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { SkyFilterState, SkyFilterStateService } from '@skyux/lists';
 import {
   SkySelectionModalInstance,
@@ -67,7 +66,6 @@ describe('Filter bar component', () => {
     );
 
     const providers: StaticProvider[] = [
-      provideNoopAnimations(),
       { provide: SkyConfirmService, useValue: confirmServiceSpy },
       {
         provide: SkySelectionModalService,
@@ -1390,7 +1388,6 @@ describe('Filter bar component', () => {
       await TestBed.configureTestingModule({
         imports: [SkyFilterBarForLoopTestComponent],
         providers: [
-          provideNoopAnimations(),
           {
             provide: SkyConfirmService,
             useValue: jasmine.createSpyObj('SkyConfirmService', ['open']),

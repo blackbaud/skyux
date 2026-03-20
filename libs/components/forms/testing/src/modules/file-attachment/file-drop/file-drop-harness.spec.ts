@@ -9,7 +9,6 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideSkyFileReaderTesting } from '@skyux/core/testing';
 import {
   SkyFileDropModule,
@@ -99,7 +98,7 @@ describe('File drop harness', () => {
     loader: HarnessLoader;
   }> {
     await TestBed.configureTestingModule({
-      imports: [TestComponent, NoopAnimationsModule],
+      imports: [TestComponent],
       providers: [provideSkyFileReaderTesting()],
     }).compileComponents();
 
