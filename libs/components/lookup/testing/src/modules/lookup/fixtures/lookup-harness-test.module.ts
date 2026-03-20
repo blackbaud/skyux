@@ -11,7 +11,6 @@ import { LookupHarnessTestComponent } from './lookup-harness-test.component';
   declarations: [LookupHarnessTestComponent],
   imports: [
     FormsModule,
-
     ReactiveFormsModule,
     RouterModule,
     SkyIdModule,

@@ -9,7 +9,6 @@ import { AutocompleteHarnessTestComponent } from './autocomplete-harness-test.co
   declarations: [AutocompleteHarnessTestComponent],
   imports: [
     FormsModule,
-
     ReactiveFormsModule,
     SkyAutocompleteModule,
     SkyIdModule,
