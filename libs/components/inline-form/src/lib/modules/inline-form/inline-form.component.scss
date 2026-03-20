@@ -62,7 +62,7 @@
   }
 
   transition-property: opacity;
-  transition-duration: var(--sky-duration-short);
+  transition-duration: var(--sky-global-duration-short);
   transition-timing-function: ease-in;
 }
 
@@ -76,9 +76,10 @@
   // On enter: height expands (no delay), then opacity fades in after height finishes.
   // On leave (.sky-slide-dissolve-leaving): overrides below snap opacity and collapse height.
   transition-property: grid-template-rows, opacity;
-  transition-duration: var(--sky-duration-medium), var(--sky-duration-medium);
+  transition-duration:
+    var(--sky-global-duration-medium), var(--sky-global-duration-medium);
   transition-timing-function: ease-in, ease-in;
-  transition-delay: 0ms, var(--sky-duration-medium);
+  transition-delay: 0ms, var(--sky-global-duration-medium);
 
   @starting-style {
     grid-template-rows: 0fr;
@@ -97,7 +98,7 @@
 
   // Snap opacity immediately; height collapses while already invisible.
   transition-property: grid-template-rows, opacity;
-  transition-duration: var(--sky-duration-medium), 0ms;
+  transition-duration: var(--sky-global-duration-medium), 0ms;
   transition-timing-function: ease-in, ease-in;
   transition-delay: 0ms, 0ms;
 }

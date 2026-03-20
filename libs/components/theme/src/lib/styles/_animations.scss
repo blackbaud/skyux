@@ -2,16 +2,29 @@
 @use './compat-tokens-mixins' as compatMixins;
 
 @include compatMixins.sky-default-overrides('body') {
-  --sky-duration-medium: #{vars.$sky-transition-time-medium};
-  --sky-duration-short: #{vars.$sky-transition-time-short};
+  --sky-override-duration-medium: #{vars.$sky-transition-time-medium};
+  --sky-override-duration-short: #{vars.$sky-transition-time-short};
 }
 
-.sky-animations-disabled {
+body {
+  --sky-global-duration-medium: var(
+    --sky-override-duration-medium,
+    var(--sky-duration-medium)
+  );
+  --sky-global-duration-short: var(
+    --sky-override-duration-short,
+    var(--sky-duration-short)
+  );
+}
+
+/* disable motion globally */
+body.sky-animations-disabled {
   *,
   *::before,
   *::after {
-    --sky-duration-medium: 0s !important;
-    --sky-duration-short: 0s !important;
+    --sky-global-duration-suppressed: 0s !important;
+    --sky-global-duration-medium: 0s !important;
+    --sky-global-duration-short: 0s !important;
   }
 }
 
@@ -20,8 +33,9 @@
   *,
   *::before,
   *::after {
-    --sky-duration-medium: 1ms !important;
-    --sky-duration-short: 1ms !important;
+    --sky-global-duration-suppressed: 1ms;
+    --sky-global-duration-medium: 1ms;
+    --sky-global-duration-short: 1ms;
   }
 }
 

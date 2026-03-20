@@ -18,7 +18,8 @@
 }
 
 :host {
-  animation: sky-modal-error 300ms ease-out 1;
+  animation: sky-modal-error var(--sky-global-duration-suppressed, 300ms)
+    ease-out 1;
   display: block;
   margin-top: var(
     --sky-override-form-error-margin-top,

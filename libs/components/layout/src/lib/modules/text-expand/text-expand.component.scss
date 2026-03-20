@@ -31,7 +31,7 @@
   word-wrap: break-word;
   overflow: hidden;
   height: auto;
-  transition-duration: var(--sky-duration-medium);
+  transition-duration: var(--sky-global-duration-medium);
   transition-property: max-height;
   transition-timing-function: ease;
 }

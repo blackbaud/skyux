@@ -33,7 +33,7 @@ sky-search {
     opacity: 1;
     width: 100%;
     transition-property: opacity, width;
-    transition-duration: var(--sky-duration-short);
+    transition-duration: var(--sky-global-duration-short);
     transition-timing-function: ease;
 
     &.sky-search-input-hidden {
