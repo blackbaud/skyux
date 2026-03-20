@@ -1,23 +1,17 @@
 @use './_public-api/_compat/variables' as vars;
+@use './compat-tokens-mixins' as compatMixins;
 
-@property --sky-transition-time-short {
-  syntax: '<time>';
-  inherits: true;
-  initial-value: vars.$sky-transition-time-short;
-}
-
-@property --sky-transition-time-medium {
-  syntax: '<time>';
-  inherits: true;
-  initial-value: vars.$sky-transition-time-medium;
+@include compatMixins.sky-default-overrides('body') {
+  --sky-duration-short: vars.$sky-transition-time-short;
+  --sky-duration-medium: vars.$sky-transition-time-medium;
 }
 
 .sky-animations-disabled {
   *,
   *::before,
   *::after {
-    --sky-transition-time-short: 0s !important;
-    --sky-transition-time-medium: 0s !important;
+    --sky-duration-short: 0s !important;
+    --sky-duration-medium: 0s !important;
   }
 }
 
@@ -26,43 +20,9 @@
   *,
   *::before,
   *::after {
-    --sky-transition-time-short: 1ms !important;
-    --sky-transition-time-medium: 1ms !important;
+    --sky-duration-short: 1ms !important;
+    --sky-duration-medium: 1ms !important;
   }
-}
-
-@keyframes sky-animation-emerge-enter {
-  from {
-    opacity: 0;
-    transform: scale(0);
-  }
-
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes sky-animation-emerge-leave {
-  from {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  to {
-    opacity: 0;
-    transform: scale(0);
-  }
-}
-
-.sky-animation-emerge-enter {
-  animation: sky-animation-emerge-enter var(--sky-transition-time-medium)
-    ease-in-out;
-}
-
-.sky-animation-emerge-leave {
-  animation: sky-animation-emerge-leave var(--sky-transition-time-medium)
-    ease-in-out;
 }
 
 /*
@@ -70,7 +30,7 @@ Slides an element from a horizontal offset to its natural position as it
 enters the DOM via @starting-style.
 */
 @mixin sky-animation-slide-enter($translate-x) {
-  transition-duration: var(--sky-transition-time-short);
+  transition-duration: var(--sky-duration-short);
   transition-property: transform;
   transition-timing-function: ease-in;
 
