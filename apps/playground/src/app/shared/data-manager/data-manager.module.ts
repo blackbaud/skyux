@@ -8,8 +8,7 @@ import { SkySearchModule } from '@skyux/lookup';
 import { SkyDropdownModule } from '@skyux/popovers';
 
 import { AgGridModule } from 'ag-grid-angular';
-import { AllCommunityModule } from 'ag-grid-community';
-import { ModuleRegistry } from 'ag-grid-community';
+import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 
 import { DataManagerMenuComponent } from './data-manager-context-menu.component';
 import { DataManagerViewGridComponent } from './data-manager-view-grid.component';

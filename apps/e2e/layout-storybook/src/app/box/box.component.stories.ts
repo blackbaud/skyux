@@ -1,5 +1,5 @@
-import { moduleMetadata } from '@storybook/angular';
 import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 
 import { BoxComponent } from './box.component';
 import { BoxModule } from './box.module';

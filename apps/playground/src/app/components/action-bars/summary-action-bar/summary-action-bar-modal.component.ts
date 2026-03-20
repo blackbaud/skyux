@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { SkySummaryActionBarModule } from '@skyux/action-bars';
-import { SkySummaryActionBarError } from '@skyux/action-bars';
+import {
+  SkySummaryActionBarError,
+  SkySummaryActionBarModule,
+} from '@skyux/action-bars';
 import { SkyKeyInfoModule } from '@skyux/indicators';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
