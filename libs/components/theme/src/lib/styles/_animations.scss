@@ -22,7 +22,6 @@ body.sky-animations-disabled {
   *,
   *::before,
   *::after {
-    --sky-global-duration-suppressed: 0s !important;
     --sky-global-duration-medium: 0s !important;
     --sky-global-duration-short: 0s !important;
   }
@@ -33,7 +32,6 @@ body.sky-animations-disabled {
   *,
   *::before,
   *::after {
-    --sky-global-duration-suppressed: 1ms !important;
     --sky-global-duration-medium: 1ms !important;
     --sky-global-duration-short: 1ms !important;
   }
