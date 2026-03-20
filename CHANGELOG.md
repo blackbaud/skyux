@@ -1,6 +1,18 @@
 # Changelog
 
 
+## [14.0.0-alpha.11](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.10...14.0.0-alpha.11) (2026-03-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/lookup:** replace `@angular/animations` with CSS transitions for search component (#4319)
+
+### Bug Fixes
+
+* **components/lookup:** replace `@angular/animations` with CSS transitions for search component ([#4319](https://github.com/blackbaud/skyux/issues/4319)) ([2dec706](https://github.com/blackbaud/skyux/commit/2dec706b5fd6e40c9d6fe6a5a6ccc0775971aaa5))
+* **components/phone-field:** remove `@angular/animations` from the phone field component ([#4321](https://github.com/blackbaud/skyux/issues/4321)) ([00051ae](https://github.com/blackbaud/skyux/commit/00051aec70b7d19082b8492c19ea3244c72e8f38))
+
 ## [14.0.0-alpha.10](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.9...14.0.0-alpha.10) (2026-03-18)
 
 
