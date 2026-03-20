@@ -2,16 +2,16 @@
 @use './compat-tokens-mixins' as compatMixins;
 
 @include compatMixins.sky-default-overrides('body') {
-  --sky-duration-short: #{vars.$sky-transition-time-short};
   --sky-duration-medium: #{vars.$sky-transition-time-medium};
+  --sky-duration-short: #{vars.$sky-transition-time-short};
 }
 
 .sky-animations-disabled {
   *,
   *::before,
   *::after {
-    --sky-duration-short: 0s !important;
     --sky-duration-medium: 0s !important;
+    --sky-duration-short: 0s !important;
   }
 }
 
@@ -20,8 +20,8 @@
   *,
   *::before,
   *::after {
-    --sky-duration-short: 1ms !important;
     --sky-duration-medium: 1ms !important;
+    --sky-duration-short: 1ms !important;
   }
 }
 
