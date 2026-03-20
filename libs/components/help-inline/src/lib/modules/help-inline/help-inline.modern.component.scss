@@ -32,7 +32,7 @@
     box-shadow: inset 0 0 0 var(--sky-border-width-action-hover)
       var(--sky-color-border-action-tertiary-hover);
     color: var(--sky-color-icon-action);
-    transition: color $sky-transition-time-short;
+    transition: color var(--sky-global-duration-short);
     cursor: pointer;
   }
 
