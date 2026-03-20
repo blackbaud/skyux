@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
 import { ILoadingOverlayParams } from 'ag-grid-community';
 
@@ -32,7 +31,6 @@ describe('LoadingComponent', () => {
     TestBed.configureTestingModule({
       imports: [SkyAgGridFixtureComponent],
       providers: [
-        provideNoopAnimations(),
         {
           provide: Loading,
           useValue: true,

@@ -4,7 +4,6 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import {
@@ -35,7 +34,6 @@ describe('SkyCellEditorNumberComponent', () => {
     TestBed.configureTestingModule({
       imports: [SkyAgGridMinimalFixtureComponent],
       providers: [
-        provideNoopAnimations(),
         {
           provide: MinimalColumnDefs,
           useValue: [

@@ -6,7 +6,6 @@ import {
   waitForAsync,
 } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 import { SkyCheckboxModule } from '@skyux/forms';
 
@@ -39,7 +38,6 @@ describe('List inline filters', () => {
         SkyListFiltersModule,
         FormsModule,
         SkyCheckboxModule,
-        NoopAnimationsModule,
       ],
       providers: [
         { provide: ListState, useValue: state },

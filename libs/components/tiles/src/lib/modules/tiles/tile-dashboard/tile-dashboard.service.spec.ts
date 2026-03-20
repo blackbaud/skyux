@@ -8,7 +8,6 @@ import {
   waitForAsync,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 import { SkyUIConfigService } from '@skyux/core';
 import {
@@ -82,11 +81,7 @@ describe('Tile dashboard service', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [
-        NoopAnimationsModule,
-        SkyTileDashboardFixturesModule,
-        SkyTilesModule,
-      ],
+      imports: [SkyTileDashboardFixturesModule, SkyTilesModule],
       providers: [
         provideSkyMediaQueryTesting(),
         { provide: SkyUIConfigService, useValue: mockUIConfigService },
