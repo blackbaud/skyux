@@ -1,8 +1,9 @@
+@use './_public-api/_compat/variables' as vars;
 @use './compat-tokens-mixins' as compatMixins;
 
 @include compatMixins.sky-default-overrides('body') {
-  --sky-override-duration-medium: 250ms;
-  --sky-override-duration-short: 150ms;
+  --sky-override-duration-medium: #{vars.$sky-transition-time-medium};
+  --sky-override-duration-short: #{vars.$sky-transition-time-short};
 }
 
 body {
