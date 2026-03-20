@@ -7,7 +7,7 @@ import { _SkyAnimationEndHandlerDirective } from './animation-handler';
   hostDirectives: [
     {
       directive: _SkyAnimationEndHandlerDirective,
-      inputs: ['animationTrigger: trigger'],
+      inputs: ['animationTrigger: trigger', 'emitOnAnimateEnter'],
       outputs: ['animationEnd'],
     },
   ],
@@ -195,6 +195,33 @@ describe('SkyAnimationEndHandler', () => {
       await fixture.whenStable();
 
       expect(animationEndEmitted).toBeFalse();
+    });
+
+    it('should emit on initial render when emitOnAnimateEnter is true', async () => {
+      TestBed.configureTestingModule({
+        imports: [TestComponent],
+      });
+
+      const fixture = TestBed.createComponent(TestComponent);
+      fixture.componentRef.setInput('trigger', signal(true));
+      fixture.componentRef.setInput('emitOnAnimateEnter', true);
+      fixture.detectChanges();
+
+      let animationEndEmitted = false;
+
+      const handler = fixture.debugElement.injector.get(
+        _SkyAnimationEndHandlerDirective,
+      );
+
+      handler.animationEnd.subscribe(() => {
+        animationEndEmitted = true;
+      });
+
+      fixture.detectChanges();
+
+      await fixture.whenStable();
+
+      expect(animationEndEmitted).toBeTrue();
     });
   });
 
