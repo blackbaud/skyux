@@ -57,12 +57,17 @@ export class SkySummaryActionBarAdapterService {
     );
     /* istanbul ignore else */
     if (actionBarEl.style.visibility !== 'hidden') {
-      this.#renderer.setStyle(
-        this.#splitViewWorkspaceContent,
-        'padding-bottom',
-        '20px',
-      );
-      this.#renderer.setStyle(this.#splitViewWorkspaceFooter, 'padding', 0);
+      if (this.#splitViewWorkspaceContent) {
+        this.#renderer.setStyle(
+          this.#splitViewWorkspaceContent,
+          'padding-bottom',
+          '20px',
+        );
+      }
+
+      if (this.#splitViewWorkspaceFooter) {
+        this.#renderer.setStyle(this.#splitViewWorkspaceFooter, 'padding', 0);
+      }
     }
   }
 
@@ -80,6 +85,7 @@ export class SkySummaryActionBarAdapterService {
       );
       this.#splitViewWorkspaceContent = null;
     }
+
     if (this.#splitViewWorkspaceFooter) {
       this.#renderer.removeStyle(this.#splitViewWorkspaceFooter, 'padding');
       this.#splitViewWorkspaceFooter = null;
