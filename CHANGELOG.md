@@ -1,6 +1,17 @@
 # Changelog
 
 
+## [14.0.0-alpha.12](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.11...14.0.0-alpha.12) (2026-03-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/layout:** replace `@angular/animations` with CSS transitions for inline delete component (#4323)
+
+### Bug Fixes
+
+* **components/layout:** replace `@angular/animations` with CSS transitions for inline delete component ([#4323](https://github.com/blackbaud/skyux/issues/4323)) ([1b94ac1](https://github.com/blackbaud/skyux/commit/1b94ac19a02a7bb99193de1292df8ef74360d31f))
+
 ## [14.0.0-alpha.11](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.10...14.0.0-alpha.11) (2026-03-19)
 
 
