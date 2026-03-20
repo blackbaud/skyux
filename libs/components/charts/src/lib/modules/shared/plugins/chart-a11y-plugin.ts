@@ -162,7 +162,7 @@ class ChartKeyboardManager {
     ctx.save();
 
     // Draw focus outline
-    ctx.strokeStyle = this.#styleService.styles().focusIndicator.color;
+    ctx.strokeStyle = this.#styleService.styles().focusIndicator.borderColor;
     ctx.lineWidth = 3;
     ctx.setLineDash([]);
 
