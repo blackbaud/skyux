@@ -257,7 +257,7 @@ describe('List View Checklist Component', () => {
         element
           .query(
             By.css(
-              'sky-list-view-checklist-item sky-checkbox-label .sky-emphasized',
+              'sky-list-view-checklist-item sky-checkbox-label .sky-theme-font-body-emphasized-m',
             ),
           )
           .nativeElement.textContent.trim(),

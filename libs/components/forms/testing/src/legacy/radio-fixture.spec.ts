@@ -20,7 +20,7 @@ import { SkyRadioFixture } from './radio-fixture';
       [value]="favoriteSeason"
       [(ngModel)]="favoriteSeason"
     >
-      <ul class="sky-list-unstyled">
+      <ul class="sky-theme-list-unstyled">
         @for (season of seasons; track season.id) {
           <li>
             <sky-radio [disabled]="season.disabled" [value]="season.id">

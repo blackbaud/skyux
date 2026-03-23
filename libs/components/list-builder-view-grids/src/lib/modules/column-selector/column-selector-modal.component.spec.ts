@@ -41,7 +41,7 @@ describe('Column selector component', () => {
     expect(
       document.body
         .querySelector(checklistItemQuery)
-        .querySelector('.sky-emphasized'),
+        .querySelector('.sky-theme-font-body-emphasized-m'),
     ).toHaveText('Column 1');
 
     expect(

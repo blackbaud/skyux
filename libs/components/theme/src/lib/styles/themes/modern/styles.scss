@@ -1,12 +1,11 @@
-@forward '@blackbaud/skyux-design-tokens/assets/scss/base';
-@forward '@blackbaud/skyux-design-tokens/assets/scss/blackbaud';
+@forward '@blackbaud/skyux-design-tokens/bundles/base';
+@forward '@blackbaud/skyux-design-tokens/bundles/blackbaud';
 
 @forward 'custom-properties';
 @forward 'box';
 @forward 'buttons';
 @forward 'elevation';
 @forward 'forms';
-@forward 'public-api';
 @forward 'switch';
 @forward 'theme';
 @forward 'type';
