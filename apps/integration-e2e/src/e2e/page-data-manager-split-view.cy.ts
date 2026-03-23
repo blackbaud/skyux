@@ -17,6 +17,10 @@ describe('Page Data Manager Split View', () => {
 
           cy.get('.sky-data-manager').should('exist').should('be.visible');
 
+          if (E2eVariations.MOBILE_WIDTHS.includes(width)) {
+            cy.get('.sky-search-btn-open').should('be.visible');
+          }
+
           cy.get('sky-split-view').should('exist').should('be.visible');
 
           cy.skyVisualTest(`page-data-manager-split-view-${theme}-${width}`);

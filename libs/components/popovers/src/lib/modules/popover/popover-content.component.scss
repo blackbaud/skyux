@@ -27,7 +27,7 @@ $popover-max-width: 276px;
     )
   );
   opacity: 0;
-  transition: opacity var(--sky-transition-time-short);
+  transition: opacity var(--sky-global-duration-short);
 
   @starting-style {
     opacity: 0;
@@ -35,7 +35,7 @@ $popover-max-width: 276px;
 
   &.sky-popover-visible {
     opacity: 1;
-    transition-duration: var(--sky-transition-time-medium);
+    transition-duration: var(--sky-global-duration-medium);
   }
 
   &.sky-popover-hidden {

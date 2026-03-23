@@ -90,7 +90,7 @@
   margin: 4px;
   min-width: 160px;
   text-align: left;
-  transition: background-color compatVars.$sky-transition-time-short;
+  transition: background-color var(--sky-global-duration-short);
 
   &.sky-dropdown-item-active,
   &:hover {
@@ -143,7 +143,7 @@
 
   &:hover {
     color: color.adjust(vars.$sky-text-color-deemphasized, $lightness: -20%);
-    transition: color compatVars.$sky-transition-time-short;
+    transition: color var(--sky-global-duration-short);
   }
 }
 

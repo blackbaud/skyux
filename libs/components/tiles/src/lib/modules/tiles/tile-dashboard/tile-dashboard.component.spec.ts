@@ -1,7 +1,6 @@
 import { QueryList } from '@angular/core';
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyUIConfigService } from '@skyux/core';
 import {
@@ -64,7 +63,7 @@ describe('Tile dashboard component', () => {
           useValue: mockThemeSvc,
         },
       ],
-      imports: [NoopAnimationsModule, SkyTileDashboardFixturesModule],
+      imports: [SkyTileDashboardFixturesModule],
     });
   });
 

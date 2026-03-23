@@ -1,7 +1,7 @@
 @if (showExtraButtons) {
 <button id="noop-button-1" type="button">Noop Button 1</button>
 }
-<div id="inline-delete-fixture" [@.disabled]="true" [tabIndex]="parentTabIndex">
+<div id="inline-delete-fixture" [tabIndex]="parentTabIndex">
   @if (showCoveredButtons) {
   <button id="covered-button" type="button">Covered Button</button>
   <button id="covered-button-2" type="button">Covered Button 2</button>

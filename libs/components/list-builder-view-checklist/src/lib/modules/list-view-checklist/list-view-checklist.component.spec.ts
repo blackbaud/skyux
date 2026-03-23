@@ -7,7 +7,6 @@ import {
   waitForAsync,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
   ListItemsLoadAction,
   ListState,
@@ -183,7 +182,7 @@ describe('List View Checklist Component', () => {
 
       TestBed.configureTestingModule({
         declarations: [ListViewChecklistTestComponent],
-        imports: [NoopAnimationsModule, SkyListViewChecklistModule],
+        imports: [SkyListViewChecklistModule],
         providers: [
           { provide: ListState, useValue: state },
           { provide: ListStateDispatcher, useValue: dispatcher },
@@ -316,7 +315,7 @@ describe('List View Checklist Component', () => {
 
       TestBed.configureTestingModule({
         declarations: [ListViewChecklistEmptyTestComponent],
-        imports: [NoopAnimationsModule, SkyListViewChecklistModule],
+        imports: [SkyListViewChecklistModule],
         providers: [
           { provide: ListState, useValue: state },
           { provide: ListStateDispatcher, useValue: dispatcher },
@@ -387,7 +386,6 @@ describe('List View Checklist Component', () => {
       TestBed.configureTestingModule({
         declarations: [ListViewChecklistPaginationTestComponent],
         imports: [
-          NoopAnimationsModule,
           SkyListModule,
           SkyListToolbarModule,
           SkyListViewChecklistModule,
@@ -455,7 +453,6 @@ describe('List View Checklist Component', () => {
       TestBed.configureTestingModule({
         declarations: [ListViewChecklistToolbarTestComponent],
         imports: [
-          NoopAnimationsModule,
           SkyListModule,
           SkyListToolbarModule,
           SkyListViewChecklistModule,
@@ -797,7 +794,6 @@ describe('List View Checklist Component', () => {
       TestBed.configureTestingModule({
         declarations: [ListViewChecklistToolbarTestComponent],
         imports: [
-          NoopAnimationsModule,
           SkyListModule,
           SkyListToolbarModule,
           SkyListViewChecklistModule,
@@ -846,7 +842,6 @@ describe('List View Checklist Component', () => {
       TestBed.configureTestingModule({
         declarations: [ListViewChecklistToolbarTestComponent],
         imports: [
-          NoopAnimationsModule,
           SkyListModule,
           SkyListToolbarModule,
           SkyListViewChecklistModule,
@@ -935,7 +930,6 @@ describe('List View Checklist Component', () => {
       TestBed.configureTestingModule({
         declarations: [ListViewChecklistToolbarTestComponent],
         imports: [
-          NoopAnimationsModule,
           SkyListModule,
           SkyListToolbarModule,
           SkyListViewChecklistModule,

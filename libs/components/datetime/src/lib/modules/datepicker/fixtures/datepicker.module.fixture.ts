@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyThemeModule } from '@skyux/theme';
 
@@ -22,7 +21,6 @@ import { DatepickerTestComponent } from './datepicker.component.fixture';
   ],
   imports: [
     SkyDatepickerModule,
-    NoopAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
     SkyInputBoxModule,

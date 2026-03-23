@@ -12,7 +12,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SKY_STACKING_CONTEXT } from '@skyux/core';
 import { SkyInputBoxModule } from '@skyux/forms';
@@ -172,7 +171,7 @@ describe('Timepicker', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
         declarations: [TimepickerTestComponent],
-        imports: [SkyTimepickerModule, NoopAnimationsModule, FormsModule],
+        imports: [SkyTimepickerModule, FormsModule],
         providers: [
           {
             provide: SkyThemeService,
@@ -554,7 +553,7 @@ describe('Timepicker', () => {
       TestBed.configureTestingModule({
         declarations: [TimepickerTestComponent],
         providers: [NgModel],
-        imports: [SkyTimepickerModule, NoopAnimationsModule, FormsModule],
+        imports: [SkyTimepickerModule, FormsModule],
       });
 
       fixture = TestBed.createComponent(TimepickerTestComponent);
@@ -687,12 +686,7 @@ describe('Timepicker', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
         declarations: [TimepickerReactiveTestComponent],
-        imports: [
-          SkyTimepickerModule,
-          NoopAnimationsModule,
-          FormsModule,
-          ReactiveFormsModule,
-        ],
+        imports: [SkyTimepickerModule, FormsModule, ReactiveFormsModule],
       });
 
       fixture = TestBed.createComponent(TimepickerReactiveTestComponent);

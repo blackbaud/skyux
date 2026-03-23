@@ -1,7 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import { provideNoopSkyAnimations } from '@skyux/core';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
@@ -25,7 +24,7 @@ describe('Wizard tabset demo', () => {
         provideRouter([]),
         SkyModalInstance,
       ],
-      imports: [ModalComponent, NoopAnimationsModule],
+      imports: [ModalComponent],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(ModalComponent);

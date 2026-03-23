@@ -14,6 +14,9 @@ interface WatchMotionArgs {
   /** A reference to the host element whose computed styles are inspected. */
   elementRef: ElementRef<Element>;
 
+  /** When `true`, the disabled-animation fallback fires on the first effect run instead of skipping it. */
+  emitOnAnimateEnter?: Signal<boolean>;
+
   /** The output emitter to call when CSS motion is disabled. */
   emitter: OutputEmitterRef<void>;
 
@@ -72,14 +75,16 @@ export function watchForDisabledCssTransitions(
 
 /**
  * Creates an effect that watches a trigger signal and emits via a microtask
- * when the host element's CSS motion is disabled. Skips the initial effect
- * run and unrendered elements to match native CSS behavior.
+ * when the host element's CSS motion is disabled. By default, skips the
+ * initial effect run to match native CSS behavior. When `emitOnAnimateEnter`
+ * is `true`, the first run is not skipped, allowing emission for elements
+ * that use `animate.enter` (where DOM insertion is the animation event).
  */
 function emitWhenMotionDisabled(
   args: WatchMotionArgs,
   isMotionDisabled: (style: CSSStyleDeclaration) => boolean,
 ): void {
-  const { destroyRef, elementRef, emitter, trigger } = args;
+  const { destroyRef, elementRef, emitOnAnimateEnter, emitter, trigger } = args;
   const el = elementRef.nativeElement;
 
   let destroyed = false;
@@ -92,11 +97,17 @@ function emitWhenMotionDisabled(
   effect(() => {
     trigger();
 
+    // On the first run, check if emitOnAnimateEnter opts out of skipping.
+    if (!initialized && emitOnAnimateEnter) {
+      initialized = untracked(() => emitOnAnimateEnter());
+    }
+
     const style = getComputedStyle(el);
     const isRendered = style.display !== 'none';
 
-    // Skip the first effect run (and unrendered elements) to match native CSS behavior.
-    // Motion events only fire on rendered elements when a property value changes.
+    // By default, skip the first effect run (and unrendered elements) to match
+    // native CSS behavior. When emitOnAnimateEnter is true, the first run is
+    // treated as initialized, allowing emission for enter animations.
     if (initialized && isRendered && untracked(() => isMotionDisabled(style))) {
       // Defer the emit to a microtask so it fires after the current
       // change detection pass, matching real transition timing.

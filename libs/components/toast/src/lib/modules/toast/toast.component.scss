@@ -261,8 +261,8 @@ sky-toast {
   sky-toast {
     .sky-toast-btn-close {
       transition:
-        border-color $sky-transition-time-short,
-        box-shadow $sky-transition-time-short;
+        border-color var(--sky-global-duration-short),
+        box-shadow var(--sky-global-duration-short);
 
       &:hover {
         border-color: var(--sky-color-border-action-tertiary-hover);

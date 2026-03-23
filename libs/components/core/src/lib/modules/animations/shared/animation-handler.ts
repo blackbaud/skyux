@@ -2,6 +2,7 @@ import {
   DestroyRef,
   Directive,
   ElementRef,
+  booleanAttribute,
   inject,
   input,
   output,
@@ -26,6 +27,16 @@ import { watchForDisabledCssAnimations } from './utils';
 })
 export class _SkyAnimationEndHandlerDirective {
   /**
+   * When `true` and the host element uses `animate.enter`, the
+   * disabled-animation fallback emits `animationEnd` on the initial
+   * render. Use this when the element's insertion into the DOM is
+   * the animation event.
+   */
+  public readonly emitOnAnimateEnter = input(false, {
+    transform: booleanAttribute,
+  });
+
+  /**
    * Drives animation lifecycle tracking on the host element. When the
    * value changes and the CSS animation is disabled, `animationEnd`
    * emits via a microtask.
@@ -42,6 +53,7 @@ export class _SkyAnimationEndHandlerDirective {
     watchForDisabledCssAnimations({
       destroyRef: inject(DestroyRef),
       elementRef: inject(ElementRef),
+      emitOnAnimateEnter: this.emitOnAnimateEnter,
       emitter: this.animationEnd,
       trigger: this.animationTrigger,
     });

@@ -93,7 +93,7 @@ sky-repeater-item {
         var(--sky-comp-repeater_item-space-inset-left)
     );
     position: relative;
-    transition: box-shadow $sky-transition-time-short;
+    transition: box-shadow var(--sky-global-duration-short);
     align-items: flex-start;
 
     &:focus-visible,
@@ -384,7 +384,7 @@ sky-repeater-item {
       --sky-override-repeater-item-selected-color,
       var(--sky-color-background-selected-soft)
     );
-    transition: background-color 150ms;
+    transition: background-color var(--sky-global-duration-short);
   }
 
   .sky-repeater-item-title {

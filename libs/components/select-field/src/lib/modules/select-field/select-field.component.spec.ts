@@ -5,7 +5,6 @@ import {
   inject,
   tick,
 } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 import { SkyModalService } from '@skyux/modals';
 
@@ -132,7 +131,7 @@ describe('Select field component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, SkySelectFieldFixturesModule],
+      imports: [SkySelectFieldFixturesModule],
     });
 
     fixture = TestBed.createComponent(SkySelectFieldTestComponent);
