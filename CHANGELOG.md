@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.0.0-alpha.13](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.12...14.0.0-alpha.13) (2026-03-23)
+
+
+### Features
+
+* remove deprecated styles, forward new public API ([#4329](https://github.com/blackbaud/skyux/issues/4329)) ([716d80b](https://github.com/blackbaud/skyux/commit/716d80b53101ecb273f15a208539554b793c5db0))
+
 ## [14.0.0-alpha.12](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.11...14.0.0-alpha.12) (2026-03-23)
 
 
