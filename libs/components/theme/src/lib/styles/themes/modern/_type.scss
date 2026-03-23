@@ -2,7 +2,6 @@
 @use '../../compat-tokens-mixins' as compatMixins;
 
 .sky-theme-modern {
-  // DEPRECATED: remove in future major version
   .sky-font-body-default {
     color: var(--sky-color-text-default);
     font-family: var(--sky-font-family-primary);
@@ -11,7 +10,6 @@
     line-height: var(--sky-font-line_height-body-m);
   }
 
-  // DEPRECATED: remove in future major version
   .sky-font-body-sm {
     color: var(--sky-color-text-default);
     font-family: var(--sky-font-family-primary);
@@ -20,7 +18,6 @@
     line-height: var(--sky-font-line_height-body-s);
   }
 
-  // DEPRECATED: remove in future major version
   .sky-font-body-lg {
     color: var(--sky-color-text-default);
     font-family: var(--sky-font-family-primary);
@@ -29,7 +26,6 @@
     line-height: var(--sky-font-line_height-body-l);
   }
 
-  // DEPRECATED: remove in future major version
   .sky-font-data-label {
     color: var(--sky-color-text-deemphasized);
     font-family: var(--sky-font-family-primary);
@@ -46,7 +42,6 @@
     line-height: var(--sky-font-line_height-body-m);
   }
 
-  // DEPRECATED: remove in future major version
   .sky-font-deemphasized {
     color: var(--sky-color-text-deemphasized);
     font-family: var(--sky-font-family-primary);
@@ -55,7 +50,6 @@
     font-size: inherit;
   }
 
-  // DEPRECATED: remove in future major version
   .sky-font-emphasized {
     font-family: var(--sky-font-family-primary);
     font-size: inherit;
@@ -90,7 +84,6 @@
     line-height: var(--sky-font-line_height-hint-m);
   }
 
-  // DEPRECATED: remove in future major version
   .sky-font-display-1 {
     color: var(--sky-color-text-default);
     font-family: var(--sky-font-family-primary);
@@ -99,7 +92,6 @@
     line-height: var(--sky-font-line_height-display-1);
   }
 
-  // DEPRECATED: remove in future major version
   .sky-font-display-2 {
     color: var(--sky-color-text-default);
     font-family: var(--sky-font-family-primary);
@@ -108,7 +100,6 @@
     line-height: var(--sky-font-line_height-display-2);
   }
 
-  // DEPRECATED: remove in future major version
   .sky-font-display-3 {
     color: var(--sky-color-text-default);
     font-family: var(--sky-font-family-primary);
@@ -117,7 +108,6 @@
     line-height: var(--sky-font-line_height-display-3);
   }
 
-  // DEPRECATED: remove in future major version
   .sky-font-display-4 {
     color: var(--sky-color-text-default);
     font-family: var(--sky-font-family-primary);

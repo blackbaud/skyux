@@ -41,7 +41,6 @@ body.sky-theme-modern {
     }
   }
 
-  // DEPRECATED: remove in future major version (the heading classes)
   h1,
   .sky-font-heading-1 {
     color: var(--sky-color-text-heading);
@@ -101,7 +100,6 @@ body.sky-theme-modern {
     color: var(--sky-color-text-action_contrast);
   }
 
-  // DEPRECATED: remove in future major version
   .sky-rounded-corners {
     border-radius: var(--sky-border-radius-s);
   }

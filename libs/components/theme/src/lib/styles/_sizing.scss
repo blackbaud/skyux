@@ -1,128 +1,103 @@
 @use 'variables' as *;
 
-// DEPRECATED: remove in future major version
 .sky-padding-even-small {
   padding: $sky-padding-even-small;
 }
 
-// DEPRECATED: remove in future major version
 .sky-padding-squish-default {
   padding: $sky-padding-squish-default;
 }
 
-// DEPRECATED: remove in future major version
 .sky-padding-squish-small {
   padding: $sky-padding-squish-small;
 }
 
-// DEPRECATED: remove in future major version
 .sky-padding-squish-large {
   padding: $sky-padding-squish-large;
 }
 
 // Retconning modern theme classes
 
-// DEPRECATED: remove in future major version
 .sky-padding-even-sm {
   padding: $sky-space-md;
 }
 
-// DEPRECATED: remove in future major version
 .sky-padding-even-md {
   padding: $sky-space-lg;
 }
 
-// DEPRECATED: remove in future major version
 .sky-padding-even-lg {
   padding: $sky-space-xl;
 }
 
-// DEPRECATED: remove in future major version
 .sky-padding-even-xl {
   padding: $sky-space-xl;
 }
 
-// DEPRECATED: remove in future major version
 .sky-padding-horizontal-sm {
   padding: 0 $sky-space-sm;
 }
 
-// DEPRECATED: remove in future major version
 .sky-padding-horizontal-md {
   padding: 0 $sky-space-md;
 }
 
-// DEPRECATED: remove in future major version
 .sky-padding-horizontal-xl {
   padding: 0 $sky-space-xl;
 }
 
-// DEPRECATED: remove in future major version
 .sky-padding-vertical-md {
   padding: $sky-space-lg 0;
 }
 
-// DEPRECATED: remove in future major version
 .sky-padding-vertical-lg {
   padding: $sky-space-xl 0;
 }
 
-// DEPRECATED: remove in future major version
 .sky-margin-inline-xs {
   margin-right: $sky-space-xs;
 }
 
-// DEPRECATED: remove in future major version
 .sky-margin-inline-sm {
   margin-right: $sky-space-md;
 }
 
-// DEPRECATED: remove in future major version
 .sky-margin-inline-md {
   margin-right: $sky-space-md;
 }
 
-// DEPRECATED: remove in future major version
 .sky-margin-inline-lg {
   margin-right: $sky-space-lg;
 }
 
-// DEPRECATED: remove in future major version
 .sky-margin-inline-xl {
   margin-right: $sky-space-xl;
 }
 
-// DEPRECATED: remove in future major version
 .sky-margin-inline-xxl {
   margin-right: 40px;
 }
 
-// DEPRECATED: remove in future major version
 .sky-margin-stacked-xs {
   margin-bottom: $sky-space-xs;
 }
 
-// DEPRECATED: remove in future major version
 .sky-margin-stacked-sm {
   margin-bottom: $sky-space-sm;
 }
 
-// DEPRECATED: remove in future major version
 .sky-margin-stacked-md {
   margin-bottom: $sky-space-lg;
 }
 
-// DEPRECATED: remove in future major version
 .sky-margin-stacked-lg {
   margin-bottom: $sky-space-md;
 }
 
-// DEPRECATED: remove in future major version
 .sky-margin-stacked-xl {
   margin-bottom: $sky-space-xl;
 }
 
-// DEPRECATED: remove in future major version
 .sky-margin-stacked-xxl {
   margin-bottom: 40px;
 }
