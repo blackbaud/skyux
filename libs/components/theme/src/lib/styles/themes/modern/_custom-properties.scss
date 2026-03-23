@@ -8,6 +8,7 @@
   /* color */
   // We are setting this custom property (and using this) in multiple places as a component custom property variable.
   // Remove it and create a new token following the proper comp variable naming convention.
+  --sky-background-color-page-default: var(--sky-color-background-page);
   --sky-background-color-container-default: var(
     --sky-color-background-container-base
   );
