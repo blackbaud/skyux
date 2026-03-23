@@ -11,9 +11,9 @@
 $sky-border-radius: 3px;
 
 $sky-form-border-and-color-transitions:
-  border-color 150ms,
-  box-shadow 150ms,
-  color 150ms;
+  border-color var(--sky-global-duration-short),
+  box-shadow var(--sky-global-duration-short),
+  color var(--sky-global-duration-short);
 
 // begin color palette
 $sky-palette-multi: (

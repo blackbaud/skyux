@@ -12,8 +12,8 @@ html:has(.sky-theme-modern) {
   background-color: var(--sky-color-background-page);
 
   transition:
-    background-color $sky-transition-time-short,
-    color $sky-transition-time-short;
+    background-color var(--sky-global-duration-short),
+    color var(--sky-global-duration-short);
 }
 
 .sky-theme-modern form {
@@ -21,8 +21,8 @@ html:has(.sky-theme-modern) {
   font-family: var(--sky-font-family-primary);
 
   transition:
-    background-color $sky-transition-time-short,
-    color $sky-transition-time-short;
+    background-color var(--sky-global-duration-short),
+    color var(--sky-global-duration-short);
 }
 
 body.sky-theme-modern {

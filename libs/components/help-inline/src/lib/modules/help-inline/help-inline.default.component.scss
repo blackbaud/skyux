@@ -11,7 +11,7 @@
 
   &:hover {
     color: darken($sky-background-color-primary-dark, 10%);
-    transition: color $sky-transition-time-short;
+    transition: color var(--sky-global-duration-short);
     cursor: pointer;
   }
 }
