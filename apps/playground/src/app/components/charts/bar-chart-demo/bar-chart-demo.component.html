@@ -113,7 +113,8 @@
               <sky-box headingText="Stacked" class="sky-margin-stacked-xl">
                 <sky-box-content>
                   <sky-chart
-                    helpKey="help-key.html"
+                    helpPopoverTitle="Easy-mode help"
+                    [helpPopoverContent]="helpContent"
                     [headingText]="'Monthly spendings'"
                     [headingLevel]="3"
                     [headingStyle]="3"
@@ -645,3 +646,5 @@
     </sky-tabset>
   </sky-page-content>
 </sky-page>
+
+<ng-template #helpContent>Help content</ng-template>
