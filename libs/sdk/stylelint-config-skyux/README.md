@@ -1,3 +1,15 @@
-# stylelint-config-skyux (Experimental)
+# stylelint-config-skyux
 
-Stylelint configuration for SKY UX projects.
+## Install
+
+```
+ng add stylelint-config-skyux
+```
+
+## Implement in stylelint.config.mjs
+
+```js
+export default {
+  extends: ['stylelint-config-skyux'],
+};
+```
