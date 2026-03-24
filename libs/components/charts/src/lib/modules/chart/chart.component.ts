@@ -72,6 +72,11 @@ export class SkyChartComponent {
   });
   // #endregion
 
+  protected readonly includeHeaderMargin = computed(() => {
+    const hasText = !!this.headingText() || !!this.subtitleText();
+    const notHidden = !this.headingHidden() || !this.subtitleHidden();
+    return hasText && notHidden;
+  });
   protected readonly headingClass = computed(
     () => `sky-font-heading-${this.headingLevel()}`,
   );

@@ -3,45 +3,48 @@
   [attr.aria-label]="headingText()"
   [attr.aria-labelledby]="headerId"
 >
-  <div class="sky-chart-header sky-margin-stacked-sm">
+  <div
+    class="sky-chart-header"
+    [class.sky-margin-stacked-sm]="includeHeaderMargin()"
+  >
     <!-- Heading -->
     <div class="sky-chart-heading">
       @switch (headingLevel()) {
         @case (2) {
+          <!-- display: inline -->
           <h2
             [id]="headerId"
             [class]="headingClass()"
             [class.sky-screen-reader-only]="headingHidden()"
+            >{{ headingText() }}</h2
           >
-            {{ headingText() }}
-          </h2>
         }
         @case (4) {
+          <!-- display: inline -->
           <h4
             [id]="headerId"
             [class]="headingClass()"
             [class.sky-screen-reader-only]="headingHidden()"
+            >{{ headingText() }}</h4
           >
-            {{ headingText() }}
-          </h4>
         }
         @case (5) {
+          <!-- display: inline -->
           <h5
             [id]="headerId"
             [class]="headingClass()"
             [class.sky-screen-reader-only]="headingHidden()"
+            >{{ headingText() }}</h5
           >
-            {{ headingText() }}
-          </h5>
         }
         @default {
+          <!-- display: inline -->
           <h3
             [id]="headerId"
             [class]="headingClass()"
             [class.sky-screen-reader-only]="headingHidden()"
+            >{{ headingText() }}</h3
           >
-            {{ headingText() }}
-          </h3>
         }
       }
     </div>
