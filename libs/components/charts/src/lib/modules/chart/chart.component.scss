@@ -1,6 +1,7 @@
 .sky-chart {
   display: grid;
   grid-template-columns: 1fr auto;
+  column-gap: var(--sky-space-gap-text_action-m, 12px);
 }
 
 .sky-chart-header {
@@ -36,5 +37,5 @@ sky-chart-legend {
 .sky-chart-actions {
   grid-column: 2;
   grid-row: 1;
-  align-self: end;
+  align-self: start;
 }

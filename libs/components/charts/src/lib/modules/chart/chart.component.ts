@@ -73,9 +73,9 @@ export class SkyChartComponent {
   // #endregion
 
   protected readonly includeHeaderMargin = computed(() => {
-    const hasText = !!this.headingText() || !!this.subtitleText();
-    const notHidden = !this.headingHidden() || !this.subtitleHidden();
-    return hasText && notHidden;
+    const headingVisible = !!this.headingText() && !this.headingHidden();
+    const subtitleVisible = !!this.subtitleText() && !this.subtitleHidden();
+    return headingVisible || subtitleVisible;
   });
   protected readonly headingClass = computed(
     () => `sky-font-heading-${this.headingLevel()}`,
