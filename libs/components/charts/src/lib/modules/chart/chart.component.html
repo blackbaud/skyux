@@ -47,6 +47,17 @@
           >
         }
       }
+
+      @if ((helpPopoverContent() || helpKey()) && !headingHidden()) {
+        <span class="sky-control-help-container">
+          <sky-help-inline
+            [helpKey]="helpKey()"
+            [labelText]="headingText()"
+            [popoverTitle]="helpPopoverTitle()"
+            [popoverContent]="helpPopoverContent()"
+          />
+        </span>
+      }
     </div>
 
     <!-- Subtitle -->

@@ -1,12 +1,14 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  TemplateRef,
   booleanAttribute,
   computed,
   effect,
   inject,
   input,
 } from '@angular/core';
+import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyModalService } from '@skyux/modals';
 import { SkyDropdownModule } from '@skyux/popovers';
 
@@ -43,6 +45,7 @@ import { SkyChartService } from './chart.service';
   imports: [
     SkyChartsResourcesModule,
     SkyDropdownModule,
+    SkyHelpInlineModule,
     SkyChartLegendComponent,
   ],
   providers: [provideSkyChartHeaderId(), SkyChartService],
@@ -70,6 +73,27 @@ export class SkyChartComponent {
   public readonly subtitleHidden = input(false, {
     transform: booleanAttribute,
   });
+
+  /**
+   * The content of the help popover. When specified along with `headingText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is added to the chart heading. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
+   * when clicked using the specified content and optional title. This property only applies when `headingText` is also specified.
+   */
+  public helpPopoverContent = input<
+    string | TemplateRef<unknown> | undefined
+  >();
+
+  /**
+   * The title of the help popover. This property only applies when `helpPopoverContent` is also specified.
+   */
+  public helpPopoverTitle = input<string | undefined>();
+
+  /**
+   * A help key that identifies the global help content to display. When specified along with `headingText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is placed beside the chart heading. Clicking the button invokes [global help](https://developer.blackbaud.com/skyux/learn/develop/global-help)
+   * as configured by the application. This property only applies when `headingText` is also specified.
+   */
+  public helpKey = input<string | undefined>();
   // #endregion
 
   protected readonly includeHeaderMargin = computed(() => {
