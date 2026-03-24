@@ -1,3 +1,10 @@
+:host {
+  display: block;
+  width: calc(100vw - var(--sky-viewport-left) - var(--sky-viewport-right));
+  height: calc(100vh - var(--sky-viewport-top) - var(--sky-viewport-bottom));
+  position: relative;
+}
+
 #home-btn {
   display: block;
   margin: 5px;
@@ -6,6 +13,9 @@
 #content {
   // Value set in the app component.
   margin-top: var(--sky-viewport-top);
+  overflow-y: auto;
+  position: absolute;
+  inset: 0;
 }
 
 #controls {
