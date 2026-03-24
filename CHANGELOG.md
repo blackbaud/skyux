@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.0.0-alpha.14](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.13...14.0.0-alpha.14) (2026-03-24)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** apply minimum height override to column container ([#4333](https://github.com/blackbaud/skyux/issues/4333)) ([#4335](https://github.com/blackbaud/skyux/issues/4335)) ([123c4b0](https://github.com/blackbaud/skyux/commit/123c4b094789dd70fb805b2191f574fab0f8a99a)), closes [AB#3926782](https://dev.azure.com/blackbaud/Products/_workitems/edit/3926782)
+
 ## [13.16.3](https://github.com/blackbaud/skyux/compare/13.16.2...13.16.3) (2026-03-24)
 
 
