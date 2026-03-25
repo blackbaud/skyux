@@ -27,7 +27,7 @@ import { SkyChartActivatedDatapoint } from '../shared/types/chart-activated-data
 import { SkyChartSeries } from '../shared/types/chart-series';
 import { DeepPartial } from '../shared/types/deep-partial-type';
 
-import { SkyLineChartPoint } from './line-chart-types';
+import { SkyLineChartPoint, SkyLineDatum } from './line-chart-types';
 
 /**
  * Configuration service for the Line Chart component.
@@ -50,14 +50,14 @@ export class SkyLineChartConfigService {
 
     // Build datasets from series
     const datasets: ChartDataset<'line'>[] = options.series.map((series) => {
-      const byCategory = new Map<SkyCategory, number | null>();
+      const dataByCategory = new Map<SkyCategory, SkyLineDatum>();
 
       for (const p of series.data) {
-        byCategory.set(p.category, p.value);
+        dataByCategory.set(p.category, p.value);
       }
 
-      const data: (number | null)[] = categories.map((category) => {
-        return byCategory.get(category) ?? null;
+      const data = categories.map((category) => {
+        return dataByCategory.get(category) ?? null;
       });
 
       const dataset: ChartDataset<'line'> = {
@@ -71,13 +71,13 @@ export class SkyLineChartConfigService {
     // Build Plugin options
     const pluginOptions: ChartOptions<'line'>['plugins'] = {
       tooltip: {
+        intersect: false,
         callbacks: {
           label: function (context) {
             const { datasetIndex, dataIndex } = context;
             const dataset = options.series[datasetIndex];
             const dataPoint = dataset.data[dataIndex];
 
-            // TODO: Chart Localization
             return `${dataset.labelText}: ${dataPoint.labelText}`;
           },
         },
@@ -87,6 +87,11 @@ export class SkyLineChartConfigService {
     // Build ChartJS options
     const chartOptions: ChartOptions<'line'> = {
       indexAxis: 'x',
+      interaction: {
+        mode: 'index',
+        intersect: true,
+        axis: 'xy',
+      },
       elements: {
         line: {
           tension: styles.charts.line.tension,
@@ -255,7 +260,6 @@ export class SkyLineChartConfigService {
       ticks: {
         ...base.ticks,
         padding: styles.axis.ticks.padding,
-        // TODO: Chart localization
         callback: createLogTickFilter,
       },
       title: {

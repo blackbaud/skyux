@@ -27,7 +27,11 @@ import { SkyChartActivatedDatapoint } from '../shared/types/chart-activated-data
 import { SkyChartSeries } from '../shared/types/chart-series';
 import { DeepPartial } from '../shared/types/deep-partial-type';
 
-import { SkyBarChartOrientation, SkyBarChartPoint } from './bar-chart-types';
+import {
+  SkyBarChartOrientation,
+  SkyBarChartPoint,
+  SkyBarDatum,
+} from './bar-chart-types';
 
 /**
  * Configuration service for the Bar Chart component.
@@ -53,20 +57,15 @@ export class SkyBarChartConfigService {
 
     // Build datasets from series
     const datasets: ChartDataset<'bar'>[] = options.series.map((series) => {
-      const byCategory = new Map<
-        SkyCategory,
-        number | [number, number] | null
-      >();
+      const dataByCategory = new Map<SkyCategory, SkyBarDatum>();
 
       for (const p of series.data) {
-        byCategory.set(p.category, p.value);
+        dataByCategory.set(p.category, p.value);
       }
 
-      const data: (number | [number, number] | null)[] = categories.map(
-        (category) => {
-          return byCategory.get(category) ?? null;
-        },
-      );
+      const data = categories.map((category) => {
+        return dataByCategory.get(category) ?? null;
+      });
 
       const dataset: ChartDataset<'bar'> = {
         label: series.labelText,
@@ -79,13 +78,13 @@ export class SkyBarChartConfigService {
     // Build Plugin options
     const pluginOptions: ChartOptions<'bar'>['plugins'] = {
       tooltip: {
+        intersect: false,
         callbacks: {
           label: function (context) {
             const { datasetIndex, dataIndex } = context;
             const dataset = options.series[datasetIndex];
             const dataPoint = dataset.data[dataIndex];
 
-            // TODO: Chart localization
             return `${dataset.labelText}: ${dataPoint.labelText}`;
           },
         },
@@ -95,7 +94,11 @@ export class SkyBarChartConfigService {
     // Build chart options
     const chartOptions: ChartOptions<'bar'> = {
       indexAxis: isVertical ? 'x' : 'y',
-      interaction: this.#getInteraction(options),
+      interaction: {
+        mode: options.series.length > 1 ? 'nearest' : 'index',
+        intersect: true,
+        axis: options.orientation === 'vertical' ? 'x' : 'y',
+      },
       datasets: {
         bar: {
           categoryPercentage: 0.7,
@@ -128,28 +131,6 @@ export class SkyBarChartConfigService {
     });
 
     return config;
-  }
-
-  #getInteraction(options: SkyBarChartOptions): ChartOptions['interaction'] {
-    const interaction: ChartOptions['interaction'] = {
-      mode: 'nearest',
-      intersect: false,
-      axis: 'x',
-    };
-
-    if (options.orientation === 'vertical') {
-      interaction.axis = 'x';
-    }
-
-    if (options.orientation === 'horizontal') {
-      interaction.axis = 'y';
-    }
-
-    if (options.series.length > 1) {
-      interaction.axis = 'xy';
-    }
-
-    return interaction;
   }
 
   #createScales(

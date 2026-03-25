@@ -57,30 +57,30 @@ export class SkyChartGlobalConfigService {
       maintainAspectRatio: false,
 
       // Layout padding
-      layout: {
-        padding: styles.chartPadding,
-      },
+      layout: { padding: styles.chartPadding },
 
-      // Interaction options
-      interaction: {
-        mode: 'nearest',
-        intersect: false,
-      },
+      // Interaction options - baseline behavior for Hover and Tooltip behavior
+      interaction: { mode: 'nearest', intersect: true },
+
+      // Hover options - hovering interactions should be precise
+      hover: { mode: 'nearest', intersect: true },
 
       // Animation options
-      animation: {
-        duration: 400,
-        easing: 'easeInOutQuart',
-      },
+      animation: { duration: 400, easing: 'easeInOutQuart' },
 
       // Global plugin options
       plugins: {
         legend: { display: false },
         tooltip: getTooltipPluginOptions(styles),
       },
+
+      // Change the cursor style when hovering over elements
+      onHover: (_, elements, chart) => {
+        chart.canvas.style.cursor = elements[0] ? 'pointer' : 'default';
+      },
     };
 
-    return {
+    const mergedOptions: ChartOptions<TType> = {
       ...baseOptions,
       ...options,
       plugins: {
@@ -98,6 +98,8 @@ export class SkyChartGlobalConfigService {
         },
       },
     };
+
+    return mergedOptions;
   }
 
   #getMergedPlugins<TType extends ChartType = ChartType>(

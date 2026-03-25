@@ -9,12 +9,20 @@ import { DeepPartial } from '../types/deep-partial-type';
 export function getTooltipPluginOptions(
   styles: SkyChartStyles,
 ): DeepPartial<TooltipOptions> {
-  const options: DeepPartial<TooltipOptions> = {
-    enabled: true,
+  // Default tooltip interaction options
+  // - These defaults allow for a more forgiving UX as the tooltip will appear when the user is near a data point, even when not directly intersecting it.
+  // - This is especially helpful for touch devices or when dealing with small data points.
+  const interaction: DeepPartial<TooltipOptions> = {
     mode: 'index',
     intersect: false,
+  };
+
+  const options: DeepPartial<TooltipOptions> = {
+    enabled: true,
+    position: 'average',
     displayColors: true,
     usePointStyle: true,
+    ...interaction,
     ...getTypographyStyles(styles),
     ...getSizingAndSpacingStyles(styles),
     ...getElementColors(styles),
