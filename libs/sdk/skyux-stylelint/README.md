@@ -2,7 +2,7 @@
 
 ## Install
 
-```
+```bash
 ng add skyux-stylelint
 ```
 
