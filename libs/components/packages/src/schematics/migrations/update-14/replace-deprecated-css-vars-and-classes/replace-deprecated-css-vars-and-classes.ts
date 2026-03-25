@@ -7,6 +7,8 @@ import type {
   PublicApiTokenGroup,
   PublicApiTokens,
 } from '@blackbaud/skyux-branding-builder';
+import stylesJson from '@blackbaud/skyux-design-tokens/bundles/public-api-styles.json';
+import tokensJson from '@blackbaud/skyux-design-tokens/bundles/public-api-tokens.json';
 import { getWorkspace } from '@schematics/angular/utility/workspace';
 
 import { visitProjectFiles } from '../../../utility/visit-project-files';
@@ -60,20 +62,14 @@ export function traverseTokens(
 }
 
 function buildClassReplacements(): Record<string, string> {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const data =
-    require('@blackbaud/skyux-design-tokens/bundles/public-api-styles.json') as PublicApiStyles;
   const result: Record<string, string> = {};
-  traverseClasses(data, result);
+  traverseClasses(stylesJson as unknown as PublicApiStyles, result);
   return result;
 }
 
 function buildTokenReplacements(): Record<string, string> {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const data =
-    require('@blackbaud/skyux-design-tokens/bundles/public-api-tokens.json') as PublicApiTokens;
   const result: Record<string, string> = {};
-  traverseTokens(data, result);
+  traverseTokens(tokensJson as unknown as PublicApiTokens, result);
   return result;
 }
 

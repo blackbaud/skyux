@@ -104,6 +104,7 @@
     "@angular/core": "^21.2.0"
   },
   "dependencies": {
+    "@blackbaud/skyux-design-tokens": "5.4.0",
     "fs-extra": "11.3.4",
     "jsonc-parser": "3.3.1",
     "parse5": "7.3.0",
