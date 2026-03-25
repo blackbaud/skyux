@@ -786,13 +786,6 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'ListsFilterModalExampleComponent',
-    loadComponent: () =>
-      import('@skyux/code-examples').then(
-        ({ ListsFilterModalExampleComponent: c }) => c,
-      ),
-  },
-  {
     path: 'ListsInfiniteScrollRepeaterExampleComponent',
     loadComponent: () =>
       import('@skyux/code-examples').then(
@@ -958,6 +951,13 @@ export const routes: Routes = [
     loadComponent: () =>
       import('@skyux/code-examples').then(
         ({ ModalsConfirmBasicWithHarnessExampleComponent: c }) => c,
+      ),
+  },
+  {
+    path: 'ModalsModalBasicWithBannerExampleComponent',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ ModalsModalBasicWithBannerExampleComponent: c }) => c,
       ),
   },
   {

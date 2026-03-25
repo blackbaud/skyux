@@ -1,6 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideNoopSkyAnimations } from '@skyux/core';
 import { SkySearchHarness } from '@skyux/lookup/testing';
 
 import { LookupSearchBasicExampleComponent } from './example.component';
@@ -25,7 +25,8 @@ describe('Basic search example', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, LookupSearchBasicExampleComponent],
+      imports: [LookupSearchBasicExampleComponent],
+      providers: [provideNoopSkyAnimations()],
     });
   });
 

@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
 import { of } from 'rxjs';
 
@@ -13,9 +12,7 @@ const NOOP = (): void => {
 
 describe('SkyAgGridCellRendererValidatorTooltipComponent', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [provideNoopAnimations()],
-    });
+    TestBed.configureTestingModule({});
   });
 
   it('should create an instance', () => {

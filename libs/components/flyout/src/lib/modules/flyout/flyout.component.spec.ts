@@ -8,7 +8,11 @@ import {
 import { Router, provideRouter } from '@angular/router';
 import '@angular/router/testing';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
-import { SkyBreakpoint, SkyUIConfigService } from '@skyux/core';
+import {
+  SkyBreakpoint,
+  SkyUIConfigService,
+  provideNoopSkyAnimations,
+} from '@skyux/core';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -298,6 +302,7 @@ describe('Flyout component', () => {
     TestBed.configureTestingModule({
       imports: [SkyFlyoutFixturesModule],
       providers: [
+        provideNoopSkyAnimations(),
         provideRouter([]),
         provideSkyMediaQueryTesting(),
         {
@@ -328,6 +333,23 @@ describe('Flyout component', () => {
     fixture.detectChanges();
     flyoutService.ngOnDestroy();
     fixture.destroy();
+  }));
+
+  it('should set isOpen after the open transition completes', fakeAsync(() => {
+    openFlyout({});
+
+    const flyoutEl = getFlyoutElement();
+
+    // Manually dispatch the transitionend event because the directive's
+    // effect-based path cannot be flushed for dynamically created components
+    // within fakeAsync zones.
+    flyoutEl.dispatchEvent(
+      new TransitionEvent('transitionend', { propertyName: 'transform' }),
+    );
+
+    fixture.detectChanges();
+
+    expect(flyoutEl).not.toHaveCssClass('sky-flyout-hidden');
   }));
 
   it('should close when the close button is clicked', fakeAsync(() => {
@@ -569,6 +591,47 @@ describe('Flyout component', () => {
     openFlyout({});
 
     expect(closedCalled).toEqual(true);
+  }));
+
+  it('should not emit closed on a newly attached flyout during deferred close cleanup', fakeAsync(() => {
+    const firstFlyout = openFlyout({});
+
+    let firstFlyoutClosedCalled = false;
+    firstFlyout.closed.subscribe(() => {
+      firstFlyoutClosedCalled = true;
+    });
+
+    firstFlyout.close();
+    fixture.detectChanges();
+
+    const flyoutElement = getFlyoutElement();
+    expect(flyoutElement).not.toBeNull();
+    flyoutElement.dispatchEvent(
+      new TransitionEvent('transitionend', { propertyName: 'transform' }),
+    );
+    fixture.detectChanges();
+
+    const secondFlyout = fixture.componentInstance.openFlyout({
+      providers: [
+        {
+          provide: SkyFlyoutTestSampleContext,
+          useValue: new SkyFlyoutTestSampleContext('Sam'),
+        },
+      ],
+    });
+    fixture.detectChanges();
+
+    let secondFlyoutClosedCalled = false;
+    secondFlyout.closed.subscribe(() => {
+      secondFlyoutClosedCalled = true;
+    });
+
+    // Flush the deferred microtask from the first flyout close.
+    tick();
+    fixture.detectChanges();
+
+    expect(firstFlyoutClosedCalled).toBe(true);
+    expect(secondFlyoutClosedCalled).toBe(false);
   }));
 
   it('should pass providers to the flyout', fakeAsync(() => {

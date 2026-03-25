@@ -9,5 +9,6 @@ export { SkyConfirmTestingModule } from './modules/confirm/confirm-testing.modul
 export { SkyModalTestingController } from './modules/modal/controller/modal-testing.controller';
 export { SkyModalTestingModule } from './modules/modal/controller/modal-testing.module';
 
+export { SkyModalBannerHarness } from './modules/modal/modal-banner-harness';
 export { SkyModalHarness } from './modules/modal/modal-harness';
 export { SkyModalHarnessFilters } from './modules/modal/modal-harness-filters';

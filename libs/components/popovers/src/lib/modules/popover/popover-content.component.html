@@ -1,16 +1,17 @@
 <div
   #popoverRef
   class="sky-popover-container sky-popover-max-height"
-  [@.disabled]="!enableAnimations"
-  [@skyPopoverAnimation]="animationState"
+  skyTransitionEndHandler
+  transitionPropertyToTrack="opacity"
   [class.sky-popover-hidden]="!placement"
   [ngClass]="[
     'sky-popover-alignment-' + horizontalAlignment,
     'sky-popover-placement-' + placement,
     'sky-popover-' + popoverType
   ]"
-  (@skyPopoverAnimation.done)="onAnimationEvent($event)"
-  (@skyPopoverAnimation.start)="onAnimationEvent($event)"
+  [class.sky-popover-visible]="isOpen()"
+  [transitionTrigger]="isOpen()"
+  (transitionEnd)="onAnimationsComplete()"
 >
   <div
     class="sky-popover"
@@ -24,7 +25,7 @@
       <div
         class="sky-popover-header"
         [skyThemeClass]="{
-          'sky-padding-even-default': 'default'
+          'sky-theme-padding-inset-balanced-s': 'default'
         }"
       >
         <h4 class="sky-popover-title sky-font-heading-4">
@@ -35,7 +36,7 @@
     <div
       class="sky-popover-body"
       [skyThemeClass]="{
-        'sky-padding-even-default': 'default',
+        'sky-theme-padding-inset-balanced-s': 'default',
         'sky-padding-even-lg': 'modern'
       }"
     >

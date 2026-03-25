@@ -154,7 +154,7 @@ a.sky-btn {
 
   &:hover {
     color: var(--sky-text-color-default);
-    transition: color $sky-transition-time-short;
+    transition: color var(--sky-global-duration-short);
   }
 }
 

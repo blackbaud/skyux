@@ -90,7 +90,8 @@
 .sky-vertical-tabset-group-content {
   overflow: hidden;
   border-top: var(--sky-override-vertical-tabset-group-border, none);
-  // Left and right padding is handled by the component, top and bottom by animation
+  padding-top: var(--sky-comp-tab-vertical-subgroup-space-inset-top);
+  padding-bottom: var(--sky-comp-tab-vertical-subgroup-space-inset-bottom);
   padding-left: var(
     --sky-override-vertical-tabset-group-content-padding-left,
     var(--sky-comp-tab-vertical-subgroup-space-inset-left)

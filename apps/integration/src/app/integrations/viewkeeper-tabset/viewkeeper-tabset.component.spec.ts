@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { ViewkeeperTabsetComponent } from './viewkeeper-tabset.component';
@@ -29,11 +28,7 @@ describe('Tabset with viewkept elements', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        NoopAnimationsModule,
-        RouterTestingModule,
-        ViewkeeperTabsetModule,
-      ],
+      imports: [RouterTestingModule, ViewkeeperTabsetModule],
     });
 
     fixture = TestBed.createComponent(ViewkeeperTabsetComponent);

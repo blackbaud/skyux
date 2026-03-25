@@ -28,7 +28,7 @@ import {
 import { SkyLogService, SkyScrollableHostService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { delay, takeUntil } from 'rxjs/operators';
 
 import { SkyRepeaterAdapterService } from './repeater-adapter.service';
 import { SkyRepeaterExpandModeType } from './repeater-expand-mode-type';
@@ -195,8 +195,9 @@ export class SkyRepeaterComponent
 
     // HACK: Not updating for expand mode in a timeout causes an error.
     // https://github.com/angular/angular/issues/6005
-    this.items?.changes.pipe(takeUntil(this.#ngUnsubscribe)).subscribe(() => {
-      setTimeout(() => {
+    this.items?.changes
+      .pipe(delay(0), takeUntil(this.#ngUnsubscribe))
+      .subscribe(() => {
         if (this.items?.length) {
           this.#updateForExpandMode(this.items.last);
 
@@ -217,7 +218,6 @@ export class SkyRepeaterComponent
 
         this.#validateTags();
       });
-    });
 
     setTimeout(() => {
       this.#updateForExpandMode();
@@ -293,9 +293,7 @@ export class SkyRepeaterComponent
         // Collapse any items that aren't the item that was just added.
         if (item !== itemAdded && isSingle && item.isExpanded) {
           if (foundExpanded) {
-            // If this item is being collapsed because a new item was
-            // added, animate it.
-            item.updateForExpanded(false, !!itemAdded);
+            item.updateForExpanded(false);
           }
 
           foundExpanded = true;

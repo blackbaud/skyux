@@ -4,7 +4,6 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import {
   SkyTheme,
@@ -70,7 +69,6 @@ describe('SkyAgGridWrapperComponent', () => {
           provide: SkyThemeService,
           useValue: mockThemeSvc,
         },
-        provideNoopAnimations(),
       ],
     });
     gridFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
@@ -572,7 +570,6 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
           provide: SkyThemeService,
           useValue: mockThemeSvc,
         },
-        provideNoopAnimations(),
       ],
     });
   });

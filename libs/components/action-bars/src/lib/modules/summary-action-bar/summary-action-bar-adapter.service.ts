@@ -14,6 +14,8 @@ import { SkySummaryActionBarType } from './types/summary-action-bar-type';
 @Injectable()
 export class SkySummaryActionBarAdapterService {
   #renderer: Renderer2;
+  #splitViewWorkspaceContent: Element | null = null;
+  #splitViewWorkspaceFooter: Element | null = null;
   #windowRef: SkyAppWindowRef;
 
   constructor(rendererFactory: RendererFactory2, windowRef: SkyAppWindowRef) {
@@ -44,10 +46,10 @@ export class SkySummaryActionBarAdapterService {
   public styleSplitViewElementForActionBar(
     summaryActionBarRef: ElementRef,
   ): void {
-    const splitViewWorkspaceContent = document.querySelector(
+    this.#splitViewWorkspaceContent = document.querySelector(
       '.sky-split-view-workspace-content',
     );
-    const splitViewWorkspaceFooter = document.querySelector(
+    this.#splitViewWorkspaceFooter = document.querySelector(
       '.sky-split-view-workspace-footer',
     );
     const actionBarEl = summaryActionBarRef.nativeElement.querySelector(
@@ -55,12 +57,17 @@ export class SkySummaryActionBarAdapterService {
     );
     /* istanbul ignore else */
     if (actionBarEl.style.visibility !== 'hidden') {
-      this.#renderer.setStyle(
-        splitViewWorkspaceContent,
-        'padding-bottom',
-        '20px',
-      );
-      this.#renderer.setStyle(splitViewWorkspaceFooter, 'padding', 0);
+      if (this.#splitViewWorkspaceContent) {
+        this.#renderer.setStyle(
+          this.#splitViewWorkspaceContent,
+          'padding-bottom',
+          '20px',
+        );
+      }
+
+      if (this.#splitViewWorkspaceFooter) {
+        this.#renderer.setStyle(this.#splitViewWorkspaceFooter, 'padding', 0);
+      }
     }
   }
 
@@ -71,18 +78,18 @@ export class SkySummaryActionBarAdapterService {
   }
 
   public revertSplitViewElementStyles(): void {
-    const splitViewWorkspaceContent = document.querySelector(
-      '.sky-split-view-workspace-content',
-    );
-    const splitViewWorkspaceFooter = document.querySelector(
-      '.sky-split-view-workspace-footer',
-    );
-    this.#renderer.setStyle(
-      splitViewWorkspaceContent,
-      'padding-bottom',
-      'none',
-    );
-    this.#renderer.setStyle(splitViewWorkspaceFooter, 'padding', '10px');
+    if (this.#splitViewWorkspaceContent) {
+      this.#renderer.removeStyle(
+        this.#splitViewWorkspaceContent,
+        'padding-bottom',
+      );
+      this.#splitViewWorkspaceContent = null;
+    }
+
+    if (this.#splitViewWorkspaceFooter) {
+      this.#renderer.removeStyle(this.#splitViewWorkspaceFooter, 'padding');
+      this.#splitViewWorkspaceFooter = null;
+    }
   }
 
   public styleModalFooter(summaryActionBarRef: ElementRef): void {

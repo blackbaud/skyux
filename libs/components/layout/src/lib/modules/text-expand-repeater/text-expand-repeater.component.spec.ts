@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import { provideNoopSkyAnimations } from '@skyux/core';
 
 import { TextExpandRepeaterTestComponent } from './fixtures/text-expand-repeater.component.fixture';
 import { TextExpandRepeaterFixturesModule } from './fixtures/text-expand-repeater.module.fixture';
@@ -20,6 +21,7 @@ describe('Text expand repeater component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [TextExpandRepeaterFixturesModule],
+      providers: [provideNoopSkyAnimations()],
     });
 
     fixture = TestBed.createComponent(TextExpandRepeaterTestComponent);

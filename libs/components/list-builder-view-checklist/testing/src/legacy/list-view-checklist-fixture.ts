@@ -36,10 +36,12 @@ export class SkyListViewChecklistFixture {
 
     return {
       label: SkyAppTestUtility.getText(
-        selectWrapperEl.query(By.css('div.sky-emphasized')),
+        selectWrapperEl.query(By.css('div.sky-theme-font-body-emphasized-m')),
       ),
       description: SkyAppTestUtility.getText(
-        selectWrapperEl.query(By.css('div:not(.sky-emphasized)')),
+        selectWrapperEl.query(
+          By.css('div:not(.sky-theme-font-body-emphasized-m)'),
+        ),
       ),
       selected: this.isChecked(selectEl),
     };

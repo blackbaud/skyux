@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
 import { SkyPhoneFieldCountry } from '@skyux/phone-field';
 import { SkyPhoneFieldHarness } from '@skyux/phone-field/testing';
@@ -39,7 +38,7 @@ describe('Basic phone field example', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [PhoneFieldBasicExampleComponent, NoopAnimationsModule],
+      imports: [PhoneFieldBasicExampleComponent],
     });
   });
 

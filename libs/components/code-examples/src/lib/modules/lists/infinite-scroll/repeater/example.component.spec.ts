@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyInfiniteScrollHarness } from '@skyux/lists/testing';
 
 import { ListsInfiniteScrollRepeaterExampleComponent } from './example.component';
@@ -10,10 +9,7 @@ describe('Infinite scroll example', () => {
     infiniteScrollHarness: SkyInfiniteScrollHarness;
   }> {
     await TestBed.configureTestingModule({
-      imports: [
-        ListsInfiniteScrollRepeaterExampleComponent,
-        NoopAnimationsModule,
-      ],
+      imports: [ListsInfiniteScrollRepeaterExampleComponent],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(

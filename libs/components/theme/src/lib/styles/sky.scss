@@ -1,10 +1,13 @@
 // This file is compiled down to CSS and included in the @skyux/theme NPM package to provide
 // global styles for our consumers.
 
+@forward '@blackbaud/skyux-design-tokens/bundles/public-api';
+
 @forward 'normalize-scss/sass/normalize/import-now';
 
 @forward 'normalize-compat';
 @forward 'custom-properties';
+@forward 'animations';
 @forward 'borders';
 @forward 'box';
 @forward 'buttons';
@@ -16,7 +19,6 @@
 @forward 'layout-host';
 @forward 'modals';
 @forward 'palette';
-@forward 'public-api';
 @forward 'sizing';
 @forward 'switch';
 @forward 'theme';

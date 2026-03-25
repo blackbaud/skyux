@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppTestUtility, expectAsync } from '@skyux-sdk/testing';
-import { SkyIdService } from '@skyux/core';
+import { SkyIdService, provideNoopSkyAnimations } from '@skyux/core';
 
 import { SkyTokenComponent } from '../tokens/token.component';
 import { SkyTokensModule } from '../tokens/tokens.module';
@@ -11,6 +11,7 @@ describe('Token component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyTokensModule],
+      providers: [provideNoopSkyAnimations()],
     });
 
     // Mock the ID service.
