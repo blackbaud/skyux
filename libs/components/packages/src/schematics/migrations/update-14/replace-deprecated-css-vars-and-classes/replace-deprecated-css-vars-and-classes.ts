@@ -100,9 +100,9 @@ function applyClassReplacements(
 }
 
 /**
- * Replaces CSS custom property names using an exact string match. Custom
- * property names starting with `--` are distinctive enough that a literal
- * replacement is safe.
+ * Replaces CSS custom property names using boundary-aware matching. Uses the
+ * same lookaround strategy as class replacements to prevent `--sky-old-var`
+ * from matching inside `--sky-old-var-extended`.
  */
 function applyCustomPropertyReplacements(
   content: string,
@@ -111,7 +111,10 @@ function applyCustomPropertyReplacements(
   let updated = content;
 
   for (const [oldProp, newProp] of Object.entries(replacements)) {
-    const pattern = new RegExp(escapeRegExp(oldProp), 'g');
+    const pattern = new RegExp(
+      `(?<![\\w-])${escapeRegExp(oldProp)}(?![\\w-])`,
+      'g',
+    );
     updated = updated.replace(pattern, newProp);
   }
 

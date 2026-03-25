@@ -303,6 +303,26 @@ export class TestComponent {
       expect(updated).toContain('--sky-new-var');
       expect(updated).not.toContain('--sky-old-var');
     });
+
+    it('should not replace a custom property that is a prefix of a longer property name', async () => {
+      const { runner, tree } = await setup();
+
+      tree.create(
+        '/src/app/test.css',
+        `:root { --sky-old-var-extended: red; }\n.foo { color: var(--sky-old-var-extended); }`,
+      );
+
+      await firstValueFrom(
+        runner.callRule(
+          buildReplaceRule({}, { '--sky-old-var': '--sky-new-var' }),
+          tree,
+        ),
+      );
+
+      const updated = tree.readText('/src/app/test.css');
+      expect(updated).toContain('--sky-old-var-extended');
+      expect(updated).not.toContain('--sky-new-var-extended');
+    });
   });
 
   describe('mixed replacements', () => {
