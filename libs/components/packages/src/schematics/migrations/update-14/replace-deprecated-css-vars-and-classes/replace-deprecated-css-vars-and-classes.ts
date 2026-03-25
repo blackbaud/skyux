@@ -1,17 +1,16 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import type {
-  PublicApiStyle,
-  PublicApiStyleGroup,
-  PublicApiStyles,
-  PublicApiToken,
-  PublicApiTokenGroup,
-  PublicApiTokens,
-} from '@blackbaud/skyux-branding-builder';
 import stylesJson from '@blackbaud/skyux-design-tokens/bundles/public-api-styles.json';
 import tokensJson from '@blackbaud/skyux-design-tokens/bundles/public-api-tokens.json';
 import { getWorkspace } from '@schematics/angular/utility/workspace';
 
 import { visitProjectFiles } from '../../../utility/visit-project-files';
+
+import { PublicApiStyle } from './types/public-api-style';
+import { PublicApiStyleGroup } from './types/public-api-style-group';
+import { PublicApiStyles } from './types/public-api-styles';
+import { PublicApiToken } from './types/public-api-token';
+import { PublicApiTokenGroup } from './types/public-api-token-group';
+import { PublicApiTokens } from './types/public-api-tokens';
 
 const TARGET_EXTENSIONS = new Set(['.html', '.ts', '.js', '.css', '.scss']);
 
