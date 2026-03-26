@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   SkyBarChartComponent,
+  SkyBarChartPoint,
   SkyBarChartSeriesComponent,
   SkyBarChartSeriesDatapointComponent,
   SkyChartActivatedDatapoint,
@@ -280,7 +281,9 @@ export class BarChartDemoComponent {
   ];
   // #endregion
 
-  public onDatapointActivated(event: SkyChartActivatedDatapoint): void {
+  public onDatapointActivated(
+    event: SkyChartActivatedDatapoint<SkyBarChartPoint>,
+  ): void {
     window.alert('Datapoint Clicked: ' + JSON.stringify(event, null, 2));
   }
 }

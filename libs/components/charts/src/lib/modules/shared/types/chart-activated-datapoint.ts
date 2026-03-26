@@ -1,10 +1,15 @@
+import type { SkyCategory } from './category';
+
 /**
  * Data emitted when a chart's data point is activated.
  */
-export interface SkyChartActivatedDatapoint {
-  /** The index of the series that was selected. */
-  seriesIndex: number;
+export interface SkyChartActivatedDatapoint<TData> {
+  /** The series the activated data point belongs to. */
+  series: string;
 
-  /** * The index of the data point within the series. */
-  dataIndex: number;
+  /** The category */
+  category: SkyCategory;
+
+  /** The value of the data point */
+  value: TData;
 }

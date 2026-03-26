@@ -28,7 +28,7 @@ import {
   SkyLineChartOptions,
 } from './line-chart-config.service';
 import { SkyLineChartRegistry } from './line-chart-registry.service';
-import { SkyLineChartPoint } from './line-chart-types';
+import { SkyLineChartPoint, SkyLineDatum } from './line-chart-types';
 
 /**
  * Displays a line chart visualization.
@@ -69,7 +69,8 @@ export class SkyLineChartComponent {
   // #endregion
 
   // #region Outputs
-  public readonly datapointActivated = output<SkyChartActivatedDatapoint>();
+  public readonly datapointActivated =
+    output<SkyChartActivatedDatapoint<SkyLineDatum>>();
   // #endregion
 
   // #region View Children

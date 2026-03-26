@@ -21,7 +21,7 @@ import {
   SkyDonutChartOptions,
 } from './donut-chart-config.service';
 import { SkyDonutChartRegistry } from './donut-chart-registry.service';
-import { SkyDonutChartSlice } from './donut-chart-types';
+import { SkyDonutChartSlice, SkyDonutDatum } from './donut-chart-types';
 
 /**
  * Displays a donut chart visualization.
@@ -55,7 +55,8 @@ export class SkyDonutChartComponent {
   // #endregion
 
   // #region Outputs
-  public readonly datapointActivated = output<SkyChartActivatedDatapoint>();
+  public readonly datapointActivated =
+    output<SkyChartActivatedDatapoint<SkyDonutDatum>>();
   // #endregion
 
   // #region View Children

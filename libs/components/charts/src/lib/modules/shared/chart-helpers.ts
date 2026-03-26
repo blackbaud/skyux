@@ -1,15 +1,8 @@
-import {
-  Chart,
-  ChartConfiguration,
-  ChartDataset,
-  ChartEvent,
-  ChartType,
-} from 'chart.js';
+import { Chart, ChartConfiguration, ChartDataset, ChartType } from 'chart.js';
 
 import { SkyChartLegendItem } from '../chart-legend/chart-legend-item';
 
 import { SkyCategory } from './types/category';
-import { SkyChartActivatedDatapoint } from './types/chart-activated-datapoint';
 import { SkyChartDataPoint } from './types/chart-data-point';
 import { SkyChartSeries } from './types/chart-series';
 
@@ -96,40 +89,6 @@ export function parseCategories(
   const uniqueCategories = Array.from(new Set(allCategories));
 
   return uniqueCategories;
-}
-
-/**
- * Gets the data point that was activated (either by click or spacebar) based on the given event and chart instance.
- * @param event
- * @param chart
- * @returns The activated data point, or undefined if no data point was activated
- */
-export function getActivatedChartDataElement(
-  event: ChartEvent,
-  chart: Chart,
-): SkyChartActivatedDatapoint | undefined {
-  if (!event.native) {
-    return undefined;
-  }
-
-  // Get the chart element(s) at the click location using a precise interaction mode rather than what Tooltips/Hover uses
-  const hits = chart.getElementsAtEventForMode(
-    event.native,
-    'nearest',
-    { intersect: true },
-    true,
-  );
-
-  // If there are no hits, return undefined
-  if (!hits?.length) {
-    return undefined;
-  }
-
-  const element = hits[0];
-  const seriesIndex = element.datasetIndex;
-  const dataIndex = element.index;
-
-  return { seriesIndex, dataIndex };
 }
 
 /**

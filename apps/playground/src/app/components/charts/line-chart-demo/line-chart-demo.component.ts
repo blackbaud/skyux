@@ -5,6 +5,7 @@ import {
   SkyChartComponent,
   SkyChartMeasureAxisComponent,
   SkyLineChartComponent,
+  SkyLineChartPoint,
   SkyLineChartSeriesComponent,
   SkyLineChartSeriesDatapointComponent,
 } from '@skyux/charts';
@@ -330,7 +331,9 @@ export class LineChartDemoComponent {
   ];
   // #endregion
 
-  public onDatapointActivated(event: SkyChartActivatedDatapoint): void {
+  public onDatapointActivated(
+    event: SkyChartActivatedDatapoint<SkyLineChartPoint>,
+  ): void {
     window.alert('Datapoint Clicked: ' + JSON.stringify(event, null, 2));
   }
 }

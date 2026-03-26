@@ -8,11 +8,7 @@ import {
   ScaleOptionsByType,
 } from 'chart.js';
 
-import {
-  createLogTickFilter,
-  getActivatedChartDataElement,
-  parseCategories,
-} from '../shared/chart-helpers';
+import { createLogTickFilter, parseCategories } from '../shared/chart-helpers';
 import {
   SkyChartStyleService,
   SkyChartStyles,
@@ -81,11 +77,11 @@ export class SkyBarChartConfigService {
         intersect: false,
         callbacks: {
           label: function (context) {
-            const { datasetIndex, dataIndex } = context;
-            const dataset = options.series[datasetIndex];
-            const dataPoint = dataset.data[dataIndex];
+            const series = options.series[context.datasetIndex];
+            const category = categories[context.dataIndex];
+            const dataPoint = series.data.find((d) => d.category === category);
 
-            return `${dataset.labelText}: ${dataPoint.labelText}`;
+            return `${series.labelText}: ${dataPoint?.labelText}`;
           },
         },
       },
@@ -114,12 +110,23 @@ export class SkyBarChartConfigService {
       },
       scales: this.#createScales(styles, options),
       plugins: pluginOptions,
-      onClick: (e, _, chart) => {
-        const clickedElement = getActivatedChartDataElement(e, chart);
-        if (!clickedElement) {
+      onClick: (_, elements) => {
+        if (elements.length === 0) {
           return;
         }
-        options.callbacks.onDatapointClick(clickedElement);
+
+        const element = elements[0];
+        const series = options.series[element.datasetIndex];
+        const category = categories[element.index];
+        const dataPoint = series.data.find((d) => d.category === category);
+
+        if (dataPoint) {
+          options.callbacks.onDatapointClick({
+            series: series.labelText,
+            category: category,
+            value: dataPoint.value,
+          });
+        }
       },
     };
 
@@ -320,7 +327,7 @@ export interface SkyBarChartOptions {
   measureAxis?: SkyChartMeasureAxisConfig;
 
   callbacks: {
-    onDatapointClick: (event: SkyChartActivatedDatapoint) => void;
+    onDatapointClick: (event: SkyChartActivatedDatapoint<SkyBarDatum>) => void;
   };
 }
 

@@ -5,6 +5,7 @@ import {
   SkyDonutChartComponent,
   SkyDonutChartSeriesComponent,
   SkyDonutChartSeriesDatapointComponent,
+  SkyDonutChartSlice,
 } from '@skyux/charts';
 import { SkyBoxModule } from '@skyux/layout';
 import { SkyFluidGridModule } from '@skyux/layout';
@@ -50,7 +51,9 @@ export class DonutChartDemoComponent {
     },
   ];
 
-  public onDatapointActivated(event: SkyChartActivatedDatapoint): void {
+  public onDatapointActivated(
+    event: SkyChartActivatedDatapoint<SkyDonutChartSlice>,
+  ): void {
     window.alert('Datapoint Clicked: ' + JSON.stringify(event, null, 2));
   }
 }

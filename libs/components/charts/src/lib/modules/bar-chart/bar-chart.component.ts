@@ -28,7 +28,11 @@ import {
   SkyBarChartOptions,
 } from './bar-chart-config.service';
 import { SkyBarChartRegistry } from './bar-chart-registry.service';
-import { SkyBarChartOrientation, SkyBarChartPoint } from './bar-chart-types';
+import {
+  SkyBarChartOrientation,
+  SkyBarChartPoint,
+  SkyBarDatum,
+} from './bar-chart-types';
 
 /**
  * Displays a bar chart visualization.
@@ -70,7 +74,8 @@ export class SkyBarChartComponent {
   // #endregion
 
   // #region Outputs
-  public readonly datapointActivated = output<SkyChartActivatedDatapoint>();
+  public readonly datapointActivated =
+    output<SkyChartActivatedDatapoint<SkyBarDatum>>();
   // #endregion
 
   // #region View Children

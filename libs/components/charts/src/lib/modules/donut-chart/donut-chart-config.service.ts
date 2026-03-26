@@ -7,13 +7,12 @@ import {
   TooltipItem,
 } from 'chart.js';
 
-import { getActivatedChartDataElement } from '../shared/chart-helpers';
 import { SkyChartStyleService } from '../shared/services/chart-style.service';
 import { SkyChartGlobalConfigService } from '../shared/services/global-chart-config.service';
 import { SkyChartActivatedDatapoint } from '../shared/types/chart-activated-datapoint';
 import { SkyChartSeries } from '../shared/types/chart-series';
 
-import { SkyDonutChartSlice } from './donut-chart-types';
+import { SkyDonutChartSlice, SkyDonutDatum } from './donut-chart-types';
 
 /**
  * Configuration service for the Donut Chart component.
@@ -32,6 +31,9 @@ export class SkyDonutChartConfigService {
     options: SkyDonutChartOptions,
   ): ChartConfiguration<'doughnut'> {
     const styles = this.#chartStyleService.styles();
+
+    // Build categories from series data
+    const categories = options.series.data.map((d) => d.category);
 
     // Build datasets from series
     const dataset: ChartDataset<'doughnut'> = {
@@ -74,21 +76,28 @@ export class SkyDonutChartConfigService {
         },
       },
       plugins: pluginOptions,
-      onClick: (e, _, chart) => {
-        const clickedElement = getActivatedChartDataElement(e, chart);
-        if (!clickedElement) {
+      onClick: (_, elements) => {
+        if (elements.length === 0) {
           return;
         }
-        options.callbacks.onDatapointClick(clickedElement);
+
+        const element = elements[0];
+        const series = options.series;
+        const dataPoint = series.data[element.index];
+
+        if (dataPoint) {
+          options.callbacks.onDatapointClick({
+            series: series.labelText,
+            category: dataPoint.category,
+            value: dataPoint.value,
+          });
+        }
       },
     };
 
     const config = this.#globalConfig.getMergedChartConfiguration<'doughnut'>({
       type: 'doughnut',
-      data: {
-        labels: options.series.data.map((d) => d.category),
-        datasets: [dataset],
-      },
+      data: { labels: categories, datasets: [dataset] },
       options: chartOptions,
       plugins: [],
     });
@@ -122,7 +131,9 @@ export interface SkyDonutChartOptions {
   series: SkyChartSeries<SkyDonutChartSlice>;
 
   callbacks: {
-    onDatapointClick: (event: SkyChartActivatedDatapoint) => void;
+    onDatapointClick: (
+      event: SkyChartActivatedDatapoint<SkyDonutDatum>,
+    ) => void;
   };
 }
 // #endregion
