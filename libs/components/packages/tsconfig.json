@@ -12,6 +12,7 @@
   ],
   "compilerOptions": {
     "module": "commonjs",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "resolveJsonModule": true
   }
 }
