@@ -6,7 +6,7 @@ import {
 import path from 'node:path';
 import { firstValueFrom } from 'rxjs';
 
-import { createTestApp } from '../../../testing/scaffold';
+import { createTestApp, createTestLibrary } from '../../../testing/scaffold';
 
 import {
   buildReplaceRule,
@@ -37,6 +37,35 @@ describe('replace-css-vars-and-classes', () => {
     const { runSchematic } = await setup();
 
     await expect(runSchematic()).resolves.toBeInstanceOf(UnitTestTree);
+  });
+
+  it('should process files across all projects in a multi-project workspace', async () => {
+    const runner = new SchematicTestRunner('migrations', COLLECTION_PATH);
+    const tree = await createTestLibrary(runner, { projectName: 'my-lib' });
+
+    // Add a deprecated class to the library source and the showcase app source.
+    tree.create(
+      '/projects/my-lib/src/lib/test.component.html',
+      `<div class="sky-old-class">Library content</div>`,
+    );
+    tree.create(
+      '/projects/my-lib-showcase/src/app/test.component.html',
+      `<div class="sky-old-class">Showcase content</div>`,
+    );
+
+    await firstValueFrom(
+      runner.callRule(
+        buildReplaceRule({ 'sky-old-class': 'sky-new-class' }, {}),
+        tree,
+      ),
+    );
+
+    expect(
+      tree.readText('/projects/my-lib/src/lib/test.component.html'),
+    ).toContain('sky-new-class');
+    expect(
+      tree.readText('/projects/my-lib-showcase/src/app/test.component.html'),
+    ).toContain('sky-new-class');
   });
 
   describe('CSS class replacements', () => {
@@ -349,6 +378,38 @@ export class TestComponent {
       expect(updated).toContain('var(--sky-new-var)');
       expect(updated).not.toContain('.sky-old-class');
       expect(updated).not.toContain('--sky-old-var');
+    });
+
+    it('should not let class and custom property replacements interfere when they share a substring', async () => {
+      const { runner, tree } = await setup();
+
+      // Both a class name and a CSS variable contain the substring "sky-color".
+      // The class pass must not corrupt "--sky-color" and the property pass must
+      // not corrupt ".sky-color".
+      tree.create(
+        '/src/app/test.scss',
+        `.sky-color { color: var(--sky-color); }`,
+      );
+
+      await firstValueFrom(
+        runner.callRule(
+          buildReplaceRule(
+            { 'sky-color': 'sky-new-color' },
+            { '--sky-color': '--sky-new-color' },
+          ),
+          tree,
+        ),
+      );
+
+      const updated = tree.readText('/src/app/test.scss');
+      expect(updated).toContain('.sky-new-color');
+      expect(updated).toContain('var(--sky-new-color)');
+      expect(updated).not.toContain('.sky-old-color');
+      expect(updated).not.toContain('--sky-old-color');
+      // The class pass must not have rewritten "--sky-color" -> "--sky-new-color"
+      // prematurely (or corrupted it), so the final string should have exactly
+      // the right replacements and no doubled prefix like "--sky-new-new-color".
+      expect(updated).not.toContain('--sky-new-new-color');
     });
   });
 

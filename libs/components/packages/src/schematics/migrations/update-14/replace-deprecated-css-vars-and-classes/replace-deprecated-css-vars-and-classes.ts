@@ -62,13 +62,13 @@ export function traverseTokens(
 
 function buildClassReplacements(): Record<string, string> {
   const result: Record<string, string> = {};
-  traverseClasses(stylesJson as unknown as PublicApiStyles, result);
+  traverseClasses(stylesJson as PublicApiStyles, result);
   return result;
 }
 
 function buildTokenReplacements(): Record<string, string> {
   const result: Record<string, string> = {};
-  traverseTokens(tokensJson as unknown as PublicApiTokens, result);
+  traverseTokens(tokensJson as PublicApiTokens, result);
   return result;
 }
 
@@ -77,44 +77,27 @@ function escapeRegExp(str: string): string {
 }
 
 /**
- * Replaces CSS class names using word-boundary-aware matching that accounts for
- * hyphenated class names. Ensures `sky-old-class` does not match inside
- * `not-sky-old-class` or `sky-old-class-extended`.
+ * Replaces CSS class names or custom properties using boundary-aware matching
+ * that accounts for hyphenated names. Ensures `sky-old-class` does not match
+ * inside `not-sky-old-class` or `sky-old-class-extended`, and `--sky-old-var`
+ * does not match inside `--sky-old-var-extended`. An `includes()` pre-check
+ * skips the regex entirely when the name is absent from the content.
  */
-function applyClassReplacements(
+function applyReplacements(
   content: string,
   replacements: Record<string, string>,
 ): string {
   let updated = content;
 
-  for (const [oldClass, newClass] of Object.entries(replacements)) {
+  for (const [oldName, newName] of Object.entries(replacements)) {
+    if (!updated.includes(oldName)) {
+      continue;
+    }
     const pattern = new RegExp(
-      `(?<![\\w-])${escapeRegExp(oldClass)}(?![\\w-])`,
+      `(?<![\\w-])${escapeRegExp(oldName)}(?![\\w-])`,
       'g',
     );
-    updated = updated.replace(pattern, newClass);
-  }
-
-  return updated;
-}
-
-/**
- * Replaces CSS custom property names using boundary-aware matching. Uses the
- * same lookaround strategy as class replacements to prevent `--sky-old-var`
- * from matching inside `--sky-old-var-extended`.
- */
-function applyCustomPropertyReplacements(
-  content: string,
-  replacements: Record<string, string>,
-): string {
-  let updated = content;
-
-  for (const [oldProp, newProp] of Object.entries(replacements)) {
-    const pattern = new RegExp(
-      `(?<![\\w-])${escapeRegExp(oldProp)}(?![\\w-])`,
-      'g',
-    );
-    updated = updated.replace(pattern, newProp);
+    updated = updated.replace(pattern, newName);
   }
 
   return updated;
@@ -145,18 +128,11 @@ export function buildReplaceRule(
           const content = tree.readText(filePath);
           let updated = content;
 
-          updated = applyClassReplacements(updated, cssClassReplacements);
-          updated = applyCustomPropertyReplacements(
-            updated,
-            customPropertyReplacements,
-          );
+          updated = applyReplacements(updated, cssClassReplacements);
+          updated = applyReplacements(updated, customPropertyReplacements);
 
           if (updated !== content) {
-            const recorder = tree.beginUpdate(filePath);
-            recorder.remove(0, content.length);
-            recorder.insertLeft(0, updated);
-            tree.commitUpdate(recorder);
-
+            tree.overwrite(filePath, updated);
             context.logger.info(`Updated ${filePath}`);
           }
         },
