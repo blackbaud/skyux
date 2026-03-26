@@ -11,12 +11,55 @@
   display: flex;
   align-items: center;
   border-radius: var(--sky-border-radius-s, 3px);
-  border: 0;
+  border: none;
+  outline: none;
+  background-color: var(
+    --sky-color-background-action-tertiary-base,
+    transparent
+  );
+  box-shadow:
+    inset 0 0 0 var(--sky-border-width-action-base, 1px)
+      var(--sky-color-border-action-tertiary-base, transparent),
+    var(--sky-elevation-action-tertiary-base, 0 0 0 0 transparent);
 
   padding-top: var(--sky-comp-chart-legend_item-space-inset-top, 6px);
   padding-right: var(--sky-comp-chart-legend_item-space-inset-right, 12px);
   padding-bottom: var(--sky-comp-chart-legend_item-space-inset-bottom, 6px);
   padding-left: var(--sky-comp-chart-legend_item-space-inset-left, 12px);
+
+  &:hover {
+    background-color: var(
+      --sky-color-background-action-tertiary-hover,
+      #eeeeef
+    );
+    box-shadow:
+      inset 0 0 0 var(--sky-border-width-action-hover, 1px)
+        var(--sky-color-border-action-tertiary-hover, #0974a1),
+      var(--sky-elevation-action-tertiary-hover, 0 0 0 0 transparent);
+    cursor: pointer;
+  }
+
+  &:active {
+    background-color: var(
+      --sky-color-background-action-tertiary-active,
+      transparent
+    );
+    box-shadow:
+      inset 0 0 0 var(--sky-border-width-action-active, 2px)
+        var(--sky-color-border-action-tertiary-active, #0974a1),
+      var(--sky-elevation-action-tertiary-active, 0 0 0 0 transparent);
+  }
+
+  &:focus-visible {
+    background-color: var(
+      --sky-color-background-action-tertiary-focus,
+      transparent
+    );
+    box-shadow:
+      inset 0 0 0 var(--sky-border-width-action-focus, 2px)
+        var(--sky-color-border-action-tertiary-focus, #0974a1),
+      var(--sky-elevation-action-tertiary-focus, 0 0 0 0 transparent);
+  }
 }
 
 .sky-chart-legend-button-icon {

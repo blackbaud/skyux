@@ -37,6 +37,11 @@ export class SkyChartLegendComponent {
   );
   protected readonly activeLegendIndex = signal(0);
 
+  readonly #isLastVisible = computed(() => {
+    const visibleLegendItems = this.legendItems().filter((i) => i.isVisible).length;
+    return visibleLegendItems === 1;
+  });
+
   constructor() {
     effect(() => {
       const count = this.legendItems().length;
@@ -107,7 +112,12 @@ export class SkyChartLegendComponent {
   }
 
   protected toggleLegendItem(item: SkyChartLegendItem, index?: number): void {
-    if (index !== undefined) {
+    // Guard against toggling the last visible item off, which would leave the chart without any visible data.
+    if (item.isVisible && this.#isLastVisible()) {
+      return;
+    }
+
+    if (item.isVisible && index !== undefined) {
       this.activeLegendIndex.set(index);
     }
 
