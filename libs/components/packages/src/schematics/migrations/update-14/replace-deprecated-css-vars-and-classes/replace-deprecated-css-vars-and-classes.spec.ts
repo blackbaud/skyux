@@ -404,8 +404,8 @@ export class TestComponent {
       const updated = tree.readText('/src/app/test.scss');
       expect(updated).toContain('.sky-new-color');
       expect(updated).toContain('var(--sky-new-color)');
-      expect(updated).not.toContain('.sky-old-color');
-      expect(updated).not.toContain('--sky-old-color');
+      expect(updated).not.toContain('.sky-color {');
+      expect(updated).not.toContain('--sky-color)');
       // The class pass must not have rewritten "--sky-color" -> "--sky-new-color"
       // prematurely (or corrupted it), so the final string should have exactly
       // the right replacements and no doubled prefix like "--sky-new-new-color".
