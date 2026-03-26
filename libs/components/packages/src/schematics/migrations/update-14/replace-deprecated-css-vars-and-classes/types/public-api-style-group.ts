@@ -1,4 +1,4 @@
-import { PublicApiStyle } from './public-api-style.js';
+import { PublicApiStyle } from './public-api-style';
 
 export interface PublicApiStyleGroup {
   name: string;
