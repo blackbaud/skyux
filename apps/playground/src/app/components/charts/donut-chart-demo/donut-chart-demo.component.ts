@@ -54,6 +54,6 @@ export class DonutChartDemoComponent {
   public onDatapointActivated(
     event: SkyChartActivatedDatapoint<SkyDonutChartSlice>,
   ): void {
-    window.alert('Datapoint Clicked: ' + JSON.stringify(event, null, 2));
+    window.alert(JSON.stringify(event, null, 2));
   }
 }

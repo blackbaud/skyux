@@ -284,6 +284,6 @@ export class BarChartDemoComponent {
   public onDatapointActivated(
     event: SkyChartActivatedDatapoint<SkyBarChartPoint>,
   ): void {
-    window.alert('Datapoint Clicked: ' + JSON.stringify(event, null, 2));
+    window.alert(JSON.stringify(event, null, 2));
   }
 }
