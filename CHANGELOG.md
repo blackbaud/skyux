@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.0.0-alpha.15](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.14...14.0.0-alpha.15) (2026-03-26)
+
+
+### Bug Fixes
+
+* **components/lists:** remove dead-code css around disabled sort items ([#4341](https://github.com/blackbaud/skyux/issues/4341)) ([ff9d7f1](https://github.com/blackbaud/skyux/commit/ff9d7f1b2976766e30fe55edce86c2898d825153)), closes [AB#3595137](https://dev.azure.com/blackbaud/Products/_workitems/edit/3595137)
+
 ## [14.0.0-alpha.14](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.13...14.0.0-alpha.14) (2026-03-25)
 
 
