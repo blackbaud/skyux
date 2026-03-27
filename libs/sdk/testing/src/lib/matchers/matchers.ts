@@ -1,11 +1,13 @@
 import { TestBed } from '@angular/core/testing';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import {
+  SkyA11yAnalyzer,
+  type SkyA11yAnalyzerConfig,
+} from '@skyux-sdk/testing/private';
 import { SkyAppResourcesService, SkyLibResourcesService } from '@skyux/i18n';
 
 import axe from 'axe-core';
 import { firstValueFrom } from 'rxjs';
-
-import { SkyA11yAnalyzer } from '../a11y/a11y-analyzer';
-import { SkyA11yAnalyzerConfig } from '../a11y/a11y-analyzer-config';
 
 import { SkyToBeVisibleOptions } from './to-be-visible-options';
 
