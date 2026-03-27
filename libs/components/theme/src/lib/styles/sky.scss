@@ -1,9 +1,9 @@
 // This file is compiled down to CSS and included in the @skyux/theme NPM package to provide
 // global styles for our consumers.
 
-@forward '@blackbaud/skyux-design-tokens/bundles/public-api';
-
 @forward 'normalize-scss/sass/normalize/import-now';
+
+@forward '@blackbaud/skyux-design-tokens/bundles/public-api';
 
 @forward 'normalize-compat';
 @forward 'custom-properties';
