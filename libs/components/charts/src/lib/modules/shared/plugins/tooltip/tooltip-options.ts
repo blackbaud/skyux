@@ -1,7 +1,7 @@
 import { TooltipOptions } from 'chart.js';
 
-import { SkyChartStyles } from '../services/chart-style.service';
-import { DeepPartial } from '../types/deep-partial-type';
+import { SkyChartStyles } from '../../services/chart-style.service';
+import { DeepPartial } from '../../types/deep-partial-type';
 
 /**
  * Get default tooltip options for Chart.JS Tooltips

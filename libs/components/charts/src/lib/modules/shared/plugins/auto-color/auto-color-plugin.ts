@@ -1,10 +1,10 @@
 import { Chart, ChartDataset, ChartType, Plugin } from 'chart.js';
 
-import { isDatasetType, isDonutChart } from '../chart-helpers';
+import { isDatasetType, isDonutChart } from '../../chart-helpers';
 import {
   SkyChartStyleService,
   SkyChartStyles,
-} from '../services/chart-style.service';
+} from '../../services/chart-style.service';
 
 /**
  * Creates a ChartJS plugin that automatically applies SKY UX color palette to chart datasets.

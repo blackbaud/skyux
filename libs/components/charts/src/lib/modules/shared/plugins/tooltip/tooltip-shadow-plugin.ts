@@ -1,6 +1,6 @@
 import { Plugin } from 'chart.js';
 
-import { SkyChartStyleService } from '../services/chart-style.service';
+import { SkyChartStyleService } from '../../services/chart-style.service';
 
 /**
  * Plugin to add box shadow and accent border to tooltips

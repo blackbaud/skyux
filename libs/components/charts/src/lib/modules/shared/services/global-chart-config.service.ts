@@ -2,10 +2,11 @@ import { Injectable, inject } from '@angular/core';
 
 import { ChartConfiguration, ChartOptions, ChartType, Plugin } from 'chart.js';
 
-import { createAutoColorPlugin } from '../plugins/auto-color-plugin';
-import { createChartA11yPlugin } from '../plugins/chart-a11y-plugin';
-import { getTooltipPluginOptions } from '../plugins/get-tooltip-plugin-options';
-import { createTooltipShadowPlugin } from '../plugins/tooltip-shadow-plugin';
+import { createAutoColorPlugin } from '../plugins/auto-color/auto-color-plugin';
+import { createIndicatorPlugin } from '../plugins/indicator/indicator-plugin';
+import { createKeyboardNavPlugin } from '../plugins/keyboard-nav/keyboard-nav-plugin';
+import { getTooltipPluginOptions } from '../plugins/tooltip/tooltip-options';
+import { createTooltipShadowPlugin } from '../plugins/tooltip/tooltip-shadow-plugin';
 
 import { SkyChartStyleService } from './chart-style.service';
 
@@ -108,7 +109,8 @@ export class SkyChartGlobalConfigService {
     const globalPlugins: Plugin<TType>[] = [
       createAutoColorPlugin(this.#chartStyleService),
       createTooltipShadowPlugin(this.#chartStyleService),
-      createChartA11yPlugin(this.#chartStyleService),
+      createKeyboardNavPlugin(),
+      createIndicatorPlugin(this.#chartStyleService),
     ] as Plugin<TType>[];
 
     return globalPlugins.concat(plugins ?? []);

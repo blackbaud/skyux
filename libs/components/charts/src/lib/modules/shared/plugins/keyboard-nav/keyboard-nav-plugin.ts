@@ -1,7 +1,7 @@
-import type { Chart, ChartEvent, InteractionItem, Plugin } from 'chart.js';
+import type { ActiveElement, Chart, ChartEvent, Plugin } from 'chart.js';
 
-import { getChartType, isDonutChart } from '../chart-helpers';
-import { SkyChartStyleService } from '../services/chart-style.service';
+import { getChartType, isDonutChart } from '../../chart-helpers';
+import { focusedElementsState } from '../plugin-state/focused-elements-state';
 
 /**
  * Plugin that adds comprehensive keyboard navigation support to ChartJS charts.
@@ -35,39 +35,29 @@ import { SkyChartStyleService } from '../services/chart-style.service';
  *
  * ### Accessibility Features
  * - Maintains focus state across keyboard interactions
- * - Provides descriptive ARIA labels with data context
  * - Visual focus indicators follow SKY UX design system
- * - Supports all chart types (bar, line, pie, doughnut)
  */
-export function createChartA11yPlugin(
-  styleService: SkyChartStyleService,
-): Plugin {
+export function createKeyboardNavPlugin(): Plugin {
   // Maintain a mapping of Chart instances to their corresponding keyboard managers.
   // This allows the plugin to manage keyboard interactions for multiple charts on the same page.
   const chartManagers = new Map<Chart, ChartKeyboardManager>();
 
-  const plugin: Plugin = {
-    id: 'sky_chart_a11y',
-    afterInit: (chart) => {
-      const manager = new ChartKeyboardManager(chart, styleService);
+  return {
+    id: 'sky_keyboard_nav',
+    afterInit: (chart): void => {
+      const manager = new ChartKeyboardManager(chart);
 
       chartManagers.set(chart, manager);
       manager.initialize();
     },
-    afterDestroy: (chart) => {
+    afterDestroy: (chart): void => {
       const manager = chartManagers.get(chart);
 
       manager?.destroy();
       chartManagers.delete(chart);
-    },
-    afterDatasetsDraw: (chart) => {
-      const manager = chartManagers.get(chart);
-
-      manager?.drawFocusIndicator();
+      focusedElementsState.delete(chart);
     },
   };
-
-  return plugin;
 }
 
 /**
@@ -84,7 +74,6 @@ interface FocusedElement {
 class ChartKeyboardManager {
   readonly #chart: Chart;
   readonly #canvas: HTMLCanvasElement;
-  readonly #styleService: SkyChartStyleService;
 
   readonly #boundKeyDownHandler: (e: KeyboardEvent) => void;
   readonly #boundFocusHandler: () => void;
@@ -93,10 +82,9 @@ class ChartKeyboardManager {
   #focusedElement: FocusedElement | null = null;
   #isNavigating = false;
 
-  constructor(chart: Chart, styleService: SkyChartStyleService) {
+  constructor(chart: Chart) {
     this.#chart = chart;
     this.#canvas = chart.canvas;
-    this.#styleService = styleService;
 
     // Bind handlers
     this.#boundKeyDownHandler = this.#handleKeyDown.bind(this);
@@ -108,17 +96,6 @@ class ChartKeyboardManager {
    * Initializes the chart keyboard manager
    */
   public initialize(): void {
-    // Make canvas focusable
-    if (!this.#canvas.hasAttribute('tabindex')) {
-      this.#canvas.setAttribute('tabindex', '0');
-    }
-
-    // Set ARIA role if not already set
-    if (!this.#canvas.hasAttribute('role')) {
-      this.#canvas.setAttribute('role', 'img');
-    }
-
-    // Add event listeners
     this.#canvas.addEventListener('keydown', this.#boundKeyDownHandler);
     this.#canvas.addEventListener('focus', this.#boundFocusHandler);
     this.#canvas.addEventListener('blur', this.#boundBlurHandler);
@@ -128,81 +105,9 @@ class ChartKeyboardManager {
    * Cleans up after the chart keyboard manager is destroyed to prevent memory leaks.
    */
   public destroy(): void {
-    // Remove event listeners
     this.#canvas.removeEventListener('keydown', this.#boundKeyDownHandler);
     this.#canvas.removeEventListener('focus', this.#boundFocusHandler);
     this.#canvas.removeEventListener('blur', this.#boundBlurHandler);
-  }
-
-  /**
-   * Draws a focus indicator around the currently focused data point, if any.
-   */
-  public drawFocusIndicator(): void {
-    if (!this.#isNavigating || !this.#focusedElement) {
-      return;
-    }
-
-    const element = this.#getElementAtIndex(
-      this.#focusedElement.datasetIndex,
-      this.#focusedElement.index,
-    );
-
-    if (!element) {
-      return;
-    }
-
-    const ctx = this.#chart.ctx;
-    const meta = this.#chart.getDatasetMeta(this.#focusedElement.datasetIndex);
-    const dataElement = meta.data[this.#focusedElement.index];
-
-    if (!dataElement) {
-      return;
-    }
-
-    ctx.save();
-
-    // Draw focus outline
-    ctx.strokeStyle = this.#styleService.styles().focusIndicator.borderColor;
-    ctx.lineWidth = 3;
-    ctx.setLineDash([]);
-
-    const chartType = getChartType(this.#chart);
-
-    if (chartType === 'bar') {
-      // Check if chart is horizontal
-      const config = this.#chart.config as { options?: { indexAxis?: string } };
-      const isHorizontal = config.options?.indexAxis === 'y';
-
-      this.#drawBarFocusIndicator(
-        ctx,
-        dataElement as unknown as {
-          x: number;
-          y: number;
-          width: number;
-          height: number;
-        },
-        isHorizontal,
-      );
-    } else if (chartType === 'line') {
-      this.#drawLineFocusIndicator(
-        ctx,
-        dataElement as unknown as { x: number; y: number },
-      );
-    } else if (isDonutChart(this.#chart)) {
-      this.#drawDonutFocusIndicator(
-        ctx,
-        dataElement as unknown as {
-          x: number;
-          y: number;
-          startAngle: number;
-          endAngle: number;
-          innerRadius: number;
-          outerRadius: number;
-        },
-      );
-    }
-
-    ctx.restore();
   }
 
   #handleKeyDown(event: KeyboardEvent): void {
@@ -264,6 +169,9 @@ class ChartKeyboardManager {
   #endNavigation(): void {
     this.#isNavigating = false;
     this.#focusedElement = null;
+
+    // Clear shared focus state so the indicator plugin stops drawing.
+    focusedElementsState.set(this.#chart, []);
 
     // Dismiss the tooltip
     this.#chart.tooltip?.setActiveElements([], { x: 0, y: 0 });
@@ -365,7 +273,7 @@ class ChartKeyboardManager {
     }
 
     // Trigger click event on the focused element
-    const element = this.#getElementAtIndex(
+    const element = this.#getActiveElement(
       this.#focusedElement.datasetIndex,
       this.#focusedElement.index,
     );
@@ -404,12 +312,12 @@ class ChartKeyboardManager {
 
     // For cartesian charts, show grouped tooltip with all series at this index
     if (chartType === 'bar' || chartType === 'line') {
-      const elements: InteractionItem[] = [];
+      const elements: ActiveElement[] = [];
       const datasets = this.#chart.data.datasets;
 
       // Collect all elements at the current index across all datasets
       for (let i = 0; i < datasets.length; i++) {
-        const element = this.#getElementAtIndex(i, this.#focusedElement.index);
+        const element = this.#getActiveElement(i, this.#focusedElement.index);
         if (element) {
           elements.push(element);
         }
@@ -421,7 +329,7 @@ class ChartKeyboardManager {
       }
     } else {
       // For pie/doughnut charts, show single element tooltip
-      const element = this.#getElementAtIndex(
+      const element = this.#getActiveElement(
         this.#focusedElement.datasetIndex,
         this.#focusedElement.index,
       );
@@ -431,13 +339,27 @@ class ChartKeyboardManager {
       }
     }
 
+    this.#syncFocusedState();
     this.#chart.update('none');
   }
 
-  #getElementAtIndex(
-    datasetIndex: number,
-    index: number,
-  ): InteractionItem | null {
+  /**
+   * Writes the current focused element to the shared state so the focus indicator plugin can draw it.
+   */
+  #syncFocusedState(): void {
+    if (!this.#focusedElement) {
+      focusedElementsState.set(this.#chart, []);
+      return;
+    }
+
+    const el = this.#getActiveElement(
+      this.#focusedElement.datasetIndex,
+      this.#focusedElement.index,
+    );
+    focusedElementsState.set(this.#chart, el ? [el] : []);
+  }
+
+  #getActiveElement(datasetIndex: number, index: number): ActiveElement | null {
     const meta = this.#chart.getDatasetMeta(datasetIndex);
     const dataElement = meta?.data[index];
 
@@ -450,66 +372,5 @@ class ChartKeyboardManager {
       index,
       element: dataElement,
     };
-  }
-
-  #drawBarFocusIndicator(
-    ctx: CanvasRenderingContext2D,
-    element: { x: number; y: number; width: number; height: number },
-    isHorizontal: boolean,
-  ): void {
-    const padding = 4;
-
-    if (isHorizontal) {
-      // For horizontal bars: x is the right edge, y is the center
-      // width is the bar length, height is the bar thickness
-      ctx.strokeRect(
-        element.x - element.width - padding,
-        element.y - element.height / 2 - padding,
-        element.width + padding * 2,
-        element.height + padding * 2,
-      );
-    } else {
-      // For vertical bars: x is the center, y is the top
-      // width is the bar thickness, height is the bar length
-      ctx.strokeRect(
-        element.x - element.width / 2 - padding,
-        element.y - padding,
-        element.width + padding * 2,
-        element.height + padding * 2,
-      );
-    }
-  }
-
-  #drawLineFocusIndicator(
-    ctx: CanvasRenderingContext2D,
-    element: { x: number; y: number },
-  ): void {
-    const radius = 8;
-    ctx.beginPath();
-    ctx.arc(element.x, element.y, radius, 0, 2 * Math.PI);
-    ctx.stroke();
-  }
-
-  #drawDonutFocusIndicator(
-    ctx: CanvasRenderingContext2D,
-    element: {
-      x: number;
-      y: number;
-      startAngle: number;
-      endAngle: number;
-      innerRadius: number;
-      outerRadius: number;
-    },
-  ): void {
-    const padding = 6;
-    ctx.beginPath();
-    ctx.arc(
-      element.x,
-      element.y,
-      element.outerRadius + padding,
-      element.startAngle,
-      element.endAngle,
-    );
-    ctx.stroke();
   }
 }
