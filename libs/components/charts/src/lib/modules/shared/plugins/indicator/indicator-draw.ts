@@ -44,11 +44,13 @@ export function drawIndicatorFill(
     const bounds = getCartesianIndicatorBounds(chart, activeElements, styles);
     if (!bounds) return;
 
+    const radii = getIndicatorCornerRadii(chart, borderRadius);
+
     ctx.save();
     ctx.fillStyle = backgroundColor;
     ctx.beginPath();
     // prettier-ignore
-    ctx.roundRect(bounds.x, bounds.y, bounds.width, bounds.height, borderRadius);
+    ctx.roundRect(bounds.x, bounds.y, bounds.width, bounds.height, radii);
     ctx.fill();
     ctx.restore();
   }
@@ -90,12 +92,14 @@ export function drawIndicatorStroke(
     const bounds = getCartesianIndicatorBounds(chart, activeElements, styles);
     if (!bounds) return;
 
+    const radii = getIndicatorCornerRadii(chart, borderRadius);
+
     ctx.save();
     ctx.strokeStyle = borderColor;
     ctx.lineWidth = borderWidth;
     ctx.beginPath();
     // prettier-ignore
-    ctx.roundRect(bounds.x, bounds.y, bounds.width, bounds.height, borderRadius);
+    ctx.roundRect(bounds.x, bounds.y, bounds.width, bounds.height, radii);
     ctx.stroke();
     ctx.restore();
   }
@@ -103,6 +107,37 @@ export function drawIndicatorStroke(
 
 // #region Private
 
+/**
+ * Returns per-corner border radii so that only the non-axis end of the indicator box is rounded.
+ *
+ * For indicator boxes with Vertical Bar Datasets the top corners are rounded;
+ * For indicator boxes with Horizontal Bar Datasets the the right corners are rounded.
+ * For indicator boxes without Bar Datasets all corners are rounded.
+ *
+ * @returns Return order matches the Canvas `roundRect` spec: [top-left, top-right, bottom-right, bottom-left]
+ */
+function getIndicatorCornerRadii(
+  chart: Chart,
+  borderRadius: number,
+): [number, number, number, number] {
+  const hasBarDataset = chart.data.datasets.some(
+    (ds) => getDatasetType(chart, ds) === 'bar',
+  );
+
+  if (hasBarDataset) {
+    const isHorizontal = chart.config.options?.indexAxis === 'y';
+
+    // Axis on the left → round the right (non-axis) end.
+    if (isHorizontal) {
+      return [0, borderRadius, borderRadius, 0];
+    }
+
+    // Axis on the bottom → round the top (non-axis) end.
+    return [borderRadius, borderRadius, 0, 0];
+  }
+
+  return [borderRadius, borderRadius, borderRadius, borderRadius];
+}
 /**
  * Groups active elements by their dataset's resolved type, computes
  * bounds for each group using the type-specific strategy, then merges

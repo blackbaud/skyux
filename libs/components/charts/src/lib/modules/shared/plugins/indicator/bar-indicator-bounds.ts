@@ -7,7 +7,7 @@ export function getBarIndicatorBounds(
   activeElements: ActiveElement[],
   styles: IndicatorStyles,
 ): IndicatorBounds {
-  const config = chart.config as { options?: { indexAxis?: string } };
+  const config = chart.config;
   const isHorizontal = config.options?.indexAxis === 'y';
 
   const barElements = activeElements.map((el) => {
@@ -45,11 +45,26 @@ function getSingleBarBounds(
     height = bar.height + styles.padding * 2;
   }
 
-  // Clamp to chart area so the indicator doesn't overflow into axes/scales.
-  const clampedBottom = Math.min(y + height, chartArea.bottom);
-  const clampedRight = Math.min(x + width, chartArea.right);
-  const clampedTop = Math.max(y, chartArea.top);
-  const clampedLeft = Math.max(x, chartArea.left);
+  // Clamp only the axis-end so the indicator doesn't overflow into axes/scales,
+  // while allowing the non-axis end to extend beyond the chart area.
+  let clampedLeft: number;
+  let clampedTop: number;
+  let clampedRight: number;
+  let clampedBottom: number;
+
+  if (isHorizontal) {
+    // Axis is on the left → clamp left edge only.
+    clampedLeft = Math.max(x, chartArea.left);
+    clampedTop = y;
+    clampedRight = x + width;
+    clampedBottom = y + height;
+  } else {
+    // Axis is on the bottom → clamp bottom edge only.
+    clampedLeft = x;
+    clampedTop = y;
+    clampedRight = x + width;
+    clampedBottom = Math.min(y + height, chartArea.bottom);
+  }
 
   return {
     x: clampedLeft,
