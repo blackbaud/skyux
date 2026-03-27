@@ -13,7 +13,7 @@ import { SkyChartSeries } from './types/chart-series';
  * @param dataset The dataset to determine the type of
  * @returns The ChartJS Chart Type of the dataset
  */
-function getDatasetType(chart: Chart, dataset: ChartDataset): ChartType {
+export function getDatasetType(chart: Chart, dataset: ChartDataset): ChartType {
   const datasetType = dataset.type;
 
   // If the dataset has an explicit type, use it
