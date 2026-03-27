@@ -187,8 +187,8 @@ export class SkyChartStyleService {
 
   #indicator(): SkyChartStyles['indicator'] {
     return {
-      padding: 1,
-      borderRadius: this.#cssRemToPx('--sky-border-radius-xs', '2px'),
+      padding: 2, // TODO: Confirm if there is a CSS Property we should use. Also 1 + Radius can feel cramped. Might want to increase to 2.
+      borderRadius: this.#cssRemToPx('--sky-border-radius-s', '3px'),
       hover: this.#hoverIndicator(),
       active: this.#activeIndicator(),
       focus: this.#focusIndicator(),
