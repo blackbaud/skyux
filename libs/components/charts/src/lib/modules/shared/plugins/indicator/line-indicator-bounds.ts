@@ -1,4 +1,4 @@
-import { ActiveElement, Chart } from 'chart.js';
+import { ActiveElement, Chart, PointElement } from 'chart.js';
 
 import { IndicatorBounds, IndicatorStyles } from './indicator-types';
 
@@ -7,20 +7,42 @@ export function getLineIndicatorBounds(
   activeElements: ActiveElement[],
   styles: IndicatorStyles,
 ): IndicatorBounds {
-  const pointElements = activeElements.map((el) => {
-    const meta = chart.getDatasetMeta(el.datasetIndex);
-    return meta.data[el.index] as unknown as PointElementGeometry;
-  });
+  const points = activeElements.map((el) => getPointGeometry(chart, el));
 
-  return getSinglePointBounds(pointElements[0], styles);
+  return getSinglePointBounds(points[0], styles);
+}
+
+/** The geometry of a point element */
+interface LinePointGeometry {
+  /** The x center */
+  x: number;
+  /** The y center */
+  y: number;
+  /** The points radius */
+  radius: number;
+}
+
+function getPointGeometry(
+  chart: Chart,
+  element: ActiveElement,
+): LinePointGeometry {
+  const meta = chart.getDatasetMeta(element.datasetIndex);
+  const point = meta.data[element.index] as PointElement;
+  const props = point.getProps(['x', 'y'], true);
+
+  return {
+    x: props.x ?? 0,
+    y: props.y ?? 0,
+    radius: point.options.radius,
+  };
 }
 
 function getSinglePointBounds(
-  point: PointElementGeometry,
+  point: LinePointGeometry,
   styles: IndicatorStyles,
 ): IndicatorBounds {
   const padding = styles.padding + Math.PI / 2;
-  const radius = point.options?.radius ?? 0;
+  const radius = point.radius;
   const diameter = radius * 2;
   const diameterWithPadding = diameter + padding * 2;
 
@@ -30,10 +52,4 @@ function getSinglePointBounds(
     width: diameterWithPadding,
     height: diameterWithPadding,
   };
-}
-
-interface PointElementGeometry {
-  x: number;
-  y: number;
-  options?: { radius?: number };
 }

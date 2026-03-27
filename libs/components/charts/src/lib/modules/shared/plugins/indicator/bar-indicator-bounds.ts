@@ -1,4 +1,4 @@
-import type { ActiveElement, Chart, ChartArea } from 'chart.js';
+import type { ActiveElement, BarElement, Chart, ChartArea } from 'chart.js';
 
 import { IndicatorBounds, IndicatorStyles } from './indicator-types';
 
@@ -7,31 +7,57 @@ export function getBarIndicatorBounds(
   activeElements: ActiveElement[],
   styles: IndicatorStyles,
 ): IndicatorBounds {
-  const config = chart.config;
-  const isHorizontal = config.options?.indexAxis === 'y';
+  const bars = activeElements.map((el) => getBarGeometry(chart, el));
 
-  const barElements = activeElements.map((el) => {
-    const meta = chart.getDatasetMeta(el.datasetIndex);
-    return meta.data[el.index] as unknown as BarElementGeometry;
-  });
+  return getSingleBarBounds(bars[0], chart.chartArea, styles);
+}
 
-  return getSingleBarBounds(
-    barElements[0],
-    isHorizontal,
-    chart.chartArea,
-    styles,
+/** The geometry of a bar element */
+interface BarGeometry {
+  /** The x center */
+  x: number;
+  /** The y center */
+  y: number;
+  /** The width of the bar */
+  width: number;
+  /** The height of the bar */
+  height: number;
+  /**
+   * The coordinate of the bar's base (the end attached to the axis).
+   * For vertical bars, this is the y coordinate of the bottom edge;
+   * For horizontal bars, this is the x coordinate of the left edge.
+   */
+  base: number;
+  /** Is the bar horizontal */
+  horizontal: boolean;
+}
+
+function getBarGeometry(chart: Chart, element: ActiveElement): BarGeometry {
+  const meta = chart.getDatasetMeta(element.datasetIndex);
+  const bar = meta.data[element.index] as BarElement;
+  const props = bar.getProps(
+    ['x', 'y', 'width', 'height', 'base', 'horizontal'],
+    true,
   );
+
+  return {
+    x: props.x ?? 0,
+    y: props.y ?? 0,
+    width: props.width,
+    height: props.height,
+    base: props.base,
+    horizontal: props.horizontal,
+  };
 }
 
 function getSingleBarBounds(
-  bar: BarElementGeometry,
-  isHorizontal: boolean,
+  bar: BarGeometry,
   chartArea: ChartArea,
   styles: IndicatorStyles,
 ): IndicatorBounds {
   let x: number, y: number, width: number, height: number;
 
-  if (isHorizontal) {
+  if (bar.horizontal) {
     // x = right edge, y = center, width = bar length, height = bar thickness
     x = bar.x - bar.width - styles.padding;
     y = bar.y - bar.height / 2 - styles.padding;
@@ -52,7 +78,7 @@ function getSingleBarBounds(
   let clampedRight: number;
   let clampedBottom: number;
 
-  if (isHorizontal) {
+  if (bar.horizontal) {
     // Axis is on the left → clamp left edge only.
     clampedLeft = Math.max(x, chartArea.left);
     clampedTop = y;
@@ -72,12 +98,4 @@ function getSingleBarBounds(
     width: clampedRight - clampedLeft,
     height: clampedBottom - clampedTop,
   };
-}
-
-interface BarElementGeometry {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  base: number;
 }
