@@ -22,7 +22,7 @@ export class SkyChartStyleService {
     // Recompute chart styles when the theme changes
     this.#themeVersion();
 
-    return {
+    const styles: SkyChartStyles = {
       series: this.#series(),
       fontFamily: this.#css(
         '--sky-font-family-primary',
@@ -31,15 +31,15 @@ export class SkyChartStyleService {
       chartPadding: 0,
       axis: this.#axis(),
       tooltip: this.#tooltip(),
-      hoverIndicator: this.#hoverIndicator(),
-      activeIndicator: this.#activeIndicator(),
-      focusIndicator: this.#focusIndicator(),
+      indicator: this.#indicator(),
       charts: {
         bar: this.#bar(),
         line: this.#line(),
         donut: this.#donut(),
       },
     };
+
+    return styles;
   });
 
   constructor() {
@@ -185,7 +185,17 @@ export class SkyChartStyleService {
     };
   }
 
-  #hoverIndicator(): SkyChartStyles['hoverIndicator'] {
+  #indicator(): SkyChartStyles['indicator'] {
+    return {
+      padding: 1,
+      borderRadius: this.#cssRemToPx('--sky-border-radius-xs', '2px'),
+      hover: this.#hoverIndicator(),
+      active: this.#activeIndicator(),
+      focus: this.#focusIndicator(),
+    };
+  }
+
+  #hoverIndicator(): SkyChartStyles['indicator']['hover'] {
     return {
       borderWidth: this.#cssRemToPx('--sky-border-width-action-hover', '1px'),
       borderColor: this.#css(
@@ -199,7 +209,7 @@ export class SkyChartStyleService {
     };
   }
 
-  #activeIndicator(): SkyChartStyles['activeIndicator'] {
+  #activeIndicator(): SkyChartStyles['indicator']['active'] {
     return {
       borderWidth: this.#cssRemToPx('--sky-border-width-action-active', '2px'),
       borderColor: this.#css(
@@ -213,7 +223,7 @@ export class SkyChartStyleService {
     };
   }
 
-  #focusIndicator(): SkyChartStyles['focusIndicator'] {
+  #focusIndicator(): SkyChartStyles['indicator']['focus'] {
     return {
       borderWidth: this.#cssRemToPx('--sky-border-width-action-focus', '2px'),
       borderColor: this.#css(
@@ -485,20 +495,24 @@ export interface SkyChartStyles {
       marginTop: number;
     };
   };
-  hoverIndicator: {
-    borderWidth: number;
-    borderColor: string;
-    backgroundColor: string;
-  };
-  activeIndicator: {
-    borderWidth: number;
-    borderColor: string;
-    backgroundColor: string;
-  };
-  focusIndicator: {
-    borderWidth: number;
-    borderColor: string;
-    backgroundColor: string;
+  indicator: {
+    padding: number;
+    borderRadius: number;
+    hover: {
+      borderWidth: number;
+      borderColor: string;
+      backgroundColor: string;
+    };
+    active: {
+      borderWidth: number;
+      borderColor: string;
+      backgroundColor: string;
+    };
+    focus: {
+      borderWidth: number;
+      borderColor: string;
+      backgroundColor: string;
+    };
   };
   charts: {
     bar: {
