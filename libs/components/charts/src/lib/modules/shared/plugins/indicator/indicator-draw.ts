@@ -24,7 +24,7 @@ export function drawIndicatorFill(
   const chartType = getChartType(chart);
 
   if (chartType === 'doughnut') {
-    const el = getDonutActiveElement(chart, activeElements);
+    const el = getDonutActiveElement(activeElements);
     if (!el) return;
 
     ctx.save();
@@ -70,7 +70,7 @@ export function drawIndicatorStroke(
   const chartType = getChartType(chart);
 
   if (chartType === 'doughnut') {
-    const el = getDonutActiveElement(chart, activeElements);
+    const el = getDonutActiveElement(activeElements);
     if (!el) return;
 
     ctx.save();
@@ -194,8 +194,9 @@ function getBoundsForType(
   type: ChartType,
   styles: IndicatorStyles,
 ): IndicatorBounds {
-  if (type === 'bar') return getBarIndicatorBounds(chart, elements, styles);
-  if (type === 'line') return getLineIndicatorBounds(chart, elements, styles);
+  if (type === 'bar')
+    return getBarIndicatorBounds(chart.chartArea, elements, styles);
+  if (type === 'line') return getLineIndicatorBounds(elements, styles);
 
   throw new Error(`Unsupported dataset type for indicator plugin: ${type}`);
 }

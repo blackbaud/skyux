@@ -1,19 +1,21 @@
-import type { ActiveElement, ArcElement, Chart } from 'chart.js';
+import type { ActiveElement, ArcElement } from 'chart.js';
 
 /**
  * Returns the resolved geometry of the first active donut slice, or `null`
  * if there are no active elements.
  */
 export function getDonutActiveElement(
-  chart: Chart,
   activeElements: ActiveElement[],
 ): DonutSliceGeometry | null {
   if (!activeElements.length) return null;
 
   // Donut charts have a single dataset; use the first active element.
-  const el = activeElements[0];
-  const meta = chart.getDatasetMeta(el.datasetIndex);
-  const arc = meta.data[el.index] as ArcElement;
+  const activeElement = activeElements[0];
+  return getArcGeometry(activeElement);
+}
+
+function getArcGeometry(activeElement: ActiveElement): DonutSliceGeometry {
+  const arc = activeElement.element as ArcElement;
   const props = arc.getProps(
     ['x', 'y', 'startAngle', 'endAngle', 'innerRadius', 'outerRadius'],
     true,

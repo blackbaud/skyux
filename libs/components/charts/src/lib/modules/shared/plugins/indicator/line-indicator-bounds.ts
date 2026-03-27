@@ -1,13 +1,12 @@
-import { ActiveElement, Chart, PointElement } from 'chart.js';
+import { ActiveElement, PointElement } from 'chart.js';
 
 import { IndicatorBounds, IndicatorStyles } from './indicator-types';
 
 export function getLineIndicatorBounds(
-  chart: Chart,
   activeElements: ActiveElement[],
   styles: IndicatorStyles,
 ): IndicatorBounds {
-  const points = activeElements.map((el) => getPointGeometry(chart, el));
+  const points = activeElements.map((el) => getPointGeometry(el));
 
   return getSinglePointBounds(points[0], styles);
 }
@@ -22,12 +21,8 @@ interface LinePointGeometry {
   radius: number;
 }
 
-function getPointGeometry(
-  chart: Chart,
-  element: ActiveElement,
-): LinePointGeometry {
-  const meta = chart.getDatasetMeta(element.datasetIndex);
-  const point = meta.data[element.index] as PointElement;
+function getPointGeometry(activeElement: ActiveElement): LinePointGeometry {
+  const point = activeElement.element as PointElement;
   const props = point.getProps(['x', 'y'], true);
 
   return {

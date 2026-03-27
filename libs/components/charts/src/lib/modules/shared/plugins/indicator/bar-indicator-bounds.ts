@@ -1,15 +1,15 @@
-import type { ActiveElement, BarElement, Chart, ChartArea } from 'chart.js';
+import { ActiveElement, BarElement, ChartArea } from 'chart.js';
 
 import { IndicatorBounds, IndicatorStyles } from './indicator-types';
 
 export function getBarIndicatorBounds(
-  chart: Chart,
+  chartArea: ChartArea,
   activeElements: ActiveElement[],
   styles: IndicatorStyles,
 ): IndicatorBounds {
-  const bars = activeElements.map((el) => getBarGeometry(chart, el));
+  const bars = activeElements.map((el) => getBarGeometry(el));
 
-  return getSingleBarBounds(bars[0], chart.chartArea, styles);
+  return getSingleBarBounds(bars[0], chartArea, styles);
 }
 
 /** The geometry of a bar element */
@@ -32,9 +32,8 @@ interface BarGeometry {
   horizontal: boolean;
 }
 
-function getBarGeometry(chart: Chart, element: ActiveElement): BarGeometry {
-  const meta = chart.getDatasetMeta(element.datasetIndex);
-  const bar = meta.data[element.index] as BarElement;
+function getBarGeometry(activeElement: ActiveElement): BarGeometry {
+  const bar = activeElement.element as BarElement;
   const props = bar.getProps(
     ['x', 'y', 'width', 'height', 'base', 'horizontal'],
     true,
