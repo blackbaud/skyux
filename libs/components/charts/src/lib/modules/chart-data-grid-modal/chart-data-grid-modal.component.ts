@@ -17,7 +17,7 @@ import {
   RowApiModule,
   RowSelectionModule,
   RowStyleModule,
-  ValidationModule,
+  TextEditorModule,
 } from 'ag-grid-community';
 
 import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
@@ -35,7 +35,8 @@ ModuleRegistry.registerModules([
   RowStyleModule,
   ColumnApiModule,
   RowApiModule,
-  ValidationModule,
+  // Editing isn't needed but SkyUX's implementation uses `api.getEditingCells` which requires this module.
+  TextEditorModule,
 ]);
 
 @Component({
