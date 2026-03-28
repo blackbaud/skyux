@@ -12,23 +12,34 @@ import type { FocusedElement, NavigationStrategy } from './navigation-strategy';
  * Plugin that adds keyboard navigation support to ChartJS charts.
  * Enables users to navigate through data points using arrow keys and interact using Enter/Space.
  *
+ * Follows the WAI-ARIA recommendation that pointer interaction must not steal keyboard focus:
+ * - **Focus is keyboard-owned.** Once a data point receives keyboard focus (via Tab or arrow keys),
+ *   it persists across pointer hover events. Hovering another data point does not move or revoke focus.
+ * - **Click clears focus.** Clicking anywhere on the canvas ends keyboard navigation and removes the
+ *   focus indicator, returning the chart to pointer-only interaction.
+ * - **Hover is independent and pointer-driven.** Moving the mouse over a data point applies hover
+ *   styling and updates the tooltip without affecting keyboard focus.
+ * - **Both states can be visible simultaneously.** The focus indicator and hover indicator draw
+ *   independently; two different data points can be highlighted at the same time.
+ *
  * ## Keyboard Navigation
  *
  * ### Getting Started
- * - **Tab** into the chart canvas to start navigation immediately and a focus indicator appears on the first visible data point
+ * - **Tab** into the chart canvas to start navigation; a focus indicator appears on the first visible data point
  *
  * ### Navigation Keys
  * - **Arrow Keys**: Navigate between data points and series (direction depends on chart type)
  * - **Enter/Space**: Activate the focused element (triggers the chart's `onClick` handler)
  * - **Escape**: Exit navigation and clear the focus indicator
  * - **Tab**: Exit navigation and continue to the next focusable element
+ * - **Click**: Exit navigation and clear the focus indicator
  *
  * ### Visual Feedback
  * - Focus indicator highlights the current data point (drawn by the indicator plugin)
  * - Tooltip displays for the focused element
  *
  * ### Screen Reader Support
- * - Current position and value are announced via a live region when services are provided
+ * - Current position and value are announced via a live region
  */
 export function createKeyboardNavPlugin(
   resources: SkyLibResourcesService,
@@ -68,10 +79,12 @@ class ChartKeyboardManager {
   readonly #boundKeyDownHandler: (e: KeyboardEvent) => void;
   readonly #boundFocusHandler: () => void;
   readonly #boundBlurHandler: () => void;
+  readonly #boundMouseDownHandler: () => void;
 
   #focusedElement: FocusedElement | null = null;
   #strategy: NavigationStrategy | null = null;
   #isNavigating = false;
+  #focusFromMouse = false;
 
   constructor(
     chart: Chart,
@@ -87,11 +100,13 @@ class ChartKeyboardManager {
     this.#boundKeyDownHandler = this.#handleKeyDown.bind(this);
     this.#boundFocusHandler = this.#handleFocus.bind(this);
     this.#boundBlurHandler = this.#handleBlur.bind(this);
+    this.#boundMouseDownHandler = this.#handleMouseDown.bind(this);
 
     // Attach handlers to the canvas element
     this.#canvas.addEventListener('keydown', this.#boundKeyDownHandler);
     this.#canvas.addEventListener('focus', this.#boundFocusHandler);
     this.#canvas.addEventListener('blur', this.#boundBlurHandler);
+    this.#canvas.addEventListener('mousedown', this.#boundMouseDownHandler);
   }
 
   /**
@@ -101,6 +116,7 @@ class ChartKeyboardManager {
     this.#canvas.removeEventListener('keydown', this.#boundKeyDownHandler);
     this.#canvas.removeEventListener('focus', this.#boundFocusHandler);
     this.#canvas.removeEventListener('blur', this.#boundBlurHandler);
+    this.#canvas.removeEventListener('mousedown', this.#boundMouseDownHandler);
   }
 
   #handleKeyDown(event: KeyboardEvent): void {
@@ -138,7 +154,20 @@ class ChartKeyboardManager {
     }
   }
 
+  #handleMouseDown(): void {
+    this.#focusFromMouse = true;
+
+    if (this.#isNavigating) {
+      this.#endNavigation();
+    }
+  }
+
   #handleFocus(): void {
+    if (this.#focusFromMouse) {
+      this.#focusFromMouse = false;
+      return;
+    }
+
     if (!this.#isNavigating) {
       this.#startNavigation();
     }

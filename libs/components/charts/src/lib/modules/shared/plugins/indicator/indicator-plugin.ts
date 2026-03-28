@@ -7,8 +7,17 @@ import { drawIndicatorFill, drawIndicatorStroke } from './indicator-draw';
 import type { IndicatorStyles } from './indicator-types';
 
 /**
- * Unified indicator plugin that draws hover, active, and focus indicator boxes around chart data elements.
- * Only the highest-priority state draws per frame (focus > active > hover), preventing visual stacking when multiple states are true simultaneously.
+ * Indicator plugin that draws hover, active, and focus visual states around chart data elements.
+ *
+ * All applicable states draw each frame so multiple indicators can be visible simultaneously.
+ * This supports the keyboard navigation plugin's WAI-ARIA model where hover and focus are independent.
+ *
+ * ### Visual States (drawn in z-order, last wins on overlap)
+ * 1. **Hover** — Pointer-driven; drawn when the mouse is over a data element.
+ * 2. **Active** — Drawn while the pointer is down on a data element, or while Space is held
+ *    during keyboard navigation (targets the focused element when navigating, otherwise the hovered element).
+ * 3. **Focus** — Keyboard-driven; drawn for the element tracked by the keyboard navigation plugin.
+ *    Persists independently of hover and is cleared only by explicit user action (click, Tab, Escape).
  */
 export function createIndicatorPlugin(
   styleService: SkyChartStyleService,
@@ -56,13 +65,15 @@ export function createIndicatorPlugin(
       addListener('pointercancel', clearPressed);
 
       // Keyboard support: show active indicator while Space is held down.
+      // Prefer the keyboard-focused element when navigating; fall back to hover.
       const spaceKey = ' ' as const;
       addListener('keydown', ((e: KeyboardEvent) => {
         if (e.key !== spaceKey || e.repeat) {
           return;
         }
 
-        const elements = chart.getActiveElements();
+        const focused = focusedElementsState.get(chart);
+        const elements = focused?.length ? focused : chart.getActiveElements();
 
         if (elements?.length) {
           pressedElements.set(chart, [...elements]);
@@ -97,20 +108,28 @@ export function createIndicatorPlugin(
       pressedElements.delete(chart);
     },
 
-    // Draw background fill BEFORE datasets (above grid lines, below data elements).
+    // Draw background fills BEFORE datasets (above grid lines, below data elements).
     beforeDatasetsDraw(chart): void {
-      const state = resolveIndicatorState(chart, pressedElements, styleService);
+      const states = resolveIndicatorStates(
+        chart,
+        pressedElements,
+        styleService,
+      );
 
-      if (state) {
+      for (const state of states) {
         drawIndicatorFill(chart, state.elements, state.styles);
       }
     },
 
-    // Draw border stroke AFTER datasets (on top of everything).
+    // Draw border strokes AFTER datasets (on top of everything).
     afterDatasetsDraw(chart): void {
-      const state = resolveIndicatorState(chart, pressedElements, styleService);
+      const states = resolveIndicatorStates(
+        chart,
+        pressedElements,
+        styleService,
+      );
 
-      if (state) {
+      for (const state of states) {
         drawIndicatorStroke(chart, state.elements, state.styles);
       }
     },
@@ -123,50 +142,22 @@ interface IndicatorState {
 }
 
 /**
- * Resolves which indicator state to draw based on priority: focus > active > hover.
- * Only the highest-priority state draws per frame, preventing visual stacking.
+ * Collects all indicator states that should draw this frame.
+ * States are returned in visual z-order (hover first, focus last)
+ * so the last-drawn state takes visual precedence on overlapping elements.
  */
-function resolveIndicatorState(
+function resolveIndicatorStates(
   chart: Chart,
   pressedElements: WeakMap<Chart, ActiveElement[]>,
   styleService: SkyChartStyleService,
-): IndicatorState | undefined {
+): IndicatorState[] {
   const indicatorStyles = styleService.styles().indicator;
+  const states: IndicatorState[] = [];
 
-  // Focus takes highest priority (keyboard navigation).
-  const focused = focusedElementsState.get(chart);
-  if (focused?.length) {
-    return {
-      elements: focused,
-      styles: {
-        padding: indicatorStyles.padding,
-        borderRadius: indicatorStyles.borderRadius,
-        borderWidth: indicatorStyles.focus.borderWidth,
-        borderColor: indicatorStyles.focus.borderColor,
-        backgroundColor: indicatorStyles.focus.backgroundColor,
-      },
-    };
-  }
-
-  // Active takes second priority (pointer down / Space held).
-  const pressed = pressedElements.get(chart);
-  if (pressed?.length) {
-    return {
-      elements: pressed,
-      styles: {
-        padding: indicatorStyles.padding,
-        borderRadius: indicatorStyles.borderRadius,
-        borderWidth: indicatorStyles.active.borderWidth,
-        borderColor: indicatorStyles.active.borderColor,
-        backgroundColor: indicatorStyles.active.backgroundColor,
-      },
-    };
-  }
-
-  // Hover is the baseline.
+  // Hover is the baseline (drawn first, lowest visual precedence).
   const hovered = chart.getActiveElements();
   if (hovered?.length) {
-    return {
+    states.push({
       elements: hovered,
       styles: {
         padding: indicatorStyles.padding,
@@ -175,8 +166,38 @@ function resolveIndicatorState(
         borderColor: indicatorStyles.hover.borderColor,
         backgroundColor: indicatorStyles.hover.backgroundColor,
       },
-    };
+    });
   }
 
-  return undefined;
+  // Active overlays hover (pointer down / Space held).
+  const pressed = pressedElements.get(chart);
+  if (pressed?.length) {
+    states.push({
+      elements: pressed,
+      styles: {
+        padding: indicatorStyles.padding,
+        borderRadius: indicatorStyles.borderRadius,
+        borderWidth: indicatorStyles.active.borderWidth,
+        borderColor: indicatorStyles.active.borderColor,
+        backgroundColor: indicatorStyles.active.backgroundColor,
+      },
+    });
+  }
+
+  // Focus draws last (highest visual precedence, keyboard-owned).
+  const focused = focusedElementsState.get(chart);
+  if (focused?.length) {
+    states.push({
+      elements: focused,
+      styles: {
+        padding: indicatorStyles.padding,
+        borderRadius: indicatorStyles.borderRadius,
+        borderWidth: indicatorStyles.focus.borderWidth,
+        borderColor: indicatorStyles.focus.borderColor,
+        backgroundColor: indicatorStyles.focus.backgroundColor,
+      },
+    });
+  }
+
+  return states;
 }
