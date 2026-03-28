@@ -284,6 +284,6 @@ export class BarChartDemoComponent {
   public onDatapointActivated(
     event: SkyChartActivatedDatapoint<SkyBarChartPoint>,
   ): void {
-    window.alert(JSON.stringify(event, null, 2));
+    console.log(JSON.stringify(event, null, 2));
   }
 }

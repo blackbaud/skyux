@@ -334,6 +334,6 @@ export class LineChartDemoComponent {
   public onDatapointActivated(
     event: SkyChartActivatedDatapoint<SkyLineChartPoint>,
   ): void {
-    window.alert(JSON.stringify(event, null, 2));
+    console.log(JSON.stringify(event, null, 2));
   }
 }
