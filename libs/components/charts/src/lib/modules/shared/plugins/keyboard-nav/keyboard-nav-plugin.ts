@@ -1,41 +1,28 @@
 import type { ActiveElement, Chart, ChartEvent, Plugin } from 'chart.js';
 
-import { getChartType, isDonutChart } from '../../chart-helpers';
 import { focusedElementsState } from '../plugin-state/focused-elements-state';
 
+import { createNavigationStrategy } from './create-navigation-strategy';
+import type { FocusedElement, NavigationStrategy } from './navigation-strategy';
+
 /**
- * Plugin that adds comprehensive keyboard navigation support to ChartJS charts.
+ * Plugin that adds keyboard navigation support to ChartJS charts.
  * Enables users to navigate through data points using arrow keys and interact using Enter/Space.
  *
- * ## Keyboard Navigation Support
+ * ## Keyboard Navigation
  *
  * ### Getting Started
- * - **Tab** into the chart to focus it
- * - **Tab** again to focus the first data point and enter navigation mode
- * - A focus indicator will appear on the first data point
+ * - **Tab** into the chart canvas to start navigation immediately and a focus indicator appears on the first visible data point
  *
  * ### Navigation Keys
- * - **Arrow Keys**: Navigate between data points and series
- *   - For vertical bar/line charts:
- *     - Left/Right: Move between data points (categories)
- *     - Up/Down: Move between series (datasets)
- *   - For horizontal bar/line charts:
- *     - Left/Right: Move between series (datasets)
- *     - Up/Down: Move between data points (categories)
- *   - For pie/doughnut charts:
- *     - Any arrow key: Move to next/previous segment
- * - **Enter/Space**: Activate the focused element (triggers click handler)
- * - **Escape**: Exit navigation mode
- * - **Tab**: Exit navigation mode and continue to the next focusable element
+ * - **Arrow Keys**: Navigate between data points and series (direction depends on chart type)
+ * - **Enter/Space**: Activate the focused element (triggers the chart's `onClick` handler)
+ * - **Escape**: Exit navigation and clear the focus indicator
+ * - **Tab**: Exit navigation and continue to the next focusable element
  *
  * ### Visual Feedback
- * - Blue focus indicator highlights the current data point
+ * - Focus indicator highlights the current data point (drawn by the indicator plugin)
  * - Tooltip displays for the focused element
- * - Screen reader announces current position and value
- *
- * ### Accessibility Features
- * - Maintains focus state across keyboard interactions
- * - Visual focus indicators follow SKY UX design system
  */
 export function createKeyboardNavPlugin(): Plugin {
   // Maintain a mapping of Chart instances to their corresponding keyboard managers.
@@ -46,9 +33,7 @@ export function createKeyboardNavPlugin(): Plugin {
     id: 'sky_keyboard_nav',
     afterInit: (chart): void => {
       const manager = new ChartKeyboardManager(chart);
-
       chartManagers.set(chart, manager);
-      manager.initialize();
     },
     afterDestroy: (chart): void => {
       const manager = chartManagers.get(chart);
@@ -61,15 +46,9 @@ export function createKeyboardNavPlugin(): Plugin {
 }
 
 /**
- * Represents the currently focused data point in the chart, identified by its dataset index and data index.
- */
-interface FocusedElement {
-  datasetIndex: number;
-  index: number;
-}
-
-/**
  * Manages keyboard interactions for a single chart instance.
+ * Navigation logic is delegated to a {@link NavigationStrategy} selected
+ * at the start of each navigation session based on the chart type.
  */
 class ChartKeyboardManager {
   readonly #chart: Chart;
@@ -80,6 +59,7 @@ class ChartKeyboardManager {
   readonly #boundBlurHandler: () => void;
 
   #focusedElement: FocusedElement | null = null;
+  #strategy: NavigationStrategy | null = null;
   #isNavigating = false;
 
   constructor(chart: Chart) {
@@ -90,12 +70,8 @@ class ChartKeyboardManager {
     this.#boundKeyDownHandler = this.#handleKeyDown.bind(this);
     this.#boundFocusHandler = this.#handleFocus.bind(this);
     this.#boundBlurHandler = this.#handleBlur.bind(this);
-  }
 
-  /**
-   * Initializes the chart keyboard manager
-   */
-  public initialize(): void {
+    // Attach handlers to the canvas element
     this.#canvas.addEventListener('keydown', this.#boundKeyDownHandler);
     this.#canvas.addEventListener('focus', this.#boundFocusHandler);
     this.#canvas.addEventListener('blur', this.#boundBlurHandler);
@@ -111,17 +87,9 @@ class ChartKeyboardManager {
   }
 
   #handleKeyDown(event: KeyboardEvent): void {
-    // Handle Tab key
+    // Handle Tab key — exit navigation and allow normal tab behavior.
     if (event.key === 'Tab') {
-      if (!this.#isNavigating) {
-        // Tab while not navigating - enter navigation mode
-        event.preventDefault();
-        this.#startNavigation();
-      } else {
-        // Tab while navigating - exit navigation and allow normal tab
-        this.#endNavigation();
-        // Don't prevent default - let Tab move focus naturally
-      }
+      this.#endNavigation();
       return;
     }
 
@@ -130,14 +98,14 @@ class ChartKeyboardManager {
       if (this.#isArrowKey(event.key)) {
         event.preventDefault();
         this.#startNavigation();
-        this.#handleArrowKey(event.key);
+        this.#navigate(event.key);
       }
       return;
     }
 
     if (this.#isArrowKey(event.key)) {
       event.preventDefault();
-      this.#handleArrowKey(event.key);
+      this.#navigate(event.key);
       return;
     }
 
@@ -154,7 +122,9 @@ class ChartKeyboardManager {
   }
 
   #handleFocus(): void {
-    // Focus received, but don't start navigation until arrow key is pressed
+    if (!this.#isNavigating) {
+      this.#startNavigation();
+    }
   }
 
   #handleBlur(): void {
@@ -163,12 +133,14 @@ class ChartKeyboardManager {
 
   #startNavigation(): void {
     this.#isNavigating = true;
+    this.#strategy = createNavigationStrategy(this.#chart);
     this.#focusFirstElement();
   }
 
   #endNavigation(): void {
     this.#isNavigating = false;
     this.#focusedElement = null;
+    this.#strategy = null;
 
     // Clear shared focus state so the indicator plugin stops drawing.
     focusedElementsState.set(this.#chart, []);
@@ -183,88 +155,16 @@ class ChartKeyboardManager {
     return ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(key);
   }
 
-  #handleArrowKey(key: string): void {
-    if (!this.#focusedElement) {
+  /**
+   * Delegates arrow-key navigation to the active strategy and updates the chart.
+   */
+  #navigate(key: string): void {
+    if (!this.#focusedElement || !this.#strategy) {
       return;
     }
 
-    const chartType = getChartType(this.#chart);
-
-    if (isDonutChart(this.#chart)) {
-      // For pie charts, navigate through segments
-      this.#navigatePieChart(key);
-    } else if (chartType === 'bar' || chartType === 'line') {
-      // For cartesian charts, navigate based on orientation
-      this.#navigateCartesianChart(key);
-    } else {
-      console.warn(
-        'Unsupported chart type for keyboard navigation:',
-        chartType,
-      );
-    }
-  }
-
-  #navigateCartesianChart(key: string): void {
-    if (!this.#focusedElement) return;
-
-    const datasets = this.#chart.data.datasets;
-    const dataLength = datasets[0]?.data.length ?? 0;
-    const datasetCount = datasets.length;
-
-    let newDatasetIndex = this.#focusedElement.datasetIndex;
-    let newIndex = this.#focusedElement.index;
-
-    // Determine if chart is horizontal or vertical
-    const config = this.#chart.config as { options?: { indexAxis?: string } };
-    const isHorizontal = config.options?.indexAxis === 'y';
-
-    const direction = this.#getNavigationDirection(key, isHorizontal);
-
-    if (direction === 'nextSeries') {
-      newDatasetIndex = (newDatasetIndex + 1) % datasetCount;
-    } else if (direction === 'prevSeries') {
-      newDatasetIndex = (newDatasetIndex - 1 + datasetCount) % datasetCount;
-    } else if (direction === 'nextPoint') {
-      newIndex = Math.min(newIndex + 1, dataLength - 1);
-    } else if (direction === 'prevPoint') {
-      newIndex = Math.max(newIndex - 1, 0);
-    }
-
-    this.#focusedElement.datasetIndex = newDatasetIndex;
-    this.#focusedElement.index = newIndex;
+    this.#focusedElement = this.#strategy.navigate(key, this.#focusedElement);
     this.#updateChartWithFocus();
-  }
-
-  #navigatePieChart(key: string): void {
-    if (!this.#focusedElement) return;
-
-    const dataLength = this.#chart.data.datasets[0]?.data.length ?? 0;
-    let newIndex = this.#focusedElement.index;
-
-    if (key === 'ArrowRight' || key === 'ArrowDown') {
-      newIndex = (newIndex + 1) % dataLength;
-    } else if (key === 'ArrowLeft' || key === 'ArrowUp') {
-      newIndex = (newIndex - 1 + dataLength) % dataLength;
-    }
-
-    this.#focusedElement.index = newIndex;
-    this.#updateChartWithFocus();
-  }
-
-  #getNavigationDirection(
-    key: string,
-    isHorizontal: boolean,
-  ): 'nextSeries' | 'prevSeries' | 'nextPoint' | 'prevPoint' | 'none' {
-    if (key === 'ArrowRight') {
-      return isHorizontal ? 'nextSeries' : 'nextPoint';
-    } else if (key === 'ArrowLeft') {
-      return isHorizontal ? 'prevSeries' : 'prevPoint';
-    } else if (key === 'ArrowDown') {
-      return isHorizontal ? 'nextPoint' : 'nextSeries';
-    } else if (key === 'ArrowUp') {
-      return isHorizontal ? 'prevPoint' : 'prevSeries';
-    }
-    return 'none';
   }
 
   #handleActivation(): void {
@@ -279,7 +179,6 @@ class ChartKeyboardManager {
     );
 
     if (element && this.#chart.config.options?.onClick) {
-      // Call the onClick handler with a minimal ChartEvent
       const chartEvent = {} as ChartEvent;
       this.#chart.config.options.onClick(chartEvent, [element], this.#chart);
     }
@@ -287,56 +186,33 @@ class ChartKeyboardManager {
 
   #focusFirstElement(): void {
     const datasets = this.#chart.data.datasets;
-    if (
-      datasets.length === 0 ||
-      !datasets[0] ||
-      datasets[0].data.length === 0
-    ) {
-      return;
+
+    for (let i = 0; i < datasets.length; i++) {
+      const meta = this.#chart.getDatasetMeta(i);
+
+      if (!meta.hidden && datasets[i] && datasets[i].data.length > 0) {
+        this.#focusedElement = { datasetIndex: i, index: 0 };
+        this.#updateChartWithFocus();
+        return;
+      }
     }
-
-    this.#focusedElement = {
-      datasetIndex: 0,
-      index: 0,
-    };
-
-    this.#updateChartWithFocus();
   }
 
+  /**
+   * Updates the tooltip and focus indicator state, then redraws the chart.
+   */
   #updateChartWithFocus(): void {
-    if (!this.#focusedElement) {
+    if (!this.#focusedElement || !this.#strategy) {
       return;
     }
 
-    const chartType = getChartType(this.#chart);
+    const tooltipElements = this.#strategy.getTooltipElements(
+      this.#chart,
+      this.#focusedElement,
+    );
 
-    // For cartesian charts, show grouped tooltip with all series at this index
-    if (chartType === 'bar' || chartType === 'line') {
-      const elements: ActiveElement[] = [];
-      const datasets = this.#chart.data.datasets;
-
-      // Collect all elements at the current index across all datasets
-      for (let i = 0; i < datasets.length; i++) {
-        const element = this.#getActiveElement(i, this.#focusedElement.index);
-        if (element) {
-          elements.push(element);
-        }
-      }
-
-      if (elements.length > 0) {
-        // Show grouped tooltip with all series
-        this.#chart.tooltip?.setActiveElements(elements, { x: 0, y: 0 });
-      }
-    } else {
-      // For pie/doughnut charts, show single element tooltip
-      const element = this.#getActiveElement(
-        this.#focusedElement.datasetIndex,
-        this.#focusedElement.index,
-      );
-
-      if (element) {
-        this.#chart.tooltip?.setActiveElements([element], { x: 0, y: 0 });
-      }
+    if (tooltipElements.length > 0) {
+      this.#chart.tooltip?.setActiveElements(tooltipElements, { x: 0, y: 0 });
     }
 
     this.#syncFocusedState();
@@ -367,10 +243,6 @@ class ChartKeyboardManager {
       return null;
     }
 
-    return {
-      datasetIndex,
-      index,
-      element: dataElement,
-    };
+    return { datasetIndex, index, element: dataElement };
   }
 }

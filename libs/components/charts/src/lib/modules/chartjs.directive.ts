@@ -27,6 +27,8 @@ Chart.register(...registerables);
     tabindex: '0',
     role: 'img',
     '[attr.aria-label]': 'ariaLabel()',
+    // Remove the default focus outline from the canvas element since we'll be implementing our own focus styles for keyboard navigation.
+    '[style.outline]': '"none"',
   },
 })
 export class SkyChartJsDirective implements OnDestroy, AfterViewInit {
