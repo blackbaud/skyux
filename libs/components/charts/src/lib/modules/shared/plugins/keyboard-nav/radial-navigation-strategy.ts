@@ -1,6 +1,10 @@
 import type { ActiveElement, Chart } from 'chart.js';
 
-import type { FocusedElement, NavigationStrategy } from './navigation-strategy';
+import type {
+  ElementDescription,
+  FocusedElement,
+  NavigationStrategy,
+} from './navigation-strategy';
 
 /**
  * Navigation strategy for radial charts (doughnut, pie).
@@ -53,5 +57,24 @@ export class RadialNavigationStrategy implements NavigationStrategy {
         element: dataElement,
       },
     ];
+  }
+
+  public describeElement(
+    chart: Chart,
+    focused: FocusedElement,
+  ): ElementDescription {
+    const dataset = chart.data.datasets[focused.datasetIndex];
+    const datasetLabel = String(dataset?.label ?? '');
+    const segmentLabel = chart.data.labels?.[focused.index] ?? datasetLabel;
+
+    return {
+      seriesLabel: datasetLabel,
+      seriesIndex: focused.datasetIndex + 1,
+      totalSeries: chart.data.datasets.length,
+      categoryLabel: String(segmentLabel),
+      value: String(dataset?.data[focused.index] ?? ''),
+      index: focused.index + 1,
+      total: dataset?.data.length ?? 0,
+    };
   }
 }

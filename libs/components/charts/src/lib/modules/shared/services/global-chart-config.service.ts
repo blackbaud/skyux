@@ -1,4 +1,6 @@
 import { Injectable, inject } from '@angular/core';
+import { SkyLiveAnnouncerService } from '@skyux/core';
+import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { ChartConfiguration, ChartOptions, ChartType, Plugin } from 'chart.js';
 
@@ -17,6 +19,8 @@ import { SkyChartStyleService } from './chart-style.service';
 @Injectable({ providedIn: 'root' })
 export class SkyChartGlobalConfigService {
   readonly #chartStyleService = inject(SkyChartStyleService);
+  readonly #liveAnnouncer = inject(SkyLiveAnnouncerService);
+  readonly #resources = inject(SkyLibResourcesService);
 
   /**
    * Merges the provided chart configuration with global defaults.
@@ -109,7 +113,7 @@ export class SkyChartGlobalConfigService {
     const globalPlugins: Plugin<TType>[] = [
       createAutoColorPlugin(this.#chartStyleService),
       createTooltipShadowPlugin(this.#chartStyleService),
-      createKeyboardNavPlugin(),
+      createKeyboardNavPlugin(this.#resources, this.#liveAnnouncer),
       createIndicatorPlugin(this.#chartStyleService),
     ] as Plugin<TType>[];
 

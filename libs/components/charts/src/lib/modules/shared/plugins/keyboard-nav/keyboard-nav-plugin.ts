@@ -1,3 +1,6 @@
+import type { SkyLiveAnnouncerService } from '@skyux/core';
+import type { SkyLibResourcesService } from '@skyux/i18n';
+
 import type { ActiveElement, Chart, ChartEvent, Plugin } from 'chart.js';
 
 import { focusedElementsState } from '../plugin-state/focused-elements-state';
@@ -23,8 +26,14 @@ import type { FocusedElement, NavigationStrategy } from './navigation-strategy';
  * ### Visual Feedback
  * - Focus indicator highlights the current data point (drawn by the indicator plugin)
  * - Tooltip displays for the focused element
+ *
+ * ### Screen Reader Support
+ * - Current position and value are announced via a live region when services are provided
  */
-export function createKeyboardNavPlugin(): Plugin {
+export function createKeyboardNavPlugin(
+  resources: SkyLibResourcesService,
+  liveAnnouncer: SkyLiveAnnouncerService,
+): Plugin {
   // Maintain a mapping of Chart instances to their corresponding keyboard managers.
   // This allows the plugin to manage keyboard interactions for multiple charts on the same page.
   const chartManagers = new Map<Chart, ChartKeyboardManager>();
@@ -32,7 +41,7 @@ export function createKeyboardNavPlugin(): Plugin {
   return {
     id: 'sky_keyboard_nav',
     afterInit: (chart): void => {
-      const manager = new ChartKeyboardManager(chart);
+      const manager = new ChartKeyboardManager(chart, resources, liveAnnouncer);
       chartManagers.set(chart, manager);
     },
     afterDestroy: (chart): void => {
@@ -53,6 +62,8 @@ export function createKeyboardNavPlugin(): Plugin {
 class ChartKeyboardManager {
   readonly #chart: Chart;
   readonly #canvas: HTMLCanvasElement;
+  readonly #resources: SkyLibResourcesService;
+  readonly #liveAnnouncer: SkyLiveAnnouncerService;
 
   readonly #boundKeyDownHandler: (e: KeyboardEvent) => void;
   readonly #boundFocusHandler: () => void;
@@ -62,9 +73,15 @@ class ChartKeyboardManager {
   #strategy: NavigationStrategy | null = null;
   #isNavigating = false;
 
-  constructor(chart: Chart) {
+  constructor(
+    chart: Chart,
+    resources: SkyLibResourcesService,
+    liveAnnouncer: SkyLiveAnnouncerService,
+  ) {
     this.#chart = chart;
     this.#canvas = chart.canvas;
+    this.#resources = resources;
+    this.#liveAnnouncer = liveAnnouncer;
 
     // Bind handlers
     this.#boundKeyDownHandler = this.#handleKeyDown.bind(this);
@@ -216,6 +233,7 @@ class ChartKeyboardManager {
     }
 
     this.#syncFocusedState();
+    this.#announcePosition();
     this.#chart.update('none');
   }
 
@@ -233,6 +251,46 @@ class ChartKeyboardManager {
       this.#focusedElement.index,
     );
     focusedElementsState.set(this.#chart, el ? [el] : []);
+  }
+
+  /**
+   * Announces the current focused element's position and value to screen readers.
+   */
+  #announcePosition(): void {
+    if (!this.#focusedElement || !this.#strategy) {
+      return;
+    }
+
+    const description = this.#strategy.describeElement(
+      this.#chart,
+      this.#focusedElement,
+    );
+
+    if (description.totalSeries === 1) {
+      this.#resources
+        .getString(
+          'chart.focus_element.single_series.description',
+          description.seriesLabel,
+          description.categoryLabel,
+          description.value,
+          description.index,
+          description.total,
+        )
+        .subscribe((message) => this.#liveAnnouncer.announce(message));
+    } else {
+      this.#resources
+        .getString(
+          'chart.focus_element.multi_series.description',
+          description.seriesLabel,
+          description.seriesIndex,
+          description.totalSeries,
+          description.categoryLabel,
+          description.value,
+          description.index,
+          description.total,
+        )
+        .subscribe((message) => this.#liveAnnouncer.announce(message));
+    }
   }
 
   #getActiveElement(datasetIndex: number, index: number): ActiveElement | null {

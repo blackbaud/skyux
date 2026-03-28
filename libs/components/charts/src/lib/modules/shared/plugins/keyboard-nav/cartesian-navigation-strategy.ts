@@ -1,6 +1,10 @@
 import type { ActiveElement, Chart } from 'chart.js';
 
-import type { FocusedElement, NavigationStrategy } from './navigation-strategy';
+import type {
+  ElementDescription,
+  FocusedElement,
+  NavigationStrategy,
+} from './navigation-strategy';
 
 /**
  * Navigation strategy for cartesian charts (bar, line, combo).
@@ -83,6 +87,24 @@ export class CartesianNavigationStrategy implements NavigationStrategy {
     }
 
     return elements;
+  }
+
+  /** @inheritdoc */
+  public describeElement(
+    chart: Chart,
+    focused: FocusedElement,
+  ): ElementDescription {
+    const dataset = chart.data.datasets[focused.datasetIndex];
+
+    return {
+      seriesLabel: String(dataset?.label ?? ''),
+      seriesIndex: focused.datasetIndex + 1,
+      totalSeries: chart.data.datasets.length,
+      categoryLabel: String(chart.data.labels?.[focused.index] ?? ''),
+      value: String(dataset?.data[focused.index] ?? ''),
+      index: focused.index + 1,
+      total: dataset?.data.length ?? 0,
+    };
   }
 
   #getDirection(key: string): Direction | undefined {
