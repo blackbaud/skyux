@@ -66,6 +66,15 @@ export class SkyLineChartConfigService {
 
     // Build Plugin options
     const pluginOptions: ChartOptions<'line'>['plugins'] = {
+      sky_keyboard_nav: {
+        valueLabel: (datasetIndex, dataIndex) => {
+          const series = options.series[datasetIndex];
+          const category = categories[dataIndex];
+          const dataPoint = series.data.find((d) => d.category === category);
+          const label = dataPoint?.labelText ?? '';
+          return label;
+        },
+      },
       tooltip: {
         intersect: false,
         callbacks: {
@@ -73,7 +82,6 @@ export class SkyLineChartConfigService {
             const series = options.series[context.datasetIndex];
             const category = categories[context.dataIndex];
             const dataPoint = series.data.find((d) => d.category === category);
-
             return `${series.labelText}: ${dataPoint?.labelText}`;
           },
         },
@@ -304,9 +312,7 @@ export interface SkyLineChartOptions {
   measureAxis?: SkyChartMeasureAxisConfig;
 
   callbacks: {
-    onDatapointClick: (
-      event: SkyChartActivatedDatapoint<SkyLineDatum>,
-    ) => void;
+    onDatapointClick: (event: SkyChartActivatedDatapoint<SkyLineDatum>) => void;
   };
 }
 

@@ -1,7 +1,7 @@
 {
   "chart.focus_element.multi_series.description": {
     "_description": "The template for the screen-reader description of the currently focused chart element.",
-    "message": "{0} (series {1} of {2}), {3}: {4}, Point {5} of {6}.",
+    "message": "{0}, series {1} of {2}. {3}: {4}. Point {5} of {6}.",
     "_0": "Series label",
     "_1": "Series index (1-based)",
     "_2": "Total series count in the chart",
@@ -12,8 +12,7 @@
   },
   "chart.focus_element.single_series.description": {
     "_description": "The template for the screen-reader description of the currently focused chart element.",
-    "message": "{0}, {1}: {2}, Point {3} of {4}.",
-    "_0": "Series label",
+    "message": "{0}: {1}. Point {2} of {3}.",
     "_1": "Category label",
     "_2": "Data point value",
     "_3": "Data point index (1-based)",

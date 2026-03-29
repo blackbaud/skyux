@@ -73,6 +73,15 @@ export class SkyBarChartConfigService {
 
     // Build Plugin options
     const pluginOptions: ChartOptions<'bar'>['plugins'] = {
+      sky_keyboard_nav: {
+        valueLabel: (datasetIndex, dataIndex) => {
+          const series = options.series[datasetIndex];
+          const category = categories[dataIndex];
+          const dataPoint = series.data.find((d) => d.category === category);
+          const label = dataPoint?.labelText ?? '';
+          return label;
+        },
+      },
       tooltip: {
         intersect: false,
         callbacks: {
@@ -80,7 +89,6 @@ export class SkyBarChartConfigService {
             const series = options.series[context.datasetIndex];
             const category = categories[context.dataIndex];
             const dataPoint = series.data.find((d) => d.category === category);
-
             return `${series.labelText}: ${dataPoint?.labelText}`;
           },
         },

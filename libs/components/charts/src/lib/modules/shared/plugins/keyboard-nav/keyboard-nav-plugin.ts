@@ -1,11 +1,21 @@
 import type { SkyLiveAnnouncerService } from '@skyux/core';
 import type { SkyLibResourcesService } from '@skyux/i18n';
 
-import type { ActiveElement, Chart, ChartEvent, Plugin } from 'chart.js';
+import type {
+  ActiveElement,
+  Chart,
+  ChartEvent,
+  ChartType,
+  Plugin,
+} from 'chart.js';
 
 import { focusedElementsState } from '../plugin-state/focused-elements-state';
 
 import { createNavigationStrategy } from './create-navigation-strategy';
+import type {
+  SkyKeyboardNavPluginOptions,
+  SkyValueLabelFn,
+} from './keyboard-nav-plugin-options';
 import type { FocusedElement, NavigationStrategy } from './navigation-strategy';
 
 /**
@@ -44,15 +54,21 @@ import type { FocusedElement, NavigationStrategy } from './navigation-strategy';
 export function createKeyboardNavPlugin(
   resources: SkyLibResourcesService,
   liveAnnouncer: SkyLiveAnnouncerService,
-): Plugin {
+): Plugin<ChartType, SkyKeyboardNavPluginOptions> {
   // Maintain a mapping of Chart instances to their corresponding keyboard managers.
   // This allows the plugin to manage keyboard interactions for multiple charts on the same page.
   const chartManagers = new Map<Chart, ChartKeyboardManager>();
 
   return {
     id: 'sky_keyboard_nav',
-    afterInit: (chart): void => {
-      const manager = new ChartKeyboardManager(chart, resources, liveAnnouncer);
+    afterInit: (chart, args, options): void => {
+      const getValueLabel = options.valueLabel;
+      const manager = new ChartKeyboardManager(
+        chart,
+        resources,
+        liveAnnouncer,
+        getValueLabel,
+      );
       chartManagers.set(chart, manager);
     },
     afterDestroy: (chart): void => {
@@ -76,6 +92,8 @@ class ChartKeyboardManager {
   readonly #resources: SkyLibResourcesService;
   readonly #liveAnnouncer: SkyLiveAnnouncerService;
 
+  readonly #getValueLabel: SkyValueLabelFn | undefined;
+
   readonly #boundKeyDownHandler: (e: KeyboardEvent) => void;
   readonly #boundFocusHandler: () => void;
   readonly #boundBlurHandler: () => void;
@@ -90,11 +108,13 @@ class ChartKeyboardManager {
     chart: Chart,
     resources: SkyLibResourcesService,
     liveAnnouncer: SkyLiveAnnouncerService,
+    getValueLabel: SkyValueLabelFn | undefined,
   ) {
     this.#chart = chart;
     this.#canvas = chart.canvas;
     this.#resources = resources;
     this.#liveAnnouncer = liveAnnouncer;
+    this.#getValueLabel = getValueLabel;
 
     // Bind handlers
     this.#boundKeyDownHandler = this.#handleKeyDown.bind(this);
@@ -295,11 +315,18 @@ class ChartKeyboardManager {
       this.#focusedElement,
     );
 
+    // Override with consumer-formatted label when available.
+    if (this.#getValueLabel) {
+      description.value = this.#getValueLabel(
+        this.#focusedElement.datasetIndex,
+        this.#focusedElement.index,
+      );
+    }
+
     if (description.totalSeries === 1) {
       this.#resources
         .getString(
           'chart.focus_element.single_series.description',
-          description.seriesLabel,
           description.categoryLabel,
           description.value,
           description.index,

@@ -15,10 +15,10 @@ import {
 const RESOURCES: Record<string, SkyLibResources> = {
   'EN-US': {
     'chart.focus_element.multi_series.description': {
-      message: '{0} (series {1} of {2}), {3}: {4}, Point {5} of {6}.',
+      message: '{0}, series {1} of {2}. {3}: {4}. Point {5} of {6}.',
     },
     'chart.focus_element.single_series.description': {
-      message: '{0}, {1}: {2}, Point {3} of {4}.',
+      message: '{0}: {1}. Point {2} of {3}.',
     },
     'chart.legend.list_label': { message: 'Chart legend' },
     'chart.menu.view_data_table': { message: 'View data table' },

@@ -43,16 +43,24 @@ export class SkyDonutChartConfigService {
 
     // Build Plugin options
     const pluginOptions: ChartOptions<'doughnut'>['plugins'] = {
+      sky_keyboard_nav: {
+        valueLabel: (_datasetIndex, dataIndex) => {
+          const series = options.series;
+          const category = categories[dataIndex];
+          const slice = series.data.find((d) => d.category === category);
+          const label = slice?.labelText ?? '';
+          return label;
+        },
+      },
       tooltip: {
         intersect: false,
         callbacks: {
           label(context) {
-            const { dataIndex } = context;
-            const dataset = options.series;
-            const dataPoint = dataset.data[dataIndex];
-
+            const series = options.series;
+            const category = categories[context.dataIndex];
+            const slice = series.data.find((d) => d.category === category);
             const percent = percentOfVisibleDataset(context);
-            return `${dataPoint.labelText} (${percent.toFixed(2)}%)`;
+            return `${slice?.labelText} (${percent.toFixed(2)}%)`;
           },
         },
       },
