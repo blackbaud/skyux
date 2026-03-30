@@ -712,14 +712,17 @@ describe('File attachment', () => {
     fixture.detectChanges();
 
     let emissionCount = 0;
-    fixture.componentInstance.attachment.valueChanges.subscribe(() => {
-      emissionCount += 1;
-    });
+    const subscription = fixture.componentInstance.attachment.valueChanges.subscribe(
+      () => {
+        emissionCount += 1;
+      },
+    );
 
     getDeleteEl()?.click();
     fixture.detectChanges();
 
     expect(emissionCount).toBe(1);
+    subscription.unsubscribe();
   });
 
   it('should show the appropriate file name', () => {
