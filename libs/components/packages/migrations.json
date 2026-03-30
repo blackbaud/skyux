@@ -30,10 +30,10 @@
       "factory": "./src/schematics/migrations/update-14/remove-dragula/remove-dragula",
       "description": "Remove dragula, ng2-dragula, and dom-autoscroller packages if not used"
     },
-    "replace-deprecated-css-vars-and-classes": {
+    "replace-obsolete-css-classes": {
       "version": "0.0.0-PLACEHOLDER",
-      "factory": "./src/schematics/migrations/update-14/replace-deprecated-css-vars-and-classes/replace-deprecated-css-vars-and-classes",
-      "description": "Replace known CSS classes and custom properties in HTML, TypeScript/JavaScript, and CSS/SCSS files"
+      "factory": "./src/schematics/migrations/update-14/replace-obsolete-css-classes/replace-obsolete-css-classes",
+      "description": "Replace obsolete SKY UX CSS class names from source files"
     }
   }
 }
