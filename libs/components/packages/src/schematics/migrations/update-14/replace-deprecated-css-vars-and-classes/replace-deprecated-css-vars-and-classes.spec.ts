@@ -413,6 +413,105 @@ export class TestComponent {
     });
   });
 
+  describe('SCSS variable non-matching', () => {
+    it('should not replace an SCSS variable declaration that shares a name with a deprecated class', async () => {
+      const { runner, tree } = await setup();
+
+      tree.create('/src/app/test.scss', `$sky-old-class: red;`);
+
+      await firstValueFrom(
+        runner.callRule(
+          buildReplaceRule({ 'sky-old-class': 'sky-new-class' }, {}),
+          tree,
+        ),
+      );
+
+      const updated = tree.readText('/src/app/test.scss');
+      expect(updated).toContain('$sky-old-class');
+      expect(updated).not.toContain('$sky-new-class');
+    });
+
+    it('should not replace an SCSS variable usage that shares a name with a deprecated class', async () => {
+      const { runner, tree } = await setup();
+
+      tree.create('/src/app/test.scss', `.foo { color: $sky-old-class; }`);
+
+      await firstValueFrom(
+        runner.callRule(
+          buildReplaceRule({ 'sky-old-class': 'sky-new-class' }, {}),
+          tree,
+        ),
+      );
+
+      const updated = tree.readText('/src/app/test.scss');
+      expect(updated).toContain('$sky-old-class');
+      expect(updated).not.toContain('$sky-new-class');
+    });
+
+    it('should not replace an SCSS variable inside interpolation', async () => {
+      const { runner, tree } = await setup();
+
+      tree.create(
+        '/src/app/test.scss',
+        `.foo { content: "#{$sky-old-class}"; }`,
+      );
+
+      await firstValueFrom(
+        runner.callRule(
+          buildReplaceRule({ 'sky-old-class': 'sky-new-class' }, {}),
+          tree,
+        ),
+      );
+
+      const updated = tree.readText('/src/app/test.scss');
+      expect(updated).toContain('#{$sky-old-class}');
+      expect(updated).not.toContain('#{$sky-new-class}');
+    });
+
+    it('should not replace a namespaced SCSS variable', async () => {
+      const { runner, tree } = await setup();
+
+      tree.create(
+        '/src/app/test.scss',
+        `.foo { color: module.$sky-old-class; }`,
+      );
+
+      await firstValueFrom(
+        runner.callRule(
+          buildReplaceRule({ 'sky-old-class': 'sky-new-class' }, {}),
+          tree,
+        ),
+      );
+
+      const updated = tree.readText('/src/app/test.scss');
+      expect(updated).toContain('module.$sky-old-class');
+      expect(updated).not.toContain('module.$sky-new-class');
+    });
+
+    it('should replace a CSS selector but not an SCSS variable in the same file', async () => {
+      const { runner, tree } = await setup();
+
+      tree.create(
+        '/src/app/test.scss',
+        `$sky-old-class: red;\n.sky-old-class .selector { color: $sky-old-class; }`,
+      );
+
+      await firstValueFrom(
+        runner.callRule(
+          buildReplaceRule({ 'sky-old-class': 'sky-new-class' }, {}),
+          tree,
+        ),
+      );
+
+      const updated = tree.readText('/src/app/test.scss');
+      // The CSS selector should be replaced.
+      expect(updated).toContain('.sky-new-class');
+      // The SCSS variable declaration and usage should be preserved.
+      expect(updated).toContain('$sky-old-class: red');
+      expect(updated).toContain('color: $sky-old-class');
+    });
+  });
+
   describe('non-matching content', () => {
     it('should not modify files that do not contain matching patterns', async () => {
       const { runner, tree } = await setup();

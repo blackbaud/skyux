@@ -94,7 +94,7 @@ function applyReplacements(
       continue;
     }
     const pattern = new RegExp(
-      `(?<![\\w-])${escapeRegExp(oldName)}(?![\\w-])`,
+      `(?<![\\w$-])${escapeRegExp(oldName)}(?![\\w-])`,
       'g',
     );
     updated = updated.replace(pattern, newName);
