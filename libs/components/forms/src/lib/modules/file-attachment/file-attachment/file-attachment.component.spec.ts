@@ -712,11 +712,10 @@ describe('File attachment', () => {
     fixture.detectChanges();
 
     let emissionCount = 0;
-    const subscription = fixture.componentInstance.attachment.valueChanges.subscribe(
-      () => {
+    const subscription =
+      fixture.componentInstance.attachment.valueChanges.subscribe(() => {
         emissionCount += 1;
-      },
-    );
+      });
 
     getDeleteEl()?.click();
     fixture.detectChanges();
