@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.0.0-beta.0](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.16...14.0.0-beta.0) (2026-03-31)
+
+
+### Bug Fixes
+
+* **components/packages:** `replace-deprecated-css-vars-and-classes` should not modify SCSS variables ([#4348](https://github.com/blackbaud/skyux/issues/4348)) ([c9f95e7](https://github.com/blackbaud/skyux/commit/c9f95e7ca4354eb695770c7b8d47dfcfbf3c8a48))
+
 ## [14.0.0-alpha.16](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.15...14.0.0-alpha.16) (2026-03-27)
 
 
