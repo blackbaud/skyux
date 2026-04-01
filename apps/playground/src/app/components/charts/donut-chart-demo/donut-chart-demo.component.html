@@ -1,0 +1,44 @@
+<sky-page layout="blocks">
+  <sky-page-header pageTitle="Donut chart" />
+
+  <sky-page-content>
+    <sky-fluid-grid gutterSize="medium" [disableMargin]="true">
+      <sky-row>
+        <sky-column
+          [screenXSmall]="12"
+          [screenSmall]="12"
+          [screenMedium]="6"
+          [screenLarge]="4"
+        >
+          <sky-box headingText="Chart 1">
+            <sky-box-content>
+              <sky-chart
+                [headingText]="'Project Budget vs Actuals'"
+                [headingHidden]="false"
+                [headingLevel]="3"
+                [headingStyle]="3"
+                [subtitleText]="'Spending over a month'"
+                [subtitleHidden]="false"
+              >
+                <sky-donut-chart
+                  dataPointsClickable
+                  (dataPointClicked)="onDataPointClicked($event)"
+                >
+                  <sky-donut-chart-series labelText="Series 1">
+                    @for (item of chart1; track $index) {
+                      <sky-donut-chart-series-datapoint
+                        [category]="item.name"
+                        [labelText]="item.label"
+                        [value]="item.value"
+                      />
+                    }
+                  </sky-donut-chart-series>
+                </sky-donut-chart>
+              </sky-chart>
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
+      </sky-row>
+    </sky-fluid-grid>
+  </sky-page-content>
+</sky-page>

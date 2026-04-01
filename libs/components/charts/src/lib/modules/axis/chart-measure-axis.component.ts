@@ -1,0 +1,72 @@
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  computed,
+  effect,
+  inject,
+  input,
+} from '@angular/core';
+
+import { SkyChartMeasureAxisConfig, SkyChartAxisLabelText } from '../shared/types/axis-types';
+
+import { SKY_CHART_AXIS_REGISTRY } from './sky-chart-axis-registry.service';
+
+/**
+ * Configures the Chart's measure axis.
+ */
+@Component({
+  selector: 'sky-chart-measure-axis',
+  template: '',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class SkyChartMeasureAxisComponent implements OnDestroy {
+  readonly #registry = inject(SKY_CHART_AXIS_REGISTRY);
+
+  /**
+   * The label displayed alongside the measure axis.
+   */
+  public readonly labelText = input.required<SkyChartAxisLabelText>();
+
+  /**
+   * The scale type for the measure axis.
+   * @default 'linear'
+   */
+  public readonly scaleType = input<'linear' | 'logarithmic'>('linear');
+
+  /**
+   * The suggested lower bound for the measure axis.
+   * The chart may still go below this value if the data requires it.
+   */
+  public readonly suggestedMin = input<number>();
+
+  /**
+   * The suggested upper bound for the measure axis.
+   * The chart may still exceed this value if the data requires it.
+   */
+  public readonly suggestedMax = input<number>();
+
+  /**
+   * The axis object
+   * @internal
+   */
+  public readonly axis = computed<SkyChartMeasureAxisConfig>(() => {
+    return {
+      labelText: this.labelText(),
+      scaleType: this.scaleType(),
+      suggestedMin: this.suggestedMin(),
+      suggestedMax: this.suggestedMax()
+    };
+  });
+
+  constructor() {
+    effect(() => {
+      const axis = this.axis();
+      this.#registry.upsertMeasureAxis(axis);
+    });
+  }
+
+  public ngOnDestroy(): void {
+    this.#registry.removeMeasureAxis();
+  }
+}

@@ -1,0 +1,38 @@
+@if (hasLegendItems()) {
+  <ul
+    class="sky-chart-legend"
+    role="list"
+    [aria-label]="'chart.legend.list_label' | skyLibResources"
+    (focusin)="onLegendFocusIn($event)"
+    (keydown)="onLegendKeydown($event)"
+  >
+    @for (
+      item of legendItems();
+      track item.labelText + '-' + item.datasetIndex + '-' + item.index
+    ) {
+      <li>
+        <button
+          #legendButton
+          class="sky-btn sky-chart-legend-button"
+          type="button"
+          [attr.tabindex]="activeLegendIndex() === $index ? 0 : -1"
+          [attr.aria-pressed]="item.isVisible"
+          (focus)="onLegendButtonFocus($index)"
+          (click)="toggleLegendItem(item, $index)"
+        >
+          <span
+            aria-hidden="true"
+            class="sky-chart-legend-button-icon"
+            [style.background]="item.seriesColor"
+          ></span>
+
+          <span
+            class="sky-font-body-sm sky-chart-legend-button-label"
+            [style.text-decoration]="item.isVisible ? '' : 'line-through'"
+            >{{ item.labelText }}</span
+          >
+        </button>
+      </li>
+    }
+  </ul>
+}
