@@ -212,11 +212,11 @@ TestBed.configureTestingModule({
 
 ```typescript
 // Simple stub component
-@Component({ template: '' })
+@Component({ template: '', standalone: false })
 class StubChildComponent {}
 
 // For standalone components
-@Component({ template: '', standalone: true })
+@Component({ template: '' })
 class StubStandaloneComponent {}
 ```
 
@@ -266,7 +266,7 @@ TestBed.configureTestingModule({
 
 ## Quick Decision Tree
 
-```text
+```
 Need to test a SKY UX component?
 ├── Harness exists in @skyux/*/testing?
 │   ├── Yes → Use the harness

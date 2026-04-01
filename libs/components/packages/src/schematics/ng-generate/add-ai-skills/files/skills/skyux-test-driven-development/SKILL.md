@@ -302,7 +302,7 @@ Tests-first force edge case discovery before implementing. Tests-after verify yo
 - Querying internal DOM classes when a harness exists
 - Importing `ng-mocks` or `MockBuilder`
 - Using deprecated `Sky*Fixture` classes instead of `Sky*Harness`
-- Using deprecated `Sky*TestingModule` instead of `provide*Testing()` functions
+- Using older `Sky*TestingModule` instead of `provide*Testing()` functions
 
 **All of these mean: Delete code. Start over with TDD.**
 
