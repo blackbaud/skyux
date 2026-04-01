@@ -36,20 +36,20 @@ const result = getResult();
 expect(result).toBeDefined();
 
 // ✅ AFTER: Waiting for condition
-await waitFor(() => getResult() !== undefined);
+await waitFor('getResult to be defined', () => getResult() !== undefined);
 const result = getResult();
 expect(result).toBeDefined();
 ```
 
 ## Quick Patterns
 
-| Scenario          | Pattern                                              |
-| ----------------- | ---------------------------------------------------- |
-| Wait for event    | `waitFor(() => events.find(e => e.type === 'DONE'))` |
-| Wait for state    | `waitFor(() => machine.state === 'ready')`           |
-| Wait for count    | `waitFor(() => items.length >= 5)`                   |
-| Wait for file     | `waitFor(() => fs.existsSync(path))`                 |
-| Complex condition | `waitFor(() => obj.ready && obj.value > 10)`         |
+| Scenario          | Pattern                                                              |
+| ----------------- | -------------------------------------------------------------------- |
+| Wait for event    | `waitFor('DONE event', () => events.find(e => e.type === 'DONE'))`   |
+| Wait for state    | `waitFor('machine ready', () => machine.state === 'ready')`          |
+| Wait for count    | `waitFor('5 items', () => items.length >= 5)`                        |
+| Wait for file     | `waitFor('file exists', () => fs.existsSync(path))`                  |
+| Complex condition | `waitFor('obj ready with value', () => obj.ready && obj.value > 10)` |
 
 ## Implementation
 
@@ -57,8 +57,8 @@ Generic polling function:
 
 ```typescript
 async function waitFor<T>(
-  condition: () => T | undefined | null | false,
   description: string,
+  condition: () => T | undefined | null | false,
   timeoutMs = 5000,
 ): Promise<T> {
   const startTime = Date.now();

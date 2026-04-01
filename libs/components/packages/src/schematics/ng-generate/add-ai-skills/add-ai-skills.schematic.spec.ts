@@ -11,11 +11,7 @@ describe('add-ai-skills', () => {
   it('should copy skill files to .github/skills/', async () => {
     const tree = await createTestApp(runner, { projectName: 'my-app' });
 
-    const resultTree = await runner.runSchematic(
-      'add-ai-skills',
-      { project: 'my-app' },
-      tree,
-    );
+    const resultTree = await runner.runSchematic('add-ai-skills', {}, tree);
 
     // Verify skill files exist at workspace root.
     expect(
@@ -43,11 +39,7 @@ describe('add-ai-skills', () => {
   it('should preserve file content without template interpolation', async () => {
     const tree = await createTestApp(runner, { projectName: 'my-app' });
 
-    const resultTree = await runner.runSchematic(
-      'add-ai-skills',
-      { project: 'my-app' },
-      tree,
-    );
+    const resultTree = await runner.runSchematic('add-ai-skills', {}, tree);
 
     const skillContent = resultTree.readContent(
       '.github/skills/migration-resolver/SKILL.md',
@@ -63,15 +55,11 @@ describe('add-ai-skills', () => {
   it('should overwrite existing files on re-run', async () => {
     const tree = await createTestApp(runner, { projectName: 'my-app' });
 
-    const firstTree = await runner.runSchematic(
-      'add-ai-skills',
-      { project: 'my-app' },
-      tree,
-    );
+    const firstTree = await runner.runSchematic('add-ai-skills', {}, tree);
 
     const secondTree = await runner.runSchematic(
       'add-ai-skills',
-      { project: 'my-app' },
+      {},
       firstTree,
     );
 
