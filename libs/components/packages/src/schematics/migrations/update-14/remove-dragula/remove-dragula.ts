@@ -52,6 +52,8 @@ export default function (): Rule {
               NG2_DRAGULA,
               NG2_DRAGULA_VERSION,
             ),
+            addAllowedNonPeerDependency(project.root, 'dragula'),
+            addAllowedNonPeerDependency(project.root, NG2_DRAGULA),
           );
         }
       }
@@ -122,6 +124,32 @@ function addProjectDependency(
 
     if (!existingVersion) {
       packageJson.modify(['dependencies', packageName], version);
+    }
+
+    return tree;
+  };
+}
+
+function addAllowedNonPeerDependency(
+  projectRoot: string,
+  packageName: string,
+): Rule {
+  return (tree: Tree) => {
+    const ngPackagePath = normalize(`${projectRoot}/ng-package.json`);
+
+    if (!tree.exists(ngPackagePath)) {
+      return tree;
+    }
+
+    const ngPackageJson = new JsonFile(tree, ngPackagePath);
+    const allowed =
+      (ngPackageJson.get(['allowedNonPeerDependencies']) as string[]) ?? [];
+
+    if (!allowed.includes(packageName)) {
+      ngPackageJson.modify(
+        ['allowedNonPeerDependencies'],
+        [...allowed, packageName],
+      );
     }
 
     return tree;
