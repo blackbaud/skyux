@@ -11,9 +11,9 @@ import { JsonFile } from '../../../utility/json-file';
 const COLLECTION_PATH = path.join(__dirname, '../../../../../migrations.json');
 const SCHEMATIC_NAME = 'remove-dragula';
 
-async function setup(
-  options?: { projectType: 'application' | 'library' },
-): Promise<{
+async function setup(options?: {
+  projectType: 'application' | 'library';
+}): Promise<{
   runSchematic: () => Promise<UnitTestTree>;
   tree: UnitTestTree;
 }> {
@@ -274,9 +274,7 @@ describe('remove-dragula', () => {
         '/projects/my-lib/package.json',
       );
 
-      expect(projectPackageJson.get(['dependencies', 'dragula'])).toBe(
-        '3.7.3',
-      );
+      expect(projectPackageJson.get(['dependencies', 'dragula'])).toBe('3.7.3');
       expect(projectPackageJson.get(['dependencies', 'ng2-dragula'])).toBe(
         '5.1.0',
       );
@@ -323,9 +321,9 @@ describe('remove-dragula', () => {
         '/projects/my-lib/package.json',
       );
 
-      expect(
-        updatedProjectPackageJson.get(['dependencies', 'dragula']),
-      ).toBe('3.0.0');
+      expect(updatedProjectPackageJson.get(['dependencies', 'dragula'])).toBe(
+        '3.0.0',
+      );
       expect(
         updatedProjectPackageJson.get(['dependencies', 'ng2-dragula']),
       ).toBe('2.0.0');

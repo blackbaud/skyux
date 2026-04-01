@@ -1,6 +1,6 @@
 import { Tree } from '@angular-devkit/schematics';
-import { ProjectDefinition } from '@schematics/angular/utility';
 import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
+import { ProjectDefinition } from '@schematics/angular/utility';
 import { findNodes } from '@schematics/angular/utility/ast-utils';
 import { getWorkspace } from '@schematics/angular/utility/workspace';
 
