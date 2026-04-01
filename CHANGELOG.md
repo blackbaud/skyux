@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.0.0-beta.2](https://github.com/blackbaud/skyux/compare/14.0.0-beta.1...14.0.0-beta.2) (2026-04-01)
+
+
+### Bug Fixes
+
+* **migrations:** add dragula to `allowedNonPeerDependencies` in ng-package.json ([#4357](https://github.com/blackbaud/skyux/issues/4357)) ([cd9c342](https://github.com/blackbaud/skyux/commit/cd9c3421875b28708e6a773b4e896ef1b5c4eab7))
+
 ## [14.0.0-beta.1](https://github.com/blackbaud/skyux/compare/14.0.0-beta.0...14.0.0-beta.1) (2026-04-01)
 
 
