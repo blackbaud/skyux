@@ -36,6 +36,11 @@
       "factory": "./src/schematics/ng-generate/remove-compat-stylesheets/remove-compat-stylesheets.schematic",
       "schema": "./src/schematics/ng-generate/remove-compat-stylesheets/schema.json"
     },
+    "add-ai-skills": {
+      "description": "Add SKY UX AI skills for Claude Code to your project.",
+      "factory": "./src/schematics/ng-generate/add-ai-skills/add-ai-skills.schematic",
+      "schema": "./src/schematics/ng-generate/add-ai-skills/schema.json"
+    },
     "standalone-migration": {
       "description": "Convert components to standalone using SKY UX modules.",
       "factory": "./src/schematics/ng-generate/standalone/standalone.schematic",
