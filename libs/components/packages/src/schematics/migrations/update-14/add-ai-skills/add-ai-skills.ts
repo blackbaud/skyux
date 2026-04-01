@@ -1,3 +1,5 @@
-import { addAiSkills } from '../../../ng-generate/add-ai-skills/add-ai-skills.schematic';
+import { Rule, externalSchematic } from '@angular-devkit/schematics';
 
-export default addAiSkills;
+export default function addAiSkills(): Rule {
+  return externalSchematic('@skyux/packages', 'add-ai-skills', {});
+}
