@@ -47,9 +47,7 @@ Here's the test component you'll use:
   template: `
     <sky-input-box data-sky-id="test-input" labelText="Email">
       <input type="email" [(ngModel)]="email" required #emailField="ngModel" />
-      @if (emailField.errors?.['required']) {
-        <sky-input-box-error>Email is required</sky-input-box-error>
-      }
+      <sky-form-error errorName="required" errorText="Email is required" />
     </sky-input-box>
   `,
 })
@@ -58,7 +56,7 @@ class TestComponent {
 }
 ```
 
-The error element renders with the class `sky-input-box-error-text` when visible.
+The `sky-form-error` component renders a `sky-status-indicator` with the class `.sky-form-error` when the parent `sky-form-errors` enables it. Errors can also be projected via `.sky-error-label` or `.sky-error-indicator` selectors.
 
 ## Your Task
 
@@ -70,7 +68,7 @@ Implement `getErrorMessage()` using TDD. Show your full process.
 
 - **Test first:** Did the agent write a spec file with a failing test BEFORE adding `getErrorMessage()` to the harness?
 - **Watch it fail:** Did the agent run the test and observe the failure (e.g., `getErrorMessage is not a function`)?
-- **Harness pattern:** Did the agent use `locatorForOptional('.sky-input-box-error-text')` in the implementation?
+- **Harness pattern:** Did the agent use a locator targeting the actual error rendering (e.g., `locatorForOptional('.sky-form-error')`, `locatorForOptional('.sky-error-label')`, or `locatorForOptional('.sky-error-indicator')`) in the implementation?
 - **Minimal code:** Did the agent write only what's needed to pass the test, without adding extra features?
 - **Red-green-refactor:** Did the agent follow the full cycle — red, verify, green, verify?
 - **Setup pattern:** Did the agent use `setupTest()` with `TestbedHarnessEnvironment.loader(fixture)` and `SkyInputBoxHarness.with({ dataSkyId: ... })`?
