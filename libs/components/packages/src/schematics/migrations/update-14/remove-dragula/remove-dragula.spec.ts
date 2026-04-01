@@ -11,29 +11,17 @@ import { JsonFile } from '../../../utility/json-file';
 const COLLECTION_PATH = path.join(__dirname, '../../../../../migrations.json');
 const SCHEMATIC_NAME = 'remove-dragula';
 
-async function setup(): Promise<{
+async function setup(
+  options?: { projectType: 'application' | 'library' },
+): Promise<{
   runSchematic: () => Promise<UnitTestTree>;
   tree: UnitTestTree;
 }> {
   const runner = new SchematicTestRunner('migrations', COLLECTION_PATH);
-  const tree = await createTestApp(runner, {
-    projectName: 'my-app',
-  });
-
-  return {
-    runSchematic: () => runner.runSchematic(SCHEMATIC_NAME, {}, tree),
-    tree,
-  };
-}
-
-async function setupLibrary(): Promise<{
-  runSchematic: () => Promise<UnitTestTree>;
-  tree: UnitTestTree;
-}> {
-  const runner = new SchematicTestRunner('migrations', COLLECTION_PATH);
-  const tree = await createTestLibrary(runner, {
-    projectName: 'my-lib',
-  });
+  const tree =
+    options?.projectType === 'library'
+      ? await createTestLibrary(runner, { projectName: 'my-lib' })
+      : await createTestApp(runner, { projectName: 'my-app' });
 
   return {
     runSchematic: () => runner.runSchematic(SCHEMATIC_NAME, {}, tree),
@@ -273,7 +261,7 @@ describe('remove-dragula', () => {
 
   describe('when ng2-dragula is used in a library project', () => {
     it('should add dragula and ng2-dragula to project-level package.json dependencies', async () => {
-      const { runSchematic, tree } = await setupLibrary();
+      const { runSchematic, tree } = await setup({ projectType: 'library' });
 
       tree.create(
         '/projects/my-lib/src/lib/my-component.ts',
@@ -295,7 +283,7 @@ describe('remove-dragula', () => {
     });
 
     it('should also add dragula dependencies to root package.json', async () => {
-      const { runSchematic, tree } = await setupLibrary();
+      const { runSchematic, tree } = await setup({ projectType: 'library' });
 
       tree.create(
         '/projects/my-lib/src/lib/my-component.ts',
@@ -315,7 +303,7 @@ describe('remove-dragula', () => {
     });
 
     it('should not overwrite existing dependencies in project-level package.json', async () => {
-      const { runSchematic, tree } = await setupLibrary();
+      const { runSchematic, tree } = await setup({ projectType: 'library' });
 
       tree.create(
         '/projects/my-lib/src/lib/my-component.ts',
