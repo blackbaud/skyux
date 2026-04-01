@@ -89,6 +89,7 @@ import { fakeAsync, tick } from '@angular/core/testing';
 
 it('should debounce search input', fakeAsync(() => {
   const fixture = TestBed.createComponent(SearchComponent);
+  const component = fixture.componentInstance;
   fixture.detectChanges();
 
   const input = fixture.debugElement.query(By.css('input'));
