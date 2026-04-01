@@ -12,9 +12,18 @@ export async function isPackageUsed(
   tree: Tree,
   packageName: string,
 ): Promise<boolean> {
-  const projects = await getProjectsUsingPackage(tree, packageName);
+  const workspace = await getWorkspace(tree);
 
-  return projects.length > 0;
+  for (const project of workspace.projects.values()) {
+    const sourceRoot = getSourceRoot(project);
+    const found = isPackageFoundInFiles(tree, packageName, sourceRoot);
+
+    if (found) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 export async function getProjectsUsingPackage(

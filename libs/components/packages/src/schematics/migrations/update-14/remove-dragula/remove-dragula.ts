@@ -44,14 +44,16 @@ export default function (): Rule {
       );
 
       for (const project of projects) {
-        rules.push(
-          addProjectDependency(project.root, 'dragula', DRAGULA_VERSION),
-          addProjectDependency(
-            project.root,
-            NG2_DRAGULA,
-            NG2_DRAGULA_VERSION,
-          ),
-        );
+        if (project.extensions['projectType'] === 'library') {
+          rules.push(
+            addProjectDependency(project.root, 'dragula', DRAGULA_VERSION),
+            addProjectDependency(
+              project.root,
+              NG2_DRAGULA,
+              NG2_DRAGULA_VERSION,
+            ),
+          );
+        }
       }
     } else {
       rules.push(
@@ -115,11 +117,6 @@ function addProjectDependency(
 ): Rule {
   return (tree: Tree) => {
     const packageJsonPath = normalize(`${projectRoot}/package.json`);
-
-    if (!tree.exists(packageJsonPath)) {
-      return tree;
-    }
-
     const packageJson = new JsonFile(tree, packageJsonPath);
     const existingVersion = packageJson.get(['dependencies', packageName]);
 

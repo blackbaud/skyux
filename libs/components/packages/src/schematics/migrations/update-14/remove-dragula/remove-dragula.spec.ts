@@ -269,17 +269,6 @@ describe('remove-dragula', () => {
         ]),
       ).toBeUndefined();
     });
-
-    it('should not modify project-level package.json if it does not exist', async () => {
-      const { runSchematic, tree } = await setup();
-
-      tree.create(
-        '/src/app/my-component.ts',
-        `import { DragulaModule } from 'ng2-dragula';`,
-      );
-
-      await expect(runSchematic()).resolves.toBeInstanceOf(UnitTestTree);
-    });
   });
 
   describe('when ng2-dragula is used in a library project', () => {
