@@ -1,5 +1,6 @@
 import { Tree } from '@angular-devkit/schematics';
 import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
+import { ProjectDefinition } from '@schematics/angular/utility';
 import { findNodes } from '@schematics/angular/utility/ast-utils';
 import { getWorkspace } from '@schematics/angular/utility/workspace';
 
@@ -23,6 +24,24 @@ export async function isPackageUsed(
   }
 
   return false;
+}
+
+export async function getProjectsUsingPackage(
+  tree: Tree,
+  packageName: string,
+): Promise<ProjectDefinition[]> {
+  const workspace = await getWorkspace(tree);
+  const projects: ProjectDefinition[] = [];
+
+  for (const project of workspace.projects.values()) {
+    const sourceRoot = getSourceRoot(project);
+
+    if (isPackageFoundInFiles(tree, packageName, sourceRoot)) {
+      projects.push(project);
+    }
+  }
+
+  return projects;
 }
 
 /**

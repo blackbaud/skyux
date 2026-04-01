@@ -1,3 +1,4 @@
+import { normalize } from '@angular-devkit/core';
 import { Rule, Tree, chain } from '@angular-devkit/schematics';
 import {
   DependencyType,
@@ -6,11 +7,12 @@ import {
   removeDependency,
 } from '@schematics/angular/utility/dependency';
 
-import { isPackageUsed } from '../../../utility/dependencies';
+import { getProjectsUsingPackage } from '../../../utility/dependencies';
 import { JsonFile } from '../../../utility/json-file';
 
 const NG2_DRAGULA = 'ng2-dragula';
 const NG2_DRAGULA_VERSION = '5.1.0';
+const DRAGULA_VERSION = '3.7.3';
 
 /**
  * Remove dragula packages if they are not being used.
@@ -18,15 +20,15 @@ const NG2_DRAGULA_VERSION = '5.1.0';
 export default function (): Rule {
   return async (tree) => {
     const rules: Rule[] = [removeDependency('dom-autoscroller')];
-    const dragulaUsed = await isPackageUsed(tree, NG2_DRAGULA);
+    const projects = await getProjectsUsingPackage(tree, NG2_DRAGULA);
 
-    if (dragulaUsed) {
+    if (projects.length > 0) {
       rules.push(
         addDependency('@types/dragula', '2.1.36', {
           existing: ExistingBehavior.Skip,
           type: DependencyType.Dev,
         }),
-        addDependency('dragula', '3.7.3', {
+        addDependency('dragula', DRAGULA_VERSION, {
           existing: ExistingBehavior.Skip,
           type: DependencyType.Default,
         }),
@@ -40,6 +42,19 @@ export default function (): Rule {
           '@angular/common': '>=21.0.0',
         }),
       );
+
+      for (const project of projects) {
+        if (project.extensions['projectType'] === 'library') {
+          rules.push(
+            addProjectDependency(project.root, 'dragula', DRAGULA_VERSION),
+            addProjectDependency(
+              project.root,
+              NG2_DRAGULA,
+              NG2_DRAGULA_VERSION,
+            ),
+          );
+        }
+      }
     } else {
       rules.push(
         removeDependency('@types/dragula'),
@@ -92,5 +107,23 @@ function addPackageJsonOverride(
     const packageJsonPath = '/package.json';
     const packageJson = new JsonFile(tree, packageJsonPath);
     packageJson.modify(['overrides', overrideKey], value);
+  };
+}
+
+function addProjectDependency(
+  projectRoot: string,
+  packageName: string,
+  version: string,
+): Rule {
+  return (tree: Tree) => {
+    const packageJsonPath = normalize(`${projectRoot}/package.json`);
+    const packageJson = new JsonFile(tree, packageJsonPath);
+    const existingVersion = packageJson.get(['dependencies', packageName]);
+
+    if (!existingVersion) {
+      packageJson.modify(['dependencies', packageName], version);
+    }
+
+    return tree;
   };
 }
