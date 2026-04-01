@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { SortHarnessTestComponent } from './fixtures/sort-harness-test.component';
 import { SkySortHarness } from './sort-harness';
@@ -15,7 +14,7 @@ describe('Sort test harness', () => {
     fixture: ComponentFixture<SortHarnessTestComponent>;
   }> {
     await TestBed.configureTestingModule({
-      imports: [SortHarnessTestComponent, NoopAnimationsModule],
+      imports: [SortHarnessTestComponent],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(SortHarnessTestComponent);

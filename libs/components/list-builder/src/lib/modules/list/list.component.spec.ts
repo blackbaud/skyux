@@ -8,7 +8,6 @@ import {
 } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
   ListItemModel,
   ListSortFieldSelectorModel,
@@ -106,7 +105,6 @@ describe('List Component', () => {
             SkyListModule,
             SkyListToolbarModule,
             FormsModule,
-            NoopAnimationsModule,
           ],
           providers: [{ provide: 'items', useValue: items }],
         }).overrideComponent(SkyListComponent, {
@@ -416,7 +414,6 @@ describe('List Component', () => {
             SkyListModule,
             SkyListToolbarModule,
             FormsModule,
-            NoopAnimationsModule,
           ],
           providers: [{ provide: 'items', useValue: items }],
         }).overrideComponent(SkyListComponent, {
@@ -841,7 +838,6 @@ describe('List Component', () => {
             SkyListModule,
             SkyListToolbarModule,
             FormsModule,
-            NoopAnimationsModule,
           ],
           providers: [{ provide: 'items', useValue: items }],
         }).overrideComponent(SkyListComponent, {
@@ -1030,7 +1026,6 @@ describe('List Component', () => {
             SkyListModule,
             SkyListToolbarModule,
             FormsModule,
-            NoopAnimationsModule,
           ],
           providers: [{ provide: 'items', useValue: items }],
         }).overrideComponent(SkyListComponent, {
@@ -1087,7 +1082,6 @@ describe('List Component', () => {
             SkyListModule,
             SkyListToolbarModule,
             FormsModule,
-            NoopAnimationsModule,
           ],
           providers: [
             { provide: 'items', useValue: items },
@@ -1196,7 +1190,6 @@ describe('List Component', () => {
             SkyListModule,
             SkyListToolbarModule,
             FormsModule,
-            NoopAnimationsModule,
           ],
           providers: [
             { provide: 'items', useValue: null },
@@ -1248,7 +1241,6 @@ describe('List Component', () => {
             SkyListModule,
             SkyListToolbarModule,
             FormsModule,
-            NoopAnimationsModule,
           ],
           providers: [
             { provide: 'items', useValue: null },
@@ -1336,7 +1328,6 @@ describe('List Component', () => {
             SkyListModule,
             SkyListToolbarModule,
             FormsModule,
-            NoopAnimationsModule,
           ],
           providers: [{ provide: 'items', useValue: items }],
         }).overrideComponent(SkyListComponent, {

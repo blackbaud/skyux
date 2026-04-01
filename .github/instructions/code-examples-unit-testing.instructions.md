@@ -57,7 +57,7 @@ These tests should be **thorough showcases** of test harness capabilities, not j
 ### Dependencies
 
 - Import test harnesses from appropriate testing modules
-- Use `NoopAnimationsModule` for animations
+- Use `provideNoopSkyAnimations()` from `@skyux/core` to suppress animations
 - Follow Angular testing best practices
 
 ### Test Patterns

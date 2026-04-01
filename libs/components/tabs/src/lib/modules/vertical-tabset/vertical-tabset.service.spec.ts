@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { provideNoopSkyAnimations } from '@skyux/core';
 import { provideSkyMediaQueryTesting } from '@skyux/core/testing';
 
 import { SkyVerticalTabsetAdapterService } from './vertical-tabset-adapter.service';
@@ -12,6 +13,7 @@ describe('Vertical tabset service', () => {
       providers: [
         SkyVerticalTabsetService,
         SkyVerticalTabsetAdapterService,
+        provideNoopSkyAnimations(),
         provideSkyMediaQueryTesting(),
       ],
     });

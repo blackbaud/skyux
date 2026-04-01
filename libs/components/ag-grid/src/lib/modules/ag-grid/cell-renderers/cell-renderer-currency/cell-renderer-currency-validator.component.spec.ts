@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { expect } from '@skyux-sdk/testing';
 
 import { SkyCellRendererCurrencyParams } from '../../types/cell-renderer-currency-params';
@@ -12,9 +11,7 @@ const NOOP = (): void => {
 
 describe('SkyAgGridCellRendererCurrencyValidatorComponent', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [provideNoopAnimations()],
-    });
+    TestBed.configureTestingModule({});
   });
 
   it('should create an instance', () => {

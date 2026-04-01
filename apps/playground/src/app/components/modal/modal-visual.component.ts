@@ -7,6 +7,8 @@ import {
 } from '@skyux/modals';
 
 import { SplitViewModalComponent } from './layout/fit/modal.component';
+import { ModalBannerContentComponent } from './modal-banner-content.component';
+import { ModalBannerImageComponent } from './modal-banner-image.component';
 import { ModalCloseConfirmComponent } from './modal-close-confirm.component';
 import { ModalContentAutofocusComponent } from './modal-content-autofocus.component';
 import { ModalContentDemoComponent } from './modal-content-demo.component';
@@ -137,6 +139,14 @@ export class ModalVisualComponent {
 
   protected openSplitviewModal(): void {
     this.openModalInstance(SplitViewModalComponent, { size: 'large' });
+  }
+
+  protected openBannerImageModal(): void {
+    this.openModalInstance(ModalBannerImageComponent);
+  }
+
+  protected openBannerContentModal(): void {
+    this.openModalInstance(ModalBannerContentComponent);
   }
 
   public hideButtons(): void {

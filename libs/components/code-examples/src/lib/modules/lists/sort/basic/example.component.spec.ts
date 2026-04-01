@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkySortHarness } from '@skyux/lists/testing';
 
 import { ListsSortBasicExampleComponent } from './example.component';
@@ -15,7 +14,7 @@ describe('Sort demo', () => {
     fixture: ComponentFixture<ListsSortBasicExampleComponent>;
   }> {
     await TestBed.configureTestingModule({
-      imports: [ListsSortBasicExampleComponent, NoopAnimationsModule],
+      imports: [ListsSortBasicExampleComponent],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(ListsSortBasicExampleComponent);

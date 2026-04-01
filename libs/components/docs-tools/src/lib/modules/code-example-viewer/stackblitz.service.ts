@@ -313,7 +313,6 @@ import {
   makeEnvironmentProviders,
 } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import { SkyHelpService } from '@skyux/core';
 import { provideInitialTheme } from '@skyux/theme';
 import { provideRouter } from '@angular/router';
@@ -335,7 +334,6 @@ function provideExampleHelpService(): EnvironmentProviders {
 
 bootstrapApplication(${config.componentName}, {
   providers: [
-    provideAnimations(),
     provideInitialTheme('modern'),
     provideHttpClient(),
     provideExampleHelpService(),

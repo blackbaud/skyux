@@ -1,74 +1,83 @@
 import {
+  DestroyRef,
   Directive,
   ElementRef,
-  effect,
+  computed,
   inject,
   input,
   output,
   signal,
 } from '@angular/core';
 
-import { _skyAnimationsDisabled } from '../utility/animations-disabled';
+import { watchForDisabledCssTransitions } from './utils';
 
 /**
  * @internal
  *
  * Listens for CSS `transitionend` events on the host element and emits
  * a `transitionEnd` output when the tracked CSS property finishes
- * transitioning. When animations are globally disabled, the output
- * emits synchronously whenever the `transitionTrigger` input changes.
+ * transitioning. When the element's CSS transition is disabled
+ * (e.g. `transition-property: none` or `transition-duration: 0s`), the
+ * output emits via a microtask whenever the `transitionTrigger` input
+ * changes.
  *
- * Consumers **must** call `cssPropertyToTrack()` to specify which CSS
- * property to monitor before any transition occurs on the host element.
+ * The CSS property to monitor can be set via the `transitionPropertyToTrack`
+ * input (for template usage) or by calling `setPropertyToTrack()`
+ * (for `hostDirectives` usage).
  */
 @Directive({
+  selector: '[skyTransitionEndHandler]',
   host: {
     '(transitionend)': 'onTransitionEnd($event)',
   },
 })
-export class _SkyAnimationTransitionHandlerDirective {
+export class _SkyTransitionEndHandlerDirective {
   readonly #elementRef = inject(ElementRef<HTMLElement>);
 
   /**
    * Drives the CSS transition on the host element. When the value
-   * changes and animations are enabled, a CSS transition runs and
-   * `transitionEnd` emits on completion. When animations are
-   * disabled, `transitionEnd` emits synchronously instead.
+   * changes and a CSS transition runs, `transitionEnd` emits on
+   * completion. When the transition is disabled, `transitionEnd`
+   * emits via a microtask instead.
    */
   public readonly transitionTrigger = input.required<unknown>();
 
   /**
+   * The CSS property name to monitor for `transitionend` events
+   * (e.g. `'opacity'`, `'transform'`). Can be set declaratively in
+   * templates.
+   */
+  public readonly transitionPropertyToTrack = input<string>();
+
+  /**
    * Emits when the tracked CSS property's `transitionend` event fires
-   * on the host element, or synchronously when animations are disabled.
+   * on the host element, or via a microtask when the CSS transition is
+   * disabled.
    */
   public readonly transitionEnd = output<void>();
 
-  readonly #propertyName = signal<string | undefined>(undefined);
+  readonly #propertyNameOverride = signal<string | undefined>(undefined);
+  readonly #propertyToTrack = computed(
+    () => this.transitionPropertyToTrack() ?? this.#propertyNameOverride(),
+  );
 
   constructor() {
-    if (_skyAnimationsDisabled()) {
-      let initialized = false;
-
-      effect(() => {
-        this.transitionTrigger();
-
-        if (initialized) {
-          this.transitionEnd.emit();
-        }
-
-        initialized = true;
-      });
-    }
+    watchForDisabledCssTransitions({
+      destroyRef: inject(DestroyRef),
+      elementRef: this.#elementRef,
+      emitter: this.transitionEnd,
+      propertyToTrack: this.#propertyToTrack,
+      trigger: this.transitionTrigger,
+    });
   }
 
   /**
    * Sets the CSS property name to monitor for `transitionend` events
-   * (e.g. `'opacity'`, `'max-height'`). This must be called before a
-   * transition occurs; otherwise an error is thrown when the host
-   * element's `transitionend` event fires.
+   * programmatically. Use this when applying the directive via
+   * `hostDirectives`.
    */
-  public cssPropertyToTrack(propertyName: string): void {
-    this.#propertyName.set(propertyName);
+  public setPropertyToTrack(propertyName: string): void {
+    this.#propertyNameOverride.set(propertyName);
   }
 
   protected onTransitionEnd(evt: TransitionEvent): void {
@@ -76,15 +85,17 @@ export class _SkyAnimationTransitionHandlerDirective {
       return;
     }
 
-    if (!this.#propertyName()) {
+    const propertyName = this.#propertyToTrack();
+
+    if (!propertyName) {
       throw new Error(
-        `SkyAnimationTransitionHandler: No CSS property specified for transition tracking on element ` +
+        `SkyTransitionEndHandler: No CSS property specified for transition tracking on element ` +
           `'<${this.#elementRef.nativeElement.tagName.toLowerCase()}>'. ` +
-          `Call 'cssPropertyToTrack()' with a valid CSS property name before a transition occurs.`,
+          `Set the 'transitionPropertyToTrack' input or call 'setPropertyToTrack()' with a valid CSS property name before a transition occurs.`,
       );
     }
 
-    if (evt.propertyName === this.#propertyName()) {
+    if (evt.propertyName === propertyName) {
       this.transitionEnd.emit();
       evt.stopPropagation();
     }

@@ -9,7 +9,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyFileAttachmentModule, SkyFileItem } from '@skyux/forms';
 import {
   SkyTheme,
@@ -114,7 +113,7 @@ describe('File attachment harness', () => {
     };
 
     await TestBed.configureTestingModule({
-      imports: [TestComponent, NoopAnimationsModule],
+      imports: [TestComponent],
       providers: [
         {
           provide: SkyThemeService,

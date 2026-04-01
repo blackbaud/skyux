@@ -17,3 +17,10 @@ sky-modal-content {
       var(--sky-comp-modal-content-space-inset-left)
   );
 }
+
+sky-modal-banner + sky-modal-content {
+  padding-top: calc(
+    var(--sky-comp-modal-header-space-inset-bottom) +
+      var(--sky-comp-modal-content-space-inset-top)
+  );
+}

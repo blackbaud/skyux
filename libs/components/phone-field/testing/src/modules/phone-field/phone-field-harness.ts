@@ -90,7 +90,17 @@ export class SkyPhoneFieldHarness extends SkyComponentHarness {
   async #openCountrySelectionAndSearch(
     searchText: string,
   ): Promise<SkyCountryFieldHarness> {
-    await (await this.#getCountryFieldButton()).click();
+    const button = await this.#getCountryFieldButton();
+
+    // Focus the button before clicking to move focus away from the phone input.
+    // Without this, the phone input remains focused when the component toggles
+    // to the country search view, and Angular's @if removal of the focused
+    // input fires a blur event during change detection, causing an
+    // ExpressionChangedAfterItHasBeenCheckedError. In a real browser, clicking
+    // the button naturally moves focus, so this aligns test behavior with
+    // actual user interaction.
+    await button.focus();
+    await button.click();
 
     const countryField = await this.#getCountryField();
 

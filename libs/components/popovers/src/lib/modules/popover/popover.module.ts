@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SkyAffixModule } from '@skyux/core';
+import { SkyAffixModule, _SkyTransitionEndHandlerDirective } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeModule } from '@skyux/theme';
 
@@ -22,6 +22,7 @@ import { SkyPopoverDirective } from './popover.directive';
     SkyIconModule,
     SkyPopoversResourcesModule,
     SkyThemeModule,
+    _SkyTransitionEndHandlerDirective,
   ],
   exports: [
     SkyPopoverComponent,

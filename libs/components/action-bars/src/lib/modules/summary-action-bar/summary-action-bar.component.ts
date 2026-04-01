@@ -7,9 +7,11 @@ import {
   ContentChild,
   DestroyRef,
   ElementRef,
+  Injector,
   Input,
   OnDestroy,
   ViewChild,
+  afterNextRender,
   computed,
   inject,
   signal,
@@ -63,6 +65,7 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
   readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #destroyRef = inject(DestroyRef);
   readonly #elementRef = inject(ElementRef);
+  readonly #injector = inject(Injector);
   readonly #mediaQuerySvc = inject(SkyMediaQueryService);
   readonly #observerService = inject(SkyMutationObserverService);
   readonly #windowRef = inject(SkyAppWindowRef);
@@ -183,10 +186,13 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
       this.#adapterService.styleBodyElementForActionBar(this.#elementRef);
     }
 
-    // Ensure that the correct chevron is fully rendered prior to setting focus.
-    setTimeout(() => {
-      this.#adapterService.focusChevron(this.chevronElementRef);
-    });
+    // Focus the chevron after Angular renders the updated collapse/expand state.
+    afterNextRender(
+      () => {
+        this.#adapterService.focusChevron(this.chevronElementRef);
+      },
+      { injector: this.#injector },
+    );
   }
 
   #setupReactiveState(): void {

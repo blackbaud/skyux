@@ -3,6 +3,8 @@
 
 @forward 'normalize-scss/sass/normalize/import-now';
 
+@forward '@blackbaud/skyux-design-tokens/bundles/public-api';
+
 @forward 'normalize-compat';
 @forward 'custom-properties';
 @forward 'animations';
@@ -17,7 +19,6 @@
 @forward 'layout-host';
 @forward 'modals';
 @forward 'palette';
-@forward 'public-api';
 @forward 'sizing';
 @forward 'switch';
 @forward 'theme';

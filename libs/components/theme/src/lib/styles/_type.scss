@@ -1,38 +1,6 @@
 @use 'mixins' as mixins;
 @use 'variables' as *;
 
-.sky-page-heading {
-  font-family: $sky-font-family-condensed;
-  color: var(--sky-text-color-default);
-  font-weight: 300;
-  font-size: 34px;
-}
-
-.sky-section-heading {
-  font-family: $sky-font-family-condensed;
-  color: var(--sky-text-color-default);
-  font-weight: 300;
-  font-size: 26px;
-}
-
-.sky-subsection-heading {
-  @include mixins.sky-subsection-heading();
-}
-
-.sky-headline {
-  font-family: $sky-font-family-condensed;
-  color: var(--sky-text-color-default);
-  font-weight: 600;
-  font-size: 22px;
-}
-
-.sky-emphasized {
-  font-family: $sky-font-family;
-  color: var(--sky-text-color-default);
-  font-weight: 600;
-  font-size: 16px;
-}
-
 .sky-deemphasized {
   @include mixins.sky-deemphasized();
 }
@@ -132,7 +100,6 @@
   font-weight: 600;
 }
 
-h1,
 .sky-font-heading-1 {
   font-family: $sky-font-family-condensed;
   color: var(--sky-text-color-default);
@@ -140,7 +107,6 @@ h1,
   font-size: 34px;
 }
 
-h2,
 .sky-font-heading-2 {
   font-family: $sky-font-family-condensed;
   color: var(--sky-text-color-default);
@@ -148,7 +114,6 @@ h2,
   font-size: 26px;
 }
 
-h3,
 .sky-font-heading-3 {
   font-family: $sky-font-family;
   color: var(--sky-text-color-deemphasized);
@@ -156,7 +121,6 @@ h3,
   font-size: 19px;
 }
 
-h4,
 .sky-font-heading-4 {
   font-family: $sky-font-family;
   color: var(--sky-text-color-default);
@@ -164,7 +128,6 @@ h4,
   font-size: 16px;
 }
 
-h5,
 .sky-font-heading-5 {
   font-family: $sky-font-family;
   color: var(--sky-text-color-deemphasized);

@@ -1,7 +1,6 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideZoneChangeDetection } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import {
   provideRouter,
   withHashLocation,
@@ -23,7 +22,6 @@ const CODE_EXAMPLES = codeExampleExports as SkyDocsCodeExampleComponentTypes;
 bootstrapApplication(AppComponent, {
   providers: [
     provideZoneChangeDetection(),
-    provideAnimationsAsync(),
     provideHttpClient(),
     provideInitialTheme('modern'),
     provideRouter(

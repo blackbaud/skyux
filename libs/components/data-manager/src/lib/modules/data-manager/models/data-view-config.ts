@@ -27,6 +27,7 @@ export interface SkyDataViewConfig {
   columnPickerSortStrategy?: SkyDataManagerColumnPickerSortStrategy;
   /**
    * Whether to display the filter button for this view.
+   * @deprecated Use [filter bar](https://developer.blackbaud.com/skyux/components/filter-bar) in a data manager toolbar instead.
    */
   filterButtonEnabled?: boolean;
 
@@ -78,6 +79,7 @@ export interface SkyDataViewConfig {
   /**
    * Whether to include the "Filter" text on the displayed filter button for this view.
    * If it is not set, no text appears.
+   * @deprecated Use [filter bar](https://developer.blackbaud.com/skyux/components/filter-bar) in a data manager toolbar instead.
    */
   showFilterButtonText?: boolean;
   /**

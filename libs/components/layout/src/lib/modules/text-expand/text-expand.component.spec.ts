@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import { provideNoopSkyAnimations } from '@skyux/core';
 
 import { TextExpandTestComponent } from './fixtures/text-expand.component.fixture';
 import { TextExpandFixturesModule } from './fixtures/text-expand.module.fixture';
@@ -35,6 +36,7 @@ describe('Text expand component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [TextExpandFixturesModule],
+      providers: [provideNoopSkyAnimations()],
     });
 
     fixture = TestBed.createComponent(TextExpandTestComponent);
@@ -294,6 +296,31 @@ describe('Text expand component', () => {
       expect(seeMoreButton?.innerText.trim()).toBe('See more');
       expect(ellipsis).not.toBeNull();
       expect(textArea?.innerText.trim()).toBe(collapsedText);
+    });
+
+    it('should clean up when a transitionend event fires on the container', () => {
+      cmp.text = LONG_TEXT;
+
+      fixture.detectChanges();
+
+      const seeMoreButton: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-see-more',
+      );
+
+      const container: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-container',
+      );
+
+      seeMoreButton?.click();
+      fixture.detectChanges();
+
+      container?.dispatchEvent(
+        new TransitionEvent('transitionend', { propertyName: 'max-height' }),
+      );
+
+      fixture.detectChanges();
+
+      expect(container?.style.maxHeight).toBe('');
     });
 
     it('should render newlines if requested', () => {

@@ -112,6 +112,10 @@ describe('Modal component', () => {
     return document.querySelector('.sky-modal') as HTMLElement;
   }
 
+  function getModalHeaderElement(): HTMLElement {
+    return document.querySelector('.sky-modal-header') as HTMLElement;
+  }
+
   function getPrimaryButton(): HTMLElement {
     const primaryButton = document.querySelector('.sky-btn-primary');
     if (primaryButton) {
@@ -190,6 +194,29 @@ describe('Modal component', () => {
     }
 
     return modalInstance;
+  }
+
+  function openModalWithHeadingContext(
+    headingHidden: boolean,
+    async = false,
+  ): SkyModalInstance {
+    return openModal(
+      ModalTestComponent,
+      {
+        providers: [
+          {
+            provide: ModalTestContext,
+            useFactory: (): ModalTestContext => {
+              const context = new ModalTestContext();
+              context.headingHidden = headingHidden;
+              context.headingText = 'My modal';
+              return context;
+            },
+          },
+        ],
+      },
+      async,
+    );
   }
 
   function closeModal(modalInstance: SkyModalInstance, async = false): void {
@@ -788,6 +815,38 @@ describe('Modal component', () => {
     expect(getHelpInlineButton()).toBeNull();
 
     closeModal(modalInstance);
+  }));
+
+  it('should show the header by default', fakeAsync(() => {
+    const modalInstance = openModal(ModalTestComponent);
+
+    expect(getModalHeaderElement().hidden).toBeFalse();
+
+    closeModal(modalInstance);
+  }));
+
+  it('should show the header when headingHidden is false', fakeAsync(() => {
+    const modalInstance = openModalWithHeadingContext(false);
+
+    expect(getModalHeaderElement().hidden).toBeFalse();
+
+    closeModal(modalInstance);
+  }));
+
+  it('should hide the header when headingHidden is true', fakeAsync(() => {
+    const modalInstance = openModalWithHeadingContext(true);
+
+    expect(getModalHeaderElement().hidden).toBeTrue();
+
+    closeModal(modalInstance);
+  }));
+
+  it('should be accessible when headingHidden is true', fakeAsync(async () => {
+    const modalInstance = openModalWithHeadingContext(true, true);
+
+    await expectAsync(getModalElement()).toBeAccessible();
+
+    closeModal(modalInstance, true);
   }));
 
   it('should set max height based on window and change when window resizes', fakeAsync(() => {

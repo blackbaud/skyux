@@ -1,5 +1,5 @@
 @if (!inputBoxHostSvc) {
-  <div class="sky-input-group sky-phone-field" [@blockAnimationOnLoad]>
+  <div class="sky-input-group sky-phone-field">
     <ng-container *ngTemplateOutlet="countryBtnTemplateRef" />
     <ng-container *ngTemplateOutlet="inputTemplateRef" />
     <ng-container *ngTemplateOutlet="buttonsInsetTemplateRef" />
@@ -44,26 +44,12 @@
 </ng-template>
 
 <ng-template #inputTemplateRef>
-  @if (phoneInputShown) {
-    <span
-      class="sky-phone-field-container"
-      [@phoneInputAnimation]="phoneInputShown ? 'open' : 'closed'"
-      (@phoneInputAnimation.done)="phoneInputAnimationEnd($event)"
-    >
+  @if (!countrySearchShown()) {
+    <span class="sky-phone-field-container">
       <ng-content />
     </span>
-  } @else if (countrySearchShown) {
-    <span
-      class="sky-phone-field-container"
-      [@countrySearchAnimation]="
-        'open' +
-        ((themeSvc?.settingsChange | async)?.currentSettings?.theme?.name ===
-        'modern'
-          ? '-modern'
-          : '')
-      "
-      (@countrySearchAnimation.done)="countrySearchAnimationEnd($event)"
-    >
+  } @else {
+    <span class="sky-phone-field-container">
       <div
         class="sky-phone-field-country-search"
         [formGroup]="countrySearchForm"
@@ -81,21 +67,16 @@
 </ng-template>
 
 <ng-template #buttonsInsetTemplateRef>
-  @if (countrySearchShown) {
+  @if (countrySearchShown()) {
     <div
       class="sky-input-group-btn sky-input-box-btn-inset sky-search-item-dismiss"
     >
       <button
-        class="sky-btn sky-phone-field-search-btn-dismiss"
+        class="sky-btn sky-btn-default sky-phone-field-search-btn-dismiss"
         type="button"
         [attr.title]="
           'skyux_phone_field_country_search_dismiss' | skyLibResources
         "
-        [ngClass]="{
-          'sky-btn-default':
-            (themeSvc?.settingsChange | async)?.currentSettings?.theme?.name ===
-            'modern'
-        }"
         (click)="dismissButtonClicked()"
       >
         <sky-icon *skyThemeIf="'default'" iconName="chevron-double-left" />

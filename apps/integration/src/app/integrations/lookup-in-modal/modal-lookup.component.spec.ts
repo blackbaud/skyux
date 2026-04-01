@@ -1,8 +1,8 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import { expectAsync } from '@skyux-sdk/testing';
+import { provideNoopSkyAnimations } from '@skyux/core';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
 import { SkyLookupHarness } from '@skyux/lookup/testing';
 import { SkyModalHarness } from '@skyux/modals/testing';
@@ -16,8 +16,12 @@ describe('ModalLookupComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [LookupInModalModule, NoopAnimationsModule],
-      providers: [SkyThemeService, provideRouter([])],
+      imports: [LookupInModalModule],
+      providers: [
+        SkyThemeService,
+        provideNoopSkyAnimations(),
+        provideRouter([]),
+      ],
     });
 
     fixture = TestBed.createComponent(ModalLookupComponent);

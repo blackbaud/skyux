@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 import { SkyUIConfigService } from '@skyux/core';
 
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 
 import { SkyDataManagerService } from './data-manager.service';
 import { DataViewCardFixtureComponent } from './fixtures/data-manager-card-view.component.fixture';
@@ -19,6 +19,7 @@ describe('SkyDataManagerService', () => {
   let dataManagerService: SkyDataManagerService;
   let initialDataState: SkyDataManagerState;
   let uiConfigService: SkyUIConfigService;
+  let subscription: Subscription;
 
   const sourceId = 'unitTests';
 
@@ -42,6 +43,11 @@ describe('SkyDataManagerService', () => {
 
     dataManagerService = TestBed.inject(SkyDataManagerService);
     uiConfigService = TestBed.inject(SkyUIConfigService);
+    subscription = new Subscription();
+  });
+
+  afterEach(() => {
+    subscription.unsubscribe();
   });
 
   describe('initDataManager', () => {
@@ -176,9 +182,11 @@ describe('SkyDataManagerService', () => {
     beforeEach(() => {
       initTestComponent();
 
-      dataManagerService
-        .getDataStateUpdates(sourceId)
-        .subscribe((state) => (currentDataState = state));
+      subscription.add(
+        dataManagerService
+          .getDataStateUpdates(sourceId)
+          .subscribe((state) => (currentDataState = state)),
+      );
     });
 
     it('should update the data state of all subscribed components', () => {
@@ -201,9 +209,11 @@ describe('SkyDataManagerService', () => {
             dataManagerService.getDataStateUpdates(sourceId);
           dataState = currentDataState;
 
-          dataStateObservable.subscribe((state) => {
-            dataState = state;
-          });
+          subscription.add(
+            dataStateObservable.subscribe((state) => {
+              dataState = state;
+            }),
+          );
         });
 
         it('should emit new values when the sourceId of the change is different from the given sourceId', () => {
@@ -238,9 +248,11 @@ describe('SkyDataManagerService', () => {
           );
           dataState = currentDataState;
 
-          dataStateObservable.subscribe((state) => {
-            dataState = state;
-          });
+          subscription.add(
+            dataStateObservable.subscribe((state) => {
+              dataState = state;
+            }),
+          );
         });
 
         it('should emit new values when one of the given filter properties changes', () => {
@@ -289,9 +301,11 @@ describe('SkyDataManagerService', () => {
           );
           dataState = currentDataState;
 
-          dataStateObservable.subscribe((state) => {
-            dataState = state;
-          });
+          subscription.add(
+            dataStateObservable.subscribe((state) => {
+              dataState = state;
+            }),
+          );
         });
 
         it('should emit new values when the comparator detects changes', () => {
@@ -356,9 +370,11 @@ describe('SkyDataManagerService', () => {
         dataManagerService.getDataManagerConfigUpdates();
       let dataConfig = initialDataConfig;
 
-      dataConfigObservable.subscribe((config) => {
-        dataConfig = config;
-      });
+      subscription.add(
+        dataConfigObservable.subscribe((config) => {
+          dataConfig = config;
+        }),
+      );
 
       expect(dataConfig).toEqual(initialDataConfig);
 
@@ -390,9 +406,11 @@ describe('SkyDataManagerService', () => {
         dataManagerService.getActiveViewIdUpdates();
       let activeViewId = initialActiveViewId;
 
-      activeViewIdObservable.subscribe((id) => {
-        activeViewId = id;
-      });
+      subscription.add(
+        activeViewIdObservable.subscribe((id) => {
+          activeViewId = id;
+        }),
+      );
 
       expect(activeViewId).toEqual(initialActiveViewId);
 
@@ -411,9 +429,11 @@ describe('SkyDataManagerService', () => {
     it('should create a new view config and view state when a data state has been set', async () => {
       let currentDataState: SkyDataManagerState | undefined;
 
-      dataManagerService
-        .getDataStateUpdates(sourceId)
-        .subscribe((state) => (currentDataState = state));
+      subscription.add(
+        dataManagerService
+          .getDataStateUpdates(sourceId)
+          .subscribe((state) => (currentDataState = state)),
+      );
       dataManagerService.updateDataState(new SkyDataManagerState({}), 'test');
 
       dataManagerFixture.detectChanges();
@@ -450,9 +470,11 @@ describe('SkyDataManagerService', () => {
      state but has not been initialized`, async () => {
       let currentDataState: SkyDataManagerState | undefined;
 
-      dataManagerService
-        .getDataStateUpdates(sourceId)
-        .subscribe((state) => (currentDataState = state));
+      subscription.add(
+        dataManagerService
+          .getDataStateUpdates(sourceId)
+          .subscribe((state) => (currentDataState = state)),
+      );
       dataManagerService.updateDataState(
         new SkyDataManagerState({
           views: [
@@ -497,9 +519,11 @@ describe('SkyDataManagerService', () => {
     it(`should not update available or displayed column IDs on an existing view state if current columns match`, async () => {
       let currentDataState: SkyDataManagerState | undefined;
 
-      dataManagerService
-        .getDataStateUpdates(sourceId)
-        .subscribe((state) => (currentDataState = state));
+      subscription.add(
+        dataManagerService
+          .getDataStateUpdates(sourceId)
+          .subscribe((state) => (currentDataState = state)),
+      );
       dataManagerService.updateDataState(
         new SkyDataManagerState({
           views: [
@@ -559,9 +583,11 @@ describe('SkyDataManagerService', () => {
     it(`should update available or displayed column IDs on an existing view state if a new column exists`, async () => {
       let currentDataState: SkyDataManagerState | undefined;
 
-      dataManagerService
-        .getDataStateUpdates(sourceId)
-        .subscribe((state) => (currentDataState = state));
+      subscription.add(
+        dataManagerService
+          .getDataStateUpdates(sourceId)
+          .subscribe((state) => (currentDataState = state)),
+      );
       dataManagerService.updateDataState(
         new SkyDataManagerState({
           views: [
@@ -626,9 +652,11 @@ describe('SkyDataManagerService', () => {
     column exists with 'initialHide'`, async () => {
       let currentDataState: SkyDataManagerState | undefined;
 
-      dataManagerService
-        .getDataStateUpdates(sourceId)
-        .subscribe((state) => (currentDataState = state));
+      subscription.add(
+        dataManagerService
+          .getDataStateUpdates(sourceId)
+          .subscribe((state) => (currentDataState = state)),
+      );
       dataManagerService.updateDataState(
         new SkyDataManagerState({
           views: [
@@ -694,9 +722,11 @@ describe('SkyDataManagerService', () => {
      columns weren't previously given`, async () => {
       let currentDataState: SkyDataManagerState | undefined;
 
-      dataManagerService
-        .getDataStateUpdates(sourceId)
-        .subscribe((state) => (currentDataState = state));
+      subscription.add(
+        dataManagerService
+          .getDataStateUpdates(sourceId)
+          .subscribe((state) => (currentDataState = state)),
+      );
       dataManagerService.updateDataState(
         new SkyDataManagerState({
           views: [
@@ -761,9 +791,11 @@ describe('SkyDataManagerService', () => {
     it(`should update available and displayed column ids on a new view`, async () => {
       let currentDataState: SkyDataManagerState | undefined;
 
-      dataManagerService
-        .getDataStateUpdates(sourceId)
-        .subscribe((state) => (currentDataState = state));
+      subscription.add(
+        dataManagerService
+          .getDataStateUpdates(sourceId)
+          .subscribe((state) => (currentDataState = state)),
+      );
       dataManagerService.updateDataState(new SkyDataManagerState({}), 'test');
 
       dataManagerFixture.detectChanges();
@@ -860,6 +892,183 @@ describe('SkyDataManagerService', () => {
     });
   });
 
+  describe('distinctUntilChanged with shared mutable state', () => {
+    const otherSourceId = 'otherSource';
+
+    beforeEach(() => {
+      initTestComponent();
+    });
+
+    it('should emit via getDataStateUpdates with property filter after updateDataState', () => {
+      let emitCount = 0;
+
+      subscription.add(
+        dataManagerService
+          .getDataStateUpdates(otherSourceId, {
+            properties: ['searchText'],
+          })
+          .subscribe(() => {
+            emitCount++;
+          }),
+      );
+
+      // Capture the initial emit count before updateDataState is called.
+      // The subsequent updateDataState call should trigger another emission.
+      const initialEmitCount = emitCount;
+
+      dataManagerService.updateDataState(
+        new SkyDataManagerState({ searchText: 'changed' }),
+        'someSource',
+      );
+
+      expect(emitCount).toBeGreaterThan(initialEmitCount);
+    });
+
+    it('should emit after in-place mutation of state followed by updateDataState', () => {
+      let latestState: SkyDataManagerState | undefined;
+      let emitCount = 0;
+
+      subscription.add(
+        dataManagerService
+          .getDataStateUpdates(otherSourceId, {
+            properties: ['selectedIds'],
+          })
+          .subscribe((state) => {
+            latestState = state;
+            emitCount++;
+          }),
+      );
+
+      const emitCountAfterInit = emitCount;
+
+      // Simulate consumer mutating state in-place then calling updateDataState
+      const stateToMutate = new SkyDataManagerState({
+        selectedIds: ['1', '2'],
+      });
+      dataManagerService.updateDataState(stateToMutate, 'someSource');
+
+      const emitCountAfterFirst = emitCount;
+      expect(emitCountAfterFirst).toBeGreaterThan(emitCountAfterInit);
+
+      // Mutate the previously emitted state in-place and update again
+      stateToMutate.selectedIds?.push('3');
+      dataManagerService.updateDataState(stateToMutate, 'someSource');
+
+      expect(emitCount).toBeGreaterThan(emitCountAfterFirst);
+      expect(latestState?.selectedIds).toEqual(['1', '2', '3']);
+    });
+
+    it('should preserve onlyShowSelected through addOrUpdateView', () => {
+      let latestState: SkyDataManagerState | undefined;
+
+      subscription.add(
+        dataManagerService
+          .getDataStateUpdates(otherSourceId)
+          .subscribe((state) => {
+            latestState = state;
+          }),
+      );
+
+      const stateWithFlag = new SkyDataManagerState({
+        onlyShowSelected: true,
+        searchText: 'test',
+      });
+      dataManagerService.updateDataState(stateWithFlag, 'someSource');
+
+      // Now add a view — addOrUpdateView should preserve onlyShowSelected
+      const newView: SkyDataViewConfig = {
+        id: 'testView',
+        name: 'Test View',
+      };
+      dataManagerService.initDataView(newView);
+
+      expect(latestState?.onlyShowSelected).toBeTrue();
+    });
+
+    it('should return cloned additionalData from SkyDataViewState getViewStateOptions', () => {
+      const additionalData = { nested: { value: 42 }, list: [1, 2, 3] };
+      const viewState = new SkyDataViewState({
+        viewId: 'view1',
+        additionalData,
+      });
+
+      const options = viewState.getViewStateOptions();
+
+      expect(options.additionalData).toEqual(additionalData);
+      expect(options.additionalData).not.toBe(additionalData);
+      expect(options.additionalData.nested).not.toBe(additionalData.nested);
+
+      // Mutating the clone should not affect the original
+      options.additionalData.nested.value = 999;
+      expect(viewState.additionalData.nested.value).toBe(42);
+    });
+
+    it('should return cloned activeSortOption, additionalData, and filterData without filters from SkyDataManagerState getStateOptions', () => {
+      const activeSortOption = {
+        id: 'sort1',
+        label: 'Name',
+        propertyName: 'name',
+        descending: false,
+      };
+      const additionalData = { key: 'value', items: [1, 2] };
+      const state = new SkyDataManagerState({
+        activeSortOption,
+        additionalData,
+        filterData: { filtersApplied: true },
+      });
+
+      const options = state.getStateOptions();
+
+      expect(options.activeSortOption).toEqual(activeSortOption);
+      expect(options.activeSortOption).not.toBe(activeSortOption);
+
+      expect(options.additionalData).toEqual(additionalData);
+      expect(options.additionalData).not.toBe(additionalData);
+
+      expect(options.filterData).toEqual({
+        filtersApplied: true,
+        filters: undefined,
+      });
+      expect(options.filterData).not.toBe(state.filterData);
+
+      // Mutating clones should not affect the original
+      options.activeSortOption!.descending = true;
+      expect(state.activeSortOption!.descending).toBe(false);
+
+      options.additionalData.items.push(3);
+      expect(state.additionalData.items).toEqual([1, 2]);
+    });
+
+    it('should add a new view via addOrUpdateView when another view already exists', () => {
+      const state = new SkyDataManagerState({
+        searchText: 'test',
+        views: [{ viewId: 'existingView', columnIds: ['col1'] }],
+      });
+
+      const newView = new SkyDataViewState({
+        viewId: 'newView',
+        columnIds: ['col2', 'col3'],
+      });
+
+      const updatedState = state.addOrUpdateView('newView', newView);
+
+      expect(updatedState.views.length).toBe(2);
+      expect(updatedState.getViewStateById('existingView')).toBeDefined();
+      expect(updatedState.getViewStateById('existingView')?.columnIds).toEqual([
+        'col1',
+      ]);
+      expect(updatedState.getViewStateById('newView')).toBeDefined();
+      expect(updatedState.getViewStateById('newView')?.columnIds).toEqual([
+        'col2',
+        'col3',
+      ]);
+      expect(updatedState.searchText).toBe('test');
+
+      // Original state should not be mutated
+      expect(state.views.length).toBe(1);
+    });
+  });
+
   it('should set the viewkeeper classes for the given viewId when setViewkeeperClasses is called', () => {
     initTestComponent();
 
@@ -867,8 +1076,10 @@ describe('SkyDataManagerService', () => {
     const viewId = 'testId';
     let viewkeeperClasses: Record<string, string[]> | undefined;
 
-    dataManagerService.viewkeeperClasses.subscribe(
-      (classes) => (viewkeeperClasses = classes),
+    subscription.add(
+      dataManagerService.viewkeeperClasses.subscribe(
+        (classes) => (viewkeeperClasses = classes),
+      ),
     );
 
     dataManagerService.setViewkeeperClasses(viewId, [newClass]);

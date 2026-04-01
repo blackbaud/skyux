@@ -1,6 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideNoopSkyAnimations } from '@skyux/core';
 import { SkyFlyoutHarness } from '@skyux/flyout/testing';
 
 import { FlyoutCustomHeadersExampleComponent } from './example.component';
@@ -11,7 +11,8 @@ describe('Custom headers flyout example', () => {
     fixture: ComponentFixture<FlyoutCustomHeadersExampleComponent>;
   }> {
     await TestBed.configureTestingModule({
-      imports: [FlyoutCustomHeadersExampleComponent, NoopAnimationsModule],
+      imports: [FlyoutCustomHeadersExampleComponent],
+      providers: [provideNoopSkyAnimations()],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(

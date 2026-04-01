@@ -46,7 +46,7 @@
 
 **Required Test Updates:**
 
-- Add `provideNoopAnimations()` to test providers
+- Add `provideNoopSkyAnimations()` (from `@skyux/core`) to test providers
 - Import `SkyLookupModule` + `SkyInputBoxModule` in tests
 - Update single select assertions: `expect(value[0])` instead of `expect(value)`
 
@@ -169,7 +169,7 @@ TestBed.configureTestingModule({
     // ...existing imports
   ],
   providers: [
-    provideNoopAnimations(), // REQUIRED for sky-lookup
+    provideNoopSkyAnimations(), // REQUIRED for sky-lookup
     // ...existing providers
   ],
 });
@@ -491,7 +491,7 @@ imports: [
 
 ```typescript
 TestBed.configureTestingModule({
-  providers: [provideNoopAnimations()], // Required for sky-lookup
+  providers: [provideNoopSkyAnimations()], // Required for sky-lookup
   // ... existing providers
 });
 ```
@@ -546,8 +546,8 @@ expect(component.selectedValues).toEqual(expectedArray);
 
 ### Missing Animation Provider
 
-**Error:** test failure mentions `BrowserAnimationsModule`, `provideAnimations`, `NoopAnimationsModule`, or `provideNoopAnimations`
-**Fix:** Add `provideNoopAnimations()` to test providers
+**Error:** Tests may fail with unexpected timeouts, elements not reaching expected states, or flaky async behavior after migrating to `sky-lookup`.
+**Fix:** Add `provideNoopSkyAnimations()` (from `@skyux/core`) to test providers to suppress CSS animations during tests.
 
 ### Form Control Type Mismatch
 
@@ -675,7 +675,7 @@ TestBed.configureTestingModule({
     SkyLookupModule, // Required for sky-lookup
     // ... other existing imports
   ],
-  providers: [provideNoopAnimations()],
+  providers: [provideNoopSkyAnimations()],
 });
 ```
 
@@ -753,7 +753,7 @@ class MyComponent {
 - [ ] All migrated data bindings use `(observable | async) ?? []`
 - [ ] Form value access updated for migrated single select fields (use `[0]`)
 - [ ] Form initialization uses arrays for migrated single select fields
-- [ ] Tests updated with `provideNoopAnimations()` for sky-lookup
+- [ ] Tests updated with `provideNoopSkyAnimations()` for sky-lookup
 - [ ] Add `SkyInputBoxModule` + `SkyLookupModule` to test imports (avoid CUSTOM_ELEMENTS_SCHEMA errors)
 - [ ] Update label tests to use `SkyInputBoxHarness.getLabelText()` (only for `sky-input-box` cases)
 

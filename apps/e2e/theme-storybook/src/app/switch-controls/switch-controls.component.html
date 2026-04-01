@@ -1,7 +1,7 @@
 <form novalidate [formGroup]="myForm">
   <h3>Checkboxes</h3>
 
-  <div class="sky-margin-stacked-default" id="screenshot-checkbox">
+  <div class="sky-theme-margin-bottom-l" id="screenshot-checkbox">
     @for (option of checkboxOptions; track option) {
       <sky-checkbox [checked]="option.checked" [disabled]="option.disabled">
         <sky-checkbox-label>
@@ -13,7 +13,7 @@
 
   <h3>Radio buttons</h3>
 
-  <div class="sky-margin-stacked-default" id="screenshot-radio">
+  <div class="sky-theme-margin-bottom-l" id="screenshot-radio">
     <sky-radio-group formControlName="radioControl">
       @for (option of radioOptions; track option) {
         <sky-radio [disabled]="option.disabled" [value]="option.name">
@@ -28,7 +28,7 @@
   <h3>Checkbox icon groups</h3>
 
   <div
-    class="sky-switch-icon-group sky-margin-stacked-default"
+    class="sky-switch-icon-group sky-theme-margin-bottom-l"
     id="screenshot-checkbox-icon-group"
   >
     @for (option of checkboxIconGroupOptions; track option) {
@@ -43,7 +43,7 @@
   <h3>Radio button icon groups</h3>
 
   <div id="screenshot-radio-icon-group">
-    <div class="sky-switch-icon-group sky-margin-stacked-default">
+    <div class="sky-switch-icon-group sky-theme-margin-bottom-l">
       <sky-radio-group formControlName="radioIconGroupControl">
         @for (option of radioGroupIconOptions; track option) {
           <sky-radio
@@ -55,7 +55,7 @@
       </sky-radio-group>
     </div>
 
-    <div class="sky-switch-icon-group sky-margin-stacked-default">
+    <div class="sky-switch-icon-group sky-theme-margin-bottom-l">
       <sky-radio-group formControlName="radioIconGroupDisabledControl">
         @for (option of radioGroupIconDisabledOptions; track option) {
           <sky-radio

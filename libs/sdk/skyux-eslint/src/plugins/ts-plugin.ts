@@ -1,10 +1,6 @@
 import type { TSESLint } from '@typescript-eslint/utils';
 
 import {
-  rule as noBarrelExports,
-  RULE_NAME as noBarrelExportsRuleName,
-} from '../rules/no-barrel-exports';
-import {
   rule as noLambdaImports,
   RULE_NAME as noLambdaImportsRuleName,
 } from '../rules/no-lambda-imports';
@@ -18,7 +14,6 @@ const tsPlugin: TSESLint.FlatConfig.Plugin = {
     name: 'skyux-eslint',
   },
   rules: {
-    [noBarrelExportsRuleName]: noBarrelExports,
     [noLambdaImportsRuleName]: noLambdaImports,
     [noSkySelectorsRuleName]: noSkySelectors,
   },

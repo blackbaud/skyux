@@ -1,10 +1,14 @@
 <div
   class="sky-inline-delete sky-inline-delete-{{ type }}"
   role="alertdialog"
-  [@inlineDeleteAnimation]="animationState"
+  skyAnimationEndHandler
+  emitOnAnimateEnter
+  animate.enter="sky-inline-delete-entering"
+  animate.leave="sky-inline-delete-leaving"
+  [animationTrigger]="enterAnimationTrigger()"
   [attr.aria-describedby]="assistiveTextId"
   [attr.aria-label]="'skyux_inline_delete_confirm_deletion' | skyLibResources"
-  (@inlineDeleteAnimation.done)="onAnimationDone($event)"
+  (animationEnd)="onAnimationEnd()"
 >
   <span
     class="sky-inline-delete-assistive-text sky-screen-reader-only"
