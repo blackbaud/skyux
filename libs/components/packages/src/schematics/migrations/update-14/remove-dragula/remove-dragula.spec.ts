@@ -378,5 +378,18 @@ describe('remove-dragula', () => {
       expect(allowed.filter((dep) => dep === 'dragula')).toHaveLength(1);
       expect(allowed).toContain('ng2-dragula');
     });
+
+    it('should skip allowedNonPeerDependencies if ng-package.json does not exist', async () => {
+      const { runSchematic, tree } = await setup({ projectType: 'library' });
+
+      tree.create(
+        '/projects/my-lib/src/lib/my-component.ts',
+        `import { DragulaModule } from 'ng2-dragula';`,
+      );
+
+      tree.delete('/projects/my-lib/ng-package.json');
+
+      await expect(runSchematic()).resolves.toBeInstanceOf(UnitTestTree);
+    });
   });
 });

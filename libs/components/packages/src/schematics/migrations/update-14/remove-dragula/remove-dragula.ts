@@ -136,8 +136,12 @@ function addAllowedNonPeerDependency(
 ): Rule {
   return (tree: Tree) => {
     const ngPackagePath = normalize(`${projectRoot}/ng-package.json`);
-    const ngPackageJson = new JsonFile(tree, ngPackagePath);
 
+    if (!tree.exists(ngPackagePath)) {
+      return tree;
+    }
+
+    const ngPackageJson = new JsonFile(tree, ngPackagePath);
     const allowed =
       (ngPackageJson.get(['allowedNonPeerDependencies']) as string[]) ?? [];
 
