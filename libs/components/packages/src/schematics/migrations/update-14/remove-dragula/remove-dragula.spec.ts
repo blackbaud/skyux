@@ -328,5 +328,55 @@ describe('remove-dragula', () => {
         updatedProjectPackageJson.get(['dependencies', 'ng2-dragula']),
       ).toBe('2.0.0');
     });
+
+    it('should add dragula and ng2-dragula to allowedNonPeerDependencies in ng-package.json', async () => {
+      const { runSchematic, tree } = await setup({ projectType: 'library' });
+
+      tree.create(
+        '/projects/my-lib/src/lib/my-component.ts',
+        `import { DragulaModule } from 'ng2-dragula';`,
+      );
+
+      const updatedTree = await runSchematic();
+      const ngPackageJson = new JsonFile(
+        updatedTree,
+        '/projects/my-lib/ng-package.json',
+      );
+
+      const allowed = ngPackageJson.get([
+        'allowedNonPeerDependencies',
+      ]) as string[];
+
+      expect(allowed).toContain('dragula');
+      expect(allowed).toContain('ng2-dragula');
+    });
+
+    it('should not duplicate entries in allowedNonPeerDependencies', async () => {
+      const { runSchematic, tree } = await setup({ projectType: 'library' });
+
+      tree.create(
+        '/projects/my-lib/src/lib/my-component.ts',
+        `import { DragulaModule } from 'ng2-dragula';`,
+      );
+
+      const ngPackageJson = new JsonFile(
+        tree,
+        '/projects/my-lib/ng-package.json',
+      );
+      ngPackageJson.modify(['allowedNonPeerDependencies'], ['dragula']);
+
+      const updatedTree = await runSchematic();
+      const updatedNgPackageJson = new JsonFile(
+        updatedTree,
+        '/projects/my-lib/ng-package.json',
+      );
+
+      const allowed = updatedNgPackageJson.get([
+        'allowedNonPeerDependencies',
+      ]) as string[];
+
+      expect(allowed.filter((dep) => dep === 'dragula')).toHaveLength(1);
+      expect(allowed).toContain('ng2-dragula');
+    });
   });
 });
