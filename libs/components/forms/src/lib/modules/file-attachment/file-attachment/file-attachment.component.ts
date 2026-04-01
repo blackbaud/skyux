@@ -493,8 +493,8 @@ export class SkyFileAttachmentComponent
 
   public deleteFileAttachment(): void {
     const fileName = this.value?.file.name;
-    this.value = undefined;
-    this.#emitFileChangeEvent(this.value);
+    this.#onTouched();
+    this.#emitFileChangeEvent(undefined);
 
     /* istanbul ignore else: safety check */
     if (fileName) {
@@ -560,9 +560,13 @@ export class SkyFileAttachmentComponent
       this.fileErrorParam = undefined;
       this.fileErrorValidation = undefined;
     } else {
+      const hadValue = this.value !== undefined;
       this.writeValue(undefined);
-      // Makes sure value accessor is marked as dirty even if current file is undefined
-      this.#onChange(undefined);
+      // Make sure value accessor is marked as dirty when a validation failure occurs
+      // and the control value remains undefined.
+      if (!hadValue) {
+        this.#onChange(undefined);
+      }
       this.fileErrorValidation = { fileError: true };
       this.fileErrorName = currentFile?.errorType;
       this.fileErrorParam = currentFile?.errorParam;
