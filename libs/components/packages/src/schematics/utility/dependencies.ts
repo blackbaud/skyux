@@ -1,4 +1,5 @@
 import { Tree } from '@angular-devkit/schematics';
+import { ProjectDefinition } from '@schematics/angular/utility';
 import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 import { findNodes } from '@schematics/angular/utility/ast-utils';
 import { getWorkspace } from '@schematics/angular/utility/workspace';
@@ -11,18 +12,27 @@ export async function isPackageUsed(
   tree: Tree,
   packageName: string,
 ): Promise<boolean> {
+  const projects = await getProjectsUsingPackage(tree, packageName);
+
+  return projects.length > 0;
+}
+
+export async function getProjectsUsingPackage(
+  tree: Tree,
+  packageName: string,
+): Promise<ProjectDefinition[]> {
   const workspace = await getWorkspace(tree);
+  const projects: ProjectDefinition[] = [];
 
   for (const project of workspace.projects.values()) {
     const sourceRoot = getSourceRoot(project);
-    const found = isPackageFoundInFiles(tree, packageName, sourceRoot);
 
-    if (found) {
-      return true;
+    if (isPackageFoundInFiles(tree, packageName, sourceRoot)) {
+      projects.push(project);
     }
   }
 
-  return false;
+  return projects;
 }
 
 /**

@@ -5,7 +5,7 @@ import {
 
 import path from 'node:path';
 
-import { createTestApp } from '../../../testing/scaffold';
+import { createTestApp, createTestLibrary } from '../../../testing/scaffold';
 import { JsonFile } from '../../../utility/json-file';
 
 const COLLECTION_PATH = path.join(__dirname, '../../../../../migrations.json');
@@ -18,6 +18,21 @@ async function setup(): Promise<{
   const runner = new SchematicTestRunner('migrations', COLLECTION_PATH);
   const tree = await createTestApp(runner, {
     projectName: 'my-app',
+  });
+
+  return {
+    runSchematic: () => runner.runSchematic(SCHEMATIC_NAME, {}, tree),
+    tree,
+  };
+}
+
+async function setupLibrary(): Promise<{
+  runSchematic: () => Promise<UnitTestTree>;
+  tree: UnitTestTree;
+}> {
+  const runner = new SchematicTestRunner('migrations', COLLECTION_PATH);
+  const tree = await createTestLibrary(runner, {
+    projectName: 'my-lib',
   });
 
   return {
@@ -253,6 +268,90 @@ describe('remove-dragula', () => {
           'dom-autoscroller',
         ]),
       ).toBeUndefined();
+    });
+
+    it('should not modify project-level package.json if it does not exist', async () => {
+      const { runSchematic, tree } = await setup();
+
+      tree.create(
+        '/src/app/my-component.ts',
+        `import { DragulaModule } from 'ng2-dragula';`,
+      );
+
+      await expect(runSchematic()).resolves.toBeInstanceOf(UnitTestTree);
+    });
+  });
+
+  describe('when ng2-dragula is used in a library project', () => {
+    it('should add dragula and ng2-dragula to project-level package.json dependencies', async () => {
+      const { runSchematic, tree } = await setupLibrary();
+
+      tree.create(
+        '/projects/my-lib/src/lib/my-component.ts',
+        `import { DragulaModule } from 'ng2-dragula';`,
+      );
+
+      const updatedTree = await runSchematic();
+      const projectPackageJson = new JsonFile(
+        updatedTree,
+        '/projects/my-lib/package.json',
+      );
+
+      expect(projectPackageJson.get(['dependencies', 'dragula'])).toBe(
+        '3.7.3',
+      );
+      expect(projectPackageJson.get(['dependencies', 'ng2-dragula'])).toBe(
+        '5.1.0',
+      );
+    });
+
+    it('should also add dragula dependencies to root package.json', async () => {
+      const { runSchematic, tree } = await setupLibrary();
+
+      tree.create(
+        '/projects/my-lib/src/lib/my-component.ts',
+        `import { DragulaModule } from 'ng2-dragula';`,
+      );
+
+      const updatedTree = await runSchematic();
+      const rootPackageJson = new JsonFile(updatedTree, '/package.json');
+
+      expect(rootPackageJson.get(['devDependencies', '@types/dragula'])).toBe(
+        '2.1.36',
+      );
+      expect(rootPackageJson.get(['dependencies', 'dragula'])).toBe('3.7.3');
+      expect(rootPackageJson.get(['dependencies', 'ng2-dragula'])).toBe(
+        '5.1.0',
+      );
+    });
+
+    it('should not overwrite existing dependencies in project-level package.json', async () => {
+      const { runSchematic, tree } = await setupLibrary();
+
+      tree.create(
+        '/projects/my-lib/src/lib/my-component.ts',
+        `import { DragulaService } from 'ng2-dragula';`,
+      );
+
+      const projectPackageJson = new JsonFile(
+        tree,
+        '/projects/my-lib/package.json',
+      );
+      projectPackageJson.modify(['dependencies', 'dragula'], '3.0.0');
+      projectPackageJson.modify(['dependencies', 'ng2-dragula'], '2.0.0');
+
+      const updatedTree = await runSchematic();
+      const updatedProjectPackageJson = new JsonFile(
+        updatedTree,
+        '/projects/my-lib/package.json',
+      );
+
+      expect(
+        updatedProjectPackageJson.get(['dependencies', 'dragula']),
+      ).toBe('3.0.0');
+      expect(
+        updatedProjectPackageJson.get(['dependencies', 'ng2-dragula']),
+      ).toBe('2.0.0');
     });
   });
 });
