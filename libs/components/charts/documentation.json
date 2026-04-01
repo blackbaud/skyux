@@ -1,0 +1,17 @@
+{
+  "$schema": "../manifest-generator/documentation-schema.json",
+  "groups": {
+    "charts": {
+      "development": {
+        "docsIds": [],
+        "primaryDocsId": ""
+      },
+      "testing": {
+        "docsIds": []
+      },
+      "codeExamples": {
+        "docsIds": []
+      }
+    }
+  }
+}

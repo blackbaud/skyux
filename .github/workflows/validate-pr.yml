@@ -49,6 +49,7 @@ jobs:
             components/assets
             components/autonumeric
             components/avatar
+            components/charts
             components/code-examples
             components/colorpicker
             components/config

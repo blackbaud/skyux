@@ -111,6 +111,7 @@
     "ajv": "8.17.1",
     "autonumeric": "4.10.8",
     "axe-core": "4.10.3",
+    "chart.js": "4.5.1",
     "comment-json": "4.2.5",
     "dom-autoscroller": "2.3.4",
     "dompurify": "3.2.6",
