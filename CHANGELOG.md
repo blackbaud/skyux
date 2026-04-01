@@ -1,6 +1,15 @@
 # Changelog
 
 
+## [13.16.4](https://github.com/blackbaud/skyux/compare/13.16.3...13.16.4) (2026-03-31)
+
+
+### Bug Fixes
+
+* **components/forms:** mark file attachment as `touched` on deletion ([#4343](https://github.com/blackbaud/skyux/issues/4343)) ([7f8b13e](https://github.com/blackbaud/skyux/commit/7f8b13e76fb0f1d52a6d74c232c67eae392f7f07)), closes [AB#3695255](https://github.com/AB/issues/3695255)
+
+
+
 ## [13.16.3](https://github.com/blackbaud/skyux/compare/13.16.2...13.16.3) (2026-03-24)
 
 
