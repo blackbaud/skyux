@@ -7,15 +7,7 @@
 ### Bug Fixes
 
 * **components/forms:** mark file attachment as `touched` on deletion ([#4343](https://github.com/blackbaud/skyux/issues/4343)) ([#4352](https://github.com/blackbaud/skyux/issues/4352)) ([0143836](https://github.com/blackbaud/skyux/commit/014383645c2c91c90da25a25641f249bd24326fc)), closes [AB#3695255](https://dev.azure.com/blackbaud/Products/_workitems/edit/3695255)
-
-## [13.16.4](https://github.com/blackbaud/skyux/compare/13.16.3...14.0.0-beta.0) (2026-03-31)
-
-
-### Bug Fixes
-
-* **components/forms:** mark file attachment as `touched` on deletion ([#4343](https://github.com/blackbaud/skyux/issues/4343)) ([7f8b13e](https://github.com/blackbaud/skyux/commit/7f8b13e76fb0f1d52a6d74c232c67eae392f7f07)), closes [AB#3695255](https://github.com/AB/issues/3695255)
-
-
+* **components/packages:** add dragula dependencies to project-level package.json for library projects ([#4356](https://github.com/blackbaud/skyux/issues/4356)) ([5e09376](https://github.com/blackbaud/skyux/commit/5e09376f74b43a2ba2f7728d60ac8148f83d87b1))
 
 ## [13.16.4](https://github.com/blackbaud/skyux/compare/13.16.3...13.16.4) (2026-03-31)
 
