@@ -34,7 +34,7 @@ Thinking "skip TDD just this once"? Stop. That's rationalization.
 
 ## The Iron Law
 
-```
+```text
 NO PRODUCTION CODE WITHOUT A FAILING TEST FIRST
 ```
 
@@ -394,15 +394,15 @@ Can't check all boxes? You skipped TDD. Start over.
 
 ## When Stuck
 
-| Problem                          | Solution                                                                                                                          |
-| -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| Don't know how to test           | Write wished-for API. Write assertion first. Ask your human partner.                                                              |
-| Test too complicated             | Design too complicated. Simplify interface.                                                                                       |
-| Must mock everything             | Code too coupled. Use dependency injection.                                                                                       |
-| Test setup huge                  | Extract helpers. Still complex? Simplify design.                                                                                  |
-| No harness exists                | Check `libs/components/*/testing/src/` for existing harnesses. If none, use `fixture.debugElement` with `data-sky-id` attributes. |
-| Overlay not found in test        | Use `TestbedHarnessEnvironment.documentRootLoader(fixture)` instead of `.loader(fixture)`.                                        |
-| Need to test responsive behavior | Use `provideSkyMediaQueryTesting()` to mock media breakpoints.                                                                    |
+| Problem                          | Solution                                                                                                                                                                 |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Don't know how to test           | Write wished-for API. Write assertion first. Ask your human partner.                                                                                                     |
+| Test too complicated             | Design too complicated. Simplify interface.                                                                                                                              |
+| Must mock everything             | Code too coupled. Use dependency injection.                                                                                                                              |
+| Test setup huge                  | Extract helpers. Still complex? Simplify design.                                                                                                                         |
+| No harness exists                | Check `@skyux/*/testing` packages (e.g., `import { SkyAvatarHarness } from '@skyux/avatar/testing'`). If none, use `fixture.debugElement` with `data-sky-id` attributes. |
+| Overlay not found in test        | Use `TestbedHarnessEnvironment.documentRootLoader(fixture)` instead of `.loader(fixture)`.                                                                               |
+| Need to test responsive behavior | Use `provideSkyMediaQueryTesting()` to mock media breakpoints.                                                                                                           |
 
 ## Debugging Integration
 

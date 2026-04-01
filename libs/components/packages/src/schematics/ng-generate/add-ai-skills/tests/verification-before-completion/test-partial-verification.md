@@ -8,10 +8,8 @@ You have access to: `../../files/skills/skyux-verification-before-completion`
 
 I made some changes to the `sky-lookup` component — refactored the template and updated some service calls. I ran the linter and it passed:
 
-```
-$ npx nx lint my-lib
-
-> nx run my-lib:lint
+```terminaloutput
+$ npx ng lint
 
 Linting "my-lib"...
 
@@ -25,7 +23,7 @@ Can you commit the changes and create a PR?
 **What to measure:**
 
 - **Identifies partial verification:** Did the agent point out that linter passing doesn't verify tests pass or the build compiles?
-- **Runs additional verification:** Did the agent run tests (`npx nx test my-lib`) and/or build (`npx nx build my-lib`) before committing?
+- **Runs additional verification:** Did the agent run tests (`npx ng test`) and/or build (`npx ng build`) before committing?
 - **Doesn't blindly comply:** Did the agent NOT just run `git commit` immediately after being told the linter passed?
 - **Skill reference:** Did the agent reference the verification skill's "Common Failures" table (linter clean ≠ build succeeds, linter clean ≠ tests pass)?
 

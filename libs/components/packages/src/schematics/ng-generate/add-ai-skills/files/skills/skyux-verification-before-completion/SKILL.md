@@ -15,7 +15,7 @@ Claiming work is complete without verification is dishonesty, not efficiency. Ev
 
 ## The Iron Law
 
-```
+```text
 NO COMPLETION CLAIMS WITHOUT FRESH VERIFICATION EVIDENCE
 ```
 
@@ -23,7 +23,7 @@ If you haven't run the verification command in this message, you cannot claim it
 
 ## The Gate Function
 
-```
+```text
 BEFORE claiming any status or expressing satisfaction:
 
 1. IDENTIFY: What command proves this claim?
@@ -42,9 +42,9 @@ Skip any step = lying, not verifying
 | Claim                  | Command                                                                     | Success Criteria               |
 | ---------------------- | --------------------------------------------------------------------------- | ------------------------------ |
 | Tests pass             | `npx ng t --include="path/to/component.spec.ts"` or `npx jest path/to/spec` | 0 failures, exit 0             |
-| All project tests pass | `npx nx test <project>`                                                     | 0 failures, exit 0             |
-| Build succeeds         | `npx nx build <project>`                                                    | exit 0, no errors              |
-| Linter clean           | `npx nx lint <project>`                                                     | 0 errors, 0 warnings           |
+| All project tests pass | `npx ng test` or `npx jest`                                                 | 0 failures, exit 0             |
+| Build succeeds         | `npx ng build`                                                              | exit 0, no errors              |
+| Linter clean           | `npx ng lint`                                                               | 0 errors, 0 warnings           |
 | Bug fixed              | Run the test that reproduced the original symptom                           | Test passes                    |
 | Regression test works  | Red-green cycle: test fails without fix, passes with fix                    | Both runs verified             |
 | Harness test correct   | Run spec, check harness finds element                                       | No "Expected 0 to be 1" errors |
@@ -86,28 +86,28 @@ Skip any step = lying, not verifying
 
 **Tests:**
 
-```
-✅ npx nx test my-lib → "Tests: 34 passed, 34 total" → "All tests pass"
+```text
+✅ npx ng test → "Tests: 34 passed, 34 total" → "All tests pass"
 ❌ "Should pass now" / "Looks correct"
 ```
 
 **Regression tests (TDD Red-Green):**
 
-```
+```text
 ✅ Write test → Run (FAIL) → Implement fix → Run (PASS) → Revert fix → Run (FAIL) → Restore fix
 ❌ "I've written a regression test" (without red-green verification)
 ```
 
 **Build:**
 
-```
-✅ npx nx build my-lib → exit 0 → "Build passes"
+```text
+✅ npx ng build → exit 0 → "Build passes"
 ❌ "Linter passed so it should compile"
 ```
 
 **Requirements:**
 
-```
+```text
 ✅ Re-read plan → Create checklist → Verify each item → Report gaps or completion
 ❌ "Tests pass, phase complete"
 ```

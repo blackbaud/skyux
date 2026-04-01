@@ -16,7 +16,7 @@ Your manager pings you: "Payment processor is failing. Customer says they change
 
 You quickly check the logs and see:
 
-```
+```terminaloutput
 PaymentError: Connection timeout to payments.api.com
 ```
 

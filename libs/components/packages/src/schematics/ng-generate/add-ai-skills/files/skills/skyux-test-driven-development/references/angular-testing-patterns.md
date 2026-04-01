@@ -266,7 +266,7 @@ TestBed.configureTestingModule({
 
 ## Quick Decision Tree
 
-```
+```text
 Need to test a SKY UX component?
 ├── Harness exists in @skyux/*/testing?
 │   ├── Yes → Use the harness

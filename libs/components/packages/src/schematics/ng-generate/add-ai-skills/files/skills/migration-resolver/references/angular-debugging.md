@@ -66,7 +66,7 @@
 
 ### Execution Order
 
-```
+```text
 constructor → ngOnChanges → ngOnInit → ngAfterContentInit → ngAfterViewInit → ngOnDestroy
 ```
 
@@ -153,7 +153,7 @@ async function setupTest(): Promise<{
 
 ## SKY UX Harness Hierarchy
 
-```
+```text
 ComponentHarness (Angular CDK)
   └── SkyComponentHarness (@skyux/core/testing)
         ├── SkyAvatarHarness

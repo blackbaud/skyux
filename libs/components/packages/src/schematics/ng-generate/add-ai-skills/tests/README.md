@@ -6,7 +6,7 @@ Evals live in this repo only — the schematic excludes them from the output.
 
 ## Structure
 
-```
+```text
 tests/
 ├── migration-resolver/                           # Systematic debugging skill
 │   ├── test-academic.md                # Comprehension: can Claude quote the skill accurately?

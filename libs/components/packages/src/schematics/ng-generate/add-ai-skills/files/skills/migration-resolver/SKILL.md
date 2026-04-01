@@ -15,7 +15,7 @@ Random fixes waste time and create new bugs. Quick patches mask underlying issue
 
 ## The Iron Law
 
-```
+```text
 NO FIXES WITHOUT ROOT CAUSE INVESTIGATION FIRST
 ```
 
@@ -87,7 +87,7 @@ You MUST complete each phase before proceeding to the next.
 
    **BEFORE proposing fixes, add diagnostic instrumentation:**
 
-   ```
+   ```text
    For EACH component boundary:
      - Log what data enters component
      - Log what data exits component
@@ -144,8 +144,8 @@ You MUST complete each phase before proceeding to the next.
 
 1. **Find Working Examples**
    - Locate similar working code in same codebase
-   - In this monorepo, search `libs/components/` for a working component similar to yours
-   - Harness tests in `*/testing/src/` demonstrate the canonical interaction pattern
+   - Search your project for a working component similar to yours, or check SKY UX documentation and `node_modules/@skyux/` for reference implementations
+   - Harness tests in `@skyux/*/testing` packages demonstrate the canonical interaction pattern
 
 2. **Compare Against References**
    - If implementing pattern, read reference implementation COMPLETELY
@@ -307,7 +307,7 @@ If you catch yourself thinking:
 | Phase                 | Key Activities                                                                         | Success Criteria            |
 | --------------------- | -------------------------------------------------------------------------------------- | --------------------------- |
 | **1. Root Cause**     | Read errors, reproduce, check changes, gather evidence, Angular-specific investigation | Understand WHAT and WHY     |
-| **2. Pattern**        | Find working examples in `libs/components/`, compare harness tests                     | Identify differences        |
+| **2. Pattern**        | Find working examples in your codebase or `@skyux/*/testing`, compare harness tests    | Identify differences        |
 | **3. Hypothesis**     | Form theory, test minimally, use Angular isolation techniques                          | Confirmed or new hypothesis |
 | **4. Implementation** | Create harness-based regression test, fix, verify                                      | Bug resolved, tests pass    |
 

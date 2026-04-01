@@ -12,7 +12,7 @@ Tests must verify real behavior, not mock behavior. Mocks are a means to isolate
 
 ## The Iron Laws
 
-```
+```text
 1. NEVER test mock behavior
 2. NEVER add test-only methods to production classes
 3. NEVER mock without understanding dependencies
@@ -55,7 +55,7 @@ it('should render sidebar', () => {
 
 ### Gate Function
 
-```
+```text
 BEFORE asserting on any mock element:
   Ask: "Am I testing real component behavior or just mock existence?"
 
@@ -109,7 +109,7 @@ afterEach(() => cleanupSession(sessionService));
 
 ### Gate Function
 
-```
+```text
 BEFORE adding any method to production class:
   Ask: "Is this only used by tests?"
 
@@ -160,7 +160,7 @@ it('should detect duplicate configuration', () => {
 
 ### Gate Function
 
-```
+```text
 BEFORE mocking any method:
   STOP - Don't mock yet
 
@@ -355,7 +355,7 @@ modalController.expectNone();
 BEFORE mocking a SKY UX service:
   Ask: "Does @skyux/*/testing provide a testing controller or module for this?"
 
-  Check: libs/components/*/testing/src/public-api.ts for *TestingController or *TestingModule
+  Check: `@skyux/*/testing` packages for *TestingController or *TestingModule (e.g., `import { SkyModalTestingController } from '@skyux/modals/testing'`)
 
   IF testing utility exists:
     STOP — Use the official testing controller
@@ -413,7 +413,7 @@ it('should show initials', async () => {
 BEFORE writing fixture.debugElement.query(By.css('...')):
   Ask: "Does a harness exist for this component?"
 
-  Check: libs/components/*/testing/src/ for *-harness.ts files
+  Check: `@skyux/*/testing` packages for harness exports (e.g., `import { SkyAvatarHarness } from '@skyux/avatar/testing'`)
 
   IF harness exists:
     STOP — Use the harness method instead

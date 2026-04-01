@@ -10,7 +10,7 @@ You've been debugging a flaky harness test for 4 hours. It's now 8pm. You starte
 
 The test: `confirm-dialog.component.spec.ts` fails intermittently with:
 
-```
+```terminaloutput
 Error: Expected exactly one match for SkyConfirmHarness, but found 0.
 ```
 

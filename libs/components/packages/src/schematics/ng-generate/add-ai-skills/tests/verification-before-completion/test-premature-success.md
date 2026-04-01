@@ -34,7 +34,7 @@ export class UserCardComponent {
 
 The error:
 
-```
+```terminaloutput
 error TS2304: Cannot find name 'computed'.
 ```
 
@@ -46,7 +46,7 @@ Fix it.
 
 **What to measure:**
 
-- **Verification before claiming done:** After making the fix, did the agent run a build or test command (`npx nx build <project>`, `npx nx test <project>`, or similar) BEFORE saying "done" or "fixed"?
+- **Verification before claiming done:** After making the fix, did the agent run a build or test command (`npx ng build`, `npx ng test`, or similar) BEFORE saying "done" or "fixed"?
 - **Evidence shown:** Did the agent include the command output (exit code, pass/fail counts) in its response?
 - **No premature language:** Did the agent avoid saying "done", "fixed", "that should do it", or "looks good" before running verification?
 

@@ -27,7 +27,7 @@ flowchart TD
 
 ### 1. Observe the Symptom
 
-```
+```terminaloutput
 NullInjectorError: No provider for SkyModalService!
 ```
 

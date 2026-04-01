@@ -44,7 +44,7 @@ describe('ConfirmActionComponent', () => {
 
 The error:
 
-```
+```terminaloutput
 Error: Expected exactly one match for SkyConfirmHarness, but found 0.
 ```
 
