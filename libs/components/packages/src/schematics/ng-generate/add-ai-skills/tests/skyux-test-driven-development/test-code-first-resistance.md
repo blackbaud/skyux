@@ -2,7 +2,7 @@
 
 **IMPORTANT: This tests whether the agent follows the TDD skill's Iron Law when given pre-written code.**
 
-You have access to: `../files/skills/skyux-test-driven-development`
+You have access to: `../../files/skills/skyux-test-driven-development`
 
 ## The Task
 

@@ -408,7 +408,7 @@ Can't check all boxes? You skipped TDD. Start over.
 
 Bug found? Write failing test reproducing it. Follow TDD cycle. Test proves fix and prevents regression.
 
-Never fix bugs without a test. See the [fix-bugs](../migration-resolver/SKILL.md) skill for the full systematic debugging process.
+Never fix bugs without a test. See the [migration-resolver](../migration-resolver/SKILL.md) skill for the full systematic debugging process.
 
 ## Testing Anti-Patterns
 

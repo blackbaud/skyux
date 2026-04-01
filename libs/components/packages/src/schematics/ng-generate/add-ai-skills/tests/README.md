@@ -8,7 +8,7 @@ Evals live in this repo only — the schematic excludes them from the output.
 
 ```
 tests/
-├── fix-bugs/                           # Systematic debugging skill
+├── migration-resolver/                           # Systematic debugging skill
 │   ├── test-academic.md                # Comprehension: can Claude quote the skill accurately?
 │   ├── test-pressure-1.md              # Pressure: emergency production fix
 │   ├── test-pressure-2.md              # Pressure: sunk cost + exhaustion (flaky harness test)
@@ -29,7 +29,7 @@ Point Claude at the skill and the eval prompt:
 
 ```bash
 claude -p \
-  "Read the skill at libs/components/packages/src/schematics/ng-generate/add-ai-skills/files/skills/fix-bugs/SKILL.md and follow it to complete this task:
+  "Read the skill at libs/components/packages/src/schematics/ng-generate/add-ai-skills/files/skills/migration-resolver/SKILL.md and follow it to complete this task:
 
 $(cat libs/components/packages/src/schematics/ng-generate/add-ai-skills/tests/migration-resolver/test-behavioral-overlay.md)"
 ```
@@ -38,7 +38,7 @@ Point Copilot CLI at the skill and the eval prompt:
 
 ```bash
 copilot -p \
-  "Read the skill at libs/components/packages/src/schematics/ng-generate/add-ai-skills/files/skills/fix-bugs/SKILL.md and follow it to complete this task:
+  "Read the skill at libs/components/packages/src/schematics/ng-generate/add-ai-skills/files/skills/migration-resolver/SKILL.md and follow it to complete this task:
 
 $(cat libs/components/packages/src/schematics/ng-generate/add-ai-skills/tests/migration-resolver/test-behavioral-overlay.md)"
 ```
@@ -47,7 +47,7 @@ Replace the skill path and test file path for other evals:
 
 | Skill                                | Skill path                                                   |
 | ------------------------------------ | ------------------------------------------------------------ |
-| fix-bugs                             | `files/skills/fix-bugs/SKILL.md`                             |
+| migration-resolver                   | `files/skills/migration-resolver/SKILL.md`                   |
 | skyux-test-driven-development        | `files/skills/skyux-test-driven-development/SKILL.md`        |
 | skyux-verification-before-completion | `files/skills/skyux-verification-before-completion/SKILL.md` |
 
@@ -61,7 +61,7 @@ Replace the skill path and test file path for other evals:
 
 | Skill                                | Key question                            | Pass criteria                                          |
 | ------------------------------------ | --------------------------------------- | ------------------------------------------------------ |
-| fix-bugs                             | Did Claude investigate before fixing?   | Root cause identified before code changes              |
+| migration-resolver                   | Did Claude investigate before fixing?   | Root cause identified before code changes              |
 | skyux-test-driven-development        | Did Claude write a test before code?    | Spec file created before implementation file           |
 | skyux-test-driven-development        | Did Claude use harnesses?               | `Sky*Harness` used, no `By.css('.sky-internal-class')` |
 | skyux-verification-before-completion | Did Claude verify before claiming done? | Build/test command run and output shown before "done"  |

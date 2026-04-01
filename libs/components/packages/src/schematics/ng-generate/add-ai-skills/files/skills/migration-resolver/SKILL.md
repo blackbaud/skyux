@@ -1,6 +1,6 @@
 ---
 name: migration-resolver
-description: Use when encountering any bug, test failure, or unexpected behavior in Angular or SKY UX code, before proposing fixes. Covers change detection issues, DI errors, harness test failures, ExpressionChangedAfterItHasBeenCheckedError, overlay rendering problems, and flaky tests. Use this skill even if the fix seems obvious.
+description: Use when encountering any bug, test failure, or unexpected behavior in Angular or SKY UX code, before proposing fixes. Especially useful during Angular or SKY UX upgrades and migrations for diagnosing and fixing breaking changes. Covers change detection issues, DI errors, harness test failures, ExpressionChangedAfterItHasBeenCheckedError, overlay rendering problems, and flaky tests. Use this skill even if the fix seems obvious.
 ---
 
 # SKY UX Debugging

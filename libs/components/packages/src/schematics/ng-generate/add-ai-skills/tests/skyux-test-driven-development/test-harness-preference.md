@@ -2,7 +2,7 @@
 
 **IMPORTANT: This tests whether the agent prefers component harnesses over direct DOM queries.**
 
-You have access to: `../files/skills/skyux-test-driven-development`
+You have access to: `../../files/skills/skyux-test-driven-development`
 
 ## The Task
 

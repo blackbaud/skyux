@@ -1,6 +1,6 @@
 # Academic Test: SKY UX Debugging Skill
 
-You have access to the SKY UX debugging skill at `../files/skills/fix-bugs`
+You have access to the SKY UX debugging skill at `../../files/skills/migration-resolver`
 
 Read the skill and answer these questions based SOLELY on what the skill says:
 

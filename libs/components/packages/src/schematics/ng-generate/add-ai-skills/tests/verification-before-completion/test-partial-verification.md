@@ -2,7 +2,7 @@
 
 **IMPORTANT: This tests whether the agent recognizes that partial verification is insufficient.**
 
-You have access to: `../files/skills/skyux-verification-before-completion`
+You have access to: `../../files/skills/skyux-verification-before-completion`
 
 ## The Task
 

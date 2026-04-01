@@ -149,7 +149,7 @@ This is non-negotiable.
 
 **Related skills:**
 
-- **[fix-bugs](../migration-resolver/SKILL.md)** — Systematic debugging process (verify fix in Phase 4)
+- **[migration-resolver](../migration-resolver/SKILL.md)** — Systematic debugging process (verify fix in Phase 4)
 - **[skyux-test-driven-development](../skyux-test-driven-development/SKILL.md)** — Red-green-refactor cycle requires verification at each step
 
 ## Attribution

@@ -3,7 +3,6 @@ import {
   MergeStrategy,
   Rule,
   apply,
-  filter,
   mergeWith,
   move,
   url,
@@ -11,10 +10,7 @@ import {
 
 export function addAiSkills(): Rule {
   return mergeWith(
-    apply(url('./files'), [
-      filter((path) => !path.includes('/evals/')),
-      move(normalize('.github')),
-    ]),
+    apply(url('./files'), [move(normalize('.github'))]),
     MergeStrategy.Overwrite,
   );
 }

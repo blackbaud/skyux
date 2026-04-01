@@ -38,18 +38,6 @@ describe('add-ai-skills', () => {
         '.github/skills/skyux-test-driven-development/references/angular-testing-patterns.md',
       ),
     ).toBe(true);
-
-    // Verify eval files are excluded.
-    expect(
-      resultTree.exists(
-        '.github/skills/migration-resolver/evals/test-academic.md',
-      ),
-    ).toBe(false);
-    expect(
-      resultTree.exists(
-        '.github/skills/migration-resolver/evals/test-pressure-1.md',
-      ),
-    ).toBe(false);
   });
 
   it('should preserve file content without template interpolation', async () => {

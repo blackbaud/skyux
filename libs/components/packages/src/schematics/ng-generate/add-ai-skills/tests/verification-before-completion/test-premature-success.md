@@ -2,7 +2,7 @@
 
 **IMPORTANT: This tests whether the agent runs verification commands before claiming work is done.**
 
-You have access to: `../files/skills/skyux-verification-before-completion`
+You have access to: `../../files/skills/skyux-verification-before-completion`
 
 ## The Task
 

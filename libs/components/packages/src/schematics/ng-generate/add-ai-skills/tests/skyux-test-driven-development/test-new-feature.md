@@ -2,7 +2,7 @@
 
 **IMPORTANT: You must implement this feature. Use the TDD skill to guide your approach.**
 
-You have access to: `../files/skills/skyux-test-driven-development`
+You have access to: `../../files/skills/skyux-test-driven-development`
 
 ## The Task
 

@@ -2,7 +2,7 @@
 
 **IMPORTANT: You have a real codebase and must fix a real test failure. Use the debugging skill to guide your approach.**
 
-You have access to: `../files/skills/fix-bugs`
+You have access to: `../../files/skills/migration-resolver`
 
 ## The Bug
 
