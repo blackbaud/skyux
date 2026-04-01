@@ -1,0 +1,18 @@
+<sky-grid [data]="data">
+  <sky-grid-column field="name" heading="name" />
+  <sky-grid-column
+    field="age"
+    heading="age"
+    type="number"
+    alignment="right"
+    [width]="55"
+  />
+  <sky-grid-column field="startDate" heading="start date" type="date" />
+  <sky-grid-column field="endDate" heading="end date" type="date" />
+  <sky-grid-column field="department" heading="department">
+    <ng-template let-value="value">{{ value.name }}</ng-template>
+  </sky-grid-column>
+  <sky-grid-column field="jobTitle" heading="job title">
+    <ng-template let-value="value">{{ value.name }}</ng-template>
+  </sky-grid-column>
+</sky-grid>

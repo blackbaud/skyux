@@ -1,0 +1,251 @@
+@if (showAllGrids()) {
+  <sky-data-grid
+    data-sky-id="grid"
+    height="200"
+    width="600"
+    [data]="dataForSimpleGrid"
+    [displayedColumnIds]="displayedColumnIds()"
+    [externalRowCount]="externalRowCount()"
+    [height]="height()"
+    [multiselect]="multiselect()"
+    [pageQueryParam]="pageQueryParam"
+    [pageSize]="pageSize()"
+    [rowHighlightedId]="rowHighlightedId()"
+    [(page)]="page"
+    [(sortField)]="sortField"
+    (displayedColumnIdsChange)="visibleColumnIds.set($event)"
+  >
+    @if (showAllColumns()) {
+      <sky-data-grid-column field="column1" headingText="Column1" />
+      <sky-data-grid-column field="column2" headingText="Column2" />
+      @if (showCol3()) {
+        <sky-data-grid-column
+          field="column3"
+          dataType="boolean"
+          [headingText]="showCol3HeaderText() ? 'Column3' : ''"
+        />
+      }
+    }
+  </sky-data-grid>
+}
+<h1>Grid with multiselect enabled</h1>
+
+<button type="button" class="sky-btn sky-btn-primary" (click)="selectAll()">
+  Select all
+</button>
+
+<button type="button" class="sky-btn sky-btn-primary" (click)="clearAll()">
+  Clear all
+</button>
+
+<button type="button" class="sky-btn sky-btn-primary" (click)="selectRow()">
+  Programmatically select rows 101, 103, and 105
+</button>
+
+@if (showAllGrids()) {
+  <sky-data-grid
+    data-sky-id="multiselect-grid"
+    multiselect
+    fit="scroll"
+    multiselectRowId="myId"
+    topScrollEnabled
+    [data]="dataForSimpleGridWithMultiselect"
+    [displayedColumnIds]="displayedColumnIds()"
+    [externalRowCount]="externalRowCount()"
+    [(selectedRowIds)]="selectedRowIds"
+  >
+    @if (showAllColumns()) {
+      <sky-data-grid-column
+        field="myId"
+        headingText="Custom Id"
+        dataType="number"
+      />
+      <sky-data-grid-column field="column1" headingText="Column1" />
+      <sky-data-grid-column field="column2" headingText="Column2" />
+      @if (showCol3()) {
+        <sky-data-grid-column
+          field="column3"
+          dataType="boolean"
+          [headingText]="showCol3HeaderText() ? 'Column3' : ''"
+        />
+      }
+    }
+  </sky-data-grid>
+}
+<p>Selected rows: {{ selectedRowIds() | json }}</p>
+
+<h1>Grid with row delete</h1>
+
+@if (showAllGrids()) {
+  <sky-data-grid
+    data-sky-id="row-delete-grid"
+    [data]="dataForRowDeleteGrid"
+    [displayedColumnIds]="displayedColumnIds()"
+    [externalRowCount]="externalRowCount()"
+    (rowDeleteCancel)="cancelRowDelete($event)"
+    (rowDeleteConfirm)="finishRowDelete($event)"
+  >
+    @if (showAllColumns()) {
+      <sky-data-grid-column
+        columnId="contsm"
+        headingText=""
+        width="40"
+        [locked]="true"
+        [sortable]="false"
+      >
+        <ng-template let-row="row">
+          <!-- The `ngIf` here was added to verify that templates with Angular controls work when built. -->
+          @if (row.id) {
+            <sky-dropdown buttonType="context-menu">
+              <sky-dropdown-menu>
+                <sky-dropdown-item>
+                  <button type="button" (click)="deleteItem(row.id)">
+                    Delete item
+                  </button>
+                </sky-dropdown-item>
+              </sky-dropdown-menu>
+            </sky-dropdown>
+          }
+        </ng-template>
+      </sky-data-grid-column>
+      <sky-data-grid-column
+        field="column1"
+        headingText="Column1"
+        [helpPopoverContent]="staticPopoverRef"
+      />
+      <sky-data-grid-column field="column2" headingText="Column2" />
+      @if (showCol3()) {
+        <sky-data-grid-column
+          field="column3"
+          dataType="boolean"
+          helpPopoverTitle="This popover is asynchronous!"
+          [headingText]="showCol3HeaderText() ? 'Column3' : ''"
+          [helpPopoverContent]="staticPopoverRef"
+        />
+      } @else {
+        <sky-data-grid-column field="date" dataType="date" headingText="Date" />
+      }
+    }
+  </sky-data-grid>
+}
+<ng-template #staticPopoverRef>
+  This is a numeric column. Click <a href="#">here</a> to learn more.
+</ng-template>
+
+<h1>Grid w/ aligned columns and inline help</h1>
+
+@if (showAllGrids()) {
+  <sky-data-grid
+    data-sky-id="inline-help-grid"
+    fit="scroll"
+    [data]="dataForSimpleGrid"
+    [displayedColumnIds]="displayedColumnIds()"
+    [externalRowCount]="externalRowCount()"
+  >
+    @if (showAllColumns()) {
+      <sky-data-grid-column
+        dataType="number"
+        field="column1"
+        headingText="Column1"
+        [helpPopoverContent]="staticPopoverRef"
+      />
+      <sky-data-grid-column
+        field="column2"
+        headingText="Column2"
+        [helpPopoverContent]="staticPopoverRef"
+      />
+      @if (showCol3()) {
+        <sky-data-grid-column
+          field="column3"
+          dataType="boolean"
+          [headingText]="showCol3HeaderText() ? 'Column3' : ''"
+          [helpPopoverContent]="staticPopoverRef"
+        />
+      }
+    }
+  </sky-data-grid>
+}
+
+@if (showFilteredMultiselectGrid()) {
+  <h1>Grid with filters and multiselect</h1>
+  <sky-data-grid
+    data-sky-id="filtered-multiselect-grid"
+    height="200"
+    multiselect
+    [data]="dataForFilteredGrid"
+    [appliedFilters]="appliedFilters()"
+    [(selectedRowIds)]="selectedRowIds"
+  >
+    <sky-data-grid-column
+      field="column1"
+      headingText="Column1"
+      dataType="text"
+      filterId="column1Filter"
+      filterOperator="contains"
+    />
+    <sky-data-grid-column
+      field="column2"
+      headingText="Column2"
+      dataType="text"
+      filterId="column2Filter"
+      filterOperator="startsWith"
+    />
+  </sky-data-grid>
+}
+
+@if (showFilteredGrid()) {
+  <h1>Grid with filters</h1>
+  <sky-data-grid
+    data-sky-id="filtered-grid"
+    height="200"
+    [data]="dataForFilteredGrid"
+    [appliedFilters]="appliedFilters()"
+    [externalRowCount]="externalRowCount()"
+  >
+    <sky-data-grid-column
+      field="column1"
+      headingText="Column1"
+      dataType="text"
+      filterId="column1Filter"
+      filterOperator="contains"
+      flexWidth="0"
+    />
+    <sky-data-grid-column
+      field="column2"
+      headingText="Column2"
+      dataType="text"
+      filterId="column2Filter"
+      filterOperator="startsWith"
+      flexWidth="1"
+    />
+    <sky-data-grid-column
+      field="column2"
+      columnId="column2VarOperator"
+      headingText="Column2 (Variable Operator)"
+      dataType="text"
+      filterId="column2VarOperatorFilter"
+      [filterOperator]="textFilterOperator()"
+    />
+    <sky-data-grid-column
+      field="column3"
+      headingText="Column3"
+      dataType="boolean"
+      filterId="column3Filter"
+      [filterOperator]="booleanFilterOperator()"
+    />
+    <sky-data-grid-column
+      field="numericColumn"
+      headingText="Numeric"
+      dataType="number"
+      filterId="numericFilter"
+      [filterOperator]="numberFilterOperator()"
+      [resizable]="false"
+    />
+    <sky-data-grid-column
+      field="dateColumn"
+      headingText="Date"
+      dataType="date"
+      filterId="dateFilter"
+    />
+  </sky-data-grid>
+}

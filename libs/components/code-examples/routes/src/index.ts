@@ -226,6 +226,34 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'DataGridAsynchronousDataComponent',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ DataGridAsynchronousDataComponent: c }) => c,
+      ),
+  },
+  {
+    path: 'DataGridBasicExampleComponent',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ DataGridBasicExampleComponent: c }) => c,
+      ),
+  },
+  {
+    path: 'DataGridDataManagerExampleComponent',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ DataGridDataManagerExampleComponent: c }) => c,
+      ),
+  },
+  {
+    path: 'DataGridPagingComponent',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ DataGridPagingComponent: c }) => c,
+      ),
+  },
+  {
     path: 'DataManagerBasicExampleComponent',
     loadComponent: () =>
       import('@skyux/code-examples').then(
@@ -321,6 +349,13 @@ export const routes: Routes = [
     loadComponent: () =>
       import('@skyux/code-examples').then(
         ({ FilterBarSelectableExampleComponent: c }) => c,
+      ),
+  },
+  {
+    path: 'FilteredDataGridComponent',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ FilteredDataGridComponent: c }) => c,
       ),
   },
   {

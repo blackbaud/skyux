@@ -47,6 +47,8 @@ function toColumnWidthName(breakpoint: SkyBreakpoint): 'xs' | 'sm' {
   return breakpoint === 'xs' ? 'xs' : 'sm';
 }
 
+const RESERVED_COLUMNS = ['ag-Grid-SelectionColumn'];
+
 /**
  * Connects `SkyAgGridWrapperComponent` with a `SkyDataViewComponent` to control the grid using a `SkyDataManagerService` instance.
  */
@@ -411,7 +413,11 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
         const hideColumns = agGrid.api
           .getColumnState()
           .map((col) => col.colId)
-          .filter((colId) => !displayedColumnIds.includes(colId));
+          .filter(
+            (colId) =>
+              !displayedColumnIds.includes(colId) &&
+              !RESERVED_COLUMNS.includes(colId),
+          );
 
         agGrid.api.setColumnsVisible(hideColumns, false);
         agGrid.api.setColumnsVisible(displayedColumnIds, true);

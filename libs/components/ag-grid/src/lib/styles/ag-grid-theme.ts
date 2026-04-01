@@ -24,6 +24,10 @@ const defaultsForAllThemes: Partial<ThemeDefaultParams> = {
     'var(--sky-override-switch-checked-color, var(--sky-color-icon-inverse, var(--sky-text-color-default)))',
   checkboxIndeterminateBackgroundColor:
     'var(--sky-override-switch-checked-color, var(--sky-color-icon-inverse, transparent))',
+  checkboxIndeterminateBorderColor: `var(
+    --sky-override-ag-grid-checkbox-unchecked-border-color,
+    var(--sky-color-border-switch-base)
+  )`,
   checkboxUncheckedBackgroundColor:
     'var(--sky-override-ag-grid-checkbox-unchecked-background-color, var(--sky-color-background-input-base))',
   checkboxUncheckedBorderColor: `var(
