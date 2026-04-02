@@ -207,6 +207,7 @@
 * **components/layout:** replace `@angular/animations` in text expand component with CSS transitions ([#4308](https://github.com/blackbaud/skyux/issues/4308)) ([bbde359](https://github.com/blackbaud/skyux/commit/bbde3592197c88aced6c2cb747a95d63bb5093fb))
 * **components/layout:** replace `@angular/animations` in text expand repeater component with CSS transitions ([#4317](https://github.com/blackbaud/skyux/issues/4317)) ([bb4a3c7](https://github.com/blackbaud/skyux/commit/bb4a3c7a74385c551547e80f1cb4e2390f4ce7ba))
 * **components/popovers:** replace `@angular/animations` with CSS transitions ([#4313](https://github.com/blackbaud/skyux/issues/4313)) ([28088aa](https://github.com/blackbaud/skyux/commit/28088aac3e5bcfed6134629560718f0179df5f69))
+* **sdk/skyux-eslint:** remove `no-barrel-exports` rule ([#4320](https://github.com/blackbaud/skyux/issues/4320)) ([73dafd6](https://github.com/blackbaud/skyux/commit/73dafd665e988d468847738a6d8f3e3a3fb22d25)), closes [AB#3614172](https://dev.azure.com/blackbaud/Products/_workitems/edit/3614172) [#4268](https://github.com/blackbaud/skyux/issues/4268)
 
 ## [14.0.0-alpha.9](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.8...14.0.0-alpha.9) (2026-03-17)
 
@@ -304,7 +305,7 @@
 ### ⚠ BREAKING CHANGES
 
 * **components/animations:** deprecate `@skyux/animations` (#4270)
-* update `google-libphonenumber` and `intl-tel-input` and localize country names in phone field and country field ([#4271](https://github.com/blackbaud/skyux/issues/4271)) ([e175ac9](https://github.com/blackbaud/skyux/commit/e175ac993952f4b1eff778a4a4a9ba5f1fcb55db)) Along with changes in `google-libphonenumber` and `intl-tel-input`, country names are now localized in the country field and phone field components.
+* Along with changes in `google-libphonenumber` and `intl-tel-input`, country names are now localized in the country field and phone field components.
 
 ### Features
 
