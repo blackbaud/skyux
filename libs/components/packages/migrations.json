@@ -11,12 +11,12 @@
       "description": "Regenerate i18n resources modules for libraries."
     },
     "remove-old-compat-stylesheets": {
-      "version": "0.0.0-PLACEHOLDER",
+      "version": "14.0.0",
       "factory": "./src/schematics/migrations/all/remove-old-compat-stylesheets/remove-old-compat-stylesheets.schematic",
       "description": "Remove backward compatible stylesheets for older versions of SKY UX."
     },
     "workspace-check": {
-      "version": "0.0.0-PLACEHOLDER",
+      "version": "14.0.0",
       "factory": "./src/schematics/migrations/all/workspace-check/workspace-check.schematic",
       "description": "Log warnings if the workspace is not configured correctly."
     },
@@ -26,17 +26,17 @@
       "description": "Add AI skills to the workspace"
     },
     "uninstall-prettier-schematics": {
-      "version": "0.0.0-PLACEHOLDER",
+      "version": "14.0.0",
       "factory": "./src/schematics/migrations/update-14/uninstall-prettier-schematics/uninstall-prettier-schematics",
       "description": "Uninstall the @skyux-sdk/prettier-schematics package"
     },
     "remove-dragula": {
-      "version": "0.0.0-PLACEHOLDER",
+      "version": "14.0.0",
       "factory": "./src/schematics/migrations/update-14/remove-dragula/remove-dragula",
       "description": "Remove dragula, ng2-dragula, and dom-autoscroller packages if not used"
     },
     "replace-deprecated-css-vars-and-classes": {
-      "version": "0.0.0-PLACEHOLDER",
+      "version": "14.0.0",
       "factory": "./src/schematics/migrations/update-14/replace-deprecated-css-vars-and-classes/replace-deprecated-css-vars-and-classes",
       "description": "Replace known CSS classes and custom properties in HTML, TypeScript/JavaScript, and CSS/SCSS files"
     }
