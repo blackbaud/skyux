@@ -678,6 +678,52 @@ describe('File attachment', () => {
     expect(liveAnnouncerSpy.calls.count()).toBe(1);
   });
 
+  it('should mark as touched when removing a preloaded file', () => {
+    fixture.componentInstance.required = true;
+    fixture.detectChanges();
+
+    fixture.componentInstance.attachment.setValue({
+      file: {
+        name: 'foo.txt',
+        size: 1000,
+        type: 'image/png',
+      },
+      url: '$/foo.txt',
+    });
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.attachment.touched).toBeFalse();
+
+    getDeleteEl()?.click();
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.attachment.touched).toBeTrue();
+  });
+
+  it('should emit one value change when removing a preloaded file', () => {
+    fixture.componentInstance.attachment.setValue({
+      file: {
+        name: 'foo.txt',
+        size: 1000,
+        type: 'image/png',
+      },
+      url: '$/foo.txt',
+    });
+    fixture.detectChanges();
+
+    let emissionCount = 0;
+    const subscription =
+      fixture.componentInstance.attachment.valueChanges.subscribe(() => {
+        emissionCount += 1;
+      });
+
+    getDeleteEl()?.click();
+    fixture.detectChanges();
+
+    expect(emissionCount).toBe(1);
+    subscription.unsubscribe();
+  });
+
   it('should show the appropriate file name', () => {
     // Regular file
     let testFile: {
@@ -1655,6 +1701,26 @@ describe('File attachment', () => {
         type: 'image/png',
       },
     ];
+    fixture.componentInstance.maxFileSize = 1000;
+    fixture.detectChanges();
+
+    await setupStandardFileChangeEvent(files);
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.attachment.dirty).toBeTrue();
+  });
+
+  it('should mark as dirty when first invalid upload occurs after null value', async () => {
+    const files = [
+      {
+        name: 'woo.txt',
+        size: 2000,
+        type: 'image/png',
+      },
+    ];
+
+    fixture.componentInstance.attachment.setValue(null);
+    fixture.componentInstance.attachment.markAsPristine();
     fixture.componentInstance.maxFileSize = 1000;
     fixture.detectChanges();
 
