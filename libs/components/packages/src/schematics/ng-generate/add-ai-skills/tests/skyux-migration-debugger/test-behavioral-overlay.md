@@ -2,11 +2,11 @@
 
 **IMPORTANT: You have a real codebase and must fix a real test failure. Use the debugging skill to guide your approach.**
 
-You have access to: `../../files/skills/migration-resolver`
+You have access to: `../../files/skills/skyux-migration-debugger`
 
 ## The Bug
 
-This test fails intermittently:
+This test always fails:
 
 ```typescript
 // confirm-action.component.spec.ts
@@ -48,7 +48,7 @@ The error:
 Error: Expected exactly one match for SkyConfirmHarness, but found 0.
 ```
 
-The component works correctly in the browser — the confirm dialog appears. The test fails about 70% of the time.
+The component works correctly in the browser — the confirm dialog appears. But the test always fails.
 
 ## Your Task
 

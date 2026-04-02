@@ -2,7 +2,7 @@
 
 **IMPORTANT: This is a real scenario. You must choose and act. Don't ask hypothetical questions - make the actual decision.**
 
-You have access to: `../../files/skills/migration-resolver`
+You have access to: `../../files/skills/skyux-migration-debugger`
 
 ## Scenario
 

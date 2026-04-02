@@ -1,6 +1,6 @@
 ---
 name: skyux-test-driven-development
-description: Use when implementing any Angular/SKY UX feature or bugfix, before writing implementation code. Covers Red-Green-Refactor cycle, TestBed setup, component harness testing, overlay testing patterns, and mocking strategies. Activate whenever writing new components, services, directives, or fixing bugs — even 'simple' ones.
+description: Use when implementing any Angular/SKY UX feature or bugfix, before writing implementation code. Covers Red-Green-Refactor cycle, TestBed setup, component harness testing and authoring, overlay testing patterns, and mocking strategies. Activate whenever writing new components, services, directives, harness methods, or fixing bugs — even 'simple' ones. Also use when adding test coverage to existing code.
 ---
 
 # Test-Driven Development (TDD) for Angular / SKY UX
@@ -408,7 +408,7 @@ Can't check all boxes? You skipped TDD. Start over.
 
 Bug found? Write failing test reproducing it. Follow TDD cycle. Test proves fix and prevents regression.
 
-Never fix bugs without a test. See the [migration-resolver](../migration-resolver/SKILL.md) skill for the full systematic debugging process.
+Never fix bugs without a test. See the [skyux-migration-debugger](../skyux-migration-debugger/SKILL.md) skill for the full systematic debugging process.
 
 ## Testing Anti-Patterns
 

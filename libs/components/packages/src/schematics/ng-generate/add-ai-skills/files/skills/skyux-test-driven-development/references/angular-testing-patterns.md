@@ -211,13 +211,9 @@ TestBed.configureTestingModule({
 ### Component Mocking
 
 ```typescript
-// Simple stub component
-@Component({ template: '', standalone: false })
-class StubChildComponent {}
-
-// For standalone components
+// Simple stub component (standalone is the default in Angular 19+)
 @Component({ template: '' })
-class StubStandaloneComponent {}
+class StubChildComponent {}
 ```
 
 ### Spy on Existing Methods

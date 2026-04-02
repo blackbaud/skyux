@@ -1,6 +1,6 @@
 ---
 name: skyux-verification-before-completion
-description: Use when about to claim work is complete, fixed, or passing in an Angular or SKY UX project, before committing or creating PRs. Requires running verification commands (ng test, ng build, lint) and confirming output before making any success claims. Use this skill even for small changes — evidence before assertions, always.
+description: Use before making ANY success claim in an Angular or SKY UX project — whether mid-task ("that should fix it"), at completion ("tests pass"), or before committing/creating PRs. Requires running verification commands (ng test, ng build, ng lint) and confirming output before claiming success. Activate when about to say "should work", "looks good", "fixed", or "done". Use this skill even for small changes — evidence before assertions, always.
 ---
 
 # Verification Before Completion for Angular or SKY UX
@@ -149,7 +149,7 @@ This is non-negotiable.
 
 **Related skills:**
 
-- **[migration-resolver](../migration-resolver/SKILL.md)** — Systematic debugging process (verify fix in Phase 4)
+- **[skyux-migration-debugger](../skyux-migration-debugger/SKILL.md)** — Systematic debugging process (verify fix in Phase 4)
 - **[skyux-test-driven-development](../skyux-test-driven-development/SKILL.md)** — Red-green-refactor cycle requires verification at each step
 
 ## Attribution

@@ -27,58 +27,7 @@ flowchart TD
 - Testing actual timing behavior (debounce, throttle intervals)
 - Always document WHY if using arbitrary timeout
 
-## Core Pattern
-
-```typescript
-// ❌ BEFORE: Guessing at timing
-await new Promise(r => setTimeout(r, 50));
-const result = getResult();
-expect(result).toBeDefined();
-
-// ✅ AFTER: Waiting for condition
-await waitFor('getResult to be defined', () => getResult() !== undefined);
-const result = getResult();
-expect(result).toBeDefined();
-```
-
-## Quick Patterns
-
-| Scenario          | Pattern                                                              |
-| ----------------- | -------------------------------------------------------------------- |
-| Wait for event    | `waitFor('DONE event', () => events.find(e => e.type === 'DONE'))`   |
-| Wait for state    | `waitFor('machine ready', () => machine.state === 'ready')`          |
-| Wait for count    | `waitFor('5 items', () => items.length >= 5)`                        |
-| Wait for file     | `waitFor('file exists', () => fs.existsSync(path))`                  |
-| Complex condition | `waitFor('obj ready with value', () => obj.ready && obj.value > 10)` |
-
-## Implementation
-
-Generic polling function:
-
-```typescript
-async function waitFor<T>(
-  description: string,
-  condition: () => T | undefined | null | false,
-  timeoutMs = 5000,
-): Promise<T> {
-  const startTime = Date.now();
-
-  while (true) {
-    const result = condition();
-    if (result) return result;
-
-    if (Date.now() - startTime > timeoutMs) {
-      throw new Error(
-        `Timeout waiting for ${description} after ${timeoutMs}ms`,
-      );
-    }
-
-    await new Promise((r) => setTimeout(r, 10)); // Poll every 10ms
-  }
-}
-```
-
-## Angular-Specific Waiting Patterns
+## Angular-Specific Waiting Patterns (Use These First)
 
 ### `fakeAsync` / `tick` (preferred for synchronous-style async)
 
@@ -122,6 +71,38 @@ it('should filter results after typing', async () => {
 });
 ```
 
+### Hybrid: `fakeAsync` + `await` (for harness + timing control)
+
+When you need BOTH deterministic time control (debounce, timers) AND async harness methods, combine them:
+
+```typescript
+it('should show search results after debounced input', fakeAsync(async () => {
+  const loader = TestbedHarnessEnvironment.loader(fixture);
+  const autocomplete = await loader.getHarness(SkyAutocompleteHarness);
+
+  await autocomplete.enterText('Ang');
+
+  tick(300); // Deterministically advance past debounce — no real-time race
+
+  httpMock
+    .expectOne('/api/search?q=Ang')
+    .flush([{ name: 'Angular' }, { name: 'AngularJS' }]);
+
+  tick(); // Bare tick() flushes all remaining microtasks and pending timers
+  fixture.detectChanges();
+
+  const results = await autocomplete.getSearchResults();
+  expect(results.length).toBe(2);
+}));
+```
+
+**Key points:**
+
+- `fakeAsync(async () => ...)` — the `async` callback is valid inside `fakeAsync`
+- `tick(ms)` — advances the fake clock by the specified milliseconds
+- `tick()` with no argument — flushes all pending microtasks and zero-delay timers
+- Harness `await` calls work inside `fakeAsync` because harness stabilization uses zone-aware waiting
+
 ### When to Use Which
 
 | Scenario                      | Pattern                                                     |
@@ -132,6 +113,43 @@ it('should filter results after typing', async () => {
 | Testing animation completion  | `fakeAsync` + `tick(animationDuration)`                     |
 | Testing interval/timer        | `fakeAsync` + `tick(intervalTime)`                          |
 | Waiting for overlay to appear | `await rootLoader.getHarness(SkyModalHarness)`              |
+
+## Generic Polling (Non-Angular Contexts Only)
+
+> **Warning:** The `waitFor()` polling function below uses real `setTimeout`, which does NOT work inside `fakeAsync` zones. For Angular tests, always use `fakeAsync`/`tick` or harness async patterns above.
+
+```typescript
+async function waitFor<T>(
+  description: string,
+  condition: () => T | undefined | null | false,
+  timeoutMs = 5000,
+): Promise<T> {
+  const startTime = Date.now();
+
+  while (true) {
+    const result = condition();
+    if (result) return result;
+
+    if (Date.now() - startTime > timeoutMs) {
+      throw new Error(
+        `Timeout waiting for ${description} after ${timeoutMs}ms`,
+      );
+    }
+
+    await new Promise((r) => setTimeout(r, 10)); // Poll every 10ms
+  }
+}
+```
+
+**Quick patterns (non-Angular):**
+
+| Scenario          | Pattern                                                              |
+| ----------------- | -------------------------------------------------------------------- |
+| Wait for event    | `waitFor('DONE event', () => events.find(e => e.type === 'DONE'))`   |
+| Wait for state    | `waitFor('machine ready', () => machine.state === 'ready')`          |
+| Wait for count    | `waitFor('5 items', () => items.length >= 5)`                        |
+| Wait for file     | `waitFor('file exists', () => fs.existsSync(path))`                  |
+| Complex condition | `waitFor('obj ready with value', () => obj.ready && obj.value > 10)` |
 
 ## Common Mistakes
 

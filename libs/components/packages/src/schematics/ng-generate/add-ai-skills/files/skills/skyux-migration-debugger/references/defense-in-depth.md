@@ -61,21 +61,18 @@ export class UserService {
 **Purpose:** Catch invalid requests before they leave the app
 
 ```typescript
-@Injectable()
-export class ValidationInterceptor implements HttpInterceptor {
-  public intercept(
-    req: HttpRequest<unknown>,
-    next: HttpHandler,
-  ): Observable<HttpEvent<unknown>> {
-    // Catch API calls with empty path segments
-    if (req.url.includes('//') || req.url.endsWith('/')) {
-      throw new Error(
-        `Invalid API request: URL contains empty path segment: ${req.url}`,
-      );
-    }
-    return next.handle(req);
+export const validationInterceptor: HttpInterceptorFn = (req, next) => {
+  // Catch API calls with empty path segments
+  if (req.url.includes('//') || req.url.endsWith('/')) {
+    throw new Error(
+      `Invalid API request: URL contains empty path segment: ${req.url}`,
+    );
   }
-}
+  return next(req);
+};
+
+// Register in app config:
+// provideHttpClient(withInterceptors([validationInterceptor]))
 ```
 
 ### Layer 4: Debug Instrumentation

@@ -1,6 +1,6 @@
 ---
-name: migration-resolver
-description: Use when encountering any bug, test failure, or unexpected behavior in Angular or SKY UX code, before proposing fixes. Especially useful during Angular or SKY UX upgrades and migrations for diagnosing and fixing breaking changes. Covers change detection issues, DI errors, harness test failures, ExpressionChangedAfterItHasBeenCheckedError, overlay rendering problems, and flaky tests. Use this skill even if the fix seems obvious.
+name: skyux-migration-debugger
+description: Use when encountering any bug, test failure, build error, compilation failure, or unexpected behavior in Angular or SKY UX code, before proposing fixes. Also use when performing Angular migrations (NgModule to standalone, *ngIf to @if, control flow syntax, fixture to harness). Especially useful after running ng update, upgrading Angular major versions, or migrating SKY UX breaking changes. Covers TypeScript compilation errors (TS2339, TS2305), template errors (NG8001, NG0303), NullInjectorError, inject() context errors (NG0203), change detection issues, ExpressionChangedAfterItHasBeenCheckedError, harness test failures, overlay rendering problems, flaky tests, standalone component migration, and deprecated API removal. Activate when something works in the browser but fails in tests, or when a test passes locally but fails in CI. Use this skill even if the fix seems obvious.
 ---
 
 # SKY UX Debugging
@@ -29,8 +29,11 @@ Use for ANY technical issue:
 - Bugs in production
 - Unexpected behavior
 - Performance problems
-- Build failures
+- Build failures or compilation errors
 - Integration issues
+- Works in browser but fails in test
+- Passes locally but fails in CI
+- Proactive migrations (NgModule → standalone, `*ngIf` → `@if`, fixture → harness)
 
 **Angular/SKY UX-specific triggers:**
 
@@ -40,6 +43,11 @@ Use for ANY technical issue:
 - `NullInjectorError` or circular dependency errors
 - Lifecycle hook ordering issues (`ngOnInit`, `ngAfterViewInit`)
 - Overlay/modal/flyout not rendering in test environment
+- TypeScript compilation errors after `ng update` (`TS2305` no exported member, `TS2339` property does not exist, `TS2304` cannot find name, `TS2345` type mismatch)
+- Template compilation errors (`NG8001` unknown element, `NG8002` unknown property, `NG0303` can't bind)
+- `inject()` context errors (`NG0203: inject() must be called from an injection context`)
+- Standalone component migration errors (missing `imports` on standalone components)
+- Deprecated API errors after major version upgrade (`RouterTestingModule`, `HttpClientTestingModule`, class-based interceptors/guards)
 
 **Use this ESPECIALLY when:**
 
@@ -124,7 +132,7 @@ You MUST complete each phase before proceeding to the next.
    - Is a `providedIn: 'root'` service being accidentally overridden by a module provider?
 
    **Lifecycle Hooks:**
-   - `ngOnInit` fires after first `detectChanges()`. Don't access DOM here.
+   - `ngOnInit` fires after first `detectChanges()`. `@ViewChild`/`@ContentChild` refs are `undefined` here — use `ngAfterViewInit` for those.
    - `ngAfterViewInit` fires after child views initialize. `@ViewChild` is `undefined` before this.
    - `ngOnChanges` fires before `ngOnInit` and on every input change.
 
@@ -266,14 +274,14 @@ If you catch yourself thinking:
 
 ## Angular/SKY UX Anti-Patterns
 
-| Anti-Pattern                                            | Why It Fails                                                                                                | What to Do Instead                                                                                                                 |
-| ------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| **ng-mocks** (`MockComponent`, `MockModule`)            | Hijacks Angular's test environment, masks real DI/template issues, adds a dependency this repo does not use | Use `fixture.debugElement.query(By.directive(Component))` to access child instances, simple stub components, or the real component |
-| **Mocking SKY UX services with `jasmine.createSpyObj`** | Couples tests to SKY UX service internals; breaks when the service API changes                              | Use official testing controllers from `@skyux/*/testing` (e.g., `SkyModalTestingController`, `SkyConfirmTestingController`)        |
-| **Over-mocking services**                               | When everything is mocked, the test only tests your mocks                                                   | Mock at boundaries (HTTP, external services), use real SKY UX services and testing controllers                                     |
-| **`setTimeout`/`sleep` in tests**                       | Arbitrary waits are flaky; pass on fast machines, fail in CI                                                | Use `fakeAsync`/`tick`, harness `await` patterns, or condition-based waiting                                                       |
-| **Direct DOM queries on internal classes**              | Internal CSS classes (`sky-modal-content`, etc.) can change across versions                                 | Use component harnesses which provide stable APIs                                                                                  |
-| **Skipping `detectChanges()`**                          | Template bindings not evaluated, harness sees stale DOM                                                     | Always call `detectChanges()` after changing inputs; harnesses handle this internally for interactions                             |
+| Anti-Pattern                                            | Why It Fails                                                                                      | What to Do Instead                                                                                                                 |
+| ------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| **ng-mocks** (`MockComponent`, `MockModule`)            | Hijacks Angular's test environment, masks real DI/template issues, adds an unnecessary dependency | Use `fixture.debugElement.query(By.directive(Component))` to access child instances, simple stub components, or the real component |
+| **Mocking SKY UX services with `jasmine.createSpyObj`** | Couples tests to SKY UX service internals; breaks when the service API changes                    | Use official testing controllers from `@skyux/*/testing` (e.g., `SkyModalTestingController`, `SkyConfirmTestingController`)        |
+| **Over-mocking services**                               | When everything is mocked, the test only tests your mocks                                         | Mock at boundaries (HTTP, external services), use real SKY UX services and testing controllers                                     |
+| **`setTimeout`/`sleep` in tests**                       | Arbitrary waits are flaky; pass on fast machines, fail in CI                                      | Use `fakeAsync`/`tick`, harness `await` patterns, or condition-based waiting                                                       |
+| **Direct DOM queries on internal classes**              | Internal CSS classes (`sky-modal-content`, etc.) can change across versions                       | Use component harnesses which provide stable APIs                                                                                  |
+| **Skipping `detectChanges()`**                          | Template bindings not evaluated, harness sees stale DOM                                           | Always call `detectChanges()` after changing inputs; harnesses handle this internally for interactions                             |
 
 ## Your Human Partner's Signals You're Doing It Wrong
 
