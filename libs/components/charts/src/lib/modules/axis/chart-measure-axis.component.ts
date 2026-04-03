@@ -7,8 +7,12 @@ import {
   inject,
   input,
 } from '@angular/core';
+import { SkyLogService } from '@skyux/core';
 
-import { SkyChartMeasureAxisConfig, SkyChartAxisLabelText } from '../shared/types/axis-types';
+import {
+  SkyChartAxisLabelText,
+  SkyChartMeasureAxisConfig,
+} from '../shared/types/axis-types';
 
 import { SKY_CHART_AXIS_REGISTRY } from './sky-chart-axis-registry.service';
 
@@ -21,6 +25,7 @@ import { SKY_CHART_AXIS_REGISTRY } from './sky-chart-axis-registry.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyChartMeasureAxisComponent implements OnDestroy {
+  readonly #logger = inject(SkyLogService);
   readonly #registry = inject(SKY_CHART_AXIS_REGISTRY);
 
   /**
@@ -35,16 +40,24 @@ export class SkyChartMeasureAxisComponent implements OnDestroy {
   public readonly scaleType = input<'linear' | 'logarithmic'>('linear');
 
   /**
-   * The suggested lower bound for the measure axis.
-   * The chart may still go below this value if the data requires it.
+   * The lower bound for the measure axis. The chart will not go below this value.
    */
-  public readonly suggestedMin = input<number>();
+  public readonly min = input<number>();
 
   /**
-   * The suggested upper bound for the measure axis.
-   * The chart may still exceed this value if the data requires it.
+   * The upper bound for the measure axis. The chart will not exceed this value.
    */
-  public readonly suggestedMax = input<number>();
+  public readonly max = input<number>();
+
+  /**
+   * The preferred lower bound for the measure axis. The chart may still go below this value if the data requires it.
+   */
+  public readonly preferredMin = input<number>();
+
+  /**
+   * The preferred upper bound for the measure axis. The chart may still exceed this value if the data requires it.
+   */
+  public readonly preferredMax = input<number>();
 
   /**
    * The axis object
@@ -54,14 +67,30 @@ export class SkyChartMeasureAxisComponent implements OnDestroy {
     return {
       labelText: this.labelText(),
       scaleType: this.scaleType(),
-      suggestedMin: this.suggestedMin(),
-      suggestedMax: this.suggestedMax()
+      min: this.min(),
+      max: this.max(),
+      preferredMin: this.preferredMin(),
+      preferredMax: this.preferredMax(),
     };
   });
 
   constructor() {
     effect(() => {
       const axis = this.axis();
+      const { min, max, preferredMin, preferredMax } = axis;
+
+      if (min !== undefined && preferredMin !== undefined) {
+        this.#logger.warn(
+          'Both `min` and `preferredMin` are set on the measure axis. The `preferredMin` value will be ignored because `min` sets a hard lower bound.',
+        );
+      }
+
+      if (max !== undefined && preferredMax !== undefined) {
+        this.#logger.warn(
+          'Both `max` and `preferredMax` are set on the measure axis. The `preferredMax` value will be ignored because `max` sets a hard upper bound.',
+        );
+      }
+
       this.#registry.upsertMeasureAxis(axis);
     });
   }

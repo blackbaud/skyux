@@ -257,9 +257,10 @@ export class SkyBarChartConfigService {
     const valueScale: PartialBarScale = {
       type: 'linear',
       stacked: options.stacked ?? false,
-      beginAtZero: true,
-      suggestedMin: options.measureAxis?.suggestedMin,
-      suggestedMax: options.measureAxis?.suggestedMax,
+      min: options.measureAxis?.min,
+      max: options.measureAxis?.max,
+      suggestedMin: options.measureAxis?.preferredMin,
+      suggestedMax: options.measureAxis?.preferredMax,
       grid: base.grid,
       border: base.border,
       ticks: {
@@ -285,8 +286,10 @@ export class SkyBarChartConfigService {
     const valueScale: PartialBarScale = {
       type: 'logarithmic',
       stacked: options.stacked ?? false,
-      suggestedMin: options.measureAxis?.suggestedMin,
-      suggestedMax: options.measureAxis?.suggestedMax,
+      min: options.measureAxis?.min,
+      max: options.measureAxis?.max,
+      suggestedMin: options.measureAxis?.preferredMin,
+      suggestedMax: options.measureAxis?.preferredMax,
       grid: {
         ...base.grid,
         lineWidth: (ctx) => {
