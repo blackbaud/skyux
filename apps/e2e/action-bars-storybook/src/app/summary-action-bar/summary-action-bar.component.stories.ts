@@ -1,5 +1,5 @@
-import { moduleMetadata } from '@storybook/angular';
 import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 
 import { SummaryActionBarComponent } from './summary-action-bar.component';
 import { SummaryActionBarModule } from './summary-action-bar.module';
