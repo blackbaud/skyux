@@ -21,7 +21,7 @@
       "description": "Log warnings if the workspace is not configured correctly."
     },
     "add-ai-skills": {
-      "version": "0.0.0-PLACEHOLDER",
+      "version": "14.1.0",
       "factory": "./src/schematics/migrations/update-14/add-ai-skills/add-ai-skills",
       "description": "Add AI skills to the workspace"
     },
