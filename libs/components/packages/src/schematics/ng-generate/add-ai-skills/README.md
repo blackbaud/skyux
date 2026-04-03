@@ -20,13 +20,9 @@ This copies `.github/skills/skyux-update-debugger/SKILL.md` into the workspace. 
 
 ## Evals
 
-`tests/evals.json` contains evaluation prompts for verifying the skill activates and responds correctly. Each eval has:
+`tests/evals.json` is a reference file containing conceptual prompts and expected responses that clarify what this skill is expected to do. Each entry has:
 
 - **prompt** — a realistic user request that should trigger the skill
 - **expected_output** — what a correct response looks like
 
-Run an eval by pointing an AI assistant at the skill and the prompt:
-
-```bash
-claude -p "Read .github/skills/skyux-update-debugger/SKILL.md and follow it to complete this task: <paste prompt here>"
-```
+This file is intended to be used as a reference when working with an AI agent to validate or refine the skill. It is not packaged to be run in any specific test framework.
