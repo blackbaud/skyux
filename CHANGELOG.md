@@ -1,6 +1,14 @@
 # Changelog
 
 
+## [14.0.1](https://github.com/blackbaud/skyux/compare/14.0.0...14.0.1) (2026-04-03)
+
+
+### Bug Fixes
+
+* add missing docs for `skyux-stylelint/no-sky-theme-imports` and `skyux-eslint/no-sky-selectors` rules ([#4365](https://github.com/blackbaud/skyux/issues/4365)) ([66b41b7](https://github.com/blackbaud/skyux/commit/66b41b7ac37d94eed46aae4418386e4c78442878))
+* **components/i18n:** add support for `ng-packagr@21.2.2` ([#4370](https://github.com/blackbaud/skyux/issues/4370)) ([ce46200](https://github.com/blackbaud/skyux/commit/ce46200179ca65e0cf7adf4d1eeb44eab6e56575)), closes [AB#3939429](https://dev.azure.com/blackbaud/Products/_workitems/edit/3939429)
+
 ## [14.0.0](https://github.com/blackbaud/skyux/compare/14.0.0-beta.2...14.0.0) (2026-04-01)
 
 
