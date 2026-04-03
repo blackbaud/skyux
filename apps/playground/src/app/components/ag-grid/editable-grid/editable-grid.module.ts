@@ -4,8 +4,7 @@ import { SkyAgGridModule } from '@skyux/ag-grid';
 import { SkyToolbarModule } from '@skyux/layout';
 
 import { AgGridModule } from 'ag-grid-angular';
-import { AllCommunityModule } from 'ag-grid-community';
-import { ModuleRegistry } from 'ag-grid-community';
+import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 
 import { EditableGridRoutingModule } from './editable-grid-routing.module';
 import { EditableGridComponent } from './editable-grid.component';

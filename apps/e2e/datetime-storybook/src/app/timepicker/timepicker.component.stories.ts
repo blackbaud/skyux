@@ -1,5 +1,5 @@
-import { moduleMetadata } from '@storybook/angular';
 import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 
 import { TimepickerComponent } from './timepicker.component';
 import { TimepickerModule } from './timepicker.module';
