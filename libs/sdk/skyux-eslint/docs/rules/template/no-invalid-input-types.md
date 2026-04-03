@@ -16,7 +16,7 @@ The rule does not have any configuration options.
 
 ## Usage Examples
 
-#### Default Config
+### Default Config
 
 ```json
 {
@@ -38,7 +38,7 @@ An `<input>` element with no `type` attribute is valid (it defaults to `text`).
 
 <br>
 
-#### ❌ Invalid Code
+### ❌ Invalid Code
 
 ```html
 <!-- Unknown type -->
@@ -52,7 +52,7 @@ An `<input>` element with no `type` attribute is valid (it defaults to `text`).
 
 <br>
 
-#### ✅ Valid Code
+### ✅ Valid Code
 
 ```html
 <!-- Valid types -->
