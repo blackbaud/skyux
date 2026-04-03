@@ -7,9 +7,8 @@ export type SkyBarChartOrientation = 'vertical' | 'horizontal';
 
 /**
  * A bar chart data point, which can be a single numeric value or a range (tuple of two numbers).
- * A `null` value represents a gap in the data.
  */
-export type SkyBarDatum = number | [number, number] | null;
+export type SkyBarDatum = number | [number, number];
 
 /**
  * A single data point within a bar chart series.
