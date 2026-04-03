@@ -240,8 +240,10 @@ export class SkyLineChartConfigService {
     const valueScale: PartialLineScale = {
       type: 'linear',
       stacked: config.stacked ?? false,
-      suggestedMin: config.measureAxis?.suggestedMin,
-      suggestedMax: config.measureAxis?.suggestedMax,
+      min: config.measureAxis?.min,
+      max: config.measureAxis?.max,
+      suggestedMin: config.measureAxis?.preferredMin,
+      suggestedMax: config.measureAxis?.preferredMax,
       grid: base.grid,
       border: base.border,
       ticks: {
@@ -267,8 +269,10 @@ export class SkyLineChartConfigService {
     const valueScale: PartialLineScale = {
       type: 'logarithmic',
       stacked: config.stacked ?? false,
-      suggestedMin: config.measureAxis?.suggestedMin,
-      suggestedMax: config.measureAxis?.suggestedMax,
+      min: config.measureAxis?.min,
+      max: config.measureAxis?.max,
+      suggestedMin: config.measureAxis?.preferredMin,
+      suggestedMax: config.measureAxis?.preferredMax,
       grid: {
         ...base.grid,
         lineWidth: (ctx) => {

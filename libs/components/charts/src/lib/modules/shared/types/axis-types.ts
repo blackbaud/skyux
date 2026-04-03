@@ -11,8 +11,6 @@ export interface SkyChartAxisConfig {
   labelText?: SkyChartAxisLabelText;
 }
 
-
-
 /**
  * Configuration for chart category axis settings.
  * @internal
@@ -31,14 +29,22 @@ export interface SkyChartMeasureAxisConfig extends SkyChartAxisConfig {
   scaleType?: 'linear' | 'logarithmic';
 
   /**
-   * The suggested minimum value for the axis.
-   * If not specified, the chart will automatically determine the minimum based on the data.
+   * The hard minimum value for the axis. The axis will not go below this value regardless of the data.
    */
-  suggestedMin?: number;
+  min?: number;
 
   /**
-   * The suggested maximum value for the axis.
-   * If not specified, the chart will automatically determine the minimum based on the data.
+   * The hard maximum value for the axis. The axis will not exceed this value regardless of the data.
    */
-  suggestedMax?: number;
+  max?: number;
+
+  /**
+   * The preferred minimum value for the axis. The axis may still go below this value if the data requires it.
+   */
+  preferredMin?: number;
+
+  /**
+   * The preferred maximum value for the axis. The axis may still exceed this value if the data requires it.
+   */
+  preferredMax?: number;
 }
