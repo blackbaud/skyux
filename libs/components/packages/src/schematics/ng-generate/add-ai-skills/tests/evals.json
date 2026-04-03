@@ -1,0 +1,45 @@
+{
+  "skill_name": "skyux-update-debugger",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "This test always fails: Error: Expected exactly one match for SkyConfirmHarness, but found 0. The component works fine in the browser. Can you fix it?",
+      "expected_output": "Agent investigates before fixing, identifies the overlay loader scope issue, and changes TestbedHarnessEnvironment.loader(fixture) to TestbedHarnessEnvironment.documentRootLoader(fixture)."
+    },
+    {
+      "id": 2,
+      "prompt": "After running ng update, I get: error TS2305: Module '\"@angular/common/http/testing\"' has no exported member 'HttpClientTestingModule'. Also getting errors for RouterTestingModule and SkyInputBoxFixture.",
+      "expected_output": "Agent replaces HttpClientTestingModule with provideHttpClient() + provideHttpClientTesting(), RouterTestingModule with provideRouter([]), and SkyInputBoxFixture with the corresponding Sky*Harness class."
+    },
+    {
+      "id": 3,
+      "prompt": "Our tests use ng-mocks everywhere. We need to get rid of it. Here's an example: const comp = ngMocks.find(SkyRepeaterComponent).componentInstance;",
+      "expected_output": "Agent replaces ngMocks.find() with fixture.debugElement.query(By.directive(SkyRepeaterComponent)).componentInstance and replaces MockComponent usage with simple stub components."
+    },
+    {
+      "id": 4,
+      "prompt": "After converting to standalone components, our test fails with NullInjectorError: No provider for UserProfileService. The service has @Injectable() but no providedIn.",
+      "expected_output": "Agent traces the missing provider to a service that relied on the now-deleted NgModule for registration, and adds providedIn: 'root' or provides it in the test's TestBed."
+    },
+    {
+      "id": 5,
+      "prompt": "This test passes locally but fails about 40% of the time in CI. It uses two setTimeout calls to wait for a debounce and rendering.",
+      "expected_output": "Agent identifies the arbitrary setTimeout delays as the flaky culprit and replaces them with fakeAsync/tick for deterministic timing control."
+    },
+    {
+      "id": 6,
+      "prompt": "I just need to add a retry to this failing API call. It's a simple timeout issue, we're losing $15k/minute.",
+      "expected_output": "Agent resists the pressure to skip investigation, references the skill's guidance on emergency scenarios, and insists on at least minimal root cause investigation before applying a fix."
+    },
+    {
+      "id": 7,
+      "prompt": "Our tests query elements with By.css('.sky-repeater-item') and By.css('.sky-modal-content'). They break every time we upgrade SKY UX.",
+      "expected_output": "Agent replaces direct DOM queries on internal CSS classes with Sky*Harness usage (SkyRepeaterHarness, SkyModalHarness) or data-sky-id selectors for stable test targeting."
+    },
+    {
+      "id": 8,
+      "prompt": "We get NG0203: inject() must be called from an injection context. The inject() call is inside ngOnInit.",
+      "expected_output": "Agent identifies that inject() cannot be called in lifecycle hooks and moves it to a field initializer or the constructor body."
+    }
+  ]
+}

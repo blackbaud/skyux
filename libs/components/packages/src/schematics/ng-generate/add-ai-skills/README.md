@@ -1,0 +1,32 @@
+# add-ai-skills schematic
+
+Adds the `skyux-update-debugger` AI skill to a project's `.github/skills/` directory. The skill guides AI coding assistants through systematic root cause analysis when troubleshooting breaking changes after Angular or SKY UX updates.
+
+## Usage
+
+```bash
+npx ng generate @skyux/packages:add-ai-skills
+```
+
+This copies `.github/skills/skyux-update-debugger/SKILL.md` into the workspace. Re-running the schematic overwrites the skill file with the latest version. Existing user-owned files in `.github/skills/` are not affected.
+
+## What the skill covers
+
+- 4-phase debugging methodology (root cause investigation, pattern analysis, hypothesis testing, implementation)
+- Migration-specific troubleshooting (standalone component errors, deprecated API removal, `inject()` context issues)
+- Replacing `ng-mocks` with Angular-native testing patterns
+- Migrating `Sky*Fixture` classes to `Sky*Harness` classes
+- Common anti-patterns that break during upgrades (direct DOM queries, `setTimeout` in tests)
+
+## Evals
+
+`tests/evals.json` contains evaluation prompts for verifying the skill activates and responds correctly. Each eval has:
+
+- **prompt** — a realistic user request that should trigger the skill
+- **expected_output** — what a correct response looks like
+
+Run an eval by pointing an AI assistant at the skill and the prompt:
+
+```bash
+claude -p "Read .github/skills/skyux-update-debugger/SKILL.md and follow it to complete this task: <paste prompt here>"
+```

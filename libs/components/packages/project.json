@@ -31,6 +31,7 @@
           "libs/components/packages/collection.json",
           "libs/components/packages/migrations.json",
           "libs/components/packages/src/polyfills.js",
+          "libs/components/packages/src/schematics/**/files/**/*",
           "libs/components/packages/src/schematics/**/schema.json",
           "libs/components/packages/src/schematics/**/*.template",
           "libs/components/packages/*.md"
