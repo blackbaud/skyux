@@ -1,9 +1,9 @@
 ---
 name: skyux-update-debugger
-description: Use when encountering any bug, test failure, build error, compilation failure, or unexpected behavior in Angular or SKY UX code, before proposing fixes. Also use when performing Angular migrations (NgModule to standalone, *ngIf to @if, control flow syntax, fixture to harness). Especially useful after running ng update, upgrading Angular major versions, or migrating SKY UX breaking changes. Covers TypeScript compilation errors (TS2339, TS2305), template errors (NG8001, NG0303), NullInjectorError, inject() context errors (NG0203), harness test failures, overlay rendering problems, flaky tests, standalone component migration, and deprecated API removal. Activate when something works in the browser but fails in tests, or when a test passes locally but fails in CI. Use this skill even if the fix seems obvious.
+description: Use when encountering any bug, test failure, build error, or unexpected behavior in Angular or SKY UX code, before proposing fixes. Especially useful after ng update, major version upgrades, or migrating breaking changes. Also activate when something works in the browser but fails in tests, or when performing migrations like standalone conversion or fixture-to-harness. Use this skill even if the fix seems obvious.
 ---
 
-# SKY UX Migration Debugger
+# SKY UX Update Debugger
 
 ## The Iron Law
 
@@ -12,6 +12,8 @@ NO FIXES WITHOUT ROOT CAUSE INVESTIGATION FIRST
 ```
 
 Random fixes waste time and create new bugs. ALWAYS find root cause before attempting fixes.
+
+Narrate your thinking as you go — what you notice, what surprises you, what you're suspicious of. Be candid and unfiltered.
 
 ## The Four Phases
 
@@ -22,21 +24,9 @@ Complete each phase before proceeding to the next.
 **BEFORE attempting ANY fix:**
 
 1. **Read error messages carefully** — don't skip past errors. Note error codes, file paths, line numbers. They often contain the exact solution.
-
 2. **Reproduce consistently** — can you trigger it reliably? If not reproducible, gather more data instead of guessing.
-
 3. **Check recent changes** — git diff, recent commits, new dependencies, config changes.
-
-4. **Gather evidence** — in multi-component systems, add diagnostic logging at each component boundary to identify WHERE it breaks before investigating WHY.
-
-5. **Trace data flow** — where does the bad value originate? What called this with bad data? Keep tracing backward until you find the source. Fix at the source, not at the symptom.
-
-6. **Migration-specific investigation:**
-   - `NG8001`/`NG0303` (unknown element/property) → standalone component missing an `imports` entry
-   - `NG0203` (inject() context) → `inject()` called outside constructor or field initializer
-   - `TS2305` (no exported member) → deprecated API removed in new version (e.g. `HttpClientTestingModule`, `RouterTestingModule`)
-   - Test uses `Sky*Fixture` → class was removed, replace with `Sky*Harness`
-   - Overlay component (modal, flyout, popover) not found in test → use `TestbedHarnessEnvironment.documentRootLoader(fixture)` instead of `.loader(fixture)`
+4. **Trace to the source** — where does the bad value originate? In multi-component systems, add diagnostic logging at each boundary to identify WHERE it breaks. Keep tracing backward until you find the source. Fix at the source, not at the symptom.
 
 ### Phase 2: Pattern Analysis
 
@@ -99,24 +89,7 @@ Use official testing controllers from `@skyux/*/testing`:
 | **Deprecated `Sky*Fixture` classes**                     | Removed in newer SKY UX versions                      | Migrate to `Sky*Harness` (see above)                 |
 | **`setTimeout`/`sleep` in tests**                        | Flaky — passes on fast machines, fails in CI          | Use `fakeAsync`/`tick` or harness `await` patterns   |
 
-## Red Flags — STOP and Return to Phase 1
-
-- "Quick fix for now, investigate later"
-- "Just try changing X and see if it works"
-- "It's probably X, let me fix that"
-- "I don't fully understand but this might work"
-- Proposing solutions before tracing data flow
-- "One more fix attempt" (when already tried 2+)
-- Each fix reveals a new problem in a different place
-
-## Quick Reference
-
-| Phase                 | Key Activities                                                          | Success Criteria            |
-| --------------------- | ----------------------------------------------------------------------- | --------------------------- |
-| **1. Root Cause**     | Read errors, reproduce, check changes, gather evidence, trace data flow | Understand WHAT and WHY     |
-| **2. Pattern**        | Find working examples in codebase or `@skyux/*/testing`, compare        | Identify differences        |
-| **3. Hypothesis**     | Form theory, test minimally, verify or pivot                            | Confirmed or new hypothesis |
-| **4. Implementation** | Write failing test, single fix, verify                                  | Bug resolved, tests pass    |
+If you're proposing fixes before completing Phase 1, stop and go back.
 
 ## Attribution
 

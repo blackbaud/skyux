@@ -8,7 +8,7 @@ Adds the `skyux-update-debugger` AI skill to a project's `.github/skills/` direc
 npx ng generate @skyux/packages:add-ai-skills
 ```
 
-This copies `.github/skills/skyux-update-debugger/SKILL.md` into the workspace. Re-running the schematic overwrites the skill file with the latest version. Existing user-owned files in `.github/skills/` are not affected.
+This copies `.github/skills/skyux-update-debugger/SKILL.md` into the workspace. Re-running the schematic overwrites the skill file with the latest version. Other user-owned files in `.github/skills/` are not affected.
 
 ## What the skill covers
 

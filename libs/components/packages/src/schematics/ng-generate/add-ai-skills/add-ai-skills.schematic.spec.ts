@@ -26,9 +26,7 @@ describe('add-ai-skills', () => {
     const skillContent = resultTree.readContent(
       '.github/skills/skyux-update-debugger/SKILL.md',
     );
-    expect(skillContent).toContain(
-      '`TestbedHarnessEnvironment.documentRootLoader(fixture)`',
-    );
+    expect(skillContent).toContain('documentRootLoader');
     expect(skillContent).toContain('ng-mocks');
   });
 

@@ -8,8 +8,8 @@
     },
     {
       "id": 2,
-      "prompt": "After running ng update, I get: error TS2305: Module '\"@angular/common/http/testing\"' has no exported member 'HttpClientTestingModule'. Also getting errors for RouterTestingModule and SkyInputBoxFixture.",
-      "expected_output": "Agent replaces HttpClientTestingModule with provideHttpClient() + provideHttpClientTesting(), RouterTestingModule with provideRouter([]), and SkyInputBoxFixture with the corresponding Sky*Harness class."
+      "prompt": "After running ng update, I get: error TS2305: Module '\"@angular/common/http/testing\"' has no exported member 'HttpClientTestingModule'. Also getting the same error for RouterTestingModule.",
+      "expected_output": "Agent investigates the errors, identifies them as removed APIs, and replaces HttpClientTestingModule with provideHttpClient() + provideHttpClientTesting() and RouterTestingModule with provideRouter([])."
     },
     {
       "id": 3,
@@ -29,7 +29,7 @@
     {
       "id": 6,
       "prompt": "I just need to add a retry to this failing API call. It's a simple timeout issue, we're losing $15k/minute.",
-      "expected_output": "Agent resists the pressure to skip investigation, references the skill's guidance on emergency scenarios, and insists on at least minimal root cause investigation before applying a fix."
+      "expected_output": "Agent resists the pressure to skip investigation, follows the Iron Law (no fixes without root cause investigation first), and insists on at least reading the error and checking recent changes before applying a fix."
     },
     {
       "id": 7,
@@ -39,7 +39,7 @@
     {
       "id": 8,
       "prompt": "We get NG0203: inject() must be called from an injection context. The inject() call is inside ngOnInit.",
-      "expected_output": "Agent identifies that inject() cannot be called in lifecycle hooks and moves it to a field initializer or the constructor body."
+      "expected_output": "Agent follows the debugging process to investigate the error rather than guessing, and identifies where inject() is being called incorrectly."
     }
   ]
 }
