@@ -17,7 +17,7 @@ The rule does not have any configuration options.
 
 ## Usage Examples
 
-#### Default Config
+### Default Config
 
 ```json
 {
@@ -42,7 +42,7 @@ This rule applies to the following HTML elements that support the `disabled` att
 
 <br>
 
-#### ❌ Invalid Code
+### ❌ Invalid Code
 
 ```html
 <!-- Static class attribute -->
@@ -65,7 +65,7 @@ This rule applies to the following HTML elements that support the `disabled` att
 
 <br>
 
-#### ✅ Valid Code
+### ✅ Valid Code
 
 ```html
 <!-- Use the disabled attribute instead -->

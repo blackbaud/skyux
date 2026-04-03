@@ -16,7 +16,7 @@ The rule does not have any configuration options.
 
 ## Usage Examples
 
-#### Default Config
+### Default Config
 
 ```json
 {
@@ -61,7 +61,7 @@ Each `<sky-input-box>` should contain exactly one form control. Having multiple 
 
 <br>
 
-#### ❌ Invalid Code
+### ❌ Invalid Code
 
 ```html
 <!-- Invalid input type inside sky-input-box -->
@@ -87,7 +87,7 @@ Each `<sky-input-box>` should contain exactly one form control. Having multiple 
 
 <br>
 
-#### ✅ Valid Code
+### ✅ Valid Code
 
 ```html
 <!-- Valid input types -->

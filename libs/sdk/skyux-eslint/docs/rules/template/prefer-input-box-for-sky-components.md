@@ -16,7 +16,7 @@ The rule does not have any configuration options.
 
 ## Usage Examples
 
-#### Default Config
+### Default Config
 
 ```json
 {
@@ -41,7 +41,7 @@ This rule applies to the following SKY UX components:
 
 <br>
 
-#### ❌ Invalid Code
+### ❌ Invalid Code
 
 ```html
 <!-- SKY UX component without sky-input-box wrapper -->
@@ -63,7 +63,7 @@ This rule applies to the following SKY UX components:
 
 <br>
 
-#### ✅ Valid Code
+### ✅ Valid Code
 
 ```html
 <!-- Inside sky-input-box -->
