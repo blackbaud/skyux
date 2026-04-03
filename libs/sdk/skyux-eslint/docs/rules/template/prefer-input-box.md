@@ -18,7 +18,7 @@ The rule does not have any configuration options.
 
 ## Usage Examples
 
-#### Default Config
+### Default Config
 
 ```json
 {
@@ -45,7 +45,7 @@ This rule applies to the following elements:
 
 <br>
 
-#### ❌ Invalid Code
+### ❌ Invalid Code
 
 ```html
 <!-- Bare input with no wrapper -->
@@ -63,7 +63,7 @@ This rule applies to the following elements:
 
 <br>
 
-#### ✅ Valid Code
+### ✅ Valid Code
 
 ```html
 <!-- Inside sky-input-box -->

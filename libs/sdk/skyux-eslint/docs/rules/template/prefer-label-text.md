@@ -74,7 +74,7 @@ Replaces the deprecated `<sky-toggle-switch-label>` child element. Setting `labe
 
 ## Usage Examples
 
-#### Default Config
+### Default Config
 
 ```json
 {
@@ -86,7 +86,7 @@ Replaces the deprecated `<sky-toggle-switch-label>` child element. Setting `labe
 
 <br>
 
-#### ❌ Invalid Code
+### ❌ Invalid Code
 
 ```html
 <sky-checkbox>
@@ -116,7 +116,7 @@ Replaces the deprecated `<sky-toggle-switch-label>` child element. Setting `labe
 
 <br>
 
-#### ✅ Valid Code
+### ✅ Valid Code
 
 ```html
 <sky-checkbox [labelText]="'first_name' | skyAppResources" />

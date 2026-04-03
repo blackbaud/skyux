@@ -114,7 +114,7 @@ this.form = this.fb.group({
 ```typescript
 // Before
 @Component({
-  template: `<sky-select-field [(ngModel)]="selectedItem">`
+  template: `<sky-select-field [(ngModel)]="selectedItem"></sky-select-field>`,
 })
 class MyComponent {
   selectedItem: MyObject | undefined;
@@ -122,7 +122,7 @@ class MyComponent {
 
 // After
 @Component({
-  template: `<sky-lookup [(ngModel)]="selectedItems">`
+  template: `<sky-lookup [(ngModel)]="selectedItems"></sky-lookup>`,
 })
 class MyComponent {
   selectedItems: MyObject[] = []; // Array now
@@ -701,7 +701,7 @@ myControl = new FormControl<MyObject[]>([]);
 ```typescript
 // Before
 @Component({
-  template: `<sky-select-field [(ngModel)]="selectedItem">`
+  template: `<sky-select-field [(ngModel)]="selectedItem"></sky-select-field>`,
 })
 class MyComponent {
   selectedItem: MyObject | undefined;
@@ -709,7 +709,7 @@ class MyComponent {
 
 // After
 @Component({
-  template: `<sky-lookup [(ngModel)]="selectedItems">`
+  template: `<sky-lookup [(ngModel)]="selectedItems"></sky-lookup>`,
 })
 class MyComponent {
   selectedItems: MyObject[] = [];
