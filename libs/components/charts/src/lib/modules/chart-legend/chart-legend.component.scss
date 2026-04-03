@@ -1,0 +1,90 @@
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-chart-legend') {
+  // TODO: Add overrides here
+}
+
+.sky-chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sky-chart-legend-button {
+  display: flex;
+  align-items: center;
+  border-radius: var(--sky-border-radius-s, 3px);
+  border: none;
+  outline: none;
+  background-color: var(
+    --sky-color-background-action-tertiary-base,
+    transparent
+  );
+  box-shadow:
+    inset 0 0 0 var(--sky-border-width-action-base, 1px)
+      var(--sky-color-border-action-tertiary-base, transparent),
+    var(--sky-elevation-action-tertiary-base, 0 0 0 0 transparent);
+
+  padding-top: var(--sky-comp-chart-legend_item-space-inset-top, 6px);
+  padding-right: var(--sky-comp-chart-legend_item-space-inset-right, 12px);
+  padding-bottom: var(--sky-comp-chart-legend_item-space-inset-bottom, 6px);
+  padding-left: var(--sky-comp-chart-legend_item-space-inset-left, 12px);
+
+  &:hover {
+    background-color: var(
+      --sky-color-background-action-tertiary-hover,
+      #eeeeef
+    );
+    box-shadow:
+      inset 0 0 0 var(--sky-border-width-action-hover, 1px)
+        var(--sky-color-border-action-tertiary-hover, #0974a1),
+      var(--sky-elevation-action-tertiary-hover, 0 0 0 0 transparent);
+    cursor: pointer;
+  }
+
+  &:active {
+    background-color: var(
+      --sky-color-background-action-tertiary-active,
+      transparent
+    );
+    box-shadow:
+      inset 0 0 0 var(--sky-border-width-action-active, 2px)
+        var(--sky-color-border-action-tertiary-active, #0974a1),
+      var(--sky-elevation-action-tertiary-active, 0 0 0 0 transparent);
+  }
+
+  &:focus-visible {
+    background-color: var(
+      --sky-color-background-action-tertiary-focus,
+      transparent
+    );
+    box-shadow:
+      inset 0 0 0 var(--sky-border-width-action-focus, 2px)
+        var(--sky-color-border-action-tertiary-focus, #0974a1),
+      var(--sky-elevation-action-tertiary-focus, 0 0 0 0 transparent);
+  }
+}
+
+.sky-chart-legend-button-icon {
+  display: inline-block;
+  flex-shrink: 0;
+
+  height: var(--sky-size-icon-xs, 12px);
+  width: var(--sky-size-icon-xs, 12px);
+
+  margin-right: var(--sky-space-gap-icon-s, var(--sky-margin-inline-xs));
+
+  // Makes the legend marker circular
+  border-radius: 50%;
+}
+
+.sky-chart-legend-button-label {
+  font-family: var(--sky-font-family-primary);
+  font-size: var(--sky-font-size-body-s, 13px);
+  font-weight: var(--sky-font-style-body-s, 400);
+  line-height: var(--sky-font-line_height-body-s, 18px);
+  color: var(--sky-color-text-deemphasized, #686c73);
+}
