@@ -59,6 +59,7 @@ export class SkyBarChartConfigService {
         dataByCategory.set(p.category, p.value);
       }
 
+      // Backfill null for categories missing from this series
       const data = categories.map((category) => {
         return dataByCategory.get(category) ?? null;
       });
