@@ -1,3 +1,4 @@
 {
-  "name": "@skyux/invalid-docs-id"
+  "name": "@skyux/invalid-docs-id",
+  "type": "commonjs"
 }

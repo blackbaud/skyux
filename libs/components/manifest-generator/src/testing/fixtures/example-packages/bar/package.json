@@ -1,3 +1,4 @@
 {
-  "name": "@skyux/bar"
+  "name": "@skyux/bar",
+  "type": "commonjs"
 }

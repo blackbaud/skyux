@@ -1,5 +1,6 @@
 {
   "name": "skyux-eslint",
+  "type": "commonjs",
   "version": "0.0.0-PLACEHOLDER",
   "author": "Blackbaud, Inc.",
   "description": "An ESLint plugin for SKY UX projects",

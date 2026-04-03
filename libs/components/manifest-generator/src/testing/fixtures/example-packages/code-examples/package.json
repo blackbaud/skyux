@@ -1,3 +1,4 @@
 {
-  "name": "@skyux/code-examples"
+  "name": "@skyux/code-examples",
+  "type": "commonjs"
 }

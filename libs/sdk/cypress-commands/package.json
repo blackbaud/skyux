@@ -1,5 +1,6 @@
 {
   "name": "@skyux-sdk/cypress-commands",
+  "type": "commonjs",
   "version": "0.0.1",
   "dependencies": {},
   "peerDependencies": {

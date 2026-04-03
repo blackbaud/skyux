@@ -1,5 +1,6 @@
 {
   "name": "@skyux-sdk/tools",
+  "type": "commonjs",
   "generators": "./generators.json",
   "peerDependencies": {
     "@nx/devkit": "^22.5.3"

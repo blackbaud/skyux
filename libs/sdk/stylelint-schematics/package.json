@@ -1,5 +1,6 @@
 {
   "name": "@skyux-sdk/stylelint-schematics",
+  "type": "commonjs",
   "version": "0.0.0-PLACEHOLDER",
   "author": "Blackbaud, Inc.",
   "description": "Stylelint schematics for SKY UX projects",

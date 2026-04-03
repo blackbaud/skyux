@@ -1,5 +1,6 @@
 {
   "name": "@skyux-sdk/e2e-schematics",
+  "type": "commonjs",
   "version": "1.0.0",
   "peerDependencies": {
     "@angular-devkit/core": "^21.2.0",

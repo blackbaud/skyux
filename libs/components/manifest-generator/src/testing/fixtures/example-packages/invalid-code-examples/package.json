@@ -1,3 +1,4 @@
 {
-  "name": "@skyux/invalid-code-examples"
+  "name": "@skyux/invalid-code-examples",
+  "type": "commonjs"
 }
