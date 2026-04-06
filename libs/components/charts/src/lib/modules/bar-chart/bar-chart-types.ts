@@ -6,14 +6,14 @@ import { SkyChartDataPoint } from '../shared/types/chart-data-point';
 export type SkyBarChartOrientation = 'vertical' | 'horizontal';
 
 /**
- * A bar chart data point, which can be a single numeric value or a range (tuple of two numbers).
+ * A bar chart data point, which can be a single numeric value.
  */
-export type SkyBarDatum = number | [number, number];
+export type SkyBarDatum = number;
 
 /**
  * A single data point within a bar chart series.
  */
 export interface SkyBarChartPoint extends SkyChartDataPoint {
-  /** Numeric value or floating range */
+  /** The bar value */
   value: SkyBarDatum;
 }

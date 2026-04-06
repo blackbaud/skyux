@@ -40,7 +40,6 @@ export class SkyBarChartSeriesDatapointComponent implements OnDestroy {
 
   /**
    * The numeric value for this data point.
-   * Accepts a single number, a floating-bar range `[min, max]`, or `null` for a gap.
    */
   public readonly value = input.required<SkyBarDatum>();
 
