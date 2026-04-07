@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.0.2](https://github.com/blackbaud/skyux/compare/14.0.1...14.0.2) (2026-04-07)
+
+
+### Bug Fixes
+
+* **components/lists:** use correct padding on active toolbar filter button ([#4373](https://github.com/blackbaud/skyux/issues/4373)) ([07974aa](https://github.com/blackbaud/skyux/commit/07974aab12be8d7e17bc6beafda99adf22a1d4a3))
+
 ## [14.0.1](https://github.com/blackbaud/skyux/compare/14.0.0...14.0.1) (2026-04-03)
 
 
