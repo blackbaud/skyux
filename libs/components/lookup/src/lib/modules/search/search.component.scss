@@ -90,11 +90,17 @@ sky-search {
     );
     padding-left: var(
       --sky-override-search-mobile-button-horizontal-padding,
-      var(--sky-comp-button-space-inset-left)
+      var(
+        --sky-comp-override-button-padding-left,
+        var(--sky-comp-button-space-inset-left)
+      )
     );
     padding-right: var(
       --sky-override-search-mobile-button-horizontal-padding,
-      var(--sky-comp-button-space-inset-right)
+      var(
+        --sky-comp-override-button-padding-right,
+        var(--sky-comp-button-space-inset-right)
+      )
     );
   }
 
