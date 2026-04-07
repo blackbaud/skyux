@@ -4,6 +4,7 @@ import { SkyViewkeeperModule } from '@skyux/core';
 import { SkyRadioModule } from '@skyux/forms';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyToolbarModule } from '@skyux/layout';
+import { SkyFilterModule } from '@skyux/lists';
 import { SkySearchModule } from '@skyux/lookup';
 
 import { ToolbarRoutingModule } from './toolbar-routing.module';
@@ -18,6 +19,7 @@ import { ToolbarComponent } from './toolbar.component';
     SkySearchModule,
     SkyToolbarModule,
     SkyViewkeeperModule,
+    SkyFilterModule,
     FormsModule,
   ],
 })
