@@ -1,6 +1,15 @@
 # Changelog
 
 
+# [13.17.0](https://github.com/blackbaud/skyux/compare/13.16.4...13.17.0) (2026-04-07)
+
+
+### Features
+
+* bump design token library ([#4371](https://github.com/blackbaud/skyux/issues/4371)) ([0f53454](https://github.com/blackbaud/skyux/commit/0f534545843327b50e0ebf7560d22d677afa090b)), closes [AB#3652195](https://github.com/AB/issues/3652195)
+
+
+
 ## [13.16.4](https://github.com/blackbaud/skyux/compare/13.16.3...13.16.4) (2026-03-31)
 
 
