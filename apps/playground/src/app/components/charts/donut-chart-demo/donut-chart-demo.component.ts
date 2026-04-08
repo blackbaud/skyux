@@ -9,6 +9,12 @@ import {
 } from '@skyux/charts';
 import { SkyBoxModule, SkyFluidGridModule } from '@skyux/layout';
 import { SkyPageModule } from '@skyux/pages';
+import { SkyTabsModule } from '@skyux/tabs';
+
+import {
+  ChartDemoUtils,
+  type DemoSeriesData,
+} from '../shared/chart-demo-utils';
 
 @Component({
   selector: 'app-donut-chart-demo',
@@ -16,6 +22,7 @@ import { SkyPageModule } from '@skyux/pages';
   styles: [],
   imports: [
     SkyPageModule,
+    SkyTabsModule,
     SkyDonutChartComponent,
     SkyBoxModule,
     SkyFluidGridModule,
@@ -27,28 +34,38 @@ import { SkyPageModule } from '@skyux/pages';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DonutChartDemoComponent {
-  protected chart1 = [
+  protected chart1: DemoSeriesData[] = [
     {
-      name: 'Securities',
+      category: 'Securities',
       value: 5_000_000,
       label: '$5,000,000',
     },
     {
-      name: 'Income/Compensation',
+      category: 'Income/Compensation',
       value: 2_500_000,
       label: '$2,500,000',
     },
     {
-      name: 'Private Co. Valuation',
+      category: 'Private Co. Valuation',
       value: 1_500_000,
       label: '$1,500,000',
     },
     {
-      name: 'Real Estate',
+      category: 'Real Estate',
       value: 1_000_000,
       label: '$1,000,000',
     },
   ];
+
+  // #region Data density
+  protected readonly density = {
+    three: ChartDemoUtils.createRandomData({ count: 3 }),
+    six: ChartDemoUtils.createRandomData({ count: 6 }),
+    nine: ChartDemoUtils.createRandomData({ count: 9 }),
+    twelve: ChartDemoUtils.createRandomData({ count: 12 }),
+  };
+
+  // #endregion
 
   public onDataPointClicked(
     event: SkyChartClickedDataPoint<SkyDonutDatum>,

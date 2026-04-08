@@ -60,19 +60,6 @@ export class ChartDemoUtils {
     return data;
   }
 
-  public static points(config: {
-    min?: number;
-    max?: number;
-    from?: number[];
-    count?: number;
-    decimals?: number;
-    continuity?: number;
-  }): { x: number; y: number }[] {
-    const xs = this.numbers(config);
-    const ys = this.numbers(config);
-    return xs.map((x, i) => ({ x, y: ys[i] }));
-  }
-
   public static months(config: { count?: number; section?: number }): string[] {
     const cfg = config ?? {};
     const count = cfg.count ?? 12;
@@ -87,4 +74,96 @@ export class ChartDemoUtils {
 
     return values;
   }
+
+  /**
+   * Creates an array of random series data.
+   * @param config Configuration options.
+   * @returns An array of randomly generated series data.
+   */
+  public static createRandomSeries(config: {
+    seriesCount?: number;
+    labels?: string[];
+    dataCount?: number;
+    categories?: string[];
+    min?: number;
+    max?: number;
+  }): DemoSeries[] {
+    const { labels, dataCount, categories, min, max } = config;
+    const seriesCount = labels?.length ?? config.seriesCount ?? 1;
+
+    return Array.from({ length: seriesCount }, (_, seriesIndex) =>
+      this.createRandomSeriesData({
+        seriesIndex,
+        labelText: labels?.[seriesIndex],
+        count: dataCount,
+        categories,
+        min,
+        max,
+      }),
+    );
+  }
+
+  /**
+   * Creates a single series of random data.
+   * @param config Configuration options.
+   * @returns An object representing a series of randomly generated data points.
+   */
+  public static createRandomSeriesData(config: {
+    seriesIndex: number;
+    labelText?: string;
+    count?: number;
+    categories?: string[];
+    min?: number;
+    max?: number;
+  }): DemoSeries {
+    const { seriesIndex, labelText, count, categories, min, max } = config;
+    const data = this.createRandomData({
+      count: count ?? categories?.length ?? 8,
+      categories,
+      min,
+      max,
+    });
+
+    return {
+      labelText: labelText ?? `Series ${seriesIndex + 1}`,
+      data: data,
+    };
+  }
+
+  /**
+   * Creates an array of random donut chart slices.
+   * @param config Configuration options.
+   * @returns An array of randomly generated slice data.
+   */
+  public static createRandomData(config: {
+    count?: number;
+    categories?: string[];
+    min?: number;
+    max?: number;
+  }): DemoSeriesData[] {
+    const { count, categories, min, max } = config;
+    const resolvedCount = count ?? categories?.length ?? 8;
+
+    return ChartDemoUtils.numbers({
+      min: min ?? 1,
+      max: max ?? 100,
+      count: resolvedCount,
+      decimals: 0,
+    }).map((value, index) => ({
+      category: categories?.[index] ?? `Category ${index + 1}`,
+      value: value,
+      label: `$${value.toLocaleString()}`,
+    }));
+  }
+}
+
+export interface DemoSeries {
+  labelText: string;
+  data: DemoSeriesData[];
+}
+
+export interface DemoSeriesData {
+  category: string;
+  label: string;
+  value: number;
 }
