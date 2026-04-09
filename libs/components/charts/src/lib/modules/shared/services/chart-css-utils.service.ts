@@ -108,6 +108,17 @@ export class SkyChartCssUtilsService {
   }
 
   /**
+   * Converts a rem value to pixels based on the root font size.
+   * @param rem The rem value to convert (e.g. "1.5rem" or 1.5)
+   * @returns The equivalent pixel value as a number (e.g. 24)
+   */
+  public remToPx(rem: string | number): number {
+    const remNumber = typeof rem === 'number' ? rem : Number.parseFloat(rem);
+    const rootFontSize = this.#getRootFontSize();
+    return remNumber * rootFontSize;
+  }
+
+  /**
    * Extracts the color value from a CSS shadow property.
    * @param shadowValue The shadow CSS value
    * @returns The extracted color (rgb/rgba or hex), or null if not found
@@ -156,5 +167,16 @@ export class SkyChartCssUtilsService {
     }
 
     return null;
+  }
+
+  /**
+   * Get the root font size in pixels
+   * @returns A number representing the root font-size in pixels
+   */
+  #getRootFontSize(): number {
+    const element = this.#document.documentElement;
+    const rootFontSize = Number.parseFloat(getComputedStyle(element).fontSize);
+
+    return rootFontSize;
   }
 }

@@ -60,6 +60,7 @@ export class SkyChartGlobalConfigService {
       // Responsiveness
       responsive: true,
       maintainAspectRatio: false,
+      resizeDelay: 150,
 
       // Layout padding
       layout: { padding: styles.chartPadding },

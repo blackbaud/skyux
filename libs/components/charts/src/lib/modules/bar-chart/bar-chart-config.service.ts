@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 
 import {
+  BarControllerDatasetOptions,
   ChartConfiguration,
   ChartDataset,
   ChartOptions,
@@ -40,7 +41,7 @@ export class SkyBarChartConfigService {
   /**
    * Builds a Chart.js Bar Chart configuration based on provided options.
    * @remarks This uses the `SkyChartStyleService.styles` signal to support runtime theming recalculations
-   * @param options bar chart options
+   * @param options The bar chart options
    */
   public buildConfig(options: SkyBarChartOptions): ChartConfiguration<'bar'> {
     const styles = this.#chartStyleService.styles();
@@ -106,10 +107,7 @@ export class SkyBarChartConfigService {
         axis: options.orientation === 'vertical' ? 'x' : 'y',
       },
       datasets: {
-        bar: {
-          categoryPercentage: 0.7,
-          // barPercentage: 0.7,
-        },
+        bar: this.#getBarDatasetOptions(options, categories.length, styles),
       },
       elements: {
         bar: {
@@ -154,6 +152,138 @@ export class SkyBarChartConfigService {
     return config;
   }
 
+  /**
+   * Calculates the appropriate height for a horizontal bar chart.
+   * @param options The bar chart options
+   * @returns A CSS height value (e.g. '400px') for the chart container
+   */
+  public getChartHeight(options: SkyBarChartOptions): string {
+    const styles = this.#chartStyleService.styles();
+
+    if (options.orientation === 'vertical') {
+      return styles.height.default;
+    }
+
+    const seriesCount = options.series.length;
+    const categoryCount = parseCategories(options.series).length;
+    const containerHeightMin = this.#chartStyleService.styles().height.min;
+    const barsPerCategory = options.stacked ? 1 : seriesCount;
+    const totalBars = categoryCount * barsPerCategory;
+
+    const spacing = this.#computeHorizontalBarElementSpacing(totalBars, styles);
+    const { barThickness, categoryGap } = spacing;
+    const rowHeight = barThickness * barsPerCategory + categoryGap;
+    const totalRowsHeight = categoryCount * rowHeight;
+
+    const computedHeight = this.#computeChartOverhead(styles) + totalRowsHeight;
+
+    // Allow horizontal bar charts to grow indefinitely but clamp them from being too small
+    const clampedHeight = Math.max(containerHeightMin, computedHeight);
+
+    return `${clampedHeight}px`;
+  }
+
+  // #region Bar Element sizing
+  #getBarDatasetOptions(
+    options: SkyBarChartOptions,
+    categoryCount: number,
+    styles: SkyChartStyles,
+  ): DeepPartial<BarControllerDatasetOptions> {
+    if (options.orientation === 'vertical') {
+      const isFewBars = categoryCount <= 3;
+      const isManyBars = categoryCount >= 12;
+
+      // Category Percentage is the proportion of the category slot allocated to bars.
+      const categoryPercentage = isFewBars ? 0.4 : isManyBars ? 0.95 : 0.7;
+
+      // Bar Percentage is the proportion of the allocated category space that each bar occupies.
+      const barPercentage = 0.85;
+
+      return {
+        categoryPercentage: categoryPercentage,
+        barPercentage: barPercentage,
+        maxBarThickness: styles.charts.bar.vertical.maxBarThickness,
+      };
+    }
+
+    const barsPerCategory = options.stacked ? 1 : options.series.length;
+    const totalBars = categoryCount * barsPerCategory;
+    const spacing = this.#computeHorizontalBarElementSpacing(totalBars, styles);
+
+    return { barThickness: spacing.barThickness };
+  }
+
+  /**
+   * Returns the Bar Thickness (px) and Category Gap (px) for a horizontal bar chart.
+   * @param totalBars The total bars in the horizontal bar chart
+   * @param styles    The chart styles
+   */
+  #computeHorizontalBarElementSpacing(
+    totalBars: number,
+    styles: SkyChartStyles,
+  ): {
+    barThickness: number;
+    categoryGap: number;
+  } {
+    const barStyles = styles.charts.bar.horizontal;
+    const tuning = {
+      minBarThickness: barStyles.minBarThickness,
+      maxBarThickness: barStyles.maxBarThickness,
+      taperingStart: 12,
+      taperingStop: 36,
+      minCategoryGap: barStyles.minCategoryGap,
+      lowCategoryGapPercentage: 0.375,
+      highCategoryGapPercentage: 0.75,
+    };
+
+    let barThickness = 0;
+    let categoryGapPercentage = 0;
+
+    // Calculate the Bar Thickness and Category Gap %
+    if (totalBars < tuning.taperingStart) {
+      barThickness = tuning.maxBarThickness;
+      categoryGapPercentage = tuning.lowCategoryGapPercentage;
+    } else {
+      const taperRange = tuning.taperingStop - tuning.taperingStart;
+      const rawTaperFraction = (totalBars - tuning.taperingStart) / taperRange;
+      const taperFraction = Math.min(1, rawTaperFraction);
+
+      const thicknessRange = tuning.maxBarThickness - tuning.minBarThickness;
+      const taperedThickness = Math.round(
+        tuning.maxBarThickness - taperFraction * thicknessRange,
+      );
+      barThickness = Math.max(tuning.minBarThickness, taperedThickness);
+      categoryGapPercentage = tuning.highCategoryGapPercentage;
+    }
+
+    // Calculate the category gap
+    const taperedCategoryGap = barThickness * categoryGapPercentage;
+    const categoryGap = Math.max(tuning.minCategoryGap, taperedCategoryGap);
+
+    return { barThickness, categoryGap };
+  }
+
+  /**
+   * Returns the pixel height consumed by a Chart's non-data elements (padding, axes, titles) based on the provided styles.
+   */
+  #computeChartOverhead(styles: SkyChartStyles): number {
+    const padding = styles.chartPadding * 2;
+
+    const tickHeight =
+      Number.parseFloat(styles.axis.ticks.lineHeight) +
+      styles.axis.ticks.measureLength +
+      styles.axis.ticks.padding;
+
+    const axisTitleHeight =
+      styles.axis.title.paddingTop +
+      Number.parseFloat(styles.axis.title.lineHeight) +
+      styles.axis.title.paddingBottom;
+
+    return padding + tickHeight + axisTitleHeight;
+  }
+  // #endregion
+
+  // #region Scales
   #createScales(
     styles: SkyChartStyles,
     options: SkyBarChartOptions,
@@ -313,6 +443,7 @@ export class SkyBarChartConfigService {
 
     return valueScale;
   }
+  // #endregion
 }
 
 // #region Types

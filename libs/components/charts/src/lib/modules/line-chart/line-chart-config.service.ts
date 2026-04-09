@@ -147,6 +147,15 @@ export class SkyLineChartConfigService {
     return config;
   }
 
+  /**
+   * Gets the appropriate height for a line chart.
+   * @returns A CSS height value (e.g. '400px') for the chart container
+   */
+  public getChartHeight(): string {
+    const styles = this.#chartStyleService.styles();
+    return styles.height.default;
+  }
+
   #createScales(
     styles: SkyChartStyles,
     config: SkyLineChartOptions,

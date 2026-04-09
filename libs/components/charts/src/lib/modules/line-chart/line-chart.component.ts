@@ -37,7 +37,7 @@ import { SkyLineChartPoint, SkyLineDatum } from './line-chart-types';
   selector: 'sky-line-chart',
   template: `
     @if (chartConfiguration(); as config) {
-      <div class="chart-container" [style.height.px]="'300'">
+      <div class="chart-container" [style.height]="chartHeight()">
         <canvas
           skyChartJs
           [chartConfiguration]="config"
@@ -69,6 +69,12 @@ export class SkyLineChartComponent {
     transform: booleanAttribute,
   });
   public readonly stacked = input(false, { transform: booleanAttribute });
+
+  /**
+   * A CSS height value (e.g. `'400px'`, `'20rem'`, `'50vh'`) for the chart.
+   * When unspecified, the chart uses internal sizing logic.
+   */
+  public readonly height = input<string>();
   // #endregion
 
   // #region Outputs
@@ -81,6 +87,13 @@ export class SkyLineChartComponent {
   // #endregion
 
   protected readonly arialLabel = this.#chartService.headingText;
+
+  /** The height of the chart */
+  protected readonly chartHeight = computed(() => {
+    const explicitHeight = this.height();
+    return explicitHeight ?? this.#chartConfigService.getChartHeight();
+  });
+
   readonly #chart = computed(() => this.chartDirective()?.chart());
   readonly #chartUpdated = signal(0);
   readonly #refreshLegendItems = signal(0);

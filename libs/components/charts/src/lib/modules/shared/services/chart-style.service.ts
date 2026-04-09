@@ -24,6 +24,7 @@ export class SkyChartStyleService {
 
     const styles: SkyChartStyles = {
       series: this.#series(),
+      height: this.#height(),
       fontFamily: this.#cssUtils.css(
         '--sky-font-family-primary',
         'Blackbaud Sans, Arial, sans-serif',
@@ -64,6 +65,17 @@ export class SkyChartStyleService {
     ];
 
     return colors;
+  }
+
+  #height(): SkyChartStyles['height'] {
+    const min = '11.25rem';
+    const max = '25rem';
+
+    return {
+      min: this.#cssUtils.remToPx(min),
+      max: this.#cssUtils.remToPx(max),
+      default: `clamp(${min}, 28vh, ${max})`,
+    };
   }
 
   #axis(): SkyChartStyles['axis'] {
@@ -277,6 +289,14 @@ export class SkyChartStyleService {
       ),
       borderWidth: 1,
       borderRadius: this.#cssUtils.cssNumber('--sky-border-radius-xs', '2px'),
+      vertical: {
+        maxBarThickness: this.#cssUtils.remToPx('7.5rem'),
+      },
+      horizontal: {
+        minBarThickness: this.#cssUtils.remToPx('0.75rem'),
+        maxBarThickness: this.#cssUtils.remToPx('1rem'),
+        minCategoryGap: this.#cssUtils.remToPx('0.5rem'),
+      },
     };
   }
 
@@ -310,6 +330,14 @@ export class SkyChartStyleService {
 /** Defines the structure of chart styles */
 export interface SkyChartStyles {
   series: string[];
+  height: {
+    /** The minimum height for charts in pixels. */
+    min: number;
+    /** The default height for charts in pixels */
+    max: number;
+    /** The default CSS height value for charts. */
+    default: string;
+  };
   fontFamily: string;
   chartPadding: number;
   axis: {
@@ -406,6 +434,14 @@ export interface SkyChartStyles {
       borderColor: string;
       borderWidth: number;
       borderRadius: number;
+      vertical: {
+        maxBarThickness: number;
+      };
+      horizontal: {
+        minCategoryGap: number;
+        minBarThickness: number;
+        maxBarThickness: number;
+      };
     };
     line: {
       tension: number;
