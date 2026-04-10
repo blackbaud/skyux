@@ -85,6 +85,7 @@ export class SkyChartStyleService {
     };
 
     const grid: SkyChartStyles['axis']['grid'] = {
+      // eslint-disable-next-line @cspell/spellchecker
       color: this.#cssUtils.css('--sky-color-viz-gridline', '#d5d6d8'),
       width: 1,
     };
@@ -130,13 +131,14 @@ export class SkyChartStyleService {
 
   #tooltip(): SkyChartStyles['tooltip'] {
     const shadow = this.#cssUtils.css(
-      '--sky-elevation-overlay-simple-100', // 1px 2px 4px 0 rgba(33, 44, 63, 0.5)
+      '--sky-elevation-overlay-simple-100',
       '1px 2px 4px 0 rgba(33, 35, 39, 0.5)',
     );
-    // prettier-ignore
-    const baseShadowColor = this.#cssUtils.extractShadowColor(shadow) || 'rgba(0, 0, 0, 0.15)';
-    // prettier-ignore
-    const tooltipShadowColor = this.#cssUtils.colorToRgbaWithAlpha(baseShadowColor, 0.6) || baseShadowColor;
+    const baseShadowColor =
+      this.#cssUtils.extractShadowColor(shadow) || 'rgba(0, 0, 0, 0.15)';
+    const tooltipShadowColor =
+      this.#cssUtils.colorToRgbaWithAlpha(baseShadowColor, 0.6) ||
+      baseShadowColor;
 
     const lineHeight = this.#cssUtils.cssMeasured(
       '--sky-font-line_height-body-m',
@@ -222,7 +224,7 @@ export class SkyChartStyleService {
 
   #indicator(): SkyChartStyles['indicator'] {
     return {
-      padding: 2, // TODO: Confirm if there is a CSS Property we should use. Also 1 + Radius can feel cramped. Might want to increase to 2.
+      padding: 2,
       borderRadius: this.#cssUtils.cssNumber('--sky-border-radius-s', '3px'),
       hover: this.#hoverIndicator(),
       active: this.#activeIndicator(),
@@ -301,7 +303,7 @@ export class SkyChartStyleService {
   }
 
   #line(): SkyChartStyles['charts']['line'] {
-    // eslint-disable-next-line @cspell/spellchecker -- this icon size is valid in our design system
+    // eslint-disable-next-line @cspell/spellchecker
     const pointRadius = this.#cssUtils.cssNumber('--sky-size-icon-xxxs', '4px');
 
     return {
