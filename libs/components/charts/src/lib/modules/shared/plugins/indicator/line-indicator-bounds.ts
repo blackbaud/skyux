@@ -2,32 +2,20 @@ import { ActiveElement, PointElement } from 'chart.js';
 
 import { IndicatorBounds, IndicatorStyles } from './indicator-types';
 
+/**
+ * Returns the geometry of an indicator box for the given active line elements.
+ * @param activeElements the active elements to get bounds for.
+ * @param styles the styles to apply to the indicator
+ */
 export function getLineIndicatorBounds(
   activeElements: ActiveElement[],
   styles: IndicatorStyles,
 ): IndicatorBounds {
-  const points = activeElements.map((el) => getPointGeometry(el));
-
-  if (activeElements.length === 1) {
-    return getSinglePointBounds(points[0], styles);
-  } else {
-    throw new Error(
-      'Multiple active points is not supported for line indicators',
-    );
-  }
+  const points = activeElements.map((el) => getGeometry(el));
+  return getBounds(points[0], styles);
 }
 
-/** The geometry of a point element */
-interface LinePointGeometry {
-  /** The x center */
-  x: number;
-  /** The y center */
-  y: number;
-  /** The points radius */
-  radius: number;
-}
-
-function getPointGeometry(activeElement: ActiveElement): LinePointGeometry {
+function getGeometry(activeElement: ActiveElement): LinePointGeometry {
   const point = activeElement.element as PointElement;
   const props = point.getProps(['x', 'y'], true);
 
@@ -38,7 +26,7 @@ function getPointGeometry(activeElement: ActiveElement): LinePointGeometry {
   };
 }
 
-function getSinglePointBounds(
+function getBounds(
   point: LinePointGeometry,
   styles: IndicatorStyles,
 ): IndicatorBounds {
@@ -53,4 +41,14 @@ function getSinglePointBounds(
     width: diameterWithPadding,
     height: diameterWithPadding,
   };
+}
+
+/** The geometry of a point element */
+interface LinePointGeometry {
+  /** The x center */
+  x: number;
+  /** The y center */
+  y: number;
+  /** The points radius */
+  radius: number;
 }

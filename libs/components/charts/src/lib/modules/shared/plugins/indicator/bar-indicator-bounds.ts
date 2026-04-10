@@ -2,43 +2,22 @@ import { ActiveElement, BarElement, ChartArea } from 'chart.js';
 
 import { IndicatorBounds, IndicatorStyles } from './indicator-types';
 
+/**
+ * Returns the geometry of an indicator box for the given active bar elements.
+ * @param chartArea the chart area to clamp the indicator bounds within
+ * @param activeElements the active elements to get bounds for.
+ * @param styles the styles to apply to the indicator
+ */
 export function getBarIndicatorBounds(
   chartArea: ChartArea,
   activeElements: ActiveElement[],
   styles: IndicatorStyles,
 ): IndicatorBounds {
-  const bars = activeElements.map((el) => getBarGeometry(el));
-
-  if (activeElements.length === 1) {
-    return getSingleBarBounds(bars[0], chartArea, styles);
-  } else {
-    throw new Error(
-      'Multiple active points is not supported for bar indicators',
-    );
-  }
+  const bars = activeElements.map((el) => getGeometry(el));
+  return getBounds(bars[0], chartArea, styles);
 }
 
-/** The geometry of a bar element */
-interface BarGeometry {
-  /** The x center */
-  x: number;
-  /** The y center */
-  y: number;
-  /** The width of the bar */
-  width: number;
-  /** The height of the bar */
-  height: number;
-  /**
-   * The coordinate of the bar's base (the end attached to the axis).
-   * For vertical bars, this is the y coordinate of the bottom edge;
-   * For horizontal bars, this is the x coordinate of the left edge.
-   */
-  base: number;
-  /** Is the bar horizontal */
-  horizontal: boolean;
-}
-
-function getBarGeometry(activeElement: ActiveElement): BarGeometry {
+function getGeometry(activeElement: ActiveElement): BarGeometry {
   const bar = activeElement.element as BarElement;
   const props = bar.getProps(
     ['x', 'y', 'width', 'height', 'base', 'horizontal'],
@@ -55,7 +34,7 @@ function getBarGeometry(activeElement: ActiveElement): BarGeometry {
   };
 }
 
-function getSingleBarBounds(
+function getBounds(
   bar: BarGeometry,
   chartArea: ChartArea,
   styles: IndicatorStyles,
@@ -103,4 +82,24 @@ function getSingleBarBounds(
     width: clampedRight - clampedLeft,
     height: clampedBottom - clampedTop,
   };
+}
+
+/** The geometry of a bar element */
+interface BarGeometry {
+  /** The x center */
+  x: number;
+  /** The y center */
+  y: number;
+  /** The width of the bar */
+  width: number;
+  /** The height of the bar */
+  height: number;
+  /**
+   * The coordinate of the bar's base (the end attached to the axis).
+   * For vertical bars, this is the y coordinate of the bottom edge;
+   * For horizontal bars, this is the x coordinate of the left edge.
+   */
+  base: number;
+  /** Is the bar horizontal */
+  horizontal: boolean;
 }

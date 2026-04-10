@@ -71,7 +71,7 @@ export class SkyDonutChartConfigService {
     const chartOptions: ChartOptions<'doughnut'> = {
       layout: {
         // Add some extra layout padding for the offset indicators
-        padding: styles.chartPadding + 10,
+        padding: styles.chartPadding + 15,
       },
       interaction: {
         mode: 'nearest',
