@@ -1,10 +1,7 @@
 import { Chart, ChartDataset, ChartType, Plugin } from 'chart.js';
 
 import { isDatasetType, isDonutChart } from '../../chart-helpers';
-import {
-  SkyChartStyleService,
-  SkyChartStyles,
-} from '../../services/chart-style.service';
+import { SkyChartStyleService } from '../../services/chart-style.service';
 
 /**
  * Creates a ChartJS plugin that automatically applies SKY UX color palette to chart datasets.
@@ -14,17 +11,20 @@ import {
 export function createAutoColorPlugin(
   styleService: SkyChartStyleService,
 ): Plugin<ChartType> {
-  const plugin: Plugin = {
+  const plugin: Plugin<ChartType> = {
     id: 'sky_auto_color',
     beforeUpdate(chart): boolean | void {
       // Get styles at runtime to ensure colors are up to date with current theme
       const styles = styleService.styles();
 
+      // Today only the Categorical Palette is supported but this can be extended in the future to support different palettes
+      const colors = styles.palettes.categorical;
+
       // For donut charts, always apply colors in 'data' mode
       if (isDonutChart(chart)) {
-        applyDataMode(chart, styles);
+        applyDataMode(chart, colors);
       } else {
-        applyDatasetMode(chart, styles);
+        applyDatasetMode(chart, colors);
       }
     },
   };
@@ -35,11 +35,10 @@ export function createAutoColorPlugin(
 /**
  * Applies colors in 'dataset' mode - each `dataset` (series) gets a unique color.
  * @param chart The chart instance
- * @param styles The chart styles to use
+ * @param colors The color palette to apply to the datasets
  */
-function applyDatasetMode(chart: Chart, styles: SkyChartStyles): void {
+function applyDatasetMode(chart: Chart, colors: string[]): void {
   const datasets = chart.data.datasets;
-  const colors = styles.series;
 
   datasets.forEach((dataset, datasetIndex) => {
     const color = colors[datasetIndex % colors.length];
@@ -50,11 +49,10 @@ function applyDatasetMode(chart: Chart, styles: SkyChartStyles): void {
 /**
  * Applies colors in 'data' mode - each `dataset.data` (series datapoint) gets a unique color.
  * @param chart The chart instance
- * @param styles The chart styles to use
+ * @param colors The color palette to apply to the datasets
  */
-function applyDataMode(chart: Chart, styles: SkyChartStyles): void {
+function applyDataMode(chart: Chart, colors: string[]): void {
   const datasets = chart.data.datasets;
-  const colors = styles.series;
 
   datasets.forEach((dataset) => {
     const backgroundColors: string[] = [];
