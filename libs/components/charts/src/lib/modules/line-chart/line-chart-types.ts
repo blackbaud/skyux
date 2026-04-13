@@ -7,6 +7,7 @@ export type SkyLineDatum = number;
 
 /**
  * A single data point within a line chart series.
+ * @internal
  */
 export interface SkyLineChartPoint extends SkyChartDataPoint {
   /** Numeric value */

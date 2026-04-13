@@ -12,6 +12,7 @@ export type SkyBarDatum = number;
 
 /**
  * A single data point within a bar chart series.
+ * @internal
  */
 export interface SkyBarChartPoint extends SkyChartDataPoint {
   /** The bar value */

@@ -46,15 +46,11 @@ export class SkyDonutChartSeriesDatapointComponent implements OnDestroy {
   /**
    * A unique ID for this data point component instance.
    */
-  public readonly id = nextId++;
+  readonly #id = nextId++;
 
-  /**
-   * The data point object
-   * @internal
-   */
-  public readonly datapoint = computed<SkyDonutChartSlice>(() => {
+  readonly #datapoint = computed<SkyDonutChartSlice>(() => {
     return {
-      id: this.id,
+      id: this.#id,
       category: this.category(),
       labelText: this.labelText(),
       value: this.value(),
@@ -63,12 +59,12 @@ export class SkyDonutChartSeriesDatapointComponent implements OnDestroy {
 
   constructor() {
     effect(() => {
-      const datapoint = this.datapoint();
+      const datapoint = this.#datapoint();
       this.#registry.upsertPoint(this.#series.id, datapoint);
     });
   }
 
   public ngOnDestroy(): void {
-    this.#registry.removePoint(this.#series.id, this.id);
+    this.#registry.removePoint(this.#series.id, this.#id);
   }
 }

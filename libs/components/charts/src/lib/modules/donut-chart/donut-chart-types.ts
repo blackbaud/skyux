@@ -7,6 +7,7 @@ export type SkyDonutDatum = number;
 
 /**
  * A single data point within a donut chart series.
+ * @internal
  */
 export interface SkyDonutChartSlice extends SkyChartDataPoint {
   /** Numeric value */

@@ -46,11 +46,11 @@ export class SkyBarChartSeriesDatapointComponent implements OnDestroy {
   /**
    * A unique ID for this data point component instance.
    */
-  public readonly id = nextId++;
+  readonly #id = nextId++;
 
   readonly #datapoint = computed<SkyBarChartPoint>(() => {
     return {
-      id: this.id,
+      id: this.#id,
       category: this.category(),
       labelText: this.labelText(),
       value: this.value(),
@@ -65,6 +65,6 @@ export class SkyBarChartSeriesDatapointComponent implements OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.#registry.removePoint(this.#series.id, this.id);
+    this.#registry.removePoint(this.#series.id, this.#id);
   }
 }
