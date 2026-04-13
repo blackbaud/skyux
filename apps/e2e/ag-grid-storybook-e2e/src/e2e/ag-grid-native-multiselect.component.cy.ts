@@ -8,7 +8,7 @@ describe('ag-grid-native-multiselect', () => {
         : [false];
       compactOptions.forEach((compact) => {
         it(`should render native multiselect checkbox states in ${theme}${compact ? '-compact' : ''} theme`, () => {
-          cy.viewport(1024, 1000).visit(
+          cy.viewport(1024, 2000).visit(
             // eslint-disable-next-line @cspell/spellchecker
             `/iframe.html?globals=theme:${theme}&id=ag-grid-native-multiselectcomponent--ag-grid-native-multiselect${compact ? '-compact' : ''}`,
           );
@@ -21,6 +21,7 @@ describe('ag-grid-native-multiselect', () => {
             {
               overwrite: true,
               disableTimersAndAnimations: true,
+              capture: 'fullPage',
             },
           );
         });
