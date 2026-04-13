@@ -5,6 +5,7 @@ import {
   tick,
 } from '@angular/core/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { provideNoopSkyAnimations } from '@skyux/core';
 
 import { SkyInlineDeleteFixturesModule } from './fixtures/inline-delete-fixtures.module';
 import { InlineDeleteTestComponent } from './fixtures/inline-delete.component.fixture';
@@ -18,6 +19,7 @@ describe('Inline delete component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyInlineDeleteFixturesModule],
+      providers: [provideNoopSkyAnimations()],
     });
 
     fixture = TestBed.createComponent(InlineDeleteTestComponent);

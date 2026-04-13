@@ -90,11 +90,7 @@ function updateNgUpdatePackageGroup(tree: Tree): void {
     ...rootPackageJson.devDependencies,
   };
   if (tree.exists('libs/components/packages/package.json')) {
-    const excludedPackages = [
-      '@skyux/packages',
-      '@skyux-sdk/eslint-config',
-      '@skyux-sdk/prettier-schematics',
-    ];
+    const excludedPackages = ['@skyux/packages', '@skyux-sdk/eslint-config'];
 
     const npmPackages = Array.from(getProjects(tree).values())
       .filter((project) => !!project.tags?.includes('npm'))

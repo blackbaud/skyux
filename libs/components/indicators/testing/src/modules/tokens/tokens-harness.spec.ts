@@ -1,6 +1,7 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideNoopSkyAnimations } from '@skyux/core';
 
 import { TokensHarnessTestComponent } from './fixtures/tokens-harness-test.component';
 import { TokensHarnessTestModule } from './fixtures/tokens-harness-test.module';
@@ -14,6 +15,7 @@ describe('Tokens harness', () => {
   }> {
     await TestBed.configureTestingModule({
       imports: [TokensHarnessTestModule],
+      providers: [provideNoopSkyAnimations()],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(TokensHarnessTestComponent);

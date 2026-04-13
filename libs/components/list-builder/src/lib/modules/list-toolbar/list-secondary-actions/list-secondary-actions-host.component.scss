@@ -1,11 +1,5 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 
-.sky-list-secondary-actions {
-  ::ng-deep .sky-dropdown-button-type-select {
-    padding: 6px 12px;
-  }
-}
-
 .sky-list-secondary-actions-hidden {
   display: none;
 }

@@ -28,9 +28,9 @@ const routes: Routes = [
   {
     path: 'edit-stop-when-loses-focus',
     loadChildren: () =>
-      import(
-        './edit-stop-when-loses-focus/edit-stop-when-loses-focus.module'
-      ).then((m) => m.EditStopWhenLosesFocusModule),
+      import('./edit-stop-when-loses-focus/edit-stop-when-loses-focus.module').then(
+        (m) => m.EditStopWhenLosesFocusModule,
+      ),
   },
   {
     path: 'editable-grid',

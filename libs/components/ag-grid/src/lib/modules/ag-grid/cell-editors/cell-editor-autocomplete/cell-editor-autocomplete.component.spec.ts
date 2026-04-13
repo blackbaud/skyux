@@ -20,9 +20,6 @@ import { SkyCellEditorAutocompleteParams } from '../../types/cell-editor-autocom
 import { SkyAgGridCellEditorAutocompleteComponent } from '../cell-editor-autocomplete/cell-editor-autocomplete.component';
 
 describe('SkyCellEditorAutocompleteComponent', () => {
-  // We've had some issue with grid rendering causing the specs to timeout in IE. Extending it slightly to help.
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 7500;
-
   let fixture: ComponentFixture<SkyAgGridCellEditorAutocompleteComponent>;
   let component: SkyAgGridCellEditorAutocompleteComponent;
   let nativeElement: HTMLElement;

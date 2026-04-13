@@ -4,9 +4,6 @@ export {
   SkyActionHubNeedsAttentionClickHandler,
   SkyActionHubNeedsAttentionClickHandlerArgs,
 } from './lib/modules/action-hub/types/action-hub-needs-attention-click-handler';
-export { SkyLinkListModule } from './lib/modules/link-list/link-list.module';
-export { SkyModalLinkListModule } from './lib/modules/modal-link-list/modal-link-list.module';
-export { SkyNeedsAttentionModule } from './lib/modules/needs-attention/needs-attention.module';
 export { SkyActionHubNeedsAttentionInput } from './lib/modules/action-hub/types/action-hub-needs-attention-input';
 export { SkyPageLink } from './lib/modules/action-hub/types/page-link';
 export { SkyPageLinksInput } from './lib/modules/action-hub/types/page-links-input';
@@ -18,6 +15,9 @@ export {
 export { SkyPageModalLinksInput } from './lib/modules/action-hub/types/page-modal-links-input';
 export { SkyRecentLink } from './lib/modules/action-hub/types/recent-link';
 export { SkyRecentLinksInput } from './lib/modules/action-hub/types/recent-links-input';
+export { SkyLinkListModule } from './lib/modules/link-list/link-list.module';
+export { SkyModalLinkListModule } from './lib/modules/modal-link-list/modal-link-list.module';
+export { SkyNeedsAttentionModule } from './lib/modules/needs-attention/needs-attention.module';
 export { SkyPageHeaderModule } from './lib/modules/page-header/page-header.module';
 export { SkyPageModule } from './lib/modules/page/page.module';
 export { SkyPageLayoutType } from './lib/modules/page/types/page-layout-type';
@@ -27,9 +27,9 @@ export { SkyPageLayoutType } from './lib/modules/page/types/page-layout-type';
 export { SkyActionHubButtonsComponent as λ2 } from './lib/modules/action-hub/action-hub-buttons.component';
 export { SkyActionHubContentComponent as λ3 } from './lib/modules/action-hub/action-hub-content.component';
 export { SkyActionHubComponent as λ1 } from './lib/modules/action-hub/action-hub.component';
-export { SkyLinkListComponent as λ13 } from './lib/modules/link-list/link-list.component';
-export { SkyLinkListItemComponent as λ14 } from './lib/modules/link-list/link-list-item.component';
 export { SkyLinkListRecentlyAccessedComponent as λ15 } from './lib/modules/link-list-recently-accessed/link-list-recently-accessed.component';
+export { SkyLinkListItemComponent as λ14 } from './lib/modules/link-list/link-list-item.component';
+export { SkyLinkListComponent as λ13 } from './lib/modules/link-list/link-list.component';
 export { SkyModalLinkListComponent as λ5 } from './lib/modules/modal-link-list/modal-link-list.component';
 export { SkyNeedsAttentionComponent as λ16 } from './lib/modules/needs-attention/needs-attention.component';
 export { SkyPageHeaderActionsComponent as λ9 } from './lib/modules/page-header/page-header-actions.component';

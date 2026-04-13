@@ -1,17 +1,11 @@
 import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
-import {
   AfterContentInit,
   Component,
   ElementRef,
   Input,
   ViewChild,
 } from '@angular/core';
+import { _SkyTransitionEndHandlerDirective } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyModalService } from '@skyux/modals';
 
@@ -28,33 +22,11 @@ import { SkyTextExpandModalComponent } from './text-expand-modal.component';
 let nextId = 0;
 
 @Component({
-  animations: [
-    trigger('expansionAnimation', [
-      transition(':enter', []),
-      state(
-        'true',
-        style({
-          maxHeight: '{{transitionHeight}}px',
-        }),
-        { params: { transitionHeight: 0 } },
-      ),
-      state(
-        'false',
-        style({
-          maxHeight: '{{transitionHeight}}px',
-        }),
-        { params: { transitionHeight: 0 } },
-      ),
-      transition('true => false', animate('250ms ease')),
-      transition('false => true', animate('250ms ease')),
-      transition('void => *', []),
-    ]),
-  ],
+  imports: [_SkyTransitionEndHandlerDirective],
   selector: 'sky-text-expand',
   templateUrl: './text-expand.component.html',
   styleUrls: ['./text-expand.component.scss'],
   providers: [SkyTextExpandAdapterService],
-  standalone: false,
 })
 export class SkyTextExpandComponent implements AfterContentInit {
   /**
@@ -153,8 +125,6 @@ export class SkyTextExpandComponent implements AfterContentInit {
 
   public isModal = false;
 
-  public transitionHeight = 1;
-
   @ViewChild('container', {
     read: ElementRef,
     static: true,
@@ -239,12 +209,8 @@ export class SkyTextExpandComponent implements AfterContentInit {
       // Ensure the correct text is displayed
       this.#textExpandAdapter.setText(this.textEl, this.#textToShow);
 
-      setTimeout(() => {
-        if (this.containerEl) {
-          // Set height back to auto so the browser can change the height as needed with window changes
-          this.#textExpandAdapter.removeContainerMaxHeight(this.containerEl);
-        }
-      });
+      // Set height back to auto so the browser can change the height as needed with window changes
+      this.#textExpandAdapter.removeContainerMaxHeight(this.containerEl);
     }
   }
 
@@ -328,21 +294,39 @@ export class SkyTextExpandComponent implements AfterContentInit {
     if (this.containerEl && this.textEl) {
       const adapter = this.#textExpandAdapter;
       const container = this.containerEl;
+      const containerNative = container.nativeElement;
+
+      // Lock at current height as the transition starting point.
+      const currentHeight = adapter.getContainerHeight(container);
+      adapter.setContainerMaxHeight(container, currentHeight);
+
       if (expanding) {
         adapter.setText(this.textEl, this.text);
         this.#textToShow = this.text;
       } else {
+        // Measure the collapsed height while max-height is still large enough.
         adapter.setText(this.textEl, this.#collapsedText);
         this.#textToShow = this.#collapsedText;
       }
+
       this.buttonText = expanding ? this.#seeLessText : this.#seeMoreText;
-      // Measure the new height so we can animate to it.
-      const newHeight = adapter.getContainerHeight(container);
-      this.transitionHeight = newHeight;
-      // Always show all text while animating so that the animation is smooth. The animation callback will set this back if needed.
+
+      // Measure the target height.
+      const targetHeight = expanding
+        ? containerNative.scrollHeight
+        : adapter.getContainerHeight(container);
+
+      // For collapsing, show full text during the transition so it animates smoothly.
       if (!expanding) {
         adapter.setText(this.textEl, this.text);
       }
+
+      // Force reflow so the browser registers the starting max-height.
+      containerNative.getBoundingClientRect();
+
+      // Set the target max-height to trigger the CSS transition.
+      adapter.setContainerMaxHeight(container, targetHeight);
+
       this.isExpanded = expanding;
     }
   }

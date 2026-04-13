@@ -24,9 +24,15 @@
       var(--sky-color-border-selected);
     color: var(--sky-color-text-selected);
     padding: var(--sky-comp-button-space-inset-top)
-      var(--sky-comp-button-space-inset-right)
+      var(
+        --sky-comp-override-button-padding-right,
+        var(--sky-comp-button-space-inset-right)
+      )
       var(--sky-comp-button-space-inset-bottom)
-      var(--sky-comp-button-space-inset-left);
+      var(
+        --sky-comp-override-button-padding-left,
+        var(--sky-comp-button-space-inset-left)
+      );
 
     sky-icon {
       color: var(--sky-color-icon-selected);

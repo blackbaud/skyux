@@ -7,7 +7,6 @@ import {
   Loading,
   SkyAgGridFixtureComponent,
 } from '../fixtures/ag-grid.component.fixture';
-import { SkyAgGridFixtureModule } from '../fixtures/ag-grid.module.fixture';
 
 import { SkyAgGridLoadingComponent } from './loading.component';
 
@@ -30,7 +29,7 @@ describe('LoadingComponent', () => {
 
   it('should show in loading grid', async () => {
     TestBed.configureTestingModule({
-      imports: [SkyAgGridFixtureModule],
+      imports: [SkyAgGridFixtureComponent],
       providers: [
         {
           provide: Loading,

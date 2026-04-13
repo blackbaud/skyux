@@ -35,9 +35,9 @@ export { SkyPagingHarnessFilters } from './modules/paging/paging-harness-filters
 
 export { SkyRepeaterHarness } from './modules/repeater/repeater-harness';
 export { SkyRepeaterHarnessFilters } from './modules/repeater/repeater-harness-filters';
+export { SkyRepeaterItemContextMenuHarness } from './modules/repeater/repeater-item-context-menu-harness';
 export { SkyRepeaterItemHarness } from './modules/repeater/repeater-item-harness';
 export { SkyRepeaterItemHarnessFilters } from './modules/repeater/repeater-item-harness-filters';
-export { SkyRepeaterItemContextMenuHarness } from './modules/repeater/repeater-item-context-menu-harness';
 
 export { SkySortHarness } from './modules/sort/sort-harness';
 export { SkySortHarnessFilters } from './modules/sort/sort-harness-filters';

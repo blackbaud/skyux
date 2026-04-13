@@ -11,6 +11,7 @@ import {
   OnInit,
   TemplateRef,
   ViewChild,
+  booleanAttribute,
   inject,
   input,
 } from '@angular/core';
@@ -37,7 +38,7 @@ import { SkyModalComponentAdapterService } from './modal-component-adapter.servi
 import { SkyModalConfiguration } from './modal-configuration';
 import { SkyModalError } from './modal-error';
 import { SkyModalErrorsService } from './modal-errors.service';
-import { SkyModalHeaderComponent } from './modal-header.component';
+import { SkyModalHeaderInternalComponent } from './modal-header-internal.component';
 import { SkyModalHostService } from './modal-host.service';
 
 const ARIA_ROLE_DEFAULT = 'dialog';
@@ -62,7 +63,7 @@ const ARIA_ROLE_DEFAULT = 'dialog';
     SkyIconModule,
     SkyIdModule,
     SkyLayoutHostDirective,
-    SkyModalHeaderComponent,
+    SkyModalHeaderInternalComponent,
     SkyModalsResourcesModule,
     SkyScrollShadowDirective,
     SkyThemeModule,
@@ -155,6 +156,16 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   public readonly layout = input<'none' | 'fit'>('none');
+
+  /**
+   * Whether to hide the modal's header, including the heading from `headingText`,
+   * the help inline button if `helpKey` is provided, and the close button in the
+   * top right. Reserve this property for specific use cases where you need a
+   * banner image in place of the header.
+   */
+  public readonly headingHidden = input(false, {
+    transform: booleanAttribute,
+  });
 
   public ariaOwns: string | null = null;
 

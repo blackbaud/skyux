@@ -3,10 +3,10 @@ import { SkyTileDashboardConfig } from '@skyux/tiles';
 
 import { BehaviorSubject } from 'rxjs';
 
+import { TileParameters } from './tile-parameters.token';
 import { Tile1Component } from './tile1/tile1.component';
 import { Tile2Component } from './tile2/tile2.component';
 import { Tile3Component } from './tile3/tile3.component';
-import { TileParameters } from './tile-parameters.token';
 
 @Component({
   selector: 'app-tile-dashboard',

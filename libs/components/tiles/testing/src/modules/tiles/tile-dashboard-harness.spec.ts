@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -19,7 +18,7 @@ describe('Tile dashboard test harness', () => {
     mediaQueryController: SkyMediaQueryTestingController;
   }> {
     await TestBed.configureTestingModule({
-      imports: [TileDashboardHarnessTestComponent, NoopAnimationsModule],
+      imports: [TileDashboardHarnessTestComponent],
       providers: [provideSkyMediaQueryTesting()],
     }).compileComponents();
 

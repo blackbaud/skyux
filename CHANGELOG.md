@@ -1,6 +1,432 @@
 # Changelog
 
 
+## [14.0.1](https://github.com/blackbaud/skyux/compare/14.0.0...14.0.1) (2026-04-03)
+
+
+### Bug Fixes
+
+* add missing docs for `skyux-stylelint/no-sky-theme-imports` and `skyux-eslint/no-sky-selectors` rules ([#4365](https://github.com/blackbaud/skyux/issues/4365)) ([66b41b7](https://github.com/blackbaud/skyux/commit/66b41b7ac37d94eed46aae4418386e4c78442878))
+* **components/i18n:** add support for `ng-packagr@21.2.2` ([#4370](https://github.com/blackbaud/skyux/issues/4370)) ([ce46200](https://github.com/blackbaud/skyux/commit/ce46200179ca65e0cf7adf4d1eeb44eab6e56575)), closes [AB#3939429](https://dev.azure.com/blackbaud/Products/_workitems/edit/3939429)
+
+## [14.0.0](https://github.com/blackbaud/skyux/compare/14.0.0-beta.2...14.0.0) (2026-04-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* drop support for Angular 20 (#4152)
+* delete source for `@skyux-sdk/prettier-schematics` (#4222)
+* update `google-libphonenumber` and `intl-tel-input` and localize country names in phone field and country field ([#4271](https://github.com/blackbaud/skyux/issues/4271)) ([e175ac9](https://github.com/blackbaud/skyux/commit/e175ac993952f4b1eff778a4a4a9ba5f1fcb55db))
+* **components/animations:** deprecate `@skyux/animations` (#4270)
+* **components/layout:** replace `@angular/animations` with CSS transitions for inline delete component (#4323)
+* **components/lookup:** replace `@angular/animations` with CSS transitions for search component (#4319)
+* **components/layout:** replace `@angular/animations` in text expand repeater component with CSS transitions (#4317)
+* **components/layout:** replace `@angular/animations` in text expand component with CSS transitions (#4308)
+* **components/inline-form:** replace `@angular/animations` with CSS transitions (#4315)
+* **components/popovers:** replace `@angular/animations` with CSS transitions (#4313)
+* **components/indicators:** replace `@angular/animations` in tokens component with CSS transitions (#4303)
+* **components/tabs:** replace `@angular/animations` with CSS transitions (#4288)
+* **components/flyout:** replace `@angular/animations` with CSS transitions (#4285)
+* **components/split-view:** replace `@angular/animations` with CSS transitions (#4284)
+* **sdk/skyux-eslint:** add `skyux-eslint-template/prefer-input-box` rule (#4243)
+* **sdk/skyux-eslint:** modify `skyux-eslint-template/prefer-label-text` ESLint rule to require `labelText` for all `sky-input-box` implementations (#4245)
+* **components/modals:** deprecate `SkyModalHeaderComponent` (#4244)
+* **components/packages:** do not add `@skyux/packages/polyfills` to new SKY UX projects (#4242)
+* **components/lists:** replace `dragula` with `@angular/cdk/drag-drop` (#4228)
+* **components/tiles:** replace `dragula` with `@angular/cdk/drag-drop` (#4225)
+* **components/grids:** replace `dragula` with `@angular/cdk/drag-drop` (#4224)
+
+
+### Features
+
+* add support for Angular 21 ([#4152](https://github.com/blackbaud/skyux/issues/4152)) ([491bf64](https://github.com/blackbaud/skyux/commit/491bf6457b2e36a46abaecca68e0d40972d5eaf8))
+* delete source for `@skyux-sdk/prettier-schematics` ([#4222](https://github.com/blackbaud/skyux/issues/4222)) ([6579df0](https://github.com/blackbaud/skyux/commit/6579df0de9da832470dcabc28f441d8d245ccb0e)), closes [AB#3674220](https://dev.azure.com/blackbaud/Products/_workitems/edit/3674220)
+* migrate deprecated classes and custom properties ([#4338](https://github.com/blackbaud/skyux/issues/4338)) ([a72cffa](https://github.com/blackbaud/skyux/commit/a72cffadc76f1db6838365be14186d6de51e1530))
+* release 14.0.0 ([#4359](https://github.com/blackbaud/skyux/issues/4359)) ([38bb018](https://github.com/blackbaud/skyux/commit/38bb018c9df4aab831d8d693ade1771aa30d340d))
+* remove deprecated styles, forward new public API ([#4329](https://github.com/blackbaud/skyux/issues/4329)) ([716d80b](https://github.com/blackbaud/skyux/commit/716d80b53101ecb273f15a208539554b793c5db0))
+* update `google-libphonenumber` and `intl-tel-input` and localize country names in phone field and country field ([#4271](https://github.com/blackbaud/skyux/issues/4271)) ([e175ac9](https://github.com/blackbaud/skyux/commit/e175ac993952f4b1eff778a4a4a9ba5f1fcb55db))
+* update design tokens ([#4340](https://github.com/blackbaud/skyux/issues/4340)) ([a8eb7cf](https://github.com/blackbaud/skyux/commit/a8eb7cff506e2c08796d14460c5f1df0b4c07100))
+* update design tokens version ([#4344](https://github.com/blackbaud/skyux/issues/4344)) ([a0c1c1f](https://github.com/blackbaud/skyux/commit/a0c1c1f407af6ef9bc3348fc3ef324518031cc9e))
+* update ng2-dragula ([#4192](https://github.com/blackbaud/skyux/issues/4192)) ([2f5b748](https://github.com/blackbaud/skyux/commit/2f5b7481302277e3a308bc16e08e6bc4df39b4fe)), closes [AB#3642976](https://dev.azure.com/blackbaud/Products/_workitems/edit/3642976) [AB#3691547](https://dev.azure.com/blackbaud/Products/_workitems/edit/3691547)
+* **components/ag-grid:** support AG Grid 35.1.0 ([#4221](https://github.com/blackbaud/skyux/issues/4221)) ([41cd068](https://github.com/blackbaud/skyux/commit/41cd068af7ae82ce682a008445a80765d1417a4e))
+* **components/ag-grid:** use datepicker component for column filter ([#4249](https://github.com/blackbaud/skyux/issues/4249)) ([d026f28](https://github.com/blackbaud/skyux/commit/d026f280dd4b12cae271e7836c431f99ac1a37bf)), closes [AB#3648062](https://dev.azure.com/blackbaud/Products/_workitems/edit/3648062)
+* **components/animations:** deprecate `@skyux/animations` ([#4270](https://github.com/blackbaud/skyux/issues/4270)) ([ba7f9e8](https://github.com/blackbaud/skyux/commit/ba7f9e88e1e04ab13378149cc3d7df5aea89dd61))
+* **components/data-manager:** filter button and modal options now deprecated ([#4277](https://github.com/blackbaud/skyux/issues/4277)) ([e630769](https://github.com/blackbaud/skyux/commit/e6307699ca42d6e8c4bc559498e9a1b05fa34ea0)), closes [AB#3611499](https://dev.azure.com/blackbaud/Products/_workitems/edit/3611499)
+* **components/grids:** replace `dragula` with `@angular/cdk/drag-drop` ([#4224](https://github.com/blackbaud/skyux/issues/4224)) ([6f96cb0](https://github.com/blackbaud/skyux/commit/6f96cb0c36bb6e006fbaf6c88fb87c78b43fec7e))
+* **components/lists:** deprecate filter summary ([#4307](https://github.com/blackbaud/skyux/issues/4307)) ([b5567d9](https://github.com/blackbaud/skyux/commit/b5567d96f8a6c0f52d33e1cd3dc3822224dbd1d0)), closes [AB#3611503](https://dev.azure.com/blackbaud/Products/_workitems/edit/3611503)
+* **components/modals:** deprecate `SkyModalHeaderComponent` ([#4244](https://github.com/blackbaud/skyux/issues/4244)) ([5c80f39](https://github.com/blackbaud/skyux/commit/5c80f39f7ddc02bfd9fdd0fcdbabe145eeda5b75))
+* **components/modals:** modal header close button is shown in modern theme ([#4265](https://github.com/blackbaud/skyux/issues/4265)) ([db2a615](https://github.com/blackbaud/skyux/commit/db2a615722cd5770dbe801867d6484c4354bcc21))
+* **components/packages:** do not add `@skyux/packages/polyfills` to new SKY UX projects ([#4242](https://github.com/blackbaud/skyux/issues/4242)) ([8100400](https://github.com/blackbaud/skyux/commit/8100400d79c94a85772aec079313f91025e67011))
+* **components/packages:** remove `dragula`, `ng2-dragula`, and `dom-autoscroller` if not used ([#4233](https://github.com/blackbaud/skyux/issues/4233)) ([5b41e02](https://github.com/blackbaud/skyux/commit/5b41e02a8c1ae1ecf72bc69f796ec58223175f1e)), closes [AB#3390474](https://dev.azure.com/blackbaud/Products/_workitems/edit/3390474)
+* **components/text-editor:** update dompurify ([#4190](https://github.com/blackbaud/skyux/issues/4190)) ([8868e16](https://github.com/blackbaud/skyux/commit/8868e1628841f2f211e8987dff34bbcd544f9770)), closes [AB#3642976](https://dev.azure.com/blackbaud/Products/_workitems/edit/3642976) [AB#3691546](https://dev.azure.com/blackbaud/Products/_workitems/edit/3691546)
+* **sdk/skyux-eslint:** add no-barrel-exports rule ([#4268](https://github.com/blackbaud/skyux/issues/4268)) ([d7a8332](https://github.com/blackbaud/skyux/commit/d7a833296bd7b856e91df7f331f3454633650627))
+* **sdk/skyux-eslint:** add prefer-input-box rule ([#4243](https://github.com/blackbaud/skyux/issues/4243)) ([bed5acf](https://github.com/blackbaud/skyux/commit/bed5acf45f883aac74529510f22860097a319a4a))
+* **sdk/stylelint-config-skyux:** update stylelint to 17.1.0 ([#4187](https://github.com/blackbaud/skyux/issues/4187)) ([86fafb0](https://github.com/blackbaud/skyux/commit/86fafb028ff9320c57051f722a87956cdce7d161)), closes [AB#3642976](https://github.com/blackbaud/AB/issues/3642976) [AB#3691772](https://github.com/blackbaud/AB/issues/3691772)
+* **sdk/testing:** remove support for older versions of axe-core ([#4215](https://github.com/blackbaud/skyux/issues/4215)) ([410a073](https://github.com/blackbaud/skyux/commit/410a073603cba6b4a5472bfc0ddb9eb741aa5717))
+* **sdk/testing:** update axe-core to 4.11.1 ([#4185](https://github.com/blackbaud/skyux/issues/4185)) ([6c3f370](https://github.com/blackbaud/skyux/commit/6c3f370c989c9068fce0779d84c6f48f31b3c8f4)), closes [AB#3642976](https://github.com/blackbaud/AB/issues/3642976) [AB#3691545](https://github.com/blackbaud/AB/issues/3691545)
+
+
+### Bug Fixes
+
+* replace static duration values with design tokens ([#4328](https://github.com/blackbaud/skyux/issues/4328)) ([77041aa](https://github.com/blackbaud/skyux/commit/77041aa2d5b9b25be1c6da720718c217f1872ed4))
+* update to `@angular/build@21.2.0` ([#4266](https://github.com/blackbaud/skyux/issues/4266)) ([e2c8ec0](https://github.com/blackbaud/skyux/commit/e2c8ec0121ad403b8228b7212600a916541dd41f))
+* **components/action-bars:** cache split view element refs for style cleanup on destroy ([#4326](https://github.com/blackbaud/skyux/issues/4326)) ([0a7e5b4](https://github.com/blackbaud/skyux/commit/0a7e5b4e9dd2d73614b86283929e08eae14b1943))
+* **components/core:** animationend and transitionend handlers detect suppressed animations via `getComputedStyle` ([#4310](https://github.com/blackbaud/skyux/issues/4310)) ([88d7b0f](https://github.com/blackbaud/skyux/commit/88d7b0f6b178b0990bf8d59f5822658123697e0b))
+* **components/core:** transition handler emits via microtask when animations disabled ([#4304](https://github.com/blackbaud/skyux/issues/4304)) ([3b9cd2d](https://github.com/blackbaud/skyux/commit/3b9cd2dab374714cb4e7a63b31e2e11dd385045e))
+* **components/indicators:** replace `@angular/animations` in tokens component with CSS transitions ([#4303](https://github.com/blackbaud/skyux/issues/4303)) ([bcb9d88](https://github.com/blackbaud/skyux/commit/bcb9d88b7e67e1b22b101379ff7ba6335c67154b))
+* **components/inline-form:** replace `@angular/animations` with CSS transitions ([#4315](https://github.com/blackbaud/skyux/issues/4315)) ([5254dbb](https://github.com/blackbaud/skyux/commit/5254dbb21ed18fa016e57d722c2c34f0846c1710))
+* **components/layout:** replace `@angular/animations` in text expand component with CSS transitions ([#4308](https://github.com/blackbaud/skyux/issues/4308)) ([bbde359](https://github.com/blackbaud/skyux/commit/bbde3592197c88aced6c2cb747a95d63bb5093fb))
+* **components/layout:** replace `@angular/animations` in text expand repeater component with CSS transitions ([#4317](https://github.com/blackbaud/skyux/issues/4317)) ([bb4a3c7](https://github.com/blackbaud/skyux/commit/bb4a3c7a74385c551547e80f1cb4e2390f4ce7ba))
+* **components/layout:** replace `@angular/animations` with CSS transitions for inline delete component ([#4323](https://github.com/blackbaud/skyux/issues/4323)) ([1b94ac1](https://github.com/blackbaud/skyux/commit/1b94ac19a02a7bb99193de1292df8ef74360d31f))
+* **components/lists:** remove dead-code css around disabled sort items ([#4341](https://github.com/blackbaud/skyux/issues/4341)) ([ff9d7f1](https://github.com/blackbaud/skyux/commit/ff9d7f1b2976766e30fe55edce86c2898d825153)), closes [AB#3595137](https://dev.azure.com/blackbaud/Products/_workitems/edit/3595137)
+* **components/lookup:** replace `@angular/animations` with CSS transitions for search component ([#4319](https://github.com/blackbaud/skyux/issues/4319)) ([2dec706](https://github.com/blackbaud/skyux/commit/2dec706b5fd6e40c9d6fe6a5a6ccc0775971aaa5))
+* **components/packages:** `replace-deprecated-css-vars-and-classes` should not modify SCSS variables ([#4348](https://github.com/blackbaud/skyux/issues/4348)) ([c9f95e7](https://github.com/blackbaud/skyux/commit/c9f95e7ca4354eb695770c7b8d47dfcfbf3c8a48))
+* **components/packages:** add dragula dependencies to project-level package.json for library projects ([#4356](https://github.com/blackbaud/skyux/issues/4356)) ([5e09376](https://github.com/blackbaud/skyux/commit/5e09376f74b43a2ba2f7728d60ac8148f83d87b1))
+* **components/packages:** install `ng2-dragula` if used in source code ([#4240](https://github.com/blackbaud/skyux/issues/4240)) ([f0ed850](https://github.com/blackbaud/skyux/commit/f0ed850c94caee254c2cb743c34a53dff4e6fffc))
+* **components/phone-field:** remove `@angular/animations` from the phone field component ([#4321](https://github.com/blackbaud/skyux/issues/4321)) ([00051ae](https://github.com/blackbaud/skyux/commit/00051aec70b7d19082b8492c19ea3244c72e8f38))
+* **components/theme:** use design tokens for duration values ([#4327](https://github.com/blackbaud/skyux/issues/4327)) ([9e842bc](https://github.com/blackbaud/skyux/commit/9e842bcad9ecb536be58691a5aa26cba246e84d7))
+* **migrations:** add dragula to `allowedNonPeerDependencies` in ng-package.json ([#4357](https://github.com/blackbaud/skyux/issues/4357)) ([cd9c342](https://github.com/blackbaud/skyux/commit/cd9c3421875b28708e6a773b4e896ef1b5c4eab7))
+* **sdk/skyux-eslint:** avoid creating duplicate identifiers ([#4278](https://github.com/blackbaud/skyux/issues/4278)) ([e2346a0](https://github.com/blackbaud/skyux/commit/e2346a0dcc4842972b34e40937b7d7a6c1be5c59)), closes [AB#3614172](https://dev.azure.com/blackbaud/Products/_workitems/edit/3614172)
+* **sdk/skyux-eslint:** modify `skyux-eslint-template/prefer-label-text` ESLint rule to require `labelText` for all `sky-input-box` implementations ([#4245](https://github.com/blackbaud/skyux/issues/4245)) ([842e235](https://github.com/blackbaud/skyux/commit/842e235d6de47070a67889c9abb801ac21d54638))
+
+## [14.0.0-beta.2](https://github.com/blackbaud/skyux/compare/14.0.0-beta.1...14.0.0-beta.2) (2026-04-01)
+
+
+### Bug Fixes
+
+* **migrations:** add dragula to `allowedNonPeerDependencies` in ng-package.json ([#4357](https://github.com/blackbaud/skyux/issues/4357)) ([cd9c342](https://github.com/blackbaud/skyux/commit/cd9c3421875b28708e6a773b4e896ef1b5c4eab7))
+
+## [14.0.0-beta.1](https://github.com/blackbaud/skyux/compare/14.0.0-beta.0...14.0.0-beta.1) (2026-04-01)
+
+
+### Bug Fixes
+
+* **components/forms:** mark file attachment as `touched` on deletion ([#4343](https://github.com/blackbaud/skyux/issues/4343)) ([#4352](https://github.com/blackbaud/skyux/issues/4352)) ([0143836](https://github.com/blackbaud/skyux/commit/014383645c2c91c90da25a25641f249bd24326fc)), closes [AB#3695255](https://dev.azure.com/blackbaud/Products/_workitems/edit/3695255)
+* **components/packages:** add dragula dependencies to project-level package.json for library projects ([#4356](https://github.com/blackbaud/skyux/issues/4356)) ([5e09376](https://github.com/blackbaud/skyux/commit/5e09376f74b43a2ba2f7728d60ac8148f83d87b1))
+
+## [13.16.4](https://github.com/blackbaud/skyux/compare/13.16.3...13.16.4) (2026-03-31)
+
+
+### Bug Fixes
+
+* **components/forms:** mark file attachment as `touched` on deletion ([#4343](https://github.com/blackbaud/skyux/issues/4343)) ([7f8b13e](https://github.com/blackbaud/skyux/commit/7f8b13e76fb0f1d52a6d74c232c67eae392f7f07)), closes [AB#3695255](https://github.com/AB/issues/3695255)
+
+
+
+## [14.0.0-beta.0](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.16...14.0.0-beta.0) (2026-03-31)
+
+
+### Bug Fixes
+
+* **components/packages:** `replace-deprecated-css-vars-and-classes` should not modify SCSS variables ([#4348](https://github.com/blackbaud/skyux/issues/4348)) ([c9f95e7](https://github.com/blackbaud/skyux/commit/c9f95e7ca4354eb695770c7b8d47dfcfbf3c8a48))
+
+## [14.0.0-alpha.16](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.15...14.0.0-alpha.16) (2026-03-27)
+
+
+### Features
+
+* update design tokens version ([#4344](https://github.com/blackbaud/skyux/issues/4344)) ([a0c1c1f](https://github.com/blackbaud/skyux/commit/a0c1c1f407af6ef9bc3348fc3ef324518031cc9e))
+
+## [14.0.0-alpha.15](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.14...14.0.0-alpha.15) (2026-03-26)
+
+
+### Features
+
+* migrate deprecated classes and custom properties ([#4338](https://github.com/blackbaud/skyux/issues/4338)) ([a72cffa](https://github.com/blackbaud/skyux/commit/a72cffadc76f1db6838365be14186d6de51e1530))
+
+
+### Bug Fixes
+
+* **components/lists:** remove dead-code css around disabled sort items ([#4341](https://github.com/blackbaud/skyux/issues/4341)) ([ff9d7f1](https://github.com/blackbaud/skyux/commit/ff9d7f1b2976766e30fe55edce86c2898d825153)), closes [AB#3595137](https://dev.azure.com/blackbaud/Products/_workitems/edit/3595137)
+
+## [14.0.0-alpha.14](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.13...14.0.0-alpha.14) (2026-03-25)
+
+
+### Features
+
+* update design tokens ([#4340](https://github.com/blackbaud/skyux/issues/4340)) ([a8eb7cf](https://github.com/blackbaud/skyux/commit/a8eb7cff506e2c08796d14460c5f1df0b4c07100))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** apply minimum height override to column container ([#4333](https://github.com/blackbaud/skyux/issues/4333)) ([#4335](https://github.com/blackbaud/skyux/issues/4335)) ([123c4b0](https://github.com/blackbaud/skyux/commit/123c4b094789dd70fb805b2191f574fab0f8a99a)), closes [AB#3926782](https://dev.azure.com/blackbaud/Products/_workitems/edit/3926782)
+
+## [13.16.3](https://github.com/blackbaud/skyux/compare/13.16.2...13.16.3) (2026-03-24)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** apply minimum height override to column container ([#4333](https://github.com/blackbaud/skyux/issues/4333)) ([95fc062](https://github.com/blackbaud/skyux/commit/95fc062d0c769b64ba7b0da747f2fc6ae974f2cf)), closes [AB#3926782](https://github.com/AB/issues/3926782)
+
+
+
+## [14.0.0-alpha.13](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.12...14.0.0-alpha.13) (2026-03-23)
+
+
+### Features
+
+* remove deprecated styles, forward new public API ([#4329](https://github.com/blackbaud/skyux/issues/4329)) ([716d80b](https://github.com/blackbaud/skyux/commit/716d80b53101ecb273f15a208539554b793c5db0))
+
+## [14.0.0-alpha.12](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.11...14.0.0-alpha.12) (2026-03-23)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/layout:** replace `@angular/animations` with CSS transitions for inline delete component (#4323)
+
+### Bug Fixes
+
+* **components/action-bars:** cache split view element refs for style cleanup on destroy ([#4326](https://github.com/blackbaud/skyux/issues/4326)) ([0a7e5b4](https://github.com/blackbaud/skyux/commit/0a7e5b4e9dd2d73614b86283929e08eae14b1943))
+* **components/layout:** replace `@angular/animations` with CSS transitions for inline delete component ([#4323](https://github.com/blackbaud/skyux/issues/4323)) ([1b94ac1](https://github.com/blackbaud/skyux/commit/1b94ac19a02a7bb99193de1292df8ef74360d31f))
+* **components/theme:** use design tokens for duration values ([#4327](https://github.com/blackbaud/skyux/issues/4327)) ([9e842bc](https://github.com/blackbaud/skyux/commit/9e842bcad9ecb536be58691a5aa26cba246e84d7))
+* replace static duration values with design tokens ([#4328](https://github.com/blackbaud/skyux/issues/4328)) ([77041aa](https://github.com/blackbaud/skyux/commit/77041aa2d5b9b25be1c6da720718c217f1872ed4))
+
+## [14.0.0-alpha.11](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.10...14.0.0-alpha.11) (2026-03-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/lookup:** replace `@angular/animations` with CSS transitions for search component (#4319)
+
+### Bug Fixes
+
+* **components/lookup:** replace `@angular/animations` with CSS transitions for search component ([#4319](https://github.com/blackbaud/skyux/issues/4319)) ([2dec706](https://github.com/blackbaud/skyux/commit/2dec706b5fd6e40c9d6fe6a5a6ccc0775971aaa5))
+* **components/phone-field:** remove `@angular/animations` from the phone field component ([#4321](https://github.com/blackbaud/skyux/issues/4321)) ([00051ae](https://github.com/blackbaud/skyux/commit/00051aec70b7d19082b8492c19ea3244c72e8f38))
+
+## [14.0.0-alpha.10](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.9...14.0.0-alpha.10) (2026-03-18)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/layout:** replace `@angular/animations` in text expand repeater component with CSS transitions (#4317)
+* **components/layout:** replace `@angular/animations` in text expand component with CSS transitions (#4308)
+* **components/inline-form:** replace `@angular/animations` with CSS transitions (#4315)
+* **components/popovers:** replace `@angular/animations` with CSS transitions (#4313)
+
+### Features
+
+* **components/modals:** modal header close button is shown in modern theme ([#4265](https://github.com/blackbaud/skyux/issues/4265)) ([db2a615](https://github.com/blackbaud/skyux/commit/db2a615722cd5770dbe801867d6484c4354bcc21))
+
+
+### Bug Fixes
+
+* **components/core:** animationend and transitionend handlers detect suppressed animations via `getComputedStyle` ([#4310](https://github.com/blackbaud/skyux/issues/4310)) ([88d7b0f](https://github.com/blackbaud/skyux/commit/88d7b0f6b178b0990bf8d59f5822658123697e0b))
+* **components/inline-form:** replace `@angular/animations` with CSS transitions ([#4315](https://github.com/blackbaud/skyux/issues/4315)) ([5254dbb](https://github.com/blackbaud/skyux/commit/5254dbb21ed18fa016e57d722c2c34f0846c1710))
+* **components/layout:** replace `@angular/animations` in text expand component with CSS transitions ([#4308](https://github.com/blackbaud/skyux/issues/4308)) ([bbde359](https://github.com/blackbaud/skyux/commit/bbde3592197c88aced6c2cb747a95d63bb5093fb))
+* **components/layout:** replace `@angular/animations` in text expand repeater component with CSS transitions ([#4317](https://github.com/blackbaud/skyux/issues/4317)) ([bb4a3c7](https://github.com/blackbaud/skyux/commit/bb4a3c7a74385c551547e80f1cb4e2390f4ce7ba))
+* **components/popovers:** replace `@angular/animations` with CSS transitions ([#4313](https://github.com/blackbaud/skyux/issues/4313)) ([28088aa](https://github.com/blackbaud/skyux/commit/28088aac3e5bcfed6134629560718f0179df5f69))
+* **sdk/skyux-eslint:** remove `no-barrel-exports` rule ([#4320](https://github.com/blackbaud/skyux/issues/4320)) ([73dafd6](https://github.com/blackbaud/skyux/commit/73dafd665e988d468847738a6d8f3e3a3fb22d25)), closes [AB#3614172](https://dev.azure.com/blackbaud/Products/_workitems/edit/3614172) [#4268](https://github.com/blackbaud/skyux/issues/4268)
+
+## [14.0.0-alpha.9](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.8...14.0.0-alpha.9) (2026-03-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/indicators:** replace `@angular/animations` in tokens component with CSS transitions (#4303)
+* **components/tabs:** replace `@angular/animations` with CSS transitions (#4288)
+* **components/flyout:** replace `@angular/animations` with CSS transitions (#4285)
+
+### Features
+
+* **components/lists:** deprecate filter summary ([#4307](https://github.com/blackbaud/skyux/issues/4307)) ([b5567d9](https://github.com/blackbaud/skyux/commit/b5567d96f8a6c0f52d33e1cd3dc3822224dbd1d0)), closes [AB#3611503](https://dev.azure.com/blackbaud/Products/_workitems/edit/3611503)
+* **components/modals:** add modal banner ([#4275](https://github.com/blackbaud/skyux/issues/4275)) ([#4280](https://github.com/blackbaud/skyux/issues/4280)) ([b186fc2](https://github.com/blackbaud/skyux/commit/b186fc26bd5f591efb33c444d01d3d040578a81d))
+
+
+### Bug Fixes
+
+* **components/core:** transition handler emits via microtask when animations disabled ([#4304](https://github.com/blackbaud/skyux/issues/4304)) ([3b9cd2d](https://github.com/blackbaud/skyux/commit/3b9cd2dab374714cb4e7a63b31e2e11dd385045e))
+* **components/data-manager:** address data mutation during view updates ([#4309](https://github.com/blackbaud/skyux/issues/4309)) ([#4311](https://github.com/blackbaud/skyux/issues/4311)) ([6cadb59](https://github.com/blackbaud/skyux/commit/6cadb597e435b44ee036deb59c75e1ae83d4231b)), closes [AB#3705639](https://dev.azure.com/blackbaud/Products/_workitems/edit/3705639)
+* **components/flyout:** replace `@angular/animations` with CSS transitions ([#4285](https://github.com/blackbaud/skyux/issues/4285)) ([96aa341](https://github.com/blackbaud/skyux/commit/96aa341bda2c8863550dc2fa26f619fd10b71e75))
+* **components/indicators:** replace `@angular/animations` in tokens component with CSS transitions ([#4303](https://github.com/blackbaud/skyux/issues/4303)) ([bcb9d88](https://github.com/blackbaud/skyux/commit/bcb9d88b7e67e1b22b101379ff7ba6335c67154b))
+* **components/tabs:** replace `@angular/animations` with CSS transitions ([#4288](https://github.com/blackbaud/skyux/issues/4288)) ([90b183b](https://github.com/blackbaud/skyux/commit/90b183b1524dbbc9bfe2a1a2e0f5c1d2aa570503))
+
+## [13.16.2](https://github.com/blackbaud/skyux/compare/13.16.1...13.16.2) (2026-03-17)
+
+
+### Bug Fixes
+
+* **components/data-manager:** address data mutation during view updates ([#4309](https://github.com/blackbaud/skyux/issues/4309)) ([328efab](https://github.com/blackbaud/skyux/commit/328efabc7ef53c81f59db64cc8619faa3b4c033f)), closes [AB#3705639](https://github.com/AB/issues/3705639)
+
+
+
+## [14.0.0-alpha.8](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.7...14.0.0-alpha.8) (2026-03-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/split-view:** replace `@angular/animations` with CSS transitions (#4284)
+
+### Features
+
+* **components/data-manager:** filter button and modal options now deprecated ([#4277](https://github.com/blackbaud/skyux/issues/4277)) ([e630769](https://github.com/blackbaud/skyux/commit/e6307699ca42d6e8c4bc559498e9a1b05fa34ea0)), closes [AB#3611499](https://dev.azure.com/blackbaud/Products/_workitems/edit/3611499)
+* **components/indicators:** add `getNames()` method to illustration resolver service ([#4289](https://github.com/blackbaud/skyux/issues/4289)) ([#4294](https://github.com/blackbaud/skyux/issues/4294)) ([23c86cf](https://github.com/blackbaud/skyux/commit/23c86cfcb52c8769c082a4a07390f474d5344856))
+
+
+### Bug Fixes
+
+* **components/filter-bar:** filter items can be created via for loop ([#4287](https://github.com/blackbaud/skyux/issues/4287)) ([#4291](https://github.com/blackbaud/skyux/issues/4291)) ([32d567e](https://github.com/blackbaud/skyux/commit/32d567e6ac814dab7536ce590399a8960f520863))
+* **components/lookup:** update search background when using expand mode fit ([#4290](https://github.com/blackbaud/skyux/issues/4290)) ([#4297](https://github.com/blackbaud/skyux/issues/4297)) ([f593ca7](https://github.com/blackbaud/skyux/commit/f593ca7cd76a7805aa5ffd8f70f724910cb61c07)), closes [AB#3647693](https://dev.azure.com/blackbaud/Products/_workitems/edit/3647693)
+* **components/split-view:** replace `@angular/animations` with CSS transitions ([#4284](https://github.com/blackbaud/skyux/issues/4284)) ([607e7f5](https://github.com/blackbaud/skyux/commit/607e7f517bbe5246bd74a6cf481e2b315b522da1))
+
+## [13.16.1](https://github.com/blackbaud/skyux/compare/13.16.0...13.16.1) (2026-03-12)
+
+
+### Bug Fixes
+
+* **components/lookup:** update search background when using expand mode fit ([#4290](https://github.com/blackbaud/skyux/issues/4290)) ([5156ff5](https://github.com/blackbaud/skyux/commit/5156ff5b4577a7970f29a23f91de7fe39e3f5994)), closes [AB#3647693](https://github.com/AB/issues/3647693)
+
+
+
+# [13.16.0](https://github.com/blackbaud/skyux/compare/13.15.0...13.16.0) (2026-03-12)
+
+
+### Bug Fixes
+
+* **components/filter-bar:** filter items can be created via for loop ([#4287](https://github.com/blackbaud/skyux/issues/4287)) ([9f266e9](https://github.com/blackbaud/skyux/commit/9f266e9310954fda5d6897fb11d28e2b582dccf2))
+
+
+### Features
+
+* **components/indicators:** add `getNames()` method to illustration resolver service ([#4289](https://github.com/blackbaud/skyux/issues/4289)) ([a88efbc](https://github.com/blackbaud/skyux/commit/a88efbce92d99d9921696eb48efafde71ac6f8a9))
+
+
+
+## [14.0.0-alpha.7](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.6...14.0.0-alpha.7) (2026-03-10)
+
+
+### Bug Fixes
+
+* **sdk/skyux-eslint:** avoid creating duplicate identifiers ([#4278](https://github.com/blackbaud/skyux/issues/4278)) ([e2346a0](https://github.com/blackbaud/skyux/commit/e2346a0dcc4842972b34e40937b7d7a6c1be5c59)), closes [AB#3614172](https://dev.azure.com/blackbaud/Products/_workitems/edit/3614172)
+
+# [13.15.0](https://github.com/blackbaud/skyux/compare/13.14.3...13.15.0) (2026-03-10)
+
+
+### Features
+
+* **components/modals:** add modal banner ([#4275](https://github.com/blackbaud/skyux/issues/4275)) ([c6cf820](https://github.com/blackbaud/skyux/commit/c6cf820017fcb46232234cba0d06011af620b54d))
+
+
+
+## [14.0.0-alpha.6](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.5...14.0.0-alpha.6) (2026-03-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/animations:** deprecate `@skyux/animations` (#4270)
+* Along with changes in `google-libphonenumber` and `intl-tel-input`, country names are now localized in the country field and phone field components.
+
+### Features
+
+* **components/animations:** deprecate `@skyux/animations` ([#4270](https://github.com/blackbaud/skyux/issues/4270)) ([ba7f9e8](https://github.com/blackbaud/skyux/commit/ba7f9e88e1e04ab13378149cc3d7df5aea89dd61))
+* update `google-libphonenumber` and `intl-tel-input` and localize country names in phone field and country field ([#4271](https://github.com/blackbaud/skyux/issues/4271)) ([e175ac9](https://github.com/blackbaud/skyux/commit/e175ac993952f4b1eff778a4a4a9ba5f1fcb55db))
+
+## [13.14.3](https://github.com/blackbaud/skyux/compare/13.14.2...13.14.3) (2026-03-03)
+
+
+### Bug Fixes
+
+* update to `@angular/build@20.3.18` ([#4255](https://github.com/blackbaud/skyux/issues/4255)) ([f822ac9](https://github.com/blackbaud/skyux/commit/f822ac986316791797bb1a5019bcd1d967c2eb96))
+
+
+
+## [14.0.0-alpha.5](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.4...14.0.0-alpha.5) (2026-03-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* **sdk/skyux-eslint:** add no-barrel-exports rule (#4268)
+
+### Features
+
+* **components/ag-grid:** use datepicker component for column filter ([#4249](https://github.com/blackbaud/skyux/issues/4249)) ([d026f28](https://github.com/blackbaud/skyux/commit/d026f280dd4b12cae271e7836c431f99ac1a37bf)), closes [AB#3648062](https://dev.azure.com/blackbaud/Products/_workitems/edit/3648062)
+* **sdk/skyux-eslint:** add no-barrel-exports rule ([#4268](https://github.com/blackbaud/skyux/issues/4268)) ([d7a8332](https://github.com/blackbaud/skyux/commit/d7a833296bd7b856e91df7f331f3454633650627))
+
+
+### Bug Fixes
+
+* update to `@angular/build@21.2.0` ([#4266](https://github.com/blackbaud/skyux/issues/4266)) ([e2c8ec0](https://github.com/blackbaud/skyux/commit/e2c8ec0121ad403b8228b7212600a916541dd41f))
+
+## [14.0.0-alpha.4](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.3...14.0.0-alpha.4) (2026-03-03)
+
+
+### ⚠ BREAKING CHANGES
+
+* **sdk/skyux-eslint:** add prefer-input-box rule (#4243)
+* **sdk/skyux-eslint:** modify `skyux-eslint-template/prefer-label-text` ESLint rule to require `labelText` for all `sky-input-box` implementations (#4245)
+* **components/modals:** deprecate `SkyModalHeaderComponent` (#4244)
+
+### Features
+
+* **components/modals:** deprecate `SkyModalHeaderComponent` ([#4244](https://github.com/blackbaud/skyux/issues/4244)) ([5c80f39](https://github.com/blackbaud/skyux/commit/5c80f39f7ddc02bfd9fdd0fcdbabe145eeda5b75))
+* **sdk/skyux-eslint:** add prefer-input-box rule ([#4243](https://github.com/blackbaud/skyux/issues/4243)) ([bed5acf](https://github.com/blackbaud/skyux/commit/bed5acf45f883aac74529510f22860097a319a4a))
+
+
+### Bug Fixes
+
+* **sdk/skyux-eslint:** modify `skyux-eslint-template/prefer-label-text` ESLint rule to require `labelText` for all `sky-input-box` implementations ([#4245](https://github.com/blackbaud/skyux/issues/4245)) ([842e235](https://github.com/blackbaud/skyux/commit/842e235d6de47070a67889c9abb801ac21d54638))
+
+## [13.14.2](https://github.com/blackbaud/skyux/compare/13.14.1...13.14.2) (2026-02-25)
+
+
+### Bug Fixes
+
+* **components/list-builder:** stop overriding dropdown button padding ([#4181](https://github.com/blackbaud/skyux/issues/4181)) ([ca99b56](https://github.com/blackbaud/skyux/commit/ca99b56c2bcc3f208fbaec31cd49c3bb30067216))
+* **components/lookup:** lookup and selections modals use correct footer button spacing in modern theme ([#4229](https://github.com/blackbaud/skyux/issues/4229)) ([6453f81](https://github.com/blackbaud/skyux/commit/6453f81286687035440e68106dfc9f2762c2dc7e)), closes [AB#3704526](https://github.com/AB/issues/3704526)
+* use accessible text colors via design tokens update ([#4234](https://github.com/blackbaud/skyux/issues/4234)) ([ade98fb](https://github.com/blackbaud/skyux/commit/ade98fbf5cbc97bb103b8aa17daf51ee44d7c2f0))
+
+
+
+## [14.0.0-alpha.3](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.2...14.0.0-alpha.3) (2026-02-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/packages:** do not add `@skyux/packages/polyfills` to new SKY UX projects (#4242)
+* **components/ag-grid:** support AG Grid 35.1.0 (#4221)
+
+### Features
+
+* **components/ag-grid:** support AG Grid 35.1.0 ([#4221](https://github.com/blackbaud/skyux/issues/4221)) ([41cd068](https://github.com/blackbaud/skyux/commit/41cd068af7ae82ce682a008445a80765d1417a4e))
+* **components/packages:** do not add `@skyux/packages/polyfills` to new SKY UX projects ([#4242](https://github.com/blackbaud/skyux/issues/4242)) ([8100400](https://github.com/blackbaud/skyux/commit/8100400d79c94a85772aec079313f91025e67011))
+
+
+### Bug Fixes
+
+* **components/packages:** install `ng2-dragula` if used in source code ([#4240](https://github.com/blackbaud/skyux/issues/4240)) ([f0ed850](https://github.com/blackbaud/skyux/commit/f0ed850c94caee254c2cb743c34a53dff4e6fffc))
+
+## [14.0.0-alpha.2](https://github.com/blackbaud/skyux/compare/14.0.0-alpha.1...14.0.0-alpha.2) (2026-02-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/lists:** replace `dragula` with `@angular/cdk/drag-drop` (#4228)
+* **components/tiles:** replace `dragula` with `@angular/cdk/drag-drop` (#4225)
+* delete source for `@skyux-sdk/prettier-schematics` (#4222)
+* **components/grids:** replace `dragula` with `@angular/cdk/drag-drop` (#4224)
+
+### Features
+
+* **components/grids:** replace `dragula` with `@angular/cdk/drag-drop` ([#4224](https://github.com/blackbaud/skyux/issues/4224)) ([6f96cb0](https://github.com/blackbaud/skyux/commit/6f96cb0c36bb6e006fbaf6c88fb87c78b43fec7e))
+* **components/lists:** replace `dragula` with `@angular/cdk/drag-drop` ([#4228](https://github.com/blackbaud/skyux/issues/4228)) ([fd18fcb](https://github.com/blackbaud/skyux/commit/fd18fcbc2d2a27ce1f197c977e3245f3eaec3dfc)), closes [AB#3390474](https://dev.azure.com/blackbaud/Products/_workitems/edit/3390474)
+* **components/packages:** remove `dragula`, `ng2-dragula`, and `dom-autoscroller` if not used ([#4233](https://github.com/blackbaud/skyux/issues/4233)) ([5b41e02](https://github.com/blackbaud/skyux/commit/5b41e02a8c1ae1ecf72bc69f796ec58223175f1e)), closes [AB#3390474](https://dev.azure.com/blackbaud/Products/_workitems/edit/3390474)
+* **components/text-editor:** update dompurify ([#4190](https://github.com/blackbaud/skyux/issues/4190)) ([8868e16](https://github.com/blackbaud/skyux/commit/8868e1628841f2f211e8987dff34bbcd544f9770)), closes [AB#3642976](https://dev.azure.com/blackbaud/Products/_workitems/edit/3642976) [AB#3691546](https://dev.azure.com/blackbaud/Products/_workitems/edit/3691546)
+* **components/tiles:** replace `dragula` with `@angular/cdk/drag-drop` ([#4225](https://github.com/blackbaud/skyux/issues/4225)) ([d8a7eb1](https://github.com/blackbaud/skyux/commit/d8a7eb1dad802f9e0290a75ee0f4f5e368e87b21)), closes [AB#3390474](https://dev.azure.com/blackbaud/Products/_workitems/edit/3390474)
+* delete source for `@skyux-sdk/prettier-schematics` ([#4222](https://github.com/blackbaud/skyux/issues/4222)) ([6579df0](https://github.com/blackbaud/skyux/commit/6579df0de9da832470dcabc28f441d8d245ccb0e)), closes [AB#3674220](https://dev.azure.com/blackbaud/Products/_workitems/edit/3674220)
+* **sdk/testing:** remove support for older versions of axe-core ([#4215](https://github.com/blackbaud/skyux/issues/4215)) ([410a073](https://github.com/blackbaud/skyux/commit/410a073603cba6b4a5472bfc0ddb9eb741aa5717))
+* update ng2-dragula ([#4192](https://github.com/blackbaud/skyux/issues/4192)) ([2f5b748](https://github.com/blackbaud/skyux/commit/2f5b7481302277e3a308bc16e08e6bc4df39b4fe)), closes [AB#3642976](https://dev.azure.com/blackbaud/Products/_workitems/edit/3642976) [AB#3691547](https://dev.azure.com/blackbaud/Products/_workitems/edit/3691547)
+
+
+### Bug Fixes
+
+* **components/action-bars:** default theme summary action bar secondary action button dropdown uses correct button class ([#4188](https://github.com/blackbaud/skyux/issues/4188)) ([#4193](https://github.com/blackbaud/skyux/issues/4193)) ([bc8ede1](https://github.com/blackbaud/skyux/commit/bc8ede1505bab528fc25ddad6faea46c38c3497b)), closes [AB#3696493](https://dev.azure.com/blackbaud/Products/_workitems/edit/3696493)
+* **components/data-manager:** set docked data manager to be `inset`  ([#4180](https://github.com/blackbaud/skyux/issues/4180)) ([#4186](https://github.com/blackbaud/skyux/issues/4186)) ([0281ca1](https://github.com/blackbaud/skyux/commit/0281ca1f70804b1922786b711fae90325f082dc7)), closes [AB#3689062](https://dev.azure.com/blackbaud/Products/_workitems/edit/3689062)
+* **components/filter-bar:** recast filter value type as interface for documentation parsing ([#4202](https://github.com/blackbaud/skyux/issues/4202)) ([#4203](https://github.com/blackbaud/skyux/issues/4203)) ([2344664](https://github.com/blackbaud/skyux/commit/2344664241c5ace8adc7231db59db45392fbccb0))
+* **components/forms:** select inputs have proper text overflow and right padding ([#4168](https://github.com/blackbaud/skyux/issues/4168)) ([#4194](https://github.com/blackbaud/skyux/issues/4194)) ([7e04020](https://github.com/blackbaud/skyux/commit/7e04020fa8bf8cecec67a2ab4d56d66c6a3e7797)), closes [AB#3673505](https://dev.azure.com/blackbaud/Products/_workitems/edit/3673505)
+* **components/list-builder:** stop overriding dropdown button padding ([#4181](https://github.com/blackbaud/skyux/issues/4181)) ([#4217](https://github.com/blackbaud/skyux/issues/4217)) ([695f7d6](https://github.com/blackbaud/skyux/commit/695f7d6eb141539f7da289879afd0a17e9fdf8b1))
+* **components/lookup:** lookup and selections modals use correct footer button spacing in modern theme ([#4229](https://github.com/blackbaud/skyux/issues/4229)) ([#4230](https://github.com/blackbaud/skyux/issues/4230)) ([401f83e](https://github.com/blackbaud/skyux/commit/401f83e7a8a332a48077a1e88c90eeaa9de22a82)), closes [AB#3704526](https://dev.azure.com/blackbaud/Products/_workitems/edit/3704526)
+* run check-workspace on release pr ([#4210](https://github.com/blackbaud/skyux/issues/4210)) ([#4213](https://github.com/blackbaud/skyux/issues/4213)) ([823d2c8](https://github.com/blackbaud/skyux/commit/823d2c81acefb6aaaad8a97a2e5cac22ca1e8b31)), closes [AB#3647615](https://dev.azure.com/blackbaud/Products/_workitems/edit/3647615)
+* use accessible text colors via design tokens update ([#4234](https://github.com/blackbaud/skyux/issues/4234)) ([#4236](https://github.com/blackbaud/skyux/issues/4236)) ([7732ede](https://github.com/blackbaud/skyux/commit/7732ede2433cd2d6891ce2d7d1709f13c5d0b3eb))
+
 ## [13.14.1](https://github.com/blackbaud/skyux/compare/13.14.0...13.14.1) (2026-02-12)
 
 

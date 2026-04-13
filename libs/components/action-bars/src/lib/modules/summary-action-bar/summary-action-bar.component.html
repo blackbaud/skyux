@@ -30,27 +30,26 @@
     <ng-content select="sky-summary-action-bar-actions" />
   </div>
   @if (summaryContentExists()) {
-    <div
-      class="sky-summary-action-bar-summary"
-      [id]="summaryId"
-      [@skyAnimationSlide]="slideDirection()"
-      (@skyAnimationSlide.start)="summaryTransitionStart()"
-      (@skyAnimationSlide.done)="summaryTransitionEnd($event)"
-    >
-      <div class="sky-summary-action-bar-summary-body">
-        <div
-          aria-live="polite"
-          aria-atomic="true"
-          class="sky-summary-action-bar-summary-items"
-        >
-          <ng-content select="sky-summary-action-bar-summary" />
-        </div>
-        @if (isCollapsible() && !isSummaryCollapsed()) {
-          <div class="sky-summary-action-bar-details-collapse">
-            <ng-container *ngTemplateOutlet="chevron" />
+    <div class="sky-summary-action-bar-summary" [id]="summaryId">
+      <sky-animation-slide
+        [opened]="slideDirection() === 'down'"
+        (transitionEnd)="summaryTransitionEnd()"
+      >
+        <div class="sky-summary-action-bar-summary-body">
+          <div
+            aria-live="polite"
+            aria-atomic="true"
+            class="sky-summary-action-bar-summary-items"
+          >
+            <ng-content select="sky-summary-action-bar-summary" />
           </div>
-        }
-      </div>
+          @if (isCollapsible() && !isSummaryCollapsed()) {
+            <div class="sky-summary-action-bar-details-collapse">
+              <ng-container *ngTemplateOutlet="chevron" />
+            </div>
+          }
+        </div>
+      </sky-animation-slide>
     </div>
     @if (isCollapsible() && isSummaryCollapsed()) {
       <div class="sky-summary-action-bar-details-expand">

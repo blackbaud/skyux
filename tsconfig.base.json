@@ -34,9 +34,6 @@
       "@skyux-sdk/eslint-schematics": [
         "libs/sdk/eslint-schematics/src/index.ts"
       ],
-      "@skyux-sdk/prettier-schematics": [
-        "libs/sdk/prettier-schematics/src/index.ts"
-      ],
       "@skyux-sdk/testing": ["libs/sdk/testing/src/index.ts"],
       "@skyux-sdk/testing/private": ["libs/sdk/testing/private/src/index.ts"],
       "@skyux-sdk/testing/vitest/setup-matchers.js": [

@@ -9,8 +9,7 @@ import type { SkyManifestParameterDefinition } from './function-def';
  * Information about an interface exported from the public API.
  * @internal
  */
-export interface SkyManifestInterfaceDefinition
-  extends SkyManifestParentDefinition {
+export interface SkyManifestInterfaceDefinition extends SkyManifestParentDefinition {
   children?: SkyManifestInterfacePropertyDefinition[];
   indexSignatures?: SkyManifestIndexSignatureDefinition[];
   kind: 'interface';
@@ -20,8 +19,7 @@ export interface SkyManifestInterfaceDefinition
  * Information about an interface exported from the public API.
  * @internal
  */
-export interface SkyManifestInterfacePropertyDefinition
-  extends SkyManifestChildDefinition {
+export interface SkyManifestInterfacePropertyDefinition extends SkyManifestChildDefinition {
   isOptional?: boolean;
   kind: 'interface-property';
 }
@@ -30,8 +28,7 @@ export interface SkyManifestInterfacePropertyDefinition
  * Information about an object's index signature.
  * @internal
  */
-export interface SkyManifestIndexSignatureDefinition
-  extends SkyManifestJsDocDefinition {
+export interface SkyManifestIndexSignatureDefinition extends SkyManifestJsDocDefinition {
   name: string;
   parameters: SkyManifestParameterDefinition[];
   type: string;

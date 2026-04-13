@@ -18,9 +18,8 @@ describe('get-project-definitions', () => {
   it('should get project definitions', async () => {
     setup({ testingEntryPointExists: true });
 
-    const { getProjectDefinitions } = await import(
-      './get-project-definitions.js'
-    );
+    const { getProjectDefinitions } =
+      await import('./get-project-definitions.js');
 
     expect(getProjectDefinitions('my/projects/', ['foo', 'bar'])).toEqual([
       {
@@ -44,9 +43,8 @@ describe('get-project-definitions', () => {
   it('should add a trailing slash to project directory if not provided', async () => {
     setup({ testingEntryPointExists: true });
 
-    const { getProjectDefinitions } = await import(
-      './get-project-definitions.js'
-    );
+    const { getProjectDefinitions } =
+      await import('./get-project-definitions.js');
 
     expect(getProjectDefinitions('my/projects', ['foo'])).toEqual([
       {
@@ -64,9 +62,8 @@ describe('get-project-definitions', () => {
   it('should not include a testing entry point if it does not exist', async () => {
     setup({ testingEntryPointExists: false });
 
-    const { getProjectDefinitions } = await import(
-      './get-project-definitions.js'
-    );
+    const { getProjectDefinitions } =
+      await import('./get-project-definitions.js');
 
     expect(getProjectDefinitions('my/projects', ['foo'])).toEqual([
       {

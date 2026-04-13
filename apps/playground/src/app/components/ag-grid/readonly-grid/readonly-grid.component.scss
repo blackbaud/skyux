@@ -1,5 +1,15 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
+:host {
+  display: contents;
+}
+
+.normal-layout {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
 ::ng-deep {
   .complete i {
     color: $sky-highlight-color-success;

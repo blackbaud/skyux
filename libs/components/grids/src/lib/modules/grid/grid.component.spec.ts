@@ -1,3 +1,4 @@
+import { CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
 import { DebugElement } from '@angular/core';
 import {
   ComponentFixture,
@@ -9,7 +10,6 @@ import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyAppWindowRef, SkyUIConfigService } from '@skyux/core';
 
-import { DragulaOptions, DragulaService, Group } from 'ng2-dragula';
 import { of as observableOf, throwError as observableThrowError } from 'rxjs';
 
 import { GridAsyncTestComponent } from './fixtures/grid-async.component.fixture';
@@ -20,7 +20,6 @@ import { GridInteractiveTestComponent } from './fixtures/grid-interactive.compon
 import { GridNoHeaderTestComponent } from './fixtures/grid-no-header.component.fixture';
 import { GridUndefinedTestComponent } from './fixtures/grid-undefined.component.fixture';
 import { GridTestComponent } from './fixtures/grid.component.fixture';
-import { MockDragulaService } from './fixtures/mock-dragula.service';
 import { SkyGridColumnModel } from './grid-column.model';
 import { SkyGridComponent } from './grid.component';
 import { SkyGridMessage } from './types/grid-message';
@@ -2216,8 +2215,7 @@ describe('Grid Component', () => {
     });
   });
 
-  describe('dragula functionality', () => {
-    let mockDragulaService: MockDragulaService;
+  describe('drag and drop functionality', () => {
     let component: GridTestComponent,
       fixture: ComponentFixture<GridTestComponent>,
       element: DebugElement;
@@ -2227,149 +2225,61 @@ describe('Grid Component', () => {
         imports: [GridFixturesModule],
       });
 
-      fixture = TestBed.overrideComponent(SkyGridComponent, {
-        add: {
-          viewProviders: [
-            {
-              provide: DragulaService,
-              useClass: MockDragulaService,
-            },
-          ],
-        },
-      }).createComponent(GridTestComponent);
+      fixture = TestBed.createComponent(GridTestComponent);
 
       element = fixture.debugElement as DebugElement;
       component = fixture.componentInstance;
-
-      mockDragulaService = element
-        .query(By.css('sky-grid'))
-        .injector.get(DragulaService) as MockDragulaService;
     });
 
-    it('should add the dragging class to the header on dragula drag', fakeAsync(() => {
-      fixture.detectChanges();
+    function createDropEvent(
+      previousIndex: number,
+      currentIndex: number,
+    ): CdkDragDrop<SkyGridColumnModel[]> {
+      return {
+        previousIndex,
+        currentIndex,
+        previousContainer: {} as never,
+        container: {} as never,
+        item: {} as never,
+        isPointerOverContainer: true,
+        distance: { x: 0, y: 0 },
+        dropPoint: { x: 0, y: 0 },
+        event: new MouseEvent('drop'),
+      } as CdkDragDrop<SkyGridColumnModel[]>;
+    }
 
-      fixture.detectChanges();
-
-      let addCalled: boolean;
-
-      mockDragulaService.drag().next({
-        el: {
-          classList: {
-            add(cls: string) {
-              addCalled = true;
-              expect(cls).toBe('sky-grid-header-dragging');
-            },
-          },
-        },
-      });
-
-      tick();
-      fixture.detectChanges();
-      expect(addCalled).toBe(true);
-    }));
-
-    it('should remove the dragging class to the header of dragula dragend', fakeAsync(() => {
-      fixture.detectChanges();
-
-      fixture.detectChanges();
-
-      let removeCalled: boolean;
-
-      mockDragulaService.dragend().next({
-        el: {
-          classList: {
-            remove(cls: string) {
-              removeCalled = true;
-              expect(cls).toBe('sky-grid-header-dragging');
-            },
-          },
-        },
-      });
-
-      tick();
-      fixture.detectChanges();
-      expect(removeCalled).toBe(true);
-    }));
+    function simulateDrop(previousIndex: number, currentIndex: number): void {
+      const dropList = element.query(By.directive(CdkDropList));
+      dropList.triggerEventHandler(
+        'cdkDropListDropped',
+        createDropEvent(previousIndex, currentIndex),
+      );
+    }
 
     it('should set selectedColumnIds to the new column order on drop and update headers and data', fakeAsync(() => {
-      let newSelectedColumnIds: string[];
-      const expectedColumnIds = [
-        'column2',
-        'column1',
-        'column3',
-        'column4',
-        'column5',
-      ];
-
+      fixture.detectChanges();
       fixture.detectChanges();
 
-      fixture.detectChanges();
+      // Simulate dropping column at index 1 to index 2 (swap column2 and column3)
+      simulateDrop(1, 2);
 
-      component.grid.selectedColumnIdsChange.subscribe(() => {
-        newSelectedColumnIds = [
-          'column2',
-          'column1',
-          'column3',
-          'column4',
-          'column5',
-        ];
-      });
-
-      mockDragulaService.drop().next({
-        target: {
-          querySelectorAll(elementSelector: string) {
-            expect(elementSelector).toBe(
-              'th:not(.sky-grid-multiselect-cell):not(.sky-grid-row-delete-heading)',
-            );
-            return [
-              {
-                getAttribute(idSelector: string) {
-                  expect(idSelector).toBe('sky-cmp-id');
-                  return 'column2';
-                },
-              },
-              {
-                getAttribute(idSelector: string) {
-                  return 'column1';
-                },
-              },
-              {
-                getAttribute(idSelector: string) {
-                  return 'column3';
-                },
-              },
-              {
-                getAttribute(idSelector: string) {
-                  return 'column4';
-                },
-              },
-              {
-                getAttribute(idSelector: string) {
-                  return 'column5';
-                },
-              },
-            ];
-          },
-        },
-      });
       tick();
       fixture.detectChanges();
 
-      expect(newSelectedColumnIds).toEqual(expectedColumnIds);
-      expect(component.grid.selectedColumnIds).toEqual(expectedColumnIds);
+      expect(component.grid.selectedColumnIds[1]).toBe('column3');
+      expect(component.grid.selectedColumnIds[2]).toBe('column2');
 
       const headerAttribute = element.nativeElement
-        .getElementsByTagName('th')[0]
+        .getElementsByTagName('th')[1]
         .getAttribute('sky-cmp-id');
 
-      expect(headerAttribute).toBe('column2');
+      expect(headerAttribute).toBe('column3');
 
       const cellAttribute = element.nativeElement
-        .getElementsByTagName('sky-grid-cell')[0]
+        .getElementsByTagName('sky-grid-cell')[1]
         .getAttribute('sky-cmp-id');
 
-      expect(cellAttribute).toBe('column2');
+      expect(cellAttribute).toBe('column3');
     }));
 
     it('should emit selectedColumnIds when a column is reordered on drop', fakeAsync(() => {
@@ -2381,286 +2291,82 @@ describe('Grid Component', () => {
         'onSelectedColumnIdsChange',
       ).and.callThrough();
 
-      mockDragulaService.drop().next({
-        target: {
-          querySelectorAll(elementSelector: string) {
-            expect(elementSelector).toBe(
-              'th:not(.sky-grid-multiselect-cell):not(.sky-grid-row-delete-heading)',
-            );
-            return [
-              {
-                getAttribute(idSelector: string) {
-                  expect(idSelector).toBe('sky-cmp-id');
-                  return 'column2';
-                },
-              },
-              {
-                getAttribute(idSelector: string) {
-                  return 'column1';
-                },
-              },
-              {
-                getAttribute(idSelector: string) {
-                  return 'column3';
-                },
-              },
-              {
-                getAttribute(idSelector: string) {
-                  return 'column4';
-                },
-              },
-              {
-                getAttribute(idSelector: string) {
-                  return 'column5';
-                },
-              },
-            ];
-          },
-        },
-      });
+      // Simulate dropping column at index 1 to index 2 (column2 is not locked)
+      simulateDrop(1, 2);
+
       tick();
       fixture.detectChanges();
 
       expect(spy).toHaveBeenCalledTimes(1);
-      expect(spy).toHaveBeenCalledWith([
-        'column2',
-        'column1',
-        'column3',
-        'column4',
-        'column5',
-      ]);
     }));
 
-    it('should set dragula options for locked and resizable columns', () => {
-      const standardHandleElement: any = {
-        classList: {
-          contains(classSelector: string) {
-            return false;
-          },
-        },
-        matches(selector: string) {
-          return selector === '.sky-grid-header';
-        },
-        querySelector(selector: string): any {
-          return undefined;
-        },
-        contains(el: HTMLElement) {
-          return false;
-        },
-      };
-
-      const lockedHandleElement: any = {
-        classList: {
-          contains(classSelector: string) {
-            return false;
-          },
-        },
-        matches(selector: string) {
-          return selector === '.sky-grid-header-locked';
-        },
-        querySelector(selector: string): any {
-          return undefined;
-        },
-      };
-
-      const resizeHandleElement: any = {
-        classList: {
-          contains(classSelector: string) {
-            return false;
-          },
-        },
-        matches(selector: string) {
-          return selector === '.sky-grid-resize-handle';
-        },
-        querySelector(selector: string): any {
-          return undefined;
-        },
-      };
-
-      const standardMockElement: any = {
-        querySelector(selector: string): any {
-          return undefined;
-        },
-        querySelectorAll(selector: string) {
-          return [standardHandleElement];
-        },
-      };
-
-      const lockedColumnMockElement: any = {
-        querySelector(selector: string): any {
-          // NOTE: We need an element to return here but the fixture isn't yet rendered due
-          // to the timing we need so the document element is enough to suffice what we are
-          // testing here.
-          return document;
-        },
-        querySelectorAll(selector: string) {
-          return [standardHandleElement];
-        },
-      };
-
-      const lockedSiblingMockElement: any = {
-        querySelector(selector: string): any {
-          return undefined;
-        },
-        querySelectorAll(selector: string) {
-          return [
-            {
-              classList: {
-                contains(classSelector: string) {
-                  return true;
-                },
-              },
-              contains(el: HTMLElement) {
-                return false;
-              },
-            },
-          ];
-        },
-      };
-
-      const lockedSiblingHandleNotDirectMockElement: any = {
-        querySelector(selector: string): any {
-          return undefined;
-        },
-        querySelectorAll(selector: string) {
-          return [
-            {
-              classList: {
-                contains(classSelector: string) {
-                  return true;
-                },
-              },
-              contains(el: HTMLElement) {
-                return false;
-              },
-            },
-            {
-              classList: {
-                contains(classSelector: string) {
-                  return false;
-                },
-              },
-              contains(el: HTMLElement) {
-                return true;
-              },
-            },
-          ];
-        },
-      };
-
-      const setOptionsSpy = spyOn(
-        mockDragulaService,
-        'createGroup',
-      ).and.callFake((name: string, options: DragulaOptions) => {
-        if (!options.moves) {
-          return;
-        }
-
-        const moveOptionValid = options.moves(
-          standardMockElement,
-          standardMockElement,
-          standardHandleElement,
-        );
-
-        const moveOptionLeftOfLocked = options.moves(
-          standardMockElement,
-          lockedSiblingMockElement,
-          standardHandleElement,
-        );
-
-        const moveOptionLeftOfLockedNonDirect = options.moves(
-          standardMockElement,
-          lockedSiblingHandleNotDirectMockElement,
-          standardHandleElement,
-        );
-
-        const moveOptionLockedHeader = options.moves(
-          lockedColumnMockElement,
-          standardMockElement,
-          standardHandleElement,
-        );
-
-        const moveOptionFromResize = options.moves(
-          standardMockElement,
-          standardMockElement,
-          resizeHandleElement,
-        );
-
-        const moveOptionUndefinedHandle = options.moves(
-          standardMockElement,
-          standardMockElement,
-          undefined,
-        );
-
-        const acceptsOption = options.accepts(
-          undefined,
-          undefined,
-          standardMockElement,
-          standardHandleElement,
-        );
-
-        const acceptsOptionLoopBreak = options.accepts(
-          undefined,
-          undefined,
-          standardMockElement,
-          {
-            querySelector(selector: string) {
-              return standardHandleElement;
-            },
-            matches(selector: string) {
-              return false;
-            },
-          } as HTMLElement,
-        );
-
-        const acceptsOptionUndefinedSibling = options.accepts(
-          undefined,
-          undefined,
-          standardMockElement,
-          undefined,
-        );
-
-        const acceptsOptionLockedHandle = options.accepts(
-          undefined,
-          undefined,
-          standardMockElement,
-          lockedHandleElement,
-        );
-
-        const acceptsOptionResizeHandle = options.accepts(
-          undefined,
-          undefined,
-          standardMockElement,
-          resizeHandleElement,
-        );
-
-        const acceptsOptionLeftOfLocked = options.accepts(
-          undefined,
-          undefined,
-          lockedSiblingMockElement,
-          standardHandleElement,
-        );
-
-        expect(moveOptionValid).toBeTruthy();
-        expect(moveOptionLockedHeader).toBeFalsy();
-        expect(moveOptionLeftOfLocked).toBeFalsy();
-        expect(moveOptionLeftOfLockedNonDirect).toBeTruthy();
-        expect(moveOptionFromResize).toBeFalsy();
-        expect(moveOptionUndefinedHandle).toBeFalsy();
-        expect(acceptsOption).toBeTruthy();
-        expect(acceptsOptionLoopBreak).toBeTruthy();
-        expect(acceptsOptionUndefinedSibling).toBeTruthy();
-        expect(acceptsOptionLockedHandle).toBeFalsy();
-        expect(acceptsOptionResizeHandle).toBeFalsy();
-        expect(acceptsOptionLeftOfLocked).toBeFalsy();
-
-        return {} as unknown as Group;
-      });
-
+    it('should not emit when dropped in the same position', fakeAsync(() => {
       fixture.detectChanges();
       fixture.detectChanges();
-      expect(setOptionsSpy).toHaveBeenCalled();
-    });
+
+      const spy = spyOn(
+        component,
+        'onSelectedColumnIdsChange',
+      ).and.callThrough();
+
+      simulateDrop(1, 1);
+
+      tick();
+      fixture.detectChanges();
+
+      expect(spy).not.toHaveBeenCalled();
+    }));
+
+    it('should not allow dropping a column to the left of a locked column', fakeAsync(() => {
+      fixture.detectChanges();
+      fixture.detectChanges();
+
+      const spy = spyOn(
+        component,
+        'onSelectedColumnIdsChange',
+      ).and.callThrough();
+
+      // column1 (index 0) is locked. Try to drop column2 (index 1) to index 0.
+      simulateDrop(1, 0);
+
+      tick();
+      fixture.detectChanges();
+
+      // The drop should not be applied because column1 is locked.
+      expect(spy).not.toHaveBeenCalled();
+    }));
+
+    it('should not allow dragging a locked column', fakeAsync(() => {
+      fixture.detectChanges();
+      fixture.detectChanges();
+
+      const spy = spyOn(
+        component,
+        'onSelectedColumnIdsChange',
+      ).and.callThrough();
+
+      // column1 (index 0) is locked. Try to drag it to index 1.
+      simulateDrop(0, 1);
+
+      tick();
+      fixture.detectChanges();
+
+      // The drop should not be applied because the source column is locked.
+      expect(spy).not.toHaveBeenCalled();
+    }));
+
+    it('should disable drag on locked columns via cdkDragDisabled', fakeAsync(() => {
+      fixture.detectChanges();
+      fixture.detectChanges();
+
+      // column1 is the first column and is locked. Check for the cdk-drag-disabled class.
+      const headerCells = element.nativeElement.querySelectorAll(
+        'th.sky-grid-heading',
+      );
+      const lockedColumn = headerCells[0];
+
+      expect(lockedColumn.classList).toContain('cdk-drag-disabled');
+    }));
 
     it('should prevent default behavior when dragging columns on mobile devices', () => {
       fixture.detectChanges();
@@ -2674,18 +2380,6 @@ describe('Grid Component', () => {
 
     it('should pass accessibility', async () => {
       fixture.detectChanges();
-      fixture.detectChanges();
-
-      mockDragulaService.drag().next({
-        el: {
-          classList: {
-            add(cls: string) {
-              expect(cls).toBe('sky-grid-header-dragging');
-            },
-          },
-        },
-      });
-
       fixture.detectChanges();
       await fixture.whenStable();
       await expectAsync(fixture.nativeElement).toBeAccessible();

@@ -77,7 +77,7 @@ export class SkyDocsStackBlitzService {
             "outputPath": "dist/example-app",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": ["zone.js", "@skyux/packages/polyfills"],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": ["src/assets"],
@@ -149,8 +149,7 @@ export class SkyDocsStackBlitzService {
             "main": "src/test.ts",
             "polyfills": [
               "zone.js",
-              "zone.js/testing",
-              "@skyux/packages/polyfills"
+              "zone.js/testing"
             ],
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
@@ -314,7 +313,6 @@ import {
   makeEnvironmentProviders,
 } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import { SkyHelpService } from '@skyux/core';
 import { provideInitialTheme } from '@skyux/theme';
 import { provideRouter } from '@angular/router';
@@ -336,7 +334,6 @@ function provideExampleHelpService(): EnvironmentProviders {
 
 bootstrapApplication(${config.componentName}, {
   providers: [
-    provideAnimations(),
     provideInitialTheme('modern'),
     provideHttpClient(),
     provideExampleHelpService(),

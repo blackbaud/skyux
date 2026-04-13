@@ -1,9 +1,0 @@
-{
-  "schematics": {
-    "noop": {
-      "version": "0.0.0-PLACEHOLDER",
-      "factory": "./noop/noop.schematic",
-      "description": "Update prettier dependencies"
-    }
-  }
-}

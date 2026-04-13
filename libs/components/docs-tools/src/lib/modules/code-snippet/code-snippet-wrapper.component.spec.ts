@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
 import { SkyDocsCodeSnippetWrapperComponent } from './code-snippet-wrapper.component';
 
@@ -49,7 +48,6 @@ describe('SkyDocsCodeSnippetWrapperComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [TestComponent],
-      providers: [provideNoopAnimations()],
     });
   });
 
@@ -158,9 +156,7 @@ describe('SkyDocsCodeSnippetWrapperComponent', () => {
 
   it('should transform boolean string attributes correctly', () => {
     TestBed.resetTestingModule();
-    TestBed.configureTestingModule({
-      providers: [provideNoopAnimations()],
-    });
+    TestBed.configureTestingModule({});
 
     @Component({
       template: `

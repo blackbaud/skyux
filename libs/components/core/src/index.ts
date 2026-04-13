@@ -15,6 +15,11 @@ export { SkyAffixModule } from './lib/modules/affix/affix.module';
 export { SkyAffixService } from './lib/modules/affix/affix.service';
 export { SkyAffixer } from './lib/modules/affix/affixer';
 
+export { _SkyAnimationEndHandlerDirective } from './lib/modules/animations/shared/animation-handler';
+export { _SkyTransitionEndHandlerDirective } from './lib/modules/animations/shared/transition-handler';
+export { _SkyAnimationSlideComponent } from './lib/modules/animations/slide/slide';
+export { provideNoopSkyAnimations } from './lib/modules/animations/utility/provide-noop-animations';
+
 export { SkyContentInfo } from './lib/modules/content-info-provider/content-info';
 export { SkyContentInfoDescriptor } from './lib/modules/content-info-provider/content-info-descriptor';
 export { SkyContentInfoProvider } from './lib/modules/content-info-provider/content-info-provider';

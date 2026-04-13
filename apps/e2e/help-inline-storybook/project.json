@@ -14,7 +14,7 @@
           "base": "dist/apps/e2e/help-inline-storybook"
         },
         "index": "apps/e2e/help-inline-storybook/src/index.html",
-        "polyfills": ["zone.js", "libs/components/packages/src/polyfills.js"],
+        "polyfills": ["zone.js"],
         "tsConfig": "apps/e2e/help-inline-storybook/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "stylePreprocessorOptions": {

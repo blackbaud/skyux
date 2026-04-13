@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { skip, take } from 'rxjs/operators';
 
@@ -22,11 +21,7 @@ describe('List filter button', () => {
 
     TestBed.configureTestingModule({
       declarations: [ListFilterButtonTestComponent],
-      imports: [
-        SkyListToolbarModule,
-        SkyListFiltersModule,
-        NoopAnimationsModule,
-      ],
+      imports: [SkyListToolbarModule, SkyListFiltersModule],
       providers: [
         { provide: ListState, useValue: state },
         { provide: ListStateDispatcher, useValue: dispatcher },

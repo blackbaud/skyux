@@ -2,7 +2,6 @@ import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { SkyListSummaryModule } from '@skyux/lists';
 
 import { SkyListSummaryHarness } from './list-summary-harness';
@@ -35,9 +34,7 @@ class TestComponent {}
         data-sky-id="test-item-with-help"
         [labelText]="'Revenue'"
         [value]="1000000"
-        [helpPopoverContent]="
-          'This represents the total revenue for the current period.'
-        "
+        [helpPopoverContent]="'This represents the total revenue for the current period.'"
         [helpPopoverTitle]="'Revenue Help'"
       />
       <sky-list-summary-item
@@ -58,7 +55,6 @@ async function setupTest(
 ): Promise<void> {
   await TestBed.configureTestingModule({
     imports: [component],
-    providers: [provideNoopAnimations()],
   }).compileComponents();
 
   fixture = TestBed.createComponent(component);

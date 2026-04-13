@@ -1,9 +1,9 @@
-import { AnimationEvent } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  EnvironmentInjector,
   EventEmitter,
   Input,
   NgZone,
@@ -12,8 +12,8 @@ import {
   Output,
   ViewEncapsulation,
   inject,
+  input,
 } from '@angular/core';
-import { skyAnimationEmerge } from '@skyux/animations';
 import { SkyIdModule } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeModule } from '@skyux/theme';
@@ -36,7 +36,6 @@ const SKY_TOAST_TYPE_DEFAULT = SkyToastType.Info;
   selector: 'sky-toast',
   templateUrl: './toast.component.html',
   styleUrls: ['./toast.component.scss'],
-  animations: [skyAnimationEmerge],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   imports: [
@@ -54,6 +53,13 @@ export class SkyToastComponent implements OnInit, OnDestroy {
    */
   @Input()
   public autoClose: boolean | undefined;
+
+  /**
+   * The environment injector created for this toast's body component.
+   * Destroyed in `ngOnDestroy` so that cleanup is deferred until after
+   * the leave animation completes.
+   */
+  public readonly environmentInjector = input<EnvironmentInjector>();
 
   /**
    * The `SkyToastType` type for the toast to determine the color and icon to display.
@@ -116,19 +122,19 @@ export class SkyToastComponent implements OnInit, OnDestroy {
     this.#ngUnsubscribe.complete();
 
     this.stopAutoCloseTimer();
-  }
-
-  public onAnimationDone(event: AnimationEvent): void {
-    if (event.toState === 'closed') {
-      this.closed.emit();
-      this.closed.complete();
-    }
+    this.environmentInjector()?.destroy();
   }
 
   public close(): void {
+    if (!this.#isOpen) {
+      return;
+    }
+
     this.stopAutoCloseTimer();
 
     this.#isOpen = false;
+    this.closed.emit();
+    this.closed.complete();
     this.#changeDetector.markForCheck();
   }
 

@@ -53,9 +53,7 @@ interface DemoForm {
   ],
   providers: [SkyDataManagerService],
 })
-export class PagesPageDataManagerSplitViewFitLayoutExampleComponent
-  implements OnInit
-{
+export class PagesPageDataManagerSplitViewFitLayoutExampleComponent implements OnInit {
   public set activeIndex(value: number) {
     this.#_activeIndex = value;
     this.activeRecord = this.items[this.#_activeIndex];

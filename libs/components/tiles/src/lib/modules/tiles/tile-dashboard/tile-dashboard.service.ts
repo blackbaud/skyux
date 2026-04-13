@@ -1,11 +1,20 @@
 import {
+  DragRef,
+  DropListRef,
+  createDragRef,
+  createDropListRef,
+} from '@angular/cdk/drag-drop';
+import {
+  AfterRenderRef,
   ComponentRef,
   DestroyRef,
   EventEmitter,
   Injectable,
+  Injector,
   Output,
   QueryList,
   RendererFactory2,
+  afterNextRender,
   computed,
   effect,
   inject,
@@ -17,7 +26,6 @@ import {
   SkyUIConfigService,
 } from '@skyux/core';
 
-import { DragulaService } from 'ng2-dragula';
 import { take } from 'rxjs/operators';
 
 import { SkyTileDashboardColumnComponent } from '../tile-dashboard-column/tile-dashboard-column.component';
@@ -62,7 +70,10 @@ export class SkyTileDashboardService {
   );
 
   readonly #destroyRef = inject(DestroyRef);
-  readonly #dragulaService = inject(DragulaService);
+  readonly #injector = inject(Injector);
+  readonly #dragRefs: DragRef[] = [];
+  readonly #dropListRefs: DropListRef[] = [];
+  #pendingRenderRef: AfterRenderRef | undefined;
   readonly #dynamicComponentService = inject(SkyDynamicComponentService);
   readonly #renderer = inject(RendererFactory2).createRenderer(undefined, null);
   readonly #uiConfigService = inject(SkyUIConfigService);
@@ -81,7 +92,9 @@ export class SkyTileDashboardService {
 
     this.bagId = `sky-tile-dashboard-bag-${++bagIdIndex}`;
 
-    this.#initDragula();
+    this.#destroyRef.onDestroy(() => {
+      this.#disposeDragDrop();
+    });
   }
 
   /**
@@ -235,6 +248,8 @@ export class SkyTileDashboardService {
       } else {
         this.#moveTilesToMultiColumn();
       }
+
+      this.#syncDragDropItems();
     }
   }
 
@@ -327,6 +342,8 @@ export class SkyTileDashboardService {
         tile,
       ]);
 
+      this.#syncDragDropItems();
+
       // Report the change in configuration
       this.#emitTileMove(
         tileDescription,
@@ -370,6 +387,8 @@ export class SkyTileDashboardService {
           );
         }
       }
+
+      this.#syncDragDropItems();
 
       // Report the change in configuration
       this.#emitTileMove(
@@ -461,6 +480,7 @@ export class SkyTileDashboardService {
     this.#singleColumn = singleColumn;
     if (this.#config && this.#columns) {
       this.#loadTiles(this.#config, this.#columns.toArray());
+      this.#initDragDrop();
       this.dashboardInitialized.emit();
     }
   }
@@ -624,34 +644,143 @@ export class SkyTileDashboardService {
     return layoutTiles;
   }
 
-  #initDragula(): void {
-    this.#dragulaService.createGroup(this.bagId, {
-      moves: (el, container, handle) => {
-        const target = el?.querySelector('.sky-tile-grab-handle');
-        return !!target && target.contains(handle!);
-      },
+  /**
+   * @internal
+   * Handles a tile drop event by reading the current DOM state and emitting
+   * the updated configuration.
+   */
+  public handleDrop(): void {
+    const config = this.#getConfigForUIState();
+
+    if (config) {
+      if (this.#settingsKey) {
+        this.#setUserConfig(config);
+      }
+
+      this.configChange.emit(config);
+    }
+  }
+
+  #moveDomElement(event: {
+    item: DragRef;
+    container: DropListRef;
+    previousContainer: DropListRef;
+    previousIndex: number;
+    currentIndex: number;
+  }): void {
+    const element = event.item.getRootElement();
+    const targetContainer = event.container.element as HTMLElement;
+
+    // Get the tile elements currently in the target container (excluding the dragged item).
+    const tileChildren = Array.from(
+      targetContainer.querySelectorAll(`:scope > [${ATTR_TILE_ID}]`),
+    ).filter((el) => el !== element);
+
+    const referenceNode = tileChildren[event.currentIndex];
+
+    if (referenceNode) {
+      targetContainer.insertBefore(element, referenceNode);
+    } else {
+      targetContainer.appendChild(element);
+    }
+  }
+
+  #initDragDrop(): void {
+    this.#disposeDragDrop();
+
+    this.#columns?.forEach((column) => {
+      const columnEl = this.#getColumnEl(column);
+
+      if (columnEl) {
+        const dropListRef = createDropListRef(this.#injector, columnEl);
+        dropListRef.withOrientation('vertical');
+
+        dropListRef.dropped
+          .pipe(takeUntilDestroyed(this.#destroyRef))
+          .subscribe((event) => {
+            this.#moveDomElement(event);
+            this.handleDrop();
+            this.#syncDragDropItems();
+          });
+
+        this.#dropListRefs.push(dropListRef);
+      }
     });
 
-    this.#dragulaService
-      .drop(this.bagId)
-      .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe(() => {
-        const config = this.#getConfigForUIState();
+    // Connect all drop lists for cross-column dragging.
+    for (const ref of this.#dropListRefs) {
+      ref.connectedTo(this.#dropListRefs.filter((r) => r !== ref));
+    }
 
-        if (config) {
-          if (this.#settingsKey) {
-            this.#setUserConfig(config);
-          }
+    // Defer drag ref creation to after Angular renders tile templates
+    // so that grab handle elements are available.
+    this.#pendingRenderRef?.destroy();
+    this.#pendingRenderRef = afterNextRender(
+      () => {
+        this.#initDragRefs();
+      },
+      { injector: this.#injector },
+    );
+  }
 
-          this.configChange.emit(config);
+  #initDragRefs(): void {
+    if (this.#tileComponents) {
+      for (const tileComponent of this.#tileComponents) {
+        const tileEl = tileComponent.location.nativeElement as HTMLElement;
+        const dragRef = createDragRef(this.#injector, tileEl);
+
+        const handle = tileEl.querySelector('.sky-tile-grab-handle');
+
+        if (handle instanceof HTMLElement) {
+          dragRef.withHandles([handle]);
         }
-      });
+
+        this.#dragRefs.push(dragRef);
+      }
+    }
+
+    this.#syncDragDropItems();
+  }
+
+  #syncDragDropItems(): void {
+    const dragRefByEl = new Map(
+      this.#dragRefs.map((dragRef) => [dragRef.getRootElement(), dragRef]),
+    );
+
+    for (const dropListRef of this.#dropListRefs) {
+      const containerEl = dropListRef.element as HTMLElement;
+
+      const dragRefsInContainer = Array.from(
+        containerEl.querySelectorAll(`[${ATTR_TILE_ID}]`),
+      )
+        .map((el) => dragRefByEl.get(el as HTMLElement))
+        .filter((ref): ref is DragRef => ref !== undefined);
+
+      dropListRef.withItems(dragRefsInContainer);
+    }
+  }
+
+  #disposeDragDrop(): void {
+    for (const ref of this.#dragRefs) {
+      ref.dispose();
+    }
+
+    for (const ref of this.#dropListRefs) {
+      ref.dispose();
+    }
+
+    this.#dragRefs.length = 0;
+    this.#dropListRefs.length = 0;
+    this.#pendingRenderRef?.destroy();
+    this.#pendingRenderRef = undefined;
   }
 
   #getColumnEl(
     column: SkyTileDashboardColumnComponent | undefined,
-  ): Element | undefined {
-    return column?.content?.element.nativeElement.parentNode;
+  ): HTMLElement | undefined {
+    return column?.content?.element.nativeElement.parentNode as
+      | HTMLElement
+      | undefined;
   }
 
   #findTile(

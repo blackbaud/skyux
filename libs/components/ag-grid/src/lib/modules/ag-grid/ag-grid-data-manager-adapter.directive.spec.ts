@@ -27,7 +27,6 @@ import {
 
 import { SkyAgGridDataManagerAdapterDirective } from './ag-grid-data-manager-adapter.directive';
 import { SkyAgGridDataManagerFixtureComponent } from './fixtures/ag-grid-data-manager.component.fixture';
-import { SkyAgGridFixtureModule } from './fixtures/ag-grid.module.fixture';
 
 describe('SkyAgGridDataManagerAdapterDirective', () => {
   let agGridDataManagerFixture: ComponentFixture<SkyAgGridDataManagerFixtureComponent>;
@@ -41,7 +40,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkyAgGridFixtureModule],
+      imports: [SkyAgGridDataManagerFixtureComponent],
       providers: [SkyDataManagerService, provideSkyMediaQueryTesting()],
     });
 
@@ -103,6 +102,45 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     agGridDataManagerFixture.detectChanges();
 
     agGridComponent.rowSelected.emit(rowSelected);
+
+    expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
+      newDataState,
+      agGridDataManagerFixtureComponent.viewConfig.id,
+    );
+  });
+
+  it('should update the data state when a row is selected and selectedIds is undefined', async () => {
+    await agGridDataManagerFixture.whenStable();
+    agGridComponent.api.deselectAll();
+    dataState.selectedIds = undefined;
+    dataManagerService.updateDataState(dataState, 'unitTest');
+
+    agGridDataManagerFixture.detectChanges();
+
+    const rowNode = new RowNode({} as BeanCollection);
+    rowNode.data = { id: '1' };
+    spyOn(rowNode, 'isSelected').and.returnValue(true);
+    spyOn(dataManagerService, 'updateDataState');
+
+    const rowSelected = {
+      node: rowNode,
+      source: 'api',
+      context: {},
+      type: 'rowSelected',
+      rowIndex: 0,
+      api: {} as GridApi,
+      data: rowNode.data,
+      rowPinned: null,
+    } as RowSelectedEvent;
+
+    const newDataState = new SkyDataManagerState({ ...dataState });
+    newDataState.selectedIds = ['1'];
+
+    agGridDataManagerFixture.detectChanges();
+
+    agGridComponent.rowSelected.emit(rowSelected);
+    agGridDataManagerFixture.detectChanges();
+    await agGridDataManagerFixture.whenStable();
 
     expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
       newDataState,
@@ -594,9 +632,6 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
         agGridDataManagerFixtureComponent.viewConfig.id,
       );
       viewConfig?.onClearAllClick?.();
-      agGridDataManagerFixture.detectChanges();
-      await agGridDataManagerFixture.whenStable();
-
       expect(agGridComponent.api.getSelectedRows()).toEqual([]);
     });
   });
@@ -708,7 +743,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
 
 it('should move the horizontal scroll based on enableTopScroll check', async () => {
   TestBed.configureTestingModule({
-    imports: [SkyAgGridFixtureModule],
+    imports: [SkyAgGridDataManagerFixtureComponent],
     providers: [SkyDataManagerService],
   });
 
@@ -752,46 +787,20 @@ it('should move the horizontal scroll based on enableTopScroll check', async () 
   ]);
 });
 
-it('should refresh the grid when a view is reactivated', async () => {
-  TestBed.configureTestingModule({
-    imports: [SkyAgGridFixtureModule],
-    providers: [SkyDataManagerService],
-  });
-
-  const fixture = TestBed.createComponent(SkyAgGridDataManagerFixtureComponent);
-  fixture.componentInstance.displayOtherView = true;
-  fixture.detectChanges();
-  await fixture.whenStable();
-
-  const agGrid = fixture.componentInstance.agGrid;
-  expect(agGrid).toBeDefined();
-  spyOn(agGrid!.api, 'refreshCells');
-
-  const dataManagerService = TestBed.inject(SkyDataManagerService);
-  const viewConfig = dataManagerService.getViewById(
-    fixture.componentInstance.viewConfig.id,
-  );
-  expect(viewConfig).toBeDefined();
-  dataManagerService.updateActiveViewId(viewConfig!.id);
-
-  fixture.detectChanges();
-  await fixture.whenStable();
-
-  expect(agGrid!.api.refreshCells).toHaveBeenCalled();
-});
-
 describe('Read columnOptions from grid API', () => {
-  it("when column picker enabled, should get columnOptions when they're not provided in viewConfig", async () => {
+  let fixture: ComponentFixture<SkyAgGridDataManagerFixtureComponent>;
+  let dataManagerService: SkyDataManagerService;
+
+  beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkyAgGridFixtureModule],
+      imports: [SkyAgGridDataManagerFixtureComponent],
       providers: [SkyDataManagerService, provideSkyMediaQueryTesting()],
     });
+    fixture = TestBed.createComponent(SkyAgGridDataManagerFixtureComponent);
+    dataManagerService = TestBed.inject(SkyDataManagerService);
+  });
 
-    const fixture = TestBed.createComponent(
-      SkyAgGridDataManagerFixtureComponent,
-    );
-    const dataManagerService = TestBed.inject(SkyDataManagerService);
-
+  it("when column picker enabled, should get columnOptions when they're not provided in viewConfig", async () => {
     // Verify viewConfig initially has no columnOptions
     const viewConfig = fixture.componentInstance.viewConfig;
     expect(viewConfig.columnOptions).toBeUndefined();
@@ -846,16 +855,6 @@ describe('Read columnOptions from grid API', () => {
   });
 
   it('when column picker not enabled, should not get columnOptions', async () => {
-    TestBed.configureTestingModule({
-      imports: [SkyAgGridFixtureModule],
-      providers: [SkyDataManagerService, provideSkyMediaQueryTesting()],
-    });
-
-    const fixture = TestBed.createComponent(
-      SkyAgGridDataManagerFixtureComponent,
-    );
-    const dataManagerService = TestBed.inject(SkyDataManagerService);
-
     // Verify viewConfig initially has no columnOptions
     const viewConfig = fixture.componentInstance.viewConfig;
     expect(viewConfig.columnOptions).toBeUndefined();

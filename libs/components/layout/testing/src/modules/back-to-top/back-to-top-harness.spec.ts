@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
 import { SkyBackToTopHarness } from './back-to-top-harness';
@@ -9,7 +8,7 @@ import { BackToTopHarnessTestComponent } from './fixtures/back-to-top-harness-te
 describe('BackToTop test harness', () => {
   it('should get the back to top component and click it', async () => {
     await TestBed.configureTestingModule({
-      imports: [BackToTopHarnessTestComponent, NoopAnimationsModule],
+      imports: [BackToTopHarnessTestComponent],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(BackToTopHarnessTestComponent);

@@ -12,7 +12,11 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import {
+  takeUntilDestroyed,
+  toObservable,
+  toSignal,
+} from '@angular/core/rxjs-interop';
 import {
   SKY_STACKING_CONTEXT,
   SkyOverlayInstance,
@@ -21,17 +25,12 @@ import {
 } from '@skyux/core';
 
 import { AgGridAngular } from 'ag-grid-angular';
-import { GridApi, GridOptions } from 'ag-grid-community';
+import { GridApi } from 'ag-grid-community';
 import {
   BehaviorSubject,
   Subject,
   distinctUntilChanged,
   filter,
-  fromEvent,
-  map,
-  merge,
-  of,
-  startWith,
   switchMap,
   take,
   takeUntil,
@@ -73,7 +72,7 @@ export class SkyAgGridRowDeleteDirective
 
   protected readonly agGrid = contentChild(AgGridAngular);
 
-  readonly #agGridBodyViewport = new BehaviorSubject<
+  readonly #agGridRootElement = new BehaviorSubject<
     ElementRef<HTMLDivElement>[]
   >([]);
   readonly #agGridBodyClipElements = new BehaviorSubject<
@@ -110,7 +109,7 @@ export class SkyAgGridRowDeleteDirective
 
     this.#rowDeleteSvc = new SkyAgGridRowDeleteContext(
       this.#rowDeleteIdsInternal.asReadonly(),
-      toSignal(this.#agGridBodyViewport),
+      toSignal(this.#agGridRootElement),
       signal<GridApi | undefined>(undefined),
     );
 
@@ -141,52 +140,19 @@ export class SkyAgGridRowDeleteDirective
       takeUntil(this.#ngUnsubscribe),
     );
     agGridReady.subscribe((ready) => {
-      this.#agGridBodyViewport.next([
-        new ElementRef(
-          this.#elementRef.nativeElement.querySelector(
-            'div.ag-root-wrapper',
-          ) as HTMLDivElement,
-        ),
-      ]);
+      const rootWrapper = this.#elementRef.nativeElement.querySelector(
+        'div.ag-root-wrapper',
+      );
+      if (rootWrapper) {
+        this.#agGridRootElement.next([
+          new ElementRef(rootWrapper as HTMLDivElement),
+        ]);
+      }
       this.#rowDeleteSvc.gridApi.set(ready.api);
     });
-    agGrid
-      .pipe(
-        filter((grid) => !!grid),
-        switchMap((grid) =>
-          merge(
-            grid.firstDataRendered.asObservable(),
-            grid.rowDataUpdated.asObservable(),
-            agGridReady.pipe(
-              switchMap(() => fromEvent(grid.api, 'gridOptionsChanged')),
-            ),
-          ).pipe(
-            takeUntil(this.#ngUnsubscribe),
-            takeUntil(
-              agGridReady.pipe(
-                switchMap(() =>
-                  fromEvent(grid.api, 'gridPreDestroyed').pipe(take(1)),
-                ),
-              ),
-            ),
-            startWith(grid.api?.getGridOption('domLayout')),
-            map(() => grid.api?.getGridOption('domLayout')),
-            switchMap((domLayout: GridOptions['domLayout']) => {
-              if (domLayout === 'normal') {
-                return this.#agGridBodyViewport.asObservable();
-              }
-              return of([]);
-            }),
-          ),
-        ),
-      )
-      .subscribe((agGridBodyClipElements) => {
-        // When using AG Grid's `domLayout: 'autoHeight'` option,
-        // the grid's body viewport is clipped by the scrollable host.
-        // But when using `domLayout: 'normal'`, the grid's body viewport
-        // should be used as the scrollable host for the row delete overlay.
-        this.#agGridBodyClipElements.next(agGridBodyClipElements);
-      });
+    this.#agGridRootElement
+      .pipe(takeUntilDestroyed())
+      .subscribe((el) => this.#agGridBodyClipElements.next(el));
 
     agGrid
       .pipe(

@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ToolbarStandardItemsComponent } from './toolbar-standard-items.component';
 import { ToolbarStandardItemsModule } from './toolbar-standard-items.module';
@@ -21,7 +20,7 @@ describe('Toolbar with standard items', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ToolbarStandardItemsModule, NoopAnimationsModule],
+      imports: [ToolbarStandardItemsModule],
     });
 
     fixture = TestBed.createComponent(ToolbarStandardItemsComponent);

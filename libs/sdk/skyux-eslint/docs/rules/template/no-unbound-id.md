@@ -14,7 +14,7 @@ The rule does not have any configuration options.
 
 ## Usage Examples
 
-#### Default Config
+### Default Config
 
 ```json
 {
@@ -26,7 +26,7 @@ The rule does not have any configuration options.
 
 <br>
 
-#### ❌ Invalid Code
+### ❌ Invalid Code
 
 ```html
 <div id="my-foo">
@@ -49,7 +49,7 @@ The rule does not have any configuration options.
 
 <br>
 
-#### ✅ Valid Code
+### ✅ Valid Code
 
 ```html
 <div #myDiv="skyId" skyId>

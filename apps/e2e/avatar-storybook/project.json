@@ -14,7 +14,7 @@
           "base": "dist/apps/e2e/avatar-storybook"
         },
         "index": "apps/e2e/avatar-storybook/src/index.html",
-        "polyfills": ["zone.js", "libs/components/packages/src/polyfills.js"],
+        "polyfills": ["zone.js"],
         "tsConfig": "apps/e2e/avatar-storybook/tsconfig.app.json",
         "styles": [
           "apps/e2e/avatar-storybook/src/styles.scss",

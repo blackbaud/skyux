@@ -109,7 +109,6 @@ export { LayoutTextExpandNewlineExampleComponent } from './lib/modules/layout/te
 export { LayoutToolbarBasicExampleComponent } from './lib/modules/layout/toolbar/basic/example.component';
 export { LayoutToolbarSectionedExampleComponent } from './lib/modules/layout/toolbar/sectioned/example.component';
 export { ListsFilterInlineExampleComponent } from './lib/modules/lists/filter/inline/example.component';
-export { ListsFilterModalExampleComponent } from './lib/modules/lists/filter/modal/example.component';
 export { ListsInfiniteScrollRepeaterExampleComponent } from './lib/modules/lists/infinite-scroll/repeater/example.component';
 export { ListsListSummaryBasicExampleComponent } from './lib/modules/lists/list-summary/basic/example.component';
 export { ListsPagingBasicExampleComponent } from './lib/modules/lists/paging/basic/example.component';
@@ -137,6 +136,7 @@ export { ModalsConfirmBasicWithHarnessExampleComponent } from './lib/modules/mod
 export { ModalsModalBasicWithControllerExampleComponent } from './lib/modules/modals/modal/basic-with-controller/example.component';
 export { ModalsModalBasicWithHarnessHelpKeyExampleComponent } from './lib/modules/modals/modal/basic-with-harness-help-key/example.component';
 export { ModalsModalBasicWithHarnessExampleComponent } from './lib/modules/modals/modal/basic-with-harness/example.component';
+export { ModalsModalBasicWithBannerExampleComponent } from './lib/modules/modals/modal/with-banner/example.component';
 export { ModalsModalWithErrorExampleComponent } from './lib/modules/modals/modal/with-error/example.component';
 export { NavbarExampleComponent } from './lib/modules/navbar/navbar/example.component';
 export { PagesActionHubExampleComponent } from './lib/modules/pages/action-hub/example.component';

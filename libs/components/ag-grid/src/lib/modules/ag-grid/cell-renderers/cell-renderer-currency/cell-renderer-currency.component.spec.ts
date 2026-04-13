@@ -16,10 +16,14 @@ import {
   RowNode,
 } from 'ag-grid-community';
 
-import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
-import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
+import {
+  MinimalColumnDefs,
+  MinimalRowData,
+  SkyAgGridMinimalFixtureComponent,
+} from '../../fixtures/ag-grid-minimal.component.fixture';
 import { SkyCellClass } from '../../types/cell-class';
 import { SkyCellRendererCurrencyParams } from '../../types/cell-renderer-currency-params';
+import { SkyCellType } from '../../types/cell-type';
 import { SkyAgGridValidatorProperties } from '../../types/validator-properties';
 
 import { SkyAgGridCellRendererCurrencyComponent } from './cell-renderer-currency.component';
@@ -36,7 +40,23 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkyAgGridFixtureModule],
+      imports: [SkyAgGridMinimalFixtureComponent],
+      providers: [
+        {
+          provide: MinimalColumnDefs,
+          useValue: [
+            {
+              field: 'currency',
+              editable: true,
+              type: SkyCellType.Currency,
+            },
+          ],
+        },
+        {
+          provide: MinimalRowData,
+          useValue: [{ currency: 100 }],
+        },
+      ],
     });
 
     currencyFixture = TestBed.createComponent(
@@ -74,7 +94,9 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
   });
 
   it('renders a skyux numeric element in an ag grid', () => {
-    const gridFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+    const gridFixture = TestBed.createComponent(
+      SkyAgGridMinimalFixtureComponent,
+    );
     const gridNativeElement = gridFixture.nativeElement;
 
     gridFixture.detectChanges();

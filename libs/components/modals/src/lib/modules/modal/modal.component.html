@@ -20,24 +20,19 @@
   >
     <div
       class="sky-modal-header"
+      [hidden]="headingHidden()"
       [ngStyle]="{
         'box-shadow': scrollShadow?.topShadow
       }"
     >
       <div #headerId="skyId" class="sky-modal-header-content" skyId>
         @if (headingText) {
-          <sky-modal-header>
-            {{ headingText }}
-            @if (helpKey || helpPopoverContent) {
-              <sky-help-inline
-                class="sky-control-help"
-                [helpKey]="helpKey"
-                [labelText]="headingText"
-                [popoverContent]="helpPopoverContent"
-                [popoverTitle]="helpPopoverTitle"
-              />
-            }
-          </sky-modal-header>
+          <sky-modal-header-internal
+            [headingText]="headingText"
+            [helpKey]="helpKey"
+            [helpPopoverContent]="helpPopoverContent"
+            [helpPopoverTitle]="helpPopoverTitle"
+          />
         } @else {
           <ng-content select="sky-modal-header" />
         }
@@ -45,7 +40,7 @@
       <div class="sky-modal-header-buttons">
         @if (legacyHelpKey) {
           <button
-            class="sky-btn sky-modal-btn-help"
+            class="sky-btn sky-btn-borderless sky-modal-btn-help"
             name="help-button"
             type="button"
             [attr.aria-label]="'skyux_modal_open_help' | skyLibResources"
@@ -59,6 +54,10 @@
           type="button"
           class="sky-btn sky-modal-btn-close"
           [attr.aria-label]="'skyux_modal_close' | skyLibResources"
+          [skyThemeClass]="{
+            'sky-btn-borderless': 'default',
+            'sky-btn-icon-borderless': 'modern'
+          }"
           (click)="closeButtonClick()"
         >
           <sky-icon iconName="close" />
@@ -77,10 +76,11 @@
       [attr.aria-labelledby]="headerId.id"
       [skyScrollShadowEnabled]="scrollShadowEnabled"
       [skyThemeClass]="{
-        'sky-padding-even-large': 'default'
+        'sky-theme-padding-inset-balanced-m': 'default'
       }"
       (skyScrollShadow)="scrollShadowChange($event)"
     >
+      <ng-content select="sky-modal-banner" />
       <ng-content select="sky-modal-content" />
     </div>
     <div

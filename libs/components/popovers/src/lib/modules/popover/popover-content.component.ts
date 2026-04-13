@@ -1,4 +1,3 @@
-import { AnimationEvent } from '@angular/animations';
 import {
   ChangeDetectorRef,
   Component,
@@ -9,6 +8,7 @@ import {
   Optional,
   ViewChild,
   ViewContainerRef,
+  signal,
 } from '@angular/core';
 import {
   SkyAffixAutoFitContext,
@@ -30,8 +30,6 @@ import {
   takeUntil,
 } from 'rxjs';
 
-import { skyPopoverAnimation } from './popover-animation';
-import { SkyPopoverAnimationState } from './popover-animation-state';
 import { SkyPopoverContext } from './popover-context';
 import {
   parseAffixHorizontalAlignment,
@@ -48,14 +46,11 @@ import { SkyPopoverType } from './types/popover-type';
   selector: 'sky-popover-content',
   templateUrl: './popover-content.component.html',
   styleUrls: ['./popover-content.component.scss'],
-  animations: [skyPopoverAnimation],
   standalone: false,
 })
 export class SkyPopoverContentComponent implements OnInit, OnDestroy {
   @HostBinding('id')
   protected popoverId: string | undefined;
-
-  public animationState: SkyPopoverAnimationState = 'closed';
 
   public get closed(): Observable<void> {
     return this.#_closed.asObservable();
@@ -71,18 +66,9 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
 
   public affixer: SkyAffixer | undefined;
 
-  public enableAnimations = true;
-
   public horizontalAlignment: SkyPopoverAlignment = 'center';
 
-  public set isOpen(value: boolean) {
-    this.#_isOpen = value;
-    this.animationState = value ? 'open' : 'closed';
-  }
-
-  public get isOpen(): boolean {
-    return this.#_isOpen;
-  }
+  protected readonly isOpen = signal(false);
 
   public placement: SkyPopoverPlacement | null = null;
 
@@ -122,8 +108,6 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
 
   #_isMouseEnter = new Subject<boolean>();
 
-  #_isOpen = false;
-
   #_opened = new Subject<void>();
 
   #changeDetector: ChangeDetectorRef;
@@ -133,6 +117,12 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
   #coreAdapterService: SkyCoreAdapterService;
   #context: SkyPopoverContext;
   #themeSvc: SkyThemeService | undefined;
+
+  /**
+   * Tracks the pending `setTimeout` in `open()` so `close()` and
+   * `ngOnDestroy()` can cancel it before it fires.
+   */
+  #openTimeoutId: ReturnType<typeof setTimeout> | undefined;
 
   constructor(
     changeDetector: ChangeDetectorRef,
@@ -173,6 +163,8 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
+    clearTimeout(this.#openTimeoutId);
+
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
 
@@ -193,24 +185,17 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onAnimationEvent(event: AnimationEvent): void {
-    if (event.fromState === 'void') {
-      return;
-    }
-
-    if (event.phaseName === 'done') {
-      if (event.toState === 'open') {
-        this.#_opened.next();
-      } else {
-        this.#_closed.next();
-      }
+  public onAnimationsComplete(): void {
+    if (this.isOpen()) {
+      this.#_opened.next();
+    } else {
+      this.#_closed.next();
     }
   }
 
   public open(
     caller: ElementRef,
     config: {
-      enableAnimations: boolean;
       horizontalAlignment: SkyPopoverAlignment;
       id: string;
       isStatic: boolean;
@@ -220,7 +205,6 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     },
   ): void {
     this.#caller = caller;
-    this.enableAnimations = config.enableAnimations;
     this.horizontalAlignment = config.horizontalAlignment;
     this.popoverId = config.id;
     this.placement = config.placement;
@@ -234,13 +218,14 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     // states simultaneously without the overhead of event listeners.
     /* istanbul ignore if */
     if (config.isStatic) {
-      this.isOpen = true;
+      this.isOpen.set(true);
       this.#changeDetector.markForCheck();
       return;
     }
 
     // Let the styles render before gauging the affix dimensions.
-    setTimeout(() => {
+    clearTimeout(this.#openTimeoutId);
+    this.#openTimeoutId = setTimeout(() => {
       /* istanbul ignore if */
       if (!this.popoverRef?.nativeElement || this.#ngUnsubscribe.closed) {
         return;
@@ -272,18 +257,21 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
 
       this.#updateArrowOffset();
 
-      this.isOpen = true;
+      this.isOpen.set(true);
       this.#changeDetector.markForCheck();
     });
   }
 
   public close(): void {
-    this.isOpen = false;
+    clearTimeout(this.#openTimeoutId);
+    this.#openTimeoutId = undefined;
+
+    this.isOpen.set(false);
     this.#changeDetector.markForCheck();
   }
 
   public applyFocus(): void {
-    if (this.popoverRef && this.isOpen) {
+    if (this.popoverRef && this.isOpen()) {
       this.#coreAdapterService.getFocusableChildrenAndApplyFocus(
         this.popoverRef,
         '.sky-popover',

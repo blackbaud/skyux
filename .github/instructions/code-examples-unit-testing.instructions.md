@@ -1,5 +1,5 @@
 ---
-applyTo: '**'
+applyTo: '**/libs/components/code-examples/**|**/libs/components/*/src/**|**/libs/components/*/documentation.json'
 description: 'SKY UX Copilot instructions for generating code example unit tests.'
 ---
 
@@ -57,7 +57,7 @@ These tests should be **thorough showcases** of test harness capabilities, not j
 ### Dependencies
 
 - Import test harnesses from appropriate testing modules
-- Use `NoopAnimationsModule` for animations
+- Use `provideNoopSkyAnimations()` from `@skyux/core` to suppress animations
 - Follow Angular testing best practices
 
 ### Test Patterns

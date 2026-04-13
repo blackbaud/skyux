@@ -8,19 +8,12 @@ import { SkyVerticalTabComponent } from './vertical-tab.component';
 import { SkyVerticalTabsetAdapterService } from './vertical-tabset-adapter.service';
 import { SkyVerticalTabsetGroupComponent } from './vertical-tabset-group.component';
 
-export const VISIBLE_STATE = 'shown';
-export const HIDDEN_STATE = 'void';
-
 /**
  * @internal
  */
 @Injectable()
 export class SkyVerticalTabsetService {
   public activeIndex: number | undefined = undefined;
-
-  public animationContentVisibleState: string | undefined;
-
-  public animationTabsVisibleState: string | undefined;
 
   public content: ElementRef | undefined;
 
@@ -187,8 +180,6 @@ export class SkyVerticalTabsetService {
   public showTabs(): void {
     this.#tabsVisible = true;
     this.#contentAdded = false;
-    this.animationTabsVisibleState = VISIBLE_STATE;
-    this.animationContentVisibleState = HIDDEN_STATE;
     this.showingTabs.next(true);
   }
 
@@ -247,8 +238,6 @@ export class SkyVerticalTabsetService {
 
     if (this.isMobile()) {
       this.#tabsVisible = false;
-      this.animationContentVisibleState = VISIBLE_STATE;
-      this.animationTabsVisibleState = HIDDEN_STATE;
       this.hidingTabs.next(true);
     }
 

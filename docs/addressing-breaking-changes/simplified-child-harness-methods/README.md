@@ -51,7 +51,9 @@ expect(items.length).toBe(0);
 const tabButton = await tabsetHarness.getTabButtonHarness('Tab 1');
 
 // NEW: Filters object parameter for getTabButtonHarness
-const tabButton = await tabsetHarness.getTabButtonHarness({ tabHeading: 'Tab 1' });
+const tabButton = await tabsetHarness.getTabButtonHarness({
+  tabHeading: 'Tab 1',
+});
 ```
 
 2. **Remove tests that expect errors** - Delete any test cases that use `toBeRejected`, `toBeRejectedWithError`, or try-catch blocks expecting errors from the harness methods listed in the "Affected Harness Methods" section below.

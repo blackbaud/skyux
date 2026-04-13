@@ -28,10 +28,7 @@
         ]
       },
       "codeExamples": {
-        "docsIds": [
-          "ListsFilterInlineExampleComponent",
-          "ListsFilterModalExampleComponent"
-        ]
+        "docsIds": ["ListsFilterInlineExampleComponent"]
       }
     },
     "infinite-scroll": {

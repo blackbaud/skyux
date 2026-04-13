@@ -17,9 +17,7 @@ import { Attachment } from './attachment';
   >`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AttachmentLinkCellRendererComponent
-  implements ICellRendererAngularComp
-{
+export class AttachmentLinkCellRendererComponent implements ICellRendererAngularComp {
   protected value = '';
 
   public agInit(params: ICellRendererParams<Attachment, string>): void {

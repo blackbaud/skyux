@@ -194,6 +194,9 @@ describe('HeaderComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     expect(fixture.debugElement.query(By.css('.ag-filter-icon'))).toBeTruthy();
+
+    apiEvents['gridPreDestroyed'].forEach((listener) => listener());
+    expect(component).toBeTruthy();
   });
 
   it('should not show sort button when sort is disabled', () => {

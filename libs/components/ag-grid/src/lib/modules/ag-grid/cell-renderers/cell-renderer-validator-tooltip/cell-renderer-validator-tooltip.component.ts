@@ -3,9 +3,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Input,
   OnDestroy,
+  effect,
   inject,
+  input,
 } from '@angular/core';
 
 import { ICellRendererAngularComp } from 'ag-grid-angular';
@@ -26,18 +27,22 @@ import { SkyCellRendererValidatorParams } from '../../types/cell-renderer-valida
 export class SkyAgGridCellRendererValidatorTooltipComponent
   implements ICellRendererAngularComp, OnDestroy
 {
-  @Input()
-  public set params(value: SkyCellRendererValidatorParams) {
-    this.agInit(value);
-  }
+  public readonly params = input<SkyCellRendererValidatorParams>();
 
-  public cellRendererParams: SkyCellRendererValidatorParams | undefined;
-  public value: unknown;
-
+  protected cellRendererParams: SkyCellRendererValidatorParams | undefined;
   protected valueObservable = new BehaviorSubject('');
 
   readonly #changeDetector = inject(ChangeDetectorRef);
   #valueSubscription: Subscription | undefined;
+
+  constructor() {
+    effect(() => {
+      const params = this.params();
+      if (params) {
+        this.agInit(params);
+      }
+    });
+  }
 
   public ngOnDestroy(): void {
     this.#valueSubscription?.unsubscribe();

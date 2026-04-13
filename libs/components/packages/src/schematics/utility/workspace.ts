@@ -1,3 +1,4 @@
+import { join, normalize } from '@angular-devkit/core';
 import { Tree } from '@angular-devkit/schematics';
 import { ProjectDefinition } from '@schematics/angular/utility';
 import { getWorkspace } from '@schematics/angular/utility/workspace';
@@ -24,4 +25,9 @@ export async function getRequiredProject(
   }
 
   return { projectName, project };
+}
+
+export function getSourceRoot(project: ProjectDefinition): string {
+  /* istanbul ignore next */
+  return project.sourceRoot || join(normalize(project.root), 'src');
 }
