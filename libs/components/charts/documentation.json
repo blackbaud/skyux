@@ -3,8 +3,15 @@
   "groups": {
     "charts": {
       "development": {
-        "docsIds": [],
-        "primaryDocsId": ""
+        "docsIds": [
+          "SkyBarChartComponent",
+          "SkyBarChartSeriesComponent",
+          "SkyBarChartSeriesDatapointComponent",
+          "SkyChartComponent",
+          "SkyChartCategoryAxisComponent",
+          "SkyChartMeasureAxisComponent"
+        ],
+        "primaryDocsId": "SkyChartComponent"
       },
       "testing": {
         "docsIds": []
