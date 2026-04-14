@@ -43,7 +43,7 @@ export class SkyChartDonutConfigService {
 
     // Build Plugin options
     const pluginOptions: ChartOptions<'doughnut'>['plugins'] = {
-      sky_indicator: { dataPointsClickable: options.dataPointsClickable },
+      sky_indicator: { dataPointsClickEnabled: options.dataPointsClickEnabled },
       sky_keyboard_nav: {
         valueLabel: (_datasetIndex, dataIndex) => {
           const series = options.series;
@@ -87,7 +87,7 @@ export class SkyChartDonutConfigService {
       plugins: pluginOptions,
       onClick: (_, elements): void => {
         if (
-          !options.dataPointsClickable ||
+          !options.dataPointsClickEnabled ||
           !options.callbacks?.onDataPointClick ||
           elements.length === 0
         ) {
@@ -151,7 +151,7 @@ export interface SkyChartDonutOptions {
   series: SkyChartSeries<SkyChartDonutSlice>;
 
   /** Are the data points clickable */
-  dataPointsClickable: boolean;
+  dataPointsClickEnabled: boolean;
 
   callbacks?: {
     onDataPointClick: (

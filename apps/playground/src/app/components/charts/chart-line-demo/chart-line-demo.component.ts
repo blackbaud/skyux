@@ -147,7 +147,7 @@ export class ChartLineDemoComponent {
     }),
   };
 
-  public onDataPointClicked(
+  public onDataPointClick(
     event: SkyChartDataPointClickArgs<SkyChartLineDatum>,
   ): void {
     console.log(JSON.stringify(event, null, 2));

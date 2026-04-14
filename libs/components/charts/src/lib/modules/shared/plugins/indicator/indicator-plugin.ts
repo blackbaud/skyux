@@ -139,7 +139,7 @@ export function createIndicatorPlugin(
     afterEvent(chart, args, options): void {
       if (args.event.type === 'mousemove') {
         const elements = chart.getActiveElements();
-        const clickable = options.dataPointsClickable;
+        const clickable = options.dataPointsClickEnabled;
         const showPointer = clickable && elements.length > 0;
         chart.canvas.style.cursor = showPointer ? 'pointer' : 'default';
       }
@@ -169,7 +169,7 @@ function resolveIndicatorStates(
   // Hover is the baseline (drawn first, lowest visual precedence).
   // Only shown when datapoint activation is enabled.
   const hovered = chart.getActiveElements();
-  if (hovered?.length && options.dataPointsClickable) {
+  if (hovered?.length && options.dataPointsClickEnabled) {
     states.push({
       elements: hovered,
       styles: {
@@ -185,7 +185,7 @@ function resolveIndicatorStates(
   // Active overlays hover (pointer down / Space held).
   // Only shown when datapoint activation is enabled.
   const pressed = pressedElements.get(chart);
-  if (pressed?.length && options.dataPointsClickable) {
+  if (pressed?.length && options.dataPointsClickEnabled) {
     states.push({
       elements: pressed,
       styles: {

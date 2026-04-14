@@ -57,7 +57,7 @@ export class SkyChartDonutComponent {
   // #endregion
 
   // #region Inputs
-  public readonly dataPointsClickable = input(false, {
+  public readonly dataPointsClickEnabled = input(false, {
     transform: booleanAttribute,
   });
 
@@ -69,7 +69,7 @@ export class SkyChartDonutComponent {
   // #endregion
 
   // #region Outputs
-  public readonly dataPointClicked =
+  public readonly dataPointClick =
     output<SkyChartDataPointClickArgs<SkyChartDonutDatum>>();
   // #endregion
 
@@ -90,10 +90,10 @@ export class SkyChartDonutComponent {
   readonly #refreshLegendItems = signal(0);
 
   readonly #chartOptions = computed(() => {
-    const dataPointsClickable = this.dataPointsClickable();
+    const dataPointsClickEnabled = this.dataPointsClickEnabled();
     const series = this.#chartRegistry.series();
     const options = this.#parseOptions({
-      dataPointsClickable: dataPointsClickable,
+      dataPointsClickEnabled: dataPointsClickEnabled,
       series: series,
     });
 
@@ -157,10 +157,10 @@ export class SkyChartDonutComponent {
 
   // #region Private
   #parseOptions(context: {
-    dataPointsClickable: boolean;
+    dataPointsClickEnabled: boolean;
     series: SkyChartSeries<SkyChartDonutSlice>[];
   }): SkyChartDonutOptions {
-    const { dataPointsClickable, series } = context;
+    const { dataPointsClickEnabled, series } = context;
 
     // Donut charts only supports a single series
     if (series.length > 1) {
@@ -169,9 +169,9 @@ export class SkyChartDonutComponent {
 
     return {
       series: series[0],
-      dataPointsClickable: dataPointsClickable,
+      dataPointsClickEnabled: dataPointsClickEnabled,
       callbacks: {
-        onDataPointClick: (dataPoint) => this.dataPointClicked.emit(dataPoint),
+        onDataPointClick: (dataPoint) => this.dataPointClick.emit(dataPoint),
       },
     };
   }

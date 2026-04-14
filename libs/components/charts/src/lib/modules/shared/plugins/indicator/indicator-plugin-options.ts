@@ -5,7 +5,7 @@ import type { ChartType } from 'chart.js';
  */
 export interface SkyIndicatorPluginOptions {
   /** Whether data points should be clickable */
-  dataPointsClickable?: boolean;
+  dataPointsClickEnabled?: boolean;
 }
 
 // Augment Chart.js so `chart.options.plugins.sky_indicator` is strongly typed.

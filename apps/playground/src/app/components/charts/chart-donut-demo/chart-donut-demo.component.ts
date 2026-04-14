@@ -67,7 +67,7 @@ export class ChartDonutDemoComponent {
 
   // #endregion
 
-  public onDataPointClicked(
+  public onDataPointClick(
     event: SkyChartDataPointClickArgs<SkyChartDonutDatum>,
   ): void {
     console.log(JSON.stringify(event, null, 2));

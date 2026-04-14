@@ -75,7 +75,7 @@ export class SkyChartBarConfigService {
 
     // Build Plugin options
     const pluginOptions: ChartOptions<'bar'>['plugins'] = {
-      sky_indicator: { dataPointsClickable: options.dataPointsClickable },
+      sky_indicator: { dataPointsClickEnabled: options.dataPointsClickEnabled },
       sky_keyboard_nav: {
         valueLabel: (datasetIndex, dataIndex) => {
           const series = options.series[datasetIndex];
@@ -120,7 +120,7 @@ export class SkyChartBarConfigService {
       plugins: pluginOptions,
       onClick: (_, elements): void => {
         if (
-          !options.dataPointsClickable ||
+          !options.dataPointsClickEnabled ||
           !options.callbacks?.onDataPointClick ||
           elements.length === 0
         ) {
@@ -465,7 +465,7 @@ export interface SkyChartBarOptions {
   measureAxis?: SkyChartMeasureAxisConfig;
 
   /** Are the data points clickable */
-  dataPointsClickable: boolean;
+  dataPointsClickEnabled: boolean;
 
   callbacks?: {
     onDataPointClick: (

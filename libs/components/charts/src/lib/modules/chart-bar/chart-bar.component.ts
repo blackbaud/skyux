@@ -71,7 +71,7 @@ export class SkyChartBarComponent {
   // #region Inputs
   public readonly orientation = input<SkyChartBarOrientation>('vertical');
   public readonly stacked = input(false, { transform: booleanAttribute });
-  public readonly dataPointsClickable = input(false, {
+  public readonly dataPointsClickEnabled = input(false, {
     transform: booleanAttribute,
   });
 
@@ -83,7 +83,7 @@ export class SkyChartBarComponent {
   // #endregion
 
   // #region Outputs
-  public readonly dataPointClicked =
+  public readonly dataPointClick =
     output<SkyChartDataPointClickArgs<SkyChartBarDatum>>();
   // #endregion
 
@@ -105,7 +105,7 @@ export class SkyChartBarComponent {
   });
 
   readonly #chartOptions = computed(() => {
-    const dataPointsClickable = this.dataPointsClickable();
+    const dataPointsClickEnabled = this.dataPointsClickEnabled();
     const orientation = this.orientation();
     const stacked = this.stacked();
 
@@ -114,7 +114,7 @@ export class SkyChartBarComponent {
     const series = this.#chartRegistry.series();
 
     const options = this.#parseOptions({
-      dataPointsClickable: dataPointsClickable,
+      dataPointsClickEnabled: dataPointsClickEnabled,
       orientation: orientation,
       stacked: stacked,
       categoryAxis: categoryAxis,
@@ -178,7 +178,7 @@ export class SkyChartBarComponent {
 
   // #region Private
   #parseOptions(context: {
-    dataPointsClickable: boolean;
+    dataPointsClickEnabled: boolean;
     orientation: SkyChartBarOrientation;
     stacked: boolean;
     categoryAxis: Readonly<SkyChartCategoryAxisConfig> | undefined;
@@ -186,7 +186,7 @@ export class SkyChartBarComponent {
     series: SkyChartSeries<SkyChartBarPoint>[];
   }): SkyChartBarOptions {
     const {
-      dataPointsClickable,
+      dataPointsClickEnabled,
       orientation,
       stacked,
       categoryAxis,
@@ -200,9 +200,9 @@ export class SkyChartBarComponent {
       series: series,
       categoryAxis: categoryAxis ? categoryAxis : undefined,
       measureAxis: measureAxis ? measureAxis : undefined,
-      dataPointsClickable: dataPointsClickable,
+      dataPointsClickEnabled: dataPointsClickEnabled,
       callbacks: {
-        onDataPointClick: (dataPoint) => this.dataPointClicked.emit(dataPoint),
+        onDataPointClick: (dataPoint) => this.dataPointClick.emit(dataPoint),
       },
     };
   }

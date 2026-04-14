@@ -41,8 +41,8 @@
                     <sky-chart-bar
                       [orientation]="orientation()"
                       [stacked]="false"
-                      [dataPointsClickable]="true"
-                      (dataPointClicked)="onDataPointClicked($event)"
+                      [dataPointsClickEnabled]="true"
+                      (dataPointClick)="onDataPointClick($event)"
                     >
                       <sky-chart-category-axis labelText="Month" />
                       <sky-chart-measure-axis
@@ -87,9 +87,9 @@
                   >
                     <sky-chart-bar
                       [orientation]="orientation()"
-                      [dataPointsClickable]="true"
+                      [dataPointsClickEnabled]="true"
                       [stacked]="false"
-                      (dataPointClicked)="onDataPointClicked($event)"
+                      (dataPointClick)="onDataPointClick($event)"
                     >
                       <sky-chart-category-axis labelText="Categories" />
                       <sky-chart-measure-axis
@@ -135,10 +135,10 @@
                     [subtitleText]="'Spending over a month'"
                   >
                     <sky-chart-bar
-                      [dataPointsClickable]="true"
+                      [dataPointsClickEnabled]="true"
                       [orientation]="orientation()"
                       [stacked]="true"
-                      (dataPointClicked)="onDataPointClicked($event)"
+                      (dataPointClick)="onDataPointClick($event)"
                     >
                       <sky-chart-category-axis labelText="Month" />
                       <sky-chart-measure-axis
@@ -190,9 +190,9 @@
                   >
                     <sky-chart-bar
                       [orientation]="orientation()"
-                      [dataPointsClickable]="true"
+                      [dataPointsClickEnabled]="true"
                       [stacked]="false"
-                      (dataPointClicked)="onDataPointClicked($event)"
+                      (dataPointClick)="onDataPointClick($event)"
                     >
                       <sky-chart-category-axis labelText="Month" />
                       <sky-chart-measure-axis
@@ -233,9 +233,9 @@
                   >
                     <sky-chart-bar
                       [orientation]="orientation()"
-                      [dataPointsClickable]="true"
+                      [dataPointsClickEnabled]="true"
                       [stacked]="false"
-                      (dataPointClicked)="onDataPointClicked($event)"
+                      (dataPointClick)="onDataPointClick($event)"
                     >
                       <sky-chart-category-axis labelText="Categories" />
                       <sky-chart-measure-axis
@@ -277,9 +277,9 @@
                   >
                     <sky-chart-bar
                       [orientation]="orientation()"
-                      [dataPointsClickable]="true"
+                      [dataPointsClickEnabled]="true"
                       [stacked]="true"
-                      (dataPointClicked)="onDataPointClicked($event)"
+                      (dataPointClick)="onDataPointClick($event)"
                     >
                       <sky-chart-category-axis labelText="Month" />
                       <sky-chart-measure-axis
@@ -330,10 +330,10 @@
                     [headingStyle]="3"
                   >
                     <sky-chart-bar
-                      [dataPointsClickable]="true"
+                      [dataPointsClickEnabled]="true"
                       [orientation]="orientation()"
                       [stacked]="false"
-                      (dataPointClicked)="onDataPointClicked($event)"
+                      (dataPointClick)="onDataPointClick($event)"
                     >
                       <sky-chart-category-axis labelText="Categories" />
                       <sky-chart-measure-axis
@@ -381,9 +381,9 @@
                   >
                     <sky-chart-bar
                       [orientation]="orientation()"
-                      [dataPointsClickable]="true"
+                      [dataPointsClickEnabled]="true"
                       [stacked]="false"
-                      (dataPointClicked)="onDataPointClicked($event)"
+                      (dataPointClick)="onDataPointClick($event)"
                     >
                       <sky-chart-category-axis labelText="Categories" />
                       <sky-chart-measure-axis
@@ -431,9 +431,9 @@
                   >
                     <sky-chart-bar
                       [orientation]="orientation()"
-                      [dataPointsClickable]="true"
+                      [dataPointsClickEnabled]="true"
                       [stacked]="false"
-                      (dataPointClicked)="onDataPointClicked($event)"
+                      (dataPointClick)="onDataPointClick($event)"
                     >
                       <sky-chart-category-axis labelText="Categories" />
                       <sky-chart-measure-axis
@@ -481,9 +481,9 @@
                   >
                     <sky-chart-bar
                       [orientation]="orientation()"
-                      [dataPointsClickable]="true"
+                      [dataPointsClickEnabled]="true"
                       [stacked]="false"
-                      (dataPointClicked)="onDataPointClicked($event)"
+                      (dataPointClick)="onDataPointClick($event)"
                     >
                       <sky-chart-category-axis labelText="Categories" />
                       <sky-chart-measure-axis
@@ -534,8 +534,8 @@
                   >
                     <sky-chart-bar
                       [orientation]="orientation()"
-                      [dataPointsClickable]="true"
-                      (dataPointClicked)="onDataPointClicked($event)"
+                      [dataPointsClickEnabled]="true"
+                      (dataPointClick)="onDataPointClick($event)"
                     >
                       <sky-chart-category-axis labelText="Categories" />
                       <sky-chart-measure-axis
@@ -583,8 +583,8 @@
                   >
                     <sky-chart-bar
                       [orientation]="orientation()"
-                      [dataPointsClickable]="true"
-                      (dataPointClicked)="onDataPointClicked($event)"
+                      [dataPointsClickEnabled]="true"
+                      (dataPointClick)="onDataPointClick($event)"
                     >
                       <sky-chart-category-axis labelText="Categories" />
                       <sky-chart-measure-axis
@@ -632,8 +632,8 @@
                   >
                     <sky-chart-bar
                       [orientation]="orientation()"
-                      [dataPointsClickable]="true"
-                      (dataPointClicked)="onDataPointClicked($event)"
+                      [dataPointsClickEnabled]="true"
+                      (dataPointClick)="onDataPointClick($event)"
                     >
                       <sky-chart-category-axis labelText="Categories" />
                       <sky-chart-measure-axis
@@ -681,8 +681,8 @@
                   >
                     <sky-chart-bar
                       [orientation]="orientation()"
-                      [dataPointsClickable]="true"
-                      (dataPointClicked)="onDataPointClicked($event)"
+                      [dataPointsClickEnabled]="true"
+                      (dataPointClick)="onDataPointClick($event)"
                     >
                       <sky-chart-category-axis labelText="Categories" />
                       <sky-chart-measure-axis
@@ -733,9 +733,9 @@
                   >
                     <sky-chart-bar
                       [orientation]="orientation()"
-                      [dataPointsClickable]="true"
+                      [dataPointsClickEnabled]="true"
                       [stacked]="true"
-                      (dataPointClicked)="onDataPointClicked($event)"
+                      (dataPointClick)="onDataPointClick($event)"
                     >
                       <sky-chart-category-axis labelText="Categories" />
                       <sky-chart-measure-axis
@@ -783,9 +783,9 @@
                   >
                     <sky-chart-bar
                       [orientation]="orientation()"
-                      [dataPointsClickable]="true"
+                      [dataPointsClickEnabled]="true"
                       [stacked]="true"
-                      (dataPointClicked)="onDataPointClicked($event)"
+                      (dataPointClick)="onDataPointClick($event)"
                     >
                       <sky-chart-category-axis labelText="Categories" />
                       <sky-chart-measure-axis
@@ -833,9 +833,9 @@
                   >
                     <sky-chart-bar
                       [orientation]="orientation()"
-                      [dataPointsClickable]="true"
+                      [dataPointsClickEnabled]="true"
                       [stacked]="true"
-                      (dataPointClicked)="onDataPointClicked($event)"
+                      (dataPointClick)="onDataPointClick($event)"
                     >
                       <sky-chart-category-axis labelText="Categories" />
                       <sky-chart-measure-axis
@@ -883,9 +883,9 @@
                   >
                     <sky-chart-bar
                       [orientation]="orientation()"
-                      [dataPointsClickable]="true"
+                      [dataPointsClickEnabled]="true"
                       [stacked]="true"
-                      (dataPointClicked)="onDataPointClicked($event)"
+                      (dataPointClick)="onDataPointClick($event)"
                     >
                       <sky-chart-category-axis labelText="Categories" />
                       <sky-chart-measure-axis
@@ -935,9 +935,9 @@
                   >
                     <sky-chart-bar
                       [orientation]="orientation()"
-                      [dataPointsClickable]="true"
+                      [dataPointsClickEnabled]="true"
                       [stacked]="false"
-                      (dataPointClicked)="onDataPointClicked($event)"
+                      (dataPointClick)="onDataPointClick($event)"
                     >
                       <sky-chart-category-axis labelText="Month" />
                       <sky-chart-measure-axis
@@ -981,9 +981,9 @@
                   >
                     <sky-chart-bar
                       [orientation]="orientation()"
-                      [dataPointsClickable]="true"
+                      [dataPointsClickEnabled]="true"
                       [stacked]="false"
-                      (dataPointClicked)="onDataPointClicked($event)"
+                      (dataPointClick)="onDataPointClick($event)"
                     >
                       <sky-chart-category-axis labelText="Month" />
                       <sky-chart-measure-axis
@@ -1027,9 +1027,9 @@
                   >
                     <sky-chart-bar
                       [orientation]="orientation()"
-                      [dataPointsClickable]="true"
+                      [dataPointsClickEnabled]="true"
                       [stacked]="false"
-                      (dataPointClicked)="onDataPointClicked($event)"
+                      (dataPointClick)="onDataPointClick($event)"
                     >
                       <sky-chart-category-axis labelText="Month" />
                       <sky-chart-measure-axis
@@ -1076,9 +1076,9 @@
                   >
                     <sky-chart-bar
                       [orientation]="orientation()"
-                      [dataPointsClickable]="true"
+                      [dataPointsClickEnabled]="true"
                       [stacked]="false"
-                      (dataPointClicked)="onDataPointClicked($event)"
+                      (dataPointClick)="onDataPointClick($event)"
                     >
                       <sky-chart-category-axis labelText="Month" />
                       <sky-chart-measure-axis

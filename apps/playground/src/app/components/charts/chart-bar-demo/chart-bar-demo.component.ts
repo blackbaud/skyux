@@ -166,7 +166,7 @@ export class ChartBarDemoComponent {
     }),
   };
 
-  public onDataPointClicked(
+  public onDataPointClick(
     event: SkyChartDataPointClickArgs<SkyChartBarDatum>,
   ): void {
     console.log(JSON.stringify(event, null, 2));
