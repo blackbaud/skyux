@@ -30,7 +30,5 @@ function installDependencies(): Rule {
 }
 
 export default function ngAdd(): Rule {
-  return () => {
-    return chain([installDependencies()]);
-  };
+  return chain([installDependencies()]);
 }

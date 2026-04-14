@@ -16,6 +16,10 @@
     "url": "https://github.com/blackbaud/skyux/issues"
   },
   "homepage": "https://github.com/blackbaud/skyux#readme",
+  "schematics": "./collection.json",
+  "ng-add": {
+    "save": "devDependencies"
+  },
   "ng-update": {
     "packageGroupName": "@skyux-sdk/testing",
     "packageGroup": {

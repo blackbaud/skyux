@@ -62,8 +62,7 @@
       "options": {
         "commands": [
           "tsc --project libs/sdk/testing/tsconfig.schematics.json",
-          "cp libs/sdk/testing/collection.json dist/libs/sdk/testing/collection.json",
-          "cp libs/sdk/testing/schematics/ng-add/schema.json dist/libs/sdk/testing/schematics/ng-add/schema.json"
+          "ts-node --project ./scripts/tsconfig.json ./scripts/postbuild-testing.ts"
         ],
         "parallel": false
       }
