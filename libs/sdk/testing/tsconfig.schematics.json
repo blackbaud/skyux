@@ -17,5 +17,9 @@
     "types": ["node"]
   },
   "include": ["schematics/**/*"],
-  "exclude": ["schematics/**/*.spec.ts", "schematics/testing/**/*"]
+  "exclude": [
+    "schematics/**/*.spec.ts",
+    "schematics/__mocks__/**",
+    "schematics/testing/**/*"
+  ]
 }
