@@ -5,6 +5,7 @@ import {
   OnInit,
   inject,
   input,
+  signal,
 } from '@angular/core';
 import {
   SkyContainerBreakpointObserver,
@@ -31,7 +32,7 @@ import { SkyPageLayoutType } from './types/page-layout-type';
   ],
   standalone: false,
   host: {
-    '[attr.data-sky-help-key]': 'helpKey || null',
+    '[attr.data-sky-help-key]': 'currentHelpKey() || null',
   },
   hostDirectives: [
     {
@@ -55,8 +56,11 @@ export class SkyPageComponent implements OnInit, OnDestroy {
    */
   @Input()
   public set helpKey(value: string | undefined) {
+    this.currentHelpKey.set(value);
     this.#helpSvc?.updateHelp({ pageDefaultHelpKey: value });
   }
+
+  protected readonly currentHelpKey = signal<string | undefined>(undefined);
 
   readonly #themeAdapter = inject(SkyPageThemeAdapterService);
   readonly #helpSvc = inject(SkyHelpService, { optional: true });
