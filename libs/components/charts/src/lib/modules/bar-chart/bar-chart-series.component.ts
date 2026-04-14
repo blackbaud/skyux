@@ -33,6 +33,7 @@ export class SkyBarChartSeriesComponent implements OnDestroy {
 
   /**
    * A unique ID for this series component instance.
+   * @internal
    */
   public readonly id = nextId++;
 
