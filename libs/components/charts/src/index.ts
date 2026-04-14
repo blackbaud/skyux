@@ -6,22 +6,22 @@ export { SkyChartCategoryAxisComponent } from './lib/modules/axis/chart-category
 export { SkyChartMeasureAxisComponent } from './lib/modules/axis/chart-measure-axis.component';
 
 // Bar Chart
-export { SkyBarChartComponent } from './lib/modules/bar-chart/bar-chart.component';
-export { SkyBarChartSeriesComponent } from './lib/modules/bar-chart/bar-chart-series.component';
-export { SkyBarChartSeriesDatapointComponent } from './lib/modules/bar-chart/bar-chart-series-datapoint.component';
+export { SkyChartBarComponent } from './lib/modules/chart-bar/chart-bar.component';
+export { SkyChartBarSeriesComponent } from './lib/modules/chart-bar/chart-bar-series.component';
+export { SkyChartBarSeriesDataPointComponent } from './lib/modules/chart-bar/chart-bar-series-data-point.component';
 export {
-  SkyBarChartOrientation,
-  SkyBarDatum,
-} from './lib/modules/bar-chart/bar-chart-types';
+  SkyChartBarOrientation,
+  SkyChartBarDatum,
+} from './lib/modules/chart-bar/chart-bar-types';
 
 // Line Chart
-export { SkyLineChartComponent } from './lib/modules/line-chart/line-chart.component';
-export { SkyLineChartSeriesComponent } from './lib/modules/line-chart/line-chart-series.component';
-export { SkyLineChartSeriesDatapointComponent } from './lib/modules/line-chart/line-chart-series-datapoint.component';
-export { SkyLineDatum } from './lib/modules/line-chart/line-chart-types';
+export { SkyChartLineComponent } from './lib/modules/chart-line/chart-line.component';
+export { SkyChartLineSeriesComponent } from './lib/modules/chart-line/chart-line-series.component';
+export { SkyChartLineSeriesDataPointComponent } from './lib/modules/chart-line/chart-line-series-data-point.component';
+export { SkyChartLineDatum } from './lib/modules/chart-line/chart-line-types';
 
 // Donut Chart
-export { SkyDonutChartComponent } from './lib/modules/donut-chart/donut-chart.component';
-export { SkyDonutChartSeriesComponent } from './lib/modules/donut-chart/donut-chart-series.component';
-export { SkyDonutChartSeriesDatapointComponent } from './lib/modules/donut-chart/donut-chart-series-datapoint.component';
-export { SkyDonutDatum } from './lib/modules/donut-chart/donut-chart-types';
+export { SkyChartDonutComponent } from './lib/modules/chart-donut/chart-donut.component';
+export { SkyChartDonutSeriesComponent } from './lib/modules/chart-donut/chart-donut-series.component';
+export { SkyChartDonutSeriesDataPointComponent } from './lib/modules/chart-donut/chart-donut-series-data-point.component';
+export { SkyChartDonutDatum } from './lib/modules/chart-donut/chart-donut-types';

@@ -1,0 +1,1115 @@
+<sky-page layout="tabs">
+  <sky-page-header pageTitle="Bar chart" />
+
+  <sky-page-content>
+    <div class="sky-padding-even-xl">
+      <sky-radio-group
+        headingText="Orientation"
+        stacked
+        [ngModel]="orientation()"
+        (ngModelChange)="orientation.set($event)"
+      >
+        <sky-radio value="vertical" labelText="Vertical" />
+        <sky-radio value="horizontal" labelText="Horizontal" />
+      </sky-radio-group>
+    </div>
+
+    <sky-tabset>
+      <sky-tab tabHeading="Linear">
+        <sky-fluid-grid>
+          <sky-row>
+            <!-- Single series -->
+            <sky-column
+              [screenXSmall]="12"
+              [screenSmall]="12"
+              [screenMedium]="4"
+              [screenLarge]="4"
+            >
+              <sky-box
+                headingText="Single series"
+                class="sky-margin-stacked-xl"
+              >
+                <sky-box-content>
+                  <sky-chart
+                    [headingText]="'Monthly spendings'"
+                    [headingHidden]="true"
+                    [headingLevel]="3"
+                    [headingStyle]="3"
+                    [subtitleText]="'Spending over a month'"
+                    [subtitleHidden]="true"
+                  >
+                    <sky-chart-bar
+                      [orientation]="orientation()"
+                      [stacked]="false"
+                      [dataPointsClickable]="true"
+                      (dataPointClicked)="onDataPointClicked($event)"
+                    >
+                      <sky-chart-category-axis labelText="Month" />
+                      <sky-chart-measure-axis
+                        scaleType="linear"
+                        [labelText]="['Amount', '(USD)']"
+                      />
+
+                      @for (
+                        series of linear.singleSeries;
+                        track series.labelText
+                      ) {
+                        <sky-chart-bar-series [labelText]="series.labelText">
+                          @for (point of series.data; track $index) {
+                            <sky-chart-bar-series-datapoint
+                              [category]="point.category"
+                              [labelText]="point.label"
+                              [value]="point.value"
+                            />
+                          }
+                        </sky-chart-bar-series>
+                      }
+                    </sky-chart-bar>
+                  </sky-chart>
+                </sky-box-content>
+              </sky-box>
+            </sky-column>
+
+            <!-- Multi series -->
+            <sky-column
+              [screenXSmall]="12"
+              [screenSmall]="12"
+              [screenMedium]="4"
+              [screenLarge]="4"
+            >
+              <sky-box headingText="Multi series" class="sky-margin-stacked-xl">
+                <sky-box-content>
+                  <sky-chart
+                    [headingText]="'Project Budget vs Actuals'"
+                    [headingHidden]="false"
+                    [headingLevel]="3"
+                    [headingStyle]="3"
+                  >
+                    <sky-chart-bar
+                      [orientation]="orientation()"
+                      [dataPointsClickable]="true"
+                      [stacked]="false"
+                      (dataPointClicked)="onDataPointClicked($event)"
+                    >
+                      <sky-chart-category-axis labelText="Categories" />
+                      <sky-chart-measure-axis
+                        labelText="Amount"
+                        scaleType="linear"
+                      />
+
+                      @for (
+                        series of linear.multiSeries;
+                        track series.labelText
+                      ) {
+                        <sky-chart-bar-series [labelText]="series.labelText">
+                          @for (point of series.data; track $index) {
+                            <sky-chart-bar-series-datapoint
+                              [category]="point.category"
+                              [labelText]="point.label"
+                              [value]="point.value"
+                            />
+                          }
+                        </sky-chart-bar-series>
+                      }
+                    </sky-chart-bar>
+                  </sky-chart>
+                </sky-box-content>
+              </sky-box>
+            </sky-column>
+
+            <!-- Stacked -->
+            <sky-column
+              [screenXSmall]="12"
+              [screenSmall]="12"
+              [screenMedium]="4"
+              [screenLarge]="4"
+            >
+              <sky-box headingText="Stacked" class="sky-margin-stacked-xl">
+                <sky-box-content>
+                  <sky-chart
+                    helpPopoverTitle="Easy-mode help"
+                    [helpPopoverContent]="helpContent"
+                    [headingText]="'Monthly spendings'"
+                    [headingLevel]="3"
+                    [headingStyle]="3"
+                    [subtitleText]="'Spending over a month'"
+                  >
+                    <sky-chart-bar
+                      [dataPointsClickable]="true"
+                      [orientation]="orientation()"
+                      [stacked]="true"
+                      (dataPointClicked)="onDataPointClicked($event)"
+                    >
+                      <sky-chart-category-axis labelText="Month" />
+                      <sky-chart-measure-axis
+                        labelText="Value"
+                        scaleType="linear"
+                      />
+
+                      @for (series of linear.stacked; track series.labelText) {
+                        <sky-chart-bar-series [labelText]="series.labelText">
+                          @for (point of series.data; track $index) {
+                            <sky-chart-bar-series-datapoint
+                              [category]="point.category"
+                              [labelText]="point.label"
+                              [value]="point.value"
+                            />
+                          }
+                        </sky-chart-bar-series>
+                      }
+                    </sky-chart-bar>
+                  </sky-chart>
+                </sky-box-content>
+              </sky-box>
+            </sky-column>
+          </sky-row>
+        </sky-fluid-grid>
+      </sky-tab>
+
+      <sky-tab tabHeading="Logarithmic">
+        <sky-fluid-grid>
+          <sky-row>
+            <!-- Single series -->
+            <sky-column
+              [screenXSmall]="12"
+              [screenSmall]="12"
+              [screenMedium]="4"
+              [screenLarge]="4"
+            >
+              <sky-box
+                headingText="Single series"
+                class="sky-margin-stacked-xl"
+              >
+                <sky-box-content>
+                  <sky-chart
+                    legendPosition="right"
+                    [headingText]="'Monthly spendings'"
+                    [headingHidden]="false"
+                    [headingLevel]="3"
+                    [headingStyle]="3"
+                  >
+                    <sky-chart-bar
+                      [orientation]="orientation()"
+                      [dataPointsClickable]="true"
+                      [stacked]="false"
+                      (dataPointClicked)="onDataPointClicked($event)"
+                    >
+                      <sky-chart-category-axis labelText="Month" />
+                      <sky-chart-measure-axis
+                        labelText="Value"
+                        scaleType="logarithmic"
+                        [preferredMax]="10000"
+                      />
+
+                      <sky-chart-bar-series labelText="Spending">
+                        @for (point of log.singleSeries[0].data; track $index) {
+                          <sky-chart-bar-series-datapoint
+                            [category]="point.category"
+                            [labelText]="point.label"
+                            [value]="point.value"
+                          />
+                        }
+                      </sky-chart-bar-series>
+                    </sky-chart-bar>
+                  </sky-chart>
+                </sky-box-content>
+              </sky-box>
+            </sky-column>
+
+            <!-- Multi series -->
+            <sky-column
+              [screenXSmall]="12"
+              [screenSmall]="12"
+              [screenMedium]="4"
+              [screenLarge]="4"
+            >
+              <sky-box headingText="Multi series" class="sky-margin-stacked-xl">
+                <sky-box-content>
+                  <sky-chart
+                    [headingText]="'Project Budget vs Actuals'"
+                    [headingHidden]="false"
+                    [headingLevel]="3"
+                    [headingStyle]="3"
+                  >
+                    <sky-chart-bar
+                      [orientation]="orientation()"
+                      [dataPointsClickable]="true"
+                      [stacked]="false"
+                      (dataPointClicked)="onDataPointClicked($event)"
+                    >
+                      <sky-chart-category-axis labelText="Categories" />
+                      <sky-chart-measure-axis
+                        labelText="Value"
+                        scaleType="logarithmic"
+                      />
+
+                      @for (series of log.multiSeries; track series.labelText) {
+                        <sky-chart-bar-series [labelText]="series.labelText">
+                          @for (point of series.data; track $index) {
+                            <sky-chart-bar-series-datapoint
+                              [category]="point.category"
+                              [labelText]="point.label"
+                              [value]="point.value"
+                            />
+                          }
+                        </sky-chart-bar-series>
+                      }
+                    </sky-chart-bar>
+                  </sky-chart>
+                </sky-box-content>
+              </sky-box>
+            </sky-column>
+
+            <!-- Stacked -->
+            <sky-column
+              [screenXSmall]="12"
+              [screenSmall]="12"
+              [screenMedium]="4"
+              [screenLarge]="4"
+            >
+              <sky-box headingText="Stacked" class="sky-margin-stacked-xl">
+                <sky-box-content>
+                  <sky-chart
+                    [headingText]="'Monthly spendings'"
+                    [headingHidden]="false"
+                    [headingLevel]="3"
+                    [headingStyle]="3"
+                  >
+                    <sky-chart-bar
+                      [orientation]="orientation()"
+                      [dataPointsClickable]="true"
+                      [stacked]="true"
+                      (dataPointClicked)="onDataPointClicked($event)"
+                    >
+                      <sky-chart-category-axis labelText="Month" />
+                      <sky-chart-measure-axis
+                        labelText="Value"
+                        scaleType="logarithmic"
+                      />
+
+                      @for (series of log.stacked; track series.labelText) {
+                        <sky-chart-bar-series [labelText]="series.labelText">
+                          @for (point of series.data; track $index) {
+                            <sky-chart-bar-series-datapoint
+                              [category]="point.category"
+                              [labelText]="point.label"
+                              [value]="point.value"
+                            />
+                          }
+                        </sky-chart-bar-series>
+                      }
+                    </sky-chart-bar>
+                  </sky-chart>
+                </sky-box-content>
+              </sky-box>
+            </sky-column>
+          </sky-row>
+        </sky-fluid-grid>
+      </sky-tab>
+
+      <sky-tab tabHeading="Data density">
+        <sky-fluid-grid>
+          <!-- Single series -->
+          <sky-row>
+            <!-- 3 bars -->
+            <sky-column
+              [screenXSmall]="12"
+              [screenSmall]="12"
+              [screenMedium]="6"
+              [screenLarge]="6"
+            >
+              <sky-box
+                headingText="Single series - 3 bars"
+                class="sky-margin-stacked-xl"
+              >
+                <sky-box-content>
+                  <sky-chart
+                    [headingText]="'Heading text'"
+                    [headingHidden]="false"
+                    [headingLevel]="3"
+                    [headingStyle]="3"
+                  >
+                    <sky-chart-bar
+                      [dataPointsClickable]="true"
+                      [orientation]="orientation()"
+                      [stacked]="false"
+                      (dataPointClicked)="onDataPointClicked($event)"
+                    >
+                      <sky-chart-category-axis labelText="Categories" />
+                      <sky-chart-measure-axis
+                        labelText="Amount"
+                        scaleType="linear"
+                      />
+
+                      @for (
+                        series of density.single1x3;
+                        track series.labelText
+                      ) {
+                        <sky-chart-bar-series [labelText]="series.labelText">
+                          @for (point of series.data; track $index) {
+                            <sky-chart-bar-series-datapoint
+                              [category]="point.category"
+                              [labelText]="point.label"
+                              [value]="point.value"
+                            />
+                          }
+                        </sky-chart-bar-series>
+                      }
+                    </sky-chart-bar>
+                  </sky-chart>
+                </sky-box-content>
+              </sky-box>
+            </sky-column>
+
+            <!-- 6 bars -->
+            <sky-column
+              [screenXSmall]="12"
+              [screenSmall]="12"
+              [screenMedium]="6"
+              [screenLarge]="6"
+            >
+              <sky-box
+                headingText="Single series - 6 bars"
+                class="sky-margin-stacked-xl"
+              >
+                <sky-box-content>
+                  <sky-chart
+                    [headingText]="'Heading text'"
+                    [headingHidden]="false"
+                    [headingLevel]="3"
+                    [headingStyle]="3"
+                  >
+                    <sky-chart-bar
+                      [orientation]="orientation()"
+                      [dataPointsClickable]="true"
+                      [stacked]="false"
+                      (dataPointClicked)="onDataPointClicked($event)"
+                    >
+                      <sky-chart-category-axis labelText="Categories" />
+                      <sky-chart-measure-axis
+                        labelText="Amount"
+                        scaleType="linear"
+                      />
+
+                      @for (
+                        series of density.single1x6;
+                        track series.labelText
+                      ) {
+                        <sky-chart-bar-series [labelText]="series.labelText">
+                          @for (point of series.data; track $index) {
+                            <sky-chart-bar-series-datapoint
+                              [category]="point.category"
+                              [labelText]="point.label"
+                              [value]="point.value"
+                            />
+                          }
+                        </sky-chart-bar-series>
+                      }
+                    </sky-chart-bar>
+                  </sky-chart>
+                </sky-box-content>
+              </sky-box>
+            </sky-column>
+
+            <!-- 9 bars -->
+            <sky-column
+              [screenXSmall]="12"
+              [screenSmall]="12"
+              [screenMedium]="6"
+              [screenLarge]="6"
+            >
+              <sky-box
+                headingText="Single series - 9 bars"
+                class="sky-margin-stacked-xl"
+              >
+                <sky-box-content>
+                  <sky-chart
+                    [headingText]="'Heading text'"
+                    [headingHidden]="false"
+                    [headingLevel]="3"
+                    [headingStyle]="3"
+                  >
+                    <sky-chart-bar
+                      [orientation]="orientation()"
+                      [dataPointsClickable]="true"
+                      [stacked]="false"
+                      (dataPointClicked)="onDataPointClicked($event)"
+                    >
+                      <sky-chart-category-axis labelText="Categories" />
+                      <sky-chart-measure-axis
+                        labelText="Amount"
+                        scaleType="linear"
+                      />
+
+                      @for (
+                        series of density.single1x9;
+                        track series.labelText
+                      ) {
+                        <sky-chart-bar-series [labelText]="series.labelText">
+                          @for (point of series.data; track $index) {
+                            <sky-chart-bar-series-datapoint
+                              [category]="point.category"
+                              [labelText]="point.label"
+                              [value]="point.value"
+                            />
+                          }
+                        </sky-chart-bar-series>
+                      }
+                    </sky-chart-bar>
+                  </sky-chart>
+                </sky-box-content>
+              </sky-box>
+            </sky-column>
+
+            <!-- 12 bars -->
+            <sky-column
+              [screenXSmall]="12"
+              [screenSmall]="12"
+              [screenMedium]="6"
+              [screenLarge]="6"
+            >
+              <sky-box
+                headingText="Single series - 12 bars"
+                class="sky-margin-stacked-xl"
+              >
+                <sky-box-content>
+                  <sky-chart
+                    [headingText]="'Heading text'"
+                    [headingHidden]="false"
+                    [headingLevel]="3"
+                    [headingStyle]="3"
+                  >
+                    <sky-chart-bar
+                      [orientation]="orientation()"
+                      [dataPointsClickable]="true"
+                      [stacked]="false"
+                      (dataPointClicked)="onDataPointClicked($event)"
+                    >
+                      <sky-chart-category-axis labelText="Categories" />
+                      <sky-chart-measure-axis
+                        labelText="Amount"
+                        scaleType="linear"
+                      />
+
+                      @for (
+                        series of density.single1x12;
+                        track series.labelText
+                      ) {
+                        <sky-chart-bar-series [labelText]="series.labelText">
+                          @for (point of series.data; track $index) {
+                            <sky-chart-bar-series-datapoint
+                              [category]="point.category"
+                              [labelText]="point.label"
+                              [value]="point.value"
+                            />
+                          }
+                        </sky-chart-bar-series>
+                      }
+                    </sky-chart-bar>
+                  </sky-chart>
+                </sky-box-content>
+              </sky-box>
+            </sky-column>
+          </sky-row>
+
+          <!-- Multi series -->
+          <sky-row>
+            <!-- 24 bars -->
+            <sky-column
+              [screenXSmall]="12"
+              [screenSmall]="12"
+              [screenMedium]="6"
+              [screenLarge]="6"
+            >
+              <sky-box
+                headingText="Multi series - 24 bars (3 series * 8 bars each)"
+                class="sky-margin-stacked-xl"
+              >
+                <sky-box-content>
+                  <sky-chart
+                    [headingText]="'Heading text'"
+                    [headingHidden]="false"
+                    [headingLevel]="3"
+                    [headingStyle]="3"
+                  >
+                    <sky-chart-bar
+                      [orientation]="orientation()"
+                      [dataPointsClickable]="true"
+                      (dataPointClicked)="onDataPointClicked($event)"
+                    >
+                      <sky-chart-category-axis labelText="Categories" />
+                      <sky-chart-measure-axis
+                        labelText="Amount"
+                        scaleType="linear"
+                      />
+
+                      @for (
+                        series of density.multi3x8;
+                        track series.labelText
+                      ) {
+                        <sky-chart-bar-series [labelText]="series.labelText">
+                          @for (point of series.data; track $index) {
+                            <sky-chart-bar-series-datapoint
+                              [category]="point.category"
+                              [labelText]="point.label"
+                              [value]="point.value"
+                            />
+                          }
+                        </sky-chart-bar-series>
+                      }
+                    </sky-chart-bar>
+                  </sky-chart>
+                </sky-box-content>
+              </sky-box>
+            </sky-column>
+
+            <!-- 48 bars -->
+            <sky-column
+              [screenXSmall]="12"
+              [screenSmall]="12"
+              [screenMedium]="6"
+              [screenLarge]="6"
+            >
+              <sky-box
+                headingText="Multi series - 48 bars (6 series * 8 bars each)"
+                class="sky-margin-stacked-xl"
+              >
+                <sky-box-content>
+                  <sky-chart
+                    [headingText]="'Heading text'"
+                    [headingHidden]="false"
+                    [headingLevel]="3"
+                    [headingStyle]="3"
+                  >
+                    <sky-chart-bar
+                      [orientation]="orientation()"
+                      [dataPointsClickable]="true"
+                      (dataPointClicked)="onDataPointClicked($event)"
+                    >
+                      <sky-chart-category-axis labelText="Categories" />
+                      <sky-chart-measure-axis
+                        labelText="Amount"
+                        scaleType="linear"
+                      />
+
+                      @for (
+                        series of density.multi6x8;
+                        track series.labelText
+                      ) {
+                        <sky-chart-bar-series [labelText]="series.labelText">
+                          @for (point of series.data; track $index) {
+                            <sky-chart-bar-series-datapoint
+                              [category]="point.category"
+                              [labelText]="point.label"
+                              [value]="point.value"
+                            />
+                          }
+                        </sky-chart-bar-series>
+                      }
+                    </sky-chart-bar>
+                  </sky-chart>
+                </sky-box-content>
+              </sky-box>
+            </sky-column>
+
+            <!-- 72 bars -->
+            <sky-column
+              [screenXSmall]="12"
+              [screenSmall]="12"
+              [screenMedium]="6"
+              [screenLarge]="6"
+            >
+              <sky-box
+                headingText="Multi series - 72 bars (9 series * 8 bars each)"
+                class="sky-margin-stacked-xl"
+              >
+                <sky-box-content>
+                  <sky-chart
+                    [headingText]="'Heading text'"
+                    [headingHidden]="false"
+                    [headingLevel]="3"
+                    [headingStyle]="3"
+                  >
+                    <sky-chart-bar
+                      [orientation]="orientation()"
+                      [dataPointsClickable]="true"
+                      (dataPointClicked)="onDataPointClicked($event)"
+                    >
+                      <sky-chart-category-axis labelText="Categories" />
+                      <sky-chart-measure-axis
+                        labelText="Amount"
+                        scaleType="linear"
+                      />
+
+                      @for (
+                        series of density.multi9x8;
+                        track series.labelText
+                      ) {
+                        <sky-chart-bar-series [labelText]="series.labelText">
+                          @for (point of series.data; track $index) {
+                            <sky-chart-bar-series-datapoint
+                              [category]="point.category"
+                              [labelText]="point.label"
+                              [value]="point.value"
+                            />
+                          }
+                        </sky-chart-bar-series>
+                      }
+                    </sky-chart-bar>
+                  </sky-chart>
+                </sky-box-content>
+              </sky-box>
+            </sky-column>
+
+            <!-- 96 bars -->
+            <sky-column
+              [screenXSmall]="12"
+              [screenSmall]="12"
+              [screenMedium]="6"
+              [screenLarge]="6"
+            >
+              <sky-box
+                headingText="Multi series - 96 bars (12 series * 8 bars each)"
+                class="sky-margin-stacked-xl"
+              >
+                <sky-box-content>
+                  <sky-chart
+                    [headingText]="'Heading text'"
+                    [headingHidden]="false"
+                    [headingLevel]="3"
+                    [headingStyle]="3"
+                  >
+                    <sky-chart-bar
+                      [orientation]="orientation()"
+                      [dataPointsClickable]="true"
+                      (dataPointClicked)="onDataPointClicked($event)"
+                    >
+                      <sky-chart-category-axis labelText="Categories" />
+                      <sky-chart-measure-axis
+                        labelText="Amount"
+                        scaleType="linear"
+                      />
+
+                      @for (
+                        series of density.multi12x8;
+                        track series.labelText
+                      ) {
+                        <sky-chart-bar-series [labelText]="series.labelText">
+                          @for (point of series.data; track $index) {
+                            <sky-chart-bar-series-datapoint
+                              [category]="point.category"
+                              [labelText]="point.label"
+                              [value]="point.value"
+                            />
+                          }
+                        </sky-chart-bar-series>
+                      }
+                    </sky-chart-bar>
+                  </sky-chart>
+                </sky-box-content>
+              </sky-box>
+            </sky-column>
+          </sky-row>
+
+          <!-- Stacked -->
+          <sky-row>
+            <!-- 3 bars -->
+            <sky-column
+              [screenXSmall]="12"
+              [screenSmall]="12"
+              [screenMedium]="6"
+              [screenLarge]="6"
+            >
+              <sky-box
+                headingText="Stacked - 3 bars"
+                class="sky-margin-stacked-xl"
+              >
+                <sky-box-content>
+                  <sky-chart
+                    [headingText]="'Heading text'"
+                    [headingHidden]="false"
+                    [headingLevel]="3"
+                    [headingStyle]="3"
+                  >
+                    <sky-chart-bar
+                      [orientation]="orientation()"
+                      [dataPointsClickable]="true"
+                      [stacked]="true"
+                      (dataPointClicked)="onDataPointClicked($event)"
+                    >
+                      <sky-chart-category-axis labelText="Categories" />
+                      <sky-chart-measure-axis
+                        labelText="Amount"
+                        scaleType="linear"
+                      />
+
+                      @for (
+                        series of density.stacked3x3;
+                        track series.labelText
+                      ) {
+                        <sky-chart-bar-series [labelText]="series.labelText">
+                          @for (point of series.data; track $index) {
+                            <sky-chart-bar-series-datapoint
+                              [category]="point.category"
+                              [labelText]="point.label"
+                              [value]="point.value"
+                            />
+                          }
+                        </sky-chart-bar-series>
+                      }
+                    </sky-chart-bar>
+                  </sky-chart>
+                </sky-box-content>
+              </sky-box>
+            </sky-column>
+
+            <!-- 6 bars -->
+            <sky-column
+              [screenXSmall]="12"
+              [screenSmall]="12"
+              [screenMedium]="6"
+              [screenLarge]="6"
+            >
+              <sky-box
+                headingText="Stacked - 6 bars"
+                class="sky-margin-stacked-xl"
+              >
+                <sky-box-content>
+                  <sky-chart
+                    [headingText]="'Heading text'"
+                    [headingHidden]="false"
+                    [headingLevel]="3"
+                    [headingStyle]="3"
+                  >
+                    <sky-chart-bar
+                      [orientation]="orientation()"
+                      [dataPointsClickable]="true"
+                      [stacked]="true"
+                      (dataPointClicked)="onDataPointClicked($event)"
+                    >
+                      <sky-chart-category-axis labelText="Categories" />
+                      <sky-chart-measure-axis
+                        labelText="Amount"
+                        scaleType="linear"
+                      />
+
+                      @for (
+                        series of density.stacked3x6;
+                        track series.labelText
+                      ) {
+                        <sky-chart-bar-series [labelText]="series.labelText">
+                          @for (point of series.data; track $index) {
+                            <sky-chart-bar-series-datapoint
+                              [category]="point.category"
+                              [labelText]="point.label"
+                              [value]="point.value"
+                            />
+                          }
+                        </sky-chart-bar-series>
+                      }
+                    </sky-chart-bar>
+                  </sky-chart>
+                </sky-box-content>
+              </sky-box>
+            </sky-column>
+
+            <!-- 9 bars -->
+            <sky-column
+              [screenXSmall]="12"
+              [screenSmall]="12"
+              [screenMedium]="6"
+              [screenLarge]="6"
+            >
+              <sky-box
+                headingText="Stacked - 9 bars"
+                class="sky-margin-stacked-xl"
+              >
+                <sky-box-content>
+                  <sky-chart
+                    [headingText]="'Heading text'"
+                    [headingHidden]="false"
+                    [headingLevel]="3"
+                    [headingStyle]="3"
+                  >
+                    <sky-chart-bar
+                      [orientation]="orientation()"
+                      [dataPointsClickable]="true"
+                      [stacked]="true"
+                      (dataPointClicked)="onDataPointClicked($event)"
+                    >
+                      <sky-chart-category-axis labelText="Categories" />
+                      <sky-chart-measure-axis
+                        labelText="Amount"
+                        scaleType="linear"
+                      />
+
+                      @for (
+                        series of density.stacked3x9;
+                        track series.labelText
+                      ) {
+                        <sky-chart-bar-series [labelText]="series.labelText">
+                          @for (point of series.data; track $index) {
+                            <sky-chart-bar-series-datapoint
+                              [category]="point.category"
+                              [labelText]="point.label"
+                              [value]="point.value"
+                            />
+                          }
+                        </sky-chart-bar-series>
+                      }
+                    </sky-chart-bar>
+                  </sky-chart>
+                </sky-box-content>
+              </sky-box>
+            </sky-column>
+
+            <!-- 12 bars -->
+            <sky-column
+              [screenXSmall]="12"
+              [screenSmall]="12"
+              [screenMedium]="6"
+              [screenLarge]="6"
+            >
+              <sky-box
+                headingText="Stacked - 12 bars"
+                class="sky-margin-stacked-xl"
+              >
+                <sky-box-content>
+                  <sky-chart
+                    [headingText]="'Heading text'"
+                    [headingHidden]="false"
+                    [headingLevel]="3"
+                    [headingStyle]="3"
+                  >
+                    <sky-chart-bar
+                      [orientation]="orientation()"
+                      [dataPointsClickable]="true"
+                      [stacked]="true"
+                      (dataPointClicked)="onDataPointClicked($event)"
+                    >
+                      <sky-chart-category-axis labelText="Categories" />
+                      <sky-chart-measure-axis
+                        labelText="Amount"
+                        scaleType="linear"
+                      />
+
+                      @for (
+                        series of density.stacked3x12;
+                        track series.labelText
+                      ) {
+                        <sky-chart-bar-series [labelText]="series.labelText">
+                          @for (point of series.data; track $index) {
+                            <sky-chart-bar-series-datapoint
+                              [category]="point.category"
+                              [labelText]="point.label"
+                              [value]="point.value"
+                            />
+                          }
+                        </sky-chart-bar-series>
+                      }
+                    </sky-chart-bar>
+                  </sky-chart>
+                </sky-box-content>
+              </sky-box>
+            </sky-column>
+          </sky-row>
+        </sky-fluid-grid>
+      </sky-tab>
+
+      <sky-tab tabHeading="Responsiveness">
+        <sky-fluid-grid gutterSize="medium" [disableMargin]="true">
+          <sky-row>
+            <sky-column
+              [screenXSmall]="12"
+              [screenSmall]="12"
+              [screenMedium]="12"
+              [screenLarge]="12"
+            >
+              <sky-box headingText="Full width" class="sky-margin-stacked-xl">
+                <sky-box-content>
+                  <sky-chart
+                    [headingText]="'Full width'"
+                    [headingHidden]="false"
+                    [headingLevel]="3"
+                    [headingStyle]="3"
+                  >
+                    <sky-chart-bar
+                      [orientation]="orientation()"
+                      [dataPointsClickable]="true"
+                      [stacked]="false"
+                      (dataPointClicked)="onDataPointClicked($event)"
+                    >
+                      <sky-chart-category-axis labelText="Month" />
+                      <sky-chart-measure-axis
+                        labelText="Amount"
+                        scaleType="linear"
+                      />
+
+                      @for (
+                        series of linear.singleSeries;
+                        track series.labelText
+                      ) {
+                        <sky-chart-bar-series [labelText]="series.labelText">
+                          @for (point of series.data; track $index) {
+                            <sky-chart-bar-series-datapoint
+                              [category]="point.category"
+                              [labelText]="point.label"
+                              [value]="point.value"
+                            />
+                          }
+                        </sky-chart-bar-series>
+                      }
+                    </sky-chart-bar>
+                  </sky-chart>
+                </sky-box-content>
+              </sky-box>
+            </sky-column>
+
+            <sky-column
+              [screenXSmall]="12"
+              [screenSmall]="12"
+              [screenMedium]="6"
+              [screenLarge]="6"
+            >
+              <sky-box headingText="Half width" class="sky-margin-stacked-xl">
+                <sky-box-content>
+                  <sky-chart
+                    [headingText]="'Half width'"
+                    [headingHidden]="false"
+                    [headingLevel]="3"
+                    [headingStyle]="3"
+                  >
+                    <sky-chart-bar
+                      [orientation]="orientation()"
+                      [dataPointsClickable]="true"
+                      [stacked]="false"
+                      (dataPointClicked)="onDataPointClicked($event)"
+                    >
+                      <sky-chart-category-axis labelText="Month" />
+                      <sky-chart-measure-axis
+                        labelText="Amount"
+                        scaleType="linear"
+                      />
+
+                      @for (
+                        series of linear.singleSeries;
+                        track series.labelText
+                      ) {
+                        <sky-chart-bar-series [labelText]="series.labelText">
+                          @for (point of series.data; track $index) {
+                            <sky-chart-bar-series-datapoint
+                              [category]="point.category"
+                              [labelText]="point.label"
+                              [value]="point.value"
+                            />
+                          }
+                        </sky-chart-bar-series>
+                      }
+                    </sky-chart-bar>
+                  </sky-chart>
+                </sky-box-content>
+              </sky-box>
+            </sky-column>
+
+            <sky-column
+              [screenXSmall]="12"
+              [screenSmall]="12"
+              [screenMedium]="4"
+              [screenLarge]="4"
+            >
+              <sky-box headingText="Third width" class="sky-margin-stacked-xl">
+                <sky-box-content>
+                  <sky-chart
+                    [headingText]="'Third width'"
+                    [headingHidden]="false"
+                    [headingLevel]="3"
+                    [headingStyle]="3"
+                  >
+                    <sky-chart-bar
+                      [orientation]="orientation()"
+                      [dataPointsClickable]="true"
+                      [stacked]="false"
+                      (dataPointClicked)="onDataPointClicked($event)"
+                    >
+                      <sky-chart-category-axis labelText="Month" />
+                      <sky-chart-measure-axis
+                        labelText="Amount"
+                        scaleType="linear"
+                      />
+
+                      @for (
+                        series of linear.singleSeries;
+                        track series.labelText
+                      ) {
+                        <sky-chart-bar-series [labelText]="series.labelText">
+                          @for (point of series.data; track $index) {
+                            <sky-chart-bar-series-datapoint
+                              [category]="point.category"
+                              [labelText]="point.label"
+                              [value]="point.value"
+                            />
+                          }
+                        </sky-chart-bar-series>
+                      }
+                    </sky-chart-bar>
+                  </sky-chart>
+                </sky-box-content>
+              </sky-box>
+            </sky-column>
+
+            <sky-column
+              [screenXSmall]="12"
+              [screenSmall]="12"
+              [screenMedium]="3"
+              [screenLarge]="3"
+            >
+              <sky-box
+                headingText="Quarter width"
+                class="sky-margin-stacked-xl"
+              >
+                <sky-box-content>
+                  <sky-chart
+                    [headingText]="'Quarter width'"
+                    [headingHidden]="false"
+                    [headingLevel]="3"
+                    [headingStyle]="3"
+                  >
+                    <sky-chart-bar
+                      [orientation]="orientation()"
+                      [dataPointsClickable]="true"
+                      [stacked]="false"
+                      (dataPointClicked)="onDataPointClicked($event)"
+                    >
+                      <sky-chart-category-axis labelText="Month" />
+                      <sky-chart-measure-axis
+                        labelText="Amount"
+                        scaleType="linear"
+                      />
+
+                      @for (
+                        series of linear.singleSeries;
+                        track series.labelText
+                      ) {
+                        <sky-chart-bar-series [labelText]="series.labelText">
+                          @for (point of series.data; track $index) {
+                            <sky-chart-bar-series-datapoint
+                              [category]="point.category"
+                              [labelText]="point.label"
+                              [value]="point.value"
+                            />
+                          }
+                        </sky-chart-bar-series>
+                      }
+                    </sky-chart-bar>
+                  </sky-chart>
+                </sky-box-content>
+              </sky-box>
+            </sky-column>
+          </sky-row>
+        </sky-fluid-grid>
+      </sky-tab>
+    </sky-tabset>
+  </sky-page-content>
+</sky-page>
+
+<ng-template #helpContent>Help content</ng-template>

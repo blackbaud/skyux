@@ -1,2 +1,2 @@
-export { SkyBarChartHarness } from './modules/bar-chart/bar-chart-harness';
-export { SkyBarChartHarnessFilters } from './modules/bar-chart/bar-chart-harness.filters';
+export { SkyChartBarHarness } from './modules/chart-bar/chart-bar-harness';
+export { SkyChartBarHarnessFilters } from './modules/chart-bar/chart-bar-harness.filters';

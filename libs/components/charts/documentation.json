@@ -4,9 +4,9 @@
     "charts": {
       "development": {
         "docsIds": [
-          "SkyBarChartComponent",
+          "SkyChartBarComponent",
           "SkyBarChartSeriesComponent",
-          "SkyBarChartSeriesDatapointComponent",
+          "SkyChartBarSeriesDataPointComponent",
           "SkyChartComponent",
           "SkyChartCategoryAxisComponent",
           "SkyChartMeasureAxisComponent"

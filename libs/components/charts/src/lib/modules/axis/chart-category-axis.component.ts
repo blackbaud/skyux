@@ -8,9 +8,12 @@ import {
   input,
 } from '@angular/core';
 
-import { SkyChartCategoryAxisConfig, SkyChartAxisLabelText } from '../shared/types/axis-types';
+import {
+  SkyChartAxisLabelText,
+  SkyChartCategoryAxisConfig,
+} from '../shared/types/axis-types';
 
-import { SKY_CHART_AXIS_REGISTRY } from './sky-chart-axis-registry.service';
+import { SKY_CHART_AXIS_REGISTRY } from './chart-axis-registry.service';
 
 /**
  * Configures the chart's category axis
