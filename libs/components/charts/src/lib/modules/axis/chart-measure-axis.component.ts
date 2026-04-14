@@ -43,22 +43,30 @@ export class SkyChartMeasureAxisComponent implements OnDestroy {
   /**
    * The lower bound for the measure axis. The chart will not go below this value.
    */
-  public readonly min = input({ transform: numberAttribute });
+  public readonly min = input<number, unknown>(undefined, {
+    transform: numberAttribute,
+  });
 
   /**
    * The upper bound for the measure axis. The chart will not exceed this value.
    */
-  public readonly max = input({ transform: numberAttribute });
+  public readonly max = input<number, unknown>(undefined, {
+    transform: numberAttribute,
+  });
 
   /**
    * The preferred lower bound for the measure axis. The chart may still go below this value if the data requires it.
    */
-  public readonly preferredMin = input({ transform: numberAttribute });
+  public readonly preferredMin = input<number, unknown>(undefined, {
+    transform: numberAttribute,
+  });
 
   /**
    * The preferred upper bound for the measure axis. The chart may still exceed this value if the data requires it.
    */
-  public readonly preferredMax = input({ transform: numberAttribute });
+  public readonly preferredMax = input<number, unknown>(undefined, {
+    transform: numberAttribute,
+  });
 
   /**
    * The axis object
