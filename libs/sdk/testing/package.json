@@ -1,6 +1,7 @@
 {
   "name": "@skyux-sdk/testing",
   "version": "0.0.0-PLACEHOLDER",
+  "type": "commonjs",
   "author": "Blackbaud, Inc.",
   "keywords": [
     "blackbaud",
