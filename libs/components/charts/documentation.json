@@ -5,16 +5,22 @@
       "development": {
         "docsIds": [
           "SkyChartBarComponent",
-          "SkyBarChartSeriesComponent",
+          "SkyChartBarSeriesComponent",
           "SkyChartBarSeriesDataPointComponent",
-          "SkyChartComponent",
           "SkyChartCategoryAxisComponent",
+          "SkyChartComponent",
+          "SkyChartDonutComponent",
+          "SkyChartDonutSeriesComponent",
+          "SkyChartDonutSeriesDataPointComponent",
+          "SkyChartLineComponent",
+          "SkyChartLineSeriesComponent",
+          "SkyChartLineSeriesDataPointComponent",
           "SkyChartMeasureAxisComponent"
         ],
         "primaryDocsId": "SkyChartComponent"
       },
       "testing": {
-        "docsIds": []
+        "docsIds": ["SkyChartBarHarness", "SkyChartBarHarnessFilters"]
       },
       "codeExamples": {
         "docsIds": []
