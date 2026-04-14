@@ -30,6 +30,9 @@ import { SkyPageLayoutType } from './types/page-layout-type';
     provideSkyBreakpointObserver(SkyContainerBreakpointObserver),
   ],
   standalone: false,
+  host: {
+    '[attr.data-sky-help-key]': 'helpKey || null',
+  },
   hostDirectives: [
     {
       directive: SkyLayoutHostDirective,

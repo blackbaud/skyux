@@ -30,6 +30,13 @@ export class SkyPageHarness extends SkyComponentHarness {
   }
 
   /**
+   * Gets the help key for the page, or `null` if not set.
+   */
+  public async getHelpKey(): Promise<string | null> {
+    return await (await this.host()).getAttribute('data-sky-help-key');
+  }
+
+  /**
    * Gets the current layout.
    */
   public async getLayout(): Promise<SkyPageLayoutType> {

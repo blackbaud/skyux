@@ -9,7 +9,11 @@ import { SkyPageHarness } from './page-harness';
 //#region Test component
 @Component({
   selector: 'sky-page-test',
-  template: ` <sky-page data-sky-id="test-page" [layout]="layout">
+  template: ` <sky-page
+    data-sky-id="test-page"
+    [helpKey]="helpKey"
+    [layout]="layout"
+  >
     @if (showPageHeader) {
       <sky-page-header [pageTitle]="pageTitle" />
     }
@@ -17,6 +21,7 @@ import { SkyPageHarness } from './page-harness';
   standalone: false,
 })
 class TestComponent {
+  public helpKey: string | undefined;
   public layout: string | undefined;
   public pageTitle: string | undefined;
   public showPageHeader = true;
@@ -51,6 +56,19 @@ describe('Page harness', () => {
 
     return { harness, fixture, loader };
   }
+
+  it('should return the help key', async () => {
+    const { harness, fixture } = await setupTest({
+      dataSkyId: 'test-page',
+    });
+
+    await expectAsync(harness.getHelpKey()).toBeResolvedTo(null);
+
+    fixture.componentInstance.helpKey = 'test-help-key';
+    fixture.detectChanges();
+
+    await expectAsync(harness.getHelpKey()).toBeResolvedTo('test-help-key');
+  });
 
   it('should return the layout', async () => {
     const { harness, fixture } = await setupTest({
