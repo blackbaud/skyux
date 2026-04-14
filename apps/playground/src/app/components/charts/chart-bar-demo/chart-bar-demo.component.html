@@ -198,7 +198,8 @@
                       <sky-chart-measure-axis
                         labelText="Value"
                         scaleType="logarithmic"
-                        [preferredMax]="10000"
+                        allowMaxOverflow
+                        [max]="10000"
                       />
 
                       <sky-chart-bar-series labelText="Spending">

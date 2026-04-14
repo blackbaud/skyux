@@ -8,7 +8,12 @@ import {
   ScaleOptionsByType,
 } from 'chart.js';
 
-import { createLogTickFilter, parseCategories } from '../shared/chart-helpers';
+import { parseCategories } from '../shared/chart-helpers';
+import {
+  buildCategoryScale,
+  buildLinearMeasureScale,
+  buildLogarithmicMeasureScale,
+} from '../shared/scale-mapping';
 import {
   SkyChartStyleService,
   SkyChartStyles,
@@ -160,150 +165,32 @@ export class SkyChartLineConfigService {
     styles: SkyChartStyles,
     config: SkyChartLineOptions,
   ): ChartOptions<'line'>['scales'] {
-    const categoryScale = this.#createCategoryScale(styles, config);
+    const categoryScale = buildCategoryScale({
+      styles: styles,
+      stacked: config.stacked,
+      categoryAxis: config.categoryAxis,
+    });
+
     const measureScale = this.#createMeasureScale(styles, config);
 
     return { x: categoryScale, y: measureScale };
-  }
-
-  #getBaseScale(styles: SkyChartStyles): PartialLineScale {
-    const base: PartialLineScale = {
-      grid: {
-        display: true,
-        drawTicks: true,
-        color: styles.axis.grid.color,
-        tickColor: styles.axis.grid.color,
-        tickLength: styles.axis.ticks.measureLength,
-      },
-      border: {
-        display: true,
-        color: styles.axis.border.color,
-      },
-      ticks: {
-        color: styles.axis.ticks.color,
-        font: {
-          size: styles.axis.ticks.fontSize,
-          family: styles.fontFamily,
-          weight: styles.axis.ticks.fontWeight,
-        },
-        major: { enabled: true },
-      },
-      title: {
-        display: true,
-        font: {
-          size: styles.axis.title.fontSize,
-          family: styles.fontFamily,
-        },
-        color: styles.axis.title.color,
-        padding: {
-          top: styles.axis.title.paddingTop,
-          bottom: styles.axis.title.paddingBottom,
-        },
-      },
-    };
-
-    return base;
-  }
-
-  #createCategoryScale(
-    styles: SkyChartStyles,
-    config: SkyChartLineOptions,
-  ): PartialLineScale {
-    const base = this.#getBaseScale(styles);
-
-    const categoryScale: PartialLineScale = {
-      type: 'category',
-      stacked: config.stacked ?? false,
-      grid: base.grid,
-      border: base.border,
-      ticks: {
-        ...base.ticks,
-        padding: styles.axis.ticks.padding,
-      },
-      title: {
-        ...base.title,
-        display: !!config.categoryAxis?.labelText,
-        text: config.categoryAxis?.labelText,
-      },
-    };
-
-    return categoryScale;
   }
 
   #createMeasureScale(
     styles: SkyChartStyles,
     config: SkyChartLineOptions,
   ): PartialLineScale {
+    const params = {
+      styles,
+      stacked: config.stacked,
+      measureAxis: config.measureAxis,
+    };
+
     if (config.measureAxis?.scaleType === 'logarithmic') {
-      return this.#createLogarithmicMeasureScale(styles, config);
+      return buildLogarithmicMeasureScale(params);
     } else {
-      return this.#createLinearMeasureScale(styles, config);
+      return buildLinearMeasureScale(params);
     }
-  }
-
-  #createLinearMeasureScale(
-    styles: SkyChartStyles,
-    config: SkyChartLineOptions,
-  ): PartialLineScale {
-    const base = this.#getBaseScale(styles);
-
-    const valueScale: PartialLineScale = {
-      type: 'linear',
-      stacked: config.stacked ?? false,
-      min: config.measureAxis?.min,
-      max: config.measureAxis?.max,
-      suggestedMin: config.measureAxis?.preferredMin,
-      suggestedMax: config.measureAxis?.preferredMax,
-      grid: base.grid,
-      border: base.border,
-      ticks: {
-        ...base.ticks,
-        padding: styles.axis.ticks.padding,
-      },
-      title: {
-        ...base.title,
-        display: !!config.measureAxis?.labelText,
-        text: config.measureAxis?.labelText,
-      },
-    };
-
-    return valueScale;
-  }
-
-  #createLogarithmicMeasureScale(
-    styles: SkyChartStyles,
-    config: SkyChartLineOptions,
-  ): PartialLineScale {
-    const base = this.#getBaseScale(styles);
-
-    const valueScale: PartialLineScale = {
-      type: 'logarithmic',
-      stacked: config.stacked ?? false,
-      min: config.measureAxis?.min,
-      max: config.measureAxis?.max,
-      suggestedMin: config.measureAxis?.preferredMin,
-      suggestedMax: config.measureAxis?.preferredMax,
-      grid: {
-        ...base.grid,
-        lineWidth: (ctx) => {
-          const tick = ctx.tick;
-          return !tick?.label ? 0 : styles.axis.grid.width;
-        },
-      },
-      border: base.border,
-      ticks: {
-        ...base.ticks,
-        padding: styles.axis.ticks.padding,
-        callback: createLogTickFilter,
-      },
-      title: {
-        ...base.title,
-        display: !!config.measureAxis?.labelText,
-        text: config.measureAxis?.labelText,
-      },
-    };
-
-    return valueScale;
   }
 }
 

@@ -179,8 +179,10 @@
                       <sky-chart-measure-axis
                         labelText="Amount"
                         scaleType="logarithmic"
-                        [preferredMin]="10"
-                        [preferredMax]="100"
+                        allowMinOverflow
+                        allowMaxOverflow
+                        [min]="10"
+                        [max]="100"
                       />
 
                       @for (

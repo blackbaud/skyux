@@ -2,13 +2,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
+  booleanAttribute,
   computed,
   effect,
   inject,
   input,
   numberAttribute,
 } from '@angular/core';
-import { SkyLogService } from '@skyux/core';
 
 import {
   SkyChartAxisLabelText,
@@ -26,7 +26,6 @@ import { SKY_CHART_AXIS_REGISTRY } from './chart-axis-registry.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyChartMeasureAxisComponent implements OnDestroy {
-  readonly #logger = inject(SkyLogService);
   readonly #registry = inject(SKY_CHART_AXIS_REGISTRY);
 
   /**
@@ -55,17 +54,19 @@ export class SkyChartMeasureAxisComponent implements OnDestroy {
   });
 
   /**
-   * The preferred lower bound for the measure axis. The chart may still go below this value if the data requires it.
+   * When true, `min` acts as a soft lower bound: the axis starts at `min` but may extend below it if the data requires it.
+   * When false or omitted, `min` is a hard lower bound and the axis will never go below it.
    */
-  public readonly preferredMin = input<number, unknown>(undefined, {
-    transform: numberAttribute,
+  public readonly allowMinOverflow = input(false, {
+    transform: booleanAttribute,
   });
 
   /**
-   * The preferred upper bound for the measure axis. The chart may still exceed this value if the data requires it.
+   * When true, `max` acts as a soft upper bound: the axis starts at `max` but may extend above it if the data requires it.
+   * When false or omitted, `max` is a hard upper bound and the axis will never exceed it.
    */
-  public readonly preferredMax = input<number, unknown>(undefined, {
-    transform: numberAttribute,
+  public readonly allowMaxOverflow = input(false, {
+    transform: booleanAttribute,
   });
 
   /**
@@ -78,29 +79,14 @@ export class SkyChartMeasureAxisComponent implements OnDestroy {
       scaleType: this.scaleType(),
       min: this.min(),
       max: this.max(),
-      preferredMin: this.preferredMin(),
-      preferredMax: this.preferredMax(),
+      allowMinOverflow: this.allowMinOverflow(),
+      allowMaxOverflow: this.allowMaxOverflow(),
     };
   });
 
   constructor() {
     effect(() => {
-      const axis = this.axis();
-      const { min, max, preferredMin, preferredMax } = axis;
-
-      if (min !== undefined && preferredMin !== undefined) {
-        this.#logger.warn(
-          'Both `min` and `preferredMin` are set on the measure axis. The `preferredMin` value will be ignored because `min` sets a hard lower bound.',
-        );
-      }
-
-      if (max !== undefined && preferredMax !== undefined) {
-        this.#logger.warn(
-          'Both `max` and `preferredMax` are set on the measure axis. The `preferredMax` value will be ignored because `max` sets a hard upper bound.',
-        );
-      }
-
-      this.#registry.upsertMeasureAxis(axis);
+      this.#registry.upsertMeasureAxis(this.axis());
     });
   }
 

@@ -39,12 +39,14 @@ export interface SkyChartMeasureAxisConfig extends SkyChartAxisConfig {
   max?: number;
 
   /**
-   * The preferred minimum value for the axis. The axis may still go below this value if the data requires it.
+   * When true, `min` acts as a soft lower bound: the axis starts at `min` but may extend below it if the data requires it.
+   * When false or omitted, `min` is a hard lower bound and the axis will never go below it.
    */
-  preferredMin?: number;
+  allowMinOverflow?: boolean;
 
   /**
-   * The preferred maximum value for the axis. The axis may still exceed this value if the data requires it.
+   * When true, `max` acts as a soft upper bound: the axis starts at `max` but may extend above it if the data requires it.
+   * When false or omitted, `max` is a hard upper bound and the axis will never exceed it.
    */
-  preferredMax?: number;
+  allowMaxOverflow?: boolean;
 }

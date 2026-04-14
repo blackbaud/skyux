@@ -133,23 +133,3 @@ export function getLegendItems(context: {
     return item;
   });
 }
-
-/**
- * Creates a tick filter function for logarithmic axes that only shows ticks at powers of 10.
- * @param value The tick value
- * @param formatter An optional formatter function to format the tick label
- * @returns The formatted tick label if it's a power of 10, otherwise an empty string for no tick
- */
-export function createLogTickFilter(value: string | number): string {
-  const noTick = '';
-  const numeric = Number(value);
-
-  // Show only powers of 10
-  const isPowerOf10 = numeric > 0 && Math.log10(numeric) % 1 === 0;
-
-  if (!isPowerOf10) {
-    return noTick;
-  }
-
-  return numeric.toLocaleString();
-}
