@@ -15,7 +15,7 @@ import { SkyChartLegendItem } from '../chart-legend/chart-legend-item';
 import { SkyChartService } from '../chart/chart.service';
 import { SkyChartJsDirective } from '../chartjs.directive';
 import { getLegendItems } from '../shared/chart-helpers';
-import type { SkyChartClickedDataPoint } from '../shared/types/chart-clicked-data-point';
+import type { SkyChartDataPointClickArgs } from '../shared/types/chart-data-point-click-args';
 import { SkyChartSeries } from '../shared/types/chart-series';
 
 import {
@@ -70,7 +70,7 @@ export class SkyDonutChartComponent {
 
   // #region Outputs
   public readonly dataPointClicked =
-    output<SkyChartClickedDataPoint<SkyDonutDatum>>();
+    output<SkyChartDataPointClickArgs<SkyDonutDatum>>();
   // #endregion
 
   // #region View Children

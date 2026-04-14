@@ -19,7 +19,7 @@ import {
   SkyChartMeasureAxisConfig,
 } from '../shared/types/axis-types';
 import { SkyCategory } from '../shared/types/category';
-import type { SkyChartClickedDataPoint } from '../shared/types/chart-clicked-data-point';
+import type { SkyChartDataPointClickArgs } from '../shared/types/chart-data-point-click-args';
 import { SkyChartSeries } from '../shared/types/chart-series';
 import { DeepPartial } from '../shared/types/deep-partial-type';
 
@@ -326,7 +326,7 @@ export interface SkyLineChartOptions {
   dataPointsClickable: boolean;
 
   callbacks?: {
-    onDataPointClick: (event: SkyChartClickedDataPoint<SkyLineDatum>) => void;
+    onDataPointClick: (event: SkyChartDataPointClickArgs<SkyLineDatum>) => void;
   };
 }
 

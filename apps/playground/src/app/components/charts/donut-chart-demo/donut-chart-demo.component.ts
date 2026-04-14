@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
-  type SkyChartClickedDataPoint,
   SkyChartComponent,
+  type SkyChartDataPointClickArgs,
   SkyDonutChartComponent,
   SkyDonutChartSeriesComponent,
   SkyDonutChartSeriesDatapointComponent,
@@ -68,7 +68,7 @@ export class DonutChartDemoComponent {
   // #endregion
 
   public onDataPointClicked(
-    event: SkyChartClickedDataPoint<SkyDonutDatum>,
+    event: SkyChartDataPointClickArgs<SkyDonutDatum>,
   ): void {
     console.log(JSON.stringify(event, null, 2));
   }

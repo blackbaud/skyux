@@ -6,8 +6,8 @@ import {
   SkyBarChartSeriesDatapointComponent,
   type SkyBarDatum,
   SkyChartCategoryAxisComponent,
-  type SkyChartClickedDataPoint,
   SkyChartComponent,
+  type SkyChartDataPointClickArgs,
   SkyChartMeasureAxisComponent,
 } from '@skyux/charts';
 import { SkyRadioModule } from '@skyux/forms';
@@ -167,7 +167,7 @@ export class BarChartDemoComponent {
   };
 
   public onDataPointClicked(
-    event: SkyChartClickedDataPoint<SkyBarDatum>,
+    event: SkyChartDataPointClickArgs<SkyBarDatum>,
   ): void {
     console.log(JSON.stringify(event, null, 2));
   }

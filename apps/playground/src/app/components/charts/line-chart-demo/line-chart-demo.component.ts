@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   SkyChartCategoryAxisComponent,
-  SkyChartClickedDataPoint,
   SkyChartComponent,
+  SkyChartDataPointClickArgs,
   SkyChartMeasureAxisComponent,
   SkyLineChartComponent,
   SkyLineChartSeriesComponent,
@@ -148,7 +148,7 @@ export class LineChartDemoComponent {
   };
 
   public onDataPointClicked(
-    event: SkyChartClickedDataPoint<SkyLineDatum>,
+    event: SkyChartDataPointClickArgs<SkyLineDatum>,
   ): void {
     console.log(JSON.stringify(event, null, 2));
   }

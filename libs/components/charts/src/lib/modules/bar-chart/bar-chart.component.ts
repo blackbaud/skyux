@@ -20,7 +20,7 @@ import {
   SkyChartCategoryAxisConfig,
   SkyChartMeasureAxisConfig,
 } from '../shared/types/axis-types';
-import type { SkyChartClickedDataPoint } from '../shared/types/chart-clicked-data-point';
+import type { SkyChartDataPointClickArgs } from '../shared/types/chart-data-point-click-args';
 import { SkyChartSeries } from '../shared/types/chart-series';
 
 import {
@@ -84,7 +84,7 @@ export class SkyBarChartComponent {
 
   // #region Outputs
   public readonly dataPointClicked =
-    output<SkyChartClickedDataPoint<SkyBarDatum>>();
+    output<SkyChartDataPointClickArgs<SkyBarDatum>>();
   // #endregion
 
   // #region View Children

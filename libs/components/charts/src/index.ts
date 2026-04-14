@@ -1,5 +1,5 @@
 export { SkyChartComponent } from './lib/modules/chart/chart.component';
-export { SkyChartClickedDataPoint } from './lib/modules/shared/types/chart-clicked-data-point';
+export { SkyChartDataPointClickArgs } from './lib/modules/shared/types/chart-data-point-click-args';
 
 // Axis
 export { SkyChartCategoryAxisComponent } from './lib/modules/axis/chart-category-axis.component';

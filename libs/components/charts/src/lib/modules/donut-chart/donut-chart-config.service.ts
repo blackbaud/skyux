@@ -9,7 +9,7 @@ import {
 
 import { SkyChartStyleService } from '../shared/services/chart-style.service';
 import { SkyChartGlobalConfigService } from '../shared/services/global-chart-config.service';
-import type { SkyChartClickedDataPoint } from '../shared/types/chart-clicked-data-point';
+import type { SkyChartDataPointClickArgs } from '../shared/types/chart-data-point-click-args';
 import { SkyChartSeries } from '../shared/types/chart-series';
 
 import { SkyDonutChartSlice, SkyDonutDatum } from './donut-chart-types';
@@ -154,7 +154,9 @@ export interface SkyDonutChartOptions {
   dataPointsClickable: boolean;
 
   callbacks?: {
-    onDataPointClick: (event: SkyChartClickedDataPoint<SkyDonutDatum>) => void;
+    onDataPointClick: (
+      event: SkyChartDataPointClickArgs<SkyDonutDatum>,
+    ) => void;
   };
 }
 // #endregion
