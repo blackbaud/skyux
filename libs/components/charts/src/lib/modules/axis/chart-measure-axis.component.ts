@@ -6,6 +6,7 @@ import {
   effect,
   inject,
   input,
+  numberAttribute,
 } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
 
@@ -42,22 +43,22 @@ export class SkyChartMeasureAxisComponent implements OnDestroy {
   /**
    * The lower bound for the measure axis. The chart will not go below this value.
    */
-  public readonly min = input<number>();
+  public readonly min = input({ transform: numberAttribute });
 
   /**
    * The upper bound for the measure axis. The chart will not exceed this value.
    */
-  public readonly max = input<number>();
+  public readonly max = input({ transform: numberAttribute });
 
   /**
    * The preferred lower bound for the measure axis. The chart may still go below this value if the data requires it.
    */
-  public readonly preferredMin = input<number>();
+  public readonly preferredMin = input({ transform: numberAttribute });
 
   /**
    * The preferred upper bound for the measure axis. The chart may still exceed this value if the data requires it.
    */
-  public readonly preferredMax = input<number>();
+  public readonly preferredMax = input({ transform: numberAttribute });
 
   /**
    * The axis object
