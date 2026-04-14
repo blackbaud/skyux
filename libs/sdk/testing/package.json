@@ -21,6 +21,10 @@
       "default": "./fesm2022/skyux-sdk-testing-vitest.mjs"
     }
   },
+  "schematics": "./collection.json",
+  "ng-add": {
+    "save": "devDependencies"
+  },
   "ng-update": {
     "packageGroupName": "@skyux-sdk/testing",
     "packageGroup": {

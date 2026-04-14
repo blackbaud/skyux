@@ -72,6 +72,17 @@
           "{projectRoot}/src/**/*.html"
         ]
       }
+    },
+    "postbuild": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "tsc --project libs/sdk/testing/tsconfig.schematics.json",
+          "cp libs/sdk/testing/collection.json dist/libs/sdk/testing/collection.json",
+          "cp libs/sdk/testing/src/schematics/ng-add/schema.json dist/libs/sdk/testing/src/schematics/ng-add/schema.json"
+        ],
+        "parallel": false
+      }
     }
   },
   "tags": ["sdk", "npm"]
