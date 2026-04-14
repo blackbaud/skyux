@@ -38,7 +38,7 @@ import {
  * Displays a bar chart visualization.
  */
 @Component({
-  selector: 'sky-bar-chart',
+  selector: 'sky-chart-bar',
   template: `
     @if (chartConfiguration(); as config) {
       <div class="chart-container" [style.height]="chartHeight()">

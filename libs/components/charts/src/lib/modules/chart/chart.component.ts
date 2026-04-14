@@ -36,7 +36,7 @@ import { SkyChartService } from './chart.service';
 
 /**
  * Wrapper component that provides heading and subtitle context to nested chart components.
- * Use this as the outer container and place a chart type component (e.g. `sky-bar-chart`) inside it.
+ * Use this as the outer container and place a chart type component (e.g. `sky-chart-bar`) inside it.
  */
 @Component({
   selector: 'sky-chart',

@@ -29,7 +29,7 @@ import { SkyDonutChartSlice, SkyDonutDatum } from './donut-chart-types';
  * Displays a donut chart visualization.
  */
 @Component({
-  selector: 'sky-donut-chart',
+  selector: 'sky-chart-donut',
   template: `
     @if (chartConfiguration(); as config) {
       <div class="chart-container" [style.height]="chartHeight()">

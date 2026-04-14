@@ -10,7 +10,7 @@ export class SkyBarChartHarness extends SkyComponentHarness {
   /**
    * @internal
    */
-  public static hostSelector = 'sky-bar-chart';
+  public static hostSelector = 'sky-chart-bar';
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a

@@ -34,7 +34,7 @@ import { SkyLineChartPoint, SkyLineDatum } from './line-chart-types';
  * Displays a line chart visualization.
  */
 @Component({
-  selector: 'sky-line-chart',
+  selector: 'sky-chart-line',
   template: `
     @if (chartConfiguration(); as config) {
       <div class="chart-container" [style.height]="chartHeight()">
