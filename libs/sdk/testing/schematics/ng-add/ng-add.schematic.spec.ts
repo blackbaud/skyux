@@ -28,6 +28,10 @@ async function setup(): Promise<{
 }
 
 describe('ng-add.schematic', () => {
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
   it('should add axe-core to devDependencies', async () => {
     const { runSchematic } = await setup();
 
