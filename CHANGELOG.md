@@ -1,6 +1,15 @@
 # Changelog
 
 
+## [13.17.1](https://github.com/blackbaud/skyux/compare/13.17.0...13.17.1) (2026-04-15)
+
+
+### Bug Fixes
+
+* **components/toast:** make overflow in the y-axis visible ([#4332](https://github.com/blackbaud/skyux/issues/4332)) ([dd4034f](https://github.com/blackbaud/skyux/commit/dd4034fe1a5748dd00dcbd1a7afbe974635c22c2)), closes [AB#3652195](https://github.com/AB/issues/3652195)
+
+
+
 # [13.17.0](https://github.com/blackbaud/skyux/compare/13.16.4...13.17.0) (2026-04-07)
 
 
