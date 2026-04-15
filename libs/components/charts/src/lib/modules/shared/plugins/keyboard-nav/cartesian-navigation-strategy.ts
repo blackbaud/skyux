@@ -1,11 +1,11 @@
 import type { ActiveElement, Chart } from 'chart.js';
 
+import type { NavigationKey } from './keys';
 import type {
   ElementDescription,
   FocusedElement,
   NavigationStrategy,
 } from './navigation-strategy';
-import type { NavigationKey } from './keys';
 
 /**
  * Navigation strategy for cartesian charts (bar, line, combo).

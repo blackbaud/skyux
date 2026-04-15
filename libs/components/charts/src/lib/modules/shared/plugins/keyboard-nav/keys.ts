@@ -9,9 +9,9 @@ export const ChartKeys = {
   Escape: 'Escape',
 
   /** Keys for activating a focused item */
-  Activation: { 
-    Space: ' ', 
-    Enter: 'Enter' 
+  Activation: {
+    Space: ' ',
+    Enter: 'Enter',
   },
 
   /** Keys for navigating between data points and series within the chart. */

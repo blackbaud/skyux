@@ -38,7 +38,9 @@ export class SkyChartLegendComponent {
   protected readonly activeLegendIndex = signal(0);
 
   readonly #isLastVisible = computed(() => {
-    const visibleLegendItems = this.legendItems().filter((i) => i.isVisible).length;
+    const visibleLegendItems = this.legendItems().filter(
+      (i) => i.isVisible,
+    ).length;
     return visibleLegendItems === 1;
   });
 

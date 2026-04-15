@@ -12,7 +12,6 @@ export const SKY_CHART_AXIS_REGISTRY = new InjectionToken<SkyChartAxisRegistry>(
   'SKY_CHART_AXIS_REGISTRY',
 );
 
-
 /**
  * The interface for a chart axis registry service, which is responsible for managing the configuration of category and measure axes in a chart
  */
@@ -36,7 +35,7 @@ export interface SkyChartAxisRegistry {
 
   /**
    * Updates or inserts the measure axis configuration.
-   * @param axis 
+   * @param axis
    */
   upsertMeasureAxis(axis: SkyChartMeasureAxisConfig): void;
 
