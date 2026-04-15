@@ -7,6 +7,6 @@
     "inlineSources": true,
     "types": ["jasmine", "node"]
   },
-  "exclude": ["src/test.ts", "**/*.spec.ts"],
-  "include": ["**/*.ts"]
+  "exclude": ["**/*.spec.ts"],
+  "include": ["src/**/*.ts"]
 }
