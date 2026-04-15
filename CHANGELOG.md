@@ -1,7 +1,12 @@
 # Changelog
 
 
-## [14.0.2](https://github.com/blackbaud/skyux/compare/14.0.1...14.0.2) (2026-04-15)
+## [14.1.0](https://github.com/blackbaud/skyux/compare/14.0.1...14.1.0) (2026-04-15)
+
+
+### Features
+
+* **sdk/testing:** implement `ng add` schematic for `@skyux-sdk/testing` package ([#4376](https://github.com/blackbaud/skyux/issues/4376)) ([4db0f98](https://github.com/blackbaud/skyux/commit/4db0f98c91b27261c25c735e3fb202b62f8b9044))
 
 
 ### Bug Fixes
