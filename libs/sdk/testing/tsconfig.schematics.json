@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "lib": ["ES2022", "dom"],
+    "declaration": true,
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
+    "rootDir": "schematics",
+    "outDir": "../../../dist/libs/sdk/testing/schematics",
+    "sourceMap": true,
+    "strict": true,
+    "target": "ES2022",
+    "types": ["node"]
+  },
+  "include": ["schematics/**/*"],
+  "exclude": [
+    "schematics/**/*.spec.ts",
+    "schematics/__mocks__/**",
+    "schematics/testing/**/*"
+  ]
+}

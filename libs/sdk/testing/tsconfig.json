@@ -11,6 +11,12 @@
     },
     {
       "path": "./tsconfig.spec.json"
+    },
+    {
+      "path": "./tsconfig.schematics.json"
+    },
+    {
+      "path": "./tsconfig.schematics-spec.json"
     }
   ]
 }

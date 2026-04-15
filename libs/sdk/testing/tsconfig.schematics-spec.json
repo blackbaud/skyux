@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.schematics.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "../../../dist/out-tsc",
+    "types": ["jest", "node"]
+  },
+  "include": ["schematics/**/*.spec.ts", "schematics/**/*.d.ts"],
+  "exclude": []
+}
