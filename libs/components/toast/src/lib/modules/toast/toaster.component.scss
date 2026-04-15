@@ -13,7 +13,7 @@
   display: block;
   max-width: var(--sky-override-toaster-max-width, none);
   max-height: 100%;
-  overflow-y: visible;
+  overflow-y: auto;
   position: fixed;
   padding: var(
     --sky-override-toaster-padding,
