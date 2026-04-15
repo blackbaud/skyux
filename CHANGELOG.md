@@ -7,6 +7,7 @@
 ### Bug Fixes
 
 * **components/toast:** make overflow in the y-axis visible ([#4332](https://github.com/blackbaud/skyux/issues/4332)) ([dd4034f](https://github.com/blackbaud/skyux/commit/dd4034fe1a5748dd00dcbd1a7afbe974635c22c2)), closes [AB#3652195](https://github.com/AB/issues/3652195)
+* **components/toast:** revert make overflow in the y-axis visible ([#4380](https://github.com/blackbaud/skyux/issues/4380)) ([c2faf1b](https://github.com/blackbaud/skyux/commit/c2faf1bb82a5ece17cb7b7c66b7499c78b7df352)), closes [blackbaud/skyux#4332](https://github.com/blackbaud/skyux/issues/4332)
 
 
 
