@@ -182,7 +182,7 @@ export class SkyChartLineConfigService {
   ): PartialLineScale {
     const params = {
       styles,
-      stacked: config.stacked,
+      stacked: config.stacked ?? false,
       measureAxis: config.measureAxis,
     };
 

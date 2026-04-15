@@ -73,9 +73,14 @@ describe('SkyChartStyleService', () => {
       SkyThemeMode.presets.light,
     );
 
-    it('should resolve series colors', () => {
+    it('should resolve palette colors', () => {
       const { service } = setupTest({ theme });
-      expect(service.styles().series).toEqual(DefaultTheme.series);
+      expect(service.styles().palettes).toEqual(DefaultTheme.palettes);
+    });
+
+    it('should resolve height constraints', () => {
+      const { service } = setupTest({ theme });
+      expect(service.styles().height).toEqual(DefaultTheme.height);
     });
 
     it('should resolve font family and chart padding', () => {
@@ -180,9 +185,14 @@ describe('SkyChartStyleService', () => {
       SkyThemeMode.presets.light,
     );
 
-    it('should resolve series colors', () => {
+    it('should resolve palette colors', () => {
       const { service } = setupTest({ theme });
-      expect(service.styles().series).toEqual(ModernTheme.series);
+      expect(service.styles().palettes).toEqual(ModernTheme.palettes);
+    });
+
+    it('should resolve height constraints', () => {
+      const { service } = setupTest({ theme });
+      expect(service.styles().height).toEqual(ModernTheme.height);
     });
 
     it('should resolve font family and chart padding', () => {
@@ -280,16 +290,59 @@ describe('SkyChartStyleService', () => {
 
 // #region Test Data
 const DefaultTheme: SkyChartStyles = {
-  series: [
-    '#06a39e',
-    '#6d3c96',
-    '#5589dd',
-    '#004252',
-    '#ce5600',
-    '#822325',
-    '#c650c1',
-    '#077e43',
-  ],
+  palettes: {
+    categorical: [
+      '#06a39e',
+      '#6d3c96',
+      '#5589dd',
+      '#004252',
+      '#ce5600',
+      '#822325',
+      '#c650c1',
+      '#077e43',
+    ],
+    sequential: [
+      '#dcf6f5',
+      '#abe9e7',
+      '#60d5d2',
+      '#07beb8',
+      '#06a39e',
+      '#058984',
+      '#046e6b',
+      '#035755',
+      '#02413f',
+      '#022a28',
+    ],
+    positiveDiverging: [
+      '#eef3fc',
+      '#d5e1f7',
+      '#aac4ee',
+      '#80a6e6',
+      '#5589dd',
+      '#2b6bd5',
+      '#2256aa',
+      '#1a4080',
+      '#112b55',
+      '#0d2040',
+    ],
+    negativeDiverging: [
+      '#fae7e8',
+      '#f5cccd',
+      '#f1b4b5',
+      '#ea9596',
+      '#e36d6f',
+      '#d93a3d',
+      '#ae2e31',
+      '#822325',
+      '#641b1c',
+      '#4a1415',
+    ],
+  },
+  height: {
+    min: 168.75,
+    max: 375,
+    default: 'clamp(11.25rem, 28vh, 25rem)',
+  },
   fontFamily: 'Blackbaud Sans, Arial, sans-serif',
   chartPadding: 0,
   axis: {
@@ -391,6 +444,14 @@ const DefaultTheme: SkyChartStyles = {
       borderColor: '#ffffff',
       borderWidth: 1,
       borderRadius: 2,
+      vertical: {
+        maxBarThickness: 112.5,
+      },
+      horizontal: {
+        minBarThickness: 11.25,
+        maxBarThickness: 15,
+        minCategoryGap: 7.5,
+      },
     },
     line: {
       tension: 0.2,
@@ -407,16 +468,59 @@ const DefaultTheme: SkyChartStyles = {
 };
 
 const ModernTheme: SkyChartStyles = {
-  series: [
-    '#06a39e',
-    '#6d3c96',
-    '#5589dd',
-    '#004252',
-    '#ce5600',
-    '#822325',
-    '#c650c1',
-    '#077e43',
-  ],
+  palettes: {
+    categorical: [
+      '#06a39e',
+      '#6d3c96',
+      '#5589dd',
+      '#004252',
+      '#ce5600',
+      '#822325',
+      '#c650c1',
+      '#077e43',
+    ],
+    sequential: [
+      '#dcf6f5',
+      '#abe9e7',
+      '#60d5d2',
+      '#07beb8',
+      '#06a39e',
+      '#058984',
+      '#046e6b',
+      '#035755',
+      '#02413f',
+      '#022a28',
+    ],
+    positiveDiverging: [
+      '#eef3fc',
+      '#d5e1f7',
+      '#aac4ee',
+      '#80a6e6',
+      '#5589dd',
+      '#2b6bd5',
+      '#2256aa',
+      '#1a4080',
+      '#112b55',
+      '#0d2040',
+    ],
+    negativeDiverging: [
+      '#fae7e8',
+      '#f5cccd',
+      '#f1b4b5',
+      '#ea9596',
+      '#e36d6f',
+      '#d93a3d',
+      '#ae2e31',
+      '#822325',
+      '#641b1c',
+      '#4a1415',
+    ],
+  },
+  height: {
+    min: 180,
+    max: 400,
+    default: 'clamp(11.25rem, 28vh, 25rem)',
+  },
   fontFamily: 'BLKB Sans, Helvetica Neue, Arial, sans-serif',
   chartPadding: 0,
   axis: {
@@ -518,6 +622,14 @@ const ModernTheme: SkyChartStyles = {
       borderColor: '#ffffff',
       borderWidth: 1,
       borderRadius: 2,
+      vertical: {
+        maxBarThickness: 120,
+      },
+      horizontal: {
+        minBarThickness: 12,
+        maxBarThickness: 16,
+        minCategoryGap: 8,
+      },
     },
     line: {
       tension: 0.2,

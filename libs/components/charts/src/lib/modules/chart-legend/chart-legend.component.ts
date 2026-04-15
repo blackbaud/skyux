@@ -58,10 +58,14 @@ export class SkyChartLegendComponent {
   }
 
   protected onLegendFocusIn(event: FocusEvent): void {
-    const host = event.currentTarget as HTMLElement | null;
-    const related = event.relatedTarget as Node | null;
-    const enteredFromOutside = !related || !host?.contains(related);
+    const host = event.currentTarget;
+    const related = event.relatedTarget;
+    const enteredFromOutside =
+      !(host instanceof HTMLElement) ||
+      !(related instanceof Node) ||
+      !host.contains(related);
 
+    // When focus entered the legend from outside, set the active index to the first item and focus it.
     if (enteredFromOutside) {
       this.activeLegendIndex.set(0);
       this.#focusLegendButton(0);
