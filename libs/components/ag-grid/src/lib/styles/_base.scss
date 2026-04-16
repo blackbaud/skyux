@@ -76,7 +76,8 @@
     );
     --ag-focus-shadow: none;
 
-    .ag-checked {
+    .ag-checked,
+    .ag-indeterminate {
       background: var(
         --sky-override-ag-grid-checkbox-checked-background-color,
         var(--sky-color-background-selected-switch-base)

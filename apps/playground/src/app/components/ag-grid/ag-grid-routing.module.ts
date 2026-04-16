@@ -44,6 +44,11 @@ const routes: Routes = [
     loadChildren: () => import('./lookup-focus/lookup-focus-routes'),
   },
   {
+    path: 'native-multiselect',
+    loadChildren: () =>
+      import('./native-multiselect/native-multiselect-routes'),
+  },
+  {
     path: 'readonly-grid',
     loadChildren: () =>
       import('./readonly-grid/readonly-grid.module').then(
