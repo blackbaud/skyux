@@ -1,0 +1,24 @@
+<h1>AG Grid Native Multiselect</h1>
+
+<ng-template #gridTemplate>
+  @for (dataSet of dataSets; track dataSet.id) {
+    <h2>{{ dataSet.label }}</h2>
+    <sky-ag-grid-wrapper [attr.id]="dataSet.id" [compact]="compact">
+      <ag-grid-angular [gridOptions]="gridOptions[dataSet.id]" />
+    </sky-ag-grid-wrapper>
+  }
+</ng-template>
+
+@if (isActive$ | async) {
+  <ng-container *ngTemplateOutlet="gridTemplate" />
+} @else {
+  @if (skyTheme) {
+    <div [skyTheme]="skyTheme">
+      <ng-container *ngTemplateOutlet="gridTemplate" />
+    </div>
+  }
+}
+
+@if (ready | async) {
+  <span id="ready"></span>
+}
