@@ -6,21 +6,20 @@
     "esModuleInterop": true,
     "module": "commonjs",
     "moduleResolution": "node",
-    "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
     "noUnusedParameters": true,
     "noUnusedLocals": true,
-    "rootDir": "src/schematics",
-    "outDir": "../../../dist/libs/sdk/testing/src/schematics",
-    "skipDefaultLibCheck": true,
-    "skipLibCheck": true,
+    "rootDir": "schematics",
+    "outDir": "../../../dist/libs/sdk/testing/schematics",
     "sourceMap": true,
-    "strictNullChecks": true,
+    "strict": true,
     "target": "ES2022",
     "types": ["node"]
   },
-  "include": ["src/schematics/**/*"],
-  "exclude": ["src/schematics/**/*.spec.ts"]
+  "include": ["schematics/**/*"],
+  "exclude": [
+    "schematics/**/*.spec.ts",
+    "schematics/__mocks__/**",
+    "schematics/testing/**/*"
+  ]
 }

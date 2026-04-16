@@ -3,8 +3,8 @@
   "schematics": {
     "ng-add": {
       "description": "Add @skyux-sdk/testing to your project.",
-      "factory": "./src/schematics/ng-add/ng-add.schematic",
-      "schema": "./src/schematics/ng-add/schema.json"
+      "factory": "./schematics/ng-add/ng-add.schematic",
+      "schema": "./schematics/ng-add/schema.json"
     }
   }
 }
