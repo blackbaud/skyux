@@ -17,10 +17,7 @@ expect.extend({
       received instanceof Document ? received.documentElement : received;
 
     if (!(target instanceof Element)) {
-      return {
-        pass: false,
-        message: () => 'toBeAccessible expects an Element or Document.',
-      };
+      throw new Error('toBeAccessible expects an Element or Document.');
     }
 
     try {
