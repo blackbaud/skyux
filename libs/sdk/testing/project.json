@@ -56,6 +56,25 @@
           "{projectRoot}/src/**/*.html"
         ]
       }
+    },
+    "postbuild": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "tsc --project libs/sdk/testing/tsconfig.schematics.json",
+          "ts-node --project ./scripts/tsconfig.json ./scripts/postbuild-testing.ts"
+        ],
+        "parallel": false
+      }
+    },
+    "posttest": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/sdk/testing/schematics"],
+      "options": {
+        "jestConfig": "libs/sdk/testing/jest.config.ts",
+        "codeCoverage": true,
+        "coverageReporters": ["html", "text"]
+      }
     }
   },
   "tags": ["sdk", "npm"]
