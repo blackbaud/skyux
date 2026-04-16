@@ -76,16 +76,8 @@ else
   Write-Output "`n# git pull"
   git pull --set-upstream origin $TranslationBranchName
 
-  if ($IsDryRunBool)
-  {
-    Write-Output "`n# git merge -X theirs --no-commit $LtsBranchName"
-    git merge -X theirs --no-commit $LtsBranchName
-  }
-  else
-  {
-    Write-Output "`n# git merge -X theirs $LtsBranchName"
-    git merge -X theirs $LtsBranchName
-  }
+  Write-Output "`n# git rebase -X ours $LtsBranchName"
+  git rebase -X ours $LtsBranchName
   Write-Output "`n::endgroup::`n"
 
   Write-Output "`n::group::NPM Install`n"
@@ -134,8 +126,8 @@ else
 
   if (-not $IsDryRunBool)
   {
-    Write-Output "`n# git push origin $TranslationBranchName"
-    git push origin $TranslationBranchName
+    Write-Output "`n# git push --force-with-lease origin $TranslationBranchName"
+    git push --force-with-lease origin $TranslationBranchName
   }
   else
   {

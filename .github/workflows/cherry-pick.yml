@@ -16,12 +16,12 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           ref: ${{ env.TARGET_BRANCH }}
           fetch-depth: 0
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v6
         id: setup-node
         with:
           cache: 'npm'
@@ -173,7 +173,7 @@ jobs:
 
       - name: Notify Slack when cherry-pick fails
         if: ${{ env.CHERRY_PICK_RESULT != 'success' }}
-        uses: rtCamp/action-slack-notify@07cbdbfd6c6190970778d8f98f11d073b2932aae # v2.3.3
+        uses: rtCamp/action-slack-notify@c58b60ee33df2229ed2d2eed86eeaf7e6c527c5a # https://github.com/rtCamp/action-slack-notify/pull/243
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_TITLE: ':cherries: :x: Cherry-pick failed for “${{ github.event.pull_request.title }} (#${{ github.event.pull_request.number}})”'
