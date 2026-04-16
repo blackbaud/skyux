@@ -17,6 +17,9 @@
     },
     {
       "path": "./tsconfig.schematics-spec.json"
+    },
+    {
+      "path": "./private/tsconfig.spec.json"
     }
   ]
 }

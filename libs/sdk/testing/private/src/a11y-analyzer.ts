@@ -7,44 +7,44 @@ function parseMessage(violations: axe.Result[]): string {
 
   violations.forEach((violation) => {
     const wcagTags = violation.tags
-      .filter((tag) => tag.match(/wcag\d{3}|^best/gi))
+      .filter((tag) => tag.match(/wcag\d{3}|^best*/gi))
       .join(', ');
 
     const nodeResults = violation.nodes.filter(
       filterViolationNodeResults(violation),
     );
+    const html = nodeResults.reduce(
+      (accumulator: string, node: axe.NodeResult) => {
+        const related = [...node.all, ...node.none, ...node.any]
+          .map((checkResult) => {
+            const relatedNodes = checkResult.relatedNodes || [];
+            let relatedHtml = relatedNodes
+              .map((relatedNode) =>
+                relatedNode.html.split(`\n`).join(`\n      `),
+              )
+              .join(`\n\n      `);
+            if (relatedHtml) {
+              relatedHtml = `\n    Related Nodes:\n      ${relatedHtml}`;
+            }
+            return `  - [${checkResult.id}] ${checkResult.message}${relatedHtml}`;
+          })
+          .join(`\n`);
+        const newInformation: string[] = [
+          node.failureSummary
+            ? `[${node.impact?.toUpperCase()}] ${node.failureSummary
+                .split(/\n */g)
+                .join(`\n  - `)}`
+            : '',
+          node.ancestry ? `Ancestry: ${node.ancestry.join(', ')}` : '',
+          `Target: ${node.target.join(', ')}`,
+          node.html ? `HTML: ${node.html}` : '',
+          related,
+        ].filter((info) => !!info);
 
-    const html = nodeResults.reduce((accumulator, node) => {
-      const related = [...node.all, ...node.none, ...node.any]
-        .map((checkResult) => {
-          const relatedNodes = checkResult.relatedNodes || [];
-
-          let relatedHtml = relatedNodes
-            .map((relatedNode) => relatedNode.html.split(`\n`).join(`\n      `))
-            .join(`\n\n      `);
-
-          if (relatedHtml) {
-            relatedHtml = `\n    Related Nodes:\n      ${relatedHtml}`;
-          }
-
-          return `  - [${checkResult.id}] ${checkResult.message}${relatedHtml}`;
-        })
-        .join('\n');
-
-      const newInformation: string[] = [
-        node.failureSummary
-          ? `[${node.impact?.toUpperCase()}] ${node.failureSummary
-              .split(/\n */g)
-              .join(`\n  - `)}`
-          : '',
-        node.ancestry ? `Ancestry: ${node.ancestry.join(', ')}` : '',
-        `Target: ${node.target.join(', ')}`,
-        node.html ? `HTML: ${node.html}` : '',
-        related,
-      ].filter((info) => !!info);
-
-      return `${accumulator}\n\n${newInformation.join(`\n`)}`;
-    }, '');
+        return `${accumulator}\n\n${newInformation.join(`\n`)}`;
+      },
+      '',
+    );
 
     const error = [
       `aXe - [Rule: '${violation.id}'] ${violation.help} - WCAG: ${wcagTags}`,
@@ -71,17 +71,14 @@ function filterViolationNodeResults(
     ].includes(result.id)
   ) {
     return (node: axe.NodeResult) => !node.html.includes('class="ag-');
-  }
-
-  if (result.id === 'aria-allowed-role') {
+  } else if (result.id === 'aria-allowed-role') {
     const fieldsetRadiogroupRegex = new RegExp(
       /<fieldset[^>]+role="radiogroup"/,
     );
-
     return (node: axe.NodeResult) => !fieldsetRadiogroupRegex.test(node.html);
+  } else {
+    return () => true;
   }
-
-  return () => true;
 }
 
 /**
@@ -120,7 +117,6 @@ export abstract class SkyA11yAnalyzer {
         const violations = results.violations.filter((violation) =>
           violation.nodes.some(filterViolationNodeResults(violation)),
         );
-
         if (violations.length > 0) {
           const message = parseMessage(violations);
           reject(new Error(message));

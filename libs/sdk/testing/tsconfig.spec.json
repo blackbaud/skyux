@@ -4,5 +4,6 @@
     "outDir": "../../../dist/out-tsc",
     "types": ["jasmine", "node"]
   },
-  "include": ["src/**/*.spec.ts", "src/**/*.d.ts"]
+  "exclude": ["schematics/**"],
+  "include": ["**/*.spec.ts", "src/**/*.d.ts"]
 }

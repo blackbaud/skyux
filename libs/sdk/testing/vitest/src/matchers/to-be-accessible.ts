@@ -6,7 +6,7 @@ import {
 
 import { expect } from 'vitest';
 
-import type { ExpectationResult } from './types/expectation-result';
+import type { ExpectationResult } from '../types/expectation-result';
 
 expect.extend({
   async toBeAccessible(

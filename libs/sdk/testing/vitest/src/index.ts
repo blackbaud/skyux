@@ -1,7 +1,7 @@
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { type SkyA11yAnalyzerConfig } from '@skyux-sdk/testing/private';
 
-import './a11y.matcher';
+import './matchers/to-be-accessible';
 
 interface CustomMatchers {
   /**

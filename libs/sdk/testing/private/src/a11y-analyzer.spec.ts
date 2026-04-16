@@ -264,7 +264,7 @@ describe('A11y analyzer', () => {
       } as axe.AxeResults);
     }
 
-    spyOn(SkyA11yAnalyzer['analyzer'], 'run').and.callFake(mockRun as any);
+    spyOn(SkyA11yAnalyzer['analyzer'], 'run').and.callFake(mockRun as never);
 
     try {
       await SkyA11yAnalyzer.run('element');
@@ -307,7 +307,7 @@ describe('A11y analyzer', () => {
       } as axe.AxeResults);
     }
 
-    spyOn(SkyA11yAnalyzer['analyzer'], 'run').and.callFake(mockRun as any);
+    spyOn(SkyA11yAnalyzer['analyzer'], 'run').and.callFake(mockRun as never);
 
     try {
       await SkyA11yAnalyzer.run('element');
