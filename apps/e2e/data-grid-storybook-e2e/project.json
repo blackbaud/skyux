@@ -1,0 +1,37 @@
+{
+  "name": "data-grid-storybook-e2e",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/e2e/data-grid-storybook-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/e2e/data-grid-storybook-e2e/cypress.config.ts",
+        "devServerTarget": "data-grid-storybook:storybook",
+        "baseUrl": "http://localhost:4400",
+        "browser": "chrome",
+        "testingType": "e2e"
+      },
+      "configurations": {
+        "ci": {
+          "baseUrl": "http://localhost:4200",
+          "browser": "chrome",
+          "devServerTarget": "data-grid-storybook:static-storybook:ci"
+        },
+        "prebuilt": {
+          "devServerTarget": "data-grid-storybook:static-storybook:prebuilt",
+          "baseUrl": ""
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["{projectRoot}/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["data-grid-storybook"]
+}
