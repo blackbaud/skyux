@@ -16,7 +16,7 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
-    setupFiles: ['@skyux-sdk/testing/vitest/setup-matchers.js'],
+    setupFiles: ['@skyux-sdk/testing/vitest/matchers-setup.js'],
   },
 });
 ```

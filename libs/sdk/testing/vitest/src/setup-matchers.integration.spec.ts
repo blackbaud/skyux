@@ -1,7 +1,7 @@
 describe('Vitest setupFiles integration', () => {
-  it('should resolve the setup-matchers.js subpath at compile time', () => {
+  it('should resolve the matchers-setup.js subpath at compile time', () => {
     type SetupMatchersModule =
-      typeof import('@skyux-sdk/testing/vitest/setup-matchers.js');
+      typeof import('@skyux-sdk/testing/vitest/matchers-setup.js');
 
     const resolved = true as boolean | SetupMatchersModule;
 
