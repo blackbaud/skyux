@@ -1,5 +1,3 @@
-import { describe, expect, it } from 'vitest';
-
 describe('Vitest setupFiles integration', () => {
   it('should resolve the setup-matchers.js subpath at compile time', () => {
     type SetupMatchersModule =

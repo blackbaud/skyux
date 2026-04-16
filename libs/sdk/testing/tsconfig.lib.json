@@ -8,5 +8,5 @@
     "types": ["jasmine", "node"]
   },
   "exclude": ["**/*.spec.ts", "schematics/**"],
-  "include": ["**/*.ts"]
+  "include": ["private/src/**/*.ts", "src/**/*.ts", "vitest/src/**/*.ts"]
 }
