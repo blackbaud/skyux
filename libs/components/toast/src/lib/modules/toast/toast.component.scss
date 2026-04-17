@@ -259,10 +259,7 @@ sky-toast {
   .sky-toaster-newest-on-top {
     sky-toast:last-child {
       .sky-toast {
-        margin-bottom: var(
-          --sky-override-toast-last-child-margin-bottom,
-          var(--sky-comp-omnibar-toaster-space-inset-bottom)
-        );
+        margin-bottom: var(--sky-comp-omnibar-toaster-space-inset-bottom);
       }
     }
   }
