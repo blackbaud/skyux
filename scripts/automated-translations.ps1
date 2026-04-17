@@ -78,6 +78,11 @@ else
 
   Write-Output "`n# git rebase -X ours $LtsBranchName"
   git rebase -X ours $LtsBranchName
+  if ($LASTEXITCODE -ne 0)
+  {
+    Write-Output "`n::error::git rebase failed (exit $LASTEXITCODE).`n"
+    exit $LASTEXITCODE
+  }
   Write-Output "`n::endgroup::`n"
 
   Write-Output "`n::group::NPM Install`n"
@@ -128,6 +133,11 @@ else
   {
     Write-Output "`n# git push --force-with-lease origin $TranslationBranchName"
     git push --force-with-lease origin $TranslationBranchName
+    if ($LASTEXITCODE -ne 0)
+    {
+      Write-Output "`n::error::git push --force-with-lease failed (exit $LASTEXITCODE).`n"
+      exit $LASTEXITCODE
+    }
   }
   else
   {

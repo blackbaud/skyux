@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event_name == 'push' && github.run_number || github.head_ref || github.ref_name }}
+  group: ${{ github.workflow }}-${{ github.event_name == 'push' && github.run_number || github.event.pull_request.number || github.head_ref || github.ref_name }}
   cancel-in-progress: true
 
 env:
@@ -43,7 +43,7 @@ jobs:
     needs: environment-check
     runs-on: ubuntu-latest
     concurrency:
-      group: ${{ github.workflow }}-install-deps-${{ github.head_ref || github.ref_name }}
+      group: ${{ github.workflow }}-install-deps-${{ github.event.pull_request.number || github.head_ref || github.ref_name }}
       cancel-in-progress: true
     outputs:
       node-version: ${{ steps.setup-node.outputs.node-version }}
@@ -57,7 +57,7 @@ jobs:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
-          repository: ${{ github.repository }}
+          repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
           ref: ${{ github.head_ref || github.ref_name }}
       - uses: actions/setup-node@v6
         id: setup-node
@@ -111,7 +111,7 @@ jobs:
     name: Build Project Storybook
     runs-on: ubuntu-latest
     concurrency:
-      group: ${{ github.workflow }}-build-storybook--${{ matrix.project }}-${{ github.head_ref || github.ref_name }}
+      group: ${{ github.workflow }}-build-storybook--${{ matrix.project }}-${{ github.event.pull_request.number || github.head_ref || github.ref_name }}
       cancel-in-progress: true
     needs: install-deps
     strategy:
@@ -156,7 +156,7 @@ jobs:
     name: Build Apps
     runs-on: ubuntu-latest
     concurrency:
-      group: ${{ github.workflow }}-build-apps--${{ matrix.app }}-${{ github.head_ref || github.ref_name }}
+      group: ${{ github.workflow }}-build-apps--${{ matrix.app }}-${{ github.event.pull_request.number || github.head_ref || github.ref_name }}
       cancel-in-progress: true
     needs: install-deps
     strategy:
@@ -216,7 +216,7 @@ jobs:
     name: Publish
     runs-on: ubuntu-latest
     concurrency:
-      group: ${{ github.workflow }}-publish-${{ github.head_ref || github.ref_name }}
+      group: ${{ github.workflow }}-publish-${{ github.event.pull_request.number || github.head_ref || github.ref_name }}
       cancel-in-progress: true
     needs:
       - install-deps
@@ -286,7 +286,7 @@ jobs:
     runs-on: ubuntu-latest
     # Baseline branches should complete the E2E jobs so Percy does not get stuck https://www.browserstack.com/question/61332
     concurrency:
-      group: ${{ github.workflow }}-e2e--${{ matrix.project }}-${{ github.head_ref || format('{0}-{1}', github.run_id, github.run_attempt) }}
+      group: ${{ github.workflow }}-e2e--${{ matrix.project }}-${{ github.event.pull_request.number || github.head_ref || format('{0}-{1}', github.run_id, github.run_attempt) }}
       cancel-in-progress: ${{ github.event_name != 'push' }}
     needs: install-deps
     strategy:
@@ -424,7 +424,7 @@ jobs:
     name: E2E Visual Review
     runs-on: ubuntu-latest
     concurrency:
-      group: ${{ github.workflow }}-verify-${{ github.head_ref || github.ref_name }}
+      group: ${{ github.workflow }}-verify-${{ github.event.pull_request.number || github.head_ref || github.ref_name }}
       cancel-in-progress: false
     needs:
       - install-deps
