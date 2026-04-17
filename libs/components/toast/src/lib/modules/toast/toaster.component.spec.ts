@@ -327,4 +327,22 @@ describe('Toaster component', () => {
     validateToastMessage(toasts[0], 'Message 1');
     validateToastMessage(toasts[1], 'Message 2');
   }));
+
+  it('should add sky-toaster-newest-on-top class to host when displayDirection is NewestOnTop', fakeAsync(() => {
+    options.displayDirection = SkyToastDisplayDirection.NewestOnTop;
+
+    openMessage();
+
+    const toaster = document.querySelector('sky-toaster');
+    expect(toaster).toHaveCssClass('sky-toaster-newest-on-top');
+  }));
+
+  it('should not add sky-toaster-newest-on-top class to host when displayDirection is OldestOnTop', fakeAsync(() => {
+    options.displayDirection = SkyToastDisplayDirection.OldestOnTop;
+
+    openMessage();
+
+    const toaster = document.querySelector('sky-toaster');
+    expect(toaster).not.toHaveCssClass('sky-toaster-newest-on-top');
+  }));
 });

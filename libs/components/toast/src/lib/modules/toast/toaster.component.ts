@@ -14,6 +14,7 @@ import {
   ViewContainerRef,
   ViewEncapsulation,
   inject,
+  signal,
 } from '@angular/core';
 import { SKY_STACKING_CONTEXT, SkyDynamicComponentService } from '@skyux/core';
 
@@ -41,6 +42,9 @@ import { SkyToastDisplayDirection } from './types/toast-display-direction';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   imports: [CommonModule, SkyToastComponent, SkyToastResourcesModule],
+  host: {
+    '[class.sky-toaster-newest-on-top]': 'isNewestOnTop()',
+  },
 })
 export class SkyToasterComponent implements AfterViewInit, OnDestroy {
   public toastsForDisplay: SkyToast[] | undefined;
@@ -62,6 +66,12 @@ export class SkyToasterComponent implements AfterViewInit, OnDestroy {
   readonly #containerOptions = inject(SkyToastContainerOptions, {
     optional: true,
   });
+
+  protected isNewestOnTop = signal(
+    this.#containerOptions?.displayDirection ===
+      SkyToastDisplayDirection.NewestOnTop,
+  );
+
   readonly #dynamicComponentSvc = inject(SkyDynamicComponentService);
   readonly #domAdapter = inject(SkyToastAdapterService);
   readonly #environmentInjector = inject(EnvironmentInjector);
