@@ -1,5 +1,8 @@
-export { SkyA11yAnalyzer } from './lib/a11y/a11y-analyzer';
-export { SkyA11yAnalyzerConfig } from './lib/a11y/a11y-analyzer-config';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+export {
+  SkyA11yAnalyzer,
+  type SkyA11yAnalyzerConfig,
+} from '@skyux-sdk/testing/private';
 export {
   SkyAsyncMatchers,
   SkyMatchers,
