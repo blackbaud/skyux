@@ -7,6 +7,6 @@
     "inlineSources": true,
     "types": ["jasmine", "node"]
   },
-  "exclude": ["**/*.spec.ts"],
-  "include": ["src/**/*.ts"]
+  "exclude": ["**/*.spec.ts", "schematics/**"],
+  "include": ["private/src/**/*.ts", "src/**/*.ts", "vitest/src/**/*.ts"]
 }
