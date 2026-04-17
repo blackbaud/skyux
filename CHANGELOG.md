@@ -6,6 +6,7 @@
 
 ### Features
 
+* **sdk/testing:** add `toBeAccessible` matcher for vitest assertions ([#4219](https://github.com/blackbaud/skyux/issues/4219)) ([56dedfe](https://github.com/blackbaud/skyux/commit/56dedfe611846fc24f611725c9ee14062131781c))
 * **sdk/testing:** implement `ng add` schematic for `@skyux-sdk/testing` package ([#4376](https://github.com/blackbaud/skyux/issues/4376)) ([4db0f98](https://github.com/blackbaud/skyux/commit/4db0f98c91b27261c25c735e3fb202b62f8b9044))
 
 
