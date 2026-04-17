@@ -20,6 +20,11 @@
       "factory": "./src/schematics/migrations/all/workspace-check/workspace-check.schematic",
       "description": "Log warnings if the workspace is not configured correctly."
     },
+    "add-ai-skills": {
+      "version": "0.0.0-PLACEHOLDER",
+      "factory": "./src/schematics/migrations/update-14/add-ai-skills/add-ai-skills",
+      "description": "Add AI skills to the workspace"
+    },
     "uninstall-prettier-schematics": {
       "version": "14.0.0",
       "factory": "./src/schematics/migrations/update-14/uninstall-prettier-schematics/uninstall-prettier-schematics",
