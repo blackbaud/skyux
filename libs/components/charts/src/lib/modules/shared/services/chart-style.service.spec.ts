@@ -7,6 +7,7 @@ import {
   SkyThemeSettings,
 } from '@skyux/theme';
 
+import { SkyChartCssUtilsService } from './chart-css-utils.service';
 import {
   SkyChartStyleService,
   type SkyChartStyles,
@@ -284,6 +285,17 @@ describe('SkyChartStyleService', () => {
     it('should resolve donut chart styles', () => {
       const { service } = setupTest({ theme });
       expect(service.styles().charts.donut).toEqual(ModernTheme.charts.donut);
+    });
+  });
+
+  describe('tooltip shadow color fallbacks', () => {
+    it('should use rgba fallback when extractShadowColor returns null', () => {
+      const { service } = setupTest({});
+      const cssUtils = TestBed.inject(SkyChartCssUtilsService);
+      spyOn(cssUtils, 'extractShadowColor').and.returnValue(null);
+      spyOn(cssUtils, 'colorToRgbaWithAlpha').and.returnValue(null);
+      const tooltip = service.styles().tooltip;
+      expect(tooltip.shadow.color).toBe('rgba(0, 0, 0, 0.15)');
     });
   });
 });
