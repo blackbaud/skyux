@@ -92,7 +92,6 @@ class ChartKeyboardManager {
   readonly #canvas: HTMLCanvasElement;
   readonly #resources: SkyLibResourcesService;
   readonly #liveAnnouncer: SkyLiveAnnouncerService;
-
   readonly #getValueLabel: SkyValueLabelFn | undefined;
 
   readonly #boundKeyDownHandler: (e: KeyboardEvent) => void;
@@ -101,8 +100,8 @@ class ChartKeyboardManager {
   readonly #boundBlurHandler: () => void;
   readonly #boundMouseDownHandler: () => void;
 
-  #focusedElement: FocusedElement | null = null;
-  #strategy: NavigationStrategy | null = null;
+  #focusedElement: FocusedElement | undefined = undefined;
+  #strategy: NavigationStrategy | undefined = undefined;
   #isNavigating = false;
   #focusFromMouse = false;
 
@@ -217,8 +216,8 @@ class ChartKeyboardManager {
 
   #endNavigation(): void {
     this.#isNavigating = false;
-    this.#focusedElement = null;
-    this.#strategy = null;
+    this.#focusedElement = undefined;
+    this.#strategy = undefined;
 
     // Clear shared focus state so the indicator plugin stops drawing.
     focusedElementsState.set(this.#chart, []);
@@ -253,7 +252,12 @@ class ChartKeyboardManager {
     );
 
     if (element && this.#chart.config.options?.onClick) {
-      const chartEvent = {} as ChartEvent;
+      const chartEvent: ChartEvent = {
+        native: new Event('keyboard-activation'),
+        type: 'keydown',
+        x: 0,
+        y: 0,
+      };
       this.#chart.config.options.onClick(chartEvent, [element], this.#chart);
     }
   }
@@ -276,6 +280,7 @@ class ChartKeyboardManager {
    * Updates the tooltip and focus indicator state, then redraws the chart.
    */
   #updateChartWithFocus(): void {
+    /* istanbul ignore next -- these checks are handled by the caller but we need the type scoping */
     if (!this.#focusedElement || !this.#strategy) {
       return;
     }
@@ -298,6 +303,7 @@ class ChartKeyboardManager {
    * Writes the current focused element to the shared state so the focus indicator plugin can draw it.
    */
   #syncFocusedState(): void {
+    /* istanbul ignore next -- these checks are handled by the caller but we need the type scoping */
     if (!this.#focusedElement) {
       focusedElementsState.set(this.#chart, []);
       return;
@@ -314,6 +320,7 @@ class ChartKeyboardManager {
    * Announces the current focused element's position and value to screen readers.
    */
   #announcePosition(): void {
+    /* istanbul ignore next -- these checks are handled by the caller but we need the type scoping */
     if (!this.#focusedElement || !this.#strategy) {
       return;
     }
@@ -357,12 +364,15 @@ class ChartKeyboardManager {
     }
   }
 
-  #getActiveElement(datasetIndex: number, index: number): ActiveElement | null {
+  #getActiveElement(
+    datasetIndex: number,
+    index: number,
+  ): ActiveElement | undefined {
     const meta = this.#chart.getDatasetMeta(datasetIndex);
     const dataElement = meta?.data[index];
 
     if (!dataElement) {
-      return null;
+      return undefined;
     }
 
     return { datasetIndex, index, element: dataElement };

@@ -150,12 +150,15 @@ export class CartesianNavigationStrategy implements NavigationStrategy {
     return this.#chart.data.datasets[datasetIndex]?.data.length ?? 0;
   }
 
-  #getActiveElement(datasetIndex: number, index: number): ActiveElement | null {
+  #getActiveElement(
+    datasetIndex: number,
+    index: number,
+  ): ActiveElement | undefined {
     const meta = this.#chart.getDatasetMeta(datasetIndex);
     const dataElement = meta?.data[index];
 
     if (!dataElement) {
-      return null;
+      return undefined;
     }
 
     return { datasetIndex, index, element: dataElement };
