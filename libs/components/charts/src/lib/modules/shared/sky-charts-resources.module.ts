@@ -14,6 +14,7 @@ import {
 
 const RESOURCES: Record<string, SkyLibResources> = {
   'EN-US': {
+    'chart.canvas.role_description': { message: 'chart' },
     'chart.focus_element.multi_series.description': {
       message: '{0}, series {1} of {2}. {3}: {4}. Point {5} of {6}.',
     },

@@ -14,7 +14,7 @@ import {
 import { SKY_CHART_AXIS_REGISTRY } from '../axis/chart-axis-registry.service';
 import { SkyChartLegendItem } from '../chart-legend/chart-legend-item';
 import { SkyChartService } from '../chart/chart.service';
-import { SkyChartJsDirective } from '../chartjs.directive';
+import { SkyChartJsDirective } from '../chartjs/chartjs.directive';
 import { getLegendItems } from '../shared/chart-helpers';
 import {
   SkyChartCategoryAxisConfig,

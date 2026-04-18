@@ -13,7 +13,7 @@ import {
 
 import { SkyChartLegendItem } from '../chart-legend/chart-legend-item';
 import { SkyChartService } from '../chart/chart.service';
-import { SkyChartJsDirective } from '../chartjs.directive';
+import { SkyChartJsDirective } from '../chartjs/chartjs.directive';
 import { getLegendItems } from '../shared/chart-helpers';
 import type { SkyChartDataPointClickArgs } from '../shared/types/chart-data-point-click-args';
 import { SkyChartSeries } from '../shared/types/chart-series';

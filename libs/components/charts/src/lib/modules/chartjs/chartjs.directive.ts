@@ -11,6 +11,8 @@ import {
   signal,
   untracked,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
 
@@ -25,7 +27,11 @@ Chart.register(...registerables);
   selector: 'canvas[skyChartJs]',
   host: {
     tabindex: '0',
-    role: 'img',
+    // role="application" tells screen readers to switch to Application Mode,
+    // which passes keyboard events through to the app instead
+    // of intercepting them for the screen reader's own virtual cursor navigation.
+    role: 'application',
+    '[attr.aria-roledescription]': 'roleDescription()',
     '[attr.aria-label]': 'ariaLabel()',
     // Remove the default focus outline from the canvas element since we'll be implementing our own focus styles for keyboard navigation.
     '[style.outline]': '"none"',
@@ -35,6 +41,7 @@ export class SkyChartJsDirective implements OnDestroy, AfterViewInit {
   // #region Dependency Injection
   readonly #element: ElementRef<HTMLCanvasElement> = inject(ElementRef);
   readonly #zone = inject(NgZone);
+  readonly #resources = inject(SkyLibResourcesService);
   // #endregion
 
   // #region Inputs
@@ -56,6 +63,11 @@ export class SkyChartJsDirective implements OnDestroy, AfterViewInit {
    */
   public readonly chartUpdated = output<void>();
   // #endregion
+
+  protected readonly roleDescription = toSignal(
+    this.#resources.getString('chart.canvas.role_description'),
+    { initialValue: 'chart' },
+  );
 
   readonly #canvasContext: CanvasRenderingContext2D;
 
