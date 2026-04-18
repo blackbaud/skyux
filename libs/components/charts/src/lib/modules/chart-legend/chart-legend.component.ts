@@ -9,6 +9,7 @@ import {
   signal,
   viewChildren,
 } from '@angular/core';
+import { SkyIdModule } from '@skyux/core';
 
 import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
 
@@ -18,7 +19,7 @@ import { SkyChartLegendItem } from './chart-legend-item';
   selector: 'sky-chart-legend',
   templateUrl: './chart-legend.component.html',
   styleUrl: './chart-legend.component.scss',
-  imports: [SkyChartsResourcesModule],
+  imports: [SkyChartsResourcesModule, SkyIdModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyChartLegendComponent {
@@ -57,15 +58,18 @@ export class SkyChartLegendComponent {
     });
   }
 
+  /**
+   * When focus enters the legend from outside, set the active index to the first legend item and focus it.
+   * @param event The focus event
+   */
   protected onLegendFocusIn(event: FocusEvent): void {
     const host = event.currentTarget;
     const related = event.relatedTarget;
     const enteredFromOutside =
-      !(host instanceof HTMLElement) ||
-      !(related instanceof Node) ||
+      host instanceof HTMLElement &&
+      related instanceof HTMLElement &&
       !host.contains(related);
 
-    // When focus entered the legend from outside, set the active index to the first item and focus it.
     if (enteredFromOutside) {
       this.activeLegendIndex.set(0);
       this.#focusLegendButton(0);
@@ -117,9 +121,13 @@ export class SkyChartLegendComponent {
     }
   }
 
+  protected isItemDisabled(item: SkyChartLegendItem): boolean {
+    return item.isVisible && this.#isLastVisible();
+  }
+
   protected toggleLegendItem(item: SkyChartLegendItem, index?: number): void {
     // Guard against toggling the last visible item off, which would leave the chart without any visible data.
-    if (item.isVisible && this.#isLastVisible()) {
+    if (this.isItemDisabled(item)) {
       return;
     }
 

@@ -22,9 +22,20 @@
     "_2": "Data point index (1-based)",
     "_3": "Total data points in the series"
   },
-  "chart.legend.list_label": {
+  "chart.legend.aria_label": {
     "_description": "The label for the chart legend",
     "message": "Chart legend"
+  },
+  "chart.legend.legend_item.aria_description": {
+    "_description": "The screen-reader description attached to each legend button, explaining how to interact with it.",
+    "message": "Press Space or Enter to toggle inclusion in chart"
+  },
+  "chart.legend.legend_item.aria_label": {
+    "_description": "The aria-label for a legend button.",
+    "message": "{0}, Legend item {1} of {2}",
+    "_0": "Series name",
+    "_1": "Item position (1-based)",
+    "_2": "Total item count"
   },
   "chart.menu.view_data_table": {
     "_description": "The label for the 'View data table' chart menu item",

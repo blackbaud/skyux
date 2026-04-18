@@ -1,8 +1,13 @@
 @if (hasLegendItems()) {
-  <ul
+  <span #buttonDescription="skyId" skyId class="sky-screen-reader-only">{{
+    'chart.legend.legend_item.aria_description' | skyLibResources
+  }}</span>
+
+  <div
     class="sky-chart-legend"
-    role="list"
-    [aria-label]="'chart.legend.list_label' | skyLibResources"
+    role="toolbar"
+    tabindex="-1"
+    [aria-label]="'chart.legend.aria_label' | skyLibResources"
     (focusin)="onLegendFocusIn($event)"
     (keydown)="onLegendKeydown($event)"
   >
@@ -10,29 +15,37 @@
       item of legendItems();
       track item.labelText + '-' + item.datasetIndex + '-' + item.index
     ) {
-      <li>
-        <button
-          #legendButton
-          class="sky-btn sky-chart-legend-button"
-          type="button"
-          [attr.tabindex]="activeLegendIndex() === $index ? 0 : -1"
-          [attr.aria-pressed]="item.isVisible"
-          (focus)="onLegendButtonFocus($index)"
-          (click)="toggleLegendItem(item, $index)"
-        >
-          <span
-            aria-hidden="true"
-            class="sky-chart-legend-button-icon"
-            [style.background]="item.seriesColor"
-          ></span>
+      <button
+        #legendButton
+        class="sky-btn sky-chart-legend-button"
+        type="button"
+        role="switch"
+        [attr.aria-checked]="item.isVisible"
+        [attr.aria-describedby]="buttonDescription.id"
+        [attr.aria-disabled]="isItemDisabled(item) ? 'true' : null"
+        [attr.aria-label]="
+          'chart.legend.legend_item.aria_label'
+            | skyLibResources
+              : item.labelText
+              : $index + 1
+              : legendItems().length
+        "
+        [attr.tabindex]="activeLegendIndex() === $index ? 0 : -1"
+        (click)="toggleLegendItem(item, $index)"
+        (focus)="onLegendButtonFocus($index)"
+      >
+        <span
+          aria-hidden="true"
+          class="sky-chart-legend-button-icon"
+          [style.background]="item.seriesColor"
+        ></span>
 
-          <span
-            class="sky-font-body-sm sky-chart-legend-button-label"
-            [style.text-decoration]="item.isVisible ? '' : 'line-through'"
-            >{{ item.labelText }}</span
-          >
-        </button>
-      </li>
+        <span
+          class="sky-font-body-sm sky-chart-legend-button-label"
+          [style.text-decoration]="item.isVisible ? '' : 'line-through'"
+          >{{ item.labelText }}</span
+        >
+      </button>
     }
-  </ul>
+  </div>
 }

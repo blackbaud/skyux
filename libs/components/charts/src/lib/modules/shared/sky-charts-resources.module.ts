@@ -21,7 +21,13 @@ const RESOURCES: Record<string, SkyLibResources> = {
     'chart.focus_element.single_series.description': {
       message: '{0}: {1}. Point {2} of {3}.',
     },
-    'chart.legend.list_label': { message: 'Chart legend' },
+    'chart.legend.aria_label': { message: 'Chart legend' },
+    'chart.legend.legend_item.aria_description': {
+      message: 'Press Space or Enter to toggle inclusion in chart.',
+    },
+    'chart.legend.legend_item.aria_label': {
+      message: '{0}, Legend item {1} of {2}',
+    },
     'chart.menu.view_data_table': { message: 'View data table' },
     'chart_data_grid.category_column_name': { message: 'Category' },
     'chart_data_grid.close_button': { message: 'Close' },

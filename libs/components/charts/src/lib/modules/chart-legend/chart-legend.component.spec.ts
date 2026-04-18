@@ -123,20 +123,55 @@ describe('SkyChartLegendComponent', () => {
       expect(icon.style.background).toBe('rgb(255, 0, 0)');
     });
 
-    it('should set aria-pressed to true for visible items', () => {
+    it('should have role="switch" on legend buttons', () => {
+      setItems(createItems(1));
+
+      expect(getLegendButtons()[0].getAttribute('role')).toBe('switch');
+    });
+
+    it('should set aria-checked to true for visible items', () => {
       const items = createItems(1);
       items[0].isVisible = true;
       setItems(items);
 
-      expect(getLegendButtons()[0].getAttribute('aria-pressed')).toBe('true');
+      expect(getLegendButtons()[0].getAttribute('aria-checked')).toBe('true');
     });
 
-    it('should set aria-pressed to false for hidden items', () => {
+    it('should set aria-checked to false for hidden items', () => {
       const items = createItems(1);
       items[0].isVisible = false;
       setItems(items);
 
-      expect(getLegendButtons()[0].getAttribute('aria-pressed')).toBe('false');
+      expect(getLegendButtons()[0].getAttribute('aria-checked')).toBe('false');
+    });
+
+    it('should set the correct aria-label on legend buttons', () => {
+      setItems(createItems(3));
+
+      const buttons = getLegendButtons();
+      expect(buttons[0].getAttribute('aria-label')).toBe(
+        'Series 1, Legend item 1 of 3',
+      );
+      expect(buttons[1].getAttribute('aria-label')).toBe(
+        'Series 2, Legend item 2 of 3',
+      );
+      expect(buttons[2].getAttribute('aria-label')).toBe(
+        'Series 3, Legend item 3 of 3',
+      );
+    });
+
+    it('should set aria-describedby on buttons referencing the description span', () => {
+      setItems(createItems(1));
+
+      const button = getLegendButtons()[0];
+      const describedById = button.getAttribute('aria-describedby');
+      expect(describedById).toBeTruthy();
+
+      const descriptionEl: HTMLElement | null =
+        fixture.nativeElement.querySelector(`#${describedById}`);
+      expect(descriptionEl?.textContent?.trim()).toBe(
+        'Press Space or Enter to toggle inclusion in chart.',
+      );
     });
 
     it('should apply line-through text decoration for hidden items', () => {
@@ -150,6 +185,12 @@ describe('SkyChartLegendComponent', () => {
         );
       expect(labels[0].style.textDecoration).toBe('');
       expect(labels[1].style.textDecoration).toBe('line-through');
+    });
+
+    it('should have role="toolbar" on the legend list', () => {
+      setItems(createItems(1));
+
+      expect(getLegendList().getAttribute('role')).toBe('toolbar');
     });
 
     it('should set the accessible label on the legend list', () => {
@@ -338,10 +379,16 @@ describe('SkyChartLegendComponent', () => {
       setItems(createItems(3));
       fireLegendKeydown('End'); // Navigate to index 2.
 
+      // Simulate focus coming from an external element (e.g., user tabbed in).
+      const externalEl = document.createElement('button');
+      document.body.appendChild(externalEl);
+
       SkyAppTestUtility.fireDomEvent(getLegendList(), 'focusin', {
-        customEventInit: { relatedTarget: null },
+        customEventInit: { relatedTarget: externalEl },
       });
       fixture.detectChanges();
+
+      document.body.removeChild(externalEl);
 
       expect(getLegendButtons()[0].getAttribute('tabindex')).toBe('0');
     });
