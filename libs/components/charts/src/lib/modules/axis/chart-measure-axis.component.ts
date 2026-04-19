@@ -73,7 +73,7 @@ export class SkyChartMeasureAxisComponent implements OnDestroy {
    * The axis object
    * @internal
    */
-  public readonly axis = computed<SkyChartMeasureAxisConfig>(() => {
+  readonly #axis = computed<SkyChartMeasureAxisConfig>(() => {
     return {
       labelText: this.labelText(),
       scaleType: this.scaleType(),
@@ -86,7 +86,7 @@ export class SkyChartMeasureAxisComponent implements OnDestroy {
 
   constructor() {
     effect(() => {
-      this.#registry.upsertMeasureAxis(this.axis());
+      this.#registry.upsertMeasureAxis(this.#axis());
     });
   }
 

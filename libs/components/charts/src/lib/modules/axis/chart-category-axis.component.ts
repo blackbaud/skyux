@@ -33,9 +33,8 @@ export class SkyChartCategoryAxisComponent implements OnDestroy {
 
   /**
    * The axis object
-   * @internal
    */
-  public readonly axis = computed<SkyChartCategoryAxisConfig>(() => {
+  readonly #axis = computed<SkyChartCategoryAxisConfig>(() => {
     return {
       labelText: this.labelText(),
     };
@@ -43,7 +42,7 @@ export class SkyChartCategoryAxisComponent implements OnDestroy {
 
   constructor() {
     effect(() => {
-      const axis = this.axis();
+      const axis = this.#axis();
       this.#registry.upsertCategoryAxis(axis);
     });
   }

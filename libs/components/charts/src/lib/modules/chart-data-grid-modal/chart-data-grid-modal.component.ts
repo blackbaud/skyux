@@ -21,6 +21,7 @@ import {
 } from 'ag-grid-community';
 
 import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
+import type { SkyCategory } from '../shared/types/category';
 import { SkyChartDataPoint } from '../shared/types/chart-data-point';
 import { SkyChartSeries } from '../shared/types/chart-series';
 
@@ -35,7 +36,7 @@ ModuleRegistry.registerModules([
   RowStyleModule,
   ColumnApiModule,
   RowApiModule,
-  // Editing isn't needed but SkyUX's implementation uses `api.getEditingCells` which requires this module.
+  // Editing isn't needed but skyux/ag-charts uses `api.getEditingCells` which requires this module.
   TextEditorModule,
 ]);
 
@@ -110,7 +111,7 @@ export class SkyChartDataGridModalComponent {
   }
 
   #buildRowData(
-    categories: readonly (string | number)[],
+    categories: readonly SkyCategory[],
     series: readonly SkyChartSeries<SkyChartDataPoint>[],
   ): ChartDataGridRow[] {
     const rows: ChartDataGridRow[] = [];
@@ -132,18 +133,24 @@ export class SkyChartDataGridModalComponent {
     return rows;
   }
 
-  #getSeriesFieldId(seriesIndex: number): string {
+  #getSeriesFieldId(seriesIndex: number): SeriesFieldId {
     return `series_${seriesIndex}`;
   }
 }
 
 interface ChartDataGridRow {
   /** The category for this row. */
-  category: string | number;
+  category: SkyCategory;
 
   /**
-   * Key: the series' label
-   * Value: the data point's label
+   * Dynamically generated fields for each series.
    */
-  [key: string]: string | number;
+  [key: SeriesFieldId]: string;
 }
+
+/**
+ * Type for the dynamically generated series fields in the grid's row data.
+ * @example "series_0" for the first series
+ * @example "series_1" for the second
+ */
+type SeriesFieldId = `series_${number}`;
