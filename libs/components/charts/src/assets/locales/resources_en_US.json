@@ -1,0 +1,52 @@
+{
+  "chart.canvas.role_description": {
+    "_description": "The role description announced by screen readers when the chart canvas receives focus.",
+    "message": "chart"
+  },
+  "chart.focus_element.multi_series.description": {
+    "_description": "The template for the screen-reader description of the currently focused chart element.",
+    "message": "{0}, series {1} of {2}. {3}: {4}. Point {5} of {6}.",
+    "_0": "Series label",
+    "_1": "Series index (1-based)",
+    "_2": "Total series count in the chart",
+    "_3": "Category label",
+    "_4": "Data point value",
+    "_5": "Data point index (1-based)",
+    "_6": "Total data points in the series"
+  },
+  "chart.focus_element.single_series.description": {
+    "_description": "The template for the screen-reader description of the currently focused chart element.",
+    "message": "{0}: {1}. Point {2} of {3}.",
+    "_0": "Category label",
+    "_1": "Data point value",
+    "_2": "Data point index (1-based)",
+    "_3": "Total data points in the series"
+  },
+  "chart.legend.aria_label": {
+    "_description": "The label for the chart legend",
+    "message": "Chart legend"
+  },
+  "chart.legend.legend_item.aria_description": {
+    "_description": "The screen-reader description attached to each legend button, explaining how to interact with it.",
+    "message": "Press Space or Enter to toggle inclusion in chart"
+  },
+  "chart.legend.legend_item.aria_label": {
+    "_description": "The aria-label for a legend button.",
+    "message": "{0}, Legend item {1} of {2}",
+    "_0": "Series name",
+    "_1": "Item position (1-based)",
+    "_2": "Total item count"
+  },
+  "chart.menu.view_data_table": {
+    "_description": "The label for the 'View data table' chart menu item",
+    "message": "View data table"
+  },
+  "chart_data_grid.category_column_name": {
+    "_description": "The label for the pinned category column",
+    "message": "Category"
+  },
+  "chart_data_grid.close_button": {
+    "_description": "The label for the close button",
+    "message": "Close"
+  }
+}
