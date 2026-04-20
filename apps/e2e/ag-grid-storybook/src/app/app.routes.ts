@@ -2,6 +2,13 @@ import { Route } from '@angular/router';
 
 export const routes: Route[] = [
   {
+    path: 'ag-grid-native-multiselect',
+    loadComponent: () =>
+      import('./ag-grid-native-multiselect/ag-grid-native-multiselect.component').then(
+        (m) => m.AgGridMultiselectComponent,
+      ),
+  },
+  {
     path: 'ag-grid-widgets',
     loadComponent: () =>
       import('./ag-grid-widgets/ag-grid-widgets.component').then(

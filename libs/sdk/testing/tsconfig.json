@@ -11,6 +11,18 @@
     },
     {
       "path": "./tsconfig.spec.json"
+    },
+    {
+      "path": "./tsconfig.schematics.json"
+    },
+    {
+      "path": "./tsconfig.schematics-spec.json"
+    },
+    {
+      "path": "./private/tsconfig.spec.json"
+    },
+    {
+      "path": "./vitest/tsconfig.spec.json"
     }
   ]
 }
