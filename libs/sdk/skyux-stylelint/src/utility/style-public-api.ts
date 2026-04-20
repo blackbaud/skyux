@@ -41,7 +41,7 @@ function walkTokens(
 
 /**
  * Maps each deprecated custom property name to its replacement custom property,
- * or null if the parent token has no canonical customProperty.
+ * or undefined if the parent token has no canonical customProperty.
  */
 export const deprecatedCustomPropsMap: Map<string, string | undefined> =
   new Map();
@@ -53,7 +53,7 @@ export const validThemeCustomProperties: Set<string> = new Set();
 
 /**
  * Maps each deprecated SCSS variable name to its replacement custom property,
- * or null if the parent token has no canonical customProperty.
+ * or undefined if the parent token has no canonical customProperty.
  */
 export const deprecatedScssVarMap: Map<string, string | undefined> = new Map();
 
