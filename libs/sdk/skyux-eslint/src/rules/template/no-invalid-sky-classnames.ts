@@ -105,10 +105,8 @@ export const rule = createESLintTemplateRule({
         '"{{className}}" is deprecated. Use "{{replacement}}" instead.',
       deprecatedNoReplacement:
         '"{{className}}" is deprecated with no direct replacement. See the style API documentation: {{docsUrl}}',
-      unknownThemeClass:
-        `"{{className}}" is not a known sky-theme- class. See the style API documentation for valid class names: ${STYLE_API_DOCS_URL}`,
-      privateClass:
-        `"{{className}}" is a private SKY UX class and should not be used directly. See the style API documentation for alternatives: ${STYLE_API_DOCS_URL}`,
+      unknownThemeClass: `"{{className}}" is not a known sky-theme- class. See the style API documentation for valid class names: ${STYLE_API_DOCS_URL}`,
+      privateClass: `"{{className}}" is a private SKY UX class and should not be used directly. See the style API documentation for alternatives: ${STYLE_API_DOCS_URL}`,
     },
     schema: [],
     type: 'problem',
