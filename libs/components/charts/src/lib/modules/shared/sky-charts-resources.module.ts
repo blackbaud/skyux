@@ -28,7 +28,11 @@ const RESOURCES: Record<string, SkyLibResources> = {
     'chart.legend.legend_item.aria_label': {
       message: '{0}, Legend item {1} of {2}',
     },
+    'chart.menu.label': { message: 'Context menu for {0}' },
     'chart.menu.view_data_table': { message: 'View data table' },
+    'chart.menu.view_data_table.aria_label': {
+      message: 'View data table for {0}',
+    },
     'chart_data_grid.category_column_name': { message: 'Category' },
     'chart_data_grid.close_button': { message: 'Close' },
   },

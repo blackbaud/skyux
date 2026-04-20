@@ -37,9 +37,19 @@
     "_1": "Item position (1-based)",
     "_2": "Total item count"
   },
+  "chart.menu.label": {
+    "_description": "The label for the chart menu",
+    "message": "Context menu for {0}",
+    "_0": "Chart heading"
+  },
   "chart.menu.view_data_table": {
     "_description": "The label for the 'View data table' chart menu item",
     "message": "View data table"
+  },
+  "chart.menu.view_data_table.aria_label": {
+    "_description": "The aria label for the 'View data table' chart menu item",
+    "message": "View data table for {0}",
+    "_0": "Chart heading"
   },
   "chart_data_grid.category_column_name": {
     "_description": "The label for the pinned category column",
