@@ -28,10 +28,6 @@ import {
   headingStyleInputTransformer,
 } from '../shared/types/chart-heading-style';
 
-import {
-  SKY_CHART_HEADER_ID,
-  provideSkyChartHeaderId,
-} from './chart-header-id-token';
 import { SkyChartService } from './chart.service';
 
 /**
@@ -48,12 +44,11 @@ import { SkyChartService } from './chart.service';
     SkyHelpInlineModule,
     SkyChartLegendComponent,
   ],
-  providers: [provideSkyChartHeaderId(), SkyChartService],
+  providers: [SkyChartService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyChartComponent {
   // #region Dependency Injection
-  protected readonly headerId = inject(SKY_CHART_HEADER_ID);
   readonly #modalService = inject(SkyModalService);
   readonly #chartService = inject(SkyChartService);
   // #endregion

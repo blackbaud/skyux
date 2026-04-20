@@ -1,8 +1,4 @@
-<section
-  class="sky-chart"
-  [attr.aria-label]="headingText()"
-  [attr.aria-labelledby]="headerId"
->
+<div class="sky-chart">
   <div
     class="sky-chart-header"
     [class.sky-margin-stacked-sm]="includeHeaderMargin()"
@@ -13,7 +9,6 @@
         @case (2) {
           <!-- display: inline -->
           <h2
-            [id]="headerId"
             [class]="headingClass()"
             [class.sky-screen-reader-only]="headingHidden()"
             >{{ headingText() }}</h2
@@ -22,7 +17,6 @@
         @case (4) {
           <!-- display: inline -->
           <h4
-            [id]="headerId"
             [class]="headingClass()"
             [class.sky-screen-reader-only]="headingHidden()"
             >{{ headingText() }}</h4
@@ -31,7 +25,6 @@
         @case (5) {
           <!-- display: inline -->
           <h5
-            [id]="headerId"
             [class]="headingClass()"
             [class.sky-screen-reader-only]="headingHidden()"
             >{{ headingText() }}</h5
@@ -40,7 +33,6 @@
         @default {
           <!-- display: inline -->
           <h3
-            [id]="headerId"
             [class]="headingClass()"
             [class.sky-screen-reader-only]="headingHidden()"
             >{{ headingText() }}</h3
@@ -96,4 +88,4 @@
       </sky-dropdown-menu>
     </sky-dropdown>
   </div>
-</section>
+</div>
