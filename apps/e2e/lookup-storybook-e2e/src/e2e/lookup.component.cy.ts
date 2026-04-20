@@ -199,6 +199,11 @@ describe('lookup-storybook', () => {
 
                 cy.get('.sky-modal').should('exist').should('be.visible');
 
+                // Remove focus to prevent inconsistent focus-ring in screenshots.
+                cy.document().then((doc) => {
+                  (doc.activeElement as HTMLElement)?.blur();
+                });
+
                 cy.get('app-lookup').screenshot(
                   `lookupcomponent-lookup--lookup-${mode}-show-more-modal-preselected-values-${theme}`,
                 );

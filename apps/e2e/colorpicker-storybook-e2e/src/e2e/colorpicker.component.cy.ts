@@ -68,6 +68,11 @@ describe('colorpicker-storybook', () => {
               cy.wrap($el.position().left).should('be.gte', 12);
             });
 
+          // Remove focus to prevent inconsistent focus-ring in screenshots.
+          cy.document().then((doc) => {
+            (doc.activeElement as HTMLElement)?.blur();
+          });
+
           cy.window().screenshot(
             `colorpickercomponent-colorpicker--${colorpicker.id}-menu-${theme}`,
             {

@@ -40,6 +40,11 @@ describe('inline-form-storybook', () => {
               .should('be.visible')
               .click();
 
+            // Remove focus to prevent inconsistent focus-ring in screenshots.
+            cy.document().then((doc) => {
+              (doc.activeElement as HTMLElement)?.blur();
+            });
+
             cy.get('app-inline-form').screenshot(
               `inlineformcomponent-inlineform--inline-form-${buttonCombo}-buttons-${theme}`,
             );
