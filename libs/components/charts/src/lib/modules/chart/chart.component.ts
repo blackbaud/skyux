@@ -117,11 +117,6 @@ export class SkyChartComponent {
   public helpKey = input<string | undefined>();
   // #endregion
 
-  protected readonly includeHeaderMargin = computed(() => {
-    const headingVisible = !!this.headingText() && !this.headingHidden();
-    const subtitleVisible = !!this.subtitleText() && !this.subtitleHidden();
-    return headingVisible || subtitleVisible;
-  });
   protected readonly headingClass = computed(
     () => `sky-font-heading-${this.headingStyle()}`,
   );
