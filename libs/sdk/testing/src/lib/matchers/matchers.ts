@@ -3,13 +3,13 @@ import { TestBed } from '@angular/core/testing';
 import {
   SkyA11yAnalyzer,
   type SkyA11yAnalyzerConfig,
+  _skyTestingCheckVisibility,
 } from '@skyux-sdk/testing/private';
 import { SkyAppResourcesService, SkyLibResourcesService } from '@skyux/i18n';
+import type { SkyToBeVisibleOptions } from './to-be-visible-options';
 
 import axe from 'axe-core';
 import { firstValueFrom } from 'rxjs';
-
-import { SkyToBeVisibleOptions } from './to-be-visible-options';
 
 const windowRef: any = window;
 
@@ -82,46 +82,14 @@ const matchers: jasmine.CustomMatcherFactories = {
         el: Element,
         options?: SkyToBeVisibleOptions,
       ): jasmine.CustomMatcherResult {
-        const defaults: SkyToBeVisibleOptions = {
-          checkCssDisplay: true,
-          checkCssVisibility: false,
-          checkDimensions: false,
-          checkExists: false,
+        const pass = _skyTestingCheckVisibility(el, options);
+
+        return {
+          pass,
+          message: pass
+            ? 'Expected element to not be visible'
+            : 'Expected element to be visible',
         };
-
-        const settings = { ...defaults, ...options };
-
-        const result = {
-          pass: true,
-          message: '',
-        };
-
-        if (settings.checkExists) {
-          result.pass = !!el;
-        }
-
-        if (result.pass) {
-          const computedStyle = window.getComputedStyle(el);
-
-          if (settings.checkCssDisplay) {
-            result.pass = computedStyle.display !== 'none';
-          }
-
-          if (settings.checkCssVisibility) {
-            result.pass = computedStyle.visibility !== 'hidden';
-          }
-
-          if (settings.checkDimensions) {
-            const box = el.getBoundingClientRect();
-            result.pass = box.width > 0 && box.height > 0;
-          }
-        }
-
-        result.message = result.pass
-          ? 'Expected element to not be visible'
-          : 'Expected element to be visible';
-
-        return result;
       },
     };
   },
@@ -530,10 +498,12 @@ const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
   },
 };
 
-windowRef.beforeEach(() => {
-  jasmine.addMatchers(matchers);
-  jasmine.addAsyncMatchers(asyncMatchers);
-});
+if (typeof jasmine !== 'undefined') {
+  windowRef.beforeEach(() => {
+    jasmine.addMatchers(matchers);
+    jasmine.addAsyncMatchers(asyncMatchers);
+  });
+}
 
 /**
  * Interface for "asynchronous" custom Sky matchers which cannot be paired with a `.not` operator.

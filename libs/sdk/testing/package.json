@@ -1,7 +1,7 @@
 {
   "name": "@skyux-sdk/testing",
   "version": "0.0.0-PLACEHOLDER",
-  "type": "commonjs",
+  "type": "module",
   "author": "Blackbaud, Inc.",
   "keywords": [
     "blackbaud",
@@ -22,7 +22,7 @@
       "default": "./fesm2022/skyux-sdk-testing-vitest.mjs"
     }
   },
-  "schematics": "./collection.json",
+  "schematics": "@skyux-sdk/testing-schematics/collection.json",
   "ng-add": {
     "save": "devDependencies"
   },
@@ -30,7 +30,7 @@
     "packageGroupName": "@skyux-sdk/testing",
     "packageGroup": {
       "@skyux-sdk/testing": "0.0.0-PLACEHOLDER",
-      "axe-core": "~4.11.1"
+      "@skyux-sdk/testing-schematics": "0.0.0-PLACEHOLDER"
     }
   },
   "peerDependencies": {
@@ -43,6 +43,7 @@
     "vitest": "^4.0.18"
   },
   "dependencies": {
+    "@skyux-sdk/testing-schematics": "0.0.0-PLACEHOLDER",
     "tslib": "^2.8.1"
   },
   "peerDependenciesMeta": {

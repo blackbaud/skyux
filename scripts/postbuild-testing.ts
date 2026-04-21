@@ -6,10 +6,7 @@ const CWD = process.cwd();
 async function copyFilesToDist(): Promise<void> {
   const projectRoot = 'libs/sdk/testing';
 
-  const pathsToCopy = [
-    path.join(projectRoot, 'collection.json'),
-    path.join(projectRoot, 'schematics/ng-add/schema.json'),
-  ];
+  const pathsToCopy = [path.join(projectRoot, 'collection.json')];
 
   for (const filePath of pathsToCopy) {
     const distPath = path.join('dist', filePath);

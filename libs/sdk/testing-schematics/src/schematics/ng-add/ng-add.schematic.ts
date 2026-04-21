@@ -10,13 +10,15 @@ import path from 'node:path';
 
 function installDependencies(): Rule {
   return (tree, context) => {
+    const packageJsonPath = path.join(__dirname, '../../../package.json');
+
     const packageJson = JSON.parse(
-      fs.readFileSync(path.resolve(__dirname, '../../package.json'), {
+      fs.readFileSync(packageJsonPath, {
         encoding: 'utf-8',
       }),
     );
 
-    const axeCoreVersion = packageJson.peerDependencies['axe-core'];
+    const axeCoreVersion = packageJson['ng-update']?.packageGroup?.['axe-core'];
 
     addPackageJsonDependency(tree, {
       type: NodeDependencyType.Dev,

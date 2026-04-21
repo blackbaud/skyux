@@ -7,25 +7,9 @@
   "tags": ["testing"],
   "targets": {
     "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+      "executor": "nx:run-commands",
       "options": {
-        "tsConfig": "libs/sdk/testing/private/tsconfig.spec.json",
-        "karmaConfig": "libs/sdk/testing/private/karma.conf.js",
-        "codeCoverage": true,
-        "codeCoverageExclude": ["**/fixtures/**"],
-        "inlineStyleLanguage": "scss",
-        "stylePreprocessorOptions": {
-          "includePaths": ["{workspaceRoot}"]
-        }
-      },
-      "configurations": {
-        "ci": {
-          "browsers": "ChromeHeadlessNoSandbox",
-          "codeCoverage": true,
-          "progress": false,
-          "sourceMap": true,
-          "watch": false
-        }
+        "command": "npx vitest run --config libs/sdk/testing/private/vitest.config.ts"
       }
     },
     "lint": {

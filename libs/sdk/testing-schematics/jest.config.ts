@@ -1,27 +1,21 @@
 export default {
-  displayName: 'sdk-testing',
-  snapshotFormat: {
-    escapeString: false,
-    printBasicPrototype: false,
-  },
+  displayName: 'sdk-testing-schematics',
   globals: {},
   testEnvironment: 'node',
   transform: {
     '^.+\\.[tj]sx?$': [
       'ts-jest',
       {
-        tsconfig: '<rootDir>/tsconfig.schematics-spec.json',
+        tsconfig: '<rootDir>/tsconfig.spec.json',
         diagnostics: false,
       },
     ],
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   moduleNameMapper: {
-    '^ora$': '<rootDir>/schematics/__mocks__/ora.ts',
+    '^ora$': '<rootDir>/__mocks__/ora.ts',
   },
-  testMatch: ['<rootDir>/schematics/**/*.spec.ts'],
-  coverageDirectory: '../../../coverage/libs/sdk/testing/schematics',
-  coveragePathIgnorePatterns: ['<rootDir>/schematics/testing'],
+  coverageDirectory: '../../../coverage/libs/sdk/testing-schematics',
   coverageThreshold: {
     global: {
       branches: 100,
@@ -30,5 +24,6 @@ export default {
       statements: 100,
     },
   },
+  coveragePathIgnorePatterns: ['<rootDir>/src/schematics/testing'],
   preset: '../../../jest.preset.js',
 };
