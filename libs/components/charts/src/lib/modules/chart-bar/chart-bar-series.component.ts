@@ -11,7 +11,7 @@ import {
 import { SkyChartSeries } from '../shared/types/chart-series';
 
 import { SkyChartBarRegistry } from './chart-bar-registry.service';
-import { SkyChartBarPoint } from './chart-bar-types';
+import { SKY_CHART_BAR_SERIES_ID, SkyChartBarPoint } from './chart-bar-types';
 
 let nextId = 0;
 
@@ -22,9 +22,16 @@ let nextId = 0;
   selector: 'sky-chart-bar-series',
   template: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: SKY_CHART_BAR_SERIES_ID,
+      useFactory: (): number => nextId++,
+    },
+  ],
 })
 export class SkyChartBarSeriesComponent implements OnDestroy {
   readonly #registry = inject(SkyChartBarRegistry);
+  readonly #id = inject(SKY_CHART_BAR_SERIES_ID);
 
   /**
    * The display label for this series. Shown in the chart legend and tooltips.
@@ -33,12 +40,9 @@ export class SkyChartBarSeriesComponent implements OnDestroy {
 
   /**
    * A unique ID for this series component instance.
-   * @internal
    */
-  public readonly id = nextId++;
-
   readonly #series = computed<SkyChartSeries<SkyChartBarPoint>>(() => ({
-    id: this.id,
+    id: this.#id,
     labelText: this.labelText(),
     data: [], // Data will be dynamically set from children datapoints
   }));
@@ -51,6 +55,6 @@ export class SkyChartBarSeriesComponent implements OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.#registry.removeSeries(this.id);
+    this.#registry.removeSeries(this.#id);
   }
 }

@@ -11,8 +11,11 @@ import {
 import { SkyCategory } from '../shared/types/category';
 
 import { SkyChartLineRegistry } from './chart-line-registry.service';
-import { SkyChartLineSeriesComponent } from './chart-line-series.component';
-import { SkyChartLineDatum, SkyChartLinePoint } from './chart-line-types';
+import {
+  SKY_CHART_LINE_SERIES_ID,
+  SkyChartLineDatum,
+  SkyChartLinePoint,
+} from './chart-line-types';
 
 let nextId = 0;
 
@@ -26,7 +29,7 @@ let nextId = 0;
 })
 export class SkyChartLineSeriesDataPointComponent implements OnDestroy {
   readonly #registry = inject(SkyChartLineRegistry);
-  readonly #series = inject(SkyChartLineSeriesComponent);
+  readonly #seriesId = inject(SKY_CHART_LINE_SERIES_ID);
 
   /**
    * The category bucket this data point belongs to (e.g. a month name or a label on the category axis).
@@ -60,11 +63,11 @@ export class SkyChartLineSeriesDataPointComponent implements OnDestroy {
   constructor() {
     effect(() => {
       const datapoint = this.#datapoint();
-      this.#registry.upsertPoint(this.#series.id, datapoint);
+      this.#registry.upsertPoint(this.#seriesId, datapoint);
     });
   }
 
   public ngOnDestroy(): void {
-    this.#registry.removePoint(this.#series.id, this.#id);
+    this.#registry.removePoint(this.#seriesId, this.#id);
   }
 }

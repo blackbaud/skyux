@@ -181,12 +181,17 @@ export class SkyChartDonutComponent {
   #parseOptions(context: {
     dataPointsClickEnabled: boolean;
     series: SkyChartSeries<SkyChartDonutSlice>[];
-  }): SkyChartDonutOptions {
+  }): SkyChartDonutOptions | undefined {
     const { dataPointsClickEnabled, series } = context;
 
     // Donut charts only supports a single series
     if (series.length > 1) {
       throw new Error('Donut charts only support a single series.');
+    }
+
+    // Return undefined if no series exists yet
+    if (series.length === 0) {
+      return undefined;
     }
 
     return {
