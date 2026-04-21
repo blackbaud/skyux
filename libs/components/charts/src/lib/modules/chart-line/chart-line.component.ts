@@ -10,12 +10,17 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { SkyLibResourcesService } from '@skyux/i18n';
+
+import { Observable, combineLatest, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 import { SKY_CHART_AXIS_REGISTRY } from '../axis/chart-axis-registry.service';
 import { SkyChartLegendItem } from '../chart-legend/chart-legend-item';
 import { SkyChartService } from '../chart/chart.service';
 import { SkyChartJsDirective } from '../chartjs/chartjs.directive';
-import { getLegendItems } from '../shared/chart-helpers';
+import { getAxisLabelText, getLegendItems } from '../shared/chart-helpers';
 import {
   SkyChartCategoryAxisConfig,
   SkyChartMeasureAxisConfig,
@@ -41,7 +46,7 @@ import { SkyChartLineDatum, SkyChartLinePoint } from './chart-line-types';
         <canvas
           skyChartJs
           [chartConfiguration]="config"
-          [ariaLabel]="arialLabel()"
+          [ariaLabel]="canvasAriaLabel()"
           (chartUpdated)="onChartUpdated()"
         ></canvas>
       </div>
@@ -62,6 +67,7 @@ export class SkyChartLineComponent {
   readonly #chartService = inject(SkyChartService);
   readonly #chartRegistry = inject(SkyChartLineRegistry);
   readonly #chartConfigService = inject(SkyChartLineConfigService);
+  readonly #resources = inject(SkyLibResourcesService);
   // #endregion
 
   // #region Inputs
@@ -86,14 +92,6 @@ export class SkyChartLineComponent {
   protected readonly chartDirective = viewChild(SkyChartJsDirective);
   // #endregion
 
-  protected readonly arialLabel = this.#chartService.headingText;
-
-  /** The height of the chart */
-  protected readonly chartHeight = computed(() => {
-    const explicitHeight = this.height();
-    return explicitHeight ?? this.#chartConfigService.getChartHeight();
-  });
-
   readonly #chart = computed(() => this.chartDirective()?.chart());
   readonly #chartUpdated = signal(0);
   readonly #refreshLegendItems = signal(0);
@@ -116,6 +114,24 @@ export class SkyChartLineComponent {
 
     return options;
   });
+
+  /** The height of the chart */
+  protected readonly chartHeight = computed(() => {
+    const explicitHeight = this.height();
+    return explicitHeight ?? this.#chartConfigService.getChartHeight();
+  });
+
+  protected readonly canvasAriaLabel = toSignal(
+    this.#resources.getString('chart.canvas.label.line'),
+    { initialValue: '' },
+  );
+
+  protected readonly chartSummary = toSignal(
+    toObservable(this.#chartOptions).pipe(
+      switchMap((options) => (options ? this.#buildChartSummary(options) : '')),
+    ),
+    { initialValue: '' },
+  );
 
   protected readonly chartConfiguration = computed(() => {
     const options = this.#chartOptions();
@@ -142,6 +158,12 @@ export class SkyChartLineComponent {
   });
 
   constructor() {
+    // Sync the generated chart summary to the chart service
+    effect(() => {
+      const summary = this.chartSummary();
+      this.#chartService.generatedChartSummary.set(summary);
+    });
+
     // Sync series data to the chart service
     effect(() => {
       const config = this.#chartOptions();
@@ -209,6 +231,58 @@ export class SkyChartLineComponent {
 
     // Refetch the legend items to reflect the updated visibility state
     this.#refreshLegendItems.update((v) => v + 1);
+  }
+
+  #buildChartSummary(options: SkyChartLineOptions): Observable<string> {
+    const categoryAxisLabel = getAxisLabelText(options.categoryAxis);
+    const measureAxisLabel = getAxisLabelText(options.measureAxis);
+
+    const chartTypeDescription$ = this.#resources.getString(
+      'chart.summary.line_chart',
+      options.series.length,
+    );
+    const categoryAxis$ = categoryAxisLabel
+      ? this.#resources.getString(
+          'chart.summary.category_axis',
+          categoryAxisLabel,
+        )
+      : of('');
+    const measureAxis$ = measureAxisLabel
+      ? this.#resources.getString(
+          'chart.summary.measure_axis',
+          measureAxisLabel,
+        )
+      : of('');
+
+    return combineLatest([
+      chartTypeDescription$,
+      categoryAxis$,
+      measureAxis$,
+    ]).pipe(
+      map(([chartTypeDescription, categoryAxis, measureAxis]) => {
+        const parts: string[] = [];
+
+        const heading = this.#chartService.headingText();
+        if (heading) {
+          parts.push(heading);
+        }
+
+        parts.push(chartTypeDescription);
+
+        const subtitle = this.#chartService.subtitleText();
+        if (subtitle) {
+          parts.push(subtitle);
+        }
+
+        if (categoryAxis) {
+          parts.push(categoryAxis);
+        }
+        if (measureAxis) {
+          parts.push(measureAxis);
+        }
+        return parts.join(' ');
+      }),
+    );
   }
   // #endregion
 }

@@ -11,6 +11,10 @@ import { SkyChartSeries } from '../shared/types/chart-series';
 export class SkyChartService {
   public readonly headingText = signal<string>('');
 
+  public readonly subtitleText = signal<string>('');
+
+  public readonly generatedChartSummary = signal<string>('');
+
   public readonly series = signal<SkyChartSeries<SkyChartDataPoint>[]>([]);
 
   public readonly legendItems = signal<SkyChartLegendItem[]>([]);

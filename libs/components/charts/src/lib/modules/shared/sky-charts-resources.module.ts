@@ -15,6 +15,9 @@ import {
 const RESOURCES: Record<string, SkyLibResources> = {
   'EN-US': {
     'chart.canvas.role_description': { message: 'chart' },
+    'chart.canvas.label.bar': { message: 'Bar chart' },
+    'chart.canvas.label.line': { message: 'Line chart' },
+    'chart.canvas.label.donut': { message: 'Donut chart' },
     'chart.focus_element.multi_series.description': {
       message: '{0}, series {1} of {2}. {3}: {4}. Point {5} of {6}.',
     },
@@ -28,13 +31,30 @@ const RESOURCES: Record<string, SkyLibResources> = {
     'chart.legend.legend_item.aria_label': {
       message: '{0}, Legend item {1} of {2}',
     },
-    'chart.menu.label': { message: 'Context menu for {0}' },
+    'chart.menu.label': {
+      message: 'Context menu for {0}',
+    },
     'chart.menu.view_data_table': { message: 'View data table' },
     'chart.menu.view_data_table.aria_label': {
       message: 'View data table for {0}',
     },
     'chart_data_grid.category_column_name': { message: 'Category' },
     'chart_data_grid.close_button': { message: 'Close' },
+    'chart.summary.bar_chart': {
+      message: 'Bar chart with {0} data series.',
+    },
+    'chart.summary.line_chart': {
+      message: 'Line chart with {0} data series.',
+    },
+    'chart.summary.donut_chart': {
+      message: 'Donut chart with {0} data points.',
+    },
+    'chart.summary.category_axis': {
+      message: 'The chart has a category axis displaying {0}.',
+    },
+    'chart.summary.measure_axis': {
+      message: 'The chart has a measure axis displaying {0}.',
+    },
   },
 };
 

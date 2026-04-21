@@ -2,9 +2,24 @@ import { Chart, ChartConfiguration, ChartDataset, ChartType } from 'chart.js';
 
 import { SkyChartLegendItem } from '../chart-legend/chart-legend-item';
 
+import { SkyChartAxisConfig } from './types/axis-types';
 import { SkyCategory } from './types/category';
 import { SkyChartDataPoint } from './types/chart-data-point';
 import { SkyChartSeries } from './types/chart-series';
+
+/**
+ * Returns the label string from an axis config's `labelText`, or `undefined` when no label is set.
+ * @internal
+ */
+export function getAxisLabelText(
+  config: Readonly<SkyChartAxisConfig> | undefined,
+): string | undefined {
+  const labelText = config?.labelText;
+  if (!labelText) {
+    return undefined;
+  }
+  return Array.isArray(labelText) ? labelText.join(',') : labelText;
+}
 
 /**
  * Determines the dataset type for the given dataset.

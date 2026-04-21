@@ -46,9 +46,13 @@
   }
 
   <!-- Chart -->
-  <div class="sky-chart-content" [class.sky-margin-stacked-md]="showLegend()">
+  <figure
+    class="sky-chart-content"
+    [attr.aria-label]="generatedChartSummary()"
+    [class.sky-margin-stacked-md]="showLegend()"
+  >
     <ng-content />
-  </div>
+  </figure>
 
   <!-- Legend -->
   @if (showLegend()) {

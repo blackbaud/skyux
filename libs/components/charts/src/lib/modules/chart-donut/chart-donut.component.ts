@@ -10,6 +10,11 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { SkyLibResourcesService } from '@skyux/i18n';
+
+import type { Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 import { SkyChartLegendItem } from '../chart-legend/chart-legend-item';
 import { SkyChartService } from '../chart/chart.service';
@@ -36,7 +41,7 @@ import { SkyChartDonutDatum, SkyChartDonutSlice } from './chart-donut-types';
         <canvas
           skyChartJs
           [chartConfiguration]="config"
-          [ariaLabel]="arialLabel()"
+          [ariaLabel]="canvasAriaLabel()"
           (chartUpdated)="onChartUpdated()"
         ></canvas>
       </div>
@@ -54,6 +59,7 @@ export class SkyChartDonutComponent {
   readonly #chartService = inject(SkyChartService);
   readonly #chartRegistry = inject(SkyChartDonutRegistry);
   readonly #chartConfigService = inject(SkyChartDonutConfigService);
+  readonly #resources = inject(SkyLibResourcesService);
   // #endregion
 
   // #region Inputs
@@ -77,14 +83,6 @@ export class SkyChartDonutComponent {
   protected readonly chartDirective = viewChild(SkyChartJsDirective);
   // #endregion
 
-  protected readonly arialLabel = this.#chartService.headingText;
-
-  /** The height of the chart */
-  protected readonly chartHeight = computed(() => {
-    const explicitHeight = this.height();
-    return explicitHeight ?? this.#chartConfigService.getChartHeight();
-  });
-
   readonly #chart = computed(() => this.chartDirective()?.chart());
   readonly #chartUpdated = signal(0);
   readonly #refreshLegendItems = signal(0);
@@ -99,6 +97,24 @@ export class SkyChartDonutComponent {
 
     return options;
   });
+
+  /** The height of the chart */
+  protected readonly chartHeight = computed(() => {
+    const explicitHeight = this.height();
+    return explicitHeight ?? this.#chartConfigService.getChartHeight();
+  });
+
+  protected readonly canvasAriaLabel = toSignal(
+    this.#resources.getString('chart.canvas.label.donut'),
+    { initialValue: '' },
+  );
+
+  protected readonly chartSummary = toSignal(
+    toObservable(this.#chartOptions).pipe(
+      switchMap((options) => (options ? this.#buildChartSummary(options) : '')),
+    ),
+    { initialValue: '' },
+  );
 
   protected readonly chartConfiguration = computed(() => {
     const options = this.#chartOptions();
@@ -128,6 +144,12 @@ export class SkyChartDonutComponent {
   });
 
   constructor() {
+    // Sync the generated chart summary to the chart service
+    effect(() => {
+      const summary = this.chartSummary();
+      this.#chartService.generatedChartSummary.set(summary);
+    });
+
     // Sync series to the chart service
     effect(() => {
       const config = this.#chartOptions();
@@ -188,6 +210,33 @@ export class SkyChartDonutComponent {
 
     // Refetch the legend items to reflect the updated visibility state
     this.#refreshLegendItems.update((v) => v + 1);
+  }
+
+  #buildChartSummary(options: SkyChartDonutOptions): Observable<string> {
+    const chartTypeDescription$ = this.#resources.getString(
+      'chart.summary.donut_chart',
+      options.series.data.length,
+    );
+
+    return chartTypeDescription$.pipe(
+      map((chartTypeDescription) => {
+        const parts: string[] = [];
+
+        const heading = this.#chartService.headingText();
+        if (heading) {
+          parts.push(heading);
+        }
+
+        parts.push(chartTypeDescription);
+
+        const subtitle = this.#chartService.subtitleText();
+        if (subtitle) {
+          parts.push(subtitle);
+        }
+
+        return parts.join(' ');
+      }),
+    );
   }
   // #endregion
 }

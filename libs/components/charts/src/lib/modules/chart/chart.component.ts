@@ -120,11 +120,16 @@ export class SkyChartComponent {
   protected readonly headingClass = computed(
     () => `sky-font-heading-${this.headingStyle()}`,
   );
+  protected readonly generatedChartSummary =
+    this.#chartService.generatedChartSummary;
   protected readonly legendItems = this.#chartService.legendItems;
   protected readonly showLegend = computed(() => this.legendItems().length > 1);
 
   constructor() {
     effect(() => this.#chartService.headingText.set(this.headingText()));
+    effect(() =>
+      this.#chartService.subtitleText.set(this.subtitleText() ?? ''),
+    );
   }
 
   protected onLegendItemToggled(item: SkyChartLegendItem): void {

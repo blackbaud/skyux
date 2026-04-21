@@ -3,6 +3,18 @@
     "_description": "The role description announced by screen readers when the chart canvas receives focus.",
     "message": "chart"
   },
+  "chart.canvas.label.bar": {
+    "_description": "The aria-label for the bar chart canvas element.",
+    "message": "Bar chart"
+  },
+  "chart.canvas.label.line": {
+    "_description": "The aria-label for the line chart canvas element.",
+    "message": "Line chart"
+  },
+  "chart.canvas.label.donut": {
+    "_description": "The aria-label for the donut chart canvas element.",
+    "message": "Donut chart"
+  },
   "chart.focus_element.multi_series.description": {
     "_description": "The template for the screen-reader description of the currently focused chart element.",
     "message": "{0}, series {1} of {2}. {3}: {4}. Point {5} of {6}.",
@@ -28,7 +40,7 @@
   },
   "chart.legend.legend_item.aria_description": {
     "_description": "The screen-reader description attached to each legend button, explaining how to interact with it.",
-    "message": "Press Space or Enter to toggle inclusion in chart"
+    "message": "Press Space or Enter to toggle inclusion in chart."
   },
   "chart.legend.legend_item.aria_label": {
     "_description": "The aria-label for a legend button.",
@@ -58,5 +70,32 @@
   "chart_data_grid.close_button": {
     "_description": "The label for the close button",
     "message": "Close"
+  },
+  "chart.summary.bar_chart": {
+    "_description": "The auto-generated screen-reader summary intro for a standard vertical bar chart.",
+    "message": "Bar chart with {0} data series.",
+    "_0": "Number of data series"
+  },
+  "chart.summary.line_chart": {
+    "_description": "The auto-generated screen-reader summary intro for a line chart.",
+    "message": "Line chart with {0} data series.",
+    "_0": "Number of data series"
+  },
+  "chart.summary.donut_chart": {
+    "_description": "The auto-generated screen-reader summary intro for a donut chart.",
+    "message": "Donut chart with {0} data points.",
+    "_0": "Number of data points (slices)"
+  },
+  "chart.summary.category_axis": {
+    "_description": "Sentence describing the category axis in the auto-generated chart summary.",
+    "message": "The chart has a category axis displaying {0}.",
+    "_0": "Category axis label text"
+  },
+  "chart.summary.measure_axis": {
+    "_description": "Sentence describing the value axis in the auto-generated chart summary.",
+    "message": "The chart has a measure axis displaying {0}.",
+    "_0": "Measure axis label text",
+    "_1": "Minimum data value",
+    "_2": "Maximum data value"
   }
 }

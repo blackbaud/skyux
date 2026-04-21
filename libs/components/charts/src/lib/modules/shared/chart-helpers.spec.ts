@@ -1,6 +1,7 @@
 import { Chart, LegendItem } from 'chart.js';
 
 import {
+  getAxisLabelText,
   getChartType,
   getDatasetType,
   getLegendItems,
@@ -12,6 +13,30 @@ import { SkyChartDataPoint } from './types/chart-data-point';
 import { SkyChartSeries } from './types/chart-series';
 
 describe('chart-helpers', () => {
+  describe('getAxisLabelText', () => {
+    it('should return undefined when config is undefined', () => {
+      expect(getAxisLabelText(undefined)).toBeUndefined();
+    });
+
+    it('should return undefined when config.labelText is undefined', () => {
+      expect(getAxisLabelText({})).toBeUndefined();
+    });
+
+    it('should return undefined when config.labelText is an empty string', () => {
+      expect(getAxisLabelText({ labelText: '' })).toBeUndefined();
+    });
+
+    it('should return the string when labelText is a string', () => {
+      expect(getAxisLabelText({ labelText: 'Revenue' })).toBe('Revenue');
+    });
+
+    it('should join array elements with comma when labelText is an array', () => {
+      expect(getAxisLabelText({ labelText: ['Line 1', 'Line 2'] })).toBe(
+        'Line 1,Line 2',
+      );
+    });
+  });
+
   describe('getDatasetType', () => {
     it('should return the dataset type when explicitly set', () => {
       const chart = createMockChart('bar');
