@@ -5,11 +5,9 @@ import tsBaseConfig from './ts-base';
 export default [
   tsBaseConfig,
   {
-    name: 'skyux-eslint/ts-all',
+    name: 'skyux-eslint/ts-experimental',
     rules: {
       'skyux-eslint/no-invalid-sky-classnames': 'error',
-      'skyux-eslint/no-lambda-imports': 'error',
-      'skyux-eslint/no-sky-selectors': 'error',
     },
   },
 ] satisfies TSESLint.FlatConfig.ConfigArray;

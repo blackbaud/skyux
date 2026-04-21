@@ -62,6 +62,8 @@ ruleTester.run(RULE_NAME, rule, {
     },
     // Inline templates are skipped — the template rule handles them.
     `const component = { template: '<div class="sky-deprecated-class"></div>' };`,
+    // Private sky- classes are not flagged in TS files (too many false positives).
+    `element.classList.add('sky-private-class');`,
   ],
   invalid: [
     {
@@ -84,18 +86,6 @@ ruleTester.run(RULE_NAME, rule, {
           messageId: 'unknownThemeClass',
           data: {
             className: 'sky-theme-does-not-exist',
-            docsUrl: 'https://developer.blackbaud.com/skyux/design/styles',
-          },
-        },
-      ],
-    },
-    {
-      code: `element.classList.add('sky-private-class');`,
-      errors: [
-        {
-          messageId: 'privateClass',
-          data: {
-            className: 'sky-private-class',
             docsUrl: 'https://developer.blackbaud.com/skyux/design/styles',
           },
         },

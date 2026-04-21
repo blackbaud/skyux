@@ -74,12 +74,6 @@ function checkClassName(
     });
     return;
   }
-
-  context.report({
-    node,
-    messageId: 'privateClass',
-    data: { className, docsUrl: STYLE_API_DOCS_URL },
-  });
 }
 
 export const rule = createESLintRule({
