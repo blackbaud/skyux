@@ -10,10 +10,8 @@ import path from 'node:path';
 
 function installDependencies(): Rule {
   return (tree, context) => {
-    const packageJsonPath = path.join(__dirname, '../../../package.json');
-
     const packageJson = JSON.parse(
-      fs.readFileSync(packageJsonPath, {
+      fs.readFileSync(path.resolve(__dirname, '../../../package.json'), {
         encoding: 'utf-8',
       }),
     );
