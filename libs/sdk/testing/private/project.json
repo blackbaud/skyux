@@ -10,7 +10,7 @@
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
         "tsConfig": "libs/sdk/testing/private/tsconfig.spec.json",
-        "karmaConfig": "libs/sdk/testing/private/karma.conf.js",
+        "karmaConfig": "libs/sdk/testing/private/karma.conf.cjs",
         "codeCoverage": true,
         "codeCoverageExclude": ["**/fixtures/**"],
         "inlineStyleLanguage": "scss",
