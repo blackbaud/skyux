@@ -1,4 +1,8 @@
+import { SkyLibResourcesService } from '@skyux/i18n';
+
 import { Chart, ChartConfiguration, ChartDataset, ChartType } from 'chart.js';
+import { Observable, combineLatest, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { SkyChartLegendItem } from '../chart-legend/chart-legend-item';
 
@@ -6,20 +10,6 @@ import { SkyChartAxisConfig } from './types/axis-types';
 import { SkyCategory } from './types/category';
 import { SkyChartDataPoint } from './types/chart-data-point';
 import { SkyChartSeries } from './types/chart-series';
-
-/**
- * Returns the label string from an axis config's `labelText`, or `undefined` when no label is set.
- * @internal
- */
-export function getAxisLabelText(
-  config: Readonly<SkyChartAxisConfig> | undefined,
-): string | undefined {
-  const labelText = config?.labelText;
-  if (!labelText) {
-    return undefined;
-  }
-  return Array.isArray(labelText) ? labelText.join(',') : labelText;
-}
 
 /**
  * Determines the dataset type for the given dataset.
@@ -147,4 +137,75 @@ export function getLegendItems(context: {
 
     return item;
   });
+}
+
+/**
+ * Returns the label string from an axis config's `labelText`, or `undefined` when no label is set.
+ */
+function getAxisLabelText(
+  config: Readonly<SkyChartAxisConfig> | undefined,
+): string | undefined {
+  const labelText = config?.labelText;
+  if (!labelText) {
+    return undefined;
+  }
+  return Array.isArray(labelText) ? labelText.join(',') : labelText;
+}
+
+/**
+ * Builds a chart summary by combining heading, chart type description, subtitle, and optional axes.
+ * @param context.headingText Optional heading text for the chart
+ * @param context.subtitleText Optional subtitle text for the chart
+ * @param context.chartTypeDescription$ Observable of the chart type description
+ * @param context.categoryAxis Optional category axis configuration
+ * @param context.measureAxis Optional measure axis configuration
+ * @param context.resources The resources service for i18n strings
+ * @returns Observable of the assembled chart summary
+ * @internal
+ */
+export function buildChartSummary(context: {
+  resources: SkyLibResourcesService;
+  headingText: string | undefined;
+  subtitleText: string | undefined;
+  chartTypeDescription$: Observable<string>;
+  categoryAxis?: Readonly<SkyChartAxisConfig>;
+  measureAxis?: Readonly<SkyChartAxisConfig>;
+}): Observable<string> {
+  const {
+    headingText,
+    subtitleText,
+    chartTypeDescription$,
+    categoryAxis,
+    measureAxis,
+    resources,
+  } = context;
+
+  const observables: Observable<string>[] = [];
+
+  if (headingText) {
+    observables.push(of(headingText));
+  }
+
+  observables.push(chartTypeDescription$);
+
+  if (subtitleText) {
+    observables.push(of(subtitleText));
+  }
+
+  const categoryAxisLabel = getAxisLabelText(categoryAxis);
+  if (categoryAxisLabel) {
+    observables.push(
+      resources.getString('chart.summary.category_axis', categoryAxisLabel),
+    );
+  }
+
+  const measureAxisLabel = getAxisLabelText(measureAxis);
+  if (measureAxisLabel) {
+    observables.push(
+      resources.getString('chart.summary.measure_axis', measureAxisLabel),
+    );
+  }
+
+  // Combine all sentence parts into a single string
+  return combineLatest(observables).pipe(map((values) => values.join(' ')));
 }

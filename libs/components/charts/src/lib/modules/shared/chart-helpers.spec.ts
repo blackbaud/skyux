@@ -1,7 +1,10 @@
+import { SkyLibResourcesService } from '@skyux/i18n';
+
 import { Chart, LegendItem } from 'chart.js';
+import { of } from 'rxjs';
 
 import {
-  getAxisLabelText,
+  buildChartSummary,
   getChartType,
   getDatasetType,
   getLegendItems,
@@ -9,34 +12,11 @@ import {
   isDonutChart,
   parseCategories,
 } from './chart-helpers';
+import { SkyChartAxisConfig } from './types/axis-types';
 import { SkyChartDataPoint } from './types/chart-data-point';
 import { SkyChartSeries } from './types/chart-series';
 
 describe('chart-helpers', () => {
-  describe('getAxisLabelText', () => {
-    it('should return undefined when config is undefined', () => {
-      expect(getAxisLabelText(undefined)).toBeUndefined();
-    });
-
-    it('should return undefined when config.labelText is undefined', () => {
-      expect(getAxisLabelText({})).toBeUndefined();
-    });
-
-    it('should return undefined when config.labelText is an empty string', () => {
-      expect(getAxisLabelText({ labelText: '' })).toBeUndefined();
-    });
-
-    it('should return the string when labelText is a string', () => {
-      expect(getAxisLabelText({ labelText: 'Revenue' })).toBe('Revenue');
-    });
-
-    it('should join array elements with comma when labelText is an array', () => {
-      expect(getAxisLabelText({ labelText: ['Line 1', 'Line 2'] })).toBe(
-        'Line 1,Line 2',
-      );
-    });
-  });
-
   describe('getDatasetType', () => {
     it('should return the dataset type when explicitly set', () => {
       const chart = createMockChart('bar');
@@ -291,6 +271,271 @@ describe('chart-helpers', () => {
 
       expect(result[0].datasetIndex).toBe(0);
       expect(result[0].index).toBe(0);
+    });
+  });
+
+  describe('buildChartSummary', () => {
+    let mockResourcesService: jasmine.SpyObj<SkyLibResourcesService>;
+
+    beforeEach(() => {
+      mockResourcesService = jasmine.createSpyObj('SkyLibResourcesService', [
+        'getString',
+      ]);
+      mockResourcesService.getString.and.callFake(
+        (key: string, ...args: unknown[]) => {
+          if (key === 'chart.summary.category_axis') {
+            return of(`Category axis: ${args[0]}`);
+          }
+          if (key === 'chart.summary.measure_axis') {
+            return of(`Measure axis: ${args[0]}`);
+          }
+          return of(key);
+        },
+      );
+    });
+
+    it('should build summary with all parameters', (done) => {
+      const categoryAxis: SkyChartAxisConfig = {
+        labelText: 'Quarter',
+      };
+      const measureAxis: SkyChartAxisConfig = {
+        labelText: 'Revenue',
+      };
+
+      buildChartSummary({
+        resources: mockResourcesService,
+        headingText: 'Sales Chart',
+        subtitleText: 'Quarterly Results',
+        chartTypeDescription$: of('Bar chart'),
+        categoryAxis,
+        measureAxis,
+      }).subscribe((result) => {
+        expect(result).toBe(
+          'Sales Chart Bar chart Quarterly Results Category axis: Quarter Measure axis: Revenue',
+        );
+        done();
+      });
+    });
+
+    it('should build summary without headingText', (done) => {
+      buildChartSummary({
+        resources: mockResourcesService,
+        headingText: undefined,
+        subtitleText: 'Quarterly Results',
+        chartTypeDescription$: of('Bar chart'),
+      }).subscribe((result) => {
+        expect(result).toBe('Bar chart Quarterly Results');
+        done();
+      });
+    });
+
+    it('should build summary without subtitleText', (done) => {
+      buildChartSummary({
+        resources: mockResourcesService,
+        headingText: 'Sales Chart',
+        subtitleText: undefined,
+        chartTypeDescription$: of('Bar chart'),
+      }).subscribe((result) => {
+        expect(result).toBe('Sales Chart Bar chart');
+        done();
+      });
+    });
+
+    it('should build summary with only chart type description', (done) => {
+      buildChartSummary({
+        resources: mockResourcesService,
+        headingText: undefined,
+        subtitleText: undefined,
+        chartTypeDescription$: of('Donut chart'),
+      }).subscribe((result) => {
+        expect(result).toBe('Donut chart');
+        done();
+      });
+    });
+
+    it('should build summary with categoryAxis with string labelText', (done) => {
+      const categoryAxis: SkyChartAxisConfig = {
+        labelText: 'Month',
+      };
+
+      buildChartSummary({
+        resources: mockResourcesService,
+        headingText: undefined,
+        subtitleText: undefined,
+        chartTypeDescription$: of('Line chart'),
+        categoryAxis,
+      }).subscribe((result) => {
+        expect(result).toBe('Line chart Category axis: Month');
+        done();
+      });
+    });
+
+    it('should build summary with categoryAxis with array labelText', (done) => {
+      const categoryAxis: SkyChartAxisConfig = {
+        labelText: ['Quarter', 'Year'],
+      };
+
+      buildChartSummary({
+        resources: mockResourcesService,
+        headingText: undefined,
+        subtitleText: undefined,
+        chartTypeDescription$: of('Bar chart'),
+        categoryAxis,
+      }).subscribe((result) => {
+        expect(result).toBe('Bar chart Category axis: Quarter,Year');
+        done();
+      });
+    });
+
+    it('should build summary with measureAxis with string labelText', (done) => {
+      const measureAxis: SkyChartAxisConfig = {
+        labelText: 'Sales',
+      };
+
+      buildChartSummary({
+        resources: mockResourcesService,
+        headingText: undefined,
+        subtitleText: undefined,
+        chartTypeDescription$: of('Bar chart'),
+        measureAxis,
+      }).subscribe((result) => {
+        expect(result).toBe('Bar chart Measure axis: Sales');
+        done();
+      });
+    });
+
+    it('should build summary with measureAxis with array labelText', (done) => {
+      const measureAxis: SkyChartAxisConfig = {
+        labelText: ['Revenue', 'USD'],
+      };
+
+      buildChartSummary({
+        resources: mockResourcesService,
+        headingText: undefined,
+        subtitleText: undefined,
+        chartTypeDescription$: of('Line chart'),
+        measureAxis,
+      }).subscribe((result) => {
+        expect(result).toBe('Line chart Measure axis: Revenue,USD');
+        done();
+      });
+    });
+
+    it('should build summary with both axes', (done) => {
+      const categoryAxis: SkyChartAxisConfig = {
+        labelText: 'Quarter',
+      };
+      const measureAxis: SkyChartAxisConfig = {
+        labelText: 'Revenue',
+      };
+
+      buildChartSummary({
+        resources: mockResourcesService,
+        headingText: undefined,
+        subtitleText: undefined,
+        chartTypeDescription$: of('Bar chart'),
+        categoryAxis,
+        measureAxis,
+      }).subscribe((result) => {
+        expect(result).toBe(
+          'Bar chart Category axis: Quarter Measure axis: Revenue',
+        );
+        done();
+      });
+    });
+
+    it('should ignore categoryAxis without labelText', (done) => {
+      const categoryAxis: SkyChartAxisConfig = {
+        labelText: undefined,
+      };
+
+      buildChartSummary({
+        resources: mockResourcesService,
+        headingText: undefined,
+        subtitleText: undefined,
+        chartTypeDescription$: of('Bar chart'),
+        categoryAxis,
+      }).subscribe((result) => {
+        expect(result).toBe('Bar chart');
+        done();
+      });
+    });
+
+    it('should ignore measureAxis without labelText', (done) => {
+      const measureAxis: SkyChartAxisConfig = {
+        labelText: undefined,
+      };
+
+      buildChartSummary({
+        resources: mockResourcesService,
+        headingText: undefined,
+        subtitleText: undefined,
+        chartTypeDescription$: of('Line chart'),
+        measureAxis,
+      }).subscribe((result) => {
+        expect(result).toBe('Line chart');
+        done();
+      });
+    });
+
+    it('should ignore undefined categoryAxis', (done) => {
+      buildChartSummary({
+        resources: mockResourcesService,
+        headingText: undefined,
+        subtitleText: undefined,
+        chartTypeDescription$: of('Bar chart'),
+        categoryAxis: undefined,
+      }).subscribe((result) => {
+        expect(result).toBe('Bar chart');
+        done();
+      });
+    });
+
+    it('should ignore undefined measureAxis', (done) => {
+      buildChartSummary({
+        resources: mockResourcesService,
+        headingText: undefined,
+        subtitleText: undefined,
+        chartTypeDescription$: of('Line chart'),
+        measureAxis: undefined,
+      }).subscribe((result) => {
+        expect(result).toBe('Line chart');
+        done();
+      });
+    });
+
+    it('should handle empty string labelText in categoryAxis', (done) => {
+      const categoryAxis: SkyChartAxisConfig = {
+        labelText: '',
+      };
+
+      buildChartSummary({
+        resources: mockResourcesService,
+        headingText: undefined,
+        subtitleText: undefined,
+        chartTypeDescription$: of('Bar chart'),
+        categoryAxis,
+      }).subscribe((result) => {
+        expect(result).toBe('Bar chart');
+        done();
+      });
+    });
+
+    it('should handle empty string labelText in measureAxis', (done) => {
+      const measureAxis: SkyChartAxisConfig = {
+        labelText: '',
+      };
+
+      buildChartSummary({
+        resources: mockResourcesService,
+        headingText: undefined,
+        subtitleText: undefined,
+        chartTypeDescription$: of('Line chart'),
+        measureAxis,
+      }).subscribe((result) => {
+        expect(result).toBe('Line chart');
+        done();
+      });
     });
   });
 });

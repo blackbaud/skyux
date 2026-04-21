@@ -14,12 +14,12 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 import type { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 
 import { SkyChartLegendItem } from '../chart-legend/chart-legend-item';
 import { SkyChartService } from '../chart/chart.service';
 import { SkyChartJsDirective } from '../chartjs/chartjs.directive';
-import { getLegendItems } from '../shared/chart-helpers';
+import { buildChartSummary, getLegendItems } from '../shared/chart-helpers';
 import type { SkyChartDataPointClickArgs } from '../shared/types/chart-data-point-click-args';
 import { SkyChartSeries } from '../shared/types/chart-series';
 
@@ -218,25 +218,12 @@ export class SkyChartDonutComponent {
       options.series.data.length,
     );
 
-    return chartTypeDescription$.pipe(
-      map((chartTypeDescription) => {
-        const parts: string[] = [];
-
-        const heading = this.#chartService.headingText();
-        if (heading) {
-          parts.push(heading);
-        }
-
-        parts.push(chartTypeDescription);
-
-        const subtitle = this.#chartService.subtitleText();
-        if (subtitle) {
-          parts.push(subtitle);
-        }
-
-        return parts.join(' ');
-      }),
-    );
+    return buildChartSummary({
+      headingText: this.#chartService.headingText(),
+      subtitleText: this.#chartService.subtitleText(),
+      chartTypeDescription$: chartTypeDescription$,
+      resources: this.#resources,
+    });
   }
   // #endregion
 }

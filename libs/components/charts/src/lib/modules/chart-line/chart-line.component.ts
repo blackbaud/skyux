@@ -13,14 +13,14 @@ import {
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
-import { Observable, combineLatest, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 import { SKY_CHART_AXIS_REGISTRY } from '../axis/chart-axis-registry.service';
 import { SkyChartLegendItem } from '../chart-legend/chart-legend-item';
 import { SkyChartService } from '../chart/chart.service';
 import { SkyChartJsDirective } from '../chartjs/chartjs.directive';
-import { getAxisLabelText, getLegendItems } from '../shared/chart-helpers';
+import { buildChartSummary, getLegendItems } from '../shared/chart-helpers';
 import {
   SkyChartCategoryAxisConfig,
   SkyChartMeasureAxisConfig,
@@ -234,55 +234,19 @@ export class SkyChartLineComponent {
   }
 
   #buildChartSummary(options: SkyChartLineOptions): Observable<string> {
-    const categoryAxisLabel = getAxisLabelText(options.categoryAxis);
-    const measureAxisLabel = getAxisLabelText(options.measureAxis);
-
     const chartTypeDescription$ = this.#resources.getString(
       'chart.summary.line_chart',
       options.series.length,
     );
-    const categoryAxis$ = categoryAxisLabel
-      ? this.#resources.getString(
-          'chart.summary.category_axis',
-          categoryAxisLabel,
-        )
-      : of('');
-    const measureAxis$ = measureAxisLabel
-      ? this.#resources.getString(
-          'chart.summary.measure_axis',
-          measureAxisLabel,
-        )
-      : of('');
 
-    return combineLatest([
-      chartTypeDescription$,
-      categoryAxis$,
-      measureAxis$,
-    ]).pipe(
-      map(([chartTypeDescription, categoryAxis, measureAxis]) => {
-        const parts: string[] = [];
-
-        const heading = this.#chartService.headingText();
-        if (heading) {
-          parts.push(heading);
-        }
-
-        parts.push(chartTypeDescription);
-
-        const subtitle = this.#chartService.subtitleText();
-        if (subtitle) {
-          parts.push(subtitle);
-        }
-
-        if (categoryAxis) {
-          parts.push(categoryAxis);
-        }
-        if (measureAxis) {
-          parts.push(measureAxis);
-        }
-        return parts.join(' ');
-      }),
-    );
+    return buildChartSummary({
+      headingText: this.#chartService.headingText(),
+      subtitleText: this.#chartService.subtitleText(),
+      chartTypeDescription$: chartTypeDescription$,
+      categoryAxis: options.categoryAxis,
+      measureAxis: options.measureAxis,
+      resources: this.#resources,
+    });
   }
   // #endregion
 }
