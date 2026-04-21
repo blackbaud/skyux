@@ -31,6 +31,12 @@ ruleTester.run(RULE_NAME, rule, {
     `<div class="sky-theme-valid-class"></div>`,
     // Empty class attributes are allowed.
     `<div class=""></div>`,
+    // Bound class bindings: non-sky are ignored.
+    `<div [class.my-custom-class]="true"></div>`,
+    // Bound class bindings: whitelisted classes are allowed.
+    `<div [class.sky-btn]="true"></div>`,
+    // Bound class bindings: valid sky-theme- classes are allowed.
+    `<div [class.sky-theme-valid-class]="true"></div>`,
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
@@ -116,6 +122,50 @@ ruleTester.run(RULE_NAME, rule, {
       output: [
         `<div class="sky-theme-new-class sky-deprecated-class-2"></div>`,
         `<div class="sky-theme-new-class sky-theme-new-class-2"></div>`,
+      ],
+    },
+    // Bound class bindings.
+    {
+      code: `<div [class.sky-deprecated-class]="true"></div>`,
+      errors: [
+        {
+          messageId: 'deprecatedWithReplacement',
+          data: {
+            className: 'sky-deprecated-class',
+            replacement: 'sky-theme-new-class',
+          },
+        },
+      ],
+      output: `<div [class.sky-theme-new-class]="true"></div>`,
+    },
+    {
+      code: `<div [class.sky-deprecated-no-replacement]="true"></div>`,
+      errors: [
+        {
+          messageId: 'deprecatedNoReplacement',
+          data: {
+            className: 'sky-deprecated-no-replacement',
+            docsUrl: 'https://developer.blackbaud.com/skyux/design/styles',
+          },
+        },
+      ],
+    },
+    {
+      code: `<div [class.sky-theme-does-not-exist]="true"></div>`,
+      errors: [
+        {
+          messageId: 'unknownThemeClass',
+          data: { className: 'sky-theme-does-not-exist' },
+        },
+      ],
+    },
+    {
+      code: `<div [class.sky-private-class]="true"></div>`,
+      errors: [
+        {
+          messageId: 'privateClass',
+          data: { className: 'sky-private-class' },
+        },
       ],
     },
   ],

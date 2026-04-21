@@ -1,4 +1,7 @@
-import type { TmplAstTextAttribute } from '@angular-eslint/bundled-angular-compiler';
+import type {
+  TmplAstElement,
+  TmplAstTextAttribute,
+} from '@angular-eslint/bundled-angular-compiler';
 import {
   ensureTemplateParser,
   getTemplateParserServices,
@@ -23,6 +26,48 @@ export const rule = createESLintTemplateRule({
 
     const parserServices = getTemplateParserServices(context);
 
+    function checkClassName(
+      className: string,
+      loc: ReturnType<typeof parserServices.convertNodeSourceSpanToLoc>,
+      getDeprecatedWithReplacementFix: (replacement: string) => RuleFix[],
+    ): void {
+      if (className.startsWith('sky-theme-')) {
+        if (!validPublicClassNames.has(className)) {
+          context.report({
+            loc,
+            messageId: 'unknownThemeClass',
+            data: { className },
+          });
+        }
+        return;
+      }
+
+      if (deprecatedStyleClassMap.has(className)) {
+        const replacement = deprecatedStyleClassMap.get(className);
+        if (replacement) {
+          context.report({
+            loc,
+            messageId: 'deprecatedWithReplacement',
+            data: { className, replacement },
+            fix: () => getDeprecatedWithReplacementFix(replacement),
+          });
+        } else {
+          context.report({
+            loc,
+            messageId: 'deprecatedNoReplacement',
+            data: { className, docsUrl: STYLE_API_DOCS_URL },
+          });
+        }
+        return;
+      }
+
+      if (WHITELISTED_SKY_CLASSES.has(className)) {
+        return;
+      }
+
+      context.report({ loc, messageId: 'privateClass', data: { className } });
+    }
+
     return {
       [`Element > :matches(TextAttribute)[name="class"]`](
         attr: TmplAstTextAttribute,
@@ -31,64 +76,54 @@ export const rule = createESLintTemplateRule({
         const fixedClassNames = [...classNames];
 
         for (const className of classNames) {
-          if (className.startsWith('sky-theme-')) {
-            if (!validPublicClassNames.has(className)) {
-              context.report({
-                loc: parserServices.convertNodeSourceSpanToLoc(attr.sourceSpan),
-                messageId: 'unknownThemeClass',
-                data: { className },
-              });
-            }
-            continue;
-          }
-
           if (!className.startsWith('sky-')) {
             continue;
           }
 
-          if (deprecatedStyleClassMap.has(className)) {
-            const replacement = deprecatedStyleClassMap.get(className);
-            if (replacement) {
-              const index = fixedClassNames.indexOf(className);
-              if (index > -1) {
-                fixedClassNames[index] = replacement;
-              }
-              context.report({
-                loc: parserServices.convertNodeSourceSpanToLoc(attr.sourceSpan),
-                messageId: 'deprecatedWithReplacement',
-                data: { className, replacement },
-                fix: () => {
-                  const fixers: RuleFix[] = [];
-                  if (attr.valueSpan) {
-                    fixers.push({
-                      range: [
-                        attr.valueSpan.start.offset,
-                        attr.valueSpan.end.offset,
-                      ],
-                      text: fixedClassNames.join(' '),
-                    });
-                  }
-                  return fixers;
-                },
-              });
-            } else {
-              context.report({
-                loc: parserServices.convertNodeSourceSpanToLoc(attr.sourceSpan),
-                messageId: 'deprecatedNoReplacement',
-                data: { className, docsUrl: STYLE_API_DOCS_URL },
-              });
+          const loc = parserServices.convertNodeSourceSpanToLoc(
+            attr.sourceSpan,
+          );
+
+          checkClassName(className, loc, (replacement) => {
+            const index = fixedClassNames.indexOf(className);
+            if (index > -1) {
+              fixedClassNames[index] = replacement;
             }
+            if (!attr.valueSpan) {
+              return [];
+            }
+            return [
+              {
+                range: [attr.valueSpan.start.offset, attr.valueSpan.end.offset],
+                text: fixedClassNames.join(' '),
+              },
+            ];
+          });
+        }
+      },
+      Element(element: TmplAstElement): void {
+        for (const attr of element.inputs) {
+          if (!attr.name.startsWith('sky-')) {
             continue;
           }
 
-          if (WHITELISTED_SKY_CLASSES.has(className)) {
-            continue;
-          }
+          const loc = parserServices.convertNodeSourceSpanToLoc(
+            attr.sourceSpan,
+          );
 
-          context.report({
-            loc: parserServices.convertNodeSourceSpanToLoc(attr.sourceSpan),
-            messageId: 'privateClass',
-            data: { className },
+          checkClassName(attr.name, loc, (replacement) => {
+            if (!attr.keySpan) {
+              return [];
+            }
+            return [
+              {
+                range: [
+                  attr.keySpan.end.offset - attr.name.length,
+                  attr.keySpan.end.offset,
+                ],
+                text: replacement,
+              },
+            ];
           });
         }
       },
