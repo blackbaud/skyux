@@ -38,16 +38,4 @@ describe('ng-add.schematic', () => {
     const packageJson = JSON.parse(updatedTree.readText('/package.json'));
     expect(packageJson.devDependencies['axe-core']).toBe('~4.11.1');
   });
-
-  it('should throw if @skyux-sdk/testing is not installed', async () => {
-    jest.mock('@skyux-sdk/testing/package.json', () => {
-      throw new Error('Cannot find module');
-    });
-
-    const { runSchematic } = await setup();
-
-    await expect(runSchematic()).rejects.toThrow(
-      'Could not resolve @skyux-sdk/testing/package.json.',
-    );
-  });
 });

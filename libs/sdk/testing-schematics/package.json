@@ -20,6 +20,14 @@
   "ng-add": {
     "save": "devDependencies"
   },
+  "ng-update": {
+    "packageGroupName": "@skyux-sdk/testing-schematics",
+    "packageGroup": {
+      "@skyux-sdk/testing": "0.0.0-PLACEHOLDER",
+      "@skyux-sdk/testing-schematics": "0.0.0-PLACEHOLDER",
+      "axe-core": "~4.11.1"
+    }
+  },
   "peerDependencies": {
     "@angular/cli": "^21.2.0"
   },

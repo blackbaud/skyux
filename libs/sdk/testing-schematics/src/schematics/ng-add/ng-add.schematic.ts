@@ -5,22 +5,18 @@ import {
   addPackageJsonDependency,
 } from '@schematics/angular/utility/dependencies';
 
+import fs from 'node:fs';
+import path from 'node:path';
+
 function installDependencies(): Rule {
   return (tree, context) => {
-    let packageJson: Record<string, unknown>;
+    const packageJson = JSON.parse(
+      fs.readFileSync(path.join(__dirname, '../../../package.json'), {
+        encoding: 'utf-8',
+      }),
+    );
 
-    try {
-      packageJson = require('@skyux-sdk/testing/package.json');
-    } catch {
-      throw new Error(
-        'Could not resolve @skyux-sdk/testing/package.json. ' +
-          'Ensure @skyux-sdk/testing is installed.',
-      );
-    }
-
-    const axeCoreVersion = (
-      packageJson['ng-update'] as Record<string, Record<string, string>>
-    )?.['packageGroup']?.['axe-core'];
+    const axeCoreVersion = packageJson['ng-update']?.packageGroup?.['axe-core'];
 
     addPackageJsonDependency(tree, {
       type: NodeDependencyType.Dev,
