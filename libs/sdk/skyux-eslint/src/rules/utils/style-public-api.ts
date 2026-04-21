@@ -81,3 +81,47 @@ export const WHITELISTED_SKY_CLASSES: Set<string> = new Set([
   'sky-pull-right', // add to style API in future
   'sky-screen-reader-only',
 ]);
+
+export type SkyClassNameCheck =
+  | { type: 'valid' }
+  | { type: 'unknownThemeClass'; className: string }
+  | {
+      type: 'deprecatedWithReplacement';
+      className: string;
+      replacement: string;
+    }
+  | { type: 'deprecatedNoReplacement'; className: string }
+  | { type: 'privateClass'; className: string };
+
+export function checkSkyClassName(className: string): SkyClassNameCheck {
+  if (className.startsWith('sky-theme-')) {
+    return validPublicClassNames.has(className)
+      ? { type: 'valid' }
+      : { type: 'unknownThemeClass', className };
+  }
+
+  if (deprecatedStyleClassMap.has(className)) {
+    const replacement = deprecatedStyleClassMap.get(className);
+    return replacement !== undefined
+      ? { type: 'deprecatedWithReplacement', className, replacement }
+      : { type: 'deprecatedNoReplacement', className };
+  }
+
+  return WHITELISTED_SKY_CLASSES.has(className)
+    ? { type: 'valid' }
+    : { type: 'privateClass', className };
+}
+
+export const STYLE_API_DOCS_URL =
+  'https://developer.blackbaud.com/skyux/design/styles';
+
+export const SKY_CLASSNAME_MESSAGES = {
+  deprecatedWithReplacement:
+    '"{{className}}" is deprecated. Use "{{replacement}}" instead.',
+  deprecatedNoReplacement:
+    '"{{className}}" is deprecated with no direct replacement. See the style API documentation: {{docsUrl}}',
+  unknownThemeClass:
+    '"{{className}}" is not a known sky-theme- class. See the style API documentation for valid class names: {{docsUrl}}',
+  privateClass:
+    '"{{className}}" is a private SKY UX class and should not be used directly. See the style API documentation for alternatives: {{docsUrl}}',
+} as const;

@@ -1,5 +1,6 @@
 import {
   WHITELISTED_SKY_CLASSES,
+  checkSkyClassName,
   deprecatedStyleClassMap,
   validPublicClassNames,
 } from './style-public-api';
@@ -57,6 +58,47 @@ describe('style-public-api', () => {
     it('does not contain deprecated or unknown class names', () => {
       expect(WHITELISTED_SKY_CLASSES.has('sky-margin-stacked-xs')).toBe(false);
       expect(WHITELISTED_SKY_CLASSES.has('sky-unknown-class')).toBe(false);
+    });
+  });
+
+  describe('checkSkyClassName', () => {
+    it('returns valid for a known sky-theme- class', () => {
+      expect(checkSkyClassName('sky-theme-margin-bottom-xs')).toEqual({
+        type: 'valid',
+      });
+    });
+
+    it('returns unknownThemeClass for an unknown sky-theme- class', () => {
+      expect(checkSkyClassName('sky-theme-does-not-exist')).toEqual({
+        type: 'unknownThemeClass',
+        className: 'sky-theme-does-not-exist',
+      });
+    });
+
+    it('returns deprecatedWithReplacement for a deprecated class with a replacement', () => {
+      expect(checkSkyClassName('sky-margin-stacked-xs')).toEqual({
+        type: 'deprecatedWithReplacement',
+        className: 'sky-margin-stacked-xs',
+        replacement: 'sky-theme-margin-bottom-xs',
+      });
+    });
+
+    it('returns deprecatedNoReplacement for a deprecated class with no replacement', () => {
+      expect(checkSkyClassName('sky-font-data-label')).toEqual({
+        type: 'deprecatedNoReplacement',
+        className: 'sky-font-data-label',
+      });
+    });
+
+    it('returns valid for a whitelisted sky- class', () => {
+      expect(checkSkyClassName('sky-btn')).toEqual({ type: 'valid' });
+    });
+
+    it('returns privateClass for an unknown non-theme sky- class', () => {
+      expect(checkSkyClassName('sky-unknown-class')).toEqual({
+        type: 'privateClass',
+        className: 'sky-unknown-class',
+      });
     });
   });
 });

@@ -3,15 +3,12 @@ import { type RuleContext } from '@typescript-eslint/utils/ts-eslint';
 
 import { createESLintRule } from './utils/create-eslint-rule';
 import {
-  WHITELISTED_SKY_CLASSES,
-  deprecatedStyleClassMap,
-  validPublicClassNames,
+  SKY_CLASSNAME_MESSAGES,
+  STYLE_API_DOCS_URL,
+  checkSkyClassName,
 } from './utils/style-public-api';
 
 export const RULE_NAME = 'no-invalid-sky-classnames';
-
-const STYLE_API_DOCS_URL =
-  'https://developer.blackbaud.com/skyux/design/styles';
 
 function extractSkyClassNames(value: string): string[] {
   const matches = value.match(/sky-[a-z0-9-]+/g);
@@ -32,50 +29,57 @@ function checkClassName(
   node: TSESTree.Literal,
   context: RuleContext<string, readonly unknown[]>,
 ): void {
-  if (className.startsWith('sky-theme-')) {
-    if (!validPublicClassNames.has(className)) {
-      context.report({
-        node,
-        messageId: 'unknownThemeClass',
-        data: { className },
-      });
-    }
+  const result = checkSkyClassName(className);
+
+  if (result.type === 'valid') {
     return;
   }
 
-  if (deprecatedStyleClassMap.has(className)) {
-    const replacement = deprecatedStyleClassMap.get(className);
-    if (replacement) {
-      const index = fixedClassNames.indexOf(className);
-      if (index > -1) {
-        fixedClassNames[index] = replacement;
-      }
-      context.report({
-        node,
-        messageId: 'deprecatedWithReplacement',
-        data: { className, replacement },
-        fix(fixer) {
-          const [start, end] = node.range;
-          const quote = context.sourceCode.getText(node)[0];
-          return fixer.replaceTextRange(
-            [start, end],
-            `${quote}${fixedClassNames.join(' ')}${quote}`,
-          );
-        },
-      });
-    } else {
-      context.report({
-        node,
-        messageId: 'deprecatedNoReplacement',
-        data: { className, docsUrl: STYLE_API_DOCS_URL },
-      });
-    }
+  if (result.type === 'unknownThemeClass') {
+    context.report({
+      node,
+      messageId: 'unknownThemeClass',
+      data: { className, docsUrl: STYLE_API_DOCS_URL },
+    });
     return;
   }
 
-  if (!WHITELISTED_SKY_CLASSES.has(className)) {
-    context.report({ node, messageId: 'privateClass', data: { className } });
+  if (result.type === 'deprecatedWithReplacement') {
+    const { replacement } = result;
+    const index = fixedClassNames.indexOf(className);
+    if (index > -1) {
+      fixedClassNames[index] = replacement;
+    }
+    context.report({
+      node,
+      messageId: 'deprecatedWithReplacement',
+      data: { className, replacement },
+      fix(fixer) {
+        const [start, end] = node.range;
+        const quote = context.sourceCode.getText(node)[0];
+        return fixer.replaceTextRange(
+          [start, end],
+          `${quote}${fixedClassNames.join(' ')}${quote}`,
+        );
+      },
+    });
+    return;
   }
+
+  if (result.type === 'deprecatedNoReplacement') {
+    context.report({
+      node,
+      messageId: 'deprecatedNoReplacement',
+      data: { className, docsUrl: STYLE_API_DOCS_URL },
+    });
+    return;
+  }
+
+  context.report({
+    node,
+    messageId: 'privateClass',
+    data: { className, docsUrl: STYLE_API_DOCS_URL },
+  });
 }
 
 export const rule = createESLintRule({
@@ -110,14 +114,7 @@ export const rule = createESLintRule({
       description:
         'Validates sky- CSS class usage against the SKY UX style public API.',
     },
-    messages: {
-      deprecatedWithReplacement:
-        '"{{className}}" is deprecated. Use "{{replacement}}" instead.',
-      deprecatedNoReplacement:
-        '"{{className}}" is deprecated with no direct replacement. See the style API documentation: {{docsUrl}}',
-      unknownThemeClass: `"{{className}}" is not a known sky-theme- class. See the style API documentation for valid class names: ${STYLE_API_DOCS_URL}`,
-      privateClass: `"{{className}}" is a private SKY UX class and should not be used directly. See the style API documentation for alternatives: ${STYLE_API_DOCS_URL}`,
-    },
+    messages: SKY_CLASSNAME_MESSAGES,
     schema: [],
     type: 'problem',
     fixable: 'code',
