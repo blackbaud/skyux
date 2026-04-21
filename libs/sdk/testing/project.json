@@ -34,7 +34,7 @@
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
         "tsConfig": "libs/sdk/testing/tsconfig.spec.json",
-        "karmaConfig": "libs/sdk/testing/karma.conf.cjs",
+        "karmaConfig": "libs/sdk/testing/karma.conf.js",
         "styles": [
           "libs/components/theme/src/lib/styles/sky.scss",
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
