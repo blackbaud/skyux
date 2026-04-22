@@ -15,7 +15,7 @@ import {
 
 import { EMPTY, of as observableOf } from 'rxjs';
 
-import { expect, expectAsync } from './matchers';
+import { expect, expectAsync, registerJasmineMatchers } from './matchers';
 
 function createElement(innerText: string): any {
   const elem = document.createElement('div');
@@ -1128,6 +1128,37 @@ describe('Jasmine matchers', () => {
           await expectAsync(elem).not.toMatchLibResourceTemplate(messageKey);
         });
       });
+    });
+  });
+
+  describe('matchers registration', () => {
+    const windowRef = window as unknown as {
+      beforeEach(): void;
+      jasmine?: unknown;
+    };
+
+    it('should register matchers when jasmine is defined', () => {
+      const beforeEachSpy = spyOn(windowRef, 'beforeEach');
+
+      registerJasmineMatchers();
+
+      expect(beforeEachSpy).toHaveBeenCalled();
+    });
+
+    it('should not register matchers when jasmine is undefined', () => {
+      const savedJasmine = windowRef.jasmine;
+
+      try {
+        windowRef.jasmine = undefined;
+
+        const beforeEachSpy = spyOn(windowRef, 'beforeEach');
+
+        registerJasmineMatchers();
+
+        expect(beforeEachSpy).not.toHaveBeenCalled();
+      } finally {
+        windowRef.jasmine = savedJasmine;
+      }
     });
   });
 });
