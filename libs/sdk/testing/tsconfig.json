@@ -16,7 +16,7 @@
       "path": "./tsconfig.spec.json"
     },
     {
-      "path": "./private/tsconfig.spec.json"
+      "path": "./private/tsconfig.json"
     },
     {
       "path": "./vitest/tsconfig.spec.json"

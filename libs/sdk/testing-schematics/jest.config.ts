@@ -14,6 +14,7 @@ export default {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   moduleNameMapper: {
     '^ora$': '<rootDir>/__mocks__/ora.ts',
+    '@skyux-sdk/testing/package.json': '<rootDir>/../testing/package.json',
   },
   coverageDirectory: '../../../coverage/libs/sdk/testing-schematics',
   coverageThreshold: {

@@ -7,9 +7,10 @@
   "tags": ["testing"],
   "targets": {
     "test": {
-      "executor": "nx:run-commands",
+      "executor": "@nx/vitest:test",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "command": "npx vitest run --config libs/sdk/testing/private/vitest.config.ts"
+        "config": "libs/sdk/testing/private/vitest.config.ts"
       }
     },
     "lint": {

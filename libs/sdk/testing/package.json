@@ -1,7 +1,6 @@
 {
   "name": "@skyux-sdk/testing",
   "version": "0.0.0-PLACEHOLDER",
-  "type": "module",
   "author": "Blackbaud, Inc.",
   "keywords": [
     "blackbaud",
@@ -30,11 +29,11 @@
     "packageGroupName": "@skyux-sdk/testing",
     "packageGroup": {
       "@skyux-sdk/testing": "0.0.0-PLACEHOLDER",
-      "@skyux-sdk/testing-schematics": "0.0.0-PLACEHOLDER"
+      "@skyux-sdk/testing-schematics": "0.0.0-PLACEHOLDER",
+      "axe-core": "~4.11.1"
     }
   },
   "peerDependencies": {
-    "@angular/cli": "^21.2.0",
     "@angular/common": "^21.2.0",
     "@angular/core": "^21.2.0",
     "@angular/platform-browser": "^21.2.0",
