@@ -1,4 +1,7 @@
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import { type SkyA11yAnalyzerConfig } from '@skyux-sdk/testing/private';
+import { type _SkyA11yAnalyzerConfig } from '@skyux-sdk/testing/private';
 
-export type SkyToBeAccessibleOptions = SkyA11yAnalyzerConfig;
+/**
+ * The options for the `toBeAccessible` vitest matcher.
+ */
+export interface SkyToBeAccessibleOptions extends _SkyA11yAnalyzerConfig {}
