@@ -5,11 +5,12 @@ import {
   _skyTestingCheckVisibility,
 } from '@skyux-sdk/testing/private';
 import { SkyAppResourcesService, SkyLibResourcesService } from '@skyux/i18n';
-import type { SkyA11yAnalyzerConfig } from './a11y-analyzer-config';
-import type { SkyToBeVisibleOptions } from './to-be-visible-options';
 
 import axe from 'axe-core';
 import { firstValueFrom } from 'rxjs';
+
+import type { SkyA11yAnalyzerConfig } from './a11y-analyzer-config';
+import type { SkyToBeVisibleOptions } from './to-be-visible-options';
 
 const windowRef: any = window;
 
