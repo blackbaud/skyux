@@ -1151,9 +1151,10 @@ describe('Jasmine matchers', () => {
       expect(typeof syncMatchers['toHaveResourceText']).toBe('function');
       expect(typeof syncMatchers['toMatchResourceTemplate']).toBe('function');
 
-      const asyncMatchers = expectAsync(
-        Promise.resolve(),
-      ) as unknown as Record<string, unknown>;
+      const asyncMatchers = expectAsync(Promise.resolve()) as unknown as Record<
+        string,
+        unknown
+      >;
       expect(typeof asyncMatchers['toBeAccessible']).toBe('function');
       expect(typeof asyncMatchers['toEqualResourceText']).toBe('function');
       expect(typeof asyncMatchers['toEqualLibResourceText']).toBe('function');
