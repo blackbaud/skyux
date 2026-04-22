@@ -2,10 +2,6 @@
   "extends": "../tsconfig.spec.json",
   "compilerOptions": {
     "outDir": "../../../../out-tsc/spec",
-    "typeRoots": [
-      "../../../../node_modules/@types",
-      "../../../../node_modules"
-    ],
     "types": ["vitest/globals"]
   },
   "include": ["**/*.spec.ts", "**/*.d.ts"]

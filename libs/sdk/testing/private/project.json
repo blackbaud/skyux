@@ -9,8 +9,7 @@
     "test": {
       "executor": "@nx/vitest:test",
       "options": {
-        "config": "libs/sdk/testing/private/vitest.config.ts",
-        "coverage": true
+        "config": "libs/sdk/testing/private/vitest.config.ts"
       }
     },
     "lint": {
