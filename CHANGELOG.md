@@ -1,6 +1,20 @@
 # Changelog
 
 
+## [14.1.0](https://github.com/blackbaud/skyux/compare/14.0.1...14.1.0) (2026-04-17)
+
+
+### Features
+
+* **sdk/testing:** add `toBeAccessible` matcher for vitest assertions ([#4219](https://github.com/blackbaud/skyux/issues/4219)) ([56dedfe](https://github.com/blackbaud/skyux/commit/56dedfe611846fc24f611725c9ee14062131781c))
+* **sdk/testing:** implement `ng add` schematic for `@skyux-sdk/testing` package ([#4376](https://github.com/blackbaud/skyux/issues/4376)) ([4db0f98](https://github.com/blackbaud/skyux/commit/4db0f98c91b27261c25c735e3fb202b62f8b9044))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** header checkbox uses correct indeterminate styling when using native multiselect ([#4375](https://github.com/blackbaud/skyux/issues/4375)) ([04d11f7](https://github.com/blackbaud/skyux/commit/04d11f71d1827ab3f87d14e1e1aa65d46aa0b26d))
+* **components/lists:** use correct padding on active toolbar filter button ([#4373](https://github.com/blackbaud/skyux/issues/4373)) ([07974aa](https://github.com/blackbaud/skyux/commit/07974aab12be8d7e17bc6beafda99adf22a1d4a3))
+
 ## [14.0.1](https://github.com/blackbaud/skyux/compare/14.0.0...14.0.1) (2026-04-03)
 
 

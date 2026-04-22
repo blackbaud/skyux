@@ -81,6 +81,9 @@ function filterViolationNodeResults(
   }
 }
 
+/**
+ * @internal
+ */
 export abstract class SkyA11yAnalyzer {
   private static analyzer = axe;
 
@@ -117,6 +120,7 @@ export abstract class SkyA11yAnalyzer {
         if (violations.length > 0) {
           const message = parseMessage(violations);
           reject(new Error(message));
+          return;
         }
 
         resolve();
