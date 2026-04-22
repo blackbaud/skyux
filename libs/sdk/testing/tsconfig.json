@@ -1,5 +1,8 @@
 {
   "extends": "../../../tsconfig.base.json",
+  "compilerOptions": {
+    "typeRoots": ["../../../node_modules/@types", "../../../node_modules"]
+  },
   "files": [],
   "include": [],
   "references": [
@@ -13,7 +16,7 @@
       "path": "./tsconfig.spec.json"
     },
     {
-      "path": "./private/tsconfig.spec.json"
+      "path": "./private/tsconfig.json"
     },
     {
       "path": "./vitest/tsconfig.spec.json"
