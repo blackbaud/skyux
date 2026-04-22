@@ -1134,7 +1134,7 @@ describe('Jasmine matchers', () => {
   describe('matchers registration', () => {
     const windowRef = window as unknown as {
       beforeEach(): void;
-      jasmine: unknown;
+      jasmine?: unknown;
     };
 
     it('should register matchers when jasmine is defined', () => {
@@ -1146,10 +1146,10 @@ describe('Jasmine matchers', () => {
     });
 
     it('should not register matchers when jasmine is undefined', () => {
-      const savedJasmine = windowRef['jasmine'];
+      const savedJasmine = windowRef.jasmine;
 
       try {
-        delete windowRef['jasmine'];
+        windowRef.jasmine = undefined;
 
         const beforeEachSpy = spyOn(windowRef, 'beforeEach');
 
@@ -1157,7 +1157,7 @@ describe('Jasmine matchers', () => {
 
         expect(beforeEachSpy).not.toHaveBeenCalled();
       } finally {
-        windowRef['jasmine'] = savedJasmine;
+        windowRef.jasmine = savedJasmine;
       }
     });
   });
