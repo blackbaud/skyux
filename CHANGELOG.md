@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.1.1](https://github.com/blackbaud/skyux/compare/14.1.0...14.1.1) (2026-04-22)
+
+
+### Bug Fixes
+
+* **sdk/testing:** move schematics to separate package ([#4386](https://github.com/blackbaud/skyux/issues/4386)) ([9a16dfd](https://github.com/blackbaud/skyux/commit/9a16dfd288922e49269482edf0b1692431a87101))
+
 ## [14.1.0](https://github.com/blackbaud/skyux/compare/14.0.1...14.1.0) (2026-04-17)
 
 
