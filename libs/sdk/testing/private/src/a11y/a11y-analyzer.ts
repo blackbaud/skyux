@@ -1,6 +1,5 @@
 import axe from 'axe-core';
-
-import { SkyA11yAnalyzerConfig } from './a11y-analyzer-config';
+import type { _SkyA11yAnalyzerConfig } from './a11y-analyzer-config';
 
 function parseMessage(violations: axe.Result[]): string {
   let message = 'Expected element to pass accessibility checks.\n\n';
@@ -84,20 +83,20 @@ function filterViolationNodeResults(
 /**
  * @internal
  */
-export abstract class SkyA11yAnalyzer {
+export abstract class _SkyA11yAnalyzer {
   private static analyzer = axe;
 
   public static run(
     element?: axe.ElementContext,
-    config?: SkyA11yAnalyzerConfig,
+    config?: _SkyA11yAnalyzerConfig,
   ): Promise<void> {
     if (element === undefined) {
       throw new Error('No element was specified for accessibility checking.');
     }
 
-    SkyA11yAnalyzer.analyzer.reset();
+    _SkyA11yAnalyzer.analyzer.reset();
 
-    const defaults: SkyA11yAnalyzerConfig = {
+    const defaults: _SkyA11yAnalyzerConfig = {
       rules: {},
     };
 
@@ -126,7 +125,7 @@ export abstract class SkyA11yAnalyzer {
         resolve();
       };
 
-      SkyA11yAnalyzer.analyzer.run(
+      _SkyA11yAnalyzer.analyzer.run(
         element,
         { ...defaults, ...config },
         callback,

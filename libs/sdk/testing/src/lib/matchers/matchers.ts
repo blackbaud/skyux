@@ -1,15 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import {
-  SkyA11yAnalyzer,
-  type SkyA11yAnalyzerConfig,
-} from '@skyux-sdk/testing/private';
+import { _SkyA11yAnalyzer } from '@skyux-sdk/testing/private';
 import { SkyAppResourcesService, SkyLibResourcesService } from '@skyux/i18n';
 
 import axe from 'axe-core';
 import { firstValueFrom } from 'rxjs';
 
-import { SkyToBeVisibleOptions } from './to-be-visible-options';
+import type { SkyA11yAnalyzerConfig } from './a11y-analyzer-config';
+import type { SkyToBeVisibleOptions } from './to-be-visible-options';
 
 const windowRef: any = window;
 
@@ -45,7 +43,8 @@ const matchers: jasmine.CustomMatcherFactories = {
         callback?: () => void,
         config?: SkyA11yAnalyzerConfig,
       ): jasmine.CustomMatcherResult {
-        SkyA11yAnalyzer.run(element, config)
+        _SkyA11yAnalyzer
+          .run(element, config)
           .then(() => {
             /*istanbul ignore else*/
             if (callback) {
@@ -363,7 +362,8 @@ const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
         config?: SkyA11yAnalyzerConfig,
       ): Promise<jasmine.CustomMatcherResult> {
         return new Promise((resolve) => {
-          SkyA11yAnalyzer.run(element, config)
+          _SkyA11yAnalyzer
+            .run(element, config)
             .then(() => {
               resolve({
                 pass: true,

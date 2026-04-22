@@ -5,7 +5,6 @@ import {
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed, inject, waitForAsync } from '@angular/core/testing';
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import { type SkyA11yAnalyzerConfig } from '@skyux-sdk/testing/private';
 import { SkyAppConfig } from '@skyux/config';
 import {
   SkyAppResourcesService,
@@ -15,6 +14,7 @@ import {
 
 import { EMPTY, of as observableOf } from 'rxjs';
 
+import type { SkyA11yAnalyzerConfig } from './a11y-analyzer-config';
 import { expect, expectAsync, registerJasmineMatchers } from './matchers';
 
 function createElement(innerText: string): any {
