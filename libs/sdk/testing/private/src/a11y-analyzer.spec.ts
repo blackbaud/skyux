@@ -12,14 +12,12 @@ describe('A11y analyzer', () => {
       callback(new Error('some error'), {} as axe.AxeResults);
     }
 
-    spyOn(SkyA11yAnalyzer['analyzer'], 'run').and.callFake(mockRun as any);
+    vi.spyOn(
+      (SkyA11yAnalyzer as unknown as { analyzer: typeof axe }).analyzer,
+      'run',
+    ).mockImplementation(mockRun as unknown as typeof axe.run);
 
-    try {
-      await SkyA11yAnalyzer.run('element');
-      fail('Expected error to be thrown');
-    } catch (err) {
-      expect((err as Error).message).toEqual('some error');
-    }
+    await expect(SkyA11yAnalyzer.run('element')).rejects.toThrow('some error');
   });
 
   it('should filter known ag-grid axe errors', async () => {
@@ -60,7 +58,10 @@ describe('A11y analyzer', () => {
       } as axe.AxeResults);
     }
 
-    spyOn(SkyA11yAnalyzer['analyzer'], 'run').and.callFake(mockRun as any);
+    vi.spyOn(
+      (SkyA11yAnalyzer as unknown as { analyzer: typeof axe }).analyzer,
+      'run',
+    ).mockImplementation(mockRun as unknown as typeof axe.run);
 
     await SkyA11yAnalyzer.run('element');
   });
@@ -92,7 +93,10 @@ describe('A11y analyzer', () => {
       } as axe.AxeResults);
     }
 
-    spyOn(SkyA11yAnalyzer['analyzer'], 'run').and.callFake(mockRun as any);
+    vi.spyOn(
+      (SkyA11yAnalyzer as unknown as { analyzer: typeof axe }).analyzer,
+      'run',
+    ).mockImplementation(mockRun as unknown as typeof axe.run);
 
     await SkyA11yAnalyzer.run('element');
   });
@@ -124,14 +128,14 @@ describe('A11y analyzer', () => {
       } as axe.AxeResults);
     }
 
-    spyOn(SkyA11yAnalyzer['analyzer'], 'run').and.callFake(mockRun as any);
+    vi.spyOn(
+      (SkyA11yAnalyzer as unknown as { analyzer: typeof axe }).analyzer,
+      'run',
+    ).mockImplementation(mockRun as unknown as typeof axe.run);
 
-    try {
-      await SkyA11yAnalyzer.run('element');
-      fail('Expected error to be thrown');
-    } catch (err) {
-      expect(err).toMatch(/<p role="radiogroup">/);
-    }
+    await expect(SkyA11yAnalyzer.run('element')).rejects.toThrow(
+      /<p role="radiogroup">/,
+    );
   });
 
   it('should not filter error for an invalid role on a fieldset element', async () => {
@@ -161,14 +165,14 @@ describe('A11y analyzer', () => {
       } as axe.AxeResults);
     }
 
-    spyOn(SkyA11yAnalyzer['analyzer'], 'run').and.callFake(mockRun as any);
+    vi.spyOn(
+      (SkyA11yAnalyzer as unknown as { analyzer: typeof axe }).analyzer,
+      'run',
+    ).mockImplementation(mockRun as unknown as typeof axe.run);
 
-    try {
-      await SkyA11yAnalyzer.run('element');
-      fail('Expected error to be thrown');
-    } catch (err) {
-      expect(err).toMatch(/<fieldset role="alert">/);
-    }
+    await expect(SkyA11yAnalyzer.run('element')).rejects.toThrow(
+      /<fieldset role="alert">/,
+    );
   });
 
   it('should return detailed results', async () => {
@@ -210,16 +214,14 @@ describe('A11y analyzer', () => {
       } as axe.AxeResults);
     }
 
-    spyOn(SkyA11yAnalyzer['analyzer'], 'run').and.callFake(mockRun as any);
+    vi.spyOn(
+      (SkyA11yAnalyzer as unknown as { analyzer: typeof axe }).analyzer,
+      'run',
+    ).mockImplementation(mockRun as unknown as typeof axe.run);
 
-    try {
-      await SkyA11yAnalyzer.run('element');
-      fail('Expected error to be thrown');
-    } catch (err) {
-      expect(err).toMatch(
-        /<div class="other-header" aria-description="test"><\/div>/,
-      );
-    }
+    await expect(SkyA11yAnalyzer.run('element')).rejects.toThrow(
+      /<div class="other-header" aria-description="test"><\/div>/,
+    );
   });
 
   it('should include related nodes in the error message', async () => {
@@ -264,17 +266,20 @@ describe('A11y analyzer', () => {
       } as axe.AxeResults);
     }
 
-    spyOn(SkyA11yAnalyzer['analyzer'], 'run').and.callFake(mockRun as never);
+    vi.spyOn(
+      (SkyA11yAnalyzer as unknown as { analyzer: typeof axe }).analyzer,
+      'run',
+    ).mockImplementation(mockRun as unknown as typeof axe.run);
 
-    try {
-      await SkyA11yAnalyzer.run('element');
-      fail('Expected error to be thrown');
-    } catch (err) {
-      const message = (err as Error).message;
-      expect(message).toContain("Rule: 'color-contrast'");
-      expect(message).toContain('Related Nodes:');
-      expect(message).toContain('<span class="low-contrast">Hello</span>');
-    }
+    await expect(SkyA11yAnalyzer.run('element')).rejects.toThrow(
+      /Rule: 'color-contrast'/,
+    );
+    await expect(SkyA11yAnalyzer.run('element')).rejects.toThrow(
+      /Related Nodes:/,
+    );
+    await expect(SkyA11yAnalyzer.run('element')).rejects.toThrow(
+      /<span class="low-contrast">Hello<\/span>/,
+    );
   });
 
   it('should pass through violations not in the filter list', async () => {
@@ -307,16 +312,17 @@ describe('A11y analyzer', () => {
       } as axe.AxeResults);
     }
 
-    spyOn(SkyA11yAnalyzer['analyzer'], 'run').and.callFake(mockRun as never);
+    vi.spyOn(
+      (SkyA11yAnalyzer as unknown as { analyzer: typeof axe }).analyzer,
+      'run',
+    ).mockImplementation(mockRun as unknown as typeof axe.run);
 
-    try {
-      await SkyA11yAnalyzer.run('element');
-      fail('Expected error to be thrown');
-    } catch (err) {
-      const message = (err as Error).message;
-      expect(message).toContain("Rule: 'button-name'");
-      expect(message).toContain('<button></button>');
-    }
+    await expect(SkyA11yAnalyzer.run('element')).rejects.toThrow(
+      /Rule: 'button-name'/,
+    );
+    await expect(SkyA11yAnalyzer.run('element')).rejects.toThrow(
+      /<button><\/button>/,
+    );
   });
 
   it('should handle undefined elements', () => {
