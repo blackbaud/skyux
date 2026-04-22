@@ -15,7 +15,7 @@ import {
 
 import { EMPTY, of as observableOf } from 'rxjs';
 
-import { expect, expectAsync } from './matchers';
+import { expect, expectAsync, registerJasmineMatchers } from './matchers';
 
 function createElement(innerText: string): any {
   const elem = document.createElement('div');
@@ -1132,38 +1132,33 @@ describe('Jasmine matchers', () => {
   });
 
   describe('matchers registration', () => {
-    it('should register custom matchers and async matchers when jasmine is defined', () => {
-      // The module registers a global beforeEach that calls
-      // jasmine.addMatchers() and jasmine.addAsyncMatchers()
-      // when typeof jasmine !== 'undefined'. Verify the custom
-      // matchers are available.
-      const el = document.createElement('div');
-      document.body.appendChild(el);
+    const windowRef = window as unknown as {
+      beforeEach(): void;
+      jasmine: unknown;
+    };
 
-      const syncMatchers = expect(el) as unknown as Record<string, unknown>;
-      expect(typeof syncMatchers['toBeVisible']).toBe('function');
-      expect(typeof syncMatchers['toExist']).toBe('function');
-      expect(typeof syncMatchers['toHaveCssClass']).toBe('function');
-      expect(typeof syncMatchers['toHaveStyle']).toBe('function');
-      expect(typeof syncMatchers['toHaveText']).toBe('function');
-      expect(typeof syncMatchers['toBeAccessible']).toBe('function');
-      expect(typeof syncMatchers['toEqualResourceText']).toBe('function');
-      expect(typeof syncMatchers['toHaveResourceText']).toBe('function');
-      expect(typeof syncMatchers['toMatchResourceTemplate']).toBe('function');
+    it('should register matchers when jasmine is defined', () => {
+      const beforeEachSpy = spyOn(windowRef, 'beforeEach');
 
-      const asyncMatchers = expectAsync(Promise.resolve()) as unknown as Record<
-        string,
-        unknown
-      >;
-      expect(typeof asyncMatchers['toBeAccessible']).toBe('function');
-      expect(typeof asyncMatchers['toEqualResourceText']).toBe('function');
-      expect(typeof asyncMatchers['toEqualLibResourceText']).toBe('function');
-      expect(typeof asyncMatchers['toHaveResourceText']).toBe('function');
-      expect(typeof asyncMatchers['toHaveLibResourceText']).toBe('function');
-      expect(typeof asyncMatchers['toMatchResourceTemplate']).toBe('function');
-      expect(typeof asyncMatchers['toMatchLibResourceTemplate']).toBe(
-        'function',
-      );
+      registerJasmineMatchers();
+
+      expect(beforeEachSpy).toHaveBeenCalled();
+    });
+
+    it('should not register matchers when jasmine is undefined', () => {
+      const savedJasmine = windowRef['jasmine'];
+
+      try {
+        delete windowRef['jasmine'];
+
+        const beforeEachSpy = spyOn(windowRef, 'beforeEach');
+
+        registerJasmineMatchers();
+
+        expect(beforeEachSpy).not.toHaveBeenCalled();
+      } finally {
+        windowRef['jasmine'] = savedJasmine;
+      }
     });
   });
 });
