@@ -14,9 +14,11 @@ describe('Vitest setupFiles integration', () => {
       container.innerHTML = '<button aria-label="Save"></button>';
       document.body.append(container);
 
-      await expect(container).toBeAccessible();
-
-      container.remove();
+      try {
+        await expect(container).toBeAccessible();
+      } finally {
+        container.remove();
+      }
     });
 
     it('should fail for inaccessible content', async () => {
@@ -24,9 +26,11 @@ describe('Vitest setupFiles integration', () => {
       container.innerHTML = '<button></button>';
       document.body.append(container);
 
-      await expect(container).not.toBeAccessible();
-
-      container.remove();
+      try {
+        await expect(container).not.toBeAccessible();
+      } finally {
+        container.remove();
+      }
     });
 
     it('should provide a descriptive error message for inaccessible content', async () => {
