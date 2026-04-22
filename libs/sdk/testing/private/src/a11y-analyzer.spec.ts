@@ -14,13 +14,9 @@ describe('A11y analyzer', () => {
     }
 
     vi.spyOn(
-      SkyA11yAnalyzer as unknown as { analyzer: typeof axe },
-      'analyzer',
-      'get',
-    ).mockReturnValue({
-      ...axe,
-      run: mockRun as unknown as typeof axe.run,
-    });
+      (SkyA11yAnalyzer as unknown as { analyzer: typeof axe }).analyzer,
+      'run',
+    ).mockImplementation(mockRun as unknown as typeof axe.run);
 
     await expect(SkyA11yAnalyzer.run('element')).rejects.toThrow('some error');
   });
@@ -64,13 +60,9 @@ describe('A11y analyzer', () => {
     }
 
     vi.spyOn(
-      SkyA11yAnalyzer as unknown as { analyzer: typeof axe },
-      'analyzer',
-      'get',
-    ).mockReturnValue({
-      ...axe,
-      run: mockRun as unknown as typeof axe.run,
-    });
+      (SkyA11yAnalyzer as unknown as { analyzer: typeof axe }).analyzer,
+      'run',
+    ).mockImplementation(mockRun as unknown as typeof axe.run);
 
     await SkyA11yAnalyzer.run('element');
   });
@@ -103,13 +95,9 @@ describe('A11y analyzer', () => {
     }
 
     vi.spyOn(
-      SkyA11yAnalyzer as unknown as { analyzer: typeof axe },
-      'analyzer',
-      'get',
-    ).mockReturnValue({
-      ...axe,
-      run: mockRun as unknown as typeof axe.run,
-    });
+      (SkyA11yAnalyzer as unknown as { analyzer: typeof axe }).analyzer,
+      'run',
+    ).mockImplementation(mockRun as unknown as typeof axe.run);
 
     await SkyA11yAnalyzer.run('element');
   });
@@ -142,13 +130,9 @@ describe('A11y analyzer', () => {
     }
 
     vi.spyOn(
-      SkyA11yAnalyzer as unknown as { analyzer: typeof axe },
-      'analyzer',
-      'get',
-    ).mockReturnValue({
-      ...axe,
-      run: mockRun as unknown as typeof axe.run,
-    });
+      (SkyA11yAnalyzer as unknown as { analyzer: typeof axe }).analyzer,
+      'run',
+    ).mockImplementation(mockRun as unknown as typeof axe.run);
 
     await expect(SkyA11yAnalyzer.run('element')).rejects.toThrow(
       /<p role="radiogroup">/,
@@ -183,13 +167,9 @@ describe('A11y analyzer', () => {
     }
 
     vi.spyOn(
-      SkyA11yAnalyzer as unknown as { analyzer: typeof axe },
-      'analyzer',
-      'get',
-    ).mockReturnValue({
-      ...axe,
-      run: mockRun as unknown as typeof axe.run,
-    });
+      (SkyA11yAnalyzer as unknown as { analyzer: typeof axe }).analyzer,
+      'run',
+    ).mockImplementation(mockRun as unknown as typeof axe.run);
 
     await expect(SkyA11yAnalyzer.run('element')).rejects.toThrow(
       /<fieldset role="alert">/,
@@ -236,13 +216,9 @@ describe('A11y analyzer', () => {
     }
 
     vi.spyOn(
-      SkyA11yAnalyzer as unknown as { analyzer: typeof axe },
-      'analyzer',
-      'get',
-    ).mockReturnValue({
-      ...axe,
-      run: mockRun as unknown as typeof axe.run,
-    });
+      (SkyA11yAnalyzer as unknown as { analyzer: typeof axe }).analyzer,
+      'run',
+    ).mockImplementation(mockRun as unknown as typeof axe.run);
 
     await expect(SkyA11yAnalyzer.run('element')).rejects.toThrow(
       /<div class="other-header" aria-description="test"><\/div>/,
@@ -292,13 +268,9 @@ describe('A11y analyzer', () => {
     }
 
     vi.spyOn(
-      SkyA11yAnalyzer as unknown as { analyzer: typeof axe },
-      'analyzer',
-      'get',
-    ).mockReturnValue({
-      ...axe,
-      run: mockRun as unknown as typeof axe.run,
-    });
+      (SkyA11yAnalyzer as unknown as { analyzer: typeof axe }).analyzer,
+      'run',
+    ).mockImplementation(mockRun as unknown as typeof axe.run);
 
     const err = await SkyA11yAnalyzer.run('element').catch((e) => e);
     const message = (err as Error).message;
@@ -338,13 +310,9 @@ describe('A11y analyzer', () => {
     }
 
     vi.spyOn(
-      SkyA11yAnalyzer as unknown as { analyzer: typeof axe },
-      'analyzer',
-      'get',
-    ).mockReturnValue({
-      ...axe,
-      run: mockRun as unknown as typeof axe.run,
-    });
+      (SkyA11yAnalyzer as unknown as { analyzer: typeof axe }).analyzer,
+      'run',
+    ).mockImplementation(mockRun as unknown as typeof axe.run);
 
     const err = await SkyA11yAnalyzer.run('element').catch((e) => e);
     const message = (err as Error).message;

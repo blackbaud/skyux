@@ -8,6 +8,7 @@
   "targets": {
     "test": {
       "executor": "@nx/vitest:test",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "config": "libs/sdk/testing/private/vitest.config.ts"
       }
