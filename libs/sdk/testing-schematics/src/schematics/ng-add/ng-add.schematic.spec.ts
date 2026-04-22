@@ -3,12 +3,11 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 
-import fs from 'node:fs';
 import path from 'node:path';
 
 import { createTestApp } from '../testing/scaffold';
 
-const COLLECTION_PATH = path.join(__dirname, '../../collection.json');
+const COLLECTION_PATH = path.join(__dirname, '../../../collection.json');
 
 async function setup(): Promise<{
   runSchematic: () => Promise<UnitTestTree>;
@@ -34,15 +33,6 @@ describe('ng-add.schematic', () => {
 
   it('should add axe-core to devDependencies', async () => {
     const { runSchematic } = await setup();
-
-    jest.spyOn(fs, 'readFileSync').mockReturnValue(
-      JSON.stringify({
-        peerDependencies: {
-          'axe-core': '~4.11.1',
-        },
-      }),
-    );
-
     const updatedTree = await runSchematic();
 
     const packageJson = JSON.parse(updatedTree.readText('/package.json'));

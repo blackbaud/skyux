@@ -530,10 +530,19 @@ const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
   },
 };
 
-windowRef.beforeEach(() => {
-  jasmine.addMatchers(matchers);
-  jasmine.addAsyncMatchers(asyncMatchers);
-});
+/**
+ * @internal
+ */
+export function registerJasmineMatchers(): void {
+  if (typeof jasmine !== 'undefined') {
+    windowRef.beforeEach(() => {
+      jasmine.addMatchers(matchers);
+      jasmine.addAsyncMatchers(asyncMatchers);
+    });
+  }
+}
+
+registerJasmineMatchers();
 
 /**
  * Interface for "asynchronous" custom Sky matchers which cannot be paired with a `.not` operator.
