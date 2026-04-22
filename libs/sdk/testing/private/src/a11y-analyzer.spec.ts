@@ -1,5 +1,4 @@
 import axe from 'axe-core';
-import { describe, expect, it, vi } from 'vitest';
 
 import { SkyA11yAnalyzer } from './a11y-analyzer';
 
