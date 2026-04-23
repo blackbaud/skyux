@@ -27,7 +27,9 @@ describe('i18n-utils', () => {
         providers: [
           {
             provide: SkyAppResourcesService,
-            useValue: { getString: (): Observable<string> => of('Hello World') },
+            useValue: {
+              getString: (): Observable<string> => of('Hello World'),
+            },
           },
         ],
       });
@@ -132,7 +134,10 @@ describe('i18n-utils', () => {
 
     it('should return true for templates with multiple tokens', () => {
       expect(
-        isTemplateMatch('Hello Alice, welcome to Earth!', 'Hello {0}, welcome to {1}!'),
+        isTemplateMatch(
+          'Hello Alice, welcome to Earth!',
+          'Hello {0}, welcome to {1}!',
+        ),
       ).toBe(true);
     });
 
