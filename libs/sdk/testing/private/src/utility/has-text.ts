@@ -1,4 +1,4 @@
-import { MatcherResult } from './matcher-result';
+import type { MatcherResult } from './matcher-result';
 
 export function _skyTestingHasText(
   el: Element,

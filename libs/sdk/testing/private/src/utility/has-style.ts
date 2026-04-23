@@ -1,4 +1,4 @@
-import { MatcherResult } from './matcher-result';
+import type { MatcherResult } from './matcher-result';
 
 /**
  * @internal

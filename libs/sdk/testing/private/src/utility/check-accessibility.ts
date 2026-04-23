@@ -1,5 +1,5 @@
 import { _SkyA11yAnalyzer } from '../a11y/a11y-analyzer';
-import { _SkyA11yAnalyzerConfig } from '../a11y/a11y-analyzer-config';
+import type { _SkyA11yAnalyzerConfig } from '../a11y/a11y-analyzer-config';
 import { MatcherResult } from './matcher-result';
 
 /**

@@ -1,5 +1,5 @@
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import { _SkyTestingCheckVisibilityOptions } from '@skyux-sdk/testing/private';
+import { type _SkyTestingCheckVisibilityOptions } from '@skyux-sdk/testing/private';
 
 /**
  * Represents options for the `toBeVisible` Jasmine matcher.

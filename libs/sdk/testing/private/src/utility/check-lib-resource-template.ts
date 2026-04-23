@@ -1,5 +1,5 @@
 import { getLibResourceString, isTemplateMatch } from './i18n-utils';
-import { MatcherResult } from './matcher-result';
+import type { MatcherResult } from './matcher-result';
 
 /**
  * @internal
