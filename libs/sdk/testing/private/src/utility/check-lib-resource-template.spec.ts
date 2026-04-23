@@ -16,7 +16,9 @@ describe('checkLibResourceTemplate', () => {
     const result = await _skyTestingCheckLibResourceTemplate(el, 'greeting');
 
     expect(result.pass).toBe(true);
-    expect(result.message).toBe('');
+    expect(result.message).toBe(
+      'Expected element\'s text "Hello Alice, welcome to Wonderland" not to match "Hello {0}, welcome to {1}"',
+    );
   });
 
   it('should return pass: false when element text does not match the lib template', async () => {

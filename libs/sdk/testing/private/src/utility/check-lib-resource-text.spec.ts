@@ -16,7 +16,7 @@ describe('checkLibResourceText', () => {
 
     expect(result.pass).toBe(true);
     expect(result.message).toBe(
-      'Expected "Hello World" to equal "Hello World"',
+      'Expected "Hello World" not to equal "Hello World"',
     );
   });
 

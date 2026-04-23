@@ -11,8 +11,12 @@ export async function _skyTestingCheckResourceText(
 ): Promise<MatcherResult> {
   const expectedText = await getResourceString(resourceKey, resourceArgs);
 
+  const pass = actualText === expectedText;
+
   return {
-    pass: actualText === expectedText,
-    message: `Expected "${actualText}" to equal "${expectedText}"`,
+    pass,
+    message: pass
+      ? `Expected "${actualText}" not to equal "${expectedText}"`
+      : `Expected "${actualText}" to equal "${expectedText}"`,
   };
 }

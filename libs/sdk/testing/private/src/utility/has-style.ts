@@ -21,11 +21,11 @@ export function _skyTestingHasStyle(
       }
 
       messages.push(
-        `Expected element not to have CSS style "${styleName}: ${expectedStyle}"`,
+        `Expected element to have CSS style "${styleName}: ${expectedStyle}"`,
       );
     } else {
       messages.push(
-        `Expected element to have CSS style "${styleName}: ${expectedStyle}"`,
+        `Expected element not to have CSS style "${styleName}: ${expectedStyle}"`,
       );
     }
 

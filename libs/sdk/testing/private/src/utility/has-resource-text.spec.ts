@@ -14,7 +14,7 @@ describe('hasResourceText', () => {
 
     expect(result.pass).toBe(true);
     expect(result.message).toBe(
-      'Expected element\'s inner text "Hello World" to be "Hello World"',
+      'Expected element\'s inner text "Hello World" not to be "Hello World"',
     );
   });
 

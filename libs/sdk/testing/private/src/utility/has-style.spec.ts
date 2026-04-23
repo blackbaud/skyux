@@ -25,7 +25,7 @@ describe('hasStyle', () => {
 
     expect(result.pass).toBe(false);
     expect(result.message).toContain(
-      'Expected element not to have CSS style "display: none"',
+      'Expected element to have CSS style "display: none"',
     );
   });
 

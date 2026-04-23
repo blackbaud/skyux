@@ -18,8 +18,12 @@ export async function _skyTestingHasResourceText(
     actualText = actualText.trim();
   }
 
+  const pass = actualText === expectedText;
+
   return {
-    pass: actualText === expectedText,
-    message: `Expected element's inner text "${actualText}" to be "${expectedText}"`,
+    pass,
+    message: pass
+      ? `Expected element's inner text "${actualText}" not to be "${expectedText}"`
+      : `Expected element's inner text "${actualText}" to be "${expectedText}"`,
   };
 }

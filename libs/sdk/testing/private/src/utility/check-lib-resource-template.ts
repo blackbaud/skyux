@@ -16,7 +16,7 @@ export async function _skyTestingCheckLibResourceTemplate(
   return {
     pass,
     message: pass
-      ? ''
+      ? `Expected element's text "${actualText}" not to match "${expectedText}"`
       : `Expected element's text "${actualText}" to match "${expectedText}"`,
   };
 }

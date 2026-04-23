@@ -16,7 +16,7 @@ export async function _skyTestingCheckAccessibility(
   }
 
   try {
-    await _SkyA11yAnalyzer.run(el, options);
+    await _SkyA11yAnalyzer.run(target, options);
     return {
       pass: true,
       message: 'Expected accessibility violations, but none were found.',
