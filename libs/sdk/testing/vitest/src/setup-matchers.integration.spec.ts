@@ -101,4 +101,69 @@ describe('Vitest setupFiles integration', () => {
       });
     });
   });
+
+  describe('toExist', () => {
+    it('should pass for an existing element', () => {
+      const el = document.createElement('div');
+
+      expect(el).toExist();
+    });
+
+    it('should fail for a null value', () => {
+      expect(null).not.toExist();
+    });
+  });
+
+  describe('toHaveCssClass', () => {
+    it('should pass when element has the class', () => {
+      const el = document.createElement('div');
+      el.classList.add('my-class');
+
+      expect(el).toHaveCssClass('my-class');
+    });
+
+    it('should fail when element does not have the class', () => {
+      const el = document.createElement('div');
+
+      expect(el).not.toHaveCssClass('my-class');
+    });
+  });
+
+  describe('toHaveStyle', () => {
+    it('should pass when element has the expected style', () => {
+      const el = document.createElement('div');
+      el.style.display = 'block';
+      document.body.append(el);
+
+      expect(el).toHaveStyle({ display: 'block' });
+
+      el.remove();
+    });
+
+    it('should fail when element does not have the expected style', () => {
+      const el = document.createElement('div');
+      el.style.display = 'block';
+      document.body.append(el);
+
+      expect(el).not.toHaveStyle({ display: 'none' });
+
+      el.remove();
+    });
+  });
+
+  describe('toHaveText', () => {
+    it('should pass when element has the expected text', () => {
+      const el = document.createElement('div');
+      el.textContent = 'Hello World';
+
+      expect(el).toHaveText('Hello World');
+    });
+
+    it('should fail when element does not have the expected text', () => {
+      const el = document.createElement('div');
+      el.textContent = 'Hello World';
+
+      expect(el).not.toHaveText('Goodbye');
+    });
+  });
 });

@@ -2,7 +2,12 @@ import { TestBed } from '@angular/core/testing';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import {
   _SkyA11yAnalyzer,
+  _skyTestingCheckAccessibility,
+  _skyTestingCheckExistence,
   _skyTestingCheckVisibility,
+  _skyTestingHasCssClass,
+  _skyTestingHasStyle,
+  _skyTestingHasText,
 } from '@skyux-sdk/testing/private';
 import { SkyAppResourcesService, SkyLibResourcesService } from '@skyux/i18n';
 
@@ -84,13 +89,11 @@ const matchers: jasmine.CustomMatcherFactories = {
         el: Element,
         options?: SkyToBeVisibleOptions,
       ): jasmine.CustomMatcherResult {
-        const pass = _skyTestingCheckVisibility(el, options);
+        const { pass, message } = _skyTestingCheckVisibility(el, options);
 
         return {
           pass,
-          message: pass
-            ? 'Expected element to not be visible'
-            : 'Expected element to be visible',
+          message,
         };
       },
     };
@@ -99,18 +102,9 @@ const matchers: jasmine.CustomMatcherFactories = {
   toExist(): jasmine.CustomMatcher {
     return {
       compare(el: any): jasmine.CustomMatcherResult {
-        const result = {
-          pass: false,
-          message: '',
-        };
+        const { pass, message } = _skyTestingCheckExistence(el);
 
-        result.pass = !!el;
-
-        result.message = result.pass
-          ? 'Expected element not to exist'
-          : 'Expected element to exist';
-
-        return result;
+        return { pass, message };
       },
     };
   },
@@ -118,24 +112,9 @@ const matchers: jasmine.CustomMatcherFactories = {
   toHaveCssClass(): jasmine.CustomMatcher {
     return {
       compare(el: any, expectedClassName: string): jasmine.CustomMatcherResult {
-        const result = {
-          pass: false,
-          message: '',
-        };
+        const { pass, message } = _skyTestingHasCssClass(el, expectedClassName);
 
-        if (expectedClassName.indexOf('.') === 0) {
-          throw new Error(
-            'Please remove the leading dot from your class name.',
-          );
-        }
-
-        result.pass = el.classList.contains(expectedClassName);
-
-        result.message = result.pass
-          ? `Expected element not to have CSS class "${expectedClassName}"`
-          : `Expected element to have CSS class "${expectedClassName}"`;
-
-        return result;
+        return { pass, message };
       },
     };
   },
@@ -146,38 +125,12 @@ const matchers: jasmine.CustomMatcherFactories = {
         el: any,
         expectedStyles: Record<string, string>,
       ): jasmine.CustomMatcherResult {
-        const message: string[] = [];
+        const { pass, message } = _skyTestingHasStyle(el, expectedStyles);
 
-        let hasFailure = false;
-
-        Object.keys(expectedStyles).forEach((styleName: string) => {
-          const styles = windowRef.getComputedStyle(el);
-          const actualStyle = styles[styleName];
-          const expectedStyle = expectedStyles[styleName];
-
-          if (actualStyle !== expectedStyle) {
-            if (!hasFailure) {
-              hasFailure = true;
-            }
-
-            message.push(
-              `Expected element not to have CSS style "${styleName}: ${expectedStyle}"`,
-            );
-          } else {
-            message.push(
-              `Expected element to have CSS style "${styleName}: ${expectedStyle}"`,
-            );
-          }
-
-          message.push(`Actual styles are: "${styleName}: ${actualStyle}"`);
-        });
-
-        const result = {
-          pass: !hasFailure,
-          message: message.join('\n'),
+        return {
+          pass,
+          message,
         };
-
-        return result;
       },
     };
   },
@@ -189,25 +142,13 @@ const matchers: jasmine.CustomMatcherFactories = {
         expectedText: string,
         trimWhitespace = true,
       ): jasmine.CustomMatcherResult {
-        const result = {
-          pass: false,
-          message: '',
-        };
+        const { pass, message } = _skyTestingHasText(
+          el,
+          expectedText,
+          trimWhitespace,
+        );
 
-        let actualText = el.textContent;
-
-        if (trimWhitespace) {
-          actualText = actualText.trim();
-        }
-
-        result.pass = actualText === expectedText;
-
-        result.message = result.pass
-          ? `Expected element's inner text "${actualText}" not to be: "${expectedText}"`
-          : `Expected element's inner text to be: "${expectedText}"\n` +
-            `Actual element's inner text was: "${actualText}"`;
-
-        return result;
+        return { pass, message };
       },
     };
   },
@@ -328,25 +269,16 @@ const matchers: jasmine.CustomMatcherFactories = {
 const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
   toBeAccessible(): jasmine.CustomAsyncMatcher {
     return {
-      compare<T extends axe.ElementContext>(
+      async compare<T extends axe.ElementContext>(
         element: T,
         config?: SkyA11yAnalyzerConfig,
       ): Promise<jasmine.CustomMatcherResult> {
-        return new Promise((resolve) => {
-          _SkyA11yAnalyzer
-            .run(element, config)
-            .then(() => {
-              resolve({
-                pass: true,
-              });
-            })
-            .catch((err) => {
-              resolve({
-                pass: false,
-                message: err.message,
-              });
-            });
-        });
+        const { pass, message } = await _skyTestingCheckAccessibility(
+          element as Element | Document,
+          config,
+        );
+
+        return { pass, message };
       },
     };
   },

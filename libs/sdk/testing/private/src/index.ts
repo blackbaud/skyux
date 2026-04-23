@@ -1,4 +1,9 @@
 export { _SkyA11yAnalyzer } from './a11y/a11y-analyzer';
 export type { _SkyA11yAnalyzerConfig } from './a11y/a11y-analyzer-config';
+export { _skyTestingCheckAccessibility } from './utility/check-accessibility';
+export { _skyTestingCheckExistence } from './utility/check-existence';
 export { _skyTestingCheckVisibility } from './utility/check-visibility';
 export type { _SkyTestingCheckVisibilityOptions } from './utility/check-visibility-options';
+export { _skyTestingHasCssClass } from './utility/has-css-class';
+export { _skyTestingHasStyle } from './utility/has-style';
+export { _skyTestingHasText } from './utility/has-text';

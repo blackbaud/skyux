@@ -1,4 +1,5 @@
 import type { _SkyTestingCheckVisibilityOptions } from './check-visibility-options';
+import type { MatcherResult } from './matcher-result';
 
 const DEFAULTS: _SkyTestingCheckVisibilityOptions = {
   checkCssDisplay: true,
@@ -13,7 +14,7 @@ const DEFAULTS: _SkyTestingCheckVisibilityOptions = {
 export function _skyTestingCheckVisibility(
   el: Element,
   options?: _SkyTestingCheckVisibilityOptions,
-): boolean {
+): MatcherResult {
   const settings = { ...DEFAULTS, ...options };
 
   let pass = true;
@@ -39,5 +40,10 @@ export function _skyTestingCheckVisibility(
     }
   }
 
-  return pass;
+  return {
+    pass,
+    message: pass
+      ? 'Expected element to not be visible'
+      : 'Expected element to be visible',
+  };
 }
