@@ -1,6 +1,6 @@
 import { _SkyA11yAnalyzer } from '../a11y/a11y-analyzer';
 import type { _SkyA11yAnalyzerConfig } from '../a11y/a11y-analyzer-config';
-import { MatcherResult } from './matcher-result';
+import type { MatcherResult } from './matcher-result';
 
 /**
  * @internal

@@ -21,7 +21,6 @@ export default defineConfig({
       exclude: [
         'src/**/*.spec.ts',
         'src/index.ts',
-        'src/utility/i18n-utils.ts',
       ],
       reportsDirectory: '../../../../coverage/libs/sdk/testing/private',
       thresholds: {
