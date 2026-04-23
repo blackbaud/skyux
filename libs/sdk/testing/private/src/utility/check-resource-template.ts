@@ -8,7 +8,7 @@ export async function _skyTestingCheckResourceTemplate(
   el: Element,
   resourceKey: string,
 ): Promise<MatcherResult> {
-  const actualText = el.textContent;
+  const actualText = el.textContent ?? '';
   const expectedText = await getResourceString(resourceKey);
 
   const pass = isTemplateMatch(actualText, expectedText);

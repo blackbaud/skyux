@@ -1,6 +1,21 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { SkyAppResourcesService, SkyLibResourcesService } from '@skyux/i18n';
 import { EMPTY, Observable, of as observableOf } from 'rxjs';
+
+function setupResourceServiceTest<
+  T extends SkyAppResourcesService | SkyLibResourcesService,
+>(token: Type<T>): T {
+  TestBed.configureTestingModule({
+    providers: [
+      {
+        provide: token,
+        useValue: { getString: (): Observable<never> => EMPTY },
+      },
+    ],
+  });
+  return TestBed.inject(token);
+}
 
 describe('Vitest setupFiles integration', () => {
   it('should resolve the matchers-setup.js subpath at compile time', () => {
@@ -175,15 +190,7 @@ describe('Vitest setupFiles integration', () => {
     let resourcesService: SkyAppResourcesService;
 
     beforeEach(() => {
-      TestBed.configureTestingModule({
-        providers: [
-          {
-            provide: SkyAppResourcesService,
-            useValue: { getString: (): Observable<never> => EMPTY },
-          },
-        ],
-      });
-      resourcesService = TestBed.inject(SkyAppResourcesService);
+      resourcesService = setupResourceServiceTest(SkyAppResourcesService);
     });
 
     afterEach(() => {
@@ -242,15 +249,7 @@ describe('Vitest setupFiles integration', () => {
     let resourcesService: SkyLibResourcesService;
 
     beforeEach(() => {
-      TestBed.configureTestingModule({
-        providers: [
-          {
-            provide: SkyLibResourcesService,
-            useValue: { getString: (): Observable<never> => EMPTY },
-          },
-        ],
-      });
-      resourcesService = TestBed.inject(SkyLibResourcesService);
+      resourcesService = setupResourceServiceTest(SkyLibResourcesService);
     });
 
     afterEach(() => {
@@ -309,15 +308,7 @@ describe('Vitest setupFiles integration', () => {
     let resourcesService: SkyAppResourcesService;
 
     beforeEach(() => {
-      TestBed.configureTestingModule({
-        providers: [
-          {
-            provide: SkyAppResourcesService,
-            useValue: { getString: (): Observable<never> => EMPTY },
-          },
-        ],
-      });
-      resourcesService = TestBed.inject(SkyAppResourcesService);
+      resourcesService = setupResourceServiceTest(SkyAppResourcesService);
     });
 
     afterEach(() => {
@@ -362,15 +353,7 @@ describe('Vitest setupFiles integration', () => {
     let resourcesService: SkyLibResourcesService;
 
     beforeEach(() => {
-      TestBed.configureTestingModule({
-        providers: [
-          {
-            provide: SkyLibResourcesService,
-            useValue: { getString: (): Observable<never> => EMPTY },
-          },
-        ],
-      });
-      resourcesService = TestBed.inject(SkyLibResourcesService);
+      resourcesService = setupResourceServiceTest(SkyLibResourcesService);
     });
 
     afterEach(() => {
@@ -415,15 +398,7 @@ describe('Vitest setupFiles integration', () => {
     let resourcesService: SkyAppResourcesService;
 
     beforeEach(() => {
-      TestBed.configureTestingModule({
-        providers: [
-          {
-            provide: SkyAppResourcesService,
-            useValue: { getString: (): Observable<never> => EMPTY },
-          },
-        ],
-      });
-      resourcesService = TestBed.inject(SkyAppResourcesService);
+      resourcesService = setupResourceServiceTest(SkyAppResourcesService);
     });
 
     afterEach(() => {
@@ -457,15 +432,7 @@ describe('Vitest setupFiles integration', () => {
     let resourcesService: SkyLibResourcesService;
 
     beforeEach(() => {
-      TestBed.configureTestingModule({
-        providers: [
-          {
-            provide: SkyLibResourcesService,
-            useValue: { getString: (): Observable<never> => EMPTY },
-          },
-        ],
-      });
-      resourcesService = TestBed.inject(SkyLibResourcesService);
+      resourcesService = setupResourceServiceTest(SkyLibResourcesService);
     });
 
     afterEach(() => {

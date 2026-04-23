@@ -10,8 +10,9 @@ export function _skyTestingHasStyle(
   const messages: string[] = [];
   let hasFailure = false;
 
+  const styles = window.getComputedStyle(el);
+
   for (const styleName of Object.keys(expectedStyles)) {
-    const styles = window.getComputedStyle(el);
     const actualStyle = styles.getPropertyValue(styleName);
     const expectedStyle = expectedStyles[styleName];
 

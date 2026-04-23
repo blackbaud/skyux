@@ -12,7 +12,7 @@ export async function _skyTestingHasResourceText(
 ): Promise<MatcherResult> {
   const expectedText = await getResourceString(resourceKey, resourceArgs);
 
-  let actualText = el.textContent;
+  let actualText = el.textContent ?? '';
 
   if (trimWhitespace) {
     actualText = actualText.trim();

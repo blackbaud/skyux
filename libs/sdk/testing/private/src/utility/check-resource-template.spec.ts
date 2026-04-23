@@ -51,4 +51,17 @@ describe('checkResourceTemplate', () => {
 
     expect(spy).toHaveBeenCalledWith('my_key');
   });
+
+  it('should treat null textContent as empty string', async () => {
+    vi.spyOn(i18nUtils, 'getResourceString').mockResolvedValue('template');
+    vi.spyOn(i18nUtils, 'isTemplateMatch').mockReturnValue(false);
+
+    const el = document.createElement('div');
+    Object.defineProperty(el, 'textContent', { value: null });
+
+    const result = await _skyTestingCheckResourceTemplate(el, 'my_key');
+
+    expect(result.pass).toBe(false);
+    expect(result.message).toContain('""');
+  });
 });

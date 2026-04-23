@@ -66,4 +66,16 @@ describe('hasResourceText', () => {
 
     expect(spy).toHaveBeenCalledWith('greeting', ['Alice']);
   });
+
+  it('should treat null textContent as empty string', async () => {
+    vi.spyOn(i18nUtils, 'getResourceString').mockResolvedValue('Hello World');
+
+    const el = document.createElement('div');
+    Object.defineProperty(el, 'textContent', { value: null });
+
+    const result = await _skyTestingHasResourceText(el, 'greeting', [], true);
+
+    expect(result.pass).toBe(false);
+    expect(result.message).toContain('""');
+  });
 });
