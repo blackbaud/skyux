@@ -7,6 +7,7 @@
 ### Bug Fixes
 
 * **sdk/testing:** add underscore prefix to exported private types ([#4391](https://github.com/blackbaud/skyux/issues/4391)) ([9a54496](https://github.com/blackbaud/skyux/commit/9a54496f55f3b67c79b2eb6f48db09b7b5ed9a6c))
+* update design tokens to include elevation deprecated variables ([#4395](https://github.com/blackbaud/skyux/issues/4395)) ([1456bf6](https://github.com/blackbaud/skyux/commit/1456bf68b75871dc78b995dace1038942aefc83e))
 
 ## [14.2.0](https://github.com/blackbaud/skyux/compare/14.1.1...14.2.0) (2026-04-23)
 
