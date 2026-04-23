@@ -7,8 +7,12 @@ import './matchers/to-equal-lib-resource-text';
 import './matchers/to-equal-resource-text';
 import './matchers/to-exist';
 import './matchers/to-have-css-class';
+import './matchers/to-have-lib-resource-text';
+import './matchers/to-have-resource-text';
 import './matchers/to-have-style';
 import './matchers/to-have-text';
+import './matchers/to-match-lib-resource-template';
+import './matchers/to-match-resource-template';
 
 import type { SkyToBeAccessibleOptions } from './matchers/to-be-accessible-options';
 import type { SkyToBeVisibleOptions } from './matchers/to-be-visible-options';

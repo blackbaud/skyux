@@ -4,10 +4,14 @@ import {
   _SkyA11yAnalyzer,
   _skyTestingCheckAccessibility,
   _skyTestingCheckExistence,
+  _skyTestingCheckLibResourceTemplate,
   _skyTestingCheckLibResourceText,
+  _skyTestingCheckResourceTemplate,
   _skyTestingCheckResourceText,
   _skyTestingCheckVisibility,
   _skyTestingHasCssClass,
+  _skyTestingHasLibResourceText,
+  _skyTestingHasResourceText,
   _skyTestingHasStyle,
   _skyTestingHasText,
 } from '@skyux-sdk/testing/private';
@@ -303,7 +307,6 @@ const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
     };
   },
 
-  // 63 usages
   toEqualLibResourceText(): jasmine.CustomAsyncMatcher {
     return {
       async compare(
@@ -324,103 +327,72 @@ const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
 
   toHaveResourceText(): jasmine.CustomAsyncMatcher {
     return {
-      compare(
+      async compare(
         element: any,
         name: string,
         args?: any[],
         trimWhitespace = true,
       ): Promise<jasmine.CustomMatcherResult> {
-        return getResources(name, args).then((message) => {
-          let actual = element.textContent;
-          if (trimWhitespace) {
-            actual = actual.trim();
-          }
+        const { pass, message } = await _skyTestingHasResourceText(
+          element,
+          name,
+          args,
+          trimWhitespace,
+        );
 
-          if (actual === message) {
-            return {
-              pass: true,
-            };
-          } else {
-            return {
-              pass: false,
-              message: `Expected element's inner text "${actual}" to be "${message}"`,
-            };
-          }
-        });
+        return { pass, message };
       },
     };
   },
 
   toHaveLibResourceText(): jasmine.CustomAsyncMatcher {
     return {
-      compare(
+      async compare(
         element: any,
         name: string,
         args?: any[],
         trimWhitespace = true,
       ): Promise<jasmine.CustomMatcherResult> {
-        return getLibResources(name, args).then((message) => {
-          let actual = element.textContent;
-          if (trimWhitespace) {
-            actual = actual.trim();
-          }
-          if (actual === message) {
-            return {
-              pass: true,
-            };
-          } else {
-            return {
-              pass: false,
-              message: `Expected element's inner text "${actual}" to be "${message}"`,
-            };
-          }
-        });
+        const { pass, message } = await _skyTestingHasLibResourceText(
+          element,
+          name,
+          args,
+          trimWhitespace,
+        );
+
+        return { pass, message };
       },
     };
   },
 
   toMatchResourceTemplate(): jasmine.CustomAsyncMatcher {
     return {
-      compare(
+      async compare(
         element: any,
         name: string,
       ): Promise<jasmine.CustomMatcherResult> {
-        return getResources(name).then((message) => {
-          const actual = element.textContent;
-          if (isTemplateMatch(actual, message)) {
-            return {
-              pass: true,
-            };
-          } else {
-            return {
-              pass: false,
-              message: `Expected element's text "${actual}" to match "${message}"`,
-            };
-          }
-        });
+        const { pass, message } = await _skyTestingCheckResourceTemplate(
+          element,
+          name,
+        );
+
+        return { pass, message };
       },
     };
   },
 
   toMatchLibResourceTemplate(): jasmine.CustomAsyncMatcher {
     return {
-      compare(
+      async compare(
         element: any,
         name: string,
       ): Promise<jasmine.CustomMatcherResult> {
-        return getLibResources(name).then((message) => {
-          const actual = element.textContent;
-          if (isTemplateMatch(actual, message)) {
-            return {
-              pass: true,
-            };
-          } else {
-            return {
-              pass: false,
-              message: `Expected element's text "${actual}" to match "${message}"`,
-            };
-          }
-        });
+        const { pass, message } = await _skyTestingCheckLibResourceTemplate(
+          element,
+          name,
+        );
+
+        return { pass, message };
       },
     };
   },
