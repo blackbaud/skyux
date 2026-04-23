@@ -12,7 +12,7 @@ export function _skyTestingHasStyle(
 
   for (const styleName of Object.keys(expectedStyles)) {
     const styles = window.getComputedStyle(el);
-    const actualStyle = styles[styleName as unknown as number];
+    const actualStyle = styles.getPropertyValue(styleName);
     const expectedStyle = expectedStyles[styleName];
 
     if (actualStyle !== expectedStyle) {
