@@ -1,6 +1,6 @@
 {
   "name": "skyux",
-  "version": "14.1.1",
+  "version": "14.2.0",
   "license": "MIT",
   "scripts": {
     "ng": "nx",
@@ -101,7 +101,7 @@
     "@angular/platform-browser-dynamic": "21.2.0",
     "@angular/router": "21.2.0",
     "@blackbaud/angular-tree-component": "1.0.0",
-    "@blackbaud/skyux-design-tokens": "5.6.0",
+    "@blackbaud/skyux-design-tokens": "6.0.0",
     "@eslint/js": "9.39.3",
     "@nx/angular": "22.5.3",
     "@skyux/icons": "10.4.0",
@@ -169,7 +169,7 @@
     "@ryansonshine/commitizen": "4.2.8",
     "@ryansonshine/cz-conventional-changelog": "3.3.4",
     "@schematics/angular": "21.2.0",
-    "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#12.0.0-alpha.20",
+    "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#12.0.0-alpha.23",
     "@storybook/addon-a11y": "10.2.14",
     "@storybook/angular": "10.2.14",
     "@swc-node/register": "1.11.1",
