@@ -1,6 +1,14 @@
 # Changelog
 
 
+## [14.1.1](https://github.com/blackbaud/skyux/compare/14.1.0...14.1.1) (2026-04-22)
+
+
+### Bug Fixes
+
+* **sdk/testing:** add `typeof` guard to jasmine matcher setup ([#4387](https://github.com/blackbaud/skyux/issues/4387)) ([5b7e211](https://github.com/blackbaud/skyux/commit/5b7e2112ca1d6922ae2d8e92f0352e5eee58781e))
+* **sdk/testing:** move schematics to separate package ([#4386](https://github.com/blackbaud/skyux/issues/4386)) ([9a16dfd](https://github.com/blackbaud/skyux/commit/9a16dfd288922e49269482edf0b1692431a87101))
+
 ## [14.1.0](https://github.com/blackbaud/skyux/compare/14.0.1...14.1.0) (2026-04-17)
 
 

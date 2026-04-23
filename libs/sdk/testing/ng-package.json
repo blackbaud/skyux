@@ -5,6 +5,6 @@
     "entryFile": "src/index.ts",
     "styleIncludePaths": ["../../.."]
   },
-  "allowedNonPeerDependencies": ["axe-core"],
+  "allowedNonPeerDependencies": ["@skyux-sdk/testing-schematics"],
   "inlineStyleLanguage": "scss"
 }

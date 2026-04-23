@@ -40,6 +40,7 @@
       "@skyux-sdk/eslint-schematics": "0.0.0-PLACEHOLDER",
       "@skyux-sdk/stylelint-schematics": "0.0.0-PLACEHOLDER",
       "@skyux-sdk/testing": "0.0.0-PLACEHOLDER",
+      "@skyux-sdk/testing-schematics": "0.0.0-PLACEHOLDER",
       "@skyux/a11y": "0.0.0-PLACEHOLDER",
       "@skyux/action-bars": "0.0.0-PLACEHOLDER",
       "@skyux/ag-grid": "0.0.0-PLACEHOLDER",

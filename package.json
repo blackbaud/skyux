@@ -1,6 +1,6 @@
 {
   "name": "skyux",
-  "version": "14.1.0",
+  "version": "14.1.1",
   "license": "MIT",
   "scripts": {
     "ng": "nx",
@@ -169,7 +169,7 @@
     "@ryansonshine/commitizen": "4.2.8",
     "@ryansonshine/cz-conventional-changelog": "3.3.4",
     "@schematics/angular": "21.2.0",
-    "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#12.0.0-alpha.20",
+    "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#12.0.0-alpha.23",
     "@storybook/addon-a11y": "10.2.14",
     "@storybook/angular": "10.2.14",
     "@swc-node/register": "1.11.1",
