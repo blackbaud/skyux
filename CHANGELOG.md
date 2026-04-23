@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.2.0](https://github.com/blackbaud/skyux/compare/14.1.1...14.2.0) (2026-04-23)
+
+
+### Features
+
+* add style public API lint rules for classnames, custom properties, and SCSS variables ([#4383](https://github.com/blackbaud/skyux/issues/4383)) ([463b98e](https://github.com/blackbaud/skyux/commit/463b98ea0421fbbd3e3255ed0dc2ce83982591d4))
+
 ## [14.1.1](https://github.com/blackbaud/skyux/compare/14.1.0...14.1.1) (2026-04-22)
 
 
