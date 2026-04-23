@@ -1,4 +1,3 @@
-import { TestBed } from '@angular/core/testing';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import {
   _SkyA11yAnalyzer,
@@ -15,34 +14,13 @@ import {
   _skyTestingHasStyle,
   _skyTestingHasText,
 } from '@skyux-sdk/testing/private';
-import { SkyAppResourcesService } from '@skyux/i18n';
 
 import axe from 'axe-core';
-import { firstValueFrom } from 'rxjs';
 
 import type { SkyA11yAnalyzerConfig } from './a11y-analyzer-config';
 import type { SkyToBeVisibleOptions } from './to-be-visible-options';
 
 const windowRef: any = window;
-
-function getResources(name: string, args: any[] = []): Promise<string> {
-  const resourcesService = TestBed.inject(SkyAppResourcesService);
-  return firstValueFrom(resourcesService.getString(name, ...args));
-}
-
-function isTemplateMatch(sample: string, template: string): boolean {
-  let matches = true;
-  const templateTokens = template.split(new RegExp('{\\d+}')).reverse();
-  let currentToken = templateTokens.pop();
-  let lastPosition = 0;
-  while (currentToken !== undefined && matches) {
-    const tokenPosition: number = sample.indexOf(currentToken, lastPosition);
-    matches = tokenPosition >= lastPosition;
-    lastPosition = tokenPosition + currentToken.length;
-    currentToken = templateTokens.pop();
-  }
-  return matches;
-}
 
 const matchers: jasmine.CustomMatcherFactories = {
   toBeAccessible(): jasmine.CustomMatcher {
@@ -162,16 +140,18 @@ const matchers: jasmine.CustomMatcherFactories = {
         args?: any[],
         callback?: () => void,
       ): jasmine.CustomMatcherResult {
-        void getResources(name, args).then((message) => {
-          /*istanbul ignore else*/
-          if (actual !== message) {
-            windowRef.fail(`Expected "${actual}" to equal "${message}"`);
-          }
-          /*istanbul ignore else*/
-          if (callback) {
-            callback();
-          }
-        });
+        void _skyTestingCheckResourceText(actual, name, args).then(
+          ({ pass, message }) => {
+            /*istanbul ignore else*/
+            if (!pass) {
+              windowRef.fail(message);
+            }
+            /*istanbul ignore else*/
+            if (callback) {
+              callback();
+            }
+          },
+        );
 
         // Asynchronous matchers are currently unsupported, but
         // the method above works to fail the specific test in the
@@ -197,23 +177,18 @@ const matchers: jasmine.CustomMatcherFactories = {
         trimWhitespace = true,
         callback?: () => void,
       ): jasmine.CustomMatcherResult {
-        let actual = el.textContent;
+        void _skyTestingHasResourceText(el, name, args, trimWhitespace).then(
+          ({ pass, message }) => {
+            if (!pass) {
+              windowRef.fail(message);
+            }
 
-        if (trimWhitespace) {
-          actual = actual.trim();
-        }
-
-        void getResources(name, args).then((message) => {
-          if (actual !== message) {
-            windowRef.fail(
-              `Expected element's inner text "${el.textContent}" to be "${message}"`,
-            );
-          }
-          /*istanbul ignore else*/
-          if (callback) {
-            callback();
-          }
-        });
+            /*istanbul ignore else*/
+            if (callback) {
+              callback();
+            }
+          },
+        );
 
         // Asynchronous matchers are currently unsupported, but
         // the method above works to fail the specific test in the
@@ -237,19 +212,18 @@ const matchers: jasmine.CustomMatcherFactories = {
         name: string,
         callback?: () => void,
       ): jasmine.CustomMatcherResult {
-        const actual = el.textContent;
+        void _skyTestingCheckResourceTemplate(el, name).then(
+          ({ pass, message }) => {
+            if (!pass) {
+              windowRef.fail(message);
+            }
 
-        void getResources(name).then((message) => {
-          if (!isTemplateMatch(actual, message)) {
-            windowRef.fail(
-              `Expected element's text "${actual}" to match "${message}"`,
-            );
-          }
-          /*istanbul ignore else*/
-          if (callback) {
-            callback();
-          }
-        });
+            /*istanbul ignore else*/
+            if (callback) {
+              callback();
+            }
+          },
+        );
 
         // Asynchronous matchers are currently unsupported, but
         // the method above works to fail the specific test in the
