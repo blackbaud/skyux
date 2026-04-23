@@ -1,6 +1,6 @@
 import axe from 'axe-core';
 
-import { SkyA11yAnalyzer } from './a11y-analyzer';
+import { _SkyA11yAnalyzer } from './a11y-analyzer';
 
 describe('A11y analyzer', () => {
   it('should handle axe errors', async () => {
@@ -13,11 +13,11 @@ describe('A11y analyzer', () => {
     }
 
     vi.spyOn(
-      (SkyA11yAnalyzer as unknown as { analyzer: typeof axe }).analyzer,
+      (_SkyA11yAnalyzer as unknown as { analyzer: typeof axe }).analyzer,
       'run',
     ).mockImplementation(mockRun as unknown as typeof axe.run);
 
-    await expect(SkyA11yAnalyzer.run('element')).rejects.toThrow('some error');
+    await expect(_SkyA11yAnalyzer.run('element')).rejects.toThrow('some error');
   });
 
   it('should filter known ag-grid axe errors', async () => {
@@ -59,11 +59,11 @@ describe('A11y analyzer', () => {
     }
 
     vi.spyOn(
-      (SkyA11yAnalyzer as unknown as { analyzer: typeof axe }).analyzer,
+      (_SkyA11yAnalyzer as unknown as { analyzer: typeof axe }).analyzer,
       'run',
     ).mockImplementation(mockRun as unknown as typeof axe.run);
 
-    await SkyA11yAnalyzer.run('element');
+    await _SkyA11yAnalyzer.run('element');
   });
 
   it('should filter error for radiogroup on a fieldset (pre-4.0.0 compat)', async () => {
@@ -94,11 +94,11 @@ describe('A11y analyzer', () => {
     }
 
     vi.spyOn(
-      (SkyA11yAnalyzer as unknown as { analyzer: typeof axe }).analyzer,
+      (_SkyA11yAnalyzer as unknown as { analyzer: typeof axe }).analyzer,
       'run',
     ).mockImplementation(mockRun as unknown as typeof axe.run);
 
-    await SkyA11yAnalyzer.run('element');
+    await _SkyA11yAnalyzer.run('element');
   });
 
   it('should not filter error for radiogroup on an invalid element', async () => {
@@ -129,11 +129,11 @@ describe('A11y analyzer', () => {
     }
 
     vi.spyOn(
-      (SkyA11yAnalyzer as unknown as { analyzer: typeof axe }).analyzer,
+      (_SkyA11yAnalyzer as unknown as { analyzer: typeof axe }).analyzer,
       'run',
     ).mockImplementation(mockRun as unknown as typeof axe.run);
 
-    await expect(SkyA11yAnalyzer.run('element')).rejects.toThrow(
+    await expect(_SkyA11yAnalyzer.run('element')).rejects.toThrow(
       /<p role="radiogroup">/,
     );
   });
@@ -166,11 +166,11 @@ describe('A11y analyzer', () => {
     }
 
     vi.spyOn(
-      (SkyA11yAnalyzer as unknown as { analyzer: typeof axe }).analyzer,
+      (_SkyA11yAnalyzer as unknown as { analyzer: typeof axe }).analyzer,
       'run',
     ).mockImplementation(mockRun as unknown as typeof axe.run);
 
-    await expect(SkyA11yAnalyzer.run('element')).rejects.toThrow(
+    await expect(_SkyA11yAnalyzer.run('element')).rejects.toThrow(
       /<fieldset role="alert">/,
     );
   });
@@ -215,11 +215,11 @@ describe('A11y analyzer', () => {
     }
 
     vi.spyOn(
-      (SkyA11yAnalyzer as unknown as { analyzer: typeof axe }).analyzer,
+      (_SkyA11yAnalyzer as unknown as { analyzer: typeof axe }).analyzer,
       'run',
     ).mockImplementation(mockRun as unknown as typeof axe.run);
 
-    await expect(SkyA11yAnalyzer.run('element')).rejects.toThrow(
+    await expect(_SkyA11yAnalyzer.run('element')).rejects.toThrow(
       /<div class="other-header" aria-description="test"><\/div>/,
     );
   });
@@ -267,17 +267,17 @@ describe('A11y analyzer', () => {
     }
 
     vi.spyOn(
-      (SkyA11yAnalyzer as unknown as { analyzer: typeof axe }).analyzer,
+      (_SkyA11yAnalyzer as unknown as { analyzer: typeof axe }).analyzer,
       'run',
     ).mockImplementation(mockRun as unknown as typeof axe.run);
 
-    await expect(SkyA11yAnalyzer.run('element')).rejects.toThrow(
+    await expect(_SkyA11yAnalyzer.run('element')).rejects.toThrow(
       /Rule: 'color-contrast'/,
     );
-    await expect(SkyA11yAnalyzer.run('element')).rejects.toThrow(
+    await expect(_SkyA11yAnalyzer.run('element')).rejects.toThrow(
       /Related Nodes:/,
     );
-    await expect(SkyA11yAnalyzer.run('element')).rejects.toThrow(
+    await expect(_SkyA11yAnalyzer.run('element')).rejects.toThrow(
       /<span class="low-contrast">Hello<\/span>/,
     );
   });
@@ -313,20 +313,20 @@ describe('A11y analyzer', () => {
     }
 
     vi.spyOn(
-      (SkyA11yAnalyzer as unknown as { analyzer: typeof axe }).analyzer,
+      (_SkyA11yAnalyzer as unknown as { analyzer: typeof axe }).analyzer,
       'run',
     ).mockImplementation(mockRun as unknown as typeof axe.run);
 
-    await expect(SkyA11yAnalyzer.run('element')).rejects.toThrow(
+    await expect(_SkyA11yAnalyzer.run('element')).rejects.toThrow(
       /Rule: 'button-name'/,
     );
-    await expect(SkyA11yAnalyzer.run('element')).rejects.toThrow(
+    await expect(_SkyA11yAnalyzer.run('element')).rejects.toThrow(
       /<button><\/button>/,
     );
   });
 
   it('should handle undefined elements', () => {
-    expect(() => SkyA11yAnalyzer.run()).toThrowError(
+    expect(() => _SkyA11yAnalyzer.run()).toThrowError(
       'No element was specified for accessibility checking.',
     );
   });
