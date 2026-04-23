@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { SkyAppResourcesService, SkyLibResourcesService } from '@skyux/i18n';
-import { EMPTY, of as observableOf } from 'rxjs';
+import { EMPTY, Observable, of as observableOf } from 'rxjs';
 
 describe('Vitest setupFiles integration', () => {
   it('should resolve the matchers-setup.js subpath at compile time', () => {
@@ -179,7 +179,7 @@ describe('Vitest setupFiles integration', () => {
         providers: [
           {
             provide: SkyAppResourcesService,
-            useValue: { getString: () => EMPTY },
+            useValue: { getString: (): Observable<never> => EMPTY },
           },
         ],
       });
@@ -246,7 +246,7 @@ describe('Vitest setupFiles integration', () => {
         providers: [
           {
             provide: SkyLibResourcesService,
-            useValue: { getString: () => EMPTY },
+            useValue: { getString: (): Observable<never> => EMPTY },
           },
         ],
       });
@@ -302,6 +302,196 @@ describe('Vitest setupFiles integration', () => {
       );
 
       await expect('wrong text').not.toEqualLibResourceText(messageKey);
+    });
+  });
+
+  describe('toHaveResourceText', () => {
+    let resourcesService: SkyAppResourcesService;
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [
+          {
+            provide: SkyAppResourcesService,
+            useValue: { getString: (): Observable<never> => EMPTY },
+          },
+        ],
+      });
+      resourcesService = TestBed.inject(SkyAppResourcesService);
+    });
+
+    afterEach(() => {
+      TestBed.resetTestingModule();
+    });
+
+    it('should pass when element text matches the resource value', async () => {
+      vi.spyOn(resourcesService, 'getString').mockReturnValue(
+        observableOf('Hello World'),
+      );
+
+      const el = document.createElement('div');
+      el.textContent = 'Hello World';
+
+      await expect(el).toHaveResourceText('greeting');
+    });
+
+    it('should fail when element text does not match the resource value', async () => {
+      vi.spyOn(resourcesService, 'getString').mockReturnValue(
+        observableOf('Hello World'),
+      );
+
+      const el = document.createElement('div');
+      el.textContent = 'Goodbye';
+
+      await expect(el).not.toHaveResourceText('greeting');
+    });
+
+    it('should trim whitespace by default', async () => {
+      vi.spyOn(resourcesService, 'getString').mockReturnValue(
+        observableOf('Hello World'),
+      );
+
+      const el = document.createElement('div');
+      el.textContent = '  Hello World  ';
+
+      await expect(el).toHaveResourceText('greeting');
+    });
+  });
+
+  describe('toHaveLibResourceText', () => {
+    let resourcesService: SkyLibResourcesService;
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [
+          {
+            provide: SkyLibResourcesService,
+            useValue: { getString: (): Observable<never> => EMPTY },
+          },
+        ],
+      });
+      resourcesService = TestBed.inject(SkyLibResourcesService);
+    });
+
+    afterEach(() => {
+      TestBed.resetTestingModule();
+    });
+
+    it('should pass when element text matches the lib resource value', async () => {
+      vi.spyOn(resourcesService, 'getString').mockReturnValue(
+        observableOf('Hello World'),
+      );
+
+      const el = document.createElement('div');
+      el.textContent = 'Hello World';
+
+      await expect(el).toHaveLibResourceText('greeting');
+    });
+
+    it('should fail when element text does not match the lib resource value', async () => {
+      vi.spyOn(resourcesService, 'getString').mockReturnValue(
+        observableOf('Hello World'),
+      );
+
+      const el = document.createElement('div');
+      el.textContent = 'Goodbye';
+
+      await expect(el).not.toHaveLibResourceText('greeting');
+    });
+
+    it('should trim whitespace by default', async () => {
+      vi.spyOn(resourcesService, 'getString').mockReturnValue(
+        observableOf('Hello World'),
+      );
+
+      const el = document.createElement('div');
+      el.textContent = '  Hello World  ';
+
+      await expect(el).toHaveLibResourceText('greeting');
+    });
+  });
+
+  describe('toMatchResourceTemplate', () => {
+    let resourcesService: SkyAppResourcesService;
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [
+          {
+            provide: SkyAppResourcesService,
+            useValue: { getString: (): Observable<never> => EMPTY },
+          },
+        ],
+      });
+      resourcesService = TestBed.inject(SkyAppResourcesService);
+    });
+
+    afterEach(() => {
+      TestBed.resetTestingModule();
+    });
+
+    it('should pass when element text matches the resource template', async () => {
+      vi.spyOn(resourcesService, 'getString').mockReturnValue(
+        observableOf('Hello {0}, welcome to {1}'),
+      );
+
+      const el = document.createElement('div');
+      el.textContent = 'Hello Alice, welcome to Wonderland';
+
+      await expect(el).toMatchResourceTemplate('greeting');
+    });
+
+    it('should fail when element text does not match the resource template', async () => {
+      vi.spyOn(resourcesService, 'getString').mockReturnValue(
+        observableOf('Hello {0}, welcome to {1}'),
+      );
+
+      const el = document.createElement('div');
+      el.textContent = 'Completely different text';
+
+      await expect(el).not.toMatchResourceTemplate('greeting');
+    });
+  });
+
+  describe('toMatchLibResourceTemplate', () => {
+    let resourcesService: SkyLibResourcesService;
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [
+          {
+            provide: SkyLibResourcesService,
+            useValue: { getString: (): Observable<never> => EMPTY },
+          },
+        ],
+      });
+      resourcesService = TestBed.inject(SkyLibResourcesService);
+    });
+
+    afterEach(() => {
+      TestBed.resetTestingModule();
+    });
+
+    it('should pass when element text matches the lib resource template', async () => {
+      vi.spyOn(resourcesService, 'getString').mockReturnValue(
+        observableOf('Hello {0}, welcome to {1}'),
+      );
+
+      const el = document.createElement('div');
+      el.textContent = 'Hello Alice, welcome to Wonderland';
+
+      await expect(el).toMatchLibResourceTemplate('greeting');
+    });
+
+    it('should fail when element text does not match the lib resource template', async () => {
+      vi.spyOn(resourcesService, 'getString').mockReturnValue(
+        observableOf('Hello {0}, welcome to {1}'),
+      );
+
+      const el = document.createElement('div');
+      el.textContent = 'Completely different text';
+
+      await expect(el).not.toMatchLibResourceTemplate('greeting');
     });
   });
 });

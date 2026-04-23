@@ -69,6 +69,34 @@ declare module 'vitest' {
     toHaveCssClass: (expectedClassName: string) => void;
 
     /**
+     * Asserts that the received element's text matches the text for the
+     * expected library resource string.
+     * @param resourceKey The resource key to look up.
+     * @param resourceArgs Optional replacement arguments for the resource string.
+     * @param trimWhitespace Whether to trim whitespace from the element
+     * text before comparison. Defaults to `true`.
+     */
+    toHaveLibResourceText: (
+      resourceKey: string,
+      resourceArgs?: unknown[],
+      trimWhitespace?: boolean,
+    ) => Promise<void>;
+
+    /**
+     * Asserts that the received element's text matches the text for the
+     * expected app resource string.
+     * @param resourceKey The resource key to look up.
+     * @param resourceArgs Optional replacement arguments for the resource string.
+     * @param trimWhitespace Whether to trim whitespace from the element
+     * text before comparison. Defaults to `true`.
+     */
+    toHaveResourceText: (
+      resourceKey: string,
+      resourceArgs?: unknown[],
+      trimWhitespace?: boolean,
+    ) => Promise<void>;
+
+    /**
      * Asserts that the received element has the expected computed style(s).
      * @param expectedStyles An object representing the style(s) to check for.
      */
@@ -81,6 +109,20 @@ declare module 'vitest' {
      * text before comparison. Defaults to `true`.
      */
     toHaveText: (expectedText: string, trimWhitespace?: boolean) => void;
+
+    /**
+     * Asserts that the received element's text matches the expected
+     * library resource template pattern (ignoring interpolated values).
+     * @param resourceKey The resource key to look up.
+     */
+    toMatchLibResourceTemplate: (resourceKey: string) => Promise<void>;
+
+    /**
+     * Asserts that the received element's text matches the expected
+     * app resource template pattern (ignoring interpolated values).
+     * @param resourceKey The resource key to look up.
+     */
+    toMatchResourceTemplate: (resourceKey: string) => Promise<void>;
   }
 }
 

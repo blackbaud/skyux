@@ -15,7 +15,7 @@ import {
   _skyTestingHasStyle,
   _skyTestingHasText,
 } from '@skyux-sdk/testing/private';
-import { SkyAppResourcesService, SkyLibResourcesService } from '@skyux/i18n';
+import { SkyAppResourcesService } from '@skyux/i18n';
 
 import axe from 'axe-core';
 import { firstValueFrom } from 'rxjs';
@@ -27,11 +27,6 @@ const windowRef: any = window;
 
 function getResources(name: string, args: any[] = []): Promise<string> {
   const resourcesService = TestBed.inject(SkyAppResourcesService);
-  return firstValueFrom(resourcesService.getString(name, ...args));
-}
-
-function getLibResources(name: string, args: any[] = []): Promise<string> {
-  const resourcesService = TestBed.inject(SkyLibResourcesService);
   return firstValueFrom(resourcesService.getString(name, ...args));
 }
 
