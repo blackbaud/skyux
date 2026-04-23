@@ -18,10 +18,7 @@ export default defineConfig({
     coverage: {
       enabled: true,
       include: ['src/**/*.ts'],
-      exclude: [
-        'src/**/*.spec.ts',
-        'src/index.ts',
-      ],
+      exclude: ['src/**/*.spec.ts', 'src/index.ts'],
       reportsDirectory: '../../../../coverage/libs/sdk/testing/private',
       thresholds: {
         lines: 100,
