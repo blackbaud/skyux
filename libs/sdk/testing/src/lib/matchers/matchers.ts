@@ -4,6 +4,8 @@ import {
   _SkyA11yAnalyzer,
   _skyTestingCheckAccessibility,
   _skyTestingCheckExistence,
+  _skyTestingCheckLibResourceText,
+  _skyTestingCheckResourceText,
   _skyTestingCheckVisibility,
   _skyTestingHasCssClass,
   _skyTestingHasStyle,
@@ -285,46 +287,37 @@ const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
 
   toEqualResourceText(): jasmine.CustomAsyncMatcher {
     return {
-      compare(
+      async compare(
         actual: string,
         name: string,
         args?: any[],
       ): Promise<jasmine.CustomMatcherResult> {
-        return getResources(name, args).then((message) => {
-          if (actual === message) {
-            return {
-              pass: true,
-            };
-          } else {
-            return {
-              pass: false,
-              message: `Expected "${actual}" to equal "${message}"`,
-            };
-          }
-        });
+        const { pass, message } = await _skyTestingCheckResourceText(
+          actual,
+          name,
+          args,
+        );
+
+        return { pass, message };
       },
     };
   },
 
+  // 63 usages
   toEqualLibResourceText(): jasmine.CustomAsyncMatcher {
     return {
-      compare(
+      async compare(
         actual: string,
         name: string,
         args?: any[],
       ): Promise<jasmine.CustomMatcherResult> {
-        return getLibResources(name, args).then((message) => {
-          if (actual === message) {
-            return {
-              pass: true,
-            };
-          } else {
-            return {
-              pass: false,
-              message: `Expected "${actual}" to equal "${message}"`,
-            };
-          }
-        });
+        const { pass, message } = await _skyTestingCheckLibResourceText(
+          actual,
+          name,
+          args,
+        );
+
+        return { pass, message };
       },
     };
   },

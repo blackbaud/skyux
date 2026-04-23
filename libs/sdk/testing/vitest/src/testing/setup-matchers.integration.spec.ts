@@ -1,3 +1,7 @@
+import { TestBed } from '@angular/core/testing';
+import { SkyAppResourcesService, SkyLibResourcesService } from '@skyux/i18n';
+import { EMPTY, of as observableOf } from 'rxjs';
+
 describe('Vitest setupFiles integration', () => {
   it('should resolve the matchers-setup.js subpath at compile time', () => {
     type SetupMatchersModule =
@@ -164,6 +168,140 @@ describe('Vitest setupFiles integration', () => {
       el.textContent = 'Hello World';
 
       expect(el).not.toHaveText('Goodbye');
+    });
+  });
+
+  describe('toEqualResourceText', () => {
+    let resourcesService: SkyAppResourcesService;
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [
+          {
+            provide: SkyAppResourcesService,
+            useValue: { getString: () => EMPTY },
+          },
+        ],
+      });
+      resourcesService = TestBed.inject(SkyAppResourcesService);
+    });
+
+    afterEach(() => {
+      TestBed.resetTestingModule();
+    });
+
+    it('should pass when text matches the resource value', async () => {
+      const messageKey = 'name';
+      const messageValue = 'message from resource';
+
+      vi.spyOn(resourcesService, 'getString').mockImplementation(
+        (name: string) => {
+          if (name === messageKey) {
+            return observableOf(messageValue);
+          }
+          return EMPTY;
+        },
+      );
+
+      await expect(messageValue).toEqualResourceText(messageKey);
+    });
+
+    it('should pass when text matches with arguments', async () => {
+      const messageKey = 'nameWithArgs';
+      const messageValue = 'message with args = {0}';
+      const messageArgs: unknown[] = [100];
+
+      vi.spyOn(resourcesService, 'getString').mockImplementation(
+        (name: string, arg1: string) => {
+          if (name === messageKey) {
+            return observableOf(messageValue.replace('{0}', arg1));
+          }
+          return EMPTY;
+        },
+      );
+
+      await expect('message with args = 100').toEqualResourceText(
+        messageKey,
+        messageArgs,
+      );
+    });
+
+    it('should fail when text does not match the resource value', async () => {
+      const messageKey = 'name';
+      const messageValue = 'message from resource';
+
+      vi.spyOn(resourcesService, 'getString').mockReturnValue(
+        observableOf(messageValue),
+      );
+
+      await expect('wrong text').not.toEqualResourceText(messageKey);
+    });
+  });
+
+  describe('toEqualLibResourceText', () => {
+    let resourcesService: SkyLibResourcesService;
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [
+          {
+            provide: SkyLibResourcesService,
+            useValue: { getString: () => EMPTY },
+          },
+        ],
+      });
+      resourcesService = TestBed.inject(SkyLibResourcesService);
+    });
+
+    afterEach(() => {
+      TestBed.resetTestingModule();
+    });
+
+    it('should pass when text matches the lib resource value', async () => {
+      const messageKey = 'name';
+      const messageValue = 'lib message from resource';
+
+      vi.spyOn(resourcesService, 'getString').mockImplementation(
+        (name: string) => {
+          if (name === messageKey) {
+            return observableOf(messageValue);
+          }
+          return EMPTY;
+        },
+      );
+
+      await expect(messageValue).toEqualLibResourceText(messageKey);
+    });
+
+    it('should pass when text matches with arguments', async () => {
+      const messageKey = 'nameWithArgs';
+      const messageValue = 'lib message with args = {0}';
+      const messageArgs: unknown[] = [42];
+
+      vi.spyOn(resourcesService, 'getString').mockImplementation(
+        (name: string, arg1: string) => {
+          if (name === messageKey) {
+            return observableOf(messageValue.replace('{0}', arg1));
+          }
+          return EMPTY;
+        },
+      );
+
+      await expect('lib message with args = 42').toEqualLibResourceText(
+        messageKey,
+        messageArgs,
+      );
+    });
+
+    it('should fail when text does not match the lib resource value', async () => {
+      const messageKey = 'name';
+      const messageValue = 'lib message from resource';
+
+      vi.spyOn(resourcesService, 'getString').mockReturnValue(
+        observableOf(messageValue),
+      );
+
+      await expect('wrong text').not.toEqualLibResourceText(messageKey);
     });
   });
 });

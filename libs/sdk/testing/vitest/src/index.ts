@@ -3,6 +3,8 @@ import type {} from 'vitest';
 
 import './matchers/to-be-accessible';
 import './matchers/to-be-visible';
+import './matchers/to-equal-lib-resource-text';
+import './matchers/to-equal-resource-text';
 import './matchers/to-exist';
 import './matchers/to-have-css-class';
 import './matchers/to-have-style';
@@ -28,6 +30,28 @@ declare module 'vitest' {
      * checks are performed.
      */
     toBeVisible: (config?: SkyToBeVisibleOptions) => void;
+
+    /**
+     * Asserts that the received text equals the text for the expected
+     * library resource string.
+     * @param resourceKey The resource key to look up.
+     * @param resourceArgs Optional replacement arguments for the resource string.
+     */
+    toEqualLibResourceText: (
+      resourceKey: string,
+      resourceArgs?: unknown[],
+    ) => Promise<void>;
+
+    /**
+     * Asserts that the received text equals the text for the expected
+     * app resource string.
+     * @param resourceKey The resource key to look up.
+     * @param resourceArgs Optional replacement arguments for the resource string.
+     */
+    toEqualResourceText: (
+      resourceKey: string,
+      resourceArgs?: unknown[],
+    ) => Promise<void>;
 
     /**
      * Asserts that the received value is truthy (exists).

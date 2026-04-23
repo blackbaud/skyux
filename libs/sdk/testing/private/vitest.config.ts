@@ -1,7 +1,16 @@
+import { resolve } from 'node:path';
 import { defineConfig } from 'vitest/config';
+
+const root = resolve(__dirname, '../../../..');
 
 export default defineConfig({
   cacheDir: '../../../../node_modules/.vite',
+  resolve: {
+    alias: {
+      '@skyux/i18n': resolve(root, 'libs/components/i18n/src/index.ts'),
+      '@skyux/assets': resolve(root, 'libs/components/assets/src/index.ts'),
+    },
+  },
   test: {
     environment: 'jsdom',
     globals: true,
@@ -9,7 +18,11 @@ export default defineConfig({
     coverage: {
       enabled: true,
       include: ['src/**/*.ts'],
-      exclude: ['src/**/*.spec.ts', 'src/index.ts'],
+      exclude: [
+        'src/**/*.spec.ts',
+        'src/index.ts',
+        'src/utility/i18n-utils.ts',
+      ],
       reportsDirectory: '../../../../coverage/libs/sdk/testing/private',
       thresholds: {
         lines: 100,
