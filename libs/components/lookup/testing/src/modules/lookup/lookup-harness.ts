@@ -81,6 +81,23 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
   }
 
   /**
+   * Clicks the search button.
+   */
+  public async clickSearchButton(): Promise<void> {
+    const button = await this.locatorForOptional(
+      '.sky-input-group-btn .sky-btn',
+    )();
+
+    if (!button) {
+      throw new Error(
+        'The search button cannot be clicked because it does not exist.',
+      );
+    }
+
+    await button.click();
+  }
+
+  /**
    * Dismisses the selections made with a multiselect lookup.
    */
   public async dismissSelections(): Promise<void> {

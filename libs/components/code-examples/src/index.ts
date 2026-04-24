@@ -127,6 +127,7 @@ export { LookupAddItemExampleComponent } from './lib/modules/lookup/lookup/add-i
 export { LookupCustomPickerExampleComponent } from './lib/modules/lookup/lookup/custom-picker/example.component';
 export { LookupMultiSelectExampleComponent } from './lib/modules/lookup/lookup/multi-select/example.component';
 export { LookupResultTemplatesExampleComponent } from './lib/modules/lookup/lookup/result-templates/example.component';
+export { LookupSearchWithPickerOnlyExampleComponent } from './lib/modules/lookup/lookup/search-with-picker-only/example.component';
 export { LookupSingleSelectExampleComponent } from './lib/modules/lookup/lookup/single-select/example.component';
 export { LookupSearchBasicExampleComponent } from './lib/modules/lookup/search/basic/example.component';
 export { LookupSelectionModalAddItemExampleComponent } from './lib/modules/lookup/selection-modal/add-item/example.component';
