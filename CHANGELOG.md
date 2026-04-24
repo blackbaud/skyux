@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.2.2](https://github.com/blackbaud/skyux/compare/14.2.1...14.2.2) (2026-04-24)
+
+
+### Bug Fixes
+
+* remove deprecated classes from code examples, update lint rule class allow list ([#4399](https://github.com/blackbaud/skyux/issues/4399)) ([6fb97f7](https://github.com/blackbaud/skyux/commit/6fb97f75d617e6022d52176722173ac9caa88729))
+
 ## [14.2.1](https://github.com/blackbaud/skyux/compare/14.2.0...14.2.1) (2026-04-24)
 
 
