@@ -440,6 +440,12 @@ export class SkyLookupComponent
     }
   }
 
+  protected onTokenSelected(): void {
+    if (this.enableShowMore()) {
+      this.openPicker('');
+    }
+  }
+
   public onTokensFocusIndexOverRange(): void {
     this.#windowRef.nativeWindow.setTimeout(() => {
       this.#focusInput();
