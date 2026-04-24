@@ -1,17 +1,15 @@
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import {
-  SkyA11yAnalyzer,
-  type SkyA11yAnalyzerConfig,
-} from '@skyux-sdk/testing/private';
+import { _SkyA11yAnalyzer } from '@skyux-sdk/testing/private';
 
 import { expect } from 'vitest';
 
 import type { ExpectationResult } from '../types/expectation-result';
+import type { SkyToBeAccessibleOptions } from './to-be-accessible-options';
 
 expect.extend({
   async toBeAccessible(
     received: Element | Document,
-    config?: SkyA11yAnalyzerConfig,
+    options?: SkyToBeAccessibleOptions,
   ): Promise<ExpectationResult> {
     const target =
       received instanceof Document ? received.documentElement : received;
@@ -21,7 +19,7 @@ expect.extend({
     }
 
     try {
-      await SkyA11yAnalyzer.run(target, config);
+      await _SkyA11yAnalyzer.run(target, options);
       return {
         pass: true,
         message: () =>
