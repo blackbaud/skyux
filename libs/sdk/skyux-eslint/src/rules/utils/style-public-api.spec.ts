@@ -94,9 +94,9 @@ describe('style-public-api', () => {
       expect(checkSkyClassName('sky-btn')).toEqual({ type: 'valid' });
     });
 
-    it('returns privateClass for an unknown non-theme sky- class', () => {
+    it('returns notPublicApi for an unknown non-theme sky- class', () => {
       expect(checkSkyClassName('sky-unknown-class')).toEqual({
-        type: 'privateClass',
+        type: 'notPublicApi',
         className: 'sky-unknown-class',
       });
     });

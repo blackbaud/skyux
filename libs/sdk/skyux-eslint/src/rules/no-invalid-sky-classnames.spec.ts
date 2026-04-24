@@ -35,7 +35,7 @@ jest.mock('./utils/style-public-api', () => {
       }
       return WHITELISTED_SKY_CLASSES.has(className)
         ? { type: 'valid' }
-        : { type: 'privateClass', className };
+        : { type: 'notPublicApi', className };
     },
   };
 });

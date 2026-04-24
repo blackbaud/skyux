@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-flyout',
   template: `
-    <div class="sky-padding-even-xl">
+    <div class="sky-theme-padding-inset-balanced-xl">
       <h2>Sample flyout</h2>
       <p>
         Flyouts can display large quantities of supplementary information

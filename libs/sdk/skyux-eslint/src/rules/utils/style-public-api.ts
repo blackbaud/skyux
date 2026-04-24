@@ -51,6 +51,7 @@ walkStyles(publicApiStyles.groups, publicApiStyles.styles, (style) => {
 });
 
 export const WHITELISTED_SKY_CLASSES: Set<string> = new Set([
+  'sky-ag-grid-editable',
   'sky-btn',
   'sky-btn-block',
   'sky-btn-block-logo',
@@ -80,6 +81,7 @@ export const WHITELISTED_SKY_CLASSES: Set<string> = new Set([
   'sky-input-group-icon', // content projection selector
   'sky-pull-right', // add to style API in future
   'sky-screen-reader-only',
+  'sky-switch-icon-group',
 ]);
 
 export type SkyClassNameCheck =
@@ -91,7 +93,7 @@ export type SkyClassNameCheck =
       replacement: string;
     }
   | { type: 'deprecatedNoReplacement'; className: string }
-  | { type: 'privateClass'; className: string };
+  | { type: 'notPublicApi'; className: string };
 
 export function checkSkyClassName(className: string): SkyClassNameCheck {
   if (className.startsWith('sky-theme-')) {
@@ -109,7 +111,7 @@ export function checkSkyClassName(className: string): SkyClassNameCheck {
 
   return WHITELISTED_SKY_CLASSES.has(className)
     ? { type: 'valid' }
-    : { type: 'privateClass', className };
+    : { type: 'notPublicApi', className };
 }
 
 export const STYLE_API_DOCS_URL =
@@ -122,6 +124,6 @@ export const SKY_CLASSNAME_MESSAGES = {
     '"{{className}}" is deprecated with no direct replacement. See the style API documentation: {{docsUrl}}',
   unknownThemeClass:
     '"{{className}}" is not a known sky-theme- class. See the style API documentation for valid class names: {{docsUrl}}',
-  privateClass:
-    '"{{className}}" is a private SKY UX class and should not be used directly. See the style API documentation for alternatives: {{docsUrl}}',
+  notPublicApi:
+    '"{{className}}" is a private SKY UX class and should not be used directly, or uses the protected sky- prefix. See the style API documentation for alternatives: {{docsUrl}}',
 } as const;

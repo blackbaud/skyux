@@ -33,7 +33,7 @@ export class AgGridDataGridTopScrollExampleComponent {
   protected gridData = AG_GRID_DEMO_DATA;
   protected gridOptions: GridOptions;
   protected searchText = '';
-  protected noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
+  protected noRowsTemplate = `<div class="sky-theme-font-body-deemphasized-m">No results found.</div>`;
 
   #columnDefs: ColDef[] = [
     {
