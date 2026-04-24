@@ -17,7 +17,9 @@
   </sky-split-view-drawer>
 
   <sky-split-view-workspace ariaLabel="Transaction form">
-    <sky-split-view-workspace-content class="sky-theme-padding-inset-balanced-xl">
+    <sky-split-view-workspace-content
+      class="sky-theme-padding-inset-balanced-xl"
+    >
       <form [formGroup]="splitViewDemoForm" (ngSubmit)="onApprove()">
         <sky-description-list class="sky-theme-margin-bottom-xl">
           <sky-description-list-content>
