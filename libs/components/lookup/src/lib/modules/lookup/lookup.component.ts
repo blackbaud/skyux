@@ -140,7 +140,14 @@ export class SkyLookupComponent
    * @default false
    */
   @Input({ transform: booleanAttribute })
-  public enableShowMore = false;
+  public set enableShowMore(value: boolean) {
+    this.#_enableShowMore = value;
+    this.#populateInputBox();
+  }
+
+  public get enableShowMore(): boolean {
+    return this.#_enableShowMore;
+  }
 
   /**
    * Placeholder text to display in the lookup field.
@@ -309,6 +316,7 @@ export class SkyLookupComponent
 
   #_autocompleteInputDirective: SkyAutocompleteInputDirective | undefined;
   #_data: any[] | undefined;
+  #_enableShowMore = false;
   #_selectMode: SkyLookupSelectModeType | undefined;
   #_tokens: SkyToken[] | undefined;
   #_value: any[] | undefined;
@@ -358,12 +366,7 @@ export class SkyLookupComponent
       this.controlId = this.inputBoxHostSvc.controlId;
       this.ariaDescribedBy = this.inputBoxHostSvc.ariaDescribedBy;
 
-      this.inputBoxHostSvc.populate({
-        inputTemplate: this.inputTemplateRef,
-        buttonsTemplate: this.enableShowMore
-          ? this.showMoreButtonTemplateRef
-          : undefined,
-      });
+      this.#populateInputBox();
 
       this.inputBoxHostSvc?.setRequired(this.required);
     } else {
@@ -933,5 +936,16 @@ export class SkyLookupComponent
 
   #pickerModalOpen(): boolean {
     return !!(this.#openNativePicker || this.#openSelectionModal);
+  }
+
+  #populateInputBox(): void {
+    if (this.inputBoxHostSvc && this.inputTemplateRef) {
+      this.inputBoxHostSvc.populate({
+        inputTemplate: this.inputTemplateRef,
+        buttonsTemplate: this.enableShowMore
+          ? this.showMoreButtonTemplateRef
+          : undefined,
+      });
+    }
   }
 }
