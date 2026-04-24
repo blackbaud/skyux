@@ -65,7 +65,7 @@ export const rule = createESLintTemplateRule({
 
       context.report({
         loc,
-        messageId: 'privateClass',
+        messageId: 'notPublicApi',
         data: { className, docsUrl: STYLE_API_DOCS_URL },
       });
     }

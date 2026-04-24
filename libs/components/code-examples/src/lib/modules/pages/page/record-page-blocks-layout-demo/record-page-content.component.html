@@ -1,7 +1,7 @@
 <sky-fluid-grid gutterSize="medium" [disableMargin]="true">
   <sky-row>
     <sky-column [screenMedium]="4" [screenSmall]="12">
-      <sky-box class="sky-margin-stacked-xl" headingText="Details">
+      <sky-box class="sky-theme-margin-bottom-xl" headingText="Details">
         <sky-box-controls>
           <button
             aria-label="Edit button for details"
@@ -28,11 +28,11 @@
       </sky-box>
     </sky-column>
     <sky-column [screenMedium]="4" [screenSmall]="12">
-      <sky-box class="sky-margin-stacked-xl" headingText="Payments">
+      <sky-box class="sky-theme-margin-bottom-xl" headingText="Payments">
         <sky-box-content>
           <div class="box-2-content">
             <div class="box-2-actuals">
-              <h3 class="sky-font-heading-4">Actuals</h3>
+              <h3 class="sky-theme-font-heading-4">Actuals</h3>
               @for (
                 actual of actualPayments;
                 track actual.category;
@@ -43,7 +43,7 @@
                     'sky-margin-stacked-lg': i < actualPayments.length - 1
                   }"
                 >
-                  <sky-key-info-value class="sky-font-display-3">
+                  <sky-key-info-value class="sky-theme-font-display-3">
                     {{ actual.value }}
                   </sky-key-info-value>
                   <sky-key-info-label>{{ actual.category }}</sky-key-info-label>
@@ -51,7 +51,7 @@
               }
             </div>
             <div class="box-2-projected">
-              <h3 class="sky-font-heading-4">Projected</h3>
+              <h3 class="sky-theme-font-heading-4">Projected</h3>
               @for (
                 projected of projectedPayments;
                 track projected;
@@ -62,7 +62,7 @@
                     'sky-margin-stacked-lg': i < projectedPayments.length - 1
                   }"
                 >
-                  <sky-key-info-value class="sky-font-display-3">
+                  <sky-key-info-value class="sky-theme-font-display-3">
                     {{ projected.value }}
                   </sky-key-info-value>
                   <sky-key-info-label>
@@ -82,10 +82,12 @@
             @for (activity of recentActivity; track activity.activity) {
               <sky-repeater-item>
                 <sky-repeater-item-content>
-                  <div class="sky-margin-stacked-xs">
+                  <div class="sky-theme-margin-bottom-xs">
                     {{ activity.activity }}
                   </div>
-                  <div class="sky-font-deemphasized">{{ activity.date }}</div>
+                  <div class="sky-theme-font-body-deemphasized-m">
+                    {{ activity.date }}
+                  </div>
                 </sky-repeater-item-content>
               </sky-repeater-item>
             }
