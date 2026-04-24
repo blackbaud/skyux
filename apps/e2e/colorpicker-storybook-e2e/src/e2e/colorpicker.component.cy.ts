@@ -39,13 +39,16 @@ describe('colorpicker-storybook', () => {
         cy.get('app-colorpicker')
           .should('exist')
           .should('be.visible')
+          .skyBlur()
           .screenshot(`colorpickercomponent-colorpicker--colorpicker-${theme}`);
-        cy.get('app-colorpicker').percySnapshot(
-          `colorpickercomponent-colorpicker--colorpicker-${theme}`,
-          {
-            widths: E2eVariations.DISPLAY_WIDTHS,
-          },
-        );
+        cy.get('app-colorpicker')
+          .skyBlur()
+          .percySnapshot(
+            `colorpickercomponent-colorpicker--colorpicker-${theme}`,
+            {
+              widths: E2eVariations.DISPLAY_WIDTHS,
+            },
+          );
       });
 
       colorpickerVariations.forEach((colorpicker) => {
@@ -68,18 +71,22 @@ describe('colorpicker-storybook', () => {
               cy.wrap($el.position().left).should('be.gte', 12);
             });
 
-          cy.window().screenshot(
-            `colorpickercomponent-colorpicker--${colorpicker.id}-menu-${theme}`,
-            {
-              disableTimersAndAnimations: true,
-            },
-          );
-          cy.window().percySnapshot(
-            `colorpickercomponent-colorpicker--${colorpicker.id}-menu-${theme}`,
-            {
-              widths: E2eVariations.DISPLAY_WIDTHS,
-            },
-          );
+          cy.window()
+            .skyBlur()
+            .screenshot(
+              `colorpickercomponent-colorpicker--${colorpicker.id}-menu-${theme}`,
+              {
+                disableTimersAndAnimations: true,
+              },
+            );
+          cy.window()
+            .skyBlur()
+            .percySnapshot(
+              `colorpickercomponent-colorpicker--${colorpicker.id}-menu-${theme}`,
+              {
+                widths: E2eVariations.DISPLAY_WIDTHS,
+              },
+            );
         });
       });
     });

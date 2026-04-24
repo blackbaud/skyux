@@ -8,15 +8,19 @@ describe('inline-form-storybook', () => {
           `/iframe.html?globals=theme:${theme}&id=inlineformcomponent-inlineform--inline-form-custom-buttons`,
         );
 
-        cy.skyReady('app-inline-form').screenshot(
-          `inlineformcomponent-inlineform--inline-form-closed-${theme}`,
-        );
-        cy.get('app-inline-form').percySnapshot(
-          `inlineformcomponent-inlineform--inline-form-closed-${theme}`,
-          {
-            widths: E2eVariations.DISPLAY_WIDTHS,
-          },
-        );
+        cy.skyReady('app-inline-form')
+          .skyBlur()
+          .screenshot(
+            `inlineformcomponent-inlineform--inline-form-closed-${theme}`,
+          );
+        cy.get('app-inline-form')
+          .skyBlur()
+          .percySnapshot(
+            `inlineformcomponent-inlineform--inline-form-closed-${theme}`,
+            {
+              widths: E2eVariations.DISPLAY_WIDTHS,
+            },
+          );
       });
       [
         'custom',
@@ -40,15 +44,19 @@ describe('inline-form-storybook', () => {
               .should('be.visible')
               .click();
 
-            cy.get('app-inline-form').screenshot(
-              `inlineformcomponent-inlineform--inline-form-${buttonCombo}-buttons-${theme}`,
-            );
-            cy.get('app-inline-form').percySnapshot(
-              `inlineformcomponent-inlineform--inline-form-${buttonCombo}-buttons-${theme}`,
-              {
-                widths: E2eVariations.DISPLAY_WIDTHS,
-              },
-            );
+            cy.get('app-inline-form')
+              .skyBlur()
+              .screenshot(
+                `inlineformcomponent-inlineform--inline-form-${buttonCombo}-buttons-${theme}`,
+              );
+            cy.get('app-inline-form')
+              .skyBlur()
+              .percySnapshot(
+                `inlineformcomponent-inlineform--inline-form-${buttonCombo}-buttons-${theme}`,
+                {
+                  widths: E2eVariations.DISPLAY_WIDTHS,
+                },
+              );
           });
         });
       });
