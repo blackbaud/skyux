@@ -18,7 +18,7 @@
       [data]="data"
       [debounceTime]="debounceTime"
       [descriptorProperty]="descriptorProperty"
-      [enableShowMore]="enableShowMore"
+      [enableShowMore]="enableShowMore()"
       [messageStream]="autocompleteController"
       [propertiesToSearch]="propertiesToSearch"
       [search]="searchOrDefault"
@@ -54,7 +54,7 @@
               (keyup)="onTokensKeyUp($event)"
               (tokensChange)="onTokensChange($event)"
               (tokensRendered)="onTokensRendered()"
-              (tokenSelected)="enableShowMore ? openPicker('') : undefined"
+              (tokenSelected)="enableShowMore() ? openPicker('') : undefined"
               (focusIndexOverRange)="onTokensFocusIndexOverRange()"
             >
               <textarea
@@ -95,7 +95,7 @@
             </div>
           }
         </div>
-        @if (!inputBoxHostSvc && enableShowMore) {
+        @if (!inputBoxHostSvc && enableShowMore()) {
           <ng-container *ngTemplateOutlet="showMoreButtonTemplateRef" />
         }
       </div>
