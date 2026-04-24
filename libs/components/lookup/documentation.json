@@ -105,7 +105,8 @@
           "LookupMultiSelectExampleComponent",
           "LookupResultTemplatesExampleComponent",
           "LookupCustomPickerExampleComponent",
-          "LookupAddItemExampleComponent"
+          "LookupAddItemExampleComponent",
+          "LookupSearchWithPickerOnlyExampleComponent"
         ]
       }
     },

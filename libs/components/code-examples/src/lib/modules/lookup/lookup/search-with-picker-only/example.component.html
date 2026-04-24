@@ -1,0 +1,25 @@
+<form novalidate [formGroup]="favoritesForm" (ngSubmit)="onSubmit()">
+  <sky-input-box
+    data-sky-id="favorite-names-field"
+    helpPopoverContent="Click the search button to find and select a name."
+    hintText="Use the search button to find a name."
+    labelText="Favorite name"
+    stacked
+  >
+    <sky-lookup
+      enableShowMore
+      formControlName="favoriteName"
+      idProperty="name"
+      selectMode="single"
+      [showMoreConfig]="showMoreConfig"
+      (searchAsync)="searchAsync($event)"
+    />
+  </sky-input-box>
+  <div
+    class="sky-border-dark sky-rounded-corners sky-padding-even-md sky-margin-stacked-lg"
+  >
+    <strong>Form model:</strong>
+    <pre>{{ favoritesForm.value | json }}</pre>
+  </div>
+  <button class="sky-btn sky-btn-default" type="submit">Submit</button>
+</form>

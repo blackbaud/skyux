@@ -279,6 +279,33 @@ function testSingleSelect(dataSkyId: string): void {
     expect(spy).toHaveBeenCalled();
   });
 
+  it('should click the search button', async () => {
+    const { fixture, lookupHarness } = await setupTest({
+      dataSkyId,
+    });
+
+    fixture.componentInstance.showMoreConfig.searchWithPickerOnly = true;
+    fixture.detectChanges();
+
+    await lookupHarness.clickSearchButton();
+
+    const picker = await lookupHarness.getShowMorePicker();
+
+    await expectAsync(picker.getSearchAriaLabel()).toBeResolvedTo(
+      jasmine.stringContaining('Search item'),
+    );
+  });
+
+  it('should throw an error when clicking the search button if it does not exist', async () => {
+    const { lookupHarness } = await setupTest({
+      dataSkyId: 'my-basic-lookup',
+    });
+
+    await expectAsync(lookupHarness.clickSearchButton()).toBeRejectedWithError(
+      'The search button cannot be clicked because it does not exist.',
+    );
+  });
+
   it('should search and select results from the show more picker', async () => {
     const { lookupHarness, lookupInputHarness } = await setupTest({
       dataSkyId,
