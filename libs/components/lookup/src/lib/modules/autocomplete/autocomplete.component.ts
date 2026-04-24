@@ -315,8 +315,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    * Prevents the autocomplete dropdown from opening on focus or text input.
    * @default false
    */
-  @Input()
-  public dropdownDisabled: boolean | undefined = false;
+  public dropdownDisabled = input(false, { transform: booleanAttribute });
 
   /**
    * When using `searchAsync`, allows the user to specify arbitrary
@@ -456,18 +455,14 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
         .pipe(takeUntil(this.#inputDirectiveUnsubscribe))
         .subscribe(() => {
           this.#hasFocus = true;
-          if (
-            !this.dropdownDisabled &&
-            (this.showActionsArea || this.dropdownHintText)
-          ) {
-            this.#openDropdown();
-          }
-          if (
-            !this.dropdownDisabled &&
-            this.searchTextMinimumCharacters === 0
-          ) {
-            this.isSearchingAsync = true;
-            this.#searchTextChanged('');
+          if (!this.dropdownDisabled()) {
+            if (this.showActionsArea || this.dropdownHintText) {
+              this.#openDropdown();
+            }
+            if (this.searchTextMinimumCharacters === 0) {
+              this.isSearchingAsync = true;
+              this.#searchTextChanged('');
+            }
           }
         });
     }
@@ -781,7 +776,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       });
     }
     if (this.#hasFocus) {
-      if (!this.dropdownDisabled) {
+      if (!this.dropdownDisabled()) {
         this.#openDropdown();
       }
       if (!searchText?.trim() && this.searchTextMinimumCharacters !== 0) {
@@ -883,7 +878,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
         }
       });
     } else {
-      if (!this.dropdownDisabled) {
+      if (!this.dropdownDisabled()) {
         this.#openDropdown();
       }
       this.#changeDetector.markForCheck();

@@ -14,15 +14,15 @@ export interface SkyLookupShowMoreConfig {
   customPicker?: SkyLookupShowMoreCustomPicker;
 
   /**
+   * Configuration options for the native picker.
+   */
+  nativePickerConfig?: SkyLookupShowMoreNativePickerConfig;
+
+  /**
    * Whether to search exclusively with the picker instead of the
    * autocomplete dropdown. When `true`, the search button is shown but
    * the dropdown does not open on focus or when typing.
    * @default false
    */
   searchWithPickerOnly?: boolean;
-
-  /**
-   * Configuration options for the native picker.
-   */
-  nativePickerConfig?: SkyLookupShowMoreNativePickerConfig;
 }

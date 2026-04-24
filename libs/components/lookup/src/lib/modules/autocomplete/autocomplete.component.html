@@ -1,16 +1,17 @@
 <div
   class="sky-autocomplete"
-  [attr.aria-autocomplete]="dropdownDisabled ? null : 'list'"
-  [attr.aria-haspopup]="dropdownDisabled ? null : 'listbox'"
-  [attr.role]="dropdownDisabled ? null : 'combobox'"
+  [attr.aria-autocomplete]="dropdownDisabled() ? null : 'list'"
+  [attr.aria-haspopup]="dropdownDisabled() ? null : 'listbox'"
+  [attr.role]="dropdownDisabled() ? null : 'combobox'"
   [attr.aria-expanded]="
-    !dropdownDisabled &&
-    isOpen &&
-    !!(showActionsArea || dropdownHintText || (isResultsVisible | async))
+    dropdownDisabled()
+      ? null
+      : isOpen &&
+        !!(showActionsArea || dropdownHintText || (isResultsVisible | async))
   "
   [attr.aria-labelledby]="ariaLabelledBy"
   [attr.aria-controls]="
-    !dropdownDisabled &&
+    !dropdownDisabled() &&
     isOpen &&
     (showActionsArea || dropdownHintText || (isResultsVisible | async))
       ? resultsListId
