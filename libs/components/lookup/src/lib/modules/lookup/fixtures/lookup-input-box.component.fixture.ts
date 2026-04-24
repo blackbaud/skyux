@@ -7,6 +7,7 @@ import {
 
 import { SkyLookupComponent } from '../lookup.component';
 import { SkyLookupSelectModeType } from '../types/lookup-select-mode-type';
+import { SkyLookupShowMoreConfig } from '../types/lookup-show-more-config';
 
 @Component({
   selector: 'sky-test-cmp',
@@ -36,6 +37,8 @@ export class SkyLookupInputBoxTestComponent {
   public required = false;
 
   public selectMode: SkyLookupSelectModeType | undefined;
+
+  public showMoreConfig: SkyLookupShowMoreConfig | undefined;
 
   constructor(formBuilder: UntypedFormBuilder) {
     this.data = [

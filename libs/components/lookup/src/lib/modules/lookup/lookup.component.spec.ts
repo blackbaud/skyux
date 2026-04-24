@@ -7608,6 +7608,78 @@ describe('Lookup component', function () {
       expect(searchButton).not.toExist();
     }));
 
+    it('should not open the dropdown on focus when `showMoreConfig.hideDropdown` is true', fakeAsync(() => {
+      component.enableShowMore = true;
+      component.showMoreConfig = { hideDropdown: true };
+      fixture.detectChanges();
+
+      const inputElement = getInputElement(lookupComponent);
+      inputElement.focus();
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      expect(getDropdown()).toBeNull();
+    }));
+
+    it('should not open the dropdown on text input when `showMoreConfig.hideDropdown` is true', fakeAsync(() => {
+      component.enableShowMore = true;
+      component.showMoreConfig = { hideDropdown: true };
+      fixture.detectChanges();
+
+      const inputElement = getInputElement(lookupComponent);
+      inputElement.focus();
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+      inputElement.value = 'r';
+      SkyAppTestUtility.fireDomEvent(inputElement, 'input');
+      tick();
+      fixture.detectChanges();
+      tick(200);
+      fixture.detectChanges();
+      tick();
+
+      expect(getDropdown()).toBeNull();
+    }));
+
+    it('should still show the search button when `showMoreConfig.hideDropdown` is true', fakeAsync(() => {
+      component.enableShowMore = true;
+      component.showMoreConfig = { hideDropdown: true };
+      fixture.detectChanges();
+
+      const searchButton = nativeElement.querySelector(
+        '#my-lookup .sky-input-group-btn .sky-btn',
+      );
+      expect(searchButton).toExist();
+    }));
+
+    it('should not set combobox ARIA attributes when `showMoreConfig.hideDropdown` is true', fakeAsync(() => {
+      component.enableShowMore = true;
+      component.showMoreConfig = { hideDropdown: true };
+      fixture.detectChanges();
+
+      const autocompleteWrapper =
+        nativeElement.querySelector('.sky-autocomplete');
+      expect(autocompleteWrapper?.getAttribute('role')).toBeNull();
+      expect(autocompleteWrapper?.getAttribute('aria-autocomplete')).toBeNull();
+      expect(autocompleteWrapper?.getAttribute('aria-haspopup')).toBeNull();
+    }));
+
+    it('should open the dropdown on focus when `showMoreConfig.hideDropdown` is not set', fakeAsync(() => {
+      component.enableShowMore = true;
+      component.showMoreConfig = {};
+      fixture.detectChanges();
+
+      const inputElement = getInputElement(lookupComponent);
+      inputElement.focus();
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      expect(getDropdown()).not.toBeNull();
+    }));
+
     it('should unfocus the component if it loses focus', async function () {
       fixture.detectChanges();
 
