@@ -1,6 +1,15 @@
 # Changelog
 
 
+## [14.2.1](https://github.com/blackbaud/skyux/compare/14.2.0...14.2.1) (2026-04-24)
+
+
+### Bug Fixes
+
+* **components/lookup:** repopulate input box host when `enableShowMore` changes after init ([#4396](https://github.com/blackbaud/skyux/issues/4396)) ([7d074f8](https://github.com/blackbaud/skyux/commit/7d074f8df90c73ff76cb095ae6a97fab715512b7))
+* **sdk/testing:** add underscore prefix to exported private types ([#4391](https://github.com/blackbaud/skyux/issues/4391)) ([9a54496](https://github.com/blackbaud/skyux/commit/9a54496f55f3b67c79b2eb6f48db09b7b5ed9a6c))
+* update design tokens to include elevation deprecated variables ([#4395](https://github.com/blackbaud/skyux/issues/4395)) ([1456bf6](https://github.com/blackbaud/skyux/commit/1456bf68b75871dc78b995dace1038942aefc83e))
+
 ## [14.2.0](https://github.com/blackbaud/skyux/compare/14.1.1...14.2.0) (2026-04-23)
 
 
