@@ -7608,9 +7608,9 @@ describe('Lookup component', function () {
       expect(searchButton).not.toExist();
     }));
 
-    it('should not open the dropdown on focus when `showMoreConfig.hideDropdown` is true', fakeAsync(() => {
+    it('should not open the dropdown on focus when `showMoreConfig.searchWithPickerOnly` is true', fakeAsync(() => {
       component.enableShowMore = true;
-      component.showMoreConfig = { hideDropdown: true };
+      component.showMoreConfig = { searchWithPickerOnly: true };
       fixture.detectChanges();
 
       const inputElement = getInputElement(lookupComponent);
@@ -7623,9 +7623,9 @@ describe('Lookup component', function () {
       expect(getDropdown()).toBeNull();
     }));
 
-    it('should not open the dropdown on text input when `showMoreConfig.hideDropdown` is true', fakeAsync(() => {
+    it('should not open the dropdown on text input when `showMoreConfig.searchWithPickerOnly` is true', fakeAsync(() => {
       component.enableShowMore = true;
-      component.showMoreConfig = { hideDropdown: true };
+      component.showMoreConfig = { searchWithPickerOnly: true };
       fixture.detectChanges();
 
       const inputElement = getInputElement(lookupComponent);
@@ -7642,9 +7642,9 @@ describe('Lookup component', function () {
       expect(getDropdown()).toBeNull();
     }));
 
-    it('should still show the search button when `showMoreConfig.hideDropdown` is true', fakeAsync(() => {
+    it('should still show the search button when `showMoreConfig.searchWithPickerOnly` is true', fakeAsync(() => {
       component.enableShowMore = true;
-      component.showMoreConfig = { hideDropdown: true };
+      component.showMoreConfig = { searchWithPickerOnly: true };
       fixture.detectChanges();
 
       const searchButton = nativeElement.querySelector(
@@ -7653,9 +7653,9 @@ describe('Lookup component', function () {
       expect(searchButton).toExist();
     }));
 
-    it('should not set combobox ARIA attributes when `showMoreConfig.hideDropdown` is true', fakeAsync(() => {
+    it('should not set combobox ARIA attributes when `showMoreConfig.searchWithPickerOnly` is true', fakeAsync(() => {
       component.enableShowMore = true;
-      component.showMoreConfig = { hideDropdown: true };
+      component.showMoreConfig = { searchWithPickerOnly: true };
       fixture.detectChanges();
 
       const autocompleteWrapper =
@@ -7665,7 +7665,7 @@ describe('Lookup component', function () {
       expect(autocompleteWrapper?.getAttribute('aria-haspopup')).toBeNull();
     }));
 
-    it('should open the dropdown on focus when `showMoreConfig.hideDropdown` is not set', fakeAsync(() => {
+    it('should open the dropdown on focus when `showMoreConfig.searchWithPickerOnly` is not set', fakeAsync(() => {
       component.enableShowMore = true;
       component.showMoreConfig = {};
       fixture.detectChanges();

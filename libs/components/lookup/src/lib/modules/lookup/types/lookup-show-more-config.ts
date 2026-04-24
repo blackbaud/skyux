@@ -14,13 +14,12 @@ export interface SkyLookupShowMoreConfig {
   customPicker?: SkyLookupShowMoreCustomPicker;
 
   /**
-   * Whether to hide the autocomplete dropdown when users interact with
-   * the lookup field. When `true`, the search button is shown but the
-   * dropdown does not open on focus or typing. Use this when search
-   * is handled entirely by a custom picker.
+   * Whether to search exclusively with the picker instead of the
+   * autocomplete dropdown. When `true`, the search button is shown but
+   * the dropdown does not open on focus or when typing.
    * @default false
    */
-  hideDropdown?: boolean;
+  searchWithPickerOnly?: boolean;
 
   /**
    * Configuration options for the native picker.
