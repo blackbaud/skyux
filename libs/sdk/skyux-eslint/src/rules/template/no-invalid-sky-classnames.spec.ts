@@ -38,7 +38,7 @@ jest.mock('../utils/style-public-api', () => {
       }
       return WHITELISTED_SKY_CLASSES.has(className)
         ? { type: 'valid' }
-        : { type: 'privateClass', className };
+        : { type: 'notPublicApi', className };
     },
   };
 });
@@ -114,7 +114,7 @@ ruleTester.run(RULE_NAME, rule, {
       <div class="sky-private-class"></div>
            ~~~~~~~~~~~~~~~~~~~~~~~~~
       `,
-      messageId: 'privateClass',
+      messageId: 'notPublicApi',
       data: {
         className: 'sky-private-class',
         docsUrl: 'https://developer.blackbaud.com/skyux/design/styles',
@@ -197,7 +197,7 @@ ruleTester.run(RULE_NAME, rule, {
       code: `<div [class.sky-private-class]="true"></div>`,
       errors: [
         {
-          messageId: 'privateClass',
+          messageId: 'notPublicApi',
           data: {
             className: 'sky-private-class',
             docsUrl: 'https://developer.blackbaud.com/skyux/design/styles',

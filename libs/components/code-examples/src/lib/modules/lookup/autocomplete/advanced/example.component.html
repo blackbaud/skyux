@@ -1,5 +1,5 @@
 <form novalidate [formGroup]="formGroup">
-  <div class="sky-margin-stacked-lg">
+  <div class="sky-theme-margin-bottom-l">
     The following field:<br />
     <ul>
       <li>utilizes a custom search result template,</li>
@@ -10,7 +10,7 @@
     </ul>
   </div>
 
-  <div class="sky-margin-stacked-lg">
+  <div class="sky-theme-margin-bottom-l">
     <sky-input-box labelText="Farthest planet from the sun" stacked>
       <sky-autocomplete
         [data]="planets"
@@ -24,7 +24,7 @@
       </sky-autocomplete>
     </sky-input-box>
   </div>
-  <p class="sky-font-emphasized">Form model:</p>
+  <p class="sky-theme-font-body-emphasized-m">Form model:</p>
   <pre>{{ formGroup.value | json }}</pre>
 </form>
 

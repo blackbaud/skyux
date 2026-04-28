@@ -7583,6 +7583,31 @@ describe('Lookup component', function () {
       expect(containerEl).toHaveCssClass('sky-lookup');
     }));
 
+    it('should show and hide the show more search button when `enableShowMore` changes after init', fakeAsync(() => {
+      fixture.detectChanges();
+
+      let searchButton = nativeElement.querySelector(
+        '#my-lookup .sky-input-group-btn .sky-btn',
+      );
+      expect(searchButton).not.toExist();
+
+      component.enableShowMore = true;
+      fixture.detectChanges();
+
+      searchButton = nativeElement.querySelector(
+        '#my-lookup .sky-input-group-btn .sky-btn',
+      );
+      expect(searchButton).toExist();
+
+      component.enableShowMore = false;
+      fixture.detectChanges();
+
+      searchButton = nativeElement.querySelector(
+        '#my-lookup .sky-input-group-btn .sky-btn',
+      );
+      expect(searchButton).not.toExist();
+    }));
+
     it('should unfocus the component if it loses focus', async function () {
       fixture.detectChanges();
 

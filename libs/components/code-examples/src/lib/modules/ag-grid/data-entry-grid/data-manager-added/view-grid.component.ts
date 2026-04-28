@@ -113,7 +113,7 @@ export class ViewGridComponent {
     },
   ];
 
-  protected noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
+  protected noRowsTemplate = `<div class="sky-theme-font-body-deemphasized-m">No results found.</div>`;
   readonly #dataManagerSvc = inject(SkyDataManagerService);
   readonly #dataState = toSignal(
     this.#dataManagerSvc.getDataStateUpdates(this.viewId),
