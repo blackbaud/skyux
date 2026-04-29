@@ -18,15 +18,17 @@ describe('lookup-storybook', () => {
               .viewport(1300, 900),
           );
           it(`should render the component`, () => {
-            cy.skyReady('app-lookup').screenshot(
-              `lookupcomponent-lookup--lookup-${mode}-${theme}`,
-            );
-            cy.get('app-lookup').percySnapshot(
-              `lookupcomponent-lookup--lookup-${mode}-${theme}`,
-              {
-                widths: E2eVariations.DISPLAY_WIDTHS,
-              },
-            );
+            cy.skyReady('app-lookup')
+              .skyBlur()
+              .screenshot(`lookupcomponent-lookup--lookup-${mode}-${theme}`);
+            cy.get('app-lookup')
+              .skyBlur()
+              .percySnapshot(
+                `lookupcomponent-lookup--lookup-${mode}-${theme}`,
+                {
+                  widths: E2eVariations.DISPLAY_WIDTHS,
+                },
+              );
           });
         });
       });
@@ -52,15 +54,19 @@ describe('lookup-storybook', () => {
                 .should('exist')
                 .should('be.visible');
 
-              cy.get('app-lookup').screenshot(
-                `lookupcomponent-lookup--lookup-${mode}-show-more-dropdown-with-filtering-${theme}`,
-              );
-              cy.get('app-lookup').percySnapshot(
-                `lookupcomponent-lookup--lookup-${mode}-show-more-dropdown-with-filtering-${theme}`,
-                {
-                  widths: E2eVariations.DISPLAY_WIDTHS,
-                },
-              );
+              cy.get('app-lookup')
+                .skyBlur()
+                .screenshot(
+                  `lookupcomponent-lookup--lookup-${mode}-show-more-dropdown-with-filtering-${theme}`,
+                );
+              cy.get('app-lookup')
+                .skyBlur()
+                .percySnapshot(
+                  `lookupcomponent-lookup--lookup-${mode}-show-more-dropdown-with-filtering-${theme}`,
+                  {
+                    widths: E2eVariations.DISPLAY_WIDTHS,
+                  },
+                );
             });
             it('should render show more dropdown without filtering', () => {
               cy.skyReady('app-lookup');
@@ -75,15 +81,19 @@ describe('lookup-storybook', () => {
                 .should('exist')
                 .should('be.visible');
 
-              cy.get('app-lookup').screenshot(
-                `lookupcomponent-lookup--lookup-${mode}-show-more-dropdown-no-filtering-${theme}`,
-              );
-              cy.get('app-lookup').percySnapshot(
-                `lookupcomponent-lookup--lookup-${mode}-show-more-dropdown-no-filtering-${theme}`,
-                {
-                  widths: E2eVariations.DISPLAY_WIDTHS,
-                },
-              );
+              cy.get('app-lookup')
+                .skyBlur()
+                .screenshot(
+                  `lookupcomponent-lookup--lookup-${mode}-show-more-dropdown-no-filtering-${theme}`,
+                );
+              cy.get('app-lookup')
+                .skyBlur()
+                .percySnapshot(
+                  `lookupcomponent-lookup--lookup-${mode}-show-more-dropdown-no-filtering-${theme}`,
+                  {
+                    widths: E2eVariations.DISPLAY_WIDTHS,
+                  },
+                );
             });
             it('should render show more dropdown with no results', () => {
               cy.skyReady('app-lookup');
@@ -97,15 +107,19 @@ describe('lookup-storybook', () => {
                 .should('exist')
                 .should('be.visible');
 
-              cy.get('app-lookup').screenshot(
-                `lookupcomponent-lookup--lookup-${mode}-show-more-dropdown-no-results-${theme}`,
-              );
-              cy.get('app-lookup').percySnapshot(
-                `lookupcomponent-lookup--lookup-${mode}-show-more-dropdown-no-results-${theme}`,
-                {
-                  widths: E2eVariations.DISPLAY_WIDTHS,
-                },
-              );
+              cy.get('app-lookup')
+                .skyBlur()
+                .screenshot(
+                  `lookupcomponent-lookup--lookup-${mode}-show-more-dropdown-no-results-${theme}`,
+                );
+              cy.get('app-lookup')
+                .skyBlur()
+                .percySnapshot(
+                  `lookupcomponent-lookup--lookup-${mode}-show-more-dropdown-no-results-${theme}`,
+                  {
+                    widths: E2eVariations.DISPLAY_WIDTHS,
+                  },
+                );
             });
             it('should render show more dropdown add button', () => {
               cy.skyReady('app-lookup');
@@ -120,15 +134,19 @@ describe('lookup-storybook', () => {
                 .should('exist')
                 .should('be.visible');
 
-              cy.get('app-lookup').screenshot(
-                `lookupcomponent-lookup--lookup-${mode}-show-more-dropdown-add-more-button-${theme}`,
-              );
-              cy.get('app-lookup').percySnapshot(
-                `lookupcomponent-lookup--lookup-${mode}-show-more-dropdown-add-more-button-${theme}`,
-                {
-                  widths: E2eVariations.DISPLAY_WIDTHS,
-                },
-              );
+              cy.get('app-lookup')
+                .skyBlur()
+                .screenshot(
+                  `lookupcomponent-lookup--lookup-${mode}-show-more-dropdown-add-more-button-${theme}`,
+                );
+              cy.get('app-lookup')
+                .skyBlur()
+                .percySnapshot(
+                  `lookupcomponent-lookup--lookup-${mode}-show-more-dropdown-add-more-button-${theme}`,
+                  {
+                    widths: E2eVariations.DISPLAY_WIDTHS,
+                  },
+                );
             });
             describe('in show more modal', () => {
               it('should open and render modal', () => {
@@ -147,15 +165,19 @@ describe('lookup-storybook', () => {
 
                 cy.get('.sky-modal').should('exist').should('be.visible');
 
-                cy.get('app-lookup').screenshot(
-                  `lookupcomponent-lookup--lookup-${mode}-show-more-modal-${theme}`,
-                );
-                cy.get('app-lookup').percySnapshot(
-                  `lookupcomponent-lookup--lookup-${mode}-show-more-modal-${theme}`,
-                  {
-                    widths: E2eVariations.DISPLAY_WIDTHS,
-                  },
-                );
+                cy.get('app-lookup')
+                  .skyBlur()
+                  .screenshot(
+                    `lookupcomponent-lookup--lookup-${mode}-show-more-modal-${theme}`,
+                  );
+                cy.get('app-lookup')
+                  .skyBlur()
+                  .percySnapshot(
+                    `lookupcomponent-lookup--lookup-${mode}-show-more-modal-${theme}`,
+                    {
+                      widths: E2eVariations.DISPLAY_WIDTHS,
+                    },
+                  );
               });
               it('should open and render modal with add more', () => {
                 cy.skyReady('app-lookup');
@@ -173,15 +195,19 @@ describe('lookup-storybook', () => {
 
                 cy.get('.sky-modal').should('exist').should('be.visible');
 
-                cy.get('app-lookup').screenshot(
-                  `lookupcomponent-lookup--lookup-${mode}-show-more-modal-add-more-${theme}`,
-                );
-                cy.get('app-lookup').percySnapshot(
-                  `lookupcomponent-lookup--lookup-${mode}-show-more-modal-add-more-${theme}`,
-                  {
-                    widths: E2eVariations.DISPLAY_WIDTHS,
-                  },
-                );
+                cy.get('app-lookup')
+                  .skyBlur()
+                  .screenshot(
+                    `lookupcomponent-lookup--lookup-${mode}-show-more-modal-add-more-${theme}`,
+                  );
+                cy.get('app-lookup')
+                  .skyBlur()
+                  .percySnapshot(
+                    `lookupcomponent-lookup--lookup-${mode}-show-more-modal-add-more-${theme}`,
+                    {
+                      widths: E2eVariations.DISPLAY_WIDTHS,
+                    },
+                  );
               });
               it('should open and render modal with preselected values', () => {
                 cy.skyReady('app-lookup');
@@ -199,15 +225,19 @@ describe('lookup-storybook', () => {
 
                 cy.get('.sky-modal').should('exist').should('be.visible');
 
-                cy.get('app-lookup').screenshot(
-                  `lookupcomponent-lookup--lookup-${mode}-show-more-modal-preselected-values-${theme}`,
-                );
-                cy.get('app-lookup').percySnapshot(
-                  `lookupcomponent-lookup--lookup-${mode}-show-more-modal-preselected-values-${theme}`,
-                  {
-                    widths: E2eVariations.DISPLAY_WIDTHS,
-                  },
-                );
+                cy.get('app-lookup')
+                  .skyBlur()
+                  .screenshot(
+                    `lookupcomponent-lookup--lookup-${mode}-show-more-modal-preselected-values-${theme}`,
+                  );
+                cy.get('app-lookup')
+                  .skyBlur()
+                  .percySnapshot(
+                    `lookupcomponent-lookup--lookup-${mode}-show-more-modal-preselected-values-${theme}`,
+                    {
+                      widths: E2eVariations.DISPLAY_WIDTHS,
+                    },
+                  );
               });
             });
           });
