@@ -8,6 +8,20 @@ describe('Vitest setupFiles integration', () => {
     expect(resolved).toBe(true);
   });
 
+  it('should define the matchers-setup.js subpath export', async () => {
+    const { readFile } = await import('node:fs/promises');
+    const { resolve } = await import('node:path');
+
+    const pkgPath = resolve(
+      __dirname,
+      '../../../../../dist/libs/sdk/testing/package.json',
+    );
+
+    const pkg = JSON.parse(await readFile(pkgPath, 'utf-8'));
+
+    expect(pkg.exports['./vitest/matchers-setup.js']).toBeDefined();
+  });
+
   describe('toBeAccessible', () => {
     it('should pass for accessible content', async () => {
       const container = document.createElement('div');
