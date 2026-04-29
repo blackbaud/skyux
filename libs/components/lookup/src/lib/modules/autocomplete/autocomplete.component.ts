@@ -311,6 +311,13 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   public searchAsyncDisabled: boolean | undefined = false;
 
   /**
+   * @internal
+   * Prevents the autocomplete dropdown from opening on focus or text input.
+   * @default false
+   */
+  public dropdownDisabled = input(false, { transform: booleanAttribute });
+
+  /**
    * When using `searchAsync`, allows the user to specify arbitrary
    * values not in the search results. This only works in combination
    * with `searchAsync`.
@@ -448,12 +455,14 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
         .pipe(takeUntil(this.#inputDirectiveUnsubscribe))
         .subscribe(() => {
           this.#hasFocus = true;
-          if (this.showActionsArea || this.dropdownHintText) {
-            this.#openDropdown();
-          }
-          if (this.searchTextMinimumCharacters === 0) {
-            this.isSearchingAsync = true;
-            this.#searchTextChanged('');
+          if (!this.dropdownDisabled()) {
+            if (this.showActionsArea || this.dropdownHintText) {
+              this.#openDropdown();
+            }
+            if (this.searchTextMinimumCharacters === 0) {
+              this.isSearchingAsync = true;
+              this.#searchTextChanged('');
+            }
           }
         });
     }
@@ -767,7 +776,9 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       });
     }
     if (this.#hasFocus) {
-      this.#openDropdown();
+      if (!this.dropdownDisabled()) {
+        this.#openDropdown();
+      }
       if (!searchText?.trim() && this.searchTextMinimumCharacters !== 0) {
         this.#handleEmptySearchText();
         return;
@@ -867,7 +878,9 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
         }
       });
     } else {
-      this.#openDropdown();
+      if (!this.dropdownDisabled()) {
+        this.#openDropdown();
+      }
       this.#changeDetector.markForCheck();
     }
   }

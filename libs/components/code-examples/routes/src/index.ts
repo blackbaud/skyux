@@ -919,6 +919,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'LookupSearchWithPickerOnlyExampleComponent',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ LookupSearchWithPickerOnlyExampleComponent: c }) => c,
+      ),
+  },
+  {
     path: 'LookupSelectionModalAddItemExampleComponent',
     loadComponent: () =>
       import('@skyux/code-examples').then(

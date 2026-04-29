@@ -1472,6 +1472,54 @@ describe('Autocomplete component', () => {
       await expectAsync(document.body).toBeAccessible(axeConfig);
     });
 
+    it('should be accessible when dropdownDisabled is true', async () => {
+      component.dropdownDisabled = true;
+
+      const axeConfig = { rules: { region: { enabled: false } } };
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+      await expectAsync(document.body).toBeAccessible(axeConfig);
+    });
+
+    describe('when dropdownDisabled is true', () => {
+      it('should not set combobox ARIA attributes', fakeAsync(() => {
+        component.dropdownDisabled = true;
+        fixture.detectChanges();
+
+        const wrapper = document.querySelector('.sky-autocomplete');
+        expect(wrapper?.getAttribute('role')).toBeNull();
+        expect(wrapper?.getAttribute('aria-autocomplete')).toBeNull();
+        expect(wrapper?.getAttribute('aria-haspopup')).toBeNull();
+        expect(wrapper?.getAttribute('aria-expanded')).toBeNull();
+        expect(wrapper?.getAttribute('aria-controls')).toBeNull();
+      }));
+
+      it('should not open the dropdown on focus', fakeAsync(() => {
+        component.dropdownDisabled = true;
+        component.enableShowMore = true;
+        fixture.detectChanges();
+
+        const inputElement = getInputElement();
+        inputElement.focus();
+        SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        expect(getSearchResultsContainer()).toBeFalsy();
+      }));
+
+      it('should not open the dropdown on text input', fakeAsync(() => {
+        component.dropdownDisabled = true;
+        fixture.detectChanges();
+
+        enterSearch('r', fixture);
+
+        expect(getSearchResultsContainer()).toBeFalsy();
+      }));
+    });
+
     it('should set `aria-controls` attribute', fakeAsync(() => {
       fixture.detectChanges();
 
