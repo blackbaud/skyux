@@ -76,15 +76,12 @@ else
   Write-Output "`n# git pull"
   git pull --set-upstream origin $TranslationBranchName
 
-  if ($IsDryRunBool)
+  Write-Output "`n# git rebase -X ours $LtsBranchName"
+  git rebase -X ours $LtsBranchName
+  if ($LASTEXITCODE -ne 0)
   {
-    Write-Output "`n# git merge -X theirs --no-commit $LtsBranchName"
-    git merge -X theirs --no-commit $LtsBranchName
-  }
-  else
-  {
-    Write-Output "`n# git merge -X theirs $LtsBranchName"
-    git merge -X theirs $LtsBranchName
+    Write-Output "`n::error::git rebase failed (exit $LASTEXITCODE).`n"
+    exit $LASTEXITCODE
   }
   Write-Output "`n::endgroup::`n"
 
@@ -134,8 +131,13 @@ else
 
   if (-not $IsDryRunBool)
   {
-    Write-Output "`n# git push origin $TranslationBranchName"
-    git push origin $TranslationBranchName
+    Write-Output "`n# git push --force-with-lease origin $TranslationBranchName"
+    git push --force-with-lease origin $TranslationBranchName
+    if ($LASTEXITCODE -ne 0)
+    {
+      Write-Output "`n::error::git push --force-with-lease failed (exit $LASTEXITCODE).`n"
+      exit $LASTEXITCODE
+    }
   }
   else
   {
