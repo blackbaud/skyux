@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
+  RendererFactory2,
   computed,
   inject,
   model,
@@ -12,6 +13,7 @@ import { SkyCheckboxChange, SkyCheckboxModule } from '@skyux/forms';
 
 import { IHeaderAngularComp } from 'ag-grid-angular';
 import { GridApi, IHeaderParams } from 'ag-grid-community';
+import { filter, fromEvent } from 'rxjs';
 
 import { fromGridEvent } from '../../ag-grid-event-utils';
 
@@ -38,6 +40,7 @@ export class SkyAgGridHeaderRowSelectorComponent implements IHeaderAngularComp {
 
   #api: GridApi<unknown> | undefined;
   readonly #destroyRef = inject(DestroyRef);
+  readonly #renderer = inject(RendererFactory2).createRenderer(undefined, null);
 
   public agInit(params: IHeaderParams): void {
     this.params.set(params);
@@ -71,6 +74,23 @@ export class SkyAgGridHeaderRowSelectorComponent implements IHeaderAngularComp {
           this.indeterminate.set(!!this.#api?.getSelectedNodes().length);
           this.checked.set(false);
         });
+
+      const el = params.eGridHeader;
+      if (el) {
+        this.#renderer.setAttribute(el, 'aria-keyshortcuts', 'Enter Space');
+        fromEvent<KeyboardEvent>(el, 'keypress')
+          .pipe(
+            takeUntilDestroyed(this.#destroyRef),
+            filter((evt) => ['Enter', ' '].includes(evt.key)),
+          )
+          .subscribe((): void => {
+            if (this.checked()) {
+              this.#api?.deselectAll();
+            } else {
+              this.#api?.selectAll();
+            }
+          });
+      }
     }
   }
 

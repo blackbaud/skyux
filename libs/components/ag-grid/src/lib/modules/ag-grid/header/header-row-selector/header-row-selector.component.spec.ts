@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-// eslint-disable-next-line @nx/enforce-module-boundaries
 import { SkyCheckboxHarness } from '@skyux/forms/testing';
 
 import {
@@ -195,6 +194,57 @@ describe('SkyAgGridHeaderRowSelectorComponent', () => {
     ).querySelector<HTMLInputElement>('input[type="checkbox"]');
     expect(htmlCheckbox).toBeTruthy();
     expect(htmlCheckbox?.indeterminate).toBeTrue();
+  });
+
+  it('should toggle selection via Enter and Space keypress on the header element', async () => {
+    expect(component).toBeTruthy();
+    api.getGridOption.and.returnValue({ mode: 'multiRow' });
+    const headerEl = document.createElement('div');
+    component.agInit({
+      api,
+      displayName: 'test-selected',
+      eGridCell: fixture.nativeElement,
+      eGridHeader: headerEl,
+    } as any);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(headerEl.getAttribute('aria-keyshortcuts')).toEqual('Enter Space');
+
+    // Capture the selectionChanged handler so we can flip `checked` on later.
+    expect(api.addEventListener).toHaveBeenCalledTimes(2);
+    const selectEventHandler = api.addEventListener.calls.first().args[1];
+
+    // Unchecked + Enter -> selectAll.
+    headerEl.dispatchEvent(new KeyboardEvent('keypress', { key: 'Enter' }));
+    expect(api.selectAll).toHaveBeenCalledTimes(1);
+    expect(api.deselectAll).not.toHaveBeenCalled();
+
+    // Non-target keys are filtered out.
+    headerEl.dispatchEvent(new KeyboardEvent('keypress', { key: 'a' }));
+    headerEl.dispatchEvent(new KeyboardEvent('keypress', { key: 'Tab' }));
+    expect(api.selectAll).toHaveBeenCalledTimes(1);
+    expect(api.deselectAll).not.toHaveBeenCalled();
+
+    // Flip internal `checked` to true via the selectionChanged event.
+    selectEventHandler({
+      api: api as unknown as GridApi,
+      serverSideState: {},
+      type: 'selectionChanged',
+      source: 'apiSelectAll',
+      selectedNodes: Array.from(Array(10).keys()).map(
+        (i) => ({ id: `id-${i + 1}` }) as IRowNode,
+      ),
+      context: {},
+    } as SelectionChangedEvent);
+    await new Promise((resolve) => setTimeout(resolve, 1));
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    // Checked + Space -> deselectAll.
+    headerEl.dispatchEvent(new KeyboardEvent('keypress', { key: ' ' }));
+    expect(api.deselectAll).toHaveBeenCalledTimes(1);
+    expect(api.selectAll).toHaveBeenCalledTimes(1);
   });
 
   it('should hide checkbox for single select', async () => {
