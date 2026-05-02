@@ -196,7 +196,7 @@ describe('SkyAgGridHeaderRowSelectorComponent', () => {
     expect(htmlCheckbox?.indeterminate).toBeTrue();
   });
 
-  it('should toggle selection via Enter and Space keypress on the header element', async () => {
+  it('should toggle selection via Enter and Space keydown on the header element', async () => {
     expect(component).toBeTruthy();
     api.getGridOption.and.returnValue({ mode: 'multiRow' });
     const headerEl = document.createElement('div');
@@ -216,13 +216,13 @@ describe('SkyAgGridHeaderRowSelectorComponent', () => {
     const selectEventHandler = api.addEventListener.calls.first().args[1];
 
     // Unchecked + Enter -> selectAll.
-    headerEl.dispatchEvent(new KeyboardEvent('keypress', { key: 'Enter' }));
+    headerEl.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
     expect(api.selectAll).toHaveBeenCalledTimes(1);
     expect(api.deselectAll).not.toHaveBeenCalled();
 
     // Non-target keys are filtered out.
-    headerEl.dispatchEvent(new KeyboardEvent('keypress', { key: 'a' }));
-    headerEl.dispatchEvent(new KeyboardEvent('keypress', { key: 'Tab' }));
+    headerEl.dispatchEvent(new KeyboardEvent('keydown', { key: 'a' }));
+    headerEl.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab' }));
     expect(api.selectAll).toHaveBeenCalledTimes(1);
     expect(api.deselectAll).not.toHaveBeenCalled();
 
@@ -241,10 +241,74 @@ describe('SkyAgGridHeaderRowSelectorComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    // Checked + Space -> deselectAll.
-    headerEl.dispatchEvent(new KeyboardEvent('keypress', { key: ' ' }));
+    // Checked + Space -> deselectAll, and default scrolling is prevented.
+    const spaceEvent = new KeyboardEvent('keydown', {
+      key: ' ',
+      cancelable: true,
+    });
+    headerEl.dispatchEvent(spaceEvent);
+    expect(spaceEvent.defaultPrevented).toBeTrue();
     expect(api.deselectAll).toHaveBeenCalledTimes(1);
     expect(api.selectAll).toHaveBeenCalledTimes(1);
+  });
+
+  it('should ignore auto-repeat keydown events on the header element', async () => {
+    expect(component).toBeTruthy();
+    api.getGridOption.and.returnValue({ mode: 'multiRow' });
+    const headerEl = document.createElement('div');
+    component.agInit({
+      api,
+      displayName: 'test-selected',
+      eGridCell: fixture.nativeElement,
+      eGridHeader: headerEl,
+    } as any);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    // First press selects.
+    headerEl.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    expect(api.selectAll).toHaveBeenCalledTimes(1);
+
+    // Held key (repeat=true) is ignored, even for target keys.
+    headerEl.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Enter', repeat: true }),
+    );
+    headerEl.dispatchEvent(
+      new KeyboardEvent('keydown', { key: ' ', repeat: true }),
+    );
+    expect(api.selectAll).toHaveBeenCalledTimes(1);
+    expect(api.deselectAll).not.toHaveBeenCalled();
+  });
+
+  it('should not stack listeners when agInit is invoked more than once', async () => {
+    expect(component).toBeTruthy();
+    api.getGridOption.and.returnValue({ mode: 'multiRow' });
+    const headerEl = document.createElement('div');
+    const params = {
+      api,
+      displayName: 'test-selected',
+      eGridCell: fixture.nativeElement,
+      eGridHeader: headerEl,
+    } as any;
+
+    // First agInit attaches the keydown listener and two grid-event listeners.
+    component.agInit(params);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(api.addEventListener).toHaveBeenCalledTimes(2);
+    expect(api.removeEventListener).not.toHaveBeenCalled();
+
+    // Second agInit should tear down the first attachment before re-attaching.
+    component.agInit(params);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(api.removeEventListener).toHaveBeenCalledTimes(2);
+    expect(api.addEventListener).toHaveBeenCalledTimes(4);
+
+    // A single Enter keydown should fire selectAll exactly once, not twice.
+    headerEl.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    expect(api.selectAll).toHaveBeenCalledTimes(1);
+    expect(api.deselectAll).not.toHaveBeenCalled();
   });
 
   it('should hide checkbox for single select', async () => {
