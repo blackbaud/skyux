@@ -44,27 +44,20 @@
           labelText="Delete button"
           labelHidden
         />
-        <sky-radio-group
-          labelText="DOM layout"
+        <sky-checkbox
+          formControlName="showSelect"
+          iconName="checkmark"
+          title="Select checkboxes"
+          labelText="Show select checkboxes"
           labelHidden
-          formControlName="domLayout"
-          class="sky-switch-icon-group"
-        >
-          <sky-radio
-            iconName="square"
-            title="Normal DOM layout"
-            labelText="Normal"
-            labelHidden
-            value="normal"
-          />
-          <sky-radio
-            iconName="arrow-maximize"
-            title="Auto-height DOM layout"
-            labelText="Auto-height"
-            labelHidden
-            value="autoHeight"
-          />
-        </sky-radio-group>
+        />
+        <sky-checkbox
+          formControlName="domLayoutNormal"
+          iconName="arrow-minimize"
+          title="Use normal DOM layout"
+          labelText="Use normal DOM layout"
+          labelHidden
+        />
       </form>
     </sky-data-manager-toolbar-primary-item>
     <sky-data-manager-toolbar-primary-item>

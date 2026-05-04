@@ -1,18 +1,17 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
-  DestroyRef,
-  Input,
-  OnInit,
   Signal,
   ViewEncapsulation,
   computed,
+  effect,
   inject,
+  input,
   model,
   signal,
-  viewChild,
+  untracked,
 } from '@angular/core';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   FormBuilder,
   FormControl,
@@ -37,9 +36,11 @@ import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyDropdownModule } from '@skyux/popovers';
 
-import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
+import { AgGridModule } from 'ag-grid-angular';
 import {
   AllCommunityModule,
+  ColDef,
+  GridApi,
   GridOptions,
   ModuleRegistry,
 } from 'ag-grid-community';
@@ -56,7 +57,7 @@ import { LocalStorageConfigService } from './local-storage-config.service';
 interface GridSettingsType {
   enableTopScroll: FormControl<boolean>;
   useColumnGroups: FormControl<boolean>;
-  domLayout: FormControl<'normal' | 'autoHeight' | 'print'>;
+  domLayoutNormal: FormControl<boolean>;
   compact: FormControl<boolean>;
   wrapText: FormControl<boolean>;
   autoHeightColumns: FormControl<boolean>;
@@ -67,7 +68,7 @@ interface GridSettingsType {
 interface GridSettingsValueType {
   enableTopScroll: boolean;
   useColumnGroups: boolean;
-  domLayout: 'normal' | 'autoHeight' | 'print';
+  domLayoutNormal: boolean;
   compact: boolean;
   wrapText: boolean;
   autoHeightColumns: boolean;
@@ -106,37 +107,24 @@ ModuleRegistry.registerModules([AllCommunityModule]);
     '[class.use-auto-height-dom-layout]': 'useAutoHeightDomLayout()',
   },
 })
-export class DataManagerLargeComponent implements OnInit {
+export class DataManagerLargeComponent {
+  public readonly autoHeightColumns = input(false);
+  public readonly compact = input(false);
+  public readonly domLayout = input<'normal' | 'autoHeight' | 'print'>(
+    'autoHeight',
+  );
+  public readonly enableTopScroll = input(true);
+  public readonly showDelete = input(false);
+  public readonly showSelect = input(false);
+  public readonly useColumnGroups = input(false);
+  public readonly wrapText = input(false);
+
   public useNormalDomLayout = computed(
     () => this.gridOptions().domLayout === 'normal',
   );
   public useAutoHeightDomLayout = computed(
     () => this.gridOptions().domLayout === 'autoHeight',
   );
-
-  @Input()
-  public compact = false;
-
-  @Input()
-  public domLayout: 'normal' | 'autoHeight' | 'print' = 'autoHeight';
-
-  @Input()
-  public enableTopScroll = true;
-
-  @Input()
-  public useColumnGroups = false;
-
-  @Input()
-  public showSelect = true;
-
-  @Input()
-  public showDelete = false;
-
-  @Input()
-  public wrapText = false;
-
-  @Input()
-  public autoHeightColumns = false;
 
   public dataManagerConfig: SkyDataManagerConfig = {};
 
@@ -178,27 +166,36 @@ export class DataManagerLargeComponent implements OnInit {
   public readonly isActive = signal(true);
   public readonly gridSettings: FormGroup<GridSettingsType>;
 
-  protected readonly agGrid = viewChild(AgGridAngular);
   protected readonly rowDeleteIds = model<string[]>([]);
   protected readonly gridSettingsValue: Signal<Partial<GridSettingsValueType>>;
 
   readonly #agGridService = inject(SkyAgGridService);
   readonly #dataManagerService = inject(SkyDataManagerService);
-  readonly #destroyRef = inject(DestroyRef);
+  readonly #gridApi = signal<GridApi | undefined>(undefined);
 
   constructor() {
     const formBuilder = inject(FormBuilder);
     this.gridSettings = formBuilder.group<GridSettingsType>({
-      enableTopScroll: formBuilder.nonNullable.control(this.enableTopScroll),
-      useColumnGroups: formBuilder.nonNullable.control(this.useColumnGroups),
-      showSelect: formBuilder.nonNullable.control(this.showSelect),
-      showDelete: formBuilder.nonNullable.control(this.showDelete),
-      domLayout: formBuilder.nonNullable.control(this.domLayout),
-      compact: formBuilder.nonNullable.control(this.compact),
-      wrapText: formBuilder.nonNullable.control(this.wrapText),
-      autoHeightColumns: formBuilder.nonNullable.control(
-        this.autoHeightColumns,
-      ),
+      autoHeightColumns: formBuilder.nonNullable.control(false),
+      compact: formBuilder.nonNullable.control(false),
+      domLayoutNormal: formBuilder.nonNullable.control(false),
+      enableTopScroll: formBuilder.nonNullable.control(false),
+      showDelete: formBuilder.nonNullable.control(false),
+      showSelect: formBuilder.nonNullable.control(false),
+      useColumnGroups: formBuilder.nonNullable.control(false),
+      wrapText: formBuilder.nonNullable.control(false),
+    });
+    effect(() => {
+      this.gridSettings.patchValue({
+        autoHeightColumns: this.autoHeightColumns(),
+        compact: this.compact(),
+        domLayoutNormal: this.domLayout() === 'normal',
+        enableTopScroll: this.enableTopScroll(),
+        showDelete: this.showDelete(),
+        showSelect: this.showSelect(),
+        useColumnGroups: this.useColumnGroups(),
+        wrapText: this.wrapText(),
+      });
     });
     this.gridSettingsValue = toSignal(this.gridSettings.valueChanges, {
       initialValue: this.gridSettings.getRawValue(),
@@ -213,11 +210,9 @@ export class DataManagerLargeComponent implements OnInit {
                   {
                     field: 'select',
                     headerName: 'Select',
-                    headerComponentParams: {
-                      headerHidden: true,
-                    },
                     type: SkyCellType.RowSelector,
-                  },
+                    lockVisible: true,
+                  } as ColDef,
                 ]
               : []),
             ...(settings.showDelete
@@ -236,7 +231,7 @@ export class DataManagerLargeComponent implements OnInit {
               ? columnDefinitionsGrouped
               : columnDefinitions.map((col) =>
                   col.field === 'object_name'
-                    ? { ...col, rowDrag: settings.domLayout === 'normal' }
+                    ? { ...col, rowDrag: settings.domLayoutNormal }
                     : col,
                 )),
           ],
@@ -248,19 +243,29 @@ export class DataManagerLargeComponent implements OnInit {
           context: {
             enableTopScroll: settings.enableTopScroll,
           },
-          domLayout: settings.domLayout,
+          domLayout: settings.domLayoutNormal ? 'normal' : 'autoHeight',
           defaultColDef: {
             wrapText: settings.wrapText,
             autoHeight: settings.autoHeightColumns,
           },
-          rowDragManaged:
-            !settings.useColumnGroups && settings.domLayout === 'normal',
+          onGridReady: (ready) => {
+            this.#gridApi.set(ready.api);
+          },
+          onGridPreDestroyed: () => {
+            this.#gridApi.set(undefined);
+          },
+          rowDragManaged: !settings.useColumnGroups && settings.domLayoutNormal,
         },
       });
     });
-  }
+    effect(() => {
+      const api = untracked(() => this.#gridApi());
+      this.gridOptions();
+      if (api) {
+        this.#pauseAndShowGrid();
+      }
+    });
 
-  public ngOnInit(): void {
     this.#dataManagerService.initDataManager({
       activeViewId: this.viewId,
       dataManagerConfig: this.dataManagerConfig,
@@ -274,7 +279,6 @@ export class DataManagerLargeComponent implements OnInit {
       iconName: 'table',
       searchEnabled: false,
       sortEnabled: true,
-      multiselectToolbarEnabled: true,
       columnPickerEnabled: true,
       filterButtonEnabled: true,
       showFilterButtonText: true,
@@ -283,15 +287,10 @@ export class DataManagerLargeComponent implements OnInit {
           id: col.field ?? '',
           label: col.headerName ?? '',
           alwaysDisplayed:
-            this.showSelect && ['select'].includes(col.field ?? ''),
+            this.showSelect() && ['select'].includes(col.field ?? ''),
         };
       }),
     });
-
-    this.gridSettings.valueChanges
-      .pipe(takeUntilDestroyed(this.#destroyRef))
-      .subscribe(() => this.#pauseAndShowGrid());
-    this.#pauseAndShowGrid();
   }
 
   public markForDelete(rowId: string): void {
@@ -302,7 +301,7 @@ export class DataManagerLargeComponent implements OnInit {
 
   protected deleteConfirm($event: SkyAgGridRowDeleteConfirmArgs): void {
     this.items = this.items.filter((item) => item.id !== $event.id);
-    this.agGrid().api.setGridOption('rowData', this.items);
+    this.#gridApi()?.setGridOption('rowData', this.items);
   }
 
   #pauseAndShowGrid(): void {
