@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   Signal,
   ViewEncapsulation,
@@ -82,6 +83,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   selector: 'app-data-manager-large',
   templateUrl: './data-manager-large.component.html',
   styleUrls: ['./data-manager-large.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   imports: [
     AgGridModule,
