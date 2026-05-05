@@ -1,6 +1,18 @@
 # Changelog
 
 
+## [14.3.0](https://github.com/blackbaud/skyux/compare/14.2.2...14.3.0) (2026-05-05)
+
+
+### Features
+
+* **sdk/testing:** duplicate jasmine matchers for vitest ([#4385](https://github.com/blackbaud/skyux/issues/4385)) ([b66a41f](https://github.com/blackbaud/skyux/commit/b66a41f73963d0fdf057c37ae293f1d49c36a424))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** add keyboard commands for row selection header checkbox ([#4403](https://github.com/blackbaud/skyux/issues/4403)) ([8d6ddbf](https://github.com/blackbaud/skyux/commit/8d6ddbf6e868b5c664e350a0b96315d8961572f3)), closes [AB#3963510](https://dev.azure.com/blackbaud/Products/_workitems/edit/3963510)
+
 ## [14.2.2](https://github.com/blackbaud/skyux/compare/14.2.1...14.2.2) (2026-04-24)
 
 
