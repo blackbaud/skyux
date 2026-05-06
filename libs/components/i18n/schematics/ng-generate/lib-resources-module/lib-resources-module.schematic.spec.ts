@@ -110,7 +110,7 @@ export class MyLibResourcesModule {}
           _0: 'The name of the user',
           _1: 'The number of items remaining',
           _2: 'The total number of items',
-        }
+        },
       }),
     );
 
