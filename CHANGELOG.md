@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.3.1](https://github.com/blackbaud/skyux/compare/14.3.0...14.3.1) (2026-05-06)
+
+
+### Bug Fixes
+
+* **components/i18n:** update library resources schematic to only include message property ([#4405](https://github.com/blackbaud/skyux/issues/4405)) ([e41770b](https://github.com/blackbaud/skyux/commit/e41770bfc766de840dd02a6e39b964c6abd0b1d8)), closes [AB#3971960](https://dev.azure.com/blackbaud/Products/_workitems/edit/3971960)
+
 ## [14.3.0](https://github.com/blackbaud/skyux/compare/14.2.2...14.3.0) (2026-05-05)
 
 
