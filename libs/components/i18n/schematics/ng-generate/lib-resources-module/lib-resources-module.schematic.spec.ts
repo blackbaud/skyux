@@ -88,6 +88,41 @@ export class MyLibResourcesModule {}
 `);
   });
 
+  it('should only include the `message` property in the generated resources', async () => {
+    tree.overwrite(
+      defaultResourcesJsonPath,
+      JSON.stringify({
+        only_message: {
+          message: 'A message with no extra properties.',
+        },
+        simple: {
+          _description: 'A simple description.',
+          message: 'A simple message.',
+        },
+        single_placeholder: {
+          _description: 'A description with placeholders.',
+          message: 'A templated message {0}',
+          _0: 'Some placeholder description',
+        },
+        many_placeholders: {
+          _description: 'A description with many placeholders.',
+          message: '{0} has {1} items remaining out of {2}.',
+          _0: 'The name of the user',
+          _1: 'The number of items remaining',
+          _2: 'The total number of items',
+        }
+      }),
+    );
+
+    const updatedTree = await runSchematic();
+
+    const moduleContents = readRequiredFile(updatedTree, resourcesModulePath);
+
+    expect(moduleContents).toContain(
+      `'EN-US': {"only_message":{"message":"A message with no extra properties."},"simple":{"message":"A simple message."},"single_placeholder":{"message":"A templated message {0}"},"many_placeholders":{"message":"{0} has {1} items remaining out of {2}."}}`,
+    );
+  });
+
   it('should create a default resources file if none exists', async () => {
     tree.delete(defaultResourcesJsonPath);
 
