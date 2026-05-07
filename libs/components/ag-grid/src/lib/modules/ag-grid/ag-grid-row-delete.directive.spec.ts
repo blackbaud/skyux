@@ -450,7 +450,6 @@ describe('SkyAgGridRowDeleteDirective', () => {
     const debugElement = fixture.debugElement.query(
       By.directive(SkyAgGridRowDeleteDirective),
     );
-    debugElement.componentInstance.ngAfterViewInit();
     expect(
       TestBed.inject(SkyScrollableHostService)
         .watchScrollableHostClipPathChanges,
@@ -572,6 +571,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
 
     const overlaySvc = TestBed.inject(SkyOverlayService);
     const otherOverlay = overlaySvc.create({});
+    await fixture.whenStable();
     expect(Array.from(document.querySelectorAll('sky-overlay'))).toHaveSize(2);
     fixture.componentRef.hostView.destroy();
     fixture.componentRef.destroy();
