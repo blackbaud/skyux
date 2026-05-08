@@ -131,6 +131,38 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
 
       expect(currencyComponent.skyComponentProperties.format).toBe('currency');
     }));
+
+    it('defaults minDigits to 2 when not specified in skyComponentProperties', () => {
+      currencyComponent.agInit(cellRendererParams as ICellRendererParams);
+
+      expect(currencyComponent.skyComponentProperties.minDigits).toBe(2);
+    });
+
+    it('respects a consumer-specified minDigits in skyComponentProperties', () => {
+      if (cellRendererParams.skyComponentProperties) {
+        cellRendererParams.skyComponentProperties.minDigits = 4;
+      }
+
+      currencyComponent.agInit(cellRendererParams as ICellRendererParams);
+
+      expect(currencyComponent.skyComponentProperties.minDigits).toBe(4);
+    });
+
+    it('defaults truncate to false when not specified in skyComponentProperties', () => {
+      currencyComponent.agInit(cellRendererParams as ICellRendererParams);
+
+      expect(currencyComponent.skyComponentProperties.truncate).toBe(false);
+    });
+
+    it('respects a consumer-specified truncate in skyComponentProperties', () => {
+      if (cellRendererParams.skyComponentProperties) {
+        cellRendererParams.skyComponentProperties.truncate = true;
+      }
+
+      currencyComponent.agInit(cellRendererParams as ICellRendererParams);
+
+      expect(currencyComponent.skyComponentProperties.truncate).toBe(true);
+    });
   });
 
   describe('parameters', () => {
