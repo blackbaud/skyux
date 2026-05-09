@@ -168,7 +168,7 @@ export class SkyAgGridRowDeleteDirective implements OnDestroy {
         enableScroll: true,
         environmentInjector: this.#environmentInjector,
         showBackdrop: false,
-        closeOnNavigation: true,
+        closeOnNavigation: false,
         enableClose: false,
         enablePointerEvents: true,
       });
