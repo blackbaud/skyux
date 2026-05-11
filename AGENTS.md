@@ -154,10 +154,10 @@ Commit messages are used to generate changelogs, determine semantic versioning, 
 
 ### SKY UX Specifics
 
-- Use a type prefix listed in the `types:` section of #file:.github/workflows/validate-pr.yml
+- Use a type prefix listed in the `types:` section of [.github/workflows/validate-pr.yml](.github/workflows/validate-pr.yml)
 - Use a scope that matches the component or module being changed
 - If multiple scopes are affected, do not add a scope
-- Use a scope listed in the `scopes:` section of #file:.github/workflows/validate-pr.yml
-- The subject should match the format of the `subjectPattern:` listed in #file:.github/workflows/validate-pr.yml
+- Use a scope listed in the `scopes:` section of [.github/workflows/validate-pr.yml](.github/workflows/validate-pr.yml)
+- The subject should match the format of the `subjectPattern:` listed in [.github/workflows/validate-pr.yml](.github/workflows/validate-pr.yml)
 - Do NOT include an extended body unless it is to describe a breaking change
 - Unless there is a breaking change the commit should be a single line
