@@ -1,10 +1,9 @@
 import {
-  AfterContentInit,
-  AfterViewInit,
   Directive,
   ElementRef,
   EnvironmentInjector,
   OnDestroy,
+  afterNextRender,
   contentChild,
   inject,
   linkedSignal,
@@ -52,9 +51,7 @@ import { SkyAgGridRowDeleteConfirmArgs } from './types/ag-grid-row-delete-confir
 @Directive({
   selector: '[skyAgGridRowDelete]',
 })
-export class SkyAgGridRowDeleteDirective
-  implements AfterContentInit, AfterViewInit, OnDestroy
-{
+export class SkyAgGridRowDeleteDirective implements OnDestroy {
   /**
    * The IDs of the data in the rows where the inline delete appears.
    */
@@ -165,56 +162,54 @@ export class SkyAgGridRowDeleteDirective
           (rowIds ?? []).filter((id) => !!evt.api.getRowNode(id)),
         );
       });
-  }
 
-  public ngAfterContentInit(): void {
-    this.#overlay = this.#overlayService.create({
-      enableScroll: true,
-      environmentInjector: this.#environmentInjector,
-      showBackdrop: false,
-      closeOnNavigation: true,
-      enableClose: false,
-      enablePointerEvents: true,
+    afterNextRender(() => {
+      this.#overlay = this.#overlayService.create({
+        enableScroll: true,
+        environmentInjector: this.#environmentInjector,
+        showBackdrop: false,
+        closeOnNavigation: false,
+        enableClose: false,
+        enablePointerEvents: true,
+      });
+
+      this.#overlay.attachComponent(SkyAgGridRowDeleteComponent, [
+        {
+          provide: SKY_AG_GRID_ROW_DELETE_CONTEXT,
+          useValue: this.#rowDeleteSvc,
+        },
+      ]);
+      this.#zIndex
+        .pipe(
+          takeUntil(this.#ngUnsubscribe),
+          takeUntil(this.#overlay.closed),
+          distinctUntilChanged(),
+        )
+        .subscribe((zIndex) => {
+          if (this.#overlay) {
+            this.#overlay.componentRef.instance.zIndex = zIndex.toString(10);
+          }
+        });
+      this.#clipPath
+        .pipe(
+          takeUntil(this.#ngUnsubscribe),
+          takeUntil(this.#overlay.closed),
+          distinctUntilChanged(),
+        )
+        .subscribe((clipPath) => {
+          this.#overlay?.componentRef.instance.updateClipPath(clipPath);
+        });
+
+      this.#scrollableHostService
+        .watchScrollableHostClipPathChanges(
+          this.#elementRef,
+          this.#agGridBodyClipElements.asObservable(),
+        )
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe((clipPath) => {
+          this.#clipPath.next(clipPath);
+        });
     });
-
-    this.#overlay.attachComponent(SkyAgGridRowDeleteComponent, [
-      {
-        provide: SKY_AG_GRID_ROW_DELETE_CONTEXT,
-        useValue: this.#rowDeleteSvc,
-      },
-    ]);
-    this.#zIndex
-      .pipe(
-        takeUntil(this.#ngUnsubscribe),
-        takeUntil(this.#overlay.closed),
-        distinctUntilChanged(),
-      )
-      .subscribe((zIndex) => {
-        if (this.#overlay) {
-          this.#overlay.componentRef.instance.zIndex = zIndex.toString(10);
-        }
-      });
-    this.#clipPath
-      .pipe(
-        takeUntil(this.#ngUnsubscribe),
-        takeUntil(this.#overlay.closed),
-        distinctUntilChanged(),
-      )
-      .subscribe((clipPath) => {
-        this.#overlay?.componentRef.instance.updateClipPath(clipPath);
-      });
-  }
-
-  public ngAfterViewInit(): void {
-    this.#scrollableHostService
-      .watchScrollableHostClipPathChanges(
-        this.#elementRef,
-        this.#agGridBodyClipElements.asObservable(),
-      )
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((clipPath) => {
-        this.#clipPath.next(clipPath);
-      });
   }
 
   public ngOnDestroy(): void {
