@@ -20,6 +20,7 @@ export class SkyVerticalTabsetHarness extends SkyComponentHarness {
   #showTabsButton = this.locatorForOptional(
     '.sky-vertical-tabset-content > button.sky-vertical-tabset-show-tabs-btn',
   );
+  #tabsContainer = this.locatorFor('.sky-vertical-tabset-group-container');
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -139,6 +140,18 @@ export class SkyVerticalTabsetHarness extends SkyComponentHarness {
     }
 
     return undefined;
+  }
+
+  /**
+   * Gets the tab width.
+   */
+  public async getTabWidth(): Promise<string | null> {
+    const styleAttribute = await (
+      await this.#tabsContainer()
+    ).getAttribute('style');
+    const styleMatch = styleAttribute?.match(/flex-basis:\s*([^;]+)/i);
+
+    return styleMatch?.[1]?.trim() ?? null;
   }
 
   /**

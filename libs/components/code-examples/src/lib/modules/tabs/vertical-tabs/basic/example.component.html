@@ -1,9 +1,12 @@
-<sky-vertical-tabset data-sky-id="vertical-tabs-basic">
-  <sky-vertical-tab tabHeading="Tab 1"> Tab 1 content </sky-vertical-tab>
+<sky-vertical-tabset data-sky-id="vertical-tabs-basic" tabWidth="auto">
+  <sky-vertical-tab tabHeading="A short tab"> Tab 1 content </sky-vertical-tab>
   <sky-vertical-tab tabHeading="Tab 2" [active]="true">
     Tab 2 content
   </sky-vertical-tab>
-  <sky-vertical-tab tabHeading="Tab 3" [disabled]="true">
+  <sky-vertical-tab
+    tabHeading="A very long tab heading that wraps when the width is constrained"
+    [disabled]="true"
+  >
     Tab 3 content
   </sky-vertical-tab>
 </sky-vertical-tabset>

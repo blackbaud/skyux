@@ -85,6 +85,20 @@ export class SkyVerticalTabsetComponent
   public maintainTabContent: boolean | undefined = false;
 
   /**
+   * The width of the tabs pane.
+   * Set to `"auto"` to size based on tab label content, up to a maximum width of 25%.
+   * @default "25%"
+   */
+  @Input()
+  public get tabWidth(): string | undefined {
+    return this.#_tabWidth;
+  }
+
+  public set tabWidth(value: string | undefined) {
+    this.#_tabWidth = value?.trim() || '25%';
+  }
+
+  /**
    * Fires when the active tab changes. Emits the index of the active tab. The
    * index is based on the tab's position when it loads.
    */
@@ -108,6 +122,7 @@ export class SkyVerticalTabsetComponent
 
   #ngUnsubscribe = new Subject<void>();
   #_ariaRole = 'tablist';
+  #_tabWidth: string | undefined = '25%';
 
   #resources: SkyLibResourcesService;
   #changeRef: ChangeDetectorRef;
@@ -193,5 +208,21 @@ export class SkyVerticalTabsetComponent
 
   protected tabGroupsArrowUp(): void {
     this.adapterService.focusPreviousButton(this.tabGroups);
+  }
+
+  protected get tabContentFlexBasis(): string {
+    return this.#isAutoTabWidth() ? '0%' : `calc(100% - ${this.tabWidth})`;
+  }
+
+  protected get tabGroupContainerFlexBasis(): string | undefined {
+    return this.#isAutoTabWidth() ? 'auto' : this.tabWidth;
+  }
+
+  protected get tabGroupContainerMaxWidth(): string | undefined {
+    return this.#isAutoTabWidth() ? '25%' : undefined;
+  }
+
+  #isAutoTabWidth(): boolean {
+    return this.tabWidth?.toLowerCase() === 'auto';
   }
 }
