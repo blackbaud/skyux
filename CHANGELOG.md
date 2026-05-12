@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.3.2](https://github.com/blackbaud/skyux/compare/14.3.1...14.3.2) (2026-05-12)
+
+
+### Bug Fixes
+
+* **components/theme:** default theme public custom properties are set in root ([#4411](https://github.com/blackbaud/skyux/issues/4411)) ([1e5d61d](https://github.com/blackbaud/skyux/commit/1e5d61d2076d7086595924332118104a80f52e20))
+
 ## [14.3.1](https://github.com/blackbaud/skyux/compare/14.3.0...14.3.1) (2026-05-12)
 
 
