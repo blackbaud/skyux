@@ -1,6 +1,15 @@
 # Changelog
 
 
+## [14.3.1](https://github.com/blackbaud/skyux/compare/14.3.0...14.3.1) (2026-05-12)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** only set currency minDigits and truncate if not set in renderer params ([#4408](https://github.com/blackbaud/skyux/issues/4408)) ([d3e0bf4](https://github.com/blackbaud/skyux/commit/d3e0bf427b4a83b9b27730611f6ee31703207fb5))
+* **components/ag-grid:** row delete overlay shows when used in the bootstrap component ([#4407](https://github.com/blackbaud/skyux/issues/4407)) ([eed780a](https://github.com/blackbaud/skyux/commit/eed780a036c436b431b51fed66aec1e556997de4)), closes [AB#3972778](https://dev.azure.com/blackbaud/Products/_workitems/edit/3972778)
+* **components/i18n:** update library resources schematic to only include message property ([#4405](https://github.com/blackbaud/skyux/issues/4405)) ([e41770b](https://github.com/blackbaud/skyux/commit/e41770bfc766de840dd02a6e39b964c6abd0b1d8)), closes [AB#3971960](https://dev.azure.com/blackbaud/Products/_workitems/edit/3971960)
+
 ## [14.3.0](https://github.com/blackbaud/skyux/compare/14.2.2...14.3.0) (2026-05-05)
 
 
