@@ -846,7 +846,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     this.highlightText = this.#getHighlightText(this.searchText);
     this.#removeFocusedClass();
     this.#removeActiveDescendant();
-    if (this.searchResults.length > 0) {
+    if (this.searchResults.length > 0 && this.searchText) {
       this.#activeElementIndex = 0;
     } else {
       this.#activeElementIndex = -1;
