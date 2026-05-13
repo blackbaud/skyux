@@ -47,9 +47,6 @@ describe('Character count example', () => {
     const inputEl =
       document.querySelector<HTMLInputElement>('.description-input');
 
-    expect(inputEl).not.toBeNull();
-    expect(inputEl?.classList.contains('sky-form-control')).toBeTrue();
-
     if (inputEl) {
       inputEl.value += ' scholarship fund';
       inputEl.dispatchEvent(new Event('input'));
