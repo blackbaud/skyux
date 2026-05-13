@@ -73,7 +73,15 @@ describe('standalone', () => {
     const tree = await createTestApp(runner, {
       projectName: 'my-test-app',
     });
+    tree.create(
+      'node_modules/@skyux/datetime/package.json',
+      JSON.stringify({ exports: { '.': { types: './index.d.ts' } } }),
+    );
     tree.create('node_modules/@skyux/datetime/index.d.ts', dateTime);
+    tree.create(
+      'node_modules/@skyux/modals/package.json',
+      JSON.stringify({ exports: { '.': { types: './index.d.ts' } } }),
+    );
     tree.create('node_modules/@skyux/modals/index.d.ts', modals);
 
     return {
@@ -411,6 +419,31 @@ describe('standalone', () => {
     ).rejects.toThrow(
       `Could not find package @skyux/missing -- please run 'npm install'.`,
     );
+  });
+
+  it('should throw when the types file referenced by package.json is missing', async () => {
+    const { tree } = await setup();
+    tree.create(
+      'node_modules/@skyux/broken/package.json',
+      JSON.stringify({ exports: { '.': { types: './missing.d.ts' } } }),
+    );
+    tree.create(
+      'src/app/test.component.ts',
+      `
+    import { Component } from '@angular/core';
+    import { SkyBrokenComponent } from '@skyux/broken';
+
+    @Component({
+      selector: 'app-test',
+      template: '<div></div>',
+      imports: [SkyBrokenComponent],
+    })
+    export class TestComponent {}
+    `,
+    );
+    await expect(
+      runner.runSchematic('standalone-migration', {}, tree),
+    ).rejects.toThrow('Unable to read details from @skyux/broken.');
   });
 
   describe('ngCoreSchematic error handling', () => {
