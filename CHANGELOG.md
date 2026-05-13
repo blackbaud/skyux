@@ -1,6 +1,14 @@
 # Changelog
 
 
+## [14.3.2](https://github.com/blackbaud/skyux/compare/14.3.1...14.3.2) (2026-05-13)
+
+
+### Bug Fixes
+
+* **components/packages:** standalone schematic unable to read type files ([#4413](https://github.com/blackbaud/skyux/issues/4413)) ([957226c](https://github.com/blackbaud/skyux/commit/957226c8c3b2b84385176f9ebc7c5b02a25d3e65)), closes [AB#3984329](https://dev.azure.com/blackbaud/Products/_workitems/edit/3984329)
+* **components/theme:** default theme public custom properties are set in root ([#4411](https://github.com/blackbaud/skyux/issues/4411)) ([1e5d61d](https://github.com/blackbaud/skyux/commit/1e5d61d2076d7086595924332118104a80f52e20))
+
 ## [14.3.1](https://github.com/blackbaud/skyux/compare/14.3.0...14.3.1) (2026-05-12)
 
 
