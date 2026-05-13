@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.3.3](https://github.com/blackbaud/skyux/compare/14.3.2...14.3.3) (2026-05-13)
+
+
+### Bug Fixes
+
+* **components/code-examples:** restore hard-mode input styling in character count example ([#4415](https://github.com/blackbaud/skyux/issues/4415)) ([722a496](https://github.com/blackbaud/skyux/commit/722a496f0a07f2fc85c28b195eb0b1558fcfe48e))
+
 ## [14.3.2](https://github.com/blackbaud/skyux/compare/14.3.1...14.3.2) (2026-05-13)
 
 
