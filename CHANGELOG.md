@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.3.4](https://github.com/blackbaud/skyux/compare/14.3.3...14.3.4) (2026-05-14)
+
+
+### Bug Fixes
+
+* **components/lookup:** stop implicit tab selection in empty-search autocomplete ([#4414](https://github.com/blackbaud/skyux/issues/4414)) ([1c997df](https://github.com/blackbaud/skyux/commit/1c997dfeee9c531e6b4ac169866a95b29e2ad049))
+
 ## [14.3.3](https://github.com/blackbaud/skyux/compare/14.3.2...14.3.3) (2026-05-14)
 
 
