@@ -2163,6 +2163,33 @@ describe('Autocomplete component', () => {
         expect(inputElement.value).toEqual('');
       }));
 
+      it('should clear selected value when tab is pressed after input is emptied with searchTextMinimumCharacters set to 0', fakeAsync(() => {
+        fixture.detectChanges();
+        const input: SkyAutocompleteInputDirective =
+          component.autocompleteInput;
+        const inputElement: HTMLInputElement = getInputElement();
+        const initialValue = { name: 'Red' };
+
+        component.searchTextMinimumCharacters = 0;
+        updateNgModel(fixture, initialValue);
+
+        SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        enterSearch('', fixture);
+
+        expect(inputElement.value).toEqual('');
+
+        sendTab(inputElement, fixture);
+        blurInput(inputElement, fixture);
+
+        expect(component.myForm.value.favoriteColor).toBeUndefined();
+        expect(input.value).toBeUndefined();
+        expect(inputElement.value).toEqual('');
+      }));
+
       it('should close the dropdown if text value becomes empty', fakeAsync(() => {
         fixture.detectChanges();
         const inputElement: HTMLInputElement = getInputElement();
