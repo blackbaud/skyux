@@ -421,6 +421,78 @@ describe('standalone', () => {
     );
   });
 
+  it('should resolve types for a subpath export', async () => {
+    const { tree } = await setup();
+    tree.create(
+      'node_modules/@skyux/forms/package.json',
+      JSON.stringify({
+        exports: {
+          '.': { types: './index.d.ts' },
+          './testing': { types: './testing/index.d.ts' },
+        },
+      }),
+    );
+    tree.create('node_modules/@skyux/forms/index.d.ts', '');
+    tree.create(
+      'node_modules/@skyux/forms/testing/index.d.ts',
+      /* eslint-disable-next-line @cspell/spellchecker */
+      `import * as i0 from '@angular/core';
+
+declare class SkyFormsTestingHarness {}
+
+declare class SkyFormsTestingModule {
+  static ɵfac: i0.ɵɵFactoryDeclaration<SkyFormsTestingModule, never>;
+  static ɵmod: i0.ɵɵNgModuleDeclaration<SkyFormsTestingModule, never, [typeof SkyFormsTestingHarness], [typeof SkyFormsTestingHarness]>;
+  static ɵinj: i0.ɵɵInjectorDeclaration<SkyFormsTestingModule>;
+}
+
+export { SkyFormsTestingHarness, SkyFormsTestingModule };
+`,
+    );
+    tree.create(
+      'src/app/test.component.ts',
+      `
+    import { Component } from '@angular/core';
+    import { SkyFormsTestingHarness } from '@skyux/forms/testing';
+
+    @Component({
+      selector: 'app-test',
+      template: '<div></div>',
+      imports: [SkyFormsTestingHarness],
+    })
+    export class TestComponent {}
+    `,
+    );
+    await runner.runSchematic('standalone-migration', {}, tree);
+    expect(tree.readText('src/app/test.component.ts')).toMatchSnapshot();
+  });
+
+  it('should throw when a subpath export is not declared in package.json', async () => {
+    const { tree } = await setup();
+    tree.create(
+      'node_modules/@skyux/forms/package.json',
+      JSON.stringify({ exports: { '.': { types: './index.d.ts' } } }),
+    );
+    tree.create('node_modules/@skyux/forms/index.d.ts', '');
+    tree.create(
+      'src/app/test.component.ts',
+      `
+    import { Component } from '@angular/core';
+    import { SkyFormsTestingHarness } from '@skyux/forms/testing';
+
+    @Component({
+      selector: 'app-test',
+      template: '<div></div>',
+      imports: [SkyFormsTestingHarness],
+    })
+    export class TestComponent {}
+    `,
+    );
+    await expect(
+      runner.runSchematic('standalone-migration', {}, tree),
+    ).rejects.toThrow('Unable to read details from @skyux/forms/testing.');
+  });
+
   it('should throw when the types file referenced by package.json is missing', async () => {
     const { tree } = await setup();
     tree.create(

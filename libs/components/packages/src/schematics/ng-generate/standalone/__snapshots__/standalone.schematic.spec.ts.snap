@@ -217,3 +217,17 @@ import { SkyDatePipeModule } from '@skyux/datetime';
     }
     "
 `;
+
+exports[`standalone should resolve types for a subpath export 1`] = `
+"
+    import { Component } from '@angular/core';
+    import { SkyFormsTestingHarness } from '@skyux/forms/testing';
+
+    @Component({
+      selector: 'app-test',
+      template: '<div></div>',
+      imports: [SkyFormsTestingHarness],
+    })
+    export class TestComponent {}
+    "
+`;
