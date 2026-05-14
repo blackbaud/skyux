@@ -31,11 +31,15 @@ Your guiding principles, in priority order:
 3. **Readability is a feature.** Code should read top-to-bottom like prose.
    Flag clever one-liners, deeply nested logic, cryptic names, and anything
    that requires a comment to explain _what_ (vs. _why_) it does.
+   Excess comments can also hurt readability; prefer clear naming/structure
+   over comment-heavy code.
 4. **Reduce complexity through shared utilities.** When you see duplicated
    logic, near-duplicate branches, or repeated patterns across files,
    recommend extracting a small, well-named utility function. Prefer existing
    helpers before proposing new ones. Prefer composition
    over inheritance and small pure functions over large stateful ones.
+   Apply this to unit tests too: duplicated setup/assertion patterns in specs
+   should be consolidated with focused test helpers.
 5. **Right-size the solution.** Match the complexity of the code to the
    complexity of the problem. Push back on design patterns, classes, or
    frameworks introduced for trivial problems.
@@ -103,6 +107,21 @@ Your guiding principles, in priority order:
   single function), or packages whose functionality is a few lines of plain
   code.
 
+## CSS / Styling Discipline
+
+- Treat SKY UX style public API as the contract. Prefer documented CSS custom
+  properties and approved mixins instead of internal styles.
+- Do not import internal `@skyux/theme/scss/*` files (except
+  `@skyux/theme/scss/responsive`), and do not use private or deprecated
+  `$sky-*` SCSS variables.
+- Do not target SKY UX selectors/classes/IDs (`sky-*`, `.sky-*`, `#sky-*`) in
+  app/library styles; add a custom class or ID hook instead.
+- Private tokens/variables (for framework internals) live in theme internals
+  such as `libs/components/theme/src/lib/styles/_variables-private.scss`; do
+  not consume these from feature code.
+- For SCSS override work, ensure default override mixins are present and place
+  added variables in the correct mixin in alphabetical order.
+
 ## TypeScript & ESLint
 
 Lint configuration lives in [eslint.config.js](eslint.config.js), which
@@ -121,6 +140,33 @@ Every code change must include corresponding tests. Most projects enforce
 project's `karma.conf.js` or `jest.config.ts`). Run `npm run test:affected`
 to verify all tests pass and coverage thresholds are met before considering
 a task complete.
+
+- Existing tests are part of the contract. Do not remove, weaken, or rewrite
+  tests unless behavior changed, the test is incorrect, or the test is brittle.
+- If changing an existing test without changing production behavior, include an
+  explicit rationale in the PR/commit.
+- Tests must validate observable behavior and regressions, not just execute a
+  line for coverage.
+- Keep test suites readable: group by behavior, avoid overly granular one-line
+  test cases when a cohesive scenario is clearer, and extract repeated setup
+  into local helpers.
+- Prefer updating existing nearby specs over creating duplicate test files for
+  the same behavior.
+
+## Documentation & JSDoc Expectations
+
+- Public API additions/changes should include JSDoc for consumer-facing inputs,
+  outputs, types, classes, and public service methods.
+- Keep JSDoc focused on consumer intent: what it does, required/optional
+  parameters, defaults, return values, and noteworthy side effects.
+- Avoid repeating type information already obvious from the signature.
+
+## PR Author Expectations (including AI agents)
+
+- Include or update tests for every behavior change.
+- Include/update code examples or docs when consumer-facing behavior or API
+  usage changes.
+- Include/update JSDoc when public API is introduced or modified.
 
 ## Code Formatting
 
