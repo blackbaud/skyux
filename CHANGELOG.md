@@ -1,6 +1,14 @@
 # Changelog
 
 
+## [14.3.3](https://github.com/blackbaud/skyux/compare/14.3.2...14.3.3) (2026-05-14)
+
+
+### Bug Fixes
+
+* **components/code-examples:** restore hard-mode input styling in character count example ([#4415](https://github.com/blackbaud/skyux/issues/4415)) ([722a496](https://github.com/blackbaud/skyux/commit/722a496f0a07f2fc85c28b195eb0b1558fcfe48e))
+* **components/packages:** standalone schematic unable to read secondary entrypoints ([#4417](https://github.com/blackbaud/skyux/issues/4417)) ([d28bdd4](https://github.com/blackbaud/skyux/commit/d28bdd444604bc417bce9e915b0fb0a446d2addd))
+
 ## [14.3.2](https://github.com/blackbaud/skyux/compare/14.3.1...14.3.2) (2026-05-13)
 
 
