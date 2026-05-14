@@ -11,6 +11,7 @@ export default [
       'skyux-eslint-template/no-deprecated-directives': 'error',
       'skyux-eslint-template/no-invalid-input-box-children': 'error',
       'skyux-eslint-template/no-invalid-input-types': 'error',
+      'skyux-eslint-template/no-invalid-sky-classnames': 'error',
       'skyux-eslint-template/no-legacy-icons': 'error',
       'skyux-eslint-template/no-radio-group-with-nested-list': 'error',
       'skyux-eslint-template/no-unbound-id': 'error',

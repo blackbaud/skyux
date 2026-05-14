@@ -58,7 +58,7 @@ function getResources(tree: Tree, project: ProjectDefinition): string {
     );
 
     Object.keys(contents).forEach((key) => {
-      delete contents[key]._description;
+      contents[key] = { message: contents[key].message };
     });
 
     resourcesVar += `\n  '${localeId}': ${JSON.stringify(contents)},`;

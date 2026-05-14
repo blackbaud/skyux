@@ -29,6 +29,7 @@ import {
   throwError,
 } from 'rxjs';
 
+import { JsonFile } from '../../utility/json-file';
 import {
   isImportedFromPackage,
   parseSourceFile,
@@ -140,11 +141,30 @@ function getPackageTypeSourceFile(
   tree: Tree,
   packageName: string,
 ): ts.SourceFile {
-  const filePath = join(normalize('node_modules'), packageName, 'index.d.ts');
-  if (!packageName || !tree.exists(filePath)) {
+  const [scope, name, ...subpathSegments] = packageName.split('/');
+  const packageRoot = `${scope}/${name}`;
+  const subpath = subpathSegments.join('/');
+  const exportKey = subpath ? `./${subpath}` : '.';
+  const packageJson = join(
+    normalize('node_modules'),
+    packageRoot,
+    'package.json',
+  );
+  if (!packageName || !tree.exists(packageJson)) {
     throw new Error(
       `Could not find package ${packageName} -- please run 'npm install'.`,
     );
+  }
+  const packageJsonContent = new JsonFile(tree, packageJson);
+  const typesFile = packageJsonContent.get([
+    'exports',
+    exportKey,
+    'types',
+  ]) as string;
+  const filePath =
+    typesFile && join(normalize('node_modules'), packageRoot, typesFile);
+  if (!filePath || !tree.exists(filePath)) {
+    throw new Error(`Unable to read details from ${packageName}.`);
   }
   return parseSourceFile(tree, filePath);
 }

@@ -1,4 +1,4 @@
-<div class="sky-margin-stacked-xs">
+<div class="sky-theme-margin-bottom-xs">
   <sky-toolbar>
     <sky-toolbar-item>
       <button
@@ -39,9 +39,9 @@
     </sky-toolbar-item>
   </sky-toolbar>
 </div>
-<div class="sky-margin-stacked-sm">
+<div class="sky-theme-margin-bottom-s">
   <sky-key-info layout="horizontal">
-    <sky-key-info-value class="sky-font-display-4">
+    <sky-key-info-value class="sky-theme-font-display-4">
       {{ notes.length }}
     </sky-key-info-value>
     <sky-key-info-label> Notes </sky-key-info-label>
@@ -82,10 +82,10 @@
         </sky-dropdown>
       </sky-repeater-item-context-menu>
       <sky-repeater-item-content>
-        <div class="sky-margin-stacked-xs">
+        <div class="sky-theme-margin-bottom-xs">
           {{ note.content }}
         </div>
-        <div class="sky-font-deemphasized">{{ note.date }}</div>
+        <div class="sky-theme-font-body-deemphasized-m">{{ note.date }}</div>
       </sky-repeater-item-content>
     </sky-repeater-item>
   }

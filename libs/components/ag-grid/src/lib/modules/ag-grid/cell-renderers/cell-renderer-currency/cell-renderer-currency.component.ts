@@ -48,7 +48,7 @@ export class SkyAgGridCellRendererCurrencyComponent implements ICellRendererAngu
     this.value = params.value;
     this.skyComponentProperties = params.skyComponentProperties || {};
     this.skyComponentProperties.format = 'currency';
-    this.skyComponentProperties.minDigits = 2;
-    this.skyComponentProperties.truncate = false;
+    this.skyComponentProperties.minDigits ??= 2;
+    this.skyComponentProperties.truncate ??= false;
   }
 }

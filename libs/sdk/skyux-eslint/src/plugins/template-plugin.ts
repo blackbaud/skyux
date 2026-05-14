@@ -18,6 +18,10 @@ import {
   RULE_NAME as noInvalidInputTypesRuleName,
 } from '../rules/template/no-invalid-input-types';
 import {
+  rule as noInvalidSkyClassnames,
+  RULE_NAME as noInvalidSkyClassnamesRuleName,
+} from '../rules/template/no-invalid-sky-classnames';
+import {
   rule as noLegacyIcons,
   RULE_NAME as noLegacyIconsRuleName,
 } from '../rules/template/no-legacy-icons';
@@ -57,6 +61,7 @@ export default {
   processors,
   rules: {
     [noDeprecatedClassnamesRuleName]: noDeprecatedClassnames,
+    [noInvalidSkyClassnamesRuleName]: noInvalidSkyClassnames,
     [noDeprecatedDirectivesRuleName]: noDeprecatedDirectives,
     [noInvalidInputBoxChildrenRuleName]: noInvalidInputBoxChildren,
     [noInvalidInputTypesRuleName]: noInvalidInputTypes,

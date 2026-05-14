@@ -7,6 +7,7 @@ module.exports = [
   ...nx.configs['flat/javascript'],
   {
     ignores: [
+      '**/__mocks__/**',
       '.angular/**',
       '.nx/**',
       'coverage/**',

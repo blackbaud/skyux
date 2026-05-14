@@ -1,6 +1,88 @@
 # Changelog
 
 
+## [14.3.3](https://github.com/blackbaud/skyux/compare/14.3.2...14.3.3) (2026-05-14)
+
+
+### Bug Fixes
+
+* **components/code-examples:** restore hard-mode input styling in character count example ([#4415](https://github.com/blackbaud/skyux/issues/4415)) ([722a496](https://github.com/blackbaud/skyux/commit/722a496f0a07f2fc85c28b195eb0b1558fcfe48e))
+* **components/packages:** standalone schematic unable to read secondary entrypoints ([#4417](https://github.com/blackbaud/skyux/issues/4417)) ([d28bdd4](https://github.com/blackbaud/skyux/commit/d28bdd444604bc417bce9e915b0fb0a446d2addd))
+
+## [14.3.2](https://github.com/blackbaud/skyux/compare/14.3.1...14.3.2) (2026-05-13)
+
+
+### Bug Fixes
+
+* **components/packages:** standalone schematic unable to read type files ([#4413](https://github.com/blackbaud/skyux/issues/4413)) ([957226c](https://github.com/blackbaud/skyux/commit/957226c8c3b2b84385176f9ebc7c5b02a25d3e65)), closes [AB#3984329](https://dev.azure.com/blackbaud/Products/_workitems/edit/3984329)
+* **components/theme:** default theme public custom properties are set in root ([#4411](https://github.com/blackbaud/skyux/issues/4411)) ([1e5d61d](https://github.com/blackbaud/skyux/commit/1e5d61d2076d7086595924332118104a80f52e20))
+
+## [14.3.1](https://github.com/blackbaud/skyux/compare/14.3.0...14.3.1) (2026-05-12)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** only set currency minDigits and truncate if not set in renderer params ([#4408](https://github.com/blackbaud/skyux/issues/4408)) ([d3e0bf4](https://github.com/blackbaud/skyux/commit/d3e0bf427b4a83b9b27730611f6ee31703207fb5))
+* **components/ag-grid:** row delete overlay shows when used in the bootstrap component ([#4407](https://github.com/blackbaud/skyux/issues/4407)) ([eed780a](https://github.com/blackbaud/skyux/commit/eed780a036c436b431b51fed66aec1e556997de4)), closes [AB#3972778](https://dev.azure.com/blackbaud/Products/_workitems/edit/3972778)
+* **components/i18n:** update library resources schematic to only include message property ([#4405](https://github.com/blackbaud/skyux/issues/4405)) ([e41770b](https://github.com/blackbaud/skyux/commit/e41770bfc766de840dd02a6e39b964c6abd0b1d8)), closes [AB#3971960](https://dev.azure.com/blackbaud/Products/_workitems/edit/3971960)
+
+## [14.3.0](https://github.com/blackbaud/skyux/compare/14.2.2...14.3.0) (2026-05-05)
+
+
+### Features
+
+* **sdk/testing:** duplicate jasmine matchers for vitest ([#4385](https://github.com/blackbaud/skyux/issues/4385)) ([b66a41f](https://github.com/blackbaud/skyux/commit/b66a41f73963d0fdf057c37ae293f1d49c36a424))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** add keyboard commands for row selection header checkbox ([#4403](https://github.com/blackbaud/skyux/issues/4403)) ([8d6ddbf](https://github.com/blackbaud/skyux/commit/8d6ddbf6e868b5c664e350a0b96315d8961572f3)), closes [AB#3963510](https://dev.azure.com/blackbaud/Products/_workitems/edit/3963510)
+
+## [14.2.2](https://github.com/blackbaud/skyux/compare/14.2.1...14.2.2) (2026-04-24)
+
+
+### Bug Fixes
+
+* remove deprecated classes from code examples, update lint rule class allow list ([#4399](https://github.com/blackbaud/skyux/issues/4399)) ([6fb97f7](https://github.com/blackbaud/skyux/commit/6fb97f75d617e6022d52176722173ac9caa88729))
+
+## [14.2.1](https://github.com/blackbaud/skyux/compare/14.2.0...14.2.1) (2026-04-24)
+
+
+### Bug Fixes
+
+* **components/lookup:** repopulate input box host when `enableShowMore` changes after init ([#4396](https://github.com/blackbaud/skyux/issues/4396)) ([7d074f8](https://github.com/blackbaud/skyux/commit/7d074f8df90c73ff76cb095ae6a97fab715512b7))
+* **sdk/testing:** add underscore prefix to exported private types ([#4391](https://github.com/blackbaud/skyux/issues/4391)) ([9a54496](https://github.com/blackbaud/skyux/commit/9a54496f55f3b67c79b2eb6f48db09b7b5ed9a6c))
+* update design tokens to include elevation deprecated variables ([#4395](https://github.com/blackbaud/skyux/issues/4395)) ([1456bf6](https://github.com/blackbaud/skyux/commit/1456bf68b75871dc78b995dace1038942aefc83e))
+
+## [14.2.0](https://github.com/blackbaud/skyux/compare/14.1.1...14.2.0) (2026-04-23)
+
+
+### Features
+
+* add style public API lint rules for classnames, custom properties, and SCSS variables ([#4383](https://github.com/blackbaud/skyux/issues/4383)) ([463b98e](https://github.com/blackbaud/skyux/commit/463b98ea0421fbbd3e3255ed0dc2ce83982591d4))
+
+## [14.1.1](https://github.com/blackbaud/skyux/compare/14.1.0...14.1.1) (2026-04-22)
+
+
+### Bug Fixes
+
+* **sdk/testing:** add `typeof` guard to jasmine matcher setup ([#4387](https://github.com/blackbaud/skyux/issues/4387)) ([5b7e211](https://github.com/blackbaud/skyux/commit/5b7e2112ca1d6922ae2d8e92f0352e5eee58781e))
+* **sdk/testing:** move schematics to separate package ([#4386](https://github.com/blackbaud/skyux/issues/4386)) ([9a16dfd](https://github.com/blackbaud/skyux/commit/9a16dfd288922e49269482edf0b1692431a87101))
+
+## [14.1.0](https://github.com/blackbaud/skyux/compare/14.0.1...14.1.0) (2026-04-17)
+
+
+### Features
+
+* **sdk/testing:** add `toBeAccessible` matcher for vitest assertions ([#4219](https://github.com/blackbaud/skyux/issues/4219)) ([56dedfe](https://github.com/blackbaud/skyux/commit/56dedfe611846fc24f611725c9ee14062131781c))
+* **sdk/testing:** implement `ng add` schematic for `@skyux-sdk/testing` package ([#4376](https://github.com/blackbaud/skyux/issues/4376)) ([4db0f98](https://github.com/blackbaud/skyux/commit/4db0f98c91b27261c25c735e3fb202b62f8b9044))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** header checkbox uses correct indeterminate styling when using native multiselect ([#4375](https://github.com/blackbaud/skyux/issues/4375)) ([04d11f7](https://github.com/blackbaud/skyux/commit/04d11f71d1827ab3f87d14e1e1aa65d46aa0b26d))
+* **components/lists:** use correct padding on active toolbar filter button ([#4373](https://github.com/blackbaud/skyux/issues/4373)) ([07974aa](https://github.com/blackbaud/skyux/commit/07974aab12be8d7e17bc6beafda99adf22a1d4a3))
+
 ## [14.0.1](https://github.com/blackbaud/skyux/compare/14.0.0...14.0.1) (2026-04-03)
 
 

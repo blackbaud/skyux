@@ -1,6 +1,9 @@
-import { ElementRef } from '@angular/core';
+import { provideLocationMocks } from '@angular/common/testing';
+import { Component, ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { NavigationStart, Router, provideRouter } from '@angular/router';
+import { RouterTestingHarness } from '@angular/router/testing';
 import { expectAsync } from '@skyux-sdk/testing';
 import {
   SKY_STACKING_CONTEXT,
@@ -13,12 +16,16 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { SkyAgGridRowDeleteDirective } from './ag-grid-row-delete.directive';
 import { SkyAgGridRowDeleteFixtureComponent } from './fixtures/ag-grid-row-delete.component.fixture';
 
+@Component({ standalone: true, template: '' })
+class BlankRouteComponent {}
+
 describe('SkyAgGridRowDeleteDirective', () => {
   let fixture: ComponentFixture<SkyAgGridRowDeleteFixtureComponent>;
 
   function setupTest(options?: {
     stackingContextZIndex?: number;
     hideFirstColumn?: boolean;
+    withRouter?: boolean;
   }): void {
     TestBed.configureTestingModule({
       imports: [SkyAgGridRowDeleteFixtureComponent],
@@ -42,6 +49,14 @@ describe('SkyAgGridRowDeleteDirective', () => {
               .and.returnValue(of('none')),
           },
         },
+        ...(options?.withRouter
+          ? [
+              provideRouter([
+                { path: 'other', component: BlankRouteComponent },
+              ]),
+              provideLocationMocks(),
+            ]
+          : []),
       ],
     });
 
@@ -450,7 +465,6 @@ describe('SkyAgGridRowDeleteDirective', () => {
     const debugElement = fixture.debugElement.query(
       By.directive(SkyAgGridRowDeleteDirective),
     );
-    debugElement.componentInstance.ngAfterViewInit();
     expect(
       TestBed.inject(SkyScrollableHostService)
         .watchScrollableHostClipPathChanges,
@@ -561,6 +575,38 @@ describe('SkyAgGridRowDeleteDirective', () => {
     expect(inlineDelete2.offsetTop).toEqual(Math.round(row2Rect.top));
   });
 
+  it('should not close the row delete overlay when navigating to a different route in an app where the router does not wrap the grid', async () => {
+    setupTest({ withRouter: true });
+    await fixture.whenStable();
+
+    fixture.componentInstance.rowDeleteIds = ['0'];
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(document.querySelector('#row-delete-ref-0')).not.toBeNull();
+    expect(document.querySelectorAll('.sky-overlay').length).toBe(1);
+
+    const router = TestBed.inject(Router);
+    const navigationStartSpy = jasmine.createSpy('navigationStart');
+    const sub = router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        navigationStartSpy();
+      }
+    });
+
+    const harness = await RouterTestingHarness.create();
+    await harness.navigateByUrl('/other');
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(navigationStartSpy).toHaveBeenCalled();
+    expect(document.querySelector('#row-delete-ref-0')).not.toBeNull();
+    expect(document.querySelectorAll('.sky-overlay').length).toBe(1);
+
+    sub.unsubscribe();
+  });
+
   it('should not close other overlays', async () => {
     setupTest();
     await fixture.whenStable();
@@ -572,6 +618,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
 
     const overlaySvc = TestBed.inject(SkyOverlayService);
     const otherOverlay = overlaySvc.create({});
+    await fixture.whenStable();
     expect(Array.from(document.querySelectorAll('sky-overlay'))).toHaveSize(2);
     fixture.componentRef.hostView.destroy();
     fixture.componentRef.destroy();
