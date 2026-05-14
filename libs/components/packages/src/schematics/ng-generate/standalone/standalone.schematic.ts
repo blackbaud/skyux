@@ -141,9 +141,13 @@ function getPackageTypeSourceFile(
   tree: Tree,
   packageName: string,
 ): ts.SourceFile {
+  const [scope, name, ...subpathSegments] = packageName.split('/');
+  const packageRoot = `${scope}/${name}`;
+  const subpath = subpathSegments.join('/');
+  const exportKey = subpath ? `./${subpath}` : '.';
   const packageJson = join(
     normalize('node_modules'),
-    packageName,
+    packageRoot,
     'package.json',
   );
   if (!packageName || !tree.exists(packageJson)) {
@@ -152,9 +156,14 @@ function getPackageTypeSourceFile(
     );
   }
   const packageJsonContent = new JsonFile(tree, packageJson);
-  const typesFile = packageJsonContent.get(['exports', '.', 'types']) as string;
-  const filePath = join(normalize('node_modules'), packageName, typesFile);
-  if (!tree.exists(filePath)) {
+  const typesFile = packageJsonContent.get([
+    'exports',
+    exportKey,
+    'types',
+  ]) as string;
+  const filePath =
+    typesFile && join(normalize('node_modules'), packageRoot, typesFile);
+  if (!filePath || !tree.exists(filePath)) {
     throw new Error(`Unable to read details from ${packageName}.`);
   }
   return parseSourceFile(tree, filePath);
