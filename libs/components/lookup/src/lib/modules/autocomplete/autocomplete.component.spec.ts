@@ -2137,6 +2137,32 @@ describe('Autocomplete component', () => {
         expect(inputElement.value).toEqual('');
       }));
 
+      it('should clear the input selected value if text value empty on blur after refocus with searchTextMinimumCharacters set to 0', fakeAsync(() => {
+        fixture.detectChanges();
+        const input: SkyAutocompleteInputDirective =
+          component.autocompleteInput;
+        const inputElement: HTMLInputElement = getInputElement();
+        const selectedValue = { name: 'Red' };
+
+        component.searchTextMinimumCharacters = 0;
+        updateNgModel(fixture, selectedValue);
+
+        SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        enterSearch('', fixture);
+
+        expect(inputElement.value).toEqual('');
+
+        blurInput(inputElement, fixture);
+
+        expect(component.myForm.value.favoriteColor).toBeUndefined();
+        expect(input.value).toBeUndefined();
+        expect(inputElement.value).toEqual('');
+      }));
+
       it('should close the dropdown if text value becomes empty', fakeAsync(() => {
         fixture.detectChanges();
         const inputElement: HTMLInputElement = getInputElement();
