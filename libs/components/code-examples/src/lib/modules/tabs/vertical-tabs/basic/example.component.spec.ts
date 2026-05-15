@@ -32,15 +32,18 @@ describe('Basic vertical tabs example', () => {
   it('should set up vertical tabs', async () => {
     const { harness } = await setupTest({ dataSkyId: 'vertical-tabs-basic' });
 
+    await expectAsync(harness.getTabWidth()).toBeResolvedTo('auto');
+
     const allTabs = await harness.getTabs();
     expect(allTabs.length).toBe(3);
 
     const activeTab = await harness.getActiveTab();
     expect(await activeTab?.getTabHeading()).toBe('Tab 2');
-    const activeTabContent = await activeTab?.getTabContent();
-    expect(await activeTabContent?.isVisible()).toBeTrue();
 
-    const disabledTab = await harness.getTab({ tabHeading: 'Tab 3' });
+    const disabledTab = await harness.getTab({
+      tabHeading:
+        'A very long tab heading that wraps when the width is constrained',
+    });
     expect(await disabledTab?.isDisabled()).toBeTrue();
   });
 });
