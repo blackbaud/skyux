@@ -75,7 +75,7 @@ jobs:
             }
       - name: Notify Slack (failure)
         if: ${{ failure() }}
-        uses: rtCamp/action-slack-notify@c58b60ee33df2229ed2d2eed86eeaf7e6c527c5a # https://github.com/rtCamp/action-slack-notify/pull/243
+        uses: rtCamp/action-slack-notify@e31e87e03dd19038e411e38ae27cbad084a90661 # https://github.com/rtCamp/action-slack-notify/releases/tag/v2.3.3
         env:
           SLACK_COLOR: ${{ job.status }}
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
@@ -125,7 +125,7 @@ jobs:
           retention-days: 3
       - name: Notify Slack (success)
         if: ${{ success() }}
-        uses: rtCamp/action-slack-notify@c58b60ee33df2229ed2d2eed86eeaf7e6c527c5a # https://github.com/rtCamp/action-slack-notify/pull/243
+        uses: rtCamp/action-slack-notify@e31e87e03dd19038e411e38ae27cbad084a90661 # https://github.com/rtCamp/action-slack-notify/releases/tag/v2.3.3
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_MESSAGE: "Successfully published SKY UX ${{ needs.next-release.outputs.tag_name || steps.dry-run.outputs.tag_name }} to NPM${{ needs.next-release.outputs.dry_run == 'true' && ' (DRY RUN)' || '' }}. http://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/CHANGELOG.md"
@@ -135,7 +135,7 @@ jobs:
           SLACK_CHANNEL: ${{ needs.next-release.outputs.dry_run == 'true' && 'C01GY7ZP4HM' || 'C7CJ0QS75' }}
       - name: Notify Slack (failure)
         if: ${{ failure() }}
-        uses: rtCamp/action-slack-notify@c58b60ee33df2229ed2d2eed86eeaf7e6c527c5a # https://github.com/rtCamp/action-slack-notify/pull/243
+        uses: rtCamp/action-slack-notify@e31e87e03dd19038e411e38ae27cbad084a90661 # https://github.com/rtCamp/action-slack-notify/releases/tag/v2.3.3
         env:
           SLACK_COLOR: ${{ job.status }}
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}

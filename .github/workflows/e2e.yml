@@ -558,7 +558,7 @@ jobs:
 
       - name: Notify Slack (failure)
         if: ${{ failure() && steps.verify-e2e.outputs.shouldAlertSlack != 'false' && !steps.verify-e2e.outputs.missingScreenshots }}
-        uses: rtCamp/action-slack-notify@c58b60ee33df2229ed2d2eed86eeaf7e6c527c5a # https://github.com/rtCamp/action-slack-notify/pull/243
+        uses: rtCamp/action-slack-notify@e31e87e03dd19038e411e38ae27cbad084a90661 # https://github.com/rtCamp/action-slack-notify/releases/tag/v2.3.3
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_COLOR: 'fail'
@@ -570,7 +570,7 @@ jobs:
           SLACK_FOOTER: 'Blackbaud Sky Build User'
       - name: Notify Slack (missing screenshots)
         if: ${{ failure() && steps.verify-e2e.outputs.missingScreenshots }}
-        uses: rtCamp/action-slack-notify@c58b60ee33df2229ed2d2eed86eeaf7e6c527c5a # https://github.com/rtCamp/action-slack-notify/pull/243
+        uses: rtCamp/action-slack-notify@e31e87e03dd19038e411e38ae27cbad084a90661 # https://github.com/rtCamp/action-slack-notify/releases/tag/v2.3.3
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_COLOR: 'fail'

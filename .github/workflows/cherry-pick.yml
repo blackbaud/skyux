@@ -173,7 +173,7 @@ jobs:
 
       - name: Notify Slack when cherry-pick fails
         if: ${{ env.CHERRY_PICK_RESULT != 'success' }}
-        uses: rtCamp/action-slack-notify@c58b60ee33df2229ed2d2eed86eeaf7e6c527c5a # https://github.com/rtCamp/action-slack-notify/pull/243
+        uses: rtCamp/action-slack-notify@e31e87e03dd19038e411e38ae27cbad084a90661 # https://github.com/rtCamp/action-slack-notify/releases/tag/v2.3.3
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_TITLE: ':cherries: :x: Cherry-pick failed for “${{ github.event.pull_request.title }} (#${{ github.event.pull_request.number}})”'

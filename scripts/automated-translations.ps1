@@ -76,12 +76,28 @@ else
   Write-Output "`n# git pull"
   git pull --set-upstream origin $TranslationBranchName
 
-  Write-Output "`n# git rebase -X ours $LtsBranchName"
-  git rebase -X ours $LtsBranchName
-  if ($LASTEXITCODE -ne 0)
+  $existingPr = gh pr list --json title,url,headRefName `
+    --jq ".[] | select(.headRefName == `"${TranslationBranchName}`")"
+
+  if ($existingPr)
   {
-    Write-Output "`n::error::git rebase failed (exit $LASTEXITCODE).`n"
-    exit $LASTEXITCODE
+    Write-Output "`n# git merge -X theirs --no-edit $LtsBranchName   (PR is open — preserving commit SHAs)"
+    git merge -X theirs --no-edit $LtsBranchName
+    if ($LASTEXITCODE -ne 0)
+    {
+      Write-Output "`n::error::git merge failed (exit $LASTEXITCODE).`n"
+      exit $LASTEXITCODE
+    }
+  }
+  else
+  {
+    Write-Output "`n# git rebase -X ours $LtsBranchName"
+    git rebase -X ours $LtsBranchName
+    if ($LASTEXITCODE -ne 0)
+    {
+      Write-Output "`n::error::git rebase failed (exit $LASTEXITCODE).`n"
+      exit $LASTEXITCODE
+    }
   }
   Write-Output "`n::endgroup::`n"
 
@@ -131,11 +147,19 @@ else
 
   if (-not $IsDryRunBool)
   {
-    Write-Output "`n# git push --force-with-lease origin $TranslationBranchName"
-    git push --force-with-lease origin $TranslationBranchName
+    if ($existingPr)
+    {
+      Write-Output "`n# git push origin $TranslationBranchName"
+      git push origin $TranslationBranchName
+    }
+    else
+    {
+      Write-Output "`n# git push --force-with-lease origin $TranslationBranchName"
+      git push --force-with-lease origin $TranslationBranchName
+    }
     if ($LASTEXITCODE -ne 0)
     {
-      Write-Output "`n::error::git push --force-with-lease failed (exit $LASTEXITCODE).`n"
+      Write-Output "`n::error::git push failed (exit $LASTEXITCODE).`n"
       exit $LASTEXITCODE
     }
   }
@@ -149,7 +173,7 @@ else
   if ($changesFromLts)
   {
     Write-Output "`n::group::Pull request`n"
-    $prForChanges = gh pr list --json title,url,headRefName --jq ".[] | select(.headRefName == `"${TranslationBranchName}`")"
+    $prForChanges = $existingPr
     if ($prForChanges)
     {
       if ($env:GITHUB_OUTPUT)
