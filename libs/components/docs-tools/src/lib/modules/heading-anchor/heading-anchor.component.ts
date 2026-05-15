@@ -72,7 +72,7 @@ export class SkyDocsHeadingAnchorComponent implements AfterViewInit, OnDestroy {
   public readonly strikethrough = input(false, { transform: booleanAttribute });
 
   public ngAfterViewInit(): void {
-    this.#anchorSvc?.register(this);
+    this.#anchorSvc?.register(this, this.#elementRef.nativeElement);
   }
 
   public ngOnDestroy(): void {
