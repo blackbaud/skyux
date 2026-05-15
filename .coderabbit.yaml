@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+#
+# CodeRabbit auto-discovers AGENTS.md at the repo root and uses it as review
+# context. AGENTS.md is the single source of truth for the reviewer persona
+# and coding rules — keep edits there, not here.
+tone_instructions: 'See AGENTS.md for reviewer persona, public API, dependency, testing, and feedback rules.'
+
+reviews:
+  auto_review:
+    enabled: true
+    drafts: true
+    base_branches:
+      - 'main'
+      - '\d+\.x\.x'

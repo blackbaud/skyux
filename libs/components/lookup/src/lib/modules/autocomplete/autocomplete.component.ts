@@ -436,7 +436,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       this.#_inputDirective.blur
         .pipe(delay(25), takeUntil(this.#inputDirectiveUnsubscribe))
         .subscribe(() => {
-          directive.restoreInputTextValueToPreviousState();
+          this.#handleInputExit();
           this.#closeDropdown();
           this.#cancelCurrentSearch();
           directive.onTouched();
@@ -650,9 +650,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
           if (targetIsSearchResult) {
             this.#selectSearchResultById(activeElementId);
           } else {
-            if (this.inputDirective) {
-              this.inputDirective.restoreInputTextValueToPreviousState();
-            }
+            this.#handleInputExit();
           }
 
           this.#closeDropdown();
@@ -811,6 +809,18 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     this.#changeDetector.markForCheck();
   }
 
+  #handleInputExit(): void {
+    const inputDirective = this.inputDirective;
+    const hasInputText = !!inputDirective?.inputTextValue.trim();
+
+    if (!hasInputText && inputDirective?.value?.[this.descriptorProperty]) {
+      inputDirective.value = undefined;
+      this.selectionChange.emit({ selectedItem: undefined });
+    } else if (hasInputText) {
+      inputDirective?.restoreInputTextValueToPreviousState();
+    }
+  }
+
   #performSearchAndUpdateResults(): void {
     this.#cancelCurrentSearch();
 
@@ -846,7 +856,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     this.highlightText = this.#getHighlightText(this.searchText);
     this.#removeFocusedClass();
     this.#removeActiveDescendant();
-    if (this.searchResults.length > 0) {
+    if (this.searchResults.length > 0 && this.searchText) {
       this.#activeElementIndex = 0;
     } else {
       this.#activeElementIndex = -1;

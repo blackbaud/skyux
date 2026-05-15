@@ -640,6 +640,17 @@ describe('Autocomplete component', () => {
       expect(autocomplete.searchResults.length).toBe(11);
     }));
 
+    it('should not focus the first result when searchTextMinimumCharacters is 0 and text is empty', fakeAsync(() => {
+      component.searchTextMinimumCharacters = 0;
+      fixture.detectChanges();
+
+      enterSearch('', fixture);
+
+      expect(getSearchResultItems().item(0)).not.toHaveCssClass(
+        'sky-autocomplete-descendant-focus',
+      );
+    }));
+
     it('should show "Show all" button with empty text when searchTextMinimumCharacters is 0', fakeAsync(() => {
       component.searchTextMinimumCharacters = 0;
       component.enableShowMore = true;
@@ -1870,6 +1881,51 @@ describe('Autocomplete component', () => {
         expect(notifySpy).toHaveBeenCalledWith({ selectedItem: input.value });
       }));
 
+      it('should not select a result when tab is pressed without search text', fakeAsync(() => {
+        fixture.detectChanges();
+        const input: SkyAutocompleteInputDirective =
+          component.autocompleteInput;
+        const inputElement: HTMLInputElement = getInputElement();
+
+        component.searchTextMinimumCharacters = 0;
+        fixture.detectChanges();
+
+        SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        sendTab(inputElement, fixture);
+        blurInput(inputElement, fixture);
+
+        expect(component.myForm.value.favoriteColor).toEqual({});
+        expect(input.value).toEqual({});
+        expect(inputElement.value).toEqual('');
+      }));
+
+      it('should not overwrite an existing value when tab is pressed without search text', fakeAsync(() => {
+        fixture.detectChanges();
+        const input: SkyAutocompleteInputDirective =
+          component.autocompleteInput;
+        const inputElement: HTMLInputElement = getInputElement();
+        const selectedValue = { name: 'Red' };
+
+        component.searchTextMinimumCharacters = 0;
+        updateNgModel(fixture, selectedValue);
+
+        SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        sendTab(inputElement, fixture);
+        blurInput(inputElement, fixture);
+
+        expect(component.myForm.value.favoriteColor).toEqual(selectedValue);
+        expect(input.value).toEqual(selectedValue);
+        expect(inputElement.value).toEqual(selectedValue.name);
+      }));
+
       it('should reset the value when tab key is pressed while add button is focused', fakeAsync(() => {
         component.showAddButton = true;
         fixture.detectChanges();
@@ -2074,6 +2130,59 @@ describe('Autocomplete component', () => {
 
         expect(inputElement.value).toEqual('');
 
+        blurInput(inputElement, fixture);
+
+        expect(component.myForm.value.favoriteColor).toBeUndefined();
+        expect(input.value).toBeUndefined();
+        expect(inputElement.value).toEqual('');
+      }));
+
+      it('should clear selected value on blur when input is emptied after refocus with searchTextMinimumCharacters set to 0', fakeAsync(() => {
+        fixture.detectChanges();
+        const input: SkyAutocompleteInputDirective =
+          component.autocompleteInput;
+        const inputElement: HTMLInputElement = getInputElement();
+        const initialValue = { name: 'Red' };
+
+        component.searchTextMinimumCharacters = 0;
+        updateNgModel(fixture, initialValue);
+
+        SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        enterSearch('', fixture);
+
+        expect(inputElement.value).toEqual('');
+
+        blurInput(inputElement, fixture);
+
+        expect(component.myForm.value.favoriteColor).toBeUndefined();
+        expect(input.value).toBeUndefined();
+        expect(inputElement.value).toEqual('');
+      }));
+
+      it('should clear selected value when tab is pressed after input is emptied with searchTextMinimumCharacters set to 0', fakeAsync(() => {
+        fixture.detectChanges();
+        const input: SkyAutocompleteInputDirective =
+          component.autocompleteInput;
+        const inputElement: HTMLInputElement = getInputElement();
+        const initialValue = { name: 'Red' };
+
+        component.searchTextMinimumCharacters = 0;
+        updateNgModel(fixture, initialValue);
+
+        SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        enterSearch('', fixture);
+
+        expect(inputElement.value).toEqual('');
+
+        sendTab(inputElement, fixture);
         blurInput(inputElement, fixture);
 
         expect(component.myForm.value.favoriteColor).toBeUndefined();
