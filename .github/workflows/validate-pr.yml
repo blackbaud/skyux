@@ -7,15 +7,15 @@ on:
       - reopened
       - synchronize
 
-env:
-  GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-
 jobs:
   conventional-title:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
+    permissions:
+      pull-requests: read
     steps:
-      - uses: actions/checkout@v5
-      - uses: amannn/action-semantic-pull-request@v5
+      - uses: amannn/action-semantic-pull-request@48f256284bd46cdaab1048c3721360e808335d50
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           # subject should not start with a capital letter, include an exclamation point, or end with a period
           subjectPattern: ^(?![A-Z]).[^!]+(?<![.])$
