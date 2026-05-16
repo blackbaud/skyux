@@ -76,8 +76,14 @@ else
   Write-Output "`n# git pull"
   git pull --set-upstream origin $TranslationBranchName
 
-  $existingPr = gh pr list --json title,url,headRefName `
-    --jq ".[] | select(.headRefName == `"${TranslationBranchName}`")"
+  $existingPr = gh pr list --state open --base $LtsBranchName `
+    --json title,url,headRefName,baseRefName `
+    --jq ".[] | select(.headRefName == `"${TranslationBranchName}`" and .baseRefName == `"${LtsBranchName}`")"
+  if ($LASTEXITCODE -ne 0)
+  {
+    Write-Output "`n::error::gh pr list failed (exit $LASTEXITCODE).`n"
+    exit $LASTEXITCODE
+  }
 
   if ($existingPr)
   {
