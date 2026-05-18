@@ -1,7 +1,7 @@
 # Changelog
 
 
-## [13.17.1](https://github.com/blackbaud/skyux/compare/13.17.0...13.17.1) (2026-04-15)
+## [13.17.1](https://github.com/blackbaud/skyux/compare/13.17.0...13.17.1) (2026-05-18)
 
 
 ### Bug Fixes
