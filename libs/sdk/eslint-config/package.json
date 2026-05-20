@@ -27,11 +27,11 @@
     }
   },
   "peerDependencies": {
-    "@angular/cli": "^21.2.0"
+    "@angular/cli": "^21.2.11"
   },
   "dependencies": {
     "comment-json": "4.5.1",
-    "fs-extra": "11.3.4",
+    "fs-extra": "11.3.5",
     "jsonc-parser": "3.3.1"
   }
 }

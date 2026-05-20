@@ -130,7 +130,11 @@
       }
     },
     "@nx/eslint:lint": {
-      "inputs": ["lintInputs"],
+      "inputs": [
+        "^default",
+        "lintInputs",
+        "{workspaceRoot}/tools/eslint-rules/**/*"
+      ],
       "cache": true
     },
     "@nx/angular:package": {
@@ -199,5 +203,6 @@
       "!{projectRoot}/tsconfig.storybook.json"
     ]
   },
-  "defaultBase": "main"
+  "defaultBase": "main",
+  "analytics": false
 }
