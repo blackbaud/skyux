@@ -636,6 +636,30 @@ describe('Scrollable host service', () => {
       });
   });
 
+  it('should continue emitting clip path updates after the initial value', (done) => {
+    const windowRef = TestBed.inject(SkyAppWindowRef);
+    const scrollableHostSvc = TestBed.inject(SkyScrollableHostService);
+
+    cmp.isParentPositioned = true;
+    cmp.positionedParentWidth = '100px';
+    fixture.detectChanges();
+
+    let emissionCount = 0;
+    const subscription = scrollableHostSvc
+      .watchScrollableHostClipPathChanges(cmp.target)
+      .subscribe(() => {
+        emissionCount++;
+        if (emissionCount === 1) {
+          setTimeout(() => {
+            SkyAppTestUtility.fireDomEvent(windowRef.nativeWindow, 'resize');
+          });
+        } else {
+          subscription.unsubscribe();
+          done();
+        }
+      });
+  });
+
   it('should not error without resize observer', async () => {
     TestBed.resetTestingModule();
     TestBed.overrideProvider(SkyResizeObserverService, { useValue: null });
