@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.3.5](https://github.com/blackbaud/skyux/compare/14.3.4...14.3.5) (2026-05-20)
+
+
+### Bug Fixes
+
+* **components/core:** scrollable host should continuously update clip path ([#4421](https://github.com/blackbaud/skyux/issues/4421)) ([6512bde](https://github.com/blackbaud/skyux/commit/6512bde6ed3411928fc31c58ad94ee8bae70f38f)), closes [AB#3991287](https://dev.azure.com/blackbaud/Products/_workitems/edit/3991287)
+
 ## [14.3.4](https://github.com/blackbaud/skyux/compare/14.3.3...14.3.4) (2026-05-15)
 
 
