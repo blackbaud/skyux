@@ -45,6 +45,10 @@ export const componentRoutes: Routes = [
       ),
   },
   {
+    path: 'charts',
+    loadChildren: () => import('./charts/charts-routes'),
+  },
+  {
     path: 'colorpicker',
     loadChildren: () =>
       import('./colorpicker/colorpicker.module').then(

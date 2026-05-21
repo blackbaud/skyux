@@ -1,0 +1,49 @@
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-chart') {
+  // TODO: Add overrides here
+}
+
+.sky-chart {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: var(--sky-space-gap-text_action-m, 12px);
+}
+
+.sky-chart-header {
+  grid-column: 1;
+}
+
+.sky-chart-heading {
+  h2,
+  h3,
+  h4,
+  h5 {
+    display: inline;
+    margin-block: 0;
+  }
+}
+
+.sky-chart-subtitle {
+  grid-column: 1;
+  font-family: var(--sky-font-family-primary);
+  font-size: var(--sky-font-size-body-m);
+  font-weight: var(--sky-font-style-body-m);
+  line-height: var(--sky-font-line_height-body-m);
+  color: var(--sky-color-text-deemphasized);
+}
+
+.sky-chart-content {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+
+sky-chart-legend {
+  grid-column: 1 / -1;
+}
+
+.sky-chart-actions {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: start;
+}

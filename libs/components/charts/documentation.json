@@ -1,0 +1,30 @@
+{
+  "$schema": "../manifest-generator/documentation-schema.json",
+  "groups": {
+    "charts": {
+      "development": {
+        "docsIds": [
+          "SkyChartBarComponent",
+          "SkyChartBarSeriesComponent",
+          "SkyChartBarSeriesDataPointComponent",
+          "SkyChartCategoryAxisComponent",
+          "SkyChartComponent",
+          "SkyChartDonutComponent",
+          "SkyChartDonutSeriesComponent",
+          "SkyChartDonutSeriesDataPointComponent",
+          "SkyChartLineComponent",
+          "SkyChartLineSeriesComponent",
+          "SkyChartLineSeriesDataPointComponent",
+          "SkyChartMeasureAxisComponent"
+        ],
+        "primaryDocsId": "SkyChartComponent"
+      },
+      "testing": {
+        "docsIds": ["SkyChartBarHarness", "SkyChartBarHarnessFilters"]
+      },
+      "codeExamples": {
+        "docsIds": []
+      }
+    }
+  }
+}

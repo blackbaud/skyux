@@ -1,0 +1,87 @@
+<div class="sky-chart">
+  @if (!headingHidden() || (subtitleText() && !subtitleHidden())) {
+    <div class="sky-chart-header sky-margin-stacked-sm">
+      <!-- Heading -->
+      @if (!headingHidden()) {
+        <div class="sky-chart-heading">
+          @switch (headingLevel()) {
+            @case (2) {
+              <!-- display: inline -->
+              <h2 [class]="headingClass()">{{ headingText() }}</h2>
+            }
+            @case (4) {
+              <!-- display: inline -->
+              <h4 [class]="headingClass()">{{ headingText() }}</h4>
+            }
+            @case (5) {
+              <!-- display: inline -->
+              <h5 [class]="headingClass()">{{ headingText() }}</h5>
+            }
+            @default {
+              <!-- display: inline -->
+              <h3 [class]="headingClass()">{{ headingText() }}</h3>
+            }
+          }
+
+          @if (helpPopoverContent() || helpKey()) {
+            <span class="sky-control-help-container">
+              <sky-help-inline
+                [helpKey]="helpKey()"
+                [labelText]="headingText()"
+                [popoverTitle]="helpPopoverTitle()"
+                [popoverContent]="helpPopoverContent()"
+              />
+            </span>
+          }
+        </div>
+      }
+
+      <!-- Subtitle -->
+      @if (subtitleText() && !subtitleHidden()) {
+        <div class="sky-chart-subtitle">
+          {{ subtitleText() }}
+        </div>
+      }
+    </div>
+  }
+
+  <!-- Chart -->
+  <figure
+    class="sky-chart-content"
+    [attr.aria-label]="generatedChartSummary()"
+    [class.sky-margin-stacked-md]="showLegend()"
+  >
+    <ng-content />
+  </figure>
+
+  <!-- Legend -->
+  @if (showLegend()) {
+    <sky-chart-legend
+      [legendItems]="legendItems()"
+      (legendItemToggled)="onLegendItemToggled($event)"
+    />
+  }
+
+  <!-- Actions -->
+  <div class="sky-chart-actions">
+    <sky-dropdown
+      buttonType="context-menu"
+      [label]="'chart.menu.label' | skyLibResources: headingText()"
+    >
+      <sky-dropdown-menu>
+        <sky-dropdown-item>
+          <button
+            type="button"
+            [attr.aria-label]="
+              'chart.menu.view_data_table.aria_label'
+                | skyLibResources: headingText()
+            "
+            (click)="openChartDataGridModal()"
+          >
+            {{ 'chart.menu.view_data_table' | skyLibResources }}
+          </button>
+        </sky-dropdown-item>
+      </sky-dropdown-menu>
+    </sky-dropdown>
+  </div>
+</div>
