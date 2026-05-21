@@ -361,14 +361,13 @@ export class SkyRepeaterComponent
       const handleEl = itemEl.querySelector<HTMLElement>(
         '.sky-repeater-item-grab-handle',
       );
-      if (!handleEl) {
-        continue;
-      }
 
       const dragRef = createDragRef(this.#injector, itemEl);
 
-      dragRef.withHandles([handleEl]);
-      dragRef.disabled = !this.reorderable;
+      if (handleEl) {
+        dragRef.withHandles([handleEl]);
+      }
+      dragRef.disabled = !handleEl || !this.reorderable;
 
       dragRef.started.pipe(takeUntil(this.#ngUnsubscribe)).subscribe(() => {
         this.#renderer.addClass(itemEl, 'sky-repeater-item-dragging');
