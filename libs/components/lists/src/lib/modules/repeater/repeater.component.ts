@@ -126,9 +126,9 @@ export class SkyRepeaterComponent
 
   public role: SkyRepeaterRoleType | undefined;
 
-  #dragDropReady = false;
   #dropListRef: DropListRef<unknown> | undefined;
   #dragRefs: DragRef<unknown>[] = [];
+  #initDragAndDropPending = false;
   #ngUnsubscribe = new Subject<void>();
   #itemNameWarned = false;
 
@@ -176,11 +176,6 @@ export class SkyRepeaterComponent
     this.#updateForExpandMode();
 
     this.#adapterService.setRepeaterHost(this.#elementRef);
-
-    afterNextRender(() => {
-      this.#initializeDragAndDrop();
-      this.#dragDropReady = true;
-    });
   }
 
   public ngAfterContentInit(): void {
@@ -203,9 +198,7 @@ export class SkyRepeaterComponent
 
           this.#updateReorderability();
 
-          if (this.#dragDropReady) {
-            this.#initializeDragAndDrop();
-          }
+          this.#scheduleInitializeDragAndDrop();
 
           this.#repeaterService.items = this.items.toArray();
         }
@@ -227,6 +220,7 @@ export class SkyRepeaterComponent
       });
 
       this.#updateRole();
+      this.#scheduleInitializeDragAndDrop();
     }, 0);
   }
 
@@ -257,6 +251,12 @@ export class SkyRepeaterComponent
         this.#updateReorderability();
       }
       this.#updateRole();
+      if (!changes['reorderable'].firstChange) {
+        // Initial setup is handled by `ngAfterContentInit` once items are
+        // populated. Re-initialize only on subsequent changes so DragRef
+        // disabled state and handle bindings reflect the new value.
+        this.#scheduleInitializeDragAndDrop();
+      }
 
       this.#changeDetector.markForCheck();
     }
@@ -304,6 +304,24 @@ export class SkyRepeaterComponent
     }
   }
 
+  #scheduleInitializeDragAndDrop(): void {
+    if (this.#initDragAndDropPending) {
+      return;
+    }
+    this.#initDragAndDropPending = true;
+
+    // Defer until after the next render so the child items' grab-handle
+    // buttons (which appear/disappear based on `reorderable`) are in the DOM
+    // before we wire up CDK DragRef handles.
+    afterNextRender(
+      () => {
+        this.#initDragAndDropPending = false;
+        this.#initializeDragAndDrop();
+      },
+      { injector: this.#injector },
+    );
+  }
+
   #initializeDragAndDrop(): void {
     const containerEl: HTMLElement =
       this.#elementRef.nativeElement.querySelector('.sky-repeater');
@@ -334,13 +352,13 @@ export class SkyRepeaterComponent
       const handleEl = itemEl.querySelector<HTMLElement>(
         '.sky-repeater-item-grab-handle',
       );
+      if (!handleEl) {
+        continue;
+      }
 
       const dragRef = createDragRef(this.#injector, itemEl);
 
-      if (handleEl) {
-        dragRef.withHandles([handleEl]);
-      }
-
+      dragRef.withHandles([handleEl]);
       dragRef.disabled = !this.reorderable;
 
       dragRef.started.pipe(takeUntil(this.#ngUnsubscribe)).subscribe(() => {

@@ -1689,6 +1689,85 @@ describe('Repeater item component', () => {
 
       flushDropdownTimer();
     }));
+
+    it('should bind DragRefs to grab handles so descendant content receives pointer events', fakeAsync(() => {
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      fixture.componentInstance.reorderable = true;
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      const registry = TestBed.inject(DragDropRegistry);
+      const dragRefs = Array.from(
+        (registry as unknown as { _dragInstances: Set<DragRef> })
+          ._dragInstances,
+      );
+
+      expect(dragRefs.length).toBeGreaterThan(0);
+
+      const itemEls: NodeListOf<HTMLElement> =
+        fixture.nativeElement.querySelectorAll('sky-repeater-item');
+
+      // Every enabled DragRef must be bound to its grab handle. Otherwise the
+      // entire item element acts as the drag source and CDK's pointer handler
+      // suppresses focus on descendant focusable content (contenteditable,
+      // inputs, etc.).
+      dragRefs.forEach((dragRef, index) => {
+        const handles = (dragRef as unknown as { _handles: HTMLElement[] })
+          ._handles;
+        const expectedHandle = itemEls[index].querySelector(
+          '.sky-repeater-item-grab-handle',
+        );
+        expect(expectedHandle)
+          .withContext('grab handle present')
+          .not.toBeNull();
+        expect(handles)
+          .withContext('DragRef bound to its grab handle')
+          .toContain(expectedHandle as HTMLElement);
+      });
+
+      flushDropdownTimer();
+    }));
+
+    it('should rebind DragRefs to grab handles after reorderable toggles back on', fakeAsync(() => {
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      const cmp = fixture.componentInstance;
+      cmp.reorderable = false;
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      cmp.reorderable = true;
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      const registry = TestBed.inject(DragDropRegistry);
+      const dragRefs = Array.from(
+        (registry as unknown as { _dragInstances: Set<DragRef> })
+          ._dragInstances,
+      );
+      const itemEls: NodeListOf<HTMLElement> =
+        fixture.nativeElement.querySelectorAll('sky-repeater-item');
+
+      expect(dragRefs.length).toBe(itemEls.length);
+
+      dragRefs.forEach((dragRef, index) => {
+        const handles = (dragRef as unknown as { _handles: HTMLElement[] })
+          ._handles;
+        const expectedHandle = itemEls[index].querySelector(
+          '.sky-repeater-item-grab-handle',
+        );
+        expect(expectedHandle).not.toBeNull();
+        expect(handles).toContain(expectedHandle as HTMLElement);
+        expect(dragRef.disabled).toBeFalse();
+      });
+
+      flushDropdownTimer();
+    }));
   });
 
   describe('with reorderability', () => {
