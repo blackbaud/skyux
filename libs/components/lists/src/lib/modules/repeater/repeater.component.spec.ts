@@ -1730,6 +1730,21 @@ describe('Repeater item component', () => {
       flushDropdownTimer();
     }));
 
+    it('should not schedule drag-drop initialization after the component is destroyed', fakeAsync(() => {
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      fixture.componentInstance.reorderable = true;
+      fixture.detectChanges();
+      // Intentionally destroy before `tick()` so the pending `setTimeout`
+      // queued in `ngAfterContentInit` fires after destruction. The component
+      // must short-circuit instead of calling `afterNextRender` on a
+      // destroyed injector (which would otherwise throw NG0205).
+      fixture.destroy();
+      expect(() => {
+        tick();
+        flush();
+      }).not.toThrow();
+    }));
+
     it('should rebind DragRefs to grab handles after reorderable toggles back on', fakeAsync(() => {
       const fixture = TestBed.createComponent(RepeaterTestComponent);
       const cmp = fixture.componentInstance;

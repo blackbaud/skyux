@@ -126,6 +126,7 @@ export class SkyRepeaterComponent
 
   public role: SkyRepeaterRoleType | undefined;
 
+  #destroyed = false;
   #dropListRef: DropListRef<unknown> | undefined;
   #dragRefs: DragRef<unknown>[] = [];
   #initDragAndDropPending = false;
@@ -263,6 +264,7 @@ export class SkyRepeaterComponent
   }
 
   public ngOnDestroy(): void {
+    this.#destroyed = true;
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
     this.#destroyDragAndDrop();
@@ -305,7 +307,10 @@ export class SkyRepeaterComponent
   }
 
   #scheduleInitializeDragAndDrop(): void {
-    if (this.#initDragAndDropPending) {
+    // Guard against pending `setTimeout` callbacks firing after the component
+    // is destroyed (e.g. during test teardown); `afterNextRender` would throw
+    // NG0205 if invoked with a destroyed injector.
+    if (this.#destroyed || this.#initDragAndDropPending) {
       return;
     }
     this.#initDragAndDropPending = true;
@@ -316,6 +321,10 @@ export class SkyRepeaterComponent
     afterNextRender(
       () => {
         this.#initDragAndDropPending = false;
+        /* istanbul ignore if: defensive guard for destroy racing the render callback */
+        if (this.#destroyed) {
+          return;
+        }
         this.#initializeDragAndDrop();
       },
       { injector: this.#injector },
