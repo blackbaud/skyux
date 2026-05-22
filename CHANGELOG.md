@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.3.7](https://github.com/blackbaud/skyux/compare/14.3.6...14.3.7) (2026-05-22)
+
+
+### Bug Fixes
+
+* **components/indicators:** fix public API specificity for key info value ([#4425](https://github.com/blackbaud/skyux/issues/4425)) ([0a87996](https://github.com/blackbaud/skyux/commit/0a879962f04178aff5ac655ef6e7781bf7f05600))
+
 ## [14.3.6](https://github.com/blackbaud/skyux/compare/14.3.5...14.3.6) (2026-05-22)
 
 
