@@ -325,4 +325,32 @@ describe('SkyAgGridHeaderRowSelectorComponent', () => {
     expect(label).toEqual('test-selected');
     expect(component.refresh()).toBeFalse();
   });
+
+  it('should hide checkbox when multiRow has headerCheckbox set to false', async () => {
+    expect(component).toBeTruthy();
+    api.getGridOption.and.returnValue({
+      mode: 'multiRow',
+      headerCheckbox: false,
+    });
+    component.agInit({
+      api,
+      displayName: 'test-selected',
+      eGridCell: fixture.nativeElement,
+    } as any);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    // No selection or data listeners should be attached when the header
+    // checkbox is disabled.
+    expect(api.addEventListener).not.toHaveBeenCalled();
+
+    // The host renders the display name as a title but does not render the
+    // checkbox.
+    const label = (fixture.nativeElement as HTMLElement).getAttribute('title');
+    expect(label).toEqual('test-selected');
+    const htmlCheckbox = (fixture.nativeElement as HTMLElement).querySelector(
+      'sky-checkbox',
+    );
+    expect(htmlCheckbox).toBeNull();
+  });
 });

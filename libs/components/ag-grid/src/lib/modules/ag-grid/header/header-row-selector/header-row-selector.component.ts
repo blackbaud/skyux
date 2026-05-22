@@ -56,7 +56,9 @@ export class SkyAgGridHeaderRowSelectorComponent implements IHeaderAngularComp {
     const rowSelection = params.api.getGridOption('rowSelection');
     this.multiSelect.set(
       rowSelection === 'multiple' ||
-        (typeof rowSelection === 'object' && rowSelection?.mode === 'multiRow'),
+        (typeof rowSelection === 'object' &&
+          rowSelection?.mode === 'multiRow' &&
+          rowSelection?.headerCheckbox !== false),
     );
 
     if (this.multiSelect()) {
