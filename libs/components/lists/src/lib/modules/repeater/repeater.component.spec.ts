@@ -1689,6 +1689,123 @@ describe('Repeater item component', () => {
 
       flushDropdownTimer();
     }));
+
+    it('should not intercept pointer events on non-handle descendants of reorderable items', fakeAsync(() => {
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      fixture.componentInstance.reorderable = true;
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      const itemEls: NodeListOf<HTMLElement> =
+        fixture.nativeElement.querySelectorAll('sky-repeater-item');
+
+      expect(itemEls.length).toBeGreaterThan(0);
+
+      itemEls.forEach((itemEl) => {
+        const handle = itemEl.querySelector<HTMLElement>(
+          '.sky-repeater-item-grab-handle',
+        );
+        expect(handle)
+          .withContext('grab handle is rendered for reorderable items')
+          .not.toBeNull();
+
+        // A mousedown on a non-handle descendant must not be consumed by CDK's
+        // drag pointer handler. If the entire item element were the drag
+        // source (because the DragRef had no handle bound), CDK would call
+        // preventDefault() here and block focus on focusable content like
+        // contenteditable elements or inputs.
+        const nonHandle = itemEl.querySelector<HTMLElement>(
+          '.sky-repeater-item-title',
+        );
+        expect(nonHandle).not.toBeNull();
+
+        const event = new MouseEvent('mousedown', {
+          bubbles: true,
+          cancelable: true,
+        });
+        nonHandle!.dispatchEvent(event);
+
+        expect(event.defaultPrevented)
+          .withContext('non-handle mousedown is not consumed by CDK drag')
+          .toBeFalse();
+      });
+
+      flushDropdownTimer();
+    }));
+
+    it('should not schedule drag-drop initialization after the component is destroyed', fakeAsync(() => {
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      fixture.componentInstance.reorderable = true;
+      fixture.detectChanges();
+      // Intentionally destroy before `tick()` so the pending `setTimeout`
+      // queued in `ngAfterContentInit` fires after destruction. The component
+      // must short-circuit instead of calling `afterNextRender` on a
+      // destroyed injector (which would otherwise throw NG0205).
+      fixture.destroy();
+      expect(() => {
+        tick();
+        flush();
+      }).not.toThrow();
+    }));
+
+    it('should rebind DragRefs to grab handles after reorderable toggles back on', fakeAsync(() => {
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      const cmp = fixture.componentInstance;
+      cmp.reorderable = false;
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      cmp.reorderable = true;
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      const registry = TestBed.inject(DragDropRegistry);
+      const dragRefs = Array.from(
+        (registry as unknown as { _dragInstances: Set<DragRef> })
+          ._dragInstances,
+      );
+      const itemEls: NodeListOf<HTMLElement> =
+        fixture.nativeElement.querySelectorAll('sky-repeater-item');
+
+      expect(dragRefs.length).toBe(itemEls.length);
+
+      dragRefs.forEach((dragRef, index) => {
+        const handle = itemEls[index].querySelector<HTMLElement>(
+          '.sky-repeater-item-grab-handle',
+        );
+        expect(handle)
+          .withContext('grab handle is rendered after toggle')
+          .not.toBeNull();
+
+        // After toggling reorderable on, the DragRef must be enabled (public
+        // API) and only the grab handle should trigger drag — verified by
+        // confirming a non-handle mousedown is not preventDefault()ed.
+        expect(dragRef.disabled).toBeFalse();
+
+        const nonHandle = itemEls[index].querySelector<HTMLElement>(
+          '.sky-repeater-item-title',
+        );
+        expect(nonHandle).not.toBeNull();
+
+        const event = new MouseEvent('mousedown', {
+          bubbles: true,
+          cancelable: true,
+        });
+        nonHandle!.dispatchEvent(event);
+
+        expect(event.defaultPrevented)
+          .withContext('non-handle mousedown is not consumed by CDK drag')
+          .toBeFalse();
+      });
+
+      flushDropdownTimer();
+    }));
   });
 
   describe('with reorderability', () => {
