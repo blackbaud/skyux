@@ -126,9 +126,10 @@ export class SkyRepeaterComponent
 
   public role: SkyRepeaterRoleType | undefined;
 
-  #dragDropReady = false;
+  #destroyed = false;
   #dropListRef: DropListRef<unknown> | undefined;
   #dragRefs: DragRef<unknown>[] = [];
+  #initDragAndDropPending = false;
   #ngUnsubscribe = new Subject<void>();
   #itemNameWarned = false;
 
@@ -176,11 +177,6 @@ export class SkyRepeaterComponent
     this.#updateForExpandMode();
 
     this.#adapterService.setRepeaterHost(this.#elementRef);
-
-    afterNextRender(() => {
-      this.#initializeDragAndDrop();
-      this.#dragDropReady = true;
-    });
   }
 
   public ngAfterContentInit(): void {
@@ -203,9 +199,7 @@ export class SkyRepeaterComponent
 
           this.#updateReorderability();
 
-          if (this.#dragDropReady) {
-            this.#initializeDragAndDrop();
-          }
+          this.#scheduleInitializeDragAndDrop();
 
           this.#repeaterService.items = this.items.toArray();
         }
@@ -227,6 +221,7 @@ export class SkyRepeaterComponent
       });
 
       this.#updateRole();
+      this.#scheduleInitializeDragAndDrop();
     }, 0);
   }
 
@@ -257,12 +252,19 @@ export class SkyRepeaterComponent
         this.#updateReorderability();
       }
       this.#updateRole();
+      if (!changes['reorderable'].firstChange) {
+        // Initial setup is handled by `ngAfterContentInit` once items are
+        // populated. Re-initialize only on subsequent changes so DragRef
+        // disabled state and handle bindings reflect the new value.
+        this.#scheduleInitializeDragAndDrop();
+      }
 
       this.#changeDetector.markForCheck();
     }
   }
 
   public ngOnDestroy(): void {
+    this.#destroyed = true;
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
     this.#destroyDragAndDrop();
@@ -304,6 +306,31 @@ export class SkyRepeaterComponent
     }
   }
 
+  #scheduleInitializeDragAndDrop(): void {
+    // Guard against pending `setTimeout` callbacks firing after the component
+    // is destroyed (e.g. during test teardown); `afterNextRender` would throw
+    // NG0205 if invoked with a destroyed injector.
+    if (this.#destroyed || this.#initDragAndDropPending) {
+      return;
+    }
+    this.#initDragAndDropPending = true;
+
+    // Defer until after the next render so the child items' grab-handle
+    // buttons (which appear/disappear based on `reorderable`) are in the DOM
+    // before we wire up CDK DragRef handles.
+    afterNextRender(
+      () => {
+        this.#initDragAndDropPending = false;
+        /* istanbul ignore if: defensive guard for destroy racing the render callback */
+        if (this.#destroyed) {
+          return;
+        }
+        this.#initializeDragAndDrop();
+      },
+      { injector: this.#injector },
+    );
+  }
+
   #initializeDragAndDrop(): void {
     const containerEl: HTMLElement =
       this.#elementRef.nativeElement.querySelector('.sky-repeater');
@@ -340,8 +367,7 @@ export class SkyRepeaterComponent
       if (handleEl) {
         dragRef.withHandles([handleEl]);
       }
-
-      dragRef.disabled = !this.reorderable;
+      dragRef.disabled = !handleEl || !this.reorderable;
 
       dragRef.started.pipe(takeUntil(this.#ngUnsubscribe)).subscribe(() => {
         this.#renderer.addClass(itemEl, 'sky-repeater-item-dragging');
