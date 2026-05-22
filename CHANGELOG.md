@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.3.6](https://github.com/blackbaud/skyux/compare/14.3.5...14.3.6) (2026-05-22)
+
+
+### Bug Fixes
+
+* **components/lists:** repeater item interactions still work when reorderable is enabled ([#4423](https://github.com/blackbaud/skyux/issues/4423)) ([3f487c6](https://github.com/blackbaud/skyux/commit/3f487c6f1c8150443e5a8b04c9d513225a18c570)), closes [AB#3985462](https://dev.azure.com/blackbaud/Products/_workitems/edit/3985462)
+
 ## [14.3.5](https://github.com/blackbaud/skyux/compare/14.3.4...14.3.5) (2026-05-20)
 
 
