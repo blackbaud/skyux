@@ -307,6 +307,10 @@ describe('Tile dashboard service', () => {
     expect(grabHandle).toBeTruthy();
 
     // Verify the grab handle is registered with the CDK DragRef.
+    // We access CDK private internals (_dragInstances and _handles) here
+    // because there is no public API to inspect which handles are registered
+    // on a DragRef. This pattern is consistent with how _dropInstances is
+    // accessed elsewhere in this test file.
     const registry = TestBed.inject(DragDropRegistry);
     const dragInstances = Array.from(
       (registry as unknown as { _dragInstances: Set<DragRef> })._dragInstances,
