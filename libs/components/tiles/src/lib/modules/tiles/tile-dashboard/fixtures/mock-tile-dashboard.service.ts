@@ -38,6 +38,8 @@ export class MockTileDashboardService {
 
   public addTileComponent() {}
 
+  public registerGrabHandle() {}
+
   public tileIsCollapsed() {}
 
   public setColumns() {}

@@ -32,8 +32,10 @@ import { SkyTileComponent } from '../tile/tile.component';
 import { SkyTilesModule } from '../tiles.module';
 
 import { MockSkyUIConfigService } from './fixtures/mock-ui-config.service';
+import { TileAsyncTestComponent } from './fixtures/tile-async.component.fixture';
 import { TileTestContext } from './fixtures/tile-context.fixture';
 import { SkyTileDashboardFixturesModule } from './fixtures/tile-dashboard-fixtures.module';
+import { TileDashboardAsyncTestComponent } from './fixtures/tile-dashboard-async.component.fixture';
 import { TileDashboardTestComponent } from './fixtures/tile-dashboard.component.fixture';
 import { Tile1TestComponent } from './fixtures/tile1.component.fixture';
 import { Tile2TestComponent } from './fixtures/tile2.component.fixture';
@@ -279,6 +281,60 @@ describe('Tile dashboard service', () => {
     const handle = tile.querySelector('.sky-tile-grab-handle');
 
     expect(handle).toBeTruthy();
+  }));
+
+  it('should register grab handle when sky-tile renders asynchronously inside a tile component', fakeAsync(() => {
+    const fixture = TestBed.createComponent(TileDashboardAsyncTestComponent);
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+
+    // The sky-tile is initially hidden, so no grab handle should be present yet.
+    const tileEl = fixture.nativeElement.querySelector('div.sky-test-tile-async');
+    expect(tileEl.querySelector('.sky-tile-grab-handle')).toBeNull();
+
+    // Simulate the async condition resolving and the sky-tile becoming visible.
+    const asyncTile = fixture.debugElement.query(
+      By.directive(TileAsyncTestComponent),
+    ).componentInstance as TileAsyncTestComponent;
+    asyncTile.show.set(true);
+    fixture.detectChanges();
+
+    // The grab handle should now be in the DOM.
+    const grabHandle = tileEl.querySelector(
+      '.sky-tile-grab-handle',
+    ) as HTMLElement;
+    expect(grabHandle).toBeTruthy();
+
+    // Verify the grab handle is registered with the CDK DragRef.
+    const registry = TestBed.inject(DragDropRegistry);
+    const dragInstances = Array.from(
+      (registry as unknown as { _dragInstances: Set<DragRef> })._dragInstances,
+    );
+    const dragRef = dragInstances.find((ref) =>
+      ref.getRootElement().contains(grabHandle),
+    );
+    expect(dragRef).toBeTruthy();
+    expect((dragRef as unknown as { _handles: HTMLElement[] })._handles).toContain(grabHandle);
+  }));
+
+  it('should do nothing when registerGrabHandle is called with a tile that has no grab handle', fakeAsync(() => {
+    const fixture = createDashboardTestComponent();
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+
+    const service = fixture.debugElement
+      .query(By.directive(SkyTileDashboardComponent))
+      .injector.get(SkyTileDashboardService);
+
+    // Simulate a tile whose grab handle is not yet available.
+    const fakeNoHandleTile = {
+      grabHandle: undefined,
+      elementRef: { nativeElement: document.createElement('div') },
+    } as unknown as SkyTileComponent;
+
+    expect(() => service.registerGrabHandle(fakeNoHandleTile)).not.toThrow();
   }));
 
   it('should update config when a tile is moved to another column', fakeAsync(() => {
