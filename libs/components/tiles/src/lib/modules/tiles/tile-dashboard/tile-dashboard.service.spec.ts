@@ -34,8 +34,8 @@ import { SkyTilesModule } from '../tiles.module';
 import { MockSkyUIConfigService } from './fixtures/mock-ui-config.service';
 import { TileAsyncTestComponent } from './fixtures/tile-async.component.fixture';
 import { TileTestContext } from './fixtures/tile-context.fixture';
-import { SkyTileDashboardFixturesModule } from './fixtures/tile-dashboard-fixtures.module';
 import { TileDashboardAsyncTestComponent } from './fixtures/tile-dashboard-async.component.fixture';
+import { SkyTileDashboardFixturesModule } from './fixtures/tile-dashboard-fixtures.module';
 import { TileDashboardTestComponent } from './fixtures/tile-dashboard.component.fixture';
 import { Tile1TestComponent } from './fixtures/tile1.component.fixture';
 import { Tile2TestComponent } from './fixtures/tile2.component.fixture';
@@ -290,7 +290,9 @@ describe('Tile dashboard service', () => {
     fixture.detectChanges();
 
     // The sky-tile is initially hidden, so no grab handle should be present yet.
-    const tileEl = fixture.nativeElement.querySelector('div.sky-test-tile-async');
+    const tileEl = fixture.nativeElement.querySelector(
+      'div.sky-test-tile-async',
+    );
     expect(tileEl.querySelector('.sky-tile-grab-handle')).toBeNull();
 
     // Simulate the async condition resolving and the sky-tile becoming visible.
@@ -319,7 +321,9 @@ describe('Tile dashboard service', () => {
       ref.getRootElement().contains(grabHandle),
     );
     expect(dragRef).toBeTruthy();
-    expect((dragRef as unknown as { _handles: HTMLElement[] })._handles).toContain(grabHandle);
+    expect(
+      (dragRef as unknown as { _handles: HTMLElement[] })._handles,
+    ).toContain(grabHandle);
   }));
 
   it('should do nothing when registerGrabHandle is called with a tile that has no grab handle', fakeAsync(() => {
