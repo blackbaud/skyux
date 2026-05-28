@@ -6,6 +6,8 @@ import { SkyTileComponent } from '../tile.component';
 export class MockSkyTileDashboardService {
   public configChange = new EventEmitter<SkyTileDashboardConfig>();
 
+  public registerGrabHandle(tile: SkyTileComponent) {}
+
   public setTileCollapsed(tile: SkyTileComponent, isCollapsed: boolean) {}
 
   public tileIsCollapsed() {}

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  AfterViewInit,
   ChangeDetectorRef,
   Component,
   ContentChild,
@@ -62,7 +63,7 @@ import { SkyTileTitleComponent } from './tile-title.component';
     },
   ],
 })
-export class SkyTileComponent implements OnChanges, OnDestroy {
+export class SkyTileComponent implements AfterViewInit, OnChanges, OnDestroy {
   /**
    * A help key that identifies the global help content to display. When specified along with `tileName`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline) button is
    * added to the tile header. Clicking the button invokes [global help](https://developer.blackbaud.com/skyux/learn/develop/global-help) as configured by the application.
@@ -206,6 +207,12 @@ export class SkyTileComponent implements OnChanges, OnDestroy {
         .subscribe(() => {
           this.#changeDetector.markForCheck();
         });
+    }
+  }
+
+  public ngAfterViewInit(): void {
+    if (this.#dashboardService) {
+      this.#dashboardService.registerGrabHandle(this);
     }
   }
 
