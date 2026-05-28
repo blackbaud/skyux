@@ -8,6 +8,7 @@
 
 * **components/code-examples:** ensure all `sky-input-box` usages include `labelText` ([#4428](https://github.com/blackbaud/skyux/issues/4428)) ([7559bd5](https://github.com/blackbaud/skyux/commit/7559bd53aa2270469ff80ab168e8a9c9b4a705be))
 * **components/indicators:** fix public API specificity for key info value ([#4425](https://github.com/blackbaud/skyux/issues/4425)) ([0a87996](https://github.com/blackbaud/skyux/commit/0a879962f04178aff5ac655ef6e7781bf7f05600))
+* **components/tiles:** register grab handle when sky-tile renders asynchronously ([#4429](https://github.com/blackbaud/skyux/issues/4429)) ([903c6cd](https://github.com/blackbaud/skyux/commit/903c6cd77835e1f1adcfcd81f277ceeb5720f447)), closes [AB#3986793](https://dev.azure.com/blackbaud/Products/_workitems/edit/3986793)
 
 ## [14.3.6](https://github.com/blackbaud/skyux/compare/14.3.5...14.3.6) (2026-05-22)
 
