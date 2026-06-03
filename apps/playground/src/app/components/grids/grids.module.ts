@@ -3,14 +3,39 @@ import { RouterModule } from '@angular/router';
 
 import { ComponentRouteInfo } from '../../shared/component-info/component-route-info';
 
-import { GridPlaygroundComponent } from './grid/grid.component';
-
 const routes: ComponentRouteInfo[] = [
   {
     path: 'grid',
-    component: GridPlaygroundComponent,
+    loadComponent: () => import('./grid/grid.component'),
     data: {
       name: 'Grid',
+      icon: 'table',
+      library: 'grids',
+    },
+  },
+  {
+    path: 'grid-variations',
+    loadComponent: () => import('./grid-variations/grid-variations.component'),
+    data: {
+      name: 'Grid Variations',
+      icon: 'table',
+      library: 'grids',
+    },
+  },
+  {
+    path: 'paging',
+    loadComponent: () => import('./paging/grid-paging.component'),
+    data: {
+      name: 'Grid Paging',
+      icon: 'table',
+      library: 'grids',
+    },
+  },
+  {
+    path: 'search',
+    loadComponent: () => import('./search/grid-search.component'),
+    data: {
+      name: 'Grid Search',
       icon: 'table',
       library: 'grids',
     },
@@ -24,7 +49,7 @@ const routes: ComponentRouteInfo[] = [
 export class GridsFeatureRoutingModule {}
 
 @NgModule({
-  imports: [GridPlaygroundComponent, GridsFeatureRoutingModule],
+  imports: [GridsFeatureRoutingModule],
 })
 export class GridsFeatureModule {
   public static routes = routes;
