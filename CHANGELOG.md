@@ -7,6 +7,7 @@
 ### Bug Fixes
 
 * **components/ag-grid:** data manager column picker should not touch ag-grid selection pseudo column ([#4431](https://github.com/blackbaud/skyux/issues/4431)) ([b4acba8](https://github.com/blackbaud/skyux/commit/b4acba8cfd80e19d56f1d47666ed1e9ba854cae6)), closes [AB#3942528](https://dev.azure.com/blackbaud/Products/_workitems/edit/3942528)
+* **components/lists:** list summary properly formats values when the numeric value is `0` ([#4434](https://github.com/blackbaud/skyux/issues/4434)) ([eb08f53](https://github.com/blackbaud/skyux/commit/eb08f531baab0f8dacb02ea02b4ed5d7a63975d0))
 
 ## [14.3.7](https://github.com/blackbaud/skyux/compare/14.3.6...14.3.7) (2026-05-28)
 
