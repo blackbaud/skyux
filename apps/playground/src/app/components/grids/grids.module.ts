@@ -5,10 +5,19 @@ import { ComponentRouteInfo } from '../../shared/component-info/component-route-
 
 const routes: ComponentRouteInfo[] = [
   {
-    path: 'basic',
-    loadComponent: () => import('./basic/grid.component'),
+    path: 'grid',
+    loadComponent: () => import('./grid/grid.component'),
     data: {
       name: 'Grid',
+      icon: 'table',
+      library: 'grids',
+    },
+  },
+  {
+    path: 'grid-variations',
+    loadComponent: () => import('./grid-variations/grid-variations.component'),
+    data: {
+      name: 'Grid Variations',
       icon: 'table',
       library: 'grids',
     },
