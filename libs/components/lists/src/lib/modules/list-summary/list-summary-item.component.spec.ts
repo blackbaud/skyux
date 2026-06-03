@@ -64,6 +64,16 @@ describe('List summary item component', () => {
     expect(value.nativeElement.textContent.trim()).toBe('0');
   });
 
+  it('should display currency symbol when value is zero', () => {
+    componentRef.setInput('value', 0);
+    componentRef.setInput('labelText', 'Revenue');
+    componentRef.setInput('valueFormat', { format: 'currency' });
+    fixture.detectChanges();
+
+    const value = fixture.debugElement.query(By.css('.sky-key-info-value'));
+    expect(value.nativeElement.textContent.trim()).toBe('$0');
+  });
+
   it('should use horizontal layout', () => {
     componentRef.setInput('value', 100);
     componentRef.setInput('labelText', 'Test Label');

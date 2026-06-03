@@ -5,7 +5,7 @@
   [helpPopoverTitle]="helpPopoverTitle()"
 >
   <sky-key-info-value class="sky-font-display-4">
-    @if (numericValue()) {
+    @if (numericValue() !== undefined) {
       {{ numericValue() | skyNumeric: valueFormat() }}
     } @else {
       {{ value() }}
