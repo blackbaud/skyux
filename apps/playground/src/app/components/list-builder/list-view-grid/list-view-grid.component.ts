@@ -36,7 +36,7 @@ export default class ListViewGridTestComponent {
 
   public rowHighlightedId = signal<string | undefined>(undefined);
 
-  public selectedIds = signal<string[] | undefined>(undefined);
+  public selectedIds = signal<string[]>([]);
 
   private itemsSignal = signal<GridItem[]>([
     { id: '1', column1: 101, column2: 'Apple', column3: 'Anne eats apples' },
@@ -59,8 +59,12 @@ export default class ListViewGridTestComponent {
     this.rowHighlightedId.update((id) => (id ? undefined : '2'));
   }
 
-  public onSelectedIdsChange(event: string[]): void {
-    console.log(event);
+  public onSelectedIdsChange(event: Map<string, boolean>): void {
+    this.selectedIds.set(
+      Array.from(event.entries())
+        .filter(([id, selected]) => id !== undefined && selected)
+        .map(([id]) => id as string),
+    );
   }
 
   public onRowDeleteCancel(
