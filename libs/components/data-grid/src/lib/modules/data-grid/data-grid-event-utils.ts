@@ -11,7 +11,10 @@ export function fromGridEvent<
   TData = unknown,
   TContext = unknown,
 >(
-  target: Pick<GridApi, 'addEventListener' | 'removeEventListener'>,
+  target: Pick<
+    GridApi,
+    'addEventListener' | 'removeEventListener' | 'isDestroyed'
+  >,
   eventType: TEventType,
 ): Observable<AgEventTypeParams<TData, TContext>[TEventType]> {
   return new Observable<AgEventTypeParams<TData, TContext>[TEventType]>(
@@ -22,7 +25,9 @@ export function fromGridEvent<
       target.addEventListener(eventType, handler);
 
       return () => {
-        target.removeEventListener(eventType, handler);
+        if (!target.isDestroyed || !target.isDestroyed()) {
+          target.removeEventListener(eventType, handler);
+        }
       };
     },
   );

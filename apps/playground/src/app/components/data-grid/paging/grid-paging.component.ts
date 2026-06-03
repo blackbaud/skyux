@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import {
   SkyDataGridColumnComponent,
   SkyDataGridComponent,
@@ -10,6 +10,7 @@ import { AG_GRID_DEMO_DATA } from '../../../shared/data-manager/data-manager-dat
   selector: 'app-data-grid-paging',
   imports: [SkyDataGridComponent, SkyDataGridColumnComponent],
   templateUrl: './grid-paging.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class GridPagingComponent {
   public readonly page = input<string>();

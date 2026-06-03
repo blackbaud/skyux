@@ -18,7 +18,8 @@ export class DataGridPagingExampleComponent {
 
   // For demo purposes, only use the query string if we're running the demo in its own SPA as a route and not on the documentation site.
   protected readonly pageQueryParam =
-    inject(ActivatedRoute).component === DataGridPagingExampleComponent
+    inject(ActivatedRoute, { optional: true })?.component ===
+    DataGridPagingExampleComponent
       ? 'page'
       : '';
 }

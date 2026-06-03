@@ -1,7 +1,9 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideNoopSkyAnimations } from '@skyux/core';
 import { SkyDataGridHarness } from '@skyux/data-grid/testing';
+import { SkyInlineDeleteHarness } from '@skyux/layout/testing';
 import {
   SkyDropdownHarness,
   SkyDropdownMenuHarness,
@@ -10,26 +12,32 @@ import {
 import { DataGridBasicExampleComponent } from './example.component';
 
 describe('Basic data grid example', () => {
-  let fixture: ComponentFixture<DataGridBasicExampleComponent>;
-  let loader: HarnessLoader;
-
-  beforeEach(async () => {
+  async function setupTest(): Promise<{
+    fixture: ComponentFixture<DataGridBasicExampleComponent>;
+    loader: HarnessLoader;
+    docLoader: HarnessLoader;
+  }> {
     await TestBed.configureTestingModule({
       imports: [DataGridBasicExampleComponent],
+      providers: [provideNoopSkyAnimations()],
     }).compileComponents();
-    fixture = TestBed.createComponent(DataGridBasicExampleComponent);
-    loader = TestbedHarnessEnvironment.loader(fixture);
+    const fixture = TestBed.createComponent(DataGridBasicExampleComponent);
+    const loader = TestbedHarnessEnvironment.loader(fixture);
+    const docLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
     fixture.detectChanges();
-  });
+
+    return { fixture, loader, docLoader };
+  }
 
   it('should create the component and show data', async () => {
+    const { fixture, loader } = await setupTest();
     expect(fixture.componentInstance).toBeDefined();
     const gridHarness = await loader.getHarness(
       SkyDataGridHarness.with({
         dataSkyId: 'example-data-grid',
       }),
     );
-    expect(await gridHarness.getDisplayedColumnIds()).toEqual([
+    await expectAsync(gridHarness.getDisplayedColumnIds()).toBeResolvedTo([
       'ag-Grid-SelectionColumn',
       'context',
       'name',
@@ -39,7 +47,9 @@ describe('Basic data grid example', () => {
       'department',
       'jobTitle',
     ]);
-    expect(await gridHarness.getDisplayedColumnHeaderNames()).toEqual([
+    await expectAsync(
+      gridHarness.getDisplayedColumnHeaderNames(),
+    ).toBeResolvedTo([
       '',
       'Context menu',
       'Name',
@@ -52,6 +62,7 @@ describe('Basic data grid example', () => {
   });
 
   it('should show context menu and handle item click', async () => {
+    const { fixture, loader, docLoader } = await setupTest();
     expect(fixture.componentInstance).toBeDefined();
     const gridHarness = await loader.getHarness(
       SkyDataGridHarness.with({
@@ -64,15 +75,39 @@ describe('Basic data grid example', () => {
       }),
     );
     await menuButtonHarness.clickDropdownButton();
-    const menuHarness = await TestbedHarnessEnvironment.documentRootLoader(
-      fixture,
-    ).getHarness(SkyDropdownMenuHarness);
-    const deleteButton = await menuHarness.querySelector(
+    const menuHarness = await docLoader.getHarness(SkyDropdownMenuHarness);
+
+    const moreInfoButton = await menuHarness.querySelector(
       'button[aria-label="More info for Jane Deere"]',
     );
+    expect(moreInfoButton).toBeTruthy();
+    const moreInfoActionSpy = spyOn(window, 'alert').and.stub();
+    await moreInfoButton?.click();
+    expect(moreInfoActionSpy).toHaveBeenCalledWith(
+      'More info clicked for Jane Deere',
+    );
+
+    await expectAsync(
+      docLoader.countHarnesses(SkyInlineDeleteHarness),
+    ).toBeResolvedTo(0);
+    const deleteButton = await menuHarness.querySelector(
+      'button[aria-label="Delete Jane Deere"]',
+    );
     expect(deleteButton).toBeTruthy();
-    const actionSpy = spyOn(window, 'alert').and.stub();
     await deleteButton?.click();
-    expect(actionSpy).toHaveBeenCalledWith('More info clicked for Jane Deere');
+    await expectAsync(
+      docLoader.countHarnesses(SkyInlineDeleteHarness),
+    ).toBeResolvedTo(1);
+    let rowDelete = await docLoader.getHarness(SkyInlineDeleteHarness);
+    await rowDelete.clickCancelButton();
+    await expectAsync(
+      docLoader.countHarnesses(SkyInlineDeleteHarness),
+    ).toBeResolvedTo(0);
+    await deleteButton?.click();
+    rowDelete = await docLoader.getHarness(SkyInlineDeleteHarness);
+    await rowDelete.clickDeleteButton();
+    await expectAsync(
+      docLoader.countHarnesses(SkyInlineDeleteHarness),
+    ).toBeResolvedTo(0);
   });
 });

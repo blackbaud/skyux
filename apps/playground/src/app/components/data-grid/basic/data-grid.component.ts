@@ -1,5 +1,6 @@
 import { JsonPipe } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ViewChild,
@@ -37,6 +38,7 @@ interface RowModel {
     JsonPipe,
     RouterLink,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class DataGridComponent {
   public asyncPopover: any;
