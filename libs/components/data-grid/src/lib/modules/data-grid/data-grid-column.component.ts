@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   TemplateRef,
   booleanAttribute,
@@ -18,6 +19,7 @@ import { SkyLogService } from '@skyux/core';
 @Component({
   selector: 'sky-data-grid-column',
   template: '',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyDataGridColumnComponent {
   /**

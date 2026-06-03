@@ -1,4 +1,9 @@
-import { Component, computed, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+} from '@angular/core';
 import { SkyAgGridHeaderInfo } from '@skyux/ag-grid';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 
@@ -14,6 +19,7 @@ import { SkyHelpInlineModule } from '@skyux/help-inline';
       [popoverContent]="helpPopoverContent()"
     />
   }`,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyDataGridColumnInlineHelpComponent {
   protected readonly info = inject(SkyAgGridHeaderInfo);
@@ -23,11 +29,11 @@ export class SkyDataGridColumnInlineHelpComponent {
   );
 
   protected readonly helpPopoverTitle = computed(
-    () => this.#headerComponentParams().helpPopoverTitle,
+    () => this.#headerComponentParams()?.helpPopoverTitle,
   );
 
   protected readonly helpPopoverContent = computed(
-    () => this.#headerComponentParams().helpPopoverContent,
+    () => this.#headerComponentParams()?.helpPopoverContent,
   );
 
   readonly #headerComponentParams = computed(

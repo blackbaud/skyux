@@ -14,7 +14,6 @@ import { BehaviorSubject, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-list-view-grid',
-  standalone: true,
   templateUrl: './list-view-grid.component.html',
   imports: [
     SkyAlertModule,
@@ -84,7 +83,7 @@ export default class ListViewGridTestComponent {
       })
       .indexOf(confirmArgs.id);
 
-    if (removeIndex) {
+    if (removeIndex !== -1) {
       setTimeout(() => {
         this.defaultItems = this.defaultItems.filter(
           (data: any) => data.id !== confirmArgs.id,

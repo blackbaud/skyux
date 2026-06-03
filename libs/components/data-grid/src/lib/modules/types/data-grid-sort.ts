@@ -4,7 +4,6 @@
 export interface SkyDataGridSort {
   /**
    * Whether to apply the sort in descending order.
-   * @required
    */
   descending?: boolean;
   /**

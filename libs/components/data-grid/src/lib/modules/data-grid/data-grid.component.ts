@@ -488,6 +488,10 @@ export class SkyDataGridComponent<
           }
           return sort;
         });
+      } else {
+        // Clear the sort when the grid no longer has a sorted column so the
+        // two-way bound model does not retain a stale value.
+        this.sortField.update(() => undefined);
       }
     });
   }

@@ -13,10 +13,12 @@ import { DATA_GRID_DEMO_DATA } from './data';
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './example.component.html',
 })
-export class DataGridPagingComponent {
+export class DataGridPagingExampleComponent {
   protected readonly data = DATA_GRID_DEMO_DATA;
 
   // For demo purposes, only use the query string if we're running the demo in its own SPA as a route and not on the documentation site.
   protected readonly pageQueryParam =
-    inject(ActivatedRoute).component === DataGridPagingComponent ? 'page' : '';
+    inject(ActivatedRoute).component === DataGridPagingExampleComponent
+      ? 'page'
+      : '';
 }
