@@ -1,5 +1,5 @@
 <div class="sky-padding-even-default" id="screenshot-list-view-grid">
-  <sky-list [data]="items" [defaultView]="grid">
+  <sky-list [data]="items()" [defaultView]="grid">
     <sky-list-toolbar>
       <sky-list-column-selector-action [gridView]="grid" />
     </sky-list-toolbar>
@@ -7,7 +7,7 @@
     <sky-list-view-grid
       #grid
       fit="scroll"
-      [rowHighlightedId]="rowHighlightedId"
+      [rowHighlightedId]="rowHighlightedId()"
     >
       <sky-grid-column
         description="A numbered column"
@@ -44,9 +44,9 @@
   id="screenshot-list-view-grid-with-multiselect"
 >
   <sky-list
-    [data]="items"
+    [data]="items()"
     [defaultView]="gridWithMultiselect"
-    [selectedIds]="selectedIds"
+    [selectedIds]="selectedIds()"
     (selectedIdsChange)="onSelectedIdsChange($event)"
   >
     <sky-list-toolbar>
@@ -57,7 +57,7 @@
       #gridWithMultiselect
       fit="scroll"
       [enableMultiselect]="true"
-      [rowHighlightedId]="rowHighlightedId"
+      [rowHighlightedId]="rowHighlightedId()"
     >
       <sky-grid-column
         description="A numbered column"
@@ -85,7 +85,7 @@
   class="sky-padding-even-default"
   id="screenshot-list-view-grid-with-inline-delete"
 >
-  <sky-list [data]="items" [defaultView]="gridWithInlineDelete">
+  <sky-list [data]="items()" [defaultView]="gridWithInlineDelete">
     <sky-list-toolbar>
       <sky-list-column-selector-action [gridView]="gridWithInlineDelete" />
     </sky-list-toolbar>

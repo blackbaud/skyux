@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { SkyAlertModule } from '@skyux/indicators';
 import { SkyListModule, SkyListToolbarModule } from '@skyux/list-builder';
 import {
@@ -10,11 +10,19 @@ import {
 } from '@skyux/list-builder-view-grids';
 import { SkyDropdownModule } from '@skyux/popovers';
 
-import { BehaviorSubject, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
+
+interface GridItem {
+  id: string;
+  column1: number;
+  column2: string;
+  column3: string;
+}
 
 @Component({
   selector: 'app-list-view-grid',
   templateUrl: './list-view-grid.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     SkyAlertModule,
     SkyDropdownModule,
@@ -26,15 +34,11 @@ import { BehaviorSubject, Subject } from 'rxjs';
 export default class ListViewGridTestComponent {
   public gridController = new Subject<SkyListViewGridMessage>();
 
-  public itemSubject: BehaviorSubject<any> = new BehaviorSubject([]);
+  public rowHighlightedId = signal<string | undefined>(undefined);
 
-  public items = this.itemSubject.asObservable();
+  public selectedIds = signal<string[] | undefined>(undefined);
 
-  public rowHighlightedId: string;
-
-  public selectedIds: string[];
-
-  private defaultItems = [
+  private itemsSignal = signal<GridItem[]>([
     { id: '1', column1: 101, column2: 'Apple', column3: 'Anne eats apples' },
     { id: '2', column1: 202, column2: 'Banana', column3: 'Ben eats bananas' },
     { id: '3', column1: 303, column2: 'Pear', column3: 'Patty eats pears' },
@@ -47,17 +51,15 @@ export default class ListViewGridTestComponent {
       column2: 'Strawberry',
       column3: 'Sally eats strawberries',
     },
-  ];
+  ]);
 
-  constructor() {
-    this.itemSubject.next(this.defaultItems);
-  }
+  public items = this.itemsSignal.asReadonly();
 
   public onToggleRowHighlightClick(): void {
-    this.rowHighlightedId = this.rowHighlightedId ? undefined : '2';
+    this.rowHighlightedId.update((id) => (id ? undefined : '2'));
   }
 
-  public onSelectedIdsChange(event: any): void {
+  public onSelectedIdsChange(event: string[]): void {
     console.log(event);
   }
 
@@ -77,18 +79,14 @@ export default class ListViewGridTestComponent {
   public onRowDeleteConfirm(
     confirmArgs: SkyListViewGridRowDeleteConfirmArgs,
   ): void {
-    const removeIndex = this.defaultItems
-      .map((item) => {
-        return item.id;
-      })
-      .indexOf(confirmArgs.id);
-
-    if (removeIndex !== -1) {
+    const exists = this.itemsSignal().some(
+      (item) => item.id === confirmArgs.id,
+    );
+    if (exists) {
       setTimeout(() => {
-        this.defaultItems = this.defaultItems.filter(
-          (data: any) => data.id !== confirmArgs.id,
+        this.itemsSignal.update((items) =>
+          items.filter((item) => item.id !== confirmArgs.id),
         );
-        this.itemSubject.next(this.defaultItems);
         console.log('Item with id ' + confirmArgs.id + ' has been deleted.');
       }, 1000);
     }

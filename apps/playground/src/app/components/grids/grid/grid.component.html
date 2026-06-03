@@ -1,7 +1,7 @@
 <sky-grid
   fit="scroll"
   [data]="data"
-  [selectedColumnIds]="selectedColumnIds"
+  [selectedColumnIds]="selectedColumnIds()"
   (selectedColumnIdsChange)="onSelectedColumnIdsChange($event)"
   (sortFieldChange)="onSortFieldChange($event)"
 >
@@ -17,4 +17,6 @@
   below.
 </p>
 
-<p><strong>Selected column IDs:</strong> {{ selectedColumnIds.join(', ') }}</p>
+<p>
+  <strong>Selected column IDs:</strong> {{ selectedColumnIds().join(', ') }}
+</p>

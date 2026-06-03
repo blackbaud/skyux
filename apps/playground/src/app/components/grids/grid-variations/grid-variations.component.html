@@ -7,10 +7,10 @@
     #grid
     fit="scroll"
     [data]="dataForSimpleGrid"
-    [highlightText]="highlightText"
-    [rowHighlightedId]="rowHighlightedId"
-    [selectedColumnIds]="columnsForSimpleGrid"
-    [sortField]="sortFieldForSimpleGrid"
+    [highlightText]="highlightText()"
+    [rowHighlightedId]="rowHighlightedId()"
+    [selectedColumnIds]="columnsForSimpleGrid()"
+    [sortField]="sortFieldForSimpleGrid()"
     (selectedColumnIdsChange)="onSelectedColumnIdsChange($event)"
     (columnWidthChange)="onColumnWidthChange($event)"
     (sortFieldChange)="sortChangedSimpleGrid($event)"
@@ -65,7 +65,7 @@
     [enableMultiselect]="true"
     [messageStream]="gridController"
     [multiselectRowId]="'myId'"
-    [selectedRowIds]="selectedRowIds"
+    [selectedRowIds]="selectedRowIds()"
     (sortFieldChange)="sortChangedMultiselectGrid($event)"
     (multiselectSelectionChange)="onMultiselectSelectionChange($event)"
   >
@@ -76,7 +76,7 @@
   </sky-grid>
 
   <p>Selected rows:</p>
-  <p>{{ selectedRowIdsDisplay }}</p>
+  <p>{{ selectedRowIdsDisplay() }}</p>
 </div>
 
 <h1>Grid with inline help</h1>
@@ -92,7 +92,7 @@
     <sky-grid-column
       field="column3"
       heading="Column3"
-      [inlineHelpPopover]="asyncPopover"
+      [inlineHelpPopover]="asyncPopover()"
     />
   </sky-grid>
 
@@ -115,8 +115,8 @@
     #grid
     fit="scroll"
     [data]="dataForSimpleGrid"
-    [highlightText]="highlightText"
-    [rowHighlightedId]="rowHighlightedId"
+    [highlightText]="highlightText()"
+    [rowHighlightedId]="rowHighlightedId()"
     (sortFieldChange)="sortChangedSimpleGrid($event)"
   >
     <sky-grid-column field="column1" heading="Column1" width="800" />
@@ -170,7 +170,7 @@
     <sky-grid-column
       field="column3"
       heading="Column3"
-      [inlineHelpPopover]="asyncPopover"
+      [inlineHelpPopover]="asyncPopover()"
     />
   </sky-grid>
 
@@ -193,8 +193,8 @@
     #grid
     fit="scroll"
     [data]="dataForSimpleGrid"
-    [highlightText]="highlightText"
-    [rowHighlightedId]="rowHighlightedId"
+    [highlightText]="highlightText()"
+    [rowHighlightedId]="rowHighlightedId()"
     (sortFieldChange)="sortChangedSimpleGrid($event)"
   >
     <sky-grid-column alignment="right" field="column1" heading="Column1" />
@@ -215,8 +215,8 @@
     #grid
     fit="scroll"
     [data]="dataForSimpleGrid"
-    [highlightText]="highlightText"
-    [rowHighlightedId]="rowHighlightedId"
+    [highlightText]="highlightText()"
+    [rowHighlightedId]="rowHighlightedId()"
     (sortFieldChange)="sortChangedSimpleGrid($event)"
   >
     <sky-grid-column
