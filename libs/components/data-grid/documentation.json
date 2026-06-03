@@ -1,0 +1,24 @@
+{
+  "$schema": "../manifest-generator/documentation-schema.json",
+  "groups": {
+    "data-grid-package": {
+      "development": {
+        "docsIds": [
+          "SkyDataGridModule",
+          "SkyDataGridComponent",
+          "SkyDataGridColumnComponent",
+          "SkyDataGridRowDeleteCancelArgs",
+          "SkyDataGridRowDeleteConfirmArgs",
+          "SkyDataGridSort"
+        ],
+        "primaryDocsId": "SkyDataGridModule"
+      },
+      "testing": {
+        "docsIds": ["SkyDataGridHarness", "SkyDataGridHarnessFilters"]
+      },
+      "codeExamples": {
+        "docsIds": ["DataGridBasicExampleComponent", "DataGridPagingComponent"]
+      }
+    }
+  }
+}

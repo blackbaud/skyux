@@ -226,6 +226,20 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'DataGridBasicExampleComponent',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ DataGridBasicExampleComponent: c }) => c,
+      ),
+  },
+  {
+    path: 'DataGridPagingComponent',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ DataGridPagingComponent: c }) => c,
+      ),
+  },
+  {
     path: 'DataManagerBasicExampleComponent',
     loadComponent: () =>
       import('@skyux/code-examples').then(
