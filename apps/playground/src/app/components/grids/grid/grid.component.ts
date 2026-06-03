@@ -85,3 +85,5 @@ export class GridPlaygroundComponent {
     console.log('Sort field changed:', sortField);
   }
 }
+
+export default GridPlaygroundComponent;
