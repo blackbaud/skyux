@@ -204,6 +204,40 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     expect(agGridComponent.api.getColumn('name')?.isVisible()).toBeTruthy();
   });
 
+  it('should not hide reserved columns when the data state changes', async () => {
+    await agGridDataManagerFixture.whenStable();
+
+    spyOn(agGridComponent.api, 'getColumnState').and.returnValue([
+      { colId: 'selected', hide: false },
+      { colId: 'name', hide: false },
+      { colId: 'target', hide: false },
+      { colId: 'ag-Grid-SelectionColumn', hide: false },
+    ] as ColumnState[]);
+    const setColumnsVisible = spyOn(agGridComponent.api, 'setColumnsVisible');
+
+    const newDataState = new SkyDataManagerState({
+      views: [
+        {
+          viewId:
+            agGridDataManagerFixtureComponent.initialDataState.views[0].viewId,
+          displayedColumnIds: ['selected', 'name'],
+        },
+      ],
+    });
+    dataManagerService.updateDataState(newDataState, 'unitTest');
+
+    agGridDataManagerFixture.detectChanges();
+    await agGridDataManagerFixture.whenStable();
+
+    // The reserved selection column should be excluded from the columns that
+    // are hidden, even though it is not in the displayed column ids.
+    expect(setColumnsVisible).toHaveBeenCalledWith(['target'], false);
+    expect(setColumnsVisible).not.toHaveBeenCalledWith(
+      jasmine.arrayContaining(['ag-Grid-SelectionColumn']),
+      false,
+    );
+  });
+
   it('should update the data state column widths when columns are removed', async () => {
     const updateDataState = spyOn(
       dataManagerService,
