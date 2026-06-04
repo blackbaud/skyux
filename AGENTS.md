@@ -8,15 +8,56 @@ code.
 ## Repository Context
 
 This is an Nx monorepo of Angular libraries and build tooling published under
-the `@skyux/*` and `@skyux-sdk/*` scopes. Projects live under
-[libs/](libs/) and [apps/](apps/). Common Nx tasks:
+the `@skyux/*` and `@skyux-sdk/*` scopes.
 
-- `npm test` / `npm run test:affected` — run unit tests (Jest or Karma per project)
-- `npm run lint` / `npm run lint:affected` — run ESLint
-- `npm run build` / `npm run build:affected` — build publishable libraries
-- `npm run format` — apply Prettier
+- [libs/components/](libs/components/) — the published Angular UI libraries
+  (`@skyux/*`). Each is an `ng-packagr` project with `src/` (the library) and
+  often `testing/` (the `@skyux/<pkg>/testing` entry point). The public API is
+  the `src/index.ts` and `testing/src/index.ts` barrels.
+- [libs/sdk/](libs/sdk/) — build/dev tooling, schematics, ESLint/Stylelint
+  configs, and `@skyux-sdk/testing` (`@skyux-sdk/*`).
+- [apps/](apps/) — non-published apps: `playground` (manual testing),
+  `code-examples` (docs examples, also published as `@skyux/code-examples`),
+  `integration` + `integration-e2e`, and `e2e`.
 
-Prefer `:affected` variants during development; CI runs the full matrix.
+Common Nx tasks (prefer `:affected` variants during development):
+
+| Task   | All projects                 | Affected only            | Single project                                                 |
+| ------ | ---------------------------- | ------------------------ | -------------------------------------------------------------- |
+| Test   | `npm test`                   | `npm run test:affected`  | `npx nx test <project>`                                        |
+| Lint   | `npm run lint`               | `npm run lint:affected`  | `npx nx lint <project>`                                        |
+| Build  | `npm run build`              | `npm run build:affected` | `npx nx build <project>` then `npx nx run <project>:postbuild` |
+| Format | `npm run format` (write all) | —                        | `nx format --files=<paths>`                                    |
+
+- `<project>` is the directory name, not the package name (e.g. `core`,
+  `forms`, `ag-grid`, `tools`).
+- Watch a project's tests: `npx nx test <project> --watch`.
+- Run a single Karma project headless: `npx nx test <project> --browsers=ChromeHeadless`
+  (the all-projects `npm test` uses `ChromeHeadlessNoSandbox`).
+- Serve for manual testing: `npx nx serve playground`.
+
+## Task-Specific Instructions
+
+The [.github/instructions/](.github/instructions/) directory holds additional
+instruction files scoped to particular file types and tasks. GitHub Copilot
+loads these automatically via each file's `applyTo` glob; **other agents
+(Claude Code, Cursor, CodeRabbit, etc.) must read the relevant file directly**
+before working on matching files. Consult these when your change touches their
+scope:
+
+- [angular.instructions.md](.github/instructions/angular.instructions.md)
+  (`applyTo: **`) — Angular best practices for maintainable, performant, and
+  accessible code. Applies to all Angular work.
+- [code-examples-unit-testing.instructions.md](.github/instructions/code-examples-unit-testing.instructions.md)
+  (`libs/components/code-examples/**`, `libs/components/*/src/**`,
+  `libs/components/*/documentation.json`) — generating code example unit tests.
+- [skyux-copilot-harnesses.instructions.md](.github/instructions/skyux-copilot-harnesses.instructions.md)
+  (`libs/components/**/testing/src/modules/**`) — generating component test
+  harnesses.
+- [add-scss-override.instructions.md](.github/instructions/add-scss-override.instructions.md)
+  (`**/*.scss`) — adding a CSS variable to the appropriate SCSS override mixin.
+- [scss-override-mixins.instructions.md](.github/instructions/scss-override-mixins.instructions.md)
+  (`**/*.scss`) — adding empty compat mixins to a component's SCSS file.
 
 ## Reviewer Persona
 
@@ -115,6 +156,15 @@ or modifying TypeScript so the code conforms to the active rules, and run
 `npm run lint:affected` to verify.
 
 ## Testing
+
+Two test runners coexist; check which one a project uses before writing or
+running specs:
+
+- **Karma + Jasmine** — all `libs/components/*` UI libraries (look for
+  `karma.conf.js`). SKY UX styles are loaded during these tests, so computed
+  styles are assertable.
+- **Jest** — `libs/sdk/*` tooling/schematics plus the `manifest` and
+  `packages` component projects (look for `jest.config.ts`).
 
 Every code change must include corresponding tests. Most projects enforce
 100% coverage for statements, branches, functions, and lines (see each
