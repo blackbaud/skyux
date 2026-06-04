@@ -1,7 +1,7 @@
 # Changelog
 
 
-## [14.3.8](https://github.com/blackbaud/skyux/compare/14.3.7...14.3.8) (2026-06-03)
+## [14.3.8](https://github.com/blackbaud/skyux/compare/14.3.7...14.3.8) (2026-06-04)
 
 
 ### Bug Fixes
