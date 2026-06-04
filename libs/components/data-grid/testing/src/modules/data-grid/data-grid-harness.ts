@@ -1,6 +1,8 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyAgGridWrapperHarness } from '@skyux/ag-grid/testing';
 import { SkyQueryableComponentHarness } from '@skyux/core/testing';
+import { SkyWaitHarness } from '@skyux/indicators/testing';
+import { SkyPagingHarness } from '@skyux/lists/testing';
 
 import { SkyDataGridHarnessFilters } from './data-grid-harness.filters';
 
@@ -51,6 +53,33 @@ export class SkyDataGridHarness extends SkyQueryableComponentHarness {
       .catch(() =>
         Promise.reject('Unable to retrieve displayed column header names.'),
       );
+  }
+
+  /**
+   * Gets the paging harness for the data grid. Throws if the grid is not paged.
+   */
+  public async getPaging(): Promise<SkyPagingHarness> {
+    const paging = await this.getPagingOrNull();
+
+    if (paging === null) {
+      throw new Error('Unable to retrieve paging. The data grid is not paged.');
+    }
+
+    return paging;
+  }
+
+  /**
+   * Gets the paging harness for the data grid, or `null` if the grid is not paged.
+   */
+  public async getPagingOrNull(): Promise<SkyPagingHarness | null> {
+    return await this.queryHarnessOrNull(SkyPagingHarness);
+  }
+
+  /**
+   * Gets the wait harness for the data grid.
+   */
+  public async getWait(): Promise<SkyWaitHarness> {
+    return await this.queryHarness(SkyWaitHarness);
   }
 
   async #getGridWrapper(): Promise<SkyAgGridWrapperHarness> {

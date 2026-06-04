@@ -8,7 +8,7 @@ import { DATA_GRID_DEMO_DATA } from './data';
  * @title Data grid with paging using router query parameters
  */
 @Component({
-  selector: 'app-data-grid-paging',
+  selector: 'app-data-grid-paging-example',
   imports: [SkyDataGridModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './example.component.html',

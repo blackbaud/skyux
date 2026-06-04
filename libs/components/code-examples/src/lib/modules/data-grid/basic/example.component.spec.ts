@@ -1,7 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideNoopSkyAnimations } from '@skyux/core';
 import { SkyDataGridHarness } from '@skyux/data-grid/testing';
 import { SkyInlineDeleteHarness } from '@skyux/layout/testing';
 import {
@@ -19,7 +18,6 @@ describe('Basic data grid example', () => {
   }> {
     await TestBed.configureTestingModule({
       imports: [DataGridBasicExampleComponent],
-      providers: [provideNoopSkyAnimations()],
     }).compileComponents();
     const fixture = TestBed.createComponent(DataGridBasicExampleComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
@@ -37,6 +35,9 @@ describe('Basic data grid example', () => {
         dataSkyId: 'example-data-grid',
       }),
     );
+    const waitHarness = await gridHarness.getWait();
+    await expectAsync(waitHarness.isWaiting()).toBeResolvedTo(false);
+    await expectAsync(gridHarness.isGridReady()).toBeResolvedTo(true);
     await expectAsync(gridHarness.getDisplayedColumnIds()).toBeResolvedTo([
       'ag-Grid-SelectionColumn',
       'context',
@@ -47,6 +48,13 @@ describe('Basic data grid example', () => {
       'department',
       'jobTitle',
     ]);
+
+    // Not using paging.
+    await expectAsync(gridHarness.getPagingOrNull()).toBeResolvedTo(null);
+    await expectAsync(gridHarness.getPaging()).toBeRejectedWithError(
+      'Unable to retrieve paging. The data grid is not paged.',
+    );
+
     await expectAsync(
       gridHarness.getDisplayedColumnHeaderNames(),
     ).toBeResolvedTo([
@@ -62,8 +70,7 @@ describe('Basic data grid example', () => {
   });
 
   it('should show context menu and handle item click', async () => {
-    const { fixture, loader, docLoader } = await setupTest();
-    expect(fixture.componentInstance).toBeDefined();
+    const { loader, docLoader } = await setupTest();
     const gridHarness = await loader.getHarness(
       SkyDataGridHarness.with({
         dataSkyId: 'example-data-grid',
