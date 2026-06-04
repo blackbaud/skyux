@@ -24,7 +24,7 @@
       "dependsOn": [
         "^build",
         {
-          "projects": ["ag-grid", "core"],
+          "projects": ["ag-grid", "core", "indicators", "lists"],
           "target": "build"
         }
       ],
