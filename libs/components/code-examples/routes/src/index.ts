@@ -233,10 +233,24 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'DataGridLoadingExampleComponent',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ DataGridLoadingExampleComponent: c }) => c,
+      ),
+  },
+  {
     path: 'DataGridPagingExampleComponent',
     loadComponent: () =>
       import('@skyux/code-examples').then(
         ({ DataGridPagingExampleComponent: c }) => c,
+      ),
+  },
+  {
+    path: 'DataGridSortingExampleComponent',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ DataGridSortingExampleComponent: c }) => c,
       ),
   },
   {

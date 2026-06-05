@@ -10,10 +10,10 @@
     />
   </sky-ag-grid-wrapper>
 
-  @if (pageCount(); as pageCount) {
+  @if (pageCount()) {
     <sky-paging
       [currentPage]="page() || 1"
-      [itemCount]="pageCount * pageSize()"
+      [itemCount]="rowData().length"
       [pageSize]="pageSize()"
       (currentPageChange)="currentPageChange($event)"
     />

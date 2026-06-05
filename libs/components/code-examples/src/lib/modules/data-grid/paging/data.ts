@@ -93,6 +93,7 @@ export const DATA_GRID_DEMO_DATA = [
     startDate: new Date('12/1/1994'),
     department: DEPARTMENTS[3],
     jobTitle: JOB_TITLES['Customer Support'][1],
+    active: true,
   },
   {
     id: '2',
@@ -101,6 +102,7 @@ export const DATA_GRID_DEMO_DATA = [
     startDate: new Date('7/15/2009'),
     department: DEPARTMENTS[2],
     jobTitle: JOB_TITLES['Engineering'][2],
+    active: true,
   },
   {
     id: '3',
@@ -109,6 +111,7 @@ export const DATA_GRID_DEMO_DATA = [
     startDate: new Date('9/1/2017'),
     endDate: new Date('9/30/2017'),
     department: DEPARTMENTS[1],
+    active: true,
   },
   {
     id: '4',
@@ -118,6 +121,7 @@ export const DATA_GRID_DEMO_DATA = [
     endDate: new Date('6/15/2018'),
     department: DEPARTMENTS[2],
     jobTitle: JOB_TITLES['Engineering'][4],
+    active: false,
   },
   {
     id: '5',
@@ -126,6 +130,7 @@ export const DATA_GRID_DEMO_DATA = [
     startDate: new Date('1/15/2014'),
     department: DEPARTMENTS[0],
     jobTitle: JOB_TITLES['Marketing'][2],
+    active: true,
   },
   {
     id: '6',
@@ -134,6 +139,7 @@ export const DATA_GRID_DEMO_DATA = [
     startDate: new Date('11/1/2019'),
     department: DEPARTMENTS[2],
     jobTitle: JOB_TITLES['Engineering'][0],
+    active: true,
   },
   {
     id: '7',
@@ -142,5 +148,6 @@ export const DATA_GRID_DEMO_DATA = [
     startDate: new Date('11/1/2019'),
     department: DEPARTMENTS[2],
     jobTitle: JOB_TITLES['Engineering'][3],
+    active: true,
   },
 ];

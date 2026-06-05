@@ -606,5 +606,58 @@ describe('SkyDataGridComponent', () => {
       const colDef = api?.getColumn('date')?.getColDef();
       expect(colDef?.cellDataType).toBe('dateString');
     });
+
+    it('should retain selectedRowIds set before data loads', async () => {
+      // Start with the multiselect grid in a loading state (no data yet).
+      component.dataForSimpleGridWithMultiselect = undefined;
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      // A consumer pre-selects rows while the grid is still loading.
+      component.selectedRowIds.set(['1', '2']);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      // The selection must survive until the data arrives.
+      expect(component.selectedRowIds()).toEqual(['1', '2']);
+
+      // Data arrives and the pre-selected rows become selected.
+      component.dataForSimpleGridWithMultiselect = [
+        { id: '1', column1: '1', column2: 'Apple', column3: true, myId: '101' },
+        {
+          id: '2',
+          column1: '01',
+          column2: 'Banana',
+          column3: false,
+          myId: '102',
+        },
+      ];
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const api = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="multiselect-grid"] ag-grid-angular',
+        ),
+      );
+      expect(component.selectedRowIds()).toEqual(['1', '2']);
+      expect(api?.getSelectedNodes()).toHaveSize(2);
+    });
+
+    it('should not throw when a number column value getter receives a row without data', async () => {
+      fixture.detectChanges();
+      await fixture.whenStable();
+      const api = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="multiselect-grid"] ag-grid-angular',
+        ),
+      );
+      const valueGetter = api?.getColumn('myId')?.getColDef().valueGetter as
+        | ((params: { data: unknown }) => number)
+        | undefined;
+      expect(valueGetter).toEqual(jasmine.any(Function));
+      expect(() => valueGetter?.({ data: undefined })).not.toThrow();
+      expect(valueGetter?.({ data: undefined })).toBeNaN();
+    });
   });
 });

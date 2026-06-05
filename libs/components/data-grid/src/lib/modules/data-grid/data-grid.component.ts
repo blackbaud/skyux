@@ -73,6 +73,8 @@ function arrayIsEqual(
 }
 
 /**
+ * Displays tabular data in a grid using a declarative set of columns and inputs.
+ * Provide the `data` array and one `sky-data-grid-column` for each column to render.
  * @preview
  */
 @Component({
@@ -123,7 +125,7 @@ export class SkyDataGridComponent<
 
   /**
    * The height of the grid in CSS pixels. For best performance, large grids should set a `height` value and not enable
-   * `wrapText` on any column so that rows can be virtually drawn as needed. When `wrapText` is  enabled on any column,
+   * `wrapText` on any column so that rows can be virtually drawn as needed. When `wrapText` is enabled on any column,
    * or when `height` is not set, the grid needs to build every row in order to determine the scroll height, creating
    * hundreds or thousands of invisible DOM elements and slowing down the browser.
    */
@@ -191,7 +193,7 @@ export class SkyDataGridComponent<
   /**
    * The sort setting for the grid.
    */
-  public readonly sortField = model<SkyDataGridSort | undefined>(undefined);
+  public readonly sortField = model<SkyDataGridSort<T> | undefined>(undefined);
 
   protected readonly columns = contentChildren(SkyDataGridColumnComponent);
   protected readonly gridApi = signal<GridApi<T> | undefined>(undefined);
@@ -278,12 +280,12 @@ export class SkyDataGridComponent<
     switchMap((api) =>
       fromGridEvent(api, 'sortChanged').pipe(
         takeUntil(this.#gridDestroyed),
-        map((sortEvent): SkyDataGridSort | undefined => {
+        map((sortEvent): SkyDataGridSort<T> | undefined => {
           const sortColumn = sortEvent?.columns?.find((col) => !!col.getSort());
           if (sortColumn) {
             return {
               descending: sortColumn.getSort() === 'desc',
-              fieldSelector: sortColumn.getColId(),
+              fieldSelector: sortColumn.getColId() as keyof T,
             };
           }
           return undefined;
@@ -318,7 +320,10 @@ export class SkyDataGridComponent<
   );
 
   constructor() {
-    // Update specific grid options after the grid has been loaded.
+    // Update specific grid options after the grid has been loaded. These read
+    // `gridApi` untracked because a recreated grid rebuilds its options from the
+    // `gridOptions` computed; the selection and page effects below instead track
+    // `gridApi` so they re-apply their state to a freshly created grid.
     effect(() => {
       const api = untracked(() => this.gridApi());
       const columnDefs = this.#columnDefs();
@@ -354,7 +359,14 @@ export class SkyDataGridComponent<
     // Apply inputs once the grid is loaded and on subsequent changes.
     effect(() => {
       const api = this.gridApi();
-      const validRowIds = this.rowData().map((row) => row.id);
+      const data = this.data();
+      // Don't reconcile selection while data is still loading; pruning here
+      // would wipe a selection a consumer set before the rows arrived.
+      // An empty array is "loaded but no rows", so only `null`/`undefined` skip.
+      if (!data) {
+        return;
+      }
+      const validRowIds = data.map((row) => row.id);
       const selectedRowIds = coerceStringArray(this.selectedRowIds());
       const validSelectedRowIds = selectedRowIds.filter((id) =>
         validRowIds.includes(id),
@@ -445,7 +457,7 @@ export class SkyDataGridComponent<
 
   #createColDef(
     col: SkyDataGridColumnComponent,
-    sort: SkyDataGridSort | undefined,
+    sort: SkyDataGridSort<T> | undefined,
   ): ColDef {
     const field = col.field();
     const colDef: ColDef = {
@@ -470,7 +482,7 @@ export class SkyDataGridComponent<
     } else if (field && col.dataType() === 'number') {
       (colDef.type as string[]).push(SkyCellType.Number);
       colDef.cellDataType = 'number';
-      colDef.valueGetter = (params): number => Number(params.data[field]);
+      colDef.valueGetter = (params): number => Number(params.data?.[field]);
     } else if (col.dataType() === 'boolean') {
       colDef.cellDataType = 'boolean';
     } else {
@@ -490,7 +502,9 @@ export class SkyDataGridComponent<
     colDef: ColDef,
   ): void {
     if (col.flexWidth() > -1) {
+      colDef.flex = col.flexWidth();
       colDef.initialFlex = col.flexWidth();
+      colDef.suppressSizeToFit = true;
     } else if (col.width() > 0) {
       colDef.initialWidth = col.width();
     }
@@ -505,10 +519,11 @@ export class SkyDataGridComponent<
   }
 
   #getSort(
-    sort: SkyDataGridSort | undefined,
+    sort: SkyDataGridSort<T> | undefined,
     col: SkyDataGridColumnComponent,
   ): SortDirection {
-    return sort?.fieldSelector === col.field()
+    const field = col.field();
+    return field && sort?.fieldSelector === field
       ? sort?.descending
         ? 'desc'
         : 'asc'

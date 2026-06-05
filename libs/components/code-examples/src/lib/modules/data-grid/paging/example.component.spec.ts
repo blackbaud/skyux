@@ -38,6 +38,7 @@ describe('Data grid paging example', () => {
       'endDate',
       'department',
       'jobTitle',
+      'active',
     ]);
     await expectAsync(
       gridHarness.getDisplayedColumnHeaderNames(),
@@ -48,6 +49,7 @@ describe('Data grid paging example', () => {
       'End date',
       'Department',
       'Job title',
+      'Active',
     ]);
   });
 

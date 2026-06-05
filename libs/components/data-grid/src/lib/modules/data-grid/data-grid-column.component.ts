@@ -48,14 +48,14 @@ export class SkyDataGridColumnComponent {
   /**
    * The property to retrieve cell information from an entry on the grid `data` array.
    * You must provide either the `columnId` or `field` property for every column,
-   * but do not provide both. If `columnId` does not exist on a column, then `field` is the entry
-   * for the grid `selectedColumnIds` array.
+   * but do not provide both. When a column maps directly to a property on the data,
+   * use `field`; the column's ID defaults to the `field` value.
    */
   public readonly field = input<string>();
 
   /**
    * When set, `flexWidth` overrides `width` and works like
-   * [CSS flex-grow](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/flex-grow), where a column
+   * [CSS flex-grow](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-grow), where a column
    * with `flexWidth="2"` is twice the width of a column with `flexWidth="1"`, and `flexWidth="0"` does not auto-expand.
    */
   public readonly flexWidth = input<number, unknown>(-1, {
@@ -112,8 +112,8 @@ export class SkyDataGridColumnComponent {
 
   /**
    * The template for a column. This can be assigned as a reference
-   * to the `template` attribute, or it can be assigned as a child of the `template` element
-   * inside the `sky-grid-column` component. The template has access to the `value` variable,
+   * to the `template` input, or it can be assigned as an `<ng-template>` child
+   * of the `sky-data-grid-column` component. The template has access to the `value` variable,
    * which contains the value passed to the column, and the `row` variable, which contains
    * the entire row data.
    */
