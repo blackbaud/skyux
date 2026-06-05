@@ -43,14 +43,13 @@ describe('SkyDataGridColumnComponent', () => {
 
     expect(component.columnId()).toBeUndefined();
     expect(component.dataType()).toBe('text');
-    expect(component.description()).toBeUndefined();
     expect(component.field()).toBeUndefined();
     expect(component.flexWidth()).toBe(-1);
     expect(component.headingText()).toBe('Test Heading');
     expect(component.headingHidden()).toBeFalse();
     expect(component.helpPopoverTitle()).toBeUndefined();
     expect(component.helpPopoverContent()).toBeUndefined();
-    expect(component.hidden()).toBeFalse();
+    expect(component.columnHidden()).toBeFalse();
     expect(component.resizable()).toBeTrue();
     expect(component.sortable()).toBeTrue();
     expect(component.locked()).toBeFalse();
@@ -100,9 +99,9 @@ describe('SkyDataGridColumnComponent', () => {
     expect(component.headingHidden()).toBeTrue();
 
     // hidden
-    fixture.componentRef.setInput('hidden', true);
+    fixture.componentRef.setInput('columnHidden', true);
     fixture.detectChanges();
-    expect(component.hidden()).toBeTrue();
+    expect(component.columnHidden()).toBeTrue();
 
     // locked
     fixture.componentRef.setInput('locked', true);

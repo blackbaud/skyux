@@ -23,6 +23,14 @@ import { SkyLogService } from '@skyux/core';
 })
 export class SkyDataGridColumnComponent {
   /**
+   * Whether the column is hidden.
+   * @default false
+   */
+  public readonly columnHidden = input<boolean, unknown>(false, {
+    transform: booleanAttribute,
+  });
+
+  /**
    * The unique ID for the column. You must provide either the `columnId` or `field` property
    * for every column, but do not provide both. Use `columnId` when the column does not map directly to a field
    * in the data set.
@@ -36,11 +44,6 @@ export class SkyDataGridColumnComponent {
   public readonly dataType = input<'text' | 'number' | 'date' | 'boolean'>(
     'text',
   );
-
-  /**
-   * The description for the column.
-   */
-  public readonly description = input<string>();
 
   /**
    * The property to retrieve cell information from an entry on the grid `data` array.
@@ -65,7 +68,7 @@ export class SkyDataGridColumnComponent {
   public readonly headingText = input.required<string>();
 
   /**
-   * Whether to prevent `heading` text from being visibly displayed.
+   * Whether to prevent `headingText` from being visibly displayed.
    * @default false
    */
   public readonly headingHidden = input<boolean, unknown>(false, {
@@ -86,10 +89,12 @@ export class SkyDataGridColumnComponent {
   public readonly helpPopoverContent = input<string | TemplateRef<unknown>>();
 
   /**
-   * Whether the column is initially hidden when grid `selectedColumnIds` are not provided.
+   * Whether the column is locked. The intent is to display locked columns first
+   * on the left side of the grid. If set to `true`, then users cannot drag the column
+   * to another position and or drag other columns before the locked column.
    * @default false
    */
-  public readonly hidden = input<boolean, unknown>(false, {
+  public readonly locked = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
 
@@ -104,16 +109,6 @@ export class SkyDataGridColumnComponent {
    * @default true
    */
   public readonly sortable = input<boolean>(true);
-
-  /**
-   * Whether the column is locked. The intent is to display locked columns first
-   * on the left side of the grid. If set to `true`, then users cannot drag the column
-   * to another position and or drag other columns before the locked column.
-   * @default false
-   */
-  public readonly locked = input<boolean, unknown>(false, {
-    transform: booleanAttribute,
-  });
 
   /**
    * The template for a column. This can be assigned as a reference

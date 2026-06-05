@@ -2,7 +2,6 @@ import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyDataGridHarness } from '@skyux/data-grid/testing';
-import { SkyInlineDeleteHarness } from '@skyux/layout/testing';
 import {
   SkyDropdownHarness,
   SkyDropdownMenuHarness,
@@ -93,28 +92,5 @@ describe('Basic data grid example', () => {
     expect(moreInfoActionSpy).toHaveBeenCalledWith(
       'More info clicked for Jane Deere',
     );
-
-    await expectAsync(
-      docLoader.countHarnesses(SkyInlineDeleteHarness),
-    ).toBeResolvedTo(0);
-    const deleteButton = await menuHarness.querySelector(
-      'button[aria-label="Delete Jane Deere"]',
-    );
-    expect(deleteButton).toBeTruthy();
-    await deleteButton?.click();
-    await expectAsync(
-      docLoader.countHarnesses(SkyInlineDeleteHarness),
-    ).toBeResolvedTo(1);
-    let rowDelete = await docLoader.getHarness(SkyInlineDeleteHarness);
-    await rowDelete.clickCancelButton();
-    await expectAsync(
-      docLoader.countHarnesses(SkyInlineDeleteHarness),
-    ).toBeResolvedTo(0);
-    await deleteButton?.click();
-    rowDelete = await docLoader.getHarness(SkyInlineDeleteHarness);
-    await rowDelete.clickDeleteButton();
-    await expectAsync(
-      docLoader.countHarnesses(SkyInlineDeleteHarness),
-    ).toBeResolvedTo(0);
   });
 });

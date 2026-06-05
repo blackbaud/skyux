@@ -75,30 +75,24 @@ describe('SkyDataGridComponent', () => {
       fixture.componentRef.setInput('showCol3', false);
       fixture.detectChanges();
       await fixture.whenStable();
+      let visibleColumnIds = await Promise.all(
+        grids.map((grid) => grid.getDisplayedColumnIds()),
+      );
       expect(
-        await Promise.all(
-          grids.map((grid) => grid.getDisplayedColumnIds()),
-        ).then((cols) =>
-          cols.map((id) => id.length).reduce((a, b) => a + b, 0),
-        ),
+        visibleColumnIds.map((id) => id.length).reduce((a, b) => a + b, 0),
       ).toEqual(2 + 4 + 2); // column3 hidden: grid (2 cols) + multiselect-grid (3 cols + select column) + inline-help-grid (2 cols)
-      expect(component.visibleColumnIds()).toEqual(['column1', 'column2']);
+      expect(visibleColumnIds[0]).toEqual(['column1', 'column2']);
 
       fixture.componentRef.setInput('showCol3', true);
       fixture.detectChanges();
       await fixture.whenStable();
+      visibleColumnIds = await Promise.all(
+        grids.map((grid) => grid.getDisplayedColumnIds()),
+      );
       expect(
-        await Promise.all(
-          grids.map((grid) => grid.getDisplayedColumnIds()),
-        ).then((cols) =>
-          cols.map((id) => id.length).reduce((a, b) => a + b, 0),
-        ),
+        visibleColumnIds.map((id) => id.length).reduce((a, b) => a + b, 0),
       ).toEqual(3 + 5 + 3); // column3 restored: grid (3 cols) + multiselect-grid (4 cols + select column) + inline-help-grid (3 cols)
-      expect(component.visibleColumnIds()).toEqual([
-        'column1',
-        'column2',
-        'column3',
-      ]);
+      expect(visibleColumnIds[0]).toEqual(['column1', 'column2', 'column3']);
 
       fixture.componentRef.setInput('showAllColumns', false);
       fixture.detectChanges();
@@ -358,7 +352,7 @@ describe('SkyDataGridComponent', () => {
       );
       expect(api).toBeTruthy();
       expect(api?.getSelectedNodes()).toHaveSize(0);
-      component.selectedRowIds.set(['102', '104', '106']);
+      component.selectedRowIds.set(['2', '4', '6']);
       fixture.detectChanges();
       await fixture.whenStable();
       expect(api?.getSelectedNodes()).toHaveSize(3);
@@ -369,16 +363,10 @@ describe('SkyDataGridComponent', () => {
       await fixture.whenStable();
 
       // Select some rows
-      component.selectedRowIds.set(['101', '102', '103', '104', '105']);
+      component.selectedRowIds.set(['1', '2', '3', '4', '5']);
       fixture.detectChanges();
       await fixture.whenStable();
-      expect(component.selectedRowIds()).toEqual([
-        '101',
-        '102',
-        '103',
-        '104',
-        '105',
-      ]);
+      expect(component.selectedRowIds()).toEqual(['1', '2', '3', '4', '5']);
 
       // Remove some items from the data (remove myId 102, 104)
       component.dataForSimpleGridWithMultiselect = [
@@ -402,7 +390,7 @@ describe('SkyDataGridComponent', () => {
       await fixture.whenStable();
 
       // selectedRowIds should be updated to only include IDs still in the data
-      expect(component.selectedRowIds()).toEqual(['101', '103', '105']);
+      expect(component.selectedRowIds()).toEqual(['1', '3', '5']);
     });
 
     it('should update selectedRowIds when data changes from populated to fewer items', async () => {
@@ -410,15 +398,7 @@ describe('SkyDataGridComponent', () => {
       await fixture.whenStable();
 
       // Select all rows
-      component.selectedRowIds.set([
-        '101',
-        '102',
-        '103',
-        '104',
-        '105',
-        '106',
-        '107',
-      ]);
+      component.selectedRowIds.set(['1', '2', '3', '4', '5', '6', '7']);
       fixture.detectChanges();
       await fixture.whenStable();
       expect(component.selectedRowIds()).toHaveSize(7);
@@ -438,7 +418,7 @@ describe('SkyDataGridComponent', () => {
       await fixture.whenStable();
 
       // selectedRowIds should only include IDs that are still in the data
-      expect(component.selectedRowIds()).toEqual(['101', '102']);
+      expect(component.selectedRowIds()).toEqual(['1', '2']);
     });
 
     it('should clear selectedRowIds when data changes to empty', async () => {
@@ -446,10 +426,10 @@ describe('SkyDataGridComponent', () => {
       await fixture.whenStable();
 
       // Select some rows
-      component.selectedRowIds.set(['101', '102', '103']);
+      component.selectedRowIds.set(['1', '2', '3']);
       fixture.detectChanges();
       await fixture.whenStable();
-      expect(component.selectedRowIds()).toEqual(['101', '102', '103']);
+      expect(component.selectedRowIds()).toEqual(['1', '2', '3']);
 
       // Clear the data
       component.dataForSimpleGridWithMultiselect = [];

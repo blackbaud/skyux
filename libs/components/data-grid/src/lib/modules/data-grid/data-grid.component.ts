@@ -13,7 +13,6 @@ import {
   inject,
   input,
   model,
-  output,
   signal,
   untracked,
 } from '@angular/core';
@@ -33,7 +32,6 @@ import {
   AllCommunityModule,
   AutoSizeStrategy,
   ColDef,
-  GetRowIdParams,
   GridApi,
   GridOptions,
   IRowNode,
@@ -45,7 +43,6 @@ import {
   distinctUntilChanged,
   filter,
   map,
-  merge,
   ObservableInput,
   startWith,
   switchMap,
@@ -136,20 +133,12 @@ export class SkyDataGridComponent<
 
   /**
    * Whether to enable the multiselect feature to display a column of
-   * checkboxes on the left side of the grid. You can specify a unique ID with
-   * the `multiselectRowId` property, but multiselect defaults to the `id` property on
-   * the `data` object.
+   * checkboxes on the left side of the grid.
    * @default false
    */
   public readonly multiselect = input<boolean, unknown>(false, {
     transform: coerceBooleanProperty,
   });
-
-  /**
-   * The unique ID that matches a property on the `data` object.
-   * @default 'id'
-   */
-  public readonly multiselectRowId = input<keyof T>('id');
 
   /**
    * The number of items to display per page. Setting this value enables pagination.
@@ -189,20 +178,12 @@ export class SkyDataGridComponent<
   });
 
   /**
-   * Fires when columns change. This includes changes to the displayed columns and changes
-   * to the order of columns. The event emits an array of IDs for the displayed columns that
-   * reflects the column order.
-   */
-  public readonly displayedColumnIdsChange = output<string[]>();
-
-  /**
    * The current page number of the grid when `pageSize` has been set.
    */
   public readonly page = model<number>(1);
 
   /**
    * The set of IDs for the rows to select in a multiselect grid.
-   * The IDs match the `multiselectRowId` properties of the `data` objects.
    * Rows with IDs that are not included are de-selected in the grid.
    */
   public readonly selectedRowIds = model<string[]>([]);
@@ -238,10 +219,6 @@ export class SkyDataGridComponent<
         paginationPageSize,
         suppressPaginationPanel: true,
         rowData: rowData.length ? rowData : null,
-        getRowId: (params: GetRowIdParams<T>) =>
-          params.data[
-            untracked(() => this.multiselectRowId()) as keyof T
-          ] as string,
         rowSelection: untracked(() => this.#getRowSelection()),
         autoSizeStrategy: untracked(() => this.#getAutoSizeStrategy()),
       },
@@ -277,13 +254,7 @@ export class SkyDataGridComponent<
   readonly #columnDefs = computed<ColDef<T>[]>(() => {
     const columns = this.columns();
     const sort = this.sortField();
-    const displayed = this.#displayedColumnIds();
-    return columns.map((col) => this.#createColDef(col, displayed, sort));
-  });
-  readonly #displayedColumnIds = computed(() => {
-    return this.columns()
-      .filter((col) => !col.hidden())
-      .map((col) => this.#getColumnIdOrField(col));
+    return columns.map((col) => this.#createColDef(col, sort));
   });
 
   readonly #gridDestroyed = toObservable(this.gridApi).pipe(
@@ -298,19 +269,6 @@ export class SkyDataGridComponent<
         map((selection) =>
           arraySorted(this.#getRowIds(selection.selectedNodes)),
         ),
-        distinctUntilChanged(arrayIsEqual),
-      ),
-    ),
-  );
-  readonly #gridDisplayedColumnIds = toObservable(this.gridApi).pipe(
-    filter(Boolean),
-    switchMap((api) =>
-      merge(
-        fromGridEvent(api, 'columnMoved'),
-        fromGridEvent(api, 'displayedColumnsChanged'),
-      ).pipe(
-        takeUntil(this.#gridDestroyed),
-        map(() => api.getAllDisplayedColumns().map((col) => col.getColId())),
         distinctUntilChanged(arrayIsEqual),
       ),
     ),
@@ -396,10 +354,7 @@ export class SkyDataGridComponent<
     // Apply inputs once the grid is loaded and on subsequent changes.
     effect(() => {
       const api = this.gridApi();
-      const multiselectRowId = this.multiselectRowId();
-      const validRowIds = this.rowData().map((row): string =>
-        String(row[multiselectRowId as keyof T]),
-      );
+      const validRowIds = this.rowData().map((row) => row.id);
       const selectedRowIds = coerceStringArray(this.selectedRowIds());
       const validSelectedRowIds = selectedRowIds.filter((id) =>
         validRowIds.includes(id),
@@ -450,14 +405,6 @@ export class SkyDataGridComponent<
       .subscribe((rowIds) => {
         this.selectedRowIds.set(rowIds);
       });
-    this.#gridDisplayedColumnIds
-      .pipe(
-        takeUntilDestroyed(),
-        map((ids) => coerceStringArray(ids)),
-      )
-      .subscribe((columnIds) => {
-        this.displayedColumnIdsChange.emit(columnIds);
-      });
     this.#gridSortChange.pipe(takeUntilDestroyed()).subscribe((sortChange) => {
       if (sortChange) {
         this.sortField.update((sort) => {
@@ -498,7 +445,6 @@ export class SkyDataGridComponent<
 
   #createColDef(
     col: SkyDataGridColumnComponent,
-    displayed: string[],
     sort: SkyDataGridSort | undefined,
   ): ColDef {
     const field = col.field();
@@ -507,7 +453,8 @@ export class SkyDataGridComponent<
       field,
       headerName: col.headingText(),
       headerComponentParams: this.#getHeaderComponentParams(col),
-      hide: this.#hideColumn(col, displayed),
+      hide: col.columnHidden(),
+      initialHide: col.columnHidden(),
       resizable: col.resizable(),
       sortable: col.sortable(),
       lockPosition: col.locked(),
@@ -572,23 +519,9 @@ export class SkyDataGridComponent<
     return {
       headerHidden: col.headingHidden(),
       helpPopoverTitle: col.helpPopoverTitle(),
-      helpPopoverContent: col.helpPopoverContent() || col.description(),
+      helpPopoverContent: col.helpPopoverContent(),
       inlineHelpComponent: SkyDataGridColumnInlineHelpComponent,
     };
-  }
-
-  #getColumnIdOrField(col: SkyDataGridColumnComponent): string {
-    const id = col.columnId();
-    const field = col.field() || '';
-    return id || field;
-  }
-
-  #hideColumn(col: SkyDataGridColumnComponent, displayed: string[]): boolean {
-    return (
-      col.hidden() ||
-      (displayed.length > 0 &&
-        !displayed.includes(this.#getColumnIdOrField(col)))
-    );
   }
 
   #getRowIds(rows: (IRowNode | undefined)[] | null | undefined): string[] {

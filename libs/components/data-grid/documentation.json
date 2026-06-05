@@ -7,8 +7,6 @@
           "SkyDataGridModule",
           "SkyDataGridComponent",
           "SkyDataGridColumnComponent",
-          "SkyDataGridRowDeleteCancelArgs",
-          "SkyDataGridRowDeleteConfirmArgs",
           "SkyDataGridSort"
         ],
         "primaryDocsId": "SkyDataGridModule"

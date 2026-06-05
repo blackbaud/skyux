@@ -122,7 +122,6 @@ export class DataGridTestComponent {
 
   public readonly removeRowIds = model<string[]>([]);
   public readonly selectedRowIds = model<string[]>([]);
-  public readonly visibleColumnIds = model<string[]>([]);
 
   public readonly sortField = model<SkyDataGridSort | undefined>(undefined);
 
@@ -154,6 +153,6 @@ export class DataGridTestComponent {
   }
 
   public selectRow(): void {
-    this.selectedRowIds.set(['101', '103', '105']);
+    this.selectedRowIds.set(['1', '3', '5']);
   }
 }

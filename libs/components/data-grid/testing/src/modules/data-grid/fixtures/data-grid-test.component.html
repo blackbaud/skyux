@@ -7,7 +7,6 @@
     [page]="page"
     [pageQueryParam]="pageQueryParam"
     [pageSize]="pageSize"
-    (displayedColumnIdsChange)="visibleColumnIds.set($event)"
   >
     @if (showAllColumns()) {
       <sky-data-grid-column field="column1" headingText="Column1" />
@@ -41,7 +40,6 @@
     data-sky-id="multiselect-grid"
     multiselect
     fit="scroll"
-    multiselectRowId="myId"
     [data]="dataForSimpleGridWithMultiselect"
     [selectedRowIds]="selectedRowIds()"
     (selectedRowIdsChange)="selectedRowIds.set($event)"

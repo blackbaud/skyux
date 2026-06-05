@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  input,
+  numberAttribute,
+} from '@angular/core';
 import {
   SkyDataGridColumnComponent,
   SkyDataGridComponent,
@@ -13,7 +18,11 @@ import { AG_GRID_DEMO_DATA } from '../../../shared/data-manager/data-manager-dat
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class GridPagingComponent {
-  public readonly page = input<string>();
-
-  protected readonly data = AG_GRID_DEMO_DATA;
+  public readonly page = input<unknown, number>(undefined, {
+    transform: numberAttribute,
+  });
+  protected readonly data = AG_GRID_DEMO_DATA.map((row, idx) => ({
+    id: `idx${idx}`,
+    ...row,
+  }));
 }

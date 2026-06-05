@@ -9,10 +9,6 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
-  SkyAgGridRowDeleteCancelArgs,
-  SkyAgGridRowDeleteConfirmArgs,
-} from '@skyux/ag-grid';
-import {
   SkyDataGridColumnComponent,
   SkyDataGridComponent,
 } from '@skyux/data-grid';
@@ -29,7 +25,6 @@ interface RowModel {
 @Component({
   selector: 'app-data-grid',
   templateUrl: './data-grid.component.html',
-  styleUrl: './data-grid.component.scss',
   imports: [
     SkyDataGridComponent,
     SkyDataGridColumnComponent,
@@ -42,16 +37,6 @@ interface RowModel {
 })
 export default class DataGridComponent {
   public asyncPopover: any;
-
-  public dataForRowDeleteGrid: RowModel[] = [
-    { id: '1', column1: '1', column2: 'Apple', column3: 'aa' },
-    { id: '2', column1: '01', column2: 'Banana', column3: 'bb' },
-    { id: '3', column1: '11', column2: 'Banana', column3: 'cc' },
-    { id: '4', column1: '12', column2: 'Daikon', column3: 'dd' },
-    { id: '5', column1: '13', column2: 'Edamame', column3: 'ee' },
-    { id: '6', column1: '20', column2: 'Fig', column3: 'ff' },
-    { id: '7', column1: '21', column2: 'Grape', column3: 'gg' },
-  ];
 
   public dataForSimpleGrid: RowModel[] = [
     { id: '1', column1: '1', column2: 'Apple', column3: 'aa' },
@@ -74,8 +59,6 @@ export default class DataGridComponent {
   ];
 
   public selectedRowIds: string[] = [];
-
-  public removeRowIds: string[] = [];
 
   protected readonly hideCol3 = model<boolean>(false);
   protected toggleCol3(): void {
@@ -105,27 +88,8 @@ export default class DataGridComponent {
     this.#cdr.markForCheck();
   }
 
-  public cancelRowDelete(cancelArgs: SkyAgGridRowDeleteCancelArgs): void {
-    console.log('Item with id ' + cancelArgs.id + ' has not been deleted');
-  }
-
-  public deleteItem(id: string): void {
-    this.removeRowIds = [id, ...this.removeRowIds];
-  }
-
-  public finishRowDelete(confirmArgs: SkyAgGridRowDeleteConfirmArgs): void {
-    setTimeout(() => {
-      console.log('Item with id ' + confirmArgs.id + ' has been deleted');
-      // IF WORKED
-      this.dataForRowDeleteGrid = this.dataForRowDeleteGrid.filter(
-        (data: any) => data.id !== confirmArgs.id,
-      );
-      this.#cdr.markForCheck();
-    }, 5000);
-  }
-
   public selectRow(): void {
-    this.selectedRowIds = ['101', '103', '105'];
+    this.selectedRowIds = ['1', '3', '5'];
     this.#cdr.markForCheck();
   }
 }
