@@ -12,7 +12,9 @@ import {
   effect,
   inject,
   input,
+  isSignal,
   model,
+  Resource,
   signal,
   untracked,
 } from '@angular/core';
@@ -112,7 +114,9 @@ export class SkyDataGridComponent<
    * When `data` is `null` or `undefined`, the grid will show a loading indicator, and when `data` is an empty array,
    * the grid will show a "no rows" message.
    */
-  public readonly data = input<T[] | null | undefined>();
+  public readonly data = input<
+    T[] | Resource<T[] | undefined> | null | undefined
+  >();
 
   /**
    * How the grid fits to its parent. The valid options are `width`,
@@ -213,6 +217,7 @@ export class SkyDataGridComponent<
           enableTopScroll: untracked(() => this.topScrollEnabled()),
         },
         domLayout: untracked(() => this.height()) ? 'normal' : 'autoHeight',
+        loading: untracked(() => this.isLoading()),
         onGridReady: (args) => {
           this.gridApi.set(args.api);
           this.gridReady.set(true);
@@ -228,7 +233,21 @@ export class SkyDataGridComponent<
   });
 
   protected readonly gridReady = signal(false);
-  protected readonly rowData = computed(() => this.data() ?? []);
+  protected readonly rowData = computed(() => {
+    const data = this.data();
+    if (Array.isArray(data)) {
+      return data;
+    }
+    return data?.value() ?? [];
+  });
+  protected readonly isLoading = computed(() => {
+    const data = this.data();
+    if (!Array.isArray(data) && isSignal(data?.isLoading)) {
+      return data.isLoading();
+    } else {
+      return (data ?? 'loading') === 'loading';
+    }
+  });
 
   protected readonly pageCount = computed(() => {
     const dataLength = this.rowData().length;
@@ -336,8 +355,8 @@ export class SkyDataGridComponent<
     });
     effect(() => {
       const api = untracked(() => this.gridApi());
-      const loading = (this.data() ?? 'loading') === 'loading';
-      api?.setGridOption('loading', loading);
+      const isLoading = this.isLoading();
+      api?.setGridOption('loading', isLoading);
     });
     effect(() => {
       const api = untracked(() => this.gridApi());
@@ -359,13 +378,14 @@ export class SkyDataGridComponent<
     // Apply inputs once the grid is loaded and on subsequent changes.
     effect(() => {
       const api = this.gridApi();
-      const data = this.data();
+      const isLoading = this.isLoading();
       // Don't reconcile selection while data is still loading; pruning here
       // would wipe a selection a consumer set before the rows arrived.
       // An empty array is "loaded but no rows", so only `null`/`undefined` skip.
-      if (!data) {
+      if (isLoading) {
         return;
       }
+      const data = this.rowData();
       const validRowIds = data.map((row) => row.id);
       const selectedRowIds = coerceStringArray(this.selectedRowIds());
       const validSelectedRowIds = selectedRowIds.filter((id) =>

@@ -16,6 +16,7 @@ import { getGridApi } from 'ag-grid-community';
 import { SkyDataGridComponent } from './data-grid.component';
 import { DataGridTestComponent } from './fixtures/data-grid-test.component';
 import { FlexWidthTestComponent } from './fixtures/flex-width-test.component';
+import { ResourceDataTestComponent } from './fixtures/resource-data-test.component';
 import { TemplateColumnTestComponent } from './fixtures/template-column-test.component';
 
 describe('SkyDataGridComponent', () => {
@@ -658,6 +659,77 @@ describe('SkyDataGridComponent', () => {
       expect(valueGetter).toEqual(jasmine.any(Function));
       expect(() => valueGetter?.({ data: undefined })).not.toThrow();
       expect(valueGetter?.({ data: undefined })).toBeNaN();
+    });
+
+    it('should render rows and reflect the loading state from a resource data source', async () => {
+      const resourceFixture = TestBed.createComponent(
+        ResourceDataTestComponent,
+      );
+      resourceFixture.detectChanges();
+      await resourceFixture.whenStable();
+
+      const api = getGridApi(
+        resourceFixture.nativeElement.querySelector(
+          '[data-sky-id="resource-grid"] ag-grid-angular',
+        ),
+      );
+      expect(api).toBeTruthy();
+      // No rows render while the resource is still loading.
+      expect(api?.getDisplayedRowCount()).toBe(0);
+
+      // The resource resolves with data and reports it is no longer loading.
+      resourceFixture.componentInstance.value.set([
+        { id: '1', name: 'Alice' },
+        { id: '2', name: 'Bob' },
+      ]);
+      resourceFixture.componentInstance.loading.set(false);
+      resourceFixture.detectChanges();
+      await resourceFixture.whenStable();
+      expect(api?.getGridOption('loading')).toBeFalse();
+      expect(api?.getDisplayedRowCount()).toBe(2);
+
+      // The grid's loading overlay tracks the resource's `isLoading` signal.
+      resourceFixture.componentInstance.loading.set(true);
+      resourceFixture.detectChanges();
+      await resourceFixture.whenStable();
+      expect(api?.getGridOption('loading')).toBeTrue();
+    });
+
+    it('should retain selectedRowIds set while a resource data source loads', async () => {
+      const resourceFixture = TestBed.createComponent(
+        ResourceDataTestComponent,
+      );
+      resourceFixture.detectChanges();
+      await resourceFixture.whenStable();
+
+      // Pre-select rows while the resource is still loading.
+      resourceFixture.componentInstance.selectedRowIds.set(['1', '2']);
+      resourceFixture.detectChanges();
+      await resourceFixture.whenStable();
+      expect(resourceFixture.componentInstance.selectedRowIds()).toEqual([
+        '1',
+        '2',
+      ]);
+
+      // The resource resolves and the pre-selected rows become selected.
+      resourceFixture.componentInstance.value.set([
+        { id: '1', name: 'Alice' },
+        { id: '2', name: 'Bob' },
+      ]);
+      resourceFixture.componentInstance.loading.set(false);
+      resourceFixture.detectChanges();
+      await resourceFixture.whenStable();
+
+      const api = getGridApi(
+        resourceFixture.nativeElement.querySelector(
+          '[data-sky-id="resource-grid"] ag-grid-angular',
+        ),
+      );
+      expect(resourceFixture.componentInstance.selectedRowIds()).toEqual([
+        '1',
+        '2',
+      ]);
+      expect(api?.getSelectedNodes()).toHaveSize(2);
     });
   });
 });

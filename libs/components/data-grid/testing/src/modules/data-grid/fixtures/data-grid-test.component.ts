@@ -52,9 +52,7 @@ export class DataGridTestComponent {
     { id: '7', column1: '21', column2: 'Grape', column3: true, myId: '107' },
   ];
 
-  public readonly removeRowIds = model<string[]>([]);
   public readonly selectedRowIds = model<string[]>([]);
-  public readonly visibleColumnIds = model<string[]>([]);
 
   public page = 1;
   public pageSize = 0;
