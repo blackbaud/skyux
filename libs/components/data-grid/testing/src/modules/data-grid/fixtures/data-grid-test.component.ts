@@ -9,8 +9,6 @@ import {
 import {
   SkyDataGridColumnComponent,
   SkyDataGridComponent,
-  SkyDataGridRowDeleteCancelArgs,
-  SkyDataGridRowDeleteConfirmArgs,
 } from '@skyux/data-grid';
 import { SkyDropdownModule, SkyPopoverModule } from '@skyux/popovers';
 
@@ -34,16 +32,6 @@ interface RowModel {
   ],
 })
 export class DataGridTestComponent {
-  public dataForRowDeleteGrid: RowModel[] | undefined = [
-    { id: '1', column1: '1', column2: 'Apple', column3: true },
-    { id: '2', column1: '01', column2: 'Banana', column3: false },
-    { id: '3', column1: '11', column2: 'Banana', column3: true },
-    { id: '4', column1: '12', column2: 'Daikon', column3: false },
-    { id: '5', column1: '13', column2: 'Edamame', column3: true },
-    { id: '6', column1: '20', column2: 'Fig', column3: false },
-    { id: '7', column1: '21', column2: 'Grape', column3: true },
-  ];
-
   public dataForSimpleGrid: RowModel[] | undefined = [
     { id: '1', column1: '1', column2: 'Apple', column3: true },
     { id: '2', column1: '01', column2: 'Banana', column3: false },
@@ -90,21 +78,6 @@ export class DataGridTestComponent {
 
   public clearAll(): void {
     this.selectedRowIds.set([]);
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public cancelRowDelete(_cancelArgs: SkyDataGridRowDeleteCancelArgs): void {
-    // noop
-  }
-
-  public deleteItem(id: string): void {
-    this.removeRowIds.update((removeRowIds) => [id, ...removeRowIds]);
-  }
-
-  public finishRowDelete(confirmArgs: SkyDataGridRowDeleteConfirmArgs): void {
-    this.dataForRowDeleteGrid = (this.dataForRowDeleteGrid ?? []).filter(
-      (data: RowModel) => data.id !== confirmArgs.id,
-    );
   }
 
   public selectRow(): void {

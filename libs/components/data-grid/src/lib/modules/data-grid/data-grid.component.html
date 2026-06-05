@@ -1,12 +1,6 @@
 <sky-wait [isWaiting]="!gridReady()" />
 @if (gridOptions(); as gridOptions) {
-  <sky-ag-grid-wrapper
-    skyAgGridRowDelete
-    [compact]="compact()"
-    [(rowDeleteIds)]="rowDeleteIds"
-    (rowDeleteCancel)="rowDeleteCancel.emit($event)"
-    (rowDeleteConfirm)="rowDeleteConfirm.emit($event)"
-  >
+  <sky-ag-grid-wrapper [compact]="compact()">
     <ag-grid-angular
       skyViewkeeperOmitShadow=".ag-body-horizontal-scroll"
       [skyViewkeeper]="skyViewkeeper()"

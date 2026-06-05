@@ -52,8 +52,6 @@ import {
   takeUntil,
 } from 'rxjs';
 
-import { SkyDataGridRowDeleteCancelArgs } from '../types/data-grid-row-delete-cancel-args';
-import { SkyDataGridRowDeleteConfirmArgs } from '../types/data-grid-row-delete-confirm-args';
 import { SkyDataGridSort } from '../types/data-grid-sort';
 
 import { SkyDataGridColumnInlineHelpComponent } from './data-grid-column-inline-help.component';
@@ -203,12 +201,6 @@ export class SkyDataGridComponent<
   public readonly page = model<number>(1);
 
   /**
-   * The set of IDs for the rows to prompt for delete confirmation.
-   * The IDs match the `multiselectRowId` properties of the `data` objects.
-   */
-  public readonly rowDeleteIds = model<string[]>([]);
-
-  /**
    * The set of IDs for the rows to select in a multiselect grid.
    * The IDs match the `multiselectRowId` properties of the `data` objects.
    * Rows with IDs that are not included are de-selected in the grid.
@@ -219,16 +211,6 @@ export class SkyDataGridComponent<
    * The sort setting for the grid.
    */
   public readonly sortField = model<SkyDataGridSort | undefined>(undefined);
-
-  /**
-   * Fires when users cancel the deletion of a row.
-   */
-  public readonly rowDeleteCancel = output<SkyDataGridRowDeleteCancelArgs>();
-
-  /**
-   * Fires when users confirm the deletion of a row.
-   */
-  public readonly rowDeleteConfirm = output<SkyDataGridRowDeleteConfirmArgs>();
 
   protected readonly columns = contentChildren(SkyDataGridColumnComponent);
   protected readonly gridApi = signal<GridApi<T> | undefined>(undefined);

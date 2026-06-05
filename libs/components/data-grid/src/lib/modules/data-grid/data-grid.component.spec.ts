@@ -1,10 +1,9 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { provideLocationMocks } from '@angular/common/testing';
-import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ActivatedRoute, Router, provideRouter } from '@angular/router';
+import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { SkyAgGridWrapperHarness } from '@skyux/ag-grid/testing';
@@ -14,28 +13,10 @@ import { SkyWaitHarness } from '@skyux/indicators/testing';
 import { SkyPagingHarness } from '@skyux/lists/testing';
 
 import { getGridApi } from 'ag-grid-community';
-
-import { SkyDataGridColumnComponent } from './data-grid-column.component';
 import { SkyDataGridComponent } from './data-grid.component';
 import { DataGridTestComponent } from './fixtures/data-grid-test.component';
-
-@Component({
-  selector: 'sky-flex-width-test',
-  imports: [SkyDataGridComponent, SkyDataGridColumnComponent],
-  template: `
-    <sky-data-grid [data]="data">
-      <sky-data-grid-column
-        field="column1"
-        flexWidth="0"
-        headingText="Column1"
-      />
-      <sky-data-grid-column field="column2" headingText="Column2" />
-    </sky-data-grid>
-  `,
-})
-class FlexWidthTestComponent {
-  public data = [{ id: '1', column1: 'A', column2: 'B' }];
-}
+import { FlexWidthTestComponent } from './fixtures/flex-width-test.component';
+import { TemplateColumnTestComponent } from './fixtures/template-column-test.component';
 
 describe('SkyDataGridComponent', () => {
   describe('without data manager', () => {
@@ -75,7 +56,7 @@ describe('SkyDataGridComponent', () => {
       expect(
         fixture.debugElement.queryAll(By.directive(SkyDataGridComponent))
           .length,
-      ).toEqual(4);
+      ).toEqual(3);
     });
 
     it('should destroy and recreate columns', async () => {
@@ -89,7 +70,7 @@ describe('SkyDataGridComponent', () => {
         ).then((cols) =>
           cols.map((id) => id.length).reduce((a, b) => a + b, 0),
         ),
-      ).toEqual(4 * 3 + 3); // 4 grids with 3 columns each, plus 3 extra headers for the multi-select and row delete grid
+      ).toEqual(3 + 5 + 3); // grid (3 cols) + multiselect-grid (4 cols + select column) + inline-help-grid (3 cols)
 
       fixture.componentRef.setInput('showCol3', false);
       fixture.detectChanges();
@@ -100,7 +81,7 @@ describe('SkyDataGridComponent', () => {
         ).then((cols) =>
           cols.map((id) => id.length).reduce((a, b) => a + b, 0),
         ),
-      ).toEqual(4 * 2 + 4); // 4 grids with 2 columns each, plus 4 extra headers for multi-select, row delete, and date column
+      ).toEqual(2 + 4 + 2); // column3 hidden: grid (2 cols) + multiselect-grid (3 cols + select column) + inline-help-grid (2 cols)
       expect(component.visibleColumnIds()).toEqual(['column1', 'column2']);
 
       fixture.componentRef.setInput('showCol3', true);
@@ -112,7 +93,7 @@ describe('SkyDataGridComponent', () => {
         ).then((cols) =>
           cols.map((id) => id.length).reduce((a, b) => a + b, 0),
         ),
-      ).toEqual(4 * 3 + 3); // 4 grids with 3 columns each, plus 3 extra headers for the multi-select and row delete grid
+      ).toEqual(3 + 5 + 3); // column3 restored: grid (3 cols) + multiselect-grid (4 cols + select column) + inline-help-grid (3 cols)
       expect(component.visibleColumnIds()).toEqual([
         'column1',
         'column2',
@@ -369,7 +350,7 @@ describe('SkyDataGridComponent', () => {
         Promise.all(
           waitHarnesses.map((waitHarness) => waitHarness.isWaiting()),
         ),
-      ).toBeResolvedTo([false, false, false, false]);
+      ).toBeResolvedTo([false, false, false]);
       const api = getGridApi(
         fixture.nativeElement.querySelector(
           '[data-sky-id="multiselect-grid"] ag-grid-angular',
@@ -595,6 +576,55 @@ describe('SkyDataGridComponent', () => {
       expect(colDef?.initialFlex).toBe(0);
       expect(colDef?.suppressSizeToFit).toBeTrue();
       expect(colDef?.suppressAutoSize).toBeTrue();
+    });
+
+    it('should render a custom cell template with access to the row data', async () => {
+      const templateFixture = TestBed.createComponent(
+        TemplateColumnTestComponent,
+      );
+      templateFixture.detectChanges();
+      await templateFixture.whenStable();
+      templateFixture.detectChanges();
+      const cells = Array.from(
+        templateFixture.nativeElement.querySelectorAll(
+          '.custom-cell',
+        ) as NodeListOf<HTMLElement>,
+      );
+      expect(cells).toHaveSize(2);
+      expect(cells[0].textContent).toContain('Row 1: A');
+      expect(cells[1].textContent).toContain('Row 2: C');
+    });
+
+    it('should apply locked, width, and sortable settings to a column', async () => {
+      const templateFixture = TestBed.createComponent(
+        TemplateColumnTestComponent,
+      );
+      templateFixture.detectChanges();
+      await templateFixture.whenStable();
+      const api = getGridApi(
+        templateFixture.nativeElement.querySelector('ag-grid-angular'),
+      );
+      expect(api).toBeTruthy();
+      const colDef = api?.getColumn('actions')?.getColDef();
+      expect(colDef?.lockPosition).toBeTrue();
+      expect(colDef?.suppressMovable).toBeTrue();
+      expect(colDef?.sortable).toBeFalse();
+      expect(colDef?.minWidth).toBe(40);
+      expect(colDef?.suppressSizeToFit).toBeTrue();
+    });
+
+    it('should apply the date cell data type to a date column', async () => {
+      const templateFixture = TestBed.createComponent(
+        TemplateColumnTestComponent,
+      );
+      templateFixture.detectChanges();
+      await templateFixture.whenStable();
+      const api = getGridApi(
+        templateFixture.nativeElement.querySelector('ag-grid-angular'),
+      );
+      expect(api).toBeTruthy();
+      const colDef = api?.getColumn('date')?.getColDef();
+      expect(colDef?.cellDataType).toBe('dateString');
     });
   });
 });

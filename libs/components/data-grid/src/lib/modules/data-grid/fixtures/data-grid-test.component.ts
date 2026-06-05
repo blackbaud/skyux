@@ -8,8 +8,6 @@ import {
 } from '@angular/core';
 import { SkyDropdownModule, SkyPopoverModule } from '@skyux/popovers';
 
-import { SkyDataGridRowDeleteCancelArgs } from '../../types/data-grid-row-delete-cancel-args';
-import { SkyDataGridRowDeleteConfirmArgs } from '../../types/data-grid-row-delete-confirm-args';
 import { SkyDataGridSort } from '../../types/data-grid-sort';
 import { SkyDataGridColumnComponent } from '../data-grid-column.component';
 import { SkyDataGridComponent } from '../data-grid.component';
@@ -43,16 +41,6 @@ interface FilteredRowModel {
   ],
 })
 export class DataGridTestComponent {
-  public dataForRowDeleteGrid: RowModel[] | undefined = [
-    { id: '1', column1: '1', column2: 'Apple', column3: true },
-    { id: '2', column1: '01', column2: 'Banana', column3: false },
-    { id: '3', column1: '11', column2: 'Banana', column3: true },
-    { id: '4', column1: '12', column2: 'Daikon', column3: false },
-    { id: '5', column1: '13', column2: 'Edamame', column3: true },
-    { id: '6', column1: '20', column2: 'Fig', column3: false },
-    { id: '7', column1: '21', column2: 'Grape', column3: true },
-  ];
-
   public dataForSimpleGrid: RowModel[] | undefined = [
     { id: '1', column1: '1', column2: 'Apple', column3: true },
     { id: '2', column1: '01', column2: 'Banana', column3: false },
@@ -163,21 +151,6 @@ export class DataGridTestComponent {
 
   public clearAll(): void {
     this.selectedRowIds.set([]);
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public cancelRowDelete(_cancelArgs: SkyDataGridRowDeleteCancelArgs): void {
-    // noop
-  }
-
-  public deleteItem(id: string): void {
-    this.removeRowIds.update((removeRowIds) => [id, ...removeRowIds]);
-  }
-
-  public finishRowDelete(confirmArgs: SkyDataGridRowDeleteConfirmArgs): void {
-    this.dataForRowDeleteGrid = (this.dataForRowDeleteGrid ?? []).filter(
-      (data: RowModel) => data.id !== confirmArgs.id,
-    );
   }
 
   public selectRow(): void {
