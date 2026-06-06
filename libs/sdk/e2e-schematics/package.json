@@ -2,17 +2,17 @@
   "name": "@skyux-sdk/e2e-schematics",
   "version": "1.0.0",
   "peerDependencies": {
-    "@angular-devkit/core": "^21.2.0",
-    "@angular/cli": "^21.2.0",
-    "@nx/angular": "^22.5.3",
-    "@nx/cypress": "^22.5.3",
-    "@nx/devkit": "^22.5.3",
-    "@nx/eslint": "^22.5.3",
-    "@nx/storybook": "^22.5.3",
-    "@nx/workspace": "^22.5.3",
-    "@percy/sdk-utils": "^1.31.9",
-    "@schematics/angular": "^21.2.0",
-    "nx": "^22.5.3"
+    "@angular-devkit/core": "^21.2.11",
+    "@angular/cli": "^21.2.11",
+    "@nx/angular": "^22.7.2",
+    "@nx/cypress": "^22.7.2",
+    "@nx/devkit": "^22.7.2",
+    "@nx/eslint": "^22.7.2",
+    "@nx/storybook": "^22.7.2",
+    "@nx/workspace": "^22.7.2",
+    "@percy/sdk-utils": "^1.31.13",
+    "@schematics/angular": "^21.2.11",
+    "nx": "^22.7.2"
   },
   "dependencies": {
     "@nx/devkit": "*",
