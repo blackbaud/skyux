@@ -17,6 +17,7 @@ import { SkyVerticalTabsetHarness } from './vertical-tabset-harness';
       ariaLabel="Vertical tabset"
       ariaLabelledBy="Tabset label"
       [showTabsText]="showTabsText"
+      [tabWidth]="tabWidth"
     >
       <sky-vertical-tab
         tabHeading="Tab 1"
@@ -62,6 +63,7 @@ import { SkyVerticalTabsetHarness } from './vertical-tabset-harness';
 class TestComponent {
   public active = true;
   public showTabsText: string | undefined;
+  public tabWidth: string | undefined;
   public groups: TabGroup[] = [
     {
       heading: 'Group 1',
@@ -248,6 +250,20 @@ describe('Vertical Tabset harness', () => {
     const activeTab = await tabsetHarness.getActiveTab();
 
     await expectAsync(activeTab?.getTabHeaderCount()).toBeResolvedTo(15);
+  });
+
+  it('should get the default tab width', async () => {
+    const { tabsetHarness } = await setupTest();
+
+    await expectAsync(tabsetHarness.getTabWidth()).toBeResolvedTo('25%');
+  });
+
+  it('should get the auto tab width', async () => {
+    const { tabsetHarness, fixture } = await setupTest();
+    fixture.componentInstance.tabWidth = 'auto';
+    fixture.detectChanges();
+
+    await expectAsync(tabsetHarness.getTabWidth()).toBeResolvedTo('auto');
   });
 
   describe('vertical tabset group', () => {

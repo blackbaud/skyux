@@ -58,6 +58,12 @@ function getVisibleTabsetContent(
   );
 }
 
+function getTabsetContentContainer(
+  fixture: ComponentFixture<unknown>,
+): HTMLElement {
+  return fixture.nativeElement.querySelector('.sky-vertical-tabset-content');
+}
+
 function getTabsContainer(fixture: ComponentFixture<unknown>): HTMLElement {
   return fixture.nativeElement.querySelector(
     '.sky-vertical-tabset-group-container:not(.sky-vertical-tabset-hidden)',
@@ -649,6 +655,47 @@ describe('Vertical tabset component', () => {
       '.sky-vertical-tabset-show-tabs-btn',
     );
     expect(showTabsButton.length).toBe(0);
+  });
+
+  it('should default tab width to 25%', () => {
+    mediaQueryController.setBreakpoint('lg');
+    const fixture = createTestComponent();
+    fixture.detectChanges();
+
+    const tabsContainer = getTabsContainer(fixture);
+    const contentContainer = getTabsetContentContainer(fixture);
+
+    expect(tabsContainer.style.flexBasis).toBe('25%');
+    expect(tabsContainer.style.maxWidth).toBe('');
+    expect(contentContainer.style.flexBasis).toBe('calc(75%)');
+  });
+
+  it('should size tabs automatically when tabWidth is set to auto', () => {
+    mediaQueryController.setBreakpoint('lg');
+    const fixture = createTestComponent();
+    fixture.componentInstance.tabWidth = 'auto';
+    fixture.detectChanges();
+
+    const tabsContainer = getTabsContainer(fixture);
+    const contentContainer = getTabsetContentContainer(fixture);
+
+    expect(tabsContainer.style.flexBasis).toBe('auto');
+    expect(tabsContainer.style.maxWidth).toBe('25%');
+    expect(contentContainer.style.flexBasis).toBe('0%');
+  });
+
+  it('should set custom tab width', () => {
+    mediaQueryController.setBreakpoint('lg');
+    const fixture = createTestComponent();
+    fixture.componentInstance.tabWidth = '18rem';
+    fixture.detectChanges();
+
+    const tabsContainer = getTabsContainer(fixture);
+    const contentContainer = getTabsetContentContainer(fixture);
+
+    expect(tabsContainer.style.flexBasis).toBe('18rem');
+    expect(tabsContainer.style.maxWidth).toBe('');
+    expect(contentContainer.style.flexBasis).toBe('calc(100% - 18rem)');
   });
 
   it('mobile button should be visible on small screen', () => {
