@@ -1,5 +1,5 @@
 ---
-applyTo: '**'
+applyTo: 'libs/components/**/*.{ts,html}, apps/**/*.{ts,html}'
 description: 'Angular best practice instructions. Follow these guidelines to write maintainable, performant, and accessible Angular code. Pulled from Angular documentation on 7/29/25. Did remove instruction regarding small inline templates based on team historical use.'
 ---
 

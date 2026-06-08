@@ -1,5 +1,5 @@
 ---
-applyTo: '**/libs/components/code-examples/**|**/libs/components/*/src/**|**/libs/components/*/documentation.json'
+applyTo: '**/libs/components/code-examples/**, **/libs/components/*/documentation.json'
 description: 'SKY UX Copilot instructions for generating code example unit tests.'
 ---
 
@@ -74,13 +74,13 @@ These tests should be **thorough showcases** of test harness capabilities, not j
 
 ## Documentation Integration
 
-- Add class names to the component's `documentation.json` file under `codeExamples` section
+- Add the example class name to the **owning library's** `documentation.json` (e.g. `libs/components/<library>/documentation.json`) under `groups.<library>.codeExamples.docsIds`. The `code-examples` project itself has no `documentation.json`.
 - Keep examples in sync with component and harness changes
 - Ensure tests reflect current harness capabilities
 
 ## Development Workflow
 
-- **Running tests**: `npx nx test code-examples --include="[relative path to file]"`
+- **Running tests**: `npx nx test code-examples --browsers=ChromeHeadless --include="[relative path to file]"`
 - **Linting**: `npx nx lint code-examples` to check for lint errors, use `--fix` flag to automatically fix issues
 - **Validation**: Ensure all tests pass and demonstrate expected harness behavior
 - **Maintenance**: Update tests when harnesses or components change

@@ -17,7 +17,8 @@ the `@skyux/*` and `@skyux-sdk/*` scopes.
 - [libs/sdk/](libs/sdk/) — build/dev tooling, schematics, ESLint/Stylelint
   configs, and `@skyux-sdk/testing` (`@skyux-sdk/*`).
 - [apps/](apps/) — non-published apps: `playground` (manual testing),
-  `code-examples` (docs examples, also published as `@skyux/code-examples`),
+  `code-examples` (the `code-examples-playground` project, which renders the
+  docs examples published from `libs/components/code-examples`),
   `integration` + `integration-e2e`, and `e2e`.
 
 Common Nx tasks (prefer `:affected` variants during development):
@@ -46,14 +47,20 @@ before working on matching files. Consult these when your change touches their
 scope:
 
 - [angular.instructions.md](.github/instructions/angular.instructions.md)
-  (`applyTo: **`) — Angular best practices for maintainable, performant, and
-  accessible code. Applies to all Angular work.
+  (`applyTo: **/*.{ts,html}`) — Angular best practices for maintainable,
+  performant, and accessible code. Applies to all Angular work.
+- [component-unit-testing.instructions.md](.github/instructions/component-unit-testing.instructions.md)
+  (`libs/components/*/src/lib/**/*.{component,directive}.spec.ts`) — writing
+  unit tests for library components and directives.
 - [code-examples-unit-testing.instructions.md](.github/instructions/code-examples-unit-testing.instructions.md)
-  (`libs/components/code-examples/**`, `libs/components/*/src/**`,
-  `libs/components/*/documentation.json`) — generating code example unit tests.
+  (`libs/components/code-examples/**`, `libs/components/*/documentation.json`)
+  — generating code example unit tests.
 - [skyux-copilot-harnesses.instructions.md](.github/instructions/skyux-copilot-harnesses.instructions.md)
   (`libs/components/**/testing/src/modules/**`) — generating component test
   harnesses.
+- [visual-testing.instructions.md](.github/instructions/visual-testing.instructions.md)
+  (`apps/e2e/*-storybook/src/app/**/*.stories.ts`) — authoring Storybook
+  visual-test stories for Percy snapshots.
 - [add-scss-override.instructions.md](.github/instructions/add-scss-override.instructions.md)
   (`**/*.scss`) — adding a CSS variable to the appropriate SCSS override mixin.
 - [scss-override-mixins.instructions.md](.github/instructions/scss-override-mixins.instructions.md)

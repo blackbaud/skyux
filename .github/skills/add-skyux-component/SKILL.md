@@ -21,8 +21,10 @@ with the monorepo's conventions (Nx tasks, public API discipline, the
   `libs/components/<library>/`.
 - Wiring a new public type/component into a library's `src/index.ts` barrel.
 
-Do NOT use this skill to create a brand-new library/package (that requires an
-Nx generator and project scaffolding) or to modify build tooling.
+Do NOT use this skill to create a brand-new library/package — use the
+[add-skyux-library](../add-skyux-library/SKILL.md) skill first, then return
+here to add the suite's first component. Do not use this skill to modify build
+tooling.
 
 ## Conventions at a Glance
 
@@ -35,7 +37,10 @@ Nx generator and project scaffolding) or to modify build tooling.
 - Components are **standalone**; do NOT set `standalone: true` explicitly in
   the decorator. Use `ChangeDetectionStrategy.OnPush`, `input()`/`output()`,
   and signals. Follow
-  [angular.instructions.md](../../instructions/angular.instructions.md).
+  [angular.instructions.md](../../instructions/angular.instructions.md). The
+  thin `NgModule` wrapper above is the SKY UX public-API surface for the
+  standalone component and does not conflict with that file's "standalone over
+  NgModules" guidance.
 - The public API is the `src/index.ts` barrel. Public exports MUST be
   prefixed with `sky`/`Sky` (e.g. `SkyThingComponent`, `SkyThingModule`,
   `SkyThingHarness`). Export a new component or directive by its own name
@@ -51,7 +56,9 @@ for exact style; do not invent new patterns.
 
 1. **Confirm placement.** Identify the target `<library>` (directory name,
    not package name) and the `<module>` folder. Inspect a sibling component
-   in that library and copy its structure.
+   in that library and copy its structure. If the library does not exist yet,
+   create it first with the
+   [add-skyux-library](../add-skyux-library/SKILL.md) skill.
 2. **Scaffold the component.** Create the `.ts`, `.html`, `.scss`, and
    `.module.ts` files following Angular best practices in
    [angular.instructions.md](../../instructions/angular.instructions.md).
@@ -72,29 +79,33 @@ for exact style; do not invent new patterns.
    under `libs/components/<library>/testing/src/modules/<module>/` per
    [skyux-copilot-harnesses.instructions.md](../../instructions/skyux-copilot-harnesses.instructions.md).
    Export the harness and filters from `testing/src/public-api.ts`.
-7. **Add a code example + tests.** Create an example under
-   `libs/components/code-examples/src/lib/modules/<library>/<component>/`
-   and its `example.component.spec.ts` per
-   [code-examples-unit-testing.instructions.md](../../instructions/code-examples-unit-testing.instructions.md).
-8. **Update documentation.** Add the new doc IDs to the library's
+7. **Add visual tests.** Create a Storybook story for the component in the
+   library's e2e app per the
+   [add-component-visual-tests](../add-component-visual-tests/SKILL.md) skill.
+8. **Add a code example + tests.** Create an example under
+   `libs/components/code-examples/src/lib/modules/<library>/<component>/<example-name>/`
+   and its `example.component.spec.ts` per the
+   [add-skyux-code-example](../add-skyux-code-example/SKILL.md) skill.
+9. **Update documentation.** Add the new doc IDs to the library's
    `documentation.json` (`development`, `testing`, and `codeExamples`
    sections) so the manifest picks them up.
-9. **Verify.** Run the affected tests, lint, and format before committing:
-   ```bash
-   npx nx test <library> --browsers=ChromeHeadless
-   npx nx test <library>-testing --browsers=ChromeHeadless
-   npx nx test code-examples --browsers=ChromeHeadless
-   npm run lint:affected
-   nx format --files=<changed-file-paths>
-   ```
-10. **Commit.** Use a Conventional Commit with the matching
+10. **Verify.** Run the affected tests, lint, and format before committing:
+    ```bash
+    npx nx test <library> --browsers=ChromeHeadless
+    npx nx test <library>-testing --browsers=ChromeHeadless
+    npx nx test code-examples --browsers=ChromeHeadless
+    npx nx build <library>-storybook
+    npm run lint:affected
+    nx format --files=<changed-file-paths>
+    ```
+11. **Commit.** Use a Conventional Commit with the matching
     `components/<library>` scope per
     [commit-message.instructions.md](../../instructions/commit-message.instructions.md).
 
 ## Definition of Done
 
-- Component, module, spec, harness (+ spec), and code example (+ spec) exist
-  and follow a sibling component's structure.
+- Component, module, spec, harness (+ spec), visual-test story, and code
+  example (+ spec) exist and follow a sibling component's structure.
 - Public types are exported with the `sky`/`Sky` prefix from `src/index.ts`
   and `testing/src/public-api.ts`.
 - `documentation.json` lists the new development, testing, and code-example
