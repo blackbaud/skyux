@@ -13,7 +13,7 @@ enforced. The same rules apply to pull request titles (validated by
 
 ## Format
 
-```
+```text
 <type>(<scope>): <subject>
 ```
 
@@ -41,7 +41,7 @@ enforced. The same rules apply to pull request titles (validated by
 
 ## Examples
 
-```
+```text
 fix(components/forms): correct input box label alignment
 feat(components/lookup): add async search support
 docs(components/avatar): clarify size input options
