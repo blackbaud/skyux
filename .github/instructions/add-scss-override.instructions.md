@@ -3,13 +3,11 @@ applyTo: '**/*.scss'
 description: 'SKY UX Copilot instructions for adding a CSS variable to the appropriate SCSS override mixin. Follow these guidelines to maintain consistency and organization in our SCSS files.'
 ---
 
-Add given css variable to either the `sky-default-overrides` mixin based on the input.
+Add the given css variable to the component's compat override mixin. Use the `sky-default-overrides` mixin when the component renders a wrapping css class, or the `sky-default-host-overrides` mixin when overrides are applied to the host element.
 
 Add the variable to the mixin in alphabetical order.
 
-If the mixin that the variable is to be added to doesn't exist - add it to the top of the file after the imports. Do not add any other variable to the new mixin.
-
-If neither mixin exists - add the per #file:scss-override-mixins.instructions.md but only add the mixin that is required
+If the mixin that the variable is to be added to doesn't exist, add it per #file:scss-override-mixins.instructions.md before adding the variable. Do not add any other variable to the new mixin.
 
 If asked to use it with the current value, find the place in the scss that matches the new variable name.
 Use the value in this current location and assign the new variable that value.

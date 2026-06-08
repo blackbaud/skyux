@@ -13,7 +13,7 @@ the `@skyux/*` and `@skyux-sdk/*` scopes.
 - [libs/components/](libs/components/) — the published Angular UI libraries
   (`@skyux/*`). Each is an `ng-packagr` project with `src/` (the library) and
   often `testing/` (the `@skyux/<pkg>/testing` entry point). The public API is
-  the `src/index.ts` and `testing/src/index.ts` barrels.
+  the `src/index.ts` and `testing/src/public-api.ts` barrels.
 - [libs/sdk/](libs/sdk/) — build/dev tooling, schematics, ESLint/Stylelint
   configs, and `@skyux-sdk/testing` (`@skyux-sdk/*`).
 - [apps/](apps/) — non-published apps: `playground` (manual testing),
@@ -126,8 +126,8 @@ Your guiding principles, in priority order:
   - **Prefixed with `sky`** (e.g., `skyDoThing`, `SkyThingOptions`,
     `SkyThingResult`) for functions, classes, types, and interfaces
     exported from a library's `{projectRoot}/src/index.ts` or
-    `{projectRoot}/testing/src/index.ts` barrel files. Flag any new export from
-    these barrel files missing the `sky`/`Sky` prefix. This matches the
+    `{projectRoot}/testing/src/public-api.ts` barrel files. Flag any new export
+    from these barrel files missing the `sky`/`Sky` prefix. This matches the
     existing convention across all `@skyux/*` and `@skyux-sdk/*` packages.
 
 ## Dependency Discipline
@@ -198,16 +198,8 @@ nx format --files=file1.ts,file2.ts,file3.html
 
 ## Commit Messages
 
-Commit messages should be based on the conventional commits standard at https://www.conventionalcommits.org/en/v1.0.0/#specification
-
-Commit messages are used to generate changelogs, determine semantic versioning, and provide clear history of changes. Following a consistent format helps maintain clarity and organization in the project.
-
-### SKY UX Specifics
-
-- Use a type prefix listed in the `types:` section of [.github/workflows/validate-pr.yml](.github/workflows/validate-pr.yml)
-- Use a scope that matches the component or module being changed
-- If multiple scopes are affected, do not add a scope
-- Use a scope listed in the `scopes:` section of [.github/workflows/validate-pr.yml](.github/workflows/validate-pr.yml)
-- The subject should match the format of the `subjectPattern:` listed in [.github/workflows/validate-pr.yml](.github/workflows/validate-pr.yml)
-- Do NOT include an extended body unless it is to describe a breaking change
-- Unless there is a breaking change the commit should be a single line
+Commit messages and pull request titles follow the Conventional Commits
+standard and the SKY UX specifics (types, scopes, subject pattern, and the `!`
+breaking-change marker). These rules are defined in
+[commit-message.instructions.md](.github/instructions/commit-message.instructions.md);
+read that file before authoring a commit or PR title.
