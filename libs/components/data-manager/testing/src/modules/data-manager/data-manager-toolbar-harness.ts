@@ -68,6 +68,7 @@ export class SkyDataManagerToolbarHarness extends SkyComponentHarness {
 
   /**
    * Gets a harness for the data manager filter button.
+   * @deprecated Use [filter bar](https://developer.blackbaud.com/skyux/components/filter-bar) in a data manager toolbar instead.
    */
   public async getFilterButton(): Promise<SkyFilterButtonHarness | null> {
     return await this.locatorForOptional(

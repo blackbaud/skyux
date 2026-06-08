@@ -3,15 +3,14 @@
     <ul
       #container
       class="sky-text-expand-repeater-container"
-      [@expansionAnimation]="{
-        value: isExpanded(),
-        params: { transitionHeight: transitionHeight }
-      }"
+      skyTransitionEndHandler
+      transitionPropertyToTrack="max-height"
+      [transitionTrigger]="isExpanded()"
       [id]="contentSectionId"
       [ngClass]="{
         'sky-text-expand-repeater-list-style-none': listStyle() === 'unstyled'
       }"
-      (@expansionAnimation.done)="animationEnd()"
+      (transitionEnd)="animationEnd()"
     >
       <ng-template [ngTemplateOutlet]="listItemTemplate" />
     </ul>
@@ -19,12 +18,11 @@
     <ol
       #container
       class="sky-text-expand-repeater-container"
-      [@expansionAnimation]="{
-        value: isExpanded(),
-        params: { transitionHeight: transitionHeight }
-      }"
+      skyTransitionEndHandler
+      transitionPropertyToTrack="max-height"
+      [transitionTrigger]="isExpanded()"
       [id]="contentSectionId"
-      (@expansionAnimation.done)="animationEnd()"
+      (transitionEnd)="animationEnd()"
     >
       <ng-template [ngTemplateOutlet]="listItemTemplate" />
     </ol>

@@ -1,5 +1,5 @@
-import { moduleMetadata } from '@storybook/angular';
 import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 
 import { AlertComponent } from './alert.component';
 import { AlertModule } from './alert.module';

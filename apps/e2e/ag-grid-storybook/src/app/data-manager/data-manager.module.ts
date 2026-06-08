@@ -8,8 +8,7 @@ import { SkyCheckboxModule, SkyRadioModule } from '@skyux/forms';
 import { SkyDropdownModule } from '@skyux/popovers';
 
 import { AgGridModule } from 'ag-grid-angular';
-import { AllCommunityModule } from 'ag-grid-community';
-import { ModuleRegistry } from 'ag-grid-community';
+import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 
 import { InlineHelpModule } from '../shared/inline-help/inline-help.module';
 

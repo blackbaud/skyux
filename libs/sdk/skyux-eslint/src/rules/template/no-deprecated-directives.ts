@@ -80,7 +80,6 @@ export const rule = createESLintTemplateRule({
       ): void => {
         const docs = components.find((c) => c.selector === el.name);
 
-        /* istanbul ignore else: safety check */
         if (docs) {
           if (docs.isDeprecated) {
             reportDeprecatedDirective(el, docs);

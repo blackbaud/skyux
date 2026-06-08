@@ -103,13 +103,6 @@ export class SkyPopoverComponent implements OnDestroy {
    */
   public isActive = false;
 
-  /**
-   * Used by unit tests to disable animations since the component is injected at the bottom of the
-   * document body.
-   * @internal
-   */
-  public enableAnimations = true;
-
   public isMouseEnter = false;
 
   public popoverId: string;
@@ -125,6 +118,12 @@ export class SkyPopoverComponent implements OnDestroy {
   #isMarkedForCloseOnMouseLeave = false;
 
   #ngUnsubscribe = new Subject<void>();
+
+  /**
+   * Incremented on each open/close call to invalidate any pending
+   * `queueMicrotask` callback from a previous `positionNextTo` call.
+   */
+  #openRequestId = 0;
 
   #overlay: SkyOverlayInstance | undefined;
 
@@ -184,8 +183,11 @@ export class SkyPopoverComponent implements OnDestroy {
       // Wait for the overlay component to be fully initialized before opening.
       // Create a microtask to prioritize opening the popover immediately after
       // setting up its overlay.
+      const requestId = ++this.#openRequestId;
       this.#windowRef.nativeWindow.queueMicrotask(() => {
-        this.#openPopover(caller);
+        if (this.#openRequestId === requestId) {
+          this.#openPopover(caller);
+        }
       });
     } else {
       this.#openPopover(caller);
@@ -194,7 +196,6 @@ export class SkyPopoverComponent implements OnDestroy {
 
   #openPopover(caller: ElementRef): void {
     this.#contentRef.open(caller, {
-      enableAnimations: this.enableAnimations,
       horizontalAlignment: this.alignment,
       id: this.popoverId,
       isStatic: false,
@@ -209,6 +210,8 @@ export class SkyPopoverComponent implements OnDestroy {
    * @internal
    */
   public close(): void {
+    this.#openRequestId++;
+
     /*istanbul ignore next*/
     this.#contentRef?.close();
   }

@@ -1,5 +1,5 @@
-import { moduleMetadata } from '@storybook/angular';
 import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 
 import { ConfirmComponent } from './confirm.component';
 import { ConfirmModule } from './confirm.module';

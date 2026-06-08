@@ -96,8 +96,12 @@ export function findDeclaringModule(
               }
             }
           }
-          // eslint-disable-next-line no-empty
-        } catch (e) {}
+          /* v8 ignore start */
+        } catch {
+          /* */
+        }
+        /* v8 ignore stop */
+
         return false;
       },
       '.module.ts',

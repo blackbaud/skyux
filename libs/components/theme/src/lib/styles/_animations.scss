@@ -1,0 +1,94 @@
+@use './_public-api/_compat/variables' as vars;
+@use './compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('body') {
+  --sky-override-duration-medium: #{vars.$sky-transition-time-medium};
+  --sky-override-duration-short: #{vars.$sky-transition-time-short};
+}
+
+body {
+  --sky-global-duration-medium: var(
+    --sky-override-duration-medium,
+    var(--sky-duration-medium)
+  );
+  --sky-global-duration-short: var(
+    --sky-override-duration-short,
+    var(--sky-duration-short)
+  );
+}
+
+/* disable motion globally */
+body.sky-animations-disabled {
+  *,
+  *::before,
+  *::after {
+    --sky-global-duration-medium: 0s !important;
+    --sky-global-duration-short: 0s !important;
+  }
+}
+
+/* suppress motion globally based on user preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    --sky-global-duration-medium: 1ms !important;
+    --sky-global-duration-short: 1ms !important;
+  }
+}
+
+@keyframes sky-animation-emerge-enter {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes sky-animation-emerge-leave {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+
+.sky-animation-emerge-enter {
+  animation: sky-animation-emerge-enter var(--sky-global-duration-medium)
+    ease-in-out;
+}
+
+.sky-animation-emerge-leave {
+  animation: sky-animation-emerge-leave var(--sky-global-duration-medium)
+    ease-in-out;
+}
+
+/*
+Slides an element from a horizontal offset to its natural position as it
+enters the DOM via @starting-style.
+*/
+@mixin sky-animation-slide-enter($translate-x) {
+  transition-duration: var(--sky-global-duration-short);
+  transition-property: transform;
+  transition-timing-function: ease-in;
+
+  @starting-style {
+    transform: translate($translate-x);
+  }
+}
+
+.sky-animation-slide-enter-left {
+  @include sky-animation-slide-enter(-100%);
+}
+
+.sky-animation-slide-enter-right {
+  @include sky-animation-slide-enter(100%);
+}

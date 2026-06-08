@@ -2,22 +2,19 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
+  RendererFactory2,
   computed,
   inject,
   model,
   signal,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SkyCheckboxChange, SkyCheckboxModule } from '@skyux/forms';
 
 import { IHeaderAngularComp } from 'ag-grid-angular';
-import {
-  GridApi,
-  IHeaderParams,
-  RowDataUpdatedEvent,
-  SelectionChangedEvent,
-} from 'ag-grid-community';
-import { asyncScheduler, fromEvent, observeOn } from 'rxjs';
+import { GridApi, IHeaderParams } from 'ag-grid-community';
+import { Subscription } from 'rxjs';
+
+import { fromGridEvent } from '../../ag-grid-event-utils';
 
 @Component({
   selector: 'sky-ag-grid-row-selector-header',
@@ -41,11 +38,18 @@ export class SkyAgGridHeaderRowSelectorComponent implements IHeaderAngularComp {
   });
 
   #api: GridApi<unknown> | undefined;
-  readonly #destroyRef = inject(DestroyRef);
+  #subscriptions = new Subscription();
+  readonly #renderer = inject(RendererFactory2).createRenderer(undefined, null);
+
+  constructor() {
+    inject(DestroyRef).onDestroy(() => this.#subscriptions.unsubscribe());
+  }
 
   public agInit(params: IHeaderParams): void {
     this.params.set(params);
     this.#api = params.api;
+    this.#subscriptions.unsubscribe();
+    this.#subscriptions = new Subscription();
 
     // Row selection behavior can only be set when the grid is created.
     // It only changes if the grid is recreated.
@@ -56,9 +60,8 @@ export class SkyAgGridHeaderRowSelectorComponent implements IHeaderAngularComp {
     );
 
     if (this.multiSelect()) {
-      fromEvent<SelectionChangedEvent>(params.api, 'selectionChanged')
-        .pipe(takeUntilDestroyed(this.#destroyRef), observeOn(asyncScheduler))
-        .subscribe((change): void => {
+      this.#subscriptions.add(
+        fromGridEvent(params.api, 'selectionChanged').subscribe((change) => {
           if (change.source.match(/selectall/i)) {
             // Either select all or clear selection.
             this.indeterminate.set(false);
@@ -67,14 +70,35 @@ export class SkyAgGridHeaderRowSelectorComponent implements IHeaderAngularComp {
             this.indeterminate.set(!!change.selectedNodes?.length);
             this.checked.set(false);
           }
-        });
+        }),
+      );
 
-      fromEvent<RowDataUpdatedEvent>(params.api, 'rowDataUpdated')
-        .pipe(takeUntilDestroyed(this.#destroyRef))
-        .subscribe((): void => {
+      this.#subscriptions.add(
+        fromGridEvent(params.api, 'rowDataUpdated').subscribe(() => {
           this.indeterminate.set(!!this.#api?.getSelectedNodes().length);
           this.checked.set(false);
-        });
+        }),
+      );
+
+      const el = params.eGridHeader;
+      if (el) {
+        this.#renderer.setAttribute(el, 'aria-keyshortcuts', 'Enter Space');
+        this.#subscriptions.add(
+          this.#renderer.listen(el, 'keydown', (evt: KeyboardEvent) => {
+            if (!['Enter', ' '].includes(evt.key) || evt.repeat) {
+              return;
+            }
+            if (evt.key === ' ') {
+              evt.preventDefault();
+            }
+            if (this.checked()) {
+              this.#api?.deselectAll();
+            } else {
+              this.#api?.selectAll();
+            }
+          }),
+        );
+      }
     }
   }
 

@@ -9,9 +9,7 @@ import { SkyDocsCategoryColor } from '../../category-tag/category-color';
 @Pipe({
   name: 'skyDocsDefinitionKindToCategoryColor',
 })
-export class SkyDocsTypeDefinitionKindToCategoryColorPipe
-  implements PipeTransform
-{
+export class SkyDocsTypeDefinitionKindToCategoryColorPipe implements PipeTransform {
   public transform(
     value: SkyManifestParentDefinitionKind,
   ): SkyDocsCategoryColor {

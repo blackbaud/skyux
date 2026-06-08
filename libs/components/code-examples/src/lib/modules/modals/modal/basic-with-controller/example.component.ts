@@ -23,9 +23,7 @@ import { ModalComponent } from './modal.component';
     Open modal
   </button>`,
 })
-export class ModalsModalBasicWithControllerExampleComponent
-  implements OnDestroy
-{
+export class ModalsModalBasicWithControllerExampleComponent implements OnDestroy {
   public hasErrors = false;
 
   protected errors: SkyModalError[] = [];

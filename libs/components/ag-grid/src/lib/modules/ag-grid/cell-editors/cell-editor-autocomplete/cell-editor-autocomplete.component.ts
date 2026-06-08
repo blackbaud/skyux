@@ -37,9 +37,7 @@ import { SkyAgGridCellEditorUtils } from '../../types/cell-editor-utils';
     SkyI18nModule,
   ],
 })
-export class SkyAgGridCellEditorAutocompleteComponent
-  implements ICellEditorAngularComp
-{
+export class SkyAgGridCellEditorAutocompleteComponent implements ICellEditorAngularComp {
   public columnHeader: string | undefined;
   public editorForm = new UntypedFormGroup({
     selection: new UntypedFormControl(),

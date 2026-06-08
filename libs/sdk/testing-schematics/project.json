@@ -1,0 +1,39 @@
+{
+  "name": "testing-schematics",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/sdk/testing-schematics/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["{projectRoot}/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/sdk/testing-schematics"],
+      "options": {
+        "jestConfig": "libs/sdk/testing-schematics/jest.config.ts",
+        "codeCoverage": true,
+        "coverageReporters": ["html", "text"]
+      }
+    },
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/sdk/testing-schematics",
+        "tsConfig": "libs/sdk/testing-schematics/tsconfig.lib.json",
+        "packageJson": "libs/sdk/testing-schematics/package.json",
+        "main": "libs/sdk/testing-schematics/src/index.ts",
+        "assets": [
+          "libs/sdk/testing-schematics/*.md",
+          "libs/sdk/testing-schematics/src/schematics/ng-add/schema.json",
+          "libs/sdk/testing-schematics/collection.json"
+        ]
+      }
+    }
+  },
+  "tags": ["sdk", "npm"]
+}

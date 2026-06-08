@@ -1,11 +1,11 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { SkyUIConfigService } from '@skyux/core';
 import {
+  SkyDataManagerDockType,
   SkyDataManagerModule,
   SkyDataManagerService,
   SkyDataManagerState,
 } from '@skyux/data-manager';
-import { SkyDataManagerDockType } from '@skyux/data-manager';
 import { SkyToolbarModule } from '@skyux/layout';
 
 import { FilterModalComponent } from './filter-modal.component';

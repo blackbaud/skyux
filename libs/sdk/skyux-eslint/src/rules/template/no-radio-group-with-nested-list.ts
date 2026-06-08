@@ -26,13 +26,14 @@ function removeStartTag(el: TmplAstElement | TmplAstTemplate): RuleFix {
  * Removes the end tag of the provided element, if it exists.
  */
 function removeEndTag(el: TmplAstElement | TmplAstTemplate): RuleFix {
-  /* istanbul ignore if: safety check */
+  /* v8 ignore start: safety check */
   if (!el.endSourceSpan) {
     return {
       range: [0, 0],
       text: '',
     };
   }
+  /* v8 ignore stop */
 
   return {
     range: [el.endSourceSpan.start.offset, el.endSourceSpan.end.offset],

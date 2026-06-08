@@ -5,7 +5,7 @@
   role="combobox"
   [attr.aria-expanded]="
     isOpen &&
-    (showActionsArea || dropdownHintText || (isResultsVisible | async))
+    !!(showActionsArea || dropdownHintText || (isResultsVisible | async))
   "
   [attr.aria-labelledby]="ariaLabelledBy"
   [attr.aria-controls]="

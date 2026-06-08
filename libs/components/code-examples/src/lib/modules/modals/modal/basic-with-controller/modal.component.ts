@@ -22,7 +22,7 @@ import { ModalContext } from './modal-context';
     <form [formGroup]="exampleForm" (submit)="saveForm()">
       <sky-modal headingText="Modal title" helpKey="help.html">
         <sky-modal-content>
-          <sky-input-box>
+          <sky-input-box labelText="Some field">
             <input formControlName="value1" type="text" />
           </sky-input-box>
         </sky-modal-content>

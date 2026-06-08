@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`angularModuleGenerator should generate an angular module with routing 1`] = `
 "import { NgModule } from '@angular/core';

@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyWaitService } from '@skyux/indicators';
 import { SkyModalHarness } from '@skyux/modals/testing';
 
@@ -38,10 +37,7 @@ describe('Basic modal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        ModalsModalBasicWithHarnessExampleComponent,
-        NoopAnimationsModule,
-      ],
+      imports: [ModalsModalBasicWithHarnessExampleComponent],
       providers: [
         {
           provide: SkyWaitService,

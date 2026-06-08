@@ -1,20 +1,18 @@
-<div [@.disabled]="true">
-  <sky-text-expand-repeater
-    [data]="data"
-    [maxItems]="numItems"
-    [listStyle]="listStyle"
-  />
+<sky-text-expand-repeater
+  [data]="data"
+  [maxItems]="numItems"
+  [listStyle]="listStyle"
+/>
 
-  <sky-text-expand-repeater
-    [data]="customTemplateData"
-    [itemTemplate]="myTemplate"
-    [maxItems]="numItems"
-    [listStyle]="listStyle"
-  >
-    <ng-template #myTemplate let-item>
-      <div class="sky-test-custom-template">
-        {{ item.text }} {{ item.number }}
-      </div>
-    </ng-template>
-  </sky-text-expand-repeater>
-</div>
+<sky-text-expand-repeater
+  [data]="customTemplateData"
+  [itemTemplate]="myTemplate"
+  [maxItems]="numItems"
+  [listStyle]="listStyle"
+>
+  <ng-template #myTemplate let-item>
+    <div class="sky-test-custom-template">
+      {{ item.text }} {{ item.number }}
+    </div>
+  </ng-template>
+</sky-text-expand-repeater>

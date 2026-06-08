@@ -53,21 +53,22 @@ function swapIcons(
   el: TmplAstTextAttribute,
   honorReplacementVariant: boolean,
 ): RuleFix | undefined {
-  // Safety check
-  /* istanbul ignore else */
-  if (el.keySpan && el.valueSpan) {
-    const iconReplacementInfo = LegacyIconReplacements[el.value.toString()];
-    return {
-      range: [el.keySpan.start.offset, el.valueSpan.end.offset + 1],
-      text:
-        `iconName="${iconReplacementInfo.newName}"` +
-        (honorReplacementVariant && iconReplacementInfo.variant
-          ? ` variant="${iconReplacementInfo.variant}"`
-          : ''),
-    };
+  /* v8 ignore start: safety check */
+  if (!el.keySpan || !el.valueSpan) {
+    return;
   }
-  /* istanbul ignore next */
-  return;
+  /* v8 ignore stop */
+
+  const iconReplacementInfo = LegacyIconReplacements[el.value.toString()];
+
+  return {
+    range: [el.keySpan.start.offset, el.valueSpan.end.offset + 1],
+    text:
+      `iconName="${iconReplacementInfo.newName}"` +
+      (honorReplacementVariant && iconReplacementInfo.variant
+        ? ` variant="${iconReplacementInfo.variant}"`
+        : ''),
+  };
 }
 
 export const rule = createESLintTemplateRule({
@@ -84,11 +85,11 @@ export const rule = createESLintTemplateRule({
           (c) => c.selector === el.name,
         );
 
-        /** Safety check */
-        /* istanbul ignore if */
+        /* v8 ignore start */
         if (!componentInfo) {
           return;
         }
+        /* v8 ignore stop */
 
         const iconAttribute = el.attributes.find(
           (input) => input.name === componentInfo.inputName,
@@ -120,8 +121,6 @@ export const rule = createESLintTemplateRule({
                   !variantExists && componentInfo.honorReplacementVariant,
                 );
 
-                // Safety check
-                /* istanbul ignore else */
                 if (ruleFix) {
                   fixers.push(ruleFix);
                 }

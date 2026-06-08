@@ -1,16 +1,18 @@
-import { animate, style, transition, trigger } from '@angular/animations';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  Injector,
   Input,
   OnDestroy,
   Output,
   QueryList,
   TrackByFunction,
   ViewChildren,
+  afterNextRender,
   inject,
+  signal,
 } from '@angular/core';
 
 import { Subject, Subscription } from 'rxjs';
@@ -34,33 +36,6 @@ const DISPLAY_WITH_DEFAULT = 'name';
   templateUrl: './tokens.component.html',
   styleUrls: ['./tokens.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [
-    trigger('blockAnimationOnLoad', [transition(':enter', [])]),
-    trigger('dismiss', [
-      transition(':enter', [
-        style({
-          opacity: 0,
-          width: 0,
-        }),
-        animate(
-          '150ms ease-in',
-          style({
-            opacity: 1,
-            width: '*',
-          }),
-        ),
-      ]),
-      transition(':leave', [
-        animate(
-          '150ms ease-in',
-          style({
-            opacity: 0,
-            width: 0,
-          }),
-        ),
-      ]),
-    ]),
-  ],
   standalone: false,
 })
 export class SkyTokensComponent implements OnDestroy {
@@ -138,6 +113,8 @@ export class SkyTokensComponent implements OnDestroy {
     // get accessor when set to `undefined`. Emitting `value` instead of `this.#_tokensOrDefault`
     // preserves that behavior.
     this.tokensChange.emit(value);
+
+    this.#queueTokensRenderedEmit();
   }
 
   public get tokens(): SkyToken[] {
@@ -223,13 +200,31 @@ export class SkyTokensComponent implements OnDestroy {
 
   #messageStreamSub: Subscription | undefined;
   #ngUnsubscribe = new Subject<void>();
+  #tokensRenderedQueued = false;
 
-  #changeDetector = inject(ChangeDetectorRef);
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #injector = inject(Injector);
 
   #_activeIndex = 0;
   #_messageStream = new Subject<SkyTokensMessage>();
 
+  /**
+   * Tracks whether the component has completed its initial render.
+   * Used to suppress enter animations on first load.
+   */
+  protected readonly animationReady = signal(false);
+
   constructor() {
+    // Wait for Angular's animation scheduler to remove initial enter classes
+    // before enabling enter animations for future token changes.
+    afterNextRender({
+      read: () => {
+        requestAnimationFrame(() => {
+          this.animationReady.set(true);
+        });
+      },
+    });
+
     this.#initMessageStream();
 
     // Angular calls the trackBy function without applying the component instance's scope.
@@ -255,10 +250,6 @@ export class SkyTokensComponent implements OnDestroy {
     }
 
     this.#notifyTokenSelected(token);
-  }
-
-  public animationDone(): void {
-    this.tokensRendered.emit();
   }
 
   public onTokenKeyDown(event: KeyboardEvent): void {
@@ -368,5 +359,27 @@ export class SkyTokensComponent implements OnDestroy {
     this.tokenSelected.emit({
       token,
     });
+  }
+
+  /**
+   * Debounces the tokensRendered emit so that rapid token changes
+   * (e.g. bulk additions or removals) result in a single event.
+   */
+  #queueTokensRenderedEmit(): void {
+    if (this.#tokensRenderedQueued) {
+      return;
+    }
+
+    this.#tokensRenderedQueued = true;
+
+    afterNextRender(
+      () => {
+        this.#tokensRenderedQueued = false;
+        this.tokensRendered.emit();
+      },
+      {
+        injector: this.#injector,
+      },
+    );
   }
 }

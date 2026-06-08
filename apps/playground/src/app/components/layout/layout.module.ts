@@ -30,6 +30,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'text-expand',
+    loadChildren: () =>
+      import('./text-expand/text-expand.module').then(
+        (m) => m.TextExpandModule,
+      ),
+  },
+  {
     path: 'text-expand-repeater',
     loadChildren: () =>
       import('./text-expand-repeater/text-expand-repeater.module').then(

@@ -48,5 +48,6 @@ export { SkyAgGridCellRendererLookupComponent as λ16 } from './lib/modules/ag-g
 export { SkyAgGridCellRendererRowSelectorComponent as λ7 } from './lib/modules/ag-grid/cell-renderers/cell-renderer-row-selector/cell-renderer-row-selector.component';
 export { SkyAgGridCellRendererValidatorTooltipComponent as λ10 } from './lib/modules/ag-grid/cell-renderers/cell-renderer-validator-tooltip/cell-renderer-validator-tooltip.component';
 export { SkyAgGridCellValidatorTooltipComponent as λ11 } from './lib/modules/ag-grid/cell-validator/ag-grid-cell-validator-tooltip.component';
+export { SkyAgGridColumnFilterDatepickerComponent as λ19 } from './lib/modules/ag-grid/column-filters/column-filter-datepicker/column-filter-datepicker.component';
 export { SkyAgGridHeaderGroupComponent as λ18 } from './lib/modules/ag-grid/header/header-group.component';
 export { SkyAgGridHeaderComponent as λ17 } from './lib/modules/ag-grid/header/header.component';

@@ -17,7 +17,7 @@ describe('IconPreviewService', () => {
   let fetchSpy: jasmine.Spy;
 
   beforeEach(() => {
-    fetchSpy = spyOn(global, 'fetch').and.stub();
+    fetchSpy = spyOn(window, 'fetch').and.stub();
     doc = {
       querySelector: jasmine.createSpy('querySelector').and.returnValue(null),
       createElement: jasmine.createSpy('createElement').and.returnValue({
@@ -26,6 +26,9 @@ describe('IconPreviewService', () => {
       }),
       getElementById: jasmine.createSpy('getElementById').and.returnValue(null),
       body: {
+        querySelector: jasmine
+          .createSpy('body.querySelector')
+          .and.returnValue(null),
         classList: {
           add: jasmine.createSpy('add'),
           remove: jasmine.createSpy('remove'),

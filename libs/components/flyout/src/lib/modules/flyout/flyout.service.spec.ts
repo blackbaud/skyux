@@ -2,7 +2,11 @@ import { ApplicationRef } from '@angular/core';
 import { TestBed, fakeAsync, inject, tick } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { expect } from '@skyux-sdk/testing';
-import { SkyAppWindowRef, SkyDynamicComponentService } from '@skyux/core';
+import {
+  SkyAppWindowRef,
+  SkyDynamicComponentService,
+  provideNoopSkyAnimations,
+} from '@skyux/core';
 
 import { SkyFlyoutFixturesModule } from './fixtures/flyout-fixtures.module';
 import { SkyFlyoutHostsTestComponent } from './fixtures/flyout-hosts.component.fixture';
@@ -17,7 +21,11 @@ describe('Flyout service', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyFlyoutFixturesModule],
-      providers: [SkyAppWindowRef, SkyFlyoutAdapterService],
+      providers: [
+        provideNoopSkyAnimations(),
+        SkyAppWindowRef,
+        SkyFlyoutAdapterService,
+      ],
     });
 
     service = TestBed.inject(SkyFlyoutService);

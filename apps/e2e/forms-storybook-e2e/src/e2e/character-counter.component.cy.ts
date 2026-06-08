@@ -16,6 +16,9 @@ describe('character-counter', () => {
           .get('#screenshot-character-count-input-box-invalid input')
           .focus();
         cy.get('#screenshot-character-count-input-box-invalid input').blur();
+        cy.get(
+          '#screenshot-character-count-input-box-invalid sky-form-error',
+        ).should('be.visible');
 
         cy.get('body').screenshot(`character-counter-${theme}`, {
           disableTimersAndAnimations: true,

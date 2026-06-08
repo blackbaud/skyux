@@ -880,7 +880,7 @@ describe('Country Field Component', () => {
         tick();
         fixture.detectChanges();
 
-        expect(component.countryFieldComponent.countries.length).toBe(
+        expect(component.countryFieldComponent.countries().length).toBe(
           3,
           'Expected total number of countries to be "3".',
         );
@@ -891,7 +891,7 @@ describe('Country Field Component', () => {
         fixture.detectChanges();
 
         expect(
-          component.countryFieldComponent.countries.length,
+          component.countryFieldComponent.countries().length,
         ).toBeGreaterThan(
           2,
           'Expected total number of countries to be greater than 2.',
@@ -1509,6 +1509,7 @@ describe('Country Field Component', () => {
           iso2: 'au',
           dialCode: '61',
           priority: 0,
+          areaCodes: ['4'],
         });
 
         const searchResults = searchAndGetResults('Austr', fixture);

@@ -10,7 +10,6 @@ import { SkyInlineDeleteModule } from '@skyux/layout';
 import { GridApi } from 'ag-grid-community';
 import {
   filter,
-  fromEvent,
   map,
   merge,
   of,
@@ -20,6 +19,7 @@ import {
   takeUntil,
 } from 'rxjs';
 
+import { fromGridEvent } from './ag-grid-event-utils';
 import { SKY_AG_GRID_ROW_DELETE_CONTEXT } from './ag-grid-row-delete-context';
 
 /**
@@ -77,12 +77,12 @@ export class SkyAgGridRowDeleteComponent {
       switchMap((gridApi) =>
         gridApi
           ? merge(
-              fromEvent(gridApi, 'componentStateChanged'),
-              fromEvent(gridApi, 'firstDataRendered'),
-              fromEvent(gridApi, 'gridSizeChanged'),
-              fromEvent(gridApi, 'modelUpdated'),
-              fromEvent(gridApi, 'rowDataUpdated'),
-            ).pipe(takeUntil(fromEvent(gridApi, 'gridPreDestroyed')))
+              fromGridEvent(gridApi, 'componentStateChanged'),
+              fromGridEvent(gridApi, 'firstDataRendered'),
+              fromGridEvent(gridApi, 'gridSizeChanged'),
+              fromGridEvent(gridApi, 'modelUpdated'),
+              fromGridEvent(gridApi, 'rowDataUpdated'),
+            ).pipe(takeUntil(fromGridEvent(gridApi, 'gridPreDestroyed')))
           : of(undefined),
       ),
       startWith(1),
@@ -117,8 +117,8 @@ export class SkyAgGridRowDeleteComponent {
       .pipe(
         filter((gridApi): gridApi is GridApi => !!gridApi),
         switchMap((gridApi) =>
-          fromEvent(gridApi, 'rowDataUpdated').pipe(
-            takeUntil(fromEvent(gridApi, 'gridPreDestroyed')),
+          fromGridEvent(gridApi, 'rowDataUpdated').pipe(
+            takeUntil(fromGridEvent(gridApi, 'gridPreDestroyed')),
             map(() => gridApi),
           ),
         ),

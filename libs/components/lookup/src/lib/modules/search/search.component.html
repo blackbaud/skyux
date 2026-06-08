@@ -21,12 +21,14 @@
     <div class="sky-search-item-input">
       <div
         class="sky-search-input-container"
-        [@inputState]="inputAnimate"
+        skyTransitionEndHandler
+        transitionPropertyToTrack="opacity"
+        [class.sky-search-input-hidden]="!inputShown"
         [ngClass]="{
           'sky-search-input-container-has-value': searchText?.trim()
         }"
-        (@inputState.start)="inputAnimationStart($event)"
-        (@inputState.done)="inputAnimationEnd($event)"
+        [transitionTrigger]="inputShown"
+        (transitionEnd)="onInputTransitionEnd()"
       >
         <sky-input-box [disabled]="disabled">
           <input

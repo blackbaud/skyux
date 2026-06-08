@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyRadioGroupHarness } from '@skyux/forms/testing';
 
 import { FormsRadioStandardExampleComponent } from './example.component';
@@ -34,7 +33,7 @@ describe('Basic radio group example', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, FormsRadioStandardExampleComponent],
+      imports: [FormsRadioStandardExampleComponent],
     });
   });
 

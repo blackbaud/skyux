@@ -1,5 +1,5 @@
-import { moduleMetadata } from '@storybook/angular';
 import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 
 import { FileAttachmentComponent } from './file-attachment.component';
 import { FileAttachmentModule } from './file-attachment.module';

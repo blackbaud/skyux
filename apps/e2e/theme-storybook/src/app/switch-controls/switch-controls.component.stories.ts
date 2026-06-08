@@ -1,5 +1,5 @@
-import { moduleMetadata } from '@storybook/angular';
 import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 
 import { SwitchControlsComponent } from './switch-controls.component';
 import { SwitchControlsModule } from './switch-controls.module';

@@ -114,7 +114,6 @@ function removeFormControlClass(
       const index = classnames.indexOf(FORM_CONTROL_CLASS);
       const classLength = FORM_CONTROL_CLASS.length;
 
-      /* istanbul ignore else: safety check */
       if (classAttr.valueSpan) {
         let classStart = classAttr.valueSpan.start.offset + index;
         let classEnd = classStart + classLength;
@@ -149,10 +148,11 @@ export const rule = createESLintTemplateRule({
           (c) => c.selector === el.name,
         );
 
-        /* istanbul ignore if: safety check */
+        /* v8 ignore start: safety check */
         if (!config) {
           return;
         }
+        /* v8 ignore stop */
 
         const { labelInputName, labelSelector } = config;
 
@@ -164,17 +164,6 @@ export const rule = createESLintTemplateRule({
         const inputEl = getChildNodeOf(el, ['input', 'select', 'textarea']);
 
         if (labelEl) {
-          // Abort if the `skyId` directive is used on a child input of the
-          // `<sky-input-box />` component since its inclusion usually means the
-          // user wishes to implement "hard mode".
-          if (
-            el.name === 'sky-input-box' &&
-            inputEl &&
-            getAttributeByName(inputEl, 'skyId')
-          ) {
-            return;
-          }
-
           const hasElementChildren = labelEl.children.some(
             (child) => child instanceof TmplAstElement,
           );

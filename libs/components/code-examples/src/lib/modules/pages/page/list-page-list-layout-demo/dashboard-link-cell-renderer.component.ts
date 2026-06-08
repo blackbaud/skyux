@@ -17,9 +17,7 @@ import { Item } from './item';
   >`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DashboardLinkCellRendererComponent
-  implements ICellRendererAngularComp
-{
+export class DashboardLinkCellRendererComponent implements ICellRendererAngularComp {
   protected value = '';
 
   public agInit(params: ICellRendererParams<Item, string>): void {

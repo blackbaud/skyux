@@ -161,7 +161,7 @@ describe('ng-add.schematic', () => {
 
     await expect(() =>
       runSchematic({ useRecommendedPackage: false }),
-    ).rejects.toThrowError(
+    ).rejects.toThrow(
       "The package 'angular-eslint' is not installed. " +
         "Run 'ng add @angular-eslint/schematics' and try this command again.\n" +
         'See: https://github.com/angular-eslint/angular-eslint#quick-start',

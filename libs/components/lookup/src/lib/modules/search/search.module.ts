@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SkyIdModule } from '@skyux/core';
+import { SkyIdModule, _SkyTransitionEndHandlerDirective } from '@skyux/core';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeModule } from '@skyux/theme';
@@ -20,6 +20,7 @@ import { SkySearchComponent } from './search.component';
     SkyIconModule,
     SkyThemeModule,
     SkyIdModule,
+    _SkyTransitionEndHandlerDirective,
   ],
   exports: [SkySearchComponent],
 })

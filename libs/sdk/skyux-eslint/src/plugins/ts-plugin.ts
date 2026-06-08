@@ -1,6 +1,10 @@
 import type { TSESLint } from '@typescript-eslint/utils';
 
 import {
+  rule as noInvalidSkyClassnames,
+  RULE_NAME as noInvalidSkyClassnamesRuleName,
+} from '../rules/no-invalid-sky-classnames';
+import {
   rule as noLambdaImports,
   RULE_NAME as noLambdaImportsRuleName,
 } from '../rules/no-lambda-imports';
@@ -14,6 +18,7 @@ const tsPlugin: TSESLint.FlatConfig.Plugin = {
     name: 'skyux-eslint',
   },
   rules: {
+    [noInvalidSkyClassnamesRuleName]: noInvalidSkyClassnames,
     [noLambdaImportsRuleName]: noLambdaImports,
     [noSkySelectorsRuleName]: noSkySelectors,
   },

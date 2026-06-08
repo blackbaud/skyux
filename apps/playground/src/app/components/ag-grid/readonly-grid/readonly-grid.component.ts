@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, OnInit } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  OnInit,
+  booleanAttribute,
+  input,
+} from '@angular/core';
 import {
   SkyAgGridModule,
   SkyAgGridRowDeleteConfirmArgs,
@@ -13,6 +19,7 @@ import { SkyThemeService } from '@skyux/theme';
 import { AgGridModule } from 'ag-grid-angular';
 import {
   AllCommunityModule,
+  ColDef,
   GridApi,
   GridOptions,
   GridReadyEvent,
@@ -47,58 +54,11 @@ export class ReadonlyGridComponent implements OnInit {
   public gridOptions: GridOptions;
   public hasMore = true;
 
-  public columnDefs = [
-    {
-      field: 'selected',
-      colId: 'selected',
-      type: SkyCellType.RowSelector,
-    },
-    {
-      colId: 'contextMenu',
-      headerName: 'Context menu',
-      sortable: false,
-      cellRenderer: ReadonlyGridContextMenuComponent,
-      maxWidth: 55,
-      headerComponentParams: {
-        headerHidden: true,
-      },
-    },
-    {
-      field: 'name',
-      headerName: 'Goal Name',
-      autoHeight: true,
-    },
-    {
-      field: 'value',
-      headerName: 'Current Value',
-      type: SkyCellType.Number,
-      maxWidth: 200,
-    },
-    {
-      field: 'startDate',
-      headerName: 'Start Date',
-      type: [SkyCellType.RightAligned, SkyCellType.Date],
-    },
-    {
-      field: 'endDate',
-      headerName: 'End Date',
-      type: SkyCellType.Date,
-    },
-    {
-      field: 'comment',
-      headerName: 'Comment',
-      maxWidth: 500,
-      autoHeight: true,
-      wrapText: true,
-    },
-    {
-      field: 'status',
-      headerName: 'Status',
-      sortable: false,
-      cellRenderer: this.statusRenderer,
-      minWidth: 300,
-    },
-  ];
+  public readonly normal = input<boolean, unknown>(false, {
+    transform: booleanAttribute,
+  });
+
+  public columnDefs: ColDef[] = [];
 
   @HostListener('window:resize')
   public onWindowResize(): void {
@@ -113,15 +73,66 @@ export class ReadonlyGridComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
+    this.columnDefs = [
+      {
+        field: 'selected',
+        colId: 'selected',
+        type: SkyCellType.RowSelector,
+      },
+      {
+        colId: 'contextMenu',
+        headerName: 'Context menu',
+        sortable: false,
+        cellRenderer: ReadonlyGridContextMenuComponent,
+        maxWidth: 55,
+        headerComponentParams: {
+          headerHidden: true,
+        },
+      },
+      {
+        field: 'name',
+        headerName: 'Goal Name',
+        autoHeight: !this.normal(),
+      },
+      {
+        field: 'value',
+        headerName: 'Current Value',
+        type: SkyCellType.Number,
+        maxWidth: 200,
+      },
+      {
+        field: 'startDate',
+        headerName: 'Start Date',
+        type: [SkyCellType.RightAligned, SkyCellType.Date],
+      },
+      {
+        field: 'endDate',
+        headerName: 'End Date',
+        type: SkyCellType.Date,
+      },
+      {
+        field: 'comment',
+        headerName: 'Comment',
+        maxWidth: 500,
+        autoHeight: !this.normal(),
+        wrapText: !this.normal(),
+      },
+      {
+        field: 'status',
+        headerName: 'Status',
+        sortable: false,
+        cellRenderer: this.statusRenderer,
+        minWidth: 300,
+      },
+    ];
     this.getGridOptions();
   }
 
   public deleteConfirm(confirmArgs: SkyAgGridRowDeleteConfirmArgs): void {
     setTimeout(() => {
-      this.gridData = this.gridData.filter(
-        (data) => data.id !== confirmArgs.id,
-      );
-      this.gridApi.setGridOption('rowData', this.gridData);
+      this.gridApi.applyTransaction({
+        remove: this.gridData.filter((data) => data.id === confirmArgs.id),
+      });
     }, 3000);
   }
 
@@ -191,6 +202,7 @@ export class ReadonlyGridComponent implements OnInit {
   private getGridOptions(): void {
     this.gridOptions = {
       columnDefs: this.columnDefs,
+      domLayout: this.normal() ? 'normal' : 'autoHeight',
       onGridReady: (gridReadyEvent): void => this.onGridReady(gridReadyEvent),
       context: {
         rowDeleteIds: this.gridData

@@ -14,7 +14,7 @@
           "base": "dist/apps/e2e/text-editor-storybook"
         },
         "index": "apps/e2e/text-editor-storybook/src/index.html",
-        "polyfills": ["zone.js", "libs/components/packages/src/polyfills.js"],
+        "polyfills": ["zone.js"],
         "tsConfig": "apps/e2e/text-editor-storybook/tsconfig.app.json",
         "styles": [
           "apps/e2e/text-editor-storybook/src/styles.scss",

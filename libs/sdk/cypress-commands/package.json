@@ -2,7 +2,7 @@
   "name": "@skyux-sdk/cypress-commands",
   "version": "0.0.1",
   "peerDependencies": {
-    "cypress": "15.11.0"
+    "cypress": "*"
   },
   "private": true
 }

@@ -1,3 +1,5 @@
+import { Signal } from '@angular/core';
+
 import type { Observable } from 'rxjs';
 
 export interface SkyAgGridValidatorProperties {
@@ -20,10 +22,11 @@ export interface SkyAgGridValidatorProperties {
     rowIndex?: number | null,
   ) => boolean;
   /**
-   * Either a string or a function that returns a string. The message to display when the value is
+   * A string signal function, a string, or a function that returns a string. The message to display when the value is
    * invalid.
    */
   validatorMessage?:
+    | Signal<string>
     | string
     | ((value: unknown, data?: unknown, rowIndex?: number | null) => string);
 }

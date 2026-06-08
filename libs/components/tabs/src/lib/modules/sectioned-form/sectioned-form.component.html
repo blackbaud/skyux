@@ -18,11 +18,11 @@
   @if (maintainSectionContent || tabService.tabsVisible()) {
     <div
       class="sky-sectioned-form-tabs"
+      [class.sky-animation-slide-enter-left]="animationEnabled()"
       [ngClass]="{
         'sky-sectioned-form-tabs-hidden': !tabService.tabsVisible(),
         'sky-sectioned-form-tabs-only': !tabService.contentVisible()
       }"
-      [@tabEnter]="tabService.animationTabsVisibleState"
     >
       <ng-content />
     </div>
@@ -31,10 +31,10 @@
     <div
       #skySectionSideContent
       class="sky-sectioned-form-content"
+      [class.sky-animation-slide-enter-right]="animationEnabled()"
       [ngClass]="{
         'sky-sectioned-form-content-hidden': !tabService.contentVisible()
       }"
-      [@contentEnter]="tabService.animationContentVisibleState"
     ></div>
   }
 </div>

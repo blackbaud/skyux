@@ -58,10 +58,11 @@ describe('text-editor-storybook', () => {
               const $bodyWrapper = $iframe.contents().find('body');
               cy.wrap($bodyWrapper).click();
               cy.wrap($bodyWrapper).blur();
-            })
-            .screenshot(
-              `texteditorcomponent-texteditor--text-editor-with-error-${theme}`,
-            );
+            });
+          cy.get('app-text-editor sky-form-error').should('be.visible');
+          cy.get('app-text-editor').screenshot(
+            `texteditorcomponent-texteditor--text-editor-with-error-${theme}`,
+          );
           cy.get('app-text-editor').percySnapshot(
             `texteditorcomponent-texteditor--text-editor-with-error-${theme}`,
             {

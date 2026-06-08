@@ -8,7 +8,6 @@ import {
   waitForAsync,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyGridModule } from '@skyux/grids';
@@ -98,7 +97,6 @@ describe('List column selector action', () => {
           SkyListSecondaryActionsModule,
           SkyGridModule,
           SkyListViewGridModule,
-          NoopAnimationsModule,
         ],
       }).overrideComponent(SkyListComponent, {
         set: {
@@ -254,7 +252,6 @@ describe('List column selector action', () => {
           SkyListSecondaryActionsModule,
           SkyGridModule,
           SkyListViewGridModule,
-          NoopAnimationsModule,
         ],
       }).overrideComponent(SkyListComponent, {
         set: {

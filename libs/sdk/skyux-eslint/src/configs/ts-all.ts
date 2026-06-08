@@ -7,6 +7,7 @@ export default [
   {
     name: 'skyux-eslint/ts-all',
     rules: {
+      'skyux-eslint/no-invalid-sky-classnames': 'error',
       'skyux-eslint/no-lambda-imports': 'error',
       'skyux-eslint/no-sky-selectors': 'error',
     },

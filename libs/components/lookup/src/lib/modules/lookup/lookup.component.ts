@@ -15,7 +15,9 @@ import {
   ViewChild,
   ViewEncapsulation,
   booleanAttribute,
+  effect,
   inject,
+  input,
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { SkyAppWindowRef, SkyIdService, SkyLogService } from '@skyux/core';
@@ -139,8 +141,9 @@ export class SkyLookupComponent
    * Whether to enable users to open a picker where they can view all options.
    * @default false
    */
-  @Input({ transform: booleanAttribute })
-  public enableShowMore = false;
+  public readonly enableShowMore = input(false, {
+    transform: booleanAttribute,
+  });
 
   /**
    * Placeholder text to display in the lookup field.
@@ -230,7 +233,7 @@ export class SkyLookupComponent
     const value = this.#getValue();
 
     // Collapse the tokens into a single token if the user has selected many options.
-    if (this.enableShowMore && value.length > 5) {
+    if (this.enableShowMore() && value.length > 5) {
       this.#resourcesService
         .getString('skyux_lookup_tokens_summary', value.length.toString())
         .pipe(take(1))
@@ -351,6 +354,11 @@ export class SkyLookupComponent
     if (ngControl) {
       ngControl.valueAccessor = this;
     }
+
+    effect(() => {
+      this.enableShowMore();
+      this.#populateInputBox();
+    });
   }
 
   public ngOnInit(): void {
@@ -358,12 +366,7 @@ export class SkyLookupComponent
       this.controlId = this.inputBoxHostSvc.controlId;
       this.ariaDescribedBy = this.inputBoxHostSvc.ariaDescribedBy;
 
-      this.inputBoxHostSvc.populate({
-        inputTemplate: this.inputTemplateRef,
-        buttonsTemplate: this.enableShowMore
-          ? this.showMoreButtonTemplateRef
-          : undefined,
-      });
+      this.#populateInputBox();
 
       this.inputBoxHostSvc?.setRequired(this.required);
     } else {
@@ -434,6 +437,12 @@ export class SkyLookupComponent
       });
 
       this.#setValue(value, { emitEvent: true });
+    }
+  }
+
+  protected onTokenSelected(): void {
+    if (this.enableShowMore()) {
+      this.openPicker('');
     }
   }
 
@@ -933,5 +942,16 @@ export class SkyLookupComponent
 
   #pickerModalOpen(): boolean {
     return !!(this.#openNativePicker || this.#openSelectionModal);
+  }
+
+  #populateInputBox(): void {
+    if (this.inputBoxHostSvc && this.inputTemplateRef) {
+      this.inputBoxHostSvc.populate({
+        inputTemplate: this.inputTemplateRef,
+        buttonsTemplate: this.enableShowMore()
+          ? this.showMoreButtonTemplateRef
+          : undefined,
+      });
+    }
   }
 }

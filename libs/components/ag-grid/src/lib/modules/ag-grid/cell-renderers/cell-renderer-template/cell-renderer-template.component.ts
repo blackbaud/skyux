@@ -36,9 +36,7 @@ type CellState =
     }`,
   imports: [NgTemplateOutlet],
 })
-export class SkyAgGridCellRendererTemplateComponent
-  implements ICellRendererAngularComp
-{
+export class SkyAgGridCellRendererTemplateComponent implements ICellRendererAngularComp {
   protected state: CellState = {
     hasTemplate: false,
     template: undefined,

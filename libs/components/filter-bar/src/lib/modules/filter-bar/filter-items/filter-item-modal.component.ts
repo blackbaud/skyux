@@ -12,8 +12,11 @@ import {
   runInInjectionContext,
   viewChild,
 } from '@angular/core';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { toObservable } from '@angular/core/rxjs-interop';
+import {
+  takeUntilDestroyed,
+  toObservable,
+  toSignal,
+} from '@angular/core/rxjs-interop';
 import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
 import { Observable, Subject, of } from 'rxjs';
@@ -47,8 +50,7 @@ import { SKY_FILTER_ITEM } from './filter-item.token';
 export class SkyFilterItemModalComponent<
   TData = Record<string, unknown> | undefined,
   TValue = unknown,
-> implements SkyFilterItem<TValue>
-{
+> implements SkyFilterItem<TValue> {
   /**
    * A unique identifier for the filter item.
    * @required

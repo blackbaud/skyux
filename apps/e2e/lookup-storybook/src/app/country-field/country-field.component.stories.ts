@@ -1,5 +1,5 @@
-import { moduleMetadata } from '@storybook/angular';
 import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 
 import { CountryFieldComponent } from './country-field.component';
 import { CountryFieldModule } from './country-field.module';

@@ -1,21 +1,25 @@
+import { coerceStringArray } from '@angular/cdk/coercion';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  EventEmitter,
   Injector,
   Input,
   OnDestroy,
   OnInit,
-  Optional,
-  Output,
   TemplateRef,
   Type,
   ViewChild,
   ViewEncapsulation,
+  computed,
+  effect,
   forwardRef,
   inject,
+  input,
+  output,
+  signal,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -27,10 +31,10 @@ import {
   Validator,
 } from '@angular/forms';
 import { SkyInputBoxHostService } from '@skyux/forms';
+import { SkyAppLocaleProvider } from '@skyux/i18n';
 
 import intlTelInput from 'intl-tel-input';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Observable, Subject, map } from 'rxjs';
 
 import { SkyAutocompleteInputDirective } from '../autocomplete/autocomplete-input.directive';
 import { SkyAutocompleteSelectionChange } from '../autocomplete/types/autocomplete-selection-change';
@@ -67,8 +71,7 @@ export class SkyCountryFieldComponent
    * @default 'off'
    * @deprecated SKY UX only supports browser autofill on components where the direct input matches the return value. This input may not behave as expected due to the dropdown selection interaction.
    */
-  @Input()
-  public autocompleteAttribute: string | undefined;
+  public autocompleteAttribute = input<string>();
 
   /**
    * The [International Organization for Standardization Alpha 2](https://www.nationsonline.org/oneworld/country_code_list.htm)
@@ -76,26 +79,12 @@ export class SkyCountryFieldComponent
    * When search results include the default country, it appears at the top of the list.
    * @default "us"
    */
-  @Input()
-  public set defaultCountry(value: string | undefined) {
-    if (!value) {
-      value = DEFAULT_COUNTRY_CODE;
-    }
-
-    if (value !== this.#_defaultCountry) {
-      this.#_defaultCountry = value.toLowerCase();
-
-      this.#defaultCountryData = this.countries.find(
-        (country) => country.iso2 === this.#_defaultCountry,
-      );
-
-      this.#sortCountriesWithSelectedAndDefault(this.selectedCountry);
-    }
-  }
-
-  public get defaultCountry(): string | undefined {
-    return this.#_defaultCountry;
-  }
+  public readonly defaultCountry = input<string, unknown>(
+    DEFAULT_COUNTRY_CODE,
+    {
+      transform: (value) => String(value || DEFAULT_COUNTRY_CODE).toLowerCase(),
+    },
+  );
 
   /**
    * Whether to disable the country field on template-driven forms. Don't use this input on reactive forms because they may overwrite the input or leave the control out of sync.
@@ -123,40 +112,25 @@ export class SkyCountryFieldComponent
    * The [International Organization for Standardization Alpha 2](https://www.nationsonline.org/oneworld/country_code_list.htm)
    * country codes for the countries that users can select. By default, all countries are available.
    */
-  @Input()
-  public set supportedCountryISOs(value: string[] | undefined) {
-    // Ensure all values are the same case.
-    if (Array.isArray(value)) {
-      value = value.map((v) => v.toLowerCase());
-    }
-
-    this.#_supportedCountryISOs = value;
-    this.#setupCountries();
-  }
-
-  public get supportedCountryISOs(): string[] {
-    return this.#_supportedCountryISOs || [];
-  }
+  public readonly supportedCountryISOs = input<string[], unknown>([], {
+    transform: (value) => coerceStringArray(value).map((v) => v.toLowerCase()),
+  });
 
   /**
    * Fires when the selected country changes.
    */
-  @Output()
-  public selectedCountryChange: EventEmitter<SkyCountryFieldCountry> =
-    new EventEmitter<SkyCountryFieldCountry>();
+  public readonly selectedCountryChange = output<SkyCountryFieldCountry>();
 
   /**
    * Fires when the country field is focused out.
    * @internal
    */
   // TODO: remove this if no longer needed after a scalable focus monitor service is implemented
-  @Output()
-  public countryFieldFocusout: EventEmitter<FocusEvent> =
-    new EventEmitter<FocusEvent>();
+  public countryFieldFocusout = output<FocusEvent>();
 
-  public countries: SkyCountryFieldCountry[] = [];
+  public readonly countries = computed(() => this.#setupCountries());
 
-  public countrySearchFormControl: UntypedFormControl;
+  public readonly countrySearchFormControl = new UntypedFormControl();
 
   public searchTextMinimumCharacters = 2;
 
@@ -165,54 +139,6 @@ export class SkyCountryFieldComponent
     | SkyAutocompleteInputDirective
     | undefined;
 
-  public set selectedCountry(newCountry: SkyCountryFieldCountry | undefined) {
-    if (!this.#countriesAreEqual(this.selectedCountry, newCountry)) {
-      const newCountryIso = newCountry?.iso2;
-      if (newCountryIso) {
-        const isoCountry = this.countries.find(
-          (country) => country.iso2 === newCountryIso,
-        );
-
-        if (isoCountry) {
-          newCountry = isoCountry;
-        }
-      }
-
-      this.#_selectedCountry = newCountry;
-
-      this.#sortCountriesWithSelectedAndDefault(newCountry);
-
-      this.#internalFormChange = true;
-      this.countrySearchFormControl.setValue(this.selectedCountry);
-
-      if (!this.#isInitialChange) {
-        this.onChange(newCountry);
-        this.onTouched();
-
-        this.selectedCountryChange.emit(newCountry);
-      } else if (this.#ngControl?.control) {
-        // Do not mark the field as "dirty"
-        // if the field has been initialized with a value.
-        this.#ngControl.control.markAsPristine();
-      }
-
-      this.#isInitialChange = false;
-
-      /**
-       * The if statement is complex. The control type check ensures that
-       * we only watch for the initial time through this function on reactive forms. However,
-       * template forms will send through `null` and then `undefined` on empty initialization
-       * so we have to check for when the non-null pass through happens.
-       */
-    } else if (!(this.#ngControl instanceof NgModel) || newCountry !== null) {
-      this.#isInitialChange = false;
-    }
-  }
-
-  public get selectedCountry(): SkyCountryFieldCountry | undefined {
-    return this.#_selectedCountry;
-  }
-
   public context: SkyCountryFieldContext | null = inject(
     SKY_COUNTRY_FIELD_CONTEXT,
     {
@@ -220,7 +146,7 @@ export class SkyCountryFieldComponent
     },
   );
 
-  public inputId: string;
+  public inputId = `sky-country-field-input-${uniqueId++}`;
   protected ariaDescribedBy: Observable<string | undefined> | undefined;
 
   @ViewChild('inputTemplateRef', {
@@ -229,41 +155,61 @@ export class SkyCountryFieldComponent
   })
   public inputTemplateRef: TemplateRef<unknown> | undefined;
 
-  #changeDetector: ChangeDetectorRef;
+  public readonly inputBoxHostSvc = inject(SkyInputBoxHostService, {
+    optional: true,
+  });
+
+  readonly #changeDetector = inject(ChangeDetectorRef);
 
   #defaultCountryData: SkyCountryFieldCountry | undefined;
 
-  #injector: Injector;
-
-  #internalFormChange = false;
+  readonly #injector = inject(Injector);
 
   #isInitialChange = true;
 
   #ngControl: NgControl | null = null;
 
-  #ngUnsubscribe = new Subject<void>();
-
-  #_defaultCountry: string | undefined;
+  readonly #ngUnsubscribe = new Subject<void>();
 
   #_disabled = false;
 
-  #_selectedCountry: SkyCountryFieldCountry | undefined;
+  readonly #_selectedCountry = signal<SkyCountryFieldCountry | undefined>(
+    undefined,
+  );
+  readonly #_selectedIsoCountry = computed(
+    () => {
+      let selectedCountry = this.#_selectedCountry();
+      const selectedCountryIso = selectedCountry?.iso2?.toLowerCase();
+      if (selectedCountryIso) {
+        const isoCountry = this.countries().find(
+          (country) => country.iso2 === selectedCountryIso,
+        );
+        if (isoCountry) {
+          selectedCountry = isoCountry;
+        }
+      }
+      return selectedCountry;
+    },
+    {
+      equal: (a, b) => a?.name === b?.name,
+    },
+  );
 
-  #_supportedCountryISOs: string[] | undefined;
+  readonly #localeProvider = inject(SkyAppLocaleProvider);
+  readonly #locale = toSignal(
+    this.#localeProvider.getLocaleInfo().pipe(map((loc) => loc.locale)),
+    {
+      initialValue: this.#localeProvider.defaultLocale,
+    },
+  );
 
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    injector: Injector,
-    @Optional() public inputBoxHostSvc?: SkyInputBoxHostService,
-  ) {
-    this.#changeDetector = changeDetector;
-    this.#injector = injector;
-
-    this.inputId = `sky-country-field-input-${uniqueId++}`;
-
-    this.#setupCountries();
-
-    this.countrySearchFormControl = new UntypedFormControl();
+  constructor() {
+    // Sync the form control with the resolved selected country.
+    // This handles locale changes and ISO normalization reactively.
+    effect(() => {
+      const newCountry = this.#_selectedIsoCountry();
+      this.countrySearchFormControl.setValue(newCountry);
+    });
   }
 
   /**
@@ -288,17 +234,6 @@ export class SkyCountryFieldComponent
       this.#isInitialChange = false;
     }
 
-    if (!this.defaultCountry) {
-      this.defaultCountry = DEFAULT_COUNTRY_CODE;
-    }
-
-    this.countrySearchFormControl.valueChanges
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((newValue) => {
-        if (newValue && !this.#internalFormChange) {
-          this.selectedCountry = newValue;
-        }
-      });
     this.#changeDetector.markForCheck();
   }
 
@@ -307,7 +242,6 @@ export class SkyCountryFieldComponent
    * @internal
    */
   public ngOnDestroy(): void {
-    this.selectedCountryChange.complete();
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
   }
@@ -329,7 +263,7 @@ export class SkyCountryFieldComponent
   public onCountrySelected(newCountry: SkyAutocompleteSelectionChange): void {
     if (newCountry.selectedItem) {
       this.writeValue(
-        this.countries.find(
+        this.countries().find(
           (countryInfo) => countryInfo.iso2 === newCountry.selectedItem.iso2,
         ),
       );
@@ -370,11 +304,12 @@ export class SkyCountryFieldComponent
 
   public validate(control: AbstractControl): ValidationErrors | null {
     if (control.value) {
+      const supportedCountryISOs = this.supportedCountryISOs();
+      const valueIso2 = control.value.iso2?.toLowerCase();
       if (
-        (this.supportedCountryISOs &&
-          this.supportedCountryISOs.length > 0 &&
-          this.supportedCountryISOs.indexOf(control.value.iso2) < 0) ||
-        !this.countries.find((country) => country.iso2 === control.value.iso2)
+        (supportedCountryISOs.length > 0 &&
+          supportedCountryISOs.indexOf(valueIso2) < 0) ||
+        !this.countries().find((country) => country.iso2 === valueIso2)
       ) {
         return { unsupportedCountry: true };
       }
@@ -384,7 +319,29 @@ export class SkyCountryFieldComponent
   }
 
   public writeValue(value: SkyCountryFieldCountry | undefined): void {
-    this.selectedCountry = value;
+    const current = this.#_selectedIsoCountry();
+    if (!this.#countriesAreEqual(current, value)) {
+      this.#_selectedCountry.set(value);
+
+      if (!this.#isInitialChange) {
+        const resolved = this.#_selectedIsoCountry();
+        this.onChange(resolved);
+        this.onTouched();
+
+        if (resolved) {
+          this.selectedCountryChange.emit(resolved);
+        }
+      } else if (this.#ngControl?.control) {
+        // Do not mark the field as "dirty"
+        // if the field has been initialized with a value.
+        this.#ngControl.control.markAsPristine();
+      }
+
+      this.#isInitialChange = false;
+    } else if (!(this.#ngControl instanceof NgModel) || value !== null) {
+      this.#isInitialChange = false;
+    }
+
     this.#changeDetector.markForCheck();
   }
 
@@ -400,7 +357,7 @@ export class SkyCountryFieldComponent
       return country1.iso2 === country2.iso2;
     }
 
-    // NOTE: We are doing this in  this way because template forms will send through `null`
+    // NOTE: We are doing this in this way because template forms will send through `null`
     // and then `undefined` on empty initialization. These are functionally equivalent but will
     // not pass a standard triple equals check.
     return !country1 && !country2;
@@ -413,8 +370,11 @@ export class SkyCountryFieldComponent
     return a.iso2 === b.iso2 && a.name === b.name;
   }
 
-  #setupCountries(): void {
-    this.countries = cloneCountryData(intlTelInput.getCountryData());
+  #setupCountries(): SkyCountryFieldCountry[] {
+    let countries = cloneCountryData(
+      intlTelInput.getCountryData(),
+      this.#locale(),
+    );
 
     /* istanbul ignore else */
     if (!this.context?.inPhoneField) {
@@ -422,31 +382,36 @@ export class SkyCountryFieldComponent
        * The library we get the country data from includes extra phone properties.
        * We want to remove these unless we are in a phone field
        */
-      this.countries.forEach((country) => {
+      countries.forEach((country) => {
         delete country.dialCode;
         delete country.areaCodes;
         delete country.priority;
       });
     }
 
-    this.#sortCountriesWithSelectedAndDefault(this.selectedCountry);
+    const defaultCountry = this.defaultCountry();
+    this.#defaultCountryData = countries.find(
+      (country) => country.iso2 === defaultCountry,
+    );
+    countries = this.#sortCountriesWithSelectedAndDefault(countries);
 
-    if (this.supportedCountryISOs && this.supportedCountryISOs.length > 0) {
-      this.countries = this.countries.filter(
-        (country: SkyCountryFieldCountry) => {
-          return this.supportedCountryISOs.indexOf(country.iso2) >= 0;
-        },
-      );
+    const supportedCountryISOs = this.supportedCountryISOs();
+    if (supportedCountryISOs.length > 0) {
+      countries = countries.filter((country: SkyCountryFieldCountry) => {
+        return supportedCountryISOs.indexOf(country.iso2) >= 0;
+      });
     }
+    return countries;
   }
 
   #sortCountriesWithSelectedAndDefault(
-    selectedCountry: SkyCountryFieldCountry | undefined,
-  ): void {
+    countries: SkyCountryFieldCountry[],
+  ): SkyCountryFieldCountry[] {
+    const selectedCountry = this.#_selectedCountry();
     let selectedCountryIndex: number;
     let selectedCountryData: SkyCountryFieldCountry;
 
-    const sortedNewCountries = this.countries.sort((a, b) => {
+    const sortedNewCountries = countries.sort((a, b) => {
       if (
         ((this.#defaultCountryData &&
           this.#countriesEqual(a, this.#defaultCountryData)) ||
@@ -463,22 +428,22 @@ export class SkyCountryFieldComponent
     if (selectedCountry) {
       // Note: We are looking up this data here to ensure we are using the official data from the
       // library and not the data provided by the user on initialization of the component
-      const foundCountry = this.countries.find(
-        (country) => country.iso2 === selectedCountry.iso2.toLocaleLowerCase(),
+      const foundCountry = countries.find(
+        (country) => country.iso2 === selectedCountry.iso2.toLowerCase(),
       );
 
       if (foundCountry) {
         selectedCountryData = foundCountry;
-        selectedCountryIndex = this.countries.indexOf(selectedCountryData);
+        selectedCountryIndex = countries.indexOf(selectedCountryData);
 
         if (selectedCountryIndex >= 0) {
-          this.countries.splice(selectedCountryIndex, 1);
+          countries.splice(selectedCountryIndex, 1);
           sortedNewCountries.splice(0, 0, selectedCountryData);
         }
       }
     }
 
-    this.countries = sortedNewCountries;
+    return countries;
   }
 
   #updateInputBox(): void {

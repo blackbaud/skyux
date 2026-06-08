@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
   SkyCheckboxGroupHarness,
   SkyCheckboxHarness,
@@ -45,7 +44,7 @@ describe('Basic checkbox group example', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, FormsCheckboxBasicExampleComponent],
+      imports: [FormsCheckboxBasicExampleComponent],
     });
   });
 

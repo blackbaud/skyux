@@ -26,15 +26,16 @@ import {
 } from 'ag-grid-community';
 import { BehaviorSubject } from 'rxjs';
 
-import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
-import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
+import {
+  MinimalColumnDefs,
+  MinimalRowData,
+  SkyAgGridMinimalFixtureComponent,
+} from '../../fixtures/ag-grid-minimal.component.fixture';
 import { SkyCellEditorDatepickerParams } from '../../types/cell-editor-datepicker-params';
+import { SkyCellType } from '../../types/cell-type';
 import { SkyAgGridCellEditorDatepickerComponent } from '../cell-editor-datepicker/cell-editor-datepicker.component';
 
 describe('SkyCellEditorDatepickerComponent', () => {
-  // We've had some issue with grid rendering causing the specs to timeout in IE. Extending it slightly to help.
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 7500;
-
   let datepickerEditorFixture: ComponentFixture<SkyAgGridCellEditorDatepickerComponent>;
   let datepickerEditorComponent: SkyAgGridCellEditorDatepickerComponent;
   let datepickerEditorNativeElement: HTMLElement;
@@ -54,8 +55,22 @@ describe('SkyCellEditorDatepickerComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [SkyAgGridFixtureModule],
+      imports: [SkyAgGridMinimalFixtureComponent],
       providers: [
+        {
+          provide: MinimalColumnDefs,
+          useValue: [
+            {
+              field: 'date',
+              editable: true,
+              type: SkyCellType.Date,
+            },
+          ],
+        },
+        {
+          provide: MinimalRowData,
+          useValue: [{ date: new Date('01/01/2019') }],
+        },
         {
           provide: SkyThemeService,
           useValue: mockThemeSvc,
@@ -71,11 +86,11 @@ describe('SkyCellEditorDatepickerComponent', () => {
   });
 
   describe('in ag grid', () => {
-    let gridFixture: ComponentFixture<SkyAgGridFixtureComponent>;
+    let gridFixture: ComponentFixture<SkyAgGridMinimalFixtureComponent>;
     let gridNativeElement: HTMLElement;
 
     beforeEach(() => {
-      gridFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+      gridFixture = TestBed.createComponent(SkyAgGridMinimalFixtureComponent);
       gridNativeElement = gridFixture.nativeElement;
 
       gridFixture.detectChanges();
@@ -744,13 +759,24 @@ describe('SkyCellEditorDatepickerComponent', () => {
 });
 
 describe('SkyCellEditorDatepickerComponent without theme', () => {
-  // We've had some issue with grid rendering causing the specs to timeout in IE. Extending it slightly to help.
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 7500;
-
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkyAgGridFixtureModule],
+      imports: [SkyAgGridMinimalFixtureComponent],
       providers: [
+        {
+          provide: MinimalColumnDefs,
+          useValue: [
+            {
+              field: 'date',
+              editable: true,
+              type: SkyCellType.Date,
+            },
+          ],
+        },
+        {
+          provide: MinimalRowData,
+          useValue: [{ date: new Date('01/01/2019') }],
+        },
         {
           provide: SkyThemeService,
           useValue: undefined,
@@ -760,11 +786,11 @@ describe('SkyCellEditorDatepickerComponent without theme', () => {
   });
 
   describe('in ag grid', () => {
-    let gridFixture: ComponentFixture<SkyAgGridFixtureComponent>;
+    let gridFixture: ComponentFixture<SkyAgGridMinimalFixtureComponent>;
     let gridNativeElement: HTMLElement;
 
     beforeEach(() => {
-      gridFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+      gridFixture = TestBed.createComponent(SkyAgGridMinimalFixtureComponent);
       gridNativeElement = gridFixture.nativeElement;
 
       gridFixture.detectChanges();

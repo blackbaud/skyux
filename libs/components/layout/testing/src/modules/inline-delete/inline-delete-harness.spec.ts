@@ -1,7 +1,7 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideNoopSkyAnimations } from '@skyux/core';
 import { SkyInlineDeleteModule } from '@skyux/layout';
 
 import { SkyInlineDeleteHarness } from './inline-delete-harness';
@@ -33,7 +33,8 @@ describe('Inline delete harness', () => {
     fixture: ComponentFixture<TestComponent>;
   }> {
     await TestBed.configureTestingModule({
-      imports: [TestComponent, NoopAnimationsModule],
+      imports: [TestComponent],
+      providers: [provideNoopSkyAnimations()],
     });
     const fixture = TestBed.createComponent(TestComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);

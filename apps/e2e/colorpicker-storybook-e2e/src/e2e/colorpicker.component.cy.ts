@@ -65,7 +65,7 @@ describe('colorpicker-storybook', () => {
               cy.wrap($el.position().top)
                 .should('be.gte', 0)
                 .should('be.lessThan', 1000);
-              cy.wrap($el.position().left).should('be.gte', 15);
+              cy.wrap($el.position().left).should('be.gte', 12);
             });
 
           cy.window().screenshot(

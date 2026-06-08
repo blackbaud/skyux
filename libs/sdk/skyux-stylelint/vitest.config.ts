@@ -5,7 +5,6 @@ export default defineConfig({
   test: {
     reporters: ['default'],
     coverage: {
-      all: true,
       enabled: true,
       exclude: ['src/index.ts', 'src/**/*.test.ts', 'src/testing/**/*'],
       include: ['src/**/*.ts'],

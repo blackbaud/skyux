@@ -78,6 +78,7 @@ describe('lookup-storybook', () => {
         cy.get('textarea').should('exist').should('be.visible').click();
         cy.get('textarea').focus();
         cy.get('textarea').blur();
+        cy.get('app-country-field sky-form-error').should('be.visible');
 
         cy.get('app-country-field').screenshot(
           `countryfieldcomponent-countryfield--country-field-input-box-error-${theme}`,

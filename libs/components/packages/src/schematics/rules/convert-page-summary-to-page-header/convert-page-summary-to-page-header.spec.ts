@@ -62,7 +62,7 @@ describe('Convert Page Summary to Page Header', () => {
           <sky-avatar [name]="name" [canChange]="true" />
         </sky-page-header-avatar>
         <sky-page-header-details>
-          <div class="sky-margin-stacked-sm sky-emphasized">
+          <div class="sky-margin-stacked-sm sky-theme-font-body-emphasized-m">
             Board member
           </div>
           <div class="sky-margin-stacked-md">
@@ -125,7 +125,7 @@ describe('Convert Page Summary to Page Header', () => {
           <sky-avatar [name]="name" [canChange]="true" />
         </sky-page-header-avatar>
         <sky-page-header-details>
-          <div class="sky-margin-stacked-sm sky-emphasized">
+          <div class="sky-margin-stacked-sm sky-theme-font-body-emphasized-m">
             Board member
           </div>
         </sky-page-header-details>
@@ -258,7 +258,7 @@ describe('Convert Page Summary to Page Header', () => {
     tree.create('src/app/test.component.html', input);
     await expect(
       firstValueFrom(runner.callRule(convertPageSummaryToPageHeader(''), tree)),
-    ).rejects.toThrowError(
+    ).rejects.toThrow(
       "Error converting '/src/app/test.component.html': The '<sky-page-summary-title>' element contains additional markup that is not supported as a 'pageTitle' for the <sky-page-header> component.",
     );
   });

@@ -93,7 +93,7 @@ sky-repeater-item {
         var(--sky-comp-repeater_item-space-inset-left)
     );
     position: relative;
-    transition: box-shadow $sky-transition-time-short;
+    transition: box-shadow var(--sky-global-duration-short);
     align-items: flex-start;
 
     &:focus-visible,
@@ -110,10 +110,7 @@ sky-repeater-item {
       display: block;
       width: 100%;
 
-      // Force inline-forms to play nicely with repeater's flex-enabled structure.
-      > :first-child,
-      .sky-slide-dissolve-first,
-      .sky-slide-dissolve-last {
+      .sky-repeater-item-inline-form-contents {
         display: flex;
         align-items: flex-start;
         flex: 1 0 auto;
@@ -387,7 +384,7 @@ sky-repeater-item {
       --sky-override-repeater-item-selected-color,
       var(--sky-color-background-selected-soft)
     );
-    transition: background-color 150ms;
+    transition: background-color var(--sky-global-duration-short);
   }
 
   .sky-repeater-item-title {
@@ -479,27 +476,6 @@ sky-repeater-item {
   }
 
   &.sky-repeater-item-dragging {
-    &.gu-mirror {
-      opacity: initial;
-      -ms-filter: initial;
-      filter: initial;
-      background-color: var(
-        --sky-override-repeater-item-dragging-background-color,
-        var(--sky-color-background-container-base)
-      );
-      box-shadow: var(
-        --sky-override-repeater-item-dragging-box-shadow,
-        var(--sky-elevation-overflow)
-      );
-    }
-
-    &.gu-transit .sky-repeater-item {
-      background-color: var(
-        --sky-override-repeater-item-dragging-background-color-static,
-        var(--sky-color-background-action-soft)
-      );
-    }
-
     .sky-repeater-item-grab-handle {
       cursor: grabbing;
       cursor: -moz-grabbing;

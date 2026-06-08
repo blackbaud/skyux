@@ -55,7 +55,7 @@
       var(--sky-comp-card-space-offset-left)
   );
 
-  transition: background-color $sky-transition-time-short;
+  transition: background-color var(--sky-global-duration-short);
   // This keeps cards with varying contents (such as one card with a header and another with no header)
   // vertically aligned with one another.  Otherwise because of the inline nature of the card the browser
   // will attempt to vertically align the cards based on the baselines of the text in each card.
@@ -106,7 +106,7 @@
     inset 0 0 0 var(--sky-border-width-action-base)
       var(--sky-color-border-action-secondary-base)
   );
-  transition: background-color $sky-transition-time-short;
+  transition: background-color var(--sky-global-duration-short);
 }
 
 .sky-card-header {

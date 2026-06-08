@@ -1,7 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyHelpService, SkyIdService } from '@skyux/core';
 import { SkyHelpTestingModule } from '@skyux/core/testing';
 
@@ -19,11 +18,7 @@ async function setupTest(
 }> {
   index = 0;
   await TestBed.configureTestingModule({
-    imports: [
-      ToggleSwitchHarnessTestComponent,
-      SkyHelpTestingModule,
-      NoopAnimationsModule,
-    ],
+    imports: [ToggleSwitchHarnessTestComponent, SkyHelpTestingModule],
   }).compileComponents();
 
   spyOn(TestBed.inject(SkyIdService), 'generateId').and.callFake(

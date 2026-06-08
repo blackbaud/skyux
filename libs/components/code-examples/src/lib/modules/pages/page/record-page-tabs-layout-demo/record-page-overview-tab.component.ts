@@ -85,14 +85,17 @@ export class RecordPageOverviewTabComponent {
 
   protected recentActivity = [
     {
+      id: 1,
       activity: '$250.00 payment processed successfully.',
       date: '07/01/2023 12:02 am',
     },
     {
+      id: 2,
       activity: '$150.00 payment processed successfully.',
       date: '06/15/2023 12:02 am',
     },
     {
+      id: 3,
       activity: '$250.00 payment processed successfully.',
       date: '04/01/2023 12:02 am',
     },

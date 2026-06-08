@@ -287,16 +287,15 @@ describe('Sectioned form component', () => {
     expect(indexChangedSpy.calls.count()).toEqual(1);
   });
 
-  it('should have a visible animation state on load in mobile', () => {
+  it('should show content on load in mobile', () => {
     mediaQueryController.setBreakpoint('xs');
     const fixture = createTestComponent();
+    const el = fixture.nativeElement;
 
     fixture.detectChanges();
 
-    expect(
-      fixture.componentInstance.sectionedForm?.tabService
-        .animationContentVisibleState,
-    ).toBe('shown');
+    const content = getVisibleContent(el);
+    expect(content.length).toBe(1);
   });
 
   it('should hide content and show tabs on mobile after calling showTabs function', () => {

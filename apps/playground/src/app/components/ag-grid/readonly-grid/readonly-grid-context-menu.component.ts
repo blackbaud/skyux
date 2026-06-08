@@ -10,9 +10,7 @@ import { ICellRendererParams } from 'ag-grid-community';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkyDropdownModule],
 })
-export class ReadonlyGridContextMenuComponent
-  implements ICellRendererAngularComp
-{
+export class ReadonlyGridContextMenuComponent implements ICellRendererAngularComp {
   public goalName: string;
   private params: ICellRendererParams;
 

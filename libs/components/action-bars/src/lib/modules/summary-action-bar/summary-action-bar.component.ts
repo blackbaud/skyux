@@ -1,4 +1,3 @@
-import { AnimationEvent } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
@@ -8,19 +7,21 @@ import {
   ContentChild,
   DestroyRef,
   ElementRef,
+  Injector,
   Input,
   OnDestroy,
   ViewChild,
+  afterNextRender,
   computed,
   inject,
   signal,
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { skyAnimationSlide } from '@skyux/animations';
 import {
   SkyAppWindowRef,
   SkyMediaQueryService,
   SkyMutationObserverService,
+  _SkyAnimationSlideComponent,
 } from '@skyux/core';
 import { SkyChevronModule, SkyStatusIndicatorModule } from '@skyux/indicators';
 import { SkyThemeModule } from '@skyux/theme';
@@ -45,7 +46,6 @@ let nextId = 0;
  * `sky-summary-action-bar-summary` components.
  */
 @Component({
-  animations: [skyAnimationSlide],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
@@ -53,6 +53,7 @@ let nextId = 0;
     SkyChevronModule,
     SkyThemeModule,
     SkyStatusIndicatorModule,
+    _SkyAnimationSlideComponent,
   ],
   providers: [SkySummaryActionBarAdapterService],
   selector: 'sky-summary-action-bar',
@@ -64,6 +65,7 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
   readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #destroyRef = inject(DestroyRef);
   readonly #elementRef = inject(ElementRef);
+  readonly #injector = inject(Injector);
   readonly #mediaQuerySvc = inject(SkyMediaQueryService);
   readonly #observerService = inject(SkyMutationObserverService);
   readonly #windowRef = inject(SkyAppWindowRef);
@@ -172,36 +174,25 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
   }
 
   // NOTE: This function is needed so that the button is not removed until post-animation
-  public summaryTransitionEnd(animationEvent: AnimationEvent): void {
+  public summaryTransitionEnd(): void {
+    this.isSummaryCollapsed.set(this.slideDirection() === 'up');
+
+    const type = this.type();
+
     if (
-      animationEvent.toState !== 'void' &&
-      animationEvent.fromState !== 'void'
+      type === SkySummaryActionBarType.Page ||
+      type === SkySummaryActionBarType.Tab
     ) {
-      if (this.slideDirection() === 'up') {
-        this.isSummaryCollapsed.set(true);
-      }
+      this.#adapterService.styleBodyElementForActionBar(this.#elementRef);
+    }
 
-      const type = this.type();
-
-      if (
-        type === SkySummaryActionBarType.Page ||
-        type === SkySummaryActionBarType.Tab
-      ) {
-        this.#adapterService.styleBodyElementForActionBar(this.#elementRef);
-      }
-
-      // Ensure that the correct chevron is fully rendered prior to setting focus.
-      setTimeout(() => {
+    // Focus the chevron after Angular renders the updated collapse/expand state.
+    afterNextRender(
+      () => {
         this.#adapterService.focusChevron(this.chevronElementRef);
-      });
-    }
-  }
-
-  // NOTE: This function is needed so that the button is added before animation
-  public summaryTransitionStart(): void {
-    if (this.slideDirection() === 'down') {
-      this.isSummaryCollapsed.set(false);
-    }
+      },
+      { injector: this.#injector },
+    );
   }
 
   #setupReactiveState(): void {

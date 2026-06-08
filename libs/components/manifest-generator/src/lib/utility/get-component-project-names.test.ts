@@ -13,7 +13,9 @@ vi.mock('@nx/devkit', async (importOriginal) => {
 });
 
 vi.mock('nx/src/generators/tree.js', () => ({
-  FsTree: vi.fn().mockImplementation(() => ({})),
+  FsTree: vi.fn().mockImplementation(function () {
+    return {};
+  }),
 }));
 
 describe('getComponentProjectNames', () => {
@@ -51,9 +53,8 @@ describe('getComponentProjectNames', () => {
 
     vi.mocked(getProjects).mockReturnValue(mockProjects as never);
 
-    const { getComponentProjectNames } = await import(
-      './get-component-project-names.js'
-    );
+    const { getComponentProjectNames } =
+      await import('./get-component-project-names.js');
 
     const result = getComponentProjectNames();
 
@@ -81,9 +82,8 @@ describe('getComponentProjectNames', () => {
 
     vi.mocked(getProjects).mockReturnValue(mockProjects as never);
 
-    const { getComponentProjectNames } = await import(
-      './get-component-project-names.js'
-    );
+    const { getComponentProjectNames } =
+      await import('./get-component-project-names.js');
 
     const result = getComponentProjectNames();
 
@@ -109,9 +109,8 @@ describe('getComponentProjectNames', () => {
 
     vi.mocked(getProjects).mockReturnValue(mockProjects as never);
 
-    const { getComponentProjectNames } = await import(
-      './get-component-project-names.js'
-    );
+    const { getComponentProjectNames } =
+      await import('./get-component-project-names.js');
 
     const result = getComponentProjectNames();
 
@@ -123,9 +122,8 @@ describe('getComponentProjectNames', () => {
 
     vi.mocked(getProjects).mockReturnValue(mockProjects as never);
 
-    const { getComponentProjectNames } = await import(
-      './get-component-project-names.js'
-    );
+    const { getComponentProjectNames } =
+      await import('./get-component-project-names.js');
 
     const result = getComponentProjectNames();
 

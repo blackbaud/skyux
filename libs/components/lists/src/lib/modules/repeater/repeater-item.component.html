@@ -1,6 +1,6 @@
 <div
   #itemRef
-  class="sky-repeater-item sky-padding-even-default"
+  class="sky-repeater-item sky-theme-padding-inset-balanced-s"
   [attr.aria-label]="itemName"
   [attr.aria-labelledby]="itemName ? undefined : titleId"
   [attr.aria-selected]="selectable ? !!isSelected : undefined"
@@ -25,8 +25,10 @@
       [template]="inlineFormTemplate"
       (close)="onInlineFormClose($event)"
     >
-      <ng-container *ngTemplateOutlet="skyRepeaterItemLeft" />
-      <ng-container *ngTemplateOutlet="skyRepeaterItemRight" />
+      <div class="sky-repeater-item-inline-form-contents">
+        <ng-container *ngTemplateOutlet="skyRepeaterItemLeft" />
+        <ng-container *ngTemplateOutlet="skyRepeaterItemRight" />
+      </div>
     </sky-inline-form>
   } @else {
     <ng-container *ngTemplateOutlet="skyRepeaterItemLeft" />
@@ -157,11 +159,11 @@
       #itemContentRef
       class="sky-repeater-item-content"
       [id]="contentId"
-      [@.disabled]="animationDisabled"
-      [@skyAnimationSlide]="slideDirection"
       [attr.role]="(itemRole$ | async)?.content"
     >
-      <ng-content select="sky-repeater-item-content" />
+      <sky-animation-slide [opened]="slideDirection === 'down'">
+        <ng-content select="sky-repeater-item-content" />
+      </sky-animation-slide>
     </div>
   </div>
 </ng-template>

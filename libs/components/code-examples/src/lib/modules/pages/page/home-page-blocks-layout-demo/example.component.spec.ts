@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import { SkyHelpTestingModule } from '@skyux/core/testing';
 import { SkyPageHarness } from '@skyux/pages/testing';
@@ -27,7 +26,6 @@ describe('Record page blocks layout example', () => {
       imports: [
         PagesPageHomePageBlocksLayoutExampleComponent,
         SkyHelpTestingModule,
-        NoopAnimationsModule,
       ],
       providers: [provideRouter([])],
     });

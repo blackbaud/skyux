@@ -17,9 +17,7 @@ import { Contact } from './contact';
   >`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ContactLinkCellRendererComponent
-  implements ICellRendererAngularComp
-{
+export class ContactLinkCellRendererComponent implements ICellRendererAngularComp {
   protected value = '';
 
   public agInit(params: ICellRendererParams<Contact, string>): void {

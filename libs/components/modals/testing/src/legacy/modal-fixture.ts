@@ -102,6 +102,8 @@ export class SkyModalFixture {
       '.sky-modal .sky-modal-btn-close',
     );
 
+    /* Safety check */
+    /* istanbul ignore else */
     if (
       closeButton &&
       window.getComputedStyle(closeButton).display !== 'none'

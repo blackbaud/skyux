@@ -19,15 +19,10 @@ import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { IHeaderGroupAngularComp } from 'ag-grid-angular';
-import { ColumnGroupOpenedEvent, ProvidedColumnGroup } from 'ag-grid-community';
-import {
-  BehaviorSubject,
-  Observable,
-  Subscription,
-  fromEvent,
-  takeUntil,
-} from 'rxjs';
+import { ProvidedColumnGroup } from 'ag-grid-community';
+import { BehaviorSubject, Observable, Subscription, takeUntil } from 'rxjs';
 
+import { fromGridEvent } from '../ag-grid-event-utils';
 import { SkyAgGridHeaderGroupInfo } from '../types/header-group-info';
 import { SkyAgGridHeaderGroupParams } from '../types/header-group-params';
 
@@ -86,11 +81,11 @@ export class SkyAgGridHeaderGroupComponent
     }
     this.#subscriptions = new Subscription();
     this.#columnGroup = params.columnGroup.getProvidedColumnGroup();
-    this.#isExpandableSubject.next(this.#columnGroup.isExpandable());
+    this.#isExpandableSubject.next(!!this.#columnGroup?.isExpandable());
     if (this.#isExpandableSubject.getValue()) {
       this.#subscriptions.add(
-        fromEvent<ColumnGroupOpenedEvent>(params.api, 'columnGroupOpened')
-          .pipe(takeUntil(fromEvent(params.api, 'gridPreDestroyed')))
+        fromGridEvent(params.api, 'columnGroupOpened')
+          .pipe(takeUntil(fromGridEvent(params.api, 'gridPreDestroyed')))
           .subscribe((event) => {
             if (
               this.#columnGroup &&

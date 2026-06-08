@@ -2,7 +2,7 @@
   "//": "Configuration for https://github.com/absolute-version/commit-and-tag-version",
   "releaseAs": null,
   "prerelease": null,
-  "preset": "angular",
+  "preset": "conventionalcommits",
   "header": "# Changelog\n\n",
   "issuePrefixes": [
     "AB#"
@@ -13,6 +13,7 @@
     "prebump": "npx skyux-dev release-version"
   },
   "skip": {
+    "commit": true,
     "tag": true
   },
   "tagPrefix": "",

@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyUIConfigService } from '@skyux/core';
 import { SkyPopoverModule } from '@skyux/popovers';
 
@@ -26,12 +25,7 @@ import { GridTestComponent } from './grid.component.fixture';
     GridUndefinedTestComponent,
     GridNoHeaderTestComponent,
   ],
-  imports: [
-    CommonModule,
-    SkyGridModule,
-    SkyPopoverModule,
-    NoopAnimationsModule,
-  ],
+  imports: [CommonModule, SkyGridModule, SkyPopoverModule],
   providers: [
     {
       provide: SkyUIConfigService,

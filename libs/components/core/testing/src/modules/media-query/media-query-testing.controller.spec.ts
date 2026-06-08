@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import {
   SkyBreakpoint,
@@ -35,7 +34,7 @@ describe('media-query-testing.controller', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TestComponent, NoopAnimationsModule],
+      imports: [TestComponent],
       providers: [provideSkyMediaQueryTesting(), provideRouter([])],
     });
   });

@@ -1,17 +1,10 @@
 import {
-  AnimationEvent,
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
-import {
   ChangeDetectorRef,
   Component,
   DestroyRef,
   ElementRef,
   EventEmitter,
+  Injector,
   Input,
   OnChanges,
   OnDestroy,
@@ -19,6 +12,7 @@ import {
   Output,
   SimpleChanges,
   ViewEncapsulation,
+  afterNextRender,
   inject,
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
@@ -34,8 +28,6 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { SkySearchAdapterService } from './search-adapter.service';
 
-const INPUT_SHOWN_STATE = 'inputShown';
-const INPUT_HIDDEN_STATE = 'inputHidden';
 const EXPAND_MODE_RESPONSIVE = 'responsive';
 const EXPAND_MODE_FIT = 'fit';
 const EXPAND_MODE_NONE = 'none';
@@ -45,25 +37,6 @@ const EXPAND_MODE_NONE = 'none';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  animations: [
-    trigger('inputState', [
-      state(
-        INPUT_HIDDEN_STATE,
-        style({
-          opacity: 0,
-          width: 0,
-        }),
-      ),
-      state(
-        INPUT_SHOWN_STATE,
-        style({
-          opacity: 1,
-          width: '100%',
-        }),
-      ),
-      transition('* <=> *', animate('150ms')),
-    ]),
-  ],
   providers: [SkySearchAdapterService],
   standalone: false,
 })
@@ -166,9 +139,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
 
   public clearButtonShown = false;
 
-  public dismissButtonShown = false;
-
-  public inputAnimate: string = INPUT_SHOWN_STATE;
+  public inputShown = true;
 
   public isCollapsible = true;
 
@@ -186,8 +157,6 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
 
   #elRef: ElementRef;
 
-  #manualFocus = false;
-
   #searchAdapter: SkySearchAdapterService;
 
   #searchUpdated = new Subject<string>();
@@ -201,6 +170,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   #_expandMode = EXPAND_MODE_RESPONSIVE;
 
   readonly #destroyRef = inject(DestroyRef);
+  readonly #injector = inject(Injector);
   readonly #mediaQuerySvc = inject(SkyMediaQueryService);
   readonly #breakpoint = toSignal(this.#mediaQuerySvc.breakpointChange);
 
@@ -250,7 +220,9 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
       this.#searchUpdated.next(this.searchText ?? '');
       this.clearButtonShown = !!(this.searchText && this.searchText !== '');
       if (this.#shouldOpenInput()) {
-        this.inputAnimate = INPUT_SHOWN_STATE;
+        this.inputShown = true;
+        this.mobileSearchShown = true;
+        this.searchButtonShown = false;
       }
     }
     this.#changeRef.detectChanges();
@@ -301,48 +273,31 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
 
   public toggleSearchInput(showInput: boolean): void {
     if (this.#searchShouldCollapse()) {
-      this.#manualFocus = true;
-      if (showInput) {
-        this.inputAnimate = INPUT_SHOWN_STATE;
-      } else {
-        this.inputAnimate = INPUT_HIDDEN_STATE;
-      }
-    }
-  }
+      this.inputShown = showInput;
 
-  public inputAnimationStart(event: AnimationEvent): void {
-    if (this.#searchShouldCollapse()) {
-      this.#searchAdapter.startInputAnimation(this.#elRef);
-
-      if (event.toState === INPUT_SHOWN_STATE && this.#breakpoint() === 'xs') {
+      if (showInput && this.#breakpoint() === 'xs') {
         this.mobileSearchShown = true;
         this.searchButtonShown = false;
       }
+
+      if (showInput) {
+        afterNextRender(
+          () => {
+            this.#searchAdapter.focusInput(this.#elRef);
+          },
+          { injector: this.#injector },
+        );
+      }
     }
   }
 
-  public inputAnimationEnd(event: AnimationEvent): void {
-    if (this.#searchShouldCollapse()) {
-      this.#searchAdapter.endInputAnimation(this.#elRef);
-
-      const breakpoint = this.#breakpoint();
-
-      this.searchButtonShown =
-        event.toState === INPUT_HIDDEN_STATE && breakpoint === 'xs';
-
-      if (
-        (event.toState === INPUT_HIDDEN_STATE && breakpoint === 'xs') ||
-        breakpoint !== 'xs'
-      ) {
-        this.mobileSearchShown = false;
+  protected onInputTransitionEnd(): void {
+    if (!this.inputShown) {
+      if (this.#breakpoint() === 'xs' && this.#searchShouldCollapse()) {
+        this.searchButtonShown = true;
       }
 
-      setTimeout(() => {
-        if (this.#manualFocus && !this.searchButtonShown) {
-          this.#searchAdapter.focusInput(this.#elRef);
-          this.#manualFocus = false;
-        }
-      });
+      this.mobileSearchShown = false;
     }
   }
 
@@ -376,9 +331,11 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   #mediaQueryCallback(breakpoint: SkyBreakpoint): void {
     if (this.#searchShouldCollapse()) {
       if (breakpoint === 'xs') {
-        this.inputAnimate = INPUT_HIDDEN_STATE;
-      } else if (this.inputAnimate !== INPUT_SHOWN_STATE) {
-        this.inputAnimate = INPUT_SHOWN_STATE;
+        this.inputShown = false;
+      } else if (!this.inputShown) {
+        this.inputShown = true;
+        this.searchButtonShown = false;
+        this.mobileSearchShown = false;
       } else {
         this.mobileSearchShown = false;
       }

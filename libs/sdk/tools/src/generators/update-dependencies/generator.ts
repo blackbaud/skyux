@@ -64,6 +64,19 @@ function updatePeerDependencies(tree: Tree): void {
             }
           }
         });
+        if ('ng-update' in json) {
+          const packageGroup = json['ng-update']['packageGroup'];
+          for (const [name, version] of Object.entries<string>(packageGroup)) {
+            if (name in rootPackageJsonDependencies) {
+              const rootVersion = rootPackageJsonDependencies[name];
+              const prefix = version.match(`^[~^]`) ? version.charAt(0) : '';
+              if (`${rootVersion}`.match(/^[0-9]+\.[0-9]+\.[0-9]+$/)) {
+                json['ng-update']['packageGroup'][name] =
+                  `${prefix}${rootVersion}`;
+              }
+            }
+          }
+        }
         return json;
       });
     }
@@ -77,11 +90,7 @@ function updateNgUpdatePackageGroup(tree: Tree): void {
     ...rootPackageJson.devDependencies,
   };
   if (tree.exists('libs/components/packages/package.json')) {
-    const excludedPackages = [
-      '@skyux/packages',
-      '@skyux-sdk/eslint-config',
-      '@skyux-sdk/prettier-schematics',
-    ];
+    const excludedPackages = ['@skyux/packages', '@skyux-sdk/eslint-config'];
 
     const npmPackages = Array.from(getProjects(tree).values())
       .filter((project) => !!project.tags?.includes('npm'))
@@ -280,8 +289,9 @@ export default async function (
   updateNgUpdatePackageGroup(tree);
   updateTestingBuildTargetDependencies(tree);
   updateManifestBuildTargetDependencies(tree);
-  /* istanbul ignore if */
+  /* v8 ignore start */
   if (!options.skipFormat) {
     await formatFiles(tree);
   }
+  /* v8 ignore stop */
 }

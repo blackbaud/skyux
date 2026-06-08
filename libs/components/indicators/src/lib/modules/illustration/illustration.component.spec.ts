@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-import { Provider } from '@angular/core';
+import { Component, Provider } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,

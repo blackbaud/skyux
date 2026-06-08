@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyListModule, SkyListToolbarModule } from '@skyux/list-builder';
 import { SkyListViewGridModule } from '@skyux/list-builder-view-grids';
 
@@ -57,12 +56,7 @@ describe('List view grid fixture', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TestComponent],
-      imports: [
-        SkyListModule,
-        SkyListViewGridModule,
-        SkyListToolbarModule,
-        NoopAnimationsModule,
-      ],
+      imports: [SkyListModule, SkyListViewGridModule, SkyListToolbarModule],
     });
 
     const fixture = TestBed.createComponent(TestComponent);

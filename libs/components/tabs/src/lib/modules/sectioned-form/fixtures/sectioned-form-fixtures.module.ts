@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideNoopSkyAnimations } from '@skyux/core';
 import { SkyCheckboxModule } from '@skyux/forms';
 
 import { SkySectionedFormModule } from '../sectioned-form.module';
@@ -19,12 +19,7 @@ import { SkySectionedFormFixtureComponent } from './sectioned-form.component.fix
     SkySectionedFormNoSectionsFixtureComponent,
     SkySectionedFormNoActiveFixtureComponent,
   ],
-  imports: [
-    NoopAnimationsModule,
-    SkySectionedFormModule,
-    SkyCheckboxModule,
-    FormsModule,
-  ],
+  imports: [SkySectionedFormModule, SkyCheckboxModule, FormsModule],
   exports: [
     SkySectionedFormFixtureComponent,
     SkySectionedFormFixtureInformation1Component,
@@ -32,5 +27,6 @@ import { SkySectionedFormFixtureComponent } from './sectioned-form.component.fix
     SkySectionedFormNoSectionsFixtureComponent,
     SkySectionedFormNoActiveFixtureComponent,
   ],
+  providers: [provideNoopSkyAnimations()],
 })
 export class SkySectionedFormFixturesModule {}

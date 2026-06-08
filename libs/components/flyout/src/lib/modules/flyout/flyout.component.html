@@ -2,7 +2,9 @@
   #flyoutRef
   class="sky-flyout"
   skyResponsiveHost
+  skyTransitionEndHandler
   tabindex="-1"
+  transitionPropertyToTrack="transform"
   [attr.role]="config.ariaRole ? config.ariaRole : 'dialog'"
   [attr.aria-describedby]="config.ariaDescribedBy"
   [attr.aria-label]="config.ariaLabel"
@@ -11,6 +13,8 @@
     config.ariaRole === 'dialog' || !config.ariaRole ? true : false
   "
   [attr.hidden]="!instanceReady ? true : undefined"
+  [class.sky-flyout-open]="instanceReady && isOpening"
+  [class.sky-flyout-opened]="isOpen && isOpening"
   [id]="flyoutId"
   [ngClass]="{
     'sky-flyout-hidden': !isOpen && !isOpening,
@@ -21,11 +25,11 @@
     'sky-shadow': 'default',
     'sky-elevation-8': 'modern'
   }"
-  [@flyoutState]="getAnimationState()"
   [style.width.px]="flyoutWidth"
   [cdkTrapFocus]="enableTrapFocus"
   [cdkTrapFocusAutoCapture]="enableTrapFocusAutoCapture"
-  (@flyoutState.done)="animationDone($event)"
+  [transitionTrigger]="isOpening"
+  (transitionEnd)="onTransitionEnd()"
 >
   <div
     #flyoutHeader

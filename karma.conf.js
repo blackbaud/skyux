@@ -7,12 +7,9 @@ const { constants } = require('karma');
 module.exports = () => {
   return {
     basePath: '',
-    frameworks: ['waitwebpack', 'jasmine', '@angular-devkit/build-angular'],
+    frameworks: ['jasmine', '@angular-devkit/build-angular'],
     middleware: ['fake-url'],
     plugins: [
-      // Tell karma to wait for bundle to be completed before launching browsers.
-      // See: https://github.com/karma-runner/karma-chrome-launcher/issues/154#issuecomment-986661937
-      require('./config/plugins/karma.waitwebpack'),
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
       require('karma-coverage'),
@@ -39,7 +36,16 @@ module.exports = () => {
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
         base: 'ChromeHeadless',
-        flags: ['--headless=new', '--window-size=1920,1080'],
+        flags: [
+          '--headless=new',
+          '--window-size=1920,1080',
+          // By default, Chrome throttles timers (setTimeout, setInterval),
+          // requestAnimationFrame, and other scheduled work in windows covered by
+          // other windows. This flag disables that behavior so tests relying on
+          // timers, animations, or Angular change detection run at full speed and
+          // don't produce flaky timeouts in CI environments.
+          '--disable-backgrounding-occluded-windows',
+        ],
       },
     },
     restartOnFileChange: true,

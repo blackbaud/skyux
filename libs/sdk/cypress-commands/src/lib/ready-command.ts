@@ -16,6 +16,11 @@ Cypress.Commands.add(
     additionalExistingEls?: string[],
     additionalVisibleEls?: string[],
   ) => {
+    // Disable CSS animations/transitions for screenshot consistency.
+    cy.document().then((doc) => {
+      doc.body.classList.add('sky-animations-disabled');
+    });
+
     additionalExistingEls?.forEach((el) => {
       cy.get(el).should('exist');
     });

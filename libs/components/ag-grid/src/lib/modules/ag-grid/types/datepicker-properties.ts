@@ -33,5 +33,4 @@ export interface SkyAgGridDatepickerProperties {
  * @deprecated Use SkyAgGridDatepickerProperties instead.
  */
 // eslint-disable-next-line
-export interface SkyDatepickerProperties
-  extends SkyAgGridDatepickerProperties {}
+export interface SkyDatepickerProperties extends SkyAgGridDatepickerProperties {}

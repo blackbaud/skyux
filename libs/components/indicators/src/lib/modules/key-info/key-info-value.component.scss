@@ -1,21 +1,33 @@
-@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 @use 'libs/components/theme/src/lib/styles/variables' as vars;
 
-// Apply .sky-font-display-3 styles for default theme.
-sky-key-info-value {
-  font-family: vars.$sky-font-family-condensed;
-  color: var(--sky-text-color-default);
-  font-weight: 600;
-  font-size: 22px;
+@include compatMixins.sky-default-overrides('sky-key-info-value') {
+  --sky-override-key-info-value-color: var(--sky-text-color-default);
+  --sky-override-key-info-value-font-family: #{vars.$sky-font-family-condensed};
+  --sky-override-key-info-value-font-size: 22px;
+  --sky-override-key-info-value-font-weight: 600;
+  --sky-override-key-info-value-line-height: normal;
 }
 
-@include mixins.sky-theme-modern {
-  // Apply .sky-font-display-3 styles for modern theme.
-  sky-key-info-value {
-    color: var(--sky-color-text-default);
-    font-family: var(--sky-font-family-primary);
-    font-size: var(--sky-font-size-display-3);
-    font-weight: var(--sky-font-style-display-3);
-    line-height: var(--sky-font-line_height-display-3);
-  }
+sky-key-info-value {
+  color: var(
+    --sky-override-key-info-value-color,
+    var(--sky-color-text-default)
+  );
+  font-family: var(
+    --sky-override-key-info-value-font-family,
+    var(--sky-font-family-primary)
+  );
+  font-size: var(
+    --sky-override-key-info-value-font-size,
+    var(--sky-font-size-display-3)
+  );
+  font-weight: var(
+    --sky-override-key-info-value-font-weight,
+    var(--sky-font-style-display-3)
+  );
+  line-height: var(
+    --sky-override-key-info-value-line-height,
+    var(--sky-font-line_height-display-3)
+  );
 }

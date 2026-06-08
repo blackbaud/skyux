@@ -16,9 +16,9 @@
   },
   "homepage": "https://github.com/blackbaud/skyux#readme",
   "peerDependencies": {
-    "@angular/cdk": "^20.2.14",
-    "@angular/common": "^20.3.17",
-    "@angular/core": "^20.3.17",
+    "@angular/cdk": "^21.2.0",
+    "@angular/common": "^21.2.0",
+    "@angular/core": "^21.2.0",
     "@skyux/core": "0.0.0-PLACEHOLDER"
   },
   "dependencies": {

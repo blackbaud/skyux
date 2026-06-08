@@ -4,9 +4,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyTilesModule } from '@skyux/tiles';
 
+import { TileDashboardComponent } from './tile-dashboard.component';
 import { Tile1Component } from './tile1/tile1.component';
 import { Tile2Component } from './tile2/tile2.component';
-import { TileDashboardComponent } from './tile-dashboard.component';
 
 const routes: Routes = [{ path: '', component: TileDashboardComponent }];
 @NgModule({

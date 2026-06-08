@@ -6,7 +6,6 @@ export default defineConfig({
     reporters: ['default'],
     passWithNoTests: true,
     coverage: {
-      all: true,
       enabled: true,
       exclude: ['src/index.ts', 'src/**/*.test.ts', 'src/testing/**/*'],
       include: ['src/**/*.ts'],

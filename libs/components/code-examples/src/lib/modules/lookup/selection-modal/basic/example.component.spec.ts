@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkySelectionModalHarness } from '@skyux/lookup/testing';
 
 import { of } from 'rxjs';
@@ -57,10 +56,7 @@ describe('Selection modal example', () => {
     });
 
     TestBed.configureTestingModule({
-      imports: [
-        LookupSelectionModalBasicExampleComponent,
-        NoopAnimationsModule,
-      ],
+      imports: [LookupSelectionModalBasicExampleComponent],
       providers: [{ provide: ExampleService, useValue: mockSvc }],
     });
   });

@@ -115,7 +115,7 @@ export class AgGridDataGridInlineHelpExampleComponent {
   readonly #changeDetectorRef = inject(ChangeDetectorRef);
 
   constructor() {
-    this.noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
+    this.noRowsTemplate = `<div class="sky-theme-font-body-deemphasized-m">No results found.</div>`;
 
     this.gridOptions = this.#agGridSvc.getGridOptions({
       gridOptions: {

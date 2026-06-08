@@ -1,5 +1,5 @@
+import { provideZoneChangeDetection } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import {
   provideRouter,
   withComponentInputBinding,
@@ -12,8 +12,8 @@ import { routes } from './app/app.routes';
 
 bootstrapApplication(AppComponent, {
   providers: [
+    provideZoneChangeDetection(),
     provideInitialTheme('modern'),
-    provideNoopAnimations(),
     provideRouter(
       routes,
       withEnabledBlockingInitialNavigation(),

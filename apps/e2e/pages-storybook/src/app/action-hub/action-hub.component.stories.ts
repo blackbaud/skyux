@@ -1,5 +1,5 @@
-import { moduleMetadata } from '@storybook/angular';
 import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 
 import { ActionHubComponent } from './action-hub.component';
 import { ActionHubModule } from './action-hub.module';

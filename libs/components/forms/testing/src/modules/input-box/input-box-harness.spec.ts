@@ -1,7 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Validators } from '@angular/forms';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyHelpService } from '@skyux/core';
 import { SkyHelpTestingModule } from '@skyux/core/testing';
 import { SkyValidators } from '@skyux/validation';
@@ -21,11 +20,7 @@ describe('Input box harness', () => {
     inputBoxHarness: SkyInputBoxHarness;
   }> {
     await TestBed.configureTestingModule({
-      imports: [
-        NoopAnimationsModule,
-        InputBoxHarnessTestModule,
-        SkyHelpTestingModule,
-      ],
+      imports: [InputBoxHarnessTestModule, SkyHelpTestingModule],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(InputBoxHarnessTestComponent);

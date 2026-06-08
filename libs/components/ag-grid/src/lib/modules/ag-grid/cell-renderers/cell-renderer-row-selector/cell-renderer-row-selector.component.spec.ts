@@ -12,9 +12,14 @@ import {
 } from 'ag-grid-community';
 import { Observable, of } from 'rxjs';
 
-import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
-import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
+import {
+  MinimalColumnDefs,
+  MinimalEditable,
+  MinimalRowData,
+  SkyAgGridMinimalFixtureComponent,
+} from '../../fixtures/ag-grid-minimal.component.fixture';
 import { SkyCellClass } from '../../types/cell-class';
+import { SkyCellType } from '../../types/cell-type';
 
 import { SkyAgGridCellRendererRowSelectorComponent } from './cell-renderer-row-selector.component';
 
@@ -27,7 +32,26 @@ describe('SkyAgGridCellRendererRowSelectorComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkyAgGridFixtureModule],
+      imports: [SkyAgGridMinimalFixtureComponent],
+      providers: [
+        {
+          provide: MinimalColumnDefs,
+          useValue: [
+            {
+              field: 'selected',
+              type: SkyCellType.RowSelector,
+            },
+          ],
+        },
+        {
+          provide: MinimalRowData,
+          useValue: [{ selected: false }],
+        },
+        {
+          provide: MinimalEditable,
+          useValue: false,
+        },
+      ],
     });
 
     rowSelectorCellFixture = TestBed.createComponent(
@@ -51,7 +75,9 @@ describe('SkyAgGridCellRendererRowSelectorComponent', () => {
   });
 
   it('renders a skyux checkbox in an ag grid', () => {
-    const gridFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+    const gridFixture = TestBed.createComponent(
+      SkyAgGridMinimalFixtureComponent,
+    );
     const gridNativeElement = gridFixture.nativeElement;
 
     gridFixture.detectChanges();

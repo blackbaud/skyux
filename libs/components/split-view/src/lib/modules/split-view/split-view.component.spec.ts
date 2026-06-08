@@ -12,8 +12,8 @@ import {
   waitForAsync,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { provideNoopSkyAnimations } from '@skyux/core';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -211,8 +211,9 @@ describe('Split view component', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, SplitViewFixturesModule],
+      imports: [SplitViewFixturesModule],
       providers: [
+        provideNoopSkyAnimations(),
         provideSkyMediaQueryTesting(),
         {
           provide: SkyThemeService,

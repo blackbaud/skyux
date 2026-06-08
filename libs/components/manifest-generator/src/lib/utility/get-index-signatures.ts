@@ -18,6 +18,7 @@ export function getIndexSignatures(
   for (const signature of reflection.indexSignatures) {
     const param = signature.parameters?.[0];
 
+    /* v8 ignore else -- @preserve */
     if (param) {
       const {
         codeExample,

@@ -51,8 +51,8 @@
     calc(var(--sky-size-icon-s) / 2)
   );
   transition:
-    transform $sky-transition-time-medium,
-    left $sky-transition-time-medium;
+    transform var(--sky-global-duration-medium),
+    left var(--sky-global-duration-medium);
   vertical-align: top;
   width: 11px;
 }

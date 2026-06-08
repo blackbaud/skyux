@@ -7,5 +7,4 @@ export type SkyPageModalLinkClickHandler =
   SkyActionHubNeedsAttentionClickHandler;
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface, @typescript-eslint/no-empty-object-type
-export interface SkyPageModalLinkClickHandlerArgs
-  extends SkyActionHubNeedsAttentionClickHandlerArgs {}
+export interface SkyPageModalLinkClickHandlerArgs extends SkyActionHubNeedsAttentionClickHandlerArgs {}

@@ -1,33 +1,16 @@
-@if (
-  (themeSvc?.settingsChange | async)?.currentSettings?.theme?.name === 'modern'
-) {
-  <div class="readonly-grid">
-    <sky-ag-grid-wrapper
-      skyAgGridRowDelete
-      [(rowDeleteIds)]="gridOptions.context.rowDeleteIds"
-      (rowDeleteConfirm)="deleteConfirm($event)"
-    >
-      <ag-grid-angular
-        skyBackToTop
-        [gridOptions]="gridOptions"
-        [rowData]="gridData"
-      />
-    </sky-ag-grid-wrapper>
+<div class="readonly-grid" [class.normal-layout]="normal()">
+  <sky-ag-grid-wrapper
+    skyAgGridRowDelete
+    [(rowDeleteIds)]="gridOptions.context.rowDeleteIds"
+    (rowDeleteConfirm)="deleteConfirm($event)"
+  >
+    <ag-grid-angular
+      skyBackToTop
+      [gridOptions]="gridOptions"
+      [rowData]="gridData"
+    />
+  </sky-ag-grid-wrapper>
+  @if (!normal()) {
     <sky-infinite-scroll [enabled]="hasMore" (scrollEnd)="onScrollEnd()" />
-  </div>
-} @else {
-  <div class="readonly-grid">
-    <sky-ag-grid-wrapper
-      skyAgGridRowDelete
-      [(rowDeleteIds)]="gridOptions.context.rowDeleteIds"
-      (rowDeleteConfirm)="deleteConfirm($event)"
-    >
-      <ag-grid-angular
-        skyBackToTop
-        [gridOptions]="gridOptions"
-        [rowData]="gridData"
-      />
-    </sky-ag-grid-wrapper>
-    <sky-infinite-scroll [enabled]="hasMore" (scrollEnd)="onScrollEnd()" />
-  </div>
-}
+  }
+</div>

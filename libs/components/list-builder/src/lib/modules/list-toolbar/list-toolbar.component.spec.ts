@@ -7,7 +7,6 @@ import {
   waitForAsync,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect } from '@skyux-sdk/testing';
 import { ListItemModel } from '@skyux/list-builder-common';
 
@@ -42,7 +41,7 @@ describe('List Toolbar Component', () => {
 
     TestBed.configureTestingModule({
       declarations: [ListToolbarTestComponent],
-      imports: [SkyListToolbarModule, NoopAnimationsModule],
+      imports: [SkyListToolbarModule],
       providers: [
         { provide: ListState, useValue: state },
         { provide: ListStateDispatcher, useValue: dispatcher },

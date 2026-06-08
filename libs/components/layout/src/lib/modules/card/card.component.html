@@ -13,7 +13,9 @@
       <div class="sky-card-header" (click)="contentClick()">
         <div class="sky-card-heading-middle">
           @if (showTitle) {
-            <h1 class="sky-card-title sky-section-heading sky-font-heading-2">
+            <h1
+              class="sky-card-title sky-theme-font-heading-2 sky-font-heading-2"
+            >
               <ng-content select="sky-card-title" />
             </h1>
           }
@@ -32,7 +34,7 @@
     }
   </header>
   <div
-    class="sky-card-content sky-padding-even-default"
+    class="sky-card-content sky-theme-padding-inset-balanced-s"
     (click)="contentClick()"
   >
     <ng-content select="sky-card-content" />

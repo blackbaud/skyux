@@ -58,9 +58,9 @@ export async function verifyE2e(
     downloadJobLogs: (job_id: string) => Promise<string>;
   },
   allowMissingScreenshots: boolean,
-  /* istanbul ignore next */
+
   fetchClient: Fetch = fetch,
-  /* istanbul ignore next */
+
   exit: (code?: number) => void = process.exit,
 ): Promise<void> {
   if (e2eProjects.length > 0 && e2eProjects[0] !== 'skip') {
@@ -273,6 +273,7 @@ export async function verifyE2e(
       const step = jobForThisProject.steps.find((step) =>
         step.name.startsWith('Percy'),
       );
+
       if (step && step.conclusion === 'success') {
         const log = await downloadJobLogs(jobForThisProject.id);
         const buildId = readPercyBuildNumberFromLogString(log);

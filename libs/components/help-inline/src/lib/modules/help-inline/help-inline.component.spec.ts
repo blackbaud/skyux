@@ -7,7 +7,6 @@ import {
   tick,
 } from '@angular/core/testing';
 import { BrowserModule } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import {
   SKY_HELP_GLOBAL_OPTIONS,
@@ -134,7 +133,7 @@ describe('Help inline component', () => {
     }
 
     TestBed.configureTestingModule({
-      imports: [BrowserModule, NoopAnimationsModule, HelpInlineTestComponent],
+      imports: [BrowserModule, HelpInlineTestComponent],
       providers,
     });
 

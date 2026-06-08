@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
+import { provideNoopSkyAnimations } from '@skyux/core';
 
 import { VerticalTabsetBackToTopComponent } from './vertical-tabset-back-to-top.component';
 import { VerticalTabsetBackToTopModule } from './vertical-tabset-back-to-top.module';
@@ -52,7 +52,8 @@ describe('Vertical tabset with a back to top', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, VerticalTabsetBackToTopModule],
+      imports: [VerticalTabsetBackToTopModule],
+      providers: [provideNoopSkyAnimations()],
     });
 
     fixture = TestBed.createComponent(VerticalTabsetBackToTopComponent);

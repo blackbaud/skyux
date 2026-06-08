@@ -29,7 +29,7 @@ Use a specific selector so it beats out "stacked" classes added to the host.
 .sky-docs-heading-anchor-link {
   opacity: 0;
   position: absolute;
-  transition: opacity 250ms;
+  transition: opacity var(--sky-global-duration-medium);
   display: inline-block;
   left: -22px;
 }

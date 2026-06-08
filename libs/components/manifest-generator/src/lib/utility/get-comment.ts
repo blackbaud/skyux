@@ -43,6 +43,7 @@ function getCodeExample(comment: CommentTag): {
   let codeExample = getCommentTagText(comment.content)?.split('```')[1];
   let codeExampleLanguage: SkyManifestCodeExampleLanguage | undefined;
 
+  /* v8 ignore else -- @preserve */
   if (codeExample) {
     codeExampleLanguage = DEFAULT_CODE_EXAMPLE_LANGUAGE;
 
@@ -101,6 +102,7 @@ export function getComment(reflection: {
   if (comment) {
     isInternal = comment.modifierTags.has('@internal') ? true : undefined;
 
+    /* v8 ignore else -- @preserve */
     if (comment.blockTags) {
       comment.blockTags.forEach((tag) => {
         switch (tag.tag) {

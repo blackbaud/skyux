@@ -1,7 +1,12 @@
 @use '../../variables' as *;
 
 .sky-theme-modern {
+  // Ensure you replace any usages of these within the monorepo.
+  // If any must remain (like viewkeeper), find a new home for them and adopt the component naming convention.
+
   /* color */
+  // We are setting this custom property (and using this) in multiple places as a component custom property variable.
+  // Remove it and create a new token following the proper comp variable naming convention.
   --sky-background-color-page-default: var(--sky-color-background-page);
   --sky-background-color-container-default: var(
     --sky-color-background-container-base

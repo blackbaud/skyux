@@ -9,7 +9,6 @@ export interface DeclarationReflectionDecorator {
  * TypeDoc's `DeclarationReflection` with the addition of decorators.
  * (See 'plugins/typedoc-plugin-decorators.mjs').
  */
-export interface DeclarationReflectionWithDecorators
-  extends DeclarationReflection {
+export interface DeclarationReflectionWithDecorators extends DeclarationReflection {
   decorators?: DeclarationReflectionDecorator[];
 }

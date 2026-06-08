@@ -6,6 +6,7 @@ import { SkyFilterSummaryItemHarnessFilters } from './filter-summary-item-harnes
 
 /**
  * Harness to interact with a filter summary item component in tests.
+ * @deprecated Use [filter bar](https://developer.blackbaud.com/skyux/components/filter-bar) instead.
  */
 export class SkyFilterSummaryItemHarness extends SkyComponentHarness {
   /**

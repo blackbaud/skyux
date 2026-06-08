@@ -1,4 +1,3 @@
-import { animate, style, transition, trigger } from '@angular/animations';
 import {
   AfterViewChecked,
   ChangeDetectionStrategy,
@@ -11,6 +10,8 @@ import {
   OnInit,
   Output,
   ViewChild,
+  afterNextRender,
+  signal,
 } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
 
@@ -19,11 +20,7 @@ import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 import { SkyTabIdService } from '../shared/tab-id.service';
 
-import {
-  HIDDEN_STATE,
-  SkyVerticalTabsetService,
-  VISIBLE_STATE,
-} from './../vertical-tabset/vertical-tabset.service';
+import { SkyVerticalTabsetService } from './../vertical-tabset/vertical-tabset.service';
 import { SkySectionedFormMessage } from './types/sectioned-form-message';
 import { SkySectionedFormMessageType } from './types/sectioned-form-message-type';
 
@@ -36,20 +33,6 @@ import { SkySectionedFormMessageType } from './types/sectioned-form-message-type
   styleUrls: ['./sectioned-form.component.scss'],
   providers: [SkyTabIdService, SkyVerticalTabsetService],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [
-    trigger('tabEnter', [
-      transition(`${HIDDEN_STATE} => ${VISIBLE_STATE}`, [
-        style({ transform: 'translate(-100%)' }),
-        animate('150ms ease-in'),
-      ]),
-    ]),
-    trigger('contentEnter', [
-      transition(`${HIDDEN_STATE} => ${VISIBLE_STATE}`, [
-        style({ transform: 'translate(100%)' }),
-        animate('150ms ease-in'),
-      ]),
-    ]),
-  ],
   standalone: false,
 })
 export class SkySectionedFormComponent
@@ -104,6 +87,8 @@ export class SkySectionedFormComponent
 
   #_messageStream = new Subject<SkySectionedFormMessage>();
 
+  protected animationEnabled = signal(false);
+
   constructor(
     public tabService: SkyVerticalTabsetService,
     changeRef: ChangeDetectorRef,
@@ -113,6 +98,11 @@ export class SkySectionedFormComponent
     this.#changeRef = changeRef;
     this.#tabIdSvc = tabIdSvc;
     this.#logger = logger;
+
+    // Enable animations after the first render.
+    afterNextRender(() => {
+      this.animationEnabled.set(true);
+    });
 
     this.#initMessageStream();
 
@@ -158,7 +148,6 @@ export class SkySectionedFormComponent
 
     if (this.tabService.isMobile()) {
       this.ariaRole = undefined;
-      this.tabService.animationContentVisibleState = VISIBLE_STATE;
       this.#changeRef.markForCheck();
     }
   }

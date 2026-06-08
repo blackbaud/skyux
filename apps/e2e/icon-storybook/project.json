@@ -13,7 +13,7 @@
         "outputPath": "dist/apps/e2e/icon-storybook",
         "index": "apps/e2e/icon-storybook/src/index.html",
         "main": "apps/e2e/icon-storybook/src/main.ts",
-        "polyfills": ["zone.js", "libs/components/packages/src/polyfills.js"],
+        "polyfills": ["zone.js"],
         "tsConfig": "apps/e2e/icon-storybook/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "styles": [

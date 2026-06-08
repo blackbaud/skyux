@@ -5,7 +5,7 @@
       <sky-icon
         iconName="add"
         [ngClass]="{
-          'sky-margin-inline-compact': theme === 'modern'
+          'sky-theme-margin-right-xs': theme === 'modern'
         }"
       />
       Button 0
@@ -23,6 +23,12 @@
     <button type="button" class="sky-btn sky-btn-default" disabled>
       Disabled (default)
     </button>
+  </sky-toolbar-item>
+  <sky-toolbar-item>
+    <sky-filter-button [showButtonText]="true" />
+  </sky-toolbar-item>
+  <sky-toolbar-item>
+    <sky-filter-button [active]="true" [showButtonText]="true" />
   </sky-toolbar-item>
   <sky-toolbar-item>
     <sky-search [debounceTime]="250" />

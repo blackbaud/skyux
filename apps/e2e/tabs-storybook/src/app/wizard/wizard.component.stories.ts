@@ -1,6 +1,6 @@
 import { provideRouter } from '@angular/router';
-import { applicationConfig, moduleMetadata } from '@storybook/angular';
 import type { Meta, StoryObj } from '@storybook/angular';
+import { applicationConfig, moduleMetadata } from '@storybook/angular';
 
 import { WizardComponent } from './wizard.component';
 import { WizardModule } from './wizard.module';

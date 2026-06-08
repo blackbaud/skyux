@@ -7,6 +7,7 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { provideNoopSkyAnimations } from '@skyux/core';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -124,7 +125,7 @@ describe('Summary Action Bar component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkySummaryActionBarFixtureModule],
-      providers: [provideSkyMediaQueryTesting()],
+      providers: [provideNoopSkyAnimations(), provideSkyMediaQueryTesting()],
     });
 
     mediaQueryController = TestBed.inject(SkyMediaQueryTestingController);
@@ -772,6 +773,37 @@ describe('Summary Action Bar component', () => {
           By.css('.sky-split-view-workspace-content'),
         ).nativeElement.style.paddingBottom;
         expect(workspacePaddingBottom).toBe('');
+      });
+
+      it('should remove inline styles from split view elements when the action bar is destroyed', async () => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        spyOn(window as any, 'setTimeout').and.callFake((fun: () => void) => {
+          fun();
+        });
+        fixture.detectChanges();
+        await fixture.whenStable();
+        fixture.detectChanges();
+
+        const contentEl = debugElement.query(
+          By.css('.sky-split-view-workspace-content'),
+        ).nativeElement as HTMLElement;
+        const footerEl = debugElement.query(
+          By.css('.sky-split-view-workspace-footer'),
+        ).nativeElement as HTMLElement;
+
+        // Verify styles were applied.
+        expect(contentEl.style.paddingBottom).toBe('20px');
+        expect(footerEl.style.padding).toBe('0px');
+
+        // Hide the action bar, triggering ngOnDestroy.
+        cmp.showBar = false;
+        fixture.detectChanges();
+        await fixture.whenStable();
+        fixture.detectChanges();
+
+        // Inline styles should be fully removed, not set to invalid values.
+        expect(contentEl.style.paddingBottom).toBe('');
+        expect(footerEl.style.padding).toBe('');
       });
     });
 

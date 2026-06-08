@@ -1,5 +1,5 @@
 const prettier = require('eslint-config-prettier');
-const cypress = require('eslint-plugin-cypress/flat');
+const cypress = require('eslint-plugin-cypress');
 const baseConfig = require('../../eslint.config');
 const overrides = require('../../eslint-overrides.config');
 

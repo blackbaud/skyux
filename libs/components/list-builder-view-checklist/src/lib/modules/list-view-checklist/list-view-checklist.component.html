@@ -20,7 +20,7 @@
                 (click)="singleSelectRowClick(item)"
               >
                 @if (item.label) {
-                  <div class="sky-emphasized">
+                  <div class="sky-theme-font-body-emphasized-m">
                     {{ item.label }}
                   </div>
                 }
@@ -44,7 +44,10 @@
             >
               <sky-checkbox-label>
                 @if (item.label) {
-                  <div class="sky-emphasized" [attr.title]="item.label">
+                  <div
+                    class="sky-theme-font-body-emphasized-m"
+                    [attr.title]="item.label"
+                  >
                     {{ item.label }}
                   </div>
                 }

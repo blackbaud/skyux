@@ -78,7 +78,7 @@
   font-weight: vars.$sky-theme-modern-font-body-default-weight;
   padding: modernCompatVars.$sky-theme-modern-tab-btn-padding-top-bottom
     modernCompatVars.$sky-theme-modern-tab-btn-padding-left-right;
-  transition: box-shadow compatVars.$sky-transition-time-short;
+  transition: box-shadow var(--sky-global-duration-short);
 
   &:hover:not(.sky-btn-tab-disabled):not(.sky-btn-tab-selected):not(
       .sky-dropdown-button-type-tab

@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyTimepickerHarness } from '@skyux/datetime/testing';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
 
@@ -31,7 +30,7 @@ describe('Basic timepicker example', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [DatetimeTimepickerBasicExampleComponent, NoopAnimationsModule],
+      imports: [DatetimeTimepickerBasicExampleComponent],
     });
   });
 

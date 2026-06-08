@@ -15,7 +15,7 @@ describe('modal-viewkept-toolbars', () => {
           .should('be.visible')
           .should('contain', 'Open modal')
           .click();
-        cy.get('sky-modal-header')
+        cy.get('.sky-modal-header')
           .should('exist')
           .should('be.visible')
           .should('contain', 'Viewkeeper inside a Modal');

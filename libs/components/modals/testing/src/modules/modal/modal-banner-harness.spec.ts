@@ -8,7 +8,6 @@ import {
   inject,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyModalModule, SkyModalService } from '@skyux/modals';
 
 import { SkyModalBannerHarness } from './modal-banner-harness';
@@ -104,7 +103,7 @@ describe('Modal banner harness', () => {
         NoBannerModalComponent,
         NonMatchingBannerModalComponent,
       ],
-      imports: [NoopAnimationsModule, SkyModalModule],
+      imports: [SkyModalModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TestButtonComponent);

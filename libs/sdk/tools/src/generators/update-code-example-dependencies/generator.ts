@@ -46,8 +46,9 @@ export default async function (
   options: { skipFormat: boolean },
 ): Promise<void> {
   updateCodeExampleDependencies(tree);
-  /* istanbul ignore if */
+  /* v8 ignore start */
   if (!options.skipFormat) {
     await formatFiles(tree);
   }
+  /* v8 ignore stop */
 }

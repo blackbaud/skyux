@@ -9,7 +9,6 @@ import fsPromises from 'node:fs/promises';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { getDocumentationConfig } from './get-documentation-config.js';
-import { ProjectDefinition } from './get-project-definitions.js';
 import { getPublicApi } from './get-public-api.js';
 
 vi.mock('node:fs');
@@ -62,10 +61,7 @@ function setup(options: {
   });
 
   vi.mocked(getDocumentationConfig).mockImplementation(
-    (
-      _publicApi: SkyManifestPublicApi,
-      _projects: ProjectDefinition[],
-    ): Promise<[SkyManifestDocumentationConfig, string[]]> => {
+    (): Promise<[SkyManifestDocumentationConfig, string[]]> => {
       return Promise.resolve([options.documentationConfigJson, []] as [
         SkyManifestDocumentationConfig,
         string[],
@@ -73,9 +69,7 @@ function setup(options: {
     },
   );
   vi.mocked(getPublicApi).mockImplementation(
-    (
-      _projects: ProjectDefinition[],
-    ): Promise<[SkyManifestPublicApi, string[]]> => {
+    (): Promise<[SkyManifestPublicApi, string[]]> => {
       return Promise.resolve([options.publicApiJson, []] as [
         SkyManifestPublicApi,
         string[],
@@ -163,9 +157,8 @@ export class FooCodeExample1 {}`,
       },
     });
 
-    const { generateCodeExamplesManifest } = await import(
-      './generate-code-examples-manifest.js'
-    );
+    const { generateCodeExamplesManifest } =
+      await import('./generate-code-examples-manifest.js');
 
     await generateCodeExamplesManifest({
       codeExamplesPackageName: '@skyux/code-examples',
@@ -201,9 +194,8 @@ export class FooCodeExample1 {}`,
       documentationConfigJson,
     });
 
-    const { generateCodeExamplesManifest } = await import(
-      './generate-code-examples-manifest.js'
-    );
+    const { generateCodeExamplesManifest } =
+      await import('./generate-code-examples-manifest.js');
 
     await generateCodeExamplesManifest({
       codeExamplesPackageName: '@skyux/code-examples',
@@ -259,9 +251,8 @@ export class FooCodeExampleNoSelector {}`,
       },
     });
 
-    const { generateCodeExamplesManifest } = await import(
-      './generate-code-examples-manifest.js'
-    );
+    const { generateCodeExamplesManifest } =
+      await import('./generate-code-examples-manifest.js');
 
     await expect(
       generateCodeExamplesManifest({
@@ -303,9 +294,8 @@ export class FooCodeExampleNoSelector {}`,
       documentationConfigJson,
     });
 
-    const { generateCodeExamplesManifest } = await import(
-      './generate-code-examples-manifest.js'
-    );
+    const { generateCodeExamplesManifest } =
+      await import('./generate-code-examples-manifest.js');
 
     await generateCodeExamplesManifest({
       codeExamplesPackageName: '@skyux/code-examples',
@@ -392,9 +382,8 @@ export class FooCodeExampleHiddenDemo {}`,
       },
     });
 
-    const { generateCodeExamplesManifest } = await import(
-      './generate-code-examples-manifest.js'
-    );
+    const { generateCodeExamplesManifest } =
+      await import('./generate-code-examples-manifest.js');
 
     await generateCodeExamplesManifest({
       codeExamplesPackageName: '@skyux/code-examples',

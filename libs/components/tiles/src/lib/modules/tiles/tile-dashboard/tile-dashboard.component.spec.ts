@@ -1,7 +1,6 @@
 import { QueryList } from '@angular/core';
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyUIConfigService } from '@skyux/core';
 import {
@@ -19,13 +18,13 @@ import { SkyTileDashboardConfig } from '../tile-dashboard-config/tile-dashboard-
 
 import { MockTileDashboardService } from './fixtures/mock-tile-dashboard.service';
 import { MockSkyUIConfigService } from './fixtures/mock-ui-config.service';
-import { Tile1TestComponent } from './fixtures/tile1.component.fixture';
-import { Tile2TestComponent } from './fixtures/tile2.component.fixture';
 import { TileTestContext } from './fixtures/tile-context.fixture';
 import { TileDashboardAfterInitTestComponent } from './fixtures/tile-dashboard-after-init.component.fixture';
 import { SkyTileDashboardFixturesModule } from './fixtures/tile-dashboard-fixtures.module';
 import { TileDashboardOnPushTestComponent } from './fixtures/tile-dashboard-on-push.component.fixture';
 import { TileDashboardTestComponent } from './fixtures/tile-dashboard.component.fixture';
+import { Tile1TestComponent } from './fixtures/tile1.component.fixture';
+import { Tile2TestComponent } from './fixtures/tile2.component.fixture';
 import { SkyTileDashboardComponent } from './tile-dashboard.component';
 import { SkyTileDashboardService } from './tile-dashboard.service';
 
@@ -64,7 +63,7 @@ describe('Tile dashboard component', () => {
           useValue: mockThemeSvc,
         },
       ],
-      imports: [NoopAnimationsModule, SkyTileDashboardFixturesModule],
+      imports: [SkyTileDashboardFixturesModule],
     });
   });
 

@@ -104,6 +104,19 @@ describe('Toast component', () => {
     expect(component.toastComponent?.isOpen).toEqual(false);
   });
 
+  it('should not error when close is called on an already closed toast', () => {
+    setupTest();
+    fixture.detectChanges();
+
+    component.toastComponent?.close();
+    fixture.detectChanges();
+    expect(component.toastComponent?.isOpen).toEqual(false);
+
+    component.toastComponent?.close();
+    fixture.detectChanges();
+    expect(component.toastComponent?.isOpen).toEqual(false);
+  });
+
   it('should pass accessibility', async () => {
     setupTest();
     fixture.detectChanges();

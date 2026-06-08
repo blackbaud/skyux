@@ -1,7 +1,6 @@
 import { DebugElement } from '@angular/core';
 import { TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AsyncList, ListItemModel } from '@skyux/list-builder-common';
 
 import { skip, take } from 'rxjs/operators';
@@ -29,7 +28,7 @@ describe('List Paging Component', () => {
 
     TestBed.configureTestingModule({
       declarations: [ListPagingTestComponent],
-      imports: [SkyListPagingModule, NoopAnimationsModule],
+      imports: [SkyListPagingModule],
       providers: [
         { provide: ListState, useValue: state },
         { provide: ListStateDispatcher, useValue: dispatcher },

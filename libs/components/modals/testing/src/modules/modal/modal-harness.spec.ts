@@ -2,7 +2,6 @@ import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component, Injectable, StaticProvider, inject } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
   SkyModalConfigurationInterface,
   SkyModalModule,
@@ -111,7 +110,7 @@ describe('Modal test harness', () => {
         TestKeepWaitingPromptComponent,
         TestSkyIdComponent,
       ],
-      imports: [NoopAnimationsModule, SkyModalModule],
+      imports: [SkyModalModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TestButtonComponent);

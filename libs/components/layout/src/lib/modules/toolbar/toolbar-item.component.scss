@@ -1,4 +1,3 @@
-@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
@@ -29,11 +28,4 @@
   --sky-comp-override-toolbar-button-elevation-disabled: var(
     --sky-elevation-action-toolbar-disabled
   );
-}
-
-@include mixins.sky-theme-modern {
-  ::ng-deep .sky-btn {
-    padding-left: var(--sky-comp-button-toolbar-space-inset-left);
-    padding-right: var(--sky-comp-button-toolbar-space-inset-right);
-  }
 }

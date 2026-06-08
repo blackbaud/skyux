@@ -1,6 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideNoopSkyAnimations } from '@skyux/core';
 import { SkyVerticalTabsetHarness } from '@skyux/tabs/testing';
 
 import { TabsVerticalTabsMixedExampleComponent } from './example.component';
@@ -24,7 +24,8 @@ describe('Mixed vertical tabs example', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TabsVerticalTabsMixedExampleComponent, NoopAnimationsModule],
+      imports: [TabsVerticalTabsMixedExampleComponent],
+      providers: [provideNoopSkyAnimations()],
     });
   });
 

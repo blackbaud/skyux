@@ -21,9 +21,9 @@ import {
 import {
   SkyFileReaderService,
   SkyIdModule,
+  SkyIdService,
   SkyLiveAnnouncerService,
 } from '@skyux/core';
-import { SkyIdService } from '@skyux/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/icon';

@@ -80,7 +80,7 @@
   display: block;
   top: 0;
   bottom: 0;
-  transition: box-shadow $sky-transition-time-short;
+  transition: box-shadow var(--sky-global-duration-short);
 
   &:focus {
     border: var(

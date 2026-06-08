@@ -2,7 +2,6 @@ import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyIdService, SkyLiveAnnouncerService } from '@skyux/core';
 import {
@@ -41,7 +40,6 @@ describe('File drop component', () => {
         FileDropContentComponent,
         SkyFileDropModule,
         SkyHelpTestingModule,
-        NoopAnimationsModule,
       ],
     });
 

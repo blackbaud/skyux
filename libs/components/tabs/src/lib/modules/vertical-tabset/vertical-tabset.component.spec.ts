@@ -7,7 +7,7 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyBreakpoint } from '@skyux/core';
+import { SkyBreakpoint, provideNoopSkyAnimations } from '@skyux/core';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -127,23 +127,18 @@ function expectGroupTabsAreVisible(
   fixture: ComponentFixture<unknown>,
   index: number,
 ): void {
-  const groupContent = getTabGroups(fixture)[index].querySelector(
-    '.sky-vertical-tabset-group-content',
-  ) as HTMLElement;
-  expect(groupContent.style.visibility).toEqual('visible');
-  expect(groupContent.style.height).not.toEqual('0px');
-  expect(groupContent.style.height).not.toEqual('0');
+  const groupButton = getGroupButton(fixture, index);
+  expect(groupButton).toBeTruthy();
+  expect(groupButton?.getAttribute('aria-expanded')).toBe('true');
 }
 
 function expectGroupTabsAreNotVisible(
   fixture: ComponentFixture<unknown>,
   index: number,
 ): void {
-  const groupContent = getTabGroups(fixture)[index].querySelector(
-    '.sky-vertical-tabset-group-content',
-  ) as HTMLElement;
-  expect(groupContent.style.visibility).toEqual('hidden');
-  expect(['0', '0px']).toContain(groupContent.style.height);
+  const groupButton = getGroupButton(fixture, index);
+  expect(groupButton).toBeTruthy();
+  expect(groupButton?.getAttribute('aria-expanded')).toBe('false');
 }
 
 function expectActiveGroup(
@@ -224,7 +219,7 @@ describe('Vertical tabset component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyVerticalTabsFixturesModule],
-      providers: [provideSkyMediaQueryTesting()],
+      providers: [provideSkyMediaQueryTesting(), provideNoopSkyAnimations()],
     });
 
     mediaQueryController = TestBed.inject(SkyMediaQueryTestingController);

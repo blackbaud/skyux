@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyPagingHarness, SkyRepeaterHarness } from '@skyux/lists/testing';
 
 import { ListsPagingWithContentExampleComponent } from './example.component';
@@ -15,7 +14,7 @@ describe('Paging example', () => {
     fixture: ComponentFixture<ListsPagingWithContentExampleComponent>;
   }> {
     await TestBed.configureTestingModule({
-      imports: [ListsPagingWithContentExampleComponent, NoopAnimationsModule],
+      imports: [ListsPagingWithContentExampleComponent],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(

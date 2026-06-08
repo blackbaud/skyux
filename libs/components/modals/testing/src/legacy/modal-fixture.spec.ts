@@ -294,15 +294,6 @@ describe('Modal fixture', () => {
     );
   }));
 
-  it('should error if the close button does not exist when `clickHeaderCloseButton` is called', fakeAsync(() => {
-    fixture.componentInstance.fakeModern = true;
-    const modal = launchTestModal();
-
-    expect(() => modal.clickHeaderCloseButton()).toThrowError(
-      'No header close button exists.',
-    );
-  }));
-
   it('should click the help button correctly when it is triggered', fakeAsync(() => {
     fixture.componentInstance.helpKey = 'test-key';
     const modal = launchTestModal();

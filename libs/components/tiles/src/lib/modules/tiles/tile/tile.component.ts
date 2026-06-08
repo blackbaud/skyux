@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  AfterViewInit,
   ChangeDetectorRef,
   Component,
   ContentChild,
@@ -15,8 +16,12 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { skyAnimationSlide } from '@skyux/animations';
-import { SkyIdModule, SkyIdService, SkyLogService } from '@skyux/core';
+import {
+  SkyIdModule,
+  SkyIdService,
+  SkyLogService,
+  _SkyAnimationSlideComponent,
+} from '@skyux/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyChevronModule } from '@skyux/indicators';
@@ -38,7 +43,6 @@ import { SkyTileTitleComponent } from './tile-title.component';
   selector: 'sky-tile',
   styleUrls: ['./tile.component.scss'],
   templateUrl: './tile.component.html',
-  animations: [skyAnimationSlide],
   imports: [
     CommonModule,
     SkyChevronModule,
@@ -47,6 +51,7 @@ import { SkyTileTitleComponent } from './tile-title.component';
     SkyIdModule,
     SkyThemeModule,
     SkyTilesResourcesModule,
+    _SkyAnimationSlideComponent,
   ],
   providers: [
     {
@@ -58,7 +63,7 @@ import { SkyTileTitleComponent } from './tile-title.component';
     },
   ],
 })
-export class SkyTileComponent implements OnChanges, OnDestroy {
+export class SkyTileComponent implements AfterViewInit, OnChanges, OnDestroy {
   /**
    * A help key that identifies the global help content to display. When specified along with `tileName`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline) button is
    * added to the tile header. Clicking the button invokes [global help](https://developer.blackbaud.com/skyux/learn/develop/global-help) as configured by the application.
@@ -202,6 +207,12 @@ export class SkyTileComponent implements OnChanges, OnDestroy {
         .subscribe(() => {
           this.#changeDetector.markForCheck();
         });
+    }
+  }
+
+  public ngAfterViewInit(): void {
+    if (this.#dashboardService) {
+      this.#dashboardService.registerGrabHandle(this);
     }
   }
 

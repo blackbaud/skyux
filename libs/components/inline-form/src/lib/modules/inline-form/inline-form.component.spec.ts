@@ -6,8 +6,8 @@ import {
   tick,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import { provideNoopSkyAnimations } from '@skyux/core';
 
 import { SkyInlineFormFixtureComponent } from './fixtures/inline-form.fixture';
 import { SkyInlineFormFixtureModule } from './fixtures/inline-form.fixture.module';
@@ -104,7 +104,8 @@ describe('Inline form component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, SkyInlineFormFixtureModule],
+      imports: [SkyInlineFormFixtureModule],
+      providers: [provideNoopSkyAnimations()],
     });
 
     fixture = TestBed.createComponent(SkyInlineFormFixtureComponent);
@@ -389,6 +390,24 @@ describe('Inline form component', () => {
     expect(button2.disabled).toEqual(false);
     expect(button1).toHaveCssClass('sky-btn-disabled');
     expect(button2).not.toHaveCssClass('sky-btn-disabled');
+  }));
+
+  it('should hide the form when showForm is set to false', fakeAsync(() => {
+    showForm();
+
+    expect(
+      fixture.debugElement.query(By.css('.sky-slide-dissolve-last')),
+    ).not.toBeNull();
+
+    component.showForm = false;
+    fixture.detectChanges();
+
+    expect(
+      fixture.debugElement.query(By.css('.sky-slide-dissolve-last')),
+    ).toBeNull();
+    expect(
+      fixture.debugElement.query(By.css('.sky-slide-dissolve-first')),
+    ).not.toBeNull();
   }));
 
   it('should pass accessibility', async () => {

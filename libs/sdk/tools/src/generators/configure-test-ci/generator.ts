@@ -39,10 +39,11 @@ export async function configureTestCiGenerator(
     }
     updateProjectConfiguration(tree, projectName, project);
   });
-  /* istanbul ignore next */
+  /* v8 ignore start */
   if (!options.skipFormat) {
     await formatFiles(tree);
   }
+  /* v8 ignore stop */
 }
 
 export default configureTestCiGenerator;

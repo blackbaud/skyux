@@ -139,16 +139,6 @@
     border-left: 1px solid transparent;
   }
 
-  &.sky-grid-header-dragging {
-    background-color: var(
-      --sky-override-grid-heading-drag-color,
-      var(
-        --sky-comp-override-list-header-background-color,
-        var(--sky-background-color-page-default)
-      )
-    );
-  }
-
   &.sky-grid-column-alignment-left,
   &.sky-grid-column-alignment-center {
     // This ensures that the sort icon is a strict size. It is 13.98px without the style. It also

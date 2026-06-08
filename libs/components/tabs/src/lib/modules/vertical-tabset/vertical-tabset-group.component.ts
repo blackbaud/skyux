@@ -1,12 +1,4 @@
 import {
-  AnimationTriggerMetadata,
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
-import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -19,7 +11,6 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { skyAnimationSlide } from '@skyux/animations';
 import { SkyIdService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
@@ -32,44 +23,11 @@ import { SkyVerticalTabsetAdapterService } from './vertical-tabset-adapter.servi
 import { SkyVerticalTabsetGroupService } from './vertical-tabset-group.service';
 import { SkyVerticalTabsetService } from './vertical-tabset.service';
 
-// Due to how we leave the content element in the DOM - we need to ensure that the padding for the content area is animated away along with the height.
-// The timing here matches what the slide animation uses to ensure they happen together.
-const skyVerticalTabsetPaddingAnimation: AnimationTriggerMetadata = trigger(
-  'skyVerticalTabsetPaddingAnimation',
-  [
-    state(
-      'down',
-      style({
-        'padding-top': 'var(--sky-comp-tab-vertical-subgroup-space-inset-top)',
-        'padding-bottom':
-          'var(--sky-comp-tab-vertical-subgroup-space-inset-bottom)',
-      }),
-    ),
-    state(
-      'up',
-      style({
-        'padding-top': '0',
-        'padding-bottom': '0',
-      }),
-    ),
-    state(
-      'void',
-      style({
-        'padding-top': '0',
-        'padding-bottom': '0',
-      }),
-    ),
-    // Same timing as skyAnimationSlide to stay synchronized
-    transition('up <=> down', animate('150ms ease-in')),
-  ],
-);
-
 @Component({
   selector: 'sky-vertical-tabset-group',
   templateUrl: './vertical-tabset-group.component.html',
   styleUrls: ['./vertical-tabset-group.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [skyAnimationSlide, skyVerticalTabsetPaddingAnimation],
   providers: [SkyVerticalTabsetGroupService],
   standalone: false,
 })
@@ -81,7 +39,7 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
   @Input()
   public set disabled(value: boolean | undefined) {
     this.#_disabled = value;
-    this.#updateSlideDirection(false);
+    this.#updateSlideDirection();
   }
 
   public get disabled(): boolean | undefined {
@@ -101,7 +59,7 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
   @Input()
   public set open(value: boolean | undefined) {
     this.#_open = value;
-    this.#updateSlideDirection(false);
+    this.#updateSlideDirection();
   }
 
   public get open(): boolean | undefined {
@@ -113,9 +71,7 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
 
   @ViewChild('groupHeadingButton')
   public groupHeadingButton: ElementRef | undefined;
-
-  public animationDisabled = false;
-  public slideDirection: 'down' | 'up' | 'void' = 'up';
+  public slideDirection: 'down' | 'up' = 'up';
 
   protected groupId: string;
 
@@ -180,7 +136,7 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
       this.open = !this.open;
     }
 
-    this.#updateSlideDirection(true);
+    this.#updateSlideDirection();
     this.#changeRef.markForCheck();
   }
 
@@ -211,20 +167,16 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
   }
 
   #tabsHidden(): void {
-    // Angular will sometimes place the animation into the "void" state when tabs are hidden. Update our internal variable to reflect that.
-    this.slideDirection = 'void';
+    this.#updateSlideDirection();
     this.#changeRef.markForCheck();
   }
 
   #tabsShown(): void {
-    // Set the animation back up so that the "void" state is returned to where it was prior to the tabs being hidden.
-    // This will be instantaneous due to there not being a "void -> *" state on the slide animation.
-    this.#updateSlideDirection(true);
+    this.#updateSlideDirection();
     this.#changeRef.markForCheck();
   }
 
-  #updateSlideDirection(animate: boolean): void {
-    this.animationDisabled = !animate;
+  #updateSlideDirection(): void {
     this.slideDirection = this.open && !this.disabled ? 'down' : 'up';
   }
 

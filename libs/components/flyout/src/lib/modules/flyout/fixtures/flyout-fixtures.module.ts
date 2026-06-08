@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SkyModalModule } from '@skyux/modals';
 
@@ -15,7 +14,7 @@ import { SkyFlyoutTestComponent } from './flyout.component.fixture';
     SkyFlyoutHostsTestComponent,
     SkyFlyoutModalFixtureFormComponent,
   ],
-  imports: [RouterTestingModule, SkyModalModule, NoopAnimationsModule],
+  imports: [RouterTestingModule, SkyModalModule],
   exports: [
     SkyFlyoutTestSampleComponent,
     SkyFlyoutHostsTestComponent,

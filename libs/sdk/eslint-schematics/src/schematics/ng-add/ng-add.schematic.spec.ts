@@ -48,7 +48,7 @@ describe('ng-add', () => {
 
     await expect(() => runSchematic()).rejects.toThrow(
       "The package 'angular-eslint' is not installed. " +
-        `Run 'ng add angular-eslint@20' and try this command again.\n` +
+        `Run 'ng add angular-eslint@21' and try this command again.\n` +
         'See: https://github.com/angular-eslint/angular-eslint#quick-start',
     );
   });

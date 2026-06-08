@@ -31,21 +31,16 @@ import {
   IColumnLimit,
   RowSelectedEvent,
 } from 'ag-grid-community';
-import {
-  Subject,
-  filter,
-  fromEvent,
-  map,
-  of,
-  switchMap,
-  takeUntil,
-} from 'rxjs';
+import { Subject, filter, map, of, switchMap, takeUntil } from 'rxjs';
 
+import { fromGridEvent } from './ag-grid-event-utils';
 import { SkyAgGridWrapperComponent } from './ag-grid-wrapper.component';
 
 function toColumnWidthName(breakpoint: SkyBreakpoint): 'xs' | 'sm' {
   return breakpoint === 'xs' ? 'xs' : 'sm';
 }
+
+const RESERVED_COLUMNS = ['ag-Grid-SelectionColumn'];
 
 /**
  * Connects `SkyAgGridWrapperComponent` with a `SkyDataViewComponent` to control the grid using a `SkyDataManagerService` instance.
@@ -201,7 +196,7 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
 
     setTimeout(() => {
       if (this.#currentSkyAgGridWrapper) {
-        this.#currentSkyAgGridWrapper.viewkeeperClasses = [];
+        this.#currentSkyAgGridWrapper.viewkeeperClasses.set([]);
       }
     });
   }
@@ -220,8 +215,16 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
             if (viewConfig) {
               viewConfig = {
                 ...viewConfig,
-                onSelectAllClick: (): void => agGrid.api.selectAll(),
-                onClearAllClick: (): void => agGrid.api.deselectAll(),
+                onSelectAllClick: (): void => {
+                  if (!agGrid.api.isDestroyed()) {
+                    agGrid.api.selectAll();
+                  }
+                },
+                onClearAllClick: (): void => {
+                  if (!agGrid.api.isDestroyed()) {
+                    agGrid.api.deselectAll();
+                  }
+                },
               };
               if (viewConfig.columnPickerEnabled && !viewConfig.columnOptions) {
                 viewConfig.columnOptions = this.#readColumnOptionsFromGrid(
@@ -248,7 +251,7 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
       agGrid.gridReady
         .pipe(
           takeUntil(this.#ngUnsubscribe),
-          switchMap(() => fromEvent(agGrid.api, 'gridPreDestroyed')),
+          switchMap(() => fromGridEvent(agGrid.api, 'gridPreDestroyed')),
         )
         .subscribe(() => {
           this.#unregisterAgGrid();
@@ -411,7 +414,11 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
         const hideColumns = agGrid.api
           .getColumnState()
           .map((col) => col.colId)
-          .filter((colId) => !displayedColumnIds.includes(colId));
+          .filter(
+            (colId) =>
+              !displayedColumnIds.includes(colId) &&
+              !RESERVED_COLUMNS.includes(colId),
+          );
 
         agGrid.api.setColumnsVisible(hideColumns, false);
         agGrid.api.setColumnsVisible(displayedColumnIds, true);

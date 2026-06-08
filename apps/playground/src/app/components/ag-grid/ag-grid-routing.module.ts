@@ -28,9 +28,9 @@ const routes: Routes = [
   {
     path: 'edit-stop-when-loses-focus',
     loadChildren: () =>
-      import(
-        './edit-stop-when-loses-focus/edit-stop-when-loses-focus.module'
-      ).then((m) => m.EditStopWhenLosesFocusModule),
+      import('./edit-stop-when-loses-focus/edit-stop-when-loses-focus.module').then(
+        (m) => m.EditStopWhenLosesFocusModule,
+      ),
   },
   {
     path: 'editable-grid',
@@ -42,6 +42,11 @@ const routes: Routes = [
   {
     path: 'lookup-focus',
     loadChildren: () => import('./lookup-focus/lookup-focus-routes'),
+  },
+  {
+    path: 'native-multiselect',
+    loadChildren: () =>
+      import('./native-multiselect/native-multiselect-routes'),
   },
   {
     path: 'readonly-grid',

@@ -9,6 +9,7 @@ import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 /**
  * Specifies a filter that was applied.
+ * @deprecated Use [filter bar](https://developer.blackbaud.com/skyux/components/filter-bar) items instead.
  */
 @Component({
   selector: 'sky-filter-summary-item',

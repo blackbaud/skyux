@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideNoopSkyAnimations } from '@skyux/core';
 
 import { SkyVerticalTabsetModule } from '../vertical-tabset.module';
 
@@ -21,10 +21,10 @@ import { VerticalTabsetTestComponent } from './vertical-tabset.component.fixture
   ],
   imports: [
     FormsModule,
-    NoopAnimationsModule,
     SkyVerticalTabsetModule,
     VerticalTabsetProgrammaticTestComponent,
   ],
+  providers: [provideNoopSkyAnimations()],
   exports: [
     VerticalTabsetTestComponent,
     VerticalTabsetEmptyGroupTestComponent,

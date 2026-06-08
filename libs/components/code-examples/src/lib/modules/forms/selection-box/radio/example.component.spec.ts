@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyIdService } from '@skyux/core';
 import { SkySelectionBoxGridHarness } from '@skyux/forms/testing';
 
@@ -12,7 +11,7 @@ async function setupTest(options: { dataSkyId?: string } = {}): Promise<{
   selectionBoxGridHarness: SkySelectionBoxGridHarness;
 }> {
   await TestBed.configureTestingModule({
-    imports: [FormsSelectionBoxRadioExampleComponent, NoopAnimationsModule],
+    imports: [FormsSelectionBoxRadioExampleComponent],
   }).compileComponents();
 
   spyOn(TestBed.inject(SkyIdService), 'generateId').and.callFake(

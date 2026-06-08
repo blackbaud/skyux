@@ -11,7 +11,7 @@
   >
     <sky-autocomplete
       [ariaLabelledBy]="inputBoxHostSvc?.labelId ?? inputId"
-      [data]="countries"
+      [data]="countries()"
       [dropdownHintText]="
         'skyux_country_field_dropdown_hint_text' | skyLibResources
       "
@@ -36,7 +36,7 @@
                 : ('skyux_country_field_dropdown_hint_text' | skyLibResources)
           "
           [attr.id]="inputId"
-          [autocompleteAttribute]="autocompleteAttribute"
+          [autocompleteAttribute]="autocompleteAttribute()"
           [formControl]="countrySearchFormControl"
           (blur)="onAutocompleteBlur()"
           (focus)="onFocus($event)"

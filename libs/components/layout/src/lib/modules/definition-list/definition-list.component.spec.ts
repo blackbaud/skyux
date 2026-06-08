@@ -50,7 +50,7 @@ describe('Definition list component', () => {
     );
 
     expect(headingEl).toHaveText('Personal information');
-    expect(headingEl).toHaveCssClass('sky-subsection-heading');
+    expect(headingEl).toHaveCssClass('sky-theme-font-heading-3');
   });
 
   it('should render labels and values in the expected locations', () => {

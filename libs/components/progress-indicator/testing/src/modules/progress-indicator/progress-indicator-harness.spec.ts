@@ -1,7 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyProgressIndicatorModule } from '@skyux/progress-indicator';
 
 import { SkyProgressIndicatorHarness } from './progress-indicator-harness';
@@ -61,7 +60,7 @@ describe('Progress indicator test harness', () => {
   }> {
     await TestBed.configureTestingModule({
       declarations: [TestProgressIndicatorComponent],
-      imports: [SkyProgressIndicatorModule, NoopAnimationsModule],
+      imports: [SkyProgressIndicatorModule],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(TestProgressIndicatorComponent);

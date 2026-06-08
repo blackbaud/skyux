@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideNoopSkyAnimations } from '@skyux/core';
 import { SkySearchModule } from '@skyux/lookup';
 
 /**
  * @internal
  */
 @NgModule({
-  exports: [NoopAnimationsModule, SkySearchModule],
+  exports: [SkySearchModule],
+  providers: [provideNoopSkyAnimations()],
 })
 export class SkySearchTestingModule {}

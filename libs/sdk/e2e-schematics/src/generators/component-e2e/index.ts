@@ -4,6 +4,7 @@ import {
   UnitTestRunner,
   applicationGenerator,
 } from '@nx/angular/generators';
+import type { Styles } from '@nx/angular/src/generators/utils/types';
 import {
   ProjectConfiguration,
   Tree,
@@ -76,46 +77,6 @@ function simplifyWorkspaceName(tree: Tree, projectName: string): void {
 }
 
 /**
- * Add the packages polyfills to the build and test targets.
- */
-function addPackagesPolyfills(tree: Tree, projectName: string): void {
-  const polyfillsBuilders = [
-    '@angular-devkit/build-angular:application',
-    '@angular-devkit/build-angular:browser',
-    '@angular-devkit/build-angular:karma',
-    '@blackbaud-internal/skyux-angular-builders:browser',
-    '@blackbaud-internal/skyux-angular-builders:karma',
-  ];
-  const projects = getProjects(tree);
-  const projectConfig = projects.get(projectName);
-  if (projectConfig) {
-    let hasChanged = false;
-    ['build', 'test'].forEach((target) => {
-      if (
-        projectConfig.targets?.[target] &&
-        polyfillsBuilders.includes(
-          `${projectConfig.targets?.[target].executor}`,
-        )
-      ) {
-        const targetOptions = projectConfig.targets[target].options;
-
-        targetOptions.polyfills ??= [];
-
-        if (Array.isArray(targetOptions.polyfills)) {
-          targetOptions.polyfills.push(
-            'libs/components/packages/src/polyfills.js',
-          );
-          hasChanged = true;
-        }
-      }
-    });
-    if (hasChanged) {
-      updateProjectConfiguration(tree, projectName, projectConfig);
-    }
-  }
-}
-
-/**
  * - Generates -storybook and -storybook-e2e projects for a component library if they don't already exist.
  * - Applies configuration to the projects.
  * - Generates stories and tests if there are demonstration components in the -storybook project.
@@ -130,7 +91,6 @@ export default async function (
 
   let createProject = false;
   let moveProject = false;
-  /* istanbul ignore next */
   let projectConfig: ProjectConfiguration;
   let e2eProjectConfig: ProjectConfiguration;
   try {
@@ -173,12 +133,12 @@ export default async function (
         `The project "${options.storybookAppName}" already exists.`,
       );
     }
-  } catch (e) {
+  } catch {
     createProject = true;
     await applicationGenerator(tree, {
       name: options.storybookAppName,
       tags: options.tags,
-      style: options.style,
+      style: options.style as Styles,
       routing: options.routing,
       strict: options.strict,
       prefix: options.prefix,
@@ -193,7 +153,6 @@ export default async function (
     });
     simplifyWorkspaceName(tree, options.storybookAppName);
     simplifyWorkspaceName(tree, `${options.storybookAppName}-e2e`);
-    addPackagesPolyfills(tree, options.storybookAppName);
     projectConfig = readProjectConfiguration(tree, options.storybookAppName);
     e2eProjectConfig = readProjectConfiguration(
       tree,
@@ -203,10 +162,11 @@ export default async function (
     // Delete boilerplate files from the storybook project.
     let indexFile = tree.read(`${projectConfig.sourceRoot}/index.html`, 'utf8');
 
-    // istanbul ignore if
+    /* v8 ignore start */
     if (!indexFile) {
       indexFile = '';
     }
+    /* v8 ignore stop */
 
     indexFile = indexFile.replace(
       '<link rel="icon" type="image/x-icon" href="favicon.ico" />',
@@ -237,7 +197,6 @@ export default async function (
     tree.write(`${e2eProjectConfig.sourceRoot}/e2e/.gitkeep`, ``);
   }
 
-  /* istanbul ignore next */
   if (
     createProject ||
     !(

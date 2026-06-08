@@ -35,14 +35,16 @@ export { SkyWaitService } from './lib/modules/wait/wait.service';
 export { SkyAlertComponent as λ1 } from './lib/modules/alert/alert.component';
 export { SkyChevronComponent as λ2 } from './lib/modules/chevron/chevron.component';
 export { SkyExpansionIndicatorComponent as λ15 } from './lib/modules/expansion-indicator/expansion-indicator.component';
+export { SkyIllustrationComponent as λ16 } from './lib/modules/illustration/illustration.component';
 export { SkyKeyInfoLabelComponent as λ6 } from './lib/modules/key-info/key-info-label.component';
 export { SkyKeyInfoValueComponent as λ7 } from './lib/modules/key-info/key-info-value.component';
 export { SkyKeyInfoComponent as λ8 } from './lib/modules/key-info/key-info.component';
 export { SkyLabelComponent as λ9 } from './lib/modules/label/label.component';
 export { SkyStatusIndicatorComponent as λ10 } from './lib/modules/status-indicator/status-indicator.component';
-export { SkyTextHighlightDirective as λ11 } from './lib/modules/text-highlight/text-highlight.directive';
+export {
+  SkyTextHighlightDirective,
+  SkyTextHighlightDirective as λ11,
+} from './lib/modules/text-highlight/text-highlight.directive';
 export { SkyTokenComponent as λ12 } from './lib/modules/tokens/token.component';
 export { SkyTokensComponent as λ13 } from './lib/modules/tokens/tokens.component';
 export { SkyWaitComponent as λ14 } from './lib/modules/wait/wait.component';
-export { SkyTextHighlightDirective } from './lib/modules/text-highlight/text-highlight.directive';
-export { SkyIllustrationComponent as λ16 } from './lib/modules/illustration/illustration.component';

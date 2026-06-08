@@ -1,7 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
   SkyIndicatorDescriptionType,
   SkyIndicatorIconType,
@@ -49,7 +48,7 @@ describe('Status indicator harness', () => {
     fixture: ComponentFixture<TestComponent>;
   }> {
     await TestBed.configureTestingModule({
-      imports: [TestComponent, NoopAnimationsModule],
+      imports: [TestComponent],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(TestComponent);

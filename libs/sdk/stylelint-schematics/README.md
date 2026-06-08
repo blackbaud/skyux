@@ -1,1 +1,1 @@
-# @skyux-sdk/stylelint-schematics (Experimental)
+# @skyux-sdk/stylelint-schematics (Internal SKY UX use only)

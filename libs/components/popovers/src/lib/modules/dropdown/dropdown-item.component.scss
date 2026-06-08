@@ -32,7 +32,7 @@
   margin: var(--sky-override-dropdown-item-margin, 0);
   min-width: 160px;
   text-align: left;
-  transition: box-shadow $sky-transition-time-short;
+  transition: box-shadow var(--sky-global-duration-short);
 
   &.sky-dropdown-item-active {
     a,

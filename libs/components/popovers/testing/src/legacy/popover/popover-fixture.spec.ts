@@ -10,7 +10,7 @@ import { SkyPopoverTestingModule } from './popover-testing.module';
   selector: 'sky-popover-test',
   template: `
     <button
-      class="sky-btn sky-margin-inline-compact"
+      class="sky-btn sky-theme-margin-right-xs"
       type="button"
       [skyPopover]="myPopover"
       [skyPopoverAlignment]="popoverAlignment"

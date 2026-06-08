@@ -5,22 +5,23 @@ import {
   tick,
 } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-import { NumericOptions } from '@skyux/core';
 
 import {
   AgColumn,
   BeanCollection,
   GridApi,
   ICellRenderer,
-  ICellRendererParams,
   RowNode,
 } from 'ag-grid-community';
 
-import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
-import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
+import {
+  MinimalColumnDefs,
+  MinimalRowData,
+  SkyAgGridMinimalFixtureComponent,
+} from '../../fixtures/ag-grid-minimal.component.fixture';
 import { SkyCellClass } from '../../types/cell-class';
 import { SkyCellRendererCurrencyParams } from '../../types/cell-renderer-currency-params';
-import { SkyAgGridValidatorProperties } from '../../types/validator-properties';
+import { SkyCellType } from '../../types/cell-type';
 
 import { SkyAgGridCellRendererCurrencyComponent } from './cell-renderer-currency.component';
 
@@ -28,15 +29,27 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
   let currencyFixture: ComponentFixture<SkyAgGridCellRendererCurrencyComponent>;
   let currencyComponent: SkyAgGridCellRendererCurrencyComponent;
   let currencyNativeElement: HTMLElement;
-  let cellRendererParams: Partial<SkyCellRendererCurrencyParams> & {
-    skyComponentProperties:
-      | (NumericOptions & SkyAgGridValidatorProperties)
-      | undefined;
-  };
+  let cellRendererParams: Partial<SkyCellRendererCurrencyParams>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkyAgGridFixtureModule],
+      imports: [SkyAgGridMinimalFixtureComponent],
+      providers: [
+        {
+          provide: MinimalColumnDefs,
+          useValue: [
+            {
+              field: 'currency',
+              editable: true,
+              type: SkyCellType.Currency,
+            },
+          ],
+        },
+        {
+          provide: MinimalRowData,
+          useValue: [{ currency: 100 }],
+        },
+      ],
     });
 
     currencyFixture = TestBed.createComponent(
@@ -74,7 +87,9 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
   });
 
   it('renders a skyux numeric element in an ag grid', () => {
-    const gridFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+    const gridFixture = TestBed.createComponent(
+      SkyAgGridMinimalFixtureComponent,
+    );
     const gridNativeElement = gridFixture.nativeElement;
 
     gridFixture.detectChanges();
@@ -95,7 +110,9 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
 
       expect(currencyComponent.value).toBeUndefined();
 
-      currencyComponent.agInit(cellRendererParams as ICellRendererParams);
+      currencyComponent.agInit(
+        cellRendererParams as SkyCellRendererCurrencyParams,
+      );
 
       currencyFixture.detectChanges();
       tick();
@@ -105,10 +122,52 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
 
       cellRendererParams.skyComponentProperties = undefined;
       cellRendererParams.column = undefined;
-      currencyComponent.agInit(cellRendererParams as ICellRendererParams);
+      currencyComponent.agInit(
+        cellRendererParams as SkyCellRendererCurrencyParams,
+      );
 
       expect(currencyComponent.skyComponentProperties.format).toBe('currency');
     }));
+
+    it('defaults minDigits to 2 when not specified in skyComponentProperties', () => {
+      currencyComponent.agInit(
+        cellRendererParams as SkyCellRendererCurrencyParams,
+      );
+
+      expect(currencyComponent.skyComponentProperties.minDigits).toBe(2);
+    });
+
+    it('respects a consumer-specified minDigits in skyComponentProperties', () => {
+      if (cellRendererParams.skyComponentProperties) {
+        cellRendererParams.skyComponentProperties.minDigits = 4;
+      }
+
+      currencyComponent.agInit(
+        cellRendererParams as SkyCellRendererCurrencyParams,
+      );
+
+      expect(currencyComponent.skyComponentProperties.minDigits).toBe(4);
+    });
+
+    it('defaults truncate to false when not specified in skyComponentProperties', () => {
+      currencyComponent.agInit(
+        cellRendererParams as SkyCellRendererCurrencyParams,
+      );
+
+      expect(currencyComponent.skyComponentProperties.truncate).toBe(false);
+    });
+
+    it('respects a consumer-specified truncate in skyComponentProperties', () => {
+      if (cellRendererParams.skyComponentProperties) {
+        cellRendererParams.skyComponentProperties.truncate = true;
+      }
+
+      currencyComponent.agInit(
+        cellRendererParams as SkyCellRendererCurrencyParams,
+      );
+
+      expect(currencyComponent.skyComponentProperties.truncate).toBe(true);
+    });
   });
 
   describe('parameters', () => {
@@ -121,7 +180,8 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
 
       expect(currencyComponent.value).toBeUndefined();
 
-      currencyComponent.params = cellRendererParams as ICellRendererParams;
+      currencyComponent.params =
+        cellRendererParams as SkyCellRendererCurrencyParams;
 
       currencyFixture.detectChanges();
       tick();
@@ -134,7 +194,9 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
   describe('refresh', () => {
     it('returns false', () => {
       expect(
-        currencyComponent.refresh(cellRendererParams as ICellRendererParams),
+        currencyComponent.refresh(
+          cellRendererParams as SkyCellRendererCurrencyParams,
+        ),
       ).toBe(false);
     });
 
@@ -147,7 +209,9 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
 
       expect(currencyComponent.value).toBeUndefined();
 
-      currencyComponent.agInit(cellRendererParams as ICellRendererParams);
+      currencyComponent.agInit(
+        cellRendererParams as SkyCellRendererCurrencyParams,
+      );
 
       currencyFixture.detectChanges();
       tick();
@@ -156,7 +220,9 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
       expect(currencyComponent.value).toBe(123);
 
       cellRendererParams.value = 245;
-      currencyComponent.agInit(cellRendererParams as ICellRendererParams);
+      currencyComponent.agInit(
+        cellRendererParams as SkyCellRendererCurrencyParams,
+      );
 
       currencyFixture.detectChanges();
       tick();

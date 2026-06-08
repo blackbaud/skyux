@@ -7,7 +7,7 @@ import commentJson from 'comment-json';
  */
 export function readRequiredFile(tree: Tree, filePath: string): string {
   const data = tree.exists(filePath) && tree.readText(filePath);
-  /* istanbul ignore next */
+
   if (!data) {
     throw new Error(
       `The file '${filePath}' was expected to exist but was not found.`,

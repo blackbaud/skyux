@@ -1,5 +1,5 @@
-import { moduleMetadata } from '@storybook/angular';
 import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 
 import { SkipLinkComponent } from './skip-link.component';
 import { SkipLinkModule } from './skip-link.module';

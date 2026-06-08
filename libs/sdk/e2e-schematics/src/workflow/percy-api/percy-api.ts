@@ -86,7 +86,7 @@ export async function checkPercyBuild(
   project: string,
   buildId: string,
   logger: Logger,
-  /* istanbul ignore next */
+
   fetchClient: Fetch = fetch,
 ): Promise<Partial<BuildSummary>> {
   const fetchJson = getFetchJson(fetchClient);
@@ -148,7 +148,7 @@ export async function getLastGoodPercyBuild(
   shaArray: string[],
   allowDeletedScreenshots: boolean,
   logger: Logger,
-  /* istanbul ignore next */
+
   fetchClient: Fetch = fetch,
 ): Promise<{ lastGoodCommit: string; buildId: number }> {
   if (shaArray.length === 0) {
@@ -171,6 +171,7 @@ export async function getLastGoodPercyBuild(
           previousBuild.id,
           fetchJson,
         );
+
         if (removedSnapshots.length > 0) {
           // Force the build to re-run.
           logger.warning(
@@ -203,7 +204,7 @@ export async function getPercyTargetCommit(
   project: string,
   shaArray: string[],
   logger: Logger,
-  /* istanbul ignore next */
+
   fetchClient: Fetch = fetch,
 ): Promise<string> {
   if (shaArray.length === 0) {
