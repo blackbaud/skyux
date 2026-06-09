@@ -26,15 +26,36 @@ Do NOT use this skill to:
 
 ## Key Facts
 
-- **There is no custom library generator.** New libraries use the stock Nx
-  generator (its defaults live in [nx.json](../../../nx.json)); the
-  SKY-specific wiring afterward is **manual** and must mirror an existing
-  sibling library exactly. `avatar` is a good, small reference.
+- **Use the stock Nx `@nx/angular:library` generator as the source of truth**
+  for what it can produce, then reconcile the SKY-specific gaps. There is no
+  custom library generator. `avatar` is a good, small sibling to compare
+  against when reconciling.
+- **`--publishable --importPath=@skyux/<library>` does most of the wiring.**
+  It generates `ng-package.json`, a publishable `package.json`,
+  `tsconfig.lib.prod.json` (partial compilation), and adds the
+  `@skyux/<library>` path mapping to [tsconfig.base.json](../../../tsconfig.base.json).
+- **The generator cannot scaffold Karma.** Its `--unitTestRunner` only accepts
+  `vitest-angular | vitest-analog | jest | none` — there is no `karma` value.
+  Pass `--unitTestRunner=none` and add the Karma `test` target + `karma.conf.js`
+  - `tsconfig.spec.json` by mirroring the sibling (these libraries run Karma).
+- **The generator leaves churn to revert.** It reformats
+  [nx.json](../../../nx.json), [.prettierignore](../../../.prettierignore), and
+  expands the arrays in [tsconfig.base.json](../../../tsconfig.base.json), and
+  it creates a stray **root** `project.json`. Revert all of these; keep only
+  the `@skyux/<library>` path mapping.
 - A complete library is actually **two Nx projects**: the library itself
   (`<library>`) and its testing entry point (`<library>-testing`), which
-  produces the `@skyux/<library>/testing` secondary entry point.
-- A library also gets a companion **e2e/storybook app** for visual tests,
-  created by the `@skyux-sdk/e2e-schematics:component-e2e` generator.
+  produces the `@skyux/<library>/testing` secondary entry point. The testing
+  entry point is **not** produced by the generator — author it by hand from the
+  sibling.
+- A library also needs a companion **e2e/storybook app** for visual tests, but
+  that app is created by
+  [add-component-visual-tests](../add-component-visual-tests/SKILL.md) when the
+  first component's stories are added — not by this skill.
+- **Use the repo's Node version.** `.npmrc` sets `engine-strict=true` and
+  [.nvmrc](../../../.nvmrc) pins the required Node version; `npm install` and
+  every `nx` command fail under a mismatched Node. Run `nvm use` (which reads
+  [.nvmrc](../../../.nvmrc)) before anything else.
 
 ## Procedure
 
@@ -46,25 +67,64 @@ Work top to bottom. **Always mirror an existing sibling library** (e.g.
    `package.json`, `tsconfig*.json`, `karma.conf.js`, `src/index.ts`,
    `documentation.json`, and `testing/` folder. You will copy this structure.
 
-2. **Scaffold the library.** Generate the base project, then reconcile it to
-   match the sibling:
+2. **Scaffold the library.** Run the generator (note: `--name` is required;
+   the generator rejects a positional name):
 
    ```bash
-   npx nx g @nx/angular:library <library> --directory=libs/components/<library>
+   npx nx g @nx/angular:library \
+     --name=<library> \
+     --directory=libs/components/<library> \
+     --publishable \
+     --importPath=@skyux/<library> \
+     --prefix=sky \
+     --unitTestRunner=none \
+     --tags=component,npm \
+     --standalone=false \
+     --skipModule \
+     --skipFormat \
+     --no-interactive
    ```
 
-   Then update the generated files to match the sibling exactly:
-   - `project.json` — `build` uses the `@nx/angular:package` executor pointing
-     at `ng-package.json`; `test` uses the Karma executor with the theme
-     styles (`libs/components/theme/src/lib/styles/sky.scss` and
-     `.../themes/modern/styles.scss`) and `codeCoverageExclude` for
-     `**/fixtures/**`; `lint` lints `src/**/*.ts` and `src/**/*.html`.
-   - `ng-package.json` — `dest` points to `dist/libs/components/<library>`,
-     `entryFile` is `src/index.ts`, `styleIncludePaths` includes the
-     workspace root.
-   - `package.json` — name is `@skyux/<library>`, `version` and every
-     `@skyux/*`/`@skyux-sdk/*` peer dependency are pinned to
-     `0.0.0-PLACEHOLDER`; `sideEffects` is `false`.
+   This produces `project.json`, `ng-package.json`, `package.json`,
+   `tsconfig.json`, `tsconfig.lib.json`, `tsconfig.lib.prod.json`,
+   `src/index.ts`, the `@skyux/<library>` path mapping, and an
+   `eslint.config.cjs`. Then reconcile it to the sibling:
+   - **Revert generator churn first.** `git checkout -- nx.json .prettierignore`,
+     delete the stray **root** `project.json` the generator created, and undo
+     the array reformatting it applied to `tsconfig.base.json` (keep only the
+     new `@skyux/<library>` mapping).
+   - **`project.json`** — add the Karma `test` target (Karma executor, theme
+     styles `libs/components/theme/src/lib/styles/sky.scss` and
+     `.../themes/modern/styles.scss`, `codeCoverage: true`,
+     `codeCoverageExclude: ["**/fixtures/**"]`, and the `ci` configuration);
+     give `lint` the `lintFilePatterns` for `src/**/*.ts` and `src/**/*.html`;
+     hardcode `outputs` to `dist/libs/components/<library>`; add the build
+     `dependsOn` peers as needed. Remove the generator's `release` and
+     `nx-release-publish` blocks (siblings do not use them).
+   - **`ng-package.json`** — add `styleIncludePaths: ["../../.."]` and
+     `inlineStyleLanguage: "scss"`. Add `allowedNonPeerDependencies` for any
+     third-party runtime dependency (see step 2a).
+   - **`package.json`** — change `version` to `0.0.0-PLACEHOLDER`; pin every
+     `@skyux/*`/`@skyux-sdk/*` peer dependency to `0.0.0-PLACEHOLDER`; add the
+     `author`, `keywords`, `license`, `repository`, `bugs`, and `homepage`
+     fields and the `tslib` dependency from the sibling. `sideEffects` stays
+     `false`.
+   - **`karma.conf.js`** and **`tsconfig.spec.json`** — copy from the sibling
+     (the generator omits these because `--unitTestRunner=none`).
+   - **`eslint.config.cjs`** — replace with `eslint.config.js` containing
+     `const config = require('../../../eslint-libs.config'); module.exports = config;`.
+
+2a. **Declare third-party dependencies (e.g. a charting or formatting lib).**
+
+- A **runtime** dependency goes in the library `package.json`
+  `dependencies`, must be listed in `allowedNonPeerDependencies` in
+  `ng-package.json` (ng-packagr blocks non-peer `dependencies` otherwise),
+  and must be pinned to an exact version in the **root**
+  [package.json](../../../package.json) so it installs. Precedents:
+  `autonumeric`, `validator`.
+- Otherwise prefer a **peerDependency** (precedent: `ag-grid-community` /
+  `ag-grid-angular`). Run `npm install` afterward and confirm the package
+  resolves.
 
 3. **Create the public API barrel.** Add `src/index.ts`. Every public export
    MUST be prefixed with `sky`/`Sky`. Export new components and directives by
@@ -79,10 +139,13 @@ Work top to bottom. **Always mirror an existing sibling library** (e.g.
    `testing`), `ng-package.json`, `tsconfig*.json`, `karma.conf.js`, and
    `src/public-api.ts` barrel. This produces `@skyux/<library>/testing`.
 
-5. **Add documentation metadata.** Create `documentation.json` with a
-   `groups.<library>` entry containing `development`, `testing`, and
-   `codeExamples` sections (each with a `docsIds` array), mirroring the
-   sibling.
+5. **Defer `documentation.json` to the first component.** Do **not** create it
+   for the empty scaffold. Its schema
+   ([documentation-schema.json](../../../libs/components/manifest-generator/documentation-schema.json))
+   requires `development.docsIds` (at least one entry) and a `primaryDocsId`,
+   so a valid file cannot exist until the suite has a documented type. The
+   [add-skyux-component](../add-skyux-component/SKILL.md) skill creates it
+   alongside the first component.
 
 6. **Generate i18n resources (only if the library needs them).** If the
    library ships translatable strings, set up `src/assets/locales` like the
@@ -94,35 +157,29 @@ Work top to bottom. **Always mirror an existing sibling library** (e.g.
 
    Skip this step for libraries with no localized strings.
 
-7. **Create the e2e / visual-test app.** Stand up the companion storybook +
-   Cypress/Percy app for the suite:
-
-   ```bash
-   npx nx g @skyux-sdk/e2e-schematics:component-e2e <library>
-   ```
-
-   This creates `apps/e2e/<library>-storybook` (tag `component-e2e`). Adding
-   individual stories later is handled by the
-   [add-component-visual-tests](../add-component-visual-tests/SKILL.md) skill.
-
-8. **Verify the empty library builds, tests, lints, and formats.** Before
-   adding components, confirm the scaffold is sound:
+7. **Verify the empty library builds, lints, and formats.** Before adding
+   components, confirm the scaffold is sound:
 
    ```bash
    npx nx build <library>
-   npx nx test <library> --browsers=ChromeHeadless
-   npx nx test <library>-testing --browsers=ChromeHeadless
-   npm run lint:affected
-   nx format --files=<changed-file-paths>
+   npx nx lint <library>
+   npx nx lint <library>-testing
+   npx nx format:write --projects=<library>,<library>-testing
    ```
 
-9. **Add the first component.** Hand off to
-   [add-skyux-component](../add-skyux-component/SKILL.md) to add the suite's
-   first component, harness, unit tests, visual tests, and code example.
+   Do **not** gate on `nx test <library>` yet: an empty library has no spec
+   files, so Karma exits with "Executed 0 of 0". The test gate becomes
+   meaningful once the first component (with a spec) lands in the next step.
 
-10. **Commit.** Use a Conventional Commit with the `components/<library>`
-    scope per
-    [commit-message.instructions.md](../../instructions/commit-message.instructions.md).
+8. **Add the first component.** Hand off to
+   [add-skyux-component](../add-skyux-component/SKILL.md) to add the suite's
+   first component, harness, unit tests, visual tests, and code example. The
+   companion e2e/storybook app is created during the visual-tests step via
+   [add-component-visual-tests](../add-component-visual-tests/SKILL.md).
+
+9. **Commit.** Use a Conventional Commit with the `components/<library>`
+   scope per
+   [commit-message.instructions.md](../../instructions/commit-message.instructions.md).
 
 ## Definition of Done
 
@@ -131,7 +188,9 @@ Work top to bottom. **Always mirror an existing sibling library** (e.g.
   `testing/` entry point, all mirroring a sibling library.
 - `package.json` is `@skyux/<library>` with `0.0.0-PLACEHOLDER` versions and
   `@skyux/*` peers; the barrel exports use the `sky`/`Sky` prefix.
-- `documentation.json` has a `groups.<library>` entry with `development`,
-  `testing`, and `codeExamples` sections.
-- The companion `apps/e2e/<library>-storybook` app exists.
-- `npx nx build <library>`, both test projects, lint, and format all pass.
+- Any third-party runtime dependency is in the library `package.json`
+  `dependencies`, listed in `ng-package.json` `allowedNonPeerDependencies`,
+  and pinned in the root `package.json`.
+- `npx nx build <library>`, lint (library + testing), and format all pass.
+  (`documentation.json`, the companion e2e/storybook app, and the `nx test`
+  gate are deferred to the first component.)

@@ -85,6 +85,40 @@ describe('component-e2e', () => {
     ).toContain('percy');
   });
 
+  it('should use the SKY shared eslint configs', async () => {
+    const { tree } = setupTest();
+    await createTestLibrary(tree, { name: 'storybook' });
+    await createTestLibrary(tree, { name: 'test-component' });
+    await componentE2eGenerator(tree, { name: 'test', skipFormat: true });
+
+    const storybookRoot = readProjectConfiguration(tree, 'test-storybook').root;
+    const e2eRoot = readProjectConfiguration(tree, 'test-storybook-e2e').root;
+
+    expect(tree.exists(`${storybookRoot}/eslint.config.cjs`)).toBeFalsy();
+    expect(tree.read(`${storybookRoot}/eslint.config.js`, 'utf-8')).toEqual(
+      `const config = require('../../../eslint-storybook.config');\n\nmodule.exports = config;\n`,
+    );
+
+    expect(tree.exists(`${e2eRoot}/eslint.config.cjs`)).toBeFalsy();
+    expect(tree.read(`${e2eRoot}/eslint.config.js`, 'utf-8')).toEqual(
+      `const config = require('../../../eslint-e2e.config');\n\nmodule.exports = config;\n`,
+    );
+  });
+
+  it('should add an eslint-disable comment to the storybook manager', async () => {
+    const { tree } = setupTest();
+    await createTestLibrary(tree, { name: 'storybook' });
+    await createTestLibrary(tree, { name: 'test-component' });
+    await componentE2eGenerator(tree, { name: 'test', skipFormat: true });
+
+    const storybookRoot = readProjectConfiguration(tree, 'test-storybook').root;
+    expect(
+      tree.read(`${storybookRoot}/.storybook/manager.ts`, 'utf-8'),
+    ).toEqual(
+      `// eslint-disable-next-line @nx/enforce-module-boundaries\nexport * from '../../../../.storybook/manager';\n`,
+    );
+  });
+
   it('should error without a name', async () => {
     const { tree } = setupTest();
     try {

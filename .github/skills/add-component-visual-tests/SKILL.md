@@ -45,6 +45,16 @@ patterns.
    npx nx g @skyux-sdk/e2e-schematics:component-e2e <library>
    ```
 
+   This creates `apps/e2e/<library>-storybook` (tag `component-e2e`) and
+   `apps/e2e/<library>-storybook-e2e`. The app intentionally uses the
+   **webpack** builder (`@angular-devkit/build-angular:browser`) — that is the
+   source of truth; do **not** migrate it to `@angular/build:application`. The
+   generator already emits the SKY-standard `eslint.config.js` for both apps
+   and the `eslint-disable` comment in `.storybook/manager.ts`, so no eslint
+   reconciliation is needed. You only need to revert the unrelated churn it
+   makes: it re-orders `tags` in many other `project.json` files and edits
+   `.prettierignore`. Keep only the two new `<library>-storybook*` projects.
+
 2. **Generate the story scaffold.** Run the `story` generator, which creates
    the wrapper component, its module, and the `*.stories.ts` file under
    `apps/e2e/<library>-storybook/src/app/<name>/`:
