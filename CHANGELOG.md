@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.3.9](https://github.com/blackbaud/skyux/compare/14.3.8...14.3.9) (2026-06-10)
+
+
+### Bug Fixes
+
+* **components/grids:** update grid component's sky-checkbox to use labelText ([#4436](https://github.com/blackbaud/skyux/issues/4436)) ([80ecbfd](https://github.com/blackbaud/skyux/commit/80ecbfdfb4c8b85c73e2af833b8b0245429a198a)), closes [AB#4007153](https://dev.azure.com/blackbaud/Products/_workitems/edit/4007153)
+
 ## [14.3.8](https://github.com/blackbaud/skyux/compare/14.3.7...14.3.8) (2026-06-04)
 
 
