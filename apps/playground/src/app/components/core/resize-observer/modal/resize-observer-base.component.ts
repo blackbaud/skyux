@@ -1,7 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
-import { ResizeObserverModalComponent } from './resize-observer-modal.component';
+import {
+  ResizeObserverModalComponent,
+  SIZE_TOKEN,
+} from './resize-observer-modal.component';
 
 @Component({
   selector: 'app-resize-observer-base',
@@ -17,7 +20,7 @@ export class ResizeObserverBaseComponent {
       size,
       providers: [
         {
-          provide: 'size',
+          provide: SIZE_TOKEN,
           useValue: size,
         },
       ],

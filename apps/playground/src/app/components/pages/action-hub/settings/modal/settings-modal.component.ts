@@ -1,7 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, InjectionToken } from '@angular/core';
 import { SkyIdModule } from '@skyux/core';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
+
+export const MODAL_TITLE_TOKEN = new InjectionToken<string>('modalTitle');
 
 @Component({
   selector: 'app-settings-modal',
@@ -10,5 +12,5 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 })
 export class SettingsModalComponent {
   public readonly instance = inject(SkyModalInstance);
-  public readonly title = inject<string>('modalTitle' as never);
+  public readonly title = inject(MODAL_TITLE_TOKEN);
 }

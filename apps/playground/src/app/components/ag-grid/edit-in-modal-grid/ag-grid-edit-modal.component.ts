@@ -32,9 +32,9 @@ export class SkyAgGridEditModalComponent implements OnInit {
   public gridOptions: GridOptions;
   public gridApi: GridApi;
 
-  #agGridService = inject(SkyAgGridService);
-  public context = inject(SkyAgGridEditModalContext);
-  public instance = inject(SkyModalInstance);
+  readonly #agGridService = inject(SkyAgGridService);
+  public readonly context = inject(SkyAgGridEditModalContext);
+  public readonly instance = inject(SkyModalInstance);
 
   public ngOnInit(): void {
     this.gridData = this.context.gridData;

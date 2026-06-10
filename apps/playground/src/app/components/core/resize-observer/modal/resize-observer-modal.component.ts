@@ -19,7 +19,7 @@ import { SkySectionedFormComponent, SkySectionedFormModule } from '@skyux/tabs';
 
 type SizeOptions = 'small' | 'medium' | 'large';
 
-const SIZE_TOKEN = new InjectionToken<SizeOptions>('size');
+export const SIZE_TOKEN = new InjectionToken<SizeOptions>('size');
 
 let identifier = 1;
 
@@ -41,11 +41,11 @@ export class ResizeObserverModalComponent implements AfterViewInit, OnInit {
 
   public identifier: number;
 
-  public modalInstance = inject(SkyModalInstance);
-  #changeDetectorRef = inject(ChangeDetectorRef);
-  #mediaQueryService = inject(SkyMediaQueryService);
-  #modalService = inject(SkyModalService);
-  public size = inject(SIZE_TOKEN, { optional: true });
+  public readonly modalInstance = inject(SkyModalInstance);
+  readonly #changeDetectorRef = inject(ChangeDetectorRef);
+  readonly #mediaQueryService = inject(SkyMediaQueryService);
+  readonly #modalService = inject(SkyModalService);
+  public readonly size = inject(SIZE_TOKEN, { optional: true });
 
   constructor() {
     this.identifier = identifier++;

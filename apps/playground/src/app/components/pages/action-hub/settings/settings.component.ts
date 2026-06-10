@@ -6,7 +6,10 @@ import {
   SkyPageModalLink,
 } from '@skyux/pages';
 
-import { SettingsModalComponent } from './modal/settings-modal.component';
+import {
+  MODAL_TITLE_TOKEN,
+  SettingsModalComponent,
+} from './modal/settings-modal.component';
 
 @Component({
   selector: 'app-settings',
@@ -49,7 +52,7 @@ export class SettingsComponent {
         modal: {
           component: SettingsModalComponent,
           config: {
-            providers: [{ provide: 'modalTitle', useValue: label }],
+            providers: [{ provide: MODAL_TITLE_TOKEN, useValue: label }],
           },
         },
       });
@@ -94,7 +97,7 @@ export class SettingsComponent {
         click: (): void => {
           this.#modalService.open(SettingsModalComponent, {
             providers: [
-              { provide: 'modalTitle', useValue: 'Click event modal' },
+              { provide: MODAL_TITLE_TOKEN, useValue: 'Click event modal' },
             ],
           });
         },

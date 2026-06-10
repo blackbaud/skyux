@@ -31,8 +31,8 @@ export class EditableGridComponent implements OnInit {
   public gridApi: GridApi;
   public columnDefs: ColDef[];
 
-  #agGridService = inject(SkyAgGridService);
-  public themeSvc = inject(SkyThemeService);
+  readonly #agGridService = inject(SkyAgGridService);
+  public readonly themeSvc = inject(SkyThemeService);
 
   @HostListener('window:resize')
   public onWindowResize(): void {
