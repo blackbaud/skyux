@@ -9,7 +9,7 @@ import { SkyInputBoxModule } from '@skyux/forms';
   imports: [FormsModule, SkyInputBoxModule],
 })
 export default class LiveAnnouncerComponent {
-  #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
+  readonly #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
 
   protected announcementMessage = '';
 

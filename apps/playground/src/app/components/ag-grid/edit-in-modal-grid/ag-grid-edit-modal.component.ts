@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import { SkyAutocompleteSelectionChange } from '@skyux/lookup';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
@@ -32,11 +32,9 @@ export class SkyAgGridEditModalComponent implements OnInit {
   public gridOptions: GridOptions;
   public gridApi: GridApi;
 
-  constructor(
-    private agGridService: SkyAgGridService,
-    public context: SkyAgGridEditModalContext,
-    public instance: SkyModalInstance,
-  ) {}
+  #agGridService = inject(SkyAgGridService);
+  public context = inject(SkyAgGridEditModalContext);
+  public instance = inject(SkyModalInstance);
 
   public ngOnInit(): void {
     this.gridData = this.context.gridData;
@@ -136,7 +134,7 @@ export class SkyAgGridEditModalComponent implements OnInit {
       columnDefs: this.columnDefs,
       onGridReady: (gridReadyEvent): void => this.onGridReady(gridReadyEvent),
     };
-    this.gridOptions = this.agGridService.getEditableGridOptions({
+    this.gridOptions = this.#agGridService.getEditableGridOptions({
       gridOptions: this.gridOptions,
     });
   }

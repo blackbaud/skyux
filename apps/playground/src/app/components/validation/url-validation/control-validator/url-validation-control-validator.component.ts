@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   AbstractControl,
   UntypedFormBuilder,
@@ -20,11 +20,7 @@ export class UrlValidationControlValidatorComponent implements OnInit {
 
   public formGroup: UntypedFormGroup;
 
-  #formBuilder: UntypedFormBuilder;
-
-  constructor(formBuilder: UntypedFormBuilder) {
-    this.#formBuilder = formBuilder;
-  }
+  readonly #formBuilder = inject(UntypedFormBuilder);
 
   public skyUrlValidationOptions: SkyUrlValidationOptions = {
     rulesetVersion: 1,

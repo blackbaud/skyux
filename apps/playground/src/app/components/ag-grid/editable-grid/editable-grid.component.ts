@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import { SkyThemeService } from '@skyux/theme';
 
@@ -31,15 +31,13 @@ export class EditableGridComponent implements OnInit {
   public gridApi: GridApi;
   public columnDefs: ColDef[];
 
+  #agGridService = inject(SkyAgGridService);
+  public themeSvc = inject(SkyThemeService);
+
   @HostListener('window:resize')
   public onWindowResize(): void {
     this.sizeGrid();
   }
-
-  constructor(
-    private agGridService: SkyAgGridService,
-    public themeSvc: SkyThemeService,
-  ) {}
 
   public ngOnInit(): void {
     this.setColumnDefs();
@@ -239,7 +237,7 @@ export class EditableGridComponent implements OnInit {
         this.sizeGrid();
       },
     };
-    this.gridOptions = this.agGridService.getEditableGridOptions({
+    this.gridOptions = this.#agGridService.getEditableGridOptions({
       gridOptions: this.gridOptions,
     });
   }

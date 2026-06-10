@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { SkyFlyoutInstance, SkyFlyoutService } from '@skyux/flyout';
 
 import { Subject } from 'rxjs';
@@ -28,11 +28,7 @@ export class FlyoutComponent implements OnDestroy {
 
   #ngUnsubscribe = new Subject<void>();
 
-  #flyoutService: SkyFlyoutService;
-
-  constructor(flyoutService: SkyFlyoutService) {
-    this.#flyoutService = flyoutService;
-  }
+  readonly #flyoutService = inject(SkyFlyoutService);
 
   public ngOnDestroy(): void {
     this.#ngUnsubscribe.next();

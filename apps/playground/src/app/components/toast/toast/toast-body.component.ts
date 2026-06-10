@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyToastInstance } from '@skyux/toast';
 
 @Component({
@@ -7,5 +7,5 @@ import { SkyToastInstance } from '@skyux/toast';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToastBodyComponent {
-  constructor(public message: SkyToastInstance) {}
+  public message = inject(SkyToastInstance);
 }

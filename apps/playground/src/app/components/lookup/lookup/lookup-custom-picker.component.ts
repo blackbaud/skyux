@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -23,14 +23,12 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 export class LookupCustomPickerComponent implements OnInit {
   public myForm: UntypedFormGroup;
 
-  constructor(
-    private formBuilder: UntypedFormBuilder,
-    public context: SkyLookupShowMoreCustomPickerContext,
-    public modalInstance: SkyModalInstance,
-  ) {}
+  readonly #formBuilder = inject(UntypedFormBuilder);
+  public readonly context = inject(SkyLookupShowMoreCustomPickerContext);
+  public readonly modalInstance = inject(SkyModalInstance);
 
   public ngOnInit(): void {
-    this.myForm = this.formBuilder.group({
+    this.myForm = this.#formBuilder.group({
       selectLast: new UntypedFormControl(false),
     });
   }

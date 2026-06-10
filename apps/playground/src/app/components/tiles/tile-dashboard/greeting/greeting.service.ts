@@ -1,4 +1,4 @@
-import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
+import { Injectable, InjectionToken, inject } from '@angular/core';
 
 export const GREETING_CONFIG = new InjectionToken<GreetingConfig>(
   'GreetingConfig',
@@ -10,11 +10,7 @@ export interface GreetingConfig {
 
 @Injectable()
 export class GreetingService {
-  #config: GreetingConfig;
-
-  constructor(@Optional() @Inject(GREETING_CONFIG) config: GreetingConfig) {
-    this.#config = config;
-  }
+  #config = inject(GREETING_CONFIG, { optional: true });
 
   public sayHello(): string {
     return this.#config?.greeting ?? 'Hello World!';

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
 import { ResizeObserverModalComponent } from './resize-observer-modal.component';
@@ -9,7 +9,7 @@ import { ResizeObserverModalComponent } from './resize-observer-modal.component'
   standalone: false,
 })
 export class ResizeObserverBaseComponent {
-  constructor(private modalService: SkyModalService) {}
+  readonly #modalService = inject(SkyModalService);
 
   public onOpenModalClick(size: 'small' | 'medium' | 'large'): void {
     const modalInstanceType = ResizeObserverModalComponent;
@@ -23,6 +23,6 @@ export class ResizeObserverBaseComponent {
       ],
     };
 
-    this.modalService.open(modalInstanceType, options);
+    this.#modalService.open(modalInstanceType, options);
   }
 }

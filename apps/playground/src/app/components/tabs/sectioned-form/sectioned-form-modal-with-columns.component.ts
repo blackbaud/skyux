@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyFluidGridModule } from '@skyux/layout';
@@ -30,14 +31,8 @@ export class SectionedFormModalWithColumnsComponent {
   @ViewChild(SkySectionedFormComponent)
   public sectionedFormComponent: SkySectionedFormComponent | undefined;
 
-  #changeDetector: ChangeDetectorRef;
-
-  constructor(
-    public modalInstance: SkyModalInstance,
-    changeDetector: ChangeDetectorRef,
-  ) {
-    this.#changeDetector = changeDetector;
-  }
+  public readonly modalInstance = inject(SkyModalInstance);
+  readonly #changeDetector = inject(ChangeDetectorRef);
 
   public onIndexChanged(newIndex: number): void {
     this.activeIndexDisplay = newIndex;

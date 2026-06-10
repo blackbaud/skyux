@@ -1,4 +1,4 @@
-import { Component, effect, model } from '@angular/core';
+import { Component, effect, inject, model } from '@angular/core';
 import { SkyTileDashboardConfig } from '@skyux/tiles';
 
 import { GreetingService } from './greeting/greeting.service';
@@ -69,11 +69,17 @@ export class TileDashboardComponent {
     },
   });
 
-  constructor(public readonly greeting: GreetingService) {
-    console.log(this.greeting.sayHello());
+  #greeting = inject(GreetingService);
+
+  constructor() {
+    console.log(this.#greeting.sayHello());
     effect(() => {
       const config = this.dashboardConfig();
       console.log('Config changed:', config);
     });
+  }
+
+  public get greeting(): GreetingService {
+    return this.#greeting;
   }
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
   SkyConfirmCloseEventArgs,
@@ -77,10 +77,10 @@ export class SplitViewComponent {
 
   private _activeIndex = 0;
 
-  constructor(
-    public changeRef: ChangeDetectorRef,
-    public confirmService: SkyConfirmService,
-  ) {
+  public readonly changeRef = inject(ChangeDetectorRef);
+  public readonly confirmService = inject(SkyConfirmService);
+
+  constructor() {
     // Start with the first item selected.
     this.activeIndex = 0;
   }

@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SkyIdModule } from '@skyux/core';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
@@ -9,8 +9,6 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
   imports: [SkyIdModule, SkyInputBoxModule, SkyModalModule],
 })
 export class SettingsModalComponent {
-  constructor(
-    public instance: SkyModalInstance,
-    @Inject('modalTitle') public title: string,
-  ) {}
+  public readonly instance = inject(SkyModalInstance);
+  public readonly title = inject<string>('modalTitle' as never);
 }

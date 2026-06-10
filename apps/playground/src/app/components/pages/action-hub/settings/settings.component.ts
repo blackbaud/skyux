@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SkyModalService } from '@skyux/modals';
 import {
   SkyActionHubNeedsAttention,
@@ -22,7 +22,9 @@ export class SettingsComponent {
   #settingsLinks: SkyPageModalLink[] = [];
   #needsAttention: SkyActionHubNeedsAttention[];
 
-  constructor(private modalService: SkyModalService) {
+  readonly #modalService = inject(SkyModalService);
+
+  constructor() {
     ['Back', 'Home'].forEach((label) => {
       this.#relatedLinks.push({
         label,
@@ -90,7 +92,7 @@ export class SettingsComponent {
       {
         title: 'Click to open a modal',
         click: (): void => {
-          this.modalService.open(SettingsModalComponent, {
+          this.#modalService.open(SettingsModalComponent, {
             providers: [
               { provide: 'modalTitle', useValue: 'Click event modal' },
             ],

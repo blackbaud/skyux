@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   SkyModalInstance,
   SkyModalModule,
@@ -13,19 +13,17 @@ import { ReadonlyGridComponent } from './readonly-grid.component';
   imports: [SkyModalModule],
 })
 export class ReadonlyGridInModalModalComponent {
-  constructor(
-    public modal: SkyModalInstance,
-    private modalService: SkyModalService,
-  ) {}
+  public readonly modal = inject(SkyModalInstance);
+  readonly #modalService = inject(SkyModalService);
 
   public openGridModal(): void {
-    this.modalService.open(ReadonlyGridInModalModalGridComponent, {
+    this.#modalService.open(ReadonlyGridInModalModalGridComponent, {
       size: 'large',
     });
   }
 
   public openNotGridModal(): void {
-    this.modalService.open(ReadonlyGridInModalModalNotGridComponent, {
+    this.#modalService.open(ReadonlyGridInModalModalNotGridComponent, {
       size: 'large',
     });
   }
@@ -58,10 +56,11 @@ export class ReadonlyGridInModalModalNotGridComponent {}
   template: '',
 })
 export class ReadonlyGridInModalComponent implements OnInit {
-  constructor(private modalService: SkyModalService) {}
+  public readonly modal = inject(SkyModalInstance);
+  readonly #modalService = inject(SkyModalService);
 
   public ngOnInit(): void {
-    this.modalService.open(ReadonlyGridInModalModalGridComponent, {
+    this.#modalService.open(ReadonlyGridInModalModalGridComponent, {
       size: 'large',
     });
   }

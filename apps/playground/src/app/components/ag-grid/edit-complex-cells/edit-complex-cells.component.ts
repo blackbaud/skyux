@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   HostListener,
+  inject,
   OnInit,
   TemplateRef,
   ViewChild,
@@ -77,15 +78,13 @@ export class EditComplexCellsComponent implements OnInit {
 
   private deletedRowIds: string[] = [];
 
+  #agGridService = inject(SkyAgGridService);
+  public themeSvc = inject(SkyThemeService);
+
   @HostListener('window:resize')
   public onWindowResize(): void {
     this.sizeGrid();
   }
-
-  constructor(
-    private agGridService: SkyAgGridService,
-    public themeSvc: SkyThemeService,
-  ) {}
 
   public ngOnInit(): void {
     this.setColumnDefs();
@@ -395,7 +394,7 @@ export class EditComplexCellsComponent implements OnInit {
       stopEditingWhenCellsLoseFocus: false,
     };
 
-    this.gridOptions = this.agGridService.getEditableGridOptions({
+    this.gridOptions = this.#agGridService.getEditableGridOptions({
       gridOptions: overrides,
     });
   }

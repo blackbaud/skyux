@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyToggleSwitchModule } from '@skyux/forms';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
@@ -12,11 +12,7 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 export class ModalDirtyComponent {
   public isDirty = true;
 
-  readonly #modalInstance: SkyModalInstance;
-
-  constructor(modalInstance: SkyModalInstance) {
-    this.#modalInstance = modalInstance;
-  }
+  readonly #modalInstance = inject(SkyModalInstance);
 
   public save(): void {
     this.#modalInstance.save();

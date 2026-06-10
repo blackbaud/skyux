@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { SkyInfiniteScrollModule } from '@skyux/lists';
 import { SkyModalService } from '@skyux/modals';
@@ -21,23 +21,11 @@ export class FlyoutDemoComponent implements OnInit {
 
   #nextId = 0;
 
-  #modalService: SkyModalService;
-  #toastService: SkyToastService;
-  #router: Router;
-  #changeDetector: ChangeDetectorRef;
-
-  constructor(
-    public context: FlyoutDemoContext,
-    modalService: SkyModalService,
-    toastService: SkyToastService,
-    router: Router,
-    changeDetector: ChangeDetectorRef,
-  ) {
-    this.#modalService = modalService;
-    this.#toastService = toastService;
-    this.#router = router;
-    this.#changeDetector = changeDetector;
-  }
+  public readonly context = inject(FlyoutDemoContext);
+  readonly #modalService = inject(SkyModalService);
+  readonly #toastService = inject(SkyToastService);
+  readonly #router = inject(Router);
+  readonly #changeDetector = inject(ChangeDetectorRef);
 
   public ngOnInit(): void {
     void this.addData(false);
