@@ -153,9 +153,10 @@
                   [style.width.px]="minColWidth"
                 >
                   <sky-checkbox
-                    [label]="
+                    [labelText]="
                       'skyux_grid_multiselect_select_row' | skyLibResources
                     "
+                    [labelHidden]="true"
                     [(ngModel)]="item.isSelected"
                     (change)="onMultiselectCheckboxChange()"
                   />
