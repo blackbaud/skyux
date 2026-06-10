@@ -1,5 +1,5 @@
 ---
-applyTo: '**/libs/components/*/src/lib/**/*.{component,directive}.spec.ts, !**/libs/components/code-examples/**'
+applyTo: '**/libs/components/*/src/lib/**/*.spec.ts, !**/libs/components/code-examples/**'
 description: 'SKY UX Copilot instructions for writing unit tests for library components and directives.'
 ---
 
@@ -19,9 +19,18 @@ This guidance is for **library source specs**. It does not cover:
 - **Harness specs** (`libs/components/**/testing/src/**`) — follow
   [skyux-copilot-harnesses.instructions.md](./skyux-copilot-harnesses.instructions.md).
 
-Before writing, **open a sibling spec in the same library and mirror its
-structure.** Do not invent new patterns. The examples below are real patterns
-drawn from the codebase.
+Before writing, **open a sibling spec in the same library** to match
+SKY-specific conventions: the fixtures module, the `@skyux-sdk/testing`
+matchers, the `a11y` block, and the providers a component needs. Beyond those
+conventions, **prefer current Angular testing best practices over copying dated
+idioms** from neighboring specs — a new spec should not inherit an older pattern
+just because nearby files use it.
+
+This is a **Karma + Jasmine + zone.js** project. Some
+[angular.dev](https://angular.dev/guide/testing/components-scenarios) testing
+guidance targets the Vitest runner and zoneless change detection and does **not**
+apply here: keep using Jasmine spies (not `vi.*`) and `fakeAsync`/`tick`/`flush`
+(not Vitest fake timers).
 
 ## File & naming
 
@@ -36,10 +45,19 @@ drawn from the codebase.
 
 ## Test setup
 
-Drive the component through a **host/wrapper `TestComponent`** rather than
-instantiating the subject directly. Many libraries provide a fixtures module
-(`<name>.module.fixture.ts`); import that. Configure the testing module with the
-providers the component needs.
+Choose the setup that fits the component:
+
+- **Self-contained component with signal inputs** — create the subject directly
+  with `TestBed.createComponent(SkyExample)` and drive it with `setInput` (see
+  _Driving inputs & change detection_). This is the simplest setup; prefer it
+  when the component needs no projected content.
+- **Everything else** (content projection, `ng-template`, or a provided
+  `<name>.module.fixture.ts`) — drive the component through a **host/wrapper
+  `TestComponent`** rather than instantiating the subject directly, and import
+  the fixtures module when one exists.
+
+In both cases, configure the testing module with the providers the component
+needs.
 
 ```typescript
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -72,17 +90,21 @@ Common providers (add only what the component needs):
 
 ## Driving inputs & change detection
 
+- For signal-based components tested without a host wrapper, set inputs with
+  `fixture.componentRef.setInput('labelText', '...')`. This is the current
+  Angular approach — prefer it over a host wrapper for new, self-contained
+  components.
 - For module-based fixtures, set fields on the **host `TestComponent`** instance
-  (`fixture.componentInstance.labelText = '...'`), then call
-  `fixture.detectChanges()`. Reach the subject with `@ViewChild` when you need
-  its instance.
-- For modern signal-based components tested without a host wrapper, use
-  `fixture.componentRef.setInput('labelText', '...')`.
-- Use `fakeAsync` + `tick()` (or `flush()`) for timer-based async such as
-  animations and debounces; use `await fixture.whenStable()` when awaiting
-  promises/observables (e.g. before loading a harness).
-- Fire DOM events with `SkyAppTestUtility.fireDomEvent(element, 'click')` from
-  `@skyux-sdk/testing`.
+  (`fixture.componentInstance.labelText = '...'`). Reach the subject with
+  `@ViewChild` when you need its instance.
+- To render those changes, call `fixture.detectChanges()`, or
+  `await fixture.whenStable()` to also flush the initial render and any pending
+  microtasks — the latter is what current Angular generates and is preferred for
+  new `async` specs (and before loading a harness).
+- Use `fakeAsync` + `tick()`/`flush()` to control timer-based async such as
+  animations and debounces. Because this repo runs on Karma + Jasmine with
+  zone.js, keep using these; the "`fakeAsync` is discouraged" note on
+  angular.dev applies only to zoneless Vitest projects.
 
 ## Assertions & matchers
 

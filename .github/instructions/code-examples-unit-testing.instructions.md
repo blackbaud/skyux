@@ -80,7 +80,7 @@ These tests should be **thorough showcases** of test harness capabilities, not j
 
 ## Development Workflow
 
-- **Running tests**: `npx nx test code-examples --browsers=ChromeHeadless --include="[relative path to file]"`
+- **Running tests**: `npx nx test code-examples --configuration=ci --include="[relative path to file]"`
 - **Linting**: `npx nx lint code-examples` to check for lint errors, use `--fix` flag to automatically fix issues
 - **Validation**: Ensure all tests pass and demonstrate expected harness behavior
 - **Maintenance**: Update tests when harnesses or components change
