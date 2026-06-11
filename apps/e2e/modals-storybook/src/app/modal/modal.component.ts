@@ -1,5 +1,9 @@
 import { Component, Renderer2, inject } from '@angular/core';
-import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
+import {
+  SkyModalConfigurationInterface,
+  SkyModalInstance,
+  SkyModalService,
+} from '@skyux/modals';
 
 import { ModalBasicComponent } from './modals/modal-basic.component';
 import { ModalTestContext } from './modals/modal-context';

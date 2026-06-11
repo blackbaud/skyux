@@ -2,6 +2,8 @@ import { Component, inject } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { SkyModalInstance } from '@skyux/modals';
 
+import { MODAL_TITLE } from './modal-title.token';
+
 @Component({
   selector: 'app-settings-modal',
   templateUrl: './settings-modal.component.html',
@@ -13,7 +15,7 @@ export class SettingsModalComponent {
 
   readonly #fb = inject(UntypedFormBuilder);
   protected readonly modal = inject(SkyModalInstance);
-  protected readonly title = inject<string>('modalTitle');
+  protected readonly title = inject(MODAL_TITLE);
 
   constructor() {
     const controls: Record<string, unknown> = {};
