@@ -22,7 +22,7 @@ Create comprehensive unit tests for every code example component that showcase t
 - **Examples**:
   - `ListsRepeaterInlineFormExampleComponent`
   - `FormsInputBoxBasicExampleComponent`
-  - `LayoutActionBarsModalExampleComponent`
+  - `ActionBarsSummaryActionBarModalExampleComponent`
 
 ## Test Content Requirements
 
@@ -57,19 +57,20 @@ These tests should be **thorough showcases** of test harness capabilities, not j
 ### Dependencies
 
 - Import test harnesses from appropriate testing modules
-- Use `provideNoopSkyAnimations()` from `@skyux/core` to suppress animations
+- Only provide `provideNoopSkyAnimations()` from `@skyux/core` when the example's components rely on `_SkyAnimationEndHandlerDirective`, `_SkyTransitionEndHandlerDirective`, or `_SkyAnimationSlideComponent` from `@skyux/core`. It is unnecessary otherwise and should be omitted.
 - Follow Angular testing best practices
 
 ### Test Patterns
 
 - Use `async/await` for harness operations
 - Use `expectAsync().toBeResolvedTo()` for async assertions
-- Use `fixture.detectChanges()` and `fixture.whenStable()` after UI interactions
+- Avoid manual `fixture.detectChanges()` and `fixture.whenStable()` calls after UI interactions; test harnesses automatically wait for the app to stabilize, so these calls are unnecessary and trigger redundant change detection cycles
 - Group related tests in `describe` blocks for organization
 
 ### Examples to Reference
 
-- Look at `libs/components/lists/testing/src/modules/repeater/repeater-harness.spec.ts` for comprehensive harness testing patterns
+- Look at `libs/components/code-examples/src/lib/modules/lists/list-summary/basic/example.component.spec.ts` for a comprehensive code example spec that uses the `setupTest()` helper, `dataSkyId`/`.with()` filtering, and grouped `describe` blocks
+- For deeper harness testing patterns, the harness's own unit tests (e.g. `libs/components/lists/testing/src/modules/repeater/repeater-harness.spec.ts`) exercise every harness method, but note they test the harness directly and do not follow the code example spec conventions described here
 - Follow the structure in existing code example spec files
 
 ## Documentation Integration
@@ -80,7 +81,7 @@ These tests should be **thorough showcases** of test harness capabilities, not j
 
 ## Development Workflow
 
-- **Running tests**: `npx nx test code-examples --include="[relative path to file]"`
+- **Running tests**: `npx nx test code-examples --include="[workspace-relative path to file]"`
 - **Linting**: `npx nx lint code-examples` to check for lint errors, use `--fix` flag to automatically fix issues
 - **Validation**: Ensure all tests pass and demonstrate expected harness behavior
 - **Maintenance**: Update tests when harnesses or components change
