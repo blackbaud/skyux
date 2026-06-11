@@ -1,13 +1,13 @@
 import {
   Component,
-  Inject,
   Input,
   OnInit,
-  Optional,
   ViewChild,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 
+import { GREETING_TOKEN } from './greeting-token.fixture';
 import { GreetingService } from './greeting/greeting.service';
 
 @Component({
@@ -24,20 +24,14 @@ export class DynamicComponentTestComponent implements OnInit {
   @Input()
   public message: string | undefined;
 
-  #greetingSvc: GreetingService | undefined;
-
   @ViewChild('content', {
     read: ViewContainerRef,
     static: false,
   })
   public content: ViewContainerRef | undefined;
 
-  constructor(
-    @Inject('greeting') @Optional() public greeting?: string,
-    @Optional() greetingSvc?: GreetingService,
-  ) {
-    this.#greetingSvc = greetingSvc;
-  }
+  readonly #greetingSvc = inject(GreetingService, { optional: true });
+  public readonly greeting = inject(GREETING_TOKEN, { optional: true });
 
   public ngOnInit(): void {
     this.message = this.#greetingSvc

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
+import { GREETING_CONFIG } from './greeting/greeting-token';
 import { GreetingService } from './greeting/greeting.service';
 import { LazyLoadedTestComponent } from './lazy-loaded-test.component';
 
@@ -15,9 +16,10 @@ class LazyLoadedRoutingModule {}
   imports: [LazyLoadedRoutingModule],
   declarations: [LazyLoadedTestComponent],
   providers: [
+    GreetingService,
     {
-      provide: GreetingService,
-      useValue: new GreetingService({ greeting: 'I am lazy.' }),
+      provide: GREETING_CONFIG,
+      useValue: { greeting: 'I am lazy.' },
     },
   ],
 })

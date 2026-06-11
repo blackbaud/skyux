@@ -6,6 +6,7 @@ import {
   Input,
   OnDestroy,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import { SkyI18nModule } from '@skyux/i18n';
 import { SkyThemeModule } from '@skyux/theme';
@@ -64,13 +65,8 @@ export class SkyAvatarInnerComponent implements AfterViewInit, OnDestroy {
 
   #_name: string | undefined;
 
-  #elementRef: ElementRef;
-  #adapter: SkyAvatarAdapterService;
-
-  constructor(elementRef: ElementRef, adapter: SkyAvatarAdapterService) {
-    this.#elementRef = elementRef;
-    this.#adapter = adapter;
-  }
+  readonly #elementRef = inject(ElementRef);
+  readonly #adapter = inject(SkyAvatarAdapterService);
 
   public get initials(): string | undefined {
     let initials: string | undefined;

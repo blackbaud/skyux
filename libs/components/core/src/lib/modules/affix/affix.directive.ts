@@ -8,6 +8,7 @@ import {
   OnInit,
   Output,
   SimpleChanges,
+  inject,
 } from '@angular/core';
 
 import { Subject } from 'rxjs';
@@ -105,16 +106,10 @@ export class SkyAffixDirective implements OnInit, OnChanges, OnDestroy {
 
   #affixer: SkyAffixer | undefined;
 
-  #affixService: SkyAffixService;
-
-  #elementRef: ElementRef;
+  readonly #affixService = inject(SkyAffixService);
+  readonly #elementRef = inject(ElementRef);
 
   #ngUnsubscribe = new Subject<void>();
-
-  constructor(elementRef: ElementRef, affixService: SkyAffixService) {
-    this.#elementRef = elementRef;
-    this.#affixService = affixService;
-  }
 
   public ngOnInit(): void {
     this.#affixer = this.#affixService.createAffixer(this.#elementRef);

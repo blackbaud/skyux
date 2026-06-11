@@ -147,11 +147,11 @@ export class SkyColorpickerInputDirective
   public allowTransparency = true;
 
   #modelValue: SkyColorpickerOutput | undefined;
-  #elementRef: ElementRef;
-  #renderer: Renderer2;
-  #svc: SkyColorpickerService;
-  #resourcesSvc: SkyLibResourcesService;
-  #injector: Injector;
+  readonly #elementRef = inject(ElementRef);
+  readonly #renderer = inject(Renderer2);
+  readonly #svc = inject(SkyColorpickerService);
+  readonly #resourcesSvc = inject(SkyLibResourcesService);
+  readonly #injector = inject(Injector);
   #inputIdSubscription: Subscription | undefined;
   #labelText: string | undefined;
 
@@ -160,20 +160,6 @@ export class SkyColorpickerInputDirective
 
   readonly #colorpickerInputSvc = inject(SkyColorpickerInputService);
   readonly #ngUnsubscribe = new Subject<void>();
-
-  constructor(
-    elementRef: ElementRef,
-    renderer: Renderer2,
-    svc: SkyColorpickerService,
-    resourcesSvc: SkyLibResourcesService,
-    injector: Injector,
-  ) {
-    this.#elementRef = elementRef;
-    this.#renderer = renderer;
-    this.#svc = svc;
-    this.#resourcesSvc = resourcesSvc;
-    this.#injector = injector;
-  }
 
   public changeInput(): void {
     const value = this.#elementRef.nativeElement.value;

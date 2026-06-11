@@ -23,6 +23,7 @@ export class SkySkipLinkService {
 
   #dynamicComponentService: SkyDynamicComponentService;
 
+  // eslint-disable-next-line @angular-eslint/prefer-inject -- constructor injection is required to maintain the public API for consumers who may instantiate this service directly (e.g. `new SkySkipLinkService(...)`).
   constructor(dynamicComponentService: SkyDynamicComponentService) {
     this.#dynamicComponentService = dynamicComponentService;
   }

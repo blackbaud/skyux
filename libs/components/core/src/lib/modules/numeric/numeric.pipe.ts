@@ -3,6 +3,7 @@ import {
   OnDestroy,
   Pipe,
   PipeTransform,
+  inject,
 } from '@angular/core';
 import { SkyAppLocaleProvider } from '@skyux/i18n';
 
@@ -25,30 +26,23 @@ import { SkyNumericService } from './numeric.service';
 export class SkyNumericPipe implements PipeTransform, OnDestroy {
   #cacheKey: string | undefined;
 
-  #changeDetector: ChangeDetectorRef;
+  readonly #changeDetector = inject(ChangeDetectorRef);
 
   #formattedValue: string | undefined;
 
   #ngUnsubscribe = new Subject<void>();
 
-  #numericSvc: SkyNumericService;
+  readonly #numericSvc = inject(SkyNumericService);
 
   #providerLocale: string | undefined;
 
-  constructor(
-    localeProvider: SkyAppLocaleProvider,
-    numericSvc: SkyNumericService,
-    changeDetector: ChangeDetectorRef,
-  ) {
-    this.#numericSvc = numericSvc;
-    this.#changeDetector = changeDetector;
-
-    localeProvider
+  constructor() {
+    inject(SkyAppLocaleProvider)
       .getLocaleInfo()
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((localeInfo) => {
         this.#providerLocale = localeInfo.locale;
-        numericSvc.currentLocale = this.#providerLocale;
+        this.#numericSvc.currentLocale = this.#providerLocale;
         this.#changeDetector.markForCheck();
       });
   }

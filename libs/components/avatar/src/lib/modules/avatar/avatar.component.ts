@@ -118,21 +118,14 @@ export class SkyAvatarComponent {
 
   #_src: SkyAvatarSrc | undefined;
 
-  #errorService: SkyErrorModalService;
-  #fileSizePipe: SkyFileSizePipe;
-  #resourcesService: SkyLibResourcesService;
+  readonly #errorService = inject(SkyErrorModalService);
+  readonly #fileSizePipe = inject(SkyFileSizePipe);
+  readonly #resourcesService = inject(SkyLibResourcesService);
+  readonly #defaultInputProvider = inject(SkyDefaultInputProvider, {
+    optional: true,
+  });
 
-  #defaultInputProvider = inject(SkyDefaultInputProvider, { optional: true });
-
-  constructor(
-    errorService: SkyErrorModalService,
-    fileSizePipe: SkyFileSizePipe,
-    resourcesService: SkyLibResourcesService,
-  ) {
-    this.#errorService = errorService;
-    this.#fileSizePipe = fileSizePipe;
-    this.#resourcesService = resourcesService;
-
+  constructor() {
     this.sizeDefault = this.#defaultInputProvider?.getValue<SkyAvatarSize>(
       'avatar',
       'size',

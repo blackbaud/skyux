@@ -1,4 +1,4 @@
-import { OnDestroy, Pipe, PipeTransform } from '@angular/core';
+import { OnDestroy, Pipe, PipeTransform, inject } from '@angular/core';
 import { SkyAppLocaleProvider, SkyIntlNumberFormatStyle } from '@skyux/i18n';
 
 import { Subject } from 'rxjs';
@@ -29,8 +29,8 @@ export class SkyPercentPipe implements OnDestroy, PipeTransform {
 
   #value: string | undefined;
 
-  constructor(localeProvider: SkyAppLocaleProvider) {
-    localeProvider
+  constructor() {
+    inject(SkyAppLocaleProvider)
       .getLocaleInfo()
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((localeInfo) => {

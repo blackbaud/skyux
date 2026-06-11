@@ -1,4 +1,4 @@
-import { Injectable, Optional } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 import { SkyuxConfigParams } from './config-params';
 import { SkyAppParamsConfigArgs } from './params-config-args';
@@ -30,10 +30,12 @@ export class SkyAppParamsConfig {
 
   #_params: SkyuxConfigParams;
 
-  constructor(@Optional() args?: SkyAppParamsConfigArgs) {
+  readonly #args = inject(SkyAppParamsConfigArgs, { optional: true });
+
+  constructor() {
     this.#_params = {
       ...DEFAULTS.params,
-      ...(args?.params || {}),
+      ...(this.#args?.params || {}),
     };
   }
 }

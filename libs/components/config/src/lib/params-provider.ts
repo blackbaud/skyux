@@ -17,6 +17,7 @@ export class SkyAppRuntimeConfigParamsProvider {
 
   #_params: SkyAppRuntimeConfigParams;
 
+  // eslint-disable-next-line @angular-eslint/prefer-inject -- constructor injection is required to maintain the public API for consumers who may instantiate this service directly (e.g. `new SkyAppRuntimeConfigParamsProvider(...)`)
   constructor(@Optional() configParams?: SkyAppConfigParams) {
     this.#_params = new SkyAppRuntimeConfigParams(
       window.location.href,
