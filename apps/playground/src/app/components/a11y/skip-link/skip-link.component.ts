@@ -1,5 +1,11 @@
 //#region imports
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { SkySkipLinkService } from '@skyux/a11y';
 
 //#endregion
@@ -17,11 +23,7 @@ export class SkipLinkComponent implements AfterViewInit {
   @ViewChild('skipLink2', { read: ElementRef })
   public skipLink2: ElementRef;
 
-  #skipLinkService: SkySkipLinkService;
-
-  constructor(skipLinkService: SkySkipLinkService) {
-    this.#skipLinkService = skipLinkService;
-  }
+  readonly #skipLinkService = inject(SkySkipLinkService);
 
   public ngAfterViewInit(): void {
     this.#skipLinkService.setSkipLinks({

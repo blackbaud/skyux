@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   AbstractControl,
   UntypedFormBuilder,
@@ -30,7 +30,9 @@ export class ColorpickerComponent {
 
   #required = false;
 
-  constructor(formBuilder: UntypedFormBuilder) {
+  readonly #formBuilder = inject(UntypedFormBuilder);
+
+  constructor() {
     this.favoriteColor = new UntypedFormControl('#f00', [
       (control: AbstractControl): ValidationErrors | null => {
         if (control.value?.rgba?.alpha < 0.8) {
@@ -41,7 +43,7 @@ export class ColorpickerComponent {
       },
     ]);
 
-    this.reactiveForm = formBuilder.group({
+    this.reactiveForm = this.#formBuilder.group({
       favoriteColor: this.favoriteColor,
     });
   }

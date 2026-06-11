@@ -43,7 +43,7 @@ const PREVIOUS_SETTINGS_KEY =
   templateUrl: './theme-selector.component.html',
 })
 export class SkyThemeSelectorComponent implements OnInit {
-  #themeSvc = inject(SkyThemeService);
+  readonly #themeSvc = inject(SkyThemeService);
 
   #currentTheme = computed(
     () => SkyTheme.presets[this.themeName() as ThemeSelectorValue],

@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import {
+  booleanAttribute,
   Component,
   HostListener,
-  OnInit,
-  booleanAttribute,
+  inject,
   input,
+  OnInit,
 } from '@angular/core';
 import {
   SkyAgGridModule,
@@ -60,17 +61,15 @@ export class ReadonlyGridComponent implements OnInit {
 
   public columnDefs: ColDef[] = [];
 
+  readonly #agGridService = inject(SkyAgGridService);
+  public readonly themeSvc = inject(SkyThemeService);
+
   @HostListener('window:resize')
   public onWindowResize(): void {
     if (this.gridApi) {
       this.gridApi.sizeColumnsToFit();
     }
   }
-
-  constructor(
-    private agGridService: SkyAgGridService,
-    public themeSvc: SkyThemeService,
-  ) {}
 
   public ngOnInit(): void {
     this.columnDefs = [
@@ -210,7 +209,7 @@ export class ReadonlyGridComponent implements OnInit {
           .map((row) => row.id),
       },
     };
-    this.gridOptions = this.agGridService.getGridOptions({
+    this.gridOptions = this.#agGridService.getGridOptions({
       gridOptions: this.gridOptions,
     });
   }

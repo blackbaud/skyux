@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
 } from '@angular/core';
 import {
   SkyAgGridAutocompleteProperties,
@@ -38,17 +39,17 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   imports: [AgGridModule, SkyAgGridModule, SkyModalModule],
 })
 export class DataManagerEditModalComponent {
+  readonly #agGridService = inject(SkyAgGridService);
+  public readonly context = inject(DataManagerEditModalContext);
+  public readonly instance = inject(SkyModalInstance);
+  readonly #changeDetector = inject(ChangeDetectorRef);
+
   public columnDefs: ColDef[];
   private gridApi: GridApi | undefined;
   public gridData: AgGridDemoRow[];
   public gridOptions: GridOptions;
 
-  constructor(
-    private agGridService: SkyAgGridService,
-    public context: DataManagerEditModalContext,
-    public instance: SkyModalInstance,
-    private changeDetector: ChangeDetectorRef,
-  ) {
+  constructor() {
     this.columnDefs = [
       {
         field: 'name',
@@ -153,17 +154,17 @@ export class DataManagerEditModalComponent {
       columnDefs: this.columnDefs,
       onGridReady: (gridReadyEvent): void => this.onGridReady(gridReadyEvent),
     };
-    this.gridOptions = this.agGridService.getEditableGridOptions({
+    this.gridOptions = this.#agGridService.getEditableGridOptions({
       gridOptions: this.gridOptions,
     });
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
     this.gridApi = gridReadyEvent.api;
 
     this.gridApi.sizeColumnsToFit();
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   private departmentSelectionChange(
@@ -182,6 +183,6 @@ export class DataManagerEditModalComponent {
         this.gridApi.refreshCells({ rowNodes: [node] });
       }
     }
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 }

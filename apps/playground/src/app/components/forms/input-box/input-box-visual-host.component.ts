@@ -1,7 +1,7 @@
 import {
   Component,
+  inject,
   OnInit,
-  Optional,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
@@ -19,7 +19,7 @@ export class InputBoxVisualHostComponent implements OnInit {
   })
   public inputTemplateRef: TemplateRef<unknown>;
 
-  constructor(@Optional() public inputBoxHostSvc?: SkyInputBoxHostService) {}
+  public inputBoxHostSvc = inject(SkyInputBoxHostService, { optional: true });
 
   public ngOnInit(): void {
     if (this.inputBoxHostSvc) {

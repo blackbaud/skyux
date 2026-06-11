@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   AbstractControl,
   UntypedFormBuilder,
@@ -34,7 +34,7 @@ export class SingleFileAttachmentComponent implements OnInit {
 
   protected hintText = 'Please upload a file.';
 
-  constructor(private formBuilder: UntypedFormBuilder) {}
+  readonly #formBuilder = inject(UntypedFormBuilder);
 
   public fileClick($event: SkyFileAttachmentClick): void {
     const link = document.createElement('a');
@@ -45,7 +45,7 @@ export class SingleFileAttachmentComponent implements OnInit {
 
   public ngOnInit(): void {
     this.attachment = new UntypedFormControl(undefined, Validators.required);
-    this.fileForm = this.formBuilder.group({
+    this.fileForm = this.#formBuilder.group({
       attachment: this.attachment,
     });
   }

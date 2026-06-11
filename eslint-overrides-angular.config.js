@@ -11,6 +11,12 @@ module.exports = [
     },
   },
   {
+    files: ['apps/playground/**/*.ts'],
+    rules: {
+      '@angular-eslint/prefer-inject': 'error',
+    },
+  },
+  {
     files: ['**/*.spec.ts', '**/fixtures/**/*.ts'],
     rules: {
       '@nx/enforce-module-boundaries': 'warn',

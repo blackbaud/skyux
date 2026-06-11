@@ -4,6 +4,7 @@ import {
   Component,
   Input,
   OnInit,
+  inject,
 } from '@angular/core';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import {
@@ -28,10 +29,14 @@ import {
   standalone: false,
 })
 export class DataManagerViewGridComponent implements OnInit {
+  readonly #agGridService = inject(SkyAgGridService);
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #dataManagerService = inject(SkyDataManagerService);
+
   @Input()
   public set items(value: any[]) {
     this._items = value;
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
     if (this.gridApi) {
       this.gridApi.refreshCells();
     }
@@ -162,36 +167,30 @@ export class DataManagerViewGridComponent implements OnInit {
 
   private _items: any[] = [];
 
-  constructor(
-    private agGridService: SkyAgGridService,
-    private changeDetector: ChangeDetectorRef,
-    private dataManagerService: SkyDataManagerService,
-  ) {}
-
   public ngOnInit(): void {
     this.displayedItems = this._items;
 
-    this.dataManagerService.initDataView(this.viewConfig);
+    this.#dataManagerService.initDataView(this.viewConfig);
 
-    this.gridOptions = this.agGridService.getGridOptions({
+    this.gridOptions = this.#agGridService.getGridOptions({
       gridOptions: {
         columnDefs: this.columnDefs,
         onGridReady: this.onGridReady.bind(this),
       },
     });
 
-    this.dataManagerService
+    this.#dataManagerService
       .getDataStateUpdates(this.viewId)
       .subscribe((state) => {
         this.dataState = state;
         this.setInitialColumnOrder();
         this.updateData();
-        this.changeDetector.detectChanges();
+        this.#changeDetector.detectChanges();
       });
 
-    this.dataManagerService.getActiveViewIdUpdates().subscribe((id) => {
+    this.#dataManagerService.getActiveViewIdUpdates().subscribe((id) => {
       this.isActive = id === this.viewId;
-      this.changeDetector.detectChanges();
+      this.#changeDetector.detectChanges();
     });
   }
 
@@ -208,7 +207,7 @@ export class DataManagerViewGridComponent implements OnInit {
       this.gridApi?.showNoRowsOverlay();
     }
 
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   public setInitialColumnOrder(): void {
@@ -235,14 +234,14 @@ export class DataManagerViewGridComponent implements OnInit {
     });
 
     this.gridInitialized = true;
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
     this.gridApi = gridReadyEvent.api;
     this.gridApi.sizeColumnsToFit();
     this.updateData();
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   public onRowSelected(rowSelectedEvent: RowSelectedEvent): void {
