@@ -6,6 +6,7 @@ import {
   SkyRecentLink,
 } from '@skyux/pages';
 
+import { MODAL_TITLE } from './modal-title.token';
 import { SettingsModalComponent } from './settings-modal.component';
 
 const pastHours = Array.from(Array(5).keys()).map((i) => {
@@ -176,7 +177,7 @@ export class ActionHubComponent {
           size: 'large',
           providers: [
             {
-              provide: 'modalTitle',
+              provide: MODAL_TITLE,
               useValue: 'Number',
             },
           ],
@@ -191,7 +192,7 @@ export class ActionHubComponent {
           size: 'large',
           providers: [
             {
-              provide: 'modalTitle',
+              provide: MODAL_TITLE,
               useValue: 'Color',
             },
           ],

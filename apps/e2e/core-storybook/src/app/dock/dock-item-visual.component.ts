@@ -1,4 +1,4 @@
-import { Component, Optional } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { Subject } from 'rxjs';
 
@@ -21,9 +21,13 @@ export class DockItemVisualComponent {
 
   public uniqueId: number;
 
-  constructor(@Optional() public context: DockItemVisualContext) {
+  protected readonly context = inject(DockItemVisualContext, {
+    optional: true,
+  });
+
+  constructor() {
     this.uniqueId = ++uniqueId;
-    this.stackOrderForDisplay = context?.stackOrder ?? 0;
+    this.stackOrderForDisplay = this.context?.stackOrder ?? 0;
   }
 
   public setHeight(): void {
