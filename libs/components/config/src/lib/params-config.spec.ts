@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
-import { SkyAppParamsConfigArgs } from './params-config-args';
 import { SkyAppParamsConfig } from './params-config';
+import { SkyAppParamsConfigArgs } from './params-config-args';
 
 describe('SkyAppParamsConfig', () => {
   it('should return defaults', () => {
