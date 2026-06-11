@@ -11,8 +11,8 @@
     }
   </sky-modal-header>
   @if (context?.bannerImageSrc || context?.bannerContent) {
-    <sky-modal-banner [imageSrc]="context.bannerImageSrc">{{
-      context.bannerContent
+    <sky-modal-banner [imageSrc]="context!.bannerImageSrc ?? ''">{{
+      context!.bannerContent
     }}</sky-modal-banner>
   }
   <sky-modal-content>{{ context?.modalContent }}</sky-modal-content>

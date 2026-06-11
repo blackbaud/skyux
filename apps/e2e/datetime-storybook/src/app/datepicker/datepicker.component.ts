@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -33,7 +33,9 @@ export class DatepickerComponent implements OnInit {
   public startingDay: number | undefined;
   public strict = false;
 
-  constructor(formBuilder: FormBuilder) {
+  readonly #formBuilder = inject(FormBuilder);
+
+  constructor() {
     // Set a fixed date for visual tests to prevent daily changes
     this.selectedDate = new Date(1955, 10, 5); // November 5, 1955
 
@@ -41,7 +43,7 @@ export class DatepickerComponent implements OnInit {
       new Date(1955, 10, 5), // November 5, 1955 - same fixed date for consistency
       Validators.required,
     );
-    this.reactiveForm = formBuilder.group({
+    this.reactiveForm = this.#formBuilder.group({
       selectedDate: this.reactiveDate as FormControl<Date | undefined>,
     });
   }

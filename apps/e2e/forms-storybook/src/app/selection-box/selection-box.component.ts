@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
@@ -10,8 +10,10 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 export class SelectionBoxComponent {
   public myForm: FormGroup;
 
-  constructor(formBuilder: FormBuilder) {
-    this.myForm = formBuilder.group({
+  readonly #formBuilder = inject(FormBuilder);
+
+  constructor() {
+    this.myForm = this.#formBuilder.group({
       checkbox1: new FormControl(false),
       checkbox2: new FormControl(false),
       checkbox3: new FormControl({ value: false, disabled: true }),

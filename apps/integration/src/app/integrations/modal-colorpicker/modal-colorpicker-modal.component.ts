@@ -58,8 +58,10 @@ export class ModalColorpickerModalComponent {
 
   protected readonly modalInstance = inject(SkyModalInstance);
 
-  constructor(formBuilder: FormBuilder) {
-    this.colorForm = formBuilder.group({
+  readonly #formBuilder = inject(FormBuilder);
+
+  constructor() {
+    this.colorForm = this.#formBuilder.group({
       colorOne: new FormControl('#f00'),
       colorTwo: new FormControl('#ff0'),
       colorThree: new FormControl({ value: '#000', disabled: true }),
