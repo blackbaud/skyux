@@ -171,7 +171,7 @@ describe('Percent pipe', () => {
   });
 
   it('should default to en-US locale', () => {
-    const pipe = TestBed.inject(SkyPercentPipe);
+    const pipe = new SkyPercentPipe(mockLocaleProvider);
 
     const value = pipe.transform('1.235487', '1.0-4');
     if (!isIE) {

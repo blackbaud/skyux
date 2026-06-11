@@ -1,4 +1,4 @@
-import { OnDestroy, Pipe, PipeTransform, inject } from '@angular/core';
+import { OnDestroy, Pipe, PipeTransform } from '@angular/core';
 import { SkyAppLocaleProvider, SkyIntlNumberFormatStyle } from '@skyux/i18n';
 
 import { Subject } from 'rxjs';
@@ -29,8 +29,9 @@ export class SkyPercentPipe implements OnDestroy, PipeTransform {
 
   #value: string | undefined;
 
-  constructor() {
-    inject(SkyAppLocaleProvider)
+  // eslint-disable-next-line @angular-eslint/prefer-inject -- constructor injection is required to maintain the public API for consumers who may instantiate this pipe directly (e.g. `new SkyPercentPipe(...)`).
+  constructor(localeProvider: SkyAppLocaleProvider) {
+    localeProvider
       .getLocaleInfo()
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((localeInfo) => {

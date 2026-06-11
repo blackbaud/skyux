@@ -1,5 +1,5 @@
-import { ChangeDetectorRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SkyAppLocaleProvider } from '@skyux/i18n';
 
 import { NumericPipeFixtureComponent } from './fixtures/numeric.pipe.fixture';
 import { SkyNumericModule } from './numeric.module';
@@ -9,10 +9,15 @@ import { SkyNumericService } from './numeric.service';
 
 describe('Numeric pipe', () => {
   let pipe: SkyNumericPipe;
+  let changeDetector: any;
   let numericService: SkyNumericService;
   let expectedConfig: SkyNumericOptions;
 
   beforeEach(() => {
+    changeDetector = {
+      markForCheck: jasmine.createSpy('markForCheck'),
+    };
+
     expectedConfig = new NumericOptions();
     expectedConfig.digits = 1;
     expectedConfig.format = 'number';
@@ -20,17 +25,14 @@ describe('Numeric pipe', () => {
 
     TestBed.configureTestingModule({
       imports: [SkyNumericModule, NumericPipeFixtureComponent],
-      providers: [
-        SkyNumericPipe,
-        {
-          provide: ChangeDetectorRef,
-          useValue: { markForCheck: jasmine.createSpy('markForCheck') },
-        },
-      ],
     });
 
     numericService = TestBed.inject(SkyNumericService);
-    pipe = TestBed.inject(SkyNumericPipe);
+    pipe = new SkyNumericPipe(
+      TestBed.inject(SkyAppLocaleProvider),
+      numericService,
+      changeDetector,
+    );
   });
 
   it('should pass default configuration to service', () => {

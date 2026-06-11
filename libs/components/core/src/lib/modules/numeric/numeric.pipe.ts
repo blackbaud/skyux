@@ -3,7 +3,6 @@ import {
   OnDestroy,
   Pipe,
   PipeTransform,
-  inject,
 } from '@angular/core';
 import { SkyAppLocaleProvider } from '@skyux/i18n';
 
@@ -26,23 +25,32 @@ import { SkyNumericService } from './numeric.service';
 export class SkyNumericPipe implements PipeTransform, OnDestroy {
   #cacheKey: string | undefined;
 
-  readonly #changeDetector = inject(ChangeDetectorRef);
+  #changeDetector: ChangeDetectorRef;
 
   #formattedValue: string | undefined;
 
   #ngUnsubscribe = new Subject<void>();
 
-  readonly #numericSvc = inject(SkyNumericService);
+  #numericSvc: SkyNumericService;
 
   #providerLocale: string | undefined;
 
-  constructor() {
-    inject(SkyAppLocaleProvider)
+  /* eslint-disable @angular-eslint/prefer-inject -- constructor injection is required to maintain the public API for consumers who may instantiate this pipe directly (e.g. `new SkyNumericPipe(...)`). */
+  constructor(
+    localeProvider: SkyAppLocaleProvider,
+    numericSvc: SkyNumericService,
+    changeDetector: ChangeDetectorRef,
+  ) {
+    /* eslint-enable @angular-eslint/prefer-inject */
+    this.#numericSvc = numericSvc;
+    this.#changeDetector = changeDetector;
+
+    localeProvider
       .getLocaleInfo()
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((localeInfo) => {
         this.#providerLocale = localeInfo.locale;
-        this.#numericSvc.currentLocale = this.#providerLocale;
+        numericSvc.currentLocale = this.#providerLocale;
         this.#changeDetector.markForCheck();
       });
   }
