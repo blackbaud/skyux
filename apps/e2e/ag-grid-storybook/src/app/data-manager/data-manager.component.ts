@@ -113,15 +113,18 @@ export class DataManagerComponent implements AfterViewInit {
 
   readonly #agGridService = inject(SkyAgGridService);
   readonly #dataManagerService = inject(SkyDataManagerService);
+  readonly #formBuilder = inject(FormBuilder);
 
-  constructor(formBuilder: FormBuilder) {
-    this.gridSettings = formBuilder.group<GridSettingsType>({
-      enableTopScroll: formBuilder.nonNullable.control(this.enableTopScroll),
-      showSelect: formBuilder.nonNullable.control(this.showSelect),
-      domLayout: formBuilder.nonNullable.control(this.domLayout),
-      compact: formBuilder.nonNullable.control(this.compact),
-      wrapText: formBuilder.nonNullable.control(this.wrapText),
-      autoHeightColumns: formBuilder.nonNullable.control(
+  constructor() {
+    this.gridSettings = this.#formBuilder.group<GridSettingsType>({
+      enableTopScroll: this.#formBuilder.nonNullable.control(
+        this.enableTopScroll,
+      ),
+      showSelect: this.#formBuilder.nonNullable.control(this.showSelect),
+      domLayout: this.#formBuilder.nonNullable.control(this.domLayout),
+      compact: this.#formBuilder.nonNullable.control(this.compact),
+      wrapText: this.#formBuilder.nonNullable.control(this.wrapText),
+      autoHeightColumns: this.#formBuilder.nonNullable.control(
         this.autoHeightColumns,
       ),
     });

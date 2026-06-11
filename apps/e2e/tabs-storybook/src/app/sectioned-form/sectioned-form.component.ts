@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyModalService } from '@skyux/modals';
 
 import { SectionedFormModalComponent } from './sectioned-form-modal.component';
@@ -10,11 +10,7 @@ import { SectionedFormModalComponent } from './sectioned-form-modal.component';
   standalone: false,
 })
 export class SectionedFormComponent {
-  #modalService: SkyModalService;
-
-  constructor(modalService: SkyModalService) {
-    this.#modalService = modalService;
-  }
+  readonly #modalService = inject(SkyModalService);
 
   public openSectionedForm(size: 'small' | 'medium' | 'large'): void {
     this.#modalService.open(SectionedFormModalComponent, {

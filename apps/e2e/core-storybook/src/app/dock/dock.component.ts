@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, inject } from '@angular/core';
 import { SkyDockService } from '@skyux/core';
 
 import { DockItemVisualContext } from './dock-item-context';
@@ -38,11 +38,7 @@ export class DockComponent implements AfterViewInit {
   ];
   /* spell-checker:enable */
 
-  #dockService: SkyDockService;
-
-  constructor(dockService: SkyDockService) {
-    this.#dockService = dockService;
-  }
+  readonly #dockService = inject(SkyDockService);
 
   public ngAfterViewInit(): void {
     this.#configs.forEach((config) => {

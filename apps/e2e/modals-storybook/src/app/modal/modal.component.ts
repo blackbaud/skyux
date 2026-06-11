@@ -1,9 +1,5 @@
 import { Component, Renderer2, inject } from '@angular/core';
-import {
-  SkyModalConfigurationInterface,
-  SkyModalInstance,
-  SkyModalService,
-} from '@skyux/modals';
+import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
 import { ModalBasicComponent } from './modals/modal-basic.component';
 import { ModalTestContext } from './modals/modal-context';
@@ -21,9 +17,8 @@ export class ModalComponent {
   public buttonsHidden = false;
   public showPositionedEl = false;
 
-  #renderer = inject(Renderer2);
-
-  constructor(private modal: SkyModalService) {}
+  readonly #modal = inject(SkyModalService);
+  readonly #renderer = inject(Renderer2);
 
   public hideButtons(): void {
     this.buttonsHidden = true;
@@ -192,7 +187,7 @@ export class ModalComponent {
   ): SkyModalInstance {
     this.hideButtons();
 
-    const instance = this.modal.open(modalInstance, options);
+    const instance = this.#modal.open(modalInstance, options);
 
     instance.closed.subscribe(() => {
       this.showButtons();
