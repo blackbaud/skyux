@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -63,13 +63,11 @@ export class TextEditorComponent implements OnInit {
 
   public linkWindowOptions: SkyTextEditorLinkWindowOptionsType[] = ['new'];
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private sanitizer: DomSanitizer,
-  ) {}
+  readonly #formBuilder = inject(FormBuilder);
+  readonly #sanitizer = inject(DomSanitizer);
 
   public ngOnInit(): void {
-    this.myForm = this.formBuilder.group({
+    this.myForm = this.#formBuilder.group({
       textEditor: new FormControl(
         '<font style="font-size: 16px" color="#a25353"><b><i><u>Super styled text</u></i></b></font>',
         [Validators.required],
@@ -77,7 +75,7 @@ export class TextEditorComponent implements OnInit {
     });
 
     this.textEditorControl.valueChanges.subscribe((value) => {
-      this.displayValue = this.sanitizer.bypassSecurityTrustHtml(value);
+      this.displayValue = this.#sanitizer.bypassSecurityTrustHtml(value);
     });
   }
 

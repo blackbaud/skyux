@@ -4,6 +4,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  inject,
   OnDestroy,
   ViewChild,
 } from '@angular/core';
@@ -31,16 +32,16 @@ export class ResizeObserverBasicComponent implements AfterViewInit, OnDestroy {
 
   private subscriptions = new Subscription();
 
-  constructor(
-    private skyResizeObserverService: SkyResizeObserverService,
-    private skyResizeObserverMediaQueryService: SkyResizeObserverMediaQueryService,
-    private changeDetectorRef: ChangeDetectorRef,
-  ) {}
+  readonly #skyResizeObserverService = inject(SkyResizeObserverService);
+  readonly #skyResizeObserverMediaQueryService = inject(
+    SkyResizeObserverMediaQueryService,
+  );
+  readonly #changeDetectorRef = inject(ChangeDetectorRef);
 
   public ngAfterViewInit(): void {
-    this.changeDetectorRef.detach();
+    this.#changeDetectorRef.detach();
     this.subscriptions.add(
-      this.skyResizeObserverMediaQueryService
+      this.#skyResizeObserverMediaQueryService
         .observe(this.resizeElement)
         .subscribe((breakpoint) => {
           switch (breakpoint) {
@@ -59,15 +60,15 @@ export class ResizeObserverBasicComponent implements AfterViewInit, OnDestroy {
             default:
               this.breakpoint = '(unknown)';
           }
-          this.changeDetectorRef.markForCheck();
+          this.#changeDetectorRef.markForCheck();
         }),
     );
     this.subscriptions.add(
-      this.skyResizeObserverService
+      this.#skyResizeObserverService
         .observe(this.resizeElement)
         .subscribe((value) => {
           this.width = value.contentRect.width;
-          this.changeDetectorRef.detectChanges();
+          this.#changeDetectorRef.detectChanges();
         }),
     );
   }

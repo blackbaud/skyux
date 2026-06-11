@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  inject,
   OnDestroy,
   ViewChild,
 } from '@angular/core';
@@ -36,17 +37,10 @@ export class ResizeObserverContentComponent
 
   #subscriptions = new Subscription();
 
-  #elementRef: ElementRef;
-  #skyResizeObserverMediaQueryService: SkyResizeObserverMediaQueryService;
-
-  constructor(
-    elementRef: ElementRef,
-    skyResizeObserverMediaQueryService: SkyResizeObserverMediaQueryService,
-  ) {
-    this.#elementRef = elementRef;
-    this.#skyResizeObserverMediaQueryService =
-      skyResizeObserverMediaQueryService;
-  }
+  readonly #elementRef = inject(ElementRef);
+  readonly #skyResizeObserverMediaQueryService = inject(
+    SkyResizeObserverMediaQueryService,
+  );
 
   public ngAfterViewInit(): void {
     this.#skyResizeObserverMediaQueryService.observe(this.#elementRef);

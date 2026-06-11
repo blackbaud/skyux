@@ -1,4 +1,9 @@
-import { AfterViewInit, ChangeDetectorRef, Component } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  inject,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import {
   SkyDataManagerService,
@@ -18,6 +23,10 @@ import { HomeFiltersModalDemoComponent } from './home-filter.component';
   standalone: false,
 })
 export class HomeComponent implements AfterViewInit {
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #dataManagerService = inject(SkyDataManagerService);
+  readonly #router = inject(Router);
+
   public componentData: ComponentInfo[] = [];
 
   public dataManagerConfig = {
@@ -75,13 +84,9 @@ export class HomeComponent implements AfterViewInit {
     showSortButtonText: true,
   };
 
-  constructor(
-    router: Router,
-    private changeDetector: ChangeDetectorRef,
-    private dataManagerService: SkyDataManagerService,
-  ) {
+  constructor() {
     void (
-      router.config
+      this.#router.config
         .find((route) => route.path === 'components')
         .loadChildren() as Promise<any>
     ).then((componentsRoutes) => {
@@ -101,25 +106,25 @@ export class HomeComponent implements AfterViewInit {
               }),
           };
 
-          this.dataManagerService.initDataManager({
+          this.#dataManagerService.initDataManager({
             activeViewId: 'playgroundComponents',
             dataManagerConfig: this.dataManagerConfig,
             defaultDataState: this.defaultDataState,
           });
 
-          this.dataManagerService.initDataView(this.viewConfig);
+          this.#dataManagerService.initDataView(this.viewConfig);
 
           this.displayedItems = this.sortItems(
             this.filterItems(this.searchItems(this.componentData)),
           );
-          this.changeDetector.markForCheck();
+          this.#changeDetector.markForCheck();
         },
       );
     });
   }
 
   public ngAfterViewInit(): void {
-    this.dataManagerService
+    this.#dataManagerService
       .getDataStateUpdates('playgroundComponents')
       .subscribe((state) => {
         this.dataState = state;
@@ -127,7 +132,7 @@ export class HomeComponent implements AfterViewInit {
           this.displayedItems = this.sortItems(
             this.filterItems(this.searchItems(this.componentData)),
           );
-          this.changeDetector.detectChanges();
+          this.#changeDetector.detectChanges();
         }
       });
   }

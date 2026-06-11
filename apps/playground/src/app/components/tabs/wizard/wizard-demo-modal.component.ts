@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -31,14 +31,8 @@ export class WizardDemoModalComponent implements OnInit {
   public step3Disabled = true;
   public saveDisabled = true;
 
-  #formBuilder: UntypedFormBuilder;
-
-  constructor(
-    public instance: SkyModalInstance,
-    formBuilder: UntypedFormBuilder,
-  ) {
-    this.#formBuilder = formBuilder;
-  }
+  public readonly instance = inject(SkyModalInstance);
+  readonly #formBuilder = inject(UntypedFormBuilder);
 
   public ngOnInit(): void {
     this.myForm = this.#formBuilder.group({

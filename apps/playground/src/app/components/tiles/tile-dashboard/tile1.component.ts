@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { GreetingService } from './greeting/greeting.service';
 
@@ -9,11 +9,7 @@ import { GreetingService } from './greeting/greeting.service';
   standalone: false,
 })
 export class Tile1Component {
-  #greetingSvc: GreetingService;
-
-  constructor(greetingSvc: GreetingService) {
-    this.#greetingSvc = greetingSvc;
-  }
+  #greetingSvc = inject(GreetingService);
 
   public get greeting(): string {
     return this.#greetingSvc.sayHello();
