@@ -47,11 +47,11 @@ before working on matching files. Consult these when your change touches their
 scope:
 
 - [angular.instructions.md](.github/instructions/angular.instructions.md)
-  (`applyTo: **/*.{ts,html}`) — Angular best practices for maintainable,
-  performant, and accessible code. Applies to all Angular work.
+  (`applyTo: **/libs/components/**/*.{ts,html}, **/apps/**/*.{ts,html}`) —
+  Angular best practices for maintainable, performant, and accessible code.
 - [component-unit-testing.instructions.md](.github/instructions/component-unit-testing.instructions.md)
-  (`libs/components/*/src/lib/**/*.{component,directive}.spec.ts`) — writing
-  unit tests for library components and directives.
+  (`**/libs/components/*/src/lib/**/*.spec.ts, !**/libs/components/code-examples/**`)
+  — writing unit tests for library components and directives.
 - [component-code-examples.instructions.md](.github/instructions/component-code-examples.instructions.md)
   (`libs/components/code-examples/**`, `libs/components/*/documentation.json`)
   — authoring code example components and their unit tests.
