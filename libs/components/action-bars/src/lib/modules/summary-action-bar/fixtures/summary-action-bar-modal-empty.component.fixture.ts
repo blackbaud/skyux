@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { SkyModalInstance, SkyModalService } from '@skyux/modals';
 
 import { SkySummaryActionBarModalTestComponent } from './summary-action-bar-modal.component.fixture';
@@ -10,14 +10,7 @@ import { SkySummaryActionBarModalTestComponent } from './summary-action-bar-moda
 })
 export class SkySummaryActionBarModalEmptyTestComponent implements OnDestroy {
   #modal: SkyModalInstance | undefined;
-  #modalService: SkyModalService;
-
-  constructor(
-    public instance: SkyModalInstance,
-    modalService: SkyModalService,
-  ) {
-    this.#modalService = modalService;
-  }
+  readonly #modalService = inject(SkyModalService);
 
   public ngOnDestroy(): void {
     this.#modal?.close();

@@ -1,4 +1,4 @@
-import { Component, Optional } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { DockItemFixtureContext } from './dock-item-context.fixture';
 
@@ -8,9 +8,6 @@ import { DockItemFixtureContext } from './dock-item-context.fixture';
   standalone: false,
 })
 export class DockItemFixtureComponent {
-  public height: number | undefined;
-
-  constructor(@Optional() context?: DockItemFixtureContext) {
-    this.height = context?.args.height;
-  }
+  public readonly height = inject(DockItemFixtureContext, { optional: true })
+    ?.args.height;
 }

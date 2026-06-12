@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { SkyCoreAdapterService } from '@skyux/core';
 
 /**
@@ -8,11 +8,7 @@ import { SkyCoreAdapterService } from '@skyux/core';
   providedIn: 'root',
 })
 export class SkyAgGridAdapterService {
-  #skyAdapterService: SkyCoreAdapterService;
-
-  constructor(skyAdapterService: SkyCoreAdapterService) {
-    this.#skyAdapterService = skyAdapterService;
-  }
+  readonly #skyAdapterService = inject(SkyCoreAdapterService);
 
   public getElementOrParentWithClass(
     element: HTMLElement,

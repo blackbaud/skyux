@@ -35,11 +35,13 @@ export class SkyNumericPipe implements PipeTransform, OnDestroy {
 
   #providerLocale: string | undefined;
 
+  /* eslint-disable @angular-eslint/prefer-inject -- constructor injection is required to maintain the public API for consumers who may instantiate this pipe directly (e.g. `new SkyNumericPipe(...)`). */
   constructor(
     localeProvider: SkyAppLocaleProvider,
     numericSvc: SkyNumericService,
     changeDetector: ChangeDetectorRef,
   ) {
+    /* eslint-enable @angular-eslint/prefer-inject */
     this.#numericSvc = numericSvc;
     this.#changeDetector = changeDetector;
 
