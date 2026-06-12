@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   SkyModalConfigurationInterface,
@@ -32,7 +32,7 @@ export class ModalVisualComponent {
   public showHelp = false;
   public buttonsHidden: boolean;
 
-  constructor(private modal: SkyModalService) {}
+  readonly #modal = inject(SkyModalService);
 
   public openModal(): void {
     this.openModalInstance(ModalDemoComponent, { providers: [] });
@@ -163,7 +163,7 @@ export class ModalVisualComponent {
   ): SkyModalInstance {
     this.hideButtons();
 
-    const instance = this.modal.open(modalType, options);
+    const instance = this.#modal.open(modalType, options);
 
     instance.closed.subscribe(() => {
       this.showButtons();

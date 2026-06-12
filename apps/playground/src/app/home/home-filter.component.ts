@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   SkyDataManagerFilterData,
   SkyDataManagerFilterModalContext,
@@ -12,12 +12,12 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
   imports: [SkyModalModule, SkyRepeaterModule],
 })
 export class HomeFiltersModalDemoComponent {
+  public readonly context = inject(SkyDataManagerFilterModalContext);
+  public readonly instance = inject(SkyModalInstance);
+
   public libraries: { name: string; isSelected: boolean }[];
 
-  constructor(
-    public context: SkyDataManagerFilterModalContext,
-    public instance: SkyModalInstance,
-  ) {
+  constructor() {
     if (this.context.filterData && this.context.filterData.filters) {
       const filters = this.context.filterData.filters;
       // Deep clone the array so that cancelling is done without issue

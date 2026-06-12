@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import {
   SkyModalCloseArgs,
@@ -90,11 +90,9 @@ export class SkyAgGridDemoComponent implements OnInit {
   public gridApi: GridApi | undefined;
   public searchText = '';
 
-  constructor(
-    private agGridService: SkyAgGridService,
-    private modalService: SkyModalService,
-    public themeSvc: SkyThemeService,
-  ) {}
+  readonly #agGridService = inject(SkyAgGridService);
+  readonly #modalService = inject(SkyModalService);
+  public readonly themeSvc = inject(SkyThemeService);
 
   public ngOnInit(): void {
     this.getGridOptions();
@@ -115,7 +113,7 @@ export class SkyAgGridDemoComponent implements OnInit {
       size: 'large',
     };
 
-    const modalInstance = this.modalService.open(
+    const modalInstance = this.#modalService.open(
       SkyAgGridEditModalComponent,
       options,
     );
@@ -148,7 +146,7 @@ export class SkyAgGridDemoComponent implements OnInit {
       columnDefs: this.columnDefs,
       onGridReady: (gridReadyEvent): void => this.onGridReady(gridReadyEvent),
     };
-    this.gridOptions = this.agGridService.getGridOptions({
+    this.gridOptions = this.#agGridService.getGridOptions({
       gridOptions: this.gridOptions,
     });
   }

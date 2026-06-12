@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   AbstractControl,
   UntypedFormBuilder,
@@ -27,7 +27,9 @@ export class SingleFileAttachmentComponent {
     return this.fileForm.get('imageAttachment');
   }
 
-  constructor(formBuilder: UntypedFormBuilder) {
+  readonly #formBuilder = inject(UntypedFormBuilder);
+
+  constructor() {
     this.disabled = new UntypedFormControl({
       value: undefined,
       disabled: true,
@@ -55,7 +57,7 @@ export class SingleFileAttachmentComponent {
     );
     this.errored = new UntypedFormControl(undefined, Validators.required);
     this.errored.markAsTouched();
-    this.fileForm = formBuilder.group({
+    this.fileForm = this.#formBuilder.group({
       attachment: this.attachment,
       attachmentNotRequired: new UntypedFormControl(undefined),
       disabled: this.disabled,

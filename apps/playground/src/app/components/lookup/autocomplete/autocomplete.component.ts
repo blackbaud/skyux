@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { NgModel, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import {
   SkyAutocompleteSearchAsyncArgs,
@@ -37,14 +37,14 @@ export class AutocompleteComponent implements OnInit {
 
   private reactiveDisabledState = false;
 
-  constructor(private formBuilder: UntypedFormBuilder) {}
+  readonly #formBuilder = inject(UntypedFormBuilder);
 
   public ngOnInit(): void {
-    this.controlForm = this.formBuilder.group({
+    this.controlForm = this.#formBuilder.group({
       searchTextMin: undefined,
       searchTextMinTemplate: undefined,
     });
-    this.reactiveForm = this.formBuilder.group({
+    this.reactiveForm = this.#formBuilder.group({
       favoriteColor: undefined,
       favoriteColorAsync: undefined,
     });

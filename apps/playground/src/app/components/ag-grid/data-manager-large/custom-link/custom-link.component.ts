@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  inject,
 } from '@angular/core';
 
 import { ICellRendererComp, ICellRendererParams } from 'ag-grid-community';
@@ -32,13 +33,11 @@ import { ICellRendererComp, ICellRendererParams } from 'ag-grid-community';
 export class CustomLinkComponent implements ICellRendererComp {
   public link: string;
 
-  constructor(
-    private elementRef: ElementRef,
-    private changeDetectorRef: ChangeDetectorRef,
-  ) {}
+  readonly #elementRef = inject(ElementRef);
+  readonly #changeDetectorRef = inject(ChangeDetectorRef);
 
   public getGui(): HTMLElement {
-    return this.elementRef.nativeElement as HTMLElement;
+    return this.#elementRef.nativeElement as HTMLElement;
   }
 
   public agInit(params: ICellRendererParams): void {
@@ -54,7 +53,7 @@ export class CustomLinkComponent implements ICellRendererComp {
     if (!value) {
       if (this.link) {
         this.link = '';
-        this.changeDetectorRef.markForCheck();
+        this.#changeDetectorRef.markForCheck();
       }
     } else {
       let newValue = '';
@@ -66,7 +65,7 @@ export class CustomLinkComponent implements ICellRendererComp {
       }
       if (newValue !== this.link) {
         this.link = newValue;
-        this.changeDetectorRef.markForCheck();
+        this.#changeDetectorRef.markForCheck();
       }
     }
   }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyCheckboxModule } from '@skyux/forms';
 import { SkySectionedFormService } from '@skyux/tabs';
@@ -29,11 +29,7 @@ export class SectionedFormInformationFormDemoComponent {
     }
   }
 
-  #sectionService: SkySectionedFormService;
-
-  constructor(sectionService: SkySectionedFormService) {
-    this.#sectionService = sectionService;
-  }
+  readonly #sectionService = inject(SkySectionedFormService);
 
   public checkValidity(): void {
     if (!this.name && this.nameRequired) {

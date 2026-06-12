@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -45,8 +45,10 @@ export class ColorpickerComponent {
 
   public readonly ready = of(true).pipe(delay(1200));
 
-  constructor(formBuilder: FormBuilder) {
-    this.colorForm = formBuilder.group({
+  readonly #formBuilder = inject(FormBuilder);
+
+  constructor() {
+    this.colorForm = this.#formBuilder.group({
       colorOne: new FormControl('#f00'),
       colorTwo: new FormControl('#ff0'),
       colorThree: new FormControl({ value: '#000', disabled: true }),

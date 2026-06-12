@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
   ViewEncapsulation,
 } from '@angular/core';
 
@@ -17,11 +18,11 @@ import { ICellRendererParams } from 'ag-grid-community';
 export class CustomMultilineComponent implements ICellRendererAngularComp {
   public lines: number;
 
-  constructor(private changeDetectorRef: ChangeDetectorRef) {}
+  readonly #changeDetectorRef = inject(ChangeDetectorRef);
 
   public agInit(params: ICellRendererParams): void {
     this.lines = (params.node?.rowIndex - 3) % 5;
-    this.changeDetectorRef.detectChanges();
+    this.#changeDetectorRef.detectChanges();
   }
 
   public refresh(params: ICellRendererParams): boolean {

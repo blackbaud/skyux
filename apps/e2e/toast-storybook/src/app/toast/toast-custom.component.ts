@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyToastInstance } from '@skyux/toast';
 
 @Component({
@@ -8,5 +8,5 @@ import { SkyToastInstance } from '@skyux/toast';
   standalone: false,
 })
 export class ToastCustomComponent {
-  constructor(public message: SkyToastInstance) {}
+  protected readonly message = inject(SkyToastInstance);
 }

@@ -21,9 +21,8 @@ export class ModalComponent {
   public buttonsHidden = false;
   public showPositionedEl = false;
 
-  #renderer = inject(Renderer2);
-
-  constructor(private modal: SkyModalService) {}
+  readonly #modal = inject(SkyModalService);
+  readonly #renderer = inject(Renderer2);
 
   public hideButtons(): void {
     this.buttonsHidden = true;
@@ -192,7 +191,7 @@ export class ModalComponent {
   ): SkyModalInstance {
     this.hideButtons();
 
-    const instance = this.modal.open(modalInstance, options);
+    const instance = this.#modal.open(modalInstance, options);
 
     instance.closed.subscribe(() => {
       this.showButtons();

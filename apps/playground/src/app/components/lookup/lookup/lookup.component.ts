@@ -4,6 +4,7 @@ import {
   OnInit,
   TemplateRef,
   ViewChild,
+  inject,
 } from '@angular/core';
 import {
   UntypedFormBuilder,
@@ -77,11 +78,9 @@ export class LookupComponent implements OnInit {
     };
   }
 
-  constructor(
-    private formBuilder: UntypedFormBuilder,
-    private modalService: SkyModalService,
-    private changeDetector: ChangeDetectorRef,
-  ) {}
+  readonly #formBuilder = inject(UntypedFormBuilder);
+  readonly #modalService = inject(SkyModalService);
+  readonly #changeDetector = inject(ChangeDetectorRef);
 
   public ngOnInit(): void {
     this.createForms();
@@ -118,14 +117,17 @@ export class LookupComponent implements OnInit {
     } else {
       this.showMoreConfig.customPicker = {
         open: (context: SkyLookupShowMoreCustomPickerContext): void => {
-          const instance = this.modalService.open(LookupCustomPickerComponent, {
-            providers: [
-              {
-                provide: SkyLookupShowMoreCustomPickerContext,
-                useValue: context,
-              },
-            ],
-          });
+          const instance = this.#modalService.open(
+            LookupCustomPickerComponent,
+            {
+              providers: [
+                {
+                  provide: SkyLookupShowMoreCustomPickerContext,
+                  useValue: context,
+                },
+              ],
+            },
+          );
 
           instance.closed.subscribe((closeArgs: SkyModalCloseArgs) => {
             if (closeArgs.reason === 'save') {
@@ -133,7 +135,7 @@ export class LookupComponent implements OnInit {
                 this.bestFriendsForm.setValue({
                   bestFriend: [this.people[this.people.length - 1]],
                 });
-                this.changeDetector.markForCheck();
+                this.#changeDetector.markForCheck();
               }
             }
           });
@@ -172,13 +174,13 @@ export class LookupComponent implements OnInit {
   }
 
   private createForms(): void {
-    this.friendsForm = this.formBuilder.group({
+    this.friendsForm = this.#formBuilder.group({
       emptyFriends: new UntypedFormControl([]),
       friends: new UntypedFormControl(this.friends),
       friends2: new UntypedFormControl(this.friends2),
     });
 
-    this.bestFriendsForm = this.formBuilder.group({
+    this.bestFriendsForm = this.#formBuilder.group({
       bestFriend: new UntypedFormControl(this.bestFriend, Validators.required),
       bestFriendAsync: undefined,
     });

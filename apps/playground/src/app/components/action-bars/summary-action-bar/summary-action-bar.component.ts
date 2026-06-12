@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { SkySummaryActionBarError } from '@skyux/action-bars';
 import { SkyKeyInfoLayoutType } from '@skyux/indicators';
 import { SkyModalService } from '@skyux/modals';
@@ -28,7 +28,7 @@ export class SummaryActionBarComponent implements OnDestroy {
     },
   ];
 
-  constructor(private modalService: SkyModalService) {}
+  readonly #modalService = inject(SkyModalService);
 
   public ngOnDestroy(): void {
     this.ngUnsubscribe.next();
@@ -40,13 +40,13 @@ export class SummaryActionBarComponent implements OnDestroy {
   }
 
   public openModal(): void {
-    this.modalService.open(SummaryActionBarModalComponent, {
+    this.#modalService.open(SummaryActionBarModalComponent, {
       size: 'large',
     });
   }
 
   public openFullScreenModal(): void {
-    this.modalService.open(SummaryActionBarModalComponent, {
+    this.#modalService.open(SummaryActionBarModalComponent, {
       fullPage: true,
     });
   }

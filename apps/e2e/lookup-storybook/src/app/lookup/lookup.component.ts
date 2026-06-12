@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 export interface Names {
@@ -62,8 +62,10 @@ export class LookupComponent {
 
   #_disabledFlag = false;
 
-  constructor(formBuilder: FormBuilder) {
-    this.favoritesForm = formBuilder.group({
+  readonly #formBuilder = inject(FormBuilder);
+
+  constructor() {
+    this.favoritesForm = this.#formBuilder.group({
       favoriteNames: [[this.people[10]]],
       favoriteNamesAll: [this.people],
       favoriteNamesFew: [[this.people[0], this.people[1], this.people[2]]],
