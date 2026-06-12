@@ -8,6 +8,11 @@
       "command": "npx",
       "args": ["-y", "@azure-devops/mcp", "blackbaud"],
       "type": "stdio"
+    },
+    "nx": {
+      "command": "npx",
+      "args": ["-y", "nx-mcp@0.25.0"],
+      "type": "stdio"
     }
   },
   "inputs": []
