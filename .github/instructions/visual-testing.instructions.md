@@ -32,11 +32,39 @@ the output; do not hand-build the surrounding app wiring.
   a `moduleMetadata` decorator that imports the wrapper component's module.
 - Export one or more named stories. Each is a plain object with a `render`
   function returning `{ props: args }` and an `args` object for the rendered
-  inputs. Mirror an existing sibling story (e.g.
-  `apps/e2e/avatar-storybook/src/app/avatar/avatar.component.stories.ts`).
+  inputs.
 - The wrapper component (`app-<name>`) is a thin, non-standalone host that
   embeds the real SKY UX component(s) and supplies demo data. Keep it minimal
   and focused on the visual state(s) under test.
+
+This is the canonical shape produced by the generator (rename `Example` to your
+component). Add a named story per distinct visual state; populate `args` with
+the wrapper component's inputs:
+
+```typescript
+import { Meta, moduleMetadata } from '@storybook/angular';
+
+import { ExampleComponent } from './example.component';
+import { ExampleModule } from './example.module';
+
+export default {
+  id: 'examplecomponent-example',
+  title: 'Components/Example',
+  component: ExampleComponent,
+  decorators: [
+    moduleMetadata({
+      imports: [ExampleModule],
+    }),
+  ],
+} as Meta<ExampleComponent>;
+
+export const Example = {
+  render: (args: ExampleComponent): { props: unknown } => ({
+    props: args,
+  }),
+  args: {},
+};
+```
 
 ## What to Capture
 

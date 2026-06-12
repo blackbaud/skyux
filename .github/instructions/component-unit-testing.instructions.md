@@ -15,16 +15,21 @@ tests, so computed styles and accessibility are assertable.
 This guidance is for **library source specs**. It does not cover:
 
 - **Code-example specs** (`libs/components/code-examples/**`) — follow
-  [code-examples-unit-testing.instructions.md](./code-examples-unit-testing.instructions.md).
+  [component-code-examples.instructions.md](./component-code-examples.instructions.md).
 - **Harness specs** (`libs/components/**/testing/src/**`) — follow
-  [skyux-copilot-harnesses.instructions.md](./skyux-copilot-harnesses.instructions.md).
+  [component-harnesses.instructions.md](./component-harnesses.instructions.md).
 
-Before writing, **open a sibling spec in the same library** to match
-SKY-specific conventions: the fixtures module, the `@skyux-sdk/testing`
-matchers, the `a11y` block, and the providers a component needs. Beyond those
-conventions, **prefer current Angular testing best practices over copying dated
-idioms** from neighboring specs — a new spec should not inherit an older pattern
-just because nearby files use it.
+This file is your blueprint. The setup, matchers, and `a11y` patterns below are
+canonical and self-contained, so you should **not** need to copy another spec to
+write a new one. Many existing specs predate these conventions (NgModule
+`declarations`, setting properties on the host instead of `setInput`, no `a11y`
+block, `fakeAsync`/`tick` where `whenStable` would do); **do not treat a
+neighboring spec as a template** or you will inherit those dated idioms.
+
+It is fine to open an existing spec to look up **facts you cannot otherwise
+infer** — whether a `*.module.fixture.ts` exists for the component, or which
+providers the component actually needs at runtime. Take only those facts; do not
+adopt the file's structure, async style, or assertions.
 
 This is a **Karma + Jasmine + zone.js** project. Some
 [angular.dev](https://angular.dev/guide/testing/components-scenarios) testing
@@ -57,7 +62,11 @@ Choose the setup that fits the component:
   the fixtures module when one exists.
 
 In both cases, configure the testing module with the providers the component
-needs.
+needs. **Create the fixture in `beforeEach`, but do not trigger change detection
+there.** Angular's first change-detection pass runs `ngOnInit`/`ngOnChanges`, so
+deferring it lets each test set inputs _before_ the component first renders. Each
+test sets its inputs and then awaits `fixture.whenStable()` to render (see
+_Driving inputs & change detection_).
 
 ```typescript
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -75,8 +84,9 @@ describe('Example component', () => {
       providers: [provideNoopSkyAnimations()],
     });
 
+    // Create the fixture only. Do not render yet — each test sets its inputs
+    // first, then awaits whenStable() to trigger the initial change detection.
     fixture = TestBed.createComponent(SkyExampleTestComponent);
-    fixture.detectChanges();
   });
 });
 ```
@@ -126,13 +136,26 @@ Useful SKY matchers (from `@skyux-sdk/testing`):
 ## Accessibility
 
 Accessibility coverage is expected. Add a `describe('a11y', ...)` block that
-asserts the rendered output is accessible in each meaningful state:
+asserts the rendered output is accessible in each meaningful state. A
+"meaningful state" is one that changes the rendered DOM in a way a keyboard or
+screen-reader user would perceive — not every input permutation. Add an
+assertion for each such state, for example:
+
+- label present vs. absent (and help text, hint text, descriptions)
+- valid vs. invalid/error, required vs. optional
+- enabled vs. disabled, expanded vs. collapsed, selected vs. unselected
+- empty vs. populated content
+
+You do not need a separate assertion for inputs that only alter styling (a
+color, a width) without changing structure, roles, names, or states. Branch and
+code-path coverage belongs to the behavioral tests; the `a11y` block targets
+distinct accessible renderings.
 
 ```typescript
 describe('a11y', () => {
   it('should be accessible', async () => {
     fixture.componentInstance.labelText = 'Example';
-    fixture.detectChanges();
+    await fixture.whenStable();
 
     await expectAsync(fixture.nativeElement).toBeAccessible();
   });

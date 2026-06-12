@@ -52,19 +52,15 @@ scope:
 - [component-unit-testing.instructions.md](.github/instructions/component-unit-testing.instructions.md)
   (`libs/components/*/src/lib/**/*.{component,directive}.spec.ts`) — writing
   unit tests for library components and directives.
-- [code-examples-unit-testing.instructions.md](.github/instructions/code-examples-unit-testing.instructions.md)
+- [component-code-examples.instructions.md](.github/instructions/component-code-examples.instructions.md)
   (`libs/components/code-examples/**`, `libs/components/*/documentation.json`)
-  — generating code example unit tests.
-- [skyux-copilot-harnesses.instructions.md](.github/instructions/skyux-copilot-harnesses.instructions.md)
+  — authoring code example components and their unit tests.
+- [component-harnesses.instructions.md](.github/instructions/component-harnesses.instructions.md)
   (`libs/components/**/testing/src/modules/**`) — generating component test
   harnesses.
 - [visual-testing.instructions.md](.github/instructions/visual-testing.instructions.md)
   (`apps/e2e/*-storybook/src/app/**/*.stories.ts`) — authoring Storybook
   visual-test stories for Percy snapshots.
-- [add-scss-override.instructions.md](.github/instructions/add-scss-override.instructions.md)
-  (`**/*.scss`) — adding a CSS variable to the appropriate SCSS override mixin.
-- [scss-override-mixins.instructions.md](.github/instructions/scss-override-mixins.instructions.md)
-  (`**/*.scss`) — adding empty compat mixins to a component's SCSS file.
 
 ## Reviewer Persona
 

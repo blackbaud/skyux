@@ -1,9 +1,9 @@
 ---
 applyTo: '**/libs/components/**/testing/src/modules/**'
-description: 'SKY UX Copilot instructions for generating harnesses for components.'
+description: 'SKY UX instructions for generating test harnesses for components.'
 ---
 
-# SKY UX Copilot Instructions: Harnesses
+# SKY UX Instructions: Component Harnesses
 
 ## Overview
 
@@ -12,9 +12,12 @@ with SKY UX components in automated tests. A harness exposes a component's
 public behavior through async methods so consumers' tests do not depend on
 internal DOM structure.
 
-Before writing a new harness, **open a sibling harness in the same library (or a
-similar component elsewhere) and mirror its structure.** Do not invent new
-patterns. The examples below are real patterns drawn from the codebase.
+The patterns below are canonical and drawn from the codebase — follow them
+rather than copying a neighboring harness wholesale. It is fine to open an
+existing harness to look up **facts** (which sub-harness a child component
+exposes, or the CSS classes in the component template), but take only those
+facts; do not inherit structure or naming from a file that may predate these
+conventions.
 
 ## File Organization
 

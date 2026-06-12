@@ -62,43 +62,38 @@ for exact style; do not invent new patterns.
 2. **Scaffold the component.** Create the `.ts`, `.html`, `.scss`, and
    `.module.ts` files following Angular best practices in
    [angular.instructions.md](../../instructions/angular.instructions.md).
-3. **Set up SCSS compat overrides.** If the component has a `.scss` file,
-   add the empty compat override mixin per
-   [scss-override-mixins.instructions.md](../../instructions/scss-override-mixins.instructions.md),
-   and add any CSS variables per
-   [add-scss-override.instructions.md](../../instructions/add-scss-override.instructions.md).
-4. **Export from the barrel.** Add the module and any public types to
+3. **Export from the barrel.** Add the module and any public types to
    `libs/components/<library>/src/index.ts`, using the `sky`/`Sky` prefix.
    Export a new component or directive by its own name (not an obscured
    `as λN` alias).
-5. **Write the component spec.** Add `<name>.component.spec.ts`. Most
+4. **Write the component spec.** Add `<name>.component.spec.ts`. Most
    `libs/components/*` projects enforce 100% coverage and run on
    **Karma + Jasmine** (SKY UX styles are loaded, so computed styles are
    assertable).
-6. **Add a test harness.** Create the harness, filters, and harness spec
+5. **Add a test harness.** Create the harness, filters, and harness spec
    under `libs/components/<library>/testing/src/modules/<module>/` per
-   [skyux-copilot-harnesses.instructions.md](../../instructions/skyux-copilot-harnesses.instructions.md).
+   [component-harnesses.instructions.md](../../instructions/component-harnesses.instructions.md).
    Export the harness and filters from `testing/src/public-api.ts`.
-7. **Add visual tests.** Create a Storybook story for the component in the
+6. **Add visual tests.** Create a Storybook story for the component in the
    library's e2e app per the
    [add-component-visual-tests](../add-component-visual-tests/SKILL.md) skill.
-8. **Add a code example + tests.** Create an example under
+7. **Add a code example + tests.** Create an example under
    `libs/components/code-examples/src/lib/modules/<library>/<component>/<example-name>/`
    and its `example.component.spec.ts` per the
    [add-skyux-code-example](../add-skyux-code-example/SKILL.md) skill.
-9. **Update documentation.** Add the new doc IDs to the library's
+8. **Update documentation.** Add the new doc IDs to the library's
    `documentation.json` (`development`, `testing`, and `codeExamples`
    sections) so the manifest picks them up.
-10. **Verify.** Run the affected tests, lint, and format before committing:
-    ```bash
-    npx nx test <library> --browsers=ChromeHeadless
-    npx nx test <library>-testing --browsers=ChromeHeadless
-    npx nx test code-examples --browsers=ChromeHeadless
-    npx nx build <library>-storybook
-    npm run lint:affected
-    nx format --files=<changed-file-paths>
-    ```
-11. **Commit.** Use a Conventional Commit with the matching
+9. **Verify.** Run the affected tests, lint, and format before committing:
+   ```bash
+   npx nx test <library> --browsers=ChromeHeadless
+   npx nx test <library>-testing --browsers=ChromeHeadless
+   npx nx test code-examples --browsers=ChromeHeadless
+   npx nx build <library>-storybook
+   npm run lint:affected
+   nx format --files=<changed-file-paths>
+   ```
+10. **Commit.** Use a Conventional Commit with the matching
     `components/<library>` scope per
     [commit-message.instructions.md](../../instructions/commit-message.instructions.md).
 

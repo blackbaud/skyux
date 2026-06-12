@@ -9,7 +9,7 @@ argument-hint: '<library> <ComponentName> (e.g. forms SkyCheckbox)'
 Use this skill to backfill or add a CDK component test harness for a component
 that already lives in a published `@skyux/*` library. The detailed conventions
 live in
-[skyux-copilot-harnesses.instructions.md](../../instructions/skyux-copilot-harnesses.instructions.md)
+[component-harnesses.instructions.md](../../instructions/component-harnesses.instructions.md)
 (it auto-applies to `**/libs/components/**/testing/src/modules/**`) — read it
 before writing code rather than guessing.
 
@@ -32,9 +32,11 @@ Do NOT use this skill to:
 
 ## Procedure
 
-Work top to bottom. **Always mirror an existing sibling harness** in the same
-library (or the closest analog elsewhere) for exact style; do not invent new
-patterns.
+Work top to bottom. Follow the canonical patterns in
+[component-harnesses.instructions.md](../../instructions/component-harnesses.instructions.md)
+for all code-level detail; open a sibling harness only to look up **facts**
+(which sub-harness a child component exposes, the template's CSS classes), not
+to copy its structure or naming.
 
 1. **Locate the component and read its public API.** Find the component under
    `libs/components/<library>/src/lib/modules/<module>/`. Note its tag/selector
@@ -43,17 +45,15 @@ patterns.
    components (candidates for sub-harness composition). The harness should
    expose this surface and nothing internal.
 
-2. **Pick a sibling to mirror and choose a base class.** Open an existing
-   harness in the same library. Extend `SkyComponentHarness` by default, or
-   `SkyQueryableComponentHarness` if consumers will query the instance for
-   child harnesses (e.g. list items). See the instruction file's
+2. **Choose a base class** (`SkyComponentHarness` or
+   `SkyQueryableComponentHarness`) per the instruction file's
    "Choosing a base class".
 
 3. **Create the harness, filters, and spec** under
    `libs/components/<library>/testing/src/modules/<module>/`
    (`<component>-harness.ts`, `<component>-harness-filters.ts`, and
    `<component>-harness.spec.ts`) following
-   [skyux-copilot-harnesses.instructions.md](../../instructions/skyux-copilot-harnesses.instructions.md)
+   [component-harnesses.instructions.md](../../instructions/component-harnesses.instructions.md)
    for the class structure, locators, filters, and spec conventions. The
    harness must expose the public API surface identified in step 1, and the
    spec must cover every public method and thrown-error path (most projects
@@ -82,7 +82,7 @@ patterns.
 ## Definition of Done
 
 - Harness, filters, and harness spec exist under the library's `testing/`
-  tree and follow a sibling harness's structure.
+  tree and follow the patterns in the instruction file.
 - The harness exposes the component's public API (inputs/outputs/models, key
   interactions, child harnesses) with JSDoc on the class and every public
   member; `hostSelector` is `@internal`.

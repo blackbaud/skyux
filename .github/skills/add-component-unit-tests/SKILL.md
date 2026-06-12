@@ -26,7 +26,7 @@ thresholds, and Conventional Commits).
 Do NOT use this skill for:
 
 - **Code-example demo specs** (`libs/components/code-examples/**`) — those follow
-  [code-examples-unit-testing.instructions.md](../../instructions/code-examples-unit-testing.instructions.md).
+  [component-code-examples.instructions.md](../../instructions/component-code-examples.instructions.md).
 - **Test harness specs** (`libs/components/**/testing/src/**`) — use the
   [add-component-harness](../add-component-harness/SKILL.md) skill.
 - Jest-based projects (`libs/sdk/*`, `manifest`, `packages`) — those use a
