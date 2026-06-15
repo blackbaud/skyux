@@ -32,7 +32,7 @@ export class SkyOverlayService {
   #dynamicComponentSvc: SkyDynamicComponentService;
   readonly #environmentInjector = inject(EnvironmentInjector);
 
-  /* eslint-disable @angular-eslint/prefer-inject -- constructor injection is required to maintain the public API for consumers who may instantiate this service directly (e.g. `new SkyOverlayService(...)`). */
+  /* eslint-disable @angular-eslint/prefer-inject -- constructor param retained for backwards-compatible typing/overrides; this service still relies on Angular DI via `inject()` for other dependencies. */
   constructor(dynamicComponentSvc: SkyDynamicComponentService) {
     /* eslint-enable @angular-eslint/prefer-inject */
     this.#dynamicComponentSvc = dynamicComponentSvc;
@@ -151,7 +151,7 @@ export class SkyOverlayService {
 })
 export class SkyOverlayLegacyService extends SkyOverlayService {
   /* istanbul ignore next */
-  // eslint-disable-next-line @angular-eslint/prefer-inject -- constructor injection is required to maintain the public API for consumers who may instantiate this service directly.
+  // eslint-disable-next-line @angular-eslint/prefer-inject -- constructor param retained for backwards-compatible typing/overrides.
   constructor(dynamicComponentSvc: SkyDynamicComponentLegacyService) {
     super(dynamicComponentSvc);
   }

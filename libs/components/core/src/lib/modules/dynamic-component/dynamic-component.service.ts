@@ -33,7 +33,7 @@ export class SkyDynamicComponentService {
 
   #environmentInjector = inject(EnvironmentInjector);
 
-  /* eslint-disable @angular-eslint/prefer-inject -- constructor injection is required to maintain the public API for consumers who may instantiate this service directly (e.g. `new SkyDynamicComponentService(...)`). */
+  /* eslint-disable @angular-eslint/prefer-inject -- constructor signature retained for backwards-compatible typing/mocks; the service still relies on Angular DI for other dependencies. */
   constructor(
     applicationRef: ApplicationRef,
     windowRef: SkyAppWindowRef,
