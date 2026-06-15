@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { SkyPercentPipeModule } from '../percent-pipe.module';
 import { SkyPercentPipe } from '../percent.pipe';
@@ -17,11 +17,7 @@ export class PercentPipeTestComponent {
   // Set to 'unknown' since our tests check multiple value types.
   public numberValue: unknown = 0.8675309;
 
-  #percentPipe: SkyPercentPipe;
-
-  constructor(percentPipe: SkyPercentPipe) {
-    this.#percentPipe = percentPipe;
-  }
+  readonly #percentPipe = inject(SkyPercentPipe);
 
   public getDatePipeResult(
     value: string,

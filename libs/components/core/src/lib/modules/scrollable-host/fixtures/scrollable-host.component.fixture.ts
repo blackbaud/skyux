@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  ViewChild,
+  inject,
+} from '@angular/core';
 
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -36,11 +42,7 @@ export class ScrollableHostFixtureComponent implements OnDestroy {
 
   public ngUnsubscribe = new Subject<void>();
 
-  #scrollableHostService: SkyScrollableHostService;
-
-  constructor(scrollableHostService: SkyScrollableHostService) {
-    this.#scrollableHostService = scrollableHostService;
-  }
+  readonly #scrollableHostService = inject(SkyScrollableHostService);
 
   public ngOnDestroy(): void {
     this.ngUnsubscribe.next();

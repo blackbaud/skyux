@@ -1,15 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { SkyAppWindowRef } from '@skyux/core';
 
 import { SkySkipLink } from './skip-link';
 
 @Injectable()
 export class SkySkipLinkAdapterService {
-  #windowRef: SkyAppWindowRef;
-
-  constructor(windowRef: SkyAppWindowRef) {
-    this.#windowRef = windowRef;
-  }
+  readonly #windowRef = inject(SkyAppWindowRef);
 
   public skipTo(link: SkySkipLink): void {
     const targetElement = link.elementRef.nativeElement;

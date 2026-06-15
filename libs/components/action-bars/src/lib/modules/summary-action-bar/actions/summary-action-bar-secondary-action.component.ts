@@ -6,6 +6,7 @@ import {
   EventEmitter,
   Input,
   Output,
+  inject,
 } from '@angular/core';
 import { SkyDropdownModule } from '@skyux/popovers';
 import { SkyThemeComponentClassDirective, SkyThemeModule } from '@skyux/theme';
@@ -46,11 +47,7 @@ export class SkySummaryActionBarSecondaryActionComponent {
 
   #_isDropdown: boolean | undefined;
 
-  #changeDetector: ChangeDetectorRef;
-
-  constructor(changeDetector: ChangeDetectorRef) {
-    this.#changeDetector = changeDetector;
-  }
+  readonly #changeDetector = inject(ChangeDetectorRef);
 
   public onButtonClicked(): void {
     this.actionClick.emit();

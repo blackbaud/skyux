@@ -12,6 +12,7 @@ import { SkyAppSetTitleArgs } from './set-title-args';
 export class SkyAppTitleService {
   #title: Title;
 
+  // eslint-disable-next-line @angular-eslint/prefer-inject -- constructor injection is required to maintain the public API for consumers who may instantiate this service directly (e.g. `new SkyAppTitleService(...)`).
   constructor(title: Title) {
     this.#title = title;
   }
