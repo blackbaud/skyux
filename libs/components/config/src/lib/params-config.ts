@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 
 import { SkyuxConfigParams } from './config-params';
 import { SkyAppParamsConfigArgs } from './params-config-args';
@@ -30,12 +30,11 @@ export class SkyAppParamsConfig {
 
   #_params: SkyuxConfigParams;
 
-  readonly #args = inject(SkyAppParamsConfigArgs, { optional: true });
-
-  constructor() {
+  // eslint-disable-next-line @angular-eslint/prefer-inject -- constructor injection is required to maintain the public API for consumers who may instantiate this service directly (e.g. `new SkyAppParamsConfig(...)`).
+  constructor(@Optional() args?: SkyAppParamsConfigArgs) {
     this.#_params = {
       ...DEFAULTS.params,
-      ...(this.#args?.params || {}),
+      ...(args?.params || {}),
     };
   }
 }
