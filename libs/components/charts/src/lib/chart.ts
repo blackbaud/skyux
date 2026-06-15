@@ -2,8 +2,10 @@ import {
   booleanAttribute,
   ChangeDetectionStrategy,
   Component,
+  inject,
   input,
 } from '@angular/core';
+import { SkyIdService } from '@skyux/core';
 import { SkyChartHeading } from './chart-heading';
 import { SkyChartSubheading } from './chart-subheading';
 import {
@@ -32,10 +34,9 @@ import {
 })
 export class SkyChart {
   /**
-   * Indicates whether to hide the `headingText`.
+   * Whether to hide the chart's heading.
    */
   public readonly headingHidden = input(false, { transform: booleanAttribute });
-
   /**
    * The semantic heading level in the document structure.
    * @default 3
@@ -63,8 +64,10 @@ export class SkyChart {
    */
   public readonly headingText = input.required<string>();
 
+  /**
+   * The text to display as the chart's subheading.
+   */
   public readonly subheadingText = input<string>();
-  public readonly subheadingHidden = input(false, {
-    transform: booleanAttribute,
-  });
+
+  protected readonly headingId = inject(SkyIdService).generateId();
 }

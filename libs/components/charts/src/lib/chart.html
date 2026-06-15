@@ -1,15 +1,15 @@
 <div class="sky-chart-header sky-margin-stacked-sm">
-  @if (!headingHidden()) {
-    <sky-chart-heading
-      [headingLevel]="headingLevel()"
-      [headingStyle]="headingStyle()"
-      [headingText]="headingText()"
-    />
-  }
-  @if (!subheadingHidden() && subheadingText()) {
-    <sky-chart-subheading [subheadingText]="subheadingText()" />
+  <sky-chart-heading
+    [headingHidden]="headingHidden()"
+    [headingId]="headingId"
+    [headingLevel]="headingLevel()"
+    [headingStyle]="headingStyle()"
+    [headingText]="headingText()"
+  />
+  @if (subheadingText(); as subheadingText) {
+    <sky-chart-subheading [subheadingText]="subheadingText" />
   }
 </div>
-<figure class="sky-chart-content">
+<figure class="sky-chart-content" [attr.aria-labelledby]="headingId">
   <ng-content />
 </figure>
