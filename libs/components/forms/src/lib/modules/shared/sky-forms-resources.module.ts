@@ -50,8 +50,7 @@ const RESOURCES: Record<string, SkyLibResources> = {
       message: '{0} must be at least {1} characters.',
     },
     skyux_form_error_phone: {
-      message:
-        'Enter a phone number matching the format for the selected country.',
+      message: 'Enter a valid phone number for the selected country.',
     },
     skyux_form_error_required: { message: '{0} is required.' },
     skyux_form_error_time: { message: 'Select or enter a valid time.' },
