@@ -8,6 +8,11 @@
   grid-column: 1;
 }
 
-.sky-chart-body {
+sky-chart-subheading {
+  grid-column: 1;
+}
+
+.sky-chart-content {
   grid-column: 1 / -1;
+  margin: 0;
 }

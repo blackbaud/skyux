@@ -1,3 +1,3 @@
-export { SkyChart } from './chart';
-export type { SkyChartHeadingLevel } from './utils/heading-level';
-export type { SkyChartHeadingStyle } from './utils/heading-style';
+export { SkyChart } from './lib/chart';
+export type { SkyChartHeadingLevel } from './lib/utils/heading-level';
+export type { SkyChartHeadingStyle } from './lib/utils/heading-style';

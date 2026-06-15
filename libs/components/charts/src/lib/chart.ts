@@ -1,9 +1,11 @@
 import {
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
-  computed,
   input,
 } from '@angular/core';
+import { SkyChartHeading } from './chart-heading';
+import { SkyChartSubheading } from './chart-subheading';
 import {
   DEFAULT_HEADING_LEVEL,
   headingLevelInputTransformer,
@@ -23,11 +25,17 @@ import {
   host: {
     class: 'sky-chart',
   },
+  imports: [SkyChartHeading, SkyChartSubheading],
   selector: 'sky-chart',
   styleUrl: './chart.scss',
   templateUrl: './chart.html',
 })
 export class SkyChart {
+  /**
+   * Indicates whether to hide the `headingText`.
+   */
+  public readonly headingHidden = input(false, { transform: booleanAttribute });
+
   /**
    * The semantic heading level in the document structure.
    * @default 3
@@ -55,7 +63,8 @@ export class SkyChart {
    */
   public readonly headingText = input.required<string>();
 
-  protected readonly headingClass = computed(() => {
-    return `sky-font-heading-${this.headingStyle()}`;
+  public readonly subheadingText = input<string>();
+  public readonly subheadingHidden = input(false, {
+    transform: booleanAttribute,
   });
 }

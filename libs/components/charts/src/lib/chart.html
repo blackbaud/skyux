@@ -1,0 +1,15 @@
+<div class="sky-chart-header sky-margin-stacked-sm">
+  @if (!headingHidden()) {
+    <sky-chart-heading
+      [headingLevel]="headingLevel()"
+      [headingStyle]="headingStyle()"
+      [headingText]="headingText()"
+    />
+  }
+  @if (!subheadingHidden() && subheadingText()) {
+    <sky-chart-subheading [subheadingText]="subheadingText()" />
+  }
+</div>
+<figure class="sky-chart-content">
+  <ng-content />
+</figure>
