@@ -33,11 +33,13 @@ export class SkyDynamicComponentService {
 
   #environmentInjector = inject(EnvironmentInjector);
 
+  /* eslint-disable @angular-eslint/prefer-inject -- constructor signature retained for backwards-compatible typing/mocks; the service still relies on Angular DI for other dependencies. */
   constructor(
     applicationRef: ApplicationRef,
     windowRef: SkyAppWindowRef,
     rendererFactory: RendererFactory2,
   ) {
+    /* eslint-enable @angular-eslint/prefer-inject */
     this.#applicationRef = applicationRef;
     this.#windowRef = windowRef;
 

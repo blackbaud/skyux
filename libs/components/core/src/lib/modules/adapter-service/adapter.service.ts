@@ -37,6 +37,7 @@ const SKY_TABBABLE_SELECTOR = [
 export class SkyCoreAdapterService {
   #renderer: Renderer2;
 
+  // eslint-disable-next-line @angular-eslint/prefer-inject -- constructor injection is required to maintain the public API for consumers who may instantiate this service directly (e.g. `new SkyCoreAdapterService(...)`).
   constructor(rendererFactory: RendererFactory2) {
     this.#renderer = rendererFactory.createRenderer(undefined, null);
   }

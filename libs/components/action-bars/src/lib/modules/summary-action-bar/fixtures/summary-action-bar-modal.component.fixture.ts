@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
 import { SkyModalInstance } from '@skyux/modals';
 
 import { SkySummaryActionBarComponent } from '../summary-action-bar.component';
@@ -12,5 +12,5 @@ export class SkySummaryActionBarModalTestComponent {
   @ViewChild(SkySummaryActionBarComponent)
   public summaryActionBar: SkySummaryActionBarComponent | undefined;
 
-  constructor(public instance: SkyModalInstance) {}
+  public readonly instance = inject(SkyModalInstance);
 }

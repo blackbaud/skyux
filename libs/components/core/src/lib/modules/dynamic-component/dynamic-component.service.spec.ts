@@ -8,10 +8,12 @@ import {
   ViewContainerRef,
   createEnvironmentInjector,
 } from '@angular/core';
+
 import { TestBed, inject } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { expect } from '@skyux-sdk/testing';
+import { GREETING_TOKEN } from './fixtures/greeting-token.fixture';
 
 import { SkyDynamicComponentLocation } from './dynamic-component-location';
 import { SkyDynamicComponentService } from './dynamic-component.service';
@@ -217,7 +219,7 @@ describe('Dynamic component service', () => {
 
   it('should setup providers for a component', () => {
     createTestComponent(undefined, undefined, [
-      { provide: 'greeting', useValue: 'My name is Pat.' },
+      { provide: GREETING_TOKEN, useValue: 'My name is Pat.' },
     ]);
 
     const el = getComponentEl(0);
@@ -230,7 +232,7 @@ describe('Dynamic component service', () => {
 
   it('should use a parent injector if supplied', () => {
     const injector = createEnvironmentInjector(
-      [{ provide: 'greeting', useValue: 'My name is Pat.' }],
+      [{ provide: GREETING_TOKEN, useValue: 'My name is Pat.' }],
       TestBed.inject(EnvironmentInjector),
     );
     createTestComponent(undefined, undefined, undefined, injector);

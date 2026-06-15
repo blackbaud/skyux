@@ -1,4 +1,4 @@
-import { Component, EnvironmentInjector } from '@angular/core';
+import { Component, EnvironmentInjector, inject } from '@angular/core';
 
 import { SkyDynamicComponentService } from '../dynamic-component.service';
 
@@ -12,16 +12,8 @@ import { DynamicComponentTestComponent } from './dynamic-component-test.componen
   standalone: false,
 })
 export class LazyLoadedTestComponent {
-  #dynamicComponentSvc: SkyDynamicComponentService;
-  #injector: EnvironmentInjector;
-
-  constructor(
-    dynamicComponentSvc: SkyDynamicComponentService,
-    injector: EnvironmentInjector,
-  ) {
-    this.#dynamicComponentSvc = dynamicComponentSvc;
-    this.#injector = injector;
-  }
+  readonly #dynamicComponentSvc = inject(SkyDynamicComponentService);
+  readonly #injector = inject(EnvironmentInjector);
 
   public createComponent(): void {
     this.#dynamicComponentSvc.createComponent(DynamicComponentTestComponent, {
