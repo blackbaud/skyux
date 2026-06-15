@@ -1,0 +1,13 @@
+.sky-chart {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: var(--sky-space-gap-text_action-m, 12px);
+}
+
+.sky-chart-header {
+  grid-column: 1;
+}
+
+.sky-chart-body {
+  grid-column: 1 / -1;
+}
