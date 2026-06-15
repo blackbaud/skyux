@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   SkyFlyoutConfig,
   SkyFlyoutInstance,
@@ -15,11 +15,7 @@ import { ResizeObserverContentComponent } from './resize-observer-content.compon
 export class ResizeObserverFlyoutComponent {
   public flyout: SkyFlyoutInstance<any>;
 
-  #flyoutService: SkyFlyoutService;
-
-  constructor(flyoutService: SkyFlyoutService) {
-    this.#flyoutService = flyoutService;
-  }
+  readonly #flyoutService = inject(SkyFlyoutService);
 
   public closeAndRemoveFlyout(): void {
     if (this.flyout && this.flyout.isOpen) {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { SkyDatePipe } from '@skyux/datetime';
 
 @Component({
@@ -40,10 +40,10 @@ export class DatePipeComponent implements OnInit {
 
   public myDate = new Date(1955, 10, 5);
 
-  constructor(private datePipe: SkyDatePipe) {}
+  readonly #datePipe = inject(SkyDatePipe);
 
   public ngOnInit(): void {
-    const result = this.datePipe.transform(
+    const result = this.#datePipe.transform(
       new Date('01/01/2019'),
       'short',
       'en-US',

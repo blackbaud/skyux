@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   AbstractControl,
   NgModel,
@@ -39,7 +39,9 @@ export class RadioComponent {
 
   public headingStyle: number | undefined;
 
-  constructor(formBuilder: UntypedFormBuilder) {
+  readonly #formBuilder = inject(UntypedFormBuilder);
+
+  constructor() {
     this.favoriteSeason = new UntypedFormControl(
       {
         value: undefined,
@@ -55,7 +57,7 @@ export class RadioComponent {
       ],
     );
 
-    this.radioForm = formBuilder.group({
+    this.radioForm = this.#formBuilder.group({
       favoriteSeason: this.favoriteSeason,
     });
   }

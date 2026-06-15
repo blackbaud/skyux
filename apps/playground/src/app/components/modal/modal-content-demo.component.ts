@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
@@ -7,5 +7,5 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
   imports: [SkyModalModule],
 })
 export class ModalContentDemoComponent {
-  constructor(public instance: SkyModalInstance) {}
+  public readonly instance = inject(SkyModalInstance);
 }

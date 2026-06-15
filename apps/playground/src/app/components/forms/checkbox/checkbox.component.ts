@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -40,11 +40,9 @@ export class CheckboxComponent implements OnInit {
     text: false,
   };
 
-  #formBuilder: UntypedFormBuilder;
+  readonly #formBuilder = inject(UntypedFormBuilder);
 
-  constructor(formBuilder: UntypedFormBuilder) {
-    this.#formBuilder = formBuilder;
-
+  constructor() {
     this.contactMethod = this.#formBuilder.group({
       email: new FormControl(false),
       phone: new FormControl(false, [Validators.requiredTrue]),

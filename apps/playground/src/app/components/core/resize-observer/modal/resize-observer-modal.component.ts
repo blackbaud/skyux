@@ -3,7 +3,8 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Inject,
+  inject,
+  InjectionToken,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -17,6 +18,8 @@ import {
 import { SkySectionedFormComponent, SkySectionedFormModule } from '@skyux/tabs';
 
 type SizeOptions = 'small' | 'medium' | 'large';
+
+export const SIZE_TOKEN = new InjectionToken<SizeOptions>('size');
 
 let identifier = 1;
 
@@ -38,18 +41,18 @@ export class ResizeObserverModalComponent implements AfterViewInit, OnInit {
 
   public identifier: number;
 
-  constructor(
-    public modalInstance: SkyModalInstance,
-    private changeDetectorRef: ChangeDetectorRef,
-    private mediaQueryService: SkyMediaQueryService,
-    private modalService: SkyModalService,
-    @Inject('size') public size: string,
-  ) {
+  public readonly modalInstance = inject(SkyModalInstance);
+  readonly #changeDetectorRef = inject(ChangeDetectorRef);
+  readonly #mediaQueryService = inject(SkyMediaQueryService);
+  readonly #modalService = inject(SkyModalService);
+  public readonly size = inject(SIZE_TOKEN, { optional: true });
+
+  constructor() {
     this.identifier = identifier++;
   }
 
   public ngOnInit(): void {
-    this.mediaQueryService.subscribe((breakpoint) => {
+    this.#mediaQueryService.subscribe((breakpoint) => {
       switch (breakpoint) {
         case SkyMediaBreakpoints.xs:
           this.breakpoint = 'SkyMediaBreakpoints.xs';
@@ -71,14 +74,14 @@ export class ResizeObserverModalComponent implements AfterViewInit, OnInit {
           `${this.size} modal ${this.identifier}: ${this.breakpoint}`,
         );
       }
-      this.changeDetectorRef.detectChanges();
+      this.#changeDetectorRef.detectChanges();
     });
   }
 
   public ngAfterViewInit(): void {
     this.tabsHidden = !this.sectionedFormComponent.tabsVisible();
     if (this.tabsHidden) {
-      this.changeDetectorRef.markForCheck();
+      this.#changeDetectorRef.markForCheck();
     }
   }
 
@@ -92,11 +95,11 @@ export class ResizeObserverModalComponent implements AfterViewInit, OnInit {
       size,
       providers: [
         {
-          provide: 'size',
+          provide: SIZE_TOKEN,
           useValue: size,
         },
       ],
     };
-    this.modalService.open(modalInstanceType, options);
+    this.#modalService.open(modalInstanceType, options);
   }
 }

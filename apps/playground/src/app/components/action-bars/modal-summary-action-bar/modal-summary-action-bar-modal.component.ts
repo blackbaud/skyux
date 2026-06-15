@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkySummaryActionBarModule } from '@skyux/action-bars';
 import { SkyKeyInfoModule } from '@skyux/indicators';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
@@ -10,11 +10,7 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
   imports: [SkyKeyInfoModule, SkyModalModule, SkySummaryActionBarModule],
 })
 export class ModalSummaryActionBarModalComponent {
-  #modalInstance: SkyModalInstance;
-
-  constructor(modalInstance: SkyModalInstance) {
-    this.#modalInstance = modalInstance;
-  }
+  readonly #modalInstance = inject(SkyModalInstance);
 
   public closeModal(): void {
     this.#modalInstance.close();

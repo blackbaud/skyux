@@ -13,7 +13,7 @@ import { ActionButtonModalComponent } from './action-button-modal.component';
   standalone: false,
 })
 export class ActionButtonComponent {
-  #modalSvc = inject(SkyModalService);
+  readonly #modalSvc = inject(SkyModalService);
 
   public alignItems: SkyActionButtonContainerAlignItemsType;
 

@@ -3,11 +3,11 @@ import {
   ChangeDetectorRef,
   Component,
   DOCUMENT,
-  Inject,
   Input,
   OnDestroy,
   OnInit,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import {
   SkyAgGridRowDeleteConfirmArgs,
@@ -71,27 +71,12 @@ export class AgGridStoriesComponent
 
   readonly #gridsReady = new Map<string, Observable<boolean>>();
   readonly #gridsApi = new Map<string, GridApi>();
-  readonly #agGridService: SkyAgGridService;
-  readonly #themeSvc: SkyThemeService;
-  readonly #changeDetectorRef: ChangeDetectorRef;
-  readonly #dockService: SkyDockService;
-  readonly #doc: Document;
-  readonly #ngUnsubscribe: Subscription;
-
-  constructor(
-    agGridService: SkyAgGridService,
-    themeSvc: SkyThemeService,
-    changeDetectorRef: ChangeDetectorRef,
-    dockService: SkyDockService,
-    @Inject(DOCUMENT) doc: Document,
-  ) {
-    this.#agGridService = agGridService;
-    this.#themeSvc = themeSvc;
-    this.#changeDetectorRef = changeDetectorRef;
-    this.#dockService = dockService;
-    this.#doc = doc;
-    this.#ngUnsubscribe = new Subscription();
-  }
+  readonly #agGridService = inject(SkyAgGridService);
+  readonly #themeSvc = inject(SkyThemeService);
+  readonly #changeDetectorRef = inject(ChangeDetectorRef);
+  readonly #dockService = inject(SkyDockService);
+  readonly #doc = inject(DOCUMENT);
+  readonly #ngUnsubscribe = new Subscription();
 
   public ngOnInit(): void {
     this.#dockService.setDockOptions({

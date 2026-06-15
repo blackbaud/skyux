@@ -12,6 +12,7 @@ import {
   getProjects,
   joinPathFragments,
   logger,
+  offsetFromRoot,
   readProjectConfiguration,
   updateJson,
   updateProjectConfiguration,
@@ -74,6 +75,34 @@ function simplifyWorkspaceName(tree: Tree, projectName: string): void {
       JSON.parse(projectConfigJson),
     );
   });
+}
+
+/**
+ * Replaces the eslint configs the underlying Nx generators emit (an
+ * `eslint.config.cjs` with inlined rules) with the SKY-standard `eslint.config.js`
+ * that re-exports the shared config, mirroring the sibling storybook apps.
+ */
+function useSkyEslintConfigs(
+  tree: Tree,
+  storybookProject: ProjectConfiguration,
+  e2eProject: ProjectConfiguration,
+): void {
+  const projects: [ProjectConfiguration, string][] = [
+    [storybookProject, 'eslint-storybook.config'],
+    [e2eProject, 'eslint-e2e.config'],
+  ];
+  for (const [project, sharedConfig] of projects) {
+    ['cjs', 'mjs', 'ts'].forEach((ext) => {
+      const generatedConfig = `${project.root}/eslint.config.${ext}`;
+      if (tree.exists(generatedConfig)) {
+        tree.delete(generatedConfig);
+      }
+    });
+    tree.write(
+      `${project.root}/eslint.config.js`,
+      `const config = require('${offsetFromRoot(project.root)}${sharedConfig}');\n\nmodule.exports = config;\n`,
+    );
+  }
 }
 
 /**
@@ -223,6 +252,8 @@ export default async function (
       skipFormat: true,
     });
   }
+
+  useSkyEslintConfigs(tree, projectConfig, e2eProjectConfig);
 
   // Clean up duplicate entries in nx.json
   updateJson(tree, 'nx.json', (json) => {

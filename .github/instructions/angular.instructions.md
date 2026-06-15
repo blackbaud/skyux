@@ -1,5 +1,5 @@
 ---
-applyTo: '**/src/**/*.ts|**/src/**/*.html'
+applyTo: '**/libs/components/**/*.{ts,html}, **/apps/**/*.{ts,html}'
 description: 'Angular best practice instructions. Follow these guidelines to write maintainable, performant, and accessible Angular code. Pulled from Angular documentation on 7/29/25. Did remove instruction regarding small inline templates based on team historical use.'
 ---
 
@@ -13,7 +13,7 @@ You are an expert in TypeScript, Angular, and scalable web application developme
 
 ## Angular Best Practices
 
-- Author new components as standalone (the default in v21). Do NOT remove the `Sky*Module` NgModule wrappers exported from a library's public barrel — they are part of the public API. Do NOT migrate existing module-declared components to standalone unless the task requires it.
+- Always use standalone components over NgModules
 - Do NOT set `standalone: true` inside the `@Component`, `@Directive` and `@Pipe` decorators
 - Use signals for state management
 - Implement lazy loading for feature routes

@@ -4,6 +4,7 @@ import {
   Component,
   Input,
   OnInit,
+  inject,
 } from '@angular/core';
 import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import {
@@ -109,36 +110,34 @@ export class DataViewGridComponent implements OnInit {
   protected currentPage = 1;
   protected readonly pageSize = 5;
 
-  constructor(
-    private agGridService: SkyAgGridService,
-    private changeDetector: ChangeDetectorRef,
-    private dataManagerService: SkyDataManagerService,
-  ) {}
+  readonly #agGridService = inject(SkyAgGridService);
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #dataManagerService = inject(SkyDataManagerService);
 
   public ngOnInit(): void {
     this.displayedItems = this.items;
 
-    this.dataManagerService.initDataView(this.viewConfig);
+    this.#dataManagerService.initDataView(this.viewConfig);
 
-    this.gridOptions = this.agGridService.getGridOptions({
+    this.gridOptions = this.#agGridService.getGridOptions({
       gridOptions: {
         columnDefs: this.columnDefs,
         onGridReady: this.onGridReady.bind(this),
       },
     });
 
-    this.dataManagerService
+    this.#dataManagerService
       .getDataStateUpdates(this.viewId)
       .subscribe((state) => {
         this.dataState = state;
         this.currentPage = state.additionalData?.currentPage ?? 1;
         this.updateData();
-        this.changeDetector.detectChanges();
+        this.#changeDetector.detectChanges();
       });
 
-    this.dataManagerService.getActiveViewIdUpdates().subscribe((id) => {
+    this.#dataManagerService.getActiveViewIdUpdates().subscribe((id) => {
       this.isActive = id === this.viewId;
-      this.changeDetector.markForCheck();
+      this.#changeDetector.markForCheck();
     });
   }
 
@@ -149,7 +148,7 @@ export class DataViewGridComponent implements OnInit {
       this.displayedItems = this.displayedItems.filter((item) => item.selected);
     }
 
-    this.dataManagerService.updateDataSummary(
+    this.#dataManagerService.updateDataSummary(
       {
         totalItems: this.items.length,
         itemsMatching: this.displayedItems.length,
@@ -232,6 +231,6 @@ export class DataViewGridComponent implements OnInit {
   }
 
   #updateDataState(): void {
-    this.dataManagerService.updateDataState(this.dataState, this.viewId);
+    this.#dataManagerService.updateDataState(this.dataState, this.viewId);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { SkyInlineFormConfig } from '@skyux/inline-form';
 
@@ -20,8 +20,10 @@ export class InlineFormComponent {
 
   public showForm = false;
 
-  constructor(formBuilder: FormBuilder) {
-    this.myForm = formBuilder.group({
+  readonly #formBuilder = inject(FormBuilder);
+
+  constructor() {
+    this.myForm = this.#formBuilder.group({
       myFirstName: new FormControl(),
     });
   }

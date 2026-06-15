@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyModalService } from '@skyux/modals';
 
 import { VerticalTabsetModalWithColumnsComponent } from './vertical-tabset-modal-with-columns.component';
@@ -49,11 +49,7 @@ export class VerticalTabsetComponent {
     },
   ];
 
-  #modalService: SkyModalService;
-
-  constructor(modalService: SkyModalService) {
-    this.#modalService = modalService;
-  }
+  readonly #modalService = inject(SkyModalService);
 
   public onAddTabClick(): void {
     this.tabs.push({

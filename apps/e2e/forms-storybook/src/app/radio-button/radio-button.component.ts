@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -45,7 +45,9 @@ export class RadioButtonComponent {
     },
   ];
 
-  constructor(formBuilder: FormBuilder) {
+  readonly #formBuilder = inject(FormBuilder);
+
+  constructor() {
     this.invalidRadioButtonOption = new FormControl(undefined, [
       (control: AbstractControl): ValidationErrors | null => {
         if (control.value === '1') {
@@ -55,7 +57,7 @@ export class RadioButtonComponent {
       },
     ]);
 
-    this.radioForm = formBuilder.group({
+    this.radioForm = this.#formBuilder.group({
       radioButtonOption: this.radioButtonOptions[0].value,
       radioIconOption: this.radioIconOptions[0].name,
       noDefaultRadioButtonOption: '',
