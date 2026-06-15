@@ -731,5 +731,25 @@ describe('SkyDataGridComponent', () => {
       ]);
       expect(api?.getSelectedNodes()).toHaveSize(2);
     });
+
+    it('should return empty rowData when resource hasValue() is true but value() returns undefined', async () => {
+      const resourceFixture = TestBed.createComponent(ResourceDataTestComponent);
+      resourceFixture.detectChanges();
+      await resourceFixture.whenStable();
+
+      // Simulate the edge case where hasValue() reports true but value() is undefined.
+      resourceFixture.componentInstance.hasValueOverride.set(true);
+      resourceFixture.componentInstance.value.set(undefined);
+      resourceFixture.componentInstance.loading.set(false);
+      resourceFixture.detectChanges();
+      await resourceFixture.whenStable();
+
+      const api = getGridApi(
+        resourceFixture.nativeElement.querySelector(
+          '[data-sky-id="resource-grid"] ag-grid-angular',
+        ),
+      );
+      expect(api?.getDisplayedRowCount()).toBe(0);
+    });
   });
 });

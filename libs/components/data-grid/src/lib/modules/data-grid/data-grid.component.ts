@@ -112,10 +112,14 @@ export class SkyDataGridComponent<
   /**
    * The data for the grid. Each item requires an `id`, and other properties should map to a `field` of the grid columns.
    * When `data` is `null` or `undefined`, the grid will show a loading indicator, and when `data` is an empty array,
-   * the grid will show a "no rows" message.
+   * the grid will show a "no rows" message. When passing a `Resource`, the grid will automatically subscribe to it and
+   * update as the resource changes.
    */
   public readonly data = input<
-    T[] | Resource<T[] | undefined> | null | undefined
+    | T[]
+    | Pick<Resource<T[] | undefined>, 'value' | 'isLoading' | 'hasValue'>
+    | null
+    | undefined
   >();
 
   /**
@@ -238,7 +242,11 @@ export class SkyDataGridComponent<
     if (Array.isArray(data)) {
       return data;
     }
-    return data?.value() ?? [];
+    // Using `hasValue()` gate avoids error cases with `value` signal.
+    if (data?.hasValue()) {
+      return data.value() ?? [];
+    }
+    return [];
   });
   protected readonly isLoading = computed(() => {
     const data = this.data();
