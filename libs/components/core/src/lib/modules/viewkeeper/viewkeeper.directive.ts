@@ -5,7 +5,6 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   RendererFactory2,
   inject,
 } from '@angular/core';
@@ -43,34 +42,18 @@ export class SkyViewkeeperDirective
 
   #currentViewkeeperEls: HTMLElement[] | undefined;
 
-  #el: ElementRef;
-
-  #mutationObserverSvc: SkyMutationObserverService;
-
-  #observer: MutationObserver | undefined;
-
-  #scrollableHostSvc: SkyScrollableHostService | undefined;
-
-  #scrollableHostWatchUnsubscribe: Subject<void> | undefined;
-
-  #viewkeepers: SkyViewkeeper[] = [];
-
-  #viewkeeperSvc: SkyViewkeeperService;
+  readonly #el = inject(ElementRef);
+  readonly #mutationObserverSvc = inject(SkyMutationObserverService);
+  readonly #scrollableHostSvc = inject(SkyScrollableHostService, {
+    optional: true,
+  });
+  readonly #viewkeeperSvc = inject(SkyViewkeeperService);
 
   readonly #renderer = inject(RendererFactory2).createRenderer(undefined, null);
+  #observer: MutationObserver | undefined;
+  #scrollableHostWatchUnsubscribe: Subject<void> | undefined;
   #shadowElement: HTMLElement | undefined;
-
-  constructor(
-    el: ElementRef,
-    mutationObserverSvc: SkyMutationObserverService,
-    viewkeeperSvc: SkyViewkeeperService,
-    @Optional() scrollableHostSvc?: SkyScrollableHostService,
-  ) {
-    this.#el = el;
-    this.#mutationObserverSvc = mutationObserverSvc;
-    this.#viewkeeperSvc = viewkeeperSvc;
-    this.#scrollableHostSvc = scrollableHostSvc;
-  }
+  #viewkeepers: SkyViewkeeper[] = [];
 
   public ngOnInit(): void {
     this.#observer = this.#mutationObserverSvc.create(() =>

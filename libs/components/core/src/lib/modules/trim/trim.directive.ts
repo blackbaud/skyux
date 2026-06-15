@@ -1,4 +1,10 @@
-import { Directive, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  inject,
+} from '@angular/core';
 
 import { SkyMutationObserverService } from '../mutation/mutation-observer-service';
 
@@ -13,10 +19,10 @@ export class SkyTrimDirective implements OnInit, OnDestroy {
 
   #obs: MutationObserver;
 
-  constructor(elRef: ElementRef, mutationObs: SkyMutationObserverService) {
-    this.#el = elRef.nativeElement as Element;
+  constructor() {
+    this.#el = inject(ElementRef).nativeElement as Element;
 
-    this.#obs = mutationObs.create((mutations) => {
+    this.#obs = inject(SkyMutationObserverService).create((mutations) => {
       if (
         mutations.some(
           (mutation) =>

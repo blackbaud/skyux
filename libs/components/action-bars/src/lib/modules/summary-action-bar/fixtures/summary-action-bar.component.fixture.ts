@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnDestroy, ViewChild, inject } from '@angular/core';
 import { SkyModalInstance, SkyModalService } from '@skyux/modals';
 
 import { SkySummaryActionBarSecondaryActionsComponent } from '../actions/summary-action-bar-secondary-actions.component';
@@ -39,11 +39,7 @@ export class SkySummaryActionBarTestComponent implements OnDestroy {
   public summaryActionBar: SkySummaryActionBarComponent | undefined;
 
   #modalInstance: SkyModalInstance | undefined;
-  #modalService: SkyModalService;
-
-  constructor(modalService: SkyModalService) {
-    this.#modalService = modalService;
-  }
+  readonly #modalService = inject(SkyModalService);
 
   public ngOnDestroy(): void {
     this.#closeModal();

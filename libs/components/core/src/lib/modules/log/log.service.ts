@@ -22,12 +22,14 @@ export class SkyLogService {
 
   #formatter: SkyAppFormat;
 
+  /* eslint-disable @angular-eslint/prefer-inject -- constructor injection is required to maintain the public API for consumers who may instantiate this service directly (e.g. `new SkyLogService(...)`). */
   constructor(
     formatter: SkyAppFormat,
     @Optional()
     @Inject(SKY_LOG_LEVEL)
     applicationLogLevel?: SkyLogLevel,
   ) {
+    /* eslint-enable @angular-eslint/prefer-inject */
     this.#formatter = formatter;
     this.#applicationLogLevel = applicationLogLevel ?? SkyLogLevel.Error;
   }

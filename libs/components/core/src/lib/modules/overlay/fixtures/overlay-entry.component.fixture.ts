@@ -1,4 +1,4 @@
-import { Component, Optional } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { OverlayFixtureContext } from './overlay-context.fixture';
 
@@ -8,9 +8,6 @@ import { OverlayFixtureContext } from './overlay-context.fixture';
   standalone: false,
 })
 export class OverlayEntryFixtureComponent {
-  public contentId: string;
-
-  constructor(@Optional() context?: OverlayFixtureContext) {
-    this.contentId = context?.id ?? 'none';
-  }
+  public readonly contentId =
+    inject(OverlayFixtureContext, { optional: true })?.id ?? 'none';
 }
