@@ -21,6 +21,8 @@ import {
 
 /**
  * @preview
+ *
+ * Provides a consistent heading, subheading, and layout wrapper for a chart.
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
