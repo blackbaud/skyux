@@ -332,6 +332,14 @@ export class SkyInputBoxComponent
   public setHostHintText(value: string | undefined): void {
     this.hostHintText = value;
     this.#changeRef.markForCheck();
+
+    if (this.inputRef) {
+      this.#adapterService.updateDescribedBy(
+        this.inputRef,
+        this.hintTextId,
+        this.hintText ?? this.hostHintText,
+      );
+    }
   }
 
   public setHintTextScreenReaderOnly(hide: boolean): void {

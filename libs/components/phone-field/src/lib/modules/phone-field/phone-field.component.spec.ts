@@ -2472,6 +2472,18 @@ describe('Phone Field Component', () => {
       expect(hintTextEl).not.toBeVisible({ checkCssVisibility: true });
     }));
 
+    it('should associate the hint text element with the input via aria-describedby', fakeAsync(() => {
+      detectChangesAndTick(fixture);
+      tick();
+
+      const inputBoxEl = fixture.nativeElement.querySelector('sky-input-box');
+      const inputEl = inputBoxEl.querySelector('input[skyPhoneFieldInput]');
+      const hintTextEl = inputBoxEl.querySelector('.sky-input-box-hint-text');
+
+      expect(hintTextEl).toBeTruthy();
+      expect(inputEl.getAttribute('aria-describedby')).toContain(hintTextEl.id);
+    }));
+
     describe('country selector', () => {
       describe('focus handling', () => {
         it('should close country field when focus leaves phone field', fakeAsync(() => {
