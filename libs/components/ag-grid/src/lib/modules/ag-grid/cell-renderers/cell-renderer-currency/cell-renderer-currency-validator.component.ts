@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  inject,
 } from '@angular/core';
 
 import { ICellRendererAngularComp } from 'ag-grid-angular';
@@ -37,11 +38,7 @@ export class SkyAgGridCellRendererCurrencyValidatorComponent implements ICellRen
 
   protected cellRendererParams: SkyCellRendererCurrencyParams | undefined;
 
-  #changeDetector: ChangeDetectorRef;
-
-  constructor(changeDetector: ChangeDetectorRef) {
-    this.#changeDetector = changeDetector;
-  }
+  readonly #changeDetector = inject(ChangeDetectorRef);
 
   /**
    * agInit is called by agGrid once after the renderer is created and provides the renderer with the information it needs.

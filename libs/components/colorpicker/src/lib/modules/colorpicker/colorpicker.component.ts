@@ -12,7 +12,6 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   Output,
   TemplateRef,
   ViewChild,
@@ -421,12 +420,12 @@ export class SkyColorpickerComponent
   #overlay: SkyOverlayInstance | undefined;
   #pickerUnsubscribe: Subject<void> | undefined;
 
-  #affixSvc: SkyAffixService;
-  #changeDetector: ChangeDetectorRef;
-  #coreAdapter: SkyCoreAdapterService;
-  #overlaySvc: SkyOverlayService;
-  #svc: SkyColorpickerService;
-  #themeSvc: SkyThemeService | undefined;
+  readonly #affixSvc = inject(SkyAffixService);
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #coreAdapter = inject(SkyCoreAdapterService);
+  readonly #overlaySvc = inject(SkyOverlayService);
+  readonly #svc = inject(SkyColorpickerService);
+  readonly #themeSvc = inject(SkyThemeService, { optional: true });
 
   readonly #environmentInjector = inject(EnvironmentInjector);
   readonly #colorpickerInputSvc = inject(SkyColorpickerInputService);
@@ -439,21 +438,7 @@ export class SkyColorpickerComponent
   #_disabled = false;
   #_labelText: string | undefined;
 
-  constructor(
-    affixSvc: SkyAffixService,
-    changeDetector: ChangeDetectorRef,
-    coreAdapter: SkyCoreAdapterService,
-    overlaySvc: SkyOverlayService,
-    svc: SkyColorpickerService,
-    @Optional() themeSvc?: SkyThemeService,
-  ) {
-    this.#affixSvc = affixSvc;
-    this.#changeDetector = changeDetector;
-    this.#coreAdapter = coreAdapter;
-    this.#overlaySvc = overlaySvc;
-    this.#svc = svc;
-    this.#themeSvc = themeSvc;
-
+  constructor() {
     componentIdIndex++;
 
     this.#idIndex = componentIdIndex;

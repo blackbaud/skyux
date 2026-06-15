@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 
 import { SkyMediaBreakpoints } from '../../media-query/media-breakpoints';
 import { SkyCoreAdapterService } from '../adapter.service';
@@ -30,11 +30,7 @@ export class AdapterServiceFixtureComponent {
 
   public disableInput = false;
 
-  #adapterSvc: SkyCoreAdapterService;
-
-  constructor(adapterSvc: SkyCoreAdapterService) {
-    this.#adapterSvc = adapterSvc;
-  }
+  readonly #adapterSvc = inject(SkyCoreAdapterService);
 
   public applyAutoFocus(elementRef?: ElementRef): boolean {
     return this.#adapterSvc.applyAutoFocus(elementRef);

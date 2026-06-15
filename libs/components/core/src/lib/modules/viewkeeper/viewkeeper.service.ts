@@ -13,6 +13,7 @@ import { SkyViewkeeperOptions } from './viewkeeper-options';
 export class SkyViewkeeperService {
   #hostOptions: SkyViewkeeperHostOptions | undefined;
 
+  // eslint-disable-next-line @angular-eslint/prefer-inject -- constructor injection is required to maintain the public API for consumers who may instantiate this service directly (e.g. `new SkyViewkeeperService(...)`).
   constructor(@Optional() hostOptions?: SkyViewkeeperHostOptions) {
     this.#hostOptions = hostOptions;
   }

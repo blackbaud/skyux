@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { SkyDockInsertComponentConfig } from '../dock-insert-component-config';
 import { SkyDockItem } from '../dock-item';
@@ -17,9 +17,8 @@ export class DockFixtureComponent {
     value.forEach((c) => this.addItem(c));
   }
 
+  public readonly dockService = inject(SkyDockService);
   public dockItems: SkyDockItem<DockItemFixtureComponent>[] = [];
-
-  constructor(public dockService: SkyDockService) {}
 
   public addItem(config: SkyDockInsertComponentConfig | undefined): void {
     this.dockItems.push(

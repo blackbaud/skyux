@@ -1,6 +1,12 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkySkipLinkService } from '@skyux/a11y';
 
@@ -33,11 +39,7 @@ class TestComponent implements AfterViewInit {
   @ViewChild('skipLink2', { read: ElementRef })
   public skipLink2: ElementRef | undefined;
 
-  #skipLinkService: SkySkipLinkService;
-
-  constructor(skipLinkService: SkySkipLinkService) {
-    this.#skipLinkService = skipLinkService;
-  }
+  readonly #skipLinkService = inject(SkySkipLinkService);
 
   public ngAfterViewInit(): void {
     if (this.skipLink1 && this.skipLink2) {

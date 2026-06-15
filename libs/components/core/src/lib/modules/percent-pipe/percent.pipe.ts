@@ -29,6 +29,7 @@ export class SkyPercentPipe implements OnDestroy, PipeTransform {
 
   #value: string | undefined;
 
+  // eslint-disable-next-line @angular-eslint/prefer-inject -- constructor injection is required to maintain the public API for consumers who may instantiate this pipe directly (e.g. `new SkyPercentPipe(...)`).
   constructor(localeProvider: SkyAppLocaleProvider) {
     localeProvider
       .getLocaleInfo()
