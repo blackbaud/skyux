@@ -13,11 +13,12 @@ the `@skyux/*` and `@skyux-sdk/*` scopes.
 - [libs/components/](libs/components/) — the published Angular UI libraries
   (`@skyux/*`). Each is an `ng-packagr` project with `src/` (the library) and
   often `testing/` (the `@skyux/<pkg>/testing` entry point). The public API is
-  the `src/index.ts` and `testing/src/index.ts` barrels.
+  the `src/index.ts` and `testing/src/public-api.ts` barrels.
 - [libs/sdk/](libs/sdk/) — build/dev tooling, schematics, ESLint/Stylelint
   configs, and `@skyux-sdk/testing` (`@skyux-sdk/*`).
 - [apps/](apps/) — non-published apps: `playground` (manual testing),
-  `code-examples` (docs examples, also published as `@skyux/code-examples`),
+  `code-examples` (the `code-examples-playground` project, which renders the
+  docs examples published from `libs/components/code-examples`),
   `integration` + `integration-e2e`, and `e2e`.
 
 Common Nx tasks (prefer `:affected` variants during development):
@@ -46,18 +47,20 @@ before working on matching files. Consult these when your change touches their
 scope:
 
 - [angular.instructions.md](.github/instructions/angular.instructions.md)
-  (`applyTo: **`) — Angular best practices for maintainable, performant, and
-  accessible code. Applies to all Angular work.
-- [code-examples-unit-testing.instructions.md](.github/instructions/code-examples-unit-testing.instructions.md)
-  (`libs/components/code-examples/**`, `libs/components/*/src/**`,
-  `libs/components/*/documentation.json`) — generating code example unit tests.
-- [skyux-copilot-harnesses.instructions.md](.github/instructions/skyux-copilot-harnesses.instructions.md)
+  (`applyTo: **/libs/components/**/*.{ts,html}, **/apps/**/*.{ts,html}`) —
+  Angular best practices for maintainable, performant, and accessible code.
+- [component-unit-testing.instructions.md](.github/instructions/component-unit-testing.instructions.md)
+  (`**/libs/components/*/src/lib/**/*.spec.ts, !**/libs/components/code-examples/**`)
+  — writing unit tests for library components and directives.
+- [component-code-examples.instructions.md](.github/instructions/component-code-examples.instructions.md)
+  (`libs/components/code-examples/**`, `libs/components/*/documentation.json`)
+  — authoring code example components and their unit tests.
+- [component-harnesses.instructions.md](.github/instructions/component-harnesses.instructions.md)
   (`libs/components/**/testing/src/modules/**`) — generating component test
   harnesses.
-- [add-scss-override.instructions.md](.github/instructions/add-scss-override.instructions.md)
-  (`**/*.scss`) — adding a CSS variable to the appropriate SCSS override mixin.
-- [scss-override-mixins.instructions.md](.github/instructions/scss-override-mixins.instructions.md)
-  (`**/*.scss`) — adding empty compat mixins to a component's SCSS file.
+- [visual-testing.instructions.md](.github/instructions/visual-testing.instructions.md)
+  (`apps/e2e/*-storybook/src/app/**/*.stories.ts`) — authoring Storybook
+  visual-test stories for Percy snapshots.
 
 ## Reviewer Persona
 
@@ -126,8 +129,8 @@ Your guiding principles, in priority order:
   - **Prefixed with `sky`** (e.g., `skyDoThing`, `SkyThingOptions`,
     `SkyThingResult`) for functions, classes, types, and interfaces
     exported from a library's `{projectRoot}/src/index.ts` or
-    `{projectRoot}/testing/src/index.ts` barrel files. Flag any new export from
-    these barrel files missing the `sky`/`Sky` prefix. This matches the
+    `{projectRoot}/testing/src/public-api.ts` barrel files. Flag any new export
+    from these barrel files missing the `sky`/`Sky` prefix. This matches the
     existing convention across all `@skyux/*` and `@skyux-sdk/*` packages.
 
 ## Dependency Discipline
@@ -198,16 +201,8 @@ nx format --files=file1.ts,file2.ts,file3.html
 
 ## Commit Messages
 
-Commit messages should be based on the conventional commits standard at https://www.conventionalcommits.org/en/v1.0.0/#specification
-
-Commit messages are used to generate changelogs, determine semantic versioning, and provide clear history of changes. Following a consistent format helps maintain clarity and organization in the project.
-
-### SKY UX Specifics
-
-- Use a type prefix listed in the `types:` section of [.github/workflows/validate-pr.yml](.github/workflows/validate-pr.yml)
-- Use a scope that matches the component or module being changed
-- If multiple scopes are affected, do not add a scope
-- Use a scope listed in the `scopes:` section of [.github/workflows/validate-pr.yml](.github/workflows/validate-pr.yml)
-- The subject should match the format of the `subjectPattern:` listed in [.github/workflows/validate-pr.yml](.github/workflows/validate-pr.yml)
-- Do NOT include an extended body unless it is to describe a breaking change
-- Unless there is a breaking change the commit should be a single line
+Commit messages and pull request titles follow the Conventional Commits
+standard and the SKY UX specifics (types, scopes, subject pattern, and the `!`
+breaking-change marker). These rules are defined in
+[commit-message.instructions.md](.github/instructions/commit-message.instructions.md);
+read that file before authoring a commit or PR title.

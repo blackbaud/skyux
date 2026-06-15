@@ -183,7 +183,7 @@ function updateStorybookFiles(
   if (!tree.isFile(`${projectRoot}/.storybook/manager.ts`)) {
     tree.write(
       `${projectRoot}/.storybook/manager.ts`,
-      `export * from '${relativeToRoot}/.storybook/manager';`,
+      `// eslint-disable-next-line @nx/enforce-module-boundaries\nexport * from '${relativeToRoot}/.storybook/manager';\n`,
     );
   }
 }
