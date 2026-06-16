@@ -4,6 +4,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  contentChildren,
   inject,
   isStandalone,
 } from '@angular/core';
@@ -39,6 +40,11 @@ import { SkyDataManagerConfig } from '../models/data-manager-config';
 import { SkyDataManagerSortOption } from '../models/data-manager-sort-option';
 import { SkyDataManagerState } from '../models/data-manager-state';
 import { SkyDataViewConfig } from '../models/data-view-config';
+
+import { SkyDataManagerToolbarLeftItemComponent } from './data-manager-toolbar-left-item.component';
+import { SkyDataManagerToolbarPrimaryItemComponent } from './data-manager-toolbar-primary-item.component';
+import { SkyDataManagerToolbarRightItemComponent } from './data-manager-toolbar-right-item.component';
+import { SkyDataManagerToolbarSectionComponent } from './data-manager-toolbar-section.component';
 
 /**
  * Renders a `sky-toolbar` with the contents specified by the active view's `SkyDataViewConfig`
@@ -102,6 +108,38 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
   }
 
   public onlyShowSelected: boolean | undefined;
+
+  protected readonly primaryItems = contentChildren(
+    SkyDataManagerToolbarPrimaryItemComponent,
+  );
+  protected readonly leftItems = contentChildren(
+    SkyDataManagerToolbarLeftItemComponent,
+  );
+  protected readonly rightItems = contentChildren(
+    SkyDataManagerToolbarRightItemComponent,
+  );
+  protected readonly sections = contentChildren(
+    SkyDataManagerToolbarSectionComponent,
+  );
+
+  /**
+   * Whether the main toolbar has any content to display. Used to avoid
+   * rendering an empty toolbar when the only projected content is a
+   * `sky-filter-bar` or `sky-list-summary`, which render outside the toolbar.
+   */
+  protected get hasToolbarContent(): boolean {
+    return (
+      !!this.activeView?.filterButtonEnabled ||
+      !!this.activeView?.sortEnabled ||
+      !!this.activeView?.columnPickerEnabled ||
+      !!this.activeView?.searchEnabled ||
+      (!!this.activeView && this.views.length > 1) ||
+      this.primaryItems().length > 0 ||
+      this.leftItems().length > 0 ||
+      this.rightItems().length > 0 ||
+      this.sections().length > 0
+    );
+  }
 
   readonly #logger = inject(SkyLogService, { optional: true });
 
