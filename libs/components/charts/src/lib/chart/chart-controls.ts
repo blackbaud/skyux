@@ -1,7 +1,5 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-
 import { SkyDropdownModule } from '@skyux/popovers';
-
 import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
 
 @Component({
