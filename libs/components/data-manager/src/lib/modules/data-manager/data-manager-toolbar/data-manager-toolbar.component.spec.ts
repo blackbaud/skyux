@@ -185,6 +185,30 @@ describe('SkyDataManagerToolbarComponent', () => {
     expect(rightButton).toBeVisible();
   });
 
+  it('should not render the main toolbar when it has no content', () => {
+    dataManagerToolbarFixture.detectChanges();
+
+    const toolbar = dataManagerToolbarNativeElement.querySelector(
+      'sky-toolbar:not(.sky-data-manager-multiselect-toolbar)',
+    );
+
+    expect(toolbar).toBeNull();
+  });
+
+  it('should render the main toolbar when the active view enables a feature', () => {
+    spyOn(dataManagerService, 'getViewById').and.returnValue({
+      ...(dataManagerToolbarComponent.activeView as SkyDataViewConfig),
+      sortEnabled: true,
+    });
+    dataManagerToolbarFixture.detectChanges();
+
+    const toolbar = dataManagerToolbarNativeElement.querySelector(
+      'sky-toolbar:not(.sky-data-manager-multiselect-toolbar)',
+    );
+
+    expect(toolbar).not.toBeNull();
+  });
+
   it('should show a sort button if the data view config has sort enabled', () => {
     spyOn(dataManagerService, 'getViewById').and.returnValue({
       ...(dataManagerToolbarComponent.activeView as SkyDataViewConfig),
