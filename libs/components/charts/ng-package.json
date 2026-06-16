@@ -5,6 +5,5 @@
     "entryFile": "src/index.ts",
     "styleIncludePaths": ["../../.."]
   },
-  "allowedNonPeerDependencies": ["chart.js"],
   "inlineStyleLanguage": "scss"
 }
