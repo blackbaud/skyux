@@ -47,6 +47,33 @@ describe('Chart heading component', () => {
     });
   }
 
+  function getHelpInline(): HTMLElement | null {
+    return fixture.nativeElement.querySelector('sky-help-inline');
+  }
+
+  it('should not render the help inline button by default', () => {
+    setInputs(3, 3, 'My heading');
+    fixture.detectChanges();
+
+    expect(getHelpInline()).toBeNull();
+  });
+
+  it('should render the help inline button when helpPopoverContent is set', () => {
+    setInputs(3, 3, 'My heading');
+    fixture.componentRef.setInput('helpPopoverContent', 'My help content');
+    fixture.detectChanges();
+
+    expect(getHelpInline()).not.toBeNull();
+  });
+
+  it('should render the help inline button when helpKey is set', () => {
+    setInputs(3, 3, 'My heading');
+    fixture.componentRef.setInput('helpKey', 'my-help-key');
+    fixture.detectChanges();
+
+    expect(getHelpInline()).not.toBeNull();
+  });
+
   describe('a11y', () => {
     it('should be accessible', async () => {
       setInputs(3, 3, 'My heading');

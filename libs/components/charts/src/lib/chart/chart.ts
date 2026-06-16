@@ -2,9 +2,10 @@ import {
   booleanAttribute,
   ChangeDetectionStrategy,
   Component,
+  computed,
   input,
+  type TemplateRef,
 } from '@angular/core';
-import { SkyIdModule } from '@skyux/core';
 import { SkyChartControls } from './chart-controls';
 import { SkyChartHeading } from './chart-heading';
 import {
@@ -29,7 +30,7 @@ import { SkyChartSubheading } from './chart-subheading';
   host: {
     class: 'sky-chart',
   },
-  imports: [SkyChartControls, SkyChartHeading, SkyChartSubheading, SkyIdModule],
+  imports: [SkyChartControls, SkyChartHeading, SkyChartSubheading],
   selector: 'sky-chart',
   styleUrl: './chart.scss',
   templateUrl: './chart.html',
@@ -68,7 +69,34 @@ export class SkyChart {
   public readonly headingText = input.required<string>();
 
   /**
+   * A help key that identifies the global help content to display. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is placed beside the chart heading. Clicking the button invokes [global help](https://developer.blackbaud.com/skyux/learn/develop/global-help)
+   * as configured by the application.
+   */
+  public readonly helpKey = input<string>();
+
+  /**
+   * The content of the help popover. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is added to the chart heading. The help inline button displays a [popover](https://developer.blackbaud.com/skyux/components/popover)
+   * when clicked using the specified content and optional title.
+   */
+  public readonly helpPopoverContent = input<string | TemplateRef<unknown>>();
+
+  /**
+   * The title of the help popover. This property only applies when `helpPopoverContent` is also specified.
+   */
+  public readonly helpPopoverTitle = input<string>();
+
+  /**
    * The text to display as the chart's subheading.
    */
   public readonly subheadingText = input<string>();
+
+  protected readonly figureLabel = computed(() => {
+    const subheadingText = this.subheadingText();
+
+    return subheadingText
+      ? `${this.headingText()}, ${subheadingText}`
+      : this.headingText();
+  });
 }

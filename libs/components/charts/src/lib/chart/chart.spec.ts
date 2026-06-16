@@ -35,12 +35,6 @@ describe('Chart component', () => {
     return fixture.nativeElement.querySelector('sky-chart-heading');
   }
 
-  function getHeadingElement(): HTMLElement | null {
-    return fixture.nativeElement.querySelector(
-      'sky-chart-heading :is(h2, h3, h4, h5)',
-    );
-  }
-
   function getFigure(): HTMLElement | null {
     return fixture.nativeElement.querySelector('figure');
   }
@@ -93,17 +87,21 @@ describe('Chart component', () => {
     expect(getHeading()).toHaveCssClass('sky-screen-reader-only');
   });
 
-  it('should name the figure with the heading via aria-labelledby', () => {
-    fixture.componentInstance.headingHidden = true;
+  it('should name the figure with the heading text via aria-label', () => {
+    fixture.componentInstance.headingText = 'My heading';
+    fixture.detectChanges();
+
+    expect(getFigure()?.getAttribute('aria-label')).toBe('My heading');
+  });
+
+  it('should include the subheading text in the figure aria-label', () => {
+    fixture.componentInstance.headingText = 'My heading';
     fixture.componentInstance.subheadingText = 'My subheading';
     fixture.detectChanges();
 
-    const labelledById = getFigure()?.getAttribute('aria-labelledby');
-    expect(labelledById).toBeTruthy();
-
-    const labelEl = fixture.nativeElement.querySelector(`#${labelledById}`);
-    expect(labelEl?.contains(getHeadingElement())).toBe(true);
-    expect(labelEl?.contains(getSubheading())).toBe(true);
+    expect(getFigure()?.getAttribute('aria-label')).toBe(
+      'My heading, My subheading',
+    );
   });
 
   it('should not render the subheading when subheadingText is undefined', () => {
