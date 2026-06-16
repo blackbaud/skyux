@@ -4,12 +4,12 @@
     [ngClass]="{
       'scrollable-host': isParentScrollable,
       'display-none': isParentDisplayNoneClass,
-      'positioned': isParentPositioned
+      positioned: isParentPositioned
     }"
     [ngStyle]="{
-      'display': isParentDisplayNoneStyle ? 'none' : undefined,
-      'overflow-y': isParentScrollableStyle ? 'scroll': undefined,
-      'width': isParentPositioned ? positionedParentWidth : undefined
+      display: isParentDisplayNoneStyle ? 'none' : undefined,
+      'overflow-y': isParentScrollableStyle ? 'scroll' : undefined,
+      width: isParentPositioned ? positionedParentWidth : undefined
     }"
     [hidden]="isParentHidden"
   >

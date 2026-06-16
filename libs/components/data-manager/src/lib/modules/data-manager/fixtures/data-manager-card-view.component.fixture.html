@@ -1,10 +1,10 @@
 <sky-data-view [viewId]="viewConfig.id">
   <div style="margin: 10px">
     @for (item of displayedItems; track item) {
-    <sky-card size="small">
-      <sky-card-title>{{item.name}}</sky-card-title>
-      <sky-card-content>{{item.description}}</sky-card-content>
-    </sky-card>
+      <sky-card size="small">
+        <sky-card-title>{{ item.name }}</sky-card-title>
+        <sky-card-content>{{ item.description }}</sky-card-content>
+      </sky-card>
     }
   </div>
 </sky-data-view>
