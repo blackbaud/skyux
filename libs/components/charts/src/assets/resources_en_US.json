@@ -1,0 +1,7 @@
+{
+  "chart.controls.menu.label": {
+    "_description": "The label for the controls dropdown menu",
+    "message": "Context menu for {0}",
+    "_0": "The chart heading text"
+  }
+}

@@ -1,14 +1,17 @@
 <div class="sky-chart-header sky-margin-stacked-sm">
-  <sky-chart-heading
-    [headingHidden]="headingHidden()"
-    [headingId]="headingId"
-    [headingLevel]="headingLevel()"
-    [headingStyle]="headingStyle()"
-    [headingText]="headingText()"
-  />
-  @if (subheadingText(); as subheadingText) {
-    <sky-chart-subheading [subheadingText]="subheadingText" />
-  }
+  <div>
+    <sky-chart-heading
+      [class.sky-screen-reader-only]="headingHidden()"
+      [headingId]="headingId"
+      [headingLevel]="headingLevel()"
+      [headingStyle]="headingStyle()"
+      [headingText]="headingText()"
+    />
+    @if (subheadingText(); as subheadingText) {
+      <sky-chart-subheading [subheadingText]="subheadingText" />
+    }
+  </div>
+  <sky-chart-controls [headingText]="headingText()" />
 </div>
 <figure class="sky-chart-content" [attr.aria-labelledby]="headingId">
   <ng-content />

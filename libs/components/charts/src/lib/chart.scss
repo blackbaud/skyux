@@ -1,18 +1,14 @@
 .sky-chart {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  column-gap: var(--sky-space-gap-text_action-m, 12px);
+  display: block;
 }
 
 .sky-chart-header {
-  grid-column: 1;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  column-gap: var(--sky-space-gap-text_action-m, 12px);
 }
 
-sky-chart-subheading {
-  grid-column: 1;
-}
-
-.sky-chart-content {
-  grid-column: 1 / -1;
+figure.sky-chart-content {
   margin: 0;
 }

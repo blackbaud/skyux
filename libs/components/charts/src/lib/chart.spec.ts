@@ -84,14 +84,14 @@ describe('Chart component', () => {
     fixture.detectChanges();
 
     expect(fixture.componentInstance.chart.headingHidden()).toBe(false);
-    expect(getHeadingElement()).not.toHaveCssClass('sky-screen-reader-only');
+    expect(getHeading()).not.toHaveCssClass('sky-screen-reader-only');
   });
 
   it('should visually hide the heading when headingHidden is true', () => {
     fixture.componentInstance.headingHidden = true;
     fixture.detectChanges();
 
-    expect(getHeadingElement()).toHaveCssClass('sky-screen-reader-only');
+    expect(getHeading()).toHaveCssClass('sky-screen-reader-only');
   });
 
   it('should name the figure with the heading via aria-labelledby', () => {

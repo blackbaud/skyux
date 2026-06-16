@@ -6,6 +6,7 @@ import {
   input,
 } from '@angular/core';
 import { SkyIdService } from '@skyux/core';
+import { SkyChartControls } from './chart-controls';
 import { SkyChartHeading } from './chart-heading';
 import { SkyChartSubheading } from './chart-subheading';
 import {
@@ -29,7 +30,7 @@ import {
   host: {
     class: 'sky-chart',
   },
-  imports: [SkyChartHeading, SkyChartSubheading],
+  imports: [SkyChartControls, SkyChartHeading, SkyChartSubheading],
   selector: 'sky-chart',
   styleUrl: './chart.scss',
   templateUrl: './chart.html',
