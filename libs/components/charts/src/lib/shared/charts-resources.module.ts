@@ -14,7 +14,13 @@ import {
 } from '@skyux/i18n';
 
 const RESOURCES: Record<string, SkyLibResources> = {
-  'EN-US': { 'chart.controls.menu.label': { message: 'Context menu for {0}' } },
+  'EN-US': {
+    'chart.controls.menu.label': { message: 'Context menu for {0}' },
+    'chart.controls.menu.view_data_table': { message: 'View data table' },
+    'chart.controls.menu.view_data_table.aria_label': {
+      message: 'View data table for {0}',
+    },
+  },
 };
 
 SkyLibResourcesService.addResources(RESOURCES);
