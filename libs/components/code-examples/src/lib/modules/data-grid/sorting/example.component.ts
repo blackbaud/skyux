@@ -31,7 +31,7 @@ export class DataGridSortingExampleComponent {
   protected readonly sortDescription = computed(() => {
     const sort = this.sortField();
     if (!sort) {
-      return 'No sort applied';
+      return '(no sort applied)';
     }
     return `${sort.fieldSelector} (${sort.descending ? 'descending' : 'ascending'})`;
   });

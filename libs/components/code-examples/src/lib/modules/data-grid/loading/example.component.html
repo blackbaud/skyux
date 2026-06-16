@@ -25,7 +25,13 @@
   </button>
 </div>
 
-<sky-data-grid data-sky-id="example-data-grid" height="270" [data]="data()">
+<sky-data-grid
+  data-sky-id="example-data-grid"
+  height="270"
+  [data]="data.value()"
+  [loading]="data.isLoading()"
+  [(sortField)]="sortField"
+>
   <sky-data-grid-column field="name" headingText="Name" />
   <sky-data-grid-column
     field="age"

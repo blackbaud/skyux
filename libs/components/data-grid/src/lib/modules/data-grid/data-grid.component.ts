@@ -12,9 +12,7 @@ import {
   effect,
   inject,
   input,
-  isSignal,
   model,
-  Resource,
   signal,
   untracked,
 } from '@angular/core';
@@ -112,15 +110,9 @@ export class SkyDataGridComponent<
   /**
    * The data for the grid. Each item requires an `id`, and other properties should map to a `field` of the grid columns.
    * When `data` is `null` or `undefined`, the grid will show a loading indicator, and when `data` is an empty array,
-   * the grid will show a "no rows" message. When passing a `Resource`, the grid will automatically subscribe to it and
-   * update as the resource changes.
+   * the grid will show a "no rows" message.
    */
-  public readonly data = input<
-    | T[]
-    | Pick<Resource<T[] | undefined>, 'value' | 'isLoading' | 'hasValue'>
-    | null
-    | undefined
-  >();
+  public readonly data = input<T[] | null | undefined>();
 
   /**
    * How the grid fits to its parent. The valid options are `width`,
@@ -139,6 +131,14 @@ export class SkyDataGridComponent<
    */
   public readonly height = input<number, unknown>(0, {
     transform: (val: unknown) => coerceNumberProperty(val, 0),
+  });
+
+  /**
+   * Whether data is being loaded. When this is true, the grid shows a waiting overlay and is not interactive.
+   * @default false
+   */
+  public readonly loading = input<boolean, unknown>(false, {
+    transform: coerceBooleanProperty,
   });
 
   /**
@@ -221,7 +221,7 @@ export class SkyDataGridComponent<
           enableTopScroll: untracked(() => this.topScrollEnabled()),
         },
         domLayout: untracked(() => this.height()) ? 'normal' : 'autoHeight',
-        loading: untracked(() => this.isLoading()),
+        loading: untracked(() => this.loading() || !Array.isArray(this.data())),
         onGridReady: (args) => {
           this.gridApi.set(args.api);
           this.gridReady.set(true);
@@ -237,26 +237,7 @@ export class SkyDataGridComponent<
   });
 
   protected readonly gridReady = signal(false);
-  protected readonly rowData = computed(() => {
-    const data = this.data();
-    if (Array.isArray(data)) {
-      return data;
-    }
-    // Using `hasValue()` gate avoids error cases with `value` signal.
-    if (data?.hasValue()) {
-      return data.value() ?? [];
-    }
-    return [];
-  });
-  protected readonly isLoading = computed(() => {
-    const data = this.data();
-    if (!Array.isArray(data) && isSignal(data?.isLoading)) {
-      return data.isLoading();
-    } else {
-      return (data ?? 'loading') === 'loading';
-    }
-  });
-
+  protected readonly rowData = computed(() => this.data() ?? []);
   protected readonly pageCount = computed(() => {
     const dataLength = this.rowData().length;
     const pageSize = this.pageSize();
@@ -363,7 +344,7 @@ export class SkyDataGridComponent<
     });
     effect(() => {
       const api = untracked(() => this.gridApi());
-      const isLoading = this.isLoading();
+      const isLoading = this.loading() || !Array.isArray(this.data());
       api?.setGridOption('loading', isLoading);
     });
     effect(() => {
@@ -386,7 +367,7 @@ export class SkyDataGridComponent<
     // Apply inputs once the grid is loaded and on subsequent changes.
     effect(() => {
       const api = this.gridApi();
-      const isLoading = this.isLoading();
+      const isLoading = this.loading() || !Array.isArray(this.data());
       // Don't reconcile selection while data is still loading; pruning here
       // would wipe a selection a consumer set before the rows arrived.
       // An empty array is "loaded but no rows", so only `null`/`undefined` skip.

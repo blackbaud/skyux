@@ -78,6 +78,6 @@ describe('Data grid sorting example', () => {
       ?.click();
     await fixture.whenStable();
     fixture.detectChanges();
-    expect(getSortText(fixture)).toContain('No sort applied');
+    expect(getSortText(fixture)).toContain('no sort applied');
   });
 });

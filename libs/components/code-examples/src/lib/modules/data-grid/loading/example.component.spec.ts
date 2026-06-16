@@ -14,6 +14,7 @@ describe('Data grid loading example', () => {
       imports: [DataGridLoadingExampleComponent],
     }).compileComponents();
     const fixture = TestBed.createComponent(DataGridLoadingExampleComponent);
+    fixture.componentRef.setInput('delay', 0);
     const loader = TestbedHarnessEnvironment.loader(fixture);
     fixture.detectChanges();
 
@@ -36,6 +37,8 @@ describe('Data grid loading example', () => {
       .querySelector<HTMLButtonElement>(`[data-sky-id="${dataSkyId}"]`)
       ?.click();
     await fixture.whenStable();
+    fixture.detectChanges();
+    await new Promise((resolve) => setTimeout(resolve, 0));
     fixture.detectChanges();
   }
 

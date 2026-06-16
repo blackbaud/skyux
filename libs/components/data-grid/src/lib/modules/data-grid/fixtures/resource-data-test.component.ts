@@ -1,14 +1,6 @@
-import {
-  Component,
-  Resource,
-  ResourceStatus,
-  model,
-  signal,
-} from '@angular/core';
-import {
-  SkyDataGridColumnComponent,
-  SkyDataGridComponent,
-} from '@skyux/data-grid';
+import { Component, model, signal } from '@angular/core';
+import { SkyDataGridColumnComponent } from '../data-grid-column.component';
+import { SkyDataGridComponent } from '../data-grid.component';
 
 interface ResourceRow {
   id: string;
@@ -22,7 +14,8 @@ interface ResourceRow {
     <sky-data-grid
       data-sky-id="resource-grid"
       multiselect
-      [data]="dataResource"
+      [data]="value()"
+      [loading]="loading()"
       [(selectedRowIds)]="selectedRowIds"
     >
       <sky-data-grid-column field="name" headingText="Name" />
@@ -32,24 +25,8 @@ interface ResourceRow {
 export class ResourceDataTestComponent {
   public readonly selectedRowIds = model<string[]>([]);
 
-  // Signals back a `Resource`-shaped object so a test can flip the loading
+  // Signals resembling a `Resource`-shaped object so a test can flip the loading
   // state and value exactly as a real resource would as it resolves.
   public readonly value = signal<ResourceRow[] | undefined>([]);
   public readonly loading = signal(true);
-  // When non-null, overrides the hasValue() return value regardless of `value`.
-  public readonly hasValueOverride = signal<boolean | null>(null);
-
-  public readonly dataResource = {
-    value: this.value,
-    isLoading: this.loading,
-    status: signal<ResourceStatus>('loading'),
-    error: signal<unknown>(undefined),
-    hasValue: (): boolean => {
-      const override = this.hasValueOverride();
-      if (override !== null) return override;
-      const val = this.value();
-      return val !== undefined && val.length > 0;
-    },
-    reload: (): boolean => false,
-  } as unknown as Resource<ResourceRow[]>;
 }
