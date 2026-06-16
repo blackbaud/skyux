@@ -40,6 +40,7 @@ export class SkyChart {
    * Whether to hide the chart's heading.
    */
   public readonly headingHidden = input(false, { transform: booleanAttribute });
+
   /**
    * The semantic heading level in the document structure.
    * @default 3
