@@ -1,9 +1,12 @@
-{{ data?.name }} @if (data?.showIframe) {
-<iframe src="https://developer.blackbaud.com/skyux/"></iframe>
-} @if (data?.showNormalButton) {
-<button id="normal-button" type="button">Normal Button</button>
-} @if (data?.showAutofocusButton) {
-<button id="autofocus-button" type="button" cdkFocusInitial>
-  Autofocus Button
-</button>
+{{ data?.name }}
+@if (data?.showIframe) {
+  <iframe src="https://developer.blackbaud.com/skyux/"></iframe>
+}
+@if (data?.showNormalButton) {
+  <button id="normal-button" type="button">Normal Button</button>
+}
+@if (data?.showAutofocusButton) {
+  <button id="autofocus-button" type="button" cdkFocusInitial>
+    Autofocus Button
+  </button>
 }

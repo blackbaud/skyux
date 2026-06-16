@@ -4,25 +4,29 @@
   [(activeIndex)]="activeIndex"
 >
   @for (item of items; track item) {
-  <sky-repeater-item
-    [selectable]="item.selectable"
-    [disabled]="item.disabled"
-    [isExpanded]="item.expanded"
-    [isSelected]="item.selected"
-    [reorderable]="item.reorderable ?? reorderable"
-    [tag]="item.tag"
-  >
-    @if (item.context) {
-    <sky-repeater-item-context-menu>
-      <sky-dropdown buttonType="context-menu">
-        <sky-dropdown-button />
-      </sky-dropdown>
-    </sky-repeater-item-context-menu>
-    } @if (item.title) {
-    <sky-repeater-item-title> {{ item.title }} </sky-repeater-item-title>
-    } @if (item.message) {
-    <sky-repeater-item-content> {{ item.message }} </sky-repeater-item-content>
-    }
-  </sky-repeater-item>
+    <sky-repeater-item
+      [selectable]="item.selectable"
+      [disabled]="item.disabled"
+      [isExpanded]="item.expanded"
+      [isSelected]="item.selected"
+      [reorderable]="item.reorderable ?? reorderable"
+      [tag]="item.tag"
+    >
+      @if (item.context) {
+        <sky-repeater-item-context-menu>
+          <sky-dropdown buttonType="context-menu">
+            <sky-dropdown-button />
+          </sky-dropdown>
+        </sky-repeater-item-context-menu>
+      }
+      @if (item.title) {
+        <sky-repeater-item-title> {{ item.title }} </sky-repeater-item-title>
+      }
+      @if (item.message) {
+        <sky-repeater-item-content>
+          {{ item.message }}
+        </sky-repeater-item-content>
+      }
+    </sky-repeater-item>
   }
 </sky-repeater>

@@ -33,7 +33,7 @@
     [isSortable]="false"
     [search]="searchFunction"
   >
-    <ng-template let-row="row"> {{row?.column2}} </ng-template>
+    <ng-template let-row="row"> {{ row?.column2 }} </ng-template>
   </sky-grid-column>
   <sky-grid-column
     id="column3"
@@ -44,12 +44,12 @@
     [width]="dynamicWidth || allColumnWidth"
   />
   @if (showNaNColumn) {
-  <sky-grid-column
-    id="column7"
-    field="column1"
-    heading="Column9"
-    [width]="NaN"
-  />
+    <sky-grid-column
+      id="column7"
+      field="column1"
+      heading="Column9"
+      [width]="NaN"
+    />
   }
   <sky-grid-column
     id="column4"
@@ -73,12 +73,12 @@
     [width]="allColumnWidth"
   />
   @if (showWideColumn) {
-  <sky-grid-column
-    id="column6"
-    field="column1"
-    heading="Column8"
-    [width]="50000"
-  />
+    <sky-grid-column
+      id="column6"
+      field="column1"
+      heading="Column8"
+      [width]="50000"
+    />
   }
 </sky-grid>
 
@@ -87,7 +87,7 @@
 <sky-popover #column4Help> Help content for column 4. </sky-popover>
 
 <ng-template #template1 let-value="value">
-  <div class="sky-test-custom-template">{{value}}</div>
+  <div class="sky-test-custom-template">{{ value }}</div>
 </ng-template>
 
 <button
