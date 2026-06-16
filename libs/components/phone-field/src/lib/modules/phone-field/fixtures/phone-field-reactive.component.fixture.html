@@ -1,23 +1,24 @@
 <form [formGroup]="phoneForm">
   <label for="phone-field-reactive-input">Reactive phone field</label>
   @if (showPhoneField) {
-  <sky-phone-field
-    [allowExtensions]="allowExtensions"
-    [defaultCountry]="defaultCountry"
-    [returnFormat]="returnFormat"
-    [supportedCountryISOs]="supportedCountryISOs"
-    [(selectedCountry)]="selectedCountry"
-  >
-    <input
-      id="phone-field-reactive-input"
-      formControlName="phone"
-      skyPhoneFieldInput
-      [skyPhoneFieldNoValidate]="noValidate"
-    />
-  </sky-phone-field>
-  } @if (showInvalidDirective) {
-  <div>
-    <input type="text" skyPhoneFieldInput />
-  </div>
+    <sky-phone-field
+      [allowExtensions]="allowExtensions"
+      [defaultCountry]="defaultCountry"
+      [returnFormat]="returnFormat"
+      [supportedCountryISOs]="supportedCountryISOs"
+      [(selectedCountry)]="selectedCountry"
+    >
+      <input
+        id="phone-field-reactive-input"
+        formControlName="phone"
+        skyPhoneFieldInput
+        [skyPhoneFieldNoValidate]="noValidate"
+      />
+    </sky-phone-field>
+  }
+  @if (showInvalidDirective) {
+    <div>
+      <input type="text" skyPhoneFieldInput />
+    </div>
   }
 </form>

@@ -12,15 +12,16 @@
   (tokenSelected)="onTokenSelected($event)"
   (tokensRendered)="onTokensRendered()"
 >
-  @if (innerContent === 'text') { INNER CONTENT } @else if (innerContent ===
-  'form-control') {
-  <label>
-    Label
-    <input type="text" />
-  </label>
+  @if (innerContent === 'text') {
+    INNER CONTENT
+  } @else if (innerContent === 'form-control') {
+    <label>
+      Label
+      <input type="text" />
+    </label>
   }
 </sky-tokens>
 
 @if (includeSingleToken) {
-<sky-token [ariaLabel]="ariaLabel" />
+  <sky-token [ariaLabel]="ariaLabel" />
 }

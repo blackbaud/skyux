@@ -31,9 +31,10 @@
     (popoverOpened)="onPopoverOpened()"
   >
     <div [style.height.px]="height ? height : null">
-      Popover content. @if (showFocusableChildren) {
-      <input type="text" />
-      <button type="button">Button</button>
+      Popover content.
+      @if (showFocusableChildren) {
+        <input type="text" />
+        <button type="button">Button</button>
       }
     </div>
   </sky-popover>

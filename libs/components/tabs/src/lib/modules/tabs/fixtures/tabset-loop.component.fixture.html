@@ -3,12 +3,12 @@
   (tabIndexesChange)="onTabIndexesChange($event)"
 >
   @for (tab of tabArray; track tab.tabHeading) {
-  <sky-tab
-    [active]="tab.active"
-    [tabIndexValue]="tab.tabIndex"
-    [tabHeading]="tab.tabHeading"
-  >
-    {{ tab.tabContent }}
-  </sky-tab>
+    <sky-tab
+      [active]="tab.active"
+      [tabIndexValue]="tab.tabIndex"
+      [tabHeading]="tab.tabHeading"
+    >
+      {{ tab.tabContent }}
+    </sky-tab>
   }
 </sky-tabset>
