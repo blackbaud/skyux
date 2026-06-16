@@ -1,10 +1,6 @@
 <sky-input-box labelText="Input box" [hintText]="hintText">
   <sky-phone-field [(selectedCountry)]="selectedCountry">
-    <input
-      class="sky-form-control"
-      skyPhoneFieldInput
-      [(ngModel)]="modelValue"
-    />
+    <input skyPhoneFieldInput [(ngModel)]="modelValue" />
   </sky-phone-field>
 </sky-input-box>
 <div class="focus-out-target"></div>

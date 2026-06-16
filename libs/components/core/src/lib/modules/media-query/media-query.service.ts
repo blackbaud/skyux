@@ -70,6 +70,7 @@ export class SkyMediaQueryService implements OnDestroy {
   );
 
   // Keep NgZone as a constructor param so that consumer mocks don't encounter typing errors.
+  // eslint-disable-next-line @angular-eslint/prefer-inject -- constructor injection is required to maintain the public API for consumers who may instantiate this service directly (e.g. `new SkyMediaQueryService(...)`).
   constructor(_zone?: NgZone) {}
 
   public ngOnDestroy(): void {

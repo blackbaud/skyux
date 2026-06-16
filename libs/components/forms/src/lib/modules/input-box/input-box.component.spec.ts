@@ -28,6 +28,7 @@ import { InputBoxFixtureComponent } from './fixtures/input-box.component.fixture
 import { InputBoxFixturesModule } from './fixtures/input-box.module.fixture';
 import { SkyInputBoxAdapterService } from './input-box-adapter.service';
 import { SkyInputBoxHostService } from './input-box-host.service';
+import { SkyInputBoxComponent } from './input-box.component';
 
 interface InputBoxA11yTestingOptions {
   disabled?: boolean;
@@ -903,6 +904,32 @@ describe('Input box component', () => {
 
       expect(els.hintTextEl).toHaveText(
         'Consumer hint text. Host component hint text.',
+      );
+    });
+
+    it('should update aria-describedby immediately when a child sets hint text after the initial render', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.detectChanges();
+
+      // The easy-mode fixture has a bare <input> that matches SkyInputBoxControlDirective,
+      // so inputRef is set after the initial detectChanges.
+      const inputBoxComponent = fixture.debugElement.query(
+        By.css('.input-easy-mode sky-input-box'),
+      ).componentInstance as SkyInputBoxComponent;
+
+      // Read hintTextId before calling setHostHintText — the hint text @if block
+      // hasn't rendered yet so the DOM id isn't available.
+      const { hintTextId } = inputBoxComponent;
+
+      // Simulates an async host (e.g. sky-phone-field's afterNextRender) setting
+      // hint text without a subsequent detectChanges. aria-describedby must update
+      // immediately so screen readers don't miss the hint text.
+      inputBoxComponent.setHostHintText('Async hint text.');
+
+      const els = getDefaultEls(fixture, 'input-easy-mode');
+
+      expect(els.inputEl?.getAttribute('aria-describedby')).toContain(
+        hintTextId,
       );
     });
 

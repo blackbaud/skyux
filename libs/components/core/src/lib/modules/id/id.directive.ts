@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, Renderer2, inject } from '@angular/core';
 
 import { SkyIdService } from './id.service';
 
@@ -18,12 +18,12 @@ export class SkyIdDirective {
 
   #_id: string;
 
-  constructor(elRef: ElementRef, renderer: Renderer2, idSvc: SkyIdService) {
+  constructor() {
     // Generate and apply the ID before the template is rendered
     // to avoid a changed-after-checked error.
-    const id = idSvc.generateId();
+    const id = inject(SkyIdService).generateId();
 
-    renderer.setAttribute(elRef.nativeElement, 'id', id);
+    inject(Renderer2).setAttribute(inject(ElementRef).nativeElement, 'id', id);
 
     this.#_id = id;
   }

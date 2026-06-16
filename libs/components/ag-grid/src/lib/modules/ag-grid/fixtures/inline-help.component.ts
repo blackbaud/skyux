@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { SkyAgGridHeaderInfo } from '../types/header-info';
 
@@ -10,11 +10,7 @@ import { SkyAgGridHeaderInfo } from '../types/header-info';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FirstInlineHelpComponent {
-  public readonly displayName: string | undefined;
-
-  constructor({ displayName }: SkyAgGridHeaderInfo) {
-    this.displayName = displayName;
-  }
+  public readonly displayName = inject(SkyAgGridHeaderInfo).displayName;
 }
 
 @Component({
@@ -27,9 +23,5 @@ export class FirstInlineHelpComponent {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SecondInlineHelpComponent {
-  public readonly displayName: string | undefined;
-
-  constructor({ displayName }: SkyAgGridHeaderInfo) {
-    this.displayName = displayName;
-  }
+  public readonly displayName = inject(SkyAgGridHeaderInfo).displayName;
 }

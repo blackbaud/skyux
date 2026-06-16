@@ -1,15 +1,15 @@
 @if (showIt) {
-<sky-tabset
-  [active]="activeIndex"
-  [permalinkId]="permalinkId"
-  (activeChange)="onActiveChange($event)"
->
-  <sky-tab tabHeading="A.P.I." />
-  <sky-tab
-    tabHeading="Design & Guidelines"
-    [disabled]="secondTabDisabled"
-    [permalinkValue]="permalinkValue"
-  />
-  <sky-tabset tabHeading="Questions?" />
-</sky-tabset>
+  <sky-tabset
+    [active]="activeIndex"
+    [permalinkId]="permalinkId"
+    (activeChange)="onActiveChange($event)"
+  >
+    <sky-tab tabHeading="A.P.I." />
+    <sky-tab
+      tabHeading="Design & Guidelines"
+      [disabled]="secondTabDisabled"
+      [permalinkValue]="permalinkValue"
+    />
+    <sky-tabset tabHeading="Questions?" />
+  </sky-tabset>
 }
