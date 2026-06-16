@@ -8,13 +8,13 @@
       [disabled]="basicDisabled"
     />
     @if (hasErrors) {
-    <sky-status-indicator
-      class="sky-control-error"
-      indicatorType="danger"
-      descriptionType="error"
-    >
-      Field is required.
-    </sky-status-indicator>
+      <sky-status-indicator
+        class="sky-control-error"
+        indicatorType="danger"
+        descriptionType="error"
+      >
+        Field is required.
+      </sky-status-indicator>
     }
   </sky-input-box>
 </div>
@@ -31,13 +31,13 @@
       [disabled]="basicDisabled"
     ></textarea>
     @if (hasErrors) {
-    <sky-status-indicator
-      class="sky-control-error"
-      indicatorType="danger"
-      descriptionType="error"
-    >
-      Field is required.
-    </sky-status-indicator>
+      <sky-status-indicator
+        class="sky-control-error"
+        indicatorType="danger"
+        descriptionType="error"
+      >
+        Field is required.
+      </sky-status-indicator>
     }
   </sky-input-box>
 </div>
@@ -59,13 +59,13 @@
       <option>Option 4</option>
     </select>
     @if (hasErrors) {
-    <sky-status-indicator
-      class="sky-control-error"
-      indicatorType="danger"
-      descriptionType="error"
-    >
-      Field is required.
-    </sky-status-indicator>
+      <sky-status-indicator
+        class="sky-control-error"
+        indicatorType="danger"
+        descriptionType="error"
+      >
+        Field is required.
+      </sky-status-indicator>
     }
   </sky-input-box>
 </div>
@@ -76,11 +76,11 @@
       Basic input with inline help
     </label>
     @if (inlineHelpType === 'custom') {
-    <div class="sky-control-help">
-      <button type="button">CUSTOM HELP WIDGET</button>
-    </div>
+      <div class="sky-control-help">
+        <button type="button">CUSTOM HELP WIDGET</button>
+      </div>
     } @else if (inlineHelpType === 'sky') {
-    <sky-help-inline class="sky-control-help" />
+      <sky-help-inline class="sky-control-help" />
     }
     <input #inlineHelp="skyId" class="sky-form-control" skyId />
   </sky-input-box>
@@ -92,11 +92,11 @@
       Textarea with inline help
     </label>
     @if (inlineHelpType === 'custom') {
-    <div class="sky-control-help">
-      <button type="button">CUSTOM HELP WIDGET</button>
-    </div>
+      <div class="sky-control-help">
+        <button type="button">CUSTOM HELP WIDGET</button>
+      </div>
     } @else if (inlineHelpType === 'sky') {
-    <sky-help-inline class="sky-control-help" />
+      <sky-help-inline class="sky-control-help" />
     }
     <textarea
       #textareaInlineHelp="skyId"
@@ -112,11 +112,11 @@
       Select with inline help
     </label>
     @if (inlineHelpType === 'custom') {
-    <div class="sky-control-help">
-      <button type="button">CUSTOM HELP WIDGET</button>
-    </div>
+      <div class="sky-control-help">
+        <button type="button">CUSTOM HELP WIDGET</button>
+      </div>
     } @else if (inlineHelpType === 'sky') {
-    <sky-help-inline class="sky-control-help" />
+      <sky-help-inline class="sky-control-help" />
     }
     <select #selectInlineHelp="skyId" class="sky-form-control" skyId>
       <option>Option 1</option>
@@ -303,7 +303,7 @@
       With character count
     </label>
     @if (characterCountHelp) {
-    <sky-help-inline class="sky-control-help" />
+      <sky-help-inline class="sky-control-help" />
     }
     <sky-character-counter-indicator #characterCount />
     <input
@@ -323,7 +323,7 @@
       With character count
     </label>
     @if (characterCountHelp) {
-    <sky-help-inline class="sky-control-help" />
+      <sky-help-inline class="sky-control-help" />
     }
     <sky-character-counter-indicator #characterCount />
     <textarea
@@ -343,7 +343,7 @@
       With character count
     </label>
     @if (characterCountHelp) {
-    <sky-help-inline class="sky-control-help" />
+      <sky-help-inline class="sky-control-help" />
     }
     <sky-character-counter-indicator #characterCount />
     <select
@@ -430,37 +430,41 @@
       type="text"
     />
     @if (a11yInsetIconLeft) {
-    <div class="sky-input-group-icon sky-input-box-icon-inset-left">
-      <sky-icon class="test-icon-inset=left" iconName="search" iconSize="l" />
-    </div>
-    } @if (a11yInsetIcon) {
-    <div class="sky-input-group-icon sky-input-box-icon-inset">
-      <sky-icon class="test-icon-inset" iconName="search" iconSize="l" />
-    </div>
-    } @if (a11yButtonLeft) {
-    <div class="sky-input-group-btn sky-input-box-btn-left">
-      <button
-        aria-label="Left button"
-        class="sky-btn sky-btn-default test-button-left"
-        type="button"
-      ></button>
-    </div>
-    } @if (a11yInsetButton) {
-    <div class="sky-input-group-btn sky-input-box-btn-inset">
-      <button
-        aria-label="Inset button"
-        class="sky-btn sky-btn-default test-button-inset"
-        type="button"
-      ></button>
-    </div>
-    } @if (a11yNormalButton) {
-    <div class="sky-input-group-btn">
-      <button
-        aria-label="Normal button"
-        class="sky-btn sky-btn-default test-button"
-        type="button"
-      ></button>
-    </div>
+      <div class="sky-input-group-icon sky-input-box-icon-inset-left">
+        <sky-icon class="test-icon-inset=left" iconName="search" iconSize="l" />
+      </div>
+    }
+    @if (a11yInsetIcon) {
+      <div class="sky-input-group-icon sky-input-box-icon-inset">
+        <sky-icon class="test-icon-inset" iconName="search" iconSize="l" />
+      </div>
+    }
+    @if (a11yButtonLeft) {
+      <div class="sky-input-group-btn sky-input-box-btn-left">
+        <button
+          aria-label="Left button"
+          class="sky-btn sky-btn-default test-button-left"
+          type="button"
+        ></button>
+      </div>
+    }
+    @if (a11yInsetButton) {
+      <div class="sky-input-group-btn sky-input-box-btn-inset">
+        <button
+          aria-label="Inset button"
+          class="sky-btn sky-btn-default test-button-inset"
+          type="button"
+        ></button>
+      </div>
+    }
+    @if (a11yNormalButton) {
+      <div class="sky-input-group-btn">
+        <button
+          aria-label="Normal button"
+          class="sky-btn sky-btn-default test-button"
+          type="button"
+        ></button>
+      </div>
     }
   </sky-input-box>
 </div>
@@ -477,37 +481,41 @@
       type="text"
     ></textarea>
     @if (a11yInsetIconLeft) {
-    <div class="sky-input-group-icon sky-input-box-icon-inset-left">
-      <sky-icon class="test-icon-inset=left" iconName="search" iconSize="l" />
-    </div>
-    } @if (a11yInsetIcon) {
-    <div class="sky-input-group-icon sky-input-box-icon-inset">
-      <sky-icon class="test-icon-inset" iconName="search" iconSize="l" />
-    </div>
-    } @if (a11yButtonLeft) {
-    <div class="sky-input-group-btn sky-input-box-btn-left">
-      <button
-        aria-label="Left button"
-        class="sky-btn sky-btn-default test-button-left"
-        type="button"
-      ></button>
-    </div>
-    } @if (a11yInsetButton) {
-    <div class="sky-input-group-btn sky-input-box-btn-inset">
-      <button
-        aria-label="Inset button"
-        class="sky-btn sky-btn-default test-button-inset"
-        type="button"
-      ></button>
-    </div>
-    } @if (a11yNormalButton) {
-    <div class="sky-input-group-btn">
-      <button
-        aria-label="Normal button"
-        class="sky-btn sky-btn-default test-button"
-        type="button"
-      ></button>
-    </div>
+      <div class="sky-input-group-icon sky-input-box-icon-inset-left">
+        <sky-icon class="test-icon-inset=left" iconName="search" iconSize="l" />
+      </div>
+    }
+    @if (a11yInsetIcon) {
+      <div class="sky-input-group-icon sky-input-box-icon-inset">
+        <sky-icon class="test-icon-inset" iconName="search" iconSize="l" />
+      </div>
+    }
+    @if (a11yButtonLeft) {
+      <div class="sky-input-group-btn sky-input-box-btn-left">
+        <button
+          aria-label="Left button"
+          class="sky-btn sky-btn-default test-button-left"
+          type="button"
+        ></button>
+      </div>
+    }
+    @if (a11yInsetButton) {
+      <div class="sky-input-group-btn sky-input-box-btn-inset">
+        <button
+          aria-label="Inset button"
+          class="sky-btn sky-btn-default test-button-inset"
+          type="button"
+        ></button>
+      </div>
+    }
+    @if (a11yNormalButton) {
+      <div class="sky-input-group-btn">
+        <button
+          aria-label="Normal button"
+          class="sky-btn sky-btn-default test-button"
+          type="button"
+        ></button>
+      </div>
     }
   </sky-input-box>
 </div>
@@ -529,37 +537,41 @@
       <option>Option 4</option>
     </select>
     @if (a11yInsetIconLeft) {
-    <div class="sky-input-group-icon sky-input-box-icon-inset-left">
-      <sky-icon class="test-icon-inset=left" iconName="search" iconSize="l" />
-    </div>
-    } @if (a11yInsetIcon) {
-    <div class="sky-input-group-icon sky-input-box-icon-inset">
-      <sky-icon class="test-icon-inset" iconName="search" iconSize="l" />
-    </div>
-    } @if (a11yButtonLeft) {
-    <div class="sky-input-group-btn sky-input-box-btn-left">
-      <button
-        aria-label="Left button"
-        class="sky-btn sky-btn-default test-button-left"
-        type="button"
-      ></button>
-    </div>
-    } @if (a11yInsetButton) {
-    <div class="sky-input-group-btn sky-input-box-btn-inset">
-      <button
-        aria-label="Inset button"
-        class="sky-btn sky-btn-default test-button-inset"
-        type="button"
-      ></button>
-    </div>
-    } @if (a11yNormalButton) {
-    <div class="sky-input-group-btn">
-      <button
-        aria-label="Normal button"
-        class="sky-btn sky-btn-default test-button"
-        type="button"
-      ></button>
-    </div>
+      <div class="sky-input-group-icon sky-input-box-icon-inset-left">
+        <sky-icon class="test-icon-inset=left" iconName="search" iconSize="l" />
+      </div>
+    }
+    @if (a11yInsetIcon) {
+      <div class="sky-input-group-icon sky-input-box-icon-inset">
+        <sky-icon class="test-icon-inset" iconName="search" iconSize="l" />
+      </div>
+    }
+    @if (a11yButtonLeft) {
+      <div class="sky-input-group-btn sky-input-box-btn-left">
+        <button
+          aria-label="Left button"
+          class="sky-btn sky-btn-default test-button-left"
+          type="button"
+        ></button>
+      </div>
+    }
+    @if (a11yInsetButton) {
+      <div class="sky-input-group-btn sky-input-box-btn-inset">
+        <button
+          aria-label="Inset button"
+          class="sky-btn sky-btn-default test-button-inset"
+          type="button"
+        ></button>
+      </div>
+    }
+    @if (a11yNormalButton) {
+      <div class="sky-input-group-btn">
+        <button
+          aria-label="Normal button"
+          class="sky-btn sky-btn-default test-button"
+          type="button"
+        ></button>
+      </div>
     }
   </sky-input-box>
 </div>

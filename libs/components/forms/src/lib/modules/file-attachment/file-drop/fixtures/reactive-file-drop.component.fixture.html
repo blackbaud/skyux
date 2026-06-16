@@ -8,5 +8,5 @@
 </form>
 
 @for (file of fileDrop.value; track file) {
-<sky-file-item [fileItem]="file" (deleteFile)="deleteFile($event)" />
+  <sky-file-item [fileItem]="file" (deleteFile)="deleteFile($event)" />
 }
