@@ -24,6 +24,7 @@ import { SkyDataManagerState } from '../models/data-manager-state';
 import { SkyDataViewConfig } from '../models/data-view-config';
 import { SkyDataViewState } from '../models/data-view-state';
 
+import { SkyDataManagerToolbarPrimaryItemComponent } from './data-manager-toolbar-primary-item.component';
 import { SkyDataManagerToolbarComponent } from './data-manager-toolbar.component';
 
 class MockModalService {
@@ -60,6 +61,21 @@ class MockModalComponent {}
   standalone: false,
 })
 class MockModalLegacyComponent {}
+
+@Component({
+  imports: [
+    SkyDataManagerToolbarComponent,
+    SkyDataManagerToolbarPrimaryItemComponent,
+  ],
+  template: `
+    <sky-data-manager-toolbar>
+      <sky-data-manager-toolbar-primary-item>
+        <button type="button">Primary</button>
+      </sky-data-manager-toolbar-primary-item>
+    </sky-data-manager-toolbar>
+  `,
+})
+class ProjectedContentHostComponent {}
 
 describe('SkyDataManagerToolbarComponent', () => {
   let dataManagerToolbarFixture: ComponentFixture<SkyDataManagerToolbarComponent>;
@@ -183,6 +199,41 @@ describe('SkyDataManagerToolbarComponent', () => {
     expect(primaryButton).toBeVisible();
     expect(leftButton).toBeVisible();
     expect(rightButton).toBeVisible();
+  });
+
+  it('should not render the main toolbar when it has no content', () => {
+    dataManagerToolbarFixture.detectChanges();
+
+    const toolbar = dataManagerToolbarNativeElement.querySelector(
+      'sky-toolbar:not(.sky-data-manager-multiselect-toolbar)',
+    );
+
+    expect(toolbar).toBeNull();
+  });
+
+  it('should render the main toolbar when the active view enables a feature', () => {
+    spyOn(dataManagerService, 'getViewById').and.returnValue({
+      ...(dataManagerToolbarComponent.activeView as SkyDataViewConfig),
+      sortEnabled: true,
+    });
+    dataManagerToolbarFixture.detectChanges();
+
+    const toolbar = dataManagerToolbarNativeElement.querySelector(
+      'sky-toolbar:not(.sky-data-manager-multiselect-toolbar)',
+    );
+
+    expect(toolbar).not.toBeNull();
+  });
+
+  it('should render the main toolbar when only projected content is present', () => {
+    const hostFixture = TestBed.createComponent(ProjectedContentHostComponent);
+    hostFixture.detectChanges();
+
+    const toolbar = hostFixture.nativeElement.querySelector(
+      'sky-toolbar:not(.sky-data-manager-multiselect-toolbar)',
+    );
+
+    expect(toolbar).not.toBeNull();
   });
 
   it('should show a sort button if the data view config has sort enabled', () => {
