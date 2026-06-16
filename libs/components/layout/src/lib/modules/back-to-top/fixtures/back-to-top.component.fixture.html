@@ -2,7 +2,10 @@
   id="back-to-top-parent"
   style="width: 400px; margin: 0 auto"
   [attr.hidden]="hideParent ? true : undefined"
-  [ngStyle]="{'height': height + 'px', 'overflow': scrollableParent ? 'auto' : null}"
+  [ngStyle]="{
+    height: height + 'px',
+    overflow: scrollableParent ? 'auto' : null
+  }"
 >
   <p
     id="back-to-top-target"
