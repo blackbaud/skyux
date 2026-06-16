@@ -57,7 +57,7 @@
   },
   "skyux_form_error_phone": {
     "_description": "Error message for a field with an invalid phone number",
-    "message": "Enter a phone number matching the format for the selected country."
+    "message": "Enter a valid phone number for the selected country."
   },
   "skyux_form_error_required": {
     "_description": "Error message for a required field without a value",
