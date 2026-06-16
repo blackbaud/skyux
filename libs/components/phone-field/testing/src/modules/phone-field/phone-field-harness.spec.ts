@@ -131,6 +131,39 @@ describe('Phone field harness', () => {
     }
   });
 
+  it('should reapply formatting to an existing number when the country changes', async () => {
+    const { phoneFieldHarness, fixture } = await setupTest({
+      dataSkyId: DATA_SKY_ID,
+    });
+
+    // Non-US tenant.
+    fixture.componentInstance.defaultCountry = 'au';
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    // Select a non-US country and enter a US number in that context.
+    await phoneFieldHarness.selectCountry('France');
+    await (await phoneFieldHarness.getControl()).setValue('8675555309');
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    // Switch to the United States.
+    if (COUNTRY_US.name) {
+      await phoneFieldHarness.selectCountry(COUNTRY_US.name);
+    }
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    // The number is reformatted with the US country code in the model, without
+    // the user re-editing the input (the raw input text is left as typed).
+    expect(fixture.componentInstance.phoneControl?.value).toEqual(
+      '+1 867-555-5309',
+    );
+    await expectAsync(
+      (await phoneFieldHarness.getControl()).getValue(),
+    ).toBeResolvedTo('8675555309');
+  });
+
   it('should not have constructor race condition', async () => {
     // There is some concern that the delayed instantiation of the country field in the fixture's
     // constructor will cause a race condition. We attempt to access the country field as early as
