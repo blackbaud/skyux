@@ -17,7 +17,8 @@
   "homepage": "https://github.com/blackbaud/skyux#readme",
   "peerDependencies": {
     "@angular/common": "^21.2.0",
-    "@angular/core": "^21.2.0"
+    "@angular/core": "^21.2.0",
+    "@skyux/i18n": "^7"
   },
   "dependencies": {
     "chart.js": "4.5.1",

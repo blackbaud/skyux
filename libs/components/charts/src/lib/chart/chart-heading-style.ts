@@ -12,13 +12,13 @@ export function headingStyleInputTransformer(
 ): SkyChartHeadingStyle {
   const numberValue = numberAttribute(value, DEFAULT_HEADING_STYLE);
 
-  if (isSkyChartHeadingStyle(numberValue)) {
+  if (isHeadingStyle(numberValue)) {
     return numberValue;
   }
 
   return DEFAULT_HEADING_STYLE;
 }
 
-function isSkyChartHeadingStyle(value: unknown): value is SkyChartHeadingStyle {
+function isHeadingStyle(value: unknown): value is SkyChartHeadingStyle {
   return value === 2 || value === 3 || value === 4 || value === 5;
 }

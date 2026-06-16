@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-
 import { SkyChartHeading } from './chart-heading';
 
 describe('Chart heading component', () => {

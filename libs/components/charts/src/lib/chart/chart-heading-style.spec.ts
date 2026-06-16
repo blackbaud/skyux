@@ -1,7 +1,7 @@
 import {
   DEFAULT_HEADING_STYLE,
   headingStyleInputTransformer,
-} from './heading-style';
+} from './chart-heading-style';
 
 describe('headingStyleInputTransformer', () => {
   it('should default to the default heading style', () => {

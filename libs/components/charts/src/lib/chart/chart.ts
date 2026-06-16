@@ -8,17 +8,17 @@ import {
 import { SkyIdService } from '@skyux/core';
 import { SkyChartControls } from './chart-controls';
 import { SkyChartHeading } from './chart-heading';
-import { SkyChartSubheading } from './chart-subheading';
 import {
   DEFAULT_HEADING_LEVEL,
   headingLevelInputTransformer,
   type SkyChartHeadingLevel,
-} from './utils/heading-level';
+} from './chart-heading-level';
 import {
   DEFAULT_HEADING_STYLE,
   headingStyleInputTransformer,
   type SkyChartHeadingStyle,
-} from './utils/heading-style';
+} from './chart-heading-style';
+import { SkyChartSubheading } from './chart-subheading';
 
 /**
  * @preview

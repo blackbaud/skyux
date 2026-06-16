@@ -12,13 +12,13 @@ export function headingLevelInputTransformer(
 ): SkyChartHeadingLevel {
   const numberValue = numberAttribute(value, DEFAULT_HEADING_LEVEL);
 
-  if (isSkyChartHeadingLevel(numberValue)) {
+  if (isHeadingLevel(numberValue)) {
     return numberValue;
   }
 
   return DEFAULT_HEADING_LEVEL;
 }
 
-function isSkyChartHeadingLevel(value: unknown): value is SkyChartHeadingLevel {
+function isHeadingLevel(value: unknown): value is SkyChartHeadingLevel {
   return value === 2 || value === 3 || value === 4 || value === 5;
 }

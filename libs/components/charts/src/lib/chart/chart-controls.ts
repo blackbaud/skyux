@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { SkyI18nModule } from '@skyux/i18n';
 
 import { SkyDropdownModule } from '@skyux/popovers';
 
+import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SkyDropdownModule, SkyI18nModule],
+  imports: [SkyDropdownModule, SkyChartsResourcesModule],
   selector: 'sky-chart-controls',
   templateUrl: './chart-controls.html',
 })

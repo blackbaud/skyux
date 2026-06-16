@@ -1,7 +1,7 @@
 import {
   DEFAULT_HEADING_LEVEL,
   headingLevelInputTransformer,
-} from './heading-level';
+} from './chart-heading-level';
 
 describe('headingLevelInputTransformer', () => {
   it('should default to the default heading level', () => {
