@@ -24,6 +24,7 @@ import { SkyDataManagerState } from '../models/data-manager-state';
 import { SkyDataViewConfig } from '../models/data-view-config';
 import { SkyDataViewState } from '../models/data-view-state';
 
+import { SkyDataManagerToolbarPrimaryItemComponent } from './data-manager-toolbar-primary-item.component';
 import { SkyDataManagerToolbarComponent } from './data-manager-toolbar.component';
 
 class MockModalService {
@@ -60,6 +61,21 @@ class MockModalComponent {}
   standalone: false,
 })
 class MockModalLegacyComponent {}
+
+@Component({
+  imports: [
+    SkyDataManagerToolbarComponent,
+    SkyDataManagerToolbarPrimaryItemComponent,
+  ],
+  template: `
+    <sky-data-manager-toolbar>
+      <sky-data-manager-toolbar-primary-item>
+        <button type="button">Primary</button>
+      </sky-data-manager-toolbar-primary-item>
+    </sky-data-manager-toolbar>
+  `,
+})
+class ProjectedContentHostComponent {}
 
 describe('SkyDataManagerToolbarComponent', () => {
   let dataManagerToolbarFixture: ComponentFixture<SkyDataManagerToolbarComponent>;
@@ -203,6 +219,17 @@ describe('SkyDataManagerToolbarComponent', () => {
     dataManagerToolbarFixture.detectChanges();
 
     const toolbar = dataManagerToolbarNativeElement.querySelector(
+      'sky-toolbar:not(.sky-data-manager-multiselect-toolbar)',
+    );
+
+    expect(toolbar).not.toBeNull();
+  });
+
+  it('should render the main toolbar when only projected content is present', () => {
+    const hostFixture = TestBed.createComponent(ProjectedContentHostComponent);
+    hostFixture.detectChanges();
+
+    const toolbar = hostFixture.nativeElement.querySelector(
       'sky-toolbar:not(.sky-data-manager-multiselect-toolbar)',
     );
 
