@@ -127,7 +127,21 @@ export class SkyPhoneFieldInputDirective
 
     this.#phoneFieldComponent?.selectedCountryChange.subscribe(() => {
       const value = this.#adapterSvc?.getInputValue(this.#elRef);
+      const previousValue = this.#getValue();
       this.#setValue(value);
+      const newValue = this.#getValue();
+
+      // When changing the country reformats the existing number (i.e. the
+      // number is formattable for the newly selected country), push the
+      // reformatted value — including its country code — to the form control so
+      // downstream consumers receive a correctly formatted number without the
+      // user having to edit the field again. `#setValue` leaves the value
+      // untouched when it isn't formattable for the new country, so comparing
+      // against the raw input skips that case and leaves validation to flag it.
+      if (newValue !== previousValue && newValue !== value) {
+        this.#notifyChange?.(newValue);
+      }
+
       this.#control?.updateValueAndValidity();
     });
 
