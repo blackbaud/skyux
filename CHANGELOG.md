@@ -6,6 +6,7 @@
 
 ### Bug Fixes
 
+* **components/phone-field:** invalid phone number error message is more generic to avoid consumer confusion ([#4444](https://github.com/blackbaud/skyux/issues/4444)) ([#4452](https://github.com/blackbaud/skyux/issues/4452)) ([0a1ff1d](https://github.com/blackbaud/skyux/commit/0a1ff1d86ae60145b7ad13910f38bcad0e037bde))
 * **components/phone-field:** update format when country changes ([#4445](https://github.com/blackbaud/skyux/issues/4445)) ([#4455](https://github.com/blackbaud/skyux/issues/4455)) ([0520e5b](https://github.com/blackbaud/skyux/commit/0520e5ba8f3ff9b00756a20fb776e2c717764d18))
 
 ## [14.3.10](https://github.com/blackbaud/skyux/compare/14.3.9...14.3.10) (2026-06-15)
