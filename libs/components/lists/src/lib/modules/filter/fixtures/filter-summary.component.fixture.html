@@ -1,11 +1,11 @@
 <sky-filter-summary>
   @for (item of appliedFilters; track item; let i = $index) {
-  <sky-filter-summary-item
-    [dismissible]="item.dismissible"
-    (dismiss)="onDismiss(i)"
-    (itemClick)="filterButtonClicked()"
-  >
-    {{item.label}}
-  </sky-filter-summary-item>
+    <sky-filter-summary-item
+      [dismissible]="item.dismissible"
+      (dismiss)="onDismiss(i)"
+      (itemClick)="filterButtonClicked()"
+    >
+      {{ item.label }}
+    </sky-filter-summary-item>
   }
 </sky-filter-summary>

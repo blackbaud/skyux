@@ -7,6 +7,7 @@
     {
       "files": ["*.html"],
       "options": {
+        "parser": "angular",
         "trailingComma": "none"
       }
     }
