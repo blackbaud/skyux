@@ -1,15 +1,13 @@
 @if (toastType !== undefined) {
-<sky-toast
-  [autoClose]="autoClose"
-  [toastType]="toastType"
-  (closed)="onClosed()"
->
-  Inner content here...
-</sky-toast>
+  <sky-toast
+    [autoClose]="autoClose"
+    [toastType]="toastType"
+    (closed)="onClosed()"
+  >
+    Inner content here...
+  </sky-toast>
 } @else {
-
-<sky-toast [autoClose]="autoClose" (closed)="onClosed()">
-  Inner content here...
-</sky-toast>
-
+  <sky-toast [autoClose]="autoClose" (closed)="onClosed()">
+    Inner content here...
+  </sky-toast>
 }
