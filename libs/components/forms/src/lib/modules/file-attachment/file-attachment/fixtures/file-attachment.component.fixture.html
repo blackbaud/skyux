@@ -12,15 +12,16 @@
     [stacked]="stacked"
   >
     @if (showLabel) {
-    <sky-file-attachment-label>
-      {{ labelElementText }} @if (showInlineHelp) {
-      <sky-help-inline class="sky-control-help" />
-      }
-    </sky-file-attachment-label>
+      <sky-file-attachment-label>
+        {{ labelElementText }}
+        @if (showInlineHelp) {
+          <sky-help-inline class="sky-control-help" />
+        }
+      </sky-file-attachment-label>
     }
   </sky-file-attachment>
 
   @if (attachment?.invalid && attachment?.dirty) {
-  <div class="sky-error-label">Attach a file.</div>
+    <div class="sky-error-label">Attach a file.</div>
   }
 </form>

@@ -3,8 +3,8 @@
   (activeChange)="onActiveChange($event)"
 >
   @for (tab of tabs; track tab) {
-  <sky-vertical-tab [tabHeading]="tab.heading">
-    {{ tab.content }}
-  </sky-vertical-tab>
+    <sky-vertical-tab [tabHeading]="tab.heading">
+      {{ tab.content }}
+    </sky-vertical-tab>
   }
 </sky-vertical-tabset>

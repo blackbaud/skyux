@@ -24,9 +24,9 @@
     />
 
     @if (firstName.errors?.skyCharacterCounter) {
-    <div class="sky-error-label">
-      Limit First name to {{maxCharacterCount}} characters.
-    </div>
+      <div class="sky-error-label">
+        Limit First name to {{ maxCharacterCount }} characters.
+      </div>
     }
 
     <div style="display: flex" class="input-count-example-wrapper-last-name">
@@ -53,9 +53,9 @@
     />
 
     @if (lastName.errors?.skyCharacterCounter) {
-    <div class="sky-error-label">
-      Limit Last name to {{maxCharacterCount}} characters.
-    </div>
+      <div class="sky-error-label">
+        Limit Last name to {{ maxCharacterCount }} characters.
+      </div>
     }
   </form>
 </div>

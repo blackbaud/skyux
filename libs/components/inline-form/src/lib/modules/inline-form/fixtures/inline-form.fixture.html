@@ -21,15 +21,15 @@
 
 <!-- The following forms are for testing autocomplete behavior on init. -->
 @if (showFormWithOutAutocomplete) {
-<sky-inline-form
-  [config]="config"
-  [showForm]="showForm"
-  [template]="formWithOutAutocomplete"
-  (close)="onClose($event)"
->
-  <p>Something</p>
-  <p>Something else</p>
-</sky-inline-form>
+  <sky-inline-form
+    [config]="config"
+    [showForm]="showForm"
+    [template]="formWithOutAutocomplete"
+    (close)="onClose($event)"
+  >
+    <p>Something</p>
+    <p>Something else</p>
+  </sky-inline-form>
 }
 
 <ng-template #formWithOutAutocomplete>
@@ -44,15 +44,15 @@
 </ng-template>
 
 @if (showFormWithAutocomplete) {
-<sky-inline-form
-  [config]="config"
-  [showForm]="showForm"
-  [template]="formWithAutocomplete"
-  (close)="onClose($event)"
->
-  <p>Something</p>
-  <p>Something else</p>
-</sky-inline-form>
+  <sky-inline-form
+    [config]="config"
+    [showForm]="showForm"
+    [template]="formWithAutocomplete"
+    (close)="onClose($event)"
+  >
+    <p>Something</p>
+    <p>Something else</p>
+  </sky-inline-form>
 }
 <ng-template #formWithAutocomplete>
   <div class="sky-form-group">
@@ -66,12 +66,12 @@
 </ng-template>
 
 @if (showFormWithHiddenElements) {
-<sky-inline-form
-  [config]="config"
-  [showForm]="showForm"
-  [template]="formWithHiddenElements"
-  (close)="onClose($event)"
-/>
+  <sky-inline-form
+    [config]="config"
+    [showForm]="showForm"
+    [template]="formWithHiddenElements"
+    (close)="onClose($event)"
+  />
 }
 <ng-template #formWithHiddenElements>
   <div class="sky-form-group">
@@ -90,14 +90,14 @@
 </ng-template>
 
 @if (showFormWithNoElements) {
-<sky-inline-form
-  [config]="config"
-  [showForm]="showForm"
-  [template]="formWithNoElements"
->
-  <p>Something</p>
-  <p>Something else</p>
-</sky-inline-form>
+  <sky-inline-form
+    [config]="config"
+    [showForm]="showForm"
+    [template]="formWithNoElements"
+  >
+    <p>Something</p>
+    <p>Something else</p>
+  </sky-inline-form>
 }
 <ng-template #formWithNoElements>
   <p>This form is empty!</p>

@@ -1,31 +1,32 @@
 @if (showMenuOverlay) {
-<div
-  class="menu-overlay"
-  style="
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: oklch(44% 40% 303deg / 30%);
-    z-index: 1000;
-  "
->
-  Menu overlay
-</div>
-} @if (showAnchor0) {
-<button
-  class="sky-btn sky-btn-default"
-  href="/"
-  id="anchor-0"
-  type="button"
-  [ngStyle]="{
-    'display': anchor0Display,
-    'visibility': anchor0Visibility
-  }"
->
-  Anchor tag 0
-</button>
+  <div
+    class="menu-overlay"
+    style="
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: oklch(44% 40% 303deg / 30%);
+      z-index: 1000;
+    "
+  >
+    Menu overlay
+  </div>
+}
+@if (showAnchor0) {
+  <button
+    class="sky-btn sky-btn-default"
+    href="/"
+    id="anchor-0"
+    type="button"
+    [ngStyle]="{
+      display: anchor0Display,
+      visibility: anchor0Visibility
+    }"
+  >
+    Anchor tag 0
+  </button>
 }
 <button class="sky-btn sky-btn-default" href="/" id="anchor-1" type="button">
   Anchor tag 1
@@ -44,18 +45,18 @@
 </div>
 <div>
   @if (showAnchor2) {
-  <button
-    class="sky-btn sky-btn-default"
-    href="/"
-    id="anchor-2"
-    type="button"
-    [ngStyle]="{
-      'display': anchor2Display,
-      'visibility': anchor2Visibility
-    }"
-  >
-    Anchor tag 2
-  </button>
+    <button
+      class="sky-btn sky-btn-default"
+      href="/"
+      id="anchor-2"
+      type="button"
+      [ngStyle]="{
+        display: anchor2Display,
+        visibility: anchor2Visibility
+      }"
+    >
+      Anchor tag 2
+    </button>
   }
   <sky-wait
     [isFullPage]="false"
