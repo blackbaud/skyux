@@ -1,8 +1,7 @@
-<div class="sky-chart-header sky-margin-stacked-sm">
-  <div>
+<div class="sky-chart-header">
+  <div #heading="skyId" skyId>
     <sky-chart-heading
       [class.sky-screen-reader-only]="headingHidden()"
-      [headingId]="headingId"
       [headingLevel]="headingLevel()"
       [headingStyle]="headingStyle()"
       [headingText]="headingText()"
@@ -13,6 +12,6 @@
   </div>
   <sky-chart-controls [headingText]="headingText()" />
 </div>
-<figure class="sky-chart-content" [attr.aria-labelledby]="headingId">
+<figure class="sky-chart-content" [attr.aria-labelledby]="heading.id">
   <ng-content />
 </figure>

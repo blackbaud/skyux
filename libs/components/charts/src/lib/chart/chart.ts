@@ -2,10 +2,9 @@ import {
   booleanAttribute,
   ChangeDetectionStrategy,
   Component,
-  inject,
   input,
 } from '@angular/core';
-import { SkyIdService } from '@skyux/core';
+import { SkyIdModule } from '@skyux/core';
 import { SkyChartControls } from './chart-controls';
 import { SkyChartHeading } from './chart-heading';
 import {
@@ -30,7 +29,7 @@ import { SkyChartSubheading } from './chart-subheading';
   host: {
     class: 'sky-chart',
   },
-  imports: [SkyChartControls, SkyChartHeading, SkyChartSubheading],
+  imports: [SkyChartControls, SkyChartHeading, SkyChartSubheading, SkyIdModule],
   selector: 'sky-chart',
   styleUrl: './chart.scss',
   templateUrl: './chart.html',
@@ -72,6 +71,4 @@ export class SkyChart {
    * The text to display as the chart's subheading.
    */
   public readonly subheadingText = input<string>();
-
-  protected readonly headingId = inject(SkyIdService).generateId();
 }

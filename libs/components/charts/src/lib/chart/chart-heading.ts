@@ -12,7 +12,6 @@ import {
   templateUrl: './chart-heading.html',
 })
 export class SkyChartHeading {
-  public readonly headingId = input.required<string>();
   public readonly headingLevel = input.required<number>();
   public readonly headingStyle = input.required<number>();
   public readonly headingText = input.required<string>();

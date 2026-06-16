@@ -95,11 +95,15 @@ describe('Chart component', () => {
 
   it('should name the figure with the heading via aria-labelledby', () => {
     fixture.componentInstance.headingHidden = true;
+    fixture.componentInstance.subheadingText = 'My subheading';
     fixture.detectChanges();
 
-    const headingId = getHeadingElement()?.id;
-    expect(headingId).toBeTruthy();
-    expect(getFigure()?.getAttribute('aria-labelledby')).toBe(headingId ?? '');
+    const labelledById = getFigure()?.getAttribute('aria-labelledby');
+    expect(labelledById).toBeTruthy();
+
+    const labelEl = fixture.nativeElement.querySelector(`#${labelledById}`);
+    expect(labelEl?.contains(getHeadingElement())).toBe(true);
+    expect(labelEl?.contains(getSubheading())).toBe(true);
   });
 
   it('should not render the subheading when subheadingText is undefined', () => {

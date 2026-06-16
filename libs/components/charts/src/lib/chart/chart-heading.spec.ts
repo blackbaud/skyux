@@ -6,7 +6,6 @@ describe('Chart heading component', () => {
   let fixture: ComponentFixture<SkyChartHeading>;
 
   function setInputs(level: number, style: number, text: string): void {
-    fixture.componentRef.setInput('headingId', 'chart-heading-id');
     fixture.componentRef.setInput('headingLevel', level);
     fixture.componentRef.setInput('headingStyle', style);
     fixture.componentRef.setInput('headingText', text);
@@ -47,15 +46,6 @@ describe('Chart heading component', () => {
       );
     });
   }
-
-  it('should set the heading id', () => {
-    setInputs(3, 3, 'My heading');
-    fixture.detectChanges();
-
-    expect(fixture.nativeElement.querySelector('h3').id).toBe(
-      'chart-heading-id',
-    );
-  });
 
   describe('a11y', () => {
     it('should be accessible', async () => {
