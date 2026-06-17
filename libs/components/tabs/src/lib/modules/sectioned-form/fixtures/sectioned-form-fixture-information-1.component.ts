@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { SkySectionedFormService } from './../sectioned-form.service';
 
 @Component({
   selector: 'sky-sectioned-form-fixture-information-1',
   templateUrl: './sectioned-form-fixture-information-1.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkySectionedFormFixtureInformation1Component {

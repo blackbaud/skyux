@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 /**
@@ -11,6 +11,7 @@ import { SkyThemeComponentClassDirective } from '@skyux/theme';
   host: {
     '[attr.role]': '"listitem"',
   },
+  changeDetection: ChangeDetectionStrategy.Eager,
   hostDirectives: [SkyThemeComponentClassDirective],
 })
 export class SkyLinkListItemComponent {}

@@ -10,15 +10,31 @@
               <a
                 class="sky-font-heading-1 sky-page-header-parent-link"
                 [skyAppLink]="permalinkRoute.commands"
-                [queryParams]="permalinkRoute.extras?.queryParams"
-                [queryParamsHandling]="
-                  permalinkRoute.extras?.queryParamsHandling
+                [queryParams]="
+                  $safeNavigationMigration(permalinkRoute.extras?.queryParams)
                 "
-                [fragment]="permalinkRoute.extras?.fragment"
-                [preserveFragment]="permalinkRoute.extras?.preserveFragment"
-                [skipLocationChange]="permalinkRoute.extras?.skipLocationChange"
-                [replaceUrl]="permalinkRoute.extras?.replaceUrl"
-                [state]="permalinkRoute.extras?.state"
+                [queryParamsHandling]="
+                  $safeNavigationMigration(
+                    permalinkRoute.extras?.queryParamsHandling
+                  )
+                "
+                [fragment]="
+                  $safeNavigationMigration(permalinkRoute.extras?.fragment)
+                "
+                [preserveFragment]="
+                  $safeNavigationMigration(
+                    permalinkRoute.extras?.preserveFragment
+                  )
+                "
+                [skipLocationChange]="
+                  $safeNavigationMigration(
+                    permalinkRoute.extras?.skipLocationChange
+                  )
+                "
+                [replaceUrl]="
+                  $safeNavigationMigration(permalinkRoute.extras?.replaceUrl)
+                "
+                [state]="$safeNavigationMigration(permalinkRoute.extras?.state)"
                 >{{ parentLink.label }}</a
               >
             } @else if (parentLink.permalink?.url) {

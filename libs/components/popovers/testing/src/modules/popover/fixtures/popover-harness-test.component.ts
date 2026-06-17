@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   SkyPopoverAlignment,
   SkyPopoverModule,
@@ -8,6 +8,7 @@ import {
 @Component({
   selector: 'sky-popover-test',
   templateUrl: './popover-harness-test.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyPopoverModule],
 })
 export class PopoverHarnessTestComponent {

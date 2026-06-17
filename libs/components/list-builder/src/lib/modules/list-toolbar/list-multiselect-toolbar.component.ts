@@ -1,4 +1,10 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { SkyCheckboxChange } from '@skyux/forms';
 import { ListItemModel } from '@skyux/list-builder-common';
 
@@ -26,6 +32,7 @@ let uniqueId = 0;
   selector: 'sky-list-multiselect-toolbar',
   templateUrl: './list-multiselect-toolbar.component.html',
   styleUrls: ['./list-multiselect-toolbar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {

@@ -1,10 +1,16 @@
-import { Component, Inject, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  ViewChild,
+} from '@angular/core';
 
 import { SkyListComponent } from '../list.component';
 
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './list-dual.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ListDualTestComponent {

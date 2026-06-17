@@ -4,24 +4,17 @@
   "projectType": "application",
   "sourceRoot": "apps/e2e/icon-storybook/src",
   "prefix": "app",
-  "tags": [
-    "component-e2e",
-    "icons-preview"
-  ],
+  "tags": ["component-e2e", "icons-preview"],
   "targets": {
     "build": {
       "executor": "@angular/build:application",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": {
           "base": "dist/apps/e2e/icon-storybook"
         },
         "index": "apps/e2e/icon-storybook/src/index.html",
-        "polyfills": [
-          "zone.js"
-        ],
+        "polyfills": ["zone.js"],
         "tsConfig": "apps/e2e/icon-storybook/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "styles": [
@@ -79,10 +72,7 @@
     "lint": {
       "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": [
-          "{projectRoot}/**/*.ts",
-          "{projectRoot}/**/*.html"
-        ]
+        "lintFilePatterns": ["{projectRoot}/**/*.ts", "{projectRoot}/**/*.html"]
       }
     },
     "storybook": {
@@ -106,9 +96,7 @@
     },
     "build-storybook": {
       "executor": "@storybook/angular:build-storybook",
-      "outputs": [
-        "{options.outputDir}"
-      ],
+      "outputs": ["{options.outputDir}"],
       "options": {
         "outputDir": "dist/storybook/icon-storybook",
         "configDir": "apps/e2e/icon-storybook/.storybook",

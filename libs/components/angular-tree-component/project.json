@@ -33,18 +33,11 @@
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
         ],
         "codeCoverage": true,
-        "codeCoverageExclude": [
-          "**/fixtures/**"
-        ],
-        "polyfills": [
-          "zone.js",
-          "zone.js/testing"
-        ],
+        "codeCoverageExclude": ["**/fixtures/**"],
+        "polyfills": ["zone.js", "zone.js/testing"],
         "inlineStyleLanguage": "scss",
         "stylePreprocessorOptions": {
-          "includePaths": [
-            "{workspaceRoot}"
-          ]
+          "includePaths": ["{workspaceRoot}"]
         }
       },
       "configurations": {
@@ -67,8 +60,5 @@
       }
     }
   },
-  "tags": [
-    "component",
-    "npm"
-  ]
+  "tags": ["component", "npm"]
 }

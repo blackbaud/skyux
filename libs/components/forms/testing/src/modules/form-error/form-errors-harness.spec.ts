@@ -1,6 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ValidationErrors } from '@angular/forms';
 import {
@@ -40,6 +40,7 @@ import { SkyFormErrorsHarness } from './form-errors-harness';
       [dirty]="true"
       [errors]="{ required: true }"
     />"`,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TestComponent {

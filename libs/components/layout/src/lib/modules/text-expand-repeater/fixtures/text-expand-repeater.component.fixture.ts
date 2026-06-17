@@ -1,4 +1,9 @@
-import { Component, QueryList, ViewChildren } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
 
 import { SkyTextExpandRepeaterComponent } from '../text-expand-repeater.component';
 import { SkyTextExpandRepeaterListStyleType } from '../types/text-expand-repeater-list-style-type';
@@ -6,6 +11,7 @@ import { SkyTextExpandRepeaterListStyleType } from '../types/text-expand-repeate
 @Component({
   selector: 'sky-text-expand-repeater-demo',
   templateUrl: './text-expand-repeater.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class TextExpandRepeaterTestComponent {

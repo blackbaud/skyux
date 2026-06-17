@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   OnDestroy,
@@ -14,6 +15,7 @@ import { SkySelectFieldCustomPicker } from '../types/select-field-custom-picker'
 @Component({
   selector: 'sky-select-field-test',
   templateUrl: './select-field.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkySelectFieldTestComponent implements OnInit, OnDestroy {

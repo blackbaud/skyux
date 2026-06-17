@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'sky-test-ngfor-cmp',
   templateUrl: './vertical-tabset-ngfor.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class VerticalTabsetWithNgForTestComponent {

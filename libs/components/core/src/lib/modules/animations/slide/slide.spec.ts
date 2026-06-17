@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { provideNoopSkyAnimations } from '../utility/provide-noop-animations';
@@ -7,6 +7,7 @@ import { _SkyAnimationSlideComponent } from './slide';
 
 @Component({
   imports: [_SkyAnimationSlideComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <sky-animation-slide [opened]="opened" (transitionEnd)="onTransitionEnd()">
       <span class="projected-content">Hello</span>

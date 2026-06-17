@@ -2,6 +2,7 @@ import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   ViewChild,
@@ -30,6 +31,7 @@ import { SkySkipLinksHarness } from './skip-links-harness';
       </div>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TestComponent implements AfterViewInit {

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -10,6 +10,7 @@ import { TestControlComponent } from './test-control.component.fixture';
 
 @Component({
   imports: [ReactiveFormsModule, TestControlComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `<form [formGroup]="formGroup">
     <sky-test-control formControlName="foobar" />
   </form>`,

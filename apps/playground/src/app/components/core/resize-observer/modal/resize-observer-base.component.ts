@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
 import {
@@ -9,6 +9,7 @@ import {
 @Component({
   selector: 'app-resize-observer-base',
   templateUrl: './resize-observer-base.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ResizeObserverBaseComponent {

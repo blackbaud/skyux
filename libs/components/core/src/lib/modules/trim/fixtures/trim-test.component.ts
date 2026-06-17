@@ -1,8 +1,9 @@
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
   selector: 'sky-trim-test',
   templateUrl: './trim-test.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyTrimTestComponent {

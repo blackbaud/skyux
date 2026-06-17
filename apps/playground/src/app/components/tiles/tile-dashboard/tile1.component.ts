@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { GreetingService } from './greeting/greeting.service';
 
@@ -6,6 +6,7 @@ import { GreetingService } from './greeting/greeting.service';
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'div.tile1',
   templateUrl: './tile1.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class Tile1Component {

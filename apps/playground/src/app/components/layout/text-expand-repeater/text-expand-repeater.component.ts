@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'app-text-expand-repeater',
   templateUrl: './text-expand-repeater.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class TextExpandRepeaterComponent {

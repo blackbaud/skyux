@@ -1,5 +1,6 @@
 @if (
-  (themeSvc?.settingsChange | async)?.currentSettings?.theme?.name === 'modern'
+  ($safeNavigationMigration(themeSvc?.settingsChange) | async)?.currentSettings
+    ?.theme?.name === 'modern'
 ) {
   <div>
     <sky-toolbar>

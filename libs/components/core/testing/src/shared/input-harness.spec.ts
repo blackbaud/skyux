@@ -1,5 +1,10 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component, Directive, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Directive,
+  inject,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   FormBuilder,
@@ -17,6 +22,7 @@ class TestDirective {}
 
 @Component({
   imports: [FormsModule, ReactiveFormsModule, TestDirective],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <form [formGroup]="formGroup">
       <input type="text" formControlName="firstName" skyFoo />

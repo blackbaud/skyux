@@ -8,9 +8,7 @@
   "targets": {
     "build": {
       "executor": "@angular/build:application",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "allowedCommonJsDependencies": [
           "autonumeric",
@@ -22,9 +20,7 @@
           "base": "dist/apps/playground"
         },
         "index": "apps/playground/src/index.html",
-        "polyfills": [
-          "zone.js"
-        ],
+        "polyfills": ["zone.js"],
         "tsConfig": "apps/playground/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [

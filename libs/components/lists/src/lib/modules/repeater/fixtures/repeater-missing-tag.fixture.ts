@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
  * Simple component for testing a reorderable repeater with missing tags (error state)
@@ -16,6 +16,7 @@ import { Component } from '@angular/core';
       </sky-repeater-item>
     </sky-repeater>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class RepeaterWithMissingTagsFixtureComponent {}

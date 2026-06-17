@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { SkyErrorModule } from '@skyux/errors';
 
@@ -13,6 +13,7 @@ import { SkyErrorFixture } from './error-fixture';
       <sky-error-image> </sky-error-image>
     </sky-error>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TestComponent {

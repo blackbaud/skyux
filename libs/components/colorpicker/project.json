@@ -4,15 +4,25 @@
   "projectType": "library",
   "sourceRoot": "libs/components/colorpicker/src",
   "prefix": "sky",
-  "tags": [
-    "component",
-    "npm"
-  ],
+  "tags": ["component", "npm"],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
-      "outputs": [
-        "{workspaceRoot}/dist/libs/components/colorpicker"
+      "outputs": ["{workspaceRoot}/dist/libs/components/colorpicker"],
+      "defaultConfiguration": "production",
+      "dependsOn": [
+        "^build",
+        {
+          "projects": ["core", "forms", "help-inline", "icon", "testing"],
+          "target": "build"
+        }
+      ],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/colorpicker/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/colorpicker/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/colorpicker/testing/src/**/fixtures/**/*"
       ],
       "options": {
         "project": "libs/components/colorpicker/ng-package.json"
@@ -24,28 +34,7 @@
         "development": {
           "tsConfig": "libs/components/colorpicker/tsconfig.lib.json"
         }
-      },
-      "defaultConfiguration": "production",
-      "dependsOn": [
-        "^build",
-        {
-          "projects": [
-            "core",
-            "forms",
-            "help-inline",
-            "icon",
-            "testing"
-          ],
-          "target": "build"
-        }
-      ],
-      "inputs": [
-        "buildInputs",
-        "^buildInputs",
-        "{workspaceRoot}/libs/components/colorpicker/testing/src/**/*",
-        "!{workspaceRoot}/libs/components/colorpicker/testing/src/**/*.spec.ts",
-        "!{workspaceRoot}/libs/components/colorpicker/testing/src/**/fixtures/**/*"
-      ]
+      }
     },
     "test": {
       "executor": "@angular/build:karma",
@@ -57,18 +46,11 @@
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
         ],
         "codeCoverage": true,
-        "codeCoverageExclude": [
-          "**/fixtures/**"
-        ],
-        "polyfills": [
-          "zone.js",
-          "zone.js/testing"
-        ],
+        "codeCoverageExclude": ["**/fixtures/**"],
+        "polyfills": ["zone.js", "zone.js/testing"],
         "inlineStyleLanguage": "scss",
         "stylePreprocessorOptions": {
-          "includePaths": [
-            "{workspaceRoot}"
-          ]
+          "includePaths": ["{workspaceRoot}"]
         }
       },
       "configurations": {

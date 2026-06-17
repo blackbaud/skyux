@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -10,6 +10,7 @@ import { SkyFileItem, SkyFileLink } from '@skyux/forms';
 @Component({
   selector: 'app-file-attachment-demo',
   templateUrl: './file-attachment.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class FileAttachmentComponent {

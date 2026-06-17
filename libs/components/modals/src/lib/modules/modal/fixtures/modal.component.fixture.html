@@ -1,9 +1,9 @@
 <sky-modal
   [headingHidden]="context?.headingHidden ?? false"
-  [headingText]="context?.headingText"
-  [helpKey]="context?.helpKey"
-  [helpPopoverContent]="context?.helpPopoverContent"
-  [helpPopoverTitle]="context?.helpPopoverTitle"
+  [headingText]="$safeNavigationMigration(context?.headingText)"
+  [helpKey]="$safeNavigationMigration(context?.helpKey)"
+  [helpPopoverContent]="$safeNavigationMigration(context?.helpPopoverContent)"
+  [helpPopoverTitle]="$safeNavigationMigration(context?.helpPopoverTitle)"
 >
   <sky-modal-header>Test</sky-modal-header>
   <sky-modal-content>

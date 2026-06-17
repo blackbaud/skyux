@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import { FONT_LIST_DEFAULTS } from '../defaults/font-list-defaults';
@@ -17,6 +17,7 @@ import { SkyTextEditorToolbarActionType } from '../types/toolbar-action-type';
 @Component({
   selector: 'sky-text-editor-test-reactive',
   templateUrl: './text-editor-reactive.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyTextEditorModule, ReactiveFormsModule],
 })
 export class TextEditorReactiveFixtureComponent {

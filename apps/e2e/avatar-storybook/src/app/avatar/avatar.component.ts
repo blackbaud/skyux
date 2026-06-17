@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { delay, of } from 'rxjs';
 
@@ -6,6 +6,7 @@ import { delay, of } from 'rxjs';
   selector: 'app-avatar',
   templateUrl: './avatar.component.html',
   styleUrls: ['./avatar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class AvatarComponent {

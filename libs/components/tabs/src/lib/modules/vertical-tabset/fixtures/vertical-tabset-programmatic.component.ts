@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { SkyVerticalTabsetModule } from '../vertical-tabset.module';
 
@@ -14,6 +14,7 @@ import { SkyVerticalTabsetModule } from '../vertical-tabset.module';
       Tab 3 content
     </sky-vertical-tab>
   </sky-vertical-tabset>`,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyVerticalTabsetModule],
 })
 export class VerticalTabsetProgrammaticTestComponent {

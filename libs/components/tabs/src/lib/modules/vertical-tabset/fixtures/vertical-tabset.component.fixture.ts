@@ -1,4 +1,10 @@
-import { Component, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
 
 import { SkyVerticalTabComponent } from '../vertical-tab.component';
 import { SkyVerticalTabsetComponent } from '../vertical-tabset.component';
@@ -7,6 +13,7 @@ import { SkyVerticalTabsetComponent } from '../vertical-tabset.component';
   selector: 'sky-test-cmp',
   templateUrl: './vertical-tabset.component.fixture.html',
   styleUrls: ['./vertical-tabset.component.fixture.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class VerticalTabsetTestComponent {

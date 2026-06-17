@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   Input,
@@ -24,6 +25,7 @@ let nextId = 0;
   selector: 'sky-sectioned-form-section',
   templateUrl: './sectioned-form-section.component.html',
   providers: [SkySectionedFormService],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkySectionedFormSectionComponent implements OnInit, OnDestroy {

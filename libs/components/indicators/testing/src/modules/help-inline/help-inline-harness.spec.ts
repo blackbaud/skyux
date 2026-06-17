@@ -1,6 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
@@ -17,6 +17,7 @@ import { SkyHelpInlineHarness } from './help-inline-harness';
       (actionClick)="otherClick()"
     ></sky-help-inline>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TestComponent {

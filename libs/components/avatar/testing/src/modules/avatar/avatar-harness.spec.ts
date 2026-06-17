@@ -1,5 +1,11 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component, computed, input, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  signal,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAvatarModule, SkyAvatarSize } from '@skyux/avatar';
 import { SkyFileItem } from '@skyux/forms';
@@ -8,6 +14,7 @@ import { SkyAvatarHarness } from './avatar-harness';
 
 @Component({
   imports: [SkyAvatarModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `<sky-avatar
     data-sky-id="test-avatar"
     [canChange]="canChange()"

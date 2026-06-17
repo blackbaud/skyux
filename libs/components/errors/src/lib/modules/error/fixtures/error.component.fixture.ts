@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { SkyErrorType } from '../error-type';
 
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: 'error.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ErrorTestComponent {

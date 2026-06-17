@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { FONT_LIST_DEFAULTS } from '../defaults/font-list-defaults';
 import { FONT_SIZE_LIST_DEFAULTS } from '../defaults/font-size-list-defaults';
@@ -15,6 +15,7 @@ import { SkyTextEditorToolbarActionType } from '../types/toolbar-action-type';
 @Component({
   selector: 'sky-text-editor-test',
   templateUrl: './text-editor.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class TextEditorFixtureComponent {

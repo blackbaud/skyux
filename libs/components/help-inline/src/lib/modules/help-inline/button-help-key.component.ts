@@ -24,7 +24,7 @@ import { SKY_HELP_GLOBAL_OPTIONS, SkyHelpService } from '@skyux/core';
       class="sky-help-inline"
       type="button"
       [attr.aria-controls]="
-        (helpSvc?.widgetReadyStateChange | async)
+        ($safeNavigationMigration(helpSvc?.widgetReadyStateChange) | async)
           ? globalOptions?.ariaControls
           : null
       "

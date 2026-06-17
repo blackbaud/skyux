@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
  * Specifies an inline filter.
@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
   selector: 'sky-filter-inline-item',
   styleUrls: ['./filter-inline-item.component.scss'],
   templateUrl: './filter-inline-item.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyFilterInlineItemComponent {}

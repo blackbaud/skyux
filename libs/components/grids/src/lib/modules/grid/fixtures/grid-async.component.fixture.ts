@@ -1,4 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 
@@ -7,6 +12,7 @@ import { SkyGridComponent } from '../grid.component';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './grid-async.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class GridAsyncTestComponent implements OnInit {

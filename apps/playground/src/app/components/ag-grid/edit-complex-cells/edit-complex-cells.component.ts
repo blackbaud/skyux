@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   HostListener,
   inject,
@@ -54,6 +55,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   templateUrl: './edit-complex-cells.component.html',
   styleUrls: ['./edit-complex-cells.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     AgGridModule,
     CommonModule,

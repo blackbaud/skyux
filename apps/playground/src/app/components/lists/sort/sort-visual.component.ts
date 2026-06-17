@@ -1,9 +1,10 @@
-import { Component, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { SkySortModule } from '@skyux/lists';
 
 @Component({
   selector: 'app-sort-visual',
   templateUrl: './sort-visual.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SortVisualComponent {

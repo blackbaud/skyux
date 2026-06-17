@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { SkyDefinitionListService } from './definition-list.service';
 
@@ -10,6 +10,7 @@ import { SkyDefinitionListService } from './definition-list.service';
   selector: 'sky-definition-list-value',
   templateUrl: './definition-list-value.component.html',
   styleUrls: ['./definition-list-value.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyDefinitionListValueComponent {

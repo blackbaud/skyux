@@ -5,9 +5,9 @@
     @if (content?.helpPopoverContent || content?.helpKey) {
       <sky-help-inline
         [labelledBy]="term.id"
-        [helpKey]="content?.helpKey"
-        [popoverTitle]="content?.helpPopoverTitle"
-        [popoverContent]="content?.helpPopoverContent"
+        [helpKey]="$safeNavigationMigration(content?.helpKey)"
+        [popoverTitle]="$safeNavigationMigration(content?.helpPopoverTitle)"
+        [popoverContent]="$safeNavigationMigration(content?.helpPopoverContent)"
       />
     } @else {
       <ng-content select=".sky-control-help" />

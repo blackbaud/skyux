@@ -1,4 +1,9 @@
-import { Component, OnDestroy, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  inject,
+} from '@angular/core';
 import { SkyWaitService } from '@skyux/indicators';
 import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
@@ -11,6 +16,7 @@ import { ModalComponent } from './modal.component';
 @Component({
   selector: 'app-modal-split-view-tile-dashboard',
   templateUrl: './modal-split-view-tile-dashboard.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ModalSplitViewTileDashboardComponent implements OnDestroy {

@@ -1,4 +1,9 @@
-import { Component, OnDestroy, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  inject,
+} from '@angular/core';
 import { SkyModalInstance, SkyModalService } from '@skyux/modals';
 
 import { SkySummaryActionBarModalTestComponent } from './summary-action-bar-modal.component.fixture';
@@ -6,6 +11,7 @@ import { SkySummaryActionBarModalTestComponent } from './summary-action-bar-moda
 @Component({
   selector: 'sky-test-cmp-modal',
   templateUrl: './summary-action-bar-modal-empty.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkySummaryActionBarModalEmptyTestComponent implements OnDestroy {

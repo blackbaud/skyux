@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 
 import { SkyTabLayoutType } from '../tab-layout-type';
 import { SkyTabsetStyle } from '../tabset-style';
@@ -7,6 +7,7 @@ import { SkyTabsetComponent } from '../tabset.component';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './tabset.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class TabsetTestComponent {

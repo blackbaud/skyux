@@ -1,6 +1,7 @@
 import { NgClass } from '@angular/common';
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   DOCUMENT,
   ElementRef,
@@ -21,6 +22,7 @@ import { SkyAppViewportService } from '@skyux/theme';
   selector: 'app-viewport-service',
   imports: [SkyToolbarModule, SkyViewkeeperModule, NgClass],
   templateUrl: './viewport-service.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './viewport-service.component.css',
 })
 export default class ViewportServiceComponent

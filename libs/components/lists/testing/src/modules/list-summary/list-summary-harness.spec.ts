@@ -1,6 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyListSummaryModule } from '@skyux/lists';
 
@@ -9,6 +9,7 @@ import { SkyListSummaryItemHarness } from './list-summary-item-harness';
 
 @Component({
   imports: [SkyListSummaryModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <sky-list-summary data-sky-id="test-summary">
       <sky-list-summary-item
@@ -28,6 +29,7 @@ class TestComponent {}
 
 @Component({
   imports: [SkyListSummaryModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <sky-list-summary data-sky-id="test-summary-with-help">
       <sky-list-summary-item

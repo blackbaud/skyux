@@ -1,4 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import {
   SkyModalCloseArgs,
@@ -22,6 +27,7 @@ import { SkyAgGridEditModalComponent } from './ag-grid-edit-modal.component';
 @Component({
   selector: 'app-ag-grid-demo',
   templateUrl: './ag-grid-demo.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyAgGridDemoComponent implements OnInit {

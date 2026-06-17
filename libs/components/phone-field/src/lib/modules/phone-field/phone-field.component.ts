@@ -18,7 +18,7 @@ import {
   effect,
   inject,
   input,
-  model,
+  linkedSignal,
   output,
   signal,
 } from '@angular/core';
@@ -154,7 +154,10 @@ export class SkyPhoneFieldComponent implements OnDestroy {
   /**
    * The currently selected country to validate against.
    */
-  public readonly selectedCountry = model<SkyPhoneFieldCountry | undefined>();
+  public readonly selectedCountryInput = input<
+    SkyPhoneFieldCountry | undefined
+  >(undefined, { alias: 'selectedCountry' });
+  public readonly selectedCountry = linkedSignal(this.selectedCountryInput);
 
   @ViewChild('inputTemplateRef', {
     read: TemplateRef,

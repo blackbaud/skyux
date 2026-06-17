@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { SkyWaitModule } from '@skyux/indicators';
 
@@ -15,6 +15,7 @@ import { SkyWaitFixture } from './wait-fixture';
       data-sky-id="test-wait"
     ></sky-wait>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TestComponent {

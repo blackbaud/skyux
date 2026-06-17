@@ -1,4 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import {
   SkyModalInstance,
   SkyModalModule,
@@ -10,6 +15,7 @@ import { DataManagerLargeComponent } from './data-manager-large.component';
 @Component({
   selector: 'app-data-manager-large-in-modal-modal',
   templateUrl: './data-manager-large-in-modal.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyModalModule],
 })
 export class DataManagerLargeInModalModalComponent {
@@ -36,6 +42,7 @@ export class DataManagerLargeInModalModalComponent {
       <app-data-manager-large />
     </app-data-manager-large-in-modal-modal>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [DataManagerLargeComponent, DataManagerLargeInModalModalComponent],
 })
 export class DataManagerLargeInModalModalGridComponent {}
@@ -47,12 +54,14 @@ export class DataManagerLargeInModalModalGridComponent {}
       <p>Not a grid.</p>
     </app-data-manager-large-in-modal-modal>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [DataManagerLargeInModalModalComponent],
 })
 export class DataManagerLargeInModalModalNotGridComponent {}
 
 @Component({
   selector: 'app-data-manager-large-in-modal',
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 export class DataManagerLargeInModalComponent implements OnInit {

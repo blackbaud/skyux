@@ -4,29 +4,21 @@
   "projectType": "application",
   "prefix": "app",
   "sourceRoot": "apps/e2e/filter-bar-storybook/src",
-  "tags": [
-    "component-e2e"
-  ],
+  "tags": ["component-e2e"],
   "targets": {
     "build": {
       "executor": "@angular/build:application",
-      "outputs": [
-        "{options.outputPath.base}"
-      ],
+      "outputs": ["{options.outputPath.base}"],
       "options": {
         "outputPath": {
           "base": "dist/apps/e2e/filter-bar-storybook"
         },
         "index": "apps/e2e/filter-bar-storybook/src/index.html",
-        "polyfills": [
-          "zone.js"
-        ],
+        "polyfills": ["zone.js"],
         "tsConfig": "apps/e2e/filter-bar-storybook/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "stylePreprocessorOptions": {
-          "includePaths": [
-            "{workspaceRoot}"
-          ]
+          "includePaths": ["{workspaceRoot}"]
         },
         "styles": [
           "apps/e2e/filter-bar-storybook/src/styles.scss",
@@ -83,10 +75,7 @@
     "lint": {
       "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": [
-          "{projectRoot}/**/*.ts",
-          "{projectRoot}/**/*.html"
-        ]
+        "lintFilePatterns": ["{projectRoot}/**/*.ts", "{projectRoot}/**/*.html"]
       }
     },
     "serve-static": {
@@ -118,9 +107,7 @@
     },
     "build-storybook": {
       "executor": "@storybook/angular:build-storybook",
-      "outputs": [
-        "{options.outputDir}"
-      ],
+      "outputs": ["{options.outputDir}"],
       "options": {
         "outputDir": "dist/storybook/filter-bar-storybook",
         "configDir": "apps/e2e/filter-bar-storybook/.storybook",
@@ -139,9 +126,7 @@
     },
     "static-storybook": {
       "executor": "@nx/web:file-server",
-      "dependsOn": [
-        "build-storybook"
-      ],
+      "dependsOn": ["build-storybook"],
       "options": {
         "buildTarget": "filter-bar-storybook:build-storybook",
         "staticFilePath": "dist/storybook/filter-bar-storybook",

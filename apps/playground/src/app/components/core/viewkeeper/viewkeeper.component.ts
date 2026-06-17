@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'app-viewkeeper',
   templateUrl: './viewkeeper.component.html',
   styleUrls: ['./viewkeeper.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ViewkeeperComponent {

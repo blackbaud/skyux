@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { Subject } from 'rxjs';
 
@@ -8,6 +8,7 @@ import { SkyBackToTopOptions } from '../models/back-to-top-options';
 @Component({
   selector: 'sky-back-to-top-fixture',
   templateUrl: './back-to-top.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyBackToTopFixtureComponent {

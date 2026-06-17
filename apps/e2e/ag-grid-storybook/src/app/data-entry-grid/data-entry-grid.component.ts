@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   Input,
@@ -33,6 +34,7 @@ interface DataSet {
   templateUrl: './data-entry-grid.component.html',
   styleUrls: ['./data-entry-grid.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class DataEntryGridComponent

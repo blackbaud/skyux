@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyErrorType } from '@skyux/errors';
 
 @Component({
   selector: 'app-error',
   templateUrl: './error.component.html',
   styleUrls: ['./error.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ErrorComponent {

@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyTextExpandModule } from '@skyux/layout';
 import { SkyModalModule } from '@skyux/modals';
 
 @Component({
   selector: 'sky-text-expand-fixture',
   templateUrl: './text-expand-harness-test.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyTextExpandModule, SkyModalModule],
 })
 export class TextExpandHarnessTestComponent {

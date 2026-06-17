@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   SkyActionButtonContainerAlignItemsType,
   SkyActionButtonPermalink,
@@ -10,6 +10,7 @@ import { ActionButtonModalComponent } from './action-button-modal.component';
 @Component({
   selector: 'app-action-button',
   templateUrl: './action-button.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ActionButtonComponent {

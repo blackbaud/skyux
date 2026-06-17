@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   AbstractControl,
   UntypedFormBuilder,
@@ -12,6 +12,7 @@ import { SkyFileAttachmentChange } from '@skyux/forms';
   selector: 'app-single-file-attachment',
   templateUrl: './single-file-attachment.component.html',
   styleUrls: ['./single-file-attachment.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SingleFileAttachmentComponent {

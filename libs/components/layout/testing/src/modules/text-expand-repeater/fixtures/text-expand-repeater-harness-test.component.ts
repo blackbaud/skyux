@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import {
   SkyTextExpandRepeaterListStyleType,
   SkyTextExpandRepeaterModule,
@@ -7,6 +7,7 @@ import {
 @Component({
   selector: 'sky-text-expand-repeater-fixture',
   templateUrl: './text-expand-repeater-harness-test.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyTextExpandRepeaterModule],
 })
 export class TextExpandRepeaterHarnessTestComponent {

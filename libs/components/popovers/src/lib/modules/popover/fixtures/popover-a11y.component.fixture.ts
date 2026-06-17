@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { SkyPopoverModule } from '../popover.module';
 
@@ -8,6 +8,7 @@ import { SkyPopoverModule } from '../popover.module';
 @Component({
   imports: [SkyPopoverModule],
   selector: 'sky-popover-test',
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <button data-sky-id="triggerEl" type="button" [skyPopover]="popover1">
       What's this?

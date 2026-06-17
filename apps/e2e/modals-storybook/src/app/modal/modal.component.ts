@@ -1,4 +1,9 @@
-import { Component, Renderer2, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Renderer2,
+  inject,
+} from '@angular/core';
 import {
   SkyModalConfigurationInterface,
   SkyModalInstance,
@@ -15,6 +20,7 @@ const BANNER_IMAGE_SRC =
   selector: 'app-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ModalComponent {

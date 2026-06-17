@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { Subject } from 'rxjs';
 
@@ -10,6 +10,7 @@ let uniqueId = 0;
   selector: 'app-dock-item-visual',
   styleUrls: ['./dock-item-visual.component.scss'],
   templateUrl: './dock-item-visual.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class DockItemVisualComponent {

@@ -1,4 +1,4 @@
-import { Component, model } from '@angular/core';
+import { ChangeDetectionStrategy, Component, model } from '@angular/core';
 
 import { of } from 'rxjs';
 
@@ -13,6 +13,7 @@ import { SkyFilterBarModalTestComponent } from './filter-modal-test.component.fi
 @Component({
   selector: 'sky-test-cmp',
   imports: [SkyFilterBarModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './filter-bar.component.fixture.html',
 })
 export class SkyFilterBarTestComponent {

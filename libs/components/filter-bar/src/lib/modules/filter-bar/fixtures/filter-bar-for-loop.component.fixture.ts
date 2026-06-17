@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { SkyFilterBarModule } from '../filter-bar.module';
 
@@ -7,6 +7,7 @@ import { SkyFilterBarModalTestComponent } from './filter-modal-test.component.fi
 @Component({
   selector: 'sky-filter-bar-for-loop-test',
   imports: [SkyFilterBarModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <sky-filter-bar>
       @for (filter of filterItems; track filter.filterId) {

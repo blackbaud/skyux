@@ -1,4 +1,9 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormControl,
@@ -23,6 +28,7 @@ import { SkyLookupShowMoreNativePickerConfig } from '../types/lookup-show-more-n
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './lookup.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyLookupTestComponent {

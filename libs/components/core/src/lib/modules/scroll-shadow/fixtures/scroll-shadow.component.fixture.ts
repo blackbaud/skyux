@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  inject,
+} from '@angular/core';
 
 import { SkyScrollShadowEventArgs } from '../scroll-shadow-event-args';
 import { SkyScrollShadowDirective } from '../scroll-shadow.directive';
@@ -8,6 +13,7 @@ import { SkyScrollShadowDirective } from '../scroll-shadow.directive';
   selector: 'sky-scroll-shadow-fixture',
   styleUrls: ['./scroll-shadow.component.fixture.scss'],
   templateUrl: './scroll-shadow.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [CommonModule, SkyScrollShadowDirective],
 })
 export class ScrollShadowFixtureComponent {

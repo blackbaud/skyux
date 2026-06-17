@@ -22,7 +22,7 @@
       class="sky-modal-header"
       [hidden]="headingHidden()"
       [ngStyle]="{
-        'box-shadow': scrollShadow?.topShadow
+        'box-shadow': $safeNavigationMigration(scrollShadow?.topShadow)
       }"
     >
       <div #headerId="skyId" class="sky-modal-header-content" skyId>
@@ -86,7 +86,7 @@
     <div
       class="sky-modal-footer"
       [ngStyle]="{
-        'box-shadow': scrollShadow?.bottomShadow
+        'box-shadow': $safeNavigationMigration(scrollShadow?.bottomShadow)
       }"
     >
       <ng-content select="sky-modal-footer" />

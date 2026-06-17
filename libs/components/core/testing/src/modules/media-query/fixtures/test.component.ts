@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyMediaQueryService, SkyResponsiveHostDirective } from '@skyux/core';
 
@@ -13,6 +13,7 @@ import { SkyMediaQueryService, SkyResponsiveHostDirective } from '@skyux/core';
       display: block;
     }
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: '<ng-content />',
 })
 export class λWrapperTestComponent {
@@ -26,6 +27,7 @@ export class λWrapperTestComponent {
     '[class]': '"breakpoint-" + breakpoint()',
   },
   selector: 'sky-foo-child',
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 export class λChildTestComponent {
@@ -39,6 +41,7 @@ export class λChildTestComponent {
     '[class]': '"breakpoint-" + breakpoint()',
   },
   imports: [λChildTestComponent, λWrapperTestComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <sky-foo-wrapper>
       <!-- Children will use the element injector of the wrapper -->

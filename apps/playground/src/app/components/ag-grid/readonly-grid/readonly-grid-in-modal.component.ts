@@ -1,4 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import {
   SkyModalInstance,
   SkyModalModule,
@@ -10,6 +15,7 @@ import { ReadonlyGridComponent } from './readonly-grid.component';
 @Component({
   selector: 'app-readonly-grid-in-modal-modal',
   templateUrl: './readonly-grid-in-modal.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyModalModule],
 })
 export class ReadonlyGridInModalModalComponent {
@@ -36,6 +42,7 @@ export class ReadonlyGridInModalModalComponent {
       <app-readonly-grid-visual />
     </app-readonly-grid-in-modal-modal>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [ReadonlyGridComponent, ReadonlyGridInModalModalComponent],
 })
 export class ReadonlyGridInModalModalGridComponent {}
@@ -47,12 +54,14 @@ export class ReadonlyGridInModalModalGridComponent {}
       <p>Not a grid.</p>
     </app-readonly-grid-in-modal-modal>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [ReadonlyGridInModalModalComponent],
 })
 export class ReadonlyGridInModalModalNotGridComponent {}
 
 @Component({
   selector: 'app-readonly-grid-in-modal',
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 export class ReadonlyGridInModalComponent implements OnInit {

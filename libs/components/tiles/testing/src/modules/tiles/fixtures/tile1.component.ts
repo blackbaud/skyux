@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyTilesModule } from '@skyux/tiles';
 
 @Component({
   selector: 'div.tile1',
   templateUrl: './tile1.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyTilesModule],
 })
 export class Tile1Component {

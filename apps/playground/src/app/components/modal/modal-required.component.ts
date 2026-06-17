@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
@@ -9,6 +9,7 @@ function round(val: number): number {
 
 @Component({
   imports: [ReactiveFormsModule, SkyInputBoxModule, SkyModalModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <sky-modal
       headingText="Required modal"

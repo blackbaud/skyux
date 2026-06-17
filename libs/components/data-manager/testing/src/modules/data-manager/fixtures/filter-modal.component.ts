@@ -1,4 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   SkyDataManagerFilterData,
@@ -12,6 +17,7 @@ import { Filters } from './filters';
 @Component({
   selector: 'app-filter-modal',
   templateUrl: './filter-modal.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FormsModule,
     ReactiveFormsModule,

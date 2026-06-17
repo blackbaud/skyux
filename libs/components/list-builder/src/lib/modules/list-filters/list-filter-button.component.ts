@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   TemplateRef,
   ViewChild,
@@ -20,6 +21,7 @@ import { ListToolbarItemModel } from '../list/state/toolbar/toolbar-item.model';
 @Component({
   selector: 'sky-list-filter-button',
   templateUrl: './list-filter-button.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyListFilterButtonComponent implements AfterViewInit {

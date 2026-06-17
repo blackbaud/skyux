@@ -1,10 +1,16 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 
 import { SkyListToolbarComponent } from '../list-toolbar.component';
 
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './list-toolbar.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ListToolbarTestComponent {

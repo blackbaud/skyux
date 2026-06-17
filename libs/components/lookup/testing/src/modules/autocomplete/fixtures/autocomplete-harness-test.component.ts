@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormControl,
@@ -13,6 +13,7 @@ interface Color {
 @Component({
   selector: 'sky-test-autocomplete-1',
   templateUrl: './autocomplete-harness-test.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class AutocompleteHarnessTestComponent {

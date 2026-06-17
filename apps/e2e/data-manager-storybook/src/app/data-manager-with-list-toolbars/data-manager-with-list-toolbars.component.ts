@@ -1,4 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import {
   SkyDataManagerService,
   SkyDataManagerState,
@@ -12,6 +17,7 @@ import { of } from 'rxjs';
   selector: 'app-data-manager-with-list-toolbars',
   templateUrl: './data-manager-with-list-toolbars.component.html',
   styleUrls: ['./data-manager-with-list-toolbars.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [SkyDataManagerService],
 })
 export class DataManagerWithListToolbarsComponent implements OnInit {

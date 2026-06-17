@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyInputBoxModule } from '@skyux/forms';
 
@@ -7,6 +7,7 @@ import { SkyAutocompleteModule } from '../autocomplete.module';
 @Component({
   imports: [FormsModule, SkyAutocompleteModule, SkyInputBoxModule],
   selector: 'sky-autocomplete-input-box-fixture',
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './autocomplete-input-box.component.fixture.html',
 })
 export class SkyAutocompleteInputBoxFixtureComponent {

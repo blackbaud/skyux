@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   SkyInlineFormButtonLayout,
   SkyInlineFormConfig,
@@ -12,6 +12,7 @@ interface Item {
 @Component({
   selector: 'test-repeater-harness',
   templateUrl: './repeater-harness-test.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class RepeaterHarnessTestComponent {

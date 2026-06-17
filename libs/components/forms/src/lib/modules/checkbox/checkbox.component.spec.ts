@@ -57,6 +57,7 @@ import { SkyCheckboxModule } from './checkbox.module';
       </sky-checkbox-label>
     </sky-checkbox>
   </div>`,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class SingleCheckboxComponent implements AfterViewInit {
@@ -101,6 +102,7 @@ class SingleCheckboxComponent implements AfterViewInit {
       </form>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class CheckboxWithFormDirectivesComponent {
@@ -129,6 +131,7 @@ class CheckboxWithFormDirectivesComponent {
       </form>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class CheckboxWithRequiredInputComponent {
@@ -154,6 +157,7 @@ class CheckboxWithRequiredInputComponent {
       </form>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class CheckboxWithRequiredAttributeComponent {
@@ -179,6 +183,7 @@ class CheckboxWithRequiredAttributeComponent {
       </form>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class CheckboxWithReactiveFormComponent {
@@ -207,6 +212,7 @@ class CheckboxWithReactiveFormComponent {
       </form>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class CheckboxWithReactiveFormRequiredInputComponent {
@@ -227,6 +233,7 @@ class CheckboxWithReactiveFormRequiredInputComponent {
       </form>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class CheckboxWithReactiveFormRequiredValidatorComponent {
@@ -245,6 +252,7 @@ class CheckboxWithReactiveFormRequiredValidatorComponent {
     </sky-checkbox>
     <sky-checkbox>Option 2</sky-checkbox>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class MultipleCheckboxesComponent {}
@@ -255,6 +263,7 @@ class MultipleCheckboxesComponent {}
     [tabindex]="customTabIndex"
     [disabled]="isDisabled"
   />`,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class CheckboxWithTabIndexComponent {
@@ -265,6 +274,7 @@ class CheckboxWithTabIndexComponent {
 /** Simple test component with an aria-label set. */
 @Component({
   template: `<sky-checkbox label="Super effective" />`,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class CheckboxWithAriaLabelComponent {}
@@ -272,6 +282,7 @@ class CheckboxWithAriaLabelComponent {}
 /** Simple test component with an aria-label set. */
 @Component({
   template: `<sky-checkbox labelledBy="some-id" />`,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class CheckboxWithAriaLabelledbyComponent {}
@@ -279,6 +290,7 @@ class CheckboxWithAriaLabelledbyComponent {}
 /** Simple test component with name attribute */
 @Component({
   template: `<sky-checkbox [name]="name" />`,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class CheckboxWithNameAttributeComponent {
@@ -288,6 +300,7 @@ class CheckboxWithNameAttributeComponent {
 /** Simple test component with change event */
 @Component({
   template: `<sky-checkbox id="test-id" (change)="lastEvent = $event" />`,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class CheckboxWithChangeEventComponent {

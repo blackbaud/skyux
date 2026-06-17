@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyMediaQueryService } from '@skyux/core';
 
@@ -6,6 +6,7 @@ import { SkyMediaQueryService } from '@skyux/core';
   selector: 'app-flyout-responsive',
   templateUrl: './flyout-responsive.component.html',
   styleUrls: ['./flyout-responsive.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class FlyoutResponsiveComponent {

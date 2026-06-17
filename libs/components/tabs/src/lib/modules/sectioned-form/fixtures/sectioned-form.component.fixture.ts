@@ -1,4 +1,9 @@
-import { AfterContentChecked, Component, ViewChild } from '@angular/core';
+import {
+  AfterContentChecked,
+  ChangeDetectionStrategy,
+  Component,
+  ViewChild,
+} from '@angular/core';
 
 import { Subject } from 'rxjs';
 
@@ -8,6 +13,7 @@ import { SkySectionedFormMessage } from '../types/sectioned-form-message';
 @Component({
   selector: 'sky-sectioned-form-fixture',
   templateUrl: './sectioned-form.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkySectionedFormFixtureComponent implements AfterContentChecked {

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -15,6 +15,7 @@ import { SkyFileLink } from '../file-link';
 @Component({
   imports: [SkyFileDropModule, FormsModule, ReactiveFormsModule],
   selector: 'sky-file-drop-reactive-test',
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './reactive-file-drop.component.fixture.html',
 })
 export class ReactiveFileDropTestComponent {

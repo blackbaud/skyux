@@ -1,4 +1,9 @@
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  inject,
+} from '@angular/core';
 import {
   SkyConfirmCloseEventArgs,
   SkyConfirmService,
@@ -15,6 +20,7 @@ import { Subject } from 'rxjs';
   selector: 'app-split-view-page-bound',
   templateUrl: './split-view-page-bound.component.html',
   styleUrls: ['./split-view-page-bound.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SplitViewPageBoundComponent {

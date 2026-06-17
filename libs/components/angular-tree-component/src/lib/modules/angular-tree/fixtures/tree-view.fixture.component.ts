@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import {
   ITreeOptions,
   ITreeState,
@@ -7,6 +7,7 @@ import {
 
 @Component({
   templateUrl: './tree-view.fixture.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyTreeViewFixtureComponent {

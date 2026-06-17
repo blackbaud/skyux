@@ -1,4 +1,9 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
 import { ComponentFixture, TestBed, inject } from '@angular/core/testing';
 
 import { SkyDescriptionListAdapterService } from './description-list-adapter-service';
@@ -6,6 +11,7 @@ import { SkyDescriptionListAdapterService } from './description-list-adapter-ser
 @Component({
   selector: 'sky-test-cmp',
   template: `<div #el [style.width]="width">Hello world</div>`,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class SkyDescriptionListAdapterTestComponent {

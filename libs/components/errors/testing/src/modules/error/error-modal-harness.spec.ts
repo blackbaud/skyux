@@ -1,6 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { SkyErrorModalService } from '@skyux/errors';
 
@@ -8,6 +8,7 @@ import { SkyErrorModalHarness } from './error-modal-harness';
 
 @Component({
   template: '',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TestComponent {}

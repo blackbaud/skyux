@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { SkyDatePipeModule } from '../date-pipe.module';
 import { SkyDatePipe } from '../date.pipe';
@@ -7,6 +7,7 @@ import { SkyDatePipe } from '../date.pipe';
   selector: 'sky-date-pipe-test',
   templateUrl: './date-pipe.component.fixture.html',
   imports: [SkyDatePipeModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [SkyDatePipe],
 })
 export class DatePipeTestComponent {

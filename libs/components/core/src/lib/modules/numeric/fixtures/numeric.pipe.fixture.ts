@@ -1,4 +1,4 @@
-import { Component, Injectable } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injectable } from '@angular/core';
 import { SkyAppLocaleProvider } from '@skyux/i18n';
 
 import { BehaviorSubject } from 'rxjs';
@@ -21,6 +21,7 @@ class MockLocaleProvider extends SkyAppLocaleProvider {
   selector: 'sky-numeric-pipe-fixture',
   templateUrl: './numeric.pipe.fixture.html',
   providers: [{ provide: SkyAppLocaleProvider, useClass: MockLocaleProvider }],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyNumericModule],
 })
 export class NumericPipeFixtureComponent {

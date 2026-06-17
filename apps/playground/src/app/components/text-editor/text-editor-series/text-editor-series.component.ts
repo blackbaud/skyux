@@ -1,4 +1,10 @@
-import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FormBuilder,
@@ -17,6 +23,7 @@ import { startWith } from 'rxjs';
   selector: 'app-text-editor-series',
   templateUrl: './text-editor-series.component.html',
   styleUrls: ['./text-editor-series.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyTextEditorModule, SkyVerticalTabsetModule, ReactiveFormsModule],
 })
 export class TextEditorSeriesComponent implements OnInit {

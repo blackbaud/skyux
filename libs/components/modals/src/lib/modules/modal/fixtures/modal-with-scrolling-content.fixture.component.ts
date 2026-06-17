@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'sky-modal-launcher-modal',
   templateUrl: './modal-with-scrolling-content.fixture.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ModalWithScrollingContentTestComponent {}

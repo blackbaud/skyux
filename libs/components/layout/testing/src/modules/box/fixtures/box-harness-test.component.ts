@@ -1,9 +1,15 @@
-import { Component, booleanAttribute, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  booleanAttribute,
+  input,
+} from '@angular/core';
 
 // #region Test component
 @Component({
   selector: 'sky-box-fixture',
   templateUrl: './box-harness-test.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class BoxHarnessTestComponent {

@@ -268,11 +268,11 @@
       ],
       "executor": "nx:run-commands",
       "outputs": ["{options.outputPath}"],
+      "dependsOn": ["^build", "prebuild"],
       "options": {
         "command": "npx vite-node ./scripts/build-manifest.mts",
         "outputPath": "dist/libs/components/manifest"
-      },
-      "dependsOn": ["^build", "prebuild"]
+      }
     },
     "postbuild": {
       "inputs": [
@@ -283,11 +283,11 @@
       ],
       "executor": "nx:run-commands",
       "outputs": ["{options.outputPath}"],
+      "dependsOn": ["^build", "build"],
       "options": {
         "command": "npx vite-node ./scripts/postbuild-manifest.mts",
         "outputPath": "dist/libs/components/manifest"
-      },
-      "dependsOn": ["^build", "build"]
+      }
     },
     "lint": {
       "executor": "@nx/eslint:lint",

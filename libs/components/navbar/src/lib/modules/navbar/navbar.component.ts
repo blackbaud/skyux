@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
  * Displays top-level navigation.
@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
   selector: 'sky-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyNavbarComponent {}

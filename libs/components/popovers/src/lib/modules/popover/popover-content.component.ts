@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
@@ -46,6 +47,7 @@ import { SkyPopoverType } from './types/popover-type';
   selector: 'sky-popover-content',
   templateUrl: './popover-content.component.html',
   styleUrls: ['./popover-content.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyPopoverContentComponent implements OnInit, OnDestroy {

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyWaitService } from '@skyux/indicators';
@@ -10,6 +10,7 @@ import { ModalDemoDataService } from './data.service';
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [ReactiveFormsModule, SkyInputBoxModule, SkyModalModule],
 })
 export class ModalComponent {

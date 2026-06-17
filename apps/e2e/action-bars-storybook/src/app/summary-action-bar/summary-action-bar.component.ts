@@ -1,4 +1,11 @@
-import { Component, Injectable, Input, OnDestroy, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Injectable,
+  Input,
+  OnDestroy,
+  inject,
+} from '@angular/core';
 import { SkySummaryActionBarError } from '@skyux/action-bars';
 import { SkyModalInstance, SkyModalService } from '@skyux/modals';
 
@@ -13,6 +20,7 @@ export class SABModalContext {
   selector: 'app-summary-action-bar',
   templateUrl: './summary-action-bar.component.html',
   styleUrls: ['./summary-action-bar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SummaryActionBarComponent implements OnDestroy {

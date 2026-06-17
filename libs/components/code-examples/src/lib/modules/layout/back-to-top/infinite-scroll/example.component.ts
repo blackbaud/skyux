@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { SkyBackToTopModule } from '@skyux/layout';
 import { SkyInfiniteScrollModule, SkyRepeaterModule } from '@skyux/lists';
 
@@ -11,6 +11,7 @@ import { Person } from './person';
 @Component({
   selector: 'app-layout-back-to-top-infinite-scroll-example',
   templateUrl: './example.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyBackToTopModule, SkyInfiniteScrollModule, SkyRepeaterModule],
 })
 export class LayoutBackToTopInfiniteScrollExampleComponent implements OnInit {

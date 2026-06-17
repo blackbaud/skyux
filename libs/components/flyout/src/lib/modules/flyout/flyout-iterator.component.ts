@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -19,6 +20,7 @@ import { SkyFlyoutResourcesModule } from '../shared/sky-flyout-resources.module'
   selector: 'sky-flyout-iterator',
   templateUrl: './flyout-iterator.component.html',
   styleUrls: ['./flyout-iterator.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyIconModule, SkyFlyoutResourcesModule, SkyThemeModule],
 })
 export class SkyFlyoutIteratorComponent implements OnDestroy {

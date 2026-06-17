@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyRepeaterModule } from '@skyux/lists';
@@ -14,6 +14,7 @@ import { Tile2Component } from './tile2.component';
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     ReactiveFormsModule,
     SkyInputBoxModule,

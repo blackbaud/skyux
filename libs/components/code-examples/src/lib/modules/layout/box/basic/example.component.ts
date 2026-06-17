@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyBoxModule } from '@skyux/layout';
 import { SkyDropdownModule } from '@skyux/popovers';
 
@@ -8,6 +8,7 @@ import { SkyDropdownModule } from '@skyux/popovers';
 @Component({
   selector: 'app-layout-box-basic-example',
   templateUrl: './example.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyBoxModule, SkyDropdownModule],
 })
 export class LayoutBoxBasicExampleComponent {}

@@ -1,4 +1,9 @@
-import { Component, Inject, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  ViewChild,
+} from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 
@@ -7,6 +12,7 @@ import { SkyListComponent } from '../list.component';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './list-selected.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ListSelectedTestComponent {

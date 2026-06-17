@@ -1,4 +1,8 @@
-import { Component, DebugElement } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DebugElement,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -8,6 +12,7 @@ import { SkyAppLinkDirective } from './link.directive';
 
 @Component({
   template: '<a skyAppLink="test">Test</a>',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class SkyAppLinkTestComponent {}
@@ -15,6 +20,7 @@ class SkyAppLinkTestComponent {}
 @Component({
   template:
     '<a skyAppLink="test" [queryParams]="{qp1: 1, qp2: false}">Test</a>',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class SkyAppLinkWithParamsTestComponent {}

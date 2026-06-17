@@ -84,7 +84,7 @@
         <tree-node-content
           [index]="index"
           [node]="node"
-          [template]="templates?.treeNodeTemplate"
+          [template]="$safeNavigationMigration(templates?.treeNodeTemplate)"
           (click)="node.mouseAction('click', $event)"
         /><span class="sky-control-help-container">
           @if (helpKey || helpPopoverContent) {
@@ -102,7 +102,9 @@
     </div>
 
     <ng-container
-      [ngTemplateOutlet]="templates?.treeNodeWrapperTemplate"
+      [ngTemplateOutlet]="
+        $safeNavigationMigration(templates?.treeNodeWrapperTemplate)
+      "
       [ngTemplateOutletContext]="{
         $implicit: node,
         node: node,

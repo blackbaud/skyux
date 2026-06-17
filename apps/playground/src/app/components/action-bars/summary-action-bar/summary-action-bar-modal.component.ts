@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   SkySummaryActionBarError,
   SkySummaryActionBarModule,
@@ -10,6 +10,7 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
   selector: 'app-summary-action-bar-modal',
   templateUrl: './summary-action-bar-modal.component.html',
   styleUrls: ['./summary-action-bar-modal.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyKeyInfoModule, SkyModalModule, SkySummaryActionBarModule],
 })
 export class SummaryActionBarModalComponent {

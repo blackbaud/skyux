@@ -1,10 +1,11 @@
-import { Component, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 
 import { SkyFuzzyDatepickerInputDirective } from '../datepicker-input-fuzzy.directive';
 
 @Component({
   selector: 'sky-fuzzy-datepicker-test',
   templateUrl: './fuzzy-datepicker.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class FuzzyDatepickerTestComponent {

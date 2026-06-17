@@ -1,4 +1,9 @@
-import { Component, inject, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  input,
+} from '@angular/core';
 import { SkyAgGridModule, SkyAgGridService } from '@skyux/ag-grid';
 
 import { AgGridAngular } from 'ag-grid-angular';
@@ -17,6 +22,7 @@ interface RowModel {
 @Component({
   selector: 'app-ag-grid-test',
   templateUrl: './ag-grid-test.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyAgGridModule, AgGridAngular],
 })
 export class AgGridTestComponent {

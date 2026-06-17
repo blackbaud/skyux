@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
 import { SkyLogService } from '@skyux/core';
@@ -9,11 +9,13 @@ import { SkyModalLinkListModule } from './modal-link-list.module';
 
 @Component({
   template: '',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class MockComponent {}
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 class MockStandaloneComponent {}

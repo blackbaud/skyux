@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 
@@ -24,6 +24,7 @@ import { SkyPopoverTestingModule } from './popover-testing.module';
       {{ popoverBody }}
     </sky-popover>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class PopoverTestComponent {

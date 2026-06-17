@@ -1,4 +1,9 @@
-import { Component, Inject, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  ViewChild,
+} from '@angular/core';
 
 import { ListFilterModel } from '../../list-filters/filter.model';
 import { SkyListComponent } from '../list.component';
@@ -6,6 +11,7 @@ import { SkyListComponent } from '../list.component';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './list-filtered.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ListFilteredTestComponent {

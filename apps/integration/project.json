@@ -8,24 +8,18 @@
   "targets": {
     "build": {
       "executor": "@angular/build:application",
-      "outputs": [
-        "{options.outputPath.base}"
-      ],
+      "outputs": ["{options.outputPath.base}"],
       "options": {
         "outputPath": {
           "base": "dist/apps/integration",
           "browser": "."
         },
         "index": "apps/integration/src/index.html",
-        "polyfills": [
-          "zone.js"
-        ],
+        "polyfills": ["zone.js"],
         "tsConfig": "apps/integration/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "stylePreprocessorOptions": {
-          "includePaths": [
-            "{workspaceRoot}"
-          ]
+          "includePaths": ["{workspaceRoot}"]
         },
         "assets": [
           "apps/integration/src/favicon.ico",
@@ -71,10 +65,7 @@
             "libs/components/theme/src/lib/styles/sky.scss",
             "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
           ],
-          "polyfills": [
-            "zone.js",
-            "zone.js/testing"
-          ]
+          "polyfills": ["zone.js", "zone.js/testing"]
         },
         "testing-ci": {
           "aot": false,
@@ -117,17 +108,13 @@
       "options": {
         "tsConfig": "apps/integration/tsconfig.spec.json",
         "coverage": true,
-        "coverageExclude": [
-          "**/fixtures/**"
-        ],
+        "coverageExclude": ["**/fixtures/**"],
         "buildTarget": ":build:testing",
         "runner": "vitest"
       },
       "configurations": {
         "ci": {
-          "browsers": [
-            "ChromeHeadlessNoSandbox"
-          ],
+          "browsers": ["ChromeHeadlessNoSandbox"],
           "progress": false,
           "watch": false,
           "coverage": true,

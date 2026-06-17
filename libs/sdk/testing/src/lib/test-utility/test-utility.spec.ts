@@ -1,5 +1,9 @@
 //#region imports
-import { Component, DebugElement } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DebugElement,
+} from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -18,6 +22,7 @@ import { SkyAppTestUtility } from './test-utility';
   template: `
     <test-cmp [attr.data-sky-id]="'my-id'"> My component. </test-cmp>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TestParentComponent {}
@@ -25,6 +30,7 @@ class TestParentComponent {}
 @Component({
   selector: 'test-cmp',
   template: `<ng-content />`,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TestComponent {}

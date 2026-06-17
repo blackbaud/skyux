@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   HostBinding,
   ViewEncapsulation,
@@ -17,6 +18,7 @@ import {
   templateUrl: './affix.component.html',
   styleUrls: ['./affix.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class AffixComponent {

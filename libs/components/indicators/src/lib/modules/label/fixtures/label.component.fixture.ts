@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { SkyIndicatorDescriptionType } from '../../shared/indicator-description-type';
 import { SkyLabelType } from '../label-type';
@@ -6,6 +6,7 @@ import { SkyLabelType } from '../label-type';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './label.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class LabelTestComponent {

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -29,6 +29,7 @@ interface DemoForm {
 @Component({
   selector: 'sky-split-view-harness-test',
   templateUrl: './split-view-harness-test.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FormsModule,
     ReactiveFormsModule,

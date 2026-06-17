@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import {
   SkyInlineFormCloseArgs,
   SkyInlineFormConfig,
@@ -9,6 +9,7 @@ import { SkyRepeaterComponent } from '../repeater.component';
 @Component({
   selector: 'sky-test-repeater-inline-form',
   templateUrl: './repeater-inline-form.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class RepeaterInlineFormFixtureComponent {

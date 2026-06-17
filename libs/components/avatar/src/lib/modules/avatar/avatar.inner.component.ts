@@ -1,6 +1,7 @@
 import { NgClass } from '@angular/common';
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   Input,
@@ -24,6 +25,7 @@ import { SkyAvatarSrc } from './avatar-src';
   styleUrls: ['./avatar.inner.component.scss'],
   providers: [SkyAvatarAdapterService],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgClass, SkyI18nModule, SkyThemeModule],
 })
 export class SkyAvatarInnerComponent implements AfterViewInit, OnDestroy {

@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { SkyPagingModule } from '../paging.module';
 import { SkyPagingContentChangeArgs } from '../types/paging-content-change-args';
 
 @Component({
   imports: [SkyPagingModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `<sky-paging
     [itemCount]="20"
     [pageSize]="5"

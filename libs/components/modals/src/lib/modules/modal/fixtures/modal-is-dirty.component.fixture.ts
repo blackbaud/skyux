@@ -1,10 +1,11 @@
-import { Component, Optional } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Optional } from '@angular/core';
 
 import { ModalIsDirtyTestContext } from './modal-is-dirty-test-context.fixture';
 
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './modal-is-dirty.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ModalIsDirtyTestComponent {

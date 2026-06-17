@@ -1,4 +1,9 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 import { Subject, of } from 'rxjs';
@@ -15,6 +20,7 @@ import { SkyAutocompleteSelectionChange } from '../types/autocomplete-selection-
 @Component({
   selector: 'sky-autocomplete-fixture',
   templateUrl: './autocomplete.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyAutocompleteFixtureComponent {

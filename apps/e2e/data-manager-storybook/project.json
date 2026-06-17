@@ -4,23 +4,17 @@
   "projectType": "application",
   "prefix": "app",
   "sourceRoot": "apps/e2e/data-manager-storybook/src",
-  "tags": [
-    "component-e2e"
-  ],
+  "tags": ["component-e2e"],
   "targets": {
     "build": {
       "executor": "@angular/build:application",
-      "outputs": [
-        "{options.outputPath.base}"
-      ],
+      "outputs": ["{options.outputPath.base}"],
       "options": {
         "outputPath": {
           "base": "dist/apps/e2e/data-manager-storybook"
         },
         "index": "apps/e2e/data-manager-storybook/src/index.html",
-        "polyfills": [
-          "zone.js"
-        ],
+        "polyfills": ["zone.js"],
         "tsConfig": "apps/e2e/data-manager-storybook/tsconfig.app.json",
         "styles": [
           "apps/e2e/data-manager-storybook/src/styles.scss",
@@ -28,9 +22,7 @@
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
         ],
         "stylePreprocessorOptions": {
-          "includePaths": [
-            "{workspaceRoot}"
-          ]
+          "includePaths": ["{workspaceRoot}"]
         },
         "scripts": [],
         "browser": "apps/e2e/data-manager-storybook/src/main.ts"
@@ -82,10 +74,7 @@
     "lint": {
       "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": [
-          "{projectRoot}/**/*.ts",
-          "{projectRoot}/**/*.html"
-        ]
+        "lintFilePatterns": ["{projectRoot}/**/*.ts", "{projectRoot}/**/*.html"]
       }
     },
     "serve-static": {
@@ -115,9 +104,7 @@
     },
     "build-storybook": {
       "executor": "@storybook/angular:build-storybook",
-      "outputs": [
-        "{options.outputDir}"
-      ],
+      "outputs": ["{options.outputDir}"],
       "options": {
         "outputDir": "dist/storybook/data-manager-storybook",
         "configDir": "apps/e2e/data-manager-storybook/.storybook",

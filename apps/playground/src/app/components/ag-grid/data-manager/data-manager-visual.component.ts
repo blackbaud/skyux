@@ -1,4 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { SkyUIConfigService } from '@skyux/core';
 import {
   SkyDataManagerModule,
@@ -25,6 +30,7 @@ import { LocalStorageConfigService } from './local-storage-config.service';
     SkyFilterBarModule,
   ],
   templateUrl: './data-manager-visual.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [
     SkyDataManagerService,
     {

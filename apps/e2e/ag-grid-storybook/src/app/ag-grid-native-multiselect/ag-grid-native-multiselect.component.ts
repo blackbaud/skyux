@@ -1,6 +1,7 @@
 import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   Input,
@@ -69,6 +70,7 @@ const ROW_SELECTION: RowSelectionOptions = {
   ],
   selector: 'app-ag-grid-multiselect',
   templateUrl: './ag-grid-native-multiselect.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   encapsulation: ViewEncapsulation.None,
 })
 export class AgGridMultiselectComponent

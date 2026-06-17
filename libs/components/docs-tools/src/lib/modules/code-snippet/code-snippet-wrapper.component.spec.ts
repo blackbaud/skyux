@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SkyDocsCodeSnippetWrapperComponent } from './code-snippet-wrapper.component';
@@ -13,6 +13,7 @@ import { SkyDocsCodeSnippetWrapperComponent } from './code-snippet-wrapper.compo
       <code>const foo = 'bar';</code>
     </sky-docs-code-snippet>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyDocsCodeSnippetWrapperComponent],
 })
 class TestComponent {

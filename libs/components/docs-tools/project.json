@@ -4,16 +4,11 @@
   "projectType": "library",
   "sourceRoot": "libs/components/docs-tools/src",
   "prefix": "sky",
-  "tags": [
-    "component",
-    "npm"
-  ],
+  "tags": ["component", "npm"],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
-      "outputs": [
-        "{workspaceRoot}/dist/libs/components/docs-tools"
-      ],
+      "outputs": ["{workspaceRoot}/dist/libs/components/docs-tools"],
       "options": {
         "project": "libs/components/docs-tools/ng-package.json"
       },
@@ -37,18 +32,11 @@
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
         ],
         "codeCoverage": true,
-        "codeCoverageExclude": [
-          "**/fixtures/**"
-        ],
-        "polyfills": [
-          "zone.js",
-          "zone.js/testing"
-        ],
+        "codeCoverageExclude": ["**/fixtures/**"],
+        "polyfills": ["zone.js", "zone.js/testing"],
         "inlineStyleLanguage": "scss",
         "stylePreprocessorOptions": {
-          "includePaths": [
-            "{workspaceRoot}"
-          ]
+          "includePaths": ["{workspaceRoot}"]
         }
       },
       "configurations": {

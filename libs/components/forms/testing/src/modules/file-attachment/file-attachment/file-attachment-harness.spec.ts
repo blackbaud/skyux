@@ -1,5 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   FormBuilder,
@@ -25,6 +25,7 @@ import { SkyFileAttachmentHarness } from './file-attachment-harness';
 //#region Test component
 @Component({
   imports: [SkyFileAttachmentModule, FormsModule, ReactiveFormsModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <sky-file-attachment
       acceptedTypesErrorMessage="Attach a valid file."

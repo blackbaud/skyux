@@ -1,9 +1,15 @@
-import { Component, OnInit, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { SkyDatePipe } from '@skyux/datetime';
 
 @Component({
   selector: 'app-date-pipe',
   templateUrl: './date-pipe.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class DatePipeComponent implements OnInit {

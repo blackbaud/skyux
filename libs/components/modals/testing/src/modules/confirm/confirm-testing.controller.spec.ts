@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyConfirmService, SkyConfirmType } from '@skyux/modals';
@@ -11,6 +11,7 @@ interface User {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     @for (user of users; track user.firstName) {
       <div class="test-item">

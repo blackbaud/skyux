@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   InjectionToken,
   OnInit,
@@ -46,6 +47,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   selector: 'sky-ag-grid-component-fixture',
   templateUrl: './ag-grid.component.fixture.html',
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyAgGridWrapperComponent, AgGridAngular],
 })
 export class SkyAgGridFixtureComponent implements OnInit {

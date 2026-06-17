@@ -1,4 +1,9 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SkyActionButtonAdapterService } from './action-button-adapter-service';
@@ -10,6 +15,7 @@ import { SkyActionButtonAdapterService } from './action-button-adapter-service';
       <div #el>Hello world</div>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class SkyActionButtonAdapterTestComponent {

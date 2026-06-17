@@ -1,10 +1,16 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
 
 import { SkyInfiniteScrollComponent } from '../infinite-scroll.component';
 
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './infinite-scroll.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyInfiniteScrollTestComponent {

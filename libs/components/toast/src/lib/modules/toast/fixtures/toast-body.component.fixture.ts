@@ -1,5 +1,5 @@
 // #region imports
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { SkyToastInstance } from '../toast-instance';
 
@@ -10,6 +10,7 @@ import { SkyToastBodyTestContext } from './toast-body-context';
 @Component({
   selector: 'sky-toast-body-test',
   templateUrl: './toast-body.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyToastBodyTestComponent {

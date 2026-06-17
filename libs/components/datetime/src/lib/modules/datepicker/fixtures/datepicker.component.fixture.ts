@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
@@ -10,6 +10,7 @@ import { SkyDatepickerComponent } from '../datepicker.component';
 @Component({
   selector: 'sky-datepicker-test',
   templateUrl: './datepicker.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class DatepickerTestComponent {

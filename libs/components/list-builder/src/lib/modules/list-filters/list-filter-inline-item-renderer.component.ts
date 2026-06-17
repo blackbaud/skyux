@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   Input,
   OnInit,
@@ -13,6 +14,7 @@ import {
 @Component({
   selector: 'sky-list-filter-inline-item-renderer',
   template: '<ng-template #container />',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyListFilterInlineItemRendererComponent implements OnInit {

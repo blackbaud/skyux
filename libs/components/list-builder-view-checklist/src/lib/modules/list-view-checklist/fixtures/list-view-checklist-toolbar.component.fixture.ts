@@ -1,10 +1,16 @@
-import { Component, Inject, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  ViewChild,
+} from '@angular/core';
 
 import { SkyListViewChecklistComponent } from '../list-view-checklist.component';
 
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './list-view-checklist-toolbar.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ListViewChecklistToolbarTestComponent {

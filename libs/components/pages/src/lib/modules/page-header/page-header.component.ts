@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { SkyResponsiveHostDirective } from '@skyux/core';
 
 import { SkyPageLink } from '../action-hub/types/page-link';
@@ -11,6 +11,7 @@ import { SkyPageLink } from '../action-hub/types/page-link';
   selector: 'sky-page-header',
   templateUrl: './page-header.component.html',
   styleUrls: ['./page-header.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyPageHeaderComponent {

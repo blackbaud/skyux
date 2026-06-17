@@ -1,4 +1,4 @@
-import { Component, Provider } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Provider } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -23,6 +23,7 @@ import { SkyHrefResolverService } from './href-resolver.service';
 
 @Component({
   template: '',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class BlankComponent {}

@@ -1,5 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   SkyIndicatorDescriptionType,
@@ -12,6 +12,7 @@ import { SkyStatusIndicatorHarness } from './status-indicator-harness';
 @Component({
   selector: 'sky-status-indicator-test',
   imports: [SkyStatusIndicatorModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <sky-status-indicator
       data-sky-id="test-status-indicator"

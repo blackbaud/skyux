@@ -1,4 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   UntypedFormControl,
   UntypedFormGroup,
@@ -11,6 +16,7 @@ import { SkyCountryFieldCountry } from '../types/country';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './country-field-reactive.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CountryFieldReactiveTestComponent implements OnInit {

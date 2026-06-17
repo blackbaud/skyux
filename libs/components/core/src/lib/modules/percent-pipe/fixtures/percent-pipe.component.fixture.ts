@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { SkyPercentPipeModule } from '../percent-pipe.module';
 import { SkyPercentPipe } from '../percent.pipe';
@@ -7,6 +7,7 @@ import { SkyPercentPipe } from '../percent.pipe';
   selector: 'sky-percent-pipe-test',
   templateUrl: './percent-pipe.component.fixture.html',
   imports: [SkyPercentPipeModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [SkyPercentPipe],
 })
 export class PercentPipeTestComponent {

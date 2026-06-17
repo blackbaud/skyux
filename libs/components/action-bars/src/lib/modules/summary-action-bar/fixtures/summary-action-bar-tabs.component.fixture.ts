@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'sky-summary-action-bar-tabs-test',
   templateUrl: './summary-action-bar-tabs.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkySummaryActionBarTabsTestComponent {

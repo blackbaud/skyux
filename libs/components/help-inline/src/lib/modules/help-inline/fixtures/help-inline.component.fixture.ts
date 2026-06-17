@@ -1,10 +1,16 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 
 import { SkyHelpInlineModule } from '../help-inline.module';
 
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './help-inline.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyHelpInlineModule],
 })
 export class HelpInlineTestComponent {

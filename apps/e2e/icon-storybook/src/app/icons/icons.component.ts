@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   DOCUMENT,
   computed,
@@ -19,6 +20,7 @@ import { IconPreviewService } from '@skyux/storybook/icon-preview';
   selector: 'app-icons',
   templateUrl: './icons.component.html',
   styleUrls: ['./icons.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyIconModule],
 })
 export class IconsComponent {

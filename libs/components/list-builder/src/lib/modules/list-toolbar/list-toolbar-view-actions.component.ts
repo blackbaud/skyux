@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
 
 /**
@@ -12,6 +12,7 @@ import { SkyLogService } from '@skyux/core';
   selector: 'sky-list-toolbar-view-actions',
   templateUrl: './list-toolbar-view-actions.component.html',
   styleUrls: ['./list-toolbar-view-actions.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyListToolbarViewActionsComponent {

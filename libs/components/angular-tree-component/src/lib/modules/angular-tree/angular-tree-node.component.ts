@@ -1,6 +1,7 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
@@ -38,6 +39,7 @@ import { SkyAngularTreeWrapperComponent } from './angular-tree-wrapper.component
   selector: 'sky-angular-tree-node',
   templateUrl: './angular-tree-node.component.html',
   providers: [SkyAngularTreeAdapterService, SkyContentInfoProvider],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     TreeModule,
     SkyAngularTreeContextMenuComponent,

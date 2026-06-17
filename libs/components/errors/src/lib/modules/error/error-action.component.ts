@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
  * Specifies an interactive element to include with the error message.
@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'sky-error-action',
   template: '<ng-content />',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyErrorActionComponent {}

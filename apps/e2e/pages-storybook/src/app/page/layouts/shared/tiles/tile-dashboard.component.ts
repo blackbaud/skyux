@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyTileDashboardConfig, SkyTilesModule } from '@skyux/tiles';
 
 import { BlocksTileDashboardPageTile1Component } from './tile1.component';
@@ -7,6 +7,7 @@ import { BlocksTileDashboardPageTile2Component } from './tile2.component';
 @Component({
   selector: 'app-page-layout-tile-dashboard',
   imports: [SkyTilesModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `<sky-tile-dashboard [(config)]="dashboardConfig" />`,
 })
 export class PageLayoutTileDashboardComponent {

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -17,6 +17,7 @@ import { SkyCheckboxModule } from '../checkbox.module';
 @Component({
   selector: 'sky-standard-checkbox-group',
   templateUrl: './standard-checkbox-group.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule, ReactiveFormsModule, SkyCheckboxModule],
 })
 export class SkyStandardCheckboxGroupComponent {

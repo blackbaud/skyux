@@ -177,10 +177,10 @@
 <ng-template #errorLabelTemplate>
   <sky-form-errors
     [id]="errorId"
-    [errors]="controlDir?.errors"
+    [errors]="$safeNavigationMigration(controlDir?.errors)"
     [labelText]="labelText"
-    [touched]="controlDir?.touched"
-    [dirty]="controlDir?.dirty"
+    [touched]="$safeNavigationMigration(controlDir?.touched)"
+    [dirty]="$safeNavigationMigration(controlDir?.dirty)"
   >
     <ng-content
       select="sky-form-error,span.sky-input-box-descendent-form-error"

@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { UntypedFormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-input-box',
   templateUrl: './input-box.component.html',
   styleUrls: ['./input-box.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class InputBoxComponent implements OnInit {

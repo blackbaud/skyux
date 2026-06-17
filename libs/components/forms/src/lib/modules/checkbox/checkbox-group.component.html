@@ -74,10 +74,10 @@
 <sky-form-errors
   [id]="errorId"
   [attr.data-sky-id]="formErrorsDataId"
-  [errors]="formGroup?.errors"
+  [errors]="$safeNavigationMigration(formGroup?.errors)"
   [labelText]="headingText"
-  [touched]="formGroup?.touched"
-  [dirty]="formGroup?.dirty"
+  [touched]="$safeNavigationMigration(formGroup?.touched)"
+  [dirty]="$safeNavigationMigration(formGroup?.dirty)"
 >
   <ng-content select="sky-form-error" />
 </sky-form-errors>

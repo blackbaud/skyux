@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   HostBinding,
   Input,
@@ -25,6 +26,7 @@ function numberAttribute3(value: unknown): number {
   selector: 'sky-field-group',
   templateUrl: './field-group.component.html',
   styleUrl: './field-group.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [CommonModule, SkyHelpInlineModule, SkyIdModule, SkyThemeModule],
 })
 export class SkyFieldGroupComponent {

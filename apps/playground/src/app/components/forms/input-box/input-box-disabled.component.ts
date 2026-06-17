@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -9,6 +9,7 @@ import { SkyInputBoxModule } from '@skyux/forms';
 
 @Component({
   imports: [FormsModule, ReactiveFormsModule, SkyInputBoxModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <form novalidate [formGroup]="formGroup">
       <div style="max-width: 200px;">

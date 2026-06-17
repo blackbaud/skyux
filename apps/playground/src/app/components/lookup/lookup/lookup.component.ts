@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   OnInit,
@@ -30,6 +31,7 @@ import { LookupCustomPickerComponent } from './lookup-custom-picker.component';
   selector: 'app-lookup',
   templateUrl: './lookup.component.html',
   styleUrls: ['./lookup.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class LookupComponent implements OnInit {

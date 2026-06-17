@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { Observable, asyncScheduler, scheduled } from 'rxjs';
 
@@ -7,6 +7,7 @@ import { SkyDescriptionListModeType } from '../types/description-list-mode-type'
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './description-list.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyDescriptionListTestComponent {

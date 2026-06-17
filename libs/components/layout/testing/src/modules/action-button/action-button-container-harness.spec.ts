@@ -1,5 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   SkyActionButtonContainerAlignItemsType,
@@ -10,6 +10,7 @@ import { SkyActionButtonContainerHarness } from './action-button-container-harne
 
 @Component({
   imports: [SkyActionButtonModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <sky-action-button-container [alignItems]="alignItems">
       <sky-action-button>

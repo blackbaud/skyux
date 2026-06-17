@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 import {
   SkyDescriptionListModeType,
@@ -8,6 +8,7 @@ import {
 @Component({
   selector: 'sky-description-list-fixture',
   templateUrl: './description-list-test.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyDescriptionListModule, SkyHelpInlineModule],
 })
 export class DescriptionListHarnessTestComponent {

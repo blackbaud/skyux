@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   SkyActionHubNeedsAttention,
   SkyPageLink,
@@ -19,6 +19,7 @@ const pastHours = Array.from(Array(5).keys()).map((i) => {
   selector: 'app-action-hub',
   templateUrl: './action-hub.component.html',
   styleUrls: ['./action-hub.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ActionHubComponent {

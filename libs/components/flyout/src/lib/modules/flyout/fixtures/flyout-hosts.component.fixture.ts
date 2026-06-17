@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyModalService } from '@skyux/modals';
 import { SkyToastService, SkyToastType } from '@skyux/toast';
 
@@ -12,6 +12,7 @@ import { SkyFlyoutModalFixtureFormComponent } from './flyout-modal-form.componen
   selector: 'sky-test-flyout-internal',
   templateUrl: './flyout-hosts.component.fixture.html',
   providers: [SkyFlyoutService],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyFlyoutHostsTestComponent {

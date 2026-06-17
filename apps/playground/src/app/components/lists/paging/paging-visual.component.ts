@@ -1,9 +1,10 @@
-import { Component, NgModule } from '@angular/core';
+import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
 import { SkyPagingContentChangeArgs, SkyPagingModule } from '@skyux/lists';
 
 @Component({
   selector: 'app-paging-visual',
   templateUrl: './paging-visual.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class PagingVisualComponent {

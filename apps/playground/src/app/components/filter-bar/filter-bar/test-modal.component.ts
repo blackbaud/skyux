@@ -1,10 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyFilterItemModalInstance } from '@skyux/filter-bar';
 import { SkyModalModule } from '@skyux/modals';
 
 @Component({
   selector: 'app-test-modal',
   templateUrl: './test-modal.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyModalModule],
 })
 export class TestModalComponent {

@@ -1,5 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopSkyAnimations } from '@skyux/core';
 import { SkyInlineDeleteModule } from '@skyux/layout';
@@ -9,6 +9,7 @@ import { SkyInlineDeleteHarness } from './inline-delete-harness';
 @Component({
   selector: 'sky-inline-delete-test',
   imports: [SkyInlineDeleteModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <sky-inline-delete
       data-sky-id="test-component-delete"

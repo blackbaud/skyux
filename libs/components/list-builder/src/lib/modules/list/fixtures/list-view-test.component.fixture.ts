@@ -1,5 +1,10 @@
 //#region imports
-import { Component, Input, forwardRef } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  forwardRef,
+} from '@angular/core';
 import { ListItemModel } from '@skyux/list-builder-common';
 
 import { Observable } from 'rxjs';
@@ -20,6 +25,7 @@ import { ListState } from '../state/list-state.state-node';
       useExisting: forwardRef(() => ListViewTestComponent),
     },
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ListViewTestComponent extends ListViewComponent {

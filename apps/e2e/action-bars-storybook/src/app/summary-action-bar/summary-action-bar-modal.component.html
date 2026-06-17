@@ -16,7 +16,7 @@
   <sky-modal-footer>
     <sky-summary-action-bar
       id="summary-action-bar"
-      [formErrors]="context?.errors"
+      [formErrors]="$safeNavigationMigration(context?.errors)"
     >
       <sky-summary-action-bar-actions>
         <sky-summary-action-bar-primary-action>

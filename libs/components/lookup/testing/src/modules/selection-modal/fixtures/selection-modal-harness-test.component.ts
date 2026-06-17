@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   SkySelectionModalOpenArgs,
   SkySelectionModalService,
@@ -7,6 +7,7 @@ import {
 @Component({
   selector: 'sky-selection-modal-harness-test',
   templateUrl: './selection-modal-harness-test.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SelectionModalHarnessTestComponent {

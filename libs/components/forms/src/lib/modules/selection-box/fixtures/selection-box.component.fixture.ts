@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   UntypedFormArray,
   UntypedFormBuilder,
@@ -8,6 +8,7 @@ import {
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './selection-box.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SelectionBoxTestComponent {

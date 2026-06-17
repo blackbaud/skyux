@@ -1,6 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   SkyAlertModule,
@@ -27,6 +27,7 @@ import { SkyAlertHarness } from './alert-harness';
     </sky-alert>
     <sky-alert data-sky-id="alert-2"> This is another alert. </sky-alert>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TestComponent {

@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ContentChildren,
   Input,
@@ -15,6 +16,7 @@ import { SkyDescriptionListTermComponent } from './description-list-term.compone
 @Component({
   selector: 'sky-description-list-content',
   templateUrl: './description-list-content.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyDescriptionListContentComponent {

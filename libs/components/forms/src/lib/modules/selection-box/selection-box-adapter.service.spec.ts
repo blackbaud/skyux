@@ -1,4 +1,9 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyMediaBreakpoints } from '@skyux/core';
 
@@ -12,6 +17,7 @@ import { SkySelectionBoxAdapterService } from './selection-box-adapter.service';
     </div>
     <div #outside>I'm outside the parent!</div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class SkySelectionBoxAdapterTestComponent {

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   AbstractControl,
   FormsModule,
@@ -17,6 +17,7 @@ import {
 @Component({
   selector: 'test-checkbox-harness',
   templateUrl: './checkbox-harness-test.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule, ReactiveFormsModule, SkyCheckboxModule],
 })
 export class CheckboxHarnessTestComponent {

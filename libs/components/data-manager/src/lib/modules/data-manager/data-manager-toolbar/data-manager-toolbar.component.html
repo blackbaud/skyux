@@ -1,13 +1,19 @@
 <div class="sky-data-manager-toolbar">
   @if (hasToolbarContent) {
-    <sky-toolbar [listDescriptor]="dataManagerConfig?.listDescriptor">
+    <sky-toolbar
+      [listDescriptor]="
+        $safeNavigationMigration(dataManagerConfig?.listDescriptor)
+      "
+    >
       <sky-toolbar-section>
         <ng-content select="sky-data-manager-toolbar-primary-item" />
 
         @if (activeView?.filterButtonEnabled) {
           <sky-toolbar-item class="sky-data-manager-filter">
             <sky-filter-button
-              [showButtonText]="activeView?.showFilterButtonText"
+              [showButtonText]="
+                $safeNavigationMigration(activeView?.showFilterButtonText)
+              "
               (filterButtonClick)="filterButtonClicked()"
             />
           </sky-toolbar-item>
@@ -15,7 +21,11 @@
 
         @if (activeView?.sortEnabled) {
           <sky-toolbar-item class="sky-data-manager-sort">
-            <sky-sort [showButtonText]="activeView?.showSortButtonText">
+            <sky-sort
+              [showButtonText]="
+                $safeNavigationMigration(activeView?.showSortButtonText)
+              "
+            >
               @for (item of dataManagerConfig?.sortOptions; track item.id) {
                 <sky-sort-item
                   [active]="dataState?.activeSortOption?.id === item.id"
@@ -36,7 +46,10 @@
               [attr.aria-label]="
                 dataManagerConfig?.listDescriptor
                   ? ('skyux_data_manager_columns_button_aria_label'
-                    | skyLibResources: dataManagerConfig?.listDescriptor)
+                    | skyLibResources
+                      : $safeNavigationMigration(
+                          dataManagerConfig?.listDescriptor
+                        ))
                   : ('skyux_data_manager_columns_button_title'
                     | skyLibResources)
               "
@@ -60,9 +73,13 @@
         @if (activeView?.searchEnabled) {
           <sky-toolbar-item class="sky-data-manager-search">
             <sky-search
-              [expandMode]="activeView?.searchExpandMode"
-              [placeholderText]="activeView?.searchPlaceholderText"
-              [searchText]="dataState?.searchText"
+              [expandMode]="
+                $safeNavigationMigration(activeView?.searchExpandMode)
+              "
+              [placeholderText]="
+                $safeNavigationMigration(activeView?.searchPlaceholderText)
+              "
+              [searchText]="$safeNavigationMigration(dataState?.searchText)"
               (searchApply)="searchApplied($event)"
             />
           </sky-toolbar-item>
@@ -106,7 +123,10 @@
             [attr.aria-label]="
               dataManagerConfig?.listDescriptor
                 ? ('skyux_data_manager_select_all_button_aria_label'
-                  | skyLibResources: dataManagerConfig?.listDescriptor)
+                  | skyLibResources
+                    : $safeNavigationMigration(
+                        dataManagerConfig?.listDescriptor
+                      ))
                 : undefined
             "
             (click)="selectAll()"
@@ -121,7 +141,10 @@
             [attr.aria-label]="
               dataManagerConfig?.listDescriptor
                 ? ('skyux_data_manager_clear_all_button_aria_label'
-                  | skyLibResources: dataManagerConfig?.listDescriptor)
+                  | skyLibResources
+                    : $safeNavigationMigration(
+                        dataManagerConfig?.listDescriptor
+                      ))
                 : undefined
             "
             (click)="clearAll()"
@@ -135,7 +158,10 @@
             [label]="
               dataManagerConfig?.listDescriptor
                 ? ('skyux_data_manager_show_selected_option_aria_label'
-                  | skyLibResources: dataManagerConfig?.listDescriptor)
+                  | skyLibResources
+                    : $safeNavigationMigration(
+                        dataManagerConfig?.listDescriptor
+                      ))
                 : undefined
             "
             (change)="onOnlyShowSelected($event)"

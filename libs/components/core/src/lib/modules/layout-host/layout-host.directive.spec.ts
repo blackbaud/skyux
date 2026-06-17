@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SkyLayoutHostDirective } from './layout-host.directive';
@@ -7,6 +7,7 @@ import { SkyLayoutHostService } from './layout-host.service';
 @Component({
   selector: 'app-test',
   template: ``,
+  changeDetection: ChangeDetectionStrategy.Eager,
   hostDirectives: [{ directive: SkyLayoutHostDirective, inputs: ['layout'] }],
 })
 class TestComponent {}

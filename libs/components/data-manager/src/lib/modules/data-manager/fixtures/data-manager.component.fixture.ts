@@ -1,4 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 
 import { SkyDataManagerComponent } from '../data-manager.component';
 import { SkyDataManagerService } from '../data-manager.service';
@@ -12,6 +17,7 @@ import { DataManagerTestItem } from './data-manager-test-item';
 @Component({
   selector: 'sky-data-manager-fixture',
   templateUrl: './data-manager.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class DataManagerFixtureComponent implements OnInit {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
 import { SkyTextHighlightModule } from '@skyux/indicators';
@@ -9,6 +9,7 @@ import { SkyTextHighlightModule } from '@skyux/indicators';
 @Component({
   selector: 'app-indicators-text-highlight-basic-example',
   templateUrl: './example.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FormsModule,
     SkyCheckboxModule,

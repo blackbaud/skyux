@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   Injectable,
@@ -39,6 +40,7 @@ class DemoHelpService extends SkyHelpService {
       useClass: DemoHelpService,
     },
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class HelpInlineComponent {

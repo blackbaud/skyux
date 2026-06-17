@@ -1,4 +1,9 @@
-import { Component, Input, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  inject,
+} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 export interface Names {
@@ -8,6 +13,7 @@ export interface Names {
   selector: 'app-lookup',
   templateUrl: './lookup.component.html',
   styleUrls: ['./lookup.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class LookupComponent {

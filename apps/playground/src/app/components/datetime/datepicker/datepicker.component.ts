@@ -1,4 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import {
   AbstractControl,
   UntypedFormBuilder,
@@ -18,6 +23,7 @@ import { delay, distinctUntilChanged } from 'rxjs/operators';
 @Component({
   selector: 'app-datepicker',
   templateUrl: './datepicker.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class DatepickerComponent implements OnInit {

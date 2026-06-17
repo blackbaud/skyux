@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 
 import { Subject } from 'rxjs';
 
@@ -14,6 +14,7 @@ import { Tile2TestComponent } from './tile2.component.fixture';
 @Component({
   selector: 'sky-demo-app',
   templateUrl: './tile-dashboard.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class TileDashboardTestComponent {

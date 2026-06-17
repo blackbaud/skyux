@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   HostBinding,
   Input,
@@ -36,6 +37,7 @@ interface GridSettingsType {
   styleUrls: ['./data-manager.component.scss'],
   encapsulation: ViewEncapsulation.None,
   providers: [SkyDataManagerService],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class DataManagerComponent implements AfterViewInit {

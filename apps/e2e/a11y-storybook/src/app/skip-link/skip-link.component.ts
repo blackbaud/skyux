@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   ViewChild,
@@ -13,6 +14,7 @@ import { BehaviorSubject } from 'rxjs';
   selector: 'app-skip-link',
   templateUrl: './skip-link.component.html',
   styleUrls: ['./skip-link.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkipLinkComponent implements AfterViewInit {

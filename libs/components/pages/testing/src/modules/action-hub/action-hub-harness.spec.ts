@@ -1,6 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expectAsync } from '@skyux-sdk/testing';
@@ -25,6 +25,7 @@ import { SkyActionHubHarness } from './action-hub-harness';
     [settingsLinks]="settingsLinks()"
     [title]="title()"
   />`,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyActionHubModule],
 })
 class TestComponent {

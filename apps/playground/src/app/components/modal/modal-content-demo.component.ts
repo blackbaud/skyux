@@ -1,9 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
   selector: 'app-test-cmp-modal-content',
   templateUrl: './modal-content-demo.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyModalModule],
 })
 export class ModalContentDemoComponent {

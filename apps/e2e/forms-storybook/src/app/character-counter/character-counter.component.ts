@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, OnDestroy, inject } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  inject,
+} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import { BehaviorSubject } from 'rxjs';
@@ -6,6 +12,7 @@ import { BehaviorSubject } from 'rxjs';
 @Component({
   selector: 'app-character-counter',
   templateUrl: './character-counter.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CharacterCounterComponent implements AfterViewInit, OnDestroy {

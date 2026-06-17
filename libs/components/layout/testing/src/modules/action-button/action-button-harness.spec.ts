@@ -1,5 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyActionButtonModule, SkyActionButtonPermalink } from '@skyux/layout';
 
@@ -7,6 +7,7 @@ import { SkyActionButtonHarness } from './action-button-harness';
 
 @Component({
   imports: [SkyActionButtonModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <sky-action-button
       data-sky-id="action-button"

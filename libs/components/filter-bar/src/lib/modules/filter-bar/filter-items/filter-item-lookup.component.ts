@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Output,
@@ -32,6 +33,7 @@ import { SKY_FILTER_ITEM } from './filter-item.token';
   selector: 'sky-filter-item-lookup',
   imports: [SkyFilterItemBaseComponent],
   templateUrl: './filter-item-lookup.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [
     { provide: SKY_FILTER_ITEM, useExisting: SkyFilterItemLookupComponent },
   ],

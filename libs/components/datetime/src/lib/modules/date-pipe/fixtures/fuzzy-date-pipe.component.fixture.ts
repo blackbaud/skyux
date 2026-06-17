@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { SkyFuzzyDate } from '../../datepicker/fuzzy/fuzzy-date';
 import { SkyDatePipeModule } from '../date-pipe.module';
@@ -8,6 +8,7 @@ import { SkyFuzzyDatePipe } from '../fuzzy-date.pipe';
   selector: 'sky-fuzzy-date-pipe-test',
   templateUrl: './fuzzy-date-pipe.component.fixture.html',
   imports: [SkyDatePipeModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [SkyFuzzyDatePipe],
 })
 export class FuzzyDatePipeTestComponent {

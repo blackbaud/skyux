@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
  * @title Text highlight with basic setup
@@ -6,6 +6,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-indicators-text-highlight-basic-example',
   templateUrl: './text-highlight.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class TextHighlightComponent {

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -15,6 +15,7 @@ import { SkyFieldGroupModule } from '../field-group.module';
 @Component({
   selector: 'sky-field-group-fixture',
   templateUrl: './field-group.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FormsModule,
     ReactiveFormsModule,

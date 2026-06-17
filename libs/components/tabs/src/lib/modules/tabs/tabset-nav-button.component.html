@@ -7,7 +7,7 @@
         | skyTabsetNavButtonDisabled
           : buttonType
           : !!tabToSelect
-          : tabToSelect?.disabled
+          : $safeNavigationMigration(tabToSelect?.disabled)
     "
     [ngClass]="buttonClassName"
     [type]="type"

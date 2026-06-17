@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ValidationErrors } from '@angular/forms';
 import { expect } from '@skyux-sdk/testing';
@@ -10,6 +10,7 @@ import { SkyFormErrorsModule } from './form-errors.module';
 @Component({
   imports: [SkyFormErrorsModule, SkyFormErrorModule],
   providers: [{ provide: SKY_FORM_ERRORS_ENABLED, useValue: true }],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <sky-form-errors
       [labelText]="labelText"

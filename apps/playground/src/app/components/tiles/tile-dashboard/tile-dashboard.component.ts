@@ -1,4 +1,10 @@
-import { Component, effect, inject, model } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  inject,
+  model,
+} from '@angular/core';
 import { SkyTileDashboardConfig } from '@skyux/tiles';
 
 import { GreetingService } from './greeting/greeting.service';
@@ -9,6 +15,7 @@ import { Tile3Component } from './tile3.component';
 @Component({
   selector: 'app-tile-dashboard',
   templateUrl: './tile-dashboard.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class TileDashboardComponent {

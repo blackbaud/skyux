@@ -1,5 +1,6 @@
 import { JsonPipe } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   DOCUMENT,
   DestroyRef,
@@ -24,6 +25,7 @@ import { Observable, delay, of } from 'rxjs';
 @Component({
   selector: 'app-key-dates',
   templateUrl: './key-dates.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     SkyDatepickerModule,
     SkyInputBoxModule,

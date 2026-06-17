@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyToolbarModule } from '@skyux/layout';
 
 /**
@@ -9,6 +9,7 @@ import { SkyToolbarModule } from '@skyux/layout';
 @Component({
   selector: 'sky-data-manager-toolbar-left-item',
   templateUrl: './data-manager-toolbar-left-item.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyToolbarModule],
 })
 export class SkyDataManagerToolbarLeftItemComponent {}

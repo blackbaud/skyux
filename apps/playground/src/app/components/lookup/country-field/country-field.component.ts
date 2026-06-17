@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SkyCountryFieldCountry } from '@skyux/lookup';
 
@@ -6,6 +6,7 @@ import { SkyCountryFieldCountry } from '@skyux/lookup';
   selector: 'app-country-field',
   templateUrl: './country-field.component.html',
   styleUrls: ['./country-field.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CountryFieldComponent implements OnInit {

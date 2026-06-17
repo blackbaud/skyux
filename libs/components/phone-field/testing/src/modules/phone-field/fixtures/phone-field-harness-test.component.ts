@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -21,6 +21,7 @@ import {
     SkyPhoneFieldModule,
     SkyStatusIndicatorModule,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <form class="phone-field-demo" [formGroup]="phoneForm">
       <sky-phone-field

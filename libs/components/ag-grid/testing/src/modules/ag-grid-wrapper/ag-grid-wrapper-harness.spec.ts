@@ -1,5 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAgGridModule } from '@skyux/ag-grid';
 
@@ -9,6 +9,7 @@ import { AgGridTestComponent } from './fixtures/ag-grid-test.component';
 @Component({
   selector: 'app-test',
   template: `<sky-ag-grid-wrapper data-sky-id="wrapper" />`,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyAgGridModule],
 })
 class TestComponent {}

@@ -1,10 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-switch-controls',
   templateUrl: './switch-controls.component.html',
   styleUrls: ['./switch-controls.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SwitchControlsComponent {

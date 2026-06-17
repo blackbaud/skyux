@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { SkyDockInsertComponentConfig } from '../dock-insert-component-config';
 import { SkyDockItem } from '../dock-item';
@@ -10,6 +10,7 @@ import { DockItemFixtureComponent } from './dock-item.component.fixture';
 @Component({
   selector: 'sky-dock-test',
   template: '<div id="innerDiv"></div>',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class DockFixtureComponent {

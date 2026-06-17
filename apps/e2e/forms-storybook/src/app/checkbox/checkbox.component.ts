@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -11,6 +11,7 @@ import {
   selector: 'app-checkbox',
   templateUrl: './checkbox.component.html',
   styleUrls: ['./checkbox.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CheckboxComponent {

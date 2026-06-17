@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -21,6 +21,7 @@ import { SkyIconModule } from '@skyux/icon';
 @Component({
   selector: 'sky-selection-box-fixture',
   templateUrl: './selection-box-harness-test.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FormsModule,
     ReactiveFormsModule,

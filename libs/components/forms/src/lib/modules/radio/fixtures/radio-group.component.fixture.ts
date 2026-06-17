@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   template: `
@@ -12,6 +12,7 @@ import { Component } from '@angular/core';
       }
     </sky-radio-group>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyRadioGroupFixtureComponent {

@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -28,6 +28,7 @@ interface Item {
 @Component({
   selector: 'app-field-group',
   templateUrl: './field-group.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     AsyncPipe,
     FormsModule,

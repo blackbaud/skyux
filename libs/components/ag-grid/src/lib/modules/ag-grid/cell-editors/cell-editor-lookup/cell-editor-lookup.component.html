@@ -1,6 +1,6 @@
 @if (isAlive && useAsyncSearch) {
   <sky-input-box
-    [disabled]="skyComponentProperties?.disabled"
+    [disabled]="$safeNavigationMigration(skyComponentProperties?.disabled)"
     [formGroup]="editorForm"
   >
     <sky-lookup
@@ -8,25 +8,55 @@
       [ariaLabelledBy]="
         skyComponentProperties?.ariaLabelledBy ?? screenReaderLabel.id
       "
-      [autocompleteAttribute]="skyComponentProperties?.autocompleteAttribute"
-      [data]="skyComponentProperties?.data"
-      [debounceTime]="skyComponentProperties?.debounceTime"
-      [descriptorProperty]="skyComponentProperties?.descriptorProperty"
-      [enableShowMore]="skyComponentProperties?.enableShowMore"
-      [idProperty]="skyComponentProperties?.idProperty"
-      [placeholderText]="skyComponentProperties?.placeholderText"
-      [propertiesToSearch]="skyComponentProperties?.propertiesToSearch"
-      [search]="skyComponentProperties?.search"
-      [searchFilters]="skyComponentProperties?.searchFilters"
-      [searchResultsLimit]="skyComponentProperties?.searchResultsLimit"
-      [searchResultTemplate]="skyComponentProperties?.searchResultTemplate"
-      [searchTextMinimumCharacters]="
-        skyComponentProperties?.searchTextMinimumCharacters
+      [autocompleteAttribute]="
+        $safeNavigationMigration(skyComponentProperties?.autocompleteAttribute)
       "
-      [selectMode]="skyComponentProperties?.selectMode"
-      [showAddButton]="skyComponentProperties?.showAddButton"
-      [showMoreConfig]="skyComponentProperties?.showMoreConfig"
-      [wrapperClass]="skyComponentProperties?.wrapperClass"
+      [data]="$safeNavigationMigration(skyComponentProperties?.data)"
+      [debounceTime]="
+        $safeNavigationMigration(skyComponentProperties?.debounceTime)
+      "
+      [descriptorProperty]="
+        $safeNavigationMigration(skyComponentProperties?.descriptorProperty)
+      "
+      [enableShowMore]="
+        $safeNavigationMigration(skyComponentProperties?.enableShowMore)
+      "
+      [idProperty]="
+        $safeNavigationMigration(skyComponentProperties?.idProperty)
+      "
+      [placeholderText]="
+        $safeNavigationMigration(skyComponentProperties?.placeholderText)
+      "
+      [propertiesToSearch]="
+        $safeNavigationMigration(skyComponentProperties?.propertiesToSearch)
+      "
+      [search]="$safeNavigationMigration(skyComponentProperties?.search)"
+      [searchFilters]="
+        $safeNavigationMigration(skyComponentProperties?.searchFilters)
+      "
+      [searchResultsLimit]="
+        $safeNavigationMigration(skyComponentProperties?.searchResultsLimit)
+      "
+      [searchResultTemplate]="
+        $safeNavigationMigration(skyComponentProperties?.searchResultTemplate)
+      "
+      [searchTextMinimumCharacters]="
+        $safeNavigationMigration(
+          skyComponentProperties?.searchTextMinimumCharacters
+        )
+      "
+      [selectMode]="
+        $safeNavigationMigration(skyComponentProperties?.selectMode)
+      "
+      [showAddButton]="
+        $safeNavigationMigration(skyComponentProperties?.showAddButton)
+      "
+      [showMoreConfig]="
+        $safeNavigationMigration(skyComponentProperties?.showMoreConfig)
+      "
+      [wrapperClass]="
+        $safeNavigationMigration(skyComponentProperties?.wrapperClass)
+      "
       (searchAsync)="skyComponentProperties?.searchAsync?.($event)"
       (addClick)="skyComponentProperties?.addClick?.($event)"
       (openChange)="onLookupOpenChange($event)"
@@ -36,7 +66,7 @@
 }
 @if (isAlive && !useAsyncSearch) {
   <sky-input-box
-    [disabled]="skyComponentProperties?.disabled"
+    [disabled]="$safeNavigationMigration(skyComponentProperties?.disabled)"
     [formGroup]="editorForm"
   >
     <sky-lookup
@@ -44,25 +74,55 @@
       [ariaLabelledBy]="
         skyComponentProperties?.ariaLabelledBy ?? screenReaderLabel.id
       "
-      [autocompleteAttribute]="skyComponentProperties?.autocompleteAttribute"
-      [data]="skyComponentProperties?.data"
-      [debounceTime]="skyComponentProperties?.debounceTime"
-      [descriptorProperty]="skyComponentProperties?.descriptorProperty"
-      [enableShowMore]="skyComponentProperties?.enableShowMore"
-      [idProperty]="skyComponentProperties?.idProperty"
-      [placeholderText]="skyComponentProperties?.placeholderText"
-      [propertiesToSearch]="skyComponentProperties?.propertiesToSearch"
-      [search]="skyComponentProperties?.search"
-      [searchFilters]="skyComponentProperties?.searchFilters"
-      [searchResultsLimit]="skyComponentProperties?.searchResultsLimit"
-      [searchResultTemplate]="skyComponentProperties?.searchResultTemplate"
-      [searchTextMinimumCharacters]="
-        skyComponentProperties?.searchTextMinimumCharacters
+      [autocompleteAttribute]="
+        $safeNavigationMigration(skyComponentProperties?.autocompleteAttribute)
       "
-      [selectMode]="skyComponentProperties?.selectMode"
-      [showAddButton]="skyComponentProperties?.showAddButton"
-      [showMoreConfig]="skyComponentProperties?.showMoreConfig"
-      [wrapperClass]="skyComponentProperties?.wrapperClass"
+      [data]="$safeNavigationMigration(skyComponentProperties?.data)"
+      [debounceTime]="
+        $safeNavigationMigration(skyComponentProperties?.debounceTime)
+      "
+      [descriptorProperty]="
+        $safeNavigationMigration(skyComponentProperties?.descriptorProperty)
+      "
+      [enableShowMore]="
+        $safeNavigationMigration(skyComponentProperties?.enableShowMore)
+      "
+      [idProperty]="
+        $safeNavigationMigration(skyComponentProperties?.idProperty)
+      "
+      [placeholderText]="
+        $safeNavigationMigration(skyComponentProperties?.placeholderText)
+      "
+      [propertiesToSearch]="
+        $safeNavigationMigration(skyComponentProperties?.propertiesToSearch)
+      "
+      [search]="$safeNavigationMigration(skyComponentProperties?.search)"
+      [searchFilters]="
+        $safeNavigationMigration(skyComponentProperties?.searchFilters)
+      "
+      [searchResultsLimit]="
+        $safeNavigationMigration(skyComponentProperties?.searchResultsLimit)
+      "
+      [searchResultTemplate]="
+        $safeNavigationMigration(skyComponentProperties?.searchResultTemplate)
+      "
+      [searchTextMinimumCharacters]="
+        $safeNavigationMigration(
+          skyComponentProperties?.searchTextMinimumCharacters
+        )
+      "
+      [selectMode]="
+        $safeNavigationMigration(skyComponentProperties?.selectMode)
+      "
+      [showAddButton]="
+        $safeNavigationMigration(skyComponentProperties?.showAddButton)
+      "
+      [showMoreConfig]="
+        $safeNavigationMigration(skyComponentProperties?.showMoreConfig)
+      "
+      [wrapperClass]="
+        $safeNavigationMigration(skyComponentProperties?.wrapperClass)
+      "
       (addClick)="skyComponentProperties?.addClick?.($event)"
       (openChange)="onLookupOpenChange($event)"
       (selectionModalOpenChange)="onSelectionModalOpenChange($event)"

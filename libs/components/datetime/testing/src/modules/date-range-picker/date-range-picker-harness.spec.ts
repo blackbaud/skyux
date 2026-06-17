@@ -1,5 +1,10 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   FormBuilder,
@@ -43,6 +48,7 @@ import { SkyDateRangePickerHarness } from './date-range-picker-harness';
       />
     </form>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TestComponent {

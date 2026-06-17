@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyModalService } from '@skyux/modals';
 
 import { ModalStandaloneComponent } from './modal-standalone.component';
@@ -7,6 +7,7 @@ import { ModalStandaloneComponent } from './modal-standalone.component';
  * This standalone route opens a standalone modal component to ensure providers are correctly setup.
  */
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <button class="sky-btn sky-btn-default" type="button" (click)="open()">
       Open modal

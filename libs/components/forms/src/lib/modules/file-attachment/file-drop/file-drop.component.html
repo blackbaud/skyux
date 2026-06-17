@@ -211,8 +211,8 @@
   [id]="errorId"
   [labelText]="labelText"
   [touched]="ngControl ? ngControl.touched : rejectedFiles.length > 0"
-  [dirty]="ngControl?.dirty"
-  [errors]="ngControl?.errors"
+  [dirty]="$safeNavigationMigration(ngControl?.dirty)"
+  [errors]="$safeNavigationMigration(ngControl?.errors)"
 >
   <ng-content select="sky-form-error" />
   @for (rejectedFile of rejectedFiles; track rejectedFile.url) {

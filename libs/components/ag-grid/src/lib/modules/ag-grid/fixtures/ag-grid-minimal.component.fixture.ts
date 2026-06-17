@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   InjectionToken,
   OnInit,
@@ -44,6 +45,7 @@ export const MinimalEditable = new InjectionToken<boolean>('MinimalEditable', {
     </sky-ag-grid-wrapper>
   `,
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyAgGridWrapperComponent, AgGridAngular],
 })
 export class SkyAgGridMinimalFixtureComponent implements OnInit {

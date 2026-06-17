@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import {
   SkyDateRangeCalculation,
@@ -9,6 +9,7 @@ import {
   selector: 'app-date-range-picker',
   templateUrl: './date-range-picker.component.html',
   styleUrls: ['./date-range-picker.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class DateRangePickerComponent {

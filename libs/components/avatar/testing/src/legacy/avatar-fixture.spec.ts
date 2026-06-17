@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { SkyAvatarModule } from '@skyux/avatar';
 
@@ -17,6 +17,7 @@ import { SkyAvatarFixture } from './avatar-fixture';
     >
     </sky-avatar>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TestComponent {

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { SkyAppViewportService } from '@skyux/theme';
 
@@ -11,6 +11,7 @@ import { SkyThemeSelectorComponent } from './shared/theme-selector/theme-selecto
   host: {
     '[style.--playground-controls-height]': 'height + "px"',
   },
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [RouterLink, SkyThemeSelectorComponent, RouterOutlet],
 })
 export class AppComponent {

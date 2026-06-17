@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyAppLocaleInfo, SkyAppLocaleProvider } from '@skyux/i18n';
 
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -27,6 +27,7 @@ export class MyLocaleProvider extends SkyAppLocaleProvider {
       useClass: MyLocaleProvider,
     },
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class DatePipeProviderComponent {

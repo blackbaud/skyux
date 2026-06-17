@@ -28,15 +28,31 @@
               <a
                 class="sky-needs-attention-item"
                 [skyAppLink]="permalinkRoute.commands"
-                [queryParams]="permalinkRoute.extras?.queryParams"
-                [queryParamsHandling]="
-                  permalinkRoute.extras?.queryParamsHandling
+                [queryParams]="
+                  $safeNavigationMigration(permalinkRoute.extras?.queryParams)
                 "
-                [fragment]="permalinkRoute.extras?.fragment"
-                [preserveFragment]="permalinkRoute.extras?.preserveFragment"
-                [skipLocationChange]="permalinkRoute.extras?.skipLocationChange"
-                [replaceUrl]="permalinkRoute.extras?.replaceUrl"
-                [state]="permalinkRoute.extras?.state"
+                [queryParamsHandling]="
+                  $safeNavigationMigration(
+                    permalinkRoute.extras?.queryParamsHandling
+                  )
+                "
+                [fragment]="
+                  $safeNavigationMigration(permalinkRoute.extras?.fragment)
+                "
+                [preserveFragment]="
+                  $safeNavigationMigration(
+                    permalinkRoute.extras?.preserveFragment
+                  )
+                "
+                [skipLocationChange]="
+                  $safeNavigationMigration(
+                    permalinkRoute.extras?.skipLocationChange
+                  )
+                "
+                [replaceUrl]="
+                  $safeNavigationMigration(permalinkRoute.extras?.replaceUrl)
+                "
+                [state]="$safeNavigationMigration(permalinkRoute.extras?.state)"
                 >{{ item.title }} {{ item.message }}</a
               >
             } @else if (item | linkAs: 'skyHref') {

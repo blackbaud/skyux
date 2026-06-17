@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -51,6 +51,7 @@ function dateRangeExcludesWeekend(
     },
   ],
   selector: 'app-date-range-picker',
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './date-range-picker.component.html',
 })
 export class DateRangePickerComponent {

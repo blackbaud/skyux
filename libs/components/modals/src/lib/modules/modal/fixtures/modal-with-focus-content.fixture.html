@@ -6,14 +6,14 @@
     <button
       id="visible-btn"
       type="button"
-      [disabled]="context?.disableFirstContent"
+      [disabled]="$safeNavigationMigration(context?.disableFirstContent)"
     >
       Content
     </button>
     <button
       id="visible-btn-2"
       type="button"
-      [disabled]="context?.disableSecondContent"
+      [disabled]="$safeNavigationMigration(context?.disableSecondContent)"
     >
       Content 2
     </button>

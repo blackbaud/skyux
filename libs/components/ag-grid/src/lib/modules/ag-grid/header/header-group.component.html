@@ -13,7 +13,7 @@
       type="button"
       [attr.aria-label]="
         'sky_ag_grid_column_group_header_collapse_aria_label'
-          | skyLibResources: params?.displayName
+          | skyLibResources: $safeNavigationMigration(params?.displayName)
       "
       (click)="setExpanded(false)"
     >
@@ -25,7 +25,7 @@
       type="button"
       [attr.aria-label]="
         'sky_ag_grid_column_group_header_expand_aria_label'
-          | skyLibResources: params?.displayName
+          | skyLibResources: $safeNavigationMigration(params?.displayName)
       "
       (click)="setExpanded(true)"
     >

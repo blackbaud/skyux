@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyIdModule } from '@skyux/core';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyAutocompleteModule } from '@skyux/lookup';
@@ -7,6 +7,7 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 @Component({
   selector: 'app-test-cmp-modal',
   templateUrl: './modal-form-demo.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     SkyAutocompleteModule,
     SkyIdModule,

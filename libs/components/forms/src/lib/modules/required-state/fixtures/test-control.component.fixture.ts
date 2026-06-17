@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 
 import { SkyRequiredStateDirective } from '../required-state.directive';
@@ -11,6 +11,7 @@ import { SkyRequiredStateDirective } from '../required-state.directive';
     },
   ],
   selector: 'sky-test-control',
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `required: {{ requiredState.isRequired() }}`,
 })
 export class TestControlComponent implements ControlValueAccessor {

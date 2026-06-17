@@ -5,30 +5,21 @@
   "sourceRoot": "apps/code-examples/src",
   "prefix": "app",
   "tags": [],
-  "implicitDependencies": [
-    "eslint-config",
-    "skyux-eslint"
-  ],
+  "implicitDependencies": ["eslint-config", "skyux-eslint"],
   "targets": {
     "build": {
       "executor": "@angular/build:application",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": {
           "base": "dist/apps/code-examples-playground"
         },
         "index": "apps/code-examples/src/index.html",
-        "polyfills": [
-          "zone.js"
-        ],
+        "polyfills": ["zone.js"],
         "tsConfig": "apps/code-examples/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "stylePreprocessorOptions": {
-          "includePaths": [
-            "{workspaceRoot}"
-          ]
+          "includePaths": ["{workspaceRoot}"]
         },
         "assets": [
           "apps/code-examples/src/favicon.ico",

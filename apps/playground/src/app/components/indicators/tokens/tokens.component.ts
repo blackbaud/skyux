@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   SkyToken,
   SkyTokensMessage,
@@ -10,6 +10,7 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'app-tokens',
   templateUrl: './tokens.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class TokensComponent {

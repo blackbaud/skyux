@@ -1,4 +1,9 @@
-import { Component, inject, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  input,
+} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -18,6 +23,7 @@ interface ToggleSwitchFormType {
 @Component({
   selector: 'test-toggle-switch-harness',
   templateUrl: './toggle-switch-harness-test.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule, ReactiveFormsModule, SkyToggleSwitchModule],
 })
 export class ToggleSwitchHarnessTestComponent {

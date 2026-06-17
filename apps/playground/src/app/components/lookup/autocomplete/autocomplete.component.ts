@@ -1,4 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { NgModel, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import {
   SkyAutocompleteSearchAsyncArgs,
@@ -11,6 +16,7 @@ import { delay } from 'rxjs/operators';
 @Component({
   selector: 'app-autocomplete',
   templateUrl: './autocomplete.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class AutocompleteComponent implements OnInit {

@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyToken, SkyTokenSelectedEventArgs } from '@skyux/indicators';
 
 @Component({
   selector: 'test-tokens-harness',
   templateUrl: './tokens-harness-test.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class TokensHarnessTestComponent {

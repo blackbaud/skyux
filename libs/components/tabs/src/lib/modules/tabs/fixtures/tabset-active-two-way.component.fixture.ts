@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { SkyTabIndex } from '../tab-index';
 
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './tabset-active-two-way.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class TabsetActiveTwoWayBindingTestComponent {

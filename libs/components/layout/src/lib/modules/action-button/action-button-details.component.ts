@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
  * Specifies a description to display on an action button.
@@ -6,6 +6,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'sky-action-button-details',
   templateUrl: './action-button-details.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyActionButtonDetailsComponent {}

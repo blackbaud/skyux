@@ -1,4 +1,10 @@
-import { Component, HostListener, OnInit, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostListener,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import { SkyThemeService } from '@skyux/theme';
 
@@ -21,6 +27,7 @@ import {
   selector: 'app-edit-stop-when-loses-focus-visual',
   templateUrl: './edit-stop-when-loses-focus.component.html',
   styleUrls: ['./edit-stop-when-loses-focus.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class EditStopWhenLosesFocusComponent implements OnInit {

@@ -4,15 +4,25 @@
   "projectType": "library",
   "sourceRoot": "libs/components/tiles/src",
   "prefix": "sky",
-  "tags": [
-    "component",
-    "npm"
-  ],
+  "tags": ["component", "npm"],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
-      "outputs": [
-        "{workspaceRoot}/dist/libs/components/tiles"
+      "outputs": ["{workspaceRoot}/dist/libs/components/tiles"],
+      "defaultConfiguration": "production",
+      "dependsOn": [
+        "^build",
+        {
+          "projects": ["core", "help-inline", "indicators"],
+          "target": "build"
+        }
+      ],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/tiles/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/tiles/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/tiles/testing/src/**/fixtures/**/*"
       ],
       "options": {
         "project": "libs/components/tiles/ng-package.json"
@@ -24,26 +34,7 @@
         "development": {
           "tsConfig": "libs/components/tiles/tsconfig.lib.json"
         }
-      },
-      "defaultConfiguration": "production",
-      "dependsOn": [
-        "^build",
-        {
-          "projects": [
-            "core",
-            "help-inline",
-            "indicators"
-          ],
-          "target": "build"
-        }
-      ],
-      "inputs": [
-        "buildInputs",
-        "^buildInputs",
-        "{workspaceRoot}/libs/components/tiles/testing/src/**/*",
-        "!{workspaceRoot}/libs/components/tiles/testing/src/**/*.spec.ts",
-        "!{workspaceRoot}/libs/components/tiles/testing/src/**/fixtures/**/*"
-      ]
+      }
     },
     "test": {
       "executor": "@angular/build:karma",
@@ -55,18 +46,11 @@
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
         ],
         "codeCoverage": true,
-        "codeCoverageExclude": [
-          "**/fixtures/**"
-        ],
-        "polyfills": [
-          "zone.js",
-          "zone.js/testing"
-        ],
+        "codeCoverageExclude": ["**/fixtures/**"],
+        "polyfills": ["zone.js", "zone.js/testing"],
         "inlineStyleLanguage": "scss",
         "stylePreprocessorOptions": {
-          "includePaths": [
-            "{workspaceRoot}"
-          ]
+          "includePaths": ["{workspaceRoot}"]
         }
       },
       "configurations": {

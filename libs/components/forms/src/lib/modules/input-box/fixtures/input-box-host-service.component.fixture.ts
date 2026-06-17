@@ -1,10 +1,17 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 
 import { SkyInputBoxHostService } from '../input-box-host.service';
 
 @Component({
   selector: 'sky-input-box-host-service-fixture',
   templateUrl: './input-box-host-service.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class InputBoxHostServiceFixtureComponent implements OnInit {

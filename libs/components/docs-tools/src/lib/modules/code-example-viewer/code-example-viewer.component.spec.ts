@@ -1,6 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expectAsync } from '@skyux-sdk/testing';
 import { provideNoopSkyAnimations } from '@skyux/core';
@@ -22,6 +22,7 @@ const EXAMPLE_TEMPLATE = `<div class="foo-example">Hello, from Foo.</div>`;
 
 @Component({
   selector: 'foo-example',
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: EXAMPLE_TEMPLATE,
 })
 class FooExampleComponent {}

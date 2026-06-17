@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   inject,
   OnInit,
@@ -10,6 +11,7 @@ import { SkyInputBoxHostService } from '@skyux/forms';
 @Component({
   selector: 'app-input-box-visual-host',
   templateUrl: './input-box-visual-host.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class InputBoxVisualHostComponent implements OnInit {

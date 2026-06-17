@@ -1,5 +1,6 @@
 import {
   AfterContentInit,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ContentChildren,
@@ -50,6 +51,7 @@ function numberAttribute4(value: unknown): number {
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
   ],
   hostDirectives: [SkyThemeComponentClassDirective],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyRadioGroupComponent implements AfterContentInit, OnDestroy {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 
@@ -9,6 +9,7 @@ import { SkyFormErrorsModule } from './form-errors.module';
 @Component({
   imports: [SkyFormErrorsModule, SkyFormErrorModule],
   providers: [{ provide: SKY_FORM_ERRORS_ENABLED, useValue: true }],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <sky-form-error errorName="required" errorText="This field is required" />
   `,
@@ -17,6 +18,7 @@ class FormErrorWithTokenComponent {}
 
 @Component({
   imports: [SkyFormErrorsModule, SkyFormErrorModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <sky-form-error errorName="required" errorText="This field is required" />
   `,

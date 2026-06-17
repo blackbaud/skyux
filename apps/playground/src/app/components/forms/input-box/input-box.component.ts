@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   NgModel,
   UntypedFormControl,
@@ -11,6 +17,7 @@ import {
   selector: 'app-input-box',
   templateUrl: './input-box.component.html',
   styleUrls: ['./input-box.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class InputBoxComponent implements OnInit, AfterViewInit {

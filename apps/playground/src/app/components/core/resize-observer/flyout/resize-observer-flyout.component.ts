@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   SkyFlyoutConfig,
   SkyFlyoutInstance,
@@ -10,6 +10,7 @@ import { ResizeObserverContentComponent } from './resize-observer-content.compon
 @Component({
   selector: 'app-resize-observer-flyout',
   templateUrl: './resize-observer-flyout.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ResizeObserverFlyoutComponent {

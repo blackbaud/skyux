@@ -1,6 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyPageHeaderModule, SkyPageLink } from '@skyux/pages';
 
@@ -16,6 +16,7 @@ import { SkyPageHeaderHarness } from './page-header-harness';
       data-sky-id="test-page-header"
     />
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TestComponent {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyFilterStateFilterItem } from '@skyux/lists';
@@ -11,6 +11,7 @@ import { SkyDataManagerFilterStateService } from './data-manager-filter-state.se
 
 @Component({
   template: `<div skyDataManagerFilterController></div>`,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyDataManagerFilterControllerDirective],
 })
 class TestComponent {}

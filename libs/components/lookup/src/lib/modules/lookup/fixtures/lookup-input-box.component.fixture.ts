@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormControl,
@@ -11,6 +11,7 @@ import { SkyLookupSelectModeType } from '../types/lookup-select-mode-type';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './lookup-input-box.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyLookupInputBoxTestComponent {

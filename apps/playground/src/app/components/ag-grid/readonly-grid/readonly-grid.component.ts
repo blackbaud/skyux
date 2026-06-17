@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import {
   booleanAttribute,
+  ChangeDetectionStrategy,
   Component,
   HostListener,
   inject,
@@ -41,6 +42,7 @@ let nextId = 0;
   selector: 'app-readonly-grid-visual',
   templateUrl: './readonly-grid.component.html',
   styleUrls: ['./readonly-grid.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     AgGridModule,
     CommonModule,

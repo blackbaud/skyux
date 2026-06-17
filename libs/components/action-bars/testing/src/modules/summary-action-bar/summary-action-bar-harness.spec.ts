@@ -1,5 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   SkySummaryActionBarError,
@@ -15,6 +15,7 @@ import { SkySummaryActionBarHarness } from './summary-action-bar-harness';
 
 @Component({
   imports: [SkySummaryActionBarModule, SkyKeyInfoModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <sky-summary-action-bar [formErrors]="errors" data-sky-id="action-bar">
       <sky-summary-action-bar-actions>

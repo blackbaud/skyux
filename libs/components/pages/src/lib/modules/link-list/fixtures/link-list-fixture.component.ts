@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 import { SkyPageLinksInput } from '../../action-hub/types/page-links-input';
 import { SkyLinkListModule } from '../link-list.module';
@@ -17,6 +17,7 @@ import { SkyLinkListModule } from '../link-list.module';
       }
     </sky-link-list>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyLinkListModule],
 })
 export class LinkListFixtureComponent {

@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
   SkyModalCloseArgs,
   SkyModalInstance,
@@ -11,6 +11,7 @@ import { SkyColumnSelectorComponent } from '../column-selector-modal.component';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './column-selector-modal.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ColumnSelectorTestComponent implements OnDestroy {

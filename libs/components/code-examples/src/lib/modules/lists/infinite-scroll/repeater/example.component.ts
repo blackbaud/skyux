@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { SkyInfiniteScrollModule, SkyRepeaterModule } from '@skyux/lists';
 
 import { InfiniteScrollDemoItem } from './item';
@@ -18,6 +18,7 @@ let nextId = 0;
     }
   `,
   templateUrl: './example.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyInfiniteScrollModule, SkyRepeaterModule],
 })
 export class ListsInfiniteScrollRepeaterExampleComponent implements OnInit {

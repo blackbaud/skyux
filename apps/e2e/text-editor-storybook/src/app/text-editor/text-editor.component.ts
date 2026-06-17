@@ -1,4 +1,9 @@
-import { Component, Input, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  inject,
+} from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormControl,
@@ -16,6 +21,7 @@ import {
   selector: 'app-text-editor',
   templateUrl: './text-editor.component.html',
   styleUrls: ['./text-editor.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class TextEditorComponent {

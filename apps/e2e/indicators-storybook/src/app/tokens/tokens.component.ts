@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyToken } from '@skyux/indicators';
 
 @Component({
   selector: 'app-tokens',
   templateUrl: './tokens.component.html',
   styleUrls: ['./tokens.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class TokensComponent {

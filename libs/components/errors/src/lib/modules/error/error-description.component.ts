@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { SkyErrorService } from './error.service';
 
@@ -8,6 +8,7 @@ import { SkyErrorService } from './error.service';
 @Component({
   selector: 'sky-error-description',
   template: '<ng-content />',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyErrorDescriptionComponent {

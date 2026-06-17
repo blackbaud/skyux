@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyListModule, SkyListToolbarModule } from '@skyux/list-builder';
 import { SkyListViewChecklistModule } from '@skyux/list-builder-view-checklist';
@@ -38,6 +38,7 @@ const testItems = [
       </sky-list-view-checklist>
     </sky-list>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TestComponent {

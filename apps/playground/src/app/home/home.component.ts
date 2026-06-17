@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   inject,
@@ -20,6 +21,7 @@ import { HomeFiltersModalDemoComponent } from './home-filter.component';
   selector: 'app-home',
   templateUrl: './home.component.html',
   providers: [SkyDataManagerService],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class HomeComponent implements AfterViewInit {

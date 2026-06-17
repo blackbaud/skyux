@@ -1,4 +1,9 @@
-import { Component, OnDestroy, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  inject,
+} from '@angular/core';
 import {
   SkySelectionModalAddClickEventArgs,
   SkySelectionModalCloseArgs,
@@ -19,6 +24,7 @@ import { Person } from './person';
  */
 @Component({
   selector: 'app-lookup-selection-modal-add-item-example',
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './example.component.html',
 })
 export class LookupSelectionModalAddItemExampleComponent implements OnDestroy {

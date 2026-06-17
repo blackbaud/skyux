@@ -19,17 +19,37 @@
             <a
               class="sky-link-list-item"
               [skyAppLink]="link.permalink.route.commands"
-              [queryParams]="link.permalink.route.extras?.queryParams"
+              [queryParams]="
+                $safeNavigationMigration(
+                  link.permalink.route.extras?.queryParams
+                )
+              "
               [queryParamsHandling]="
-                link.permalink.route.extras?.queryParamsHandling
+                $safeNavigationMigration(
+                  link.permalink.route.extras?.queryParamsHandling
+                )
               "
-              [fragment]="link.permalink.route.extras?.fragment"
-              [preserveFragment]="link.permalink.route.extras?.preserveFragment"
+              [fragment]="
+                $safeNavigationMigration(link.permalink.route.extras?.fragment)
+              "
+              [preserveFragment]="
+                $safeNavigationMigration(
+                  link.permalink.route.extras?.preserveFragment
+                )
+              "
               [skipLocationChange]="
-                link.permalink.route.extras?.skipLocationChange
+                $safeNavigationMigration(
+                  link.permalink.route.extras?.skipLocationChange
+                )
               "
-              [replaceUrl]="link.permalink.route.extras?.replaceUrl"
-              [state]="link.permalink.route.extras?.state"
+              [replaceUrl]="
+                $safeNavigationMigration(
+                  link.permalink.route.extras?.replaceUrl
+                )
+              "
+              [state]="
+                $safeNavigationMigration(link.permalink.route.extras?.state)
+              "
             >
               {{ link.label }}
             </a>

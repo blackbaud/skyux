@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   AbstractControl,
   FormsModule,
@@ -23,6 +23,7 @@ function validatePaymentMethod(
 @Component({
   selector: 'test-radio-harness',
   templateUrl: './radio-harness-test.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule, ReactiveFormsModule, SkyRadioModule],
 })
 export class RadioHarnessTestComponent {

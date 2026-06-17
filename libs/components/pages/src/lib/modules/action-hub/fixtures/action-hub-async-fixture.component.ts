@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 
@@ -11,6 +11,7 @@ import { SkyRecentLink } from '../types/recent-link';
 @Component({
   selector: 'sky-action-hub-async-fixture',
   templateUrl: 'action-hub-async-fixture.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyActionHubModule, AsyncPipe],
 })
 export class ActionHubAsyncFixtureComponent {

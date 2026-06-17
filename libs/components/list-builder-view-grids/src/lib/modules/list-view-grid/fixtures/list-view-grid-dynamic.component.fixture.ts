@@ -1,10 +1,11 @@
-import { Component, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 
 import { SkyListViewGridComponent } from '../list-view-grid.component';
 
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './list-view-grid-dynamic.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ListViewGridDynamicTestComponent {

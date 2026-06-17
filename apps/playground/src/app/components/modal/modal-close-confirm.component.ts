@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   SkyConfirmCloseEventArgs,
@@ -12,6 +12,7 @@ import {
 @Component({
   selector: 'app-test-cmp-modal-close-confirm',
   templateUrl: './modal-close-confirm.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule, SkyModalModule],
 })
 export class ModalCloseConfirmComponent {

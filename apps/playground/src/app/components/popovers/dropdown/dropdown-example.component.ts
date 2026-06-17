@@ -1,4 +1,9 @@
-import { Component, input, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  input,
+  signal,
+} from '@angular/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyDropdownModule } from '@skyux/popovers';
 
@@ -6,6 +11,7 @@ import { SkyDropdownModule } from '@skyux/popovers';
   selector: 'app-dropdown-example',
   imports: [SkyDropdownModule, SkyIconModule],
   templateUrl: './dropdown-example.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './dropdown-example.component.scss',
 })
 export class DropdownExampleComponent {

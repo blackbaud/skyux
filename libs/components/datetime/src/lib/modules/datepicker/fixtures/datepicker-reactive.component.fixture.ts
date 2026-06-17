@@ -1,4 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormControl,
@@ -11,6 +16,7 @@ import { SkyDatepickerComponent } from '../datepicker.component';
 @Component({
   selector: 'sky-datepicker-reactive-test',
   templateUrl: './datepicker-reactive.component.fixture.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class DatepickerReactiveTestComponent implements OnInit {

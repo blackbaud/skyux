@@ -1,9 +1,10 @@
-import { Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { SkyFilterBarModule } from '@skyux/filter-bar';
 
 @Component({
   selector: 'sky-filter-bar-fixture',
   templateUrl: './filter-bar-harness-test.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyFilterBarModule],
 })
 export class FilterBarHarnessTestComponent {
@@ -18,5 +19,7 @@ export class FilterBarHarnessTestComponent {
   public modalComponent = TestModalComponent;
 }
 
-@Component({})
+@Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
+})
 class TestModalComponent {}

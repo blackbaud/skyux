@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyOverlayInstance, SkyOverlayService } from '@skyux/core';
 
 import { OverlayContentsTestComponent } from './overlay-contents.component';
@@ -6,6 +6,7 @@ import { OverlayContentsTestComponent } from './overlay-contents.component';
 @Component({
   selector: 'test-overlay-harness',
   templateUrl: './overlay-harness-test.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class OverlayHarnessTestComponent {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppWindowRef } from '@skyux/core';
 import { SkyToastService } from '@skyux/toast';
@@ -7,6 +7,7 @@ import { SkyDocsClipboardService } from './clipboard.service';
 
 @Component({
   selector: 'app-test',
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     @if (true) {
       <div class="foo">&lt;h1>Hello, world!&lt;/h1></div>

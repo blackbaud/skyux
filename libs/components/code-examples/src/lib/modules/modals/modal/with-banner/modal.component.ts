@@ -1,9 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
   imports: [SkyIconModule, SkyModalModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <sky-modal
       headingHidden
