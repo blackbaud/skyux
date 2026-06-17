@@ -12,6 +12,6 @@ export abstract class SkyChartDataTableModalContext {
   templateUrl: './chart-data-table-modal.html',
 })
 export class SkyChartDataTableModal {
-  protected readonly modal = inject(SkyModalInstance);
   protected readonly context = inject(SkyChartDataTableModalContext);
+  protected readonly modal = inject(SkyModalInstance);
 }
