@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  model,
+  signal,
 } from '@angular/core';
 import { SkyDataGridModule, SkyDataGridSort } from '@skyux/data-grid';
 import { SkyBoxModule } from '@skyux/layout';
@@ -21,7 +21,7 @@ import { DATA_GRID_DEMO_DATA, DataGridSortingRow } from './data';
 export class DataGridSortingExampleComponent {
   protected readonly data: DataGridSortingRow[] = DATA_GRID_DEMO_DATA;
 
-  protected readonly sortField = model<
+  protected readonly sortField = signal<
     SkyDataGridSort<DataGridSortingRow> | undefined
   >({
     fieldSelector: 'name',

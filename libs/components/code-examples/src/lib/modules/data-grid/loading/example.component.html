@@ -28,9 +28,8 @@
 <sky-data-grid
   data-sky-id="example-data-grid"
   height="270"
-  [data]="data.value()"
-  [loading]="data.isLoading()"
-  [(sortField)]="sortField"
+  [data]="dataResource.value()"
+  [loading]="dataResource.isLoading()"
 >
   <sky-data-grid-column field="name" headingText="Name" />
   <sky-data-grid-column

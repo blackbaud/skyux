@@ -14,7 +14,6 @@ describe('Data grid loading example', () => {
       imports: [DataGridLoadingExampleComponent],
     }).compileComponents();
     const fixture = TestBed.createComponent(DataGridLoadingExampleComponent);
-    fixture.componentRef.setInput('delay', 0);
     const loader = TestbedHarnessEnvironment.loader(fixture);
     fixture.detectChanges();
 
