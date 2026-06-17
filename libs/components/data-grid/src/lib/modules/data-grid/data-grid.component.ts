@@ -13,6 +13,7 @@ import {
   inject,
   input,
   model,
+  numberAttribute,
   signal,
   untracked,
 } from '@angular/core';
@@ -90,7 +91,6 @@ function arrayIsEqual(
   styleUrl: './data-grid.component.css',
   host: {
     '[class.sky-margin-stacked-lg]': 'stacked()',
-    '[style.width.px]': 'width() || undefined',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -124,21 +124,18 @@ export class SkyDataGridComponent<
   public readonly fit = input<'width' | 'scroll'>('width');
 
   /**
-   * The height of the grid in CSS pixels. For best performance, large grids should set a `height` value and not enable
-   * `wrapText` on any column so that rows can be virtually drawn as needed. When `wrapText` is enabled on any column,
-   * or when `height` is not set, the grid needs to build every row in order to determine the scroll height, creating
-   * hundreds or thousands of invisible DOM elements and slowing down the browser.
-   */
-  public readonly height = input<number, unknown>(0, {
-    transform: (val: unknown) => coerceNumberProperty(val, 0),
-  });
-
-  /**
    * Whether data is being loaded. When this is true, the grid shows a waiting overlay and is not interactive.
    * @default false
    */
   public readonly loading = input<boolean, unknown>(false, {
     transform: coerceBooleanProperty,
+  });
+
+  /**
+   * The minimum height of the grid in pixels. The default value is `50`.
+   */
+  public readonly minHeight = input<number, unknown>(50, {
+    transform: numberAttribute,
   });
 
   /**
@@ -181,13 +178,6 @@ export class SkyDataGridComponent<
   });
 
   /**
-   * The width of the grid in CSS pixels. When no width is set, the grid will use the width of its container.
-   */
-  public readonly width = input<number, unknown>(0, {
-    transform: (val: unknown) => coerceNumberProperty(val, 0),
-  });
-
-  /**
    * The current page number of the grid when `pageSize` has been set.
    */
   public readonly page = model<number>(1);
@@ -220,7 +210,7 @@ export class SkyDataGridComponent<
         context: {
           enableTopScroll: untracked(() => this.topScrollEnabled()),
         },
-        domLayout: untracked(() => this.height()) ? 'normal' : 'autoHeight',
+        domLayout: 'autoHeight',
         loading: untracked(() => this.loading() || !Array.isArray(this.data())),
         onGridReady: (args) => {
           this.gridApi.set(args.api);
@@ -336,11 +326,6 @@ export class SkyDataGridComponent<
       const api = untracked(() => this.gridApi());
       const columnDefs = this.#columnDefs();
       api?.setGridOption('columnDefs', columnDefs);
-    });
-    effect(() => {
-      const api = untracked(() => this.gridApi());
-      const height = this.height();
-      api?.setGridOption('domLayout', height ? 'normal' : 'autoHeight');
     });
     effect(() => {
       const api = untracked(() => this.gridApi());
@@ -554,15 +539,11 @@ export class SkyDataGridComponent<
       .filter(Boolean) as string[];
   }
 
-  #getAutoSizeStrategy(): AutoSizeStrategy {
-    const width = this.width();
-    return this.fit() === 'width' || width
-      ? {
-          type: 'fitGridWidth',
-        }
-      : {
-          type: 'fitCellContents',
-        };
+  #getAutoSizeStrategy(): AutoSizeStrategy | undefined {
+    const hasFlexColumn = this.#columnDefs().some((col) => !!col.initialFlex);
+    return this.fit() === 'width' && !hasFlexColumn
+      ? { type: 'fitCellContents' }
+      : undefined;
   }
 
   #getRowSelection(): RowSelectionOptions<T> {
@@ -573,9 +554,6 @@ export class SkyDataGridComponent<
           headerCheckbox: true,
           mode: 'multiRow',
         }
-      : {
-          checkboxes: false,
-          mode: 'singleRow',
-        };
+      : { checkboxes: false, mode: 'singleRow' };
   }
 }

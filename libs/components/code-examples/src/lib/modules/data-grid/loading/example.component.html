@@ -27,11 +27,17 @@
 
 <sky-data-grid
   data-sky-id="example-data-grid"
-  height="270"
-  [data]="dataResource.value()"
-  [loading]="dataResource.isLoading()"
+  minHeight="100"
+  [data]="data.value()"
+  [loading]="data.isLoading()"
+  [(sortField)]="sortField"
 >
-  <sky-data-grid-column field="name" headingText="Name" />
+  <sky-data-grid-column
+    field="name"
+    headingText="Name"
+    helpPopoverTitle="Using a Resource as a data source"
+    helpPopoverContent="Notice how each sort change issues a new request"
+  />
   <sky-data-grid-column
     field="age"
     headingText="Age"

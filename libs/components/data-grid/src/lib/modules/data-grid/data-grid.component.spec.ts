@@ -262,28 +262,6 @@ describe('SkyDataGridComponent', () => {
       expect(component.page()).toBe(1);
     });
 
-    it('should update grid options when height changes', async () => {
-      fixture.detectChanges();
-      await fixture.whenStable();
-      const api = getGridApi(
-        fixture.nativeElement.querySelector(
-          '[data-sky-id="grid"] ag-grid-angular',
-        ),
-      );
-      expect(api).toBeTruthy();
-      expect(api?.getGridOption('domLayout')).toBe('autoHeight');
-
-      fixture.componentRef.setInput('height', 200);
-      fixture.detectChanges();
-      await fixture.whenStable();
-      expect(api?.getGridOption('domLayout')).toBe('normal');
-
-      fixture.componentRef.setInput('height', 0);
-      fixture.detectChanges();
-      await fixture.whenStable();
-      expect(api?.getGridOption('domLayout')).toBe('autoHeight');
-    });
-
     it('should update grid options when multiselect changes', async () => {
       fixture.detectChanges();
       await fixture.whenStable();
@@ -530,19 +508,6 @@ describe('SkyDataGridComponent', () => {
         queryParams: { page: Number.POSITIVE_INFINITY },
         queryParamsHandling: 'merge',
       });
-    });
-
-    it('should use domLayout: normal when height is set before first render', async () => {
-      fixture.componentRef.setInput('height', 200);
-      fixture.detectChanges();
-      await fixture.whenStable();
-      const api = getGridApi(
-        fixture.nativeElement.querySelector(
-          '[data-sky-id="grid"] ag-grid-angular',
-        ),
-      );
-      expect(api).toBeTruthy();
-      expect(api?.getGridOption('domLayout')).toBe('normal');
     });
 
     it('should set initialFlex=0, suppressSizeToFit, and suppressAutoSize when flexWidth is 0', async () => {
