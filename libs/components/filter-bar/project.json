@@ -4,11 +4,16 @@
   "projectType": "library",
   "sourceRoot": "libs/components/filter-bar/src",
   "prefix": "sky",
-  "tags": ["component", "npm"],
+  "tags": [
+    "component",
+    "npm"
+  ],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
-      "outputs": ["{workspaceRoot}/dist/libs/components/filter-bar"],
+      "outputs": [
+        "{workspaceRoot}/dist/libs/components/filter-bar"
+      ],
       "options": {
         "project": "libs/components/filter-bar/ng-package.json"
       },
@@ -24,7 +29,10 @@
       "dependsOn": [
         "^build",
         {
-          "projects": ["core", "lookup"],
+          "projects": [
+            "core",
+            "lookup"
+          ],
           "target": "build"
         }
       ],
@@ -37,7 +45,7 @@
       ]
     },
     "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+      "executor": "@angular/build:karma",
       "options": {
         "tsConfig": "libs/components/filter-bar/tsconfig.spec.json",
         "karmaConfig": "libs/components/filter-bar/karma.conf.js",
@@ -46,11 +54,18 @@
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
         ],
         "codeCoverage": true,
-        "codeCoverageExclude": ["**/fixtures/**"],
-        "polyfills": ["zone.js", "zone.js/testing"],
+        "codeCoverageExclude": [
+          "**/fixtures/**"
+        ],
+        "polyfills": [
+          "zone.js",
+          "zone.js/testing"
+        ],
         "inlineStyleLanguage": "scss",
         "stylePreprocessorOptions": {
-          "includePaths": ["{workspaceRoot}"]
+          "includePaths": [
+            "{workspaceRoot}"
+          ]
         }
       },
       "configurations": {

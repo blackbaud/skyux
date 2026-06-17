@@ -101,8 +101,8 @@
     }
   },
   "peerDependencies": {
-    "@angular/cli": "^21.2.0",
-    "@angular/core": "^21.2.0"
+    "@angular/cli": "^22.0.1",
+    "@angular/core": "^22.0.1"
   },
   "dependencies": {
     "@blackbaud/skyux-design-tokens": "6.0.2",

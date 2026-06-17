@@ -4,7 +4,8 @@
     "isolatedModules": true,
     "module": "CommonJS",
     "moduleResolution": "node",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "ignoreDeprecations": "6.0"
   },
   "files": [],
   "include": [],

@@ -1,7 +1,7 @@
 {
   "//": "Configuration for https://github.com/absolute-version/commit-and-tag-version",
   "releaseAs": null,
-  "prerelease": null,
+  "prerelease": true,
   "preset": "conventionalcommits",
   "header": "# Changelog\n\n",
   "issuePrefixes": [

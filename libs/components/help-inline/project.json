@@ -4,11 +4,16 @@
   "sourceRoot": "libs/components/help-inline/src",
   "prefix": "sky",
   "projectType": "library",
-  "tags": ["component", "npm"],
+  "tags": [
+    "component",
+    "npm"
+  ],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
-      "outputs": ["{workspaceRoot}/dist/libs/components/help-inline"],
+      "outputs": [
+        "{workspaceRoot}/dist/libs/components/help-inline"
+      ],
       "options": {
         "project": "libs/components/help-inline/ng-package.json"
       },
@@ -24,7 +29,10 @@
       "dependsOn": [
         "^build",
         {
-          "projects": ["core", "popovers"],
+          "projects": [
+            "core",
+            "popovers"
+          ],
           "target": "build"
         }
       ],
@@ -37,7 +45,7 @@
       ]
     },
     "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+      "executor": "@angular/build:karma",
       "options": {
         "tsConfig": "libs/components/help-inline/tsconfig.spec.json",
         "karmaConfig": "libs/components/help-inline/karma.conf.js",
@@ -46,11 +54,18 @@
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
         ],
         "codeCoverage": true,
-        "codeCoverageExclude": ["**/fixtures/**"],
-        "polyfills": ["zone.js", "zone.js/testing"],
+        "codeCoverageExclude": [
+          "**/fixtures/**"
+        ],
+        "polyfills": [
+          "zone.js",
+          "zone.js/testing"
+        ],
         "inlineStyleLanguage": "scss",
         "stylePreprocessorOptions": {
-          "includePaths": ["{workspaceRoot}"]
+          "includePaths": [
+            "{workspaceRoot}"
+          ]
         }
       },
       "configurations": {

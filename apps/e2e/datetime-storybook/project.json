@@ -4,11 +4,15 @@
   "projectType": "application",
   "prefix": "app",
   "sourceRoot": "apps/e2e/datetime-storybook/src",
-  "tags": ["component-e2e"],
+  "tags": [
+    "component-e2e"
+  ],
   "targets": {
     "build": {
       "executor": "@angular/build:application",
-      "outputs": ["{options.outputPath.base}"],
+      "outputs": [
+        "{options.outputPath.base}"
+      ],
       "options": {
         "allowedCommonJsDependencies": [
           "@skyux/icons",
@@ -19,7 +23,9 @@
           "base": "dist/apps/e2e/datetime-storybook"
         },
         "index": "apps/e2e/datetime-storybook/src/index.html",
-        "polyfills": ["zone.js"],
+        "polyfills": [
+          "zone.js"
+        ],
         "tsConfig": "apps/e2e/datetime-storybook/tsconfig.app.json",
         "styles": [
           "apps/e2e/datetime-storybook/src/styles.scss",
@@ -27,7 +33,9 @@
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
         ],
         "stylePreprocessorOptions": {
-          "includePaths": ["{workspaceRoot}"]
+          "includePaths": [
+            "{workspaceRoot}"
+          ]
         },
         "scripts": [],
         "browser": "apps/e2e/datetime-storybook/src/main.ts"
@@ -58,7 +66,7 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
+      "executor": "@angular/build:dev-server",
       "configurations": {
         "production": {
           "buildTarget": "datetime-storybook:build:production"
@@ -71,7 +79,7 @@
       "continuous": true
     },
     "extract-i18n": {
-      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "executor": "@angular/build:extract-i18n",
       "options": {
         "buildTarget": "datetime-storybook:build"
       }
@@ -79,7 +87,10 @@
     "lint": {
       "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": ["{projectRoot}/**/*.ts", "{projectRoot}/**/*.html"]
+        "lintFilePatterns": [
+          "{projectRoot}/**/*.ts",
+          "{projectRoot}/**/*.html"
+        ]
       }
     },
     "serve-static": {
@@ -109,7 +120,9 @@
     },
     "build-storybook": {
       "executor": "@storybook/angular:build-storybook",
-      "outputs": ["{options.outputDir}"],
+      "outputs": [
+        "{options.outputDir}"
+      ],
       "options": {
         "outputDir": "dist/storybook/datetime-storybook",
         "configDir": "apps/e2e/datetime-storybook/.storybook",

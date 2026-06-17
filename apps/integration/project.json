@@ -8,18 +8,24 @@
   "targets": {
     "build": {
       "executor": "@angular/build:application",
-      "outputs": ["{options.outputPath.base}"],
+      "outputs": [
+        "{options.outputPath.base}"
+      ],
       "options": {
         "outputPath": {
           "base": "dist/apps/integration",
           "browser": "."
         },
         "index": "apps/integration/src/index.html",
-        "polyfills": ["zone.js"],
+        "polyfills": [
+          "zone.js"
+        ],
         "tsConfig": "apps/integration/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "stylePreprocessorOptions": {
-          "includePaths": ["{workspaceRoot}"]
+          "includePaths": [
+            "{workspaceRoot}"
+          ]
         },
         "assets": [
           "apps/integration/src/favicon.ico",
@@ -55,12 +61,31 @@
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
+        },
+        "testing": {
+          "aot": false,
+          "optimization": false,
+          "extractLicenses": false,
+          "assets": [],
+          "styles": [
+            "libs/components/theme/src/lib/styles/sky.scss",
+            "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+          ],
+          "polyfills": [
+            "zone.js",
+            "zone.js/testing"
+          ]
+        },
+        "testing-ci": {
+          "aot": false,
+          "optimization": false,
+          "extractLicenses": false
         }
       },
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
+      "executor": "@angular/build:dev-server",
       "configurations": {
         "production": {
           "buildTarget": "integration:build:production"
@@ -73,7 +98,7 @@
       "continuous": true
     },
     "extract-i18n": {
-      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "executor": "@angular/build:extract-i18n",
       "options": {
         "buildTarget": "integration:build"
       }
@@ -88,31 +113,25 @@
       }
     },
     "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+      "executor": "@angular/build:unit-test",
       "options": {
         "tsConfig": "apps/integration/tsconfig.spec.json",
-        "karmaConfig": "apps/integration/karma.conf.js",
-        "polyfills": ["zone.js", "zone.js/testing"],
-        "styles": [
-          "libs/components/theme/src/lib/styles/sky.scss",
-          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+        "coverage": true,
+        "coverageExclude": [
+          "**/fixtures/**"
         ],
-        "codeCoverage": true,
-        "codeCoverageExclude": ["**/fixtures/**"],
-        "scripts": [],
-        "assets": [],
-        "inlineStyleLanguage": "scss",
-        "stylePreprocessorOptions": {
-          "includePaths": ["{workspaceRoot}"]
-        }
+        "buildTarget": ":build:testing",
+        "runner": "vitest"
       },
       "configurations": {
         "ci": {
-          "browsers": "ChromeHeadlessNoSandbox",
-          "codeCoverage": true,
+          "browsers": [
+            "ChromeHeadlessNoSandbox"
+          ],
           "progress": false,
-          "sourceMap": true,
-          "watch": false
+          "watch": false,
+          "coverage": true,
+          "buildTarget": ":build:testing-ci"
         }
       }
     }

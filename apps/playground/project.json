@@ -7,8 +7,10 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
-      "outputs": ["{options.outputPath}"],
+      "executor": "@angular/build:application",
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "allowedCommonJsDependencies": [
           "autonumeric",
@@ -16,10 +18,13 @@
           "google-libphonenumber",
           "fontfaceobserver"
         ],
-        "outputPath": "dist/apps/playground",
+        "outputPath": {
+          "base": "dist/apps/playground"
+        },
         "index": "apps/playground/src/index.html",
-        "main": "apps/playground/src/main.ts",
-        "polyfills": ["zone.js"],
+        "polyfills": [
+          "zone.js"
+        ],
         "tsConfig": "apps/playground/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
@@ -38,7 +43,8 @@
             "{workspaceRoot}",
             "libs/components/theme/src/lib/styles"
           ]
-        }
+        },
+        "browser": "apps/playground/src/main.ts"
       },
       "configurations": {
         "production": {
@@ -66,7 +72,7 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
+      "executor": "@angular/build:dev-server",
       "configurations": {
         "production": {
           "buildTarget": "playground:build:production"
@@ -80,7 +86,7 @@
       "continuous": true
     },
     "extract-i18n": {
-      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "executor": "@angular/build:extract-i18n",
       "options": {
         "buildTarget": "playground:build"
       }

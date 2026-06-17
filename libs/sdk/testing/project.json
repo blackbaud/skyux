@@ -7,7 +7,9 @@
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
-      "outputs": ["{workspaceRoot}/dist/libs/sdk/testing"],
+      "outputs": [
+        "{workspaceRoot}/dist/libs/sdk/testing"
+      ],
       "options": {
         "project": "libs/sdk/testing/ng-package.json"
       },
@@ -30,8 +32,11 @@
       ]
     },
     "test": {
-      "dependsOn": ["test-integration", "testing-private:test"],
-      "executor": "@angular-devkit/build-angular:karma",
+      "dependsOn": [
+        "test-integration",
+        "testing-private:test"
+      ],
+      "executor": "@angular/build:karma",
       "options": {
         "tsConfig": "libs/sdk/testing/tsconfig.spec.json",
         "karmaConfig": "libs/sdk/testing/karma.conf.js",
@@ -40,11 +45,18 @@
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
         ],
         "codeCoverage": true,
-        "codeCoverageExclude": ["**/fixtures/**"],
-        "polyfills": ["zone.js", "zone.js/testing"],
+        "codeCoverageExclude": [
+          "**/fixtures/**"
+        ],
+        "polyfills": [
+          "zone.js",
+          "zone.js/testing"
+        ],
         "inlineStyleLanguage": "scss",
         "stylePreprocessorOptions": {
-          "includePaths": ["{workspaceRoot}"]
+          "includePaths": [
+            "{workspaceRoot}"
+          ]
         }
       },
       "configurations": {
@@ -58,7 +70,9 @@
       }
     },
     "test-integration": {
-      "dependsOn": ["build"],
+      "dependsOn": [
+        "build"
+      ],
       "executor": "nx:run-commands",
       "options": {
         "command": "npx vitest run --config libs/sdk/testing/vitest/vitest.config.ts"
@@ -74,5 +88,8 @@
       }
     }
   },
-  "tags": ["sdk", "npm"]
+  "tags": [
+    "sdk",
+    "npm"
+  ]
 }

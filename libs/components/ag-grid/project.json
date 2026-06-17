@@ -4,12 +4,20 @@
   "projectType": "library",
   "sourceRoot": "libs/components/ag-grid/src",
   "prefix": "sky",
-  "tags": ["component", "npm"],
-  "implicitDependencies": ["phone-field", "validation"],
+  "tags": [
+    "component",
+    "npm"
+  ],
+  "implicitDependencies": [
+    "phone-field",
+    "validation"
+  ],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
-      "outputs": ["{workspaceRoot}/dist/libs/components/ag-grid"],
+      "outputs": [
+        "{workspaceRoot}/dist/libs/components/ag-grid"
+      ],
       "options": {
         "project": "libs/components/ag-grid/ng-package.json"
       },
@@ -25,7 +33,9 @@
       "dependsOn": [
         "^build",
         {
-          "projects": ["core"],
+          "projects": [
+            "core"
+          ],
           "target": "build"
         }
       ],
@@ -38,7 +48,7 @@
       ]
     },
     "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+      "executor": "@angular/build:karma",
       "options": {
         "tsConfig": "libs/components/ag-grid/tsconfig.spec.json",
         "karmaConfig": "libs/components/ag-grid/karma.conf.js",
@@ -48,11 +58,18 @@
           "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss"
         ],
         "codeCoverage": true,
-        "codeCoverageExclude": ["**/fixtures/**"],
-        "polyfills": ["zone.js", "zone.js/testing"],
+        "codeCoverageExclude": [
+          "**/fixtures/**"
+        ],
+        "polyfills": [
+          "zone.js",
+          "zone.js/testing"
+        ],
         "inlineStyleLanguage": "scss",
         "stylePreprocessorOptions": {
-          "includePaths": ["{workspaceRoot}"]
+          "includePaths": [
+            "{workspaceRoot}"
+          ]
         }
       },
       "configurations": {

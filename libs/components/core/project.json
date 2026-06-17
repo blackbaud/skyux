@@ -4,11 +4,16 @@
   "projectType": "library",
   "sourceRoot": "libs/components/core/src",
   "prefix": "sky",
-  "tags": ["component", "npm"],
+  "tags": [
+    "component",
+    "npm"
+  ],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
-      "outputs": ["{workspaceRoot}/dist/libs/components/core"],
+      "outputs": [
+        "{workspaceRoot}/dist/libs/components/core"
+      ],
       "options": {
         "project": "libs/components/core/ng-package.json"
       },
@@ -21,7 +26,9 @@
         }
       },
       "defaultConfiguration": "production",
-      "dependsOn": ["^build"],
+      "dependsOn": [
+        "^build"
+      ],
       "inputs": [
         "buildInputs",
         "^buildInputs",
@@ -31,7 +38,7 @@
       ]
     },
     "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+      "executor": "@angular/build:karma",
       "options": {
         "tsConfig": "libs/components/core/tsconfig.spec.json",
         "karmaConfig": "libs/components/core/karma.conf.js",
@@ -40,11 +47,18 @@
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
         ],
         "codeCoverage": true,
-        "codeCoverageExclude": ["**/fixtures/**"],
-        "polyfills": ["zone.js", "zone.js/testing"],
+        "codeCoverageExclude": [
+          "**/fixtures/**"
+        ],
+        "polyfills": [
+          "zone.js",
+          "zone.js/testing"
+        ],
         "inlineStyleLanguage": "scss",
         "stylePreprocessorOptions": {
-          "includePaths": ["{workspaceRoot}"]
+          "includePaths": [
+            "{workspaceRoot}"
+          ]
         }
       },
       "configurations": {

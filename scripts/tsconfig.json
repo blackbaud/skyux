@@ -6,7 +6,8 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "outDir": "../dist/scripts",
-    "types": ["node"]
+    "types": ["node"],
+    "ignoreDeprecations": "6.0"
   },
   "include": ["**/*.ts"]
 }

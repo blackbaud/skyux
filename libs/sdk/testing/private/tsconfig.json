@@ -5,5 +5,9 @@
     {
       "path": "./tsconfig.spec.json"
     }
-  ]
+  ],
+  "compilerOptions": {
+    "strict": false,
+    "noUncheckedSideEffectImports": false
+  }
 }

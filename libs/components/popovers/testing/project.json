@@ -4,23 +4,32 @@
   "projectType": "library",
   "sourceRoot": "libs/components/popovers/testing/src",
   "prefix": "sky",
-  "tags": ["testing"],
+  "tags": [
+    "testing"
+  ],
   "targets": {
     "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+      "executor": "@angular/build:karma",
       "options": {
         "tsConfig": "libs/components/popovers/testing/tsconfig.spec.json",
         "karmaConfig": "libs/components/popovers/testing/karma.conf.js",
         "codeCoverage": true,
-        "codeCoverageExclude": ["**/fixtures/**"],
+        "codeCoverageExclude": [
+          "**/fixtures/**"
+        ],
         "styles": [
           "libs/components/theme/src/lib/styles/sky.scss",
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
         ],
-        "polyfills": ["zone.js", "zone.js/testing"],
+        "polyfills": [
+          "zone.js",
+          "zone.js/testing"
+        ],
         "inlineStyleLanguage": "scss",
         "stylePreprocessorOptions": {
-          "includePaths": ["{workspaceRoot}"]
+          "includePaths": [
+            "{workspaceRoot}"
+          ]
         }
       },
       "configurations": {
@@ -36,7 +45,9 @@
     "lint": {
       "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": ["{projectRoot}/src/**/*.ts"]
+        "lintFilePatterns": [
+          "{projectRoot}/src/**/*.ts"
+        ]
       }
     }
   }

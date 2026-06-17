@@ -4,7 +4,7 @@ import {
   UnitTestRunner,
   applicationGenerator,
 } from '@nx/angular/generators';
-import type { Styles } from '@nx/angular/src/generators/utils/types';
+import type { Styles } from '@nx/angular/internal';
 import {
   ProjectConfiguration,
   Tree,

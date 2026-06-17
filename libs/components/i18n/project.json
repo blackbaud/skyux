@@ -7,7 +7,9 @@
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
-      "outputs": ["{workspaceRoot}/dist/libs/components/i18n"],
+      "outputs": [
+        "{workspaceRoot}/dist/libs/components/i18n"
+      ],
       "options": {
         "project": "libs/components/i18n/ng-package.json"
       },
@@ -22,7 +24,7 @@
       "defaultConfiguration": "production"
     },
     "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+      "executor": "@angular/build:karma",
       "options": {
         "tsConfig": "libs/components/i18n/tsconfig.spec.json",
         "karmaConfig": "libs/components/i18n/karma.conf.js",
@@ -31,11 +33,18 @@
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
         ],
         "codeCoverage": true,
-        "codeCoverageExclude": ["**/fixtures/**"],
-        "polyfills": ["zone.js", "zone.js/testing"],
+        "codeCoverageExclude": [
+          "**/fixtures/**"
+        ],
+        "polyfills": [
+          "zone.js",
+          "zone.js/testing"
+        ],
         "inlineStyleLanguage": "scss",
         "stylePreprocessorOptions": {
-          "includePaths": ["{workspaceRoot}"]
+          "includePaths": [
+            "{workspaceRoot}"
+          ]
         }
       },
       "configurations": {
@@ -65,11 +74,16 @@
     },
     "posttest": {
       "executor": "nx:run-commands",
-      "outputs": ["{workspaceRoot}/coverage/libs/components/i18n-schematics"],
+      "outputs": [
+        "{workspaceRoot}/coverage/libs/components/i18n-schematics"
+      ],
       "options": {
         "command": "ts-node --project ./scripts/tsconfig.json ./scripts/posttest-i18n.ts"
       }
     }
   },
-  "tags": ["component", "npm"]
+  "tags": [
+    "component",
+    "npm"
+  ]
 }

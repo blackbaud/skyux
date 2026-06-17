@@ -4,11 +4,16 @@
   "projectType": "library",
   "sourceRoot": "libs/components/indicators/src",
   "prefix": "sky",
-  "tags": ["component", "npm"],
+  "tags": [
+    "component",
+    "npm"
+  ],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
-      "outputs": ["{workspaceRoot}/dist/libs/components/indicators"],
+      "outputs": [
+        "{workspaceRoot}/dist/libs/components/indicators"
+      ],
       "options": {
         "project": "libs/components/indicators/ng-package.json"
       },
@@ -24,7 +29,11 @@
       "dependsOn": [
         "^build",
         {
-          "projects": ["core", "help-inline", "testing"],
+          "projects": [
+            "core",
+            "help-inline",
+            "testing"
+          ],
           "target": "build"
         }
       ],
@@ -37,7 +46,7 @@
       ]
     },
     "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+      "executor": "@angular/build:karma",
       "options": {
         "tsConfig": "libs/components/indicators/tsconfig.spec.json",
         "karmaConfig": "libs/components/indicators/karma.conf.js",
@@ -46,11 +55,18 @@
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
         ],
         "codeCoverage": true,
-        "codeCoverageExclude": ["**/fixtures/**"],
-        "polyfills": ["zone.js", "zone.js/testing"],
+        "codeCoverageExclude": [
+          "**/fixtures/**"
+        ],
+        "polyfills": [
+          "zone.js",
+          "zone.js/testing"
+        ],
         "inlineStyleLanguage": "scss",
         "stylePreprocessorOptions": {
-          "includePaths": ["{workspaceRoot}"]
+          "includePaths": [
+            "{workspaceRoot}"
+          ]
         }
       },
       "configurations": {

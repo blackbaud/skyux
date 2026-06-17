@@ -4,21 +4,30 @@
   "projectType": "application",
   "sourceRoot": "apps/e2e/forms-storybook/src",
   "prefix": "app",
-  "tags": ["component-e2e", "icons-preview"],
+  "tags": [
+    "component-e2e",
+    "icons-preview"
+  ],
   "targets": {
     "build": {
       "executor": "@angular/build:application",
-      "outputs": ["{options.outputPath.base}"],
+      "outputs": [
+        "{options.outputPath.base}"
+      ],
       "options": {
         "outputPath": {
           "base": "dist/apps/e2e/forms-storybook"
         },
         "index": "apps/e2e/forms-storybook/src/index.html",
-        "polyfills": ["zone.js"],
+        "polyfills": [
+          "zone.js"
+        ],
         "tsConfig": "apps/e2e/forms-storybook/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "stylePreprocessorOptions": {
-          "includePaths": ["{workspaceRoot}"]
+          "includePaths": [
+            "{workspaceRoot}"
+          ]
         },
         "styles": [
           "apps/e2e/forms-storybook/src/styles.scss",
@@ -54,7 +63,7 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
+      "executor": "@angular/build:dev-server",
       "configurations": {
         "production": {
           "buildTarget": "forms-storybook:build:production"
@@ -67,7 +76,7 @@
       "continuous": true
     },
     "extract-i18n": {
-      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "executor": "@angular/build:extract-i18n",
       "options": {
         "buildTarget": "forms-storybook:build"
       }
@@ -75,7 +84,10 @@
     "lint": {
       "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": ["{projectRoot}/**/*.ts", "{projectRoot}/**/*.html"]
+        "lintFilePatterns": [
+          "{projectRoot}/**/*.ts",
+          "{projectRoot}/**/*.html"
+        ]
       }
     },
     "storybook": {
@@ -99,7 +111,9 @@
     },
     "build-storybook": {
       "executor": "@storybook/angular:build-storybook",
-      "outputs": ["{options.outputDir}"],
+      "outputs": [
+        "{options.outputDir}"
+      ],
       "options": {
         "outputDir": "dist/storybook/forms-storybook",
         "configDir": "apps/e2e/forms-storybook/.storybook",

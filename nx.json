@@ -130,7 +130,7 @@
       }
     },
     "@nx/eslint:lint": {
-      "inputs": ["lintInputs"],
+      "inputs": ["^default", "lintInputs"],
       "cache": true
     },
     "@nx/angular:package": {
@@ -172,7 +172,11 @@
       "{workspaceRoot}/.github/workflows/e2e.yml",
       "{workspaceRoot}/.percy.json"
     ],
-    "lintInputs": ["{projectRoot}/**/*", "{workspaceRoot}/eslint-*"],
+    "lintInputs": [
+      "{projectRoot}/**/*",
+      "{workspaceRoot}/eslint-*",
+      "{workspaceRoot}/tools/eslint-rules/**/*"
+    ],
     "storybookInputs": [
       "{projectRoot}/**/*",
       "{workspaceRoot}/.babelrc",
@@ -199,5 +203,6 @@
       "!{projectRoot}/tsconfig.storybook.json"
     ]
   },
-  "defaultBase": "main"
+  "defaultBase": "main",
+  "analytics": false
 }

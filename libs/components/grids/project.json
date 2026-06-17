@@ -7,7 +7,9 @@
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
-      "outputs": ["{workspaceRoot}/dist/libs/components/grids"],
+      "outputs": [
+        "{workspaceRoot}/dist/libs/components/grids"
+      ],
       "options": {
         "project": "libs/components/grids/ng-package.json"
       },
@@ -22,7 +24,7 @@
       "defaultConfiguration": "production"
     },
     "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+      "executor": "@angular/build:karma",
       "options": {
         "tsConfig": "libs/components/grids/tsconfig.spec.json",
         "karmaConfig": "libs/components/grids/karma.conf.js",
@@ -31,11 +33,18 @@
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
         ],
         "codeCoverage": true,
-        "codeCoverageExclude": ["**/fixtures/**"],
-        "polyfills": ["zone.js", "zone.js/testing"],
+        "codeCoverageExclude": [
+          "**/fixtures/**"
+        ],
+        "polyfills": [
+          "zone.js",
+          "zone.js/testing"
+        ],
         "inlineStyleLanguage": "scss",
         "stylePreprocessorOptions": {
-          "includePaths": ["{workspaceRoot}"]
+          "includePaths": [
+            "{workspaceRoot}"
+          ]
         }
       },
       "configurations": {
@@ -58,5 +67,8 @@
       }
     }
   },
-  "tags": ["component", "npm"]
+  "tags": [
+    "component",
+    "npm"
+  ]
 }

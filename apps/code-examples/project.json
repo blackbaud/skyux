@@ -5,20 +5,30 @@
   "sourceRoot": "apps/code-examples/src",
   "prefix": "app",
   "tags": [],
-  "implicitDependencies": ["eslint-config", "skyux-eslint"],
+  "implicitDependencies": [
+    "eslint-config",
+    "skyux-eslint"
+  ],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
-      "outputs": ["{options.outputPath}"],
+      "executor": "@angular/build:application",
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
-        "outputPath": "dist/apps/code-examples-playground",
+        "outputPath": {
+          "base": "dist/apps/code-examples-playground"
+        },
         "index": "apps/code-examples/src/index.html",
-        "main": "apps/code-examples/src/main.ts",
-        "polyfills": ["zone.js"],
+        "polyfills": [
+          "zone.js"
+        ],
         "tsConfig": "apps/code-examples/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "stylePreprocessorOptions": {
-          "includePaths": ["{workspaceRoot}"]
+          "includePaths": [
+            "{workspaceRoot}"
+          ]
         },
         "assets": [
           "apps/code-examples/src/favicon.ico",
@@ -31,7 +41,8 @@
           "libs/components/docs-tools/css/styles.css",
           "apps/code-examples/src/styles.scss"
         ],
-        "scripts": []
+        "scripts": [],
+        "browser": "apps/code-examples/src/main.ts"
       },
       "configurations": {
         "production": {
@@ -66,7 +77,7 @@
       ]
     },
     "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
+      "executor": "@angular/build:dev-server",
       "configurations": {
         "production": {
           "buildTarget": "code-examples-playground:build:production"
@@ -89,7 +100,7 @@
       "continuous": true
     },
     "extract-i18n": {
-      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "executor": "@angular/build:extract-i18n",
       "options": {
         "buildTarget": "code-examples-playground:build"
       }

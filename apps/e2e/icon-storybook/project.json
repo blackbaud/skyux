@@ -4,16 +4,24 @@
   "projectType": "application",
   "sourceRoot": "apps/e2e/icon-storybook/src",
   "prefix": "app",
-  "tags": ["component-e2e", "icons-preview"],
+  "tags": [
+    "component-e2e",
+    "icons-preview"
+  ],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
-      "outputs": ["{options.outputPath}"],
+      "executor": "@angular/build:application",
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
-        "outputPath": "dist/apps/e2e/icon-storybook",
+        "outputPath": {
+          "base": "dist/apps/e2e/icon-storybook"
+        },
         "index": "apps/e2e/icon-storybook/src/index.html",
-        "main": "apps/e2e/icon-storybook/src/main.ts",
-        "polyfills": ["zone.js"],
+        "polyfills": [
+          "zone.js"
+        ],
         "tsConfig": "apps/e2e/icon-storybook/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "styles": [
@@ -21,7 +29,8 @@
           "libs/components/theme/src/lib/styles/sky.scss",
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
         ],
-        "scripts": []
+        "scripts": [],
+        "browser": "apps/e2e/icon-storybook/src/main.ts"
       },
       "configurations": {
         "production": {
@@ -40,9 +49,7 @@
           "outputHashing": "all"
         },
         "development": {
-          "buildOptimizer": false,
           "optimization": false,
-          "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
@@ -51,7 +58,7 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
+      "executor": "@angular/build:dev-server",
       "configurations": {
         "production": {
           "buildTarget": "icon-storybook:build:production"
@@ -64,7 +71,7 @@
       "continuous": true
     },
     "extract-i18n": {
-      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "executor": "@angular/build:extract-i18n",
       "options": {
         "buildTarget": "icon-storybook:build"
       }
@@ -72,7 +79,10 @@
     "lint": {
       "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": ["{projectRoot}/**/*.ts", "{projectRoot}/**/*.html"]
+        "lintFilePatterns": [
+          "{projectRoot}/**/*.ts",
+          "{projectRoot}/**/*.html"
+        ]
       }
     },
     "storybook": {
@@ -96,7 +106,9 @@
     },
     "build-storybook": {
       "executor": "@storybook/angular:build-storybook",
-      "outputs": ["{options.outputDir}"],
+      "outputs": [
+        "{options.outputDir}"
+      ],
       "options": {
         "outputDir": "dist/storybook/icon-storybook",
         "configDir": "apps/e2e/icon-storybook/.storybook",

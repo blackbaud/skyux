@@ -19,7 +19,10 @@
     "sourceMap": true,
     "strictNullChecks": true,
     "target": "ES2022",
-    "types": ["jasmine", "node"]
+    "types": ["jasmine", "node"],
+    "ignoreDeprecations": "6.0",
+    "strict": false,
+    "noUncheckedSideEffectImports": false
   },
   "include": ["schematics/**/*"],
   "exclude": ["schematics/*/files/**/*"]
