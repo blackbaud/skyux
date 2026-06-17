@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { SkyModalModule } from '@skyux/modals';
+import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
+import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
 
 export abstract class SkyChartDataTableModalContext {
   public abstract readonly headingText: string;
@@ -7,9 +8,10 @@ export abstract class SkyChartDataTableModalContext {
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SkyModalModule],
+  imports: [SkyChartsResourcesModule, SkyModalModule],
   templateUrl: './chart-data-table-modal.html',
 })
 export class SkyChartDataTableModal {
+  protected readonly modal = inject(SkyModalInstance);
   protected readonly context = inject(SkyChartDataTableModalContext);
 }

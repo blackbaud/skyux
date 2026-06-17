@@ -12,5 +12,9 @@
     "_description": "The aria label for the 'View data table' chart menu item",
     "message": "View data table for {0}",
     "_0": "Chart heading"
+  },
+  "chart.data_table_modal.close_button": {
+    "_description": "The label for the close button",
+    "message": "Close"
   }
 }

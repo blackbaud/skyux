@@ -9,7 +9,7 @@
     ]
   },
   "resourcesModulePaths": {
-    "charts": "lib/shared/charts"
+    "charts": "lib/shared/sky-charts"
   },
   "packageNameUsedToDetermineDistTags": "@skyux/packages"
 }
