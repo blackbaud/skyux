@@ -7,6 +7,9 @@ import {
 } from '@angular/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 
+import { type SkyChartHeadingLevel } from './chart-heading-level';
+import { type SkyChartHeadingStyle } from './chart-heading-style';
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkyHelpInlineModule],
@@ -15,8 +18,8 @@ import { SkyHelpInlineModule } from '@skyux/help-inline';
   templateUrl: './chart-heading.html',
 })
 export class SkyChartHeading {
-  public readonly headingLevel = input.required<number>();
-  public readonly headingStyle = input.required<number>();
+  public readonly headingLevel = input.required<SkyChartHeadingLevel>();
+  public readonly headingStyle = input.required<SkyChartHeadingStyle>();
   public readonly headingText = input.required<string>();
   public readonly helpKey = input<string>();
   public readonly helpPopoverContent = input<string | TemplateRef<unknown>>();

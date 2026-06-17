@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { SkyModalService } from '@skyux/modals';
 import { SkyDropdownModule } from '@skyux/popovers';
+
 import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
 import {
   SkyChartDataTableModal,

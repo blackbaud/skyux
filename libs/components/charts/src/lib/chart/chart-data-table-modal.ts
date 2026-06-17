@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
+
 import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
 
 export abstract class SkyChartDataTableModalContext {

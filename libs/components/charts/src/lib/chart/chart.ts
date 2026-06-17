@@ -6,6 +6,7 @@ import {
   input,
   type TemplateRef,
 } from '@angular/core';
+
 import { SkyChartControls } from './chart-controls';
 import { SkyChartHeading } from './chart-heading';
 import {
