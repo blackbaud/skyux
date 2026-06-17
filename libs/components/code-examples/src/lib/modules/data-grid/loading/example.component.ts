@@ -49,8 +49,10 @@ export class DataGridLoadingExampleComponent {
           await new Promise((resolve) => setTimeout(resolve, params.delay));
           return [];
         case 'loading':
-          return new Promise((resolve) => {
-            abortSignal.addEventListener('abort', () => resolve([]));
+          return await new Promise((resolve) => {
+            abortSignal.addEventListener('abort', () => {
+              resolve([]);
+            });
           });
         default:
           throw new Error();
