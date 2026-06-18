@@ -1,14 +1,12 @@
 # Changelog
 
 
-## [15.0.0-alpha.0](https://github.com/blackbaud/skyux/compare/14.3.10...15.0.0-alpha.0) (2026-06-18)
+## [14.3.12](https://github.com/blackbaud/skyux/compare/14.3.11...14.3.12) (2026-06-16)
 
 
 ### Bug Fixes
 
-* **components/data-manager:** do not render an empty toolbar when filter bar is the only content ([#4461](https://github.com/blackbaud/skyux/issues/4461)) ([#4462](https://github.com/blackbaud/skyux/issues/4462)) ([fdbffd7](https://github.com/blackbaud/skyux/commit/fdbffd7266da963132fca6961a28afc3b7072560)), closes [AB#4018065](https://dev.azure.com/blackbaud/Products/_workitems/edit/4018065)
-* **components/phone-field:** invalid phone number error message is more generic to avoid consumer confusion ([#4444](https://github.com/blackbaud/skyux/issues/4444)) ([#4452](https://github.com/blackbaud/skyux/issues/4452)) ([0a1ff1d](https://github.com/blackbaud/skyux/commit/0a1ff1d86ae60145b7ad13910f38bcad0e037bde))
-* **components/phone-field:** update format when country changes ([#4445](https://github.com/blackbaud/skyux/issues/4445)) ([#4455](https://github.com/blackbaud/skyux/issues/4455)) ([0520e5b](https://github.com/blackbaud/skyux/commit/0520e5ba8f3ff9b00756a20fb776e2c717764d18))
+* **components/data-manager:** do not render an empty toolbar when filter bar is the only content ([#4461](https://github.com/blackbaud/skyux/issues/4461)) ([d7699f2](https://github.com/blackbaud/skyux/commit/d7699f2729f04745dcbbbc0e72b9ecbec12ad1e4)), closes [AB#4018065](https://dev.azure.com/blackbaud/Products/_workitems/edit/4018065)
 
 ## [14.3.11](https://github.com/blackbaud/skyux/compare/14.3.10...14.3.11) (2026-06-16)
 
