@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.3.12](https://github.com/blackbaud/skyux/compare/14.3.11...14.3.12) (2026-06-16)
+
+
+### Bug Fixes
+
+* **components/data-manager:** do not render an empty toolbar when filter bar is the only content ([#4461](https://github.com/blackbaud/skyux/issues/4461)) ([d7699f2](https://github.com/blackbaud/skyux/commit/d7699f2729f04745dcbbbc0e72b9ecbec12ad1e4)), closes [AB#4018065](https://dev.azure.com/blackbaud/Products/_workitems/edit/4018065)
+
 ## [14.3.11](https://github.com/blackbaud/skyux/compare/14.3.10...14.3.11) (2026-06-16)
 
 
