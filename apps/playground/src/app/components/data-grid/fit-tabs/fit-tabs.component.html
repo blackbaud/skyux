@@ -1,0 +1,50 @@
+<sky-page layout="fit">
+  <sky-page-header pageTitle="Data grid fit layout with tabs">
+    <sky-page-header-actions>
+      <button
+        class="sky-btn sky-btn-default"
+        type="button"
+        routerLink="/components/data-grid/fit-layout"
+      >
+        Data grid fit layout without tabs
+      </button>
+    </sky-page-header-actions>
+  </sky-page-header>
+
+  <sky-page-content>
+    <sky-tabset [(active)]="activeTabIndex">
+      <sky-tab tabHeading="Players A-M" tabIndexValue="am" layout="fit">
+        @defer (when activeTabIndex() === 'am') {
+          <sky-data-grid layout="fit" [data]="dataAM" [(sortField)]="sortBy">
+            @for (column of columns; track column.field) {
+              <sky-data-grid-column
+                [columnHidden]="column.columnHidden"
+                [dataType]="column.dataType"
+                [field]="column.field"
+                [headingText]="column.headingText"
+                [sortable]="column.sortable"
+                [width]="column.width"
+              />
+            }
+          </sky-data-grid>
+        }
+      </sky-tab>
+      <sky-tab tabHeading="Players N-Z" tabIndexValue="nz" layout="fit">
+        @defer (when activeTabIndex() === 'nz') {
+          <sky-data-grid layout="fit" [data]="dataNZ" [(sortField)]="sortBy">
+            @for (column of columns; track column.field) {
+              <sky-data-grid-column
+                [columnHidden]="column.columnHidden"
+                [dataType]="column.dataType"
+                [field]="column.field"
+                [headingText]="column.headingText"
+                [sortable]="column.sortable"
+                [width]="column.width"
+              />
+            }
+          </sky-data-grid>
+        }
+      </sky-tab>
+    </sky-tabset>
+  </sky-page-content>
+</sky-page>

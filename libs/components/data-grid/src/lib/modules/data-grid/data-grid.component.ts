@@ -91,6 +91,7 @@ function arrayIsEqual(
   styleUrl: './data-grid.component.css',
   host: {
     '[class.sky-margin-stacked-lg]': 'stacked()',
+    '[style.height]': 'height()',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -115,13 +116,23 @@ export class SkyDataGridComponent<
   public readonly data = input<T[] | null | undefined>();
 
   /**
-   * How the grid fits to its parent. The valid options are `width`,
-   * which fits the grid to the parent's full width, and `scroll`, which allows the grid
-   * to exceed the parent's width. If the grid does not have enough columns to fill
-   * the parent's width, it always stretches to the parent's full width.
+   * How the grid content sizes to its parent's width. The valid options are `width`,
+   * which sizes the grid content to fit the parent's width, and `scroll`, which
+   * allows the grid content to exceed the parent's width. If the grid does not have
+   * enough columns to fill the parent's width, it always stretches to the parent's
+   * width.
    * @default 'width'
    */
   public readonly fit = input<'width' | 'scroll'>('width');
+
+  /**
+   * How the grid sizes to its parent's height. The valid options are `fit`, which
+   * stretches the grid to fill the parent container, and `list`, which sizes the grid
+   * to fit its contents. The `fit` layout assumes the parent element fills a screen,
+   * and the grid will scroll if necessary.
+   * @internal
+   */
+  public readonly layout = input<'fit' | 'list'>('list');
 
   /**
    * Whether data is being loaded. When this is true, the grid shows a waiting overlay and is not interactive.
@@ -210,7 +221,9 @@ export class SkyDataGridComponent<
         context: {
           enableTopScroll: untracked(() => this.topScrollEnabled()),
         },
-        domLayout: 'autoHeight',
+        domLayout: untracked(() =>
+          this.layout() === 'list' ? 'autoHeight' : 'normal',
+        ),
         loading: untracked(() => this.loading() || !Array.isArray(this.data())),
         onGridReady: (args) => {
           this.gridApi.set(args.api);
@@ -227,6 +240,9 @@ export class SkyDataGridComponent<
   });
 
   protected readonly gridReady = signal(false);
+  protected readonly height = computed(() =>
+    this.layout() === 'fit' ? '100%' : undefined,
+  );
   protected readonly rowData = computed(() => this.data() ?? []);
   protected readonly pageCount = computed(() => {
     const dataLength = this.rowData().length;
@@ -254,7 +270,11 @@ export class SkyDataGridComponent<
   readonly #columnDefs = computed<ColDef<T>[]>(() => {
     const columns = this.columns();
     const sort = this.sortField();
-    return columns.map((col) => this.#createColDef(col, sort));
+    try {
+      return columns.map((col) => this.#createColDef(col, sort));
+    } catch {
+      return [];
+    }
   });
 
   readonly #gridDestroyed = toObservable(this.gridApi).pipe(
@@ -331,6 +351,11 @@ export class SkyDataGridComponent<
       const api = untracked(() => this.gridApi());
       const isLoading = this.loading() || !Array.isArray(this.data());
       api?.setGridOption('loading', isLoading);
+    });
+    effect(() => {
+      const api = untracked(() => this.gridApi());
+      const domLayout = this.layout() === 'list' ? 'autoHeight' : 'normal';
+      api?.setGridOption('domLayout', domLayout);
     });
     effect(() => {
       const api = untracked(() => this.gridApi());
