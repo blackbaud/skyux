@@ -11,7 +11,7 @@ import { isImportedFromPackage } from './ng-ast';
 import { removeImport } from './remove-import';
 
 export interface SwapImportedClassOptions {
-  classNames: Record<string, string>;
+  classNames: Record<string, string | string[]>;
   moduleName: string | { old: string; new: string };
   filter?: (node: ts.Identifier) => boolean;
 }
@@ -88,13 +88,25 @@ export function swapImportedClass(
       const referencesFiltered = referencesInCode.filter(
         filter ?? ((): boolean => true),
       );
+      const newClassNameString = Array.isArray(newClassName)
+        ? newClassName.join(', ')
+        : newClassName;
       referencesFiltered.forEach((reference) => {
-        swapReference(recorder, reference, newClassName);
+        swapReference(recorder, reference, newClassNameString);
       });
       if (referencesFiltered.length > 0) {
         const allReferencesToBeReplaced =
           referencesFiltered.length === referencesInCode.length;
-        if (!isImportedFromPackage(sourceFile, newClassName, newModuleName)) {
+        const newClassNameArray = Array.isArray(newClassName)
+          ? newClassName
+          : [newClassName];
+
+        // Assumes that the new thing wouldn't have been partially imported previously.
+        if (
+          !newClassNameArray.every((newClassName) =>
+            isImportedFromPackage(sourceFile, newClassName, newModuleName),
+          )
+        ) {
           if (allReferencesToBeReplaced) {
             if (oldModuleName === newModuleName) {
               const referencesInImport = findReferences(
@@ -106,12 +118,16 @@ export function swapImportedClass(
                   `Expected exactly one import for ${oldClassName} from ${oldModuleName}, found ${referencesInImport.length}.`,
                 );
               }
-              swapReference(recorder, referencesInImport[0], newClassName);
+              swapReference(
+                recorder,
+                referencesInImport[0],
+                newClassNameString,
+              );
             } else {
               const change = insertImport(
                 sourceFile,
                 filePath,
-                newClassName,
+                newClassNameString,
                 newModuleName,
               ) as InsertChange;
               shiftLineBreakForInsertedImport(change, eol);
@@ -121,7 +137,12 @@ export function swapImportedClass(
             }
           } else {
             applyToUpdateRecorder(recorder, [
-              insertImport(sourceFile, filePath, newClassName, newModuleName),
+              insertImport(
+                sourceFile,
+                filePath,
+                newClassNameString,
+                newModuleName,
+              ),
             ]);
           }
         } else {
