@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.3.13](https://github.com/blackbaud/skyux/compare/14.3.12...14.3.13) (2026-06-22)
+
+
+### Bug Fixes
+
+* **components/theme:** replace deprecated `clip` with `clip-path` for `sky-screen-reader-only` CSS class ([#4467](https://github.com/blackbaud/skyux/issues/4467)) ([8d8e73c](https://github.com/blackbaud/skyux/commit/8d8e73c45e5ea736d30d30b172720bed11a19597))
+
 ## [14.3.12](https://github.com/blackbaud/skyux/compare/14.3.11...14.3.12) (2026-06-16)
 
 
