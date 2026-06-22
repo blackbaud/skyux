@@ -163,15 +163,15 @@
 }
 
 @mixin sky-screen-reader-only {
-  width: 0;
-  height: 0;
+  width: 1px;
+  height: 1px;
   padding: 0;
   opacity: 0;
   position: absolute;
   margin: -1px;
   border: 0;
   overflow: hidden;
-  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
   outline: none;
   white-space: nowrap;
 }
