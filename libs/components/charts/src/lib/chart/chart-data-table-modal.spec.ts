@@ -64,10 +64,7 @@ describe('Chart data table modal', () => {
     it('should be accessible', async () => {
       const { instance } = await openModal('My chart');
 
-      const modalEl = document.querySelector('.sky-modal');
-      expect(modalEl).not.toBeNull();
-
-      await expectAsync(modalEl).toBeAccessible();
+      await expectAsync(document.querySelector('.sky-modal')).toBeAccessible();
 
       instance.close();
     });
