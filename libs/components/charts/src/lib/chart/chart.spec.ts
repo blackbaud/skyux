@@ -12,6 +12,7 @@ import { SkyChart } from './chart';
       [headingLevel]="headingLevel"
       [headingStyle]="headingStyle"
       [headingText]="headingText"
+      [subheadingHidden]="subheadingHidden"
       [subheadingText]="subheadingText"
     >
       <div class="test-chart-content">Chart content</div>
@@ -26,6 +27,7 @@ class TestComponent {
   public headingLevel: unknown;
   public headingStyle: unknown;
   public headingText = 'Test heading';
+  public subheadingHidden: boolean | undefined;
   public subheadingText: string | undefined;
 }
 
@@ -78,14 +80,20 @@ describe('Chart component', () => {
     fixture.detectChanges();
 
     expect(fixture.componentInstance.chart.headingHidden()).toBe(false);
-    expect(getHeading()).not.toHaveCssClass('sky-screen-reader-only');
+    expect(getHeading()).not.toBeNull();
   });
 
-  it('should visually hide the heading when headingHidden is true', () => {
+  it('should not render the heading when headingHidden is true', () => {
     fixture.componentInstance.headingHidden = true;
     fixture.detectChanges();
 
-    expect(getHeading()).toHaveCssClass('sky-screen-reader-only');
+    expect(getHeading()).toBeNull();
+  });
+
+  it('should default subheadingHidden to false', () => {
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.chart.subheadingHidden()).toBe(false);
   });
 
   it('should name the figure with the heading text via aria-label', () => {
@@ -116,6 +124,18 @@ describe('Chart component', () => {
     fixture.detectChanges();
 
     expect(getSubheading()).toHaveText('My subheading');
+  });
+
+  it('should not render the subheading when subheadingHidden is true', () => {
+    fixture.componentInstance.headingText = 'My heading';
+    fixture.componentInstance.subheadingText = 'My subheading';
+    fixture.componentInstance.subheadingHidden = true;
+    fixture.detectChanges();
+
+    expect(getSubheading()).toBeNull();
+    expect(getFigure()?.getAttribute('aria-label')).toBe(
+      'My heading, My subheading',
+    );
   });
 
   it('should default headingLevel and headingStyle', () => {

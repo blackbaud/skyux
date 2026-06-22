@@ -1,15 +1,16 @@
 <div class="sky-chart-header">
   <div>
-    <sky-chart-heading
-      [class.sky-screen-reader-only]="headingHidden()"
-      [headingLevel]="headingLevel()"
-      [headingStyle]="headingStyle()"
-      [headingText]="headingText()"
-      [helpKey]="helpKey()"
-      [helpPopoverContent]="helpPopoverContent()"
-      [helpPopoverTitle]="helpPopoverTitle()"
-    />
-    @if (subheadingText(); as subheadingText) {
+    @if (!headingHidden()) {
+      <sky-chart-heading
+        [headingLevel]="headingLevel()"
+        [headingStyle]="headingStyle()"
+        [headingText]="headingText()"
+        [helpKey]="helpKey()"
+        [helpPopoverContent]="helpPopoverContent()"
+        [helpPopoverTitle]="helpPopoverTitle()"
+      />
+    }
+    @if (!subheadingHidden() && subheadingText(); as subheadingText) {
       <sky-chart-subheading [subheadingText]="subheadingText" />
     }
   </div>
