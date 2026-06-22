@@ -1,19 +1,14 @@
 {
-  "chart.controls.menu.label": {
-    "_description": "The label for the controls dropdown menu",
+  "skyux_charts.chart.controls.context_menu.accessible_name": {
+    "_description": "The accessible name for the chart component's controls dropdown menu",
     "message": "Context menu for {0}",
     "_0": "The chart heading text"
   },
-  "chart.controls.menu.view_data_table": {
+  "skyux_charts.chart.controls.context_menu.view_data_table": {
     "_description": "The label for the 'View data table' chart menu item",
     "message": "View data table"
   },
-  "chart.controls.menu.view_data_table.aria_label": {
-    "_description": "The aria label for the 'View data table' chart menu item",
-    "message": "View data table for {0}",
-    "_0": "Chart heading"
-  },
-  "chart.data_table_modal.close_button": {
+  "skyux_charts.data_table_modal.close_button": {
     "_description": "The label for the close button",
     "message": "Close"
   }

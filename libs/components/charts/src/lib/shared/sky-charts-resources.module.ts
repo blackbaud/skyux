@@ -15,12 +15,13 @@ import {
 
 const RESOURCES: Record<string, SkyLibResources> = {
   'EN-US': {
-    'chart.controls.menu.label': { message: 'Context menu for {0}' },
-    'chart.controls.menu.view_data_table': { message: 'View data table' },
-    'chart.controls.menu.view_data_table.aria_label': {
-      message: 'View data table for {0}',
+    'skyux_charts.chart.controls.context_menu.accessible_name': {
+      message: 'Context menu for {0}',
     },
-    'chart.data_table_modal.close_button': { message: 'Close' },
+    'skyux_charts.chart.controls.context_menu.view_data_table': {
+      message: 'View data table',
+    },
+    'skyux_charts.data_table_modal.close_button': { message: 'Close' },
   },
 };
 
