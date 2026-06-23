@@ -1914,9 +1914,10 @@ describe('Text editor', () => {
 
     it('should update text editor when model changes', fakeAsync(() => {
       fixture.detectChanges();
+      tick();
 
       expect(textEditorDebugElement.componentInstance.value).toEqual('');
-      expect(ngModel.value).toEqual('');
+      expect(ngModel.value).toBeUndefined();
 
       testComponent.value = HELLO_WORLD;
       fixture.detectChanges();
@@ -1946,7 +1947,7 @@ describe('Text editor', () => {
 
       expect(textEditorNativeElement.classList).toContain('ng-untouched');
 
-      SkyAppTestUtility.fireDomEvent(iframeDocument.body, 'focus');
+      SkyAppTestUtility.fireDomEvent(iframeDocument.body, 'focusin');
       fixture.detectChanges();
 
       expect(textEditorNativeElement.classList).toContain('ng-untouched');
@@ -1976,10 +1977,11 @@ describe('Text editor', () => {
       expect(ngModel.valid).toBe(false);
     });
 
-    it('should add an asterisk to the label when field is required', () => {
+    it('should add an asterisk to the label when field is required', fakeAsync(() => {
       testComponent.labelText = 'My label';
       testComponent.isRequired = true;
       fixture.detectChanges();
+      tick();
 
       const label = fixture.nativeElement.querySelector('.sky-control-label');
       expect(label).toHaveCssClass('sky-control-label-required');
@@ -1988,7 +1990,7 @@ describe('Text editor', () => {
       fixture.detectChanges();
 
       expect(label).not.toHaveCssClass('sky-control-label-required');
-    });
+    }));
   });
 
   describe('with form control', () => {
