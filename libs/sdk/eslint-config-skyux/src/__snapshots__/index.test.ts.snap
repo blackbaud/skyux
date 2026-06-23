@@ -78,7 +78,7 @@ Array [
       "parser": Object {
         "meta": Object {
           "name": "typescript-eslint/parser",
-          "version": "8.56.1",
+          "version": "8.61.1",
         },
         "parseForESLint": [Function],
       },
@@ -371,7 +371,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.56.1",
+                    "version": "8.61.1",
                   },
                   "parseForESLint": [Function],
                 },
@@ -580,7 +580,7 @@ Array [
               "parser": Object {
                 "meta": Object {
                   "name": "typescript-eslint/parser",
-                  "version": "8.56.1",
+                  "version": "8.61.1",
                 },
                 "parseForESLint": [Function],
               },
@@ -704,7 +704,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.56.1",
+                    "version": "8.61.1",
                   },
                   "parseForESLint": [Function],
                 },
@@ -784,7 +784,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.56.1",
+                    "version": "8.61.1",
                   },
                   "parseForESLint": [Function],
                 },
@@ -889,7 +889,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.56.1",
+                    "version": "8.61.1",
                   },
                   "parseForESLint": [Function],
                 },
@@ -973,7 +973,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.56.1",
+                    "version": "8.61.1",
                   },
                   "parseForESLint": [Function],
                 },
@@ -1067,7 +1067,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.56.1",
+                    "version": "8.61.1",
                   },
                   "parseForESLint": [Function],
                 },
@@ -1228,7 +1228,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.56.1",
+                    "version": "8.61.1",
                   },
                   "parseForESLint": [Function],
                 },
@@ -1352,7 +1352,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.56.1",
+                    "version": "8.61.1",
                   },
                   "parseForESLint": [Function],
                 },
@@ -1423,7 +1423,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.56.1",
+                    "version": "8.61.1",
                   },
                   "parseForESLint": [Function],
                 },
@@ -1503,7 +1503,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.56.1",
+                    "version": "8.61.1",
                   },
                   "parseForESLint": [Function],
                 },
@@ -2051,7 +2051,7 @@ Array [
         "meta": Object {
           "name": "@typescript-eslint/eslint-plugin",
           "namespace": "@typescript-eslint",
-          "version": "8.56.1",
+          "version": "8.61.1",
         },
         "rules": Object {
           "adjacent-overload-signatures": Object {
@@ -2396,6 +2396,7 @@ Array [
                 "preferIndexSignature": "An index signature is preferred over a record.",
                 "preferIndexSignatureSuggestion": "Change into an index signature instead of a record.",
                 "preferRecord": "A record is preferred over an index signature.",
+                "preferRecordSuggestion": "Change into a record instead of an index signature.",
               },
               "schema": Array [
                 Object {
@@ -6736,6 +6737,18 @@ You must still type the parameters of the function.",
               },
             ],
             "meta": Object {
+              "defaultOptions": Array [
+                Object {
+                  "detectObjects": false,
+                  "enforceConst": false,
+                  "ignore": Array [],
+                  "ignoreArrayIndexes": false,
+                  "ignoreEnums": false,
+                  "ignoreNumericLiteralTypes": false,
+                  "ignoreReadonlyClassProperties": false,
+                  "ignoreTypeIndexes": false,
+                },
+              ],
               "docs": Object {
                 "description": "Disallow magic numbers",
                 "extendsBaseRule": true,
@@ -9402,6 +9415,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
             "create": [Function],
             "defaultOptions": Array [
               Object {
+                "allow": Array [],
                 "allowEmptyReject": false,
                 "allowThrowingAny": false,
                 "allowThrowingUnknown": false,
@@ -9422,6 +9436,117 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
                 Object {
                   "additionalProperties": false,
                   "properties": Object {
+                    "allow": Object {
+                      "description": "Type specifiers that can be used as Promise rejection reasons.",
+                      "items": Object {
+                        "oneOf": Array [
+                          Object {
+                            "type": "string",
+                          },
+                          Object {
+                            "additionalProperties": false,
+                            "properties": Object {
+                              "from": Object {
+                                "enum": Array [
+                                  "file",
+                                ],
+                                "type": "string",
+                              },
+                              "name": Object {
+                                "oneOf": Array [
+                                  Object {
+                                    "type": "string",
+                                  },
+                                  Object {
+                                    "items": Object {
+                                      "type": "string",
+                                    },
+                                    "minItems": 1,
+                                    "type": "array",
+                                    "uniqueItems": true,
+                                  },
+                                ],
+                              },
+                              "path": Object {
+                                "type": "string",
+                              },
+                            },
+                            "required": Array [
+                              "from",
+                              "name",
+                            ],
+                            "type": "object",
+                          },
+                          Object {
+                            "additionalProperties": false,
+                            "properties": Object {
+                              "from": Object {
+                                "enum": Array [
+                                  "lib",
+                                ],
+                                "type": "string",
+                              },
+                              "name": Object {
+                                "oneOf": Array [
+                                  Object {
+                                    "type": "string",
+                                  },
+                                  Object {
+                                    "items": Object {
+                                      "type": "string",
+                                    },
+                                    "minItems": 1,
+                                    "type": "array",
+                                    "uniqueItems": true,
+                                  },
+                                ],
+                              },
+                            },
+                            "required": Array [
+                              "from",
+                              "name",
+                            ],
+                            "type": "object",
+                          },
+                          Object {
+                            "additionalProperties": false,
+                            "properties": Object {
+                              "from": Object {
+                                "enum": Array [
+                                  "package",
+                                ],
+                                "type": "string",
+                              },
+                              "name": Object {
+                                "oneOf": Array [
+                                  Object {
+                                    "type": "string",
+                                  },
+                                  Object {
+                                    "items": Object {
+                                      "type": "string",
+                                    },
+                                    "minItems": 1,
+                                    "type": "array",
+                                    "uniqueItems": true,
+                                  },
+                                ],
+                              },
+                              "package": Object {
+                                "type": "string",
+                              },
+                            },
+                            "required": Array [
+                              "from",
+                              "name",
+                              "package",
+                            ],
+                            "type": "object",
+                          },
+                        ],
+                      },
+                      "type": "array",
+                    },
                     "allowEmptyReject": Object {
                       "description": "Whether to allow calls to \`Promise.reject()\` with no arguments.",
                       "type": "boolean",
@@ -10839,7 +10964,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
       "parser": Object {
         "meta": Object {
           "name": "typescript-eslint/parser",
-          "version": "8.56.1",
+          "version": "8.61.1",
         },
         "parseForESLint": [Function],
       },
@@ -10848,83 +10973,6 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
     "name": "angular-eslint/ts-base",
     "plugins": Object {
       "@angular-eslint": Object {
-        "configs": Object {
-          "all": Object {
-            "parser": "@typescript-eslint/parser",
-            "plugins": Array [
-              "@angular-eslint",
-            ],
-            "rules": Object {
-              "@angular-eslint/component-class-suffix": "error",
-              "@angular-eslint/component-max-inline-declarations": "error",
-              "@angular-eslint/component-selector": "error",
-              "@angular-eslint/consistent-component-styles": "error",
-              "@angular-eslint/contextual-decorator": "error",
-              "@angular-eslint/contextual-lifecycle": "error",
-              "@angular-eslint/directive-class-suffix": "error",
-              "@angular-eslint/directive-selector": "error",
-              "@angular-eslint/no-async-lifecycle-method": "error",
-              "@angular-eslint/no-attribute-decorator": "error",
-              "@angular-eslint/no-developer-preview": "error",
-              "@angular-eslint/no-duplicates-in-metadata-arrays": "error",
-              "@angular-eslint/no-empty-lifecycle-method": "error",
-              "@angular-eslint/no-experimental": "error",
-              "@angular-eslint/no-forward-ref": "error",
-              "@angular-eslint/no-implicit-take-until-destroyed": "error",
-              "@angular-eslint/no-input-prefix": "error",
-              "@angular-eslint/no-input-rename": "error",
-              "@angular-eslint/no-inputs-metadata-property": "error",
-              "@angular-eslint/no-lifecycle-call": "error",
-              "@angular-eslint/no-output-native": "error",
-              "@angular-eslint/no-output-on-prefix": "error",
-              "@angular-eslint/no-output-rename": "error",
-              "@angular-eslint/no-outputs-metadata-property": "error",
-              "@angular-eslint/no-pipe-impure": "error",
-              "@angular-eslint/no-queries-metadata-property": "error",
-              "@angular-eslint/no-uncalled-signals": "error",
-              "@angular-eslint/pipe-prefix": "error",
-              "@angular-eslint/prefer-host-metadata-property": "error",
-              "@angular-eslint/prefer-inject": "error",
-              "@angular-eslint/prefer-on-push-component-change-detection": "error",
-              "@angular-eslint/prefer-output-emitter-ref": "error",
-              "@angular-eslint/prefer-output-readonly": "error",
-              "@angular-eslint/prefer-signal-model": "error",
-              "@angular-eslint/prefer-signals": "error",
-              "@angular-eslint/prefer-standalone": "error",
-              "@angular-eslint/relative-url-prefix": "error",
-              "@angular-eslint/require-lifecycle-on-prototype": "error",
-              "@angular-eslint/require-localize-metadata": "error",
-              "@angular-eslint/runtime-localize": "error",
-              "@angular-eslint/sort-keys-in-type-decorator": "error",
-              "@angular-eslint/sort-lifecycle-methods": "error",
-              "@angular-eslint/use-component-selector": "error",
-              "@angular-eslint/use-component-view-encapsulation": "error",
-              "@angular-eslint/use-injectable-provided-in": "error",
-              "@angular-eslint/use-lifecycle-interface": "error",
-              "@angular-eslint/use-pipe-transform-interface": "error",
-            },
-          },
-          "recommended": Object {
-            "parser": "@typescript-eslint/parser",
-            "plugins": Array [
-              "@angular-eslint",
-            ],
-            "rules": Object {
-              "@angular-eslint/contextual-lifecycle": "error",
-              "@angular-eslint/no-empty-lifecycle-method": "error",
-              "@angular-eslint/no-input-rename": "error",
-              "@angular-eslint/no-inputs-metadata-property": "error",
-              "@angular-eslint/no-output-native": "error",
-              "@angular-eslint/no-output-on-prefix": "error",
-              "@angular-eslint/no-output-rename": "error",
-              "@angular-eslint/no-outputs-metadata-property": "error",
-              "@angular-eslint/prefer-inject": "error",
-              "@angular-eslint/prefer-standalone": "error",
-              "@angular-eslint/use-lifecycle-interface": "warn",
-              "@angular-eslint/use-pipe-transform-interface": "error",
-            },
-          },
-        },
         "rules": Object {
           "component-class-suffix": Object {
             "create": [Function],
@@ -10959,6 +11007,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               ],
               "type": "suggestion",
             },
+            "name": "component-class-suffix",
           },
           "component-max-inline-declarations": Object {
             "create": [Function],
@@ -10999,6 +11048,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               ],
               "type": "suggestion",
             },
+            "name": "component-max-inline-declarations",
           },
           "component-selector": Object {
             "create": [Function],
@@ -11113,6 +11163,23 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               ],
               "type": "suggestion",
             },
+            "name": "component-selector",
+          },
+          "computed-must-return": Object {
+            "create": [Function],
+            "defaultOptions": Array [],
+            "meta": Object {
+              "docs": Object {
+                "description": "Ensures that computed() returns a value. Omitting the value is likely a mistake.",
+                "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/computed-must-return.md",
+              },
+              "messages": Object {
+                "computedMissingReturn": "computed() is missing a return value",
+              },
+              "schema": Array [],
+              "type": "problem",
+            },
+            "name": "computed-must-return",
           },
           "consistent-component-styles": Object {
             "create": [Function],
@@ -11142,6 +11209,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               ],
               "type": "suggestion",
             },
+            "name": "consistent-component-styles",
           },
           "contextual-decorator": Object {
             "create": [Function],
@@ -11157,6 +11225,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "contextual-decorator",
           },
           "contextual-lifecycle": Object {
             "create": [Function],
@@ -11173,6 +11242,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "problem",
             },
+            "name": "contextual-lifecycle",
           },
           "directive-class-suffix": Object {
             "create": [Function],
@@ -11207,6 +11277,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               ],
               "type": "suggestion",
             },
+            "name": "directive-class-suffix",
           },
           "directive-selector": Object {
             "create": [Function],
@@ -11319,6 +11390,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               ],
               "type": "suggestion",
             },
+            "name": "directive-selector",
           },
           "no-async-lifecycle-method": Object {
             "create": [Function],
@@ -11334,6 +11406,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "problem",
             },
+            "name": "no-async-lifecycle-method",
           },
           "no-attribute-decorator": Object {
             "create": [Function],
@@ -11349,23 +11422,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "problem",
             },
-          },
-          "no-conflicting-lifecycle": Object {
-            "create": [Function],
-            "defaultOptions": Array [],
-            "meta": Object {
-              "deprecated": true,
-              "docs": Object {
-                "description": "Ensures that directives do not implement conflicting lifecycle interfaces.",
-                "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-conflicting-lifecycle.md",
-              },
-              "messages": Object {
-                "noConflictingLifecycleInterface": "Implementing DoCheck and OnChanges in a class is not recommended",
-                "noConflictingLifecycleMethod": "Declaring ngDoCheck and ngOnChanges method in a class is not recommended",
-              },
-              "schema": Array [],
-              "type": "suggestion",
-            },
+            "name": "no-attribute-decorator",
           },
           "no-developer-preview": Object {
             "create": [Function],
@@ -11381,6 +11438,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "problem",
             },
+            "name": "no-developer-preview",
           },
           "no-duplicates-in-metadata-arrays": Object {
             "create": [Function],
@@ -11396,6 +11454,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "no-duplicates-in-metadata-arrays",
           },
           "no-empty-lifecycle-method": Object {
             "create": [Function],
@@ -11414,6 +11473,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "no-empty-lifecycle-method",
           },
           "no-experimental": Object {
             "create": [Function],
@@ -11429,6 +11489,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "problem",
             },
+            "name": "no-experimental",
           },
           "no-forward-ref": Object {
             "create": [Function],
@@ -11444,6 +11505,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "no-forward-ref",
           },
           "no-implicit-take-until-destroyed": Object {
             "create": [Function],
@@ -11459,6 +11521,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "problem",
             },
+            "name": "no-implicit-take-until-destroyed",
           },
           "no-input-prefix": Object {
             "create": [Function],
@@ -11491,6 +11554,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               ],
               "type": "suggestion",
             },
+            "name": "no-input-prefix",
           },
           "no-input-rename": Object {
             "create": [Function],
@@ -11530,6 +11594,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               ],
               "type": "suggestion",
             },
+            "name": "no-input-rename",
           },
           "no-inputs-metadata-property": Object {
             "create": [Function],
@@ -11546,6 +11611,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "no-inputs-metadata-property",
           },
           "no-lifecycle-call": Object {
             "create": [Function],
@@ -11561,6 +11627,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "no-lifecycle-call",
           },
           "no-output-native": Object {
             "create": [Function],
@@ -11577,6 +11644,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "no-output-native",
           },
           "no-output-on-prefix": Object {
             "create": [Function],
@@ -11593,6 +11661,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "no-output-on-prefix",
           },
           "no-output-rename": Object {
             "create": [Function],
@@ -11613,6 +11682,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "no-output-rename",
           },
           "no-outputs-metadata-property": Object {
             "create": [Function],
@@ -11629,6 +11699,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "no-outputs-metadata-property",
           },
           "no-pipe-impure": Object {
             "create": [Function],
@@ -11646,6 +11717,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "no-pipe-impure",
           },
           "no-queries-metadata-property": Object {
             "create": [Function],
@@ -11661,6 +11733,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "no-queries-metadata-property",
           },
           "no-uncalled-signals": Object {
             "create": [Function],
@@ -11678,6 +11751,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "no-uncalled-signals",
           },
           "pipe-prefix": Object {
             "create": [Function],
@@ -11712,6 +11786,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               ],
               "type": "suggestion",
             },
+            "name": "pipe-prefix",
           },
           "prefer-host-metadata-property": Object {
             "create": [Function],
@@ -11728,6 +11803,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "prefer-host-metadata-property",
           },
           "prefer-inject": Object {
             "create": [Function],
@@ -11744,23 +11820,26 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "prefer-inject",
           },
           "prefer-on-push-component-change-detection": Object {
             "create": [Function],
             "defaultOptions": Array [],
             "meta": Object {
               "docs": Object {
-                "description": "Ensures component's \`changeDetection\` is set to \`ChangeDetectionStrategy.OnPush\`",
+                "description": "Ensures components do not opt out of the default \`ChangeDetectionStrategy.OnPush\` change detection strategy",
+                "recommended": "recommended",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-on-push-component-change-detection.md",
               },
               "hasSuggestions": true,
               "messages": Object {
-                "preferOnPushComponentChangeDetection": "The component's \`changeDetection\` value should be set to \`ChangeDetectionStrategy.OnPush\`",
-                "suggestAddChangeDetectionOnPush": "Add \`ChangeDetectionStrategy.OnPush\`",
+                "preferOnPushComponentChangeDetection": "Components should not opt out of the default \`ChangeDetectionStrategy.OnPush\` change detection strategy",
+                "suggestRemoveChangeDetection": "Remove \`changeDetection\` to use the default (\`ChangeDetectionStrategy.OnPush\`)",
               },
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "prefer-on-push-component-change-detection",
           },
           "prefer-output-emitter-ref": Object {
             "create": [Function],
@@ -11776,6 +11855,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "prefer-output-emitter-ref",
           },
           "prefer-output-readonly": Object {
             "create": [Function],
@@ -11793,6 +11873,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "prefer-output-readonly",
           },
           "prefer-signal-model": Object {
             "create": [Function],
@@ -11809,6 +11890,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "prefer-signal-model",
           },
           "prefer-signals": Object {
             "create": [Function],
@@ -11865,6 +11947,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               ],
               "type": "suggestion",
             },
+            "name": "prefer-signals",
           },
           "prefer-standalone": Object {
             "create": [Function],
@@ -11883,6 +11966,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "prefer-standalone",
           },
           "relative-url-prefix": Object {
             "create": [Function],
@@ -11898,6 +11982,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "relative-url-prefix",
           },
           "require-lifecycle-on-prototype": Object {
             "create": [Function],
@@ -11913,6 +11998,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "problem",
             },
+            "name": "require-lifecycle-on-prototype",
           },
           "require-localize-metadata": Object {
             "create": [Function],
@@ -11962,6 +12048,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               ],
               "type": "suggestion",
             },
+            "name": "require-localize-metadata",
           },
           "runtime-localize": Object {
             "create": [Function],
@@ -11977,6 +12064,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "runtime-localize",
           },
           "sort-keys-in-type-decorator": Object {
             "create": [Function],
@@ -12080,6 +12168,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               ],
               "type": "suggestion",
             },
+            "name": "sort-keys-in-type-decorator",
           },
           "sort-lifecycle-methods": Object {
             "create": [Function],
@@ -12095,6 +12184,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "problem",
             },
+            "name": "sort-lifecycle-methods",
           },
           "use-component-selector": Object {
             "create": [Function],
@@ -12110,6 +12200,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "use-component-selector",
           },
           "use-component-view-encapsulation": Object {
             "create": [Function],
@@ -12127,6 +12218,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "use-component-view-encapsulation",
           },
           "use-injectable-provided-in": Object {
             "create": [Function],
@@ -12156,6 +12248,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               ],
               "type": "suggestion",
             },
+            "name": "use-injectable-provided-in",
           },
           "use-lifecycle-interface": Object {
             "create": [Function],
@@ -12172,6 +12265,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "use-lifecycle-interface",
           },
           "use-pipe-transform-interface": Object {
             "create": [Function],
@@ -12189,6 +12283,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "use-pipe-transform-interface",
           },
         },
       },
@@ -12209,6 +12304,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
       "@angular-eslint/no-output-rename": "error",
       "@angular-eslint/no-outputs-metadata-property": "error",
       "@angular-eslint/prefer-inject": "error",
+      "@angular-eslint/prefer-on-push-component-change-detection": "error",
       "@angular-eslint/prefer-standalone": "error",
       "@angular-eslint/use-lifecycle-interface": "warn",
       "@angular-eslint/use-pipe-transform-interface": "error",
@@ -12312,7 +12408,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
       "parser": Object {
         "meta": Object {
           "name": "angular-eslint/template-parser",
-          "version": "21.2.0",
+          "version": "22.0.0",
         },
         "parseForESLint": [Function],
       },
@@ -12320,96 +12416,6 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
     "name": "angular-eslint/template-base",
     "plugins": Object {
       "@angular-eslint/template": Object {
-        "configs": Object {
-          "accessibility": Object {
-            "parser": "@angular-eslint/template-parser",
-            "plugins": Array [
-              "@angular-eslint/template",
-            ],
-            "rules": Object {
-              "@angular-eslint/template/alt-text": "error",
-              "@angular-eslint/template/click-events-have-key-events": "error",
-              "@angular-eslint/template/elements-content": "error",
-              "@angular-eslint/template/interactive-supports-focus": "error",
-              "@angular-eslint/template/label-has-associated-control": "error",
-              "@angular-eslint/template/mouse-events-have-key-events": "error",
-              "@angular-eslint/template/no-autofocus": "error",
-              "@angular-eslint/template/no-distracting-elements": "error",
-              "@angular-eslint/template/role-has-required-aria": "error",
-              "@angular-eslint/template/table-scope": "error",
-              "@angular-eslint/template/valid-aria": "error",
-            },
-          },
-          "all": Object {
-            "parser": "@angular-eslint/template-parser",
-            "plugins": Array [
-              "@angular-eslint/template",
-            ],
-            "rules": Object {
-              "@angular-eslint/template/alt-text": "error",
-              "@angular-eslint/template/attributes-order": "error",
-              "@angular-eslint/template/banana-in-box": "error",
-              "@angular-eslint/template/button-has-type": "error",
-              "@angular-eslint/template/click-events-have-key-events": "error",
-              "@angular-eslint/template/conditional-complexity": "error",
-              "@angular-eslint/template/cyclomatic-complexity": "error",
-              "@angular-eslint/template/elements-content": "error",
-              "@angular-eslint/template/eqeqeq": "error",
-              "@angular-eslint/template/i18n": "error",
-              "@angular-eslint/template/interactive-supports-focus": "error",
-              "@angular-eslint/template/label-has-associated-control": "error",
-              "@angular-eslint/template/mouse-events-have-key-events": "error",
-              "@angular-eslint/template/no-any": "error",
-              "@angular-eslint/template/no-autofocus": "error",
-              "@angular-eslint/template/no-call-expression": "error",
-              "@angular-eslint/template/no-distracting-elements": "error",
-              "@angular-eslint/template/no-duplicate-attributes": "error",
-              "@angular-eslint/template/no-empty-control-flow": "error",
-              "@angular-eslint/template/no-inline-styles": "error",
-              "@angular-eslint/template/no-interpolation-in-attributes": "error",
-              "@angular-eslint/template/no-negated-async": "error",
-              "@angular-eslint/template/no-nested-tags": "error",
-              "@angular-eslint/template/no-positive-tabindex": "error",
-              "@angular-eslint/template/prefer-at-else": "error",
-              "@angular-eslint/template/prefer-at-empty": "error",
-              "@angular-eslint/template/prefer-built-in-pipes": "error",
-              "@angular-eslint/template/prefer-class-binding": "error",
-              "@angular-eslint/template/prefer-contextual-for-variables": "error",
-              "@angular-eslint/template/prefer-control-flow": "error",
-              "@angular-eslint/template/prefer-ngsrc": "error",
-              "@angular-eslint/template/prefer-self-closing-tags": "error",
-              "@angular-eslint/template/prefer-static-string-properties": "error",
-              "@angular-eslint/template/prefer-template-literal": "error",
-              "@angular-eslint/template/role-has-required-aria": "error",
-              "@angular-eslint/template/table-scope": "error",
-              "@angular-eslint/template/use-track-by-function": "error",
-              "@angular-eslint/template/valid-aria": "error",
-            },
-          },
-          "process-inline-templates": Object {
-            "parser": "@typescript-eslint/parser",
-            "parserOptions": Object {
-              "ecmaVersion": 2020,
-              "sourceType": "module",
-            },
-            "plugins": Array [
-              "@angular-eslint/template",
-            ],
-            "processor": "@angular-eslint/template/extract-inline-html",
-          },
-          "recommended": Object {
-            "parser": "@angular-eslint/template-parser",
-            "plugins": Array [
-              "@angular-eslint/template",
-            ],
-            "rules": Object {
-              "@angular-eslint/template/banana-in-box": "error",
-              "@angular-eslint/template/eqeqeq": "error",
-              "@angular-eslint/template/no-negated-async": "error",
-              "@angular-eslint/template/prefer-control-flow": "error",
-            },
-          },
-        },
         "processors": Object {
           "extract-inline-html": Object {
             "meta": Object {
@@ -12435,6 +12441,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "alt-text",
           },
           "attributes-order": Object {
             "create": [Function],
@@ -12498,6 +12505,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               ],
               "type": "layout",
             },
+            "name": "attributes-order",
           },
           "banana-in-box": Object {
             "create": [Function],
@@ -12515,6 +12523,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "banana-in-box",
           },
           "button-has-type": Object {
             "create": [Function],
@@ -12548,6 +12557,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               ],
               "type": "suggestion",
             },
+            "name": "button-has-type",
           },
           "click-events-have-key-events": Object {
             "create": [Function],
@@ -12582,6 +12592,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               ],
               "type": "suggestion",
             },
+            "name": "click-events-have-key-events",
           },
           "conditional-complexity": Object {
             "create": [Function],
@@ -12612,12 +12623,14 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               ],
               "type": "suggestion",
             },
+            "name": "conditional-complexity",
           },
           "cyclomatic-complexity": Object {
             "create": [Function],
             "defaultOptions": Array [
               Object {
                 "maxComplexity": 5,
+                "variant": "classic",
               },
             ],
             "meta": Object {
@@ -12636,12 +12649,20 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
                       "minimum": 1,
                       "type": "number",
                     },
+                    "variant": Object {
+                      "enum": Array [
+                        "classic",
+                        "modified",
+                      ],
+                      "type": "string",
+                    },
                   },
                   "type": "object",
                 },
               ],
               "type": "suggestion",
             },
+            "name": "cyclomatic-complexity",
           },
           "elements-content": Object {
             "create": [Function],
@@ -12683,6 +12704,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               ],
               "type": "suggestion",
             },
+            "name": "elements-content",
           },
           "eqeqeq": Object {
             "create": [Function],
@@ -12717,6 +12739,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               ],
               "type": "suggestion",
             },
+            "name": "eqeqeq",
           },
           "i18n": Object {
             "create": [Function],
@@ -12872,6 +12895,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               ],
               "type": "suggestion",
             },
+            "name": "i18n",
           },
           "interactive-supports-focus": Object {
             "create": [Function],
@@ -12907,6 +12931,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               ],
               "type": "suggestion",
             },
+            "name": "interactive-supports-focus",
           },
           "label-has-associated-control": Object {
             "create": [Function],
@@ -12983,6 +13008,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               ],
               "type": "suggestion",
             },
+            "name": "label-has-associated-control",
           },
           "mouse-events-have-key-events": Object {
             "create": [Function],
@@ -12998,6 +13024,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "mouse-events-have-key-events",
           },
           "no-any": Object {
             "create": [Function],
@@ -13015,6 +13042,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "no-any",
           },
           "no-autofocus": Object {
             "create": [Function],
@@ -13031,6 +13059,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "no-autofocus",
           },
           "no-call-expression": Object {
             "create": [Function],
@@ -13072,6 +13101,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               ],
               "type": "suggestion",
             },
+            "name": "no-call-expression",
           },
           "no-distracting-elements": Object {
             "create": [Function],
@@ -13088,6 +13118,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "no-distracting-elements",
           },
           "no-duplicate-attributes": Object {
             "create": [Function],
@@ -13137,6 +13168,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               ],
               "type": "problem",
             },
+            "name": "no-duplicate-attributes",
           },
           "no-empty-control-flow": Object {
             "create": [Function],
@@ -13152,6 +13184,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "no-empty-control-flow",
           },
           "no-inline-styles": Object {
             "create": [Function],
@@ -13187,6 +13220,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               ],
               "type": "suggestion",
             },
+            "name": "no-inline-styles",
           },
           "no-interpolation-in-attributes": Object {
             "create": [Function],
@@ -13225,6 +13259,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
               ],
               "type": "suggestion",
             },
+            "name": "no-interpolation-in-attributes",
           },
           "no-negated-async": Object {
             "create": [Function],
@@ -13247,13 +13282,14 @@ For example, when set to \`true\` the following code will not fail for the \`alt
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "no-negated-async",
           },
           "no-nested-tags": Object {
             "create": [Function],
             "defaultOptions": Array [],
             "meta": Object {
               "docs": Object {
-                "description": "Denies nesting of <p> and <a> tags.",
+                "description": "Denies nesting of \`<p>\` and \`<a>\` tags.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/no-nested-tags.md",
               },
               "messages": Object {
@@ -13262,6 +13298,23 @@ For example, when set to \`true\` the following code will not fail for the \`alt
               "schema": Array [],
               "type": "problem",
             },
+            "name": "no-nested-tags",
+          },
+          "no-non-null-assertion": Object {
+            "create": [Function],
+            "defaultOptions": Array [],
+            "meta": Object {
+              "docs": Object {
+                "description": "Disallows the non-null assertion operator (!) in templates",
+                "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/no-non-null-assertion.md",
+              },
+              "messages": Object {
+                "noNonNullAssertion": "Avoid using the non-null assertion operator (!) in templates. This bypasses type safety and can lead to runtime errors.",
+              },
+              "schema": Array [],
+              "type": "suggestion",
+            },
+            "name": "no-non-null-assertion",
           },
           "no-positive-tabindex": Object {
             "create": [Function],
@@ -13279,6 +13332,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "no-positive-tabindex",
           },
           "prefer-at-else": Object {
             "create": [Function],
@@ -13295,6 +13349,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "prefer-at-else",
           },
           "prefer-at-empty": Object {
             "create": [Function],
@@ -13311,6 +13366,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "prefer-at-empty",
           },
           "prefer-built-in-pipes": Object {
             "create": [Function],
@@ -13355,6 +13411,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
               ],
               "type": "suggestion",
             },
+            "name": "prefer-built-in-pipes",
           },
           "prefer-class-binding": Object {
             "create": [Function],
@@ -13370,6 +13427,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "prefer-class-binding",
           },
           "prefer-contextual-for-variables": Object {
             "create": [Function],
@@ -13457,6 +13515,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
               ],
               "type": "suggestion",
             },
+            "name": "prefer-contextual-for-variables",
           },
           "prefer-control-flow": Object {
             "create": [Function],
@@ -13473,6 +13532,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "prefer-control-flow",
           },
           "prefer-ngsrc": Object {
             "create": [Function],
@@ -13492,6 +13552,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "prefer-ngsrc",
           },
           "prefer-self-closing-tags": Object {
             "create": [Function],
@@ -13508,6 +13569,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
               "schema": Array [],
               "type": "layout",
             },
+            "name": "prefer-self-closing-tags",
           },
           "prefer-static-string-properties": Object {
             "create": [Function],
@@ -13541,6 +13603,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
               ],
               "type": "layout",
             },
+            "name": "prefer-static-string-properties",
           },
           "prefer-template-literal": Object {
             "create": [Function],
@@ -13557,6 +13620,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "prefer-template-literal",
           },
           "role-has-required-aria": Object {
             "create": [Function],
@@ -13574,6 +13638,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "role-has-required-aria",
           },
           "table-scope": Object {
             "create": [Function],
@@ -13590,6 +13655,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "table-scope",
           },
           "use-track-by-function": Object {
             "create": [Function],
@@ -13622,6 +13688,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
               ],
               "type": "suggestion",
             },
+            "name": "use-track-by-function",
           },
           "valid-aria": Object {
             "create": [Function],
@@ -13640,6 +13707,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
               "schema": Array [],
               "type": "suggestion",
             },
+            "name": "valid-aria",
           },
         },
       },
