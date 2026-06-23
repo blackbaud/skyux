@@ -156,6 +156,7 @@ export class SkyPhoneFieldComponent implements OnDestroy {
    */
   public readonly selectedCountryInput = input<
     SkyPhoneFieldCountry | undefined
+    // eslint-disable-next-line @angular-eslint/no-input-rename
   >(undefined, { alias: 'selectedCountry' });
   public readonly selectedCountry = linkedSignal(this.selectedCountryInput);
 
