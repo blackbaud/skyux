@@ -12,6 +12,7 @@ import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyAppLocaleProvider } from '@skyux/i18n';
 
 import moment from 'moment';
+import 'moment/locale/es';
 import { of } from 'rxjs';
 
 import { SkyDatepickerConfigService } from '../datepicker-config.service';

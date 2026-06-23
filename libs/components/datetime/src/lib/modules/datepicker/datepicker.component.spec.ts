@@ -19,6 +19,7 @@ import {
 } from '@skyux/theme';
 
 import moment from 'moment';
+import 'moment/locale/es';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 
 import { SkyDatepickerConfigService } from './datepicker-config.service';
