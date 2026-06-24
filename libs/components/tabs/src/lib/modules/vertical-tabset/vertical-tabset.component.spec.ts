@@ -58,12 +58,6 @@ function getVisibleTabsetContent(
   );
 }
 
-function getTabsetContentContainer(
-  fixture: ComponentFixture<unknown>,
-): HTMLElement {
-  return fixture.nativeElement.querySelector('.sky-vertical-tabset-content');
-}
-
 function getTabsContainer(fixture: ComponentFixture<unknown>): HTMLElement {
   return fixture.nativeElement.querySelector(
     '.sky-vertical-tabset-group-container:not(.sky-vertical-tabset-hidden)',
@@ -663,11 +657,9 @@ describe('Vertical tabset component', () => {
     fixture.detectChanges();
 
     const tabsContainer = getTabsContainer(fixture);
-    const contentContainer = getTabsetContentContainer(fixture);
 
     expect(tabsContainer.style.flexBasis).toBe('25%');
     expect(tabsContainer.style.maxWidth).toBe('');
-    expect(contentContainer.style.flexBasis).toBe('calc(75%)');
   });
 
   it('should size tabs automatically when tabWidth is set to auto', () => {
@@ -677,11 +669,9 @@ describe('Vertical tabset component', () => {
     fixture.detectChanges();
 
     const tabsContainer = getTabsContainer(fixture);
-    const contentContainer = getTabsetContentContainer(fixture);
 
     expect(tabsContainer.style.flexBasis).toBe('auto');
     expect(tabsContainer.style.maxWidth).toBe('25%');
-    expect(contentContainer.style.flexBasis).toBe('0%');
   });
 
   it('should set custom tab width', () => {
@@ -691,11 +681,9 @@ describe('Vertical tabset component', () => {
     fixture.detectChanges();
 
     const tabsContainer = getTabsContainer(fixture);
-    const contentContainer = getTabsetContentContainer(fixture);
 
     expect(tabsContainer.style.flexBasis).toBe('18rem');
     expect(tabsContainer.style.maxWidth).toBe('');
-    expect(contentContainer.style.flexBasis).toBe('calc(100% - 18rem)');
   });
 
   it('should not constrain the tab width on mobile', () => {

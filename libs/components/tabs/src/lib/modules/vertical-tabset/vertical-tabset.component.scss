@@ -54,7 +54,7 @@
       var(--sky-comp-tab-vertical-content-space-inset-xs-bottom)
       var(--sky-comp-tab-vertical-content-space-inset-xs-left)
   );
-  flex-basis: 75%;
+  flex: 1 1 auto;
   overflow-y: auto;
 }
 
