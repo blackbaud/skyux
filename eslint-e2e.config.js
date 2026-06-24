@@ -8,4 +8,10 @@ module.exports = [
   ...baseConfig,
   ...overrides,
   prettier,
+  {
+    files: ['**/eslint.config.js'],
+    rules: {
+      '@nx/enforce-module-boundaries': 'off',
+    },
+  },
 ];

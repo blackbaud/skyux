@@ -55,22 +55,6 @@
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
-        },
-        "testing": {
-          "aot": false,
-          "optimization": false,
-          "extractLicenses": false,
-          "assets": [],
-          "styles": [
-            "libs/components/theme/src/lib/styles/sky.scss",
-            "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
-          ],
-          "polyfills": ["zone.js", "zone.js/testing"]
-        },
-        "testing-ci": {
-          "aot": false,
-          "optimization": false,
-          "extractLicenses": false
         }
       },
       "defaultConfiguration": "production"
@@ -104,21 +88,31 @@
       }
     },
     "test": {
-      "executor": "@angular/build:unit-test",
+      "executor": "@angular/build:karma",
       "options": {
         "tsConfig": "apps/integration/tsconfig.spec.json",
-        "coverage": true,
-        "coverageExclude": ["**/fixtures/**"],
-        "buildTarget": ":build:testing",
-        "runner": "vitest"
+        "karmaConfig": "apps/integration/karma.conf.js",
+        "polyfills": ["zone.js", "zone.js/testing"],
+        "styles": [
+          "libs/components/theme/src/lib/styles/sky.scss",
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+        ],
+        "codeCoverage": true,
+        "codeCoverageExclude": ["**/fixtures/**"],
+        "scripts": [],
+        "assets": [],
+        "inlineStyleLanguage": "scss",
+        "stylePreprocessorOptions": {
+          "includePaths": ["{workspaceRoot}"]
+        }
       },
       "configurations": {
         "ci": {
-          "browsers": ["ChromeHeadlessNoSandbox"],
+          "browsers": "ChromeHeadlessNoSandbox",
+          "codeCoverage": true,
           "progress": false,
-          "watch": false,
-          "coverage": true,
-          "buildTarget": ":build:testing-ci"
+          "sourceMap": true,
+          "watch": false
         }
       }
     }
