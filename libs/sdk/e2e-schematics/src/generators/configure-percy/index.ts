@@ -1,6 +1,5 @@
 import type { Tree } from '@nx/devkit';
 import { generateFiles, joinPathFragments } from '@nx/devkit';
-import { insertStatement } from '@nx/workspace/src/generators/utils/insert-statement';
 
 import { formatFiles } from '../../utils/format-files';
 import { getE2eProjects } from '../../utils/get-projects';
@@ -29,13 +28,14 @@ export default async function configurePercy(
     if (!tree.exists(filePath)) {
       tree.write(filePath, importPercyCypress + '\n' + importSkyUxCypress);
     } else {
-      const content = tree.read(filePath, 'utf-8') as string;
+      let content = tree.read(filePath, 'utf-8') as string;
       if (!content.includes(importPercyCypress)) {
-        insertStatement(tree, filePath, importPercyCypress);
+        content = importPercyCypress + '\n' + content;
       }
       if (!content.includes(importSkyUxCypress)) {
-        insertStatement(tree, filePath, importSkyUxCypress);
+        content = importSkyUxCypress + '\n' + content;
       }
+      tree.write(filePath, content);
     }
   });
 

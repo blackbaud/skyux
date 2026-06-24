@@ -4,7 +4,6 @@ import {
   UnitTestRunner,
   applicationGenerator,
 } from '@nx/angular/generators';
-import type { Styles } from '@nx/angular/internal';
 import {
   ProjectConfiguration,
   Tree,
@@ -167,7 +166,7 @@ export default async function (
     await applicationGenerator(tree, {
       name: options.storybookAppName,
       tags: options.tags,
-      style: options.style as Styles,
+      style: options.style as Exclude<SchematicsAngularApplicationStyle, SchematicsAngularApplicationStyle.Tailwind>,
       routing: options.routing,
       strict: options.strict,
       prefix: options.prefix,
