@@ -21,7 +21,7 @@ import { SkyHelpInlineModule } from '@skyux/help-inline';
   }`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyDataGridColumnInlineHelpComponent {
+export class SkyDataGridColumnInlineHelp {
   protected readonly info = inject(SkyAgGridHeaderInfo);
 
   protected readonly showHelpInline = computed(

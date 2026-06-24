@@ -21,7 +21,7 @@ import { SkyLogService } from '@skyux/core';
   template: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyDataGridColumnComponent {
+export class SkyDataGridColumn {
   /**
    * Whether the column is hidden.
    * @default false

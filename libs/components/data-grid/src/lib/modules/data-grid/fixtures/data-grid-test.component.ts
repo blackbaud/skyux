@@ -9,8 +9,8 @@ import {
 import { SkyDropdownModule, SkyPopoverModule } from '@skyux/popovers';
 
 import { SkyDataGridSort } from '../../types/data-grid-sort';
-import { SkyDataGridColumnComponent } from '../data-grid-column.component';
-import { SkyDataGridComponent } from '../data-grid.component';
+import { SkyDataGrid } from '../data-grid';
+import { SkyDataGridColumn } from '../data-grid-column';
 
 interface RowModel {
   id: string;
@@ -24,8 +24,8 @@ interface RowModel {
   selector: 'app-data-grid-test',
   templateUrl: './data-grid-test.component.html',
   imports: [
-    SkyDataGridComponent,
-    SkyDataGridColumnComponent,
+    SkyDataGrid,
+    SkyDataGridColumn,
     SkyPopoverModule,
     SkyDropdownModule,
     JsonPipe,
@@ -56,6 +56,7 @@ export class DataGridTestComponent {
 
   public readonly sortField = model<SkyDataGridSort | undefined>(undefined);
 
+  public readonly dataSorted = input<boolean>();
   public readonly multiselect = input<boolean>();
   public readonly height = input<number>();
   public readonly pageSize = input<number>();

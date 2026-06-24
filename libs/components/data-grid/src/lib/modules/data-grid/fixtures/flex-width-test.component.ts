@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-import {
-  SkyDataGridColumnComponent,
-  SkyDataGridComponent,
-} from '@skyux/data-grid';
+import { SkyDataGrid } from '../data-grid';
+import { SkyDataGridColumn } from '../data-grid-column';
 
 @Component({
   selector: 'sky-flex-width-test',
-  imports: [SkyDataGridComponent, SkyDataGridColumnComponent],
+  imports: [SkyDataGrid, SkyDataGridColumn],
   template: `
     <sky-data-grid [data]="data">
       <sky-data-grid-column

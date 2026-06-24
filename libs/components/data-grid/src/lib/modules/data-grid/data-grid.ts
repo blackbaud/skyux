@@ -52,8 +52,8 @@ import {
 
 import { SkyDataGridSort } from '../types/data-grid-sort';
 
-import { SkyDataGridColumnInlineHelpComponent } from './data-grid-column-inline-help.component';
-import { SkyDataGridColumnComponent } from './data-grid-column.component';
+import { SkyDataGridColumn } from './data-grid-column';
+import { SkyDataGridColumnInlineHelp } from './data-grid-column-inline-help';
 import { fromGridEvent } from './data-grid-event-utils';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
@@ -87,14 +87,14 @@ function arrayIsEqual(
     SkyViewkeeperModule,
     SkyWaitModule,
   ],
-  templateUrl: './data-grid.component.html',
-  styleUrl: './data-grid.component.css',
+  templateUrl: './data-grid.html',
+  styleUrl: './data-grid.css',
   host: {
     '[class.sky-margin-stacked-lg]': 'stacked()',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyDataGridComponent<
+export class SkyDataGrid<
   T extends Record<'id', string> = Record<'id', string> &
     Record<string, unknown>,
 > {
@@ -113,6 +113,15 @@ export class SkyDataGridComponent<
    * the grid will show a "no rows" message.
    */
   public readonly data = input<T[] | null | undefined>();
+
+  /**
+   * When set to `true`, the grid will not modify the sort order when a column header is clicked. If the
+   * `SkyDataGridColumn`s have `sortable` set to `true`, the grid will still emit a `sortField` change when a column
+   * header is clicked, and `data` will need to be updated.
+   */
+  public readonly dataSorted = input<boolean, unknown>(false, {
+    transform: coerceBooleanProperty,
+  });
 
   /**
    * How the grid fits to its parent. The valid options are `width`,
@@ -193,7 +202,7 @@ export class SkyDataGridComponent<
    */
   public readonly sortField = model<SkyDataGridSort<T> | undefined>(undefined);
 
-  protected readonly columns = contentChildren(SkyDataGridColumnComponent);
+  protected readonly columns = contentChildren(SkyDataGridColumn);
   protected readonly gridApi = signal<GridApi<T> | undefined>(undefined);
   protected readonly gridOptions = computed(() => {
     const columnDefs = this.#columnDefs();
@@ -218,6 +227,7 @@ export class SkyDataGridComponent<
         },
         pagination,
         paginationPageSize,
+        suppressMultiSort: true,
         suppressPaginationPanel: true,
         rowData: rowData.length ? rowData : null,
         rowSelection: untracked(() => this.#getRowSelection()),
@@ -450,7 +460,7 @@ export class SkyDataGridComponent<
   }
 
   #createColDef(
-    col: SkyDataGridColumnComponent,
+    col: SkyDataGridColumn,
     sort: SkyDataGridSort<T> | undefined,
   ): ColDef {
     const field = col.field();
@@ -487,14 +497,14 @@ export class SkyDataGridComponent<
       (colDef.type as string[]).push(SkyCellType.Template);
       colDef.cellRendererParams = { template: col.cellTemplate };
     }
+    if (this.dataSorted()) {
+      colDef.comparator = (): number => 0;
+    }
     this.#applyColumnWidthSettings(col, colDef);
     return colDef;
   }
 
-  #applyColumnWidthSettings(
-    col: SkyDataGridColumnComponent,
-    colDef: ColDef,
-  ): void {
+  #applyColumnWidthSettings(col: SkyDataGridColumn, colDef: ColDef): void {
     if (col.flexWidth() > -1) {
       colDef.flex = col.flexWidth();
       colDef.initialFlex = col.flexWidth();
@@ -514,7 +524,7 @@ export class SkyDataGridComponent<
 
   #getSort(
     sort: SkyDataGridSort<T> | undefined,
-    col: SkyDataGridColumnComponent,
+    col: SkyDataGridColumn,
   ): SortDirection {
     const field = col.field();
     return field && sort?.fieldSelector === field
@@ -524,12 +534,12 @@ export class SkyDataGridComponent<
       : null;
   }
 
-  #getHeaderComponentParams(col: SkyDataGridColumnComponent): object {
+  #getHeaderComponentParams(col: SkyDataGridColumn): object {
     return {
       headerHidden: col.headingHidden(),
       helpPopoverTitle: col.helpPopoverTitle(),
       helpPopoverContent: col.helpPopoverContent(),
-      inlineHelpComponent: SkyDataGridColumnInlineHelpComponent,
+      inlineHelpComponent: SkyDataGridColumnInlineHelp,
     };
   }
 

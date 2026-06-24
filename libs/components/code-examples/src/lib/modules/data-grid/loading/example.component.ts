@@ -6,7 +6,11 @@ import {
   resource,
   signal,
 } from '@angular/core';
-import { SkyDataGridModule, SkyDataGridSort } from '@skyux/data-grid';
+import {
+  SkyDataGrid,
+  SkyDataGridColumn,
+  SkyDataGridSort,
+} from '@skyux/data-grid';
 
 import { DataGridLoadingRow, getDataSorted } from './data';
 
@@ -19,7 +23,7 @@ type DemoBehavior = 'data' | 'empty' | 'loading';
   selector: 'app-data-grid-loading-example',
   templateUrl: './example.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SkyDataGridModule],
+  imports: [SkyDataGrid, SkyDataGridColumn],
 })
 export class DataGridLoadingExampleComponent {
   // Simulate network latency.

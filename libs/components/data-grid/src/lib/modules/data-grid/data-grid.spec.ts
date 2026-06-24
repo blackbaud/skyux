@@ -13,13 +13,13 @@ import { SkyWaitHarness } from '@skyux/indicators/testing';
 import { SkyPagingHarness } from '@skyux/lists/testing';
 
 import { getGridApi } from 'ag-grid-community';
-import { SkyDataGridComponent } from './data-grid.component';
+import { SkyDataGrid } from './data-grid';
 import { DataGridTestComponent } from './fixtures/data-grid-test.component';
 import { FlexWidthTestComponent } from './fixtures/flex-width-test.component';
 import { ResourceDataTestComponent } from './fixtures/resource-data-test.component';
 import { TemplateColumnTestComponent } from './fixtures/template-column-test.component';
 
-describe('SkyDataGridComponent', () => {
+describe('SkyDataGrid', () => {
   describe('without data manager', () => {
     let fixture: ComponentFixture<DataGridTestComponent>;
     let component: DataGridTestComponent;
@@ -47,16 +47,15 @@ describe('SkyDataGridComponent', () => {
       fixture.componentRef.setInput('showAllGrids', false);
       fixture.detectChanges();
       await fixture.whenStable();
-      expect(
-        fixture.debugElement.queryAll(By.directive(SkyDataGridComponent)),
-      ).toEqual([]);
+      expect(fixture.debugElement.queryAll(By.directive(SkyDataGrid))).toEqual(
+        [],
+      );
 
       fixture.componentRef.setInput('showAllGrids', true);
       fixture.detectChanges();
       await fixture.whenStable();
       expect(
-        fixture.debugElement.queryAll(By.directive(SkyDataGridComponent))
-          .length,
+        fixture.debugElement.queryAll(By.directive(SkyDataGrid)).length,
       ).toEqual(3);
     });
 
@@ -557,6 +556,37 @@ describe('SkyDataGridComponent', () => {
       expect(colDef?.sortable).toBeFalse();
       expect(colDef?.minWidth).toBe(40);
       expect(colDef?.suppressSizeToFit).toBeTrue();
+    });
+
+    it('should set a no-op comparator on columns when dataSorted is true', async () => {
+      fixture.componentRef.setInput('dataSorted', true);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      const api = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="grid"] ag-grid-angular',
+        ),
+      );
+      expect(api).toBeTruthy();
+      const comparator = api?.getColumn('column1')?.getColDef().comparator as
+        | ((valueA: unknown, valueB: unknown) => number)
+        | undefined;
+      expect(comparator).toEqual(jasmine.any(Function));
+      // The no-op always returns 0 regardless of the values compared, so AG Grid
+      // never reorders rows on its own.
+      expect(comparator?.('b', 'a')).toBe(0);
+    });
+
+    it('should not set a comparator on columns when dataSorted is false', async () => {
+      fixture.detectChanges();
+      await fixture.whenStable();
+      const api = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="grid"] ag-grid-angular',
+        ),
+      );
+      expect(api).toBeTruthy();
+      expect(api?.getColumn('column1')?.getColDef().comparator).toBeUndefined();
     });
 
     it('should apply the date cell data type to a date column', async () => {

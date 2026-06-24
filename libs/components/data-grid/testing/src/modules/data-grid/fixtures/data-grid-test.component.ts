@@ -6,10 +6,7 @@ import {
   input,
   model,
 } from '@angular/core';
-import {
-  SkyDataGridColumnComponent,
-  SkyDataGridComponent,
-} from '@skyux/data-grid';
+import { SkyDataGrid, SkyDataGridColumn } from '@skyux/data-grid';
 import { SkyDropdownModule, SkyPopoverModule } from '@skyux/popovers';
 
 interface RowModel {
@@ -24,8 +21,8 @@ interface RowModel {
   selector: 'app-data-grid-test',
   templateUrl: './data-grid-test.component.html',
   imports: [
-    SkyDataGridComponent,
-    SkyDataGridColumnComponent,
+    SkyDataGrid,
+    SkyDataGridColumn,
     SkyPopoverModule,
     SkyDropdownModule,
     JsonPipe,

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { SkyDataGridModule } from '@skyux/data-grid';
+import { SkyDataGrid, SkyDataGridColumn } from '@skyux/data-grid';
 
 import { DATA_GRID_DEMO_DATA } from './data';
 
@@ -9,7 +9,7 @@ import { DATA_GRID_DEMO_DATA } from './data';
  */
 @Component({
   selector: 'app-data-grid-paging-example',
-  imports: [SkyDataGridModule],
+  imports: [SkyDataGrid, SkyDataGridColumn],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './example.component.html',
 })

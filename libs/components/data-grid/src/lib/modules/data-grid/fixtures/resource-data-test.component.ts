@@ -1,6 +1,6 @@
 import { Component, model, signal } from '@angular/core';
-import { SkyDataGridColumnComponent } from '../data-grid-column.component';
-import { SkyDataGridComponent } from '../data-grid.component';
+import { SkyDataGrid } from '../data-grid';
+import { SkyDataGridColumn } from '../data-grid-column';
 
 interface ResourceRow {
   id: string;
@@ -9,7 +9,7 @@ interface ResourceRow {
 
 @Component({
   selector: 'sky-resource-data-test',
-  imports: [SkyDataGridComponent, SkyDataGridColumnComponent],
+  imports: [SkyDataGrid, SkyDataGridColumn],
   template: `
     <sky-data-grid
       data-sky-id="resource-grid"

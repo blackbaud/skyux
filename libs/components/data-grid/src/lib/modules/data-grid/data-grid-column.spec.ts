@@ -2,11 +2,11 @@ import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { SkyLogService } from '@skyux/core';
 
-import { SkyDataGridColumnComponent } from './data-grid-column.component';
+import { SkyDataGridColumn } from './data-grid-column';
 
 @Component({
   selector: 'sky-test-component',
-  imports: [SkyDataGridColumnComponent],
+  imports: [SkyDataGridColumn],
   template: `
     <sky-data-grid-column headingText="Test Heading">
       <ng-template #projectedTemplate>Projected Cell Content</ng-template>
@@ -14,8 +14,8 @@ import { SkyDataGridColumnComponent } from './data-grid-column.component';
   `,
 })
 class TestComponent {
-  @ViewChild(SkyDataGridColumnComponent, { static: true })
-  public columnComponent!: SkyDataGridColumnComponent;
+  @ViewChild(SkyDataGridColumn, { static: true })
+  public columnComponent!: SkyDataGridColumn;
 
   @ViewChild('projectedTemplate', { read: TemplateRef, static: true })
   public projectedTemplate!: TemplateRef<unknown>;
@@ -59,7 +59,7 @@ describe('SkyDataGridColumnComponent', () => {
   });
 
   it('should transform flexWidth input correctly', () => {
-    const fixture = TestBed.createComponent(SkyDataGridColumnComponent);
+    const fixture = TestBed.createComponent(SkyDataGridColumn);
     fixture.componentRef.setInput('headingText', 'Test');
     const component = fixture.componentInstance;
 
@@ -85,7 +85,7 @@ describe('SkyDataGridColumnComponent', () => {
   });
 
   it('should transform boolean inputs correctly', () => {
-    const fixture = TestBed.createComponent(SkyDataGridColumnComponent);
+    const fixture = TestBed.createComponent(SkyDataGridColumn);
     fixture.componentRef.setInput('headingText', 'Test');
     const component = fixture.componentInstance;
 
@@ -115,7 +115,7 @@ describe('SkyDataGridColumnComponent', () => {
   });
 
   it('should transform width input correctly', () => {
-    const fixture = TestBed.createComponent(SkyDataGridColumnComponent);
+    const fixture = TestBed.createComponent(SkyDataGridColumn);
     fixture.componentRef.setInput('headingText', 'Test');
     const component = fixture.componentInstance;
 
@@ -133,7 +133,7 @@ describe('SkyDataGridColumnComponent', () => {
   });
 
   it('should resolve cellTemplate to template input if specified', () => {
-    const fixture = TestBed.createComponent(SkyDataGridColumnComponent);
+    const fixture = TestBed.createComponent(SkyDataGridColumn);
     fixture.componentRef.setInput('headingText', 'Test');
     const component = fixture.componentInstance;
 
@@ -154,7 +154,7 @@ describe('SkyDataGridColumnComponent', () => {
   });
 
   it('should not warn if only columnId is set', async () => {
-    const fixture = TestBed.createComponent(SkyDataGridColumnComponent);
+    const fixture = TestBed.createComponent(SkyDataGridColumn);
     fixture.componentRef.setInput('headingText', 'Test');
     fixture.componentRef.setInput('columnId', 'col-1');
     fixture.detectChanges();
@@ -163,7 +163,7 @@ describe('SkyDataGridColumnComponent', () => {
   });
 
   it('should not warn if only field is set', async () => {
-    const fixture = TestBed.createComponent(SkyDataGridColumnComponent);
+    const fixture = TestBed.createComponent(SkyDataGridColumn);
     fixture.componentRef.setInput('headingText', 'Test');
     fixture.componentRef.setInput('field', 'field-1');
     fixture.detectChanges();
@@ -172,7 +172,7 @@ describe('SkyDataGridColumnComponent', () => {
   });
 
   it('should warn when both columnId and field are set', async () => {
-    const fixture = TestBed.createComponent(SkyDataGridColumnComponent);
+    const fixture = TestBed.createComponent(SkyDataGridColumn);
     fixture.componentRef.setInput('headingText', 'Test');
     fixture.componentRef.setInput('columnId', 'col-1');
     fixture.componentRef.setInput('field', 'field-1');

@@ -3,13 +3,8 @@
   "groups": {
     "data-grid-package": {
       "development": {
-        "docsIds": [
-          "SkyDataGridModule",
-          "SkyDataGridComponent",
-          "SkyDataGridColumnComponent",
-          "SkyDataGridSort"
-        ],
-        "primaryDocsId": "SkyDataGridModule"
+        "docsIds": ["SkyDataGrid", "SkyDataGridColumn", "SkyDataGridSort"],
+        "primaryDocsId": "SkyDataGrid"
       },
       "testing": {
         "docsIds": ["SkyDataGridHarness", "SkyDataGridHarnessFilters"]

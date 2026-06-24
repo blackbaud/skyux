@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SkyDataGridModule } from '@skyux/data-grid';
+import { SkyDataGrid, SkyDataGridColumn } from '@skyux/data-grid';
 import { SkyDropdownModule } from '@skyux/popovers';
 
 import { DATA_GRID_DEMO_DATA, DataGridDemoRow } from './data';
@@ -11,7 +11,7 @@ import { DATA_GRID_DEMO_DATA, DataGridDemoRow } from './data';
   selector: 'app-data-grid',
   templateUrl: './data-grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SkyDataGridModule, SkyDropdownModule],
+  imports: [SkyDataGrid, SkyDataGridColumn, SkyDropdownModule],
 })
 export class DataGridComponent {
   protected gridData: DataGridDemoRow[] = DATA_GRID_DEMO_DATA;
