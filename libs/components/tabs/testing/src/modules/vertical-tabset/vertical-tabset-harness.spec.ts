@@ -266,6 +266,17 @@ describe('Vertical Tabset harness', () => {
     await expectAsync(tabsetHarness.getTabWidth()).toBeResolvedTo('auto');
   });
 
+  it('should return null for the tab width on mobile', async () => {
+    const { tabsetHarness, fixture } = await setupTest();
+    const mediaQueryController = TestBed.inject(SkyMediaQueryTestingController);
+    mediaQueryController.setBreakpoint('xs');
+    fixture.detectChanges();
+
+    // On mobile the tabset uses a full-width block layout, so no inline width
+    // styles are applied to the nav container.
+    await expectAsync(tabsetHarness.getTabWidth()).toBeResolvedTo(null);
+  });
+
   describe('vertical tabset group', () => {
     it('should click the group header to open and close the group', async () => {
       const { tabsetHarness } = await setupTest();

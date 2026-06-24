@@ -210,15 +210,24 @@ export class SkyVerticalTabsetComponent
     this.adapterService.focusPreviousButton(this.tabGroups);
   }
 
-  protected get tabContentFlexBasis(): string {
+  protected get tabContentFlexBasis(): string | undefined {
+    if (this.tabService.isMobile()) {
+      return undefined;
+    }
     return this.#isAutoTabWidth() ? '0%' : `calc(100% - ${this.tabWidth})`;
   }
 
   protected get tabGroupContainerFlexBasis(): string | undefined {
+    if (this.tabService.isMobile()) {
+      return undefined;
+    }
     return this.#isAutoTabWidth() ? 'auto' : this.tabWidth;
   }
 
   protected get tabGroupContainerMaxWidth(): string | undefined {
+    if (this.tabService.isMobile()) {
+      return undefined;
+    }
     return this.#isAutoTabWidth() ? '25%' : undefined;
   }
 

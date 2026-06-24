@@ -698,6 +698,24 @@ describe('Vertical tabset component', () => {
     expect(contentContainer.style.flexBasis).toBe('calc(100% - 18rem)');
   });
 
+  it('should not constrain the tab width on mobile', () => {
+    mediaQueryController.setBreakpoint('xs');
+    const fixture = createTestComponent();
+    fixture.componentInstance.tabWidth = 'auto';
+    fixture.detectChanges();
+
+    // The tabs container is hidden by default on mobile, so query it directly.
+    const tabsContainer: HTMLElement = fixture.nativeElement.querySelector(
+      '.sky-vertical-tabset-group-container',
+    );
+
+    // Inline width styles must not be applied on mobile, where the tabset
+    // switches to a full-width block layout. Otherwise `max-width: 25%` would
+    // clamp the nav column on small screens.
+    expect(tabsContainer.style.flexBasis).toBe('');
+    expect(tabsContainer.style.maxWidth).toBe('');
+  });
+
   it('mobile button should be visible on small screen', () => {
     mediaQueryController.setBreakpoint('xs');
     const fixture = createTestComponent();
