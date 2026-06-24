@@ -13,7 +13,8 @@ import {
 import { SkyLogService } from '@skyux/core';
 
 /**
- * Specifies the column information.
+ * Defines a single column in a `SkyDataGrid`. Add one `sky-data-grid-column` for each
+ * column to render.
  * @preview
  */
 @Component({
@@ -64,6 +65,7 @@ export class SkyDataGridColumn {
 
   /**
    * Text to display in the column header.
+   * @required
    */
   public readonly headingText = input.required<string>();
 
@@ -91,7 +93,7 @@ export class SkyDataGridColumn {
   /**
    * Whether the column is locked. The intent is to display locked columns first
    * on the left side of the grid. If set to `true`, then users cannot drag the column
-   * to another position and or drag other columns before the locked column.
+   * to another position or drag other columns before it.
    * @default false
    */
   public readonly locked = input<boolean, unknown>(false, {

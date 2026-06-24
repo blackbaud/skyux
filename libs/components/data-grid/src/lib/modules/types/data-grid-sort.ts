@@ -1,5 +1,5 @@
 /**
- * Used for applying sort to a `SkyDataGridComponent` as well as receiving updates when the data grid sorting changes.
+ * Applies a sort to a `SkyDataGrid` and reflects updates when the grid's sort changes.
  */
 export interface SkyDataGridSort<
   T extends Record<'id', string> = Record<'id', string> &

@@ -99,8 +99,8 @@ export class SkyDataGrid<
     Record<string, unknown>,
 > {
   /**
-   * Enable a compact layout for the grid when using modern theme. Compact layout uses
-   * a smaller font size and row height to display more data in a smaller space.
+   * Whether to enable a compact layout for the grid when using modern theme. Compact layout
+   * uses a smaller font size and row height to display more data in a smaller space.
    * @default false
    */
   public readonly compact = input<boolean, unknown>(false, {
@@ -115,9 +115,12 @@ export class SkyDataGrid<
   public readonly data = input<T[] | null | undefined>();
 
   /**
-   * When set to `true`, the grid will not modify the sort order when a column header is clicked. If the
-   * `SkyDataGridColumn`s have `sortable` set to `true`, the grid will still emit a `sortField` change when a column
-   * header is clicked, and `data` will need to be updated.
+   * Whether the grid leaves the data order unchanged when a column is sorted. By default, clicking a
+   * column header sorts the data using that column. When `dataSorted` is set to `true`, the
+   * data grid will not modify the sort order, `sortField` will emit a new value, and `data` will need to be updated.
+   * Use this option when the data is returned from the server already sorted, such as sorting a "name" column using
+   * last name.
+   * @default false
    */
   public readonly dataSorted = input<boolean, unknown>(false, {
     transform: coerceBooleanProperty,
@@ -141,7 +144,8 @@ export class SkyDataGrid<
   });
 
   /**
-   * The minimum height of the grid in pixels. The default value is `50`.
+   * The minimum height of the grid in pixels.
+   * @default 50
    */
   public readonly minHeight = input<number, unknown>(50, {
     transform: numberAttribute,
@@ -158,6 +162,7 @@ export class SkyDataGrid<
 
   /**
    * The number of items to display per page. Setting this value enables pagination.
+   * @default 0
    */
   public readonly pageSize = input<number, unknown>(0, {
     transform: (value: unknown) => coerceNumberProperty(value, 0),
@@ -179,7 +184,7 @@ export class SkyDataGrid<
   });
 
   /**
-   * Move the horizontal scrollbar to just below the header row.
+   * Whether to move the horizontal scrollbar to just below the header row.
    * @default false
    */
   public readonly topScrollEnabled = input<boolean, unknown>(false, {
@@ -187,18 +192,25 @@ export class SkyDataGrid<
   });
 
   /**
-   * The current page number of the grid when `pageSize` has been set.
+   * The current page number of the grid when `pageSize` has been set. This is two-way bindable:
+   * it updates as the user navigates pages, and you can set it to change the current page.
+   * @default 1
    */
   public readonly page = model<number>(1);
 
   /**
    * The set of IDs for the rows to select in a multiselect grid.
-   * Rows with IDs that are not included are de-selected in the grid.
+   * Rows with IDs that are not included are de-selected in the grid. This is two-way bindable:
+   * it emits the updated set of IDs when the user changes the selection.
+   * @default []
    */
   public readonly selectedRowIds = model<string[]>([]);
 
   /**
-   * The sort setting for the grid.
+   * The current sort applied to the grid. This is two-way bindable: it emits a new value
+   * whenever the user sorts a column, and you can set it to sort the grid programmatically.
+   * When `dataSorted` is `true`, the grid emits the new value here but does not reorder the
+   * data itself, leaving it to you to update `data`.
    */
   public readonly sortField = model<SkyDataGridSort<T> | undefined>(undefined);
 
