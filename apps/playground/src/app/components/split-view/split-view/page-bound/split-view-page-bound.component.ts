@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import {
   SkyConfirmCloseEventArgs,
   SkyConfirmService,
@@ -47,10 +47,10 @@ export class SplitViewPageBoundComponent {
 
   private _activeIndex = 0;
 
-  constructor(
-    public changeDetectorRef: ChangeDetectorRef,
-    public confirmService: SkyConfirmService,
-  ) {
+  public readonly changeDetectorRef = inject(ChangeDetectorRef);
+  public readonly confirmService = inject(SkyConfirmService);
+
+  constructor() {
     this.activeIndex = 0;
   }
 

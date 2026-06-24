@@ -6,6 +6,7 @@ import {
   OnDestroy,
   OnInit,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import {
@@ -80,21 +81,10 @@ export class DataEntryGridComponent
 
   readonly #gridsReady = new Map<string, Observable<boolean>>();
   #nameLookupData: { name: string; id: string }[] | undefined;
-  readonly #agGridService: SkyAgGridService;
-  readonly #themeSvc: SkyThemeService;
-  readonly #changeDetectorRef: ChangeDetectorRef;
-  readonly #ngUnsubscribe: Subscription;
-
-  constructor(
-    agGridService: SkyAgGridService,
-    themeSvc: SkyThemeService,
-    changeDetectorRef: ChangeDetectorRef,
-  ) {
-    this.#agGridService = agGridService;
-    this.#themeSvc = themeSvc;
-    this.#changeDetectorRef = changeDetectorRef;
-    this.#ngUnsubscribe = new Subscription();
-  }
+  readonly #agGridService = inject(SkyAgGridService);
+  readonly #themeSvc = inject(SkyThemeService);
+  readonly #changeDetectorRef = inject(ChangeDetectorRef);
+  readonly #ngUnsubscribe = new Subscription();
 
   public ngOnInit(): void {
     if (!this.dataSets) {

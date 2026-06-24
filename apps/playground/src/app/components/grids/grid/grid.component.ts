@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { SkyGridModule } from '@skyux/grids';
 import { ListSortFieldSelectorModel } from '@skyux/list-builder-common';
 
@@ -14,7 +14,7 @@ import { ListSortFieldSelectorModel } from '@skyux/list-builder-common';
   `,
   templateUrl: './grid.component.html',
 })
-export class GridPlaygroundComponent {
+export default class GridPlaygroundComponent {
   public data = [
     {
       id: '1',
@@ -74,10 +74,16 @@ export class GridPlaygroundComponent {
     },
   ];
 
-  public selectedColumnIds = ['name', 'email', 'amount', 'status', 'role'];
+  public selectedColumnIds = signal([
+    'name',
+    'email',
+    'amount',
+    'status',
+    'role',
+  ]);
 
   public onSelectedColumnIdsChange(selectedColumnIds: string[]): void {
-    this.selectedColumnIds = selectedColumnIds;
+    this.selectedColumnIds.set(selectedColumnIds);
     console.log('Column order changed:', selectedColumnIds);
   }
 

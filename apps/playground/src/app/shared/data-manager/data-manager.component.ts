@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   OnInit,
+  inject,
 } from '@angular/core';
 import {
   SkyDataManagerService,
@@ -23,6 +24,10 @@ import { DataManagerFiltersModalComponent } from './data-manager-filter-modal.co
   standalone: false,
 })
 export class DataManagerComponent implements OnInit {
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #dataManagerService = inject(SkyDataManagerService);
+  readonly #modalService = inject(SkyModalService);
+
   public items = AG_GRID_DEMO_DATA;
 
   public activeViewId = 'dataEntryGridWithDataManagerView';
@@ -72,27 +77,23 @@ export class DataManagerComponent implements OnInit {
     ],
   });
 
-  constructor(
-    private changeDetector: ChangeDetectorRef,
-    private dataManagerService: SkyDataManagerService,
-    private modalService: SkyModalService,
-  ) {
-    this.dataManagerService
+  constructor() {
+    this.#dataManagerService
       .getDataStateUpdates('dataEntryGridDataManager')
       .subscribe((state) => {
         this.dataState = state;
-        this.changeDetector.detectChanges();
+        this.#changeDetector.detectChanges();
       });
-    this.dataManagerService
+    this.#dataManagerService
       .getActiveViewIdUpdates()
       .subscribe((activeViewId) => {
         this.activeViewId = activeViewId;
-        this.changeDetector.detectChanges();
+        this.#changeDetector.detectChanges();
       });
   }
 
   public ngOnInit(): void {
-    this.dataManagerService.initDataManager({
+    this.#dataManagerService.initDataManager({
       activeViewId: this.activeViewId,
       dataManagerConfig: this.dataManagerConfig,
       defaultDataState: this.defaultDataState,
@@ -102,7 +103,7 @@ export class DataManagerComponent implements OnInit {
   public openModal(): void {
     const context = new DataManagerEditModalContext();
     context.gridData = this.items.slice();
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
 
     const options = {
       providers: [{ provide: DataManagerEditModalContext, useValue: context }],
@@ -110,7 +111,7 @@ export class DataManagerComponent implements OnInit {
       size: 'large',
     };
 
-    const modalInstance = this.modalService.open(
+    const modalInstance = this.#modalService.open(
       DataManagerEditModalComponent,
       options,
     );
@@ -122,7 +123,7 @@ export class DataManagerComponent implements OnInit {
         this.items = result.data;
         alert('Saving data!');
       }
-      this.changeDetector.markForCheck();
+      this.#changeDetector.markForCheck();
     });
   }
 }

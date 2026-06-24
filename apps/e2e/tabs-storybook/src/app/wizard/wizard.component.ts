@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { SkyModalService } from '@skyux/modals';
 
 import { WizardModalComponent } from './wizard-modal.component';
@@ -9,11 +9,7 @@ import { WizardModalComponent } from './wizard-modal.component';
   standalone: false,
 })
 export class WizardComponent implements OnDestroy {
-  #modalService: SkyModalService;
-
-  constructor(modalService: SkyModalService) {
-    this.#modalService = modalService;
-  }
+  readonly #modalService = inject(SkyModalService);
 
   public ngOnDestroy(): void {
     this.#modalService.dispose();

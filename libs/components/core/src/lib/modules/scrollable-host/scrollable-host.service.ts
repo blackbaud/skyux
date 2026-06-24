@@ -7,10 +7,10 @@ import {
   Subscription,
   animationFrameScheduler,
   combineLatestWith,
-  concat,
   debounceTime,
   fromEvent,
   map,
+  merge,
   observeOn,
   of,
   switchMap,
@@ -41,12 +41,14 @@ export class SkyScrollableHostService {
   readonly #resizeObserverSvc: SkyResizeObserverService | undefined;
   readonly #zone: NgZone | undefined;
 
+  /* eslint-disable @angular-eslint/prefer-inject -- constructor injection is required to maintain the public API for consumers who may instantiate this service directly (e.g. `new SkyScrollableHostService(...)`). */
   constructor(
     mutationObserverSvc: SkyMutationObserverService,
     windowRef: SkyAppWindowRef,
     @Optional() resizeObserverSvc?: SkyResizeObserverService,
     @Optional() zone?: NgZone,
   ) {
+    /* eslint-enable @angular-eslint/prefer-inject */
     this.#mutationObserverSvc = mutationObserverSvc;
     this.#resizeObserverSvc = resizeObserverSvc;
     this.#windowRef = windowRef;
@@ -260,6 +262,7 @@ export class SkyScrollableHostService {
             scrollableHost !== this.#windowRef.nativeWindow
           ) {
             inputs.push(
+              fromEvent(scrollableHost, 'scroll'),
               resizeObserverSvc.observe({ nativeElement: scrollableHost }),
             );
             getHostRect = (): HostRect =>
@@ -272,7 +275,7 @@ export class SkyScrollableHostService {
               bottom: this.#windowRef.nativeWindow.innerHeight,
             });
           }
-          return concat(inputs).pipe(
+          return merge(...inputs).pipe(
             observeOn(animationFrameScheduler),
             debounceTime(0),
             map(() => {

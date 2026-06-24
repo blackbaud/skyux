@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
 } from '@angular/core';
 import { SkyI18nModule } from '@skyux/i18n';
 
@@ -23,11 +24,7 @@ export class SkyAgGridCellRendererLookupComponent implements ICellRendererAngula
   protected value = '';
   protected summaryCount = 0;
 
-  #changeDetector: ChangeDetectorRef;
-
-  constructor(changeDetector: ChangeDetectorRef) {
-    this.#changeDetector = changeDetector;
-  }
+  readonly #changeDetector = inject(ChangeDetectorRef);
 
   public agInit(params: SkyCellRendererLookupParams): void {
     this.summaryCount = params.value?.length || 0;

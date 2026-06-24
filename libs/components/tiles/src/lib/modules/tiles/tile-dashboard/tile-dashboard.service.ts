@@ -163,6 +163,29 @@ export class SkyTileDashboardService {
   }
 
   /**
+   * @internal
+   * Registers the grab handle for a tile component so it can be used as the
+   * drag handle. This is necessary when the tile is rendered asynchronously
+   * (e.g., wrapped in an `@if` block) after the initial drag refs are created.
+   */
+  public registerGrabHandle(tile: SkyTileComponent): void {
+    const handle = tile.grabHandle?.nativeElement;
+
+    if (!handle) {
+      return;
+    }
+
+    const skyTileEl = tile.elementRef.nativeElement;
+    const dragRef = this.#dragRefs.find((ref) =>
+      ref.getRootElement().contains(skyTileEl),
+    );
+
+    if (dragRef) {
+      dragRef.withHandles([handle]);
+    }
+  }
+
+  /**
    * Checks whether a specified tile is collapsed.
    * @param tile Specifies the tile component to check.
    */

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { SkyWaitService } from '@skyux/indicators';
 
 @Component({
@@ -15,13 +15,8 @@ export class WaitComponent {
 
   public oneThroughForty = Array.from({ length: 40 }, (_, i) => i + 1);
 
-  #changeDetector: ChangeDetectorRef;
-  #waitSvc: SkyWaitService;
-
-  constructor(changeDetector: ChangeDetectorRef, waitSvc: SkyWaitService) {
-    this.#changeDetector = changeDetector;
-    this.#waitSvc = waitSvc;
-  }
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #waitSvc = inject(SkyWaitService);
 
   public toggleFullPageWait(): void {
     this.isFullPageWaiting = !this.isFullPageWaiting;

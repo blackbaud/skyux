@@ -1,6 +1,98 @@
 # Changelog
 
 
+## [14.3.12](https://github.com/blackbaud/skyux/compare/14.3.11...14.3.12) (2026-06-16)
+
+
+### Bug Fixes
+
+* **components/data-manager:** do not render an empty toolbar when filter bar is the only content ([#4461](https://github.com/blackbaud/skyux/issues/4461)) ([d7699f2](https://github.com/blackbaud/skyux/commit/d7699f2729f04745dcbbbc0e72b9ecbec12ad1e4)), closes [AB#4018065](https://dev.azure.com/blackbaud/Products/_workitems/edit/4018065)
+
+## [14.3.11](https://github.com/blackbaud/skyux/compare/14.3.10...14.3.11) (2026-06-16)
+
+
+### Bug Fixes
+
+* **components/phone-field:** invalid phone number error message is more generic to avoid consumer confusion ([#4444](https://github.com/blackbaud/skyux/issues/4444)) ([96f8f5e](https://github.com/blackbaud/skyux/commit/96f8f5ec56875e9731e021798ac15793a1bd0b58))
+* **components/phone-field:** update format when country changes ([#4445](https://github.com/blackbaud/skyux/issues/4445)) ([a7bd99e](https://github.com/blackbaud/skyux/commit/a7bd99e0426f03035b3aecc12ee54ae1305b06ef))
+
+## [14.3.10](https://github.com/blackbaud/skyux/compare/14.3.9...14.3.10) (2026-06-15)
+
+
+### Bug Fixes
+
+* **components/forms:** fix scenario where hint text is not associated with an input box's input between change detection cycles ([#4442](https://github.com/blackbaud/skyux/issues/4442)) ([a9ffd0b](https://github.com/blackbaud/skyux/commit/a9ffd0b1cdde22825a309068098f5847be725825))
+
+## [14.3.9](https://github.com/blackbaud/skyux/compare/14.3.8...14.3.9) (2026-06-12)
+
+
+### Bug Fixes
+
+* **components/grids:** update grid component's sky-checkbox to use labelText ([#4436](https://github.com/blackbaud/skyux/issues/4436)) ([80ecbfd](https://github.com/blackbaud/skyux/commit/80ecbfdfb4c8b85c73e2af833b8b0245429a198a)), closes [AB#4007153](https://dev.azure.com/blackbaud/Products/_workitems/edit/4007153)
+
+## [14.3.8](https://github.com/blackbaud/skyux/compare/14.3.7...14.3.8) (2026-06-04)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** data manager column picker should not touch ag-grid selection pseudo column ([#4431](https://github.com/blackbaud/skyux/issues/4431)) ([b4acba8](https://github.com/blackbaud/skyux/commit/b4acba8cfd80e19d56f1d47666ed1e9ba854cae6)), closes [AB#3942528](https://dev.azure.com/blackbaud/Products/_workitems/edit/3942528)
+* **components/lists:** list summary properly formats values when the numeric value is `0` ([#4434](https://github.com/blackbaud/skyux/issues/4434)) ([eb08f53](https://github.com/blackbaud/skyux/commit/eb08f531baab0f8dacb02ea02b4ed5d7a63975d0))
+
+## [14.3.7](https://github.com/blackbaud/skyux/compare/14.3.6...14.3.7) (2026-05-28)
+
+
+### Bug Fixes
+
+* **components/code-examples:** ensure all `sky-input-box` usages include `labelText` ([#4428](https://github.com/blackbaud/skyux/issues/4428)) ([7559bd5](https://github.com/blackbaud/skyux/commit/7559bd53aa2270469ff80ab168e8a9c9b4a705be))
+* **components/indicators:** fix public API specificity for key info value ([#4425](https://github.com/blackbaud/skyux/issues/4425)) ([0a87996](https://github.com/blackbaud/skyux/commit/0a879962f04178aff5ac655ef6e7781bf7f05600))
+* **components/tiles:** register grab handle when sky-tile renders asynchronously ([#4429](https://github.com/blackbaud/skyux/issues/4429)) ([903c6cd](https://github.com/blackbaud/skyux/commit/903c6cd77835e1f1adcfcd81f277ceeb5720f447)), closes [AB#3986793](https://dev.azure.com/blackbaud/Products/_workitems/edit/3986793)
+
+## [14.3.6](https://github.com/blackbaud/skyux/compare/14.3.5...14.3.6) (2026-05-22)
+
+
+### Bug Fixes
+
+* **components/lists:** repeater item interactions still work when reorderable is enabled ([#4423](https://github.com/blackbaud/skyux/issues/4423)) ([3f487c6](https://github.com/blackbaud/skyux/commit/3f487c6f1c8150443e5a8b04c9d513225a18c570)), closes [AB#3985462](https://dev.azure.com/blackbaud/Products/_workitems/edit/3985462)
+
+## [14.3.5](https://github.com/blackbaud/skyux/compare/14.3.4...14.3.5) (2026-05-20)
+
+
+### Bug Fixes
+
+* **components/core:** scrollable host should continuously update clip path ([#4421](https://github.com/blackbaud/skyux/issues/4421)) ([6512bde](https://github.com/blackbaud/skyux/commit/6512bde6ed3411928fc31c58ad94ee8bae70f38f)), closes [AB#3991287](https://dev.azure.com/blackbaud/Products/_workitems/edit/3991287)
+
+## [14.3.4](https://github.com/blackbaud/skyux/compare/14.3.3...14.3.4) (2026-05-15)
+
+
+### Bug Fixes
+
+* **components/lookup:** stop implicit tab selection in empty-search autocomplete ([#4414](https://github.com/blackbaud/skyux/issues/4414)) ([1c997df](https://github.com/blackbaud/skyux/commit/1c997dfeee9c531e6b4ac169866a95b29e2ad049))
+
+## [14.3.3](https://github.com/blackbaud/skyux/compare/14.3.2...14.3.3) (2026-05-14)
+
+
+### Bug Fixes
+
+* **components/code-examples:** restore hard-mode input styling in character count example ([#4415](https://github.com/blackbaud/skyux/issues/4415)) ([722a496](https://github.com/blackbaud/skyux/commit/722a496f0a07f2fc85c28b195eb0b1558fcfe48e))
+* **components/packages:** standalone schematic unable to read secondary entrypoints ([#4417](https://github.com/blackbaud/skyux/issues/4417)) ([d28bdd4](https://github.com/blackbaud/skyux/commit/d28bdd444604bc417bce9e915b0fb0a446d2addd))
+
+## [14.3.2](https://github.com/blackbaud/skyux/compare/14.3.1...14.3.2) (2026-05-13)
+
+
+### Bug Fixes
+
+* **components/packages:** standalone schematic unable to read type files ([#4413](https://github.com/blackbaud/skyux/issues/4413)) ([957226c](https://github.com/blackbaud/skyux/commit/957226c8c3b2b84385176f9ebc7c5b02a25d3e65)), closes [AB#3984329](https://dev.azure.com/blackbaud/Products/_workitems/edit/3984329)
+* **components/theme:** default theme public custom properties are set in root ([#4411](https://github.com/blackbaud/skyux/issues/4411)) ([1e5d61d](https://github.com/blackbaud/skyux/commit/1e5d61d2076d7086595924332118104a80f52e20))
+
+## [14.3.1](https://github.com/blackbaud/skyux/compare/14.3.0...14.3.1) (2026-05-12)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** only set currency minDigits and truncate if not set in renderer params ([#4408](https://github.com/blackbaud/skyux/issues/4408)) ([d3e0bf4](https://github.com/blackbaud/skyux/commit/d3e0bf427b4a83b9b27730611f6ee31703207fb5))
+* **components/ag-grid:** row delete overlay shows when used in the bootstrap component ([#4407](https://github.com/blackbaud/skyux/issues/4407)) ([eed780a](https://github.com/blackbaud/skyux/commit/eed780a036c436b431b51fed66aec1e556997de4)), closes [AB#3972778](https://dev.azure.com/blackbaud/Products/_workitems/edit/3972778)
+* **components/i18n:** update library resources schematic to only include message property ([#4405](https://github.com/blackbaud/skyux/issues/4405)) ([e41770b](https://github.com/blackbaud/skyux/commit/e41770bfc766de840dd02a6e39b964c6abd0b1d8)), closes [AB#3971960](https://dev.azure.com/blackbaud/Products/_workitems/edit/3971960)
+
 ## [14.3.0](https://github.com/blackbaud/skyux/compare/14.2.2...14.3.0) (2026-05-05)
 
 

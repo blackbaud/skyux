@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
@@ -87,8 +87,10 @@ export class SwitchControlsComponent {
     { name: 'Disabled radio button', value: '3', disabled: true },
   ];
 
-  constructor(formBuilder: FormBuilder) {
-    this.myForm = formBuilder.group({
+  readonly #formBuilder = inject(FormBuilder);
+
+  constructor() {
+    this.myForm = this.#formBuilder.group({
       radioControl: this.radioOptions[0].name,
       radioIconGroupControl: this.radioGroupIconOptions[0].name,
       radioIconGroupDisabledControl: this.radioGroupIconDisabledOptions[0].name,

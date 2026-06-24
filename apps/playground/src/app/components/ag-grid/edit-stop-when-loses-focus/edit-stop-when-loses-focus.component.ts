@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, inject } from '@angular/core';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import { SkyThemeService } from '@skyux/theme';
 
@@ -36,10 +36,8 @@ export class EditStopWhenLosesFocusComponent implements OnInit {
     this.sizeGrid();
   }
 
-  constructor(
-    private agGridService: SkyAgGridService,
-    public themeSvc: SkyThemeService,
-  ) {}
+  readonly #agGridService = inject(SkyAgGridService);
+  public readonly themeSvc = inject(SkyThemeService);
 
   public ngOnInit(): void {
     this.setColumnDefs();
@@ -232,7 +230,7 @@ export class EditStopWhenLosesFocusComponent implements OnInit {
   }
 
   private getGridOptions(): void {
-    this.gridOptions = this.agGridService.getEditableGridOptions({
+    this.gridOptions = this.#agGridService.getEditableGridOptions({
       gridOptions: {
         columnDefs: this.columnDefs,
         onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),

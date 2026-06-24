@@ -1,4 +1,9 @@
-import { AfterViewInit, ChangeDetectorRef, Component } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  inject,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import {
   SkyDataManagerService,
@@ -16,6 +21,10 @@ import { IntegrationRouteInfo } from '../shared/integration-info/integration-rou
   standalone: false,
 })
 export class HomeComponent implements AfterViewInit {
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #dataManagerService = inject(SkyDataManagerService);
+  readonly #router = inject(Router);
+
   public integrationsData: IntegrationInfo[] = [];
 
   public dataManagerConfig = {
@@ -57,12 +66,8 @@ export class HomeComponent implements AfterViewInit {
     showSortButtonText: true,
   };
 
-  constructor(
-    router: Router,
-    private changeDetector: ChangeDetectorRef,
-    private dataManagerService: SkyDataManagerService,
-  ) {
-    const integrationsRoute = router.config.find(
+  constructor() {
+    const integrationsRoute = this.#router.config.find(
       (route) => route.path === 'integrations',
     );
 
@@ -74,18 +79,18 @@ export class HomeComponent implements AfterViewInit {
             integrationsRoutes.routes,
             'integrations',
           ).then(() => {
-            this.dataManagerService.initDataManager({
+            this.#dataManagerService.initDataManager({
               activeViewId: 'integrations',
               dataManagerConfig: this.dataManagerConfig,
               defaultDataState: this.defaultDataState,
             });
 
-            this.dataManagerService.initDataView(this.viewConfig);
+            this.#dataManagerService.initDataView(this.viewConfig);
 
             this.displayedItems = this.sortItems(
               this.searchItems(this.integrationsData),
             );
-            this.changeDetector.markForCheck();
+            this.#changeDetector.markForCheck();
           });
         },
       );
@@ -93,7 +98,7 @@ export class HomeComponent implements AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    this.dataManagerService
+    this.#dataManagerService
       .getDataStateUpdates('integrations')
       .subscribe((state) => {
         this.dataState = state;
@@ -101,7 +106,7 @@ export class HomeComponent implements AfterViewInit {
           this.displayedItems = this.sortItems(
             this.searchItems(this.integrationsData),
           );
-          this.changeDetector.detectChanges();
+          this.#changeDetector.detectChanges();
         }
       });
   }

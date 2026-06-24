@@ -26,21 +26,21 @@
   </sky-progress-indicator-item>
 
   @if (showFourthItem) {
-  <sky-progress-indicator-item title="Do the fourth thing">
-    Waterfall content 4
-  </sky-progress-indicator-item>
+    <sky-progress-indicator-item title="Do the fourth thing">
+      Waterfall content 4
+    </sky-progress-indicator-item>
   }
 
   <!-- Legacy reset button within a progress indicator -->
   @if (!showIsolatedLegacyResetButton) {
-  <sky-progress-indicator-reset-button
-    #legacyResetButton
-    [disabled]="disabled"
-    [progressIndicator]="progressIndicator"
-    (resetClick)="onResetClick()"
-  >
-    Reset (legacy)
-  </sky-progress-indicator-reset-button>
+    <sky-progress-indicator-reset-button
+      #legacyResetButton
+      [disabled]="disabled"
+      [progressIndicator]="progressIndicator"
+      (resetClick)="onResetClick()"
+    >
+      Reset (legacy)
+    </sky-progress-indicator-reset-button>
   }
 
   <!-- Nav button within a progress indicator -->
@@ -53,32 +53,32 @@
 
 <!-- Legacy reset button outside a progress indicator -->
 @if (showIsolatedLegacyResetButton) {
-<sky-progress-indicator-reset-button
-  #legacyIsolatedResetButton
-  [progressIndicator]="progressIndicator"
-  (resetClick)="onResetClick()"
->
-  Reset (legacy)
-</sky-progress-indicator-reset-button>
+  <sky-progress-indicator-reset-button
+    #legacyIsolatedResetButton
+    [progressIndicator]="progressIndicator"
+    (resetClick)="onResetClick()"
+  >
+    Reset (legacy)
+  </sky-progress-indicator-reset-button>
 }
 
 <!-- Nav buttons outside a progress indicator -->
 @if (showNavButtons) {
-<div class="progress-indicator-fixture-external-nav-buttons">
-  <sky-progress-indicator-nav-button
-    #defaultNavButton
-    [progressIndicator]="defaultNavButtonProgressIndicatorRef"
-  />
+  <div class="progress-indicator-fixture-external-nav-buttons">
+    <sky-progress-indicator-nav-button
+      #defaultNavButton
+      [progressIndicator]="defaultNavButtonProgressIndicatorRef"
+    />
 
-  @for (buttonConfig of buttonConfigs; track buttonConfig) {
-  <sky-progress-indicator-nav-button
-    [buttonText]="buttonConfig.text"
-    [buttonType]="buttonConfig.type"
-    [disabled]="disabled"
-    [progressIndicator]="progressIndicator"
-  />
-  }
-</div>
+    @for (buttonConfig of buttonConfigs; track buttonConfig) {
+      <sky-progress-indicator-nav-button
+        [buttonText]="buttonConfig.text"
+        [buttonType]="buttonConfig.type"
+        [disabled]="disabled"
+        [progressIndicator]="progressIndicator"
+      />
+    }
+  </div>
 }
 
 <!-- Empty progress indicator container -->

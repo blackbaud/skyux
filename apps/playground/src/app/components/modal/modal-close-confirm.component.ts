@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   SkyConfirmCloseEventArgs,
@@ -19,10 +19,10 @@ export class ModalCloseConfirmComponent {
   public hasUnsavedWork = true;
   public confirmationConfig = true;
 
-  constructor(
-    public instance: SkyModalInstance,
-    public confirmService: SkyConfirmService,
-  ) {
+  public readonly instance = inject(SkyModalInstance);
+  public readonly confirmService = inject(SkyConfirmService);
+
+  constructor() {
     this.instance.beforeClose.subscribe(
       (closeHandler: SkyModalBeforeCloseHandler) => {
         this.onClose(closeHandler);

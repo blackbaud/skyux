@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SkyIdModule } from '@skyux/core';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyAutocompleteModule } from '@skyux/lookup';
@@ -32,5 +32,5 @@ export class ModalFormDemoComponent {
     { name: 'Black' },
   ];
 
-  constructor(public instance: SkyModalInstance) {}
+  public readonly instance = inject(SkyModalInstance);
 }

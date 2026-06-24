@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   SkyModalInstance,
   SkyModalModule,
@@ -13,19 +13,16 @@ import { EditComplexCellsComponent } from './edit-complex-cells.component';
   imports: [SkyModalModule],
 })
 export class EditComplexCellsInModalModalComponent {
-  constructor(
-    public modal: SkyModalInstance,
-    private modalService: SkyModalService,
-  ) {}
-
+  public readonly modal = inject(SkyModalInstance);
+  readonly #modalService = inject(SkyModalService);
   public openGridModal(): void {
-    this.modalService.open(EditComplexCellsInModalModalGridComponent, {
+    this.#modalService.open(EditComplexCellsInModalModalGridComponent, {
       size: 'large',
     });
   }
 
   public openNotGridModal(): void {
-    this.modalService.open(EditComplexCellsInModalModalNotGridComponent, {
+    this.#modalService.open(EditComplexCellsInModalModalNotGridComponent, {
       size: 'large',
     });
   }
@@ -58,10 +55,11 @@ export class EditComplexCellsInModalModalNotGridComponent {}
   template: '',
 })
 export class EditComplexCellsInModalComponent implements OnInit {
-  constructor(private modalService: SkyModalService) {}
+  public readonly modal = inject(SkyModalInstance);
+  readonly #modalService = inject(SkyModalService);
 
   public ngOnInit(): void {
-    this.modalService.open(EditComplexCellsInModalModalGridComponent, {
+    this.#modalService.open(EditComplexCellsInModalModalGridComponent, {
       size: 'large',
     });
   }

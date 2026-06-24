@@ -1278,6 +1278,34 @@ describe('Phone Field Component', () => {
         );
       }));
 
+      it('should reapply formatting and country code when the country is changed', fakeAsync(() => {
+        fixture.detectChanges();
+        const inputElement = fixture.debugElement.query(By.css('input'));
+        const ngModel = inputElement.injector.get(NgModel);
+
+        // Non-US tenant.
+        component.defaultCountry = 'au';
+        fixture.detectChanges();
+
+        // Enter a US number while a non-US country is selected.
+        setCountry('France', fixture);
+        component.modelValue = '6675555309';
+        detectChangesAndTick(fixture);
+
+        // Switching to the US reformats the existing number with the +1 country
+        // code and propagates it to the model without re-editing the input.
+        setCountry('United States', fixture);
+
+        validateInputAndModel(
+          '6675555309',
+          '+1 667-555-5309',
+          true,
+          true,
+          ngModel,
+          fixture,
+        );
+      }));
+
       it('should validate correctly after country is changed programmatically', fakeAsync(() => {
         fixture.detectChanges();
         const inputElement = fixture.debugElement.query(By.css('input'));
@@ -2470,6 +2498,18 @@ describe('Phone Field Component', () => {
       const hintTextEl = inputBoxEl.querySelector('.sky-input-box-hint-text');
 
       expect(hintTextEl).not.toBeVisible({ checkCssVisibility: true });
+    }));
+
+    it('should associate the hint text element with the input via aria-describedby', fakeAsync(() => {
+      detectChangesAndTick(fixture);
+      tick();
+
+      const inputBoxEl = fixture.nativeElement.querySelector('sky-input-box');
+      const inputEl = inputBoxEl.querySelector('input[skyPhoneFieldInput]');
+      const hintTextEl = inputBoxEl.querySelector('.sky-input-box-hint-text');
+
+      expect(hintTextEl).toBeTruthy();
+      expect(inputEl.getAttribute('aria-describedby')).toContain(hintTextEl.id);
     }));
 
     describe('country selector', () => {

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyAgGridHeaderGroupInfo } from '@skyux/ag-grid';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 
@@ -16,7 +16,7 @@ import { SkyHelpInlineModule } from '@skyux/help-inline';
   imports: [SkyHelpInlineModule],
 })
 export class GroupInlineHelpComponent {
-  constructor(public info: SkyAgGridHeaderGroupInfo) {}
+  public readonly info = inject(SkyAgGridHeaderGroupInfo);
 
   public onHelpClick(): void {
     console.log(`Help was clicked for ${this.info.displayName}.`);

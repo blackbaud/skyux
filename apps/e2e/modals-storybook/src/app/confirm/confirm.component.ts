@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SkyConfirmService, SkyConfirmType } from '@skyux/modals';
 
 @Component({
@@ -8,11 +8,7 @@ import { SkyConfirmService, SkyConfirmType } from '@skyux/modals';
   standalone: false,
 })
 export class ConfirmComponent {
-  #confirmService: SkyConfirmService;
-
-  constructor(confirmService: SkyConfirmService) {
-    this.#confirmService = confirmService;
-  }
+  readonly #confirmService = inject(SkyConfirmService);
 
   public openOkConfirm(): void {
     this.#confirmService.open({

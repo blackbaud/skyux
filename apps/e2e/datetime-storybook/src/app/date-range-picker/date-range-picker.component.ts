@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import {
   SkyDateRangeCalculation,
@@ -64,6 +64,9 @@ export class DateRangePickerComponent {
   ];
   public dateFormat: string | undefined;
   public disabled = false;
+
+  readonly #formBuilder = inject(FormBuilder);
+
   public reactiveForm: FormGroup<{
     anyDate: FormControl<SkyDateRangeCalculation | null>;
     before: FormControl<SkyDateRangeCalculation | null>;
@@ -75,12 +78,12 @@ export class DateRangePickerComponent {
     disabled: FormControl<SkyDateRangeCalculation | null>;
   }>;
 
-  constructor(formBuilder: FormBuilder) {
+  constructor() {
     const value: Partial<SkyDateRangeCalculation> = {
       startDate: new Date('2020-01-01T12:00:00.000Z'),
       endDate: new Date('2020-01-31T00:12:00.000Z'),
     };
-    this.reactiveForm = formBuilder.group({
+    this.reactiveForm = this.#formBuilder.group({
       anyDate: new FormControl<SkyDateRangeCalculation | null>({
         ...value,
         calculatorId: SkyDateRangeCalculatorId.AnyTime,

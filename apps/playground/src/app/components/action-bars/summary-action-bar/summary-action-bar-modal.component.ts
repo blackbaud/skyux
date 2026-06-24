@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   SkySummaryActionBarError,
   SkySummaryActionBarModule,
@@ -13,7 +13,7 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
   imports: [SkyKeyInfoModule, SkyModalModule, SkySummaryActionBarModule],
 })
 export class SummaryActionBarModalComponent {
-  constructor(public instance: SkyModalInstance) {}
+  public readonly instance = inject(SkyModalInstance);
 
   public printHello(): void {
     console.log('hello');

@@ -4,6 +4,7 @@ import {
   OnDestroy,
   Renderer2,
   RendererFactory2,
+  inject,
 } from '@angular/core';
 
 import { Subject, fromEvent as observableFromEvent } from 'rxjs';
@@ -18,22 +19,18 @@ import { SkyMutationObserverService } from '../mutation/mutation-observer-servic
 export class SkyDockDomAdapterService implements OnDestroy {
   #currentDockHeight: number | undefined;
 
-  #mutationSvc: SkyMutationObserverService;
+  readonly #mutationSvc = inject(SkyMutationObserverService);
 
   #ngUnsubscribe = new Subject<void>();
 
   #observer: MutationObserver | undefined;
 
-  #renderer: Renderer2;
+  readonly #renderer: Renderer2;
 
   #styleElement: HTMLStyleElement | undefined;
 
-  constructor(
-    mutationSvc: SkyMutationObserverService,
-    rendererFactory: RendererFactory2,
-  ) {
-    this.#mutationSvc = mutationSvc;
-    this.#renderer = rendererFactory.createRenderer(undefined, null);
+  constructor() {
+    this.#renderer = inject(RendererFactory2).createRenderer(undefined, null);
   }
 
   public ngOnDestroy(): void {

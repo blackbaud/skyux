@@ -1,5 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
-import { SkyConfirmService } from '@skyux/modals';
+import { Component } from '@angular/core';
 import { SkySplitViewMessage } from '@skyux/split-view';
 
 import { Subject } from 'rxjs';
@@ -65,10 +64,7 @@ export class SplitViewComponent {
 
   private _activeIndex = 0;
 
-  constructor(
-    public changeRef: ChangeDetectorRef,
-    public confirmService: SkyConfirmService,
-  ) {
+  constructor() {
     // Start with the first item selected.
     this.activeIndex = 0;
   }

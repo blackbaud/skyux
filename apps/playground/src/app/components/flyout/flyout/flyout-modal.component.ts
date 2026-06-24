@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
@@ -27,11 +27,7 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 export class FlyoutModalDemoComponent {
   public visible = true;
 
-  #instance: SkyModalInstance;
-
-  constructor(instance: SkyModalInstance) {
-    this.#instance = instance;
-  }
+  readonly #instance = inject(SkyModalInstance);
 
   public close(): void {
     this.#instance.close();

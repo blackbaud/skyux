@@ -25,14 +25,14 @@ export class AppComponent {
 
   public readonly viewportService = inject(SkyAppViewportService);
 
-  constructor(
-    private router: Router,
-    renderer: Renderer2,
-    themeService: SkyThemeService,
-  ) {
-    themeService.init(
+  readonly #renderer = inject(Renderer2);
+  readonly #router = inject(Router);
+  readonly #themeService = inject(SkyThemeService);
+
+  constructor() {
+    this.#themeService.init(
       document.body,
-      renderer,
+      this.#renderer,
       new SkyThemeSettings(
         SkyTheme.presets['default'],
         SkyThemeMode.presets.light,
@@ -47,6 +47,6 @@ export class AppComponent {
   }
 
   public isHome(): boolean {
-    return this.router.url === '/';
+    return this.#router.url === '/';
   }
 }

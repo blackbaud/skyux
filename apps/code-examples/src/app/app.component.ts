@@ -27,17 +27,16 @@ import { SkyThemeSelectorComponent } from './shared/theme-selector/theme-selecto
 })
 export class AppComponent implements AfterViewInit {
   readonly #destroyRef = inject(DestroyRef);
+  readonly #renderer = inject(Renderer2);
+  readonly #router = inject(Router);
+  readonly #themeSvc = inject(SkyThemeService);
+  readonly #viewportSvc = inject(SkyAppViewportService);
   readonly #zone = inject(NgZone);
 
   public height = 80;
 
-  constructor(
-    renderer: Renderer2,
-    public router: Router,
-    themeSvc: SkyThemeService,
-    viewportSvc: SkyAppViewportService,
-  ) {
-    viewportSvc.reserveSpace({
+  constructor() {
+    this.#viewportSvc.reserveSpace({
       id: 'controls',
       position: 'top',
       size: this.height,
@@ -48,19 +47,19 @@ export class AppComponent implements AfterViewInit {
       SkyThemeMode.presets.light,
     );
 
-    themeSvc.init(document.body, renderer, themeSettings);
+    this.#themeSvc.init(document.body, this.#renderer, themeSettings);
   }
 
   public isHome(): boolean {
-    return this.router.url === '/';
+    return this.#router.url === '/';
   }
 
   public ngAfterViewInit(): void {
-    this.router.events
+    this.#router.events
       .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((event) => {
         if (event instanceof NavigationEnd) {
-          const fragment = this.router.parseUrl(event.url).fragment;
+          const fragment = this.#router.parseUrl(event.url).fragment;
 
           if (fragment) {
             this.#zone.runOutsideAngular(() => {

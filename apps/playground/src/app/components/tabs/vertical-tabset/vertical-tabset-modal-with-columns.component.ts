@@ -9,6 +9,4 @@ import { SkyVerticalTabsetModule } from '@skyux/tabs';
   styleUrls: ['./vertical-tabset-modal-with-columns.component.scss'],
   imports: [SkyFluidGridModule, SkyModalModule, SkyVerticalTabsetModule],
 })
-export class VerticalTabsetModalWithColumnsComponent {
-  constructor() {}
-}
+export class VerticalTabsetModalWithColumnsComponent {}

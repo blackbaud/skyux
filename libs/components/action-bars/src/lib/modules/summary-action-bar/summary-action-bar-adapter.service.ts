@@ -3,6 +3,7 @@ import {
   Injectable,
   Renderer2,
   RendererFactory2,
+  inject,
 } from '@angular/core';
 import { SkyAppWindowRef } from '@skyux/core';
 
@@ -13,14 +14,13 @@ import { SkySummaryActionBarType } from './types/summary-action-bar-type';
  */
 @Injectable()
 export class SkySummaryActionBarAdapterService {
-  #renderer: Renderer2;
+  readonly #renderer: Renderer2;
   #splitViewWorkspaceContent: Element | null = null;
   #splitViewWorkspaceFooter: Element | null = null;
-  #windowRef: SkyAppWindowRef;
+  readonly #windowRef = inject(SkyAppWindowRef);
 
-  constructor(rendererFactory: RendererFactory2, windowRef: SkyAppWindowRef) {
-    this.#windowRef = windowRef;
-    this.#renderer = rendererFactory.createRenderer(undefined, null);
+  constructor() {
+    this.#renderer = inject(RendererFactory2).createRenderer(undefined, null);
   }
 
   public focusChevron(chevronElement: ElementRef | undefined): void {

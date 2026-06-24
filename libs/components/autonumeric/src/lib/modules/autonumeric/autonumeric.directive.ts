@@ -8,6 +8,7 @@ import {
   OnInit,
   Renderer2,
   forwardRef,
+  inject,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -72,23 +73,13 @@ export class SkyAutonumericDirective
 
   #ngUnsubscribe = new Subject<void>();
 
-  #elementRef: ElementRef;
-  #globalConfig: SkyAutonumericOptionsProvider;
-  #renderer: Renderer2;
-  #changeDetector: ChangeDetectorRef;
+  readonly #elementRef = inject(ElementRef);
+  readonly #globalConfig = inject(SkyAutonumericOptionsProvider);
+  readonly #renderer = inject(Renderer2);
+  readonly #changeDetector = inject(ChangeDetectorRef);
 
-  constructor(
-    elementRef: ElementRef,
-    globalConfig: SkyAutonumericOptionsProvider,
-    renderer: Renderer2,
-    changeDetector: ChangeDetectorRef,
-  ) {
-    this.#elementRef = elementRef;
-    this.#globalConfig = globalConfig;
-    this.#renderer = renderer;
-    this.#changeDetector = changeDetector;
-
-    this.#autonumericInstance = new AutoNumeric(elementRef.nativeElement);
+  constructor() {
+    this.#autonumericInstance = new AutoNumeric(this.#elementRef.nativeElement);
   }
 
   public ngOnInit(): void {

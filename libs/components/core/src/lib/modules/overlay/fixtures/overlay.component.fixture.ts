@@ -1,4 +1,4 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, TemplateRef, ViewChild, inject } from '@angular/core';
 
 import { SkyOverlayService } from '../overlay.service';
 
@@ -8,11 +8,11 @@ import { SkyOverlayService } from '../overlay.service';
   standalone: false,
 })
 export class OverlayFixtureComponent {
+  public readonly overlayService = inject(SkyOverlayService);
+
   @ViewChild('myTemplate', {
     read: TemplateRef,
     static: true,
   })
   public myTemplate!: TemplateRef<unknown>;
-
-  constructor(public overlayService: SkyOverlayService) {}
 }

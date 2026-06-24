@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormControl,
@@ -78,8 +78,10 @@ export class TextEditorComponent {
 
   #_disabledFlag = false;
 
-  constructor(formBuilder: UntypedFormBuilder) {
-    this.myForm = formBuilder.group({
+  readonly #formBuilder = inject(UntypedFormBuilder);
+
+  constructor() {
+    this.myForm = this.#formBuilder.group({
       myText: new UntypedFormControl(undefined, Validators.required),
     });
   }

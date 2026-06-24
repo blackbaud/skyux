@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
@@ -18,21 +19,21 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
   imports: [FormsModule, SkyCheckboxModule, SkyModalModule],
 })
 export class DataManagerFiltersModalComponent {
+  public readonly context = inject(SkyDataManagerFilterModalContext);
+  public readonly instance = inject(SkyModalInstance);
+  readonly #changeDetector = inject(ChangeDetectorRef);
+
   public jobTitle = '';
 
   public hideSales = false;
 
-  constructor(
-    public context: SkyDataManagerFilterModalContext,
-    public instance: SkyModalInstance,
-    private changeDetector: ChangeDetectorRef,
-  ) {
+  constructor() {
     if (this.context.filterData && this.context.filterData.filters) {
       const filters = this.context.filterData.filters;
       this.jobTitle = filters.jobTitle || 'any';
       this.hideSales = filters.hideSales || false;
     }
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   public applyFilters(): void {
@@ -43,7 +44,7 @@ export class DataManagerFiltersModalComponent {
       jobTitle: this.jobTitle,
       hideSales: this.hideSales,
     };
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
 
     this.instance.save(result);
   }
@@ -51,7 +52,7 @@ export class DataManagerFiltersModalComponent {
   public clearAllFilters(): void {
     this.hideSales = false;
     this.jobTitle = 'any';
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   public cancel(): void {

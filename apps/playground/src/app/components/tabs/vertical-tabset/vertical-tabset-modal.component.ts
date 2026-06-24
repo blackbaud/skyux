@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 import { SkyVerticalTabsetModule } from '@skyux/tabs';
 
@@ -10,5 +10,5 @@ import { SkyVerticalTabsetModule } from '@skyux/tabs';
 export class VerticalTabsetModalComponent {
   public maintainTabContent = false;
 
-  constructor(public instance: SkyModalInstance) {}
+  public readonly instance = inject(SkyModalInstance);
 }

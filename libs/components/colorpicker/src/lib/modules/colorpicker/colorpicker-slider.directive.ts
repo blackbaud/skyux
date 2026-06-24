@@ -5,6 +5,7 @@ import {
   HostListener,
   Input,
   Output,
+  inject,
 } from '@angular/core';
 
 import { SkyColorpickerChangeAxis } from './types/colorpicker-axis';
@@ -30,10 +31,9 @@ export class SkyColorpickerSliderDirective {
   #listenerMove: (event: MouseEvent | TouchEvent) => void;
   #listenerStop: () => void;
 
-  #el: ElementRef;
+  readonly #el = inject(ElementRef);
 
-  constructor(el: ElementRef) {
-    this.#el = el;
+  constructor() {
     this.#listenerMove = (event): void => {
       this.move(event);
     };

@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
 import {
   AbstractControl,
   NgModel,
@@ -34,11 +34,9 @@ export class AutonumericFixtureComponent {
 
   public setUnformatted: boolean | undefined = false;
 
-  #formBuilder: UntypedFormBuilder;
+  readonly #formBuilder = inject(UntypedFormBuilder);
 
-  constructor(formBuilder: UntypedFormBuilder) {
-    this.#formBuilder = formBuilder;
-
+  constructor() {
     this.formControl = new UntypedFormControl();
 
     this.formGroup = this.#formBuilder.group({
