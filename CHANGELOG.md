@@ -1,7 +1,12 @@
 # Changelog
 
 
-## [14.3.13](https://github.com/blackbaud/skyux/compare/14.3.12...14.3.13) (2026-06-24)
+## [14.4.0](https://github.com/blackbaud/skyux/compare/14.3.12...14.4.0) (2026-06-24)
+
+
+### Features
+
+* add `@skyux/charts` library with basic chart wrapper (developer preview) ([#4448](https://github.com/blackbaud/skyux/issues/4448)) ([a8dd85e](https://github.com/blackbaud/skyux/commit/a8dd85ecb01fd5fd241104111d5fadf9ea09f76b))
 
 
 ### Bug Fixes
