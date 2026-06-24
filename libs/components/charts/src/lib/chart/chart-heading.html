@@ -1,0 +1,24 @@
+@switch (headingLevel()) {
+  @case (2) {
+    <h2 [class]="headingClass()">{{ headingText() }}</h2>
+  }
+  @case (3) {
+    <h3 [class]="headingClass()">{{ headingText() }}</h3>
+  }
+  @case (4) {
+    <h4 [class]="headingClass()">{{ headingText() }}</h4>
+  }
+  @case (5) {
+    <h5 [class]="headingClass()">{{ headingText() }}</h5>
+  }
+}
+@if (helpPopoverContent() || helpKey()) {
+  <span class="sky-control-help-container">
+    <sky-help-inline
+      [helpKey]="helpKey()"
+      [labelText]="headingText()"
+      [popoverContent]="helpPopoverContent()"
+      [popoverTitle]="helpPopoverTitle()"
+    />
+  </span>
+}
