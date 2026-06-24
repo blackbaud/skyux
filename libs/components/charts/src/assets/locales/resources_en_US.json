@@ -1,0 +1,15 @@
+{
+  "skyux_charts.chart.controls.context_menu.accessible_name": {
+    "_description": "The accessible name for the chart component's controls dropdown menu",
+    "message": "Context menu for {0}",
+    "_0": "The chart heading text"
+  },
+  "skyux_charts.chart.controls.context_menu.view_data_table": {
+    "_description": "The label for the 'View data table' chart menu item",
+    "message": "View data table"
+  },
+  "skyux_charts.data_table_modal.close_button": {
+    "_description": "The label for the close button",
+    "message": "Close"
+  }
+}
