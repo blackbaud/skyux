@@ -32,6 +32,10 @@ sky-tabset {
     .sky-tabset {
       flex-grow: 0;
     }
+
+    sky-tab:has(> div.sky-tab[hidden]) {
+      display: contents;
+    }
   }
 }
 
