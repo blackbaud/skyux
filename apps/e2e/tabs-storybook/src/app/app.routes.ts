@@ -2,6 +2,10 @@ import { Route } from '@angular/router';
 
 export const routes: Route[] = [
   {
+    path: 'fit-layout',
+    loadComponent: () => import('./fit-layout/fit-layout.component'),
+  },
+  {
     path: 'wizard',
     loadChildren: () =>
       import('./wizard/wizard.module').then((m) => m.WizardModule),
