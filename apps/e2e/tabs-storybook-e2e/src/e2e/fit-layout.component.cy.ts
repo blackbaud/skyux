@@ -15,8 +15,8 @@ describe('tabs fit layout', () => {
         cy.get('sky-tab:nth-of-type(2) [role="tabpanel"] .placeholder')
           .should('exist')
           .should('be.visible');
-        cy.window().screenshot(`fit-layout-${theme}`);
-        cy.percySnapshot(`fit-layout-${theme}`, {
+        cy.get('app-fit-layout').screenshot(`fit-layout-${theme}`);
+        cy.get('app-fit-layout').percySnapshot(`fit-layout-${theme}`, {
           widths: E2eVariations.DISPLAY_WIDTHS,
         });
       });
