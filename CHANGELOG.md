@@ -1,11 +1,12 @@
 # Changelog
 
 
-## [14.3.13](https://github.com/blackbaud/skyux/compare/14.3.12...14.3.13) (2026-06-22)
+## [14.3.13](https://github.com/blackbaud/skyux/compare/14.3.12...14.3.13) (2026-06-24)
 
 
 ### Bug Fixes
 
+* **components/tabs:** fit layout tabs should not shift with hidden tabs ([#4471](https://github.com/blackbaud/skyux/issues/4471)) ([9e59bca](https://github.com/blackbaud/skyux/commit/9e59bca4c94b8eaec4278c93d6d91b4182e731b7)), closes [AB#4024923](https://dev.azure.com/blackbaud/Products/_workitems/edit/4024923)
 * **components/theme:** replace deprecated `clip` with `clip-path` for `sky-screen-reader-only` CSS class ([#4467](https://github.com/blackbaud/skyux/issues/4467)) ([8d8e73c](https://github.com/blackbaud/skyux/commit/8d8e73c45e5ea736d30d30b172720bed11a19597))
 
 ## [14.3.12](https://github.com/blackbaud/skyux/compare/14.3.11...14.3.12) (2026-06-16)
