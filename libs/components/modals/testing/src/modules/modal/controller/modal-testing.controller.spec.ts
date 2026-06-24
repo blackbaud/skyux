@@ -177,7 +177,7 @@ describe('modal-testing.controller', () => {
     fixture.detectChanges();
 
     expect(() => modalController.expectOpen(AnotherComponent)).toThrowError(
-      'Expected the topmost modal to be of type AnotherComponent, but it is of type ModalTestComponent.',
+      `Expected the topmost modal to be of type ${AnotherComponent.name}, but it is of type ${ModalTestComponent.name}.`,
     );
   });
 

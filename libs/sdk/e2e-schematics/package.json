@@ -12,7 +12,8 @@
     "@nx/workspace": "^23.0.0",
     "@percy/sdk-utils": "^1.31.9",
     "@schematics/angular": "^22.0.2",
-    "nx": "^23.0.0"
+    "nx": "^23.0.0",
+    "typescript": "^6.0.3"
   },
   "dependencies": {
     "@nx/devkit": "*",
