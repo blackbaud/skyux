@@ -8,7 +8,6 @@ import {
   chain,
   externalSchematic,
 } from '@angular-devkit/schematics';
-import ts from 'typescript';
 import {
   findNodes,
   getDecoratorMetadata,
@@ -17,6 +16,7 @@ import {
   isImported,
 } from '@schematics/angular/utility/ast-utils';
 import { applyToUpdateRecorder } from '@schematics/angular/utility/change';
+import ts from 'typescript';
 
 import {
   catchError,

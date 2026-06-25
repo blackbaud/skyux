@@ -1,6 +1,6 @@
 import { UpdateRecorder } from '@angular-devkit/schematics';
-import ts from 'typescript';
 import { findNodes } from '@schematics/angular/utility/ast-utils';
+import ts from 'typescript';
 
 export interface RemoveImportOptions {
   classNames: string[];

@@ -1,6 +1,5 @@
 import { tags } from '@angular-devkit/core';
 import { Tree } from '@angular-devkit/schematics';
-import ts from 'typescript';
 import {
   findNodes,
   getDecoratorMetadata,
@@ -8,6 +7,7 @@ import {
   insertImport,
 } from '@schematics/angular/utility/ast-utils';
 import { Change, InsertChange } from '@schematics/angular/utility/change';
+import ts from 'typescript';
 
 /**
  * Parse a TypeScript source file from tree

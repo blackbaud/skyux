@@ -121,9 +121,9 @@ describe('some-or-all-projects', () => {
         build: { executor: '@angular-devkit/build-angular:application' },
       },
     });
-    expect(() =>
-      getStorybookProject(tree, { project: 'my-app' }),
-    ).toThrow(new Error('Unable to find project my-app-storybook'));
+    expect(() => getStorybookProject(tree, { project: 'my-app' })).toThrow(
+      new Error('Unable to find project my-app-storybook'),
+    );
   });
 
   it('should error when getStorybookProject finds the storybook variant project but it has no storybook target', () => {
@@ -140,9 +140,9 @@ describe('some-or-all-projects', () => {
         build: { executor: '@storybook/angular:build-storybook' },
       },
     });
-    expect(() =>
-      getStorybookProject(tree, { project: 'my-app' }),
-    ).toThrow(new Error('Storybook is not configured for my-app-storybook'));
+    expect(() => getStorybookProject(tree, { project: 'my-app' })).toThrow(
+      new Error('Storybook is not configured for my-app-storybook'),
+    );
   });
 
   it('should return the storybook variant project config when the project itself has no storybook target', () => {

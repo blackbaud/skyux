@@ -1,8 +1,8 @@
 import { stripIndents } from '@angular-devkit/core/src/utils/literals';
 import { HostTree } from '@angular-devkit/schematics';
-import * as ts from 'typescript';
 import { getDecoratorMetadata } from '@schematics/angular/utility/ast-utils';
 import { Change, InsertChange } from '@schematics/angular/utility/change';
+import * as ts from 'typescript';
 
 import {
   addSymbolToClassMetadata,
