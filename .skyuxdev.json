@@ -1,4 +1,5 @@
 {
+  "$schema": "./node_modules/@skyux/dev-infra-private/skyuxdev-config.schema.json",
   "baseBranch": "main",
   "releaseBranch": "release-please--branches--{baseBranch}--components--skyux",
   "implicitPeerDependencies": {
@@ -6,6 +7,9 @@
       "skyux-stylelint",
       "stylelint-config-recommended-scss"
     ]
+  },
+  "resourcesModulePaths": {
+    "charts": "lib/shared/sky-charts"
   },
   "packageNameUsedToDetermineDistTags": "@skyux/packages"
 }
