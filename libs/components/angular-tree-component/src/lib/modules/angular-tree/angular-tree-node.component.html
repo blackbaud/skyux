@@ -102,9 +102,7 @@
     </div>
 
     <ng-container
-      [ngTemplateOutlet]="
-        templates?.treeNodeWrapperTemplate
-      "
+      [ngTemplateOutlet]="templates?.treeNodeWrapperTemplate"
       [ngTemplateOutletContext]="{
         $implicit: node,
         node: node,

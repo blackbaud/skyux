@@ -119,12 +119,8 @@
           'sky-btn-default': 'default',
           'sky-btn-link-inline': 'modern'
         }"
-        [queryParams]="
-          permalink.route.extras?.queryParams
-        "
-        [queryParamsHandling]="
-          permalink.route.extras?.queryParamsHandling
-        "
+        [queryParams]="permalink.route.extras?.queryParams"
+        [queryParamsHandling]="permalink.route.extras?.queryParamsHandling"
         [state]="permalink.route.extras?.state"
         (click)="close()"
       >

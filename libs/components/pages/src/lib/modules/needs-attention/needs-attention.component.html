@@ -28,30 +28,14 @@
               <a
                 class="sky-needs-attention-item"
                 [skyAppLink]="permalinkRoute.commands"
-                [queryParams]="
-                  permalinkRoute.extras?.queryParams
-                "
+                [queryParams]="permalinkRoute.extras?.queryParams"
                 [queryParamsHandling]="
-                  
-                    permalinkRoute.extras?.queryParamsHandling
-                  
+                  permalinkRoute.extras?.queryParamsHandling
                 "
-                [fragment]="
-                  permalinkRoute.extras?.fragment
-                "
-                [preserveFragment]="
-                  
-                    permalinkRoute.extras?.preserveFragment
-                  
-                "
-                [skipLocationChange]="
-                  
-                    permalinkRoute.extras?.skipLocationChange
-                  
-                "
-                [replaceUrl]="
-                  permalinkRoute.extras?.replaceUrl
-                "
+                [fragment]="permalinkRoute.extras?.fragment"
+                [preserveFragment]="permalinkRoute.extras?.preserveFragment"
+                [skipLocationChange]="permalinkRoute.extras?.skipLocationChange"
+                [replaceUrl]="permalinkRoute.extras?.replaceUrl"
                 [state]="permalinkRoute.extras?.state"
                 >{{ item.title }} {{ item.message }}</a
               >

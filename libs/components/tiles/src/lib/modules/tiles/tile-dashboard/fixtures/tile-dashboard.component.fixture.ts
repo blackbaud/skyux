@@ -1,4 +1,10 @@
-import { Component, ViewChild, WritableSignal, input, signal } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  WritableSignal,
+  input,
+  signal,
+} from '@angular/core';
 
 import { Subject } from 'rxjs';
 
@@ -131,5 +137,4 @@ export class TileDashboardTestComponent {
   public collapseAll(): void {
     this.messageStream.next({ type: SkyTileDashboardMessageType.CollapseAll });
   }
-
 }

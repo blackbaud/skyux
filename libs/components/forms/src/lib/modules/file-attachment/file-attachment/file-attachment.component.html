@@ -80,9 +80,7 @@
             | skyFileAttachmentJoinIds
               : (labelText
                   ? labelId
-                  : 
-                      labelComponents?.get(0)?.labelContentId?.id
-                    )
+                  : labelComponents?.get(0)?.labelContentId?.id)
         "
         [attr.aria-invalid]="!!(ngControl?.errors ?? fileErrorValidation)"
         [attr.aria-errormessage]="
@@ -136,9 +134,7 @@
             | skyFileAttachmentJoinIds
               : (labelText
                   ? labelId
-                  : 
-                      labelComponents?.get(0)?.labelContentId?.id
-                    )
+                  : labelComponents?.get(0)?.labelContentId?.id)
         "
         [disabled]="disabled"
         (click)="deleteFileAttachment()"

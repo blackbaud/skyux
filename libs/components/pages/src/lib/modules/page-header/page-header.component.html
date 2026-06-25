@@ -10,30 +10,14 @@
               <a
                 class="sky-font-heading-1 sky-page-header-parent-link"
                 [skyAppLink]="permalinkRoute.commands"
-                [queryParams]="
-                  permalinkRoute.extras?.queryParams
-                "
+                [queryParams]="permalinkRoute.extras?.queryParams"
                 [queryParamsHandling]="
-                  
-                    permalinkRoute.extras?.queryParamsHandling
-                  
+                  permalinkRoute.extras?.queryParamsHandling
                 "
-                [fragment]="
-                  permalinkRoute.extras?.fragment
-                "
-                [preserveFragment]="
-                  
-                    permalinkRoute.extras?.preserveFragment
-                  
-                "
-                [skipLocationChange]="
-                  
-                    permalinkRoute.extras?.skipLocationChange
-                  
-                "
-                [replaceUrl]="
-                  permalinkRoute.extras?.replaceUrl
-                "
+                [fragment]="permalinkRoute.extras?.fragment"
+                [preserveFragment]="permalinkRoute.extras?.preserveFragment"
+                [skipLocationChange]="permalinkRoute.extras?.skipLocationChange"
+                [replaceUrl]="permalinkRoute.extras?.replaceUrl"
                 [state]="permalinkRoute.extras?.state"
                 >{{ parentLink.label }}</a
               >

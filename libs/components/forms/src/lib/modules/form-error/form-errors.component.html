@@ -29,10 +29,7 @@
         errorName="minDate"
         [errorText]="
           'skyux_form_error_date_min'
-            | skyLibResources
-              : 
-                  errors?.['skyDate']['minDateFormatted']
-                
+            | skyLibResources: errors?.['skyDate']['minDateFormatted']
         "
       />
     }
@@ -42,10 +39,7 @@
         errorName="maxDate"
         [errorText]="
           'skyux_form_error_date_max'
-            | skyLibResources
-              : 
-                  errors?.['skyDate']['maxDateFormatted']
-                
+            | skyLibResources: errors?.['skyDate']['maxDateFormatted']
         "
       />
     }
@@ -73,10 +67,7 @@
         errorName="fuzzyMaxDate"
         [errorText]="
           'skyux_form_error_fuzzy_date_max_date'
-            | skyLibResources
-              : 
-                  errors?.['skyFuzzyDate']['maxDateFormatted']
-                
+            | skyLibResources: errors?.['skyFuzzyDate']['maxDateFormatted']
         "
       />
     }

@@ -1,9 +1,7 @@
 @let group = docsGroup();
 <sky-tabset permalinkId="docs">
   @if (highlightContent()) {
-    <sky-tab
-      [tabHeading]="highlightContent()?.headingText()"
-    >
+    <sky-tab [tabHeading]="highlightContent()?.headingText()">
       <ng-container [ngTemplateOutlet]="highlightContentRef" />
     </sky-tab>
   }

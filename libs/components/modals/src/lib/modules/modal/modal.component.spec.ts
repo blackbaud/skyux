@@ -1111,7 +1111,9 @@ describe('Modal component', () => {
     expect(errorsComponent).toBeNull();
     expect(errorEls.length).toBe(0);
 
-    (modalInstance.componentInstance as ModalFooterTestComponent).errors.set([]);
+    (modalInstance.componentInstance as ModalFooterTestComponent).errors.set(
+      [],
+    );
     getApplicationRef().tick();
 
     errorsComponent = document.querySelector('.sky-modal-footer-errors');
@@ -1119,7 +1121,9 @@ describe('Modal component', () => {
     expect(errorsComponent).toBeNull();
     expect(errorEls.length).toBe(0);
 
-    (modalInstance.componentInstance as ModalFooterTestComponent).errors.set(errors);
+    (modalInstance.componentInstance as ModalFooterTestComponent).errors.set(
+      errors,
+    );
     getApplicationRef().tick();
 
     errorsComponent = document.querySelector('.sky-modal-footer-errors');

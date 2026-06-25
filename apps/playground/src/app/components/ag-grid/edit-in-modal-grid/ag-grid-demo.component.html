@@ -1,6 +1,5 @@
 @if (
-  (themeSvc?.settingsChange | async)?.currentSettings
-    ?.theme?.name === 'modern'
+  (themeSvc?.settingsChange | async)?.currentSettings?.theme?.name === 'modern'
 ) {
   <div>
     <sky-toolbar>

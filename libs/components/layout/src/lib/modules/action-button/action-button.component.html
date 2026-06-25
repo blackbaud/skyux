@@ -6,12 +6,8 @@
     [skyThemeClass]="{
       'sky-btn sky-box': 'modern'
     }"
-    [queryParams]="
-      permalink?.route?.extras?.queryParams
-    "
-    [queryParamsHandling]="
-      permalink?.route?.extras?.queryParamsHandling
-    "
+    [queryParams]="permalink?.route?.extras?.queryParams"
+    [queryParamsHandling]="permalink?.route?.extras?.queryParamsHandling"
     [routerLink]="permalink?.route?.commands"
   >
     <ng-container *ngTemplateOutlet="actionButtonContent" />
