@@ -101,10 +101,10 @@
 <sky-form-errors
   [class.sky-checkbox-form-margin]="labelText && control?.errors"
   [id]="errorId"
-  [errors]="$safeNavigationMigration(control?.errors)"
+  [errors]="control?.errors"
   [labelText]="labelText"
-  [touched]="$safeNavigationMigration(control?.touched)"
-  [dirty]="$safeNavigationMigration(control?.dirty)"
+  [touched]="control?.touched"
+  [dirty]="control?.dirty"
 >
   <ng-content select="sky-form-error" />
 </sky-form-errors>

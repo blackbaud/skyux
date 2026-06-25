@@ -2,7 +2,7 @@
 <sky-tabset permalinkId="docs">
   @if (highlightContent()) {
     <sky-tab
-      [tabHeading]="$safeNavigationMigration(highlightContent()?.headingText())"
+      [tabHeading]="highlightContent()?.headingText()"
     >
       <ng-container [ngTemplateOutlet]="highlightContentRef" />
     </sky-tab>

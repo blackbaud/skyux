@@ -25,9 +25,9 @@
         transitionPropertyToTrack="opacity"
         [class.sky-search-input-hidden]="!inputShown"
         [ngClass]="{
-          'sky-search-input-container-has-value': $safeNavigationMigration(
+          'sky-search-input-container-has-value': 
             searchText?.trim()
-          )
+          
         }"
         [transitionTrigger]="inputShown"
         (transitionEnd)="onInputTransitionEnd()"
@@ -45,9 +45,9 @@
                   ((contentInfoObs | async)?.descriptor?.type === 'text'
                     ? ('skyux_search_aria_label_descriptor'
                       | skyLibResources
-                        : $safeNavigationMigration(
+                        : 
                             (contentInfoObs | async)?.descriptor?.value
-                          ))
+                          )
                     : ('skyux_search_label' | skyLibResources))
             "
             [attr.aria-labelledby]="ariaLabelledBy"

@@ -20,7 +20,7 @@
   <p>
     Selected calculator:
     {{
-      $safeNavigationMigration(selectedCalculator()?.shortDescription$) | async
+      selectedCalculator()?.shortDescription$ | async
     }}
   </p>
 </div>

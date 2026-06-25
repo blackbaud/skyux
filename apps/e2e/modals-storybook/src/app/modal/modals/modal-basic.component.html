@@ -1,8 +1,8 @@
 <sky-modal
   [formErrors]="errors"
-  [headingText]="$safeNavigationMigration(context?.headingText)"
-  [headingHidden]="$safeNavigationMigration(context?.headingHidden)"
-  [helpPopoverContent]="$safeNavigationMigration(context?.helpPopoverContent)"
+  [headingText]="context?.headingText"
+  [headingHidden]="context?.headingHidden"
+  [helpPopoverContent]="context?.helpPopoverContent"
 >
   <sky-modal-header>
     {{ title }}

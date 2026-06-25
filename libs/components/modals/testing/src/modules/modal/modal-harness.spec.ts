@@ -22,10 +22,10 @@ export class ModalTestContext {
 @Component({
   selector: 'sky-modal-modal-test',
   template: `<sky-modal
-    [headingText]="$safeNavigationMigration(context?.headingText)"
-    [helpKey]="$safeNavigationMigration(context?.helpKey)"
-    [helpPopoverContent]="$safeNavigationMigration(context?.helpPopoverContent)"
-    [helpPopoverTitle]="$safeNavigationMigration(context?.helpPopoverTitle)"
+    [headingText]="context?.headingText"
+    [helpKey]="context?.helpKey"
+    [helpPopoverContent]="context?.helpPopoverContent"
+    [helpPopoverTitle]="context?.helpPopoverTitle"
   ></sky-modal>`,
   standalone: false,
 })

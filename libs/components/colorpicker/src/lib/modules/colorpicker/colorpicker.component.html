@@ -201,7 +201,7 @@
                 [attr.id]="skyColorpickerRedId"
                 [maxRange]="255"
                 [skyColorpickerText]
-                [value]="$safeNavigationMigration(rgbaText?.red)"
+                [value]="rgbaText?.red"
                 (newColorContrast)="red = $event"
               />
             </sky-input-box>
@@ -224,7 +224,7 @@
                 [attr.id]="skyColorpickerGreenId"
                 [maxRange]="255"
                 [skyColorpickerText]
-                [value]="$safeNavigationMigration(rgbaText?.green)"
+                [value]="rgbaText?.green"
                 (newColorContrast)="green = $event"
               />
             </sky-input-box>
@@ -247,7 +247,7 @@
                 [attr.id]="skyColorpickerBlueId"
                 [maxRange]="255"
                 [skyColorpickerText]
-                [value]="$safeNavigationMigration(rgbaText?.blue)"
+                [value]="rgbaText?.blue"
                 (newColorContrast)="blue = $event"
               />
             </sky-input-box>
@@ -272,7 +272,7 @@
                   [attr.id]="skyColorpickerAlphaId"
                   [maxRange]="1"
                   [skyColorpickerText]
-                  [value]="$safeNavigationMigration(rgbaText?.alpha)"
+                  [value]="rgbaText?.alpha"
                   (newColorContrast)="alphaColor = $event"
                 />
               </sky-input-box>
@@ -367,10 +367,10 @@
 
 <sky-form-errors
   [id]="errorId"
-  [errors]="$safeNavigationMigration(ngControl?.errors)"
+  [errors]="ngControl?.errors"
   [labelText]="labelText"
-  [touched]="$safeNavigationMigration(ngControl?.touched)"
-  [dirty]="$safeNavigationMigration(ngControl?.dirty)"
+  [touched]="ngControl?.touched"
+  [dirty]="ngControl?.dirty"
 >
   <ng-content select="sky-form-error" />
 </sky-form-errors>

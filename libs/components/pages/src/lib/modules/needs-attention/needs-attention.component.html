@@ -29,30 +29,30 @@
                 class="sky-needs-attention-item"
                 [skyAppLink]="permalinkRoute.commands"
                 [queryParams]="
-                  $safeNavigationMigration(permalinkRoute.extras?.queryParams)
+                  permalinkRoute.extras?.queryParams
                 "
                 [queryParamsHandling]="
-                  $safeNavigationMigration(
+                  
                     permalinkRoute.extras?.queryParamsHandling
-                  )
+                  
                 "
                 [fragment]="
-                  $safeNavigationMigration(permalinkRoute.extras?.fragment)
+                  permalinkRoute.extras?.fragment
                 "
                 [preserveFragment]="
-                  $safeNavigationMigration(
+                  
                     permalinkRoute.extras?.preserveFragment
-                  )
+                  
                 "
                 [skipLocationChange]="
-                  $safeNavigationMigration(
+                  
                     permalinkRoute.extras?.skipLocationChange
-                  )
+                  
                 "
                 [replaceUrl]="
-                  $safeNavigationMigration(permalinkRoute.extras?.replaceUrl)
+                  permalinkRoute.extras?.replaceUrl
                 "
-                [state]="$safeNavigationMigration(permalinkRoute.extras?.state)"
+                [state]="permalinkRoute.extras?.state"
                 >{{ item.title }} {{ item.message }}</a
               >
             } @else if (item | linkAs: 'skyHref') {

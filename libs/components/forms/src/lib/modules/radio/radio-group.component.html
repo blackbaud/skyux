@@ -77,10 +77,10 @@
 </fieldset>
 <sky-form-errors
   [id]="errorId"
-  [errors]="$safeNavigationMigration(ngControl?.errors)"
+  [errors]="ngControl?.errors"
   [labelText]="headingText"
-  [touched]="$safeNavigationMigration(ngControl?.touched)"
-  [dirty]="$safeNavigationMigration(ngControl?.dirty)"
+  [touched]="ngControl?.touched"
+  [dirty]="ngControl?.dirty"
 >
   <ng-content select="sky-form-error" />
 </sky-form-errors>

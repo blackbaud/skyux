@@ -1,4 +1,4 @@
-import { Component, ViewChild, inject } from '@angular/core';
+import { Component, ViewChild, inject, input, signal } from '@angular/core';
 import {
   AbstractControl,
   NgModel,
@@ -28,11 +28,11 @@ export class AutonumericFixtureComponent {
 
   public formControl: AbstractControl;
 
-  public templateDrivenDonationAmount: string | number = 1000;
+  public templateDrivenDonationAmount = signal<string | number>(1000);
 
   public required = false;
 
-  public setUnformatted: boolean | undefined = false;
+  public setUnformatted = input<boolean | undefined>(false);
 
   readonly #formBuilder = inject(UntypedFormBuilder);
 

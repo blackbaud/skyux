@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, input } from '@angular/core';
 
 import { SkyAvatarSize } from '../avatar-size';
 import { SkyAvatarSrc } from '../avatar-src';
@@ -13,11 +13,13 @@ export class AvatarTestComponent {
   @ViewChild(SkyAvatarComponent)
   public avatarComponent!: SkyAvatarComponent;
 
-  public maxFileSize = 512000;
+  public canChange = input<boolean>(false);
 
-  public name: string | undefined;
+  public maxFileSize = input<number>(512000);
 
-  public size: SkyAvatarSize | undefined;
+  public name = input<string | undefined>(undefined);
 
-  public src: SkyAvatarSrc | undefined;
+  public size = input<SkyAvatarSize | undefined>(undefined);
+
+  public src = input<SkyAvatarSrc | undefined>(undefined);
 }

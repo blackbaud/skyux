@@ -6,9 +6,9 @@
       ((contentInfoObs | async)?.descriptor?.type === 'text'
         ? ('skyux_sort_aria_label_descriptor'
           | skyLibResources
-            : $safeNavigationMigration(
+            : 
                 (contentInfoObs | async)?.descriptor?.value
-              ))
+              )
         : ('skyux_sort_button_label' | skyLibResources))
     "
     [messageStream]="dropdownController"

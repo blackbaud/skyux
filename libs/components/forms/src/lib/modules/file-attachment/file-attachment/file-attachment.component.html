@@ -80,9 +80,9 @@
             | skyFileAttachmentJoinIds
               : (labelText
                   ? labelId
-                  : $safeNavigationMigration(
+                  : 
                       labelComponents?.get(0)?.labelContentId?.id
-                    ))
+                    )
         "
         [attr.aria-invalid]="!!(ngControl?.errors ?? fileErrorValidation)"
         [attr.aria-errormessage]="
@@ -136,9 +136,9 @@
             | skyFileAttachmentJoinIds
               : (labelText
                   ? labelId
-                  : $safeNavigationMigration(
+                  : 
                       labelComponents?.get(0)?.labelContentId?.id
-                    ))
+                    )
         "
         [disabled]="disabled"
         (click)="deleteFileAttachment()"
@@ -175,10 +175,10 @@
 
 <sky-form-errors
   [id]="errorId"
-  [errors]="$safeNavigationMigration(ngControl?.errors)"
+  [errors]="ngControl?.errors"
   [labelText]="labelText"
-  [touched]="$safeNavigationMigration(ngControl?.touched)"
-  [dirty]="$safeNavigationMigration(ngControl?.dirty)"
+  [touched]="ngControl?.touched"
+  [dirty]="ngControl?.dirty"
 >
   <ng-content select="sky-form-error" />
   @if (ngControl?.touched) {

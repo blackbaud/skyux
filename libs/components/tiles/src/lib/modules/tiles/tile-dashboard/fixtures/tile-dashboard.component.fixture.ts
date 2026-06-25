@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, WritableSignal, input, signal } from '@angular/core';
 
 import { Subject } from 'rxjs';
 
@@ -23,14 +23,14 @@ export class TileDashboardTestComponent {
   })
   public dashboardComponent!: SkyTileDashboardComponent;
 
-  public dashboardConfig: SkyTileDashboardConfig;
+  public dashboardConfig!: WritableSignal<SkyTileDashboardConfig>;
 
   public messageStream = new Subject<SkyTileDashboardMessage>();
 
-  public settingsKey: string | undefined;
+  public settingsKey = input<string | undefined>(undefined);
 
   constructor() {
-    this.dashboardConfig = {
+    this.dashboardConfig = signal({
       tiles: [
         {
           id: 'sky-test-tile-1',
@@ -121,7 +121,7 @@ export class TileDashboardTestComponent {
           },
         ],
       },
-    };
+    });
   }
 
   public expandAll(): void {
@@ -132,7 +132,4 @@ export class TileDashboardTestComponent {
     this.messageStream.next({ type: SkyTileDashboardMessageType.CollapseAll });
   }
 
-  public enableStickySettings(): void {
-    this.settingsKey = 'test';
-  }
 }

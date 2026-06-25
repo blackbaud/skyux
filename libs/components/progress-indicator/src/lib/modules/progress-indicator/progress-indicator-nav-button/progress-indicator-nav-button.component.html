@@ -6,8 +6,8 @@
       disabled
         | skyProgressIndicatorNavButtonDisabled
           : buttonType
-          : $safeNavigationMigration(lastProgressChange?.activeIndex)
-          : $safeNavigationMigration(lastProgressChange?.itemStatuses)
+          : lastProgressChange?.activeIndex
+          : lastProgressChange?.itemStatuses
     "
     [ngClass]="buttonType | skyProgressIndicatorNavButtonClass"
     (click)="onClick($event)"

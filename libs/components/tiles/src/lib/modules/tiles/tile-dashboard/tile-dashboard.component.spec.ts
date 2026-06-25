@@ -128,7 +128,7 @@ describe('Tile dashboard component', () => {
     fixture.detectChanges();
     tick();
 
-    expect(fixture.componentInstance.dashboardConfig).toEqual(newConfig);
+    expect(fixture.componentInstance.dashboardConfig()).toEqual(newConfig);
   }));
 
   it('should not allow a new config to be set by the parent once initialized', fakeAsync(() => {
@@ -144,7 +144,7 @@ describe('Tile dashboard component', () => {
     }).createComponent(TileDashboardTestComponent);
 
     const cmp = fixture.componentInstance;
-    const initialConfig = cmp.dashboardConfig;
+    const initialConfig = cmp.dashboardConfig();
     const newConfig: SkyTileDashboardConfig = {
       tiles: [
         {
@@ -200,7 +200,7 @@ describe('Tile dashboard component', () => {
 
     initSpy.calls.reset();
 
-    cmp.dashboardConfig = newConfig;
+    cmp.dashboardConfig.set(newConfig);
 
     fixture.detectChanges();
     tick();
@@ -259,7 +259,7 @@ describe('Tile dashboard component', () => {
 
     initSpy.calls.reset();
 
-    cmp.dashboardConfig = newConfig;
+    cmp.dashboardConfig.set(newConfig);
 
     fixture.detectChanges();
     tick();
@@ -338,7 +338,7 @@ describe('Tile dashboard component', () => {
       return of({});
     });
     spyOn(mockUIConfigService, 'setConfig').and.callThrough();
-    cmp.enableStickySettings();
+    fixture.componentRef.setInput('settingsKey', 'test');
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
@@ -450,7 +450,7 @@ describe('Tile dashboard component', () => {
     expect(
       document.querySelector('.sky-test-tile-1 .sky-tile-collapsed'),
     ).toBeNull();
-    expect(cmp.dashboardConfig).toEqual(expectedDashboardConfig);
+    expect(cmp.dashboardConfig()).toEqual(expectedDashboardConfig);
     expect(cmp.dashboardComponent.configChange.emit).toHaveBeenCalled();
     expect(mockUIConfigService.setConfig).toHaveBeenCalled();
   }));
@@ -572,7 +572,7 @@ describe('Tile dashboard component', () => {
     expect(
       document.querySelector('.sky-test-tile-2 .sky-tile-collapsed'),
     ).not.toBeNull();
-    expect(cmp.dashboardConfig).toEqual(expectedDashboardConfig);
+    expect(cmp.dashboardConfig()).toEqual(expectedDashboardConfig);
     expect(cmp.dashboardComponent.configChange.emit).toHaveBeenCalled();
     expect(mockUIConfigService.setConfig).not.toHaveBeenCalled();
   }));

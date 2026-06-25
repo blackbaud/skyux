@@ -2,7 +2,7 @@
   @if (hasToolbarContent) {
     <sky-toolbar
       [listDescriptor]="
-        $safeNavigationMigration(dataManagerConfig?.listDescriptor)
+        dataManagerConfig?.listDescriptor
       "
     >
       <sky-toolbar-section>
@@ -12,7 +12,7 @@
           <sky-toolbar-item class="sky-data-manager-filter">
             <sky-filter-button
               [showButtonText]="
-                $safeNavigationMigration(activeView?.showFilterButtonText)
+                activeView?.showFilterButtonText
               "
               (filterButtonClick)="filterButtonClicked()"
             />
@@ -23,7 +23,7 @@
           <sky-toolbar-item class="sky-data-manager-sort">
             <sky-sort
               [showButtonText]="
-                $safeNavigationMigration(activeView?.showSortButtonText)
+                activeView?.showSortButtonText
               "
             >
               @for (item of dataManagerConfig?.sortOptions; track item.id) {
@@ -47,9 +47,9 @@
                 dataManagerConfig?.listDescriptor
                   ? ('skyux_data_manager_columns_button_aria_label'
                     | skyLibResources
-                      : $safeNavigationMigration(
+                      : 
                           dataManagerConfig?.listDescriptor
-                        ))
+                        )
                   : ('skyux_data_manager_columns_button_title'
                     | skyLibResources)
               "
@@ -74,12 +74,12 @@
           <sky-toolbar-item class="sky-data-manager-search">
             <sky-search
               [expandMode]="
-                $safeNavigationMigration(activeView?.searchExpandMode)
+                activeView?.searchExpandMode
               "
               [placeholderText]="
-                $safeNavigationMigration(activeView?.searchPlaceholderText)
+                activeView?.searchPlaceholderText
               "
-              [searchText]="$safeNavigationMigration(dataState?.searchText)"
+              [searchText]="dataState?.searchText"
               (searchApply)="searchApplied($event)"
             />
           </sky-toolbar-item>
@@ -124,9 +124,9 @@
               dataManagerConfig?.listDescriptor
                 ? ('skyux_data_manager_select_all_button_aria_label'
                   | skyLibResources
-                    : $safeNavigationMigration(
+                    : 
                         dataManagerConfig?.listDescriptor
-                      ))
+                      )
                 : undefined
             "
             (click)="selectAll()"
@@ -142,9 +142,9 @@
               dataManagerConfig?.listDescriptor
                 ? ('skyux_data_manager_clear_all_button_aria_label'
                   | skyLibResources
-                    : $safeNavigationMigration(
+                    : 
                         dataManagerConfig?.listDescriptor
-                      ))
+                      )
                 : undefined
             "
             (click)="clearAll()"
@@ -159,9 +159,9 @@
               dataManagerConfig?.listDescriptor
                 ? ('skyux_data_manager_show_selected_option_aria_label'
                   | skyLibResources
-                    : $safeNavigationMigration(
+                    : 
                         dataManagerConfig?.listDescriptor
-                      ))
+                      )
                 : undefined
             "
             (change)="onOnlyShowSelected($event)"

@@ -114,18 +114,18 @@
       <a
         class="sky-btn sky-flyout-btn-permalink"
         [routerLink]="permalink.route.commands"
-        [fragment]="$safeNavigationMigration(permalink.route.extras?.fragment)"
+        [fragment]="permalink.route.extras?.fragment"
         [skyThemeClass]="{
           'sky-btn-default': 'default',
           'sky-btn-link-inline': 'modern'
         }"
         [queryParams]="
-          $safeNavigationMigration(permalink.route.extras?.queryParams)
+          permalink.route.extras?.queryParams
         "
         [queryParamsHandling]="
-          $safeNavigationMigration(permalink.route.extras?.queryParamsHandling)
+          permalink.route.extras?.queryParamsHandling
         "
-        [state]="$safeNavigationMigration(permalink.route.extras?.state)"
+        [state]="permalink.route.extras?.state"
         (click)="close()"
       >
         {{ permalinkLabel }}

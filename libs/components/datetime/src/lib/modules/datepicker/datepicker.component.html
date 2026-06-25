@@ -24,7 +24,7 @@
         inputBoxHostService?.labelText
           ? ('skyux_datepicker_trigger_button_label_context'
             | skyLibResources
-              : $safeNavigationMigration(inputBoxHostService?.labelText))
+              : inputBoxHostService?.labelText)
           : ('skyux_datepicker_trigger_button_label' | skyLibResources)
       "
       [attr.id]="triggerButtonId"
@@ -32,7 +32,7 @@
         inputBoxHostService?.labelText
           ? ('skyux_datepicker_trigger_button_label_context'
             | skyLibResources
-              : $safeNavigationMigration(inputBoxHostService?.labelText))
+              : inputBoxHostService?.labelText)
           : ('skyux_datepicker_trigger_button_label' | skyLibResources)
       "
       [disabled]="disabled"
