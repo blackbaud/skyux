@@ -39,6 +39,10 @@
       var(--sky-border-width-divider) var(--sky-border-style-divider)
         var(--sky-color-border-divider)
     );
+    flex-grow: 0;
+    flex-shrink: 0;
+    min-width: 8em;
+    max-width: 30%;
   }
 }
 
@@ -68,7 +72,6 @@
 
 .sky-vertical-tabset-group-container {
   background-color: var(--sky-color-background-container-dimmed);
-  flex-basis: 25%;
   overflow-y: auto;
   padding: var(
     --sky-override-vertical-tabset-group-container-padding,

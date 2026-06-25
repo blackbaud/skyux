@@ -253,13 +253,19 @@ describe('Vertical Tabset harness', () => {
   });
 
   it('should get the default tab width', async () => {
-    const { tabsetHarness } = await setupTest();
+    const { tabsetHarness, fixture } = await setupTest();
+    // Pin a wide breakpoint so the tabset renders its side-by-side layout
+    // (and applies inline width styles) regardless of the test runner's
+    // window size.
+    TestBed.inject(SkyMediaQueryTestingController).setBreakpoint('lg');
+    fixture.detectChanges();
 
     await expectAsync(tabsetHarness.getTabWidth()).toBeResolvedTo('25%');
   });
 
   it('should get the auto tab width', async () => {
     const { tabsetHarness, fixture } = await setupTest();
+    TestBed.inject(SkyMediaQueryTestingController).setBreakpoint('lg');
     fixture.componentInstance.tabWidth = 'auto';
     fixture.detectChanges();
 

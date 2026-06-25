@@ -21,6 +21,12 @@ import { SkyTabIdService } from '../shared/tab-id.service';
 import { SkyVerticalTabsetAdapterService } from './vertical-tabset-adapter.service';
 import { SkyVerticalTabsetService } from './vertical-tabset.service';
 
+/**
+ * The default width of the tabs pane. Also serves as the maximum width when
+ * `tabWidth` is `"auto"`.
+ */
+const DEFAULT_TAB_WIDTH = '25%';
+
 @Component({
   selector: 'sky-vertical-tabset',
   templateUrl: './vertical-tabset.component.html',
@@ -85,17 +91,18 @@ export class SkyVerticalTabsetComponent
   public maintainTabContent: boolean | undefined = false;
 
   /**
-   * The width of the tabs pane.
-   * Set to `"auto"` to size based on tab label content, up to a maximum width of 25%.
+   * The width of the tabs pane as a CSS width value (such as `200px`, `15rem`,
+   * or `30%`). Set to `"auto"` to size based on tab label content, up to a
+   * maximum width of 30%.
    * @default "25%"
    */
   @Input()
-  public get tabWidth(): string | undefined {
+  public get tabWidth(): string {
     return this.#_tabWidth;
   }
 
   public set tabWidth(value: string | undefined) {
-    this.#_tabWidth = value?.trim() || '25%';
+    this.#_tabWidth = value?.trim() || DEFAULT_TAB_WIDTH;
   }
 
   /**
@@ -122,7 +129,7 @@ export class SkyVerticalTabsetComponent
 
   #ngUnsubscribe = new Subject<void>();
   #_ariaRole = 'tablist';
-  #_tabWidth: string | undefined = '25%';
+  #_tabWidth = DEFAULT_TAB_WIDTH;
 
   #resources: SkyLibResourcesService;
   #changeRef: ChangeDetectorRef;
@@ -215,13 +222,6 @@ export class SkyVerticalTabsetComponent
       return undefined;
     }
     return this.#isAutoTabWidth() ? 'auto' : this.tabWidth;
-  }
-
-  protected get tabGroupContainerMaxWidth(): string | undefined {
-    if (this.tabService.isMobile()) {
-      return undefined;
-    }
-    return this.#isAutoTabWidth() ? '25%' : undefined;
   }
 
   #isAutoTabWidth(): boolean {
