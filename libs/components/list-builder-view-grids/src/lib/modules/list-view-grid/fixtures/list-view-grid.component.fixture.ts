@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   ContentChildren,
   OnInit,
@@ -21,7 +20,6 @@ import { SkyListViewGridRowDeleteConfirmArgs } from '../types/list-view-grid-row
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './list-view-grid.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ListViewGridFixtureComponent implements OnInit {

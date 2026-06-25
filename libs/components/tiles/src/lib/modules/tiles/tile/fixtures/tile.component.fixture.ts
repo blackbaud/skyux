@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 import { SkyTilesModule } from '../../tiles.module';
 import { SkyTileComponent } from '../tile.component';
@@ -6,7 +6,6 @@ import { SkyTileComponent } from '../tile.component';
 @Component({
   imports: [SkyTilesModule],
   selector: 'sky-test-cmp',
-  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './tile.component.fixture.html',
 })
 export class TileTestComponent {

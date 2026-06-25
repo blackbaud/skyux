@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyI18nModule } from '@skyux/i18n';
@@ -17,7 +17,6 @@ import { SkyAgGridHeaderGroupComponent } from './header-group.component';
 
 @Component({
   template: `<span class="test-help-component">Help text</span>`,
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyI18nModule, SkyIconModule, SkyThemeModule],
 })
 class TestHelpComponent {}

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { SkyFluidGridGutterSizeType, SkyFluidGridModule } from '@skyux/layout';
 
 @Component({
@@ -13,7 +13,6 @@ import { SkyFluidGridGutterSizeType, SkyFluidGridModule } from '@skyux/layout';
       }
     `,
   ],
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyFluidGridModule],
 })
 export class FluidGridHarnessTestComponent {

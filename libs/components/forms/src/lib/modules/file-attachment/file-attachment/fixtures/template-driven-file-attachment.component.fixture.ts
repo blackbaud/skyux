@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 import { SkyFileAttachmentComponent } from '../file-attachment.component';
 import { SkyFileAttachmentModule } from '../file-attachment.module';
@@ -6,7 +6,6 @@ import { SkyFileAttachmentModule } from '../file-attachment.module';
 @Component({
   imports: [SkyFileAttachmentModule],
   selector: 'sky-file-attachment-test',
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <sky-file-attachment [disabled]="disabled">
       <sky-file-attachment-label> Field Label </sky-file-attachment-label>

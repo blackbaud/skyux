@@ -1,6 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 
@@ -29,7 +29,6 @@ import { SkyHelpInlineHarness } from './help-inline-harness';
     <span id="label1">An explanation</span>
     <span id="label2">that spans multiple elements</span>
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TestComponent {

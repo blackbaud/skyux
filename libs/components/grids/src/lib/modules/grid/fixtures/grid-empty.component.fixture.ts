@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  TemplateRef,
-  ViewChild,
-} from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 
 import { SkyGridColumnModel } from '../grid-column.model';
 import { SkyGridComponent } from '../grid.component';
@@ -11,7 +6,6 @@ import { SkyGridComponent } from '../grid.component';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './grid-empty.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class GridEmptyTestComponent {

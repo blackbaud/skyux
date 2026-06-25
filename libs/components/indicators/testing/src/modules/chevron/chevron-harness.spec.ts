@@ -1,6 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyChevronModule } from '@skyux/indicators';
 
@@ -13,7 +13,6 @@ import { SkyChevronHarness } from './chevron-harness';
     <sky-chevron [disabled]="disabled" (directionChange)="directionChange()">
     </sky-chevron>
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TestComponent {

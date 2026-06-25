@@ -1,5 +1,5 @@
 // #region imports
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 import { SkyToastComponent } from '../toast.component';
 import { SkyToasterService } from '../toaster.service';
@@ -10,7 +10,6 @@ import { SkyToasterService } from '../toaster.service';
   selector: 'sky-test-cmp',
   templateUrl: './toast-with-toaster-service.component.fixture.html',
   providers: [SkyToasterService],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyToastWithToasterServiceTestComponent {

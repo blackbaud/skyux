@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { SkyTabsetTabIndexesChange } from '../tabset-tab-indexes-change';
 
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './tabset-loop.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class TabsetLoopTestComponent {

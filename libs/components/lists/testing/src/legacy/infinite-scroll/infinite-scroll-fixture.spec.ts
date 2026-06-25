@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 
@@ -25,7 +25,6 @@ const DATA_SKY_ID = 'test-infinite-scroll';
       />
     </ul>
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class InfiniteScrollTestComponent {

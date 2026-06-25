@@ -1,9 +1,8 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { SkyIllustrationModule, SkyIllustrationSize } from '@skyux/indicators';
 
 @Component({
   imports: [SkyIllustrationModule],
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <sky-illustration
       data-sky-id="illustration-test"

@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { SkyUIConfigService } from '@skyux/core';
 import {
   SkyDataManagerDockType,
@@ -20,7 +15,6 @@ import { Filters } from './filters';
   selector: 'test-data-manager-harness',
   templateUrl: './data-manager-harness-test.component.html',
   providers: [SkyDataManagerService, SkyUIConfigService],
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyDataManagerModule, SkyToolbarModule],
 })
 export class DataManagerHarnessTestComponent implements OnInit {

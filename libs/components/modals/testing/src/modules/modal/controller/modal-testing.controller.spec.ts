@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Injectable,
-  OnDestroy,
-  inject,
-} from '@angular/core';
+import { Component, Injectable, OnDestroy, inject } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import {
@@ -28,7 +22,6 @@ class ModalTestContext {
 
 @Component({
   imports: [SkyModalModule],
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: `<form [formGroup]="demoForm" (submit)="saveForm()">
     <sky-modal [formErrors]="errors" [isDirty]="demoForm.dirty">
       <sky-modal-header> Modal title </sky-modal-header>
@@ -72,7 +65,6 @@ class ModalTestComponent {
 }
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 class TestComponent implements OnDestroy {
@@ -118,7 +110,6 @@ class TestComponent implements OnDestroy {
 }
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 class AnotherComponent {}

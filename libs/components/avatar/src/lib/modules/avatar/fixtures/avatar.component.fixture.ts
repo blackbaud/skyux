@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 import { SkyAvatarSize } from '../avatar-size';
 import { SkyAvatarSrc } from '../avatar-src';
@@ -7,7 +7,6 @@ import { SkyAvatarComponent } from '../avatar.component';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './avatar.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class AvatarTestComponent {

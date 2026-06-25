@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { SkyTileDashboardConfig } from '../../tile-dashboard-config/tile-dashboard-config';
 
 @Component({
   selector: 'sky-demo-app',
   templateUrl: './tile-dashboard-after-init.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class TileDashboardAfterInitTestComponent {

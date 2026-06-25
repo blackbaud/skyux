@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { SkyActionButtonModule } from '@skyux/layout';
 
@@ -21,7 +21,6 @@ import { SkyActionButtonFixture } from './action-button-fixture';
       </sky-action-button-details>
     </sky-action-button>
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TestComponent {

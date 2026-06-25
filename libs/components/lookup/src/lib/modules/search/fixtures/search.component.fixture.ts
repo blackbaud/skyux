@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 import { SkySearchComponent } from '../search.component';
 
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './search.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SearchTestComponent {

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Type } from '@angular/core';
+import { Component, Type } from '@angular/core';
 
 import { SkyModalService } from '../modal.service';
 
@@ -9,7 +9,6 @@ import { SkyModalService } from '../modal.service';
 @Component({
   selector: 'sky-modal-launcher-test',
   template: '',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ModalLauncherTestComponent {

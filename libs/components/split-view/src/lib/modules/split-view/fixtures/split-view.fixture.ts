@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { SkyConfirmService } from '@skyux/modals';
 
 import { Subject } from 'rxjs';
@@ -10,7 +10,6 @@ import { SkySplitViewMessage } from '../types/split-view-message';
 @Component({
   selector: 'sky-split-view-fixture',
   templateUrl: './split-view.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SplitViewFixtureComponent {

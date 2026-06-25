@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { expect } from '@skyux-sdk/testing';
@@ -27,7 +27,6 @@ import { SkyColorpickerFixture } from './colorpicker-fixture';
       </sky-colorpicker>
     </div>
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TestComponent {

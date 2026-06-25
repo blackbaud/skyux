@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import {
   AbstractControl,
   UntypedFormControl,
@@ -16,7 +16,6 @@ import { SkyColorpickerMessageType } from '../types/colorpicker-message-type';
 @Component({
   selector: 'sky-colorpicker-fixture',
   templateUrl: './colorpicker-reactive-component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ColorpickerReactiveTestComponent {

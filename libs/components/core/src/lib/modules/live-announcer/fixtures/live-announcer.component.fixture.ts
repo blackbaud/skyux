@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { SkyLiveAnnouncerService } from '../live-announcer.service';
 
 @Component({
   templateUrl: `./live-announcer.component.fixture.html`,
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyLiveAnnouncerFixtureComponent {

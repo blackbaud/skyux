@@ -1,5 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   SkyInlineFormButtonLayout,
@@ -11,7 +11,6 @@ import { SkyInlineFormHarness } from './inline-form-harness';
 
 @Component({
   imports: [SkyInlineFormModule],
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <sky-inline-form
       data-sky-id="inline-form-test"

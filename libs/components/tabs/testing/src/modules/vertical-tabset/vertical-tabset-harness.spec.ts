@@ -1,5 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopSkyAnimations } from '@skyux/core';
 import {
@@ -12,7 +12,6 @@ import { SkyVerticalTabsetHarness } from './vertical-tabset-harness';
 
 @Component({
   imports: [SkyVerticalTabsetModule],
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <sky-vertical-tabset
       ariaLabel="Vertical tabset"

@@ -1,5 +1,5 @@
 import { provideLocationMocks } from '@angular/common/testing';
-import { ChangeDetectionStrategy, Component, ElementRef } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NavigationStart, Router, provideRouter } from '@angular/router';
@@ -18,7 +18,6 @@ import { SkyAgGridRowDeleteFixtureComponent } from './fixtures/ag-grid-row-delet
 
 @Component({
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 class BlankRouteComponent {}

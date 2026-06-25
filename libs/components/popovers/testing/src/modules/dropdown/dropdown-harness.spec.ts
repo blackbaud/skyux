@@ -1,6 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyDropdownModule } from '@skyux/popovers';
 
@@ -34,7 +34,6 @@ import { SkyDropdownHarness } from './dropdown-harness';
       <sky-dropdown-menu [ariaRole]="'otherDropdownMenu'"></sky-dropdown-menu>
     </sky-dropdown>
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TestDropdownComponent {

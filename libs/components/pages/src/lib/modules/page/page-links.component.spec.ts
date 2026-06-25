@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SkyPageLinksComponent } from './page-links.component';
@@ -6,7 +6,6 @@ import { SkyPageLinksComponent } from './page-links.component';
 @Component({
   selector: 'sky-page-links-test',
   imports: [SkyPageLinksComponent],
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: `<sky-page-links>Links.</sky-page-links>`,
 })
 class SkyPageLinksTestComponent {}

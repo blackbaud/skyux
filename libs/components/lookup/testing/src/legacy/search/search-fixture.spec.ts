@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideNoopSkyAnimations } from '@skyux/core';
 
@@ -18,7 +18,6 @@ import { SkySearchTestingModule } from './search-testing.module';
     >
     </sky-search>
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TestComponent {

@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  input,
-  signal,
-} from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { _SkyAnimationEndHandlerDirective } from './animation-handler';
@@ -17,7 +12,6 @@ import { _SkyAnimationEndHandlerDirective } from './animation-handler';
     },
   ],
   selector: 'sky-test',
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: '<span class="sky-test-child"></span>',
 })
 class TestComponent {}
@@ -25,7 +19,6 @@ class TestComponent {}
 @Component({
   imports: [_SkyAnimationEndHandlerDirective],
   selector: 'sky-test-template',
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <div
       skyAnimationEndHandler

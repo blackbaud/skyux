@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Provider } from '@angular/core';
+import { Component, Provider } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -47,7 +47,6 @@ class TestDefaultHrefResolverService extends SkyIllustrationResolverService {
       <sky-illustration [name]="illustrationName" [size]="illustrationSize" />
     </div>
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyIllustrationModule],
 })
 class IllustrationComponent {

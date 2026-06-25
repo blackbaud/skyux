@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { SkyKeyInfoModule } from '@skyux/indicators';
 
 import { SkyActionHubModule } from '../action-hub.module';
@@ -6,7 +6,6 @@ import { SkyActionHubModule } from '../action-hub.module';
 @Component({
   selector: 'sky-action-hub-content-fixture',
   templateUrl: 'action-hub-content-fixture.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyActionHubModule, SkyKeyInfoModule],
 })
 export class ActionHubContentFixtureComponent {

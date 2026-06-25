@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 import { Observable, of as observableOf } from 'rxjs';
 
@@ -8,7 +8,6 @@ import { SkyListViewGridComponent } from '../../list-view-grid/list-view-grid.co
   selector: 'sky-test-cmp',
   templateUrl:
     './list-column-selector-action-deprecated.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ListColumnSelectorActionDeprecatedTestComponent {

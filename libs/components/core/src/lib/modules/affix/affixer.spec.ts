@@ -1,7 +1,6 @@
 import { ViewportRuler } from '@angular/cdk/overlay';
 import { NgClass } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
   Component,
   DOCUMENT,
   ElementRef,
@@ -97,7 +96,6 @@ import { SkyAffixer } from './affixer';
       }
     `,
   ],
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgClass],
 })
 class AffixerSpecComponent {

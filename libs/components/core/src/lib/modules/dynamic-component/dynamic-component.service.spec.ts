@@ -1,6 +1,5 @@
 import {
   ApplicationRef,
-  ChangeDetectionStrategy,
   Component,
   ComponentRef,
   EmbeddedViewRef,
@@ -23,7 +22,6 @@ import { DynamicComponentTestComponent } from './fixtures/dynamic-component-test
 @Component({
   selector: 'sky-home-test',
   template: '<router-outlet />',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class HomeTestComponent {}

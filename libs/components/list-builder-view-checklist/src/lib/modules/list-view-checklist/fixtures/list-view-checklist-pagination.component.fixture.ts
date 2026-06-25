@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { Observable, of as observableOf } from 'rxjs';
 
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './list-view-checklist-pagination.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ListViewChecklistPaginationTestComponent {

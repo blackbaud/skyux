@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 import { SkyGridComponent } from '../grid.component';
 
@@ -9,7 +9,6 @@ import { SkyGridComponent } from '../grid.component';
       <sky-grid-column field="column1" heading="Column1" />
     </sky-grid>
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class GridUndefinedTestComponent {

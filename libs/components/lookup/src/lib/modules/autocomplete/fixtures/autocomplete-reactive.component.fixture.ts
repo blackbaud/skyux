@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 
 import { SkyAutocompleteComponent } from '../autocomplete.component';
@@ -11,7 +6,6 @@ import { SkyAutocompleteComponent } from '../autocomplete.component';
 @Component({
   selector: 'sky-autocomplete-reactive-fixture',
   templateUrl: './autocomplete-reactive.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyAutocompleteReactiveFixtureComponent implements OnInit {

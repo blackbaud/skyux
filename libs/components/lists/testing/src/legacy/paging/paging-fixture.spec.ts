@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 import { SkyPagingModule } from '@skyux/lists';
@@ -24,7 +24,6 @@ const DATA_SKY_ID = 'test-paging';
     </sky-paging>
     <p>The current page is {{ currentPage }}.</p>
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class PagingTestComponent {

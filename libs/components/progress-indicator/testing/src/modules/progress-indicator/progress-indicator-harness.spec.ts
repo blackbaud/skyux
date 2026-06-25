@@ -1,5 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyProgressIndicatorModule } from '@skyux/progress-indicator';
 
@@ -44,7 +44,6 @@ import { SkyProgressIndicatorHarness } from './progress-indicator-harness';
     </sky-progress-indicator>
     <sky-progress-indicator data-sky-id="other-indicator" [isPassive]="true" />
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TestProgressIndicatorComponent {

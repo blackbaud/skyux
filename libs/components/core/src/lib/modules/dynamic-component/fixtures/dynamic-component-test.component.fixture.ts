@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   Input,
   OnInit,
@@ -19,7 +18,6 @@ import { GreetingService } from './greeting/greeting.service';
       @if (greeting) {{{ greeting }}}
     </div>
     <div #content></div>`,
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class DynamicComponentTestComponent implements OnInit {

@@ -1,12 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Injectable,
-  StaticProvider,
-  inject,
-} from '@angular/core';
+import { Component, Injectable, StaticProvider, inject } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   SkyModalConfigurationInterface,
@@ -33,7 +27,6 @@ export class ModalTestContext {
     [helpPopoverContent]="$safeNavigationMigration(context?.helpPopoverContent)"
     [helpPopoverTitle]="$safeNavigationMigration(context?.helpPopoverTitle)"
   ></sky-modal>`,
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TestComponent {
@@ -50,7 +43,6 @@ class ModalWithKeepWorkingPromptTestContext {
     data-sky-id="isDirtyModal"
     [isDirty]="isDirty"
   ></sky-modal>`,
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TestKeepWaitingPromptComponent {
@@ -64,7 +56,6 @@ class TestKeepWaitingPromptComponent {
 @Component({
   selector: 'sky-modal-sky-id-test',
   template: `<sky-modal data-sky-id="otherModal"></sky-modal>`,
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TestSkyIdComponent {}
@@ -72,7 +63,6 @@ class TestSkyIdComponent {}
 @Component({
   selector: 'sky-modal-test-modal',
   template: `<button type="button" (click)="openModal()"></button>`,
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TestButtonComponent {

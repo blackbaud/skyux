@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { SkyBackToTopModule } from '@skyux/layout';
 import { SkyRepeaterModule } from '@skyux/lists';
 
 @Component({
   selector: 'sky-back-to-top-fixture',
   templateUrl: './back-to-top-harness-test.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyBackToTopModule, SkyRepeaterModule],
 })
 export class BackToTopHarnessTestComponent {

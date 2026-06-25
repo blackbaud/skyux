@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { ListItemModel } from '@skyux/list-builder-common';
 
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './list-filter-inline.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ListFilterInlineTestComponent {

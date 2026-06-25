@@ -2,7 +2,6 @@ import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
   Component,
   ElementRef,
   Injectable,
@@ -30,7 +29,6 @@ class BannerTestContext {
       <sky-modal-content />
     </sky-modal>
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class BannerModalComponent {
@@ -44,7 +42,6 @@ class BannerModalComponent {
       <sky-modal-content />
     </sky-modal>
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class NoBannerModalComponent {}
@@ -57,7 +54,6 @@ class NoBannerModalComponent {}
       <sky-modal-content />
     </sky-modal>
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class NonMatchingBannerModalComponent implements AfterViewInit {
@@ -74,7 +70,6 @@ class NonMatchingBannerModalComponent implements AfterViewInit {
 @Component({
   selector: 'sky-modal-banner-test-opener',
   template: ``,
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TestButtonComponent {

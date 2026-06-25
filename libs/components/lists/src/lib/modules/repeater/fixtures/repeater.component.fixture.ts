@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 import { SkyRepeaterExpandModeType } from '../repeater-expand-mode-type';
 import { SkyRepeaterComponent } from '../repeater.component';
@@ -8,7 +8,6 @@ let nextItemId = 0;
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './repeater.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class RepeaterTestComponent {

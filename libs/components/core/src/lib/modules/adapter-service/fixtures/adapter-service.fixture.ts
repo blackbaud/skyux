@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  ViewChild,
-  inject,
-} from '@angular/core';
+import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 
 import { SkyMediaBreakpoints } from '../../media-query/media-breakpoints';
 import { SkyCoreAdapterService } from '../adapter.service';
@@ -13,7 +7,6 @@ import { SkyFocusableChildrenOptions } from '../focusable-children-options';
 @Component({
   selector: 'sky-adapter-service-fixture',
   templateUrl: './adapter-service.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class AdapterServiceFixtureComponent {

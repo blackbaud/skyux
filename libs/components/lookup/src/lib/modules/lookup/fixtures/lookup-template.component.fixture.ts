@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
@@ -22,7 +16,6 @@ import { SkyLookupShowMoreNativePickerConfig } from '../types/lookup-show-more-n
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './lookup-template.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyLookupTemplateTestComponent implements OnInit {

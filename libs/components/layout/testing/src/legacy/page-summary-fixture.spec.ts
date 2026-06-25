@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { SkyPageSummaryModule } from '@skyux/layout';
 
@@ -16,7 +16,6 @@ import { SkyPageSummaryFixture } from './page-summary-fixture';
       <sky-page-summary-content> Sample content </sky-page-summary-content>
     </sky-page-summary>
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TestComponent {

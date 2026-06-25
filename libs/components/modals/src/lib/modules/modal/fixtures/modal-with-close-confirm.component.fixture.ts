@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { SkyModalBeforeCloseHandler } from '../modal-before-close-handler';
 import { SkyModalInstance } from '../modal-instance';
@@ -6,7 +6,6 @@ import { SkyModalInstance } from '../modal-instance';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './modal-with-close-confirm.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ModalWithCloseConfirmTestComponent {

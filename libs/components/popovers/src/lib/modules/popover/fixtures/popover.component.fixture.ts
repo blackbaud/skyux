@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 
 import { Subject } from 'rxjs';
 
@@ -20,7 +14,6 @@ import { SkyPopoverTrigger } from '../types/popover-trigger';
   selector: 'sky-test-component',
   templateUrl: './popover.component.fixture.html',
   styleUrls: ['./popover.component.fixture.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class PopoverFixtureComponent implements AfterViewInit {

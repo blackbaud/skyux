@@ -1,6 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
@@ -18,7 +18,6 @@ import { SkyTabsetNavButtonHarness } from './tabset-nav-button-harness';
 
 @Component({
   imports: [SkyTabsModule, SkyPageModule],
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <sky-tabset
       [ariaLabel]="ariaLabel"
@@ -64,7 +63,6 @@ class TestComponent {
 
 @Component({
   imports: [SkyTabsModule, SkyModalModule],
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <sky-modal headingText="Modal title">
       <sky-modal-content>

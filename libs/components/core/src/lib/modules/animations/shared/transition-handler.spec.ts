@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ErrorHandler,
-  input,
-  signal,
-} from '@angular/core';
+import { Component, ErrorHandler, input, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { _SkyTransitionEndHandlerDirective } from './transition-handler';
@@ -21,7 +15,6 @@ import { _SkyTransitionEndHandlerDirective } from './transition-handler';
     style: 'transition: opacity 250ms ease',
   },
   selector: 'sky-test',
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: '<span class="sky-test-child"></span>',
 })
 class TestComponent {}
@@ -29,7 +22,6 @@ class TestComponent {}
 @Component({
   imports: [_SkyTransitionEndHandlerDirective],
   selector: 'sky-test-template',
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <div
       skyTransitionEndHandler

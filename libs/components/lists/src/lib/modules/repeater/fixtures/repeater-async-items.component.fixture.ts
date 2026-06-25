@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 
@@ -15,7 +15,6 @@ import { BehaviorSubject } from 'rxjs';
       }
     </sky-repeater>
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class RepeaterAsyncItemsTestComponent implements OnInit {

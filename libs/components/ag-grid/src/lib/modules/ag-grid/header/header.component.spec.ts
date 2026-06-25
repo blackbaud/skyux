@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
@@ -14,14 +14,12 @@ import { SkyAgGridHeaderComponent } from './header.component';
 
 @Component({
   template: `<span class="test-help-component">Help text</span>`,
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyI18nModule, SkyIconModule, SkyThemeModule],
 })
 class TestHelpComponent {}
 
 @Component({
   template: `<span class="other-help-component">Other help text</span>`,
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyI18nModule, SkyIconModule, SkyThemeModule],
 })
 class OtherTestHelpComponent {}

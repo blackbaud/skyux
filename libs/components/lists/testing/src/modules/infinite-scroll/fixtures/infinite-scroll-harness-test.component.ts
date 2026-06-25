@@ -1,9 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'test-infinite-scroll-harness',
   templateUrl: './infinite-scroll-harness-test.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class InfiniteScrollHarnessTestComponent {

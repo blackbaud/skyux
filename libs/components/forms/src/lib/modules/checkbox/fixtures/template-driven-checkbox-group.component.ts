@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import {
   ControlContainer,
   FormsModule,
@@ -25,7 +25,6 @@ import { SkyCheckboxModule } from '../checkbox.module';
       </sky-checkbox-group>
     </form>
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
 })
 export class SkyTemplateDrivenCheckboxGroupComponent {

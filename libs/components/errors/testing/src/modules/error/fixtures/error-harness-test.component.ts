@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { SkyErrorModule, SkyErrorType } from '@skyux/errors';
 
 @Component({
   selector: 'sky-error-fixture',
   templateUrl: './error-harness-test.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyErrorModule],
 })
 export class ErrorHarnessTestComponent {

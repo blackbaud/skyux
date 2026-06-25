@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { SkyTheme } from '../theme';
 import { SkyThemeMode } from '../theme-mode';
@@ -7,7 +7,6 @@ import { SkyThemeSettings } from '../theme-settings';
 @Component({
   selector: 'app-theme-class-test',
   templateUrl: './theme-class-test.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyThemeClassTestComponent {

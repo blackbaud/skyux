@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { SkyCheckboxModule } from '@skyux/forms';
 
@@ -24,7 +24,6 @@ import { SkyCheckboxFixture } from './checkbox-fixture';
       </sky-checkbox-label>
     </sky-checkbox>
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TestComponent {

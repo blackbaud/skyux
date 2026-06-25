@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ViewChild,
-  inject,
-} from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
 
 import { SkyWaitComponent } from '../wait.component';
 import { SkyWaitService } from '../wait.service';
@@ -11,7 +6,6 @@ import { SkyWaitService } from '../wait.service';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './wait.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyWaitTestComponent {

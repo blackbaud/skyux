@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { SkyLabelModule } from '@skyux/indicators';
 
@@ -12,7 +12,6 @@ import { SkyLabelFixture } from './label-fixture';
       This is a sample label.
     </sky-label>
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TestComponent {

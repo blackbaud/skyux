@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ListItemModel } from '@skyux/list-builder-common';
 
 import { SkyListViewGridComponent } from '../list-view-grid.component';
@@ -6,7 +6,6 @@ import { SkyListViewGridComponent } from '../list-view-grid.component';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './list-view-grid-display.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ListViewGridDisplayTestComponent {

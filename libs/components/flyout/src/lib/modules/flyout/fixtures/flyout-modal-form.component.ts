@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { SkyModalInstance } from '@skyux/modals';
 
 import { SkyFlyoutModalFixtureContext } from './flyout-modal-context';
@@ -7,7 +7,6 @@ import { SKY_FLYOUT_MODAL_CONTEXT } from './flyout-modal-context-token';
 @Component({
   selector: 'sky-demo-modal-form',
   templateUrl: './flyout-modal-form.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyFlyoutModalFixtureFormComponent {

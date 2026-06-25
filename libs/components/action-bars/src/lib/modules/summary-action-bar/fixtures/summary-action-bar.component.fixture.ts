@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  ViewChild,
-  inject,
-} from '@angular/core';
+import { Component, OnDestroy, ViewChild, inject } from '@angular/core';
 import { SkyModalInstance, SkyModalService } from '@skyux/modals';
 
 import { SkySummaryActionBarSecondaryActionsComponent } from '../actions/summary-action-bar-secondary-actions.component';
@@ -17,7 +11,6 @@ import { SkySummaryActionBarModalTestComponent } from './summary-action-bar-moda
 @Component({
   selector: 'sky-summary-action-bar-test',
   templateUrl: './summary-action-bar.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkySummaryActionBarTestComponent implements OnDestroy {

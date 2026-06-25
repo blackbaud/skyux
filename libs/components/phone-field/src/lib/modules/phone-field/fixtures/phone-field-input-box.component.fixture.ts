@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyInputBoxModule } from '@skyux/forms';
 
@@ -8,7 +8,6 @@ import { SkyPhoneFieldCountry } from '../types/country';
 @Component({
   imports: [FormsModule, SkyInputBoxModule, SkyPhoneFieldModule],
   selector: 'sky-test-cmp',
-  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './phone-field-input-box.component.fixture.html',
 })
 export class PhoneFieldInputBoxTestComponent {

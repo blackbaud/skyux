@@ -1,6 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyWaitModule, SkyWaitService } from '@skyux/indicators';
 
@@ -32,7 +32,6 @@ import { SkyWaitHarness } from './wait-harness';
       Show non-blocking page wait
     </button>
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TestComponent implements OnDestroy {

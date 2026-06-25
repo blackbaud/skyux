@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { SkyIndicatorDescriptionType, SkyLabelType } from '@skyux/indicators';
 
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './label-harness-test.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class LabelHarnessTestComponent {

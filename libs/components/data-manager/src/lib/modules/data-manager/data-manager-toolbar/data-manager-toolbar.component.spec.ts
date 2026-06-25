@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -52,14 +52,12 @@ class MockModalService {
 }
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 class MockModalComponent {}
 
 @Component({
   template: '',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class MockModalLegacyComponent {}
@@ -69,7 +67,6 @@ class MockModalLegacyComponent {}
     SkyDataManagerToolbarComponent,
     SkyDataManagerToolbarPrimaryItemComponent,
   ],
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <sky-data-manager-toolbar>
       <sky-data-manager-toolbar-primary-item>

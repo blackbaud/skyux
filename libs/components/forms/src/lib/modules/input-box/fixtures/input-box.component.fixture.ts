@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  TemplateRef,
-  ViewChild,
-} from '@angular/core';
+import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import {
   NgModel,
   UntypedFormControl,
@@ -17,7 +11,6 @@ import { InputBoxHostServiceFixtureComponent } from './input-box-host-service.co
 @Component({
   selector: 'sky-input-box-fixture',
   templateUrl: './input-box.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class InputBoxFixtureComponent {

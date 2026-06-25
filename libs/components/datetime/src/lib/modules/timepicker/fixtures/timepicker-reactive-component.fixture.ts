@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import { SkyTimepickerTimeFormatType } from '../timepicker-time-format-type';
@@ -15,7 +9,6 @@ import { SkyTimepickerInputDirective } from '../timepicker.directive';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './timepicker-reactive-component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class TimepickerReactiveTestComponent implements AfterViewInit, OnInit {

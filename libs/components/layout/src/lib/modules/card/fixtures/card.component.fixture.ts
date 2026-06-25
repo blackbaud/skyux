@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 import { SkyCardComponent } from '../card.component';
 
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './card.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CardTestComponent {

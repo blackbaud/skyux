@@ -1,5 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopSkyAnimations } from '@skyux/core';
 import {
@@ -13,7 +13,6 @@ import { SkyFlyoutHarness } from './flyout-harness';
 
 @Component({
   imports: [SkyFlyoutModule],
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 class TestComponent {
@@ -41,7 +40,6 @@ class TestComponent {
 }
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: ` <div>This is a custom component</div> `,
 })
 class CustomComponent {}

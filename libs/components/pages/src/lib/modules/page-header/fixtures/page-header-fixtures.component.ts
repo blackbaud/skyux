@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   ElementRef,
   HostBinding,
@@ -14,7 +13,6 @@ import { SkyPageHeaderModule } from '../page-header.module';
 @Component({
   selector: 'sky-page-header-fixtures',
   imports: [SkyAlertModule, SkyAvatarModule, SkyPageHeaderModule],
-  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './page-header-fixtures.component.html',
 })
 export class PageHeaderFixturesComponent {

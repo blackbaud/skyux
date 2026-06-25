@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -12,7 +12,6 @@ import { SkyCountryFieldModule } from '@skyux/lookup';
 @Component({
   selector: 'sky-country-field-fixture',
   templateUrl: './country-field-harness-test.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FormsModule,
     ReactiveFormsModule,

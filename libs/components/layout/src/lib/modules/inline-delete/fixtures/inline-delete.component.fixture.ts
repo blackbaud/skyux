@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 import { SkyInlineDeleteComponent } from '../inline-delete.component';
 
@@ -18,7 +18,6 @@ import { SkyInlineDeleteComponent } from '../inline-delete.component';
       }
     `,
   ],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class InlineDeleteTestComponent {

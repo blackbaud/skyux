@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { SkyTabIndex } from '../tab-index';
@@ -6,7 +6,6 @@ import { SkyTabIndex } from '../tab-index';
 @Component({
   selector: 'sky-tabset-permalinks-test',
   templateUrl: './tabset-permalinks.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyTabsetPermalinksFixtureComponent {

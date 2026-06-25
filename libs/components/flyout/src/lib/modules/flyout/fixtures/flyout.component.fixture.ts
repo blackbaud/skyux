@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { SkyFlyoutService } from '../../flyout/flyout.service';
 import { SkyFlyoutConfig } from '../../flyout/types/flyout-config';
@@ -17,7 +17,6 @@ export function flyoutTestSampleFactory(): SkyFlyoutTestSampleContext {
 @Component({
   selector: 'sky-test-component',
   templateUrl: './flyout.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyFlyoutTestComponent {

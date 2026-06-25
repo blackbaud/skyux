@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -19,7 +19,6 @@ import { SkyFileAttachmentModule } from '../file-attachment.module';
     SkyHelpInlineModule,
   ],
   selector: 'sky-file-attachment-test',
-  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './file-attachment.component.fixture.html',
 })
 export class FileAttachmentTestComponent {

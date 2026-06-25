@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 import { SkyPagingComponent } from '../paging.component';
 
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './paging.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyPagingTestComponent {

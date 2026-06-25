@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 import { SkyTextExpandComponent } from '../text-expand.component';
 
 @Component({
   selector: 'sky-text-expand-demo',
   templateUrl: './text-expand.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class TextExpandTestComponent {

@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   OnInit,
   ViewChild,
@@ -35,7 +34,6 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   selector: 'sky-ag-grid-data-manager-component-fixture',
   templateUrl: './ag-grid-data-manager.component.fixture.html',
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     SkyDataManagerModule,
     SkyTextHighlightModule,

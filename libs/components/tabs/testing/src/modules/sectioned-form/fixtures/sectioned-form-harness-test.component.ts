@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import {
   SkySectionedFormMessage,
   SkySectionedFormMessageType,
@@ -10,7 +10,6 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'sky-sectioned-form-fixture',
   templateUrl: './sectioned-form-harness-test.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkySectionedFormModule],
 })
 export class SectionedFormHarnessTestComponent {

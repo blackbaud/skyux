@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ViewChild,
-  inject,
-} from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
 import { SkyModalInstance } from '@skyux/modals';
 
 import { SkySummaryActionBarComponent } from '../summary-action-bar.component';
@@ -11,7 +6,6 @@ import { SkySummaryActionBarComponent } from '../summary-action-bar.component';
 @Component({
   selector: 'sky-test-cmp-modal',
   templateUrl: './summary-action-bar-modal.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkySummaryActionBarModalTestComponent {

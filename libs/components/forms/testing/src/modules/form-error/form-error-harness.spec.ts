@@ -1,6 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SKY_FORM_ERRORS_ENABLED, SkyFormErrorModule } from '@skyux/forms';
 
@@ -23,7 +23,6 @@ import { SkyFormErrorHarness } from './form-error-harness';
       [errorText]="errorTextSkyId"
     />
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TestComponent {

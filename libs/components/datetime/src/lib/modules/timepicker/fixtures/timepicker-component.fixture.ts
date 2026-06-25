@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 import { SkyTimepickerTimeFormatType } from '../timepicker-time-format-type';
 import { SkyTimepickerTimeOutput } from '../timepicker-time-output';
@@ -8,7 +8,6 @@ import { SkyTimepickerInputDirective } from '../timepicker.directive';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './timepicker-component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class TimepickerTestComponent {

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 import { SkySelectionBoxGridComponent } from '../selection-box-grid.component';
 import { SkySelectionBoxGridAlignItemsType } from '../types/selection-box-grid-align-items-type';
@@ -6,7 +6,6 @@ import { SkySelectionBoxGridAlignItemsType } from '../types/selection-box-grid-a
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './selection-box-grid.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SelectionBoxGridTestComponent {

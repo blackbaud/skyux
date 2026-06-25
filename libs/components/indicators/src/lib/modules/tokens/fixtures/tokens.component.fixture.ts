@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  OnDestroy,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 
 import { Subject } from 'rxjs';
 
@@ -16,7 +10,6 @@ import { SkyTokensMessage } from '../types/tokens-message';
 @Component({
   selector: 'sky-tokens-test',
   templateUrl: './tokens.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyTokensTestComponent implements OnDestroy {

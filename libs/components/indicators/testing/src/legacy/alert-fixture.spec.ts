@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { SkyAlertModule } from '@skyux/indicators';
 
@@ -18,7 +18,6 @@ import { SkyAlertFixture } from './alert-fixture';
       This is a sample alert.
     </sky-alert>
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TestComponent {

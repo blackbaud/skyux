@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
 import { SkyAffixService } from './affix.service';
@@ -12,7 +7,6 @@ import { SkyAffixer } from './affixer';
 @Component({
   selector: 'test-cmp',
   template: '<div #target></div>',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TestComponent {

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { SkyBoxHeadingLevel } from '../box-heading-level';
 import { SkyBoxHeadingStyle } from '../box-heading-style';
@@ -6,7 +6,6 @@ import { SkyBoxHeadingStyle } from '../box-heading-style';
 @Component({
   selector: 'sky-box-test',
   templateUrl: 'box.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class BoxTestComponent {

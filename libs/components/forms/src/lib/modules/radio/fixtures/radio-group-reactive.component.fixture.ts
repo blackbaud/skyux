@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   AbstractControl,
   UntypedFormBuilder,
@@ -18,7 +13,6 @@ import { SkyRadioGroupHeadingStyle } from '../types/radio-group-heading-style';
 
 @Component({
   templateUrl: './radio-group-reactive.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyRadioGroupReactiveFixtureComponent implements OnInit {

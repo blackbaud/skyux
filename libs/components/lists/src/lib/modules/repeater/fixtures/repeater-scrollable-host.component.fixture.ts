@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'sky-test-repeater-scrollable-host',
@@ -16,7 +16,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       </sky-repeater>
     </div>
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class RepeaterScrollableHostTestComponent {

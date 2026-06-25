@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -47,7 +47,6 @@ import { SkyModalFixture } from './modal-fixture';
       Non-modal content
     </span>
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TestModalComponent {
@@ -66,7 +65,6 @@ class TestModalComponent {
       Launch modal
     </button>
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TestComponent {

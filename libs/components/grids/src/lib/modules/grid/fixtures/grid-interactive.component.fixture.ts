@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   ContentChildren,
   QueryList,
@@ -16,7 +15,6 @@ import { SkyGridSelectedRowsModelChange } from '../types/grid-selected-rows-mode
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './grid-interactive.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class GridInteractiveTestComponent {

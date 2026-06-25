@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
 import { SKY_ANIMATIONS_DISABLED_CLASS_NAME } from './constants';
 import { provideNoopSkyAnimations } from './provide-noop-animations';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: '',
 })
 class TestComponent {}

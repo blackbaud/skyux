@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ViewChild,
-  inject,
-} from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
 import {
   AbstractControl,
   NgModel,
@@ -18,7 +13,6 @@ import { SkyAutonumericDirective } from '../autonumeric.directive';
 @Component({
   selector: 'sky-autonumeric-directive-test',
   templateUrl: './autonumeric.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class AutonumericFixtureComponent {

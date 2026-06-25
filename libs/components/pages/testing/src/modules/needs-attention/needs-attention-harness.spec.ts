@@ -1,6 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   SkyActionHubNeedsAttention,
@@ -17,7 +17,6 @@ import { SkyNeedsAttentionItemHarness } from './needs-attention-item-harness';
     data-sky-id="needs-attention"
     [items]="items()"
   />`,
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyNeedsAttentionModule],
 })
 class TestComponent {

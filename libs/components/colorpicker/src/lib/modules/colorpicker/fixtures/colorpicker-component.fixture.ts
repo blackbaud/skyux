@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 import { Subject } from 'rxjs';
 
@@ -10,7 +10,6 @@ import { SkyColorpickerResult } from '../types/colorpicker-result';
 @Component({
   selector: 'sky-colorpicker-fixture',
   templateUrl: './colorpicker-component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ColorpickerTestComponent {

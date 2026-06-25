@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -13,7 +13,6 @@ import { SkyListSummaryComponent } from './list-summary.component';
       <sky-list-summary-item labelText="Active Items" [value]="25" />
     </sky-list-summary>
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyListSummaryComponent, SkyListSummaryItemComponent],
 })
 class TestSummaryComponent {}
@@ -28,7 +27,6 @@ class TestSummaryComponent {}
       />
     </sky-list-summary>
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyListSummaryComponent, SkyListSummaryItemComponent],
 })
 class TestLargeNumberComponent {}
@@ -39,7 +37,6 @@ class TestLargeNumberComponent {}
       <sky-list-summary-item labelText="Zero Items" [value]="0" />
     </sky-list-summary>
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyListSummaryComponent, SkyListSummaryItemComponent],
 })
 class TestZeroValueComponent {}
@@ -53,14 +50,12 @@ class TestZeroValueComponent {}
       <sky-list-summary-item labelText="Fourth" [value]="1000" />
     </sky-list-summary>
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyListSummaryComponent, SkyListSummaryItemComponent],
 })
 class TestMultipleItemsComponent {}
 
 @Component({
   template: ` <sky-list-summary /> `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyListSummaryComponent],
 })
 class TestEmptyComponent {}

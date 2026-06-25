@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { SkyPhoneFieldInputDirective } from '../phone-field-input.directive';
@@ -10,7 +10,6 @@ import { SkyPhoneFieldNumberReturnFormat } from '../types/number-return-format';
 @Component({
   imports: [FormsModule, SkyPhoneFieldModule],
   selector: 'sky-test-cmp',
-  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './phone-field.component.fixture.html',
 })
 export class PhoneFieldTestComponent {

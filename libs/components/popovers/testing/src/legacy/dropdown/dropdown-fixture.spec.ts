@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 import { SkyDropdownButtonType, SkyDropdownMenuChange } from '@skyux/popovers';
@@ -52,7 +52,6 @@ const DATA_SKY_ID = 'test-dropdown';
       </sky-dropdown-menu>
     </sky-dropdown>
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class DropdownTestComponent {

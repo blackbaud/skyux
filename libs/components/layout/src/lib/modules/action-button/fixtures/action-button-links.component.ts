@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { SkyActionButtonContainerComponent } from '../action-button-container.component';
 import { SkyActionButtonPermalink } from '../action-button-permalink';
@@ -11,7 +6,6 @@ import { SkyActionButtonPermalink } from '../action-button-permalink';
 @Component({
   selector: 'sky-action-button-skyhref',
   templateUrl: './action-button-links.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ActionButtonLinksComponent implements OnInit {

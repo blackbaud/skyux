@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 import { SkyActionButtonContainerComponent } from '../action-button-container.component';
 import { SkyActionButtonPermalink } from '../action-button-permalink';
@@ -7,7 +7,6 @@ import { SkyActionButtonContainerAlignItemsType } from '../types/action-button-c
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './action-button.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ActionButtonTestComponent {

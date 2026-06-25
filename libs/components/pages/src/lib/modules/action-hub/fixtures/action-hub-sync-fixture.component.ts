@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { SkyActionHubModule } from '../action-hub.module';
 import { SkyActionHubNeedsAttention } from '../types/action-hub-needs-attention';
@@ -8,7 +8,6 @@ import { SkyRecentLink } from '../types/recent-link';
 @Component({
   selector: 'sky-action-hub-sync-fixture',
   templateUrl: 'action-hub-sync-fixture.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyActionHubModule],
 })
 export class ActionHubSyncFixtureComponent {

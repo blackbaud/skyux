@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 import { SkyDatepickerCalendarComponent } from '../calendar/datepicker-calendar.component';
 import { SkyDatepickerCustomDate } from '../datepicker-custom-date';
@@ -6,7 +6,6 @@ import { SkyDatepickerCustomDate } from '../datepicker-custom-date';
 @Component({
   selector: 'sky-datepicker-calendar-test',
   templateUrl: './datepicker-calendar.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class DatepickerCalendarTestComponent {

@@ -1,6 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyLinkListModule, SkyPageLinksInput } from '@skyux/pages';
 
@@ -19,7 +19,6 @@ import { SkyLinkListItemHarness } from './link-list-item-harness';
       <sky-link-list-item><a href="#">Link 1</a></sky-link-list-item>
     }
   </sky-link-list>`,
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyLinkListModule],
 })
 class TestComponent {

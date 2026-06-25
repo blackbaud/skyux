@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { SkyRepeaterExpandModeType } from '../repeater-expand-mode-type';
 
@@ -7,7 +7,6 @@ import { A11yRepeaterItem } from './a11y-repeater-item';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './a11y-repeater.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class A11yRepeaterTestComponent {

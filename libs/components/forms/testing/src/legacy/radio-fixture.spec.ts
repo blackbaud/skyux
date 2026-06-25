@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -33,7 +33,6 @@ import { SkyRadioFixture } from './radio-fixture';
       </ul>
     </sky-radio-group>
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TestComponent {

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { SkyIndicatorDescriptionType } from '../../shared/indicator-description-type';
 import { SkyIndicatorIconType } from '../../shared/indicator-icon-type';
@@ -6,7 +6,6 @@ import { SkyIndicatorIconType } from '../../shared/indicator-icon-type';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './alert.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class AlertTestComponent {

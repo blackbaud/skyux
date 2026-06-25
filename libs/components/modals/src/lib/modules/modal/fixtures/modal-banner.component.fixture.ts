@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { ModalTestContext } from './modal-context';
 
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './modal-banner.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ModalBannerTestComponent {

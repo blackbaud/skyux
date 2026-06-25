@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormControl,
@@ -15,7 +10,6 @@ import { SkyFuzzyDatepickerInputDirective } from '../datepicker-input-fuzzy.dire
 @Component({
   selector: 'sky-fuzzy-datepicker-reactive-test',
   templateUrl: './fuzzy-datepicker-reactive.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class FuzzyDatepickerReactiveTestComponent implements OnInit {

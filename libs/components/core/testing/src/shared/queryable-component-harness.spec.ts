@@ -1,13 +1,12 @@
 import { ComponentHarness, HarnessPredicate } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
 import { SkyHarnessFilters } from './harness-filters';
 import { SkyQueryableComponentHarness } from './queryable-component-harness';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: `<div class="my-parent" data-sky-id="my-sky-id">
     <div class="my-child">Child text.</div>
   </div>`,

@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   ReactiveFormsModule,
   UntypedFormControl,
@@ -19,7 +14,6 @@ import { SkyPhoneFieldNumberReturnFormat } from '../types/number-return-format';
 @Component({
   imports: [ReactiveFormsModule, SkyPhoneFieldModule],
   selector: 'sky-test-cmp',
-  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './phone-field-reactive.component.fixture.html',
 })
 export class PhoneFieldReactiveTestComponent implements OnInit {

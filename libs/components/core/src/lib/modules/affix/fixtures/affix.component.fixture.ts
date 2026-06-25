@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 
 import { SkyAffixAutoFitContext } from '../affix-auto-fit-context';
 import { SkyAffixHorizontalAlignment } from '../affix-horizontal-alignment';
@@ -18,7 +13,6 @@ import { SkyAffixDirective } from '../affix.directive';
   selector: 'sky-affix-test',
   templateUrl: './affix.component.fixture.html',
   styleUrls: ['./affix.component.fixture.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class AffixFixtureComponent {

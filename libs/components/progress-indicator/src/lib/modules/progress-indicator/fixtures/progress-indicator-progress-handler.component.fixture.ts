@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 import { Subject } from 'rxjs';
 
@@ -9,7 +9,6 @@ import { SkyProgressIndicatorMessage } from '../types/progress-indicator-message
 @Component({
   selector: 'sky-progress-indicator-progress-handler-fixture',
   templateUrl: './progress-indicator-progress-handler.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyProgressIndicatorProgressHandlerFixtureComponent {

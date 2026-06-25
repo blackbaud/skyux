@@ -1,15 +1,9 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  booleanAttribute,
-  input,
-} from '@angular/core';
+import { Component, booleanAttribute, input } from '@angular/core';
 import { SkyTextHighlightModule } from '@skyux/indicators';
 
 @Component({
   selector: 'test-text-highlight-harness',
   templateUrl: './text-highlight-harness-test.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyTextHighlightModule],
 })
 export class TextHighlightHarnessTestComponent {

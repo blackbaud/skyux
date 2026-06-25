@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   QueryList,
@@ -21,7 +20,6 @@ import { SkyDropdownTriggerType } from '../types/dropdown-trigger-type';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './dropdown.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class DropdownFixtureComponent {

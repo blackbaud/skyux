@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 
@@ -8,7 +8,6 @@ import { SkyDatepickerCalendarLabelPipe } from './datepicker-calendar-label.pipe
 @Component({
   selector: 'sky-datepicker-calendar-label-pipe-test',
   template: '{{ value | skyDatepickerCalendarLabel : format }}',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyDatepickerCalendarLabelPipe],
 })
 export class SkyDatepickerCalendarLabelPipeTestComponent {
