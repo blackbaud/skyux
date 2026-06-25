@@ -92,8 +92,8 @@ export class SkyVerticalTabsetComponent
 
   /**
    * The width of the tabs pane as a CSS width value (such as `200px`, `15rem`,
-   * or `30%`). Set to `"auto"` to size based on tab label content, up to a
-   * maximum width of 30%.
+   * or `20%`). Set to `"auto"` to size based on tab label content, up to a
+   * maximum width of 25%.
    * @default "25%"
    */
   @Input()
@@ -222,6 +222,13 @@ export class SkyVerticalTabsetComponent
       return undefined;
     }
     return this.#isAutoTabWidth() ? 'auto' : this.tabWidth;
+  }
+
+  protected get tabGroupContainerMaxWidth(): string | undefined {
+    if (this.tabService.isMobile()) {
+      return undefined;
+    }
+    return DEFAULT_TAB_WIDTH;
   }
 
   #isAutoTabWidth(): boolean {

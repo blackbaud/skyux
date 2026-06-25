@@ -659,6 +659,7 @@ describe('Vertical tabset component', () => {
     const tabsContainer = getTabsContainer(fixture);
 
     expect(tabsContainer.style.flexBasis).toBe('25%');
+    expect(tabsContainer.style.maxWidth).toBe('25%');
   });
 
   it('should size tabs automatically when tabWidth is set to auto', () => {
@@ -670,6 +671,7 @@ describe('Vertical tabset component', () => {
     const tabsContainer = getTabsContainer(fixture);
 
     expect(tabsContainer.style.flexBasis).toBe('auto');
+    expect(tabsContainer.style.maxWidth).toBe('25%');
   });
 
   it('should set custom tab width', () => {
@@ -681,6 +683,7 @@ describe('Vertical tabset component', () => {
     const tabsContainer = getTabsContainer(fixture);
 
     expect(tabsContainer.style.flexBasis).toBe('18rem');
+    expect(tabsContainer.style.maxWidth).toBe('25%');
   });
 
   it('should not constrain the tab width on mobile', () => {
@@ -698,6 +701,20 @@ describe('Vertical tabset component', () => {
     // switches to a full-width block layout. Otherwise `max-width: 25%` would
     // clamp the nav column on small screens.
     expect(tabsContainer.style.flexBasis).toBe('');
+    const mobileStyle = getComputedStyle(tabsContainer);
+    expect(mobileStyle.maxWidth).toBe('none');
+    expect(mobileStyle.minWidth).toBe('0px');
+  });
+
+  it('should constrain the nav width only in the side-by-side layout', () => {
+    mediaQueryController.setBreakpoint('lg');
+    const fixture = createTestComponent();
+    fixture.detectChanges();
+
+    const tabsContainer = getTabsContainer(fixture);
+    const desktopStyle = getComputedStyle(tabsContainer);
+    expect(desktopStyle.maxWidth).not.toBe('none');
+    expect(desktopStyle.minWidth).not.toBe('0px');
   });
 
   it('mobile button should be visible on small screen', () => {

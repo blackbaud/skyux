@@ -30,6 +30,7 @@
     skyTransitionEndHandler
     transitionPropertyToTrack="transform"
     [style.flex-basis]="tabGroupContainerFlexBasis"
+    [style.max-width]="tabGroupContainerMaxWidth"
     [class.sky-animation-slide-enter-left]="tabService.isMobile()"
     [ngClass]="{ 'sky-vertical-tabset-hidden': !tabService.tabsVisible() }"
     [tabIndex]="tablistHasFocus ? -1 : 0"
