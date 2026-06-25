@@ -4,7 +4,6 @@ import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { Linter } from '@nx/eslint';
 
 import { createTestApplication } from '../../utils/testing';
-import configureStorybook from '../configure-storybook';
 
 import generateStorybookComposition from './index';
 
@@ -35,7 +34,6 @@ describe('storybook-composition', () => {
         linter: Linter.None,
         project: name,
       });
-      await configureStorybook(tree, { name, skipFormat: true });
     }
     const storybookMain = 'apps/storybook/.storybook/main.ts';
     expect(tree.isFile(storybookMain)).toBeTruthy();
@@ -61,7 +59,6 @@ describe('storybook-composition', () => {
           linter: Linter.None,
           project: name,
         });
-        await configureStorybook(tree, { name, skipFormat: true });
       }
     }
     const storybookMain = 'apps/storybook/.storybook/main.ts';
@@ -99,7 +96,6 @@ describe('storybook-composition', () => {
       linter: Linter.None,
       project: 'storybook',
     });
-    await configureStorybook(tree, { name: 'storybook', skipFormat: true });
     await generateStorybookComposition(tree, {
       projectsJson: '["test-app]',
       baseUrl: '../storybooks',
@@ -131,7 +127,6 @@ describe('storybook-composition', () => {
         linter: Linter.None,
         project: name,
       });
-      await configureStorybook(tree, { name, skipFormat: true });
     }
     const storybookMain = 'apps/storybook/.storybook/main.ts';
     expect(tree.isFile(storybookMain)).toBeTruthy();
