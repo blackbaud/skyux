@@ -1,0 +1,138 @@
+{
+  "name": "<%= name %>-storybook",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/e2e/<%= name %>-storybook/src",
+  "prefix": "app",
+  "tags": <%- tags %>,
+  "targets": {
+    "build": {
+      "executor": "@angular/build:application",
+      "outputs": ["{options.outputPath.base}"],
+      "options": {
+        "outputPath": {
+          "base": "dist/apps/e2e/<%= name %>-storybook"
+        },
+        "index": "apps/e2e/<%= name %>-storybook/src/index.html",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/e2e/<%= name %>-storybook/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "stylePreprocessorOptions": {
+          "includePaths": ["{workspaceRoot}"]
+        },
+        "styles": [
+          "apps/e2e/<%= name %>-storybook/src/styles.scss",
+          "libs/components/theme/src/lib/styles/sky.scss",
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+        ],
+        "scripts": [],
+        "browser": "apps/e2e/<%= name %>-storybook/src/main.ts"
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "<%= name %>-storybook:build:production"
+        },
+        "development": {
+          "buildTarget": "<%= name %>-storybook:build:development"
+        }
+      },
+      "defaultConfiguration": "development",
+      "continuous": true
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "<%= name %>-storybook:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["{projectRoot}/**/*.ts", "{projectRoot}/**/*.html"]
+      }
+    },
+    "storybook": {
+      "executor": "@storybook/angular:start-storybook",
+      "options": {
+        "port": 4400,
+        "configDir": "apps/e2e/<%= name %>-storybook/.storybook",
+        "browserTarget": "<%= name %>-storybook:build",
+        "compodoc": false,
+        "styles": [
+          "libs/components/theme/src/lib/styles/sky.scss",
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+        ]
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true,
+          "ci": true
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "@storybook/angular:build-storybook",
+      "outputs": ["{options.outputDir}"],
+      "options": {
+        "outputDir": "dist/storybook/<%= name %>-storybook",
+        "configDir": "apps/e2e/<%= name %>-storybook/.storybook",
+        "browserTarget": "<%= name %>-storybook:build",
+        "compodoc": false,
+        "styles": [
+          "libs/components/theme/src/lib/styles/sky.scss",
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+        ]
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "static-storybook": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "<%= name %>-storybook:build-storybook",
+        "staticFilePath": "dist/storybook/<%= name %>-storybook"
+      },
+      "configurations": {
+        "ci": {
+          "buildTarget": "<%= name %>-storybook:build-storybook:ci"
+        },
+        "prebuilt": {
+          "buildTarget": "<%= name %>-storybook:noop"
+        }
+      }
+    },
+    "noop": {
+      "executor": "nx:noop"
+    }
+  }
+}
