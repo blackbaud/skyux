@@ -8,7 +8,7 @@ import { Tree } from '@nx/devkit';
 
 export async function createTestApplication(
   tree: Tree,
-  options: { name: string; e2eTestRunner?: boolean; unitTestRunner?: boolean },
+  options: { name: string; e2eTestRunner?: boolean },
 ): Promise<void> {
   await applicationGenerator(tree, {
     name: options.name,
@@ -18,9 +18,7 @@ export async function createTestApplication(
       ? E2eTestRunner.Cypress
       : E2eTestRunner.None,
     linter: 'none',
-    unitTestRunner: options.unitTestRunner
-      ? UnitTestRunner.Jest
-      : UnitTestRunner.None,
+    unitTestRunner: UnitTestRunner.None,
     skipFormat: true,
   });
 }

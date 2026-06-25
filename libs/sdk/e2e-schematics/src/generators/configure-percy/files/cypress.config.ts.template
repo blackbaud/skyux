@@ -1,8 +1,0 @@
-import { defineConfig } from 'cypress';
-import { skyE2ePreset } from '@skyux-sdk/e2e-schematics/cypress-preset';
-
-export default defineConfig({
-  e2e: {
-    ...skyE2ePreset(__dirname),
-  },
-});
