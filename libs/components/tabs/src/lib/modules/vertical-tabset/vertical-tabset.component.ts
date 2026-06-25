@@ -22,8 +22,8 @@ import { SkyVerticalTabsetAdapterService } from './vertical-tabset-adapter.servi
 import { SkyVerticalTabsetService } from './vertical-tabset.service';
 
 /**
- * The default width of the tabs pane. Also serves as the maximum width when
- * `tabWidth` is `"auto"`.
+ * The default width of the tabs pane. Also serves as the maximum width of the
+ * pane for any `tabWidth` value.
  */
 const DEFAULT_TAB_WIDTH = '25%';
 
@@ -92,8 +92,8 @@ export class SkyVerticalTabsetComponent
 
   /**
    * The width of the tabs pane as a CSS width value (such as `200px`, `15rem`,
-   * or `20%`). Set to `"auto"` to size based on tab label content, up to a
-   * maximum width of 25%.
+   * or `20%`). Set to `"auto"` to size based on tab label content. Maximum
+   * width is 25%.
    * @default "25%"
    */
   @Input()
@@ -221,7 +221,7 @@ export class SkyVerticalTabsetComponent
     if (this.tabService.isMobile()) {
       return undefined;
     }
-    return this.#isAutoTabWidth() ? 'auto' : this.tabWidth;
+    return this.tabWidth;
   }
 
   protected get tabGroupContainerMaxWidth(): string | undefined {
@@ -229,9 +229,5 @@ export class SkyVerticalTabsetComponent
       return undefined;
     }
     return DEFAULT_TAB_WIDTH;
-  }
-
-  #isAutoTabWidth(): boolean {
-    return this.tabWidth?.toLowerCase() === 'auto';
   }
 }

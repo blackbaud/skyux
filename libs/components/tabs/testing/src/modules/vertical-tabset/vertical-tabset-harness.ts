@@ -143,7 +143,9 @@ export class SkyVerticalTabsetHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the tab width.
+   * Gets the tab width as a CSS `flex-basis` value (for example, `200px`),
+   * or `null` when no width is set. The width is only applied in the desktop
+   * layout, so this returns `null` in the mobile layout.
    */
   public async getTabWidth(): Promise<string | null> {
     const styleAttribute = await (

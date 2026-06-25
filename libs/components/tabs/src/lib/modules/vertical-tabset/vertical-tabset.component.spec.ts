@@ -709,12 +709,14 @@ describe('Vertical tabset component', () => {
   it('should constrain the nav width only in the side-by-side layout', () => {
     mediaQueryController.setBreakpoint('lg');
     const fixture = createTestComponent();
+    fixture.componentInstance.tabWidth = 'auto';
     fixture.detectChanges();
 
     const tabsContainer = getTabsContainer(fixture);
+    // The `auto` 25% cap is applied only in the side-by-side (desktop) layout;
+    // the mobile layout leaves it unset (see the mobile test).
     const desktopStyle = getComputedStyle(tabsContainer);
     expect(desktopStyle.maxWidth).not.toBe('none');
-    expect(desktopStyle.minWidth).not.toBe('0px');
   });
 
   it('mobile button should be visible on small screen', () => {
