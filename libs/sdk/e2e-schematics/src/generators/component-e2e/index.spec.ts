@@ -10,6 +10,10 @@ describe('component-e2e', () => {
     return { tree };
   }
 
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
   it('should scaffold a storybook and e2e project pair', async () => {
     const { tree } = setupTest();
     await componentE2eGenerator(tree, { name: 'test', skipFormat: true });
@@ -133,8 +137,5 @@ describe('component-e2e', () => {
     expect(tree.read('apps/e2e/test-storybook/project.json', 'utf-8')).toEqual(
       original,
     );
-
-    loggerSpy.mockRestore();
-    consoleSpy.mockRestore();
   });
 });

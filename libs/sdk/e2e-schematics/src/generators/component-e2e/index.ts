@@ -45,6 +45,9 @@ export default async function (
   const options = normalizeOptions(schema);
   const storybookRoot = `${BASE_PATH}/${options.storybookAppName}`;
 
+  // The Storybook and e2e projects are always scaffolded together, so the
+  // Storybook project.json acts as the sentinel for "this pair already exists":
+  // when present, both generateFiles calls below are skipped.
   if (tree.exists(`${storybookRoot}/project.json`)) {
     (options.ansiColor ? logger.warn : console.warn)(
       `The project "${options.storybookAppName}" already exists.`,
