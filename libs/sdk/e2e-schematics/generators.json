@@ -8,16 +8,6 @@
       "schema": "./src/generators/component-e2e/schema.json",
       "description": "configure a library for e2e testing"
     },
-    "configure-percy": {
-      "factory": "./src/generators/configure-percy/index",
-      "schema": "./src/generators/configure-percy/schema.json",
-      "description": "configure a cypress e2e project to use percy"
-    },
-    "configure-storybook": {
-      "factory": "./src/generators/configure-storybook/index",
-      "schema": "./src/generators/configure-storybook/schema.json",
-      "description": "configure storybook"
-    },
     "storybook-composition": {
       "factory": "./src/generators/storybook-composition/index",
       "schema": "./src/generators/storybook-composition/schema.json",
