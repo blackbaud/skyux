@@ -121,8 +121,8 @@ describe('Popover directive', () => {
 
   it('should use placement and alignment values of the popover component', fakeAsync(() => {
     // Ensure alignment/placement are undefined for directive.
-    fixture.componentInstance.alignment = undefined;
-    fixture.componentInstance.placement = undefined;
+    fixture.componentRef.setInput('alignment', undefined);
+    fixture.componentRef.setInput('placement', undefined);
 
     // Set alignment/placement for component.
     fixture.componentInstance.popoverAlignment = 'left';
@@ -146,7 +146,7 @@ describe('Popover directive', () => {
   }));
 
   it('should place the popover on all four sides of the caller', fakeAsync(() => {
-    fixture.componentInstance.placement = 'above';
+    fixture.componentRef.setInput('placement', 'above');
     detectChangesFakeAsync();
 
     const button = getCallerElement();
@@ -161,7 +161,7 @@ describe('Popover directive', () => {
     button?.click();
     detectChangesFakeAsync();
 
-    fixture.componentInstance.placement = 'right';
+    fixture.componentRef.setInput('placement', 'right');
     detectChangesFakeAsync();
 
     button?.click();
@@ -174,7 +174,7 @@ describe('Popover directive', () => {
     button?.click();
     detectChangesFakeAsync();
 
-    fixture.componentInstance.placement = 'below';
+    fixture.componentRef.setInput('placement', 'below');
     detectChangesFakeAsync();
 
     button?.click();
@@ -187,7 +187,7 @@ describe('Popover directive', () => {
     button?.click();
     detectChangesFakeAsync();
 
-    fixture.componentInstance.placement = 'left';
+    fixture.componentRef.setInput('placement', 'left');
     detectChangesFakeAsync();
 
     button?.click();
@@ -199,8 +199,8 @@ describe('Popover directive', () => {
   }));
 
   it('should set horizontal alignments', fakeAsync(() => {
-    fixture.componentInstance.placement = 'above';
-    fixture.componentInstance.alignment = 'left';
+    fixture.componentRef.setInput('placement', 'above');
+    fixture.componentRef.setInput('alignment', 'left');
     detectChangesFakeAsync();
 
     const button = getCallerElement();
@@ -215,7 +215,7 @@ describe('Popover directive', () => {
     button?.click();
     detectChangesFakeAsync();
 
-    fixture.componentInstance.alignment = 'center';
+    fixture.componentRef.setInput('alignment', 'center');
     detectChangesFakeAsync();
 
     button?.click();
@@ -228,7 +228,7 @@ describe('Popover directive', () => {
     button?.click();
     detectChangesFakeAsync();
 
-    fixture.componentInstance.alignment = 'right';
+    fixture.componentRef.setInput('alignment', 'right');
     detectChangesFakeAsync();
 
     button?.click();
@@ -289,7 +289,7 @@ describe('Popover directive', () => {
     expect(element).toHaveCssClass('sky-popover-info');
     button?.click();
 
-    fixture.componentInstance.popoverType = 'danger';
+    fixture.componentRef.setInput('popoverType', 'danger');
     detectChangesFakeAsync();
     button?.click();
     detectChangesFakeAsync();
@@ -297,7 +297,7 @@ describe('Popover directive', () => {
     expect(element).toHaveCssClass('sky-popover-danger');
     button?.click();
 
-    fixture.componentInstance.popoverType = 'info';
+    fixture.componentRef.setInput('popoverType', 'info');
     detectChangesFakeAsync();
     button?.click();
     detectChangesFakeAsync();
@@ -508,7 +508,7 @@ describe('Popover directive', () => {
     it('should handle undefined popover', fakeAsync(() => {
       detectChangesFakeAsync();
 
-      fixture.componentInstance.skyPopover = undefined;
+      fixture.componentInstance.skyPopover.set(undefined);
 
       detectChangesFakeAsync();
       detectChangesFakeAsync();
@@ -552,7 +552,7 @@ describe('Popover directive', () => {
       expect(popover).toBeNull();
 
       const messageSpy = spyOn(
-        fixture.componentInstance.messageStream as Subject<SkyPopoverMessage>,
+        fixture.componentInstance.messageStream() as Subject<SkyPopoverMessage>,
         'next',
       ).and.callThrough();
 
@@ -702,11 +702,11 @@ describe('Popover directive', () => {
     it('should setup a message stream if set to `undefined`', fakeAsync(() => {
       detectChangesFakeAsync();
 
-      expect(fixture.componentInstance.messageStream).toEqual(
+      expect(fixture.componentInstance.messageStream()).toEqual(
         fixture.componentInstance.directiveRef?.skyPopoverMessageStream,
       );
 
-      fixture.componentInstance.messageStream = undefined;
+      fixture.componentInstance.messageStream.set(undefined);
 
       detectChangesFakeAsync();
 
@@ -797,7 +797,7 @@ describe('Popover directive', () => {
 
         spyOn(affixService, 'createAffixer').and.returnValue(mockAffixer);
 
-        fixture.componentInstance.placement = 'below';
+        fixture.componentRef.setInput('placement', 'below');
         detectChangesFakeAsync();
 
         let popover = getPopoverElement();
@@ -875,7 +875,7 @@ describe('Popover directive', () => {
       detectChangesFakeAsync();
 
       affixToSpy.calls.reset();
-      fixture.componentInstance.placement = 'below';
+      fixture.componentRef.setInput('placement', 'below');
       detectChangesFakeAsync();
 
       button?.click();
@@ -893,7 +893,7 @@ describe('Popover directive', () => {
       detectChangesFakeAsync();
 
       affixToSpy.calls.reset();
-      fixture.componentInstance.placement = 'left';
+      fixture.componentRef.setInput('placement', 'left');
       detectChangesFakeAsync();
 
       button?.click();
@@ -912,7 +912,7 @@ describe('Popover directive', () => {
       detectChangesFakeAsync();
 
       affixToSpy.calls.reset();
-      fixture.componentInstance.placement = 'right';
+      fixture.componentRef.setInput('placement', 'right');
       detectChangesFakeAsync();
 
       button?.click();
