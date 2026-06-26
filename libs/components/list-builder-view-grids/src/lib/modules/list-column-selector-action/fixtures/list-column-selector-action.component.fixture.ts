@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, input } from '@angular/core';
 import { SkyListToolbarComponent } from '@skyux/list-builder';
 
 import { Observable, of as observableOf } from 'rxjs';
@@ -36,7 +36,7 @@ export class ListColumnSelectorActionTestComponent {
   })
   public toolbar: SkyListToolbarComponent;
 
-  public helpKey: string;
+  public helpKey = input<string | undefined>(undefined);
   public searchText: string;
 
   public onHelpOpened(): void {}

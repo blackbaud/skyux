@@ -1,4 +1,4 @@
-import { Component, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, QueryList, ViewChild, ViewChildren, input } from '@angular/core';
 
 import { SkyVerticalTabComponent } from '../vertical-tab.component';
 import { SkyVerticalTabsetComponent } from '../vertical-tabset.component';
@@ -23,13 +23,13 @@ export class VerticalTabsetTestComponent {
 
   public maintainTabContent = false;
 
-  public showScrollable = false;
+  public showScrollable = input<boolean>(false);
 
   public tabDisabled = true;
-  public tab1AriaRole: string | undefined = 'tab';
-  public tab1Id: string | undefined = 'some-tab';
+  public tab1AriaRole = input<string | undefined>('tab');
+  public tab1Id = input<string | undefined>('some-tab');
   public tab1Required = false;
-  public tabsetAriaRole: string | undefined = 'tablist';
+  public tabsetAriaRole = input<string | undefined>('tablist');
 
   @ViewChild(SkyVerticalTabsetComponent)
   public tabset: SkyVerticalTabsetComponent | undefined;

@@ -2,29 +2,29 @@
   <sky-tabset
     [ariaLabel]="ariaLabel"
     [ariaLabelledBy]="ariaLabelledBy"
-    [tabStyle]="tabStyle"
+    [tabStyle]="tabStyle()"
   >
-    <sky-tab [tabHeading]="tab1Heading" [active]="activeTab === 0">
+    <sky-tab [tabHeading]="tab1Heading" [active]="activeTab() === 0">
       <div class="tabset-test-content-1">{{ tab1Content }}</div>
     </sky-tab>
-    @if (tab2Available) {
+    @if (tab2Available()) {
       <sky-tab
         layout="fit"
         [tabHeading]="tab2Heading"
-        [active]="activeTab === 1"
+        [active]="activeTab() === 1"
         [disabled]="tab2Disabled"
         (close)="closeTab2()"
       >
         <div class="tabset-test-content-2">{{ tab2Content }}</div>
       </sky-tab>
     }
-    @if (tab3Available) {
+    @if (tab3Available()) {
       <sky-tab
-        [layout]="tab3Layout"
+        [layout]="tab3Layout()"
         [tabHeading]="tab3Heading"
         [tabHeaderCount]="tab3HeaderCount"
         [tabIndexValue]="3"
-        [active]="activeTab === 2"
+        [active]="activeTab() === 2"
       >
         <div class="tabset-test-content-3">{{ tab3Content }}</div>
       </sky-tab>

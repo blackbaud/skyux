@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'sky-test-wizard-form',
@@ -12,13 +12,13 @@ export class SkyWizardTestFormComponent {
 
   public step2Disabled: boolean | undefined;
 
-  public step3Disabled: boolean | undefined;
+  public step3Disabled = input<boolean | undefined>(undefined);
 
-  public selectedTab = 0;
+  public selectedTab = input<number>(0);
 
   public finishDisabled: boolean | undefined = undefined;
 
-  public passTabset = true;
+  public passTabset = input<boolean>(true);
 
   public onSave = (): void => {
     return;

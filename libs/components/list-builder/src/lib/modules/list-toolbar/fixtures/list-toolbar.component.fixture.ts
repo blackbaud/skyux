@@ -1,4 +1,4 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, TemplateRef, ViewChild, input } from '@angular/core';
 
 import { SkyListToolbarComponent } from '../list-toolbar.component';
 
@@ -13,7 +13,7 @@ export class ListToolbarTestComponent {
   public searchEnabled: boolean;
   public sortEnabled: boolean;
   public searchText: string;
-  public showCustomItem1 = true;
+  public showCustomItem1 = input<boolean>(true);
 
   @ViewChild(SkyListToolbarComponent, {
     read: SkyListToolbarComponent,

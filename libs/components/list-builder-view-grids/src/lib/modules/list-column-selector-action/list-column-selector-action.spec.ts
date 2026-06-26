@@ -175,7 +175,7 @@ describe('List column selector action', () => {
     }));
 
     it('should show help button in modal header', waitForAsync(() => {
-      fixture.componentInstance.helpKey = 'foo.html';
+      fixture.componentRef.setInput('helpKey', 'foo.html');
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         const chooseColumnsButton = getChooseColumnsButton();
@@ -204,7 +204,7 @@ describe('List column selector action', () => {
         fixture.componentInstance,
         'onHelpOpened',
       ).and.callThrough();
-      fixture.componentInstance.helpKey = 'foo.html';
+      fixture.componentRef.setInput('helpKey', 'foo.html');
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         const chooseColumnsButton = getChooseColumnsButton();
