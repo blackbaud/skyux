@@ -12,6 +12,7 @@ import {
   effect,
   inject,
   input,
+  linkedSignal,
   model,
   numberAttribute,
   signal,
@@ -24,7 +25,7 @@ import {
 } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
-import { SkyViewkeeperModule } from '@skyux/core';
+import { SkyLogService, SkyViewkeeperModule } from '@skyux/core';
 import { SkyWaitModule } from '@skyux/indicators';
 import { SkyPagingModule } from '@skyux/lists';
 
@@ -41,7 +42,6 @@ import {
   SortDirection,
 } from 'ag-grid-community';
 import {
-  distinctUntilChanged,
   filter,
   map,
   ObservableInput,
@@ -60,17 +60,6 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 
 function arraySorted(arr: string[]): string[] {
   return arr.slice().sort((a, b) => a.localeCompare(b));
-}
-
-function arrayIsEqual(
-  a: string[] | undefined,
-  b: string[] | undefined,
-): boolean {
-  if (!Array.isArray(a) || !Array.isArray(b) || a?.length !== b?.length) {
-    return false;
-  }
-  const bSorted = arraySorted(b);
-  return arraySorted(a).every((v, i) => v === bSorted[i]);
 }
 
 /**
@@ -99,6 +88,29 @@ export class SkyDataGrid<
     Record<string, unknown>,
 > {
   /**
+   * Whether the grid sorts the data order when a column header is clicked.
+   * When `autoSort` is set to `false`, the data grid will not modify the sort
+   * order, `sortField` will emit a new value, and `data` will need to be updated.
+   * Use this option when the data is returned from the server already sorted,
+   * such as sorting a "name" column using last name.
+   * @default true
+   */
+  public readonly autoSort = input<boolean, unknown>(true, {
+    transform: coerceBooleanProperty,
+  });
+
+  /**
+   * Whether the number of items in the `data` array is the total number of rows
+   * to use for paging controls. When `autoPage` is set to `false`, the
+   * `rowCount` input is required, and `data` should be updated whenever `page`
+   * emits a new value.
+   * @default true
+   */
+  public readonly autoPage = input<boolean, unknown>(true, {
+    transform: coerceBooleanProperty,
+  });
+
+  /**
    * Whether to enable a compact layout for the grid when using modern theme. Compact layout
    * uses a smaller font size and row height to display more data in a smaller space.
    * @default false
@@ -113,18 +125,6 @@ export class SkyDataGrid<
    * the grid will show a "no rows" message.
    */
   public readonly data = input<T[] | null | undefined>();
-
-  /**
-   * Whether the grid leaves the data order unchanged when a column is sorted. By default, clicking a
-   * column header sorts the data using that column. When `dataSorted` is set to `true`, the
-   * data grid will not modify the sort order, `sortField` will emit a new value, and `data` will need to be updated.
-   * Use this option when the data is returned from the server already sorted, such as sorting a "name" column using
-   * last name.
-   * @default false
-   */
-  public readonly dataSorted = input<boolean, unknown>(false, {
-    transform: coerceBooleanProperty,
-  });
 
   /**
    * How the grid fits to its parent. The valid options are `width`,
@@ -175,6 +175,15 @@ export class SkyDataGrid<
   public readonly pageQueryParam = input<string | undefined>();
 
   /**
+   * The total number of rows to page through. Required when `pageSize` is
+   * greater than zero and `autoPage` is `false`.
+   * @default 0
+   */
+  public readonly rowCount = input<number, unknown>(0, {
+    transform: (value: unknown) => coerceNumberProperty(value, 0),
+  });
+
+  /**
    * Whether the data grid is stacked with another element below it. When specified, the appropriate
    * vertical spacing is automatically added to the data grid.
    * @default false
@@ -209,7 +218,7 @@ export class SkyDataGrid<
   /**
    * The current sort applied to the grid. This is two-way bindable: it emits a new value
    * whenever the user sorts a column, and you can set it to sort the grid programmatically.
-   * When `dataSorted` is `true`, the grid emits the new value here but does not reorder the
+   * When `autoSort` is `false`, the grid emits the new value here but does not reorder the
    * data itself, leaving it to you to update `data`.
    */
   public readonly sortField = model<SkyDataGridSort<T> | undefined>(undefined);
@@ -217,10 +226,11 @@ export class SkyDataGrid<
   protected readonly columns = contentChildren(SkyDataGridColumn);
   protected readonly gridApi = signal<GridApi<T> | undefined>(undefined);
   protected readonly gridOptions = computed(() => {
-    const columnDefs = this.#columnDefs();
-    if (columnDefs.length === 0) {
+    const hasColumnDefs = this.#hasColumnDefs();
+    if (!hasColumnDefs) {
       return undefined;
     }
+    const columnDefs = untracked(() => this.#columnDefs());
     const { pagination, paginationPageSize } = untracked(() =>
       this.#paginationOptions(),
     );
@@ -249,15 +259,45 @@ export class SkyDataGrid<
   });
 
   protected readonly gridReady = signal(false);
-  protected readonly rowData = computed(() => this.data() ?? []);
+  protected readonly rowData = computed(() => {
+    const rowData = this.data() ?? [];
+    const pageSize = this.pageSize();
+    if (!this.autoPage() && pageSize > 0 && rowData.length > pageSize) {
+      this.#logger.warn(
+        'When using paging and `autoPage` is not enabled, the `data` input will be limited to the number of rows specified by `pageSize`. To display more rows, update the `data` input when the `page` changes.',
+      );
+      return rowData.slice(0, pageSize);
+    }
+    return rowData;
+  });
   protected readonly pageCount = computed(() => {
-    const dataLength = this.rowData().length;
+    const dataLength = this.pageItemsCount();
     const pageSize = this.pageSize();
     const gridReady = this.gridReady();
     if (!gridReady || pageSize === 0) {
       return 0;
     }
     return Math.ceil(dataLength / pageSize);
+  });
+  protected readonly pageItemsCount = linkedSignal({
+    source: () => {
+      const pageSize = this.pageSize();
+      const gridReady = this.gridReady();
+      if (!gridReady || pageSize === 0) {
+        return 0;
+      }
+      const dataLength = this.rowData().length;
+      const rowCount = this.rowCount();
+      const autoPage = this.autoPage();
+      return autoPage ? dataLength : rowCount;
+    },
+    computation: (source, previous): number => {
+      // Avoid flickering the pagination controls while data is updating.
+      if (this.loading()) {
+        return previous?.value || 0;
+      }
+      return source;
+    },
   });
 
   protected readonly skyViewkeeper = computed(() => {
@@ -271,13 +311,15 @@ export class SkyDataGrid<
 
   readonly #activatedRoute = inject(ActivatedRoute, { optional: true });
   readonly #gridService = inject(SkyAgGridService);
+  readonly #logger = inject(SkyLogService);
   readonly #router = inject(Router, { optional: true });
 
   readonly #columnDefs = computed<ColDef<T>[]>(() => {
     const columns = this.columns();
-    const sort = this.sortField();
+    const sort = untracked(() => this.sortField());
     return columns.map((col) => this.#createColDef(col, sort));
   });
+  readonly #hasColumnDefs = computed(() => this.#columnDefs().length > 0);
 
   readonly #gridDestroyed = toObservable(this.gridApi).pipe(
     filter(Boolean),
@@ -288,10 +330,7 @@ export class SkyDataGrid<
     switchMap((api) =>
       fromGridEvent(api, 'selectionChanged').pipe(
         takeUntil(this.#gridDestroyed),
-        map((selection) =>
-          arraySorted(this.#getRowIds(selection.selectedNodes)),
-        ),
-        distinctUntilChanged(arrayIsEqual),
+        map(() => arraySorted(this.#getRowIds(api.getSelectedNodes()))),
       ),
     ),
   );
@@ -313,9 +352,12 @@ export class SkyDataGrid<
       ),
     ),
   );
+  /**
+   * The pagination options passed to AG Grid; not used when `autoPage` is false.
+   */
   readonly #paginationOptions = computed(() => {
     const pageSize = this.pageSize();
-    const pagination = pageSize > 0;
+    const pagination = this.autoPage() && pageSize > 0;
     const paginationPageSize = (pagination && pageSize) || undefined;
     return {
       pagination,
@@ -381,22 +423,61 @@ export class SkyDataGrid<
       if (isLoading) {
         return;
       }
-      const data = this.rowData();
-      const validRowIds = data.map((row) => row.id);
+      const validRowIds = new Set(this.rowData().map((row) => row.id));
       const selectedRowIds = coerceStringArray(this.selectedRowIds());
       const validSelectedRowIds = selectedRowIds.filter((id) =>
-        validRowIds.includes(id),
+        validRowIds.has(id),
       );
-      if (!arrayIsEqual(validSelectedRowIds, selectedRowIds)) {
+      if (
+        this.autoPage() &&
+        validSelectedRowIds.length !== selectedRowIds.length
+      ) {
         this.selectedRowIds.set(validSelectedRowIds);
       }
-      const currentSelectedRowIds = this.#getRowIds(api?.getSelectedNodes());
-      if (!arrayIsEqual(validSelectedRowIds, currentSelectedRowIds)) {
-        api?.deselectAll();
-        validSelectedRowIds.forEach((rowId) =>
-          api?.getRowNode(rowId)?.setSelected(true),
-        );
+      if (!api) {
+        return;
       }
+      // Diff against the grid's current selection; only touch nodes that
+      // change, so a no-op reconcile fires no selectionChanged event.
+      const desired = new Set(validSelectedRowIds);
+      const selectedNodes = api.getSelectedNodes();
+      const alreadySelected = new Set(this.#getRowIds(selectedNodes));
+      const toDeselect = selectedNodes.filter(
+        (node) => !desired.has(node.id as string),
+      );
+      const toSelect = validSelectedRowIds
+        .filter((id) => !alreadySelected.has(id))
+        .map((id) => api.getRowNode(id))
+        .filter((node): node is IRowNode<T> => !!node);
+      if (toDeselect.length) {
+        api.setNodesSelected({ nodes: toDeselect, newValue: false });
+      }
+      if (toSelect.length) {
+        api.setNodesSelected({ nodes: toSelect, newValue: true });
+      }
+    });
+    // Apply the sort as runtime column state rather than through `columnDefs`,
+    // so sorting never re-applies the declared column order and wipes a
+    // user's drag-reordered (or resized) columns. Tracks `gridApi` so the
+    // sort re-applies to a freshly created grid.
+    effect(() => {
+      const api = this.gridApi();
+      const sort = this.sortField();
+      if (!api) {
+        return;
+      }
+      const fieldSelector = sort?.fieldSelector;
+      api.applyColumnState({
+        state: fieldSelector
+          ? [
+              {
+                colId: fieldSelector as string,
+                sort: sort?.descending ? 'desc' : 'asc',
+              },
+            ]
+          : [],
+        defaultState: { sort: null },
+      });
     });
     effect(() => {
       const api = this.gridApi();
@@ -405,9 +486,11 @@ export class SkyDataGrid<
       if (!pageCount || !api) {
         return;
       }
-      if (page < 1 || page > pageCount) {
-        this.page.set(1);
-      } else {
+      if (page < 1) {
+        this.currentPageChange(1);
+      } else if (page > pageCount) {
+        this.currentPageChange(pageCount);
+      } else if (untracked(this.autoPage)) {
         api.paginationGoToPage(page - 1);
       }
     });
@@ -428,10 +511,27 @@ export class SkyDataGrid<
       .pipe(
         takeUntilDestroyed(),
         map((ids) => coerceStringArray(ids)),
-        filter((rowIds) => !arrayIsEqual(this.selectedRowIds(), rowIds)),
       )
-      .subscribe((rowIds) => {
-        this.selectedRowIds.set(rowIds);
+      .subscribe((selectedRowIds) => {
+        // Maintain IDs not in the current dataset.
+        const validRowIds = new Set(this.rowData().map(({ id }) => id));
+        const selectedSet = new Set(selectedRowIds);
+        this.selectedRowIds.update((val) => {
+          const valSet = new Set(val);
+          const hasAddition = selectedRowIds.some((id) => !valSet.has(id));
+          const hasRemoval = val.some(
+            (id) => validRowIds.has(id) && !selectedSet.has(id),
+          );
+          if (hasAddition || hasRemoval) {
+            return [
+              ...new Set([
+                ...val.filter((id) => !validRowIds.has(id)),
+                ...selectedRowIds,
+              ]),
+            ].sort((a, b) => a.localeCompare(b));
+          }
+          return val;
+        });
       });
     this.#gridSortChange.pipe(takeUntilDestroyed()).subscribe((sortChange) => {
       if (sortChange) {
@@ -509,7 +609,7 @@ export class SkyDataGrid<
       (colDef.type as string[]).push(SkyCellType.Template);
       colDef.cellRendererParams = { template: col.cellTemplate };
     }
-    if (this.dataSorted()) {
+    if (!this.autoSort()) {
       colDef.comparator = (): number => 0;
     }
     this.#applyColumnWidthSettings(col, colDef);

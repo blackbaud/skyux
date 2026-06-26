@@ -5,6 +5,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
+import { SkyLogService } from '@skyux/core';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { SkyAgGridWrapperHarness } from '@skyux/ag-grid/testing';
 // eslint-disable-next-line @nx/enforce-module-boundaries
@@ -223,6 +224,97 @@ describe('SkyDataGrid', () => {
       expect(api?.getState()?.sort?.sortModel).toBeUndefined();
     });
 
+    it('should preserve user column order when the sort changes', async () => {
+      fixture.detectChanges();
+      await fixture.whenStable();
+      const gridElement = fixture.nativeElement.querySelector(
+        '[data-sky-id="grid"] ag-grid-angular',
+      );
+      const api = getGridApi(gridElement);
+      expect(api).toBeTruthy();
+      expect(api?.getColumnState().map((col) => col.colId)).toEqual([
+        'column1',
+        'column2',
+        'column3',
+      ]);
+
+      // Simulate a user dragging "column1" to the end of the grid.
+      api?.moveColumnByIndex(0, 2);
+      await fixture.whenStable();
+      expect(api?.getColumnState().map((col) => col.colId)).toEqual([
+        'column2',
+        'column3',
+        'column1',
+      ]);
+
+      // Sorting programmatically must not reset the user's column order.
+      fixture.componentRef.setInput('sortField', {
+        fieldSelector: 'column2',
+        descending: true,
+      });
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(api?.getState()?.sort?.sortModel).toEqual([
+        { colId: 'column2', sort: 'desc', type: 'default' },
+      ]);
+      expect(api?.getColumnState().map((col) => col.colId)).toEqual([
+        'column2',
+        'column3',
+        'column1',
+      ]);
+
+      // Sorting via a column header click must also keep the column order.
+      const column1SortButton = gridElement.querySelector(
+        '.ag-header-cell.ag-header-cell-sortable[col-id="column1"] button.ag-header-cell-label-sortable',
+      ) as HTMLButtonElement;
+      expect(column1SortButton).toBeTruthy();
+      SkyAppTestUtility.fireDomEvent(column1SortButton, 'click');
+      await fixture.whenStable();
+      expect(fixture.componentInstance.sortField()).toEqual({
+        fieldSelector: 'column1',
+        descending: false,
+      });
+      expect(api?.getColumnState().map((col) => col.colId)).toEqual([
+        'column2',
+        'column3',
+        'column1',
+      ]);
+    });
+
+    it('should apply an initial descending sort set before the grid renders', async () => {
+      fixture.componentRef.setInput('sortField', {
+        fieldSelector: 'column1',
+        descending: true,
+      });
+      fixture.detectChanges();
+      await fixture.whenStable();
+      const api = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="grid"] ag-grid-angular',
+        ),
+      );
+      expect(api?.getState()?.sort?.sortModel).toEqual([
+        { colId: 'column1', sort: 'desc', type: 'default' },
+      ]);
+    });
+
+    it('should apply an initial ascending sort set before the grid renders', async () => {
+      fixture.componentRef.setInput('sortField', {
+        fieldSelector: 'column2',
+        descending: false,
+      });
+      fixture.detectChanges();
+      await fixture.whenStable();
+      const api = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="grid"] ag-grid-angular',
+        ),
+      );
+      expect(api?.getState()?.sort?.sortModel).toEqual([
+        { colId: 'column2', sort: 'asc', type: 'default' },
+      ]);
+    });
+
     it('should update grid options when pageSize changes', async () => {
       fixture.detectChanges();
       await fixture.whenStable();
@@ -336,6 +428,29 @@ describe('SkyDataGrid', () => {
       expect(api?.getSelectedNodes()).toHaveSize(3);
     });
 
+    it('should deselect rows when selectedRowIds is reduced programmatically', async () => {
+      fixture.detectChanges();
+      await fixture.whenStable();
+      const api = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="multiselect-grid"] ag-grid-angular',
+        ),
+      );
+      expect(api).toBeTruthy();
+      component.selectedRowIds.set(['2', '4', '6']);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(api?.getSelectedNodes()).toHaveSize(3);
+
+      // Reducing the bound set must deselect the rows no longer included.
+      component.selectedRowIds.set(['2']);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      const selectedNodes = api?.getSelectedNodes();
+      expect(selectedNodes).toHaveSize(1);
+      expect(selectedNodes?.[0]?.id).toBe('2');
+    });
+
     it('should update selectedRowIds when data changes to remove IDs no longer in data', async () => {
       fixture.detectChanges();
       await fixture.whenStable();
@@ -369,6 +484,19 @@ describe('SkyDataGrid', () => {
 
       // selectedRowIds should be updated to only include IDs still in the data
       expect(component.selectedRowIds()).toEqual(['1', '3', '5']);
+      const api = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="multiselect-grid"] ag-grid-angular',
+        ),
+      );
+      expect(api).toBeTruthy();
+      api?.getRowNode('3')?.setSelected(false);
+      // AG Grid emits `selectionChanged` for a programmatic deselect on a
+      // macrotask, which `whenStable()` does not await on its own.
+      await new Promise((resolve) => setTimeout(resolve));
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(component.selectedRowIds()).toEqual(['1', '5']);
     });
 
     it('should update selectedRowIds when data changes from populated to fewer items', async () => {
@@ -509,6 +637,48 @@ describe('SkyDataGrid', () => {
       });
     });
 
+    it('should not use grid paging when autoPage is false', async () => {
+      fixture.componentRef.setInput('autoPage', false);
+      fixture.componentRef.setInput('pageSize', 200);
+      fixture.componentRef.setInput('rowCount', 1000);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(component).toBeTruthy();
+      const pagingHarness =
+        await TestbedHarnessEnvironment.loader(fixture).getHarness(
+          SkyPagingHarness,
+        );
+      await expectAsync(pagingHarness.getCurrentPage()).toBeResolvedTo(1);
+      await pagingHarness.clickNextButton();
+      await expectAsync(pagingHarness.getCurrentPage()).toBeResolvedTo(2);
+      await pagingHarness.clickPreviousButton();
+      await expectAsync(pagingHarness.getCurrentPage()).toBeResolvedTo(1);
+      const api = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="grid"] ag-grid-angular',
+        ),
+      );
+      expect(api).toBeTruthy();
+      expect(api?.getGridOption('pagination')).toBeFalsy();
+    });
+
+    it('should limit data to pageSize and warn when autoPage is false and data exceeds pageSize', async () => {
+      const warnSpy = spyOn(TestBed.inject(SkyLogService), 'warn');
+      fixture.componentRef.setInput('autoPage', false);
+      fixture.componentRef.setInput('pageSize', 2);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      const api = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="grid"] ag-grid-angular',
+        ),
+      );
+      expect(api).toBeTruthy();
+      // `dataForSimpleGrid` has 7 rows; only `pageSize` rows should render.
+      expect(api?.getDisplayedRowCount()).toBe(2);
+      expect(warnSpy).toHaveBeenCalled();
+    });
+
     it('should set initialFlex=0, suppressSizeToFit, and suppressAutoSize when flexWidth is 0', async () => {
       const flexFixture = TestBed.createComponent(FlexWidthTestComponent);
       flexFixture.detectChanges();
@@ -558,8 +728,8 @@ describe('SkyDataGrid', () => {
       expect(colDef?.suppressSizeToFit).toBeTrue();
     });
 
-    it('should set a no-op comparator on columns when dataSorted is true', async () => {
-      fixture.componentRef.setInput('dataSorted', true);
+    it('should set a no-op comparator on columns when autoSort is false', async () => {
+      fixture.componentRef.setInput('autoSort', false);
       fixture.detectChanges();
       await fixture.whenStable();
       const api = getGridApi(
@@ -577,7 +747,7 @@ describe('SkyDataGrid', () => {
       expect(comparator?.('b', 'a')).toBe(0);
     });
 
-    it('should not set a comparator on columns when dataSorted is false', async () => {
+    it('should not set a comparator on columns when autoSort is true', async () => {
       fixture.detectChanges();
       await fixture.whenStable();
       const api = getGridApi(

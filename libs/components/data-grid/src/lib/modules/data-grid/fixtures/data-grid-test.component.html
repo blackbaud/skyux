@@ -2,10 +2,12 @@
   <sky-data-grid
     data-sky-id="grid"
     [data]="dataForSimpleGrid"
-    [dataSorted]="dataSorted()"
+    [autoPage]="autoPage()"
+    [autoSort]="autoSort()"
     [multiselect]="multiselect()"
     [pageQueryParam]="pageQueryParam"
     [pageSize]="pageSize()"
+    [rowCount]="rowCount()"
     [(page)]="page"
     [(sortField)]="sortField"
   >

@@ -21,7 +21,7 @@ class TestComponent {
   public projectedTemplate!: TemplateRef<unknown>;
 }
 
-describe('SkyDataGridColumnComponent', () => {
+describe('SkyDataGridColumn', () => {
   let logServiceSpy: jasmine.Spy;
 
   beforeEach(() => {
