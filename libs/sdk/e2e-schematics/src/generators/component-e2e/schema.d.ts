@@ -1,16 +1,15 @@
-import { AngularApplicationOptionsSchema } from '@angular/cli/lib/config/workspace-schema';
-
 export interface Schema {
   name: string;
   tags?: string;
   ansiColor?: boolean;
-  includeTests?: boolean;
   skipFormat?: boolean;
 }
 
-export interface NormalizedSchema
-  extends Schema, AngularApplicationOptionsSchema {
+export interface NormalizedSchema {
+  name: string;
   storybookAppName: string;
-  tags: string;
   parsedTags: string[];
+  tags?: string;
+  ansiColor: boolean;
+  skipFormat?: boolean;
 }
