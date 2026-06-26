@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input, model } from '@angular/core';
 
 import { SkyIndicatorDescriptionType } from '../../shared/indicator-description-type';
 import { SkyIndicatorIconType } from '../../shared/indicator-icon-type';
@@ -9,13 +9,15 @@ import { SkyIndicatorIconType } from '../../shared/indicator-icon-type';
   standalone: false,
 })
 export class AlertTestComponent {
-  public closeable: boolean | undefined = false;
+  public closeable = input<boolean | undefined>(false);
 
-  public closed: boolean | undefined = false;
+  public closed = model<boolean | undefined>(false);
 
-  public alertType: SkyIndicatorIconType | undefined = 'info';
+  public alertType = input<SkyIndicatorIconType | undefined>('info');
 
-  public descriptionType?: SkyIndicatorDescriptionType;
+  public descriptionType = input<SkyIndicatorDescriptionType | undefined>(
+    undefined,
+  );
 
-  public customDescription?: string;
+  public customDescription = input<string | undefined>(undefined);
 }

@@ -62,7 +62,7 @@ describe('Action hub component', () => {
     });
 
     it('should show the title', () => {
-      fixture.componentInstance.title = 'Test Hub';
+      fixture.componentRef.setInput('title', 'Test Hub');
 
       fixture.detectChanges();
       const h1 = fixture.nativeElement.querySelector('h1');
@@ -70,8 +70,8 @@ describe('Action hub component', () => {
     });
 
     it('should show related links', async () => {
-      fixture.componentInstance.title = 'Test Hub';
-      fixture.componentInstance.relatedLinks = [
+      fixture.componentRef.setInput('title', 'Test Hub');
+      fixture.componentRef.setInput('relatedLinks', [
         {
           label: 'Test Link B',
           permalink: {
@@ -96,7 +96,7 @@ describe('Action hub component', () => {
             url: 'https://example.com/link-a',
           },
         },
-      ];
+      ]);
 
       fixture.detectChanges();
       await fixture.whenStable();
@@ -122,8 +122,8 @@ describe('Action hub component', () => {
     });
 
     it('should sort recently accessed links', async () => {
-      fixture.componentInstance.title = 'Test Hub';
-      fixture.componentInstance.recentLinks = [
+      fixture.componentRef.setInput('title', 'Test Hub');
+      fixture.componentRef.setInput('recentLinks', [
         {
           label: 'Recent Link B',
           permalink: {
@@ -152,7 +152,7 @@ describe('Action hub component', () => {
           },
           lastAccessed: '2011-10-04T14:48:00.000Z',
         },
-      ];
+      ]);
 
       fixture.detectChanges();
       await fixture.whenStable();
@@ -178,13 +178,13 @@ describe('Action hub component', () => {
     });
 
     it('should handle undefined recently accessed links', async () => {
-      fixture.componentInstance.title = 'Test Hub';
-      fixture.componentInstance.recentLinks = undefined;
+      fixture.componentRef.setInput('title', 'Test Hub');
+      fixture.componentRef.setInput('recentLinks', undefined);
       fixture.detectChanges();
 
       validateLinkList(fixture, 'recent', []);
 
-      fixture.componentInstance.recentLinks = [
+      fixture.componentRef.setInput('recentLinks', [
         {
           label: 'Recent Link A',
           lastAccessed: new Date('2011-10-06T14:48:00.000Z'),
@@ -192,7 +192,7 @@ describe('Action hub component', () => {
             url: 'https://example.com/recent-a',
           },
         },
-      ];
+      ]);
 
       fixture.detectChanges();
       await fixture.whenStable();
@@ -204,7 +204,7 @@ describe('Action hub component', () => {
         },
       ]);
 
-      fixture.componentInstance.recentLinks = undefined;
+      fixture.componentRef.setInput('recentLinks', undefined);
 
       fixture.detectChanges();
 
@@ -212,7 +212,7 @@ describe('Action hub component', () => {
     });
 
     it('should show loading', fakeAsync(() => {
-      fixture.componentInstance.needsAttention = 'loading';
+      fixture.componentRef.setInput('needsAttention', 'loading');
       fixture.detectChanges();
       const skyWait = fixture.nativeElement.querySelector('.sky-wait');
       expect(skyWait).toExist();
@@ -290,13 +290,13 @@ describe('Action hub component', () => {
     });
 
     it('should load with separate inputs', fakeAsync(() => {
-      fixture.componentInstance.needsAttention = 'loading';
-      fixture.componentInstance.relatedLinks = 'loading';
-      fixture.componentInstance.recentLinks = 'loading';
+      fixture.componentRef.setInput('needsAttention', 'loading');
+      fixture.componentRef.setInput('relatedLinks', 'loading');
+      fixture.componentRef.setInput('recentLinks', 'loading');
       fixture.detectChanges();
       const skyWait = fixture.nativeElement.querySelector('.sky-wait');
       expect(skyWait).toExist();
-      fixture.componentInstance.needsAttention = [
+      fixture.componentRef.setInput('needsAttention', [
         {
           title: '1',
           message: 'Action',
@@ -304,18 +304,18 @@ describe('Action hub component', () => {
             url: '/',
           },
         },
-      ];
+      ]);
 
-      fixture.componentInstance.relatedLinks = [
+      fixture.componentRef.setInput('relatedLinks', [
         {
           label: 'Related',
           permalink: {
             url: '/',
           },
         },
-      ];
+      ]);
 
-      fixture.componentInstance.recentLinks = [
+      fixture.componentRef.setInput('recentLinks', [
         {
           label: 'Recent',
           permalink: {
@@ -323,18 +323,18 @@ describe('Action hub component', () => {
           },
           lastAccessed: new Date(),
         },
-      ];
+      ]);
 
-      fixture.componentInstance.parentLink = {
+      fixture.componentRef.setInput('parentLink', {
         label: 'Parent',
         permalink: {
           url: '/',
         },
-      };
+      });
 
-      fixture.componentInstance.title = 'Action Hub';
+      fixture.componentRef.setInput('title', 'Action Hub');
 
-      fixture.componentInstance.loading = false;
+      fixture.componentRef.setInput('loading', false);
 
       fixture.detectChanges();
       tick();
@@ -367,8 +367,8 @@ describe('Action hub component', () => {
     it('should show changes in embedded content', fakeAsync(() => {
       fixture.detectChanges();
       expect(fixture.nativeElement.textContent).toContain('hello world');
-      fixture.componentInstance.label = 'bar';
-      fixture.componentInstance.value = 'foo';
+      fixture.componentRef.setInput('label', 'bar');
+      fixture.componentRef.setInput('value', 'foo');
       fixture.detectChanges();
       expect(fixture.nativeElement.textContent).toContain('foo bar');
     }));
@@ -419,7 +419,7 @@ describe('Action hub component', () => {
         }),
       );
 
-      fixture.componentInstance.recentLinks = {
+      fixture.componentRef.setInput('recentLinks', {
         requestedRoutes: [
           {
             app: 'recent1',
@@ -430,7 +430,7 @@ describe('Action hub component', () => {
             route: '/',
           },
         ],
-      };
+      });
 
       fixture.detectChanges();
       await fixture.whenStable();
@@ -466,28 +466,28 @@ describe('Action hub component', () => {
         });
       });
 
-      fixture.componentInstance.recentLinks = {
+      fixture.componentRef.setInput('recentLinks', {
         requestedRoutes: [
           {
             app: 'recent2',
             route: '/',
           },
         ],
-      };
+      });
 
       fixture.detectChanges();
       await fixture.whenStable();
 
       expect(testObs.observers.length).toBe(1);
 
-      fixture.componentInstance.recentLinks = {
+      fixture.componentRef.setInput('recentLinks', {
         requestedRoutes: [
           {
             app: 'recent1',
             route: '/',
           },
         ],
-      };
+      });
 
       fixture.detectChanges();
       await fixture.whenStable();
@@ -507,21 +507,21 @@ describe('Action hub component', () => {
 
       mockRecentlyAccessedSvc.getLinks.and.returnValue(testObs);
 
-      fixture.componentInstance.recentLinks = {
+      fixture.componentRef.setInput('recentLinks', {
         requestedRoutes: [
           {
             app: 'recent1',
             route: '/',
           },
         ],
-      };
+      });
 
       fixture.detectChanges();
       await fixture.whenStable();
 
       expect(testObs.observers.length).toBe(1);
 
-      fixture.componentInstance.recentLinks = [
+      fixture.componentRef.setInput('recentLinks', [
         {
           label: 'Test 1',
           lastAccessed: '2022-03-09',
@@ -529,7 +529,7 @@ describe('Action hub component', () => {
             url: 'https://example.com/recent1/',
           },
         },
-      ] as SkyRecentLink[];
+      ] as SkyRecentLink[]);
 
       fixture.detectChanges();
       await fixture.whenStable();
@@ -584,7 +584,7 @@ describe('Action hub component', () => {
         }),
       );
 
-      fixture.componentInstance.recentLinks = {
+      fixture.componentRef.setInput('recentLinks', {
         requestedRoutes: [
           {
             app: 'recent1',
@@ -595,7 +595,7 @@ describe('Action hub component', () => {
             route: '/',
           },
         ],
-      };
+      });
 
       fixture.detectChanges();
       await fixture.whenStable();

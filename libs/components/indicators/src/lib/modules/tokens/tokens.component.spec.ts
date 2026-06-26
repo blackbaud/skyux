@@ -58,7 +58,7 @@ describe('Tokens component', () => {
     type: SkyTokensMessageType,
     index: number,
   ): void {
-    component.messageStream?.next({ type });
+    component.messageStream()?.next({ type });
     fixture.detectChanges();
 
     const tokenElements = fixture.nativeElement.querySelectorAll(
@@ -71,14 +71,14 @@ describe('Tokens component', () => {
   }
 
   function removeActiveItemAndVerifyLength(length: number): void {
-    component.messageStream?.next({
+    component.messageStream()?.next({
       type: SkyTokensMessageType.RemoveActiveToken,
     });
     fixture.detectChanges();
 
     const tokenElements = fixture.nativeElement.querySelectorAll('.sky-token');
     expect(tokenElements.length).toEqual(length);
-    expect(component.tokens?.length).toEqual(length);
+    expect(component.tokens()?.length).toEqual(length);
   }
 
   beforeEach(() => {
@@ -124,12 +124,12 @@ describe('Tokens component', () => {
     });
 
     it('should respect trackWith', () => {
-      component.trackWith = 'id';
-      component.data = [
+      fixture.componentRef.setInput('trackWith', 'id');
+      fixture.componentRef.setInput('data', [
         { id: 1, name: 'Red' },
         { id: 2, name: 'White' },
         { id: 3, name: 'Blue' },
-      ];
+      ]);
 
       component.publishTokens();
       fixture.detectChanges();
@@ -138,12 +138,12 @@ describe('Tokens component', () => {
 
       expect(tokenElements.length).toBe(3);
 
-      component.data = [
+      fixture.componentRef.setInput('data', [
         { id: 1, name: 'Red' },
         { id: 2, name: 'White' },
         { id: 3, name: 'Blue' },
         { id: 4, name: 'Black' },
-      ];
+      ]);
 
       component.publishTokens();
       fixture.detectChanges();
@@ -237,8 +237,8 @@ describe('Tokens component', () => {
     });
 
     it('should use inputted values for ariaLabel', fakeAsync(() => {
-      component.ariaLabel = 'this is a custom label';
-      component.includeSingleToken = true;
+      fixture.componentRef.setInput('ariaLabel', 'this is a custom label');
+      fixture.componentRef.setInput('includeSingleToken', true);
 
       fixture.detectChanges();
       tick();
@@ -250,7 +250,7 @@ describe('Tokens component', () => {
     }));
 
     it('should not emit when token is clicked if disabled', () => {
-      component.disabled = true;
+      fixture.componentRef.setInput('disabled', true);
       const spy = spyOn(component, 'onTokenSelected').and.callThrough();
 
       fixture.detectChanges();
@@ -305,13 +305,13 @@ describe('Tokens component', () => {
       component.publishTokens();
       fixture.detectChanges();
 
-      expect(component.tokens?.length).toEqual(3);
+      expect(component.tokens()?.length).toEqual(3);
 
       removeActiveItemAndVerifyLength(2);
-      expect((component.tokens || [])[0].value.name).toEqual('White');
+      expect((component.tokens() || [])[0].value.name).toEqual('White');
 
       removeActiveItemAndVerifyLength(1);
-      expect((component.tokens || [])[0].value.name).toEqual('Blue');
+      expect((component.tokens() || [])[0].value.name).toEqual('Blue');
 
       removeActiveItemAndVerifyLength(0);
 
@@ -327,7 +327,7 @@ describe('Tokens component', () => {
       component.publishMessageStream();
       fixture.detectChanges();
 
-      component.messageStream?.next({
+      component.messageStream()?.next({
         type: SkyTokensMessageType.FocusLastToken,
       });
 
@@ -336,7 +336,7 @@ describe('Tokens component', () => {
       component.publishMessageStream();
       fixture.detectChanges();
 
-      component.messageStream?.next({
+      component.messageStream()?.next({
         type: SkyTokensMessageType.FocusLastToken,
       });
 
@@ -358,11 +358,11 @@ describe('Tokens component', () => {
       component.publishMessageStream();
       fixture.detectChanges();
 
-      component.disabled = true;
+      fixture.componentRef.setInput('disabled', true);
       fixture.detectChanges();
       expect(component.tokensComponent?.activeIndex).toEqual(0);
 
-      component.messageStream?.next({
+      component.messageStream()?.next({
         type: SkyTokensMessageType.FocusLastToken,
       });
       fixture.detectChanges();
@@ -382,7 +382,7 @@ describe('Tokens component', () => {
     });
 
     it('should ignore keydown if disabled', () => {
-      component.disabled = true;
+      fixture.componentRef.setInput('disabled', true);
       component.publishMessageStream();
       fixture.detectChanges();
       component.publishTokens();
@@ -391,7 +391,9 @@ describe('Tokens component', () => {
       const tokenElements = getTokenElements();
 
       let messageStreamUpdated = false;
-      component.messageStream?.subscribe(() => (messageStreamUpdated = true));
+      component.messageStream()?.subscribe(
+        () => (messageStreamUpdated = true),
+      );
 
       SkyAppTestUtility.fireDomEvent(tokenElements.item(0), 'keydown', {
         keyboardEventInit: { key: 'ArrowLeft' },
@@ -420,7 +422,7 @@ describe('Tokens component', () => {
     });
 
     it('should ignore keyup events if tokens are disabled', () => {
-      component.disabled = true;
+      fixture.componentRef.setInput('disabled', true);
       const spy = spyOn(component, 'onTokenSelected').and.callThrough();
 
       fixture.detectChanges();
@@ -461,7 +463,7 @@ describe('Tokens component', () => {
     });
 
     it('should add a sky-btn-disabled class if disabled', async () => {
-      component.disabled = true;
+      fixture.componentRef.setInput('disabled', true);
       fixture.detectChanges();
       component.publishTokens();
       fixture.detectChanges();
@@ -497,7 +499,7 @@ describe('Tokens component', () => {
 
       expect(tokenButtons.item(0).tabIndex).toEqual(0);
 
-      component.focusable = false;
+      fixture.componentRef.setInput('focusable', false);
       fixture.detectChanges();
       tokenButtons =
         component.tokensElementRef?.nativeElement.querySelectorAll(
@@ -524,14 +526,14 @@ describe('Tokens component', () => {
     });
 
     it('should be accessible (disabled: true, dismissible: false, focusable: false, trackWith: undefined)', async () => {
-      component.disabled = true;
+      fixture.componentRef.setInput('disabled', true);
       fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
     it('should be accessible (disabled: false, dismissible: false, focusable: true, trackWith: undefined)', async () => {
-      component.focusable = true;
+      fixture.componentRef.setInput('focusable', true);
       fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -542,15 +544,15 @@ describe('Tokens component', () => {
     });
 
     it('should be accessible (disabled: true, dismissible: false, focusable: true, trackWith: undefined)', async () => {
-      component.disabled = true;
-      component.focusable = true;
+      fixture.componentRef.setInput('disabled', true);
+      fixture.componentRef.setInput('focusable', true);
       fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
     it('should be accessible (disabled: false, dismissible: true, focusable: false, trackWith: undefined)', async () => {
-      component.dismissible = true;
+      fixture.componentRef.setInput('dismissible', true);
       fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -561,16 +563,16 @@ describe('Tokens component', () => {
     });
 
     it('should be accessible (disabled: true, dismissible: true, focusable: false, trackWith: undefined)', async () => {
-      component.disabled = true;
-      component.dismissible = true;
+      fixture.componentRef.setInput('disabled', true);
+      fixture.componentRef.setInput('dismissible', true);
       fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
     it('should be accessible (disabled: false, dismissible: true, focusable: true, trackWith: undefined)', async () => {
-      component.dismissible = true;
-      component.focusable = true;
+      fixture.componentRef.setInput('dismissible', true);
+      fixture.componentRef.setInput('focusable', true);
       fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -585,32 +587,32 @@ describe('Tokens component', () => {
     });
 
     it('should be accessible (disabled: true, dismissible: true, focusable: true, trackWith: undefined)', async () => {
-      component.disabled = true;
-      component.dismissible = true;
-      component.focusable = true;
+      fixture.componentRef.setInput('disabled', true);
+      fixture.componentRef.setInput('dismissible', true);
+      fixture.componentRef.setInput('focusable', true);
       fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
     it('should be accessible (disabled: false, dismissible: false, focusable: false, trackWith: "name")', async () => {
-      component.trackWith = 'name';
+      fixture.componentRef.setInput('trackWith', 'name');
       fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
     it('should be accessible (disabled: true, dismissible: false, focusable: false, trackWith: "name")', async () => {
-      component.disabled = true;
-      component.trackWith = 'name';
+      fixture.componentRef.setInput('disabled', true);
+      fixture.componentRef.setInput('trackWith', 'name');
       fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
     it('should be accessible (disabled: false, dismissible: false, focusable: true, trackWith: "name")', async () => {
-      component.focusable = true;
-      component.trackWith = 'name';
+      fixture.componentRef.setInput('focusable', true);
+      fixture.componentRef.setInput('trackWith', 'name');
       fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -621,17 +623,17 @@ describe('Tokens component', () => {
     });
 
     it('should be accessible (disabled: true, dismissible: false, focusable: true, trackWith: "name")', async () => {
-      component.disabled = true;
-      component.focusable = true;
-      component.trackWith = 'name';
+      fixture.componentRef.setInput('disabled', true);
+      fixture.componentRef.setInput('focusable', true);
+      fixture.componentRef.setInput('trackWith', 'name');
       fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
     it('should be accessible (disabled: false, dismissible: true, focusable: false, trackWith: "name")', async () => {
-      component.dismissible = true;
-      component.trackWith = 'name';
+      fixture.componentRef.setInput('dismissible', true);
+      fixture.componentRef.setInput('trackWith', 'name');
       fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -642,18 +644,18 @@ describe('Tokens component', () => {
     });
 
     it('should be accessible (disabled: true, dismissible: true, focusable: false, trackWith: "name")', async () => {
-      component.disabled = true;
-      component.dismissible = true;
-      component.trackWith = 'name';
+      fixture.componentRef.setInput('disabled', true);
+      fixture.componentRef.setInput('dismissible', true);
+      fixture.componentRef.setInput('trackWith', 'name');
       fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
     it('should be accessible (disabled: false, dismissible: true, focusable: true, trackWith: "name")', async () => {
-      component.dismissible = true;
-      component.focusable = true;
-      component.trackWith = 'name';
+      fixture.componentRef.setInput('dismissible', true);
+      fixture.componentRef.setInput('focusable', true);
+      fixture.componentRef.setInput('trackWith', 'name');
       fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -668,20 +670,20 @@ describe('Tokens component', () => {
     });
 
     it('should be accessible (disabled: true, dismissible: true, focusable: true, trackWith: "name")', async () => {
-      component.disabled = true;
-      component.dismissible = true;
-      component.focusable = true;
-      component.trackWith = 'name';
+      fixture.componentRef.setInput('disabled', true);
+      fixture.componentRef.setInput('dismissible', true);
+      fixture.componentRef.setInput('focusable', true);
+      fixture.componentRef.setInput('trackWith', 'name');
       fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
 
-      component.trackWith = 'id';
-      component.data = [
+      fixture.componentRef.setInput('trackWith', 'id');
+      fixture.componentRef.setInput('data', [
         { id: 1, name: 'Red' },
         { id: 2, name: 'White' },
         { id: 3, name: 'Blue' },
-      ];
+      ]);
 
       component.publishTokens();
       fixture.detectChanges();
@@ -691,18 +693,18 @@ describe('Tokens component', () => {
     });
 
     it('should be accessible (contains form-control)', async () => {
-      component.innerContent = 'form-control';
+      fixture.componentRef.setInput('innerContent', 'form-control');
       fixture.detectChanges();
       await fixture.whenStable();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
 
-      component.trackWith = 'id';
-      component.data = [
+      fixture.componentRef.setInput('trackWith', 'id');
+      fixture.componentRef.setInput('data', [
         { id: 1, name: 'Red' },
         { id: 2, name: 'White' },
         { id: 3, name: 'Blue' },
-      ];
+      ]);
 
       component.publishTokens();
       fixture.detectChanges();

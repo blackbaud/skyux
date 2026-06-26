@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, ViewChild, model } from '@angular/core';
 
 import { Subject } from 'rxjs';
 
@@ -19,28 +19,31 @@ export class SkyTokensTestComponent implements OnDestroy {
   @ViewChild(SkyTokensComponent)
   public tokensComponent: SkyTokensComponent | undefined;
 
-  public ariaLabel: string | undefined;
-  public disabled: boolean | undefined;
-  public dismissible: boolean | undefined;
-  public displayWith: string | undefined;
-  public focusable: boolean | undefined;
-  public messageStream: Subject<SkyTokensMessage> | undefined;
-  public tokens: SkyToken[] | undefined;
-  public trackWith: string | undefined;
+  public ariaLabel = model<string | undefined>(undefined);
+  public disabled = model<boolean | undefined>(undefined);
+  public dismissible = model<boolean | undefined>(undefined);
+  public displayWith = model<string | undefined>(undefined);
+  public focusable = model<boolean | undefined>(undefined);
+  public messageStream = model<Subject<SkyTokensMessage> | undefined>(
+    undefined,
+  );
+  public tokens = model<SkyToken[] | undefined>(undefined);
+  public trackWith = model<string | undefined>(undefined);
 
-  public includeSingleToken = false;
+  public includeSingleToken = model<boolean>(false);
 
-  public innerContent: 'text' | 'form-control' = 'text';
+  public innerContent = model<'text' | 'form-control'>('text');
 
-  public data: { name: string; id?: number }[] = [
+  public data = model<{ name: string; id?: number }[]>([
     { name: 'Red' },
     { name: 'White' },
     { name: 'Blue' },
-  ];
+  ]);
 
   public ngOnDestroy(): void {
-    if (this.messageStream) {
-      this.messageStream.complete();
+    const stream = this.messageStream();
+    if (stream) {
+      stream.complete();
     }
   }
 
@@ -63,14 +66,15 @@ export class SkyTokensTestComponent implements OnDestroy {
   }
 
   public publishTokens(): void {
-    this.tokens = this.data.map((value) => ({ value }));
+    this.tokens.set(this.data().map((value) => ({ value })));
   }
 
   public publishMessageStream(): void {
-    if (this.messageStream) {
-      this.messageStream.unsubscribe();
+    const existing = this.messageStream();
+    if (existing) {
+      existing.unsubscribe();
     }
 
-    this.messageStream = new Subject<SkyTokensMessage>();
+    this.messageStream.set(new Subject<SkyTokensMessage>());
   }
 }

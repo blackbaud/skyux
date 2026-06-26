@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 import { SkyActionHubModule } from '../action-hub.module';
 import { SkyActionHubNeedsAttention } from '../types/action-hub-needs-attention';
@@ -11,8 +11,8 @@ import { SkyRecentLink } from '../types/recent-link';
   imports: [SkyActionHubModule],
 })
 export class ActionHubSyncFixtureComponent {
-  public title = 'Page title';
-  public needsAttention: SkyActionHubNeedsAttention[] | 'loading' = 'loading';
-  public relatedLinks: SkyPageLink[] | 'loading' = 'loading';
-  public recentLinks: SkyRecentLink[] | 'loading' | undefined = 'loading';
+  public title = input<string>('Page title');
+  public needsAttention = input<SkyActionHubNeedsAttention[] | 'loading'>('loading');
+  public relatedLinks = input<SkyPageLink[] | 'loading'>('loading');
+  public recentLinks = input<SkyRecentLink[] | 'loading' | undefined>('loading');
 }

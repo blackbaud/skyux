@@ -1,4 +1,4 @@
-@if (showMenuOverlay) {
+@if (showMenuOverlay()) {
   <div
     class="menu-overlay"
     style="
@@ -14,15 +14,15 @@
     Menu overlay
   </div>
 }
-@if (showAnchor0) {
+@if (showAnchor0()) {
   <button
     class="sky-btn sky-btn-default"
     href="/"
     id="anchor-0"
     type="button"
     [ngStyle]="{
-      display: anchor0Display,
-      visibility: anchor0Visibility
+      display: anchor0Display(),
+      visibility: anchor0Visibility()
     }"
   >
     Anchor tag 0
@@ -36,23 +36,23 @@
     I am button
   </button>
   <sky-wait
-    [ariaLabel]="ariaLabel"
-    [isFullPage]="isFullPage"
-    [isNonBlocking]="isNonBlocking"
-    [isWaiting]="isWaiting"
-    [screenReaderCompletedText]="screenReaderCompletedText"
+    [ariaLabel]="ariaLabel()"
+    [isFullPage]="isFullPage()"
+    [isNonBlocking]="isNonBlocking()"
+    [isWaiting]="isWaiting()"
+    [screenReaderCompletedText]="screenReaderCompletedText()"
   />
 </div>
 <div>
-  @if (showAnchor2) {
+  @if (showAnchor2()) {
     <button
       class="sky-btn sky-btn-default"
       href="/"
       id="anchor-2"
       type="button"
       [ngStyle]="{
-        display: anchor2Display,
-        visibility: anchor2Visibility
+        display: anchor2Display(),
+        visibility: anchor2Visibility()
       }"
     >
       Anchor tag 2
@@ -61,6 +61,6 @@
   <sky-wait
     [isFullPage]="false"
     [isNonBlocking]="false"
-    [isWaiting]="secondWaitIsWaiting"
+    [isWaiting]="secondWaitIsWaiting()"
   />
 </div>
