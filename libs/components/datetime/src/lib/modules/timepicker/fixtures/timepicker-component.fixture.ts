@@ -23,7 +23,11 @@ export class TimepickerTestComponent {
 
   public readonly returnFormat = input<string | undefined>(undefined);
 
-  public readonly selectedTime = model<SkyTimepickerTimeOutput | undefined>(undefined);
+  public readonly selectedTime = model<SkyTimepickerTimeOutput | undefined>(
+    undefined,
+  );
 
-  public readonly timeFormat = model<SkyTimepickerTimeFormatType | undefined>('hh');
+  public readonly timeFormat = model<SkyTimepickerTimeFormatType | undefined>(
+    'hh',
+  );
 }

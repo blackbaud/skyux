@@ -52,7 +52,6 @@ describe('BoxComponent', () => {
         ],
       },
     }).createComponent(BoxTestComponent);
-
   });
 
   it('should assign role attribute when ariaRole is set', () => {

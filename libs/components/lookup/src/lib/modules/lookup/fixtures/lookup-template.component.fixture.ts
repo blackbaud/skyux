@@ -1,4 +1,10 @@
-import { Component, OnInit, TemplateRef, ViewChild, model } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+  model,
+} from '@angular/core';
 
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';

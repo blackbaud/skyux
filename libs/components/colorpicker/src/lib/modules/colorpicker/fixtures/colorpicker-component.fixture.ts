@@ -1,4 +1,10 @@
-import { ChangeDetectorRef, Component, ViewChild, inject, input } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ViewChild,
+  inject,
+  input,
+} from '@angular/core';
 
 import { Subject } from 'rxjs';
 

@@ -2502,7 +2502,9 @@ describe('Autocomplete component', () => {
       }));
 
       it('should set form states properly when initialized with a value', fakeAsync(function () {
-        fixture.componentRef.setInput('model', { favoriteColor: { name: 'Red' } });
+        fixture.componentRef.setInput('model', {
+          favoriteColor: { name: 'Red' },
+        });
         fixture.detectChanges();
         tick();
 
@@ -2555,7 +2557,9 @@ describe('Autocomplete component', () => {
       }));
 
       it('should mark the control as dirty when search value changes when initialized with a value', fakeAsync(function () {
-        fixture.componentRef.setInput('model', { favoriteColor: { name: 'Purple' } });
+        fixture.componentRef.setInput('model', {
+          favoriteColor: { name: 'Purple' },
+        });
         fixture.detectChanges();
         tick();
 

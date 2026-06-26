@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnDestroy, ViewChild, model } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  ViewChild,
+  model,
+} from '@angular/core';
 
 import { Subject } from 'rxjs';
 

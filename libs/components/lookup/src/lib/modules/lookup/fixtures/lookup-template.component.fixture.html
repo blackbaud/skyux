@@ -18,7 +18,8 @@
     [selectMode]="selectMode()"
     [showAddButton]="showAddButton"
     [showMoreConfig]="showMoreConfig"
-    [ngModel]="selectedFriends()" (ngModelChange)="selectedFriends.set($event)"
+    [ngModel]="selectedFriends()"
+    (ngModelChange)="selectedFriends.set($event)"
     (addClick)="addButtonClicked($event)"
   />
 </form>
@@ -51,7 +52,8 @@
     [selectMode]="selectMode()"
     [showAddButton]="showAddButton"
     [showMoreConfig]="showMoreConfig"
-    [ngModel]="selectedFriendsAsync()" (ngModelChange)="selectedFriendsAsync.set($event)"
+    [ngModel]="selectedFriendsAsync()"
+    (ngModelChange)="selectedFriendsAsync.set($event)"
     (addClick)="addButtonClicked($event)"
     (searchAsync)="searchAsync($event)"
   />

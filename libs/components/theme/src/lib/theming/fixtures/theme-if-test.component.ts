@@ -19,7 +19,10 @@ export class SkyThemeIfTestComponent {
 
   public useDefaultTheme(): void {
     this.themeSettings.set(
-      new SkyThemeSettings(SkyTheme.presets.default, SkyThemeMode.presets.light),
+      new SkyThemeSettings(
+        SkyTheme.presets.default,
+        SkyThemeMode.presets.light,
+      ),
     );
   }
 

@@ -1083,7 +1083,10 @@ describe('Dropdown component', () => {
         detectChangesFakeAsync();
 
         fixture.componentRef.setInput('menuAriaRole', 'menu-role-override');
-        fixture.componentRef.setInput('menuAriaLabelledBy', 'menu-labelled-by-override');
+        fixture.componentRef.setInput(
+          'menuAriaLabelledBy',
+          'menu-labelled-by-override',
+        );
         fixture.componentRef.setInput('itemAriaRole', 'item-role-override');
         fixture.componentRef.setInput('label', 'button-label-override');
 

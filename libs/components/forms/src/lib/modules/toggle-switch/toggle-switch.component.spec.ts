@@ -72,7 +72,7 @@ describe('Toggle switch component', () => {
         buttonElement?.classList.contains('sky-toggle-switch-checked'),
       ).toEqual(false);
 
-      testComponent.isChecked = true;
+      fixture.componentRef.setInput('isChecked', true);
       fixture.detectChanges();
 
       expect(toggleInstance.checked).toEqual(true);
@@ -80,7 +80,7 @@ describe('Toggle switch component', () => {
         buttonElement?.classList.contains('sky-toggle-switch-checked'),
       ).toEqual(true);
 
-      testComponent.isChecked = false;
+      fixture.componentRef.setInput('isChecked', false);
       fixture.detectChanges();
 
       expect(toggleInstance.checked).toEqual(false);
@@ -93,21 +93,21 @@ describe('Toggle switch component', () => {
       fixture.detectChanges();
 
       expect(toggleInstance.checked).toEqual(false);
-      expect(testComponent.isChecked).toEqual(false);
+      expect(testComponent.isChecked()).toEqual(false);
 
       buttonElement?.click();
 
       fixture.detectChanges();
 
       expect(toggleInstance.checked).toEqual(true);
-      expect(testComponent.isChecked).toEqual(true);
+      expect(testComponent.isChecked()).toEqual(true);
 
       buttonElement?.click();
 
       fixture.detectChanges();
 
       expect(toggleInstance.checked).toEqual(false);
-      expect(testComponent.isChecked).toEqual(false);
+      expect(testComponent.isChecked()).toEqual(false);
     });
 
     it('should add and remove disabled state', () => {
@@ -117,13 +117,13 @@ describe('Toggle switch component', () => {
       expect(buttonElement?.tabIndex).toEqual(0);
       expect(buttonElement?.disabled).toEqual(false);
 
-      testComponent.isDisabled = true;
+      fixture.componentRef.setInput('isDisabled', true);
       fixture.detectChanges();
 
       expect(toggleInstance.disabled).toEqual(true);
       expect(buttonElement?.disabled).toEqual(true);
 
-      testComponent.isDisabled = false;
+      fixture.componentRef.setInput('isDisabled', false);
       fixture.detectChanges();
 
       expect(toggleInstance.disabled).toEqual(false);
@@ -132,7 +132,7 @@ describe('Toggle switch component', () => {
     });
 
     it('should not toggle `checked` state upon interaction while disabled', () => {
-      testComponent.isDisabled = true;
+      fixture.componentRef.setInput('isDisabled', true);
       fixture.detectChanges();
 
       buttonElement?.click();
@@ -158,7 +158,7 @@ describe('Toggle switch component', () => {
       const logService = TestBed.inject(SkyLogService);
       const spy = spyOn(logService, 'deprecated');
 
-      testComponent.ariaLabel = 'aria label';
+      fixture.componentRef.setInput('ariaLabel', 'aria label');
       fixture.detectChanges();
 
       expect(spy).toHaveBeenCalledWith('SkyToggleSwitchComponent.ariaLabel', {
@@ -169,7 +169,7 @@ describe('Toggle switch component', () => {
     });
 
     it('should not have `aria-label` if `ariaLabel` is empty', () => {
-      testComponent.ariaLabel = '';
+      fixture.componentRef.setInput('ariaLabel', '');
       fixture.detectChanges();
 
       const button = getButtonElement(fixture);
@@ -182,7 +182,7 @@ describe('Toggle switch component', () => {
     });
 
     it('should show inline help', () => {
-      testComponent.showInlineHelp = true;
+      fixture.componentRef.setInput('showInlineHelp', true);
       fixture.detectChanges();
       expect(
         toggleNativeElement.querySelector('.sky-help-inline'),
@@ -190,8 +190,8 @@ describe('Toggle switch component', () => {
     });
 
     it('should pass accessibility with label text input and should set `aria-label` to label text', async () => {
-      testComponent.labelText = 'label text';
-      testComponent.buttonLabel = undefined;
+      fixture.componentRef.setInput('labelText', 'label text');
+      fixture.componentRef.setInput('buttonLabel', undefined);
 
       fixture.detectChanges();
       expect(buttonElement?.getAttribute('aria-labelledby')).toEqual(
@@ -202,16 +202,16 @@ describe('Toggle switch component', () => {
     });
 
     it('should still have `aria-label` if `labelHidden` is true', () => {
-      testComponent.labelText = 'label text';
-      testComponent.labelHidden = true;
+      fixture.componentRef.setInput('labelText', 'label text');
+      fixture.componentRef.setInput('labelHidden', true);
 
       fixture.detectChanges();
       expect(buttonElement?.getAttribute('aria-label')).toBe('label text');
     });
 
     it('should render the `labelText` and not label element if `labelText` is set', () => {
-      testComponent.labelText = 'label text';
-      testComponent.buttonLabel = 'label element';
+      fixture.componentRef.setInput('labelText', 'label text');
+      fixture.componentRef.setInput('buttonLabel', 'label element');
 
       fixture.detectChanges();
 
@@ -221,9 +221,9 @@ describe('Toggle switch component', () => {
     });
 
     it('should not render the label or label element if `labelText` is set and `labelHidden` is true', () => {
-      testComponent.labelText = 'label text';
-      testComponent.buttonLabel = 'label element';
-      testComponent.labelHidden = true;
+      fixture.componentRef.setInput('labelText', 'label text');
+      fixture.componentRef.setInput('buttonLabel', 'label element');
+      fixture.componentRef.setInput('labelHidden', true);
 
       fixture.detectChanges();
 
@@ -233,8 +233,8 @@ describe('Toggle switch component', () => {
     });
 
     it('should not render the label if `labelText` is set and `labelHidden` is true', () => {
-      testComponent.labelText = 'label text';
-      testComponent.labelHidden = true;
+      fixture.componentRef.setInput('labelText', 'label text');
+      fixture.componentRef.setInput('labelHidden', true);
 
       fixture.detectChanges();
 
@@ -244,7 +244,7 @@ describe('Toggle switch component', () => {
     });
 
     it('should render the label if `labelText` is set', () => {
-      testComponent.labelText = 'label text';
+      fixture.componentRef.setInput('labelText', 'label text');
 
       fixture.detectChanges();
 
@@ -254,7 +254,7 @@ describe('Toggle switch component', () => {
     });
 
     it('should render the label element regardless of `labelHidden` value if `labelText` is not set', () => {
-      testComponent.buttonLabel = 'label element';
+      fixture.componentRef.setInput('buttonLabel', 'label element');
 
       fixture.detectChanges();
 
@@ -262,7 +262,7 @@ describe('Toggle switch component', () => {
 
       expect(label?.textContent).toBe('label element');
 
-      testComponent.labelHidden = true;
+      fixture.componentRef.setInput('labelHidden', true);
       fixture.detectChanges();
 
       expect(label?.textContent).toBe('label element');
@@ -278,8 +278,8 @@ describe('Toggle switch component', () => {
     });
 
     it('should pass accessibility with `ariaLabel` and no label element', async () => {
-      testComponent.ariaLabel = 'My aria label';
-      testComponent.buttonLabel = undefined;
+      fixture.componentRef.setInput('ariaLabel', 'My aria label');
+      fixture.componentRef.setInput('buttonLabel', undefined);
 
       fixture.detectChanges();
       expect(buttonElement?.getAttribute('aria-labelledby')).toBeNull();
@@ -291,8 +291,11 @@ describe('Toggle switch component', () => {
 
     it('should pass accessibility when `ariaLabel` contains the label element contents', async () => {
       // https://dequeuniversity.com/rules/axe/html/3.5/label-content-name-mismatch?application=axeAP
-      testComponent.ariaLabel = 'My button label with more content';
-      testComponent.buttonLabel = 'My button label';
+      fixture.componentRef.setInput(
+        'ariaLabel',
+        'My button label with more content',
+      );
+      fixture.componentRef.setInput('buttonLabel', 'My button label');
 
       fixture.detectChanges();
       expect(buttonElement?.getAttribute('aria-labelledby')).toBeNull();
@@ -303,8 +306,11 @@ describe('Toggle switch component', () => {
     });
 
     it('should be accessible with mismatched `ariaLabel` and label element content', async () => {
-      testComponent.ariaLabel = 'My aria label';
-      testComponent.buttonLabel = 'Text that does not match aria label';
+      fixture.componentRef.setInput('ariaLabel', 'My aria label');
+      fixture.componentRef.setInput(
+        'buttonLabel',
+        'Text that does not match aria label',
+      );
 
       fixture.detectChanges();
       expect(buttonElement?.getAttribute('aria-labelledby')).toBeNull();
@@ -315,8 +321,8 @@ describe('Toggle switch component', () => {
     });
 
     it('should be accessible with `ariaLabel` and without label element', async () => {
-      testComponent.ariaLabel = 'My aria label';
-      testComponent.showLabel = false;
+      fixture.componentRef.setInput('ariaLabel', 'My aria label');
+      fixture.componentRef.setInput('showLabel', false);
 
       fixture.detectChanges();
       expect(buttonElement?.getAttribute('aria-labelledby')).toBeNull();
@@ -327,10 +333,10 @@ describe('Toggle switch component', () => {
     });
 
     it('should render help inline button if help popover content is provided', () => {
-      testComponent.helpPopoverContent = 'popover content';
-      testComponent.labelText = 'label text';
-      testComponent.showInlineHelp = false;
-      testComponent.showLabel = false;
+      fixture.componentRef.setInput('helpPopoverContent', 'popover content');
+      fixture.componentRef.setInput('labelText', 'label text');
+      fixture.componentRef.setInput('showInlineHelp', false);
+      fixture.componentRef.setInput('showLabel', false);
 
       fixture.detectChanges();
 
@@ -342,11 +348,11 @@ describe('Toggle switch component', () => {
     });
 
     it('should not render help inline button if title is provided without content', () => {
-      testComponent.helpPopoverContent = undefined;
-      testComponent.helpPopoverTitle = 'popover title';
-      testComponent.labelText = 'label text';
-      testComponent.showInlineHelp = false;
-      testComponent.showLabel = false;
+      fixture.componentRef.setInput('helpPopoverContent', undefined);
+      fixture.componentRef.setInput('helpPopoverTitle', 'popover title');
+      fixture.componentRef.setInput('labelText', 'label text');
+      fixture.componentRef.setInput('showInlineHelp', false);
+      fixture.componentRef.setInput('showLabel', false);
 
       fixture.detectChanges();
 
@@ -358,7 +364,7 @@ describe('Toggle switch component', () => {
     });
 
     it('should render help inline button if help key and label text is provided', () => {
-      testComponent.helpKey = 'helpKey.html';
+      fixture.componentRef.setInput('helpKey', 'helpKey.html');
       fixture.detectChanges();
 
       expect(
@@ -367,7 +373,7 @@ describe('Toggle switch component', () => {
         ),
       ).toBeFalsy();
 
-      testComponent.labelText = 'Toggle switch';
+      fixture.componentRef.setInput('labelText', 'Toggle switch');
       fixture.detectChanges();
 
       expect(
@@ -379,8 +385,8 @@ describe('Toggle switch component', () => {
 
     it('should set global help config with help key', async () => {
       const helpController = TestBed.inject(SkyHelpTestingController);
-      testComponent.labelText = 'Text Editor';
-      testComponent.helpKey = 'helpKey.html';
+      fixture.componentRef.setInput('labelText', 'Text Editor');
+      fixture.componentRef.setInput('helpKey', 'helpKey.html');
       fixture.detectChanges();
 
       const helpInlineButton = fixture.nativeElement.querySelector(
@@ -446,8 +452,7 @@ describe('Toggle switch component', () => {
     it('should use the provided ariaLabel as the input aria-label', () => {
       fixture = TestBed.createComponent(SkyToggleSwitchFixtureComponent);
 
-      (fixture.componentInstance as SkyToggleSwitchFixtureComponent).ariaLabel =
-        'Super effective';
+      fixture.componentRef.setInput('ariaLabel', 'Super effective');
       fixture.detectChanges();
 
       const buttonElement = getButtonElement(fixture);
@@ -459,7 +464,6 @@ describe('Toggle switch component', () => {
   });
 
   describe('with provided tabIndex', () => {
-    let testComponent: SkyToggleSwitchFixtureComponent;
     let buttonElement: HTMLButtonElement | null;
 
     beforeEach(() => {
@@ -467,9 +471,7 @@ describe('Toggle switch component', () => {
 
       fixture.detectChanges();
 
-      testComponent = fixture.debugElement.componentInstance;
-
-      testComponent.customTabIndex = 7;
+      fixture.componentRef.setInput('customTabIndex', 7);
       fixture.detectChanges();
 
       buttonElement = getButtonElement(fixture);
@@ -480,13 +482,13 @@ describe('Toggle switch component', () => {
     });
 
     it('should preserve given tabIndex when the toggle is disabled then enabled', () => {
-      testComponent.isDisabled = true;
+      fixture.componentRef.setInput('isDisabled', true);
       fixture.detectChanges();
 
-      testComponent.customTabIndex = 13;
+      fixture.componentRef.setInput('customTabIndex', 13);
       fixture.detectChanges();
 
-      testComponent.isDisabled = false;
+      fixture.componentRef.setInput('isDisabled', false);
       fixture.detectChanges();
 
       expect(buttonElement?.tabIndex).toEqual(13);
@@ -504,7 +506,7 @@ describe('Toggle switch component', () => {
         SkyToggleSwitchFormDirectivesFixtureComponent,
       );
       testComponent = fixture.debugElement.componentInstance;
-      testComponent.modelValue = true;
+      testComponent.modelValue.set(true);
 
       fixture.detectChanges();
       tick();
@@ -525,7 +527,7 @@ describe('Toggle switch component', () => {
       expect(ngModel.pristine).toEqual(true);
       expect(ngModel.dirty).toEqual(false);
       expect(ngModel.touched).toEqual(false);
-      expect(testComponent.modelValue).toEqual(true);
+      expect(testComponent.modelValue()).toEqual(true);
 
       buttonElement?.click();
 
@@ -537,7 +539,7 @@ describe('Toggle switch component', () => {
       expect(ngModel.pristine).toEqual(false);
       expect(ngModel.dirty).toEqual(true);
       expect(ngModel.touched).toEqual(false);
-      expect(testComponent.modelValue).toEqual(false);
+      expect(testComponent.modelValue()).toEqual(false);
 
       SkyAppTestUtility.fireDomEvent(buttonElement, 'blur');
 
@@ -588,7 +590,7 @@ describe('Toggle switch component', () => {
       expect(ngModel.pristine).toEqual(false);
       expect(ngModel.dirty).toEqual(true);
       expect(ngModel.touched).toEqual(false);
-      expect(testComponent.modelValue).toEqual(true);
+      expect(testComponent.modelValue()).toEqual(true);
 
       SkyAppTestUtility.fireDomEvent(buttonElement, 'blur');
 
@@ -602,11 +604,11 @@ describe('Toggle switch component', () => {
       expect(
         buttonElement?.classList.contains('sky-toggle-switch-checked'),
       ).toEqual(false);
-      expect(testComponent.modelValue).toEqual(false);
+      expect(testComponent.modelValue()).toEqual(false);
 
       fixture.detectChanges();
 
-      testComponent.modelValue = true;
+      testComponent.modelValue.set(true);
 
       fixture.detectChanges();
       tick();

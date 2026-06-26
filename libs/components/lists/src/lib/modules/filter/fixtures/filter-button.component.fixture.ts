@@ -30,10 +30,7 @@ export class FilterButtonTestComponent {
 
   public useModernTheme(): void {
     this.skyThemeSettings.set(
-      new SkyThemeSettings(
-        SkyTheme.presets.modern,
-        SkyThemeMode.presets.light,
-      ),
+      new SkyThemeSettings(SkyTheme.presets.modern, SkyThemeMode.presets.light),
     );
   }
 

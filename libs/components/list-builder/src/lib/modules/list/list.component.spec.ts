@@ -533,7 +533,10 @@ describe('List Component', () => {
       }));
 
       it('should allow users to initialize selectedIds with an observable', fakeAsync(() => {
-        fixture.componentRef.setInput('selectedIds', new BehaviorSubject<string[]>(['1', '3']));
+        fixture.componentRef.setInput(
+          'selectedIds',
+          new BehaviorSubject<string[]>(['1', '3']),
+        );
 
         tick();
         fixture.detectChanges();
@@ -585,7 +588,10 @@ describe('List Component', () => {
       }));
 
       it('should allow users to change selectedIds when using observables', fakeAsync(() => {
-        fixture.componentRef.setInput('selectedIds', new BehaviorSubject<string[]>(['3', '4']));
+        fixture.componentRef.setInput(
+          'selectedIds',
+          new BehaviorSubject<string[]>(['3', '4']),
+        );
 
         tick();
         fixture.detectChanges();
@@ -601,7 +607,10 @@ describe('List Component', () => {
           expect(selectedIdMap.get('7')).toBeUndefined();
         });
 
-        fixture.componentRef.setInput('selectedIds', new BehaviorSubject<string[]>([]));
+        fixture.componentRef.setInput(
+          'selectedIds',
+          new BehaviorSubject<string[]>([]),
+        );
         tick();
         fixture.detectChanges();
         state.pipe(take(1)).subscribe((current) => {

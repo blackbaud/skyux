@@ -393,7 +393,7 @@ describe('File attachment', () => {
   }));
 
   it('should have appropriate classes and label should have screen reader text when file is required', fakeAsync(() => {
-    fixture.componentInstance.required = true;
+    fixture.componentRef.setInput('required', true);
     fileAttachmentInstance.ngAfterViewInit();
     tick();
     fixture.detectChanges();
@@ -410,8 +410,8 @@ describe('File attachment', () => {
   }));
 
   it('should have appropriate classes and label should have screen reader text when file is required and label text is used', fakeAsync(() => {
-    fixture.componentInstance.required = true;
-    fixture.componentInstance.labelText = 'Testing';
+    fixture.componentRef.setInput('required', true);
+    fixture.componentRef.setInput('labelText', 'Testing');
     fileAttachmentInstance.ngAfterViewInit();
     tick();
     fixture.detectChanges();
@@ -430,7 +430,7 @@ describe('File attachment', () => {
   }));
 
   it('should have appropriate classes when file is required and initialized with file', fakeAsync(() => {
-    fixture.componentInstance.required = true;
+    fixture.componentRef.setInput('required', true);
     const testFile = {
       file: {
         name: 'myFile',
@@ -483,7 +483,7 @@ describe('File attachment', () => {
   }));
 
   it('should handle removing the label', fakeAsync(() => {
-    fixture.componentInstance.required = true;
+    fixture.componentRef.setInput('required', true);
     fileAttachmentInstance.ngAfterViewInit();
     fileAttachmentInstance.ngAfterContentInit();
     tick();
@@ -495,7 +495,7 @@ describe('File attachment', () => {
       true,
     );
 
-    fixture.componentInstance.showLabel = false;
+    fixture.componentRef.setInput('showLabel', false);
     fixture.detectChanges();
 
     expect(labelWrapper?.classList.contains('sky-control-label-required')).toBe(
@@ -504,9 +504,9 @@ describe('File attachment', () => {
   }));
 
   it('should handle removing the labelText', fakeAsync(() => {
-    fixture.componentInstance.labelText = 'label text';
-    fixture.componentInstance.labelElementText = undefined;
-    fixture.componentInstance.showLabel = false;
+    fixture.componentRef.setInput('labelText', 'label text');
+    fixture.componentRef.setInput('labelElementText', undefined);
+    fixture.componentRef.setInput('showLabel', false);
 
     fileAttachmentInstance.ngAfterViewInit();
     fileAttachmentInstance.ngAfterContentInit();
@@ -517,7 +517,7 @@ describe('File attachment', () => {
       fixture.nativeElement.querySelector('span.sky-control-label'),
     ).toBeDefined();
 
-    fixture.componentInstance.labelText = undefined;
+    fixture.componentRef.setInput('labelText', undefined);
     fixture.detectChanges();
 
     expect(
@@ -679,7 +679,7 @@ describe('File attachment', () => {
   });
 
   it('should mark as touched when removing a preloaded file', () => {
-    fixture.componentInstance.required = true;
+    fixture.componentRef.setInput('required', true);
     fixture.detectChanges();
 
     fixture.componentInstance.attachment.setValue({
@@ -1475,7 +1475,7 @@ describe('File attachment', () => {
   });
 
   it('should show inline help', () => {
-    fixture.componentInstance.showInlineHelp = true;
+    fixture.componentRef.setInput('showInlineHelp', true);
     fixture.detectChanges();
     expect(
       fixture.nativeElement.querySelector('.sky-help-inline'),
@@ -1491,7 +1491,7 @@ describe('File attachment', () => {
 
   it('should pass accessibility when required', async () => {
     jasmine.clock().uninstall();
-    fixture.componentInstance.required = true;
+    fixture.componentRef.setInput('required', true);
     fixture.detectChanges();
     await fixture.whenStable();
     await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -1499,7 +1499,7 @@ describe('File attachment', () => {
 
   it('should pass accessibility when label does not match the button text', async () => {
     jasmine.clock().uninstall();
-    fixture.componentInstance.labelElementText = 'Something different';
+    fixture.componentRef.setInput('labelElementText', 'Something different');
     fixture.detectChanges();
     await fixture.whenStable();
     await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -1507,8 +1507,8 @@ describe('File attachment', () => {
 
   it('should pass accessibility when `labelText` is set', async () => {
     jasmine.clock().uninstall();
-    fixture.componentInstance.labelText = 'Attach file';
-    fixture.componentInstance.labelElementText = undefined;
+    fixture.componentRef.setInput('labelText', 'Attach file');
+    fixture.componentRef.setInput('labelElementText', undefined);
     fixture.detectChanges();
 
     await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -1532,8 +1532,8 @@ describe('File attachment', () => {
     });
 
     // w/ legacy label component
-    componentInstance.labelText = undefined;
-    componentInstance.showLabel = true;
+    fixture.componentRef.setInput('labelText', undefined);
+    fixture.componentRef.setInput('showLabel', true);
     fixture.detectChanges();
 
     const btn = getButtonEl(fixture.nativeElement);
@@ -1548,8 +1548,8 @@ describe('File attachment', () => {
     await expectAsync(fixture.nativeElement).toBeAccessible();
 
     // w/ label text
-    componentInstance.labelText = 'Sample label';
-    componentInstance.showLabel = false;
+    fixture.componentRef.setInput('labelText', 'Sample label');
+    fixture.componentRef.setInput('showLabel', false);
     fixture.detectChanges();
 
     expect(btn?.getAttribute('aria-describedby')).toEqual('MOCK_ID_3');
@@ -1561,8 +1561,8 @@ describe('File attachment', () => {
     await expectAsync(fixture.nativeElement).toBeAccessible();
 
     // w/o label text or legacy label component
-    componentInstance.labelText = undefined;
-    componentInstance.showLabel = false;
+    fixture.componentRef.setInput('labelText', undefined);
+    fixture.componentRef.setInput('showLabel', false);
     fixture.detectChanges();
 
     expect(btn?.getAttribute('aria-describedby')).toEqual('MOCK_ID_3');
@@ -1573,7 +1573,7 @@ describe('File attachment', () => {
   });
 
   it('should not render form errors when label text is not set', () => {
-    fixture.componentInstance.required = true;
+    fixture.componentRef.setInput('required', true);
 
     getButtonEl(fixture.nativeElement)?.click();
     fixture.detectChanges();
@@ -1586,8 +1586,8 @@ describe('File attachment', () => {
     expect(btn?.getAttribute('aria-invalid')).toEqual('false');
     expect(btn?.getAttribute('aria-errormessage')).toBeNull();
 
-    fixture.componentInstance.required = true;
-    fixture.componentInstance.labelText = 'file attachment';
+    fixture.componentRef.setInput('required', true);
+    fixture.componentRef.setInput('labelText', 'file attachment');
     fixture.detectChanges();
 
     fixture.componentInstance.attachment.markAsTouched();
@@ -1605,9 +1605,9 @@ describe('File attachment', () => {
     expect(btn?.getAttribute('aria-invalid')).toEqual('false');
     expect(btn?.getAttribute('aria-errormessage')).toBeNull();
 
-    fixture.componentInstance.labelText = 'file attachment';
-    fixture.componentInstance.required = false;
-    fixture.componentInstance.maxFileSize = 50;
+    fixture.componentRef.setInput('labelText', 'file attachment');
+    fixture.componentRef.setInput('required', false);
+    fixture.componentRef.setInput('maxFileSize', 50);
     fixture.detectChanges();
 
     await setupStandardFileChangeEvent();
@@ -1624,9 +1624,9 @@ describe('File attachment', () => {
     expect(btn?.getAttribute('aria-invalid')).toEqual('false');
     expect(btn?.getAttribute('aria-errormessage')).toBeNull();
 
-    fixture.componentInstance.labelText = 'file attachment';
-    fixture.componentInstance.required = true;
-    fixture.componentInstance.maxFileSize = 50;
+    fixture.componentRef.setInput('labelText', 'file attachment');
+    fixture.componentRef.setInput('required', true);
+    fixture.componentRef.setInput('maxFileSize', 50);
     fixture.detectChanges();
 
     const files = [
@@ -1657,37 +1657,37 @@ describe('File attachment', () => {
   });
 
   it('should render `labelText` and not label element if `labelText` is set', () => {
-    fixture.componentInstance.labelElementText = 'label element';
-    fixture.componentInstance.labelText = 'label text';
+    fixture.componentRef.setInput('labelElementText', 'label element');
+    fixture.componentRef.setInput('labelText', 'label text');
     fixture.detectChanges();
 
     validateLabelText('label text');
   });
 
   it('should not render `labelText` or label element if `labelHidden` is set to true', () => {
-    fixture.componentInstance.labelElementText = 'label element';
-    fixture.componentInstance.labelText = 'label text';
-    fixture.componentInstance.labelHidden = true;
+    fixture.componentRef.setInput('labelElementText', 'label element');
+    fixture.componentRef.setInput('labelText', 'label text');
+    fixture.componentRef.setInput('labelHidden', true);
     fixture.detectChanges();
 
     validateLabelText('');
   });
 
   it('should render label if `labelText` is set', () => {
-    fixture.componentInstance.labelText = 'label text';
-    fixture.componentInstance.labelElementText = undefined;
+    fixture.componentRef.setInput('labelText', 'label text');
+    fixture.componentRef.setInput('labelElementText', undefined);
     fixture.detectChanges();
 
     validateLabelText('label text');
   });
 
   it('should render label element regardless of `labelHidden` value if `labelText` is not set', () => {
-    fixture.componentInstance.labelElementText = 'label element';
+    fixture.componentRef.setInput('labelElementText', 'label element');
     fixture.detectChanges();
 
     validateLabelText('label element');
 
-    fixture.componentInstance.labelHidden = true;
+    fixture.componentRef.setInput('labelHidden', true);
     fixture.detectChanges();
 
     validateLabelText('label element');
@@ -1701,7 +1701,7 @@ describe('File attachment', () => {
         type: 'image/png',
       },
     ];
-    fixture.componentInstance.maxFileSize = 1000;
+    fixture.componentRef.setInput('maxFileSize', 1000);
     fixture.detectChanges();
 
     await setupStandardFileChangeEvent(files);
@@ -1721,7 +1721,7 @@ describe('File attachment', () => {
 
     fixture.componentInstance.attachment.setValue(null);
     fixture.componentInstance.attachment.markAsPristine();
-    fixture.componentInstance.maxFileSize = 1000;
+    fixture.componentRef.setInput('maxFileSize', 1000);
     fixture.detectChanges();
 
     await setupStandardFileChangeEvent(files);
@@ -1731,15 +1731,15 @@ describe('File attachment', () => {
   });
 
   it('should render help inline with popover only if label text is provided', () => {
-    fixture.componentInstance.popoverContent = 'popover content';
-    fixture.componentInstance.showLabel = false;
+    fixture.componentRef.setInput('popoverContent', 'popover content');
+    fixture.componentRef.setInput('showLabel', false);
     fixture.detectChanges();
 
     expect(
       fixture.nativeElement.querySelectorAll('sky-help-inline').length,
     ).toBe(0);
 
-    fixture.componentInstance.labelText = 'labelText';
+    fixture.componentRef.setInput('labelText', 'labelText');
     fixture.detectChanges();
 
     expect(
@@ -1748,16 +1748,16 @@ describe('File attachment', () => {
   });
 
   it('should not render help inline for popover unless popover content is set', () => {
-    fixture.componentInstance.popoverTitle = 'popover title';
-    fixture.componentInstance.showLabel = false;
-    fixture.componentInstance.labelText = 'labelText';
+    fixture.componentRef.setInput('popoverTitle', 'popover title');
+    fixture.componentRef.setInput('showLabel', false);
+    fixture.componentRef.setInput('labelText', 'labelText');
     fixture.detectChanges();
 
     expect(
       fixture.nativeElement.querySelectorAll('sky-help-inline').length,
     ).toBe(0);
 
-    fixture.componentInstance.popoverContent = 'popover content';
+    fixture.componentRef.setInput('popoverContent', 'popover content');
     fixture.detectChanges();
 
     expect(
@@ -1766,13 +1766,13 @@ describe('File attachment', () => {
   });
 
   it('should render help inline if help key is set', () => {
-    fixture.componentInstance.showLabel = false;
-    fixture.componentInstance.labelText = 'labelText';
+    fixture.componentRef.setInput('showLabel', false);
+    fixture.componentRef.setInput('labelText', 'labelText');
     fixture.detectChanges();
 
     expect(fixture.nativeElement.querySelector('sky-help-inline')).toBeFalsy();
 
-    fixture.componentInstance.helpKey = 'helpKey.html';
+    fixture.componentRef.setInput('helpKey', 'helpKey.html');
     fixture.detectChanges();
 
     expect(fixture.nativeElement.querySelector('sky-help-inline')).toBeTruthy();
@@ -1780,10 +1780,10 @@ describe('File attachment', () => {
 
   it('should set global help config with help key', async () => {
     const helpController = TestBed.inject(SkyHelpTestingController);
-    fixture.componentInstance.showLabel = false;
-    fixture.componentInstance.labelText = 'labelText';
-    fixture.componentInstance.popoverContent = undefined;
-    fixture.componentInstance.helpKey = 'index.html';
+    fixture.componentRef.setInput('showLabel', false);
+    fixture.componentRef.setInput('labelText', 'labelText');
+    fixture.componentRef.setInput('popoverContent', undefined);
+    fixture.componentRef.setInput('helpKey', 'index.html');
 
     fixture.detectChanges();
 
@@ -1800,7 +1800,7 @@ describe('File attachment', () => {
 
   it('should render hint if `hintText` is set', () => {
     const hintText = 'hint text';
-    fixture.componentInstance.hintText = hintText;
+    fixture.componentRef.setInput('hintText', hintText);
     fixture.detectChanges();
 
     const hintEl = fixture.nativeElement.querySelector(
@@ -1812,7 +1812,7 @@ describe('File attachment', () => {
   });
 
   it('should have the lg margin class if stacked is true', () => {
-    fixture.componentInstance.stacked = true;
+    fixture.componentRef.setInput('stacked', true);
     fixture.detectChanges();
 
     const fileAttachment = fixture.nativeElement.querySelector(
@@ -1912,7 +1912,7 @@ describe('File attachment (template-driven)', () => {
   }));
 
   it(`should have disabled attribute when disabled input is set to true`, fakeAsync(() => {
-    fixture.componentInstance.disabled = true;
+    fixture.componentRef.setInput('disabled', true);
     fileAttachmentInstance.ngAfterViewInit();
     tick();
     fixture.detectChanges();
@@ -1922,7 +1922,7 @@ describe('File attachment (template-driven)', () => {
     expect(input.nativeElement.getAttribute('disabled')).not.toBeNull();
     expect(button?.getAttribute('disabled')).not.toBeNull();
 
-    fixture.componentInstance.disabled = false;
+    fixture.componentRef.setInput('disabled', false);
     tick();
     fixture.detectChanges();
 

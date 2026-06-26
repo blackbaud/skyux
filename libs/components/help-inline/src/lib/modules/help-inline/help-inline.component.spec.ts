@@ -332,7 +332,10 @@ describe('Help inline component', () => {
     });
 
     it('should render help popover if helpContext is a templateRef', async () => {
-      fixture.componentRef.setInput('popoverContent', component.popoverTemplate);
+      fixture.componentRef.setInput(
+        'popoverContent',
+        component.popoverTemplate,
+      );
       fixture.detectChanges();
 
       const { popoverHarness } = await getPopoverTestHarness();

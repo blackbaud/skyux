@@ -487,7 +487,9 @@ describe('Date range picker', function () {
 
     // Change the available calculators, but make the default calculator the same
     // as the one set in the form initializer (see above);
-    fixture.componentRef.setInput('calculatorIds', [selectedValue.calculatorId]);
+    fixture.componentRef.setInput('calculatorIds', [
+      selectedValue.calculatorId,
+    ]);
 
     detectChanges();
 

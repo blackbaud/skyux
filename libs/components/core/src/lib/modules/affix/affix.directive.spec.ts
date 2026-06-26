@@ -577,7 +577,10 @@ describe('Affix directive', () => {
       fixture.componentRef.setInput('enableOverflowParent', true);
       fixture.detectChanges();
 
-      fixture.componentRef.setInput('autoFitContext', SkyAffixAutoFitContext.Viewport);
+      fixture.componentRef.setInput(
+        'autoFitContext',
+        SkyAffixAutoFitContext.Viewport,
+      );
       fixture.componentRef.setInput('enableAutoFit', true);
       fixture.componentRef.setInput('isSticky', true);
       fixture.componentRef.setInput('placement', 'below');
@@ -780,7 +783,8 @@ describe('Affix directive', () => {
 
       // First, get the original base element's width value.
       const originalBaseElementWidth =
-        fixture.componentInstance.baseRef.nativeElement.getBoundingClientRect().width;
+        fixture.componentInstance.baseRef.nativeElement.getBoundingClientRect()
+          .width;
 
       fixture.componentRef.setInput('enableLargerBaseElement', true);
       fixture.componentRef.setInput('placement', 'above');
@@ -788,7 +792,8 @@ describe('Affix directive', () => {
 
       // Then, get the new base element's width after resize.
       const baseElementWidth =
-        fixture.componentInstance.baseRef.nativeElement.getBoundingClientRect().width;
+        fixture.componentInstance.baseRef.nativeElement.getBoundingClientRect()
+          .width;
 
       // Finally, calculate the offset difference so we can use it in our calculations.
       const offsetDifference =
@@ -904,7 +909,10 @@ describe('Affix directive', () => {
       fixture.componentRef.setInput('placement', 'above');
       fixture.componentRef.setInput('enableAutoFit', true);
       fixture.componentRef.setInput('isSticky', true);
-      fixture.componentRef.setInput('autoFitContext', SkyAffixAutoFitContext.Viewport);
+      fixture.componentRef.setInput(
+        'autoFitContext',
+        SkyAffixAutoFitContext.Viewport,
+      );
       fixture.componentRef.setInput('enableOverflowParent', true);
       fixture.detectChanges();
 
@@ -917,7 +925,8 @@ describe('Affix directive', () => {
 
       // Scroll base element out of view.
       const baseElementHeight =
-        fixture.componentInstance.baseRef.nativeElement.getBoundingClientRect().height;
+        fixture.componentInstance.baseRef.nativeElement.getBoundingClientRect()
+          .height;
       fixture.componentInstance.scrollTargetToBottom(baseElementHeight);
       SkyAppTestUtility.fireDomEvent(window.visualViewport, 'scroll');
       fixture.detectChanges();

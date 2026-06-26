@@ -1,4 +1,10 @@
-import { Component, QueryList, ViewChild, ViewChildren, input } from '@angular/core';
+import {
+  Component,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+  input,
+} from '@angular/core';
 
 import { SkyVerticalTabComponent } from '../vertical-tab.component';
 import { SkyVerticalTabsetComponent } from '../vertical-tabset.component';

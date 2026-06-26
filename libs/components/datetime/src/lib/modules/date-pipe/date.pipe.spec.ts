@@ -58,7 +58,10 @@ describe('Date pipe', () => {
   });
 
   it('should format a timestamp', () => {
-    fixture.componentRef.setInput('dateValue', new Date(2000, 0, 1, 0).getTime());
+    fixture.componentRef.setInput(
+      'dateValue',
+      new Date(2000, 0, 1, 0).getTime(),
+    );
     fixture.detectChanges();
     const value = fixture.nativeElement.textContent.trim();
     const expectedValues = [

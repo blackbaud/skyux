@@ -415,17 +415,26 @@ describe('datepicker calendar', () => {
     fixture.detectChanges();
 
     component.datepicker.writeValue(undefined);
-    fixture.componentRef.setInput('selectedDate', component.datepicker.selectedDate);
+    fixture.componentRef.setInput(
+      'selectedDate',
+      component.datepicker.selectedDate,
+    );
     fixture.detectChanges();
     verifyTodayDayPicker(nativeElement, true);
 
     component.datepicker.writeValue(new Date('4/4/2017'));
-    fixture.componentRef.setInput('selectedDate', component.datepicker.selectedDate);
+    fixture.componentRef.setInput(
+      'selectedDate',
+      component.datepicker.selectedDate,
+    );
     fixture.detectChanges();
     verifyDatepicker(nativeElement, 'April 2017', '04', '04', '');
 
     component.datepicker.writeValue(new Date('4/4/2017'));
-    fixture.componentRef.setInput('selectedDate', component.datepicker.selectedDate);
+    fixture.componentRef.setInput(
+      'selectedDate',
+      component.datepicker.selectedDate,
+    );
     fixture.detectChanges();
     verifyDatepicker(nativeElement, 'April 2017', '04', '04', '');
   });
@@ -805,7 +814,10 @@ describe('datepicker calendar', () => {
       fixture.detectChanges();
 
       component.datepicker.writeValue(undefined);
-      fixture.componentRef.setInput('selectedDate', component.datepicker.selectedDate);
+      fixture.componentRef.setInput(
+        'selectedDate',
+        component.datepicker.selectedDate,
+      );
       fixture.detectChanges();
 
       verifyDatepicker(nativeElement, 'March 1995', '10', '10', '');

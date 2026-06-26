@@ -126,7 +126,9 @@ export class GridTestComponent {
     if (showCol) {
       this.selectedColumnIds.update((ids) => [...ids, 'column6']);
     } else {
-      this.selectedColumnIds.update((ids) => ids.filter((id) => id !== 'column6'));
+      this.selectedColumnIds.update((ids) =>
+        ids.filter((id) => id !== 'column6'),
+      );
     }
 
     this._showWideColumn = showCol;
@@ -255,7 +257,13 @@ export class GridTestComponent {
   }
 
   public showColumn(): void {
-    const ids: string[] = ['column1', 'column2', 'column3', 'column4', 'column5'];
+    const ids: string[] = [
+      'column1',
+      'column2',
+      'column3',
+      'column4',
+      'column5',
+    ];
 
     if (this.showWideColumn) {
       ids.push('column6');

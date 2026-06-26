@@ -24,13 +24,17 @@ export class AffixFixtureComponent {
 
   public enableAutoFit = input<boolean | undefined>(undefined);
 
-  public horizontalAlignment = input<SkyAffixHorizontalAlignment | undefined>(undefined);
+  public horizontalAlignment = input<SkyAffixHorizontalAlignment | undefined>(
+    undefined,
+  );
 
   public isSticky = input<boolean | undefined>(undefined);
 
   public placement = input<SkyAffixPlacement | undefined>(undefined);
 
-  public verticalAlignment = input<SkyAffixVerticalAlignment | undefined>(undefined);
+  public verticalAlignment = input<SkyAffixVerticalAlignment | undefined>(
+    undefined,
+  );
 
   public position = input<SkyAffixPosition | undefined>(undefined);
 

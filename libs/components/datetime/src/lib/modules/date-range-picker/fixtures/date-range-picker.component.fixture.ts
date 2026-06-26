@@ -1,4 +1,11 @@
-import { Component, OnDestroy, OnInit, ViewChild, input, model } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  input,
+  model,
+} from '@angular/core';
 import {
   AbstractControl,
   FormsModule,
@@ -31,7 +38,9 @@ export class DateRangePickerTestComponent implements OnInit, OnDestroy {
   })
   public dateRangePicker!: SkyDateRangePickerComponent;
 
-  public readonly calculatorIds = model<SkyDateRangeCalculatorId[] | undefined>(undefined);
+  public readonly calculatorIds = model<SkyDateRangeCalculatorId[] | undefined>(
+    undefined,
+  );
   public readonly dateFormat = input<string | undefined>(undefined);
   public readonly disableReactiveOnInit = input(false);
   public readonly label = input<string | undefined>(undefined);

@@ -39,7 +39,9 @@ export class ActionButtonTestComponent {
 
   public buttonIsClicked = false;
 
-  public alignItems = input<SkyActionButtonContainerAlignItemsType | undefined>(undefined);
+  public alignItems = input<SkyActionButtonContainerAlignItemsType | undefined>(
+    undefined,
+  );
 
   @ViewChild(SkyActionButtonContainerComponent, {
     read: SkyActionButtonContainerComponent,

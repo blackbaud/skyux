@@ -13,8 +13,12 @@ import { SkyRecentLink } from '../types/recent-link';
 export class ActionHubInputsFixtureComponent {
   public title = input<string | undefined>(undefined);
   public parentLink = input<SkyLink | undefined>(undefined);
-  public recentLinks = input<SkyRecentLink[] | 'loading' | undefined>(undefined);
+  public recentLinks = input<SkyRecentLink[] | 'loading' | undefined>(
+    undefined,
+  );
   public relatedLinks = input<SkyLink[] | 'loading' | undefined>(undefined);
-  public needsAttention = input<SkyActionHubNeedsAttention[] | 'loading' | undefined>(undefined);
+  public needsAttention = input<
+    SkyActionHubNeedsAttention[] | 'loading' | undefined
+  >(undefined);
   public loading = input<boolean | undefined>(undefined);
 }

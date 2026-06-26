@@ -42,20 +42,20 @@ export class SkyDescriptionListTestComponent {
     },
   ]);
 
-  public asyncInfo = signal<{ term: string; description?: Observable<string> }[]>(
-    [
-      {
-        term: 'First',
-        description: scheduled(['Example 1'], asyncScheduler),
-      },
-      {
-        term: 'Second',
-        description: scheduled(['Example 2'], asyncScheduler),
-      },
-      {
-        term: 'Third',
-        description: scheduled(['Example 3'], asyncScheduler),
-      },
-    ],
-  );
+  public asyncInfo = signal<
+    { term: string; description?: Observable<string> }[]
+  >([
+    {
+      term: 'First',
+      description: scheduled(['Example 1'], asyncScheduler),
+    },
+    {
+      term: 'Second',
+      description: scheduled(['Example 2'], asyncScheduler),
+    },
+    {
+      term: 'Third',
+      description: scheduled(['Example 3'], asyncScheduler),
+    },
+  ]);
 }

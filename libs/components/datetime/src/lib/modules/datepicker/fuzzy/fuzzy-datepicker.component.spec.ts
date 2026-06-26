@@ -225,7 +225,11 @@ describe('fuzzy datepicker input', () => {
       setInputElementValue(nativeElement, '5/12/2017', fixture);
 
       expect(getInputElementValue(fixture)).toBe('05/12/2017');
-      expect(component.selectedDate()).toEqual({ day: 5, month: 12, year: 2017 });
+      expect(component.selectedDate()).toEqual({
+        day: 5,
+        month: 12,
+        year: 2017,
+      });
     }));
   });
 
@@ -327,7 +331,11 @@ describe('fuzzy datepicker input', () => {
       // Click May 6th
       clickCalendarDateButton(6, fixture);
 
-      expect(component.selectedDate()).toEqual({ year: 2017, day: 6, month: 5 });
+      expect(component.selectedDate()).toEqual({
+        year: 2017,
+        day: 6,
+        month: 5,
+      });
       expect(getInputElementValue(fixture)).toBe('05/06/2017');
 
       flush();
@@ -374,7 +382,11 @@ describe('fuzzy datepicker input', () => {
         setInputProperty({ month: 5, day: 12, year: 0 }, component, fixture);
 
         expect(getInputElementValue(fixture)).toBe('05/12');
-        expect(component.selectedDate()).toEqual({ day: 12, month: 5, year: 0 });
+        expect(component.selectedDate()).toEqual({
+          day: 12,
+          month: 5,
+          year: 0,
+        });
 
         flush();
       }));
@@ -1026,7 +1038,11 @@ describe('fuzzy datepicker input', () => {
         'should validate properly when the date is passed through input change' +
           ' beyond the max fuzzy date',
         fakeAsync(() => {
-          fixture.componentRef.setInput('maxDate', { month: 2, day: 15, year: 2015 });
+          fixture.componentRef.setInput('maxDate', {
+            month: 2,
+            day: 15,
+            year: 2015,
+          });
           detectChanges(fixture);
 
           setInputElementValue(nativeElement, '2/16/2015', fixture);
@@ -1051,7 +1067,11 @@ describe('fuzzy datepicker input', () => {
         'should validate properly when the date is passed through input change' +
           ' prior to the min fuzzy date',
         fakeAsync(() => {
-          fixture.componentRef.setInput('minDate', { month: 2, day: 15, year: 2015 });
+          fixture.componentRef.setInput('minDate', {
+            month: 2,
+            day: 15,
+            year: 2015,
+          });
           detectChanges(fixture);
 
           setInputElementValue(nativeElement, '2/14/2015', fixture);
@@ -1077,7 +1097,11 @@ describe('fuzzy datepicker input', () => {
 
       it('should handle model change above max fuzzy fuzzy date', fakeAsync(() => {
         setInputProperty(new Date('5/21/2017'), component, fixture);
-        fixture.componentRef.setInput('maxDate', { month: 5, day: 25, year: 2017 });
+        fixture.componentRef.setInput('maxDate', {
+          month: 5,
+          day: 25,
+          year: 2017,
+        });
         detectChanges(fixture);
 
         setInputElementValue(fixture.nativeElement, '5/26/2017', fixture);
@@ -1093,7 +1117,11 @@ describe('fuzzy datepicker input', () => {
 
       it('should handle model change below min fuzzy date', fakeAsync(() => {
         setInputProperty(new Date('5/21/2017'), component, fixture);
-        fixture.componentRef.setInput('minDate', { month: 5, day: 4, year: 2017 });
+        fixture.componentRef.setInput('minDate', {
+          month: 5,
+          day: 4,
+          year: 2017,
+        });
         detectChanges(fixture);
 
         setInputElementValue(fixture.nativeElement, '5/1/2017', fixture);
@@ -1109,7 +1137,11 @@ describe('fuzzy datepicker input', () => {
 
       it('should pass max date to calendar', fakeAsync(() => {
         setInputProperty(new Date('5/21/2017'), component, fixture);
-        fixture.componentRef.setInput('maxDate', { month: 5, day: 25, year: 2017 });
+        fixture.componentRef.setInput('maxDate', {
+          month: 5,
+          day: 25,
+          year: 2017,
+        });
         detectChanges(fixture);
 
         clickDatepickerButton(fixture);
@@ -1122,7 +1154,11 @@ describe('fuzzy datepicker input', () => {
 
       it('should pass min date to calendar', fakeAsync(() => {
         setInputProperty(new Date('5/21/2017'), component, fixture);
-        fixture.componentRef.setInput('minDate', { month: 5, day: 4, year: 2017 });
+        fixture.componentRef.setInput('minDate', {
+          month: 5,
+          day: 4,
+          year: 2017,
+        });
         detectChanges(fixture);
 
         clickDatepickerButton(fixture);
@@ -1135,7 +1171,11 @@ describe('fuzzy datepicker input', () => {
 
       it('should pass max date from config service to calendar when max fuzzy date is invalid', fakeAsync(() => {
         setInputProperty(new Date('5/21/2017'), component, fixture);
-        fixture.componentRef.setInput('maxDate', { month: 15, day: 35, year: 2017 });
+        fixture.componentRef.setInput('maxDate', {
+          month: 15,
+          day: 35,
+          year: 2017,
+        });
         detectChanges(fixture);
 
         clickDatepickerButton(fixture);
@@ -1148,7 +1188,11 @@ describe('fuzzy datepicker input', () => {
 
       it('should pass min date from config service to calendar when min fuzzy date is invalid', fakeAsync(() => {
         setInputProperty(new Date('5/21/2017'), component, fixture);
-        fixture.componentRef.setInput('minDate', { month: 15, day: 35, year: 2017 });
+        fixture.componentRef.setInput('minDate', {
+          month: 15,
+          day: 35,
+          year: 2017,
+        });
         detectChanges(fixture);
 
         clickDatepickerButton(fixture);
@@ -1279,7 +1323,11 @@ describe('fuzzy datepicker input', () => {
 
     describe('initial value', () => {
       it('should set the Fuzzy Date object value correctly', fakeAsync(() => {
-        fixture.componentRef.setInput('initialValue', { month: 5, day: 12, year: 2017 });
+        fixture.componentRef.setInput('initialValue', {
+          month: 5,
+          day: 12,
+          year: 2017,
+        });
         detectChanges(fixture);
 
         expect(getInputElementValue(fixture)).toBe('05/12/2017');
@@ -1303,7 +1351,11 @@ describe('fuzzy datepicker input', () => {
       }));
 
       it('should set the Fuzzy Date object with a zero year value correctly', fakeAsync(() => {
-        fixture.componentRef.setInput('initialValue', { month: 5, day: 12, year: 0 });
+        fixture.componentRef.setInput('initialValue', {
+          month: 5,
+          day: 12,
+          year: 0,
+        });
         detectChanges(fixture);
 
         expect(getInputElementValue(fixture)).toBe('05/12');
@@ -1799,7 +1851,11 @@ describe('fuzzy datepicker input', () => {
 
     describe('min max fuzzy date', () => {
       it('should validate properly when the date is passed through input change beyond the max fuzzy date', fakeAsync(() => {
-        fixture.componentRef.setInput('maxDate', { month: 2, day: 15, year: 2015 });
+        fixture.componentRef.setInput('maxDate', {
+          month: 2,
+          day: 15,
+          year: 2015,
+        });
         detectChanges(fixture);
         setInputElementValue(nativeElement, '2/16/2015', fixture);
 
@@ -1823,7 +1879,11 @@ describe('fuzzy datepicker input', () => {
       }));
 
       it('should validate properly when the date is passed through input change prior to the min fuzzy date', fakeAsync(() => {
-        fixture.componentRef.setInput('minDate', { month: 2, day: 15, year: 2015 });
+        fixture.componentRef.setInput('minDate', {
+          month: 2,
+          day: 15,
+          year: 2015,
+        });
         detectChanges(fixture);
         setInputElementValue(nativeElement, '2/14/2015', fixture);
 
@@ -1849,7 +1909,11 @@ describe('fuzzy datepicker input', () => {
       it('should handle change above max fuzzy date passed on model change', fakeAsync(() => {
         fixture.detectChanges();
         setFormControlProperty(new Date('5/21/2017'), component, fixture);
-        fixture.componentRef.setInput('maxDate', { month: 5, day: 25, year: 2017 });
+        fixture.componentRef.setInput('maxDate', {
+          month: 5,
+          day: 25,
+          year: 2017,
+        });
         detectChanges(fixture);
 
         setInputElementValue(fixture.nativeElement, '5/26/2017', fixture);
@@ -1862,7 +1926,11 @@ describe('fuzzy datepicker input', () => {
       it('should handle change below min fuzzy date passed on model change', fakeAsync(() => {
         fixture.detectChanges();
         setFormControlProperty(new Date('5/21/2017'), component, fixture);
-        fixture.componentRef.setInput('minDate', { month: 5, day: 4, year: 2017 });
+        fixture.componentRef.setInput('minDate', {
+          month: 5,
+          day: 4,
+          year: 2017,
+        });
         detectChanges(fixture);
 
         setInputElementValue(fixture.nativeElement, '5/1/2017', fixture);
@@ -1875,7 +1943,11 @@ describe('fuzzy datepicker input', () => {
       it('should pass max date to calendar', fakeAsync(() => {
         fixture.detectChanges();
         setFormControlProperty(new Date('5/21/2017'), component, fixture);
-        fixture.componentRef.setInput('maxDate', { month: 5, day: 25, year: 2017 });
+        fixture.componentRef.setInput('maxDate', {
+          month: 5,
+          day: 25,
+          year: 2017,
+        });
         detectChanges(fixture);
 
         clickDatepickerButton(fixture);
@@ -1889,7 +1961,11 @@ describe('fuzzy datepicker input', () => {
       it('should pass min date to calendar', fakeAsync(() => {
         fixture.detectChanges();
         setFormControlProperty(new Date('5/21/2017'), component, fixture);
-        fixture.componentRef.setInput('minDate', { month: 5, day: 4, year: 2017 });
+        fixture.componentRef.setInput('minDate', {
+          month: 5,
+          day: 4,
+          year: 2017,
+        });
         detectChanges(fixture);
 
         clickDatepickerButton(fixture);
@@ -1903,7 +1979,11 @@ describe('fuzzy datepicker input', () => {
       it('should pass max date from config service to calendar when max fuzzy date is invalid', fakeAsync(() => {
         fixture.detectChanges();
         setFormControlProperty(new Date('5/21/2017'), component, fixture);
-        fixture.componentRef.setInput('maxDate', { month: 15, day: 35, year: 2017 });
+        fixture.componentRef.setInput('maxDate', {
+          month: 15,
+          day: 35,
+          year: 2017,
+        });
         detectChanges(fixture);
 
         clickDatepickerButton(fixture);
@@ -1917,7 +1997,11 @@ describe('fuzzy datepicker input', () => {
       it('should pass min date from config service to calendar when min fuzzy date is invalid', fakeAsync(() => {
         fixture.detectChanges();
         setFormControlProperty(new Date('5/21/2017'), component, fixture);
-        fixture.componentRef.setInput('minDate', { month: 15, day: 35, year: 2017 });
+        fixture.componentRef.setInput('minDate', {
+          month: 15,
+          day: 35,
+          year: 2017,
+        });
         detectChanges(fixture);
 
         clickDatepickerButton(fixture);

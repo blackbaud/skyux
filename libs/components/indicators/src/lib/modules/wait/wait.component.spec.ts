@@ -590,7 +590,10 @@ describe('Wait component', () => {
       fixture.componentRef.setInput('isFullPage', false);
       fixture.componentRef.setInput('isWaiting', true);
       fixture.componentRef.setInput('isNonBlocking', false);
-      fixture.componentRef.setInput('ariaLabel', 'Waiting for the page to load.');
+      fixture.componentRef.setInput(
+        'ariaLabel',
+        'Waiting for the page to load.',
+      );
       fixture.detectChanges();
 
       expect(getAriaLabel()).toBe('Waiting for the page to load.');

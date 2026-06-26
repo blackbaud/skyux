@@ -508,7 +508,9 @@ describe('Grid Component', () => {
         expect(changeSpy).toHaveBeenCalledWith(selectedColumnIds);
         changeSpy.calls.reset();
 
-        fixture.componentRef.setInput('selectedColumnIds', [...selectedColumnIds]);
+        fixture.componentRef.setInput('selectedColumnIds', [
+          ...selectedColumnIds,
+        ]);
         fixture.detectChanges();
 
         expect(changeSpy.calls.count()).toEqual(
@@ -2812,13 +2814,19 @@ describe('Grid Component', () => {
 
       fixture.componentRef.setInput('settingsKey', 'foobar');
       fixture.detectChanges();
-      fixture.componentRef.setInput('selectedColumnIds', ['column1', 'column2']);
+      fixture.componentRef.setInput('selectedColumnIds', [
+        'column1',
+        'column2',
+      ]);
       fixture.detectChanges();
 
       expect(spy.calls.count()).toEqual(1);
 
       spy.calls.reset();
-      fixture.componentRef.setInput('selectedColumnIds', ['column2', 'column1']);
+      fixture.componentRef.setInput('selectedColumnIds', [
+        'column2',
+        'column1',
+      ]);
       fixture.detectChanges();
 
       expect(spy.calls.count()).toEqual(1);
@@ -2884,7 +2892,10 @@ describe('Grid Component', () => {
 
       fixture.componentRef.setInput('settingsKey', 'foobar');
       fixture.detectChanges();
-      fixture.componentRef.setInput('selectedColumnIds', ['column1', 'column2']);
+      fixture.componentRef.setInput('selectedColumnIds', [
+        'column1',
+        'column2',
+      ]);
       fixture.detectChanges();
 
       expect(spy).toHaveBeenCalledWith('Could not save grid settings.');

@@ -391,9 +391,7 @@ describe('Tokens component', () => {
       const tokenElements = getTokenElements();
 
       let messageStreamUpdated = false;
-      component.messageStream()?.subscribe(
-        () => (messageStreamUpdated = true),
-      );
+      component.messageStream()?.subscribe(() => (messageStreamUpdated = true));
 
       SkyAppTestUtility.fireDomEvent(tokenElements.item(0), 'keydown', {
         keyboardEventInit: { key: 'ArrowLeft' },

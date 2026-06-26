@@ -22,6 +22,9 @@ import { SkyFilterBarModalTestComponent } from './filter-modal-test.component.fi
 })
 export class SkyFilterBarForLoopTestComponent {
   public filterItems = input<
-    { filterId: string; modalComponent: typeof SkyFilterBarModalTestComponent }[]
+    {
+      filterId: string;
+      modalComponent: typeof SkyFilterBarModalTestComponent;
+    }[]
   >([{ filterId: 'filter-1', modalComponent: SkyFilterBarModalTestComponent }]);
 }

@@ -148,7 +148,10 @@ describe('ThemeClass directive', () => {
     });
 
     it('should not prevent class changes via a class input directive', async () => {
-      fixture.componentRef.setInput('className', 'sky-theme-class-test hello-world');
+      fixture.componentRef.setInput(
+        'className',
+        'sky-theme-class-test hello-world',
+      );
       fixture.detectChanges();
       expectElementWithClasses(
         fixture,

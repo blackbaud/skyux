@@ -346,9 +346,14 @@ describe('Text expand component', () => {
       fixture.detectChanges();
 
       expect(el.textContent?.trim()).toContain('See more');
-      expect(el.textContent?.trim()).not.toContain(SHORT_TEXT_WITH_NEWLINES.trim());
+      expect(el.textContent?.trim()).not.toContain(
+        SHORT_TEXT_WITH_NEWLINES.trim(),
+      );
 
-      fixture.componentRef.setInput('maxLength', SHORT_TEXT_WITH_NEWLINES.length + 100);
+      fixture.componentRef.setInput(
+        'maxLength',
+        SHORT_TEXT_WITH_NEWLINES.length + 100,
+      );
 
       fixture.detectChanges();
 
