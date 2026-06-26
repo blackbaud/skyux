@@ -9,8 +9,7 @@
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "resolveJsonModule": true,
-    "ignoreDeprecations": "6.0"
+    "resolveJsonModule": true
   },
   "files": [],
   "include": [],

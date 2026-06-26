@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild, inject } from '@angular/core';
 import {
   AbstractControl,
   UntypedFormControl,
@@ -19,6 +19,7 @@ import { SkyColorpickerMessageType } from '../types/colorpicker-message-type';
   standalone: false,
 })
 export class ColorpickerReactiveTestComponent {
+  readonly #changeDetectorRef = inject(ChangeDetectorRef);
   public selectedHexType = 'hex6';
   public initialColor: string | undefined = '#2889e5';
   public selectedOutputFormat = 'rgba';
@@ -86,5 +87,6 @@ export class ColorpickerReactiveTestComponent {
 
   public sendMessage(type: SkyColorpickerMessageType) {
     this.colorpickerController.next({ type });
+    this.#changeDetectorRef.markForCheck();
   }
 }

@@ -9,8 +9,7 @@
       "../../../node_modules/@types",
       "../../../vendor/types/**/*.d.ts",
       "../../../node_modules/cypress/types"
-    ],
-    "ignoreDeprecations": "6.0"
+    ]
   },
   "files": [],
   "include": [],

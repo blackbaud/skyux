@@ -1,9 +1,12 @@
 import {
+  ChangeDetectorRef,
   Component,
   ElementRef,
   OnDestroy,
   OnInit,
   ViewChild,
+  inject,
+  input,
 } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
@@ -17,6 +20,8 @@ import { SkySelectFieldCustomPicker } from '../types/select-field-custom-picker'
   standalone: false,
 })
 export class SkySelectFieldTestComponent implements OnInit, OnDestroy {
+  readonly #changeDetectorRef = inject(ChangeDetectorRef);
+
   public ariaLabel: string;
 
   public ariaLabelledBy: string;
@@ -27,7 +32,7 @@ export class SkySelectFieldTestComponent implements OnInit, OnDestroy {
 
   public descriptorKey: string;
 
-  public disabled: boolean;
+  public disabled = input<boolean>(false);
 
   public formData: any = {};
 
@@ -37,7 +42,7 @@ export class SkySelectFieldTestComponent implements OnInit, OnDestroy {
 
   public pickerHeading: string;
 
-  public selectMode: string;
+  public selectMode = input<string | undefined>(undefined);
 
   public singleSelectClearButtonTitle: string;
 
@@ -116,6 +121,7 @@ export class SkySelectFieldTestComponent implements OnInit, OnDestroy {
 
   public setValue(value: any): void {
     this.formData.modelValue = value;
+    this.#changeDetectorRef.markForCheck();
   }
 
   public onBlur(): void {

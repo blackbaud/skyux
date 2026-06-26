@@ -2,9 +2,7 @@
   "compilerOptions": {
     "moduleResolution": "Node16",
     "module": "Node16",
-    "resolveJsonModule": true,
-    "strict": false,
-    "noUncheckedSideEffectImports": false
+    "resolveJsonModule": true
   },
   "include": ["**/*.mts"]
 }

@@ -2,8 +2,7 @@
   "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
     "module": "commonjs",
-    "moduleResolution": "node",
-    "ignoreDeprecations": "6.0"
+    "moduleResolution": "node"
   },
   "files": [],
   "include": [],

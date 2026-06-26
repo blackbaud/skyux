@@ -13,7 +13,6 @@
   "compilerOptions": {
     "module": "commonjs",
     "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "ignoreDeprecations": "6.0"
+    "resolveJsonModule": true
   }
 }
