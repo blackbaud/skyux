@@ -25,7 +25,7 @@ import { DATA_GRID_DEMO_DATA, DataGridSortingRow } from './data';
 export class DataGridSortingExampleComponent {
   protected readonly data: DataGridSortingRow[] = DATA_GRID_DEMO_DATA;
 
-  protected readonly sortField = signal<
+  protected readonly sort = signal<
     SkyDataGridSort<DataGridSortingRow> | undefined
   >({
     fieldSelector: 'name',
@@ -33,7 +33,7 @@ export class DataGridSortingExampleComponent {
   });
 
   protected readonly sortDescription = computed(() => {
-    const sort = this.sortField();
+    const sort = this.sort();
     if (!sort) {
       return '(no sort applied)';
     }
@@ -41,10 +41,10 @@ export class DataGridSortingExampleComponent {
   });
 
   protected sortByAgeDescending(): void {
-    this.sortField.set({ fieldSelector: 'age', descending: true });
+    this.sort.set({ fieldSelector: 'age', descending: true });
   }
 
   protected clearSort(): void {
-    this.sortField.set(undefined);
+    this.sort.set(undefined);
   }
 }

@@ -16,18 +16,18 @@ const DATA_GRID_DEMO_DATA: DataGridLoadingRow[] = [
 ];
 
 export function getDataSorted(
-  sortField: SkyDataGridSort<DataGridLoadingRow> | undefined,
+  sort: SkyDataGridSort<DataGridLoadingRow> | undefined,
 ): DataGridLoadingRow[] {
   const data = [...DATA_GRID_DEMO_DATA] as DataGridLoadingRow[];
-  if (sortField) {
-    if (sortField.fieldSelector === 'name') {
+  if (sort) {
+    if (sort.fieldSelector === 'name') {
       data.sort((a, b) => a.name.localeCompare(b.name));
-    } else if (sortField.fieldSelector === 'age') {
+    } else if (sort.fieldSelector === 'age') {
       data.sort((a, b) => a.age - b.age);
-    } else if (sortField.fieldSelector === 'startDate') {
+    } else if (sort.fieldSelector === 'startDate') {
       data.sort((a, b) => a.startDate.getTime() - b.startDate.getTime());
     }
-    if (sortField.descending) {
+    if (sort.descending) {
       data.reverse();
     }
   }

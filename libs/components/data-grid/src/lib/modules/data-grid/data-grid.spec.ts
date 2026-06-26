@@ -169,7 +169,7 @@ describe('SkyDataGrid', () => {
       expect(api).toBeTruthy();
       expect(api?.getState()?.sort?.sortModel).toBeUndefined();
 
-      fixture.componentRef.setInput('sortField', {
+      fixture.componentRef.setInput('sort', {
         fieldSelector: 'column1',
         descending: false,
       });
@@ -183,7 +183,7 @@ describe('SkyDataGrid', () => {
         },
       ]);
 
-      fixture.componentRef.setInput('sortField', {
+      fixture.componentRef.setInput('sort', {
         fieldSelector: 'column1',
         descending: true,
       });
@@ -206,7 +206,7 @@ describe('SkyDataGrid', () => {
       SkyAppTestUtility.fireDomEvent(column2SortButton, 'click');
       await fixture.whenStable();
 
-      expect(fixture.componentInstance.sortField()).toEqual({
+      expect(fixture.componentInstance.sort()).toEqual({
         fieldSelector: 'column2',
         descending: true,
       });
@@ -218,7 +218,7 @@ describe('SkyDataGrid', () => {
         },
       ]);
 
-      fixture.componentRef.setInput('sortField', undefined);
+      fixture.componentRef.setInput('sort', undefined);
       fixture.detectChanges();
       await fixture.whenStable();
       expect(api?.getState()?.sort?.sortModel).toBeUndefined();
@@ -248,7 +248,7 @@ describe('SkyDataGrid', () => {
       ]);
 
       // Sorting programmatically must not reset the user's column order.
-      fixture.componentRef.setInput('sortField', {
+      fixture.componentRef.setInput('sort', {
         fieldSelector: 'column2',
         descending: true,
       });
@@ -270,7 +270,7 @@ describe('SkyDataGrid', () => {
       expect(column1SortButton).toBeTruthy();
       SkyAppTestUtility.fireDomEvent(column1SortButton, 'click');
       await fixture.whenStable();
-      expect(fixture.componentInstance.sortField()).toEqual({
+      expect(fixture.componentInstance.sort()).toEqual({
         fieldSelector: 'column1',
         descending: false,
       });
@@ -282,7 +282,7 @@ describe('SkyDataGrid', () => {
     });
 
     it('should apply an initial descending sort set before the grid renders', async () => {
-      fixture.componentRef.setInput('sortField', {
+      fixture.componentRef.setInput('sort', {
         fieldSelector: 'column1',
         descending: true,
       });
@@ -299,7 +299,7 @@ describe('SkyDataGrid', () => {
     });
 
     it('should apply an initial ascending sort set before the grid renders', async () => {
-      fixture.componentRef.setInput('sortField', {
+      fixture.componentRef.setInput('sort', {
         fieldSelector: 'column2',
         descending: false,
       });

@@ -29,7 +29,7 @@ export class DataGridLoadingExampleComponent {
   // Simulate network latency.
   public readonly delay = input(600);
 
-  protected readonly sortField = signal<
+  protected readonly sort = signal<
     SkyDataGridSort<DataGridLoadingRow> | undefined
   >({
     fieldSelector: 'name',
@@ -42,13 +42,13 @@ export class DataGridLoadingExampleComponent {
     params: () => ({
       behavior: this.#behavior(),
       delay: this.delay(),
-      sortField: this.sortField(),
+      sort: this.sort(),
     }),
     loader: async ({ params, abortSignal }): Promise<DataGridLoadingRow[]> => {
       switch (params.behavior) {
         case 'data':
           await new Promise((resolve) => setTimeout(resolve, params.delay));
-          return getDataSorted(params.sortField);
+          return getDataSorted(params.sort);
         case 'empty':
           await new Promise((resolve) => setTimeout(resolve, params.delay));
           return [];

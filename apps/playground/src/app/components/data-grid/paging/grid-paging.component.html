@@ -63,7 +63,7 @@
   [loading]="asyncDataResource.isLoading()"
   [rowCount]="asyncDataResource.value()?.rowCount"
   [(page)]="asyncPage"
-  [(sortField)]="asyncSort"
+  [(sort)]="asyncSort"
 >
   @for (col of asyncDataGridColumns; track col.field) {
     <sky-data-grid-column

@@ -90,7 +90,7 @@ export class SkyDataGrid<
   /**
    * Whether the grid sorts the data order when a column header is clicked.
    * When `autoSort` is set to `false`, the data grid will not modify the sort
-   * order, `sortField` will emit a new value, and `data` will need to be updated.
+   * order, `sort` will emit a new value, and `data` will need to be updated.
    * Use this option when the data is returned from the server already sorted,
    * such as sorting a "name" column using last name.
    * @default true
@@ -221,7 +221,7 @@ export class SkyDataGrid<
    * When `autoSort` is `false`, the grid emits the new value here but does not reorder the
    * data itself, leaving it to you to update `data`.
    */
-  public readonly sortField = model<SkyDataGridSort<T> | undefined>(undefined);
+  public readonly sort = model<SkyDataGridSort<T> | undefined>(undefined);
 
   protected readonly columns = contentChildren(SkyDataGridColumn);
   protected readonly gridApi = signal<GridApi<T> | undefined>(undefined);
@@ -316,7 +316,7 @@ export class SkyDataGrid<
 
   readonly #columnDefs = computed<ColDef<T>[]>(() => {
     const columns = this.columns();
-    const sort = untracked(() => this.sortField());
+    const sort = untracked(() => this.sort());
     return columns.map((col) => this.#createColDef(col, sort));
   });
   readonly #hasColumnDefs = computed(() => this.#columnDefs().length > 0);
@@ -462,7 +462,7 @@ export class SkyDataGrid<
     // sort re-applies to a freshly created grid.
     effect(() => {
       const api = this.gridApi();
-      const sort = this.sortField();
+      const sort = this.sort();
       if (!api) {
         return;
       }
@@ -535,7 +535,7 @@ export class SkyDataGrid<
       });
     this.#gridSortChange.pipe(takeUntilDestroyed()).subscribe((sortChange) => {
       if (sortChange) {
-        this.sortField.update((sort) => {
+        this.sort.update((sort) => {
           if (
             !!sort !== !!sortChange ||
             !!sort?.descending !== !!sortChange?.descending ||
@@ -548,7 +548,7 @@ export class SkyDataGrid<
       } else {
         // Clear the sort when the grid no longer has a sorted column so the
         // two-way bound model does not retain a stale value.
-        this.sortField.update(() => undefined);
+        this.sort.update(() => undefined);
       }
     });
   }

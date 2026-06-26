@@ -54,7 +54,7 @@ export class DataGridTestComponent {
 
   public readonly selectedRowIds = model<string[]>([]);
 
-  public readonly sortField = model<SkyDataGridSort | undefined>(undefined);
+  public readonly sort = model<SkyDataGridSort | undefined>(undefined);
 
   public readonly autoPage = input<boolean>(true);
   public readonly autoSort = input<boolean>(true);

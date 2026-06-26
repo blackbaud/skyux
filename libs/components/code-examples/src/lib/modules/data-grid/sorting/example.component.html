@@ -23,11 +23,7 @@
   </sky-box-content>
 </sky-box>
 
-<sky-data-grid
-  data-sky-id="example-data-grid"
-  [data]="data"
-  [(sortField)]="sortField"
->
+<sky-data-grid data-sky-id="example-data-grid" [data]="data" [(sort)]="sort">
   <sky-data-grid-column field="name" headingText="Name" />
   <sky-data-grid-column
     field="age"
