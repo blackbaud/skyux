@@ -47,7 +47,7 @@ describe('Screen reader label directive', () => {
 
   it('should render the label element in the container element in the body instead of where specified in the template', () => {
     const fixture = TestBed.createComponent(ScreenReaderLabelFixtureComponent);
-    fixture.componentInstance.createLabel1 = true;
+    fixture.componentRef.setInput('createLabel1', true);
     fixture.detectChanges();
 
     validateLabels(fixture, { label1Exists: true, containerExists: true });
@@ -62,12 +62,12 @@ describe('Screen reader label directive', () => {
 
   it('should remove the label element and container element from the body if createLabel is changed to false', () => {
     const fixture = TestBed.createComponent(ScreenReaderLabelFixtureComponent);
-    fixture.componentInstance.createLabel1 = true;
+    fixture.componentRef.setInput('createLabel1', true);
     fixture.detectChanges();
 
     validateLabels(fixture, { label1Exists: true, containerExists: true });
 
-    fixture.componentInstance.createLabel1 = false;
+    fixture.componentRef.setInput('createLabel1', false);
     fixture.detectChanges();
 
     validateLabels(fixture, { label1Exists: false, containerExists: false });
@@ -75,8 +75,8 @@ describe('Screen reader label directive', () => {
 
   it('should remove the label element but leave the container element in the body if createLabel is changed to false but another screen reader label exists', () => {
     const fixture = TestBed.createComponent(ScreenReaderLabelFixtureComponent);
-    fixture.componentInstance.createLabel1 = true;
-    fixture.componentInstance.createLabel2 = true;
+    fixture.componentRef.setInput('createLabel1', true);
+    fixture.componentRef.setInput('createLabel2', true);
     fixture.detectChanges();
 
     validateLabels(fixture, {
@@ -85,7 +85,7 @@ describe('Screen reader label directive', () => {
       containerExists: true,
     });
 
-    fixture.componentInstance.createLabel1 = false;
+    fixture.componentRef.setInput('createLabel1', false);
     fixture.detectChanges();
 
     validateLabels(fixture, {
@@ -97,7 +97,7 @@ describe('Screen reader label directive', () => {
 
   it('should remove the label element and container element if the component specifying the label element is destroyed', () => {
     const fixture = TestBed.createComponent(ScreenReaderLabelFixtureComponent);
-    fixture.componentInstance.createLabel1 = true;
+    fixture.componentRef.setInput('createLabel1', true);
     fixture.detectChanges();
 
     validateLabels(fixture, {

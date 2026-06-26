@@ -14,28 +14,28 @@
     [dropdownHintText]="dropdownHintText"
     [enableShowMore]="enableShowMore"
     [highlightSearchText]="highlightSearchText"
-    [messageStream]="messageStream"
+    [messageStream]="messageStream()"
     [propertiesToSearch]="propertiesToSearch"
     [search]="search"
     [searchFilters]="searchFilters"
     [searchResultsLimit]="searchResultsLimit"
     [searchResultTemplate]="searchResultTemplate"
-    [searchTextMinimumCharacters]="searchTextMinimumCharacters"
+    [searchTextMinimumCharacters]="searchTextMinimumCharacters()"
     [showAddButton]="showAddButton"
     [noResultsFoundText]="customNoResultsMessage"
     (addClick)="addButtonClicked()"
     (selectionChange)="onSelectionChange($event)"
     (showMoreClick)="onShowMoreClick()"
   >
-    @if (!hideInput) {
+    @if (!hideInput()) {
       <input
         id="my-autocomplete-input"
         name="favoriteColor"
         skyAutocomplete
         type="text"
         [autocompleteAttribute]="autocompleteAttribute"
-        [disabled]="disabled"
-        [(ngModel)]="model.favoriteColor"
+        [disabled]="disabled()"
+        [(ngModel)]="model().favoriteColor"
       />
     }
   </sky-autocomplete>
@@ -56,12 +56,12 @@
     [dropdownHintText]="dropdownHintText"
     [enableShowMore]="enableShowMore"
     [highlightSearchText]="highlightSearchText"
-    [messageStream]="messageStream"
+    [messageStream]="messageStream()"
     [propertiesToSearch]="propertiesToSearch"
     [searchFilters]="searchFilters"
     [searchResultsLimit]="searchResultsLimit"
     [searchResultTemplate]="searchResultTemplate"
-    [searchTextMinimumCharacters]="searchTextMinimumCharacters"
+    [searchTextMinimumCharacters]="searchTextMinimumCharacters()"
     [showAddButton]="showAddButton"
     [noResultsFoundText]="customNoResultsMessage"
     (addClick)="addButtonClicked()"
@@ -69,15 +69,15 @@
     (selectionChange)="onSelectionChange($event)"
     (showMoreClick)="onShowMoreClick()"
   >
-    @if (!hideInput) {
+    @if (!hideInput()) {
       <input
         id="my-async-autocomplete-input"
         name="favoriteColor"
         skyAutocomplete
         type="text"
         [autocompleteAttribute]="autocompleteAttribute"
-        [disabled]="disabled"
-        [(ngModel)]="model.favoriteColor"
+        [disabled]="disabled()"
+        [(ngModel)]="model().favoriteColor"
       />
     }
   </sky-autocomplete>

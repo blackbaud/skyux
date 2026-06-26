@@ -50,7 +50,7 @@ describe('Percent pipe', () => {
   });
 
   it('should ignore empty values', () => {
-    fixture.componentInstance.numberValue = undefined;
+    fixture.componentRef.setInput('numberValue', undefined);
     fixture.detectChanges();
     const value = fixture.nativeElement.textContent.trim();
     expect(value).toEqual('');
@@ -58,7 +58,7 @@ describe('Percent pipe', () => {
 
   it('should not support other objects', () => {
     try {
-      fixture.componentInstance.numberValue = { foo: 'bar' };
+      fixture.componentRef.setInput('numberValue', { foo: 'bar' });
       fixture.detectChanges();
       fixture.nativeElement.textContent.trim();
 
@@ -69,7 +69,7 @@ describe('Percent pipe', () => {
   });
 
   it('should support Angular digitsInfo formats - testing minFractionDigits', () => {
-    fixture.componentInstance.format = '1.5-6';
+    fixture.componentRef.setInput('format', '1.5-6');
     fixture.detectChanges();
     const value = fixture.nativeElement.textContent.trim();
     if (!isIE) {
@@ -82,7 +82,7 @@ describe('Percent pipe', () => {
   });
 
   it('should support Angular digitsInfo formats - testing maxFractionDigits', () => {
-    fixture.componentInstance.format = '1.3-5';
+    fixture.componentRef.setInput('format', '1.3-5');
     fixture.detectChanges();
     const value = fixture.nativeElement.textContent.trim();
     if (!isIE) {
@@ -95,7 +95,7 @@ describe('Percent pipe', () => {
   });
 
   it('should default to the 1.0-2 digitsInfo format', () => {
-    fixture.componentInstance.format = undefined;
+    fixture.componentRef.setInput('format', undefined);
     fixture.detectChanges();
     let value = fixture.nativeElement.textContent.trim();
     let expectedValue: string;
@@ -108,7 +108,7 @@ describe('Percent pipe', () => {
       expect(value).toEqual(expectedValue);
     }
 
-    fixture.componentInstance.numberValue = '.86';
+    fixture.componentRef.setInput('numberValue', '.86');
     fixture.detectChanges();
     value = fixture.nativeElement.textContent.trim();
 
@@ -122,7 +122,7 @@ describe('Percent pipe', () => {
   });
 
   it('should support changing locale inline', () => {
-    fixture.componentInstance.locale = 'fr-CA';
+    fixture.componentRef.setInput('locale', 'fr-CA');
     fixture.detectChanges();
     const value = fixture.nativeElement.textContent.trim();
 
@@ -138,7 +138,7 @@ describe('Percent pipe', () => {
   });
 
   it('should respect locale set by SkyAppLocaleProvider', () => {
-    fixture.componentInstance.numberValue = '1.235487';
+    fixture.componentRef.setInput('numberValue', '1.235487');
     fixture.detectChanges();
 
     let value = fixture.nativeElement.textContent.trim();
@@ -155,6 +155,9 @@ describe('Percent pipe', () => {
       locale: 'fr-CA',
     });
 
+    // Mark the OnPush view dirty so that the impure SkyPercentPipe
+    // re-runs with the updated default locale from the locale stream.
+    fixture.componentInstance.markForCheck();
     fixture.detectChanges();
 
     value = fixture.nativeElement.textContent.trim();

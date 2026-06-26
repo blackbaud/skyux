@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, model } from '@angular/core';
 import { NgModel } from '@angular/forms';
 
 import { SkyCountryFieldComponent } from '../country-field.component';
@@ -26,7 +26,7 @@ export class CountryFieldTestComponent {
 
   public isRequired = false;
 
-  public modelValue: SkyCountryFieldCountry | undefined;
+  public modelValue = model<SkyCountryFieldCountry | undefined>(undefined);
 
   public supportedCountryISOs: string[] | undefined;
 
