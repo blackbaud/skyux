@@ -1,8 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-} from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import { BehaviorSubject } from 'rxjs';
@@ -11,7 +7,6 @@ import { BehaviorSubject } from 'rxjs';
   selector: 'app-phone-field',
   templateUrl: './phone-field.component.html',
   styleUrls: ['./phone-field.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class PhoneFieldComponent implements AfterViewInit {

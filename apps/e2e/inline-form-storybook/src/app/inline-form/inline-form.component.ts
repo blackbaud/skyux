@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  inject,
-} from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { SkyInlineFormConfig } from '@skyux/inline-form';
 
@@ -11,7 +6,6 @@ import { SkyInlineFormConfig } from '@skyux/inline-form';
   selector: 'app-inline-form',
   templateUrl: './inline-form.component.html',
   styleUrls: ['./inline-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class InlineFormComponent {

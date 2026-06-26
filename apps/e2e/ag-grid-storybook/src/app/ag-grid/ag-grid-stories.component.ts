@@ -1,6 +1,5 @@
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   DOCUMENT,
@@ -42,7 +41,6 @@ interface DataSet {
   templateUrl: './ag-grid-stories.component.html',
   styleUrls: ['./ag-grid-stories.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class AgGridStoriesComponent

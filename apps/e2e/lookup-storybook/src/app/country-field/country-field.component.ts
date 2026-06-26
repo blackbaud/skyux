@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
   UntypedFormControl,
   UntypedFormGroup,
@@ -9,7 +9,6 @@ import {
   selector: 'app-country-field',
   templateUrl: './country-field.component.html',
   styleUrls: ['./country-field.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CountryFieldComponent {

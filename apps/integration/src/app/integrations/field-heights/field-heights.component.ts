@@ -1,6 +1,5 @@
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
   Component,
   ElementRef,
   OnDestroy,
@@ -23,7 +22,6 @@ interface Person {
   selector: 'app-field-heights',
   templateUrl: './field-heights.component.html',
   styleUrls: ['./field-heights.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class FieldHeightsComponent implements AfterViewInit, OnDestroy {

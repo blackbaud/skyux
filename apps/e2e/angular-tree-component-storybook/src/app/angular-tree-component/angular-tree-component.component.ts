@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ITreeOptions } from '@blackbaud/angular-tree-component';
 
 @Component({
   selector: 'app-angular-tree-component',
   templateUrl: './angular-tree-component.component.html',
   styleUrls: ['./angular-tree-component.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class AngularTreeComponentComponent {

@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { SkySummaryActionBarModule } from '@skyux/action-bars';
 import {
   SkyDataManagerModule,
@@ -36,7 +31,6 @@ import { SkySplitViewModule } from '@skyux/split-view';
     SkyFluidGridModule,
     SkyPageModule,
   ],
-  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [SkyDataManagerService],
 })
 export class PageDataManagerSplitViewComponent implements OnInit {

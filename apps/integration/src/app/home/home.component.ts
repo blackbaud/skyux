@@ -1,6 +1,5 @@
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   inject,
@@ -19,7 +18,6 @@ import { IntegrationRouteInfo } from '../shared/integration-info/integration-rou
   selector: 'app-home',
   templateUrl: './home.component.html',
   providers: [SkyDataManagerService],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class HomeComponent implements AfterViewInit {

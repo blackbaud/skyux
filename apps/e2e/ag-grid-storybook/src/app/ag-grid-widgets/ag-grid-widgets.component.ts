@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   Input,
@@ -52,7 +51,6 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   templateUrl: './ag-grid-widgets.component.html',
   styleUrl: './ag-grid-widgets.component.scss',
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.Eager,
   host: {
     class: 'sky-padding-even-md',
   },

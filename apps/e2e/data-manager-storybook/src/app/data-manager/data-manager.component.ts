@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import {
   SkyDataManagerService,
   SkyDataManagerState,
@@ -15,7 +9,6 @@ import {
   templateUrl: './data-manager.component.html',
   styleUrls: ['./data-manager.component.scss'],
   providers: [SkyDataManagerService],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class DataManagerComponent implements OnInit {

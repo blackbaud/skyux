@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   ReactiveFormsModule,
   UntypedFormBuilder,
@@ -17,7 +12,6 @@ import { SkyTabIndex, SkyTabsModule } from '@skyux/tabs';
 @Component({
   selector: 'app-wizard-demo-modal',
   templateUrl: './wizard-modal.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     SkyCheckboxModule,
     SkyIdModule,

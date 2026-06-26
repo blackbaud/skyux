@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { SkySplitViewMessage } from '@skyux/split-view';
 
 import { Subject } from 'rxjs';
@@ -7,7 +7,6 @@ import { Subject } from 'rxjs';
   selector: 'app-split-view',
   templateUrl: './split-view.component.html',
   styleUrls: ['./split-view.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SplitViewComponent {

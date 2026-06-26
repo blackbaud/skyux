@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { SkyAvatarModule } from '@skyux/avatar';
 import { SkyAlertModule, SkyLabelModule } from '@skyux/indicators';
 import { SkyPageModule } from '@skyux/pages';
@@ -52,7 +52,6 @@ import { PageLayoutTileDashboardComponent } from '../shared/tiles/tile-dashboard
       <app-page-layout-tile-dashboard />
     </sky-page-content>
   </sky-page>`,
-  changeDetection: ChangeDetectionStrategy.Eager,
   styles: `
     :host {
       display: block;

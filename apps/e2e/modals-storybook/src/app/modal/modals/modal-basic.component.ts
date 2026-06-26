@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyModalError, SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
@@ -7,7 +7,6 @@ import { ModalTestContext } from './modal-context';
 @Component({
   selector: 'app-modal',
   templateUrl: './modal-basic.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyHelpInlineModule, SkyModalModule],
 })
 export class ModalBasicComponent {

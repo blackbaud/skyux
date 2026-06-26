@@ -1,8 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-} from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { SkyTileDashboardConfig } from '@skyux/tiles';
 
 import { BehaviorSubject } from 'rxjs';
@@ -16,7 +12,6 @@ import { Tile3Component } from './tile3/tile3.component';
   selector: 'app-tile-dashboard',
   templateUrl: './tile-dashboard.component.html',
   styleUrls: ['./tile-dashboard.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class TileDashboardComponent implements AfterViewInit {

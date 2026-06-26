@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { SkyModalInstance } from '@skyux/modals';
 
@@ -7,7 +7,6 @@ import { MODAL_TITLE } from './modal-title.token';
 @Component({
   selector: 'app-settings-modal',
   templateUrl: './settings-modal.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SettingsModalComponent {

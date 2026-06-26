@@ -1,9 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-} from '@angular/core';
+import { AfterViewInit, Component, inject } from '@angular/core';
 import { SkyDockService } from '@skyux/core';
 
 import { DockItemVisualContext } from './dock-item-context';
@@ -13,7 +8,6 @@ import { DockItemVisualComponent } from './dock-item-visual.component';
   selector: 'app-dock',
   templateUrl: './dock.component.html',
   styleUrls: ['./dock.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class DockComponent implements AfterViewInit {

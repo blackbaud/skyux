@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { SkyTilesModule } from '@skyux/tiles';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'div.page-blocks-tile1',
   imports: [SkyTilesModule],
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: `<sky-tile
     helpPopoverContent="Sample help information for tile 1."
     helpPopoverTitle="Sample help content"

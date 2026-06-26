@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   OnInit,
   computed,
@@ -42,7 +41,6 @@ const PREVIOUS_SETTINGS_KEY =
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'sky-theme-selector',
   imports: [FormsModule, SkyCheckboxModule, SkyIdModule, SkyInputBoxModule],
-  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './theme-selector.component.html',
 })
 export class SkyThemeSelectorComponent implements OnInit {

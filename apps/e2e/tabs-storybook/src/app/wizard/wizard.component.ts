@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  inject,
-} from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { SkyModalService } from '@skyux/modals';
 
 import { WizardModalComponent } from './wizard-modal.component';
@@ -11,7 +6,6 @@ import { WizardModalComponent } from './wizard-modal.component';
 @Component({
   selector: 'app-wizard',
   templateUrl: './wizard.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class WizardComponent implements OnDestroy {

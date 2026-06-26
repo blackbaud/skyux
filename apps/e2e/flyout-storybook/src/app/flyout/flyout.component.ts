@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  inject,
-} from '@angular/core';
+import { AfterViewInit, Component, Input, inject } from '@angular/core';
 import {
   SkyFlyoutAction,
   SkyFlyoutInstance,
@@ -19,7 +13,6 @@ import { FlyoutStandardComponent } from './flyout-standard.component';
   selector: 'app-flyout',
   templateUrl: './flyout.component.html',
   styleUrls: ['./flyout.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class FlyoutComponent implements AfterViewInit {

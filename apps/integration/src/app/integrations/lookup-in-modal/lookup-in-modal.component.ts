@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  DOCUMENT,
-  OnDestroy,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { Component, DOCUMENT, OnDestroy, OnInit, inject } from '@angular/core';
 import { SkyModalService } from '@skyux/modals';
 
 import { ModalLookupComponent } from './modal-lookup.component';
@@ -13,7 +6,6 @@ import { ModalLookupComponent } from './modal-lookup.component';
 @Component({
   selector: 'app-lookup-in-modal',
   template: '',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class LookupInModalComponent implements OnInit, OnDestroy {

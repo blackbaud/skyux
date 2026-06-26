@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SkyModalService } from '@skyux/modals';
 
 import { ActionButtonModalComponent } from './action-button-modal.component';
@@ -7,7 +7,6 @@ import { ActionButtonModalComponent } from './action-button-modal.component';
   selector: 'app-action-button',
   templateUrl: './action-button.component.html',
   styleUrls: ['./action-button.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ActionButtonComponent {

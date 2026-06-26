@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   DOCUMENT,
   computed,
@@ -20,7 +19,6 @@ import { IconPreviewService } from '@skyux/storybook/icon-preview';
   selector: 'app-icons-by-row',
   templateUrl: './icons-by-row.component.html',
   styleUrls: ['./icons-by-row.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyIconModule],
 })
 export class IconsByRowComponent {

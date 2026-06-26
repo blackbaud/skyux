@@ -1,7 +1,6 @@
 import { NgStyle } from '@angular/common';
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
   Component,
   DestroyRef,
   NgZone,
@@ -24,7 +23,6 @@ import { SkyThemeSelectorComponent } from './shared/theme-selector/theme-selecto
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgStyle, SkyThemeSelectorComponent, RouterOutlet],
 })
 export class AppComponent implements AfterViewInit {
