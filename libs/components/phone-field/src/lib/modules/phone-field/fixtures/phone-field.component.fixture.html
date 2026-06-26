@@ -1,8 +1,8 @@
 <div>
   <label for="phone-field-template-input">Template phone field</label>
   <sky-phone-field
-    [allowExtensions]="allowExtensions"
-    [defaultCountry]="defaultCountry"
+    [allowExtensions]="allowExtensions()"
+    [defaultCountry]="defaultCountry()"
     [returnFormat]="returnFormat"
     [supportedCountryISOs]="supportedCountryISOs"
     [(selectedCountry)]="selectedCountry"

@@ -2,8 +2,8 @@
   <label for="phone-field-reactive-input">Reactive phone field</label>
   @if (showPhoneField) {
     <sky-phone-field
-      [allowExtensions]="allowExtensions"
-      [defaultCountry]="defaultCountry"
+      [allowExtensions]="allowExtensions()"
+      [defaultCountry]="defaultCountry()"
       [returnFormat]="returnFormat"
       [supportedCountryISOs]="supportedCountryISOs"
       [(selectedCountry)]="selectedCountry"

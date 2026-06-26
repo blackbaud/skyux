@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, input, model } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { SkyPhoneFieldInputDirective } from '../phone-field-input.directive';
@@ -13,19 +13,19 @@ import { SkyPhoneFieldNumberReturnFormat } from '../types/number-return-format';
   templateUrl: './phone-field.component.fixture.html',
 })
 export class PhoneFieldTestComponent {
-  public allowExtensions = true;
+  public allowExtensions = input<boolean>(true);
 
-  public defaultCountry: string | undefined;
+  public defaultCountry = input<string | undefined>(undefined);
 
   public isDisabled = false;
 
-  public modelValue: string | undefined;
+  public modelValue = model<string | undefined>(undefined);
 
   public noValidate = false;
 
   public returnFormat: SkyPhoneFieldNumberReturnFormat | undefined;
 
-  public selectedCountry: SkyPhoneFieldCountry | undefined;
+  public selectedCountry = model<SkyPhoneFieldCountry | undefined>(undefined);
 
   public showInvalidDirective = false;
 

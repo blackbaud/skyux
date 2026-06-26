@@ -121,7 +121,7 @@ describe('Summary Action Bar action components', () => {
       });
 
       fixture.detectChanges();
-      cmp.extraActions = true;
+      fixture.componentRef.setInput('extraActions', true);
       fixture.detectChanges();
 
       expect(
@@ -146,7 +146,7 @@ describe('Summary Action Bar action components', () => {
 
     it('should dismiss dropdown menu when the secondary action button is clicked', fakeAsync(() => {
       mediaQueryController.setBreakpoint('xs');
-      cmp.extraActions = true;
+      fixture.componentRef.setInput('extraActions', true);
       fixture.detectChanges();
       tick();
       let root: HTMLElement = fixture.nativeElement;
