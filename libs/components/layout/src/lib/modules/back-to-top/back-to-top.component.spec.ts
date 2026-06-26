@@ -90,7 +90,7 @@ describe('back to top component', () => {
     it('should not show when backToTopTarget is defined and the target element is scrolled out of view but then hidden', async () => {
       scrollWindowToBottom(fixture);
       await fixture.whenStable();
-      fixture.componentInstance.hideElement = true;
+      fixture.componentRef.setInput('hideElement', true);
       fixture.detectChanges();
       await fixture.whenStable();
       await waitForMutationObserver();
@@ -124,35 +124,35 @@ describe('back to top component', () => {
     }));
 
     it('should show the button if the user is already scrolled and buttonHidden changes to false', () => {
-      fixture.componentInstance.backToTopOptions = { buttonHidden: true };
+      fixture.componentRef.setInput('backToTopOptions', { buttonHidden: true });
       fixture.detectChanges();
 
       scrollWindowToBottom(fixture);
 
       expect(getBackToTop()).toBeNull();
 
-      fixture.componentInstance.backToTopOptions = { buttonHidden: false };
+      fixture.componentRef.setInput('backToTopOptions', { buttonHidden: false });
       fixture.detectChanges();
 
       expect(getBackToTop()).not.toBeNull();
     });
 
     it('should show the button if the user is already scrolled and buttonHidden changes to true', () => {
-      fixture.componentInstance.backToTopOptions = { buttonHidden: false };
+      fixture.componentRef.setInput('backToTopOptions', { buttonHidden: false });
       fixture.detectChanges();
 
       scrollWindowToBottom(fixture);
 
       expect(getBackToTop()).not.toBeNull();
 
-      fixture.componentInstance.backToTopOptions = { buttonHidden: true };
+      fixture.componentRef.setInput('backToTopOptions', { buttonHidden: true });
       fixture.detectChanges();
 
       expect(getBackToTop()).toBeNull();
     });
 
     it('should default buttonHidden to false if the options are not defined', () => {
-      fixture.componentInstance.backToTopOptions = undefined;
+      fixture.componentRef.setInput('backToTopOptions', undefined);
       fixture.detectChanges();
 
       scrollWindowToBottom(fixture);
@@ -165,8 +165,8 @@ describe('back to top component', () => {
     let parentElement: HTMLElement;
 
     beforeEach(() => {
-      fixture.componentInstance.height = 200;
-      fixture.componentInstance.scrollableParent = true;
+      fixture.componentRef.setInput('height', 200);
+      fixture.componentRef.setInput('scrollableParent', true);
       fixture.detectChanges();
       parentElement = document.querySelector(
         '#back-to-top-parent',
@@ -183,7 +183,7 @@ describe('back to top component', () => {
     it('should not show when backToTopTarget is defined and the target element is scrolled out of view but then hidden', async () => {
       scrollWindowToBottom(fixture);
       await fixture.whenStable();
-      fixture.componentInstance.hideParent = true;
+      fixture.componentRef.setInput('hideParent', true);
       fixture.detectChanges();
       await fixture.whenStable();
 
@@ -222,7 +222,7 @@ describe('back to top component', () => {
 
       expect(isElementInView(backToTopTarget)).toBe(false);
 
-      fixture.componentInstance.backToTopController.next({
+      fixture.componentInstance.backToTopController().next({
         type: SkyBackToTopMessageType.BackToTop,
       });
 
@@ -232,10 +232,10 @@ describe('back to top component', () => {
     it('unsubscribes from old back to top subscription streams', () => {
       fixture.detectChanges();
       const newStream = new Subject<SkyBackToTopMessage>();
-      const oldStream = fixture.componentInstance.backToTopController;
+      const oldStream = fixture.componentInstance.backToTopController();
       spyOn(oldStream, 'unsubscribe');
 
-      fixture.componentInstance.backToTopController = newStream;
+      fixture.componentRef.setInput('backToTopController', newStream);
       fixture.detectChanges();
 
       expect(oldStream.unsubscribe).toHaveBeenCalled();

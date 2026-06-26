@@ -87,7 +87,7 @@ describe('Sort component', () => {
   }));
 
   it('creates a sort dropdown with a specified aria label', fakeAsync(() => {
-    component.ariaLabel = 'Test label';
+    fixture.componentRef.setInput('ariaLabel', 'Test label');
     fixture.detectChanges();
     tick();
     const dropdownButtonEl = getDropdownButtonEl();
@@ -110,7 +110,7 @@ describe('Sort component', () => {
     contentInfo.patchInfo({
       descriptor: { value: 'constituents', type: 'text' },
     });
-    component.ariaLabel = 'Overwritten label';
+    fixture.componentRef.setInput('ariaLabel', 'Overwritten label');
     fixture.detectChanges();
 
     const dropdownButtonEl = getDropdownButtonEl();
@@ -160,7 +160,7 @@ describe('Sort component', () => {
     fixture.detectChanges();
     tick();
 
-    component.initialState = 4;
+    fixture.componentRef.setInput('initialState', 4);
     fixture.detectChanges();
     tick();
 
@@ -176,7 +176,7 @@ describe('Sort component', () => {
   it('should allow button text to be hidden', () => {
     fixture.detectChanges();
     verifyTextNotPresent();
-    component.showButtonText = true;
+    fixture.componentRef.setInput('showButtonText', true);
     fixture.detectChanges();
     verifyTextPresent();
   });

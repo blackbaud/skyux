@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'sky-test-cmp',
@@ -6,8 +6,8 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class ColumnTestComponent {
-  public xsSize: number | undefined = 1;
-  public smallSize: number | undefined = 1;
-  public mediumSize: number | undefined = 2;
-  public largeSize: number | undefined = 5;
+  public xsSize = input<number | undefined>(1);
+  public smallSize = input<number | undefined>(1);
+  public mediumSize = input<number | undefined>(2);
+  public largeSize = input<number | undefined>(5);
 }

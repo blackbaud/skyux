@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, input, signal } from '@angular/core';
 
 import { SkyInfiniteScrollComponent } from '../infinite-scroll.component';
 
@@ -20,27 +20,30 @@ export class SkyInfiniteScrollTestComponent {
   })
   public wrapper: ElementRef | undefined;
 
-  public enabled: boolean | undefined;
+  public enabled = input<boolean | undefined>(undefined);
 
-  public loading: boolean | undefined;
+  public loading = input<boolean | undefined>(undefined);
 
-  public items: Record<string, any>[] = [];
+  public items = signal<Record<string, any>[]>([]);
 
   public onScrollEnd(): void {
-    const num: number = this.items.length;
+    const num: number = this.items().length;
+    const newItems: Record<string, any>[] = [];
     for (let i: number = num; i < num + 10; i++) {
-      this.items.push({
+      newItems.push({
         name: `test object: #${i}`,
       });
     }
+    this.items.update((arr) => [...arr, ...newItems]);
   }
 
   public loadItems(numItems: number): void {
-    this.items = [];
+    const newItems: Record<string, any>[] = [];
     for (let i = 0; i < numItems; i++) {
-      this.items.push({
+      newItems.push({
         name: 'test object: #' + i,
       });
     }
+    this.items.set(newItems);
   }
 }

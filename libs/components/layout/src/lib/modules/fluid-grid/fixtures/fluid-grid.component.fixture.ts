@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 import { SkyFluidGridGutterSizeType } from '../types/fluid-grid-gutter-size-type';
 
@@ -8,7 +8,7 @@ import { SkyFluidGridGutterSizeType } from '../types/fluid-grid-gutter-size-type
   standalone: false,
 })
 export class FluidGridTestComponent {
-  public disableMargin: boolean | undefined;
+  public disableMargin = input<boolean | undefined>(undefined);
 
-  public gutterSize: SkyFluidGridGutterSizeType | undefined;
+  public gutterSize = input<SkyFluidGridGutterSizeType | undefined>(undefined);
 }

@@ -1,19 +1,19 @@
-@if (!showRepeaterWithActiveIndex && !showRepeaterWithNgFor) {
+@if (!showRepeaterWithActiveIndex() && !showRepeaterWithNgFor()) {
   <sky-repeater
-    [expandMode]="expandMode"
-    [reorderable]="reorderable"
+    [expandMode]="expandMode()"
+    [reorderable]="reorderable()"
     (orderChange)="onOrderChange($event)"
   >
     <sky-repeater-item
-      [disabled]="disableFirstItem"
-      [itemName]="showItemName ? 'Item 1' : undefined"
-      [selectable]="selectable"
+      [disabled]="disableFirstItem()"
+      [itemName]="showItemName() ? 'Item 1' : undefined"
+      [selectable]="selectable()"
       [tag]="'item1'"
       (collapse)="onCollapse()"
       (expand)="onExpand()"
       (isSelectedChange)="onIsSelectedChange($event)"
     >
-      @if (showContextMenu) {
+      @if (showContextMenu()) {
         <sky-repeater-item-context-menu>
           <sky-dropdown buttonType="context-menu">
             <sky-dropdown-menu>
@@ -34,11 +34,11 @@
       </sky-repeater-item-content>
     </sky-repeater-item>
     <sky-repeater-item
-      [itemName]="showItemName ? 'Item 2' : undefined"
+      [itemName]="showItemName() ? 'Item 2' : undefined"
       [tag]="'item2'"
-      [selectable]="selectable"
+      [selectable]="selectable()"
     >
-      @if (showContextMenu) {
+      @if (showContextMenu()) {
         <sky-repeater-item-context-menu>
           <sky-dropdown buttonType="context-menu">
             <sky-dropdown-menu>
@@ -52,15 +52,15 @@
       <sky-repeater-item-title> Title 2 </sky-repeater-item-title>
       <sky-repeater-item-content> Content 2 </sky-repeater-item-content>
     </sky-repeater-item>
-    @if (!removeLastItem) {
+    @if (!removeLastItem()) {
       <sky-repeater-item
-        [itemName]="showItemName ? 'Item 3' : undefined"
-        [isExpanded]="lastItemExpanded"
-        [selectable]="selectable"
+        [itemName]="showItemName() ? 'Item 3' : undefined"
+        [isExpanded]="lastItemExpanded()"
+        [selectable]="selectable()"
         [tag]="'item3'"
         [(isSelected)]="lastItemSelected"
       >
-        @if (showContextMenu) {
+        @if (showContextMenu()) {
           <sky-repeater-item-context-menu>
             <sky-dropdown buttonType="context-menu">
               <sky-dropdown-menu>
@@ -75,17 +75,17 @@
         <sky-repeater-item-content> Content 3 </sky-repeater-item-content>
       </sky-repeater-item>
     }
-    @if (showItemWithNoContent) {
+    @if (showItemWithNoContent()) {
       <sky-repeater-item>
         <sky-repeater-item-title> No Content </sky-repeater-item-title>
-        @if (showDynamicContent) {
+        @if (showDynamicContent()) {
           <sky-repeater-item-content> Content 3 </sky-repeater-item-content>
         }
       </sky-repeater-item>
     }
-    @if (showItemWithNoTitle) {
+    @if (showItemWithNoTitle()) {
       <sky-repeater-item>
-        @if (showContextMenu) {
+        @if (showContextMenu()) {
           <sky-repeater-item-context-menu>
             <sky-dropdown buttonType="context-menu">
               <sky-dropdown-menu>
@@ -103,13 +103,13 @@
     }
   </sky-repeater>
 }
-@if (showRepeaterWithActiveIndex) {
+@if (showRepeaterWithActiveIndex()) {
   <sky-repeater
-    [expandMode]="expandMode"
-    [reorderable]="reorderable"
+    [expandMode]="expandMode()"
+    [reorderable]="reorderable()"
     [(activeIndex)]="activeIndex"
   >
-    <sky-repeater-item [disabled]="disableFirstItem">
+    <sky-repeater-item [disabled]="disableFirstItem()">
       <sky-repeater-item-title> Title 1 </sky-repeater-item-title>
     </sky-repeater-item>
     <sky-repeater-item>
@@ -120,13 +120,13 @@
     </sky-repeater-item>
   </sky-repeater>
 }
-@if (showRepeaterWithNgFor) {
-  <sky-repeater [reorderable]="reorderable">
-    @for (item of items; track item) {
+@if (showRepeaterWithNgFor()) {
+  <sky-repeater [reorderable]="reorderable()">
+    @for (item of items(); track item) {
       <sky-repeater-item
         [tag]="item.id"
-        [disabled]="item.id === 'item1' && disableFirstItem"
-        [selectable]="selectable"
+        [disabled]="item.id === 'item1' && disableFirstItem()"
+        [selectable]="selectable()"
       >
         <sky-repeater-item-title> {{ item.title }} </sky-repeater-item-title>
       </sky-repeater-item>

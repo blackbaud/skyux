@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, input, model } from '@angular/core';
 
 import { SkyRepeaterExpandModeType } from '../repeater-expand-mode-type';
 import { SkyRepeaterComponent } from '../repeater.component';
@@ -11,19 +11,13 @@ let nextItemId = 0;
   standalone: false,
 })
 export class RepeaterTestComponent {
-  public set activeIndex(value: number | undefined) {
-    this.#_activeIndex = value;
-  }
+  public activeIndex = model<number | undefined>(undefined);
 
-  public get activeIndex(): number | undefined {
-    return this.#_activeIndex;
-  }
+  public disableFirstItem = input<boolean>(false);
 
-  public disableFirstItem = false;
+  public expandMode = input<SkyRepeaterExpandModeType | undefined>('single');
 
-  public expandMode: SkyRepeaterExpandModeType | undefined = 'single';
-
-  public items: { id?: string; title: string }[] | undefined = [
+  public items = model<{ id?: string; title: string }[] | undefined>([
     {
       id: 'item1',
       title: 'Title 1',
@@ -36,31 +30,31 @@ export class RepeaterTestComponent {
       id: 'item3',
       title: 'Title 3',
     },
-  ];
+  ]);
 
-  public lastItemExpanded: boolean | undefined;
+  public lastItemExpanded = input<boolean | undefined>(undefined);
 
-  public lastItemSelected = false;
+  public lastItemSelected = model<boolean>(false);
 
-  public removeLastItem: boolean | undefined;
+  public removeLastItem = input<boolean | undefined>(undefined);
 
-  public reorderable = false;
+  public reorderable = input<boolean>(false);
 
-  public selectable: boolean | undefined = false;
+  public selectable = input<boolean | undefined>(false);
 
-  public showContextMenu: boolean | undefined;
+  public showContextMenu = input<boolean | undefined>(undefined);
 
-  public showItemName = false;
+  public showItemName = input<boolean>(false);
 
-  public showDynamicContent: boolean | undefined;
+  public showDynamicContent = input<boolean | undefined>(undefined);
 
-  public showItemWithNoContent: boolean | undefined;
+  public showItemWithNoContent = input<boolean | undefined>(undefined);
 
-  public showItemWithNoTitle: boolean | undefined;
+  public showItemWithNoTitle = input<boolean | undefined>(undefined);
 
-  public showRepeaterWithActiveIndex = false;
+  public showRepeaterWithActiveIndex = input<boolean>(false);
 
-  public showRepeaterWithNgFor = false;
+  public showRepeaterWithNgFor = input<boolean>(false);
 
   public sortedItemTags: any[] | undefined;
 
@@ -69,8 +63,6 @@ export class RepeaterTestComponent {
     static: false,
   })
   public repeater: SkyRepeaterComponent | undefined;
-
-  #_activeIndex: number | undefined;
 
   public onCollapse(): void {}
 
@@ -83,7 +75,7 @@ export class RepeaterTestComponent {
       id: `item${nextItemId++}`,
       title: 'New record ' + nextItemId,
     };
-    this.items?.push(newItem);
+    this.items.update((arr) => [...(arr ?? []), newItem]);
   }
 
   public onOrderChange(tags: any[]): void {

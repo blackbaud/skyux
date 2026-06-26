@@ -31,8 +31,8 @@ describe('Text expand repeater component', () => {
 
   describe('basic behaviors', () => {
     it('should have necessary aria properties', async () => {
-      cmp.data = ['john', 'bob', 'hank'];
-      cmp.numItems = 2;
+      fixture.componentRef.setInput('data', ['john', 'bob', 'hank']);
+      fixture.componentRef.setInput('numItems', 2);
 
       fixture.detectChanges();
       await fixture.whenStable();
@@ -55,8 +55,8 @@ describe('Text expand repeater component', () => {
     });
 
     it('should not have see more button if data is less than or equal to max items', () => {
-      cmp.data = ['john', 'bob'];
-      cmp.numItems = 2;
+      fixture.componentRef.setInput('data', ['john', 'bob']);
+      fixture.componentRef.setInput('numItems', 2);
 
       fixture.detectChanges();
 
@@ -67,8 +67,8 @@ describe('Text expand repeater component', () => {
     });
 
     it('should have see more button if data is more than max items', () => {
-      cmp.data = ['john', 'bob', 'hank'];
-      cmp.numItems = 2;
+      fixture.componentRef.setInput('data', ['john', 'bob', 'hank']);
+      fixture.componentRef.setInput('numItems', 2);
 
       fixture.detectChanges();
       const seeMoreButton: any = el.querySelector(
@@ -79,8 +79,8 @@ describe('Text expand repeater component', () => {
     });
 
     it('should not have see more button or data if long data is changed to undefined', async () => {
-      cmp.data = ['john', 'bob', 'hank'];
-      cmp.numItems = 2;
+      fixture.componentRef.setInput('data', ['john', 'bob', 'hank']);
+      fixture.componentRef.setInput('numItems', 2);
 
       fixture.detectChanges();
       let seeMoreButton: any = el.querySelector(
@@ -93,7 +93,7 @@ describe('Text expand repeater component', () => {
       expect(seeMoreButton).not.toBeNull();
       expect(seeMoreButton.innerText.trim()).toBe('See more');
 
-      cmp.data = undefined;
+      fixture.componentRef.setInput('data', undefined);
 
       fixture.detectChanges();
       await fixture.whenStable();
@@ -105,8 +105,8 @@ describe('Text expand repeater component', () => {
     });
 
     it('should have see more button or data if long data is changed to undefined and back', async () => {
-      cmp.data = ['john', 'bob', 'hank'];
-      cmp.numItems = 2;
+      fixture.componentRef.setInput('data', ['john', 'bob', 'hank']);
+      fixture.componentRef.setInput('numItems', 2);
 
       fixture.detectChanges();
       let seeMoreButton: any = el.querySelector(
@@ -119,7 +119,7 @@ describe('Text expand repeater component', () => {
       expect(seeMoreButton).not.toBeNull();
       expect(seeMoreButton.innerText.trim()).toBe('See more');
 
-      cmp.data = undefined;
+      fixture.componentRef.setInput('data', undefined);
 
       fixture.detectChanges();
       await fixture.whenStable();
@@ -129,7 +129,7 @@ describe('Text expand repeater component', () => {
       seeMoreButton = el.querySelector('.sky-text-expand-repeater-see-more');
       expect(seeMoreButton).toBeNull();
 
-      cmp.data = ['john', 'bob', 'hank'];
+      fixture.componentRef.setInput('data', ['john', 'bob', 'hank']);
 
       fixture.detectChanges();
       await fixture.whenStable();
@@ -142,8 +142,8 @@ describe('Text expand repeater component', () => {
     });
 
     it('should not have see more button or data if long data is changed to shorter data', async () => {
-      cmp.data = ['john', 'bob', 'hank'];
-      cmp.numItems = 2;
+      fixture.componentRef.setInput('data', ['john', 'bob', 'hank']);
+      fixture.componentRef.setInput('numItems', 2);
 
       fixture.detectChanges();
       let seeMoreButton: any = el.querySelector(
@@ -156,7 +156,7 @@ describe('Text expand repeater component', () => {
       expect(seeMoreButton).not.toBeNull();
       expect(seeMoreButton.innerText.trim()).toBe('See more');
 
-      cmp.data = ['john', 'bob'];
+      fixture.componentRef.setInput('data', ['john', 'bob']);
 
       fixture.detectChanges();
       await fixture.whenStable();
@@ -168,9 +168,9 @@ describe('Text expand repeater component', () => {
     });
 
     it(`should set class on see more button when listStyle property is set to none`, () => {
-      cmp.data = ['john', 'bob', 'hank'];
-      cmp.numItems = 2;
-      cmp.listStyle = 'unstyled';
+      fixture.componentRef.setInput('data', ['john', 'bob', 'hank']);
+      fixture.componentRef.setInput('numItems', 2);
+      fixture.componentRef.setInput('listStyle', 'unstyled');
       fixture.detectChanges();
       const seeMoreButton: any = el.querySelector(
         '.sky-text-expand-repeater-see-more',
@@ -181,8 +181,8 @@ describe('Text expand repeater component', () => {
     });
 
     it(`should use an unordered list when listStyle property is not set`, () => {
-      cmp.data = ['john', 'bob', 'hank'];
-      cmp.numItems = 2;
+      fixture.componentRef.setInput('data', ['john', 'bob', 'hank']);
+      fixture.componentRef.setInput('numItems', 2);
       fixture.detectChanges();
       const contentSection: any = el.querySelector(
         'ul.sky-text-expand-repeater-container',
@@ -191,9 +191,9 @@ describe('Text expand repeater component', () => {
     });
 
     it(`should use an ordered list when listStyle property is set to ordered`, () => {
-      cmp.data = ['john', 'bob', 'hank'];
-      cmp.numItems = 2;
-      cmp.listStyle = 'ordered';
+      fixture.componentRef.setInput('data', ['john', 'bob', 'hank']);
+      fixture.componentRef.setInput('numItems', 2);
+      fixture.componentRef.setInput('listStyle', 'ordered');
       fixture.detectChanges();
       const contentSection: any = el.querySelector(
         'ol.sky-text-expand-repeater-container',
@@ -202,8 +202,8 @@ describe('Text expand repeater component', () => {
     });
 
     it('should expand and collapse correctly', async () => {
-      cmp.data = ['john', 'bob', 'hank'];
-      cmp.numItems = 2;
+      fixture.componentRef.setInput('data', ['john', 'bob', 'hank']);
+      fixture.componentRef.setInput('numItems', 2);
 
       const shownItemsSelector =
         '.sky-text-expand-repeater-item:not([style*="display: none"])';
@@ -248,8 +248,8 @@ describe('Text expand repeater component', () => {
     });
 
     it('should not display anything if no value is given for the text', () => {
-      cmp.data = undefined;
-      cmp.numItems = 2;
+      fixture.componentRef.setInput('data', undefined);
+      fixture.componentRef.setInput('numItems', 2);
 
       fixture.detectChanges();
 
@@ -270,8 +270,8 @@ describe('Text expand repeater component', () => {
 
   describe('custom templates', () => {
     it('should display custom repeater elements', () => {
-      cmp.data = ['john', 'bob', 'hank'];
-      cmp.customTemplateData = [
+      fixture.componentRef.setInput('data', ['john', 'bob', 'hank']);
+      fixture.componentRef.setInput('customTemplateData', [
         {
           text: 'john',
           number: 1,
@@ -284,8 +284,8 @@ describe('Text expand repeater component', () => {
           text: 'hank',
           number: 3,
         },
-      ];
-      cmp.numItems = 2;
+      ]);
+      fixture.componentRef.setInput('numItems', 2);
 
       fixture.detectChanges();
 

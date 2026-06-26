@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, input, model } from '@angular/core';
 
 import { SkyCardComponent } from '../card.component';
 
@@ -14,15 +14,15 @@ export class CardTestComponent {
   })
   public card!: SkyCardComponent;
 
-  public cardSelected: boolean | undefined;
+  public cardSelected = model<boolean | undefined>(undefined);
 
-  public showCheckbox: boolean | undefined = true;
+  public showCheckbox = input<boolean | undefined>(true);
 
-  public showTitle = true;
+  public showTitle = input<boolean>(true);
 
-  public showActions = false;
+  public showActions = input<boolean>(false);
 
-  public showDelete = false;
+  public showDelete = input<boolean>(false);
 
-  public cardSize: string | undefined;
+  public cardSize = input<string | undefined>(undefined);
 }

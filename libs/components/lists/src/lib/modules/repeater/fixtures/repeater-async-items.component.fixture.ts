@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, input } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'sky-test-cmp',
   template: `
-    <sky-repeater [activeIndex]="activeIndex">
+    <sky-repeater [activeIndex]="activeIndex()">
       @for (item of asyncData | async; track item.id) {
         <sky-repeater-item>
           <sky-repeater-item-title>
@@ -18,7 +18,7 @@ import { BehaviorSubject } from 'rxjs';
   standalone: false,
 })
 export class RepeaterAsyncItemsTestComponent implements OnInit {
-  public activeIndex: number | undefined;
+  public activeIndex = input<number | undefined>(undefined);
 
   public asyncData = new BehaviorSubject<any[]>([]);
 

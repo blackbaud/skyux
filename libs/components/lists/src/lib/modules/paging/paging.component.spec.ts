@@ -130,7 +130,7 @@ describe('Paging component', () => {
       });
 
       it('should set page count to 0 when pageSize is set to 0', () => {
-        component.pageSize = 0;
+        fixture.componentRef.setInput('pageSize', 0);
         component.pagingComponent.setPage(0);
         fixture.detectChanges();
 
@@ -215,7 +215,7 @@ describe('Paging component', () => {
       });
 
       it('should default to last page if pageNumber set over', () => {
-        component.currentPage = 12;
+        fixture.componentRef.setInput('currentPage', 12);
         fixture.detectChanges();
 
         expect(element.queryAll(By.css('.sky-list-paging-link')).length).toBe(
@@ -225,7 +225,7 @@ describe('Paging component', () => {
 
       describe('binding changes', () => {
         it('should react properly when currentPage is changed', () => {
-          component.currentPage = 2;
+          fixture.componentRef.setInput('currentPage', 2);
           fixture.detectChanges();
 
           expect(
@@ -246,21 +246,21 @@ describe('Paging component', () => {
         });
 
         it('should react properly when itemCount is changed', () => {
-          component.itemCount = 3;
+          fixture.componentRef.setInput('itemCount', 3);
           fixture.detectChanges();
 
           expect(element.query(By.css(getPagingSelector('3')))).toBeNull();
         });
 
         it('should react properly when pageSize is changed', () => {
-          component.pageSize = 4;
+          fixture.componentRef.setInput('pageSize', 4);
           fixture.detectChanges();
 
           expect(element.query(By.css(getPagingSelector('3')))).toBeNull();
         });
 
         it('should react properly when maxPages is changed', () => {
-          component.maxPages = 4;
+          fixture.componentRef.setInput('maxPages', 4);
           fixture.detectChanges();
 
           expect(element.query(By.css(getPagingSelector('4')))).not.toBeNull();
@@ -269,7 +269,7 @@ describe('Paging component', () => {
 
       describe('accessibility', () => {
         it('should have a nav role on the parent element with a given aria-label', () => {
-          component.label = 'My label';
+          fixture.componentRef.setInput('label', 'My label');
           fixture.detectChanges();
 
           const navElement = element.query(
@@ -302,100 +302,100 @@ describe('Paging component', () => {
         });
 
         it('should show the correct pages for an even number of maximum pages', () => {
-          component.itemCount = 16;
-          component.maxPages = 6;
+          fixture.componentRef.setInput('itemCount', 16);
+          fixture.componentRef.setInput('maxPages', 6);
           fixture.detectChanges();
 
           let pageNumbers = getActivePageNumbers();
           expect(pageNumbers).toEqual([1, 2, 3, 4, 5, 6]);
 
-          component.currentPage = 2;
+          fixture.componentRef.setInput('currentPage', 2);
           fixture.detectChanges();
           pageNumbers = getActivePageNumbers();
           expect(pageNumbers).toEqual([1, 2, 3, 4, 5, 6]);
 
-          component.currentPage = 4;
+          fixture.componentRef.setInput('currentPage', 4);
           fixture.detectChanges();
           pageNumbers = getActivePageNumbers();
           expect(pageNumbers).toEqual([1, 2, 3, 4, 5, 6]);
 
-          component.currentPage = 7;
+          fixture.componentRef.setInput('currentPage', 7);
           fixture.detectChanges();
           pageNumbers = getActivePageNumbers();
           expect(pageNumbers).toEqual([3, 4, 5, 6, 7, 8]);
 
-          component.currentPage = 8;
+          fixture.componentRef.setInput('currentPage', 8);
           fixture.detectChanges();
           pageNumbers = getActivePageNumbers();
           expect(pageNumbers).toEqual([3, 4, 5, 6, 7, 8]);
         });
 
         it('should show the correct pages for an odd number of maximum pages', () => {
-          component.itemCount = 16;
-          component.maxPages = 5;
+          fixture.componentRef.setInput('itemCount', 16);
+          fixture.componentRef.setInput('maxPages', 5);
           fixture.detectChanges();
 
           let pageNumbers = getActivePageNumbers();
           expect(pageNumbers).toEqual([1, 2, 3, 4, 5]);
 
-          component.currentPage = 2;
+          fixture.componentRef.setInput('currentPage', 2);
           fixture.detectChanges();
           pageNumbers = getActivePageNumbers();
           expect(pageNumbers).toEqual([1, 2, 3, 4, 5]);
 
-          component.currentPage = 4;
+          fixture.componentRef.setInput('currentPage', 4);
           fixture.detectChanges();
           pageNumbers = getActivePageNumbers();
           expect(pageNumbers).toEqual([2, 3, 4, 5, 6]);
 
-          component.currentPage = 7;
+          fixture.componentRef.setInput('currentPage', 7);
           fixture.detectChanges();
           pageNumbers = getActivePageNumbers();
           expect(pageNumbers).toEqual([4, 5, 6, 7, 8]);
 
-          component.currentPage = 8;
+          fixture.componentRef.setInput('currentPage', 8);
           fixture.detectChanges();
           pageNumbers = getActivePageNumbers();
           expect(pageNumbers).toEqual([4, 5, 6, 7, 8]);
         });
 
         it('should show the correct pages when maximum pages are >= the page count', () => {
-          component.itemCount = 12;
-          component.maxPages = 6;
+          fixture.componentRef.setInput('itemCount', 12);
+          fixture.componentRef.setInput('maxPages', 6);
           fixture.detectChanges();
 
           let pageNumbers = getActivePageNumbers();
           expect(pageNumbers).toEqual([1, 2, 3, 4, 5, 6]);
 
-          component.currentPage = 3;
+          fixture.componentRef.setInput('currentPage', 3);
           fixture.detectChanges();
           pageNumbers = getActivePageNumbers();
           expect(pageNumbers).toEqual([1, 2, 3, 4, 5, 6]);
 
-          component.currentPage = 6;
+          fixture.componentRef.setInput('currentPage', 6);
           fixture.detectChanges();
           pageNumbers = getActivePageNumbers();
           expect(pageNumbers).toEqual([1, 2, 3, 4, 5, 6]);
 
-          component.maxPages = 8;
+          fixture.componentRef.setInput('maxPages', 8);
           fixture.detectChanges();
           pageNumbers = getActivePageNumbers();
           expect(pageNumbers).toEqual([1, 2, 3, 4, 5, 6]);
 
-          component.currentPage = 1;
+          fixture.componentRef.setInput('currentPage', 1);
           fixture.detectChanges();
           pageNumbers = getActivePageNumbers();
           expect(pageNumbers).toEqual([1, 2, 3, 4, 5, 6]);
 
-          component.currentPage = 3;
+          fixture.componentRef.setInput('currentPage', 3);
           fixture.detectChanges();
           pageNumbers = getActivePageNumbers();
           expect(pageNumbers).toEqual([1, 2, 3, 4, 5, 6]);
         });
 
         it('should have an aria label for page number link', () => {
-          component.currentPage = 1;
-          component.maxPages = 8;
+          fixture.componentRef.setInput('currentPage', 1);
+          fixture.componentRef.setInput('maxPages', 8);
           fixture.detectChanges();
 
           const pageElement = element.query(By.css(getPagingSelector('2')))
