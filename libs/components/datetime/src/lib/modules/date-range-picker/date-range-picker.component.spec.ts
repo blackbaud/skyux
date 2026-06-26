@@ -177,11 +177,11 @@ describe('Date range picker', function () {
   }));
 
   it('should allow setting specific calculators', fakeAsync(function () {
-    component.calculatorIds = [
+    fixture.componentRef.setInput('calculatorIds', [
       SkyDateRangeCalculatorId.Before,
       SkyDateRangeCalculatorId.After,
       SkyDateRangeCalculatorId.SpecificRange,
-    ];
+    ]);
 
     detectChanges();
 
@@ -192,7 +192,7 @@ describe('Date range picker', function () {
     ]);
 
     // Reset the calculators to verify defaults are set.
-    component.calculatorIds = undefined;
+    fixture.componentRef.setInput('calculatorIds', undefined);
 
     detectChanges();
 
@@ -212,7 +212,7 @@ describe('Date range picker', function () {
   }));
 
   it('should allow setting the field label', fakeAsync(function () {
-    component.label = 'My label';
+    fixture.componentRef.setInput('label', 'My label');
 
     detectChanges();
 
@@ -225,7 +225,7 @@ describe('Date range picker', function () {
   }));
 
   it('should allow setting the field labelText', fakeAsync(function () {
-    component.labelText = 'My label';
+    fixture.componentRef.setInput('labelText', 'My label');
 
     detectChanges();
 
@@ -238,7 +238,7 @@ describe('Date range picker', function () {
   }));
 
   it('should allow setting the date format', fakeAsync(function () {
-    component.dateFormat = 'YYYY-MM-DD';
+    fixture.componentRef.setInput('dateFormat', 'YYYY-MM-DD');
 
     detectChanges();
 
@@ -254,7 +254,7 @@ describe('Date range picker', function () {
   }));
 
   it('should have the lg margin class if stacked is true', fakeAsync(() => {
-    component.stacked = true;
+    fixture.componentRef.setInput('stacked', true);
     detectChanges();
 
     const dateRangePicker = fixture.nativeElement.querySelector(
@@ -325,7 +325,7 @@ describe('Date range picker', function () {
   }));
 
   it('should set disabled state on initialization', fakeAsync(function () {
-    component.disableReactiveOnInit = true;
+    fixture.componentRef.setInput('disableReactiveOnInit', true);
 
     detectChanges();
 
@@ -339,7 +339,7 @@ describe('Date range picker', function () {
   }));
 
   it('should set disabled state via template input', fakeAsync(function () {
-    component.templateDisable = false;
+    fixture.componentRef.setInput('templateDisable', false);
 
     detectChanges();
 
@@ -349,13 +349,13 @@ describe('Date range picker', function () {
 
     verifyFormFieldsDisabledStatus(false);
 
-    component.templateDisable = true;
+    fixture.componentRef.setInput('templateDisable', true);
 
     detectChanges();
 
     verifyFormFieldsDisabledStatus(true);
 
-    component.templateDisable = false;
+    fixture.componentRef.setInput('templateDisable', false);
 
     detectChanges();
 
@@ -363,7 +363,7 @@ describe('Date range picker', function () {
   }));
 
   it('should set disabled state via template input on initialization', fakeAsync(function () {
-    component.templateDisable = true;
+    fixture.componentRef.setInput('templateDisable', true);
 
     detectChanges();
 
@@ -371,7 +371,7 @@ describe('Date range picker', function () {
   }));
 
   it('should set enabled state via template input on initialization', fakeAsync(function () {
-    component.templateDisable = false;
+    fixture.componentRef.setInput('templateDisable', false);
 
     detectChanges();
 
@@ -487,7 +487,7 @@ describe('Date range picker', function () {
 
     // Change the available calculators, but make the default calculator the same
     // as the one set in the form initializer (see above);
-    component.calculatorIds = [selectedValue.calculatorId];
+    fixture.componentRef.setInput('calculatorIds', [selectedValue.calculatorId]);
 
     detectChanges();
 
@@ -589,7 +589,7 @@ describe('Date range picker', function () {
   }));
 
   it('should clear "required" errors when switching to a calculator without datepickers', fakeAsync(() => {
-    component.required = true;
+    fixture.componentRef.setInput('required', true);
     detectChanges();
 
     selectCalculator(SkyDateRangeCalculatorId.After);
@@ -717,7 +717,7 @@ describe('Date range picker', function () {
   }));
 
   it('should visually set start and end date datepickers to required and not the calculator select', () => {
-    fixture.componentInstance.required = true;
+    fixture.componentRef.setInput('required', true);
     fixture.detectChanges();
 
     const control = component.dateRange;
@@ -740,7 +740,7 @@ describe('Date range picker', function () {
   });
 
   it('should show validation errors when start date is required but not provided', fakeAsync(function () {
-    fixture.componentInstance.required = true;
+    fixture.componentRef.setInput('required', true);
     detectChanges();
 
     const control = component.dateRange;
@@ -767,7 +767,7 @@ describe('Date range picker', function () {
   }));
 
   it('should show validation errors when end date is required but not provided', fakeAsync(function () {
-    fixture.componentInstance.required = true;
+    fixture.componentRef.setInput('required', true);
     detectChanges();
 
     const control = component.dateRange;
@@ -797,7 +797,7 @@ describe('Date range picker', function () {
     const logService = TestBed.inject(SkyLogService);
     const spy = spyOn(logService, 'deprecated');
 
-    fixture.componentInstance.label = 'deprecated label';
+    fixture.componentRef.setInput('label', 'deprecated label');
     detectChanges();
 
     expect(spy).toHaveBeenCalledWith('SkyDateRangePickerComponent.label', {
@@ -824,7 +824,7 @@ describe('Date range picker', function () {
       fixture.nativeElement.querySelector('sky-form-error')?.textContent.trim(),
     ).toBe(undefined);
 
-    component.labelText = 'Date range picker';
+    fixture.componentRef.setInput('labelText', 'Date range picker');
     control?.updateValueAndValidity();
     detectChanges();
 
@@ -1026,7 +1026,7 @@ describe('Date range picker', function () {
     it('should use a context specific datepicker aria label when using the "Before" calculator', fakeAsync(() => {
       detectChanges();
 
-      component.label = 'Last donation';
+      fixture.componentRef.setInput('label', 'Last donation');
       const control = component.dateRange;
       control?.setValue({
         calculatorId: SkyDateRangeCalculatorId.Before,
@@ -1038,7 +1038,7 @@ describe('Date range picker', function () {
         'Before date for Last donation',
       );
 
-      component.labelText = 'Latest donation';
+      fixture.componentRef.setInput('labelText', 'Latest donation');
       detectChanges();
 
       expect(input?.getAttribute('aria-label')).toBe(
@@ -1049,7 +1049,7 @@ describe('Date range picker', function () {
     it('should use a context specific datepicker aria label when using the "After" calculator', fakeAsync(() => {
       detectChanges();
 
-      component.label = 'Last donation';
+      fixture.componentRef.setInput('label', 'Last donation');
       const control = component.dateRange;
       control?.setValue({
         calculatorId: SkyDateRangeCalculatorId.After,
@@ -1061,7 +1061,7 @@ describe('Date range picker', function () {
         'After date for Last donation',
       );
 
-      component.labelText = 'Latest donation';
+      fixture.componentRef.setInput('labelText', 'Latest donation');
       detectChanges();
 
       expect(input?.getAttribute('aria-label')).toBe(
@@ -1072,7 +1072,7 @@ describe('Date range picker', function () {
     it('should use context specific datepicker aria labels when using the "Specific Range" calculator', fakeAsync(() => {
       detectChanges();
 
-      component.label = 'Last donation';
+      fixture.componentRef.setInput('label', 'Last donation');
       const control = component.dateRange;
       control?.setValue({
         calculatorId: SkyDateRangeCalculatorId.SpecificRange,
@@ -1088,7 +1088,7 @@ describe('Date range picker', function () {
         'To date for Last donation',
       );
 
-      component.labelText = 'Latest donation';
+      fixture.componentRef.setInput('labelText', 'Latest donation');
       detectChanges();
 
       expect(fromInput?.getAttribute('aria-label')).toBe(
@@ -1146,14 +1146,14 @@ describe('Date range picker', function () {
     });
 
     it('should be accessible with a label', async () => {
-      component.label = 'Last donation';
+      fixture.componentRef.setInput('label', 'Last donation');
       fixture.detectChanges();
       await fixture.whenStable();
       await expectAsync(fixture.elementRef.nativeElement).toBeAccessible();
     });
 
     it('should be accessible with a labelText', async () => {
-      component.labelText = 'Last donation';
+      fixture.componentRef.setInput('labelText', 'Last donation');
       fixture.detectChanges();
       await fixture.whenStable();
       await expectAsync(fixture.elementRef.nativeElement).toBeAccessible();
@@ -1179,7 +1179,7 @@ describe('Date range picker', function () {
 
       expect(getHelpInlinePopover().length).toBe(0);
 
-      component.helpPopoverContent = 'content';
+      fixture.componentRef.setInput('helpPopoverContent', 'content');
       fixture.detectChanges();
 
       expect(getHelpInlinePopover().length).toBe(1);
@@ -1194,7 +1194,7 @@ describe('Date range picker', function () {
         ),
       ).toBeFalsy();
 
-      component.helpKey = 'helpKey.html';
+      fixture.componentRef.setInput('helpKey', 'helpKey.html');
       fixture.detectChanges();
 
       expect(
@@ -1206,7 +1206,7 @@ describe('Date range picker', function () {
 
     it('should set global help config with help key', async () => {
       const helpController = TestBed.inject(SkyHelpTestingController);
-      component.helpKey = 'helpKey.html';
+      fixture.componentRef.setInput('helpKey', 'helpKey.html');
       fixture.detectChanges();
 
       const helpInlineButton = fixture.nativeElement.querySelector(

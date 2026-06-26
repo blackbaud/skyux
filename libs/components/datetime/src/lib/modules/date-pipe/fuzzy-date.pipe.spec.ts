@@ -57,7 +57,7 @@ describe('Fuzzy date pipe', () => {
   });
 
   it('should ignore empty values', () => {
-    component.dateValue = undefined;
+    fixture.componentRef.setInput('dateValue', undefined);
     fixture.detectChanges();
     const value = getFuzzyDateText(fixture);
 
@@ -65,7 +65,7 @@ describe('Fuzzy date pipe', () => {
   });
 
   it('should support changing locale inline', () => {
-    component.locale = 'fr-FR';
+    fixture.componentRef.setInput('locale', 'fr-FR');
     fixture.detectChanges();
     const value = getFuzzyDateText(fixture);
 

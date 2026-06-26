@@ -52,13 +52,13 @@ describe('Date pipe', () => {
 
   it('should throw an error when provided an invalid date', () => {
     expect(() => {
-      fixture.componentInstance.dateValue = 'foobar';
+      fixture.componentRef.setInput('dateValue', 'foobar');
       fixture.detectChanges();
     }).toThrow(new Error('Invalid value: foobar'));
   });
 
   it('should format a timestamp', () => {
-    fixture.componentInstance.dateValue = new Date(2000, 0, 1, 0).getTime();
+    fixture.componentRef.setInput('dateValue', new Date(2000, 0, 1, 0).getTime());
     fixture.detectChanges();
     const value = fixture.nativeElement.textContent.trim();
     const expectedValues = [
@@ -70,7 +70,7 @@ describe('Date pipe', () => {
 
   it('should format an ISO date string', () => {
     const isoString = new Date(2000, 0, 1, 0).toISOString();
-    fixture.componentInstance.dateValue = isoString;
+    fixture.componentRef.setInput('dateValue', isoString);
     fixture.detectChanges();
     const value = fixture.nativeElement.textContent.trim();
     const expectedValues = [
@@ -81,7 +81,7 @@ describe('Date pipe', () => {
   });
 
   it('should format an incomplete ISO date string without time', () => {
-    fixture.componentInstance.dateValue = '2000-01-01';
+    fixture.componentRef.setInput('dateValue', '2000-01-01');
     fixture.detectChanges();
     const value = fixture.nativeElement.textContent.trim();
     const expectedValues = [
@@ -92,7 +92,7 @@ describe('Date pipe', () => {
   });
 
   it('should format an incomplete ISO date string without time zone', () => {
-    fixture.componentInstance.dateValue = '2020-03-03T00:00:00';
+    fixture.componentRef.setInput('dateValue', '2020-03-03T00:00:00');
     fixture.detectChanges();
     const value = fixture.nativeElement.textContent.trim();
     const expectedValues = [
@@ -103,7 +103,7 @@ describe('Date pipe', () => {
   });
 
   it('should format a date string', () => {
-    fixture.componentInstance.dateValue = '2000/1/1';
+    fixture.componentRef.setInput('dateValue', '2000/1/1');
     fixture.detectChanges();
     const value = fixture.nativeElement.textContent.trim();
     const expectedValues = [
@@ -114,7 +114,7 @@ describe('Date pipe', () => {
   });
 
   it('should ignore empty values', () => {
-    fixture.componentInstance.dateValue = undefined;
+    fixture.componentRef.setInput('dateValue', undefined);
     fixture.detectChanges();
     const value = fixture.nativeElement.textContent.trim();
     expect(value).toEqual('');
@@ -122,7 +122,7 @@ describe('Date pipe', () => {
 
   it('should not support other objects', () => {
     try {
-      fixture.componentInstance.dateValue = { foo: 'bar' };
+      fixture.componentRef.setInput('dateValue', { foo: 'bar' });
       fixture.detectChanges();
       fixture.nativeElement.textContent.trim();
 
@@ -133,7 +133,7 @@ describe('Date pipe', () => {
   });
 
   it('should support Angular DatePipe formats', () => {
-    fixture.componentInstance.format = 'fullDate';
+    fixture.componentRef.setInput('format', 'fullDate');
     fixture.detectChanges();
     const value = fixture.nativeElement.textContent.trim();
     const expectedValues = [
@@ -144,7 +144,7 @@ describe('Date pipe', () => {
   });
 
   it('should default to mediumDate format', () => {
-    fixture.componentInstance.format = undefined;
+    fixture.componentRef.setInput('format', undefined);
     fixture.detectChanges();
     const value = fixture.nativeElement.textContent.trim();
     const expectedValues = [
@@ -155,7 +155,7 @@ describe('Date pipe', () => {
   });
 
   it('should support changing locale inline', () => {
-    fixture.componentInstance.locale = 'fr-CA';
+    fixture.componentRef.setInput('locale', 'fr-CA');
     fixture.detectChanges();
     const value = fixture.nativeElement.textContent.trim();
     const expectedValues = [
@@ -206,8 +206,8 @@ describe('Date pipe', () => {
   });
 
   it('should format invalid in IE ISO date', () => {
-    fixture.componentInstance.format = 'shortDate';
-    fixture.componentInstance.dateValue = '2017-01-11T09:25:14.014-0500';
+    fixture.componentRef.setInput('format', 'shortDate');
+    fixture.componentRef.setInput('dateValue', '2017-01-11T09:25:14.014-0500');
     fixture.detectChanges();
     const value = fixture.nativeElement.textContent.trim();
     const expectedValues = [
@@ -218,8 +218,8 @@ describe('Date pipe', () => {
   });
 
   it('should format invalid in Safari ISO date', () => {
-    fixture.componentInstance.format = 'shortDate';
-    fixture.componentInstance.dateValue = '2017-01-20T19:00:00+0000';
+    fixture.componentRef.setInput('format', 'shortDate');
+    fixture.componentRef.setInput('dateValue', '2017-01-20T19:00:00+0000');
     fixture.detectChanges();
     const value = fixture.nativeElement.textContent.trim();
     const expectedValues = [
@@ -231,8 +231,8 @@ describe('Date pipe', () => {
 
   it('should revert to provided format pattern if a match is not found in our SkyDateService aliases', () => {
     const spy = spyOn(SkyIntlDateFormatter, 'format');
-    fixture.componentInstance.format = 'NOT_A_REAL_FORMAT';
-    fixture.componentInstance.dateValue = '2000-01-01';
+    fixture.componentRef.setInput('format', 'NOT_A_REAL_FORMAT');
+    fixture.componentRef.setInput('dateValue', '2000-01-01');
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledWith(
       jasmine.any(Date),

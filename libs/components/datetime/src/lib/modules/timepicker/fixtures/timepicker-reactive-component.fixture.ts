@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, input } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import { SkyTimepickerTimeFormatType } from '../timepicker-time-format-type';
@@ -20,7 +20,7 @@ export class TimepickerReactiveTestComponent implements AfterViewInit, OnInit {
 
   public isDisabled: boolean | undefined;
 
-  public returnFormat: string | undefined;
+  public readonly returnFormat = input<string | undefined>(undefined);
 
   public selectedTime: SkyTimepickerTimeOutput | undefined;
 
@@ -28,7 +28,7 @@ export class TimepickerReactiveTestComponent implements AfterViewInit, OnInit {
 
   public timeControlValueAfterInit: any;
 
-  public timeFormat: SkyTimepickerTimeFormatType | undefined;
+  public readonly timeFormat = input<SkyTimepickerTimeFormatType | undefined>(undefined);
 
   public timepickerForm: UntypedFormGroup | undefined;
 
