@@ -615,7 +615,7 @@ describe('tree view', () => {
 
       expect(errorSpy).not.toHaveBeenCalled();
 
-      component.showInvalidTree = true;
+      fixture.componentRef.setInput('showInvalidTree', true);
       fixture.detectChanges();
 
       expect(errorSpy).toHaveBeenCalled();

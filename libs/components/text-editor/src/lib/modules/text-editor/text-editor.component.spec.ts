@@ -676,14 +676,14 @@ describe('Text editor', () => {
 
     it('should apply the placeholder', () => {
       const expectedPlaceholder = 'Please enter some text';
-      testComponent.placeholder = expectedPlaceholder;
+      fixture.componentRef.setInput('placeholder', expectedPlaceholder);
       fixture.detectChanges();
 
       let placeholder = iframeDocument.body.getAttribute('data-placeholder');
       expect(placeholder).toBe(expectedPlaceholder);
 
       const expectedPlaceholder2 = 'Some other placeholder text';
-      testComponent.placeholder = expectedPlaceholder2;
+      fixture.componentRef.setInput('placeholder', expectedPlaceholder2);
       fixture.detectChanges();
 
       placeholder = iframeDocument.body.getAttribute('data-placeholder');
@@ -692,13 +692,13 @@ describe('Text editor', () => {
 
     it('should handle undefined placeholder', () => {
       const expectedPlaceholder = 'Please enter some text';
-      testComponent.placeholder = expectedPlaceholder;
+      fixture.componentRef.setInput('placeholder', expectedPlaceholder);
       fixture.detectChanges();
 
       let placeholder = iframeDocument.body.getAttribute('data-placeholder');
       expect(placeholder).toBe(expectedPlaceholder);
 
-      testComponent.placeholder = undefined;
+      fixture.componentRef.setInput('placeholder', undefined);
       fixture.detectChanges();
 
       placeholder = iframeDocument.body.getAttribute('data-placeholder');
@@ -1640,7 +1640,7 @@ describe('Text editor', () => {
 
     it('should render help inline if help key is provided', () => {
       testComponent.labelText = 'Text Editor';
-      testComponent.helpKey = undefined;
+      fixture.componentRef.setInput('helpKey', undefined);
       fixture.detectChanges();
 
       expect(
@@ -1649,7 +1649,7 @@ describe('Text editor', () => {
         ),
       ).toBeFalsy();
 
-      testComponent.helpKey = 'helpKey.html';
+      fixture.componentRef.setInput('helpKey', 'helpKey.html');
       fixture.detectChanges();
 
       expect(
@@ -1662,7 +1662,7 @@ describe('Text editor', () => {
     it('should set global help config with help key', async () => {
       const helpController = TestBed.inject(SkyHelpTestingController);
       testComponent.labelText = 'Text Editor';
-      testComponent.helpKey = 'helpKey.html';
+      fixture.componentRef.setInput('helpKey', 'helpKey.html');
       fixture.detectChanges();
 
       const helpInlineButton = fixture.nativeElement.querySelector(

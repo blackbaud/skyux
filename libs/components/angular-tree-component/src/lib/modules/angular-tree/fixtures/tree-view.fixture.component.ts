@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, input } from '@angular/core';
 import {
   ITreeOptions,
   ITreeState,
@@ -54,7 +54,7 @@ export class SkyTreeViewFixtureComponent {
 
   public showContextMenus = false;
 
-  public showInvalidTree = false;
+  public showInvalidTree = input<boolean>(false);
 
   public showToolbar = false;
 
