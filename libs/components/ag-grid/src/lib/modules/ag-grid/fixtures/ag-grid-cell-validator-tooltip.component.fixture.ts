@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 
 import { SkyAgGridCellValidatorTooltipComponent } from '../cell-validator/ag-grid-cell-validator-tooltip.component';
 import { SkyCellRendererValidatorParams } from '../types/cell-renderer-validator-params';
@@ -9,5 +9,7 @@ import { SkyCellRendererValidatorParams } from '../types/cell-renderer-validator
   imports: [SkyAgGridCellValidatorTooltipComponent],
 })
 export class SkyAgGridCellValidatorTooltipFixtureComponent {
-  public parameters: SkyCellRendererValidatorParams | undefined;
+  public parameters = signal<SkyCellRendererValidatorParams | undefined>(
+    undefined,
+  );
 }

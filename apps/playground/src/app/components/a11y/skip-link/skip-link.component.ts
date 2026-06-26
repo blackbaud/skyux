@@ -1,7 +1,6 @@
 //#region imports
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
   Component,
   ElementRef,
   ViewChild,
@@ -15,7 +14,6 @@ import { SkySkipLinkService } from '@skyux/a11y';
   selector: 'app-skip-link',
   templateUrl: './skip-link.component.html',
   styleUrls: ['./skip-link.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkipLinkComponent implements AfterViewInit {

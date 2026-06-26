@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   SkyModalConfigurationInterface,
@@ -26,7 +26,6 @@ import { ModalWithTabsComponent } from './modal-with-tabs.component';
   selector: 'app-modal-visual',
   templateUrl: './modal-visual.component.html',
   styleUrls: ['./modal-visual.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule],
 })
 export class ModalVisualComponent {

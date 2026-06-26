@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  ViewChild,
-  inject,
-} from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -17,7 +11,6 @@ import {
 @Component({
   selector: 'app-checkbox',
   templateUrl: './checkbox.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CheckboxComponent implements OnInit {

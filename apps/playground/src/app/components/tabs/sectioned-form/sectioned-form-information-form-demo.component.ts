@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
 import { SkyFluidGridModule } from '@skyux/layout';
@@ -7,7 +7,6 @@ import { SkySectionedFormService } from '@skyux/tabs';
 @Component({
   selector: 'app-sectioned-form-information-form-demo',
   templateUrl: './sectioned-form-information-form-demo.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FormsModule,
     SkyCheckboxModule,

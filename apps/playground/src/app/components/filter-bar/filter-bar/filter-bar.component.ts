@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   SkyFilterBarFilterItem,
   SkyFilterItemLookupSearchAsyncArgs,
@@ -12,7 +12,6 @@ import { TestModalComponent } from './test-modal.component';
   selector: 'app-filter-bar',
   styleUrls: ['./filter-bar.component.scss'],
   templateUrl: './filter-bar.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class FilterBarComponent {

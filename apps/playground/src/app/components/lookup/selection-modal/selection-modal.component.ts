@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   SkySelectionModalSearchResult,
   SkySelectionModalService,
@@ -14,7 +14,6 @@ import { SelectionModalPlaygroundPerson } from './types/selection-modal-playgrou
 @Component({
   selector: 'app-selection-modal',
   templateUrl: './selection-modal.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SelectionModalComponent {

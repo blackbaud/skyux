@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   AbstractControl,
   UntypedFormBuilder,
@@ -20,7 +15,6 @@ import {
 @Component({
   selector: 'app-single-file-attachment',
   templateUrl: './single-file-attachment.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SingleFileAttachmentComponent implements OnInit {

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
@@ -22,7 +22,6 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
       </sky-modal-footer>
     </sky-modal>
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyModalModule],
 })
 export class FlyoutModalDemoComponent {

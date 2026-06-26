@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -25,7 +25,6 @@ let nextItemId = 0;
   selector: 'app-repeater-visual',
   templateUrl: './repeater-visual.component.html',
   styleUrls: ['./repeater-visual.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class RepeaterVisualComponent {

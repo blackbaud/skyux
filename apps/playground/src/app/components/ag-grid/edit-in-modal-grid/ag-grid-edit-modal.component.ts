@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import { SkyAutocompleteSelectionChange } from '@skyux/lookup';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
@@ -29,7 +24,6 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 @Component({
   selector: 'app-demo-edit-modal-form',
   templateUrl: './ag-grid-edit-modal.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [AgGridModule, SkyAgGridModule, SkyModalModule],
 })
 export class SkyAgGridEditModalComponent implements OnInit {

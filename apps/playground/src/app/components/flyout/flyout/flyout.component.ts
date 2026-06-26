@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  inject,
-} from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { SkyFlyoutInstance, SkyFlyoutService } from '@skyux/flyout';
 
 import { Subject } from 'rxjs';
@@ -18,7 +13,6 @@ import { FlyoutResponsiveDemoComponent } from './flyout-responsive-demo.componen
   selector: 'app-flyout',
   templateUrl: './flyout.component.html',
   styleUrls: ['./flyout.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class FlyoutComponent implements OnDestroy {

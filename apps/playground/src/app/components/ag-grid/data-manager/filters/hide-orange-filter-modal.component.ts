@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   SkyFilterBarFilterValue,
@@ -11,7 +11,6 @@ import { SkyModalModule } from '@skyux/modals';
   selector: 'app-hide-orange-filter-modal',
   standalone: true,
   imports: [FormsModule, SkyCheckboxModule, SkyModalModule],
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <sky-modal headingText="filterLabelText">
       <sky-modal-content>

@@ -21,7 +21,7 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
       SkyAgGridCellValidatorTooltipFixtureComponent,
     );
     component = fixture.componentInstance;
-    component.parameters = {
+    component.parameters.set({
       addRenderedRowListener: jasmine.createSpy('addRenderedRowListener'),
       api: {
         addEventListener: jasmine.createSpy('addEventListener'),
@@ -42,7 +42,7 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
         rowIndex: 0,
       },
       setValue: jasmine.createSpy('setValue'),
-    } as unknown as SkyCellRendererValidatorParams;
+    } as unknown as SkyCellRendererValidatorParams);
   });
 
   it('should create an instance', () => {
@@ -51,12 +51,12 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
   });
 
   it('should toggle popover', async () => {
-    fixture.componentInstance.parameters = {
-      ...fixture.componentInstance.parameters,
+    fixture.componentInstance.parameters.set({
+      ...fixture.componentInstance.parameters(),
       skyComponentProperties: {
         validatorMessage: 'Test message ABC',
       },
-    } as SkyCellRendererValidatorParams;
+    } as SkyCellRendererValidatorParams);
     fixture.detectChanges();
     expect(fixture.componentInstance).toBeTruthy();
 
@@ -72,24 +72,24 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
     );
     expect(await popoverHarness.getBodyText()).toEqual('Test message ABC');
 
-    fixture.componentInstance.parameters = {
-      ...fixture.componentInstance.parameters,
+    fixture.componentInstance.parameters.set({
+      ...fixture.componentInstance.parameters(),
       skyComponentProperties: {
         validatorMessage: (): string => 'Test message XYZ',
       },
-    } as SkyCellRendererValidatorParams;
+    } as SkyCellRendererValidatorParams);
     fixture.detectChanges();
     await fixture.whenStable();
     expect(await popoverHarness.getBodyText()).toEqual('Test message XYZ');
   });
 
   it('should toggle popover with mouse events', async () => {
-    fixture.componentInstance.parameters = {
-      ...fixture.componentInstance.parameters,
+    fixture.componentInstance.parameters.set({
+      ...fixture.componentInstance.parameters(),
       skyComponentProperties: {
         validatorMessage: 'Test message ABC',
       },
-    } as SkyCellRendererValidatorParams;
+    } as SkyCellRendererValidatorParams);
     fixture.detectChanges();
     expect(fixture.componentInstance).toBeTruthy();
 
@@ -114,12 +114,12 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
   });
 
   it('should hide empty messages', async () => {
-    fixture.componentInstance.parameters = {
-      ...fixture.componentInstance.parameters,
+    fixture.componentInstance.parameters.set({
+      ...fixture.componentInstance.parameters(),
       skyComponentProperties: {
         validatorMessage: '',
       },
-    } as SkyCellRendererValidatorParams;
+    } as SkyCellRendererValidatorParams);
     fixture.detectChanges();
     await fixture.whenStable();
     expect(fixture.componentInstance).toBeTruthy();
@@ -141,15 +141,15 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
   });
 
   it('should hide messages when editing', async () => {
-    fixture.componentInstance.parameters = {
-      ...fixture.componentInstance.parameters,
+    fixture.componentInstance.parameters.set({
+      ...fixture.componentInstance.parameters(),
       skyComponentProperties: {
         validator: () => false,
         validatorMessage: 'Test message ABC',
       },
-    } as SkyCellRendererValidatorParams;
+    } as SkyCellRendererValidatorParams);
     (
-      fixture.componentInstance.parameters?.api.getEditingCells as jasmine.Spy
+      fixture.componentInstance.parameters()?.api.getEditingCells as jasmine.Spy
     ).and.returnValue(['test']);
     fixture.detectChanges();
     await fixture.whenStable();
@@ -175,13 +175,13 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
   });
 
   it('should hide messages when valid', async () => {
-    fixture.componentInstance.parameters = {
-      ...fixture.componentInstance.parameters,
+    fixture.componentInstance.parameters.set({
+      ...fixture.componentInstance.parameters(),
       skyComponentProperties: {
         validator: () => true,
         validatorMessage: 'Test message ABC',
       },
-    } as SkyCellRendererValidatorParams;
+    } as SkyCellRendererValidatorParams);
     fixture.detectChanges();
     await fixture.whenStable();
     expect(fixture.componentInstance).toBeTruthy();
@@ -191,15 +191,15 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
   });
 
   it('should show messages when not valid', async () => {
-    fixture.componentInstance.parameters = {
-      ...fixture.componentInstance.parameters,
+    fixture.componentInstance.parameters.set({
+      ...fixture.componentInstance.parameters(),
       skyComponentProperties: {
         validator: () => false,
         validatorMessage: 'Test message ABC',
       },
-    } as SkyCellRendererValidatorParams;
+    } as SkyCellRendererValidatorParams);
     (
-      fixture.componentInstance.parameters?.api.getEditingCells as jasmine.Spy
+      fixture.componentInstance.parameters()?.api.getEditingCells as jasmine.Spy
     ).and.returnValue([]);
     fixture.detectChanges();
     await fixture.whenStable();
@@ -219,31 +219,32 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
   });
 
   it('should show messages when a cell is focused', async () => {
-    fixture.componentInstance.parameters = {
-      ...fixture.componentInstance.parameters,
+    fixture.componentInstance.parameters.set({
+      ...fixture.componentInstance.parameters(),
       skyComponentProperties: {
         validator: () => false,
         validatorMessage: 'Test message ABC',
       },
-    } as SkyCellRendererValidatorParams;
+    } as SkyCellRendererValidatorParams);
     (
-      fixture.componentInstance.parameters?.api.getEditingCells as jasmine.Spy
+      fixture.componentInstance.parameters()?.api.getEditingCells as jasmine.Spy
     ).and.returnValue([]);
     fixture.detectChanges();
     await fixture.whenStable();
     expect(fixture.componentInstance).toBeTruthy();
 
     expect(
-      fixture.componentInstance.parameters.api.addEventListener,
+      fixture.componentInstance.parameters()?.api.addEventListener,
     ).toHaveBeenCalledTimes(2);
     expect(
-      fixture.componentInstance.parameters.api.addEventListener,
+      fixture.componentInstance.parameters()?.api.addEventListener,
     ).toHaveBeenCalledWith('cellFocused', jasmine.any(Function));
     expect(
-      fixture.componentInstance.parameters.api.addEventListener,
+      fixture.componentInstance.parameters()?.api.addEventListener,
     ).toHaveBeenCalledWith('cellEditingStarted', jasmine.any(Function));
     const eventListener = (
-      fixture.componentInstance.parameters.api.addEventListener as jasmine.Spy
+      fixture.componentInstance.parameters()?.api
+        .addEventListener as jasmine.Spy
     ).calls.argsFor(0)[1] as (eventParams: CellFocusedEvent) => void;
     expect(typeof eventListener).toEqual('function');
     eventListener({

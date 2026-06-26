@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  inject,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
   SkyConfirmCloseEventArgs,
@@ -20,7 +15,6 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'app-split-view',
   templateUrl: './split-view.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SplitViewComponent {

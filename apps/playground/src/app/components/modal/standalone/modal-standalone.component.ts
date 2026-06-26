@@ -1,9 +1,8 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
   imports: [SkyModalModule],
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: `<sky-modal [isDirty]="true">
     <sky-modal-header>Modal test</sky-modal-header>
     <sky-modal-content> Hello World! </sky-modal-content>

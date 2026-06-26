@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { SkyPopoverAlignment, SkyPopoverPlacement } from '@skyux/popovers';
 
 @Component({
   selector: 'app-affix',
   templateUrl: './affix.component.html',
   styleUrl: './affix.component.css',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class AffixComponent {

@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostListener,
-  inject,
-  OnInit,
-} from '@angular/core';
+import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import { SkyThemeService } from '@skyux/theme';
 
@@ -27,7 +21,6 @@ import {
   selector: 'app-editable-grid-visual',
   templateUrl: './editable-grid.component.html',
   styleUrls: ['./editable-grid.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class EditableGridComponent implements OnInit {

@@ -4,6 +4,7 @@ import {
   ViewChild,
   ViewEncapsulation,
   inject,
+  signal,
 } from '@angular/core';
 import {
   SkyDataManagerModule,
@@ -70,10 +71,10 @@ export class SkyAgGridDataManagerFixtureComponent implements OnInit {
     },
   ];
 
-  public displayFirstGrid = true;
-  public displaySecondGrid = false;
-  public displayOtherView = false;
-  public enableTopScroll = false;
+  public displayFirstGrid = signal(true);
+  public displaySecondGrid = signal(false);
+  public displayOtherView = signal(false);
+  public enableTopScroll = signal(false);
 
   public gridData = SKY_AG_GRID_DATA;
 
@@ -89,7 +90,7 @@ export class SkyAgGridDataManagerFixtureComponent implements OnInit {
 
   public initialDataState = new SkyDataManagerState({
     views: [
-      ...(this.displayOtherView
+      ...(this.displayOtherView()
         ? [
             {
               viewId: 'otherView',
@@ -117,13 +118,13 @@ export class SkyAgGridDataManagerFixtureComponent implements OnInit {
     this.#dataManagerService.initDataManager({
       dataManagerConfig: {},
       defaultDataState: this.initialDataState,
-      activeViewId: this.displayOtherView ? 'otherView' : this.viewConfig.id,
+      activeViewId: this.displayOtherView() ? 'otherView' : this.viewConfig.id,
       settingsKey: 'test',
     });
 
     this.#dataManagerService.initDataView(this.viewConfig);
 
-    if (this.displayOtherView) {
+    if (this.displayOtherView()) {
       this.#dataManagerService.initDataView({
         id: 'otherView',
         name: 'Other View',

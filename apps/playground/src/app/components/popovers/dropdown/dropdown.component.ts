@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, model } from '@angular/core';
+import { Component, model } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyCheckboxModule } from '@skyux/forms';
 
@@ -33,7 +33,6 @@ import { DropdownExampleComponent } from './dropdown-example.component';
       }
     `,
   ],
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyCheckboxModule, FormsModule, DropdownExampleComponent],
 })
 export class DropdownComponent {

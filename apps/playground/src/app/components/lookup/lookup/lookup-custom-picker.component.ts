@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -18,7 +13,6 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 @Component({
   selector: 'app-lookup-custom-picker',
   templateUrl: './lookup-custom-picker.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FormsModule,
     ReactiveFormsModule,

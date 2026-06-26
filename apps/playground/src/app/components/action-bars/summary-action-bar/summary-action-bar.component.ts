@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  inject,
-} from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { SkySummaryActionBarError } from '@skyux/action-bars';
 import { SkyKeyInfoLayoutType } from '@skyux/indicators';
 import { SkyModalService } from '@skyux/modals';
@@ -16,7 +11,6 @@ import { SummaryActionBarModalComponent } from './summary-action-bar-modal.compo
   selector: 'app-summary-action-bar',
   templateUrl: './summary-action-bar.component.html',
   styleUrls: ['./summary-action-bar.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SummaryActionBarComponent implements OnDestroy {

@@ -1,14 +1,8 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  inject,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 
 @Component({
   selector: 'app-help-inline',
   templateUrl: './help-inline.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class HelpInlineComponent {

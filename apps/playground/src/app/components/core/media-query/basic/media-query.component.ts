@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyMediaQueryService, SkyResponsiveHostDirective } from '@skyux/core';
 import { SkyFluidGridModule } from '@skyux/layout';
@@ -12,14 +12,12 @@ import { SkyFluidGridModule } from '@skyux/layout';
       display: block;
     }
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: '<ng-content />',
 })
 export class WithBreakpointDirectiveComponent {}
 
 @Component({
   selector: 'app-breakpoint-reader',
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: `{{ breakpoint() }}<ng-content select="app-breakpoint-reader" />`,
 })
 export class BreakpointReaderComponent {
@@ -36,7 +34,6 @@ export class BreakpointReaderComponent {
     SkyFluidGridModule,
     WithBreakpointDirectiveComponent,
   ],
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <p>Root breakpoint: {{ rootBreakpoint() }}</p>
     <sky-fluid-grid>

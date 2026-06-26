@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   AbstractControl,
   UntypedFormBuilder,
@@ -16,7 +11,6 @@ import { SkyUrlValidationOptions, SkyValidators } from '@skyux/validation';
 @Component({
   selector: 'app-url-validation-control-validator',
   templateUrl: './url-validation-control-validator.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class UrlValidationControlValidatorComponent implements OnInit {

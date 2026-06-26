@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyTilesModule } from '@skyux/tiles';
 
@@ -6,7 +6,6 @@ import { SkyTilesModule } from '@skyux/tiles';
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'div.tile2',
   templateUrl: './tile2.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyHelpInlineModule, SkyTilesModule],
 })
 export class Tile2Component {

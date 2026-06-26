@@ -308,7 +308,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   });
 
   it('should not apply data state column widths when grid is not present', async () => {
-    agGridDataManagerFixtureComponent.displayFirstGrid = false;
+    agGridDataManagerFixtureComponent.displayFirstGrid.set(false);
     agGridDataManagerFixture.detectChanges();
     await agGridDataManagerFixture.whenStable();
     expect(agGridDataManagerDirective.agGridList().length).toBe(0);
@@ -672,7 +672,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
 
   it('should throw an error if there are 2 grids in a component', () => {
     spyOn(console, 'warn');
-    agGridDataManagerFixtureComponent.displaySecondGrid = true;
+    agGridDataManagerFixtureComponent.displaySecondGrid.set(true);
     agGridDataManagerFixture.detectChanges();
 
     expect(console.warn).toHaveBeenCalledWith(
@@ -683,7 +683,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   it('should unregister the grid if no grids are rendered', () => {
     expect(agGridDataManagerDirective.agGridList().length).toBe(1);
 
-    agGridDataManagerFixtureComponent.displayFirstGrid = false;
+    agGridDataManagerFixtureComponent.displayFirstGrid.set(false);
     agGridDataManagerFixture.detectChanges();
 
     expect(agGridDataManagerDirective.agGridList().length).toBe(0);
@@ -693,13 +693,13 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     expect(agGridDataManagerDirective.agGridList().length).toBe(1);
     expect(agGridDataManagerDirective.skyAgGridWrapperList().length).toBe(1);
 
-    agGridDataManagerFixtureComponent.displayFirstGrid = false;
+    agGridDataManagerFixtureComponent.displayFirstGrid.set(false);
     agGridDataManagerFixture.detectChanges();
 
     expect(agGridDataManagerDirective.agGridList().length).toBe(0);
     expect(agGridDataManagerDirective.skyAgGridWrapperList().length).toBe(0);
 
-    agGridDataManagerFixtureComponent.displaySecondGrid = true;
+    agGridDataManagerFixtureComponent.displaySecondGrid.set(true);
     agGridDataManagerFixture.detectChanges();
 
     expect(agGridDataManagerDirective.agGridList().length).toBe(1);

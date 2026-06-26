@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
   SkyDataManagerDockType,
@@ -29,7 +24,6 @@ interface DemoForm {
 @Component({
   selector: 'app-split-view-data-manager',
   templateUrl: './split-view-data-manager.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SplitViewDataManagerComponent implements OnInit {

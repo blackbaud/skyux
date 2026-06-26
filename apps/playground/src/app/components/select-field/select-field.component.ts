@@ -1,5 +1,5 @@
 import { AsyncPipe, JsonPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
 import { SkyInputBoxModule } from '@skyux/forms';
@@ -20,7 +20,6 @@ import { BehaviorSubject } from 'rxjs';
     SkyInputBoxModule,
   ],
   templateUrl: './select-field.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './select-field.component.css',
 })
 export default class SelectFieldComponent {

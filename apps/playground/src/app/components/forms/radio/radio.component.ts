@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   AbstractControl,
   NgModel,
@@ -11,7 +11,6 @@ import {
 @Component({
   selector: 'app-radio',
   templateUrl: './radio.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class RadioComponent {

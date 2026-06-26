@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { SkyInfiniteScrollModule } from '@skyux/lists';
 import { SkyModalService } from '@skyux/modals';
@@ -17,7 +11,6 @@ import { FlyoutModalDemoComponent } from './flyout-modal.component';
 @Component({
   selector: 'app-flyout-demo',
   templateUrl: './flyout-demo.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyDropdownModule, SkyInfiniteScrollModule],
 })
 export class FlyoutDemoComponent implements OnInit {

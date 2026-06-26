@@ -1,16 +1,10 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  inject,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { SkyWaitService } from '@skyux/indicators';
 
 @Component({
   selector: 'app-wait',
   templateUrl: './wait.component.html',
   standalone: false,
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './wait.component.css',
 })
 export class WaitComponent {

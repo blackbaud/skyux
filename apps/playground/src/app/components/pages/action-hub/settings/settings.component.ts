@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SkyModalService } from '@skyux/modals';
 import {
   SkyActionHubNeedsAttention,
@@ -14,7 +14,6 @@ import {
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SettingsComponent {

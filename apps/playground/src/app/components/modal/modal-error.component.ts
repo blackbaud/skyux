@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyToggleSwitchModule } from '@skyux/forms';
 import {
@@ -20,7 +14,6 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-modal-error',
   templateUrl: './modal-error.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule, SkyModalModule, SkyToggleSwitchModule],
 })
 export class ModalErrorComponent implements OnInit, OnDestroy {

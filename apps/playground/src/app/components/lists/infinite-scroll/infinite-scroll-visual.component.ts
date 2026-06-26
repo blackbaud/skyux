@@ -1,11 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { SkyInfiniteScrollModule, SkyRepeaterModule } from '@skyux/lists';
 
 @Component({
   selector: 'app-infinite-scroll-visual',
   templateUrl: './infinite-scroll-visual.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class InfiniteScrollVisualComponent {

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   SkyDataManagerFilterData,
   SkyDataManagerFilterModalContext,
@@ -9,7 +9,6 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 @Component({
   selector: 'app-home-filter',
   templateUrl: './home-filter.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyModalModule, SkyRepeaterModule],
 })
 export class HomeFiltersModalDemoComponent {

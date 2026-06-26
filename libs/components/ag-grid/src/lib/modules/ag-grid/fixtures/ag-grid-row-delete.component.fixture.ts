@@ -3,6 +3,7 @@ import {
   ViewEncapsulation,
   computed,
   inject,
+  model,
   signal,
 } from '@angular/core';
 
@@ -112,7 +113,7 @@ export class SkyAgGridRowDeleteFixtureComponent {
     }),
   );
 
-  public rowDeleteIds: string[] | undefined;
+  public rowDeleteIds = model<string[] | undefined>(undefined);
 
   public addDataPoint(): void {
     this.gridApi?.applyTransaction({

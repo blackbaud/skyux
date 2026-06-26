@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { SkyDateRangePickerModule } from '@skyux/datetime';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyFilterModule } from '@skyux/lists';
@@ -6,7 +6,6 @@ import { SkyFilterModule } from '@skyux/lists';
 @Component({
   selector: 'app-filter-visual',
   templateUrl: './filter-visual.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class FilterVisualComponent {
