@@ -1,0 +1,41 @@
+<sky-box class="sky-theme-margin-bottom-l">
+  <sky-box-content>
+    Current sort:
+    <strong data-sky-id="current-sort" class="sky-theme-margin-right-s">{{
+      sortDescription()
+    }}</strong>
+    <button
+      class="sky-btn sky-btn-default sky-theme-margin-right-s"
+      type="button"
+      data-sky-id="sort-by-age-button"
+      (click)="sortByAgeDescending()"
+    >
+      Sort by age (descending)
+    </button>
+    <button
+      class="sky-btn sky-btn-default"
+      type="button"
+      data-sky-id="clear-sort-button"
+      (click)="clearSort()"
+    >
+      Clear sort
+    </button>
+  </sky-box-content>
+</sky-box>
+
+<sky-data-grid data-sky-id="example-data-grid" [data]="data" [(sort)]="sort">
+  <sky-data-grid-column field="name" headingText="Name" />
+  <sky-data-grid-column
+    field="age"
+    headingText="Age"
+    dataType="number"
+    width="80"
+    helpPopoverTitle="Age"
+    helpPopoverContent="The team member's current age, in years."
+  />
+  <sky-data-grid-column
+    field="startDate"
+    headingText="Start date"
+    dataType="date"
+  />
+</sky-data-grid>
