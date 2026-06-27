@@ -104,13 +104,17 @@ export class SkyDataGridColumn {
    * Whether the column can be resized by dragging the column header border.
    * @default true
    */
-  public readonly resizable = input<boolean>(true);
+  public readonly resizable = input<boolean, unknown>(true, {
+    transform: booleanAttribute,
+  });
 
   /**
    * Whether the column sorts the grid when users click the column header.
    * @default true
    */
-  public readonly sortable = input<boolean>(true);
+  public readonly sortable = input<boolean, unknown>(true, {
+    transform: booleanAttribute,
+  });
 
   /**
    * The template for a column. This can be assigned as a reference
