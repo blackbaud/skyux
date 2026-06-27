@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
  * Displays [labels](https://developer.blackbaud.com/skyux/components/label)
@@ -9,6 +9,7 @@ import { Component } from '@angular/core';
   selector: 'sky-page-summary-status',
   templateUrl: './page-summary-status.component.html',
   styleUrls: ['./page-summary-status.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 /* istanbul ignore next */

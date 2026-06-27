@@ -1,21 +1,21 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, input } from '@angular/core';
 import { ComponentFixture, TestBed, inject } from '@angular/core/testing';
 
 import { SkyDescriptionListAdapterService } from './description-list-adapter-service';
 
 @Component({
   selector: 'sky-test-cmp',
-  template: `<div #el [style.width]="width">Hello world</div>`,
+  template: `<div #el [style.width]="width()">Hello world</div>`,
   standalone: false,
 })
 class SkyDescriptionListAdapterTestComponent {
-  public width: string | undefined;
+  public width = input<string | undefined>(undefined);
 
   @ViewChild('el', {
     read: ElementRef,
     static: true,
   })
-  public input!: ElementRef;
+  public el!: ElementRef;
 }
 
 describe('Description list adapter service', () => {
@@ -30,13 +30,13 @@ describe('Description list adapter service', () => {
 
     fixture = TestBed.createComponent(SkyDescriptionListAdapterTestComponent);
     fixture.detectChanges();
-    inputRef = fixture.componentInstance.input;
+    inputRef = fixture.componentInstance.el;
   });
 
   it('should return widths', inject(
     [SkyDescriptionListAdapterService],
     (adapter: SkyDescriptionListAdapterService) => {
-      fixture.componentInstance.width = '300px';
+      fixture.componentRef.setInput('width', '300px');
       fixture.detectChanges();
       expect(adapter.getWidth(inputRef)).toEqual(300);
     },
@@ -45,7 +45,7 @@ describe('Description list adapter service', () => {
   it('should set responsive xs class when width is under 479px', inject(
     [SkyDescriptionListAdapterService],
     (adapter: SkyDescriptionListAdapterService) => {
-      fixture.componentInstance.width = '479px';
+      fixture.componentRef.setInput('width', '479px');
       fixture.detectChanges();
       adapter.setResponsiveClass(inputRef);
       fixture.detectChanges();
@@ -63,7 +63,7 @@ describe('Description list adapter service', () => {
   it('should set responsive sm class when width is between 480px and 768px', inject(
     [SkyDescriptionListAdapterService],
     (adapter: SkyDescriptionListAdapterService) => {
-      fixture.componentInstance.width = '480px';
+      fixture.componentRef.setInput('width', '480px');
       fixture.detectChanges();
       adapter.setResponsiveClass(inputRef);
       fixture.detectChanges();
@@ -81,7 +81,7 @@ describe('Description list adapter service', () => {
   it('should set responsive md class when width is 768px and above', inject(
     [SkyDescriptionListAdapterService],
     (adapter: SkyDescriptionListAdapterService) => {
-      fixture.componentInstance.width = '768px';
+      fixture.componentRef.setInput('width', '768px');
       fixture.detectChanges();
       adapter.setResponsiveClass(inputRef);
       fixture.detectChanges();

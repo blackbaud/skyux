@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'sky-viewkeeper-test',
@@ -7,13 +7,13 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class ViewkeeperTestComponent {
-  public scrollableHost = false;
+  public scrollableHost = input(false);
 
-  public showEl1 = true;
+  public showEl1 = input(true);
 
-  public showEl2 = true;
+  public showEl2 = input(true);
 
-  public showEl3 = false;
+  public showEl3 = input(false);
 
-  public showEl4 = false;
+  public showEl4 = input(false);
 }

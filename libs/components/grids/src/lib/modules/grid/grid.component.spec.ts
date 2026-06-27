@@ -299,7 +299,7 @@ describe('Grid Component', () => {
       fixture.detectChanges();
       expect(component.grid.items).toBeUndefined();
 
-      component.data = [{ id: '1', column1: 'foo' }];
+      fixture.componentRef.setInput('data', [{ id: '1', column1: 'foo' }]);
 
       fixture.detectChanges();
       fixture.detectChanges();
@@ -357,7 +357,7 @@ describe('Grid Component', () => {
       useAllHeaders = false,
       hiddenCol = false,
     ) {
-      for (const row of component.data) {
+      for (const row of component.data()) {
         expect(
           getCell(row.id, 'column1', element).nativeElement.textContent.trim(),
         ).toBe(row.column1);
@@ -424,7 +424,7 @@ describe('Grid Component', () => {
       });
 
       it('should transform data properly into a usable formate for the grid', () => {
-        component.data = [
+        fixture.componentRef.setInput('data', [
           {
             id: '1',
             column1: '1',
@@ -475,7 +475,7 @@ describe('Grid Component', () => {
             column3: 21,
             column4: new Date().getTime() + 5600000,
           },
-        ];
+        ]);
 
         fixture.detectChanges();
         fixture.detectChanges();
@@ -501,14 +501,16 @@ describe('Grid Component', () => {
           'emit',
         ).and.callThrough();
 
-        component.selectedColumnIds = selectedColumnIds;
+        fixture.componentRef.setInput('selectedColumnIds', selectedColumnIds);
         fixture.detectChanges();
 
         expect(changeSpy.calls.count()).toEqual(1);
         expect(changeSpy).toHaveBeenCalledWith(selectedColumnIds);
         changeSpy.calls.reset();
 
-        component.selectedColumnIds = [...selectedColumnIds];
+        fixture.componentRef.setInput('selectedColumnIds', [
+          ...selectedColumnIds,
+        ]);
         fixture.detectChanges();
 
         expect(changeSpy.calls.count()).toEqual(
@@ -521,7 +523,7 @@ describe('Grid Component', () => {
       });
 
       it('should show all columns when selectedColumnIds is undefined', () => {
-        component.selectedColumnIds = undefined;
+        fixture.componentRef.setInput('selectedColumnIds', undefined);
 
         fixture.detectChanges();
 
@@ -533,7 +535,7 @@ describe('Grid Component', () => {
         const table = getTable(fixture).nativeElement;
         expect(table).not.toHaveCssClass('sky-grid-fit');
         expect(table).not.toHaveCssClass('sky-grid-has-toolbar');
-        component.hasToolbar = true;
+        fixture.componentRef.setInput('hasToolbar', true);
         fixture.detectChanges();
         expect(table).toHaveCssClass('sky-grid-has-toolbar');
       });
@@ -592,7 +594,7 @@ describe('Grid Component', () => {
           'sky-grid-row-highlight',
         );
 
-        component.rowHighlightedId = '1';
+        fixture.componentRef.setInput('rowHighlightedId', '1');
         fixture.detectChanges();
 
         // Row should now have the highlight class.
@@ -600,7 +602,7 @@ describe('Grid Component', () => {
           'sky-grid-row-highlight',
         );
 
-        component.rowHighlightedId = undefined;
+        fixture.componentRef.setInput('rowHighlightedId', undefined);
         fixture.detectChanges();
 
         // Row should NOT have the highlight class.
@@ -744,10 +746,10 @@ describe('Grid Component', () => {
         });
 
         it('responds to sort selector input change', () => {
-          component.sortField = {
+          fixture.componentRef.setInput('sortField', {
             fieldSelector: 'column1',
             descending: false,
-          };
+          });
           fixture.detectChanges();
 
           const headerEl = nativeElement
@@ -1079,7 +1081,7 @@ describe('Grid Component', () => {
 
         it('should NOT set table width if selectedColumnIds property changes and user has NOT resized columns', fakeAsync(() => {
           // Update selected columns.
-          component.selectedColumnIds = ['column1'];
+          fixture.componentRef.setInput('selectedColumnIds', ['column1']);
           fixture.detectChanges();
           tick();
 
@@ -1529,7 +1531,7 @@ describe('Grid Component', () => {
 
     describe('selectedColumnIds undefined on load', () => {
       beforeEach(() => {
-        component.selectedColumnIds = undefined;
+        fixture.componentRef.setInput('selectedColumnIds', undefined);
         fixture.detectChanges();
         fixture.detectChanges();
       });
@@ -1547,7 +1549,7 @@ describe('Grid Component', () => {
       });
 
       it('should return undefined when shape of data is bad', () => {
-        component.data = [{}, {}];
+        fixture.componentRef.setInput('data', [{}, {}]);
         fixture.detectChanges();
       });
     });
@@ -1576,7 +1578,7 @@ describe('Grid Component', () => {
         const table = getTable(fixture).nativeElement;
         expect(table).toHaveCssClass('sky-grid-fit');
         expect(table).not.toHaveCssClass('sky-grid-has-toolbar');
-        component.hasToolbar = true;
+        fixture.componentRef.setInput('hasToolbar', true);
         fixture.detectChanges();
         expect(table).toHaveCssClass('sky-grid-has-toolbar');
       });
@@ -1743,7 +1745,7 @@ describe('Grid Component', () => {
       const checkboxes = getMultiselectInputs();
       const tableRows = getTableRows(fixture);
 
-      expect((component.data[index].isSelected = checked));
+      expect((component.data()[index].isSelected = checked));
       expect((checkboxes[index].nativeElement.checked = checked));
       if (checked) {
         expect(tableRows[index].nativeElement).toHaveCssClass(
@@ -1762,7 +1764,7 @@ describe('Grid Component', () => {
         const checkboxes = getMultiselectInputs();
 
         expect(checkboxes).not.toBeNull();
-        expect(checkboxes.length).toEqual(component.data.length);
+        expect(checkboxes.length).toEqual(component.data().length);
         checkboxes.forEach((checkbox) => {
           expect(
             checkbox.nativeElement.getAttribute('aria-label'),
@@ -2083,7 +2085,7 @@ describe('Grid Component', () => {
         component = fixture.componentInstance;
         element = fixture.debugElement as DebugElement;
         component.enableMultiselect = true;
-        component.selectedRowIds = ['1', '3'];
+        fixture.componentRef.setInput('selectedRowIds', ['1', '3']);
         fixture.detectChanges();
         fixture.detectChanges();
 
@@ -2100,7 +2102,7 @@ describe('Grid Component', () => {
       it('should properly update the checkboxes when selectedRowIds is changed', () => {
         // Select group of rows.
         let selectedIds = ['1', '3'];
-        component.selectedRowIds = selectedIds;
+        fixture.componentRef.setInput('selectedRowIds', selectedIds);
         fixture.detectChanges();
 
         // Verify those rows are selected and displayed properly.
@@ -2114,7 +2116,7 @@ describe('Grid Component', () => {
 
         // Send another selection.
         selectedIds = ['5'];
-        component.selectedRowIds = selectedIds;
+        fixture.componentRef.setInput('selectedRowIds', selectedIds);
         fixture.detectChanges();
 
         // Verify new rows are selected and displayed properly.
@@ -2128,7 +2130,7 @@ describe('Grid Component', () => {
 
         // Send empty array.
         selectedIds = [];
-        component.selectedRowIds = selectedIds;
+        fixture.componentRef.setInput('selectedRowIds', selectedIds);
         fixture.detectChanges();
 
         // Verify no rows are selected.
@@ -2462,7 +2464,7 @@ describe('Grid Component', () => {
 
     it('should be able to set columns when the columns input property is updated', () => {
       fixture.detectChanges();
-      component.columns = [
+      fixture.componentRef.setInput('columns', [
         new SkyGridColumnModel(component.template, {
           id: 'column1',
           heading: 'Column 1',
@@ -2471,7 +2473,7 @@ describe('Grid Component', () => {
           id: 'column2',
           heading: 'Column 2',
         }),
-      ];
+      ]);
 
       fixture.detectChanges();
 
@@ -2481,7 +2483,7 @@ describe('Grid Component', () => {
 
     it('should hide columns based on the hidden property when columns property changed', () => {
       fixture.detectChanges();
-      component.columns = [
+      fixture.componentRef.setInput('columns', [
         new SkyGridColumnModel(component.template, {
           id: 'column1',
           heading: 'Column 1',
@@ -2491,7 +2493,7 @@ describe('Grid Component', () => {
           heading: 'Column 2',
           hidden: true,
         }),
-      ];
+      ]);
 
       fixture.detectChanges();
       verifyHeaders(true);
@@ -2500,7 +2502,7 @@ describe('Grid Component', () => {
 
     it('should be able to set columns when the columns input property is updated and update correctly after initialization', () => {
       fixture.detectChanges();
-      component.columns = [
+      fixture.componentRef.setInput('columns', [
         new SkyGridColumnModel(component.template, {
           id: 'column1',
           heading: 'Column 1',
@@ -2509,7 +2511,7 @@ describe('Grid Component', () => {
           id: 'column2',
           heading: 'Column 2',
         }),
-      ];
+      ]);
 
       fixture.detectChanges();
 
@@ -2517,7 +2519,7 @@ describe('Grid Component', () => {
 
       verifyData();
 
-      component.columns = [
+      fixture.componentRef.setInput('columns', [
         new SkyGridColumnModel(component.template, {
           id: 'column1',
           heading: 'Column 1',
@@ -2530,7 +2532,7 @@ describe('Grid Component', () => {
           id: 'column3',
           heading: 'Column 3',
         }),
-      ];
+      ]);
 
       fixture.detectChanges();
 
@@ -2538,7 +2540,7 @@ describe('Grid Component', () => {
 
       verifyData(false, true);
 
-      component.columns = [
+      fixture.componentRef.setInput('columns', [
         new SkyGridColumnModel(component.template, {
           id: 'column1',
           heading: 'Column 1',
@@ -2547,7 +2549,7 @@ describe('Grid Component', () => {
           id: 'column2',
           heading: 'Column 2',
         }),
-      ];
+      ]);
 
       fixture.detectChanges();
 
@@ -2558,7 +2560,7 @@ describe('Grid Component', () => {
 
     it('should be able to set columns when the columns input property is updated and update correctly after initialization with selected ids', () => {
       fixture.detectChanges();
-      component.columns = [
+      fixture.componentRef.setInput('columns', [
         new SkyGridColumnModel(component.template, {
           id: 'column1',
           heading: 'Column 1',
@@ -2567,10 +2569,10 @@ describe('Grid Component', () => {
           id: 'column2',
           heading: 'Column 2',
         }),
-      ];
+      ]);
 
       let selectedColumnIds = ['column1', 'column2'];
-      fixture.componentInstance.selectedColumnIds = selectedColumnIds;
+      fixture.componentRef.setInput('selectedColumnIds', selectedColumnIds);
 
       fixture.detectChanges();
 
@@ -2578,7 +2580,7 @@ describe('Grid Component', () => {
 
       verifyData();
 
-      component.columns = [
+      fixture.componentRef.setInput('columns', [
         new SkyGridColumnModel(component.template, {
           id: 'column1',
           heading: 'Column 1',
@@ -2591,7 +2593,7 @@ describe('Grid Component', () => {
           id: 'column3',
           heading: 'Column 3',
         }),
-      ];
+      ]);
 
       fixture.detectChanges();
 
@@ -2600,7 +2602,7 @@ describe('Grid Component', () => {
       verifyData();
 
       selectedColumnIds = ['column1', 'column2', 'column3'];
-      fixture.componentInstance.selectedColumnIds = selectedColumnIds;
+      fixture.componentRef.setInput('selectedColumnIds', selectedColumnIds);
 
       fixture.detectChanges();
 
@@ -2608,7 +2610,7 @@ describe('Grid Component', () => {
 
       verifyData(false, true);
 
-      component.columns = [
+      fixture.componentRef.setInput('columns', [
         new SkyGridColumnModel(component.template, {
           id: 'column1',
           heading: 'Column 1',
@@ -2617,7 +2619,7 @@ describe('Grid Component', () => {
           id: 'column2',
           heading: 'Column 2',
         }),
-      ];
+      ]);
 
       fixture.detectChanges();
 
@@ -2628,7 +2630,7 @@ describe('Grid Component', () => {
       // Check that the selectedColumnIds were automatically updated to not include the third
       // column again.
 
-      component.columns = [
+      fixture.componentRef.setInput('columns', [
         new SkyGridColumnModel(component.template, {
           id: 'column1',
           heading: 'Column 1',
@@ -2641,7 +2643,7 @@ describe('Grid Component', () => {
           id: 'column3',
           heading: 'Column 3',
         }),
-      ];
+      ]);
 
       fixture.detectChanges();
 
@@ -2795,7 +2797,7 @@ describe('Grid Component', () => {
     });
 
     it('should call the UI config service when selected columns change', () => {
-      component.columns = [
+      fixture.componentRef.setInput('columns', [
         new SkyGridColumnModel(component.template, {
           id: 'column1',
           heading: 'Column 1',
@@ -2804,21 +2806,27 @@ describe('Grid Component', () => {
           id: 'column2',
           heading: 'Column 2',
         }),
-      ];
+      ]);
 
       fixture.detectChanges();
 
       const spy = spyOn(uiConfigService, 'setConfig').and.callThrough();
 
-      component.settingsKey = 'foobar';
+      fixture.componentRef.setInput('settingsKey', 'foobar');
       fixture.detectChanges();
-      component.selectedColumnIds = ['column1', 'column2'];
+      fixture.componentRef.setInput('selectedColumnIds', [
+        'column1',
+        'column2',
+      ]);
       fixture.detectChanges();
 
       expect(spy.calls.count()).toEqual(1);
 
       spy.calls.reset();
-      component.selectedColumnIds = ['column2', 'column1'];
+      fixture.componentRef.setInput('selectedColumnIds', [
+        'column2',
+        'column1',
+      ]);
       fixture.detectChanges();
 
       expect(spy.calls.count()).toEqual(1);
@@ -2827,7 +2835,7 @@ describe('Grid Component', () => {
     it('should fetch UI config on init', () => {
       const spy = spyOn(uiConfigService, 'getConfig').and.callThrough();
 
-      component.settingsKey = 'foobar';
+      fixture.componentRef.setInput('settingsKey', 'foobar');
       fixture.detectChanges();
 
       expect(spy).toHaveBeenCalledWith('foobar');
@@ -2835,7 +2843,7 @@ describe('Grid Component', () => {
 
     it(`should not error when columns are returned from UI config service that don't exist`, () => {
       // Start with two columns.
-      component.columns = [
+      fixture.componentRef.setInput('columns', [
         new SkyGridColumnModel(component.template, {
           id: 'column1',
           heading: 'Column 1',
@@ -2844,7 +2852,7 @@ describe('Grid Component', () => {
           id: 'column2',
           heading: 'Column 2',
         }),
-      ];
+      ]);
 
       // Return a fake from the uiConfigService of the two columns above, plus one bad column.
       const columns = {
@@ -2853,7 +2861,7 @@ describe('Grid Component', () => {
       spyOn(uiConfigService, 'getConfig').and.returnValue(
         observableOf(columns),
       );
-      component.settingsKey = 'foobar';
+      fixture.componentRef.setInput('settingsKey', 'foobar');
       fixture.detectChanges();
 
       // Expect only the two good columns to show on the grid.
@@ -2869,7 +2877,7 @@ describe('Grid Component', () => {
         return observableThrowError(new Error());
       });
 
-      component.columns = [
+      fixture.componentRef.setInput('columns', [
         new SkyGridColumnModel(component.template, {
           id: 'column1',
           heading: 'Column 1',
@@ -2878,13 +2886,16 @@ describe('Grid Component', () => {
           id: 'column2',
           heading: 'Column 2',
         }),
-      ];
+      ]);
 
       fixture.detectChanges();
 
-      component.settingsKey = 'foobar';
+      fixture.componentRef.setInput('settingsKey', 'foobar');
       fixture.detectChanges();
-      component.selectedColumnIds = ['column1', 'column2'];
+      fixture.componentRef.setInput('selectedColumnIds', [
+        'column1',
+        'column2',
+      ]);
       fixture.detectChanges();
 
       expect(spy).toHaveBeenCalledWith('Could not save grid settings.');
@@ -2900,14 +2911,14 @@ describe('Grid Component', () => {
         'initColumns',
       ).and.callThrough();
 
-      component.columns = [
+      fixture.componentRef.setInput('columns', [
         new SkyGridColumnModel(component.template, {
           id: 'column1',
           heading: 'Column 1',
         }),
-      ];
+      ]);
 
-      component.settingsKey = 'foobar';
+      fixture.componentRef.setInput('settingsKey', 'foobar');
       fixture.detectChanges();
 
       await fixture.whenStable();

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'sky-test-cmp',
@@ -6,11 +6,11 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class StatusIndicatorTestComponent {
-  public customDescription: string | undefined;
+  public customDescription = input<string | undefined>(undefined);
 
-  public descriptionType: string | undefined;
+  public descriptionType = input<string | undefined>(undefined);
 
-  public indicatorType: string | undefined;
+  public indicatorType = input<string | undefined>(undefined);
 
-  public showHelp = false;
+  public showHelp = input<boolean>(false);
 }

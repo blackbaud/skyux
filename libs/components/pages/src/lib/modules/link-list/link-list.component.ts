@@ -1,5 +1,11 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, computed, contentChildren, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  contentChildren,
+  input,
+} from '@angular/core';
 import { SkyWaitModule } from '@skyux/indicators';
 import { SkyAppLinkModule, SkyHrefModule } from '@skyux/router';
 import { SkyThemeComponentClassDirective } from '@skyux/theme';
@@ -24,6 +30,7 @@ import { SkyLinkListItemComponent } from './link-list-item.component';
     SkyHrefModule,
     SkyWaitModule,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   hostDirectives: [SkyThemeComponentClassDirective],
 })
 export class SkyLinkListComponent {

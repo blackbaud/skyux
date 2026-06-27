@@ -1,4 +1,4 @@
-import { Component, Inject, ViewChild } from '@angular/core';
+import { Component, Inject, ViewChild, input } from '@angular/core';
 
 import { SkyListViewChecklistComponent } from '../list-view-checklist.component';
 
@@ -10,7 +10,7 @@ import { SkyListViewChecklistComponent } from '../list-view-checklist.component'
 export class ListViewChecklistToolbarTestComponent {
   public selectedItems: Map<string, boolean>;
 
-  public selectMode = 'multiple';
+  public selectMode = input<string | undefined>('multiple');
 
   public showOnlySelected = false;
 

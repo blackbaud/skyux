@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyMediaBreakpoints } from '@skyux/core';
 
@@ -7,7 +7,7 @@ import { SkySelectionBoxAdapterService } from './selection-box-adapter.service';
 @Component({
   selector: 'sky-test-cmp',
   template: `
-    <div #parent [style.width]="parentWidth">
+    <div #parent [style.width]="parentWidth()">
       <div #child>Hello world</div>
     </div>
     <div #outside>I'm outside the parent!</div>
@@ -15,7 +15,7 @@ import { SkySelectionBoxAdapterService } from './selection-box-adapter.service';
   standalone: false,
 })
 class SkySelectionBoxAdapterTestComponent {
-  public parentWidth: string | undefined;
+  public parentWidth = input<string | undefined>(undefined);
 
   @ViewChild('child', {
     read: ElementRef,
@@ -58,7 +58,7 @@ describe('Selection box adapter service', () => {
   });
 
   it('should return width for parent', () => {
-    fixture.componentInstance.parentWidth = '900px';
+    fixture.componentRef.setInput('parentWidth', '900px');
     fixture.detectChanges();
     const width = adapter.getParentWidth(inputRef);
     expect(width).toEqual(900);

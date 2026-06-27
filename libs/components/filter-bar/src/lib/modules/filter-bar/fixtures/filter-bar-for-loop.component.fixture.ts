@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 import { SkyFilterBarModule } from '../filter-bar.module';
 
@@ -9,7 +9,7 @@ import { SkyFilterBarModalTestComponent } from './filter-modal-test.component.fi
   imports: [SkyFilterBarModule],
   template: `
     <sky-filter-bar>
-      @for (filter of filterItems; track filter.filterId) {
+      @for (filter of filterItems(); track filter.filterId) {
         <sky-filter-item-modal
           labelText="Hide Orange"
           modalSize="small"
@@ -21,7 +21,10 @@ import { SkyFilterBarModalTestComponent } from './filter-modal-test.component.fi
   `,
 })
 export class SkyFilterBarForLoopTestComponent {
-  public filterItems = [
-    { filterId: 'filter-1', modalComponent: SkyFilterBarModalTestComponent },
-  ];
+  public filterItems = input<
+    {
+      filterId: string;
+      modalComponent: typeof SkyFilterBarModalTestComponent;
+    }[]
+  >([{ filterId: 'filter-1', modalComponent: SkyFilterBarModalTestComponent }]);
 }

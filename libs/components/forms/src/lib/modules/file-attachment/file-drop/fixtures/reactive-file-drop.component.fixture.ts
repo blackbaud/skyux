@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -25,8 +25,8 @@ export class ReactiveFileDropTestComponent {
   public formGroup: FormGroup = inject(FormBuilder).group({
     fileDrop: this.fileDrop,
   });
-  public labelText: string | undefined;
-  public acceptedTypes: string | undefined;
+  public labelText = input<string | undefined>(undefined);
+  public acceptedTypes = input<string | undefined>(undefined);
 
   public deleteFile(file: SkyFileItem | SkyFileLink): void {
     const index = this.fileDrop.value.indexOf(file);

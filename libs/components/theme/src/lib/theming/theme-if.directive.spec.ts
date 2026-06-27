@@ -184,14 +184,14 @@ describe('ThemeIf directive', () => {
     });
 
     it('should reflect input changes', async () => {
-      fixture.componentInstance.testThemeName = 'default';
+      fixture.componentRef.setInput('testThemeName', 'default');
       testForInputElementShowing(fixture, 'This text shown for default theme.');
       await changeTheme(fixture, mockThemeSvc, MODERN_THEME);
       const inputTestElements = getInputTestElement(fixture);
 
       expect(inputTestElements).toBeNull();
 
-      fixture.componentInstance.testThemeName = 'modern';
+      fixture.componentRef.setInput('testThemeName', 'modern');
       fixture.detectChanges();
       const inputTestElementsUpdated = getInputTestElement(fixture);
       expect(inputTestElementsUpdated).not.toBeNull();

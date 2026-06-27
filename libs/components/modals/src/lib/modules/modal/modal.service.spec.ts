@@ -193,7 +193,7 @@ describe('Modal service', () => {
   it('should allow for scrolling the modal content back to the top via the returned instance', fakeAsync(() => {
     const modal = openModal(ModalTestComponent);
 
-    modal.componentInstance.longContent = true;
+    modal.componentInstance.longContent.set(true);
 
     applicationRef.tick();
 

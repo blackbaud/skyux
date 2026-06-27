@@ -20,7 +20,7 @@ async function setupTest(
 
   const fixture = TestBed.createComponent(RadioHarnessTestComponent);
   if (options.hideCheckLabel) {
-    fixture.componentInstance.hideCheckLabel = true;
+    fixture.componentRef.setInput('hideCheckLabel', true);
     fixture.detectChanges();
   }
   const loader = TestbedHarnessEnvironment.loader(fixture);
@@ -100,7 +100,7 @@ describe('Radio harness', () => {
       dataSkyId: 'my-cash-radio',
     });
 
-    fixture.componentInstance.hideCashLabel = true;
+    fixture.componentRef.setInput('hideCashLabel', true);
     fixture.detectChanges();
 
     await expectAsync(radioHarness.getLabelText()).toBeResolvedTo('Cash');
@@ -119,7 +119,7 @@ describe('Radio harness', () => {
       dataSkyId: 'my-cash-radio',
     });
 
-    fixture.componentInstance.hideCashLabel = true;
+    fixture.componentRef.setInput('hideCashLabel', true);
     fixture.detectChanges();
 
     await expectAsync(radioHarness.getLabelHidden()).toBeResolvedTo(true);
@@ -143,7 +143,7 @@ describe('Radio harness', () => {
 
     await expectAsync(radioHarness.getHintText()).toBeResolvedTo('');
 
-    fixture.componentInstance.cashHintText = hintText;
+    fixture.componentRef.setInput('cashHintText', hintText);
     fixture.detectChanges();
 
     await expectAsync(radioHarness.getHintText()).toBeResolvedTo(hintText);
@@ -201,8 +201,8 @@ describe('Radio harness', () => {
     });
     const helpSvc = TestBed.inject(SkyHelpService);
     const helpSpy = spyOn(helpSvc, 'openHelp');
-    fixture.componentInstance.helpKey = 'helpKey.html';
-    fixture.componentInstance.helpPopoverContent = undefined;
+    fixture.componentRef.setInput('helpKey', 'helpKey.html');
+    fixture.componentRef.setInput('helpPopoverContent', undefined);
     fixture.detectChanges();
 
     await radioHarness.clickHelpInline();

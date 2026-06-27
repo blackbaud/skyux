@@ -9,17 +9,6 @@
     "build": {
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/flyout"],
-      "options": {
-        "project": "libs/components/flyout/ng-package.json"
-      },
-      "configurations": {
-        "production": {
-          "tsConfig": "libs/components/flyout/tsconfig.lib.prod.json"
-        },
-        "development": {
-          "tsConfig": "libs/components/flyout/tsconfig.lib.json"
-        }
-      },
       "defaultConfiguration": "production",
       "dependsOn": [
         "^build",
@@ -34,10 +23,21 @@
         "{workspaceRoot}/libs/components/flyout/testing/src/**/*",
         "!{workspaceRoot}/libs/components/flyout/testing/src/**/*.spec.ts",
         "!{workspaceRoot}/libs/components/flyout/testing/src/**/fixtures/**/*"
-      ]
+      ],
+      "options": {
+        "project": "libs/components/flyout/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/components/flyout/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/components/flyout/tsconfig.lib.json"
+        }
+      }
     },
     "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+      "executor": "@angular/build:karma",
       "options": {
         "tsConfig": "libs/components/flyout/tsconfig.spec.json",
         "karmaConfig": "libs/components/flyout/karma.conf.js",

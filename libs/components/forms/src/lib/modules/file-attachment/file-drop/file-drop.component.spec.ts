@@ -1471,7 +1471,7 @@ describe('File drop reactive component', () => {
   });
 
   it('should set file drop to required using form control', () => {
-    fixture.componentInstance.labelText = 'File Drop';
+    fixture.componentRef.setInput('labelText', 'File Drop');
     fixture.componentInstance.fileDrop.addValidators(Validators.required);
     fixture.detectChanges();
 
@@ -1483,7 +1483,7 @@ describe('File drop reactive component', () => {
   });
 
   it('should show required error', () => {
-    fixture.componentInstance.labelText = 'testing';
+    fixture.componentRef.setInput('labelText', 'testing');
     fixture.detectChanges();
     const linkInput = fixture.nativeElement.querySelector(
       '.sky-file-drop-link input',
@@ -1561,7 +1561,7 @@ describe('File drop reactive component', () => {
   });
 
   it('should handle rejecting all files', async () => {
-    fixture.componentInstance.acceptedTypes = 'image/png';
+    fixture.componentRef.setInput('acceptedTypes', 'image/png');
     fixture.detectChanges();
 
     fixture.componentInstance.fileDrop.setValue([
@@ -1577,7 +1577,7 @@ describe('File drop reactive component', () => {
   });
 
   it('should handle accepting some files', async () => {
-    fixture.componentInstance.acceptedTypes = 'image/png';
+    fixture.componentRef.setInput('acceptedTypes', 'image/png');
     fixture.detectChanges();
 
     fixture.componentInstance.fileDrop.setValue([

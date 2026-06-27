@@ -16,7 +16,10 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { SkyAgGridRowDeleteDirective } from './ag-grid-row-delete.directive';
 import { SkyAgGridRowDeleteFixtureComponent } from './fixtures/ag-grid-row-delete.component.fixture';
 
-@Component({ standalone: true, template: '' })
+@Component({
+  standalone: true,
+  template: '',
+})
 class BlankRouteComponent {}
 
 describe('SkyAgGridRowDeleteDirective', () => {
@@ -81,7 +84,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
 
       expect(document.querySelector('.sky-inline-delete-standard')).toBeNull();
 
-      fixture.componentInstance.rowDeleteIds = ['0'];
+      fixture.componentInstance.rowDeleteIds.set(['0']);
       fixture.detectChanges();
       await fixture.whenStable();
 
@@ -97,7 +100,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
 
       expect(document.querySelector('.sky-inline-delete-standard')).toBeNull();
 
-      fixture.componentInstance.rowDeleteIds = ['0', '2'];
+      fixture.componentInstance.rowDeleteIds.set(['0', '2']);
       fixture.detectChanges();
       await fixture.whenStable();
 
@@ -111,7 +114,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
       setupTest();
       await fixture.whenStable();
 
-      fixture.componentInstance.rowDeleteIds = ['0', '2'];
+      fixture.componentInstance.rowDeleteIds.set(['0', '2']);
       fixture.detectChanges();
       await fixture.whenStable();
 
@@ -120,7 +123,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
       fixture.detectChanges();
       await fixture.whenStable();
 
-      expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '2']);
+      expect(fixture.componentInstance.rowDeleteIds()).toEqual(['0', '2']);
       expect(document.querySelector('#row-delete-ref-0')).not.toBeNull();
       expect(document.querySelector('#row-delete-ref-2')).not.toBeNull();
       expect(
@@ -132,7 +135,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
       setupTest();
       await fixture.whenStable();
 
-      fixture.componentInstance.rowDeleteIds = ['0', '2'];
+      fixture.componentInstance.rowDeleteIds.set(['0', '2']);
       fixture.detectChanges();
       await fixture.whenStable();
 
@@ -140,7 +143,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
       fixture.detectChanges();
       await fixture.whenStable();
 
-      expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '2']);
+      expect(fixture.componentInstance.rowDeleteIds()).toEqual(['0', '2']);
       expect(document.querySelector('#row-delete-ref-0')).not.toBeNull();
       expect(document.querySelector('#row-delete-ref-2')).not.toBeNull();
       expect(
@@ -152,12 +155,12 @@ describe('SkyAgGridRowDeleteDirective', () => {
       setupTest();
       await fixture.whenStable();
 
-      fixture.componentInstance.rowDeleteIds = ['0', '2'];
+      fixture.componentInstance.rowDeleteIds.set(['0', '2']);
       await fixture.componentInstance.filterName('Mar');
       fixture.detectChanges();
       await fixture.whenStable();
 
-      expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '2']);
+      expect(fixture.componentInstance.rowDeleteIds()).toEqual(['0', '2']);
       expect(document.querySelector('#row-delete-ref-0')).not.toBeNull();
       expect(document.querySelector('#row-delete-ref-2')).not.toBeNull();
       expect(
@@ -168,7 +171,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
       fixture.detectChanges();
       await fixture.whenStable();
 
-      expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '2']);
+      expect(fixture.componentInstance.rowDeleteIds()).toEqual(['0', '2']);
       expect(document.querySelector('#row-delete-ref-0')).toBeNull();
       expect(document.querySelector('#row-delete-ref-2')).toBeNull();
       expect(
@@ -179,7 +182,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
       fixture.detectChanges();
       await fixture.whenStable();
 
-      expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '2']);
+      expect(fixture.componentInstance.rowDeleteIds()).toEqual(['0', '2']);
       expect(document.querySelector('#row-delete-ref-0')).not.toBeNull();
       expect(document.querySelector('#row-delete-ref-2')).not.toBeNull();
       expect(
@@ -191,7 +194,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
       setupTest();
       await fixture.whenStable();
 
-      fixture.componentInstance.rowDeleteIds = ['0', '2'];
+      fixture.componentInstance.rowDeleteIds.set(['0', '2']);
 
       fixture.detectChanges();
       await fixture.whenStable();
@@ -201,7 +204,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
       fixture.detectChanges();
       await fixture.whenStable();
 
-      expect(fixture.componentInstance.rowDeleteIds).toEqual(['2']);
+      expect(fixture.componentInstance.rowDeleteIds()).toEqual(['2']);
       expect(document.querySelector('#row-delete-ref-0')).toBeNull();
       expect(document.querySelector('#row-delete-ref-2')).not.toBeNull();
       expect(
@@ -212,7 +215,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
 
   it('should set clip path for normal layout', async () => {
     setupTest();
-    fixture.componentInstance.rowDeleteIds = ['0'];
+    fixture.componentInstance.rowDeleteIds.set(['0']);
     fixture.componentInstance.domLayout.set('normal');
     fixture.detectChanges();
     await fixture.whenStable();
@@ -229,7 +232,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
 
     expect(document.querySelector('.sky-inline-delete-standard')).toBeNull();
 
-    fixture.componentInstance.rowDeleteIds = ['0'];
+    fixture.componentInstance.rowDeleteIds.set(['0']);
 
     fixture.detectChanges();
     await fixture.whenStable();
@@ -239,7 +242,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
       document.querySelectorAll('.sky-inline-delete-standard').length,
     ).toBe(1);
 
-    fixture.componentInstance.rowDeleteIds = [];
+    fixture.componentInstance.rowDeleteIds.set([]);
 
     fixture.detectChanges();
     await fixture.whenStable();
@@ -253,7 +256,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
 
     expect(document.querySelector('.sky-inline-delete-standard')).toBeNull();
 
-    fixture.componentInstance.rowDeleteIds = ['0'];
+    fixture.componentInstance.rowDeleteIds.set(['0']);
 
     fixture.detectChanges();
     await fixture.whenStable();
@@ -263,7 +266,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
       document.querySelectorAll('.sky-inline-delete-standard').length,
     ).toBe(1);
 
-    fixture.componentInstance.rowDeleteIds = undefined;
+    fixture.componentInstance.rowDeleteIds.set(undefined);
 
     fixture.detectChanges();
     await fixture.whenStable();
@@ -277,7 +280,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
 
     expect(document.querySelector('.sky-inline-delete-standard')).toBeNull();
 
-    fixture.componentInstance.rowDeleteIds = ['0'];
+    fixture.componentInstance.rowDeleteIds.set(['0']);
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -294,7 +297,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    expect(fixture.componentInstance.rowDeleteIds).toEqual([]);
+    expect(fixture.componentInstance.rowDeleteIds()).toEqual([]);
     expect(document.querySelector('.sky-inline-delete-standard')).toBeNull();
   });
 
@@ -304,7 +307,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
 
     expect(document.querySelector('.sky-inline-delete-standard')).toBeNull();
 
-    fixture.componentInstance.rowDeleteIds = ['0'];
+    fixture.componentInstance.rowDeleteIds.set(['0']);
 
     fixture.detectChanges();
     await fixture.whenStable();
@@ -325,7 +328,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    expect(fixture.componentInstance.rowDeleteIds).toEqual(['0']);
+    expect(fixture.componentInstance.rowDeleteIds()).toEqual(['0']);
     expect(document.querySelector('#row-delete-ref-0')).not.toBeNull();
     expect(
       document.querySelectorAll('.sky-inline-delete-standard').length,
@@ -336,11 +339,11 @@ describe('SkyAgGridRowDeleteDirective', () => {
       ).length,
     ).toBe(1);
 
-    fixture.componentInstance.rowDeleteIds = ['0'];
+    fixture.componentInstance.rowDeleteIds.set(['0']);
     fixture.detectChanges();
     await fixture.whenStable();
 
-    expect(fixture.componentInstance.rowDeleteIds).toEqual(['0']);
+    expect(fixture.componentInstance.rowDeleteIds()).toEqual(['0']);
     expect(document.querySelector('#row-delete-ref-0')).not.toBeNull();
     expect(
       document.querySelectorAll('.sky-inline-delete-standard').length,
@@ -358,7 +361,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     spyOn(fixture.componentInstance, 'cancelRowDelete').and.callThrough();
     spyOn(fixture.componentInstance, 'finishRowDelete').and.callThrough();
 
-    fixture.componentInstance.rowDeleteIds = ['0', '1'];
+    fixture.componentInstance.rowDeleteIds.set(['0', '1']);
 
     fixture.detectChanges();
     await fixture.whenStable();
@@ -371,7 +374,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '1']);
+    expect(fixture.componentInstance.rowDeleteIds()).toEqual(['0', '1']);
     expect(fixture.componentInstance.cancelRowDelete).not.toHaveBeenCalled();
     expect(fixture.componentInstance.finishRowDelete).toHaveBeenCalledWith({
       id: '0',
@@ -382,7 +385,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    expect(fixture.componentInstance.rowDeleteIds).toEqual(['1']);
+    expect(fixture.componentInstance.rowDeleteIds()).toEqual(['1']);
     expect(document.querySelector('#row-delete-ref-0')).toBeNull();
     expect(document.querySelector('#row-delete-ref-1')).not.toBeNull();
     expect(
@@ -396,7 +399,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     spyOn(fixture.componentInstance, 'cancelRowDelete').and.callThrough();
     spyOn(fixture.componentInstance, 'finishRowDelete').and.callThrough();
 
-    fixture.componentInstance.rowDeleteIds = ['0', '1'];
+    fixture.componentInstance.rowDeleteIds.set(['0', '1']);
 
     fixture.detectChanges();
     await fixture.whenStable();
@@ -414,7 +417,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    expect(fixture.componentInstance.rowDeleteIds).toEqual(['1']);
+    expect(fixture.componentInstance.rowDeleteIds()).toEqual(['1']);
     expect(fixture.componentInstance.cancelRowDelete).toHaveBeenCalledWith({
       id: '0',
     });
@@ -425,7 +428,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     setupTest();
     await fixture.whenStable();
 
-    fixture.componentInstance.rowDeleteIds = ['0', '1'];
+    fixture.componentInstance.rowDeleteIds.set(['0', '1']);
 
     fixture.detectChanges();
     await fixture.whenStable();
@@ -438,7 +441,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     overlays.forEach((overlay) =>
       expect(overlay.style.zIndex.toString()).toBe('998'),
     );
-    expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '1']);
+    expect(fixture.componentInstance.rowDeleteIds()).toEqual(['0', '1']);
     expect(
       TestBed.inject(SkyScrollableHostService)
         .watchScrollableHostClipPathChanges,
@@ -451,7 +454,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     });
     await fixture.whenStable();
 
-    fixture.componentInstance.rowDeleteIds = ['0', '1'];
+    fixture.componentInstance.rowDeleteIds.set(['0', '1']);
 
     fixture.detectChanges();
     await fixture.whenStable();
@@ -461,7 +464,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     ) as HTMLElement[];
     expect(overlays.length).toBe(1);
     overlays.forEach((overlay) => expect(overlay.style.zIndex).toBe('1111'));
-    expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '1']);
+    expect(fixture.componentInstance.rowDeleteIds()).toEqual(['0', '1']);
     const debugElement = fixture.debugElement.query(
       By.directive(SkyAgGridRowDeleteDirective),
     );
@@ -483,12 +486,12 @@ describe('SkyAgGridRowDeleteDirective', () => {
       document.querySelectorAll('.sky-grid-heading'),
     ) as HTMLElement[];
     columns.forEach((column) => columnWidths.push(column.offsetWidth));
-    fixture.componentInstance.rowDeleteIds = ['0'];
+    fixture.componentInstance.rowDeleteIds.set(['0']);
 
     fixture.detectChanges();
     await fixture.whenStable();
 
-    expect(fixture.componentInstance.rowDeleteIds).toEqual(['0']);
+    expect(fixture.componentInstance.rowDeleteIds()).toEqual(['0']);
     columns = Array.from(document.querySelectorAll('.sky-grid-heading'));
     for (let i = 0; i < columns.length; i++) {
       expect((columns[i] as HTMLElement).offsetWidth).toEqual(columnWidths[i]);
@@ -505,12 +508,12 @@ describe('SkyAgGridRowDeleteDirective', () => {
       document.querySelectorAll('.sky-grid-heading'),
     ) as HTMLElement[];
     columns.forEach((column) => columnWidths.push(column.offsetWidth));
-    fixture.componentInstance.rowDeleteIds = ['0'];
+    fixture.componentInstance.rowDeleteIds.set(['0']);
 
     fixture.detectChanges();
     await fixture.whenStable();
 
-    expect(fixture.componentInstance.rowDeleteIds).toEqual(['0']);
+    expect(fixture.componentInstance.rowDeleteIds()).toEqual(['0']);
     columns = Array.from(document.querySelectorAll('.sky-grid-heading'));
     for (let i = 0; i < columns.length; i++) {
       expect((columns[i] as HTMLElement).offsetWidth).toEqual(columnWidths[i]);
@@ -523,7 +526,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     });
     await fixture.whenStable();
 
-    fixture.componentInstance.rowDeleteIds = ['0', '1'];
+    fixture.componentInstance.rowDeleteIds.set(['0', '1']);
 
     fixture.detectChanges();
     await fixture.whenStable();
@@ -540,7 +543,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     const inlineDelete2 = document.querySelector(
       '#row-delete-ref-1',
     ) as HTMLElement;
-    expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '1']);
+    expect(fixture.componentInstance.rowDeleteIds()).toEqual(['0', '1']);
     expect(inlineDelete1.offsetLeft).toEqual(Math.round(row1Rect.left));
     expect(inlineDelete1.offsetTop).toEqual(Math.round(row1Rect.top));
     expect(inlineDelete2.offsetLeft).toEqual(Math.round(row2Rect.left));
@@ -551,7 +554,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     setupTest();
     await fixture.whenStable();
 
-    fixture.componentInstance.rowDeleteIds = ['0', '1'];
+    fixture.componentInstance.rowDeleteIds.set(['0', '1']);
 
     fixture.detectChanges();
     await fixture.whenStable();
@@ -568,7 +571,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     const inlineDelete2 = document.querySelector(
       '#row-delete-ref-1',
     ) as HTMLElement;
-    expect(fixture.componentInstance.rowDeleteIds).toEqual(['0', '1']);
+    expect(fixture.componentInstance.rowDeleteIds()).toEqual(['0', '1']);
     expect(inlineDelete1.offsetLeft).toEqual(Math.round(row1Rect.left));
     expect(inlineDelete1.offsetTop).toEqual(Math.round(row1Rect.top));
     expect(inlineDelete2.offsetLeft).toEqual(Math.round(row2Rect.left));
@@ -579,7 +582,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     setupTest({ withRouter: true });
     await fixture.whenStable();
 
-    fixture.componentInstance.rowDeleteIds = ['0'];
+    fixture.componentInstance.rowDeleteIds.set(['0']);
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -611,7 +614,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     setupTest();
     await fixture.whenStable();
 
-    fixture.componentInstance.rowDeleteIds = ['0', '1'];
+    fixture.componentInstance.rowDeleteIds.set(['0', '1']);
 
     fixture.detectChanges();
     await fixture.whenStable();
@@ -630,7 +633,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
 
   it('should be accessible', async () => {
     setupTest();
-    fixture.componentInstance.rowDeleteIds = ['0', '1'];
+    fixture.componentInstance.rowDeleteIds.set(['0', '1']);
     fixture.detectChanges();
     await fixture.whenStable();
     await expectAsync(document.body).toBeAccessible({

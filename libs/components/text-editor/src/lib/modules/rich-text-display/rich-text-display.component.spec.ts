@@ -13,7 +13,7 @@ describe('rich text display', () => {
     richText: string | undefined,
     expectedSanitizedText: string,
   ): void {
-    fixture.componentInstance.richText = richText;
+    fixture.componentRef.setInput('richText', richText);
     fixture.detectChanges();
 
     const textEl = fixture.nativeElement.querySelector(

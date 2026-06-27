@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -25,14 +25,14 @@ export class SkyStandardCheckboxGroupComponent {
   public formGroup: FormGroup;
   public contactMethod: FormGroup;
 
-  public helpKey: string | undefined;
-  public helpPopoverContent: string | undefined;
-  public hintText: string | undefined;
-  public headingHidden = false;
-  public headingLevel: SkyCheckboxGroupHeadingLevel | undefined = 3;
-  public headingStyle: SkyCheckboxGroupHeadingStyle | undefined = 3;
-  public required: boolean | undefined = false;
-  public stacked: boolean | undefined = true;
+  public helpKey = input<string | undefined>(undefined);
+  public helpPopoverContent = input<string | undefined>(undefined);
+  public hintText = input<string | undefined>(undefined);
+  public headingHidden = input(false);
+  public headingLevel = input<SkyCheckboxGroupHeadingLevel | undefined>(3);
+  public headingStyle = input<SkyCheckboxGroupHeadingStyle | undefined>(3);
+  public required = input<boolean | undefined>(false);
+  public stacked = input<boolean | undefined>(true);
 
   constructor() {
     this.contactMethod = this.#formBuilder.group({

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, model, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 import { SkyPagingModule } from '@skyux/lists';
@@ -15,23 +15,23 @@ const DATA_SKY_ID = 'test-paging';
     <sky-paging
       data-sky-id="${DATA_SKY_ID}"
       [(currentPage)]="currentPage"
-      [itemCount]="itemCount"
-      [maxPages]="maxPages"
+      [itemCount]="itemCount()"
+      [maxPages]="maxPages()"
       [pagingLabel]="pageLabel"
-      [pageSize]="pageSize"
+      [pageSize]="pageSize()"
       (currentPageChange)="currentPageChange($event)"
     >
     </sky-paging>
-    <p>The current page is {{ currentPage }}.</p>
+    <p>The current page is {{ currentPage() }}.</p>
   `,
   standalone: false,
 })
 class PagingTestComponent {
-  public currentPage = 1;
-  public itemCount = 8;
-  public maxPages = 3; // only show 3 pages in pager
+  public currentPage = model(1);
+  public itemCount = signal(8);
+  public maxPages = signal(3); // only show 3 pages in pager
   public pageLabel: string | undefined;
-  public pageSize = 2; // 4 total pages
+  public pageSize = signal(2); // 4 total pages
 
   public currentPageChange(currentPage: number): void {}
 }
@@ -45,7 +45,7 @@ describe('Paging fixture', () => {
   //#region helpers
 
   function getLastPage(): number {
-    return Math.ceil(testComponent.itemCount / testComponent.pageSize);
+    return Math.ceil(testComponent.itemCount() / testComponent.pageSize());
   }
 
   function verifyActivePageLink(
@@ -68,7 +68,7 @@ describe('Paging fixture', () => {
 
     // page count should never be higher than the max
     expect(pagingFixture.pageLinks.length).toBeLessThanOrEqual(
-      testComponent.maxPages,
+      testComponent.maxPages(),
     );
 
     // the page links should reflect the active page state
@@ -91,38 +91,38 @@ describe('Paging fixture', () => {
   it('should reflect default properties', () => {
     // verify active page
     expect(pagingFixture.activePageId).toBe(
-      testComponent.currentPage.toString(),
+      testComponent.currentPage().toString(),
     );
 
     // verify page list
     const pages = pagingFixture.pageLinks;
-    expect(pages.length).toBe(testComponent.maxPages);
-    verifyActivePageLink(pages, testComponent.currentPage);
+    expect(pages.length).toBe(testComponent.maxPages());
+    verifyActivePageLink(pages, testComponent.currentPage());
   });
 
   it('should reflect modified properties', async () => {
     // override defaults
-    testComponent.itemCount = 12;
-    testComponent.maxPages = 2; // only show 2 pages in pager
-    testComponent.pageSize = 3; // 4 total pages
-    testComponent.currentPage = 2;
+    testComponent.itemCount.set(12);
+    testComponent.maxPages.set(2); // only show 2 pages in pager
+    testComponent.pageSize.set(3); // 4 total pages
+    testComponent.currentPage.set(2);
     fixture.detectChanges();
     await fixture.whenStable();
 
     // verify active page
     expect(pagingFixture.activePageId).toBe(
-      testComponent.currentPage.toString(),
+      testComponent.currentPage().toString(),
     );
 
     // verify page list
     const pages = pagingFixture.pageLinks;
-    expect(pages.length).toBe(testComponent.maxPages);
-    verifyActivePageLink(pages, testComponent.currentPage);
+    expect(pages.length).toBe(testComponent.maxPages());
+    verifyActivePageLink(pages, testComponent.currentPage());
   });
 
   it('should handle missing paging controls due to zero items', async () => {
     // override defaults
-    testComponent.itemCount = 0;
+    testComponent.itemCount.set(0);
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -156,7 +156,7 @@ describe('Paging fixture', () => {
 
     // verify the event was fired and the current page matches our action
     expect(currentPageChangeSpy).toHaveBeenCalledWith(targetPage);
-    expect(testComponent.currentPage).toBe(targetPage);
+    expect(testComponent.currentPage()).toBe(targetPage);
 
     // verify paging state
     verifyPagingState(targetPage);
@@ -169,7 +169,7 @@ describe('Paging fixture', () => {
     );
 
     // ensure we have an active page
-    const originalPage = testComponent.currentPage;
+    const originalPage = testComponent.currentPage();
     expect(originalPage).toBe(1);
 
     // select the active page
@@ -177,7 +177,7 @@ describe('Paging fixture', () => {
 
     // verify the event was not fired and the current page remains the same
     expect(currentPageChangeSpy).toHaveBeenCalledTimes(0);
-    expect(testComponent.currentPage).toBe(originalPage);
+    expect(testComponent.currentPage()).toBe(originalPage);
 
     // verify paging state
     verifyPagingState(originalPage);
@@ -190,7 +190,7 @@ describe('Paging fixture', () => {
     );
 
     // ensure we have an active page
-    const originalPage = testComponent.currentPage;
+    const originalPage = testComponent.currentPage();
     expect(originalPage).toBe(1);
 
     // select an out of range page
@@ -198,7 +198,7 @@ describe('Paging fixture', () => {
 
     // verify the event was not fired and the current page remains the same
     expect(currentPageChangeSpy).toHaveBeenCalledTimes(0);
-    expect(testComponent.currentPage).toBe(originalPage);
+    expect(testComponent.currentPage()).toBe(originalPage);
 
     // verify paging state
     verifyPagingState(originalPage);
@@ -211,7 +211,7 @@ describe('Paging fixture', () => {
     );
 
     // ensure we have an active page with a next page available
-    const originalPage = testComponent.currentPage;
+    const originalPage = testComponent.currentPage();
     const nextPage = originalPage + 1;
     expect(originalPage).toBe(1);
     expect(pagingFixture.pageLinks).toContain(
@@ -223,7 +223,7 @@ describe('Paging fixture', () => {
 
     // verify the event was fired and the current page matches our action
     expect(currentPageChangeSpy).toHaveBeenCalledWith(nextPage);
-    expect(testComponent.currentPage).toBe(nextPage);
+    expect(testComponent.currentPage()).toBe(nextPage);
 
     // verify paging state
     verifyPagingState(nextPage);
@@ -237,19 +237,19 @@ describe('Paging fixture', () => {
 
     // move to the last page
     const lastPage = getLastPage();
-    testComponent.currentPage = lastPage;
+    testComponent.currentPage.set(lastPage);
     fixture.detectChanges();
     await fixture.whenStable();
 
     // ensure we have an active page with no next page available
-    expect(testComponent.currentPage).toBe(lastPage);
+    expect(testComponent.currentPage()).toBe(lastPage);
 
     // try to move to the next page
     await pagingFixture.selectNextPage();
 
     // verify the event was not fired and the current page remains the same
     expect(currentPageChangeSpy).toHaveBeenCalledTimes(0);
-    expect(testComponent.currentPage).toBe(lastPage);
+    expect(testComponent.currentPage()).toBe(lastPage);
 
     // verify paging state
     verifyPagingState(lastPage);
@@ -263,13 +263,13 @@ describe('Paging fixture', () => {
 
     // move to the last page
     const lastPage = getLastPage();
-    testComponent.currentPage = lastPage;
+    testComponent.currentPage.set(lastPage);
     fixture.detectChanges();
     await fixture.whenStable();
 
     // ensure we have an active page with a previous page available
     const previousPage = lastPage - 1;
-    expect(testComponent.currentPage).toBe(lastPage);
+    expect(testComponent.currentPage()).toBe(lastPage);
     expect(pagingFixture.pageLinks).toContain(
       jasmine.objectContaining({ id: `${previousPage}` }),
     );
@@ -279,7 +279,7 @@ describe('Paging fixture', () => {
 
     // verify the event was fired and the current page matches our action
     expect(currentPageChangeSpy).toHaveBeenCalledWith(previousPage);
-    expect(testComponent.currentPage).toBe(previousPage);
+    expect(testComponent.currentPage()).toBe(previousPage);
 
     // verify paging state
     verifyPagingState(previousPage);
@@ -292,7 +292,7 @@ describe('Paging fixture', () => {
     );
 
     // ensure we have an active page with no previous page available
-    const originalPage = testComponent.currentPage;
+    const originalPage = testComponent.currentPage();
     expect(originalPage).toBe(1);
 
     // try to move to the previous page
@@ -300,7 +300,7 @@ describe('Paging fixture', () => {
 
     // verify the event was not fired and the current page remains the same
     expect(currentPageChangeSpy).toHaveBeenCalledTimes(0);
-    expect(testComponent.currentPage).toBe(originalPage);
+    expect(testComponent.currentPage()).toBe(originalPage);
 
     // verify paging state
     verifyPagingState(originalPage);

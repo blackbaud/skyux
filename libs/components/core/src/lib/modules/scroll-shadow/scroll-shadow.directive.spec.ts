@@ -86,7 +86,6 @@ describe('Scroll shadow directive', () => {
   }
 
   let fixture: ComponentFixture<ScrollShadowFixtureComponent>;
-  let cmp: ScrollShadowFixtureComponent;
 
   beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
@@ -94,7 +93,6 @@ describe('Scroll shadow directive', () => {
     });
 
     fixture = TestBed.createComponent(ScrollShadowFixtureComponent);
-    cmp = fixture.componentInstance;
 
     fixture.nativeElement.style.setProperty(
       '--sky-elevation-overflow',
@@ -106,7 +104,7 @@ describe('Scroll shadow directive', () => {
   }));
 
   it('should not show a shadow when the body is not scrollable when disabled', async () => {
-    cmp.enabled = false;
+    fixture.componentRef.setInput('enabled', false);
     fixture.detectChanges();
     await waitForMutationObserver();
     fixture.detectChanges();
@@ -116,8 +114,8 @@ describe('Scroll shadow directive', () => {
   });
 
   it('should not show a shadow when the body is scrollable when disabled', async () => {
-    cmp.height = 800;
-    cmp.enabled = false;
+    fixture.componentRef.setInput('height', 800);
+    fixture.componentRef.setInput('enabled', false);
     fixture.detectChanges();
     await waitForMutationObserver();
     fixture.detectChanges();
@@ -144,7 +142,7 @@ describe('Scroll shadow directive', () => {
       return;
     }
 
-    cmp.height = 800;
+    fixture.componentRef.setInput('height', 800);
     fixture.detectChanges();
     await waitForMutationObserver();
     fixture.detectChanges();
@@ -187,7 +185,7 @@ describe('Scroll shadow directive', () => {
       return;
     }
 
-    cmp.height = 800;
+    fixture.componentRef.setInput('height', 800);
     fixture.detectChanges();
     await waitForMutationObserver();
     fixture.detectChanges();
@@ -214,7 +212,7 @@ describe('Scroll shadow directive', () => {
     const contentEl = getScrollBody();
     const footerEl = getScrollFooter();
 
-    cmp.height = 800;
+    fixture.componentRef.setInput('height', 800);
     fixture.detectChanges();
     await waitForMutationObserver();
     fixture.detectChanges();
@@ -236,7 +234,7 @@ describe('Scroll shadow directive', () => {
     const contentEl = getScrollBody();
     const footerEl = getScrollFooter();
 
-    cmp.height = 800;
+    fixture.componentRef.setInput('height', 800);
     fixture.detectChanges();
     await waitForMutationObserver();
     fixture.detectChanges();
@@ -252,7 +250,7 @@ describe('Scroll shadow directive', () => {
       '--sky-elevation-overflow',
       '0 1px 8px 0 #00ff00',
     );
-    cmp.height = 1000;
+    fixture.componentRef.setInput('height', 1000);
     fixture.detectChanges();
     await waitForMutationObserver();
     fixture.detectChanges();
@@ -272,7 +270,7 @@ describe('Scroll shadow directive', () => {
       '--sky-elevation-overflow',
       '0 1px 8px 0 hsla(120, 100.00%, 50.00%, 0.50)',
     );
-    cmp.height = 1000;
+    fixture.componentRef.setInput('height', 1000);
     fixture.detectChanges();
     await waitForMutationObserver();
     fixture.detectChanges();
@@ -292,7 +290,7 @@ describe('Scroll shadow directive', () => {
       '--sky-elevation-overflow',
       '0 1px 8px 0 #000000, 0 3px 9px 0 #00ff00',
     );
-    cmp.height = 1000;
+    fixture.componentRef.setInput('height', 1000);
     fixture.detectChanges();
     await waitForMutationObserver();
     fixture.detectChanges();

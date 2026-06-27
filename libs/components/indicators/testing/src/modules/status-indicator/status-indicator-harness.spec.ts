@@ -1,5 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { Component, model } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   SkyIndicatorDescriptionType,
@@ -15,11 +15,11 @@ import { SkyStatusIndicatorHarness } from './status-indicator-harness';
   template: `
     <sky-status-indicator
       data-sky-id="test-status-indicator"
-      [indicatorType]="indicatorType"
-      [customDescription]="customDescription"
-      [descriptionType]="descriptionType"
-      [helpPopoverContent]="helpPopoverContent"
-      [helpPopoverTitle]="helpPopoverTitle"
+      [indicatorType]="indicatorType()"
+      [customDescription]="customDescription()"
+      [descriptionType]="descriptionType()"
+      [helpPopoverContent]="helpPopoverContent()"
+      [helpPopoverTitle]="helpPopoverTitle()"
     >
       This is a sample status indicator.
     </sky-status-indicator>
@@ -34,11 +34,11 @@ import { SkyStatusIndicatorHarness } from './status-indicator-harness';
   `,
 })
 class TestComponent {
-  public indicatorType = 'warning';
-  public customDescription: string | undefined;
-  public descriptionType: SkyIndicatorDescriptionType = 'warning';
-  public helpPopoverContent = '';
-  public helpPopoverTitle = '';
+  public indicatorType = model('warning');
+  public customDescription = model<string | undefined>(undefined);
+  public descriptionType = model<SkyIndicatorDescriptionType>('warning');
+  public helpPopoverContent = model('');
+  public helpPopoverTitle = model('');
 }
 
 describe('Status indicator harness', () => {
@@ -72,12 +72,12 @@ describe('Status indicator harness', () => {
   }
 
   it('should return the expected status indicator type', async () => {
-    const { component, harness, fixture } = await setupTest();
+    const { harness, fixture } = await setupTest();
 
     async function validate(
       indicatorType: SkyIndicatorIconType,
     ): Promise<void> {
-      component.indicatorType = indicatorType;
+      fixture.componentRef.setInput('indicatorType', indicatorType);
       fixture.detectChanges();
 
       await expectAsync(harness.getIndicatorType()).toBeResolvedTo(
@@ -92,14 +92,14 @@ describe('Status indicator harness', () => {
   });
 
   it('should return the expected description type', async () => {
-    const { component, harness, fixture } = await setupTest();
+    const { harness, fixture } = await setupTest();
 
     async function validate(
       descriptionType: SkyIndicatorDescriptionType,
       customDescription?: string,
     ): Promise<void> {
-      component.descriptionType = descriptionType;
-      component.customDescription = customDescription;
+      fixture.componentRef.setInput('descriptionType', descriptionType);
+      fixture.componentRef.setInput('customDescription', customDescription);
       fixture.detectChanges();
 
       await expectAsync(harness.getDescriptionType()).toBeResolvedTo(
@@ -121,11 +121,11 @@ describe('Status indicator harness', () => {
   });
 
   it('should return the custom description when `descriptionType` is custom', async () => {
-    const { component, fixture, harness } = await setupTest();
+    const { fixture, harness } = await setupTest();
     const description = 'Custom description:';
 
-    component.descriptionType = 'custom';
-    component.customDescription = description;
+    fixture.componentRef.setInput('descriptionType', 'custom');
+    fixture.componentRef.setInput('customDescription', description);
 
     fixture.detectChanges();
 
@@ -135,9 +135,9 @@ describe('Status indicator harness', () => {
   });
 
   it('should return an empty string when `descriptionType` is not custom', async () => {
-    const { component, fixture, harness } = await setupTest();
+    const { fixture, harness } = await setupTest();
 
-    component.descriptionType = 'attention';
+    fixture.componentRef.setInput('descriptionType', 'attention');
 
     fixture.detectChanges();
 
@@ -187,7 +187,7 @@ describe('Status indicator harness', () => {
   it('should open help inline popover when clicked', async () => {
     const { harness, fixture } = await setupTest();
 
-    fixture.componentInstance.helpPopoverContent = 'This is a status';
+    fixture.componentRef.setInput('helpPopoverContent', 'This is a status');
     fixture.detectChanges();
 
     await harness.clickHelpInline();
@@ -198,8 +198,8 @@ describe('Status indicator harness', () => {
   it('should get help popover title and content', async () => {
     const { harness, fixture } = await setupTest();
 
-    fixture.componentInstance.helpPopoverContent = 'This is a status';
-    fixture.componentInstance.helpPopoverTitle = 'What is this?';
+    fixture.componentRef.setInput('helpPopoverContent', 'This is a status');
+    fixture.componentRef.setInput('helpPopoverTitle', 'What is this?');
     fixture.detectChanges();
 
     await harness.clickHelpInline();

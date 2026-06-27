@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, NgModule } from '@angular/core';
+import { Component, NgModule, signal } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -23,7 +23,7 @@ import { SkyModalFixture } from './modal-fixture';
   template: `
     <sky-modal
       data-sky-id="test-modal"
-      [ngClass]="{ 'sky-theme-modern': fakeModern }"
+      [ngClass]="{ 'sky-theme-modern': fakeModern() }"
     >
       <sky-modal-header> Test Title </sky-modal-header>
       <sky-modal-content>
@@ -50,7 +50,7 @@ import { SkyModalFixture } from './modal-fixture';
   standalone: false,
 })
 class TestModalComponent {
-  public fakeModern = false;
+  public fakeModern = signal(false);
 }
 
 @Component({
@@ -103,7 +103,7 @@ class TestComponent {
       tiledBody: this.tiledBody,
     });
 
-    this.#modalInstance.componentInstance.fakeModern = this.fakeModern;
+    this.#modalInstance.componentInstance.fakeModern.set(this.fakeModern);
     this.#modalInstance.helpOpened.subscribe((key: string) => {
       this.helpTriggered(key);
     });

@@ -132,7 +132,6 @@ describe('URL validation via directive - ruleset v1 (explicit)', () => {
     compFixture.detectChanges();
   }
 
-  let component: UrlValidationRulesetTestComponent;
   let fixture: ComponentFixture<UrlValidationRulesetTestComponent>;
   let ngModel: NgModel;
 
@@ -143,13 +142,12 @@ describe('URL validation via directive - ruleset v1 (explicit)', () => {
     fixture = TestBed.createComponent(UrlValidationRulesetTestComponent);
     const input = fixture.debugElement.query(By.css('input'));
     ngModel = input.injector.get(NgModel);
-    component = fixture.componentInstance;
   });
 
   it('should validate correct input using ruleset version 1', fakeAsync(() => {
-    component.skyUrlValidationOptions = {
+    fixture.componentRef.setInput('skyUrlValidationOptions', {
       rulesetVersion: 1,
-    };
+    });
     fixture.detectChanges();
     tick();
     setInput('https://blackbaud.com', fixture);
@@ -163,9 +161,9 @@ describe('URL validation via directive - ruleset v1 (explicit)', () => {
   }));
 
   it('should validate incorrect input using ruleset version 1', fakeAsync(() => {
-    component.skyUrlValidationOptions = {
+    fixture.componentRef.setInput('skyUrlValidationOptions', {
       rulesetVersion: 1,
-    };
+    });
     fixture.detectChanges();
     tick();
     setInput('[]abcdefgh0293abcd]', fixture);
@@ -286,7 +284,6 @@ describe('URL validation via directive - non-onceability', () => {
     compFixture.detectChanges();
   }
 
-  let component: UrlValidationRulesetTestComponent;
   let fixture: ComponentFixture<UrlValidationRulesetTestComponent>;
   let ngModel: NgModel;
 
@@ -297,13 +294,12 @@ describe('URL validation via directive - non-onceability', () => {
     fixture = TestBed.createComponent(UrlValidationRulesetTestComponent);
     const input = fixture.debugElement.query(By.css('input'));
     ngModel = input.injector.get(NgModel);
-    component = fixture.componentInstance;
   });
 
   it('should change validation rules asynchronously/reactively', fakeAsync(() => {
-    component.skyUrlValidationOptions = {
+    fixture.componentRef.setInput('skyUrlValidationOptions', {
       rulesetVersion: 1,
-    };
+    });
     fixture.detectChanges();
     tick();
     setInput('sub.domain,com/pagename', fixture);
@@ -315,9 +311,9 @@ describe('URL validation via directive - non-onceability', () => {
     expect(ngModel.control.pristine).toBe(false);
     expect(ngModel.control.touched).toBe(false);
 
-    component.skyUrlValidationOptions = {
+    fixture.componentRef.setInput('skyUrlValidationOptions', {
       rulesetVersion: 2,
-    };
+    });
     fixture.detectChanges();
     tick();
 

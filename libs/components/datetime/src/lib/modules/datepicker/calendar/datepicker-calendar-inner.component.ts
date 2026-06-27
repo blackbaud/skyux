@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -36,6 +37,7 @@ let nextDatepickerId = 0;
   imports: [CommonModule, SkyIconModule, SkyThemeModule],
   selector: 'sky-datepicker-inner',
   templateUrl: './datepicker-calendar-inner.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './datepicker-calendar-inner.component.scss',
 })
 export class SkyDatepickerCalendarInnerComponent

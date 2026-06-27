@@ -1,5 +1,5 @@
 <div
-  [class]="className"
+  [class]="className()"
   [ngClass]="{
     'added-ng-class': true
   }"
@@ -11,7 +11,7 @@
   this is a test
 </div>
 
-<div [skyTheme]="themeSettings">
+<div [skyTheme]="themeSettings()">
   <div
     class="sky-theme-class-wrapped-test"
     [skyThemeClass]="{

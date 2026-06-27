@@ -14,7 +14,7 @@ describe('required-state directive', () => {
 
     expect(fixture.nativeElement.textContent).toEqual('required: false');
 
-    fixture.componentInstance.required = true;
+    fixture.componentRef.setInput('required', true);
     fixture.detectChanges();
 
     expect(fixture.nativeElement.textContent).toEqual('required: true');

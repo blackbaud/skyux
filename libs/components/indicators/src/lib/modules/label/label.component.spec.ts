@@ -60,7 +60,7 @@ describe('Label component', () => {
   it('should add the appropriate CSS class based on the label type', () => {
     const fixture = TestBed.createComponent(LabelTestComponent);
 
-    fixture.componentInstance.labelType = 'danger';
+    fixture.componentRef.setInput('labelType', 'danger');
 
     fixture.detectChanges();
     expect(getLabel(fixture)).toHaveCssClass('sky-label-danger');
@@ -69,7 +69,7 @@ describe('Label component', () => {
   it('should have a default label type', () => {
     const fixture = TestBed.createComponent(LabelTestComponent);
 
-    fixture.componentInstance.labelType = undefined;
+    fixture.componentRef.setInput('labelType', undefined);
 
     fixture.detectChanges();
     expect(getLabel(fixture)).toHaveCssClass('sky-label-info');
@@ -77,7 +77,7 @@ describe('Label component', () => {
 
   it("should render the label's contents in the expected location", async () => {
     const fixture = TestBed.createComponent(LabelTestComponent);
-    fixture.componentInstance.labelType = 'info';
+    fixture.componentRef.setInput('labelType', 'info');
 
     fixture.detectChanges();
     expect(getLabel(fixture)).toHaveText('Test label');
@@ -93,7 +93,7 @@ describe('Label component', () => {
       descriptionType: SkyIndicatorDescriptionType,
       expectedDescription?: string,
     ): void {
-      fixture.componentInstance.descriptionType = descriptionType;
+      fixture.componentRef.setInput('descriptionType', descriptionType);
 
       fixture.detectChanges();
 
@@ -110,7 +110,7 @@ describe('Label component', () => {
 
     it('should add the expected screen reader description based on `descriptionType`', () => {
       const fixture = TestBed.createComponent(LabelTestComponent);
-      fixture.componentInstance.customDescription = 'Custom description';
+      fixture.componentRef.setInput('customDescription', 'Custom description');
 
       validateDescription(fixture, 'completed', 'Completed:');
       validateDescription(fixture, 'error', 'Error:');
@@ -125,7 +125,7 @@ describe('Label component', () => {
       validateDescription(
         fixture,
         'custom',
-        fixture.componentInstance.customDescription,
+        fixture.componentInstance.customDescription(),
       );
     });
   });
@@ -135,7 +135,7 @@ describe('Label component', () => {
     const deprecatedSpy = spyOn(logSvc, 'deprecated');
 
     const fixture = TestBed.createComponent(LabelTestComponent);
-    fixture.componentInstance.descriptionType = undefined;
+    fixture.componentRef.setInput('descriptionType', undefined);
     fixture.detectChanges();
 
     validateDeprecatedCalled(fixture, deprecatedSpy, true);
@@ -146,12 +146,12 @@ describe('Label component', () => {
     const deprecatedSpy = spyOn(logSvc, 'deprecated');
 
     const fixture = TestBed.createComponent(LabelTestComponent);
-    fixture.componentInstance.descriptionType = 'attention';
+    fixture.componentRef.setInput('descriptionType', 'attention');
     fixture.detectChanges();
 
     validateDeprecatedCalled(fixture, deprecatedSpy, false);
 
-    fixture.componentInstance.descriptionType = undefined;
+    fixture.componentRef.setInput('descriptionType', undefined);
     fixture.detectChanges();
 
     validateDeprecatedCalled(fixture, deprecatedSpy, true);
@@ -160,7 +160,7 @@ describe('Label component', () => {
   it('should render the correct icon when a `labelType` is given', () => {
     const fixture = TestBed.createComponent(LabelTestComponent);
 
-    fixture.componentInstance.labelType = 'danger';
+    fixture.componentRef.setInput('labelType', 'danger');
 
     fixture.detectChanges();
     expect(
@@ -191,8 +191,7 @@ describe('Label component', () => {
 
     it('should be accessible when label type is danger', async () => {
       const fixture = TestBed.createComponent(LabelTestComponent);
-      const cmp = fixture.componentInstance as LabelTestComponent;
-      cmp.labelType = 'danger';
+      fixture.componentRef.setInput('labelType', 'danger');
       fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -200,8 +199,7 @@ describe('Label component', () => {
 
     it('should be accessible when label type is success', async () => {
       const fixture = TestBed.createComponent(LabelTestComponent);
-      const cmp = fixture.componentInstance as LabelTestComponent;
-      cmp.labelType = 'success';
+      fixture.componentRef.setInput('labelType', 'success');
       fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -209,8 +207,7 @@ describe('Label component', () => {
 
     it('should be accessible when label type is warning', async () => {
       const fixture = TestBed.createComponent(LabelTestComponent);
-      const cmp = fixture.componentInstance as LabelTestComponent;
-      cmp.labelType = 'warning';
+      fixture.componentRef.setInput('labelType', 'warning');
       fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();

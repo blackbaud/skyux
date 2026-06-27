@@ -1,4 +1,10 @@
-import { Component, computed, inject, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+} from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
@@ -36,6 +42,7 @@ function defaultSize(value: SkyIconSize | undefined): SkyIconSize {
   host: {
     '[class]': '"sky-icon-svg-" + iconSize()',
   },
+  changeDetection: ChangeDetectionStrategy.Eager,
   hostDirectives: [SkyThemeComponentClassDirective],
 })
 export class SkyIconSvgComponent {

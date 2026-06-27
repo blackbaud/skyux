@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SkyDocsCodeSnippetWrapperComponent } from './code-snippet-wrapper.component';
@@ -6,9 +6,9 @@ import { SkyDocsCodeSnippetWrapperComponent } from './code-snippet-wrapper.compo
 @Component({
   template: `
     <sky-docs-code-snippet
-      [bordered]="bordered"
-      [hideToolbar]="hideToolbar"
-      [stacked]="stacked"
+      [bordered]="bordered()"
+      [hideToolbar]="hideToolbar()"
+      [stacked]="stacked()"
     >
       <code>const foo = 'bar';</code>
     </sky-docs-code-snippet>
@@ -16,9 +16,9 @@ import { SkyDocsCodeSnippetWrapperComponent } from './code-snippet-wrapper.compo
   imports: [SkyDocsCodeSnippetWrapperComponent],
 })
 class TestComponent {
-  public bordered = false;
-  public hideToolbar = false;
-  public stacked = false;
+  public bordered = signal(false);
+  public hideToolbar = signal(false);
+  public stacked = signal(false);
 }
 
 describe('SkyDocsCodeSnippetWrapperComponent', () => {
@@ -65,7 +65,7 @@ describe('SkyDocsCodeSnippetWrapperComponent', () => {
 
   it('should hide the toolbar when hideToolbar is true', () => {
     setupTest();
-    component.hideToolbar = true;
+    component.hideToolbar.set(true);
     fixture.detectChanges();
 
     expect(getToolbar()).toBeNull();
@@ -96,7 +96,7 @@ describe('SkyDocsCodeSnippetWrapperComponent', () => {
 
   it('should apply bordered classes when bordered is true', () => {
     setupTest();
-    component.bordered = true;
+    component.bordered.set(true);
     fixture.detectChanges();
 
     const wrapperElement = getWrapperElement();
@@ -122,7 +122,7 @@ describe('SkyDocsCodeSnippetWrapperComponent', () => {
 
   it('should apply stacked class when stacked is true', () => {
     setupTest();
-    component.stacked = true;
+    component.stacked.set(true);
     fixture.detectChanges();
 
     const wrapperElement = getWrapperElement();
@@ -133,9 +133,9 @@ describe('SkyDocsCodeSnippetWrapperComponent', () => {
 
   it('should handle all inputs being true', () => {
     setupTest();
-    component.bordered = true;
-    component.hideToolbar = true;
-    component.stacked = true;
+    component.bordered.set(true);
+    component.hideToolbar.set(true);
+    component.stacked.set(true);
     fixture.detectChanges();
 
     const wrapperElement = getWrapperElement();

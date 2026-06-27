@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 
 import { ModalTestContext } from './modal-context';
 
@@ -8,7 +8,7 @@ import { ModalTestContext } from './modal-context';
   standalone: false,
 })
 export class ModalTestComponent {
-  public longContent = false;
+  public longContent = signal(false);
 
   protected context = inject(ModalTestContext, { optional: true });
 }

@@ -1,12 +1,12 @@
 <label id="test-label">Test label element</label>
 <sky-search
-  [ariaLabel]="ariaLabel"
-  [ariaLabelledBy]="ariaLabelledBy"
-  [debounceTime]="debounceTime"
-  [disabled]="disabled"
-  [searchText]="searchText"
-  [placeholderText]="placeholderText"
-  [expandMode]="expandMode"
+  [ariaLabel]="ariaLabel()"
+  [ariaLabelledBy]="ariaLabelledBy()"
+  [debounceTime]="debounceTime()"
+  [disabled]="disabled()"
+  [searchText]="searchText()"
+  [placeholderText]="placeholderText()"
+  [expandMode]="expandMode()"
   (searchApply)="searchApplied($event)"
   (searchChange)="searchChanged($event)"
 />

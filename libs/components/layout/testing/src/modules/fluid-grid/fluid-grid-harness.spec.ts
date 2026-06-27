@@ -64,7 +64,7 @@ describe('Fluid grid test harness', () => {
 
     await expectAsync(fluidGridHarness.hasMargin()).toBeResolvedTo(true);
 
-    fixture.componentInstance.disableMargin = true;
+    fixture.componentInstance.disableMargin.set(true);
     fixture.detectChanges();
 
     await expectAsync(fluidGridHarness.hasMargin()).toBeResolvedTo(false);
@@ -79,14 +79,14 @@ describe('Fluid grid test harness', () => {
 
     await expectAsync(fluidGridHarness.getGutterSize()).toBeResolvedTo('large');
 
-    fixture.componentInstance.gutterSize = 'medium';
+    fixture.componentInstance.gutterSize.set('medium');
     fixture.detectChanges();
 
     await expectAsync(fluidGridHarness.getGutterSize()).toBeResolvedTo(
       'medium',
     );
 
-    fixture.componentInstance.gutterSize = 'small';
+    fixture.componentInstance.gutterSize.set('small');
     fixture.detectChanges();
 
     await expectAsync(fluidGridHarness.getGutterSize()).toBeResolvedTo('small');

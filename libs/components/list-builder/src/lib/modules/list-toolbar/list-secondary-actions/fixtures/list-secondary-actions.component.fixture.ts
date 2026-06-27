@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'sky-test-cmp',
@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class ListSecondaryActionsTestComponent {
-  public showOption = true;
+  public showOption = input<boolean>(true);
 }

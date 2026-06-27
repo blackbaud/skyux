@@ -132,8 +132,8 @@ describe('Avatar component', () => {
   it('should display an image when an image URL is specified', () => {
     const fixture = TestBed.createComponent(AvatarTestComponent);
 
-    fixture.componentInstance.name = 'Robert Hernandez';
-    fixture.componentInstance.src = imgUrl;
+    fixture.componentRef.setInput('name', 'Robert Hernandez');
+    fixture.componentRef.setInput('src', imgUrl);
 
     fixture.detectChanges();
 
@@ -148,8 +148,8 @@ describe('Avatar component', () => {
   it('should display an image when an image URL is specified with parenthesis', () => {
     const fixture = TestBed.createComponent(AvatarTestComponent);
 
-    fixture.componentInstance.name = 'Robert Hernandez';
-    fixture.componentInstance.src = 'stuff://fake(2).png/';
+    fixture.componentRef.setInput('name', 'Robert Hernandez');
+    fixture.componentRef.setInput('src', 'stuff://fake(2).png/');
 
     fixture.detectChanges();
 
@@ -164,8 +164,8 @@ describe('Avatar component', () => {
   it('should include screen reader text when an image URL is specified', () => {
     const fixture = TestBed.createComponent(AvatarTestComponent);
 
-    fixture.componentInstance.name = 'Robert Hernandez';
-    fixture.componentInstance.src = imgUrl;
+    fixture.componentRef.setInput('name', 'Robert Hernandez');
+    fixture.componentRef.setInput('src', imgUrl);
 
     fixture.detectChanges();
 
@@ -181,7 +181,7 @@ describe('Avatar component', () => {
   it("should display the record name's initials when no image is specified", () => {
     const fixture = TestBed.createComponent(AvatarTestComponent);
 
-    fixture.componentInstance.name = 'Robert Hernandez';
+    fixture.componentRef.setInput('name', 'Robert Hernandez');
 
     fixture.detectChanges();
 
@@ -192,7 +192,7 @@ describe('Avatar component', () => {
 
     expect(el.querySelector('.sky-avatar-initials-inner')).toHaveText('RH');
 
-    fixture.componentInstance.name = 'Example';
+    fixture.componentRef.setInput('name', 'Example');
 
     fixture.detectChanges();
 
@@ -202,7 +202,7 @@ describe('Avatar component', () => {
   it('should not include screen reader text when no image is specified', () => {
     const fixture = TestBed.createComponent(AvatarTestComponent);
 
-    fixture.componentInstance.name = 'Robert Hernandez';
+    fixture.componentRef.setInput('name', 'Robert Hernandez');
 
     fixture.detectChanges();
 
@@ -227,10 +227,10 @@ describe('Avatar component', () => {
   and has not been provided`, fakeAsync(() => {
     const fixture = TestBed.createComponent(AvatarTestComponent);
 
-    fixture.componentInstance.name = 'Robert Hernandez';
+    fixture.componentRef.setInput('name', 'Robert Hernandez');
 
     fixture.detectChanges();
-    fixture.componentInstance.avatarComponent.canChange = true;
+    fixture.componentRef.setInput('canChange', true);
 
     fixture.detectChanges();
     tick();
@@ -248,11 +248,11 @@ describe('Avatar component', () => {
   it(`should provide a aria label describing changing a profile image when one has been uploaded`, fakeAsync(() => {
     const fixture = TestBed.createComponent(AvatarTestComponent);
 
-    fixture.componentInstance.name = 'Robert Hernandez';
-    fixture.componentInstance.src = imgUrl;
+    fixture.componentRef.setInput('name', 'Robert Hernandez');
+    fixture.componentRef.setInput('src', imgUrl);
 
     fixture.detectChanges();
-    fixture.componentInstance.avatarComponent.canChange = true;
+    fixture.componentRef.setInput('canChange', true);
 
     fixture.detectChanges();
     tick();
@@ -270,7 +270,7 @@ describe('Avatar component', () => {
   it('should show the avatar when the specified source is a Blob object', function () {
     const fixture = TestBed.createComponent(AvatarTestComponent);
 
-    fixture.componentInstance.src = getImgBlob();
+    fixture.componentRef.setInput('src', getImgBlob());
 
     fixture.detectChanges();
 
@@ -283,7 +283,7 @@ describe('Avatar component', () => {
     and the scope is destroyed`, () => {
     const fixture = TestBed.createComponent(AvatarTestComponent);
 
-    fixture.componentInstance.src = getImgBlob();
+    fixture.componentRef.setInput('src', getImgBlob());
 
     fixture.detectChanges();
 
@@ -442,7 +442,7 @@ describe('Avatar component', () => {
     updateSize = true,
   ): void {
     if (updateSize) {
-      fixture.componentInstance.size = size;
+      fixture.componentRef.setInput('size', size);
       fixture.detectChanges();
     }
 
@@ -484,7 +484,7 @@ describe('Avatar component', () => {
   it('should add the expected consumer-provided size CSS class when a value is provided by the consumer and SkyDefaultInputProvider', () => {
     const fixture = TestBed.createComponent(AvatarTestComponent);
 
-    fixture.componentInstance.size = 'small';
+    fixture.componentRef.setInput('size', 'small');
     fixture.detectChanges();
 
     defaultInputProvider.setValue('avatar', 'size', 'medium');
@@ -499,7 +499,7 @@ describe('Avatar component', () => {
       size: SkyAvatarSize | undefined,
       expectedClass: string,
     ) {
-      fixture.componentInstance.size = size;
+      fixture.componentRef.setInput('size', size);
       fixture.detectChanges();
 
       const initialsEl = fixture.nativeElement.querySelector(

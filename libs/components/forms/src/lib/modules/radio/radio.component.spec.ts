@@ -49,7 +49,7 @@ describe('Radio component', function () {
     it('should emit the new disabled value when it is modified', () => {
       const onDisabledChangeSpy = spyOn(componentInstance, 'onDisabledChange');
       expect(onDisabledChangeSpy).toHaveBeenCalledTimes(0);
-      componentInstance.disabled1 = true;
+      fixture.componentRef.setInput('disabled1', true);
       fixture.detectChanges();
       expect(onDisabledChangeSpy).toHaveBeenCalledTimes(1);
     });
@@ -84,7 +84,7 @@ describe('Radio component', function () {
       expect(radios.item(0).checked).toBeFalsy();
       expect(radios.item(1).checked).toBeTruthy();
       expect(radios.item(2).checked).toBeFalsy();
-      expect(componentInstance.selectedValue).toBe('2');
+      expect(componentInstance.selectedValue()).toBe('2');
 
       SkyAppTestUtility.fireDomEvent(radios.item(1), 'blur');
       fixture.detectChanges();
@@ -114,7 +114,7 @@ describe('Radio component', function () {
 
     it('should update the radio buttons properly when ngModel is changed', fakeAsync(function () {
       fixture.detectChanges();
-      componentInstance.selectedValue = '2';
+      fixture.componentRef.setInput('selectedValue', '2');
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -133,7 +133,7 @@ describe('Radio component', function () {
       let radios = fixture.nativeElement.querySelectorAll('input');
       expect(radios.item(0).checked).toBeTruthy();
 
-      fixture.componentInstance.value1 = 'abc';
+      fixture.componentRef.setInput('value1', 'abc');
       fixture.detectChanges();
       tick();
 
@@ -149,7 +149,7 @@ describe('Radio component', function () {
       fixture.detectChanges();
       tick();
 
-      componentInstance.disabled1 = true;
+      fixture.componentRef.setInput('disabled1', true);
       fixture.detectChanges();
       tick();
 
@@ -160,9 +160,9 @@ describe('Radio component', function () {
       expect(radios.item(0).checked).toBeFalsy();
       expect(radios.item(1).checked).toBeTruthy();
       expect(radios.item(2).checked).toBeFalsy();
-      expect(componentInstance.selectedValue).toBe('2');
+      expect(componentInstance.selectedValue()).toBe('2');
 
-      componentInstance.disabled1 = false;
+      fixture.componentRef.setInput('disabled1', false);
       fixture.detectChanges();
       tick();
 
@@ -173,7 +173,7 @@ describe('Radio component', function () {
       expect(radios.item(0).checked).toBeTruthy();
       expect(radios.item(1).checked).toBeFalsy();
       expect(radios.item(2).checked).toBeFalsy();
-      expect(componentInstance.selectedValue).toBe('1');
+      expect(componentInstance.selectedValue()).toBe('1');
     }));
 
     it('should set the input id appropriately', fakeAsync(function () {
@@ -184,7 +184,7 @@ describe('Radio component', function () {
       expect(radios.item(1).id).toBe(`sky-radio-test-id-1-input`);
       expect(radios.item(2).id).toBe(`sky-radio-test-id-2-input`);
 
-      componentInstance.provideIds = false;
+      fixture.componentRef.setInput('provideIds', false);
       fixture.detectChanges();
 
       expect(radios.item(0).id).toEqual('sky-radio-MOCK_ID_1-input');
@@ -196,7 +196,7 @@ describe('Radio component', function () {
       const logService = TestBed.inject(SkyLogService);
       const deprecatedLogSpy = spyOn(logService, 'deprecated').and.stub();
 
-      componentInstance.label1 = 'My label';
+      fixture.componentRef.setInput('label1', 'My label');
       fixture.detectChanges();
       tick();
 
@@ -216,7 +216,7 @@ describe('Radio component', function () {
       const logService = TestBed.inject(SkyLogService);
       const deprecatedLogSpy = spyOn(logService, 'deprecated').and.stub();
 
-      componentInstance.labelledBy3 = 'label-id';
+      fixture.componentRef.setInput('labelledBy3', 'label-id');
       fixture.detectChanges();
       tick();
 
@@ -236,11 +236,11 @@ describe('Radio component', function () {
       const label1 = 'Label 1';
       const label2 = 'Label 2';
       const label3 = 'Label 3';
-      componentInstance.label1 = 'Other label';
-      componentInstance.labelledBy3 = '#some-element';
-      componentInstance.labelText1 = label1;
-      componentInstance.labelText2 = label2;
-      componentInstance.labelText3 = label3;
+      fixture.componentRef.setInput('label1', 'Other label');
+      fixture.componentRef.setInput('labelledBy3', '#some-element');
+      fixture.componentRef.setInput('labelText1', label1);
+      fixture.componentRef.setInput('labelText2', label2);
+      fixture.componentRef.setInput('labelText3', label3);
       fixture.detectChanges();
       tick();
 
@@ -256,11 +256,11 @@ describe('Radio component', function () {
       const label1 = 'Label 1';
       const label2 = 'Label 2';
       const label3 = 'Label 3';
-      componentInstance.label1 = 'Other label';
-      componentInstance.labelledBy3 = '#some-element';
-      componentInstance.labelText1 = label1;
-      componentInstance.labelText2 = label2;
-      componentInstance.labelText3 = label3;
+      fixture.componentRef.setInput('label1', 'Other label');
+      fixture.componentRef.setInput('labelledBy3', '#some-element');
+      fixture.componentRef.setInput('labelText1', label1);
+      fixture.componentRef.setInput('labelText2', label2);
+      fixture.componentRef.setInput('labelText3', label3);
       fixture.detectChanges();
       tick();
 
@@ -277,9 +277,9 @@ describe('Radio component', function () {
       const hintText1 = 'hint text 1';
       const hintText2 = 'hint text 2';
       const hintText3 = 'hint text 3';
-      fixture.componentInstance.hintText1 = hintText1;
-      fixture.componentInstance.hintText2 = hintText2;
-      fixture.componentInstance.hintText3 = hintText3;
+      fixture.componentRef.setInput('hintText1', hintText1);
+      fixture.componentRef.setInput('hintText2', hintText2);
+      fixture.componentRef.setInput('hintText3', hintText3);
       fixture.detectChanges();
 
       const radios = fixture.nativeElement.querySelectorAll(
@@ -299,7 +299,7 @@ describe('Radio component', function () {
     }));
 
     it('should pass a tabindex when specified', fakeAsync(function () {
-      componentInstance.tabindex2 = 3;
+      fixture.componentRef.setInput('tabindex2', 3);
       fixture.detectChanges();
       tick();
 
@@ -366,8 +366,8 @@ describe('Radio component', function () {
         fixture.nativeElement.querySelectorAll('sky-help-inline').length,
       ).toBe(0);
 
-      componentInstance.labelText1 = 'label';
-      componentInstance.helpPopoverContent = 'content';
+      fixture.componentRef.setInput('labelText1', 'label');
+      fixture.componentRef.setInput('helpPopoverContent', 'content');
       fixture.detectChanges();
 
       expect(
@@ -376,7 +376,7 @@ describe('Radio component', function () {
     }));
 
     it('should render help inline if help key and label text is provided', () => {
-      componentInstance.labelText1 = 'label';
+      fixture.componentRef.setInput('labelText1', 'label');
       fixture.detectChanges();
 
       expect(
@@ -385,7 +385,7 @@ describe('Radio component', function () {
         ),
       ).toBeFalsy();
 
-      componentInstance.helpKey = 'helpKey.html';
+      fixture.componentRef.setInput('helpKey', 'helpKey.html');
       fixture.detectChanges();
 
       expect(
@@ -397,8 +397,8 @@ describe('Radio component', function () {
 
     it('should set global help config with help key', async () => {
       const helpController = TestBed.inject(SkyHelpTestingController);
-      componentInstance.labelText1 = 'Radio button';
-      componentInstance.helpKey = 'helpKey.html';
+      fixture.componentRef.setInput('labelText1', 'Radio button');
+      fixture.componentRef.setInput('helpKey', 'helpKey.html');
       fixture.detectChanges();
 
       const helpInlineButton = fixture.nativeElement.querySelector(
@@ -431,7 +431,7 @@ describe('Radio component', function () {
         'add',
       );
 
-      fixture.componentInstance.iconName = 'book';
+      fixture.componentRef.setInput('iconName', 'book');
       fixture.detectChanges();
 
       radioIcon = debugElement.query(By.css('svg')).nativeElement;
@@ -446,25 +446,25 @@ describe('Radio component', function () {
       let span = debugElement.query(By.css('label > span')).nativeElement;
       expect(span).toHaveCssClass('sky-switch-control-info');
 
-      fixture.componentInstance.radioType = 'info';
+      fixture.componentRef.setInput('radioType', 'info');
       fixture.detectChanges();
 
       span = debugElement.query(By.css('label > span')).nativeElement;
       expect(span).toHaveCssClass('sky-switch-control-info');
 
-      fixture.componentInstance.radioType = 'success';
+      fixture.componentRef.setInput('radioType', 'success');
       fixture.detectChanges();
 
       span = debugElement.query(By.css('label > span')).nativeElement;
       expect(span).toHaveCssClass('sky-switch-control-success');
 
-      fixture.componentInstance.radioType = 'warning';
+      fixture.componentRef.setInput('radioType', 'warning');
       fixture.detectChanges();
 
       span = debugElement.query(By.css('label > span')).nativeElement;
       expect(span).toHaveCssClass('sky-switch-control-warning');
 
-      fixture.componentInstance.radioType = 'danger';
+      fixture.componentRef.setInput('radioType', 'danger');
       fixture.detectChanges();
 
       span = debugElement.query(By.css('label > span')).nativeElement;
@@ -475,7 +475,7 @@ describe('Radio component', function () {
       const logService = TestBed.inject(SkyLogService);
       const deprecatedLogSpy = spyOn(logService, 'deprecated').and.stub();
 
-      fixture.componentInstance.radioType = 'warning';
+      fixture.componentRef.setInput('radioType', 'warning');
       fixture.detectChanges();
 
       expect(deprecatedLogSpy).toHaveBeenCalledWith(

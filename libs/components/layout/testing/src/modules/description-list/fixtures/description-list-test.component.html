@@ -1,4 +1,4 @@
-<sky-description-list data-sky-id="description-list" [mode]="mode">
+<sky-description-list data-sky-id="description-list" [mode]="mode()">
   @for (item of items; track item) {
     <sky-description-list-content
       [helpPopoverContent]="item.helpContent"

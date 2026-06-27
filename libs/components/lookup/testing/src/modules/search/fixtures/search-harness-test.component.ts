@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'test-search-harness',
@@ -6,11 +6,11 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class SearchHarnessTestComponent {
-  public ariaLabel: string | undefined;
+  public ariaLabel = input<string | undefined>(undefined);
 
-  public ariaLabelledBy: string | undefined = 'foo-search-id';
+  public ariaLabelledBy = input<string | undefined>('foo-search-id');
 
-  public disabled = false;
+  public disabled = input<boolean>(false);
 
-  public placeholderText: string | undefined;
+  public placeholderText = input<string | undefined>(undefined);
 }

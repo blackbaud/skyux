@@ -67,7 +67,7 @@ describe('Split view harness', () => {
 
     await expectAsync(splitViewHarness.getDockType()).toBeResolvedTo('none');
 
-    fixture.componentInstance.dockType = 'fill';
+    fixture.componentRef.setInput('dockType', 'fill');
 
     fixture.detectChanges();
     await fixture.whenStable();
@@ -86,8 +86,8 @@ describe('Split view harness', () => {
     await expectAsync(workspaceHarness.getContent()).toBeResolved();
     await expectAsync(workspaceHarness.getFooter()).toBeResolved();
 
-    fixture.componentInstance.showContent = false;
-    fixture.componentInstance.showFooter = false;
+    fixture.componentRef.setInput('showContent', false);
+    fixture.componentRef.setInput('showFooter', false);
 
     fixture.detectChanges();
     await fixture.whenStable();
@@ -99,8 +99,8 @@ describe('Split view harness', () => {
       'Could not find split view workspace footer.',
     );
 
-    fixture.componentInstance.showDrawer = false;
-    fixture.componentInstance.showWorkspace = false;
+    fixture.componentRef.setInput('showDrawer', false);
+    fixture.componentRef.setInput('showWorkspace', false);
 
     fixture.detectChanges();
     await fixture.whenStable();

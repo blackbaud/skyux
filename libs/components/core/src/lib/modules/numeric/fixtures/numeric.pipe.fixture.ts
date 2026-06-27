@@ -1,4 +1,4 @@
-import { Component, Injectable } from '@angular/core';
+import { Component, Injectable, input } from '@angular/core';
 import { SkyAppLocaleProvider } from '@skyux/i18n';
 
 import { BehaviorSubject } from 'rxjs';
@@ -24,8 +24,8 @@ class MockLocaleProvider extends SkyAppLocaleProvider {
   imports: [SkyNumericModule],
 })
 export class NumericPipeFixtureComponent {
-  public locale: string | undefined;
-  public value: number | undefined = 1234567.89;
+  public locale = input<string | undefined>(undefined);
+  public value = input<number | undefined>(1234567.89);
 
   public updateLocaleProviderLocale(newLocale: string): void {
     providedLocale = newLocale;

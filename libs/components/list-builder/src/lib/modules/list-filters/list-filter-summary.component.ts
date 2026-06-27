@@ -1,5 +1,6 @@
 import {
   AfterContentInit,
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Output,
@@ -23,6 +24,7 @@ import { ListFilterModel } from './filter.model';
 @Component({
   selector: 'sky-list-filter-summary',
   templateUrl: './list-filter-summary.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyListFilterSummaryComponent implements AfterContentInit {

@@ -7,12 +7,13 @@
   "tags": ["component-e2e", "icons-preview"],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
-      "outputs": ["{options.outputPath}"],
+      "executor": "@angular/build:application",
+      "outputs": ["{options.outputPath.base}"],
       "options": {
-        "outputPath": "dist/apps/e2e/icon-storybook",
+        "outputPath": {
+          "base": "dist/apps/e2e/icon-storybook"
+        },
         "index": "apps/e2e/icon-storybook/src/index.html",
-        "main": "apps/e2e/icon-storybook/src/main.ts",
         "polyfills": ["zone.js"],
         "tsConfig": "apps/e2e/icon-storybook/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
@@ -21,7 +22,8 @@
           "libs/components/theme/src/lib/styles/sky.scss",
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
         ],
-        "scripts": []
+        "scripts": [],
+        "browser": "apps/e2e/icon-storybook/src/main.ts"
       },
       "configurations": {
         "production": {
@@ -40,9 +42,7 @@
           "outputHashing": "all"
         },
         "development": {
-          "buildOptimizer": false,
           "optimization": false,
-          "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
@@ -51,7 +51,7 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
+      "executor": "@angular/build:dev-server",
       "configurations": {
         "production": {
           "buildTarget": "icon-storybook:build:production"
@@ -64,7 +64,7 @@
       "continuous": true
     },
     "extract-i18n": {
-      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "executor": "@angular/build:extract-i18n",
       "options": {
         "buildTarget": "icon-storybook:build"
       }

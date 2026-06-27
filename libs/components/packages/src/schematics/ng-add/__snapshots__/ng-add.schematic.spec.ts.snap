@@ -3,7 +3,7 @@
 exports[`ng-add.schematic should install dependencies 1`] = `
 "{
   "dependencies": {
-    "@angular/cdk": "^21.0.0",
+    "@angular/cdk": "^22.0.0",
     "@skyux/assets": "^0.0.0-PLACEHOLDER",
     "@skyux/core": "^0.0.0-PLACEHOLDER",
     "@skyux/i18n": "^0.0.0-PLACEHOLDER",

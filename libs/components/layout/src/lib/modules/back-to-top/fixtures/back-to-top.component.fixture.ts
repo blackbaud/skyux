@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input, model } from '@angular/core';
 
 import { Subject } from 'rxjs';
 
@@ -11,17 +11,19 @@ import { SkyBackToTopOptions } from '../models/back-to-top-options';
   standalone: false,
 })
 export class SkyBackToTopFixtureComponent {
-  public height: number | undefined;
+  public height = input<number | undefined>(undefined);
 
-  public hideElement = false;
+  public hideElement = input<boolean>(false);
 
-  public hideParent = false;
+  public hideParent = input<boolean>(false);
 
-  public scrollableParent = false;
+  public scrollableParent = input<boolean>(false);
 
-  public backToTopController = new Subject<SkyBackToTopMessage>();
+  public backToTopController = model<Subject<SkyBackToTopMessage>>(
+    new Subject<SkyBackToTopMessage>(),
+  );
 
-  public backToTopOptions: SkyBackToTopOptions | undefined = {
+  public backToTopOptions = model<SkyBackToTopOptions | undefined>({
     buttonHidden: false,
-  };
+  });
 }

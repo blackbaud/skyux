@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { SkyErrorModule, SkyErrorType } from '@skyux/errors';
 
 @Component({
@@ -7,7 +7,7 @@ import { SkyErrorModule, SkyErrorType } from '@skyux/errors';
   imports: [SkyErrorModule],
 })
 export class ErrorHarnessTestComponent {
-  public errorType: SkyErrorType | undefined = 'broken';
+  public readonly errorType = input<SkyErrorType | undefined>('broken');
 
   public customAction(): void {
     alert('action clicked!');

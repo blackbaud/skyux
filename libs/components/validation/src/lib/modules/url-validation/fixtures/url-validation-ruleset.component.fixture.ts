@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 import { SkyUrlValidationOptions } from '../url-validation-options';
 
@@ -9,7 +9,8 @@ import { SkyUrlValidationOptions } from '../url-validation-options';
 })
 export class UrlValidationRulesetTestComponent {
   public urlValidator: string | undefined;
-  public skyUrlValidationOptions: SkyUrlValidationOptions = {
+
+  public skyUrlValidationOptions = input<SkyUrlValidationOptions>({
     rulesetVersion: 2,
-  };
+  });
 }

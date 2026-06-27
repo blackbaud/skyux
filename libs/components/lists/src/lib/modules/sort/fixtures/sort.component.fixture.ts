@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './sort.component.fixture.html',
   standalone: false,
 })
-export class SortTestComponent implements OnInit {
-  public ariaLabel: string | undefined;
-  public initialState: number | undefined;
-  public showButtonText = false;
+export class SortTestComponent {
+  public ariaLabel = input<string | undefined>(undefined);
+  public initialState = input<number | undefined>(3);
+  public showButtonText = input<boolean>(false);
   public sortOptions = [
     {
       id: 1,
@@ -49,10 +49,6 @@ export class SortTestComponent implements OnInit {
   ];
 
   public sortedItem: unknown;
-
-  public ngOnInit(): void {
-    this.initialState = 3;
-  }
 
   public sortItems(item: unknown): void {
     this.sortedItem = item;

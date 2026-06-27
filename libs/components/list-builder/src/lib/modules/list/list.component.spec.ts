@@ -533,7 +533,10 @@ describe('List Component', () => {
       }));
 
       it('should allow users to initialize selectedIds with an observable', fakeAsync(() => {
-        component.selectedIds = new BehaviorSubject<string[]>(['1', '3']);
+        fixture.componentRef.setInput(
+          'selectedIds',
+          new BehaviorSubject<string[]>(['1', '3']),
+        );
 
         tick();
         fixture.detectChanges();
@@ -552,7 +555,7 @@ describe('List Component', () => {
         tick();
         fixture.detectChanges();
 
-        component.selectedIds = ['3', '4'];
+        fixture.componentRef.setInput('selectedIds', ['3', '4']);
         tick();
         fixture.detectChanges();
         state.pipe(take(1)).subscribe((current) => {
@@ -566,7 +569,7 @@ describe('List Component', () => {
           expect(selectedIdMap.get('7')).toBeUndefined();
         });
 
-        component.selectedIds = [];
+        fixture.componentRef.setInput('selectedIds', []);
         tick();
         fixture.detectChanges();
         state.pipe(take(1)).subscribe((current) => {
@@ -585,7 +588,10 @@ describe('List Component', () => {
       }));
 
       it('should allow users to change selectedIds when using observables', fakeAsync(() => {
-        component.selectedIds = new BehaviorSubject<string[]>(['3', '4']);
+        fixture.componentRef.setInput(
+          'selectedIds',
+          new BehaviorSubject<string[]>(['3', '4']),
+        );
 
         tick();
         fixture.detectChanges();
@@ -601,7 +607,10 @@ describe('List Component', () => {
           expect(selectedIdMap.get('7')).toBeUndefined();
         });
 
-        component.selectedIds = new BehaviorSubject<string[]>([]);
+        fixture.componentRef.setInput(
+          'selectedIds',
+          new BehaviorSubject<string[]>([]),
+        );
         tick();
         fixture.detectChanges();
         state.pipe(take(1)).subscribe((current) => {
@@ -627,13 +636,13 @@ describe('List Component', () => {
           'setSelected',
         ).and.callThrough();
 
-        component.selectedIds = ['3', '4'];
+        fixture.componentRef.setInput('selectedIds', ['3', '4']);
         tick();
         fixture.detectChanges();
         expect(dispatcherSpy).toHaveBeenCalledTimes(1);
         dispatcherSpy.calls.reset();
 
-        component.selectedIds = ['3', '4'];
+        fixture.componentRef.setInput('selectedIds', ['3', '4']);
         tick();
         fixture.detectChanges();
         expect(dispatcherSpy).not.toHaveBeenCalled();
@@ -650,13 +659,13 @@ describe('List Component', () => {
           'setSelected',
         ).and.callThrough();
 
-        component.selectedIds = ['3', '4'];
+        fixture.componentRef.setInput('selectedIds', ['3', '4']);
         tick();
         fixture.detectChanges();
         expect(dispatcherSpy).toHaveBeenCalledTimes(1);
         dispatcherSpy.calls.reset();
 
-        component.selectedIds = undefined;
+        fixture.componentRef.setInput('selectedIds', undefined);
         tick();
         fixture.detectChanges();
         expect(dispatcherSpy).toHaveBeenCalledTimes(1);
@@ -873,7 +882,7 @@ describe('List Component', () => {
           }),
         ];
 
-        component.listFilters = appliedFilters;
+        fixture.componentRef.setInput('listFilters', appliedFilters);
         fixture.detectChanges();
         tick();
         state.pipe(take(1)).subscribe((current) => {
@@ -902,7 +911,7 @@ describe('List Component', () => {
           }),
         ];
 
-        component.listFilters = appliedFilters;
+        fixture.componentRef.setInput('listFilters', appliedFilters);
         fixture.detectChanges();
         tick();
         state.pipe(take(1)).subscribe((current) => {
@@ -932,7 +941,7 @@ describe('List Component', () => {
           }),
         ];
 
-        component.listFilters = appliedFilters;
+        fixture.componentRef.setInput('listFilters', appliedFilters);
         fixture.detectChanges();
         tick();
         state.pipe(take(1)).subscribe((current) => {

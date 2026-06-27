@@ -40,7 +40,7 @@ describe('Filter button', () => {
   }
 
   it('should allow setting active state', () => {
-    component.filtersActive = true;
+    fixture.componentRef.setInput('filtersActive', true);
     fixture.detectChanges();
     expect(nativeElement.querySelector('.sky-btn')).toHaveCssClass(
       'sky-filter-btn-active',
@@ -48,7 +48,7 @@ describe('Filter button', () => {
   });
 
   it('should allow setting id', () => {
-    component.buttonId = 'i-am-an-id-look-at-me';
+    fixture.componentRef.setInput('buttonId', 'i-am-an-id-look-at-me');
     fixture.detectChanges();
     expect(nativeElement.querySelector('.sky-btn')?.id).toBe(
       'i-am-an-id-look-at-me',
@@ -56,9 +56,9 @@ describe('Filter button', () => {
   });
 
   it('should allow setting aria properties', () => {
-    component.ariaControls = 'filter-zone-2';
-    component.ariaExpanded = true;
-    component.ariaLabel = 'Test label';
+    fixture.componentRef.setInput('ariaControls', 'filter-zone-2');
+    fixture.componentRef.setInput('ariaExpanded', true);
+    fixture.componentRef.setInput('ariaLabel', 'Test label');
     fixture.detectChanges();
 
     const button = nativeElement.querySelector('.sky-btn');
@@ -81,7 +81,7 @@ describe('Filter button', () => {
     contentInfoProvider.patchInfo({
       descriptor: { value: 'constituents', type: 'text' },
     });
-    component.ariaLabel = 'Overwritten label';
+    fixture.componentRef.setInput('ariaLabel', 'Overwritten label');
     fixture.detectChanges();
 
     const button = nativeElement.querySelector('.sky-btn');
@@ -105,7 +105,7 @@ describe('Filter button', () => {
   it('should show button text', () => {
     fixture.detectChanges();
     verifyTextNotPresent();
-    component.showButtonText = true;
+    fixture.componentRef.setInput('showButtonText', true);
     fixture.detectChanges();
     verifyTextPresent();
   });

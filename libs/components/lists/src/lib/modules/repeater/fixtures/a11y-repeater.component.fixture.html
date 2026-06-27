@@ -1,15 +1,15 @@
 <sky-repeater
-  [expandMode]="expandMode"
-  [reorderable]="reorderable"
+  [expandMode]="expandMode()"
+  [reorderable]="reorderable()"
   [(activeIndex)]="activeIndex"
 >
-  @for (item of items; track item) {
+  @for (item of items(); track item) {
     <sky-repeater-item
       [selectable]="item.selectable"
       [disabled]="item.disabled"
       [isExpanded]="item.expanded"
       [isSelected]="item.selected"
-      [reorderable]="item.reorderable ?? reorderable"
+      [reorderable]="item.reorderable ?? reorderable()"
       [tag]="item.tag"
     >
       @if (item.context) {

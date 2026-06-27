@@ -1,5 +1,6 @@
 import {
   AfterContentInit,
+  ChangeDetectionStrategy,
   Component,
   ContentChildren,
   EventEmitter,
@@ -25,6 +26,7 @@ import { SkyCardTitleComponent } from './card-title.component';
   selector: 'sky-card',
   styleUrls: ['./card.component.scss'],
   templateUrl: './card.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyCardComponent implements AfterContentInit, OnDestroy {

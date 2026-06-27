@@ -73,7 +73,7 @@ describe('Infinite scroll', () => {
   });
 
   it('should not fire parentChanges event for infinite scroll elements', () => {
-    fixture.componentInstance.enabled = true;
+    fixture.componentRef.setInput('enabled', true);
     // Set this to true manually so we can check if the parentChanges event sets it to false.
     fixture.componentInstance.infiniteScrollComponent.isWaiting = true;
     fixture.detectChanges();
@@ -83,7 +83,7 @@ describe('Infinite scroll', () => {
   });
 
   it('should not show wait component or load button when enabled is false.', () => {
-    fixture.componentInstance.enabled = false;
+    fixture.componentRef.setInput('enabled', false);
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('.sky-btn')).toBeNull();
     expect(fixture.nativeElement.querySelector('.sky-wait')).toBeNull();
@@ -94,19 +94,19 @@ describe('Infinite scroll', () => {
       fixture.componentInstance,
       'onScrollEnd',
     ).and.callThrough();
-    fixture.componentInstance.enabled = true;
+    fixture.componentRef.setInput('enabled', true);
     fixture.detectChanges();
 
     clickLoadButton();
-    expect(fixture.componentInstance.items.length).toBe(10);
+    expect(fixture.componentInstance.items().length).toBe(10);
     expect(spy).toHaveBeenCalled();
   });
 
   it('should emit a scrollEnd event on scroll when window is the scrollable parent', () => {
-    fixture.componentInstance.enabled = true;
+    fixture.componentRef.setInput('enabled', true);
     fixture.componentInstance.loadItems(1000);
     fixture.detectChanges();
-    expect(fixture.componentInstance.items.length).toBe(1000);
+    expect(fixture.componentInstance.items().length).toBe(1000);
 
     const spy = spyOn(
       fixture.componentInstance,
@@ -124,10 +124,10 @@ describe('Infinite scroll', () => {
   });
 
   it('should not emit scrollEnd if waiting', () => {
-    fixture.componentInstance.enabled = true;
+    fixture.componentRef.setInput('enabled', true);
     fixture.componentInstance.loadItems(1000);
     fixture.detectChanges();
-    expect(fixture.componentInstance.items.length).toBe(1000);
+    expect(fixture.componentInstance.items().length).toBe(1000);
 
     const spy = spyOn(
       fixture.componentInstance,
@@ -149,7 +149,7 @@ describe('Infinite scroll', () => {
       fixture.componentInstance,
       'onScrollEnd',
     ).and.callThrough();
-    fixture.componentInstance.enabled = false;
+    fixture.componentRef.setInput('enabled', false);
     fixture.componentInstance.loadItems(1000);
     fixture.detectChanges();
     scrollWindowBottom();
@@ -161,10 +161,10 @@ describe('Infinite scroll', () => {
       fixture.componentInstance,
       'onScrollEnd',
     ).and.callThrough();
-    fixture.componentInstance.enabled = false;
+    fixture.componentRef.setInput('enabled', false);
     fixture.componentInstance.loadItems(1000);
     fixture.detectChanges();
-    fixture.componentInstance.enabled = true;
+    fixture.componentRef.setInput('enabled', true);
     fixture.detectChanges();
     scrollWindowBottom();
     expect(spy).toHaveBeenCalled();
@@ -174,10 +174,10 @@ describe('Infinite scroll', () => {
     const wrapper = fixture.componentInstance.wrapper?.nativeElement;
     wrapper.setAttribute('style', 'height:200px;overflow:auto;');
 
-    fixture.componentInstance.enabled = true;
+    fixture.componentRef.setInput('enabled', true);
     fixture.componentInstance.loadItems(1000);
     fixture.detectChanges();
-    expect(fixture.componentInstance.items.length).toBe(1000);
+    expect(fixture.componentInstance.items().length).toBe(1000);
 
     const spy = spyOn(
       fixture.componentInstance,
@@ -202,8 +202,8 @@ describe('Infinite scroll', () => {
     ).and.callThrough();
 
     // Simulate the component in a loading state.
-    fixture.componentInstance.enabled = true;
-    fixture.componentInstance.loading = true;
+    fixture.componentRef.setInput('enabled', true);
+    fixture.componentRef.setInput('loading', true);
 
     // Add items to the DOM while the component is still in the loading state.
     fixture.componentInstance.loadItems(1000);
@@ -214,7 +214,7 @@ describe('Infinite scroll', () => {
     expect(spy).not.toHaveBeenCalled();
 
     // Component is done loading. Scrolling again should cause the scrollEnd event to fire.
-    fixture.componentInstance.loading = false;
+    fixture.componentRef.setInput('loading', false);
     fixture.detectChanges();
 
     scrollWindowBottom();
@@ -225,7 +225,7 @@ describe('Infinite scroll', () => {
     const parentChangesObs = new Subject<void>();
     parentChangesSpy.and.returnValue(parentChangesObs);
 
-    fixture.componentInstance.enabled = true;
+    fixture.componentRef.setInput('enabled', true);
     fixture.detectChanges();
 
     parentChangesObs.next();
@@ -239,10 +239,10 @@ describe('Infinite scroll', () => {
     const parentChangesObs = new Subject<void>();
     parentChangesSpy.and.returnValue(parentChangesObs);
 
-    fixture.componentInstance.enabled = true;
+    fixture.componentRef.setInput('enabled', true);
 
     // Changing loading to true should set isWaiting to true.
-    fixture.componentInstance.loading = true;
+    fixture.componentRef.setInput('loading', true);
     fixture.detectChanges();
 
     expect(fixture.componentInstance.infiniteScrollComponent.isWaiting).toBe(
@@ -257,7 +257,7 @@ describe('Infinite scroll', () => {
     );
 
     // Changing loading to false should set isWaiting to false.
-    fixture.componentInstance.loading = false;
+    fixture.componentRef.setInput('loading', false);
     fixture.detectChanges();
 
     expect(fixture.componentInstance.infiniteScrollComponent.isWaiting).toBe(
@@ -269,10 +269,10 @@ describe('Infinite scroll', () => {
     const wrapper = fixture.componentInstance.wrapper?.nativeElement;
     wrapper.setAttribute('style', 'height:200px;overflow-y:scroll;');
 
-    fixture.componentInstance.enabled = true;
+    fixture.componentRef.setInput('enabled', true);
     fixture.componentInstance.loadItems(1000);
     fixture.detectChanges();
-    expect(fixture.componentInstance.items.length).toBe(1000);
+    expect(fixture.componentInstance.items().length).toBe(1000);
 
     const spy = spyOn(
       fixture.componentInstance,

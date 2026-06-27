@@ -1,4 +1,9 @@
-import { Component, Input, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  inject,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyMediaQueryService } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
@@ -14,6 +19,7 @@ import { SkyThemeModule } from '@skyux/theme';
     './action-button-icon.modern.component.scss',
   ],
   templateUrl: './action-button-icon.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyIconModule, SkyThemeModule],
 })
 export class SkyActionButtonIconComponent {

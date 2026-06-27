@@ -42,7 +42,7 @@ describe('Field group harness', () => {
       dataSkyId: 'field-group',
     });
 
-    fixture.componentInstance.headingHidden = true;
+    fixture.componentRef.setInput('headingHidden', true);
     fixture.detectChanges();
 
     await expectAsync(fieldGroupHarness.getHeadingText()).toBeResolvedTo(
@@ -61,7 +61,7 @@ describe('Field group harness', () => {
   it('should indicate the heading is hidden', async () => {
     const { fieldGroupHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.headingHidden = true;
+    fixture.componentRef.setInput('headingHidden', true);
     fixture.detectChanges();
 
     await expectAsync(fieldGroupHarness.getHeadingHidden()).toBeResolvedTo(
@@ -75,7 +75,7 @@ describe('Field group harness', () => {
 
     await expectAsync(fieldGroupHarness.getHintText()).toBeResolvedTo('');
 
-    fixture.componentInstance.hintText = hintText;
+    fixture.componentRef.setInput('hintText', hintText);
     fixture.detectChanges();
 
     await expectAsync(fieldGroupHarness.getHintText()).toBeResolvedTo(hintText);
@@ -84,7 +84,7 @@ describe('Field group harness', () => {
   it('should indicate the component is stacked', async () => {
     const { fieldGroupHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.stacked = true;
+    fixture.componentRef.setInput('stacked', true);
     fixture.detectChanges();
 
     await expectAsync(fieldGroupHarness.getStacked()).toBeResolvedTo(true);
@@ -98,12 +98,12 @@ describe('Field group harness', () => {
   it('should return the heading level', async () => {
     const { fieldGroupHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.headingLevel = 3;
+    fixture.componentRef.setInput('headingLevel', 3);
     fixture.detectChanges();
 
     await expectAsync(fieldGroupHarness.getHeadingLevel()).toBeResolvedTo(3);
 
-    fixture.componentInstance.headingLevel = 4;
+    fixture.componentRef.setInput('headingLevel', 4);
     fixture.detectChanges();
 
     await expectAsync(fieldGroupHarness.getHeadingLevel()).toBeResolvedTo(4);
@@ -112,15 +112,15 @@ describe('Field group harness', () => {
   it('should return the heading style', async () => {
     const { fieldGroupHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.headingLevel = 3;
-    fixture.componentInstance.headingStyle = 4;
+    fixture.componentRef.setInput('headingLevel', 3);
+    fixture.componentRef.setInput('headingStyle', 4);
     fixture.detectChanges();
 
     await expectAsync(fieldGroupHarness.getHeadingLevel()).toBeResolvedTo(3);
     await expectAsync(fieldGroupHarness.getHeadingStyle()).toBeResolvedTo(4);
 
-    fixture.componentInstance.headingLevel = 4;
-    fixture.componentInstance.headingStyle = 3;
+    fixture.componentRef.setInput('headingLevel', 4);
+    fixture.componentRef.setInput('headingStyle', 3);
     fixture.detectChanges();
 
     await expectAsync(fieldGroupHarness.getHeadingLevel()).toBeResolvedTo(4);
@@ -130,8 +130,8 @@ describe('Field group harness', () => {
   it('should throw an error if no help inline is found', async () => {
     const { fieldGroupHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.helpPopoverContent = undefined;
-    fixture.componentInstance.helpKey = undefined;
+    fixture.componentRef.setInput('helpPopoverContent', undefined);
+    fixture.componentRef.setInput('helpKey', undefined);
     fixture.detectChanges();
 
     await expectAsync(
@@ -154,7 +154,7 @@ describe('Field group harness', () => {
     const helpSvc = TestBed.inject(SkyHelpService);
     const helpSpy = spyOn(helpSvc, 'openHelp');
 
-    fixture.componentInstance.helpKey = 'helpKey.html';
+    fixture.componentRef.setInput('helpKey', 'helpKey.html');
 
     await fieldGroupHarness.clickHelpInline();
     fixture.detectChanges();

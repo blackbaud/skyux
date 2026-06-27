@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewChild, inject } from '@angular/core';
+import { Component, OnDestroy, ViewChild, inject, input } from '@angular/core';
 import { SkyModalInstance, SkyModalService } from '@skyux/modals';
 
 import { SkySummaryActionBarSecondaryActionsComponent } from '../actions/summary-action-bar-secondary-actions.component';
@@ -16,11 +16,11 @@ import { SkySummaryActionBarModalTestComponent } from './summary-action-bar-moda
 export class SkySummaryActionBarTestComponent implements OnDestroy {
   public disableButtons = false;
 
-  public extraActions = false;
+  public extraActions = input<boolean>(false);
 
   public formErrors: SkySummaryActionBarError[] | undefined = undefined;
 
-  public hideMainActionBar = false;
+  public hideMainActionBar = input<boolean>(false);
 
   public showSecondaryActionBar = false;
 

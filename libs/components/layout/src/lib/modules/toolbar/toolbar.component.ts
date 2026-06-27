@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ContentChildren,
   Input,
@@ -17,6 +18,7 @@ import { SkyToolbarSectionComponent } from './toolbar-section.component';
   styleUrls: ['./toolbar.component.scss'],
   templateUrl: './toolbar.component.html',
   providers: [SkyContentInfoProvider],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyToolbarComponent {

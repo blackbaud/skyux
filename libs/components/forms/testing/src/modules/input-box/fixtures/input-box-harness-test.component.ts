@@ -1,4 +1,4 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, model, TemplateRef, ViewChild } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormControl,
@@ -19,16 +19,17 @@ export class InputBoxHarnessTestComponent {
   })
   public helpContentTemplate: TemplateRef<unknown> | undefined;
 
-  public easyModeDisabled = false;
-  public easyModeHelpContent: string | TemplateRef<unknown> | undefined =
-    'Help content';
-  public easyModeHelpKey: string | undefined;
-  public easyModeHelpTitle = 'Help title';
-  public easyModeLabel: string | undefined = 'Last name (easy mode)';
-  public easyModeStacked = false;
-  public easyModelValue = 'test';
-  public easyModeCharacterLimit: number | undefined;
-  public easyModeHintText: string | undefined;
+  public easyModeDisabled = model(false);
+  public easyModeHelpContent = model<string | TemplateRef<unknown> | undefined>(
+    'Help content',
+  );
+  public easyModeHelpKey = model<string | undefined>(undefined);
+  public easyModeHelpTitle = model('Help title');
+  public easyModeLabel = model<string | undefined>('Last name (easy mode)');
+  public easyModeStacked = model(false);
+  public easyModelValue = model('test');
+  public easyModeCharacterLimit = model<number | undefined>(undefined);
+  public easyModeHintText = model<string | undefined>(undefined);
   public maxDate = new Date('01/01/2100');
   public minDate = new Date('01/01/2000');
 

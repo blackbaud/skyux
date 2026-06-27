@@ -1,4 +1,4 @@
-import { Component, Inject, ViewChild } from '@angular/core';
+import { Component, Inject, ViewChild, input } from '@angular/core';
 
 import { ListFilterModel } from '../../list-filters/filter.model';
 import { SkyListComponent } from '../list.component';
@@ -15,7 +15,7 @@ export class ListFilteredTestComponent {
   })
   public list: SkyListComponent;
 
-  public listFilters: ListFilterModel[] = [];
+  public listFilters = input<ListFilterModel[]>([]);
 
   public appliedFilters: ListFilterModel[] = [];
 

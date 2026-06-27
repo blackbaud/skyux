@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -65,6 +65,8 @@ export class InlineFormCustomButtonsExampleComponent implements OnInit {
 
   protected showForm = false;
 
+  readonly #changeDetectorRef = inject(ChangeDetectorRef);
+
   constructor() {
     this.formGroup = inject(FormBuilder).group({
       firstName: new FormControl<string>('', { nonNullable: true }),
@@ -79,6 +81,7 @@ export class InlineFormCustomButtonsExampleComponent implements OnInit {
       ) {
         this.inlineFormConfig.buttons[0].disabled = this.formGroup.invalid;
         this.inlineFormConfig = { ...{}, ...this.inlineFormConfig };
+        this.#changeDetectorRef.markForCheck();
       }
     });
   }

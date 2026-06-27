@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   Input,
@@ -24,6 +25,7 @@ let nextId = 0;
   templateUrl: './wait.component.html',
   styleUrls: ['./wait.component.scss'],
   providers: [SkyWaitAdapterService],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [CommonModule, SkyIndicatorsResourcesModule],
 })
 export class SkyWaitComponent implements OnInit, OnDestroy {

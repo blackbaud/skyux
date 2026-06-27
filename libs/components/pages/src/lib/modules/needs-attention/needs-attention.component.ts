@@ -1,5 +1,11 @@
 import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, effect, inject, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  inject,
+  input,
+} from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { SkyLogService, SkyTrimModule } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
@@ -25,6 +31,7 @@ import { SkyPagesResourcesModule } from '../shared/sky-pages-resources.module';
   selector: 'sky-needs-attention',
   templateUrl: './needs-attention.component.html',
   styleUrls: ['./needs-attention.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     SkyAppLinkModule,
     SkyBoxModule,

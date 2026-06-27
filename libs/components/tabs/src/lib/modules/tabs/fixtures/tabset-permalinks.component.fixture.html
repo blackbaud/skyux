@@ -1,6 +1,6 @@
-@if (showIt) {
+@if (showIt()) {
   <sky-tabset
-    [active]="activeIndex"
+    [active]="activeIndex()"
     [permalinkId]="permalinkId"
     (activeChange)="onActiveChange($event)"
   >

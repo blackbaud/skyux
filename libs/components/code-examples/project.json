@@ -35,7 +35,7 @@
       "defaultConfiguration": "production"
     },
     "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+      "executor": "@angular/build:karma",
       "options": {
         "tsConfig": "libs/components/code-examples/tsconfig.spec.json",
         "karmaConfig": "libs/components/code-examples/karma.conf.js",

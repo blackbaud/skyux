@@ -9,17 +9,6 @@
     "build": {
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/progress-indicator"],
-      "options": {
-        "project": "libs/components/progress-indicator/ng-package.json"
-      },
-      "configurations": {
-        "production": {
-          "tsConfig": "libs/components/progress-indicator/tsconfig.lib.prod.json"
-        },
-        "development": {
-          "tsConfig": "libs/components/progress-indicator/tsconfig.lib.json"
-        }
-      },
       "defaultConfiguration": "production",
       "dependsOn": [
         "^build",
@@ -34,10 +23,21 @@
         "{workspaceRoot}/libs/components/progress-indicator/testing/src/**/*",
         "!{workspaceRoot}/libs/components/progress-indicator/testing/src/**/*.spec.ts",
         "!{workspaceRoot}/libs/components/progress-indicator/testing/src/**/fixtures/**/*"
-      ]
+      ],
+      "options": {
+        "project": "libs/components/progress-indicator/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/components/progress-indicator/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/components/progress-indicator/tsconfig.lib.json"
+        }
+      }
     },
     "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+      "executor": "@angular/build:karma",
       "options": {
         "tsConfig": "libs/components/progress-indicator/tsconfig.spec.json",
         "karmaConfig": "libs/components/progress-indicator/karma.conf.js",

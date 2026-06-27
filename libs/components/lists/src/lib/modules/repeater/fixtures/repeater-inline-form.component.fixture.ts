@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, model } from '@angular/core';
 import {
   SkyInlineFormCloseArgs,
   SkyInlineFormConfig,
@@ -18,14 +18,14 @@ export class RepeaterInlineFormFixtureComponent {
   })
   public repeater: SkyRepeaterComponent | undefined;
 
-  public showInlineForm = false;
+  public showInlineForm = model<boolean>(false);
 
-  public inlineFormConfig: SkyInlineFormConfig | undefined;
+  public inlineFormConfig = model<SkyInlineFormConfig | undefined>(undefined);
 
   public inlineFormCloseArgs: SkyInlineFormCloseArgs | undefined;
 
   public onInlineFormClose(inlineFormCloseArgs: SkyInlineFormCloseArgs): void {
     this.inlineFormCloseArgs = inlineFormCloseArgs;
-    this.showInlineForm = false;
+    this.showInlineForm.set(false);
   }
 }

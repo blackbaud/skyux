@@ -1,4 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
   FormBuilder,
@@ -47,6 +48,8 @@ export class DatetimeDateRangePickerBasicExampleComponent {
     'Donations received today are updated at the top of each hour.';
   protected labelText = 'Last donation';
 
+  readonly #cdr = inject(ChangeDetectorRef);
+
   protected lastDonation = new FormControl<SkyDateRangeCalculation>(
     {
       value: {
@@ -63,4 +66,10 @@ export class DatetimeDateRangePickerBasicExampleComponent {
   protected formGroup = inject(FormBuilder).group({
     lastDonation: this.lastDonation,
   });
+
+  constructor() {
+    this.lastDonation.statusChanges.pipe(takeUntilDestroyed()).subscribe(() => {
+      this.#cdr.markForCheck();
+    });
+  }
 }

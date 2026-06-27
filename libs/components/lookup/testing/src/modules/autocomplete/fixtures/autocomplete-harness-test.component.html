@@ -5,9 +5,9 @@
       Favorite color
     </label>
     <sky-autocomplete
-      [ariaLabelledBy]="ariaLabelledby"
+      [ariaLabelledBy]="ariaLabelledby()"
       [data]="colors"
-      [noResultsFoundText]="noResultFoundText"
+      [noResultsFoundText]="noResultFoundText()"
       [attr.data-sky-id]="'my-autocomplete-1'"
     >
       <input
@@ -48,8 +48,8 @@
     <sky-autocomplete
       class="my-autocomplete-3"
       [data]="colors"
-      [enableShowMore]="enableShowMore"
-      [showAddButton]="showAddButton"
+      [enableShowMore]="enableShowMore()"
+      [showAddButton]="showAddButton()"
       (addClick)="onAddClick()"
       (showMoreClick)="onShowMoreClick()"
     >

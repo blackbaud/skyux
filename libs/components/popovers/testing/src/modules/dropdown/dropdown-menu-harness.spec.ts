@@ -1,6 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyDropdownModule } from '@skyux/popovers';
 
@@ -10,17 +10,17 @@ import { SkyDropdownMenuHarness } from './dropdown-menu-harness';
 @Component({
   selector: 'sky-dropdown-menu-test',
   template: `
-    <sky-dropdown-menu [ariaLabelledBy]="labelledBy" [ariaRole]="role">
-      <sky-dropdown-item [ariaRole]="itemRole">Option 1</sky-dropdown-item>
+    <sky-dropdown-menu [ariaLabelledBy]="labelledBy()" [ariaRole]="role()">
+      <sky-dropdown-item [ariaRole]="itemRole()">Option 1</sky-dropdown-item>
       <sky-dropdown-item>Option 2</sky-dropdown-item>
     </sky-dropdown-menu>
   `,
   standalone: false,
 })
 class TestDropdownMenuComponent {
-  public labelledBy: string | undefined;
-  public role: string | undefined;
-  public itemRole: string | undefined;
+  public readonly labelledBy = input<string | undefined>(undefined);
+  public readonly role = input<string | undefined>(undefined);
+  public readonly itemRole = input<string | undefined>(undefined);
 }
 // #endregion Test Component
 
@@ -44,7 +44,7 @@ describe('Dropdown menu test harness', () => {
   it('should get the aria-labelledBy', async () => {
     const { dropdownMenuHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.labelledBy = 'aria-labelledBy';
+    fixture.componentRef.setInput('labelledBy', 'aria-labelledBy');
     fixture.detectChanges();
 
     await expectAsync(dropdownMenuHarness.getAriaLabelledBy()).toBeResolvedTo(
@@ -55,7 +55,7 @@ describe('Dropdown menu test harness', () => {
   it('should get menu role', async () => {
     const { dropdownMenuHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.role = 'menu-role';
+    fixture.componentRef.setInput('role', 'menu-role');
     fixture.detectChanges();
 
     await expectAsync(dropdownMenuHarness.getAriaRole()).toBeResolvedTo(
@@ -75,7 +75,7 @@ describe('Dropdown menu test harness', () => {
   it('should get menu item by text', async () => {
     const { dropdownMenuHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.itemRole = 'test-item';
+    fixture.componentRef.setInput('itemRole', 'test-item');
     fixture.detectChanges();
     const harness = await dropdownMenuHarness.getItem({ text: 'Option 1' });
 

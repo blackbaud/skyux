@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, model, signal } from '@angular/core';
 
 import { SkyTabsetTabIndexesChange } from '../tabset-tab-indexes-change';
 
@@ -8,13 +8,9 @@ import { SkyTabsetTabIndexesChange } from '../tabset-tab-indexes-change';
   standalone: false,
 })
 export class TabsetLoopTestComponent {
-  public activeIndex: number | undefined = 0;
+  public activeIndex = model<number | undefined>(0);
 
-  public tabArray: any[] = [];
-
-  constructor() {
-    this.tabArray = this.createTabArray();
-  }
+  public tabArray = signal<any[]>(this.createTabArray());
 
   public onTabIndexesChange(change: SkyTabsetTabIndexesChange): void {}
 
@@ -34,12 +30,15 @@ export class TabsetLoopTestComponent {
   }
 
   public addTabAndActivate(): void {
-    this.tabArray.push({
-      tabHeading: 'Tab 3',
-      tabContent: "This tab doesn't have a list of items",
-      tabIndex: 2,
-    });
+    this.tabArray.update((arr) => [
+      ...arr,
+      {
+        tabHeading: 'Tab 3',
+        tabContent: "This tab doesn't have a list of items",
+        tabIndex: 2,
+      },
+    ]);
     // Important: activate the tab immediately after being added to the array.
-    this.activeIndex = 2;
+    this.activeIndex.set(2);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 /**
  * Displays a navigation item in the navbar. It can include sub-navigation items in
@@ -8,6 +8,7 @@ import { Component, Input } from '@angular/core';
   selector: 'sky-navbar-item',
   templateUrl: './navbar-item.component.html',
   styleUrls: ['./navbar-item.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyNavbarItemComponent {

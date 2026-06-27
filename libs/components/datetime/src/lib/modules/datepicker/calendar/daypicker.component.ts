@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -32,6 +33,7 @@ interface SkyDateRange {
 @Component({
   imports: [SkyDayPickerCellComponent, SkyWaitModule],
   selector: 'sky-daypicker',
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: 'daypicker.component.html',
 })
 export class SkyDayPickerComponent implements OnDestroy, OnInit {

@@ -31,7 +31,7 @@ describe('Autonumeric directive', () => {
 
   function setValue(value: number | string): void {
     fixture.componentInstance.formControl.setValue(value);
-    fixture.componentInstance.templateDrivenDonationAmount = value;
+    fixture.componentInstance.templateDrivenDonationAmount.set(value);
     detectChangesTick();
   }
 
@@ -41,7 +41,7 @@ describe('Autonumeric directive', () => {
   }
 
   function setUnformatted(): void {
-    fixture.componentInstance.setUnformatted = true;
+    fixture.componentRef.setInput('setUnformatted', true);
     detectChangesTick();
   }
 
@@ -263,7 +263,7 @@ describe('Autonumeric directive', () => {
     await fixture.whenStable();
 
     fixture.componentInstance.formControl.setValue(1000);
-    fixture.componentInstance.templateDrivenDonationAmount = 1000;
+    fixture.componentInstance.templateDrivenDonationAmount.set(1000);
 
     fixture.detectChanges();
 
@@ -481,7 +481,7 @@ describe('Autonumeric directive', () => {
     }));
 
     it('should support undefined values for the skyAutonumericFormChangesUnformatted Input', fakeAsync(() => {
-      fixture.componentInstance.setUnformatted = undefined;
+      fixture.componentRef.setInput('setUnformatted', undefined);
       detectChangesTick();
 
       setValue(1000);

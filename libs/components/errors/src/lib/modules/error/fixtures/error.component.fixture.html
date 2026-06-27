@@ -1,5 +1,5 @@
 <div id="test-error">
-  <sky-error [errorType]="errorType" [showImage]="showImage">
+  <sky-error [errorType]="errorType()" [showImage]="showImage()">
     <sky-error-action>
       <button
         class="sky-btn sky-btn-link"
@@ -30,12 +30,12 @@
 </div>
 
 <div id="test-error-custom-replace-default">
-  <sky-error [errorType]="errorType">
-    <sky-error-title [replaceDefaultTitle]="replaceDefaultTitle">
+  <sky-error [errorType]="errorType()">
+    <sky-error-title [replaceDefaultTitle]="replaceDefaultTitle()">
       {{ customTitle }}
     </sky-error-title>
     <sky-error-description
-      [replaceDefaultDescription]="replaceDefaultDescription"
+      [replaceDefaultDescription]="replaceDefaultDescription()"
     >
       {{ customDescription }}
     </sky-error-description>

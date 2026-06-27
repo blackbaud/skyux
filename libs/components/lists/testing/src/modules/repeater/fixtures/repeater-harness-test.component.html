@@ -1,15 +1,15 @@
 <sky-repeater
   data-sky-id="my-basic-repeater"
-  [ariaLabel]="ariaLabel"
-  [expandMode]="expandMode"
-  [reorderable]="reorderable"
+  [ariaLabel]="ariaLabel()"
+  [expandMode]="expandMode()"
+  [reorderable]="reorderable()"
   [(activeIndex)]="activeIndex"
 >
   @for (item of items; track item; let i = $index) {
     <sky-repeater-item
       [attr.data-sky-id]="'my-basic-repeater-item-' + i"
-      [selectable]="selectable"
-      [disabled]="disabled"
+      [selectable]="selectable()"
+      [disabled]="disabled()"
     >
       <sky-repeater-item-title [attr.data-sky-id]="'my-item-title-' + i">
         {{ item.title }}

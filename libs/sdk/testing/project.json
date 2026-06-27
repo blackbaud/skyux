@@ -31,7 +31,7 @@
     },
     "test": {
       "dependsOn": ["test-integration", "testing-private:test"],
-      "executor": "@angular-devkit/build-angular:karma",
+      "executor": "@angular/build:karma",
       "options": {
         "tsConfig": "libs/sdk/testing/tsconfig.spec.json",
         "karmaConfig": "libs/sdk/testing/karma.conf.js",

@@ -3,10 +3,10 @@
     #directiveRef
     class="sky-btn sky-btn-default"
     type="button"
-    [skyPopover]="skyPopover"
-    [skyPopoverAlignment]="alignment"
-    [skyPopoverMessageStream]="messageStream"
-    [skyPopoverPlacement]="placement"
+    [skyPopover]="skyPopover()"
+    [skyPopoverAlignment]="alignment()"
+    [skyPopoverMessageStream]="messageStream()"
+    [skyPopoverPlacement]="placement()"
     [skyPopoverTrigger]="trigger"
   >
     Caller
@@ -16,7 +16,7 @@
     #noArgsDirectiveRef
     class="sky-btn sky-btn-default"
     type="button"
-    [skyPopover]="skyPopover"
+    [skyPopover]="skyPopover()"
   >
     Caller
   </button>
@@ -26,7 +26,7 @@
     [alignment]="popoverAlignment"
     [placement]="popoverPlacement"
     [popoverTitle]="popoverTitle"
-    [popoverType]="popoverType"
+    [popoverType]="popoverType()"
     (popoverClosed)="onPopoverClosed()"
     (popoverOpened)="onPopoverOpened()"
   >

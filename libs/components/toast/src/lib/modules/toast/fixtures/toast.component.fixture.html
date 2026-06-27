@@ -1,7 +1,7 @@
-@if (toastType !== undefined) {
+@if (toastType() !== undefined) {
   <sky-toast
     [autoClose]="autoClose"
-    [toastType]="toastType"
+    [toastType]="toastType()"
     (closed)="onClosed()"
   >
     Inner content here...

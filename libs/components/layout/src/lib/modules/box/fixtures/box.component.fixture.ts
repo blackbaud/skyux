@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 import { SkyBoxHeadingLevel } from '../box-heading-level';
 import { SkyBoxHeadingStyle } from '../box-heading-style';
@@ -9,15 +9,15 @@ import { SkyBoxHeadingStyle } from '../box-heading-style';
   standalone: false,
 })
 export class BoxTestComponent {
-  public ariaLabel: string | undefined;
-  public ariaLabelledBy: string | undefined;
-  public ariaRole: string | undefined;
-  public headingHidden = false;
-  public headingLevel: SkyBoxHeadingLevel | undefined = 2;
-  public headingStyle: SkyBoxHeadingStyle | undefined = 2;
-  public headingText: string | undefined = 'Heading text';
-  public helpKey: string | undefined;
-  public helpPopoverContent: string | undefined;
-  public helpPopoverTitle: string | undefined;
-  public showHeader = true;
+  public ariaLabel = input<string | undefined>(undefined);
+  public ariaLabelledBy = input<string | undefined>(undefined);
+  public ariaRole = input<string | undefined>(undefined);
+  public headingHidden = input<boolean>(false);
+  public headingLevel = input<SkyBoxHeadingLevel | undefined>(2);
+  public headingStyle = input<SkyBoxHeadingStyle | undefined>(2);
+  public headingText = input<string | undefined>('Heading text');
+  public helpKey = input<string | undefined>(undefined);
+  public helpPopoverContent = input<string | undefined>(undefined);
+  public helpPopoverTitle = input<string | undefined>(undefined);
+  public showHeader = input<boolean>(true);
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, model } from '@angular/core';
 
 @Component({
   selector: 'sky-datepicker-no-format-test',
@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class DatepickerNoFormatTestComponent {
-  public selectedDate: any;
+  public selectedDate = model<any>(undefined);
 }

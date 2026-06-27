@@ -1,4 +1,4 @@
-import { decamelize } from '@nx/devkit/src/utils/string-utils';
+import { decamelize } from './strings';
 
 export function basename(path: string): string {
   const start = path.lastIndexOf('/');
