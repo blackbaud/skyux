@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
   FormBuilder,
@@ -7,7 +8,6 @@ import {
   ReactiveFormsModule,
   ValidationErrors,
 } from '@angular/forms';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   SkyDateRangeCalculation,
   SkyDateRangeCalculatorId,
@@ -68,10 +68,8 @@ export class DatetimeDateRangePickerBasicExampleComponent {
   });
 
   constructor() {
-    this.lastDonation.statusChanges
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => {
-        this.#cdr.markForCheck();
-      });
+    this.lastDonation.statusChanges.pipe(takeUntilDestroyed()).subscribe(() => {
+      this.#cdr.markForCheck();
+    });
   }
 }

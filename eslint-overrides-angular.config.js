@@ -5,9 +5,14 @@ module.exports = [
   {
     files: ['**/*.ts'],
     rules: {
-      '@angular-eslint/prefer-on-push-component-change-detection': 'warn',
       '@angular-eslint/prefer-standalone': 'warn',
       '@typescript-eslint/consistent-indexed-object-style': ['error', 'record'],
+    },
+  },
+  {
+    files: ['libs/components/**/*.ts'],
+    rules: {
+      '@angular-eslint/prefer-on-push-component-change-detection': 'warn',
     },
   },
   {
