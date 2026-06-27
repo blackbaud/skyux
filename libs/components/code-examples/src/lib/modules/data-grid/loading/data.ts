@@ -20,14 +20,14 @@ export function getDataSorted(
 ): DataGridLoadingRow[] {
   const data = [...DATA_GRID_DEMO_DATA] as DataGridLoadingRow[];
   if (sort) {
-    if (sort.fieldSelector === 'name') {
+    if (sort.field === 'name') {
       data.sort((a, b) => a.name.localeCompare(b.name));
-    } else if (sort.fieldSelector === 'age') {
+    } else if (sort.field === 'age') {
       data.sort((a, b) => a.age - b.age);
-    } else if (sort.fieldSelector === 'startDate') {
+    } else if (sort.field === 'startDate') {
       data.sort((a, b) => a.startDate.getTime() - b.startDate.getTime());
     }
-    if (sort.descending) {
+    if (sort.direction === 'desc') {
       data.reverse();
     }
   }

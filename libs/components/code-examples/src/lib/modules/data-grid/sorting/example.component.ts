@@ -28,8 +28,8 @@ export class DataGridSortingExampleComponent {
   protected readonly sort = signal<
     SkyDataGridSort<DataGridSortingRow> | undefined
   >({
-    fieldSelector: 'name',
-    descending: false,
+    field: 'name',
+    direction: 'asc',
   });
 
   protected readonly sortDescription = computed(() => {
@@ -37,11 +37,11 @@ export class DataGridSortingExampleComponent {
     if (!sort) {
       return '(no sort applied)';
     }
-    return `${sort.fieldSelector} (${sort.descending ? 'descending' : 'ascending'})`;
+    return `${sort.field} (${sort.direction === 'desc' ? 'descending' : 'ascending'})`;
   });
 
   protected sortByAgeDescending(): void {
-    this.sort.set({ fieldSelector: 'age', descending: true });
+    this.sort.set({ field: 'age', direction: 'desc' });
   }
 
   protected clearSort(): void {

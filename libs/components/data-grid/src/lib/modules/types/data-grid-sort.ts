@@ -1,17 +1,18 @@
 /**
  * Applies a sort to a `SkyDataGrid` and reflects updates when the grid's sort changes.
+ * @preview
  */
 export interface SkyDataGridSort<
   T extends Record<'id', string> = Record<'id', string> &
     Record<string, string>,
 > {
   /**
-   * Whether to apply the sort in descending order.
+   * Direction of the sort.
    */
-  descending?: boolean;
+  direction: 'asc' | 'desc';
   /**
    * The data property to sort by.
    * @required
    */
-  fieldSelector: keyof T;
+  field: keyof T | (string & {});
 }

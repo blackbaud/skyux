@@ -6,6 +6,9 @@ import {
 } from 'ag-grid-community';
 import { Observable } from 'rxjs';
 
+/**
+ * @internal
+ */
 export function fromGridEvent<
   TEventType extends AgPublicEventType,
   TData = unknown,

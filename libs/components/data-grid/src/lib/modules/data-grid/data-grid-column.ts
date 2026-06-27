@@ -59,8 +59,8 @@ export class SkyDataGridColumn {
    * [CSS flex-grow](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-grow), where a column
    * with `flexWidth="2"` is twice the width of a column with `flexWidth="1"`, and `flexWidth="0"` does not auto-expand.
    */
-  public readonly flexWidth = input<number, unknown>(-1, {
-    transform: (value) => numberAttribute(value, -1),
+  public readonly flexWidth = input<number | undefined, unknown>(undefined, {
+    transform: (value) => numberAttribute(value, undefined),
   });
 
   /**
@@ -124,14 +124,12 @@ export class SkyDataGridColumn {
   /**
    * The width of the column in pixels. When no width is set, the column width is evenly distributed.
    */
-  public readonly width = input<number, unknown>(0, {
-    transform: (value) => numberAttribute(value, 0),
+  public readonly width = input<number | undefined, unknown>(undefined, {
+    transform: (value) => numberAttribute(value, undefined),
   });
 
   /**
-   * Whether text in this column should wrap to multiple lines. For best performance, large grids should set a `height`
-   * and not enable `wrapText` on any column so that rows can be virtually drawn as needed. Not setting a `height` or
-   * enabling `wrapText` forces the grid to draw every row in order to determine the scroll height.
+   * Whether text in this column should wrap to multiple lines.
    * @default false
    */
   public readonly wrapText = input<boolean, unknown>(false, {

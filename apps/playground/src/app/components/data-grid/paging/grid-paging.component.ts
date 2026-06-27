@@ -36,8 +36,8 @@ export default class GridPagingComponent {
   }));
 
   protected readonly asyncSort = signal<SkyDataGridSort<DataType>>({
-    fieldSelector: 'name',
-    descending: false,
+    field: 'name',
+    direction: 'asc',
   });
   protected readonly asyncPage = signal(1);
   protected readonly asyncPageSize = 5;
@@ -62,38 +62,40 @@ export default class GridPagingComponent {
     const sort = this.asyncSort();
     const rows = [...baseballData];
     if (sort) {
+      const field = sort.field as keyof DataType;
+      const descending = sort.direction === 'desc';
       const sortType = baseballColumnDefinitions.find(
-        (col) => col.field === sort.fieldSelector,
-      ).dataType;
+        (col) => col.field === field,
+      )?.dataType;
       switch (sortType) {
         case 'text':
           rows.sort((a, b) => {
-            const aValue = a[sort.fieldSelector] as string;
-            const bValue = b[sort.fieldSelector] as string;
-            return sort.descending
+            const aValue = a[field] as string;
+            const bValue = b[field] as string;
+            return descending
               ? bValue.localeCompare(aValue)
               : aValue.localeCompare(bValue);
           });
           break;
         case 'number':
           rows.sort((a, b) => {
-            const aValue = a[sort.fieldSelector] as number;
-            const bValue = b[sort.fieldSelector] as number;
-            return sort.descending ? bValue - aValue : aValue - bValue;
+            const aValue = a[field] as number;
+            const bValue = b[field] as number;
+            return descending ? bValue - aValue : aValue - bValue;
           });
           break;
         case 'date':
           rows.sort((a, b) => {
-            const aValue = new Date(a[sort.fieldSelector] as string).getTime();
-            const bValue = new Date(b[sort.fieldSelector] as string).getTime();
-            return sort.descending ? bValue - aValue : aValue - bValue;
+            const aValue = new Date(a[field] as string).getTime();
+            const bValue = new Date(b[field] as string).getTime();
+            return descending ? bValue - aValue : aValue - bValue;
           });
           break;
         case 'boolean':
           rows.sort((a, b) => {
-            const aValue = a[sort.fieldSelector] ? 0 : 1;
-            const bValue = b[sort.fieldSelector] ? 0 : 1;
-            return sort.descending ? bValue - aValue : aValue - bValue;
+            const aValue = a[field] ? 0 : 1;
+            const bValue = b[field] ? 0 : 1;
+            return descending ? bValue - aValue : aValue - bValue;
           });
           break;
         default:

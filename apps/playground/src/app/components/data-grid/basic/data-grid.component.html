@@ -37,7 +37,7 @@
 <div id="screenshot-grid-multiselect">
   <sky-data-grid
     multiselect
-    fit="scroll"
+    columnFit="content"
     [data]="dataForSimpleGridWithMultiselect"
     [(selectedRowIds)]="selectedRowIds"
   >
@@ -88,7 +88,7 @@
 <h1>Grid with scroll bars</h1>
 
 <div id="screenshot-grid-scrollbars">
-  <sky-data-grid fit="scroll" [data]="dataForSimpleGrid">
+  <sky-data-grid columnFit="content" [data]="dataForSimpleGrid">
     <sky-data-grid-column field="column1" headingText="Column1" width="800" />
     <sky-data-grid-column field="column2" headingText="Column2" width="800" />
     @if (!hideCol3()) {
@@ -100,7 +100,7 @@
 <h1>Grid w/ aligned columns</h1>
 
 <div id="screenshot-grid-column-align">
-  <sky-data-grid fit="scroll" height="200" [data]="dataForSimpleGrid">
+  <sky-data-grid columnFit="content" height="200" [data]="dataForSimpleGrid">
     <sky-data-grid-column
       dataType="number"
       field="column1"
@@ -116,7 +116,7 @@
 <h1>Grid w/ aligned columns and inline help</h1>
 
 <div id="screenshot-grid-column-align-and-inline">
-  <sky-data-grid fit="scroll" [data]="dataForSimpleGrid">
+  <sky-data-grid columnFit="content" [data]="dataForSimpleGrid">
     <sky-data-grid-column
       dataType="number"
       field="column1"

@@ -32,8 +32,8 @@ export class DataGridLoadingExampleComponent {
   protected readonly sort = signal<
     SkyDataGridSort<DataGridLoadingRow> | undefined
   >({
-    fieldSelector: 'name',
-    descending: false,
+    field: 'name',
+    direction: 'asc',
   });
 
   // Demonstration resource. An actual SPA might use [httpResource](https://angular.dev/api/common/http/httpResource)

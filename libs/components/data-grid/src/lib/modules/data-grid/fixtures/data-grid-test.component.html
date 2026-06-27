@@ -42,7 +42,7 @@
   <sky-data-grid
     data-sky-id="multiselect-grid"
     multiselect
-    fit="scroll"
+    columnFit="content"
     topScrollEnabled
     [data]="dataForSimpleGridWithMultiselect"
     [(selectedRowIds)]="selectedRowIds"
@@ -76,7 +76,7 @@
 @if (showAllGrids()) {
   <sky-data-grid
     data-sky-id="inline-help-grid"
-    fit="scroll"
+    columnFit="content"
     [data]="dataForSimpleGrid"
   >
     @if (showAllColumns()) {

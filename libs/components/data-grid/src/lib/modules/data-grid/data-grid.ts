@@ -111,6 +111,16 @@ export class SkyDataGrid<
   });
 
   /**
+   * How the grid columns are sized. The valid options are `container`, which
+   * attempts to fit the grid to the parent's full width, and `content`, which
+   * attempts to optimize columns to display their contents and may exceed the
+   * parent's width. If the grid does not have enough columns to fill
+   * the parent's width, it always stretches to the parent's full width.
+   * @default 'container'
+   */
+  public readonly columnFit = input<'container' | 'content'>('container');
+
+  /**
    * Whether to enable a compact layout for the grid when using modern theme. Compact layout
    * uses a smaller font size and row height to display more data in a smaller space.
    * @default false
@@ -127,16 +137,8 @@ export class SkyDataGrid<
   public readonly data = input<T[] | null | undefined>();
 
   /**
-   * How the grid fits to its parent. The valid options are `width`,
-   * which fits the grid to the parent's full width, and `scroll`, which allows the grid
-   * to exceed the parent's width. If the grid does not have enough columns to fill
-   * the parent's width, it always stretches to the parent's full width.
-   * @default 'width'
-   */
-  public readonly fit = input<'width' | 'scroll'>('width');
-
-  /**
-   * Whether data is being loaded. When this is true, the grid shows a waiting overlay and is not interactive.
+   * Whether data is being loaded. When `loading` is true or when `data` is nullish,
+   * the grid shows a waiting overlay and is not interactive.
    * @default false
    */
   public readonly loading = input<boolean, unknown>(false, {
@@ -343,8 +345,8 @@ export class SkyDataGrid<
           const sortColumn = sortEvent?.columns?.find((col) => !!col.getSort());
           if (sortColumn) {
             return {
-              descending: sortColumn.getSort() === 'desc',
-              fieldSelector: sortColumn.getColId() as keyof T,
+              direction: sortColumn.getSort() as 'asc' | 'desc',
+              field: sortColumn.getColId(),
             };
           }
           return undefined;
@@ -466,13 +468,12 @@ export class SkyDataGrid<
       if (!api) {
         return;
       }
-      const fieldSelector = sort?.fieldSelector;
       api.applyColumnState({
-        state: fieldSelector
+        state: sort
           ? [
               {
-                colId: fieldSelector as string,
-                sort: sort?.descending ? 'desc' : 'asc',
+                colId: sort.field as string,
+                sort: sort.direction,
               },
             ]
           : [],
@@ -490,8 +491,13 @@ export class SkyDataGrid<
         this.currentPageChange(1);
       } else if (page > pageCount) {
         this.currentPageChange(pageCount);
-      } else if (untracked(this.autoPage)) {
-        api.paginationGoToPage(page - 1);
+      } else {
+        if (untracked(this.autoPage)) {
+          api.paginationGoToPage(page - 1);
+        }
+        // When the page is set programmatically (rather than through the
+        // paging controls), sync the change to the URL query parameter.
+        this.#syncPageQueryParam(page);
       }
     });
 
@@ -538,8 +544,8 @@ export class SkyDataGrid<
         this.sort.update((sort) => {
           if (
             !!sort !== !!sortChange ||
-            !!sort?.descending !== !!sortChange?.descending ||
-            sort?.fieldSelector !== sortChange?.fieldSelector
+            sort?.direction !== sortChange?.direction ||
+            sort?.field !== sortChange?.field
           ) {
             return sortChange;
           }
@@ -558,17 +564,34 @@ export class SkyDataGrid<
       const pageQueryParam = this.pageQueryParam();
       if (pageQueryParam) {
         // When using a query parameter, send the change through the router.
-        void this.#router?.navigate([], {
-          relativeTo: this.#activatedRoute,
-          queryParams: {
-            [pageQueryParam]: page === 1 ? null : page,
-          },
-          queryParamsHandling: 'merge',
-        });
+        this.#navigateToPageQueryParam(pageQueryParam, page);
       } else {
         this.page.set(page);
       }
     }
+  }
+
+  /**
+   * Updates the URL to reflect a programmatic page change so deep linking stays
+   * in sync when a consumer drives `page` directly instead of using the paging
+   * controls. Reads untracked so it does not add reactive dependencies to the
+   * effect that calls it.
+   */
+  #syncPageQueryParam(page: number): void {
+    const pageQueryParam = untracked(this.pageQueryParam);
+    if (pageQueryParam && untracked(this.#queryParamPage) !== page) {
+      this.#navigateToPageQueryParam(pageQueryParam, page);
+    }
+  }
+
+  #navigateToPageQueryParam(pageQueryParam: string, page: number): void {
+    void this.#router?.navigate([], {
+      relativeTo: this.#activatedRoute,
+      queryParams: {
+        [pageQueryParam]: page === 1 ? null : page,
+      },
+      queryParamsHandling: 'merge',
+    });
   }
 
   #createColDef(
@@ -590,8 +613,10 @@ export class SkyDataGrid<
       type: [],
       autoHeight: col.wrapText(),
       wrapText: col.wrapText(),
-      sort: this.#getSort(sort, col),
     };
+    if (sort) {
+      colDef.sort = this.#getSort(sort, col);
+    }
     if (col.dataType() === 'date') {
       (colDef.type as string[]).push(SkyCellType.Date);
       colDef.cellDataType = 'dateString';
@@ -617,14 +642,14 @@ export class SkyDataGrid<
   }
 
   #applyColumnWidthSettings(col: SkyDataGridColumn, colDef: ColDef): void {
-    if (col.flexWidth() > -1) {
+    if (Number.isFinite(col.flexWidth())) {
       colDef.flex = col.flexWidth();
       colDef.initialFlex = col.flexWidth();
       colDef.suppressSizeToFit = true;
-    } else if (col.width() > 0) {
+    } else if (Number.isFinite(col.width())) {
       colDef.initialWidth = col.width();
     }
-    if (col.width() > 0) {
+    if (Number.isFinite(col.width())) {
       colDef.minWidth = col.width();
       colDef.suppressSizeToFit = true;
     }
@@ -639,11 +664,7 @@ export class SkyDataGrid<
     col: SkyDataGridColumn,
   ): SortDirection {
     const field = col.field();
-    return field && sort?.fieldSelector === field
-      ? sort?.descending
-        ? 'desc'
-        : 'asc'
-      : null;
+    return field && sort?.field === field ? sort?.direction : null;
   }
 
   #getHeaderComponentParams(col: SkyDataGridColumn): object {
@@ -663,7 +684,7 @@ export class SkyDataGrid<
 
   #getAutoSizeStrategy(): AutoSizeStrategy | undefined {
     const hasFlexColumn = this.#columnDefs().some((col) => !!col.initialFlex);
-    return this.fit() === 'width' && !hasFlexColumn
+    return this.columnFit() === 'content' && !hasFlexColumn
       ? { type: 'fitCellContents' }
       : undefined;
   }

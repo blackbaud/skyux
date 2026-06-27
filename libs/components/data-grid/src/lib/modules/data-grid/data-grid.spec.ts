@@ -170,8 +170,8 @@ describe('SkyDataGrid', () => {
       expect(api?.getState()?.sort?.sortModel).toBeUndefined();
 
       fixture.componentRef.setInput('sort', {
-        fieldSelector: 'column1',
-        descending: false,
+        field: 'column1',
+        direction: 'asc',
       });
       fixture.detectChanges();
       await fixture.whenStable();
@@ -184,8 +184,8 @@ describe('SkyDataGrid', () => {
       ]);
 
       fixture.componentRef.setInput('sort', {
-        fieldSelector: 'column1',
-        descending: true,
+        field: 'column1',
+        direction: 'desc',
       });
       fixture.detectChanges();
       await fixture.whenStable();
@@ -207,8 +207,8 @@ describe('SkyDataGrid', () => {
       await fixture.whenStable();
 
       expect(fixture.componentInstance.sort()).toEqual({
-        fieldSelector: 'column2',
-        descending: true,
+        field: 'column2',
+        direction: 'desc',
       });
       expect(api?.getState()?.sort?.sortModel).toEqual([
         {
@@ -249,8 +249,8 @@ describe('SkyDataGrid', () => {
 
       // Sorting programmatically must not reset the user's column order.
       fixture.componentRef.setInput('sort', {
-        fieldSelector: 'column2',
-        descending: true,
+        field: 'column2',
+        direction: 'desc',
       });
       fixture.detectChanges();
       await fixture.whenStable();
@@ -271,8 +271,8 @@ describe('SkyDataGrid', () => {
       SkyAppTestUtility.fireDomEvent(column1SortButton, 'click');
       await fixture.whenStable();
       expect(fixture.componentInstance.sort()).toEqual({
-        fieldSelector: 'column1',
-        descending: false,
+        field: 'column1',
+        direction: 'asc',
       });
       expect(api?.getColumnState().map((col) => col.colId)).toEqual([
         'column2',
@@ -283,8 +283,8 @@ describe('SkyDataGrid', () => {
 
     it('should apply an initial descending sort set before the grid renders', async () => {
       fixture.componentRef.setInput('sort', {
-        fieldSelector: 'column1',
-        descending: true,
+        field: 'column1',
+        direction: 'desc',
       });
       fixture.detectChanges();
       await fixture.whenStable();
@@ -300,8 +300,8 @@ describe('SkyDataGrid', () => {
 
     it('should apply an initial ascending sort set before the grid renders', async () => {
       fixture.componentRef.setInput('sort', {
-        fieldSelector: 'column2',
-        descending: false,
+        field: 'column2',
+        direction: 'asc',
       });
       fixture.detectChanges();
       await fixture.whenStable();
@@ -633,6 +633,26 @@ describe('SkyDataGrid', () => {
       expect(navSpy).not.toHaveBeenCalledWith([], {
         relativeTo: jasmine.any(ActivatedRoute),
         queryParams: { page: Number.POSITIVE_INFINITY },
+        queryParamsHandling: 'merge',
+      });
+    });
+
+    it('should update the url when the page is set programmatically', async () => {
+      fixture.componentRef.setInput('pageSize', 2);
+      component.pageQueryParam = 'page';
+      const router = TestBed.inject(Router);
+      const navSpy = spyOn(router, 'navigate');
+      fixture.detectChanges();
+      await fixture.whenStable();
+      navSpy.calls.reset();
+
+      component.page.set(2);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(navSpy).toHaveBeenCalledWith([], {
+        relativeTo: jasmine.any(ActivatedRoute),
+        queryParams: { page: 2 },
         queryParamsHandling: 'merge',
       });
     });

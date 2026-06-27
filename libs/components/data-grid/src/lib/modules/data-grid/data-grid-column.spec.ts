@@ -44,7 +44,7 @@ describe('SkyDataGridColumn', () => {
     expect(component.columnId()).toBeUndefined();
     expect(component.dataType()).toBe('text');
     expect(component.field()).toBeUndefined();
-    expect(component.flexWidth()).toBe(-1);
+    expect(component.flexWidth()).toBe(undefined);
     expect(component.headingText()).toBe('Test Heading');
     expect(component.headingHidden()).toBeFalse();
     expect(component.helpPopoverTitle()).toBeUndefined();
@@ -54,7 +54,7 @@ describe('SkyDataGridColumn', () => {
     expect(component.sortable()).toBeTrue();
     expect(component.locked()).toBeFalse();
     expect(component.template()).toBeUndefined();
-    expect(component.width()).toBe(0);
+    expect(component.width()).toBe(undefined);
     expect(component.wrapText()).toBeFalse();
   });
 
@@ -73,11 +73,11 @@ describe('SkyDataGridColumn', () => {
 
     fixture.componentRef.setInput('flexWidth', 'invalid');
     fixture.detectChanges();
-    expect(component.flexWidth()).toBe(-1);
+    expect(component.flexWidth()).toBeNaN();
 
     fixture.componentRef.setInput('flexWidth', undefined);
     fixture.detectChanges();
-    expect(component.flexWidth()).toBe(-1);
+    expect(component.flexWidth()).toBeNaN();
 
     fixture.componentRef.setInput('flexWidth', 0);
     fixture.detectChanges();
@@ -129,7 +129,7 @@ describe('SkyDataGridColumn', () => {
 
     fixture.componentRef.setInput('width', 'invalid');
     fixture.detectChanges();
-    expect(component.width()).toBe(0);
+    expect(component.width()).toBeNaN();
   });
 
   it('should resolve cellTemplate to template input if specified', () => {
