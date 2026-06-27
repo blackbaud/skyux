@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
   SkyFilterBarFilterItem,
   SkyFilterBarModule,
@@ -18,7 +13,6 @@ import { ExampleService } from './example.service';
 @Component({
   selector: 'app-filter-bar-lookup-example',
   imports: [SkyFilterBarModule],
-  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './example.component.html',
 })
 export class FilterBarLookupExampleComponent {

@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -56,7 +51,6 @@ interface DemoForm {
     SkySplitViewModule,
     SkySummaryActionBarModule,
   ],
-  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [SkyDataManagerService],
 })
 export class PagesPageDataManagerSplitViewFitLayoutExampleComponent implements OnInit {

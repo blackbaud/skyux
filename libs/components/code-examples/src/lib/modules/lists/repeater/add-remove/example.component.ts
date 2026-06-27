@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { SkyRepeaterModule } from '@skyux/lists';
 import { SkyDropdownModule } from '@skyux/popovers';
 
@@ -13,7 +13,6 @@ let nextId = 0;
   selector: 'app-lists-repeater-add-remove-example',
   templateUrl: './example.component.html',
   styleUrls: ['./example.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyDropdownModule, SkyRepeaterModule],
 })
 export class ListsRepeaterAddRemoveExampleComponent {

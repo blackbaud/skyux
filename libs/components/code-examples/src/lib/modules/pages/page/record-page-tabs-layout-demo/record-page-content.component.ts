@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { SkyTabIndex, SkyTabsModule } from '@skyux/tabs';
 
 import { RecordPageAttachmentsTabComponent } from './record-page-attachments-tab.component';
@@ -8,7 +8,6 @@ import { RecordPageOverviewTabComponent } from './record-page-overview-tab.compo
 @Component({
   selector: 'app-record-page-content',
   templateUrl: './record-page-content.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     RecordPageAttachmentsTabComponent,
     RecordPageNotesTabComponent,

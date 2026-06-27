@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  TemplateRef,
-  inject,
-  viewChild,
-} from '@angular/core';
+import { Component, TemplateRef, inject, viewChild } from '@angular/core';
 import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 
 import { AgGridAngular } from 'ag-grid-angular';
@@ -20,7 +14,6 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 @Component({
   selector: 'app-ag-grid-data-grid-template-ref-column-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [AgGridAngular, SkyAgGridModule],
 })
 export class AgGridDataGridTemplateRefColumnExampleComponent {

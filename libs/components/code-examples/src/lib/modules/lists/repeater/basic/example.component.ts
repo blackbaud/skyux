@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { SkyRepeaterModule } from '@skyux/lists';
 import { SkyDropdownModule } from '@skyux/popovers';
 
@@ -9,7 +9,6 @@ import { SkyDropdownModule } from '@skyux/popovers';
   selector: 'app-lists-repeater-basic-example',
   templateUrl: './example.component.html',
   styleUrls: ['./example.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyDropdownModule, SkyRepeaterModule],
 })
 export class ListsRepeaterBasicExampleComponent {

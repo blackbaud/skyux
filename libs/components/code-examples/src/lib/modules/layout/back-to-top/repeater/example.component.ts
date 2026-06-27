@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { SkyBackToTopModule } from '@skyux/layout';
 import { SkyRepeaterModule } from '@skyux/lists';
 
@@ -9,7 +9,6 @@ import { SkyRepeaterModule } from '@skyux/lists';
 @Component({
   selector: 'app-layout-back-to-top-repeater-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyBackToTopModule, SkyRepeaterModule],
 })
 export class LayoutBackToTopRepeaterExampleComponent {

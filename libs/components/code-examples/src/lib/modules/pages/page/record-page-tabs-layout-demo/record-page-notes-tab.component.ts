@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyKeyInfoModule } from '@skyux/indicators';
 import { SkyToolbarModule } from '@skyux/layout';
@@ -9,7 +9,6 @@ import { SkyDropdownModule } from '@skyux/popovers';
 @Component({
   selector: 'app-record-page-notes-tab',
   templateUrl: './record-page-notes-tab.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     SkyDropdownModule,
     SkyIconModule,

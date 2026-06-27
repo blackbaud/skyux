@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { SkyAvatarModule } from '@skyux/avatar';
 import { SkyFileItem } from '@skyux/forms';
 
@@ -15,7 +10,6 @@ import { DemoService } from './example.service';
 @Component({
   selector: 'app-avatar-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyAvatarModule],
 })
 export class AvatarExampleComponent {

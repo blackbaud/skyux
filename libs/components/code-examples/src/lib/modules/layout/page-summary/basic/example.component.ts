@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyAvatarModule } from '@skyux/avatar';
 import { SkyCheckboxModule } from '@skyux/forms';
@@ -15,7 +15,6 @@ import { SkyPageSummaryModule } from '@skyux/layout';
 @Component({
   selector: 'app-layout-page-summary-basic-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FormsModule,
     SkyAlertModule,

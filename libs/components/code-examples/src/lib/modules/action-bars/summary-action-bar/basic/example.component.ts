@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { SkySummaryActionBarModule } from '@skyux/action-bars';
 import { SkyKeyInfoModule } from '@skyux/indicators';
 
@@ -9,7 +9,6 @@ import { SkyKeyInfoModule } from '@skyux/indicators';
 @Component({
   selector: 'app-action-bars-summary-action-bar-basic-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyKeyInfoModule, SkySummaryActionBarModule],
 })
 export class ActionBarsSummaryActionBarBasicExampleComponent {

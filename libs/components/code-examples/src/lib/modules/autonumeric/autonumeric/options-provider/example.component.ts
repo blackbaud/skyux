@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -27,7 +27,6 @@ import { DemoAutonumericOptionsProvider } from './options-provider';
       useClass: DemoAutonumericOptionsProvider,
     },
   ],
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [ReactiveFormsModule, SkyAutonumericModule, SkyInputBoxModule],
 })
 export class AutonumericOptionsProviderExampleComponent {

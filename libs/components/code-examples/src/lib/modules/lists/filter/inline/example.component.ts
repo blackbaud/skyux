@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
 import { SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
@@ -22,7 +22,6 @@ interface Fruit {
 @Component({
   selector: 'app-lists-filter-inline-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FormsModule,
     SkyCheckboxModule,

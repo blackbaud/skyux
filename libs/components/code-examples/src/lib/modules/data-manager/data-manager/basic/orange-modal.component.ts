@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import {
   SkyFilterItemModal,
@@ -10,7 +10,6 @@ import { SkyModalModule } from '@skyux/modals';
 @Component({
   selector: 'app-orange-modal',
   templateUrl: './orange-modal.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [ReactiveFormsModule, SkyCheckboxModule, SkyModalModule],
 })
 export class OrangeModalComponent implements SkyFilterItemModal {

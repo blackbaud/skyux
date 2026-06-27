@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -7,6 +7,7 @@ import {
   ReactiveFormsModule,
   ValidationErrors,
 } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   SkyDateRangeCalculation,
   SkyDateRangeCalculatorId,
@@ -38,7 +39,6 @@ function dateRangeExcludesWeekend(
 @Component({
   selector: 'app-datetime-date-range-picker-basic-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule, ReactiveFormsModule, SkyDateRangePickerModule],
 })
 export class DatetimeDateRangePickerBasicExampleComponent {
@@ -47,6 +47,8 @@ export class DatetimeDateRangePickerBasicExampleComponent {
   protected hintText =
     'Donations received today are updated at the top of each hour.';
   protected labelText = 'Last donation';
+
+  readonly #cdr = inject(ChangeDetectorRef);
 
   protected lastDonation = new FormControl<SkyDateRangeCalculation>(
     {
@@ -64,4 +66,12 @@ export class DatetimeDateRangePickerBasicExampleComponent {
   protected formGroup = inject(FormBuilder).group({
     lastDonation: this.lastDonation,
   });
+
+  constructor() {
+    this.lastDonation.statusChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => {
+        this.#cdr.markForCheck();
+      });
+  }
 }

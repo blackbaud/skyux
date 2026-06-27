@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { SkyPageModule } from '@skyux/pages';
 
 import { ListPageContentComponent } from './list-page-content.component';
@@ -10,7 +10,6 @@ import { ListPageContentComponent } from './list-page-content.component';
 @Component({
   selector: 'app-pages-page-list-page-tabs-layout-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [ListPageContentComponent, SkyPageModule],
 })
 export class PagesPageListPageTabsLayoutExampleComponent {}

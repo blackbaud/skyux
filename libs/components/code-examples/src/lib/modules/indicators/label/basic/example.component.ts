@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
   SkyIndicatorDescriptionType,
   SkyLabelModule,
@@ -11,7 +11,6 @@ import {
 @Component({
   selector: 'app-indicators-label-basic-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyLabelModule],
 })
 export class IndicatorsLabelBasicExampleComponent {

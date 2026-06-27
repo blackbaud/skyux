@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { SkyTabIndex, SkyTabsModule } from '@skyux/tabs';
 
 import { Contact } from './contact';
@@ -7,7 +7,6 @@ import { ListPageContactsGridComponent } from './list-page-contacts-grid.compone
 @Component({
   selector: 'app-list-page-content',
   templateUrl: './list-page-content.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [ListPageContactsGridComponent, SkyTabsModule],
 })
 export class ListPageContentComponent {

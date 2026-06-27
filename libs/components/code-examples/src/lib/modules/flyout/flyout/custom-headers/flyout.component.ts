@@ -1,8 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-flyout',
-  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <div class="sky-theme-padding-inset-balanced-xl">
       <h2>Sample flyout</h2>

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -16,7 +16,6 @@ import { SkyCheckboxModule } from '@skyux/forms';
 @Component({
   selector: 'app-forms-checkbox-basic-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule, ReactiveFormsModule, SkyCheckboxModule],
 })
 export class FormsCheckboxBasicExampleComponent {

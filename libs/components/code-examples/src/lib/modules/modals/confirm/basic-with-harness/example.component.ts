@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import {
   SkyConfirmButtonConfig,
   SkyConfirmInstance,
@@ -11,13 +11,13 @@ import {
  */
 @Component({
   selector: 'app-modals-confirm-basic-with-harness-example',
-  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './example.component.html',
 })
 export class ModalsConfirmBasicWithHarnessExampleComponent {
   protected selectedAction: string | undefined;
   protected selectedText: string | undefined;
 
+  readonly #cdr = inject(ChangeDetectorRef);
   readonly #confirmSvc = inject(SkyConfirmService);
 
   protected openOKConfirm(): void {
@@ -29,6 +29,7 @@ export class ModalsConfirmBasicWithHarnessExampleComponent {
     dialog.closed.subscribe((result) => {
       this.selectedText = undefined;
       this.selectedAction = result.action;
+      this.#cdr.markForCheck();
     });
   }
 
@@ -54,6 +55,7 @@ export class ModalsConfirmBasicWithHarnessExampleComponent {
           break;
         }
       }
+      this.#cdr.markForCheck();
     });
   }
 
@@ -79,6 +81,7 @@ export class ModalsConfirmBasicWithHarnessExampleComponent {
           break;
         }
       }
+      this.#cdr.markForCheck();
     });
   }
 
@@ -104,6 +107,7 @@ export class ModalsConfirmBasicWithHarnessExampleComponent {
           break;
         }
       }
+      this.#cdr.markForCheck();
     });
   }
 }

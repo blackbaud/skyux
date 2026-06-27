@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SkySummaryActionBarModule } from '@skyux/action-bars';
 import { SkyInputBoxModule } from '@skyux/forms';
@@ -26,7 +26,6 @@ interface WorkspaceItem {
 @Component({
   selector: 'app-split-view-page-content',
   templateUrl: './split-view-page-content.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FormsModule,
     ReactiveFormsModule,

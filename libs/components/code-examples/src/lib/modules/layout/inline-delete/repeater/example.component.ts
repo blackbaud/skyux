@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { SkyInlineDeleteModule } from '@skyux/layout';
 import { SkyRepeaterModule } from '@skyux/lists';
 import { SkyDropdownModule } from '@skyux/popovers';
@@ -15,7 +15,6 @@ interface InlineRepeaterDemoItem {
 @Component({
   selector: 'app-layout-inline-delete-repeater-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyDropdownModule, SkyInlineDeleteModule, SkyRepeaterModule],
 })
 export class LayoutInlineDeleteRepeaterExampleComponent {

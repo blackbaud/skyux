@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { SkyDatePipeModule } from '@skyux/datetime';
 
 /**
@@ -7,7 +7,6 @@ import { SkyDatePipeModule } from '@skyux/datetime';
 @Component({
   selector: 'app-datetime-date-pipe-basic-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyDatePipeModule],
 })
 export class DatetimeDatePipeBasicExampleComponent {

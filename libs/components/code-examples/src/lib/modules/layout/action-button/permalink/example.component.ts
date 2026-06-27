@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { SkyActionButtonModule, SkyActionButtonPermalink } from '@skyux/layout';
 
 /**
@@ -7,7 +7,6 @@ import { SkyActionButtonModule, SkyActionButtonPermalink } from '@skyux/layout';
 @Component({
   selector: 'app-layout-action-button-permalink-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyActionButtonModule],
 })
 export class LayoutActionButtonPermalinkExampleComponent {

@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  effect,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyAgGridModule, SkyAgGridService } from '@skyux/ag-grid';
 import {
@@ -30,7 +24,6 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   selector: 'app-list-page-content',
   templateUrl: './list-page-content.component.html',
   providers: [SkyDataManagerService],
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     AgGridAngular,
     SkyAgGridModule,

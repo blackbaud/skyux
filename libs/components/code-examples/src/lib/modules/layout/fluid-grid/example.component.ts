@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { SkyFluidGridGutterSizeType, SkyFluidGridModule } from '@skyux/layout';
 
 /**
@@ -16,10 +16,9 @@ import { SkyFluidGridGutterSizeType, SkyFluidGridModule } from '@skyux/layout';
       }
     `,
   ],
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyFluidGridModule],
 })
 export class LayoutFluidGridExampleComponent {
-  public gutterSize: SkyFluidGridGutterSizeType | undefined;
-  public disableMargin = false;
+  public gutterSize = input<SkyFluidGridGutterSizeType | undefined>(undefined);
+  public disableMargin = input<boolean>(false);
 }

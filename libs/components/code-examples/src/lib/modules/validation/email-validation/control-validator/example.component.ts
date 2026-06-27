@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -17,7 +17,6 @@ import { SkyValidators } from '@skyux/validation';
 @Component({
   selector: 'app-validation-email-validation-control-validator-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule, ReactiveFormsModule, SkyInputBoxModule],
 })
 export class ValidationEmailValidationControlValidatorExampleComponent {

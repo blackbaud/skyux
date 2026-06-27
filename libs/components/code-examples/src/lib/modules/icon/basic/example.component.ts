@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { SkyIconModule } from '@skyux/icon';
 
 /**
@@ -7,7 +7,6 @@ import { SkyIconModule } from '@skyux/icon';
 @Component({
   selector: 'app-icon-basic-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyIconModule],
 })
 export class IconBasicExampleComponent {}

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -19,7 +19,6 @@ interface Item {
 @Component({
   selector: 'app-forms-radio-icon-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule, ReactiveFormsModule, SkyRadioModule],
 })
 export class FormsRadioIconExampleComponent {

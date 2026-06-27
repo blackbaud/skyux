@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  inject,
-} from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { SkyWaitService } from '@skyux/indicators';
 
 /**
@@ -11,7 +6,6 @@ import { SkyWaitService } from '@skyux/indicators';
  */
 @Component({
   selector: 'app-indicators-wait-page-example',
-  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './example.component.html',
 })
 export class IndicatorsWaitPageExampleComponent implements OnDestroy {

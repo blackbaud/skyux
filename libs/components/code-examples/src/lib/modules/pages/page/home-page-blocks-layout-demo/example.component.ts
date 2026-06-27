@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyPageModule, SkyRecentLink } from '@skyux/pages';
 
@@ -11,7 +11,6 @@ import { HomePageContentComponent } from './home-page-content.component';
 @Component({
   selector: 'app-pages-page-home-page-blocks-layout-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [HomePageContentComponent, SkyIconModule, SkyPageModule],
 })
 export class PagesPageHomePageBlocksLayoutExampleComponent {

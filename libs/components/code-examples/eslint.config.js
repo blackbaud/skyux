@@ -33,7 +33,6 @@ module.exports = tsEslint.config(
           style: 'kebab-case',
         },
       ],
-      '@angular-eslint/prefer-on-push-component-change-detection': 'warn',
       '@nx/enforce-module-boundaries': 'warn',
       '@typescript-eslint/no-deprecated': 'warn',
       'no-alert': 'warn',

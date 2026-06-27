@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { SkyAgGridModule, SkyAgGridService } from '@skyux/ag-grid';
 import {
   SkyDataManagerModule,
@@ -38,7 +32,6 @@ interface Contact {
   selector: 'app-list-page-contacts-grid',
   templateUrl: './list-page-contacts-grid.component.html',
   providers: [SkyDataManagerService],
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     AgGridAngular,
     SkyAgGridModule,

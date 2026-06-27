@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkyRepeaterModule, SkySortModule } from '@skyux/lists';
 
@@ -29,7 +29,6 @@ interface SortOption {
     }
   `,
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [CommonModule, SkyRepeaterModule, SkySortModule, SkyToolbarModule],
 })
 export class ListsSortBasicExampleComponent implements OnInit {

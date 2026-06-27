@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { SkyTextExpandRepeaterModule } from '@skyux/layout';
 
 /**
@@ -7,7 +7,6 @@ import { SkyTextExpandRepeaterModule } from '@skyux/layout';
 @Component({
   selector: 'app-layout-text-expand-repeater-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyTextExpandRepeaterModule],
 })
 export class LayoutTextExpandRepeaterExampleComponent {

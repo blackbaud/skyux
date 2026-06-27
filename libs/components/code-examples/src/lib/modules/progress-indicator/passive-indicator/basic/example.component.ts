@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { SkyProgressIndicatorModule } from '@skyux/progress-indicator';
 
 /**
@@ -7,7 +7,6 @@ import { SkyProgressIndicatorModule } from '@skyux/progress-indicator';
 @Component({
   selector: 'app-progress-indicator-passive-indicator-basic-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyProgressIndicatorModule],
 })
 export class ProgressIndicatorPassiveIndicatorBasicExampleComponent {}

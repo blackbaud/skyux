@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -23,7 +23,6 @@ function validateText(
 @Component({
   selector: 'app-text-editor-help-key-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule, ReactiveFormsModule, SkyTextEditorModule],
 })
 export class TextEditorHelpKeyExampleComponent {

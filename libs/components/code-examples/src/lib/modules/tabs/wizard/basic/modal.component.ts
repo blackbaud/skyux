@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -20,7 +15,6 @@ import { SkyTabIndex, SkyTabsModule } from '@skyux/tabs';
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     ReactiveFormsModule,
     SkyCheckboxModule,

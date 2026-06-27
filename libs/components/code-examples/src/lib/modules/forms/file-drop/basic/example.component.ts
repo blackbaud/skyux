@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -32,7 +32,6 @@ function customValidator(
 @Component({
   selector: 'app-forms-file-drop-basic-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     SkyFileDropModule,
     SkyStatusIndicatorModule,

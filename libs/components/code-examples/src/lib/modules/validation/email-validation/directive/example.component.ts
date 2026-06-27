@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyEmailValidationModule } from '@skyux/validation';
@@ -9,7 +9,6 @@ import { SkyEmailValidationModule } from '@skyux/validation';
 @Component({
   selector: 'app-validation-email-validation-directive-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FormsModule,
     ReactiveFormsModule,

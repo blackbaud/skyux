@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  inject,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -27,7 +22,6 @@ import { Person } from './person';
   selector: 'app-picker-modal',
   templateUrl: './picker-modal.component.html',
   styleUrls: ['./picker-modal.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FormsModule,
     ReactiveFormsModule,

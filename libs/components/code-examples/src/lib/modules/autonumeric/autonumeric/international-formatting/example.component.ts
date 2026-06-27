@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -18,7 +18,6 @@ import { SkyInputBoxModule } from '@skyux/forms';
 @Component({
   selector: 'app-autonumeric-international-formatting-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [ReactiveFormsModule, SkyAutonumericModule, SkyInputBoxModule],
 })
 export class AutonumericInternationalFormattingExampleComponent {

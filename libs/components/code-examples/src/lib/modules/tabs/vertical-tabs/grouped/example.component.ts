@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { SkyVerticalTabsetModule } from '@skyux/tabs';
 
 import { TabGroup } from './group';
@@ -9,7 +9,6 @@ import { TabGroup } from './group';
 @Component({
   selector: 'app-tabs-vertical-tabs-grouped-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyVerticalTabsetModule],
 })
 export class TabsVerticalTabsGroupedExampleComponent {

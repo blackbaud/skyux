@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { SkyRepeaterModule } from '@skyux/lists';
 import { SkyDropdownModule } from '@skyux/popovers';
 import { SkyTilesModule } from '@skyux/tiles';
@@ -11,7 +11,6 @@ import { SkyTilesModule } from '@skyux/tiles';
     }
   `,
   templateUrl: './tile-my-actions.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyTilesModule, SkyDropdownModule, SkyRepeaterModule],
 })
 export class TileMyActionsComponent {

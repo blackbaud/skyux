@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   SkyFileDropChange,
   SkyFileDropModule,
@@ -13,7 +13,6 @@ import { SkyStatusIndicatorModule } from '@skyux/indicators';
 @Component({
   selector: 'app-forms-file-drop-help-key-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyFileDropModule, SkyStatusIndicatorModule],
 })
 export class FormsFileDropHelpKeyExampleComponent {

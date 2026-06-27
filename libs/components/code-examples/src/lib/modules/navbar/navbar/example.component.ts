@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SkyNavbarModule } from '@skyux/navbar';
 import { SkyDropdownModule } from '@skyux/popovers';
@@ -9,7 +9,6 @@ import { SkyDropdownModule } from '@skyux/popovers';
 @Component({
   selector: 'app-navbar-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [RouterModule, SkyDropdownModule, SkyNavbarModule],
 })
 export class NavbarExampleComponent {
