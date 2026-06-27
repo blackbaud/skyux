@@ -14,7 +14,6 @@ export class SkyNeedsAttentionHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-needs-attention';
 
   readonly #boxHarness = this.locatorFor(SkyBoxHarness);
-  readonly #getContent = this.locatorFor('sky-box-content');
   readonly #getList = this.locatorFor('ul.sky-needs-attention-list');
 
   /**
@@ -35,15 +34,11 @@ export class SkyNeedsAttentionHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the text from an empty list. If there are items in the list, this will return `undefined`.
+   * Needs attention no longer shows an empty list, so this will always return `undefined`.
+   * @deprecated
    */
   public async getEmptyListText(): Promise<string | undefined> {
-    return await this.hasItems().then(async (hasItems) => {
-      if (hasItems) {
-        return undefined;
-      }
-      return (await (await this.#getContent()).text()).trim();
-    });
+    return await Promise.resolve(undefined);
   }
 
   /**

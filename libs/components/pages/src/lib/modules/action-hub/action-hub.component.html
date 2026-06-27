@@ -1,5 +1,5 @@
 <sky-page layout="blocks">
-  <sky-page-header [pageTitle]="title" [parentLink]="parentLink">
+  <sky-page-header [pageTitle]="title()" [parentLink]="parentLink()">
     <sky-page-header-actions>
       <div class="sky-margin-stacked-sm">
         <ng-content select="sky-action-hub-buttons" />
@@ -7,11 +7,9 @@
     </sky-page-header-actions>
   </sky-page-header>
   <sky-page-content>
-    <div class="sky-margin-stacked-xl">
-      <sky-wait [isWaiting]="needsAttention === 'loading'" />
-      @if (needsAttention !== 'loading') {
-        <sky-needs-attention [items]="needsAttentionArray" />
-      }
+    <div [class.sky-margin-stacked-xl]="needsAttentionNotDefinitelyEmpty()">
+      <sky-wait [isWaiting]="needsAttentionLoading()" />
+      <sky-needs-attention [items]="needsAttentionArray()" />
     </div>
 
     <div class="sky-margin-stacked-xl">
@@ -20,12 +18,12 @@
   </sky-page-content>
   <sky-page-links>
     <sky-link-list
-      [links]="relatedLinks | skyActionHubRelatedLinksSort"
+      [links]="relatedLinksSorted()"
       [headingText]="'sky_action_hub_related_links' | skyLibResources"
     />
-    <sky-link-list-recently-accessed [recentLinks]="recentLinks" />
+    <sky-link-list-recently-accessed [recentLinks]="recentLinks()" />
     <sky-modal-link-list
-      [links]="settingsLinks"
+      [links]="settingsLinks()"
       [headingText]="'sky_action_hub_settings_links' | skyLibResources"
     />
   </sky-page-links>

@@ -65,19 +65,20 @@ describe('Needs attention harness', () => {
     const { harness, fixture } = await setupTest({
       dataSkyId: 'needs-attention',
     });
+    fixture.componentRef.setInput('items', [
+      { title: 'Title', permalink: { url: '#' } },
+    ]);
     fixture.detectChanges();
 
     await expectAsync(harness.getTitle()).toBeResolvedTo('Needs attention');
   });
 
-  it('should return the empty list text', async () => {
+  it('should verify the empty list', async () => {
     const { harness, fixture } = await setupTest();
     fixture.detectChanges();
 
     await expectAsync(harness.hasItems()).toBeResolvedTo(false);
-    await expectAsync(harness.getEmptyListText()).toBeResolvedTo(
-      'No issues currently need attention',
-    );
+    await expectAsync(harness.getEmptyListText()).toBeResolvedTo(undefined);
   });
 
   it('should return the list items', async () => {

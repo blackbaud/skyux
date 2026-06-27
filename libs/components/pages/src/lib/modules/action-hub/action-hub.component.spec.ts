@@ -4,7 +4,6 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { expect } from '@skyux-sdk/testing';
 import {
   SkyRecentlyAccessedLinkList,
@@ -13,6 +12,7 @@ import {
 
 import { AsyncSubject, of } from 'rxjs';
 
+import { provideRouter } from '@angular/router';
 import { ActionHubAsyncFixtureComponent } from './fixtures/action-hub-async-fixture.component';
 import { ActionHubContentFixtureComponent } from './fixtures/action-hub-content-fixture.component';
 import { SkyActionHubFixtureModule } from './fixtures/action-hub-fixture.module';
@@ -53,10 +53,8 @@ describe('Action hub component', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [
-          SkyActionHubFixtureModule,
-          RouterTestingModule.withRoutes([]),
-        ],
+        imports: [SkyActionHubFixtureModule],
+        providers: [provideRouter([])],
       });
       fixture = TestBed.createComponent(ActionHubSyncFixtureComponent);
     });
@@ -224,10 +222,8 @@ describe('Action hub component', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [
-          SkyActionHubFixtureModule,
-          RouterTestingModule.withRoutes([]),
-        ],
+        imports: [SkyActionHubFixtureModule],
+        providers: [provideRouter([])],
       });
       fixture = TestBed.createComponent(ActionHubAsyncFixtureComponent);
     });
@@ -256,7 +252,7 @@ describe('Action hub component', () => {
       expect(recent1).toHaveText('Recent link');
     }));
 
-    it('should show empty needs attention language', fakeAsync(() => {
+    it('should hide empty needs attention box', fakeAsync(() => {
       fixture.componentInstance.needsAttention.next('loading');
       fixture.detectChanges();
       const skyWait = fixture.nativeElement.querySelector('.sky-wait');
@@ -270,9 +266,31 @@ describe('Action hub component', () => {
       expect(fixture.nativeElement.querySelectorAll('.sky-wait').length).toBe(
         0,
       );
-      expect(fixture.nativeElement.textContent).toContain(
-        'No issues currently need attention',
-      );
+      expect(
+        fixture.nativeElement.querySelector(
+          'sky-page-content > div:first-child',
+        ),
+      ).not.toHaveCssClass('sky-margin-stacked-xl');
+      expect(
+        fixture.nativeElement.querySelector('ul.sky-needs-attention-list'),
+      ).toBeFalsy();
+
+      fixture.componentInstance.needsAttention.next([
+        {
+          title: 'Attention',
+          permalink: { url: '#' },
+        },
+      ]);
+      fixture.detectChanges();
+      tick();
+      expect(
+        fixture.nativeElement.querySelector(
+          'sky-page-content > div:first-child',
+        ),
+      ).toHaveCssClass('sky-margin-stacked-xl');
+      expect(
+        fixture.nativeElement.querySelector('ul.sky-needs-attention-list'),
+      ).toBeTruthy();
     }));
   });
 
@@ -281,10 +299,8 @@ describe('Action hub component', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [
-          SkyActionHubFixtureModule,
-          RouterTestingModule.withRoutes([]),
-        ],
+        imports: [SkyActionHubFixtureModule],
+        providers: [provideRouter([])],
       });
       fixture = TestBed.createComponent(ActionHubInputsFixtureComponent);
     });
@@ -356,10 +372,8 @@ describe('Action hub component', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [
-          SkyActionHubFixtureModule,
-          RouterTestingModule.withRoutes([]),
-        ],
+        imports: [SkyActionHubFixtureModule],
+        providers: [provideRouter([])],
       });
       fixture = TestBed.createComponent(ActionHubContentFixtureComponent);
     });
@@ -386,15 +400,13 @@ describe('Action hub component', () => {
       };
 
       TestBed.configureTestingModule({
-        imports: [
-          SkyActionHubFixtureModule,
-          RouterTestingModule.withRoutes([]),
-        ],
+        imports: [SkyActionHubFixtureModule],
         providers: [
           {
             provide: SkyRecentlyAccessedService,
             useValue: mockRecentlyAccessedSvc,
           },
+          provideRouter([]),
         ],
       });
 
@@ -557,10 +569,8 @@ describe('Action hub component', () => {
       };
 
       TestBed.configureTestingModule({
-        imports: [
-          SkyActionHubFixtureModule,
-          RouterTestingModule.withRoutes([]),
-        ],
+        imports: [SkyActionHubFixtureModule],
+        providers: [provideRouter([])],
       });
 
       fixture = TestBed.createComponent(ActionHubRecentSvcFixtureComponent);
