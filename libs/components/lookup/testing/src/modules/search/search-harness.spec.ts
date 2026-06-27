@@ -59,8 +59,8 @@ describe('Search harness', () => {
       'foo-search-id',
     );
 
-    fixture.componentInstance.ariaLabel = 'Search emails';
-    fixture.componentInstance.ariaLabelledBy = undefined;
+    fixture.componentRef.setInput('ariaLabel', 'Search emails');
+    fixture.componentRef.setInput('ariaLabelledBy', undefined);
 
     fixture.detectChanges();
 
@@ -77,7 +77,7 @@ describe('Search harness', () => {
 
     await expectAsync(searchHarness?.isDisabled()).toBeResolvedTo(false);
 
-    fixture.componentInstance.disabled = true;
+    fixture.componentRef.setInput('disabled', true);
 
     await expectAsync(searchHarness?.isDisabled()).toBeResolvedTo(true);
   });
@@ -101,7 +101,7 @@ describe('Search harness', () => {
       dataSkyId: 'my-search-1',
     });
 
-    fixture.componentInstance.placeholderText = 'My placeholder text.';
+    fixture.componentRef.setInput('placeholderText', 'My placeholder text.');
 
     await expectAsync(searchHarness?.getPlaceholderText()).toBeResolvedTo(
       'My placeholder text.',

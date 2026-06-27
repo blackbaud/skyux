@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { SkyTilesModule } from '@skyux/tiles';
 
 @Component({
@@ -7,11 +7,11 @@ import { SkyTilesModule } from '@skyux/tiles';
   imports: [SkyTilesModule],
 })
 export class Tile1Component {
-  public helpKey: string | undefined;
-  public helpContent: string | undefined;
-  public helpTitle: string | undefined;
-  public showSections = true;
-  public showSettings = true;
+  public helpKey = input<string | undefined>(undefined);
+  public helpContent = input<string | undefined>(undefined);
+  public helpTitle = input<string | undefined>(undefined);
+  public showSections = input(true);
+  public showSettings = input(true);
 
   public tileSettingsClick(): void {
     alert('tile settings clicked');

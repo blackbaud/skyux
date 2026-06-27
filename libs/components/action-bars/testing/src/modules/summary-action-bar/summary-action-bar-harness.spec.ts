@@ -1,5 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   SkySummaryActionBarError,
@@ -16,11 +16,11 @@ import { SkySummaryActionBarHarness } from './summary-action-bar-harness';
 @Component({
   imports: [SkySummaryActionBarModule, SkyKeyInfoModule],
   template: `
-    <sky-summary-action-bar [formErrors]="errors" data-sky-id="action-bar">
+    <sky-summary-action-bar [formErrors]="errors()" data-sky-id="action-bar">
       <sky-summary-action-bar-actions>
         <sky-summary-action-bar-primary-action
           data-sky-id="primary-action"
-          [disabled]="disabled"
+          [disabled]="disabled()"
           (actionClick)="save()"
         >
           Primary action
@@ -35,7 +35,7 @@ import { SkySummaryActionBarHarness } from './summary-action-bar-harness';
           </sky-summary-action-bar-secondary-action>
           <sky-summary-action-bar-secondary-action
             data-sky-id="secondary-action-2"
-            [disabled]="disabled"
+            [disabled]="disabled()"
             (actionClick)="onSecondaryAction2Click()"
           >
             Secondary action 2
@@ -43,7 +43,7 @@ import { SkySummaryActionBarHarness } from './summary-action-bar-harness';
         </sky-summary-action-bar-secondary-actions>
         <sky-summary-action-bar-cancel
           data-sky-id="cancel"
-          [disabled]="disabled"
+          [disabled]="disabled()"
           (actionClick)="cancel()"
         >
           Cancel
@@ -67,12 +67,12 @@ import { SkySummaryActionBarHarness } from './summary-action-bar-harness';
   `,
 })
 class TestComponent {
-  public disabled = false;
+  public disabled = input(false);
   public save(): void {}
   public onSecondaryActionClick(): void {}
   public onSecondaryAction2Click(): void {}
   public cancel(): void {}
-  public errors: SkySummaryActionBarError[] | undefined;
+  public errors = input<SkySummaryActionBarError[] | undefined>(undefined);
 }
 
 describe('Summary action harness', () => {
@@ -141,7 +141,7 @@ describe('Summary action harness', () => {
   it('should get all the error messages', async () => {
     const { summaryActionHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.errors = [
+    const errors: SkySummaryActionBarError[] = [
       {
         message: 'Test error',
       },
@@ -149,24 +149,23 @@ describe('Summary action harness', () => {
         message: 'Test error 2',
       },
     ];
+    fixture.componentRef.setInput('errors', errors);
     fixture.detectChanges();
 
-    await expectAsync(summaryActionHarness.getErrors()).toBeResolvedTo(
-      fixture.componentInstance.errors,
-    );
+    await expectAsync(summaryActionHarness.getErrors()).toBeResolvedTo(errors);
   });
 
   it('should get whether an error has fired', async () => {
     const { summaryActionHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.errors = [
+    fixture.componentRef.setInput('errors', [
       {
         message: 'Test error',
       },
       {
         message: 'Test error 2',
       },
-    ];
+    ]);
     fixture.detectChanges();
     await expectAsync(
       summaryActionHarness.hasError({ message: 'Test error' }),
@@ -193,7 +192,7 @@ describe('Summary action harness', () => {
       const cancelHarness = await summaryActionHarness.getCancel();
       await expectAsync(cancelHarness.isDisabled()).toBeResolvedTo(false);
 
-      fixture.componentInstance.disabled = true;
+      fixture.componentRef.setInput('disabled', true);
       fixture.detectChanges();
       await expectAsync(cancelHarness.isDisabled()).toBeResolvedTo(true);
     });
@@ -221,7 +220,7 @@ describe('Summary action harness', () => {
       const primaryHarness = await summaryActionHarness.getPrimaryAction();
       await expectAsync(primaryHarness.isDisabled()).toBeResolvedTo(false);
 
-      fixture.componentInstance.disabled = true;
+      fixture.componentRef.setInput('disabled', true);
       fixture.detectChanges();
       await expectAsync(primaryHarness.isDisabled()).toBeResolvedTo(true);
     });
@@ -274,7 +273,7 @@ describe('Summary action harness', () => {
       });
       await expectAsync(action.isDisabled()).toBeResolvedTo(false);
 
-      fixture.componentInstance.disabled = true;
+      fixture.componentRef.setInput('disabled', true);
       fixture.detectChanges();
 
       await expectAsync(action.isDisabled()).toBeResolvedTo(true);

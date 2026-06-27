@@ -1,6 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyPageLayoutType, SkyPageModule } from '@skyux/pages';
 
@@ -9,17 +9,17 @@ import { SkyPageHarness } from './page-harness';
 //#region Test component
 @Component({
   selector: 'sky-page-test',
-  template: ` <sky-page data-sky-id="test-page" [layout]="layout">
-    @if (showPageHeader) {
-      <sky-page-header [pageTitle]="pageTitle" />
+  template: ` <sky-page data-sky-id="test-page" [layout]="layout()">
+    @if (showPageHeader()) {
+      <sky-page-header [pageTitle]="pageTitle()" />
     }
   </sky-page>`,
-  standalone: false,
+  imports: [SkyPageModule],
 })
 class TestComponent {
-  public layout: string | undefined;
-  public pageTitle: string | undefined;
-  public showPageHeader = true;
+  public readonly layout = input<string | undefined>(undefined);
+  public readonly pageTitle = input<string | undefined>(undefined);
+  public readonly showPageHeader = input(true);
 }
 //#endregion Test component
 
@@ -30,8 +30,7 @@ describe('Page harness', () => {
     loader: HarnessLoader;
   }> {
     await TestBed.configureTestingModule({
-      declarations: [TestComponent],
-      imports: [SkyPageModule],
+      imports: [TestComponent],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(TestComponent);
@@ -67,7 +66,7 @@ describe('Page harness', () => {
     ];
 
     for (const layout of layouts) {
-      fixture.componentInstance.layout = layout;
+      fixture.componentRef.setInput('layout', layout);
       fixture.detectChanges();
 
       await expectAsync(harness.getLayout()).toBeResolvedTo(layout ?? 'none');
@@ -79,7 +78,7 @@ describe('Page harness', () => {
     const { harness, fixture } = await setupTest({
       dataSkyId: 'test-page',
     });
-    fixture.componentInstance.pageTitle = title;
+    fixture.componentRef.setInput('pageTitle', title);
     fixture.detectChanges();
 
     const pageHeaderHarness = await harness.getPageHeader();
@@ -91,7 +90,7 @@ describe('Page harness', () => {
     const { harness, fixture } = await setupTest({
       dataSkyId: 'test-page',
     });
-    fixture.componentInstance.showPageHeader = false;
+    fixture.componentRef.setInput('showPageHeader', false);
     fixture.detectChanges();
 
     await expectAsync(harness.getPageHeader()).toBeRejectedWithError(

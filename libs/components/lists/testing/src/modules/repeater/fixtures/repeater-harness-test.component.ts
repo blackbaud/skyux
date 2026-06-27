@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input, model, signal } from '@angular/core';
 import {
   SkyInlineFormButtonLayout,
   SkyInlineFormConfig,
@@ -26,21 +26,21 @@ export class RepeaterHarnessTestComponent {
     },
   ];
 
-  public selectable = false;
+  public selectable = input(false);
 
-  public reorderable = false;
+  public reorderable = input(false);
 
-  public expandMode = 'none';
+  public expandMode = input('none');
 
-  public activeIndex: number | undefined;
+  public activeIndex = model<number | undefined>(undefined);
 
-  public disabled = false;
+  public disabled = input(false);
 
-  public ariaLabel: string | undefined;
+  public ariaLabel = input<string | undefined>(undefined);
 
   public inlineFormConfig: SkyInlineFormConfig = {
     buttonLayout: SkyInlineFormButtonLayout.SaveCancel,
   };
 
-  public showInlineForm = false;
+  public showInlineForm = signal(false);
 }

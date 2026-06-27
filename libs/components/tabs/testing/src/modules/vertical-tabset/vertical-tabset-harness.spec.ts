@@ -1,5 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopSkyAnimations } from '@skyux/core';
 import {
@@ -16,11 +16,11 @@ import { SkyVerticalTabsetHarness } from './vertical-tabset-harness';
     <sky-vertical-tabset
       ariaLabel="Vertical tabset"
       ariaLabelledBy="Tabset label"
-      [showTabsText]="showTabsText"
+      [showTabsText]="showTabsText()"
     >
       <sky-vertical-tab
         tabHeading="Tab 1"
-        [active]="active"
+        [active]="active()"
         [tabHeaderCount]="15"
       >
         Tab 1 content
@@ -60,8 +60,8 @@ import { SkyVerticalTabsetHarness } from './vertical-tabset-harness';
   `,
 })
 class TestComponent {
-  public active = true;
-  public showTabsText: string | undefined;
+  public readonly active = input(true);
+  public readonly showTabsText = input<string | undefined>(undefined);
   public groups: TabGroup[] = [
     {
       heading: 'Group 1',
@@ -145,7 +145,7 @@ describe('Vertical Tabset harness', () => {
 
   it('should return undefined when no tab is active', async () => {
     const { tabsetHarness, fixture } = await setupTest();
-    fixture.componentInstance.active = false;
+    fixture.componentRef.setInput('active', false);
     fixture.detectChanges();
 
     await expectAsync(tabsetHarness.getActiveTab()).toBeResolvedTo(undefined);
@@ -159,7 +159,7 @@ describe('Vertical Tabset harness', () => {
 
   it('should return no content when there is no active tab', async () => {
     const { tabsetHarness, fixture } = await setupTest();
-    fixture.componentInstance.active = false;
+    fixture.componentRef.setInput('active', false);
     fixture.detectChanges();
 
     await expectAsync(tabsetHarness.getActiveTabContent()).toBeResolvedTo(
@@ -332,7 +332,7 @@ describe('Vertical Tabset harness', () => {
 
     it('should get the show tabs text', async () => {
       const { tabsetHarness, fixture } = await setupTest();
-      fixture.componentInstance.showTabsText = 'Test button';
+      fixture.componentRef.setInput('showTabsText', 'Test button');
       fixture.detectChanges();
       shrinkScreen(fixture);
 

@@ -1,6 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyIconModule } from '@skyux/icon';
 import {
@@ -21,17 +21,17 @@ import { SkyIconHarness } from './icon-harness';
   template: `
     <sky-icon
       data-sky-id="svg-icon"
-      [iconName]="iconName"
-      [variant]="variant"
-      [iconSize]="iconSize"
+      [iconName]="iconName()"
+      [variant]="variant()"
+      [iconSize]="iconSize()"
     />
   `,
   standalone: false,
 })
 class TestComponent {
-  public iconName = 'filter';
-  public variant: string | undefined;
-  public iconSize: string | undefined;
+  public iconName = input<string>('filter');
+  public variant = input<string | undefined>(undefined);
+  public iconSize = input<string | undefined>(undefined);
 }
 //#endregion Test component
 async function validateIconName(
@@ -39,7 +39,7 @@ async function validateIconName(
   fixture: ComponentFixture<TestComponent>,
   iconName: string,
 ): Promise<void> {
-  fixture.componentInstance.iconName = iconName;
+  fixture.componentRef.setInput('iconName', iconName);
 
   fixture.detectChanges();
 
@@ -51,7 +51,7 @@ async function validateIconSize(
   fixture: ComponentFixture<TestComponent>,
   iconSize: string,
 ): Promise<void> {
-  fixture.componentInstance.iconSize = iconSize;
+  fixture.componentRef.setInput('iconSize', iconSize);
 
   fixture.detectChanges();
 
@@ -63,7 +63,7 @@ async function validateVariant(
   fixture: ComponentFixture<TestComponent>,
   variant: string,
 ): Promise<void> {
-  fixture.componentInstance.variant = variant;
+  fixture.componentRef.setInput('variant', variant);
 
   fixture.detectChanges();
 
@@ -123,12 +123,12 @@ describe('Icon harness', () => {
     });
 
     for (const variant of variants) {
-      fixture.componentInstance.variant = variant;
+      fixture.componentRef.setInput('variant', variant);
 
       await validateIconName(
         iconHarness,
         fixture,
-        fixture.componentInstance.iconName,
+        fixture.componentInstance.iconName(),
       );
     }
   });
@@ -157,7 +157,7 @@ describe('Icon harness', () => {
       dataSkyId: 'svg-icon',
     });
 
-    fixture.componentInstance.variant = undefined;
+    fixture.componentRef.setInput('variant', undefined);
     fixture.detectChanges();
 
     await expectAsync(iconHarness.getVariant()).toBeResolvedTo('line');

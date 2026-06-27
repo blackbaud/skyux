@@ -36,7 +36,7 @@ describe('Radio group harness', () => {
       'Payment method',
     );
 
-    fixture.componentInstance.headingText = undefined;
+    fixture.componentRef.setInput('headingText', undefined);
     fixture.detectChanges();
 
     await expectAsync(radioGroupHarness.getHeadingText()).toBeResolvedTo('');
@@ -47,7 +47,7 @@ describe('Radio group harness', () => {
       dataSkyId: 'radio-group',
     });
 
-    fixture.componentInstance.hideGroupHeading = true;
+    fixture.componentRef.setInput('hideGroupHeading', true);
     fixture.detectChanges();
 
     await expectAsync(radioGroupHarness.getHeadingText()).toBeResolvedTo(
@@ -66,14 +66,14 @@ describe('Radio group harness', () => {
   it('should indicate the heading is hidden', async () => {
     const { radioGroupHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.hideGroupHeading = true;
+    fixture.componentRef.setInput('hideGroupHeading', true);
     fixture.detectChanges();
 
     await expectAsync(radioGroupHarness.getHeadingHidden()).toBeResolvedTo(
       true,
     );
 
-    fixture.componentInstance.headingText = undefined;
+    fixture.componentRef.setInput('headingText', undefined);
     fixture.detectChanges();
 
     await expectAsync(radioGroupHarness.getHeadingHidden()).toBeResolvedTo(
@@ -84,24 +84,24 @@ describe('Radio group harness', () => {
   it('should return the heading level', async () => {
     const { radioGroupHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.headingLevel = undefined;
+    fixture.componentRef.setInput('headingLevel', undefined);
     fixture.detectChanges();
 
     await expectAsync(radioGroupHarness.getHeadingLevel()).toBeResolvedTo(
       undefined,
     );
 
-    fixture.componentInstance.headingLevel = 3;
+    fixture.componentRef.setInput('headingLevel', 3);
     fixture.detectChanges();
 
     await expectAsync(radioGroupHarness.getHeadingLevel()).toBeResolvedTo(3);
 
-    fixture.componentInstance.headingLevel = 4;
+    fixture.componentRef.setInput('headingLevel', 4);
     fixture.detectChanges();
 
     await expectAsync(radioGroupHarness.getHeadingLevel()).toBeResolvedTo(4);
 
-    fixture.componentInstance.headingLevel = 5;
+    fixture.componentRef.setInput('headingLevel', 5);
     fixture.detectChanges();
 
     await expectAsync(radioGroupHarness.getHeadingLevel()).toBeResolvedTo(5);
@@ -110,8 +110,8 @@ describe('Radio group harness', () => {
   it('should return the heading style', async () => {
     const { radioGroupHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.headingLevel = undefined;
-    fixture.componentInstance.headingStyle = 3;
+    fixture.componentRef.setInput('headingLevel', undefined);
+    fixture.componentRef.setInput('headingStyle', 3);
     fixture.detectChanges();
 
     await expectAsync(radioGroupHarness.getHeadingLevel()).toBeResolvedTo(
@@ -119,22 +119,22 @@ describe('Radio group harness', () => {
     );
     await expectAsync(radioGroupHarness.getHeadingStyle()).toBeResolvedTo(3);
 
-    fixture.componentInstance.headingLevel = 3;
-    fixture.componentInstance.headingStyle = 4;
+    fixture.componentRef.setInput('headingLevel', 3);
+    fixture.componentRef.setInput('headingStyle', 4);
     fixture.detectChanges();
 
     await expectAsync(radioGroupHarness.getHeadingLevel()).toBeResolvedTo(3);
     await expectAsync(radioGroupHarness.getHeadingStyle()).toBeResolvedTo(4);
 
-    fixture.componentInstance.headingLevel = 4;
-    fixture.componentInstance.headingStyle = 5;
+    fixture.componentRef.setInput('headingLevel', 4);
+    fixture.componentRef.setInput('headingStyle', 5);
     fixture.detectChanges();
 
     await expectAsync(radioGroupHarness.getHeadingLevel()).toBeResolvedTo(4);
     await expectAsync(radioGroupHarness.getHeadingStyle()).toBeResolvedTo(5);
 
-    fixture.componentInstance.headingLevel = 5;
-    fixture.componentInstance.headingStyle = 3;
+    fixture.componentRef.setInput('headingLevel', 5);
+    fixture.componentRef.setInput('headingStyle', 3);
     fixture.detectChanges();
 
     await expectAsync(radioGroupHarness.getHeadingLevel()).toBeResolvedTo(5);
@@ -147,7 +147,7 @@ describe('Radio group harness', () => {
 
     await expectAsync(radioGroupHarness.getHintText()).toBeResolvedTo('');
 
-    fixture.componentInstance.hintText = hintText;
+    fixture.componentRef.setInput('hintText', hintText);
     fixture.detectChanges();
 
     await expectAsync(radioGroupHarness.getHintText()).toBeResolvedTo(hintText);
@@ -156,8 +156,8 @@ describe('Radio group harness', () => {
   it('should indicate the component is stacked when margin is lg and headingLevel is not set', async () => {
     const { radioGroupHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.stacked = true;
-    fixture.componentInstance.headingLevel = undefined;
+    fixture.componentRef.setInput('stacked', true);
+    fixture.componentRef.setInput('headingLevel', undefined);
     fixture.detectChanges();
 
     await expectAsync(radioGroupHarness.getStacked()).toBeResolvedTo(true);
@@ -166,8 +166,8 @@ describe('Radio group harness', () => {
   it('should indicate the component is not stacked when margin is lg and headingLevel is set', async () => {
     const { radioGroupHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.class = 'sky-margin-stacked-lg';
-    fixture.componentInstance.headingLevel = 4;
+    fixture.componentRef.setInput('class', 'sky-margin-stacked-lg');
+    fixture.componentRef.setInput('headingLevel', 4);
     fixture.detectChanges();
 
     await expectAsync(radioGroupHarness.getStacked()).toBeResolvedTo(false);
@@ -176,7 +176,7 @@ describe('Radio group harness', () => {
   it('should indicate the component is stacked when margin is xl and headingLevel is set', async () => {
     const { radioGroupHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.stacked = true;
+    fixture.componentRef.setInput('stacked', true);
     fixture.detectChanges();
 
     await expectAsync(radioGroupHarness.getStacked()).toBeResolvedTo(true);
@@ -185,8 +185,8 @@ describe('Radio group harness', () => {
   it('should indicate the component is not stacked when margin is xl and headingLevel is not set', async () => {
     const { radioGroupHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.class = 'sky-margin-stacked-xl';
-    fixture.componentInstance.headingLevel = undefined;
+    fixture.componentRef.setInput('class', 'sky-margin-stacked-xl');
+    fixture.componentRef.setInput('headingLevel', undefined);
     fixture.detectChanges();
 
     await expectAsync(radioGroupHarness.getStacked()).toBeResolvedTo(false);
@@ -201,7 +201,7 @@ describe('Radio group harness', () => {
   it('should indicate the component is required', async () => {
     const { radioGroupHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.required = true;
+    fixture.componentRef.setInput('required', true);
     fixture.detectChanges();
 
     await expectAsync(radioGroupHarness.getRequired()).toBeResolvedTo(true);
@@ -215,7 +215,7 @@ describe('Radio group harness', () => {
 
   it('should display an error message when there is a custom validation error', async () => {
     const { radioGroupHarness, fixture } = await setupTest();
-    fixture.componentInstance.required = true;
+    fixture.componentRef.setInput('required', true);
     fixture.detectChanges();
 
     const radioHarness = (await radioGroupHarness.getRadioButtons())[1];
@@ -271,7 +271,7 @@ describe('Radio group harness', () => {
   it('should open help inline popover when clicked', async () => {
     const { radioGroupHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.helpPopoverContent = 'popover content';
+    fixture.componentRef.setInput('helpPopoverContent', 'popover content');
     fixture.detectChanges();
 
     await radioGroupHarness.clickHelpInline();
@@ -286,8 +286,8 @@ describe('Radio group harness', () => {
     const helpSvc = TestBed.inject(SkyHelpService);
     const helpSpy = spyOn(helpSvc, 'openHelp');
 
-    fixture.componentInstance.helpPopoverContent = undefined;
-    fixture.componentInstance.helpKey = 'helpKey.html';
+    fixture.componentRef.setInput('helpPopoverContent', undefined);
+    fixture.componentRef.setInput('helpKey', 'helpKey.html');
     fixture.detectChanges();
 
     await radioGroupHarness.clickHelpInline();
@@ -299,7 +299,7 @@ describe('Radio group harness', () => {
 
   it('should get help popover content', async () => {
     const { radioGroupHarness, fixture } = await setupTest();
-    fixture.componentInstance.helpPopoverContent = 'popover content';
+    fixture.componentRef.setInput('helpPopoverContent', 'popover content');
     fixture.detectChanges();
 
     await radioGroupHarness.clickHelpInline();
@@ -313,8 +313,8 @@ describe('Radio group harness', () => {
 
   it('should get help popover title', async () => {
     const { radioGroupHarness, fixture } = await setupTest();
-    fixture.componentInstance.helpPopoverContent = 'popover content';
-    fixture.componentInstance.helpPopoverTitle = 'popover title';
+    fixture.componentRef.setInput('helpPopoverContent', 'popover content');
+    fixture.componentRef.setInput('helpPopoverTitle', 'popover title');
     fixture.detectChanges();
 
     await radioGroupHarness.clickHelpInline();

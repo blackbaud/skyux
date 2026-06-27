@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, model } from '@angular/core';
 import {
   AbstractControl,
   FormsModule,
@@ -26,22 +26,22 @@ function validatePaymentMethod(
   imports: [FormsModule, ReactiveFormsModule, SkyRadioModule],
 })
 export class RadioHarnessTestComponent {
-  public class = '';
-  public cashHintText: string | undefined;
-  public headingLevel: SkyRadioGroupHeadingLevel | undefined = 3;
-  public headingStyle: SkyRadioGroupHeadingStyle = 3;
-  public headingText: string | undefined = 'Payment method';
-  public helpKey: string | undefined;
-  public helpPopoverContent: string | undefined;
-  public helpPopoverTitle: string | undefined;
-  public hideCashLabel = false;
-  public hideCheckLabel = false;
-  public hideGroupHeading = false;
-  public hintText: string | undefined;
+  public class = model('');
+  public cashHintText = model<string | undefined>(undefined);
+  public headingLevel = model<SkyRadioGroupHeadingLevel | undefined>(3);
+  public headingStyle = model<SkyRadioGroupHeadingStyle>(3);
+  public headingText = model<string | undefined>('Payment method');
+  public helpKey = model<string | undefined>(undefined);
+  public helpPopoverContent = model<string | undefined>(undefined);
+  public helpPopoverTitle = model<string | undefined>(undefined);
+  public hideCashLabel = model(false);
+  public hideCheckLabel = model(false);
+  public hideGroupHeading = model(false);
+  public hintText = model<string | undefined>(undefined);
   public myForm: UntypedFormGroup;
   public paymentMethod: UntypedFormControl;
-  public required = false;
-  public stacked = false;
+  public required = model(false);
+  public stacked = model(false);
 
   #formBuilder = inject(UntypedFormBuilder);
 

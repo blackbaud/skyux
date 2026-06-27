@@ -2,10 +2,10 @@
   <sky-split-view
     backButtonText="Test button text"
     data-sky-id="split-view"
-    [dock]="dockType"
+    [dock]="dockType()"
     [messageStream]="splitViewStream"
   >
-    @if (showDrawer) {
+    @if (showDrawer()) {
       <sky-split-view-drawer ariaLabel="Transaction list">
         <sky-repeater [activeIndex]="activeIndex">
           @for (item of items; track item; let i = $index) {
@@ -23,9 +23,9 @@
         </sky-repeater>
       </sky-split-view-drawer>
     }
-    @if (showWorkspace) {
+    @if (showWorkspace()) {
       <sky-split-view-workspace ariaLabel="Transaction form">
-        @if (showContent) {
+        @if (showContent()) {
           <sky-split-view-workspace-content class="sky-padding-even-xl">
             <form [formGroup]="splitViewDemoForm" (ngSubmit)="onApprove()">
               <sky-description-list labelWidth="150px">
@@ -69,7 +69,7 @@
             </form>
           </sky-split-view-workspace-content>
         }
-        @if (showFooter) {
+        @if (showFooter()) {
           <sky-split-view-workspace-footer>
             <sky-summary-action-bar>
               <sky-summary-action-bar-actions>

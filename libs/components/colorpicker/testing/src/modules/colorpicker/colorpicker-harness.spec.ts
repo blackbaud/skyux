@@ -1,6 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   FormBuilder,
@@ -32,26 +32,26 @@ import { SkyColorpickerHarness } from './colorpicker-harness';
     <form [formGroup]="myForm">
       <sky-colorpicker
         #skyColorpickerTest
-        [helpPopoverContent]="helpPopoverContent"
-        [helpPopoverTitle]="helpPopoverTitle"
-        [hintText]="hintText"
-        [label]="label"
-        [labelHidden]="labelHidden"
-        [labelText]="labelText"
-        [labelledBy]="labelledBy"
-        [pickerButtonIcon]="pickerButtonIcon"
-        [showResetButton]="showResetButton"
-        [stacked]="stacked"
+        [helpPopoverContent]="helpPopoverContent()"
+        [helpPopoverTitle]="helpPopoverTitle()"
+        [hintText]="hintText()"
+        [label]="label()"
+        [labelHidden]="labelHidden()"
+        [labelText]="labelText()"
+        [labelledBy]="labelledBy()"
+        [pickerButtonIcon]="pickerButtonIcon()"
+        [showResetButton]="showResetButton()"
+        [stacked]="stacked()"
       >
         <input
           formControlName="colorpicker"
           type="text"
-          [allowTransparency]="allowTransparency"
-          [required]="required"
+          [allowTransparency]="allowTransparency()"
+          [required]="required()"
           [skyColorpickerInput]="skyColorpickerTest"
-          [presetColors]="swatches"
+          [presetColors]="swatches()"
         />
-        @if (showCustomError) {
+        @if (showCustomError()) {
           <sky-form-error
             errorName="wrongColor"
             errorText="That is not a good color."
@@ -67,20 +67,21 @@ import { SkyColorpickerHarness } from './colorpicker-harness';
   standalone: false,
 })
 class TestComponent {
-  public allowTransparency = true;
-  public helpPopoverContent: string | undefined;
-  public helpPopoverTitle: string | undefined;
-  public hintText: string | undefined;
-  public label: string | undefined;
-  public labelHidden = false;
-  public labelText: string | undefined;
-  public labelledBy: string | undefined;
+  public readonly allowTransparency = input(true);
+  public readonly helpPopoverContent = input<string | undefined>(undefined);
+  public readonly helpPopoverTitle = input<string | undefined>(undefined);
+  public readonly hintText = input<string | undefined>(undefined);
+  public readonly label = input<string | undefined>(undefined);
+  public readonly labelHidden = input(false);
+  public readonly labelText = input<string | undefined>(undefined);
+  public readonly labelledBy = input<string | undefined>(undefined);
   public myForm: FormGroup;
-  public pickerButtonIcon: string | undefined;
-  public showCustomError = false;
-  public showResetButton = true;
-  public stacked = false;
-  public swatches: string[] | undefined;
+  public readonly pickerButtonIcon = input<string | undefined>(undefined);
+  public readonly required = input(false);
+  public readonly showCustomError = input(false);
+  public readonly showResetButton = input(true);
+  public readonly stacked = input(false);
+  public readonly swatches = input<string[] | undefined>(undefined);
 
   constructor(formBuilder: FormBuilder) {
     this.myForm = formBuilder.group({
@@ -164,8 +165,11 @@ describe('Colorpicker harness', () => {
   it('should open help inline popover when clicked', async () => {
     const { colorpickerHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.labelText = 'colorpicker';
-    fixture.componentInstance.helpPopoverContent = 'This is a colorpicker';
+    fixture.componentRef.setInput('labelText', 'colorpicker');
+    fixture.componentRef.setInput(
+      'helpPopoverContent',
+      'This is a colorpicker',
+    );
     fixture.detectChanges();
 
     await colorpickerHarness.clickHelpInline();
@@ -180,8 +184,11 @@ describe('Colorpicker harness', () => {
   it('should get help popover content', async () => {
     const { colorpickerHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.labelText = 'colorpicker';
-    fixture.componentInstance.helpPopoverContent = 'This is a colorpicker';
+    fixture.componentRef.setInput('labelText', 'colorpicker');
+    fixture.componentRef.setInput(
+      'helpPopoverContent',
+      'This is a colorpicker',
+    );
     fixture.detectChanges();
 
     await colorpickerHarness.clickHelpInline();
@@ -196,9 +203,12 @@ describe('Colorpicker harness', () => {
   it('should get help popover title', async () => {
     const { colorpickerHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.labelText = 'colorpicker';
-    fixture.componentInstance.helpPopoverContent = 'This is a colorpicker';
-    fixture.componentInstance.helpPopoverTitle = 'What is this?';
+    fixture.componentRef.setInput('labelText', 'colorpicker');
+    fixture.componentRef.setInput(
+      'helpPopoverContent',
+      'This is a colorpicker',
+    );
+    fixture.componentRef.setInput('helpPopoverTitle', 'What is this?');
     fixture.detectChanges();
 
     await colorpickerHarness.clickHelpInline();
@@ -213,8 +223,8 @@ describe('Colorpicker harness', () => {
   it('should get colorpicker hint text', async () => {
     const { colorpickerHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.labelText = 'colorpicker';
-    fixture.componentInstance.hintText = 'This is a colorpicker';
+    fixture.componentRef.setInput('labelText', 'colorpicker');
+    fixture.componentRef.setInput('hintText', 'This is a colorpicker');
     fixture.detectChanges();
 
     await expectAsync(colorpickerHarness.getHintText()).toBeResolvedTo(
@@ -225,7 +235,7 @@ describe('Colorpicker harness', () => {
   it('should get colorpicker label text', async () => {
     const { colorpickerHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.labelText = 'colorpicker';
+    fixture.componentRef.setInput('labelText', 'colorpicker');
     fixture.detectChanges();
 
     await expectAsync(colorpickerHarness.getLabelText()).toBeResolvedTo(
@@ -236,7 +246,7 @@ describe('Colorpicker harness', () => {
   it('should check whether colorpicker required error has fired', async () => {
     const { colorpickerHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.labelText = 'colorpicker';
+    fixture.componentRef.setInput('labelText', 'colorpicker');
     fixture.detectChanges();
 
     const control = fixture.componentInstance.myForm.controls['colorpicker'];
@@ -254,10 +264,10 @@ describe('Colorpicker harness', () => {
   it('should check whether custom error has fired', async () => {
     const { colorpickerHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.labelText = 'colorpicker';
+    fixture.componentRef.setInput('labelText', 'colorpicker');
     fixture.detectChanges();
 
-    fixture.componentInstance.showCustomError = true;
+    fixture.componentRef.setInput('showCustomError', true);
     fixture.componentInstance.myForm.markAllAsTouched();
     fixture.detectChanges();
 
@@ -269,8 +279,8 @@ describe('Colorpicker harness', () => {
   it('should get custom form error', async () => {
     const { colorpickerHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.labelText = 'colorpicker';
-    fixture.componentInstance.showCustomError = true;
+    fixture.componentRef.setInput('labelText', 'colorpicker');
+    fixture.componentRef.setInput('showCustomError', true);
     fixture.componentInstance.myForm.markAllAsTouched();
     fixture.detectChanges();
 
@@ -285,7 +295,7 @@ describe('Colorpicker harness', () => {
   it('should get `aria-label` when set with `label` input', async () => {
     const { colorpickerHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.label = 'colorpicker';
+    fixture.componentRef.setInput('label', 'colorpicker');
     fixture.detectChanges();
 
     await expectAsync(colorpickerHarness.getAriaLabel()).toBeResolvedTo(
@@ -296,7 +306,7 @@ describe('Colorpicker harness', () => {
   it('should get `aria-label` when set with `labelledBy` input', async () => {
     const { colorpickerHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.labelledBy = 'colorpicker';
+    fixture.componentRef.setInput('labelledBy', 'colorpicker');
     fixture.detectChanges();
 
     await expectAsync(colorpickerHarness.getAriaLabelledby()).toBeResolvedTo(
@@ -307,8 +317,8 @@ describe('Colorpicker harness', () => {
   it('should get whether colorpicker label is hidden', async () => {
     const { colorpickerHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.labelText = 'colorpicker label';
-    fixture.componentInstance.labelHidden = true;
+    fixture.componentRef.setInput('labelText', 'colorpicker label');
+    fixture.componentRef.setInput('labelHidden', true);
     fixture.detectChanges();
 
     await expectAsync(colorpickerHarness.getLabelHidden()).toBeResolvedTo(true);
@@ -349,7 +359,7 @@ describe('Colorpicker harness', () => {
   it('should throw an error if no reset button is found', async () => {
     const { colorpickerHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.showResetButton = false;
+    fixture.componentRef.setInput('showResetButton', false);
     fixture.detectChanges();
 
     await expectAsync(
@@ -362,7 +372,7 @@ describe('Colorpicker harness', () => {
 
     await expectAsync(colorpickerHarness.hasResetButton()).toBeResolvedTo(true);
 
-    fixture.componentInstance.showResetButton = false;
+    fixture.componentRef.setInput('showResetButton', false);
     fixture.detectChanges();
 
     await expectAsync(colorpickerHarness.hasResetButton()).toBeResolvedTo(
@@ -388,7 +398,7 @@ describe('Colorpicker harness', () => {
   it('should get whether colorpicker is stacked', async () => {
     const { colorpickerHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.stacked = true;
+    fixture.componentRef.setInput('stacked', true);
     fixture.detectChanges();
 
     await expectAsync(colorpickerHarness.isStacked()).toBeResolvedTo(true);
@@ -397,7 +407,7 @@ describe('Colorpicker harness', () => {
   it('should get the colorpicker icon test harness', async () => {
     const { colorpickerHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.pickerButtonIcon = 'calendar-ltr';
+    fixture.componentRef.setInput('pickerButtonIcon', 'calendar-ltr');
     fixture.detectChanges();
 
     const iconHarness = await colorpickerHarness.getColorpickerIcon();
@@ -512,7 +522,7 @@ describe('Colorpicker harness', () => {
     it('should throw an error if trying to set alpha input when transparency is not allowed', async () => {
       const { colorpickerHarness, fixture } = await setupTest();
 
-      fixture.componentInstance.allowTransparency = false;
+      fixture.componentRef.setInput('allowTransparency', false);
       const dropdownHarness = await getColorpickerDropdownHarness(
         colorpickerHarness,
         fixture,
@@ -534,7 +544,7 @@ describe('Colorpicker harness', () => {
         true,
       );
 
-      fixture.componentInstance.allowTransparency = false;
+      fixture.componentRef.setInput('allowTransparency', false);
       fixture.detectChanges();
 
       await expectAsync(dropdownHarness.allowsTransparency()).toBeResolvedTo(
@@ -547,7 +557,7 @@ describe('Colorpicker harness', () => {
         theme: 'default',
       });
 
-      fixture.componentInstance.swatches = ['#f0f', '#0ff'];
+      fixture.componentRef.setInput('swatches', ['#f0f', '#0ff']);
       fixture.detectChanges();
       const dropdownHarness = await getColorpickerDropdownHarness(
         colorpickerHarness,
@@ -556,7 +566,7 @@ describe('Colorpicker harness', () => {
 
       await expectAsync(
         dropdownHarness.getPresetColorSwatches(),
-      ).toBeResolvedTo(fixture.componentInstance.swatches);
+      ).toBeResolvedTo(['#f0f', '#0ff']);
     });
 
     it('should throw an error if a swatch is set to undefined', async () => {
@@ -564,7 +574,7 @@ describe('Colorpicker harness', () => {
         theme: 'default',
       });
 
-      fixture.componentInstance.swatches = ['', '#f0f'];
+      fixture.componentRef.setInput('swatches', ['', '#f0f']);
       fixture.detectChanges();
       const dropdownHarness = await getColorpickerDropdownHarness(
         colorpickerHarness,
@@ -582,7 +592,7 @@ describe('Colorpicker harness', () => {
       });
 
       const control = fixture.componentInstance.myForm.controls['colorpicker'];
-      fixture.componentInstance.swatches = ['#f0f', '#0ff'];
+      fixture.componentRef.setInput('swatches', ['#f0f', '#0ff']);
       fixture.detectChanges();
       expect(control.value['hex']).toBe('#f00');
 
@@ -604,7 +614,7 @@ describe('Colorpicker harness', () => {
       });
 
       const control = fixture.componentInstance.myForm.controls['colorpicker'];
-      fixture.componentInstance.swatches = ['#f0f', '#0ff'];
+      fixture.componentRef.setInput('swatches', ['#f0f', '#0ff']);
       fixture.detectChanges();
       expect(control.value['hex']).toBe('#f00');
 
