@@ -9,7 +9,7 @@
   "targets": {
     "build": {
       "executor": "@angular/build:application",
-      "outputs": ["{options.outputPath}"],
+      "outputs": ["{options.outputPath.base}"],
       "options": {
         "outputPath": {
           "base": "dist/apps/code-examples-playground"
