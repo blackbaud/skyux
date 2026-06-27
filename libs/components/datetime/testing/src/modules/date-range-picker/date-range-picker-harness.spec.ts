@@ -153,7 +153,7 @@ describe('Date range picker harness', () => {
 
     await expectAsync(
       dateRangePickerHarness.getHelpPopoverContent(),
-    ).toBeResolvedTo(fixture.componentInstance.helpPopoverContent());
+    ).toBeResolvedTo('content');
   });
 
   it('should get help popover title', async () => {
@@ -168,7 +168,7 @@ describe('Date range picker harness', () => {
 
     await expectAsync(
       dateRangePickerHarness.getHelpPopoverTitle(),
-    ).toBeResolvedTo(fixture.componentInstance.helpPopoverTitle());
+    ).toBeResolvedTo('title');
   });
 
   it('should get hint text', async () => {
@@ -178,7 +178,7 @@ describe('Date range picker harness', () => {
     fixture.detectChanges();
 
     await expectAsync(dateRangePickerHarness.getHintText()).toBeResolvedTo(
-      fixture.componentInstance.hintText(),
+      'hint text',
     );
   });
 
@@ -189,7 +189,7 @@ describe('Date range picker harness', () => {
     fixture.detectChanges();
 
     await expectAsync(dateRangePickerHarness.getLabelText()).toBeResolvedTo(
-      fixture.componentInstance.labelText(),
+      'label',
     );
   });
 
