@@ -226,8 +226,12 @@ export class SkyDataGrid<
    * @default undefined
    */
   public readonly rowCount = input<number | undefined, unknown>(undefined, {
-    transform: (value: unknown) =>
-      coerceNumberProperty(value, undefined) || undefined,
+    transform: (value: unknown) => {
+      if (typeof value === 'undefined') {
+        return undefined;
+      }
+      return coerceNumberProperty(value, undefined);
+    },
   });
 
   /**
@@ -727,16 +731,20 @@ export class SkyDataGrid<
     if (Number.isFinite(col.flexWidth())) {
       colDef.flex = col.flexWidth();
       colDef.initialFlex = col.flexWidth();
-      colDef.suppressSizeToFit = true;
       if (Number.isFinite(col.width())) {
         colDef.minWidth = col.width();
       }
     } else if (Number.isFinite(col.width())) {
       colDef.initialWidth = col.width();
+      colDef.suppressAutoSize = true;
     }
     if (!col.resizable() || col.flexWidth() === 0) {
       colDef.suppressSizeToFit = true;
       colDef.suppressAutoSize = true;
+      if (!col.resizable() && Number.isFinite(col.width())) {
+        colDef.minWidth = col.width();
+        colDef.maxWidth = col.width();
+      }
     }
   }
 
@@ -755,11 +763,20 @@ export class SkyDataGrid<
       .filter(Boolean) as string[];
   }
 
+  #hasFlexColumns(): boolean {
+    return this.#columnDefs().some((col) => !!col.initialFlex);
+  }
+
   #getAutoSizeStrategy(): AutoSizeStrategy | undefined {
-    const hasFlexColumn = this.#columnDefs().some((col) => !!col.initialFlex);
-    return this.columnFit() === 'content' && !hasFlexColumn
-      ? { type: 'fitCellContents' }
-      : undefined;
+    if (this.#hasFlexColumns()) {
+      // Avoid the console warning if `autoSizeColumns` is called on a grid with flex columns, so skip it.
+      return undefined;
+    }
+    return {
+      type: 'fitCellContents',
+      skipHeader: true,
+      scaleUpToFitGridWidth: this.columnFit() === 'container',
+    };
   }
 
   #getRowSelection(): RowSelectionOptions<T> {

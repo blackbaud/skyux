@@ -1,5 +1,5 @@
 <div class="sky-theme-padding-inset-balanced-l">
-  <sky-data-grid columnFit="content" [data]="gridData">
+  <sky-data-grid [columnFit]="columnFit()" [data]="gridData">
     <sky-data-grid-column
       columnId="context"
       headingHidden
@@ -9,29 +9,45 @@
       width="60"
       [template]="contextMenu"
     />
-    <sky-data-grid-column field="name" headingText="Name" width="240" />
+    <sky-data-grid-column
+      field="name"
+      headingText="Name"
+      [flexWidth]="flexSizes().name"
+      [width]="fixedSizes().name"
+    />
     <sky-data-grid-column
       field="age"
       headingText="Age"
       dataType="number"
-      width="60"
+      [flexWidth]="flexSizes().age"
+      [width]="fixedSizes().age"
     />
     <sky-data-grid-column
       field="startDate"
       headingText="Start date"
       dataType="date"
-      width="120"
+      [flexWidth]="flexSizes().startDate"
+      [width]="fixedSizes().startDate"
     />
     <sky-data-grid-column
       field="endDate"
       headingText="End date"
       dataType="date"
-      width="120"
+      [flexWidth]="flexSizes().endDate"
+      [width]="fixedSizes().endDate"
     />
-    <sky-data-grid-column field="department" headingText="Department">
+    <sky-data-grid-column
+      field="department"
+      headingText="Department"
+      [flexWidth]="flexSizes().department"
+    >
       <ng-template let-row="row">{{ row.department?.name }}</ng-template>
     </sky-data-grid-column>
-    <sky-data-grid-column field="jobTitle" headingText="Title">
+    <sky-data-grid-column
+      field="jobTitle"
+      headingText="Title"
+      [flexWidth]="flexSizes().jobTitle"
+    >
       <ng-template let-row="row">{{ row.jobTitle?.name }}</ng-template>
     </sky-data-grid-column>
   </sky-data-grid>

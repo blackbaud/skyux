@@ -8,5 +8,16 @@ export default {
   component: DataGridComponent,
 } as Meta<DataGridComponent>;
 type Story = StoryObj<DataGridComponent>;
-export const DataGrid: Story = {};
-DataGrid.args = {};
+export const DataGrid: Story = {
+  argTypes: {
+    columnFit: {
+      control: 'radio',
+      options: ['content', 'container'],
+    },
+    sizingVariant: {
+      control: 'radio',
+      options: ['fixed', 'flex', 'auto'],
+    },
+  },
+};
+DataGrid.args = { columnFit: 'content', sizingVariant: 'fixed' };

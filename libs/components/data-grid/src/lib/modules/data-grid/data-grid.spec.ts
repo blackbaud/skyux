@@ -15,6 +15,7 @@ import { SkyPagingHarness } from '@skyux/lists/testing';
 
 import { getGridApi } from 'ag-grid-community';
 import { SkyDataGrid } from './data-grid';
+import { ColumnWidthTestComponent } from './fixtures/column-width-test.component';
 import { DataGridTestComponent } from './fixtures/data-grid-test.component';
 import { FlexWidthTestComponent } from './fixtures/flex-width-test.component';
 import { ResourceDataTestComponent } from './fixtures/resource-data-test.component';
@@ -746,6 +747,18 @@ describe('SkyDataGrid', () => {
       );
     });
 
+    it('should not warn about rowCount when autoPage is false and rowCount is set to zero', async () => {
+      const warnSpy = spyOn(TestBed.inject(SkyLogService), 'warn');
+      fixture.componentRef.setInput('autoPage', false);
+      fixture.componentRef.setInput('pageSize', 10);
+      fixture.componentRef.setInput('rowCount', 0);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(warnSpy).not.toHaveBeenCalledWith(
+        jasmine.stringContaining('the `rowCount` input is required'),
+      );
+    });
+
     it('should set initialFlex=0, suppressSizeToFit, and suppressAutoSize when flexWidth is 0', async () => {
       const flexFixture = TestBed.createComponent(FlexWidthTestComponent);
       flexFixture.detectChanges();
@@ -756,8 +769,6 @@ describe('SkyDataGrid', () => {
       expect(api).toBeTruthy();
       const colDef = api?.getColumn('column1')?.getColDef();
       expect(colDef?.initialFlex).toBe(0);
-      expect(colDef?.suppressSizeToFit).toBeTrue();
-      expect(colDef?.suppressAutoSize).toBeTrue();
     });
 
     it('should render a custom cell template with access to the row data', async () => {
@@ -811,7 +822,30 @@ describe('SkyDataGrid', () => {
       expect(colDef?.initialFlex).toBe(2);
       // `width` set alongside `flexWidth` acts as the column's minimum width.
       expect(colDef?.minWidth).toBe(120);
-      expect(colDef?.suppressSizeToFit).toBeTrue();
+    });
+
+    it('should apply min and max width when a column is not resizable', async () => {
+      const flexFixture = TestBed.createComponent(ColumnWidthTestComponent);
+      flexFixture.detectChanges();
+      await flexFixture.whenStable();
+      const api = getGridApi(
+        flexFixture.nativeElement.querySelector('ag-grid-angular'),
+      );
+      expect(api).toBeTruthy();
+      const colDef = api?.getColumn('column2')?.getColDef();
+      expect(colDef?.minWidth).toBe(75);
+      expect(colDef?.maxWidth).toBe(75);
+    });
+
+    it('should not use auto-size with flex columns', async () => {
+      const flexFixture = TestBed.createComponent(ColumnWidthTestComponent);
+      flexFixture.detectChanges();
+      await flexFixture.whenStable();
+      const api = getGridApi(
+        flexFixture.nativeElement.querySelector('ag-grid-angular'),
+      );
+      expect(api).toBeTruthy();
+      expect(api?.getGridOption('autoSizeStrategy')).toBeFalsy();
     });
 
     it('should set a no-op comparator on columns when autoSort is false', async () => {
@@ -868,7 +902,11 @@ describe('SkyDataGrid', () => {
           '[data-sky-id="grid"] ag-grid-angular',
         ),
       );
-      expect(containerApi?.getGridOption('autoSizeStrategy')).toBeUndefined();
+      expect(containerApi?.getGridOption('autoSizeStrategy')).toEqual({
+        type: 'fitCellContents',
+        skipHeader: true,
+        scaleUpToFitGridWidth: true,
+      });
 
       // The "multiselect-grid" sets columnFit="content" and has no flex columns.
       const contentApi = getGridApi(
@@ -878,6 +916,8 @@ describe('SkyDataGrid', () => {
       );
       expect(contentApi?.getGridOption('autoSizeStrategy')).toEqual({
         type: 'fitCellContents',
+        skipHeader: true,
+        scaleUpToFitGridWidth: false,
       });
     });
 
