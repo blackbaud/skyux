@@ -206,10 +206,10 @@ export class SkyDataGrid<
    * enables paging. When `autoPage` is `true` (the default), the grid pages
    * through `data` on the client; when `autoPage` is `false`, set `rowCount` to
    * the total number of rows and update `data` as `page` changes.
-   * @default 0
+   * @default undefined
    */
-  public readonly pageSize = input<number, unknown>(0, {
-    transform: (value: unknown) => coerceNumberProperty(value, 0),
+  public readonly pageSize = input<number | undefined, unknown>(undefined, {
+    transform: (value: unknown) => coerceNumberProperty(value, undefined),
   });
 
   /**
@@ -223,10 +223,11 @@ export class SkyDataGrid<
    * the paging controls display. Required when `pageSize` is greater than zero
    * and `autoPage` is `false`; ignored when `autoPage` is `true` because the
    * length of `data` is used instead.
-   * @default 0
+   * @default undefined
    */
-  public readonly rowCount = input<number, unknown>(0, {
-    transform: (value: unknown) => coerceNumberProperty(value, 0),
+  public readonly rowCount = input<number | undefined, unknown>(undefined, {
+    transform: (value: unknown) =>
+      coerceNumberProperty(value, undefined) || undefined,
   });
 
   /**
@@ -325,7 +326,7 @@ export class SkyDataGrid<
   protected readonly rowData = computed(() => {
     const rowData = this.data() ?? [];
     const pageSize = this.pageSize();
-    if (!this.autoPage() && pageSize > 0 && rowData.length > pageSize) {
+    if (!this.autoPage() && pageSize && rowData.length > pageSize) {
       this.#logger.warn(
         'When using paging and `autoPage` is not enabled, the `data` input will be limited to the number of rows specified by `pageSize`. To display more rows, update the `data` input when the `page` changes.',
       );
@@ -337,7 +338,7 @@ export class SkyDataGrid<
     const dataLength = this.pageItemsCount();
     const pageSize = this.pageSize();
     const gridReady = this.gridReady();
-    if (!gridReady || pageSize === 0) {
+    if (!gridReady || !pageSize) {
       return 0;
     }
     return Math.ceil(dataLength / pageSize);
@@ -346,11 +347,11 @@ export class SkyDataGrid<
     source: () => {
       const pageSize = this.pageSize();
       const gridReady = this.gridReady();
-      if (!gridReady || pageSize === 0) {
+      const rowCount = this.rowCount() ?? 0;
+      if (!gridReady || !pageSize) {
         return 0;
       }
       const dataLength = this.rowData().length;
-      const rowCount = this.rowCount();
       const autoPage = this.autoPage();
       return autoPage ? dataLength : rowCount;
     },
@@ -419,7 +420,7 @@ export class SkyDataGrid<
    */
   readonly #paginationOptions = computed(() => {
     const pageSize = this.pageSize();
-    const pagination = this.autoPage() && pageSize > 0;
+    const pagination = this.autoPage() && !!pageSize;
     const paginationPageSize = (pagination && pageSize) || undefined;
     return {
       pagination,
@@ -434,13 +435,13 @@ export class SkyDataGrid<
             ? this.#activatedRoute.queryParamMap.pipe(
                 startWith(this.#activatedRoute.snapshot.queryParamMap),
                 map((params) =>
-                  coerceNumberProperty(params.get(pageQueryParam), 1),
+                  coerceNumberProperty(params.get(pageQueryParam), NaN),
                 ),
               )
             : [],
       ),
     ),
-    { initialValue: 1 },
+    { initialValue: NaN },
   );
 
   constructor() {
@@ -564,7 +565,10 @@ export class SkyDataGrid<
     // Sync page from URL query parameter.
     effect(() => {
       const queryParamPage = this.#queryParamPage();
-      this.page.set(queryParamPage);
+      const pageSize = this.pageSize();
+      if (pageSize && Number.isInteger(queryParamPage)) {
+        this.page.set(queryParamPage);
+      }
     });
 
     // Warn when server-side paging is configured without the required
@@ -574,8 +578,8 @@ export class SkyDataGrid<
     effect(() => {
       if (
         !this.autoPage() &&
-        this.pageSize() > 0 &&
-        this.rowCount() === 0 &&
+        this.pageSize() &&
+        this.rowCount() === undefined &&
         !this.loading() &&
         Array.isArray(this.data())
       ) {

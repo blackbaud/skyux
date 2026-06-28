@@ -22,11 +22,13 @@ describe('data-grid-harness', () => {
       SkyDataGridHarness.with({ dataSkyId: 'grid' }),
     );
     await expectAsync(harness.isGridReady()).toBeResolvedTo(false);
+    await expectAsync(harness.isLoading()).toBeResolvedTo(true);
 
     fixture.componentRef.setInput('showAllColumns', true);
     fixture.detectChanges();
 
     await expectAsync(harness.isGridReady()).toBeResolvedTo(true);
+    await expectAsync(harness.isLoading()).toBeResolvedTo(false);
   });
 
   it('should get columns', async () => {
@@ -60,6 +62,31 @@ describe('data-grid-harness', () => {
     ]);
   });
 
+  it('should sort columns', async () => {
+    fixture.detectChanges();
+
+    const harness = await TestbedHarnessEnvironment.loader(fixture).getHarness(
+      SkyDataGridHarness.with({ dataSkyId: 'grid' }),
+    );
+    await expectAsync(harness.isGridReady()).toBeResolvedTo(true);
+    await harness.clickColumnSortButton('column2');
+    fixture.detectChanges();
+    expect(fixture.componentInstance.sortForSimpleGrid()).toEqual({
+      field: 'column2',
+      direction: 'desc',
+    });
+  });
+
+  it('should get displayed row count', async () => {
+    fixture.detectChanges();
+
+    const harness = await TestbedHarnessEnvironment.loader(fixture).getHarness(
+      SkyDataGridHarness.with({ dataSkyId: 'grid' }),
+    );
+    await expectAsync(harness.isGridReady()).toBeResolvedTo(true);
+    await expectAsync(harness.getDisplayedRowCount()).toBeResolvedTo(7);
+  });
+
   it('should throw error if the grid is not available', async () => {
     fixture.componentRef.setInput('showAllColumns', false);
     fixture.detectChanges();
@@ -75,6 +102,9 @@ describe('data-grid-harness', () => {
       harness.getDisplayedColumnHeaderNames(),
     ).toBeRejectedWithError(
       'Unable to retrieve displayed column header names.',
+    );
+    await expectAsync(harness.getDisplayedRowCount()).toBeRejectedWithError(
+      'Unable to retrieve total number of displayed rows.',
     );
 
     fixture.componentRef.setInput('showAllColumns', true);

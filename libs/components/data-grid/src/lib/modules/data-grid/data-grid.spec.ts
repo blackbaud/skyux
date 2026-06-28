@@ -657,6 +657,25 @@ describe('SkyDataGrid', () => {
       });
     });
 
+    it('should update the page when the url query parameter changes', async () => {
+      fixture.componentRef.setInput('pageSize', 2);
+      component.pageQueryParam = 'page';
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const router = TestBed.inject(Router);
+      await router.navigate([], {
+        queryParams: { page: 3 },
+      });
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(component.page()).toBe(3);
+
+      const pagingHarness = await loader.getHarness(SkyPagingHarness);
+      await expectAsync(pagingHarness.getCurrentPage()).toBeResolvedTo(3);
+    });
+
     it('should not use grid paging when autoPage is false', async () => {
       fixture.componentRef.setInput('autoPage', false);
       fixture.componentRef.setInput('pageSize', 200);
@@ -699,15 +718,17 @@ describe('SkyDataGrid', () => {
       expect(warnSpy).toHaveBeenCalled();
     });
 
-    it('should warn when autoPage is false and rowCount is not set', async () => {
+    it('should hide paging and warn when autoPage is false and rowCount is not set', async () => {
       const warnSpy = spyOn(TestBed.inject(SkyLogService), 'warn');
       fixture.componentRef.setInput('autoPage', false);
-      // pageSize exceeds the row count, so the data-slicing warning does not
-      // fire and only the missing-rowCount warning is asserted here.
       fixture.componentRef.setInput('pageSize', 10);
-      fixture.componentRef.setInput('rowCount', 0);
+
       fixture.detectChanges();
       await fixture.whenStable();
+
+      await expectAsync(
+        loader.getAllHarnesses(SkyPagingHarness),
+      ).toBeResolvedTo([]);
       expect(warnSpy).toHaveBeenCalledWith(
         jasmine.stringContaining('the `rowCount` input is required'),
       );

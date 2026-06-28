@@ -9,7 +9,7 @@ export interface SkyDataGridSort {
    */
   direction: 'asc' | 'desc';
   /**
-   * The data property to sort by.
+   * The field or column ID to sort by.
    * @required
    */
   field: string;

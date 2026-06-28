@@ -6,7 +6,11 @@ import {
   input,
   model,
 } from '@angular/core';
-import { SkyDataGrid, SkyDataGridColumn } from '@skyux/data-grid';
+import {
+  SkyDataGrid,
+  SkyDataGridColumn,
+  SkyDataGridSort,
+} from '@skyux/data-grid';
 import { SkyDropdownModule, SkyPopoverModule } from '@skyux/popovers';
 
 interface RowModel {
@@ -38,6 +42,10 @@ export class DataGridTestComponent {
     { id: '6', column1: '20', column2: 'Fig', column3: false },
     { id: '7', column1: '21', column2: 'Grape', column3: true },
   ];
+  public sortForSimpleGrid = model<SkyDataGridSort | undefined>({
+    field: 'column2',
+    direction: 'asc',
+  });
 
   public dataForSimpleGridWithMultiselect: RowModel[] | undefined = [
     { id: '1', column1: '1', column2: 'Apple', column3: true, myId: '101' },

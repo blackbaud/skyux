@@ -1,9 +1,7 @@
-import { HarnessLoader } from '@angular/cdk/testing';
+import { HarnessLoader, manualChangeDetection } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyDataGridHarness } from '@skyux/data-grid/testing';
-
-import { getGridApi } from 'ag-grid-community';
 
 import { DataGridLoadingExampleComponent } from './example.component';
 
@@ -27,14 +25,6 @@ describe('Data grid loading example', () => {
     return { fixture, loader, gridHarness };
   }
 
-  function getRowCount(
-    fixture: ComponentFixture<DataGridLoadingExampleComponent>,
-  ): number {
-    return (fixture.nativeElement as HTMLElement).querySelectorAll(
-      '.ag-center-cols-container .ag-row',
-    ).length;
-  }
-
   async function clickButton(
     fixture: ComponentFixture<DataGridLoadingExampleComponent>,
     dataSkyId: string,
@@ -56,7 +46,7 @@ describe('Data grid loading example', () => {
     const wait = await gridHarness.getWait();
     await expectAsync(wait.isWaiting()).toBeResolvedTo(false);
     // The server returns one page (pageSize = 5) at a time.
-    expect(getRowCount(fixture)).toBe(5);
+    expect(await gridHarness.getDisplayedRowCount()).toBe(5);
   });
 
   it('should page through the server-side data', async () => {
@@ -71,27 +61,24 @@ describe('Data grid loading example', () => {
     fixture.detectChanges();
 
     await expectAsync(paging.getCurrentPage()).toBeResolvedTo(2);
-    expect(getRowCount(fixture)).toBe(5);
+    expect(await gridHarness.getDisplayedRowCount()).toBe(5);
   });
 
   it('should clear rows and hide paging for the empty state', async () => {
     const { fixture, gridHarness } = await setupTest();
     await clickButton(fixture, 'show-empty-button');
-    expect(getRowCount(fixture)).toBe(0);
+    expect(await gridHarness.getDisplayedRowCount()).toBe(0);
     await expectAsync(gridHarness.getPagingOrNull()).toBeResolvedTo(null);
   });
 
   it('should show the loading overlay for the loading state', async () => {
-    const { fixture } = await setupTest();
-    const api = getGridApi(
-      (fixture.nativeElement as HTMLElement).querySelector(
-        '[data-sky-id="example-data-grid"] ag-grid-angular',
-      ),
-    );
-    expect(api?.getGridOption('loading')).toBeFalse();
+    const { fixture, gridHarness } = await setupTest();
 
-    // The loading state uses a resource that never resolves, so avoid awaiting
-    // full zone stability here; drive change detection manually instead.
+    // The loading state uses a resource that never resolves, so the app never
+    // reaches zone stability. Drive change detection manually (rather than
+    // through `clickButton`, which awaits `whenStable`) and query the harness
+    // under `manualChangeDetection` so the CDK does not auto-stabilize, which
+    // would otherwise hang until the test times out.
     (fixture.nativeElement as HTMLElement)
       .querySelector<HTMLButtonElement>('[data-sky-id="show-loading-button"]')
       ?.click();
@@ -99,16 +86,17 @@ describe('Data grid loading example', () => {
     await Promise.resolve();
     fixture.detectChanges();
 
-    // While loading, the grid shows its loading overlay.
-    expect(api?.getGridOption('loading')).toBeTrue();
+    await manualChangeDetection(async () => {
+      await expectAsync(gridHarness.isLoading()).toBeResolvedTo(true);
+    });
   });
 
   it('should restore rows when data is shown again', async () => {
-    const { fixture } = await setupTest();
+    const { fixture, gridHarness } = await setupTest();
     await clickButton(fixture, 'show-empty-button');
-    expect(getRowCount(fixture)).toBe(0);
+    expect(await gridHarness.getDisplayedRowCount()).toBe(0);
 
     await clickButton(fixture, 'show-data-button');
-    expect(getRowCount(fixture)).toBe(5);
+    expect(await gridHarness.getDisplayedRowCount()).toBe(5);
   });
 });

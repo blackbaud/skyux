@@ -5,6 +5,7 @@
     [page]="page"
     [pageQueryParam]="pageQueryParam"
     [pageSize]="pageSize"
+    [(sort)]="sortForSimpleGrid"
   >
     @if (showAllColumns()) {
       <sky-data-grid-column field="column1" headingText="Column1" />

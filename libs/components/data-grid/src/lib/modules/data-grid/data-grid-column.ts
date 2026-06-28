@@ -2,10 +2,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   TemplateRef,
+  afterRenderEffect,
   booleanAttribute,
   computed,
   contentChild,
-  effect,
   inject,
   input,
   numberAttribute,
@@ -39,7 +39,7 @@ export class SkyDataGridColumn {
   public readonly columnId = input<string>();
 
   /**
-   * The data type of the column used for filtering, sorting, and rendering when a template is not provided.
+   * The data type of the column used for sorting and rendering when a template is not provided.
    * @default 'text'
    */
   public readonly dataType = input<'text' | 'number' | 'date' | 'boolean'>(
@@ -150,12 +150,17 @@ export class SkyDataGridColumn {
 
   constructor() {
     const logger = inject(SkyLogService);
-    effect(() => {
+    afterRenderEffect(() => {
       const columnId = this.columnId();
       const field = this.field();
       if (columnId && field) {
         logger.warn(
           `A <sky-data-grid-column> should have either a columnId or a field, but not both.`,
+        );
+      }
+      if (!columnId && !field) {
+        logger.warn(
+          `A <sky-data-grid-column> must have a columnId or a field.`,
         );
       }
     });

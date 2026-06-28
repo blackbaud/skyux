@@ -59,11 +59,7 @@ describe('Data grid sorting example', () => {
 
     // SKY grids default to a `[null, 'desc', 'asc']` sort order, so the first
     // click on an unsorted column sorts it descending.
-    (fixture.nativeElement as HTMLElement)
-      .querySelector<HTMLButtonElement>(
-        '.ag-header-cell.ag-header-cell-sortable[col-id="age"] button.ag-header-cell-label-sortable',
-      )
-      ?.click();
+    await gridHarness.clickColumnSortButton('age');
     await fixture.whenStable();
     fixture.detectChanges();
     expect(getSortText(fixture)).toContain('age (descending)');

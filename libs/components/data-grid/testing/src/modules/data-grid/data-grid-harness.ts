@@ -36,6 +36,16 @@ export class SkyDataGridHarness extends SkyQueryableComponentHarness {
   }
 
   /**
+   * Checks whether the grid is loading.
+   */
+  public async isLoading(): Promise<boolean> {
+    const waits = await this.queryHarnesses(SkyWaitHarness);
+    return await Promise.all(
+      waits.map(async (wait): Promise<boolean> => await wait.isWaiting()),
+    ).then((loadingStates) => loadingStates.some((isLoading) => isLoading));
+  }
+
+  /**
    * Retrieves the IDs of the currently displayed columns.
    */
   public async getDisplayedColumnIds(): Promise<string[]> {
@@ -57,6 +67,29 @@ export class SkyDataGridHarness extends SkyQueryableComponentHarness {
           new Error('Unable to retrieve displayed column header names.'),
         ),
       );
+  }
+
+  /**
+   * Retrieves the total number of displayed rows.
+   */
+  public async getDisplayedRowCount(): Promise<number> {
+    return await this.#getGridWrapper()
+      .then(async (grid) => (await grid.getGridApi()).getDisplayedRowCount())
+      .catch(() =>
+        Promise.reject(
+          new Error('Unable to retrieve total number of displayed rows.'),
+        ),
+      );
+  }
+
+  /**
+   * Clicks the column header sort button.
+   */
+  public async clickColumnSortButton(column: string): Promise<void> {
+    const btn = await this.locatorFor(
+      `.ag-header-cell.ag-header-cell-sortable[col-id="${column}"] button.ag-header-cell-label-sortable`,
+    )();
+    await btn.click();
   }
 
   /**

@@ -60,7 +60,7 @@ export class DataGridTestComponent {
   public readonly autoSort = input<boolean>(true);
   public readonly multiselect = input<boolean>();
   public readonly pageSize = input<number>();
-  public readonly rowCount = input<number>(0);
+  public readonly rowCount = input<number>();
   public readonly stacked = input<boolean>(false);
 
   public page = model(1);
