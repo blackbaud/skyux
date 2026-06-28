@@ -15,7 +15,9 @@ import {
   linkedSignal,
   model,
   numberAttribute,
+  Signal,
   signal,
+  TemplateRef,
   untracked,
 } from '@angular/core';
 import {
@@ -31,15 +33,27 @@ import { SkyPagingModule } from '@skyux/lists';
 
 import { AgGridAngular } from 'ag-grid-angular';
 import {
-  AllCommunityModule,
   AutoSizeStrategy,
+  CellStyleModule,
+  ClientSideRowModelApiModule,
+  ClientSideRowModelModule,
   ColDef,
+  ColumnApiModule,
+  ColumnAutoSizeModule,
+  EventApiModule,
   GridApi,
   GridOptions,
+  GridStateModule,
   IRowNode,
   ModuleRegistry,
+  PaginationModule,
+  RenderApiModule,
+  RowApiModule,
+  RowAutoHeightModule,
+  RowSelectionModule,
   RowSelectionOptions,
-  SortDirection,
+  RowStyleModule,
+  ValidationModule,
 } from 'ag-grid-community';
 import {
   filter,
@@ -56,7 +70,28 @@ import { SkyDataGridColumn } from './data-grid-column';
 import { SkyDataGridColumnInlineHelp } from './data-grid-column-inline-help';
 import { fromGridEvent } from './data-grid-event-utils';
 
-ModuleRegistry.registerModules([AllCommunityModule]);
+// Register only the AG Grid community modules this component actually uses,
+// rather than `AllCommunityModule`, to keep the consumer's bundle lean. This
+// covers the client-side row model, sorting, pagination, row selection, cell
+// and row styling, column auto-sizing, auto-height (text wrap), the grid/column
+// state and event APIs the component and its harness rely on, and dev-time
+// validation messaging.
+ModuleRegistry.registerModules([
+  CellStyleModule,
+  ClientSideRowModelApiModule,
+  ClientSideRowModelModule,
+  ColumnApiModule,
+  ColumnAutoSizeModule,
+  EventApiModule,
+  GridStateModule,
+  PaginationModule,
+  RenderApiModule,
+  RowApiModule,
+  RowAutoHeightModule,
+  RowSelectionModule,
+  RowStyleModule,
+  ValidationModule,
+]);
 
 function arraySorted(arr: string[]): string[] {
   return arr.slice().sort((a, b) => a.localeCompare(b));
@@ -100,10 +135,12 @@ export class SkyDataGrid<
   });
 
   /**
-   * Whether the number of items in the `data` array is the total number of rows
-   * to use for paging controls. When `autoPage` is set to `false`, the
-   * `rowCount` input is required, and `data` should be updated whenever `page`
-   * emits a new value.
+   * Whether the items in `data` represent the full result set used for paging.
+   * This applies only when `pageSize` is greater than zero. When `true` (the
+   * default), the grid pages through `data` on the client. When `false`, the
+   * `rowCount` input is required to size the paging controls, and `data` should
+   * be updated to the rows for the current page whenever `page` emits a new
+   * value (server-side paging).
    * @default true
    */
   public readonly autoPage = input<boolean, unknown>(true, {
@@ -116,6 +153,8 @@ export class SkyDataGrid<
    * attempts to optimize columns to display their contents and may exceed the
    * parent's width. If the grid does not have enough columns to fill
    * the parent's width, it always stretches to the parent's full width.
+   * This property is applied when the grid initializes; changes after
+   * initialization are not reflected.
    * @default 'container'
    */
   public readonly columnFit = input<'container' | 'content'>('container');
@@ -130,7 +169,7 @@ export class SkyDataGrid<
   });
 
   /**
-   * The data for the grid. Each item requires an `id`, and other properties should map to a `field` of the grid columns.
+   * The data for the grid. Each item requires a string `id`, and other properties should map to a `field` of the grid columns.
    * When `data` is `null` or `undefined`, the grid will show a loading indicator, and when `data` is an empty array,
    * the grid will show a "no rows" message.
    */
@@ -163,7 +202,10 @@ export class SkyDataGrid<
   });
 
   /**
-   * The number of items to display per page. Setting this value enables pagination.
+   * The number of items to display per page. Setting a value greater than zero
+   * enables paging. When `autoPage` is `true` (the default), the grid pages
+   * through `data` on the client; when `autoPage` is `false`, set `rowCount` to
+   * the total number of rows and update `data` as `page` changes.
    * @default 0
    */
   public readonly pageSize = input<number, unknown>(0, {
@@ -177,8 +219,10 @@ export class SkyDataGrid<
   public readonly pageQueryParam = input<string | undefined>();
 
   /**
-   * The total number of rows to page through. Required when `pageSize` is
-   * greater than zero and `autoPage` is `false`.
+   * The total number of rows to page through, used to calculate how many pages
+   * the paging controls display. Required when `pageSize` is greater than zero
+   * and `autoPage` is `false`; ignored when `autoPage` is `true` because the
+   * length of `data` is used instead.
    * @default 0
    */
   public readonly rowCount = input<number, unknown>(0, {
@@ -196,6 +240,8 @@ export class SkyDataGrid<
 
   /**
    * Whether to move the horizontal scrollbar to just below the header row.
+   * This property is applied when the grid initializes; changes after
+   * initialization are not reflected.
    * @default false
    */
   public readonly topScrollEnabled = input<boolean, unknown>(false, {
@@ -205,6 +251,7 @@ export class SkyDataGrid<
   /**
    * The current page number of the grid when `pageSize` has been set. This is two-way bindable:
    * it updates as the user navigates pages, and you can set it to change the current page.
+   * When `autoPage` is `false`, update `data` to the rows for the new page whenever this changes.
    * @default 1
    */
   public readonly page = model<number>(1);
@@ -222,8 +269,9 @@ export class SkyDataGrid<
    * whenever the user sorts a column, and you can set it to sort the grid programmatically.
    * When `autoSort` is `false`, the grid emits the new value here but does not reorder the
    * data itself, leaving it to you to update `data`.
+   * @default undefined
    */
-  public readonly sort = model<SkyDataGridSort<T> | undefined>(undefined);
+  public readonly sort = model<SkyDataGridSort | undefined>(undefined);
 
   protected readonly columns = contentChildren(SkyDataGridColumn);
   protected readonly gridApi = signal<GridApi<T> | undefined>(undefined);
@@ -237,6 +285,10 @@ export class SkyDataGrid<
       this.#paginationOptions(),
     );
     const rowData = untracked(() => this.rowData());
+    // Seed the initial sort through AG Grid's own state so it is applied as the
+    // grid initializes (and re-applied when the grid is recreated). Subsequent
+    // sort changes are applied at runtime by the dedicated `sort` effect.
+    const sort = untracked(() => this.sort());
     return this.#gridService.getGridOptions({
       gridOptions: {
         columnDefs,
@@ -244,6 +296,15 @@ export class SkyDataGrid<
           enableTopScroll: untracked(() => this.topScrollEnabled()),
         },
         domLayout: 'autoHeight',
+        initialState: sort
+          ? {
+              sort: {
+                sortModel: [
+                  { colId: sort.field as string, sort: sort.direction },
+                ],
+              },
+            }
+          : undefined,
         loading: untracked(() => this.loading() || !Array.isArray(this.data())),
         onGridReady: (args) => {
           this.gridApi.set(args.api);
@@ -318,8 +379,7 @@ export class SkyDataGrid<
 
   readonly #columnDefs = computed<ColDef<T>[]>(() => {
     const columns = this.columns();
-    const sort = untracked(() => this.sort());
-    return columns.map((col) => this.#createColDef(col, sort));
+    return columns.map((col) => this.#createColDef(col));
   });
   readonly #hasColumnDefs = computed(() => this.#columnDefs().length > 0);
 
@@ -341,7 +401,7 @@ export class SkyDataGrid<
     switchMap((api) =>
       fromGridEvent(api, 'sortChanged').pipe(
         takeUntil(this.#gridDestroyed),
-        map((sortEvent): SkyDataGridSort<T> | undefined => {
+        map((sortEvent): SkyDataGridSort | undefined => {
           const sortColumn = sortEvent?.columns?.find((col) => !!col.getSort());
           if (sortColumn) {
             return {
@@ -507,6 +567,24 @@ export class SkyDataGrid<
       this.page.set(queryParamPage);
     });
 
+    // Warn when server-side paging is configured without the required
+    // `rowCount`. Without it, `pageItemsCount` resolves to zero and the paging
+    // controls silently disappear. Only warn once data has loaded so a grid
+    // that is still fetching its first page does not trigger a false positive.
+    effect(() => {
+      if (
+        !this.autoPage() &&
+        this.pageSize() > 0 &&
+        this.rowCount() === 0 &&
+        !this.loading() &&
+        Array.isArray(this.data())
+      ) {
+        this.#logger.warn(
+          'When using paging and `autoPage` is not enabled, the `rowCount` input is required so the paging controls know how many pages to display. Set `rowCount` to the total number of rows available on the server.',
+        );
+      }
+    });
+
     this.#gridDestroyed.pipe(takeUntilDestroyed()).subscribe(() => {
       this.gridApi.set(undefined);
       this.gridReady.set(false);
@@ -594,10 +672,7 @@ export class SkyDataGrid<
     });
   }
 
-  #createColDef(
-    col: SkyDataGridColumn,
-    sort: SkyDataGridSort<T> | undefined,
-  ): ColDef {
+  #createColDef(col: SkyDataGridColumn): ColDef {
     const field = col.field();
     const colDef: ColDef = {
       colId: col.columnId(),
@@ -614,25 +689,28 @@ export class SkyDataGrid<
       autoHeight: col.wrapText(),
       wrapText: col.wrapText(),
     };
-    if (sort) {
-      colDef.sort = this.#getSort(sort, col);
-    }
     if (col.dataType() === 'date') {
       (colDef.type as string[]).push(SkyCellType.Date);
       colDef.cellDataType = 'dateString';
     } else if (field && col.dataType() === 'number') {
       (colDef.type as string[]).push(SkyCellType.Number);
       colDef.cellDataType = 'number';
-      colDef.valueGetter = (params): number => Number(params.data?.[field]);
+      colDef.valueGetter = (params): number | null => {
+        const n = Number(params.data?.[field]);
+        return Number.isFinite(n) ? n : null;
+      };
     } else if (col.dataType() === 'boolean') {
       colDef.cellDataType = 'boolean';
     } else {
       (colDef.type as string[]).push(SkyCellType.Text);
       colDef.cellDataType = 'text';
     }
-    if (col.cellTemplate()) {
+    const colWithTemplate = col as unknown as {
+      cellTemplate: Signal<TemplateRef<unknown> | undefined>;
+    };
+    if (colWithTemplate.cellTemplate()) {
       (colDef.type as string[]).push(SkyCellType.Template);
-      colDef.cellRendererParams = { template: col.cellTemplate };
+      colDef.cellRendererParams = { template: colWithTemplate.cellTemplate };
     }
     if (!this.autoSort()) {
       colDef.comparator = (): number => 0;
@@ -646,25 +724,16 @@ export class SkyDataGrid<
       colDef.flex = col.flexWidth();
       colDef.initialFlex = col.flexWidth();
       colDef.suppressSizeToFit = true;
+      if (Number.isFinite(col.width())) {
+        colDef.minWidth = col.width();
+      }
     } else if (Number.isFinite(col.width())) {
       colDef.initialWidth = col.width();
-    }
-    if (Number.isFinite(col.width())) {
-      colDef.minWidth = col.width();
-      colDef.suppressSizeToFit = true;
     }
     if (!col.resizable() || col.flexWidth() === 0) {
       colDef.suppressSizeToFit = true;
       colDef.suppressAutoSize = true;
     }
-  }
-
-  #getSort(
-    sort: SkyDataGridSort<T> | undefined,
-    col: SkyDataGridColumn,
-  ): SortDirection {
-    const field = col.field();
-    return field && sort?.field === field ? sort?.direction : null;
   }
 
   #getHeaderComponentParams(col: SkyDataGridColumn): object {

@@ -41,7 +41,9 @@ export class SkyDataGridHarness extends SkyQueryableComponentHarness {
   public async getDisplayedColumnIds(): Promise<string[]> {
     return await this.#getGridWrapper()
       .then(async (grid) => await grid.getDisplayedColumnIds())
-      .catch(() => Promise.reject('Unable to retrieve displayed column IDs.'));
+      .catch(() =>
+        Promise.reject(new Error('Unable to retrieve displayed column IDs.')),
+      );
   }
 
   /**
@@ -51,7 +53,9 @@ export class SkyDataGridHarness extends SkyQueryableComponentHarness {
     return await this.#getGridWrapper()
       .then(async (grid) => await grid.getDisplayedColumnHeaderNames())
       .catch(() =>
-        Promise.reject('Unable to retrieve displayed column header names.'),
+        Promise.reject(
+          new Error('Unable to retrieve displayed column header names.'),
+        ),
       );
   }
 

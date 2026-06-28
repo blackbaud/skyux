@@ -21,6 +21,17 @@ class TestComponent {
   public projectedTemplate!: TemplateRef<unknown>;
 }
 
+// `cellTemplate` is an internal, protected member consumed only by the grid.
+function getCellTemplate(
+  column: SkyDataGridColumn,
+): TemplateRef<unknown> | undefined {
+  return (
+    column as unknown as {
+      cellTemplate: () => TemplateRef<unknown> | undefined;
+    }
+  ).cellTemplate();
+}
+
 describe('SkyDataGridColumn', () => {
   let logServiceSpy: jasmine.Spy;
 
@@ -141,7 +152,7 @@ describe('SkyDataGridColumn', () => {
     fixture.componentRef.setInput('template', mockTemplate);
     fixture.detectChanges();
 
-    expect(component.cellTemplate()).toBe(mockTemplate);
+    expect(getCellTemplate(component)).toBe(mockTemplate);
   });
 
   it('should resolve cellTemplate to templateChild if template input is not specified', () => {
@@ -149,8 +160,8 @@ describe('SkyDataGridColumn', () => {
     fixture.detectChanges();
     const component = fixture.componentInstance.columnComponent;
 
-    expect(component.cellTemplate()).toBeDefined();
-    expect(component.cellTemplate() instanceof TemplateRef).toBeTrue();
+    expect(getCellTemplate(component)).toBeDefined();
+    expect(getCellTemplate(component) instanceof TemplateRef).toBeTrue();
   });
 
   it('should not warn if only columnId is set', async () => {

@@ -25,9 +25,7 @@ import { DATA_GRID_DEMO_DATA, DataGridSortingRow } from './data';
 export class DataGridSortingExampleComponent {
   protected readonly data: DataGridSortingRow[] = DATA_GRID_DEMO_DATA;
 
-  protected readonly sort = signal<
-    SkyDataGridSort<DataGridSortingRow> | undefined
-  >({
+  protected readonly sort = signal<SkyDataGridSort | undefined>({
     field: 'name',
     direction: 'asc',
   });

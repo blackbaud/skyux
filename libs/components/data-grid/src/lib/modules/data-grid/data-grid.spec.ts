@@ -4,7 +4,7 @@ import { provideLocationMocks } from '@angular/common/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, provideRouter, Router } from '@angular/router';
-import { SkyAppTestUtility } from '@skyux-sdk/testing';
+import { expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
 import { SkyLogService } from '@skyux/core';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { SkyAgGridWrapperHarness } from '@skyux/ag-grid/testing';
@@ -699,6 +699,32 @@ describe('SkyDataGrid', () => {
       expect(warnSpy).toHaveBeenCalled();
     });
 
+    it('should warn when autoPage is false and rowCount is not set', async () => {
+      const warnSpy = spyOn(TestBed.inject(SkyLogService), 'warn');
+      fixture.componentRef.setInput('autoPage', false);
+      // pageSize exceeds the row count, so the data-slicing warning does not
+      // fire and only the missing-rowCount warning is asserted here.
+      fixture.componentRef.setInput('pageSize', 10);
+      fixture.componentRef.setInput('rowCount', 0);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(warnSpy).toHaveBeenCalledWith(
+        jasmine.stringContaining('the `rowCount` input is required'),
+      );
+    });
+
+    it('should not warn about rowCount when autoPage is false and rowCount is set', async () => {
+      const warnSpy = spyOn(TestBed.inject(SkyLogService), 'warn');
+      fixture.componentRef.setInput('autoPage', false);
+      fixture.componentRef.setInput('pageSize', 10);
+      fixture.componentRef.setInput('rowCount', 7);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(warnSpy).not.toHaveBeenCalledWith(
+        jasmine.stringContaining('the `rowCount` input is required'),
+      );
+    });
+
     it('should set initialFlex=0, suppressSizeToFit, and suppressAutoSize when flexWidth is 0', async () => {
       const flexFixture = TestBed.createComponent(FlexWidthTestComponent);
       flexFixture.detectChanges();
@@ -744,7 +770,26 @@ describe('SkyDataGrid', () => {
       expect(colDef?.lockPosition).toBeTrue();
       expect(colDef?.suppressMovable).toBeTrue();
       expect(colDef?.sortable).toBeFalse();
-      expect(colDef?.minWidth).toBe(40);
+      // `width` (with no `flexWidth`) sets the column's initial width without
+      // pinning a minimum width or suppressing size-to-fit, so the column can
+      // still shrink and participate in fitting the grid's width.
+      expect(colDef?.initialWidth).toBe(40);
+      expect(colDef?.minWidth).not.toBe(40);
+    });
+
+    it('should apply flex, initialFlex, and a width-based minimum when flexWidth is greater than 0', async () => {
+      const flexFixture = TestBed.createComponent(FlexWidthTestComponent);
+      flexFixture.detectChanges();
+      await flexFixture.whenStable();
+      const api = getGridApi(
+        flexFixture.nativeElement.querySelector('ag-grid-angular'),
+      );
+      expect(api).toBeTruthy();
+      const colDef = api?.getColumn('column3')?.getColDef();
+      expect(colDef?.flex).toBe(2);
+      expect(colDef?.initialFlex).toBe(2);
+      // `width` set alongside `flexWidth` acts as the column's minimum width.
+      expect(colDef?.minWidth).toBe(120);
       expect(colDef?.suppressSizeToFit).toBeTrue();
     });
 
@@ -793,6 +838,78 @@ describe('SkyDataGrid', () => {
       expect(colDef?.cellDataType).toBe('dateString');
     });
 
+    it('should size columns to their content when columnFit is "content"', async () => {
+      fixture.detectChanges();
+      await fixture.whenStable();
+      // The default "grid" uses the default columnFit ("container").
+      const containerApi = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="grid"] ag-grid-angular',
+        ),
+      );
+      expect(containerApi?.getGridOption('autoSizeStrategy')).toBeUndefined();
+
+      // The "multiselect-grid" sets columnFit="content" and has no flex columns.
+      const contentApi = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="multiselect-grid"] ag-grid-angular',
+        ),
+      );
+      expect(contentApi?.getGridOption('autoSizeStrategy')).toEqual({
+        type: 'fitCellContents',
+      });
+    });
+
+    it('should add the stacked margin class to the host when stacked is true', async () => {
+      fixture.detectChanges();
+      await fixture.whenStable();
+      const gridHost = fixture.nativeElement.querySelector(
+        '[data-sky-id="grid"]',
+      ) as HTMLElement;
+      expect(gridHost.classList).not.toContain('sky-margin-stacked-lg');
+
+      fixture.componentRef.setInput('stacked', true);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(gridHost.classList).toContain('sky-margin-stacked-lg');
+    });
+
+    it('should enable the top scroll context option when topScrollEnabled is set', async () => {
+      fixture.detectChanges();
+      await fixture.whenStable();
+      // The "multiselect-grid" sets topScrollEnabled; the default "grid" does not.
+      const topScrollApi = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="multiselect-grid"] ag-grid-angular',
+        ),
+      );
+      expect(
+        topScrollApi?.getGridOption('context')?.enableTopScroll,
+      ).toBeTrue();
+
+      const defaultApi = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="grid"] ag-grid-angular',
+        ),
+      );
+      expect(defaultApi?.getGridOption('context')?.enableTopScroll).toBeFalsy();
+    });
+
+    it('should render an inline help button in the header when helpPopoverContent is set', async () => {
+      fixture.detectChanges();
+      await fixture.whenStable();
+      const helpInlineButtons = fixture.nativeElement.querySelectorAll(
+        '[data-sky-id="inline-help-grid"] sky-help-inline',
+      );
+      expect(helpInlineButtons.length).toBeGreaterThan(0);
+    });
+
+    it('should be accessible', async () => {
+      fixture.detectChanges();
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
     it('should retain selectedRowIds set before data loads', async () => {
       // Start with the multiselect grid in a loading state (no data yet).
       component.dataForSimpleGridWithMultiselect = undefined;
@@ -830,7 +947,7 @@ describe('SkyDataGrid', () => {
       expect(api?.getSelectedNodes()).toHaveSize(2);
     });
 
-    it('should not throw when a number column value getter receives a row without data', async () => {
+    it('should return null instead of NaN when a number column value getter receives a row without data', async () => {
       fixture.detectChanges();
       await fixture.whenStable();
       const api = getGridApi(
@@ -839,11 +956,13 @@ describe('SkyDataGrid', () => {
         ),
       );
       const valueGetter = api?.getColumn('myId')?.getColDef().valueGetter as
-        | ((params: { data: unknown }) => number)
+        | ((params: { data: unknown }) => number | null)
         | undefined;
       expect(valueGetter).toEqual(jasmine.any(Function));
       expect(() => valueGetter?.({ data: undefined })).not.toThrow();
-      expect(valueGetter?.({ data: undefined })).toBeNaN();
+      // A non-numeric value renders as a blank cell rather than "NaN".
+      expect(valueGetter?.({ data: undefined })).toBeNull();
+      expect(valueGetter?.({ data: { myId: '42' } })).toBe(42);
     });
 
     it('should render rows and reflect the loading state from a resource data source', async () => {

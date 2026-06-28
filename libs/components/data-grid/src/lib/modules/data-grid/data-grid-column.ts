@@ -55,9 +55,10 @@ export class SkyDataGridColumn {
   public readonly field = input<string>();
 
   /**
-   * When set, `flexWidth` overrides `width` and works like
+   * When set, `flexWidth` takes precedence over `width` for sizing and works like
    * [CSS flex-grow](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-grow), where a column
    * with `flexWidth="2"` is twice the width of a column with `flexWidth="1"`, and `flexWidth="0"` does not auto-expand.
+   * If `width` is also set, it acts as the column's minimum width.
    */
   public readonly flexWidth = input<number | undefined, unknown>(undefined, {
     transform: (value) => numberAttribute(value, undefined),
@@ -70,7 +71,9 @@ export class SkyDataGridColumn {
   public readonly headingText = input.required<string>();
 
   /**
-   * Whether to prevent `headingText` from being visibly displayed.
+   * Whether to visually hide `headingText` while keeping it available to
+   * assistive technologies. The header cell still renders, so its sorting and
+   * resizing controls remain available.
    * @default false
    */
   public readonly headingHidden = input<boolean, unknown>(false, {
@@ -126,7 +129,10 @@ export class SkyDataGridColumn {
   public readonly template = input<TemplateRef<unknown>>();
 
   /**
-   * The width of the column in pixels. When no width is set, the column width is evenly distributed.
+   * The width of the column in pixels. Used as the column's initial width; the
+   * column can still be resized and is included when columns are sized to fit
+   * the grid's width. When `flexWidth` is also set, `width` instead acts as the
+   * column's minimum width. When no width is set, the column width is evenly distributed.
    */
   public readonly width = input<number | undefined, unknown>(undefined, {
     transform: (value) => numberAttribute(value, undefined),
@@ -158,7 +164,7 @@ export class SkyDataGridColumn {
   /**
    * @internal
    */
-  public readonly cellTemplate = computed<TemplateRef<unknown> | undefined>(
+  protected readonly cellTemplate = computed<TemplateRef<unknown> | undefined>(
     () => {
       const template = this.template();
       const templateChild = this.templateChild();

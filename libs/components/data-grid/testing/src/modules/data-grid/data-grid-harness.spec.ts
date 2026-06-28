@@ -68,10 +68,12 @@ describe('data-grid-harness', () => {
       SkyDataGridHarness.with({ dataSkyId: 'grid' }),
     );
     await expectAsync(harness.isGridReady()).toBeResolvedTo(false);
-    await expectAsync(harness.getDisplayedColumnIds()).toBeRejectedWith(
+    await expectAsync(harness.getDisplayedColumnIds()).toBeRejectedWithError(
       'Unable to retrieve displayed column IDs.',
     );
-    await expectAsync(harness.getDisplayedColumnHeaderNames()).toBeRejectedWith(
+    await expectAsync(
+      harness.getDisplayedColumnHeaderNames(),
+    ).toBeRejectedWithError(
       'Unable to retrieve displayed column header names.',
     );
 

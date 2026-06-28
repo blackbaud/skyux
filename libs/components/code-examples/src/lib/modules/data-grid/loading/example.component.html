@@ -28,16 +28,20 @@
 <sky-data-grid
   data-sky-id="example-data-grid"
   autoSort="false"
+  autoPage="false"
   minHeight="100"
-  [data]="data.value()"
+  [data]="data.value()?.items ?? []"
   [loading]="data.isLoading()"
+  [pageSize]="pageSize"
+  [rowCount]="rowCount()"
+  [(page)]="page"
   [(sort)]="sort"
 >
   <sky-data-grid-column
     field="name"
     headingText="Name"
-    helpPopoverTitle="Using a Resource as a data source"
-    helpPopoverContent="Notice how each sort change issues a new request"
+    helpPopoverTitle="Server-side sorting and paging"
+    helpPopoverContent="Each sort or page change issues a new request to the server."
   />
   <sky-data-grid-column
     field="age"

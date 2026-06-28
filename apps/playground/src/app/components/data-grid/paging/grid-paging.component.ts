@@ -35,7 +35,7 @@ export default class GridPagingComponent {
     ...row,
   }));
 
-  protected readonly asyncSort = signal<SkyDataGridSort<DataType>>({
+  protected readonly asyncSort = signal<SkyDataGridSort>({
     field: 'name',
     direction: 'asc',
   });
