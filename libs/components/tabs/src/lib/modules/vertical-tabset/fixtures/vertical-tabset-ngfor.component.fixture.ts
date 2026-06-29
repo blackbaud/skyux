@@ -1,4 +1,4 @@
-import { Component, model, signal } from '@angular/core';
+import { Component, input, model } from '@angular/core';
 
 @Component({
   selector: 'sky-test-ngfor-cmp',
@@ -9,7 +9,7 @@ export class VerticalTabsetWithNgForTestComponent {
   public activeIndex = model<number | undefined>(undefined);
   public maintainTabContent = false;
 
-  public tabs = signal([
+  public tabs = input([
     {
       id: '1',
       heading: 'tab 1',

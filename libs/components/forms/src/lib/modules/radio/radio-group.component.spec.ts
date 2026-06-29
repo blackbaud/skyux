@@ -199,7 +199,7 @@ describe('Radio group component (reactive)', function () {
 
   it('should show a required state when required input is set to true', fakeAsync(() => {
     fixture.componentRef.setInput('headingText', 'Test');
-    componentInstance.required.set(true);
+    fixture.componentRef.setInput('required', true);
 
     fixture.detectChanges();
     tick();
@@ -214,7 +214,7 @@ describe('Radio group component (reactive)', function () {
   }));
 
   it('should update the form properly when radio button is required and changed', fakeAsync(() => {
-    componentInstance.required.set(true);
+    fixture.componentRef.setInput('required', true);
     fixture.detectChanges();
 
     expect(componentInstance.radioForm?.valid).toBe(false);
@@ -225,7 +225,7 @@ describe('Radio group component (reactive)', function () {
   }));
 
   it('should use tabIndex when specified', fakeAsync(function () {
-    componentInstance.tabIndex.set(2);
+    fixture.componentRef.setInput('tabIndex', 2);
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
@@ -237,7 +237,7 @@ describe('Radio group component (reactive)', function () {
   }));
 
   it('should maintain tabIndex when options change', fakeAsync(function () {
-    componentInstance.tabIndex.set(2);
+    fixture.componentRef.setInput('tabIndex', 2);
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
@@ -427,17 +427,17 @@ describe('Radio group component (reactive)', function () {
 
     // Toggle the field's generation on and off to make sure the form control's state
     // isn't directly tied to the template's change detection.
-    componentInstance.showRadioGroup.set(false);
+    fixture.componentRef.setInput('showRadioGroup', false);
     fixture.detectChanges();
     tick();
 
-    componentInstance.showRadioGroup.set(true);
+    fixture.componentRef.setInput('showRadioGroup', true);
     fixture.detectChanges();
     tick();
 
     expect(componentInstance.radioForm?.value).toEqual(expectedValue);
 
-    componentInstance.showRadioGroup.set(false);
+    fixture.componentRef.setInput('showRadioGroup', false);
     fixture.detectChanges();
     tick();
 
@@ -634,7 +634,7 @@ describe('Radio group component (reactive)', function () {
   it('should not display `headingText` if `headingHidden` is true', () => {
     const headingText = 'Heading Text';
     fixture.componentRef.setInput('headingText', headingText);
-    componentInstance.headingHidden.set(true);
+    fixture.componentRef.setInput('headingHidden', true);
 
     fixture.detectChanges();
 
@@ -692,7 +692,7 @@ describe('Radio group component (reactive)', function () {
   it('should display the hint text if `hintText` is set', () => {
     const hintText = 'Hint text for the group.';
 
-    componentInstance.hintText.set(hintText);
+    fixture.componentRef.setInput('hintText', hintText);
     fixture.detectChanges();
 
     const hintEl = fixture.nativeElement.querySelector(
@@ -704,7 +704,7 @@ describe('Radio group component (reactive)', function () {
   });
 
   it('should have the lg margin class if stacked is true and headingLevel is unset', () => {
-    componentInstance.stacked.set(true);
+    fixture.componentRef.setInput('stacked', true);
     fixture.componentRef.setInput('headingLevel', undefined);
     fixture.detectChanges();
 
@@ -714,7 +714,7 @@ describe('Radio group component (reactive)', function () {
   });
 
   it('should have the xl margin class if stacked is true and headingLevel is set', () => {
-    componentInstance.stacked.set(true);
+    fixture.componentRef.setInput('stacked', true);
     fixture.componentRef.setInput('headingLevel', 3);
     fixture.detectChanges();
 

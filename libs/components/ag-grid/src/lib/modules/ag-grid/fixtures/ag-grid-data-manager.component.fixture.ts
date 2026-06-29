@@ -4,7 +4,7 @@ import {
   ViewChild,
   ViewEncapsulation,
   inject,
-  signal,
+  input,
 } from '@angular/core';
 import {
   SkyDataManagerModule,
@@ -71,10 +71,10 @@ export class SkyAgGridDataManagerFixtureComponent implements OnInit {
     },
   ];
 
-  public displayFirstGrid = signal(true);
-  public displaySecondGrid = signal(false);
-  public displayOtherView = signal(false);
-  public enableTopScroll = signal(false);
+  public displayFirstGrid = input(true);
+  public displaySecondGrid = input(false);
+  public displayOtherView = input(false);
+  public enableTopScroll = input(false);
 
   public gridData = SKY_AG_GRID_DATA;
 

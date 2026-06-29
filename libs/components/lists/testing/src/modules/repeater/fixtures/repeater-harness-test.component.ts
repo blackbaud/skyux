@@ -1,4 +1,4 @@
-import { Component, input, model, signal } from '@angular/core';
+import { Component, input, model } from '@angular/core';
 import {
   SkyInlineFormButtonLayout,
   SkyInlineFormConfig,
@@ -42,5 +42,5 @@ export class RepeaterHarnessTestComponent {
     buttonLayout: SkyInlineFormButtonLayout.SaveCancel,
   };
 
-  public showInlineForm = signal(false);
+  public showInlineForm = input<boolean>(true);
 }

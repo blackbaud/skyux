@@ -14,7 +14,7 @@ export async function configureTestCiGenerator(
     if (project.targets?.['test']) {
       if (
         project.targets['test'].executor ===
-        '@angular-devkit/build-angular:karma'
+        '@angular/build:karma'
       ) {
         project.targets['test'].configurations = {
           ...project.targets['test'].configurations,

@@ -1,4 +1,4 @@
-import { Component, WritableSignal, signal } from '@angular/core';
+import { Component, model } from '@angular/core';
 
 import { SkyTileDashboardConfig } from '../../tile-dashboard-config/tile-dashboard-config';
 
@@ -8,6 +8,5 @@ import { SkyTileDashboardConfig } from '../../tile-dashboard-config/tile-dashboa
   standalone: false,
 })
 export class TileDashboardAfterInitTestComponent {
-  public dashboardConfig: WritableSignal<SkyTileDashboardConfig | undefined> =
-    signal(undefined);
+  public dashboardConfig = model<SkyTileDashboardConfig | undefined>(undefined);
 }

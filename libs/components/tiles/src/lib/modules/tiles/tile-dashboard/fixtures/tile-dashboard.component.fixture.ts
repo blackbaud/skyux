@@ -1,9 +1,8 @@
 import {
   Component,
   ViewChild,
-  WritableSignal,
   input,
-  signal,
+  model,
 } from '@angular/core';
 
 import { Subject } from 'rxjs';
@@ -29,63 +28,73 @@ export class TileDashboardTestComponent {
   })
   public dashboardComponent!: SkyTileDashboardComponent;
 
-  public dashboardConfig!: WritableSignal<SkyTileDashboardConfig>;
-
-  public messageStream = new Subject<SkyTileDashboardMessage>();
-
-  public settingsKey = input<string | undefined>(undefined);
-
-  constructor() {
-    this.dashboardConfig = signal({
-      tiles: [
-        {
-          id: 'sky-test-tile-1',
-          componentType: Tile1TestComponent,
-        },
-        {
-          id: 'sky-test-tile-2',
-          componentType: Tile2TestComponent,
-          providers: [
-            {
-              provide: TileTestContext,
-              useValue: {
-                id: 3,
-              },
+  public dashboardConfig = model<SkyTileDashboardConfig>({
+    tiles: [
+      {
+        id: 'sky-test-tile-1',
+        componentType: Tile1TestComponent,
+      },
+      {
+        id: 'sky-test-tile-2',
+        componentType: Tile2TestComponent,
+        providers: [
+          {
+            provide: TileTestContext,
+            useValue: {
+              id: 3,
             },
-          ],
-        },
-        {
-          id: 'sky-test-tile-3',
-          componentType: Tile2TestComponent,
-          providers: [
-            {
-              provide: TileTestContext,
-              useValue: {
-                id: 3,
-              },
+          },
+        ],
+      },
+      {
+        id: 'sky-test-tile-3',
+        componentType: Tile2TestComponent,
+        providers: [
+          {
+            provide: TileTestContext,
+            useValue: {
+              id: 3,
             },
-          ],
-        },
-        {
-          id: 'sky-test-tile-4',
-          componentType: Tile2TestComponent,
-          providers: [
-            {
-              provide: TileTestContext,
-              useValue: {
-                id: 3,
-              },
+          },
+        ],
+      },
+      {
+        id: 'sky-test-tile-4',
+        componentType: Tile2TestComponent,
+        providers: [
+          {
+            provide: TileTestContext,
+            useValue: {
+              id: 3,
             },
-          ],
-        },
-      ],
-      layout: {
-        singleColumn: {
+          },
+        ],
+      },
+    ],
+    layout: {
+      singleColumn: {
+        tiles: [
+          {
+            id: 'sky-test-tile-2',
+            isCollapsed: false,
+          },
+          {
+            id: 'sky-test-tile-1',
+            isCollapsed: true,
+          },
+          {
+            id: 'sky-test-tile-3',
+            isCollapsed: false,
+          },
+          {
+            id: 'sky-test-tile-4',
+            isCollapsed: false,
+          },
+        ],
+      },
+      multiColumn: [
+        {
           tiles: [
-            {
-              id: 'sky-test-tile-2',
-              isCollapsed: false,
-            },
             {
               id: 'sky-test-tile-1',
               isCollapsed: true,
@@ -100,35 +109,21 @@ export class TileDashboardTestComponent {
             },
           ],
         },
-        multiColumn: [
-          {
-            tiles: [
-              {
-                id: 'sky-test-tile-1',
-                isCollapsed: true,
-              },
-              {
-                id: 'sky-test-tile-3',
-                isCollapsed: false,
-              },
-              {
-                id: 'sky-test-tile-4',
-                isCollapsed: false,
-              },
-            ],
-          },
-          {
-            tiles: [
-              {
-                id: 'sky-test-tile-2',
-                isCollapsed: false,
-              },
-            ],
-          },
-        ],
-      },
-    });
-  }
+        {
+          tiles: [
+            {
+              id: 'sky-test-tile-2',
+              isCollapsed: false,
+            },
+          ],
+        },
+      ],
+    },
+  });
+
+  public messageStream = new Subject<SkyTileDashboardMessage>();
+
+  public settingsKey = input<string | undefined>(undefined);
 
   public expandAll(): void {
     this.messageStream.next({ type: SkyTileDashboardMessageType.ExpandAll });

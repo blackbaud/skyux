@@ -118,7 +118,7 @@ describe('some-or-all-projects', () => {
     addProjectConfiguration(tree, 'my-app', {
       root: 'apps/my-app',
       targets: {
-        build: { executor: '@angular-devkit/build-angular:application' },
+        build: { executor: '@angular/build:application' },
       },
     });
     expect(() => getStorybookProject(tree, { project: 'my-app' })).toThrow(
@@ -131,7 +131,7 @@ describe('some-or-all-projects', () => {
     addProjectConfiguration(tree, 'my-app', {
       root: 'apps/my-app',
       targets: {
-        build: { executor: '@angular-devkit/build-angular:application' },
+        build: { executor: '@angular/build:application' },
       },
     });
     addProjectConfiguration(tree, 'my-app-storybook', {
@@ -150,7 +150,7 @@ describe('some-or-all-projects', () => {
     addProjectConfiguration(tree, 'my-app', {
       root: 'apps/my-app',
       targets: {
-        build: { executor: '@angular-devkit/build-angular:application' },
+        build: { executor: '@angular/build:application' },
       },
     });
     addProjectConfiguration(tree, 'my-app-storybook', {

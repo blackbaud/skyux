@@ -706,7 +706,7 @@ describe('Popover directive', () => {
         fixture.componentInstance.directiveRef?.skyPopoverMessageStream,
       );
 
-      fixture.componentInstance.messageStream.set(undefined);
+      fixture.componentRef.setInput('messageStream', undefined);
 
       detectChangesFakeAsync();
 

@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { SkyFluidGridGutterSizeType, SkyFluidGridModule } from '@skyux/layout';
 
 @Component({
@@ -16,7 +16,7 @@ import { SkyFluidGridGutterSizeType, SkyFluidGridModule } from '@skyux/layout';
   imports: [SkyFluidGridModule],
 })
 export class FluidGridHarnessTestComponent {
-  public gutterSize = signal<SkyFluidGridGutterSizeType | undefined>(undefined);
+  public gutterSize = input<SkyFluidGridGutterSizeType | undefined>(undefined);
 
-  public disableMargin = signal(false);
+  public disableMargin = input(false);
 }

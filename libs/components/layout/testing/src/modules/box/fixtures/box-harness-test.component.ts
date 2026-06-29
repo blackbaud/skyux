@@ -1,4 +1,4 @@
-import { Component, booleanAttribute, input, signal } from '@angular/core';
+import { Component, booleanAttribute, input } from '@angular/core';
 
 // #region Test component
 @Component({
@@ -7,16 +7,16 @@ import { Component, booleanAttribute, input, signal } from '@angular/core';
   standalone: false,
 })
 export class BoxHarnessTestComponent {
-  public ariaRole = signal<string | undefined>(undefined);
-  public ariaLabel = signal<string | undefined>(undefined);
-  public ariaLabelledBy = signal<string | undefined>(undefined);
-  public headingText = signal<string | undefined>(undefined);
-  public headingHidden = signal(false);
-  public headingLevel = signal<number | undefined>(undefined);
-  public headingStyle = signal<number | undefined>(undefined);
-  public helpKey = signal<string | undefined>(undefined);
-  public helpPopoverContent = signal<string | undefined>(undefined);
-  public helpPopoverTitle = signal<string | undefined>(undefined);
+  public ariaRole = input<string | undefined>(undefined);
+  public ariaLabel = input<string | undefined>(undefined);
+  public ariaLabelledBy = input<string | undefined>(undefined);
+  public headingText = input<string | undefined>(undefined);
+  public headingHidden = input(false);
+  public headingLevel = input<number | undefined>(undefined);
+  public headingStyle = input<number | undefined>(undefined);
+  public helpKey = input<string | undefined>(undefined);
+  public helpPopoverContent = input<string | undefined>(undefined);
+  public helpPopoverTitle = input<string | undefined>(undefined);
   public otherBox = 'otherBox';
 
   public showControls = input(false, { transform: booleanAttribute });

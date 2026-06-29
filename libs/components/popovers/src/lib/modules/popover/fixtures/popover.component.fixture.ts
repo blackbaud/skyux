@@ -33,8 +33,9 @@ export class PopoverFixtureComponent implements AfterViewInit {
 
   public alignment = input<SkyPopoverAlignment | undefined>(undefined);
 
-  public messageStream: WritableSignal<Subject<SkyPopoverMessage> | undefined> =
-    signal(new Subject<SkyPopoverMessage>());
+  public messageStream = input<Subject<SkyPopoverMessage> | undefined>(
+    new Subject<SkyPopoverMessage>(),
+  );
 
   public placement = input<SkyPopoverPlacement | undefined>(undefined);
 

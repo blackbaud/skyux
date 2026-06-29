@@ -138,7 +138,7 @@
       "dependsOn": ["^build"],
       "inputs": ["buildInputs", "^buildInputs"]
     },
-    "@angular-devkit/build-angular:application": {
+    "@angular/build:application": {
       "cache": true,
       "dependsOn": ["^build"],
       "inputs": ["default", "^default"]

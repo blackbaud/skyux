@@ -1144,7 +1144,7 @@ describe('Vertical tabset component - with ngFor', () => {
     expect(tabContentElements.length).toBe(3);
 
     // Remove first tab from array.
-    component.tabs.update((arr) => arr.slice(1));
+    fixture.componentRef.setInput('tabs', component.tabs().slice(1));
     fixture.detectChanges();
 
     // Expect tab to be removed from DOM.
@@ -1155,8 +1155,8 @@ describe('Vertical tabset component - with ngFor', () => {
     expect(tabContentElements.length).toBe(2);
 
     // Add tab to array.
-    component.tabs.update((arr) => [
-      ...arr,
+    fixture.componentRef.setInput('tabs', [
+      ...component.tabs(),
       { id: '99', heading: 'tab 99', content: 'Tab 99 content' },
     ]);
     fixture.detectChanges();
@@ -1177,7 +1177,7 @@ describe('Vertical tabset component - with ngFor', () => {
     fixture.detectChanges();
 
     // Remove first tab from array.
-    component.tabs.update((arr) => arr.slice(1));
+    fixture.componentRef.setInput('tabs', component.tabs().slice(1));
     fixture.detectChanges();
 
     // Next active tab should be selected.
@@ -1189,7 +1189,7 @@ describe('Vertical tabset component - with ngFor', () => {
     expect(tabContent).toHaveText('Tab 2 content');
 
     // Now, remove last (second) tab from array.
-    component.tabs.update((arr) => [arr[0]]);
+    fixture.componentRef.setInput('tabs', [component.tabs()[0]]);
     fixture.detectChanges();
 
     // Next active tab should be selected.

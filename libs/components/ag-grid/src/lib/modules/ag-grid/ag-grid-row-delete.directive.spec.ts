@@ -64,7 +64,8 @@ describe('SkyAgGridRowDeleteDirective', () => {
     });
 
     fixture = TestBed.createComponent(SkyAgGridRowDeleteFixtureComponent);
-    fixture.componentInstance.hideFirstColumn.set(
+    fixture.componentRef.setInput(
+      'hideFirstColumn',
       options?.hideFirstColumn ?? false,
     );
     fixture.detectChanges();
@@ -216,7 +217,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
   it('should set clip path for normal layout', async () => {
     setupTest();
     fixture.componentInstance.rowDeleteIds.set(['0']);
-    fixture.componentInstance.domLayout.set('normal');
+    fixture.componentRef.setInput('domLayout', 'normal');
     fixture.detectChanges();
     await fixture.whenStable();
     expect(document.querySelector('#row-delete-ref-0')).not.toBeNull();
@@ -500,7 +501,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
 
   it('should not change the column widths when a row delete is triggered when all columns have set widths', async () => {
     setupTest();
-    fixture.componentInstance.allColumnWidth.set(100);
+    fixture.componentRef.setInput('allColumnWidth', 100);
     await fixture.whenStable();
 
     const columnWidths: number[] = [];

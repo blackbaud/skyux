@@ -36,19 +36,19 @@ export class SkyRadioGroupReactiveFixtureComponent implements OnInit {
   public radioControl: UntypedFormControl | undefined;
   public radioForm: UntypedFormGroup | undefined;
 
-  public required = signal(false);
+  public required = input(false);
 
-  public showRadioGroup = signal(true);
+  public showRadioGroup = input(true);
 
-  public tabIndex = signal<number | undefined>(undefined);
+  public tabIndex = input<number | undefined>(undefined);
 
   public headingText = input<string | undefined>(undefined);
 
-  public headingHidden = signal(false);
+  public headingHidden = input(false);
 
-  public hintText = signal<string | undefined>(undefined);
+  public hintText = input<string | undefined>(undefined);
 
-  public stacked = signal<boolean | undefined>(undefined);
+  public stacked = input<boolean | undefined>(undefined);
 
   public helpKey = input<string | undefined>(undefined);
 

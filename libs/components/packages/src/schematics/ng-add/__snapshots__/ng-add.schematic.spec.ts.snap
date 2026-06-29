@@ -197,7 +197,7 @@ exports[`ng-add.schematic should update workspace config if a workspace only has
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:karma",
           "options": {
             "polyfills": [
               "zone.js",

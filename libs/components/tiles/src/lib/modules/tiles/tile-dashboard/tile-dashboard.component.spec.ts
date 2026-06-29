@@ -200,7 +200,7 @@ describe('Tile dashboard component', () => {
 
     initSpy.calls.reset();
 
-    cmp.dashboardConfig.set(newConfig);
+    fixture.componentRef.setInput('dashboardConfig', newConfig);
 
     fixture.detectChanges();
     tick();
@@ -220,7 +220,6 @@ describe('Tile dashboard component', () => {
       },
     }).createComponent(TileDashboardAfterInitTestComponent);
 
-    const cmp = fixture.componentInstance;
     const newConfig: SkyTileDashboardConfig = {
       tiles: [
         {
@@ -259,7 +258,7 @@ describe('Tile dashboard component', () => {
 
     initSpy.calls.reset();
 
-    cmp.dashboardConfig.set(newConfig);
+    fixture.componentRef.setInput('dashboardConfig', newConfig);
 
     fixture.detectChanges();
     tick();
