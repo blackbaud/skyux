@@ -30,7 +30,10 @@ export class SkyNeedsAttentionHarness extends SkyComponentHarness {
    * Gets the component's heading text. If there are no links, this will return `undefined`.
    */
   public async getTitle(): Promise<string | undefined> {
-    return await (await this.#boxHarness()).getHeadingText();
+    return await this.#boxHarness().then(
+      (box) => box.getHeadingText(),
+      () => undefined,
+    );
   }
 
   /**
