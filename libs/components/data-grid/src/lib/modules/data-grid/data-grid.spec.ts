@@ -41,6 +41,62 @@ describe('SkyDataGrid', () => {
       expect(component).toBeTruthy();
     });
 
+    it('should set the aria-label property', async () => {
+      fixture.componentRef.setInput('labelText', 'My test grid');
+      fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const gridWrapper = fixture.nativeElement.querySelector(
+        'sky-ag-grid-wrapper',
+      );
+      const skyAgGridDiv = gridWrapper.querySelector(
+        '.sky-ag-grid [role="grid"]',
+      );
+
+      expect(skyAgGridDiv.getAttribute('aria-label')).toBe('My test grid');
+    });
+
+    it('should set minHeight and fallback to 50 when undefined or NaN', async () => {
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const gridWrapper = fixture.nativeElement.querySelector(
+        'sky-ag-grid-wrapper',
+      );
+      const skyAgGridDiv = gridWrapper.querySelector('.sky-ag-grid');
+
+      // Default
+      expect(
+        skyAgGridDiv.style.getPropertyValue('--sky-ag-grid-min-height'),
+      ).toBe('50px');
+
+      // Set to valid number
+      fixture.componentRef.setInput('minHeight', 200);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(
+        skyAgGridDiv.style.getPropertyValue('--sky-ag-grid-min-height'),
+      ).toBe('200px');
+
+      // Set to undefined
+      fixture.componentRef.setInput('minHeight', undefined);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(
+        skyAgGridDiv.style.getPropertyValue('--sky-ag-grid-min-height'),
+      ).toBe('50px');
+
+      // Set to NaN
+      fixture.componentRef.setInput('minHeight', NaN);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(
+        skyAgGridDiv.style.getPropertyValue('--sky-ag-grid-min-height'),
+      ).toBe('50px');
+    });
+
     it('should destroy and recreate grid', async () => {
       fixture.detectChanges();
       await fixture.whenStable();

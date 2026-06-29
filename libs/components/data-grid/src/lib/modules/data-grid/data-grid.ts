@@ -14,7 +14,6 @@ import {
   input,
   linkedSignal,
   model,
-  numberAttribute,
   Signal,
   signal,
   TemplateRef,
@@ -176,6 +175,11 @@ export class SkyDataGrid<
   public readonly data = input<T[] | null | undefined>();
 
   /**
+   * The text to read to screen readers to describe the grid. This sets the `aria-label` attribute on the grid container.
+   */
+  public readonly labelText = input<string>();
+
+  /**
    * Whether data is being loaded. When `loading` is true or when `data` is nullish,
    * the grid shows a waiting overlay and is not interactive.
    * @default false
@@ -189,7 +193,7 @@ export class SkyDataGrid<
    * @default 50
    */
   public readonly minHeight = input<number, unknown>(50, {
-    transform: numberAttribute,
+    transform: (value: unknown) => coerceNumberProperty(value, 50),
   });
 
   /**
@@ -206,7 +210,6 @@ export class SkyDataGrid<
    * enables paging. When `autoPage` is `true` (the default), the grid pages
    * through `data` on the client; when `autoPage` is `false`, set `rowCount` to
    * the total number of rows and update `data` as `page` changes.
-   * @default undefined
    */
   public readonly pageSize = input<number | undefined, unknown>(undefined, {
     transform: (value: unknown) => coerceNumberProperty(value, undefined),
@@ -223,7 +226,6 @@ export class SkyDataGrid<
    * the paging controls display. Required when `pageSize` is greater than zero
    * and `autoPage` is `false`; ignored when `autoPage` is `true` because the
    * length of `data` is used instead.
-   * @default undefined
    */
   public readonly rowCount = input<number | undefined, unknown>(undefined, {
     transform: (value: unknown) => {
@@ -274,7 +276,6 @@ export class SkyDataGrid<
    * whenever the user sorts a column, and you can set it to sort the grid programmatically.
    * When `autoSort` is `false`, the grid emits the new value here but does not reorder the
    * data itself, leaving it to you to update `data`.
-   * @default undefined
    */
   public readonly sort = model<SkyDataGridSort | undefined>(undefined);
 
@@ -564,6 +565,12 @@ export class SkyDataGrid<
         // paging controls), sync the change to the URL query parameter.
         this.#syncPageQueryParam(page);
       }
+    });
+
+    effect(() => {
+      const api = this.gridApi();
+      const label = this.labelText();
+      api?.setGridAriaProperty('label', label ?? null);
     });
 
     // Sync page from URL query parameter.
