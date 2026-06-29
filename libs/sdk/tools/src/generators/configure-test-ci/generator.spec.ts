@@ -33,8 +33,7 @@ describe('configure-test-ci generator', () => {
   it('should update karma project', async () => {
     const projectConfig = readProjectConfiguration(tree, 'test');
     if (projectConfig.targets?.['test']) {
-      projectConfig.targets['test'].executor =
-        '@angular/build:karma';
+      projectConfig.targets['test'].executor = '@angular/build:karma';
       updateProjectConfiguration(tree, 'test', projectConfig);
     }
     await configureTestCiGenerator(tree, { skipFormat: true });

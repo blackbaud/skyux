@@ -193,7 +193,9 @@ describe('Modal service', () => {
   it('should allow for scrolling the modal content back to the top via the returned instance', fakeAsync(() => {
     // Intercept the componentRef setter to capture the ComponentRef so we can
     // call setInput() on the input()-based longContent property.
-    let modalComponentRef: import('@angular/core').ComponentRef<ModalTestComponent> | undefined;
+    let modalComponentRef:
+      | import('@angular/core').ComponentRef<ModalTestComponent>
+      | undefined;
     const descriptor = Object.getOwnPropertyDescriptor(
       SkyModalInstance.prototype,
       'componentRef',
@@ -209,7 +211,11 @@ describe('Modal service', () => {
     const modal = openModal(ModalTestComponent);
 
     // Restore the original setter.
-    Object.defineProperty(SkyModalInstance.prototype, 'componentRef', descriptor);
+    Object.defineProperty(
+      SkyModalInstance.prototype,
+      'componentRef',
+      descriptor,
+    );
 
     modalComponentRef!.setInput('longContent', true);
 

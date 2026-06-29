@@ -12,10 +12,7 @@ export async function configureTestCiGenerator(
   const projects = getProjects(tree);
   projects.forEach((project, projectName) => {
     if (project.targets?.['test']) {
-      if (
-        project.targets['test'].executor ===
-        '@angular/build:karma'
-      ) {
+      if (project.targets['test'].executor === '@angular/build:karma') {
         project.targets['test'].configurations = {
           ...project.targets['test'].configurations,
           ci: {

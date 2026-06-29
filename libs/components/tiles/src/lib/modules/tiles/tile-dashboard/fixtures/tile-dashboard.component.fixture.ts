@@ -1,9 +1,4 @@
-import {
-  Component,
-  ViewChild,
-  input,
-  model,
-} from '@angular/core';
+import { Component, ViewChild, input, model } from '@angular/core';
 
 import { Subject } from 'rxjs';
 
