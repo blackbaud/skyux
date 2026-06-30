@@ -4,6 +4,15 @@
 ## [15.0.0-alpha.0](https://github.com/blackbaud/skyux/compare/14.3.10...15.0.0-alpha.0) (2026-06-30)
 
 
+### ⚠ BREAKING CHANGES
+
+* add support for Angular 22 (#4464)
+
+### Features
+
+* add support for Angular 22 ([#4464](https://github.com/blackbaud/skyux/issues/4464)) ([33ec181](https://github.com/blackbaud/skyux/commit/33ec181055f2b8545f2204dcf655e82e91f8534a))
+
+
 ### Bug Fixes
 
 * **components/data-manager:** do not render an empty toolbar when filter bar is the only content ([#4461](https://github.com/blackbaud/skyux/issues/4461)) ([#4462](https://github.com/blackbaud/skyux/issues/4462)) ([fdbffd7](https://github.com/blackbaud/skyux/commit/fdbffd7266da963132fca6961a28afc3b7072560)), closes [AB#4018065](https://dev.azure.com/blackbaud/Products/_workitems/edit/4018065)
