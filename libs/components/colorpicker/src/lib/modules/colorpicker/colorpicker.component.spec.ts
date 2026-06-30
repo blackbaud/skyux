@@ -456,7 +456,7 @@ describe('Colorpicker Component', () => {
 
     it('should add a label if labelText is provided', () => {
       const labelText = 'Label Text';
-      component.labelText = labelText;
+      fixture.componentRef.setInput('labelText', labelText);
 
       fixture.detectChanges();
 
@@ -467,7 +467,7 @@ describe('Colorpicker Component', () => {
     });
 
     it('should not display labelText if labelHidden is true', () => {
-      component.labelText = 'label text';
+      fixture.componentRef.setInput('labelText', 'label text');
       component.labelHidden = true;
       fixture.detectChanges();
 
@@ -479,7 +479,7 @@ describe('Colorpicker Component', () => {
 
     it('should add the required asterisk if labelText is given and the input is required', () => {
       const labelText = 'Label Text';
-      component.labelText = labelText;
+      fixture.componentRef.setInput('labelText', labelText);
       component.required = true;
 
       fixture.detectChanges();
@@ -515,24 +515,24 @@ describe('Colorpicker Component', () => {
     });
 
     it('should render help inline with popover only if label text is provided', () => {
-      component.helpPopoverContent = 'popover content';
+      fixture.componentRef.setInput('helpPopoverContent', 'popover content');
       fixture.detectChanges();
 
       expect(getHelpInlineHostEl(nativeElement)).toBeNull();
 
-      component.labelText = 'labelText';
+      fixture.componentRef.setInput('labelText', 'labelText');
       fixture.detectChanges();
 
       expect(getHelpInlineHostEl(nativeElement)).not.toBeNull();
     });
 
     it('should not render help inline with popover if `labelHidden` is set', () => {
-      component.helpPopoverContent = 'popover content';
+      fixture.componentRef.setInput('helpPopoverContent', 'popover content');
       fixture.detectChanges();
 
       expect(getHelpInlineHostEl(nativeElement)).toBeNull();
 
-      component.labelText = 'labelText';
+      fixture.componentRef.setInput('labelText', 'labelText');
       component.labelHidden = true;
       fixture.detectChanges();
 
@@ -540,39 +540,39 @@ describe('Colorpicker Component', () => {
     });
 
     it('should not render help inline for popover unless popover content is set', () => {
-      component.helpPopoverTitle = 'popover title';
-      component.labelText = 'labelText';
+      fixture.componentRef.setInput('helpPopoverTitle', 'popover title');
+      fixture.componentRef.setInput('labelText', 'labelText');
       fixture.detectChanges();
 
       expect(getHelpInlineHostEl(nativeElement)).toBeNull();
 
-      component.helpPopoverContent = 'popover content';
+      fixture.componentRef.setInput('helpPopoverContent', 'popover content');
       fixture.detectChanges();
 
       expect(getHelpInlineHostEl(nativeElement)).not.toBeNull();
     });
 
     it('should render help inline if help key is provided', () => {
-      component.helpPopoverContent = undefined;
-      component.labelText = 'labelText';
+      fixture.componentRef.setInput('helpPopoverContent', undefined);
+      fixture.componentRef.setInput('labelText', 'labelText');
       fixture.detectChanges();
 
       expect(getHelpInlineHostEl(nativeElement)).toBeNull();
 
-      component.helpKey = 'helpKey.html';
+      fixture.componentRef.setInput('helpKey', 'helpKey.html');
       fixture.detectChanges();
 
       expect(getHelpInlineHostEl(nativeElement)).not.toBeNull();
     });
 
     it('should not render help inline if help key is provided and `labelHidden` is set', () => {
-      component.helpPopoverContent = undefined;
-      component.labelText = 'labelText';
+      fixture.componentRef.setInput('helpPopoverContent', undefined);
+      fixture.componentRef.setInput('labelText', 'labelText');
       fixture.detectChanges();
 
       expect(getHelpInlineHostEl(nativeElement)).toBeNull();
 
-      component.helpKey = 'helpKey.html';
+      fixture.componentRef.setInput('helpKey', 'helpKey.html');
       component.labelHidden = true;
       fixture.detectChanges();
 
@@ -581,9 +581,9 @@ describe('Colorpicker Component', () => {
 
     it('should set global help config with help key', async () => {
       const helpController = TestBed.inject(SkyHelpTestingController);
-      component.labelText = 'label';
-      component.helpKey = 'helpKey.html';
-      fixture.componentInstance.helpPopoverContent = 'popover content';
+      fixture.componentRef.setInput('labelText', 'label');
+      fixture.componentRef.setInput('helpKey', 'helpKey.html');
+      fixture.componentRef.setInput('helpPopoverContent', 'popover content');
       fixture.detectChanges();
 
       const helpInlineButton = getHelpInlineButton(nativeElement);
@@ -1322,7 +1322,7 @@ describe('Colorpicker Component', () => {
 
       expect(outermostDiv).not.toHaveCssClass('sky-colorpicker-disabled');
 
-      component.disabled = true;
+      fixture.componentRef.setInput('disabled', true);
 
       fixture.detectChanges();
       await fixture.whenStable();
@@ -1330,7 +1330,7 @@ describe('Colorpicker Component', () => {
 
       expect(outermostDiv).toHaveCssClass('sky-colorpicker-disabled');
 
-      component.disabled = false;
+      fixture.componentRef.setInput('disabled', false);
 
       fixture.detectChanges();
       await fixture.whenStable();
@@ -1728,7 +1728,7 @@ describe('Colorpicker Component', () => {
 
       expect(icon?.getAttribute('style')).toEqual('color: rgb(0, 0, 0);');
 
-      fixture.componentInstance.colorModel = '#000000';
+      fixture.componentInstance.setColorModel('#000000');
       fixture.detectChanges();
       await fixture.whenStable();
       fixture.detectChanges();

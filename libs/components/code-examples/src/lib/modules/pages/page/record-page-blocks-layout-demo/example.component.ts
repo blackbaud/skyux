@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyPageModule } from '@skyux/pages';
 
 import { RecordPageContentComponent } from './record-page-content.component';
@@ -10,6 +10,7 @@ import { RecordPageContentComponent } from './record-page-content.component';
 @Component({
   selector: 'app-pages-page-record-page-blocks-layout-example',
   templateUrl: './example.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [RecordPageContentComponent, SkyPageModule],
 })
 export class PagesPageRecordPageBlocksLayoutExampleComponent {}

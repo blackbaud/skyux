@@ -42,7 +42,7 @@ describe('Checkbox group harness', () => {
       dataSkyId: 'checkbox-group',
     });
 
-    fixture.componentInstance.hideGroupHeading = true;
+    fixture.componentRef.setInput('hideGroupHeading', true);
     fixture.detectChanges();
 
     await expectAsync(checkboxGroupHarness.getHeadingText()).toBeResolvedTo(
@@ -61,7 +61,7 @@ describe('Checkbox group harness', () => {
   it('should indicate the heading is hidden', async () => {
     const { checkboxGroupHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.hideGroupHeading = true;
+    fixture.componentRef.setInput('hideGroupHeading', true);
     fixture.detectChanges();
 
     await expectAsync(checkboxGroupHarness.getHeadingHidden()).toBeResolvedTo(
@@ -72,24 +72,24 @@ describe('Checkbox group harness', () => {
   it('should return the heading level', async () => {
     const { checkboxGroupHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.headingLevel = undefined;
+    fixture.componentRef.setInput('headingLevel', undefined);
     fixture.detectChanges();
 
     await expectAsync(checkboxGroupHarness.getHeadingLevel()).toBeResolvedTo(
       undefined,
     );
 
-    fixture.componentInstance.headingLevel = 3;
+    fixture.componentRef.setInput('headingLevel', 3);
     fixture.detectChanges();
 
     await expectAsync(checkboxGroupHarness.getHeadingLevel()).toBeResolvedTo(3);
 
-    fixture.componentInstance.headingLevel = 4;
+    fixture.componentRef.setInput('headingLevel', 4);
     fixture.detectChanges();
 
     await expectAsync(checkboxGroupHarness.getHeadingLevel()).toBeResolvedTo(4);
 
-    fixture.componentInstance.headingLevel = 5;
+    fixture.componentRef.setInput('headingLevel', 5);
     fixture.detectChanges();
 
     await expectAsync(checkboxGroupHarness.getHeadingLevel()).toBeResolvedTo(5);
@@ -98,8 +98,8 @@ describe('Checkbox group harness', () => {
   it('should return the heading style', async () => {
     const { checkboxGroupHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.headingLevel = undefined;
-    fixture.componentInstance.headingStyle = 3;
+    fixture.componentRef.setInput('headingLevel', undefined);
+    fixture.componentRef.setInput('headingStyle', 3);
     fixture.detectChanges();
 
     await expectAsync(checkboxGroupHarness.getHeadingLevel()).toBeResolvedTo(
@@ -107,22 +107,22 @@ describe('Checkbox group harness', () => {
     );
     await expectAsync(checkboxGroupHarness.getHeadingStyle()).toBeResolvedTo(3);
 
-    fixture.componentInstance.headingLevel = 3;
-    fixture.componentInstance.headingStyle = 4;
+    fixture.componentRef.setInput('headingLevel', 3);
+    fixture.componentRef.setInput('headingStyle', 4);
     fixture.detectChanges();
 
     await expectAsync(checkboxGroupHarness.getHeadingLevel()).toBeResolvedTo(3);
     await expectAsync(checkboxGroupHarness.getHeadingStyle()).toBeResolvedTo(4);
 
-    fixture.componentInstance.headingLevel = 4;
-    fixture.componentInstance.headingStyle = 5;
+    fixture.componentRef.setInput('headingLevel', 4);
+    fixture.componentRef.setInput('headingStyle', 5);
     fixture.detectChanges();
 
     await expectAsync(checkboxGroupHarness.getHeadingLevel()).toBeResolvedTo(4);
     await expectAsync(checkboxGroupHarness.getHeadingStyle()).toBeResolvedTo(5);
 
-    fixture.componentInstance.headingLevel = 5;
-    fixture.componentInstance.headingStyle = 3;
+    fixture.componentRef.setInput('headingLevel', 5);
+    fixture.componentRef.setInput('headingStyle', 3);
     fixture.detectChanges();
 
     await expectAsync(checkboxGroupHarness.getHeadingLevel()).toBeResolvedTo(5);
@@ -135,7 +135,7 @@ describe('Checkbox group harness', () => {
 
     await expectAsync(checkboxGroupHarness.getHintText()).toBeResolvedTo('');
 
-    fixture.componentInstance.hintText = hintText;
+    fixture.componentRef.setInput('hintText', hintText);
     fixture.detectChanges();
 
     await expectAsync(checkboxGroupHarness.getHintText()).toBeResolvedTo(
@@ -146,8 +146,8 @@ describe('Checkbox group harness', () => {
   it('should indicate the component is stacked when margin is lg and headingLevel is not set', async () => {
     const { checkboxGroupHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.stacked = true;
-    fixture.componentInstance.headingLevel = undefined;
+    fixture.componentRef.setInput('stacked', true);
+    fixture.componentRef.setInput('headingLevel', undefined);
     fixture.detectChanges();
 
     await expectAsync(checkboxGroupHarness.getStacked()).toBeResolvedTo(true);
@@ -156,8 +156,8 @@ describe('Checkbox group harness', () => {
   it('should indicate the component is not stacked when margin is lg and headingLevel is set', async () => {
     const { checkboxGroupHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.class = 'sky-margin-stacked-lg';
-    fixture.componentInstance.headingLevel = 4;
+    fixture.componentRef.setInput('class', 'sky-margin-stacked-lg');
+    fixture.componentRef.setInput('headingLevel', 4);
     fixture.detectChanges();
 
     await expectAsync(checkboxGroupHarness.getStacked()).toBeResolvedTo(false);
@@ -166,7 +166,7 @@ describe('Checkbox group harness', () => {
   it('should indicate the component is stacked when margin is xl and headingLevel is set', async () => {
     const { checkboxGroupHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.stacked = true;
+    fixture.componentRef.setInput('stacked', true);
     fixture.detectChanges();
 
     await expectAsync(checkboxGroupHarness.getStacked()).toBeResolvedTo(true);
@@ -175,8 +175,8 @@ describe('Checkbox group harness', () => {
   it('should indicate the component is not stacked when margin is xl and headingLevel is not set', async () => {
     const { checkboxGroupHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.class = 'sky-margin-stacked-xl';
-    fixture.componentInstance.headingLevel = undefined;
+    fixture.componentRef.setInput('class', 'sky-margin-stacked-xl');
+    fixture.componentRef.setInput('headingLevel', undefined);
     fixture.detectChanges();
 
     await expectAsync(checkboxGroupHarness.getStacked()).toBeResolvedTo(false);
@@ -191,7 +191,7 @@ describe('Checkbox group harness', () => {
   it('should indicate the component is required', async () => {
     const { checkboxGroupHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.required = true;
+    fixture.componentRef.setInput('required', true);
     fixture.detectChanges();
 
     await expectAsync(checkboxGroupHarness.getRequired()).toBeResolvedTo(true);
@@ -205,7 +205,7 @@ describe('Checkbox group harness', () => {
 
   it('should display an error message when the checkbox group is required and no checkboxes are checked', async () => {
     const { checkboxGroupHarness, fixture } = await setupTest();
-    fixture.componentInstance.required = true;
+    fixture.componentRef.setInput('required', true);
     fixture.detectChanges();
 
     const checkboxHarness = (await checkboxGroupHarness.getCheckboxes())[0];
@@ -221,7 +221,7 @@ describe('Checkbox group harness', () => {
 
   it('should display an error message when there is a custom validation error', async () => {
     const { checkboxGroupHarness, fixture } = await setupTest();
-    fixture.componentInstance.required = true;
+    fixture.componentRef.setInput('required', true);
     fixture.detectChanges();
 
     const checkboxHarness = (await checkboxGroupHarness.getCheckboxes())[0];
@@ -279,7 +279,7 @@ describe('Checkbox group harness', () => {
   it('should open help inline popover when clicked', async () => {
     const { checkboxGroupHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.helpPopoverContent = 'popover content';
+    fixture.componentRef.setInput('helpPopoverContent', 'popover content');
     fixture.detectChanges();
 
     await checkboxGroupHarness.clickHelpInline();
@@ -296,8 +296,8 @@ describe('Checkbox group harness', () => {
     const helpSvc = TestBed.inject(SkyHelpService);
     const helpSpy = spyOn(helpSvc, 'openHelp');
 
-    fixture.componentInstance.helpPopoverContent = undefined;
-    fixture.componentInstance.helpKey = 'helpKey.html';
+    fixture.componentRef.setInput('helpPopoverContent', undefined);
+    fixture.componentRef.setInput('helpKey', 'helpKey.html');
     fixture.detectChanges();
 
     await checkboxGroupHarness.clickHelpInline();
@@ -309,7 +309,7 @@ describe('Checkbox group harness', () => {
 
   it('should get help popover content', async () => {
     const { checkboxGroupHarness, fixture } = await setupTest();
-    fixture.componentInstance.helpPopoverContent = 'popover content';
+    fixture.componentRef.setInput('helpPopoverContent', 'popover content');
     fixture.detectChanges();
 
     await checkboxGroupHarness.clickHelpInline();
@@ -323,8 +323,8 @@ describe('Checkbox group harness', () => {
 
   it('should get help popover title', async () => {
     const { checkboxGroupHarness, fixture } = await setupTest();
-    fixture.componentInstance.helpPopoverContent = 'popover content';
-    fixture.componentInstance.helpPopoverTitle = 'popover title';
+    fixture.componentRef.setInput('helpPopoverContent', 'popover content');
+    fixture.componentRef.setInput('helpPopoverTitle', 'popover title');
     fixture.detectChanges();
 
     await checkboxGroupHarness.clickHelpInline();

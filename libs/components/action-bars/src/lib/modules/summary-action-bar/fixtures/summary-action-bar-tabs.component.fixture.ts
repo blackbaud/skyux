@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'sky-summary-action-bar-tabs-test',
@@ -10,5 +10,5 @@ export class SkySummaryActionBarTabsTestComponent {
 
   public showBar2 = false;
 
-  public activeTab = 0;
+  public activeTab = input<number>(0);
 }

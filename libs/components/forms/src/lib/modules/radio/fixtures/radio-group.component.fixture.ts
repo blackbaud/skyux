@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   template: `
-    <sky-radio-group [disabled]="disableRadioGroup">
+    <sky-radio-group [disabled]="disableRadioGroup()">
       @for (item of items; track item.value) {
         <sky-radio [disabled]="item.disabled" [value]="item.value">
           <sky-radio-label>
@@ -15,7 +15,7 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class SkyRadioGroupFixtureComponent {
-  public disableRadioGroup = false;
+  public disableRadioGroup = input<boolean>(false);
 
   public items = [
     { value: '1', disabled: false },

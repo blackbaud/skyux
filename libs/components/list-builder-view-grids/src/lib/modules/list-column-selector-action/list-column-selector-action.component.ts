@@ -1,5 +1,6 @@
 import {
   AfterContentInit,
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -40,6 +41,7 @@ import { GridStateModel } from '../list-view-grid/state/grid-state.model';
 @Component({
   selector: 'sky-list-column-selector-action',
   templateUrl: './list-column-selector-action.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyListColumnSelectorActionComponent implements AfterContentInit {

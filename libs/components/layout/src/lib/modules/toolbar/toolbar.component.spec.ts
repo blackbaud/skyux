@@ -53,7 +53,7 @@ describe('toolbar component', () => {
       ).and.stub();
 
       const fixture = TestBed.createComponent(SkyToolbarTestComponent);
-      fixture.componentInstance.listDescriptor = 'constituents';
+      fixture.componentRef.setInput('listDescriptor', 'constituents');
       fixture.detectChanges();
       await fixture.whenStable();
       fixture.detectChanges();

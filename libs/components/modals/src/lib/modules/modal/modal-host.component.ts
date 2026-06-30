@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
@@ -38,6 +39,7 @@ import { SkyModalConfigurationInterface } from './modal.interface';
   templateUrl: './modal-host.component.html',
   styleUrls: ['./modal-host.component.scss'],
   viewProviders: [SkyModalAdapterService],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [CommonModule, RouterModule, SkyModalsResourcesModule],
 })
 export class SkyModalHostComponent implements OnDestroy {

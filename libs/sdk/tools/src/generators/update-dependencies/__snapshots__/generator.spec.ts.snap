@@ -63,7 +63,9 @@ Object {
     },
     "test": Object {
       "executor": "@nx/angular:unit-test",
-      "options": Object {},
+      "options": Object {
+        "watch": false,
+      },
     },
   },
 }

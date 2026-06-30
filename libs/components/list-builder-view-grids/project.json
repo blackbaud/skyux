@@ -11,17 +11,6 @@
       "outputs": [
         "{workspaceRoot}/dist/libs/components/list-builder-view-grids"
       ],
-      "options": {
-        "project": "libs/components/list-builder-view-grids/ng-package.json"
-      },
-      "configurations": {
-        "production": {
-          "tsConfig": "libs/components/list-builder-view-grids/tsconfig.lib.prod.json"
-        },
-        "development": {
-          "tsConfig": "libs/components/list-builder-view-grids/tsconfig.lib.json"
-        }
-      },
       "defaultConfiguration": "production",
       "dependsOn": [
         "^build",
@@ -36,10 +25,21 @@
         "{workspaceRoot}/libs/components/list-builder-view-grids/testing/src/**/*",
         "!{workspaceRoot}/libs/components/list-builder-view-grids/testing/src/**/*.spec.ts",
         "!{workspaceRoot}/libs/components/list-builder-view-grids/testing/src/**/fixtures/**/*"
-      ]
+      ],
+      "options": {
+        "project": "libs/components/list-builder-view-grids/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/components/list-builder-view-grids/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/components/list-builder-view-grids/tsconfig.lib.json"
+        }
+      }
     },
     "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+      "executor": "@angular/build:karma",
       "options": {
         "tsConfig": "libs/components/list-builder-view-grids/tsconfig.spec.json",
         "karmaConfig": "libs/components/list-builder-view-grids/karma.conf.js",

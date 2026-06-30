@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 import { SkyLayoutResourcesModule } from '../shared/sky-layout-resources.module';
@@ -13,6 +13,7 @@ import { SKY_TEXT_EXPAND_MODAL_CONTEXT } from './text-expand-modal-context-token
   selector: 'sky-text-expand-modal',
   templateUrl: './text-expand-modal.component.html',
   styleUrls: ['./text-expand.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyModalModule, SkyLayoutResourcesModule],
 })
 export class SkyTextExpandModalComponent {

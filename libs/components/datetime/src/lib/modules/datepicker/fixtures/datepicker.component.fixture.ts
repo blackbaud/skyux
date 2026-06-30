@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, input, model } from '@angular/core';
 
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
@@ -13,27 +13,27 @@ import { SkyDatepickerComponent } from '../datepicker.component';
   standalone: false,
 })
 export class DatepickerTestComponent {
-  public dateFormat: string | undefined;
+  public dateFormat = input<string | undefined>(undefined);
 
-  public isDisabled: boolean | undefined;
+  public isDisabled = input<boolean | undefined>(undefined);
 
-  public maxDate: Date | undefined;
+  public maxDate = input<Date | undefined>(undefined);
 
-  public minDate: Date | undefined;
+  public minDate = input<Date | undefined>(undefined);
 
-  public startAtDate: Date | undefined;
+  public startAtDate = input<Date | undefined>(undefined);
 
-  public noValidate = false;
+  public noValidate = input(false);
 
-  public showCustomDates = false;
+  public showCustomDates = input(false);
 
-  public showInvalidDirective = false;
+  public showInvalidDirective = input(false);
 
-  public selectedDate: any;
+  public selectedDate = model<any>(undefined);
 
-  public startingDay = 0;
+  public startingDay = input(0);
 
-  public strict: boolean | undefined;
+  public strict = input<boolean | undefined>(undefined);
 
   @ViewChild(SkyDatepickerInputDirective)
   public inputDirective!: SkyDatepickerInputDirective;
@@ -42,7 +42,7 @@ export class DatepickerTestComponent {
   public datepicker!: SkyDatepickerComponent;
 
   public onCalendarDateRangeChange(event: SkyDatepickerCalendarChange): void {
-    if (this.showCustomDates) {
+    if (this.showCustomDates()) {
       const customDates = [
         {
           date: new Date(1955, 10, 1),

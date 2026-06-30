@@ -203,7 +203,9 @@
       "skyux-eslint": ["libs/sdk/skyux-eslint/src/index.ts"],
       "skyux-stylelint": ["libs/sdk/skyux-stylelint/src/index.ts"],
       "stylelint-config-skyux": ["libs/sdk/stylelint-config-skyux/src/index.ts"]
-    }
+    },
+    "ignoreDeprecations": "6.0",
+    "noUncheckedSideEffectImports": false
   },
   "angularCompilerOptions": {
     "strictTemplates": true,

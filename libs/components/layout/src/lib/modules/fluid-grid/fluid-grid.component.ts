@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { SkyFluidGridGutterSizeType } from './types/fluid-grid-gutter-size-type';
 
@@ -10,6 +10,7 @@ import { SkyFluidGridGutterSizeType } from './types/fluid-grid-gutter-size-type'
   selector: 'sky-fluid-grid',
   templateUrl: './fluid-grid.component.html',
   styleUrls: ['./fluid-grid.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyFluidGridComponent {

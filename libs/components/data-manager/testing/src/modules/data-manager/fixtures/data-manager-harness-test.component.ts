@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, input } from '@angular/core';
 import { SkyUIConfigService } from '@skyux/core';
 import {
   SkyDataManagerDockType,
@@ -22,7 +22,7 @@ export class DataManagerHarnessTestComponent implements OnInit {
   protected viewId1 = 'view-1';
   protected viewId2 = 'view-2';
 
-  public dock: SkyDataManagerDockType | undefined = 'fill';
+  public readonly dock = input<SkyDataManagerDockType | undefined>('fill');
 
   readonly #dataManagerSvc = inject(SkyDataManagerService);
 

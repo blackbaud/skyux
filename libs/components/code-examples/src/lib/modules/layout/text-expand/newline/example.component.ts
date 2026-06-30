@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyTextExpandModule } from '@skyux/layout';
 
 /**
@@ -7,6 +7,7 @@ import { SkyTextExpandModule } from '@skyux/layout';
 @Component({
   selector: 'app-layout-text-expand-newline-example',
   templateUrl: './example.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyTextExpandModule],
 })
 export class LayoutTextExpandNewlineExampleComponent {

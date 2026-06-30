@@ -80,7 +80,7 @@ describe('Tabset navigation button', () => {
         fixture.detectChanges();
         tick();
 
-        fixture.componentInstance.selectedTab = 1;
+        fixture.componentRef.setInput('selectedTab', 1);
 
         fixture.detectChanges();
         tick();
@@ -114,7 +114,7 @@ describe('Tabset navigation button', () => {
 
       it('should have aria-controls set', fakeAsync(() => {
         const fixture = TestBed.createComponent(SkyWizardTestFormComponent);
-        fixture.componentInstance.selectedTab = 1;
+        fixture.componentRef.setInput('selectedTab', 1);
 
         fixture.detectChanges();
         tick();
@@ -174,7 +174,7 @@ describe('Tabset navigation button', () => {
       it('should not be present if the last tab is selected', fakeAsync(() => {
         const fixture = TestBed.createComponent(SkyWizardTestFormComponent);
 
-        fixture.componentInstance.selectedTab = 2;
+        fixture.componentRef.setInput('selectedTab', 2);
 
         fixture.detectChanges();
         tick();
@@ -202,7 +202,7 @@ describe('Tabset navigation button', () => {
       it('should set default text based on the button type', fakeAsync(() => {
         const fixture = TestBed.createComponent(SkyWizardTestFormComponent);
 
-        fixture.componentInstance.selectedTab = 2;
+        fixture.componentRef.setInput('selectedTab', 2);
 
         fixture.detectChanges();
         tick();
@@ -218,7 +218,7 @@ describe('Tabset navigation button', () => {
       it('should not be present if the last tab is not selected', () => {
         const fixture = TestBed.createComponent(SkyWizardTestFormComponent);
 
-        fixture.componentInstance.selectedTab = 0;
+        fixture.componentRef.setInput('selectedTab', 0);
 
         fixture.detectChanges();
 
@@ -230,7 +230,7 @@ describe('Tabset navigation button', () => {
       it('should be present if the last tab is selected', fakeAsync(() => {
         const fixture = TestBed.createComponent(SkyWizardTestFormComponent);
 
-        fixture.componentInstance.selectedTab = 2;
+        fixture.componentRef.setInput('selectedTab', 2);
 
         fixture.detectChanges();
         tick();
@@ -246,7 +246,7 @@ describe('Tabset navigation button', () => {
       it('should default to not being disabled', fakeAsync(() => {
         const fixture = TestBed.createComponent(SkyWizardTestFormComponent);
 
-        fixture.componentInstance.selectedTab = 2;
+        fixture.componentRef.setInput('selectedTab', 2);
 
         fixture.detectChanges();
         tick();
@@ -262,7 +262,7 @@ describe('Tabset navigation button', () => {
       it('should reflect disabled input if passed', fakeAsync(() => {
         const fixture = TestBed.createComponent(SkyWizardTestFormComponent);
 
-        fixture.componentInstance.selectedTab = 2;
+        fixture.componentRef.setInput('selectedTab', 2);
         fixture.componentInstance.finishDisabled = true;
 
         fixture.detectChanges();
@@ -280,7 +280,7 @@ describe('Tabset navigation button', () => {
         const fixture = TestBed.createComponent(SkyWizardTestFormComponent);
         const saveSpy = jasmine.createSpy().and.stub();
 
-        fixture.componentInstance.selectedTab = 2;
+        fixture.componentRef.setInput('selectedTab', 2);
         fixture.componentInstance.onSave = saveSpy;
 
         fixture.detectChanges();
@@ -303,7 +303,7 @@ describe('Tabset navigation button', () => {
 
       fixture.detectChanges();
 
-      fixture.componentInstance.passTabset = false;
+      fixture.componentRef.setInput('passTabset', false);
 
       fixture.detectChanges();
 

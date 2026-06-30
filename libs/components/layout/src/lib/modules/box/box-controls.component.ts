@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyContentInfoProvider } from '@skyux/core';
 
 import { SKY_BOX_HEADER_ID } from './box-header-id-token';
@@ -10,6 +10,7 @@ import { SKY_BOX_HEADER_ID } from './box-header-id-token';
   selector: 'sky-box-controls',
   templateUrl: './box-controls.component.html',
   providers: [SkyContentInfoProvider],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyBoxControlsComponent {

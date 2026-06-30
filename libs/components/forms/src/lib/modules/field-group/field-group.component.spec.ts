@@ -21,7 +21,6 @@ describe('Field group component', function () {
   }
 
   let fixture: ComponentFixture<FieldGroupComponent>;
-  let componentInstance: FieldGroupComponent;
 
   beforeEach(function () {
     TestBed.configureTestingModule({
@@ -29,7 +28,6 @@ describe('Field group component', function () {
     });
 
     fixture = TestBed.createComponent(FieldGroupComponent);
-    componentInstance = fixture.componentInstance;
 
     fixture.detectChanges();
   });
@@ -42,7 +40,7 @@ describe('Field group component', function () {
   });
 
   it('should visually hide the heading text by only displaying it for screen readers when headingHidden is true', () => {
-    componentInstance.headingHidden = true;
+    fixture.componentRef.setInput('headingHidden', true);
     fixture.detectChanges();
 
     const legend = getLegend(fixture);
@@ -52,7 +50,7 @@ describe('Field group component', function () {
   });
 
   it('should have the xl margin class if stacked is true', () => {
-    componentInstance.stacked = true;
+    fixture.componentRef.setInput('stacked', true);
     fixture.detectChanges();
 
     const group = getFieldGroup(fixture);
@@ -79,8 +77,8 @@ describe('Field group component', function () {
     ];
     headingLevels.forEach((headingLevel) => {
       headingStyles.forEach((headingStyle) => {
-        componentInstance.headingLevel = headingLevel;
-        componentInstance.headingStyle = headingStyle;
+        fixture.componentRef.setInput('headingLevel', headingLevel);
+        fixture.componentRef.setInput('headingStyle', headingStyle);
         fixture.detectChanges();
 
         const heading = fixture.nativeElement.querySelector(
@@ -95,7 +93,7 @@ describe('Field group component', function () {
   it('should display the hint text if `hintText` is set', () => {
     const hintText = 'Hint text for the section.';
 
-    fixture.componentInstance.hintText = hintText;
+    fixture.componentRef.setInput('hintText', hintText);
     fixture.detectChanges();
 
     const hintEl = fixture.nativeElement.querySelector(
@@ -107,7 +105,7 @@ describe('Field group component', function () {
   });
 
   it('should render help inline popover', () => {
-    componentInstance.helpPopoverContent = 'popover content';
+    fixture.componentRef.setInput('helpPopoverContent', 'popover content');
     fixture.detectChanges();
 
     expect(
@@ -116,14 +114,14 @@ describe('Field group component', function () {
   });
 
   it('should not render help inline popover if title is provided without content', () => {
-    componentInstance.helpPopoverTitle = 'popover title';
+    fixture.componentRef.setInput('helpPopoverTitle', 'popover title');
     fixture.detectChanges();
 
     expect(
       fixture.nativeElement.querySelectorAll('sky-help-inline').length,
     ).toBe(0);
 
-    componentInstance.helpPopoverContent = 'popover content';
+    fixture.componentRef.setInput('helpPopoverContent', 'popover content');
     fixture.detectChanges();
 
     expect(
@@ -132,12 +130,12 @@ describe('Field group component', function () {
   });
 
   it('should render help inline if help key is provided', () => {
-    componentInstance.helpPopoverContent = undefined;
+    fixture.componentRef.setInput('helpPopoverContent', undefined);
     fixture.detectChanges();
 
     expect(fixture.nativeElement.querySelector('.sky-help-inline')).toBeFalsy();
 
-    componentInstance.helpKey = 'helpKey.html';
+    fixture.componentRef.setInput('helpKey', 'helpKey.html');
     fixture.detectChanges();
 
     expect(
@@ -147,7 +145,7 @@ describe('Field group component', function () {
 
   it('should set global help config with help key', async () => {
     const helpController = TestBed.inject(SkyHelpTestingController);
-    componentInstance.helpKey = 'helpKey.html';
+    fixture.componentRef.setInput('helpKey', 'helpKey.html');
 
     fixture.detectChanges();
 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyDropdownModule } from '@skyux/popovers';
 
 import { ICellRendererAngularComp } from 'ag-grid-angular';
@@ -9,6 +9,7 @@ import { Contact } from './contact';
 @Component({
   selector: 'app-contacts-grid-context-menu',
   templateUrl: './contact-context-menu.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyDropdownModule],
 })
 export class ContactContextMenuComponent implements ICellRendererAngularComp {

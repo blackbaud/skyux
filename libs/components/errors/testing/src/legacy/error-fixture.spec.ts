@@ -38,7 +38,7 @@ describe('Error fixture', () => {
 
     expect(error.errorType).toBe('broken');
 
-    fixture.componentInstance.errorType = 'notfound';
+    fixture.componentRef.setInput('errorType', 'notfound');
 
     fixture.detectChanges();
 

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 import { SkyDatepickerCalendarInnerComponent } from './datepicker-calendar-inner.component';
 import { SkyDatepickerCalendarLabelPipe } from './datepicker-calendar-label.pipe';
@@ -11,6 +11,7 @@ import { SkyDayPickerContext } from './daypicker-context';
 @Component({
   imports: [CommonModule, SkyDatepickerCalendarLabelPipe],
   selector: 'sky-yearpicker',
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: 'yearpicker.component.html',
 })
 export class SkyYearPickerComponent implements OnInit {

@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ContentChildren,
@@ -37,6 +38,7 @@ import { SkyActionButtonContainerAlignItemsType } from './types/action-button-co
   providers: [SkyActionButtonAdapterService],
   encapsulation: ViewEncapsulation.None,
   hostDirectives: [SkyThemeComponentClassDirective],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyActionButtonContainerComponent

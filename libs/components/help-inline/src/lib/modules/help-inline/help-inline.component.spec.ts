@@ -169,7 +169,7 @@ describe('Help inline component', () => {
     });
 
     it('should pass accessibility when ariaControls input is set', async () => {
-      component.ariaControls = 'help-text';
+      fixture.componentRef.setInput('ariaControls', 'help-text');
 
       fixture.detectChanges();
 
@@ -181,8 +181,8 @@ describe('Help inline component', () => {
     });
 
     it('should pass accessibility when ariaControls is set, and ariaExpanded is false', async () => {
-      component.ariaControls = 'help-text';
-      component.ariaExpanded = false;
+      fixture.componentRef.setInput('ariaControls', 'help-text');
+      fixture.componentRef.setInput('ariaExpanded', false);
 
       fixture.detectChanges();
 
@@ -194,8 +194,8 @@ describe('Help inline component', () => {
     });
 
     it('should pass accessibility when ariaControls is set, and ariaExpanded is true', async () => {
-      component.ariaControls = 'help-text';
-      component.ariaExpanded = true;
+      fixture.componentRef.setInput('ariaControls', 'help-text');
+      fixture.componentRef.setInput('ariaExpanded', true);
 
       fixture.detectChanges();
 
@@ -207,7 +207,7 @@ describe('Help inline component', () => {
     });
 
     it('should pass accessibility when ariaLabel is set', async () => {
-      component.ariaLabel = 'Test label';
+      fixture.componentRef.setInput('ariaLabel', 'Test label');
 
       fixture.detectChanges();
 
@@ -219,8 +219,8 @@ describe('Help inline component', () => {
     });
 
     it('should pass accessibility when ariaLabel and ariaControls are set', async () => {
-      component.ariaLabel = 'Test label';
-      component.ariaControls = 'help-text';
+      fixture.componentRef.setInput('ariaLabel', 'Test label');
+      fixture.componentRef.setInput('ariaControls', 'help-text');
 
       fixture.detectChanges();
 
@@ -232,9 +232,9 @@ describe('Help inline component', () => {
     });
 
     it('should pass accessibility when ariaLabel and ariaControls is set, and ariaExpanded is set to false', async () => {
-      component.ariaLabel = 'Test label';
-      component.ariaControls = 'help-text';
-      component.ariaExpanded = false;
+      fixture.componentRef.setInput('ariaLabel', 'Test label');
+      fixture.componentRef.setInput('ariaControls', 'help-text');
+      fixture.componentRef.setInput('ariaExpanded', false);
 
       fixture.detectChanges();
 
@@ -246,9 +246,9 @@ describe('Help inline component', () => {
     });
 
     it('should pass accessibility when ariaLabel and ariaControls are set, and ariaExpanded is set to true', async () => {
-      component.ariaLabel = 'Test label';
-      component.ariaControls = 'help-text';
-      component.ariaExpanded = true;
+      fixture.componentRef.setInput('ariaLabel', 'Test label');
+      fixture.componentRef.setInput('ariaControls', 'help-text');
+      fixture.componentRef.setInput('ariaExpanded', true);
 
       fixture.detectChanges();
 
@@ -260,7 +260,7 @@ describe('Help inline component', () => {
     });
 
     it('should set aria label with labelText', async () => {
-      component.labelText = 'test component';
+      fixture.componentRef.setInput('labelText', 'test component');
 
       fixture.detectChanges();
       // Trigger change detection for resources string observables.
@@ -274,8 +274,8 @@ describe('Help inline component', () => {
     });
 
     it('should use aria label with labelText over deprecated ariaLabel input', async () => {
-      component.labelText = 'test component';
-      component.ariaLabel = 'deprecated';
+      fixture.componentRef.setInput('labelText', 'test component');
+      fixture.componentRef.setInput('ariaLabel', 'deprecated');
 
       fixture.detectChanges();
       // Trigger change detection for resources string observables.
@@ -289,9 +289,9 @@ describe('Help inline component', () => {
     });
 
     it('should use labelledBy over labelText or deprecated ariaLabel inputs', async () => {
-      component.labelText = 'test component';
-      component.ariaLabel = 'deprecated';
-      component.labelledBy = 'label-id';
+      fixture.componentRef.setInput('labelText', 'test component');
+      fixture.componentRef.setInput('ariaLabel', 'deprecated');
+      fixture.componentRef.setInput('labelledBy', 'label-id');
 
       fixture.detectChanges();
 
@@ -304,7 +304,7 @@ describe('Help inline component', () => {
     });
 
     it('should set help popover when popoverContent input is set', async () => {
-      component.popoverContent = 'content';
+      fixture.componentRef.setInput('popoverContent', 'content');
       fixture.detectChanges();
 
       const { popoverHarness } = await getPopoverTestHarness();
@@ -316,8 +316,8 @@ describe('Help inline component', () => {
     });
 
     it('should render help popover title', async () => {
-      component.popoverTitle = 'title';
-      component.popoverContent = 'content';
+      fixture.componentRef.setInput('popoverTitle', 'title');
+      fixture.componentRef.setInput('popoverContent', 'content');
       fixture.detectChanges();
 
       const { popoverHarness } = await getPopoverTestHarness();
@@ -332,7 +332,10 @@ describe('Help inline component', () => {
     });
 
     it('should render help popover if helpContext is a templateRef', async () => {
-      component.popoverContent = component.popoverTemplate;
+      fixture.componentRef.setInput(
+        'popoverContent',
+        component.popoverTemplate,
+      );
       fixture.detectChanges();
 
       const { popoverHarness } = await getPopoverTestHarness();
@@ -344,7 +347,7 @@ describe('Help inline component', () => {
     });
 
     it('should set ariaControls to popover id if popover content is set', fakeAsync(() => {
-      component.popoverContent = 'content';
+      fixture.componentRef.setInput('popoverContent', 'content');
       fixture.detectChanges();
 
       const helpButton = getHelpButton(fixture);
@@ -361,7 +364,7 @@ describe('Help inline component', () => {
     }));
 
     it('should toggle the ariaExpanded value when the popover opens and closes', fakeAsync(() => {
-      component.popoverContent = 'content';
+      fixture.componentRef.setInput('popoverContent', 'content');
       fixture.detectChanges();
 
       const helpButton = getHelpButton(fixture);
@@ -376,7 +379,7 @@ describe('Help inline component', () => {
     }));
 
     it('should not set ARIA attributes when helpKey is set', async () => {
-      component.helpKey = 'test.html';
+      fixture.componentRef.setInput('helpKey', 'test.html');
 
       fixture.detectChanges();
 
@@ -406,7 +409,7 @@ describe('Help inline component', () => {
     it('should open global help when helpKey is set and the help button is clicked', () => {
       setupTest(true);
 
-      component.helpKey = 'test.html';
+      fixture.componentRef.setInput('helpKey', 'test.html');
       fixture.detectChanges();
 
       const helpButton = getHelpButton(fixture);
@@ -423,7 +426,7 @@ describe('Help inline component', () => {
         ariaHaspopup: 'dialog',
       });
 
-      component.helpKey = 'test.html';
+      fixture.componentRef.setInput('helpKey', 'test.html');
       readyStateChange.next(true);
 
       fixture.detectChanges();
@@ -444,7 +447,7 @@ describe('Help inline component', () => {
         ariaHaspopup: 'dialog',
       });
 
-      component.helpKey = 'foo.html';
+      fixture.componentRef.setInput('helpKey', 'foo.html');
       fixture.detectChanges();
 
       await checkAriaPropertiesAndAccessibility({
@@ -477,7 +480,7 @@ describe('Help inline component', () => {
       it('should hide the help button', () => {
         setupTest(false);
 
-        component.helpKey = 'test.html';
+        fixture.componentRef.setInput('helpKey', 'test.html');
 
         fixture.detectChanges();
 

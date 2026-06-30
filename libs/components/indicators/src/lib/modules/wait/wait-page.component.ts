@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { SkyWaitComponent } from './wait.component';
 
@@ -9,6 +9,7 @@ import { SkyWaitComponent } from './wait.component';
   selector: 'sky-wait-page',
   templateUrl: './wait-page.component.html',
   styleUrls: ['./wait-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyWaitComponent],
 })
 export class SkyWaitPageComponent {

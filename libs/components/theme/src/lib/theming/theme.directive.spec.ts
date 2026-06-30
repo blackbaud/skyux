@@ -69,7 +69,7 @@ describe('Theme directive', () => {
       SkyThemeMode.presets.dark,
     );
 
-    fixture.componentInstance.themeSettings = settings;
+    fixture.componentRef.setInput('themeSettings', settings);
 
     expect(initSpy).not.toHaveBeenCalled();
     expect(setThemeSpy).not.toHaveBeenCalled();
@@ -99,7 +99,7 @@ describe('Theme directive', () => {
       SkyThemeMode.presets.dark,
     );
 
-    fixture.componentInstance.themeSettings = newSettings;
+    fixture.componentRef.setInput('themeSettings', newSettings);
 
     fixture.detectChanges();
 

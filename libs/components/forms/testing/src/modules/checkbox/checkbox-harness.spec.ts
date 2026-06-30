@@ -20,7 +20,7 @@ async function setupTest(
 
   const fixture = TestBed.createComponent(CheckboxHarnessTestComponent);
   if (options.hideEmailLabel) {
-    fixture.componentInstance.hideEmailLabel = true;
+    fixture.componentRef.setInput('hideEmailLabel', true);
     fixture.detectChanges();
   }
   const loader = TestbedHarnessEnvironment.loader(fixture);
@@ -126,7 +126,7 @@ describe('Checkbox harness', () => {
       dataSkyId: 'my-phone-checkbox',
     });
 
-    fixture.componentInstance.hidePhoneLabel = true;
+    fixture.componentRef.setInput('hidePhoneLabel', true);
     fixture.detectChanges();
 
     await expectAsync(checkboxHarness.getLabelText()).toBeResolvedTo('Phone');
@@ -145,7 +145,7 @@ describe('Checkbox harness', () => {
       dataSkyId: 'my-phone-checkbox',
     });
 
-    fixture.componentInstance.hidePhoneLabel = true;
+    fixture.componentRef.setInput('hidePhoneLabel', true);
     fixture.detectChanges();
 
     await expectAsync(checkboxHarness.getLabelHidden()).toBeResolvedTo(true);
@@ -169,7 +169,7 @@ describe('Checkbox harness', () => {
 
     await expectAsync(checkboxHarness.getHintText()).toBeResolvedTo('');
 
-    fixture.componentInstance.phoneHintText = hintText;
+    fixture.componentRef.setInput('phoneHintText', hintText);
     fixture.detectChanges();
 
     await expectAsync(checkboxHarness.getHintText()).toBeResolvedTo(hintText);
@@ -270,8 +270,8 @@ describe('Checkbox harness', () => {
     });
     const helpSvc = TestBed.inject(SkyHelpService);
     const helpSpy = spyOn(helpSvc, 'openHelp');
-    fixture.componentInstance.helpKey = 'helpKey.html';
-    fixture.componentInstance.helpPopoverContent = undefined;
+    fixture.componentRef.setInput('helpKey', 'helpKey.html');
+    fixture.componentRef.setInput('helpPopoverContent', undefined);
     fixture.detectChanges();
 
     await checkboxHarness.clickHelpInline();

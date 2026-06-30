@@ -1,6 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { Component, model } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyChevronModule } from '@skyux/indicators';
 
@@ -10,13 +10,13 @@ import { SkyChevronHarness } from './chevron-harness';
 @Component({
   selector: 'sky-chevron-test',
   template: `
-    <sky-chevron [disabled]="disabled" (directionChange)="directionChange()">
+    <sky-chevron [disabled]="disabled()" (directionChange)="directionChange()">
     </sky-chevron>
   `,
   standalone: false,
 })
 class TestComponent {
-  public disabled = false;
+  public disabled = model(false);
 
   public directionChange(): void {
     // Only exists for the spy.
@@ -57,7 +57,7 @@ describe('Chevron harness', () => {
   it('should throw an error when toggling a disabled chevron', async () => {
     const { chevronHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.disabled = true;
+    fixture.componentRef.setInput('disabled', true);
     fixture.detectChanges();
 
     await expectAsync(chevronHarness.toggle()).toBeRejectedWithError(

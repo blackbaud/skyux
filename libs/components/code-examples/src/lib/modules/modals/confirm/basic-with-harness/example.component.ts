@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   SkyConfirmButtonConfig,
   SkyConfirmInstance,
@@ -11,6 +11,7 @@ import {
  */
 @Component({
   selector: 'app-modals-confirm-basic-with-harness-example',
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './example.component.html',
 })
 export class ModalsConfirmBasicWithHarnessExampleComponent {

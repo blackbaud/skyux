@@ -5,12 +5,12 @@
   "prettier.requireConfig": true,
   "coverage-gutters.showLineCoverage": true,
   "cSpell.enabled": true,
-  "typescript.tsdk": "node_modules/typescript/lib",
   "karmaTestExplorer.enableExtension": false,
   "github.copilot.chat.commitMessageGeneration.instructions": [
     {
       "file": ".github/instructions/commit-message.instructions.md"
     }
   ],
-  "nxConsole.generateAiAgentRules": true
+  "nxConsole.generateAiAgentRules": true,
+  "js/ts.tsdk.path": "node_modules/typescript/lib"
 }

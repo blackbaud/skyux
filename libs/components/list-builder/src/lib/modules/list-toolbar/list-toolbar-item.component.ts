@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ContentChildren,
   Input,
@@ -15,6 +16,7 @@ let idIndex = 0;
 @Component({
   selector: 'sky-list-toolbar-item',
   template: '<ng-content />',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyListToolbarItemComponent {

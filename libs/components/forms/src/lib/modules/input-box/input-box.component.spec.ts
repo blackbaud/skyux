@@ -284,17 +284,37 @@ describe('Input box component', () => {
     options: InputBoxA11yTestingOptions = {},
   ): Promise<void> {
     const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-    const cmp = fixture.componentInstance;
 
-    cmp.basicDisabled = options.disabled;
-    cmp.hasErrors = options.hasErrors;
-    cmp.characterCountHelp = options.characterCountHelp ?? false;
-    cmp.a11yInsetIconLeft = options.a11yInsetIconLeft ?? false;
-    cmp.a11yInsetIcon = options.a11yInsetIcon ?? false;
-    cmp.a11yButtonLeft = options.a11yButtonLeft ?? false;
-    cmp.a11yInsetButton = options.a11yInsetButton ?? false;
-    cmp.a11yNormalButton = options.a11yNormalButton ?? false;
-    cmp.inlineHelpType = options.inlineHelpType ?? 'custom';
+    fixture.componentRef.setInput('basicDisabled', options.disabled);
+    fixture.componentRef.setInput('hasErrors', options.hasErrors);
+    fixture.componentRef.setInput(
+      'characterCountHelp',
+      options.characterCountHelp ?? false,
+    );
+    fixture.componentRef.setInput(
+      'a11yInsetIconLeft',
+      options.a11yInsetIconLeft ?? false,
+    );
+    fixture.componentRef.setInput(
+      'a11yInsetIcon',
+      options.a11yInsetIcon ?? false,
+    );
+    fixture.componentRef.setInput(
+      'a11yButtonLeft',
+      options.a11yButtonLeft ?? false,
+    );
+    fixture.componentRef.setInput(
+      'a11yInsetButton',
+      options.a11yInsetButton ?? false,
+    );
+    fixture.componentRef.setInput(
+      'a11yNormalButton',
+      options.a11yNormalButton ?? false,
+    );
+    fixture.componentRef.setInput(
+      'inlineHelpType',
+      options.inlineHelpType ?? 'custom',
+    );
 
     fixture.detectChanges();
 
@@ -467,7 +487,7 @@ describe('Input box component', () => {
 
       expect(await helpInlineHarness.getAriaExpanded()).toBeFalse();
 
-      fixture.componentInstance.easyModeHelpPopoverContent = undefined;
+      fixture.componentRef.setInput('easyModeHelpPopoverContent', undefined);
       fixture.detectChanges();
 
       expect(
@@ -634,7 +654,7 @@ describe('Input box component', () => {
 
       expect(inputBoxWrapperEl).not.toHaveCssClass('sky-input-box-disabled');
 
-      fixture.componentInstance.basicDisabled = true;
+      fixture.componentRef.setInput('basicDisabled', true);
       fixture.detectChanges();
 
       expect(inputBoxWrapperEl).toHaveCssClass('sky-input-box-disabled');
@@ -678,7 +698,7 @@ describe('Input box component', () => {
 
       expect(els.inputBoxEl).toHaveCssClass('sky-form-field-stacked');
 
-      fixture.componentInstance.easyModeStacked = false;
+      fixture.componentRef.setInput('easyModeStacked', false);
       fixture.detectChanges();
 
       expect(els.inputBoxEl).not.toHaveCssClass('sky-form-field-stacked');
@@ -695,8 +715,10 @@ describe('Input box component', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
 
-      fixture.componentInstance.easyModeHelpPopoverContent =
-        fixture.componentInstance.easyModePopoverTemplate;
+      fixture.componentRef.setInput(
+        'easyModeHelpPopoverContent',
+        fixture.componentInstance.easyModePopoverTemplate,
+      );
       fixture.detectChanges();
 
       await validateHelpInline(fixture, 'Help content from template');
@@ -707,7 +729,10 @@ describe('Input box component', () => {
       fixture.detectChanges();
 
       fixture.componentRef.setInput('labelText', undefined);
-      fixture.componentInstance.easyModeHelpPopoverContent = "What's this?";
+      fixture.componentRef.setInput(
+        'easyModeHelpPopoverContent',
+        "What's this?",
+      );
       fixture.detectChanges();
 
       const easyModeInput = getDefaultEls(fixture, 'input-easy-mode');
@@ -721,8 +746,8 @@ describe('Input box component', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
       fixture.detectChanges();
 
-      fixture.componentInstance.easyModeHelpPopoverContent = undefined;
-      fixture.componentInstance.easyModeHelpKey = 'index.html';
+      fixture.componentRef.setInput('easyModeHelpPopoverContent', undefined);
+      fixture.componentRef.setInput('easyModeHelpKey', 'index.html');
 
       const easyModeInput = getDefaultEls(fixture, 'input-easy-mode');
 
@@ -737,8 +762,8 @@ describe('Input box component', () => {
 
       fixture.detectChanges();
 
-      fixture.componentInstance.easyModeHelpPopoverContent = undefined;
-      fixture.componentInstance.easyModeHelpKey = 'index.html';
+      fixture.componentRef.setInput('easyModeHelpPopoverContent', undefined);
+      fixture.componentRef.setInput('easyModeHelpKey', 'index.html');
 
       fixture.detectChanges();
 
@@ -774,7 +799,7 @@ describe('Input box component', () => {
 
       validateLabelAccessibilityLabel(els, 'Easy mode 0 characters out of 10');
 
-      fixture.componentInstance.easyModeValue = 'def';
+      fixture.componentRef.setInput('easyModeValue', 'def');
 
       fixture.detectChanges();
       await fixture.whenStable();
@@ -786,7 +811,7 @@ describe('Input box component', () => {
       // Aria-label updates when not focused
       validateLabelAccessibilityLabel(els, 'Easy mode 3 characters out of 10');
 
-      fixture.componentInstance.easyModeCharacterLimit = 11;
+      fixture.componentRef.setInput('easyModeCharacterLimit', 11);
 
       fixture.detectChanges();
 
@@ -797,7 +822,7 @@ describe('Input box component', () => {
 
       SkyAppTestUtility.fireDomEvent(els.inputEl, 'focusin');
 
-      fixture.componentInstance.easyModeValue = 'kitten';
+      fixture.componentRef.setInput('easyModeValue', 'kitten');
 
       fixture.detectChanges();
       await fixture.whenStable();
@@ -826,7 +851,7 @@ describe('Input box component', () => {
 
       expect(els.characterCountEl).toExist();
 
-      fixture.componentInstance.easyModeCharacterLimit = undefined;
+      fixture.componentRef.setInput('easyModeCharacterLimit', undefined);
       fixture.detectChanges();
 
       els = getDefaultEls(fixture, 'input-easy-mode');
@@ -864,7 +889,7 @@ describe('Input box component', () => {
 
       expect(els.hintTextEl).not.toExist();
 
-      fixture.componentInstance.easyModeHintText = 'Some hint text.';
+      fixture.componentRef.setInput('easyModeHintText', 'Some hint text.');
       fixture.detectChanges();
 
       els = getDefaultEls(fixture, 'input-easy-mode');
@@ -876,7 +901,7 @@ describe('Input box component', () => {
       expect(ariaDescribedBy).toBeTruthy();
       expect(ariaDescribedBy).toBe(els.hintTextEl?.id);
 
-      fixture.componentInstance.easyModeHintText = undefined;
+      fixture.componentRef.setInput('easyModeHintText', undefined);
       fixture.detectChanges();
 
       els = getDefaultEls(fixture, 'input-easy-mode');
@@ -897,7 +922,7 @@ describe('Input box component', () => {
 
     it('should allow both child and consumer specified hint text', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-      fixture.componentInstance.easyModeHintText = 'Consumer hint text.';
+      fixture.componentRef.setInput('easyModeHintText', 'Consumer hint text.');
       fixture.detectChanges();
 
       const els = getDefaultEls(fixture, 'input-host-service');
@@ -1032,9 +1057,11 @@ describe('Input box component', () => {
     it('should preserve existing aria-describedby attributes when adding hint text', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
 
-      fixture.componentInstance.easyModeHintText = 'Some hint text.';
-      fixture.componentInstance.easyModeAriaDescribedBy =
-        'existing-aria-describedby';
+      fixture.componentRef.setInput('easyModeHintText', 'Some hint text.');
+      fixture.componentRef.setInput(
+        'easyModeAriaDescribedBy',
+        'existing-aria-describedby',
+      );
       fixture.detectChanges();
 
       const els = getDefaultEls(fixture, 'input-easy-mode');
@@ -1043,7 +1070,7 @@ describe('Input box component', () => {
         `existing-aria-describedby ${els.hintTextEl?.id}`,
       );
 
-      fixture.componentInstance.easyModeHintText = undefined;
+      fixture.componentRef.setInput('easyModeHintText', undefined);
       fixture.detectChanges();
 
       expect(els.inputEl?.getAttribute('aria-describedby')).toBe(
@@ -1084,7 +1111,7 @@ describe('Input box component', () => {
 
     it('should not overwrite autocomplete if specified', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-      fixture.componentInstance.autocomplete = 'fname';
+      fixture.componentRef.setInput('autocomplete', 'fname');
       fixture.detectChanges();
 
       const els = getDefaultEls(fixture, 'input-easy-mode');
@@ -1118,7 +1145,7 @@ describe('Input box component', () => {
 
     it('should not overwrite autocomplete if specified if not wrapped in an input box', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-      fixture.componentInstance.autocomplete = 'fname';
+      fixture.componentRef.setInput('autocomplete', 'fname');
       fixture.detectChanges();
 
       const els = getDefaultEls(fixture, 'input-not-wrapped');
@@ -1379,7 +1406,7 @@ describe('Input box component', () => {
 
     it('should not call adapter method when clicking on a disabled inset icon', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
-      fixture.componentInstance.insetIconDisabled = true;
+      fixture.componentRef.setInput('insetIconDisabled', true);
       const spy = spyOn(
         SkyInputBoxAdapterService.prototype,
         'focusControl',
@@ -1476,7 +1503,7 @@ describe('Input box component', () => {
 
       expect(inputBoxWrapperEl).not.toHaveCssClass('sky-input-box-disabled');
 
-      fixture.componentInstance.basicDisabled = true;
+      fixture.componentRef.setInput('basicDisabled', true);
       fixture.detectChanges();
 
       expect(inputBoxWrapperEl).toHaveCssClass('sky-input-box-disabled');
@@ -1491,7 +1518,7 @@ describe('Input box component', () => {
 
       validateInvalid('when hasErrors is undefined', inputBoxEl, false);
 
-      fixture.componentInstance.hasErrors = true;
+      fixture.componentRef.setInput('hasErrors', true);
       fixture.detectChanges();
 
       validateInvalid('when hasErrors is true', inputBoxEl, true);

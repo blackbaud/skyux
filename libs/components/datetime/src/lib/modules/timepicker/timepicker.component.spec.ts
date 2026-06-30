@@ -120,7 +120,9 @@ function verifyTimepicker(fixture: ComponentFixture<any>): void {
   const minutes = getMinuteButtons();
   const meridies = getMeridieButtons();
 
-  if (component.timeFormat === 'hh' || !component.timeFormat) {
+  const timeFormat = component.timeFormat();
+
+  if (timeFormat === 'hh' || !timeFormat) {
     expect(hours.item(0)).toHaveText('1');
     expect(hours.item(11)).toHaveText('12');
     expect(hours.length).toBe(12);
@@ -130,7 +132,7 @@ function verifyTimepicker(fixture: ComponentFixture<any>): void {
     expect(meridies.item(0)).toHaveText('AM');
     expect(meridies.length).toBe(2);
   }
-  if (component.timeFormat === 'HH') {
+  if (timeFormat === 'HH') {
     expect(hours.item(0)).toHaveText('0');
     expect(hours.item(11)).toHaveText('11');
     expect(hours.item(23)).toHaveText('23');
@@ -221,7 +223,7 @@ describe('Timepicker', () => {
     }));
 
     it('should default to the 12-hour timepicker when timeFormat is undefined', fakeAsync(() => {
-      component.timeFormat = undefined;
+      fixture.componentRef.setInput('timeFormat', undefined);
       detectChangesAndTick(fixture);
 
       openTimepicker(fixture);
@@ -232,7 +234,7 @@ describe('Timepicker', () => {
     }));
 
     it('should properly display the 12-hour timepicker', fakeAsync(() => {
-      component.timeFormat = 'hh';
+      fixture.componentRef.setInput('timeFormat', 'hh');
       detectChangesAndTick(fixture);
 
       openTimepicker(fixture);
@@ -243,7 +245,7 @@ describe('Timepicker', () => {
     }));
 
     it('should handle empty time values', fakeAsync(() => {
-      (component.selectedTime as any) = '';
+      fixture.componentRef.setInput('selectedTime', '');
       detectChangesAndTick(fixture);
 
       openTimepicker(fixture);
@@ -254,7 +256,7 @@ describe('Timepicker', () => {
     }));
 
     it('should properly display the 24-hour timepicker', fakeAsync(() => {
-      component.timeFormat = 'HH';
+      fixture.componentRef.setInput('timeFormat', 'HH');
       detectChangesAndTick(fixture);
 
       openTimepicker(fixture);
@@ -265,19 +267,19 @@ describe('Timepicker', () => {
     }));
 
     it('should allow switching between time formats', fakeAsync(() => {
-      component.timeFormat = 'hh';
+      fixture.componentRef.setInput('timeFormat', 'hh');
       detectChangesAndTick(fixture);
       openTimepicker(fixture);
       verifyTimepicker(fixture);
       closeTimepicker(fixture);
 
-      component.timeFormat = 'HH';
+      fixture.componentRef.setInput('timeFormat', 'HH');
       detectChangesAndTick(fixture);
       openTimepicker(fixture);
       verifyTimepicker(fixture);
       closeTimepicker(fixture);
 
-      component.timeFormat = 'hh';
+      fixture.componentRef.setInput('timeFormat', 'hh');
       detectChangesAndTick(fixture);
       openTimepicker(fixture);
       verifyTimepicker(fixture);
@@ -285,7 +287,7 @@ describe('Timepicker', () => {
     }));
 
     it('should update active buttons when input value changes in twelve hour timeFormat', fakeAsync(() => {
-      component.timeFormat = 'hh';
+      fixture.componentRef.setInput('timeFormat', 'hh');
       fixture.detectChanges();
       tick();
 
@@ -314,7 +316,7 @@ describe('Timepicker', () => {
     }));
 
     it('should update active buttons when input value changes in twenty four hour timeFormat', fakeAsync(() => {
-      component.timeFormat = 'HH';
+      fixture.componentRef.setInput('timeFormat', 'HH');
       fixture.detectChanges();
       tick();
 
@@ -340,7 +342,7 @@ describe('Timepicker', () => {
     }));
 
     it('should update input value on mouse click for twelve hour timeFormat', fakeAsync(() => {
-      component.timeFormat = 'hh';
+      fixture.componentRef.setInput('timeFormat', 'hh');
       fixture.detectChanges();
       tick();
 
@@ -368,7 +370,7 @@ describe('Timepicker', () => {
     }));
 
     it('should update input value on mouse click for twenty four hour timeFormat', fakeAsync(() => {
-      component.timeFormat = 'HH';
+      fixture.componentRef.setInput('timeFormat', 'HH');
       fixture.detectChanges();
       tick();
 
@@ -393,8 +395,8 @@ describe('Timepicker', () => {
     }));
 
     it('should return a custom time timeFormat', fakeAsync(() => {
-      component.timeFormat = 'HH';
-      component.returnFormat = 'HH:mm:ssZ';
+      fixture.componentRef.setInput('timeFormat', 'HH');
+      fixture.componentRef.setInput('returnFormat', 'HH:mm:ssZ');
       fixture.detectChanges();
       tick();
 
@@ -414,7 +416,7 @@ describe('Timepicker', () => {
     }));
 
     it('should toggle AM and set active css', fakeAsync(() => {
-      component.timeFormat = 'hh';
+      fixture.componentRef.setInput('timeFormat', 'hh');
       fixture.detectChanges();
       tick();
 
@@ -431,14 +433,14 @@ describe('Timepicker', () => {
       meridies.item(0).click();
 
       expect(getInput(fixture).value).toBe('12:30 AM');
-      expect(component.selectedTime?.local).toEqual('12:30 AM');
+      expect(component.selectedTime()?.local).toEqual('12:30 AM');
       expect(meridies.item(0)).toHaveCssClass('sky-btn-active');
 
       flushTimers();
     }));
 
     it('should toggle PM and set active css', fakeAsync(() => {
-      component.timeFormat = 'hh';
+      fixture.componentRef.setInput('timeFormat', 'hh');
       fixture.detectChanges();
       tick();
 
@@ -455,7 +457,7 @@ describe('Timepicker', () => {
       meridies.item(1).click();
 
       expect(getInput(fixture).value).toBe('12:30 PM');
-      expect(component.selectedTime?.local).toEqual('12:30 PM');
+      expect(component.selectedTime()?.local).toEqual('12:30 PM');
       expect(meridies.item(1)).toHaveCssClass('sky-btn-active');
 
       // Test 1:30 PM
@@ -464,7 +466,7 @@ describe('Timepicker', () => {
       meridies.item(1).click();
 
       expect(getInput(fixture).value).toBe('1:30 PM');
-      expect(component.selectedTime?.local).toEqual('1:30 PM');
+      expect(component.selectedTime()?.local).toEqual('1:30 PM');
       expect(meridies.item(1)).toHaveCssClass('sky-btn-active');
 
       flushTimers();
@@ -568,7 +570,7 @@ describe('Timepicker', () => {
       detectChangesAndTick(fixture);
 
       const newDate = moment({ hour: 12, minute: 30 }).toDate();
-      component.selectedTime = {
+      fixture.componentRef.setInput('selectedTime', {
         hour: 12,
         minute: 30,
         meridie: 'PM',
@@ -576,11 +578,11 @@ describe('Timepicker', () => {
         iso8601: newDate,
         local: '12:30 PM',
         customFormat: 'h:mm A',
-      };
+      });
       detectChangesAndTick(fixture);
 
       expect(getInput(fixture).value).toBe('12:30 PM');
-      expect(component.selectedTime?.local).toEqual('12:30 PM');
+      expect(component.selectedTime()?.local).toEqual('12:30 PM');
     }));
 
     it('should update model when input value is changed', fakeAsync(() => {
@@ -589,7 +591,7 @@ describe('Timepicker', () => {
       setInput('2:55 AM', fixture);
 
       expect(getInput(fixture).value).toBe('2:55 AM');
-      expect(component.selectedTime?.local).toEqual('2:55 AM');
+      expect(component.selectedTime()?.local).toEqual('2:55 AM');
     }));
 
     it('should highlight the minute that is the passed multiple of five in the 12 hour picker', fakeAsync(() => {
@@ -606,7 +608,7 @@ describe('Timepicker', () => {
     }));
 
     it('should highlight the minute that is the passed multiple of fifteen in the 24 hour picker ', fakeAsync(() => {
-      component.timeFormat = 'HH';
+      fixture.componentRef.setInput('timeFormat', 'HH');
       detectChangesAndTick(fixture);
       setInput('02:23', fixture);
       openTimepicker(fixture);
@@ -622,7 +624,7 @@ describe('Timepicker', () => {
     it('should handle undefined date', fakeAsync(() => {
       detectChangesAndTick(fixture);
 
-      component.selectedTime = undefined;
+      fixture.componentRef.setInput('selectedTime', undefined);
       fixture.detectChanges();
 
       expect(getInput(fixture).value).toBe('');
@@ -635,13 +637,13 @@ describe('Timepicker', () => {
       const ngModel = inputElement.injector.get(NgModel);
 
       setInput('2:30 PM', fixture);
-      component.required = true;
+      fixture.componentRef.setInput('required', true);
       fixture.detectChanges();
 
       expect(ngModel.valid).toEqual(true);
       expect(getInput(fixture)).not.toHaveCssClass('ng-invalid');
 
-      component.selectedTime = undefined;
+      fixture.componentRef.setInput('selectedTime', undefined);
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -653,7 +655,7 @@ describe('Timepicker', () => {
 
     it('should properly set disabled state on input and trigger button', fakeAsync(() => {
       detectChangesAndTick(fixture);
-      component.disabled = true;
+      fixture.componentRef.setInput('disabled', true);
       detectChangesAndTick(fixture);
 
       expect(fixture.componentInstance.timepicker.disabled).toBeTruthy();
@@ -665,7 +667,7 @@ describe('Timepicker', () => {
       ).toBeTruthy();
       expect(getTriggerButton(fixture).disabled).toBeTruthy();
 
-      component.disabled = false;
+      fixture.componentRef.setInput('disabled', false);
       fixture.detectChanges();
 
       expect(fixture.componentInstance.timepicker.disabled).toBeFalsy();
@@ -869,7 +871,7 @@ describe('Timepicker', () => {
     }));
 
     it('should set the calendar button to a default aria label when input box easy mode is not used', fakeAsync(() => {
-      fixture.componentInstance.labelText = '';
+      fixture.componentRef.setInput('labelText', '');
       detectChangesAndTick(fixture);
 
       const pickerButton = fixture.nativeElement.querySelector(

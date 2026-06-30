@@ -1,6 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ValidationErrors } from '@angular/forms';
 import {
@@ -24,11 +24,11 @@ import { SkyFormErrorsHarness } from './form-errors-harness';
       [touched]="true"
       [dirty]="true"
       [labelText]="errorText"
-      [errors]="errors"
+      [errors]="errors()"
     >
-      @if (customErrorName) {
+      @if (customErrorName()) {
         <sky-form-error
-          [errorName]="customErrorName"
+          [errorName]="customErrorName() ?? ''"
           errorText="Custom error"
         />
       }
@@ -44,8 +44,8 @@ import { SkyFormErrorsHarness } from './form-errors-harness';
 })
 class TestComponent {
   public errorText: string | undefined = 'Form';
-  public errors: ValidationErrors | undefined;
-  public customErrorName: string | undefined;
+  public errors = signal<ValidationErrors | undefined>(undefined);
+  public customErrorName = signal<string | undefined>(undefined);
 }
 //#endregion Test component
 
@@ -96,7 +96,7 @@ describe('Form errors harness', () => {
 
     await expectAsync(formErrorsHarness.getFormErrors()).toBeResolvedTo([]);
 
-    fixture.componentInstance.errors = {
+    fixture.componentInstance.errors.set({
       required: true,
       minlength: true,
       maxlength: true,
@@ -105,7 +105,7 @@ describe('Form errors harness', () => {
       skyPhoneField: true,
       skyTime: true,
       skyUrl: true,
-    };
+    });
     fixture.detectChanges();
 
     await expectAsync(formErrorsHarness.getFormErrors()).toBeResolvedTo([
@@ -125,7 +125,7 @@ describe('Form errors harness', () => {
   it('should return custom errors', async () => {
     const { formErrorsHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.customErrorName = 'custom';
+    fixture.componentInstance.customErrorName.set('custom');
     fixture.detectChanges();
 
     await expectAsync(formErrorsHarness.hasError('custom')).toBeResolvedTo(

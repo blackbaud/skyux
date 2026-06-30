@@ -2,7 +2,7 @@
   @for (item of items; track item.header; let first = $first) {
     <sky-action-button
       [permalink]="item.permalink"
-      [style.height]="first ? firstButtonHeight : ''"
+      [style.height]="first ? firstButtonHeight() : ''"
     >
       <sky-action-button-header>{{ item.header }}</sky-action-button-header>
       <sky-action-button-details>{{ item.details }}</sky-action-button-details>

@@ -1,5 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   SkyInlineFormButtonLayout,
@@ -14,8 +14,8 @@ import { SkyInlineFormHarness } from './inline-form-harness';
   template: `
     <sky-inline-form
       data-sky-id="inline-form-test"
-      [config]="config"
-      [showForm]="showForm"
+      [config]="config()"
+      [showForm]="showForm()"
       [template]="inlineFormTest"
       (close)="onClose()"
     >
@@ -27,15 +27,15 @@ import { SkyInlineFormHarness } from './inline-form-harness';
   `,
 })
 class TestComponent {
-  public config: SkyInlineFormConfig = {
+  public config = signal<SkyInlineFormConfig>({
     buttonLayout: SkyInlineFormButtonLayout.DoneCancel,
-  };
-  public showForm = false;
+  });
+  public showForm = signal(false);
   public onClose(): void {
-    this.showForm = false;
+    this.showForm.set(false);
   }
   public onOpen(): void {
-    this.showForm = true;
+    this.showForm.set(true);
   }
 }
 
@@ -118,7 +118,7 @@ describe('Inline form harness', () => {
   it('should get buttons that matches the given filters', async () => {
     const { inlineFormHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.config = {
+    fixture.componentInstance.config.set({
       buttonLayout: SkyInlineFormButtonLayout.Custom,
       buttons: [
         {
@@ -132,7 +132,7 @@ describe('Inline form harness', () => {
           action: 'cancel',
         },
       ],
-    };
+    });
     fixture.detectChanges();
     fixture.componentInstance.onOpen();
     fixture.detectChanges();
@@ -211,7 +211,7 @@ describe('Inline form harness', () => {
     it('should get the button style type', async () => {
       const { inlineFormHarness, fixture } = await setupTest();
 
-      fixture.componentInstance.config = {
+      fixture.componentInstance.config.set({
         buttonLayout: SkyInlineFormButtonLayout.Custom,
         buttons: [
           {
@@ -230,7 +230,7 @@ describe('Inline form harness', () => {
             action: 'delete',
           },
         ],
-      };
+      });
       fixture.detectChanges();
       fixture.componentInstance.onOpen();
       fixture.detectChanges();
@@ -245,7 +245,7 @@ describe('Inline form harness', () => {
     it('should get whether the button is disabled', async () => {
       const { inlineFormHarness, fixture } = await setupTest();
 
-      fixture.componentInstance.config = {
+      fixture.componentInstance.config.set({
         buttonLayout: SkyInlineFormButtonLayout.Custom,
         buttons: [
           {
@@ -260,7 +260,7 @@ describe('Inline form harness', () => {
             action: 'cancel',
           },
         ],
-      };
+      });
       fixture.detectChanges();
       fixture.componentInstance.onOpen();
       fixture.detectChanges();

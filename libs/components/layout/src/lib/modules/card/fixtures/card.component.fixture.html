@@ -1,18 +1,18 @@
 <sky-card
-  [selectable]="showCheckbox"
-  [size]="cardSize"
+  [selectable]="showCheckbox()"
+  [size]="cardSize()"
   [(selected)]="cardSelected"
 >
-  @if (showTitle) {
+  @if (showTitle()) {
     <sky-card-title> Title </sky-card-title>
   }
   <sky-card-content> Content </sky-card-content>
-  @if (showActions) {
+  @if (showActions()) {
     <sky-card-actions>
       <button type="button" class="btn btn-default">Button</button>
     </sky-card-actions>
   }
-  @if (showDelete) {
+  @if (showDelete()) {
     <sky-inline-delete />
   }
 </sky-card>

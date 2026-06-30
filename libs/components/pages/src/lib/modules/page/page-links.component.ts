@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
  * Displays page links on the right side of the page, or below the page content
@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'sky-page-links',
   template: '<ng-content />',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: `
     :host {
       display: var(--sky-layout-host-links-display, block);

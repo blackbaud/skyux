@@ -18,6 +18,7 @@ test.ts
 CHANGELOG.md
 
 /.nx/cache
+/.nx/self-healing
 /.nx/workspace-data
 
 *.template

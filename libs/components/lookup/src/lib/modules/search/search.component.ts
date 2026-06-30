@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   DestroyRef,
@@ -38,6 +39,7 @@ const EXPAND_MODE_NONE = 'none';
   styleUrls: ['./search.component.scss'],
   encapsulation: ViewEncapsulation.None,
   providers: [SkySearchAdapterService],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {

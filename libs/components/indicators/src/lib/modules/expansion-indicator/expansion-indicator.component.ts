@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 /**
@@ -10,6 +10,7 @@ import { SkyThemeComponentClassDirective } from '@skyux/theme';
   styleUrls: ['./expansion-indicator.component.scss'],
   templateUrl: './expansion-indicator.component.html',
   hostDirectives: [SkyThemeComponentClassDirective],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyExpansionIndicatorComponent {

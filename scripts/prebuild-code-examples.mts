@@ -10,9 +10,13 @@ void (async () => {
   const codeExampleRoutesFile =
     'libs/components/code-examples/routes/src/index.ts';
 
+  const barrelContent = tree.read(codeExampleBarrelFile, 'utf8');
+  if (!barrelContent) {
+    throw new Error(`Could not read ${codeExampleBarrelFile}`);
+  }
   const codeExampleBarrelSource = ts.createSourceFile(
     codeExampleBarrelFile,
-    tree.read(codeExampleBarrelFile, 'utf8'),
+    barrelContent,
     ts.ScriptTarget.Latest,
   );
   const codeExamples = codeExampleBarrelSource
@@ -20,14 +24,16 @@ void (async () => {
     .flatMap((node) => node.getChildren())
     .filter(
       (node): node is ts.ExportDeclaration =>
-        ts.isExportDeclaration(node) && ts.isNamedExports(node.exportClause),
+        ts.isExportDeclaration(node) &&
+        node.exportClause !== undefined &&
+        ts.isNamedExports(node.exportClause),
     )
-    .flatMap(({ exportClause }): string[] =>
-      exportClause.elements
+    .flatMap((node): string[] => {
+      const exportClause = node.exportClause as ts.NamedExports;
+      return exportClause.elements
         .filter(ts.isExportSpecifier)
-        .map((element): ts.Identifier => element.propertyName ?? element.name)
-        .map((identifier): string => identifier.text),
-    )
+        .map((element): string => (element.propertyName ?? element.name).text);
+    })
     .filter(Boolean);
   if (codeExamples.length === 0) {
     throw new Error(`No code examples found for ${codeExampleBarrelFile}`);

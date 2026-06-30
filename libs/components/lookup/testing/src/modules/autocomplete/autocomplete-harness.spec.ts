@@ -346,7 +346,10 @@ describe('Autocomplete harness', () => {
         dataSkyId: 'my-autocomplete-1',
       });
 
-      fixture.componentInstance.ariaLabelledby = 'autocomplete-aria-labelledby';
+      fixture.componentRef.setInput(
+        'ariaLabelledby',
+        'autocomplete-aria-labelledby',
+      );
       fixture.detectChanges();
 
       await expectAsync(autocompleteHarness.getAriaLabelledby()).toBeResolvedTo(
@@ -360,8 +363,10 @@ describe('Autocomplete harness', () => {
           dataSkyId: 'my-autocomplete-1',
         });
 
-      fixture.componentInstance.noResultFoundText =
-        'No search results were found.';
+      fixture.componentRef.setInput(
+        'noResultFoundText',
+        'No search results were found.',
+      );
       fixture.detectChanges();
 
       await autocompleteInputHarness?.setValue('z');
@@ -378,8 +383,10 @@ describe('Autocomplete harness', () => {
           dataSkyId: 'my-autocomplete-1',
         });
 
-      fixture.componentInstance.noResultFoundText =
-        'No search results were found.';
+      fixture.componentRef.setInput(
+        'noResultFoundText',
+        'No search results were found.',
+      );
       fixture.detectChanges();
 
       await autocompleteInputHarness?.setValue('d');
@@ -397,8 +404,10 @@ describe('Autocomplete harness', () => {
         dataSkyId: 'my-autocomplete-1',
       });
 
-      fixture.componentInstance.noResultFoundText =
-        'No search results were found.';
+      fixture.componentRef.setInput(
+        'noResultFoundText',
+        'No search results were found.',
+      );
       fixture.detectChanges();
 
       await expectAsync(
@@ -450,8 +459,8 @@ describe('Autocomplete harness', () => {
       const myHarness = await loader.getHarness(MyExtendsAutocompleteHarness);
       const myHarnessInputHarness = await myHarness.getControl();
 
-      fixture.componentInstance.enableShowMore = false;
-      fixture.componentInstance.showAddButton = false;
+      fixture.componentRef.setInput('enableShowMore', false);
+      fixture.componentRef.setInput('showAddButton', false);
 
       await myHarnessInputHarness.setValue('r');
 

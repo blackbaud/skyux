@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 import { SkyRadioType } from '../types/radio-type';
 
@@ -7,6 +7,6 @@ import { SkyRadioType } from '../types/radio-type';
   standalone: false,
 })
 export class SkySingleRadioComponent {
-  public iconName = 'add';
-  public radioType: SkyRadioType | undefined;
+  public iconName = input<string>('add');
+  public radioType = input<SkyRadioType | undefined>(undefined);
 }

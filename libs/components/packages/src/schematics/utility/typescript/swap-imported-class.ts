@@ -1,11 +1,11 @@
 import { UpdateRecorder } from '@angular-devkit/schematics';
-import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 import { findNodes, insertImport } from '@schematics/angular/utility/ast-utils';
 import {
   InsertChange,
   applyToUpdateRecorder,
 } from '@schematics/angular/utility/change';
 import { getEOL } from '@schematics/angular/utility/eol';
+import ts from 'typescript';
 
 import { isImportedFromPackage } from './ng-ast';
 import { removeImport } from './remove-import';

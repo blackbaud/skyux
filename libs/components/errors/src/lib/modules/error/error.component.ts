@@ -1,4 +1,10 @@
-import { Component, HostBinding, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { SkyErrorType } from './error-type';
@@ -12,6 +18,7 @@ import { SkyErrorService } from './error.service';
   styleUrls: ['./error.component.scss'],
   templateUrl: './error.component.html',
   providers: [SkyErrorService],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyErrorComponent implements OnInit {

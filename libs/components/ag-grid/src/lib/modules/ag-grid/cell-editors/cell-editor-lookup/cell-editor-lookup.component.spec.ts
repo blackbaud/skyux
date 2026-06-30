@@ -295,9 +295,9 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
       });
 
       it('should respond to focus changes', fakeAsync(() => {
-        (elementRef.nativeElement.matches as jasmine.Spy).and.returnValue(
-          false,
-        );
+        (
+          elementRef.nativeElement.matches as unknown as jasmine.Spy
+        ).and.returnValue(false);
         component.agInit({
           ...(cellEditorParams as ICellEditorParams),
         });
@@ -322,9 +322,9 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
       }));
 
       it('should respond to selection modal', fakeAsync(() => {
-        (elementRef.nativeElement.matches as jasmine.Spy).and.returnValue(
-          false,
-        );
+        (
+          elementRef.nativeElement.matches as unknown as jasmine.Spy
+        ).and.returnValue(false);
         component.agInit({
           ...(cellEditorParams as ICellEditorParams),
         });

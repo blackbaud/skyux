@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 import { SkyActionHubRecentLinksResolvePipe } from '../action-hub/action-hub-recent-links-resolve.pipe';
 import { SkyRecentLinksInput } from '../action-hub/types/recent-links-input';
@@ -15,6 +15,7 @@ import { SkyPagesResourcesModule } from '../shared/sky-pages-resources.module';
     SkyLinkListComponent,
     SkyPagesResourcesModule,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <sky-link-list
       [links]="recentLinks() | skyActionHubRecentLinksResolve"

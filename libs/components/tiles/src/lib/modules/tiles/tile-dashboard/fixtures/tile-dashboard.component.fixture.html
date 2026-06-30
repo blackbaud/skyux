@@ -1,5 +1,6 @@
 <sky-tile-dashboard
   [messageStream]="messageStream"
-  [settingsKey]="settingsKey"
-  [(config)]="dashboardConfig"
+  [settingsKey]="settingsKey()"
+  [config]="dashboardConfig()"
+  (configChange)="dashboardConfig.set($event)"
 />

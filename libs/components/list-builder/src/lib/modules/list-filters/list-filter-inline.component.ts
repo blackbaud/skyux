@@ -1,5 +1,6 @@
 import {
   AfterContentInit,
+  ChangeDetectionStrategy,
   Component,
   ContentChildren,
   QueryList,
@@ -23,6 +24,7 @@ import { SkyListFilterInlineModel } from './list-filter-inline.model';
 @Component({
   selector: 'sky-list-filter-inline',
   templateUrl: './list-filter-inline.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyListFilterInlineComponent implements AfterContentInit {

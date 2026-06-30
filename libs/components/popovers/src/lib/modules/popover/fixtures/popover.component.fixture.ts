@@ -1,4 +1,14 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  ViewChild,
+  WritableSignal,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 
 import { Subject } from 'rxjs';
 
@@ -17,14 +27,17 @@ import { SkyPopoverTrigger } from '../types/popover-trigger';
   standalone: false,
 })
 export class PopoverFixtureComponent implements AfterViewInit {
+  readonly #changeDetectorRef = inject(ChangeDetectorRef);
+
   //#region directive properties
 
-  public alignment: SkyPopoverAlignment | undefined;
+  public alignment = input<SkyPopoverAlignment | undefined>(undefined);
 
-  public messageStream: Subject<SkyPopoverMessage> | undefined =
-    new Subject<SkyPopoverMessage>();
+  public messageStream = input<Subject<SkyPopoverMessage> | undefined>(
+    new Subject<SkyPopoverMessage>(),
+  );
 
-  public placement: SkyPopoverPlacement | undefined;
+  public placement = input<SkyPopoverPlacement | undefined>(undefined);
 
   public popoverAlignment: SkyPopoverAlignment | undefined;
 
@@ -32,7 +45,8 @@ export class PopoverFixtureComponent implements AfterViewInit {
 
   public popoverTitle: string | undefined;
 
-  public skyPopover: SkyPopoverComponent | undefined;
+  public skyPopover: WritableSignal<SkyPopoverComponent | undefined> =
+    signal(undefined);
 
   public trigger: SkyPopoverTrigger | undefined;
 
@@ -66,12 +80,14 @@ export class PopoverFixtureComponent implements AfterViewInit {
 
   public showFocusableChildren: boolean | undefined;
 
-  public popoverType: 'info' | 'danger' | undefined;
+  public popoverType = input<'info' | 'danger' | undefined>(undefined);
 
   public ngAfterViewInit(): void {
     // Avoid expression changed after checked errors in unit tests.
+    // Signal write auto-marks the OnPush fixture dirty so the binding
+    // propagates to the directive on the next detectChanges call.
     setTimeout(() => {
-      this.skyPopover = this.popoverRef;
+      this.skyPopover.set(this.popoverRef);
     });
   }
 
@@ -80,10 +96,11 @@ export class PopoverFixtureComponent implements AfterViewInit {
   public onPopoverOpened(): void {}
 
   public sendMessage(messageType: SkyPopoverMessageType): void {
-    this.messageStream?.next({ type: messageType });
+    this.messageStream()?.next({ type: messageType });
   }
 
   public setHeight(height: number): void {
     this.height = height;
+    this.#changeDetectorRef.markForCheck();
   }
 }

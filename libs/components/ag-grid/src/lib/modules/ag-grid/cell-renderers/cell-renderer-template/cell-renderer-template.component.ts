@@ -1,5 +1,11 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, Signal, TemplateRef, isSignal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Signal,
+  TemplateRef,
+  isSignal,
+} from '@angular/core';
 
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
@@ -34,6 +40,7 @@ type CellState =
         *ngTemplateOutlet="state.template; context: state.context"
       />
     }`,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgTemplateOutlet],
 })
 export class SkyAgGridCellRendererTemplateComponent implements ICellRendererAngularComp {

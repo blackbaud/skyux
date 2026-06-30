@@ -1,14 +1,14 @@
 <form [formGroup]="formGroup">
   <sky-field-group
-    [stacked]="stacked"
-    [headingText]="headingText"
-    [hintText]="hintText"
-    [headingHidden]="headingHidden"
-    [headingStyle]="headingStyle"
-    [headingLevel]="headingLevel"
-    [helpKey]="helpKey"
-    [helpPopoverContent]="helpPopoverContent"
-    [helpPopoverTitle]="helpPopoverTitle"
+    [stacked]="stacked()"
+    [headingText]="headingText()"
+    [hintText]="hintText()"
+    [headingHidden]="headingHidden()"
+    [headingStyle]="headingStyle()"
+    [headingLevel]="headingLevel()"
+    [helpKey]="helpKey()"
+    [helpPopoverContent]="helpPopoverContent()"
+    [helpPopoverTitle]="helpPopoverTitle()"
   >
     <sky-input-box labelText="Name">
       <input type="text" formControlName="name" />

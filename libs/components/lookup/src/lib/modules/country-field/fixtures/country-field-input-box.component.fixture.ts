@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyInputBoxModule } from '@skyux/forms';
 
@@ -11,7 +11,7 @@ import { SkyCountryFieldCountry } from '../types/country';
   templateUrl: './country-field-input-box.component.fixture.html',
 })
 export class CountryFieldInputBoxTestComponent {
-  public hintText: string | undefined;
+  public hintText = input<string | undefined>(undefined);
   public modelValue: SkyCountryFieldCountry | undefined;
 
   public countryChanged(country: SkyCountryFieldCountry): void {

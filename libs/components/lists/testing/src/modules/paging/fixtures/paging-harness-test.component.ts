@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { SkyDescriptionListModule } from '@skyux/layout';
 import {
   SkyPagingContentChangeArgs,
@@ -104,19 +104,19 @@ const people = [
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PagingHarnessTestComponent {
-  public pageSize = 5;
-  public maxPages = 3;
+  public pageSize = input(5);
+  public maxPages = input(3);
   protected currentPage = 1;
   protected contentChange = new Subject<SkyPagingContentChangeArgs>();
 
   protected pagedData = this.contentChange.pipe(
     switchMap((args) => {
-      const startIndex = (args.currentPage - 1) * this.pageSize;
+      const startIndex = (args.currentPage - 1) * this.pageSize();
 
       args.loadingComplete();
 
       return of({
-        people: people.slice(startIndex, startIndex + this.pageSize),
+        people: people.slice(startIndex, startIndex + this.pageSize()),
         totalCount: people.length,
       });
     }),

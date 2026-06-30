@@ -11,17 +11,6 @@
       "outputs": [
         "{workspaceRoot}/dist/libs/components/list-builder-view-checklist"
       ],
-      "options": {
-        "project": "libs/components/list-builder-view-checklist/ng-package.json"
-      },
-      "configurations": {
-        "production": {
-          "tsConfig": "libs/components/list-builder-view-checklist/tsconfig.lib.prod.json"
-        },
-        "development": {
-          "tsConfig": "libs/components/list-builder-view-checklist/tsconfig.lib.json"
-        }
-      },
       "defaultConfiguration": "production",
       "dependsOn": [
         "^build",
@@ -36,10 +25,21 @@
         "{workspaceRoot}/libs/components/list-builder-view-checklist/testing/src/**/*",
         "!{workspaceRoot}/libs/components/list-builder-view-checklist/testing/src/**/*.spec.ts",
         "!{workspaceRoot}/libs/components/list-builder-view-checklist/testing/src/**/fixtures/**/*"
-      ]
+      ],
+      "options": {
+        "project": "libs/components/list-builder-view-checklist/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/components/list-builder-view-checklist/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/components/list-builder-view-checklist/tsconfig.lib.json"
+        }
+      }
     },
     "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+      "executor": "@angular/build:karma",
       "options": {
         "tsConfig": "libs/components/list-builder-view-checklist/tsconfig.spec.json",
         "karmaConfig": "libs/components/list-builder-view-checklist/karma.conf.js",

@@ -14,7 +14,7 @@ function validateCardSelected(
   const selectedEl = cardEl.querySelector('.sky-card.sky-card-selected');
 
   if (selected) {
-    expect(cmp.cardSelected).toBe(true);
+    expect(cmp.cardSelected()).toBe(true);
     expect(selectedEl).not.toBeNull();
   } else {
     expect(selectedEl).toBeNull();
@@ -37,7 +37,7 @@ describe('Card component', () => {
   });
 
   it('should place the individual components in their respective placeholders', () => {
-    cmp.showActions = true;
+    fixture.componentRef.setInput('showActions', true);
 
     fixture.detectChanges();
 
@@ -51,7 +51,7 @@ describe('Card component', () => {
   });
 
   it('should add the appropriate CSS class for small cards', () => {
-    cmp.cardSize = 'small';
+    fixture.componentRef.setInput('cardSize', 'small');
 
     fixture.detectChanges();
 
@@ -99,7 +99,7 @@ describe('Card component', () => {
   });
 
   it('should only emit the selectedChange event if the checkbox changes to a new value', () => {
-    cmp.cardSelected = true;
+    fixture.componentRef.setInput('cardSelected', true);
 
     fixture.detectChanges();
 
@@ -123,7 +123,7 @@ describe('Card component', () => {
   });
 
   it('should not allow clicking the card to select it when it is not selectable', () => {
-    cmp.showCheckbox = false;
+    fixture.componentRef.setInput('showCheckbox', false);
     fixture.detectChanges();
 
     validateCardSelected(cmp, el, false);
@@ -136,7 +136,7 @@ describe('Card component', () => {
   });
 
   it('should not allow a call to the onCheckboxChange function to select it when it is not selectable', () => {
-    cmp.showCheckbox = false;
+    fixture.componentRef.setInput('showCheckbox', false);
     fixture.detectChanges();
 
     validateCardSelected(cmp, el, false);
@@ -155,16 +155,16 @@ describe('Card component', () => {
   it('should hide the header properly when title is removed', () => {
     fixture.detectChanges();
 
-    cmp.showTitle = false;
+    fixture.componentRef.setInput('showTitle', false);
     // set undefined for coverage
-    cmp.showCheckbox = undefined;
+    fixture.componentRef.setInput('showCheckbox', undefined);
     fixture.detectChanges();
 
     expect(el.querySelector('.sky-card-header')).toBeNull();
   });
 
   it('should be accessible when not selectable', async () => {
-    cmp.showCheckbox = false;
+    fixture.componentRef.setInput('showCheckbox', false);
     fixture.detectChanges();
     await fixture.whenStable();
     await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -177,14 +177,14 @@ describe('Card component', () => {
   });
 
   it('should be accessible when title is removed', async () => {
-    cmp.showTitle = false;
+    fixture.componentRef.setInput('showTitle', false);
     fixture.detectChanges();
     await fixture.whenStable();
     await expectAsync(fixture.nativeElement).toBeAccessible();
   });
 
   it('should set the inline delete to the card style when initially added', async () => {
-    cmp.showDelete = true;
+    fixture.componentRef.setInput('showDelete', true);
     fixture.detectChanges();
     await fixture.whenStable();
     expect(el.querySelector('sky-inline-delete')).not.toBeNull();
@@ -200,7 +200,7 @@ describe('Card component', () => {
     expect(el.querySelector('sky-inline-delete')).toBeNull();
     expect(cmp.card.inlineDeleteComponent?.length).toBe(0);
 
-    cmp.showDelete = true;
+    fixture.componentRef.setInput('showDelete', true);
     fixture.detectChanges();
     await fixture.whenStable();
     expect(el.querySelector('sky-inline-delete')).not.toBeNull();

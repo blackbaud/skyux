@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyModalInstance } from '@skyux/modals';
 
 import { SkyColumnSelectorContext } from './column-selector-context';
@@ -6,6 +6,7 @@ import { SkyColumnSelectorContext } from './column-selector-context';
 @Component({
   selector: 'sky-column-selector',
   templateUrl: './column-selector-modal.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyColumnSelectorComponent {

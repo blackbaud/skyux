@@ -41,7 +41,7 @@ describe('Status indicator component', () => {
   ): void {
     let statusIndicatorEl;
     if (indicatorType) {
-      fixture.componentInstance.indicatorType = indicatorType;
+      fixture.componentRef.setInput('indicatorType', indicatorType);
 
       fixture.detectChanges();
 
@@ -64,7 +64,7 @@ describe('Status indicator component', () => {
     descriptionType: string,
     expectedDescription?: string,
   ): void {
-    fixture.componentInstance.descriptionType = descriptionType;
+    fixture.componentRef.setInput('descriptionType', descriptionType);
 
     fixture.detectChanges();
 
@@ -98,7 +98,7 @@ describe('Status indicator component', () => {
 
   it('should display the expected text', () => {
     const fixture = TestBed.createComponent(StatusIndicatorTestComponent);
-    fixture.componentInstance.descriptionType = 'none';
+    fixture.componentRef.setInput('descriptionType', 'none');
 
     fixture.detectChanges();
 
@@ -114,7 +114,7 @@ describe('Status indicator component', () => {
 
   it('should display the expected icon', () => {
     const fixture = TestBed.createComponent(StatusIndicatorTestComponent);
-    fixture.componentInstance.descriptionType = 'none';
+    fixture.componentRef.setInput('descriptionType', 'none');
 
     validateIcon(fixture, undefined, 'warning');
 
@@ -126,8 +126,8 @@ describe('Status indicator component', () => {
 
   it('should display the expected inline help', () => {
     const fixture = TestBed.createComponent(StatusIndicatorTestComponent);
-    fixture.componentInstance.descriptionType = 'none';
-    fixture.componentInstance.showHelp = true;
+    fixture.componentRef.setInput('descriptionType', 'none');
+    fixture.componentRef.setInput('showHelp', true);
 
     fixture.detectChanges();
 
@@ -146,13 +146,13 @@ describe('Status indicator component', () => {
 
   it('should add the expected screen reader description based on `descriptionType`', () => {
     const fixture = TestBed.createComponent(StatusIndicatorTestComponent);
-    fixture.componentInstance.customDescription = 'Custom description';
+    fixture.componentRef.setInput('customDescription', 'Custom description');
 
     validateDescription(fixture, 'completed', 'Completed:');
     validateDescription(
       fixture,
       'custom',
-      fixture.componentInstance.customDescription,
+      fixture.componentInstance.customDescription(),
     );
     validateDescription(fixture, 'error', 'Error:');
     validateDescription(fixture, 'important-info', 'Important information:');
@@ -167,8 +167,8 @@ describe('Status indicator component', () => {
 
   it('should be accessible', async () => {
     const fixture = TestBed.createComponent(StatusIndicatorTestComponent);
-    fixture.componentInstance.customDescription = 'Custom description';
-    fixture.componentInstance.descriptionType = 'custom';
+    fixture.componentRef.setInput('customDescription', 'Custom description');
+    fixture.componentRef.setInput('descriptionType', 'custom');
 
     fixture.detectChanges();
 

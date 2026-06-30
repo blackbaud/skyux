@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, input } from '@angular/core';
 
 import { SkyAffixAutoFitContext } from '../affix-auto-fit-context';
 import { SkyAffixHorizontalAlignment } from '../affix-horizontal-alignment';
@@ -18,21 +18,25 @@ import { SkyAffixDirective } from '../affix.directive';
 export class AffixFixtureComponent {
   // #region directive properties
 
-  public autoFitContext: SkyAffixAutoFitContext | undefined;
+  public autoFitContext = input<SkyAffixAutoFitContext | undefined>(undefined);
 
-  public autoFitOverflowOffset: SkyAffixOffset | undefined;
+  public autoFitOverflowOffset = input<SkyAffixOffset | undefined>(undefined);
 
-  public enableAutoFit: boolean | undefined;
+  public enableAutoFit = input<boolean | undefined>(undefined);
 
-  public horizontalAlignment: SkyAffixHorizontalAlignment | undefined;
+  public horizontalAlignment = input<SkyAffixHorizontalAlignment | undefined>(
+    undefined,
+  );
 
-  public isSticky: boolean | undefined;
+  public isSticky = input<boolean | undefined>(undefined);
 
-  public placement: SkyAffixPlacement | undefined;
+  public placement = input<SkyAffixPlacement | undefined>(undefined);
 
-  public verticalAlignment: SkyAffixVerticalAlignment | undefined;
+  public verticalAlignment = input<SkyAffixVerticalAlignment | undefined>(
+    undefined,
+  );
 
-  public position: SkyAffixPosition | undefined;
+  public position = input<SkyAffixPosition | undefined>(undefined);
 
   // #endregion
 
@@ -60,11 +64,11 @@ export class AffixFixtureComponent {
   })
   public baseRef!: ElementRef;
 
-  public enableLargerBaseElement = false;
+  public enableLargerBaseElement = input<boolean>(false);
 
-  public enableOverflowParent = false;
+  public enableOverflowParent = input<boolean>(false);
 
-  public enablePositionedParent = false;
+  public enablePositionedParent = input<boolean>(false);
 
   public onAffixOffsetChange(): void {}
 
@@ -119,7 +123,7 @@ export class AffixFixtureComponent {
     const top = baseElement.offsetTop;
     const left = baseElement.offsetLeft;
 
-    if (this.enableOverflowParent) {
+    if (this.enableOverflowParent()) {
       const overflowParent: HTMLDivElement =
         this.overflowParentRef.nativeElement;
       overflowParent.scrollTop =

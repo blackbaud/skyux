@@ -1,5 +1,4 @@
 import { Rule, Tree, UpdateRecorder, chain } from '@angular-devkit/schematics';
-import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 import { ExistingBehavior, addDependency } from '@schematics/angular/utility';
 import {
   findNodes,
@@ -9,6 +8,7 @@ import {
 import { Change, InsertChange } from '@schematics/angular/utility/change';
 import { getEOL } from '@schematics/angular/utility/eol';
 import { applyChangesToFile } from '@schematics/angular/utility/standalone/util';
+import ts from 'typescript';
 
 import { dirname, join, normalize } from 'node:path';
 

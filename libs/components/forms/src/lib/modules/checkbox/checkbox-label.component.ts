@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
  * Specifies a label for the checkbox. To display a help button beside the label, include a help button element, such as
@@ -9,6 +9,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'sky-checkbox-label',
   templateUrl: './checkbox-label.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyCheckboxLabelComponent {}

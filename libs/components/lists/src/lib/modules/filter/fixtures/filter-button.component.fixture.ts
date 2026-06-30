@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 import { SkyTheme, SkyThemeMode, SkyThemeSettings } from '@skyux/theme';
 
 @Component({
@@ -7,30 +7,30 @@ import { SkyTheme, SkyThemeMode, SkyThemeSettings } from '@skyux/theme';
   standalone: false,
 })
 export class FilterButtonTestComponent {
-  public filtersActive = false;
-  public showButtonText = false;
-  public buttonClicked = false;
-  public buttonId: string | undefined;
-  public ariaExpanded: boolean | undefined;
-  public ariaControls: string | undefined;
-  public ariaLabel: string | undefined;
-  public skyThemeSettings!: SkyThemeSettings;
+  public filtersActive = input<boolean>(false);
+  public showButtonText = input<boolean>(false);
+  public buttonId = input<string | undefined>(undefined);
+  public ariaExpanded = input<boolean | undefined>(undefined);
+  public ariaControls = input<string | undefined>(undefined);
+  public ariaLabel = input<string | undefined>(undefined);
+  public skyThemeSettings = signal<SkyThemeSettings>(
+    new SkyThemeSettings(SkyTheme.presets.default, SkyThemeMode.presets.light),
+  );
 
-  constructor() {
-    this.useDefaultTheme();
-  }
+  public buttonClicked = false;
 
   public useDefaultTheme(): void {
-    this.skyThemeSettings = new SkyThemeSettings(
-      SkyTheme.presets.default,
-      SkyThemeMode.presets.light,
+    this.skyThemeSettings.set(
+      new SkyThemeSettings(
+        SkyTheme.presets.default,
+        SkyThemeMode.presets.light,
+      ),
     );
   }
 
   public useModernTheme(): void {
-    this.skyThemeSettings = new SkyThemeSettings(
-      SkyTheme.presets.modern,
-      SkyThemeMode.presets.light,
+    this.skyThemeSettings.set(
+      new SkyThemeSettings(SkyTheme.presets.modern, SkyThemeMode.presets.light),
     );
   }
 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
  * A wrapper for an item to be rendered in `SkyDataManagerToolbarComponent`. The contents are
@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
  */
 @Component({
   selector: 'sky-data-manager-toolbar-right-item',
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './data-manager-toolbar-right-item.component.html',
 })
 export class SkyDataManagerToolbarRightItemComponent {}

@@ -165,9 +165,9 @@ describe('Phone Field Component', () => {
     programmaticIso2 = '',
   ): void {
     if (programmaticIso2) {
-      compFixture.componentInstance.selectedCountry = {
+      compFixture.componentRef.setInput('selectedCountry', {
         iso2: programmaticIso2,
-      };
+      });
     } else {
       const countryInput = getCountrySearchToggleButton(compFixture);
       countryInput.click();
@@ -301,7 +301,7 @@ describe('Phone Field Component', () => {
 
     describe('initialization', () => {
       it('should initialize the default country correctly', fakeAsync(() => {
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('defaultCountry', 'us');
         detectChangesAndTick(fixture);
 
         checkCountrySearchToggleButtonFlag('us', fixture);
@@ -314,10 +314,10 @@ describe('Phone Field Component', () => {
       }));
 
       it('should initialize with a selected country', fakeAsync(() => {
-        component.selectedCountry = {
+        fixture.componentRef.setInput('selectedCountry', {
           iso2: 'de',
           name: 'Germany',
-        };
+        });
         detectChangesAndTick(fixture);
 
         checkCountrySearchToggleButtonFlag('de', fixture);
@@ -337,7 +337,7 @@ describe('Phone Field Component', () => {
       }));
 
       it('should handle initializing with number', fakeAsync(() => {
-        component.modelValue = '6675555309';
+        fixture.componentRef.setInput('modelValue', '6675555309');
         detectChangesAndTick(fixture);
 
         expect(nativeElement.querySelector('input')?.value).toBe('6675555309');
@@ -373,7 +373,7 @@ describe('Phone Field Component', () => {
 
         setInput(nativeElement, '6675555309', fixture);
         expect(nativeElement.querySelector('input')?.value).toBe('6675555309');
-        expect(component.modelValue).toEqual('(667) 555-5309');
+        expect(component.modelValue()).toEqual('(667) 555-5309');
       }));
 
       it('should handle input change with a string with the expected format after initially only having a change event', fakeAsync(() => {
@@ -385,7 +385,7 @@ describe('Phone Field Component', () => {
 
         setInput(nativeElement, '6675555309', fixture);
         expect(nativeElement.querySelector('input')?.value).toBe('6675555309');
-        expect(component.modelValue).toEqual('(667) 555-5309');
+        expect(component.modelValue()).toEqual('(667) 555-5309');
       }));
 
       it('should handle input change with a string with the an unexpected format', fakeAsync(() => {
@@ -393,14 +393,14 @@ describe('Phone Field Component', () => {
 
         setInput(nativeElement, '66755-5-309', fixture);
         expect(nativeElement.querySelector('input')?.value).toBe('66755-5-309');
-        expect(component.modelValue).toEqual('66755-5-309');
+        expect(component.modelValue()).toEqual('66755-5-309');
       }));
     });
 
     describe('model change', () => {
       it('should handle model change with a valid number', fakeAsync(() => {
         fixture.detectChanges();
-        component.modelValue = '6675555309';
+        fixture.componentRef.setInput('modelValue', '6675555309');
         detectChangesAndTick(fixture);
 
         expect(nativeElement.querySelector('input')?.value).toBe('6675555309');
@@ -413,19 +413,19 @@ describe('Phone Field Component', () => {
 
         setInput(nativeElement, '6675555309', fixture);
         expect(nativeElement.querySelector('input')?.value).toBe('6675555309');
-        expect(component.modelValue).toEqual('(667) 555-5309');
+        expect(component.modelValue()).toEqual('(667) 555-5309');
       }));
 
       it('should correctly format a number on a non-default country when no return format is given', fakeAsync(() => {
-        component.selectedCountry = {
+        fixture.componentRef.setInput('selectedCountry', {
           iso2: 'au',
           name: 'Australia',
-        };
+        });
         detectChangesAndTick(fixture);
 
         setInput(nativeElement, '0212345678', fixture);
         expect(nativeElement.querySelector('input')?.value).toBe('0212345678');
-        expect(component.modelValue).toEqual('+61 2 1234 5678');
+        expect(component.modelValue()).toEqual('+61 2 1234 5678');
       }));
 
       it('should correctly format a number on the default country when the default return format is given', fakeAsync(() => {
@@ -434,20 +434,20 @@ describe('Phone Field Component', () => {
 
         setInput(nativeElement, '6675555309', fixture);
         expect(nativeElement.querySelector('input')?.value).toBe('6675555309');
-        expect(component.modelValue).toEqual('(667) 555-5309');
+        expect(component.modelValue()).toEqual('(667) 555-5309');
       }));
 
       it('should correctly format a number on a non-default country when the default return format is given', fakeAsync(() => {
         component.returnFormat = 'default';
-        component.selectedCountry = {
+        fixture.componentRef.setInput('selectedCountry', {
           iso2: 'au',
           name: 'Australia',
-        };
+        });
         detectChangesAndTick(fixture);
 
         setInput(nativeElement, '0212345678', fixture);
         expect(nativeElement.querySelector('input')?.value).toBe('0212345678');
-        expect(component.modelValue).toEqual('+61 2 1234 5678');
+        expect(component.modelValue()).toEqual('+61 2 1234 5678');
       }));
 
       it('should correctly format a number on the default country when the national return format is given', fakeAsync(() => {
@@ -456,20 +456,20 @@ describe('Phone Field Component', () => {
 
         setInput(nativeElement, '6675555309', fixture);
         expect(nativeElement.querySelector('input')?.value).toBe('6675555309');
-        expect(component.modelValue).toEqual('(667) 555-5309');
+        expect(component.modelValue()).toEqual('(667) 555-5309');
       }));
 
       it('should correctly format a number on a non-default country when the national return format is given', fakeAsync(() => {
         component.returnFormat = 'national';
-        component.selectedCountry = {
+        fixture.componentRef.setInput('selectedCountry', {
           iso2: 'au',
           name: 'Australia',
-        };
+        });
         detectChangesAndTick(fixture);
 
         setInput(nativeElement, '0212345678', fixture);
         expect(nativeElement.querySelector('input')?.value).toBe('0212345678');
-        expect(component.modelValue).toEqual('(02) 1234 5678');
+        expect(component.modelValue()).toEqual('(02) 1234 5678');
       }));
 
       it('should correctly format a number on the default country when the national return format is given', fakeAsync(() => {
@@ -478,20 +478,20 @@ describe('Phone Field Component', () => {
 
         setInput(nativeElement, '6675555309', fixture);
         expect(nativeElement.querySelector('input')?.value).toBe('6675555309');
-        expect(component.modelValue).toEqual('+1 667-555-5309');
+        expect(component.modelValue()).toEqual('+1 667-555-5309');
       }));
 
       it('should correctly format a number on a non-default country when the national return format is given', fakeAsync(() => {
         component.returnFormat = 'international';
-        component.selectedCountry = {
+        fixture.componentRef.setInput('selectedCountry', {
           iso2: 'au',
           name: 'Australia',
-        };
+        });
         detectChangesAndTick(fixture);
 
         setInput(nativeElement, '0212345678', fixture);
         expect(nativeElement.querySelector('input')?.value).toBe('0212345678');
-        expect(component.modelValue).toEqual('+61 2 1234 5678');
+        expect(component.modelValue()).toEqual('+61 2 1234 5678');
       }));
     });
 
@@ -505,7 +505,7 @@ describe('Phone Field Component', () => {
       });
 
       it('should validate properly when invalid number is passed through input change', async () => {
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('defaultCountry', 'us');
         fixture.detectChanges();
         await fixture.whenStable();
         fixture.detectChanges();
@@ -517,8 +517,8 @@ describe('Phone Field Component', () => {
       });
 
       it('should validate properly when invalid number on initialization', async () => {
-        component.modelValue = '1234';
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('modelValue', '1234');
+        fixture.componentRef.setInput('defaultCountry', 'us');
         fixture.detectChanges();
         await fixture.whenStable();
         fixture.detectChanges();
@@ -532,8 +532,8 @@ describe('Phone Field Component', () => {
       });
 
       it('should validate properly when invalid number format on initialization', async () => {
-        component.modelValue = '667-555-530';
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('modelValue', '667-555-530');
+        fixture.componentRef.setInput('defaultCountry', 'us');
         fixture.detectChanges();
         await fixture.whenStable();
         fixture.detectChanges();
@@ -561,8 +561,8 @@ describe('Phone Field Component', () => {
       });
 
       it('should validate properly when valid number format on initialization', async () => {
-        component.modelValue = '667-555-5309';
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('modelValue', '667-555-5309');
+        fixture.componentRef.setInput('defaultCountry', 'us');
         fixture.detectChanges();
         await fixture.whenStable();
         fixture.detectChanges();
@@ -590,12 +590,12 @@ describe('Phone Field Component', () => {
       });
 
       it('should validate properly when invalid number on model change', async () => {
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('defaultCountry', 'us');
         fixture.detectChanges();
         await fixture.whenStable();
         fixture.detectChanges();
 
-        component.modelValue = '1234';
+        fixture.componentRef.setInput('modelValue', '1234');
 
         fixture.detectChanges();
         await fixture.whenStable();
@@ -603,7 +603,7 @@ describe('Phone Field Component', () => {
       });
 
       it('should validate properly when input changed to empty string', async () => {
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('defaultCountry', 'us');
         fixture.detectChanges();
         await fixture.whenStable();
         fixture.detectChanges();
@@ -623,7 +623,7 @@ describe('Phone Field Component', () => {
       });
 
       it('should handle invalid and then valid number', async () => {
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('defaultCountry', 'us');
         fixture.detectChanges();
         await fixture.whenStable();
 
@@ -662,7 +662,7 @@ describe('Phone Field Component', () => {
       });
 
       it('should validate properly when a valid number with an extension is given and extensions are allowed', async () => {
-        component.modelValue = '667-555-5309ext3';
+        fixture.componentRef.setInput('modelValue', '667-555-5309ext3');
         fixture.detectChanges();
 
         await fixture.whenStable();
@@ -677,8 +677,8 @@ describe('Phone Field Component', () => {
       });
 
       it('should validate properly when a valid number with an extension is given and extensions are not allowed', async () => {
-        component.allowExtensions = false;
-        component.modelValue = '667-555-5309ext3';
+        fixture.componentRef.setInput('allowExtensions', false);
+        fixture.componentRef.setInput('modelValue', '667-555-5309ext3');
         fixture.detectChanges();
 
         await fixture.whenStable();
@@ -693,7 +693,7 @@ describe('Phone Field Component', () => {
       });
 
       it('should not mark the input dirty when validation fails while the field is still active', async () => {
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('defaultCountry', 'us');
         fixture.detectChanges();
         await fixture.whenStable();
 
@@ -777,9 +777,9 @@ describe('Phone Field Component', () => {
         const inputElement = fixture.debugElement.query(By.css('input'));
         const ngModel = inputElement.injector.get(NgModel);
 
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('defaultCountry', 'us');
         fixture.detectChanges();
-        component.modelValue = '6675555309';
+        fixture.componentRef.setInput('modelValue', '6675555309');
         detectChangesAndTick(fixture);
 
         validateInputAndModel(
@@ -808,9 +808,9 @@ describe('Phone Field Component', () => {
         const inputElement = fixture.debugElement.query(By.css('input'));
         const ngModel = inputElement.injector.get(NgModel);
 
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('defaultCountry', 'us');
         fixture.detectChanges();
-        component.modelValue = '6675555309';
+        fixture.componentRef.setInput('modelValue', '6675555309');
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -825,7 +825,7 @@ describe('Phone Field Component', () => {
           fixture,
         );
 
-        component.modelValue = '+3556675555309';
+        fixture.componentRef.setInput('modelValue', '+3556675555309');
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -849,9 +849,9 @@ describe('Phone Field Component', () => {
         const inputElement = fixture.debugElement.query(By.css('input'));
         const ngModel = inputElement.injector.get(NgModel);
 
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('defaultCountry', 'us');
         fixture.detectChanges();
-        component.modelValue = '6675555309';
+        fixture.componentRef.setInput('modelValue', '6675555309');
         detectChangesAndTick(fixture);
 
         validateInputAndModel(
@@ -885,10 +885,10 @@ describe('Phone Field Component', () => {
         const inputElement = fixture.debugElement.query(By.css('input'));
         const ngModel = inputElement.injector.get(NgModel);
 
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('defaultCountry', 'us');
         component.supportedCountryISOs = ['us'];
         fixture.detectChanges();
-        component.modelValue = '6675555309';
+        fixture.componentRef.setInput('modelValue', '6675555309');
         detectChangesAndTick(fixture);
 
         validateInputAndModel(
@@ -922,10 +922,10 @@ describe('Phone Field Component', () => {
         const inputElement = fixture.debugElement.query(By.css('input'));
         const ngModel = inputElement.injector.get(NgModel);
 
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('defaultCountry', 'us');
         component.supportedCountryISOs = ['us'];
         fixture.detectChanges();
-        component.modelValue = '6675555309';
+        fixture.componentRef.setInput('modelValue', '6675555309');
         detectChangesAndTick(fixture);
 
         validateInputAndModel(
@@ -952,9 +952,9 @@ describe('Phone Field Component', () => {
         const inputElement = fixture.debugElement.query(By.css('input'));
         const ngModel = inputElement.injector.get(NgModel);
 
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('defaultCountry', 'us');
         fixture.detectChanges();
-        component.modelValue = '6675555309';
+        fixture.componentRef.setInput('modelValue', '6675555309');
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -994,9 +994,9 @@ describe('Phone Field Component', () => {
         const inputElement = fixture.debugElement.query(By.css('input'));
         const ngModel = inputElement.injector.get(NgModel);
 
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('defaultCountry', 'us');
         fixture.detectChanges();
-        component.modelValue = '6675555309';
+        fixture.componentRef.setInput('modelValue', '6675555309');
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -1030,13 +1030,13 @@ describe('Phone Field Component', () => {
         const inputElement = fixture.debugElement.query(By.css('input'));
         const ngModel = inputElement.injector.get(NgModel);
 
-        component.defaultCountry = 'ca';
-        component.selectedCountry = {
+        fixture.componentRef.setInput('defaultCountry', 'ca');
+        fixture.componentRef.setInput('selectedCountry', {
           iso2: 'gb',
           name: 'Great Britain',
-        };
+        });
         fixture.detectChanges();
-        component.modelValue = '8008675309';
+        fixture.componentRef.setInput('modelValue', '8008675309');
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -1070,13 +1070,13 @@ describe('Phone Field Component', () => {
         const inputElement = fixture.debugElement.query(By.css('input'));
         const ngModel = inputElement.injector.get(NgModel);
 
-        component.defaultCountry = 'ca';
-        component.selectedCountry = {
+        fixture.componentRef.setInput('defaultCountry', 'ca');
+        fixture.componentRef.setInput('selectedCountry', {
           iso2: 'us',
           name: 'United States',
-        };
+        });
         fixture.detectChanges();
-        component.modelValue = '8008675309';
+        fixture.componentRef.setInput('modelValue', '8008675309');
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -1110,13 +1110,13 @@ describe('Phone Field Component', () => {
         const inputElement = fixture.debugElement.query(By.css('input'));
         const ngModel = inputElement.injector.get(NgModel);
 
-        component.defaultCountry = 'au';
-        component.selectedCountry = {
+        fixture.componentRef.setInput('defaultCountry', 'au');
+        fixture.componentRef.setInput('selectedCountry', {
           iso2: 'gb',
           name: 'Great Britain',
-        };
+        });
         fixture.detectChanges();
-        component.modelValue = '8008675309';
+        fixture.componentRef.setInput('modelValue', '8008675309');
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -1159,13 +1159,13 @@ describe('Phone Field Component', () => {
           }
         }
 
-        component.defaultCountry = 'au';
-        component.selectedCountry = {
+        fixture.componentRef.setInput('defaultCountry', 'au');
+        fixture.componentRef.setInput('selectedCountry', {
           iso2: 'gb',
           name: 'Great Britain',
-        };
+        });
         fixture.detectChanges();
-        component.modelValue = '8008675309';
+        fixture.componentRef.setInput('modelValue', '8008675309');
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -1199,9 +1199,9 @@ describe('Phone Field Component', () => {
         const inputElement = fixture.debugElement.query(By.css('input'));
         const ngModel = inputElement.injector.get(NgModel);
 
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('defaultCountry', 'us');
         fixture.detectChanges();
-        component.modelValue = '6675555309';
+        fixture.componentRef.setInput('modelValue', '6675555309');
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -1216,7 +1216,7 @@ describe('Phone Field Component', () => {
           fixture,
         );
 
-        component.modelValue = '+12045555555';
+        fixture.componentRef.setInput('modelValue', '+12045555555');
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -1240,9 +1240,9 @@ describe('Phone Field Component', () => {
         const inputElement = fixture.debugElement.query(By.css('input'));
         const ngModel = inputElement.injector.get(NgModel);
 
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('defaultCountry', 'us');
         fixture.detectChanges();
-        component.modelValue = '6675555309';
+        fixture.componentRef.setInput('modelValue', '6675555309');
         detectChangesAndTick(fixture);
 
         validateInputAndModel(
@@ -1265,7 +1265,7 @@ describe('Phone Field Component', () => {
           fixture,
         );
 
-        component.modelValue = '024569874';
+        fixture.componentRef.setInput('modelValue', '024569874');
         detectChangesAndTick(fixture);
 
         validateInputAndModel(
@@ -1284,12 +1284,12 @@ describe('Phone Field Component', () => {
         const ngModel = inputElement.injector.get(NgModel);
 
         // Non-US tenant.
-        component.defaultCountry = 'au';
+        fixture.componentRef.setInput('defaultCountry', 'au');
         fixture.detectChanges();
 
         // Enter a US number while a non-US country is selected.
         setCountry('France', fixture);
-        component.modelValue = '6675555309';
+        fixture.componentRef.setInput('modelValue', '6675555309');
         detectChangesAndTick(fixture);
 
         // Switching to the US reformats the existing number with the +1 country
@@ -1311,9 +1311,9 @@ describe('Phone Field Component', () => {
         const inputElement = fixture.debugElement.query(By.css('input'));
         const ngModel = inputElement.injector.get(NgModel);
 
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('defaultCountry', 'us');
         fixture.detectChanges();
-        component.modelValue = '6675555309';
+        fixture.componentRef.setInput('modelValue', '6675555309');
         detectChangesAndTick(fixture);
 
         validateInputAndModel(
@@ -1336,7 +1336,7 @@ describe('Phone Field Component', () => {
           fixture,
         );
 
-        component.modelValue = '024569874';
+        fixture.componentRef.setInput('modelValue', '024569874');
         detectChangesAndTick(fixture);
 
         validateInputAndModel(
@@ -1354,7 +1354,7 @@ describe('Phone Field Component', () => {
         const inputElement = fixture.debugElement.query(By.css('input'));
         const ngModel = inputElement.injector.get(NgModel);
 
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('defaultCountry', 'us');
         fixture.detectChanges();
         fixture.detectChanges();
         tick();
@@ -1363,7 +1363,7 @@ describe('Phone Field Component', () => {
 
         setCountry('Albania', fixture);
 
-        component.modelValue = '024569874';
+        fixture.componentRef.setInput('modelValue', '024569874');
         detectChangesAndTick(fixture);
 
         validateInputAndModel(
@@ -1528,14 +1528,14 @@ describe('Phone Field Component', () => {
 
     describe('initialization', () => {
       it('should initialize the default country correctly', fakeAsync(() => {
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('defaultCountry', 'us');
         detectChangesAndTick(fixture);
 
         checkCountrySearchToggleButtonFlag('us', fixture);
       }));
 
       it('should initialize the default country correctly with capitalized code', fakeAsync(() => {
-        component.defaultCountry = 'AU';
+        fixture.componentRef.setInput('defaultCountry', 'AU');
         detectChangesAndTick(fixture);
 
         checkCountrySearchToggleButtonFlag('au', fixture);
@@ -1548,10 +1548,10 @@ describe('Phone Field Component', () => {
       }));
 
       it('should initialize with a selected country', fakeAsync(() => {
-        component.selectedCountry = {
+        fixture.componentRef.setInput('selectedCountry', {
           iso2: 'de',
           name: 'Germany',
-        };
+        });
         detectChangesAndTick(fixture);
 
         checkCountrySearchToggleButtonFlag('de', fixture);
@@ -1669,10 +1669,10 @@ describe('Phone Field Component', () => {
       }));
 
       it('should correctly format a number on a non-default country when no return format is given', fakeAsync(() => {
-        component.selectedCountry = {
+        fixture.componentRef.setInput('selectedCountry', {
           iso2: 'au',
           name: 'Australia',
-        };
+        });
         detectChangesAndTick(fixture);
 
         setInput(nativeElement, '0212345678', fixture);
@@ -1691,10 +1691,10 @@ describe('Phone Field Component', () => {
 
       it('should correctly format a number on a non-default country when the default return format is given', fakeAsync(() => {
         component.returnFormat = 'default';
-        component.selectedCountry = {
+        fixture.componentRef.setInput('selectedCountry', {
           iso2: 'au',
           name: 'Australia',
-        };
+        });
         detectChangesAndTick(fixture);
 
         setInput(nativeElement, '0212345678', fixture);
@@ -1713,10 +1713,10 @@ describe('Phone Field Component', () => {
 
       it('should correctly format a number on a non-default country when the national return format is given', fakeAsync(() => {
         component.returnFormat = 'national';
-        component.selectedCountry = {
+        fixture.componentRef.setInput('selectedCountry', {
           iso2: 'au',
           name: 'Australia',
-        };
+        });
         detectChangesAndTick(fixture);
 
         setInput(nativeElement, '0212345678', fixture);
@@ -1735,10 +1735,10 @@ describe('Phone Field Component', () => {
 
       it('should correctly format a number on a non-default country when the national return format is given', fakeAsync(() => {
         component.returnFormat = 'international';
-        component.selectedCountry = {
+        fixture.componentRef.setInput('selectedCountry', {
           iso2: 'au',
           name: 'Australia',
-        };
+        });
         detectChangesAndTick(fixture);
 
         setInput(nativeElement, '0212345678', fixture);
@@ -1749,7 +1749,7 @@ describe('Phone Field Component', () => {
 
     describe('validation', () => {
       it('should validate properly when invalid number is passed through input change', fakeAsync(() => {
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('defaultCountry', 'us');
         fixture.detectChanges();
         tick();
         setInput(nativeElement, '123', fixture);
@@ -1768,7 +1768,7 @@ describe('Phone Field Component', () => {
 
       it('should validate properly when invalid number on initialization', fakeAsync(() => {
         component.initialValue = '1234';
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('defaultCountry', 'us');
         detectChangesAndTick(fixture);
 
         validateInputAndModel(
@@ -1794,7 +1794,7 @@ describe('Phone Field Component', () => {
 
       it('should validate properly when invalid number format on initialization', fakeAsync(() => {
         component.initialValue = '667-555-530';
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('defaultCountry', 'us');
         detectChangesAndTick(fixture);
 
         validateInputAndModel(
@@ -1820,7 +1820,7 @@ describe('Phone Field Component', () => {
 
       it('should validate properly when valid number format on initialization', fakeAsync(() => {
         component.initialValue = '667-555-5309';
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('defaultCountry', 'us');
         detectChangesAndTick(fixture);
         validateInputAndModel(
           '667-555-5309',
@@ -1844,7 +1844,7 @@ describe('Phone Field Component', () => {
       }));
 
       it('should validate properly when invalid number on model change', fakeAsync(() => {
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('defaultCountry', 'us');
         detectChangesAndTick(fixture);
 
         component.phoneControl?.setValue('1234');
@@ -1862,7 +1862,7 @@ describe('Phone Field Component', () => {
       }));
 
       it('should validate properly when input changed to empty string', fakeAsync(() => {
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('defaultCountry', 'us');
         detectChangesAndTick(fixture);
 
         setInput(fixture.nativeElement, '1234', fixture);
@@ -1882,7 +1882,7 @@ describe('Phone Field Component', () => {
       }));
 
       it('should handle invalid and then valid number', fakeAsync(() => {
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('defaultCountry', 'us');
         detectChangesAndTick(fixture);
 
         setInput(fixture.nativeElement, '1234', fixture);
@@ -1939,7 +1939,7 @@ describe('Phone Field Component', () => {
 
       it('should validate properly when a valid number with an extension is given and extensions are not allowed', async () => {
         component.initialValue = '667-555-5309ext3';
-        component.allowExtensions = false;
+        fixture.componentRef.setInput('allowExtensions', false);
         fixture.detectChanges();
 
         await fixture.whenStable();
@@ -1955,7 +1955,7 @@ describe('Phone Field Component', () => {
 
       it('should validate properly when a number is invalid for the current country but valid for another country with the same dial code', fakeAsync(() => {
         component.initialValue = '8675558309';
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('defaultCountry', 'us');
         detectChangesAndTick(fixture);
 
         validateInputAndModel(
@@ -1969,7 +1969,7 @@ describe('Phone Field Component', () => {
       }));
 
       it('should not mark the input dirty when validation fails while the field is still active', fakeAsync(() => {
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('defaultCountry', 'us');
         detectChangesAndTick(fixture);
 
         const phoneFieldInput = getPhoneFieldInput(fixture);
@@ -2072,7 +2072,7 @@ describe('Phone Field Component', () => {
 
       it('should revalidate after the country is changed', fakeAsync(() => {
         fixture.detectChanges();
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('defaultCountry', 'us');
         fixture.detectChanges();
         component.phoneControl?.setValue('6675555309');
         detectChangesAndTick(fixture);
@@ -2100,7 +2100,7 @@ describe('Phone Field Component', () => {
 
       it('should change to a new country based on a passed in dial code on a model change', fakeAsync(() => {
         fixture.detectChanges();
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('defaultCountry', 'us');
         fixture.detectChanges();
         component.phoneControl?.setValue('6675555309');
         fixture.detectChanges();
@@ -2138,7 +2138,7 @@ describe('Phone Field Component', () => {
 
       it('should change to a new country based on a passed in dial code on a input change', fakeAsync(() => {
         fixture.detectChanges();
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('defaultCountry', 'us');
         fixture.detectChanges();
         component.phoneControl?.setValue('6675555309');
         fixture.detectChanges();
@@ -2177,7 +2177,7 @@ describe('Phone Field Component', () => {
 
       it('should not change to a new country when the dial code is for an unsupported country', fakeAsync(() => {
         fixture.detectChanges();
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('defaultCountry', 'us');
         component.supportedCountryISOs = ['us'];
         fixture.detectChanges();
         component.phoneControl?.setValue('6675555309');
@@ -2217,7 +2217,7 @@ describe('Phone Field Component', () => {
 
       it('should not change to a new country when the dial code is not found', fakeAsync(() => {
         fixture.detectChanges();
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('defaultCountry', 'us');
         fixture.detectChanges();
         component.phoneControl?.setValue('6675555309');
         fixture.detectChanges();
@@ -2254,7 +2254,7 @@ describe('Phone Field Component', () => {
       it('should change to a new country and not error when only the dial code is given', fakeAsync(() => {
         fixture.detectChanges();
 
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('defaultCountry', 'us');
         fixture.detectChanges();
         component.phoneControl?.setValue('6675555309');
         fixture.detectChanges();
@@ -2290,7 +2290,7 @@ describe('Phone Field Component', () => {
 
       it('should validate correctly after country is changed', fakeAsync(() => {
         fixture.detectChanges();
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('defaultCountry', 'us');
         fixture.detectChanges();
         component.phoneControl?.setValue('6675555309');
         detectChangesAndTick(fixture);
@@ -2330,7 +2330,7 @@ describe('Phone Field Component', () => {
 
       it('should validate correctly after country is changed programmatically', fakeAsync(() => {
         fixture.detectChanges();
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('defaultCountry', 'us');
         fixture.detectChanges();
         component.phoneControl?.setValue('6675555309');
         detectChangesAndTick(fixture);
@@ -2370,7 +2370,7 @@ describe('Phone Field Component', () => {
 
       it('should add the country code to non-default country data', fakeAsync(() => {
         fixture.detectChanges();
-        component.defaultCountry = 'us';
+        fixture.componentRef.setInput('defaultCountry', 'us');
         detectChangesAndTick(fixture);
 
         setCountry('Albania', fixture);

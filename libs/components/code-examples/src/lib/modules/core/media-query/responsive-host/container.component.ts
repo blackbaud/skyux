@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyMediaQueryService, SkyResponsiveHostDirective } from '@skyux/core';
 
@@ -13,6 +13,7 @@ import { SkyMediaQueryService, SkyResponsiveHostDirective } from '@skyux/core';
       max-width: 800px;
     }
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <p>Breakpoint within container: {{ breakpoint() }}</p>
     <ng-content />

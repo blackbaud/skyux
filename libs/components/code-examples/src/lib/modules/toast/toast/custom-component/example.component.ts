@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyToastService, SkyToastType } from '@skyux/toast';
 
 import { CustomToastContext } from './custom-context';
@@ -9,6 +9,7 @@ import { CustomToastComponent } from './custom-toast.component';
  */
 @Component({
   selector: 'app-toast-custom-component-example',
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './example.component.html',
 })
 export class ToastCustomComponentExampleComponent {

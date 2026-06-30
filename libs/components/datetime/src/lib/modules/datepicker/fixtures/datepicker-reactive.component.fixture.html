@@ -4,14 +4,14 @@
       id="dateInput"
       formControlName="date"
       skyDatepickerInput
-      [dateFormat]="dateFormat"
-      [disabled]="isDisabled"
-      [skyDatepickerNoValidate]="noValidate"
-      [minDate]="minDate"
-      [maxDate]="maxDate"
-      [startAtDate]="startAtDate"
-      [startingDay]="startingDay"
-      [strict]="strict"
+      [dateFormat]="dateFormat()"
+      [disabled]="isDisabled()"
+      [skyDatepickerNoValidate]="noValidate()"
+      [minDate]="minDate()"
+      [maxDate]="maxDate()"
+      [startAtDate]="startAtDate()"
+      [startingDay]="startingDay()"
+      [strict]="strict()"
     />
   </sky-datepicker>
 </form>

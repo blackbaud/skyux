@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -28,6 +29,7 @@ import { SkyYearPickerComponent } from './yearpicker.component';
   ],
   selector: 'sky-datepicker-calendar',
   styleUrl: './datepicker-calendar.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './datepicker-calendar.component.html',
 })
 export class SkyDatepickerCalendarComponent {

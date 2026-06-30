@@ -83,7 +83,7 @@ describe('Selection box grid component', () => {
   });
 
   it('should set proper CSS classes when alignItems is set to center', () => {
-    component.alignItems = 'center';
+    fixture.componentRef.setInput('alignItems', 'center');
     fixture.detectChanges();
 
     expect(getSelectionBoxGrid()).not.toHaveCssClass(
@@ -95,7 +95,7 @@ describe('Selection box grid component', () => {
   });
 
   it('should set proper CSS classes when alignItems is set to left', () => {
-    component.alignItems = 'left';
+    fixture.componentRef.setInput('alignItems', 'left');
     fixture.detectChanges();
 
     expect(getSelectionBoxGrid()).not.toHaveCssClass(
@@ -159,10 +159,10 @@ describe('Selection box grid component', () => {
     );
 
     setResponsiveClassSpy.calls.reset();
-    component.render = false;
+    fixture.componentRef.setInput('render', false);
     fixture.detectChanges();
 
-    component.render = true;
+    fixture.componentRef.setInput('render', true);
     fixture.detectChanges();
 
     expect(setResponsiveClassSpy).toHaveBeenCalledWith(

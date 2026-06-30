@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
 
 /**
@@ -7,6 +7,7 @@ import { SkyStatusIndicatorModule } from '@skyux/indicators';
 @Component({
   selector: 'app-indicators-status-indicator-help-key-example',
   templateUrl: './example.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyStatusIndicatorModule],
 })
 export class IndicatorsStatusIndicatorHelpKeyExampleComponent {}

@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   templateUrl: './page-summary.component.fixture.html',
   standalone: false,
 })
 export class SkyPageSummaryTestComponent {
-  public showKeyInfo = true;
+  public showKeyInfo = input<boolean>(true);
 }

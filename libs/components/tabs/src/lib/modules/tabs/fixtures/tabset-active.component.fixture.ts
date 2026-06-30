@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input, model } from '@angular/core';
 
 @Component({
   selector: 'sky-test-cmp',
@@ -14,21 +14,21 @@ export class TabsetActiveTestComponent {
 
   public tab2Content: string | undefined;
 
-  public tab2Available = true;
+  public tab2Available = input<boolean>(true);
 
-  public tab1Available = true;
+  public tab1Available = input<boolean>(true);
 
   public tab3Heading = 'Tab 3';
 
   public tab3Content: string | undefined;
 
-  public tab3Available = true;
+  public tab3Available = input<boolean>(true);
 
-  public activeIndex: string | number | undefined = 0;
+  public activeIndex = model<string | number | undefined>(0);
 
   public tabMaxWidth = 2000;
 
-  public tab4Available = true;
+  public tab4Available = input<boolean>(true);
   public tab4Heading = 'Tab 4';
   public tab4Content: string | undefined;
 
@@ -37,6 +37,6 @@ export class TabsetActiveTestComponent {
   public openTab() {}
 
   public tabChanged(newTab: any) {
-    this.activeIndex = newTab;
+    this.activeIndex.set(newTab);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, input, model } from '@angular/core';
 
 import { SkyDatepickerCalendarComponent } from '../calendar/datepicker-calendar.component';
 import { SkyDatepickerCustomDate } from '../datepicker-custom-date';
@@ -9,17 +9,17 @@ import { SkyDatepickerCustomDate } from '../datepicker-custom-date';
   standalone: false,
 })
 export class DatepickerCalendarTestComponent {
-  public customDates: SkyDatepickerCustomDate[] | undefined;
+  public customDates = input<SkyDatepickerCustomDate[] | undefined>(undefined);
 
-  public minDate: Date | undefined;
+  public minDate = input<Date | undefined>(undefined);
 
-  public maxDate: Date | undefined;
+  public maxDate = input<Date | undefined>(undefined);
 
-  public startAtDate: Date | undefined;
+  public startAtDate = input<Date | undefined>(undefined);
 
-  public selectedDate: any;
+  public selectedDate = model<any>(undefined);
 
-  public startingDay: number | undefined;
+  public startingDay = input<number | undefined>(undefined);
 
   @ViewChild(SkyDatepickerCalendarComponent)
   public datepicker!: SkyDatepickerCalendarComponent;

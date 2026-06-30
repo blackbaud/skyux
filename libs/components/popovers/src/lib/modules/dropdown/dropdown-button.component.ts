@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
  * Specifies the button for the dropdown menu.
@@ -6,6 +6,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'sky-dropdown-button',
   templateUrl: './dropdown-button.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyDropdownButtonComponent {}

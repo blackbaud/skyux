@@ -85,13 +85,13 @@ describe('Repeater harness', () => {
       dataSkyId: 'my-basic-repeater',
     });
 
-    fixture.componentInstance.activeIndex = 0;
+    fixture.componentRef.setInput('activeIndex', 0);
 
     const items = await repeaterHarness.getRepeaterItems();
 
     await items[1].click();
 
-    expect(fixture.componentInstance.activeIndex).toBe(1);
+    expect(fixture.componentInstance.activeIndex()).toBe(1);
   });
 
   it('should select and deselect an item', async () => {
@@ -103,7 +103,7 @@ describe('Repeater harness', () => {
 
     await expectAsync(items[0].isSelectable()).toBeResolvedTo(false);
 
-    fixture.componentInstance.selectable = true;
+    fixture.componentRef.setInput('selectable', true);
 
     const item = items[0];
 
@@ -148,7 +148,7 @@ describe('Repeater harness', () => {
 
     await expectAsync(item.isCollapsible()).toBeResolvedTo(false);
 
-    fixture.componentInstance.expandMode = 'multi';
+    fixture.componentRef.setInput('expandMode', 'multi');
 
     await expectAsync(item.isCollapsible()).toBeResolvedTo(true);
 
@@ -198,7 +198,7 @@ describe('Repeater harness', () => {
       'Could not send to top because the repeater is not reorderable.',
     );
 
-    fixture.componentInstance.reorderable = true;
+    fixture.componentRef.setInput('reorderable', true);
 
     await expectAsync(item.isReorderable()).toBeResolvedTo(true);
     await expectAsync(item.sendToTop()).toBeResolved();
@@ -303,8 +303,8 @@ describe('Repeater harness', () => {
       dataSkyId: 'my-basic-repeater',
     });
 
-    fixture.componentInstance.selectable = true;
-    fixture.componentInstance.disabled = true;
+    fixture.componentRef.setInput('selectable', true);
+    fixture.componentRef.setInput('disabled', true);
     fixture.detectChanges();
 
     const items = await repeaterHarness.getRepeaterItems();
@@ -318,7 +318,7 @@ describe('Repeater harness', () => {
       dataSkyId: 'my-basic-repeater',
     });
 
-    fixture.componentInstance.ariaLabel = 'Test Repeater Aria Label';
+    fixture.componentRef.setInput('ariaLabel', 'Test Repeater Aria Label');
     fixture.detectChanges();
 
     await expectAsync(repeaterHarness.getAriaLabel()).toBeResolvedTo(
@@ -331,7 +331,7 @@ describe('Repeater harness', () => {
       dataSkyId: 'my-basic-repeater',
     });
 
-    fixture.componentInstance.disabled = true;
+    fixture.componentRef.setInput('disabled', true);
     fixture.detectChanges();
 
     const items = await repeaterHarness.getRepeaterItems();

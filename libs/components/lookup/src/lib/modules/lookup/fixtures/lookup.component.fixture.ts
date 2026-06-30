@@ -1,4 +1,4 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, TemplateRef, ViewChild, model } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormControl,
@@ -74,7 +74,7 @@ export class SkyLookupTestComponent {
 
   public propertiesToSearch: string[] | undefined;
 
-  public selectMode: SkyLookupSelectModeType | undefined;
+  public selectMode = model<SkyLookupSelectModeType | undefined>(undefined);
 
   public showAddButton: boolean | undefined = false;
 
@@ -217,7 +217,7 @@ export class SkyLookupTestComponent {
   }
 
   public setMultiSelect(): void {
-    this.selectMode = 'multiple';
+    this.selectMode.set('multiple');
   }
 
   public setRequired(): void {
@@ -234,7 +234,7 @@ export class SkyLookupTestComponent {
   }
 
   public setSingleSelect(): void {
-    this.selectMode = 'single';
+    this.selectMode.set('single');
   }
 
   public setValue(index: number): void {

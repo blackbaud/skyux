@@ -55,7 +55,7 @@ let nextId = 0;
   styleUrls: ['./flyout.component.scss'],
   providers: [SkyFlyoutAdapterService],
   // Allow automatic change detection for child components.
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     A11yModule,
     CommonModule,

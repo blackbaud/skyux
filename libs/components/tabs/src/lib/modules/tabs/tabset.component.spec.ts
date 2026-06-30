@@ -181,17 +181,16 @@ describe('Tabset component', () => {
 
   it('should set the tabs style correctly', () => {
     const fixture = TestBed.createComponent(TabsetTestComponent);
-    const cmp: TabsetTestComponent = fixture.componentInstance;
     fixture.detectChanges();
     const tabset = getTabset(fixture);
 
     expect(tabset.classList).toContain('sky-tabset-style-tabs');
 
-    cmp.tabStyle = undefined;
+    fixture.componentRef.setInput('tabStyle', undefined);
     fixture.detectChanges();
     expect(tabset.classList).toContain('sky-tabset-style-tabs');
 
-    cmp.tabStyle = 'wizard';
+    fixture.componentRef.setInput('tabStyle', 'wizard');
     fixture.detectChanges();
     expect(tabset.classList).toContain('sky-tabset-style-wizard');
   });
@@ -199,7 +198,6 @@ describe('Tabset component', () => {
   describe('tabs with active attribute', () => {
     it('should change the active tab when tab active is set to true', fakeAsync(() => {
       const fixture = TestBed.createComponent(TabsetTestComponent);
-      const cmp: TabsetTestComponent = fixture.componentInstance;
       const el = fixture.nativeElement;
 
       fixture.detectChanges();
@@ -208,7 +206,7 @@ describe('Tabset component', () => {
       tick();
 
       validateTabSelected(el, 0);
-      cmp.activeTab = 1;
+      fixture.componentRef.setInput('activeTab', 1);
 
       fixture.detectChanges();
       tick();
@@ -216,7 +214,7 @@ describe('Tabset component', () => {
       tick();
 
       validateTabSelected(el, 1);
-      cmp.activeTab = 2;
+      fixture.componentRef.setInput('activeTab', 2);
 
       fixture.detectChanges();
       tick();
@@ -263,10 +261,9 @@ describe('Tabset component', () => {
 
     it('should initialize the tabs properly when active is set to true', () => {
       const fixture = TestBed.createComponent(TabsetTestComponent);
-      const cmp: TabsetTestComponent = fixture.componentInstance;
       const el = fixture.nativeElement;
 
-      cmp.activeTab = 1;
+      fixture.componentRef.setInput('activeTab', 1);
 
       fixture.detectChanges();
 
@@ -345,7 +342,7 @@ describe('Tabset component', () => {
       'onTabIndexesChange',
     ).and.callThrough();
 
-    fixture.componentInstance.activeIndex = 0;
+    fixture.componentRef.setInput('activeIndex', 0);
 
     fixture.detectChanges();
     tick();
@@ -354,7 +351,10 @@ describe('Tabset component', () => {
 
     validateTabSelected(fixture.elementRef.nativeElement, 0);
 
-    fixture.componentInstance.tabArray[1].tabIndex = 'foobar';
+    fixture.componentInstance.tabArray.update((arr) => {
+      arr[1].tabIndex = 'foobar';
+      return [...arr];
+    });
 
     fixture.detectChanges();
     tick();
@@ -394,7 +394,7 @@ describe('Tabset component', () => {
       'onTabIndexesChange',
     ).and.callThrough();
 
-    fixture.componentInstance.tabArray = [
+    fixture.componentInstance.tabArray.set([
       {
         tabHeading: 'Tab 1',
         tabContent: 'Tab 1 content',
@@ -403,7 +403,7 @@ describe('Tabset component', () => {
         tabHeading: 'Tab 2',
         tabContent: 'Tab 2 content',
       },
-    ];
+    ]);
 
     fixture.detectChanges();
     tick();
@@ -411,7 +411,7 @@ describe('Tabset component', () => {
     tick();
 
     // Delete a tab.
-    fixture.componentInstance.tabArray.splice(1, 1);
+    fixture.componentInstance.tabArray.update((arr) => arr.slice(0, 1));
 
     fixture.detectChanges();
     tick();
@@ -424,10 +424,10 @@ describe('Tabset component', () => {
     spy.calls.reset();
 
     // Add a new one.
-    fixture.componentInstance.tabArray.push({
-      tabHeading: 'New tab',
-      tabContent: 'New tab content',
-    });
+    fixture.componentInstance.tabArray.update((arr) => [
+      ...arr,
+      { tabHeading: 'New tab', tabContent: 'New tab content' },
+    ]);
 
     fixture.detectChanges();
     tick();
@@ -444,16 +444,15 @@ describe('Tabset component', () => {
 
   it('should select the next tab when the active tab is closed', fakeAsync(() => {
     const fixture = TestBed.createComponent(TabsetTestComponent);
-    const cmp: TabsetTestComponent = fixture.componentInstance;
     const el = fixture.nativeElement;
     fixture.detectChanges();
     tick();
 
-    cmp.activeTab = 1;
+    fixture.componentRef.setInput('activeTab', 1);
     fixture.detectChanges();
     tick();
 
-    cmp.tab2Available = false;
+    fixture.componentRef.setInput('tab2Available', false);
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
@@ -464,16 +463,15 @@ describe('Tabset component', () => {
 
   it('should select the previous tab when the last tab is closed and the last tab was active', fakeAsync(() => {
     const fixture = TestBed.createComponent(TabsetTestComponent);
-    const cmp: TabsetTestComponent = fixture.componentInstance;
     const el = fixture.nativeElement;
     fixture.detectChanges();
     tick();
 
-    cmp.activeTab = 2;
+    fixture.componentRef.setInput('activeTab', 2);
     fixture.detectChanges();
     tick();
 
-    cmp.tab3Available = false;
+    fixture.componentRef.setInput('tab3Available', false);
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
@@ -486,16 +484,15 @@ describe('Tabset component', () => {
   // after initialization of the tabset but before the `ngAfterViewInit`'s `setTimeout`.
   it('should handle a quick addition of a tab on initialization', fakeAsync(() => {
     const fixture = TestBed.createComponent(TabsetTestComponent);
-    const cmp: TabsetTestComponent = fixture.componentInstance;
-    cmp.tab3Available = false;
+    fixture.componentRef.setInput('tab3Available', false);
     fixture.detectChanges();
 
-    cmp.tab3Available = true;
+    fixture.componentRef.setInput('tab3Available', true);
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
 
-    cmp.tab3Available = false;
+    fixture.componentRef.setInput('tab3Available', false);
     expect(() => {
       fixture.detectChanges();
     }).not.toThrowError();
@@ -511,13 +508,13 @@ describe('Tabset component', () => {
     tick();
     fixture.detectChanges();
 
-    cmp.activeTab = 2;
+    fixture.componentRef.setInput('activeTab', 2);
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
     validateTabSelected(el, 2, 'tab 3 content');
 
-    cmp.tab2Available = false;
+    fixture.componentRef.setInput('tab2Available', false);
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
@@ -669,7 +666,6 @@ describe('Tabset component', () => {
 
     it('should display the selected tab in the collapsed tab dropdown button', fakeAsync(() => {
       const el = fixture.nativeElement;
-      const cmp: TabsetTestComponent = fixture.componentInstance;
 
       fixture.detectChanges();
       tick();
@@ -686,7 +682,7 @@ describe('Tabset component', () => {
 
       expect(tabEl.innerText.trim()).toBe('Tab 1');
 
-      cmp.activeTab = 2;
+      fixture.componentRef.setInput('activeTab', 2);
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -865,7 +861,7 @@ describe('Tabset component', () => {
       const el = fixture.nativeElement;
 
       // Set to something other than first tab.
-      fixture.componentInstance.activeIndex = 1;
+      fixture.componentRef.setInput('activeIndex', 1);
 
       fixture.detectChanges();
       tick();
@@ -878,7 +874,7 @@ describe('Tabset component', () => {
       const fixture = TestBed.createComponent(TabsetActiveTestComponent);
       const el = fixture.nativeElement;
 
-      fixture.componentInstance.activeIndex = 'invalid';
+      fixture.componentRef.setInput('activeIndex', 'invalid');
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -891,7 +887,7 @@ describe('Tabset component', () => {
       const fixture = TestBed.createComponent(TabsetActiveTestComponent);
       const el = fixture.nativeElement;
 
-      fixture.componentInstance.activeIndex = 'something';
+      fixture.componentRef.setInput('activeIndex', 'something');
 
       fixture.detectChanges();
       tick();
@@ -903,21 +899,20 @@ describe('Tabset component', () => {
 
     it('should listen for changes in active state', fakeAsync(() => {
       const fixture = TestBed.createComponent(TabsetActiveTestComponent);
-      const cmp: TabsetActiveTestComponent = fixture.componentInstance;
       const el = fixture.nativeElement;
 
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
       tick();
-      cmp.activeIndex = 1;
+      fixture.componentRef.setInput('activeIndex', 1);
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
       tick();
       validateTabSelected(el, 1);
 
-      cmp.activeIndex = 'something';
+      fixture.componentRef.setInput('activeIndex', 'something');
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -941,7 +936,7 @@ describe('Tabset component', () => {
       tick();
       fixture.detectChanges();
       tick();
-      expect(cmp.activeIndex).toBe('something');
+      expect(cmp.activeIndex()).toBe('something');
       validateTabSelected(el, 2);
 
       el.querySelectorAll('.sky-btn-tab')[0].click();
@@ -950,7 +945,7 @@ describe('Tabset component', () => {
       tick();
       fixture.detectChanges();
       tick();
-      expect(cmp.activeIndex).toBe(0);
+      expect(cmp.activeIndex()).toBe(0);
       validateTabSelected(el, 0);
     }));
 
@@ -972,7 +967,7 @@ describe('Tabset component', () => {
       tick();
       fixture.detectChanges();
       tick();
-      cmp.tab2Available = false;
+      fixture.componentRef.setInput('tab2Available', false);
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -985,13 +980,13 @@ describe('Tabset component', () => {
       tick();
       fixture.detectChanges();
       tick();
-      expect(cmp.activeIndex).toBe(0);
+      expect(cmp.activeIndex()).toBe(0);
       validateTabSelected(el, 0, 'tab 1 content');
     }));
 
     it('should handle activating a tab immediately after being created in an array of tabs', fakeAsync(() => {
       const fixture = TestBed.createComponent(TabsetLoopTestComponent);
-      fixture.componentInstance.activeIndex = 0;
+      fixture.componentRef.setInput('activeIndex', 0);
 
       fixture.detectChanges();
       tick();
@@ -1012,7 +1007,7 @@ describe('Tabset component', () => {
 
     it('should handle active index when entire tab array is rebuilt', fakeAsync(() => {
       const fixture = TestBed.createComponent(TabsetLoopTestComponent);
-      fixture.componentInstance.activeIndex = 0;
+      fixture.componentRef.setInput('activeIndex', 0);
 
       fixture.detectChanges();
       tick();
@@ -1022,8 +1017,9 @@ describe('Tabset component', () => {
       validateTabSelected(fixture.elementRef.nativeElement, 0);
 
       // Regenerate the tab array.
-      fixture.componentInstance.tabArray =
-        fixture.componentInstance.createTabArray();
+      fixture.componentInstance.tabArray.set(
+        fixture.componentInstance.createTabArray(),
+      );
 
       fixture.detectChanges();
       tick();
@@ -1035,8 +1031,8 @@ describe('Tabset component', () => {
 
     it('should handle an empty tabset', fakeAsync(() => {
       const fixture = TestBed.createComponent(TabsetLoopTestComponent);
-      fixture.componentInstance.activeIndex = undefined;
-      fixture.componentInstance.tabArray = [];
+      fixture.componentRef.setInput('activeIndex', undefined);
+      fixture.componentInstance.tabArray.set([]);
 
       expect(() => {
         fixture.detectChanges();
@@ -1046,7 +1042,7 @@ describe('Tabset component', () => {
       }).not.toThrowError();
 
       // Set the active index to an invalid value;
-      fixture.componentInstance.activeIndex = 999;
+      fixture.componentRef.setInput('activeIndex', 999);
 
       expect(() => {
         fixture.detectChanges();
@@ -1058,9 +1054,8 @@ describe('Tabset component', () => {
 
     it('handles initialized tabs', fakeAsync(() => {
       const fixture = TestBed.createComponent(TabsetActiveTestComponent);
-      const cmp: TabsetActiveTestComponent = fixture.componentInstance;
       const el = fixture.nativeElement;
-      cmp.activeIndex = 1;
+      fixture.componentRef.setInput('activeIndex', 1);
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -1075,7 +1070,7 @@ describe('Tabset component', () => {
       const component = fixture.componentInstance;
       const activeSpy = spyOn(component, 'onActiveChange').and.callThrough();
 
-      component.activeTab = '1';
+      fixture.componentRef.setInput('activeTab', '1');
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -1084,7 +1079,7 @@ describe('Tabset component', () => {
       expect(activeSpy).toHaveBeenCalledWith('1');
       expect(activeSpy).toHaveBeenCalledTimes(1);
 
-      component.activeTab = '0';
+      fixture.componentRef.setInput('activeTab', '0');
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -1104,10 +1099,10 @@ describe('Tabset component', () => {
       tick();
       validateTabSelected(fixture.nativeElement, 0);
 
-      fixture.componentInstance.tab1Available = false;
-      fixture.componentInstance.tab2Available = false;
-      fixture.componentInstance.tab3Available = false;
-      fixture.componentInstance.tab4Available = false;
+      fixture.componentRef.setInput('tab1Available', false);
+      fixture.componentRef.setInput('tab2Available', false);
+      fixture.componentRef.setInput('tab3Available', false);
+      fixture.componentRef.setInput('tab4Available', false);
 
       fixture.detectChanges();
       tick();
@@ -1122,11 +1117,11 @@ describe('Tabset component', () => {
       const fixture = TestBed.createComponent(TabsetActiveTestComponent);
 
       // Remove all tabs on init.
-      fixture.componentInstance.tab1Available = false;
-      fixture.componentInstance.tab2Available = false;
-      fixture.componentInstance.tab3Available = false;
-      fixture.componentInstance.tab4Available = false;
-      fixture.componentInstance.activeIndex = 0;
+      fixture.componentRef.setInput('tab1Available', false);
+      fixture.componentRef.setInput('tab2Available', false);
+      fixture.componentRef.setInput('tab3Available', false);
+      fixture.componentRef.setInput('tab4Available', false);
+      fixture.componentRef.setInput('activeIndex', 0);
 
       fixture.detectChanges();
       tick();
@@ -1134,8 +1129,8 @@ describe('Tabset component', () => {
       tick();
 
       // Create a new tab and unset the active index.
-      fixture.componentInstance.tab1Available = true;
-      fixture.componentInstance.activeIndex = undefined;
+      fixture.componentRef.setInput('tab1Available', true);
+      fixture.componentRef.setInput('activeIndex', undefined);
 
       fixture.detectChanges();
       tick();
@@ -1288,7 +1283,7 @@ describe('Tabset component', () => {
     }));
 
     it('should have tabindex of -1 and aria-disabled when disabled', fakeAsync(() => {
-      fixture.componentInstance.tab2Available = true;
+      fixture.componentRef.setInput('tab2Available', true);
       fixture.componentInstance.tab2Disabled = true;
 
       fixture.detectChanges();
@@ -1637,8 +1632,8 @@ describe('Tabset component', () => {
         tick();
 
         wizardFixture.componentInstance.requiredValue1 = 'test';
-        wizardFixture.componentInstance.selectedTab = 1;
-        wizardFixture.componentInstance.step3Disabled = true;
+        wizardFixture.componentRef.setInput('selectedTab', 1);
+        wizardFixture.componentRef.setInput('step3Disabled', true);
 
         wizardFixture.detectChanges();
         tick();
@@ -1684,7 +1679,7 @@ describe('Tabset component', () => {
     });
 
     it('should activate a tab based on a query param on init', fakeAsync(() => {
-      fixture.componentInstance.activeIndex = 0;
+      fixture.componentRef.setInput('activeIndex', 0);
       fixture.componentInstance.permalinkId = 'foobar';
       spyOn(location, 'path').and.returnValue(
         '?foobar-active-tab=design-guidelines',
@@ -1699,7 +1694,7 @@ describe('Tabset component', () => {
     }));
 
     it('should handle unrecognized query param', fakeAsync(() => {
-      fixture.componentInstance.activeIndex = 0;
+      fixture.componentRef.setInput('activeIndex', 0);
       fixture.componentInstance.permalinkId = 'foobar';
       spyOn(location, 'path').and.returnValue('?foobar-active-tab=invalid-tab');
 
@@ -1722,7 +1717,7 @@ describe('Tabset component', () => {
       );
 
       fixture.componentInstance.permalinkId = 'foobar';
-      fixture.componentInstance.activeIndex = 1;
+      fixture.componentRef.setInput('activeIndex', 1);
 
       fixture.detectChanges();
       tick();
@@ -1749,7 +1744,7 @@ describe('Tabset component', () => {
       );
 
       fixture.componentInstance.permalinkId = 'foobar';
-      fixture.componentInstance.activeIndex = undefined;
+      fixture.componentRef.setInput('activeIndex', undefined);
 
       fixture.detectChanges();
       tick();
@@ -1773,7 +1768,7 @@ describe('Tabset component', () => {
       fixture.detectChanges();
       tick();
 
-      expect(fixture.componentInstance.activeIndex).toEqual(0);
+      expect(fixture.componentInstance.activeIndex()).toEqual(0);
 
       const buttonElement =
         fixture.nativeElement.querySelectorAll('.sky-btn-tab')[1];
@@ -1783,7 +1778,7 @@ describe('Tabset component', () => {
       tick();
 
       expect(location.path()).toEqual('/?foobar-active-tab=design-guidelines');
-      expect(fixture.componentInstance.activeIndex).toEqual(1);
+      expect(fixture.componentInstance.activeIndex()).toEqual(1);
     }));
 
     it('should allow custom query param value for each tab', fakeAsync(() => {
@@ -1797,7 +1792,7 @@ describe('Tabset component', () => {
       fixture.detectChanges();
       tick();
 
-      expect(fixture.componentInstance.activeIndex).toEqual(0);
+      expect(fixture.componentInstance.activeIndex()).toEqual(0);
 
       const buttonElement =
         fixture.nativeElement.querySelectorAll('.sky-btn-tab')[1];
@@ -1807,7 +1802,7 @@ describe('Tabset component', () => {
       tick();
 
       expect(location.path()).toEqual('/?foobar-active-tab=baz');
-      expect(fixture.componentInstance.activeIndex).toEqual(1);
+      expect(fixture.componentInstance.activeIndex()).toEqual(1);
     }));
 
     it('should handle special characters in query param value', fakeAsync(() => {
@@ -1822,7 +1817,7 @@ describe('Tabset component', () => {
       fixture.detectChanges();
       tick();
 
-      expect(fixture.componentInstance.activeIndex).toEqual(0);
+      expect(fixture.componentInstance.activeIndex()).toEqual(0);
 
       const buttonElement =
         fixture.nativeElement.querySelectorAll('.sky-btn-tab')[1];
@@ -1832,7 +1827,7 @@ describe('Tabset component', () => {
       tick();
 
       expect(location.path()).toEqual('/?foobar-active-tab=a-b-c-d');
-      expect(fixture.componentInstance.activeIndex).toEqual(1);
+      expect(fixture.componentInstance.activeIndex()).toEqual(1);
 
       // Make sure non-English special characters still work!
       fixture.componentInstance.permalinkValue = '片仮名';
@@ -1851,7 +1846,7 @@ describe('Tabset component', () => {
     }));
 
     it('should fall back to `active` if query param value does not match a tab', fakeAsync(() => {
-      fixture.componentInstance.activeIndex = 0;
+      fixture.componentRef.setInput('activeIndex', 0);
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -1859,7 +1854,7 @@ describe('Tabset component', () => {
 
       validateTabSelected(fixture.nativeElement, 0);
 
-      fixture.componentInstance.activeIndex = 2;
+      fixture.componentRef.setInput('activeIndex', 2);
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -1882,7 +1877,7 @@ describe('Tabset component', () => {
     }));
 
     it('should not affect existing query params', fakeAsync(() => {
-      fixture.componentInstance.activeIndex = 1;
+      fixture.componentRef.setInput('activeIndex', 1);
       fixture.componentInstance.permalinkId = 'foobar';
       void TestBed.inject(Router).navigate([], {
         queryParams: {
@@ -1912,7 +1907,7 @@ describe('Tabset component', () => {
     }));
 
     it('should activate tabs when popstate changes', fakeAsync(() => {
-      fixture.componentInstance.activeIndex = 0;
+      fixture.componentRef.setInput('activeIndex', 0);
       fixture.componentInstance.permalinkId = 'foobar';
 
       fixture.detectChanges();
@@ -1944,7 +1939,7 @@ describe('Tabset component', () => {
     }));
 
     it('should not affect the current route when a tab is opened for the first time or destroyed', fakeAsync(async () => {
-      fixture.componentInstance.activeIndex = 0;
+      fixture.componentRef.setInput('activeIndex', 0);
       fixture.componentInstance.permalinkId = 'foobar';
       await fixture.componentInstance.router.navigate([
         'example-path',
@@ -1970,7 +1965,7 @@ describe('Tabset component', () => {
     }));
 
     it('should not remove query params when the tabset component is destroyed due to navigation', fakeAsync(async () => {
-      fixture.componentInstance.activeIndex = 0;
+      fixture.componentRef.setInput('activeIndex', 0);
       fixture.componentInstance.permalinkId = 'foobar';
       await fixture.componentInstance.router.navigate([
         'example-path',
@@ -2000,7 +1995,7 @@ describe('Tabset component', () => {
       newActiveTabIndex?: number,
     ): void {
       if (newActiveTabIndex !== undefined) {
-        fixture.componentInstance.activeTab = newActiveTabIndex;
+        fixture.componentRef.setInput('activeTab', newActiveTabIndex);
       }
 
       fixture.detectChanges();
@@ -2047,11 +2042,11 @@ describe('Tabset component', () => {
 
       validateTabsetLayoutChange(fixture, layoutForChildHandler, 'blocks', 2);
 
-      fixture.componentInstance.tab3Layout = 'list';
+      fixture.componentRef.setInput('tab3Layout', 'list');
 
       validateTabsetLayoutChange(fixture, layoutForChildHandler, 'list');
 
-      fixture.componentInstance.tab3Layout = 'none';
+      fixture.componentRef.setInput('tab3Layout', 'none');
 
       validateTabsetLayoutChange(fixture, layoutForChildHandler, 'none');
     }));
@@ -2064,7 +2059,7 @@ describe('Tabset component', () => {
 
       validateTabsetLayoutChange(fixture, layoutForChildHandler, 'blocks', 2);
 
-      fixture.componentInstance.tab3Layout = undefined;
+      fixture.componentRef.setInput('tab3Layout', undefined);
 
       validateTabsetLayoutChange(fixture, layoutForChildHandler, 'none');
     }));

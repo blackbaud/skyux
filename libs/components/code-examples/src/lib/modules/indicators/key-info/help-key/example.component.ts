@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { SkyKeyInfoLayoutType, SkyKeyInfoModule } from '@skyux/indicators';
 
 /**
@@ -7,6 +7,7 @@ import { SkyKeyInfoLayoutType, SkyKeyInfoModule } from '@skyux/indicators';
 @Component({
   selector: 'app-indicators-key-info-help-key-example',
   templateUrl: './example.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyKeyInfoModule],
 })
 export class IndicatorsKeyInfoHelpKeyExampleComponent {

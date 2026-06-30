@@ -3157,7 +3157,7 @@ describe('Lookup component', function () {
 
         describe('single-select', () => {
           beforeEach(() => {
-            component.selectMode = 'single';
+            component.selectMode.set('single');
           });
 
           describe('non-async', () => {
@@ -4335,7 +4335,7 @@ describe('Lookup component', function () {
         component.disableLookup();
         fixture.detectChanges();
         expect(inputElement.disabled).toBeTrue();
-        component.disabled = undefined;
+        fixture.componentRef.setInput('disabled', undefined);
         fixture.detectChanges();
         expect(inputElement.disabled).toBeFalse();
       });
@@ -4348,7 +4348,7 @@ describe('Lookup component', function () {
         it('should allow preselected tokens', fakeAsync(() => {
           fixture.detectChanges();
           const friends = [{ name: 'Rachel' }];
-          component.selectedFriends = friends;
+          component.selectedFriends.set(friends);
           expect(lookupComponent.value).toEqual([]);
           fixture.detectChanges();
           tick();
@@ -4373,13 +4373,13 @@ describe('Lookup component', function () {
 
         it('should not collapse tokens if more than 5 items are selected with `enableShowMore` disabled', fakeAsync(() => {
           fixture.detectChanges();
-          component.selectedFriends = [
+          fixture.componentRef.setInput('selectedFriends', [
             { name: 'Fred', description: 'Mr. Fred' },
             { name: 'Isaac', description: 'Mr. Isaac' },
             { name: 'John', description: 'Mr. John' },
             { name: 'Joyce', description: 'Mrs. Joyce' },
             { name: 'Lindsey', description: 'Mrs. Lindsey' },
-          ];
+          ]);
           fixture.detectChanges();
           tick();
           fixture.detectChanges();
@@ -4456,10 +4456,10 @@ describe('Lookup component', function () {
             'openPicker',
           ).and.stub();
 
-          component.selectedFriends = [
+          component.selectedFriends.set([
             { name: 'Fred', description: 'Mr. Fred' },
             { name: 'Isaac', description: 'Mr. Isaac' },
-          ];
+          ]);
           fixture.detectChanges();
           tick();
           fixture.detectChanges();
@@ -4471,7 +4471,7 @@ describe('Lookup component', function () {
         }));
 
         it('should focus the input if all tokens are dismissed', fakeAsync(() => {
-          component.selectedFriends = [{ name: 'Rachel' }];
+          component.selectedFriends.set([{ name: 'Rachel' }]);
           fixture.detectChanges();
           tick();
           fixture.detectChanges();
@@ -4484,10 +4484,10 @@ describe('Lookup component', function () {
         }));
 
         it('should remove all but the first value when the mode is changed to single select', fakeAsync(() => {
-          component.selectedFriends = [
+          fixture.componentRef.setInput('selectedFriends', [
             { name: 'Rachel' },
             { name: 'Isaac', description: 'Mr. Isaac' },
-          ];
+          ]);
           fixture.detectChanges();
           tick();
           fixture.detectChanges();
@@ -4525,7 +4525,7 @@ describe('Lookup component', function () {
           fixture.detectChanges();
           expect(lookupComponent.value).toEqual([]);
 
-          component.selectedFriends = [bestFriend];
+          fixture.componentRef.setInput('selectedFriends', [bestFriend]);
           fixture.detectChanges();
           tick();
           fixture.detectChanges();
@@ -4533,7 +4533,7 @@ describe('Lookup component', function () {
         }));
 
         it('should select the value on focus', fakeAsync(() => {
-          component.selectedFriends = [{ name: 'Rachel' }];
+          component.selectedFriends.set([{ name: 'Rachel' }]);
           fixture.detectChanges();
           tick();
           fixture.detectChanges();
@@ -4547,7 +4547,7 @@ describe('Lookup component', function () {
           const bestFriend = { name: 'Rachel' };
 
           fixture.detectChanges();
-          component.selectedFriends = [bestFriend];
+          fixture.componentRef.setInput('selectedFriends', [bestFriend]);
           fixture.detectChanges();
           tick();
           fixture.detectChanges();
@@ -4671,7 +4671,7 @@ describe('Lookup component', function () {
 
           it('should emit an event correctly when the add button is clicked from the modal', fakeAsync(() => {
             component.showAddButton = true;
-            component.enableShowMore = true;
+            component.enableShowMore.set(true);
             const addButtonSpy = spyOn(
               component,
               'addButtonClicked',
@@ -4740,7 +4740,7 @@ describe('Lookup component', function () {
 
           it('should emit an event correctly when the add button is clicked from the modal', fakeAsync(() => {
             component.showAddButton = true;
-            component.enableShowMore = true;
+            component.enableShowMore.set(true);
             const addButtonSpy = spyOn(
               component,
               'addButtonClicked',
@@ -4798,7 +4798,7 @@ describe('Lookup component', function () {
             it(`should add the item to the modal's selected items when a show more picker is open`, fakeAsync(() => {
               component.setMultiSelect();
               component.showAddButton = true;
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
 
               performSearch('s', fixture);
@@ -4835,7 +4835,7 @@ describe('Lookup component', function () {
             it(`should add the item to the modal's selected items when a show more picker is open but should cancel back to the original selection`, fakeAsync(() => {
               component.setMultiSelect();
               component.showAddButton = true;
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
 
               performSearch('s', fixture);
@@ -4872,7 +4872,7 @@ describe('Lookup component', function () {
               component.setMultiSelect();
               component.ignoreAddDataUpdate = true;
               component.showAddButton = true;
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
 
               performSearch('s', fixture);
@@ -4932,7 +4932,7 @@ describe('Lookup component', function () {
             it(`should add the item to the modal's selected items when a show more picker is saved`, fakeAsync(() => {
               component.setMultiSelect();
               component.showAddButton = true;
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
 
               performSearch('s', fixture, true);
@@ -4966,7 +4966,7 @@ describe('Lookup component', function () {
             it(`should add the item to the modal's selected items when a show more picker is open but should cancel back to the original selection`, fakeAsync(() => {
               component.setMultiSelect();
               component.showAddButton = true;
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
 
               performSearch('s', fixture, true);
@@ -5025,7 +5025,7 @@ describe('Lookup component', function () {
             it(`should add the item to the modal's selected items when a show more picker is open`, fakeAsync(() => {
               component.setSingleSelect();
               component.showAddButton = true;
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
 
               performSearch('s', fixture);
@@ -5059,7 +5059,7 @@ describe('Lookup component', function () {
             it(`should add the item to the modal's selected items when a show more picker is open but should cancel back to the original selection`, fakeAsync(() => {
               component.setSingleSelect();
               component.showAddButton = true;
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
 
               performSearch('s', fixture);
@@ -5096,7 +5096,7 @@ describe('Lookup component', function () {
               component.setSingleSelect();
               component.ignoreAddDataUpdate = true;
               component.showAddButton = true;
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
 
               performSearch('s', fixture);
@@ -5158,7 +5158,7 @@ describe('Lookup component', function () {
             it(`should add the item to the modal's selected items when a show more picker is saved`, fakeAsync(() => {
               component.setSingleSelect();
               component.showAddButton = true;
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
 
               performSearch('s', fixture, true);
@@ -5191,7 +5191,7 @@ describe('Lookup component', function () {
             it(`should add the item to the modal's selected items when a show more picker is open but should cancel back to the original selection`, fakeAsync(() => {
               component.setSingleSelect();
               component.showAddButton = true;
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
 
               performSearch('s', fixture, true);
@@ -5240,7 +5240,7 @@ describe('Lookup component', function () {
 
         describe('non-async', () => {
           it('should open the modal when the show more button is clicked', fakeAsync(() => {
-            component.enableShowMore = true;
+            component.enableShowMore.set(true);
             fixture.detectChanges();
 
             spyOn(modalService, 'open').and.callThrough();
@@ -5253,7 +5253,7 @@ describe('Lookup component', function () {
           }));
 
           it('should open the modal when the show more button is clicked with no config', fakeAsync(() => {
-            component.enableShowMore = true;
+            component.enableShowMore.set(true);
             component.showMoreConfig = undefined;
             fixture.detectChanges();
 
@@ -5268,7 +5268,7 @@ describe('Lookup component', function () {
           }));
 
           it('should open the modal when the search button is clicked', fakeAsync(() => {
-            component.enableShowMore = true;
+            component.enableShowMore.set(true);
             fixture.detectChanges();
 
             spyOn(modalService, 'open').and.callThrough();
@@ -5281,7 +5281,7 @@ describe('Lookup component', function () {
           }));
 
           it('should close the dropdown when the search button is clicked', fakeAsync(() => {
-            component.enableShowMore = true;
+            component.enableShowMore.set(true);
             fixture.detectChanges();
 
             performSearch('r', fixture);
@@ -5295,7 +5295,7 @@ describe('Lookup component', function () {
           }));
 
           it('should populate search bar with current input value when the search button is clicked', fakeAsync(() => {
-            component.enableShowMore = true;
+            component.enableShowMore.set(true);
             fixture.detectChanges();
 
             performSearch('foo', fixture);
@@ -5313,7 +5313,7 @@ describe('Lookup component', function () {
           }));
 
           it('should scroll to the top of the modal and not show the infinite scroll wait when searching', async () => {
-            component.enableShowMore = true;
+            component.enableShowMore.set(true);
             component.enableSearchResultTemplate();
             component.customSearch = (_: string, data: any[]) => {
               return data.slice(0, 14);
@@ -5351,7 +5351,7 @@ describe('Lookup component', function () {
           });
 
           it('should respect the `propertiesToSearch` input in the show more modal', fakeAsync(() => {
-            component.enableShowMore = true;
+            component.enableShowMore.set(true);
             component.propertiesToSearch = ['description'];
             fixture.detectChanges();
 
@@ -5365,7 +5365,7 @@ describe('Lookup component', function () {
           }));
 
           it('should respect the `search` input in the show more modal when the function returns an array', fakeAsync(() => {
-            component.enableShowMore = true;
+            component.enableShowMore.set(true);
             component.customSearch = (_: string, data: any[]) => {
               return [data[0]];
             };
@@ -5381,7 +5381,7 @@ describe('Lookup component', function () {
           }));
 
           it('should respect the `search` input in the show more modal when the function returns a promise', fakeAsync(() => {
-            component.enableShowMore = true;
+            component.enableShowMore.set(true);
             component.customSearch = (_: string, data: any[]) => {
               return Promise.resolve([data[0]]);
             };
@@ -5397,7 +5397,7 @@ describe('Lookup component', function () {
           }));
 
           it('should handle not results being shown', fakeAsync(() => {
-            component.enableShowMore = true;
+            component.enableShowMore.set(true);
             component.data = undefined;
             fixture.detectChanges();
 
@@ -5412,8 +5412,8 @@ describe('Lookup component', function () {
           }));
 
           it('should handle disabled', fakeAsync(() => {
-            component.enableShowMore = true;
-            component.disabled = true;
+            component.enableShowMore.set(true);
+            component.disabled.set(true);
             component.customSearch = (_: string, data: any[]) => {
               return Promise.resolve([data[0]]);
             };
@@ -5429,7 +5429,7 @@ describe('Lookup component', function () {
 
         describe('async', () => {
           it('should open the modal when the show more button is clicked', fakeAsync(() => {
-            component.enableShowMore = true;
+            component.enableShowMore.set(true);
             fixture.detectChanges();
 
             spyOn(modalService, 'open').and.callThrough();
@@ -5443,7 +5443,7 @@ describe('Lookup component', function () {
           }));
 
           it('should open the modal when the show more button is clicked with no config', fakeAsync(() => {
-            component.enableShowMore = true;
+            component.enableShowMore.set(true);
             component.showMoreConfig = undefined;
             fixture.detectChanges();
 
@@ -5458,7 +5458,7 @@ describe('Lookup component', function () {
           }));
 
           it('should open the modal when the search button is clicked', fakeAsync(() => {
-            component.enableShowMore = true;
+            component.enableShowMore.set(true);
             fixture.detectChanges();
 
             spyOn(modalService, 'open').and.callThrough();
@@ -5471,7 +5471,7 @@ describe('Lookup component', function () {
           }));
 
           it('should close the dropdown when the search button is clicked', fakeAsync(() => {
-            component.enableShowMore = true;
+            component.enableShowMore.set(true);
             fixture.detectChanges();
 
             performSearch('r', fixture, true);
@@ -5485,7 +5485,7 @@ describe('Lookup component', function () {
           }));
 
           it('should populate search bar with current input value when the search button is clicked', fakeAsync(() => {
-            component.enableShowMore = true;
+            component.enableShowMore.set(true);
             fixture.detectChanges();
 
             performSearch('foo', fixture, true);
@@ -5503,7 +5503,7 @@ describe('Lookup component', function () {
           }));
 
           it('should scroll to the top of the modal and not show the infinite scroll wait when searching', async () => {
-            component.enableShowMore = true;
+            component.enableShowMore.set(true);
             component.enableSearchResultTemplate();
             component.customSearch = (_: string, data: any[]) => {
               return data.slice(0, 14);
@@ -5541,7 +5541,7 @@ describe('Lookup component', function () {
           });
 
           it('should handle not results being shown', fakeAsync(() => {
-            component.enableShowMore = true;
+            component.enableShowMore.set(true);
             component.data = undefined;
             fixture.detectChanges();
 
@@ -5556,7 +5556,7 @@ describe('Lookup component', function () {
           }));
 
           it('should log an error when an async search function is used without the idProperty set', fakeAsync(function () {
-            component.enableShowMore = true;
+            component.enableShowMore.set(true);
             component.idProperty = undefined;
             const logService = TestBed.inject(SkyLogService);
             const errorLogSpy = spyOn(logService, 'error').and.stub();
@@ -5579,7 +5579,7 @@ describe('Lookup component', function () {
         describe('multi-select', () => {
           describe('non-async', () => {
             it('should populate the correct selected item and save that when no changes are made', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
               expect(lookupComponent.value).toEqual([]);
 
@@ -5608,7 +5608,7 @@ describe('Lookup component', function () {
             }));
 
             it('should select the correct items when multiple are selected from the show all modal', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
               expect(lookupComponent.value).toEqual([]);
 
@@ -5635,7 +5635,7 @@ describe('Lookup component', function () {
             }));
 
             it('should not make any changes when the show all modal is cancelled', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
               expect(lookupComponent.value).toEqual([]);
 
@@ -5659,7 +5659,7 @@ describe('Lookup component', function () {
             }));
 
             it('should select the correct items when items are deselected from the show all modal', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
               expect(lookupComponent.value).toEqual([]);
 
@@ -5686,7 +5686,7 @@ describe('Lookup component', function () {
             }));
 
             it('should select the correct items after existing search text is cleared', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
               expect(lookupComponent.value).toEqual([]);
 
@@ -5719,7 +5719,7 @@ describe('Lookup component', function () {
             }));
 
             it('should handle "Clear all" correct in the show more modal', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
               expect(lookupComponent.value).toEqual([]);
 
@@ -5747,7 +5747,7 @@ describe('Lookup component', function () {
             }));
 
             it('should handle "Select all" correct in the show more modal', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
               expect(lookupComponent.value).toEqual([]);
 
@@ -5786,7 +5786,7 @@ describe('Lookup component', function () {
             }));
 
             it('should handle "Only show selected correctly in the show more modal', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
               expect(lookupComponent.value).toEqual([]);
 
@@ -5812,10 +5812,10 @@ describe('Lookup component', function () {
             }));
 
             it('should add items when scrolling ends with "Only show selected" active', async () => {
-              component.enableShowMore = true;
-              component.selectedFriends = [
+              component.enableShowMore.set(true);
+              component.selectedFriends.set([
                 ...(component.data?.filter((item) => !item.birthDate) ?? []),
-              ];
+              ]);
 
               fixture.detectChanges();
               await fixture.whenStable();
@@ -5838,7 +5838,7 @@ describe('Lookup component', function () {
             });
 
             it('should respect a custom modal title', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               component.setShowMoreNativePickerConfig({
                 title: 'Custom title',
               });
@@ -5854,7 +5854,7 @@ describe('Lookup component', function () {
             }));
 
             it('should set default title and aria labels without a selection descriptor', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               component.showAddButton = true;
               fixture.detectChanges();
               expect(lookupComponent.value).toEqual([]);
@@ -5903,7 +5903,7 @@ describe('Lookup component', function () {
             }));
 
             it('should respect a selection descriptor', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               component.showAddButton = true;
               component.setShowMoreNativePickerConfig({
                 selectionDescriptor: 'people',
@@ -5955,14 +5955,14 @@ describe('Lookup component', function () {
             }));
 
             it('should collapse tokens if more than 5 items are selected', fakeAsync(() => {
-              component.enableShowMore = true;
-              component.selectedFriends = [
+              component.enableShowMore.set(true);
+              component.selectedFriends.set([
                 { name: 'Fred', description: 'Mr. Fred' },
                 { name: 'Isaac', description: 'Mr. Isaac' },
                 { name: 'John', description: 'Mr. John' },
                 { name: 'Joyce', description: 'Mrs. Joyce' },
                 { name: 'Lindsey', description: 'Mrs. Lindsey' },
-              ];
+              ]);
               fixture.detectChanges();
               tick();
               fixture.detectChanges();
@@ -6003,11 +6003,11 @@ describe('Lookup component', function () {
                 'openPicker',
               ).and.stub();
 
-              component.enableShowMore = true;
-              component.selectedFriends = [
+              component.enableShowMore.set(true);
+              component.selectedFriends.set([
                 { name: 'Fred', description: 'Mr. Fred' },
                 { name: 'Isaac', description: 'Mr. Isaac' },
-              ];
+              ]);
               fixture.detectChanges();
               tick();
               fixture.detectChanges();
@@ -6024,15 +6024,15 @@ describe('Lookup component', function () {
                 'openPicker',
               ).and.stub();
 
-              component.enableShowMore = true;
-              component.selectedFriends = [
+              component.enableShowMore.set(true);
+              component.selectedFriends.set([
                 { name: 'Fred', description: 'Mr. Fred' },
                 { name: 'Isaac', description: 'Mr. Isaac' },
                 { name: 'John', description: 'Mr. John' },
                 { name: 'Joyce', description: 'Mrs. Joyce' },
                 { name: 'Lindsey', description: 'Mrs. Lindsey' },
                 { name: 'Oliver', description: 'Mr. Oliver' },
-              ];
+              ]);
               fixture.detectChanges();
               tick();
               fixture.detectChanges();
@@ -6044,7 +6044,7 @@ describe('Lookup component', function () {
             }));
 
             it(`should not change the tokens when the form control is updated while a show more picker is open`, fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
 
               performSearch('s', fixture);
@@ -6058,7 +6058,7 @@ describe('Lookup component', function () {
               fixture.detectChanges();
               tick();
 
-              component.selectedFriends = [component.data![1]];
+              component.selectedFriends.set([component.data![1]]);
               fixture.detectChanges();
               tick();
               expect(lookupComponent.value).toEqual([
@@ -6088,7 +6088,7 @@ describe('Lookup component', function () {
             });
 
             it('should populate the correct selected item and save that when no changes are made', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
               expect(asyncLookupComponent.value).toEqual([]);
 
@@ -6117,7 +6117,7 @@ describe('Lookup component', function () {
             }));
 
             it('should select the correct items when multiple are selected from the show all modal', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
               expect(asyncLookupComponent.value).toEqual([]);
 
@@ -6144,7 +6144,7 @@ describe('Lookup component', function () {
             }));
 
             it('should not make any changes when the show all modal is cancelled', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
               expect(asyncLookupComponent.value).toEqual([]);
 
@@ -6168,7 +6168,7 @@ describe('Lookup component', function () {
             }));
 
             it('should select the correct items when items are deselected from the show all modal', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
               expect(asyncLookupComponent.value).toEqual([]);
 
@@ -6195,7 +6195,7 @@ describe('Lookup component', function () {
             }));
 
             it('should select the correct items after existing search text is cleared', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
               expect(asyncLookupComponent.value).toEqual([]);
 
@@ -6228,7 +6228,7 @@ describe('Lookup component', function () {
             }));
 
             it('should handle "Clear all" correct in the show more modal', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
               expect(asyncLookupComponent.value).toEqual([]);
 
@@ -6256,7 +6256,7 @@ describe('Lookup component', function () {
             }));
 
             it('should handle "Select all" correct in the show more modal', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
               expect(asyncLookupComponent.value).toEqual([]);
 
@@ -6295,7 +6295,7 @@ describe('Lookup component', function () {
             }));
 
             it('should handle "Only show selected correctly in the show more modal', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
               expect(asyncLookupComponent.value).toEqual([]);
 
@@ -6321,7 +6321,7 @@ describe('Lookup component', function () {
             }));
 
             it('should respect a custom modal title', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               component.setShowMoreNativePickerConfig({
                 title: 'Custom title',
               });
@@ -6337,7 +6337,7 @@ describe('Lookup component', function () {
             }));
 
             it('should set default title and aria labels without a selection descriptor', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               component.showAddButton = true;
               fixture.detectChanges();
               expect(lookupComponent.value).toEqual([]);
@@ -6386,7 +6386,7 @@ describe('Lookup component', function () {
             }));
 
             it('should respect a selection descriptor', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               component.showAddButton = true;
               component.setShowMoreNativePickerConfig({
                 selectionDescriptor: 'people',
@@ -6438,14 +6438,14 @@ describe('Lookup component', function () {
             }));
 
             it('should collapse tokens if more than 5 items are selected', fakeAsync(() => {
-              component.enableShowMore = true;
-              component.selectedFriendsAsync = [
+              component.enableShowMore.set(true);
+              component.selectedFriendsAsync.set([
                 { name: 'Fred', description: 'Mr. Fred' },
                 { name: 'Isaac', description: 'Mr. Isaac' },
                 { name: 'John', description: 'Mr. John' },
                 { name: 'Joyce', description: 'Mrs. Joyce' },
                 { name: 'Lindsey', description: 'Mrs. Lindsey' },
-              ];
+              ]);
               fixture.detectChanges();
               tick();
               fixture.detectChanges();
@@ -6486,11 +6486,11 @@ describe('Lookup component', function () {
                 'openPicker',
               ).and.stub();
 
-              component.enableShowMore = true;
-              component.selectedFriendsAsync = [
+              component.enableShowMore.set(true);
+              component.selectedFriendsAsync.set([
                 { name: 'Fred', description: 'Mr. Fred' },
                 { name: 'Isaac', description: 'Mr. Isaac' },
-              ];
+              ]);
               fixture.detectChanges();
               tick();
               fixture.detectChanges();
@@ -6507,15 +6507,15 @@ describe('Lookup component', function () {
                 'openPicker',
               ).and.stub();
 
-              component.enableShowMore = true;
-              component.selectedFriendsAsync = [
+              component.enableShowMore.set(true);
+              component.selectedFriendsAsync.set([
                 { name: 'Fred', description: 'Mr. Fred' },
                 { name: 'Isaac', description: 'Mr. Isaac' },
                 { name: 'John', description: 'Mr. John' },
                 { name: 'Joyce', description: 'Mrs. Joyce' },
                 { name: 'Lindsey', description: 'Mrs. Lindsey' },
                 { name: 'Oliver', description: 'Mr. Oliver' },
-              ];
+              ]);
               fixture.detectChanges();
               tick();
               fixture.detectChanges();
@@ -6527,7 +6527,7 @@ describe('Lookup component', function () {
             }));
 
             it(`should not change the tokens when the form control is updated while a show more picker is open`, fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
 
               performSearch('s', fixture, true);
@@ -6541,7 +6541,7 @@ describe('Lookup component', function () {
               fixture.detectChanges();
               tick();
 
-              component.selectedFriendsAsync = [component.data![1]];
+              component.selectedFriendsAsync.set([component.data![1]]);
               fixture.detectChanges();
               tick();
               expect(asyncLookupComponent.value).toEqual([
@@ -6571,7 +6571,7 @@ describe('Lookup component', function () {
                 'openPicker',
               ).and.stub();
 
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               component.asyncLookupComponent.disabled = true;
               fixture.detectChanges();
 
@@ -6588,12 +6588,12 @@ describe('Lookup component', function () {
 
         describe('single-select', () => {
           beforeEach(() => {
-            component.selectMode = 'single';
+            component.selectMode.set('single');
           });
 
           describe('non-async', () => {
             it('should populate the correct selected item and save that when no changes are made', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
               expect(lookupComponent.value).toEqual([]);
 
@@ -6620,7 +6620,7 @@ describe('Lookup component', function () {
             }));
 
             it('should select the correct item when changed from the show all modal', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
               expect(lookupComponent.value).toEqual([]);
 
@@ -6646,7 +6646,7 @@ describe('Lookup component', function () {
             }));
 
             it('should not make any changes when the show all modal is cancelled', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
               expect(lookupComponent.value).toEqual([]);
 
@@ -6672,7 +6672,7 @@ describe('Lookup component', function () {
             }));
 
             it('should respect a custom modal title', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               component.setShowMoreNativePickerConfig({
                 title: 'Custom title',
               });
@@ -6688,7 +6688,7 @@ describe('Lookup component', function () {
             }));
 
             it('should set default title and aria labels without a selection descriptor', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               component.showAddButton = true;
               fixture.detectChanges();
               expect(lookupComponent.value).toEqual([]);
@@ -6717,7 +6717,7 @@ describe('Lookup component', function () {
             }));
 
             it('should respect a selection descriptor', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               component.showAddButton = true;
               component.setShowMoreNativePickerConfig({
                 selectionDescriptor: 'person',
@@ -6749,7 +6749,7 @@ describe('Lookup component', function () {
             }));
 
             it('should show only searched items when search is enabled', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
 
               performSearch('Pa', fixture);
@@ -6761,7 +6761,7 @@ describe('Lookup component', function () {
             }));
 
             it('should 10 items by default', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
 
               triggerInputFocus(fixture);
@@ -6775,7 +6775,7 @@ describe('Lookup component', function () {
             }));
 
             it('should not populate search bar with current input value when the search button is clicked but the input value is the current selected value', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
 
               performSearch('s', fixture);
@@ -6793,7 +6793,7 @@ describe('Lookup component', function () {
             }));
 
             it('should open the show more modal correctly when the input box is empty', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
 
               performSearch('', fixture);
@@ -6812,7 +6812,7 @@ describe('Lookup component', function () {
             });
 
             it('should populate the correct selected item and save that when no changes are made', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
               expect(asyncLookupComponent.value).toEqual([]);
 
@@ -6839,7 +6839,7 @@ describe('Lookup component', function () {
             }));
 
             it('should select the correct item when changed from the show all modal', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
               expect(asyncLookupComponent.value).toEqual([]);
 
@@ -6867,7 +6867,7 @@ describe('Lookup component', function () {
             }));
 
             it('should not make any changes when the show all modal is cancelled', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
               expect(asyncLookupComponent.value).toEqual([]);
 
@@ -6893,7 +6893,7 @@ describe('Lookup component', function () {
             }));
 
             it('should respect a custom modal title', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               component.setShowMoreNativePickerConfig({
                 title: 'Custom title',
               });
@@ -6909,7 +6909,7 @@ describe('Lookup component', function () {
             }));
 
             it('should set default title and aria labels without a selection descriptor', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               component.showAddButton = true;
               fixture.detectChanges();
               expect(lookupComponent.value).toEqual([]);
@@ -6938,7 +6938,7 @@ describe('Lookup component', function () {
             }));
 
             it('should respect a selection descriptor', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               component.showAddButton = true;
               component.setShowMoreNativePickerConfig({
                 selectionDescriptor: 'person',
@@ -6970,7 +6970,7 @@ describe('Lookup component', function () {
             }));
 
             it('should show only searched items when search is enabled', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
 
               performSearch('Pa', fixture, true);
@@ -6982,7 +6982,7 @@ describe('Lookup component', function () {
             }));
 
             it('should show all returned items from an async call', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
 
               triggerInputFocus(fixture, true);
@@ -6996,7 +6996,7 @@ describe('Lookup component', function () {
             }));
 
             it('should add items when scrolling ends', async () => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
 
               triggerInputFocus(fixture, true);
@@ -7019,7 +7019,7 @@ describe('Lookup component', function () {
             });
 
             it('should not populate search bar with current input value when the search button is clicked but the input value is the current selected value', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
 
               performSearch('s', fixture, true);
@@ -7037,7 +7037,7 @@ describe('Lookup component', function () {
             }));
 
             it('should open the show more modal correctly when the input box is empty', fakeAsync(() => {
-              component.enableShowMore = true;
+              component.enableShowMore.set(true);
               fixture.detectChanges();
 
               performSearch('', fixture);
@@ -7053,7 +7053,7 @@ describe('Lookup component', function () {
 
         it('should trickle down the add button click event when triggered from the show all modal', fakeAsync(() => {
           component.showAddButton = true;
-          component.enableShowMore = true;
+          component.enableShowMore.set(true);
           const addButtonSpy = spyOn(
             component,
             'addButtonClicked',
@@ -7071,7 +7071,7 @@ describe('Lookup component', function () {
         }));
 
         it('should not show the show more button unless the component input asks for it', fakeAsync(() => {
-          component.enableShowMore = false;
+          component.enableShowMore.set(false);
           fixture.detectChanges();
 
           // Type 'r' to activate the autocomplete dropdown, then click the first result.
@@ -7082,7 +7082,7 @@ describe('Lookup component', function () {
         }));
 
         it('should show the "name" property in the modal items by default', fakeAsync(() => {
-          component.enableShowMore = true;
+          component.enableShowMore.set(true);
           fixture.detectChanges();
 
           performSearch('p', fixture);
@@ -7094,7 +7094,7 @@ describe('Lookup component', function () {
         }));
 
         it('should respect a descriptor property being sent into the show more modal', fakeAsync(() => {
-          component.enableShowMore = true;
+          component.enableShowMore.set(true);
           component.descriptorProperty = 'birthDate';
           fixture.detectChanges();
 
@@ -7107,7 +7107,7 @@ describe('Lookup component', function () {
         }));
 
         it('should send the search result template into the show more modal', fakeAsync(() => {
-          component.enableShowMore = true;
+          component.enableShowMore.set(true);
           component.descriptorProperty = 'birthDate';
           component.enableSearchResultTemplate();
           fixture.detectChanges();
@@ -7121,7 +7121,7 @@ describe('Lookup component', function () {
         }));
 
         it('should respect a custom modal template', fakeAsync(() => {
-          component.enableShowMore = true;
+          component.enableShowMore.set(true);
           component.descriptorProperty = 'birthDate';
           component.enableSearchResultTemplate();
           component.setShowMoreNativePickerConfig({
@@ -7138,7 +7138,7 @@ describe('Lookup component', function () {
         }));
 
         it('should open a custom picker when enabled with no value', fakeAsync(() => {
-          component.enableShowMore = true;
+          component.enableShowMore.set(true);
           component.enableCustomPicker();
           fixture.detectChanges();
 
@@ -7158,7 +7158,7 @@ describe('Lookup component', function () {
         }));
 
         it('should open a custom picker when enabled with a value', fakeAsync(() => {
-          component.enableShowMore = true;
+          component.enableShowMore.set(true);
           component.enableCustomPicker();
           fixture.detectChanges();
 
@@ -7182,7 +7182,7 @@ describe('Lookup component', function () {
         }));
 
         it(`should not change the tokens when the form control is updated while a show more picker is open`, fakeAsync(() => {
-          component.enableShowMore = true;
+          component.enableShowMore.set(true);
           fixture.detectChanges();
 
           performSearch('s', fixture);
@@ -7196,7 +7196,7 @@ describe('Lookup component', function () {
           fixture.detectChanges();
           tick();
 
-          component.selectedFriends = [component.data![1]];
+          component.selectedFriends.set([component.data![1]]);
           fixture.detectChanges();
           tick();
           expect(lookupComponent.value).toEqual([
@@ -7224,7 +7224,7 @@ describe('Lookup component', function () {
 
     describe('validation', () => {
       it('should mark the form as invalid when it is required but is then emptied', fakeAsync(() => {
-        component.selectedFriends = [{ name: 'Rachel' }];
+        component.selectedFriends.set([{ name: 'Rachel' }]);
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -7275,7 +7275,7 @@ describe('Lookup component', function () {
         });
 
         it('should focus the input if arrowright key is pressed on the last token', fakeAsync(function () {
-          component.selectedFriends = [{ name: 'Rachel' }];
+          component.selectedFriends.set([{ name: 'Rachel' }]);
           fixture.detectChanges();
           tick();
           fixture.detectChanges();
@@ -7305,7 +7305,7 @@ describe('Lookup component', function () {
             fixture.detectChanges();
           }
 
-          component.selectedFriends = [{ name: 'Rachel' }];
+          component.selectedFriends.set([{ name: 'Rachel' }]);
           fixture.detectChanges();
           tick();
           fixture.detectChanges();
@@ -7322,7 +7322,7 @@ describe('Lookup component', function () {
         }));
 
         it('should not focus the last token if search text is present', fakeAsync(function () {
-          component.selectedFriends = [{ name: 'Rachel' }];
+          component.selectedFriends.set([{ name: 'Rachel' }]);
           fixture.detectChanges();
           tick();
           fixture.detectChanges();
@@ -7360,11 +7360,11 @@ describe('Lookup component', function () {
         }));
 
         it('should remove tokens when backspace or delete is pressed', fakeAsync(function () {
-          component.selectedFriends = [
+          component.selectedFriends.set([
             { name: 'John', description: 'Mr. John' },
             { name: 'Jane' },
             { name: 'Doe' },
-          ];
+          ]);
           fixture.detectChanges();
           tick();
           fixture.detectChanges();
@@ -7570,7 +7570,7 @@ describe('Lookup component', function () {
     }));
 
     it('should render in the expected input box containers (show more)', fakeAsync(() => {
-      component.enableShowMore = true;
+      component.enableShowMore.set(true);
       fixture.detectChanges();
 
       const inputBoxEl = nativeElement.querySelector('sky-input-box');
@@ -7591,7 +7591,7 @@ describe('Lookup component', function () {
       );
       expect(searchButton).not.toExist();
 
-      component.enableShowMore = true;
+      component.enableShowMore.set(true);
       fixture.detectChanges();
 
       searchButton = nativeElement.querySelector(
@@ -7599,7 +7599,7 @@ describe('Lookup component', function () {
       );
       expect(searchButton).toExist();
 
-      component.enableShowMore = false;
+      component.enableShowMore.set(false);
       fixture.detectChanges();
 
       searchButton = nativeElement.querySelector(

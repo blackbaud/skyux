@@ -1,6 +1,6 @@
-<sky-action-button-container [alignItems]="alignItems">
+<sky-action-button-container [alignItems]="alignItems()">
   <sky-action-button
-    [style.height]="firstButtonHeight"
+    [style.height]="firstButtonHeight()"
     (actionClick)="buttonClicked()"
   >
     <sky-action-button-icon iconName="filter" />

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyDefinitionListModule } from '@skyux/layout';
 
 /**
@@ -7,6 +7,7 @@ import { SkyDefinitionListModule } from '@skyux/layout';
 @Component({
   selector: 'app-layout-definition-list-basic-example',
   templateUrl: './example.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyDefinitionListModule],
 })
 export class LayoutDefinitionListBasicExampleComponent {

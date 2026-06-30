@@ -1,14 +1,14 @@
 <sky-repeater>
   <sky-repeater-item
     id="repeater-item-with-inline-form"
-    [inlineFormConfig]="inlineFormConfig"
+    [inlineFormConfig]="inlineFormConfig()"
     [inlineFormTemplate]="myInlineForm"
-    [showInlineForm]="showInlineForm"
+    [showInlineForm]="showInlineForm()"
     (inlineFormClose)="onInlineFormClose($event)"
   >
     <sky-repeater-item-title>
       Title
-      <button type="button" (click)="showInlineForm = true">Edit</button>
+      <button type="button" (click)="showInlineForm.set(true)">Edit</button>
     </sky-repeater-item-title>
 
     <sky-repeater-item-content> Note </sky-repeater-item-content>

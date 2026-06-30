@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 
 import { SkyModalError } from '../modal-error';
 
@@ -8,5 +8,5 @@ import { SkyModalError } from '../modal-error';
   standalone: false,
 })
 export class ModalFooterTestComponent {
-  public errors: SkyModalError[] | undefined;
+  public errors = signal<SkyModalError[] | undefined>(undefined);
 }

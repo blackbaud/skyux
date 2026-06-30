@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   HostBinding,
   Input,
@@ -52,6 +53,7 @@ function numberAttribute4(value: unknown): number {
     },
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   hostDirectives: [SkyThemeComponentClassDirective],
 })
 export class SkyCheckboxGroupComponent implements Validator {

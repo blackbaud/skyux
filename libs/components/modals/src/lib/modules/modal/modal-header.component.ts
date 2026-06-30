@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyTrimModule } from '@skyux/core';
 import { SkyThemeModule } from '@skyux/theme';
 
@@ -11,6 +11,7 @@ import { SkyThemeModule } from '@skyux/theme';
   selector: 'sky-modal-header',
   templateUrl: './modal-header.component.html',
   styleUrls: ['./modal-header.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyThemeModule, SkyTrimModule],
 })
 export class SkyModalHeaderComponent {}

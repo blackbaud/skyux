@@ -1,7 +1,7 @@
 <sky-inline-form
-  [config]="config"
+  [config]="config()"
   [template]="myForm"
-  [showForm]="showForm"
+  [showForm]="showForm()"
   (close)="onClose($event)"
 >
   <p>Something</p>
@@ -20,10 +20,10 @@
 </ng-template>
 
 <!-- The following forms are for testing autocomplete behavior on init. -->
-@if (showFormWithOutAutocomplete) {
+@if (showFormWithOutAutocomplete()) {
   <sky-inline-form
-    [config]="config"
-    [showForm]="showForm"
+    [config]="config()"
+    [showForm]="showForm()"
     [template]="formWithOutAutocomplete"
     (close)="onClose($event)"
   >
@@ -43,10 +43,10 @@
   </div>
 </ng-template>
 
-@if (showFormWithAutocomplete) {
+@if (showFormWithAutocomplete()) {
   <sky-inline-form
-    [config]="config"
-    [showForm]="showForm"
+    [config]="config()"
+    [showForm]="showForm()"
     [template]="formWithAutocomplete"
     (close)="onClose($event)"
   >
@@ -65,10 +65,10 @@
   </div>
 </ng-template>
 
-@if (showFormWithHiddenElements) {
+@if (showFormWithHiddenElements()) {
   <sky-inline-form
-    [config]="config"
-    [showForm]="showForm"
+    [config]="config()"
+    [showForm]="showForm()"
     [template]="formWithHiddenElements"
     (close)="onClose($event)"
   />
@@ -89,10 +89,10 @@
   </div>
 </ng-template>
 
-@if (showFormWithNoElements) {
+@if (showFormWithNoElements()) {
   <sky-inline-form
-    [config]="config"
-    [showForm]="showForm"
+    [config]="config()"
+    [showForm]="showForm()"
     [template]="formWithNoElements"
   >
     <p>Something</p>

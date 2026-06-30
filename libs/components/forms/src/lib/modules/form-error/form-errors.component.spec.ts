@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ValidationErrors } from '@angular/forms';
 import { expect } from '@skyux-sdk/testing';
@@ -12,34 +12,32 @@ import { SkyFormErrorsModule } from './form-errors.module';
   providers: [{ provide: SKY_FORM_ERRORS_ENABLED, useValue: true }],
   template: `
     <sky-form-errors
-      [labelText]="labelText"
-      [errors]="errors"
-      [touched]="touched"
-      [dirty]="dirty"
+      [labelText]="labelText()"
+      [errors]="errors()"
+      [touched]="touched()"
+      [dirty]="dirty()"
     >
       <sky-form-error errorName="custom" errorMessage="Custom error" />
     </sky-form-errors>
   `,
 })
 class FormErrorsComponent {
-  public errors?: ValidationErrors | undefined;
-  public labelText: string | undefined = 'Label text';
-  public touched = false;
-  public dirty: boolean | undefined = false;
+  public errors = input<ValidationErrors | undefined>(undefined);
+  public labelText = input<string | undefined>('Label text');
+  public touched = input(false);
+  public dirty = input<boolean | undefined>(false);
 }
 
 describe('Form errors component', () => {
   let fixture: ComponentFixture<FormErrorsComponent>;
-  let componentInstance: FormErrorsComponent;
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FormErrorsComponent);
-    componentInstance = fixture.componentInstance;
 
     fixture.detectChanges();
   });
   it('should render known input errors when they are passed and a labelText is present based on touched and/or dirty', () => {
-    componentInstance.errors = {
+    fixture.componentRef.setInput('errors', {
       required: true,
       maxlength: true,
       minlength: true,
@@ -55,11 +53,11 @@ describe('Form errors component', () => {
       skyPhoneField: true,
       skyTime: true,
       skyUrl: true,
-    };
+    });
     fixture.detectChanges();
 
     // dirty
-    componentInstance.dirty = true;
+    fixture.componentRef.setInput('dirty', true);
     fixture.detectChanges();
 
     const formError = fixture.nativeElement.querySelector(
@@ -69,8 +67,8 @@ describe('Form errors component', () => {
     expect(formError).toBeVisible();
 
     // touched
-    componentInstance.dirty = undefined;
-    componentInstance.touched = true;
+    fixture.componentRef.setInput('dirty', undefined);
+    fixture.componentRef.setInput('touched', true);
     fixture.detectChanges();
 
     [
@@ -100,7 +98,7 @@ describe('Form errors component', () => {
   });
 
   it('should include the minimum or maximum date in the date error messages', () => {
-    componentInstance.errors = {
+    fixture.componentRef.setInput('errors', {
       skyDate: {
         invalid: true,
         maxDate: new Date('01/01/2025'),
@@ -117,10 +115,10 @@ describe('Form errors component', () => {
         minDateFormatted: '01/01/2020',
         yearRequired: true,
       },
-    };
+    });
 
-    componentInstance.dirty = true;
-    componentInstance.touched = true;
+    fixture.componentRef.setInput('dirty', true);
+    fixture.componentRef.setInput('touched', true);
     fixture.detectChanges();
 
     const minDateErrorMessage = fixture.nativeElement.querySelector(
@@ -151,7 +149,7 @@ describe('Form errors component', () => {
   });
 
   it('should render custom errors when there are no known errors and labelText is present regardless of touched or dirty', () => {
-    componentInstance.touched = true;
+    fixture.componentRef.setInput('touched', true);
     fixture.detectChanges();
 
     let formError = fixture.nativeElement.querySelector(
@@ -161,8 +159,8 @@ describe('Form errors component', () => {
     expect(formError).toExist();
     expect(formError).toBeVisible();
 
-    componentInstance.touched = false;
-    componentInstance.dirty = true;
+    fixture.componentRef.setInput('touched', false);
+    fixture.componentRef.setInput('dirty', true);
     fixture.detectChanges();
 
     formError = fixture.nativeElement.querySelector(
@@ -174,11 +172,11 @@ describe('Form errors component', () => {
   });
 
   it('should not render any errors when they are passed but labelText is undefined', () => {
-    componentInstance.errors = {
+    fixture.componentRef.setInput('errors', {
       required: true,
       maxlength: true,
-    };
-    componentInstance.labelText = undefined;
+    });
+    fixture.componentRef.setInput('labelText', undefined);
 
     fixture.detectChanges();
 

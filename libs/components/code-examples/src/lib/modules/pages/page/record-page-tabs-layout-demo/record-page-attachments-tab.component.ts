@@ -1,4 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { SkyAgGridModule, SkyAgGridService } from '@skyux/ag-grid';
 import {
   SkyDataManagerModule,
@@ -27,6 +32,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   selector: 'app-record-page-attachments-tab',
   templateUrl: './record-page-attachments-tab.component.html',
   providers: [SkyDataManagerService],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     AgGridAngular,
     SkyAgGridModule,

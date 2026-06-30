@@ -1,7 +1,7 @@
 <div *skyThemeIf="'modern'" class="sky-theme-if-test">modern theme</div>
 <div *skyThemeIf="'default'" class="sky-theme-if-test">default theme</div>
 
-<div [skyTheme]="themeSettings">
+<div [skyTheme]="themeSettings()">
   <div *skyThemeIf="'modern'" class="sky-theme-if-wrapped-test">
     wrapped in modern theme
   </div>
@@ -10,8 +10,8 @@
   </div>
 </div>
 
-<div *skyThemeIf="testThemeName" class="sky-theme-if-input-test">
-  This text shown for {{ testThemeName }} theme.
+<div *skyThemeIf="testThemeName()" class="sky-theme-if-input-test">
+  This text shown for {{ testThemeName() }} theme.
 </div>
 
 <div class="sky-theme-template">

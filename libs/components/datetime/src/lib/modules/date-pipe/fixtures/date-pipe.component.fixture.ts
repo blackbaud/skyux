@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 import { SkyDatePipeModule } from '../date-pipe.module';
 import { SkyDatePipe } from '../date.pipe';
@@ -8,11 +8,12 @@ import { SkyDatePipe } from '../date.pipe';
   templateUrl: './date-pipe.component.fixture.html',
   imports: [SkyDatePipeModule],
   providers: [SkyDatePipe],
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class DatePipeTestComponent {
-  public dateValue: any = new Date(2000, 0, 1);
-  public format: string | undefined;
-  public locale: string | undefined;
+  public readonly dateValue = input<any>(new Date(2000, 0, 1));
+  public readonly format = input<string | undefined>(undefined);
+  public readonly locale = input<string | undefined>(undefined);
 
   #datePipe: SkyDatePipe;
 
