@@ -1,6 +1,17 @@
 # Changelog
 
 
+## [15.0.0-alpha.1](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.0...15.0.0-alpha.1) (2026-06-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/pages:** Needs-attention blocks without any items are no longer displayed.
+
+### Features
+
+* **components/pages:** hide needs-attention block when empty ([#4477](https://github.com/blackbaud/skyux/issues/4477)) ([ac7da1d](https://github.com/blackbaud/skyux/commit/ac7da1d57d21b73be111c79cd1812ecbcaf4403b))
+
 ## [15.0.0-alpha.0](https://github.com/blackbaud/skyux/compare/14.3.10...15.0.0-alpha.0) (2026-06-30)
 
 
