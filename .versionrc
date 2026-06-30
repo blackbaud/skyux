@@ -1,6 +1,6 @@
 {
   "//": "Configuration for https://github.com/absolute-version/commit-and-tag-version",
-  "releaseAs": "15.0.0-alpha.0",
+  "releaseAs": null,
   "prerelease": true,
   "preset": "conventionalcommits",
   "header": "# Changelog\n\n",
