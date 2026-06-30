@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, input, signal } from '@angular/core';
 import {
   AbstractControl,
   UntypedFormBuilder,
@@ -16,47 +16,47 @@ import { SkyRadioGroupHeadingStyle } from '../types/radio-group-heading-style';
   standalone: false,
 })
 export class SkyRadioGroupReactiveFixtureComponent implements OnInit {
-  public ariaLabel: string | undefined;
+  public ariaLabel = input<string | undefined>(undefined);
 
-  public ariaLabelledBy: string | undefined = 'radio-group-label';
+  public ariaLabelledBy = input<string | undefined>('radio-group-label');
 
-  public groupName: string | undefined = 'radioGroup';
+  public groupName = input<string | undefined>('radioGroup');
 
   public initialDisabled = false;
 
   public initialValue: unknown = null;
 
-  public options: { name: string; disabled: boolean; id?: string }[] = [
+  public options = signal<{ name: string; disabled: boolean; id?: string }[]>([
     { name: 'Lilly Corr', disabled: false },
     { name: 'Sherry Ken', disabled: false },
     { name: 'Harry Mckenzie', disabled: false },
     { name: 'Incorrect option', disabled: false },
-  ];
+  ]);
 
   public radioControl: UntypedFormControl | undefined;
   public radioForm: UntypedFormGroup | undefined;
 
-  public required = false;
+  public required = input(false);
 
-  public showRadioGroup = true;
+  public showRadioGroup = input(true);
 
-  public tabIndex: number | undefined;
+  public tabIndex = input<number | undefined>(undefined);
 
-  public headingText: string | undefined;
+  public headingText = input<string | undefined>(undefined);
 
-  public headingHidden = false;
+  public headingHidden = input(false);
 
-  public hintText: string | undefined;
+  public hintText = input<string | undefined>(undefined);
 
-  public stacked: boolean | undefined;
+  public stacked = input<boolean | undefined>(undefined);
 
-  public helpKey: string | undefined;
+  public helpKey = input<string | undefined>(undefined);
 
-  public helpPopoverContent: string | undefined;
+  public helpPopoverContent = input<string | undefined>(undefined);
 
-  public headingLevel: SkyRadioGroupHeadingLevel | undefined = 3;
+  public headingLevel = input<SkyRadioGroupHeadingLevel | undefined>(3);
 
-  public headingStyle: SkyRadioGroupHeadingStyle | undefined = 3;
+  public headingStyle = input<SkyRadioGroupHeadingStyle | undefined>(3);
 
   @ViewChild(SkyRadioGroupComponent)
   public radioGroupComponent: SkyRadioGroupComponent | undefined;
@@ -89,11 +89,11 @@ export class SkyRadioGroupReactiveFixtureComponent implements OnInit {
   }
 
   public changeOptions(): void {
-    this.options = [
+    this.options.set([
       { name: 'Lily Corr', disabled: false },
       { name: 'Hank Smith', disabled: false },
       { name: 'Sherry Ken', disabled: false },
       { name: 'Harry Mckenzie', disabled: false },
-    ];
+    ]);
   }
 }

@@ -9,17 +9,6 @@
     "build": {
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/action-bars"],
-      "options": {
-        "project": "libs/components/action-bars/ng-package.json"
-      },
-      "configurations": {
-        "production": {
-          "tsConfig": "libs/components/action-bars/tsconfig.lib.prod.json"
-        },
-        "development": {
-          "tsConfig": "libs/components/action-bars/tsconfig.lib.json"
-        }
-      },
       "defaultConfiguration": "production",
       "dependsOn": [
         "^build",
@@ -34,10 +23,21 @@
         "{workspaceRoot}/libs/components/action-bars/testing/src/**/*",
         "!{workspaceRoot}/libs/components/action-bars/testing/src/**/*.spec.ts",
         "!{workspaceRoot}/libs/components/action-bars/testing/src/**/fixtures/**/*"
-      ]
+      ],
+      "options": {
+        "project": "libs/components/action-bars/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/components/action-bars/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/components/action-bars/tsconfig.lib.json"
+        }
+      }
     },
     "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+      "executor": "@angular/build:karma",
       "options": {
         "tsConfig": "libs/components/action-bars/tsconfig.spec.json",
         "karmaConfig": "libs/components/action-bars/karma.conf.js",

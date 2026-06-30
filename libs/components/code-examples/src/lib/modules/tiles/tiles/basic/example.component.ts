@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyTileDashboardConfig, SkyTilesModule } from '@skyux/tiles';
 
 import { Tile1Component } from './tile1.component';
@@ -10,6 +10,7 @@ import { Tile2Component } from './tile2.component';
 @Component({
   selector: 'app-tiles-basic-example',
   templateUrl: './example.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyTilesModule],
 })
 export class TilesBasicExampleComponent {

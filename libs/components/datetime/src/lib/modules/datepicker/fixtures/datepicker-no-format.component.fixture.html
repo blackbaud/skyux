@@ -1,5 +1,9 @@
 <div>
   <sky-datepicker>
-    <input skyDatepickerInput [(ngModel)]="selectedDate" />
+    <input
+      skyDatepickerInput
+      [ngModel]="selectedDate()"
+      (ngModelChange)="selectedDate.set($event)"
+    />
   </sky-datepicker>
 </div>

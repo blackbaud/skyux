@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 
 @Component({
   selector: 'test-infinite-scroll-harness',
@@ -6,18 +6,20 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class InfiniteScrollHarnessTestComponent {
-  public enabled = true;
+  public enabled = input(true);
 
-  public loading = false;
+  public loading = input(false);
 
-  public items: Record<string, string>[] = [];
+  public items = signal<Record<string, string>[]>([]);
 
   public onScrollEnd(): void {
-    const len = this.items.length;
-    for (let i = len; i < len + 10; i++) {
-      this.items.push({
-        name: `test object: #${i}`,
-      });
-    }
+    this.items.update((current) => {
+      const len = current.length;
+      const next = [...current];
+      for (let i = len; i < len + 10; i++) {
+        next.push({ name: `test object: #${i}` });
+      }
+      return next;
+    });
   }
 }

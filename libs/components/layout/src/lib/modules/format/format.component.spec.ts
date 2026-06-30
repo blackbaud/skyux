@@ -37,7 +37,7 @@ describe('Format component', () => {
 
     fixture.detectChanges();
 
-    fixture.componentInstance.text = 'foo {0}';
+    fixture.componentRef.setInput('text', 'foo {0}');
 
     fixture.detectChanges();
 

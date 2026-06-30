@@ -1,4 +1,4 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, TemplateRef, ViewChild, input } from '@angular/core';
 
 import { SkyHelpInlineModule } from '../help-inline.module';
 
@@ -8,14 +8,16 @@ import { SkyHelpInlineModule } from '../help-inline.module';
   imports: [SkyHelpInlineModule],
 })
 export class HelpInlineTestComponent {
-  public ariaControls: string | undefined;
-  public ariaExpanded: boolean | undefined;
-  public ariaLabel: string | undefined;
-  public helpKey: string | undefined;
-  public labelledBy: string | undefined;
-  public labelText: string | undefined;
-  public popoverContent: TemplateRef<unknown> | string | undefined;
-  public popoverTitle: string | undefined;
+  public ariaControls = input<string | undefined>(undefined);
+  public ariaExpanded = input<boolean | undefined>(undefined);
+  public ariaLabel = input<string | undefined>(undefined);
+  public helpKey = input<string | undefined>(undefined);
+  public labelledBy = input<string | undefined>(undefined);
+  public labelText = input<string | undefined>(undefined);
+  public popoverContent = input<TemplateRef<unknown> | string | undefined>(
+    undefined,
+  );
+  public popoverTitle = input<string | undefined>(undefined);
   public showHelpText = false;
 
   @ViewChild('popoverTemplate', { read: TemplateRef })

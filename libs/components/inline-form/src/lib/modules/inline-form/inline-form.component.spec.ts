@@ -96,7 +96,7 @@ describe('Inline form component', () => {
     fixture: ComponentFixture<SkyInlineFormFixtureComponent>;
 
   function showForm() {
-    component.showForm = true;
+    fixture.componentRef.setInput('showForm', true);
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
@@ -122,9 +122,9 @@ describe('Inline form component', () => {
   }));
 
   it('should show delete Done/Delete/Cancel buttons when SkyInlineFormConfig is defined', fakeAsync(() => {
-    component.config = {
+    fixture.componentRef.setInput('config', {
       buttonLayout: SkyInlineFormButtonLayout.DoneDeleteCancel,
-    };
+    });
     showForm();
 
     verifyDoneButtonIsDefined(fixture, true);
@@ -134,9 +134,9 @@ describe('Inline form component', () => {
   }));
 
   it('should show delete Save/Delete/Cancel buttons when SkyInlineFormConfig is defined', fakeAsync(() => {
-    component.config = {
+    fixture.componentRef.setInput('config', {
       buttonLayout: SkyInlineFormButtonLayout.SaveDeleteCancel,
-    };
+    });
     showForm();
 
     verifySaveButtonIsDefined(fixture, true);
@@ -146,9 +146,9 @@ describe('Inline form component', () => {
   }));
 
   it('should show delete Save/Cancel buttons when SkyInlineFormConfig is defined', fakeAsync(() => {
-    component.config = {
+    fixture.componentRef.setInput('config', {
       buttonLayout: SkyInlineFormButtonLayout.SaveCancel,
-    };
+    });
     showForm();
 
     verifySaveButtonIsDefined(fixture, true);
@@ -186,9 +186,9 @@ describe('Inline form component', () => {
   }));
 
   it('should emit when delete button is clicked', fakeAsync(() => {
-    component.config = {
+    fixture.componentRef.setInput('config', {
       buttonLayout: SkyInlineFormButtonLayout.SaveDeleteCancel,
-    };
+    });
     showForm();
 
     const spy = spyOn(component, 'onClose');
@@ -203,9 +203,9 @@ describe('Inline form component', () => {
   }));
 
   it('should emit when save button is clicked', fakeAsync(() => {
-    component.config = {
+    fixture.componentRef.setInput('config', {
       buttonLayout: SkyInlineFormButtonLayout.SaveCancel,
-    };
+    });
     showForm();
 
     const spy = spyOn(component, 'onClose');
@@ -220,7 +220,7 @@ describe('Inline form component', () => {
   }));
 
   it('should properly set up custom buttons', fakeAsync(() => {
-    component.config = {
+    fixture.componentRef.setInput('config', {
       buttonLayout: SkyInlineFormButtonLayout.Custom,
       buttons: [
         {
@@ -235,7 +235,7 @@ describe('Inline form component', () => {
         },
         { action: 'CUSTOM_ACTION_3', text: 'CUSTOM_TEXT_3', styleType: 'link' },
       ],
-    };
+    });
     showForm();
 
     const spy = spyOn(component, 'onClose');
@@ -256,7 +256,7 @@ describe('Inline form component', () => {
   }));
 
   it('should focus the first focusable element when no autofocus is inside of content', fakeAsync(() => {
-    component.showFormWithOutAutocomplete = true;
+    fixture.componentRef.setInput('showFormWithOutAutocomplete', true);
     showForm();
 
     expect(document.activeElement).toEqual(
@@ -265,7 +265,7 @@ describe('Inline form component', () => {
   }));
 
   it('should focus the autofocus element when there is one present', fakeAsync(() => {
-    component.showFormWithAutocomplete = true;
+    fixture.componentRef.setInput('showFormWithAutocomplete', true);
     showForm();
 
     expect(document.activeElement).toEqual(
@@ -274,7 +274,7 @@ describe('Inline form component', () => {
   }));
 
   it('should focus the first element thats visible', fakeAsync(() => {
-    component.showFormWithHiddenElements = true;
+    fixture.componentRef.setInput('showFormWithHiddenElements', true);
     showForm();
 
     expect(document.activeElement).toEqual(
@@ -283,7 +283,7 @@ describe('Inline form component', () => {
   }));
 
   it('should not move focus if there are no focusable elements in the form', fakeAsync(() => {
-    component.showFormWithNoElements = true;
+    fixture.componentRef.setInput('showFormWithNoElements', true);
     showForm();
 
     expect(document.activeElement).toEqual(
@@ -292,7 +292,7 @@ describe('Inline form component', () => {
   }));
 
   it('should change the buttons when config input is changed', fakeAsync(() => {
-    component.config = {
+    fixture.componentRef.setInput('config', {
       buttonLayout: SkyInlineFormButtonLayout.Custom,
       buttons: [
         {
@@ -307,10 +307,10 @@ describe('Inline form component', () => {
         },
         { action: 'CUSTOM_ACTION_3', text: 'CUSTOM_TEXT_3', styleType: 'link' },
       ],
-    };
+    });
     showForm();
 
-    component.config = {
+    fixture.componentRef.setInput('config', {
       buttonLayout: SkyInlineFormButtonLayout.Custom,
       buttons: [
         {
@@ -324,7 +324,7 @@ describe('Inline form component', () => {
           styleType: 'default',
         },
       ],
-    };
+    });
 
     fixture.detectChanges();
 
@@ -342,7 +342,7 @@ describe('Inline form component', () => {
   }));
 
   it('should disable button when config disable property is true', fakeAsync(() => {
-    component.config = {
+    fixture.componentRef.setInput('config', {
       buttonLayout: SkyInlineFormButtonLayout.Custom,
       buttons: [
         {
@@ -356,7 +356,7 @@ describe('Inline form component', () => {
           styleType: 'default',
         },
       ],
-    };
+    });
     showForm();
     let button1 = getPrimaryButton(fixture).nativeElement;
     let button2 = getDefaultButton(fixture).nativeElement;
@@ -366,7 +366,7 @@ describe('Inline form component', () => {
     expect(button1).not.toHaveCssClass('sky-btn-disabled');
     expect(button2).not.toHaveCssClass('sky-btn-disabled');
 
-    component.config = {
+    fixture.componentRef.setInput('config', {
       buttonLayout: SkyInlineFormButtonLayout.Custom,
       buttons: [
         {
@@ -381,7 +381,7 @@ describe('Inline form component', () => {
           styleType: 'default',
         },
       ],
-    };
+    });
     fixture.detectChanges();
     button1 = getPrimaryButton(fixture).nativeElement;
     button2 = getDefaultButton(fixture).nativeElement;
@@ -399,7 +399,7 @@ describe('Inline form component', () => {
       fixture.debugElement.query(By.css('.sky-slide-dissolve-last')),
     ).not.toBeNull();
 
-    component.showForm = false;
+    fixture.componentRef.setInput('showForm', false);
     fixture.detectChanges();
 
     expect(
@@ -411,7 +411,7 @@ describe('Inline form component', () => {
   }));
 
   it('should pass accessibility', async () => {
-    component.showForm = true;
+    fixture.componentRef.setInput('showForm', true);
     fixture.detectChanges();
 
     await fixture.whenStable();

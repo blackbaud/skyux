@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, input } from '@angular/core';
 import { SkyConfirmService } from '@skyux/modals';
 
 import { Subject } from 'rxjs';
@@ -15,13 +15,15 @@ import { SkySplitViewMessage } from '../types/split-view-message';
 export class SplitViewFixtureComponent {
   public additionalItems: string[] = [];
 
-  public ariaLabelForDrawer: string | undefined;
+  public ariaLabelForDrawer = input<string | undefined>(undefined);
 
-  public ariaLabelForWorkspace: string | undefined;
+  public ariaLabelForWorkspace = input<string | undefined>(undefined);
 
-  public backButtonText: string | undefined;
+  public backButtonText = input<string | undefined>(undefined);
 
-  public bindHeightToWindow = false;
+  public bindHeightToWindow = input<boolean>(false);
+
+  public dock = input<SkySplitViewDockType | undefined>(undefined);
 
   public hasUnsavedWork = false;
 
@@ -33,17 +35,15 @@ export class SplitViewFixtureComponent {
     { id: '5', name: 'strawberry' },
   ];
 
-  public lowerSplitView = false;
+  public lowerSplitView = input<boolean>(false);
 
-  public showActionBar = false;
+  public showActionBar = input<boolean>(false);
 
-  public showIframe = false;
+  public showIframe = input<boolean>(false);
 
   public splitViewMessageStream = new Subject<SkySplitViewMessage>();
 
-  public width: number | undefined;
-
-  public dock: SkySplitViewDockType | undefined;
+  public width = input<number | undefined>(undefined);
 
   @ViewChild(SkySplitViewComponent)
   public splitViewComponent!: SkySplitViewComponent;

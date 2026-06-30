@@ -1,4 +1,9 @@
-import { Component, HostListener, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostListener,
+  inject,
+} from '@angular/core';
 import { SkyLogService } from '@skyux/core';
 
 /**
@@ -10,6 +15,7 @@ import { SkyLogService } from '@skyux/core';
 @Component({
   selector: 'sky-radio-label',
   templateUrl: './radio-label.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyRadioLabelComponent {

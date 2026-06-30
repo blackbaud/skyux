@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -18,6 +18,7 @@ interface ToggleSwitchFormType {
 @Component({
   selector: 'app-forms-toggle-switch-basic-example',
   templateUrl: './example.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule, ReactiveFormsModule, SkyToggleSwitchModule],
 })
 export class FormsToggleSwitchBasicExampleComponent {

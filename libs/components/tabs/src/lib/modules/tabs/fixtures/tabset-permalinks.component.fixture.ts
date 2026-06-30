@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, model } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { SkyTabIndex } from '../tab-index';
@@ -9,7 +9,7 @@ import { SkyTabIndex } from '../tab-index';
   standalone: false,
 })
 export class SkyTabsetPermalinksFixtureComponent {
-  public activeIndex: SkyTabIndex | undefined = 0;
+  public activeIndex = model<SkyTabIndex | undefined>(0);
 
   public permalinkId: string | undefined;
 
@@ -17,12 +17,12 @@ export class SkyTabsetPermalinksFixtureComponent {
 
   public secondTabDisabled = false;
 
-  public showIt = true;
+  public showIt = model<boolean>(true);
 
   constructor(public router: Router) {}
 
   public onActiveChange(index: SkyTabIndex): void {
-    this.activeIndex = index;
+    this.activeIndex.set(index);
   }
 
   public disableSecondTab(): void {
@@ -30,6 +30,6 @@ export class SkyTabsetPermalinksFixtureComponent {
   }
 
   public removeFromExistence(): void {
-    this.showIt = false;
+    this.showIt.set(false);
   }
 }

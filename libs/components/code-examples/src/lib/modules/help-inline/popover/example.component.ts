@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 
 /**
@@ -7,6 +7,7 @@ import { SkyHelpInlineModule } from '@skyux/help-inline';
 @Component({
   imports: [SkyHelpInlineModule],
   selector: 'app-help-inline-popover-example',
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './example.component.html',
 })
 export class HelpInlinePopoverExampleComponent {}

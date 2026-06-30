@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
@@ -24,6 +25,7 @@ let nextId = 0;
   styleUrls: ['./inline-delete.component.scss'],
   templateUrl: './inline-delete.component.html',
   providers: [SkyCoreAdapterService, SkyInlineDeleteAdapterService],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyInlineDeleteComponent implements OnDestroy {

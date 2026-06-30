@@ -1,6 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyDropdownModule } from '@skyux/popovers';
 
@@ -10,9 +10,9 @@ import { SkyDropdownItemHarness } from './dropdown-item-harness';
 @Component({
   selector: 'sky-dropdown-menu-test',
   template: `
-    <sky-dropdown-item [ariaRole]="itemRole">
+    <sky-dropdown-item [ariaRole]="itemRole()">
       <button (click)="clickItem()"></button>
-      {{ itemText }}
+      {{ itemText() }}
     </sky-dropdown-item>
     <sky-dropdown-item data-sky-id="other-item" [ariaRole]="'otherItem'">
       other-item-text
@@ -21,9 +21,8 @@ import { SkyDropdownItemHarness } from './dropdown-item-harness';
   standalone: false,
 })
 class TestDropdownItemComponent {
-  public itemRole: string | undefined;
-  public itemText: string | undefined;
-  public otherItemText: string | undefined;
+  public readonly itemRole = input<string | undefined>(undefined);
+  public readonly itemText = input<string | undefined>(undefined);
 
   public clickItem(): void {
     // Only exists for the spy
@@ -113,7 +112,7 @@ describe('Dropdown item test harness', () => {
   it('should get the menu item role', async () => {
     const { dropdownItemHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.itemRole = 'item-role';
+    fixture.componentRef.setInput('itemRole', 'item-role');
     fixture.detectChanges();
 
     await expectAsync(dropdownItemHarness.getAriaRole()).toBeResolvedTo(
@@ -135,7 +134,7 @@ describe('Dropdown item test harness', () => {
   it('should get the item text', async () => {
     const { dropdownItemHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.itemText = 'text';
+    fixture.componentRef.setInput('itemText', 'text');
     fixture.detectChanges();
 
     await expectAsync(dropdownItemHarness.getText()).toBeResolvedTo('text');

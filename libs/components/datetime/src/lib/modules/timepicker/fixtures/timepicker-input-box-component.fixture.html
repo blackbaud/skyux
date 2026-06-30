@@ -1,12 +1,12 @@
 <div>
-  <sky-input-box [labelText]="labelText">
+  <sky-input-box [labelText]="labelText()">
     <sky-timepicker #timePicker>
       <input
         class="input-box-timepicker-input"
         type="text"
-        [returnFormat]="returnFormat"
+        [returnFormat]="returnFormat()"
         [skyTimepickerInput]="timePicker"
-        [timeFormat]="timeFormat"
+        [timeFormat]="timeFormat()"
       />
     </sky-timepicker>
   </sky-input-box>

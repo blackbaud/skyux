@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 
 @Component({
   selector: 'sky-test-cmp',
@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class SkyDefinitionListTestComponent {
-  public personalInfo: { label: string; value?: string }[] = [
+  public personalInfo = signal<{ label: string; value?: string }[]>([
     {
       label: 'Job title',
       value: 'Engineer',
@@ -18,9 +18,9 @@ export class SkyDefinitionListTestComponent {
     {
       label: 'Experience',
     },
-  ];
+  ]);
 
-  public systemInfo: { label: string; value?: string }[] = [
+  public systemInfo = signal<{ label: string; value?: string }[]>([
     {
       label: 'Username',
       value: 'user1',
@@ -32,5 +32,5 @@ export class SkyDefinitionListTestComponent {
     {
       label: 'Last log-in time',
     },
-  ];
+  ]);
 }

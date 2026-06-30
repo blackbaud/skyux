@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, input, model } from '@angular/core';
 
 import { SkyInlineDeleteComponent } from '../inline-delete.component';
 
@@ -21,15 +21,15 @@ import { SkyInlineDeleteComponent } from '../inline-delete.component';
   standalone: false,
 })
 export class InlineDeleteTestComponent {
-  public parentTabIndex: number | undefined;
+  public parentTabIndex = input<number | undefined>(undefined);
 
-  public pending: boolean | undefined = false;
+  public pending = input<boolean | undefined>(false);
 
-  public showDelete = true;
+  public showDelete = model<boolean>(true);
 
-  public showExtraButtons = false;
+  public showExtraButtons = input<boolean>(false);
 
-  public showCoveredButtons = true;
+  public showCoveredButtons = input<boolean>(true);
 
   @ViewChild(SkyInlineDeleteComponent, {
     read: SkyInlineDeleteComponent,
@@ -38,10 +38,10 @@ export class InlineDeleteTestComponent {
   public inlineDelete!: SkyInlineDeleteComponent;
 
   public onCancelTriggered(): void {
-    this.showDelete = false;
+    this.showDelete.set(false);
   }
 
   public onDeleteTriggered(): void {
-    this.showDelete = false;
+    this.showDelete.set(false);
   }
 }

@@ -490,6 +490,7 @@ describe('tree view', () => {
 
       // Select a child of the first parent.
       childCheckbox?.click();
+      fixture.detectChanges();
 
       // Expect the parent checkbox to be checked but also indeterminate.
       expect(parentCheckbox?.checked).toBe(true);
@@ -614,7 +615,7 @@ describe('tree view', () => {
 
       expect(errorSpy).not.toHaveBeenCalled();
 
-      component.showInvalidTree = true;
+      fixture.componentRef.setInput('showInvalidTree', true);
       fixture.detectChanges();
 
       expect(errorSpy).toHaveBeenCalled();
@@ -853,6 +854,7 @@ describe('tree view', () => {
       const nodes = getNodeContentWrappers();
 
       SkyAppTestUtility.fireDomEvent(nodes[1], 'focus');
+      fixture.detectChanges();
 
       expect(nodes[0].tabIndex).toEqual(-1);
       expect(nodes[1].tabIndex).toEqual(0);
@@ -861,6 +863,7 @@ describe('tree view', () => {
       expect(nodes[4].tabIndex).toEqual(-1);
 
       SkyAppTestUtility.fireDomEvent(nodes[4], 'focus');
+      fixture.detectChanges();
 
       expect(nodes[0].tabIndex).toEqual(-1);
       expect(nodes[1].tabIndex).toEqual(-1);
@@ -1488,6 +1491,7 @@ describe('tree view', () => {
       expect(nodes[4].getAttribute('aria-selected')).toEqual('false');
 
       clickNode(0);
+      fixture.detectChanges();
       expect(nodes[0].getAttribute('aria-selected')).toEqual('true');
       expect(nodes[1].getAttribute('aria-selected')).toEqual('true');
       expect(nodes[2].getAttribute('aria-selected')).toEqual('true');

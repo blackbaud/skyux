@@ -207,7 +207,7 @@ describe('List View Grid Component', () => {
             .nativeElement.textContent.trim(),
         ).toBe('Column5');
 
-        component.showNgIfCol = true;
+        fixture.componentRef.setInput('showNgIfCol', true);
 
         spyOn(dispatcher, 'searchSetOptions').and.callThrough();
         fixture.detectChanges();

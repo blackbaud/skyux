@@ -1,6 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
@@ -20,16 +20,16 @@ import { SkyTabsetNavButtonHarness } from './tabset-nav-button-harness';
   imports: [SkyTabsModule, SkyPageModule],
   template: `
     <sky-tabset
-      [ariaLabel]="ariaLabel"
-      [ariaLabelledBy]="ariaLabelledBy"
-      [permalinkId]="permalinkId"
+      [ariaLabel]="ariaLabel()"
+      [ariaLabelledBy]="ariaLabelledBy()"
+      [permalinkId]="permalinkId()"
       (newTab)="tabAction()"
       (openTab)="tabAction()"
     >
       <sky-tab
-        [tabHeading]="tabHeading"
-        [permalinkValue]="permalinkValue"
-        [tabIndexValue]="tabIndexValue"
+        [tabHeading]="tabHeading()"
+        [permalinkValue]="permalinkValue()"
+        [tabIndexValue]="tabIndexValue()"
         (close)="tabAction()"
       >
         Tab 1 Content
@@ -48,13 +48,13 @@ import { SkyTabsetNavButtonHarness } from './tabset-nav-button-harness';
   `,
 })
 class TestComponent {
-  public active = false;
-  public ariaLabel: string | undefined;
-  public ariaLabelledBy: string | undefined;
-  public permalinkId: string | undefined;
-  public permalinkValue: string | undefined;
-  public tabHeading: string | undefined = 'Tab 1';
-  public tabIndexValue: SkyTabIndex | undefined;
+  public readonly active = input(false);
+  public readonly ariaLabel = input<string | undefined>(undefined);
+  public readonly ariaLabelledBy = input<string | undefined>(undefined);
+  public readonly permalinkId = input<string | undefined>(undefined);
+  public readonly permalinkValue = input<string | undefined>(undefined);
+  public readonly tabHeading = input<string | undefined>('Tab 1');
+  public readonly tabIndexValue = input<SkyTabIndex | undefined>(undefined);
 
   public tabAction(): void {
     // This function is for the spy.
@@ -68,10 +68,10 @@ class TestComponent {
       <sky-modal-content>
         <sky-tabset #wizardTest tabStyle="wizard" ariaLabel="wizard">
           <sky-tab tabHeading="Tab 1"> Tab 1 content </sky-tab>
-          <sky-tab tabHeading="Tab 2" [disabled]="isStep2Disabled">
+          <sky-tab tabHeading="Tab 2" [disabled]="isStep2Disabled()">
             Tab 2 content
           </sky-tab>
-          <sky-tab tabHeading="Tab 3" [disabled]="isStep3Disabled">
+          <sky-tab tabHeading="Tab 3" [disabled]="isStep3Disabled()">
             Tab 3 content
           </sky-tab>
         </sky-tabset>
@@ -86,16 +86,16 @@ class TestComponent {
         <sky-tabset-nav-button
           buttonType="finish"
           [tabset]="wizardTest"
-          [disabled]="isSaveDisabled"
+          [disabled]="isSaveDisabled()"
         />
       </sky-modal-footer>
     </sky-modal>
   `,
 })
 class WizardTestComponent {
-  public isStep2Disabled = true;
-  public isStep3Disabled = true;
-  public isSaveDisabled = true;
+  public readonly isStep2Disabled = input(true);
+  public readonly isStep3Disabled = input(true);
+  public readonly isSaveDisabled = input(true);
 }
 
 describe('Tab harness', () => {
@@ -157,7 +157,7 @@ describe('Tab harness', () => {
 
   it('should get aria-label', async () => {
     const { tabsetHarness, fixture } = await setupTest();
-    fixture.componentInstance.ariaLabel = 'aria label';
+    fixture.componentRef.setInput('ariaLabel', 'aria label');
     fixture.detectChanges();
 
     await expectAsync(tabsetHarness.getAriaLabel()).toBeResolvedTo(
@@ -167,7 +167,7 @@ describe('Tab harness', () => {
 
   it('should get aria-labelledby', async () => {
     const { tabsetHarness, fixture } = await setupTest();
-    fixture.componentInstance.ariaLabelledBy = 'aria-labelledby';
+    fixture.componentRef.setInput('ariaLabelledBy', 'aria-labelledby');
     fixture.detectChanges();
 
     await expectAsync(tabsetHarness.getAriaLabelledBy()).toBeResolvedTo(
@@ -283,8 +283,8 @@ describe('Tab harness', () => {
 
     it('should get the permalink for a tab button', async () => {
       const { tabButtonHarness, fixture } = await setupTabButtonTest('Tab 1');
-      fixture.componentInstance.permalinkId = 'test-tab';
-      fixture.componentInstance.permalinkValue = 'tab-1';
+      fixture.componentRef.setInput('permalinkId', 'test-tab');
+      fixture.componentRef.setInput('permalinkValue', 'tab-1');
       fixture.detectChanges();
 
       await expectAsync(tabButtonHarness.getPermalink()).toBeResolvedTo(
@@ -509,7 +509,7 @@ describe('Wizard tab harness', () => {
         fixture,
       );
 
-      fixture.componentInstance.isStep2Disabled = false;
+      fixture.componentRef.setInput('isStep2Disabled', false);
       fixture.detectChanges();
 
       let activeTab = await wizardHarness.getActiveTabButton();
@@ -526,8 +526,8 @@ describe('Wizard tab harness', () => {
         fixture,
       );
 
-      fixture.componentInstance.isStep2Disabled = false;
-      fixture.componentInstance.isStep3Disabled = false;
+      fixture.componentRef.setInput('isStep2Disabled', false);
+      fixture.componentRef.setInput('isStep3Disabled', false);
       fixture.detectChanges();
 
       await navButtonHarness.click();
@@ -543,7 +543,7 @@ describe('Wizard tab harness', () => {
 
       await expectAsync(finishButton.isDisabled()).toBeResolvedTo(true);
 
-      fixture.componentInstance.isSaveDisabled = false;
+      fixture.componentRef.setInput('isSaveDisabled', false);
       fixture.detectChanges();
 
       await expectAsync(finishButton.isDisabled()).toBeResolvedTo(false);

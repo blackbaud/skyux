@@ -1,3 +1,7 @@
 <sky-datepicker>
-  <input skyFuzzyDatepickerInput [(ngModel)]="selectedDate" />
+  <input
+    skyFuzzyDatepickerInput
+    [ngModel]="selectedDate()"
+    (ngModelChange)="selectedDate.set($event)"
+  />
 </sky-datepicker>

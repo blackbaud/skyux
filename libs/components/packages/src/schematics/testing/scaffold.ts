@@ -37,10 +37,10 @@ export async function createTestApp(
     const angularJson = JSON.parse(angularJsonBuffer.toString());
     const projectName = appOptions.projectName;
 
-    // Set `test` builder to '@angular-devkit/build-angular:karma' for backward compatibility.
+    // Set `test` builder to '@angular/build:karma' for backward compatibility.
     if (angularJson.projects?.[projectName]?.architect?.test) {
       angularJson.projects[projectName].architect.test.builder =
-        '@angular-devkit/build-angular:karma';
+        '@angular/build:karma';
 
       angularJson.projects[projectName].architect.test.options ??= {};
       angularJson.projects[projectName].architect.test.options.polyfills = [

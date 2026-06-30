@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -13,9 +13,9 @@ import { SkyTabsetFixture } from './tabset-fixture';
   template: `
     <sky-tabset
       data-sky-id="test-tabset"
-      [ariaLabel]="ariaLabel"
-      [ariaLabelledBy]="ariaLabelledBy"
-      [permalinkId]="permalinkId"
+      [ariaLabel]="ariaLabel()"
+      [ariaLabelledBy]="ariaLabelledBy()"
+      [permalinkId]="permalinkId()"
       (activeChange)="onActiveChange($event)"
       (newTab)="onNewTab()"
       (openTab)="onOpenTab()"
@@ -24,7 +24,7 @@ import { SkyTabsetFixture } from './tabset-fixture';
         tabHeading="Tab 1"
         tabHeaderCount="40"
         [active]="true"
-        [permalinkValue]="permalinkValueTab1"
+        [permalinkValue]="permalinkValueTab1()"
         (close)="onTab1Close()"
       >
         Content for Tab 1
@@ -38,13 +38,13 @@ import { SkyTabsetFixture } from './tabset-fixture';
   standalone: false,
 })
 class TestComponent {
-  public permalinkId: string | undefined;
+  public readonly permalinkId = input<string | undefined>(undefined);
 
-  public permalinkValueTab1: string | undefined;
+  public readonly permalinkValueTab1 = input<string | undefined>(undefined);
 
-  public ariaLabel: string | undefined = 'Tabset ARIA label';
+  public readonly ariaLabel = input<string | undefined>('Tabset ARIA label');
 
-  public ariaLabelledBy: string | undefined;
+  public readonly ariaLabelledBy = input<string | undefined>(undefined);
 
   public onActiveChange(): void {}
 
@@ -80,8 +80,8 @@ describe('Tabset fixture', () => {
     expect(tabset.ariaLabel).toBe('Tabset ARIA label');
     expect(tabset.ariaLabelledBy).toBe(undefined);
 
-    fixture.componentInstance.ariaLabel = undefined;
-    fixture.componentInstance.ariaLabelledBy = 'Labelled by';
+    fixture.componentRef.setInput('ariaLabel', undefined);
+    fixture.componentRef.setInput('ariaLabelledBy', 'Labelled by');
 
     fixture.detectChanges();
 
@@ -90,8 +90,8 @@ describe('Tabset fixture', () => {
   }
 
   async function validateTabProperties(): Promise<void> {
-    fixture.componentInstance.permalinkId = 'test-tab';
-    fixture.componentInstance.permalinkValueTab1 = 'tab-1';
+    fixture.componentRef.setInput('permalinkId', 'test-tab');
+    fixture.componentRef.setInput('permalinkValueTab1', 'tab-1');
 
     fixture.detectChanges();
     await fixture.whenStable();

@@ -19,7 +19,6 @@ describe('List Secondary Actions Component', () => {
   let dispatcher: ListStateDispatcher;
   let fixture: ComponentFixture<ListSecondaryActionsTestComponent>;
   let nativeElement: HTMLElement;
-  let component: ListSecondaryActionsTestComponent;
 
   beforeEach(() => {
     dispatcher = new ListStateDispatcher();
@@ -36,7 +35,6 @@ describe('List Secondary Actions Component', () => {
 
     fixture = TestBed.createComponent(ListSecondaryActionsTestComponent);
     nativeElement = fixture.nativeElement as HTMLElement;
-    component = fixture.componentInstance;
   });
 
   afterEach(() => {
@@ -53,7 +51,7 @@ describe('List Secondary Actions Component', () => {
   }));
 
   it('should hide secondary actions when no child actions available', fakeAsync(() => {
-    component.showOption = false;
+    fixture.componentRef.setInput('showOption', false);
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
@@ -62,7 +60,7 @@ describe('List Secondary Actions Component', () => {
       nativeElement.querySelector('.sky-list-secondary-actions-hidden'),
     ).not.toBeNull();
 
-    component.showOption = true;
+    fixture.componentRef.setInput('showOption', true);
     fixture.detectChanges();
     tick();
 

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyModalService } from '@skyux/modals';
 
 import { ModalComponent } from './modal.component';
@@ -8,6 +8,7 @@ import { ModalComponent } from './modal.component';
  */
 @Component({
   selector: 'app-tabs-wizard-basic-example',
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './example.component.html',
 })
 export class TabsWizardBasicExampleComponent {

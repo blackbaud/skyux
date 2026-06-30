@@ -536,11 +536,11 @@ describe('Vertical tabset component', () => {
     );
 
     // Activate first tab.
-    fixture.componentInstance.activeIndex = 0;
+    fixture.componentRef.setInput('activeIndex', 0);
     fixture.detectChanges();
 
     // Activate second tab.
-    fixture.componentInstance.activeIndex = 1;
+    fixture.componentRef.setInput('activeIndex', 1);
     fixture.detectChanges();
 
     const visibleTabs = getVisibleTabContentPane(fixture);
@@ -589,9 +589,9 @@ describe('Vertical tabset component', () => {
     expect(tab?.getAttribute('role')).toBe('tab');
     expect(tabset?.getAttribute('role')).toBe('tablist');
 
-    fixture.componentInstance.tab1Id = undefined;
-    fixture.componentInstance.tab1AriaRole = undefined;
-    fixture.componentInstance.tabsetAriaRole = undefined;
+    fixture.componentRef.setInput('tab1Id', undefined);
+    fixture.componentRef.setInput('tab1AriaRole', undefined);
+    fixture.componentRef.setInput('tabsetAriaRole', undefined);
     fixture.detectChanges();
     expect(tab?.getAttribute('id')).toEqual(
       jasmine.stringMatching(/sky-vertical-tab-[0-9]/),
@@ -599,9 +599,9 @@ describe('Vertical tabset component', () => {
     expect(tab?.getAttribute('role')).toBe('tab');
     expect(tabset?.getAttribute('role')).toBe('tablist');
 
-    fixture.componentInstance.tab1Id = 'tab-changed';
-    fixture.componentInstance.tab1AriaRole = 'custom';
-    fixture.componentInstance.tabsetAriaRole = 'custom';
+    fixture.componentRef.setInput('tab1Id', 'tab-changed');
+    fixture.componentRef.setInput('tab1AriaRole', 'custom');
+    fixture.componentRef.setInput('tabsetAriaRole', 'custom');
     fixture.detectChanges();
     expect(tab?.getAttribute('id')).toBe('tab-changed');
     expect(tab?.getAttribute('role')).toBe('custom');
@@ -927,7 +927,7 @@ describe('Vertical tabset component', () => {
     const fixture = createTestComponent();
 
     // Show the tab's panel for the test.
-    fixture.componentInstance.showScrollable = true;
+    fixture.componentRef.setInput('showScrollable', true);
 
     fixture.detectChanges();
     await fixture.whenStable();
@@ -938,7 +938,7 @@ describe('Vertical tabset component', () => {
     const fixture = createTestComponent();
 
     // Show the tab's panel for the test.
-    fixture.componentInstance.showScrollable = true;
+    fixture.componentRef.setInput('showScrollable', true);
     fixture.componentInstance.active = false;
 
     fixture.detectChanges();
@@ -950,7 +950,7 @@ describe('Vertical tabset component', () => {
     const fixture = createTestComponent();
 
     // Show the tab's panel for the test.
-    fixture.componentInstance.showScrollable = true;
+    fixture.componentRef.setInput('showScrollable', true);
     mediaQueryController.setBreakpoint('xs');
 
     fixture.detectChanges();
@@ -962,7 +962,7 @@ describe('Vertical tabset component', () => {
     const fixture = createTestComponent();
 
     // Show the tab's panel for the test.
-    fixture.componentInstance.showScrollable = true;
+    fixture.componentRef.setInput('showScrollable', true);
     fixture.componentInstance.active = false;
     mediaQueryController.setBreakpoint('xs');
 
@@ -1074,7 +1074,7 @@ describe('Vertical tabset component', () => {
     fixture.detectChanges();
 
     const el = fixture.nativeElement;
-    fixture.componentInstance.showScrollable = true;
+    fixture.componentRef.setInput('showScrollable', true);
 
     fixture.detectChanges();
 
@@ -1099,7 +1099,7 @@ describe('Vertical tabset component', () => {
     const fixture = createTestComponent();
     fixture.detectChanges();
 
-    fixture.componentInstance.showScrollable = true;
+    fixture.componentRef.setInput('showScrollable', true);
 
     fixture.detectChanges();
     await fixture.whenStable();
@@ -1110,7 +1110,7 @@ describe('Vertical tabset component', () => {
     const fixture = createTestComponent();
     fixture.detectChanges();
 
-    fixture.componentInstance.showScrollable = true;
+    fixture.componentRef.setInput('showScrollable', true);
     mediaQueryController.setBreakpoint('xs');
 
     fixture.detectChanges();
@@ -1144,7 +1144,7 @@ describe('Vertical tabset component - with ngFor', () => {
     expect(tabContentElements.length).toBe(3);
 
     // Remove first tab from array.
-    component.tabs.splice(0, 1);
+    fixture.componentRef.setInput('tabs', component.tabs().slice(1));
     fixture.detectChanges();
 
     // Expect tab to be removed from DOM.
@@ -1155,11 +1155,10 @@ describe('Vertical tabset component - with ngFor', () => {
     expect(tabContentElements.length).toBe(2);
 
     // Add tab to array.
-    component.tabs.push({
-      id: '99',
-      heading: 'tab 99',
-      content: 'Tab 99 content',
-    });
+    fixture.componentRef.setInput('tabs', [
+      ...component.tabs(),
+      { id: '99', heading: 'tab 99', content: 'Tab 99 content' },
+    ]);
     fixture.detectChanges();
 
     // New tab should be rendered in DOM.
@@ -1178,7 +1177,7 @@ describe('Vertical tabset component - with ngFor', () => {
     fixture.detectChanges();
 
     // Remove first tab from array.
-    component.tabs.splice(0, 1);
+    fixture.componentRef.setInput('tabs', component.tabs().slice(1));
     fixture.detectChanges();
 
     // Next active tab should be selected.
@@ -1186,11 +1185,11 @@ describe('Vertical tabset component - with ngFor', () => {
     expect(visibleTabContent.length).toBe(1);
     let tabContent = visibleTabContent[0];
     expect(tabContent).not.toBeUndefined();
-    expect(fixture.componentInstance.activeIndex).toEqual(0);
+    expect(fixture.componentInstance.activeIndex()).toEqual(0);
     expect(tabContent).toHaveText('Tab 2 content');
 
     // Now, remove last (second) tab from array.
-    component.tabs.splice(1, 1);
+    fixture.componentRef.setInput('tabs', [component.tabs()[0]]);
     fixture.detectChanges();
 
     // Next active tab should be selected.
@@ -1198,7 +1197,7 @@ describe('Vertical tabset component - with ngFor', () => {
     expect(visibleTabContent.length).toBe(1);
     tabContent = visibleTabContent[0];
     expect(tabContent).not.toBeUndefined();
-    expect(fixture.componentInstance.activeIndex).toEqual(0);
+    expect(fixture.componentInstance.activeIndex()).toEqual(0);
     expect(tabContent).toHaveText('Tab 2 content');
   });
 });

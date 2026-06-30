@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 import { SkyDropdownButtonType, SkyDropdownMenuChange } from '@skyux/popovers';
@@ -23,21 +23,21 @@ const DATA_SKY_ID = 'test-dropdown';
   template: `
     <sky-dropdown
       data-sky-id="${DATA_SKY_ID}"
-      [buttonStyle]="buttonStyle"
-      [buttonType]="buttonType"
-      [disabled]="disabled"
-      [label]="label"
-      [title]="title"
+      [buttonStyle]="buttonStyle()"
+      [buttonType]="buttonType()"
+      [disabled]="disabled()"
+      [label]="label()"
+      [title]="title()"
     >
       <sky-dropdown-button>
-        {{ dropdownButtonText }}
+        {{ dropdownButtonText() }}
       </sky-dropdown-button>
       <sky-dropdown-menu
-        [ariaLabelledBy]="dropdownMenuAriaLabelledBy"
-        [ariaRole]="dropdownMenuAriaRole"
+        [ariaLabelledBy]="dropdownMenuAriaLabelledBy()"
+        [ariaRole]="dropdownMenuAriaRole()"
         (menuChanges)="onMenuChanges($event)"
       >
-        @for (item of items; track item; let i = $index) {
+        @for (item of items(); track item; let i = $index) {
           <sky-dropdown-item [ariaRole]="i === 2 ? 'item-custom-role' : null">
             <button
               type="button"
@@ -57,27 +57,31 @@ const DATA_SKY_ID = 'test-dropdown';
 class DropdownTestComponent {
   public activeIndex: number | undefined;
 
-  public buttonStyle: string | undefined;
+  public readonly buttonStyle = input<string | undefined>(undefined);
 
-  public buttonType: SkyDropdownButtonType | undefined;
+  public readonly buttonType = input<SkyDropdownButtonType | undefined>(
+    undefined,
+  );
 
-  public disabled = false;
+  public readonly disabled = input(false);
 
-  public dropdownButtonText = 'Show dropdown';
+  public readonly dropdownButtonText = input('Show dropdown');
 
-  public dropdownMenuAriaLabelledBy: string | undefined;
+  public readonly dropdownMenuAriaLabelledBy = input<string | undefined>(
+    undefined,
+  );
 
-  public dropdownMenuAriaRole: string | undefined;
+  public readonly dropdownMenuAriaRole = input<string | undefined>(undefined);
 
-  public label: string | undefined;
+  public readonly label = input<string | undefined>(undefined);
 
-  public title: string | undefined;
+  public readonly title = input<string | undefined>(undefined);
 
-  public items: { name: string; disabled?: boolean }[] = [
+  public readonly items = input<{ name: string; disabled?: boolean }[]>([
     { name: 'Option 1' },
     { name: 'Option 2', disabled: true },
     { name: 'Option 3' },
-  ];
+  ]);
 
   public onMenuChanges(itemName: SkyDropdownMenuChange): void {
     if (itemName.activeIndex) {
@@ -127,41 +131,43 @@ describe('Dropdown fixture', () => {
 
   it('should expose the properties for the dropdown button', () => {
     // Give properties non-default values.
-    testComponent.buttonStyle = 'primary';
-    testComponent.buttonType = 'context-menu';
-    testComponent.disabled = true;
-    testComponent.label = 'A11y descriptor';
-    testComponent.title = 'my title';
+    fixture.componentRef.setInput('buttonStyle', 'primary');
+    fixture.componentRef.setInput('buttonType', 'context-menu');
+    fixture.componentRef.setInput('disabled', true);
+    fixture.componentRef.setInput('label', 'A11y descriptor');
+    fixture.componentRef.setInput('title', 'my title');
     fixture.detectChanges();
 
     // Expect new values to be set on sky-dropdown component.
     expect(dropdownFixture.dropdown?.buttonStyle).toEqual(
-      testComponent.buttonStyle,
+      testComponent.buttonStyle(),
     );
     expect(dropdownFixture.dropdown?.buttonType).toEqual(
-      testComponent.buttonType,
+      testComponent.buttonType(),
     );
-    expect(dropdownFixture.dropdown?.disabled).toEqual(testComponent.disabled);
-    expect(dropdownFixture.dropdown?.label).toEqual(testComponent.label);
-    expect(dropdownFixture.dropdown?.title).toEqual(testComponent.title);
+    expect(dropdownFixture.dropdown?.disabled).toEqual(
+      testComponent.disabled(),
+    );
+    expect(dropdownFixture.dropdown?.label).toEqual(testComponent.label());
+    expect(dropdownFixture.dropdown?.title).toEqual(testComponent.title());
     expect(dropdownFixture.dropdown?.buttonType).toEqual(
-      testComponent.buttonType,
+      testComponent.buttonType(),
     );
 
     // Check default button styling.
-    testComponent.buttonStyle = undefined;
+    fixture.componentRef.setInput('buttonStyle', undefined);
     fixture.detectChanges();
     expect(dropdownFixture.dropdown?.buttonStyle).toEqual('default');
 
     // Check custom button styling.
-    testComponent.buttonStyle = 'invalid';
+    fixture.componentRef.setInput('buttonStyle', 'invalid');
     fixture.detectChanges();
     expect(dropdownFixture.dropdown?.buttonStyle).toBeUndefined();
   });
 
   it('should expose the inner text of the dropdown button', () => {
     expect(dropdownFixture.dropdownButtonText).toEqual(
-      testComponent.dropdownButtonText,
+      testComponent.dropdownButtonText(),
     );
   });
 
@@ -175,18 +181,18 @@ describe('Dropdown fixture', () => {
 
   it('should expose the properties for the dropdown menu', async () => {
     // Give properties non-default values.
-    testComponent.dropdownMenuAriaLabelledBy = 'my-custom-id';
-    testComponent.dropdownMenuAriaRole = 'my-custom-role';
+    fixture.componentRef.setInput('dropdownMenuAriaLabelledBy', 'my-custom-id');
+    fixture.componentRef.setInput('dropdownMenuAriaRole', 'my-custom-role');
     fixture.detectChanges();
 
     await dropdownFixture.clickDropdownButton();
 
     // Expect new values to be set on sky-dropdown-menu component.
     expect(dropdownFixture.dropdownMenu?.ariaLabelledBy).toEqual(
-      testComponent.dropdownMenuAriaLabelledBy,
+      testComponent.dropdownMenuAriaLabelledBy(),
     );
     expect(dropdownFixture.dropdownMenu?.ariaRole).toEqual(
-      testComponent.dropdownMenuAriaRole,
+      testComponent.dropdownMenuAriaRole(),
     );
   });
 
@@ -228,17 +234,17 @@ describe('Dropdown fixture', () => {
     expect(buttonEls.length).toEqual(3);
 
     expect(buttonEls[0].textContent.trim()).toEqual(
-      testComponent.items[0].name,
+      testComponent.items()[0].name,
     );
     expect(buttonEls[0].disabled).toEqual(false);
 
     expect(buttonEls[1].textContent.trim()).toEqual(
-      testComponent.items[1].name,
+      testComponent.items()[1].name,
     );
     expect(buttonEls[1].disabled).toEqual(true);
 
     expect(buttonEls[2].textContent.trim()).toEqual(
-      testComponent.items[2].name,
+      testComponent.items()[2].name,
     );
     expect(buttonEls[2].disabled).toEqual(false);
   });

@@ -1,13 +1,13 @@
-@if (lowerSplitView) {
+@if (lowerSplitView()) {
   <div style="height: 100px"></div>
 }
 <sky-split-view
-  [backButtonText]="backButtonText"
-  [bindHeightToWindow]="bindHeightToWindow"
-  [dock]="dock"
+  [backButtonText]="backButtonText()"
+  [bindHeightToWindow]="bindHeightToWindow()"
+  [dock]="dock()"
   [messageStream]="splitViewMessageStream"
 >
-  <sky-split-view-drawer [ariaLabel]="ariaLabelForDrawer" [width]="width">
+  <sky-split-view-drawer [ariaLabel]="ariaLabelForDrawer()" [width]="width()">
     <ul>
       @for (item of items; track item) {
         <li>{{ item.name }}</li>
@@ -15,7 +15,7 @@
     </ul>
   </sky-split-view-drawer>
 
-  <sky-split-view-workspace [ariaLabel]="ariaLabelForWorkspace">
+  <sky-split-view-workspace [ariaLabel]="ariaLabelForWorkspace()">
     <sky-split-view-workspace-content>
       <h1>foo</h1>
       <p>bar</p>
@@ -27,7 +27,7 @@
         Second input
         <input name="secondInput" type="text" id="sky-test-second-input" />
       </label>
-      @if (showIframe) {
+      @if (showIframe()) {
         <iframe src="https://developer.blackbaud.com/skyux/"></iframe>
       }
       <ul>
@@ -38,7 +38,7 @@
     </sky-split-view-workspace-content>
   </sky-split-view-workspace>
 </sky-split-view>
-@if (showActionBar) {
+@if (showActionBar()) {
   <sky-summary-action-bar>
     <sky-summary-action-bar-actions>
       <sky-summary-action-bar-primary-action>

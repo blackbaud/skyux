@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, input, model } from '@angular/core';
 
 import { SkyFuzzyDatepickerInputDirective } from '../datepicker-input-fuzzy.directive';
 
@@ -8,29 +8,29 @@ import { SkyFuzzyDatepickerInputDirective } from '../datepicker-input-fuzzy.dire
   standalone: false,
 })
 export class FuzzyDatepickerTestComponent {
-  public ariaLabel = 'This is a date field.';
+  public ariaLabel = input('This is a date field.');
 
-  public futureDisabled: boolean | undefined;
+  public futureDisabled = input<boolean | undefined>(undefined);
 
-  public dateFormat: string | undefined;
+  public dateFormat = input<string | undefined>(undefined);
 
-  public isDisabled: boolean | undefined;
+  public isDisabled = input<boolean | undefined>(undefined);
 
-  public maxDate: any;
+  public maxDate = input<any>(undefined);
 
-  public minDate: any;
+  public minDate = input<any>(undefined);
 
-  public startAtDate: any;
+  public startAtDate = input<any>(undefined);
 
-  public noValidate = false;
+  public noValidate = input(false);
 
-  public selectedDate: any;
+  public selectedDate = model<any>(undefined);
 
-  public showInvalidDirective = false;
+  public showInvalidDirective = input(false);
 
-  public startingDay = 0;
+  public startingDay = input(0);
 
-  public yearRequired: boolean | undefined;
+  public yearRequired = input<boolean | undefined>(undefined);
 
   @ViewChild(SkyFuzzyDatepickerInputDirective)
   public inputDirective!: SkyFuzzyDatepickerInputDirective;

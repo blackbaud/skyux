@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyAvatarModule } from '@skyux/avatar';
 import { SkyAlertModule, SkyLabelModule } from '@skyux/indicators';
 import { SkyPageModule } from '@skyux/pages';
@@ -12,6 +12,7 @@ import { RecordPageContentComponent } from './record-page-content.component';
 @Component({
   selector: 'app-pages-page-record-page-tabs-layout-example',
   templateUrl: './example.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     RecordPageContentComponent,
     SkyAlertModule,

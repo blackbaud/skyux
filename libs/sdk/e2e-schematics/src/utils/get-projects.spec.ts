@@ -1,6 +1,6 @@
 import { storybookConfigurationGenerator } from '@nx/angular/generators';
 import { configurationGenerator } from '@nx/cypress';
-import { getProjects } from '@nx/devkit';
+import { addProjectConfiguration, getProjects } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { Linter } from '@nx/eslint';
 
@@ -91,5 +91,77 @@ describe('some-or-all-projects', () => {
     expect(() => getStorybookProject(tree, {})).toThrow(
       new Error('Project name not specified'),
     );
+  });
+
+  it('should error when getStorybookProject is called with a project that does not exist', () => {
+    const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    expect(() => getStorybookProject(tree, { project: 'missing-app' })).toThrow(
+      new Error('Unable to find project missing-app'),
+    );
+  });
+
+  it('should return the project config when the project has a storybook target directly', () => {
+    const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    addProjectConfiguration(tree, 'my-app', {
+      root: 'apps/my-app',
+      targets: {
+        storybook: { executor: '@storybook/angular:start-storybook' },
+      },
+    });
+    const projectConfig = getStorybookProject(tree, { project: 'my-app' });
+    expect(projectConfig).toBeTruthy();
+    expect(projectConfig.root).toEqual('apps/my-app');
+  });
+
+  it('should error when getStorybookProject cannot find the storybook variant project', () => {
+    const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    addProjectConfiguration(tree, 'my-app', {
+      root: 'apps/my-app',
+      targets: {
+        build: { executor: '@angular/build:application' },
+      },
+    });
+    expect(() => getStorybookProject(tree, { project: 'my-app' })).toThrow(
+      new Error('Unable to find project my-app-storybook'),
+    );
+  });
+
+  it('should error when getStorybookProject finds the storybook variant project but it has no storybook target', () => {
+    const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    addProjectConfiguration(tree, 'my-app', {
+      root: 'apps/my-app',
+      targets: {
+        build: { executor: '@angular/build:application' },
+      },
+    });
+    addProjectConfiguration(tree, 'my-app-storybook', {
+      root: 'apps/my-app-storybook',
+      targets: {
+        build: { executor: '@storybook/angular:build-storybook' },
+      },
+    });
+    expect(() => getStorybookProject(tree, { project: 'my-app' })).toThrow(
+      new Error('Storybook is not configured for my-app-storybook'),
+    );
+  });
+
+  it('should return the storybook variant project config when the project itself has no storybook target', () => {
+    const tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    addProjectConfiguration(tree, 'my-app', {
+      root: 'apps/my-app',
+      targets: {
+        build: { executor: '@angular/build:application' },
+      },
+    });
+    addProjectConfiguration(tree, 'my-app-storybook', {
+      root: 'apps/my-app-storybook',
+      targets: {
+        storybook: { executor: '@storybook/angular:start-storybook' },
+        build: { executor: '@storybook/angular:build-storybook' },
+      },
+    });
+    const projectConfig = getStorybookProject(tree, { project: 'my-app' });
+    expect(projectConfig).toBeTruthy();
+    expect(projectConfig.root).toEqual('apps/my-app-storybook');
   });
 });

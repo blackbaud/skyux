@@ -93,7 +93,7 @@ describe('Radio group component (reactive)', function () {
   }));
 
   it('should update the form properly when form is initialized with values', fakeAsync(function () {
-    componentInstance.initialValue = componentInstance.options[0];
+    componentInstance.initialValue = componentInstance.options()[0];
 
     fixture.detectChanges();
 
@@ -118,7 +118,7 @@ describe('Radio group component (reactive)', function () {
     fixture.detectChanges();
 
     componentInstance.radioForm?.patchValue({
-      radioGroup: componentInstance.options[0],
+      radioGroup: componentInstance.options()[0],
     });
 
     fixture.detectChanges();
@@ -175,7 +175,7 @@ describe('Radio group component (reactive)', function () {
     expect(componentInstance.radioControl?.value.name).toEqual('Lilly Corr');
 
     componentInstance.radioForm?.patchValue({
-      radioGroup: componentInstance.options[1],
+      radioGroup: componentInstance.options()[1],
     });
     fixture.detectChanges();
     tick();
@@ -184,7 +184,7 @@ describe('Radio group component (reactive)', function () {
   }));
 
   it('should not show a required state when not required', fakeAsync(() => {
-    componentInstance.headingText = 'Test';
+    fixture.componentRef.setInput('headingText', 'Test');
     fixture.detectChanges();
     tick();
 
@@ -198,8 +198,8 @@ describe('Radio group component (reactive)', function () {
   }));
 
   it('should show a required state when required input is set to true', fakeAsync(() => {
-    componentInstance.headingText = 'Test';
-    componentInstance.required = true;
+    fixture.componentRef.setInput('headingText', 'Test');
+    fixture.componentRef.setInput('required', true);
 
     fixture.detectChanges();
     tick();
@@ -214,7 +214,7 @@ describe('Radio group component (reactive)', function () {
   }));
 
   it('should update the form properly when radio button is required and changed', fakeAsync(() => {
-    componentInstance.required = true;
+    fixture.componentRef.setInput('required', true);
     fixture.detectChanges();
 
     expect(componentInstance.radioForm?.valid).toBe(false);
@@ -225,7 +225,7 @@ describe('Radio group component (reactive)', function () {
   }));
 
   it('should use tabIndex when specified', fakeAsync(function () {
-    componentInstance.tabIndex = 2;
+    fixture.componentRef.setInput('tabIndex', 2);
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
@@ -237,7 +237,7 @@ describe('Radio group component (reactive)', function () {
   }));
 
   it('should maintain tabIndex when options change', fakeAsync(function () {
-    componentInstance.tabIndex = 2;
+    fixture.componentRef.setInput('tabIndex', 2);
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
@@ -275,7 +275,7 @@ describe('Radio group component (reactive)', function () {
       expect(element.getAttribute('name')).toBe('radioGroup');
     }
 
-    componentInstance.groupName = undefined;
+    fixture.componentRef.setInput('groupName', undefined);
     fixture.detectChanges();
 
     for (const element of radioArray) {
@@ -365,8 +365,8 @@ describe('Radio group component (reactive)', function () {
   }));
 
   it('should set the aria-label property correctly', fakeAsync(() => {
-    componentInstance.ariaLabel = 'radio-group-label-manual';
-    componentInstance.ariaLabelledBy = undefined;
+    fixture.componentRef.setInput('ariaLabel', 'radio-group-label-manual');
+    fixture.componentRef.setInput('ariaLabelledBy', undefined);
 
     fixture.detectChanges();
     tick();
@@ -414,7 +414,7 @@ describe('Radio group component (reactive)', function () {
     fixture.detectChanges();
 
     componentInstance.radioForm?.patchValue({
-      radioGroup: componentInstance.options[0],
+      radioGroup: componentInstance.options()[0],
     });
 
     fixture.detectChanges();
@@ -427,17 +427,17 @@ describe('Radio group component (reactive)', function () {
 
     // Toggle the field's generation on and off to make sure the form control's state
     // isn't directly tied to the template's change detection.
-    componentInstance.showRadioGroup = false;
+    fixture.componentRef.setInput('showRadioGroup', false);
     fixture.detectChanges();
     tick();
 
-    componentInstance.showRadioGroup = true;
+    fixture.componentRef.setInput('showRadioGroup', true);
     fixture.detectChanges();
     tick();
 
     expect(componentInstance.radioForm?.value).toEqual(expectedValue);
 
-    componentInstance.showRadioGroup = false;
+    fixture.componentRef.setInput('showRadioGroup', false);
     fixture.detectChanges();
     tick();
 
@@ -493,7 +493,7 @@ describe('Radio group component (reactive)', function () {
 
   it('should note enable disabled radio buttons when the outer radio group is enabled', fakeAsync(function () {
     componentInstance.initialDisabled = true;
-    componentInstance.options[2].disabled = true;
+    componentInstance.options()[2].disabled = true;
     fixture.detectChanges();
     tick();
 
@@ -607,7 +607,10 @@ describe('Radio group component (reactive)', function () {
     );
 
     // Change an existing ID to something else.
-    fixture.componentInstance.options[0].id = 'foobar';
+    fixture.componentInstance.options()[0].id = 'foobar';
+    fixture.componentInstance.options.set([
+      ...fixture.componentInstance.options(),
+    ]);
     fixture.detectChanges();
 
     const newAriaOwns = radioGroupEl?.getAttribute('aria-owns');
@@ -618,7 +621,7 @@ describe('Radio group component (reactive)', function () {
 
   it('should display a heading if `headingText` is set', () => {
     const headingText = 'Heading Text';
-    componentInstance.headingText = headingText;
+    fixture.componentRef.setInput('headingText', headingText);
 
     fixture.detectChanges();
 
@@ -630,8 +633,8 @@ describe('Radio group component (reactive)', function () {
 
   it('should not display `headingText` if `headingHidden` is true', () => {
     const headingText = 'Heading Text';
-    componentInstance.headingText = headingText;
-    componentInstance.headingHidden = true;
+    fixture.componentRef.setInput('headingText', headingText);
+    fixture.componentRef.setInput('headingHidden', true);
 
     fixture.detectChanges();
 
@@ -656,9 +659,9 @@ describe('Radio group component (reactive)', function () {
     ];
     headingLevels.forEach((headingLevel) => {
       headingStyles.forEach((headingStyle) => {
-        componentInstance.headingText = 'Label text';
-        componentInstance.headingLevel = headingLevel;
-        componentInstance.headingStyle = headingStyle;
+        fixture.componentRef.setInput('headingText', 'Label text');
+        fixture.componentRef.setInput('headingLevel', headingLevel);
+        fixture.componentRef.setInput('headingStyle', headingStyle);
         fixture.detectChanges();
 
         const selector = headingLevel
@@ -673,8 +676,8 @@ describe('Radio group component (reactive)', function () {
 
   it('should use `headingText` as an accessible label over `ariaLabel` and `ariaLabelledBy`', () => {
     const headingText = 'Heading Text';
-    componentInstance.headingText = headingText;
-    componentInstance.ariaLabel = 'some other label text';
+    fixture.componentRef.setInput('headingText', headingText);
+    fixture.componentRef.setInput('ariaLabel', 'some other label text');
 
     fixture.detectChanges();
 
@@ -689,7 +692,7 @@ describe('Radio group component (reactive)', function () {
   it('should display the hint text if `hintText` is set', () => {
     const hintText = 'Hint text for the group.';
 
-    fixture.componentInstance.hintText = hintText;
+    fixture.componentRef.setInput('hintText', hintText);
     fixture.detectChanges();
 
     const hintEl = fixture.nativeElement.querySelector(
@@ -701,8 +704,8 @@ describe('Radio group component (reactive)', function () {
   });
 
   it('should have the lg margin class if stacked is true and headingLevel is unset', () => {
-    fixture.componentInstance.stacked = true;
-    fixture.componentInstance.headingLevel = undefined;
+    fixture.componentRef.setInput('stacked', true);
+    fixture.componentRef.setInput('headingLevel', undefined);
     fixture.detectChanges();
 
     const radioGroup = fixture.nativeElement.querySelector('sky-radio-group');
@@ -711,8 +714,8 @@ describe('Radio group component (reactive)', function () {
   });
 
   it('should have the xl margin class if stacked is true and headingLevel is set', () => {
-    fixture.componentInstance.stacked = true;
-    fixture.componentInstance.headingLevel = 3;
+    fixture.componentRef.setInput('stacked', true);
+    fixture.componentRef.setInput('headingLevel', 3);
     fixture.detectChanges();
 
     const radioGroup = fixture.nativeElement.querySelector('sky-radio-group');
@@ -732,7 +735,7 @@ describe('Radio group component (reactive)', function () {
     const logService = TestBed.inject(SkyLogService);
     const deprecatedLogSpy = spyOn(logService, 'deprecated').and.stub();
 
-    fixture.componentInstance.ariaLabel = 'aria label';
+    fixture.componentRef.setInput('ariaLabel', 'aria label');
     fixture.detectChanges();
 
     expect(deprecatedLogSpy).toHaveBeenCalledWith(
@@ -751,7 +754,7 @@ describe('Radio group component (reactive)', function () {
   });
 
   it('should render custom form errors', fakeAsync(() => {
-    componentInstance.headingText = 'Label Text';
+    fixture.componentRef.setInput('headingText', 'Label Text');
 
     fixture.detectChanges();
 
@@ -767,14 +770,14 @@ describe('Radio group component (reactive)', function () {
   }));
 
   it('should render help inline if label text and help popover content is provided', () => {
-    componentInstance.headingText = 'Label Text';
+    fixture.componentRef.setInput('headingText', 'Label Text');
     fixture.detectChanges();
 
     expect(
       fixture.nativeElement.querySelectorAll('sky-help-inline').length,
     ).toBe(0);
 
-    componentInstance.helpPopoverContent = 'popover content';
+    fixture.componentRef.setInput('helpPopoverContent', 'popover content');
     fixture.detectChanges();
 
     expect(
@@ -783,7 +786,7 @@ describe('Radio group component (reactive)', function () {
   });
 
   it('should render help inline if heading text and help key is provided ', () => {
-    componentInstance.helpKey = 'helpKey.html';
+    fixture.componentRef.setInput('helpKey', 'helpKey.html');
     fixture.detectChanges();
 
     expect(
@@ -792,7 +795,7 @@ describe('Radio group component (reactive)', function () {
       ),
     ).toBeFalsy();
 
-    componentInstance.headingText = 'Heading text';
+    fixture.componentRef.setInput('headingText', 'Heading text');
     fixture.detectChanges();
 
     expect(
@@ -804,8 +807,8 @@ describe('Radio group component (reactive)', function () {
 
   it('should set global help config with help key', async () => {
     const helpController = TestBed.inject(SkyHelpTestingController);
-    componentInstance.headingText = 'Heading text';
-    componentInstance.helpKey = 'helpKey.html';
+    fixture.componentRef.setInput('headingText', 'Heading text');
+    fixture.componentRef.setInput('helpKey', 'helpKey.html');
     fixture.detectChanges();
 
     const helpInlineButton = fixture.nativeElement.querySelector(
@@ -822,7 +825,6 @@ describe('Radio group component (reactive)', function () {
 
 describe('Radio group component (template-driven)', () => {
   let fixture: ComponentFixture<SkyRadioGroupFixtureComponent>;
-  let componentInstance: SkyRadioGroupFixtureComponent;
 
   beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
@@ -832,7 +834,6 @@ describe('Radio group component (template-driven)', () => {
     fixture = TestBed.createComponent(SkyRadioGroupFixtureComponent);
     fixture.detectChanges();
     tick();
-    componentInstance = fixture.componentInstance;
   }));
 
   afterEach(() => {
@@ -852,7 +853,7 @@ describe('Radio group component (template-driven)', () => {
     }
 
     // Call form control's disable method. Expect form to be disabled.
-    componentInstance.disableRadioGroup = true;
+    fixture.componentRef.setInput('disableRadioGroup', true);
     fixture.detectChanges();
     tick();
 
@@ -864,7 +865,7 @@ describe('Radio group component (template-driven)', () => {
     }
 
     // Call form control's enable method. Expect form to be enabled.
-    componentInstance.disableRadioGroup = false;
+    fixture.componentRef.setInput('disableRadioGroup', false);
     fixture.detectChanges();
     tick();
 

@@ -1,6 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 
@@ -11,13 +11,13 @@ import { SkyHelpInlineHarness } from './help-inline-harness';
   selector: 'sky-help-inline-test',
   template: `
     <sky-help-inline
-      [ariaControls]="ariaControls"
-      [ariaExpanded]="ariaExpanded"
-      [ariaLabel]="ariaLabel"
-      [helpKey]="helpKey"
-      [labelText]="labelText"
-      [popoverContent]="popoverContent"
-      [popoverTitle]="popoverTitle"
+      [ariaControls]="ariaControls()"
+      [ariaExpanded]="ariaExpanded()"
+      [ariaLabel]="ariaLabel()"
+      [helpKey]="helpKey()"
+      [labelText]="labelText()"
+      [popoverContent]="popoverContent()"
+      [popoverTitle]="popoverTitle()"
       (actionClick)="onActionClick()"
     />
     <sky-help-inline data-sky-id="help-inline" (actionClick)="otherClick()" />
@@ -32,13 +32,13 @@ import { SkyHelpInlineHarness } from './help-inline-harness';
   standalone: false,
 })
 class TestComponent {
-  public ariaControls: string | undefined;
-  public ariaExpanded: boolean | undefined;
-  public ariaLabel: string | undefined;
-  public helpKey: string | undefined;
-  public labelText: string | undefined;
-  public popoverContent: string | undefined;
-  public popoverTitle: string | undefined;
+  public readonly ariaControls = input<string | undefined>(undefined);
+  public readonly ariaExpanded = input<boolean | undefined>(undefined);
+  public readonly ariaLabel = input<string | undefined>(undefined);
+  public readonly helpKey = input<string | undefined>(undefined);
+  public readonly labelText = input<string | undefined>(undefined);
+  public readonly popoverContent = input<string | undefined>(undefined);
+  public readonly popoverTitle = input<string | undefined>(undefined);
 
   public onActionClick(): void {
     // This function is for the spy
@@ -106,7 +106,7 @@ describe('Inline help harness', () => {
   it('should get aria controls value', async () => {
     const { helpInlineHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.ariaControls = 'aria controls';
+    fixture.componentRef.setInput('ariaControls', 'aria controls');
     fixture.detectChanges();
 
     await expectAsync(helpInlineHarness.getAriaControls()).toBeResolvedTo(
@@ -117,7 +117,7 @@ describe('Inline help harness', () => {
   it('should throw an error trying to get aria expanded if aria controls is not set', async () => {
     const { helpInlineHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.ariaExpanded = true;
+    fixture.componentRef.setInput('ariaExpanded', true);
     fixture.detectChanges();
 
     await expectAsync(
@@ -129,14 +129,14 @@ describe('Inline help harness', () => {
 
   it('should get aria expanded values when aria controls is set', async () => {
     const { helpInlineHarness, fixture } = await setupTest();
-    fixture.componentInstance.ariaControls = 'aria controls';
+    fixture.componentRef.setInput('ariaControls', 'aria controls');
 
-    fixture.componentInstance.ariaExpanded = true;
+    fixture.componentRef.setInput('ariaExpanded', true);
     fixture.detectChanges();
 
     await expectAsync(helpInlineHarness.getAriaExpanded()).toBeResolvedTo(true);
 
-    fixture.componentInstance.ariaExpanded = false;
+    fixture.componentRef.setInput('ariaExpanded', false);
     fixture.detectChanges();
 
     await expectAsync(helpInlineHarness.getAriaExpanded()).toBeResolvedTo(
@@ -147,7 +147,7 @@ describe('Inline help harness', () => {
   it('should get aria label', async () => {
     const { helpInlineHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.ariaLabel = 'aria label';
+    fixture.componentRef.setInput('ariaLabel', 'aria label');
     fixture.detectChanges();
 
     await expectAsync(helpInlineHarness.getAriaLabel()).toBeResolvedTo(
@@ -170,7 +170,7 @@ describe('Inline help harness', () => {
   it('should get labelText', async () => {
     const { helpInlineHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.labelText = 'label';
+    fixture.componentRef.setInput('labelText', 'label');
     fixture.detectChanges();
 
     await expectAsync(helpInlineHarness.getLabelText()).toBeResolvedTo('label');
@@ -182,7 +182,7 @@ describe('Inline help harness', () => {
   it('should throw an error trying to get popover content if popover is closed', async () => {
     const { helpInlineHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.popoverContent = 'popover content';
+    fixture.componentRef.setInput('popoverContent', 'popover content');
     fixture.detectChanges();
 
     await expectAsync(
@@ -195,7 +195,7 @@ describe('Inline help harness', () => {
   it('should get popover content if popover is open', async () => {
     const { helpInlineHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.popoverContent = 'popover content';
+    fixture.componentRef.setInput('popoverContent', 'popover content');
     fixture.detectChanges();
     await helpInlineHarness.click();
     await fixture.whenStable();
@@ -208,8 +208,8 @@ describe('Inline help harness', () => {
   it('should throw an error trying to get popover title if popover is closed', async () => {
     const { helpInlineHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.popoverContent = 'popover content';
-    fixture.componentInstance.popoverTitle = 'popover title';
+    fixture.componentRef.setInput('popoverContent', 'popover content');
+    fixture.componentRef.setInput('popoverTitle', 'popover title');
     fixture.detectChanges();
 
     await expectAsync(
@@ -222,8 +222,8 @@ describe('Inline help harness', () => {
   it('should get popover title if popover is open', async () => {
     const { helpInlineHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.popoverContent = 'popover content';
-    fixture.componentInstance.popoverTitle = 'popover title';
+    fixture.componentRef.setInput('popoverContent', 'popover content');
+    fixture.componentRef.setInput('popoverTitle', 'popover title');
     fixture.detectChanges();
     await helpInlineHarness.click();
     await fixture.whenStable();
@@ -236,7 +236,7 @@ describe('Inline help harness', () => {
   it('should throw an error when clicking the button while the button is hidden', async () => {
     const { helpInlineHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.helpKey = 'test.html';
+    fixture.componentRef.setInput('helpKey', 'test.html');
     fixture.detectChanges();
 
     await expectAsync(helpInlineHarness.click()).toBeRejectedWithError(

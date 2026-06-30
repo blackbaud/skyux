@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 /**
@@ -12,6 +12,7 @@ import { SkyThemeComponentClassDirective } from '@skyux/theme';
   ],
   templateUrl: './action-button-header.component.html',
   hostDirectives: [SkyThemeComponentClassDirective],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyActionButtonHeaderComponent {}

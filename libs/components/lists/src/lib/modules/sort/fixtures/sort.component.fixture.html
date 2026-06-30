@@ -1,7 +1,7 @@
-<sky-sort [ariaLabel]="ariaLabel" [showButtonText]="showButtonText">
+<sky-sort [ariaLabel]="ariaLabel()" [showButtonText]="showButtonText()">
   @for (item of sortOptions; track item) {
     <sky-sort-item
-      [active]="initialState === item.id"
+      [active]="initialState() === item.id"
       (itemSelect)="sortItems(item)"
     >
       {{ item.label }}

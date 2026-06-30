@@ -30,7 +30,7 @@
 >
   Toggle summary
 </button>
-@if (!hideMainActionBar) {
+@if (!hideMainActionBar()) {
   <sky-summary-action-bar id="summary-action-bar" [formErrors]="formErrors">
     <sky-summary-action-bar-actions>
       <sky-summary-action-bar-primary-action
@@ -53,7 +53,7 @@
         >
           Secondary action 2
         </sky-summary-action-bar-secondary-action>
-        @if (extraActions) {
+        @if (extraActions()) {
           <sky-summary-action-bar-secondary-action
             [disabled]="disableButtons"
             (actionClick)="clickHandler()"
@@ -148,7 +148,7 @@
         >
           Secondary action 2
         </sky-summary-action-bar-secondary-action>
-        @if (extraActions) {
+        @if (extraActions()) {
           <sky-summary-action-bar-secondary-action
             [disabled]="disableButtons"
             (actionClick)="clickHandler()"

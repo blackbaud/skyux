@@ -30,7 +30,7 @@ describe('SkyDataManagerComponent', () => {
     dock: SkyDataManagerDockType | undefined,
     expectedCssClass: string,
   ): Promise<void> {
-    dataManagerFixture.componentInstance.dock = dock;
+    dataManagerFixture.componentRef.setInput('dock', dock);
     dataManagerFixture.detectChanges();
     await dataManagerFixture.whenStable();
 

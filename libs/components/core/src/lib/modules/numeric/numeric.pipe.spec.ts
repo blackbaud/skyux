@@ -77,10 +77,9 @@ describe('Numeric pipe', () => {
 
   it('should handle undefined and null values', async () => {
     const fixture = TestBed.createComponent(NumericPipeFixtureComponent);
-    const component = fixture.componentInstance;
     // NOTE: We had a previous issue with change detection and undefined. This issue only appeared in unit tests when auto detecting changes.
     fixture.autoDetectChanges();
-    component.value = undefined;
+    fixture.componentRef.setInput('value', undefined);
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -92,11 +91,9 @@ describe('Numeric pipe', () => {
 
   describe('locale support', () => {
     let fixture: ComponentFixture<NumericPipeFixtureComponent>;
-    let component: NumericPipeFixtureComponent;
 
     beforeEach(() => {
       fixture = TestBed.createComponent(NumericPipeFixtureComponent);
-      component = fixture.componentInstance;
     });
 
     it('should allow overriding SkyAppLocaleProvider', () => {
@@ -116,7 +113,7 @@ describe('Numeric pipe', () => {
     });
 
     it('should properly format date based on pipe locale parameter', () => {
-      component.locale = 'ru';
+      fixture.componentRef.setInput('locale', 'ru');
 
       fixture.detectChanges();
 

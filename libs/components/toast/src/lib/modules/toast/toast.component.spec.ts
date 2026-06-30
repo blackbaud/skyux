@@ -40,7 +40,7 @@ describe('Toast component', () => {
 
   function verifyType(type?: SkyToastType) {
     if (component) {
-      component.toastType = type;
+      fixture.componentRef.setInput('toastType', type);
     }
 
     fixture.detectChanges();
@@ -60,7 +60,7 @@ describe('Toast component', () => {
     expectedIcon: string,
   ): void {
     if (type) {
-      component.toastType = type;
+      fixture.componentRef.setInput('toastType', type);
     }
 
     fixture.detectChanges();

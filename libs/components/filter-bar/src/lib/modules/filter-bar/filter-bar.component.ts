@@ -1,5 +1,6 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   computed,
   contentChildren,
@@ -48,6 +49,7 @@ import { SkyFilterItem } from './models/filter-item';
   ],
   providers: [SkyFilterBarService],
   templateUrl: './filter-bar.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './filter-bar.component.scss',
 })
 export class SkyFilterBarComponent {

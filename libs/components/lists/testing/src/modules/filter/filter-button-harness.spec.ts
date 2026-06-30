@@ -87,7 +87,7 @@ describe('Filter test harness', () => {
       'Filter',
     );
 
-    fixture.componentInstance.showText = false;
+    fixture.componentRef.setInput('showText', false);
     fixture.detectChanges();
     await fixture.whenStable();
 

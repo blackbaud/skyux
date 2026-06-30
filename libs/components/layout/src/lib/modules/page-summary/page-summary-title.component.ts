@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
  * Specifies a title to identify the page content.
@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
   selector: 'sky-page-summary-title',
   templateUrl: './page-summary-title.component.html',
   styleUrls: ['./page-summary-title.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 /* istanbul ignore next */

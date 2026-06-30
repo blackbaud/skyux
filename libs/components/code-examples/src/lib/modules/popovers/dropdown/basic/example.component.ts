@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyDropdownModule } from '@skyux/popovers';
 
 interface DropdownItem {
@@ -12,6 +12,7 @@ interface DropdownItem {
 @Component({
   selector: 'app-popovers-dropdown-basic-example',
   templateUrl: './example.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyDropdownModule],
 })
 export class PopoversDropdownBasicExampleComponent {

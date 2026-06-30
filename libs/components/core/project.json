@@ -9,6 +9,15 @@
     "build": {
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/core"],
+      "defaultConfiguration": "production",
+      "dependsOn": ["^build"],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/core/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/core/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/core/testing/src/**/fixtures/**/*"
+      ],
       "options": {
         "project": "libs/components/core/ng-package.json"
       },
@@ -19,19 +28,10 @@
         "development": {
           "tsConfig": "libs/components/core/tsconfig.lib.json"
         }
-      },
-      "defaultConfiguration": "production",
-      "dependsOn": ["^build"],
-      "inputs": [
-        "buildInputs",
-        "^buildInputs",
-        "{workspaceRoot}/libs/components/core/testing/src/**/*",
-        "!{workspaceRoot}/libs/components/core/testing/src/**/*.spec.ts",
-        "!{workspaceRoot}/libs/components/core/testing/src/**/fixtures/**/*"
-      ]
+      }
     },
     "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+      "executor": "@angular/build:karma",
       "options": {
         "tsConfig": "libs/components/core/tsconfig.spec.json",
         "karmaConfig": "libs/components/core/karma.conf.js",

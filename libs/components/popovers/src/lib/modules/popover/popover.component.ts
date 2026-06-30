@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   EnvironmentInjector,
@@ -33,6 +34,7 @@ import { SkyPopoverType } from './types/popover-type';
 @Component({
   selector: 'sky-popover',
   templateUrl: './popover.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyPopoverComponent implements OnDestroy {

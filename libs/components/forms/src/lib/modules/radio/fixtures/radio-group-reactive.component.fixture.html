@@ -1,25 +1,25 @@
 <form [formGroup]="radioForm">
-  @if (showRadioGroup) {
+  @if (showRadioGroup()) {
     <sky-radio-group
       class="form-group radio"
       formControlName="radioGroup"
-      [ariaLabel]="ariaLabel"
-      [ariaLabelledBy]="ariaLabelledBy"
-      [headingHidden]="headingHidden"
-      [headingLevel]="headingLevel"
-      [headingStyle]="headingStyle"
-      [headingText]="headingText"
-      [helpKey]="helpKey"
-      [helpPopoverContent]="helpPopoverContent"
-      [hintText]="hintText"
-      [name]="groupName"
-      [required]="required"
-      [tabIndex]="tabIndex"
-      [stacked]="stacked"
+      [ariaLabel]="ariaLabel()"
+      [ariaLabelledBy]="ariaLabelledBy()"
+      [headingHidden]="headingHidden()"
+      [headingLevel]="headingLevel()"
+      [headingStyle]="headingStyle()"
+      [headingText]="headingText()"
+      [helpKey]="helpKey()"
+      [helpPopoverContent]="helpPopoverContent()"
+      [hintText]="hintText()"
+      [name]="groupName()"
+      [required]="required()"
+      [tabIndex]="tabIndex()"
+      [stacked]="stacked()"
     >
       <legend id="radio-group-label">Reactive Radio button options:</legend>
       <ul class="sky-theme-list-unstyled">
-        @for (value of options; track value) {
+        @for (value of options(); track value) {
           <li>
             <sky-radio
               [disabled]="value.disabled"

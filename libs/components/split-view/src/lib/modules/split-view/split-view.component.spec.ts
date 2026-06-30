@@ -191,7 +191,7 @@ describe('Split view component', () => {
     dock: SkySplitViewDockType | undefined,
     expectedDockCssClass: string,
   ): void {
-    fixture.componentInstance.dock = dock;
+    fixture.componentRef.setInput('dock', dock);
     fixture.detectChanges();
 
     expect(document.querySelector('.sky-split-view')).toHaveCssClass(
@@ -232,7 +232,7 @@ describe('Split view component', () => {
 
   describe('before properties initialize', () => {
     it('should resize list panel when listPanelWidth input property has a numeric value', fakeAsync(() => {
-      component.width = 500;
+      fixture.componentRef.setInput('width', 500);
       fixture.detectChanges();
       tick();
       const listPanelElement = getListPanel();
@@ -244,8 +244,11 @@ describe('Split view component', () => {
       const expectedLabelForList = 'customLabelledBy';
       const expectedLabelForWorkspace = 'customLabelledBy';
 
-      component.ariaLabelForDrawer = expectedLabelForList;
-      component.ariaLabelForWorkspace = expectedLabelForWorkspace;
+      fixture.componentRef.setInput('ariaLabelForDrawer', expectedLabelForList);
+      fixture.componentRef.setInput(
+        'ariaLabelForWorkspace',
+        expectedLabelForWorkspace,
+      );
 
       fixture.detectChanges();
       tick();
@@ -262,7 +265,7 @@ describe('Split view component', () => {
     }));
 
     it('should set iframe styles correctly during dragging', fakeAsync(() => {
-      component.showIframe = true;
+      fixture.componentRef.setInput('showIframe', true);
       fixture.detectChanges();
       tick();
       const iframe = getIframe();
@@ -296,7 +299,7 @@ describe('Split view component', () => {
     }));
 
     it('should bind the split view hight when the `bindHeightToWindow` property is set', fakeAsync(() => {
-      component.bindHeightToWindow = true;
+      fixture.componentRef.setInput('bindHeightToWindow', true);
       const rendererSpy = spyOn(renderer, 'setStyle').and.callThrough();
       fixture.detectChanges();
       tick();
@@ -318,7 +321,7 @@ describe('Split view component', () => {
     }));
 
     it('should not bind the split view hight when the `bindHeightToWindow` property is removed', fakeAsync(() => {
-      component.bindHeightToWindow = true;
+      fixture.componentRef.setInput('bindHeightToWindow', true);
       const rendererSpySetStyle = spyOn(renderer, 'setStyle').and.callThrough();
       const rendererSpyRemoveStyle = spyOn(
         renderer,
@@ -341,7 +344,7 @@ describe('Split view component', () => {
         'max-height',
         'calc(100vh - ' + splitViewElement.offsetTop + 'px - 0px)',
       );
-      component.bindHeightToWindow = false;
+      fixture.componentRef.setInput('bindHeightToWindow', false);
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -361,8 +364,8 @@ describe('Split view component', () => {
 
     it('should bind the split view hight when the `bindHeightToWindow` property is set with an element above it', fakeAsync(() => {
       const rendererSpy = spyOn(renderer, 'setStyle').and.callThrough();
-      component.bindHeightToWindow = true;
-      component.lowerSplitView = true;
+      fixture.componentRef.setInput('bindHeightToWindow', true);
+      fixture.componentRef.setInput('lowerSplitView', true);
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -383,8 +386,8 @@ describe('Split view component', () => {
     }));
 
     it('should bind the split view height when the `bindHeightToWindow` property is set with a body bottom margin', () => {
-      component.bindHeightToWindow = true;
-      component.showActionBar = true;
+      fixture.componentRef.setInput('bindHeightToWindow', true);
+      fixture.componentRef.setInput('showActionBar', true);
       fixture.detectChanges();
       expect(component.splitViewComponent.bindHeightToWindow).toBeTruthy();
     });
@@ -392,9 +395,9 @@ describe('Split view component', () => {
     it(`should bind the split view hight when the 'bindHeightToWindow' property is set with a body
     bottom margin and element above it`, waitForAsync(() => {
       const rendererSpy = spyOn(renderer, 'setStyle').and.callThrough();
-      component.bindHeightToWindow = true;
-      component.lowerSplitView = true;
-      component.showActionBar = true;
+      fixture.componentRef.setInput('bindHeightToWindow', true);
+      fixture.componentRef.setInput('lowerSplitView', true);
+      fixture.componentRef.setInput('showActionBar', true);
       fixture.detectChanges();
       // Without the `setTimeout` the mutation observer isn't hit
       setTimeout(() => {
@@ -426,9 +429,9 @@ describe('Split view component', () => {
       // Set a dock height value
       document.documentElement.style.setProperty('--sky-dock-height', '40px');
 
-      component.bindHeightToWindow = true;
-      component.lowerSplitView = true;
-      component.showActionBar = true;
+      fixture.componentRef.setInput('bindHeightToWindow', true);
+      fixture.componentRef.setInput('lowerSplitView', true);
+      fixture.componentRef.setInput('showActionBar', true);
       fixture.detectChanges();
 
       setTimeout(() => {
@@ -469,7 +472,7 @@ describe('Split view component', () => {
     }));
 
     it('should resize list panel when listPanelWidth input property has a numeric value', fakeAsync(() => {
-      component.width = 500;
+      fixture.componentRef.setInput('width', 500);
       fixture.detectChanges();
       tick();
       const listPanelElement = getListPanel();
@@ -481,7 +484,7 @@ describe('Split view component', () => {
       const listPanelElement = getListPanel();
 
       // Resize list width larger than maximum.
-      component.width = 9999;
+      fixture.componentRef.setInput('width', 9999);
       fixture.detectChanges();
       tick();
 
@@ -489,7 +492,7 @@ describe('Split view component', () => {
       expect(listPanelElement.style.width).toBe(getMaxWidth() + 'px');
 
       // Resize list width smaller than minimum.
-      component.width = 1;
+      fixture.componentRef.setInput('width', 1);
       fixture.detectChanges();
       tick();
 
@@ -728,7 +731,7 @@ describe('Split view component', () => {
 
     it('should allow custom labels for back button if backButtonText property is defined', fakeAsync(() => {
       const labelText = 'FOOBAR';
-      component.backButtonText = labelText;
+      fixture.componentRef.setInput('backButtonText', labelText);
       fixture.detectChanges();
       initiateResponsiveMode(fixture);
       const backToListButton = getBackToListButton();
@@ -754,7 +757,7 @@ describe('Split view component', () => {
 
     it('should resize list panel as window gets smaller to prevent it from overflowing', fakeAsync(() => {
       // Make list as wide as possible.
-      component.width = 9999;
+      fixture.componentRef.setInput('width', 9999);
       fixture.detectChanges();
       tick();
 
@@ -778,7 +781,7 @@ describe('Split view component', () => {
 
     it(`should bind the split view hight when the 'bindHeightToWindow' property is set after
       initialization and update correctly`, waitForAsync(() => {
-      component.bindHeightToWindow = true;
+      fixture.componentRef.setInput('bindHeightToWindow', true);
       const rendererSpy = spyOn(renderer, 'setStyle').and.callThrough();
       fixture.detectChanges();
       void fixture.whenStable().then(() => {
@@ -798,7 +801,7 @@ describe('Split view component', () => {
           'calc(100vh - 0px - 0px)',
         );
         rendererSpy.calls.reset();
-        component.showActionBar = true;
+        fixture.componentRef.setInput('showActionBar', true);
         fixture.detectChanges();
         void fixture.whenStable().then(() => {
           fixture.detectChanges();
@@ -827,7 +830,7 @@ describe('Split view component', () => {
 
             rendererSpy.calls.reset();
 
-            component.lowerSplitView = true;
+            fixture.componentRef.setInput('lowerSplitView', true);
             fixture.detectChanges();
 
             // Fire a window resize to trigger a sizing update.
@@ -864,7 +867,7 @@ describe('Split view component', () => {
     });
 
     it('should pass accessibility', async () => {
-      fixture.componentInstance.ariaLabelForDrawer = 'My drawer';
+      fixture.componentRef.setInput('ariaLabelForDrawer', 'My drawer');
       fixture.detectChanges();
       await fixture.whenStable();
       await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -877,7 +880,7 @@ describe('Split view component', () => {
     });
 
     it('should pass accessibility when scrolling', async () => {
-      component.ariaLabelForDrawer = 'My drawer';
+      fixture.componentRef.setInput('ariaLabelForDrawer', 'My drawer');
       Array.from(Array(70).keys()).forEach((i) => {
         component.items.push({
           id: `${component.items.length + 1}`,

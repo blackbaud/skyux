@@ -31,7 +31,6 @@ function getContentDropdownButton(fixture: ComponentFixture<any>): HTMLElement {
 }
 
 describe('BoxComponent', () => {
-  let component: BoxTestComponent;
   let fixture: ComponentFixture<BoxTestComponent>;
   let contentInfoProvider: SkyContentInfoProvider;
 
@@ -53,28 +52,26 @@ describe('BoxComponent', () => {
         ],
       },
     }).createComponent(BoxTestComponent);
-
-    component = fixture.componentInstance;
   });
 
   it('should assign role attribute when ariaRole is set', () => {
-    component.ariaRole = 'region';
+    fixture.componentRef.setInput('ariaRole', 'region');
     fixture.detectChanges();
 
     expect(getBoxEl(fixture).getAttribute('role')).toEqual('region');
   });
 
   it('should assign label attribute when ariaLabel is set', () => {
-    component.headingText = undefined;
-    component.ariaLabel = 'my box';
+    fixture.componentRef.setInput('headingText', undefined);
+    fixture.componentRef.setInput('ariaLabel', 'my box');
     fixture.detectChanges();
 
     expect(getBoxEl(fixture).getAttribute('aria-label')).toEqual('my box');
   });
 
   it('should assign labelledby attribute when ariaLabelledby is set', () => {
-    component.headingText = undefined;
-    component.ariaLabelledBy = 'my-header';
+    fixture.componentRef.setInput('headingText', undefined);
+    fixture.componentRef.setInput('ariaLabelledBy', 'my-header');
     fixture.detectChanges();
 
     expect(getBoxEl(fixture).getAttribute('aria-labelledby')).toEqual(
@@ -114,8 +111,8 @@ describe('BoxComponent', () => {
     }
 
     contentInfoSpy.calls.reset();
-    component.showHeader = false;
-    component.headingText = undefined;
+    fixture.componentRef.setInput('showHeader', false);
+    fixture.componentRef.setInput('headingText', undefined);
     fixture.detectChanges();
     header = getBoxEl(fixture).querySelector('.sky-box-header-content h2');
     expect(header).toBeNull();
@@ -138,7 +135,7 @@ describe('BoxComponent', () => {
   });
 
   it('should set an id on the header and provide it via contentInfoProvider', () => {
-    component.headingText = undefined;
+    fixture.componentRef.setInput('headingText', undefined);
     const contentInfoSpy = spyOn(
       contentInfoProvider,
       'patchInfo',
@@ -170,7 +167,7 @@ describe('BoxComponent', () => {
     }
 
     contentInfoSpy.calls.reset();
-    component.showHeader = false;
+    fixture.componentRef.setInput('showHeader', false);
     fixture.detectChanges();
     header = getBoxEl(fixture).querySelector('sky-box-header span');
     expect(header).toBeNull();
@@ -212,8 +209,8 @@ describe('BoxComponent', () => {
     ];
     headingLevels.forEach((headingLevel) => {
       headingStyles.forEach((headingStyle) => {
-        component.headingLevel = headingLevel;
-        component.headingStyle = headingStyle;
+        fixture.componentRef.setInput('headingLevel', headingLevel);
+        fixture.componentRef.setInput('headingStyle', headingStyle);
         fixture.detectChanges();
 
         const heading = fixture.nativeElement.querySelector(
@@ -226,7 +223,7 @@ describe('BoxComponent', () => {
   });
 
   it('should render help inline popover', () => {
-    component.helpPopoverContent = 'popover content';
+    fixture.componentRef.setInput('helpPopoverContent', 'popover content');
     fixture.detectChanges();
 
     expect(
@@ -235,14 +232,14 @@ describe('BoxComponent', () => {
   });
 
   it('should not render help inline popover if title is provided without content', () => {
-    component.helpPopoverTitle = 'popover title';
+    fixture.componentRef.setInput('helpPopoverTitle', 'popover title');
     fixture.detectChanges();
 
     expect(
       fixture.nativeElement.querySelectorAll('sky-help-inline').length,
     ).toBe(0);
 
-    component.helpPopoverContent = 'popover content';
+    fixture.componentRef.setInput('helpPopoverContent', 'popover content');
     fixture.detectChanges();
 
     expect(
@@ -251,12 +248,12 @@ describe('BoxComponent', () => {
   });
 
   it('should render help inline if help key is provided', () => {
-    component.helpPopoverContent = undefined;
+    fixture.componentRef.setInput('helpPopoverContent', undefined);
     fixture.detectChanges();
 
     expect(fixture.nativeElement.querySelector('.sky-help-inline')).toBeFalsy();
 
-    component.helpKey = 'helpKey.html';
+    fixture.componentRef.setInput('helpKey', 'helpKey.html');
     fixture.detectChanges();
 
     expect(
@@ -266,7 +263,7 @@ describe('BoxComponent', () => {
 
   it('should set global help config with help key', async () => {
     const helpController = TestBed.inject(SkyHelpTestingController);
-    component.helpKey = 'helpKey.html';
+    fixture.componentRef.setInput('helpKey', 'helpKey.html');
 
     fixture.detectChanges();
 

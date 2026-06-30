@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, input, model } from '@angular/core';
 
 import { SkyTimepickerTimeFormatType } from '../timepicker-time-format-type';
 import { SkyTimepickerTimeOutput } from '../timepicker-time-output';
@@ -17,13 +17,17 @@ export class TimepickerTestComponent {
   @ViewChild(SkyTimepickerInputDirective)
   public timepicker!: SkyTimepickerInputDirective;
 
-  public disabled: boolean | undefined;
+  public readonly disabled = input<boolean | undefined>(undefined);
 
-  public required: boolean | undefined;
+  public readonly required = input<boolean | undefined>(undefined);
 
-  public returnFormat: string | undefined;
+  public readonly returnFormat = input<string | undefined>(undefined);
 
-  public selectedTime: SkyTimepickerTimeOutput | undefined;
+  public readonly selectedTime = model<SkyTimepickerTimeOutput | undefined>(
+    undefined,
+  );
 
-  public timeFormat: SkyTimepickerTimeFormatType | undefined = 'hh';
+  public readonly timeFormat = model<SkyTimepickerTimeFormatType | undefined>(
+    'hh',
+  );
 }

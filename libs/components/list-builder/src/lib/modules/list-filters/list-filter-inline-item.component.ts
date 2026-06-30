@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ContentChildren,
   EventEmitter,
@@ -16,6 +17,7 @@ import { ListItemModel } from '@skyux/list-builder-common';
 @Component({
   selector: 'sky-list-filter-inline-item',
   template: '<ng-content />',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyListFilterInlineItemComponent implements OnInit {

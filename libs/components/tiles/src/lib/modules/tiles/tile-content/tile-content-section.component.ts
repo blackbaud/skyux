@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyThemeModule } from '@skyux/theme';
 
 /**
@@ -8,6 +8,7 @@ import { SkyThemeModule } from '@skyux/theme';
   selector: 'sky-tile-content-section',
   styleUrls: ['./tile-content-section.component.scss'],
   templateUrl: './tile-content-section.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyThemeModule],
 })
 export class SkyTileContentSectionComponent {}

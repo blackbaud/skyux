@@ -72,7 +72,7 @@ describe('Input box harness', () => {
 
     await expectAsync(inputBoxHarness.getDisabled()).toBeResolvedTo(false);
 
-    fixture.componentInstance.easyModeDisabled = true;
+    fixture.componentRef.setInput('easyModeDisabled', true);
     fixture.detectChanges();
 
     await expectAsync(inputBoxHarness.getDisabled()).toBeResolvedTo(true);
@@ -87,7 +87,7 @@ describe('Input box harness', () => {
       'Last name (easy mode)',
     );
 
-    fixture.componentInstance.easyModeLabel = undefined;
+    fixture.componentRef.setInput('easyModeLabel', undefined);
     fixture.detectChanges();
 
     await expectAsync(inputBoxHarness.getLabelText()).toBeResolvedTo('');
@@ -108,7 +108,10 @@ describe('Input box harness', () => {
     await expectAsync(helpContent.getTitleText()).toBeResolvedTo('Help title');
 
     // Template content
-    component.easyModeHelpContent = component.helpContentTemplate;
+    fixture.componentRef.setInput(
+      'easyModeHelpContent',
+      component.helpContentTemplate,
+    );
     fixture.detectChanges();
 
     await expectAsync(helpContent.getBodyText()).toBeResolvedTo(
@@ -116,8 +119,8 @@ describe('Input box harness', () => {
     );
 
     // No content
-    component.easyModeHelpContent = undefined;
-    component.easyModeHelpKey = undefined;
+    fixture.componentRef.setInput('easyModeHelpContent', undefined);
+    fixture.componentRef.setInput('easyModeHelpKey', undefined);
     fixture.detectChanges();
 
     await expectAsync(inputBoxHarness.getHelpPopover()).toBeRejectedWithError(
@@ -130,8 +133,8 @@ describe('Input box harness', () => {
       dataSkyId: DATA_SKY_ID_EASY_MODE,
     });
 
-    fixture.componentInstance.easyModeHelpContent = undefined;
-    fixture.componentInstance.easyModeHelpKey = undefined;
+    fixture.componentRef.setInput('easyModeHelpContent', undefined);
+    fixture.componentRef.setInput('easyModeHelpKey', undefined);
     fixture.detectChanges();
 
     await expectAsync(inputBoxHarness.clickHelpInline()).toBeRejectedWithError(
@@ -144,7 +147,7 @@ describe('Input box harness', () => {
       dataSkyId: DATA_SKY_ID_EASY_MODE,
     });
 
-    fixture.componentInstance.easyModeHelpKey = 'helpKey.html';
+    fixture.componentRef.setInput('easyModeHelpKey', 'helpKey.html');
 
     const helpSvc = TestBed.inject(SkyHelpService);
     const helpSpy = spyOn(helpSvc, 'openHelp');
@@ -191,7 +194,7 @@ describe('Input box harness', () => {
 
     await expectAsync(inputBoxHarness.getStacked()).toBeResolvedTo(false);
 
-    fixture.componentInstance.easyModeStacked = true;
+    fixture.componentRef.setInput('easyModeStacked', true);
     fixture.detectChanges();
 
     await expectAsync(inputBoxHarness.getStacked()).toBeResolvedTo(true);
@@ -336,7 +339,14 @@ describe('Input box harness', () => {
     });
 
     const control = component.directiveErrorForm.controls['easyModeDatepicker'];
-    control.setValue('01/01/2990');
+    const inputEl: HTMLInputElement | null =
+      fixture.nativeElement.querySelector(
+        '[data-sky-id="datepicker-easy-mode"] input[skyDatepickerInput]',
+      );
+    if (inputEl) {
+      inputEl.value = '01/01/2990';
+      inputEl.dispatchEvent(new Event('change'));
+    }
     control.markAsTouched();
 
     fixture.detectChanges();
@@ -350,7 +360,14 @@ describe('Input box harness', () => {
     });
 
     const control = component.directiveErrorForm.controls['easyModeDatepicker'];
-    control.setValue('01/01/1990');
+    const inputEl: HTMLInputElement | null =
+      fixture.nativeElement.querySelector(
+        '[data-sky-id="datepicker-easy-mode"] input[skyDatepickerInput]',
+      );
+    if (inputEl) {
+      inputEl.value = '01/01/1990';
+      inputEl.dispatchEvent(new Event('change'));
+    }
     control.markAsTouched();
 
     fixture.detectChanges();
@@ -385,7 +402,7 @@ describe('Input box harness', () => {
   });
 
   it('should return character counter indicator', async () => {
-    const { component, fixture, inputBoxHarness } = await setupTest({
+    const { fixture, inputBoxHarness } = await setupTest({
       dataSkyId: DATA_SKY_ID_EASY_MODE,
     });
 
@@ -395,7 +412,7 @@ describe('Input box harness', () => {
       'The input box does not have a character limit specified.',
     );
 
-    component.easyModeCharacterLimit = 50;
+    fixture.componentRef.setInput('easyModeCharacterLimit', 50);
     fixture.detectChanges();
 
     const characterCounter = await inputBoxHarness.getCharacterCounter();
@@ -406,13 +423,13 @@ describe('Input box harness', () => {
   });
 
   it('should return hint text', async () => {
-    const { component, fixture, inputBoxHarness } = await setupTest({
+    const { fixture, inputBoxHarness } = await setupTest({
       dataSkyId: DATA_SKY_ID_EASY_MODE,
     });
 
     await expectAsync(inputBoxHarness.getHintText()).toBeResolvedTo('');
 
-    component.easyModeHintText = 'Test hint text';
+    fixture.componentRef.setInput('easyModeHintText', 'Test hint text');
     fixture.detectChanges();
 
     await expectAsync(inputBoxHarness.getHintText()).toBeResolvedTo(

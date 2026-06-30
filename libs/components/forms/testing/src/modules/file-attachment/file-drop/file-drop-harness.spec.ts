@@ -1,6 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   FormBuilder,
@@ -27,23 +27,23 @@ import { SkyFileItemHarness } from './file-item-harness';
       <sky-file-drop
         data-sky-id="test-file-drop"
         formControlName="fileDrop"
-        [acceptedTypes]="acceptedTypes"
-        [allowLinks]="allowLinks"
-        [fileUploadAriaLabel]="fileUploadAriaLabel"
-        [helpPopoverContent]="helpPopoverContent"
-        [helpPopoverTitle]="helpPopoverTitle"
-        [hintText]="hintText"
-        [labelHidden]="labelHidden"
-        [labelText]="labelText"
-        [linkUploadAriaLabel]="linkUploadAriaLabel"
-        [linkUploadHintText]="linkUploadHintText"
-        [maxFileSize]="maxFileSize"
-        [minFileSize]="minFileSize"
-        [required]="required"
-        [stacked]="stacked"
-        [validateFn]="validateFunction"
+        [acceptedTypes]="acceptedTypes()"
+        [allowLinks]="allowLinks()"
+        [fileUploadAriaLabel]="fileUploadAriaLabel()"
+        [helpPopoverContent]="helpPopoverContent()"
+        [helpPopoverTitle]="helpPopoverTitle()"
+        [hintText]="hintText()"
+        [labelHidden]="labelHidden()"
+        [labelText]="labelText()"
+        [linkUploadAriaLabel]="linkUploadAriaLabel()"
+        [linkUploadHintText]="linkUploadHintText()"
+        [maxFileSize]="maxFileSize()"
+        [minFileSize]="minFileSize()"
+        [required]="required()"
+        [stacked]="stacked()"
+        [validateFn]="validateFunction()"
       >
-        @if (showCustomError) {
+        @if (showCustomError()) {
           <sky-form-error
             errorName="customError"
             errorText="This is a custom error."
@@ -57,23 +57,23 @@ import { SkyFileItemHarness } from './file-item-harness';
   `,
 })
 class TestComponent {
-  public acceptedTypes: string | undefined;
-  public allItems: (SkyFileItem | SkyFileLink)[] = [];
-  public allowLinks = true;
-  public fileUploadAriaLabel: string | undefined;
-  public helpPopoverContent: string | undefined;
-  public helpPopoverTitle: string | undefined;
-  public hintText: string | undefined;
-  public labelHidden = false;
-  public labelText: string | undefined = 'File upload';
-  public linkUploadAriaLabel: string | undefined;
-  public linkUploadHintText: string | undefined;
-  public maxFileSize: number | undefined;
-  public minFileSize: number | undefined;
-  public required = false;
-  public showCustomError = false;
-  public stacked = false;
-  public validateFunction: SkyFileValidateFn | undefined;
+  public acceptedTypes = signal<string | undefined>(undefined);
+  public allItems = signal<(SkyFileItem | SkyFileLink)[]>([]);
+  public allowLinks = signal(true);
+  public fileUploadAriaLabel = signal<string | undefined>(undefined);
+  public helpPopoverContent = signal<string | undefined>(undefined);
+  public helpPopoverTitle = signal<string | undefined>(undefined);
+  public hintText = signal<string | undefined>(undefined);
+  public labelHidden = signal(false);
+  public labelText = signal<string | undefined>('File upload');
+  public linkUploadAriaLabel = signal<string | undefined>(undefined);
+  public linkUploadHintText = signal<string | undefined>(undefined);
+  public maxFileSize = signal<number | undefined>(undefined);
+  public minFileSize = signal<number | undefined>(undefined);
+  public required = signal(false);
+  public showCustomError = signal(false);
+  public stacked = signal(false);
+  public validateFunction = signal<SkyFileValidateFn | undefined>(undefined);
 
   public fileDrop: FormControl = new FormControl(undefined);
   public formGroup: FormGroup = inject(FormBuilder).group({
@@ -131,7 +131,7 @@ describe('File drop harness', () => {
   it('should get accepted types', async () => {
     const { fixture, harness } = await setupTest();
 
-    fixture.componentInstance.acceptedTypes = 'image/png';
+    fixture.componentInstance.acceptedTypes.set('image/png');
     fixture.detectChanges();
 
     await expectAsync(harness.getAcceptedTypes()).toBeResolvedTo('image/png');
@@ -140,8 +140,9 @@ describe('File drop harness', () => {
   it('should get file upload button aria-label', async () => {
     const { fixture, harness } = await setupTest();
 
-    fixture.componentInstance.fileUploadAriaLabel =
-      'this is an accessibility label.';
+    fixture.componentInstance.fileUploadAriaLabel.set(
+      'this is an accessibility label.',
+    );
     fixture.detectChanges();
 
     await expectAsync(harness.getFileUploadAriaLabel()).toBeResolvedTo(
@@ -172,7 +173,7 @@ describe('File drop harness', () => {
   it('should get help popover content', async () => {
     const { fixture, harness } = await setupTest();
 
-    fixture.componentInstance.helpPopoverContent = 'Upload a file';
+    fixture.componentInstance.helpPopoverContent.set('Upload a file');
     fixture.detectChanges();
 
     await harness.clickHelpInline();
@@ -185,8 +186,8 @@ describe('File drop harness', () => {
   it('should get help popover title', async () => {
     const { fixture, harness } = await setupTest();
 
-    fixture.componentInstance.helpPopoverContent = 'Upload a file';
-    fixture.componentInstance.helpPopoverTitle = 'Help';
+    fixture.componentInstance.helpPopoverContent.set('Upload a file');
+    fixture.componentInstance.helpPopoverTitle.set('Help');
     fixture.detectChanges();
 
     await harness.clickHelpInline();
@@ -197,7 +198,7 @@ describe('File drop harness', () => {
   it('should get hint text', async () => {
     const { fixture, harness } = await setupTest();
 
-    fixture.componentInstance.hintText = 'this is a hint.';
+    fixture.componentInstance.hintText.set('this is a hint.');
     fixture.detectChanges();
 
     await expectAsync(harness.getHintText()).toBeResolvedTo('this is a hint.');
@@ -214,7 +215,7 @@ describe('File drop harness', () => {
 
     await expectAsync(harness.isLabelHidden()).toBeResolvedTo(false);
 
-    fixture.componentInstance.labelHidden = true;
+    fixture.componentInstance.labelHidden.set(true);
     fixture.detectChanges();
 
     await expectAsync(harness.isLabelHidden()).toBeResolvedTo(true);
@@ -225,7 +226,7 @@ describe('File drop harness', () => {
 
     await expectAsync(harness.isRequired()).toBeResolvedTo(false);
 
-    fixture.componentInstance.required = true;
+    fixture.componentInstance.required.set(true);
     fixture.detectChanges();
 
     await expectAsync(harness.isRequired()).toBeResolvedTo(true);
@@ -236,7 +237,7 @@ describe('File drop harness', () => {
 
     await expectAsync(harness.isStacked()).toBeResolvedTo(false);
 
-    fixture.componentInstance.stacked = true;
+    fixture.componentInstance.stacked.set(true);
     fixture.detectChanges();
 
     await expectAsync(harness.isStacked()).toBeResolvedTo(true);
@@ -245,7 +246,7 @@ describe('File drop harness', () => {
   it('should get whether required error has fired', async () => {
     const { fixture, harness } = await setupTest();
 
-    fixture.componentInstance.required = true;
+    fixture.componentInstance.required.set(true);
     fixture.detectChanges();
 
     fixture.componentInstance.fileDrop.markAsTouched();
@@ -257,7 +258,7 @@ describe('File drop harness', () => {
   it('should get whether file type error has fired', async () => {
     const { fixture, harness } = await setupTest();
 
-    fixture.componentInstance.acceptedTypes = 'image/png';
+    fixture.componentInstance.acceptedTypes.set('image/png');
     fixture.detectChanges();
 
     await harness.loadFiles([
@@ -270,7 +271,7 @@ describe('File drop harness', () => {
   it('should get whether max file type error has fired', async () => {
     const { fixture, harness } = await setupTest();
 
-    fixture.componentInstance.maxFileSize = -1;
+    fixture.componentInstance.maxFileSize.set(-1);
     fixture.detectChanges();
 
     await harness.loadFiles([
@@ -283,7 +284,7 @@ describe('File drop harness', () => {
   it('should get whether min file type error has fired', async () => {
     const { fixture, harness } = await setupTest();
 
-    fixture.componentInstance.minFileSize = 1000;
+    fixture.componentInstance.minFileSize.set(1000);
     fixture.detectChanges();
 
     await harness.loadFiles([
@@ -296,13 +297,13 @@ describe('File drop harness', () => {
   it('should get whether validate file type error has fired', async () => {
     const { fixture, harness } = await setupTest();
 
-    fixture.componentInstance.validateFunction = function (
+    fixture.componentInstance.validateFunction.set(function (
       file: SkyFileItem,
     ): string | undefined {
       return file.file.name.startsWith('a')
         ? 'Upload a file that does not begin with the letter "a"'
         : undefined;
-    };
+    });
     fixture.detectChanges();
 
     await harness.loadFiles([
@@ -317,7 +318,7 @@ describe('File drop harness', () => {
 
     fixture.componentInstance.fileDrop.markAsTouched();
     fixture.detectChanges();
-    fixture.componentInstance.showCustomError = true;
+    fixture.componentInstance.showCustomError.set(true);
     fixture.detectChanges();
 
     await expectAsync(harness.hasCustomError('customError')).toBeResolvedTo(
@@ -329,7 +330,7 @@ describe('File drop harness', () => {
     const { fixture, harness } = await setupTest();
 
     fixture.componentInstance.fileDrop.markAsTouched();
-    fixture.componentInstance.showCustomError = true;
+    fixture.componentInstance.showCustomError.set(true);
     fixture.detectChanges();
 
     const customFormError = await harness.getCustomError('customError');
@@ -343,7 +344,7 @@ describe('File drop harness', () => {
     it('should get upload link aria-label', async () => {
       const { fixture, harness } = await setupTest();
 
-      fixture.componentInstance.linkUploadAriaLabel = 'upload aria-label';
+      fixture.componentInstance.linkUploadAriaLabel.set('upload aria-label');
       fixture.detectChanges();
 
       await expectAsync(harness.getLinkUploadAriaLabel()).toBeResolvedTo(
@@ -354,7 +355,7 @@ describe('File drop harness', () => {
     it('should get the upload link hint text', async () => {
       const { fixture, harness } = await setupTest();
 
-      fixture.componentInstance.linkUploadHintText = 'link hint text';
+      fixture.componentInstance.linkUploadHintText.set('link hint text');
       fixture.detectChanges();
 
       await expectAsync(harness.getLinkUploadHintText()).toBeResolvedTo(
@@ -375,7 +376,7 @@ describe('File drop harness', () => {
     it('should throw an error if attempting to interact with link upload when links are not allowed', async () => {
       const { fixture, harness } = await setupTest();
 
-      fixture.componentInstance.allowLinks = false;
+      fixture.componentInstance.allowLinks.set(false);
       fixture.detectChanges();
 
       await expectAsync(harness.getLinkUploadAriaLabel()).toBeRejectedWithError(

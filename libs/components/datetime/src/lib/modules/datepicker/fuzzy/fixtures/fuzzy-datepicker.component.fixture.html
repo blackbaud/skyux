@@ -3,20 +3,21 @@
     #date="ngModel"
     name="myDate"
     skyFuzzyDatepickerInput
-    [attr.aria-label]="ariaLabel"
-    [futureDisabled]="futureDisabled"
-    [dateFormat]="dateFormat"
-    [disabled]="isDisabled"
-    [maxDate]="maxDate"
-    [minDate]="minDate"
-    [startAtDate]="startAtDate"
-    [skyDatepickerNoValidate]="noValidate"
-    [startingDay]="startingDay"
-    [yearRequired]="yearRequired"
-    [(ngModel)]="selectedDate"
+    [attr.aria-label]="ariaLabel()"
+    [futureDisabled]="futureDisabled()"
+    [dateFormat]="dateFormat()"
+    [disabled]="isDisabled()"
+    [maxDate]="maxDate()"
+    [minDate]="minDate()"
+    [startAtDate]="startAtDate()"
+    [skyDatepickerNoValidate]="noValidate()"
+    [startingDay]="startingDay()"
+    [yearRequired]="yearRequired()"
+    [ngModel]="selectedDate()"
+    (ngModelChange)="selectedDate.set($event)"
   />
 </sky-datepicker>
 
-@if (showInvalidDirective) {
+@if (showInvalidDirective()) {
   <input type="text" skyFuzzyDatepickerInput />
 }

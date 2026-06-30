@@ -72,7 +72,7 @@ describe('Checkbox group component', function () {
     });
 
     it('should visually hide the heading text by only displaying it for screen readers when headingHidden is true', () => {
-      componentInstance.headingHidden = true;
+      fixture.componentRef.setInput('headingHidden', true);
       fixture.detectChanges();
 
       const legend = getLegend(fixture);
@@ -96,8 +96,8 @@ describe('Checkbox group component', function () {
       ];
       headingLevels.forEach((headingLevel) => {
         headingStyles.forEach((headingStyle) => {
-          componentInstance.headingLevel = headingLevel;
-          componentInstance.headingStyle = headingStyle;
+          fixture.componentRef.setInput('headingLevel', headingLevel);
+          fixture.componentRef.setInput('headingStyle', headingStyle);
           fixture.detectChanges();
 
           const selector = headingLevel
@@ -113,7 +113,7 @@ describe('Checkbox group component', function () {
     it('should display the hint text if `hintText` is set', () => {
       const hintText = 'Hint text for the group.';
 
-      fixture.componentInstance.hintText = hintText;
+      fixture.componentRef.setInput('hintText', hintText);
       fixture.detectChanges();
 
       const hintEl = fixture.nativeElement.querySelector(
@@ -125,7 +125,7 @@ describe('Checkbox group component', function () {
     });
 
     it('should have the lg margin class if stacked is true and headingLevel is not set', () => {
-      componentInstance.headingLevel = undefined;
+      fixture.componentRef.setInput('headingLevel', undefined);
       fixture.detectChanges();
 
       const group = getCheckboxGroup(fixture);
@@ -140,7 +140,7 @@ describe('Checkbox group component', function () {
     });
 
     it('should not have the lg or xl margin class if stacked is false', () => {
-      componentInstance.stacked = false;
+      fixture.componentRef.setInput('stacked', false);
       fixture.detectChanges();
 
       const group = getCheckboxGroup(fixture);
@@ -150,7 +150,7 @@ describe('Checkbox group component', function () {
     });
 
     it('should include the asterisk and screen reader text when required', () => {
-      componentInstance.required = true;
+      fixture.componentRef.setInput('required', true);
       fixture.detectChanges();
 
       const heading = fixture.nativeElement.querySelector(
@@ -173,7 +173,7 @@ describe('Checkbox group component', function () {
     });
 
     it('should validate that a checkbox is selected when required', () => {
-      componentInstance.required = true;
+      fixture.componentRef.setInput('required', true);
       fixture.detectChanges();
 
       const checkbox = getCheckboxes(fixture)?.[0];
@@ -202,10 +202,10 @@ describe('Checkbox group component', function () {
     });
 
     it('should validate that a checkbox is selected if checkbox group is no longer required', () => {
-      componentInstance.required = true;
+      fixture.componentRef.setInput('required', true);
       fixture.detectChanges();
 
-      componentInstance.required = false;
+      fixture.componentRef.setInput('required', false);
       fixture.detectChanges();
 
       const checkbox = getCheckboxes(fixture)?.[0];
@@ -241,7 +241,7 @@ describe('Checkbox group component', function () {
     });
 
     it('should render help inline popover if helpPopoverContent is provided', () => {
-      componentInstance.helpPopoverContent = 'popover content';
+      fixture.componentRef.setInput('helpPopoverContent', 'popover content');
       fixture.detectChanges();
 
       expect(
@@ -250,7 +250,7 @@ describe('Checkbox group component', function () {
     });
 
     it('should render the help inline button if helpKey is provided', () => {
-      componentInstance.helpKey = 'helpKey.html';
+      fixture.componentRef.setInput('helpKey', 'helpKey.html');
       fixture.detectChanges();
 
       expect(
@@ -260,7 +260,7 @@ describe('Checkbox group component', function () {
 
     it('should set global help config with help key', async () => {
       const helpController = TestBed.inject(SkyHelpTestingController);
-      fixture.componentInstance.helpKey = 'helpKey.html';
+      fixture.componentRef.setInput('helpKey', 'helpKey.html');
       fixture.detectChanges();
 
       const helpInlineButton = fixture.nativeElement.querySelector(
@@ -289,7 +289,7 @@ describe('Checkbox group component', function () {
     });
 
     it('should validate that a checkbox is selected when required', async () => {
-      fixture.componentInstance.required = true;
+      fixture.componentRef.setInput('required', true);
 
       fixture.detectChanges();
       await fixture.whenStable();

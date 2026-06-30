@@ -1,4 +1,9 @@
-import { Component, OnDestroy, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  inject,
+} from '@angular/core';
 import { SkyWaitService } from '@skyux/indicators';
 import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
@@ -15,6 +20,7 @@ import { ModalComponent } from './modal.component';
  */
 @Component({
   selector: 'app-modals-modal-basic-with-harness-help-key-example',
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './example.component.html',
 })
 export class ModalsModalBasicWithHarnessHelpKeyExampleComponent implements OnDestroy {

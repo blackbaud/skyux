@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
  * Specifies a container for an item in the toolbar.
@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
   selector: 'sky-toolbar-item',
   styleUrls: ['./toolbar-item.component.scss'],
   templateUrl: './toolbar-item.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyToolbarItemComponent {}

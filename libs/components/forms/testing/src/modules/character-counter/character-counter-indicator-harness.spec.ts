@@ -1,6 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyCharacterCounterModule } from '@skyux/forms';
 
@@ -11,8 +11,8 @@ import { SkyCharacterCounterIndicatorHarness } from './character-counter-indicat
   template: `
     <sky-character-counter-indicator
       data-sky-id="test-character-counter-indicator"
-      [characterCount]="characterCount"
-      [characterCountLimit]="characterLimit"
+      [characterCount]="characterCount()"
+      [characterCountLimit]="characterLimit()"
     />
     <sky-character-counter-indicator
       data-sky-id="test-character-counter-indicator-2"
@@ -27,8 +27,8 @@ import { SkyCharacterCounterIndicatorHarness } from './character-counter-indicat
   `,
 })
 class TestComponent {
-  public characterCount = 0;
-  public characterLimit = 100;
+  public characterCount = signal(0);
+  public characterLimit = signal(100);
 }
 
 describe('Character counter indicator harness', () => {
@@ -65,8 +65,8 @@ describe('Character counter indicator harness', () => {
     await expectAsync(harness.getCharacterCount()).toBeResolvedTo(0);
     await expectAsync(harness.getCharacterCountLimit()).toBeResolvedTo(100);
 
-    fixture.componentInstance.characterCount = 10;
-    fixture.componentInstance.characterLimit = 50;
+    fixture.componentInstance.characterCount.set(10);
+    fixture.componentInstance.characterLimit.set(50);
     fixture.detectChanges();
 
     await expectAsync(harness.getCharacterCount()).toBeResolvedTo(10);
@@ -78,7 +78,7 @@ describe('Character counter indicator harness', () => {
 
     await expectAsync(harness.isOverLimit()).toBeResolvedTo(false);
 
-    fixture.componentInstance.characterCount = 101;
+    fixture.componentInstance.characterCount.set(101);
     fixture.detectChanges();
 
     await expectAsync(harness.isOverLimit()).toBeResolvedTo(true);

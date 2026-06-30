@@ -5,6 +5,8 @@ import {
   TemplateRef,
   ViewChild,
   ViewChildren,
+  input,
+  model,
 } from '@angular/core';
 import { ListSortFieldSelectorModel } from '@skyux/list-builder-common';
 
@@ -31,7 +33,7 @@ export class GridTestComponent {
 
   public columnWidthsChange: SkyGridColumnWidthModelChange[];
 
-  public data: any[] = [
+  public data = model<any[]>([
     {
       id: '1',
       column1: '1',
@@ -90,7 +92,7 @@ export class GridTestComponent {
       column4: new Date().getTime() + 5600000,
       customId: '107',
     },
-  ];
+  ]);
 
   public dynamicWidth: number;
 
@@ -100,13 +102,13 @@ export class GridTestComponent {
 
   public gridController = new Subject<SkyGridMessage>();
 
-  public hasToolbar = false;
+  public hasToolbar = input<boolean>(false);
 
   public rowDeleteConfigs: SkyGridRowDeleteConfig[] = [];
 
   public multiselectRowId: string;
 
-  public rowHighlightedId: string;
+  public rowHighlightedId = input<string | undefined>(undefined);
 
   public searchedData: any;
 
@@ -114,18 +116,18 @@ export class GridTestComponent {
 
   public selectedRowsChange: SkyGridSelectedRowsModelChange;
 
-  public selectedRowIds: string[];
+  public selectedRowIds = input<string[] | undefined>(undefined);
 
-  public settingsKey: string;
+  public settingsKey = input<string | undefined>(undefined);
 
   public showNaNColumn = false;
 
   public set showWideColumn(showCol: boolean) {
     if (showCol) {
-      this.selectedColumnIds.push('column6');
+      this.selectedColumnIds.update((ids) => [...ids, 'column6']);
     } else {
-      this.selectedColumnIds = this.selectedColumnIds.filter(
-        (id) => id !== 'column6',
+      this.selectedColumnIds.update((ids) =>
+        ids.filter((id) => id !== 'column6'),
       );
     }
 
@@ -136,15 +138,15 @@ export class GridTestComponent {
     return this._showWideColumn;
   }
 
-  public sortField: ListSortFieldSelectorModel;
+  public sortField = input<ListSortFieldSelectorModel | undefined>(undefined);
 
-  public selectedColumnIds: string[] = [
+  public selectedColumnIds = model<string[]>([
     'column1',
     'column2',
     'column3',
     'column4',
     'column5',
-  ];
+  ]);
 
   @ViewChild(SkyGridComponent)
   public grid: SkyGridComponent;
@@ -170,26 +172,28 @@ export class GridTestComponent {
     this.activeSortSelector = sortSelector;
     const sortField = sortSelector.fieldSelector;
     const descending = sortSelector.descending;
-    this.data = this.data
-      .sort((a: any, b: any) => {
-        let value1 = a[sortField];
-        let value2 = b[sortField];
-        if (value1 && typeof value1 === 'string') {
-          value1 = value1.toLowerCase();
-        }
-        if (value2 && typeof value2 === 'string') {
-          value2 = value2.toLowerCase();
-        }
-        if (value1 === value2) {
-          return 0;
-        }
-        let result = value1 > value2 ? 1 : -1;
-        if (descending) {
-          result *= -1;
-        }
-        return result;
-      })
-      .slice();
+    this.data.set(
+      this.data()
+        .sort((a: any, b: any) => {
+          let value1 = a[sortField];
+          let value2 = b[sortField];
+          if (value1 && typeof value1 === 'string') {
+            value1 = value1.toLowerCase();
+          }
+          if (value2 && typeof value2 === 'string') {
+            value2 = value2.toLowerCase();
+          }
+          if (value1 === value2) {
+            return 0;
+          }
+          let result = value1 > value2 ? 1 : -1;
+          if (descending) {
+            result *= -1;
+          }
+          return result;
+        })
+        .slice(),
+    );
   }
 
   public onResize(columnWidths: SkyGridColumnWidthModelChange[]): void {
@@ -204,7 +208,7 @@ export class GridTestComponent {
 
   public addLongData(): void {
     // We do the slice here as things will only update with a new value set. So this copies the array.
-    const newData = this.data.slice();
+    const newData = this.data().slice();
     newData.push({
       id: '8',
       column1:
@@ -217,11 +221,11 @@ export class GridTestComponent {
       column5: new Date().getTime() + 5600000,
       customId: '107',
     });
-    this.data = newData;
+    this.data.set(newData);
   }
 
   public setLongData(): void {
-    this.data = [
+    this.data.set([
       {
         id: '8',
         column1:
@@ -234,25 +238,26 @@ export class GridTestComponent {
         column5: new Date().getTime() + 5600000,
         customId: '107',
       },
-    ];
+    ]);
   }
 
   public removeFirstItem(): void {
     // We do the slice here as things will only update with a new value set. So this copies the array.
-    const newData = this.data.slice(1);
-    this.data = newData;
+    this.data.set(this.data().slice(1));
   }
 
   public hideColumn(): void {
-    this.selectedColumnIds = ['column1', 'column3', 'column4', 'column5'];
+    const ids: string[] = ['column1', 'column3', 'column4', 'column5'];
 
     if (this.showWideColumn) {
-      this.selectedColumnIds.push('column6');
+      ids.push('column6');
     }
+
+    this.selectedColumnIds.set(ids);
   }
 
   public showColumn(): void {
-    this.selectedColumnIds = [
+    const ids: string[] = [
       'column1',
       'column2',
       'column3',
@@ -261,8 +266,10 @@ export class GridTestComponent {
     ];
 
     if (this.showWideColumn) {
-      this.selectedColumnIds.push('column6');
+      ids.push('column6');
     }
+
+    this.selectedColumnIds.set(ids);
   }
 
   public cancelRowDelete(cancelArgs: SkyGridRowDeleteCancelArgs): void {

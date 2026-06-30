@@ -47,7 +47,7 @@ describe('Box test harness', () => {
   it('should get the heading text', async () => {
     const { boxHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.headingText = 'Box header';
+    fixture.componentRef.setInput('headingText', 'Box header');
     fixture.detectChanges();
 
     await expectAsync(boxHarness.getHeadingText()).toBeResolvedTo('Box header');
@@ -56,7 +56,7 @@ describe('Box test harness', () => {
   it('should get the heading text and exclude the text content of controls', async () => {
     const { boxHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.headingText = 'Box header';
+    fixture.componentRef.setInput('headingText', 'Box header');
     fixture.componentRef.setInput('showControls', true);
     fixture.detectChanges();
 
@@ -66,8 +66,8 @@ describe('Box test harness', () => {
   it('should get the heading text when heading text is hidden', async () => {
     const { boxHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.headingText = 'Box header';
-    fixture.componentInstance.headingHidden = true;
+    fixture.componentRef.setInput('headingText', 'Box header');
+    fixture.componentRef.setInput('headingHidden', true);
     fixture.detectChanges();
 
     await expectAsync(boxHarness.getHeadingText()).toBeResolvedTo('Box header');
@@ -82,8 +82,8 @@ describe('Box test harness', () => {
   it('should indicate the heading is hidden', async () => {
     const { boxHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.headingText = 'Box header';
-    fixture.componentInstance.headingHidden = true;
+    fixture.componentRef.setInput('headingText', 'Box header');
+    fixture.componentRef.setInput('headingHidden', true);
     fixture.detectChanges();
 
     await expectAsync(boxHarness.getHeadingHidden()).toBeResolvedTo(true);
@@ -92,37 +92,37 @@ describe('Box test harness', () => {
   it('should return the heading level and heading style', async () => {
     const { boxHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.headingText = 'Box header';
-    fixture.componentInstance.headingLevel = undefined;
-    fixture.componentInstance.headingStyle = 2;
+    fixture.componentRef.setInput('headingText', 'Box header');
+    fixture.componentRef.setInput('headingLevel', undefined);
+    fixture.componentRef.setInput('headingStyle', 2);
     fixture.detectChanges();
 
     await expectAsync(boxHarness.getHeadingLevel()).toBeResolvedTo(2);
     await expectAsync(boxHarness.getHeadingStyle()).toBeResolvedTo(2);
 
-    fixture.componentInstance.headingLevel = 2;
-    fixture.componentInstance.headingStyle = 3;
+    fixture.componentRef.setInput('headingLevel', 2);
+    fixture.componentRef.setInput('headingStyle', 3);
     fixture.detectChanges();
 
     await expectAsync(boxHarness.getHeadingLevel()).toBeResolvedTo(2);
     await expectAsync(boxHarness.getHeadingStyle()).toBeResolvedTo(3);
 
-    fixture.componentInstance.headingLevel = 3;
-    fixture.componentInstance.headingStyle = 4;
+    fixture.componentRef.setInput('headingLevel', 3);
+    fixture.componentRef.setInput('headingStyle', 4);
     fixture.detectChanges();
 
     await expectAsync(boxHarness.getHeadingLevel()).toBeResolvedTo(3);
     await expectAsync(boxHarness.getHeadingStyle()).toBeResolvedTo(4);
 
-    fixture.componentInstance.headingLevel = 4;
-    fixture.componentInstance.headingStyle = 5;
+    fixture.componentRef.setInput('headingLevel', 4);
+    fixture.componentRef.setInput('headingStyle', 5);
     fixture.detectChanges();
 
     await expectAsync(boxHarness.getHeadingLevel()).toBeResolvedTo(4);
     await expectAsync(boxHarness.getHeadingStyle()).toBeResolvedTo(5);
 
-    fixture.componentInstance.headingLevel = 5;
-    fixture.componentInstance.headingStyle = undefined;
+    fixture.componentRef.setInput('headingLevel', 5);
+    fixture.componentRef.setInput('headingStyle', undefined);
     fixture.detectChanges();
 
     await expectAsync(boxHarness.getHeadingLevel()).toBeResolvedTo(5);
@@ -132,7 +132,7 @@ describe('Box test harness', () => {
   it('should throw an error if no help inline is found', async () => {
     const { boxHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.headingText = 'heading';
+    fixture.componentRef.setInput('headingText', 'heading');
     fixture.detectChanges();
 
     await expectAsync(boxHarness.clickHelpInline()).toBeRejectedWithError(
@@ -143,8 +143,8 @@ describe('Box test harness', () => {
   it('should open help inline popover when clicked', async () => {
     const { boxHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.headingText = 'heading';
-    fixture.componentInstance.helpPopoverContent = 'popover content';
+    fixture.componentRef.setInput('headingText', 'heading');
+    fixture.componentRef.setInput('helpPopoverContent', 'popover content');
     fixture.detectChanges();
 
     await boxHarness.clickHelpInline();
@@ -159,9 +159,9 @@ describe('Box test harness', () => {
     const helpSvc = TestBed.inject(SkyHelpService);
     const helpSpy = spyOn(helpSvc, 'openHelp');
 
-    fixture.componentInstance.headingText = 'heading';
-    fixture.componentInstance.helpPopoverContent = undefined;
-    fixture.componentInstance.helpKey = 'helpKey.html';
+    fixture.componentRef.setInput('headingText', 'heading');
+    fixture.componentRef.setInput('helpPopoverContent', undefined);
+    fixture.componentRef.setInput('helpKey', 'helpKey.html');
     fixture.detectChanges();
 
     await boxHarness.clickHelpInline();
@@ -174,8 +174,8 @@ describe('Box test harness', () => {
   it('should get help popover content', async () => {
     const { boxHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.headingText = 'heading';
-    fixture.componentInstance.helpPopoverContent = 'popover content';
+    fixture.componentRef.setInput('headingText', 'heading');
+    fixture.componentRef.setInput('helpPopoverContent', 'popover content');
     fixture.detectChanges();
 
     await boxHarness.clickHelpInline();
@@ -190,9 +190,9 @@ describe('Box test harness', () => {
   it('should get help popover title', async () => {
     const { boxHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.headingText = 'heading';
-    fixture.componentInstance.helpPopoverContent = 'popover content';
-    fixture.componentInstance.helpPopoverTitle = 'popover title';
+    fixture.componentRef.setInput('headingText', 'heading');
+    fixture.componentRef.setInput('helpPopoverContent', 'popover content');
+    fixture.componentRef.setInput('helpPopoverTitle', 'popover title');
     fixture.detectChanges();
 
     await boxHarness.clickHelpInline();
@@ -207,7 +207,7 @@ describe('Box test harness', () => {
   it('should get the aria-label', async () => {
     const { boxHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.ariaLabel = 'aria-label';
+    fixture.componentRef.setInput('ariaLabel', 'aria-label');
     fixture.detectChanges();
 
     await expectAsync(boxHarness.getAriaLabel()).toBeResolvedTo('aria-label');
@@ -216,7 +216,7 @@ describe('Box test harness', () => {
   it('should get the aria-labelledby', async () => {
     const { boxHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.ariaLabelledBy = 'aria-labelledby';
+    fixture.componentRef.setInput('ariaLabelledBy', 'aria-labelledby');
     fixture.detectChanges();
 
     await expectAsync(boxHarness.getAriaLabelledby()).toBeResolvedTo(
@@ -227,7 +227,7 @@ describe('Box test harness', () => {
   it('should get the aria-role', async () => {
     const { boxHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.ariaRole = 'aria-role';
+    fixture.componentRef.setInput('ariaRole', 'aria-role');
     fixture.detectChanges();
 
     await expectAsync(boxHarness.getAriaRole()).toBeResolvedTo('aria-role');

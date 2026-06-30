@@ -1,4 +1,12 @@
-import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  TemplateRef,
+  ViewChild,
+  inject,
+  input,
+  model,
+} from '@angular/core';
 import {
   NgModel,
   UntypedFormControl,
@@ -14,41 +22,29 @@ import { InputBoxHostServiceFixtureComponent } from './input-box-host-service.co
   standalone: false,
 })
 export class InputBoxFixtureComponent {
-  @Input()
-  public a11yInsetIconLeft = false;
+  public a11yInsetIconLeft = input(false);
 
-  @Input()
-  public a11yInsetIcon = false;
+  public a11yInsetIcon = input(false);
 
-  @Input()
-  public a11yButtonLeft = false;
+  public a11yButtonLeft = input(false);
 
-  @Input()
-  public a11yInsetButton = false;
+  public a11yInsetButton = input(false);
 
-  @Input()
-  public a11yNormalButton = false;
+  public a11yNormalButton = input(false);
 
-  @Input()
-  public autocomplete: string | undefined;
+  public autocomplete = input<string | undefined>(undefined);
 
-  @Input()
-  public basicDisabled: boolean | undefined;
+  public basicDisabled = input<boolean | undefined>(undefined);
 
-  @Input()
-  public characterCountHelp = false;
+  public characterCountHelp = input(false);
 
-  @Input()
-  public hasErrors: boolean | undefined;
+  public hasErrors = input<boolean | undefined>(undefined);
 
-  @Input()
-  public inlineHelpType: 'custom' | 'sky' = 'custom';
+  public inlineHelpType = input<'custom' | 'sky'>('custom');
 
-  @Input()
-  public insetIconDisabled: boolean | undefined;
+  public insetIconDisabled = input<boolean | undefined>(undefined);
 
-  @Input()
-  public labelText: string | undefined = 'Easy mode';
+  public labelText = input<string | undefined>('Easy mode');
 
   public errorField: UntypedFormControl;
 
@@ -58,20 +54,21 @@ export class InputBoxFixtureComponent {
 
   public errorNgModelValue: string | undefined;
 
-  public easyModeValue: string | undefined;
+  public easyModeValue = model<string | undefined>(undefined);
 
-  public easyModeCharacterLimit: number | undefined = 10;
+  public easyModeCharacterLimit = input<number | undefined>(10);
 
-  public easyModeStacked: boolean | undefined = true;
+  public easyModeStacked = input<boolean | undefined>(true);
 
-  public easyModeHelpPopoverContent: TemplateRef<unknown> | string | undefined =
-    'Help content from text';
+  public easyModeHelpPopoverContent = input<
+    TemplateRef<unknown> | string | undefined
+  >('Help content from text');
 
-  public easyModeHelpKey: string | undefined;
+  public easyModeHelpKey = input<string | undefined>(undefined);
 
-  public easyModeHintText: string | undefined;
+  public easyModeHintText = input<string | undefined>(undefined);
 
-  public easyModeAriaDescribedBy: string | undefined;
+  public easyModeAriaDescribedBy = input<string | undefined>(undefined);
 
   @ViewChild('errorNgModel')
   public errorNgModel!: NgModel;
@@ -85,18 +82,26 @@ export class InputBoxFixtureComponent {
     | undefined;
 
   constructor() {
+    const cdr = inject(ChangeDetectorRef);
+
     this.errorField = new UntypedFormControl('', [Validators.required]);
+    this.errorField.statusChanges.subscribe(() => cdr.markForCheck());
 
     this.errorStatusIndicatorField = new UntypedFormControl('', [
       Validators.required,
     ]);
+    this.errorStatusIndicatorField.statusChanges.subscribe(() =>
+      cdr.markForCheck(),
+    );
 
     this.errorForm = new UntypedFormGroup({
       errorFormField: new UntypedFormControl('', [Validators.required]),
     });
+    this.errorForm.statusChanges.subscribe(() => cdr.markForCheck());
   }
 
   public removeErrorFormRequiredValidator(): void {
     this.errorField.removeValidators(Validators.required);
+    this.errorField.updateValueAndValidity();
   }
 }

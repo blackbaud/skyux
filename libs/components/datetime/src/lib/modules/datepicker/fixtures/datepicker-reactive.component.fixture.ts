@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, input } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormControl,
@@ -18,25 +18,25 @@ export class DatepickerReactiveTestComponent implements OnInit {
 
   public dateControl!: UntypedFormControl;
 
-  public dateFormat: string | undefined;
+  public dateFormat = input<string | undefined>(undefined);
 
-  public disableFormOnCreation = false;
+  public disableFormOnCreation = input(false);
 
-  public initialValue: Date | string | undefined;
+  public initialValue = input<Date | string | undefined>(undefined);
 
-  public isDisabled: boolean | undefined;
+  public isDisabled = input<boolean | undefined>(undefined);
 
-  public maxDate: Date | undefined;
+  public maxDate = input<Date | undefined>(undefined);
 
-  public minDate: Date | undefined;
+  public minDate = input<Date | undefined>(undefined);
 
-  public startAtDate: Date | undefined;
+  public startAtDate = input<Date | undefined>(undefined);
 
-  public noValidate = false;
+  public noValidate = input(false);
 
-  public startingDay = 0;
+  public startingDay = input(0);
 
-  public strict: boolean | undefined;
+  public strict = input<boolean | undefined>(undefined);
 
   @ViewChild(SkyDatepickerInputDirective)
   public inputDirective!: SkyDatepickerInputDirective;
@@ -51,12 +51,12 @@ export class DatepickerReactiveTestComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.dateControl = new UntypedFormControl(this.initialValue);
+    this.dateControl = new UntypedFormControl(this.initialValue());
 
     this.datepickerForm = this.#formBuilder.group({
       date: this.dateControl,
     });
-    if (this.disableFormOnCreation) {
+    if (this.disableFormOnCreation()) {
       this.datepickerForm.disable();
     }
   }

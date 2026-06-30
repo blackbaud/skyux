@@ -1,4 +1,4 @@
-@if (!childElementsTest) {
+@if (!childElementsTest()) {
   <input
     aria-label="noop"
     class="sky-input-search-term"
@@ -13,14 +13,14 @@
     [(ngModel)]="showAdditionalContent"
   />
 
-  <div class="sky-test-div-container" [skyHighlight]="searchTerm">
-    {{ innerText1 }}
-    @if (showAdditionalContent) {
-      <div>{{ innerText2 }}</div>
+  <div class="sky-test-div-container" [skyHighlight]="searchTerm()">
+    {{ innerText1() }}
+    @if (showAdditionalContent()) {
+      <div>{{ innerText2() }}</div>
     }
   </div>
 } @else {
-  <div class="sky-test-child-elements" [skyHighlight]="searchTerm">
+  <div class="sky-test-child-elements" [skyHighlight]="searchTerm()">
     <span>a</span>
     <span>a</span>
     <span>a</span>

@@ -5,7 +5,7 @@
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,
-    "types": ["jasmine", "node"]
+    "types": ["node"]
   },
   "exclude": ["**/*.spec.ts", "schematics/**", "**/vitest/src/testing/**"],
   "include": ["private/src/**/*.ts", "src/**/*.ts", "vitest/src/**/*.ts"]

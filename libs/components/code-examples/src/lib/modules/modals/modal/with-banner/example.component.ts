@@ -1,4 +1,9 @@
-import { Component, OnDestroy, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  inject,
+} from '@angular/core';
 import { SkyModalInstance, SkyModalService } from '@skyux/modals';
 
 import { ModalComponent } from './modal.component';
@@ -8,6 +13,7 @@ import { ModalComponent } from './modal.component';
  */
 @Component({
   selector: 'app-modals-modal-basic-with-controller-example',
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `<button
     class="sky-btn sky-btn-default"
     type="button"

@@ -10,6 +10,12 @@ module.exports = [
     },
   },
   {
+    files: ['libs/components/**/*.ts'],
+    rules: {
+      '@angular-eslint/prefer-on-push-component-change-detection': 'warn',
+    },
+  },
+  {
     files: ['libs/components/[^a-cA-C]*/**/*.ts'],
     rules: {
       '@angular-eslint/prefer-inject': 'warn',

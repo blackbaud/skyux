@@ -22,7 +22,7 @@
       "defaultConfiguration": "production"
     },
     "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+      "executor": "@angular/build:karma",
       "options": {
         "tsConfig": "libs/components/list-builder/tsconfig.spec.json",
         "karmaConfig": "libs/components/list-builder/karma.conf.js",

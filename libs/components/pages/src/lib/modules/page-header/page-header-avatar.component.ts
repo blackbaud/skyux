@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SkyDefaultInputProvider, SkyMediaQueryService } from '@skyux/core';
 import { SkyThemeComponentClassDirective } from '@skyux/theme';
@@ -14,6 +14,7 @@ import { SkyThemeComponentClassDirective } from '@skyux/theme';
   styleUrls: ['./page-header-avatar.component.scss'],
   providers: [SkyDefaultInputProvider],
   standalone: false,
+  changeDetection: ChangeDetectionStrategy.Eager,
   hostDirectives: [SkyThemeComponentClassDirective],
 })
 export class SkyPageHeaderAvatarComponent {

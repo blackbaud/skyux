@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 
 @Component({
   selector: 'sky-test-cmp',
@@ -7,7 +7,11 @@ import { Component } from '@angular/core';
 })
 export class GridDynamicTestComponent {
   public data: any[];
-  public gridColumns: any[];
+  public gridColumns = signal<any[]>([
+    { id: 1, field: 'name', heading: 'Name Initial' },
+    { id: 2, field: 'email', heading: 'Email Initial' },
+  ]);
+
   constructor() {
     this.data = [
       { id: 1, name: 'Windstorm', email: 'windstorm@gmail.com' },
@@ -15,16 +19,12 @@ export class GridDynamicTestComponent {
       { id: 3, name: 'Magenta', email: 'magenta@gmail.com' },
       { id: 4, name: 'Tornado', email: 'tornado@gmail.com' },
     ];
-    this.gridColumns = [
-      { id: 1, field: 'name', heading: 'Name Initial' },
-      { id: 2, field: 'email', heading: 'Email Initial' },
-    ];
   }
 
   public changeColumns() {
-    this.gridColumns = [
+    this.gridColumns.set([
       { id: 1, field: 'name', heading: 'Name' },
       { id: 2, field: 'email', heading: 'Email' },
-    ];
+    ]);
   }
 }

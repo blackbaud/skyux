@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, model } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { SkyLabelModule } from '@skyux/indicators';
 
@@ -8,14 +8,14 @@ import { SkyLabelFixture } from './label-fixture';
 @Component({
   selector: 'sky-label-test',
   template: `
-    <sky-label [labelType]="labelType" data-sky-id="test-label">
+    <sky-label [labelType]="labelType()" data-sky-id="test-label">
       This is a sample label.
     </sky-label>
   `,
   standalone: false,
 })
 class TestComponent {
-  public labelType = 'warning';
+  public labelType = model('warning');
 }
 //#endregion Test component
 
@@ -40,14 +40,14 @@ describe('Label fixture', () => {
     const validLabelTypes = ['info', 'success', 'warning', 'danger'];
 
     for (const validLabelType of validLabelTypes) {
-      fixture.componentInstance.labelType = validLabelType;
+      fixture.componentRef.setInput('labelType', validLabelType);
 
       fixture.detectChanges();
 
       expect(label.labelType).toBe(validLabelType);
     }
 
-    fixture.componentInstance.labelType = 'invalid';
+    fixture.componentRef.setInput('labelType', 'invalid');
 
     fixture.detectChanges();
 

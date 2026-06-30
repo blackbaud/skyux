@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, model } from '@angular/core';
 import {
   AbstractControl,
   FormsModule,
@@ -20,22 +20,22 @@ import {
   imports: [FormsModule, ReactiveFormsModule, SkyCheckboxModule],
 })
 export class CheckboxHarnessTestComponent {
-  public class = '';
-  public headingLevel: SkyCheckboxGroupHeadingLevel | undefined = 3;
-  public headingStyle: SkyCheckboxGroupHeadingStyle = 3;
-  public helpKey: string | undefined;
-  public helpPopoverContent: string | undefined;
-  public helpPopoverTitle: string | undefined;
-  public hideEmailLabel = false;
-  public hideGroupHeading = false;
-  public hidePhoneLabel = false;
-  public hintText: string | undefined;
-  public phoneHintText: string | undefined;
+  public class = model('');
+  public headingLevel = model<SkyCheckboxGroupHeadingLevel | undefined>(3);
+  public headingStyle = model<SkyCheckboxGroupHeadingStyle>(3);
+  public helpKey = model<string | undefined>(undefined);
+  public helpPopoverContent = model<string | undefined>(undefined);
+  public helpPopoverTitle = model<string | undefined>(undefined);
+  public hideEmailLabel = model(false);
+  public hideGroupHeading = model(false);
+  public hidePhoneLabel = model(false);
+  public hintText = model<string | undefined>(undefined);
+  public phoneHintText = model<string | undefined>(undefined);
   public mailControl: UntypedFormControl;
   public myCheckboxGroup: UntypedFormGroup;
   public myForm: UntypedFormGroup;
-  public required = false;
-  public stacked = false;
+  public required = model(false);
+  public stacked = model(false);
 
   #formBuilder = inject(UntypedFormBuilder);
 

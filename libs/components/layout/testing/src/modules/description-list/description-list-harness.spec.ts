@@ -44,7 +44,7 @@ describe('Description list test harness', () => {
       'vertical',
     );
 
-    fixture.componentInstance.mode = 'horizontal';
+    fixture.componentInstance.mode.set('horizontal');
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -52,7 +52,7 @@ describe('Description list test harness', () => {
       'horizontal',
     );
 
-    fixture.componentInstance.mode = 'longDescription';
+    fixture.componentInstance.mode.set('longDescription');
     fixture.detectChanges();
     await fixture.whenStable();
 

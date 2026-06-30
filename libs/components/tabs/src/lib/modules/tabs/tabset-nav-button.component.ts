@@ -1,4 +1,10 @@
-import { Component, HostBinding, Input, OnDestroy } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  Input,
+  OnDestroy,
+} from '@angular/core';
 import { SkyLogService } from '@skyux/core';
 
 import { Subject, Subscription } from 'rxjs';
@@ -19,6 +25,7 @@ const buttonTypeFinish = 'finish';
 @Component({
   selector: 'sky-tabset-nav-button',
   templateUrl: './tabset-nav-button.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyTabsetNavButtonComponent implements OnDestroy {

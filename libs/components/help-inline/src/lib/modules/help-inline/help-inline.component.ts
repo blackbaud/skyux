@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -32,6 +33,7 @@ import { SkyHelpInlinePopoverButtonComponent } from './button-popover.component'
     './help-inline.default.component.scss',
     './help-inline.modern.component.scss',
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     CommonModule,
     SkyHelpInlineAriaLabelPipe,

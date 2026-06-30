@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { SkyToastBodyContext } from './toast-body-context';
 
@@ -7,6 +7,7 @@ import { SkyToastBodyContext } from './toast-body-context';
  */
 @Component({
   selector: 'sky-toast-body',
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './toast-body.component.html',
 })
 export class SkyToastBodyComponent {

@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, input, model } from '@angular/core';
+
 import {
   ReactiveFormsModule,
   UntypedFormControl,
@@ -17,11 +18,11 @@ import { SkyPhoneFieldNumberReturnFormat } from '../types/number-return-format';
   templateUrl: './phone-field-reactive.component.fixture.html',
 })
 export class PhoneFieldReactiveTestComponent implements OnInit {
-  public allowExtensions = true;
+  public allowExtensions = input<boolean>(true);
 
-  public defaultCountry: string | undefined;
+  public defaultCountry = input<string | undefined>(undefined);
 
-  public selectedCountry: SkyPhoneFieldCountry | undefined;
+  public selectedCountry = model<SkyPhoneFieldCountry | undefined>(undefined);
 
   public supportedCountryISOs: string[] | undefined;
 

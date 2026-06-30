@@ -2,8 +2,8 @@
   #overflowParentRef
   class="canvas"
   [ngClass]="{
-    'canvas-overflow': enableOverflowParent,
-    'canvas-positioned': enablePositionedParent
+    'canvas-overflow': enableOverflowParent(),
+    'canvas-positioned': enablePositionedParent()
   }"
 >
   <div class="base-wrapper">
@@ -11,7 +11,7 @@
       #baseRef
       class="base"
       [ngClass]="{
-        'base-xl': enableLargerBaseElement
+        'base-xl': enableLargerBaseElement()
       }"
     ></div>
   </div>
@@ -19,16 +19,16 @@
   <div
     #affixedRef
     class="affixed"
-    [affixAutoFitContext]="autoFitContext"
-    [affixAutoFitOverflowOffset]="autoFitOverflowOffset"
-    [affixEnableAutoFit]="enableAutoFit"
-    [affixHorizontalAlignment]="horizontalAlignment"
-    [affixIsSticky]="isSticky"
-    [affixPlacement]="placement"
-    [affixPosition]="position"
-    [affixVerticalAlignment]="verticalAlignment"
+    [affixAutoFitContext]="autoFitContext()"
+    [affixAutoFitOverflowOffset]="autoFitOverflowOffset()"
+    [affixEnableAutoFit]="enableAutoFit()"
+    [affixHorizontalAlignment]="horizontalAlignment()"
+    [affixIsSticky]="isSticky()"
+    [affixPlacement]="placement()"
+    [affixPosition]="position()"
+    [affixVerticalAlignment]="verticalAlignment()"
     [ngClass]="{
-      'affixed-absolute': position === 'absolute'
+      'affixed-absolute': position() === 'absolute'
     }"
     [skyAffixTo]="baseRef"
     (affixOffsetChange)="onAffixOffsetChange($event)"

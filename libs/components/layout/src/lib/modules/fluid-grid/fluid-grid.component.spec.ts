@@ -12,7 +12,6 @@ function getFluidGrid(fixture: ComponentFixture<any>): HTMLElement {
 // #endregion
 
 describe('SkyFluidGridComponent', () => {
-  let component: FluidGridTestComponent;
   let fixture: ComponentFixture<FluidGridTestComponent>;
 
   function validateGutterSize(
@@ -23,7 +22,7 @@ describe('SkyFluidGridComponent', () => {
       | 'sky-fluid-grid-gutter-size-medium'
       | 'sky-fluid-grid-gutter-size-large',
   ): void {
-    component.gutterSize = gutterSize;
+    fixture.componentRef.setInput('gutterSize', gutterSize);
     fixture.detectChanges();
 
     const gutterSizeClasses: string[] = [
@@ -47,7 +46,6 @@ describe('SkyFluidGridComponent', () => {
     });
 
     fixture = TestBed.createComponent(FluidGridTestComponent);
-    component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
@@ -76,12 +74,12 @@ describe('SkyFluidGridComponent', () => {
   it('should not have the no-margins CSS class when disableMargin is false or undefined', () => {
     const fluidGrid = getFluidGrid(fixture);
 
-    component.disableMargin = undefined;
+    fixture.componentRef.setInput('disableMargin', undefined);
     fixture.detectChanges();
 
     expect(fluidGrid).not.toHaveCssClass('sky-fluid-grid-no-margin');
 
-    component.disableMargin = false;
+    fixture.componentRef.setInput('disableMargin', false);
     fixture.detectChanges();
 
     expect(fluidGrid).not.toHaveCssClass('sky-fluid-grid-no-margin');
@@ -89,7 +87,7 @@ describe('SkyFluidGridComponent', () => {
 
   it('should add the no-margins CSS class when disableMargin is true', () => {
     const fluidGrid = getFluidGrid(fixture);
-    component.disableMargin = true;
+    fixture.componentRef.setInput('disableMargin', true);
     fixture.detectChanges();
 
     expect(fluidGrid).toHaveCssClass('sky-fluid-grid-no-margin');

@@ -27,13 +27,13 @@ import { SkyDateRangePickerHarness } from './date-range-picker-harness';
         data-sky-id="test-date-range-picker"
         formControlName="pickerControl"
         [calculatorIds]="calculatorIds()"
-        [helpPopoverContent]="helpPopoverContent"
-        [helpPopoverTitle]="helpPopoverTitle"
-        [hintText]="hintText"
-        [labelText]="labelText"
-        [stacked]="stacked"
+        [helpPopoverContent]="helpPopoverContent()"
+        [helpPopoverTitle]="helpPopoverTitle()"
+        [hintText]="hintText()"
+        [labelText]="labelText()"
+        [stacked]="stacked()"
       >
-        @if (customErrorFlag) {
+        @if (customErrorFlag()) {
           <sky-form-error errorName="custom" errorText="custom error" />
         }
       </sky-date-range-picker>
@@ -56,12 +56,12 @@ class TestComponent {
     pickerControl: this.pickerControl,
   });
 
-  public customErrorFlag = false;
-  public helpPopoverContent: string | undefined;
-  public helpPopoverTitle: string | undefined;
-  public hintText: string | undefined;
-  public labelText: string | undefined;
-  public stacked = false;
+  public customErrorFlag = signal(false);
+  public helpPopoverContent = signal<string | undefined>(undefined);
+  public helpPopoverTitle = signal<string | undefined>(undefined);
+  public hintText = signal<string | undefined>(undefined);
+  public labelText = signal<string | undefined>(undefined);
+  public stacked = signal(false);
 
   protected calculatorIds = signal<SkyDateRangeCalculatorId[]>(
     this.#getCurrentCalculatorIds(),
@@ -131,8 +131,8 @@ describe('Date range picker harness', () => {
   it('should open help popover when clicked', async () => {
     const { dateRangePickerHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.labelText = 'label';
-    fixture.componentInstance.helpPopoverContent = 'content';
+    fixture.componentInstance.labelText.set('label');
+    fixture.componentInstance.helpPopoverContent.set('content');
     fixture.detectChanges();
 
     await dateRangePickerHarness.clickHelpInline();
@@ -145,51 +145,51 @@ describe('Date range picker harness', () => {
   it('should get help popover content', async () => {
     const { dateRangePickerHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.labelText = 'label';
-    fixture.componentInstance.helpPopoverContent = 'content';
+    fixture.componentInstance.labelText.set('label');
+    fixture.componentInstance.helpPopoverContent.set('content');
     fixture.detectChanges();
 
     await dateRangePickerHarness.clickHelpInline();
 
     await expectAsync(
       dateRangePickerHarness.getHelpPopoverContent(),
-    ).toBeResolvedTo(fixture.componentInstance.helpPopoverContent);
+    ).toBeResolvedTo('content');
   });
 
   it('should get help popover title', async () => {
     const { dateRangePickerHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.labelText = 'label';
-    fixture.componentInstance.helpPopoverTitle = 'title';
-    fixture.componentInstance.helpPopoverContent = 'content';
+    fixture.componentInstance.labelText.set('label');
+    fixture.componentInstance.helpPopoverTitle.set('title');
+    fixture.componentInstance.helpPopoverContent.set('content');
     fixture.detectChanges();
 
     await dateRangePickerHarness.clickHelpInline();
 
     await expectAsync(
       dateRangePickerHarness.getHelpPopoverTitle(),
-    ).toBeResolvedTo(fixture.componentInstance.helpPopoverTitle);
+    ).toBeResolvedTo('title');
   });
 
   it('should get hint text', async () => {
     const { dateRangePickerHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.hintText = 'hint text';
+    fixture.componentInstance.hintText.set('hint text');
     fixture.detectChanges();
 
     await expectAsync(dateRangePickerHarness.getHintText()).toBeResolvedTo(
-      fixture.componentInstance.hintText,
+      'hint text',
     );
   });
 
   it('should get label', async () => {
     const { dateRangePickerHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.labelText = 'label';
+    fixture.componentInstance.labelText.set('label');
     fixture.detectChanges();
 
     await expectAsync(dateRangePickerHarness.getLabelText()).toBeResolvedTo(
-      fixture.componentInstance.labelText,
+      'label',
     );
   });
 
@@ -205,7 +205,7 @@ describe('Date range picker harness', () => {
   it('should get whether date range picker is stacked', async () => {
     const { dateRangePickerHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.stacked = true;
+    fixture.componentInstance.stacked.set(true);
     fixture.detectChanges();
 
     await expectAsync(dateRangePickerHarness.isStacked()).toBeResolvedTo(true);
@@ -242,7 +242,7 @@ describe('Date range picker harness', () => {
   it('should get whether end date before start date error is thrown', async () => {
     const { dateRangePickerHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.labelText = 'label';
+    fixture.componentInstance.labelText.set('label');
     fixture.detectChanges();
     await dateRangePickerHarness.selectCalculator(
       SkyDateRangeCalculatorId.SpecificRange,
@@ -258,9 +258,9 @@ describe('Date range picker harness', () => {
   it('should get whether custom error is thrown', async () => {
     const { dateRangePickerHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.labelText = 'label';
+    fixture.componentInstance.labelText.set('label');
     fixture.detectChanges();
-    fixture.componentInstance.customErrorFlag = true;
+    fixture.componentInstance.customErrorFlag.set(true);
     fixture.componentInstance.myForm.markAllAsTouched();
     fixture.detectChanges();
 

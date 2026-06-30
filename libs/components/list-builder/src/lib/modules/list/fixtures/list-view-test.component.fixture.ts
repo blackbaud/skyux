@@ -1,5 +1,5 @@
 //#region imports
-import { Component, Input, forwardRef } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, forwardRef } from '@angular/core';
 import { ListItemModel } from '@skyux/list-builder-common';
 
 import { Observable } from 'rxjs';
@@ -39,6 +39,7 @@ export class ListViewTestComponent extends ListViewComponent {
   constructor(
     state: ListState,
     private dispatcher: ListStateDispatcher,
+    private changeDetectorRef: ChangeDetectorRef,
   ) {
     super(state, 'Test View');
 
@@ -49,6 +50,7 @@ export class ListViewTestComponent extends ListViewComponent {
       )
       .subscribe((items) => {
         this.items = items.items;
+        this.changeDetectorRef.markForCheck();
       });
   }
 

@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ContentChild,
@@ -47,6 +48,7 @@ let nextContentId = 0;
   templateUrl: './repeater-item.component.html',
   providers: [SkyContentInfoProvider],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyRepeaterItemComponent

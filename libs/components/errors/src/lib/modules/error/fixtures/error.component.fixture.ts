@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 import { SkyErrorType } from '../error-type';
 
@@ -16,13 +16,13 @@ export class ErrorTestComponent {
 
   public customTitle = 'custom title value';
 
-  public errorType: SkyErrorType | undefined = 'broken';
+  public errorType = input<SkyErrorType | undefined>('broken');
 
-  public replaceDefaultDescription = false;
+  public replaceDefaultDescription = input<boolean>(false);
 
-  public replaceDefaultTitle = false;
+  public replaceDefaultTitle = input<boolean>(false);
 
-  public showImage = true;
+  public showImage = input<boolean>(true);
 
   /* istanbul ignore next */
   public customAction(): void {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, model } from '@angular/core';
 import { SkyIndicatorDescriptionType, SkyLabelType } from '@skyux/indicators';
 
 @Component({
@@ -7,7 +7,9 @@ import { SkyIndicatorDescriptionType, SkyLabelType } from '@skyux/indicators';
   standalone: false,
 })
 export class LabelHarnessTestComponent {
-  public labelType: SkyLabelType = 'info';
-  public descriptionType: SkyIndicatorDescriptionType | undefined;
-  public customDescription: string | undefined;
+  public labelType = model<SkyLabelType>('info');
+  public descriptionType = model<SkyIndicatorDescriptionType | undefined>(
+    undefined,
+  );
+  public customDescription = model<string | undefined>(undefined);
 }

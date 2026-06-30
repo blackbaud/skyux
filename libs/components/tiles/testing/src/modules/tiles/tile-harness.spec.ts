@@ -34,7 +34,7 @@ describe('Tile test harness', () => {
   it('should throw an error if clicking the settings button when it is not present', async () => {
     const { tileHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.showSettings = false;
+    fixture.componentRef.setInput('showSettings', false);
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -107,7 +107,7 @@ describe('Tile test harness', () => {
   it('should throw an error if no tile content sections are found', async () => {
     const { tileHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.showSections = false;
+    fixture.componentRef.setInput('showSections', false);
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -127,7 +127,7 @@ describe('Tile test harness', () => {
   it('should open help inline popover when clicked', async () => {
     const { tileHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.helpContent = 'help content';
+    fixture.componentRef.setInput('helpContent', 'help content');
     fixture.detectChanges();
 
     await tileHarness.clickHelpInline();
@@ -142,8 +142,8 @@ describe('Tile test harness', () => {
 
     const helpSvc = TestBed.inject(SkyHelpService);
     const helpSpy = spyOn(helpSvc, 'openHelp');
-    fixture.componentInstance.helpKey = 'helpKey.html';
-    fixture.componentInstance.helpContent = undefined;
+    fixture.componentRef.setInput('helpKey', 'helpKey.html');
+    fixture.componentRef.setInput('helpContent', undefined);
     fixture.detectChanges();
 
     await tileHarness.clickHelpInline();
@@ -157,7 +157,8 @@ describe('Tile test harness', () => {
     const helpContent = 'test help content';
     const { tileHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.helpContent = helpContent;
+    fixture.componentRef.setInput('helpContent', helpContent);
+    fixture.detectChanges();
     await tileHarness.clickHelpInline();
     fixture.detectChanges();
     await fixture.whenStable();
@@ -172,8 +173,9 @@ describe('Tile test harness', () => {
     const helpContent = 'test content';
     const { tileHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.helpContent = helpContent;
-    fixture.componentInstance.helpTitle = helpTitle;
+    fixture.componentRef.setInput('helpContent', helpContent);
+    fixture.componentRef.setInput('helpTitle', helpTitle);
+    fixture.detectChanges();
     await tileHarness.clickHelpInline();
     fixture.detectChanges();
     await fixture.whenStable();

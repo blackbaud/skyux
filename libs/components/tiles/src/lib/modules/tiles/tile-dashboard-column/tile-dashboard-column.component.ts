@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EnvironmentInjector,
   ViewChild,
@@ -16,6 +17,7 @@ let columnIdIndex = 0;
   selector: 'sky-tile-dashboard-column',
   styleUrls: ['./tile-dashboard-column.component.scss'],
   templateUrl: './tile-dashboard-column.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   hostDirectives: [SkyThemeComponentClassDirective],
 })
 export class SkyTileDashboardColumnComponent {
