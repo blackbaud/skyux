@@ -1,12 +1,5 @@
-import { AsyncPipe, NgClass } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  effect,
-  inject,
-  input,
-} from '@angular/core';
-import { toObservable } from '@angular/core/rxjs-interop';
+import { Component, effect, inject, input } from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { SkyLogService, SkyTrimModule } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyWaitModule } from '@skyux/indicators';
@@ -31,7 +24,6 @@ import { SkyPagesResourcesModule } from '../shared/sky-pages-resources.module';
   selector: 'sky-needs-attention',
   templateUrl: './needs-attention.component.html',
   styleUrls: ['./needs-attention.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     SkyAppLinkModule,
     SkyBoxModule,
@@ -42,38 +34,38 @@ import { SkyPagesResourcesModule } from '../shared/sky-pages-resources.module';
     SkyTrimModule,
     SkyWaitModule,
     LinkAsModule,
-    NgClass,
-    AsyncPipe,
   ],
 })
 export class SkyNeedsAttentionComponent {
   public readonly items = input<SkyActionHubNeedsAttention[]>([]);
 
-  protected readonly displayItems = toObservable<SkyActionHubNeedsAttention[]>(
-    this.items,
-  ).pipe(
-    switchMap((items) => {
-      if (!items?.length) {
-        return of([] as SkyActionHubNeedsAttention[]);
-      }
-      return forkJoin(
-        items.map((item) => {
-          if (item.permalink?.url?.includes('://')) {
-            if (!this.#resolver) {
-              this.#logService.error(
-                `SkyHrefResolverService is required but was not provided. Unable to resolve ${item.permalink.url}`,
+  protected readonly displayItems = toSignal(
+    toObservable<SkyActionHubNeedsAttention[]>(this.items).pipe(
+      switchMap((items) => {
+        if (!items?.length) {
+          return of([] as SkyActionHubNeedsAttention[]);
+        }
+        return forkJoin(
+          items.map((item) => {
+            if (item.permalink?.url?.includes('://')) {
+              if (!this.#resolver) {
+                this.#logService.error(
+                  `SkyHrefResolverService is required but was not provided. Unable to resolve ${item.permalink.url}`,
+                );
+                return of(undefined);
+              }
+              return from(
+                this.#resolver.resolveHref({ url: item.permalink.url }),
+              ).pipe(
+                map((result) => (result.userHasAccess ? item : undefined)),
               );
-              return of(undefined);
             }
-            return from(
-              this.#resolver.resolveHref({ url: item.permalink.url }),
-            ).pipe(map((result) => (result.userHasAccess ? item : undefined)));
-          }
-          return of(item);
-        }),
-      ).pipe(map((items) => items.filter(Boolean)));
-    }),
-    startWith([] as SkyActionHubNeedsAttention[]),
+            return of(item);
+          }),
+        ).pipe(map((items) => items.filter(Boolean)));
+      }),
+      startWith([] as SkyActionHubNeedsAttention[]),
+    ),
   );
   protected readonly displayItemsTrackByFn = (
     item: SkyActionHubNeedsAttention | undefined,

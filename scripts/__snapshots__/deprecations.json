@@ -312,6 +312,7 @@
   "@skyux/modals:SkyModalInstance:helpOpened",
   "@skyux/modals:SkyModalInstance:openHelp",
   "@skyux/modals:SkyModalLegacyService",
+  "@skyux/pages/testing:SkyNeedsAttentionHarness:getEmptyListText",
   "@skyux/pages:SkyActionHubNeedsAttention:message",
   "@skyux/popovers/testing:SkyDropdownFixture",
   "@skyux/popovers/testing:SkyPopoverFixture",

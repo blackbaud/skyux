@@ -1,11 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyLogService } from '@skyux/core';
+import { SkyBoxHarness } from '@skyux/layout/testing';
 import { provideHrefTesting } from '@skyux/router/testing';
 
 import { SkyActionHubModule } from '../action-hub/action-hub.module';
 
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { SkyNeedsAttentionComponent } from './needs-attention.component';
 
 describe('Needs attention component', () => {
@@ -37,9 +38,14 @@ describe('Needs attention component', () => {
     await fixture.whenStable();
     expect(fixture.componentInstance).toBeTruthy();
     expect(fixture.nativeElement.querySelectorAll('a').length).toBe(1);
+
+    const box =
+      await TestbedHarnessEnvironment.loader(fixture).getHarness(SkyBoxHarness);
+    expect(box).toBeTruthy();
+    await expectAsync(box.getHeadingText()).toBeResolvedTo('Needs attention');
   });
 
-  it('should create empty needs attention component', async () => {
+  it('should hide needs attention box when no items are available', async () => {
     TestBed.configureTestingModule({
       imports: [SkyActionHubModule],
       providers: [
@@ -52,8 +58,8 @@ describe('Needs attention component', () => {
     await fixture.whenStable();
     expect(fixture.componentInstance).toBeTruthy();
     await expectAsync(
-      fixture.nativeElement.querySelector('sky-box-content').textContent.trim(),
-    ).toEqualLibResourceText('sky_action_hub_needs_attention_empty');
+      TestbedHarnessEnvironment.loader(fixture).getHarness(SkyBoxHarness),
+    ).toBeRejected();
   });
 
   it('should check access', async () => {
@@ -79,8 +85,8 @@ describe('Needs attention component', () => {
     expect(fixture.componentInstance).toBeTruthy();
     expect(fixture.nativeElement.querySelectorAll('a').length).toBe(0);
     await expectAsync(
-      fixture.nativeElement.querySelector('sky-box-content').textContent.trim(),
-    ).toEqualLibResourceText('sky_action_hub_needs_attention_empty');
+      TestbedHarnessEnvironment.loader(fixture).getHarness(SkyBoxHarness),
+    ).toBeRejected();
   });
 
   it('should log when resolver is not available', async () => {
@@ -105,8 +111,8 @@ describe('Needs attention component', () => {
     expect(fixture.componentInstance).toBeTruthy();
     expect(fixture.nativeElement.querySelectorAll('a').length).toBe(0);
     await expectAsync(
-      fixture.nativeElement.querySelector('sky-box-content').textContent.trim(),
-    ).toEqualLibResourceText('sky_action_hub_needs_attention_empty');
+      TestbedHarnessEnvironment.loader(fixture).getHarness(SkyBoxHarness),
+    ).toBeRejected();
     expect(logService.error).toHaveBeenCalledWith(
       `SkyHrefResolverService is required but was not provided. Unable to resolve http://example.com`,
     );
