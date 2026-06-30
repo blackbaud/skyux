@@ -151,6 +151,9 @@ export class SkyPhoneFieldComponent implements OnDestroy {
     skipSelf: true,
   });
 
+  // Prior to Angular 22 we had this model but also the direct `selectedCountryChange` output.
+  // Angular 22 now will error on this and removing the output will be a can of worms with potential breaking changes.
+  // The Angular 22 migration uses the linked signal and and alias to maintain prior behavior.
   /**
    * The currently selected country to validate against.
    */

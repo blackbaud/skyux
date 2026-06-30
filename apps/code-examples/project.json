@@ -8,13 +8,12 @@
   "implicitDependencies": ["eslint-config", "skyux-eslint"],
   "targets": {
     "build": {
-      "executor": "@angular/build:application",
-      "outputs": ["{options.outputPath.base}"],
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": {
-          "base": "dist/apps/code-examples-playground"
-        },
+        "outputPath": "dist/apps/code-examples-playground",
         "index": "apps/code-examples/src/index.html",
+        "main": "apps/code-examples/src/main.ts",
         "polyfills": ["zone.js"],
         "tsConfig": "apps/code-examples/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
@@ -32,8 +31,7 @@
           "libs/components/docs-tools/css/styles.css",
           "apps/code-examples/src/styles.scss"
         ],
-        "scripts": [],
-        "browser": "apps/code-examples/src/main.ts"
+        "scripts": []
       },
       "configurations": {
         "production": {
@@ -68,7 +66,7 @@
       ]
     },
     "serve": {
-      "executor": "@angular/build:dev-server",
+      "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
           "buildTarget": "code-examples-playground:build:production"
@@ -91,7 +89,7 @@
       "continuous": true
     },
     "extract-i18n": {
-      "executor": "@angular/build:extract-i18n",
+      "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
         "buildTarget": "code-examples-playground:build"
       }
