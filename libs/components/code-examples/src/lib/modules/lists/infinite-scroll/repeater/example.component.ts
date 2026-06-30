@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { SkyInfiniteScrollModule, SkyRepeaterModule } from '@skyux/lists';
 
 import { InfiniteScrollDemoItem } from './item';
@@ -18,13 +18,12 @@ let nextId = 0;
     }
   `,
   templateUrl: './example.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyInfiniteScrollModule, SkyRepeaterModule],
 })
 export class ListsInfiniteScrollRepeaterExampleComponent implements OnInit {
   protected items: InfiniteScrollDemoItem[] = [];
   protected itemsHaveMore = true;
-
-  readonly #changeDetectorRef = inject(ChangeDetectorRef);
 
   public ngOnInit(): void {
     void this.#addData();
@@ -40,7 +39,6 @@ export class ListsInfiniteScrollRepeaterExampleComponent implements OnInit {
     const result = await this.#mockRemote();
     this.items = this.items.concat(result.data);
     this.itemsHaveMore = result.hasMore;
-    this.#changeDetectorRef.markForCheck();
   }
 
   #mockRemote(): Promise<{

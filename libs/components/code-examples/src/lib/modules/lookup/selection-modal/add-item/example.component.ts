@@ -1,4 +1,9 @@
-import { ChangeDetectorRef, Component, OnDestroy, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  inject,
+} from '@angular/core';
 import {
   SkySelectionModalAddClickEventArgs,
   SkySelectionModalCloseArgs,
@@ -19,6 +24,7 @@ import { Person } from './person';
  */
 @Component({
   selector: 'app-lookup-selection-modal-add-item-example',
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './example.component.html',
 })
 export class LookupSelectionModalAddItemExampleComponent implements OnDestroy {
@@ -26,7 +32,6 @@ export class LookupSelectionModalAddItemExampleComponent implements OnDestroy {
 
   #subscriptions = new Subscription();
 
-  readonly #cdr = inject(ChangeDetectorRef);
   readonly #modalSvc = inject(SkyModalService);
   readonly #searchSvc = inject(ExampleService);
   readonly #selectionModalSvc = inject(SkySelectionModalService);
@@ -71,7 +76,6 @@ export class LookupSelectionModalAddItemExampleComponent implements OnDestroy {
       instance.closed.subscribe((args: SkySelectionModalCloseArgs) => {
         if (args.reason === 'save') {
           this.selectedPeople = args.selectedItems as Person[];
-          this.#cdr.markForCheck();
         }
       }),
     );

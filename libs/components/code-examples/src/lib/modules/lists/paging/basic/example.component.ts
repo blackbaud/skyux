@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyPagingModule } from '@skyux/lists';
 
 /**
@@ -7,6 +7,7 @@ import { SkyPagingModule } from '@skyux/lists';
 @Component({
   selector: 'app-lists-paging-basic-example',
   templateUrl: './example.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyPagingModule],
 })
 export class ListsPagingBasicExampleComponent {

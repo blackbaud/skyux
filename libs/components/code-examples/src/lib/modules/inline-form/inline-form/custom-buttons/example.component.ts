@@ -1,4 +1,9 @@
-import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -25,6 +30,7 @@ interface DemoForm {
 @Component({
   selector: 'app-inline-form-custom-buttons-example',
   templateUrl: './example.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FormsModule,
     ReactiveFormsModule,
@@ -65,8 +71,6 @@ export class InlineFormCustomButtonsExampleComponent implements OnInit {
 
   protected showForm = false;
 
-  readonly #changeDetectorRef = inject(ChangeDetectorRef);
-
   constructor() {
     this.formGroup = inject(FormBuilder).group({
       firstName: new FormControl<string>('', { nonNullable: true }),
@@ -81,7 +85,6 @@ export class InlineFormCustomButtonsExampleComponent implements OnInit {
       ) {
         this.inlineFormConfig.buttons[0].disabled = this.formGroup.invalid;
         this.inlineFormConfig = { ...{}, ...this.inlineFormConfig };
-        this.#changeDetectorRef.markForCheck();
       }
     });
   }

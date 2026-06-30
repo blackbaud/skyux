@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { SkyBackToTopModule } from '@skyux/layout';
 import { SkyInfiniteScrollModule, SkyRepeaterModule } from '@skyux/lists';
 
@@ -11,14 +11,13 @@ import { Person } from './person';
 @Component({
   selector: 'app-layout-back-to-top-infinite-scroll-example',
   templateUrl: './example.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyBackToTopModule, SkyInfiniteScrollModule, SkyRepeaterModule],
 })
 export class LayoutBackToTopInfiniteScrollExampleComponent implements OnInit {
   public hasMore = true;
 
   public personList: Person[] = [];
-
-  readonly #changeDetectorRef = inject(ChangeDetectorRef);
 
   public personDataSet = [
     {
@@ -140,7 +139,6 @@ export class LayoutBackToTopInfiniteScrollExampleComponent implements OnInit {
       const result = await this.mockRemote(start, rowSize);
       this.personList = this.personList.concat(result.data);
       this.hasMore = result.hasMore;
-      this.#changeDetectorRef.markForCheck();
     }
   }
 

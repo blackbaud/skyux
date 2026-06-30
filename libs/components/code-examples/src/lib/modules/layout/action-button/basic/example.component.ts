@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyActionButtonModule } from '@skyux/layout';
 
 /**
@@ -7,6 +7,7 @@ import { SkyActionButtonModule } from '@skyux/layout';
 @Component({
   selector: 'app-layout-action-button-basic-example',
   templateUrl: './example.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyActionButtonModule],
 })
 export class LayoutActionButtonBasicExampleComponent {

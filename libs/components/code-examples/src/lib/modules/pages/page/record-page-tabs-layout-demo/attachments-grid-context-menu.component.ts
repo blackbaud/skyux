@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyDropdownModule } from '@skyux/popovers';
 
 import { ICellRendererAngularComp } from 'ag-grid-angular';
@@ -9,6 +9,7 @@ import { Attachment } from './attachment';
 @Component({
   selector: 'app-attachments-grid-context-menu',
   templateUrl: './attachments-grid-context-menu.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyDropdownModule],
 })
 export class AttachmentsGridContextMenuComponent implements ICellRendererAngularComp {

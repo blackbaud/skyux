@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyInlineDeleteModule } from '@skyux/layout';
 
@@ -9,13 +9,12 @@ import { SkyInlineDeleteModule } from '@skyux/layout';
   selector: 'app-layout-inline-delete-custom-example',
   templateUrl: './example.component.html',
   styleUrls: ['./example.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyIconModule, SkyInlineDeleteModule],
 })
 export class LayoutInlineDeleteCustomExampleComponent {
   public deleting = false;
   protected pending = false;
-
-  readonly #changeDetectorRef = inject(ChangeDetectorRef);
 
   protected deleteItem(): void {
     this.deleting = true;
@@ -29,7 +28,6 @@ export class LayoutInlineDeleteCustomExampleComponent {
     setTimeout(() => {
       this.pending = false;
       this.deleting = false;
-      this.#changeDetectorRef.markForCheck();
 
       alert(
         'Custom element deletion was triggered. In a real scenario the item would be removed. Item was not removed just for example purposes.',

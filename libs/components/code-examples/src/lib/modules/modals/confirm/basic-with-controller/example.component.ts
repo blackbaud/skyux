@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyConfirmService } from '@skyux/modals';
 
 /**
@@ -6,6 +6,7 @@ import { SkyConfirmService } from '@skyux/modals';
  */
 @Component({
   selector: 'app-modals-confirm-basic-with-controller-example',
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `<button
     aria-haspopup="dialog"
     class="sky-btn sky-btn-default"

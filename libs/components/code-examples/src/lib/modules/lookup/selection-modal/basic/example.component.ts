@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   SkySelectionModalSearchResult,
   SkySelectionModalService,
@@ -14,12 +14,12 @@ import { Person } from './person';
  */
 @Component({
   selector: 'app-lookup-selection-modal-basic-example',
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './example.component.html',
 })
 export class LookupSelectionModalBasicExampleComponent {
   protected selectedPeople: Person[] | undefined;
 
-  readonly #cdr = inject(ChangeDetectorRef);
   readonly #searchSvc = inject(ExampleService);
   readonly #selectionModalSvc = inject(SkySelectionModalService);
 
@@ -44,7 +44,6 @@ export class LookupSelectionModalBasicExampleComponent {
     instance.closed.subscribe((args) => {
       if (args.reason === 'save') {
         this.selectedPeople = args.selectedItems as Person[];
-        this.#cdr.markForCheck();
       }
     });
   }

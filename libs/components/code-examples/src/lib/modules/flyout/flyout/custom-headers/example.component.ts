@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyFlyoutInstance, SkyFlyoutService } from '@skyux/flyout';
 
 import { FlyoutComponent } from './flyout.component';
@@ -8,6 +8,7 @@ import { FlyoutComponent } from './flyout.component';
  */
 @Component({
   selector: 'app-flyout-custom-headers-example',
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './example.component.html',
 })
 export class FlyoutCustomHeadersExampleComponent {
@@ -18,7 +19,6 @@ export class FlyoutCustomHeadersExampleComponent {
 
   #flyout: SkyFlyoutInstance<FlyoutComponent> | undefined;
 
-  readonly #changeDetectorRef = inject(ChangeDetectorRef);
   readonly #flyoutSvc = inject(SkyFlyoutService);
 
   public openFlyoutWithIterators(): void {
@@ -36,7 +36,6 @@ export class FlyoutCustomHeadersExampleComponent {
       this.#flyout!.iteratorNextButtonDisabled = this.#nextButtonDisabled();
       this.#flyout!.iteratorPreviousButtonDisabled =
         this.#previousButtonDisabled();
-      this.#changeDetectorRef.markForCheck();
     });
 
     this.#flyout.iteratorPreviousButtonClick.subscribe(() => {
@@ -45,7 +44,6 @@ export class FlyoutCustomHeadersExampleComponent {
       this.#flyout!.iteratorNextButtonDisabled = this.#nextButtonDisabled();
       this.#flyout!.iteratorPreviousButtonDisabled =
         this.#previousButtonDisabled();
-      this.#changeDetectorRef.markForCheck();
     });
 
     this.#flyout.closed.subscribe(() => {

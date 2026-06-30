@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -35,6 +35,7 @@ interface DemoForm {
   selector: 'app-split-view-page-bound-example',
   templateUrl: './example.component.html',
   styleUrls: ['./example.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FormsModule,
     ReactiveFormsModule,

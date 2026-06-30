@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -33,6 +33,7 @@ interface Item {
 @Component({
   selector: 'app-lists-repeater-inline-form-example',
   templateUrl: './example.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FormsModule,
     ReactiveFormsModule,
@@ -72,8 +73,6 @@ export class ListsRepeaterInlineFormExampleComponent {
     },
   ];
 
-  readonly #cdr = inject(ChangeDetectorRef);
-
   constructor() {
     this.formGroup = inject(FormBuilder).group({
       id: new FormControl('', { nonNullable: true }),
@@ -88,7 +87,6 @@ export class ListsRepeaterInlineFormExampleComponent {
       note: item.note,
       title: item.title,
     });
-    this.#cdr.markForCheck();
   }
 
   protected onInlineFormClose(args: SkyInlineFormCloseArgs): void {

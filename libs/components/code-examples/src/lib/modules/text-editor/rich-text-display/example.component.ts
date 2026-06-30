@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyRichTextDisplayModule } from '@skyux/text-editor';
 
 /**
@@ -7,6 +7,7 @@ import { SkyRichTextDisplayModule } from '@skyux/text-editor';
 @Component({
   selector: 'app-text-editor-rich-text-display-example',
   templateUrl: './example.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyRichTextDisplayModule],
 })
 export class TextEditorRichTextDisplayExampleComponent {
