@@ -50,7 +50,7 @@ describe('Text expand component', () => {
 
   describe('basic behaviors', () => {
     it('should have necessary aria properties', async () => {
-      cmp.text = LONG_TEXT;
+      fixture.componentRef.setInput('text', LONG_TEXT);
 
       fixture.detectChanges();
       const buttonElem = el.querySelector(
@@ -71,7 +71,7 @@ describe('Text expand component', () => {
       );
       expect(buttonElem?.getAttribute('aria-haspopup')).toBeNull();
 
-      cmp.text = VERY_LONG_TEXT;
+      fixture.componentRef.setInput('text', VERY_LONG_TEXT);
       fixture.detectChanges();
 
       expect(buttonElem?.getAttribute('aria-expanded')).toBeNull();
@@ -80,7 +80,7 @@ describe('Text expand component', () => {
     });
 
     it('should not have see more button or ellipsis if text is short', () => {
-      cmp.text = SHORT_TEXT;
+      fixture.componentRef.setInput('text', SHORT_TEXT);
 
       fixture.detectChanges();
 
@@ -95,8 +95,8 @@ describe('Text expand component', () => {
     });
 
     it('should default to a max length of 200 when the max length is given as undefined', () => {
-      cmp.text = LONG_TEXT;
-      cmp.maxLength = undefined;
+      fixture.componentRef.setInput('text', LONG_TEXT);
+      fixture.componentRef.setInput('maxLength', undefined);
 
       fixture.detectChanges();
 
@@ -111,8 +111,8 @@ describe('Text expand component', () => {
     });
 
     it('should not have see more button or ellipsis if text is long but less than the set max length', () => {
-      cmp.text = LONGER_TEXT;
-      cmp.maxLength = 400;
+      fixture.componentRef.setInput('text', LONGER_TEXT);
+      fixture.componentRef.setInput('maxLength', 400);
 
       fixture.detectChanges();
 
@@ -127,7 +127,7 @@ describe('Text expand component', () => {
     });
 
     it('should have the see more button and ellipsis if text is longer', () => {
-      cmp.text = LONG_TEXT;
+      fixture.componentRef.setInput('text', LONG_TEXT);
 
       fixture.detectChanges();
       const ellipsis: HTMLElement | null = el.querySelector(
@@ -142,7 +142,7 @@ describe('Text expand component', () => {
     });
 
     it('should not have a see more button if changed from long text to undefined', () => {
-      cmp.text = LONG_TEXT;
+      fixture.componentRef.setInput('text', LONG_TEXT);
 
       fixture.detectChanges();
       let ellipsis: HTMLElement | null = el.querySelector(
@@ -155,7 +155,7 @@ describe('Text expand component', () => {
       expect(seeMoreButton).not.toBeNull();
       expect(seeMoreButton?.innerText.trim()).toBe('See more');
 
-      cmp.text = undefined;
+      fixture.componentRef.setInput('text', undefined);
 
       fixture.detectChanges();
       ellipsis = el.querySelector('.sky-text-expand-ellipsis');
@@ -165,7 +165,7 @@ describe('Text expand component', () => {
     });
 
     it('should have a see more button if changed from long text to undefined and back', () => {
-      cmp.text = LONG_TEXT;
+      fixture.componentRef.setInput('text', LONG_TEXT);
 
       fixture.detectChanges();
       let ellipsis: HTMLElement | null = el.querySelector(
@@ -178,7 +178,7 @@ describe('Text expand component', () => {
       expect(seeMoreButton).not.toBeNull();
       expect(seeMoreButton?.innerText.trim()).toBe('See more');
 
-      cmp.text = undefined;
+      fixture.componentRef.setInput('text', undefined);
 
       fixture.detectChanges();
       ellipsis = el.querySelector('.sky-text-expand-ellipsis');
@@ -186,7 +186,7 @@ describe('Text expand component', () => {
       expect(ellipsis).toBeNull();
       expect(seeMoreButton).toBeNull();
 
-      cmp.text = LONG_TEXT;
+      fixture.componentRef.setInput('text', LONG_TEXT);
 
       fixture.detectChanges();
       ellipsis = el.querySelector('.sky-text-expand-ellipsis');
@@ -197,7 +197,7 @@ describe('Text expand component', () => {
     });
 
     it('should not have a see more button if changed from long text to short text', () => {
-      cmp.text = LONG_TEXT;
+      fixture.componentRef.setInput('text', LONG_TEXT);
 
       fixture.detectChanges();
       let ellipsis: HTMLElement | null = el.querySelector(
@@ -210,7 +210,7 @@ describe('Text expand component', () => {
       expect(seeMoreButton).not.toBeNull();
       expect(seeMoreButton?.innerText.trim()).toBe('See more');
 
-      cmp.text = SHORT_TEXT;
+      fixture.componentRef.setInput('text', SHORT_TEXT);
 
       fixture.detectChanges();
       ellipsis = el.querySelector('.sky-text-expand-ellipsis');
@@ -220,7 +220,7 @@ describe('Text expand component', () => {
     });
 
     it('should not display anything if no value is given for the text', () => {
-      cmp.text = undefined;
+      fixture.componentRef.setInput('text', undefined);
 
       fixture.detectChanges();
 
@@ -239,7 +239,7 @@ describe('Text expand component', () => {
     });
 
     it('should have the see more button or ellipsis if text is short but has newlines', () => {
-      cmp.text = SHORT_TEXT_WITH_NEWLINES;
+      fixture.componentRef.setInput('text', SHORT_TEXT_WITH_NEWLINES);
 
       fixture.detectChanges();
 
@@ -256,7 +256,7 @@ describe('Text expand component', () => {
 
     it('should expand on click of the see more button', async () => {
       const expandedText = LONG_TEXT;
-      cmp.text = expandedText;
+      fixture.componentRef.setInput('text', expandedText);
       const collapsedText = COLLAPSED_TEXT;
 
       fixture.detectChanges();
@@ -299,7 +299,7 @@ describe('Text expand component', () => {
     });
 
     it('should clean up when a transitionend event fires on the container', () => {
-      cmp.text = LONG_TEXT;
+      fixture.componentRef.setInput('text', LONG_TEXT);
 
       fixture.detectChanges();
 
@@ -324,8 +324,8 @@ describe('Text expand component', () => {
     });
 
     it('should render newlines if requested', () => {
-      cmp.text = SHORT_TEXT_WITH_NEWLINES;
-      cmp.truncateNewlines = false;
+      fixture.componentRef.setInput('text', SHORT_TEXT_WITH_NEWLINES);
+      fixture.componentRef.setInput('truncateNewlines', false);
 
       fixture.detectChanges();
 
@@ -340,20 +340,25 @@ describe('Text expand component', () => {
     });
 
     it('should expand text when the maxLength property is set', () => {
-      cmp.text = SHORT_TEXT_WITH_NEWLINES;
-      cmp.maxLength = 10;
+      fixture.componentRef.setInput('text', SHORT_TEXT_WITH_NEWLINES);
+      fixture.componentRef.setInput('maxLength', 10);
 
       fixture.detectChanges();
 
       expect(el.textContent?.trim()).toContain('See more');
-      expect(el.textContent?.trim()).not.toContain(cmp.text.trim());
+      expect(el.textContent?.trim()).not.toContain(
+        SHORT_TEXT_WITH_NEWLINES.trim(),
+      );
 
-      cmp.maxLength = cmp.text.length + 100;
+      fixture.componentRef.setInput(
+        'maxLength',
+        SHORT_TEXT_WITH_NEWLINES.length + 100,
+      );
 
       fixture.detectChanges();
 
       expect(el.textContent?.trim()).toContain(
-        cmp.text.replace(/(?:\r\n|\r|\n)/g, ' '),
+        SHORT_TEXT_WITH_NEWLINES.replace(/(?:\r\n|\r|\n)/g, ' '),
       );
     });
 
@@ -367,7 +372,7 @@ describe('Text expand component', () => {
   describe('modal behaviors', () => {
     it('should open a modal when looking at very long text', () => {
       const expandedText = VERY_LONG_TEXT;
-      cmp.text = expandedText;
+      fixture.componentRef.setInput('text', expandedText);
       const collapsedText = COLLAPSED_TEXT;
 
       fixture.detectChanges();
@@ -415,8 +420,8 @@ describe('Text expand component', () => {
 
     it('should open a modal when looking at long text with a shorter max expanded length', () => {
       const expandedText = LONG_TEXT;
-      cmp.text = expandedText;
-      cmp.maxExpandedLength = 299;
+      fixture.componentRef.setInput('text', expandedText);
+      fixture.componentRef.setInput('maxExpandedLength', 299);
       const collapsedText = COLLAPSED_TEXT;
 
       fixture.detectChanges();
@@ -461,7 +466,7 @@ describe('Text expand component', () => {
 
       expect(modal).toBeNull();
 
-      cmp.maxExpandedLength = undefined;
+      fixture.componentRef.setInput('maxExpandedLength', undefined);
       fixture.detectChanges();
 
       modal = document.querySelector('.sky-modal');
@@ -481,8 +486,8 @@ describe('Text expand component', () => {
 
     it('should open a modal when the maximum newlines is exceeded', () => {
       const expandedText = LONG_TEXT_WITH_NEWLINES;
-      cmp.maxExpandedNewlines = 1;
-      cmp.text = expandedText;
+      fixture.componentRef.setInput('maxExpandedNewlines', 1);
+      fixture.componentRef.setInput('text', expandedText);
       const collapsedText = COLLAPSED_TEXT;
 
       fixture.detectChanges();
@@ -527,8 +532,8 @@ describe('Text expand component', () => {
 
       expect(modal).toBeNull();
 
-      cmp.maxExpandedNewlines = undefined;
-      cmp.text = expandedText;
+      fixture.componentRef.setInput('maxExpandedNewlines', undefined);
+      fixture.componentRef.setInput('text', expandedText);
 
       fixture.detectChanges();
       modal = document.querySelector('.sky-modal');

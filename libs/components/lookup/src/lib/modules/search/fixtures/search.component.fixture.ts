@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, input } from '@angular/core';
 
 import { SkySearchComponent } from '../search.component';
 
@@ -14,16 +14,16 @@ export class SearchTestComponent {
   })
   public searchComponent!: SkySearchComponent;
 
-  public ariaLabel: string | undefined;
-  public ariaLabelledBy: string | undefined;
+  public ariaLabel = input<string | undefined>(undefined);
+  public ariaLabelledBy = input<string | undefined>(undefined);
 
-  public disabled: boolean | undefined;
-  public debounceTime: number | undefined = 0;
+  public disabled = input<boolean | undefined>(undefined);
+  public debounceTime = input<number | undefined>(0);
 
-  public searchText: string | undefined;
-  public placeholderText: string | undefined;
+  public searchText = input<string | undefined>(undefined);
+  public placeholderText = input<string | undefined>(undefined);
 
-  public expandMode: string | undefined;
+  public expandMode = input<string | undefined>(undefined);
 
   public lastSearchTextApplied: string | undefined;
   public lastSearchTextChanged: string | undefined;

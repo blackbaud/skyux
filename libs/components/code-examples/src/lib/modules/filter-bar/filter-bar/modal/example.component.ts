@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { SkyFilterBarFilterItem, SkyFilterBarModule } from '@skyux/filter-bar';
 
 import { FilterModalComponent } from './filter-modal.component';
@@ -9,6 +9,7 @@ import { FilterModalComponent } from './filter-modal.component';
 @Component({
   selector: 'app-filter-bar-modal-example',
   imports: [SkyFilterBarModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './example.component.html',
 })
 export class FilterBarModalExampleComponent {

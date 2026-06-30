@@ -66,7 +66,7 @@ describe('Error test harness', () => {
     errorHarness = await getHarness(loader, { dataSkyId: 'dynamic-error' });
     await expectAsync(errorHarness.getErrorType()).toBeResolvedTo('broken');
 
-    fixture.componentInstance.errorType = 'construction';
+    fixture.componentRef.setInput('errorType', 'construction');
     fixture.detectChanges();
 
     await expectAsync(errorHarness.getErrorType()).toBeResolvedTo(
@@ -90,7 +90,7 @@ describe('Error test harness', () => {
 
     await expectAsync(errorHarness.hasImage()).toBeResolvedTo(true);
 
-    fixture.componentInstance.errorType = undefined;
+    fixture.componentRef.setInput('errorType', undefined);
     fixture.detectChanges();
 
     await expectAsync(errorHarness.hasImage()).toBeResolvedTo(false);
@@ -109,7 +109,8 @@ describe('Error test harness', () => {
       dataSkyId: 'dynamic-error',
     });
 
-    fixture.componentInstance.errorType = undefined;
+    fixture.componentRef.setInput('errorType', undefined);
+    fixture.detectChanges();
 
     await expectAsync(errorHarness.getErrorImage()).toBeRejectedWithError(
       'Unable to find error image.',
@@ -129,7 +130,8 @@ describe('Error test harness', () => {
       dataSkyId: 'dynamic-error',
     });
 
-    fixture.componentInstance.errorType = undefined;
+    fixture.componentRef.setInput('errorType', undefined);
+    fixture.detectChanges();
 
     await expectAsync(errorHarness.getErrorAction()).toBeRejectedWithError(
       'Unable to find error action.',
@@ -157,7 +159,8 @@ describe('Error test harness', () => {
       dataSkyId: 'dynamic-error',
     });
 
-    fixture.componentInstance.errorType = undefined;
+    fixture.componentRef.setInput('errorType', undefined);
+    fixture.detectChanges();
 
     await expectAsync(errorHarness.clickActionButton()).toBeRejectedWithError(
       'Unable to find error action button.',

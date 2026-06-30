@@ -258,7 +258,7 @@ describe('Action button component modern theme', () => {
   });
 
   it(`should set class when alignItems property is 'left'`, () => {
-    fixture.componentInstance.alignItems = 'left';
+    fixture.componentRef.setInput('alignItems', 'left');
     fixture.detectChanges();
     const flexParent = getFlexParent(fixture);
     expect(flexParent).toHaveCssClass('sky-action-button-flex-align-left');
@@ -268,7 +268,7 @@ describe('Action button component modern theme', () => {
   });
 
   it(`should set class when alignItems property is 'right'`, () => {
-    fixture.componentInstance.alignItems = 'center';
+    fixture.componentRef.setInput('alignItems', 'center');
     fixture.detectChanges();
     const flexParent = getFlexParent(fixture);
     expect(flexParent).toHaveCssClass('sky-action-button-flex-align-center');
@@ -276,7 +276,7 @@ describe('Action button component modern theme', () => {
   });
 
   it(`should sync all child action buttons to have the same height as the tallest action button`, fakeAsync(() => {
-    fixture.componentInstance.firstButtonHeight = '500px';
+    fixture.componentRef.setInput('firstButtonHeight', '500px');
     fixture.componentInstance.actionButtonContainer?.onContentChange();
     fixture.detectChanges();
     tick();
@@ -302,8 +302,8 @@ describe('Action button component modern theme', () => {
 
   it(`should sync all child action buttons to have the same height when using SkyHref`, fakeAsync(() => {
     const linksFixture = TestBed.createComponent(ActionButtonLinksComponent);
-    linksFixture.componentInstance.permalink = '1bb-nav://yep/';
-    linksFixture.componentInstance.firstButtonHeight = '500px';
+    linksFixture.componentRef.setInput('permalink', '1bb-nav://yep/');
+    linksFixture.componentRef.setInput('firstButtonHeight', '500px');
     tick(10);
     linksFixture.detectChanges();
     tick();
@@ -316,8 +316,8 @@ describe('Action button component modern theme', () => {
 
   it(`should sync all child action buttons to have the same height when using SkyHref, delayed resolver`, fakeAsync(() => {
     const linksFixture = TestBed.createComponent(ActionButtonLinksComponent);
-    linksFixture.componentInstance.permalink = 'delayed://yep/';
-    linksFixture.componentInstance.firstButtonHeight = '500px';
+    linksFixture.componentRef.setInput('permalink', 'delayed://yep/');
+    linksFixture.componentRef.setInput('firstButtonHeight', '500px');
     linksFixture.detectChanges();
     tick();
     let buttons = getActionButtons(linksFixture);
@@ -335,8 +335,8 @@ describe('Action button component modern theme', () => {
 
   it(`should sync all child action buttons to have the same height when using SkyHref, delayed resolver, no access`, fakeAsync(() => {
     const linksFixture = TestBed.createComponent(ActionButtonLinksComponent);
-    linksFixture.componentInstance.permalink = 'delayed://nope/';
-    linksFixture.componentInstance.firstButtonHeight = '500px';
+    linksFixture.componentRef.setInput('permalink', 'delayed://nope/');
+    linksFixture.componentRef.setInput('firstButtonHeight', '500px');
     linksFixture.detectChanges();
     tick();
     let buttons = getActionButtons(linksFixture);
@@ -389,7 +389,7 @@ describe('Action button container with dynamic action buttons', () => {
     const spy = spyOn(adapterService, 'resetHeight');
 
     // Remove an item from the dynamic list of action buttons.
-    cmp.items = cmp.items.slice(0, cmp.items.length - 1);
+    cmp.items.set(cmp.items().slice(0, cmp.items().length - 1));
     fixture.detectChanges();
 
     expect(spy).toHaveBeenCalled();

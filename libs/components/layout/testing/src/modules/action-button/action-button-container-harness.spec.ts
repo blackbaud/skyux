@@ -1,5 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   SkyActionButtonContainerAlignItemsType,
@@ -11,7 +11,7 @@ import { SkyActionButtonContainerHarness } from './action-button-container-harne
 @Component({
   imports: [SkyActionButtonModule],
   template: `
-    <sky-action-button-container [alignItems]="alignItems">
+    <sky-action-button-container [alignItems]="alignItems()">
       <sky-action-button>
         <sky-action-button-icon iconName="filter" />
         <sky-action-button-header> Build a new list </sky-action-button-header>
@@ -40,7 +40,7 @@ import { SkyActionButtonContainerHarness } from './action-button-container-harne
   `,
 })
 class TestComponent {
-  public alignItems: SkyActionButtonContainerAlignItemsType = 'center';
+  public alignItems = signal<SkyActionButtonContainerAlignItemsType>('center');
 }
 
 describe('Action button container harness', () => {
@@ -80,7 +80,7 @@ describe('Action button container harness', () => {
 
     await expectAsync(harness.getAlignment()).toBeResolvedTo('center');
 
-    fixture.componentInstance.alignItems = 'left';
+    fixture.componentInstance.alignItems.set('left');
     fixture.detectChanges();
 
     await expectAsync(harness.getAlignment()).toBeResolvedTo('left');

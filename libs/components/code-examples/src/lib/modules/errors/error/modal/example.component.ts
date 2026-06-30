@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyErrorModalService } from '@skyux/errors';
 
 /**
@@ -6,6 +6,7 @@ import { SkyErrorModalService } from '@skyux/errors';
  */
 @Component({
   selector: 'app-errors-error-modal-example',
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './example.component.html',
 })
 export class ErrorsErrorModalExampleComponent {

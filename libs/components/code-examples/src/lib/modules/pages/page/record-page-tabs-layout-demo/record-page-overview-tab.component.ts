@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyKeyInfoModule } from '@skyux/indicators';
 import {
@@ -15,6 +15,7 @@ import { Detail } from './detail';
   selector: 'app-record-page-overview-tab',
   templateUrl: './record-page-overview-tab.component.html',
   styleUrls: ['./record-page-overview-tab.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     CommonModule,
     SkyBoxModule,

@@ -1,19 +1,19 @@
-<div [ngClass]="{ 'scrollable-host': scrollableHost }">
+<div [ngClass]="{ 'scrollable-host': scrollableHost() }">
   <div
     class="boundary-el"
     skyViewkeeperOmitShadow=".empty-space"
     [skyViewkeeper]="['.el1', '.el2', '.el3', '.el4']"
   >
-    @if (showEl1) {
+    @if (showEl1()) {
       <div class="el1 sky-viewkeeper-fixed"><br /></div>
     }
-    @if (showEl2) {
+    @if (showEl2()) {
       <div class="el2"><br /></div>
     }
-    @if (showEl3) {
+    @if (showEl3()) {
       <div class="el3"><br /></div>
     }
-    @if (showEl4) {
+    @if (showEl4()) {
       <div class="el4"><br /></div>
     }
     <div class="empty-space" style="height: 200vh"><br /></div>

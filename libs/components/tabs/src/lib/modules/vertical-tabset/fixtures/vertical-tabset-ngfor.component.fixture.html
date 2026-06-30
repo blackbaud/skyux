@@ -2,7 +2,7 @@
   [maintainTabContent]="maintainTabContent"
   (activeChange)="onActiveChange($event)"
 >
-  @for (tab of tabs; track tab) {
+  @for (tab of tabs(); track tab) {
     <sky-vertical-tab [tabHeading]="tab.heading">
       {{ tab.content }}
     </sky-vertical-tab>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 import { FONT_LIST_DEFAULTS } from '../defaults/font-list-defaults';
 import { FONT_SIZE_LIST_DEFAULTS } from '../defaults/font-size-list-defaults';
@@ -22,7 +22,7 @@ export class TextEditorFixtureComponent {
   public disabled = false;
   public fontList: SkyTextEditorFont[] | undefined = FONT_LIST_DEFAULTS;
   public fontSizeList: number[] | undefined = FONT_SIZE_LIST_DEFAULTS;
-  public helpKey: string | undefined;
+  public helpKey = input<string | undefined>(undefined);
   public helpPopoverContent: string | undefined;
   public helpPopoverTitle: string | undefined;
   public id: string | undefined = 'id-from-fixture';
@@ -47,7 +47,7 @@ export class TextEditorFixtureComponent {
       name: 'A field that is really too long for its own good',
     },
   ];
-  public placeholder: string | undefined;
+  public placeholder = input<string | undefined>(undefined);
   public toolbarActions: SkyTextEditorToolbarActionType[] | undefined = [
     'font-family',
     'font-size',

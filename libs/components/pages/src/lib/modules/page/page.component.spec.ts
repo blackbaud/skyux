@@ -8,9 +8,6 @@ import { SkyPageModule } from './page.module';
 import { SkyPageLayoutType } from './types/page-layout-type';
 
 describe('Page component', () => {
-  const defaultBackgroundColor = 'rgb(0, 0, 0)';
-  let styleEl: HTMLStyleElement;
-
   function validateBackgroundColor(expectedColor: string): void {
     expect(getComputedStyle(document.body).backgroundColor).toBe(expectedColor);
   }
@@ -30,23 +27,13 @@ describe('Page component', () => {
     TestBed.configureTestingModule({
       imports: [SkyPageModule, SkyHelpTestingModule],
     });
-
-    styleEl = document.createElement('style');
-
-    styleEl.appendChild(
-      document.createTextNode(
-        `body { background-color: ${defaultBackgroundColor}; }`,
-      ),
-    );
-
-    document.head.appendChild(styleEl);
-  });
-
-  afterEach(() => {
-    document.head.removeChild(styleEl);
   });
 
   it("should set the page's background color to white", () => {
+    const initialBackgroundColor = getComputedStyle(
+      document.body,
+    ).backgroundColor;
+
     const fixture = TestBed.createComponent(SkyPageComponent);
     fixture.detectChanges();
 
@@ -54,7 +41,7 @@ describe('Page component', () => {
 
     fixture.destroy();
 
-    validateBackgroundColor(defaultBackgroundColor);
+    validateBackgroundColor(initialBackgroundColor);
   });
 
   it('should add the expected CSS class for the layout input', () => {

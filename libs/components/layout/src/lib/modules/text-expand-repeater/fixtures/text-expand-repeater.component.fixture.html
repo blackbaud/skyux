@@ -1,14 +1,14 @@
 <sky-text-expand-repeater
-  [data]="data"
-  [maxItems]="numItems"
-  [listStyle]="listStyle"
+  [data]="data()"
+  [maxItems]="numItems()"
+  [listStyle]="listStyle()"
 />
 
 <sky-text-expand-repeater
-  [data]="customTemplateData"
+  [data]="customTemplateData()"
   [itemTemplate]="myTemplate"
-  [maxItems]="numItems"
-  [listStyle]="listStyle"
+  [maxItems]="numItems()"
+  [listStyle]="listStyle()"
 >
   <ng-template #myTemplate let-item>
     <div class="sky-test-custom-template">

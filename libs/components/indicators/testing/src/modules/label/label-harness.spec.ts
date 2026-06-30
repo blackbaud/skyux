@@ -29,7 +29,7 @@ function testGetLabelType(dataSkyId: string, labelType?: SkyLabelType) {
     const { fixture, labelHarness } = await setupTest({ dataSkyId });
 
     if (labelType) {
-      fixture.componentInstance.labelType = labelType;
+      fixture.componentRef.setInput('labelType', labelType);
       fixture.detectChanges();
     }
 
@@ -51,8 +51,8 @@ function testGetDescriptionType(
   it('should return the description type', async () => {
     const { fixture, labelHarness } = await setupTest({ dataSkyId });
 
-    fixture.componentInstance.descriptionType = descriptionType;
-    fixture.componentInstance.customDescription = customDescription;
+    fixture.componentRef.setInput('descriptionType', descriptionType);
+    fixture.componentRef.setInput('customDescription', customDescription);
     fixture.detectChanges();
 
     const componentDescriptionType = await labelHarness.getDescriptionType();
@@ -119,8 +119,8 @@ describe('Label harness', () => {
       });
       const description = 'Custom description:';
 
-      fixture.componentInstance.descriptionType = 'custom';
-      fixture.componentInstance.customDescription = description;
+      fixture.componentRef.setInput('descriptionType', 'custom');
+      fixture.componentRef.setInput('customDescription', description);
 
       fixture.detectChanges();
 
@@ -134,7 +134,7 @@ describe('Label harness', () => {
         dataSkyId: 'label-with-label-type',
       });
 
-      fixture.componentInstance.descriptionType = 'attention';
+      fixture.componentRef.setInput('descriptionType', 'attention');
 
       fixture.detectChanges();
 

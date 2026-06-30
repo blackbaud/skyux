@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 
@@ -13,24 +13,24 @@ import { SkyPopoverTestingModule } from './popover-testing.module';
       class="sky-btn sky-theme-margin-right-xs"
       type="button"
       [skyPopover]="myPopover"
-      [skyPopoverAlignment]="popoverAlignment"
-      [skyPopoverPlacement]="popoverPlacement"
+      [skyPopoverAlignment]="popoverAlignment()"
+      [skyPopoverPlacement]="popoverPlacement()"
       #directiveRef
     >
       Open popover on click
     </button>
 
-    <sky-popover [popoverTitle]="popoverTitle" #myPopover>
-      {{ popoverBody }}
+    <sky-popover [popoverTitle]="popoverTitle()" #myPopover>
+      {{ popoverBody() }}
     </sky-popover>
   `,
   standalone: false,
 })
 class PopoverTestComponent {
-  public popoverAlignment: string | undefined;
-  public popoverBody = 'popover body';
-  public popoverPlacement: string | undefined;
-  public popoverTitle = 'popover title';
+  public readonly popoverAlignment = input<string | undefined>(undefined);
+  public readonly popoverBody = input('popover body');
+  public readonly popoverPlacement = input<string | undefined>(undefined);
+  public readonly popoverTitle = input('popover title');
 }
 //#endregion Test component
 
@@ -81,22 +81,22 @@ describe('Popover fixture', () => {
 
   it('should expose popover properties when visible', async () => {
     // give properties non-default values
-    testComponent.popoverTitle = 'my title';
-    testComponent.popoverBody = 'my popover message';
-    testComponent.popoverAlignment = 'left';
-    testComponent.popoverPlacement = 'below';
+    fixture.componentRef.setInput('popoverTitle', 'my title');
+    fixture.componentRef.setInput('popoverBody', 'my popover message');
+    fixture.componentRef.setInput('popoverAlignment', 'left');
+    fixture.componentRef.setInput('popoverPlacement', 'below');
     fixture.detectChanges();
 
     // the popover is closed initially, we need to open it to check values
     await openPopover();
 
     // expect the values to match our updates
-    expect(popoverFixture.popoverTitle).toEqual(testComponent.popoverTitle);
+    expect(popoverFixture.popoverTitle).toEqual(testComponent.popoverTitle());
     expect(SkyAppTestUtility.getText(popoverFixture.body)).toEqual(
-      testComponent.popoverBody,
+      testComponent.popoverBody(),
     );
-    expect(popoverFixture.alignment).toEqual(testComponent.popoverAlignment);
-    expect(popoverFixture.placement).toEqual(testComponent.popoverPlacement);
+    expect(popoverFixture.alignment).toEqual(testComponent.popoverAlignment());
+    expect(popoverFixture.placement).toEqual(testComponent.popoverPlacement());
   });
 
   it('should hide by default when blur is invoked', async () => {

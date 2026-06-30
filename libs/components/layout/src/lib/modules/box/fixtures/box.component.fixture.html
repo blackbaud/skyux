@@ -1,16 +1,16 @@
 <sky-box
-  [ariaLabel]="ariaLabel"
-  [ariaLabelledBy]="ariaLabelledBy"
-  [ariaRole]="ariaRole"
-  [headingHidden]="headingHidden"
-  [headingLevel]="headingLevel"
-  [headingStyle]="headingStyle"
-  [headingText]="headingText"
-  [helpKey]="helpKey"
-  [helpPopoverContent]="helpPopoverContent"
-  [helpPopoverTitle]="helpPopoverTitle"
+  [ariaLabel]="ariaLabel()"
+  [ariaLabelledBy]="ariaLabelledBy()"
+  [ariaRole]="ariaRole()"
+  [headingHidden]="headingHidden()"
+  [headingLevel]="headingLevel()"
+  [headingStyle]="headingStyle()"
+  [headingText]="headingText()"
+  [helpKey]="helpKey()"
+  [helpPopoverContent]="helpPopoverContent()"
+  [helpPopoverTitle]="helpPopoverTitle()"
 >
-  @if (showHeader) {
+  @if (showHeader()) {
     <sky-box-header>
       <h2 class="sky-font-heading-2" id="my-header">Header</h2>
     </sky-box-header>

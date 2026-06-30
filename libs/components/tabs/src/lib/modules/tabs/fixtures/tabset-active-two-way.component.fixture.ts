@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, model } from '@angular/core';
 
 import { SkyTabIndex } from '../tab-index';
 
@@ -8,7 +8,9 @@ import { SkyTabIndex } from '../tab-index';
   standalone: false,
 })
 export class TabsetActiveTwoWayBindingTestComponent {
-  public activeTab = '1';
+  public activeTab = model<string>('1');
 
-  public onActiveChange(tabIndex: SkyTabIndex): void {}
+  public onActiveChange(tabIndex: SkyTabIndex): void {
+    this.activeTab.set(tabIndex as string);
+  }
 }

@@ -1,5 +1,5 @@
 // #region imports
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, input } from '@angular/core';
 
 import { SkyToastComponent } from '../toast.component';
 import { SkyToastType } from '../types/toast-type';
@@ -19,7 +19,7 @@ export class SkyToastTestComponent {
   })
   public toastComponent: SkyToastComponent | undefined;
 
-  public toastType: SkyToastType | undefined;
+  public toastType = input<SkyToastType | undefined>(undefined);
 
   public onClosed(): void {
     /* */

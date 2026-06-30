@@ -1,5 +1,5 @@
 import { Tree } from '@angular-devkit/schematics';
-import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
+import ts from 'typescript';
 
 import { removeImport } from './remove-import';
 

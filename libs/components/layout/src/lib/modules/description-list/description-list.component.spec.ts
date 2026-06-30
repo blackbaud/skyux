@@ -102,42 +102,42 @@ describe('Description list component', () => {
   });
 
   it('should set list item width when in horizontal mode', () => {
-    fixture.componentInstance.mode = 'horizontal';
+    fixture.componentRef.setInput('mode', 'horizontal');
     const dlEls = getDlEls(fixture.nativeElement);
     const listItemContent = dlEls?.[0].querySelector(
       '.sky-description-list-content',
     );
     expect(listItemContent?.clientWidth).not.toEqual(300);
 
-    fixture.componentInstance.listItemWidth = '300px';
+    fixture.componentRef.setInput('listItemWidth', '300px');
     fixture.detectChanges();
 
     expect(listItemContent?.clientWidth).toEqual(300);
   });
 
   it('should not set list item width when in vertical mode', () => {
-    fixture.componentInstance.mode = 'vertical';
+    fixture.componentRef.setInput('mode', 'vertical');
     fixture.detectChanges();
 
     const dlEls = getDlEls(fixture.nativeElement);
     const listItemContent = dlEls?.[0].querySelector(
       '.sky-description-list-content',
     );
-    fixture.componentInstance.listItemWidth = '300px';
+    fixture.componentRef.setInput('listItemWidth', '300px');
     fixture.detectChanges();
 
     expect(listItemContent?.clientWidth).not.toEqual(300);
   });
 
   it('should not set list item width when in longDescription mode', () => {
-    fixture.componentInstance.mode = 'longDescription';
+    fixture.componentRef.setInput('mode', 'longDescription');
     fixture.detectChanges();
 
     const dlEls = getDlEls(fixture.nativeElement);
     const listItemContent = dlEls?.[0].querySelector(
       '.sky-description-list-content',
     );
-    fixture.componentInstance.listItemWidth = '300px';
+    fixture.componentRef.setInput('listItemWidth', '300px');
     fixture.detectChanges();
 
     expect(listItemContent?.clientWidth).not.toEqual(300);
@@ -169,12 +169,12 @@ describe('Description list component', () => {
     expect(termEls?.length).toEqual(3);
     expect(descriptionEls?.length).toEqual(3);
 
-    fixture.componentInstance.personalInfo = [
+    fixture.componentInstance.personalInfo.set([
       {
         term: 'term1',
         description: 'description1',
       },
-    ];
+    ]);
     fixture.detectChanges();
     list1El = getListEl(fixture.nativeElement, 1);
     termEls = getTermEls(list1El);
@@ -252,12 +252,12 @@ describe('Description list component', () => {
     expect(descriptionEls?.[0].firstChild).toHaveText('Example 1');
     expect(descriptionEls?.[0].childNodes[1]).not.toBeVisible();
 
-    fixture.componentInstance.asyncInfo = [
+    fixture.componentInstance.asyncInfo.set([
       {
         term: 'boo',
         description: of('far'),
       },
-    ];
+    ]);
     fixture.detectChanges();
     list3El = getListEl(fixture.nativeElement, 3);
     termEls = getTermEls(list3El);

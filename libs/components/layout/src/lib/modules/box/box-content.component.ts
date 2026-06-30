@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
  * Specifies the body content to display inside the box and provides padding around that content.
@@ -6,6 +6,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'sky-box-content',
   templateUrl: './box-content.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyBoxContentComponent {}

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 
 import { Observable, asyncScheduler, scheduled } from 'rxjs';
 
@@ -10,11 +10,11 @@ import { SkyDescriptionListModeType } from '../types/description-list-mode-type'
   standalone: false,
 })
 export class SkyDescriptionListTestComponent {
-  public listItemWidth: string | undefined;
+  public listItemWidth = input<string | undefined>(undefined);
 
-  public mode: SkyDescriptionListModeType | undefined;
+  public mode = input<SkyDescriptionListModeType | undefined>(undefined);
 
-  public personalInfo: { term: string; description?: string }[] = [
+  public personalInfo = signal<{ term: string; description?: string }[]>([
     {
       term: 'Job title',
       description: 'Engineer',
@@ -26,9 +26,9 @@ export class SkyDescriptionListTestComponent {
     {
       term: 'Experience',
     },
-  ];
+  ]);
 
-  public systemInfo: { term: string; description?: string }[] = [
+  public systemInfo = signal<{ term: string; description?: string }[]>([
     {
       term: 'Username',
       description: 'user1',
@@ -40,9 +40,11 @@ export class SkyDescriptionListTestComponent {
     {
       term: 'Last log-in time',
     },
-  ];
+  ]);
 
-  public asyncInfo: { term: string; description?: Observable<string> }[] = [
+  public asyncInfo = signal<
+    { term: string; description?: Observable<string> }[]
+  >([
     {
       term: 'First',
       description: scheduled(['Example 1'], asyncScheduler),
@@ -55,5 +57,5 @@ export class SkyDescriptionListTestComponent {
       term: 'Third',
       description: scheduled(['Example 3'], asyncScheduler),
     },
-  ];
+  ]);
 }

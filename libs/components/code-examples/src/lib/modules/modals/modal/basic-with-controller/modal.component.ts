@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -18,6 +18,7 @@ import { ModalContext } from './modal-context';
     SkyInputBoxModule,
     SkyModalModule,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <form [formGroup]="exampleForm" (submit)="saveForm()">
       <sky-modal headingText="Modal title" helpKey="help.html">

@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   Input,
   OnDestroy,
@@ -30,6 +31,7 @@ import { SkyPageLayoutType } from './types/page-layout-type';
     provideSkyBreakpointObserver(SkyContainerBreakpointObserver),
   ],
   standalone: false,
+  changeDetection: ChangeDetectionStrategy.Eager,
   hostDirectives: [
     {
       directive: SkyLayoutHostDirective,

@@ -1,4 +1,4 @@
-import { Component, ViewChild, inject } from '@angular/core';
+import { Component, ViewChild, inject, input } from '@angular/core';
 
 import { SkyWaitComponent } from '../wait.component';
 import { SkyWaitService } from '../wait.service';
@@ -9,25 +9,25 @@ import { SkyWaitService } from '../wait.service';
   standalone: false,
 })
 export class SkyWaitTestComponent {
-  public ariaLabel: string | undefined;
+  public ariaLabel = input<string | undefined>(undefined);
 
-  public isWaiting = false;
-  public isFullPage = false;
-  public isNonBlocking = false;
+  public isWaiting = input<boolean>(false);
+  public isFullPage = input<boolean>(false);
+  public isNonBlocking = input<boolean>(false);
 
-  public screenReaderCompletedText: string | undefined;
+  public screenReaderCompletedText = input<string | undefined>(undefined);
 
-  public showAnchor0 = true;
-  public showAnchor2 = true;
-  public showMenuOverlay = false;
+  public showAnchor0 = input<boolean>(true);
+  public showAnchor2 = input<boolean>(true);
+  public showMenuOverlay = input<boolean>(false);
 
-  public anchor0Visibility = '';
-  public anchor0Display = '';
+  public anchor0Visibility = input<string>('');
+  public anchor0Display = input<string>('');
 
-  public anchor2Visibility = '';
-  public anchor2Display = '';
+  public anchor2Visibility = input<string>('');
+  public anchor2Display = input<string>('');
 
-  public secondWaitIsWaiting = false;
+  public secondWaitIsWaiting = input<boolean>(false);
 
   @ViewChild(SkyWaitComponent)
   public waitComponent: SkyWaitComponent | undefined;

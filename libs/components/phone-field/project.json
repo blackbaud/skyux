@@ -9,17 +9,6 @@
     "build": {
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/phone-field"],
-      "options": {
-        "project": "libs/components/phone-field/ng-package.json"
-      },
-      "configurations": {
-        "production": {
-          "tsConfig": "libs/components/phone-field/tsconfig.lib.prod.json"
-        },
-        "development": {
-          "tsConfig": "libs/components/phone-field/tsconfig.lib.json"
-        }
-      },
       "defaultConfiguration": "production",
       "dependsOn": [
         "^build",
@@ -34,10 +23,21 @@
         "{workspaceRoot}/libs/components/phone-field/testing/src/**/*",
         "!{workspaceRoot}/libs/components/phone-field/testing/src/**/*.spec.ts",
         "!{workspaceRoot}/libs/components/phone-field/testing/src/**/fixtures/**/*"
-      ]
+      ],
+      "options": {
+        "project": "libs/components/phone-field/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/components/phone-field/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/components/phone-field/tsconfig.lib.json"
+        }
+      }
     },
     "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+      "executor": "@angular/build:karma",
       "options": {
         "tsConfig": "libs/components/phone-field/tsconfig.spec.json",
         "karmaConfig": "libs/components/phone-field/karma.conf.js",

@@ -1,4 +1,4 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, TemplateRef, ViewChild, input } from '@angular/core';
 
 import { SkyGridColumnModel } from '../grid-column.model';
 import { SkyGridComponent } from '../grid.component';
@@ -18,9 +18,9 @@ export class GridEmptyTestComponent {
   @ViewChild(TemplateRef)
   public template: TemplateRef<unknown>;
 
-  public columns: SkyGridColumnModel[];
-  public selectedColumnIds: string[];
-  public settingsKey: string;
+  public columns = input<SkyGridColumnModel[] | undefined>(undefined);
+  public selectedColumnIds = input<string[] | undefined>(undefined);
+  public settingsKey = input<string | undefined>(undefined);
 
   public data: any[] = [
     {

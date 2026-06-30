@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
  * Displays messages that require immediate attention as [alerts](https://developer.blackbaud.com/skyux/components/alert) within
@@ -9,6 +9,7 @@ import { Component } from '@angular/core';
   selector: 'sky-page-summary-alert',
   templateUrl: './page-summary-alert.component.html',
   styleUrls: ['./page-summary-alert.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 /* istanbul ignore next */

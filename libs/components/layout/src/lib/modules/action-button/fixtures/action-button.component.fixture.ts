@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, input } from '@angular/core';
 
 import { SkyActionButtonContainerComponent } from '../action-button-container.component';
 import { SkyActionButtonPermalink } from '../action-button-permalink';
@@ -10,7 +10,7 @@ import { SkyActionButtonContainerAlignItemsType } from '../types/action-button-c
   standalone: false,
 })
 export class ActionButtonTestComponent {
-  public firstButtonHeight: string | undefined;
+  public firstButtonHeight = input<string | undefined>(undefined);
 
   public permalink1: SkyActionButtonPermalink = {
     url: 'https://developer.blackbaud.com/skyux/components',
@@ -39,7 +39,9 @@ export class ActionButtonTestComponent {
 
   public buttonIsClicked = false;
 
-  public alignItems: SkyActionButtonContainerAlignItemsType | undefined;
+  public alignItems = input<SkyActionButtonContainerAlignItemsType | undefined>(
+    undefined,
+  );
 
   @ViewChild(SkyActionButtonContainerComponent, {
     read: SkyActionButtonContainerComponent,

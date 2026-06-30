@@ -153,7 +153,7 @@ describe('Tile dashboard service', () => {
       .injector.get(SkyTileDashboardService);
     let configChanged = false;
 
-    fixture.componentInstance.settingsKey = 'defaultSettings';
+    fixture.componentRef.setInput('settingsKey', 'defaultSettings');
 
     dashboardService.configChange.subscribe(
       (config: SkyTileDashboardConfig) => {
@@ -478,7 +478,7 @@ describe('Tile dashboard service', () => {
 
   it('should allow tiles to be moved between columns with the arrow keys, with settings key', fakeAsync(() => {
     const fixture = createDashboardTestComponent();
-    fixture.componentInstance.settingsKey = 'defaultSettings';
+    fixture.componentRef.setInput('settingsKey', 'defaultSettings');
     fixture.detectChanges();
     tick();
     fixture.detectChanges();

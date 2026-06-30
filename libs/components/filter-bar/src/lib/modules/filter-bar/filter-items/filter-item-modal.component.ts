@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   DestroyRef,
   EnvironmentInjector,
@@ -43,6 +44,7 @@ import { SKY_FILTER_ITEM } from './filter-item.token';
   selector: 'sky-filter-item-modal',
   imports: [SkyFilterItemBaseComponent],
   templateUrl: './filter-item-modal.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [
     { provide: SKY_FILTER_ITEM, useExisting: SkyFilterItemModalComponent },
   ],

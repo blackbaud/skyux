@@ -1,13 +1,13 @@
 <div class="input-basic">
-  <sky-input-box [disabled]="basicDisabled" [hasErrors]="hasErrors">
+  <sky-input-box [disabled]="basicDisabled()" [hasErrors]="hasErrors()">
     <label class="sky-control-label" [for]="basicInput.id"> Basic input </label>
     <input
       #basicInput="skyId"
       class="sky-form-control"
       skyId
-      [disabled]="basicDisabled"
+      [disabled]="basicDisabled()"
     />
-    @if (hasErrors) {
+    @if (hasErrors()) {
       <sky-status-indicator
         class="sky-control-error"
         indicatorType="danger"
@@ -20,7 +20,7 @@
 </div>
 
 <div class="textarea-basic">
-  <sky-input-box [disabled]="basicDisabled" [hasErrors]="hasErrors">
+  <sky-input-box [disabled]="basicDisabled()" [hasErrors]="hasErrors()">
     <label class="sky-control-label" [for]="textareaInput.id">
       Textarea input
     </label>
@@ -28,9 +28,9 @@
       #textareaInput="skyId"
       class="sky-form-control"
       skyId
-      [disabled]="basicDisabled"
+      [disabled]="basicDisabled()"
     ></textarea>
-    @if (hasErrors) {
+    @if (hasErrors()) {
       <sky-status-indicator
         class="sky-control-error"
         indicatorType="danger"
@@ -43,7 +43,7 @@
 </div>
 
 <div class="select-basic">
-  <sky-input-box stacked [disabled]="basicDisabled" [hasErrors]="hasErrors">
+  <sky-input-box stacked [disabled]="basicDisabled()" [hasErrors]="hasErrors()">
     <label class="sky-control-label" [for]="selectInput.id">
       Select input
     </label>
@@ -51,14 +51,14 @@
       #selectInput="skyId"
       class="sky-form-control"
       skyId
-      [disabled]="basicDisabled"
+      [disabled]="basicDisabled()"
     >
       <option>Option 1</option>
       <option>Option 2</option>
       <option>Option 3</option>
       <option>Option 4</option>
     </select>
-    @if (hasErrors) {
+    @if (hasErrors()) {
       <sky-status-indicator
         class="sky-control-error"
         indicatorType="danger"
@@ -75,11 +75,11 @@
     <label class="sky-control-label" [for]="inlineHelp.id">
       Basic input with inline help
     </label>
-    @if (inlineHelpType === 'custom') {
+    @if (inlineHelpType() === 'custom') {
       <div class="sky-control-help">
         <button type="button">CUSTOM HELP WIDGET</button>
       </div>
-    } @else if (inlineHelpType === 'sky') {
+    } @else if (inlineHelpType() === 'sky') {
       <sky-help-inline class="sky-control-help" />
     }
     <input #inlineHelp="skyId" class="sky-form-control" skyId />
@@ -91,11 +91,11 @@
     <label class="sky-control-label" [for]="textareaInlineHelp.id">
       Textarea with inline help
     </label>
-    @if (inlineHelpType === 'custom') {
+    @if (inlineHelpType() === 'custom') {
       <div class="sky-control-help">
         <button type="button">CUSTOM HELP WIDGET</button>
       </div>
-    } @else if (inlineHelpType === 'sky') {
+    } @else if (inlineHelpType() === 'sky') {
       <sky-help-inline class="sky-control-help" />
     }
     <textarea
@@ -111,11 +111,11 @@
     <label class="sky-control-label" [for]="selectInlineHelp.id">
       Select with inline help
     </label>
-    @if (inlineHelpType === 'custom') {
+    @if (inlineHelpType() === 'custom') {
       <div class="sky-control-help">
         <button type="button">CUSTOM HELP WIDGET</button>
       </div>
-    } @else if (inlineHelpType === 'sky') {
+    } @else if (inlineHelpType() === 'sky') {
       <sky-help-inline class="sky-control-help" />
     }
     <select #selectInlineHelp="skyId" class="sky-form-control" skyId>
@@ -156,7 +156,7 @@
 </div>
 
 <div class="input-host-service">
-  <sky-input-box [hintText]="easyModeHintText">
+  <sky-input-box [hintText]="easyModeHintText()">
     <label class="sky-control-label" [for]="hostServiceInput.id">
       Input using host service
     </label>
@@ -174,7 +174,7 @@
 <div class="easy-input-host-service">
   <sky-input-box
     labelText="Input using host service"
-    [hintText]="easyModeHintText"
+    [hintText]="easyModeHintText()"
   >
     <sky-input-box-host-service-fixture>
       <input
@@ -188,7 +188,7 @@
 </div>
 
 <div class="input-box-has-errors">
-  <sky-input-box stacked [hasErrors]="hasErrors">
+  <sky-input-box stacked [hasErrors]="hasErrors()">
     <label class="sky-control-label" [for]="hasErrorsInput.id">
       hasErrors
     </label>
@@ -302,7 +302,7 @@
     <label class="sky-control-label" [for]="characterCountInput.id">
       With character count
     </label>
-    @if (characterCountHelp) {
+    @if (characterCountHelp()) {
       <sky-help-inline class="sky-control-help" />
     }
     <sky-character-counter-indicator #characterCount />
@@ -322,7 +322,7 @@
     <label class="sky-control-label" [for]="characterCountTextarea.id">
       With character count
     </label>
-    @if (characterCountHelp) {
+    @if (characterCountHelp()) {
       <sky-help-inline class="sky-control-help" />
     }
     <sky-character-counter-indicator #characterCount />
@@ -342,7 +342,7 @@
     <label class="sky-control-label" [for]="characterCountSelect.id">
       With character count
     </label>
-    @if (characterCountHelp) {
+    @if (characterCountHelp()) {
       <sky-help-inline class="sky-control-help" />
     }
     <sky-character-counter-indicator #characterCount />
@@ -384,7 +384,7 @@
 </div>
 
 <div class="input-icon-inset">
-  <sky-input-box [disabled]="insetIconDisabled">
+  <sky-input-box [disabled]="insetIconDisabled()">
     <label class="sky-control-label" [for]="inputBoxIconInset.id">
       Input with inset icon
     </label>
@@ -393,7 +393,7 @@
       class="sky-form-control"
       skyId
       type="text"
-      [disabled]="insetIconDisabled"
+      [disabled]="insetIconDisabled()"
     />
     <div class="sky-input-group-icon sky-input-box-icon-inset">
       <sky-icon class="test-icon-inset" iconName="search" iconSize="l" />
@@ -429,17 +429,17 @@
       skyId
       type="text"
     />
-    @if (a11yInsetIconLeft) {
+    @if (a11yInsetIconLeft()) {
       <div class="sky-input-group-icon sky-input-box-icon-inset-left">
         <sky-icon class="test-icon-inset=left" iconName="search" iconSize="l" />
       </div>
     }
-    @if (a11yInsetIcon) {
+    @if (a11yInsetIcon()) {
       <div class="sky-input-group-icon sky-input-box-icon-inset">
         <sky-icon class="test-icon-inset" iconName="search" iconSize="l" />
       </div>
     }
-    @if (a11yButtonLeft) {
+    @if (a11yButtonLeft()) {
       <div class="sky-input-group-btn sky-input-box-btn-left">
         <button
           aria-label="Left button"
@@ -448,7 +448,7 @@
         ></button>
       </div>
     }
-    @if (a11yInsetButton) {
+    @if (a11yInsetButton()) {
       <div class="sky-input-group-btn sky-input-box-btn-inset">
         <button
           aria-label="Inset button"
@@ -457,7 +457,7 @@
         ></button>
       </div>
     }
-    @if (a11yNormalButton) {
+    @if (a11yNormalButton()) {
       <div class="sky-input-group-btn">
         <button
           aria-label="Normal button"
@@ -480,17 +480,17 @@
       skyId
       type="text"
     ></textarea>
-    @if (a11yInsetIconLeft) {
+    @if (a11yInsetIconLeft()) {
       <div class="sky-input-group-icon sky-input-box-icon-inset-left">
         <sky-icon class="test-icon-inset=left" iconName="search" iconSize="l" />
       </div>
     }
-    @if (a11yInsetIcon) {
+    @if (a11yInsetIcon()) {
       <div class="sky-input-group-icon sky-input-box-icon-inset">
         <sky-icon class="test-icon-inset" iconName="search" iconSize="l" />
       </div>
     }
-    @if (a11yButtonLeft) {
+    @if (a11yButtonLeft()) {
       <div class="sky-input-group-btn sky-input-box-btn-left">
         <button
           aria-label="Left button"
@@ -499,7 +499,7 @@
         ></button>
       </div>
     }
-    @if (a11yInsetButton) {
+    @if (a11yInsetButton()) {
       <div class="sky-input-group-btn sky-input-box-btn-inset">
         <button
           aria-label="Inset button"
@@ -508,7 +508,7 @@
         ></button>
       </div>
     }
-    @if (a11yNormalButton) {
+    @if (a11yNormalButton()) {
       <div class="sky-input-group-btn">
         <button
           aria-label="Normal button"
@@ -536,17 +536,17 @@
       <option>Option 3</option>
       <option>Option 4</option>
     </select>
-    @if (a11yInsetIconLeft) {
+    @if (a11yInsetIconLeft()) {
       <div class="sky-input-group-icon sky-input-box-icon-inset-left">
         <sky-icon class="test-icon-inset=left" iconName="search" iconSize="l" />
       </div>
     }
-    @if (a11yInsetIcon) {
+    @if (a11yInsetIcon()) {
       <div class="sky-input-group-icon sky-input-box-icon-inset">
         <sky-icon class="test-icon-inset" iconName="search" iconSize="l" />
       </div>
     }
-    @if (a11yButtonLeft) {
+    @if (a11yButtonLeft()) {
       <div class="sky-input-group-btn sky-input-box-btn-left">
         <button
           aria-label="Left button"
@@ -555,7 +555,7 @@
         ></button>
       </div>
     }
-    @if (a11yInsetButton) {
+    @if (a11yInsetButton()) {
       <div class="sky-input-group-btn sky-input-box-btn-inset">
         <button
           aria-label="Inset button"
@@ -564,7 +564,7 @@
         ></button>
       </div>
     }
-    @if (a11yNormalButton) {
+    @if (a11yNormalButton()) {
       <div class="sky-input-group-btn">
         <button
           aria-label="Normal button"
@@ -578,20 +578,21 @@
 
 <div class="input-easy-mode">
   <sky-input-box
-    [characterLimit]="easyModeCharacterLimit"
-    [helpKey]="easyModeHelpKey"
-    [helpPopoverContent]="easyModeHelpPopoverContent"
-    [hintText]="easyModeHintText"
-    [labelText]="labelText"
-    [stacked]="easyModeStacked"
+    [characterLimit]="easyModeCharacterLimit()"
+    [helpKey]="easyModeHelpKey()"
+    [helpPopoverContent]="easyModeHelpPopoverContent()"
+    [hintText]="easyModeHintText()"
+    [labelText]="labelText()"
+    [stacked]="easyModeStacked()"
   >
     <input
       type="text"
       minlength="3"
       required
-      [attr.aria-describedby]="easyModeAriaDescribedBy"
-      [autocomplete]="autocomplete"
-      [(ngModel)]="easyModeValue"
+      [attr.aria-describedby]="easyModeAriaDescribedBy()"
+      [autocomplete]="autocomplete()"
+      [ngModel]="easyModeValue()"
+      (ngModelChange)="easyModeValue.set($event)"
     />
   </sky-input-box>
 </div>
@@ -599,11 +600,17 @@
 <div class="input-easy-mode-no-autocomplete">
   <sky-input-box
     labelText="Easy mode"
-    [characterLimit]="easyModeCharacterLimit"
-    [helpPopoverContent]="easyModeHelpPopoverContent"
-    [stacked]="easyModeStacked"
+    [characterLimit]="easyModeCharacterLimit()"
+    [helpPopoverContent]="easyModeHelpPopoverContent()"
+    [stacked]="easyModeStacked()"
   >
-    <input type="text" minlength="3" required [(ngModel)]="easyModeValue" />
+    <input
+      type="text"
+      minlength="3"
+      required
+      [ngModel]="easyModeValue()"
+      (ngModelChange)="easyModeValue.set($event)"
+    />
   </sky-input-box>
 </div>
 
@@ -614,14 +621,14 @@
 </div>
 
 <div class="input-existing-id">
-  <sky-input-box [disabled]="basicDisabled" [hasErrors]="hasErrors">
+  <sky-input-box [disabled]="basicDisabled()" [hasErrors]="hasErrors()">
     <label class="sky-control-label" for="input-box-existing-id-123">
       Existing ID
     </label>
     <input
       class="sky-form-control"
       id="input-box-existing-id-123"
-      [disabled]="basicDisabled"
+      [disabled]="basicDisabled()"
     />
   </sky-input-box>
 </div>
@@ -632,15 +639,22 @@
       type="text"
       minlength="3"
       required
-      [autocomplete]="autocomplete"
-      [(ngModel)]="easyModeValue"
+      [autocomplete]="autocomplete()"
+      [ngModel]="easyModeValue()"
+      (ngModelChange)="easyModeValue.set($event)"
     />
   </div>
 </div>
 
 <div class="input-not-wrapped-no-autocomplete">
   <div class="sky-form-group">
-    <input type="text" minlength="3" required [(ngModel)]="easyModeValue" />
+    <input
+      type="text"
+      minlength="3"
+      required
+      [ngModel]="easyModeValue()"
+      (ngModelChange)="easyModeValue.set($event)"
+    />
   </div>
 </div>
 

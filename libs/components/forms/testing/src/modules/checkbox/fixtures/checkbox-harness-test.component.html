@@ -2,17 +2,17 @@
   <sky-checkbox-group
     headingText="Contact method"
     data-sky-id="checkbox-group"
-    [attr.class]="class"
+    [attr.class]="class()"
     [formGroup]="myCheckboxGroup"
-    [helpKey]="helpKey"
-    [helpPopoverContent]="helpPopoverContent"
-    [helpPopoverTitle]="helpPopoverTitle"
-    [hintText]="hintText"
-    [headingHidden]="hideGroupHeading"
-    [headingLevel]="headingLevel"
-    [headingStyle]="headingStyle"
-    [required]="required"
-    [stacked]="stacked"
+    [helpKey]="helpKey()"
+    [helpPopoverContent]="helpPopoverContent()"
+    [helpPopoverTitle]="helpPopoverTitle()"
+    [hintText]="hintText()"
+    [headingHidden]="hideGroupHeading()"
+    [headingLevel]="headingLevel()"
+    [headingStyle]="headingStyle()"
+    [required]="required()"
+    [stacked]="stacked()"
   >
     <sky-checkbox
       data-sky-id="my-email-checkbox"
@@ -20,7 +20,7 @@
       label="Your email address"
       labelledBy="foo-email-id"
     >
-      @if (!hideEmailLabel) {
+      @if (!hideEmailLabel()) {
         <sky-checkbox-label> Email </sky-checkbox-label>
       }
     </sky-checkbox>
@@ -31,10 +31,10 @@
       helpPopoverContent="(xxx)xxx-xxxx"
       helpPopoverTitle="Format"
       labelText="Phone"
-      [helpKey]="helpKey"
+      [helpKey]="helpKey()"
       [required]="true"
-      [hintText]="phoneHintText"
-      [labelHidden]="hidePhoneLabel"
+      [hintText]="phoneHintText()"
+      [labelHidden]="hidePhoneLabel()"
     />
 
     <sky-checkbox

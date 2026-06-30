@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 /**
@@ -13,6 +19,7 @@ import { SkyThemeComponentClassDirective } from '@skyux/theme';
   ],
   templateUrl: './chevron.component.html',
   hostDirectives: [SkyThemeComponentClassDirective],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyChevronComponent {

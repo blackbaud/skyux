@@ -36,7 +36,7 @@ describe('Scrollable host service', () => {
   });
 
   it('should return the window if no scrollable parent', () => {
-    cmp.isParentScrollable = false;
+    fixture.componentRef.setInput('isParentScrollable', false);
     fixture.detectChanges();
 
     expect(cmp.getScrollableHost()).toBe(window);
@@ -44,7 +44,7 @@ describe('Scrollable host service', () => {
 
   // Sanity check
   it('should return the window if the element ref returns no native element', () => {
-    cmp.isParentScrollable = false;
+    fixture.componentRef.setInput('isParentScrollable', false);
     fixture.detectChanges();
 
     expect(cmp.getScrollableHost({ nativeElement: undefined })).toBe(window);
@@ -52,7 +52,7 @@ describe('Scrollable host service', () => {
 
   // Sanity check
   it('should return the window if the element is not scrollable and the parent is not an element', () => {
-    cmp.isParentScrollable = false;
+    fixture.componentRef.setInput('isParentScrollable', false);
     fixture.detectChanges();
 
     spyOnProperty(
@@ -82,7 +82,7 @@ describe('Scrollable host service', () => {
     scrollableHostObservable.pipe(take(2)).subscribe((scrollableHost) => {
       if (observableCount === 0) {
         expect(scrollableHost).toBe(cmp.parent.nativeElement);
-        cmp.isParentScrollable = false;
+        fixture.componentRef.setInput('isParentScrollable', false);
         observableCount++;
         fixture.detectChanges();
       } else {
@@ -95,7 +95,7 @@ describe('Scrollable host service', () => {
   // Using `done` here as with just `async` the test runner is moving the content when it shouldn't
   // which causes issues with finding the parent correctly.
   it('should update observable with new scrollable parent when it changes via a style change', (done) => {
-    cmp.isParentScrollable = false;
+    fixture.componentRef.setInput('isParentScrollable', false);
     fixture.detectChanges();
 
     let observableCount = 0;
@@ -105,7 +105,7 @@ describe('Scrollable host service', () => {
     scrollableHostObservable.pipe(take(2)).subscribe((scrollableHost) => {
       if (observableCount === 0) {
         expect(scrollableHost).toBe(window);
-        cmp.isParentScrollableStyle = true;
+        fixture.componentRef.setInput('isParentScrollableStyle', true);
         observableCount++;
         fixture.detectChanges();
       } else {
@@ -125,7 +125,7 @@ describe('Scrollable host service', () => {
     scrollableHostObservable.pipe(take(2)).subscribe((scrollableHost) => {
       if (observableCount === 0) {
         expect(scrollableHost).toBe(cmp.parent.nativeElement);
-        cmp.isParentDisplayNoneClass = true;
+        fixture.componentRef.setInput('isParentDisplayNoneClass', true);
         observableCount++;
         fixture.detectChanges();
       } else {
@@ -145,7 +145,7 @@ describe('Scrollable host service', () => {
     scrollableHostObservable.pipe(take(2)).subscribe((scrollableHost) => {
       if (observableCount === 0) {
         expect(scrollableHost).toBe(cmp.parent.nativeElement);
-        cmp.isParentDisplayNoneStyle = true;
+        fixture.componentRef.setInput('isParentDisplayNoneStyle', true);
         observableCount++;
         fixture.detectChanges();
       } else {
@@ -165,7 +165,7 @@ describe('Scrollable host service', () => {
     scrollableHostObservable.pipe(take(2)).subscribe((scrollableHost) => {
       if (observableCount === 0) {
         expect(scrollableHost).toBe(cmp.parent.nativeElement);
-        cmp.isParentHidden = true;
+        fixture.componentRef.setInput('isParentHidden', true);
         observableCount++;
         fixture.detectChanges();
       } else {
@@ -193,7 +193,7 @@ describe('Scrollable host service', () => {
           expect(scrollableHost).toBe(cmp.parent.nativeElement);
 
           if (observable2Count === 1) {
-            cmp.isParentScrollable = false;
+            fixture.componentRef.setInput('isParentScrollable', false);
           }
 
           fixture.detectChanges();
@@ -216,7 +216,7 @@ describe('Scrollable host service', () => {
           expect(scrollableHost).toBe(cmp.parent.nativeElement);
 
           if (observable1Count === 1) {
-            cmp.isParentScrollable = false;
+            fixture.componentRef.setInput('isParentScrollable', false);
           }
 
           fixture.detectChanges();
@@ -257,7 +257,7 @@ describe('Scrollable host service', () => {
             subscription1.unsubscribe();
             subscription2.unsubscribe();
 
-            cmp.isParentScrollable = false;
+            fixture.componentRef.setInput('isParentScrollable', false);
             fixture.detectChanges();
             done();
           }
@@ -283,7 +283,7 @@ describe('Scrollable host service', () => {
             subscription1.unsubscribe();
             subscription2.unsubscribe();
 
-            cmp.isParentScrollable = false;
+            fixture.componentRef.setInput('isParentScrollable', false);
             fixture.detectChanges();
             done();
           }
@@ -360,8 +360,8 @@ describe('Scrollable host service', () => {
         observableCount++;
         fixture.detectChanges();
 
-        cmp.isParentScrollable = false;
-        cmp.isGrandparentScrollable = true;
+        fixture.componentRef.setInput('isParentScrollable', false);
+        fixture.componentRef.setInput('isGrandparentScrollable', true);
         fixture.detectChanges();
       } else {
         done();
@@ -396,14 +396,14 @@ describe('Scrollable host service', () => {
 
   it('should return all scroll events from a new scrollable host if it changes', (done) => {
     let observableCount = 0;
-    cmp.isGrandparentScrollable = true;
+    fixture.componentRef.setInput('isGrandparentScrollable', true);
 
     const scrollObservable = cmp.watchScrollableHostScrollEvents();
 
     scrollObservable.pipe(take(4)).subscribe(async () => {
       if (observableCount === 0) {
         observableCount++;
-        cmp.isParentScrollable = false;
+        fixture.componentRef.setInput('isParentScrollable', false);
         fixture.detectChanges();
         await fixture.whenStable();
       } else if (observableCount === 1) {
@@ -503,8 +503,8 @@ describe('Scrollable host service', () => {
 
             fixture.detectChanges();
 
-            cmp.isGrandparentScrollable = true;
-            cmp.isParentScrollable = false;
+            fixture.componentRef.setInput('isGrandparentScrollable', true);
+            fixture.componentRef.setInput('isParentScrollable', false);
 
             fixture.detectChanges();
 
@@ -535,8 +535,8 @@ describe('Scrollable host service', () => {
 
             fixture.detectChanges();
 
-            cmp.isGrandparentScrollable = true;
-            cmp.isParentScrollable = false;
+            fixture.componentRef.setInput('isGrandparentScrollable', true);
+            fixture.componentRef.setInput('isParentScrollable', false);
 
             fixture.detectChanges();
 
@@ -562,8 +562,8 @@ describe('Scrollable host service', () => {
     const windowRef = TestBed.inject(SkyAppWindowRef);
     const scrollableHostSvc = TestBed.inject(SkyScrollableHostService);
 
-    cmp.isParentPositioned = true;
-    cmp.positionedParentWidth = '100px';
+    fixture.componentRef.setInput('isParentPositioned', true);
+    fixture.componentRef.setInput('positionedParentWidth', '100px');
     fixture.detectChanges();
 
     const viewport = windowRef.nativeWindow.visualViewport;
@@ -582,8 +582,8 @@ describe('Scrollable host service', () => {
     const windowRef = TestBed.inject(SkyAppWindowRef);
     const scrollableHostSvc = TestBed.inject(SkyScrollableHostService);
 
-    cmp.isParentPositioned = true;
-    cmp.positionedParentWidth = '100px';
+    fixture.componentRef.setInput('isParentPositioned', true);
+    fixture.componentRef.setInput('positionedParentWidth', '100px');
     fixture.detectChanges();
     const additionalHost =
       fixture.nativeElement.querySelector('.additional-host');
@@ -640,8 +640,8 @@ describe('Scrollable host service', () => {
     const windowRef = TestBed.inject(SkyAppWindowRef);
     const scrollableHostSvc = TestBed.inject(SkyScrollableHostService);
 
-    cmp.isParentPositioned = true;
-    cmp.positionedParentWidth = '100px';
+    fixture.componentRef.setInput('isParentPositioned', true);
+    fixture.componentRef.setInput('positionedParentWidth', '100px');
     fixture.detectChanges();
 
     let emissionCount = 0;

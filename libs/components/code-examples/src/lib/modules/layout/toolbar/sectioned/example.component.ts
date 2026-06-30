@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyToolbarModule } from '@skyux/layout';
 
@@ -8,6 +8,7 @@ import { SkyToolbarModule } from '@skyux/layout';
 @Component({
   selector: 'app-layout-toolbar-sectioned-example',
   templateUrl: './example.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyIconModule, SkyToolbarModule],
 })
 export class LayoutToolbarSectionedExampleComponent {

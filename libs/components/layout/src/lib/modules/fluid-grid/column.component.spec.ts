@@ -5,7 +5,6 @@ import { SkyColumnComponent } from './column.component';
 import { ColumnTestComponent } from './fixtures/column.component.fixture';
 
 describe('SkyColumnComponent', () => {
-  let component: ColumnTestComponent;
   let fixture: ComponentFixture<ColumnTestComponent>;
   let element: HTMLElement;
 
@@ -15,7 +14,6 @@ describe('SkyColumnComponent', () => {
     });
 
     fixture = TestBed.createComponent(ColumnTestComponent);
-    component = fixture.componentInstance;
     element = fixture.nativeElement.querySelector('sky-column');
   });
 
@@ -38,10 +36,10 @@ describe('SkyColumnComponent', () => {
     expect(element.className).toContain('sky-column-sm-1');
     expect(element.className).toContain('sky-column-md-2');
     expect(element.className).toContain('sky-column-lg-5');
-    component.xsSize = 2;
-    component.smallSize = 3;
-    component.mediumSize = 7;
-    component.largeSize = 4;
+    fixture.componentRef.setInput('xsSize', 2);
+    fixture.componentRef.setInput('smallSize', 3);
+    fixture.componentRef.setInput('mediumSize', 7);
+    fixture.componentRef.setInput('largeSize', 4);
     fixture.detectChanges();
     expect(element.className).toContain('sky-column-xs-2');
     expect(element.className).toContain('sky-column-sm-3');
@@ -55,10 +53,10 @@ describe('SkyColumnComponent', () => {
     expect(element.className).toContain('sky-column-sm-1');
     expect(element.className).toContain('sky-column-md-2');
     expect(element.className).toContain('sky-column-lg-5');
-    component.xsSize = undefined;
-    component.smallSize = undefined;
-    component.mediumSize = undefined;
-    component.largeSize = undefined;
+    fixture.componentRef.setInput('xsSize', undefined);
+    fixture.componentRef.setInput('smallSize', undefined);
+    fixture.componentRef.setInput('mediumSize', undefined);
+    fixture.componentRef.setInput('largeSize', undefined);
     fixture.detectChanges();
     expect(element.className).toContain('sky-column-xs-12');
     expect(element.className).not.toContain(
@@ -75,7 +73,7 @@ describe('SkyColumnComponent', () => {
   it('should update the classnames when only one column changes', () => {
     fixture.detectChanges();
     expect(element.className).toContain('sky-column-lg-5');
-    component.largeSize = 4;
+    fixture.componentRef.setInput('largeSize', 4);
     fixture.detectChanges();
     expect(element.className).toContain('sky-column-lg-4');
   });

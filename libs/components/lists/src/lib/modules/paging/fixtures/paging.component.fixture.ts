@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, input } from '@angular/core';
 
 import { SkyPagingComponent } from '../paging.component';
 
@@ -14,9 +14,9 @@ export class SkyPagingTestComponent {
   })
   public pagingComponent!: SkyPagingComponent;
 
-  public pageSize = 2;
-  public maxPages = 3;
-  public currentPage = 1;
-  public itemCount = 8;
-  public label: string | undefined;
+  public pageSize = input<number>(2);
+  public maxPages = input<number>(3);
+  public currentPage = input<number>(1);
+  public itemCount = input<number>(8);
+  public label = input<string | undefined>(undefined);
 }

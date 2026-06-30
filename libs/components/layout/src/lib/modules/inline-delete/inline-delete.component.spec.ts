@@ -28,7 +28,7 @@ describe('Inline delete component', () => {
   });
 
   afterEach(fakeAsync(() => {
-    cmp.showDelete = false;
+    fixture.componentRef.setInput('showDelete', false);
     fixture.detectChanges();
     tick();
     fixture.destroy();
@@ -85,10 +85,10 @@ describe('Inline delete component', () => {
     fixture.detectChanges();
     tick();
     expect(el.querySelector('.sky-wait-mask') as HTMLElement).toBeNull();
-    cmp.pending = true;
+    fixture.componentRef.setInput('pending', true);
     fixture.detectChanges();
     expect(el.querySelector('.sky-wait-mask') as HTMLElement).not.toBeNull();
-    cmp.pending = undefined;
+    fixture.componentRef.setInput('pending', undefined);
     fixture.detectChanges();
     tick();
     expect(el.querySelector('.sky-wait-mask') as HTMLElement).toBeNull();
@@ -102,7 +102,7 @@ describe('Inline delete component', () => {
     });
 
     it('should skip items that are under the overlay when tabbing forward', fakeAsync(() => {
-      fixture.componentInstance.showExtraButtons = true;
+      fixture.componentRef.setInput('showExtraButtons', true);
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -121,7 +121,7 @@ describe('Inline delete component', () => {
     }));
 
     it('should skip items that are under the overlay when tabbing backward', fakeAsync(() => {
-      fixture.componentInstance.showExtraButtons = true;
+      fixture.componentRef.setInput('showExtraButtons', true);
       fixture.detectChanges();
       tick();
       el.querySelector('.sky-btn-danger').focus();
@@ -159,7 +159,7 @@ describe('Inline delete component', () => {
     }));
 
     it('should leave focus on the parent if it is focused', fakeAsync(() => {
-      fixture.componentInstance.parentTabIndex = 0;
+      fixture.componentRef.setInput('parentTabIndex', 0);
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -182,7 +182,7 @@ describe('Inline delete component', () => {
 
   describe('accessibility', () => {
     beforeEach(() => {
-      cmp.showCoveredButtons = false;
+      fixture.componentRef.setInput('showCoveredButtons', false);
     });
 
     it('should be accessible in standard mode', async () => {
@@ -200,7 +200,7 @@ describe('Inline delete component', () => {
     });
 
     it('should be accessible when pending', async () => {
-      cmp.pending = true;
+      fixture.componentRef.setInput('pending', true);
       fixture.detectChanges();
       await fixture.whenStable();
       await expectAsync(fixture.nativeElement).toBeAccessible();

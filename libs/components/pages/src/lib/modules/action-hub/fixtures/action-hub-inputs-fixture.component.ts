@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 import { SkyLink } from '../../link-list/types/link';
 import { SkyActionHubModule } from '../action-hub.module';
@@ -11,10 +11,14 @@ import { SkyRecentLink } from '../types/recent-link';
   imports: [SkyActionHubModule],
 })
 export class ActionHubInputsFixtureComponent {
-  public title: string | undefined;
-  public parentLink: SkyLink | undefined;
-  public recentLinks: SkyRecentLink[] | 'loading' | undefined;
-  public relatedLinks: SkyLink[] | 'loading' | undefined;
-  public needsAttention: SkyActionHubNeedsAttention[] | 'loading' | undefined;
-  public loading: boolean | undefined;
+  public title = input<string | undefined>(undefined);
+  public parentLink = input<SkyLink | undefined>(undefined);
+  public recentLinks = input<SkyRecentLink[] | 'loading' | undefined>(
+    undefined,
+  );
+  public relatedLinks = input<SkyLink[] | 'loading' | undefined>(undefined);
+  public needsAttention = input<
+    SkyActionHubNeedsAttention[] | 'loading' | undefined
+  >(undefined);
+  public loading = input<boolean | undefined>(undefined);
 }

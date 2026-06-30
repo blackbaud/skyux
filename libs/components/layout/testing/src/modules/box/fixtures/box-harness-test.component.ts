@@ -7,16 +7,16 @@ import { Component, booleanAttribute, input } from '@angular/core';
   standalone: false,
 })
 export class BoxHarnessTestComponent {
-  public ariaRole: string | undefined;
-  public ariaLabel: string | undefined;
-  public ariaLabelledBy: string | undefined;
-  public headingText: string | undefined;
-  public headingHidden = false;
-  public headingLevel: number | undefined;
-  public headingStyle: number | undefined;
-  public helpKey: string | undefined;
-  public helpPopoverContent: string | undefined;
-  public helpPopoverTitle: string | undefined;
+  public ariaRole = input<string | undefined>(undefined);
+  public ariaLabel = input<string | undefined>(undefined);
+  public ariaLabelledBy = input<string | undefined>(undefined);
+  public headingText = input<string | undefined>(undefined);
+  public headingHidden = input(false);
+  public headingLevel = input<number | undefined>(undefined);
+  public headingStyle = input<number | undefined>(undefined);
+  public helpKey = input<string | undefined>(undefined);
+  public helpPopoverContent = input<string | undefined>(undefined);
+  public helpPopoverTitle = input<string | undefined>(undefined);
   public otherBox = 'otherBox';
 
   public showControls = input(false, { transform: booleanAttribute });

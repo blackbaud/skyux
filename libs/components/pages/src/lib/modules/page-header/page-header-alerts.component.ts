@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 /**
@@ -9,6 +9,7 @@ import { SkyThemeComponentClassDirective } from '@skyux/theme';
   templateUrl: './page-header-alerts.component.html',
   styleUrls: ['./page-header-alerts.component.scss'],
   standalone: false,
+  changeDetection: ChangeDetectionStrategy.Eager,
   hostDirectives: [SkyThemeComponentClassDirective],
 })
 export class SkyPageHeaderAlertsComponent {}

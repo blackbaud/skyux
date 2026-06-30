@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyTrimModule } from '@skyux/core';
 
 import { SKY_TILE_TITLE_ID } from './tile-title-id-token';
@@ -10,6 +10,7 @@ import { SKY_TILE_TITLE_ID } from './tile-title-id-token';
   selector: 'sky-tile-title',
   templateUrl: './tile-title.component.html',
   styleUrls: ['./tile-title.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyTrimModule],
 })
 export class SkyTileTitleComponent {

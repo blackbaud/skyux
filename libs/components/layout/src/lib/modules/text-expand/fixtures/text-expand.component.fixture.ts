@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, input } from '@angular/core';
 
 import { SkyTextExpandComponent } from '../text-expand.component';
 
@@ -13,9 +13,9 @@ export class TextExpandTestComponent {
     static: false,
   })
   public textExpand: SkyTextExpandComponent | undefined;
-  public text: string | undefined;
-  public maxExpandedNewlines: number | undefined;
-  public maxExpandedLength: number | undefined;
-  public maxLength: number | undefined;
-  public truncateNewlines = true;
+  public text = input<string | undefined>(undefined);
+  public maxExpandedNewlines = input<number | undefined>(undefined);
+  public maxExpandedLength = input<number | undefined>(undefined);
+  public maxLength = input<number | undefined>(undefined);
+  public truncateNewlines = input<boolean>(true);
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
  * Specifies the header to display in a selection box.
@@ -6,6 +6,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'sky-selection-box-header',
   templateUrl: './selection-box-header.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkySelectionBoxHeaderComponent {}

@@ -1,4 +1,10 @@
-import { Component, TemplateRef, ViewChild, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  TemplateRef,
+  ViewChild,
+  inject,
+} from '@angular/core';
 
 import { SkyDescriptionListContentComponent } from './description-list-content.component';
 
@@ -11,6 +17,7 @@ import { SkyDescriptionListContentComponent } from './description-list-content.c
   selector: 'sky-description-list-term',
   templateUrl: './description-list-term.component.html',
   styleUrl: './description-list-term.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyDescriptionListTermComponent {

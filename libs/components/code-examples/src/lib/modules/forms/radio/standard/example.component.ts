@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -34,6 +34,7 @@ function validatePaymentMethod(
 @Component({
   selector: 'app-forms-radio-standard-example',
   templateUrl: './example.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule, ReactiveFormsModule, SkyRadioModule],
 })
 export class FormsRadioStandardExampleComponent {

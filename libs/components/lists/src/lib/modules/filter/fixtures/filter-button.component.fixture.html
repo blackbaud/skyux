@@ -1,10 +1,10 @@
 <sky-filter-button
-  [active]="filtersActive"
-  [ariaControls]="ariaControls"
-  [ariaExpanded]="ariaExpanded"
-  [ariaLabel]="ariaLabel"
-  [filterButtonId]="buttonId"
-  [showButtonText]="showButtonText"
-  [skyTheme]="skyThemeSettings"
+  [active]="filtersActive()"
+  [ariaControls]="ariaControls()"
+  [ariaExpanded]="ariaExpanded()"
+  [ariaLabel]="ariaLabel()"
+  [filterButtonId]="buttonId()"
+  [showButtonText]="showButtonText()"
+  [skyTheme]="skyThemeSettings()"
   (filterButtonClick)="filterButtonClicked()"
 />

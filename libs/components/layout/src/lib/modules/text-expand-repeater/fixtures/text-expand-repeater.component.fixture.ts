@@ -1,4 +1,4 @@
-import { Component, QueryList, ViewChildren } from '@angular/core';
+import { Component, QueryList, ViewChildren, input } from '@angular/core';
 
 import { SkyTextExpandRepeaterComponent } from '../text-expand-repeater.component';
 import { SkyTextExpandRepeaterListStyleType } from '../types/text-expand-repeater-list-style-type';
@@ -9,16 +9,16 @@ import { SkyTextExpandRepeaterListStyleType } from '../types/text-expand-repeate
   standalone: false,
 })
 export class TextExpandRepeaterTestComponent {
-  public customTemplateData: any[] | undefined;
+  public customTemplateData = input<any[] | undefined>(undefined);
 
-  public data: string[] | undefined;
+  public data = input<string[] | undefined>(undefined);
 
-  public numItems: number | undefined;
+  public numItems = input<number | undefined>(undefined);
 
   @ViewChildren(SkyTextExpandRepeaterComponent, {
     read: SkyTextExpandRepeaterComponent,
   })
   public textExpand!: QueryList<SkyTextExpandRepeaterComponent>;
 
-  public listStyle: SkyTextExpandRepeaterListStyleType = 'unordered';
+  public listStyle = input<SkyTextExpandRepeaterListStyleType>('unordered');
 }

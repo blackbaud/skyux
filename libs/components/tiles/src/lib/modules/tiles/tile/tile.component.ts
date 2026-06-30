@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ContentChild,
@@ -53,6 +54,7 @@ import { SkyTileTitleComponent } from './tile-title.component';
     SkyTilesResourcesModule,
     _SkyAnimationSlideComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [
     {
       provide: SKY_TILE_TITLE_ID,

@@ -1,5 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   FormBuilder,
@@ -28,14 +28,14 @@ import { SkyFileAttachmentHarness } from './file-attachment-harness';
   template: `
     <sky-file-attachment
       acceptedTypesErrorMessage="Attach a valid file."
-      [acceptedTypes]="acceptedTypes"
-      [disabled]="disabled"
-      [helpPopoverContent]="helpPopoverContent"
-      [helpPopoverTitle]="helpPopoverTitle"
-      [hintText]="hintText"
-      [labelText]="labelText"
-      [required]="required"
-      [stacked]="stacked"
+      [acceptedTypes]="acceptedTypes()"
+      [disabled]="disabled()"
+      [helpPopoverContent]="helpPopoverContent()"
+      [helpPopoverTitle]="helpPopoverTitle()"
+      [hintText]="hintText()"
+      [labelText]="labelText()"
+      [required]="required()"
+      [stacked]="stacked()"
     />
     <form [formGroup]="formGroup">
       <sky-file-attachment
@@ -43,12 +43,12 @@ import { SkyFileAttachmentHarness } from './file-attachment-harness';
         formControlName="attachment"
         labelText="other file attachment"
         [required]="true"
-        [acceptedTypes]="acceptedTypes"
-        [minFileSize]="minFileSize"
-        [maxFileSize]="maxFileSize"
+        [acceptedTypes]="acceptedTypes()"
+        [minFileSize]="minFileSize()"
+        [maxFileSize]="maxFileSize()"
         (fileClick)="onFileClick()"
       >
-        @if (showCustomError) {
+        @if (showCustomError()) {
           <sky-form-error
             errorName="customError"
             errorText="This is a custom error"
@@ -59,21 +59,21 @@ import { SkyFileAttachmentHarness } from './file-attachment-harness';
   `,
 })
 class TestComponent {
-  public acceptedTypes: string | undefined;
+  public acceptedTypes = signal<string | undefined>(undefined);
   public attachment: FormControl<SkyFileItem | null | undefined>;
-  public disabled = false;
-  public helpPopoverContent: string | undefined;
-  public helpPopoverTitle: string | undefined;
-  public hintText: string | undefined;
+  public disabled = signal(false);
+  public helpPopoverContent = signal<string | undefined>(undefined);
+  public helpPopoverTitle = signal<string | undefined>(undefined);
+  public hintText = signal<string | undefined>(undefined);
   public formGroup: FormGroup<{
     attachment: FormControl<SkyFileItem | null | undefined>;
   }>;
-  public labelText: string | undefined;
-  public maxFileSize: number | undefined;
-  public minFileSize: number | undefined;
-  public required = false;
-  public showCustomError = false;
-  public stacked = false;
+  public labelText = signal<string | undefined>(undefined);
+  public maxFileSize = signal<number | undefined>(undefined);
+  public minFileSize = signal<number | undefined>(undefined);
+  public required = signal(false);
+  public showCustomError = signal(false);
+  public stacked = signal(false);
 
   constructor(formBuilder: FormBuilder) {
     this.attachment = new FormControl(null, Validators.required);
@@ -148,11 +148,11 @@ describe('File attachment harness', () => {
   it('should get label text', async () => {
     const { fileAttachmentHarness, fixture } = await setupTest({});
 
-    fixture.componentInstance.labelText = 'test harness attachment';
+    fixture.componentInstance.labelText.set('test harness attachment');
     fixture.detectChanges();
 
     await expectAsync(fileAttachmentHarness.getLabelText()).toBeResolvedTo(
-      fixture.componentInstance.labelText,
+      'test harness attachment',
     );
   });
 
@@ -163,12 +163,13 @@ describe('File attachment harness', () => {
       null,
     );
 
-    fixture.componentInstance.acceptedTypes =
-      'application/pdf,image/jpeg,image/png,image/gif';
+    fixture.componentInstance.acceptedTypes.set(
+      'application/pdf,image/jpeg,image/png,image/gif',
+    );
     fixture.detectChanges();
 
     await expectAsync(fileAttachmentHarness.getAcceptedTypes()).toBeResolvedTo(
-      fixture.componentInstance.acceptedTypes,
+      'application/pdf,image/jpeg,image/png,image/gif',
     );
   });
 
@@ -177,7 +178,7 @@ describe('File attachment harness', () => {
 
     await expectAsync(fileAttachmentHarness.isDisabled()).toBeResolvedTo(false);
 
-    fixture.componentInstance.disabled = true;
+    fixture.componentInstance.disabled.set(true);
     fixture.detectChanges();
 
     await expectAsync(fileAttachmentHarness.isDisabled()).toBeResolvedTo(true);
@@ -194,8 +195,8 @@ describe('File attachment harness', () => {
   it('should click help inline', async () => {
     const { fileAttachmentHarness, fixture } = await setupTest({});
 
-    fixture.componentInstance.labelText = 'file attachment';
-    fixture.componentInstance.helpPopoverContent = 'Attach a file.';
+    fixture.componentInstance.labelText.set('file attachment');
+    fixture.componentInstance.helpPopoverContent.set('Attach a file.');
     fixture.detectChanges();
 
     await fileAttachmentHarness.clickHelpInline();
@@ -208,53 +209,54 @@ describe('File attachment harness', () => {
   it('should get help popover content', async () => {
     const { fileAttachmentHarness, fixture } = await setupTest({});
 
-    fixture.componentInstance.labelText = 'file attachment';
-    fixture.componentInstance.helpPopoverContent = 'Attach a file.';
+    fixture.componentInstance.labelText.set('file attachment');
+    fixture.componentInstance.helpPopoverContent.set('Attach a file.');
     fixture.detectChanges();
 
     await fileAttachmentHarness.clickHelpInline();
 
     await expectAsync(
       fileAttachmentHarness.getHelpPopoverContent(),
-    ).toBeResolvedTo(fixture.componentInstance.helpPopoverContent);
+    ).toBeResolvedTo('Attach a file.');
   });
 
   it('should get help popover title', async () => {
     const { fileAttachmentHarness, fixture } = await setupTest({});
 
-    fixture.componentInstance.labelText = 'file attachment';
-    fixture.componentInstance.helpPopoverContent = 'Attach a file.';
-    fixture.componentInstance.helpPopoverTitle = 'What to do.';
+    fixture.componentInstance.labelText.set('file attachment');
+    fixture.componentInstance.helpPopoverContent.set('Attach a file.');
+    fixture.componentInstance.helpPopoverTitle.set('What to do.');
     fixture.detectChanges();
 
     await fileAttachmentHarness.clickHelpInline();
 
     await expectAsync(
       fileAttachmentHarness.getHelpPopoverTitle(),
-    ).toBeResolvedTo(fixture.componentInstance.helpPopoverTitle);
+    ).toBeResolvedTo('What to do.');
   });
 
   it('should get hint text', async () => {
     const { fileAttachmentHarness, fixture } = await setupTest({});
 
-    fixture.componentInstance.hintText =
-      'Attach a .pdf, .gif, .png, or .jpeg file.';
+    fixture.componentInstance.hintText.set(
+      'Attach a .pdf, .gif, .png, or .jpeg file.',
+    );
     fixture.detectChanges();
 
     await expectAsync(fileAttachmentHarness.getHintText()).toBeResolvedTo(
-      fixture.componentInstance.hintText,
+      'Attach a .pdf, .gif, .png, or .jpeg file.',
     );
   });
 
   it('should get whether file attachment is required', async () => {
     const { fileAttachmentHarness, fixture } = await setupTest({});
 
-    fixture.componentInstance.labelText = 'file attachment';
+    fixture.componentInstance.labelText.set('file attachment');
     fixture.detectChanges();
 
     await expectAsync(fileAttachmentHarness.isRequired()).toBeResolvedTo(false);
 
-    fixture.componentInstance.required = true;
+    fixture.componentInstance.required.set(true);
     fixture.detectChanges();
 
     await expectAsync(fileAttachmentHarness.isRequired()).toBeResolvedTo(true);
@@ -265,7 +267,7 @@ describe('File attachment harness', () => {
 
     await expectAsync(fileAttachmentHarness.isStacked()).toBeResolvedTo(false);
 
-    fixture.componentInstance.stacked = true;
+    fixture.componentInstance.stacked.set(true);
     fixture.detectChanges();
 
     await expectAsync(fileAttachmentHarness.isStacked()).toBeResolvedTo(true);
@@ -438,7 +440,7 @@ describe('File attachment harness', () => {
 
     fixture.detectChanges();
 
-    fixture.componentInstance.showCustomError = true;
+    fixture.componentInstance.showCustomError.set(true);
     formControl.markAsTouched();
     fixture.detectChanges();
 
@@ -452,7 +454,7 @@ describe('File attachment harness', () => {
       dataSkyId: 'reactive-file-attachment',
     });
 
-    fixture.componentInstance.showCustomError = true;
+    fixture.componentInstance.showCustomError.set(true);
     formControl.markAsTouched();
     fixture.detectChanges();
 
@@ -469,7 +471,7 @@ describe('File attachment harness', () => {
       dataSkyId: 'reactive-file-attachment',
     });
 
-    fixture.componentInstance.acceptedTypes = 'image/png';
+    fixture.componentInstance.acceptedTypes.set('image/png');
 
     formControl.markAsTouched();
     const file: File = new File([], 'file.jpeg', { type: 'image/jpeg' });
@@ -485,7 +487,7 @@ describe('File attachment harness', () => {
       dataSkyId: 'reactive-file-attachment',
     });
 
-    fixture.componentInstance.maxFileSize = 30;
+    fixture.componentInstance.maxFileSize.set(30);
     fixture.detectChanges();
 
     const file = new File(['a'.repeat(3000)], 'file.png', {
@@ -503,7 +505,7 @@ describe('File attachment harness', () => {
       dataSkyId: 'reactive-file-attachment',
     });
 
-    fixture.componentInstance.minFileSize = 30000;
+    fixture.componentInstance.minFileSize.set(30000);
     fixture.detectChanges();
 
     const file = new File(['a'.repeat(3000)], 'file.png', {

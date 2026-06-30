@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   HostBinding,
   Input,
@@ -16,6 +17,7 @@ import {
   templateUrl: './column.component.html',
   styleUrls: ['./column.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyColumnComponent implements OnInit, OnChanges {

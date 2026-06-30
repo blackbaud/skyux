@@ -1,7 +1,7 @@
 <div style="max-height: 300px; display: flex">
   <sky-vertical-tabset
     showTabsText="Tab list"
-    [ariaRole]="tabsetAriaRole"
+    [ariaRole]="tabsetAriaRole()"
     [maintainTabContent]="maintainTabContent"
   >
     <sky-vertical-tabset-group
@@ -13,12 +13,12 @@
         ariaControls="some-div"
         tabHeading="Group 1 Tab 1"
         [active]="active"
-        [ariaRole]="tab1AriaRole"
+        [ariaRole]="tab1AriaRole()"
         [tabHeaderCount]="5"
-        [tabId]="tab1Id"
+        [tabId]="tab1Id()"
       >
         Group 1 Tab 1 content
-        @if (showScrollable) {
+        @if (showScrollable()) {
           <div>
             <p>
               Lorem ipsum pellentesque habitant morbi tristique senectus et
@@ -160,7 +160,7 @@
       </sky-vertical-tab>
       <sky-vertical-tab tabHeading="Group 1 Tab 2">
         Group 1 Tab 2 content
-        @if (showScrollable) {
+        @if (showScrollable()) {
           <div id="some-div">
             <p>
               Lorem ipsum p habitant morbi tristique senectus et netus et

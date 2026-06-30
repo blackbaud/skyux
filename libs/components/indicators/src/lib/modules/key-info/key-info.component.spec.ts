@@ -15,11 +15,10 @@ describe('Key info component', () => {
 
   it('should support vertical and horizontal layouts', async () => {
     const fixture = TestBed.createComponent(KeyInfoTestComponent);
-    const cmp = fixture.componentInstance as KeyInfoTestComponent;
     const el = fixture.nativeElement as Element;
     const horizontalCls = 'sky-key-info-horizontal';
 
-    cmp.layout = 'horizontal';
+    fixture.componentRef.setInput('layout', 'horizontal');
     fixture.detectChanges();
 
     const keyInfoEl = el.querySelector('.sky-key-info');
@@ -30,7 +29,7 @@ describe('Key info component', () => {
 
     // Should treat any other value as vertical
     // (enforced by the default .sky-key-info class).
-    cmp.layout = undefined;
+    fixture.componentRef.setInput('layout', undefined);
     fixture.detectChanges();
 
     expect(keyInfoEl!.classList.contains(horizontalCls)).toBe(false);
@@ -56,8 +55,7 @@ describe('Key info component', () => {
 
   it('should show help when available', async () => {
     const fixture = TestBed.createComponent(KeyInfoTestComponent);
-    const component = fixture.componentInstance;
-    component.helpContent = 'Help.';
+    fixture.componentRef.setInput('helpContent', 'Help.');
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -80,8 +78,7 @@ describe('Key info component', () => {
     it('should be accessible when horizontal', async () => {
       const fixture = TestBed.createComponent(KeyInfoTestComponent);
 
-      const cmp = fixture.componentInstance as KeyInfoTestComponent;
-      cmp.layout = 'horizontal';
+      fixture.componentRef.setInput('layout', 'horizontal');
 
       fixture.detectChanges();
       await fixture.whenStable();

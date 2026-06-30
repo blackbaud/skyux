@@ -1,4 +1,4 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, TemplateRef, ViewChild, input } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 import { Subject, of } from 'rxjs';
@@ -36,26 +36,28 @@ export class SkyAutocompleteFixtureComponent {
     { name: 'Black', objectid: '456' },
   ];
 
-  public model: {
+  public model = input<{
     favoriteColor:
       | { objectid?: string; name?: string; text?: string }
       | undefined;
-  } = { favoriteColor: {} };
+  }>({ favoriteColor: {} });
 
   public customNoResultsMessage: string | undefined;
   public debounceTime: number | undefined;
   public descriptorProperty: string | undefined;
-  public disabled: boolean | undefined = false;
+  public disabled = input<boolean | undefined>(false);
   public dropdownHintText: string | undefined;
   public enableShowMore: boolean | undefined = false;
-  public hideInput = false;
+  public hideInput = input<boolean>(false);
   public propertiesToSearch: string[] | undefined;
-  public messageStream: Subject<SkyAutocompleteMessage> | undefined;
+  public messageStream = input<Subject<SkyAutocompleteMessage> | undefined>(
+    undefined,
+  );
   public search: SkyAutocompleteSearchFunction | undefined;
   public searchFilters: SkyAutocompleteSearchFunctionFilter[] | undefined;
   public searchResultsLimit: number | undefined;
   public searchResultTemplate: TemplateRef<unknown> | undefined;
-  public searchTextMinimumCharacters: number | undefined;
+  public searchTextMinimumCharacters = input<number | undefined>(undefined);
   public selectionFromChangeEvent: SkyAutocompleteSelectionChange | undefined;
   public showAddButton: boolean | undefined = false;
   public allowAnyValue = false;

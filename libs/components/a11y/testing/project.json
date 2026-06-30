@@ -7,7 +7,7 @@
   "tags": ["testing"],
   "targets": {
     "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+      "executor": "@angular/build:karma",
       "options": {
         "tsConfig": "libs/components/a11y/testing/tsconfig.spec.json",
         "karmaConfig": "libs/components/a11y/testing/karma.conf.js",

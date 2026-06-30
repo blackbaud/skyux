@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyWaitModule } from '@skyux/indicators';
 
 /**
@@ -14,6 +14,7 @@ import { SkyWaitModule } from '@skyux/indicators';
     }
   `,
   templateUrl: './example.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyWaitModule],
 })
 export class IndicatorsWaitElementExampleComponent {

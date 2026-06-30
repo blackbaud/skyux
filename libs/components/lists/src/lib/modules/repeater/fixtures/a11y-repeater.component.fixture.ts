@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input, model } from '@angular/core';
 
 import { SkyRepeaterExpandModeType } from '../repeater-expand-mode-type';
 
@@ -10,19 +10,11 @@ import { A11yRepeaterItem } from './a11y-repeater-item';
   standalone: false,
 })
 export class A11yRepeaterTestComponent {
-  public set activeIndex(value: number | undefined) {
-    this.#_activeIndex = value;
-  }
+  public activeIndex = model<number | undefined>(undefined);
 
-  public get activeIndex(): number | undefined {
-    return this.#_activeIndex;
-  }
+  public expandMode = input<SkyRepeaterExpandModeType | undefined>(undefined);
 
-  public expandMode: SkyRepeaterExpandModeType | undefined;
+  public reorderable = input<boolean | undefined>(undefined);
 
-  public reorderable: boolean | undefined;
-
-  public items: A11yRepeaterItem[] | undefined;
-
-  #_activeIndex: number | undefined;
+  public items = input<A11yRepeaterItem[] | undefined>(undefined);
 }

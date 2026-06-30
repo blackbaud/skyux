@@ -2,6 +2,7 @@ import { CdkTrapFocus } from '@angular/cdk/a11y';
 import { SlicePipe } from '@angular/common';
 import {
   AfterContentChecked,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ContentChild,
@@ -82,6 +83,7 @@ let componentIdIndex = 0;
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
   ],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     SlicePipe,
     CdkTrapFocus,

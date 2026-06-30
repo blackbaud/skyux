@@ -43,7 +43,7 @@ Object {
       "watch": false,
     },
   },
-  "executor": "@angular-devkit/build-angular:karma",
+  "executor": "@angular/build:karma",
   "options": Object {
     "jestConfig": "test/jest.config.cts",
     "tsConfig": "test/tsconfig.spec.json",

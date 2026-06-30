@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyTabsModule } from '@skyux/tabs';
 
 /**
@@ -7,6 +7,7 @@ import { SkyTabsModule } from '@skyux/tabs';
 @Component({
   selector: 'app-tabs-static-example',
   templateUrl: './example.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyTabsModule],
 })
 export class TabsStaticExampleComponent {}

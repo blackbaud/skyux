@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 /**
 @internal
@@ -10,6 +10,7 @@ import { Component, Input } from '@angular/core';
     './checkbox-label-text-label.modern.component.scss',
   ],
   templateUrl: './checkbox-label-text-label.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyCheckboxLabelTextLabelComponent {

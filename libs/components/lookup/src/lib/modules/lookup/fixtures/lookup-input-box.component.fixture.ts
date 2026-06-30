@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, model } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormControl,
@@ -27,7 +27,7 @@ export class SkyLookupInputBoxTestComponent {
 
   public data: any[] = [];
 
-  public enableShowMore = false;
+  public enableShowMore = model<boolean>(false);
 
   public friends: any[] = [];
 

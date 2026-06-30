@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import {
   SkyFilterBarFilterItem,
   SkyFilterBarModule,
@@ -16,6 +16,7 @@ import { FILTER_SELECTION_VALUES } from './filter-selection-values';
 @Component({
   selector: 'app-filter-bar-selectable-example',
   imports: [SkyFilterBarModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './example.component.html',
 })
 export class FilterBarSelectableExampleComponent {

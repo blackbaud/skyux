@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
  * Displays a header inside the repeater item.
@@ -6,6 +6,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'sky-repeater-item-title',
   templateUrl: './repeater-item-title.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyRepeaterItemTitleComponent {}

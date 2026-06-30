@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyInlineDeleteModule } from '@skyux/layout';
 
@@ -9,6 +9,7 @@ import { SkyInlineDeleteModule } from '@skyux/layout';
   selector: 'app-layout-inline-delete-custom-example',
   templateUrl: './example.component.html',
   styleUrls: ['./example.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyIconModule, SkyInlineDeleteModule],
 })
 export class LayoutInlineDeleteCustomExampleComponent {

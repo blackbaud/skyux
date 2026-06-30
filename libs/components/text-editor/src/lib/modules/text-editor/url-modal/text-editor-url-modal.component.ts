@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
 import { SkyInputBoxModule } from '@skyux/forms';
@@ -22,6 +22,7 @@ const queryStringParamKey = '?Subject=';
   selector: 'sky-text-editor-url-modal',
   templateUrl: './text-editor-url-modal.component.html',
   styleUrls: ['./text-editor-url-modal.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FormsModule,
     SkyModalModule,

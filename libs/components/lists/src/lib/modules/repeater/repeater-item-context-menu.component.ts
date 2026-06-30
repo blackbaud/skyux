@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
  * Wraps and styles a
@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'sky-repeater-item-context-menu',
   templateUrl: './repeater-item-context-menu.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 /* istanbul ignore next */

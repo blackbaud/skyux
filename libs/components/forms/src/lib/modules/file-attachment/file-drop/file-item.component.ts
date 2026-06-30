@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   DoCheck,
   EventEmitter,
@@ -25,6 +26,7 @@ import { SkyFileLink } from './file-link';
   imports: [SkyFileSizePipe, SkyFormsResourcesModule, SkyIconModule],
   selector: 'sky-file-item',
   styleUrl: './file-item.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './file-item.component.html',
 })
 export class SkyFileItemComponent implements DoCheck {

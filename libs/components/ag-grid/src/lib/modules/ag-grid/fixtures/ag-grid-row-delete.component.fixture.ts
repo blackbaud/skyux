@@ -3,7 +3,8 @@ import {
   ViewEncapsulation,
   computed,
   inject,
-  signal,
+  input,
+  model,
 } from '@angular/core';
 
 import { AgGridAngular } from 'ag-grid-angular';
@@ -42,9 +43,9 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   ],
 })
 export class SkyAgGridRowDeleteFixtureComponent {
-  public readonly allColumnWidth = signal(0);
-  public readonly hideFirstColumn = signal(false);
-  public readonly domLayout = signal<GridOptions['domLayout'] | undefined>(
+  public readonly allColumnWidth = input(0);
+  public readonly hideFirstColumn = input(false);
+  public readonly domLayout = input<GridOptions['domLayout'] | undefined>(
     undefined,
   );
 
@@ -112,7 +113,7 @@ export class SkyAgGridRowDeleteFixtureComponent {
     }),
   );
 
-  public rowDeleteIds: string[] | undefined;
+  public rowDeleteIds = model<string[] | undefined>(undefined);
 
   public addDataPoint(): void {
     this.gridApi?.applyTransaction({

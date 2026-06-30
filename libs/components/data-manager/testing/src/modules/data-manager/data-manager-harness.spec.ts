@@ -60,7 +60,7 @@ describe('Data manager harness', () => {
     let dockType = await dataManagerHarness.getDockType();
     expect(dockType).toBe('fill');
 
-    fixture.componentInstance.dock = undefined;
+    fixture.componentRef.setInput('dock', undefined);
     fixture.detectChanges();
 
     dockType = await dataManagerHarness.getDockType();

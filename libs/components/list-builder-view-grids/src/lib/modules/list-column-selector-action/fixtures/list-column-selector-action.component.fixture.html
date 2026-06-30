@@ -2,7 +2,7 @@
   <sky-list-toolbar [searchEnabled]="true" [searchText]="searchText">
     <sky-list-column-selector-action
       [gridView]="grid"
-      [helpKey]="helpKey"
+      [helpKey]="helpKey()"
       (helpOpened)="onHelpOpened($event)"
     />
   </sky-list-toolbar>

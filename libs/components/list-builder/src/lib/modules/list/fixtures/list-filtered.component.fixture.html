@@ -1,7 +1,7 @@
 <sky-list
   [data]="items"
   [defaultView]="default"
-  [appliedFilters]="listFilters"
+  [appliedFilters]="listFilters()"
   (appliedFiltersChange)="filtersChangeFunction($event)"
 >
   <sky-list-toolbar>

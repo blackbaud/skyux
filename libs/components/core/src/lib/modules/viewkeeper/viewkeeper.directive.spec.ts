@@ -41,11 +41,11 @@ describe('Viewkeeper directive', () => {
 
     let expectedCallCount = 2;
 
-    if (fixture.componentInstance.showEl3) {
+    if (fixture.componentInstance.showEl3()) {
       expectedCallCount++;
     }
 
-    if (fixture.componentInstance.showEl4) {
+    if (fixture.componentInstance.showEl4()) {
       expectedCallCount++;
     }
 
@@ -67,7 +67,7 @@ describe('Viewkeeper directive', () => {
       verticalOffsetEl: document.querySelector('.el1'),
     });
 
-    if (fixture.componentInstance.showEl3) {
+    if (fixture.componentInstance.showEl3()) {
       expect(mockViewkeeperSvc.create).toHaveBeenCalledWith({
         boundaryEl,
         el: document.querySelector('.el3'),
@@ -78,7 +78,7 @@ describe('Viewkeeper directive', () => {
       });
     }
 
-    if (fixture.componentInstance.showEl4) {
+    if (fixture.componentInstance.showEl4()) {
       expect(mockViewkeeperSvc.create).toHaveBeenCalledWith({
         boundaryEl,
         el: document.querySelector('.el4'),
@@ -86,7 +86,7 @@ describe('Viewkeeper directive', () => {
         scrollableHost:
           scrollableHost !== undefined ? scrollableHost : undefined,
         verticalOffsetEl: document.querySelector(
-          fixture.componentInstance.showEl3 ? '.el3' : '.el2',
+          fixture.componentInstance.showEl3() ? '.el3' : '.el2',
         ),
       });
     }
@@ -140,7 +140,7 @@ describe('Viewkeeper directive', () => {
 
   it('should maintain a shadow element', fakeAsync(() => {
     const fixture = TestBed.createComponent(ViewkeeperTestComponent);
-    fixture.componentInstance.scrollableHost = true;
+    fixture.componentRef.setInput('scrollableHost', true);
     fixture.detectChanges();
     triggerMutationChange();
     validateViewkeepersCreated(fixture);
@@ -160,7 +160,7 @@ describe('Viewkeeper directive', () => {
     tick(16);
     expect(shadowEl.classList).toContain('sky-viewkeeper-shadow--active');
 
-    fixture.componentInstance.showEl1 = false;
+    fixture.componentRef.setInput('showEl1', false);
     fixture.detectChanges();
     triggerMutationChange();
     const el2 = fixture.nativeElement.querySelector('.el2');
@@ -207,7 +207,7 @@ describe('Viewkeeper directive', () => {
     mockViewkeeperSvc.create.calls.reset();
 
     // Add a new matching element.
-    fixture.componentInstance.showEl3 = true;
+    fixture.componentRef.setInput('showEl3', true);
 
     fixture.detectChanges();
     triggerMutationChange();
@@ -225,8 +225,8 @@ describe('Viewkeeper directive', () => {
     expect(mockViewkeeperSvc.destroy).not.toHaveBeenCalled();
 
     // Remove a matching element and add another.
-    fixture.componentInstance.showEl3 = false;
-    fixture.componentInstance.showEl4 = true;
+    fixture.componentRef.setInput('showEl3', false);
+    fixture.componentRef.setInput('showEl4', true);
 
     fixture.detectChanges();
     triggerMutationChange();
@@ -238,10 +238,10 @@ describe('Viewkeeper directive', () => {
     // Remove all matching elements.
     mockViewkeeperSvc.create.calls.reset();
 
-    fixture.componentInstance.showEl1 = false;
-    fixture.componentInstance.showEl2 = false;
-    fixture.componentInstance.showEl3 = false;
-    fixture.componentInstance.showEl4 = false;
+    fixture.componentRef.setInput('showEl1', false);
+    fixture.componentRef.setInput('showEl2', false);
+    fixture.componentRef.setInput('showEl3', false);
+    fixture.componentRef.setInput('showEl4', false);
 
     fixture.detectChanges();
     triggerMutationChange();
@@ -264,7 +264,7 @@ describe('Viewkeeper directive', () => {
 
   it('should create viewkeeper objects for each matching element when inside a scrollable parent', () => {
     const fixture = TestBed.createComponent(ViewkeeperTestComponent);
-    fixture.componentInstance.scrollableHost = true;
+    fixture.componentRef.setInput('scrollableHost', true);
 
     fixture.detectChanges();
     triggerMutationChange();

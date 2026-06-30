@@ -188,7 +188,7 @@ describe('Dropdown component', () => {
       button?.click();
       detectChangesFakeAsync();
       expect(fixture.componentInstance.dropdownRef?.isOpen).toBeTrue();
-      fixture.componentInstance.show = false;
+      fixture.componentRef.setInput('show', false);
       detectChangesFakeAsync();
       tick();
       expect(fixture.componentInstance.dropdownRef).toBeFalsy();
@@ -1016,7 +1016,7 @@ describe('Dropdown component', () => {
 
         expect(isMenuItemFocused(lastItemIndex)).toEqual(true);
 
-        fixture.componentInstance.items = [];
+        fixture.componentInstance.setItems([]);
 
         detectChangesFakeAsync();
 
@@ -1082,11 +1082,13 @@ describe('Dropdown component', () => {
         button?.click();
         detectChangesFakeAsync();
 
-        fixture.componentInstance.menuAriaRole = 'menu-role-override';
-        fixture.componentInstance.menuAriaLabelledBy =
-          'menu-labelled-by-override';
-        fixture.componentInstance.itemAriaRole = 'item-role-override';
-        fixture.componentInstance.label = 'button-label-override';
+        fixture.componentRef.setInput('menuAriaRole', 'menu-role-override');
+        fixture.componentRef.setInput(
+          'menuAriaLabelledBy',
+          'menu-labelled-by-override',
+        );
+        fixture.componentRef.setInput('itemAriaRole', 'item-role-override');
+        fixture.componentRef.setInput('label', 'button-label-override');
 
         detectChangesFakeAsync();
         detectChangesFakeAsync();
@@ -1139,7 +1141,7 @@ describe('Dropdown component', () => {
         contentInfoProvider.patchInfo({
           descriptor: { type: 'text', value: 'default label' },
         });
-        fixture.componentInstance.label = 'consumer label';
+        fixture.componentRef.setInput('label', 'consumer label');
 
         detectChangesFakeAsync();
         const button = getButtonElement();
@@ -1194,7 +1196,7 @@ describe('Dropdown component', () => {
 
         expect(button?.getAttribute('title')).toBeNull();
 
-        fixture.componentInstance.title = 'dropdown-title-override';
+        fixture.componentRef.setInput('title', 'dropdown-title-override');
         detectChangesFakeAsync();
 
         expect(button?.getAttribute('title')).toEqual(

@@ -7,6 +7,7 @@ import {
   NgZone,
   RendererFactory2,
   ViewChild,
+  input,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
@@ -18,22 +19,22 @@ import { SkyAffixer } from './affixer';
     <div
       class="affixer-layer"
       [ngClass]="{
-        'affix-layer-fixed': fixedLayer1,
-        'affix-layer-overflow': overflowLayer1,
+        'affix-layer-fixed': fixedLayer1(),
+        'affix-layer-overflow': overflowLayer1(),
       }"
     >
       <div
         class="affixer-layer"
         [ngClass]="{
-          'affix-layer-fixed': fixedLayer2,
-          'affix-layer-overflow': overflowLayer2,
+          'affix-layer-fixed': fixedLayer2(),
+          'affix-layer-overflow': overflowLayer2(),
         }"
       >
         <div
           class="affixer-layer"
           [ngClass]="{
-            'affix-layer-fixed': fixedLayer3,
-            'affix-layer-overflow': overflowLayer3,
+            'affix-layer-fixed': fixedLayer3(),
+            'affix-layer-overflow': overflowLayer3(),
           }"
         >
           <div class="affixer-container">
@@ -105,12 +106,12 @@ class AffixerSpecComponent {
   @ViewChild('baseElement', { static: true })
   public baseRef: ElementRef<HTMLDivElement> | undefined;
 
-  public fixedLayer1 = false;
-  public overflowLayer1 = false;
-  public fixedLayer2 = false;
-  public overflowLayer2 = false;
-  public fixedLayer3 = false;
-  public overflowLayer3 = false;
+  public fixedLayer1 = input(false);
+  public overflowLayer1 = input(false);
+  public fixedLayer2 = input(false);
+  public overflowLayer2 = input(false);
+  public fixedLayer3 = input(false);
+  public overflowLayer3 = input(false);
 }
 
 describe('Affixer', () => {
@@ -203,7 +204,7 @@ describe('Affixer', () => {
   });
 
   it('should handle multiple layers of fixed elements', () => {
-    component.fixedLayer1 = true;
+    fixture.componentRef.setInput('fixedLayer1', true);
     fixture.detectChanges();
     const affixer = createAffixer();
     expect(affixer).toBeTruthy();
@@ -212,18 +213,18 @@ describe('Affixer', () => {
       placement: 'above',
     });
     expect(component.affixedElement?.nativeElement.style.top).toEqual('11px');
-    component.fixedLayer2 = true;
+    fixture.componentRef.setInput('fixedLayer2', true);
     fixture.detectChanges();
     affixer.reaffix();
     expect(component.affixedElement?.nativeElement.style.top).toEqual('41px');
-    component.fixedLayer3 = true;
+    fixture.componentRef.setInput('fixedLayer3', true);
     fixture.detectChanges();
     affixer.reaffix();
     expect(component.affixedElement?.nativeElement.style.top).toEqual('61px');
   });
 
   it('should handle multiple layers of overflow elements', () => {
-    component.overflowLayer1 = true;
+    fixture.componentRef.setInput('overflowLayer1', true);
     fixture.detectChanges();
     const affixer = createAffixer();
     expect(affixer).toBeTruthy();
@@ -232,11 +233,11 @@ describe('Affixer', () => {
       placement: 'above',
     });
     expect(component.affixedElement?.nativeElement.style.top).toEqual('6px');
-    component.overflowLayer2 = true;
+    fixture.componentRef.setInput('overflowLayer2', true);
     fixture.detectChanges();
     affixer.reaffix();
     expect(component.affixedElement?.nativeElement.style.top).toEqual('11px');
-    component.overflowLayer3 = true;
+    fixture.componentRef.setInput('overflowLayer3', true);
     fixture.detectChanges();
     affixer.reaffix();
     expect(component.affixedElement?.nativeElement.style.top).toEqual('16px');
@@ -259,7 +260,7 @@ describe('Affixer', () => {
   describe('autofit context behavior', () => {
     it('should handle OverflowParent autofit context with enableAutoFit', async () => {
       // Setup a constrained container to test autofit behavior
-      component.overflowLayer1 = true;
+      fixture.componentRef.setInput('overflowLayer1', true);
       fixture.detectChanges();
       await fixture.whenStable();
 
@@ -281,7 +282,7 @@ describe('Affixer', () => {
 
     it('should handle Viewport autofit context with enableAutoFit', async () => {
       // Setup a constrained container
-      component.overflowLayer1 = true;
+      fixture.componentRef.setInput('overflowLayer1', true);
       fixture.detectChanges();
       await fixture.whenStable();
 
@@ -303,7 +304,7 @@ describe('Affixer', () => {
 
     it('should use unified behavior for both OverflowParent and Viewport contexts', async () => {
       // Create a scenario where both contexts would need adjustment
-      component.overflowLayer1 = true;
+      fixture.componentRef.setInput('overflowLayer1', true);
       fixture.detectChanges();
       await fixture.whenStable();
 

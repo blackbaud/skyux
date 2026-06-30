@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, model } from '@angular/core';
 import { SkyToken, SkyTokenSelectedEventArgs } from '@skyux/indicators';
 
 @Component({
@@ -7,14 +7,14 @@ import { SkyToken, SkyTokenSelectedEventArgs } from '@skyux/indicators';
   standalone: false,
 })
 export class TokensHarnessTestComponent {
-  public colors: SkyToken[] = [
+  public colors = model<SkyToken[]>([
     { value: { name: 'Red' } },
     { value: { name: 'Green' } },
     { value: { name: 'Blue' } },
-  ];
+  ]);
 
-  public disabled = false;
-  public dismissible = true;
+  public disabled = model(false);
+  public dismissible = model(true);
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
   public onTokenSelected(_: SkyTokenSelectedEventArgs): void {}

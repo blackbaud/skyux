@@ -99,15 +99,20 @@ describe('Definition list component', () => {
 
     expect(defaultValueEl).toHaveText('None found.');
 
-    fixture.componentInstance.personalInfo[2].value = 'test';
+    fixture.componentInstance.personalInfo.update((items) => {
+      const updated = [...items];
+      updated[2] = { ...updated[2], value: 'test' };
+      return updated;
+    });
 
     fixture.detectChanges();
 
-    defaultValueEl = getDefaultValueEl(valueEls?.[2]);
+    const updatedValueEls = getValueEls(list1El);
+    defaultValueEl = getDefaultValueEl(updatedValueEls?.[2]);
 
     expect(defaultValueEl).toBeNull();
 
-    expect(valueEls?.[2]).toHaveText('test');
+    expect(updatedValueEls?.[2]).toHaveText('test');
   });
 
   it('should allow the default value to be specified', () => {

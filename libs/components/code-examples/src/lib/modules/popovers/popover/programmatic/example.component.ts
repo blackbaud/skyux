@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 import {
   SkyPopoverMessage,
@@ -14,6 +14,7 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'app-popovers-popover-programmatic-example',
   templateUrl: './example.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyHelpInlineModule, SkyPopoverModule],
 })
 export class PopoversPopoverProgrammaticExampleComponent {

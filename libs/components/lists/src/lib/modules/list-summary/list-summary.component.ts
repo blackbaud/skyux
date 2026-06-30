@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 /**
@@ -8,6 +8,7 @@ import { SkyThemeComponentClassDirective } from '@skyux/theme';
   selector: 'sky-list-summary',
   templateUrl: './list-summary.component.html',
   styleUrl: './list-summary.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   hostDirectives: [SkyThemeComponentClassDirective],
 })
 export class SkyListSummaryComponent {}

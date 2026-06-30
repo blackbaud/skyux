@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 /**
  * Displays a row within the `sky-fluid-grid` wrapper. Previously, you could display a row
@@ -8,6 +8,7 @@ import { Component, Input } from '@angular/core';
   selector: 'sky-row',
   templateUrl: './row.component.html',
   styleUrls: ['./row.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyRowComponent {

@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, input } from '@angular/core';
 import {
   ControlContainer,
   FormsModule,
@@ -17,7 +17,7 @@ import { SkyCheckboxModule } from '../checkbox.module';
         #templateFormGroup="ngModelGroup"
         headingText="Contact method"
         ngModelGroup="model"
-        [required]="required"
+        [required]="required()"
       >
         <sky-checkbox labelText="Email" name="email" ngModel />
         <sky-checkbox labelText="Phone" name="phone" ngModel />
@@ -37,7 +37,7 @@ export class SkyTemplateDrivenCheckboxGroupComponent {
     text: false,
   };
 
-  public required = false;
+  public required = input(false);
 
   public submitForm(): void {
     this.templateFormGroup?.control.markAsDirty();

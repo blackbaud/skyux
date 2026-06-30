@@ -1,4 +1,10 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+  model,
+} from '@angular/core';
 
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
@@ -45,11 +51,11 @@ export class SkyLookupTemplateTestComponent implements OnInit {
 
   public descriptorProperty: string | undefined;
 
-  public disabled: boolean | undefined = false;
+  public disabled = model<boolean | undefined>(false);
 
   public enabledSearchResultTemplate: TemplateRef<unknown> | undefined;
 
-  public enableShowMore: boolean | undefined = false;
+  public enableShowMore = model<boolean | undefined>(false);
 
   public idProperty: string | undefined = 'name';
 
@@ -61,11 +67,11 @@ export class SkyLookupTemplateTestComponent implements OnInit {
 
   public required = false;
 
-  public selectedFriends: any;
+  public selectedFriends = model<any>(undefined);
 
-  public selectedFriendsAsync: any;
+  public selectedFriendsAsync = model<any>(undefined);
 
-  public selectMode: SkyLookupSelectModeType | undefined;
+  public selectMode = model<SkyLookupSelectModeType | undefined>(undefined);
 
   public showAddButton: boolean | undefined = false;
 
@@ -122,11 +128,11 @@ export class SkyLookupTemplateTestComponent implements OnInit {
   }
 
   public enableLookup(): void {
-    this.disabled = false;
+    this.disabled.set(false);
   }
 
   public disableLookup(): void {
-    this.disabled = true;
+    this.disabled.set(true);
   }
 
   public enableCustomPicker(): void {
@@ -178,7 +184,7 @@ export class SkyLookupTemplateTestComponent implements OnInit {
   }
 
   public setMultiSelect(): void {
-    this.selectMode = 'multiple';
+    this.selectMode.set('multiple');
   }
 
   public setShowMoreNativePickerConfig(
@@ -190,6 +196,6 @@ export class SkyLookupTemplateTestComponent implements OnInit {
   }
 
   public setSingleSelect(): void {
-    this.selectMode = 'single';
+    this.selectMode.set('single');
   }
 }

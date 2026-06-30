@@ -542,7 +542,7 @@ describe('List Toolbar Component', () => {
         expect(items.item(4)).toHaveText('Custom Item');
         expect(items.length).toBe(5);
 
-        component.showCustomItem1 = false;
+        fixture.componentRef.setInput('showCustomItem1', false);
 
         fixture.detectChanges();
         items = fixture.nativeElement.querySelectorAll('.sky-toolbar-item');
@@ -552,7 +552,7 @@ describe('List Toolbar Component', () => {
         expect(items.item(3)).toHaveText('Custom Item 2');
         expect(items.length).toBe(4);
 
-        component.showCustomItem1 = true;
+        fixture.componentRef.setInput('showCustomItem1', true);
 
         fixture.detectChanges();
         items = fixture.nativeElement.querySelectorAll('.sky-toolbar-item');

@@ -1,4 +1,10 @@
-import { Component, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ViewChild,
+  inject,
+  input,
+} from '@angular/core';
 
 import { Subject } from 'rxjs';
 
@@ -13,15 +19,17 @@ import { SkyColorpickerResult } from '../types/colorpicker-result';
   standalone: false,
 })
 export class ColorpickerTestComponent {
+  readonly #changeDetectorRef = inject(ChangeDetectorRef);
+
   public pickerButtonIcon: string | undefined;
-  public helpKey: string | undefined;
-  public helpPopoverContent: string | undefined;
-  public helpPopoverTitle: string | undefined;
+  public helpKey = input<string | undefined>(undefined);
+  public helpPopoverContent = input<string | undefined>(undefined);
+  public helpPopoverTitle = input<string | undefined>(undefined);
   public hintText: string | undefined;
   public label: string | undefined;
   public labelledBy: string | undefined;
   public labelHidden = false;
-  public labelText: string | undefined;
+  public labelText = input<string | undefined>(undefined);
   public required = false;
   public selectedHexType = 'hex6';
   public selectedColor: string | undefined = '#2889e5';
@@ -43,7 +51,7 @@ export class ColorpickerTestComponent {
   ];
   public inputType = 'text';
   public selectedTransparency = true;
-  public disabled = false;
+  public disabled = input<boolean>(false);
   public id: string | undefined;
 
   @ViewChild(SkyColorpickerComponent, {
@@ -57,5 +65,11 @@ export class ColorpickerTestComponent {
 
   public sendMessage(type: SkyColorpickerMessageType) {
     this.colorpickerController.next({ type });
+    this.#changeDetectorRef.markForCheck();
+  }
+
+  public setColorModel(value: string | undefined): void {
+    this.colorModel = value;
+    this.#changeDetectorRef.markForCheck();
   }
 }

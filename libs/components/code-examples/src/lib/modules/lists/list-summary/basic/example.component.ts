@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyListSummaryModule } from '@skyux/lists';
 
 /**
@@ -7,6 +7,7 @@ import { SkyListSummaryModule } from '@skyux/lists';
 @Component({
   selector: 'app-lists-list-summary-basic-example',
   templateUrl: './example.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyListSummaryModule],
 })
 export class ListsListSummaryBasicExampleComponent {

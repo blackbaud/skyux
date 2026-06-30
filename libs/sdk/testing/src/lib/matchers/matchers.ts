@@ -1,3 +1,4 @@
+/// <reference types="jasmine" />
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import {
   _SkyA11yAnalyzer,
@@ -371,10 +372,10 @@ const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
  * @internal
  */
 export function registerJasmineMatchers(): void {
-  if (typeof jasmine !== 'undefined') {
+  if (typeof windowRef.jasmine !== 'undefined') {
     windowRef.beforeEach(() => {
-      jasmine.addMatchers(matchers);
-      jasmine.addAsyncMatchers(asyncMatchers);
+      windowRef.jasmine.addMatchers(matchers);
+      windowRef.jasmine.addAsyncMatchers(asyncMatchers);
     });
   }
 }

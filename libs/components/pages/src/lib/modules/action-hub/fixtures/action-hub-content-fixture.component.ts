@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { SkyKeyInfoModule } from '@skyux/indicators';
 
 import { SkyActionHubModule } from '../action-hub.module';
@@ -9,7 +9,7 @@ import { SkyActionHubModule } from '../action-hub.module';
   imports: [SkyActionHubModule, SkyKeyInfoModule],
 })
 export class ActionHubContentFixtureComponent {
-  public title = 'Page title';
-  public label = 'world';
-  public value = 'hello';
+  public title = input<string>('Page title');
+  public label = input<string>('world');
+  public value = input<string>('hello');
 }

@@ -53,7 +53,7 @@ describe('Infinite scroll harness', () => {
       dataSkyId: 'my-infinite-scroll',
     });
 
-    fixture.componentInstance.loading = true;
+    fixture.componentRef.setInput('loading', true);
 
     await expectAsync(infiniteScrollHarness.isLoading()).toBeResolvedTo(true);
     await expectAsync(infiniteScrollHarness.loadMore()).toBeRejectedWithError(
@@ -66,7 +66,7 @@ describe('Infinite scroll harness', () => {
       dataSkyId: 'my-infinite-scroll',
     });
 
-    fixture.componentInstance.enabled = false;
+    fixture.componentRef.setInput('enabled', false);
 
     await expectAsync(infiniteScrollHarness.isEnabled()).toBeResolvedTo(false);
     await expectAsync(infiniteScrollHarness.loadMore()).toBeRejectedWithError(

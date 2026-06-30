@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
  * Displays an image in the page summary to identify a record
@@ -9,6 +9,7 @@ import { Component } from '@angular/core';
   selector: 'sky-page-summary-image',
   templateUrl: './page-summary-image.component.html',
   styleUrls: ['./page-summary-image.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 /* istanbul ignore next */

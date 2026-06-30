@@ -1,4 +1,4 @@
-@if (show) {
+@if (show()) {
   @if (useCustomTrigger) {
     <sky-dropdown
       #dropdownRef
@@ -6,9 +6,9 @@
       [buttonType]="buttonType"
       [disabled]="disabled"
       [horizontalAlignment]="horizontalAlignment"
-      [label]="label"
+      [label]="label()"
       [messageStream]="messageStream"
-      [title]="title"
+      [title]="title()"
       [trigger]="trigger"
     >
       <button class="custom-trigger" skyDropdownTrigger type="button">
@@ -17,13 +17,13 @@
 
       <sky-dropdown-menu
         #dropdownMenuRef
-        [ariaLabelledBy]="menuAriaLabelledBy"
-        [ariaRole]="menuAriaRole"
+        [ariaLabelledBy]="menuAriaLabelledBy()"
+        [ariaRole]="menuAriaRole()"
         [useNativeFocus]="useNativeFocus"
         (menuChanges)="onMenuChanges($event)"
       >
         @for (item of items; track item) {
-          <sky-dropdown-item [ariaRole]="itemAriaRole">
+          <sky-dropdown-item [ariaRole]="itemAriaRole()">
             <button
               type="button"
               [attr.disabled]="item.disabled ? '' : null"
@@ -42,22 +42,22 @@
       [buttonType]="buttonType"
       [disabled]="disabled"
       [horizontalAlignment]="horizontalAlignment"
-      [label]="label"
+      [label]="label()"
       [messageStream]="messageStream"
-      [title]="title"
+      [title]="title()"
       [trigger]="trigger"
     >
       <sky-dropdown-button> Show dropdown </sky-dropdown-button>
 
       <sky-dropdown-menu
         #dropdownMenuRef
-        [ariaLabelledBy]="menuAriaLabelledBy"
-        [ariaRole]="menuAriaRole"
+        [ariaLabelledBy]="menuAriaLabelledBy()"
+        [ariaRole]="menuAriaRole()"
         [useNativeFocus]="useNativeFocus"
         (menuChanges)="onMenuChanges($event)"
       >
         @for (item of items; track item) {
-          <sky-dropdown-item [ariaRole]="itemAriaRole">
+          <sky-dropdown-item [ariaRole]="itemAriaRole()">
             <button
               type="button"
               [attr.disabled]="item.disabled ? '' : null"

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 import { SkyKeyInfoLayoutType } from '../key-info-layout-type';
 
@@ -8,6 +8,6 @@ import { SkyKeyInfoLayoutType } from '../key-info-layout-type';
   standalone: false,
 })
 export class KeyInfoTestComponent {
-  public helpContent: string | undefined = undefined;
-  public layout: SkyKeyInfoLayoutType | undefined = 'vertical';
+  public helpContent = input<string | undefined>(undefined);
+  public layout = input<SkyKeyInfoLayoutType | undefined>('vertical');
 }

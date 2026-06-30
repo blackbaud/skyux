@@ -1,6 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, model } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyWaitModule, SkyWaitService } from '@skyux/indicators';
 
@@ -13,17 +13,17 @@ import { SkyWaitHarness } from './wait-harness';
     <div style="width: 200px; height: 100px">
       Sample Component
       <sky-wait
-        [ariaLabel]="ariaLabel"
-        [isFullPage]="isFullPage"
-        [isNonBlocking]="isNonBlocking"
-        [isWaiting]="isWaiting"
+        [ariaLabel]="ariaLabel()"
+        [isFullPage]="isFullPage()"
+        [isNonBlocking]="isNonBlocking()"
+        [isWaiting]="isWaiting()"
         data-sky-id="test-wait"
       ></sky-wait>
     </div>
     <div style="width: 200px; height: 100px">
       <sky-wait
         ariaLabel="this is another wait"
-        [isWaiting]="isWaiting2"
+        [isWaiting]="isWaiting2()"
         data-sky-id="wait-2"
       ></sky-wait>
     </div>
@@ -35,15 +35,15 @@ import { SkyWaitHarness } from './wait-harness';
   standalone: false,
 })
 class TestComponent implements OnDestroy {
-  public ariaLabel: string | undefined;
+  public ariaLabel = model<string | undefined>(undefined);
 
-  public isFullPage: boolean | undefined;
+  public isFullPage = model<boolean | undefined>(undefined);
 
-  public isNonBlocking: boolean | undefined;
+  public isNonBlocking = model<boolean | undefined>(undefined);
 
-  public isWaiting = false;
+  public isWaiting = model(false);
 
-  public isWaiting2 = false;
+  public isWaiting2 = model(false);
 
   constructor(public svc: SkyWaitService) {}
 
@@ -68,23 +68,23 @@ async function validateWaitProperties(
   isNonBlocking: boolean,
   ariaLabel?: string,
 ): Promise<void> {
-  fixture.componentInstance.isFullPage = isFullPage;
-  fixture.componentInstance.isNonBlocking = isNonBlocking;
-  fixture.componentInstance.ariaLabel = ariaLabel;
-  fixture.componentInstance.isWaiting = true;
+  fixture.componentRef.setInput('isFullPage', isFullPage);
+  fixture.componentRef.setInput('isNonBlocking', isNonBlocking);
+  fixture.componentRef.setInput('ariaLabel', ariaLabel);
+  fixture.componentRef.setInput('isWaiting', true);
   fixture.detectChanges();
 
   const label =
-    fixture.componentInstance.ariaLabel ??
+    fixture.componentInstance.ariaLabel() ??
     /* spell-checker:disable-next-line */
-    `${fixture.componentInstance.isFullPage ? 'Page l' : 'L'}oading.${
-      fixture.componentInstance.isNonBlocking ? '' : ' Please wait.'
+    `${fixture.componentInstance.isFullPage() ? 'Page l' : 'L'}oading.${
+      fixture.componentInstance.isNonBlocking() ? '' : ' Please wait.'
     }`;
   await expectAsync(waitHarness.getAriaLabel()).toBeResolvedTo(label);
   await expectAsync(waitHarness.isWaiting()).toBeResolvedTo(true);
   await expectAsync(waitHarness.isFullPage()).toBeResolvedTo(isFullPage);
   await expectAsync(waitHarness.isNonBlocking()).toBeResolvedTo(isNonBlocking);
-  fixture.componentInstance.isWaiting = false;
+  fixture.componentRef.setInput('isWaiting', false);
 }
 
 describe('Wait harness', () => {
@@ -135,7 +135,7 @@ describe('Wait harness', () => {
     }
 
     if (options.ariaLabel) {
-      fixture.componentInstance.ariaLabel = options.ariaLabel;
+      fixture.componentRef.setInput('ariaLabel', options.ariaLabel);
     }
 
     return { waitHarness, fixture, loader, pageLoader };
@@ -158,7 +158,8 @@ describe('Wait harness', () => {
 
   it('should get a wait by its data-sky-id property', async () => {
     const { waitHarness, fixture } = await setupTest({ dataSkyId: 'wait-2' });
-    fixture.componentInstance.isWaiting2 = true;
+    fixture.componentRef.setInput('isWaiting2', true);
+    fixture.detectChanges();
     await expectAsync(waitHarness.getAriaLabel()).toBeResolvedTo(
       'this is another wait',
     );

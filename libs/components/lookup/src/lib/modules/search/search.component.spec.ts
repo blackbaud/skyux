@@ -263,7 +263,7 @@ describe('Search component', () => {
     });
 
     it('should override default placeholder text when placeholder text is provided', () => {
-      component.placeholderText = 'hey ya';
+      fixture.componentRef.setInput('placeholderText', 'hey ya');
       fixture.detectChanges();
       expect(getInput().attributes['placeholder']).toBe('hey ya');
     });
@@ -300,7 +300,7 @@ describe('Search component', () => {
 
       expect(component.lastSearchTextChanged).toBe('applied text');
 
-      component.searchText = '';
+      fixture.componentRef.setInput('searchText', '');
       fixture.detectChanges();
       tick(10);
 
@@ -314,19 +314,19 @@ describe('Search component', () => {
     }));
 
     it('should emit the apply event when search text is cleared via the `searchText` binding to undefined', async () => {
-      component.searchText = 'applied text';
+      fixture.componentRef.setInput('searchText', 'applied text');
       fixture.detectChanges();
       await fixture.whenStable();
 
       expect(component.lastSearchTextChanged).toBe('applied text');
 
-      component.searchText = undefined;
+      fixture.componentRef.setInput('searchText', undefined);
       fixture.detectChanges();
       await fixture.whenStable();
 
       expect(component.lastSearchTextChanged).toBe('');
 
-      component.searchText = 'applied text';
+      fixture.componentRef.setInput('searchText', 'applied text');
       fixture.detectChanges();
       await fixture.whenStable();
 
@@ -371,13 +371,13 @@ describe('Search component', () => {
       let input: HTMLInputElement = getInput().nativeElement;
       expect(input.disabled).toBeFalse();
 
-      component.disabled = true;
+      fixture.componentRef.setInput('disabled', true);
       fixture.detectChanges();
       await fixture.whenRenderingDone();
       input = getInput().nativeElement;
       expect(input.disabled).toBeTrue();
 
-      component.disabled = undefined;
+      fixture.componentRef.setInput('disabled', undefined);
       fixture.detectChanges();
       await fixture.whenRenderingDone();
       input = getInput().nativeElement;
@@ -395,7 +395,7 @@ describe('Search component', () => {
     });
 
     it('should set the clear button visibility when search binding changed', () => {
-      component.searchText = 'whatUp';
+      fixture.componentRef.setInput('searchText', 'whatUp');
       fixture.detectChanges();
       expect(
         element.query(By.css('.sky-input-group-clear')).nativeElement,
@@ -408,7 +408,7 @@ describe('Search component', () => {
       tick(1);
       fixture.detectChanges();
       expect(component.lastSearchTextChanged).toBe('debounce this please');
-      component.debounceTime = 10;
+      fixture.componentRef.setInput('debounceTime', 10);
       fixture.detectChanges();
       component.searchComponent.searchTextChanged('debounce this please 2');
       fixture.detectChanges();
@@ -418,7 +418,7 @@ describe('Search component', () => {
       tick(10);
       fixture.detectChanges();
       expect(component.lastSearchTextChanged).toBe('debounce this please 2');
-      component.debounceTime = undefined;
+      fixture.componentRef.setInput('debounceTime', undefined);
       fixture.detectChanges();
       component.searchComponent.searchTextChanged('debounce this please 3');
       fixture.detectChanges();
@@ -465,7 +465,7 @@ describe('Search component', () => {
         it('when searchText binding is changed and screen is xsmall', async () => {
           await triggerXsBreakpoint();
           fixture.detectChanges();
-          component.searchText = 'my search text';
+          fixture.componentRef.setInput('searchText', 'my search text');
           fixture.detectChanges();
           await fixture.whenStable();
           verifySearchOpenMobile();
@@ -518,7 +518,7 @@ describe('Search component', () => {
 
     describe('expandMode none', () => {
       it('do nothing when open button pressed', async () => {
-        component.expandMode = 'none';
+        fixture.componentRef.setInput('expandMode', 'none');
         fixture.detectChanges();
         await triggerXsBreakpoint();
         fixture.detectChanges();
@@ -531,7 +531,7 @@ describe('Search component', () => {
 
     describe('expandMode fit', () => {
       it('do nothing when open button pressed', async () => {
-        component.expandMode = 'fit';
+        fixture.componentRef.setInput('expandMode', 'fit');
         fixture.detectChanges();
         await triggerXsBreakpoint();
         fixture.detectChanges();
@@ -544,10 +544,10 @@ describe('Search component', () => {
 
     describe('expandMode responsive', () => {
       it('should become the selected mode when expandMode is cleared', async () => {
-        component.expandMode = 'fit';
+        fixture.componentRef.setInput('expandMode', 'fit');
         fixture.detectChanges();
 
-        component.expandMode = undefined;
+        fixture.componentRef.setInput('expandMode', undefined);
         fixture.detectChanges();
 
         await triggerXsBreakpoint();
@@ -559,7 +559,7 @@ describe('Search component', () => {
 
   describe('initialize expandMode none', () => {
     it('should do nothing when open button pressed', async () => {
-      component.expandMode = 'none';
+      fixture.componentRef.setInput('expandMode', 'none');
       fixture.detectChanges();
       await triggerXsBreakpoint();
       fixture.detectChanges();
@@ -583,7 +583,7 @@ describe('Search component', () => {
     });
 
     it('should be accessible using default theme at wide and small breakpoints (ariaLabel: "Test label", ariaLabelledBy: undefined)', async () => {
-      component.ariaLabel = 'Test label';
+      fixture.componentRef.setInput('ariaLabel', 'Test label');
       fixture.detectChanges();
       await fixture.whenStable();
       await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -612,7 +612,7 @@ describe('Search component', () => {
       contentInfoProvider.patchInfo({
         descriptor: { value: 'constituents', type: 'text' },
       });
-      component.ariaLabel = 'Overwritten label';
+      fixture.componentRef.setInput('ariaLabel', 'Overwritten label');
       fixture.detectChanges();
       await fixture.whenStable();
       await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -624,7 +624,7 @@ describe('Search component', () => {
     });
 
     it('should be accessible using default theme at wide and small breakpoints (ariaLabel: undefined, ariaLabelledBy: "test-label")', async () => {
-      component.ariaLabelledBy = 'test-label';
+      fixture.componentRef.setInput('ariaLabelledBy', 'test-label');
       fixture.detectChanges();
       await fixture.whenStable();
       await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -661,7 +661,7 @@ describe('Search component', () => {
         ),
         previousSettings: mockThemeSvc.settingsChange.value.currentSettings,
       });
-      component.ariaLabel = 'Test label';
+      fixture.componentRef.setInput('ariaLabel', 'Test label');
       fixture.detectChanges();
       await fixture.whenStable();
       await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -680,7 +680,7 @@ describe('Search component', () => {
         ),
         previousSettings: mockThemeSvc.settingsChange.value.currentSettings,
       });
-      component.ariaLabelledBy = 'test-label';
+      fixture.componentRef.setInput('ariaLabelledBy', 'test-label');
       fixture.detectChanges();
       await fixture.whenStable();
       await expectAsync(fixture.nativeElement).toBeAccessible();

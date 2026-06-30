@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 import { SkyActionHubModule } from '../action-hub.module';
 import { SkyRecentLinksInput } from '../types/recent-links-input';
@@ -9,5 +9,5 @@ import { SkyRecentLinksInput } from '../types/recent-links-input';
   imports: [SkyActionHubModule],
 })
 export class ActionHubRecentSvcFixtureComponent {
-  public recentLinks: SkyRecentLinksInput;
+  public recentLinks = input<SkyRecentLinksInput>(undefined);
 }

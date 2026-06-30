@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 import { SkyTextSanitizationService } from '../text-editor/services/text-sanitization.service';
@@ -6,6 +6,7 @@ import { SkyTextSanitizationService } from '../text-editor/services/text-sanitiz
 @Component({
   selector: 'sky-rich-text-display',
   templateUrl: './rich-text-display.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyRichTextDisplayComponent {

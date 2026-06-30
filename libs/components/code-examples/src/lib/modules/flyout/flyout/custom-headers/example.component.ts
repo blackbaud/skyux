@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyFlyoutInstance, SkyFlyoutService } from '@skyux/flyout';
 
 import { FlyoutComponent } from './flyout.component';
@@ -8,6 +8,7 @@ import { FlyoutComponent } from './flyout.component';
  */
 @Component({
   selector: 'app-flyout-custom-headers-example',
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './example.component.html',
 })
 export class FlyoutCustomHeadersExampleComponent {

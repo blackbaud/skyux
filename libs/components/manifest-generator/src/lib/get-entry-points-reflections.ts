@@ -43,6 +43,7 @@ async function getTypeDocProjectReflection(
     compilerOptions: {
       skipLibCheck: true,
       resolveJsonModule: true,
+      types: ['node'],
     },
     exclude: ['**/(fixtures|node_modules)/**', '**/*+(.fixture|.spec).ts'],
   });

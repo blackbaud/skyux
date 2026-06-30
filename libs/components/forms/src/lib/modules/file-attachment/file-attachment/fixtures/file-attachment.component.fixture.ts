@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, input } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -26,29 +26,29 @@ export class FileAttachmentTestComponent {
 
   public fileForm: UntypedFormGroup;
 
-  public hintText: string | undefined;
+  public hintText = input<string | undefined>(undefined);
 
-  public labelElementText: string | undefined = 'Choose file';
+  public labelElementText = input<string | undefined>('Choose file');
 
-  public labelHidden = false;
+  public labelHidden = input(false);
 
-  public labelText: string | undefined;
+  public labelText = input<string | undefined>(undefined);
 
-  public required = false;
+  public required = input(false);
 
-  public showLabel = true;
+  public showLabel = input(true);
 
-  public maxFileSize: number | undefined;
+  public maxFileSize = input<number | undefined>(undefined);
 
-  public popoverContent: string | undefined;
+  public popoverContent = input<string | undefined>(undefined);
 
-  public popoverTitle: string | undefined;
+  public popoverTitle = input<string | undefined>(undefined);
 
-  public helpKey: string | undefined;
+  public helpKey = input<string | undefined>(undefined);
 
-  public showInlineHelp = false;
+  public showInlineHelp = input(false);
 
-  public stacked: boolean | undefined;
+  public stacked = input<boolean | undefined>(undefined);
 
   @ViewChild(SkyFileAttachmentComponent)
   public fileAttachmentComponent!: SkyFileAttachmentComponent;
