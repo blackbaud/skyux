@@ -9,7 +9,11 @@
           helpPopoverTitle="Need help?"
           subheadingText="This month compared to the same day last year"
         >
-          Some chart here.
+          <sky-chart-bar>
+            <sky-chart-category-axis labelText="Year" />
+            <sky-chart-value-axis labelText="Acquisitions" />
+            <sky-chart-series labelText="Acquisitions by year" />
+          </sky-chart-bar>
         </sky-chart>
       </sky-box-content>
     </sky-box>
