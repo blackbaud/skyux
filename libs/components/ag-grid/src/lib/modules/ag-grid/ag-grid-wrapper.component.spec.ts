@@ -768,6 +768,42 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
       });
     });
 
+    it(`should be accessible when a header cell has focus`, async () => {
+      TestBed.overrideProvider(Editable, { useValue: false });
+      gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+      gridWrapperNativeElement = gridWrapperFixture.nativeElement;
+
+      gridWrapperFixture.detectChanges();
+      await gridWrapperFixture.whenStable();
+
+      const headerCell = gridWrapperNativeElement.querySelector(
+        '.ag-header-cell[col-id="name"]',
+      ) as HTMLElement;
+      headerCell.focus();
+      gridWrapperFixture.detectChanges();
+
+      expect(gridWrapperNativeElement.ownerDocument.activeElement).toBe(
+        headerCell,
+      );
+      await expectAsync(gridWrapperNativeElement).toBeAccessible();
+
+      // The axe-core test does not assert the contrast for the focus ring; it only checks contrast between text and backgrounds.
+      const skyAgGridEl = gridWrapperNativeElement.querySelector(
+        '.sky-ag-grid',
+      ) as HTMLElement;
+      expect(
+        getComputedStyle(headerCell)
+          .getPropertyValue('--ag-focus-shadow')
+          .trim()
+          .split(' ')
+          .pop(),
+      ).toBe(
+        getComputedStyle(skyAgGridEl)
+          .getPropertyValue('--sky-override-ag-grid-focus-border-color')
+          .trim(),
+      );
+    });
+
     it(`should be accessible in edit mode`, async () => {
       gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
       gridWrapperNativeElement = gridWrapperFixture.nativeElement;
