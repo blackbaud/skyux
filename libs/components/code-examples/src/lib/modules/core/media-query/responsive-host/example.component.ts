@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyMediaQueryService, SkyResponsiveHostDirective } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
@@ -20,6 +20,7 @@ import { DemoContainerComponent } from './container.component';
   ],
   selector: 'app-core-media-query-responsive-host-example',
   styleUrl: './example.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './example.component.html',
 })
 export class CoreMediaQueryResponsiveHostExampleComponent {

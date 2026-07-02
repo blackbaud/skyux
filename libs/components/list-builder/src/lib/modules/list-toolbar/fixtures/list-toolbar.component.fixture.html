@@ -6,7 +6,7 @@
   [sortSelectorEnabled]="sortEnabled"
   [toolbarType]="toolbarType"
 >
-  @if (showCustomItem1) {
+  @if (showCustomItem1()) {
     <sky-list-toolbar-item id="custom-item" location="right" [index]="2">
       <ng-template>Custom Item</ng-template>
     </sky-list-toolbar-item>

@@ -1,4 +1,9 @@
-import { Component, input, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  input,
+  output,
+} from '@angular/core';
 import { SkyIconModule } from '@skyux/icon';
 
 import { SkyFilterBarFilterValue } from '../models/filter-bar-filter-value';
@@ -12,6 +17,7 @@ import { SkyFilterBarFilterValue } from '../models/filter-bar-filter-value';
   selector: 'sky-filter-item-base',
   imports: [SkyIconModule],
   templateUrl: './filter-item-base.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./filter-item-base.component.scss'],
 })
 export class SkyFilterItemBaseComponent {

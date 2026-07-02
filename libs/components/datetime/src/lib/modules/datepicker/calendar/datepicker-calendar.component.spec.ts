@@ -139,7 +139,7 @@ describe('datepicker calendar', () => {
   });
 
   it('should show the appropriate daypicker with the selected date', () => {
-    component.selectedDate = new Date('4/4/2017');
+    fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
 
     fixture.detectChanges();
 
@@ -159,7 +159,7 @@ describe('datepicker calendar', () => {
   });
 
   it('should show the month picker with selected date when clicking on the month', () => {
-    component.selectedDate = new Date('4/4/2017');
+    fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
     fixture.detectChanges();
 
     clickDatepickerTitle(nativeElement);
@@ -168,7 +168,7 @@ describe('datepicker calendar', () => {
   });
 
   it('should show the year picker with selected date when clicking the year', () => {
-    component.selectedDate = new Date('4/4/2017');
+    fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
     fixture.detectChanges();
 
     clickDatepickerTitle(nativeElement);
@@ -178,19 +178,19 @@ describe('datepicker calendar', () => {
   });
 
   it('should move to another day within the current month in daypicker', () => {
-    component.selectedDate = new Date('4/4/2017');
+    fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
 
     fixture.detectChanges();
 
     clickNthDate(nativeElement, 7);
 
-    expect(component.selectedDate).toEqual(new Date('4/2/2017'));
+    expect(component.selectedDate()).toEqual(new Date('4/2/2017'));
 
     verifyDatepicker(nativeElement, 'April 2017', '02', '02', '26');
   });
 
   it('should move to another day in the next month in daypicker', () => {
-    component.selectedDate = new Date('4/4/2017');
+    fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
 
     fixture.detectChanges();
 
@@ -200,7 +200,7 @@ describe('datepicker calendar', () => {
   });
 
   it('should move to the next month using arrows in daypicker', () => {
-    component.selectedDate = new Date('4/4/2017');
+    fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
 
     fixture.detectChanges();
 
@@ -209,7 +209,7 @@ describe('datepicker calendar', () => {
   });
 
   it('should move to the previous month using arrows in daypicker', () => {
-    component.selectedDate = new Date('4/4/2017');
+    fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
 
     fixture.detectChanges();
 
@@ -219,7 +219,7 @@ describe('datepicker calendar', () => {
   });
 
   it('should move to the next month and move to daypicker when clicking a month in monthpicker', () => {
-    component.selectedDate = new Date('4/4/2017');
+    fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
     fixture.detectChanges();
 
     clickDatepickerTitle(nativeElement);
@@ -230,7 +230,7 @@ describe('datepicker calendar', () => {
   });
 
   it('should move to the next year when clicking arrows monthpicker', () => {
-    component.selectedDate = new Date('4/4/2017');
+    fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
     fixture.detectChanges();
 
     clickDatepickerTitle(nativeElement);
@@ -241,7 +241,7 @@ describe('datepicker calendar', () => {
   });
 
   it('should move to the previous year when clicking arrows in monthpicker', () => {
-    component.selectedDate = new Date('4/4/2017');
+    fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
     fixture.detectChanges();
 
     clickDatepickerTitle(nativeElement);
@@ -252,7 +252,7 @@ describe('datepicker calendar', () => {
   });
 
   it('should move to the next year and move to monthpicker when clicking year in yearpicker', () => {
-    component.selectedDate = new Date('4/4/2017');
+    fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
     fixture.detectChanges();
 
     clickDatepickerTitle(nativeElement);
@@ -264,7 +264,7 @@ describe('datepicker calendar', () => {
   });
 
   it('should move to the next set of years when clicking arrows in yearpicker', () => {
-    component.selectedDate = new Date('4/4/2017');
+    fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
     fixture.detectChanges();
 
     clickDatepickerTitle(nativeElement);
@@ -276,7 +276,7 @@ describe('datepicker calendar', () => {
   });
 
   it('should move to the previous set of years when clicking arrows in yearpicker', () => {
-    component.selectedDate = new Date('4/4/2017');
+    fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
     fixture.detectChanges();
 
     clickDatepickerTitle(nativeElement);
@@ -288,24 +288,24 @@ describe('datepicker calendar', () => {
   });
 
   it('should handle minDate in daypicker', () => {
-    component.selectedDate = new Date('4/4/2017');
-    component.minDate = new Date('4/2/2017');
+    fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
+    fixture.componentRef.setInput('minDate', new Date('4/2/2017'));
     fixture.detectChanges();
 
     verifyNthDateDisabled(nativeElement, 6, 'April 2017', '04', '04', '');
   });
 
   it('should handle maxDate in daypicker', () => {
-    component.selectedDate = new Date('4/4/2017');
-    component.maxDate = new Date('4/15/2017');
+    fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
+    fixture.componentRef.setInput('maxDate', new Date('4/15/2017'));
     fixture.detectChanges();
 
     verifyNthDateDisabled(nativeElement, 28, 'April 2017', '04', '04', '');
   });
 
   it('should handle minDate in monthpicker', () => {
-    component.selectedDate = new Date('4/4/2017');
-    component.minDate = new Date('4/2/2017');
+    fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
+    fixture.componentRef.setInput('minDate', new Date('4/2/2017'));
     fixture.detectChanges();
 
     clickDatepickerTitle(nativeElement);
@@ -314,8 +314,8 @@ describe('datepicker calendar', () => {
   });
 
   it('should handle maxDate in monthpicker', () => {
-    component.selectedDate = new Date('4/4/2017');
-    component.maxDate = new Date('4/15/2017');
+    fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
+    fixture.componentRef.setInput('maxDate', new Date('4/15/2017'));
     fixture.detectChanges();
 
     clickDatepickerTitle(nativeElement);
@@ -324,8 +324,8 @@ describe('datepicker calendar', () => {
   });
 
   it('should handle minDate in yearpicker', () => {
-    component.selectedDate = new Date('4/4/2017');
-    component.minDate = new Date('4/2/2017');
+    fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
+    fixture.componentRef.setInput('minDate', new Date('4/2/2017'));
     fixture.detectChanges();
 
     clickDatepickerTitle(nativeElement);
@@ -340,8 +340,8 @@ describe('datepicker calendar', () => {
   });
 
   it('should handle maxDate in yearpicker', () => {
-    component.selectedDate = new Date('4/4/2017');
-    component.maxDate = new Date('4/2/2017');
+    fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
+    fixture.componentRef.setInput('maxDate', new Date('4/2/2017'));
     fixture.detectChanges();
 
     clickDatepickerTitle(nativeElement);
@@ -375,7 +375,7 @@ describe('datepicker calendar', () => {
   });
 
   it('should handle a different startingDay input', () => {
-    component.startingDay = 1;
+    fixture.componentRef.setInput('startingDay', 1);
 
     fixture.detectChanges();
 
@@ -392,8 +392,8 @@ describe('datepicker calendar', () => {
   });
 
   it('should handle a different startingDay input', () => {
-    component.startingDay = 3;
-    component.selectedDate = new Date('5/4/2017');
+    fixture.componentRef.setInput('startingDay', 3);
+    fixture.componentRef.setInput('selectedDate', new Date('5/4/2017'));
 
     fixture.detectChanges();
 
@@ -415,28 +415,40 @@ describe('datepicker calendar', () => {
     fixture.detectChanges();
 
     component.datepicker.writeValue(undefined);
+    fixture.componentRef.setInput(
+      'selectedDate',
+      component.datepicker.selectedDate,
+    );
     fixture.detectChanges();
     verifyTodayDayPicker(nativeElement, true);
 
     component.datepicker.writeValue(new Date('4/4/2017'));
+    fixture.componentRef.setInput(
+      'selectedDate',
+      component.datepicker.selectedDate,
+    );
     fixture.detectChanges();
     verifyDatepicker(nativeElement, 'April 2017', '04', '04', '');
 
     component.datepicker.writeValue(new Date('4/4/2017'));
+    fixture.componentRef.setInput(
+      'selectedDate',
+      component.datepicker.selectedDate,
+    );
     fixture.detectChanges();
     verifyDatepicker(nativeElement, 'April 2017', '04', '04', '');
   });
 
   it('should handle selected date being set after initialization', fakeAsync(function () {
     // Initialize value.
-    component.selectedDate = undefined;
+    fixture.componentRef.setInput('selectedDate', undefined);
     fixture.detectChanges();
     tick();
 
     verifyTodayDayPicker(nativeElement);
 
     // Set the value again.
-    component.selectedDate = new Date('1/1/2000');
+    fixture.componentRef.setInput('selectedDate', new Date('1/1/2000'));
     fixture.detectChanges();
     tick();
 
@@ -460,7 +472,7 @@ describe('datepicker calendar', () => {
     }
 
     it('should do nothing on unrecognized keys or shift or alt', () => {
-      component.selectedDate = new Date('4/4/2017');
+      fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
       fixture.detectChanges();
       triggerKeydown(fixture, { key: 'tab' });
       verifyDatepicker(nativeElement, 'April 2017', '04', '04', '');
@@ -473,39 +485,39 @@ describe('datepicker calendar', () => {
     });
 
     it('should select active date on enter or space', () => {
-      component.selectedDate = new Date('4/4/2017');
+      fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
       fixture.detectChanges();
 
       clickNextArrow(nativeElement);
       triggerKeydown(fixture, { key: 'Enter' });
       verifyDatepicker(nativeElement, 'May 2017', '01', '01', '');
-      expect(component.selectedDate).toEqual(new Date('5/1/2017'));
+      expect(component.selectedDate()).toEqual(new Date('5/1/2017'));
 
       clickPreviousArrow(nativeElement);
       triggerKeydown(fixture, { key: ' ' });
       verifyDatepicker(nativeElement, 'April 2017', '01', '01', '');
-      expect(component.selectedDate).toEqual(new Date('4/1/2017'));
+      expect(component.selectedDate()).toEqual(new Date('4/1/2017'));
     });
 
     it('should not select active date when active date is disabled', () => {
-      component.selectedDate = new Date('4/4/2017');
-      component.maxDate = new Date('4/5/2017');
+      fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
+      fixture.componentRef.setInput('maxDate', new Date('4/5/2017'));
       fixture.detectChanges();
       clickNextArrow(nativeElement);
       triggerKeydown(fixture, { key: 'Enter' });
       verifyDatepicker(nativeElement, 'May 2017', '', '01', '');
-      expect(component.selectedDate).toEqual(new Date('4/4/2017'));
+      expect(component.selectedDate()).toEqual(new Date('4/4/2017'));
     });
 
     it('should toggle mode up when doing ctrl + up', () => {
-      component.selectedDate = new Date('4/4/2017');
+      fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
       fixture.detectChanges();
       triggerKeydown(fixture, { key: 'ArrowUp', ctrlKey: true });
       verifyDatepicker(nativeElement, '2017', 'April', 'April', '');
     });
 
     it('should toggle mode down when doing ctrl + down', () => {
-      component.selectedDate = new Date('4/4/2017');
+      fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
       fixture.detectChanges();
       clickDatepickerTitle(nativeElement);
       triggerKeydown(fixture, { key: 'ArrowDown', ctrlKey: true });
@@ -514,7 +526,7 @@ describe('datepicker calendar', () => {
 
     describe('daypicker accessibility', () => {
       it('should have the correct aria labels for the previous and next buttons', () => {
-        component.selectedDate = new Date('4/4/2017');
+        fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
         fixture.detectChanges();
         const nextArrowEl = getNextArrow(nativeElement);
         expect(nextArrowEl.getAttribute('aria-label')).toBe('Next month');
@@ -523,63 +535,63 @@ describe('datepicker calendar', () => {
       });
 
       it('should move to the previous day when hitting left arrow key', () => {
-        component.selectedDate = new Date('4/4/2017');
+        fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
         fixture.detectChanges();
         triggerKeydown(fixture, { key: 'ArrowLeft' });
         verifyDatepicker(nativeElement, 'April 2017', '04', '03', '');
       });
 
       it('should move to the next day when hitting the right arrow key', () => {
-        component.selectedDate = new Date('4/4/2017');
+        fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
         fixture.detectChanges();
         triggerKeydown(fixture, { key: 'ArrowRight' });
         verifyDatepicker(nativeElement, 'April 2017', '04', '05', '');
       });
 
       it('should move to the next week when hitting the down arrow key', () => {
-        component.selectedDate = new Date('4/4/2017');
+        fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
         fixture.detectChanges();
         triggerKeydown(fixture, { key: 'ArrowDown' });
         verifyDatepicker(nativeElement, 'April 2017', '04', '11', '');
       });
 
       it('should move to the previous week when hitting the up arrow key', () => {
-        component.selectedDate = new Date('4/4/2017');
+        fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
         fixture.detectChanges();
         triggerKeydown(fixture, { key: 'ArrowUp' });
         verifyDatepicker(nativeElement, 'March 2017', '04', '28', '');
       });
 
       it('should move to the next month when using pagedown', () => {
-        component.selectedDate = new Date('4/4/2017');
+        fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
         fixture.detectChanges();
         triggerKeydown(fixture, { key: 'PageDown' });
         verifyDatepicker(nativeElement, 'May 2017', '', '04', '');
       });
 
       it('should move to the previous month when using pageup', () => {
-        component.selectedDate = new Date('4/4/2017');
+        fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
         fixture.detectChanges();
         triggerKeydown(fixture, { key: 'PageUp' });
         verifyDatepicker(nativeElement, 'March 2017', '04', '04', '');
       });
 
       it('should move to the first day of the month when using home', () => {
-        component.selectedDate = new Date('4/4/2017');
+        fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
         fixture.detectChanges();
         triggerKeydown(fixture, { key: 'Home' });
         verifyDatepicker(nativeElement, 'April 2017', '04', '01', '');
       });
 
       it('should move to the last day of the month when using end', () => {
-        component.selectedDate = new Date('4/4/2017');
+        fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
         fixture.detectChanges();
         triggerKeydown(fixture, { key: 'End' });
         verifyDatepicker(nativeElement, 'April 2017', '04', '30', '');
       });
 
       it('handles pressing end button on leap years', () => {
-        component.selectedDate = new Date('2/4/2016');
+        fixture.componentRef.setInput('selectedDate', new Date('2/4/2016'));
         fixture.detectChanges();
         triggerKeydown(fixture, { key: 'End' });
         verifyDatepicker(nativeElement, 'February 2016', '04', '29', '');
@@ -588,7 +600,7 @@ describe('datepicker calendar', () => {
 
     describe('monthpicker accessibility', () => {
       it('should have the correct aria labels for the previous and next buttons', () => {
-        component.selectedDate = new Date('4/4/2017');
+        fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
         fixture.detectChanges();
         clickDatepickerTitle(nativeElement);
         const nextArrowEl = getNextArrow(nativeElement);
@@ -598,7 +610,7 @@ describe('datepicker calendar', () => {
       });
 
       it('should move to the previous month with left arrow', () => {
-        component.selectedDate = new Date('4/4/2017');
+        fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
         fixture.detectChanges();
         clickDatepickerTitle(nativeElement);
         triggerKeydown(fixture, { key: 'ArrowLeft' });
@@ -606,7 +618,7 @@ describe('datepicker calendar', () => {
       });
 
       it('should move to the next month with right arrow', () => {
-        component.selectedDate = new Date('4/4/2017');
+        fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
         fixture.detectChanges();
         clickDatepickerTitle(nativeElement);
         triggerKeydown(fixture, { key: 'ArrowRight' });
@@ -614,7 +626,7 @@ describe('datepicker calendar', () => {
       });
 
       it('should move back appropriately when up arrow is pressed', () => {
-        component.selectedDate = new Date('4/4/2017');
+        fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
         fixture.detectChanges();
         clickDatepickerTitle(nativeElement);
         triggerKeydown(fixture, { key: 'ArrowUp' });
@@ -622,7 +634,7 @@ describe('datepicker calendar', () => {
       });
 
       it('should move forward appropriately when down arrow is pressed', () => {
-        component.selectedDate = new Date('4/4/2017');
+        fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
         fixture.detectChanges();
         clickDatepickerTitle(nativeElement);
         triggerKeydown(fixture, { key: 'ArrowDown' });
@@ -630,7 +642,7 @@ describe('datepicker calendar', () => {
       });
 
       it('should move to previous year with pageup', () => {
-        component.selectedDate = new Date('4/4/2017');
+        fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
         fixture.detectChanges();
         clickDatepickerTitle(nativeElement);
         triggerKeydown(fixture, { key: 'PageUp' });
@@ -638,7 +650,7 @@ describe('datepicker calendar', () => {
       });
 
       it('should move to the next year with pagedown', () => {
-        component.selectedDate = new Date('4/4/2017');
+        fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
         fixture.detectChanges();
         clickDatepickerTitle(nativeElement);
         triggerKeydown(fixture, { key: 'PageDown' });
@@ -646,7 +658,7 @@ describe('datepicker calendar', () => {
       });
 
       it('should move to January when home button is pressed', () => {
-        component.selectedDate = new Date('4/4/2017');
+        fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
         fixture.detectChanges();
         clickDatepickerTitle(nativeElement);
         triggerKeydown(fixture, { key: 'Home' });
@@ -654,7 +666,7 @@ describe('datepicker calendar', () => {
       });
 
       it('should move to December when end button is pressed', () => {
-        component.selectedDate = new Date('4/4/2017');
+        fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
         fixture.detectChanges();
         clickDatepickerTitle(nativeElement);
         triggerKeydown(fixture, { key: 'End' });
@@ -664,7 +676,7 @@ describe('datepicker calendar', () => {
 
     describe('year accessibility', () => {
       it('should have the correct aria labels for the previous and next buttons', () => {
-        component.selectedDate = new Date('4/4/2017');
+        fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
         fixture.detectChanges();
         clickDatepickerTitle(nativeElement);
         clickDatepickerTitle(nativeElement);
@@ -675,7 +687,7 @@ describe('datepicker calendar', () => {
       });
 
       it('should move to the previous year with left arrow', () => {
-        component.selectedDate = new Date('4/4/2017');
+        fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
         fixture.detectChanges();
         clickDatepickerTitle(nativeElement);
         clickDatepickerTitle(nativeElement);
@@ -684,7 +696,7 @@ describe('datepicker calendar', () => {
       });
 
       it('should move to the next year with right arrow', () => {
-        component.selectedDate = new Date('4/4/2017');
+        fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
         fixture.detectChanges();
         clickDatepickerTitle(nativeElement);
         clickDatepickerTitle(nativeElement);
@@ -693,7 +705,7 @@ describe('datepicker calendar', () => {
       });
 
       it('should move back appropriately when up arrow is pressed', () => {
-        component.selectedDate = new Date('4/4/2017');
+        fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
         fixture.detectChanges();
         clickDatepickerTitle(nativeElement);
         clickDatepickerTitle(nativeElement);
@@ -702,7 +714,7 @@ describe('datepicker calendar', () => {
       });
 
       it('should move forward appropriately when down arrow is pressed', () => {
-        component.selectedDate = new Date('4/4/2017');
+        fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
         fixture.detectChanges();
         clickDatepickerTitle(nativeElement);
         clickDatepickerTitle(nativeElement);
@@ -711,7 +723,7 @@ describe('datepicker calendar', () => {
       });
 
       it('should move to next set of year with pagedown', () => {
-        component.selectedDate = new Date('4/4/2017');
+        fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
         fixture.detectChanges();
         clickDatepickerTitle(nativeElement);
         clickDatepickerTitle(nativeElement);
@@ -720,7 +732,7 @@ describe('datepicker calendar', () => {
       });
 
       it('should move to the previous set of year with pageup', () => {
-        component.selectedDate = new Date('4/4/2017');
+        fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
         fixture.detectChanges();
         clickDatepickerTitle(nativeElement);
         clickDatepickerTitle(nativeElement);
@@ -729,7 +741,7 @@ describe('datepicker calendar', () => {
       });
 
       it('should move to first year in grid when home button is pressed', () => {
-        component.selectedDate = new Date('4/4/2017');
+        fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
         fixture.detectChanges();
         clickDatepickerTitle(nativeElement);
         clickDatepickerTitle(nativeElement);
@@ -738,7 +750,7 @@ describe('datepicker calendar', () => {
       });
 
       it('should move to last year in grid when end button is pressed', () => {
-        component.selectedDate = new Date('4/4/2017');
+        fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
         fixture.detectChanges();
         clickDatepickerTitle(nativeElement);
         clickDatepickerTitle(nativeElement);
@@ -753,63 +765,67 @@ describe('datepicker calendar', () => {
       });
 
       it('should not select active date when selected date is disabled', () => {
-        component.selectedDate = new Date('4/4/2017');
+        fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
 
         fixture.detectChanges();
         clickNextArrow(nativeElement);
 
-        component.customDates = [
+        fixture.componentRef.setInput('customDates', [
           {
             date: new Date(2017, 4, 1),
             disabled: true,
             keyDate: false,
             keyDateText: [],
           },
-        ];
+        ]);
         fixture.detectChanges();
 
         triggerKeydown(fixture, { key: 'Enter' });
         verifyDatepicker(nativeElement, 'May 2017', '', '01', '');
-        expect(component.selectedDate).toEqual(new Date('4/4/2017'));
+        expect(component.selectedDate()).toEqual(new Date('4/4/2017'));
       });
 
       it('should select active date when selected date is not disabled', () => {
-        component.selectedDate = new Date('4/4/2017');
+        fixture.componentRef.setInput('selectedDate', new Date('4/4/2017'));
 
         fixture.detectChanges();
         clickNextArrow(nativeElement);
 
-        component.customDates = [
+        fixture.componentRef.setInput('customDates', [
           {
             date: new Date(2017, 4, 1),
             disabled: false,
             keyDate: true,
             keyDateText: [],
           },
-        ];
+        ]);
         fixture.detectChanges();
 
         triggerKeydown(fixture, { key: 'Enter' });
         verifyDatepicker(nativeElement, 'May 2017', '01', '01', '');
-        expect(component.selectedDate).toEqual(new Date('5/1/2017'));
+        expect(component.selectedDate()).toEqual(new Date('5/1/2017'));
       });
     });
   });
 
   describe('startAtDate', () => {
     it('should select correct date when provided', () => {
-      component.startAtDate = new Date('3/10/1995');
+      fixture.componentRef.setInput('startAtDate', new Date('3/10/1995'));
       fixture.detectChanges();
 
       component.datepicker.writeValue(undefined);
+      fixture.componentRef.setInput(
+        'selectedDate',
+        component.datepicker.selectedDate,
+      );
       fixture.detectChanges();
 
       verifyDatepicker(nativeElement, 'March 1995', '10', '10', '');
     });
 
     it('should display selectedDate instead of startAtDate if selectedDate is provided', () => {
-      component.startAtDate = new Date('3/10/1995');
-      component.selectedDate = new Date('12/21/1991');
+      fixture.componentRef.setInput('startAtDate', new Date('3/10/1995'));
+      fixture.componentRef.setInput('selectedDate', new Date('12/21/1991'));
       fixture.detectChanges();
 
       verifyDatepicker(nativeElement, 'December 1991', '21', '21', '');

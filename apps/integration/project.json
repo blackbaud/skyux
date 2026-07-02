@@ -60,7 +60,7 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
+      "executor": "@angular/build:dev-server",
       "configurations": {
         "production": {
           "buildTarget": "integration:build:production"
@@ -73,7 +73,7 @@
       "continuous": true
     },
     "extract-i18n": {
-      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "executor": "@angular/build:extract-i18n",
       "options": {
         "buildTarget": "integration:build"
       }
@@ -88,7 +88,7 @@
       }
     },
     "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+      "executor": "@angular/build:karma",
       "options": {
         "tsConfig": "apps/integration/tsconfig.spec.json",
         "karmaConfig": "apps/integration/karma.conf.js",

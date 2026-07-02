@@ -120,7 +120,8 @@ describe('Tokens harness', () => {
       dataSkyId: 'my-tokens',
     });
 
-    fixture.componentInstance.dismissible = false;
+    fixture.componentRef.setInput('dismissible', false);
+    fixture.detectChanges();
 
     const tokens = await tokensHarness.getTokens();
 
@@ -154,7 +155,7 @@ describe('Tokens harness', () => {
 
     await expectAsync(tokens[0].isDisabled()).toBeResolvedTo(false);
 
-    fixture.componentInstance.disabled = true;
+    fixture.componentRef.setInput('disabled', true);
     fixture.detectChanges();
 
     await expectAsync(tokens[0].isDisabled()).toBeResolvedTo(true);
@@ -165,7 +166,7 @@ describe('Tokens harness', () => {
       dataSkyId: 'my-tokens',
     });
 
-    fixture.componentInstance.disabled = true;
+    fixture.componentRef.setInput('disabled', true);
     fixture.detectChanges();
 
     const tokens = await tokensHarness.getTokens();

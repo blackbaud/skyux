@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { SkyDatepickerCalendarInnerComponent } from './datepicker-calendar-inner.component';
 import { SkyDatepickerCalendarLabelPipe } from './datepicker-calendar-label.pipe';
@@ -12,6 +12,7 @@ import { SkyDayPickerContext } from './daypicker-context';
   imports: [CommonModule, SkyDatepickerCalendarLabelPipe],
   selector: 'sky-daypicker-button',
   styleUrl: './daypicker-button.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: 'daypicker-button.component.html',
 })
 export class SkyDayPickerButtonComponent {

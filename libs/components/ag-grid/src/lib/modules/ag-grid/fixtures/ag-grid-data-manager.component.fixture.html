@@ -1,6 +1,6 @@
 <sky-data-manager>
   <sky-data-view skyAgGridDataManagerAdapter [viewId]="viewConfig.id">
-    @if (displayFirstGrid) {
+    @if (displayFirstGrid()) {
       <sky-ag-grid-wrapper>
         <ag-grid-angular
           class="sky-ag-grid-editable"
@@ -9,7 +9,7 @@
         />
       </sky-ag-grid-wrapper>
     }
-    @if (displaySecondGrid) {
+    @if (displaySecondGrid()) {
       <sky-ag-grid-wrapper>
         <ag-grid-angular
           class="sky-ag-grid-editable"
@@ -19,7 +19,7 @@
       </sky-ag-grid-wrapper>
     }
   </sky-data-view>
-  @if (displayOtherView) {
+  @if (displayOtherView()) {
     <sky-data-view viewId="otherView">
       <p>This is another view. It doesn't do much.</p>
     </sky-data-view>

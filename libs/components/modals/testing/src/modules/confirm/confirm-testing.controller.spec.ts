@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyConfirmService, SkyConfirmType } from '@skyux/modals';
@@ -12,7 +12,7 @@ interface User {
 
 @Component({
   template: `
-    @for (user of users; track user.firstName) {
+    @for (user of users(); track user.firstName) {
       <div class="test-item">
         <span>{{ user.firstName }}</span>
         <button class="test-btn" type="button" (click)="onClick(user)">
@@ -30,14 +30,14 @@ interface User {
   `,
 })
 class TestComponent {
-  protected users: User[] = [
+  protected users = signal<User[]>([
     {
       firstName: 'Michael',
     },
     {
       firstName: 'Jan',
     },
-  ];
+  ]);
 
   readonly #confirmSvc = inject(SkyConfirmService);
 
@@ -48,7 +48,7 @@ class TestComponent {
 
     dialog.closed.subscribe((args) => {
       if (args.action === 'ok') {
-        this.users.splice(this.users.indexOf(user), 1);
+        this.users.update((arr) => arr.filter((u) => u !== user));
       }
     });
   }
@@ -71,7 +71,7 @@ class TestComponent {
 
     dialog.closed.subscribe((args) => {
       if (args.action === 'yes') {
-        this.users.splice(this.users.indexOf(user), 1);
+        this.users.update((arr) => arr.filter((u) => u !== user));
       }
     });
   }

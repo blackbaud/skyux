@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
 import { SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
@@ -31,7 +31,7 @@ interface Fruit {
   ],
 })
 export class FilterHarnessTestComponent {
-  public showText = true;
+  public showText = input(true);
   protected appliedFilters: Filter[] = [];
   protected filteredItems: Fruit[];
   protected filtersActive = false;

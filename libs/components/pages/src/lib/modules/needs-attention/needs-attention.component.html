@@ -1,14 +1,7 @@
-<sky-box>
-  <sky-box-header>
-    <h2 class="sky-font-heading-2">
-      {{ 'sky_action_hub_needs_attention' | skyLibResources }}
-    </h2>
-  </sky-box-header>
-  <sky-box-content>
-    @let itemsToDisplay = displayItems | async;
-    @if (!itemsToDisplay?.length) {
-      {{ 'sky_action_hub_needs_attention_empty' | skyLibResources }}
-    } @else {
+@let itemsToDisplay = displayItems();
+@if (itemsToDisplay?.length !== 0) {
+  <sky-box [headingText]="'sky_action_hub_needs_attention' | skyLibResources">
+    <sky-box-content>
       <ul class="sky-needs-attention-list">
         @for (
           item of itemsToDisplay;
@@ -17,9 +10,7 @@
         ) {
           <li
             class="sky-needs-attention-item-wrapper sky-font-emphasized"
-            [ngClass]="{
-              'sky-border-bottom-row': !isLast
-            }"
+            [class.sky-border-bottom-row]="!isLast"
           >
             @if (
               (item | linkAs: 'skyAppLink') && item.permalink?.route;
@@ -64,6 +55,6 @@
           </li>
         }
       </ul>
-    }
-  </sky-box-content>
-</sky-box>
+    </sky-box-content>
+  </sky-box>
+}

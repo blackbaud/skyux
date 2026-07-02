@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SkyActionButtonAdapterService } from './action-button-adapter-service';
@@ -6,14 +6,14 @@ import { SkyActionButtonAdapterService } from './action-button-adapter-service';
 @Component({
   selector: 'sky-test-cmp',
   template: `
-    <div [style.width]="parentWidth">
+    <div [style.width]="parentWidth()">
       <div #el>Hello world</div>
     </div>
   `,
   standalone: false,
 })
 class SkyActionButtonAdapterTestComponent {
-  public parentWidth: string | undefined;
+  public parentWidth = input<string | undefined>(undefined);
 
   @ViewChild('el', {
     read: ElementRef,
@@ -40,7 +40,7 @@ describe('Action button adapter service', () => {
   });
 
   it('should return width for parent', () => {
-    fixture.componentInstance.parentWidth = '900px';
+    fixture.componentRef.setInput('parentWidth', '900px');
     fixture.detectChanges();
     const width = adapter.getParentWidth(inputRef);
     expect(width).toEqual(900);

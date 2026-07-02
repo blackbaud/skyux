@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 import { SkyThemeSettings } from '../theme-settings';
 
@@ -8,6 +8,5 @@ import { SkyThemeSettings } from '../theme-settings';
   standalone: false,
 })
 export class SkyThemeTestComponent {
-  @Input()
-  public themeSettings: SkyThemeSettings | undefined;
+  public themeSettings = input<SkyThemeSettings | undefined>(undefined);
 }

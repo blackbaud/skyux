@@ -1,9 +1,9 @@
 <sky-grid
   fit="scroll"
-  [columns]="columns"
+  [columns]="columns()"
   [data]="data"
-  [selectedColumnIds]="selectedColumnIds"
-  [settingsKey]="settingsKey"
+  [selectedColumnIds]="selectedColumnIds()"
+  [settingsKey]="settingsKey()"
 />
 <ng-template #defaultCellTemplate let-row="row" let-value="value">{{
   value

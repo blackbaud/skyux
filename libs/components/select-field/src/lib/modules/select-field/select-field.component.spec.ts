@@ -157,7 +157,7 @@ describe('Select field component', () => {
       component.ariaLabel = 'my-aria-label';
       component.ariaLabelledBy = 'my-aria-labelledby';
       component.descriptorKey = 'name';
-      component.selectMode = 'single';
+      fixture.componentRef.setInput('selectMode', 'single');
       component.multipleSelectOpenButtonText = 'open';
       component.singleSelectClearButtonTitle = 'clear title';
       component.singleSelectOpenButtonTitle = 'open title';
@@ -166,7 +166,7 @@ describe('Select field component', () => {
 
       fixture.detectChanges();
 
-      component.disabled = true;
+      fixture.componentRef.setInput('disabled', true);
       fixture.detectChanges();
 
       expect(selectField.ariaLabel).toEqual('my-aria-label');
@@ -341,14 +341,14 @@ describe('Select field component', () => {
 
   describe('single select', () => {
     it('should set the value from ngModel', fakeAsync(() => {
-      component.selectMode = 'single';
+      fixture.componentRef.setInput('selectMode', 'single');
       fixture.detectChanges();
       setValue(component.staticData[0]);
       expect(selectField.value.id).toEqual(component.staticData[0].id);
     }));
 
     it('should ignore redundant value updates from ngModel', fakeAsync(() => {
-      component.selectMode = 'single';
+      fixture.componentRef.setInput('selectMode', 'single');
       fixture.detectChanges();
 
       setValue(component.staticData[0]);
@@ -361,7 +361,7 @@ describe('Select field component', () => {
     }));
 
     it('should select a value from the picker', fakeAsync(() => {
-      component.selectMode = 'single';
+      fixture.componentRef.setInput('selectMode', 'single');
       fixture.detectChanges();
       setValue({});
       openPicker();
@@ -371,7 +371,7 @@ describe('Select field component', () => {
     }));
 
     it('should update the touched value when you select a value from the picker', fakeAsync(() => {
-      component.selectMode = 'single';
+      fixture.componentRef.setInput('selectMode', 'single');
       fixture.detectChanges();
       setValue({});
       openPicker();
@@ -384,7 +384,7 @@ describe('Select field component', () => {
     }));
 
     it('should allow clearing the value and keep focus afterwards', fakeAsync(() => {
-      component.selectMode = 'single';
+      fixture.componentRef.setInput('selectMode', 'single');
       fixture.detectChanges();
       setValue(component.staticData[0]);
       expect(selectField.value.id).toEqual('1');
@@ -401,7 +401,7 @@ describe('Select field component', () => {
     }));
 
     it('should reset placeholder text when value is programmatically set to undefined', fakeAsync(() => {
-      component.selectMode = 'single';
+      fixture.componentRef.setInput('selectMode', 'single');
       fixture.detectChanges();
       const initialInnerText = getSingleSelectInnerText();
 
@@ -523,7 +523,7 @@ describe('Select field component', () => {
       ]);
 
       // Test single-select mode.
-      fixture.componentInstance.selectMode = 'single';
+      fixture.componentRef.setInput('selectMode', 'single');
 
       fixture.detectChanges();
 
@@ -535,7 +535,7 @@ describe('Select field component', () => {
     }));
 
     it('should update the touched value when you select a value from the picker', fakeAsync(() => {
-      fixture.componentInstance.selectMode = 'single';
+      fixture.componentRef.setInput('selectMode', 'single');
       let updateValueFn: (value: SkySelectField[]) => void;
 
       const customPicker: SkySelectFieldCustomPicker = {

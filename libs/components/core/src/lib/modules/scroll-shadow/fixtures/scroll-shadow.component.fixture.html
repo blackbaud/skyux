@@ -7,13 +7,13 @@
   ></div>
   <div
     class="scroll-shadow-test-body"
-    [skyScrollShadowEnabled]="enabled"
+    [skyScrollShadowEnabled]="enabled()"
     (skyScrollShadow)="scrollShadowChange($event)"
   >
     <span
       class="scroll-shadow-test-content"
       [ngStyle]="{
-        'height.px': height
+        'height.px': height()
       }"
     ></span>
   </div>

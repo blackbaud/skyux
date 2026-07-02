@@ -1,5 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyProgressIndicatorModule } from '@skyux/progress-indicator';
 
@@ -11,10 +11,10 @@ import { SkyProgressIndicatorHarness } from './progress-indicator-harness';
   template: `
     <sky-progress-indicator
       #progressIndicator
-      [isPassive]="isPassive"
+      [isPassive]="isPassive()"
       [startingIndex]="1"
     >
-      @if (showTitle) {
+      @if (showTitle()) {
         <sky-progress-indicator-title>
           Progress indicator title
         </sky-progress-indicator-title>
@@ -34,7 +34,7 @@ import { SkyProgressIndicatorHarness } from './progress-indicator-harness';
         data-sky-id="unfinished-step"
         title="HIDDEN TITLE"
       />
-      @if (showResetButton) {
+      @if (showResetButton()) {
         <sky-progress-indicator-reset-button
           [progressIndicator]="progressIndicator"
         >
@@ -47,9 +47,9 @@ import { SkyProgressIndicatorHarness } from './progress-indicator-harness';
   standalone: false,
 })
 class TestProgressIndicatorComponent {
-  public isPassive = false;
-  public showResetButton = false;
-  public showTitle = false;
+  public isPassive = input(false);
+  public showResetButton = input(false);
+  public showTitle = input(false);
 }
 // #endregion Test Component
 
@@ -127,7 +127,7 @@ describe('Progress indicator test harness', () => {
       false,
     );
 
-    fixture.componentInstance.isPassive = true;
+    fixture.componentRef.setInput('isPassive', true);
     fixture.detectChanges();
 
     await expectAsync(progressIndicatorHarness.isPassive()).toBeResolvedTo(
@@ -212,7 +212,7 @@ describe('Progress indicator test harness', () => {
 
     await expectAsync(finishedItem.isCompleted()).toBeResolvedTo(true);
 
-    fixture.componentInstance.showResetButton = true;
+    fixture.componentRef.setInput('showResetButton', true);
     fixture.detectChanges();
 
     await progressIndicatorHarness.clickResetButton();
@@ -230,7 +230,7 @@ describe('Progress indicator test harness', () => {
   it('should get the title', async () => {
     const { progressIndicatorHarness, fixture } = await setupTest({});
 
-    fixture.componentInstance.showTitle = true;
+    fixture.componentRef.setInput('showTitle', true);
     fixture.detectChanges();
 
     await expectAsync(progressIndicatorHarness.getTitle()).toBeResolvedTo(

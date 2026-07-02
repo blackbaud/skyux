@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 /**
@@ -10,6 +10,7 @@ import { SkyThemeComponentClassDirective } from '@skyux/theme';
   templateUrl: './card-actions.component.html',
   styleUrls: ['./card-actions.component.scss'],
   standalone: false,
+  changeDetection: ChangeDetectionStrategy.Eager,
   hostDirectives: [SkyThemeComponentClassDirective],
 })
 export class SkyCardActionsComponent {}

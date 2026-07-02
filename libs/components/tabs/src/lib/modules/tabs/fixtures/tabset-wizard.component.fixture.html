@@ -1,6 +1,6 @@
 <form (ngSubmit)="onSave()">
   <sky-tabset #wizardDemo tabStyle="wizard">
-    <sky-tab tabHeading="Step 1" [active]="selectedTab === 0">
+    <sky-tab tabHeading="Step 1" [active]="selectedTab() === 0">
       <label>
         <input
           type="text"
@@ -13,7 +13,7 @@
     <sky-tab
       tabHeading="Step 2"
       [disabled]="step2Disabled"
-      [active]="selectedTab === 1"
+      [active]="selectedTab() === 1"
     >
       <input
         type="text"
@@ -24,24 +24,24 @@
     </sky-tab>
     <sky-tab
       tabHeading="Step 3"
-      [disabled]="step3Disabled"
-      [active]="selectedTab === 2"
+      [disabled]="step3Disabled()"
+      [active]="selectedTab() === 2"
     >
       Some other content
     </sky-tab>
   </sky-tabset>
   <sky-tabset-nav-button
     buttonType="previous"
-    [tabset]="passTabset ? wizardDemo : undefined"
+    [tabset]="passTabset() ? wizardDemo : undefined"
   />
   <sky-tabset-nav-button
     buttonType="next"
-    [tabset]="passTabset ? wizardDemo : undefined"
+    [tabset]="passTabset() ? wizardDemo : undefined"
   />
   <sky-tabset-nav-button
     buttonType="finish"
     [tabset]="wizardDemo"
-    [tabset]="passTabset ? wizardDemo : undefined"
+    [tabset]="passTabset() ? wizardDemo : undefined"
     [disabled]="finishDisabled"
   />
 </form>

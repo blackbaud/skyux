@@ -82,15 +82,13 @@ describe('Token component', () => {
 
   describe('a11y', () => {
     let fixture: ComponentFixture<SkyTokenTestComponent>;
-    let component: SkyTokenTestComponent;
 
     beforeEach(() => {
       fixture = TestBed.createComponent(SkyTokenTestComponent);
-      component = fixture.componentInstance;
     });
     it('should use the specified ARIA label', () => {
-      component.ariaLabel = 'test';
-      component.dismissible = true;
+      fixture.componentRef.setInput('ariaLabel', 'test');
+      fixture.componentRef.setInput('dismissible', true);
       fixture.detectChanges();
 
       const btnEl = fixture.nativeElement.querySelector(
@@ -100,7 +98,7 @@ describe('Token component', () => {
       expect(btnEl.getAttribute('aria-label')).toBe('test');
       expect(btnEl.getAttribute('aria-labelledby')).toBeNull();
 
-      component.ariaLabel = undefined;
+      fixture.componentRef.setInput('ariaLabel', undefined);
       fixture.detectChanges();
 
       expect(btnEl.getAttribute('aria-label')).toBeNull();
@@ -123,7 +121,7 @@ describe('Token component', () => {
     });
 
     it('should be accessible (ariaLabel: undefined, disabled: false, dismissible: false, focusable: true)', async () => {
-      component.focusable = true;
+      fixture.componentRef.setInput('focusable', true);
       fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -134,7 +132,7 @@ describe('Token component', () => {
     });
 
     it('should be accessible (ariaLabel: undefined, disabled: false, dismissible: true, focusable: false)', async () => {
-      component.dismissible = true;
+      fixture.componentRef.setInput('dismissible', true);
       fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -145,8 +143,8 @@ describe('Token component', () => {
     });
 
     it('should be accessible (ariaLabel: undefined, disabled: false, dismissible: true, focusable: true)', async () => {
-      component.dismissible = true;
-      component.focusable = true;
+      fixture.componentRef.setInput('dismissible', true);
+      fixture.componentRef.setInput('focusable', true);
       fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -161,47 +159,47 @@ describe('Token component', () => {
     });
 
     it('should be accessible (ariaLabel: undefined, disabled: true, dismissible: false, focusable: false)', async () => {
-      component.disabled = true;
+      fixture.componentRef.setInput('disabled', true);
       fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
     it('should be accessible (ariaLabel: undefined, disabled: true, dismissible: false, focusable: true)', async () => {
-      component.disabled = true;
-      component.focusable = true;
+      fixture.componentRef.setInput('disabled', true);
+      fixture.componentRef.setInput('focusable', true);
       fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
     it('should be accessible (ariaLabel: undefined, disabled: true, dismissible: true, focusable: false)', async () => {
-      component.disabled = true;
-      component.dismissible = true;
+      fixture.componentRef.setInput('disabled', true);
+      fixture.componentRef.setInput('dismissible', true);
       fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
     it('should be accessible (ariaLabel: undefined, disabled: true, dismissible: true, focusable: true)', async () => {
-      component.disabled = true;
-      component.dismissible = true;
-      component.focusable = true;
+      fixture.componentRef.setInput('disabled', true);
+      fixture.componentRef.setInput('dismissible', true);
+      fixture.componentRef.setInput('focusable', true);
       fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
     it('should be accessible (ariaLabel: "test", disabled: false, dismissible: false, focusable: false)', async () => {
-      component.ariaLabel = 'test';
+      fixture.componentRef.setInput('ariaLabel', 'test');
       fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
     it('should be accessible (ariaLabel: "test", disabled: false, dismissible: false, focusable: true)', async () => {
-      component.ariaLabel = 'test';
-      component.focusable = true;
+      fixture.componentRef.setInput('ariaLabel', 'test');
+      fixture.componentRef.setInput('focusable', true);
       fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -212,8 +210,8 @@ describe('Token component', () => {
     });
 
     it('should be accessible (ariaLabel: "test", disabled: false, dismissible: true, focusable: false)', async () => {
-      component.ariaLabel = 'test';
-      component.dismissible = true;
+      fixture.componentRef.setInput('ariaLabel', 'test');
+      fixture.componentRef.setInput('dismissible', true);
       fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -224,9 +222,9 @@ describe('Token component', () => {
     });
 
     it('should be accessible (ariaLabel: "test", disabled: false, dismissible: true, focusable: true)', async () => {
-      component.ariaLabel = 'test';
-      component.dismissible = true;
-      component.focusable = true;
+      fixture.componentRef.setInput('ariaLabel', 'test');
+      fixture.componentRef.setInput('dismissible', true);
+      fixture.componentRef.setInput('focusable', true);
       fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -241,35 +239,35 @@ describe('Token component', () => {
     });
 
     it('should be accessible (ariaLabel: "test", disabled: true, dismissible: false, focusable: false)', async () => {
-      component.ariaLabel = 'test';
-      component.disabled = true;
+      fixture.componentRef.setInput('ariaLabel', 'test');
+      fixture.componentRef.setInput('disabled', true);
       fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
     it('should be accessible (ariaLabel: "test", disabled: true, dismissible: false, focusable: true)', async () => {
-      component.ariaLabel = 'test';
-      component.disabled = true;
-      component.focusable = true;
+      fixture.componentRef.setInput('ariaLabel', 'test');
+      fixture.componentRef.setInput('disabled', true);
+      fixture.componentRef.setInput('focusable', true);
       fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
     it('should be accessible (ariaLabel: "test", disabled: true, dismissible: true, focusable: false)', async () => {
-      component.disabled = true;
-      component.dismissible = true;
+      fixture.componentRef.setInput('disabled', true);
+      fixture.componentRef.setInput('dismissible', true);
       fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
     it('should be accessible (ariaLabel: "test", disabled: true, dismissible: true, focusable: true)', async () => {
-      component.ariaLabel = 'test';
-      component.disabled = true;
-      component.dismissible = true;
-      component.focusable = true;
+      fixture.componentRef.setInput('ariaLabel', 'test');
+      fixture.componentRef.setInput('disabled', true);
+      fixture.componentRef.setInput('dismissible', true);
+      fixture.componentRef.setInput('focusable', true);
       fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();

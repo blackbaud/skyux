@@ -14,9 +14,5 @@
   "sky_action_hub_needs_attention": {
     "_description": "Heading for needs attention items",
     "message": "Needs attention"
-  },
-  "sky_action_hub_needs_attention_empty": {
-    "_description": "Display when the needs attention list is empty",
-    "message": "No issues currently need attention"
   }
 }

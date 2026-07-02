@@ -4,6 +4,7 @@ import {
   OnDestroy,
   ViewChild,
   inject,
+  input,
 } from '@angular/core';
 
 import { Observable, Subject } from 'rxjs';
@@ -18,15 +19,15 @@ import { SkyScrollableHostService } from '../scrollable-host.service';
   standalone: false,
 })
 export class ScrollableHostFixtureComponent implements OnDestroy {
-  public isParentDisplayNoneClass = false;
-  public isParentDisplayNoneStyle = false;
-  public isParentHidden = false;
-  public isParentScrollable = true;
-  public isParentScrollableStyle = false;
-  public isParentPositioned = false;
-  public positionedParentWidth = '100px';
+  public isParentDisplayNoneClass = input(false);
+  public isParentDisplayNoneStyle = input(false);
+  public isParentHidden = input(false);
+  public isParentScrollable = input(true);
+  public isParentScrollableStyle = input(false);
+  public isParentPositioned = input(false);
+  public positionedParentWidth = input('100px');
 
-  public isGrandparentScrollable = false;
+  public isGrandparentScrollable = input(false);
 
   @ViewChild('alternate')
   public alternateParent!: ElementRef;

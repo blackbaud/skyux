@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyTileDashboardConfig, SkyTilesModule } from '@skyux/tiles';
 
 import { TileMyActionsComponent } from './tile-my-actions.component';
@@ -7,6 +7,7 @@ import { TileUpdatesComponent } from './tile-updates.component';
 @Component({
   selector: 'app-home-page-content',
   templateUrl: './home-page-content.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyTilesModule],
 })
 export class HomePageContentComponent {

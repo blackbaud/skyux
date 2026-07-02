@@ -1,5 +1,6 @@
 import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -33,6 +34,7 @@ const MAX_FILE_SIZE_DEFAULT = 512000;
   styleUrls: ['./avatar.component.scss'],
   encapsulation: ViewEncapsulation.None,
   providers: [SkyFileSizePipe],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     AsyncPipe,
     NgTemplateOutlet,

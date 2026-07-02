@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 /**
  * Adds a sort dropdown to the list toolbar.
@@ -7,6 +7,7 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'sky-list-toolbar-sort',
   template: '',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyListToolbarSortComponent {

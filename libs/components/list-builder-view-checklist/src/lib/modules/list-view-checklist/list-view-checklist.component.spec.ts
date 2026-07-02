@@ -609,7 +609,7 @@ describe('List View Checklist Component', () => {
       fixture.detectChanges();
       toggleOnlyShowSelected(fixture);
 
-      component.selectMode = 'single';
+      fixture.componentRef.setInput('selectMode', 'single');
       tick();
       fixture.detectChanges();
 
@@ -810,7 +810,7 @@ describe('List View Checklist Component', () => {
 
       fixture = TestBed.createComponent(ListViewChecklistToolbarTestComponent);
       component = fixture.componentInstance;
-      component.selectMode = undefined;
+      fixture.componentRef.setInput('selectMode', undefined);
       fixture.detectChanges();
 
       // always skip the first update to ListState, when state is ready
@@ -858,7 +858,7 @@ describe('List View Checklist Component', () => {
 
       fixture = TestBed.createComponent(ListViewChecklistToolbarTestComponent);
       component = fixture.componentInstance;
-      component.selectMode = 'single';
+      fixture.componentRef.setInput('selectMode', 'single');
       fixture.detectChanges();
 
       // always skip the first update to ListState, when state is ready
@@ -917,8 +917,7 @@ describe('List View Checklist Component', () => {
       state: ListState,
       bs: BehaviorSubject<any[]>,
       items: Observable<any[]>,
-      fixture: ComponentFixture<ListViewChecklistToolbarTestComponent>,
-      component: ListViewChecklistToolbarTestComponent;
+      fixture: ComponentFixture<ListViewChecklistToolbarTestComponent>;
 
     beforeEach(waitForAsync(() => {
       dispatcher = new ListStateDispatcher();
@@ -945,7 +944,6 @@ describe('List View Checklist Component', () => {
       });
 
       fixture = TestBed.createComponent(ListViewChecklistToolbarTestComponent);
-      component = fixture.componentInstance;
       fixture.detectChanges();
 
       // always skip the first update to ListState, when state is ready
@@ -959,7 +957,7 @@ describe('List View Checklist Component', () => {
     }));
 
     it('should show the multiselect toolbar on load, if select mode HAS been defined', fakeAsync(() => {
-      component.selectMode = 'multiple';
+      fixture.componentRef.setInput('selectMode', 'multiple');
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -968,7 +966,7 @@ describe('List View Checklist Component', () => {
     }));
 
     it('should hide the multiselect toolbar when switched to single select mode', fakeAsync(() => {
-      component.selectMode = 'single';
+      fixture.componentRef.setInput('selectMode', 'single');
       tick();
       fixture.detectChanges();
       tick();

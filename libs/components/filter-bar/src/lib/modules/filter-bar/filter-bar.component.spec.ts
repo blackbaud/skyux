@@ -1409,7 +1409,7 @@ describe('Filter bar component', () => {
 
     it('should create a filter bar with filter items generated via @for loop', () => {
       expect(() => {
-        forLoopFixture.componentInstance.filterItems = [
+        forLoopFixture.componentRef.setInput('filterItems', [
           {
             filterId: 'filter-1',
             modalComponent: SkyFilterBarModalTestComponent,
@@ -1422,13 +1422,13 @@ describe('Filter bar component', () => {
             filterId: 'filter-3',
             modalComponent: SkyFilterBarModalTestComponent,
           },
-        ];
+        ]);
         forLoopFixture.detectChanges();
       }).not.toThrow();
     });
 
     it('should update visible filters when @for list changes', () => {
-      forLoopFixture.componentInstance.filterItems = [
+      forLoopFixture.componentRef.setInput('filterItems', [
         {
           filterId: 'filter-1',
           modalComponent: SkyFilterBarModalTestComponent,
@@ -1437,7 +1437,7 @@ describe('Filter bar component', () => {
           filterId: 'filter-2',
           modalComponent: SkyFilterBarModalTestComponent,
         },
-      ];
+      ]);
       forLoopFixture.detectChanges();
 
       expect(
@@ -1445,7 +1445,7 @@ describe('Filter bar component', () => {
           .length,
       ).toBe(2);
 
-      forLoopFixture.componentInstance.filterItems = [
+      forLoopFixture.componentRef.setInput('filterItems', [
         {
           filterId: 'filter-1',
           modalComponent: SkyFilterBarModalTestComponent,
@@ -1458,7 +1458,7 @@ describe('Filter bar component', () => {
           filterId: 'filter-3',
           modalComponent: SkyFilterBarModalTestComponent,
         },
-      ];
+      ]);
       forLoopFixture.detectChanges();
 
       expect(

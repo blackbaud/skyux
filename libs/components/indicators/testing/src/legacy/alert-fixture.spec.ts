@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, model } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { SkyAlertModule } from '@skyux/indicators';
 
@@ -9,9 +9,9 @@ import { SkyAlertFixture } from './alert-fixture';
   selector: 'sky-alert-test',
   template: `
     <sky-alert
-      [alertType]="alertType"
-      [closeable]="closeable"
-      [closed]="closed"
+      [alertType]="alertType()"
+      [closeable]="closeable()"
+      [closed]="closed()"
       (closedChange)="closedChange()"
       data-sky-id="test-alert"
     >
@@ -21,11 +21,11 @@ import { SkyAlertFixture } from './alert-fixture';
   standalone: false,
 })
 class TestComponent {
-  public alertType = 'warning';
+  public alertType = model('warning');
 
-  public closeable = true;
+  public closeable = model(true);
 
-  public closed = false;
+  public closed = model(false);
 
   public closedChange() {}
 }
@@ -53,14 +53,14 @@ describe('Alert fixture', () => {
     const validAlertTypes = ['info', 'success', 'warning', 'danger'];
 
     for (const validAlertType of validAlertTypes) {
-      fixture.componentInstance.alertType = validAlertType;
+      fixture.componentRef.setInput('alertType', validAlertType);
 
       fixture.detectChanges();
 
       expect(alert.alertType).toBe(validAlertType);
     }
 
-    fixture.componentInstance.alertType = 'invalid';
+    fixture.componentRef.setInput('alertType', 'invalid');
 
     fixture.detectChanges();
 
@@ -70,7 +70,7 @@ describe('Alert fixture', () => {
   it('should provide a method for closing the alert', () => {
     const fixture = TestBed.createComponent(TestComponent);
 
-    fixture.componentInstance.closeable = false;
+    fixture.componentRef.setInput('closeable', false);
 
     fixture.detectChanges();
 
@@ -78,7 +78,7 @@ describe('Alert fixture', () => {
 
     expect(() => alert.close()).toThrowError('The alert is not closeable.');
 
-    fixture.componentInstance.closeable = true;
+    fixture.componentRef.setInput('closeable', true);
 
     fixture.detectChanges();
 

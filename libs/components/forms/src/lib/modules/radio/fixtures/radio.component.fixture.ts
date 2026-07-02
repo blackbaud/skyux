@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, input, model } from '@angular/core';
 
 import { SkyRadioComponent } from '../radio.component';
 
@@ -7,32 +7,32 @@ import { SkyRadioComponent } from '../radio.component';
   standalone: false,
 })
 export class SkyRadioTestComponent {
-  public selectedValue = '1';
-  public disabled1 = false;
+  public selectedValue = model<string>('1');
+  public disabled1 = input<boolean>(false);
 
-  public value1 = '1';
-  public value2 = '2';
-  public value3 = '3';
+  public value1 = input<string>('1');
+  public value2 = input<string>('2');
+  public value3 = input<string>('3');
 
-  public label1: string | undefined;
-  public labelledBy3: string | undefined;
+  public label1 = input<string | undefined>(undefined);
+  public labelledBy3 = input<string | undefined>(undefined);
 
-  public labelText1: string | undefined;
-  public labelText2: string | undefined;
-  public labelText3: string | undefined;
+  public labelText1 = input<string | undefined>(undefined);
+  public labelText2 = input<string | undefined>(undefined);
+  public labelText3 = input<string | undefined>(undefined);
 
-  public helpKey: string | undefined;
+  public helpKey = input<string | undefined>(undefined);
 
-  public hintText1: string | undefined;
-  public hintText2: string | undefined;
-  public hintText3: string | undefined;
+  public hintText1 = input<string | undefined>(undefined);
+  public hintText2 = input<string | undefined>(undefined);
+  public hintText3 = input<string | undefined>(undefined);
 
-  public helpPopoverContent: string | undefined;
-  public helpPopoverTitle: string | undefined;
+  public helpPopoverContent = input<string | undefined>(undefined);
+  public helpPopoverTitle = input<string | undefined>(undefined);
 
-  public provideIds = true;
+  public provideIds = input<boolean>(true);
 
-  public tabindex2: number | undefined;
+  public tabindex2 = input<number | undefined>(undefined);
 
   @ViewChild(SkyRadioComponent)
   public checkboxComponent!: SkyRadioComponent;

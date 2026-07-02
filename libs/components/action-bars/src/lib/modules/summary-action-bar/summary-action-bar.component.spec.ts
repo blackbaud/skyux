@@ -188,14 +188,14 @@ describe('Summary Action Bar component', () => {
 
       it('should remove the margin on the body if the action bar is destroyed', () => {
         fixture.detectChanges();
-        cmp.hideMainActionBar = true;
+        fixture.componentRef.setInput('hideMainActionBar', true);
         fixture.detectChanges();
         expect(document.body.style.marginBottom).toBe('');
       });
 
       it('should set a margin on the body if the action bar is not in a modal footer', () => {
         fixture.detectChanges();
-        cmp.hideMainActionBar = true;
+        fixture.componentRef.setInput('hideMainActionBar', true);
         fixture.detectChanges();
         openStandardModal(debugElement);
         fixture.detectChanges();
@@ -243,7 +243,7 @@ describe('Summary Action Bar component', () => {
       });
 
       it('should add the modal class if the action bar is in a modal footer', () => {
-        cmp.hideMainActionBar = true;
+        fixture.componentRef.setInput('hideMainActionBar', true);
         fixture.detectChanges();
         openStandardModal(debugElement);
         fixture.detectChanges();
@@ -251,7 +251,7 @@ describe('Summary Action Bar component', () => {
       });
 
       it('should remove the modal footer padding if the action bar is in a modal footer', () => {
-        cmp.hideMainActionBar = true;
+        fixture.componentRef.setInput('hideMainActionBar', true);
         fixture.detectChanges();
         openStandardModal(debugElement);
         fixture.detectChanges();
@@ -262,7 +262,7 @@ describe('Summary Action Bar component', () => {
       });
 
       it('should remove the correct modal footer padding if the action bar is in a modal footer and there are two modals', () => {
-        cmp.hideMainActionBar = true;
+        fixture.componentRef.setInput('hideMainActionBar', true);
         fixture.detectChanges();
         debugElement
           .query(By.css('#empty-modal-trigger'))
@@ -294,7 +294,7 @@ describe('Summary Action Bar component', () => {
       });
 
       it('should set isSummaryCollapsible to true when on a large screen but normal modal', () => {
-        cmp.hideMainActionBar = true;
+        fixture.componentRef.setInput('hideMainActionBar', true);
         fixture.detectChanges();
         openStandardModal(debugElement);
         fixture.detectChanges();
@@ -303,7 +303,7 @@ describe('Summary Action Bar component', () => {
       });
 
       it('should set isSummaryCollapsible to false when on a large screen and full screen modal', () => {
-        cmp.hideMainActionBar = true;
+        fixture.componentRef.setInput('hideMainActionBar', true);
         fixture.detectChanges();
         openFullScreenModal(debugElement);
         fixture.detectChanges();
@@ -331,7 +331,7 @@ describe('Summary Action Bar component', () => {
       });
 
       it('should set isSummaryCollapsible to true when on a xs screen and normal modal', () => {
-        cmp.hideMainActionBar = true;
+        fixture.componentRef.setInput('hideMainActionBar', true);
         fixture.detectChanges();
         openStandardModal(debugElement);
         fixture.detectChanges();
@@ -341,7 +341,7 @@ describe('Summary Action Bar component', () => {
       });
 
       it('should set isSummaryCollapsible to true when on a xs screen and full screen modal', () => {
-        cmp.hideMainActionBar = true;
+        fixture.componentRef.setInput('hideMainActionBar', true);
         fixture.detectChanges();
         openFullScreenModal(debugElement);
         fixture.detectChanges();
@@ -365,7 +365,7 @@ describe('Summary Action Bar component', () => {
       });
 
       it('should set isSummaryCollapsed to false when moving from a xs screen to a large screen in a full screen modal', () => {
-        cmp.hideMainActionBar = true;
+        fixture.componentRef.setInput('hideMainActionBar', true);
         fixture.detectChanges();
         openFullScreenModal(debugElement);
         fixture.detectChanges();
@@ -466,7 +466,7 @@ describe('Summary Action Bar component', () => {
     describe('switching', () => {
       it('should set a margin on the body if the action bar is switched with another', () => {
         fixture.detectChanges();
-        cmp.hideMainActionBar = true;
+        fixture.componentRef.setInput('hideMainActionBar', true);
         cmp.showSecondaryActionBar = true;
         fixture.detectChanges();
         validateBodyMargin(debugElement);
@@ -474,7 +474,7 @@ describe('Summary Action Bar component', () => {
 
       it('should set isSummaryCollapsible to true when on a xs screen on a replaced action bar', () => {
         fixture.detectChanges();
-        cmp.hideMainActionBar = true;
+        fixture.componentRef.setInput('hideMainActionBar', true);
         cmp.showSecondaryActionBar = true;
         fixture.detectChanges();
         mediaQueryController.setBreakpoint('xs');
@@ -511,7 +511,7 @@ describe('Summary Action Bar component', () => {
 
       it('should be accessible (modal setup)', async () => {
         fixture.detectChanges();
-        cmp.hideMainActionBar = true;
+        fixture.componentRef.setInput('hideMainActionBar', true);
         fixture.detectChanges();
         openStandardModal(debugElement);
         fixture.detectChanges();
@@ -525,7 +525,7 @@ describe('Summary Action Bar component', () => {
 
       it('should be accessible (modal setup collapsed summary)', async () => {
         fixture.detectChanges();
-        cmp.hideMainActionBar = true;
+        fixture.componentRef.setInput('hideMainActionBar', true);
         fixture.detectChanges();
         openStandardModal(debugElement);
         fixture.detectChanges();
@@ -547,7 +547,7 @@ describe('Summary Action Bar component', () => {
 
       it('should be accessible (full screen modal lg setup)', async () => {
         fixture.detectChanges();
-        cmp.hideMainActionBar = true;
+        fixture.componentRef.setInput('hideMainActionBar', true);
         fixture.detectChanges();
         openFullScreenModal(debugElement);
         fixture.detectChanges();
@@ -561,7 +561,7 @@ describe('Summary Action Bar component', () => {
 
       it('should be accessible (full screen modal xs setup)', async () => {
         fixture.detectChanges();
-        cmp.hideMainActionBar = true;
+        fixture.componentRef.setInput('hideMainActionBar', true);
         fixture.detectChanges();
         openFullScreenModal(debugElement);
         fixture.detectChanges();
@@ -577,7 +577,7 @@ describe('Summary Action Bar component', () => {
 
       it('should be accessible (full screen modal xs setup collapsed summary)', async () => {
         fixture.detectChanges();
-        cmp.hideMainActionBar = true;
+        fixture.componentRef.setInput('hideMainActionBar', true);
         fixture.detectChanges();
         openFullScreenModal(debugElement);
         fixture.detectChanges();
@@ -666,7 +666,7 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         void fixture.whenStable().then(() => {
           fixture.detectChanges();
-          cmp.activeTab = 1;
+          fixture.componentRef.setInput('activeTab', 1);
           fixture.detectChanges();
           void fixture.whenStable().then(() => {
             fixture.detectChanges();
@@ -685,11 +685,11 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         void fixture.whenStable().then(() => {
           fixture.detectChanges();
-          cmp.activeTab = 1;
+          fixture.componentRef.setInput('activeTab', 1);
           fixture.detectChanges();
           void fixture.whenStable().then(() => {
             fixture.detectChanges();
-            cmp.activeTab = 0;
+            fixture.componentRef.setInput('activeTab', 0);
             fixture.detectChanges();
             void fixture.whenStable().then(() => {
               fixture.detectChanges();
@@ -736,7 +736,6 @@ describe('Summary Action Bar component', () => {
 
   describe('split view usage', () => {
     let fixture: ComponentFixture<SkySummaryActionBarSplitViewTestComponent>;
-    let cmp: SkySummaryActionBarSplitViewTestComponent;
     let debugElement: DebugElement;
 
     beforeEach(() => {
@@ -744,8 +743,6 @@ describe('Summary Action Bar component', () => {
         SkySummaryActionBarSplitViewTestComponent,
       );
 
-      cmp =
-        fixture.componentInstance as SkySummaryActionBarSplitViewTestComponent;
       debugElement = fixture.debugElement;
     });
 
@@ -765,7 +762,7 @@ describe('Summary Action Bar component', () => {
       });
 
       it('should not set a margin on the body if the action bar is not displayed on initial load', async () => {
-        cmp.showBar = false;
+        fixture.componentRef.setInput('showBar', false);
         fixture.detectChanges();
         await fixture.whenStable();
         fixture.detectChanges();
@@ -796,7 +793,7 @@ describe('Summary Action Bar component', () => {
         expect(footerEl.style.padding).toBe('0px');
 
         // Hide the action bar, triggering ngOnDestroy.
-        cmp.showBar = false;
+        fixture.componentRef.setInput('showBar', false);
         fixture.detectChanges();
         await fixture.whenStable();
         fixture.detectChanges();

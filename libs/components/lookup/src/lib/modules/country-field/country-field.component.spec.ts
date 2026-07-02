@@ -134,10 +134,10 @@ describe('Country Field Component', () => {
 
     describe('initialization', () => {
       it('should initialize with a set country', fakeAsync(() => {
-        component.modelValue = {
+        fixture.componentRef.setInput('modelValue', {
           name: 'United States',
           iso2: 'us',
-        };
+        });
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -146,9 +146,9 @@ describe('Country Field Component', () => {
       }));
 
       it('should initialize with a set country but only the iso2 code', fakeAsync(() => {
-        component.modelValue = {
+        fixture.componentRef.setInput('modelValue', {
           iso2: 'us',
-        };
+        });
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -157,10 +157,10 @@ describe('Country Field Component', () => {
       }));
 
       it('should initialize with a set country and fix an invalid name', fakeAsync(() => {
-        component.modelValue = {
+        fixture.componentRef.setInput('modelValue', {
           iso2: 'us',
           name: 'Test Name',
-        };
+        });
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -191,10 +191,10 @@ describe('Country Field Component', () => {
 
     describe('usage', () => {
       it('should change countries correctly', fakeAsync(() => {
-        component.modelValue = {
+        fixture.componentRef.setInput('modelValue', {
           name: 'United States',
           iso2: 'us',
-        };
+        });
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -209,20 +209,20 @@ describe('Country Field Component', () => {
       }));
 
       it('should change countries correctly via a model change', fakeAsync(() => {
-        component.modelValue = {
+        fixture.componentRef.setInput('modelValue', {
           name: 'United States',
           iso2: 'us',
-        };
+        });
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
 
         validateSelectedCountry(nativeElement, 'United States');
 
-        component.modelValue = {
+        fixture.componentRef.setInput('modelValue', {
           name: 'Australia',
           iso2: 'au',
-        };
+        });
 
         fixture.detectChanges();
         tick();
@@ -232,20 +232,20 @@ describe('Country Field Component', () => {
       }));
 
       it('should change countries correctly via a model change with an invalid name', fakeAsync(() => {
-        component.modelValue = {
+        fixture.componentRef.setInput('modelValue', {
           name: 'United States',
           iso2: 'us',
-        };
+        });
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
 
         validateSelectedCountry(nativeElement, 'United States');
 
-        component.modelValue = {
+        fixture.componentRef.setInput('modelValue', {
           name: 'Test Name',
           iso2: 'au',
-        };
+        });
 
         fixture.detectChanges();
         tick();
@@ -255,20 +255,20 @@ describe('Country Field Component', () => {
       }));
 
       it('should change countries correctly via a model change with only a iso2 code', fakeAsync(() => {
-        component.modelValue = {
+        fixture.componentRef.setInput('modelValue', {
           name: 'United States',
           iso2: 'us',
-        };
+        });
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
 
         validateSelectedCountry(nativeElement, 'United States');
 
-        component.modelValue = {
+        fixture.componentRef.setInput('modelValue', {
           name: 'Australia',
           iso2: 'au',
-        };
+        });
 
         fixture.detectChanges();
         tick();
@@ -323,10 +323,10 @@ describe('Country Field Component', () => {
       }));
 
       it('should display the default country second in the result list with a selection', fakeAsync(() => {
-        component.modelValue = {
+        fixture.componentRef.setInput('modelValue', {
           name: 'United States',
           iso2: 'us',
-        };
+        });
         component.defaultCountry = 'cy';
         fixture.detectChanges();
         tick();
@@ -351,10 +351,10 @@ describe('Country Field Component', () => {
       }));
 
       it('should clear the selection when all search text is cleared', fakeAsync(() => {
-        component.modelValue = {
+        fixture.componentRef.setInput('modelValue', {
           name: 'United States',
           iso2: 'us',
-        };
+        });
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -366,7 +366,7 @@ describe('Country Field Component', () => {
         tick();
         fixture.detectChanges();
 
-        expect(component.modelValue).toBeUndefined();
+        expect(component.modelValue()).toBeUndefined();
         validateSelectedCountry(nativeElement, '');
       }));
 
@@ -390,10 +390,10 @@ describe('Country Field Component', () => {
       }));
 
       it('should disable the field correctly', fakeAsync(() => {
-        component.modelValue = {
+        fixture.componentRef.setInput('modelValue', {
           name: 'United States',
           iso2: 'us',
-        };
+        });
         fixture.detectChanges();
         tick();
         component.isDisabled = true;
@@ -409,10 +409,10 @@ describe('Country Field Component', () => {
       }));
 
       it('should enable the field correctly', fakeAsync(() => {
-        component.modelValue = {
+        fixture.componentRef.setInput('modelValue', {
           name: 'United States',
           iso2: 'us',
-        };
+        });
         fixture.detectChanges();
         tick();
         component.isDisabled = true;
@@ -441,10 +441,10 @@ describe('Country Field Component', () => {
           component,
           'countryChanged',
         ).and.callThrough();
-        component.modelValue = {
+        fixture.componentRef.setInput('modelValue', {
           name: 'United States',
           iso2: 'us',
-        };
+        });
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -461,10 +461,10 @@ describe('Country Field Component', () => {
 
         changeEventSpy.calls.reset();
 
-        component.modelValue = {
+        fixture.componentRef.setInput('modelValue', {
           name: 'Australia',
           iso2: 'au',
-        };
+        });
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -483,10 +483,10 @@ describe('Country Field Component', () => {
       }));
 
       it('should select the value on focus', fakeAsync(() => {
-        component.modelValue = {
+        fixture.componentRef.setInput('modelValue', {
           name: 'Australia',
           iso2: 'au',
-        };
+        });
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -512,10 +512,10 @@ describe('Country Field Component', () => {
       }));
 
       it('should mark the form valid when it is set and required', fakeAsync(() => {
-        component.modelValue = {
+        fixture.componentRef.setInput('modelValue', {
           name: 'United States',
           iso2: 'us',
-        };
+        });
         fixture.detectChanges();
         component.isRequired = true;
         fixture.detectChanges();
@@ -529,10 +529,10 @@ describe('Country Field Component', () => {
       }));
 
       it('should mark the form invalid when it is set to a non-real country', fakeAsync(() => {
-        component.modelValue = {
+        fixture.componentRef.setInput('modelValue', {
           name: 'Test Country',
           iso2: 'xx',
-        };
+        });
         fixture.detectChanges();
         component.ngModel.control.updateValueAndValidity();
         fixture.detectChanges();
@@ -543,10 +543,10 @@ describe('Country Field Component', () => {
       }));
 
       it('should mark the form valid when it is set to a real country', fakeAsync(() => {
-        component.modelValue = {
+        fixture.componentRef.setInput('modelValue', {
           name: 'United States',
           iso2: 'us',
-        };
+        });
         fixture.detectChanges();
         component.ngModel.control.updateValueAndValidity();
         fixture.detectChanges();
@@ -557,10 +557,10 @@ describe('Country Field Component', () => {
       }));
 
       it('should mark the form valid when it is set to a supported country', fakeAsync(() => {
-        component.modelValue = {
+        fixture.componentRef.setInput('modelValue', {
           name: 'Australia',
           iso2: 'au',
-        };
+        });
         component.supportedCountryISOs = ['au', 'de'];
         fixture.detectChanges();
         component.ngModel.control.updateValueAndValidity();
@@ -572,10 +572,10 @@ describe('Country Field Component', () => {
       }));
 
       it('should mark the form invalid when it is set to a non-supported country', fakeAsync(() => {
-        component.modelValue = {
+        fixture.componentRef.setInput('modelValue', {
           name: 'United States',
           iso2: 'us',
-        };
+        });
         component.supportedCountryISOs = ['au', 'de'];
         fixture.detectChanges();
         component.ngModel.control.updateValueAndValidity();
@@ -607,10 +607,10 @@ describe('Country Field Component', () => {
       });
 
       it('should be accessible (populated)', async () => {
-        component.modelValue = {
+        fixture.componentRef.setInput('modelValue', {
           name: 'United States',
           iso2: 'us',
-        };
+        });
         fixture.detectChanges();
         await fixture.whenStable();
         fixture.detectChanges();
@@ -1455,7 +1455,7 @@ describe('Country Field Component', () => {
       }));
 
       it('should set aria-describedby when hint text is specified', () => {
-        fixture.componentInstance.hintText = 'Some hint text.';
+        fixture.componentRef.setInput('hintText', 'Some hint text.');
         fixture.detectChanges();
 
         const inputEl = nativeElement.querySelector('.sky-form-control');
@@ -1468,7 +1468,7 @@ describe('Country Field Component', () => {
         expect(ariaDescribedBy).toBeTruthy();
         expect(ariaDescribedBy).toBe(hintTextEl.id);
 
-        fixture.componentInstance.hintText = undefined;
+        fixture.componentRef.setInput('hintText', undefined);
         fixture.detectChanges();
 
         expect(inputEl.hasAttribute('aria-describedby')).toBeFalse();

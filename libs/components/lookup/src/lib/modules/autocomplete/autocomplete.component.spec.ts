@@ -210,7 +210,7 @@ describe('Autocomplete component', () => {
       | { objectid?: string; name?: string; text?: string }
       | undefined,
   ): void {
-    fixture.componentInstance.model.favoriteColor = selectedValue;
+    fixture.componentRef.setInput('model', { favoriteColor: selectedValue });
     fixture.detectChanges();
     tick();
   }
@@ -301,7 +301,7 @@ describe('Autocomplete component', () => {
 
     it('should handle preselected values', fakeAsync(() => {
       const selectedValue = { name: 'Red' };
-      component.model.favoriteColor = selectedValue;
+      fixture.componentRef.setInput('model', { favoriteColor: selectedValue });
 
       fixture.detectChanges();
       tick();
@@ -600,7 +600,7 @@ describe('Autocomplete component', () => {
     }));
 
     it('should not search if search text is not long enough', fakeAsync(() => {
-      component.searchTextMinimumCharacters = 3;
+      fixture.componentRef.setInput('searchTextMinimumCharacters', 3);
       fixture.detectChanges();
 
       const spy = spyOn(autocomplete, 'searchOrDefault').and.callThrough();
@@ -618,7 +618,7 @@ describe('Autocomplete component', () => {
     }));
 
     it('should search with empty text when searchTextMinimumCharacters is 0', fakeAsync(() => {
-      component.searchTextMinimumCharacters = 0;
+      fixture.componentRef.setInput('searchTextMinimumCharacters', 0);
       fixture.detectChanges();
 
       const spy = spyOn(autocomplete, 'searchOrDefault').and.callThrough();
@@ -631,7 +631,7 @@ describe('Autocomplete component', () => {
     }));
 
     it('should display results when searchTextMinimumCharacters is 0 and text is empty', fakeAsync(() => {
-      component.searchTextMinimumCharacters = 0;
+      fixture.componentRef.setInput('searchTextMinimumCharacters', 0);
       fixture.detectChanges();
 
       enterSearch('', fixture);
@@ -641,7 +641,7 @@ describe('Autocomplete component', () => {
     }));
 
     it('should not focus the first result when searchTextMinimumCharacters is 0 and text is empty', fakeAsync(() => {
-      component.searchTextMinimumCharacters = 0;
+      fixture.componentRef.setInput('searchTextMinimumCharacters', 0);
       fixture.detectChanges();
 
       enterSearch('', fixture);
@@ -652,7 +652,7 @@ describe('Autocomplete component', () => {
     }));
 
     it('should show "Show all" button with empty text when searchTextMinimumCharacters is 0', fakeAsync(() => {
-      component.searchTextMinimumCharacters = 0;
+      fixture.componentRef.setInput('searchTextMinimumCharacters', 0);
       component.enableShowMore = true;
       fixture.detectChanges();
 
@@ -664,7 +664,7 @@ describe('Autocomplete component', () => {
     }));
 
     it('should show "No results" message with empty text when searchTextMinimumCharacters is 0 and no results', fakeAsync(() => {
-      component.searchTextMinimumCharacters = 0;
+      fixture.componentRef.setInput('searchTextMinimumCharacters', 0);
       component.enableShowMore = true;
       component.data = [];
       fixture.detectChanges();
@@ -677,7 +677,7 @@ describe('Autocomplete component', () => {
     }));
 
     it('should not show "Show matches" text when searchTextMinimumCharacters is 0 with empty text', fakeAsync(() => {
-      component.searchTextMinimumCharacters = 0;
+      fixture.componentRef.setInput('searchTextMinimumCharacters', 0);
       component.enableShowMore = true;
       fixture.detectChanges();
 
@@ -692,7 +692,7 @@ describe('Autocomplete component', () => {
     }));
 
     it('should perform search on focus when searchTextMinimumCharacters is 0', fakeAsync(() => {
-      component.searchTextMinimumCharacters = 0;
+      fixture.componentRef.setInput('searchTextMinimumCharacters', 0);
       component.enableShowMore = true;
       fixture.detectChanges();
 
@@ -710,7 +710,7 @@ describe('Autocomplete component', () => {
     }));
 
     it('should search again when after user has gotten a result and goes back to an empty string when searchTextMinimumCharacters is set to 0', fakeAsync(() => {
-      component.searchTextMinimumCharacters = 0;
+      fixture.componentRef.setInput('searchTextMinimumCharacters', 0);
       fixture.detectChanges();
 
       const spy = spyOn(autocomplete, 'searchOrDefault').and.callThrough();
@@ -734,7 +734,7 @@ describe('Autocomplete component', () => {
         'emit',
       ).and.callThrough();
 
-      component.searchTextMinimumCharacters = 0;
+      fixture.componentRef.setInput('searchTextMinimumCharacters', 0);
       fixture.detectChanges();
 
       const inputElement = getInputElement(true);
@@ -757,7 +757,7 @@ describe('Autocomplete component', () => {
     }));
 
     it('should display async results when searchTextMinimumCharacters is 0 and text is empty', fakeAsync(() => {
-      component.searchTextMinimumCharacters = 0;
+      fixture.componentRef.setInput('searchTextMinimumCharacters', 0);
       fixture.detectChanges();
 
       const inputElement = getInputElement(true);
@@ -774,7 +774,7 @@ describe('Autocomplete component', () => {
     }));
 
     it('should show "Show more" button with async search and empty text when searchTextMinimumCharacters is 0', fakeAsync(() => {
-      component.searchTextMinimumCharacters = 0;
+      fixture.componentRef.setInput('searchTextMinimumCharacters', 0);
       component.enableShowMore = true;
       fixture.detectChanges();
 
@@ -793,7 +793,7 @@ describe('Autocomplete component', () => {
     }));
 
     it('should search async again when user backspaces to empty text with searchTextMinimumCharacters set to 0', fakeAsync(() => {
-      component.searchTextMinimumCharacters = 0;
+      fixture.componentRef.setInput('searchTextMinimumCharacters', 0);
       fixture.detectChanges();
 
       const spy = spyOn(
@@ -875,7 +875,7 @@ describe('Autocomplete component', () => {
     }));
 
     it('should handle disabled input', fakeAsync(() => {
-      component.disabled = true;
+      fixture.componentRef.setInput('disabled', true);
 
       fixture.detectChanges();
       tick();
@@ -891,7 +891,7 @@ describe('Autocomplete component', () => {
       expect(inputElement.disabled).toBeTruthy();
       expect(spy).not.toHaveBeenCalled();
 
-      component.disabled = undefined;
+      fixture.componentRef.setInput('disabled', undefined);
 
       fixture.detectChanges();
       tick();
@@ -905,7 +905,7 @@ describe('Autocomplete component', () => {
     }));
 
     it('should handle missing skyAutocomplete directive on load', fakeAsync(() => {
-      component.hideInput = true;
+      fixture.componentRef.setInput('hideInput', true);
 
       try {
         fixture.detectChanges();
@@ -926,7 +926,7 @@ describe('Autocomplete component', () => {
     it('should handle missing skyAutocomplete directive on change', () => {
       fixture.detectChanges();
 
-      component.hideInput = true;
+      fixture.componentRef.setInput('hideInput', true);
 
       expect(() => {
         fixture.detectChanges();
@@ -1261,7 +1261,7 @@ describe('Autocomplete component', () => {
     }));
 
     it('should not open the dropdown when the input is focused if the add button is shown but the input is disabled', fakeAsync(() => {
-      component.disabled = true;
+      fixture.componentRef.setInput('disabled', true);
       component.showAddButton = true;
       fixture.detectChanges();
 
@@ -1370,7 +1370,7 @@ describe('Autocomplete component', () => {
     }));
 
     it('should close the dropdown via the message stream', fakeAsync(() => {
-      component.messageStream = new Subject();
+      fixture.componentRef.setInput('messageStream', new Subject());
       fixture.detectChanges();
 
       // Type 'r' to activate the autocomplete dropdown.
@@ -1379,7 +1379,7 @@ describe('Autocomplete component', () => {
 
       expect(dropdownElement).not.toBeNull();
 
-      component.messageStream.next({
+      component.messageStream()?.next({
         type: SkyAutocompleteMessageType.CloseDropdown,
       });
 
@@ -1400,11 +1400,11 @@ describe('Autocomplete component', () => {
 
       expect(searchResultsEl).not.toBeNull();
 
-      component.messageStream = new Subject();
+      fixture.componentRef.setInput('messageStream', new Subject());
       fixture.detectChanges();
       tick();
 
-      component.messageStream.next({
+      component.messageStream()?.next({
         type: SkyAutocompleteMessageType.CloseDropdown,
       });
 
@@ -1887,7 +1887,7 @@ describe('Autocomplete component', () => {
           component.autocompleteInput;
         const inputElement: HTMLInputElement = getInputElement();
 
-        component.searchTextMinimumCharacters = 0;
+        fixture.componentRef.setInput('searchTextMinimumCharacters', 0);
         fixture.detectChanges();
 
         SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
@@ -1910,7 +1910,7 @@ describe('Autocomplete component', () => {
         const inputElement: HTMLInputElement = getInputElement();
         const selectedValue = { name: 'Red' };
 
-        component.searchTextMinimumCharacters = 0;
+        fixture.componentRef.setInput('searchTextMinimumCharacters', 0);
         updateNgModel(fixture, selectedValue);
 
         SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
@@ -2144,7 +2144,7 @@ describe('Autocomplete component', () => {
         const inputElement: HTMLInputElement = getInputElement();
         const initialValue = { name: 'Red' };
 
-        component.searchTextMinimumCharacters = 0;
+        fixture.componentRef.setInput('searchTextMinimumCharacters', 0);
         updateNgModel(fixture, initialValue);
 
         SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
@@ -2170,7 +2170,7 @@ describe('Autocomplete component', () => {
         const inputElement: HTMLInputElement = getInputElement();
         const initialValue = { name: 'Red' };
 
-        component.searchTextMinimumCharacters = 0;
+        fixture.componentRef.setInput('searchTextMinimumCharacters', 0);
         updateNgModel(fixture, initialValue);
 
         SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
@@ -2502,7 +2502,9 @@ describe('Autocomplete component', () => {
       }));
 
       it('should set form states properly when initialized with a value', fakeAsync(function () {
-        component.model.favoriteColor = { name: 'Red' };
+        fixture.componentRef.setInput('model', {
+          favoriteColor: { name: 'Red' },
+        });
         fixture.detectChanges();
         tick();
 
@@ -2555,7 +2557,9 @@ describe('Autocomplete component', () => {
       }));
 
       it('should mark the control as dirty when search value changes when initialized with a value', fakeAsync(function () {
-        component.model.favoriteColor = { name: 'Purple' };
+        fixture.componentRef.setInput('model', {
+          favoriteColor: { name: 'Purple' },
+        });
         fixture.detectChanges();
         tick();
 

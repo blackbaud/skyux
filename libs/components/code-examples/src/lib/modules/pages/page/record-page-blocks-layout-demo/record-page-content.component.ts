@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyKeyInfoModule } from '@skyux/indicators';
 import {
@@ -13,6 +13,7 @@ import { SkyRepeaterModule } from '@skyux/lists';
   selector: 'app-record-page-content',
   templateUrl: './record-page-content.component.html',
   styleUrls: ['./record-page-content.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     CommonModule,
     SkyBoxModule,

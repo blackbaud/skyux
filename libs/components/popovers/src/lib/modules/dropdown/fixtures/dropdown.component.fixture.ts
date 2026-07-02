@@ -4,6 +4,7 @@ import {
   QueryList,
   ViewChild,
   ViewChildren,
+  input,
 } from '@angular/core';
 
 import { Subject } from 'rxjs';
@@ -33,17 +34,17 @@ export class DropdownFixtureComponent {
 
   public horizontalAlignment: SkyDropdownHorizontalAlignment | undefined;
 
-  public itemAriaRole: string | undefined;
+  public itemAriaRole = input<string | undefined>(undefined);
 
-  public label: string | undefined;
+  public label = input<string | undefined>(undefined);
 
   public messageStream = new Subject<SkyDropdownMessage>();
 
-  public menuAriaLabelledBy: string | undefined;
+  public menuAriaLabelledBy = input<string | undefined>(undefined);
 
-  public menuAriaRole: string | undefined;
+  public menuAriaRole = input<string | undefined>(undefined);
 
-  public title: string | undefined;
+  public title = input<string | undefined>(undefined);
 
   public trigger: SkyDropdownTriggerType | undefined;
 
@@ -73,7 +74,7 @@ export class DropdownFixtureComponent {
     { name: 'Option 4', disabled: false },
   ];
 
-  public show = true;
+  public show = input<boolean>(true);
 
   #changeDetector: ChangeDetectorRef;
 
@@ -106,5 +107,10 @@ export class DropdownFixtureComponent {
 
   public sendMessage(type: SkyDropdownMessageType) {
     this.messageStream.next({ type });
+  }
+
+  public setItems(items: any[]): void {
+    this.items = items;
+    this.#changeDetector.markForCheck();
   }
 }

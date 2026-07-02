@@ -19,9 +19,6 @@ const RESOURCES: Record<string, SkyLibResources> = {
     sky_action_hub_recent_links: { message: 'Recently accessed' },
     sky_action_hub_settings_links: { message: 'Settings' },
     sky_action_hub_needs_attention: { message: 'Needs attention' },
-    sky_action_hub_needs_attention_empty: {
-      message: 'No issues currently need attention',
-    },
   },
   'FR-CA': {
     sky_action_hub_related_links: { message: 'Liens connexes' },
@@ -29,10 +26,6 @@ const RESOURCES: Record<string, SkyLibResources> = {
     sky_action_hub_settings_links: { message: 'Paramètres' },
     sky_action_hub_needs_attention: {
       message: 'Nécessite une attention particulière',
-    },
-    sky_action_hub_needs_attention_empty: {
-      message:
-        'Aucun problème ne nécessite actuellement une attention particulière',
     },
   },
 };

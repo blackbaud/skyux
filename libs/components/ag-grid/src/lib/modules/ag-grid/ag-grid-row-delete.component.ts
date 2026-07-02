@@ -1,4 +1,11 @@
-import { Component, ElementRef, computed, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import {
   takeUntilDestroyed,
   toObservable,
@@ -31,6 +38,7 @@ import { SKY_AG_GRID_ROW_DELETE_CONTEXT } from './ag-grid-row-delete-context';
   templateUrl: './ag-grid-row-delete.component.html',
   styleUrl: './ag-grid-row-delete.component.css',
   imports: [SkyInlineDeleteModule, SkyAffixModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   host: {
     '[style]': '"--table-width: " + tableWidthStyle()',
   },

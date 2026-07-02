@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   EventEmitter,
@@ -23,6 +24,7 @@ import { SkyActionButtonPermalink } from './action-button-permalink';
   ],
   templateUrl: './action-button.component.html',
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyActionButtonComponent {

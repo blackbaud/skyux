@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, input } from '@angular/core';
 
 import { SkyDataManagerComponent } from '../data-manager.component';
 import { SkyDataManagerService } from '../data-manager.service';
@@ -42,7 +42,7 @@ export class DataManagerFixtureComponent implements OnInit {
 
   public dataManagerSourceId = 'dataManagerFixture';
 
-  public dock: SkyDataManagerDockType | undefined;
+  public dock = input<SkyDataManagerDockType | undefined>(undefined);
 
   public items: DataManagerTestItem[] = [
     {

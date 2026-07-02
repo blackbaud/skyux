@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { SkyCheckboxModule } from '@skyux/forms';
 
@@ -9,10 +9,10 @@ import { SkyCheckboxFixture } from './checkbox-fixture';
   selector: 'sky-checkbox-test',
   template: `
     <sky-checkbox
-      [checkboxType]="checkboxType"
+      [checkboxType]="checkboxType()"
       [checked]="selected"
       [disabled]="disabled"
-      [iconName]="iconName"
+      [iconName]="iconName()"
       [id]="id"
       [label]="label"
       [labelledBy]="labelledBy"
@@ -27,11 +27,11 @@ import { SkyCheckboxFixture } from './checkbox-fixture';
   standalone: false,
 })
 class TestComponent {
-  public checkboxType = 'success';
+  public checkboxType = signal('success');
 
   public disabled = false;
 
-  public iconName: string | undefined = 'text-bold';
+  public iconName = signal<string | undefined>('text-bold');
 
   public label = 'checkbox label';
 
@@ -59,28 +59,28 @@ describe('Checkbox fixture', () => {
     expect(checkbox.selected).toBe(false);
     expect(checkbox.disabled).toBe(false);
     expect(checkbox.labelText).toEqual(fixture.componentInstance.label);
-    expect(checkbox.iconType).toEqual(fixture.componentInstance.iconName);
+    expect(checkbox.iconType).toEqual(fixture.componentInstance.iconName());
     expect(checkbox.checkboxType).toEqual(
-      fixture.componentInstance.checkboxType,
+      fixture.componentInstance.checkboxType(),
     );
 
     const validCheckboxTypes = ['info', 'success', 'warning', 'danger'];
 
     for (const validCheckboxType of validCheckboxTypes) {
-      fixture.componentInstance.checkboxType = validCheckboxType;
+      fixture.componentInstance.checkboxType.set(validCheckboxType);
 
       fixture.detectChanges();
 
       expect(checkbox.checkboxType).toBe(validCheckboxType);
     }
 
-    fixture.componentInstance.checkboxType = 'invalid';
+    fixture.componentInstance.checkboxType.set('invalid');
 
     fixture.detectChanges();
 
     expect(checkbox.checkboxType).toBeUndefined();
 
-    fixture.componentInstance.iconName = undefined;
+    fixture.componentInstance.iconName.set(undefined);
 
     fixture.detectChanges();
 

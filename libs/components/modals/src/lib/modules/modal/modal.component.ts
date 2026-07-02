@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
@@ -57,6 +58,7 @@ const ARIA_ROLE_DEFAULT = 'dialog';
     SkyModalErrorsService,
     SkyDockService,
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     CommonModule,
     SkyHelpInlineModule,

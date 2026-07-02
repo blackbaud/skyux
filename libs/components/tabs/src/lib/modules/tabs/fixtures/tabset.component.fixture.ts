@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, input, model } from '@angular/core';
 
 import { SkyTabLayoutType } from '../tab-layout-type';
 import { SkyTabsetStyle } from '../tabset-style';
@@ -22,7 +22,7 @@ export class TabsetTestComponent {
 
   public tab2Content: string | undefined;
 
-  public tab2Available = true;
+  public tab2Available = model<boolean>(true);
 
   public tab2Disabled = false;
 
@@ -32,13 +32,13 @@ export class TabsetTestComponent {
 
   public tab3Content: string | undefined;
 
-  public tab3Available = true;
+  public tab3Available = input<boolean>(true);
 
-  public tab3Layout: SkyTabLayoutType | undefined = 'blocks';
+  public tab3Layout = input<SkyTabLayoutType | undefined>('blocks');
 
-  public tabStyle: SkyTabsetStyle | undefined = 'tabs';
+  public tabStyle = input<SkyTabsetStyle | undefined>('tabs');
 
-  public activeTab = 0;
+  public activeTab = input<number>(0);
 
   public tabMaxWidth = 2000;
 
@@ -50,6 +50,6 @@ export class TabsetTestComponent {
   public openTab() {}
 
   public closeTab2() {
-    this.tab2Available = false;
+    this.tab2Available.set(false);
   }
 }

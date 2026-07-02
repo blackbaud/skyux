@@ -71,7 +71,7 @@ describe('ThemeClass directive', () => {
     });
 
     it('should show default class', () => {
-      fixture.componentInstance.className = 'sky-theme-class-test';
+      fixture.componentRef.setInput('className', 'sky-theme-class-test');
       fixture.detectChanges();
       expectElementWithClasses(
         fixture,
@@ -148,7 +148,10 @@ describe('ThemeClass directive', () => {
     });
 
     it('should not prevent class changes via a class input directive', async () => {
-      fixture.componentInstance.className = 'sky-theme-class-test hello-world';
+      fixture.componentRef.setInput(
+        'className',
+        'sky-theme-class-test hello-world',
+      );
       fixture.detectChanges();
       expectElementWithClasses(
         fixture,
@@ -165,7 +168,7 @@ describe('ThemeClass directive', () => {
     });
 
     it('should handle undefined class value', () => {
-      fixture.componentInstance.className = undefined;
+      fixture.componentRef.setInput('className', undefined);
       fixture.detectChanges();
       expectElementWithClasses(
         fixture,

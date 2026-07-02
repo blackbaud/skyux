@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 import {
   SkyDescriptionListModeType,
@@ -11,7 +11,7 @@ import {
   imports: [SkyDescriptionListModule, SkyHelpInlineModule],
 })
 export class DescriptionListHarnessTestComponent {
-  public mode: SkyDescriptionListModeType = 'vertical';
+  public mode = signal<SkyDescriptionListModeType>('vertical');
 
   protected items: {
     term?: string;

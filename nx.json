@@ -130,7 +130,7 @@
       }
     },
     "@nx/eslint:lint": {
-      "inputs": ["lintInputs"],
+      "inputs": ["^buildInputs", "lintInputs"],
       "cache": true
     },
     "@nx/angular:package": {
@@ -138,7 +138,7 @@
       "dependsOn": ["^build"],
       "inputs": ["buildInputs", "^buildInputs"]
     },
-    "@angular-devkit/build-angular:application": {
+    "@angular/build:application": {
       "cache": true,
       "dependsOn": ["^build"],
       "inputs": ["default", "^default"]
@@ -199,5 +199,6 @@
       "!{projectRoot}/tsconfig.storybook.json"
     ]
   },
-  "defaultBase": "main"
+  "defaultBase": "main",
+  "analytics": false
 }

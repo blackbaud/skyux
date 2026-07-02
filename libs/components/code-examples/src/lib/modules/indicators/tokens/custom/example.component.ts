@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
   SkyToken,
   SkyTokenSelectedEventArgs,
@@ -19,6 +19,7 @@ interface TokenItem {
 @Component({
   selector: 'app-indicators-tokens-custom-example',
   templateUrl: './example.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyTokensModule],
 })
 export class IndicatorsTokensCustomExampleComponent implements OnDestroy {

@@ -1,4 +1,11 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  input,
+  model,
+} from '@angular/core';
 import {
   AbstractControl,
   FormsModule,
@@ -31,19 +38,21 @@ export class DateRangePickerTestComponent implements OnInit, OnDestroy {
   })
   public dateRangePicker!: SkyDateRangePickerComponent;
 
-  public calculatorIds: SkyDateRangeCalculatorId[] | undefined;
-  public dateFormat: string | undefined;
-  public disableReactiveOnInit = false;
-  public label: string | undefined;
-  public labelText: string | undefined;
+  public readonly calculatorIds = model<SkyDateRangeCalculatorId[] | undefined>(
+    undefined,
+  );
+  public readonly dateFormat = input<string | undefined>(undefined);
+  public readonly disableReactiveOnInit = input(false);
+  public readonly label = input<string | undefined>(undefined);
+  public readonly labelText = input<string | undefined>(undefined);
   public numValueChangeNotifications = 0;
   public reactiveForm: UntypedFormGroup;
-  public required = false;
-  public templateDisable: boolean | undefined;
-  public helpKey: string | undefined;
-  public hintText: string | undefined;
-  public helpPopoverContent: string | undefined;
-  public stacked: boolean | undefined;
+  public readonly required = input(false);
+  public readonly templateDisable = input<boolean | undefined>(undefined);
+  public readonly helpKey = input<string | undefined>(undefined);
+  public readonly hintText = input<string | undefined>(undefined);
+  public readonly helpPopoverContent = input<string | undefined>(undefined);
+  public readonly stacked = input<boolean | undefined>(undefined);
 
   #ngUnsubscribe = new Subject<void>();
 
@@ -60,7 +69,7 @@ export class DateRangePickerTestComponent implements OnInit, OnDestroy {
         this.numValueChangeNotifications++;
       });
 
-    if (this.disableReactiveOnInit) {
+    if (this.disableReactiveOnInit()) {
       this.reactiveForm.disable();
     }
   }
@@ -72,7 +81,7 @@ export class DateRangePickerTestComponent implements OnInit, OnDestroy {
 
   public setCalculatorIdsAsync(): void {
     setTimeout(() => {
-      this.calculatorIds = [SkyDateRangeCalculatorId.After];
+      this.calculatorIds.set([SkyDateRangeCalculatorId.After]);
     });
   }
 

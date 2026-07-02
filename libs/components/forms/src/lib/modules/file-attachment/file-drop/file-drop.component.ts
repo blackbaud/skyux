@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
@@ -65,6 +66,7 @@ const MIN_FILE_SIZE_DEFAULT = 0;
     SkyFileAttachmentService,
     { provide: SKY_FORM_ERRORS_ENABLED, useValue: true },
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     CommonModule,
     FormsModule,

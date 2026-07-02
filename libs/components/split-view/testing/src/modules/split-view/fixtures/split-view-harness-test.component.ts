@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -40,11 +40,11 @@ interface DemoForm {
   ],
 })
 export class SplitViewHarnessTestComponent {
-  public showWorkspace = true;
-  public showContent = true;
-  public showFooter = true;
-  public showDrawer = true;
-  public dockType: SkySplitViewDockType | undefined;
+  public showWorkspace = input(true);
+  public showContent = input(true);
+  public showFooter = input(true);
+  public showDrawer = input(true);
+  public dockType = input<SkySplitViewDockType | undefined>(undefined);
 
   protected set activeIndex(value: number) {
     this.#_activeIndex = value;

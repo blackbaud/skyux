@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'sky-summary-action-bar-split-view-test',
@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class SkySummaryActionBarSplitViewTestComponent {
-  public showBar = true;
+  public showBar = input<boolean>(true);
 }

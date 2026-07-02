@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
  * Specifies a subtitle to identify the page content.
@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
   selector: 'sky-page-summary-subtitle',
   templateUrl: './page-summary-subtitle.component.html',
   styleUrls: ['./page-summary-subtitle.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 /* istanbul ignore next */

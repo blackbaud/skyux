@@ -1,17 +1,17 @@
 <form novalidate [formGroup]="reactiveForm">
-  @if (templateDisable === undefined) {
+  @if (templateDisable() === undefined) {
     <sky-date-range-picker
       #dateRangePicker
       formControlName="dateRange"
-      [calculatorIds]="calculatorIds"
-      [dateFormat]="dateFormat"
-      [helpKey]="helpKey"
-      [helpPopoverContent]="helpPopoverContent"
-      [hintText]="hintText"
-      [label]="label"
-      [labelText]="labelText"
-      [required]="required"
-      [stacked]="stacked"
+      [calculatorIds]="calculatorIds()"
+      [dateFormat]="dateFormat()"
+      [helpKey]="helpKey()"
+      [helpPopoverContent]="helpPopoverContent()"
+      [hintText]="hintText()"
+      [label]="label()"
+      [labelText]="labelText()"
+      [required]="required()"
+      [stacked]="stacked()"
     >
       @if (dateRange?.errors?.['customError']) {
         <sky-form-error
@@ -23,12 +23,12 @@
   }
 </form>
 
-@if (templateDisable !== undefined) {
+@if (templateDisable() !== undefined) {
   <sky-date-range-picker
     #dateRangePicker
-    [calculatorIds]="calculatorIds"
-    [dateFormat]="dateFormat"
-    [disabled]="templateDisable"
-    [label]="label"
+    [calculatorIds]="calculatorIds()"
+    [dateFormat]="dateFormat()"
+    [disabled]="templateDisable()"
+    [label]="label()"
   />
 }

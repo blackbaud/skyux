@@ -1,10 +1,10 @@
 <sky-tokens
-  [disabled]="disabled"
-  [dismissible]="dismissible"
-  [displayWith]="displayWith"
-  [focusable]="focusable"
-  [messageStream]="messageStream"
-  [trackWith]="trackWith"
+  [disabled]="disabled()"
+  [dismissible]="dismissible()"
+  [displayWith]="displayWith()"
+  [focusable]="focusable()"
+  [messageStream]="messageStream()"
+  [trackWith]="trackWith()"
   [(tokens)]="tokens"
   (focusIndexOverRange)="onFocusIndexOverRange()"
   (focusIndexUnderRange)="onFocusIndexUnderRange()"
@@ -12,9 +12,9 @@
   (tokenSelected)="onTokenSelected($event)"
   (tokensRendered)="onTokensRendered()"
 >
-  @if (innerContent === 'text') {
+  @if (innerContent() === 'text') {
     INNER CONTENT
-  } @else if (innerContent === 'form-control') {
+  } @else if (innerContent() === 'form-control') {
     <label>
       Label
       <input type="text" />
@@ -22,6 +22,6 @@
   }
 </sky-tokens>
 
-@if (includeSingleToken) {
-  <sky-token [ariaLabel]="ariaLabel" />
+@if (includeSingleToken()) {
+  <sky-token [ariaLabel]="ariaLabel()" />
 }

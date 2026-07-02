@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'sky-rich-text-display-fixture',
@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class RichTextDisplayFixtureComponent {
-  public richText: string | undefined;
+  public richText = input<string | undefined>(undefined);
 }

@@ -1,4 +1,9 @@
-import { Component, computed, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from '@angular/core';
 
 /**
  * Specifies content to display at the top of the modal. The content extends
@@ -12,6 +17,7 @@ import { Component, computed, input } from '@angular/core';
     '[style.background-image]': 'backgroundImage()',
   },
   templateUrl: './modal-banner.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './modal-banner.component.scss',
 })
 export class SkyModalBannerComponent {

@@ -81,7 +81,7 @@ describe('Error component', () => {
   }
 
   it('should display correct image, title, description, and action text when errorType is broken', () => {
-    component.errorType = 'broken';
+    fixture.componentRef.setInput('errorType', 'broken');
     fixture.detectChanges();
 
     expect(getBrokenImage('#test-error')).toExist();
@@ -101,8 +101,8 @@ describe('Error component', () => {
   });
 
   it('should not not display image when "showImage" is false and errorType is broken', () => {
-    component.errorType = 'broken';
-    component.showImage = false;
+    fixture.componentRef.setInput('errorType', 'broken');
+    fixture.componentRef.setInput('showImage', false);
     fixture.detectChanges();
 
     expect(getImageContainer('#test-error')).not.toExist();
@@ -123,7 +123,7 @@ describe('Error component', () => {
   });
 
   it('should display correct image, title, and action text for notfound errorType', () => {
-    component.errorType = 'notfound';
+    fixture.componentRef.setInput('errorType', 'notfound');
     fixture.detectChanges();
 
     expect(getBrokenImage('#test-error')).not.toExist();
@@ -143,7 +143,7 @@ describe('Error component', () => {
   });
 
   it('should display correct image, title, and action text for construction errorType', () => {
-    component.errorType = 'construction';
+    fixture.componentRef.setInput('errorType', 'construction');
     fixture.detectChanges();
 
     expect(getBrokenImage('#test-error')).not.toExist();
@@ -162,7 +162,7 @@ describe('Error component', () => {
   });
 
   it('should display correct image, title, description, and action text for security errorType', () => {
-    component.errorType = 'security';
+    fixture.componentRef.setInput('errorType', 'security');
     fixture.detectChanges();
 
     expect(getBrokenImage('#test-error')).not.toExist();
@@ -204,7 +204,7 @@ describe('Error component', () => {
   });
 
   it('should not add extraneous whitespace around description', () => {
-    component.errorType = 'broken';
+    fixture.componentRef.setInput('errorType', 'broken');
     fixture.detectChanges();
 
     expect(getErrorDescription('#test-error').innerText).toBe(
@@ -213,9 +213,9 @@ describe('Error component', () => {
   });
 
   it('should replace title and description', () => {
-    component.errorType = 'broken';
-    component.replaceDefaultDescription = true;
-    component.replaceDefaultTitle = true;
+    fixture.componentRef.setInput('errorType', 'broken');
+    fixture.componentRef.setInput('replaceDefaultDescription', true);
+    fixture.componentRef.setInput('replaceDefaultTitle', true);
     fixture.detectChanges();
 
     expect(getBrokenImage('#test-error-custom-replace-default')).toExist();
@@ -238,9 +238,9 @@ describe('Error component', () => {
   });
 
   it('should append onto title and description', () => {
-    component.errorType = 'broken';
-    component.replaceDefaultDescription = false;
-    component.replaceDefaultTitle = false;
+    fixture.componentRef.setInput('errorType', 'broken');
+    fixture.componentRef.setInput('replaceDefaultDescription', false);
+    fixture.componentRef.setInput('replaceDefaultTitle', false);
     fixture.detectChanges();
 
     expect(getBrokenImage('#test-error-custom-replace-default')).toExist();
@@ -281,7 +281,7 @@ describe('Error component', () => {
       resourceStrings.brokenDescription,
     );
 
-    component.errorType = undefined;
+    fixture.componentRef.setInput('errorType', undefined);
     fixture.detectChanges();
 
     expect(getBrokenImage('#test-error')).not.toExist();

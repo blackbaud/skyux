@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormControl,
@@ -16,7 +16,7 @@ interface Color {
   standalone: false,
 })
 export class AutocompleteHarnessTestComponent {
-  public ariaLabelledby: string | undefined;
+  public ariaLabelledby = input<string | undefined>(undefined);
 
   public colors: Color[] = [
     { name: 'Red', id: 1 },
@@ -32,13 +32,13 @@ export class AutocompleteHarnessTestComponent {
     { name: 'Black', id: 11 },
   ];
 
-  public enableShowMore = true;
+  public enableShowMore = input<boolean>(true);
 
   public myForm: UntypedFormGroup;
 
-  public showAddButton = true;
+  public showAddButton = input<boolean>(true);
 
-  public noResultFoundText: string | undefined;
+  public noResultFoundText = input<string | undefined>(undefined);
 
   constructor(formBuilder: UntypedFormBuilder) {
     this.myForm = formBuilder.group({

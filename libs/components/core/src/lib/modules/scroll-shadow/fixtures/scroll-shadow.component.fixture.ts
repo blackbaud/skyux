@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, input } from '@angular/core';
 
 import { SkyScrollShadowEventArgs } from '../scroll-shadow-event-args';
 import { SkyScrollShadowDirective } from '../scroll-shadow.directive';
@@ -11,8 +11,8 @@ import { SkyScrollShadowDirective } from '../scroll-shadow.directive';
   imports: [CommonModule, SkyScrollShadowDirective],
 })
 export class ScrollShadowFixtureComponent {
-  public enabled = true;
-  public height = 400;
+  public enabled = input(true);
+  public height = input(400);
   public scrollShadow: SkyScrollShadowEventArgs | undefined;
 
   #changeDetector = inject(ChangeDetectorRef);

@@ -1,7 +1,7 @@
 <sky-list
   [data]="items"
   [defaultView]="default"
-  [selectedIds]="selectedIds"
+  [selectedIds]="selectedIds()"
   (selectedIdsChange)="selectedChangeFunction($event)"
 >
   <sky-list-view-test #default />

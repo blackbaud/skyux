@@ -41,17 +41,16 @@ describe('Alert component', () => {
 
   it('should hide the close button if it is not closeable', async () => {
     const fixture = TestBed.createComponent(AlertTestComponent);
-    const cmp = fixture.componentInstance as AlertTestComponent;
     const el = fixture.nativeElement as HTMLElement;
 
-    cmp.closeable = true;
+    fixture.componentRef.setInput('closeable', true);
     fixture.detectChanges();
 
     const attributes: NamedNodeMap | undefined =
       el.querySelector('.sky-alert-close')?.attributes;
     expect(attributes?.getNamedItem('hidden')).toBeNull();
 
-    cmp.closeable = false;
+    fixture.componentRef.setInput('closeable', false);
     fixture.detectChanges();
 
     expect(attributes?.getNamedItem('hidden')).not.toBeNull();
@@ -63,21 +62,20 @@ describe('Alert component', () => {
     const cmp = fixture.componentInstance as AlertTestComponent;
     const el = fixture.nativeElement;
 
-    cmp.closeable = true;
+    fixture.componentRef.setInput('closeable', true);
     fixture.detectChanges();
     el.querySelector('.sky-alert-close').click();
 
     expect(el.querySelector('.sky-alert').attributes['hidden']).not.toBeNull();
-    expect(cmp.closed).toBe(true);
+    expect(cmp.closed()).toBe(true);
     await expectAsync(fixture.nativeElement).toBeAccessible();
   });
 
   it('should allow the screen reader text for the close button to be localized', async () => {
     const fixture = TestBed.createComponent(AlertTestComponent);
-    const cmp = fixture.componentInstance as AlertTestComponent;
     const el = fixture.nativeElement as HTMLElement;
 
-    cmp.closeable = true;
+    fixture.componentRef.setInput('closeable', true);
     fixture.detectChanges();
 
     const closeEl = el.querySelector('.sky-alert-close');
@@ -87,10 +85,9 @@ describe('Alert component', () => {
 
   it('should add the appropriate styling when an alert type is specified', async () => {
     const fixture = TestBed.createComponent(AlertTestComponent);
-    const cmp = fixture.componentInstance as AlertTestComponent;
     const el = fixture.nativeElement as HTMLElement;
 
-    cmp.alertType = 'success';
+    fixture.componentRef.setInput('alertType', 'success');
     fixture.detectChanges();
 
     const alertEl = el.querySelector('.sky-alert');
@@ -100,10 +97,9 @@ describe('Alert component', () => {
 
   it('should default to "warning" when no alert type is specified', async () => {
     const fixture = TestBed.createComponent(AlertTestComponent);
-    const cmp = fixture.componentInstance as AlertTestComponent;
     const el = fixture.nativeElement as HTMLElement;
 
-    cmp.alertType = undefined;
+    fixture.componentRef.setInput('alertType', undefined);
     fixture.detectChanges();
 
     const alertEl = el.querySelector('.sky-alert');
@@ -113,25 +109,24 @@ describe('Alert component', () => {
 
   it('should show the expected icon', () => {
     const fixture = TestBed.createComponent(AlertTestComponent);
-    const cmp = fixture.componentInstance;
     const el = fixture.nativeElement;
 
-    cmp.alertType = 'danger';
+    fixture.componentRef.setInput('alertType', 'danger');
     fixture.detectChanges();
 
     validateIcon(el, 'warning');
 
-    cmp.alertType = 'info';
+    fixture.componentRef.setInput('alertType', 'info');
     fixture.detectChanges();
 
     validateIcon(el, 'info');
 
-    cmp.alertType = 'success';
+    fixture.componentRef.setInput('alertType', 'success');
     fixture.detectChanges();
 
     validateIcon(el, 'success');
 
-    cmp.alertType = 'warning';
+    fixture.componentRef.setInput('alertType', 'warning');
     fixture.detectChanges();
 
     validateIcon(el, 'warning');
@@ -139,10 +134,9 @@ describe('Alert component', () => {
 
   it('should have a role of "alert"', async () => {
     const fixture = TestBed.createComponent(AlertTestComponent);
-    const cmp = fixture.componentInstance as AlertTestComponent;
     const el = fixture.nativeElement as HTMLElement;
 
-    cmp.alertType = undefined;
+    fixture.componentRef.setInput('alertType', undefined);
     fixture.detectChanges();
 
     const alertEl = el.querySelector('.sky-alert');
@@ -155,7 +149,7 @@ describe('Alert component', () => {
     const deprecatedSpy = spyOn(logSvc, 'deprecated');
 
     const fixture = TestBed.createComponent(AlertTestComponent);
-    fixture.componentInstance.descriptionType = undefined;
+    fixture.componentRef.setInput('descriptionType', undefined);
     fixture.detectChanges();
 
     validateDeprecatedCalled(deprecatedSpy, true);
@@ -166,12 +160,12 @@ describe('Alert component', () => {
     const deprecatedSpy = spyOn(logSvc, 'deprecated');
 
     const fixture = TestBed.createComponent(AlertTestComponent);
-    fixture.componentInstance.descriptionType = 'attention';
+    fixture.componentRef.setInput('descriptionType', 'attention');
     fixture.detectChanges();
 
     validateDeprecatedCalled(deprecatedSpy, false);
 
-    fixture.componentInstance.descriptionType = undefined;
+    fixture.componentRef.setInput('descriptionType', undefined);
     fixture.detectChanges();
 
     validateDeprecatedCalled(deprecatedSpy, true);
@@ -183,7 +177,7 @@ describe('Alert component', () => {
       descriptionType: SkyIndicatorDescriptionType,
       expectedDescription?: string,
     ): void {
-      fixture.componentInstance.descriptionType = descriptionType;
+      fixture.componentRef.setInput('descriptionType', descriptionType);
 
       fixture.detectChanges();
 
@@ -200,7 +194,7 @@ describe('Alert component', () => {
 
     it('should add the expected screen reader description based on `descriptionType`', () => {
       const fixture = TestBed.createComponent(AlertTestComponent);
-      fixture.componentInstance.customDescription = 'Custom description';
+      fixture.componentRef.setInput('customDescription', 'Custom description');
 
       validateDescription(fixture, 'completed', 'Completed:');
       validateDescription(fixture, 'error', 'Error:');
@@ -215,7 +209,7 @@ describe('Alert component', () => {
       validateDescription(
         fixture,
         'custom',
-        fixture.componentInstance.customDescription,
+        fixture.componentInstance.customDescription(),
       );
     });
 
@@ -248,10 +242,9 @@ describe('Alert component', () => {
       for (const closed of closedStates) {
         it(`should be accessible with 'closed': ${closed}`, async () => {
           const fixture = TestBed.createComponent(AlertTestComponent);
-          const cmp = fixture.componentInstance as AlertTestComponent;
           const el = fixture.nativeElement;
 
-          cmp.closed = closed;
+          fixture.componentRef.setInput('closed', closed);
           fixture.detectChanges();
 
           await expectAsync(el).toBeAccessible();
@@ -262,11 +255,10 @@ describe('Alert component', () => {
         for (const alertType of alertTypes) {
           it(`should be accessible with 'alertType': ${alertType} and 'closeable': ${closeable}`, async () => {
             const fixture = TestBed.createComponent(AlertTestComponent);
-            const cmp = fixture.componentInstance as AlertTestComponent;
             const el = fixture.nativeElement;
 
-            cmp.alertType = alertType;
-            cmp.closeable = closeable;
+            fixture.componentRef.setInput('alertType', alertType);
+            fixture.componentRef.setInput('closeable', closeable);
             fixture.detectChanges();
 
             await expectAsync(el).toBeAccessible();
@@ -279,11 +271,13 @@ describe('Alert component', () => {
           for (const customDescription of customDescriptionTypes) {
             it(`should be accessible with 'descriptionType': ${descriptionType}, and 'customDescription': ${customDescription}`, async () => {
               const fixture = TestBed.createComponent(AlertTestComponent);
-              const cmp = fixture.componentInstance as AlertTestComponent;
               const el = fixture.nativeElement;
 
-              cmp.descriptionType = descriptionType;
-              cmp.customDescription = customDescription;
+              fixture.componentRef.setInput('descriptionType', descriptionType);
+              fixture.componentRef.setInput(
+                'customDescription',
+                customDescription,
+              );
               fixture.detectChanges();
 
               await expectAsync(el).toBeAccessible();
@@ -292,10 +286,9 @@ describe('Alert component', () => {
         } else {
           it(`should be accessible with 'descriptionType': ${descriptionType}`, async () => {
             const fixture = TestBed.createComponent(AlertTestComponent);
-            const cmp = fixture.componentInstance as AlertTestComponent;
             const el = fixture.nativeElement;
 
-            cmp.descriptionType = descriptionType;
+            fixture.componentRef.setInput('descriptionType', descriptionType);
             fixture.detectChanges();
 
             await expectAsync(el).toBeAccessible();

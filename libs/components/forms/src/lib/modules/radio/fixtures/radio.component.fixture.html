@@ -4,16 +4,17 @@
   <div role="radiogroup" aria-labelledby="radio-group-label">
     <sky-radio
       name="testName"
-      [disabled]="disabled1"
-      [helpKey]="helpKey"
-      [helpPopoverContent]="helpPopoverContent"
-      [helpPopoverTitle]="helpPopoverTitle"
-      [hintText]="hintText1"
-      [id]="provideIds ? 'test-id-0' : undefined"
-      [labelText]="labelText1"
-      [label]="label1"
-      [value]="value1"
-      [(ngModel)]="selectedValue"
+      [disabled]="disabled1()"
+      [helpKey]="helpKey()"
+      [helpPopoverContent]="helpPopoverContent()"
+      [helpPopoverTitle]="helpPopoverTitle()"
+      [hintText]="hintText1()"
+      [id]="provideIds() ? 'test-id-0' : undefined"
+      [labelText]="labelText1()"
+      [label]="label1()"
+      [value]="value1()"
+      [ngModel]="selectedValue()"
+      (ngModelChange)="selectedValue.set($event)"
       (checkedChange)="onCheckedChange($event)"
       (disabledChange)="onDisabledChange($event)"
     >
@@ -22,24 +23,26 @@
 
     <sky-radio
       name="testName"
-      [hintText]="hintText2"
-      [id]="provideIds ? 'test-id-1' : undefined"
-      [tabindex]="tabindex2"
-      [labelText]="labelText2"
-      [value]="value2"
-      [(ngModel)]="selectedValue"
+      [hintText]="hintText2()"
+      [id]="provideIds() ? 'test-id-1' : undefined"
+      [tabindex]="tabindex2()"
+      [labelText]="labelText2()"
+      [value]="value2()"
+      [ngModel]="selectedValue()"
+      (ngModelChange)="selectedValue.set($event)"
     >
       <sky-radio-label> My label </sky-radio-label>
     </sky-radio>
 
     <sky-radio
       name="testName"
-      [hintText]="hintText3"
-      [id]="provideIds ? 'test-id-2' : undefined"
-      [labelText]="labelText3"
-      [labelledBy]="labelledBy3"
-      [value]="value3"
-      [(ngModel)]="selectedValue"
+      [hintText]="hintText3()"
+      [id]="provideIds() ? 'test-id-2' : undefined"
+      [labelText]="labelText3()"
+      [labelledBy]="labelledBy3()"
+      [value]="value3()"
+      [ngModel]="selectedValue()"
+      (ngModelChange)="selectedValue.set($event)"
     >
       <sky-radio-label> My label </sky-radio-label>
     </sky-radio>

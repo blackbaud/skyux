@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkySummaryActionBarModule } from '@skyux/action-bars';
 import { SkyKeyInfoModule } from '@skyux/indicators';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
@@ -6,6 +6,7 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyKeyInfoModule, SkyModalModule, SkySummaryActionBarModule],
 })
 export class ModalComponent {

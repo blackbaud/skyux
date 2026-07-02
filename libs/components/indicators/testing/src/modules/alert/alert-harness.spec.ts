@@ -1,6 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { Component, model } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   SkyAlertModule,
@@ -15,11 +15,11 @@ import { SkyAlertHarness } from './alert-harness';
   selector: 'sky-alert-test',
   template: `
     <sky-alert
-      [alertType]="alertType"
-      [closeable]="closeable"
-      [closed]="closed"
-      [customDescription]="customDescription"
-      [descriptionType]="descriptionType"
+      [alertType]="alertType()"
+      [closeable]="closeable()"
+      [closed]="closed()"
+      [customDescription]="customDescription()"
+      [descriptionType]="descriptionType()"
       (closedChange)="closedChange()"
       data-sky-id="test-alert"
     >
@@ -30,15 +30,17 @@ import { SkyAlertHarness } from './alert-harness';
   standalone: false,
 })
 class TestComponent {
-  public alertType = 'warning';
+  public alertType = model('warning');
 
-  public closeable = true;
+  public closeable = model(true);
 
-  public closed = false;
+  public closed = model(false);
 
-  public customDescription: string | undefined;
+  public customDescription = model<string | undefined>(undefined);
 
-  public descriptionType: SkyIndicatorDescriptionType | undefined;
+  public descriptionType = model<SkyIndicatorDescriptionType | undefined>(
+    undefined,
+  );
 
   public closedChange(): void {
     // Only exists for the spy.
@@ -51,7 +53,7 @@ async function validateAlertType(
   fixture: ComponentFixture<TestComponent>,
   alertType: SkyIndicatorIconType,
 ): Promise<void> {
-  fixture.componentInstance.alertType = alertType;
+  fixture.componentRef.setInput('alertType', alertType);
   fixture.detectChanges();
   await expectAsync(alertHarness.getAlertType()).toBeResolvedTo(alertType);
 }
@@ -62,8 +64,8 @@ async function validateDescriptionType(
   descriptionType: SkyIndicatorDescriptionType,
   customDescription?: string,
 ): Promise<void> {
-  fixture.componentInstance.descriptionType = descriptionType;
-  fixture.componentInstance.customDescription = customDescription;
+  fixture.componentRef.setInput('descriptionType', descriptionType);
+  fixture.componentRef.setInput('customDescription', customDescription);
   fixture.detectChanges();
 
   const componentDescriptionType = await alertHarness.getDescriptionType();
@@ -116,12 +118,12 @@ describe('Alert harness', () => {
   it('should return the expected closeable value', async () => {
     const { alertHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.closeable = false;
+    fixture.componentRef.setInput('closeable', false);
     fixture.detectChanges();
 
     await expectAsync(alertHarness.isCloseable()).toBeResolvedTo(false);
 
-    fixture.componentInstance.closeable = true;
+    fixture.componentRef.setInput('closeable', true);
     fixture.detectChanges();
 
     await expectAsync(alertHarness.isCloseable()).toBeResolvedTo(true);
@@ -130,7 +132,7 @@ describe('Alert harness', () => {
   it('should throw an error when closing a non-closeable alert', async () => {
     const { alertHarness, fixture } = await setupTest();
 
-    fixture.componentInstance.closeable = false;
+    fixture.componentRef.setInput('closeable', false);
     fixture.detectChanges();
 
     await expectAsync(alertHarness.close()).toBeRejectedWithError(
@@ -171,8 +173,8 @@ describe('Alert harness', () => {
     const { fixture, alertHarness } = await setupTest();
     const description = 'Custom description:';
 
-    fixture.componentInstance.descriptionType = 'custom';
-    fixture.componentInstance.customDescription = description;
+    fixture.componentRef.setInput('descriptionType', 'custom');
+    fixture.componentRef.setInput('customDescription', description);
 
     fixture.detectChanges();
 
@@ -184,7 +186,7 @@ describe('Alert harness', () => {
   it('should return an empty string when `descriptionType` is not custom', async () => {
     const { fixture, alertHarness } = await setupTest();
 
-    fixture.componentInstance.descriptionType = 'attention';
+    fixture.componentRef.setInput('descriptionType', 'attention');
 
     fixture.detectChanges();
 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
  * Displays content in the arbitrary section of the page summary.
@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
   selector: 'sky-page-summary-content',
   templateUrl: './page-summary-content.component.html',
   styleUrls: ['./page-summary-content.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 /* istanbul ignore next */

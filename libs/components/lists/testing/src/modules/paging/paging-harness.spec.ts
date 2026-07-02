@@ -23,12 +23,12 @@ describe('Paging test harness', () => {
     const loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
 
     if (options.pageSize) {
-      fixture.componentInstance.pageSize = options.pageSize;
+      fixture.componentRef.setInput('pageSize', options.pageSize);
       fixture.detectChanges();
     }
 
     if (options.maxPages) {
-      fixture.componentInstance.maxPages = options.maxPages;
+      fixture.componentRef.setInput('maxPages', options.maxPages);
       fixture.detectChanges();
     }
 

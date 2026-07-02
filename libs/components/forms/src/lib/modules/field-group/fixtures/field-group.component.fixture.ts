@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -24,15 +24,15 @@ import { SkyFieldGroupModule } from '../field-group.module';
 })
 export class FieldGroupComponent {
   protected formGroup: FormGroup;
-  public stacked = false;
-  public headingText = 'Heading text';
-  public hintText: string | undefined;
-  public headingHidden = false;
-  public headingStyle: SkyFieldGroupHeadingStyle | undefined = 3;
-  public headingLevel: SkyFieldGroupHeadingLevel | undefined = 3;
-  public helpKey: string | undefined;
-  public helpPopoverContent: string | undefined;
-  public helpPopoverTitle: string | undefined;
+  public stacked = input(false);
+  public headingText = input('Heading text');
+  public hintText = input<string | undefined>(undefined);
+  public headingHidden = input(false);
+  public headingStyle = input<SkyFieldGroupHeadingStyle | undefined>(3);
+  public headingLevel = input<SkyFieldGroupHeadingLevel | undefined>(3);
+  public helpKey = input<string | undefined>(undefined);
+  public helpPopoverContent = input<string | undefined>(undefined);
+  public helpPopoverTitle = input<string | undefined>(undefined);
 
   constructor() {
     this.formGroup = inject(FormBuilder).group({

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { SkyNumericModule, SkyNumericOptions } from '@skyux/core';
 import { SkyDescriptionListModule } from '@skyux/layout';
 
@@ -8,6 +8,7 @@ import { SkyDescriptionListModule } from '@skyux/layout';
 @Component({
   selector: 'app-core-numeric-basic-example',
   templateUrl: './example.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyDescriptionListModule, SkyNumericModule],
 })
 export class CoreNumericBasicExampleComponent {

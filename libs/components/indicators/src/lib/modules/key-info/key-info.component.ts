@@ -1,5 +1,10 @@
 import { NgClass } from '@angular/common';
-import { Component, Input, TemplateRef } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  TemplateRef,
+} from '@angular/core';
 import { SkyIdModule } from '@skyux/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 
@@ -9,6 +14,7 @@ import { SkyKeyInfoLayoutType } from './key-info-layout-type';
   imports: [NgClass, SkyHelpInlineModule, SkyIdModule],
   selector: 'sky-key-info',
   templateUrl: './key-info.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './key-info.component.scss',
 })
 export class SkyKeyInfoComponent {

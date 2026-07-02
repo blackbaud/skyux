@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ContentChild,
   ElementRef,
@@ -38,6 +39,7 @@ function numberAttribute2(value: unknown): number {
       },
     },
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyBoxComponent {

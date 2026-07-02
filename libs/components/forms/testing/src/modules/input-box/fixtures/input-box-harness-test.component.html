@@ -23,14 +23,14 @@
   </sky-input-box>
   <sky-input-box
     [attr.data-sky-id]="'my-input-box-last-name-easy-mode'"
-    [characterLimit]="easyModeCharacterLimit"
-    [disabled]="easyModeDisabled"
-    [helpKey]="easyModeHelpKey"
-    [helpPopoverContent]="easyModeHelpContent"
-    [helpPopoverTitle]="easyModeHelpTitle"
-    [hintText]="easyModeHintText"
-    [labelText]="easyModeLabel"
-    [stacked]="easyModeStacked"
+    [characterLimit]="easyModeCharacterLimit()"
+    [disabled]="easyModeDisabled()"
+    [helpKey]="easyModeHelpKey()"
+    [helpPopoverContent]="easyModeHelpContent()"
+    [helpPopoverTitle]="easyModeHelpTitle()"
+    [hintText]="easyModeHintText()"
+    [labelText]="easyModeLabel()"
+    [stacked]="easyModeStacked()"
   >
     <input class="my-last-name-field" type="text" formControlName="lastName" />
     <div class="sky-error-indicator">

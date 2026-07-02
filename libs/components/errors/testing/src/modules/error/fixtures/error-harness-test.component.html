@@ -48,8 +48,8 @@
 
 <sky-error
   data-sky-id="dynamic-error"
-  [errorType]="errorType"
-  [showImage]="!!errorType"
+  [errorType]="errorType()"
+  [showImage]="!!errorType()"
 >
   <sky-error-title [replaceDefaultTitle]="true">
     Custom error with a default image.
@@ -57,7 +57,7 @@
   <sky-error-description [replaceDefaultDescription]="true">
     Custom description.
   </sky-error-description>
-  @if (errorType) {
+  @if (errorType()) {
     <sky-error-action>
       <button
         class="sky-btn sky-btn-link"

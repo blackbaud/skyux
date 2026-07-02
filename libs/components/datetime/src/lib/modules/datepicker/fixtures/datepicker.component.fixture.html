@@ -7,19 +7,20 @@
     #date="ngModel"
     id="datepicker"
     name="myDate"
-    [dateFormat]="dateFormat"
-    [disabled]="isDisabled"
-    [maxDate]="maxDate"
-    [minDate]="minDate"
-    [startAtDate]="startAtDate"
+    [dateFormat]="dateFormat()"
+    [disabled]="isDisabled()"
+    [maxDate]="maxDate()"
+    [minDate]="minDate()"
+    [startAtDate]="startAtDate()"
     [skyDatepickerInput]="picker"
-    [skyDatepickerNoValidate]="noValidate"
-    [startingDay]="startingDay"
-    [strict]="strict"
-    [(ngModel)]="selectedDate"
+    [skyDatepickerNoValidate]="noValidate()"
+    [startingDay]="startingDay()"
+    [strict]="strict()"
+    [ngModel]="selectedDate()"
+    (ngModelChange)="selectedDate.set($event)"
   />
 </sky-datepicker>
 
-@if (showInvalidDirective) {
+@if (showInvalidDirective()) {
   <input type="text" skyDatepickerInput />
 }

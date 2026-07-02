@@ -1,5 +1,5 @@
-@if (render) {
-  <sky-selection-box-grid [alignItems]="alignItems">
+@if (render()) {
+  <sky-selection-box-grid [alignItems]="alignItems()">
     <sky-selection-box [control]="checkbox1">
       <sky-selection-box-header id="header1">
         header one

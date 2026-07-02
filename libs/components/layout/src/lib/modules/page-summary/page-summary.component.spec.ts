@@ -55,8 +55,7 @@ describe('Page summary component', () => {
     const el = fixture.nativeElement;
     expect(el.querySelector('.sky-page-summary-with-key-info')).toExist();
 
-    const cmp = fixture.componentInstance as SkyPageSummaryTestComponent;
-    cmp.showKeyInfo = false;
+    fixture.componentRef.setInput('showKeyInfo', false);
 
     fixture.detectChanges();
     tick();

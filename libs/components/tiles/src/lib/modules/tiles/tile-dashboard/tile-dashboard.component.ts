@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -39,6 +40,7 @@ import { SkyTileDashboardService } from './tile-dashboard.service';
     '[class]': 'layoutClassName()',
   },
   standalone: false,
+  changeDetection: ChangeDetectionStrategy.Eager,
   hostDirectives: [SkyThemeComponentClassDirective],
 })
 export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {

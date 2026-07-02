@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
 import {
@@ -21,6 +21,7 @@ interface donationSummary {
 @Component({
   selector: 'app-action-bars-summary-action-bar-error-example',
   templateUrl: './example.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyKeyInfoModule, SkySummaryActionBarModule, ReactiveFormsModule],
 })
 export class ActionBarsSummaryActionBarErrorExampleComponent {

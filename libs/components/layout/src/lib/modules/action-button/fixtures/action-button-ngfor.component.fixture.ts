@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 
 @Component({
   selector: 'sky-test-cmp',
@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class ActionButtonNgforTestComponent {
-  public items: any[] = [
+  public items = signal<any[]>([
     {
       iconName: 'square',
       header: 'Action button',
@@ -25,5 +25,5 @@ export class ActionButtonNgforTestComponent {
       details:
         'The autocomplete component creates a text input that filters data based on user entries.',
     },
-  ];
+  ]);
 }

@@ -6,6 +6,7 @@ import {
   TemplateRef,
   ViewChild,
   ViewChildren,
+  input,
 } from '@angular/core';
 import { SkyGridSelectedRowsModelChange } from '@skyux/grids';
 
@@ -44,7 +45,7 @@ export class ListViewGridFixtureComponent implements OnInit {
 
   public searchFn: (data: any, searchText: string) => boolean;
 
-  public showNgIfCol = false;
+  public showNgIfCol = input<boolean>(false);
 
   public ngOnInit() {
     setTimeout(() => {

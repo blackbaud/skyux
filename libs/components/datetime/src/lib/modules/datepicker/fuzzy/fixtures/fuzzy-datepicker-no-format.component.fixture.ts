@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, model } from '@angular/core';
 
 @Component({
   selector: 'sky-fuzzy-datepicker-no-format-test',
@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class FuzzyDatepickerNoFormatTestComponent {
-  public selectedDate: any;
+  public selectedDate = model<any>(undefined);
 }

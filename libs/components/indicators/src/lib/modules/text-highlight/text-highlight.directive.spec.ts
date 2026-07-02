@@ -39,7 +39,6 @@ function validateInnerHTML(el: HTMLElement, expectedText: string): void {
 
 describe('Text Highlight', () => {
   let fixture: ComponentFixture<SkyTextHighlightTestComponent>;
-  let component: SkyTextHighlightTestComponent;
   let nativeElement: HTMLElement;
   let callbacks: (() => void)[];
   let containerEl: HTMLElement;
@@ -70,7 +69,6 @@ describe('Text Highlight', () => {
     callbacks = [];
     fixture = TestBed.createComponent(SkyTextHighlightTestComponent);
     nativeElement = fixture.nativeElement as HTMLElement;
-    component = fixture.componentInstance;
     fixture.detectChanges();
     containerEl = getContainerEl(fixture);
   });
@@ -82,9 +80,8 @@ describe('Text Highlight', () => {
   it('should highlight on startup if search term is set in component', () => {
     fixture = TestBed.createComponent(SkyTextHighlightTestComponent);
     nativeElement = fixture.nativeElement as HTMLElement;
-    component = fixture.componentInstance;
 
-    component.searchTerm = 'test';
+    fixture.componentRef.setInput('searchTerm', 'test');
     fixture.detectChanges();
     containerEl = getContainerEl(fixture);
 
@@ -105,19 +102,19 @@ describe('Text Highlight', () => {
   });
 
   it('should handle empty strings and empty arrays', () => {
-    component.searchTerm = '';
+    fixture.componentRef.setInput('searchTerm', '');
     fixture.detectChanges();
 
     expect(containerEl.querySelector('mark')).toBeFalsy();
 
-    component.searchTerm = [];
+    fixture.componentRef.setInput('searchTerm', []);
     fixture.detectChanges();
 
     expect(containerEl.querySelector('mark')).toBeFalsy();
   });
 
   it('should highlight search terms when using an array', () => {
-    component.searchTerm = ['Here', 'some', 'text'];
+    fixture.componentRef.setInput('searchTerm', ['Here', 'some', 'text']);
     fixture.detectChanges();
 
     const marks: NodeListOf<HTMLElement> =
@@ -127,7 +124,7 @@ describe('Text Highlight', () => {
     validateInnerHTML(marks[1], 'some');
     validateInnerHTML(marks[2], 'text');
 
-    component.searchTerm = ['text'];
+    fixture.componentRef.setInput('searchTerm', ['text']);
     fixture.detectChanges();
 
     const newMarks: NodeListOf<HTMLElement> =
@@ -137,9 +134,9 @@ describe('Text Highlight', () => {
   });
 
   it('should highlight search terms when using an array and the array contains substrings of other strings in the same array', () => {
-    component.innerText1 = 'The pandas have ten pans.';
+    fixture.componentRef.setInput('innerText1', 'The pandas have ten pans.');
     fixture.detectChanges();
-    component.searchTerm = ['pan', 'panda'];
+    fixture.componentRef.setInput('searchTerm', ['pan', 'panda']);
     fixture.detectChanges();
 
     // If a match is found that contains a substring of another match, the larger string should be marked.
@@ -150,7 +147,7 @@ describe('Text Highlight', () => {
     validateInnerHTML(marks[1], 'pan');
 
     // Also check for a different order of the same terms.
-    component.searchTerm = ['panda', 'pan'];
+    fixture.componentRef.setInput('searchTerm', ['panda', 'pan']);
     fixture.detectChanges();
 
     const newMarks: NodeListOf<HTMLElement> =
@@ -188,7 +185,7 @@ describe('Text Highlight', () => {
   });
 
   it('should highlight search term in nested component', () => {
-    component.showAdditionalContent = true;
+    fixture.componentRef.setInput('showAdditionalContent', true);
     fixture.detectChanges();
     updateInputText(fixture, 'here');
 
@@ -199,7 +196,7 @@ describe('Text Highlight', () => {
   });
 
   it('should support illegal characters in the search term', () => {
-    component.innerText1 = 'foo-/^$*+?.()|{}[]bar';
+    fixture.componentRef.setInput('innerText1', 'foo-/^$*+?.()|{}[]bar');
     fixture.detectChanges();
     updateInputText(fixture, '-/^$*+?.()|{}[]');
 
@@ -221,7 +218,7 @@ describe('Text Highlight', () => {
   });
 
   it('should highlight search term of html that was previously hidden', () => {
-    component.showAdditionalContent = false;
+    fixture.componentRef.setInput('showAdditionalContent', false);
     fixture.detectChanges();
 
     updateInputText(fixture, 'is');
@@ -249,7 +246,7 @@ describe('Text Highlight', () => {
   });
 
   it('should highlight hidden search term where only highlighted term was hidden', () => {
-    component.showAdditionalContent = false;
+    fixture.componentRef.setInput('showAdditionalContent', false);
     fixture.detectChanges();
 
     updateInputText(fixture, 'additional');
@@ -275,7 +272,7 @@ describe('Text Highlight', () => {
 
   it('should handle search terms with escapable characters when there are many child DOM elements', () => {
     updateInputText(fixture, '.');
-    fixture.componentInstance.childElementsTest = true;
+    fixture.componentRef.setInput('childElementsTest', true);
     fixture.detectChanges();
 
     const mark = fixture.nativeElement.querySelector('mark');

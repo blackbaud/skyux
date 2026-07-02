@@ -50,7 +50,7 @@
   Update state
 </button>
 
-@if (showInvalidTree) {
+@if (showInvalidTree()) {
   <tree-root #tree [nodes]="nodes">
     <ng-template
       #treeNodeFullTemplate

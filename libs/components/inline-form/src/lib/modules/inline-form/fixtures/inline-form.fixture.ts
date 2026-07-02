@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 import { SkyInlineFormCloseArgs } from '../types/inline-form-close-args';
 import { SkyInlineFormConfig } from '../types/inline-form-config';
@@ -9,17 +9,17 @@ import { SkyInlineFormConfig } from '../types/inline-form-config';
   standalone: false,
 })
 export class SkyInlineFormFixtureComponent {
-  public config: SkyInlineFormConfig | undefined;
+  public config = input<SkyInlineFormConfig | undefined>(undefined);
 
-  public showForm = false;
+  public showForm = input<boolean>(false);
 
-  public showFormWithAutocomplete = false;
+  public showFormWithAutocomplete = input<boolean>(false);
 
-  public showFormWithOutAutocomplete = false;
+  public showFormWithOutAutocomplete = input<boolean>(false);
 
-  public showFormWithHiddenElements = false;
+  public showFormWithHiddenElements = input<boolean>(false);
 
-  public showFormWithNoElements = false;
+  public showFormWithNoElements = input<boolean>(false);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public onClose(event: SkyInlineFormCloseArgs): void {

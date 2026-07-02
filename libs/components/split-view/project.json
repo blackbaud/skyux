@@ -9,17 +9,6 @@
     "build": {
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/split-view"],
-      "options": {
-        "project": "libs/components/split-view/ng-package.json"
-      },
-      "configurations": {
-        "production": {
-          "tsConfig": "libs/components/split-view/tsconfig.lib.prod.json"
-        },
-        "development": {
-          "tsConfig": "libs/components/split-view/tsconfig.lib.json"
-        }
-      },
       "defaultConfiguration": "production",
       "dependsOn": [
         "^build",
@@ -34,10 +23,21 @@
         "{workspaceRoot}/libs/components/split-view/testing/src/**/*",
         "!{workspaceRoot}/libs/components/split-view/testing/src/**/*.spec.ts",
         "!{workspaceRoot}/libs/components/split-view/testing/src/**/fixtures/**/*"
-      ]
+      ],
+      "options": {
+        "project": "libs/components/split-view/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/components/split-view/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/components/split-view/tsconfig.lib.json"
+        }
+      }
     },
     "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+      "executor": "@angular/build:karma",
       "options": {
         "tsConfig": "libs/components/split-view/tsconfig.spec.json",
         "karmaConfig": "libs/components/split-view/karma.conf.js",

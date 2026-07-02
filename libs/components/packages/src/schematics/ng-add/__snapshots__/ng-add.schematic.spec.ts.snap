@@ -3,7 +3,7 @@
 exports[`ng-add.schematic should install dependencies 1`] = `
 "{
   "dependencies": {
-    "@angular/cdk": "^21.0.0",
+    "@angular/cdk": "^22.0.0",
     "@skyux/assets": "^0.0.0-PLACEHOLDER",
     "@skyux/core": "^0.0.0-PLACEHOLDER",
     "@skyux/i18n": "^0.0.0-PLACEHOLDER",
@@ -197,7 +197,7 @@ exports[`ng-add.schematic should update workspace config if a workspace only has
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:karma",
           "options": {
             "polyfills": [
               "zone.js",

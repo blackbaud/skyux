@@ -1,6 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyPageHeaderModule, SkyPageLink } from '@skyux/pages';
 
@@ -11,16 +11,16 @@ import { SkyPageHeaderHarness } from './page-header-harness';
   selector: 'sky-page-header-test',
   template: `
     <sky-page-header
-      [pageTitle]="pageTitle"
-      [parentLink]="parentLink"
+      [pageTitle]="pageTitle()"
+      [parentLink]="parentLink()"
       data-sky-id="test-page-header"
     />
   `,
-  standalone: false,
+  imports: [SkyPageHeaderModule],
 })
 class TestComponent {
-  public pageTitle: string | undefined;
-  public parentLink: SkyPageLink | undefined;
+  public readonly pageTitle = input<string | undefined>(undefined);
+  public readonly parentLink = input<SkyPageLink | undefined>(undefined);
 }
 //#endregion Test component
 
@@ -31,8 +31,7 @@ describe('Page header harness', () => {
     loader: HarnessLoader;
   }> {
     await TestBed.configureTestingModule({
-      declarations: [TestComponent],
-      imports: [SkyPageHeaderModule],
+      imports: [TestComponent],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(TestComponent);
@@ -59,7 +58,7 @@ describe('Page header harness', () => {
       dataSkyId: 'test-page-header',
     });
 
-    fixture.componentInstance.pageTitle = title;
+    fixture.componentRef.setInput('pageTitle', title);
     fixture.detectChanges();
 
     await expectAsync(harness.getPageTitle()).toBeResolvedTo(title);
@@ -75,7 +74,7 @@ describe('Page header harness', () => {
       dataSkyId: 'test-page-header',
     });
 
-    fixture.componentInstance.parentLink = parentLink;
+    fixture.componentRef.setInput('parentLink', parentLink);
     fixture.detectChanges();
 
     await expectAsync(harness.getParentLinkText()).toBeResolvedTo(linkText);

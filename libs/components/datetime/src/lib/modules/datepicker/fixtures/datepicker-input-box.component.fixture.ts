@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input, model } from '@angular/core';
 
 @Component({
   selector: 'sky-datepicker-input-box-test',
@@ -6,8 +6,8 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class DatepickerInputBoxTestComponent {
-  public dateFormat: string | undefined;
-  public inputBoxHintText: string | undefined;
-  public labelText = 'Input box test';
-  public selectedDate: any;
+  public dateFormat = input<string | undefined>(undefined);
+  public inputBoxHintText = input<string | undefined>(undefined);
+  public labelText = input('Input box test');
+  public selectedDate = model<any>(undefined);
 }

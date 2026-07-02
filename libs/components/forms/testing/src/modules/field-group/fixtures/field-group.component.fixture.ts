@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, model } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -25,15 +25,15 @@ import {
 })
 export class FieldGroupComponent {
   protected formGroup: FormGroup;
-  public stacked = false;
-  public headingText = 'Heading text';
-  public hintText: string | undefined;
-  public headingHidden = false;
-  public headingLevel: SkyFieldGroupHeadingLevel = 3;
-  public headingStyle: SkyFieldGroupHeadingStyle = 3;
-  public helpKey: string | undefined;
-  public helpPopoverContent: string | undefined = 'Popover content';
-  public helpPopoverTitle = 'Popover title';
+  public stacked = model(false);
+  public headingText = model('Heading text');
+  public hintText = model<string | undefined>(undefined);
+  public headingHidden = model(false);
+  public headingLevel = model<SkyFieldGroupHeadingLevel>(3);
+  public headingStyle = model<SkyFieldGroupHeadingStyle>(3);
+  public helpKey = model<string | undefined>(undefined);
+  public helpPopoverContent = model<string | undefined>('Popover content');
+  public helpPopoverTitle = model('Popover title');
 
   constructor() {
     this.formGroup = inject(FormBuilder).group({

@@ -1,5 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopSkyAnimations } from '@skyux/core';
 import { SkyInlineDeleteModule } from '@skyux/layout';
@@ -12,14 +12,14 @@ import { SkyInlineDeleteHarness } from './inline-delete-harness';
   template: `
     <sky-inline-delete
       data-sky-id="test-component-delete"
-      [pending]="pendingFlag"
+      [pending]="pendingFlag()"
       (cancelTriggered)="cancelDeletion()"
       (deleteTriggered)="deleteItem()"
     />
   `,
 })
 class TestComponent {
-  public pendingFlag = false;
+  public pendingFlag = signal(false);
   public cancelDeletion(): void {
     // for spy
   }
@@ -76,7 +76,7 @@ describe('Inline delete harness', () => {
     const { deleteHarness, fixture } = await setupTest();
     await expectAsync(deleteHarness.isPending()).toBeResolvedTo(false);
 
-    fixture.componentInstance.pendingFlag = true;
+    fixture.componentInstance.pendingFlag.set(true);
     fixture.detectChanges();
 
     await expectAsync(deleteHarness.isPending()).toBeResolvedTo(true);

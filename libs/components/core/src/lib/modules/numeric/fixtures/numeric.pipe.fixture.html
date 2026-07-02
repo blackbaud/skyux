@@ -1,7 +1,12 @@
 <p>
   {{
-    value
+    value()
       | skyNumeric
-        : { truncate: false, minDigits: 2, format: 'currency', locale: locale }
+        : {
+            truncate: false,
+            minDigits: 2,
+            format: 'currency',
+            locale: locale()
+          }
   }}
 </p>

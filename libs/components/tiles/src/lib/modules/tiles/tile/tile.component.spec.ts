@@ -1,3 +1,4 @@
+import { ChangeDetectorRef } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -390,8 +391,11 @@ describe('Tile component', () => {
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
-    // Force tile to render move button.
+    // Force tile to render move button. Marking the host component's own CDR
+    // (not the root host view) ensures the OnPush host propagates to the Eager
+    // tile child when detectChanges is called.
     fixture.componentInstance.tileComponent.isInDashboardColumn = true;
+    fixture.debugElement.injector.get(ChangeDetectorRef).markForCheck();
     fixture.detectChanges();
 
     const helpButton = getLegacyHelpButton(fixture);
@@ -416,8 +420,11 @@ describe('Tile component', () => {
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
-    // Force tile to render move button.
+    // Force tile to render move button. Marking the host component's own CDR
+    // (not the root host view) ensures the OnPush host propagates to the Eager
+    // tile child when detectChanges is called.
     fixture.componentInstance.tileComponent.isInDashboardColumn = true;
+    fixture.debugElement.injector.get(ChangeDetectorRef).markForCheck();
     fixture.detectChanges();
 
     const helpButton = getLegacyHelpButton(fixture);

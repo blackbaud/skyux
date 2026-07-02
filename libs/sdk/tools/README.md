@@ -5,7 +5,7 @@ This project holds workspace schematics for the monorepo.
 ## Configure Test Target CI Configuration
 
 The CI pipeline uses `ci` configuration for running tests. Projects using the
-`@angular-devkit/build-angular:karma` builder have settings around e.g., which browsers to use.
+`@angular/build:karma` builder have settings around e.g., which browsers to use.
 Projects using the `@nx/jest:jest` builder have settings to explicitly set `ci` and `runInBand`
 to `true` to stabilize the tests.
 
