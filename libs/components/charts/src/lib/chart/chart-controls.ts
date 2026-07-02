@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  DestroyRef,
-  inject,
-  input,
-} from '@angular/core';
+import { Component, DestroyRef, inject, input } from '@angular/core';
 import { SkyModalService } from '@skyux/modals';
 import { SkyDropdownModule } from '@skyux/popovers';
 
@@ -15,7 +9,6 @@ import {
 } from './chart-data-table-modal';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkyChartsResourcesModule, SkyDropdownModule],
   selector: 'sky-chart-controls',
   templateUrl: './chart-controls.html',

@@ -24,7 +24,7 @@
       "dependsOn": ["^build"]
     },
     "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+      "executor": "@angular/build:karma",
       "options": {
         "tsConfig": "libs/components/charts/tsconfig.spec.json",
         "karmaConfig": "libs/components/charts/karma.conf.js",

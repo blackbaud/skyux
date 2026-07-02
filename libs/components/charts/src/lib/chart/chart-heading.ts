@@ -1,17 +1,10 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  input,
-  type TemplateRef,
-} from '@angular/core';
+import { Component, computed, input, type TemplateRef } from '@angular/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 
 import { type SkyChartHeadingLevel } from './chart-heading-level';
 import { type SkyChartHeadingStyle } from './chart-heading-style';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkyHelpInlineModule],
   selector: 'sky-chart-heading',
   styleUrl: './chart-heading.scss',

@@ -1,6 +1,5 @@
 import {
   booleanAttribute,
-  ChangeDetectionStrategy,
   Component,
   computed,
   input,
@@ -27,7 +26,6 @@ import { SkyChartSubheading } from './chart-subheading';
  * Provides a consistent heading, subheading, and layout wrapper for a chart.
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'sky-chart',
   },
