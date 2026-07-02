@@ -787,21 +787,24 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
       );
       await expectAsync(gridWrapperNativeElement).toBeAccessible();
 
-      // The axe-core test does not assert the contrast for the focus ring; it only checks contrast between text and backgrounds.
+      // The axe-core test does not assert the contrast for the focus ring, it
+      // only checks contrast between text and backgrounds, so this test is also
+      // asserting that the focus shadow is our color.
       const skyAgGridEl = gridWrapperNativeElement.querySelector(
         '.sky-ag-grid',
       ) as HTMLElement;
-      expect(
-        getComputedStyle(headerCell)
-          .getPropertyValue('--ag-focus-shadow')
-          .trim()
-          .split(' ')
-          .pop(),
-      ).toBe(
-        getComputedStyle(skyAgGridEl)
-          .getPropertyValue('--sky-override-ag-grid-focus-border-color')
-          .trim(),
-      );
+      const styleResolver = document.createElement('span');
+      styleResolver.style.color =
+        'var(--sky-override-ag-grid-focus-border-color, var(--sky-color-border-input-focus))';
+      skyAgGridEl.append(styleResolver);
+      const focusBorderColor = getComputedStyle(styleResolver).color;
+      expect(focusBorderColor).toBeTruthy();
+      styleResolver.remove();
+
+      const headerCellFocusShadow = getComputedStyle(headerCell).boxShadow;
+      expect(headerCellFocusShadow).toContain(focusBorderColor);
+      expect(headerCellFocusShadow).toContain('0px 0px 0px 2px');
+      expect(headerCellFocusShadow).toContain('inset');
     });
 
     it(`should be accessible in edit mode`, async () => {
