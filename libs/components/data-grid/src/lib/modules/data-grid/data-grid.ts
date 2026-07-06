@@ -63,6 +63,7 @@ import {
   takeUntil,
 } from 'rxjs';
 
+import { SkyDataGridRowData } from '../types/data-grid-row-data';
 import { SkyDataGridSort } from '../types/data-grid-sort';
 
 import { SkyDataGridColumn } from './data-grid-column';
@@ -117,10 +118,7 @@ function arraySorted(arr: string[]): string[] {
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyDataGrid<
-  T extends Record<'id', string> = Record<'id', string> &
-    Record<string, unknown>,
-> {
+export class SkyDataGrid {
   /**
    * Whether the grid sorts the data order when a column header is clicked.
    * When `autoSort` is set to `false`, the data grid will not modify the sort
@@ -168,11 +166,11 @@ export class SkyDataGrid<
   });
 
   /**
-   * The data for the grid. Each item requires a string `id`, and other properties should map to a `field` of the grid columns.
+   * The data for the grid. Each item must implement `SkyDataGridRowData`, and other properties should map to a `field` of the grid columns.
    * When `data` is `null` or `undefined`, the grid will show a loading indicator, and when `data` is an empty array,
    * the grid will show a "no rows" message.
    */
-  public readonly data = input<T[] | null | undefined>();
+  public readonly data = input<SkyDataGridRowData[] | null | undefined>();
 
   /**
    * The text to read to screen readers to describe the grid. This sets the `aria-label` attribute on the grid container.
@@ -280,7 +278,9 @@ export class SkyDataGrid<
   public readonly sort = model<SkyDataGridSort | undefined>(undefined);
 
   protected readonly columns = contentChildren(SkyDataGridColumn);
-  protected readonly gridApi = signal<GridApi<T> | undefined>(undefined);
+  protected readonly gridApi = signal<GridApi<SkyDataGridRowData> | undefined>(
+    undefined,
+  );
   protected readonly gridOptions = computed(() => {
     const hasColumnDefs = this.#hasColumnDefs();
     if (!hasColumnDefs) {
@@ -324,7 +324,7 @@ export class SkyDataGrid<
         rowSelection: untracked(() => this.#getRowSelection()),
         autoSizeStrategy: untracked(() => this.#getAutoSizeStrategy()),
       },
-    }) as GridOptions<T>;
+    }) as GridOptions<SkyDataGridRowData>;
   });
 
   protected readonly gridReady = signal(false);
@@ -383,7 +383,7 @@ export class SkyDataGrid<
   readonly #logger = inject(SkyLogService);
   readonly #router = inject(Router, { optional: true });
 
-  readonly #columnDefs = computed<ColDef<T>[]>(() => {
+  readonly #columnDefs = computed<ColDef<SkyDataGridRowData>[]>(() => {
     const columns = this.columns();
     return columns.map((col) => this.#createColDef(col));
   });
@@ -516,7 +516,7 @@ export class SkyDataGrid<
       const toSelect = validSelectedRowIds
         .filter((id) => !alreadySelected.has(id))
         .map((id) => api.getRowNode(id))
-        .filter((node): node is IRowNode<T> => !!node);
+        .filter((node): node is IRowNode<SkyDataGridRowData> => !!node);
       if (toDeselect.length) {
         api.setNodesSelected({ nodes: toDeselect, newValue: false });
       }
@@ -786,7 +786,7 @@ export class SkyDataGrid<
     };
   }
 
-  #getRowSelection(): RowSelectionOptions<T> {
+  #getRowSelection(): RowSelectionOptions<SkyDataGridRowData> {
     return this.multiselect()
       ? {
           checkboxes: true,
