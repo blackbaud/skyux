@@ -9,6 +9,7 @@ import {
   input,
   viewChild,
 } from '@angular/core';
+import { SkyLogService } from '@skyux/core';
 import Chart, {
   type ChartConfiguration,
   type ChartDataset,
@@ -48,6 +49,8 @@ const CATEGORY_AXIS_ID = 'category';
   template: `<canvas #chartRef aria-hidden="true"></canvas>`,
 })
 export class SkyChartBar {
+  readonly #logSvc = inject(SkyLogService);
+
   /**
    * The orientation of the bars.
    * @default 'vertical'
@@ -167,9 +170,19 @@ export class SkyChartBar {
 
     const datasets = series.map((chartSeries): ChartDataset<'bar'> => {
       const wanted = chartSeries.valueAxis();
-      const matchedIndex = wanted
-        ? valueAxes.findIndex((axis) => axis.axisId() === wanted)
-        : -1;
+      let matchedIndex = -1;
+
+      if (wanted) {
+        matchedIndex = valueAxes.findIndex((axis) => axis.axisId() === wanted);
+
+        if (matchedIndex === -1) {
+          this.#logSvc.warn(
+            `The chart series "${chartSeries.labelText()}" specifies valueAxis ` +
+              `"${wanted}", which does not match any value axis. The series will ` +
+              `plot against the first value axis.`,
+          );
+        }
+      }
 
       const valueKey = valueAxisKeys[matchedIndex === -1 ? 0 : matchedIndex];
 
