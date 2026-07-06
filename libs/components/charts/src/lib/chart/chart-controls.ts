@@ -13,6 +13,7 @@ import {
   SkyChartDataTableModal,
   SkyChartDataTableModalContext,
 } from './chart-data-table-modal';
+import { SkyChartTableService } from './chart-table.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -23,6 +24,8 @@ import {
 export class SkyChartControls {
   readonly #destroyRef = inject(DestroyRef);
   readonly #modalSvc = inject(SkyModalService);
+  // Optional so the component can be tested in isolation from `sky-chart`.
+  readonly #tableService = inject(SkyChartTableService, { optional: true });
 
   public readonly headingText = input.required<string>();
 
@@ -34,6 +37,7 @@ export class SkyChartControls {
           provide: SkyChartDataTableModalContext,
           useValue: {
             headingText: this.headingText(),
+            table: this.#tableService?.table(),
           },
         },
       ],

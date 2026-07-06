@@ -1,21 +1,31 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  contentChildren,
+  DestroyRef,
   effect,
   ElementRef,
+  inject,
+  input,
   viewChild,
 } from '@angular/core';
-import Chart from 'chart.js/auto';
+import Chart, {
+  type ChartConfiguration,
+  type ChartDataset,
+} from 'chart.js/auto';
 
-const data = [
-  { year: 2010, count: 10 },
-  { year: 2011, count: 20 },
-  { year: 2012, count: 15 },
-  { year: 2013, count: 25 },
-  { year: 2014, count: 22 },
-  { year: 2015, count: 30 },
-  { year: 2016, count: 28 },
-];
+import { SkyChartCategoryAxis } from '../chart-axes/chart-category-axis';
+import { SkyChartValueAxis } from '../chart-axes/chart-value-axis';
+import { SkyChartSeries } from '../chart-series/chart-series';
+import { SkyChartTable } from '../chart/chart-table';
+import { SkyChartTableService } from '../chart/chart-table.service';
+import { SkyChartBarOrientation } from './chart-bar-orientation';
+
+type BarChartScales = NonNullable<
+  NonNullable<ChartConfiguration<'bar'>['options']>['scales']
+>;
+
+const CATEGORY_AXIS_ID = 'category';
 
 /**
  * @preview
@@ -24,46 +34,171 @@ const data = [
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [],
   selector: 'sky-chart-bar',
-  styles: ``,
-  template: ` <canvas #chartRef></canvas>`,
+  // Chart.js detects size changes from the canvas's parent, not the canvas
+  // itself, so the host must be a dedicated, relatively-positioned container
+  // for the canvas. Without this, the chart fails to resize responsively and
+  // can render blurry or continually shrink.
+  // https://www.chartjs.org/docs/latest/configuration/responsive.html#important-note
+  styles: `
+    :host {
+      display: block;
+      position: relative;
+    }
+  `,
+  template: `<canvas #chartRef aria-hidden="true"></canvas>`,
 })
 export class SkyChartBar {
+  /**
+   * The orientation of the bars.
+   * @default 'vertical'
+   */
+  public readonly orientation = input<SkyChartBarOrientation>('vertical');
+
   protected readonly chartRef = viewChild.required('chartRef', {
     read: ElementRef,
   });
 
+  protected readonly categoryAxes = contentChildren(SkyChartCategoryAxis);
+  protected readonly valueAxes = contentChildren(SkyChartValueAxis);
+  protected readonly series = contentChildren(SkyChartSeries);
+
+  #chart: Chart<'bar'> | undefined;
+
   constructor() {
-    effect(() => {
-      new Chart(this.chartRef().nativeElement, {
-        type: 'bar',
-        data: {
-          // category axis:
-          labels: [2010, 2011, 2012, 2013, 2014, 2015, 2016],
-          // measure axes:
-          datasets: [
-            {
-              label: 'Acquisitions by year',
-              data: data.map((row) => row.count),
-            },
-          ],
-        },
-        options: {
-          scales: {
-            x: {
-              title: {
-                display: true,
-                text: 'Year',
-              },
-            },
-            y: {
-              title: {
-                display: true,
-                text: 'Acquisitions',
-              },
-            },
-          },
-        },
-      });
+    // Optional: the chart may be used without the `sky-chart` wrapper that
+    // provides the table service.
+    const tableSvc = inject(SkyChartTableService, { optional: true });
+
+    inject(DestroyRef).onDestroy(() => {
+      this.#chart?.destroy();
+      this.#chart = undefined;
+      tableSvc?.table.set(undefined);
     });
+
+    effect(() => {
+      tableSvc?.table.set(this.#buildTable());
+
+      const config = this.#buildConfig();
+
+      if (!config) {
+        return;
+      }
+
+      if (this.#chart) {
+        this.#chart.data = config.data;
+        this.#chart.options = config.options ?? {};
+        this.#chart.update();
+      } else {
+        this.#chart = new Chart(this.chartRef().nativeElement, config);
+      }
+    });
+  }
+
+  #buildTable(): SkyChartTable | undefined {
+    const categoryAxis = this.categoryAxes()[0];
+    const series = this.series();
+
+    if (!categoryAxis || series.length === 0) {
+      return undefined;
+    }
+
+    return {
+      categoryLabel: categoryAxis.labelText(),
+      categories: categoryAxis.categories(),
+      series: series.map((chartSeries) => ({
+        label: chartSeries.labelText(),
+        values: chartSeries.values(),
+      })),
+    };
+  }
+
+  #buildConfig(): ChartConfiguration<'bar'> | undefined {
+    const categoryAxis = this.categoryAxes()[0];
+    const valueAxes = this.valueAxes();
+    const series = this.series();
+
+    if (!categoryAxis || valueAxes.length === 0 || series.length === 0) {
+      return undefined;
+    }
+
+    const isHorizontal = this.orientation() === 'horizontal';
+    const indexAxis = isHorizontal ? 'y' : 'x';
+    const valueDirection = isHorizontal ? 'x' : 'y';
+
+    // Resolve each value axis to a stable scale key.
+    const valueAxisKeys = valueAxes.map(
+      (axis, index) => axis.axisId() ?? `value-${index}`,
+    );
+
+    const scales: BarChartScales = {
+      [CATEGORY_AXIS_ID]: {
+        type: 'category',
+        axis: indexAxis,
+        position: isHorizontal ? 'left' : 'bottom',
+        title: {
+          display: !categoryAxis.labelHidden(),
+          text: categoryAxis.labelText(),
+        },
+      },
+    };
+
+    valueAxes.forEach((axis, index) => {
+      const isSecondary = index > 0;
+
+      scales[valueAxisKeys[index]] = {
+        type: 'linear',
+        axis: valueDirection,
+        position: isHorizontal
+          ? isSecondary
+            ? 'top'
+            : 'bottom'
+          : isSecondary
+            ? 'right'
+            : 'left',
+        title: {
+          display: !axis.labelHidden(),
+          text: axis.labelText(),
+        },
+        // Prevent multiple value axes from stacking grid lines on top of
+        // each other.
+        grid: { drawOnChartArea: !isSecondary },
+      };
+    });
+
+    const datasets = series.map((chartSeries): ChartDataset<'bar'> => {
+      const wanted = chartSeries.valueAxis();
+      const matchedIndex = wanted
+        ? valueAxes.findIndex((axis) => axis.axisId() === wanted)
+        : -1;
+
+      const valueKey = valueAxisKeys[matchedIndex === -1 ? 0 : matchedIndex];
+
+      const dataset: ChartDataset<'bar'> = {
+        label: chartSeries.labelText(),
+        data: chartSeries.values(),
+      };
+
+      if (isHorizontal) {
+        dataset.xAxisID = valueKey;
+        dataset.yAxisID = CATEGORY_AXIS_ID;
+      } else {
+        dataset.yAxisID = valueKey;
+        dataset.xAxisID = CATEGORY_AXIS_ID;
+      }
+
+      return dataset;
+    });
+
+    return {
+      type: 'bar',
+      data: {
+        labels: categoryAxis.categories(),
+        datasets,
+      },
+      options: {
+        indexAxis,
+        scales,
+      },
+    };
   }
 }

@@ -20,6 +20,7 @@ import {
   type SkyChartHeadingStyle,
 } from './chart-heading-style';
 import { SkyChartSubheading } from './chart-subheading';
+import { SkyChartTableService } from './chart-table.service';
 
 /**
  * @preview
@@ -32,6 +33,7 @@ import { SkyChartSubheading } from './chart-subheading';
     class: 'sky-chart',
   },
   imports: [SkyChartControls, SkyChartHeading, SkyChartSubheading],
+  providers: [SkyChartTableService],
   selector: 'sky-chart',
   styleUrl: './chart.scss',
   templateUrl: './chart.html',

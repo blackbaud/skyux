@@ -5,12 +5,28 @@ import {
   input,
 } from '@angular/core';
 
+/**
+ * @preview
+ */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'sky-chart-category-axis',
   template: ``,
 })
 export class SkyChartCategoryAxis {
+  /**
+   * The categories shared by every series plotted against this axis. Each
+   * series' values are aligned to these categories by index.
+   */
+  public readonly categories = input.required<(string | number)[]>();
+
+  /**
+   * Whether to hide the axis label.
+   */
   public readonly labelHidden = input(false, { transform: booleanAttribute });
+
+  /**
+   * The text of the axis label.
+   */
   public readonly labelText = input.required<string>();
 }

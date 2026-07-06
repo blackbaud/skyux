@@ -1,5 +1,37 @@
 <sky-modal [headingText]="context.headingText">
-  <sky-modal-content> Chart data table, here. </sky-modal-content>
+  <sky-modal-content>
+    @if (context.table; as table) {
+      <table class="sky-chart-data-table">
+        <caption class="sky-screen-reader-only">
+          {{
+            context.headingText
+          }}
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">{{ table.categoryLabel }}</th>
+            @for (series of table.series; track series.label) {
+              <th scope="col">{{ series.label }}</th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (
+            category of table.categories;
+            track $index;
+            let rowIndex = $index
+          ) {
+            <tr>
+              <th scope="row">{{ category }}</th>
+              @for (series of table.series; track series.label) {
+                <td>{{ series.values[rowIndex] }}</td>
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </sky-modal-content>
   <sky-modal-footer>
     <button class="sky-btn sky-btn-link" type="button" (click)="modal.close()">
       {{ 'skyux_charts.data_table_modal.close_button' | skyLibResources }}

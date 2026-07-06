@@ -2,9 +2,11 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
+import type { SkyChartTable } from './chart-table';
 
 export abstract class SkyChartDataTableModalContext {
   public abstract readonly headingText: string;
+  public abstract readonly table: SkyChartTable | undefined;
 }
 
 @Component({
