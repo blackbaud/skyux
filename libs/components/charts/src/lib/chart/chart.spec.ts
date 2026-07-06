@@ -5,17 +5,23 @@ import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyChart } from './chart';
 
 @Component({
-  imports: [SkyChart],
+  selector: 'sky-chart-bar',
+  template: '',
+})
+class MockChartBarComponent {}
+
+@Component({
+  imports: [SkyChart, MockChartBarComponent],
   template: `
     <sky-chart
       [headingHidden]="headingHidden"
       [headingLevel]="headingLevel"
       [headingStyle]="headingStyle"
       [headingText]="headingText"
-      [subheadingHidden]="subheadingHidden"
       [subheadingText]="subheadingText"
     >
-      <div class="test-chart-content">Chart content</div>
+      <sky-chart-bar />
+      <div class="test-not-projected">Not projected</div>
     </sky-chart>
   `,
 })
@@ -27,7 +33,6 @@ class TestComponent {
   public headingLevel: unknown;
   public headingStyle: unknown;
   public headingText = 'Test heading';
-  public subheadingHidden: boolean | undefined;
   public subheadingText: string | undefined;
 }
 
@@ -69,11 +74,18 @@ describe('Chart component', () => {
     expect(getHeading()).toHaveText('My chart');
   });
 
-  it('should project content', () => {
+  it('should project sky-chart-bar content into the figure', () => {
     fixture.detectChanges();
 
-    const content = fixture.nativeElement.querySelector('.test-chart-content');
-    expect(content).toHaveText('Chart content');
+    expect(getFigure()?.querySelector('sky-chart-bar')).not.toBeNull();
+  });
+
+  it('should not project content other than sky-chart-bar', () => {
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelector('.test-not-projected'),
+    ).toBeNull();
   });
 
   it('should default headingHidden to false', () => {
@@ -90,22 +102,26 @@ describe('Chart component', () => {
     expect(getHeading()).toBeNull();
   });
 
-  it('should default subheadingHidden to false', () => {
+  it('should not name the figure when the heading is visible', () => {
+    fixture.componentInstance.headingText = 'My heading';
+    fixture.componentInstance.subheadingText = 'My subheading';
     fixture.detectChanges();
 
-    expect(fixture.componentInstance.chart.subheadingHidden()).toBe(false);
+    expect(getFigure()?.getAttribute('aria-label')).toBeNull();
   });
 
-  it('should name the figure with the heading text via aria-label', () => {
+  it('should name the figure with the heading text via aria-label when headingHidden is true', () => {
     fixture.componentInstance.headingText = 'My heading';
+    fixture.componentInstance.headingHidden = true;
     fixture.detectChanges();
 
     expect(getFigure()?.getAttribute('aria-label')).toBe('My heading');
   });
 
-  it('should include the subheading text in the figure aria-label', () => {
+  it('should include the subheading text in the figure aria-label when headingHidden is true', () => {
     fixture.componentInstance.headingText = 'My heading';
     fixture.componentInstance.subheadingText = 'My subheading';
+    fixture.componentInstance.headingHidden = true;
     fixture.detectChanges();
 
     expect(getFigure()?.getAttribute('aria-label')).toBe(
@@ -126,12 +142,13 @@ describe('Chart component', () => {
     expect(getSubheading()).toHaveText('My subheading');
   });
 
-  it('should not render the subheading when subheadingHidden is true', () => {
+  it('should not render the heading or subheading when headingHidden is true', () => {
     fixture.componentInstance.headingText = 'My heading';
     fixture.componentInstance.subheadingText = 'My subheading';
-    fixture.componentInstance.subheadingHidden = true;
+    fixture.componentInstance.headingHidden = true;
     fixture.detectChanges();
 
+    expect(getHeading()).toBeNull();
     expect(getSubheading()).toBeNull();
     expect(getFigure()?.getAttribute('aria-label')).toBe(
       'My heading, My subheading',

@@ -14,6 +14,7 @@ import {
 
 import { SkyChartControls } from './chart-controls';
 import { SkyChartDataTableModal } from './chart-data-table-modal';
+import { SkyChartTableService } from './chart-table.service';
 
 describe('Chart controls component', () => {
   let fixture: ComponentFixture<SkyChartControls>;
@@ -30,7 +31,7 @@ describe('Chart controls component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyChartControls, SkyModalTestingModule],
-      providers: [provideNoopSkyAnimations()],
+      providers: [provideNoopSkyAnimations(), SkyChartTableService],
     });
 
     fixture = TestBed.createComponent(SkyChartControls);

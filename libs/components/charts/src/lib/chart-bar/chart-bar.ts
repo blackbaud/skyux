@@ -68,8 +68,6 @@ export class SkyChartBar {
   #chart: Chart<'bar'> | undefined;
 
   constructor() {
-    // Optional: the chart may be used without the `sky-chart` wrapper that
-    // provides the table service.
     const tableSvc = inject(SkyChartTableService, { optional: true });
 
     inject(DestroyRef).onDestroy(() => {

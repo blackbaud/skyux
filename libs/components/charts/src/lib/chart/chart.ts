@@ -91,18 +91,15 @@ export class SkyChart {
   public readonly helpPopoverTitle = input<string>();
 
   /**
-   * Whether to hide the chart's subheading.
-   */
-  public readonly subheadingHidden = input(false, {
-    transform: booleanAttribute,
-  });
-
-  /**
    * The text to display as the chart's subheading.
    */
   public readonly subheadingText = input<string>();
 
   protected readonly figureLabel = computed(() => {
+    if (!this.headingHidden()) {
+      return null;
+    }
+
     const subheadingText = this.subheadingText();
 
     return subheadingText

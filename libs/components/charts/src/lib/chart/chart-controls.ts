@@ -24,8 +24,7 @@ import { SkyChartTableService } from './chart-table.service';
 export class SkyChartControls {
   readonly #destroyRef = inject(DestroyRef);
   readonly #modalSvc = inject(SkyModalService);
-  // Optional so the component can be tested in isolation from `sky-chart`.
-  readonly #tableService = inject(SkyChartTableService, { optional: true });
+  readonly #tableSvc = inject(SkyChartTableService);
 
   public readonly headingText = input.required<string>();
 
@@ -37,7 +36,7 @@ export class SkyChartControls {
           provide: SkyChartDataTableModalContext,
           useValue: {
             headingText: this.headingText(),
-            table: this.#tableService?.table(),
+            table: this.#tableSvc.table(),
           },
         },
       ],
