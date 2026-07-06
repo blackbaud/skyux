@@ -12,6 +12,11 @@
 
 * **components/pages:** hide needs-attention block when empty ([#4477](https://github.com/blackbaud/skyux/issues/4477)) ([ac7da1d](https://github.com/blackbaud/skyux/commit/ac7da1d57d21b73be111c79cd1812ecbcaf4403b))
 
+
+### Bug Fixes
+
+* **components/ag-grid:** header focus ring should meet minimum contrast ratio ([#4481](https://github.com/blackbaud/skyux/issues/4481)) ([#4483](https://github.com/blackbaud/skyux/issues/4483)) ([3ea6b79](https://github.com/blackbaud/skyux/commit/3ea6b79a0ea4f1a018df0aed710f85c0b9790da6)), closes [AB#3693206](https://dev.azure.com/blackbaud/Products/_workitems/edit/3693206)
+
 ## [15.0.0-alpha.0](https://github.com/blackbaud/skyux/compare/14.3.10...15.0.0-alpha.0) (2026-06-30)
 
 
