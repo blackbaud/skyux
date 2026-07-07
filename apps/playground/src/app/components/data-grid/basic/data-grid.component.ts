@@ -70,6 +70,7 @@ export default class DataGridComponent {
   constructor() {
     setTimeout(() => {
       this.asyncPopover = this.popoverTemplate;
+      this.#cdr.markForCheck();
     }, 1000);
   }
 

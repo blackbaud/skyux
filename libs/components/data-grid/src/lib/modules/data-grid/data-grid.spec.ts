@@ -815,6 +815,32 @@ describe('SkyDataGrid', () => {
       );
     });
 
+    it('should warn and fall back to setting the page when pageQueryParam is set without a Router or ActivatedRoute available', async () => {
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({ providers: [] });
+      const noRouterFixture = TestBed.createComponent(DataGridTestComponent);
+      const warnSpy = spyOn(TestBed.inject(SkyLogService), 'warn');
+      noRouterFixture.componentRef.setInput('pageSize', 2);
+      noRouterFixture.componentRef.setInput('pageQueryParam', 'page');
+      noRouterFixture.detectChanges();
+      await noRouterFixture.whenStable();
+
+      expect(warnSpy).toHaveBeenCalledWith(
+        jasmine.stringContaining(
+          'a `Router` and `ActivatedRoute` are not available',
+        ),
+      );
+
+      const pagingHarness =
+        await TestbedHarnessEnvironment.loader(noRouterFixture).getHarness(
+          SkyPagingHarness,
+        );
+      await expectAsync(pagingHarness.getCurrentPage()).toBeResolvedTo(1);
+      await pagingHarness.clickPageButton(2);
+      await expectAsync(pagingHarness.getCurrentPage()).toBeResolvedTo(2);
+      expect(noRouterFixture.componentInstance.page()).toBe(2);
+    });
+
     it('should set initialFlex=0, suppressSizeToFit, and suppressAutoSize when flexWidth is 0', async () => {
       const flexFixture = TestBed.createComponent(FlexWidthTestComponent);
       flexFixture.detectChanges();
