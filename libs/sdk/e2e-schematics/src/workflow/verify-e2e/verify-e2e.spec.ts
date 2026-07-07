@@ -355,6 +355,69 @@ More unrelated log output
     expect(exit).toHaveBeenCalledWith(1);
   });
 
+  it('should fail when the latest e2e job execution was cancelled', async () => {
+    const { verifyE2e, checkPercyBuild, core, githubApi, exit, fetch } =
+      await setupTest();
+    githubApi.listJobsForWorkflowRun.mockResolvedValue([
+      [
+        {
+          id: 'review-3',
+          name: 'E2E Visual Review',
+          steps: [
+            {
+              name: 'Verify E2E Visual Review',
+              conclusion: 'success',
+            },
+          ],
+        },
+      ],
+      [
+        {
+          id: 'cancelled-2',
+          name: 'End to end tests (project1,',
+          steps: [
+            {
+              name: 'Percy project1',
+              conclusion: 'cancelled',
+            },
+          ],
+        },
+      ],
+      [
+        {
+          id: 'success-1',
+          name: 'End to end tests (project1,',
+          steps: [
+            {
+              name: 'Percy project1',
+              conclusion: 'success',
+            },
+          ],
+        },
+      ],
+    ]);
+    githubApi.downloadJobLogs.mockResolvedValue(`
+Some unrelated log output
+Checking for finalized build: [percy] Finalized build #6134: https://percy.io/82a32315/web/skyux-integration-e2e/builds/41420284
+More unrelated log output
+`);
+
+    await verifyE2e(
+      ['project1'],
+      [],
+      core,
+      githubApi,
+      true, // allowMissingScreenshots
+      fetch,
+      exit,
+    );
+
+    expect(core.setFailed).toHaveBeenCalledWith(`E2E workflow failed.`);
+    expect(exit).toHaveBeenCalledWith(1);
+    expect(checkPercyBuild).not.toHaveBeenCalled();
+    expect(githubApi.downloadJobLogs).not.toHaveBeenCalled();
+  });
+
   it('should check for missing screenshots', async () => {
     const { verifyE2e, core, githubApi, exit } = await setupTest();
     await verifyE2e(
