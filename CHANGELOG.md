@@ -1,7 +1,12 @@
 # Changelog
 
 
-## [14.4.1](https://github.com/blackbaud/skyux/compare/14.4.0...14.4.1) (2026-07-07)
+## [14.5.0](https://github.com/blackbaud/skyux/compare/14.4.0...14.5.0) (2026-07-07)
+
+
+### Features
+
+* **components/data-grid:** create an easy mode for data grid ([#4430](https://github.com/blackbaud/skyux/issues/4430)) ([5889648](https://github.com/blackbaud/skyux/commit/588964833091b6f1062513382e18cc7059a2c1ef)), closes [AB#3942528](https://dev.azure.com/blackbaud/Products/_workitems/edit/3942528) [AB#3965849](https://dev.azure.com/blackbaud/Products/_workitems/edit/3965849)
 
 
 ### Bug Fixes
