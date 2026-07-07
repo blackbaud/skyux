@@ -59,6 +59,16 @@ const routes: Routes = [
       library: 'charts',
     },
   },
+  {
+    path: 'chart-bar-value-format',
+    loadComponent: () =>
+      import('./chart-bar-value-format/chart-bar-value-format-playground'),
+    data: {
+      name: 'Chart bar - value format',
+      icon: 'data-bar-horizontal',
+      library: 'charts',
+    },
+  },
 ];
 
 export default routes;

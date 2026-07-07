@@ -9,9 +9,13 @@
         </caption>
         <thead>
           <tr>
-            <th scope="col">{{ table.categoryLabel }}</th>
+            <th class="sky-theme-padding-inset-balanced-xs" scope="col">
+              {{ table.categoryLabel }}
+            </th>
             @for (series of table.series; track series.label) {
-              <th scope="col">{{ series.label }}</th>
+              <th class="sky-theme-padding-inset-balanced-xs" scope="col">
+                {{ series.label }}
+              </th>
             }
           </tr>
         </thead>
@@ -22,9 +26,13 @@
             let rowIndex = $index
           ) {
             <tr>
-              <th scope="row">{{ category }}</th>
+              <th class="sky-theme-padding-inset-balanced-xs" scope="row">
+                {{ category }}
+              </th>
               @for (series of table.series; track series.label) {
-                <td>{{ series.values[rowIndex] }}</td>
+                <td class="sky-theme-padding-inset-balanced-xs">
+                  {{ series.values[rowIndex] }}
+                </td>
               }
             </tr>
           }

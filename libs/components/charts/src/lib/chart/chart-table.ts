@@ -31,7 +31,8 @@ export interface SkyChartTableSeries {
   label: string;
 
   /**
-   * The series values, aligned to the categories by index.
+   * The series values, formatted for display and aligned to the categories by
+   * index.
    */
-  values: number[];
+  values: string[];
 }

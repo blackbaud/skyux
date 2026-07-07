@@ -1,9 +1,10 @@
 import {
+  afterRenderEffect,
   ChangeDetectionStrategy,
   Component,
+  contentChild,
   contentChildren,
   DestroyRef,
-  effect,
   ElementRef,
   inject,
   input,
@@ -13,6 +14,7 @@ import { SkyLogService } from '@skyux/core';
 import Chart, {
   type ChartConfiguration,
   type ChartDataset,
+  type TooltipItem,
 } from 'chart.js/auto';
 
 import { SkyChartCategoryAxis } from '../chart-axes/chart-category-axis';
@@ -25,6 +27,10 @@ import { SkyChartBarOrientation } from './chart-bar-orientation';
 type BarChartScales = NonNullable<
   NonNullable<ChartConfiguration<'bar'>['options']>['scales']
 >;
+
+type BarChartConfig = ChartConfiguration<'bar'> & {
+  options: NonNullable<ChartConfiguration<'bar'>['options']>;
+};
 
 const CATEGORY_AXIS_ID = 'category';
 
@@ -61,7 +67,7 @@ export class SkyChartBar {
     read: ElementRef,
   });
 
-  protected readonly categoryAxes = contentChildren(SkyChartCategoryAxis);
+  protected readonly categoryAxis = contentChild(SkyChartCategoryAxis);
   protected readonly valueAxes = contentChildren(SkyChartValueAxis);
   protected readonly series = contentChildren(SkyChartSeries);
 
@@ -76,7 +82,7 @@ export class SkyChartBar {
       tableSvc?.table.set(undefined);
     });
 
-    effect(() => {
+    afterRenderEffect(() => {
       tableSvc?.table.set(this.#buildTable());
 
       const config = this.#buildConfig();
@@ -87,7 +93,7 @@ export class SkyChartBar {
 
       if (this.#chart) {
         this.#chart.data = config.data;
-        this.#chart.options = config.options ?? {};
+        this.#chart.options = config.options;
         this.#chart.update();
       } else {
         this.#chart = new Chart(this.chartRef().nativeElement, config);
@@ -96,25 +102,45 @@ export class SkyChartBar {
   }
 
   #buildTable(): SkyChartTable | undefined {
-    const categoryAxis = this.categoryAxes()[0];
+    const categoryAxis = this.categoryAxis();
+    const valueAxes = this.valueAxes();
     const series = this.series();
 
-    if (!categoryAxis || series.length === 0) {
+    if (!categoryAxis || valueAxes.length === 0 || series.length === 0) {
       return undefined;
     }
 
     return {
       categoryLabel: categoryAxis.labelText(),
       categories: categoryAxis.categories(),
-      series: series.map((chartSeries) => ({
-        label: chartSeries.labelText(),
-        values: chartSeries.values(),
-      })),
+      series: series.map((chartSeries) => {
+        const formatValue = this.#valueAxisForSeries(
+          chartSeries,
+          valueAxes,
+        ).formatValue();
+
+        return {
+          label: chartSeries.labelText(),
+          values: chartSeries.values().map((value) => formatValue(value)),
+        };
+      }),
     };
   }
 
-  #buildConfig(): ChartConfiguration<'bar'> | undefined {
-    const categoryAxis = this.categoryAxes()[0];
+  #valueAxisForSeries(
+    chartSeries: SkyChartSeries,
+    valueAxes: readonly SkyChartValueAxis[],
+  ): SkyChartValueAxis {
+    const wanted = chartSeries.valueAxis();
+    const match = wanted
+      ? valueAxes.find((axis) => axis.axisId() === wanted)
+      : undefined;
+
+    return match ?? valueAxes[0];
+  }
+
+  #buildConfig(): BarChartConfig | undefined {
+    const categoryAxis = this.categoryAxis();
     const valueAxes = this.valueAxes();
     const series = this.series();
 
@@ -145,6 +171,7 @@ export class SkyChartBar {
 
     valueAxes.forEach((axis, index) => {
       const isSecondary = index > 0;
+      const formatValue = axis.formatValue();
 
       scales[valueAxisKeys[index]] = {
         type: 'linear',
@@ -163,8 +190,14 @@ export class SkyChartBar {
         // Prevent multiple value axes from stacking grid lines on top of
         // each other.
         grid: { drawOnChartArea: !isSecondary },
+        ticks: {
+          callback: (tickValue: string | number): string =>
+            formatValue(Number(tickValue)),
+        },
       };
     });
+
+    const datasetFormatters: ((value: number) => string)[] = [];
 
     const datasets = series.map((chartSeries): ChartDataset<'bar'> => {
       const wanted = chartSeries.valueAxis();
@@ -182,7 +215,10 @@ export class SkyChartBar {
         }
       }
 
-      const valueKey = valueAxisKeys[matchedIndex === -1 ? 0 : matchedIndex];
+      const resolvedIndex = matchedIndex === -1 ? 0 : matchedIndex;
+      const valueKey = valueAxisKeys[resolvedIndex];
+
+      datasetFormatters.push(valueAxes[resolvedIndex].formatValue());
 
       const dataset: ChartDataset<'bar'> = {
         label: chartSeries.labelText(),
@@ -209,6 +245,21 @@ export class SkyChartBar {
       options: {
         indexAxis,
         scales,
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: (context: TooltipItem<'bar'>): string => {
+                const formatValue = datasetFormatters[context.datasetIndex];
+                const formatted = formatValue(
+                  context.parsed[valueDirection] ?? 0,
+                );
+                const label = context.dataset.label;
+
+                return label ? `${label}: ${formatted}` : formatted;
+              },
+            },
+          },
+        },
       },
     };
   }

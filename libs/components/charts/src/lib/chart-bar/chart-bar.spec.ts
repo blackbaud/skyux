@@ -1,0 +1,336 @@
+import { Component, ViewChild } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { expect } from '@skyux-sdk/testing';
+import { SkyLogService } from '@skyux/core';
+import Chart, { type TooltipItem } from 'chart.js/auto';
+
+import { SkyChartCategoryAxis } from '../chart-axes/chart-category-axis';
+import { SkyChartValueAxis } from '../chart-axes/chart-value-axis';
+import { SkyChartValueFormat } from '../chart-axes/chart-value-format';
+import { SkyChartSeries } from '../chart-series/chart-series';
+import { SkyChartTableService } from '../chart/chart-table.service';
+
+import { SkyChartBar } from './chart-bar';
+import { SkyChartBarOrientation } from './chart-bar-orientation';
+
+type ScaleProbe = {
+  position: string;
+  grid: { drawOnChartArea: boolean };
+  ticks: { callback: (value: number | string) => string };
+};
+
+@Component({
+  imports: [
+    SkyChartBar,
+    SkyChartCategoryAxis,
+    SkyChartValueAxis,
+    SkyChartSeries,
+  ],
+  template: `
+    @if (renderChart) {
+      <sky-chart-bar [orientation]="orientation">
+        @if (renderCategoryAxis) {
+          <sky-chart-category-axis labelText="Year" [categories]="categories" />
+        }
+        @for (axisId of valueAxisIds; track $index) {
+          <sky-chart-value-axis
+            labelText="Value"
+            [axisId]="axisId"
+            [currencyCode]="currencyCode"
+            [format]="format"
+          />
+        }
+        @if (renderSeries) {
+          <sky-chart-series
+            [labelText]="seriesLabel"
+            [valueAxis]="seriesValueAxis"
+            [values]="values"
+          />
+        }
+      </sky-chart-bar>
+    }
+  `,
+})
+class TestComponent {
+  @ViewChild(SkyChartBar)
+  public chartBar!: SkyChartBar;
+
+  public categories: (string | number)[] = ['2023', '2024'];
+  public currencyCode: string | undefined;
+  public format: SkyChartValueFormat | undefined;
+  public orientation: SkyChartBarOrientation = 'vertical';
+  public renderCategoryAxis = true;
+  public renderChart = true;
+  public renderSeries = true;
+  public seriesLabel = 'Acquisitions';
+  public seriesValueAxis: string | undefined;
+  public valueAxisIds: (string | undefined)[] = [undefined];
+  public values = [10, 20];
+}
+
+describe('Chart bar component', () => {
+  let fixture: ComponentFixture<TestComponent>;
+  let component: TestComponent;
+  let logSvc: jasmine.SpyObj<SkyLogService>;
+  let tableSvc: SkyChartTableService;
+  let destroyed: boolean;
+
+  function getCanvas(): HTMLCanvasElement {
+    return fixture.nativeElement.querySelector('canvas');
+  }
+
+  function getChart(): Chart<'bar'> | undefined {
+    return Chart.getChart(getCanvas()) as Chart<'bar'> | undefined;
+  }
+
+  function requireChart(): Chart<'bar'> {
+    const chart = getChart();
+
+    if (!chart) {
+      throw new Error('Expected a chart to have been created.');
+    }
+
+    return chart;
+  }
+
+  function getScale(chart: Chart<'bar'>, key: string): ScaleProbe {
+    return chart.options.scales?.[key] as unknown as ScaleProbe;
+  }
+
+  function getTooltipLabel(
+    chart: Chart<'bar'>,
+  ): (context: TooltipItem<'bar'>) => string {
+    return chart.options.plugins?.tooltip?.callbacks?.label as (
+      context: TooltipItem<'bar'>,
+    ) => string;
+  }
+
+  function tooltipContext(
+    datasetIndex: number,
+    label: string,
+    value: number | null,
+    direction: 'x' | 'y' = 'y',
+  ): TooltipItem<'bar'> {
+    return {
+      datasetIndex,
+      dataset: { label },
+      parsed: {
+        x: direction === 'x' ? value : 0,
+        y: direction === 'y' ? value : 0,
+      },
+    } as unknown as TooltipItem<'bar'>;
+  }
+
+  beforeEach(() => {
+    logSvc = jasmine.createSpyObj<SkyLogService>('SkyLogService', ['warn']);
+
+    TestBed.configureTestingModule({
+      imports: [TestComponent],
+      providers: [
+        SkyChartTableService,
+        { provide: SkyLogService, useValue: logSvc },
+      ],
+    });
+
+    fixture = TestBed.createComponent(TestComponent);
+    component = fixture.componentInstance;
+    tableSvc = TestBed.inject(SkyChartTableService);
+    destroyed = false;
+  });
+
+  afterEach(() => {
+    if (!destroyed) {
+      fixture.destroy();
+    }
+  });
+
+  it('should build the data table from the axes and series', () => {
+    fixture.detectChanges();
+
+    expect(tableSvc.table()).toEqual({
+      categoryLabel: 'Year',
+      categories: ['2023', '2024'],
+      series: [{ label: 'Acquisitions', values: ['10', '20'] }],
+    });
+  });
+
+  it('should format the data table values using the value axis format', () => {
+    component.format = 'currency';
+    component.currencyCode = 'USD';
+    fixture.detectChanges();
+
+    expect(tableSvc.table()?.series[0].values).toEqual(['$10.00', '$20.00']);
+  });
+
+  it('should not build a table or chart without a category axis', () => {
+    component.renderCategoryAxis = false;
+    fixture.detectChanges();
+
+    expect(tableSvc.table()).toBeUndefined();
+    expect(getChart()).toBeUndefined();
+
+    // Covers the destroy path when no chart was created.
+    fixture.destroy();
+    destroyed = true;
+  });
+
+  it('should not build a table or chart without a series', () => {
+    component.renderSeries = false;
+    fixture.detectChanges();
+
+    expect(tableSvc.table()).toBeUndefined();
+    expect(getChart()).toBeUndefined();
+  });
+
+  it('should not build a table or chart without a value axis', () => {
+    component.valueAxisIds = [];
+    fixture.detectChanges();
+
+    expect(tableSvc.table()).toBeUndefined();
+    expect(getChart()).toBeUndefined();
+  });
+
+  it('should create a vertical bar chart from the axes and series', () => {
+    fixture.detectChanges();
+
+    const chart = requireChart();
+    expect(chart.data.labels).toEqual(['2023', '2024']);
+    expect(chart.data.datasets[0].label).toBe('Acquisitions');
+    expect(chart.data.datasets[0].data).toEqual([10, 20]);
+    expect(chart.options.indexAxis).toBe('x');
+    expect(chart.data.datasets[0].yAxisID).toBe('value-0');
+    expect(chart.data.datasets[0].xAxisID).toBe('category');
+
+    const category = getScale(chart, 'category');
+    const value = getScale(chart, 'value-0');
+    expect(category.position).toBe('bottom');
+    expect(value.position).toBe('left');
+    expect(value.grid.drawOnChartArea).toBe(true);
+  });
+
+  it('should format axis ticks using the value axis format', () => {
+    fixture.detectChanges();
+
+    const value = getScale(requireChart(), 'value-0');
+    expect(value.ticks.callback(1234)).toBe('1,234');
+  });
+
+  it('should format the tooltip label with the series label', () => {
+    fixture.detectChanges();
+
+    const label = getTooltipLabel(requireChart());
+    expect(label(tooltipContext(0, 'Acquisitions', 20))).toBe(
+      'Acquisitions: 20',
+    );
+  });
+
+  it('should format the tooltip without a label and treat a null value as zero', () => {
+    component.seriesLabel = '';
+    fixture.detectChanges();
+
+    const label = getTooltipLabel(requireChart());
+    expect(label(tooltipContext(0, '', null))).toBe('0');
+  });
+
+  it('should create a horizontal bar chart', () => {
+    component.orientation = 'horizontal';
+    fixture.detectChanges();
+
+    const chart = requireChart();
+    expect(chart.options.indexAxis).toBe('y');
+    expect(chart.data.datasets[0].xAxisID).toBe('value-0');
+    expect(chart.data.datasets[0].yAxisID).toBe('category');
+    expect(getScale(chart, 'category').position).toBe('left');
+    expect(getScale(chart, 'value-0').position).toBe('bottom');
+  });
+
+  it('should position a secondary value axis and bind a series to it', () => {
+    component.valueAxisIds = ['primary', 'secondary'];
+    component.seriesValueAxis = 'secondary';
+    fixture.detectChanges();
+
+    const chart = requireChart();
+    expect(chart.data.datasets[0].yAxisID).toBe('secondary');
+    expect(getScale(chart, 'primary').position).toBe('left');
+    expect(getScale(chart, 'secondary').position).toBe('right');
+    expect(getScale(chart, 'secondary').grid.drawOnChartArea).toBe(false);
+  });
+
+  it('should position a secondary value axis in a horizontal chart', () => {
+    component.orientation = 'horizontal';
+    component.valueAxisIds = ['primary', 'secondary'];
+    component.seriesValueAxis = 'secondary';
+    fixture.detectChanges();
+
+    const chart = requireChart();
+    expect(getScale(chart, 'primary').position).toBe('bottom');
+    expect(getScale(chart, 'secondary').position).toBe('top');
+  });
+
+  it('should warn and fall back to the first value axis for an unknown value axis', () => {
+    component.valueAxisIds = ['primary'];
+    component.seriesValueAxis = 'nope';
+    fixture.detectChanges();
+
+    expect(logSvc.warn).toHaveBeenCalled();
+    expect(requireChart().data.datasets[0].yAxisID).toBe('primary');
+  });
+
+  it('should update an existing chart when inputs change', () => {
+    fixture.detectChanges();
+
+    const chart = requireChart();
+    component.values = [30, 40];
+    fixture.detectChanges();
+
+    expect(getChart()).toBe(chart);
+    expect(chart.data.datasets[0].data).toEqual([30, 40]);
+  });
+
+  it('should destroy the chart and clear the table when destroyed', () => {
+    fixture.detectChanges();
+
+    const canvas = getCanvas();
+    expect(Chart.getChart(canvas)).toBeTruthy();
+
+    fixture.destroy();
+
+    expect(Chart.getChart(canvas)).toBeUndefined();
+    expect(tableSvc.table()).toBeUndefined();
+    destroyed = true;
+  });
+});
+
+describe('Chart bar component without a table service', () => {
+  @Component({
+    imports: [
+      SkyChartBar,
+      SkyChartCategoryAxis,
+      SkyChartValueAxis,
+      SkyChartSeries,
+    ],
+    template: `
+      <sky-chart-bar>
+        <sky-chart-category-axis labelText="Year" [categories]="categories" />
+        <sky-chart-value-axis labelText="Value" />
+        <sky-chart-series labelText="Series" [values]="values" />
+      </sky-chart-bar>
+    `,
+  })
+  class StandaloneComponent {
+    public categories = ['2023', '2024'];
+    public values = [10, 20];
+  }
+
+  it('should render the chart when no table service is provided', () => {
+    TestBed.configureTestingModule({ imports: [StandaloneComponent] });
+
+    const fixture = TestBed.createComponent(StandaloneComponent);
+    fixture.detectChanges();
+
+    const canvas = fixture.nativeElement.querySelector('canvas');
+    expect(Chart.getChart(canvas)).toBeTruthy();
+
+    fixture.destroy();
+  });
+});
