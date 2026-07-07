@@ -24,7 +24,15 @@ import { SkyPageModule } from '@skyux/pages';
   templateUrl: './chart-bar-value-format-playground.html',
 })
 export default class ChartBarValueFormatPlayground {
-  protected readonly years = [2010, 2011, 2012, 2013, 2014, 2015, 2016];
+  protected readonly months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+  ];
   protected readonly acquisitions = [10, 20, 15, 25, 22, 30, 28];
   protected readonly revenue = [1000, 2200, 1800, 2600, 2400, 3100, 2900];
 
