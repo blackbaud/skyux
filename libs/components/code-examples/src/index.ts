@@ -29,6 +29,10 @@ export { CoreIdExampleComponent } from './lib/modules/core/id/example.component'
 export { CoreMediaQueryBasicExampleComponent } from './lib/modules/core/media-query/basic/example.component';
 export { CoreMediaQueryResponsiveHostExampleComponent } from './lib/modules/core/media-query/responsive-host/example.component';
 export { CoreNumericBasicExampleComponent } from './lib/modules/core/numeric/basic/example.component';
+export { DataGridBasicExampleComponent } from './lib/modules/data-grid/basic/example.component';
+export { DataGridLoadingExampleComponent } from './lib/modules/data-grid/loading/example.component';
+export { DataGridPagingExampleComponent } from './lib/modules/data-grid/paging/example.component';
+export { DataGridSortingExampleComponent } from './lib/modules/data-grid/sorting/example.component';
 export { DataManagerBasicExampleComponent } from './lib/modules/data-manager/data-manager/basic/example.component';
 export { DatetimeDatePipeBasicExampleComponent } from './lib/modules/datetime/date-pipe/basic/example.component';
 export { DatetimeDateRangePickerBasicExampleComponent } from './lib/modules/datetime/date-range-picker/basic/example.component';
