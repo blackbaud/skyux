@@ -161,7 +161,7 @@ describe('SkyDataGrid', () => {
     });
 
     it('should handle empty data', async () => {
-      component.dataForSimpleGrid = undefined;
+      fixture.componentRef.setInput('dataForSimpleGrid', undefined);
       fixture.detectChanges();
       expect(component).toBeTruthy();
       const waitHarness =
@@ -189,14 +189,14 @@ describe('SkyDataGrid', () => {
       expect(api).toBeTruthy();
       expect(api?.getDisplayedRowCount()).toBe(7);
 
-      component.dataForSimpleGrid = undefined;
+      fixture.componentRef.setInput('dataForSimpleGrid', undefined);
       fixture.detectChanges();
       await fixture.whenStable();
       expect(api?.getDisplayedRowCount()).toBe(0);
     });
 
     it('should handle data changing from undefined to populated', async () => {
-      component.dataForSimpleGrid = undefined;
+      fixture.componentRef.setInput('dataForSimpleGrid', undefined);
       fixture.detectChanges();
       await fixture.whenStable();
       const api = getGridApi(
@@ -207,10 +207,10 @@ describe('SkyDataGrid', () => {
       expect(api).toBeTruthy();
       expect(api?.getDisplayedRowCount()).toBe(0);
 
-      component.dataForSimpleGrid = [
+      fixture.componentRef.setInput('dataForSimpleGrid', [
         { id: '1', column1: '1', column2: 'Apple', column3: true },
         { id: '2', column1: '01', column2: 'Banana', column3: false },
-      ];
+      ]);
       fixture.detectChanges();
       await fixture.whenStable();
       expect(api?.getDisplayedRowCount()).toBe(2);
@@ -519,7 +519,7 @@ describe('SkyDataGrid', () => {
       expect(component.selectedRowIds()).toEqual(['1', '2', '3', '4', '5']);
 
       // Remove some items from the data (remove myId 102, 104)
-      component.dataForSimpleGridWithMultiselect = [
+      fixture.componentRef.setInput('dataForSimpleGridWithMultiselect', [
         { id: '1', column1: '1', column2: 'Apple', column3: true, myId: '101' },
         {
           id: '3',
@@ -535,7 +535,7 @@ describe('SkyDataGrid', () => {
           column3: true,
           myId: '105',
         },
-      ];
+      ]);
       fixture.detectChanges();
       await fixture.whenStable();
 
@@ -567,7 +567,7 @@ describe('SkyDataGrid', () => {
       expect(component.selectedRowIds()).toHaveSize(7);
 
       // Reduce data to just 2 items
-      component.dataForSimpleGridWithMultiselect = [
+      fixture.componentRef.setInput('dataForSimpleGridWithMultiselect', [
         { id: '1', column1: '1', column2: 'Apple', column3: true, myId: '101' },
         {
           id: '2',
@@ -576,7 +576,7 @@ describe('SkyDataGrid', () => {
           column3: false,
           myId: '102',
         },
-      ];
+      ]);
       fixture.detectChanges();
       await fixture.whenStable();
 
@@ -595,7 +595,7 @@ describe('SkyDataGrid', () => {
       expect(component.selectedRowIds()).toEqual(['1', '2', '3']);
 
       // Clear the data
-      component.dataForSimpleGridWithMultiselect = [];
+      fixture.componentRef.setInput('dataForSimpleGridWithMultiselect', []);
       fixture.detectChanges();
       await fixture.whenStable();
 
@@ -621,7 +621,7 @@ describe('SkyDataGrid', () => {
 
     it('should handle paging with url changes', async () => {
       fixture.componentRef.setInput('pageSize', 2);
-      component.pageQueryParam = 'page';
+      fixture.componentRef.setInput('pageQueryParam', 'page');
       const router = TestBed.inject(Router);
       const navSpy = spyOn(router, 'navigate');
       fixture.detectChanges();
@@ -696,7 +696,7 @@ describe('SkyDataGrid', () => {
 
     it('should update the url when the page is set programmatically', async () => {
       fixture.componentRef.setInput('pageSize', 2);
-      component.pageQueryParam = 'page';
+      fixture.componentRef.setInput('pageQueryParam', 'page');
       const router = TestBed.inject(Router);
       const navSpy = spyOn(router, 'navigate');
       fixture.detectChanges();
@@ -716,7 +716,7 @@ describe('SkyDataGrid', () => {
 
     it('should update the page when the url query parameter changes', async () => {
       fixture.componentRef.setInput('pageSize', 2);
-      component.pageQueryParam = 'page';
+      fixture.componentRef.setInput('pageQueryParam', 'page');
       fixture.detectChanges();
       await fixture.whenStable();
 
@@ -1029,7 +1029,10 @@ describe('SkyDataGrid', () => {
 
     it('should retain selectedRowIds set before data loads', async () => {
       // Start with the multiselect grid in a loading state (no data yet).
-      component.dataForSimpleGridWithMultiselect = undefined;
+      fixture.componentRef.setInput(
+        'dataForSimpleGridWithMultiselect',
+        undefined,
+      );
       fixture.detectChanges();
       await fixture.whenStable();
 
@@ -1042,7 +1045,7 @@ describe('SkyDataGrid', () => {
       expect(component.selectedRowIds()).toEqual(['1', '2']);
 
       // Data arrives and the pre-selected rows become selected.
-      component.dataForSimpleGridWithMultiselect = [
+      fixture.componentRef.setInput('dataForSimpleGridWithMultiselect', [
         { id: '1', column1: '1', column2: 'Apple', column3: true, myId: '101' },
         {
           id: '2',
@@ -1051,7 +1054,7 @@ describe('SkyDataGrid', () => {
           column3: false,
           myId: '102',
         },
-      ];
+      ]);
       fixture.detectChanges();
       await fixture.whenStable();
 

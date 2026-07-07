@@ -7,7 +7,7 @@
   "tags": ["testing"],
   "targets": {
     "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+      "executor": "@angular/build:karma",
       "options": {
         "tsConfig": "libs/components/data-grid/testing/tsconfig.spec.json",
         "karmaConfig": "libs/components/data-grid/testing/karma.conf.js",
@@ -18,11 +18,7 @@
           "libs/components/theme/src/lib/styles/themes/modern/styles.scss",
           "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss"
         ],
-        "polyfills": [
-          "zone.js",
-          "zone.js/testing",
-          "libs/components/packages/src/polyfills.js"
-        ],
+        "polyfills": ["zone.js", "zone.js/testing"],
         "inlineStyleLanguage": "scss",
         "stylePreprocessorOptions": {
           "includePaths": ["{workspaceRoot}"]

@@ -4,7 +4,7 @@
     [data]="dataForSimpleGrid"
     [page]="page"
     [pageQueryParam]="pageQueryParam"
-    [pageSize]="pageSize"
+    [pageSize]="pageSize()"
     [(sort)]="sortForSimpleGrid"
   >
     @if (showAllColumns()) {
