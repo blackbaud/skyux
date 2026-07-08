@@ -1,0 +1,107 @@
+@if (showAllGrids()) {
+  <sky-data-grid
+    data-sky-id="grid"
+    [data]="dataForSimpleGrid()"
+    [autoPage]="autoPage()"
+    [autoSort]="autoSort()"
+    [labelText]="labelText()"
+    [minHeight]="minHeight()"
+    [multiselect]="multiselect()"
+    [pageQueryParam]="pageQueryParam()"
+    [pageSize]="pageSize()"
+    [rowCount]="rowCount()"
+    [stacked]="stacked()"
+    [(page)]="page"
+    [(sort)]="sort"
+  >
+    @if (showAllColumns()) {
+      <sky-data-grid-column field="column1" headingText="Column1" />
+      <sky-data-grid-column field="column2" headingText="Column2" />
+      @if (showCol3()) {
+        <sky-data-grid-column
+          field="column3"
+          dataType="boolean"
+          [headingText]="showCol3HeaderText() ? 'Column3' : ''"
+        />
+      }
+    }
+  </sky-data-grid>
+}
+<h1>Grid with multiselect enabled</h1>
+
+<button type="button" class="sky-btn sky-btn-primary" (click)="selectAll()">
+  Select all
+</button>
+
+<button type="button" class="sky-btn sky-btn-primary" (click)="clearAll()">
+  Clear all
+</button>
+
+<button type="button" class="sky-btn sky-btn-primary" (click)="selectRow()">
+  Programmatically select rows 101, 103, and 105
+</button>
+
+@if (showAllGrids()) {
+  <sky-data-grid
+    data-sky-id="multiselect-grid"
+    multiselect
+    columnFit="content"
+    topScrollEnabled
+    [data]="dataForSimpleGridWithMultiselect()"
+    [(selectedRowIds)]="selectedRowIds"
+  >
+    @if (showAllColumns()) {
+      <sky-data-grid-column
+        field="myId"
+        headingText="Custom Id"
+        dataType="number"
+      />
+      <sky-data-grid-column field="column1" headingText="Column1" />
+      <sky-data-grid-column field="column2" headingText="Column2" />
+      @if (showCol3()) {
+        <sky-data-grid-column
+          field="column3"
+          dataType="boolean"
+          [headingText]="showCol3HeaderText() ? 'Column3' : ''"
+        />
+      }
+    }
+  </sky-data-grid>
+}
+<p>Selected rows: {{ selectedRowIds() | json }}</p>
+
+<ng-template #staticPopoverRef>
+  This is a numeric column. Click <a href="#">here</a> to learn more.
+</ng-template>
+
+<h1>Grid w/ aligned columns and inline help</h1>
+
+@if (showAllGrids()) {
+  <sky-data-grid
+    data-sky-id="inline-help-grid"
+    columnFit="content"
+    [data]="dataForSimpleGrid()"
+  >
+    @if (showAllColumns()) {
+      <sky-data-grid-column
+        dataType="number"
+        field="column1"
+        headingText="Column1"
+        [helpPopoverContent]="staticPopoverRef"
+      />
+      <sky-data-grid-column
+        field="column2"
+        headingText="Column2"
+        [helpPopoverContent]="staticPopoverRef"
+      />
+      @if (showCol3()) {
+        <sky-data-grid-column
+          field="column3"
+          dataType="boolean"
+          [headingText]="showCol3HeaderText() ? 'Column3' : ''"
+          [helpPopoverContent]="staticPopoverRef"
+        />
+      }
+    }
+  </sky-data-grid>
+}
