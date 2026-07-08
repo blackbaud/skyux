@@ -101,12 +101,12 @@ export function swapImportedClass(
           ? newClassName
           : [newClassName];
 
-        // Assumes that the new thing wouldn't have been partially imported previously.
-        if (
-          !newClassNameArray.every((newClassName) =>
-            isImportedFromPackage(sourceFile, newClassName, newModuleName),
-          )
-        ) {
+        const missingClassNames = newClassNameArray.filter(
+          (name) => !isImportedFromPackage(sourceFile, name, newModuleName),
+        );
+
+        if (missingClassNames.length > 0) {
+          const missingClassNameString = missingClassNames.join(', ');
           if (allReferencesToBeReplaced) {
             if (oldModuleName === newModuleName) {
               const referencesInImport = findReferences(
@@ -121,13 +121,13 @@ export function swapImportedClass(
               swapReference(
                 recorder,
                 referencesInImport[0],
-                newClassNameString,
+                missingClassNameString,
               );
             } else {
               const change = insertImport(
                 sourceFile,
                 filePath,
-                newClassNameString,
+                missingClassNameString,
                 newModuleName,
               ) as InsertChange;
               shiftLineBreakForInsertedImport(change, eol);
@@ -140,7 +140,7 @@ export function swapImportedClass(
               insertImport(
                 sourceFile,
                 filePath,
-                newClassNameString,
+                missingClassNameString,
                 newModuleName,
               ),
             ]);
