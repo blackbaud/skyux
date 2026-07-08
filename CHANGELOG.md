@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.5.1](https://github.com/blackbaud/skyux/compare/14.5.0...14.5.1) (2026-07-08)
+
+
+### Bug Fixes
+
+* **components/text-editor:** update `dompurify` to address a security vulnerability ([#4489](https://github.com/blackbaud/skyux/issues/4489)) ([6eab92e](https://github.com/blackbaud/skyux/commit/6eab92e30cfaf8d6ff9d0db4a85b61dc7c43c4d6))
+
 ## [14.5.0](https://github.com/blackbaud/skyux/compare/14.4.0...14.5.0) (2026-07-07)
 
 
