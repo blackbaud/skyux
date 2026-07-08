@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.6.0](https://github.com/blackbaud/skyux/compare/14.5.1...14.6.0) (2026-07-08)
+
+
+### Features
+
+* **components/tabs:** add `tabWidth` input to vertical tabset with `auto` sizing and harness/example support ([#4410](https://github.com/blackbaud/skyux/issues/4410)) ([1de7a6a](https://github.com/blackbaud/skyux/commit/1de7a6a88c06f55c54c0b7ffc6081e7d81aa2e78))
+
 ## [14.5.1](https://github.com/blackbaud/skyux/compare/14.5.0...14.5.1) (2026-07-08)
 
 
