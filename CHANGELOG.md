@@ -1,22 +1,17 @@
 # Changelog
 
 
-## [15.0.0-alpha.1](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.0...15.0.0-alpha.1) (2026-07-08)
+## [14.5.0](https://github.com/blackbaud/skyux/compare/14.4.0...14.5.0) (2026-07-07)
 
-
-### ⚠ BREAKING CHANGES
-
-* **components/pages:** Needs-attention blocks without any items are no longer displayed.
 
 ### Features
 
-* **components/data-grid:** create an easy mode for data grid ([#4430](https://github.com/blackbaud/skyux/issues/4430)) ([#4486](https://github.com/blackbaud/skyux/issues/4486)) ([8a96189](https://github.com/blackbaud/skyux/commit/8a96189ec8650952a24670144dc6e56d8b64a554)), closes [AB#3942528](https://dev.azure.com/blackbaud/Products/_workitems/edit/3942528) [AB#3965849](https://dev.azure.com/blackbaud/Products/_workitems/edit/3965849)
-* **components/pages:** hide needs-attention block when empty ([#4477](https://github.com/blackbaud/skyux/issues/4477)) ([ac7da1d](https://github.com/blackbaud/skyux/commit/ac7da1d57d21b73be111c79cd1812ecbcaf4403b))
+* **components/data-grid:** create an easy mode for data grid ([#4430](https://github.com/blackbaud/skyux/issues/4430)) ([5889648](https://github.com/blackbaud/skyux/commit/588964833091b6f1062513382e18cc7059a2c1ef)), closes [AB#3942528](https://dev.azure.com/blackbaud/Products/_workitems/edit/3942528) [AB#3965849](https://dev.azure.com/blackbaud/Products/_workitems/edit/3965849)
 
 
 ### Bug Fixes
 
-* **components/ag-grid:** header focus ring should meet minimum contrast ratio ([#4481](https://github.com/blackbaud/skyux/issues/4481)) ([#4483](https://github.com/blackbaud/skyux/issues/4483)) ([3ea6b79](https://github.com/blackbaud/skyux/commit/3ea6b79a0ea4f1a018df0aed710f85c0b9790da6)), closes [AB#3693206](https://dev.azure.com/blackbaud/Products/_workitems/edit/3693206)
+* **components/ag-grid:** header focus ring should meet minimum contrast ratio ([#4481](https://github.com/blackbaud/skyux/issues/4481)) ([3063ba2](https://github.com/blackbaud/skyux/commit/3063ba2b99321affb579e19821aa5861cee90b14)), closes [AB#3693206](https://dev.azure.com/blackbaud/Products/_workitems/edit/3693206)
 
 ## [15.0.0-alpha.0](https://github.com/blackbaud/skyux/compare/14.3.10...15.0.0-alpha.0) (2026-06-30)
 
