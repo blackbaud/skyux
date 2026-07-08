@@ -17,6 +17,7 @@
 ### Bug Fixes
 
 * **components/ag-grid:** header focus ring should meet minimum contrast ratio ([#4481](https://github.com/blackbaud/skyux/issues/4481)) ([#4483](https://github.com/blackbaud/skyux/issues/4483)) ([3ea6b79](https://github.com/blackbaud/skyux/commit/3ea6b79a0ea4f1a018df0aed710f85c0b9790da6)), closes [AB#3693206](https://dev.azure.com/blackbaud/Products/_workitems/edit/3693206)
+* **components/text-editor:** update `dompurify` to address a security vulnerability ([#4489](https://github.com/blackbaud/skyux/issues/4489)) ([#4490](https://github.com/blackbaud/skyux/issues/4490)) ([9f84cb8](https://github.com/blackbaud/skyux/commit/9f84cb8279f8dfe6b2199992b1e0e772e2ff94ab))
 
 ## [14.5.1](https://github.com/blackbaud/skyux/compare/14.5.0...14.5.1) (2026-07-08)
 
