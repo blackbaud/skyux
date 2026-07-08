@@ -160,12 +160,10 @@ export class SkyVerticalTabsetComponent
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((mobile: boolean) => {
         this.isMobile.set(mobile);
-        this.#changeRef.markForCheck();
       });
 
     if (this.tabService.isMobile()) {
       this.isMobile.set(true);
-      this.#changeRef.markForCheck();
     }
     if (!this.showTabsText) {
       this.#resources

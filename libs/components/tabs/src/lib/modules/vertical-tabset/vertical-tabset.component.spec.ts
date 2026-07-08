@@ -719,6 +719,23 @@ describe('Vertical tabset component', () => {
     expect(desktopStyle.maxWidth).not.toBe('none');
   });
 
+  it('should update tab width styles when switching between mobile and desktop', () => {
+    mediaQueryController.setBreakpoint('lg');
+    const fixture = createTestComponent();
+    fixture.detectChanges();
+
+    const tabsContainer = getTabsContainer(fixture);
+    expect(tabsContainer.style.flexBasis).toBe('25%');
+
+    mediaQueryController.setBreakpoint('xs');
+    fixture.detectChanges();
+    expect(tabsContainer.style.flexBasis).toBe('');
+
+    mediaQueryController.setBreakpoint('lg');
+    fixture.detectChanges();
+    expect(tabsContainer.style.flexBasis).toBe('25%');
+  });
+
   it('mobile button should be visible on small screen', () => {
     mediaQueryController.setBreakpoint('xs');
     const fixture = createTestComponent();
