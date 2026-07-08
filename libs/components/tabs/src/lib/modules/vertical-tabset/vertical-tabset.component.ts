@@ -10,6 +10,9 @@ import {
   OnInit,
   Output,
   ViewChild,
+  computed,
+  input,
+  signal,
 } from '@angular/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
@@ -96,14 +99,10 @@ export class SkyVerticalTabsetComponent
    * width is 25%.
    * @default "25%"
    */
-  @Input()
-  public get tabWidth(): string {
-    return this.#_tabWidth;
-  }
-
-  public set tabWidth(value: string | undefined) {
-    this.#_tabWidth = value?.trim() || DEFAULT_TAB_WIDTH;
-  }
+  public readonly tabWidth = input(DEFAULT_TAB_WIDTH, {
+    transform: (value: string | undefined): string =>
+      value?.trim() || DEFAULT_TAB_WIDTH,
+  });
 
   /**
    * Fires when the active tab changes. Emits the index of the active tab. The
@@ -123,13 +122,12 @@ export class SkyVerticalTabsetComponent
 
   public ariaOwns: string | undefined;
 
-  public isMobile = false;
+  public readonly isMobile = signal(false);
 
   protected tablistHasFocus = false;
 
   #ngUnsubscribe = new Subject<void>();
   #_ariaRole = 'tablist';
-  #_tabWidth = DEFAULT_TAB_WIDTH;
 
   #resources: SkyLibResourcesService;
   #changeRef: ChangeDetectorRef;
@@ -161,12 +159,12 @@ export class SkyVerticalTabsetComponent
     this.tabService.switchingMobile
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((mobile: boolean) => {
-        this.isMobile = mobile;
+        this.isMobile.set(mobile);
         this.#changeRef.markForCheck();
       });
 
     if (this.tabService.isMobile()) {
-      this.isMobile = true;
+      this.isMobile.set(true);
       this.#changeRef.markForCheck();
     }
     if (!this.showTabsText) {
@@ -217,17 +215,11 @@ export class SkyVerticalTabsetComponent
     this.adapterService.focusPreviousButton(this.tabGroups);
   }
 
-  protected get tabGroupContainerFlexBasis(): string | undefined {
-    if (this.tabService.isMobile()) {
-      return undefined;
-    }
-    return this.tabWidth;
-  }
+  protected readonly tabGroupContainerFlexBasis = computed<string | undefined>(
+    () => (this.isMobile() ? undefined : this.tabWidth()),
+  );
 
-  protected get tabGroupContainerMaxWidth(): string | undefined {
-    if (this.tabService.isMobile()) {
-      return undefined;
-    }
-    return DEFAULT_TAB_WIDTH;
-  }
+  protected readonly tabGroupContainerMaxWidth = computed<string | undefined>(
+    () => (this.isMobile() ? undefined : DEFAULT_TAB_WIDTH),
+  );
 }
