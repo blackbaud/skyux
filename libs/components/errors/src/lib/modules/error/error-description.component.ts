@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 
 import { SkyErrorService } from './error.service';
 
@@ -21,10 +21,9 @@ export class SkyErrorDescriptionComponent {
     this.#errorSvc.replaceDefaultDescription.next(!!value);
   }
 
-  #errorSvc: SkyErrorService;
+  readonly #errorSvc = inject(SkyErrorService);
 
-  constructor(errorSvc: SkyErrorService) {
-    this.#errorSvc = errorSvc;
-    errorSvc.replaceDefaultDescription.next(false);
+  constructor() {
+    this.#errorSvc.replaceDefaultDescription.next(false);
   }
 }

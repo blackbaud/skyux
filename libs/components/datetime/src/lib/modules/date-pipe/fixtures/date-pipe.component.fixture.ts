@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { SkyDatePipeModule } from '../date-pipe.module';
 import { SkyDatePipe } from '../date.pipe';
@@ -14,11 +14,7 @@ export class DatePipeTestComponent {
   public format: string | undefined;
   public locale: string | undefined;
 
-  #datePipe: SkyDatePipe;
-
-  constructor(datePipe: SkyDatePipe) {
-    this.#datePipe = datePipe;
-  }
+  readonly #datePipe = inject(SkyDatePipe);
 
   public getDatePipeResult(
     value: Date,
