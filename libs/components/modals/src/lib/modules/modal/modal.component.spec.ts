@@ -339,15 +339,15 @@ describe('Modal component', () => {
     closeModal(modalInstance1);
   }));
 
-  it('should focus the dialog when no autofocus or focus element is inside of content', fakeAsync(() => {
+  it('should focus the heading when no autofocus or focus element is inside of content', fakeAsync(() => {
     const modalInstance1 = openModal(ModalTestComponent);
     expect(document.activeElement).toEqual(
-      document.querySelector('.sky-modal-content'),
+      document.querySelector('.sky-modal-heading'),
     );
     closeModal(modalInstance1);
   }));
 
-  it('should focus the dialog when all focusable elements are disabled', fakeAsync(() => {
+  it('should focus the heading when all focusable elements are disabled', fakeAsync(() => {
     const modalInstance1 = openModal(ModalWithFocusContentTestComponent, {
       providers: [
         {
@@ -359,6 +359,22 @@ describe('Modal component', () => {
         },
       ],
     });
+    expect(document.activeElement).toEqual(
+      document.querySelector('.sky-modal-heading'),
+    );
+    closeModal(modalInstance1);
+  }));
+
+  it('should focus the content region when the heading is hidden and no focusable content exist', fakeAsync(() => {
+    const modalInstance1 = openModalWithHeadingContext(true);
+    expect(document.activeElement).toEqual(
+      document.querySelector('.sky-modal-content'),
+    );
+    closeModal(modalInstance1);
+  }));
+
+  it('should focus the content region when there is no heading and no focusable content', fakeAsync(() => {
+    const modalInstance1 = openModal(ModalNoHeaderTestComponent);
     expect(document.activeElement).toEqual(
       document.querySelector('.sky-modal-content'),
     );

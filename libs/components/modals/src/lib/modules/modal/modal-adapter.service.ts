@@ -102,11 +102,34 @@ export class SkyModalAdapterService {
       if (inputWithAutofocus) {
         inputWithAutofocus.focus();
       } else {
-        this.#coreAdapter.getFocusableChildrenAndApplyFocus(
-          modalEl,
-          '.sky-modal-content',
-          true,
-        );
+        const contentEl: HTMLElement | null =
+          modalEl.nativeElement.querySelector('.sky-modal-content');
+
+        /* istanbul ignore else */
+        /* the modal always renders a content region */
+        if (contentEl) {
+          const focusableChildren =
+            this.#coreAdapter.getFocusableChildren(contentEl);
+
+          if (focusableChildren.length > 0) {
+            focusableChildren[0].focus();
+          } else {
+            // When there is no interactive content to receive focus, place
+            // focus on the modal's heading so screen readers announce the
+            // dialog. The heading is given a tabindex of -1 so it can receive
+            // programmatic focus without being added to the tab order. If no
+            // visible heading exists, fall back to focusing the content region.
+            const heading: HTMLElement | null =
+              modalEl.nativeElement.querySelector('.sky-modal-heading');
+
+            if (heading && heading.offsetParent !== null) {
+              heading.setAttribute('tabindex', '-1');
+              heading.focus();
+            } else {
+              contentEl.focus();
+            }
+          }
+        }
       }
       window.scrollTo(currentScrollX, currentScrollY);
     }

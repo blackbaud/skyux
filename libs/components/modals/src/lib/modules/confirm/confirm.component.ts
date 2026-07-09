@@ -19,6 +19,7 @@ import { SkyModalsResourcesModule } from '../shared/sky-modals-resources.module'
 
 import { SkyConfirmButton } from './confirm-button';
 import { SkyConfirmButtonConfig } from './confirm-button-config';
+import { SkyConfirmButtonStyleType } from './confirm-button-style-type';
 import { SkyConfirmCloseEventArgs } from './confirm-closed-event-args';
 import { SKY_CONFIRM_CONFIG } from './confirm-config-token';
 import { SkyConfirmInstance } from './confirm-instance';
@@ -133,7 +134,6 @@ export class SkyConfirmComponent implements OnDestroy {
           case SkyConfirmType.YesCancel:
             confirmButtons.push({
               text: values.yes,
-              autofocus: true,
               styleType: 'primary',
               action: 'yes',
             });
@@ -148,6 +148,7 @@ export class SkyConfirmComponent implements OnDestroy {
 
             confirmButtons.push({
               text: values.cancel,
+              autofocus: true,
               styleType: 'link',
               action: 'cancel',
             });
@@ -170,7 +171,7 @@ export class SkyConfirmComponent implements OnDestroy {
   #getCustomButtons(
     buttonConfig: SkyConfirmButtonConfig[],
   ): SkyConfirmButton[] {
-    return buttonConfig.map(
+    const buttons = buttonConfig.map(
       (config) =>
         ({
           text: config.text,
@@ -179,5 +180,28 @@ export class SkyConfirmComponent implements OnDestroy {
           autofocus: config.autofocus || false,
         }) as SkyConfirmButton,
     );
+
+    // When the consumer does not specify which button should receive initial
+    // focus, place focus on the least destructive button based on its style,
+    // in the order: link, default, primary, danger.
+    if (!buttons.some((button) => button.autofocus)) {
+      const focusPriority: SkyConfirmButtonStyleType[] = [
+        'link',
+        'default',
+        'primary',
+        'danger',
+      ];
+
+      for (const styleType of focusPriority) {
+        const button = buttons.find((b) => b.styleType === styleType);
+
+        if (button) {
+          button.autofocus = true;
+          break;
+        }
+      }
+    }
+
+    return buttons;
   }
 }

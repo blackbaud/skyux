@@ -16,9 +16,10 @@ export interface SkyConfirmButtonConfig {
    */
   styleType?: 'primary' | 'default' | 'link' | string;
   /**
-   * Whether to place focus on this button by default.
-   * @deprecated The confirm component automatically focuses the first interactive
-   * element of the dialog.
+   * Whether to place focus on this button when the confirm dialog opens. When
+   * no button specifies this property, focus is placed on the least destructive
+   * button based on its `styleType`, in the order: `link`, `default`, `primary`,
+   * `danger`.
    */
   autofocus?: boolean;
 }

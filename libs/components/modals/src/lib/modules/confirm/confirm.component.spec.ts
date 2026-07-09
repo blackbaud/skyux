@@ -290,6 +290,125 @@ describe('Confirm component', () => {
     buttons[0].click();
   });
 
+  it('should autofocus the OK button for an OK confirm', () => {
+    const fixture = createConfirm({
+      message: 'confirm message',
+      type: SkyConfirmType.OK,
+    });
+
+    fixture.detectChanges();
+
+    const buttons = fixture.nativeElement.querySelectorAll(
+      '.sky-confirm-buttons .sky-btn',
+    );
+
+    expect(buttons[0]).toHaveText('OK');
+    expect(buttons[0].hasAttribute('autofocus')).toEqual(true);
+    buttons[0].click();
+  });
+
+  it('should autofocus the Cancel button for a YesCancel confirm', () => {
+    const fixture = createConfirm({
+      message: 'confirm message',
+      type: SkyConfirmType.YesCancel,
+    });
+
+    fixture.detectChanges();
+
+    const buttons = fixture.nativeElement.querySelectorAll(
+      '.sky-confirm-buttons .sky-btn',
+    );
+
+    expect(buttons[0]).toHaveText('Yes');
+    expect(buttons[1]).toHaveText('Cancel');
+    expect(buttons[0].hasAttribute('autofocus')).toEqual(false);
+    expect(buttons[1].hasAttribute('autofocus')).toEqual(true);
+    buttons[0].click();
+  });
+
+  it('should autofocus the Cancel button for a YesNoCancel confirm', () => {
+    const fixture = createConfirm({
+      message: 'confirm message',
+      type: SkyConfirmType.YesNoCancel,
+    });
+
+    fixture.detectChanges();
+
+    const buttons = fixture.nativeElement.querySelectorAll(
+      '.sky-confirm-buttons .sky-btn',
+    );
+
+    expect(buttons[0]).toHaveText('Yes');
+    expect(buttons[1]).toHaveText('No');
+    expect(buttons[2]).toHaveText('Cancel');
+    expect(buttons[0].hasAttribute('autofocus')).toEqual(false);
+    expect(buttons[1].hasAttribute('autofocus')).toEqual(false);
+    expect(buttons[2].hasAttribute('autofocus')).toEqual(true);
+    buttons[0].click();
+  });
+
+  it('should autofocus the least destructive custom button when no autofocus is specified', () => {
+    const fixture = createConfirm({
+      message: 'confirm message',
+      type: SkyConfirmType.Custom,
+      buttons: [
+        {
+          text: 'delete',
+          action: 'delete',
+          styleType: 'danger',
+        },
+        {
+          text: 'save',
+          action: 'save',
+          styleType: 'primary',
+        },
+        {
+          text: 'cancel',
+          action: 'cancel',
+          styleType: 'link',
+        },
+      ],
+    });
+
+    fixture.detectChanges();
+
+    const buttons = fixture.nativeElement.querySelectorAll(
+      '.sky-confirm-buttons .sky-btn',
+    );
+
+    expect(buttons[0].hasAttribute('autofocus')).toEqual(false);
+    expect(buttons[1].hasAttribute('autofocus')).toEqual(false);
+    expect(buttons[2].hasAttribute('autofocus')).toEqual(true);
+    buttons[0].click();
+  });
+
+  it('should autofocus the first custom button when style types share the highest priority', () => {
+    const fixture = createConfirm({
+      message: 'confirm message',
+      type: SkyConfirmType.Custom,
+      buttons: [
+        {
+          text: 'foo',
+          action: 'foo',
+        },
+        {
+          text: 'bar',
+          action: 'bar',
+        },
+      ],
+    });
+
+    fixture.detectChanges();
+
+    const buttons = fixture.nativeElement.querySelectorAll(
+      '.sky-confirm-buttons .sky-btn',
+    );
+
+    expect(buttons[0].hasAttribute('autofocus')).toEqual(true);
+    expect(buttons[1].hasAttribute('autofocus')).toEqual(false);
+    buttons[0].click();
+  });
+
   it('should default to not preserving white space', () => {
     const fixture = createConfirm({
       message: 'confirm message',
