@@ -36,6 +36,12 @@ function getActiveSection(el: any) {
   );
 }
 
+function getTabsContainer(fixture: ComponentFixture<unknown>): HTMLElement {
+  return (fixture.nativeElement as HTMLElement).querySelector(
+    '.sky-sectioned-form-tabs',
+  ) as HTMLElement;
+}
+
 describe('Sectioned form component', () => {
   let mediaQueryController: SkyMediaQueryTestingController;
 
@@ -448,6 +454,90 @@ describe('Sectioned form component', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
+
+  it('should default tab width to 30%', () => {
+    mediaQueryController.setBreakpoint('lg');
+    const fixture = createTestComponent();
+    fixture.detectChanges();
+
+    const tabsContainer = getTabsContainer(fixture);
+
+    expect(tabsContainer.style.flexBasis).toBe('30%');
+    expect(tabsContainer.style.maxWidth).toBe('30%');
+  });
+
+  it('should size tabs automatically when tabWidth is set to auto', () => {
+    mediaQueryController.setBreakpoint('lg');
+    const fixture = createTestComponent();
+    fixture.componentInstance.tabWidth = 'auto';
+    fixture.detectChanges();
+
+    const tabsContainer = getTabsContainer(fixture);
+
+    expect(tabsContainer.style.flexBasis).toBe('auto');
+    expect(tabsContainer.style.maxWidth).toBe('30%');
+  });
+
+  it('should set custom tab width', () => {
+    mediaQueryController.setBreakpoint('lg');
+    const fixture = createTestComponent();
+    fixture.componentInstance.tabWidth = '18rem';
+    fixture.detectChanges();
+
+    const tabsContainer = getTabsContainer(fixture);
+
+    expect(tabsContainer.style.flexBasis).toBe('18rem');
+    expect(tabsContainer.style.maxWidth).toBe('30%');
+  });
+
+  it('should not constrain the tab width on mobile', () => {
+    mediaQueryController.setBreakpoint('xs');
+    const fixture = createTestComponent();
+    fixture.componentInstance.maintainSectionContent = true;
+    fixture.componentInstance.tabWidth = 'auto';
+    fixture.detectChanges();
+
+    const tabsContainer = getTabsContainer(fixture);
+
+    // Inline width styles must not be applied on mobile, where the sectioned
+    // form switches to a full-width block layout.
+    expect(tabsContainer.style.flexBasis).toBe('');
+    const mobileStyle = getComputedStyle(tabsContainer);
+    expect(mobileStyle.maxWidth).toBe('none');
+  });
+
+  it('should constrain the tab width only in the side-by-side layout', () => {
+    mediaQueryController.setBreakpoint('lg');
+    const fixture = createTestComponent();
+    fixture.componentInstance.tabWidth = 'auto';
+    fixture.detectChanges();
+
+    const tabsContainer = getTabsContainer(fixture);
+    // The `auto` 30% cap is applied only in the side-by-side (desktop)
+    // layout; the mobile layout leaves it unset (see the mobile test).
+    const desktopStyle = getComputedStyle(tabsContainer);
+    expect(desktopStyle.maxWidth).not.toBe('none');
+  });
+
+  it('should update tab width styles when switching between mobile and desktop', () => {
+    mediaQueryController.setBreakpoint('lg');
+    const fixture = createTestComponent();
+    fixture.componentInstance.maintainSectionContent = true;
+    fixture.detectChanges();
+
+    let tabsContainer = getTabsContainer(fixture);
+    expect(tabsContainer.style.flexBasis).toBe('30%');
+
+    mediaQueryController.setBreakpoint('xs');
+    fixture.detectChanges();
+    tabsContainer = getTabsContainer(fixture);
+    expect(tabsContainer.style.flexBasis).toBe('');
+
+    mediaQueryController.setBreakpoint('lg');
+    fixture.detectChanges();
+    tabsContainer = getTabsContainer(fixture);
+    expect(tabsContainer.style.flexBasis).toBe('30%');
   });
 
   it('maintainSectionContent - tab content remains in same order', () => {
