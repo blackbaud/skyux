@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { SkyFlyoutTestSampleContext } from './flyout-sample-context.fixture';
 
@@ -8,5 +8,5 @@ import { SkyFlyoutTestSampleContext } from './flyout-sample-context.fixture';
   standalone: false,
 })
 export class SkyFlyoutTestSampleComponent {
-  constructor(public data: SkyFlyoutTestSampleContext) {}
+  public readonly data = inject(SkyFlyoutTestSampleContext);
 }

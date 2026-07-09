@@ -1,5 +1,5 @@
 import { formatNumber } from '@angular/common';
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform, inject } from '@angular/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 /**
@@ -9,12 +9,8 @@ import { SkyLibResourcesService } from '@skyux/i18n';
   name: 'skyFileSize',
 })
 export class SkyFileSizePipe implements PipeTransform {
-  readonly #resourcesService: SkyLibResourcesService;
+  readonly #resourcesService = inject(SkyLibResourcesService);
   readonly #defaultLocale = 'en-US';
-
-  constructor(resourcesService: SkyLibResourcesService) {
-    this.#resourcesService = resourcesService;
-  }
 
   public transform(input?: number | string | null): string {
     let decimalPlaces = 0,

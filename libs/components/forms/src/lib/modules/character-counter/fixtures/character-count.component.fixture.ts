@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   ViewChild,
+  inject,
 } from '@angular/core';
 import {
   UntypedFormBuilder,
@@ -29,16 +30,10 @@ export class CharacterCountTestComponent {
   @ViewChild(SkyCharacterCounterInputDirective)
   public inputDirective: SkyCharacterCounterInputDirective | undefined;
 
-  #changeDetector: ChangeDetectorRef;
-  #formBuilder: UntypedFormBuilder;
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #formBuilder = inject(UntypedFormBuilder);
 
-  constructor(
-    formBuilder: UntypedFormBuilder,
-    changeDetector: ChangeDetectorRef,
-  ) {
-    this.#formBuilder = formBuilder;
-    this.#changeDetector = changeDetector;
-
+  constructor() {
     this.firstName = this.#formBuilder.control('test');
     this.lastName = this.#formBuilder.control('last');
 

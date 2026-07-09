@@ -1,4 +1,10 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+  inject,
+} from '@angular/core';
 
 import { SkyInputBoxHostService } from '../input-box-host.service';
 
@@ -24,11 +30,7 @@ export class InputBoxHostServiceFixtureComponent implements OnInit {
 
   public hintText: string | undefined = 'Host component hint text.';
 
-  #inputBoxHostSvc: SkyInputBoxHostService;
-
-  constructor(inputBoxHostSvc: SkyInputBoxHostService) {
-    this.#inputBoxHostSvc = inputBoxHostSvc;
-  }
+  readonly #inputBoxHostSvc = inject(SkyInputBoxHostService);
 
   public ngOnInit(): void {
     this.#inputBoxHostSvc.populate({

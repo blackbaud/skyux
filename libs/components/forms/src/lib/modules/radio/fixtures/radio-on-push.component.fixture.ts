@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
 } from '@angular/core';
 
 @Component({
@@ -22,5 +23,5 @@ export class SkyRadioOnPushTestComponent {
 
   public tabindex2: number | undefined;
 
-  constructor(public ref: ChangeDetectorRef) {}
+  public readonly ref = inject(ChangeDetectorRef);
 }

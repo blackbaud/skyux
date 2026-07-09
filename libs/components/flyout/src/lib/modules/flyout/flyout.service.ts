@@ -47,6 +47,7 @@ export class SkyFlyoutService implements OnDestroy {
   #router: Router;
   #ngZone: NgZone;
 
+  /* eslint-disable @angular-eslint/prefer-inject -- constructor injection is required to maintain the public API for consumers who may instantiate this service directly (e.g. `new SkyFlyoutService(...)`) */
   constructor(
     coreAdapter: SkyCoreAdapterService,
     windowRef: SkyAppWindowRef,
@@ -54,6 +55,7 @@ export class SkyFlyoutService implements OnDestroy {
     router: Router,
     ngZone: NgZone,
   ) {
+    /* eslint-enable @angular-eslint/prefer-inject */
     this.#coreAdapter = coreAdapter;
     this.#windowRef = windowRef;
     this.#dynamicComponentService = dynamicComponentService;
@@ -234,6 +236,7 @@ export class SkyFlyoutService implements OnDestroy {
 })
 export class SkyFlyoutLegacyService extends SkyFlyoutService {
   /* istanbul ignore next */
+  /* eslint-disable @angular-eslint/prefer-inject -- constructor injection is required to override the type of `dynamicComponentService` passed to the parent class's constructor. */
   constructor(
     coreAdapter: SkyCoreAdapterService,
     windowRef: SkyAppWindowRef,
@@ -241,6 +244,7 @@ export class SkyFlyoutLegacyService extends SkyFlyoutService {
     router: Router,
     ngZone: NgZone,
   ) {
+    /* eslint-enable @angular-eslint/prefer-inject */
     super(coreAdapter, windowRef, dynamicComponentService, router, ngZone);
   }
 }
