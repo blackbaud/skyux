@@ -7,11 +7,9 @@ import {
   ElementRef,
   EnvironmentInjector,
   EventEmitter,
-  Inject,
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   Output,
   TemplateRef,
   ViewChild,
@@ -34,7 +32,7 @@ import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeService } from '@skyux/theme';
 
-import { Observable, Subject, Subscription, fromEvent } from 'rxjs';
+import { Subject, Subscription, fromEvent } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 
 import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.module';
@@ -232,42 +230,32 @@ export class SkyDatepickerComponent
 
   #_selectedDate: Date | undefined;
 
-  #affixService: SkyAffixService;
+  readonly #affixService = inject(SkyAffixService);
   readonly #appFormatter = inject(SkyAppFormat);
-  #changeDetector: ChangeDetectorRef;
-  #coreAdapter: SkyCoreAdapterService;
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #coreAdapter = inject(SkyCoreAdapterService);
   #dateFormatHintTextTemplateString = '';
   readonly #environmentInjector = inject(EnvironmentInjector);
   readonly #resourceSvc = inject(SkyLibResourcesService);
-  #overlayService: SkyOverlayService;
-  readonly #zIndex: Observable<number> | undefined;
+  readonly #overlayService = inject(SkyOverlayService);
+  public readonly inputBoxHostService = inject(SkyInputBoxHostService, {
+    optional: true,
+  });
+  readonly #zIndex = inject<SkyStackingContext>(SKY_STACKING_CONTEXT, {
+    optional: true,
+  })?.zIndex;
 
   readonly #datepickerHostSvc = inject(SkyDatepickerHostService);
   readonly #elementRef = inject(ElementRef);
 
-  constructor(
-    affixService: SkyAffixService,
-    changeDetector: ChangeDetectorRef,
-    coreAdapter: SkyCoreAdapterService,
-    overlayService: SkyOverlayService,
-    @Optional() public inputBoxHostService?: SkyInputBoxHostService,
-    @Optional() themeSvc?: SkyThemeService,
-    @Optional()
-    @Inject(SKY_STACKING_CONTEXT)
-    stackingContext?: SkyStackingContext,
-  ) {
-    this.#affixService = affixService;
-    this.#changeDetector = changeDetector;
-    this.#coreAdapter = coreAdapter;
-    this.#overlayService = overlayService;
+  constructor() {
     const uniqueId = nextId++;
     this.calendarId = `sky-datepicker-calendar-${uniqueId}`;
     this.triggerButtonId = `sky-datepicker-button-${uniqueId}`;
-    this.#zIndex = stackingContext?.zIndex;
 
     // Update icons when theme changes.
-    themeSvc?.settingsChange
-      .pipe(takeUntil(this.#ngUnsubscribe))
+    inject(SkyThemeService, { optional: true })
+      ?.settingsChange.pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
         this.#changeDetector.markForCheck();
       });

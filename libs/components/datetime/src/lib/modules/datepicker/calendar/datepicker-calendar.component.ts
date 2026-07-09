@@ -4,6 +4,7 @@ import {
   Input,
   Output,
   ViewChild,
+  inject,
 } from '@angular/core';
 
 import { SkyDateFormatter } from '../date-formatter';
@@ -83,10 +84,9 @@ export class SkyDatepickerCalendarComponent {
 
   #_startingDay = 0;
 
-  #config: SkyDatepickerConfigService;
+  readonly #config = inject(SkyDatepickerConfigService);
 
-  constructor(config: SkyDatepickerConfigService) {
-    this.#config = config;
+  constructor() {
     this.configureOptions();
   }
 
