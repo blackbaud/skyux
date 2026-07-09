@@ -120,6 +120,25 @@ describe('Sectioned form harness', () => {
     await expectAsync(activeSection?.getSectionItemCount()).toBeResolvedTo(2);
   });
 
+  it('should get the default tab width', async () => {
+    const { sectionedFormHarness, fixture } = await setupTest();
+    TestBed.inject(SkyMediaQueryTestingController).setBreakpoint('lg');
+    fixture.detectChanges();
+
+    await expectAsync(sectionedFormHarness.getTabWidth()).toBeResolvedTo('30%');
+  });
+
+  it('should get the auto tab width', async () => {
+    const { sectionedFormHarness, fixture } = await setupTest();
+    TestBed.inject(SkyMediaQueryTestingController).setBreakpoint('lg');
+    fixture.componentRef.setInput('tabWidth', 'auto');
+    fixture.detectChanges();
+
+    await expectAsync(sectionedFormHarness.getTabWidth()).toBeResolvedTo(
+      'auto',
+    );
+  });
+
   describe('in mobile view', () => {
     let mediaQueryController: SkyMediaQueryTestingController;
 
@@ -130,6 +149,27 @@ describe('Sectioned form harness', () => {
       mediaQueryController.setBreakpoint('xs');
       fixture.detectChanges();
     }
+
+    it('should return null for the tab width when tabs are not rendered', async () => {
+      const { sectionedFormHarness, fixture } = await setupTest();
+      shrinkScreen(fixture);
+
+      await expectAsync(sectionedFormHarness.getTabWidth()).toBeResolvedTo(
+        null,
+      );
+    });
+
+    it('should return null for the tab width when tabs are visible on mobile', async () => {
+      const { sectionedFormHarness, fixture } = await setupTest();
+      shrinkScreen(fixture);
+
+      fixture.componentInstance.showTabs();
+      fixture.detectChanges();
+
+      await expectAsync(sectionedFormHarness.getTabWidth()).toBeResolvedTo(
+        null,
+      );
+    });
 
     it('should get the active content', async () => {
       const { sectionedFormHarness, fixture } = await setupTest();
