@@ -1,9 +1,4 @@
-import {
-  Injectable,
-  Renderer2,
-  RendererFactory2,
-  inject,
-} from '@angular/core';
+import { Injectable, Renderer2, RendererFactory2, inject } from '@angular/core';
 import { SkyCoreAdapterService } from '@skyux/core';
 
 /**
