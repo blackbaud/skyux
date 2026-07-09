@@ -60,7 +60,7 @@ export class DataGridTestComponent {
   public readonly selectedRowIds = model<string[]>([]);
 
   public page = 1;
-  public pageSize = 0;
+  public readonly pageSize = input(0);
   public pageQueryParam = '';
 
   protected readonly showAllColumns = input<boolean>(true);
