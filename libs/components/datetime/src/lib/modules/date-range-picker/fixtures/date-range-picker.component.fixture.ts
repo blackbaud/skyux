@@ -3,6 +3,7 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  inject,
   input,
   model,
 } from '@angular/core';
@@ -54,10 +55,11 @@ export class DateRangePickerTestComponent implements OnInit, OnDestroy {
   public readonly helpPopoverContent = input<string | undefined>(undefined);
   public readonly stacked = input<boolean | undefined>(undefined);
 
+  readonly #formBuilder = inject(UntypedFormBuilder);
   #ngUnsubscribe = new Subject<void>();
 
-  constructor(formBuilder: UntypedFormBuilder) {
-    this.reactiveForm = formBuilder.group({
+  constructor() {
+    this.reactiveForm = this.#formBuilder.group({
       dateRange: new UntypedFormControl(),
     });
   }
