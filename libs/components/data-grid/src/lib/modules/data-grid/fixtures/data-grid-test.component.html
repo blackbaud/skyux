@@ -1,13 +1,13 @@
 @if (showAllGrids()) {
   <sky-data-grid
     data-sky-id="grid"
-    [data]="dataForSimpleGrid"
+    [data]="dataForSimpleGrid()"
     [autoPage]="autoPage()"
     [autoSort]="autoSort()"
     [labelText]="labelText()"
     [minHeight]="minHeight()"
     [multiselect]="multiselect()"
-    [pageQueryParam]="pageQueryParam"
+    [pageQueryParam]="pageQueryParam()"
     [pageSize]="pageSize()"
     [rowCount]="rowCount()"
     [stacked]="stacked()"
@@ -47,7 +47,7 @@
     multiselect
     columnFit="content"
     topScrollEnabled
-    [data]="dataForSimpleGridWithMultiselect"
+    [data]="dataForSimpleGridWithMultiselect()"
     [(selectedRowIds)]="selectedRowIds"
   >
     @if (showAllColumns()) {
@@ -80,7 +80,7 @@
   <sky-data-grid
     data-sky-id="inline-help-grid"
     columnFit="content"
-    [data]="dataForSimpleGrid"
+    [data]="dataForSimpleGrid()"
   >
     @if (showAllColumns()) {
       <sky-data-grid-column
