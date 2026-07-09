@@ -10,6 +10,7 @@ import {
   OnInit,
   Output,
   TemplateRef,
+  inject,
 } from '@angular/core';
 import { SkyAppWindowRef } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
@@ -102,25 +103,11 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
 
   #ngUnsubscribe = new Subject<void>();
 
-  #adapter: SkyInlineFormAdapterService;
-  #elementRef: ElementRef;
-  #resourcesService: SkyLibResourcesService;
-  #skyAppWindowRef: SkyAppWindowRef;
-  #changeDetectorRef: ChangeDetectorRef;
-
-  constructor(
-    adapter: SkyInlineFormAdapterService,
-    elementRef: ElementRef,
-    resourcesService: SkyLibResourcesService,
-    skyAppWindowRef: SkyAppWindowRef,
-    changeDetectorRef: ChangeDetectorRef,
-  ) {
-    this.#adapter = adapter;
-    this.#elementRef = elementRef;
-    this.#resourcesService = resourcesService;
-    this.#skyAppWindowRef = skyAppWindowRef;
-    this.#changeDetectorRef = changeDetectorRef;
-  }
+  readonly #adapter = inject(SkyInlineFormAdapterService);
+  readonly #elementRef = inject(ElementRef);
+  readonly #resourcesService = inject(SkyLibResourcesService);
+  readonly #skyAppWindowRef = inject(SkyAppWindowRef);
+  readonly #changeDetectorRef = inject(ChangeDetectorRef);
 
   public ngOnInit(): void {
     this.#setupButtons();

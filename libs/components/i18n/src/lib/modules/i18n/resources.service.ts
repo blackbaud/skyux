@@ -43,6 +43,7 @@ export class SkyAppResourcesService {
   #localeProvider: SkyAppLocaleProvider;
   #resourceNameProvider: SkyAppResourceNameProvider | undefined;
 
+  /* eslint-disable @angular-eslint/prefer-inject -- constructor injection is required to maintain the public API for consumers who may instantiate this service directly (e.g. `new SkyAppResourcesService(...)`) */
   constructor(
     http: HttpClient,
     @Optional()
@@ -51,6 +52,7 @@ export class SkyAppResourcesService {
     @Optional() localeProvider: SkyAppLocaleProvider,
     @Optional() resourceNameProvider: SkyAppResourceNameProvider,
   ) {
+    /* eslint-enable @angular-eslint/prefer-inject */
     this.#http = http;
     this.#assets = assets;
     // Locale provider is provided at `root`. The `Optional` here is for unit test compatibility.

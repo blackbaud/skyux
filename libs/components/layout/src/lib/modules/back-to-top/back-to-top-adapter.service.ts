@@ -1,4 +1,4 @@
-import { ElementRef, Injectable, OnDestroy } from '@angular/core';
+import { ElementRef, Injectable, OnDestroy, inject } from '@angular/core';
 import { SkyAppWindowRef, SkyScrollableHostService } from '@skyux/core';
 
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
@@ -11,16 +11,8 @@ import { takeUntil } from 'rxjs/operators';
 export class SkyBackToTopDomAdapterService implements OnDestroy {
   #ngUnsubscribe = new Subject<void>();
   #scrollableHostScrollEventUnsubscribe = new Subject<void>();
-  #scrollableHostService: SkyScrollableHostService;
-  #windowRef: SkyAppWindowRef;
-
-  constructor(
-    windowRef: SkyAppWindowRef,
-    scrollableHostService: SkyScrollableHostService,
-  ) {
-    this.#windowRef = windowRef;
-    this.#scrollableHostService = scrollableHostService;
-  }
+  readonly #scrollableHostService = inject(SkyScrollableHostService);
+  readonly #windowRef = inject(SkyAppWindowRef);
 
   public ngOnDestroy(): void {
     this.#ngUnsubscribe.next();

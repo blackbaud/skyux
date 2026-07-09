@@ -10,6 +10,7 @@ import {
   OnDestroy,
   QueryList,
   ViewChild,
+  inject,
 } from '@angular/core';
 
 import { Subject } from 'rxjs';
@@ -78,19 +79,9 @@ export class SkyDescriptionListComponent
   #ngUnsubscribe = new Subject<void>();
   #_mode: SkyDescriptionListModeType = 'vertical';
 
-  #adapterService: SkyDescriptionListAdapterService;
-  #changeDetector: ChangeDetectorRef;
-  #descriptionListService: SkyDescriptionListService;
-
-  constructor(
-    adapterService: SkyDescriptionListAdapterService,
-    changeDetector: ChangeDetectorRef,
-    descriptionListService: SkyDescriptionListService,
-  ) {
-    this.#adapterService = adapterService;
-    this.#changeDetector = changeDetector;
-    this.#descriptionListService = descriptionListService;
-  }
+  readonly #adapterService = inject(SkyDescriptionListAdapterService);
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #descriptionListService = inject(SkyDescriptionListService);
 
   public ngAfterContentInit(): void {
     // Wait for all content to render before detecting parent width.
