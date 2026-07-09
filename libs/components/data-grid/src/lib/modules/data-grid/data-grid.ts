@@ -5,6 +5,7 @@ import {
   coerceStringArray,
 } from '@angular/cdk/coercion';
 import {
+  afterRenderEffect,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -114,6 +115,7 @@ function arraySorted(arr: string[]): string[] {
   templateUrl: './data-grid.html',
   styleUrl: './data-grid.css',
   host: {
+    '[class.fit-layout]': "layout() === 'fit'",
     '[class.sky-margin-stacked-lg]': 'stacked()',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -176,6 +178,15 @@ export class SkyDataGrid {
    * The text to read to screen readers to describe the grid. This sets the `aria-label` attribute on the grid container.
    */
   public readonly labelText = input<string>();
+
+  /**
+   * How the grid sizes to its parent's height. The valid options are `fit`, which
+   * stretches the grid to fill the parent container, and `list`, which sizes the grid
+   * to fit its contents. The `fit` layout assumes the parent element fills a screen,
+   * and the grid will scroll if necessary.
+   * @internal
+   */
+  public readonly layout = input<'fit' | 'list'>('list');
 
   /**
    * Whether data is being loaded. When `loading` is true or when `data` is nullish,
@@ -301,7 +312,9 @@ export class SkyDataGrid {
         context: {
           enableTopScroll: untracked(() => this.topScrollEnabled()),
         },
-        domLayout: 'autoHeight',
+        domLayout: untracked(() =>
+          this.layout() === 'list' ? 'autoHeight' : 'normal',
+        ),
         initialState: sort
           ? {
               sort: {
@@ -320,7 +333,7 @@ export class SkyDataGrid {
         paginationPageSize,
         suppressMultiSort: true,
         suppressPaginationPanel: true,
-        rowData: rowData.length ? rowData : null,
+        rowData,
         rowSelection: untracked(() => this.#getRowSelection()),
         autoSizeStrategy: untracked(() => this.#getAutoSizeStrategy()),
       },
@@ -454,15 +467,26 @@ export class SkyDataGrid {
     // `gridApi` untracked because a recreated grid rebuilds its options from the
     // `gridOptions` computed; the selection and page effects below instead track
     // `gridApi` so they re-apply their state to a freshly created grid.
-    effect(() => {
-      const api = untracked(() => this.gridApi());
-      const columnDefs = this.#columnDefs();
-      api?.setGridOption('columnDefs', columnDefs);
+
+    // Using `afterRenderEffect` for columns because we need the results from
+    // `contentChildren` for the column definitions, and this allows columns
+    // that use control flow or inputs to stabilize.
+    afterRenderEffect({
+      earlyRead: () => {
+        const api = untracked(() => this.gridApi());
+        const columnDefs = this.#columnDefs();
+        api?.setGridOption('columnDefs', columnDefs);
+      },
     });
     effect(() => {
       const api = untracked(() => this.gridApi());
       const isLoading = this.loading() || !Array.isArray(this.data());
       api?.setGridOption('loading', isLoading);
+    });
+    effect(() => {
+      const api = untracked(() => this.gridApi());
+      const domLayout = this.layout() === 'list' ? 'autoHeight' : 'normal';
+      api?.setGridOption('domLayout', domLayout);
     });
     effect(() => {
       const api = untracked(() => this.gridApi());
@@ -600,6 +624,17 @@ export class SkyDataGrid {
       }
     });
 
+    // Warn when `pageQueryParam` is configured without a `Router` and
+    // `ActivatedRoute` available for injection. Without them, page changes
+    // fall back to updating the `page` model directly instead of the URL.
+    effect(() => {
+      if (this.pageQueryParam() && (!this.#router || !this.#activatedRoute)) {
+        this.#logger.warn(
+          'The `pageQueryParam` input is set, but a `Router` and `ActivatedRoute` are not available for injection. Page changes will not be reflected in the URL.',
+        );
+      }
+    });
+
     this.#gridDestroyed.pipe(takeUntilDestroyed()).subscribe(() => {
       this.gridApi.set(undefined);
       this.gridReady.set(false);
@@ -655,7 +690,7 @@ export class SkyDataGrid {
   protected currentPageChange(page: number): void {
     if (page && page !== this.page()) {
       const pageQueryParam = this.pageQueryParam();
-      if (pageQueryParam) {
+      if (pageQueryParam && this.#router && this.#activatedRoute) {
         // When using a query parameter, send the change through the router.
         this.#navigateToPageQueryParam(pageQueryParam, page);
       } else {
