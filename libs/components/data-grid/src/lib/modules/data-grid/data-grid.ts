@@ -320,7 +320,7 @@ export class SkyDataGrid {
         paginationPageSize,
         suppressMultiSort: true,
         suppressPaginationPanel: true,
-        rowData: rowData.length ? rowData : null,
+        rowData,
         rowSelection: untracked(() => this.#getRowSelection()),
         autoSizeStrategy: untracked(() => this.#getAutoSizeStrategy()),
       },
@@ -600,6 +600,17 @@ export class SkyDataGrid {
       }
     });
 
+    // Warn when `pageQueryParam` is configured without a `Router` and
+    // `ActivatedRoute` available for injection. Without them, page changes
+    // fall back to updating the `page` model directly instead of the URL.
+    effect(() => {
+      if (this.pageQueryParam() && (!this.#router || !this.#activatedRoute)) {
+        this.#logger.warn(
+          'The `pageQueryParam` input is set, but a `Router` and `ActivatedRoute` are not available for injection. Page changes will not be reflected in the URL.',
+        );
+      }
+    });
+
     this.#gridDestroyed.pipe(takeUntilDestroyed()).subscribe(() => {
       this.gridApi.set(undefined);
       this.gridReady.set(false);
@@ -655,7 +666,7 @@ export class SkyDataGrid {
   protected currentPageChange(page: number): void {
     if (page && page !== this.page()) {
       const pageQueryParam = this.pageQueryParam();
-      if (pageQueryParam) {
+      if (pageQueryParam && this.#router && this.#activatedRoute) {
         // When using a query parameter, send the change through the router.
         this.#navigateToPageQueryParam(pageQueryParam, page);
       } else {
