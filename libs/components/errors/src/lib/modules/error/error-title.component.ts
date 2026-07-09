@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  inject,
+} from '@angular/core';
 
 import { SkyErrorService } from './error.service';
 
@@ -22,10 +27,9 @@ export class SkyErrorTitleComponent {
     this.#errorSvc.replaceDefaultTitle.next(!!value);
   }
 
-  #errorSvc: SkyErrorService;
+  readonly #errorSvc = inject(SkyErrorService);
 
-  constructor(errorSvc: SkyErrorService) {
-    this.#errorSvc = errorSvc;
-    errorSvc.replaceDefaultTitle.next(false);
+  constructor() {
+    this.#errorSvc.replaceDefaultTitle.next(false);
   }
 }
