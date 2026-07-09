@@ -2,12 +2,14 @@ import { Component, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 import { SkyLogService } from '@skyux/core';
+import { SkyThemeService, type SkyThemeSettingsChange } from '@skyux/theme';
 import Chart, { type TooltipItem } from 'chart.js/auto';
+import { ReplaySubject } from 'rxjs';
 
 import { SkyChartAxisCategory } from '../axis/chart-axis-category';
 import { SkyChartAxisValue } from '../axis/chart-axis-value';
 import { SkyChartSeries } from '../chart-series/chart-series';
-import { SkyChartTableService } from '../chart/chart-table-service';
+import { SkyChartTableService } from '../chart-table/chart-table-service';
 import { SkyChartValueFormat } from '../shared/value-format';
 
 import { SkyChartBar } from './chart-bar';
@@ -208,11 +210,45 @@ describe('Chart bar component', () => {
     expect(value.grid.drawOnChartArea).toBe(true);
   });
 
+  it('should assign the series a categorical data-visualization color', () => {
+    fixture.detectChanges();
+
+    const dataset = requireChart().data.datasets[0];
+    expect(typeof dataset.backgroundColor).toBe('string');
+  });
+
   it('should format axis ticks using the value axis format', () => {
     fixture.detectChanges();
 
     const value = getScale(requireChart(), 'value-0');
     expect(value.ticks.callback(1234)).toBe('1,234');
+  });
+
+  it('should apply the same themed styling to the category and value axes', () => {
+    fixture.detectChanges();
+
+    const chart = requireChart();
+    type StyleProbe = {
+      grid: { color: string; tickLength: number };
+      border: { color: string };
+      ticks: { color: string; font: { size: number; family: string } };
+    };
+    const category = chart.options.scales?.[
+      'category'
+    ] as unknown as StyleProbe;
+    const value = chart.options.scales?.['value-0'] as unknown as StyleProbe;
+
+    // Tokens are resolved to concrete values, never the raw property name.
+    expect(category.grid.color).not.toContain('--sky');
+    expect(typeof category.grid.tickLength).toBe('number');
+    expect(typeof category.ticks.font.size).toBe('number');
+
+    // The value axis shares the category axis's resolved themed styling.
+    expect(value.grid.color).toBe(category.grid.color);
+    expect(value.border.color).toBe(category.border.color);
+    expect(value.ticks.color).toBe(category.ticks.color);
+    expect(value.ticks.font.size).toBe(category.ticks.font.size);
+    expect(value.ticks.font.family).toBe(category.ticks.font.family);
   });
 
   it('should format the tooltip label with the series label', () => {
@@ -330,6 +366,43 @@ describe('Chart bar component without a table service', () => {
 
     const canvas = fixture.nativeElement.querySelector('canvas');
     expect(Chart.getChart(canvas)).toBeTruthy();
+
+    fixture.destroy();
+  });
+});
+
+describe('Chart bar component with a theme service', () => {
+  it('should rebuild the chart when the theme settings change', () => {
+    const settingsChange = new ReplaySubject<SkyThemeSettingsChange>(1);
+    settingsChange.next({ currentSettings: {} } as SkyThemeSettingsChange);
+
+    TestBed.configureTestingModule({
+      imports: [TestComponent],
+      providers: [
+        SkyChartTableService,
+        {
+          provide: SkyLogService,
+          useValue: jasmine.createSpyObj<SkyLogService>('SkyLogService', [
+            'warn',
+          ]),
+        },
+        { provide: SkyThemeService, useValue: { settingsChange } },
+      ],
+    });
+
+    const fixture = TestBed.createComponent(TestComponent);
+    fixture.detectChanges();
+
+    const canvas = fixture.nativeElement.querySelector('canvas');
+    const chart = Chart.getChart(canvas);
+    expect(chart).toBeTruthy();
+
+    // A new theme rebuilds the config, updating the existing chart in place
+    // rather than recreating it.
+    settingsChange.next({ currentSettings: {} } as SkyThemeSettingsChange);
+    fixture.detectChanges();
+
+    expect(Chart.getChart(canvas)).toBe(chart);
 
     fixture.destroy();
   });

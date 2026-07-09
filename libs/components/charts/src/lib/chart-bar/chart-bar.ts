@@ -6,11 +6,15 @@ import {
   contentChild,
   contentChildren,
   DestroyRef,
+  ElementRef,
   inject,
   input,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyLogService } from '@skyux/core';
+import { SkyThemeService } from '@skyux/theme';
 import { type ChartConfiguration, type ChartDataset } from 'chart.js/auto';
+import { EMPTY, map } from 'rxjs';
 
 import { SkyChartAxisCategory } from '../axis/chart-axis-category';
 import { SkyChartAxisValue } from '../axis/chart-axis-value';
@@ -27,6 +31,11 @@ import {
   resolveSeriesBindings,
   SKY_CATEGORY_AXIS_ID,
 } from '../shared/cartesian-utils';
+import {
+  readThemeCategoricalPalette,
+  readThemeCssNumber,
+  readThemeCssString,
+} from '../shared/theme-css-utils';
 import { SkyChartBarOrientation } from './chart-bar-orientation';
 
 type BarChartConfig = ChartConfiguration<'bar'> & {
@@ -45,8 +54,19 @@ type BarChartConfig = ChartConfiguration<'bar'> & {
   }`,
 })
 export class SkyChartBar {
+  readonly #elementRef = inject(ElementRef);
   readonly #logSvc = inject(SkyLogService);
   readonly #tableSvc = inject(SkyChartTableService, { optional: true });
+
+  // Chart.js renders to a canvas and cannot read CSS custom properties, so the
+  // active theme's values must be resolved against a DOM element. Tracking the
+  // theme settings as a signal rebuilds `config` whenever the theme changes.
+  readonly #themeSettings = toSignal(
+    inject(SkyThemeService, { optional: true })?.settingsChange.pipe(
+      map((change) => change.currentSettings),
+    ) ?? EMPTY,
+    { initialValue: undefined },
+  );
 
   /**
    * The orientation of the bars.
@@ -91,6 +111,27 @@ export class SkyChartBar {
       return undefined;
     }
 
+    // Read the theme signal so the config rebuilds when the theme changes,
+    // then resolve the themed CSS custom properties to concrete values.
+    this.#themeSettings();
+
+    const styles = getComputedStyle(this.#elementRef.nativeElement);
+
+    const barBorderColor = readThemeCssString(
+      styles,
+      '--sky-color-background-container-base',
+      '#ffffff',
+    );
+
+    const barBorderRadius = readThemeCssNumber(
+      styles,
+      '--sky-border-radius-xs',
+      2,
+    );
+
+    // Series cycle through the categorical palette so each is distinct.
+    const categorical = readThemeCategoricalPalette(styles);
+
     const isHorizontal = this.orientation() === 'horizontal';
     const indexAxis = isHorizontal ? 'y' : 'x';
     const valueDirection = isHorizontal ? 'x' : 'y';
@@ -109,6 +150,7 @@ export class SkyChartBar {
       const dataset: ChartDataset<'bar'> = {
         label: chartSeries.labelText(),
         data: chartSeries.values(),
+        backgroundColor: categorical[index % categorical.length],
       };
 
       if (isHorizontal) {
@@ -129,12 +171,20 @@ export class SkyChartBar {
         datasets,
       },
       options: {
+        elements: {
+          bar: {
+            borderWidth: 1,
+            borderColor: barBorderColor,
+            borderRadius: barBorderRadius,
+          },
+        },
         indexAxis,
         scales: buildCartesianScales({
           categoryAxis,
           valueAxes,
           valueAxisKeys,
           isHorizontal,
+          styles,
         }),
         plugins: {
           tooltip: {

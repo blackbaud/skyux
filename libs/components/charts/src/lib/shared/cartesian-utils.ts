@@ -4,6 +4,7 @@ import { SkyChartAxisCategory } from '../axis/chart-axis-category';
 import { SkyChartAxisValue } from '../axis/chart-axis-value';
 import { SkyChartSeries } from '../chart-series/chart-series';
 import type { SkyChartTable } from '../chart-table/chart-table';
+import { readThemeCssNumber, readThemeCssString } from './theme-css-utils';
 
 /**
  * The Chart.js chart types that plot a category axis against one or more value
@@ -144,6 +145,66 @@ export function resolveSeriesBindings(options: {
 }
 
 /**
+ * The themed visual styling shared by every cartesian scale: grid line, tick,
+ * border, and text colors, the tick length, and the tick/title fonts. Category
+ * and value scales spread this and add their own structural options (type,
+ * position, title text, tick callback, and whether grid lines fill the chart
+ * area). Resolving the tokens once here keeps every axis visually consistent.
+ */
+function buildThemedScaleStyle(styles: CSSStyleDeclaration): {
+  grid: { color: string; tickColor: string; tickLength: number };
+  border: { color: string };
+  ticks: {
+    color: string;
+    font: { size: number; family: string; weight: number };
+  };
+  title: {
+    color: string;
+    font: { size: number; family: string };
+    padding: { top: number; bottom: number };
+  };
+} {
+  const fontFamily = readThemeCssString(styles, '--sky-font-family-primary');
+  const fontSize = readThemeCssNumber(styles, '--sky-font-size-body-s', 13);
+  const gridlineColor = readThemeCssString(styles, '--sky-color-viz-gridline');
+  const titlePadding = readThemeCssNumber(styles, '--sky-space-stacked-xs', 4);
+
+  return {
+    grid: {
+      color: gridlineColor,
+      tickColor: gridlineColor,
+      tickLength: readThemeCssNumber(
+        styles,
+        '--sky-size-chart-tick_length-measure',
+        12,
+      ),
+    },
+    border: {
+      color: readThemeCssString(styles, '--sky-color-viz-axis'),
+    },
+    ticks: {
+      color: readThemeCssString(styles, '--sky-color-text-default'),
+      font: {
+        size: fontSize,
+        family: fontFamily,
+        weight: readThemeCssNumber(styles, '--sky-font-style-body-s', 400),
+      },
+    },
+    title: {
+      color: readThemeCssString(styles, '--sky-color-text-deemphasized'),
+      font: {
+        size: fontSize,
+        family: fontFamily,
+      },
+      padding: {
+        top: titlePadding,
+        bottom: titlePadding,
+      },
+    },
+  };
+}
+
+/**
  * Builds the category and value axis scales for a cartesian chart. Secondary
  * value axes are positioned opposite the primary axis and do not draw grid
  * lines to avoid stacking them on top of the primary axis's lines.
@@ -154,19 +215,36 @@ export function buildCartesianScales(options: {
   valueAxes: readonly SkyChartAxisValue[];
   valueAxisKeys: readonly string[];
   isHorizontal: boolean;
+  styles: CSSStyleDeclaration;
 }): SkyCartesianScales {
-  const { categoryAxis, valueAxes, valueAxisKeys, isHorizontal } = options;
+  const { categoryAxis, valueAxes, valueAxisKeys, isHorizontal, styles } =
+    options;
   const indexAxis = isHorizontal ? 'y' : 'x';
   const valueDirection = isHorizontal ? 'x' : 'y';
+  const base = buildThemedScaleStyle(styles);
 
   const scales: SkyCartesianScales = {
     [SKY_CATEGORY_AXIS_ID]: {
       type: 'category',
       axis: indexAxis,
       position: isHorizontal ? 'left' : 'bottom',
+      grid: {
+        display: true,
+        drawTicks: true,
+        ...base.grid,
+      },
+      border: {
+        display: true,
+        ...base.border,
+      },
+      ticks: {
+        ...base.ticks,
+        major: { enabled: true },
+      },
       title: {
         display: !categoryAxis.labelHidden(),
         text: categoryAxis.labelText(),
+        ...base.title,
       },
     },
   };
@@ -185,14 +263,22 @@ export function buildCartesianScales(options: {
         : isSecondary
           ? 'right'
           : 'left',
+      grid: {
+        ...base.grid,
+        drawOnChartArea: !isSecondary,
+      },
+      border: {
+        ...base.border,
+      },
+      ticks: {
+        ...base.ticks,
+        callback: (tickValue: string | number): string =>
+          formatValue(Number(tickValue)),
+      },
       title: {
         display: !axis.labelHidden(),
         text: axis.labelText(),
-      },
-      grid: { drawOnChartArea: !isSecondary },
-      ticks: {
-        callback: (tickValue: string | number): string =>
-          formatValue(Number(tickValue)),
+        ...base.title,
       },
     };
   });

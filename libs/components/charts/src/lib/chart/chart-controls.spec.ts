@@ -12,9 +12,10 @@ import {
   SkyModalTestingModule,
 } from '@skyux/modals/testing';
 
+import { SkyChartTableModal } from '../chart-table/chart-table-modal';
+import { SkyChartTableService } from '../chart-table/chart-table-service';
+
 import { SkyChartControls } from './chart-controls';
-import { SkyChartTableModal } from './chart-table-modal';
-import { SkyChartTableService } from './chart-table-service';
 
 describe('Chart controls component', () => {
   let fixture: ComponentFixture<SkyChartControls>;

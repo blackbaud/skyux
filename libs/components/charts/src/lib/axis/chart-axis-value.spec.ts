@@ -5,7 +5,7 @@ import { SkyLogService } from '@skyux/core';
 
 import { SkyChartValueFormat } from '../shared/value-format';
 
-import { SkyChartAxisValue } from '../chart/chart-axis-value';
+import { SkyChartAxisValue } from './chart-axis-value';
 
 @Component({
   imports: [SkyChartAxisValue],
