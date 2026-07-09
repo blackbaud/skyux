@@ -4,6 +4,7 @@ import {
   Injectable,
   Renderer2,
   RendererFactory2,
+  inject,
 } from '@angular/core';
 
 import { SkyGridColumnModel } from './grid-column.model';
@@ -13,10 +14,13 @@ import { SkyGridColumnModel } from './grid-column.model';
  */
 @Injectable()
 export class SkyGridAdapterService {
-  private renderer: Renderer2;
+  private readonly renderer: Renderer2;
 
-  constructor(private rendererFactory: RendererFactory2) {
-    this.renderer = this.rendererFactory.createRenderer(undefined, undefined);
+  constructor() {
+    this.renderer = inject(RendererFactory2).createRenderer(
+      undefined,
+      undefined,
+    );
   }
 
   /**

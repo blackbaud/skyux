@@ -3,6 +3,7 @@ import {
   Injectable,
   Renderer2,
   RendererFactory2,
+  inject,
 } from '@angular/core';
 import { SkyAppWindowRef } from '@skyux/core';
 
@@ -11,13 +12,12 @@ import { SkyAppWindowRef } from '@skyux/core';
  */
 @Injectable()
 export class SkyFlyoutAdapterService {
+  readonly #windowRef = inject(SkyAppWindowRef);
+
   #renderer: Renderer2;
 
-  #windowRef: SkyAppWindowRef;
-
-  constructor(rendererFactory: RendererFactory2, windowRef: SkyAppWindowRef) {
-    this.#windowRef = windowRef;
-    this.#renderer = rendererFactory.createRenderer(undefined, null);
+  constructor() {
+    this.#renderer = inject(RendererFactory2).createRenderer(undefined, null);
   }
 
   public adjustHeaderForHelp(header: ElementRef): void {

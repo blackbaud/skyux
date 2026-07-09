@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import {
   AbstractControl,
   FormsModule,
@@ -45,10 +45,11 @@ export class DateRangePickerTestComponent implements OnInit, OnDestroy {
   public helpPopoverContent: string | undefined;
   public stacked: boolean | undefined;
 
+  readonly #formBuilder = inject(UntypedFormBuilder);
   #ngUnsubscribe = new Subject<void>();
 
-  constructor(formBuilder: UntypedFormBuilder) {
-    this.reactiveForm = formBuilder.group({
+  constructor() {
+    this.reactiveForm = this.#formBuilder.group({
       dateRange: new UntypedFormControl(),
     });
   }

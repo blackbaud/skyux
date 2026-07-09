@@ -10,7 +10,7 @@ module.exports = [
     },
   },
   {
-    files: ['libs/components/[^a-cA-C]*/**/*.ts'],
+    files: ['libs/components/[^a-hA-H]*/**/*.ts'],
     rules: {
       '@angular-eslint/prefer-inject': 'warn',
     },

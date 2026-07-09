@@ -5,6 +5,7 @@ import {
   Component,
   DebugElement,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import {
@@ -304,7 +305,7 @@ class CheckboxWithChangeEventComponent {
 })
 class CheckboxWithOnPushChangeDetectionComponent {
   public isChecked = false;
-  constructor(public ref: ChangeDetectorRef) {}
+  public readonly ref = inject(ChangeDetectorRef);
 }
 // #endregion
 

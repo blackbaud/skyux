@@ -15,6 +15,7 @@ import { Subject } from 'rxjs';
 export class SectionedFormHarnessTestComponent {
   public activeIndexDisplay: number | undefined;
   public activeTab = input<boolean>(true);
+  public tabWidth = input<string | undefined>(undefined);
 
   protected controller = new Subject<SkySectionedFormMessage>();
 
