@@ -6,7 +6,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'sky-chart-series',
-  template: ``,
+  template: '',
 })
 export class SkyChartSeries {
   /**

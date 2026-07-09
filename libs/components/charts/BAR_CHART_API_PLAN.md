@@ -30,8 +30,8 @@ the config; projected child components own the public data/config surface.
 
 ```
 sky-chart-bar                      (owns Chart instance + assembly; inputs: orientation)
-├─ sky-chart-category-axis (1)     labelText, labelHidden, categories[]
-├─ sky-chart-value-axis (1..n)     labelText, labelHidden, axisId
+├─ sky-chart-axis-category (1)     labelText, labelHidden, categories[]
+├─ sky-chart-axis-value (1..n)     labelText, labelHidden, axisId
 └─ sky-chart-series (1..n)         labelText, values[], valueAxis (→ axisId)
 ```
 
@@ -60,7 +60,7 @@ Responsibilities:
 - Feed the same assembled model to the accessible data-table modal so the
   canvas and table can't drift.
 
-### `sky-chart-category-axis` (exactly one for MVP)
+### `sky-chart-axis-category` (exactly one for MVP)
 
 | Input         | Type        | Default    | Maps to (Chart.js)                         |
 | ------------- | ----------- | ---------- | ------------------------------------------ |
@@ -68,7 +68,7 @@ Responsibilities:
 | `labelHidden` | `boolean`   | `false`    | index scale `title.display`                |
 | `categories`  | `unknown[]` | (required) | `data.labels` (shared across all datasets) |
 
-### `sky-chart-value-axis` (one or more for MVP)
+### `sky-chart-axis-value` (one or more for MVP)
 
 | Input         | Type      | Default       | Maps to (Chart.js)                   |
 | ------------- | --------- | ------------- | ------------------------------------ |

@@ -5,12 +5,12 @@
       <sky-box-content>
         <sky-chart headingText="Acquisitions by year">
           <sky-chart-bar>
-            <sky-chart-category-axis
+            <sky-chart-axis-category
               labelText="Year"
               labelHidden
               [categories]="years"
             />
-            <sky-chart-value-axis labelText="Acquisitions" labelHidden />
+            <sky-chart-axis-value labelText="Acquisitions" labelHidden />
             <sky-chart-series
               labelText="Acquisitions by year"
               [values]="acquisitions"

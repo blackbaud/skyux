@@ -5,8 +5,8 @@
       <sky-box-content>
         <sky-chart headingText="Actual vs. target">
           <sky-chart-bar>
-            <sky-chart-category-axis labelText="Year" [categories]="years" />
-            <sky-chart-value-axis labelText="Acquisitions" />
+            <sky-chart-axis-category labelText="Year" [categories]="years" />
+            <sky-chart-axis-value labelText="Acquisitions" />
             <sky-chart-series labelText="Actual" [values]="actual" />
             <sky-chart-series labelText="Target" [values]="target" />
           </sky-chart-bar>

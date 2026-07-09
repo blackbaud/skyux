@@ -8,12 +8,12 @@ import {
 import { SkyModalService } from '@skyux/modals';
 import { SkyDropdownModule } from '@skyux/popovers';
 
-import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
 import {
-  SkyChartDataTableModal,
-  SkyChartDataTableModalContext,
-} from './chart-data-table-modal';
-import { SkyChartTableService } from './chart-table.service';
+  SkyChartTableModal,
+  SkyChartTableModalContext,
+} from '../chart-table/chart-table-modal';
+import { SkyChartTableService } from '../chart-table/chart-table-service';
+import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -29,11 +29,11 @@ export class SkyChartControls {
   public readonly headingText = input.required<string>();
 
   protected openDataTableModal(): void {
-    const instance = this.#modalSvc.open(SkyChartDataTableModal, {
+    const instance = this.#modalSvc.open(SkyChartTableModal, {
       size: 'large',
       providers: [
         {
-          provide: SkyChartDataTableModalContext,
+          provide: SkyChartTableModalContext,
           useValue: {
             headingText: this.headingText(),
             table: this.#tableSvc.table(),

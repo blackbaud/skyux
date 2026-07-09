@@ -7,6 +7,7 @@ import {
   type TemplateRef,
 } from '@angular/core';
 
+import { SkyChartTableService } from '../chart-table/chart-table-service';
 import { SkyChartControls } from './chart-controls';
 import { SkyChartHeading } from './chart-heading';
 import {
@@ -20,7 +21,6 @@ import {
   type SkyChartHeadingStyle,
 } from './chart-heading-style';
 import { SkyChartSubheading } from './chart-subheading';
-import { SkyChartTableService } from './chart-table.service';
 
 /**
  * @preview

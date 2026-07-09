@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   SkyChart,
+  SkyChartAxisCategory,
+  SkyChartAxisValue,
   SkyChartBar,
-  SkyChartCategoryAxis,
   SkyChartSeries,
-  SkyChartValueAxis,
 } from '@skyux/charts';
 import { SkyBoxModule } from '@skyux/layout';
 import { SkyPageModule } from '@skyux/pages';
@@ -14,10 +14,10 @@ import { SkyPageModule } from '@skyux/pages';
   imports: [
     SkyBoxModule,
     SkyChart,
+    SkyChartAxisCategory,
+    SkyChartAxisValue,
     SkyChartBar,
-    SkyChartCategoryAxis,
     SkyChartSeries,
-    SkyChartValueAxis,
     SkyPageModule,
   ],
   selector: 'app-chart-bar-basic',

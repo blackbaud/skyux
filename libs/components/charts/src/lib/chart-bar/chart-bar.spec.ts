@@ -4,11 +4,11 @@ import { expect } from '@skyux-sdk/testing';
 import { SkyLogService } from '@skyux/core';
 import Chart, { type TooltipItem } from 'chart.js/auto';
 
-import { SkyChartCategoryAxis } from '../chart-axes/chart-category-axis';
-import { SkyChartValueAxis } from '../chart-axes/chart-value-axis';
-import { SkyChartValueFormat } from '../chart-axes/chart-value-format';
+import { SkyChartAxisCategory } from '../axis/chart-axis-category';
+import { SkyChartAxisValue } from '../axis/chart-axis-value';
 import { SkyChartSeries } from '../chart-series/chart-series';
-import { SkyChartTableService } from '../chart/chart-table.service';
+import { SkyChartTableService } from '../chart/chart-table-service';
+import { SkyChartValueFormat } from '../shared/value-format';
 
 import { SkyChartBar } from './chart-bar';
 import { SkyChartBarOrientation } from './chart-bar-orientation';
@@ -22,18 +22,18 @@ type ScaleProbe = {
 @Component({
   imports: [
     SkyChartBar,
-    SkyChartCategoryAxis,
-    SkyChartValueAxis,
+    SkyChartAxisCategory,
+    SkyChartAxisValue,
     SkyChartSeries,
   ],
   template: `
     @if (renderChart) {
       <sky-chart-bar [orientation]="orientation">
         @if (renderCategoryAxis) {
-          <sky-chart-category-axis labelText="Year" [categories]="categories" />
+          <sky-chart-axis-category labelText="Year" [categories]="categories" />
         }
         @for (axisId of valueAxisIds; track $index) {
-          <sky-chart-value-axis
+          <sky-chart-axis-value
             labelText="Value"
             [axisId]="axisId"
             [currencyCode]="currencyCode"
@@ -305,14 +305,14 @@ describe('Chart bar component without a table service', () => {
   @Component({
     imports: [
       SkyChartBar,
-      SkyChartCategoryAxis,
-      SkyChartValueAxis,
+      SkyChartAxisCategory,
+      SkyChartAxisValue,
       SkyChartSeries,
     ],
     template: `
       <sky-chart-bar>
-        <sky-chart-category-axis labelText="Year" [categories]="categories" />
-        <sky-chart-value-axis labelText="Value" />
+        <sky-chart-axis-category labelText="Year" [categories]="categories" />
+        <sky-chart-axis-value labelText="Value" />
         <sky-chart-series labelText="Series" [values]="values" />
       </sky-chart-bar>
     `,

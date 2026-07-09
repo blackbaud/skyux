@@ -10,10 +10,10 @@ import {
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'sky-chart-category-axis',
-  template: ``,
+  selector: 'sky-chart-axis-category',
+  template: '',
 })
-export class SkyChartCategoryAxis {
+export class SkyChartAxisCategory {
   /**
    * The categories shared by every series plotted against this axis. Each
    * series' values are aligned to these categories by index.

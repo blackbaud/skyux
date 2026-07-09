@@ -9,9 +9,9 @@ import { SkyModalInstance, SkyModalService } from '@skyux/modals';
 import { SkyModalHarness } from '@skyux/modals/testing';
 
 import {
-  SkyChartDataTableModal,
-  SkyChartDataTableModalContext,
-} from './chart-data-table-modal';
+  SkyChartTableModal,
+  SkyChartTableModalContext,
+} from './chart-table-modal';
 
 @Component({
   template: '',
@@ -38,10 +38,10 @@ describe('Chart data table modal', () => {
     instance: SkyModalInstance;
     modalHarness: SkyModalHarness;
   }> {
-    const instance = modalSvc.open(SkyChartDataTableModal, {
+    const instance = modalSvc.open(SkyChartTableModal, {
       providers: [
         {
-          provide: SkyChartDataTableModalContext,
+          provide: SkyChartTableModalContext,
           useValue: { headingText },
         },
       ],

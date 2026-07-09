@@ -10,25 +10,22 @@ import {
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyLogService } from '@skyux/core';
-import {
-  SkyAppLocaleProvider,
-  SkyIntlNumberFormatStyle,
-  SkyIntlNumberFormatter,
-} from '@skyux/i18n';
+import { SkyAppLocaleProvider } from '@skyux/i18n';
 
 import { map } from 'rxjs/operators';
 
-import { SkyChartValueFormat } from './chart-value-format';
+import { SkyChartValueFormat } from '../shared/value-format';
+import { createSkyChartValueFormatter } from '../shared/value-formatter';
 
 /**
  * @preview
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'sky-chart-value-axis',
-  template: ``,
+  selector: 'sky-chart-axis-value',
+  template: '',
 })
-export class SkyChartValueAxis {
+export class SkyChartAxisValue {
   readonly #localeProvider = inject(SkyAppLocaleProvider);
   readonly #logSvc = inject(SkyLogService);
 
@@ -89,44 +86,20 @@ export class SkyChartValueAxis {
    * and the current locale.
    * @internal
    */
-  public readonly formatValue = computed<(value: number) => string>(() => {
-    const format = this.format();
-    const currencyCode = this.currencyCode();
-    const digits = this.digits();
-    const locale = this.#locale();
-
-    const useCurrency = format === 'currency' && !!currencyCode;
-
-    let style: SkyIntlNumberFormatStyle;
-
-    switch (format) {
-      case 'currency':
-        style = useCurrency
-          ? SkyIntlNumberFormatStyle.Currency
-          : SkyIntlNumberFormatStyle.Decimal;
-        break;
-      case 'percent':
-        style = SkyIntlNumberFormatStyle.Percent;
-        break;
-      default:
-        style = SkyIntlNumberFormatStyle.Decimal;
-        break;
-    }
-
-    return (value: number): string =>
-      SkyIntlNumberFormatter.format(value, locale, style, {
-        currency: useCurrency ? currencyCode : undefined,
-        currencyDisplay: 'symbol',
-        minimumFractionDigits: digits,
-        maximumFractionDigits: digits,
-      });
-  });
+  public readonly formatValue = computed<(value: number) => string>(() =>
+    createSkyChartValueFormatter({
+      format: this.format(),
+      currencyCode: this.currencyCode(),
+      digits: this.digits(),
+      locale: this.#locale(),
+    }),
+  );
 
   constructor() {
     effect(() => {
       if (this.format() === 'currency' && !this.currencyCode()) {
         this.#logSvc.warn(
-          'The `sky-chart-value-axis` "currency" format requires a ' +
+          'The `sky-chart-axis-value` "currency" format requires a ' +
             '`currencyCode`. Values are formatted as plain numbers until one ' +
             'is provided.',
         );

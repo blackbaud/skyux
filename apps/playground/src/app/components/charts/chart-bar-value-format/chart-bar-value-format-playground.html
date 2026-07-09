@@ -6,12 +6,12 @@
       <sky-box-content>
         <sky-chart headingText="Acquisitions by month">
           <sky-chart-bar>
-            <sky-chart-category-axis
+            <sky-chart-axis-category
               labelHidden
               labelText="Month"
               [categories]="months"
             />
-            <sky-chart-value-axis labelText="Acquisitions" />
+            <sky-chart-axis-value labelText="Acquisitions" />
             <sky-chart-series
               labelText="Acquisitions"
               [values]="acquisitions"
@@ -27,12 +27,12 @@
       <sky-box-content>
         <sky-chart headingText="Revenue by month">
           <sky-chart-bar>
-            <sky-chart-category-axis
+            <sky-chart-axis-category
               labelHidden
               labelText="Month"
               [categories]="months"
             />
-            <sky-chart-value-axis
+            <sky-chart-axis-value
               currencyCode="EUR"
               digits="0"
               format="currency"
@@ -50,8 +50,8 @@
       <sky-box-content>
         <sky-chart headingText="Conversion rate by month">
           <sky-chart-bar>
-            <sky-chart-category-axis labelText="Month" [categories]="months" />
-            <sky-chart-value-axis format="percent" labelText="Conversion" />
+            <sky-chart-axis-category labelText="Month" [categories]="months" />
+            <sky-chart-axis-value format="percent" labelText="Conversion" />
             <sky-chart-series
               labelText="Conversion rate"
               [values]="conversionRate"

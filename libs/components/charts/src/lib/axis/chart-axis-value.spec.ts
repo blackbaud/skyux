@@ -3,13 +3,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 import { SkyLogService } from '@skyux/core';
 
-import { SkyChartValueAxis } from './chart-value-axis';
-import { SkyChartValueFormat } from './chart-value-format';
+import { SkyChartValueFormat } from '../shared/value-format';
+
+import { SkyChartAxisValue } from '../chart/chart-axis-value';
 
 @Component({
-  imports: [SkyChartValueAxis],
+  imports: [SkyChartAxisValue],
   template: `
-    <sky-chart-value-axis
+    <sky-chart-axis-value
       labelText="Value"
       [currencyCode]="currencyCode"
       [digits]="digits"
@@ -18,8 +19,8 @@ import { SkyChartValueFormat } from './chart-value-format';
   `,
 })
 class TestComponent {
-  @ViewChild(SkyChartValueAxis)
-  public axis!: SkyChartValueAxis;
+  @ViewChild(SkyChartAxisValue)
+  public axis!: SkyChartAxisValue;
 
   public currencyCode: string | undefined;
   public digits: unknown;

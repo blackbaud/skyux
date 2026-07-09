@@ -5,9 +5,9 @@
       <sky-box-content>
         <sky-chart headingText="Volume vs. revenue">
           <sky-chart-bar>
-            <sky-chart-category-axis labelText="Year" [categories]="years" />
-            <sky-chart-value-axis axisId="count" labelText="Acquisitions" />
-            <sky-chart-value-axis axisId="revenue" labelText="Revenue (USD)" />
+            <sky-chart-axis-category labelText="Year" [categories]="years" />
+            <sky-chart-axis-value axisId="count" labelText="Acquisitions" />
+            <sky-chart-axis-value axisId="revenue" labelText="Revenue (USD)" />
             <sky-chart-series
               labelText="New customers"
               valueAxis="count"

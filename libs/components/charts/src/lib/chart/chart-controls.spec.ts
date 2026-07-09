@@ -13,8 +13,8 @@ import {
 } from '@skyux/modals/testing';
 
 import { SkyChartControls } from './chart-controls';
-import { SkyChartDataTableModal } from './chart-data-table-modal';
-import { SkyChartTableService } from './chart-table.service';
+import { SkyChartTableModal } from './chart-table-modal';
+import { SkyChartTableService } from './chart-table-service';
 
 describe('Chart controls component', () => {
   let fixture: ComponentFixture<SkyChartControls>;
@@ -68,7 +68,7 @@ describe('Chart controls component', () => {
     tick();
 
     modalController.expectCount(1);
-    modalController.expectOpen(SkyChartDataTableModal);
+    modalController.expectOpen(SkyChartTableModal);
 
     modalController.closeTopModal();
   }));
