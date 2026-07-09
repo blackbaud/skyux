@@ -1,4 +1,4 @@
-import { ElementRef, Injectable } from '@angular/core';
+import { ElementRef, Injectable, inject } from '@angular/core';
 
 import { SkyRepeaterService } from './repeater.service';
 
@@ -12,11 +12,7 @@ export class SkyRepeaterAdapterService {
   }
 
   #host: ElementRef | undefined;
-  #repeaterService: SkyRepeaterService;
-
-  constructor(repeaterService: SkyRepeaterService) {
-    this.#repeaterService = repeaterService;
-  }
+  readonly #repeaterService = inject(SkyRepeaterService);
 
   public focusElement(element: ElementRef | HTMLElement | undefined): void {
     if (element) {

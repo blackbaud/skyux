@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormControl,
@@ -40,7 +40,9 @@ export class AutocompleteHarnessTestComponent {
 
   public noResultFoundText: string | undefined;
 
-  constructor(formBuilder: UntypedFormBuilder) {
+  constructor() {
+    const formBuilder = inject(UntypedFormBuilder);
+
     this.myForm = formBuilder.group({
       favoriteColor: undefined,
       customResultTemplate: new UntypedFormControl(),

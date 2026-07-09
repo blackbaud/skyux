@@ -1,4 +1,4 @@
-import { Component, Inject, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 
 import { ListFilterModel } from '../../list-filters/filter.model';
 import { SkyListComponent } from '../list.component';
@@ -19,7 +19,7 @@ export class ListFilteredTestComponent {
 
   public appliedFilters: ListFilterModel[] = [];
 
-  constructor(@Inject('items') public items: any) {}
+  public readonly items: any = inject('items' as any);
 
   public filtersChangeFunction(newFilters: ListFilterModel[]) {
     this.appliedFilters = newFilters;

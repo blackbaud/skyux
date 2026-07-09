@@ -151,13 +151,13 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
 
   protected contentInfoObs: Observable<SkyContentInfo> | undefined;
 
-  #changeRef: ChangeDetectorRef;
+  readonly #changeRef = inject(ChangeDetectorRef);
 
   #contentInfoProvider = inject(SkyContentInfoProvider, { optional: true });
 
-  #elRef: ElementRef;
+  readonly #elRef = inject(ElementRef);
 
-  #searchAdapter: SkySearchAdapterService;
+  readonly #searchAdapter = inject(SkySearchAdapterService);
 
   #searchUpdated = new Subject<string>();
 
@@ -174,15 +174,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   readonly #mediaQuerySvc = inject(SkyMediaQueryService);
   readonly #breakpoint = toSignal(this.#mediaQuerySvc.breakpointChange);
 
-  constructor(
-    elRef: ElementRef,
-    searchAdapter: SkySearchAdapterService,
-    changeRef: ChangeDetectorRef,
-  ) {
-    this.#elRef = elRef;
-    this.#searchAdapter = searchAdapter;
-    this.#changeRef = changeRef;
-
+  constructor() {
     this.contentInfoObs = this.#contentInfoProvider?.getInfo();
   }
 

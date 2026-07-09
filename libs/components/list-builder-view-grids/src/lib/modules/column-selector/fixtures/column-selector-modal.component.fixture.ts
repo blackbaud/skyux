@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import {
   SkyModalCloseArgs,
   SkyModalInstance,
@@ -36,7 +36,7 @@ export class ColumnSelectorTestComponent implements OnDestroy {
 
   private modalInstance: SkyModalInstance;
 
-  constructor(private modalService: SkyModalService) {}
+  private readonly modalService = inject(SkyModalService);
 
   public ngOnDestroy(): void {
     this.modalInstance.close();

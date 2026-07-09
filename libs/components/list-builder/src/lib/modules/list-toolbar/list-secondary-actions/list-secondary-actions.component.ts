@@ -4,6 +4,7 @@ import {
   Component,
   TemplateRef,
   ViewChild,
+  inject,
 } from '@angular/core';
 
 import { ListStateDispatcher } from '../../list/state/list-state.rxstate';
@@ -34,7 +35,7 @@ export class SkyListSecondaryActionsComponent implements AfterViewInit {
 
   private secondaryActionsItemToolbarIndex = 5000;
 
-  constructor(private dispatcher: ListStateDispatcher) {}
+  private readonly dispatcher = inject(ListStateDispatcher);
 
   public ngAfterViewInit(): void {
     const secondaryActionItem = new ListToolbarItemModel({

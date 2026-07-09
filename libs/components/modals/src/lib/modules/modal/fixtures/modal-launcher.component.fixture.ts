@@ -1,4 +1,4 @@
-import { Component, Type } from '@angular/core';
+import { Component, Type, inject } from '@angular/core';
 
 import { SkyModalService } from '../modal.service';
 
@@ -12,11 +12,7 @@ import { SkyModalService } from '../modal.service';
   standalone: false,
 })
 export class ModalLauncherTestComponent {
-  #modalSvc: SkyModalService;
-
-  constructor(modalSvc: SkyModalService) {
-    this.#modalSvc = modalSvc;
-  }
+  readonly #modalSvc = inject(SkyModalService);
 
   public launchModal(modalComponent: Type<Component>): void {
     this.#modalSvc.open(modalComponent);

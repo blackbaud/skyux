@@ -3,6 +3,7 @@ import {
   Component,
   EventEmitter,
   Output,
+  inject,
 } from '@angular/core';
 
 import { Observable } from 'rxjs';
@@ -35,10 +36,8 @@ export class SkyListFilterSummaryComponent implements AfterContentInit {
 
   public appliedFilters: Observable<ListFilterModel[]>;
 
-  constructor(
-    private state: ListState,
-    private dispatcher: ListStateDispatcher,
-  ) {}
+  private readonly state = inject(ListState);
+  private readonly dispatcher = inject(ListStateDispatcher);
 
   public ngAfterContentInit(): void {
     // The setTimeout here is to ensure we avoid any ExpressionChangedAfterItHasBeenCheckedError issues.

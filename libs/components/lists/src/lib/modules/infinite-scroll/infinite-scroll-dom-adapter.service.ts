@@ -16,10 +16,12 @@ export class SkyInfiniteScrollDomAdapterService implements OnDestroy {
   #scrollableHostSvc: SkyScrollableHostService;
   #windowRef: SkyAppWindowRef;
 
+  /* eslint-disable @angular-eslint/prefer-inject -- the spec for this service manually constructs an instance with specific `SkyScrollableHostService`/`SkyAppWindowRef` instances, spies on it, and provides that exact instance to the component under test; converting to inject() would break that pattern. */
   constructor(
     scrollableHostSvc: SkyScrollableHostService,
     windowRef: SkyAppWindowRef,
   ) {
+    /* eslint-enable @angular-eslint/prefer-inject */
     this.#scrollableHostSvc = scrollableHostSvc;
     this.#windowRef = windowRef;
 

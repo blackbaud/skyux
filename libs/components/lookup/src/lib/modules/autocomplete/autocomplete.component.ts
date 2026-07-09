@@ -7,10 +7,8 @@ import {
   ElementRef,
   EnvironmentInjector,
   EventEmitter,
-  Inject,
   Input,
   OnDestroy,
-  Optional,
   Output,
   TemplateRef,
   ViewChild,
@@ -26,7 +24,6 @@ import {
   SkyLiveAnnouncerService,
   SkyOverlayInstance,
   SkyOverlayService,
-  SkyStackingContext,
 } from '@skyux/core';
 import { SkyInputBoxHostService } from '@skyux/forms';
 import { SkyLibResourcesService } from '@skyux/i18n';
@@ -488,15 +485,15 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    */
   #activeElementIndex = -1;
 
-  #adapterService: SkyAutocompleteAdapterService;
+  readonly #adapterService = inject(SkyAutocompleteAdapterService);
 
   #affixer: SkyAffixer | undefined;
 
-  #affixService: SkyAffixService;
+  readonly #affixService = inject(SkyAffixService);
 
-  #changeDetector: ChangeDetectorRef;
+  readonly #changeDetector = inject(ChangeDetectorRef);
 
-  #elementRef: ElementRef;
+  readonly #elementRef = inject(ElementRef);
 
   readonly #environmentInjector = inject(EnvironmentInjector);
 
@@ -506,7 +503,9 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   #hasFocus = false;
 
-  #inputBoxHostSvc: SkyInputBoxHostService | undefined;
+  readonly #inputBoxHostSvc = inject(SkyInputBoxHostService, {
+    optional: true,
+  });
 
   #inputDirectiveUnsubscribe = new Subject<void>();
 
@@ -516,7 +515,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   #overlay: SkyOverlayInstance | undefined;
 
-  #overlayService: SkyOverlayService;
+  readonly #overlayService = inject(SkyOverlayService);
 
   /**
    * Elements within the autocomplete dropdown that are focusable.
@@ -529,7 +528,10 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   #isResultsVisible = new BehaviorSubject<boolean>(false);
 
-  #zIndex: Observable<number> | undefined;
+  readonly #zIndex: Observable<number> | undefined = inject(
+    SKY_STACKING_CONTEXT,
+    { optional: true },
+  )?.zIndex;
 
   #_data: any[] = [];
 
@@ -561,25 +563,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   #_showAddButton = false;
 
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    elementRef: ElementRef,
-    affixService: SkyAffixService,
-    adapterService: SkyAutocompleteAdapterService,
-    overlayService: SkyOverlayService,
-    @Optional() inputBoxHostSvc?: SkyInputBoxHostService,
-    @Optional()
-    @Inject(SKY_STACKING_CONTEXT)
-    stackingContext?: SkyStackingContext,
-  ) {
-    this.#changeDetector = changeDetector;
-    this.#elementRef = elementRef;
-    this.#affixService = affixService;
-    this.#adapterService = adapterService;
-    this.#overlayService = overlayService;
-    this.#inputBoxHostSvc = inputBoxHostSvc;
-    this.#zIndex = stackingContext?.zIndex;
-
+  constructor() {
     this.searchOrDefault = skyAutocompleteDefaultSearchFunction({
       propertiesToSearch: ['name'],
       searchFilters: undefined,

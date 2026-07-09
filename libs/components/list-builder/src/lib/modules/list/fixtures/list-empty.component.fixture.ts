@@ -1,4 +1,4 @@
-import { Component, Inject, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 
@@ -19,10 +19,8 @@ export class ListEmptyTestComponent {
 
   public itemsCount = 2;
 
-  constructor(
-    @Inject('items') public items: any,
-    public dataProvider: SkyListInMemoryDataProvider,
-  ) {}
+  public readonly items: any = inject('items' as any);
+  public readonly dataProvider = inject(SkyListInMemoryDataProvider);
 
   public get options() {
     const bs = new BehaviorSubject<any[]>(['banana', 'apple']);

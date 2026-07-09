@@ -4,6 +4,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 
 import { Subject } from 'rxjs';
@@ -31,10 +32,8 @@ export class SkyListSecondaryActionsHostComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe = new Subject<void>();
 
-  constructor(
-    private changeDetector: ChangeDetectorRef,
-    private actionService: SkyListSecondaryActionsService,
-  ) {}
+  private readonly changeDetector = inject(ChangeDetectorRef);
+  private readonly actionService = inject(SkyListSecondaryActionsService);
 
   public ngOnInit(): void {
     this.actionService.actionsStream

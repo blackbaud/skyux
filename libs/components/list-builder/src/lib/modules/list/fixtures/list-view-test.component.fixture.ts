@@ -1,5 +1,5 @@
 //#region imports
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, Input, forwardRef, inject } from '@angular/core';
 import { ListItemModel } from '@skyux/list-builder-common';
 
 import { Observable } from 'rxjs';
@@ -36,10 +36,10 @@ export class ListViewTestComponent extends ListViewComponent {
 
   public items: ListItemModel[];
 
-  constructor(
-    state: ListState,
-    private dispatcher: ListStateDispatcher,
-  ) {
+  private readonly dispatcher = inject(ListStateDispatcher);
+
+  constructor() {
+    const state = inject(ListState);
     super(state, 'Test View');
 
     state

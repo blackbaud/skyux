@@ -3,10 +3,10 @@ import {
   Component,
   EventEmitter,
   Input,
-  Optional,
   Output,
   TemplateRef,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { SkyGridColumnModel } from '@skyux/grids';
 import {
@@ -70,12 +70,13 @@ export class SkyListColumnSelectorActionComponent implements AfterContentInit {
 
   private columnSelectorActionItemToolbarIndex = 7000;
 
-  constructor(
-    public listState: ListState,
-    private modalService: SkyModalService,
-    private dispatcher: ListStateDispatcher,
-    @Optional() public secondaryActions: SkyListSecondaryActionsComponent,
-  ) {}
+  public readonly listState = inject(ListState);
+  public readonly secondaryActions = inject(SkyListSecondaryActionsComponent, {
+    optional: true,
+  });
+
+  private readonly modalService = inject(SkyModalService);
+  private readonly dispatcher = inject(ListStateDispatcher);
 
   public ngAfterContentInit(): void {
     if (!this.secondaryActions) {

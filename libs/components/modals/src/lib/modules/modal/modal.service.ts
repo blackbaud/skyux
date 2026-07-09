@@ -27,6 +27,7 @@ export class SkyModalService implements SkyModalServiceInterface {
   #dynamicComponentService: SkyDynamicComponentService;
   #environmentInjector = inject(EnvironmentInjector);
 
+  // eslint-disable-next-line @angular-eslint/prefer-inject -- constructor injection is required to maintain the public API for consumers who may instantiate this service directly (e.g. `new SkyModalService(...)`)
   constructor(dynamicComponentService: SkyDynamicComponentService) {
     this.#dynamicComponentService = dynamicComponentService;
   }
@@ -141,6 +142,7 @@ export class SkyModalService implements SkyModalServiceInterface {
 })
 export class SkyModalLegacyService extends SkyModalService {
   /* istanbul ignore next */
+  // eslint-disable-next-line @angular-eslint/prefer-inject -- constructor injection is required to override the type of `dynamicComponentSvc` passed to the parent class's constructor.
   constructor(dynamicComponentSvc: SkyDynamicComponentLegacyService) {
     super(dynamicComponentSvc);
   }

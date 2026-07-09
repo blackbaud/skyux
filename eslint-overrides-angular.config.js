@@ -10,17 +10,9 @@ module.exports = [
     },
   },
   {
-    files: ['libs/components/[^a-iA-I]*/**/*.ts'],
+    files: ['libs/components/[^a-nA-N]*/**/*.ts'],
     rules: {
       '@angular-eslint/prefer-inject': 'warn',
-    },
-  },
-  {
-    // `layout` is converted out of alphabetical order because its sibling
-    // `list-*`/`lookup` libraries (which share the same leading letter) are not.
-    files: ['libs/components/layout/**/*.ts'],
-    rules: {
-      '@angular-eslint/prefer-inject': 'error',
     },
   },
   {
