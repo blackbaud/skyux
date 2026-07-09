@@ -17,6 +17,7 @@ import { SkyVerticalTabsetHarness } from './vertical-tabset-harness';
       ariaLabel="Vertical tabset"
       ariaLabelledBy="Tabset label"
       [showTabsText]="showTabsText"
+      [tabWidth]="tabWidth"
     >
       <sky-vertical-tab
         tabHeading="Tab 1"
@@ -62,6 +63,7 @@ import { SkyVerticalTabsetHarness } from './vertical-tabset-harness';
 class TestComponent {
   public active = true;
   public showTabsText: string | undefined;
+  public tabWidth: string | undefined;
   public groups: TabGroup[] = [
     {
       heading: 'Group 1',
@@ -248,6 +250,37 @@ describe('Vertical Tabset harness', () => {
     const activeTab = await tabsetHarness.getActiveTab();
 
     await expectAsync(activeTab?.getTabHeaderCount()).toBeResolvedTo(15);
+  });
+
+  it('should get the default tab width', async () => {
+    const { tabsetHarness, fixture } = await setupTest();
+    // Pin a wide breakpoint so the tabset renders its side-by-side layout
+    // (and applies inline width styles) regardless of the test runner's
+    // window size.
+    TestBed.inject(SkyMediaQueryTestingController).setBreakpoint('lg');
+    fixture.detectChanges();
+
+    await expectAsync(tabsetHarness.getTabWidth()).toBeResolvedTo('25%');
+  });
+
+  it('should get the auto tab width', async () => {
+    const { tabsetHarness, fixture } = await setupTest();
+    TestBed.inject(SkyMediaQueryTestingController).setBreakpoint('lg');
+    fixture.componentInstance.tabWidth = 'auto';
+    fixture.detectChanges();
+
+    await expectAsync(tabsetHarness.getTabWidth()).toBeResolvedTo('auto');
+  });
+
+  it('should return null for the tab width on mobile', async () => {
+    const { tabsetHarness, fixture } = await setupTest();
+    const mediaQueryController = TestBed.inject(SkyMediaQueryTestingController);
+    mediaQueryController.setBreakpoint('xs');
+    fixture.detectChanges();
+
+    // On mobile the tabset uses a full-width block layout, so no inline width
+    // styles are applied to the nav container.
+    await expectAsync(tabsetHarness.getTabWidth()).toBeResolvedTo(null);
   });
 
   describe('vertical tabset group', () => {

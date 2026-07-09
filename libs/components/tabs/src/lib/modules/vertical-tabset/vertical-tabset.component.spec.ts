@@ -651,6 +651,91 @@ describe('Vertical tabset component', () => {
     expect(showTabsButton.length).toBe(0);
   });
 
+  it('should default tab width to 25%', () => {
+    mediaQueryController.setBreakpoint('lg');
+    const fixture = createTestComponent();
+    fixture.detectChanges();
+
+    const tabsContainer = getTabsContainer(fixture);
+
+    expect(tabsContainer.style.flexBasis).toBe('25%');
+    expect(tabsContainer.style.maxWidth).toBe('25%');
+  });
+
+  it('should size tabs automatically when tabWidth is set to auto', () => {
+    mediaQueryController.setBreakpoint('lg');
+    const fixture = createTestComponent();
+    fixture.componentInstance.tabWidth = 'auto';
+    fixture.detectChanges();
+
+    const tabsContainer = getTabsContainer(fixture);
+
+    expect(tabsContainer.style.flexBasis).toBe('auto');
+    expect(tabsContainer.style.maxWidth).toBe('25%');
+  });
+
+  it('should set custom tab width', () => {
+    mediaQueryController.setBreakpoint('lg');
+    const fixture = createTestComponent();
+    fixture.componentInstance.tabWidth = '18rem';
+    fixture.detectChanges();
+
+    const tabsContainer = getTabsContainer(fixture);
+
+    expect(tabsContainer.style.flexBasis).toBe('18rem');
+    expect(tabsContainer.style.maxWidth).toBe('25%');
+  });
+
+  it('should not constrain the tab width on mobile', () => {
+    mediaQueryController.setBreakpoint('xs');
+    const fixture = createTestComponent();
+    fixture.componentInstance.tabWidth = 'auto';
+    fixture.detectChanges();
+
+    // The tabs container is hidden by default on mobile, so query it directly.
+    const tabsContainer: HTMLElement = fixture.nativeElement.querySelector(
+      '.sky-vertical-tabset-group-container',
+    );
+
+    // Inline width styles must not be applied on mobile, where the tabset
+    // switches to a full-width block layout. Otherwise `max-width: 25%` would
+    // clamp the nav column on small screens.
+    expect(tabsContainer.style.flexBasis).toBe('');
+    const mobileStyle = getComputedStyle(tabsContainer);
+    expect(mobileStyle.maxWidth).toBe('none');
+    expect(mobileStyle.minWidth).toBe('0px');
+  });
+
+  it('should constrain the nav width only in the side-by-side layout', () => {
+    mediaQueryController.setBreakpoint('lg');
+    const fixture = createTestComponent();
+    fixture.componentInstance.tabWidth = 'auto';
+    fixture.detectChanges();
+
+    const tabsContainer = getTabsContainer(fixture);
+    // The `auto` 25% cap is applied only in the side-by-side (desktop) layout;
+    // the mobile layout leaves it unset (see the mobile test).
+    const desktopStyle = getComputedStyle(tabsContainer);
+    expect(desktopStyle.maxWidth).not.toBe('none');
+  });
+
+  it('should update tab width styles when switching between mobile and desktop', () => {
+    mediaQueryController.setBreakpoint('lg');
+    const fixture = createTestComponent();
+    fixture.detectChanges();
+
+    const tabsContainer = getTabsContainer(fixture);
+    expect(tabsContainer.style.flexBasis).toBe('25%');
+
+    mediaQueryController.setBreakpoint('xs');
+    fixture.detectChanges();
+    expect(tabsContainer.style.flexBasis).toBe('');
+
+    mediaQueryController.setBreakpoint('lg');
+    fixture.detectChanges();
+    expect(tabsContainer.style.flexBasis).toBe('25%');
+  });
+
   it('mobile button should be visible on small screen', () => {
     mediaQueryController.setBreakpoint('xs');
     const fixture = createTestComponent();

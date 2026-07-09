@@ -18,6 +18,8 @@
   @if (maintainSectionContent || tabService.tabsVisible()) {
     <div
       class="sky-sectioned-form-tabs"
+      [style.flex-basis]="tabsFlexBasis()"
+      [style.max-width]="tabsMaxWidth()"
       [class.sky-animation-slide-enter-left]="animationEnabled()"
       [ngClass]="{
         'sky-sectioned-form-tabs-hidden': !tabService.tabsVisible(),

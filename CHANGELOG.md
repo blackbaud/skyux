@@ -1,6 +1,25 @@
 # Changelog
 
 
+## [14.5.1](https://github.com/blackbaud/skyux/compare/14.5.0...14.5.1) (2026-07-08)
+
+
+### Bug Fixes
+
+* **components/text-editor:** update `dompurify` to address a security vulnerability ([#4489](https://github.com/blackbaud/skyux/issues/4489)) ([6eab92e](https://github.com/blackbaud/skyux/commit/6eab92e30cfaf8d6ff9d0db4a85b61dc7c43c4d6))
+
+## [14.5.0](https://github.com/blackbaud/skyux/compare/14.4.0...14.5.0) (2026-07-07)
+
+
+### Features
+
+* **components/data-grid:** create an easy mode for data grid ([#4430](https://github.com/blackbaud/skyux/issues/4430)) ([5889648](https://github.com/blackbaud/skyux/commit/588964833091b6f1062513382e18cc7059a2c1ef)), closes [AB#3942528](https://dev.azure.com/blackbaud/Products/_workitems/edit/3942528) [AB#3965849](https://dev.azure.com/blackbaud/Products/_workitems/edit/3965849)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** header focus ring should meet minimum contrast ratio ([#4481](https://github.com/blackbaud/skyux/issues/4481)) ([3063ba2](https://github.com/blackbaud/skyux/commit/3063ba2b99321affb579e19821aa5861cee90b14)), closes [AB#3693206](https://dev.azure.com/blackbaud/Products/_workitems/edit/3693206)
+
 ## [14.4.0](https://github.com/blackbaud/skyux/compare/14.3.12...14.4.0) (2026-06-25)
 
 
