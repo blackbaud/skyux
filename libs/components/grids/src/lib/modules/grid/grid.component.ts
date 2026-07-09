@@ -343,18 +343,17 @@ export class SkyGridComponent
   private _selectedColumnIds: string[];
   private _selectedRowIds: string[];
 
+  private readonly affixService = inject(SkyAffixService);
+  private readonly changeDetector = inject(ChangeDetectorRef);
+  private readonly gridAdapter = inject(SkyGridAdapterService);
+  private readonly overlayService = inject(SkyOverlayService);
+  private readonly skyWindow = inject(SkyAppWindowRef);
+  private readonly uiConfigService = inject(SkyUIConfigService);
+
   readonly #environmentInjector = inject(EnvironmentInjector);
 
-  constructor(
-    private affixService: SkyAffixService,
-    private changeDetector: ChangeDetectorRef,
-    private gridAdapter: SkyGridAdapterService,
-    private overlayService: SkyOverlayService,
-    private skyWindow: SkyAppWindowRef,
-    private uiConfigService: SkyUIConfigService,
-    logger: SkyLogService,
-  ) {
-    logger.deprecated('SkyGridComponent', {
+  constructor() {
+    inject(SkyLogService).deprecated('SkyGridComponent', {
       deprecationMajorVersion: 6,
       moreInfoUrl: 'https://developer.blackbaud.com/skyux/components/data-grid',
       replacementRecommendation: 'Use data grid instead.',
