@@ -265,9 +265,11 @@ export class SkyFuzzyDatepickerInputDirective
   readonly #elementRef = inject(ElementRef);
   readonly #fuzzyDateService = inject(SkyFuzzyDateService);
   readonly #renderer = inject(Renderer2);
-  readonly #datepickerComponent = inject(SkyDatepickerComponent, {
-    optional: true,
-  });
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  readonly #datepickerComponent: SkyDatepickerComponent = inject(
+    SkyDatepickerComponent,
+    { optional: true },
+  )!;
 
   readonly #datepickerHostSvc = inject(SkyDatepickerHostService, {
     optional: true,

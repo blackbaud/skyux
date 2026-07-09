@@ -248,9 +248,11 @@ export class SkyDatepickerInputDirective
   readonly #elementRef = inject(ElementRef);
   readonly #localeProvider = inject(SkyAppLocaleProvider);
   readonly #renderer = inject(Renderer2);
-  readonly #datepickerComponent = inject(SkyDatepickerComponent, {
-    optional: true,
-  });
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  readonly #datepickerComponent: SkyDatepickerComponent = inject(
+    SkyDatepickerComponent,
+    { optional: true },
+  )!;
 
   readonly #datepickerHostSvc = inject(SkyDatepickerHostService, {
     optional: true,

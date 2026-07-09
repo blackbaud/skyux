@@ -4,6 +4,7 @@ import {
   Input,
   Output,
   ViewChild,
+  inject,
 } from '@angular/core';
 
 import { SkyDateFormatter } from '../date-formatter';
