@@ -32,7 +32,7 @@ interface RowModel {
   ],
 })
 export class DataGridTestComponent {
-  public dataForSimpleGrid: RowModel[] | undefined = [
+  public readonly dataForSimpleGrid = input<RowModel[] | undefined>([
     { id: '1', column1: '1', column2: 'Apple', column3: true },
     { id: '2', column1: '01', column2: 'Banana', column3: false },
     { id: '3', column1: '11', column2: 'Banana', column3: true },
@@ -40,9 +40,11 @@ export class DataGridTestComponent {
     { id: '5', column1: '13', column2: 'Edamame', column3: true },
     { id: '6', column1: '20', column2: 'Fig', column3: false },
     { id: '7', column1: '21', column2: 'Grape', column3: true },
-  ];
+  ]);
 
-  public dataForSimpleGridWithMultiselect: RowModel[] | undefined = [
+  public readonly dataForSimpleGridWithMultiselect = input<
+    RowModel[] | undefined
+  >([
     { id: '1', column1: '1', column2: 'Apple', column3: true, myId: '101' },
     { id: '2', column1: '01', column2: 'Banana', column3: false, myId: '102' },
     { id: '3', column1: '11', column2: 'Banana', column3: true, myId: '103' },
@@ -50,7 +52,7 @@ export class DataGridTestComponent {
     { id: '5', column1: '13', column2: 'Edamame', column3: true, myId: '105' },
     { id: '6', column1: '20', column2: 'Fig', column3: false, myId: '106' },
     { id: '7', column1: '21', column2: 'Grape', column3: true, myId: '107' },
-  ];
+  ]);
 
   public readonly selectedRowIds = model<string[]>([]);
 
@@ -66,7 +68,7 @@ export class DataGridTestComponent {
   public readonly stacked = input<boolean>(false);
 
   public page = model(1);
-  public pageQueryParam = '';
+  public pageQueryParam = input('');
 
   protected readonly showAllColumns = input<boolean>(true);
   protected readonly showAllGrids = input<boolean>(true);
@@ -77,7 +79,7 @@ export class DataGridTestComponent {
 
   public selectAll(): void {
     this.selectedRowIds.set(
-      (this.dataForSimpleGridWithMultiselect ?? []).map(
+      (this.dataForSimpleGridWithMultiselect() ?? []).map(
         (item) => item.myId as string,
       ),
     );

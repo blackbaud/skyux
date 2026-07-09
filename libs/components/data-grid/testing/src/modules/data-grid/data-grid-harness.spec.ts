@@ -132,7 +132,7 @@ describe('data-grid-harness', () => {
   });
 
   it('should get the paging harness for a paged grid', async () => {
-    fixture.componentInstance.pageSize = 5;
+    fixture.componentRef.setInput('pageSize', 5);
     fixture.detectChanges();
 
     const harness = await TestbedHarnessEnvironment.loader(fixture).getHarness(
@@ -159,7 +159,7 @@ describe('data-grid-harness', () => {
 
     await expectAsync(harness.getPagingOrNull()).toBeResolvedTo(null);
 
-    fixture.componentInstance.pageSize = 5;
+    fixture.componentRef.setInput('pageSize', 5);
     fixture.detectChanges();
 
     await expectAsync(harness.getPagingOrNull()).toBeResolvedTo(
