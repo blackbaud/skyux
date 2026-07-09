@@ -19,9 +19,7 @@ describe('File size pipe', () => {
       imports: [SkyFileSizePipe],
     });
 
-    fileSizePipe = TestBed.runInInjectionContext(
-      () => new SkyFileSizePipe(),
-    );
+    fileSizePipe = TestBed.runInInjectionContext(() => new SkyFileSizePipe());
   });
 
   it('should format bytes', function () {
