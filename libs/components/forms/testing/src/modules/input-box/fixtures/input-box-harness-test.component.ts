@@ -1,4 +1,4 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, TemplateRef, ViewChild, inject } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormControl,
@@ -32,12 +32,14 @@ export class InputBoxHarnessTestComponent {
   public maxDate = new Date('01/01/2100');
   public minDate = new Date('01/01/2000');
 
-  constructor(formBuilder: UntypedFormBuilder) {
-    this.myForm = formBuilder.group({
+  readonly #formBuilder = inject(UntypedFormBuilder);
+
+  constructor() {
+    this.myForm = this.#formBuilder.group({
       firstName: new UntypedFormControl('John'),
       lastName: new UntypedFormControl('Doe'),
     });
-    this.directiveErrorForm = formBuilder.group({
+    this.directiveErrorForm = this.#formBuilder.group({
       easyModeDatepicker: new UntypedFormControl('123'),
       easyModeTimepicker: new UntypedFormControl('abc'),
       easyModePhoneField: new UntypedFormControl('abc'),

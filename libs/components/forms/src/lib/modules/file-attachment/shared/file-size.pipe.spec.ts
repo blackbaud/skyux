@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { SkyFileSizePipe } from './file-size.pipe';
 
@@ -20,7 +19,7 @@ describe('File size pipe', () => {
       imports: [SkyFileSizePipe],
     });
 
-    fileSizePipe = new SkyFileSizePipe(TestBed.inject(SkyLibResourcesService));
+    fileSizePipe = TestBed.runInInjectionContext(() => new SkyFileSizePipe());
   });
 
   it('should format bytes', function () {
