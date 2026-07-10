@@ -16,10 +16,12 @@ export class SkyErrorModalService {
   #modalSvc: SkyModalService;
   #logSvc: SkyLogService | undefined;
 
+  /* eslint-disable @angular-eslint/prefer-inject -- constructor injection is required to maintain the public API for consumers who may instantiate this service directly (e.g. `new SkyErrorModalService(...)`) */
   constructor(
     modalSvc: SkyModalService,
     @Optional() logService?: SkyLogService,
   ) {
+    /* eslint-enable @angular-eslint/prefer-inject */
     this.#modalSvc = modalSvc;
     this.#logSvc = logService;
   }

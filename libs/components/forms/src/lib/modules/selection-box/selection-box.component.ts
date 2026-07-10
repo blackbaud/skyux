@@ -7,6 +7,7 @@ import {
   OnDestroy,
   ViewChild,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 
 import { Subject } from 'rxjs';
@@ -116,16 +117,8 @@ export class SkySelectionBoxComponent implements OnDestroy {
 
   #_selectionBoxEl: ElementRef | undefined;
 
-  #changeDetector: ChangeDetectorRef;
-  #selectionBoxAdapterService: SkySelectionBoxAdapterService;
-
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    selectionBoxAdapterService: SkySelectionBoxAdapterService,
-  ) {
-    this.#changeDetector = changeDetector;
-    this.#selectionBoxAdapterService = selectionBoxAdapterService;
-  }
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #selectionBoxAdapterService = inject(SkySelectionBoxAdapterService);
 
   public ngOnDestroy(): void {
     this.#ngUnsubscribe.next();

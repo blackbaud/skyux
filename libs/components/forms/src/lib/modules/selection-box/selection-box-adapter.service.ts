@@ -3,6 +3,7 @@ import {
   Injectable,
   Renderer2,
   RendererFactory2,
+  inject,
 } from '@angular/core';
 import { SkyCoreAdapterService, SkyMediaBreakpoints } from '@skyux/core';
 
@@ -22,15 +23,11 @@ const BREAKPOINT_MD_MAX_PIXELS = 1439;
  */
 @Injectable()
 export class SkySelectionBoxAdapterService {
-  #coreAdapterService: SkyCoreAdapterService;
+  readonly #coreAdapterService = inject(SkyCoreAdapterService);
   #renderer: Renderer2;
 
-  constructor(
-    coreAdapterService: SkyCoreAdapterService,
-    rendererFactory: RendererFactory2,
-  ) {
-    this.#coreAdapterService = coreAdapterService;
-    this.#renderer = rendererFactory.createRenderer(undefined, null);
+  constructor() {
+    this.#renderer = inject(RendererFactory2).createRenderer(undefined, null);
   }
 
   /**

@@ -19,6 +19,7 @@ import { SkyFuzzyDateService } from '../datepicker/fuzzy/fuzzy-date.service';
 export class SkyFuzzyDatePipe implements PipeTransform {
   #fuzzyDateService: SkyFuzzyDateService;
 
+  // eslint-disable-next-line @angular-eslint/prefer-inject -- constructor injection is required to maintain the public API for consumers who may instantiate this pipe directly (e.g. `new SkyFuzzyDatePipe(...)`).
   constructor(fuzzyDateService: SkyFuzzyDateService) {
     this.#fuzzyDateService = fuzzyDateService;
   }

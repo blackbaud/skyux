@@ -8,7 +8,6 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   Renderer2,
   forwardRef,
   inject,
@@ -244,38 +243,28 @@ export class SkyDatepickerInputDirective
   #_strict = false;
   #_value: any;
 
-  #changeDetector: ChangeDetectorRef;
-  #configService: SkyDatepickerConfigService;
-  #elementRef: ElementRef;
-  #localeProvider: SkyAppLocaleProvider;
-  #renderer: Renderer2;
-  #datepickerComponent: SkyDatepickerComponent;
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #configService = inject(SkyDatepickerConfigService);
+  readonly #elementRef = inject(ElementRef);
+  readonly #localeProvider = inject(SkyAppLocaleProvider);
+  readonly #renderer = inject(Renderer2);
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  readonly #datepickerComponent: SkyDatepickerComponent = inject(
+    SkyDatepickerComponent,
+    { optional: true },
+  )!;
 
   readonly #datepickerHostSvc = inject(SkyDatepickerHostService, {
     optional: true,
   });
 
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    configService: SkyDatepickerConfigService,
-    elementRef: ElementRef,
-    localeProvider: SkyAppLocaleProvider,
-    renderer: Renderer2,
-    @Optional() datepickerComponent?: SkyDatepickerComponent,
-  ) {
-    if (!datepickerComponent) {
+  constructor() {
+    if (!this.#datepickerComponent) {
       throw new Error(
         'You must wrap the `skyDatepickerInput` directive within a ' +
           '`<sky-datepicker>` component!',
       );
     }
-    this.#changeDetector = changeDetector;
-    this.#configService = configService;
-    this.#elementRef = elementRef;
-    this.#localeProvider = localeProvider;
-    this.#renderer = renderer;
-    this.#datepickerComponent = datepickerComponent;
-
     this.#localeProvider
       .getLocaleInfo()
       .pipe(takeUntil(this.#ngUnsubscribe))
