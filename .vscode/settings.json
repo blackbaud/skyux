@@ -12,6 +12,5 @@
       "file": ".github/instructions/commit-message.instructions.md"
     }
   ],
-  "nxConsole.generateAiAgentRules": true,
-  "cSpell.words": ["gridline"]
+  "nxConsole.generateAiAgentRules": true
 }
