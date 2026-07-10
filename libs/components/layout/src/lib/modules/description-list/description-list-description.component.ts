@@ -4,9 +4,9 @@ import {
   Component,
   OnDestroy,
   OnInit,
-  Optional,
   TemplateRef,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { SkyThemeService } from '@skyux/theme';
 
@@ -38,18 +38,11 @@ export class SkyDescriptionListDescriptionComponent
   })
   public templateRef!: TemplateRef<unknown> | undefined;
 
-  #changeDetector: ChangeDetectorRef;
+  readonly #changeDetector = inject(ChangeDetectorRef);
   #ngUnsubscribe = new Subject<void>();
-  #themeSvc: SkyThemeService | undefined;
+  readonly #themeSvc = inject(SkyThemeService, { optional: true });
 
-  constructor(
-    public service: SkyDescriptionListService,
-    changeDetector: ChangeDetectorRef,
-    @Optional() themeSvc?: SkyThemeService,
-  ) {
-    this.#changeDetector = changeDetector;
-    this.#themeSvc = themeSvc;
-  }
+  public readonly service = inject(SkyDescriptionListService);
 
   public ngOnInit(): void {
     /* istanbul ignore else */

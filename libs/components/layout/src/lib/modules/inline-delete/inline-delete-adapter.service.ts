@@ -1,4 +1,4 @@
-import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
+import { Injectable, Renderer2, RendererFactory2, inject } from '@angular/core';
 import { SkyCoreAdapterService } from '@skyux/core';
 
 /**
@@ -12,14 +12,10 @@ export class SkyInlineDeleteAdapterService {
   #parentElClearListenerFn: (() => void) | undefined;
   #renderer: Renderer2;
 
-  #coreAdapterService: SkyCoreAdapterService;
+  readonly #coreAdapterService = inject(SkyCoreAdapterService);
 
-  constructor(
-    coreAdapterService: SkyCoreAdapterService,
-    rendererFactory: RendererFactory2,
-  ) {
-    this.#coreAdapterService = coreAdapterService;
-    this.#renderer = rendererFactory.createRenderer(undefined, null);
+  constructor() {
+    this.#renderer = inject(RendererFactory2).createRenderer(undefined, null);
   }
 
   public clearListeners(): void {
