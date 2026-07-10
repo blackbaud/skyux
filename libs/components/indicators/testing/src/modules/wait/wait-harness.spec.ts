@@ -1,6 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyWaitModule, SkyWaitService } from '@skyux/indicators';
 
@@ -45,7 +45,7 @@ class TestComponent implements OnDestroy {
 
   public isWaiting2 = false;
 
-  constructor(public svc: SkyWaitService) {}
+  public readonly svc = inject(SkyWaitService);
 
   public ngOnDestroy(): void {
     this.svc.dispose();
