@@ -1,4 +1,4 @@
-import { ElementRef, Injectable, OnDestroy } from '@angular/core';
+import { ElementRef, Injectable, OnDestroy, inject } from '@angular/core';
 import { SkyAppWindowRef, SkyScrollableHostService } from '@skyux/core';
 
 import { Observable, Subject, fromEvent as observableFromEvent } from 'rxjs';
@@ -13,18 +13,10 @@ export class SkyInfiniteScrollDomAdapterService implements OnDestroy {
   #observer: MutationObserver | undefined;
   #parentChanges: Subject<void>;
   #parentChangesObs: Observable<void>;
-  #scrollableHostSvc: SkyScrollableHostService;
-  #windowRef: SkyAppWindowRef;
+  readonly #scrollableHostSvc = inject(SkyScrollableHostService);
+  readonly #windowRef = inject(SkyAppWindowRef);
 
-  /* eslint-disable @angular-eslint/prefer-inject -- the spec for this service manually constructs an instance with specific `SkyScrollableHostService`/`SkyAppWindowRef` instances, spies on it, and provides that exact instance to the component under test; converting to inject() would break that pattern. */
-  constructor(
-    scrollableHostSvc: SkyScrollableHostService,
-    windowRef: SkyAppWindowRef,
-  ) {
-    /* eslint-enable @angular-eslint/prefer-inject */
-    this.#scrollableHostSvc = scrollableHostSvc;
-    this.#windowRef = windowRef;
-
+  constructor() {
     this.#parentChanges = new Subject<void>();
     this.#parentChangesObs = this.#parentChanges.asObservable();
   }

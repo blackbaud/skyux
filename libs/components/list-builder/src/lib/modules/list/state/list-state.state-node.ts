@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { StateNode } from '@skyux/list-builder-common';
 
 import { ListFiltersOrchestrator } from './filters/filters.orchestrator';
@@ -18,9 +18,8 @@ import { ListViewsOrchestrator } from './views/views.orchestrator';
  */
 @Injectable()
 export class ListState extends StateNode<ListStateModel> {
-  // eslint-disable-next-line @angular-eslint/prefer-inject -- unit tests throughout list-builder manually pair a specific `ListStateDispatcher` instance with a new `ListState` for isolated testing; converting to inject() would break that pattern across dozens of spec files.
-  constructor(dispatcher: ListStateDispatcher) {
-    super(new ListStateModel(), dispatcher);
+  constructor() {
+    super(new ListStateModel(), inject(ListStateDispatcher));
 
     this.register('filters', ListFiltersOrchestrator)
       .register('items', ListItemsOrchestrator)

@@ -114,13 +114,14 @@ export class SkyModalService implements SkyModalServiceInterface {
         environmentInjector: this.#environmentInjector,
         providers: [
           {
-            provide: SkyModalHostContext,
-            useValue: new SkyModalHostContext({
+            provide: 'SkyModalHostContextArgs',
+            useValue: {
               teardownCallback: (): void => {
                 this.dispose();
               },
-            }),
+            },
           },
+          { provide: SkyModalHostContext, useClass: SkyModalHostContext },
         ],
       },
     );
