@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SkyModalService } from '@skyux/modals';
 import { SkyToastService, SkyToastType } from '@skyux/toast';
 
@@ -15,12 +15,8 @@ import { SkyFlyoutModalFixtureFormComponent } from './flyout-modal-form.componen
   standalone: false,
 })
 export class SkyFlyoutHostsTestComponent {
-  #modal: SkyModalService;
-  #toastService: SkyToastService;
-  constructor(modal: SkyModalService, toastService: SkyToastService) {
-    this.#modal = modal;
-    this.#toastService = toastService;
-  }
+  readonly #modal = inject(SkyModalService);
+  readonly #toastService = inject(SkyToastService);
 
   public openModal(): void {
     const context: SkyFlyoutModalFixtureContext = { valueA: 'Hello' };
