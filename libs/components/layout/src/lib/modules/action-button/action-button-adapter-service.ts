@@ -3,6 +3,7 @@ import {
   Injectable,
   Renderer2,
   RendererFactory2,
+  inject,
 } from '@angular/core';
 
 const RESPONSIVE_CLASS_SM = 'sky-action-button-container-sm';
@@ -19,8 +20,8 @@ const BREAKPOINT_LG = 1378;
 export class SkyActionButtonAdapterService {
   #renderer: Renderer2;
 
-  constructor(rendererFactory: RendererFactory2) {
-    this.#renderer = rendererFactory.createRenderer(undefined, null);
+  constructor() {
+    this.#renderer = inject(RendererFactory2).createRenderer(undefined, null);
   }
 
   public getParentWidth(element: ElementRef): number | undefined {
