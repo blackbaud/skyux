@@ -36,9 +36,9 @@ export class SkySplitViewService {
   #_isMobile = false;
   #_isMobileStream = new BehaviorSubject<boolean>(false);
 
-  constructor(resources: SkyLibResourcesService) {
+  constructor() {
     // Set default back button text.
-    resources
+    inject(SkyLibResourcesService)
       .getString('skyux_split_view_back_to_list')
       .pipe(take(1))
       .subscribe((resource) => {

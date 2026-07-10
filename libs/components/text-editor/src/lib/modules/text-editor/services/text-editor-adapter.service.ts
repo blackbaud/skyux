@@ -21,19 +21,9 @@ import { SkyTextEditorService } from './text-editor.service';
 @Injectable()
 export class SkyTextEditorAdapterService {
   readonly #resourceSvc = inject(SkyLibResourcesService);
-  #selectionService: SkyTextEditorSelectionService;
-  #textEditorService: SkyTextEditorService;
-  #windowRef: SkyAppWindowRef;
-
-  constructor(
-    selectionService: SkyTextEditorSelectionService,
-    textEditorService: SkyTextEditorService,
-    windowService: SkyAppWindowRef,
-  ) {
-    this.#selectionService = selectionService;
-    this.#textEditorService = textEditorService;
-    this.#windowRef = windowService;
-  }
+  readonly #selectionService = inject(SkyTextEditorSelectionService);
+  readonly #textEditorService = inject(SkyTextEditorService);
+  readonly #windowRef = inject(SkyAppWindowRef);
 
   /**
    * Creates a text editor inside the supplied iframe element.

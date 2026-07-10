@@ -6,7 +6,6 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   ViewChild,
   inject,
 } from '@angular/core';
@@ -177,22 +176,12 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
 
   #ngUnsubscribe = new Subject<void>();
 
-  #adapterService: SkyVerticalTabsetAdapterService;
-  #changeRef: ChangeDetectorRef;
-  #tabsetService: SkyVerticalTabsetService;
-  #tabIdSvc: SkyTabIdService | undefined;
+  readonly #adapterService = inject(SkyVerticalTabsetAdapterService);
+  readonly #changeRef = inject(ChangeDetectorRef);
+  readonly #tabsetService = inject(SkyVerticalTabsetService);
+  readonly #tabIdSvc = inject(SkyTabIdService, { optional: true });
 
-  constructor(
-    adapterService: SkyVerticalTabsetAdapterService,
-    changeRef: ChangeDetectorRef,
-    tabsetService: SkyVerticalTabsetService,
-    @Optional() tabIdSvc?: SkyTabIdService,
-  ) {
-    this.#adapterService = adapterService;
-    this.#changeRef = changeRef;
-    this.#tabsetService = tabsetService;
-    this.#tabIdSvc = tabIdSvc;
-
+  constructor() {
     this.#tabIdOrDefault = this.#defaultTabId = `sky-vertical-tab-${++nextId}`;
     this.tabId = this.#defaultTabId;
   }

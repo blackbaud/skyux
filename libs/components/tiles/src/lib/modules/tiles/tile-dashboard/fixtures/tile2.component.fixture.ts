@@ -1,8 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Optional,
   ViewChild,
+  inject,
 } from '@angular/core';
 
 import { SkyTileComponent } from '../../tile/tile.component';
@@ -22,7 +22,7 @@ export class Tile2TestComponent {
   })
   public tile!: SkyTileComponent;
 
-  constructor(@Optional() public context: TileTestContext) {}
+  public context = inject(TileTestContext, { optional: true });
 
   public tileSettingsClick(): void {}
 }
