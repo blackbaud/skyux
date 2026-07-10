@@ -1,16 +1,16 @@
 <sky-chart headingText="Volume vs. revenue">
-  <sky-chart-bar>
+  <sky-chart-bar [orientation]="orientation()">
     <sky-chart-axis-category labelText="Year" [categories]="years" />
     <sky-chart-axis-value axisId="count" labelText="Acquisitions" />
     <sky-chart-axis-value axisId="revenue" labelText="Revenue (USD)" />
     <sky-chart-series
       labelText="New customers"
-      valueAxis="count"
+      valueAxisId="count"
       [values]="acquisitions"
     />
     <sky-chart-series
       labelText="Gross revenue"
-      valueAxis="revenue"
+      valueAxisId="revenue"
       [values]="revenue"
     />
   </sky-chart-bar>

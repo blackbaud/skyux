@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import {
   SkyChart,
   SkyChartAxisCategory,
   SkyChartAxisValue,
   SkyChartBar,
+  type SkyChartBarOrientation,
   SkyChartSeries,
 } from '@skyux/charts';
 
@@ -20,6 +21,7 @@ import {
   templateUrl: './chart-bar-stacked-playground.html',
 })
 export default class ChartBarStackedPlayground {
+  protected readonly orientation = input<SkyChartBarOrientation>('vertical');
   protected readonly months = [
     'January',
     'February',

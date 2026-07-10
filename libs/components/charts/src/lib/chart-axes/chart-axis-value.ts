@@ -14,6 +14,7 @@ import { SkyAppLocaleProvider } from '@skyux/i18n';
 
 import { map } from 'rxjs/operators';
 
+import { SkyChartCartesianScaleType } from '../shared/cartesian-scale-type';
 import { SkyChartValueFormat } from '../shared/value-format';
 import { createSkyChartValueFormatter } from '../shared/value-formatter';
 
@@ -84,6 +85,12 @@ export class SkyChartAxisValue {
    * The text of the axis label.
    */
   public readonly labelText = input.required<string>();
+
+  /**
+   * The scale type for the value axis.
+   * @default 'linear'
+   */
+  public readonly scaleType = input<SkyChartCartesianScaleType>('linear');
 
   /**
    * Formats a numeric value according to this axis's `format`, `currencyCode`,

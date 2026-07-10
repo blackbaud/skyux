@@ -13,8 +13,8 @@ import { SkyThemeService } from '@skyux/theme';
 import { type ChartDataset } from 'chart.js/auto';
 import { EMPTY, map } from 'rxjs';
 
-import { SkyChartAxisCategory } from '../axis/chart-axis-category';
-import { SkyChartAxisValue } from '../axis/chart-axis-value';
+import { SkyChartAxisCategory } from '../chart-axes/chart-axis-category';
+import { SkyChartAxisValue } from '../chart-axes/chart-axis-value';
 import { SkyChartSeries } from '../chart-series/chart-series';
 import { SkyChartTable } from '../chart-table/chart-table';
 import {
@@ -27,7 +27,7 @@ import {
   resolveSeriesBindings,
 } from '../shared/cartesian-utils';
 import { SkyChartJs, type SkyChartJsConfig } from '../shared/chart-js';
-import { extendBaseChartConfig } from '../shared/chart-js-config-utils';
+import { extendBaseChartJsConfig } from '../shared/chart-js-config-utils';
 import { SkyChartPlot } from '../shared/chart-plot';
 import {
   readThemeCategoricalPalette,
@@ -48,7 +48,7 @@ import { SkyChartBarSeriesLayout } from './chart-bar-series-layout';
   imports: [SkyChartJs],
   selector: 'sky-chart-bar',
   template: `@if (config(); as config) {
-    <sky-chart-js [config]="config" />
+    <sky-chart-js [config]="config" [style.height]="height()" />
   }`,
 })
 export class SkyChartBar extends SkyChartPlot {
@@ -78,6 +78,12 @@ export class SkyChartBar extends SkyChartPlot {
    * @default 'grouped'
    */
   public readonly seriesLayout = input<SkyChartBarSeriesLayout>('grouped');
+
+  /**
+   * A CSS height value (e.g. `'400px'`, `'20rem'`, `'50vh'`) for the chart.
+   * When unspecified, the chart uses internal sizing logic.
+   */
+  public readonly height = input<string>();
 
   protected readonly categoryAxis = contentChild(SkyChartAxisCategory);
   protected readonly valueAxes = contentChildren(SkyChartAxisValue);
@@ -159,7 +165,7 @@ export class SkyChartBar extends SkyChartPlot {
       return dataset;
     });
 
-    return extendBaseChartConfig<'bar'>(styles, {
+    return extendBaseChartJsConfig<'bar'>(styles, {
       type: 'bar',
       data: {
         labels: categoryAxis.categories(),

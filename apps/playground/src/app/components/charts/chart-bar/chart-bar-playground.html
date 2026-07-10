@@ -1,11 +1,17 @@
 <sky-page layout="blocks">
   <sky-page-content>
+    <sky-toggle-switch
+      class="sky-margin-stacked-lg"
+      labelText="Horizontal orientation"
+      [checked]="isHorizontal()"
+      (toggleChange)="isHorizontal.set($event.checked)"
+    />
     <sky-fluid-grid gutterSize="medium" [disableMargin]="true">
       <sky-row>
         <sky-column [screenSmall]="4">
           <sky-box class="sky-margin-stacked-xl" headingText="Basic">
             <sky-box-content>
-              <app-chart-bar-basic />
+              <app-chart-bar-basic [orientation]="orientation()" />
             </sky-box-content>
           </sky-box>
         </sky-column>
@@ -15,7 +21,7 @@
             headingText="Multiple series (grouped bars)"
           >
             <sky-box-content>
-              <app-chart-bar-multiple-series />
+              <app-chart-bar-multiple-series [orientation]="orientation()" />
             </sky-box-content>
           </sky-box>
         </sky-column>
@@ -23,7 +29,7 @@
         <sky-column [screenSmall]="4">
           <sky-box class="sky-margin-stacked-xl" headingText="Stacked series">
             <sky-box-content>
-              <app-chart-bar-stacked />
+              <app-chart-bar-stacked [orientation]="orientation()" />
             </sky-box-content>
           </sky-box>
         </sky-column>
@@ -33,38 +39,34 @@
         <sky-column [screenSmall]="4">
           <sky-box class="sky-margin-stacked-xl" headingText="Dual value axes">
             <sky-box-content>
-              <app-chart-bar-dual-axis />
+              <app-chart-bar-dual-axis [orientation]="orientation()" />
             </sky-box-content>
           </sky-box>
         </sky-column>
 
-        <sky-column [screenSmall]="4">
-          <sky-box
-            class="sky-margin-stacked-xl"
-            headingText="Horizontal orientation"
-          >
-            <sky-box-content>
-              <app-chart-bar-horizontal />
-            </sky-box-content>
-          </sky-box>
-        </sky-column>
         <sky-column [screenSmall]="4">
           <sky-box
             class="sky-margin-stacked-xl"
             headingText="Hidden axis labels"
           >
             <sky-box-content>
-              <app-chart-bar-hidden-labels />
+              <app-chart-bar-hidden-labels [orientation]="orientation()" />
             </sky-box-content>
           </sky-box>
         </sky-column>
       </sky-row>
-
       <sky-row>
         <sky-column [screenSmall]="4">
           <sky-box headingText="Value formats">
             <sky-box-content>
-              <app-chart-bar-value-format />
+              <app-chart-bar-value-format [orientation]="orientation()" />
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
+        <sky-column [screenSmall]="4">
+          <sky-box headingText="Logarithmic scale">
+            <sky-box-content>
+              <app-chart-bar-logarithmic [orientation]="orientation()" />
             </sky-box-content>
           </sky-box>
         </sky-column>

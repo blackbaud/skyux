@@ -9,7 +9,7 @@ import { readThemeCssNumber, readThemeCssString } from './theme-css-utils';
  * Theme tokens are resolved to concrete values here because Chart.js renders to
  * a canvas that cannot read CSS custom properties.
  */
-function buildBaseChartOptions(styles: CSSStyleDeclaration): ChartOptions {
+function buildBaseChartJsOptions(styles: CSSStyleDeclaration): ChartOptions {
   const fontFamily = readThemeCssString(styles, '--sky-font-family-primary');
   const fontSize = readThemeCssNumber(styles, '--sky-font-size-body-m', 15);
   const lineHeight = readThemeCssNumber(
@@ -135,11 +135,11 @@ function buildBaseChartOptions(styles: CSSStyleDeclaration): ChartOptions {
  * Extends the shared, themed base options with a chart-type-specific configuration.
  * @internal
  */
-export function extendBaseChartConfig<TType extends ChartType = ChartType>(
+export function extendBaseChartJsConfig<TType extends ChartType = ChartType>(
   styles: CSSStyleDeclaration,
   overrides: SkyChartJsConfig<TType>,
 ): SkyChartJsConfig<TType> {
-  const base = buildBaseChartOptions(styles);
+  const base = buildBaseChartJsOptions(styles);
 
   const options: ChartOptions = {
     ...base,

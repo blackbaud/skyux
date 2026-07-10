@@ -1,7 +1,7 @@
 import { type ChartConfiguration, type TooltipItem } from 'chart.js/auto';
 
-import { SkyChartAxisCategory } from '../axis/chart-axis-category';
-import { SkyChartAxisValue } from '../axis/chart-axis-value';
+import { SkyChartAxisCategory } from '../chart-axes/chart-axis-category';
+import { SkyChartAxisValue } from '../chart-axes/chart-axis-value';
 import { SkyChartSeries } from '../chart-series/chart-series';
 import type { SkyChartTable } from '../chart-table/chart-table';
 import { readThemeCssNumber, readThemeCssString } from './theme-css-utils';
@@ -60,7 +60,7 @@ function matchSeriesValueAxis(
   series: SkyChartSeries,
   valueAxes: readonly SkyChartAxisValue[],
 ): { index: number; unmatched: boolean } {
-  const wanted = series.valueAxis();
+  const wanted = series.valueAxisId();
 
   if (!wanted) {
     return { index: 0, unmatched: false };
@@ -138,8 +138,8 @@ export function resolveSeriesBindings(options: {
 
     if (unmatched) {
       warn(
-        `The chart series "${chartSeries.labelText()}" specifies valueAxis ` +
-          `"${chartSeries.valueAxis()}", which does not match any value axis. ` +
+        `The chart series "${chartSeries.labelText()}" specifies valueAxisId ` +
+          `"${chartSeries.valueAxisId()}", which does not match any value axis. ` +
           `The series will plot against the first value axis.`,
       );
     }
@@ -212,11 +212,12 @@ function buildThemedScaleStyle(styles: CSSStyleDeclaration): {
 }
 
 /**
- * Builds the category and value axis scales for a cartesian chart. Secondary
- * value axes are positioned opposite the primary axis and do not draw grid
- * lines to avoid stacking them on top of the primary axis's lines. When
- * `stacked` is set, both the category and value scales stack so that series
- * sharing a value axis accumulate into a single bar per category.
+ * Builds the category and value axis scales for a cartesian chart. The category
+ * axis draws no grid lines across the chart area, and secondary value axes are
+ * positioned opposite the primary axis and also omit grid lines to avoid
+ * stacking them on top of the primary axis's lines. When `stacked` is set, both
+ * the category and value scales stack so that series sharing a value axis
+ * accumulate into a single bar per category.
  */
 export function buildCartesianScales(options: {
   categoryAxis: SkyChartAxisCategory;
@@ -247,6 +248,9 @@ export function buildCartesianScales(options: {
       grid: {
         display: true,
         drawTicks: true,
+        // The category axis marks discrete groups, so grid lines running
+        // between the bars add clutter without aiding value comparison.
+        drawOnChartArea: false,
         ...base.grid,
       },
       border: {
@@ -268,9 +272,10 @@ export function buildCartesianScales(options: {
   valueAxes.forEach((axis, index) => {
     const isSecondary = index > 0;
     const formatValue = axis.formatValue();
+    const scaleType = axis.scaleType();
 
     scales[valueAxisKeys[index]] = {
-      type: 'linear',
+      type: scaleType,
       axis: valueDirection,
       position: isHorizontal
         ? isSecondary
@@ -289,6 +294,7 @@ export function buildCartesianScales(options: {
       },
       ticks: {
         ...base.ticks,
+        padding: 0,
         callback: (tickValue: string | number): string =>
           formatValue(Number(tickValue)),
       },

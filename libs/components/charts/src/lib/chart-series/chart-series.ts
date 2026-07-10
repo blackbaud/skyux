@@ -21,7 +21,7 @@ export class SkyChartSeries {
    * The `axisId` of the value axis to plot this series against. Defaults to the
    * first value axis.
    */
-  public readonly valueAxis = input<string>();
+  public readonly valueAxisId = input<string>();
 
   /**
    * The values for this series, aligned to the category axis categories by

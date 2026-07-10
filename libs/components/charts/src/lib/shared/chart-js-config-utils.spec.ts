@@ -1,6 +1,6 @@
 import { type SkyChartJsConfig } from './chart-js';
 
-import { extendBaseChartConfig } from './chart-js-config-utils';
+import { extendBaseChartJsConfig } from './chart-js-config-utils';
 
 type TooltipProbe = {
   enabled: boolean;
@@ -20,7 +20,7 @@ function getTooltip(config: SkyChartJsConfig<'bar'>): TooltipProbe {
   return config.options.plugins?.tooltip as unknown as TooltipProbe;
 }
 
-describe('extendBaseChartConfig', () => {
+describe('extendBaseChartJsConfig', () => {
   function createStyles(values: Record<string, string>): CSSStyleDeclaration {
     return {
       getPropertyValue: (property: string): string => values[property] ?? '',
@@ -30,7 +30,7 @@ describe('extendBaseChartConfig', () => {
   function extend(
     values: Record<string, string> = {},
   ): SkyChartJsConfig<'bar'> {
-    return extendBaseChartConfig<'bar'>(createStyles(values), {
+    return extendBaseChartJsConfig<'bar'>(createStyles(values), {
       type: 'bar',
       data: { labels: ['a'], datasets: [{ data: [1] }] },
       options: {

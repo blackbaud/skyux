@@ -6,8 +6,8 @@ import { SkyThemeService, type SkyThemeSettingsChange } from '@skyux/theme';
 import Chart, { type TooltipItem } from 'chart.js/auto';
 import { ReplaySubject } from 'rxjs';
 
-import { SkyChartAxisCategory } from '../axis/chart-axis-category';
-import { SkyChartAxisValue } from '../axis/chart-axis-value';
+import { SkyChartAxisCategory } from '../chart-axes/chart-axis-category';
+import { SkyChartAxisValue } from '../chart-axes/chart-axis-value';
 import { SkyChartSeries } from '../chart-series/chart-series';
 import { SkyChartTableService } from '../chart-table/chart-table-service';
 import { SkyChartValueFormat } from '../shared/value-format';
@@ -17,6 +17,7 @@ import { SkyChartBarOrientation } from './chart-bar-orientation';
 import { SkyChartBarSeriesLayout } from './chart-bar-series-layout';
 
 type ScaleProbe = {
+  type: string;
   position: string;
   stacked?: boolean;
   grid: { drawOnChartArea: boolean };
@@ -32,7 +33,11 @@ type ScaleProbe = {
   ],
   template: `
     @if (renderChart) {
-      <sky-chart-bar [orientation]="orientation" [seriesLayout]="seriesLayout">
+      <sky-chart-bar
+        [orientation]="orientation"
+        [seriesLayout]="seriesLayout"
+        [height]="chartHeight"
+      >
         @if (renderCategoryAxis) {
           <sky-chart-axis-category labelText="Year" [categories]="categories" />
         }
@@ -42,12 +47,13 @@ type ScaleProbe = {
             [axisId]="axisId"
             [currencyCode]="currencyCode"
             [format]="format"
+            [scaleType]="valueScaleType"
           />
         }
         @if (renderSeries) {
           <sky-chart-series
             [labelText]="seriesLabel"
-            [valueAxis]="seriesValueAxis"
+            [valueAxisId]="seriesValueAxis"
             [values]="values"
           />
         }
@@ -60,6 +66,7 @@ class TestComponent {
   public chartBar!: SkyChartBar;
 
   public categories: (string | number)[] = ['2023', '2024'];
+  public chartHeight: string | undefined;
   public currencyCode: string | undefined;
   public format: SkyChartValueFormat | undefined;
   public orientation: SkyChartBarOrientation = 'vertical';
@@ -70,6 +77,7 @@ class TestComponent {
   public seriesValueAxis: string | undefined;
   public seriesLayout: SkyChartBarSeriesLayout = 'grouped';
   public valueAxisIds: (string | undefined)[] = [undefined];
+  public valueScaleType: 'linear' | 'logarithmic' = 'linear';
   public values = [10, 20];
 }
 
@@ -208,6 +216,7 @@ describe('Chart bar component', () => {
     const category = getScale(chart, 'category');
     const value = getScale(chart, 'value-0');
     expect(category.position).toBe('bottom');
+    expect(category.grid.drawOnChartArea).toBe(false);
     expect(value.position).toBe('left');
     expect(value.grid.drawOnChartArea).toBe(true);
   });
@@ -234,6 +243,25 @@ describe('Chart bar component', () => {
 
     const dataset = requireChart().data.datasets[0];
     expect(typeof dataset.backgroundColor).toBe('string');
+  });
+
+  it('should use internal sizing when no height is set', () => {
+    fixture.detectChanges();
+
+    const chartEl = fixture.nativeElement.querySelector(
+      'sky-chart-js',
+    ) as HTMLElement;
+    expect(chartEl.style.height).toBe('');
+  });
+
+  it('should apply an explicit CSS height when set', () => {
+    component.chartHeight = '400px';
+    fixture.detectChanges();
+
+    const chartEl = fixture.nativeElement.querySelector(
+      'sky-chart-js',
+    ) as HTMLElement;
+    expect(chartEl.style.height).toBe('400px');
   });
 
   it('should format axis ticks using the value axis format', () => {
@@ -297,6 +325,19 @@ describe('Chart bar component', () => {
     expect(chart.data.datasets[0].yAxisID).toBe('category');
     expect(getScale(chart, 'category').position).toBe('left');
     expect(getScale(chart, 'value-0').position).toBe('bottom');
+  });
+
+  it('should default the value axis to a linear scale', () => {
+    fixture.detectChanges();
+
+    expect(getScale(requireChart(), 'value-0').type).toBe('linear');
+  });
+
+  it('should use a logarithmic scale when specified', () => {
+    component.valueScaleType = 'logarithmic';
+    fixture.detectChanges();
+
+    expect(getScale(requireChart(), 'value-0').type).toBe('logarithmic');
   });
 
   it('should position a secondary value axis and bind a series to it', () => {

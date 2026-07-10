@@ -1,5 +1,5 @@
 <sky-chart headingText="Actual vs. target">
-  <sky-chart-bar>
+  <sky-chart-bar [orientation]="orientation()">
     <sky-chart-axis-category labelText="Year" [categories]="years" />
     <sky-chart-axis-value labelText="Acquisitions" />
     <sky-chart-series labelText="Actual" [values]="actual" />
