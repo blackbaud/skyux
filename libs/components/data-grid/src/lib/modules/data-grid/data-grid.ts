@@ -67,6 +67,7 @@ import {
 import { SkyDataGridRowData } from '../types/data-grid-row-data';
 import { SkyDataGridSort } from '../types/data-grid-sort';
 
+import { SkyDataGridDockType } from '../types/data-grid-dock-type';
 import { SkyDataGridColumn } from './data-grid-column';
 import { SkyDataGridColumnInlineHelp } from './data-grid-column-inline-help';
 import { fromGridEvent } from './data-grid-event-utils';
@@ -98,6 +99,8 @@ function arraySorted(arr: string[]): string[] {
   return arr.slice().sort((a, b) => a.localeCompare(b));
 }
 
+const DEFAULT_DOCK_TYPE: SkyDataGridDockType = 'none';
+
 /**
  * Displays tabular data in a grid using a declarative set of columns and inputs.
  * Provide the `data` array and one `sky-data-grid-column` for each column to render.
@@ -115,7 +118,7 @@ function arraySorted(arr: string[]): string[] {
   templateUrl: './data-grid.html',
   styleUrl: './data-grid.css',
   host: {
-    '[class.fit-layout]': "layout() === 'fit'",
+    '[class.fill-dock]': 'useFillDock()',
     '[class.sky-margin-stacked-lg]': 'stacked()',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -175,18 +178,17 @@ export class SkyDataGrid {
   public readonly data = input<SkyDataGridRowData[] | null | undefined>();
 
   /**
+   * How the data grid docks to the page. Use `fill` to dock the data grid to the container's size where the container
+   * is a sky-page component with its layout set to `fit`, or where the container is another element with a relative or
+   * absolute position and a fixed size.
+   * @default "none"
+   */
+  public readonly dock = input<SkyDataGridDockType>(DEFAULT_DOCK_TYPE);
+
+  /**
    * The text to read to screen readers to describe the grid. This sets the `aria-label` attribute on the grid container.
    */
   public readonly labelText = input<string>();
-
-  /**
-   * How the grid sizes to its parent's height. The valid options are `fit`, which
-   * stretches the grid to fill the parent container, and `list`, which sizes the grid
-   * to fit its contents. The `fit` layout assumes the parent element fills a screen,
-   * and the grid will scroll if necessary.
-   * @internal
-   */
-  public readonly layout = input<'fit' | 'list'>('list');
 
   /**
    * Whether data is being loaded. When `loading` is true or when `data` is nullish,
@@ -313,7 +315,7 @@ export class SkyDataGrid {
           enableTopScroll: untracked(() => this.topScrollEnabled()),
         },
         domLayout: untracked(() =>
-          this.layout() === 'list' ? 'autoHeight' : 'normal',
+          this.useFillDock() ? 'normal' : 'autoHeight',
         ),
         initialState: sort
           ? {
@@ -390,6 +392,10 @@ export class SkyDataGrid {
     }
     return classes;
   });
+
+  protected readonly useFillDock = computed(
+    () => this.dock() !== DEFAULT_DOCK_TYPE,
+  );
 
   readonly #activatedRoute = inject(ActivatedRoute, { optional: true });
   readonly #gridService = inject(SkyAgGridService);
@@ -485,7 +491,7 @@ export class SkyDataGrid {
     });
     effect(() => {
       const api = untracked(() => this.gridApi());
-      const domLayout = this.layout() === 'list' ? 'autoHeight' : 'normal';
+      const domLayout = this.useFillDock() ? 'normal' : 'autoHeight';
       api?.setGridOption('domLayout', domLayout);
     });
     effect(() => {

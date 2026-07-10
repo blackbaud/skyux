@@ -97,8 +97,8 @@ describe('SkyDataGrid', () => {
       ).toBe('50px');
     });
 
-    it('should update domLayout on layout changes', async () => {
-      fixture.componentRef.setInput('layout', 'fit');
+    it('should update domLayout on dock changes', async () => {
+      fixture.componentRef.setInput('dock', 'fill');
       fixture.detectChanges();
       await fixture.whenStable();
 
@@ -110,11 +110,11 @@ describe('SkyDataGrid', () => {
       expect(api).toBeTruthy();
       expect(api?.getGridOption('domLayout')).toBe('normal');
 
-      fixture.componentRef.setInput('layout', 'list');
+      fixture.componentRef.setInput('dock', 'none');
       fixture.detectChanges();
       expect(api?.getGridOption('domLayout')).toBe('autoHeight');
 
-      fixture.componentRef.setInput('layout', 'fit');
+      fixture.componentRef.setInput('dock', 'fill');
       fixture.detectChanges();
       expect(api?.getGridOption('domLayout')).toBe('normal');
     });

@@ -18,7 +18,7 @@
     <sky-tabset [(active)]="activeTabIndex">
       <sky-tab tabHeading="Players A-M" tabIndexValue="am" layout="fit">
         @defer (when activeTabIndex() === 'am') {
-          <sky-data-grid layout="fit" [data]="dataAM" [(sort)]="sortBy">
+          <sky-data-grid dock="fill" [data]="dataAM" [(sort)]="sortBy">
             @for (column of columns; track column.field) {
               <sky-data-grid-column
                 [columnHidden]="column.columnHidden"
@@ -35,7 +35,7 @@
       </sky-tab>
       <sky-tab tabHeading="Players N-Z" tabIndexValue="nz" layout="fit">
         @defer (when activeTabIndex() === 'nz') {
-          <sky-data-grid layout="fit" [data]="dataNZ" [(sort)]="sortBy">
+          <sky-data-grid dock="fill" [data]="dataNZ" [(sort)]="sortBy">
             @for (column of columns; track column.field) {
               <sky-data-grid-column
                 [columnHidden]="column.columnHidden"

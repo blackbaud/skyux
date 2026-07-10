@@ -4,18 +4,18 @@
   width: 100%;
 }
 
-:host.fit-layout {
+:host.fill-dock {
   height: 100%;
 }
 
-sky-ag-grid-wrapper.fit-layout {
+sky-ag-grid-wrapper.fill-dock {
   position: relative;
   height: 100%;
   width: 100%;
   display: block;
 }
 
-sky-ag-grid-wrapper.fit-layout ag-grid-angular {
+sky-ag-grid-wrapper.fill-dock ag-grid-angular {
   position: absolute;
   inset: 0;
 }
