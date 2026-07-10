@@ -5,6 +5,7 @@ import {
   ElementRef,
   Input,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { _SkyTransitionEndHandlerDirective } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
@@ -166,19 +167,9 @@ export class SkyTextExpandComponent implements AfterContentInit {
 
   #_textEl: ElementRef | undefined;
 
-  #resources: SkyLibResourcesService;
-  #modalSvc: SkyModalService;
-  #textExpandAdapter: SkyTextExpandAdapterService;
-
-  constructor(
-    resources: SkyLibResourcesService,
-    modalSvc: SkyModalService,
-    textExpandAdapter: SkyTextExpandAdapterService,
-  ) {
-    this.#resources = resources;
-    this.#modalSvc = modalSvc;
-    this.#textExpandAdapter = textExpandAdapter;
-  }
+  readonly #resources = inject(SkyLibResourcesService);
+  readonly #modalSvc = inject(SkyModalService);
+  readonly #textExpandAdapter = inject(SkyTextExpandAdapterService);
 
   public textExpand(): void {
     if (this.isModal) {

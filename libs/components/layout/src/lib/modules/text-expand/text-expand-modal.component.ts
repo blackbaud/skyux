@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 import { SkyLayoutResourcesModule } from '../shared/sky-layout-resources.module';
@@ -17,11 +17,10 @@ import { SKY_TEXT_EXPAND_MODAL_CONTEXT } from './text-expand-modal-context-token
   imports: [SkyModalModule, SkyLayoutResourcesModule],
 })
 export class SkyTextExpandModalComponent {
-  constructor(
-    @Inject(SKY_TEXT_EXPAND_MODAL_CONTEXT)
-    public context: SkyTextExpandModalContext,
-    public instance: SkyModalInstance,
-  ) {}
+  public readonly context: SkyTextExpandModalContext = inject(
+    SKY_TEXT_EXPAND_MODAL_CONTEXT,
+  );
+  public readonly instance = inject(SkyModalInstance);
 
   public close(): void {
     this.instance.close();
