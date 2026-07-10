@@ -21,7 +21,6 @@ class MockChartBarComponent {}
       [subheadingText]="subheadingText"
     >
       <sky-chart-bar />
-      <div class="test-not-projected">Not projected</div>
     </sky-chart>
   `,
 })
@@ -74,18 +73,10 @@ describe('Chart component', () => {
     expect(getHeading()).toHaveText('My chart');
   });
 
-  it('should project sky-chart-bar content into the figure', () => {
+  it('should project the plot content into the figure', () => {
     fixture.detectChanges();
 
     expect(getFigure()?.querySelector('sky-chart-bar')).not.toBeNull();
-  });
-
-  it('should not project content other than sky-chart-bar', () => {
-    fixture.detectChanges();
-
-    expect(
-      fixture.nativeElement.querySelector('.test-not-projected'),
-    ).toBeNull();
   });
 
   it('should default headingHidden to false', () => {

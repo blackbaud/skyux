@@ -1,27 +1,25 @@
 import {
-  afterRenderEffect,
   ChangeDetectionStrategy,
   Component,
   computed,
   contentChild,
   contentChildren,
-  DestroyRef,
-  ElementRef,
   inject,
   input,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyLogService } from '@skyux/core';
 import { SkyThemeService } from '@skyux/theme';
-import { type ChartConfiguration, type ChartDataset } from 'chart.js/auto';
+import { type ChartDataset } from 'chart.js/auto';
 import { EMPTY, map } from 'rxjs';
 
 import { SkyChartAxisCategory } from '../axis/chart-axis-category';
 import { SkyChartAxisValue } from '../axis/chart-axis-value';
-import { SkyChartJs } from '../chart-js/chart-js';
+import { SkyChartJs, type SkyChartJsConfig } from '../chart-js/chart-js';
+import { SkyChartPlot } from '../chart-plot/chart-plot';
 import { SkyChartSeries } from '../chart-series/chart-series';
 import { SkyChartTable } from '../chart-table/chart-table';
-import { SkyChartTableService } from '../chart-table/chart-table-service';
+import { extendBaseChartConfig } from '../shared/base-chart-config';
 import {
   buildCartesianScales,
   buildCartesianTable,
@@ -38,10 +36,6 @@ import {
 } from '../shared/theme-css-utils';
 import { SkyChartBarOrientation } from './chart-bar-orientation';
 
-type BarChartConfig = ChartConfiguration<'bar'> & {
-  options: NonNullable<ChartConfiguration<'bar'>['options']>;
-};
-
 /**
  * @preview
  */
@@ -53,10 +47,8 @@ type BarChartConfig = ChartConfiguration<'bar'> & {
     <sky-chart-js [config]="config" />
   }`,
 })
-export class SkyChartBar {
-  readonly #elementRef = inject(ElementRef);
+export class SkyChartBar extends SkyChartPlot {
   readonly #logSvc = inject(SkyLogService);
-  readonly #tableSvc = inject(SkyChartTableService, { optional: true });
 
   // Chart.js renders to a canvas and cannot read CSS custom properties, so the
   // active theme's values must be resolved against a DOM element. Tracking the
@@ -80,17 +72,7 @@ export class SkyChartBar {
 
   protected readonly config = computed(() => this.#buildConfig());
 
-  constructor() {
-    inject(DestroyRef).onDestroy(() => {
-      this.#tableSvc?.table.set(undefined);
-    });
-
-    afterRenderEffect(() => {
-      this.#tableSvc?.table.set(this.#buildTable());
-    });
-  }
-
-  #buildTable(): SkyChartTable | undefined {
+  protected override buildTable(): SkyChartTable | undefined {
     const categoryAxis = this.categoryAxis();
     const valueAxes = this.valueAxes();
     const series = this.series();
@@ -102,7 +84,7 @@ export class SkyChartBar {
     return buildCartesianTable(categoryAxis, valueAxes, series);
   }
 
-  #buildConfig(): BarChartConfig | undefined {
+  #buildConfig(): SkyChartJsConfig<'bar'> | undefined {
     const categoryAxis = this.categoryAxis();
     const valueAxes = this.valueAxes();
     const series = this.series();
@@ -115,7 +97,7 @@ export class SkyChartBar {
     // then resolve the themed CSS custom properties to concrete values.
     this.#themeSettings();
 
-    const styles = getComputedStyle(this.#elementRef.nativeElement);
+    const styles = this.getThemedStyles();
 
     const barBorderColor = readThemeCssString(
       styles,
@@ -164,7 +146,7 @@ export class SkyChartBar {
       return dataset;
     });
 
-    return {
+    return extendBaseChartConfig<'bar'>(styles, {
       type: 'bar',
       data: {
         labels: categoryAxis.categories(),
@@ -197,6 +179,6 @@ export class SkyChartBar {
           },
         },
       },
-    };
+    });
   }
 }

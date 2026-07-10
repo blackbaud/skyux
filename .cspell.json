@@ -8,6 +8,7 @@
     "cyclomatic",
     "fetchpriority",
     "gantt",
+    "gridline",
     "interactable",
     "ngsrc",
     "novalidate",
