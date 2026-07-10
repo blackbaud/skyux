@@ -6,19 +6,15 @@ import {
   SkyChartBar,
   SkyChartSeries,
 } from '@skyux/charts';
-import { SkyBoxModule } from '@skyux/layout';
-import { SkyPageModule } from '@skyux/pages';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    SkyBoxModule,
     SkyChart,
     SkyChartAxisCategory,
     SkyChartAxisValue,
     SkyChartBar,
     SkyChartSeries,
-    SkyPageModule,
   ],
   selector: 'app-chart-bar-dual-axis',
   templateUrl: './chart-bar-dual-axis-playground.html',

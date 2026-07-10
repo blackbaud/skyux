@@ -15,28 +15,32 @@ import { EMPTY, map } from 'rxjs';
 
 import { SkyChartAxisCategory } from '../axis/chart-axis-category';
 import { SkyChartAxisValue } from '../axis/chart-axis-value';
-import { SkyChartJs, type SkyChartJsConfig } from '../chart-js/chart-js';
-import { SkyChartPlot } from '../chart-plot/chart-plot';
 import { SkyChartSeries } from '../chart-series/chart-series';
 import { SkyChartTable } from '../chart-table/chart-table';
-import { extendBaseChartConfig } from '../shared/base-chart-config';
 import {
   buildCartesianScales,
   buildCartesianTable,
   buildValueTooltipLabel,
+  CATEGORY_AXIS_ID,
   getValueAxisScaleKeys,
   hasCartesianData,
   resolveSeriesBindings,
-  SKY_CATEGORY_AXIS_ID,
 } from '../shared/cartesian-utils';
+import { SkyChartJs, type SkyChartJsConfig } from '../shared/chart-js';
+import { extendBaseChartConfig } from '../shared/chart-js-config-utils';
+import { SkyChartPlot } from '../shared/chart-plot';
 import {
   readThemeCategoricalPalette,
   readThemeCssNumber,
   readThemeCssString,
 } from '../shared/theme-css-utils';
 import { SkyChartBarOrientation } from './chart-bar-orientation';
+import { SkyChartBarSeriesLayout } from './chart-bar-series-layout';
 
 /**
+ * Renders a bar chart from a category axis, one or more value axes, and one or
+ * more series.
+ *
  * @preview
  */
 @Component({
@@ -65,6 +69,15 @@ export class SkyChartBar extends SkyChartPlot {
    * @default 'vertical'
    */
   public readonly orientation = input<SkyChartBarOrientation>('vertical');
+
+  /**
+   * How the bars of multiple series are arranged within each category.
+   * `grouped` places the series' bars side by side; `stacked` accumulates the
+   * bars of series that share a value axis into a single bar per category.
+   * This has no visible effect when the chart has a single series.
+   * @default 'grouped'
+   */
+  public readonly seriesLayout = input<SkyChartBarSeriesLayout>('grouped');
 
   protected readonly categoryAxis = contentChild(SkyChartAxisCategory);
   protected readonly valueAxes = contentChildren(SkyChartAxisValue);
@@ -137,10 +150,10 @@ export class SkyChartBar extends SkyChartPlot {
 
       if (isHorizontal) {
         dataset.xAxisID = valueKey;
-        dataset.yAxisID = SKY_CATEGORY_AXIS_ID;
+        dataset.yAxisID = CATEGORY_AXIS_ID;
       } else {
         dataset.yAxisID = valueKey;
-        dataset.xAxisID = SKY_CATEGORY_AXIS_ID;
+        dataset.xAxisID = CATEGORY_AXIS_ID;
       }
 
       return dataset;
@@ -166,6 +179,7 @@ export class SkyChartBar extends SkyChartPlot {
           valueAxes,
           valueAxisKeys,
           isHorizontal,
+          stacked: this.seriesLayout() === 'stacked',
           styles,
         }),
         plugins: {

@@ -1,6 +1,6 @@
-import { type SkyChartJsConfig } from '../chart-js/chart-js';
+import { type SkyChartJsConfig } from './chart-js';
 
-import { extendBaseChartConfig } from './base-chart-config';
+import { extendBaseChartConfig } from './chart-js-config-utils';
 
 type TooltipProbe = {
   enabled: boolean;

@@ -1,23 +1,14 @@
-<sky-page layout="blocks">
-  <sky-page-content>
-    <h2>Hidden axis labels</h2>
-    <sky-box headingText="Campaign performance">
-      <sky-box-content>
-        <sky-chart headingText="Acquisitions by year">
-          <sky-chart-bar>
-            <sky-chart-axis-category
-              labelText="Year"
-              labelHidden
-              [categories]="years"
-            />
-            <sky-chart-axis-value labelText="Acquisitions" labelHidden />
-            <sky-chart-series
-              labelText="Acquisitions by year"
-              [values]="acquisitions"
-            />
-          </sky-chart-bar>
-        </sky-chart>
-      </sky-box-content>
-    </sky-box>
-  </sky-page-content>
-</sky-page>
+<sky-chart headingText="Acquisitions by year">
+  <sky-chart-bar>
+    <sky-chart-axis-category
+      labelText="Year"
+      labelHidden
+      [categories]="years"
+    />
+    <sky-chart-axis-value labelText="Acquisitions" labelHidden />
+    <sky-chart-series
+      labelText="Acquisitions by year"
+      [values]="acquisitions"
+    />
+  </sky-chart-bar>
+</sky-chart>

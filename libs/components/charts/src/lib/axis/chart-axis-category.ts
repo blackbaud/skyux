@@ -6,6 +6,9 @@ import {
 } from '@angular/core';
 
 /**
+ * Defines the category axis of a chart. Its categories are shared by every
+ * series plotted against it, and each series' values align to them by index.
+ *
  * @preview
  */
 @Component({

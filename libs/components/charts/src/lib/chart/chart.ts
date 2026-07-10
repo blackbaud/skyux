@@ -23,9 +23,9 @@ import {
 import { SkyChartSubheading } from './chart-subheading';
 
 /**
- * @preview
- *
  * Provides a consistent heading, subheading, and layout wrapper for a chart.
+ *
+ * @preview
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

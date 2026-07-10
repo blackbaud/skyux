@@ -1,17 +1,8 @@
-<sky-page layout="blocks">
-  <sky-page-content>
-    <h2>Multiple series (grouped bars)</h2>
-    <sky-box headingText="Campaign performance">
-      <sky-box-content>
-        <sky-chart headingText="Actual vs. target">
-          <sky-chart-bar>
-            <sky-chart-axis-category labelText="Year" [categories]="years" />
-            <sky-chart-axis-value labelText="Acquisitions" />
-            <sky-chart-series labelText="Actual" [values]="actual" />
-            <sky-chart-series labelText="Target" [values]="target" />
-          </sky-chart-bar>
-        </sky-chart>
-      </sky-box-content>
-    </sky-box>
-  </sky-page-content>
-</sky-page>
+<sky-chart headingText="Actual vs. target">
+  <sky-chart-bar>
+    <sky-chart-axis-category labelText="Year" [categories]="years" />
+    <sky-chart-axis-value labelText="Acquisitions" />
+    <sky-chart-series labelText="Actual" [values]="actual" />
+    <sky-chart-series labelText="Target" [values]="target" />
+  </sky-chart-bar>
+</sky-chart>

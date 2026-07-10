@@ -18,6 +18,10 @@ import { SkyChartValueFormat } from '../shared/value-format';
 import { createSkyChartValueFormatter } from '../shared/value-formatter';
 
 /**
+ * Defines a value axis of a chart, which scales the plotted series and formats
+ * their values in axis labels, tooltips, and the data table. A chart can have
+ * more than one value axis.
+ *
  * @preview
  */
 @Component({

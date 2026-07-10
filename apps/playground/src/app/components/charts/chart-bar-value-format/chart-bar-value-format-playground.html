@@ -1,64 +1,36 @@
-<sky-page layout="blocks">
-  <sky-page-content>
-    <h2>Number (default)</h2>
+<sky-chart headingText="Acquisitions by month">
+  <sky-chart-bar>
+    <sky-chart-axis-category
+      labelHidden
+      labelText="Month"
+      [categories]="months"
+    />
+    <sky-chart-axis-value labelText="Acquisitions" />
+    <sky-chart-series labelText="Acquisitions" [values]="acquisitions" />
+  </sky-chart-bar>
+</sky-chart>
 
-    <sky-box headingText="Campaign performance">
-      <sky-box-content>
-        <sky-chart headingText="Acquisitions by month">
-          <sky-chart-bar>
-            <sky-chart-axis-category
-              labelHidden
-              labelText="Month"
-              [categories]="months"
-            />
-            <sky-chart-axis-value labelText="Acquisitions" />
-            <sky-chart-series
-              labelText="Acquisitions"
-              [values]="acquisitions"
-            />
-          </sky-chart-bar>
-        </sky-chart>
-      </sky-box-content>
-    </sky-box>
+<sky-chart headingText="Revenue by month">
+  <sky-chart-bar>
+    <sky-chart-axis-category
+      labelHidden
+      labelText="Month"
+      [categories]="months"
+    />
+    <sky-chart-axis-value
+      currencyCode="EUR"
+      digits="0"
+      format="currency"
+      labelText="Revenue"
+    />
+    <sky-chart-series labelText="Revenue" [values]="revenue" />
+  </sky-chart-bar>
+</sky-chart>
 
-    <h2>Currency</h2>
-
-    <sky-box headingText="Campaign performance">
-      <sky-box-content>
-        <sky-chart headingText="Revenue by month">
-          <sky-chart-bar>
-            <sky-chart-axis-category
-              labelHidden
-              labelText="Month"
-              [categories]="months"
-            />
-            <sky-chart-axis-value
-              currencyCode="EUR"
-              digits="0"
-              format="currency"
-              labelText="Revenue"
-            />
-            <sky-chart-series labelText="Revenue" [values]="revenue" />
-          </sky-chart-bar>
-        </sky-chart>
-      </sky-box-content>
-    </sky-box>
-
-    <h2>Percent</h2>
-
-    <sky-box headingText="Campaign performance">
-      <sky-box-content>
-        <sky-chart headingText="Conversion rate by month">
-          <sky-chart-bar>
-            <sky-chart-axis-category labelText="Month" [categories]="months" />
-            <sky-chart-axis-value format="percent" labelText="Conversion" />
-            <sky-chart-series
-              labelText="Conversion rate"
-              [values]="conversionRate"
-            />
-          </sky-chart-bar>
-        </sky-chart>
-      </sky-box-content>
-    </sky-box>
-  </sky-page-content>
-</sky-page>
+<sky-chart headingText="Conversion rate by month">
+  <sky-chart-bar>
+    <sky-chart-axis-category labelText="Month" [categories]="months" />
+    <sky-chart-axis-value format="percent" labelText="Conversion" />
+    <sky-chart-series labelText="Conversion rate" [values]="conversionRate" />
+  </sky-chart-bar>
+</sky-chart>

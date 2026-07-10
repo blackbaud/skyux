@@ -14,9 +14,11 @@ import { SkyChartValueFormat } from '../shared/value-format';
 
 import { SkyChartBar } from './chart-bar';
 import { SkyChartBarOrientation } from './chart-bar-orientation';
+import { SkyChartBarSeriesLayout } from './chart-bar-series-layout';
 
 type ScaleProbe = {
   position: string;
+  stacked?: boolean;
   grid: { drawOnChartArea: boolean };
   ticks: { callback: (value: number | string) => string };
 };
@@ -30,7 +32,7 @@ type ScaleProbe = {
   ],
   template: `
     @if (renderChart) {
-      <sky-chart-bar [orientation]="orientation">
+      <sky-chart-bar [orientation]="orientation" [seriesLayout]="seriesLayout">
         @if (renderCategoryAxis) {
           <sky-chart-axis-category labelText="Year" [categories]="categories" />
         }
@@ -66,6 +68,7 @@ class TestComponent {
   public renderSeries = true;
   public seriesLabel = 'Acquisitions';
   public seriesValueAxis: string | undefined;
+  public seriesLayout: SkyChartBarSeriesLayout = 'grouped';
   public valueAxisIds: (string | undefined)[] = [undefined];
   public values = [10, 20];
 }
@@ -98,7 +101,6 @@ describe('Chart bar component', () => {
   function getScale(chart: Chart<'bar'>, key: string): ScaleProbe {
     return chart.options.scales?.[key] as unknown as ScaleProbe;
   }
-
   function getTooltipLabel(
     chart: Chart<'bar'>,
   ): (context: TooltipItem<'bar'>) => string {
@@ -208,6 +210,23 @@ describe('Chart bar component', () => {
     expect(category.position).toBe('bottom');
     expect(value.position).toBe('left');
     expect(value.grid.drawOnChartArea).toBe(true);
+  });
+
+  it('should not stack the scales by default', () => {
+    fixture.detectChanges();
+
+    const chart = requireChart();
+    expect(getScale(chart, 'category').stacked).toBe(false);
+    expect(getScale(chart, 'value-0').stacked).toBe(false);
+  });
+
+  it('should stack the category and value scales when seriesLayout is stacked', () => {
+    component.seriesLayout = 'stacked';
+    fixture.detectChanges();
+
+    const chart = requireChart();
+    expect(getScale(chart, 'category').stacked).toBe(true);
+    expect(getScale(chart, 'value-0').stacked).toBe(true);
   });
 
   it('should assign the series a categorical data-visualization color', () => {

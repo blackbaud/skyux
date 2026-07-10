@@ -1,6 +1,6 @@
 import { type ChartOptions, type ChartType } from 'chart.js/auto';
 
-import { type SkyChartJsConfig } from '../chart-js/chart-js';
+import { type SkyChartJsConfig } from './chart-js';
 import { readThemeCssNumber, readThemeCssString } from './theme-css-utils';
 
 /**
@@ -39,7 +39,6 @@ function buildBaseChartOptions(styles: CSSStyleDeclaration): ChartOptions {
     animation: { duration: 400, easing: 'easeInOutQuart' },
 
     plugins: {
-      // SKY charts render their own legend, so Chart.js's is hidden.
       legend: { display: false },
       tooltip: {
         enabled: true,
@@ -47,7 +46,11 @@ function buildBaseChartOptions(styles: CSSStyleDeclaration): ChartOptions {
         displayColors: true,
         usePointStyle: true,
 
-        // Typography.
+        // Interaction
+        mode: 'index',
+        intersect: false,
+
+        // Typography
         titleColor: textColor,
         titleFont: {
           family: fontFamily,
@@ -64,7 +67,7 @@ function buildBaseChartOptions(styles: CSSStyleDeclaration): ChartOptions {
         footerColor: textColor,
         footerFont: bodyFont,
 
-        // Container.
+        // Container
         padding: {
           top: readThemeCssNumber(
             styles,
@@ -96,11 +99,10 @@ function buildBaseChartOptions(styles: CSSStyleDeclaration): ChartOptions {
         caretSize: 8,
         caretPadding: 4,
 
-        // Color-swatch icon.
+        // Color-swatch icon
         boxHeight: readThemeCssNumber(styles, '--sky-size-icon-xs', 16),
         boxWidth: readThemeCssNumber(styles, '--sky-size-icon-xs', 16),
         boxPadding: readThemeCssNumber(styles, '--sky-space-gap-icon-s', 4),
-        // Removes the colored box behind the point-style icon.
         multiKeyBackground: 'transparent',
 
         // Text spacing.

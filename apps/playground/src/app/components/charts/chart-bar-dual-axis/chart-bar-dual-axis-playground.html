@@ -1,26 +1,17 @@
-<sky-page layout="blocks">
-  <sky-page-content>
-    <h2>Dual value axes</h2>
-    <sky-box headingText="Campaign performance">
-      <sky-box-content>
-        <sky-chart headingText="Volume vs. revenue">
-          <sky-chart-bar>
-            <sky-chart-axis-category labelText="Year" [categories]="years" />
-            <sky-chart-axis-value axisId="count" labelText="Acquisitions" />
-            <sky-chart-axis-value axisId="revenue" labelText="Revenue (USD)" />
-            <sky-chart-series
-              labelText="New customers"
-              valueAxis="count"
-              [values]="acquisitions"
-            />
-            <sky-chart-series
-              labelText="Gross revenue"
-              valueAxis="revenue"
-              [values]="revenue"
-            />
-          </sky-chart-bar>
-        </sky-chart>
-      </sky-box-content>
-    </sky-box>
-  </sky-page-content>
-</sky-page>
+<sky-chart headingText="Volume vs. revenue">
+  <sky-chart-bar>
+    <sky-chart-axis-category labelText="Year" [categories]="years" />
+    <sky-chart-axis-value axisId="count" labelText="Acquisitions" />
+    <sky-chart-axis-value axisId="revenue" labelText="Revenue (USD)" />
+    <sky-chart-series
+      labelText="New customers"
+      valueAxis="count"
+      [values]="acquisitions"
+    />
+    <sky-chart-series
+      labelText="Gross revenue"
+      valueAxis="revenue"
+      [values]="revenue"
+    />
+  </sky-chart-bar>
+</sky-chart>

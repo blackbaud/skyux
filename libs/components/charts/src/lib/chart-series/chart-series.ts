@@ -1,6 +1,9 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 /**
+ * Defines a single series of values to plot on a chart, aligned to the
+ * category axis by index.
+ *
  * @preview
  */
 @Component({
