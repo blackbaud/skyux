@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.6.1](https://github.com/blackbaud/skyux/compare/14.6.0...14.6.1) (2026-07-10)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** checkbox styles not working in dark mode ([#4507](https://github.com/blackbaud/skyux/issues/4507)) ([dcf4e10](https://github.com/blackbaud/skyux/commit/dcf4e108179eb8a7c51d3d1638dffe0e80dcf878)), closes [AB#4044305](https://dev.azure.com/blackbaud/Products/_workitems/edit/4044305)
+
 ## [14.6.0](https://github.com/blackbaud/skyux/compare/14.5.1...14.6.0) (2026-07-09)
 
 
