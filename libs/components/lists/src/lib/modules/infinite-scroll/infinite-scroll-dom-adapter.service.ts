@@ -1,4 +1,4 @@
-import { ElementRef, Injectable, OnDestroy } from '@angular/core';
+import { ElementRef, Injectable, OnDestroy, inject } from '@angular/core';
 import { SkyAppWindowRef, SkyScrollableHostService } from '@skyux/core';
 
 import { Observable, Subject, fromEvent as observableFromEvent } from 'rxjs';
@@ -13,16 +13,10 @@ export class SkyInfiniteScrollDomAdapterService implements OnDestroy {
   #observer: MutationObserver | undefined;
   #parentChanges: Subject<void>;
   #parentChangesObs: Observable<void>;
-  #scrollableHostSvc: SkyScrollableHostService;
-  #windowRef: SkyAppWindowRef;
+  readonly #scrollableHostSvc = inject(SkyScrollableHostService);
+  readonly #windowRef = inject(SkyAppWindowRef);
 
-  constructor(
-    scrollableHostSvc: SkyScrollableHostService,
-    windowRef: SkyAppWindowRef,
-  ) {
-    this.#scrollableHostSvc = scrollableHostSvc;
-    this.#windowRef = windowRef;
-
+  constructor() {
     this.#parentChanges = new Subject<void>();
     this.#parentChangesObs = this.#parentChanges.asObservable();
   }

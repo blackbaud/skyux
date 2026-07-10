@@ -10,6 +10,7 @@ import {
   Output,
   QueryList,
   SimpleChanges,
+  inject,
 } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
 import {
@@ -166,12 +167,11 @@ export class SkyListComponent
 
   private ngUnsubscribe = new Subject<void>();
 
-  constructor(
-    private state: ListState,
-    private dispatcher: ListStateDispatcher,
-    logger: SkyLogService,
-  ) {
-    logger.deprecated('SkyListComponent', {
+  private readonly state = inject(ListState);
+  private readonly dispatcher = inject(ListStateDispatcher);
+
+  constructor() {
+    inject(SkyLogService).deprecated('SkyListComponent', {
       deprecationMajorVersion: 6,
       moreInfoUrl:
         'https://developer.blackbaud.com/skyux/components/data-manager',

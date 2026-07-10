@@ -1,4 +1,4 @@
-import { DebugElement } from '@angular/core';
+import { DebugElement, Injector, runInInjectionContext } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -178,7 +178,12 @@ describe('List View Checklist Component', () => {
 
     beforeEach(waitForAsync(() => {
       dispatcher = new ListStateDispatcher();
-      state = new ListState(dispatcher);
+      state = runInInjectionContext(
+        Injector.create({
+          providers: [{ provide: ListStateDispatcher, useValue: dispatcher }],
+        }),
+        () => new ListState(),
+      );
 
       TestBed.configureTestingModule({
         declarations: [ListViewChecklistTestComponent],
@@ -311,7 +316,12 @@ describe('List View Checklist Component', () => {
 
     beforeEach(waitForAsync(() => {
       dispatcher = new ListStateDispatcher();
-      state = new ListState(dispatcher);
+      state = runInInjectionContext(
+        Injector.create({
+          providers: [{ provide: ListStateDispatcher, useValue: dispatcher }],
+        }),
+        () => new ListState(),
+      );
 
       TestBed.configureTestingModule({
         declarations: [ListViewChecklistEmptyTestComponent],
@@ -381,7 +391,12 @@ describe('List View Checklist Component', () => {
 
     beforeEach(waitForAsync(() => {
       dispatcher = new ListStateDispatcher();
-      state = new ListState(dispatcher);
+      state = runInInjectionContext(
+        Injector.create({
+          providers: [{ provide: ListStateDispatcher, useValue: dispatcher }],
+        }),
+        () => new ListState(),
+      );
 
       TestBed.configureTestingModule({
         declarations: [ListViewChecklistPaginationTestComponent],
@@ -445,7 +460,12 @@ describe('List View Checklist Component', () => {
 
     beforeEach(waitForAsync(() => {
       dispatcher = new ListStateDispatcher();
-      state = new ListState(dispatcher);
+      state = runInInjectionContext(
+        Injector.create({
+          providers: [{ provide: ListStateDispatcher, useValue: dispatcher }],
+        }),
+        () => new ListState(),
+      );
 
       bs = new BehaviorSubject<any[]>(itemsArray);
       items = bs.asObservable();
@@ -756,9 +776,18 @@ describe('List View Checklist Component', () => {
 
     it('should run ListViewChecklistItemsLoadAction action without refresh', waitForAsync(() => {
       const checklistDispatcher = new ChecklistStateDispatcher();
-      const checklistState = new ChecklistState(
-        new ChecklistStateModel(),
-        checklistDispatcher,
+      const checklistModel = new ChecklistStateModel();
+      const checklistState = runInInjectionContext(
+        Injector.create({
+          providers: [
+            {
+              provide: ChecklistStateDispatcher,
+              useValue: checklistDispatcher,
+            },
+            { provide: ChecklistStateModel, useValue: checklistModel },
+          ],
+        }),
+        () => new ChecklistState(),
       );
       const items = [
         new ListViewChecklistItemModel('1', false),
@@ -786,7 +815,12 @@ describe('List View Checklist Component', () => {
 
     beforeEach(fakeAsync(() => {
       dispatcher = new ListStateDispatcher();
-      state = new ListState(dispatcher);
+      state = runInInjectionContext(
+        Injector.create({
+          providers: [{ provide: ListStateDispatcher, useValue: dispatcher }],
+        }),
+        () => new ListState(),
+      );
 
       bs = new BehaviorSubject<any[]>(itemsArray);
       items = bs.asObservable();
@@ -834,7 +868,12 @@ describe('List View Checklist Component', () => {
 
     beforeEach(fakeAsync(() => {
       dispatcher = new ListStateDispatcher();
-      state = new ListState(dispatcher);
+      state = runInInjectionContext(
+        Injector.create({
+          providers: [{ provide: ListStateDispatcher, useValue: dispatcher }],
+        }),
+        () => new ListState(),
+      );
 
       bs = new BehaviorSubject<any[]>(itemsArray);
       items = bs.asObservable();
@@ -922,7 +961,12 @@ describe('List View Checklist Component', () => {
 
     beforeEach(waitForAsync(() => {
       dispatcher = new ListStateDispatcher();
-      state = new ListState(dispatcher);
+      state = runInInjectionContext(
+        Injector.create({
+          providers: [{ provide: ListStateDispatcher, useValue: dispatcher }],
+        }),
+        () => new ListState(),
+      );
 
       bs = new BehaviorSubject<any[]>(itemsArray);
       items = bs.asObservable();
