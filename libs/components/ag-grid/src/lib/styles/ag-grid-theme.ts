@@ -144,7 +144,7 @@ export function getSkyAgGridThemeClassName(
 ): SkyAgGridThemeType {
   let theme = `ag-theme-sky-${editable ? 'data-entry-grid' : 'data-grid'}-`;
   if (themeSettings?.theme.name === 'modern') {
-    theme += `modern-${themeSettings.mode.name}`;
+    theme += `modern-light`;
     if (agGridThemeIsCompact(themeSettings, compactLayout)) {
       theme += `-compact`;
     }

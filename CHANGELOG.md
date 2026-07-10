@@ -1,6 +1,15 @@
 # Changelog
 
 
+## [14.6.0](https://github.com/blackbaud/skyux/compare/14.5.1...14.6.0) (2026-07-09)
+
+
+### Features
+
+* **components/packages:** create `convert-grid-to-data-grid` schematics ([#4488](https://github.com/blackbaud/skyux/issues/4488)) ([76d62ad](https://github.com/blackbaud/skyux/commit/76d62ad0cc3e43d64f2317085545e3bf4cf4247b)), closes [AB#3677447](https://dev.azure.com/blackbaud/Products/_workitems/edit/3677447)
+* **components/tabs:** add `tabWidth` input to sectioned form with `auto` sizing and harness/example support ([#4495](https://github.com/blackbaud/skyux/issues/4495)) ([2197c43](https://github.com/blackbaud/skyux/commit/2197c43b02d0741b3f110295b92d4e82da72d6d0)), closes [#4410](https://github.com/blackbaud/skyux/issues/4410) [AB#3934247](https://dev.azure.com/blackbaud/Products/_workitems/edit/3934247)
+* **components/tabs:** add `tabWidth` input to vertical tabset with `auto` sizing and harness/example support ([#4410](https://github.com/blackbaud/skyux/issues/4410)) ([1de7a6a](https://github.com/blackbaud/skyux/commit/1de7a6a88c06f55c54c0b7ffc6081e7d81aa2e78))
+
 ## [14.5.1](https://github.com/blackbaud/skyux/compare/14.5.0...14.5.1) (2026-07-08)
 
 
