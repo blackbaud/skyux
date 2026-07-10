@@ -4,6 +4,7 @@ import {
   Input,
   OnInit,
   forwardRef,
+  inject,
 } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
 import { AsyncList, ListItemModel, getValue } from '@skyux/list-builder-common';
@@ -71,13 +72,9 @@ export class SkyListPagingComponent
 
   public itemCount: Observable<number>;
 
-  constructor(
-    state: ListState,
-    dispatcher: ListStateDispatcher,
-    logger: SkyLogService,
-  ) {
-    super(state, dispatcher);
-    logger.deprecated('SkyListPagingComponent', {
+  constructor() {
+    super(inject(ListState), inject(ListStateDispatcher));
+    inject(SkyLogService).deprecated('SkyListPagingComponent', {
       deprecationMajorVersion: 6,
       moreInfoUrl:
         'https://developer.blackbaud.com/skyux/components/data-manager',

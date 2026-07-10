@@ -1,4 +1,4 @@
-import { Component, Inject, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 
 import { SkyListComponent } from '../list.component';
 
@@ -14,5 +14,5 @@ export class ListDualTestComponent {
   })
   public list: SkyListComponent;
 
-  constructor(@Inject('items') public items: any) {}
+  public readonly items: any = inject('items' as any);
 }

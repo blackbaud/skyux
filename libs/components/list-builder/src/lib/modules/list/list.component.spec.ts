@@ -1,4 +1,4 @@
-import { DebugElement } from '@angular/core';
+import { DebugElement, Injector, runInInjectionContext } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -66,7 +66,12 @@ describe('List Component', () => {
 
       beforeEach(waitForAsync(() => {
         dispatcher = new ListStateDispatcher();
-        state = new ListState(dispatcher);
+        state = runInInjectionContext(
+          Injector.create({
+            providers: [{ provide: ListStateDispatcher, useValue: dispatcher }],
+          }),
+          () => new ListState(),
+        );
 
         const itemsArray = [
           { id: '1', column1: '30', column2: 'Apple', column3: 1, column4: 1 },
@@ -375,7 +380,12 @@ describe('List Component', () => {
 
       beforeEach(waitForAsync(() => {
         dispatcher = new ListStateDispatcher();
-        state = new ListState(dispatcher);
+        state = runInInjectionContext(
+          Injector.create({
+            providers: [{ provide: ListStateDispatcher, useValue: dispatcher }],
+          }),
+          () => new ListState(),
+        );
 
         const itemsArray = [
           { id: '1', column1: '30', column2: 'Apple', column3: 1, column4: 1 },
@@ -808,7 +818,12 @@ describe('List Component', () => {
 
       beforeEach(waitForAsync(() => {
         dispatcher = new ListStateDispatcher();
-        state = new ListState(dispatcher);
+        state = runInInjectionContext(
+          Injector.create({
+            providers: [{ provide: ListStateDispatcher, useValue: dispatcher }],
+          }),
+          () => new ListState(),
+        );
 
         const itemsArray = [
           { id: '1', column1: '30', column2: 'Apple', column3: 1, column4: 1 },
@@ -999,7 +1014,12 @@ describe('List Component', () => {
 
       beforeEach(waitForAsync(() => {
         dispatcher = new ListStateDispatcher();
-        state = new ListState(dispatcher);
+        state = runInInjectionContext(
+          Injector.create({
+            providers: [{ provide: ListStateDispatcher, useValue: dispatcher }],
+          }),
+          () => new ListState(),
+        );
 
         const items = [
           { id: '1', column1: '1', column2: 'Apple', column3: 1, column4: 1 },
@@ -1074,7 +1094,12 @@ describe('List Component', () => {
 
       beforeEach(waitForAsync(() => {
         dispatcher = new ListStateDispatcher();
-        state = new ListState(dispatcher);
+        state = runInInjectionContext(
+          Injector.create({
+            providers: [{ provide: ListStateDispatcher, useValue: dispatcher }],
+          }),
+          () => new ListState(),
+        );
 
         const itemsArray = [
           { id: '1', column1: '1', column2: 'Apple', column3: 1, column4: 1 },
@@ -1190,7 +1215,12 @@ describe('List Component', () => {
 
       beforeEach(waitForAsync(() => {
         dispatcher = new ListStateDispatcher();
-        state = new ListState(dispatcher);
+        state = runInInjectionContext(
+          Injector.create({
+            providers: [{ provide: ListStateDispatcher, useValue: dispatcher }],
+          }),
+          () => new ListState(),
+        );
         dataProvider = new SkyListInMemoryDataProvider();
 
         TestBed.configureTestingModule({
@@ -1242,7 +1272,12 @@ describe('List Component', () => {
 
       beforeEach(waitForAsync(() => {
         dispatcher = new ListStateDispatcher();
-        state = new ListState(dispatcher);
+        state = runInInjectionContext(
+          Injector.create({
+            providers: [{ provide: ListStateDispatcher, useValue: dispatcher }],
+          }),
+          () => new ListState(),
+        );
 
         TestBed.configureTestingModule({
           imports: [
@@ -1298,7 +1333,12 @@ describe('List Component', () => {
 
       beforeEach(waitForAsync(() => {
         dispatcher = new ListStateDispatcher();
-        state = new ListState(dispatcher);
+        state = runInInjectionContext(
+          Injector.create({
+            providers: [{ provide: ListStateDispatcher, useValue: dispatcher }],
+          }),
+          () => new ListState(),
+        );
 
         const itemsArray = [
           { id: '1', column1: '30', column2: 'Apple', column3: 1, column4: 1 },
@@ -1445,7 +1485,12 @@ describe('List Component', () => {
 
       beforeEach(fakeAsync(() => {
         dispatcher = new ListStateDispatcher();
-        state = new ListState(dispatcher);
+        state = runInInjectionContext(
+          Injector.create({
+            providers: [{ provide: ListStateDispatcher, useValue: dispatcher }],
+          }),
+          () => new ListState(),
+        );
 
         state.pipe(skip(1), take(1)).subscribe(() => tick());
         tick();
@@ -1498,7 +1543,12 @@ describe('List Component', () => {
 
       beforeEach(fakeAsync(() => {
         dispatcher = new ListStateDispatcher();
-        state = new ListState(dispatcher);
+        state = runInInjectionContext(
+          Injector.create({
+            providers: [{ provide: ListStateDispatcher, useValue: dispatcher }],
+          }),
+          () => new ListState(),
+        );
 
         state.pipe(skip(1), take(1)).subscribe(() => tick());
         tick();

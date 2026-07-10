@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
 
 /**
@@ -16,8 +16,8 @@ import { SkyLogService } from '@skyux/core';
   standalone: false,
 })
 export class SkyListToolbarViewActionsComponent {
-  constructor(logger: SkyLogService) {
-    logger.deprecated('SkyListToolbarViewActionsComponent', {
+  constructor() {
+    inject(SkyLogService).deprecated('SkyListToolbarViewActionsComponent', {
       deprecationMajorVersion: 6,
       moreInfoUrl:
         'https://developer.blackbaud.com/skyux/components/data-manager',
