@@ -1,4 +1,4 @@
-import { Component, Inject, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 
@@ -20,7 +20,7 @@ export class ListSelectedTestComponent {
 
   public selectedIds: string[] | BehaviorSubject<string[]> = ['1', '2'];
 
-  constructor(@Inject('items') public items: any) {}
+  public readonly items: any = inject('items' as any);
 
   public selectedChangeFunction(selectedItems: Map<string, boolean>) {
     this.selectedItems = selectedItems;

@@ -271,10 +271,10 @@ export class SkyRepeaterItemComponent
 
   protected titleId: string | undefined;
 
-  #adapterService: SkyRepeaterAdapterService;
-  #changeDetector: ChangeDetectorRef;
+  readonly #adapterService = inject(SkyRepeaterAdapterService);
+  readonly #changeDetector = inject(ChangeDetectorRef);
   #contentInfoProvider = inject(SkyContentInfoProvider);
-  #elementRef: ElementRef;
+  readonly #elementRef = inject(ElementRef);
   #isExpanded = true;
   #keyboardReorderingEnabled = false;
   #ngUnsubscribe = new Subject<void>();
@@ -285,8 +285,8 @@ export class SkyRepeaterItemComponent
   #reorderMovedText = '';
   #reorderStateDescription = '';
   #reorderSteps = 0;
-  #repeaterService: SkyRepeaterService;
-  #resourceService: SkyLibResourcesService;
+  readonly #repeaterService = inject(SkyRepeaterService);
+  readonly #resourceService = inject(SkyLibResourcesService);
   #titleComponent: ElementRef | undefined;
   #_isCollapsible = true;
   #_isDisabled: boolean | undefined = false;
@@ -295,19 +295,7 @@ export class SkyRepeaterItemComponent
 
   readonly #idSvc = inject(SkyIdService);
 
-  constructor(
-    repeaterService: SkyRepeaterService,
-    changeDetector: ChangeDetectorRef,
-    adapterService: SkyRepeaterAdapterService,
-    elementRef: ElementRef,
-    resourceService: SkyLibResourcesService,
-  ) {
-    this.#repeaterService = repeaterService;
-    this.#changeDetector = changeDetector;
-    this.#adapterService = adapterService;
-    this.#elementRef = elementRef;
-    this.#resourceService = resourceService;
-
+  constructor() {
     this.#slideForExpanded();
 
     observableForkJoin([

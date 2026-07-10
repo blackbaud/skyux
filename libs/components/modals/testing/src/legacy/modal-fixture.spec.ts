@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, NgModule } from '@angular/core';
+import { Component, NgModule, inject } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -86,11 +86,7 @@ class TestComponent {
 
   #modalInstance: SkyModalInstance | undefined;
 
-  #modalService: SkyModalService;
-
-  constructor(modalService: SkyModalService) {
-    this.#modalService = modalService;
-  }
+  readonly #modalService = inject(SkyModalService);
 
   public launchModal() {
     this.#modalInstance = this.#modalService.open(TestModalComponent, {

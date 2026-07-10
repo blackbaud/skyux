@@ -3,6 +3,7 @@ import {
   Component,
   TemplateRef,
   ViewChild,
+  inject,
 } from '@angular/core';
 
 import { ListStateDispatcher } from '../list/state/list-state.rxstate';
@@ -31,7 +32,7 @@ export class SkyListFilterButtonComponent implements AfterViewInit {
 
   private filterButtonItemToolbarIndex = 5000;
 
-  constructor(private dispatcher: ListStateDispatcher) {}
+  private readonly dispatcher = inject(ListStateDispatcher);
 
   public ngAfterViewInit(): void {
     this.dispatcher.toolbarAddItems([

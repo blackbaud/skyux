@@ -3,6 +3,7 @@ import {
   Component,
   TemplateRef,
   ViewChild,
+  inject,
 } from '@angular/core';
 
 import { SkyListSecondaryActionsService } from './list-secondary-actions.service';
@@ -23,7 +24,7 @@ export class SkyListSecondaryActionComponent implements AfterContentInit {
   })
   private templateRef: TemplateRef<unknown>;
 
-  constructor(private actionService: SkyListSecondaryActionsService) {}
+  private readonly actionService = inject(SkyListSecondaryActionsService);
 
   public ngAfterContentInit(): void {
     this.actionService.addSecondaryAction({
