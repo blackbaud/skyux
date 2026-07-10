@@ -8,6 +8,7 @@ import {
   OnDestroy,
   Output,
   QueryList,
+  inject,
 } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
 
@@ -76,8 +77,8 @@ export class SkyCardComponent implements AfterContentInit, OnDestroy {
   #subscription: Subscription | undefined;
   #_size = 'large';
 
-  constructor(logger: SkyLogService) {
-    logger.deprecated('SkyCardComponent', {
+  constructor() {
+    inject(SkyLogService).deprecated('SkyCardComponent', {
       deprecationMajorVersion: 6,
       moreInfoUrl:
         'https://developer.blackbaud.com/skyux/design/guidelines/content-containers',

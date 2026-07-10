@@ -8,6 +8,7 @@ import {
   OnDestroy,
   Output,
   ViewChild,
+  inject,
   signal,
 } from '@angular/core';
 import { SkyCoreAdapterService } from '@skyux/core';
@@ -60,20 +61,10 @@ export class SkyInlineDeleteComponent implements OnDestroy {
 
   protected readonly enterAnimationTrigger = signal(true);
 
-  #adapterService: SkyInlineDeleteAdapterService;
-  #changeDetector: ChangeDetectorRef;
-  #elRef: ElementRef;
+  readonly #adapterService = inject(SkyInlineDeleteAdapterService);
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #elRef = inject(ElementRef);
   #initialized = false;
-
-  constructor(
-    adapterService: SkyInlineDeleteAdapterService,
-    changeDetector: ChangeDetectorRef,
-    elRef: ElementRef,
-  ) {
-    this.#adapterService = adapterService;
-    this.#changeDetector = changeDetector;
-    this.#elRef = elRef;
-  }
 
   protected onAnimationEnd(): void {
     if (!this.#initialized) {

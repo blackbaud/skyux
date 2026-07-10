@@ -4,6 +4,7 @@ import {
   OnDestroy,
   Renderer2,
   RendererFactory2,
+  inject,
 } from '@angular/core';
 
 const busyElements: Record<
@@ -26,8 +27,8 @@ export class SkyWaitAdapterService implements OnDestroy {
   #focusableElements: HTMLElement[] | undefined;
   #renderer: Renderer2;
 
-  constructor(rendererFactory: RendererFactory2) {
-    this.#renderer = rendererFactory.createRenderer(undefined, null);
+  constructor() {
+    this.#renderer = inject(RendererFactory2).createRenderer(undefined, null);
   }
 
   public ngOnDestroy(): void {

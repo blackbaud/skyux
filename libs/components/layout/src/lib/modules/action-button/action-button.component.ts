@@ -6,8 +6,8 @@ import {
   HostBinding,
   Input,
   Output,
-  SkipSelf,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import { SkyHrefChange } from '@skyux/router';
 
@@ -43,11 +43,7 @@ export class SkyActionButtonComponent {
   @Output()
   public actionClick = new EventEmitter<any>();
 
-  #changeDetector: ChangeDetectorRef;
-
-  constructor(@SkipSelf() changeDetector: ChangeDetectorRef) {
-    this.#changeDetector = changeDetector;
-  }
+  readonly #changeDetector = inject(ChangeDetectorRef, { skipSelf: true });
 
   public buttonClicked(): void {
     this.actionClick.emit();

@@ -30,6 +30,7 @@ export class SkyLibResourcesService {
   #providers: SkyLibResourcesProvider[] | undefined;
   #resourceNameProvider: SkyAppResourceNameProvider | undefined;
 
+  /* eslint-disable @angular-eslint/prefer-inject -- constructor injection is required to maintain the public API for consumers who may instantiate this service directly (e.g. `new SkyLibResourcesService(...)`) */
   constructor(
     localeProvider: SkyAppLocaleProvider,
     @Optional()
@@ -37,6 +38,7 @@ export class SkyLibResourcesService {
     providers?: SkyLibResourcesProvider[],
     @Optional() resourceNameProvider?: SkyAppResourceNameProvider,
   ) {
+    /* eslint-enable @angular-eslint/prefer-inject */
     this.#localeProvider = localeProvider;
     this.#providers = providers;
     this.#resourceNameProvider = resourceNameProvider;
