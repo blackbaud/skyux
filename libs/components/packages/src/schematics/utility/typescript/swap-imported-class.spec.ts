@@ -139,6 +139,42 @@ describe('swap-imported-class', () => {
     );
   });
 
+  it('should not duplicate a class name that is already imported when swapping to an array of class names', () => {
+    const path = 'file.ts';
+    const content = stripIndents`
+    import { SkyDataGrid } from 'new-module';
+    import { B } from 'old-module';
+
+    A(B) && SkyDataGrid;`;
+    tree.create(path, content);
+    const sourceFile = ts.createSourceFile(
+      path,
+      content,
+      ts.ScriptTarget.Latest,
+      true,
+    );
+
+    const recorder = tree.beginUpdate(path);
+    swapImportedClass(recorder, path, sourceFile, [
+      {
+        classNames: { B: ['SkyDataGrid', 'SkyDataGridColumn'] },
+        moduleName: {
+          old: 'old-module',
+          new: 'new-module',
+        },
+      },
+    ]);
+    tree.commitUpdate(recorder);
+
+    expect(tree.readText(path)).toBe(
+      stripIndents`
+      import { SkyDataGrid, SkyDataGridColumn } from 'new-module';` +
+        `\n\n\n` +
+        stripIndents`
+      A(SkyDataGrid, SkyDataGridColumn) && SkyDataGrid;`,
+    );
+  });
+
   it('should avoid double importing classes', () => {
     const path = 'file.ts';
     const content = stripIndents`
