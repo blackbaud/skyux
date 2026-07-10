@@ -10,6 +10,7 @@ import {
 } from '@skyux/core';
 
 import { SkyModalHostContext } from './modal-host-context';
+import { SKY_MODAL_HOST_CONTEXT_ARGS } from './modal-host-context-args-token';
 import { SkyModalHostComponent } from './modal-host.component';
 import { SkyModalInstance } from './modal-instance';
 import { SkyModalServiceInterface } from './modal-service-interface';
@@ -114,7 +115,7 @@ export class SkyModalService implements SkyModalServiceInterface {
         environmentInjector: this.#environmentInjector,
         providers: [
           {
-            provide: 'SkyModalHostContextArgs',
+            provide: SKY_MODAL_HOST_CONTEXT_ARGS,
             useValue: {
               teardownCallback: (): void => {
                 this.dispose();
