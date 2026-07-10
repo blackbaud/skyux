@@ -51,6 +51,7 @@ Thumbs.db
 .nx/self-healing
 .nx/workspace-data
 nx-cloud.env
+.local.env
 
 .claude/worktrees
 .cursor/rules/nx-rules.mdc

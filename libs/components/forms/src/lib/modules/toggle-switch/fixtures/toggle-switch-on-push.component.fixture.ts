@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  inject,
 } from '@angular/core';
 
 @Component({
@@ -10,9 +11,9 @@ import {
   standalone: false,
 })
 export class SkyToggleSwitchOnPushFixtureComponent {
+  public readonly ref = inject(ChangeDetectorRef);
+
   public isChecked = false;
 
   public showLabel = true;
-
-  constructor(public ref: ChangeDetectorRef) {}
 }
