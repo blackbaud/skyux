@@ -9,10 +9,10 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   QueryList,
   ViewChild,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import { SkyCoreAdapterService } from '@skyux/core';
 import { SkyThemeComponentClassDirective, SkyThemeService } from '@skyux/theme';
@@ -85,25 +85,11 @@ export class SkyActionButtonContainerComponent
 
   #viewInitialized = false;
 
-  #actionButtonAdapterService: SkyActionButtonAdapterService;
-  #changeDetector: ChangeDetectorRef;
-  #coreAdapterService: SkyCoreAdapterService;
-  #hostElRef: ElementRef;
-  #themeSvc: SkyThemeService | undefined;
-
-  constructor(
-    actionButtonAdapterService: SkyActionButtonAdapterService,
-    changeDetector: ChangeDetectorRef,
-    coreAdapterService: SkyCoreAdapterService,
-    hostElRef: ElementRef,
-    @Optional() themeSvc?: SkyThemeService,
-  ) {
-    this.#actionButtonAdapterService = actionButtonAdapterService;
-    this.#changeDetector = changeDetector;
-    this.#coreAdapterService = coreAdapterService;
-    this.#hostElRef = hostElRef;
-    this.#themeSvc = themeSvc;
-  }
+  readonly #actionButtonAdapterService = inject(SkyActionButtonAdapterService);
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #coreAdapterService = inject(SkyCoreAdapterService);
+  readonly #hostElRef = inject(ElementRef);
+  readonly #themeSvc = inject(SkyThemeService, { optional: true });
 
   public ngOnInit(): void {
     /* istanbul ignore else */

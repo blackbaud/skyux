@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { SkyDefinitionListService } from './definition-list.service';
 
@@ -16,5 +16,5 @@ import { SkyDefinitionListService } from './definition-list.service';
 export class SkyDefinitionListValueComponent {
   public defaultValue: string | undefined;
 
-  constructor(public service: SkyDefinitionListService) {}
+  public readonly service = inject(SkyDefinitionListService);
 }
