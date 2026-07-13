@@ -1,4 +1,4 @@
-import { ElementRef, Injectable } from '@angular/core';
+import { ElementRef, Injectable, inject } from '@angular/core';
 import { SkyAppWindowRef } from '@skyux/core';
 
 /**
@@ -6,10 +6,7 @@ import { SkyAppWindowRef } from '@skyux/core';
  */
 @Injectable()
 export class SkyToastAdapterService {
-  #windowRef: SkyAppWindowRef;
-  constructor(windowRef: SkyAppWindowRef) {
-    this.#windowRef = windowRef;
-  }
+  readonly #windowRef = inject(SkyAppWindowRef);
 
   public scrollBottom(elementRef: ElementRef): void {
     const element = elementRef.nativeElement;

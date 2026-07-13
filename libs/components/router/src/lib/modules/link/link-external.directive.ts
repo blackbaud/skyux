@@ -4,9 +4,9 @@ import {
   ElementRef,
   Input,
   OnChanges,
-  Optional,
   Renderer2,
   SimpleChanges,
+  inject,
 } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import {
@@ -34,35 +34,28 @@ export class SkyAppLinkExternalDirective
     this.routerLink = commands;
   }
 
-  #window: SkyAppWindowRef;
-  #skyAppConfig: SkyAppConfig | undefined;
-  #paramsProvider: SkyAppRuntimeConfigParamsProvider | undefined;
+  readonly #window = inject(SkyAppWindowRef);
+  readonly #skyAppConfig: SkyAppConfig | null;
+  readonly #paramsProvider = inject(SkyAppRuntimeConfigParamsProvider, {
+    optional: true,
+  });
 
-  constructor(
-    router: Router,
-    route: ActivatedRoute,
-    renderer: Renderer2,
-    elementRef: ElementRef,
-    platformLocation: PlatformLocation,
-    window: SkyAppWindowRef,
-    @Optional() skyAppConfig?: SkyAppConfig,
-    @Optional() paramsProvider?: SkyAppRuntimeConfigParamsProvider,
-    @Optional() hostConfig?: SkyAppConfigHost,
-  ) {
+  constructor() {
+    const skyAppConfig = inject(SkyAppConfig, { optional: true });
+    const hostConfig = inject(SkyAppConfigHost, { optional: true });
+
     super(
-      router,
-      route,
+      inject(Router),
+      inject(ActivatedRoute),
       undefined,
-      renderer,
-      elementRef,
+      inject(Renderer2),
+      inject(ElementRef),
       new PathLocationStrategy(
-        platformLocation,
+        inject(PlatformLocation),
         hostConfig ? hostConfig.host.url : skyAppConfig?.skyux.host?.url,
       ),
     );
-    this.#window = window;
     this.#skyAppConfig = skyAppConfig;
-    this.#paramsProvider = paramsProvider;
 
     if (
       this.#window.nativeWindow.window.name &&

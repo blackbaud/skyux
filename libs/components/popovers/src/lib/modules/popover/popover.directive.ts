@@ -101,14 +101,13 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
 
   #_trigger: SkyPopoverTrigger = 'click';
 
-  #elementRef: ElementRef;
+  readonly #elementRef = inject(ElementRef);
   #expanded = false;
   #popoverClosedSubscription: Subscription | undefined;
 
   readonly #srPointerSvc = inject(SkyPopoverSRPointerService);
 
-  constructor(elementRef: ElementRef) {
-    this.#elementRef = elementRef;
+  constructor() {
     this.#subscribeMessageStream();
   }
 

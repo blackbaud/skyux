@@ -5,6 +5,7 @@ import {
   Input,
   OnInit,
   TemplateRef,
+  inject,
 } from '@angular/core';
 
 import { SkyProgressIndicatorItemStatus } from '../types/progress-indicator-item-status';
@@ -123,17 +124,13 @@ export class SkyProgressIndicatorItemComponent implements OnInit {
   public statusName = STATUS_NAME_DEFAULT;
 
   #titlePrefix: string | undefined;
-  #changeDetector: ChangeDetectorRef;
+  readonly #changeDetector = inject(ChangeDetectorRef);
 
   #_isVisible = false;
   #_title: string | undefined;
   #_showStatusMarker = true;
   #_showTitle = true;
   #_status = STATUS_DEFAULT;
-
-  constructor(changeDetector: ChangeDetectorRef) {
-    this.#changeDetector = changeDetector;
-  }
 
   public ngOnInit(): void {
     this.#updateFormattedTitle();

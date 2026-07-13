@@ -1,4 +1,4 @@
-import { Injectable, Optional } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 import FontFaceObserver from 'fontfaceobserver';
 import { take } from 'rxjs/operators';
@@ -12,11 +12,7 @@ export class SkyAppStyleLoader {
   public static readonly LOAD_TIMEOUT = 3000;
   public isLoaded = false;
 
-  #themeSvc: SkyThemeService | undefined;
-
-  constructor(@Optional() themeSvc?: SkyThemeService) {
-    this.#themeSvc = themeSvc;
-  }
+  readonly #themeSvc = inject(SkyThemeService, { optional: true });
 
   public loadStyles(): Promise<any> {
     if (this.isLoaded) {
