@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  inject,
 } from '@angular/core';
 
 import { SkyHrefModule } from '../href.module';
@@ -39,11 +40,7 @@ export class HrefDirectiveFixtureComponent {
   #_dynamicElse: 'hide' | 'unlink' = 'hide';
   #_dynamicLink: string | any[] | undefined = '1bb-nav://simple-app/';
 
-  #changeDetectorRef: ChangeDetectorRef;
-
-  constructor(changeDetectorRef: ChangeDetectorRef) {
-    this.#changeDetectorRef = changeDetectorRef;
-  }
+  readonly #changeDetectorRef = inject(ChangeDetectorRef);
 
   public setSlowLink(value: boolean) {
     this.testSlowLink = value;

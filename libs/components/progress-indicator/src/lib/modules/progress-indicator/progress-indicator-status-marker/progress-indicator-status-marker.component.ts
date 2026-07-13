@@ -4,7 +4,7 @@ import {
   Component,
   Input,
   OnDestroy,
-  Optional,
+  inject,
 } from '@angular/core';
 import { SkyThemeService } from '@skyux/theme';
 
@@ -47,21 +47,16 @@ export class SkyProgressIndicatorStatusMarkerComponent implements OnDestroy {
   public isComplete = false;
 
   #ngUnsubscribe = new Subject<void>();
-  #changeDetector: ChangeDetectorRef;
+  readonly #changeDetector = inject(ChangeDetectorRef);
 
   #_status: SkyProgressIndicatorItemStatus =
     SkyProgressIndicatorItemStatus.Active;
   #_displayMode: 'vertical' | 'horizontal' = 'vertical';
 
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    @Optional() themeSvc?: SkyThemeService,
-  ) {
-    this.#changeDetector = changeDetector;
-
+  constructor() {
     // Update icons when theme changes.
-    themeSvc?.settingsChange
-      .pipe(takeUntil(this.#ngUnsubscribe))
+    inject(SkyThemeService, { optional: true })
+      ?.settingsChange.pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
         this.#changeDetector.markForCheck();
       });
