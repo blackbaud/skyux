@@ -1,0 +1,77 @@
+<ng-template #pct let-value="value">
+  {{ value | skyPercent }}
+</ng-template>
+<sky-page layout="fit">
+  <sky-page-header pageTitle="Data grid fit layout with tabs">
+    <sky-page-header-actions>
+      <button
+        class="sky-btn sky-btn-default"
+        type="button"
+        routerLink="/components/data-grid/fit-layout"
+      >
+        Data grid fit layout without tabs
+      </button>
+    </sky-page-header-actions>
+  </sky-page-header>
+
+  <sky-page-content>
+    <sky-tabset [(active)]="activeTabIndex">
+      <sky-tab tabHeading="Players A-M" tabIndexValue="am" layout="fit">
+        @defer (when activeTabIndex() === 'am') {
+          <sky-data-grid dock="fill" [data]="dataAM" [(sort)]="sortBy">
+            @for (column of columns; track column.field) {
+              <sky-data-grid-column
+                [columnHidden]="column.columnHidden"
+                [dataType]="column.dataType"
+                [field]="column.field"
+                [headingText]="column.headingText"
+                [sortable]="column.sortable"
+                [template]="column.field.endsWith('%') ? pct : undefined"
+                [width]="column.width"
+              />
+            }
+          </sky-data-grid>
+        }
+      </sky-tab>
+      <sky-tab tabHeading="Players N-Z" tabIndexValue="nz" layout="fit">
+        @defer (when activeTabIndex() === 'nz') {
+          <sky-data-grid dock="fill" [data]="dataNZ" [(sort)]="sortBy">
+            @for (column of columns; track column.field) {
+              <sky-data-grid-column
+                [columnHidden]="column.columnHidden"
+                [dataType]="column.dataType"
+                [field]="column.field"
+                [headingText]="column.headingText"
+                [sortable]="column.sortable"
+                [template]="column.field.endsWith('%') ? pct : undefined"
+                [width]="column.width"
+              />
+            }
+          </sky-data-grid>
+        }
+      </sky-tab>
+      <sky-tab tabHeading="Blocks" tabIndexValue="blocks" layout="blocks">
+        <div class="block-container">
+          <sky-fluid-grid gutterSize="medium" [disableMargin]="true">
+            <sky-row>
+              <sky-column [screenMedium]="6">
+                <sky-box headingText="Block 1">
+                  <sky-box-content>
+                    <app-lipsum paragraphs="1" />
+                  </sky-box-content>
+                </sky-box>
+              </sky-column>
+              <sky-column [screenMedium]="6">
+                <sky-box headingText="Block 2">
+                  <sky-box-content>
+                    <app-lipsum paragraphs="1" />
+                  </sky-box-content>
+                </sky-box>
+              </sky-column>
+            </sky-row>
+          </sky-fluid-grid>
+        </div>
+      </sky-tab>
+    </sky-tabset>
+  </sky-page-content>
+</sky-page>

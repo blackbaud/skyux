@@ -3,7 +3,12 @@
   "groups": {
     "data-grid-package": {
       "development": {
-        "docsIds": ["SkyDataGrid", "SkyDataGridColumn", "SkyDataGridSort"],
+        "docsIds": [
+          "SkyDataGrid",
+          "SkyDataGridColumn",
+          "SkyDataGridDockType",
+          "SkyDataGridSort"
+        ],
         "primaryDocsId": "SkyDataGrid"
       },
       "testing": {
