@@ -1,6 +1,27 @@
 # Changelog
 
 
+## [15.0.0-alpha.1](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.0...15.0.0-alpha.1) (2026-07-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/pages:** Needs-attention blocks without any items are no longer displayed.
+
+### Features
+
+* **components/data-grid:** create an easy mode for data grid ([#4430](https://github.com/blackbaud/skyux/issues/4430)) ([#4486](https://github.com/blackbaud/skyux/issues/4486)) ([8a96189](https://github.com/blackbaud/skyux/commit/8a96189ec8650952a24670144dc6e56d8b64a554)), closes [AB#3942528](https://dev.azure.com/blackbaud/Products/_workitems/edit/3942528) [AB#3965849](https://dev.azure.com/blackbaud/Products/_workitems/edit/3965849)
+* **components/packages:** create `convert-grid-to-data-grid` schematics ([#4488](https://github.com/blackbaud/skyux/issues/4488)) ([#4505](https://github.com/blackbaud/skyux/issues/4505)) ([4f198e5](https://github.com/blackbaud/skyux/commit/4f198e53b60480d80e2f4f970c5c05dfc305d862)), closes [AB#3677447](https://dev.azure.com/blackbaud/Products/_workitems/edit/3677447)
+* **components/pages:** hide needs-attention block when empty ([#4477](https://github.com/blackbaud/skyux/issues/4477)) ([ac7da1d](https://github.com/blackbaud/skyux/commit/ac7da1d57d21b73be111c79cd1812ecbcaf4403b))
+* **components/tabs:** add `tabWidth` input to sectioned form with `auto` sizing and harness/example support ([#4495](https://github.com/blackbaud/skyux/issues/4495)) ([#4496](https://github.com/blackbaud/skyux/issues/4496)) ([2a081f8](https://github.com/blackbaud/skyux/commit/2a081f8890648caa366e7ba00cc6f1970ffce0e5)), closes [AB#3934247](https://dev.azure.com/blackbaud/Products/_workitems/edit/3934247)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** checkbox styles not working in dark mode ([#4507](https://github.com/blackbaud/skyux/issues/4507)) ([#4508](https://github.com/blackbaud/skyux/issues/4508)) ([f0b3a8f](https://github.com/blackbaud/skyux/commit/f0b3a8fe54df1449aae58b5ce77a52428527daf5)), closes [AB#4044305](https://dev.azure.com/blackbaud/Products/_workitems/edit/4044305)
+* **components/ag-grid:** header focus ring should meet minimum contrast ratio ([#4481](https://github.com/blackbaud/skyux/issues/4481)) ([#4483](https://github.com/blackbaud/skyux/issues/4483)) ([3ea6b79](https://github.com/blackbaud/skyux/commit/3ea6b79a0ea4f1a018df0aed710f85c0b9790da6)), closes [AB#3693206](https://dev.azure.com/blackbaud/Products/_workitems/edit/3693206)
+* **components/text-editor:** update `dompurify` to address a security vulnerability ([#4489](https://github.com/blackbaud/skyux/issues/4489)) ([#4490](https://github.com/blackbaud/skyux/issues/4490)) ([9f84cb8](https://github.com/blackbaud/skyux/commit/9f84cb8279f8dfe6b2199992b1e0e772e2ff94ab))
+
 ## [14.6.1](https://github.com/blackbaud/skyux/compare/14.6.0...14.6.1) (2026-07-13)
 
 
