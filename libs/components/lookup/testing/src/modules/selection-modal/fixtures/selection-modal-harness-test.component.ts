@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   SkySelectionModalOpenArgs,
   SkySelectionModalService,
@@ -12,11 +12,7 @@ import {
 export class SelectionModalHarnessTestComponent {
   public selectedItems: { id: string; name: string }[] | undefined;
 
-  #selectionModalSvc: SkySelectionModalService;
-
-  constructor(selectionModalSvc: SkySelectionModalService) {
-    this.#selectionModalSvc = selectionModalSvc;
-  }
+  readonly #selectionModalSvc = inject(SkySelectionModalService);
 
   public showSelectionModal(args: SkySelectionModalOpenArgs): void {
     const instance = this.#selectionModalSvc.open(args);

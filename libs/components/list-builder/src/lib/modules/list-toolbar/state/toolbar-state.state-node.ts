@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { StateNode } from '@skyux/list-builder-common';
 
 import { ListToolbarConfigOrchestrator } from './config/config.orchestrator';
@@ -10,11 +10,8 @@ import { ListToolbarStateDispatcher } from './toolbar-state.rxstate';
  */
 @Injectable()
 export class ListToolbarState extends StateNode<ListToolbarStateModel> {
-  constructor(
-    initialState: ListToolbarStateModel,
-    dispatcher: ListToolbarStateDispatcher,
-  ) {
-    super(initialState, dispatcher);
+  constructor() {
+    super(inject(ListToolbarStateModel), inject(ListToolbarStateDispatcher));
 
     this.register('config', ListToolbarConfigOrchestrator).begin();
   }

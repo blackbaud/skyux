@@ -1,4 +1,4 @@
-import { Component, ViewChild, model } from '@angular/core';
+import { Component, ViewChild, inject, model } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormControl,
@@ -37,7 +37,9 @@ export class SkyLookupInputBoxTestComponent {
 
   public selectMode: SkyLookupSelectModeType | undefined;
 
-  constructor(formBuilder: UntypedFormBuilder) {
+  constructor() {
+    const formBuilder = inject(UntypedFormBuilder);
+
     this.data = [
       { id: 1, name: 'Andy' },
       { id: 2, name: 'Beth' },

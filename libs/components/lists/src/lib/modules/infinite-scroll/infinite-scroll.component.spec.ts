@@ -1,3 +1,4 @@
+import { Injector, runInInjectionContext } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import {
@@ -20,9 +21,18 @@ describe('Infinite scroll', () => {
 
   beforeEach(() => {
     const windowRef = new SkyAppWindowRef();
-    adapter = new SkyInfiniteScrollDomAdapterService(
-      new SkyScrollableHostService(new SkyMutationObserverService(), windowRef),
+    const scrollableHostSvc = new SkyScrollableHostService(
+      new SkyMutationObserverService(),
       windowRef,
+    );
+    adapter = runInInjectionContext(
+      Injector.create({
+        providers: [
+          { provide: SkyScrollableHostService, useValue: scrollableHostSvc },
+          { provide: SkyAppWindowRef, useValue: windowRef },
+        ],
+      }),
+      () => new SkyInfiniteScrollDomAdapterService(),
     );
 
     parentChangesSpy = spyOn(adapter, 'parentChanges').and.callThrough();

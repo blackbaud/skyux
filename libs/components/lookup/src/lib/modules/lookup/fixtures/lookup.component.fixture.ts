@@ -1,4 +1,10 @@
-import { Component, TemplateRef, ViewChild, model } from '@angular/core';
+import {
+  Component,
+  TemplateRef,
+  ViewChild,
+  inject,
+  model,
+} from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormControl,
@@ -99,7 +105,9 @@ export class SkyLookupTestComponent {
 
   #_friends: any[] = [];
 
-  constructor(formBuilder: UntypedFormBuilder) {
+  constructor() {
+    const formBuilder = inject(UntypedFormBuilder);
+
     this.data = [
       {
         name: 'Andy',
