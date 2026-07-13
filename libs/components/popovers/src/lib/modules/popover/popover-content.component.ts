@@ -6,9 +6,9 @@ import {
   HostBinding,
   OnDestroy,
   OnInit,
-  Optional,
   ViewChild,
   ViewContainerRef,
+  inject,
   signal,
 } from '@angular/core';
 import {
@@ -112,35 +112,19 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
 
   #_opened = new Subject<void>();
 
-  #changeDetector: ChangeDetectorRef;
-  #elementRef: ElementRef;
-  #affixService: SkyAffixService;
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #elementRef = inject(ElementRef);
+  readonly #affixService = inject(SkyAffixService);
   #arrowAffixer: SkyAffixer | undefined;
-  #coreAdapterService: SkyCoreAdapterService;
-  #context: SkyPopoverContext;
-  #themeSvc: SkyThemeService | undefined;
+  readonly #coreAdapterService = inject(SkyCoreAdapterService);
+  readonly #context = inject(SkyPopoverContext);
+  readonly #themeSvc = inject(SkyThemeService, { optional: true });
 
   /**
    * Tracks the pending `setTimeout` in `open()` so `close()` and
    * `ngOnDestroy()` can cancel it before it fires.
    */
   #openTimeoutId: ReturnType<typeof setTimeout> | undefined;
-
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    elementRef: ElementRef,
-    affixService: SkyAffixService,
-    coreAdapterService: SkyCoreAdapterService,
-    context: SkyPopoverContext,
-    @Optional() themeSvc?: SkyThemeService,
-  ) {
-    this.#changeDetector = changeDetector;
-    this.#elementRef = elementRef;
-    this.#affixService = affixService;
-    this.#coreAdapterService = coreAdapterService;
-    this.#context = context;
-    this.#themeSvc = themeSvc;
-  }
 
   public hasFocusableContent(): boolean {
     return (

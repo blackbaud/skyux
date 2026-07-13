@@ -10,7 +10,6 @@ import {
   Input,
   OnChanges,
   OnDestroy,
-  Optional,
   Output,
   SimpleChanges,
   TemplateRef,
@@ -178,8 +177,12 @@ export class SkyTileComponent implements AfterViewInit, OnChanges, OnDestroy {
   @ContentChild(SkyTileTitleComponent, { read: ElementRef })
   protected titleRef: ElementRef | undefined;
 
-  #changeDetector: ChangeDetectorRef;
-  #dashboardService: SkyTileDashboardService | undefined;
+  public elementRef = inject(ElementRef);
+
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #dashboardService = inject(SkyTileDashboardService, {
+    optional: true,
+  });
   #ngUnsubscribe = new Subject<void>();
   #_isCollapsed = false;
 
@@ -187,13 +190,7 @@ export class SkyTileComponent implements AfterViewInit, OnChanges, OnDestroy {
 
   readonly #logSvc = inject(SkyLogService);
 
-  constructor(
-    public elementRef: ElementRef,
-    changeDetector: ChangeDetectorRef,
-    @Optional() dashboardService?: SkyTileDashboardService,
-  ) {
-    this.#changeDetector = changeDetector;
-    this.#dashboardService = dashboardService;
+  constructor() {
     this.isInDashboardColumn = !!this.#dashboardService;
 
     if (this.#dashboardService) {

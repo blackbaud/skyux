@@ -10,6 +10,7 @@ import {
   OnInit,
   Output,
   QueryList,
+  inject,
 } from '@angular/core';
 import { SkyAppWindowRef, SkyLogService } from '@skyux/core';
 
@@ -159,19 +160,9 @@ export class SkyProgressIndicatorComponent
   #messageStream = new Subject<
     SkyProgressIndicatorMessage | SkyProgressIndicatorMessageType
   >();
-  #changeDetector: ChangeDetectorRef;
-  #windowRef: SkyAppWindowRef;
-  #logger: SkyLogService;
-
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    windowRef: SkyAppWindowRef,
-    logger: SkyLogService,
-  ) {
-    this.#changeDetector = changeDetector;
-    this.#windowRef = windowRef;
-    this.#logger = logger;
-  }
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #windowRef = inject(SkyAppWindowRef);
+  readonly #logger = inject(SkyLogService);
 
   public ngOnInit(): void {
     this.#initialized = true;

@@ -3,8 +3,8 @@ import {
   ElementRef,
   Input,
   OnDestroy,
-  Optional,
   Renderer2,
+  inject,
 } from '@angular/core';
 
 import { Subject } from 'rxjs';
@@ -68,16 +68,11 @@ export class SkyThemeClassDirective implements OnDestroy {
   #initialClasses: string[] = [];
   #skyThemeClassMap: SkyThemeClassMap | undefined;
 
-  #ngEl: ElementRef;
-  #renderer: Renderer2;
+  readonly #ngEl = inject(ElementRef);
+  readonly #renderer = inject(Renderer2);
 
-  constructor(
-    ngEl: ElementRef,
-    renderer: Renderer2,
-    @Optional() themeSvc?: SkyThemeService,
-  ) {
-    this.#ngEl = ngEl;
-    this.#renderer = renderer;
+  constructor() {
+    const themeSvc = inject(SkyThemeService, { optional: true });
     if (themeSvc) {
       themeSvc.settingsChange
         .pipe(takeUntil(this.#ngUnsubscribe))
