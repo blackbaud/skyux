@@ -75,17 +75,14 @@ export class SkyFileItemComponent implements DoCheck {
 
   #_fileItem: SkyFileItem | SkyFileLink | undefined;
 
-  #differ: KeyValueDiffer<any, any>;
-  #fileItemService: SkyFileItemService;
+  readonly #differ: KeyValueDiffer<any, any> = inject(KeyValueDiffers)
+    .find({})
+    .create();
+  readonly #fileItemService = inject(SkyFileItemService);
 
   readonly #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
 
   readonly #resourcesSvc = inject(SkyLibResourcesService);
-
-  constructor(differs: KeyValueDiffers, fileItemService: SkyFileItemService) {
-    this.#differ = differs.find({}).create();
-    this.#fileItemService = fileItemService;
-  }
 
   public ngDoCheck(): void {
     if (this.fileItem) {

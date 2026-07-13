@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { SkyFlyoutService } from '../../flyout/flyout.service';
 import { SkyFlyoutConfig } from '../../flyout/types/flyout-config';
@@ -20,11 +20,7 @@ export function flyoutTestSampleFactory(): SkyFlyoutTestSampleContext {
   standalone: false,
 })
 export class SkyFlyoutTestComponent {
-  #flyoutService: SkyFlyoutService;
-
-  constructor(flyoutService: SkyFlyoutService) {
-    this.#flyoutService = flyoutService;
-  }
+  readonly #flyoutService = inject(SkyFlyoutService);
 
   public openFlyout(options?: SkyFlyoutConfig): SkyFlyoutInstance<any> {
     if (!options) {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { SkyFuzzyDate } from '../../datepicker/fuzzy/fuzzy-date';
 import { SkyDatePipeModule } from '../date-pipe.module';
@@ -20,11 +20,7 @@ export class FuzzyDatePipeTestComponent {
 
   public locale: string | undefined;
 
-  #fuzzyDatePipe: SkyFuzzyDatePipe;
-
-  constructor(fuzzyDatePipe: SkyFuzzyDatePipe) {
-    this.#fuzzyDatePipe = fuzzyDatePipe;
-  }
+  readonly #fuzzyDatePipe = inject(SkyFuzzyDatePipe);
 
   public getFuzzyDatePipeResult(
     value: SkyFuzzyDate,

@@ -46,11 +46,8 @@ class ModalWithKeepWorkingPromptTestContext {
   standalone: false,
 })
 class TestKeepWaitingPromptComponent {
-  public isDirty: boolean;
-
-  constructor(context: ModalWithKeepWorkingPromptTestContext) {
-    this.isDirty = context.isDirty;
-  }
+  public isDirty: boolean = inject(ModalWithKeepWorkingPromptTestContext)
+    .isDirty;
 }
 
 @Component({

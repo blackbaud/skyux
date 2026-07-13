@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -53,9 +53,9 @@ export class FileAttachmentTestComponent {
   @ViewChild(SkyFileAttachmentComponent)
   public fileAttachmentComponent!: SkyFileAttachmentComponent;
 
-  constructor(formBuilder: UntypedFormBuilder) {
+  constructor() {
     this.attachment = new UntypedFormControl(undefined);
-    this.fileForm = formBuilder.group({
+    this.fileForm = inject(UntypedFormBuilder).group({
       attachment: this.attachment,
     });
   }

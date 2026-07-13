@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormControl,
@@ -44,11 +44,7 @@ export class DatepickerReactiveTestComponent implements OnInit {
   @ViewChild(SkyDatepickerComponent)
   public datepicker!: SkyDatepickerComponent;
 
-  #formBuilder: UntypedFormBuilder;
-
-  constructor(formBuilder: UntypedFormBuilder) {
-    this.#formBuilder = formBuilder;
-  }
+  readonly #formBuilder = inject(UntypedFormBuilder);
 
   public ngOnInit() {
     this.dateControl = new UntypedFormControl(this.initialValue);

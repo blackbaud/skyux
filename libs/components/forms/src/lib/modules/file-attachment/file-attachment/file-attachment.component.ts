@@ -13,10 +13,8 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   Output,
   QueryList,
-  Self,
   TemplateRef,
   ViewChild,
   booleanAttribute,
@@ -298,16 +296,19 @@ export class SkyFileAttachmentComponent
 
   #_value: SkyFileItem | undefined;
 
-  #changeDetector: ChangeDetectorRef;
-  #fileAttachmentService: SkyFileAttachmentService;
-  #fileItemService: SkyFileItemService;
-  #themeSvc: SkyThemeService | undefined;
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #fileAttachmentService = inject(SkyFileAttachmentService);
+  readonly #fileItemService = inject(SkyFileItemService);
+  readonly #themeSvc = inject(SkyThemeService, { optional: true });
 
   readonly #idSvc = inject(SkyIdService);
   readonly #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
   readonly #resourcesSvc = inject(SkyLibResourcesService);
 
-  protected ngControl: NgControl | undefined;
+  protected readonly ngControl = inject(NgControl, {
+    optional: true,
+    self: true,
+  });
   protected errorId = this.#idSvc.generateId();
   protected labelId = this.#idSvc.generateId();
 
@@ -315,19 +316,7 @@ export class SkyFileAttachmentComponent
   protected fileErrorParam: string | undefined;
   protected fileErrorValidation: ValidationErrors | null | undefined;
 
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    fileAttachmentService: SkyFileAttachmentService,
-    fileItemService: SkyFileItemService,
-    @Self() @Optional() ngControl?: NgControl,
-    @Optional() themeSvc?: SkyThemeService,
-  ) {
-    this.#changeDetector = changeDetector;
-    this.#fileAttachmentService = fileAttachmentService;
-    this.#fileItemService = fileItemService;
-    this.ngControl = ngControl;
-    this.#themeSvc = themeSvc;
-
+  constructor() {
     if (this.ngControl) {
       this.ngControl.valueAccessor = this;
     }

@@ -5,6 +5,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  inject,
 } from '@angular/core';
 import { SkyWaitModule } from '@skyux/indicators';
 
@@ -56,16 +57,12 @@ export class SkyDayPickerComponent implements OnDestroy, OnInit {
   public title = '';
   public rows: SkyDayPickerContext[][] = [];
   public weekNumbers: number[] = [];
-  public datepicker: SkyDatepickerCalendarInnerComponent;
+  public readonly datepicker = inject(SkyDatepickerCalendarInnerComponent);
   public CURRENT_THEME_TEMPLATE: any;
 
   #daysInMonth: number[] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
   #initialDate: number | undefined;
   #ngUnsubscribe = new Subject<void>();
-
-  constructor(datepicker: SkyDatepickerCalendarInnerComponent) {
-    this.datepicker = datepicker;
-  }
 
   public ngOnInit(): void {
     this.datepicker.stepDay = { months: 1 };

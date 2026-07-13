@@ -11,6 +11,7 @@ import {
   OnInit,
   Renderer2,
   forwardRef,
+  inject,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -138,19 +139,9 @@ export class SkyTimepickerInputDirective
   #_modelValue: SkyTimepickerTimeOutput | undefined;
   #_skyTimepickerInput: SkyTimepickerComponent | undefined;
 
-  #renderer: Renderer2;
-  #elRef: ElementRef;
-  #changeDetector: ChangeDetectorRef;
-
-  constructor(
-    renderer: Renderer2,
-    elRef: ElementRef,
-    changeDetector: ChangeDetectorRef,
-  ) {
-    this.#renderer = renderer;
-    this.#elRef = elRef;
-    this.#changeDetector = changeDetector;
-  }
+  readonly #renderer = inject(Renderer2);
+  readonly #elRef = inject(ElementRef);
+  readonly #changeDetector = inject(ChangeDetectorRef);
 
   public ngOnInit(): void {
     this.#renderer.addClass(this.#elRef.nativeElement, 'sky-form-control');

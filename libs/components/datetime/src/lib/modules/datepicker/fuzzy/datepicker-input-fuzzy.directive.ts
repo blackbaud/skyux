@@ -8,7 +8,6 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   Renderer2,
   forwardRef,
   inject,
@@ -261,40 +260,29 @@ export class SkyFuzzyDatepickerInputDirective
 
   #_yearRequired: boolean | undefined = false;
 
-  #changeDetector: ChangeDetectorRef;
-  #configService: SkyDatepickerConfigService;
-  #elementRef: ElementRef;
-  #fuzzyDateService: SkyFuzzyDateService;
-  #renderer: Renderer2;
-  #datepickerComponent: SkyDatepickerComponent;
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #configService = inject(SkyDatepickerConfigService);
+  readonly #elementRef = inject(ElementRef);
+  readonly #fuzzyDateService = inject(SkyFuzzyDateService);
+  readonly #renderer = inject(Renderer2);
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  readonly #datepickerComponent: SkyDatepickerComponent = inject(
+    SkyDatepickerComponent,
+    { optional: true },
+  )!;
 
   readonly #datepickerHostSvc = inject(SkyDatepickerHostService, {
     optional: true,
   });
 
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    configService: SkyDatepickerConfigService,
-    elementRef: ElementRef,
-    fuzzyDateService: SkyFuzzyDateService,
-    localeProvider: SkyAppLocaleProvider,
-    renderer: Renderer2,
-    @Optional() datepickerComponent?: SkyDatepickerComponent,
-  ) {
-    if (!datepickerComponent) {
+  constructor() {
+    if (!this.#datepickerComponent) {
       throw new Error(
         'You must wrap the `skyFuzzyDatepickerInput` directive within a ' +
           '`<sky-datepicker>` component!',
       );
     }
-
-    this.#changeDetector = changeDetector;
-    this.#configService = configService;
-    this.#elementRef = elementRef;
-    this.#fuzzyDateService = fuzzyDateService;
-    this.#renderer = renderer;
-    this.#datepickerComponent = datepickerComponent;
-
+    const localeProvider = inject(SkyAppLocaleProvider);
     this.#locale = localeProvider.defaultLocale;
     localeProvider
       .getLocaleInfo()

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 
 import { SkyDatepickerCalendarInnerComponent } from './datepicker-calendar-inner.component';
 import { SkyDatepickerCalendarLabelPipe } from './datepicker-calendar-label.pipe';
@@ -21,5 +21,5 @@ export class SkyDayPickerButtonComponent {
   @Input()
   public date: SkyDayPickerContext | undefined;
 
-  constructor(public datepicker: SkyDatepickerCalendarInnerComponent) {}
+  public readonly datepicker = inject(SkyDatepickerCalendarInnerComponent);
 }

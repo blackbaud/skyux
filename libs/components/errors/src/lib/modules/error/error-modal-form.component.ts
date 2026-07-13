@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SkyIdModule } from '@skyux/core';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
@@ -14,8 +14,6 @@ import { ErrorModalConfig } from './error-modal-config';
   imports: [SkyIdModule, SkyModalModule],
 })
 export class SkyErrorModalFormComponent {
-  constructor(
-    public context: ErrorModalConfig,
-    public instance: SkyModalInstance,
-  ) {}
+  public readonly context = inject(ErrorModalConfig);
+  public readonly instance = inject(SkyModalInstance);
 }

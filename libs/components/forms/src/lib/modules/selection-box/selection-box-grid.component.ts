@@ -8,10 +8,10 @@ import {
   NgZone,
   OnDestroy,
   OnInit,
-  Optional,
   QueryList,
   ViewChild,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 import { SkyCoreAdapterService, SkyMutationObserverService } from '@skyux/core';
 import { SkyThemeService } from '@skyux/theme';
@@ -85,28 +85,12 @@ export class SkySelectionBoxGridComponent implements OnDestroy, OnInit {
 
   #_containerElementRef: ElementRef | undefined;
 
-  #coreAdapterService: SkyCoreAdapterService;
-  #selectionBoxAdapter: SkySelectionBoxAdapterService;
-  #hostElRef: ElementRef;
-  #mutationObserverSvc: SkyMutationObserverService;
-  #ngZone: NgZone;
-  #themeSvc: SkyThemeService | undefined;
-
-  constructor(
-    coreAdapterService: SkyCoreAdapterService,
-    selectionBoxAdapter: SkySelectionBoxAdapterService,
-    hostElRef: ElementRef,
-    mutationObserverSvc: SkyMutationObserverService,
-    ngZone: NgZone,
-    @Optional() themeSvc?: SkyThemeService,
-  ) {
-    this.#coreAdapterService = coreAdapterService;
-    this.#selectionBoxAdapter = selectionBoxAdapter;
-    this.#hostElRef = hostElRef;
-    this.#mutationObserverSvc = mutationObserverSvc;
-    this.#ngZone = ngZone;
-    this.#themeSvc = themeSvc;
-  }
+  readonly #coreAdapterService = inject(SkyCoreAdapterService);
+  readonly #selectionBoxAdapter = inject(SkySelectionBoxAdapterService);
+  readonly #hostElRef = inject(ElementRef);
+  readonly #mutationObserverSvc = inject(SkyMutationObserverService);
+  readonly #ngZone = inject(NgZone);
+  readonly #themeSvc = inject(SkyThemeService, { optional: true });
 
   public ngOnInit(): void {
     /* istanbul ignore else */

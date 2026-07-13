@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 
 import { SkyDatepickerCalendarInnerComponent } from './datepicker-calendar-inner.component';
 import { SkyDatepickerCalendarLabelPipe } from './datepicker-calendar-label.pipe';
@@ -14,15 +14,11 @@ import { SkyDayPickerContext } from './daypicker-context';
   templateUrl: 'monthpicker.component.html',
 })
 export class SkyMonthPickerComponent implements OnInit {
-  public datepicker: SkyDatepickerCalendarInnerComponent;
+  public readonly datepicker = inject(SkyDatepickerCalendarInnerComponent);
 
   public rows: SkyDayPickerContext[][] = [];
 
   public title = '';
-
-  constructor(datepicker: SkyDatepickerCalendarInnerComponent) {
-    this.datepicker = datepicker;
-  }
 
   public ngOnInit(): void {
     this.datepicker.stepMonth = {

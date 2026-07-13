@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   UntypedFormArray,
   UntypedFormBuilder,
@@ -52,10 +52,9 @@ export class SelectionBoxTestComponent {
     },
   ];
 
-  #formBuilder: UntypedFormBuilder;
+  readonly #formBuilder = inject(UntypedFormBuilder);
 
-  constructor(formBuilder: UntypedFormBuilder) {
-    this.#formBuilder = formBuilder;
+  constructor() {
     this.selectionBoxFormArray = this.#buildCheckboxes();
     this.myForm = this.#formBuilder.group({
       checkboxes: this.selectionBoxFormArray,

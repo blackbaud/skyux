@@ -10,12 +10,6 @@ module.exports = [
     },
   },
   {
-    files: ['libs/components/[^a-cA-C]*/**/*.ts'],
-    rules: {
-      '@angular-eslint/prefer-inject': 'warn',
-    },
-  },
-  {
     files: ['**/*.spec.ts', '**/fixtures/**/*.ts'],
     rules: {
       '@nx/enforce-module-boundaries': 'warn',

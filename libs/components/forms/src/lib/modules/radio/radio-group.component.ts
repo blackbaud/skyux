@@ -6,9 +6,7 @@ import {
   HostBinding,
   Input,
   OnDestroy,
-  Optional,
   QueryList,
-  Self,
   TemplateRef,
   booleanAttribute,
   inject,
@@ -307,26 +305,19 @@ export class SkyRadioGroupComponent implements AfterContentInit, OnDestroy {
 
   #_stacked = false;
 
-  #changeDetector: ChangeDetectorRef;
-  #radioGroupIdSvc: SkyRadioGroupIdService;
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #radioGroupIdSvc = inject(SkyRadioGroupIdService);
 
   readonly #logger = inject(SkyLogService);
   readonly #idService = inject(SkyIdService);
 
   protected errorId = this.#idService.generateId();
-  protected ngControl: NgControl | undefined;
+  protected ngControl = inject(NgControl, { optional: true, self: true });
 
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    radioGroupIdSvc: SkyRadioGroupIdService,
-    @Self() @Optional() ngControl: NgControl,
-  ) {
-    if (ngControl) {
-      ngControl.valueAccessor = this;
+  constructor() {
+    if (this.ngControl) {
+      this.ngControl.valueAccessor = this;
     }
-    this.#changeDetector = changeDetector;
-    this.#radioGroupIdSvc = radioGroupIdSvc;
-    this.ngControl = ngControl;
     this.name = this.#defaultName;
 
     this.#radioGroupIdSvc.radioIds

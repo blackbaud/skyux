@@ -1,5 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 import {
@@ -31,10 +31,7 @@ const DEFAULT_CONFIRM_CONFIG: SkyConfirmConfig = {
   standalone: false,
 })
 class TestComponent {
-  constructor(confirmService: SkyConfirmService) {
-    this.#confirmSvc = confirmService;
-  }
-  #confirmSvc: SkyConfirmService;
+  readonly #confirmSvc = inject(SkyConfirmService);
 
   public config: SkyConfirmConfig = DEFAULT_CONFIRM_CONFIG;
 

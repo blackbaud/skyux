@@ -1,5 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   FormBuilder,
@@ -75,10 +75,10 @@ class TestComponent {
   public showCustomError = false;
   public stacked = false;
 
-  constructor(formBuilder: FormBuilder) {
+  constructor() {
     this.attachment = new FormControl(null, Validators.required);
 
-    this.formGroup = formBuilder.group({
+    this.formGroup = inject(FormBuilder).group({
       attachment: this.attachment,
     });
   }

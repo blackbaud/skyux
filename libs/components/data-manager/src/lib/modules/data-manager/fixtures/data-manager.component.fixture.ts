@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 
 import { SkyDataManagerComponent } from '../data-manager.component';
 import { SkyDataManagerService } from '../data-manager.service';
@@ -114,16 +114,15 @@ export class DataManagerFixtureComponent implements OnInit {
     },
   });
 
-  #dataManagerService: SkyDataManagerService;
+  readonly #dataManagerService = inject(SkyDataManagerService);
 
-  constructor(dataManagerService: SkyDataManagerService) {
-    this.#dataManagerService = dataManagerService;
-    dataManagerService
+  constructor() {
+    this.#dataManagerService
       .getDataStateUpdates(this.dataManagerSourceId)
       .subscribe((state) => {
         this.#dataState = state;
       });
-    dataManagerService
+    this.#dataManagerService
       .getActiveViewIdUpdates()
       .subscribe((activeViewId) => (this.activeViewId = activeViewId));
   }
