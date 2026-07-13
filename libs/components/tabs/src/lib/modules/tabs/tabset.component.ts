@@ -219,27 +219,13 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
 
   #_tabStyle: SkyTabsetStyle = 'tabs';
 
-  #changeDetector: ChangeDetectorRef;
-  #elementRef: ElementRef;
-  #adapterService: SkyTabsetAdapterService;
-  #permalinkService: SkyTabsetPermalinkService;
-  #tabsetService: SkyTabsetService;
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #elementRef = inject(ElementRef);
+  readonly #adapterService = inject(SkyTabsetAdapterService);
+  readonly #permalinkService = inject(SkyTabsetPermalinkService);
+  readonly #tabsetService = inject(SkyTabsetService);
 
   #layoutHostSvc = inject(SkyLayoutHostService, { optional: true });
-
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    elementRef: ElementRef,
-    adapterService: SkyTabsetAdapterService,
-    permalinkService: SkyTabsetPermalinkService,
-    tabsetService: SkyTabsetService,
-  ) {
-    this.#changeDetector = changeDetector;
-    this.#elementRef = elementRef;
-    this.#adapterService = adapterService;
-    this.#permalinkService = permalinkService;
-    this.#tabsetService = tabsetService;
-  }
 
   public ngAfterViewInit(): void {
     this.#initTabComponents();

@@ -1,4 +1,4 @@
-import { Component, ViewChild, input } from '@angular/core';
+import { Component, ViewChild, inject, input } from '@angular/core';
 import { SkyConfirmService } from '@skyux/modals';
 
 import { Subject } from 'rxjs';
@@ -48,5 +48,5 @@ export class SplitViewFixtureComponent {
   @ViewChild(SkySplitViewComponent)
   public splitViewComponent!: SkySplitViewComponent;
 
-  constructor(public confirmService: SkyConfirmService) {}
+  public confirmService = inject(SkyConfirmService);
 }

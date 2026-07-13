@@ -6,6 +6,7 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  inject,
 } from '@angular/core';
 
 import { Subject } from 'rxjs';
@@ -60,19 +61,9 @@ export class SkySectionedFormSectionComponent implements OnInit, OnDestroy {
 
   #ngUnsubscribe = new Subject<void>();
 
-  #sectionedFormService: SkySectionedFormService;
-  #tabsetService: SkyVerticalTabsetService;
-  #changeRef: ChangeDetectorRef;
-
-  constructor(
-    sectionedFormService: SkySectionedFormService,
-    tabsetService: SkyVerticalTabsetService,
-    changeRef: ChangeDetectorRef,
-  ) {
-    this.#sectionedFormService = sectionedFormService;
-    this.#tabsetService = tabsetService;
-    this.#changeRef = changeRef;
-  }
+  readonly #sectionedFormService = inject(SkySectionedFormService);
+  readonly #tabsetService = inject(SkyVerticalTabsetService);
+  readonly #changeRef = inject(ChangeDetectorRef);
 
   public ngOnInit(): void {
     this.#changeRef.detectChanges();

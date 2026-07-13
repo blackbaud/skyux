@@ -3,6 +3,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { SkyIconModule } from '@skyux/icon';
 
@@ -26,11 +27,7 @@ export class SkySplitViewWorkspaceHeaderComponent implements OnDestroy, OnInit {
   public backButtonText: string | undefined;
 
   #ngUnsubscribe = new Subject<void>();
-  #splitViewSvc: SkySplitViewService;
-
-  constructor(splitViewSvc: SkySplitViewService) {
-    this.#splitViewSvc = splitViewSvc;
-  }
+  readonly #splitViewSvc = inject(SkySplitViewService);
 
   public ngOnInit(): void {
     this.#splitViewSvc.backButtonTextStream

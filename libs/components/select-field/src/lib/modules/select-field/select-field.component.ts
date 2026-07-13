@@ -9,6 +9,7 @@ import {
   OnDestroy,
   Output,
   forwardRef,
+  inject,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { SkyLogService } from '@skyux/core';
@@ -236,14 +237,13 @@ export class SkySelectFieldComponent
   private _value: any;
   private isPickerOpen = false;
 
-  constructor(
-    private changeDetector: ChangeDetectorRef,
-    private modalService: SkyModalService,
-    private resourcesService: SkyLibResourcesService,
-    private elementRef: ElementRef,
-    logger: SkyLogService,
-  ) {
-    logger.deprecated('SkySelectFieldComponent', {
+  private readonly changeDetector = inject(ChangeDetectorRef);
+  private readonly modalService = inject(SkyModalService);
+  private readonly resourcesService = inject(SkyLibResourcesService);
+  private readonly elementRef = inject(ElementRef);
+
+  constructor() {
+    inject(SkyLogService).deprecated('SkySelectFieldComponent', {
       deprecationMajorVersion: 6,
       moreInfoUrl: 'https://developer.blackbaud.com/skyux/components/lookup',
       replacementRecommendation: 'Use `SkyLookupComponent` instead.',
