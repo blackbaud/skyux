@@ -57,6 +57,9 @@ type ScaleProbe = {
             [values]="values"
           />
         }
+        @if (renderSecondSeries) {
+          <sky-chart-series labelText="Divestitures" [values]="values" />
+        }
       </sky-chart-bar>
     }
   `,
@@ -73,6 +76,7 @@ class TestComponent {
   public renderCategoryAxis = true;
   public renderChart = true;
   public renderSeries = true;
+  public renderSecondSeries = false;
   public seriesLabel = 'Acquisitions';
   public seriesValueAxis: string | undefined;
   public seriesLayout: SkyChartBarSeriesLayout = 'grouped';
@@ -265,6 +269,19 @@ describe('Chart bar component', () => {
 
     const dataset = requireChart().data.datasets[0];
     expect(typeof dataset.backgroundColor).toBe('string');
+  });
+
+  it('should hide the legend when there is a single series', () => {
+    fixture.detectChanges();
+
+    expect(requireChart().options.plugins?.legend?.display).toBe(false);
+  });
+
+  it('should show the legend when there are multiple series', () => {
+    component.renderSecondSeries = true;
+    fixture.detectChanges();
+
+    expect(requireChart().options.plugins?.legend?.display).toBe(true);
   });
 
   it('should use internal sizing when no height is set', () => {

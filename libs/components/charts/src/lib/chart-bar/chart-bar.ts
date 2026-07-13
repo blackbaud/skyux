@@ -212,6 +212,11 @@ export class SkyChartBar extends SkyChartPlot {
           styles,
         }),
         plugins: {
+          legend: {
+            // Show the legend only when there are multiple series to
+            // distinguish; a single-series chart's legend is redundant.
+            display: datasets.length > 1,
+          },
           tooltip: {
             callbacks: {
               label: buildValueTooltipLabel<'bar'>(

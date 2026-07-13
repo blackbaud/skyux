@@ -8,3 +8,14 @@
     />
   </sky-chart-bar>
 </sky-chart>
+
+<sky-chart headingText="Foobar">
+  <sky-chart-bar>
+    <sky-chart-axis-category
+      labelText="Foo"
+      [categories]="['foo', 'bar', 'baz']"
+    />
+    <sky-chart-axis-value labelText="LOL" />
+    <sky-chart-series labelText="Foo of LOL" [values]="['1', 2, 3]" />
+  </sky-chart-bar>
+</sky-chart>
