@@ -17,10 +17,10 @@ import {
     SkyChartBar,
     SkyChartSeries,
   ],
-  selector: 'app-chart-bar-stacked',
-  templateUrl: './chart-bar-stacked-playground.html',
+  selector: 'app-chart-bar-value-format',
+  templateUrl: './chart-bar-value-format-playground.html',
 })
-export default class ChartBarStackedPlayground {
+export class ChartBarValueFormatPlayground {
   protected readonly orientation = input<SkyChartBarOrientation>('vertical');
   protected readonly months = [
     'January',
@@ -31,7 +31,9 @@ export default class ChartBarStackedPlayground {
     'June',
     'July',
   ];
-  protected readonly online = [38, 6, 54, 69, 88, 13, 87];
-  protected readonly inStore = [37, 84, 28, 84, 97, 22, 63];
-  protected readonly phone = [86, 4, 7, 85, 8, 51, 30];
+  protected readonly acquisitions = [10, 20, 15, 25, 22, 30, 28];
+  protected readonly revenue = [1000, 2200, 1800, 2600, 2400, 3100, 2900];
+
+  // Percent values are fractional, so 0.25 displays as 25%.
+  protected readonly conversionRate = [0.1, 0.14, 0.12, 0.18, 0.16, 0.22, 0.2];
 }

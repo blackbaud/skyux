@@ -17,12 +17,21 @@ import {
     SkyChartBar,
     SkyChartSeries,
   ],
-  selector: 'app-chart-bar-dual-axis',
-  templateUrl: './chart-bar-dual-axis-playground.html',
+  selector: 'app-chart-bar-stacked',
+  templateUrl: './chart-bar-stacked-playground.html',
 })
-export default class ChartBarDualAxisPlayground {
+export class ChartBarStackedPlayground {
   protected readonly orientation = input<SkyChartBarOrientation>('vertical');
-  protected readonly years = [2010, 2011, 2012, 2013, 2014, 2015, 2016];
-  protected readonly acquisitions = [10, 20, 15, 25, 22, 30, 28];
-  protected readonly revenue = [1000, 2200, 1800, 2600, 2400, 3100, 2900];
+  protected readonly months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+  ];
+  protected readonly online = [38, 6, 54, 69, 88, 13, 87];
+  protected readonly inStore = [37, 84, 28, 84, 97, 22, 63];
+  protected readonly phone = [86, 4, 7, 85, 8, 51, 30];
 }

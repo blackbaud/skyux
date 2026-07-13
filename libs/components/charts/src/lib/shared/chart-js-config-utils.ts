@@ -39,7 +39,6 @@ function buildBaseChartJsOptions(styles: CSSStyleDeclaration): ChartOptions {
     animation: { duration: 400, easing: 'easeInOutQuart' },
 
     plugins: {
-      legend: { display: false },
       tooltip: {
         enabled: true,
         position: 'average',

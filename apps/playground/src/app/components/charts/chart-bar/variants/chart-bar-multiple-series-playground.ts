@@ -17,27 +17,12 @@ import {
     SkyChartBar,
     SkyChartSeries,
   ],
-  selector: 'app-chart-bar-logarithmic',
-  templateUrl: './chart-bar-logarithmic-playground.html',
+  selector: 'app-chart-bar-multiple-series',
+  templateUrl: './chart-bar-multiple-series-playground.html',
 })
-export default class ChartBarLogarithmicPlayground {
+export class ChartBarMultipleSeriesPlayground {
   protected readonly orientation = input<SkyChartBarOrientation>('vertical');
-  protected readonly categories = [
-    'Cat-1',
-    'Cat-2',
-    'Cat-3',
-    'Cat-4',
-    'Cat-5',
-    'Cat-6',
-    'Cat-7',
-    'Cat-8',
-    'Cat-9',
-    'Cat-10',
-    'Cat-11',
-    'Cat-12',
-    'Cat-13',
-  ];
-  protected readonly values = [
-    1, 1.1, 1.9, 2.1, 4.9, 5.1, 9, 11, 90, 110, 900, 1100, 9000,
-  ];
+  protected readonly years = [2010, 2011, 2012, 2013, 2014, 2015, 2016];
+  protected readonly actual = [10, 20, 15, 25, 22, 30, 28];
+  protected readonly target = [12, 18, 20, 22, 26, 28, 32];
 }

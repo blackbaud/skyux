@@ -166,6 +166,27 @@ describe('Chart bar component', () => {
     });
   });
 
+  it('should publish an accessible summary from the axes and series', () => {
+    component.valueAxisIds = [undefined, 'value-1'];
+    fixture.detectChanges();
+
+    expect(tableSvc.summary()).toEqual({
+      resourceKey: 'skyux_charts.chart.bar.accessible_summary',
+      args: [1, 2],
+    });
+  });
+
+  it('should clear the accessible summary when the plot is destroyed', () => {
+    fixture.detectChanges();
+
+    expect(tableSvc.summary()).not.toBeUndefined();
+
+    fixture.destroy();
+    destroyed = true;
+
+    expect(tableSvc.summary()).toBeUndefined();
+  });
+
   it('should format the data table values using the value axis format', () => {
     component.format = 'currency';
     component.currencyCode = 'USD';
@@ -179,6 +200,7 @@ describe('Chart bar component', () => {
     fixture.detectChanges();
 
     expect(tableSvc.table()).toBeUndefined();
+    expect(tableSvc.summary()).toBeUndefined();
     expect(getChart()).toBeUndefined();
 
     // Covers the destroy path when no chart was created.

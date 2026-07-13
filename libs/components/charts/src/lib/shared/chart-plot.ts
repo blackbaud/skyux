@@ -7,7 +7,10 @@ import {
 } from '@angular/core';
 
 import { SkyChartTable } from '../chart-table/chart-table';
-import { SkyChartTableService } from '../chart-table/chart-table-service';
+import {
+  SkyChartAccessibleSummary,
+  SkyChartTableService,
+} from '../chart-table/chart-table-service';
 
 /**
  * Base class for chart plot components (for example, `sky-chart-bar`). Owns the
@@ -24,10 +27,12 @@ export abstract class SkyChartPlot {
   constructor() {
     inject(DestroyRef).onDestroy(() => {
       this.#tableSvc?.table.set(undefined);
+      this.#tableSvc?.summary.set(undefined);
     });
 
     afterRenderEffect(() => {
       this.#tableSvc?.table.set(this.buildTable());
+      this.#tableSvc?.summary.set(this.buildSummary());
     });
   }
 
@@ -36,6 +41,12 @@ export abstract class SkyChartPlot {
    * data table, or `undefined` when the plot has no data to represent.
    */
   protected abstract buildTable(): SkyChartTable | undefined;
+
+  /**
+   * Builds the localized, descriptive summary used as the chart figure's
+   * accessible name, or `undefined` when the plot has no data to represent.
+   */
+  protected abstract buildSummary(): SkyChartAccessibleSummary | undefined;
 
   /**
    * Resolves the active theme's CSS custom properties against this plot's

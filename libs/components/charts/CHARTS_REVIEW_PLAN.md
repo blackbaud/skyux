@@ -172,27 +172,37 @@ the remaining gaps before promoting out of preview.
   (chart type / shape / "data table available") that adds information rather than
   repeating the title.
 
-### 2.2 (Blocking) The accessible data has no text alternative and is hard to discover
+### 2.2 (Done) The accessible data has no text alternative and is hard to discover
 
 - **Where:** data reachable only via "View data table" in
   [`src/lib/chart/chart-controls.html`](src/lib/chart/chart-controls.html);
   canvas hidden in
-  [`src/lib/chart-js/chart-js.ts`](src/lib/chart-js/chart-js.ts).
-- **Problem:** Because the canvas is hidden, the only route to the data is
-  opening the data-table modal from a context-menu dropdown. There is no
-  on-figure summary and no hint that a table alternative exists, so the data is
+  [`src/lib/shared/chart-js.ts`](src/lib/shared/chart-js.ts).
+- **Problem:** Because the canvas is hidden, the only route to the data was
+  opening the data-table modal from a context-menu dropdown. There was no
+  on-figure summary and no hint that a table alternative exists, so the data was
   effectively buried for assistive-technology users.
-- **Suggested fix:** Add a concise screen-reader summary associated with the
-  figure that states the chart type, its shape (e.g. number of series /
-  categories), and that a data table is available — so AT users know the
-  alternative exists without hunting through the menu. Source the summary from a
-  localized resource string. This summary also gives the figure its accessible
-  identity when the heading is visible (see 2.1): use `role="img"` with a
-  _descriptive_ name that adds information rather than echoing the heading, so
-  there is no double announcement of the title.
-- **Result:** AT users can perceive what the chart is and how to reach the data.
+- **Implemented fix:**
+  - Each plot publishes a localized, descriptive `SkyChartAccessibleSummary`
+    (`{ resourceKey, args }`) to `SkyChartTableService` alongside its table, via
+    a new `buildSummary()` abstract on
+    [`SkyChartPlot`](src/lib/shared/chart-plot.ts). `SkyChartBar` supplies the
+    `skyux_charts.chart.bar.accessible_summary` key with its series and category
+    counts, so the wording can describe that type's shape (line/donut can supply
+    their own keys later — additive, no breaking change).
+  - `SkyChart` resolves that key to localized text and uses it as the figure's
+    accessible name. The `<figure>` gets `role="img"` **only when it has a
+    name**, and the name is _descriptive_ (chart type, series/category counts,
+    and "a data table is available from the chart's context menu") rather than
+    echoing the heading — so it adds information without double-announcing the
+    title (see 2.1). When the heading is hidden, the title is combined with the
+    summary so it is not lost.
+  - The summary sentence is sourced from a localized resource string
+    (`resources_en_US.json` + the generated resources module).
+- **Result:** AT users can perceive what the chart is (type and shape) and learn
+  that a data-table alternative exists without hunting through the menu.
 
-### 2.3 Series are distinguished by color alone in the rendered chart
+### 2.3 (Done) Series are distinguished by color alone in the rendered chart
 
 - **Where:** dataset colors in
   [`src/lib/chart-bar/chart-bar.ts`](src/lib/chart-bar/chart-bar.ts)
@@ -205,6 +215,12 @@ the remaining gaps before promoting out of preview.
   change: keep the data table as the keyboard/AT-accessible view of individual
   data points, and document that reliance. Revisit non-color differentiation if
   future user testing surfaces a need. No blocking change required.
+- **Implemented fix:** Documented the intentional color reliance in a code
+  comment next to the categorical `backgroundColor` assignment in
+  [`src/lib/chart-bar/chart-bar.ts`](src/lib/chart-bar/chart-bar.ts), pointing to
+  the legend/tooltips for sighted users and the accessible data table (announced
+  by the figure summary from 2.2) as the keyboard/AT fallback. No behavior
+  change.
 - **Result:** Color reliance is intentional and documented, with the table as
   the accessible fallback.
 
@@ -220,8 +236,9 @@ the remaining gaps before promoting out of preview.
 4. **1.2** — decision only; no MVP code. Keep the value-format primitives
    public and host-neutral; add donut's format home when `sky-chart-donut` is
    built.
-5. **2.2** on-figure screen-reader summary.
-6. **2.3** document the color-reliance decision.
+5. **2.2** — done: each plot publishes a localized descriptive summary that
+   `sky-chart` uses as the figure's `role="img"` accessible name.
+6. **2.3** — done: color-reliance decision documented in `chart-bar.ts`.
 
 Each change must ship with tests (projects here enforce 100% coverage), pass
 `npm run lint:affected`, and be formatted with `nx format --files=<paths>`.

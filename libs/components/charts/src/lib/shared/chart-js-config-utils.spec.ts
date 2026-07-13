@@ -59,7 +59,6 @@ describe('extendBaseChartJsConfig', () => {
     expect(config.options.maintainAspectRatio).toBe(false);
     expect(config.options.resizeDelay).toBe(150);
     expect(config.options.interaction?.mode).toBe('nearest');
-    expect(config.options.plugins?.legend?.display).toBe(false);
   });
 
   it('should merge the base tooltip styling with the chart-specific callbacks', () => {

@@ -9,13 +9,13 @@ import { SkyToggleSwitchModule } from '@skyux/forms';
 import { SkyBoxModule, SkyFluidGridModule } from '@skyux/layout';
 import { SkyPageModule } from '@skyux/pages';
 
-import ChartBarBasicPlayground from '../chart-bar-basic/chart-bar-basic-playground';
-import ChartBarDualAxisPlayground from '../chart-bar-dual-axis/chart-bar-dual-axis-playground';
-import ChartBarHiddenLabelsPlayground from '../chart-bar-hidden-labels/chart-bar-hidden-labels-playground';
-import ChartBarLogarithmicPlayground from '../chart-bar-logarithmic/chart-bar-logarithmic-playground';
-import ChartBarMultipleSeriesPlayground from '../chart-bar-multiple-series/chart-bar-multiple-series-playground';
-import ChartBarStackedPlayground from '../chart-bar-stacked/chart-bar-stacked-playground';
-import ChartBarValueFormatPlayground from '../chart-bar-value-format/chart-bar-value-format-playground';
+import { ChartBarBasicPlayground } from './variants/chart-bar-basic-playground';
+import { ChartBarDualAxisPlayground } from './variants/chart-bar-dual-axis-playground';
+import { ChartBarHiddenLabelsPlayground } from './variants/chart-bar-hidden-labels-playground';
+import { ChartBarLogarithmicPlayground } from './variants/chart-bar-logarithmic-playground';
+import { ChartBarMultipleSeriesPlayground } from './variants/chart-bar-multiple-series-playground';
+import { ChartBarStackedPlayground } from './variants/chart-bar-stacked-playground';
+import { ChartBarValueFormatPlayground } from './variants/chart-bar-value-format-playground';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

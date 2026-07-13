@@ -1,4 +1,10 @@
 {
+  "skyux_charts.chart.bar.accessible_summary": {
+    "_description": "The accessible summary announced for a bar chart figure, describing its shape and noting that a data table alternative is available",
+    "message": "Bar chart with {0} series and {1} categories. A data table is available from the chart's context menu.",
+    "_0": "The number of series",
+    "_1": "The number of categories"
+  },
   "skyux_charts.chart.controls.context_menu.accessible_name": {
     "_description": "The accessible name for the chart component's controls dropdown menu",
     "message": "Context menu for {0}",

@@ -3,11 +3,16 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  inject,
   input,
   type TemplateRef,
 } from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { SkyLibResourcesService } from '@skyux/i18n';
+import { of, switchMap } from 'rxjs';
 
 import { SkyChartTableService } from '../chart-table/chart-table-service';
+import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
 import { SkyChartControls } from './chart-controls';
 import { SkyChartHeading } from './chart-heading';
 import {
@@ -32,7 +37,12 @@ import { SkyChartSubheading } from './chart-subheading';
   host: {
     class: 'sky-chart',
   },
-  imports: [SkyChartControls, SkyChartHeading, SkyChartSubheading],
+  imports: [
+    SkyChartControls,
+    SkyChartHeading,
+    SkyChartSubheading,
+    SkyChartsResourcesModule,
+  ],
   providers: [SkyChartTableService],
   selector: 'sky-chart',
   styleUrl: './chart.scss',
@@ -95,15 +105,49 @@ export class SkyChart {
    */
   public readonly subheadingText = input<string>();
 
+  readonly #resourcesSvc = inject(SkyLibResourcesService);
+  readonly #tableSvc = inject(SkyChartTableService);
+
+  // Resolve the plot's descriptive summary into localized text. Each plot type
+  // publishes its own resource key and arguments, so the wording can describe
+  // that type's shape.
+  readonly #summaryText = toSignal(
+    toObservable(this.#tableSvc.summary).pipe(
+      switchMap((summary) =>
+        summary
+          ? this.#resourcesSvc.getString(summary.resourceKey, ...summary.args)
+          : of(undefined),
+      ),
+    ),
+    { initialValue: undefined },
+  );
+
   protected readonly figureLabel = computed(() => {
-    if (!this.headingHidden()) {
-      return null;
+    const parts: string[] = [];
+
+    // When the heading is hidden, name the figure with the title (and
+    // subheading) so it is not lost. When the heading is visible, it already
+    // provides that context, so the title is omitted here to avoid announcing
+    // it twice.
+    if (this.headingHidden()) {
+      const subheadingText = this.subheadingText();
+
+      parts.push(
+        subheadingText
+          ? `${this.headingText()}, ${subheadingText}`
+          : this.headingText(),
+      );
     }
 
-    const subheadingText = this.subheadingText();
+    // The descriptive summary (chart type, shape, and that a data table is
+    // available) adds information rather than echoing the title, so it is safe
+    // to include whether or not the heading is visible.
+    const summaryText = this.#summaryText();
 
-    return subheadingText
-      ? `${this.headingText()}, ${subheadingText}`
-      : this.headingText();
+    if (summaryText) {
+      parts.push(summaryText);
+    }
+
+    return parts.length > 0 ? parts.join('. ') : null;
   });
 }

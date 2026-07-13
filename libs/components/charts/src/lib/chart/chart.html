@@ -16,6 +16,10 @@
   </div>
   <sky-chart-controls [headingText]="headingText()" />
 </div>
-<figure class="sky-chart-content" [attr.aria-label]="figureLabel()">
+<figure
+  class="sky-chart-content"
+  [attr.aria-label]="figureLabel()"
+  [attr.role]="figureLabel() ? 'img' : null"
+>
   <ng-content />
 </figure>

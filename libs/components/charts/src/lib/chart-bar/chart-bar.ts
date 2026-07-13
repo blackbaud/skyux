@@ -17,6 +17,7 @@ import { SkyChartAxisCategory } from '../chart-axes/chart-axis-category';
 import { SkyChartAxisValue } from '../chart-axes/chart-axis-value';
 import { SkyChartSeries } from '../chart-series/chart-series';
 import { SkyChartTable } from '../chart-table/chart-table';
+import { SkyChartAccessibleSummary } from '../chart-table/chart-table-service';
 import {
   buildCartesianScales,
   buildCartesianTable,
@@ -103,6 +104,21 @@ export class SkyChartBar extends SkyChartPlot {
     return buildCartesianTable(categoryAxis, valueAxes, series);
   }
 
+  protected override buildSummary(): SkyChartAccessibleSummary | undefined {
+    const categoryAxis = this.categoryAxis();
+    const valueAxes = this.valueAxes();
+    const series = this.series();
+
+    if (!hasCartesianData(categoryAxis, valueAxes, series)) {
+      return undefined;
+    }
+
+    return {
+      resourceKey: 'skyux_charts.chart.bar.accessible_summary',
+      args: [series.length, categoryAxis.categories().length],
+    };
+  }
+
   #buildConfig(): SkyChartJsConfig<'bar'> | undefined {
     const categoryAxis = this.categoryAxis();
     const valueAxes = this.valueAxes();
@@ -130,7 +146,14 @@ export class SkyChartBar extends SkyChartPlot {
       2,
     );
 
-    // Series cycle through the categorical palette so each is distinct.
+    // Series cycle through the categorical palette so each is distinct. Color
+    // is the only visual channel that separates series in the rendered canvas;
+    // this reliance is intentional. Sighted users get the series names from the
+    // legend and tooltips, and assistive-technology users get every data point
+    // from the accessible data table (reachable from the chart's context menu
+    // and announced by the figure's summary), which is the keyboard/AT view of
+    // individual values. Revisit non-color differentiation only if user testing
+    // surfaces a need.
     const categorical = readThemeCategoricalPalette(styles);
 
     const isHorizontal = this.orientation() === 'horizontal';
