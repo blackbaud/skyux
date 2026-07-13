@@ -1,4 +1,10 @@
-import { Component, HostBinding, Input, OnDestroy } from '@angular/core';
+import {
+  Component,
+  HostBinding,
+  Input,
+  OnDestroy,
+  inject,
+} from '@angular/core';
 import { SkyLogService } from '@skyux/core';
 
 import { Subject, Subscription } from 'rxjs';
@@ -116,13 +122,9 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
   #activeIndexNumber: number | undefined;
   #activeSkyTabIndex: SkyTabIndex | undefined;
   #currentTabsetSub: Subscription | undefined;
-  #logger: SkyLogService;
+  readonly #logger = inject(SkyLogService);
   #tabCount: number | undefined;
   #ngUnsubscribe = new Subject<void>();
-
-  constructor(logger: SkyLogService) {
-    this.#logger = logger;
-  }
 
   public ngOnDestroy(): void {
     this.#ngUnsubscribe.next();
