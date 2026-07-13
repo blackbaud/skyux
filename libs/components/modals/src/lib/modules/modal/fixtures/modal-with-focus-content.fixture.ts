@@ -1,4 +1,4 @@
-import { Component, Optional } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { ModalWithFocusContext } from './modal-with-focus-context.fixture';
 
@@ -8,5 +8,7 @@ import { ModalWithFocusContext } from './modal-with-focus-context.fixture';
   standalone: false,
 })
 export class ModalWithFocusContentTestComponent {
-  constructor(@Optional() public context?: ModalWithFocusContext) {}
+  public readonly context = inject(ModalWithFocusContext, {
+    optional: true,
+  });
 }

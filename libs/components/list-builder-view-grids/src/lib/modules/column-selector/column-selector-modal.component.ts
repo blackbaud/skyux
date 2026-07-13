@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyModalInstance } from '@skyux/modals';
 
 import { SkyColumnSelectorContext } from './column-selector-context';
@@ -10,14 +10,10 @@ import { SkyColumnSelectorContext } from './column-selector-context';
   standalone: false,
 })
 export class SkyColumnSelectorComponent {
-  public newSelectedColumnIds: string[] = [];
+  public readonly context = inject(SkyColumnSelectorContext);
+  public readonly instance = inject(SkyModalInstance);
 
-  constructor(
-    public context: SkyColumnSelectorContext,
-    public instance: SkyModalInstance,
-  ) {
-    this.newSelectedColumnIds = context.selectedColumnIds;
-  }
+  public newSelectedColumnIds: string[] = this.context.selectedColumnIds;
 
   public selectedColumnsChange(selectedMap: Map<string, boolean>): void {
     this.newSelectedColumnIds = [];

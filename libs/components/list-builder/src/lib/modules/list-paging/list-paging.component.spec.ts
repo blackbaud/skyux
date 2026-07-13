@@ -1,4 +1,4 @@
-import { DebugElement } from '@angular/core';
+import { DebugElement, Injector, runInInjectionContext } from '@angular/core';
 import { TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AsyncList, ListItemModel } from '@skyux/list-builder-common';
@@ -24,7 +24,12 @@ describe('List Paging Component', () => {
 
   beforeEach(waitForAsync(() => {
     dispatcher = new ListStateDispatcher();
-    state = new ListState(dispatcher);
+    state = runInInjectionContext(
+      Injector.create({
+        providers: [{ provide: ListStateDispatcher, useValue: dispatcher }],
+      }),
+      () => new ListState(),
+    );
 
     TestBed.configureTestingModule({
       declarations: [ListPagingTestComponent],

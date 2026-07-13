@@ -4,6 +4,7 @@ import {
   Component,
   ContentChildren,
   QueryList,
+  inject,
 } from '@angular/core';
 
 import { take } from 'rxjs/operators';
@@ -33,10 +34,8 @@ export class SkyListFilterInlineComponent implements AfterContentInit {
   @ContentChildren(SkyListFilterInlineItemComponent)
   private filters: QueryList<SkyListFilterInlineItemComponent>;
 
-  constructor(
-    private dispatcher: ListStateDispatcher,
-    private state: ListState,
-  ) {}
+  private readonly dispatcher = inject(ListStateDispatcher);
+  private readonly state = inject(ListState);
 
   public ngAfterContentInit(): void {
     this.inlineFilters = this.filters.map((filter) => {

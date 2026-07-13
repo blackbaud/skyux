@@ -10,6 +10,7 @@ import {
   QueryList,
   ViewChild,
   forwardRef,
+  inject,
 } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
 import {
@@ -257,16 +258,14 @@ export class SkyListViewGridComponent
 
   private _messageStream = new Subject<SkyListViewGridMessage>();
 
-  constructor(
-    state: ListState,
-    private dispatcher: ListStateDispatcher,
-    public gridState: GridState,
-    public gridDispatcher: GridStateDispatcher,
-    logger: SkyLogService,
-  ) {
-    super(state, 'Grid View');
+  private readonly dispatcher = inject(ListStateDispatcher);
+  public readonly gridState = inject(GridState);
+  public readonly gridDispatcher = inject(GridStateDispatcher);
 
-    logger.deprecated('SkyListViewGridComponent', {
+  constructor() {
+    super(inject(ListState), 'Grid View');
+
+    inject(SkyLogService).deprecated('SkyListViewGridComponent', {
       deprecationMajorVersion: 6,
       moreInfoUrl:
         'https://developer.blackbaud.com/skyux/components/data-entry-grid',
