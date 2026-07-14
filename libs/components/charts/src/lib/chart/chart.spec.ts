@@ -204,7 +204,7 @@ describe('Chart component', () => {
     await setPlotSummary('skyux_charts.chart.bar.accessible_summary', [3, 4]);
 
     expect(getFigure()?.getAttribute('aria-label')).toBe(
-      "Bar chart with 3 series and 4 categories. A data table is available from the chart's context menu.",
+      "Bar chart. Number of series: 3. Number of categories: 4. A data table is available from the chart's context menu.",
     );
   });
 
@@ -216,7 +216,7 @@ describe('Chart component', () => {
     await setPlotSummary('skyux_charts.chart.bar.accessible_summary', [3, 4]);
 
     expect(getFigure()?.getAttribute('aria-label')).toBe(
-      "My heading, My subheading. Bar chart with 3 series and 4 categories. A data table is available from the chart's context menu.",
+      "My heading, My subheading. Bar chart. Number of series: 3. Number of categories: 4. A data table is available from the chart's context menu.",
     );
   });
 

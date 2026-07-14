@@ -3,18 +3,13 @@ import { SkyChartAxisValue } from '../chart-axes/chart-axis-value';
 
 import { type SkyChartCartesianScaleType } from './cartesian-scale-type';
 import { buildCartesianScales } from './cartesian-utils';
+import { createThemeStylesFixture } from './fixtures/theme-styles-fixture';
 
 type ScaleProbe = {
   stacked: boolean;
 };
 
 describe('buildCartesianScales', () => {
-  function createStyles(): CSSStyleDeclaration {
-    return {
-      getPropertyValue: (): string => '',
-    } as unknown as CSSStyleDeclaration;
-  }
-
   function createCategoryAxis(): SkyChartAxisCategory {
     return {
       labelHidden: () => false,
@@ -43,10 +38,10 @@ describe('buildCartesianScales', () => {
     return buildCartesianScales({
       categoryAxis: createCategoryAxis(),
       valueAxes: [createValueAxis(scaleType)],
-      valueAxisKeys: ['value-0'],
+      valueAxisKeys: ['sky-value-0'],
       isHorizontal: false,
       stacked,
-      styles: createStyles(),
+      themeStyles: createThemeStylesFixture(),
     }) as unknown as Record<string, ScaleProbe>;
   }
 
@@ -54,6 +49,6 @@ describe('buildCartesianScales', () => {
     const scales = build('linear');
 
     expect(scales['category'].stacked).toBe(false);
-    expect(scales['value-0'].stacked).toBe(false);
+    expect(scales['sky-value-0'].stacked).toBe(false);
   });
 });

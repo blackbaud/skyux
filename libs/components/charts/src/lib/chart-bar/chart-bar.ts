@@ -30,11 +30,6 @@ import {
 import { SkyChartJs, type SkyChartJsConfig } from '../shared/chart-js';
 import { extendBaseChartJsConfig } from '../shared/chart-js-config-utils';
 import { SkyChartPlot } from '../shared/chart-plot';
-import {
-  readThemeCategoricalPalette,
-  readThemeCssNumber,
-  readThemeCssString,
-} from '../shared/theme-css-utils';
 import { SkyChartBarOrientation } from './chart-bar-orientation';
 import { SkyChartBarSeriesLayout } from './chart-bar-series-layout';
 
@@ -49,7 +44,7 @@ import { SkyChartBarSeriesLayout } from './chart-bar-series-layout';
   imports: [SkyChartJs],
   selector: 'sky-chart-bar',
   template: `@if (config(); as config) {
-    <sky-chart-js [config]="config" [style.height]="height()" />
+    <sky-chart-js [config]="config" />
   }`,
 })
 export class SkyChartBar extends SkyChartPlot {
@@ -80,15 +75,22 @@ export class SkyChartBar extends SkyChartPlot {
    */
   public readonly seriesLayout = input<SkyChartBarSeriesLayout>('grouped');
 
-  /**
-   * A CSS height value (e.g. `'400px'`, `'20rem'`, `'50vh'`) for the chart.
-   * When unspecified, the chart uses internal sizing logic.
-   */
-  public readonly height = input<string>();
-
   protected readonly categoryAxis = contentChild(SkyChartAxisCategory);
   protected readonly valueAxes = contentChildren(SkyChartAxisValue);
   protected readonly series = contentChildren(SkyChartSeries);
+
+  // Resolved once and shared by the chart config and the accessible data
+  // table so each series' value axis is matched a single time.
+  readonly #seriesBindings = computed(() => {
+    const valueAxes = this.valueAxes();
+
+    return resolveSeriesBindings({
+      series: this.series(),
+      valueAxes,
+      valueAxisKeys: getValueAxisScaleKeys(valueAxes),
+      warn: (message) => this.#logSvc.warn(message),
+    });
+  });
 
   protected readonly config = computed(() => this.#buildConfig());
 
@@ -101,7 +103,7 @@ export class SkyChartBar extends SkyChartPlot {
       return undefined;
     }
 
-    return buildCartesianTable(categoryAxis, valueAxes, series);
+    return buildCartesianTable(categoryAxis, series, this.#seriesBindings());
   }
 
   protected override buildSummary(): SkyChartAccessibleSummary | undefined {
@@ -132,19 +134,7 @@ export class SkyChartBar extends SkyChartPlot {
     // then resolve the themed CSS custom properties to concrete values.
     this.#themeSettings();
 
-    const styles = this.getThemedStyles();
-
-    const barBorderColor = readThemeCssString(
-      styles,
-      '--sky-color-background-container-base',
-      '#ffffff',
-    );
-
-    const barBorderRadius = readThemeCssNumber(
-      styles,
-      '--sky-border-radius-xs',
-      2,
-    );
+    const themeStyles = this.getThemeStyles();
 
     // Series cycle through the categorical palette so each is distinct. Color
     // is the only visual channel that separates series in the rendered canvas;
@@ -154,26 +144,21 @@ export class SkyChartBar extends SkyChartPlot {
     // and announced by the figure's summary), which is the keyboard/AT view of
     // individual values. Revisit non-color differentiation only if user testing
     // surfaces a need.
-    const categorical = readThemeCategoricalPalette(styles);
+    const categorical = themeStyles.series.categoricalPalette;
 
     const isHorizontal = this.orientation() === 'horizontal';
     const indexAxis = isHorizontal ? 'y' : 'x';
     const valueDirection = isHorizontal ? 'x' : 'y';
     const valueAxisKeys = getValueAxisScaleKeys(valueAxes);
-
-    const bindings = resolveSeriesBindings({
-      series,
-      valueAxes,
-      valueAxisKeys,
-      warn: (message) => this.#logSvc.warn(message),
-    });
+    const bindings = this.#seriesBindings();
 
     const datasets = series.map((chartSeries, index): ChartDataset<'bar'> => {
       const { valueKey } = bindings[index];
 
       const dataset: ChartDataset<'bar'> = {
         label: chartSeries.labelText(),
-        data: chartSeries.values(),
+        // Chart.js mutates the arrays it is given, so copy the readonly input.
+        data: [...chartSeries.values()],
         backgroundColor: categorical[index % categorical.length],
       };
 
@@ -188,18 +173,19 @@ export class SkyChartBar extends SkyChartPlot {
       return dataset;
     });
 
-    return extendBaseChartJsConfig<'bar'>(styles, {
+    return extendBaseChartJsConfig<'bar'>(themeStyles, {
       type: 'bar',
       data: {
-        labels: categoryAxis.categories(),
+        // Chart.js mutates the arrays it is given, so copy the readonly input.
+        labels: [...categoryAxis.categories()],
         datasets,
       },
       options: {
         elements: {
           bar: {
             borderWidth: 1,
-            borderColor: barBorderColor,
-            borderRadius: barBorderRadius,
+            borderColor: themeStyles.bar.borderColor,
+            borderRadius: themeStyles.bar.borderRadius,
           },
         },
         indexAxis,
@@ -209,7 +195,7 @@ export class SkyChartBar extends SkyChartPlot {
           valueAxisKeys,
           isHorizontal,
           stacked: this.seriesLayout() === 'stacked',
-          styles,
+          themeStyles,
         }),
         plugins: {
           legend: {

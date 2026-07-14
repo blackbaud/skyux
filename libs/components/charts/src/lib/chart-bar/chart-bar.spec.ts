@@ -33,11 +33,7 @@ type ScaleProbe = {
   ],
   template: `
     @if (renderChart) {
-      <sky-chart-bar
-        [orientation]="orientation"
-        [seriesLayout]="seriesLayout"
-        [height]="chartHeight"
-      >
+      <sky-chart-bar [orientation]="orientation" [seriesLayout]="seriesLayout">
         @if (renderCategoryAxis) {
           <sky-chart-axis-category labelText="Year" [categories]="categories" />
         }
@@ -69,7 +65,6 @@ class TestComponent {
   public chartBar!: SkyChartBar;
 
   public categories: (string | number)[] = ['2023', '2024'];
-  public chartHeight: string | undefined;
   public currencyCode: string | undefined;
   public format: SkyChartValueFormat | undefined;
   public orientation: SkyChartBarOrientation = 'vertical';
@@ -140,6 +135,10 @@ describe('Chart bar component', () => {
   beforeEach(() => {
     logSvc = jasmine.createSpyObj<SkyLogService>('SkyLogService', ['warn']);
 
+    // Karma loads the real modern theme stylesheet; applying the theme
+    // classes resolves the chart's themed tokens to concrete values.
+    document.body.classList.add('sky-theme-modern', 'sky-theme-brand-base');
+
     TestBed.configureTestingModule({
       imports: [TestComponent],
       providers: [
@@ -155,6 +154,8 @@ describe('Chart bar component', () => {
   });
 
   afterEach(() => {
+    document.body.classList.remove('sky-theme-modern', 'sky-theme-brand-base');
+
     if (!destroyed) {
       fixture.destroy();
     }
@@ -236,11 +237,11 @@ describe('Chart bar component', () => {
     expect(chart.data.datasets[0].label).toBe('Acquisitions');
     expect(chart.data.datasets[0].data).toEqual([10, 20]);
     expect(chart.options.indexAxis).toBe('x');
-    expect(chart.data.datasets[0].yAxisID).toBe('value-0');
+    expect(chart.data.datasets[0].yAxisID).toBe('sky-value-0');
     expect(chart.data.datasets[0].xAxisID).toBe('category');
 
     const category = getScale(chart, 'category');
-    const value = getScale(chart, 'value-0');
+    const value = getScale(chart, 'sky-value-0');
     expect(category.position).toBe('bottom');
     expect(category.grid.drawOnChartArea).toBe(false);
     expect(value.position).toBe('left');
@@ -252,7 +253,7 @@ describe('Chart bar component', () => {
 
     const chart = requireChart();
     expect(getScale(chart, 'category').stacked).toBe(false);
-    expect(getScale(chart, 'value-0').stacked).toBe(false);
+    expect(getScale(chart, 'sky-value-0').stacked).toBe(false);
   });
 
   it('should stack the category and value scales when seriesLayout is stacked', () => {
@@ -261,7 +262,7 @@ describe('Chart bar component', () => {
 
     const chart = requireChart();
     expect(getScale(chart, 'category').stacked).toBe(true);
-    expect(getScale(chart, 'value-0').stacked).toBe(true);
+    expect(getScale(chart, 'sky-value-0').stacked).toBe(true);
   });
 
   it('should assign the series a categorical data-visualization color', () => {
@@ -284,29 +285,21 @@ describe('Chart bar component', () => {
     expect(requireChart().options.plugins?.legend?.display).toBe(true);
   });
 
-  it('should use internal sizing when no height is set', () => {
+  it('should use internal scale keys so an axisId cannot collide with the category scale', () => {
+    component.valueAxisIds = ['category'];
+    component.seriesValueAxis = 'category';
     fixture.detectChanges();
 
-    const chartEl = fixture.nativeElement.querySelector(
-      'sky-chart-js',
-    ) as HTMLElement;
-    expect(chartEl.style.height).toBe('');
-  });
-
-  it('should apply an explicit CSS height when set', () => {
-    component.chartHeight = '400px';
-    fixture.detectChanges();
-
-    const chartEl = fixture.nativeElement.querySelector(
-      'sky-chart-js',
-    ) as HTMLElement;
-    expect(chartEl.style.height).toBe('400px');
+    const chart = requireChart();
+    expect(getScale(chart, 'category').type).toBe('category');
+    expect(getScale(chart, 'sky-value-0').type).toBe('linear');
+    expect(chart.data.datasets[0].yAxisID).toBe('sky-value-0');
   });
 
   it('should format axis ticks using the value axis format', () => {
     fixture.detectChanges();
 
-    const value = getScale(requireChart(), 'value-0');
+    const value = getScale(requireChart(), 'sky-value-0');
     expect(value.ticks.callback(1234)).toBe('1,234');
   });
 
@@ -322,7 +315,9 @@ describe('Chart bar component', () => {
     const category = chart.options.scales?.[
       'category'
     ] as unknown as StyleProbe;
-    const value = chart.options.scales?.['value-0'] as unknown as StyleProbe;
+    const value = chart.options.scales?.[
+      'sky-value-0'
+    ] as unknown as StyleProbe;
 
     // Tokens are resolved to concrete values, never the raw property name.
     expect(category.grid.color).not.toContain('--sky');
@@ -360,23 +355,23 @@ describe('Chart bar component', () => {
 
     const chart = requireChart();
     expect(chart.options.indexAxis).toBe('y');
-    expect(chart.data.datasets[0].xAxisID).toBe('value-0');
+    expect(chart.data.datasets[0].xAxisID).toBe('sky-value-0');
     expect(chart.data.datasets[0].yAxisID).toBe('category');
     expect(getScale(chart, 'category').position).toBe('left');
-    expect(getScale(chart, 'value-0').position).toBe('bottom');
+    expect(getScale(chart, 'sky-value-0').position).toBe('bottom');
   });
 
   it('should default the value axis to a linear scale', () => {
     fixture.detectChanges();
 
-    expect(getScale(requireChart(), 'value-0').type).toBe('linear');
+    expect(getScale(requireChart(), 'sky-value-0').type).toBe('linear');
   });
 
   it('should use a logarithmic scale when specified', () => {
     component.valueScaleType = 'logarithmic';
     fixture.detectChanges();
 
-    expect(getScale(requireChart(), 'value-0').type).toBe('logarithmic');
+    expect(getScale(requireChart(), 'sky-value-0').type).toBe('logarithmic');
   });
 
   it('should position a secondary value axis and bind a series to it', () => {
@@ -385,10 +380,10 @@ describe('Chart bar component', () => {
     fixture.detectChanges();
 
     const chart = requireChart();
-    expect(chart.data.datasets[0].yAxisID).toBe('secondary');
-    expect(getScale(chart, 'primary').position).toBe('left');
-    expect(getScale(chart, 'secondary').position).toBe('right');
-    expect(getScale(chart, 'secondary').grid.drawOnChartArea).toBe(false);
+    expect(chart.data.datasets[0].yAxisID).toBe('sky-value-1');
+    expect(getScale(chart, 'sky-value-0').position).toBe('left');
+    expect(getScale(chart, 'sky-value-1').position).toBe('right');
+    expect(getScale(chart, 'sky-value-1').grid.drawOnChartArea).toBe(false);
   });
 
   it('should position a secondary value axis in a horizontal chart', () => {
@@ -398,8 +393,8 @@ describe('Chart bar component', () => {
     fixture.detectChanges();
 
     const chart = requireChart();
-    expect(getScale(chart, 'primary').position).toBe('bottom');
-    expect(getScale(chart, 'secondary').position).toBe('top');
+    expect(getScale(chart, 'sky-value-0').position).toBe('bottom');
+    expect(getScale(chart, 'sky-value-1').position).toBe('top');
   });
 
   it('should warn and fall back to the first value axis for an unknown value axis', () => {
@@ -408,7 +403,7 @@ describe('Chart bar component', () => {
     fixture.detectChanges();
 
     expect(logSvc.warn).toHaveBeenCalled();
-    expect(requireChart().data.datasets[0].yAxisID).toBe('primary');
+    expect(requireChart().data.datasets[0].yAxisID).toBe('sky-value-0');
   });
 
   it('should update an existing chart when inputs change', () => {
@@ -458,7 +453,17 @@ describe('Chart bar component without a table service', () => {
   }
 
   it('should render the chart when no table service is provided', () => {
-    TestBed.configureTestingModule({ imports: [StandaloneComponent] });
+    TestBed.configureTestingModule({
+      imports: [StandaloneComponent],
+      providers: [
+        {
+          provide: SkyLogService,
+          useValue: jasmine.createSpyObj<SkyLogService>('SkyLogService', [
+            'warn',
+          ]),
+        },
+      ],
+    });
 
     const fixture = TestBed.createComponent(StandaloneComponent);
     fixture.detectChanges();

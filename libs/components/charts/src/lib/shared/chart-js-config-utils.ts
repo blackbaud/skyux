@@ -1,29 +1,22 @@
 import { type ChartOptions, type ChartType } from 'chart.js/auto';
 
 import { type SkyChartJsConfig } from './chart-js';
-import { readThemeCssNumber, readThemeCssString } from './theme-css-utils';
+import { type SkyChartThemeStyles } from './chart-theme-styles';
 
 /**
  * Builds the Chart.js `options` shared by every SKY chart type: responsiveness,
  * layout, interaction, hover, animation, and the themed legend and tooltip.
- * Theme tokens are resolved to concrete values here because Chart.js renders to
- * a canvas that cannot read CSS custom properties.
  */
-function buildBaseChartJsOptions(styles: CSSStyleDeclaration): ChartOptions {
-  const fontFamily = readThemeCssString(styles, '--sky-font-family-primary');
-  const fontSize = readThemeCssNumber(styles, '--sky-font-size-body-m', 15);
-  const lineHeight = readThemeCssNumber(
-    styles,
-    '--sky-font-line_height-body-m',
-    1.5,
-  );
-  const textColor = readThemeCssString(styles, '--sky-color-text-default');
+function buildBaseChartJsOptions(
+  themeStyles: SkyChartThemeStyles,
+): ChartOptions {
+  const { font, text, tooltip } = themeStyles;
 
   const bodyFont = {
-    family: fontFamily,
-    size: fontSize,
-    weight: readThemeCssNumber(styles, '--sky-font-style-body-m', 400),
-    lineHeight,
+    family: font.family,
+    size: font.size,
+    weight: font.weight,
+    lineHeight: font.lineHeight,
   };
 
   const options: ChartOptions = {
@@ -50,79 +43,37 @@ function buildBaseChartJsOptions(styles: CSSStyleDeclaration): ChartOptions {
         intersect: false,
 
         // Typography
-        titleColor: textColor,
+        titleColor: text.color,
         titleFont: {
-          family: fontFamily,
-          size: fontSize,
-          weight: readThemeCssNumber(
-            styles,
-            '--sky-font-style-emphasized',
-            700,
-          ),
-          lineHeight,
+          ...bodyFont,
+          weight: font.emphasizedWeight,
         },
-        bodyColor: textColor,
+        bodyColor: text.color,
         bodyFont,
-        footerColor: textColor,
+        footerColor: text.color,
         footerFont: bodyFont,
 
         // Container
-        padding: {
-          top: readThemeCssNumber(
-            styles,
-            '--sky-comp-chart-tooltip-space-inset-top',
-            8,
-          ),
-          right: readThemeCssNumber(
-            styles,
-            '--sky-comp-chart-tooltip-space-inset-right',
-            12,
-          ),
-          bottom: readThemeCssNumber(
-            styles,
-            '--sky-comp-chart-tooltip-space-inset-bottom',
-            8,
-          ),
-          left: readThemeCssNumber(
-            styles,
-            '--sky-comp-chart-tooltip-space-inset-left',
-            12,
-          ),
-        },
-        cornerRadius: readThemeCssNumber(styles, '--sky-border-radius-s', 4),
-        borderWidth: readThemeCssNumber(
-          styles,
-          '--sky-border-width-container-base',
-          1,
-        ),
+        padding: { ...tooltip.inset },
+        cornerRadius: tooltip.cornerRadius,
+        borderWidth: tooltip.borderWidth,
         caretSize: 8,
         caretPadding: 4,
 
         // Color-swatch icon
-        boxHeight: readThemeCssNumber(styles, '--sky-size-icon-xs', 16),
-        boxWidth: readThemeCssNumber(styles, '--sky-size-icon-xs', 16),
-        boxPadding: readThemeCssNumber(styles, '--sky-space-gap-icon-s', 4),
+        boxHeight: tooltip.iconSize,
+        boxWidth: tooltip.iconSize,
+        boxPadding: tooltip.iconGap,
         multiKeyBackground: 'transparent',
 
         // Text spacing.
-        titleMarginBottom: readThemeCssNumber(
-          styles,
-          '--sky-space-stacked-s',
-          8,
-        ),
-        bodySpacing: readThemeCssNumber(styles, '--sky-space-stacked-0', 0),
-        footerMarginTop: readThemeCssNumber(styles, '--sky-space-stacked-s', 8),
+        titleMarginBottom: tooltip.titleGap,
+        bodySpacing: tooltip.bodyGap,
+        footerMarginTop: tooltip.titleGap,
 
         // Colors.
-        backgroundColor: readThemeCssString(
-          styles,
-          '--sky-color-background-container-base',
-          '#ffffff',
-        ),
-        borderColor: readThemeCssString(
-          styles,
-          '--sky-color-border-container-base',
-        ),
+        backgroundColor: tooltip.backgroundColor,
+        borderColor: tooltip.borderColor,
       },
     },
   };
@@ -135,10 +86,10 @@ function buildBaseChartJsOptions(styles: CSSStyleDeclaration): ChartOptions {
  * @internal
  */
 export function extendBaseChartJsConfig<TType extends ChartType = ChartType>(
-  styles: CSSStyleDeclaration,
+  themeStyles: SkyChartThemeStyles,
   overrides: SkyChartJsConfig<TType>,
 ): SkyChartJsConfig<TType> {
-  const base = buildBaseChartJsOptions(styles);
+  const base = buildBaseChartJsOptions(themeStyles);
 
   const options: ChartOptions = {
     ...base,

@@ -21,7 +21,7 @@ export class SkyChartAxisCategory {
    * The categories shared by every series plotted against this axis. Each
    * series' values are aligned to these categories by index.
    */
-  public readonly categories = input.required<(string | number)[]>();
+  public readonly categories = input.required<readonly (string | number)[]>();
 
   /**
    * Whether to hide the axis label.

@@ -12,7 +12,7 @@ export interface SkyChartTable {
   /**
    * The category values, shown as the table's row headers.
    */
-  categories: (string | number)[];
+  categories: readonly (string | number)[];
 
   /**
    * The plotted series, shown as the table's columns.
@@ -34,5 +34,5 @@ export interface SkyChartTableSeries {
    * The series values, formatted for display and aligned to the categories by
    * index.
    */
-  values: string[];
+  values: readonly string[];
 }

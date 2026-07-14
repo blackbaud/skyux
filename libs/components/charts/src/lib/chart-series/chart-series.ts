@@ -27,5 +27,5 @@ export class SkyChartSeries {
    * The values for this series, aligned to the category axis categories by
    * index.
    */
-  public readonly values = input.required<number[]>();
+  public readonly values = input.required<readonly number[]>();
 }

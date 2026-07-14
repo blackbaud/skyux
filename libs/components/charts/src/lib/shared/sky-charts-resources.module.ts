@@ -17,7 +17,7 @@ const RESOURCES: Record<string, SkyLibResources> = {
   'EN-US': {
     'skyux_charts.chart.bar.accessible_summary': {
       message:
-        "Bar chart with {0} series and {1} categories. A data table is available from the chart's context menu.",
+        "Bar chart. Number of series: {0}. Number of categories: {1}. A data table is available from the chart's context menu.",
     },
     'skyux_charts.chart.controls.context_menu.accessible_name': {
       message: 'Context menu for {0}',

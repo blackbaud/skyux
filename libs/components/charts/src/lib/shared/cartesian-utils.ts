@@ -1,10 +1,13 @@
-import { type ChartConfiguration, type TooltipItem } from 'chart.js/auto';
+import {
+  type ChartConfiguration as ChartJsConfig,
+  type TooltipItem as ChartJsTooltipItem,
+} from 'chart.js/auto';
 
 import { SkyChartAxisCategory } from '../chart-axes/chart-axis-category';
 import { SkyChartAxisValue } from '../chart-axes/chart-axis-value';
 import { SkyChartSeries } from '../chart-series/chart-series';
 import type { SkyChartTable } from '../chart-table/chart-table';
-import { readThemeCssNumber, readThemeCssString } from './theme-css-utils';
+import { type SkyChartThemeStyles } from './chart-theme-styles';
 
 /**
  * The Chart.js chart types that plot a category axis against one or more value
@@ -22,14 +25,44 @@ export const CATEGORY_AXIS_ID = 'category';
  * The `scales` shape of a cartesian chart. Bar and line charts register the
  * same cartesian scale types, so the shape is identical across them.
  */
-type CartesianScales = NonNullable<
-  NonNullable<ChartConfiguration<'bar'>['options']>['scales']
+type ChartJsCartesianScales = NonNullable<
+  NonNullable<ChartJsConfig<'bar'>['options']>['scales']
 >;
 
 /**
- * How a single series binds to a value axis when building datasets.
+ * The themed visual styling shared by every cartesian scale: grid line, tick,
+ * border, and text colors, the tick length, and the tick/title fonts. Category
+ * and value scales spread this and add their own structural options (type,
+ * position, title text, tick callback, and whether grid lines fill the chart
+ * area).
  */
-interface CartesianSeriesBinding {
+interface ChartJsThemedScaleStyle {
+  grid: {
+    color: string;
+    tickColor: string;
+    tickLength: number | undefined;
+  };
+  border: { color: string };
+  ticks: {
+    color: string;
+    font: {
+      size: number | undefined;
+      family: string;
+      weight: number | undefined;
+    };
+  };
+  title: {
+    color: string;
+    font: { size: number | undefined; family: string };
+    padding: { top: number | undefined; bottom: number | undefined };
+  };
+}
+
+/**
+ * How a single series binds to a value axis when building datasets.
+ * @internal
+ */
+export interface CartesianSeriesBinding {
   /**
    * The scale key of the value axis the series plots against.
    */
@@ -87,36 +120,33 @@ export function hasCartesianData(
 }
 
 /**
- * Maps each value axis to a stable scale key, generating one for axes that do
- * not declare an `axisId`.
+ * Maps each value axis to a stable, internal scale key. User-supplied
+ * `axisId`s are never used as scale keys so they cannot collide with the
+ * category scale key or with each other; series bind to axes by resolving
+ * their `valueAxisId` to an axis index, not by scale key.
  */
 export function getValueAxisScaleKeys(
   valueAxes: readonly SkyChartAxisValue[],
 ): string[] {
-  return valueAxes.map((axis, index) => axis.axisId() ?? `value-${index}`);
+  return valueAxes.map((_, index) => `sky-value-${index}`);
 }
 
 /**
  * Builds the tabular representation of a cartesian chart for the accessible
- * data table.
+ * data table, formatting each series' values with its resolved binding.
  */
 export function buildCartesianTable(
   categoryAxis: SkyChartAxisCategory,
-  valueAxes: readonly SkyChartAxisValue[],
   series: readonly SkyChartSeries[],
+  bindings: readonly CartesianSeriesBinding[],
 ): SkyChartTable {
   return {
     categoryLabel: categoryAxis.labelText(),
     categories: categoryAxis.categories(),
-    series: series.map((chartSeries) => {
-      const { index } = matchSeriesValueAxis(chartSeries, valueAxes);
-      const formatValue = valueAxes[index].formatValue();
-
-      return {
-        label: chartSeries.labelText(),
-        values: chartSeries.values().map((value) => formatValue(value)),
-      };
-    }),
+    series: series.map((chartSeries, index) => ({
+      label: chartSeries.labelText(),
+      values: chartSeries.values().map(bindings[index].formatValue),
+    })),
   };
 }
 
@@ -152,60 +182,40 @@ export function resolveSeriesBindings(options: {
 }
 
 /**
- * The themed visual styling shared by every cartesian scale: grid line, tick,
- * border, and text colors, the tick length, and the tick/title fonts. Category
- * and value scales spread this and add their own structural options (type,
- * position, title text, tick callback, and whether grid lines fill the chart
- * area). Resolving the tokens once here keeps every axis visually consistent.
+ * Builds the themed styling shared by every cartesian scale from the resolved
+ * theme styles. Building it once keeps every axis visually consistent.
  */
-function buildThemedScaleStyle(styles: CSSStyleDeclaration): {
-  grid: { color: string; tickColor: string; tickLength: number };
-  border: { color: string };
-  ticks: {
-    color: string;
-    font: { size: number; family: string; weight: number };
-  };
-  title: {
-    color: string;
-    font: { size: number; family: string };
-    padding: { top: number; bottom: number };
-  };
-} {
-  const fontFamily = readThemeCssString(styles, '--sky-font-family-primary');
-  const fontSize = readThemeCssNumber(styles, '--sky-font-size-body-s', 13);
-  const gridlineColor = readThemeCssString(styles, '--sky-color-viz-gridline');
-  const titlePadding = readThemeCssNumber(styles, '--sky-space-stacked-xs', 4);
+function buildThemedScaleStyle(
+  themeStyles: SkyChartThemeStyles,
+): ChartJsThemedScaleStyle {
+  const { font, text, axis } = themeStyles;
 
   return {
     grid: {
-      color: gridlineColor,
-      tickColor: gridlineColor,
-      tickLength: readThemeCssNumber(
-        styles,
-        '--sky-size-chart-tick_length-measure',
-        12,
-      ),
+      color: axis.gridlineColor,
+      tickColor: axis.gridlineColor,
+      tickLength: axis.tickLength,
     },
     border: {
-      color: readThemeCssString(styles, '--sky-color-viz-axis'),
+      color: axis.lineColor,
     },
     ticks: {
-      color: readThemeCssString(styles, '--sky-color-text-default'),
+      color: text.color,
       font: {
-        size: fontSize,
-        family: fontFamily,
-        weight: readThemeCssNumber(styles, '--sky-font-style-body-s', 400),
+        size: font.smallSize,
+        family: font.family,
+        weight: font.smallWeight,
       },
     },
     title: {
-      color: readThemeCssString(styles, '--sky-color-text-deemphasized'),
+      color: text.deemphasizedColor,
       font: {
-        size: fontSize,
-        family: fontFamily,
+        size: font.smallSize,
+        family: font.family,
       },
       padding: {
-        top: titlePadding,
-        bottom: titlePadding,
+        top: axis.titleGap,
+        bottom: axis.titleGap,
       },
     },
   };
@@ -225,21 +235,21 @@ export function buildCartesianScales(options: {
   valueAxisKeys: readonly string[];
   isHorizontal: boolean;
   stacked?: boolean;
-  styles: CSSStyleDeclaration;
-}): CartesianScales {
+  themeStyles: SkyChartThemeStyles;
+}): ChartJsCartesianScales {
   const {
     categoryAxis,
     valueAxes,
     valueAxisKeys,
     isHorizontal,
     stacked = false,
-    styles,
+    themeStyles,
   } = options;
   const indexAxis = isHorizontal ? 'y' : 'x';
   const valueDirection = isHorizontal ? 'x' : 'y';
-  const base = buildThemedScaleStyle(styles);
+  const base = buildThemedScaleStyle(themeStyles);
 
-  const scales: CartesianScales = {
+  const scales: ChartJsCartesianScales = {
     [CATEGORY_AXIS_ID]: {
       type: 'category',
       axis: indexAxis,
@@ -316,8 +326,8 @@ export function buildCartesianScales(options: {
 export function buildValueTooltipLabel<T extends CartesianChartType>(
   formatters: readonly ((value: number) => string)[],
   valueDirection: 'x' | 'y',
-): (context: TooltipItem<T>) => string {
-  return (context: TooltipItem<T>): string => {
+): (context: ChartJsTooltipItem<T>) => string {
+  return (context: ChartJsTooltipItem<T>): string => {
     const item = context as unknown as CartesianTooltipContext;
     const formatValue = formatters[item.datasetIndex];
     const formatted = formatValue(item.parsed[valueDirection] ?? 0);

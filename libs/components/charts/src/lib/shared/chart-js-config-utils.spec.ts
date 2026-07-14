@@ -1,6 +1,7 @@
 import { type SkyChartJsConfig } from './chart-js';
 
 import { extendBaseChartJsConfig } from './chart-js-config-utils';
+import { createThemeStylesFixture } from './fixtures/theme-styles-fixture';
 
 type TooltipProbe = {
   enabled: boolean;
@@ -21,16 +22,8 @@ function getTooltip(config: SkyChartJsConfig<'bar'>): TooltipProbe {
 }
 
 describe('extendBaseChartJsConfig', () => {
-  function createStyles(values: Record<string, string>): CSSStyleDeclaration {
-    return {
-      getPropertyValue: (property: string): string => values[property] ?? '',
-    } as unknown as CSSStyleDeclaration;
-  }
-
-  function extend(
-    values: Record<string, string> = {},
-  ): SkyChartJsConfig<'bar'> {
-    return extendBaseChartJsConfig<'bar'>(createStyles(values), {
+  function extend(): SkyChartJsConfig<'bar'> {
+    return extendBaseChartJsConfig<'bar'>(createThemeStylesFixture(), {
       type: 'bar',
       data: { labels: ['a'], datasets: [{ data: [1] }] },
       options: {
@@ -62,12 +55,7 @@ describe('extendBaseChartJsConfig', () => {
   });
 
   it('should merge the base tooltip styling with the chart-specific callbacks', () => {
-    const tooltip = getTooltip(
-      extend({
-        '--sky-color-text-default': '#111111',
-        '--sky-border-radius-s': '6px',
-      }),
-    );
+    const tooltip = getTooltip(extend());
 
     // Base styling is retained...
     expect(tooltip.enabled).toBe(true);
@@ -79,30 +67,15 @@ describe('extendBaseChartJsConfig', () => {
     expect(tooltip.callbacks.label()).toBe('from-override');
   });
 
-  it('should resolve themed tooltip typography tokens', () => {
-    const tooltip = getTooltip(
-      extend({
-        '--sky-font-family-primary': 'Arial',
-        '--sky-font-size-body-m': '15px',
-        '--sky-font-style-emphasized': '700',
-        '--sky-font-style-body-m': '400',
-      }),
-    );
+  it('should apply the themed tooltip typography and container styling', () => {
+    const tooltip = getTooltip(extend());
 
     expect(tooltip.titleFont.family).toBe('Arial');
     expect(tooltip.titleFont.size).toBe(15);
     expect(tooltip.titleFont.weight).toBe(700);
     expect(tooltip.bodyFont.weight).toBe(400);
-  });
-
-  it('should fall back to defaults when tooltip tokens are unset', () => {
-    const tooltip = getTooltip(extend());
-
-    expect(tooltip.titleFont.size).toBe(15);
-    expect(tooltip.titleFont.weight).toBe(700);
-    expect(tooltip.bodyFont.weight).toBe(400);
+    expect(tooltip.padding.top).toBe(8);
     expect(tooltip.padding.left).toBe(12);
-    expect(tooltip.cornerRadius).toBe(4);
     expect(tooltip.boxWidth).toBe(16);
     expect(tooltip.backgroundColor).toBe('#ffffff');
   });
