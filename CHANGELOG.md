@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.6.2](https://github.com/blackbaud/skyux/compare/14.6.1...14.6.2) (2026-07-14)
+
+
+### Bug Fixes
+
+* **components/docs-tools:** code examples in StackBlitz WebContainer preview blocked by CORP error ([#4517](https://github.com/blackbaud/skyux/issues/4517)) ([dc4f911](https://github.com/blackbaud/skyux/commit/dc4f91109de19d1769de4e2044a59245cec205d2)), closes [stackblitz/webcontainer-core#2100](https://github.com/stackblitz/webcontainer-core/issues/2100) [AB#4046763](https://dev.azure.com/blackbaud/Products/_workitems/edit/4046763)
+
 ## [14.6.1](https://github.com/blackbaud/skyux/compare/14.6.0...14.6.1) (2026-07-13)
 
 
