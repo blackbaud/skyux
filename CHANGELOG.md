@@ -6,6 +6,7 @@
 
 ### Bug Fixes
 
+* **components/data-grid:** page not resetting to 1 when pageQueryParam is set ([#4516](https://github.com/blackbaud/skyux/issues/4516)) ([3753ad9](https://github.com/blackbaud/skyux/commit/3753ad97146b76fcd20c7bccb7b7cb512b9141ed)), closes [AB#4046789](https://dev.azure.com/blackbaud/Products/_workitems/edit/4046789)
 * **components/docs-tools:** code examples in StackBlitz WebContainer preview blocked by CORP error ([#4517](https://github.com/blackbaud/skyux/issues/4517)) ([dc4f911](https://github.com/blackbaud/skyux/commit/dc4f91109de19d1769de4e2044a59245cec205d2)), closes [stackblitz/webcontainer-core#2100](https://github.com/stackblitz/webcontainer-core/issues/2100) [AB#4046763](https://dev.azure.com/blackbaud/Products/_workitems/edit/4046763)
 
 ## [14.6.1](https://github.com/blackbaud/skyux/compare/14.6.0...14.6.1) (2026-07-13)
