@@ -440,7 +440,7 @@ export class SkyDataGrid {
             ? this.#activatedRoute.queryParamMap.pipe(
                 startWith(this.#activatedRoute.snapshot.queryParamMap),
                 map((params) =>
-                  coerceNumberProperty(params.get(pageQueryParam), NaN),
+                  coerceNumberProperty(params.get(pageQueryParam), 1),
                 ),
               )
             : [],
@@ -557,12 +557,20 @@ export class SkyDataGrid {
         this.currentPageChange(1);
       } else if (page > pageCount) {
         this.currentPageChange(pageCount);
-      } else {
-        if (untracked(this.autoPage)) {
-          api.paginationGoToPage(page - 1);
-        }
-        // When the page is set programmatically (rather than through the
-        // paging controls), sync the change to the URL query parameter.
+      } else if (untracked(this.autoPage)) {
+        api.paginationGoToPage(page - 1);
+      }
+    });
+    // Sync `page` to the URL query parameter when it changes, e.g. when set
+    // programmatically rather than through the paging controls (which
+    // already navigate directly). Tracks only `page` itself, not `gridApi`/
+    // `pageCount`, so a grid becoming ready does not push a `page` value
+    // that is still stale from an in-flight URL change onto the URL. Only
+    // syncs valid page numbers; out-of-range values are corrected by the
+    // effect above instead of being reflected in the URL.
+    effect(() => {
+      const page = this.page();
+      if (Number.isInteger(page) && page >= 1) {
         this.#syncPageQueryParam(page);
       }
     });
