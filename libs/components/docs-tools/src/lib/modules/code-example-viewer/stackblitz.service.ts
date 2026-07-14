@@ -12,6 +12,17 @@ import type { SkyDocsStackBlitzLaunchConfig } from './stackblitz-launch-config';
  */
 const TEMPLATE_FILES = ['package.json', 'package-lock.json'];
 
+type StackBlitzOpenOptions = Parameters<typeof stackblitz.openProject>[1] & {
+  /**
+   * Not declared on `OpenOptions` (only on `EmbedOptions`), but the SDK maps it
+   * identically for both — appending `corp=1` to the generated StackBlitz URL so
+   * stackblitz.com serves the page with COOP/COEP headers, which the WebContainer
+   * preview iframe requires since Chrome removed the cross-origin-isolation origin trial.
+   * @see https://github.com/stackblitz/webcontainer-core/issues/2100#issuecomment-4553571024
+   */
+  crossOriginIsolated?: boolean;
+};
+
 /**
  * @internal
  */
@@ -367,13 +378,18 @@ const context = (import.meta as any).webpackContext('./', {
 context.keys().map(context);
 `;
 
+    const openOptions: StackBlitzOpenOptions = {
+      openFile: config.primaryFile,
+      crossOriginIsolated: true,
+    };
+
     stackblitz.openProject(
       {
         title: config.title,
         files,
         template: 'node',
       },
-      { openFile: config.primaryFile },
+      openOptions,
     );
   }
 

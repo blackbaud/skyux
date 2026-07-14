@@ -105,7 +105,7 @@
     "@eslint/js": "9.39.3",
     "@nx/angular": "22.5.3",
     "@skyux/icons": "10.4.0",
-    "@stackblitz/sdk": "1.11.0",
+    "@stackblitz/sdk": "1.11.1",
     "ag-grid-angular": "35.1.0",
     "ag-grid-community": "35.1.0",
     "ajv": "8.18.0",

@@ -406,7 +406,10 @@ context.keys().map(context);
         },
         template: 'node',
       },
-      { openFile: defaultConfig.primaryFile },
+      {
+        openFile: defaultConfig.primaryFile,
+        crossOriginIsolated: true,
+      },
     );
   });
 
