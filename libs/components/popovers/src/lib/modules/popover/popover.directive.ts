@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import {
   Directive,
   ElementRef,
@@ -9,8 +10,9 @@ import {
 } from '@angular/core';
 
 import { Subject, Subscription, fromEvent as observableFromEvent } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 
+import { SkyPopoverKeyboardShortcutService } from './popover-keyboard-shortcut.service';
 import { SkyPopoverSRPointerService } from './popover-sr-pointer.service';
 import { SkyPopoverComponent } from './popover.component';
 import { SkyPopoverAlignment } from './types/popover-alignment';
@@ -43,6 +45,7 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
     this.popoverId = value?.popoverId;
     this.#_popover = value;
     this.#updateSRPointer(value);
+    this.#updateKeyboardShortcut(value);
   }
 
   public get skyPopover(): SkyPopoverComponent | undefined {
@@ -101,10 +104,15 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
 
   #_trigger: SkyPopoverTrigger = 'click';
 
+  readonly #document = inject(DOCUMENT);
   readonly #elementRef = inject(ElementRef);
   #expanded = false;
   #popoverClosedSubscription: Subscription | undefined;
+  #shortcutFocusOutSubscription: Subscription | undefined;
+  #shortcutFocusSubscription: Subscription | undefined;
+  #unregisterKeyboardShortcut: (() => void) | undefined;
 
+  readonly #keyboardShortcutSvc = inject(SkyPopoverKeyboardShortcutService);
   readonly #srPointerSvc = inject(SkyPopoverSRPointerService);
 
   constructor() {
@@ -119,6 +127,9 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
     this.#removeEventListeners();
     this.#unsubscribeMessageStream();
     this.#popoverClosedSubscription?.unsubscribe();
+    this.#unregisterKeyboardShortcut?.();
+    this.#shortcutFocusSubscription?.unsubscribe();
+    this.#shortcutFocusOutSubscription?.unsubscribe();
   }
 
   public togglePopover(): void {
@@ -309,6 +320,83 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
       ariaExpanded: this.#expanded,
       ariaOwns: this.popoverId,
     });
+  }
+
+  #openViaKeyboardShortcut(): void {
+    this.#sendMessage(SkyPopoverMessageType.Open);
+    this.#focusPopoverWhenReady();
+  }
+
+  #focusPopoverWhenReady(): void {
+    this.#shortcutFocusSubscription?.unsubscribe();
+    this.#shortcutFocusSubscription = this.skyPopover?.popoverOpened
+      .pipe(take(1))
+      .subscribe(() => {
+        if (this.skyPopover?.hasFocusableContent()) {
+          this.#sendMessage(SkyPopoverMessageType.Focus);
+        }
+        this.#watchKeyboardShortcutSession();
+      });
+  }
+
+  #watchKeyboardShortcutSession(): void {
+    this.#shortcutFocusOutSubscription?.unsubscribe();
+
+    const popover = this.skyPopover;
+
+    if (!popover) {
+      return;
+    }
+
+    const stopWatching = new Subject<void>();
+
+    popover.popoverClosed.pipe(take(1)).subscribe(() => stopWatching.next());
+
+    const focusOutSubscription = new Subscription();
+
+    focusOutSubscription.add(
+      observableFromEvent(this.#document, 'focusin')
+        .pipe(takeUntil(stopWatching))
+        .subscribe(() => {
+          const activeElement = this.#document.activeElement;
+          const popoverEl = popover.popoverId
+            ? this.#document.getElementById(popover.popoverId)
+            : null;
+
+          const isWithin = (el: Element | null): boolean =>
+            !!activeElement && !!el && el.contains(activeElement);
+
+          if (
+            !isWithin(this.#elementRef.nativeElement) &&
+            !isWithin(popoverEl)
+          ) {
+            this.#sendMessage(SkyPopoverMessageType.Close);
+          }
+        }),
+    );
+
+    focusOutSubscription.add(
+      observableFromEvent<KeyboardEvent>(this.#document, 'keydown')
+        .pipe(takeUntil(stopWatching))
+        .subscribe((event) => {
+          if (event.altKey && event.key === 'ArrowDown') {
+            event.preventDefault();
+            this.#sendMessage(SkyPopoverMessageType.Close);
+            this.#elementRef.nativeElement.focus();
+          }
+        }),
+    );
+
+    this.#shortcutFocusOutSubscription = focusOutSubscription;
+  }
+
+  #updateKeyboardShortcut(popover: SkyPopoverComponent | undefined): void {
+    this.#unregisterKeyboardShortcut?.();
+    this.#unregisterKeyboardShortcut = popover
+      ? this.#keyboardShortcutSvc.register(this.#elementRef, () =>
+          this.#openViaKeyboardShortcut(),
+        )
+      : undefined;
   }
 
   #updateSRPointer(popover: SkyPopoverComponent | undefined): void {
