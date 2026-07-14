@@ -4,7 +4,10 @@
     "defer-uploads": true
   },
   "snapshot": {
-    "widths": [1280]
+    "widths": [1280],
+    "readiness": {
+      "preset": "disabled"
+    }
   },
   "discovery": {
     "allowed-hostnames": ["maxcdn.bootstrapcdn.com", "sky.blackbaudcdn.net"],
