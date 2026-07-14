@@ -1,3 +1,4 @@
+import { dirname, join, normalize } from '@angular-devkit/core';
 import { Rule, Tree, UpdateRecorder, chain } from '@angular-devkit/schematics';
 import { ExistingBehavior, addDependency } from '@schematics/angular/utility';
 import {
@@ -9,8 +10,6 @@ import { Change, InsertChange } from '@schematics/angular/utility/change';
 import { getEOL } from '@schematics/angular/utility/eol';
 import { applyChangesToFile } from '@schematics/angular/utility/standalone/util';
 import ts from 'typescript';
-
-import { dirname, join, normalize } from 'node:path';
 
 import {
   ElementWithLocation,
@@ -446,7 +445,7 @@ function convertTypescriptFile(
       ts.PropertyAssignment | undefined;
     if (templateUrl && ts.isStringLiteralLike(templateUrl.initializer)) {
       const htmlFilePath = normalize(
-        join(dirname(filePath), templateUrl.initializer.text),
+        join(dirname(normalize(filePath)), templateUrl.initializer.text),
       );
       followupTasks = convertHtmlFile(tree, htmlFilePath, source);
     } else {
