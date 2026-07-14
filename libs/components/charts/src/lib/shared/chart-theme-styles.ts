@@ -122,13 +122,15 @@ export function resolveChartThemeStyles(
   styles: CSSStyleDeclaration,
   warn: (message: string) => void,
 ): SkyChartThemeStyles {
-  // Every SKY theme defines `--sky-color-text-default`, so its absence means
-  // the theme styles are not loaded at all.
+  // Every SKY theme resolves `--sky-color-text-default` — the modern theme
+  // defines it and the charts stylesheets provide a default-theme override —
+  // so its absence means the SKY UX theme styles are not loaded at all (or a
+  // custom modern brand omits the tokens).
   if (!readString(styles, '--sky-color-text-default')) {
     warn(
-      'SKY UX theme CSS custom properties were not found. Charts require ' +
-        'the SKY UX theme styles to be loaded, and render un-themed until ' +
-        'they are.',
+      "The SKY UX theme's CSS custom properties could not be resolved, so " +
+        'the chart renders un-themed. Verify that the SKY UX theme styles ' +
+        'are loaded.',
     );
   }
 
@@ -193,26 +195,45 @@ export function resolveChartThemeStyles(
 }
 
 /**
- * Reads a CSS custom property, returning an empty string when the property is
- * unset. An empty string reaching Chart.js renders un-themed rather than
- * broken, and `resolveChartThemeStyles` warns when that happens.
+ * Derives the default-theme override property for a SKY theme token. The
+ * modern theme's `--sky-*` tokens are not defined in the SKY UX default
+ * theme, so `sky-chart` provides `--sky-override-chart-*` values scoped to
+ * the default theme (see `chart.scss`). The override wins when present,
+ * matching the `var(--sky-override-x, var(--sky-x))` convention used in
+ * component CSS.
  */
-function readString(styles: CSSStyleDeclaration, property: string): string {
-  return styles.getPropertyValue(property).trim();
+function overrideProperty(property: string): string {
+  return `--sky-override-chart-${property.slice('--sky-'.length)}`;
 }
 
 /**
- * Reads a numeric CSS custom property and returns it as a number, converting
- * `rem` values to pixels using the root font size. Chart.js requires numbers
- * (font sizes, lengths, padding), and treats `undefined` as unset, so a token
- * that is unset or not a number resolves to `undefined` — never `NaN`, which
- * would poison Chart.js's layout arithmetic.
+ * Reads a CSS custom property — preferring its default-theme override —
+ * returning an empty string when neither is set. An empty string reaching
+ * Chart.js renders un-themed rather than broken, and
+ * `resolveChartThemeStyles` warns when that happens.
+ */
+function readString(styles: CSSStyleDeclaration, property: string): string {
+  return (
+    styles.getPropertyValue(overrideProperty(property)).trim() ||
+    styles.getPropertyValue(property).trim()
+  );
+}
+
+/**
+ * Reads a numeric CSS custom property — preferring its default-theme
+ * override — and returns it as a number, converting `rem` values to pixels
+ * using the root font size. Chart.js requires numbers (font sizes, lengths,
+ * padding), and treats `undefined` as unset, so a value that is missing or
+ * not a number resolves to `undefined` — never `NaN`, which would poison
+ * Chart.js's layout arithmetic.
  */
 function readNumber(
   styles: CSSStyleDeclaration,
   property: string,
 ): number | undefined {
-  const raw = styles.getPropertyValue(property).trim();
+  const raw =
+    styles.getPropertyValue(overrideProperty(property)).trim() ||
+    styles.getPropertyValue(property).trim();
   const value = Number.parseFloat(raw);
 
   if (Number.isNaN(value)) {

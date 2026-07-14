@@ -62,13 +62,25 @@ describe('resolveChartThemeStyles', () => {
     expect(themeStyles.series.categoricalPalette[7]).toBe('#last');
   });
 
+  it('should prefer the default-theme override over the theme token', () => {
+    const themeStyles = resolve({
+      '--sky-override-chart-color-text-default': '#override',
+      '--sky-color-text-default': '#token',
+      '--sky-override-chart-font-size-body-m': '20px',
+      '--sky-font-size-body-m': '15px',
+    });
+
+    expect(themeStyles.text.color).toBe('#override');
+    expect(themeStyles.font.size).toBe(20);
+  });
+
   it('should warn when the SKY theme styles are not loaded', () => {
     const warn = jasmine.createSpy('warn');
 
     resolve({}, warn);
 
     expect(warn).toHaveBeenCalledOnceWith(
-      jasmine.stringContaining('SKY UX theme CSS custom properties'),
+      jasmine.stringContaining('CSS custom properties'),
     );
   });
 
@@ -76,6 +88,14 @@ describe('resolveChartThemeStyles', () => {
     const warn = jasmine.createSpy('warn');
 
     resolve({ '--sky-color-text-default': '#111111' }, warn);
+
+    expect(warn).not.toHaveBeenCalled();
+  });
+
+  it('should not warn when the default-theme overrides are present', () => {
+    const warn = jasmine.createSpy('warn');
+
+    resolve({ '--sky-override-chart-color-text-default': '#111111' }, warn);
 
     expect(warn).not.toHaveBeenCalled();
   });

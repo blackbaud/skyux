@@ -1,3 +1,55 @@
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+// Themes charts in the SKY UX default theme, where the modern theme's
+// `--sky-*` tokens are not defined. Each `--sky-override-chart-<name>`
+// property overrides the `--sky-<name>` token: `resolveChartThemeStyles`
+// reads the override before the token, and chart CSS consumes them as
+// `var(--sky-override-chart-<name>, var(--sky-<name>))`. The values inherit
+// to the chart's text and to the plot rendered inside the wrapper (plots are
+// always used within `sky-chart`).
+//
+// TODO: These are placeholder values pending default-theme design specs for
+// charts. Colors are drawn from the classic palette where an equivalent
+// exists; the categorical data-visualization palette reuses the modern light
+// palette because the default theme has no equivalent.
+@include compatMixins.sky-default-overrides(':host') {
+  --sky-override-chart-font-family-primary:
+    'BLKB Sans', 'Helvetica Neue', Arial, sans-serif;
+  --sky-override-chart-font-size-body-m: 15px;
+  --sky-override-chart-font-size-body-s: 13px;
+  --sky-override-chart-font-style-body-m: 400;
+  --sky-override-chart-font-style-body-s: 400;
+  --sky-override-chart-font-style-emphasized: 700;
+  --sky-override-chart-font-line_height-body-m: 1.3333;
+  --sky-override-chart-color-text-default: #212327;
+  --sky-override-chart-color-text-deemphasized: #686c73;
+  --sky-override-chart-color-viz-axis: #cdcfd2;
+  --sky-override-chart-color-viz-gridline: #eeeeef;
+  --sky-override-chart-color-viz-category-1: #06a39e;
+  --sky-override-chart-color-viz-category-2: #6d3c96;
+  --sky-override-chart-color-viz-category-3: #5589dd;
+  --sky-override-chart-color-viz-category-4: #004252;
+  --sky-override-chart-color-viz-category-5: #ce5600;
+  --sky-override-chart-color-viz-category-6: #822325;
+  --sky-override-chart-color-viz-category-7: #c650c1;
+  --sky-override-chart-color-viz-category-8: #077e43;
+  --sky-override-chart-color-background-container-base: #ffffff;
+  --sky-override-chart-color-border-container-base: #cdcfd2;
+  --sky-override-chart-size-chart-tick_length-measure: 12px;
+  --sky-override-chart-space-stacked-xs: 4px;
+  --sky-override-chart-space-stacked-s: 8px;
+  --sky-override-chart-space-stacked-0: 0px;
+  --sky-override-chart-space-gap-icon-s: 4px;
+  --sky-override-chart-size-icon-xs: 16px;
+  --sky-override-chart-border-width-container-base: 1px;
+  --sky-override-chart-border-radius-s: 4px;
+  --sky-override-chart-border-radius-xs: 2px;
+  --sky-override-chart-comp-chart-tooltip-space-inset-top: 8px;
+  --sky-override-chart-comp-chart-tooltip-space-inset-right: 12px;
+  --sky-override-chart-comp-chart-tooltip-space-inset-bottom: 8px;
+  --sky-override-chart-comp-chart-tooltip-space-inset-left: 12px;
+}
+
 .sky-chart {
   display: block;
 }

@@ -22,25 +22,44 @@ import {
  * bridge that publishes each plot's tabular representation to the accessible
  * data table, so every plot type shares the same lifecycle. Subclasses
  * implement `buildTable` and their own rendering.
+ *
+ * Plots must be rendered inside `sky-chart`: the wrapper provides the data
+ * table bridge and the default-theme styling the plot resolves its themed
+ * values from.
  * @internal
  */
 @Directive()
 export abstract class SkyChartPlot {
   readonly #elementRef = inject(ElementRef);
   readonly #logSvc = inject(SkyLogService);
-  readonly #tableSvc = inject(SkyChartTableService, { optional: true });
+  readonly #tableSvc: SkyChartTableService;
 
   #warnedMissingTheme = false;
 
   constructor() {
+    const tableSvc = inject(SkyChartTableService, { optional: true });
+
+    if (!tableSvc) {
+      const tagName = (
+        this.#elementRef.nativeElement as HTMLElement
+      ).tagName.toLowerCase();
+
+      throw new Error(
+        `The <${tagName}> component must be rendered inside a <sky-chart> ` +
+          'component.',
+      );
+    }
+
+    this.#tableSvc = tableSvc;
+
     inject(DestroyRef).onDestroy(() => {
-      this.#tableSvc?.table.set(undefined);
-      this.#tableSvc?.summary.set(undefined);
+      this.#tableSvc.table.set(undefined);
+      this.#tableSvc.summary.set(undefined);
     });
 
     afterRenderEffect(() => {
-      this.#tableSvc?.table.set(this.buildTable());
-      this.#tableSvc?.summary.set(this.buildSummary());
+      this.#tableSvc.table.set(this.buildTable());
+      this.#tableSvc.summary.set(this.buildSummary());
     });
   }
 

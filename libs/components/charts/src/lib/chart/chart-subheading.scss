@@ -1,8 +1,23 @@
 :host {
   display: block;
-  font-family: var(--sky-font-family-primary);
-  font-size: var(--sky-font-size-body-m);
-  font-weight: var(--sky-font-style-body-m);
-  line-height: var(--sky-font-line_height-body-m);
-  color: var(--sky-color-text-deemphasized);
+  font-family: var(
+    --sky-override-chart-font-family-primary,
+    var(--sky-font-family-primary)
+  );
+  font-size: var(
+    --sky-override-chart-font-size-body-m,
+    var(--sky-font-size-body-m)
+  );
+  font-weight: var(
+    --sky-override-chart-font-style-body-m,
+    var(--sky-font-style-body-m)
+  );
+  line-height: var(
+    --sky-override-chart-font-line_height-body-m,
+    var(--sky-font-line_height-body-m)
+  );
+  color: var(
+    --sky-override-chart-color-text-deemphasized,
+    var(--sky-color-text-deemphasized)
+  );
 }

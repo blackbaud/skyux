@@ -10,6 +10,7 @@ import { SkyChartAxisCategory } from '../chart-axes/chart-axis-category';
 import { SkyChartAxisValue } from '../chart-axes/chart-axis-value';
 import { SkyChartSeries } from '../chart-series/chart-series';
 import { SkyChartTableService } from '../chart-table/chart-table-service';
+import { SkyChart } from '../chart/chart';
 import { SkyChartValueFormat } from '../shared/value-format';
 
 import { SkyChartBar } from './chart-bar';
@@ -406,6 +407,21 @@ describe('Chart bar component', () => {
     expect(requireChart().data.datasets[0].yAxisID).toBe('sky-value-0');
   });
 
+  it('should warn once when the theme tokens cannot be resolved', () => {
+    // A modern theme class without the brand tokens suppresses the
+    // default-theme overrides and defines no `--sky-*` tokens.
+    document.body.classList.remove('sky-theme-brand-base');
+    fixture.detectChanges();
+
+    expect(logSvc.warn).toHaveBeenCalledTimes(1);
+
+    // Rebuilding the chart does not repeat the warning.
+    component.values = [30, 40];
+    fixture.detectChanges();
+
+    expect(logSvc.warn).toHaveBeenCalledTimes(1);
+  });
+
   it('should update an existing chart when inputs change', () => {
     fixture.detectChanges();
 
@@ -431,7 +447,59 @@ describe('Chart bar component', () => {
   });
 });
 
-describe('Chart bar component without a table service', () => {
+describe('Chart bar component in the default theme', () => {
+  @Component({
+    imports: [
+      SkyChart,
+      SkyChartBar,
+      SkyChartAxisCategory,
+      SkyChartAxisValue,
+      SkyChartSeries,
+    ],
+    template: `
+      <sky-chart headingText="Sales">
+        <sky-chart-bar>
+          <sky-chart-axis-category labelText="Year" [categories]="categories" />
+          <sky-chart-axis-value labelText="Value" />
+          <sky-chart-series labelText="Series" [values]="values" />
+        </sky-chart-bar>
+      </sky-chart>
+    `,
+  })
+  class WrappedComponent {
+    public categories = ['2023', '2024'];
+    public values = [10, 20];
+  }
+
+  it('should theme the chart from the wrapper\u2019s default-theme overrides', () => {
+    const logSvc = jasmine.createSpyObj<SkyLogService>('SkyLogService', [
+      'warn',
+    ]);
+
+    TestBed.configureTestingModule({
+      imports: [WrappedComponent],
+      providers: [{ provide: SkyLogService, useValue: logSvc }],
+    });
+
+    // No modern theme classes: the default theme is active, and the
+    // `--sky-override-chart-*` values on `sky-chart` inherit to the plot.
+    const fixture = TestBed.createComponent(WrappedComponent);
+    fixture.detectChanges();
+
+    const canvas = fixture.nativeElement.querySelector('canvas');
+    const chart = Chart.getChart(canvas) as Chart<'bar'>;
+    const ticks = chart.options.scales?.['category']?.ticks as {
+      color?: string;
+    };
+
+    expect(ticks.color).toBe('#212327');
+    expect(logSvc.warn).not.toHaveBeenCalled();
+
+    fixture.destroy();
+  });
+});
+
+describe('Chart bar component outside a sky-chart', () => {
   @Component({
     imports: [
       SkyChartBar,
@@ -452,26 +520,13 @@ describe('Chart bar component without a table service', () => {
     public values = [10, 20];
   }
 
-  it('should render the chart when no table service is provided', () => {
-    TestBed.configureTestingModule({
-      imports: [StandaloneComponent],
-      providers: [
-        {
-          provide: SkyLogService,
-          useValue: jasmine.createSpyObj<SkyLogService>('SkyLogService', [
-            'warn',
-          ]),
-        },
-      ],
-    });
+  it('should throw when the plot is not inside a sky-chart', () => {
+    TestBed.configureTestingModule({ imports: [StandaloneComponent] });
 
-    const fixture = TestBed.createComponent(StandaloneComponent);
-    fixture.detectChanges();
-
-    const canvas = fixture.nativeElement.querySelector('canvas');
-    expect(Chart.getChart(canvas)).toBeTruthy();
-
-    fixture.destroy();
+    expect(() => TestBed.createComponent(StandaloneComponent)).toThrowError(
+      'The <sky-chart-bar> component must be rendered inside a <sky-chart> ' +
+        'component.',
+    );
   });
 });
 
