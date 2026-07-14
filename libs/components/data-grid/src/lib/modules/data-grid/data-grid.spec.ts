@@ -733,6 +733,34 @@ describe('SkyDataGrid', () => {
       await expectAsync(pagingHarness.getCurrentPage()).toBeResolvedTo(3);
     });
 
+    it('should update the page to 1 when the url query parameter is removed', async () => {
+      fixture.componentRef.setInput('pageSize', 2);
+      fixture.componentRef.setInput('pageQueryParam', 'page');
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const router = TestBed.inject(Router);
+      await router.navigate([], {
+        queryParams: { page: 3 },
+      });
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(component.page()).toBe(3);
+
+      await router.navigate([], {
+        queryParams: { page: null },
+        queryParamsHandling: 'merge',
+      });
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(component.page()).toBe(1);
+
+      const pagingHarness = await loader.getHarness(SkyPagingHarness);
+      await expectAsync(pagingHarness.getCurrentPage()).toBeResolvedTo(1);
+    });
+
     it('should not use grid paging when autoPage is false', async () => {
       fixture.componentRef.setInput('autoPage', false);
       fixture.componentRef.setInput('pageSize', 200);
