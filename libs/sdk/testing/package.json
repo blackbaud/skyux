@@ -39,7 +39,7 @@
     "@angular/platform-browser": "^22.0.6",
     "@skyux/i18n": "0.0.0-PLACEHOLDER",
     "axe-core": "~4.12.1",
-    "vitest": "^4.0.18"
+    "vitest": "^4.1.10"
   },
   "dependencies": {
     "@skyux-sdk/testing-schematics": "0.0.0-PLACEHOLDER",

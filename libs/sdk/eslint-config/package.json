@@ -30,8 +30,8 @@
     "@angular/cli": "^22.0.6"
   },
   "dependencies": {
-    "comment-json": "4.5.1",
-    "fs-extra": "11.3.4",
+    "comment-json": "^5.0.0",
+    "fs-extra": "^11.3.6",
     "jsonc-parser": "3.3.1"
   }
 }
