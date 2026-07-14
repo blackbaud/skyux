@@ -76,8 +76,7 @@ function removePackageJsonOverride(packageName: string): Rule {
     const packageJson = new JsonFile(tree, packageJsonPath);
 
     const overrides = packageJson.get(['overrides']) as
-      | Record<string, unknown>
-      | undefined;
+      Record<string, unknown> | undefined;
 
     if (!overrides || typeof overrides !== 'object') {
       return tree;
@@ -90,8 +89,7 @@ function removePackageJsonOverride(packageName: string): Rule {
     }
 
     const remainingOverrides = packageJson.get(['overrides']) as
-      | Record<string, unknown>
-      | undefined;
+      Record<string, unknown> | undefined;
 
     if (remainingOverrides && Object.keys(remainingOverrides).length === 0) {
       packageJson.remove(['overrides']);

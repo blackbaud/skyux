@@ -20,7 +20,7 @@
     "save": "devDependencies"
   },
   "peerDependencies": {
-    "stylelint": "^17.1.0"
+    "stylelint": "^17.14.0"
   },
   "dependencies": {
     "@blackbaud/skyux-design-tokens": "6.0.2",

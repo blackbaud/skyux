@@ -164,10 +164,7 @@ export function isStandaloneComponent(
 export function addSymbolToClassMetadata(
   source: ts.SourceFile,
   decorator:
-    | 'NgModule'
-    | 'Component'
-    | 'Directive'
-    | 'TestBed.configureTestingModule',
+    'NgModule' | 'Component' | 'Directive' | 'TestBed.configureTestingModule',
   filePath: string,
   metadataField: string,
   symbolName: string,

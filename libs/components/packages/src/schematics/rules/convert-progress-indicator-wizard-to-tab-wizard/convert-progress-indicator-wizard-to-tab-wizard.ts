@@ -443,8 +443,7 @@ function convertTypescriptFile(
       '@angular/core',
     )[0] as ts.ObjectLiteralExpression;
     const templateUrl = getMetadataField(metadata, 'templateUrl')[0] as
-      | ts.PropertyAssignment
-      | undefined;
+      ts.PropertyAssignment | undefined;
     if (templateUrl && ts.isStringLiteralLike(templateUrl.initializer)) {
       const htmlFilePath = normalize(
         join(dirname(filePath), templateUrl.initializer.text),

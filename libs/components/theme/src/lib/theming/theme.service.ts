@@ -252,11 +252,7 @@ export class SkyThemeService {
     previousClass: string | undefined,
     currentClass: string | undefined,
     currentSetting:
-      | SkyTheme
-      | SkyThemeMode
-      | SkyThemeSpacing
-      | SkyThemeBrand
-      | undefined,
+      SkyTheme | SkyThemeMode | SkyThemeSpacing | SkyThemeBrand | undefined,
     current: SkyThemeSettings,
     supportedProp?: 'supportedModes' | 'supportedSpacing',
   ): void {
@@ -314,11 +310,7 @@ export class SkyThemeService {
 
   #isSupportedProperty(
     currentSetting:
-      | SkyTheme
-      | SkyThemeMode
-      | SkyThemeSpacing
-      | SkyThemeBrand
-      | undefined,
+      SkyTheme | SkyThemeMode | SkyThemeSpacing | SkyThemeBrand | undefined,
     current: SkyThemeSettings,
     supportedProp?: 'supportedModes' | 'supportedSpacing',
   ): boolean {

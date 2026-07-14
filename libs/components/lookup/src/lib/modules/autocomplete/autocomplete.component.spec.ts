@@ -207,8 +207,7 @@ describe('Autocomplete component', () => {
   function updateNgModel(
     fixture: ComponentFixture<SkyAutocompleteFixtureComponent>,
     selectedValue:
-      | { objectid?: string; name?: string; text?: string }
-      | undefined,
+      { objectid?: string; name?: string; text?: string } | undefined,
   ): void {
     fixture.componentRef.setInput('model', { favoriteColor: selectedValue });
     fixture.detectChanges();

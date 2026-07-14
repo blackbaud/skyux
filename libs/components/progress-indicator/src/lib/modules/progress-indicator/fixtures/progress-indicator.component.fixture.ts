@@ -49,8 +49,7 @@ export class SkyProgressIndicatorFixtureComponent {
     static: true,
   })
   public resetButtonComponentLegacy:
-    | SkyProgressIndicatorResetButtonComponent
-    | undefined;
+    SkyProgressIndicatorResetButtonComponent | undefined;
 
   @ViewChild('legacyResetButton', {
     read: ElementRef,
@@ -69,8 +68,7 @@ export class SkyProgressIndicatorFixtureComponent {
     static: false,
   })
   public defaultNavButtonComponent:
-    | SkyProgressIndicatorNavButtonComponent
-    | undefined;
+    SkyProgressIndicatorNavButtonComponent | undefined;
 
   @ViewChild('defaultNavButton', {
     read: ElementRef,
@@ -80,13 +78,11 @@ export class SkyProgressIndicatorFixtureComponent {
 
   @ViewChildren(SkyProgressIndicatorItemComponent)
   public progressItems:
-    | QueryList<SkyProgressIndicatorItemComponent>
-    | undefined;
+    QueryList<SkyProgressIndicatorItemComponent> | undefined;
 
   @ViewChildren(SkyProgressIndicatorNavButtonComponent)
   public navButtonComponents:
-    | QueryList<SkyProgressIndicatorNavButtonComponent>
-    | undefined;
+    QueryList<SkyProgressIndicatorNavButtonComponent> | undefined;
 
   @ViewChildren(SkyProgressIndicatorNavButtonComponent, { read: ElementRef })
   public navButtonElements: QueryList<ElementRef> | undefined;
@@ -108,14 +104,12 @@ export class SkyProgressIndicatorFixtureComponent {
     type: SkyProgressIndicatorNavButtonType | undefined;
   }[];
   public defaultNavButtonProgressIndicatorRef:
-    | SkyProgressIndicatorComponent
-    | undefined;
+    SkyProgressIndicatorComponent | undefined;
   public lastChange: SkyProgressIndicatorChange | undefined;
   public showNavButtons = false;
   public showIsolatedLegacyResetButton = false;
   public progressIndicatorTemplateRefLegacy:
-    | SkyProgressIndicatorComponent
-    | undefined;
+    SkyProgressIndicatorComponent | undefined;
   public showFourthItem = false;
 
   public helpKey: string | undefined;

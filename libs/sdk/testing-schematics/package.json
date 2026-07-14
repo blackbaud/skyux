@@ -25,7 +25,7 @@
     "packageGroup": {
       "@skyux-sdk/testing": "0.0.0-PLACEHOLDER",
       "@skyux-sdk/testing-schematics": "0.0.0-PLACEHOLDER",
-      "axe-core": "~4.11.1"
+      "axe-core": "~4.12.1"
     }
   },
   "peerDependencies": {

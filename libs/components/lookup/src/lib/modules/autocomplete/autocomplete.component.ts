@@ -259,8 +259,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   }
 
   public get searchFilters():
-    | SkyAutocompleteSearchFunctionFilter[]
-    | undefined {
+    SkyAutocompleteSearchFunctionFilter[] | undefined {
     return this.#_searchFilters;
   }
 

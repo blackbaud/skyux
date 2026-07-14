@@ -969,8 +969,7 @@ describe('SkyDataGrid', () => {
       );
       expect(api).toBeTruthy();
       const comparator = api?.getColumn('column1')?.getColDef().comparator as
-        | ((valueA: unknown, valueB: unknown) => number)
-        | undefined;
+        ((valueA: unknown, valueB: unknown) => number) | undefined;
       expect(comparator).toEqual(jasmine.any(Function));
       // The no-op always returns 0 regardless of the values compared, so AG Grid
       // never reorders rows on its own.
@@ -1130,8 +1129,7 @@ describe('SkyDataGrid', () => {
         ),
       );
       const valueGetter = api?.getColumn('myId')?.getColDef().valueGetter as
-        | ((params: { data: unknown }) => number | null)
-        | undefined;
+        ((params: { data: unknown }) => number | null) | undefined;
       expect(valueGetter).toEqual(jasmine.any(Function));
       expect(() => valueGetter?.({ data: undefined })).not.toThrow();
       // A non-numeric value renders as a blank cell rather than "NaN".

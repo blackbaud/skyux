@@ -111,8 +111,7 @@ export class SkyLookupAutocompleteAdapter {
   }
 
   public get searchFilters():
-    | SkyAutocompleteSearchFunctionFilter[]
-    | undefined {
+    SkyAutocompleteSearchFunctionFilter[] | undefined {
     return this.#_searchFilters;
   }
 
