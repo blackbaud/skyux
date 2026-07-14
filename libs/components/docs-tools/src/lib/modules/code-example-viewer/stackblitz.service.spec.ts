@@ -121,11 +121,11 @@ describe('stackblitz.service', () => {
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular/build:application",
           "options": {
             "outputPath": "dist/example-app",
             "index": "src/index.html",
-            "main": "src/main.ts",
+            "browser": "src/main.ts",
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
@@ -164,9 +164,7 @@ describe('stackblitz.service', () => {
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
@@ -175,7 +173,7 @@ describe('stackblitz.service', () => {
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
               "buildTarget": "example-app:build:production"
@@ -187,15 +185,14 @@ describe('stackblitz.service', () => {
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "builder": "@angular/build:extract-i18n",
           "options": {
             "buildTarget": "example-app:build"
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:karma",
           "options": {
-            "main": "src/test.ts",
             "polyfills": [
               "zone.js",
               "zone.js/testing"
@@ -305,7 +302,6 @@ module.exports = function (config) {
     "outDir": "./out-tsc/spec",
     "types": ["jasmine"]
   },
-  "files": ["src/test.ts"],
   "include": ["src/**/*.spec.ts", "src/**/*.d.ts"]
 }
 `,
@@ -382,34 +378,10 @@ bootstrapApplication(FooExampleComponent, {
 }).catch((err) => console.error(err));
 `,
           'src/styles.scss': '',
-          'src/test.ts': `// This file is required by karma.conf.js and loads recursively all the .spec and framework files
-
-import 'zone.js/testing';
-import {getTestBed} from '@angular/core/testing';
-import {
-  BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting,
-} from '@angular/platform-browser-dynamic/testing';
-
-// First, initialize the Angular testing environment.
-getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
-
-// Then we find all the tests.
-const context = (import.meta as any).webpackContext('./', {
-  recursive: true,
-  regExp: /\\.spec\\.ts$/,
-});
-
-// And load the modules.
-context.keys().map(context);
-`,
         },
         template: 'node',
       },
-      {
-        openFile: defaultConfig.primaryFile,
-        crossOriginIsolated: true,
-      },
+      { openFile: defaultConfig.primaryFile },
     );
   });
 
