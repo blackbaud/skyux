@@ -890,6 +890,42 @@ describe('Popover directive', () => {
 
         expect(isElementVisible(getPopoverElement())).toEqual(true);
       }));
+
+      it('should not error if the popover is unset before popoverOpened fires', fakeAsync(() => {
+        detectChangesFakeAsync();
+
+        const button = getCallerElement();
+        button?.focus();
+
+        SkyAppTestUtility.fireDomEvent(document, 'keydown', {
+          keyboardEventInit: {
+            key: 'ArrowUp',
+            altKey: true,
+          },
+        });
+
+        fixture.componentInstance.skyPopover = undefined;
+
+        expect(() => detectChangesFakeAsync()).not.toThrow();
+      }));
+
+      it('should close the popover if focus moves within it while its popoverId is falsy', fakeAsync(() => {
+        fixture.componentInstance.showFocusableChildren = true;
+        detectChangesFakeAsync();
+
+        openViaAltArrowUp();
+
+        const popoverRef = fixture.componentInstance.popoverRef;
+        if (popoverRef) {
+          popoverRef.popoverId = '';
+        }
+
+        const focusableItems = getFocusableItems();
+        (focusableItems?.item(1) as HTMLElement | undefined)?.focus();
+        detectChangesFakeAsync();
+
+        expect(getPopoverElement()).toBeNull();
+      }));
     });
   });
 

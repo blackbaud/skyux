@@ -350,9 +350,11 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
 
     const stopWatching = new Subject<void>();
 
-    popover.popoverClosed.pipe(take(1)).subscribe(() => stopWatching.next());
-
     const focusOutSubscription = new Subscription();
+
+    focusOutSubscription.add(
+      popover.popoverClosed.pipe(take(1)).subscribe(() => stopWatching.next()),
+    );
 
     focusOutSubscription.add(
       observableFromEvent(this.#document, 'focusin')
