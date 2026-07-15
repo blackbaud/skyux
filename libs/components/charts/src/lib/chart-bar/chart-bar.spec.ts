@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { expect } from '@skyux-sdk/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyLogService } from '@skyux/core';
 import { SkyThemeService, type SkyThemeSettingsChange } from '@skyux/theme';
 import Chart, { type TooltipItem } from 'chart.js/auto';
@@ -585,6 +585,38 @@ describe('Chart bar component', () => {
     expect(tableSvc.table()).toBeUndefined();
     destroyed = true;
   });
+
+  describe('a11y', () => {
+    it('should be accessible with a single series', async () => {
+      await fixture.whenStable();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible with multiple series and a legend', async () => {
+      component.renderSecondSeries = true;
+      await fixture.whenStable();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when stacked', async () => {
+      component.seriesLayout = 'stacked';
+      component.renderSecondSeries = true;
+      component.seriesStack = 'West';
+      component.secondSeriesStack = 'East';
+      await fixture.whenStable();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when horizontal', async () => {
+      component.orientation = 'horizontal';
+      await fixture.whenStable();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+  });
 });
 
 describe('Chart bar component in the default theme', () => {
@@ -634,6 +666,22 @@ describe('Chart bar component in the default theme', () => {
 
     expect(ticks.color).toBe('#212327');
     expect(logSvc.warn).not.toHaveBeenCalled();
+
+    fixture.destroy();
+  });
+
+  it('should be accessible as a full sky-chart composition', async () => {
+    TestBed.configureTestingModule({ imports: [WrappedComponent] });
+
+    const fixture = TestBed.createComponent(WrappedComponent);
+
+    // Render, then re-render after the async library resources resolve so
+    // the context menu button receives its accessible name.
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    await expectAsync(fixture.nativeElement).toBeAccessible();
 
     fixture.destroy();
   });
