@@ -1,3 +1,7 @@
+import { TestBed } from '@angular/core/testing';
+
+import { SkyChart } from '../chart/chart';
+
 import { resolveChartThemeStyles } from './chart-theme-styles';
 
 describe('resolveChartThemeStyles', () => {
@@ -43,8 +47,8 @@ describe('resolveChartThemeStyles', () => {
 
   it('should resolve pixel and unitless numeric tokens as numbers', () => {
     const themeStyles = resolve({
-      '--sky-font-size-body-m': '20px',
-      '--sky-font-style-body-m': '500',
+      '--sky-font-size-body-s': '20px',
+      '--sky-font-style-body-s': '500',
     });
 
     expect(themeStyles.font.size).toBe(20);
@@ -56,21 +60,31 @@ describe('resolveChartThemeStyles', () => {
       getComputedStyle(document.documentElement).fontSize,
     );
 
-    const themeStyles = resolve({ '--sky-font-size-body-m': '2rem' });
+    const themeStyles = resolve({ '--sky-font-size-body-s': '2rem' });
 
     expect(themeStyles.font.size).toBe(2 * rootFontSize);
   });
 
-  it('should resolve unset or non-numeric tokens as undefined', () => {
-    const themeStyles = resolve({ '--sky-border-radius-s': 'auto' });
+  it('should resolve unset numeric tokens to NaN', () => {
+    const themeStyles = resolve({});
 
-    expect(themeStyles.font.size).toBeUndefined();
-    expect(themeStyles.tooltip.cornerRadius).toBeUndefined();
+    expect(themeStyles.font.size).toBeNaN();
+    expect(themeStyles.font.lineHeight).toBeNaN();
+  });
+
+  it('should resolve unparseable numeric tokens to NaN', () => {
+    const themeStyles = resolve({
+      '--sky-border-radius-s': 'auto',
+      '--sky-font-line_height-body-s': 'normal',
+    });
+
+    expect(themeStyles.tooltip.cornerRadius).toBeNaN();
+    expect(themeStyles.font.lineHeight).toBeNaN();
   });
 
   it('should resolve calc() number and length tokens through the probe', () => {
     const themeStyles = resolve({
-      '--sky-font-line_height-body-m': 'calc(3 / 2)',
+      '--sky-font-line_height-body-s': 'calc(3 / 2)',
       '--sky-border-radius-s': 'calc(2px + 3px)',
     });
 
@@ -80,24 +94,10 @@ describe('resolveChartThemeStyles', () => {
 
   it('should resolve a plain-number line height token', () => {
     const themeStyles = resolve({
-      '--sky-font-line_height-body-m': '1.25',
+      '--sky-font-line_height-body-s': '1.25',
     });
 
     expect(themeStyles.font.lineHeight).toBe(1.25);
-  });
-
-  it('should fall back to the body-m line height when the token is unset', () => {
-    const themeStyles = resolve({});
-
-    expect(themeStyles.font.lineHeight).toBe(20 / 15);
-  });
-
-  it('should fall back to the body-m line height when the token cannot be resolved', () => {
-    const themeStyles = resolve({
-      '--sky-font-line_height-body-m': 'normal',
-    });
-
-    expect(themeStyles.font.lineHeight).toBe(20 / 15);
   });
 
   it('should resolve the eight categorical palette colors in order', () => {
@@ -115,8 +115,8 @@ describe('resolveChartThemeStyles', () => {
     const themeStyles = resolve({
       '--sky-override-chart-color-text-default': '#override',
       '--sky-color-text-default': '#token',
-      '--sky-override-chart-font-size-body-m': '20px',
-      '--sky-font-size-body-m': '15px',
+      '--sky-override-chart-font-size-body-s': '20px',
+      '--sky-font-size-body-s': '15px',
     });
 
     expect(themeStyles.text.color).toBe('#override');
@@ -150,22 +150,12 @@ describe('resolveChartThemeStyles', () => {
   });
 
   describe('with the real SKY theme stylesheet', () => {
-    // Guards against token typos in the resolver and against upstream design
-    // token renames: every themed string and number must resolve to a
-    // concrete value when the real modern theme styles (loaded by Karma) are
-    // applied. An empty string or undefined number means a broken token.
-    it('should resolve every themed token to a concrete value', () => {
-      const host = document.createElement('div');
-      host.classList.add('sky-theme-modern', 'sky-theme-brand-base');
-      document.body.appendChild(host);
-
-      const warn = jasmine.createSpy('warn');
-      const themeStyles = resolveChartThemeStyles(host, warn);
-
-      host.remove();
-
-      expect(warn).not.toHaveBeenCalled();
-
+    // Fails if any string is empty or any number is not finite: either means a
+    // token the chart depends on is missing or broken. Both real-theme paths
+    // must pass so the component cannot ship with missing or broken styling.
+    function expectEveryValueConcrete(
+      themeStyles: ReturnType<typeof resolveChartThemeStyles>,
+    ): void {
       const sweep = (value: unknown, path: string): void => {
         if (typeof value === 'string') {
           expect(value).withContext(path).not.toBe('');
@@ -185,6 +175,47 @@ describe('resolveChartThemeStyles', () => {
       };
 
       sweep(themeStyles, 'themeStyles');
+    }
+
+    // Guards against token typos in the resolver and against upstream design
+    // token renames: every themed string and number must resolve to a
+    // concrete value when the real modern theme styles (loaded by Karma) are
+    // applied.
+    it('should resolve every modern-theme token to a concrete value', () => {
+      const host = document.createElement('div');
+      host.classList.add('sky-theme-modern', 'sky-theme-brand-base');
+      document.body.appendChild(host);
+
+      const warn = jasmine.createSpy('warn');
+      const themeStyles = resolveChartThemeStyles(host, warn);
+
+      host.remove();
+
+      expect(warn).not.toHaveBeenCalled();
+      expectEveryValueConcrete(themeStyles);
+    });
+
+    // Guards the default theme's `sky-default-overrides` block in `chart.scss`:
+    // resolving against a real `sky-chart` host (outside the modern theme, so
+    // only the `--sky-override-chart-*` values apply) proves every override is
+    // present and parseable. A missing or typo'd override fails here.
+    it('should resolve every default-theme token to a concrete value', async () => {
+      await TestBed.configureTestingModule({
+        imports: [SkyChart],
+      }).compileComponents();
+
+      const fixture = TestBed.createComponent(SkyChart);
+      fixture.componentRef.setInput('headingText', 'Test chart');
+      fixture.detectChanges();
+
+      const warn = jasmine.createSpy('warn');
+      const themeStyles = resolveChartThemeStyles(
+        fixture.nativeElement as HTMLElement,
+        warn,
+      );
+
+      expect(warn).not.toHaveBeenCalled();
+      expectEveryValueConcrete(themeStyles);
     });
   });
 });

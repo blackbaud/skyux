@@ -4,9 +4,12 @@
  * theme token the library depends on is resolved here — and only here — to a
  * concrete value. This keeps the full set of tokens auditable in one place.
  *
- * When the SKY theme styles are not loaded, strings resolve to empty strings
- * and numbers to `undefined`; Chart.js treats both as unset and renders with
- * its own defaults, and `resolveChartThemeStyles` warns.
+ * When the SKY theme styles are not loaded, strings resolve to empty strings —
+ * which Chart.js treats as unset, rendering with its own defaults — and numbers
+ * to `NaN`. Every value otherwise has a default defined in the
+ * `sky-default-overrides` mixin in `chart.scss`, which applies in every
+ * non-modern context; the modern theme supplies the `--sky-*` tokens directly.
+ * `resolveChartThemeStyles` warns when the styles cannot be resolved.
  * @internal
  */
 export interface SkyChartThemeStyles {
@@ -15,23 +18,9 @@ export interface SkyChartThemeStyles {
    */
   font: {
     family: string;
-
-    /**
-     * The size of body text, used in the legend and tooltips.
-     */
-    size: number | undefined;
-    weight: number | undefined;
-    emphasizedWeight: number | undefined;
-
-    /**
-     * The size of small text, used for axis ticks and titles.
-     */
-    smallSize: number | undefined;
-    smallWeight: number | undefined;
-
-    /**
-     * The line height of chart text, as a multiple of the font size.
-     */
+    size: number;
+    weight: number;
+    emphasizedWeight: number;
     lineHeight: number;
   };
 
@@ -49,12 +38,12 @@ export interface SkyChartThemeStyles {
   axis: {
     lineColor: string;
     gridlineColor: string;
-    tickLength: number | undefined;
+    tickLength: number;
 
     /**
      * The vertical gap between an axis title and its ticks.
      */
-    titleGap: number | undefined;
+    titleGap: number;
   };
 
   /**
@@ -73,34 +62,34 @@ export interface SkyChartThemeStyles {
   tooltip: {
     backgroundColor: string;
     borderColor: string;
-    borderWidth: number | undefined;
-    cornerRadius: number | undefined;
+    borderWidth: number;
+    cornerRadius: number;
     inset: {
-      top: number | undefined;
-      right: number | undefined;
-      bottom: number | undefined;
-      left: number | undefined;
+      top: number;
+      right: number;
+      bottom: number;
+      left: number;
     };
 
     /**
      * The size of the color-swatch icon beside each tooltip line.
      */
-    iconSize: number | undefined;
+    iconSize: number;
 
     /**
      * The gap between the color-swatch icon and its text.
      */
-    iconGap: number | undefined;
+    iconGap: number;
 
     /**
      * The vertical gap between the tooltip title or footer and its body.
      */
-    titleGap: number | undefined;
+    titleGap: number;
 
     /**
      * The vertical gap between tooltip body lines.
      */
-    bodyGap: number | undefined;
+    bodyGap: number;
   };
 
   /**
@@ -108,7 +97,7 @@ export interface SkyChartThemeStyles {
    */
   bar: {
     borderColor: string;
-    borderRadius: number | undefined;
+    borderRadius: number;
   };
 }
 
@@ -147,15 +136,13 @@ export function resolveChartThemeStyles(
     return {
       font: {
         family: readString(styles, '--sky-font-family-primary'),
-        size: readNumber(styles, probe, '--sky-font-size-body-m'),
-        weight: readNumber(styles, probe, '--sky-font-style-body-m'),
+        size: readNumber(styles, probe, '--sky-font-size-body-s'),
+        weight: readNumber(styles, probe, '--sky-font-style-body-s'),
         emphasizedWeight: readNumber(
           styles,
           probe,
           '--sky-font-style-emphasized',
         ),
-        smallSize: readNumber(styles, probe, '--sky-font-size-body-s'),
-        smallWeight: readNumber(styles, probe, '--sky-font-style-body-s'),
         lineHeight: readLineHeight(styles, probe),
       },
       text: {
@@ -258,19 +245,20 @@ function readString(styles: CSSStyleDeclaration, property: string): string {
  * Reads a numeric CSS custom property — preferring its default-theme
  * override — as a number, converting `rem` values to pixels using the root
  * font size. Values the fast path cannot parse (such as `calc()` lengths) are
- * resolved through the probe. Chart.js requires numbers and treats `undefined`
- * as unset, so a missing or unresolvable value returns `undefined` — never
- * `NaN`, which would poison Chart.js's layout arithmetic.
+ * resolved through the probe. Every token has a default defined in the
+ * `sky-default-overrides` mixin in `chart.scss`, so a value only fails to
+ * resolve — returning `NaN` — in a genuinely broken theme, which
+ * `resolveChartThemeStyles` warns about.
  */
 function readNumber(
   styles: CSSStyleDeclaration,
   probe: SkyChartTokenProbe,
   property: string,
-): number | undefined {
+): number {
   const raw = readString(styles, property);
 
   if (raw === '') {
-    return undefined;
+    return Number.NaN;
   }
 
   const value = Number.parseFloat(raw);
@@ -283,30 +271,23 @@ function readNumber(
   }
 
   // A non-numeric literal such as a `calc()` length; resolve it via the probe.
-  return probe.resolveLength(raw);
+  return probe.resolveLength(raw) ?? Number.NaN;
 }
 
 /**
- * The body-m line height as a multiple of its font size, matching the
- * `--sky-font-line_height-body-m` token's calculated value (`calc(20/15)`).
- * Used when the token is unset or cannot be resolved.
- */
-const DEFAULT_BODY_LINE_HEIGHT = 20 / 15;
-
-/**
- * Reads the body-m line height as a multiple of the font size. The SKY
+ * Reads the body-s line height as a multiple of the font size. The SKY
  * line-height tokens are `calc()` expressions that `getComputedStyle` leaves
  * unevaluated on custom properties, so the token is resolved through the probe.
- * Falls back to the body-m value when the token is unset or cannot be resolved.
+ * Its default is defined in the `sky-default-overrides` mixin in `chart.scss`,
+ * so it only fails to resolve — returning `NaN` — in a genuinely broken theme.
  */
 function readLineHeight(
   styles: CSSStyleDeclaration,
   probe: SkyChartTokenProbe,
 ): number {
-  const raw = readString(styles, '--sky-font-line_height-body-m');
-  const value = raw === '' ? undefined : probe.resolveNumber(raw);
+  const raw = readString(styles, '--sky-font-line_height-body-s');
 
-  return value ?? DEFAULT_BODY_LINE_HEIGHT;
+  return raw === '' ? Number.NaN : (probe.resolveNumber(raw) ?? Number.NaN);
 }
 
 /**

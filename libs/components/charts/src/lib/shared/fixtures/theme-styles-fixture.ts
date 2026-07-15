@@ -13,8 +13,6 @@ export function createThemeStylesFixture(
       size: 15,
       weight: 400,
       emphasizedWeight: 700,
-      smallSize: 13,
-      smallWeight: 400,
       lineHeight: 1.5,
     },
     text: {

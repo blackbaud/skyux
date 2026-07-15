@@ -144,15 +144,15 @@ function buildThemedScaleStyle(
     ticks: {
       color: text.color,
       font: {
-        size: font.smallSize,
+        size: font.size,
         family: font.family,
-        weight: font.smallWeight,
+        weight: font.weight,
       },
     },
     title: {
       color: text.deemphasizedColor,
       font: {
-        size: font.smallSize,
+        size: font.size,
         family: font.family,
       },
       padding: {
