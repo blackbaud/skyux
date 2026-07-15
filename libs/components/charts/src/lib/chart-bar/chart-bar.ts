@@ -62,7 +62,7 @@ export class SkyChartBar extends SkyChartPlot {
    * How the bars of multiple series are arranged within each category.
    * `grouped` places the series' bars side by side; `stacked` accumulates the
    * bars into a single bar per category. When `stacked`, assign each series a
-   * `stackGroup` value to subdivide the bar into side-by-side stacks (grouped,
+   * `stackId` value to subdivide the bar into side-by-side stacks (grouped,
    * stacked bars). This has no visible effect when the chart has a single
    * series.
    * @default 'grouped'
@@ -183,10 +183,10 @@ export class SkyChartBar extends SkyChartPlot {
       // Stack groups only apply to a stacked layout; on a grouped layout the
       // scales are not stacked, so a shared stack id would overlap bars instead
       // of accumulating them.
-      const stackGroup = chartSeries.stackGroup();
+      const stackId = chartSeries.stackId();
 
-      if (isStacked && stackGroup !== undefined) {
-        dataset.stack = stackGroup;
+      if (isStacked && stackId !== undefined) {
+        dataset.stack = stackId;
       }
 
       if (isHorizontal) {
@@ -294,7 +294,7 @@ export class SkyChartBar extends SkyChartPlot {
     // the number of bars per category is the count of distinct stacks, not one.
     const barsPerCategory =
       this.seriesLayout() === 'stacked'
-        ? new Set(this.series().map((chartSeries) => chartSeries.stackGroup()))
+        ? new Set(this.series().map((chartSeries) => chartSeries.stackId()))
             .size
         : seriesCount;
     const totalBars = categoryCount * barsPerCategory;

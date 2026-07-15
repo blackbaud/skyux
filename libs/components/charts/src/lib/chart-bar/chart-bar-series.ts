@@ -18,13 +18,13 @@ export class SkyChartBarSeries {
   public readonly labelText = input.required<string>();
 
   /**
-   * The stack group this series belongs to. When a bar chart's `seriesLayout`
-   * is `stacked`, series that share the same `stackGroup` value accumulate into
-   * a single bar per category, and series with different `stackGroup` values
+   * The stack this series belongs to. When a bar chart's `seriesLayout`
+   * is `stacked`, series that share the same `stackId` value accumulate into
+   * a single bar per category, and series with different `stackId` values
    * are placed side by side. Omit to stack every series into one bar per
    * category. Has no effect when `seriesLayout` is `grouped`.
    */
-  public readonly stackGroup = input<string>();
+  public readonly stackId = input<string>();
 
   /**
    * The values for this series, aligned to the category axis categories by

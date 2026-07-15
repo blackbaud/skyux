@@ -49,14 +49,14 @@ type ScaleProbe = {
         @if (renderSeries) {
           <sky-chart-bar-series
             [labelText]="seriesLabel"
-            [stackGroup]="seriesStack"
+            [stackId]="seriesStack"
             [values]="values"
           />
         }
         @if (renderSecondSeries) {
           <sky-chart-bar-series
             labelText="Divestitures"
-            [stackGroup]="secondSeriesStack"
+            [stackId]="secondSeriesStack"
             [values]="values"
           />
         }
