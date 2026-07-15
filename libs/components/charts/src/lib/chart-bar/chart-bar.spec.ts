@@ -96,6 +96,20 @@ describe('Chart bar component', () => {
     return fixture.nativeElement.querySelector('canvas');
   }
 
+  function getChartContainerHeight(): string {
+    const container = fixture.nativeElement.querySelector(
+      'sky-chart-js',
+    ) as HTMLElement;
+
+    return container.style.height;
+  }
+
+  function rootFontSize(): number {
+    return Number.parseFloat(
+      getComputedStyle(document.documentElement).fontSize,
+    );
+  }
+
   function getChart(): Chart<'bar'> | undefined {
     return Chart.getChart(getCanvas()) as Chart<'bar'> | undefined;
   }
@@ -385,6 +399,139 @@ describe('Chart bar component', () => {
     expect(chart.data.datasets[0].yAxisID).toBe('category');
     expect(getScale(chart, 'category').position).toBe('left');
     expect(getScale(chart, 'value').position).toBe('bottom');
+  });
+
+  it('should apply the themed default height to a vertical chart', () => {
+    fixture.detectChanges();
+
+    expect(getChartContainerHeight()).toMatch(/^clamp\(/);
+  });
+
+  it('should cap the vertical bar thickness', () => {
+    fixture.detectChanges();
+
+    expect(requireChart().data.datasets[0].maxBarThickness).toBe(
+      7.5 * rootFontSize(),
+    );
+    expect(requireChart().data.datasets[0].barThickness).toBeUndefined();
+  });
+
+  it('should keep whitespace around a sparse vertical chart', () => {
+    // The default fixture renders 2 categories (few).
+    fixture.detectChanges();
+
+    expect(requireChart().data.datasets[0].categoryPercentage).toBe(0.4);
+    expect(requireChart().data.datasets[0].barPercentage).toBe(0.85);
+  });
+
+  it('should widen the fill for a moderate vertical chart', () => {
+    component.categories = Array.from({ length: 7 }, (_, i) => `${i}`);
+    component.values = Array.from({ length: 7 }, () => 10);
+    fixture.detectChanges();
+
+    expect(requireChart().data.datasets[0].categoryPercentage).toBe(0.7);
+  });
+
+  it('should widen the fill for a dense vertical chart', () => {
+    component.categories = Array.from({ length: 12 }, (_, i) => `${i}`);
+    component.values = Array.from({ length: 12 }, () => 10);
+    fixture.detectChanges();
+
+    expect(requireChart().data.datasets[0].categoryPercentage).toBe(0.95);
+  });
+
+  it('should size a horizontal chart from its content', () => {
+    component.orientation = 'horizontal';
+    fixture.detectChanges();
+
+    const height = getChartContainerHeight();
+    expect(height).toMatch(/^\d+(\.\d+)?px$/);
+    expect(Number.parseFloat(height)).toBeGreaterThanOrEqual(
+      11.25 * rootFontSize(),
+    );
+  });
+
+  it('should set an explicit bar thickness on a horizontal chart', () => {
+    component.orientation = 'horizontal';
+    fixture.detectChanges();
+
+    // Few bars render at the full (max) thickness, and the explicit thickness
+    // replaces the cap so Chart.js does not auto-size the bars thinner.
+    expect(requireChart().data.datasets[0].barThickness).toBe(
+      1 * rootFontSize(),
+    );
+    expect(requireChart().data.datasets[0].maxBarThickness).toBeUndefined();
+  });
+
+  it('should taper the bar thickness for a dense horizontal chart', () => {
+    component.orientation = 'horizontal';
+    component.categories = Array.from({ length: 40 }, (_, i) => `${i}`);
+    component.values = Array.from({ length: 40 }, () => 10);
+    fixture.detectChanges();
+
+    // Past the taper range every bar renders at the minimum thickness.
+    expect(requireChart().data.datasets[0].barThickness).toBe(
+      0.75 * rootFontSize(),
+    );
+  });
+
+  it('should use one bar per category for a stacked horizontal chart', () => {
+    component.orientation = 'horizontal';
+    component.seriesLayout = 'stacked';
+    component.renderSecondSeries = true;
+    fixture.detectChanges();
+
+    expect(getChartContainerHeight()).toMatch(/^\d+(\.\d+)?px$/);
+  });
+
+  it('should reserve a row for each stack group of a stacked horizontal chart', () => {
+    component.orientation = 'horizontal';
+    component.seriesLayout = 'stacked';
+    component.renderSecondSeries = true;
+    // Enough categories that the heights clear the minimum floor, so the extra
+    // stack group's rows are reflected rather than clamped away.
+    component.categories = Array.from({ length: 12 }, (_, i) => `${i}`);
+    component.values = Array.from({ length: 12 }, () => 10);
+    fixture.detectChanges();
+
+    // Both series accumulate into a single bar per category.
+    const singleStackHeight = Number.parseFloat(getChartContainerHeight());
+
+    // Distinct stack groups render as separate bars, so each category needs a
+    // row per group.
+    component.seriesStack = 'West';
+    component.secondSeriesStack = 'East';
+    fixture.detectChanges();
+
+    const groupedStackHeight = Number.parseFloat(getChartContainerHeight());
+    expect(groupedStackHeight).toBeGreaterThan(singleStackHeight);
+  });
+
+  it('should grow taller for a dense horizontal chart', () => {
+    component.orientation = 'horizontal';
+    component.categories = Array.from({ length: 12 }, (_, i) => `${i}`);
+    component.values = Array.from({ length: 12 }, () => 10);
+    fixture.detectChanges();
+
+    const denseHeight = Number.parseFloat(getChartContainerHeight());
+    expect(denseHeight).toBeGreaterThan(11.25 * rootFontSize());
+  });
+
+  it('should add legend space to a multi-series horizontal chart', () => {
+    component.orientation = 'horizontal';
+    // Use enough categories that the height exceeds the minimum floor, so the
+    // legend's contribution is visible rather than clamped away.
+    component.categories = Array.from({ length: 12 }, (_, i) => `${i}`);
+    component.values = Array.from({ length: 12 }, () => 10);
+    fixture.detectChanges();
+
+    const singleSeriesHeight = Number.parseFloat(getChartContainerHeight());
+
+    component.renderSecondSeries = true;
+    fixture.detectChanges();
+
+    const multiSeriesHeight = Number.parseFloat(getChartContainerHeight());
+    expect(multiSeriesHeight).toBeGreaterThan(singleSeriesHeight);
   });
 
   it('should default the value axis to a linear scale', () => {

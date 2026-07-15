@@ -1,28 +1,11 @@
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
-// Themes charts in the SKY UX default theme, where the modern theme's
-// `--sky-*` tokens are not defined. Each `--sky-override-chart-<name>`
-// property overrides the `--sky-<name>` token: `resolveChartThemeStyles`
-// reads the override before the token, and chart CSS consumes them as
-// `var(--sky-override-chart-<name>, var(--sky-<name>))`. The values inherit
-// to the chart's text and to the plot rendered inside the wrapper (plots are
-// always used within `sky-chart`).
-//
-// TODO: These are placeholder values pending default-theme design specs for
-// charts. Values reference the classic SKY UX SCSS variables where an
-// equivalent exists; the categorical data-visualization palette reuses the
-// modern light palette because the default theme has no equivalent, and the
-// remaining numeric spacing and size values are literals with no classic
-// equivalent.
 @include compatMixins.sky-default-overrides(':host') {
   --sky-override-chart-font-family-primary: #{$sky-font-family};
-  --sky-override-chart-font-size-body-m: #{$sky-font-size-base};
   --sky-override-chart-font-size-body-s: #{$sky-text-size-125};
-  --sky-override-chart-font-style-body-m: 400;
   --sky-override-chart-font-style-body-s: 400;
   --sky-override-chart-font-style-emphasized: 700;
-  --sky-override-chart-font-line_height-body-m: 1.3333;
   --sky-override-chart-font-line_height-body-s: 1.3846;
   --sky-override-chart-color-text-default: #{$sky-text-color-default};
   --sky-override-chart-color-text-deemphasized: #{$sky-text-color-deemphasized};
@@ -43,6 +26,7 @@
   --sky-override-chart-space-stacked-s: 8px;
   --sky-override-chart-space-stacked-0: 0px;
   --sky-override-chart-space-gap-icon-s: 4px;
+  --sky-override-chart-space-gap-text_action-m: 12px;
   --sky-override-chart-size-icon-xs: 16px;
   --sky-override-chart-border-width-container-base: 1px;
   --sky-override-chart-border-radius-s: 4px;
@@ -53,7 +37,7 @@
   --sky-override-chart-comp-chart-tooltip-space-inset-left: 12px;
 }
 
-.sky-chart {
+:host {
   display: block;
 }
 
@@ -61,8 +45,14 @@
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  column-gap: var(--sky-space-gap-text_action-m, 12px);
-  margin-bottom: var(--sky-space-stacked-xs, 5px);
+  column-gap: var(
+    --sky-override-chart-space-gap-text_action-m,
+    var(--sky-space-gap-text_action-m)
+  );
+  margin-bottom: var(
+    --sky-override-chart-space-stacked-s,
+    var(--sky-space-stacked-s)
+  );
 }
 
 figure.sky-chart-content {

@@ -76,14 +76,6 @@ describe('Chart component', () => {
     fixture = TestBed.createComponent(TestComponent);
   });
 
-  it('should set the sky-chart host class', () => {
-    fixture.detectChanges();
-
-    expect(fixture.nativeElement.querySelector('sky-chart')).toHaveCssClass(
-      'sky-chart',
-    );
-  });
-
   it('should render the heading text', () => {
     fixture.componentInstance.headingText = 'My chart';
     fixture.detectChanges();

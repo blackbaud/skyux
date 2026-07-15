@@ -24,6 +24,17 @@ export interface SkyChartThemeStyles {
     deemphasizedColor: string;
     lineHeight: number;
   };
+  height: {
+    /** The minimum chart height, in pixels. */
+    min: number;
+    /** The maximum chart height, in pixels. */
+    max: number;
+    /**
+     * The default chart height as a CSS `clamp()` expression, used by
+     * orientations whose height is not computed from their content.
+     */
+    default: string;
+  };
   axis: {
     lineColor: string;
     gridlineColor: string;
@@ -70,6 +81,18 @@ export interface SkyChartThemeStyles {
   bar: {
     borderColor: string;
     borderRadius: number;
+    /** Bar-layout sizing for a vertical (column) chart, in pixels. */
+    vertical: {
+      baseBarThickness: number;
+      minBarThickness: number;
+      maxBarThickness: number;
+    };
+    /** Bar-layout sizing for a horizontal chart, in pixels. */
+    horizontal: {
+      minBarThickness: number;
+      maxBarThickness: number;
+      minCategoryGap: number;
+    };
   };
 }
 
@@ -91,6 +114,9 @@ export function resolveChartThemeStyles(
   // reads the resolved value back. It is created lazily — only for values the
   // fast path cannot parse — and torn down once resolution finishes.
   const probe = createTokenProbe(host);
+
+  const minHeight = remToPx('11.25rem');
+  const maxHeight = remToPx('25rem');
 
   try {
     // Every SKY theme resolves `--sky-color-text-default` — the modern theme
@@ -120,6 +146,11 @@ export function resolveChartThemeStyles(
         color: readString(styles, '--sky-color-text-default'),
         deemphasizedColor: readString(styles, '--sky-color-text-deemphasized'),
         lineHeight: readLineHeight(styles, probe),
+      },
+      height: {
+        min: minHeight,
+        max: maxHeight,
+        default: `clamp(${minHeight}px, 28vh, ${maxHeight}px)`,
       },
       axis: {
         lineColor: readString(styles, '--sky-color-viz-axis'),
@@ -181,6 +212,16 @@ export function resolveChartThemeStyles(
           '--sky-color-background-container-base',
         ),
         borderRadius: readNumber(styles, probe, '--sky-border-radius-xs'),
+        vertical: {
+          baseBarThickness: remToPx('2rem'),
+          minBarThickness: remToPx('0.75rem'),
+          maxBarThickness: remToPx('7.5rem'),
+        },
+        horizontal: {
+          minBarThickness: remToPx('0.75rem'),
+          maxBarThickness: remToPx('1rem'),
+          minCategoryGap: remToPx('0.5rem'),
+        },
       },
     };
   } finally {
@@ -236,14 +277,25 @@ function readNumber(
   const value = Number.parseFloat(raw);
 
   if (!Number.isNaN(value)) {
-    return raw.endsWith('rem')
-      ? value *
-          Number.parseFloat(getComputedStyle(document.documentElement).fontSize)
-      : value;
+    return raw.endsWith('rem') ? remToPx(raw) : value;
   }
 
   // A non-numeric literal such as a `calc()` length; resolve it via the probe.
   return probe.resolveLength(raw) ?? Number.NaN;
+}
+
+/**
+ * Converts a `rem` length to pixels using the document root font size. `rem` is
+ * defined relative to the root element (never the host), so the root font size
+ * is the correct reference. Chart.js reasons in pixels when it lays out a
+ * canvas, so `rem`-based sizing has to be resolved before it reaches the chart.
+ */
+function remToPx(rem: string): number {
+  const rootFontSize = Number.parseFloat(
+    getComputedStyle(document.documentElement).fontSize,
+  );
+
+  return Number.parseFloat(rem) * rootFontSize;
 }
 
 /**

@@ -34,9 +34,6 @@ import { SkyChartSubheading } from './chart-subheading';
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    class: 'sky-chart',
-  },
   imports: [
     SkyChartControls,
     SkyChartHeading,

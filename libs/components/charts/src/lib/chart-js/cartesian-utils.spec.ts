@@ -2,8 +2,9 @@ import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
 import { SkyChartAxisMeasure } from '../chart-axis/chart-axis-measure';
 
 import { type SkyChartCartesianScaleType } from '../shared/cartesian-scale-type';
-import { buildCartesianScales } from '../shared/cartesian-utils';
 import { createThemeStylesFixture } from '../shared/fixtures/theme-styles-fixture';
+
+import { buildCartesianScales } from './cartesian-utils';
 
 type ScaleProbe = {
   stacked: boolean;
@@ -39,7 +40,7 @@ describe('buildCartesianScales', () => {
       categoryAxis: createCategoryAxis(),
       valueAxis: createValueAxis(scaleType),
       isHorizontal: false,
-      stacked,
+      isStacked: stacked,
       themeStyles: createThemeStylesFixture(),
     }) as unknown as Record<string, ScaleProbe>;
   }

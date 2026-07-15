@@ -13,11 +13,16 @@ export function createThemeStylesFixture(
       size: 15,
       weight: 400,
       emphasizedWeight: 700,
-      lineHeight: 1.5,
     },
     text: {
       color: '#111111',
       deemphasizedColor: '#222222',
+      lineHeight: 1.5,
+    },
+    height: {
+      min: 180,
+      max: 400,
+      default: 'clamp(180px, 28vh, 400px)',
     },
     axis: {
       lineColor: '#333333',
@@ -42,6 +47,16 @@ export function createThemeStylesFixture(
     bar: {
       borderColor: '#ffffff',
       borderRadius: 2,
+      vertical: {
+        baseBarThickness: 32,
+        minBarThickness: 12,
+        maxBarThickness: 120,
+      },
+      horizontal: {
+        minBarThickness: 12,
+        maxBarThickness: 16,
+        minCategoryGap: 8,
+      },
     },
     ...overrides,
   };

@@ -69,7 +69,7 @@ describe('resolveChartThemeStyles', () => {
     const themeStyles = resolve({});
 
     expect(themeStyles.font.size).toBeNaN();
-    expect(themeStyles.font.lineHeight).toBeNaN();
+    expect(themeStyles.text.lineHeight).toBeNaN();
   });
 
   it('should resolve unparseable numeric tokens to NaN', () => {
@@ -79,7 +79,7 @@ describe('resolveChartThemeStyles', () => {
     });
 
     expect(themeStyles.tooltip.cornerRadius).toBeNaN();
-    expect(themeStyles.font.lineHeight).toBeNaN();
+    expect(themeStyles.text.lineHeight).toBeNaN();
   });
 
   it('should resolve calc() number and length tokens through the probe', () => {
@@ -88,7 +88,7 @@ describe('resolveChartThemeStyles', () => {
       '--sky-border-radius-s': 'calc(2px + 3px)',
     });
 
-    expect(themeStyles.font.lineHeight).toBe(1.5);
+    expect(themeStyles.text.lineHeight).toBe(1.5);
     expect(themeStyles.tooltip.cornerRadius).toBe(5);
   });
 
@@ -97,7 +97,7 @@ describe('resolveChartThemeStyles', () => {
       '--sky-font-line_height-body-s': '1.25',
     });
 
-    expect(themeStyles.font.lineHeight).toBe(1.25);
+    expect(themeStyles.text.lineHeight).toBe(1.25);
   });
 
   it('should resolve the eight categorical palette colors in order', () => {
@@ -147,6 +147,28 @@ describe('resolveChartThemeStyles', () => {
     resolve({ '--sky-override-chart-color-text-default': '#111111' }, warn);
 
     expect(warn).not.toHaveBeenCalled();
+  });
+
+  it('should resolve the height and bar-layout sizing in pixels', () => {
+    const rootFontSize = Number.parseFloat(
+      getComputedStyle(document.documentElement).fontSize,
+    );
+    const themeStyles = resolve({});
+
+    expect(themeStyles.height.min).toBe(11.25 * rootFontSize);
+    expect(themeStyles.height.max).toBe(25 * rootFontSize);
+    expect(themeStyles.height.default).toBe(
+      `clamp(${11.25 * rootFontSize}px, 28vh, ${25 * rootFontSize}px)`,
+    );
+
+    expect(themeStyles.bar.vertical.baseBarThickness).toBe(2 * rootFontSize);
+    expect(themeStyles.bar.vertical.minBarThickness).toBe(0.75 * rootFontSize);
+    expect(themeStyles.bar.vertical.maxBarThickness).toBe(7.5 * rootFontSize);
+    expect(themeStyles.bar.horizontal.minBarThickness).toBe(
+      0.75 * rootFontSize,
+    );
+    expect(themeStyles.bar.horizontal.maxBarThickness).toBe(1 * rootFontSize);
+    expect(themeStyles.bar.horizontal.minCategoryGap).toBe(0.5 * rootFontSize);
   });
 
   describe('with the real SKY theme stylesheet', () => {
