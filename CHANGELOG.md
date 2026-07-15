@@ -10,6 +10,7 @@
 
 ### Features
 
+* add @skyux/charts library with basic chart wrapper (developer preview) ([#4448](https://github.com/blackbaud/skyux/issues/4448)) ([#4473](https://github.com/blackbaud/skyux/issues/4473)) ([4d56de2](https://github.com/blackbaud/skyux/commit/4d56de2bcf0f13607be9acc30e2a0f6b9b1b91ab))
 * add support for `intl-tel-input@29.1.2` ([#4515](https://github.com/blackbaud/skyux/issues/4515)) ([0d94230](https://github.com/blackbaud/skyux/commit/0d942307ab609f0a5c2d2f80930f7e702f7f429a))
 * **components/data-grid:** create an easy mode for data grid ([#4430](https://github.com/blackbaud/skyux/issues/4430)) ([#4486](https://github.com/blackbaud/skyux/issues/4486)) ([8a96189](https://github.com/blackbaud/skyux/commit/8a96189ec8650952a24670144dc6e56d8b64a554)), closes [AB#3942528](https://dev.azure.com/blackbaud/Products/_workitems/edit/3942528) [AB#3965849](https://dev.azure.com/blackbaud/Products/_workitems/edit/3965849)
 * **components/packages:** create `convert-grid-to-data-grid` schematics ([#4488](https://github.com/blackbaud/skyux/issues/4488)) ([#4505](https://github.com/blackbaud/skyux/issues/4505)) ([4f198e5](https://github.com/blackbaud/skyux/commit/4f198e53b60480d80e2f4f970c5c05dfc305d862)), closes [AB#3677447](https://dev.azure.com/blackbaud/Products/_workitems/edit/3677447)
