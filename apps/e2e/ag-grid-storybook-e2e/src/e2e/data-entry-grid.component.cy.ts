@@ -6,7 +6,7 @@ describe('ag-grid-storybook data entry grid', () => {
       `in ${theme} theme`,
       {
         viewportWidth: 1300,
-        viewportHeight: 1200,
+        viewportHeight: 1500,
       },
       () => {
         const compactOptions = theme.startsWith('modern')
