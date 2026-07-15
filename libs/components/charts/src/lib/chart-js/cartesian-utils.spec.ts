@@ -1,8 +1,8 @@
 import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
 import { SkyChartAxisMeasure } from '../chart-axis/chart-axis-measure';
 
-import { type SkyChartMeasureScaleType } from '../shared/measure-scale-type';
 import { createThemeStylesFixture } from '../shared/fixtures/theme-styles-fixture';
+import { type SkyChartMeasureScaleType } from '../shared/measure-scale-type';
 
 import { buildCartesianScales } from './cartesian-utils';
 
