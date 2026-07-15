@@ -27,8 +27,15 @@ describe(`tabs-storybook`, () => {
           cy.skyReady('app-tabs')
             .get('sky-dropdown')
             .should('exist')
-            .should('be.visible')
-            .screenshot(`tabscomponent-tabs--tabs-dropdown-${theme}`);
+            .should('be.visible');
+          // The active tab button lives in the hidden `.sky-tabset-tabs` strip
+          // even in dropdown mode, and focusing it on init can shift the
+          // shared scroll container. Reset scroll so the visible dropdown
+          // trigger's left inset renders consistently for the snapshot.
+          cy.get('.sky-tabset').invoke('scrollLeft', 0);
+          cy.get('sky-dropdown').screenshot(
+            `tabscomponent-tabs--tabs-dropdown-${theme}`,
+          );
           cy.get('sky-dropdown').percySnapshot(
             `tabscomponent-tabs--tabs-dropdown-${theme}`,
           );
@@ -39,6 +46,9 @@ describe(`tabs-storybook`, () => {
             .should('exist')
             .should('be.visible')
             .click();
+          // See comment above: reset the shared scroll container before
+          // snapshotting so the dropdown list's left inset is consistent.
+          cy.get('.sky-tabset').invoke('scrollLeft', 0);
           cy.get('app-tabs')
             .should('exist')
             .should('be.visible')
