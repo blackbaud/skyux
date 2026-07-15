@@ -3,11 +3,11 @@ import {
   type TooltipItem as ChartJsTooltipItem,
 } from 'chart.js/auto';
 
-import { SkyChartAxisCategory } from '../chart-axes/chart-axis-category';
-import { SkyChartAxisValue } from '../chart-axes/chart-axis-value';
+import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
+import { SkyChartAxisMeasure } from '../chart-axis/chart-axis-measure';
 import { SkyChartBarSeries } from '../chart-bar/chart-bar-series';
 import type { SkyChartTable } from '../chart-table/chart-table';
-import { type SkyChartThemeStyles } from './chart-theme-styles';
+import { type SkyChartThemeStyles } from '../shared/chart-theme-styles';
 
 /**
  * The Chart.js chart types that plot a category axis against one or more value
@@ -80,7 +80,7 @@ interface CartesianTooltipContext {
  */
 export interface SkyChartCartesianData {
   categoryAxis: SkyChartAxisCategory;
-  valueAxis: SkyChartAxisValue;
+  valueAxis: SkyChartAxisMeasure;
   series: readonly SkyChartBarSeries[];
 }
 
@@ -90,7 +90,7 @@ export interface SkyChartCartesianData {
  */
 export function resolveCartesianData(
   categoryAxis: SkyChartAxisCategory | undefined,
-  valueAxis: SkyChartAxisValue | undefined,
+  valueAxis: SkyChartAxisMeasure | undefined,
   series: readonly SkyChartBarSeries[],
 ): SkyChartCartesianData | undefined {
   if (
@@ -171,16 +171,16 @@ function buildThemedScaleStyle(
  */
 export function buildCartesianScales(options: {
   categoryAxis: SkyChartAxisCategory;
-  valueAxis: SkyChartAxisValue;
+  valueAxis: SkyChartAxisMeasure;
   isHorizontal: boolean;
-  stacked?: boolean;
+  isStacked?: boolean;
   themeStyles: SkyChartThemeStyles;
 }): ChartJsCartesianScales {
   const {
     categoryAxis,
     valueAxis,
     isHorizontal,
-    stacked = false,
+    isStacked = false,
     themeStyles,
   } = options;
   const indexAxis = isHorizontal ? 'y' : 'x';
@@ -193,7 +193,7 @@ export function buildCartesianScales(options: {
       type: 'category',
       axis: indexAxis,
       position: isHorizontal ? 'left' : 'bottom',
-      stacked,
+      stacked: isStacked,
       grid: {
         display: true,
         drawTicks: true,
@@ -220,7 +220,7 @@ export function buildCartesianScales(options: {
       type: valueAxis.scaleType(),
       axis: valueDirection,
       position: isHorizontal ? 'bottom' : 'left',
-      stacked,
+      stacked: isStacked,
       grid: {
         ...base.grid,
         drawOnChartArea: true,

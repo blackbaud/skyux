@@ -5,12 +5,12 @@ import { SkyLogService } from '@skyux/core';
 
 import { SkyChartValueFormat } from '../shared/value-format';
 
-import { SkyChartAxisValue } from './chart-axis-value';
+import { SkyChartAxisMeasure } from './chart-axis-measure';
 
 @Component({
-  imports: [SkyChartAxisValue],
+  imports: [SkyChartAxisMeasure],
   template: `
-    <sky-chart-axis-value
+    <sky-chart-axis-measure
       labelText="Value"
       [currencyCode]="currencyCode"
       [digits]="digits"
@@ -19,8 +19,8 @@ import { SkyChartAxisValue } from './chart-axis-value';
   `,
 })
 class TestComponent {
-  @ViewChild(SkyChartAxisValue)
-  public axis!: SkyChartAxisValue;
+  @ViewChild(SkyChartAxisMeasure)
+  public axis!: SkyChartAxisMeasure;
 
   public currencyCode: string | undefined;
   public digits: unknown;

@@ -1,5 +1,5 @@
-export { SkyChartAxisCategory } from './lib/chart-axes/chart-axis-category';
-export { SkyChartAxisValue } from './lib/chart-axes/chart-axis-value';
+export { SkyChartAxisCategory } from './lib/chart-axis/chart-axis-category';
+export { SkyChartAxisMeasure } from './lib/chart-axis/chart-axis-measure';
 export { SkyChartBar } from './lib/chart-bar/chart-bar';
 export type { SkyChartBarOrientation } from './lib/chart-bar/chart-bar-orientation';
 export { SkyChartBarSeries } from './lib/chart-bar/chart-bar-series';

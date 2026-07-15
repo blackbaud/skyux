@@ -26,10 +26,10 @@ import { createSkyChartValueFormatter } from '../shared/value-formatter';
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'sky-chart-axis-value',
+  selector: 'sky-chart-axis-measure',
   template: '',
 })
-export class SkyChartAxisValue {
+export class SkyChartAxisMeasure {
   readonly #localeProvider = inject(SkyAppLocaleProvider);
   readonly #logSvc = inject(SkyLogService);
 
@@ -103,7 +103,7 @@ export class SkyChartAxisValue {
     effect(() => {
       if (this.format() === 'currency' && !this.currencyCode()) {
         this.#logSvc.warn(
-          'The `sky-chart-axis-value` "currency" format requires a ' +
+          'The `sky-chart-axis-measure` "currency" format requires a ' +
             '`currencyCode`. Values are formatted as plain numbers until one ' +
             'is provided.',
         );

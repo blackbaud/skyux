@@ -19,12 +19,12 @@ export class SkyChartBarSeries {
 
   /**
    * The stack group this series belongs to. When a bar chart's `seriesLayout`
-   * is `stacked`, series that share the same `stack` value accumulate into a
-   * single bar per category, and series with different `stack` values are
-   * placed side by side. Omit to stack every series into one bar per category.
-   * Has no effect when `seriesLayout` is `grouped`.
+   * is `stacked`, series that share the same `stackGroup` value accumulate into
+   * a single bar per category, and series with different `stackGroup` values
+   * are placed side by side. Omit to stack every series into one bar per
+   * category. Has no effect when `seriesLayout` is `grouped`.
    */
-  public readonly stack = input<string>();
+  public readonly stackGroup = input<string>();
 
   /**
    * The values for this series, aligned to the category axis categories by

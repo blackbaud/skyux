@@ -12,10 +12,8 @@ import { SkyThemeService } from '@skyux/theme';
 import { type ChartDataset } from 'chart.js/auto';
 import { EMPTY, map } from 'rxjs';
 
-import { SkyChartAxisCategory } from '../chart-axes/chart-axis-category';
-import { SkyChartAxisValue } from '../chart-axes/chart-axis-value';
-import { SkyChartTable } from '../chart-table/chart-table';
-import { SkyChartAccessibleSummary } from '../chart-table/chart-table-service';
+import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
+import { SkyChartAxisMeasure } from '../chart-axis/chart-axis-measure';
 import {
   buildCartesianScales,
   buildCartesianTable,
@@ -23,10 +21,12 @@ import {
   CATEGORY_AXIS_ID,
   resolveCartesianData,
   VALUE_AXIS_ID,
-} from '../shared/cartesian-utils';
-import { SkyChartJs, type SkyChartJsConfig } from '../shared/chart-js';
-import { extendBaseChartJsConfig } from '../shared/chart-js-config-utils';
-import { SkyChartPlot } from '../shared/chart-plot';
+} from '../chart-js/cartesian-utils';
+import { SkyChartJs, type SkyChartJsConfig } from '../chart-js/chart-js';
+import { extendBaseChartJsConfig } from '../chart-js/chart-js-config-utils';
+import { SkyChartPlot } from '../chart-plot/chart-plot';
+import { SkyChartTable } from '../chart-table/chart-table';
+import { SkyChartAccessibleSummary } from '../chart-table/chart-table-service';
 import { SkyChartBarOrientation } from './chart-bar-orientation';
 import { SkyChartBarSeries } from './chart-bar-series';
 import { SkyChartBarSeriesLayout } from './chart-bar-series-layout';
@@ -41,14 +41,9 @@ import { SkyChartBarSeriesLayout } from './chart-bar-series-layout';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkyChartJs],
   selector: 'sky-chart-bar',
-  template: `@if (config(); as config) {
-    <sky-chart-js [config]="config" />
-  }`,
+  templateUrl: './chart-bar.html',
 })
 export class SkyChartBar extends SkyChartPlot {
-  // Chart.js renders to a canvas and cannot read CSS custom properties, so the
-  // active theme's values must be resolved against a DOM element. Tracking the
-  // theme settings as a signal rebuilds `config` whenever the theme changes.
   readonly #themeSettings = toSignal(
     inject(SkyThemeService, { optional: true })?.settingsChange.pipe(
       map((change) => change.currentSettings),
@@ -66,7 +61,7 @@ export class SkyChartBar extends SkyChartPlot {
    * How the bars of multiple series are arranged within each category.
    * `grouped` places the series' bars side by side; `stacked` accumulates the
    * bars into a single bar per category. When `stacked`, assign each series a
-   * `stack` value to subdivide the bar into side-by-side stacks (grouped,
+   * `stackGroup` value to subdivide the bar into side-by-side stacks (grouped,
    * stacked bars). This has no visible effect when the chart has a single
    * series.
    * @default 'grouped'
@@ -74,12 +69,12 @@ export class SkyChartBar extends SkyChartPlot {
   public readonly seriesLayout = input<SkyChartBarSeriesLayout>('grouped');
 
   protected readonly categoryAxis = contentChild(SkyChartAxisCategory);
-  protected readonly valueAxis = contentChild(SkyChartAxisValue);
+  protected readonly valueAxis = contentChild(SkyChartAxisMeasure);
   protected readonly series = contentChildren(SkyChartBarSeries);
 
-  protected readonly config = computed(() => this.#buildConfig());
+  protected readonly chartJsConfig = computed(() => this.#getChartJsConfig());
 
-  protected override buildTable(): SkyChartTable | undefined {
+  protected override getChartTable(): SkyChartTable | undefined {
     const data = resolveCartesianData(
       this.categoryAxis(),
       this.valueAxis(),
@@ -97,7 +92,9 @@ export class SkyChartBar extends SkyChartPlot {
     );
   }
 
-  protected override buildSummary(): SkyChartAccessibleSummary | undefined {
+  protected override getAccessibleSummary():
+    | SkyChartAccessibleSummary
+    | undefined {
     const data = resolveCartesianData(
       this.categoryAxis(),
       this.valueAxis(),
@@ -114,7 +111,7 @@ export class SkyChartBar extends SkyChartPlot {
     };
   }
 
-  #buildConfig(): SkyChartJsConfig<'bar'> | undefined {
+  #getChartJsConfig(): SkyChartJsConfig<'bar'> | undefined {
     const data = resolveCartesianData(
       this.categoryAxis(),
       this.valueAxis(),
@@ -132,15 +129,6 @@ export class SkyChartBar extends SkyChartPlot {
     this.#themeSettings();
 
     const themeStyles = this.getThemeStyles();
-
-    // Series cycle through the categorical palette so each is distinct. Color
-    // is the only visual channel that separates series in the rendered canvas;
-    // this reliance is intentional. Sighted users get the series names from the
-    // legend and tooltips, and assistive-technology users get every data point
-    // from the accessible data table (reachable from the chart's context menu
-    // and announced by the figure's summary), which is the keyboard/AT view of
-    // individual values. Revisit non-color differentiation only if user testing
-    // surfaces a need.
     const categorical = themeStyles.series.categoricalPalette;
 
     const isHorizontal = this.orientation() === 'horizontal';
@@ -160,10 +148,10 @@ export class SkyChartBar extends SkyChartPlot {
       // Stack groups only apply to a stacked layout; on a grouped layout the
       // scales are not stacked, so a shared stack id would overlap bars instead
       // of accumulating them.
-      const stack = chartSeries.stack();
+      const stackGroup = chartSeries.stackGroup();
 
-      if (isStacked && stack !== undefined) {
-        dataset.stack = stack;
+      if (isStacked && stackGroup !== undefined) {
+        dataset.stack = stackGroup;
       }
 
       if (isHorizontal) {
@@ -185,6 +173,11 @@ export class SkyChartBar extends SkyChartPlot {
         datasets,
       },
       options: {
+        interaction: {
+          // Index hits along the category axis's direction (see the category scale's
+          // `axis` in buildCartesianScales); this is a cartesian direction, not a scale ID.
+          axis: isHorizontal ? 'y' : 'x',
+        },
         elements: {
           bar: {
             borderWidth: 1,
@@ -197,7 +190,7 @@ export class SkyChartBar extends SkyChartPlot {
           categoryAxis,
           valueAxis,
           isHorizontal,
-          stacked: isStacked,
+          isStacked,
           themeStyles,
         }),
         plugins: {

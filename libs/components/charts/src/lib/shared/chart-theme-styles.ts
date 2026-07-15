@@ -13,49 +13,29 @@
  * @internal
  */
 export interface SkyChartThemeStyles {
-  /**
-   * The typography shared by chart text.
-   */
   font: {
     family: string;
     size: number;
     weight: number;
     emphasizedWeight: number;
-    lineHeight: number;
   };
-
-  /**
-   * The text colors shared by chart text.
-   */
   text: {
     color: string;
     deemphasizedColor: string;
+    lineHeight: number;
   };
-
-  /**
-   * The styling of the axis lines, gridlines, ticks, and titles.
-   */
   axis: {
     lineColor: string;
     gridlineColor: string;
     tickLength: number;
-
     /**
      * The vertical gap between an axis title and its ticks.
      */
     titleGap: number;
   };
-
-  /**
-   * The styling of plotted series.
-   */
   series: {
-    /**
-     * The categorical data-visualization palette that series cycle through.
-     */
     categoricalPalette: string[];
   };
-
   /**
    * The styling of the tooltip container and its contents.
    */
@@ -70,31 +50,23 @@ export interface SkyChartThemeStyles {
       bottom: number;
       left: number;
     };
-
     /**
      * The size of the color-swatch icon beside each tooltip line.
      */
     iconSize: number;
-
     /**
      * The gap between the color-swatch icon and its text.
      */
     iconGap: number;
-
     /**
      * The vertical gap between the tooltip title or footer and its body.
      */
     titleGap: number;
-
     /**
      * The vertical gap between tooltip body lines.
      */
     bodyGap: number;
   };
-
-  /**
-   * The styling of bar chart bars.
-   */
   bar: {
     borderColor: string;
     borderRadius: number;
@@ -143,11 +115,11 @@ export function resolveChartThemeStyles(
           probe,
           '--sky-font-style-emphasized',
         ),
-        lineHeight: readLineHeight(styles, probe),
       },
       text: {
         color: readString(styles, '--sky-color-text-default'),
         deemphasizedColor: readString(styles, '--sky-color-text-deemphasized'),
+        lineHeight: readLineHeight(styles, probe),
       },
       axis: {
         lineColor: readString(styles, '--sky-color-viz-axis'),

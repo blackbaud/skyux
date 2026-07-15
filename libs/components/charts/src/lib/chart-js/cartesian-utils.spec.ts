@@ -1,9 +1,9 @@
-import { SkyChartAxisCategory } from '../chart-axes/chart-axis-category';
-import { SkyChartAxisValue } from '../chart-axes/chart-axis-value';
+import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
+import { SkyChartAxisMeasure } from '../chart-axis/chart-axis-measure';
 
-import { type SkyChartCartesianScaleType } from './cartesian-scale-type';
-import { buildCartesianScales } from './cartesian-utils';
-import { createThemeStylesFixture } from './fixtures/theme-styles-fixture';
+import { type SkyChartCartesianScaleType } from '../shared/cartesian-scale-type';
+import { buildCartesianScales } from '../shared/cartesian-utils';
+import { createThemeStylesFixture } from '../shared/fixtures/theme-styles-fixture';
 
 type ScaleProbe = {
   stacked: boolean;
@@ -19,7 +19,7 @@ describe('buildCartesianScales', () => {
 
   function createValueAxis(
     scaleType: SkyChartCartesianScaleType,
-  ): SkyChartAxisValue {
+  ): SkyChartAxisMeasure {
     return {
       scaleType: () => scaleType,
       formatValue:
@@ -28,7 +28,7 @@ describe('buildCartesianScales', () => {
           `${value}`,
       labelHidden: () => false,
       labelText: () => 'Value',
-    } as unknown as SkyChartAxisValue;
+    } as unknown as SkyChartAxisMeasure;
   }
 
   function build(

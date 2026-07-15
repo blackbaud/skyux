@@ -1,7 +1,7 @@
 <sky-chart headingText="Acquisitions by year">
   <sky-chart-bar [orientation]="orientation()">
     <sky-chart-axis-category labelText="Year" [categories]="years" />
-    <sky-chart-axis-value labelText="Acquisitions" format="currency" />
+    <sky-chart-axis-measure labelText="Acquisitions" format="currency" />
     <sky-chart-bar-series
       labelText="Acquisitions by year"
       [values]="acquisitions"

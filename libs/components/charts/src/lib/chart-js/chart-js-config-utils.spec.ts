@@ -1,7 +1,7 @@
 import { type SkyChartJsConfig } from './chart-js';
 
+import { createThemeStylesFixture } from '../shared/fixtures/theme-styles-fixture';
 import { extendBaseChartJsConfig } from './chart-js-config-utils';
-import { createThemeStylesFixture } from './fixtures/theme-styles-fixture';
 
 type TooltipProbe = {
   enabled: boolean;

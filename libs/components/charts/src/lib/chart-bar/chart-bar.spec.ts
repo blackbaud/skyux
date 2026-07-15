@@ -6,8 +6,8 @@ import { SkyThemeService, type SkyThemeSettingsChange } from '@skyux/theme';
 import Chart, { type TooltipItem } from 'chart.js/auto';
 import { ReplaySubject } from 'rxjs';
 
-import { SkyChartAxisCategory } from '../chart-axes/chart-axis-category';
-import { SkyChartAxisValue } from '../chart-axes/chart-axis-value';
+import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
+import { SkyChartAxisMeasure } from '../chart-axis/chart-axis-measure';
 import { SkyChartTableService } from '../chart-table/chart-table-service';
 import { SkyChart } from '../chart/chart';
 import { SkyChartValueFormat } from '../shared/value-format';
@@ -29,7 +29,7 @@ type ScaleProbe = {
   imports: [
     SkyChartBar,
     SkyChartAxisCategory,
-    SkyChartAxisValue,
+    SkyChartAxisMeasure,
     SkyChartBarSeries,
   ],
   template: `
@@ -39,7 +39,7 @@ type ScaleProbe = {
           <sky-chart-axis-category labelText="Year" [categories]="categories" />
         }
         @if (renderValueAxis) {
-          <sky-chart-axis-value
+          <sky-chart-axis-measure
             labelText="Value"
             [currencyCode]="currencyCode"
             [format]="format"
@@ -49,14 +49,14 @@ type ScaleProbe = {
         @if (renderSeries) {
           <sky-chart-bar-series
             [labelText]="seriesLabel"
-            [stack]="seriesStack"
+            [stackGroup]="seriesStack"
             [values]="values"
           />
         }
         @if (renderSecondSeries) {
           <sky-chart-bar-series
             labelText="Divestitures"
-            [stack]="secondSeriesStack"
+            [stackGroup]="secondSeriesStack"
             [values]="values"
           />
         }
@@ -446,14 +446,14 @@ describe('Chart bar component in the default theme', () => {
       SkyChart,
       SkyChartBar,
       SkyChartAxisCategory,
-      SkyChartAxisValue,
+      SkyChartAxisMeasure,
       SkyChartBarSeries,
     ],
     template: `
       <sky-chart headingText="Sales">
         <sky-chart-bar>
           <sky-chart-axis-category labelText="Year" [categories]="categories" />
-          <sky-chart-axis-value labelText="Value" />
+          <sky-chart-axis-measure labelText="Value" />
           <sky-chart-bar-series labelText="Series" [values]="values" />
         </sky-chart-bar>
       </sky-chart>
@@ -497,13 +497,13 @@ describe('Chart bar component outside a sky-chart', () => {
     imports: [
       SkyChartBar,
       SkyChartAxisCategory,
-      SkyChartAxisValue,
+      SkyChartAxisMeasure,
       SkyChartBarSeries,
     ],
     template: `
       <sky-chart-bar>
         <sky-chart-axis-category labelText="Year" [categories]="categories" />
-        <sky-chart-axis-value labelText="Value" />
+        <sky-chart-axis-measure labelText="Value" />
         <sky-chart-bar-series labelText="Series" [values]="values" />
       </sky-chart-bar>
     `,

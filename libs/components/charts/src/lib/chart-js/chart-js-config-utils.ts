@@ -1,7 +1,7 @@
 import { type ChartOptions, type ChartType } from 'chart.js/auto';
 
+import { type SkyChartThemeStyles } from '../shared/chart-theme-styles';
 import { type SkyChartJsConfig } from './chart-js';
-import { type SkyChartThemeStyles } from './chart-theme-styles';
 
 /**
  * Builds the Chart.js `options` shared by every SKY chart type: responsiveness,
@@ -16,7 +16,7 @@ function buildBaseChartJsOptions(
     family: font.family,
     size: font.size,
     weight: font.weight,
-    lineHeight: font.lineHeight,
+    lineHeight: text.lineHeight,
   };
 
   const options: ChartOptions = {
@@ -32,6 +32,9 @@ function buildBaseChartJsOptions(
     animation: { duration: 400, easing: 'easeInOutQuart' },
 
     plugins: {
+      legend: {
+        position: 'bottom',
+      },
       tooltip: {
         enabled: true,
         position: 'average',
@@ -97,6 +100,10 @@ export function extendBaseChartJsConfig<TType extends ChartType = ChartType>(
     plugins: {
       ...base.plugins,
       ...overrides.options.plugins,
+      legend: {
+        ...base.plugins?.legend,
+        ...overrides.options.plugins?.legend,
+      },
       tooltip: {
         ...base.plugins?.tooltip,
         ...overrides.options.plugins?.tooltip,
