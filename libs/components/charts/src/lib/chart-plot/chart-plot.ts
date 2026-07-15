@@ -5,7 +5,6 @@ import {
   ElementRef,
   inject,
 } from '@angular/core';
-import { SkyLogService } from '@skyux/core';
 
 import { SkyChartTable } from '../chart-table/chart-table';
 import {
@@ -31,10 +30,8 @@ import {
 @Directive()
 export abstract class SkyChartPlot {
   readonly #elementRef = inject(ElementRef);
-  readonly #logSvc = inject(SkyLogService);
-  readonly #tableSvc: SkyChartTableService;
 
-  #warnedMissingTheme = false;
+  readonly #tableSvc: SkyChartTableService;
 
   constructor() {
     const tableSvc = inject(SkyChartTableService, { optional: true });
@@ -86,12 +83,6 @@ export abstract class SkyChartPlot {
   protected getThemeStyles(): SkyChartThemeStyles {
     return resolveChartThemeStyles(
       this.#elementRef.nativeElement as HTMLElement,
-      (message) => {
-        if (!this.#warnedMissingTheme) {
-          this.#warnedMissingTheme = true;
-          this.#logSvc.warn(message);
-        }
-      },
     );
   }
 }

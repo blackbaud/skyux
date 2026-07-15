@@ -104,7 +104,6 @@ export interface SkyChartThemeStyles {
  */
 export function resolveChartThemeStyles(
   host: HTMLElement,
-  warn: (message: string) => void,
 ): SkyChartThemeStyles {
   const styles = getComputedStyle(host);
 
@@ -115,31 +114,30 @@ export function resolveChartThemeStyles(
   // fast path cannot parse — and torn down once resolution finishes.
   const probe = createTokenProbe(host);
 
-  const minHeight = remToPx('11.25rem');
-  const maxHeight = remToPx('25rem');
+  // `rem` conversions share one root font-size read; see `remToPx`.
+  const rootFontSize = Number.parseFloat(
+    getComputedStyle(document.documentElement).fontSize,
+  );
+
+  const minHeight = remToPx('11.25rem', rootFontSize);
+  const maxHeight = remToPx('25rem', rootFontSize);
 
   try {
-    // Every SKY theme resolves `--sky-color-text-default` — the modern theme
-    // defines it and the charts stylesheets provide a default-theme override —
-    // so its absence means the SKY UX theme styles are not loaded at all (or a
-    // custom modern brand omits the tokens).
-    if (!readString(styles, '--sky-color-text-default')) {
-      warn(
-        "The SKY UX theme's CSS custom properties could not be resolved, so " +
-          'the chart renders un-themed. Verify that the SKY UX theme styles ' +
-          'are loaded.',
-      );
-    }
-
     return {
       font: {
         family: readString(styles, '--sky-font-family-primary'),
-        size: readNumber(styles, probe, '--sky-font-size-body-s'),
-        weight: readNumber(styles, probe, '--sky-font-style-body-s'),
+        size: readNumber(styles, probe, '--sky-font-size-body-s', rootFontSize),
+        weight: readNumber(
+          styles,
+          probe,
+          '--sky-font-style-body-s',
+          rootFontSize,
+        ),
         emphasizedWeight: readNumber(
           styles,
           probe,
           '--sky-font-style-emphasized',
+          rootFontSize,
         ),
       },
       text: {
@@ -159,8 +157,14 @@ export function resolveChartThemeStyles(
           styles,
           probe,
           '--sky-size-chart-tick_length-measure',
+          rootFontSize,
         ),
-        titleGap: readNumber(styles, probe, '--sky-space-stacked-xs'),
+        titleGap: readNumber(
+          styles,
+          probe,
+          '--sky-space-stacked-xs',
+          rootFontSize,
+        ),
       },
       series: {
         categoricalPalette: Array.from({ length: 8 }, (_, index) =>
@@ -177,50 +181,80 @@ export function resolveChartThemeStyles(
           styles,
           probe,
           '--sky-border-width-container-base',
+          rootFontSize,
         ),
-        cornerRadius: readNumber(styles, probe, '--sky-border-radius-s'),
+        cornerRadius: readNumber(
+          styles,
+          probe,
+          '--sky-border-radius-s',
+          rootFontSize,
+        ),
         inset: {
           top: readNumber(
             styles,
             probe,
             '--sky-comp-chart-tooltip-space-inset-top',
+            rootFontSize,
           ),
           right: readNumber(
             styles,
             probe,
             '--sky-comp-chart-tooltip-space-inset-right',
+            rootFontSize,
           ),
           bottom: readNumber(
             styles,
             probe,
             '--sky-comp-chart-tooltip-space-inset-bottom',
+            rootFontSize,
           ),
           left: readNumber(
             styles,
             probe,
             '--sky-comp-chart-tooltip-space-inset-left',
+            rootFontSize,
           ),
         },
-        iconSize: readNumber(styles, probe, '--sky-size-icon-xs'),
-        iconGap: readNumber(styles, probe, '--sky-space-gap-icon-s'),
-        titleGap: readNumber(styles, probe, '--sky-space-stacked-s'),
-        bodyGap: readNumber(styles, probe, '--sky-space-stacked-0'),
+        iconSize: readNumber(styles, probe, '--sky-size-icon-xs', rootFontSize),
+        iconGap: readNumber(
+          styles,
+          probe,
+          '--sky-space-gap-icon-s',
+          rootFontSize,
+        ),
+        titleGap: readNumber(
+          styles,
+          probe,
+          '--sky-space-stacked-s',
+          rootFontSize,
+        ),
+        bodyGap: readNumber(
+          styles,
+          probe,
+          '--sky-space-stacked-0',
+          rootFontSize,
+        ),
       },
       bar: {
         borderColor: readString(
           styles,
           '--sky-color-background-container-base',
         ),
-        borderRadius: readNumber(styles, probe, '--sky-border-radius-xs'),
+        borderRadius: readNumber(
+          styles,
+          probe,
+          '--sky-border-radius-xs',
+          rootFontSize,
+        ),
         vertical: {
-          baseBarThickness: remToPx('2rem'),
-          minBarThickness: remToPx('0.75rem'),
-          maxBarThickness: remToPx('7.5rem'),
+          baseBarThickness: remToPx('2rem', rootFontSize),
+          minBarThickness: remToPx('0.75rem', rootFontSize),
+          maxBarThickness: remToPx('7.5rem', rootFontSize),
         },
         horizontal: {
-          minBarThickness: remToPx('0.75rem'),
-          maxBarThickness: remToPx('1rem'),
-          minCategoryGap: remToPx('0.5rem'),
+          minBarThickness: remToPx('0.75rem', rootFontSize),
+          maxBarThickness: remToPx('1rem', rootFontSize),
+          minCategoryGap: remToPx('0.5rem', rootFontSize),
         },
       },
     };
@@ -267,6 +301,7 @@ function readNumber(
   styles: CSSStyleDeclaration,
   probe: SkyChartTokenProbe,
   property: string,
+  rootFontSize: number,
 ): number {
   const raw = readString(styles, property);
 
@@ -277,7 +312,7 @@ function readNumber(
   const value = Number.parseFloat(raw);
 
   if (!Number.isNaN(value)) {
-    return raw.endsWith('rem') ? remToPx(raw) : value;
+    return raw.endsWith('rem') ? remToPx(raw, rootFontSize) : value;
   }
 
   // A non-numeric literal such as a `calc()` length; resolve it via the probe.
@@ -287,23 +322,23 @@ function readNumber(
 /**
  * Converts a `rem` length to pixels using the document root font size. `rem` is
  * defined relative to the root element (never the host), so the root font size
- * is the correct reference. Chart.js reasons in pixels when it lays out a
- * canvas, so `rem`-based sizing has to be resolved before it reaches the chart.
+ * is the correct reference — resolved once per `resolveChartThemeStyles` call
+ * and shared by every conversion. Chart.js reasons in pixels when it lays out
+ * a canvas, so `rem`-based sizing has to be resolved before it reaches the
+ * chart.
  */
-function remToPx(rem: string): number {
-  const rootFontSize = Number.parseFloat(
-    getComputedStyle(document.documentElement).fontSize,
-  );
-
+function remToPx(rem: string, rootFontSize: number): number {
   return Number.parseFloat(rem) * rootFontSize;
 }
 
 /**
- * Reads the body-s line height as a multiple of the font size. The SKY
- * line-height tokens are `calc()` expressions that `getComputedStyle` leaves
- * unevaluated on custom properties, so the token is resolved through the probe.
- * Its default is defined in the `sky-default-overrides` mixin in `chart.scss`,
- * so it only fails to resolve — returning `NaN` — in a genuinely broken theme.
+ * Reads the body-s line height as a multiple of the font size. A plain
+ * numeric value (such as the default theme's override) parses directly; the
+ * modern theme's token is a `calc()` expression that `getComputedStyle`
+ * leaves unevaluated on custom properties, so it is resolved through the
+ * probe. Its default is defined in the `sky-default-overrides` mixin in
+ * `chart.scss`, so it only fails to resolve — returning `NaN` — in a
+ * genuinely broken theme.
  */
 function readLineHeight(
   styles: CSSStyleDeclaration,
@@ -311,7 +346,18 @@ function readLineHeight(
 ): number {
   const raw = readString(styles, '--sky-font-line_height-body-s');
 
-  return raw === '' ? Number.NaN : (probe.resolveNumber(raw) ?? Number.NaN);
+  if (raw === '') {
+    return Number.NaN;
+  }
+
+  const value = Number.parseFloat(raw);
+
+  if (!Number.isNaN(value)) {
+    return value;
+  }
+
+  // A non-numeric expression such as `calc(20/15)`; resolve it via the probe.
+  return probe.resolveNumber(raw) ?? Number.NaN;
 }
 
 /**
