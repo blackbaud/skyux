@@ -1,0 +1,21 @@
+<div class="sky-chart-header">
+  <div>
+    @if (!headingHidden()) {
+      <sky-chart-heading
+        [headingLevel]="headingLevel()"
+        [headingStyle]="headingStyle()"
+        [headingText]="headingText()"
+        [helpKey]="helpKey()"
+        [helpPopoverContent]="helpPopoverContent()"
+        [helpPopoverTitle]="helpPopoverTitle()"
+      />
+    }
+    @if (!subheadingHidden() && subheadingText(); as subheadingText) {
+      <sky-chart-subheading [subheadingText]="subheadingText" />
+    }
+  </div>
+  <sky-chart-controls [headingText]="headingText()" />
+</div>
+<figure class="sky-chart-content" [attr.aria-label]="figureLabel()">
+  <ng-content />
+</figure>
