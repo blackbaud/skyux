@@ -638,7 +638,7 @@ describe('Chart bar component in the default theme', () => {
     public values = [10, 20];
   }
 
-  it('should theme the chart from the wrapper\u2019s default-theme overrides', () => {
+  it('should theme the chart from the wrapper\u2019s default-theme overrides', async () => {
     TestBed.configureTestingModule({
       imports: [WrappedComponent],
     });
@@ -648,8 +648,17 @@ describe('Chart bar component in the default theme', () => {
     const fixture = TestBed.createComponent(WrappedComponent);
     fixture.detectChanges();
 
+    // The chart is created in an `afterRenderEffect`, so wait for render
+    // effects to flush before querying it.
+    await fixture.whenStable();
+
     const canvas = fixture.nativeElement.querySelector('canvas');
-    const chart = Chart.getChart(canvas) as Chart<'bar'>;
+    const chart = Chart.getChart(canvas) as Chart<'bar'> | undefined;
+
+    if (!chart) {
+      throw new Error('Expected a chart to have been created.');
+    }
+
     const ticks = chart.options.scales?.['category']?.ticks as {
       color?: string;
     };
