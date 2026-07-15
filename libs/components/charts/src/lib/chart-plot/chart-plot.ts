@@ -77,8 +77,7 @@ export abstract class SkyChartPlot {
   /**
    * Resolves the active theme's chart styling against this plot's element.
    * Chart.js renders to a canvas that cannot read CSS variables, so themed
-   * tokens must be resolved to concrete values against the DOM. Warns once
-   * per plot when the SKY theme styles are not loaded.
+   * tokens must be resolved to concrete values against the DOM.
    */
   protected getThemeStyles(): SkyChartThemeStyles {
     return resolveChartThemeStyles(

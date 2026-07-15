@@ -9,7 +9,6 @@
  * to `NaN`. Every value otherwise has a default defined in the
  * `sky-default-overrides` mixin in `chart.scss`, which applies in every
  * non-modern context; the modern theme supplies the `--sky-*` tokens directly.
- * `resolveChartThemeStyles` warns when the styles cannot be resolved.
  * @internal
  */
 export interface SkyChartThemeStyles {
@@ -98,8 +97,8 @@ export interface SkyChartThemeStyles {
 
 /**
  * Resolves the active SKY theme's chart styling for the given host element.
- * Calls `warn` when the SKY theme styles are not loaded, in which case the
- * chart renders un-themed with Chart.js defaults.
+ * When the SKY theme styles are not loaded, the chart renders un-themed with
+ * Chart.js defaults.
  * @internal
  */
 export function resolveChartThemeStyles(
@@ -278,8 +277,7 @@ function overrideProperty(property: string): string {
 /**
  * Reads a CSS custom property — preferring its default-theme override —
  * returning an empty string when neither is set. An empty string reaching
- * Chart.js renders un-themed rather than broken, and
- * `resolveChartThemeStyles` warns when that happens.
+ * Chart.js renders un-themed rather than broken.
  */
 function readString(styles: CSSStyleDeclaration, property: string): string {
   return (
@@ -294,8 +292,7 @@ function readString(styles: CSSStyleDeclaration, property: string): string {
  * font size. Values the fast path cannot parse (such as `calc()` lengths) are
  * resolved through the probe. Every token has a default defined in the
  * `sky-default-overrides` mixin in `chart.scss`, so a value only fails to
- * resolve — returning `NaN` — in a genuinely broken theme, which
- * `resolveChartThemeStyles` warns about.
+ * resolve — returning `NaN` — in a genuinely broken theme.
  */
 function readNumber(
   styles: CSSStyleDeclaration,

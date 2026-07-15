@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyLogService } from '@skyux/core';
 import { SkyThemeService, type SkyThemeSettingsChange } from '@skyux/theme';
 import Chart, { type TooltipItem } from 'chart.js/auto';
 import { ReplaySubject } from 'rxjs';
@@ -88,7 +87,6 @@ class TestComponent {
 describe('Chart bar component', () => {
   let fixture: ComponentFixture<TestComponent>;
   let component: TestComponent;
-  let logSvc: jasmine.SpyObj<SkyLogService>;
   let tableSvc: SkyChartTableService;
   let destroyed: boolean;
 
@@ -152,18 +150,13 @@ describe('Chart bar component', () => {
   }
 
   beforeEach(() => {
-    logSvc = jasmine.createSpyObj<SkyLogService>('SkyLogService', ['warn']);
-
     // Karma loads the real modern theme stylesheet; applying the theme
     // classes resolves the chart's themed tokens to concrete values.
     document.body.classList.add('sky-theme-modern', 'sky-theme-brand-base');
 
     TestBed.configureTestingModule({
       imports: [TestComponent],
-      providers: [
-        SkyChartTableService,
-        { provide: SkyLogService, useValue: logSvc },
-      ],
+      providers: [SkyChartTableService],
     });
 
     fixture = TestBed.createComponent(TestComponent);
@@ -564,21 +557,6 @@ describe('Chart bar component', () => {
     expect(getScale(requireChart(), 'value').type).toBe('logarithmic');
   });
 
-  it('should warn once when the theme tokens cannot be resolved', () => {
-    // A modern theme class without the brand tokens suppresses the
-    // default-theme overrides and defines no `--sky-*` tokens.
-    document.body.classList.remove('sky-theme-brand-base');
-    fixture.detectChanges();
-
-    expect(logSvc.warn).toHaveBeenCalledTimes(1);
-
-    // Rebuilding the chart does not repeat the warning.
-    component.values = [30, 40];
-    fixture.detectChanges();
-
-    expect(logSvc.warn).toHaveBeenCalledTimes(1);
-  });
-
   it('should update an existing chart when inputs change', () => {
     fixture.detectChanges();
 
@@ -661,13 +639,8 @@ describe('Chart bar component in the default theme', () => {
   }
 
   it('should theme the chart from the wrapper\u2019s default-theme overrides', () => {
-    const logSvc = jasmine.createSpyObj<SkyLogService>('SkyLogService', [
-      'warn',
-    ]);
-
     TestBed.configureTestingModule({
       imports: [WrappedComponent],
-      providers: [{ provide: SkyLogService, useValue: logSvc }],
     });
 
     // No modern theme classes: the default theme is active, and the
@@ -682,7 +655,6 @@ describe('Chart bar component in the default theme', () => {
     };
 
     expect(ticks.color).toBe('#212327');
-    expect(logSvc.warn).not.toHaveBeenCalled();
 
     fixture.destroy();
   });
@@ -744,12 +716,6 @@ describe('Chart bar component with a theme service', () => {
       imports: [TestComponent],
       providers: [
         SkyChartTableService,
-        {
-          provide: SkyLogService,
-          useValue: jasmine.createSpyObj<SkyLogService>('SkyLogService', [
-            'warn',
-          ]),
-        },
         { provide: SkyThemeService, useValue: { settingsChange } },
       ],
     });

@@ -30,9 +30,8 @@ describe('resolveChartThemeStyles', () => {
 
   function resolve(
     values: Record<string, string>,
-    warn = jasmine.createSpy('warn'),
   ): ReturnType<typeof resolveChartThemeStyles> {
-    return resolveChartThemeStyles(createHost(values), warn);
+    return resolveChartThemeStyles(createHost(values));
   }
 
   it('should resolve string tokens, trimmed', () => {
@@ -123,32 +122,6 @@ describe('resolveChartThemeStyles', () => {
     expect(themeStyles.font.size).toBe(20);
   });
 
-  it('should warn when the SKY theme styles are not loaded', () => {
-    const warn = jasmine.createSpy('warn');
-
-    resolve({}, warn);
-
-    expect(warn).toHaveBeenCalledOnceWith(
-      jasmine.stringContaining('CSS custom properties'),
-    );
-  });
-
-  it('should not warn when the theme styles are present', () => {
-    const warn = jasmine.createSpy('warn');
-
-    resolve({ '--sky-color-text-default': '#111111' }, warn);
-
-    expect(warn).not.toHaveBeenCalled();
-  });
-
-  it('should not warn when the default-theme overrides are present', () => {
-    const warn = jasmine.createSpy('warn');
-
-    resolve({ '--sky-override-chart-color-text-default': '#111111' }, warn);
-
-    expect(warn).not.toHaveBeenCalled();
-  });
-
   it('should resolve the height and bar-layout sizing in pixels', () => {
     const rootFontSize = Number.parseFloat(
       getComputedStyle(document.documentElement).fontSize,
@@ -208,12 +181,10 @@ describe('resolveChartThemeStyles', () => {
       host.classList.add('sky-theme-modern', 'sky-theme-brand-base');
       document.body.appendChild(host);
 
-      const warn = jasmine.createSpy('warn');
-      const themeStyles = resolveChartThemeStyles(host, warn);
+      const themeStyles = resolveChartThemeStyles(host);
 
       host.remove();
 
-      expect(warn).not.toHaveBeenCalled();
       expectEveryValueConcrete(themeStyles);
     });
 
@@ -230,13 +201,10 @@ describe('resolveChartThemeStyles', () => {
       fixture.componentRef.setInput('headingText', 'Test chart');
       fixture.detectChanges();
 
-      const warn = jasmine.createSpy('warn');
       const themeStyles = resolveChartThemeStyles(
         fixture.nativeElement as HTMLElement,
-        warn,
       );
 
-      expect(warn).not.toHaveBeenCalled();
       expectEveryValueConcrete(themeStyles);
     });
   });
