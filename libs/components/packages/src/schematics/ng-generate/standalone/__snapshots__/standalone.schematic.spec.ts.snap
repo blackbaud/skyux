@@ -178,6 +178,22 @@ import { SkyModalModule } from '@skyux/modals';
     "
 `;
 
+exports[`standalone should migrate a test with a SKY UX pipe used in TestBed.configureTestingModule 1`] = `
+"
+    import { TestBed } from '@angular/core/testing';
+import { SkyDatePipeModule } from '@skyux/datetime';
+    
+
+    describe('TestComponent', () => {
+      beforeEach(() => {
+        TestBed.configureTestingModule({
+          imports: [SkyDatePipeModule],
+        });
+      });
+    });
+    "
+`;
+
 exports[`standalone should provide for a pipe that is injected in a component 1`] = `
 "
     import { Component, Directive } from '@angular/core';
