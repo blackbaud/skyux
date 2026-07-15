@@ -17,6 +17,7 @@ export class SkySectionedFormFixtureComponent implements AfterContentChecked {
   public activeTab = true;
   public activeIndexDisplay: number | undefined;
   public maintainSectionContent = false;
+  public tabWidth: string | undefined;
   public tabsVisible: boolean | undefined;
   public messageStream: Subject<SkySectionedFormMessage> | undefined =
     new Subject();

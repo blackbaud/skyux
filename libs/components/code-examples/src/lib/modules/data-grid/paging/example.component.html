@@ -1,0 +1,44 @@
+<sky-data-grid
+  data-sky-id="example-data-grid"
+  pageSize="5"
+  [data]="data"
+  [pageQueryParam]="pageQueryParam"
+>
+  <sky-data-grid-column field="name" flexWidth="3" headingText="Name" />
+  <sky-data-grid-column
+    field="age"
+    headingText="Age"
+    dataType="number"
+    flexWidth="1"
+    helpPopoverTitle="Age"
+    helpPopoverContent="The team member's current age, in years."
+  />
+  <sky-data-grid-column
+    field="startDate"
+    headingText="Start date"
+    dataType="date"
+    flexWidth="2"
+  />
+  <sky-data-grid-column
+    field="endDate"
+    headingText="End date"
+    dataType="date"
+    flexWidth="2"
+  />
+  <sky-data-grid-column
+    field="department"
+    headingText="Department"
+    flexWidth="3"
+  >
+    <ng-template let-value="value">{{ value?.name ?? '' }}</ng-template>
+  </sky-data-grid-column>
+  <sky-data-grid-column field="jobTitle" headingText="Job title" flexWidth="4">
+    <ng-template let-value="value">{{ value?.name ?? '' }}</ng-template>
+  </sky-data-grid-column>
+  <sky-data-grid-column
+    field="active"
+    headingText="Active"
+    dataType="boolean"
+    flexWidth="1"
+  />
+</sky-data-grid>

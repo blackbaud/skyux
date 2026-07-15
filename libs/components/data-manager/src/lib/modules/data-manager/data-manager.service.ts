@@ -54,6 +54,7 @@ export class SkyDataManagerService implements OnDestroy {
   #initSource = 'dataManagerServiceInit';
   #uiConfigService: SkyUIConfigService;
 
+  // eslint-disable-next-line @angular-eslint/prefer-inject -- constructor injection is required to maintain the public API for consumers who may instantiate this service directly (e.g. `new SkyDataManagerService(...)`).
   constructor(uiConfigService: SkyUIConfigService) {
     this.#uiConfigService = uiConfigService;
   }

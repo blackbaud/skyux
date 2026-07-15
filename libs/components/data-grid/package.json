@@ -1,0 +1,32 @@
+{
+  "name": "@skyux/data-grid",
+  "version": "0.0.0-PLACEHOLDER",
+  "author": "Blackbaud, Inc.",
+  "keywords": [
+    "blackbaud",
+    "skyux"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blackbaud/skyux.git"
+  },
+  "bugs": {
+    "url": "https://github.com/blackbaud/skyux/issues"
+  },
+  "homepage": "https://github.com/blackbaud/skyux#readme",
+  "peerDependencies": {
+    "@angular/cdk": "^22.0.1",
+    "@angular/common": "^22.0.1",
+    "@angular/core": "^22.0.1",
+    "@angular/router": "^22.0.1",
+    "@skyux/ag-grid": "^0.0.0-PLACEHOLDER",
+    "@skyux/core": "^0.0.0-PLACEHOLDER",
+    "@skyux/help-inline": "^0.0.0-PLACEHOLDER",
+    "@skyux/indicators": "^0.0.0-PLACEHOLDER",
+    "@skyux/lists": "^0.0.0-PLACEHOLDER",
+    "ag-grid-angular": "^35.1.0",
+    "ag-grid-community": "^35.1.0"
+  },
+  "sideEffects": false
+}

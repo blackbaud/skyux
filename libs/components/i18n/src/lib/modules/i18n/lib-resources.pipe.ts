@@ -25,10 +25,12 @@ export class SkyLibResourcesPipe implements PipeTransform, OnDestroy {
   #changeDetector: ChangeDetectorRef;
   #resourcesService: SkyLibResourcesService;
 
+  /* eslint-disable @angular-eslint/prefer-inject -- constructor injection is required to maintain the public API for consumers who may instantiate this pipe directly (e.g. `new SkyLibResourcesPipe(...)`) */
   constructor(
     changeDetector: ChangeDetectorRef,
     resourcesService: SkyLibResourcesService,
   ) {
+    /* eslint-enable @angular-eslint/prefer-inject */
     this.#changeDetector = changeDetector;
     this.#resourcesService = resourcesService;
   }

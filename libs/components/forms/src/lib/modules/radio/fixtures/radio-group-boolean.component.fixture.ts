@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 
 @Component({
@@ -9,8 +9,8 @@ import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 export class SkyRadioGroupBooleanTestComponent {
   public radioForm: UntypedFormGroup;
 
-  constructor(formBuilder: UntypedFormBuilder) {
-    this.radioForm = formBuilder.group({
+  constructor() {
+    this.radioForm = inject(UntypedFormBuilder).group({
       booleanValue: false,
     });
   }

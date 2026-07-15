@@ -6,10 +6,8 @@ import {
   ElementRef,
   EnvironmentInjector,
   EventEmitter,
-  Inject,
   OnDestroy,
   OnInit,
-  Optional,
   Output,
   TemplateRef,
   ViewChild,
@@ -32,7 +30,7 @@ import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeModule, SkyThemeService } from '@skyux/theme';
 
 import moment from 'moment';
-import { Observable, Subject, Subscription, fromEvent } from 'rxjs';
+import { Subject, Subscription, fromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.module';
@@ -256,37 +254,26 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
 
   #_timepickerRef: ElementRef | undefined;
 
-  #affixService: SkyAffixService;
-  #changeDetector: ChangeDetectorRef;
-  #coreAdapter: SkyCoreAdapterService;
+  readonly #affixService = inject(SkyAffixService);
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #coreAdapter = inject(SkyCoreAdapterService);
   readonly #environmentInjector = inject(EnvironmentInjector);
-  #overlayService: SkyOverlayService;
-  #zIndex: Observable<number> | undefined;
+  readonly #overlayService = inject(SkyOverlayService);
+  public readonly inputBoxHostService = inject(SkyInputBoxHostService, {
+    optional: true,
+  });
+  readonly #zIndex = inject<SkyStackingContext>(SKY_STACKING_CONTEXT, {
+    optional: true,
+  })?.zIndex;
 
-  constructor(
-    affixService: SkyAffixService,
-    changeDetector: ChangeDetectorRef,
-    coreAdapter: SkyCoreAdapterService,
-    overlayService: SkyOverlayService,
-    @Optional() public inputBoxHostService?: SkyInputBoxHostService,
-    @Optional() themeSvc?: SkyThemeService,
-    @Optional()
-    @Inject(SKY_STACKING_CONTEXT)
-    stackingContext?: SkyStackingContext,
-  ) {
-    this.#affixService = affixService;
-    this.#changeDetector = changeDetector;
-    this.#coreAdapter = coreAdapter;
-    this.#overlayService = overlayService;
-    this.#zIndex = stackingContext?.zIndex;
-
+  constructor() {
     const uniqueId = nextId++;
     this.timepickerId = `sky-timepicker-${uniqueId}`;
     this.triggerButtonId = `sky-timepicker-button-${uniqueId}`;
 
     // Update icons when theme changes.
-    themeSvc?.settingsChange
-      .pipe(takeUntil(this.#ngUnsubscribe))
+    inject(SkyThemeService, { optional: true })
+      ?.settingsChange.pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
         this.#changeDetector.markForCheck();
       });

@@ -8,6 +8,10 @@ import {
 } from 'ag-grid-community';
 
 const defaultsForAllThemes: Partial<ThemeDefaultParams> = {
+  accentColor:
+    'var(--sky-override-ag-grid-accent-color, var(--sky-color-border-input-focus))',
+  focusShadow:
+    '0px 0px 0px var(--sky-override-ag-grid-focus-border-width, var(--sky-border-width-input-focus)) var(--sky-override-ag-grid-focus-border-color, var(--sky-color-border-input-focus))',
   backgroundColor:
     'var(--sky-override-ag-grid-background-color, var(--sky-color-background-row-base))',
   borderColor:
@@ -140,7 +144,7 @@ export function getSkyAgGridThemeClassName(
 ): SkyAgGridThemeType {
   let theme = `ag-theme-sky-${editable ? 'data-entry-grid' : 'data-grid'}-`;
   if (themeSettings?.theme.name === 'modern') {
-    theme += `modern-${themeSettings.mode.name}`;
+    theme += `modern-light`;
     if (agGridThemeIsCompact(themeSettings, compactLayout)) {
       theme += `-compact`;
     }

@@ -39,6 +39,7 @@ export class SkyFuzzyDateService implements OnDestroy {
 
   #ngUnsubscribe = new Subject<void>();
 
+  // eslint-disable-next-line @angular-eslint/prefer-inject -- constructor injection is required to maintain the public API for consumers who may instantiate this service directly (e.g. `new SkyFuzzyDateService(...)`).
   constructor(localeProvider: SkyAppLocaleProvider) {
     this.#currentLocale = localeProvider.defaultLocale;
     localeProvider

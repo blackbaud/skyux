@@ -67,13 +67,14 @@ export async function verifyE2e(
     // Verify that Percy has finished processing the E2E Visual Review and that all snapshots have passed.
 
     core.info('Fetching workflow jobs...');
-    const jobs = await listJobsForWorkflowRun(githubApi);
+    const workflowJobAttempts = await listJobsForWorkflowRun(githubApi);
+    const jobs = listLatestWorkflowJobs(workflowJobAttempts);
     // This job always runs, so check if any previous jobs failed and fail this job before doing any more work.
-    if (!jobs || jobs.length === 0 || !allWorkflowJobsPassed(jobs[0])) {
+    if (jobs.length === 0 || !allWorkflowJobsPassed(jobs)) {
       core.setFailed('E2E workflow failed.');
       return exit(1);
     }
-    const e2eSteps = listPercyWorkflowSteps(jobs[0]);
+    const e2eSteps = listPercyWorkflowSteps(jobs);
     const skippedPercyProjects = e2eSteps
       .filter((step) => step.skipped)
       .map((step) => step.project);
@@ -229,6 +230,20 @@ export async function verifyE2e(
     return allJobsPassed;
   }
 
+  function listLatestWorkflowJobs(jobs: WorkflowJob[][]): WorkflowJob[] {
+    const latestJobs = new Map<string, WorkflowJob>();
+
+    for (const jobAttempt of jobs) {
+      for (const job of jobAttempt) {
+        if (!latestJobs.has(job.name)) {
+          latestJobs.set(job.name, job);
+        }
+      }
+    }
+
+    return Array.from(latestJobs.values());
+  }
+
   function listE2eJobsForWorkflowRun(jobs: WorkflowJob[]): WorkflowJob[] {
     return jobs.filter((job: WorkflowJob) =>
       job.name.startsWith('End to end tests'),
@@ -259,29 +274,24 @@ export async function verifyE2e(
 
   async function readBuildIdFromLogs(
     e2eProject: string,
-    jobs: WorkflowJob[][],
+    jobs: WorkflowJob[],
     downloadJobLogs: (job_id: string) => Promise<string>,
   ): Promise<string | undefined> {
-    const jobsForThisProject = jobs
-      .flatMap((run) =>
-        run.find((job) =>
-          job.name.startsWith(`End to end tests (${e2eProject},`),
-        ),
-      )
-      .filter(Boolean) as WorkflowJob[];
-    for (const jobForThisProject of jobsForThisProject) {
-      const step = jobForThisProject.steps.find((step) =>
-        step.name.startsWith('Percy'),
-      );
+    const jobForThisProject = jobs.find((job) =>
+      job.name.startsWith(`End to end tests (${e2eProject},`),
+    );
+    const step = jobForThisProject?.steps.find((step) =>
+      step.name.startsWith('Percy'),
+    );
 
-      if (step && step.conclusion === 'success') {
-        const log = await downloadJobLogs(jobForThisProject.id);
-        const buildId = readPercyBuildNumberFromLogString(log);
-        if (buildId) {
-          return buildId;
-        }
+    if (jobForThisProject && step?.conclusion === 'success') {
+      const log = await downloadJobLogs(jobForThisProject.id);
+      const buildId = readPercyBuildNumberFromLogString(log);
+      if (buildId) {
+        return buildId;
       }
     }
+
     return undefined;
   }
 

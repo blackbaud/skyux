@@ -4,6 +4,7 @@ import {
   HostBinding,
   Input,
   OnInit,
+  inject,
 } from '@angular/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
@@ -52,16 +53,10 @@ export class SkyErrorComponent implements OnInit {
   public defaultTitle: string | undefined;
   public defaultDescription: string | undefined;
 
-  #resourcesSvc: SkyLibResourcesService;
+  readonly #resourcesSvc = inject(SkyLibResourcesService);
+  public readonly errorSvc = inject(SkyErrorService);
 
   #_errorType: SkyErrorType | undefined;
-
-  constructor(
-    resourcesSvc: SkyLibResourcesService,
-    public errorSvc: SkyErrorService,
-  ) {
-    this.#resourcesSvc = resourcesSvc;
-  }
 
   public ngOnInit(): void {
     if (this.errorType) {

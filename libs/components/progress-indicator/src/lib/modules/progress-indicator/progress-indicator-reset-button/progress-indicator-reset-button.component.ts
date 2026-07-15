@@ -6,6 +6,7 @@ import {
   Input,
   OnDestroy,
   Output,
+  inject,
 } from '@angular/core';
 
 import { SkyProgressIndicatorComponent } from '../progress-indicator.component';
@@ -52,11 +53,7 @@ export class SkyProgressIndicatorResetButtonComponent implements OnDestroy {
   public resetClick = new EventEmitter<void>();
 
   #_disabled: boolean | undefined;
-  #changeDetector: ChangeDetectorRef;
-
-  constructor(changeDetector: ChangeDetectorRef) {
-    this.#changeDetector = changeDetector;
-  }
+  readonly #changeDetector = inject(ChangeDetectorRef);
 
   public ngOnDestroy(): void {
     this.resetClick.complete();

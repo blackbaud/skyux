@@ -1,6 +1,7 @@
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
 @include compatMixins.sky-default-overrides('.sky-ag-grid') {
+  --sky-override-ag-grid-accent-color: var(--sky-highlight-color-info);
   --sky-override-ag-grid-background-color: #fbfbfb;
   --sky-override-ag-grid-border-color: var(--sky-border-color-neutral-medium);
   --sky-override-ag-grid-border-radius: 3px;
@@ -35,6 +36,8 @@
   );
   --sky-override-ag-grid-column-border: 1px solid
     var(--sky-border-color-neutral-medium);
+  --sky-override-ag-grid-focus-border-color: var(--sky-highlight-color-info);
+  --sky-override-ag-grid-focus-border-width: 2px;
   --sky-override-ag-grid-font-family:
     'BLKB Sans', 'Helvetica Neue', 'Arial', 'sans-serif';
   --sky-override-ag-grid-font-size: 15px;

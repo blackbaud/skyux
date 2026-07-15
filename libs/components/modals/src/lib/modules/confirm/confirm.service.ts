@@ -17,6 +17,7 @@ import { SkyConfirmComponent } from './confirm.component';
 export class SkyConfirmService implements SkyConfirmServiceInterface {
   #modalService: SkyModalService;
 
+  // eslint-disable-next-line @angular-eslint/prefer-inject -- constructor injection is required to maintain the public API for consumers who may instantiate this service directly (e.g. `new SkyConfirmService(...)`)
   constructor(modalService: SkyModalService) {
     this.#modalService = modalService;
   }

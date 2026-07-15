@@ -768,6 +768,45 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
       });
     });
 
+    it(`should be accessible when a header cell has focus`, async () => {
+      TestBed.overrideProvider(Editable, { useValue: false });
+      gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+      gridWrapperNativeElement = gridWrapperFixture.nativeElement;
+
+      gridWrapperFixture.detectChanges();
+      await gridWrapperFixture.whenStable();
+
+      const headerCell = gridWrapperNativeElement.querySelector(
+        '.ag-header-cell[col-id="name"]',
+      ) as HTMLElement;
+      headerCell.focus();
+      gridWrapperFixture.detectChanges();
+
+      expect(gridWrapperNativeElement.ownerDocument.activeElement).toBe(
+        headerCell,
+      );
+      await expectAsync(gridWrapperNativeElement).toBeAccessible();
+
+      // The axe-core test does not assert the contrast for the focus ring, it
+      // only checks contrast between text and backgrounds, so this test is also
+      // asserting that the focus shadow is our color.
+      const skyAgGridEl = gridWrapperNativeElement.querySelector(
+        '.sky-ag-grid',
+      ) as HTMLElement;
+      const styleResolver = document.createElement('span');
+      styleResolver.style.color =
+        'var(--sky-override-ag-grid-focus-border-color, var(--sky-color-border-input-focus))';
+      skyAgGridEl.append(styleResolver);
+      const focusBorderColor = getComputedStyle(styleResolver).color;
+      expect(focusBorderColor).toBeTruthy();
+      styleResolver.remove();
+
+      const headerCellFocusShadow = getComputedStyle(headerCell).boxShadow;
+      expect(headerCellFocusShadow).toContain(focusBorderColor);
+      expect(headerCellFocusShadow).toContain('0px 0px 0px 2px');
+      expect(headerCellFocusShadow).toContain('inset');
+    });
+
     it(`should be accessible in edit mode`, async () => {
       gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
       gridWrapperNativeElement = gridWrapperFixture.nativeElement;

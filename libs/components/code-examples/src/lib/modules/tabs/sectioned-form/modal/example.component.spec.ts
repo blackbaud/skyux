@@ -1,6 +1,10 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopSkyAnimations } from '@skyux/core';
+import {
+  SkyMediaQueryTestingController,
+  provideSkyMediaQueryTesting,
+} from '@skyux/core/testing';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
 import { SkySectionedFormHarness } from '@skyux/tabs/testing';
 
@@ -13,11 +17,17 @@ describe('Sectioned form in a modal example', () => {
   }> {
     await TestBed.configureTestingModule({
       imports: [TabsSectionedFormModalExampleComponent],
-      providers: [provideNoopSkyAnimations()],
+      providers: [provideNoopSkyAnimations(), provideSkyMediaQueryTesting()],
     }).compileComponents();
     const fixture = TestBed.createComponent(
       TabsSectionedFormModalExampleComponent,
     );
+
+    // Pin a wide breakpoint so the sectioned form renders its side-by-side
+    // layout (and applies `tabWidth`) regardless of the test runner's window
+    // size.
+    TestBed.inject(SkyMediaQueryTestingController).setBreakpoint('lg');
+
     fixture.componentInstance.openModal();
 
     const loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
@@ -31,6 +41,11 @@ describe('Sectioned form in a modal example', () => {
 
   it('should set up the sectioned form', async () => {
     const { sectionedFormHarness } = await setupTest();
+
+    await expectAsync(sectionedFormHarness.getTabWidth()).toBeResolvedTo(
+      'auto',
+    );
+
     let activeSection = await sectionedFormHarness.getActiveSection();
     await expectAsync(activeSection?.getSectionHeading()).toBeResolvedTo(
       'Addresses',

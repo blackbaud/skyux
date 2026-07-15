@@ -372,7 +372,7 @@ export class SkyCountryFieldComponent
 
   #setupCountries(): SkyCountryFieldCountry[] {
     let countries = cloneCountryData(
-      intlTelInput.getCountryData(),
+      intlTelInput.getAllCountries(),
       this.#locale(),
     );
 

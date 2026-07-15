@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { StateNode } from '@skyux/list-builder-common';
 
 import { ChecklistStateModel } from './checklist-state.model';
@@ -10,11 +10,8 @@ import { ListViewChecklistItemsOrchestrator } from './items/items.orchestrator';
  */
 @Injectable()
 export class ChecklistState extends StateNode<ChecklistStateModel> {
-  constructor(
-    initialState: ChecklistStateModel,
-    dispatcher: ChecklistStateDispatcher,
-  ) {
-    super(initialState, dispatcher);
+  constructor() {
+    super(inject(ChecklistStateModel), inject(ChecklistStateDispatcher));
 
     this.register('items', ListViewChecklistItemsOrchestrator).begin();
   }

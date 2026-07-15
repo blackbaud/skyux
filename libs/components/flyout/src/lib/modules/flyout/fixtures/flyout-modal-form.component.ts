@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SkyModalInstance } from '@skyux/modals';
 
 import { SkyFlyoutModalFixtureContext } from './flyout-modal-context';
@@ -12,9 +12,8 @@ import { SKY_FLYOUT_MODAL_CONTEXT } from './flyout-modal-context-token';
 export class SkyFlyoutModalFixtureFormComponent {
   public title = 'Hello world';
 
-  constructor(
-    @Inject(SKY_FLYOUT_MODAL_CONTEXT)
-    public context: SkyFlyoutModalFixtureContext,
-    public instance: SkyModalInstance,
-  ) {}
+  public readonly context: SkyFlyoutModalFixtureContext = inject(
+    SKY_FLYOUT_MODAL_CONTEXT,
+  );
+  public readonly instance = inject(SkyModalInstance);
 }

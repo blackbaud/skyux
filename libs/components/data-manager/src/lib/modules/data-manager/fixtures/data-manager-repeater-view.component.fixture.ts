@@ -4,6 +4,7 @@ import {
   Component,
   Input,
   OnInit,
+  inject,
 } from '@angular/core';
 
 import { SkyDataManagerService } from '../data-manager.service';
@@ -37,16 +38,8 @@ export class DataViewRepeaterFixtureComponent implements OnInit {
     onSelectAllClick: this.selectAll.bind(this),
   };
 
-  #changeDetector: ChangeDetectorRef;
-  #dataManagerService: SkyDataManagerService;
-
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    dataManagerService: SkyDataManagerService,
-  ) {
-    this.#changeDetector = changeDetector;
-    this.#dataManagerService = dataManagerService;
-  }
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #dataManagerService = inject(SkyDataManagerService);
 
   public ngOnInit(): void {
     this.displayedItems = this.items;

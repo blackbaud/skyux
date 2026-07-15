@@ -4,6 +4,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { SkyCheckboxChange } from '@skyux/forms';
 import { ListItemModel } from '@skyux/list-builder-common';
@@ -45,10 +46,8 @@ export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe = new Subject<void>();
 
-  constructor(
-    private state: ListState,
-    private dispatcher: ListStateDispatcher,
-  ) {}
+  private readonly state = inject(ListState);
+  private readonly dispatcher = inject(ListStateDispatcher);
 
   public ngOnInit(): void {
     this.state

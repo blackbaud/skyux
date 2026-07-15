@@ -3,9 +3,9 @@ import {
   Directive,
   Input,
   OnDestroy,
-  Optional,
   TemplateRef,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 
 import { Subject } from 'rxjs';
@@ -40,18 +40,13 @@ export class SkyThemeIfDirective implements OnDestroy {
   #ngUnsubscribe = new Subject<void>();
   #hasView = false;
 
-  #templateRef: TemplateRef<unknown>;
-  #viewContainer: ViewContainerRef;
+  readonly #templateRef = inject(TemplateRef<unknown>);
+  readonly #viewContainer = inject(ViewContainerRef);
 
-  constructor(
-    templateRef: TemplateRef<unknown>,
-    viewContainer: ViewContainerRef,
-    changeDetector: ChangeDetectorRef,
-    @Optional() themeSvc?: SkyThemeService,
-  ) {
-    this.#templateRef = templateRef;
-    this.#viewContainer = viewContainer;
+  constructor() {
+    const themeSvc = inject(SkyThemeService, { optional: true });
     if (themeSvc) {
+      const changeDetector = inject(ChangeDetectorRef);
       themeSvc.settingsChange
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((settingsChange) => {

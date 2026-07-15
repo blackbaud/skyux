@@ -85,6 +85,11 @@ export const componentRoutes: Routes = [
       import('./grids/grids.module').then((m) => m.GridsFeatureModule),
   },
   {
+    path: 'data-grid',
+    loadChildren: () =>
+      import('./data-grid/data-grid.module').then((m) => m.DataGridModule),
+  },
+  {
     path: 'help-inline',
     loadChildren: () =>
       import('./help-inline/help-inline.module').then(

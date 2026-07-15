@@ -1,4 +1,4 @@
-import { Component, Inject, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 
@@ -27,7 +27,7 @@ export class ListTestComponent {
   public default: ListViewComponent;
   public sortFields: any;
 
-  constructor(@Inject('items') public items: any) {}
+  public readonly items: any = inject('items' as any);
 
   public get options() {
     const bs = new BehaviorSubject<any[]>(['banana', 'apple']);

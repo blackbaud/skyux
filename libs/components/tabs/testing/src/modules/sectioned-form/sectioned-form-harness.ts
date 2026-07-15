@@ -66,6 +66,24 @@ export class SkySectionedFormHarness extends SkyComponentHarness {
   }
 
   /**
+   * Gets the tab width as a CSS `flex-basis` value (for example, `200px`),
+   * or `null` when no width is set. The width is only applied in the desktop
+   * layout, so this returns `null` in the mobile layout and when the tabs
+   * pane is not rendered at all.
+   */
+  public async getTabWidth(): Promise<string | null> {
+    const tabs = await this.#getTabs();
+    if (!tabs) {
+      return null;
+    }
+
+    const styleAttribute = await tabs.getAttribute('style');
+    const styleMatch = styleAttribute?.match(/flex-basis:\s*([^;]+)/i);
+
+    return styleMatch?.[1]?.trim() ?? null;
+  }
+
+  /**
    * Gets a specific section based on the filter criteria.
    * @param filters The filter criteria.
    */

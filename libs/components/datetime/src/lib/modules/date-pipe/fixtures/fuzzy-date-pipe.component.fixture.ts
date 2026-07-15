@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  input,
+} from '@angular/core';
 
 import { SkyFuzzyDate } from '../../datepicker/fuzzy/fuzzy-date';
 import { SkyDatePipeModule } from '../date-pipe.module';
@@ -21,11 +26,7 @@ export class FuzzyDatePipeTestComponent {
 
   public readonly locale = input<string | undefined>(undefined);
 
-  #fuzzyDatePipe: SkyFuzzyDatePipe;
-
-  constructor(fuzzyDatePipe: SkyFuzzyDatePipe) {
-    this.#fuzzyDatePipe = fuzzyDatePipe;
-  }
+  readonly #fuzzyDatePipe = inject(SkyFuzzyDatePipe);
 
   public getFuzzyDatePipeResult(
     value: SkyFuzzyDate,

@@ -1,0 +1,19 @@
+<sky-wait [isWaiting]="!gridReady()" />
+@if (gridOptions(); as gridOptions) {
+  <sky-ag-grid-wrapper [compact]="compact()" [minHeight]="minHeight()">
+    <ag-grid-angular
+      skyViewkeeperOmitShadow=".ag-body-horizontal-scroll"
+      [skyViewkeeper]="skyViewkeeper()"
+      [gridOptions]="gridOptions"
+    />
+  </sky-ag-grid-wrapper>
+
+  @if (pageCount() && pageSize(); as pageSize) {
+    <sky-paging
+      [currentPage]="page()"
+      [itemCount]="pageItemsCount()"
+      [pageSize]="pageSize"
+      (currentPageChange)="currentPageChange($event)"
+    />
+  }
+}

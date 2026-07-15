@@ -4,6 +4,7 @@ import {
   ElementRef,
   Input,
   OnDestroy,
+  inject,
 } from '@angular/core';
 import { SkyDockItem, SkyDockService } from '@skyux/core';
 
@@ -57,23 +58,14 @@ export class SkyBackToTopDirective implements AfterViewInit, OnDestroy {
 
   #buttonHidden = false;
   #dockItem: SkyDockItem<SkyBackToTopComponent> | undefined;
-  #dockService: SkyDockService;
-  #domAdapter: SkyBackToTopDomAdapterService;
   #elementInView = false;
-  #elementRef: ElementRef;
 
   #ngUnsubscribe = new Subject<void>();
   #_skyBackToTopMessageStream: Subject<SkyBackToTopMessage> | undefined;
 
-  constructor(
-    dockService: SkyDockService,
-    domAdapter: SkyBackToTopDomAdapterService,
-    elementRef: ElementRef,
-  ) {
-    this.#dockService = dockService;
-    this.#domAdapter = domAdapter;
-    this.#elementRef = elementRef;
-  }
+  readonly #dockService = inject(SkyDockService);
+  readonly #domAdapter = inject(SkyBackToTopDomAdapterService);
+  readonly #elementRef = inject(ElementRef);
 
   public ngAfterViewInit(): void {
     this.#elementInView = this.#domAdapter.isElementScrolledInView(

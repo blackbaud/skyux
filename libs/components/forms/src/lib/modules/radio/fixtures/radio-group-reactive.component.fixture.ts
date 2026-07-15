@@ -1,4 +1,11 @@
-import { Component, OnInit, ViewChild, input, signal } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import {
   AbstractControl,
   UntypedFormBuilder,
@@ -61,11 +68,7 @@ export class SkyRadioGroupReactiveFixtureComponent implements OnInit {
   @ViewChild(SkyRadioGroupComponent)
   public radioGroupComponent: SkyRadioGroupComponent | undefined;
 
-  #formBuilder: UntypedFormBuilder;
-
-  constructor(formBuilder: UntypedFormBuilder) {
-    this.#formBuilder = formBuilder;
-  }
+  readonly #formBuilder = inject(UntypedFormBuilder);
 
   public ngOnInit(): void {
     this.radioControl = new UntypedFormControl(

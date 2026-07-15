@@ -1,0 +1,22 @@
+{
+  "$schema": "../manifest-generator/documentation-schema.json",
+  "groups": {
+    "data-grid-package": {
+      "development": {
+        "docsIds": ["SkyDataGrid", "SkyDataGridColumn", "SkyDataGridSort"],
+        "primaryDocsId": "SkyDataGrid"
+      },
+      "testing": {
+        "docsIds": ["SkyDataGridHarness", "SkyDataGridHarnessFilters"]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "DataGridBasicExampleComponent",
+          "DataGridLoadingExampleComponent",
+          "DataGridPagingExampleComponent",
+          "DataGridSortingExampleComponent"
+        ]
+      }
+    }
+  }
+}

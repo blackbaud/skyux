@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  input,
+} from '@angular/core';
 
 import { SkyDatePipeModule } from '../date-pipe.module';
 import { SkyDatePipe } from '../date.pipe';
@@ -15,11 +20,7 @@ export class DatePipeTestComponent {
   public readonly format = input<string | undefined>(undefined);
   public readonly locale = input<string | undefined>(undefined);
 
-  #datePipe: SkyDatePipe;
-
-  constructor(datePipe: SkyDatePipe) {
-    this.#datePipe = datePipe;
-  }
+  readonly #datePipe = inject(SkyDatePipe);
 
   public getDatePipeResult(
     value: Date,

@@ -175,11 +175,10 @@ export class SkyToggleSwitchComponent
   #_ariaLabel: string | undefined;
   #_checked = false;
 
-  #changeDetector: ChangeDetectorRef;
+  readonly #changeDetector = inject(ChangeDetectorRef);
 
-  constructor(changeDetector: ChangeDetectorRef, idService: SkyIdService) {
-    this.#changeDetector = changeDetector;
-    this.labelId = idService.generateId();
+  constructor() {
+    this.labelId = inject(SkyIdService).generateId();
   }
 
   public ngAfterContentInit(): void {

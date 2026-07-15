@@ -1,6 +1,49 @@
 # Changelog
 
 
+## [14.6.2](https://github.com/blackbaud/skyux/compare/14.6.1...14.6.2) (2026-07-14)
+
+
+### Bug Fixes
+
+* **components/data-grid:** page not resetting to 1 when pageQueryParam is set ([#4516](https://github.com/blackbaud/skyux/issues/4516)) ([3753ad9](https://github.com/blackbaud/skyux/commit/3753ad97146b76fcd20c7bccb7b7cb512b9141ed)), closes [AB#4046789](https://dev.azure.com/blackbaud/Products/_workitems/edit/4046789)
+* **components/docs-tools:** code examples in StackBlitz WebContainer preview blocked by CORP error ([#4517](https://github.com/blackbaud/skyux/issues/4517)) ([dc4f911](https://github.com/blackbaud/skyux/commit/dc4f91109de19d1769de4e2044a59245cec205d2)), closes [stackblitz/webcontainer-core#2100](https://github.com/stackblitz/webcontainer-core/issues/2100) [AB#4046763](https://dev.azure.com/blackbaud/Products/_workitems/edit/4046763)
+
+## [14.6.1](https://github.com/blackbaud/skyux/compare/14.6.0...14.6.1) (2026-07-13)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** checkbox styles not working in dark mode ([#4507](https://github.com/blackbaud/skyux/issues/4507)) ([dcf4e10](https://github.com/blackbaud/skyux/commit/dcf4e108179eb8a7c51d3d1638dffe0e80dcf878)), closes [AB#4044305](https://dev.azure.com/blackbaud/Products/_workitems/edit/4044305)
+
+## [14.6.0](https://github.com/blackbaud/skyux/compare/14.5.1...14.6.0) (2026-07-09)
+
+
+### Features
+
+* **components/packages:** create `convert-grid-to-data-grid` schematics ([#4488](https://github.com/blackbaud/skyux/issues/4488)) ([76d62ad](https://github.com/blackbaud/skyux/commit/76d62ad0cc3e43d64f2317085545e3bf4cf4247b)), closes [AB#3677447](https://dev.azure.com/blackbaud/Products/_workitems/edit/3677447)
+* **components/tabs:** add `tabWidth` input to sectioned form with `auto` sizing and harness/example support ([#4495](https://github.com/blackbaud/skyux/issues/4495)) ([2197c43](https://github.com/blackbaud/skyux/commit/2197c43b02d0741b3f110295b92d4e82da72d6d0)), closes [#4410](https://github.com/blackbaud/skyux/issues/4410) [AB#3934247](https://dev.azure.com/blackbaud/Products/_workitems/edit/3934247)
+* **components/tabs:** add `tabWidth` input to vertical tabset with `auto` sizing and harness/example support ([#4410](https://github.com/blackbaud/skyux/issues/4410)) ([1de7a6a](https://github.com/blackbaud/skyux/commit/1de7a6a88c06f55c54c0b7ffc6081e7d81aa2e78))
+
+## [14.5.1](https://github.com/blackbaud/skyux/compare/14.5.0...14.5.1) (2026-07-08)
+
+
+### Bug Fixes
+
+* **components/text-editor:** update `dompurify` to address a security vulnerability ([#4489](https://github.com/blackbaud/skyux/issues/4489)) ([6eab92e](https://github.com/blackbaud/skyux/commit/6eab92e30cfaf8d6ff9d0db4a85b61dc7c43c4d6))
+
+## [14.5.0](https://github.com/blackbaud/skyux/compare/14.4.0...14.5.0) (2026-07-07)
+
+
+### Features
+
+* **components/data-grid:** create an easy mode for data grid ([#4430](https://github.com/blackbaud/skyux/issues/4430)) ([5889648](https://github.com/blackbaud/skyux/commit/588964833091b6f1062513382e18cc7059a2c1ef)), closes [AB#3942528](https://dev.azure.com/blackbaud/Products/_workitems/edit/3942528) [AB#3965849](https://dev.azure.com/blackbaud/Products/_workitems/edit/3965849)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** header focus ring should meet minimum contrast ratio ([#4481](https://github.com/blackbaud/skyux/issues/4481)) ([3063ba2](https://github.com/blackbaud/skyux/commit/3063ba2b99321affb579e19821aa5861cee90b14)), closes [AB#3693206](https://dev.azure.com/blackbaud/Products/_workitems/edit/3693206)
+
 ## [15.0.0-alpha.0](https://github.com/blackbaud/skyux/compare/14.3.10...15.0.0-alpha.0) (2026-06-30)
 
 

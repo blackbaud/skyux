@@ -1,0 +1,78 @@
+<h2>Updates query string</h2>
+<sky-data-grid pageSize="5" pageQueryParam="page" stacked [data]="data">
+  <sky-data-grid-column field="name" headingText="name" />
+  <sky-data-grid-column
+    field="age"
+    headingText="age"
+    dataType="number"
+    width="55"
+  />
+  <sky-data-grid-column
+    field="startDate"
+    headingText="start date"
+    dataType="date"
+  />
+  <sky-data-grid-column
+    field="endDate"
+    headingText="end date"
+    dataType="date"
+  />
+  <sky-data-grid-column field="department" headingText="department">
+    <ng-template let-value="value">{{ value.name }}</ng-template>
+  </sky-data-grid-column>
+  <sky-data-grid-column field="jobTitle" headingText="job title">
+    <ng-template let-value="value">{{ value.name }}</ng-template>
+  </sky-data-grid-column>
+</sky-data-grid>
+
+<h2>No query string, just paging</h2>
+<sky-data-grid pageSize="5" stacked [data]="data">
+  <sky-data-grid-column field="name" headingText="name" />
+  <sky-data-grid-column
+    field="age"
+    headingText="age"
+    dataType="number"
+    width="55"
+  />
+  <sky-data-grid-column
+    field="startDate"
+    headingText="start date"
+    dataType="date"
+  />
+  <sky-data-grid-column
+    field="endDate"
+    headingText="end date"
+    dataType="date"
+  />
+  <sky-data-grid-column field="department" headingText="department">
+    <ng-template let-value="value">{{ value.name }}</ng-template>
+  </sky-data-grid-column>
+  <sky-data-grid-column field="jobTitle" headingText="job title">
+    <ng-template let-value="value">{{ value.name }}</ng-template>
+  </sky-data-grid-column>
+</sky-data-grid>
+
+<h2>Paging async data</h2>
+<sky-data-grid
+  autoPage="false"
+  autoSort="false"
+  minHeight="215"
+  stacked
+  [pageSize]="asyncPageSize"
+  [data]="asyncDataResource.value()?.data"
+  [loading]="asyncDataResource.isLoading()"
+  [rowCount]="asyncDataResource.value()?.rowCount"
+  [(page)]="asyncPage"
+  [(sort)]="asyncSort"
+>
+  @for (col of asyncDataGridColumns; track col.field) {
+    <sky-data-grid-column
+      [columnHidden]="col.columnHidden"
+      [dataType]="col.dataType"
+      [field]="col.field"
+      [headingText]="col.headingText"
+      [sortable]="col.sortable"
+      [width]="col.width"
+    />
+  }
+</sky-data-grid>

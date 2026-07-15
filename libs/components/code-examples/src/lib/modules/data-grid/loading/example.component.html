@@ -1,0 +1,59 @@
+<div class="sky-theme-margin-bottom-l">
+  <button
+    class="sky-btn sky-btn-default sky-theme-margin-right-s"
+    type="button"
+    data-sky-id="show-data-button"
+    (click)="showData()"
+  >
+    Show data
+  </button>
+  <button
+    class="sky-btn sky-btn-default sky-theme-margin-right-s"
+    type="button"
+    data-sky-id="show-empty-button"
+    (click)="showEmpty()"
+  >
+    Show empty state
+  </button>
+  <button
+    class="sky-btn sky-btn-default sky-theme-margin-right-s"
+    type="button"
+    data-sky-id="show-loading-button"
+    (click)="showLoading()"
+  >
+    Show loading state
+  </button>
+</div>
+
+<sky-data-grid
+  data-sky-id="example-data-grid"
+  autoSort="false"
+  autoPage="false"
+  minHeight="100"
+  [data]="data.value()?.items ?? []"
+  [loading]="data.isLoading()"
+  [pageSize]="pageSize"
+  [rowCount]="rowCount()"
+  [(page)]="page"
+  [(sort)]="sort"
+>
+  <sky-data-grid-column
+    field="name"
+    headingText="Name"
+    helpPopoverTitle="Server-side sorting and paging"
+    helpPopoverContent="Each sort or page change issues a new request to the server."
+  />
+  <sky-data-grid-column
+    field="age"
+    headingText="Age"
+    dataType="number"
+    width="80"
+    helpPopoverTitle="Age"
+    helpPopoverContent="The team member's current age, in years."
+  />
+  <sky-data-grid-column
+    field="startDate"
+    headingText="Start date"
+    dataType="date"
+  />
+</sky-data-grid>

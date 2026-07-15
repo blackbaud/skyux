@@ -8,6 +8,7 @@ import {
   OnDestroy,
   OnInit,
   afterNextRender,
+  inject,
   signal,
 } from '@angular/core';
 import {
@@ -126,30 +127,18 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
   #animationComplete = new Subject<void>();
   #bindHeightToWindowUnsubscribe: Subject<void> | undefined;
   #ngUnsubscribe = new Subject<void>();
-  #adapter: SkySplitViewAdapterService;
-  #changeDetectorRef: ChangeDetectorRef;
-  #coreAdapterService: SkyCoreAdapterService;
-  #elementRef: ElementRef;
-  #splitViewService: SkySplitViewService;
+  readonly #adapter = inject(SkySplitViewAdapterService);
+  readonly #changeDetectorRef = inject(ChangeDetectorRef);
+  readonly #coreAdapterService = inject(SkyCoreAdapterService);
+  readonly #elementRef = inject(ElementRef);
+  readonly #splitViewService = inject(SkySplitViewService);
 
   #_bindHeightToWindow = false;
   #_drawerVisible = true;
   #_dock: SkySplitViewDockType = 'none';
 
-  constructor(
-    adapter: SkySplitViewAdapterService,
-    changeDetectorRef: ChangeDetectorRef,
-    coreAdapterService: SkyCoreAdapterService,
-    elementRef: ElementRef,
-    splitViewService: SkySplitViewService,
-  ) {
-    this.#adapter = adapter;
-    this.#changeDetectorRef = changeDetectorRef;
-    this.#coreAdapterService = coreAdapterService;
-    this.#elementRef = elementRef;
-    this.#splitViewService = splitViewService;
-
-    splitViewService.splitViewElementRef = elementRef;
+  constructor() {
+    this.#splitViewService.splitViewElementRef = this.#elementRef;
 
     // Enable animations after the first render.
     afterNextRender(() => {

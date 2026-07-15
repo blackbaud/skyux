@@ -42,7 +42,7 @@ export class SkyAgGridWrapperHarness extends SkyComponentHarness {
    * Retrieves the IDs of the currently displayed columns.
    */
   public async getDisplayedColumnIds(): Promise<string[]> {
-    return await this.#getGridApi()
+    return await this.getGridApi()
       .then((api) => api.getAllDisplayedColumns().map((col) => col.getColId()))
       .catch(() => Promise.reject('Unable to retrieve displayed column IDs.'));
   }
@@ -51,7 +51,7 @@ export class SkyAgGridWrapperHarness extends SkyComponentHarness {
    * Retrieves the header names of the currently displayed columns.
    */
   public async getDisplayedColumnHeaderNames(): Promise<string[]> {
-    return await this.#getGridApi()
+    return await this.getGridApi()
       .then((api) =>
         api
           .getAllDisplayedColumns()
@@ -62,7 +62,10 @@ export class SkyAgGridWrapperHarness extends SkyComponentHarness {
       );
   }
 
-  async #getGridApi(): Promise<GridApi> {
+  /**
+   * @internal
+   */
+  public async getGridApi(): Promise<GridApi> {
     await this.waitForTasksOutsideAngular();
     const locator = this.locatorFactory.locatorFor('ag-grid-angular');
     return await locator().then((grid) => {

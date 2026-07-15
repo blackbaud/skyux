@@ -11,6 +11,9 @@ import {
   Output,
   ViewChild,
   afterNextRender,
+  computed,
+  inject,
+  input,
   signal,
 } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
@@ -23,6 +26,12 @@ import { SkyTabIdService } from '../shared/tab-id.service';
 import { SkyVerticalTabsetService } from './../vertical-tabset/vertical-tabset.service';
 import { SkySectionedFormMessage } from './types/sectioned-form-message';
 import { SkySectionedFormMessageType } from './types/sectioned-form-message-type';
+
+/**
+ * The default width of the tabs pane. Also serves as the maximum width of the
+ * pane for any `tabWidth` value.
+ */
+const DEFAULT_TAB_WIDTH = '30%';
 
 /**
  * Creates a container for the sectioned forms.
@@ -45,6 +54,17 @@ export class SkySectionedFormComponent
    */
   @Input()
   public maintainSectionContent: boolean | undefined = false;
+
+  /**
+   * The width of the tabs pane as a CSS width value (such as `200px`, `15rem`,
+   * or `20%`). Set to `"auto"` to size based on tab label content. Maximum
+   * width is 30%.
+   * @default "30%"
+   */
+  public readonly tabWidth = input(DEFAULT_TAB_WIDTH, {
+    transform: (value: string | undefined): string =>
+      value?.trim() || DEFAULT_TAB_WIDTH,
+  });
 
   @Input()
   public set messageStream(
@@ -81,24 +101,19 @@ export class SkySectionedFormComponent
   #ngUnsubscribe = new Subject<void>();
 
   #messageStreamSub: Subscription | undefined;
-  #changeRef: ChangeDetectorRef;
-  #tabIdSvc: SkyTabIdService;
-  #logger: SkyLogService;
+  readonly #changeRef = inject(ChangeDetectorRef);
+  readonly #tabIdSvc = inject(SkyTabIdService);
+  readonly #logger = inject(SkyLogService);
 
   #_messageStream = new Subject<SkySectionedFormMessage>();
 
   protected animationEnabled = signal(false);
 
-  constructor(
-    public tabService: SkyVerticalTabsetService,
-    changeRef: ChangeDetectorRef,
-    tabIdSvc: SkyTabIdService,
-    logger: SkyLogService,
-  ) {
-    this.#changeRef = changeRef;
-    this.#tabIdSvc = tabIdSvc;
-    this.#logger = logger;
+  protected readonly isMobile = signal(false);
 
+  public readonly tabService = inject(SkyVerticalTabsetService);
+
+  constructor() {
     // Enable animations after the first render.
     afterNextRender(() => {
       this.animationEnabled.set(true);
@@ -131,6 +146,7 @@ export class SkySectionedFormComponent
           this.ariaRole = undefined;
         }
 
+        this.isMobile.set(mobile);
         this.#changeRef.markForCheck();
       });
 
@@ -148,6 +164,7 @@ export class SkySectionedFormComponent
 
     if (this.tabService.isMobile()) {
       this.ariaRole = undefined;
+      this.isMobile.set(true);
       this.#changeRef.markForCheck();
     }
   }
@@ -214,4 +231,12 @@ export class SkySectionedFormComponent
         }
       });
   }
+
+  protected readonly tabsFlexBasis = computed<string | undefined>(() =>
+    this.isMobile() ? undefined : this.tabWidth(),
+  );
+
+  protected readonly tabsMaxWidth = computed<string | undefined>(() =>
+    this.isMobile() ? undefined : DEFAULT_TAB_WIDTH,
+  );
 }

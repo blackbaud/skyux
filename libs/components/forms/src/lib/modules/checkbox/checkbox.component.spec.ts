@@ -320,7 +320,7 @@ class CheckboxWithChangeEventComponent {
 })
 class CheckboxWithOnPushChangeDetectionComponent {
   public isChecked = false;
-  constructor(public ref: ChangeDetectorRef) {}
+  public readonly ref = inject(ChangeDetectorRef);
 }
 // #endregion
 
