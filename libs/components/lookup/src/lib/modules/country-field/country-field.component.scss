@@ -1,7 +1,7 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
-@import 'intl-tel-input/build/css/intlTelInput.css';
+@import 'intl-tel-input/dist/css/intlTelInput.css';
 
 @include compatMixins.sky-default-overrides('.sky-country-field-container') {
   --sky-override-country-field-disabled-input-background-color: #{$sky-background-color-disabled};
@@ -86,6 +86,13 @@
 }
 
 .sky-country-field-search-result-flag .iti__flag {
+  // Our self-hosted sprite has 244 16x12px cells; intl-tel-input's own --iti-flag-width
+  // default (20px) drives its background-position/background-size math, so it must match
+  // our sprite's actual cell size or every flag will be misaligned. --iti-flag-height is
+  // derived from --iti-flag-width at :root, so it doesn't inherit this local override and
+  // needs to be set explicitly too.
+  --iti-flag-width: 16px;
+  --iti-flag-height: 12px;
   background-image: url(https://sky.blackbaudcdn.net/static/skyux-public-assets/2.0.2/assets/images/intl-tel-input/flags@2x.webp) !important;
   max-width: var(--sky-override-country-field-max-width, inherit);
   max-height: var(--sky-override-country-field-max-height, inherit);
