@@ -14,12 +14,12 @@ import { SkyAppLocaleProvider } from '@skyux/i18n';
 
 import { map } from 'rxjs/operators';
 
-import { SkyChartCartesianScaleType } from '../shared/cartesian-scale-type';
+import { SkyChartMeasureScaleType } from '../shared/measure-scale-type';
 import { SkyChartValueFormat } from '../shared/value-format';
 import { createSkyChartValueFormatter } from '../shared/value-formatter';
 
 /**
- * Defines the value axis of a chart, which scales the plotted series and
+ * Defines the measure axis of a chart, which scales the plotted series and
  * formats their values in axis labels, tooltips, and the data table.
  *
  * @preview
@@ -80,10 +80,10 @@ export class SkyChartAxisMeasure {
   public readonly labelText = input.required<string>();
 
   /**
-   * The scale type for the value axis.
+   * The scale type for the measure axis.
    * @default 'linear'
    */
-  public readonly scaleType = input<SkyChartCartesianScaleType>('linear');
+  public readonly scaleType = input<SkyChartMeasureScaleType>('linear');
 
   /**
    * Formats a numeric value according to this axis's `format`, `currencyCode`,

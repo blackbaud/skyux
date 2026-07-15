@@ -33,7 +33,7 @@ import { SkyChartBarSeries } from './chart-bar-series';
 import { SkyChartBarSeriesLayout } from './chart-bar-series-layout';
 
 /**
- * Renders a bar chart from a category axis, a value axis, and one or more
+ * Renders a bar chart from a category axis, a measure axis, and one or more
  * series.
  *
  * @preview

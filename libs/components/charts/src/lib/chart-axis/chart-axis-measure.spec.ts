@@ -27,7 +27,7 @@ class TestComponent {
   public format: SkyChartValueFormat | undefined;
 }
 
-describe('Chart value axis component', () => {
+describe('Chart measure axis component', () => {
   let fixture: ComponentFixture<TestComponent>;
   let logSvc: jasmine.SpyObj<SkyLogService>;
 

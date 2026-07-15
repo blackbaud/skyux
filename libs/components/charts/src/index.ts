@@ -7,5 +7,5 @@ export type { SkyChartBarSeriesLayout } from './lib/chart-bar/chart-bar-series-l
 export { SkyChart } from './lib/chart/chart';
 export type { SkyChartHeadingLevel } from './lib/chart/chart-heading-level';
 export type { SkyChartHeadingStyle } from './lib/chart/chart-heading-style';
-export type { SkyChartCartesianScaleType } from './lib/shared/cartesian-scale-type';
+export type { SkyChartMeasureScaleType } from './lib/shared/measure-scale-type';
 export type { SkyChartValueFormat } from './lib/shared/value-format';
