@@ -1,43 +1,48 @@
 <sky-modal [headingText]="context.headingText">
   <sky-modal-content>
     @if (context.table; as table) {
-      <table class="sky-chart-data-table">
-        <caption class="sky-screen-reader-only">
-          {{
-            context.headingText
-          }}
-        </caption>
-        <thead>
-          <tr>
-            <th class="sky-theme-padding-inset-balanced-xs" scope="col">
-              {{ table.categoryLabel }}
-            </th>
-            @for (series of table.series; track series.label) {
-              <th class="sky-theme-padding-inset-balanced-xs" scope="col">
-                {{ series.label }}
-              </th>
-            }
-          </tr>
-        </thead>
-        <tbody>
-          @for (
-            category of table.categories;
-            track $index;
-            let rowIndex = $index
-          ) {
+      <div
+        class="sky-chart-data-table-wrapper"
+        role="region"
+        tabindex="0"
+        [attr.aria-label]="
+          'skyux_charts.data_table_modal.table_region_label'
+            | skyLibResources: context.headingText
+        "
+      >
+        <table class="sky-chart-data-table">
+          <thead>
             <tr>
-              <th class="sky-theme-padding-inset-balanced-xs" scope="row">
-                {{ category }}
+              <th scope="col">
+                {{ table.categoryLabel }}
               </th>
               @for (series of table.series; track series.label) {
-                <td class="sky-theme-padding-inset-balanced-xs">
-                  {{ series.values[rowIndex] }}
-                </td>
+                <th scope="col">
+                  {{ series.label }}
+                </th>
               }
             </tr>
-          }
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            @for (
+              category of table.categories;
+              track $index;
+              let rowIndex = $index
+            ) {
+              <tr>
+                <th scope="row">
+                  {{ category }}
+                </th>
+                @for (series of table.series; track series.label) {
+                  <td>
+                    {{ series.values[rowIndex] }}
+                  </td>
+                }
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
     }
   </sky-modal-content>
   <sky-modal-footer>

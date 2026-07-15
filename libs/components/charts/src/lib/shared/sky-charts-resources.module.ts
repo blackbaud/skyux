@@ -26,6 +26,9 @@ const RESOURCES: Record<string, SkyLibResources> = {
       message: 'View data table',
     },
     'skyux_charts.data_table_modal.close_button': { message: 'Close' },
+    'skyux_charts.data_table_modal.table_region_label': {
+      message: 'Data table for {0}',
+    },
   },
 };
 

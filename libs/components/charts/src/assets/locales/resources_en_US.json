@@ -17,5 +17,10 @@
   "skyux_charts.data_table_modal.close_button": {
     "_description": "The label for the close button",
     "message": "Close"
+  },
+  "skyux_charts.data_table_modal.table_region_label": {
+    "_description": "The accessible name for the scrollable region containing the chart's data table",
+    "message": "Data table for {0}",
+    "_0": "The chart heading text"
   }
 }
