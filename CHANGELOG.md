@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.6.3](https://github.com/blackbaud/skyux/compare/14.6.2...14.6.3) (2026-07-15)
+
+
+### Bug Fixes
+
+* **components/packages:** standalone schematic crash on SKY UX pipe in TestBed.configureTestingModule ([#4524](https://github.com/blackbaud/skyux/issues/4524)) ([bc54ea9](https://github.com/blackbaud/skyux/commit/bc54ea9020da799d724d676b015e66953d2cca4a)), closes [AB#4046930](https://dev.azure.com/blackbaud/Products/_workitems/edit/4046930)
+
 ## [14.6.2](https://github.com/blackbaud/skyux/compare/14.6.1...14.6.2) (2026-07-14)
 
 
