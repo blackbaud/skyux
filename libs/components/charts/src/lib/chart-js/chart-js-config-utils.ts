@@ -33,6 +33,10 @@ function buildBaseChartJsOptions(
     plugins: {
       legend: {
         position: 'bottom',
+        labels: {
+          usePointStyle: true,
+          pointStyle: 'circle',
+        },
       },
       tooltip: {
         enabled: true,

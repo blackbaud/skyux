@@ -54,6 +54,8 @@ describe('extendBaseChartJsConfig', () => {
     // resize on destroy, and the stale timeout throws on destroyed charts.
     expect(config.options.resizeDelay).toBeUndefined();
     expect(config.options.interaction?.mode).toBe('nearest');
+    expect(config.options.plugins?.legend?.labels?.usePointStyle).toBe(true);
+    expect(config.options.plugins?.legend?.labels?.pointStyle).toBe('circle');
   });
 
   it('should merge the base tooltip styling with the chart-specific callbacks', () => {
