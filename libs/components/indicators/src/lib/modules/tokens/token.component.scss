@@ -134,12 +134,15 @@
 }
 
 .sky-btn-disabled {
-  background-color: var(
-    --sky-override-token-disabled-background-color,
-    var(--sky-color-background-action-tertiary-disabled)
-  );
   cursor: default;
   user-select: none;
+
+  &.sky-token {
+    background-color: var(
+      --sky-override-token-disabled-background-color,
+      var(--sky-color-background-action-tertiary-disabled)
+    );
+  }
 
   .sky-btn-disabled {
     opacity: 1;
