@@ -517,6 +517,23 @@ describe('Chart bar component', () => {
     expect(denseHeight).toBeGreaterThan(11.25 * rootFontSize());
   });
 
+  it('should size a horizontal chart by the category count, not the series length', () => {
+    // Enough categories that the computed height exceeds the minimum clamp.
+    const categories = Array.from({ length: 12 }, (_, i) => `${2013 + i}`);
+
+    component.orientation = 'horizontal';
+    component.categories = categories;
+    component.values = [10];
+    fixture.detectChanges();
+
+    const sparseHeight = getChartContainerHeight();
+
+    component.values = categories.map((_, i) => i * 10);
+    fixture.detectChanges();
+
+    expect(getChartContainerHeight()).toBe(sparseHeight);
+  });
+
   it('should add legend space to a multi-series horizontal chart', () => {
     component.orientation = 'horizontal';
     // Use enough categories that the height exceeds the minimum floor, so the
@@ -744,11 +761,14 @@ describe('Chart bar component with a theme service', () => {
     const chart = Chart.getChart(canvas);
     expect(chart).toBeTruthy();
 
+    const updateSpy = spyOn(chart as Chart, 'update').and.callThrough();
+
     // A new theme rebuilds the config, updating the existing chart in place
     // rather than recreating it.
     settingsChange.next({ currentSettings: {} } as SkyThemeSettingsChange);
     fixture.detectChanges();
 
+    expect(updateSpy).toHaveBeenCalled();
     expect(Chart.getChart(canvas)).toBe(chart);
 
     fixture.destroy();

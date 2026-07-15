@@ -36,6 +36,8 @@ function buildBaseChartJsOptions(
         labels: {
           usePointStyle: true,
           pointStyle: 'circle',
+          color: text.color,
+          font: bodyFont,
         },
       },
       tooltip: {

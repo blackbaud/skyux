@@ -56,6 +56,10 @@ describe('extendBaseChartJsConfig', () => {
     expect(config.options.interaction?.mode).toBe('nearest');
     expect(config.options.plugins?.legend?.labels?.usePointStyle).toBe(true);
     expect(config.options.plugins?.legend?.labels?.pointStyle).toBe('circle');
+    expect(config.options.plugins?.legend?.labels?.color).toBe('#111111');
+    expect(config.options.plugins?.legend?.labels?.font).toEqual(
+      jasmine.objectContaining({ family: 'Arial', size: 15, weight: 400 }),
+    );
   });
 
   it('should merge the base tooltip styling with the chart-specific callbacks', () => {

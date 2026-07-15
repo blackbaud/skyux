@@ -284,10 +284,13 @@ export class SkyChartBar extends SkyChartPlot {
     barsPerCategory: number;
   } {
     const seriesCount = this.series().length;
-    const categoryCount = this.series().reduce(
-      (max, chartSeries) => Math.max(max, chartSeries.values().length),
-      0,
-    );
+    // Chart.js renders one row per category-axis label, so the row count must
+    // come from the category axis — a sparse series with fewer values than
+    // categories must not shrink the height. The axis is always present when
+    // the chart (and therefore this height) renders, so the fallback is
+    // defensive only.
+    /* istanbul ignore next */
+    const categoryCount = this.categoryAxis()?.categories().length ?? 0;
 
     // A stacked layout renders one bar per distinct stack group — series that
     // share a stack group (or all lack one) accumulate into a single bar — so
