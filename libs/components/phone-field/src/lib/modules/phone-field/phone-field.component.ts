@@ -128,7 +128,7 @@ export class SkyPhoneFieldComponent implements OnDestroy {
 
   public readonly countries = computed<SkyPhoneFieldCountry[]>(() => {
     const countries = cloneCountryData(
-      intlTelInput.getCountryData(),
+      intlTelInput.getAllCountries(),
       this.#locale(),
     );
 
