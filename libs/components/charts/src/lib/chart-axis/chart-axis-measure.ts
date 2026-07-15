@@ -3,13 +3,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  effect,
   inject,
   input,
   numberAttribute,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { SkyLogService } from '@skyux/core';
 import { SkyAppLocaleProvider } from '@skyux/i18n';
 
 import { map } from 'rxjs/operators';
@@ -31,7 +29,6 @@ import { createSkyChartValueFormatter } from '../shared/value-formatter';
 })
 export class SkyChartAxisMeasure {
   readonly #localeProvider = inject(SkyAppLocaleProvider);
-  readonly #logSvc = inject(SkyLogService);
 
   readonly #locale = toSignal(
     this.#localeProvider.getLocaleInfo().pipe(map((info) => info.locale)),
@@ -39,8 +36,8 @@ export class SkyChartAxisMeasure {
   );
 
   /**
-   * The ISO 4217 currency code (for example, `USD`) used when `format` is
-   * `currency`.
+   * The ISO 4217 currency code used when `format` is `currency`.
+   * @default 'USD'
    */
   public readonly currencyCode = input<string>();
 
@@ -98,16 +95,4 @@ export class SkyChartAxisMeasure {
       locale: this.#locale(),
     }),
   );
-
-  constructor() {
-    effect(() => {
-      if (this.format() === 'currency' && !this.currencyCode()) {
-        this.#logSvc.warn(
-          'The `sky-chart-axis-measure` "currency" format requires a ' +
-            '`currencyCode`. Values are formatted as plain numbers until one ' +
-            'is provided.',
-        );
-      }
-    });
-  }
 }

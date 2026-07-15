@@ -13,8 +13,8 @@ export interface SkyChartValueFormatterOptions {
   format: SkyChartValueFormat;
 
   /**
-   * The ISO 4217 currency code (for example, `USD`) used when `format` is
-   * `currency`.
+   * The ISO 4217 currency code used when `format` is `currency`. Defaults to
+   * `USD`, matching `SkyI18nCurrencyFormatService`.
    */
   currencyCode: string | undefined;
 
@@ -39,17 +39,13 @@ export interface SkyChartValueFormatterOptions {
 export function createSkyChartValueFormatter(
   options: SkyChartValueFormatterOptions,
 ): (value: number) => string {
-  const { format, currencyCode, digits, locale } = options;
-
-  const useCurrency = format === 'currency' && !!currencyCode;
+  const { format, currencyCode = 'USD', digits, locale } = options;
 
   let style: SkyIntlNumberFormatStyle;
 
   switch (format) {
     case 'currency':
-      style = useCurrency
-        ? SkyIntlNumberFormatStyle.Currency
-        : SkyIntlNumberFormatStyle.Decimal;
+      style = SkyIntlNumberFormatStyle.Currency;
       break;
 
     case 'percent':
@@ -63,7 +59,7 @@ export function createSkyChartValueFormatter(
 
   return (value: number): string =>
     SkyIntlNumberFormatter.format(value, locale, style, {
-      currency: useCurrency ? currencyCode : undefined,
+      currency: format === 'currency' ? currencyCode : undefined,
       currencyDisplay: 'symbol',
       minimumFractionDigits: digits,
       maximumFractionDigits: digits,

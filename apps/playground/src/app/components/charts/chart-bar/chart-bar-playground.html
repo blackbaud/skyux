@@ -1,11 +1,13 @@
 <sky-page layout="blocks">
   <sky-page-content>
-    <sky-toggle-switch
-      class="sky-margin-stacked-lg"
-      labelText="Horizontal orientation"
-      [checked]="isHorizontal()"
-      (toggleChange)="isHorizontal.set($event.checked)"
-    />
+    <div class="sky-theme-margin-bottom-l">
+      <sky-toggle-switch
+        class="sky-margin-stacked-lg"
+        labelText="Horizontal orientation"
+        [checked]="isHorizontal()"
+        (toggleChange)="isHorizontal.set($event.checked)"
+      />
+    </div>
     <sky-fluid-grid gutterSize="medium" [disableMargin]="true">
       <sky-row>
         <sky-column [screenSmall]="4">

@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
-import { SkyLogService } from '@skyux/core';
 
 import { SkyChartValueFormat } from '../shared/value-format';
 
@@ -29,7 +28,6 @@ class TestComponent {
 
 describe('Chart measure axis component', () => {
   let fixture: ComponentFixture<TestComponent>;
-  let logSvc: jasmine.SpyObj<SkyLogService>;
 
   function format(value: number): string {
     fixture.detectChanges();
@@ -37,11 +35,8 @@ describe('Chart measure axis component', () => {
   }
 
   beforeEach(() => {
-    logSvc = jasmine.createSpyObj<SkyLogService>('SkyLogService', ['warn']);
-
     TestBed.configureTestingModule({
       imports: [TestComponent],
-      providers: [{ provide: SkyLogService, useValue: logSvc }],
     });
 
     fixture = TestBed.createComponent(TestComponent);
@@ -53,9 +48,9 @@ describe('Chart measure axis component', () => {
 
   it('should format currency using the currency code', () => {
     fixture.componentInstance.format = 'currency';
-    fixture.componentInstance.currencyCode = 'USD';
+    fixture.componentInstance.currencyCode = 'EUR';
 
-    expect(format(1234.5)).toBe('$1,234.50');
+    expect(format(1234.5)).toBe('€1,234.50');
   });
 
   it('should format percentages from fractional values', () => {
@@ -64,20 +59,10 @@ describe('Chart measure axis component', () => {
     expect(format(0.25)).toBe('25%');
   });
 
-  it('should fall back to a plain number and warn when currency has no code', () => {
+  it('should default the currency code to USD', () => {
     fixture.componentInstance.format = 'currency';
 
-    expect(format(1234.5)).toBe('1,234.5');
-    expect(logSvc.warn).toHaveBeenCalled();
-  });
-
-  it('should not warn when a currency code is provided', () => {
-    fixture.componentInstance.format = 'currency';
-    fixture.componentInstance.currencyCode = 'USD';
-
-    format(1234.5);
-
-    expect(logSvc.warn).not.toHaveBeenCalled();
+    expect(format(1234.5)).toBe('$1,234.50');
   });
 
   it('should remove decimal places when digits is zero', () => {
