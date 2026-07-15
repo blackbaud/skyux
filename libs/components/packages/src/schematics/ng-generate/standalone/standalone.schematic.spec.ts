@@ -256,6 +256,27 @@ describe('standalone', () => {
     expect(tree.readText('src/app/test.component.spec.ts')).toMatchSnapshot();
   });
 
+  it('should migrate a test with a SKY UX pipe used in TestBed.configureTestingModule', async () => {
+    const { tree } = await setup();
+    tree.create(
+      'src/app/test.component.spec.ts',
+      `
+    import { TestBed } from '@angular/core/testing';
+    import { SkyDatePipe } from '@skyux/datetime';
+
+    describe('TestComponent', () => {
+      beforeEach(() => {
+        TestBed.configureTestingModule({
+          imports: [SkyDatePipe],
+        });
+      });
+    });
+    `,
+    );
+    await runner.runSchematic('standalone-migration', {}, tree);
+    expect(tree.readText('src/app/test.component.spec.ts')).toMatchSnapshot();
+  });
+
   it('should do nothing on a component', async () => {
     const { tree } = await setup();
     tree.create(
