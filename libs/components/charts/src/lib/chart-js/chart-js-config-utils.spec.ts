@@ -50,7 +50,9 @@ describe('extendBaseChartJsConfig', () => {
 
     expect(config.options.responsive).toBe(true);
     expect(config.options.maintainAspectRatio).toBe(false);
-    expect(config.options.resizeDelay).toBe(150);
+    // `resizeDelay` must stay unset: Chart.js does not cancel the delayed
+    // resize on destroy, and the stale timeout throws on destroyed charts.
+    expect(config.options.resizeDelay).toBeUndefined();
     expect(config.options.interaction?.mode).toBe('nearest');
   });
 

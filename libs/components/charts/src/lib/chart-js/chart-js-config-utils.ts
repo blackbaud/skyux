@@ -23,7 +23,6 @@ function buildBaseChartJsOptions(
     // Responsiveness: fill the container and re-layout on resize.
     responsive: true,
     maintainAspectRatio: false,
-    resizeDelay: 150,
     layout: { padding: 0 },
 
     // Interaction: hovering and tooltips target the nearest point precisely.
