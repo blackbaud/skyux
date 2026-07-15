@@ -17,10 +17,10 @@ import {
     SkyChartBar,
     SkyChartBarSeries,
   ],
-  selector: 'app-chart-bar-stacked',
-  templateUrl: './chart-bar-stacked-playground.html',
+  selector: 'app-chart-bar-grouped-stacked',
+  templateUrl: './chart-bar-grouped-stacked-playground.html',
 })
-export class ChartBarStackedPlayground {
+export class ChartBarGroupedStackedPlayground {
   protected readonly orientation = input<SkyChartBarOrientation>('vertical');
   protected readonly months = [
     'January',
@@ -31,7 +31,8 @@ export class ChartBarStackedPlayground {
     'June',
     'July',
   ];
-  protected readonly online = [38, 6, 54, 69, 88, 13, 87];
-  protected readonly inStore = [37, 84, 28, 84, 97, 22, 63];
-  protected readonly phone = [86, 4, 7, 85, 8, 51, 30];
+  protected readonly westInStore = [38, 6, 54, 69, 88, 13, 87];
+  protected readonly westOnline = [37, 84, 28, 84, 97, 22, 63];
+  protected readonly eastInStore = [24, 51, 40, 33, 62, 45, 51];
+  protected readonly eastOnline = [55, 30, 47, 58, 41, 66, 39];
 }

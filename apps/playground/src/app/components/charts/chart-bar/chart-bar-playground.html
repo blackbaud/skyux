@@ -37,9 +37,12 @@
 
       <sky-row>
         <sky-column [screenSmall]="4">
-          <sky-box class="sky-margin-stacked-xl" headingText="Dual value axes">
+          <sky-box
+            class="sky-margin-stacked-xl"
+            headingText="Grouped, stacked series"
+          >
             <sky-box-content>
-              <app-chart-bar-dual-axis [orientation]="orientation()" />
+              <app-chart-bar-grouped-stacked [orientation]="orientation()" />
             </sky-box-content>
           </sky-box>
         </sky-column>

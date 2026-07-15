@@ -113,85 +113,120 @@ export interface SkyChartThemeStyles {
 }
 
 /**
- * Resolves the active SKY theme's chart styling from resolved CSS styles.
+ * Resolves the active SKY theme's chart styling for the given host element.
  * Calls `warn` when the SKY theme styles are not loaded, in which case the
  * chart renders un-themed with Chart.js defaults.
  * @internal
  */
 export function resolveChartThemeStyles(
-  styles: CSSStyleDeclaration,
+  host: HTMLElement,
   warn: (message: string) => void,
 ): SkyChartThemeStyles {
-  // Every SKY theme resolves `--sky-color-text-default` — the modern theme
-  // defines it and the charts stylesheets provide a default-theme override —
-  // so its absence means the SKY UX theme styles are not loaded at all (or a
-  // custom modern brand omits the tokens).
-  if (!readString(styles, '--sky-color-text-default')) {
-    warn(
-      "The SKY UX theme's CSS custom properties could not be resolved, so " +
-        'the chart renders un-themed. Verify that the SKY UX theme styles ' +
-        'are loaded.',
-    );
-  }
+  const styles = getComputedStyle(host);
 
-  return {
-    font: {
-      family: readString(styles, '--sky-font-family-primary'),
-      size: readNumber(styles, '--sky-font-size-body-m'),
-      weight: readNumber(styles, '--sky-font-style-body-m'),
-      emphasizedWeight: readNumber(styles, '--sky-font-style-emphasized'),
-      smallSize: readNumber(styles, '--sky-font-size-body-s'),
-      smallWeight: readNumber(styles, '--sky-font-style-body-s'),
+  // Custom properties keep `calc()` expressions unevaluated (for example, the
+  // SKY line-height tokens are authored as `calc(20/15)`). The probe assigns
+  // those raw values to a standard property, which the browser evaluates, and
+  // reads the resolved value back. It is created lazily — only for values the
+  // fast path cannot parse — and torn down once resolution finishes.
+  const probe = createTokenProbe(host);
 
-      // Line height cannot be read from the theme yet: the SKY line-height
-      // tokens are authored as `calc()` expressions (`--sky-font-
-      // line_height-body-m` is `calc(20/15)`), which `getComputedStyle`
-      // never evaluates for custom properties. Until the tokens are emitted
-      // as evaluated numbers, hardcode the token's calculated value.
-      lineHeight: 20 / 15,
-    },
-    text: {
-      color: readString(styles, '--sky-color-text-default'),
-      deemphasizedColor: readString(styles, '--sky-color-text-deemphasized'),
-    },
-    axis: {
-      lineColor: readString(styles, '--sky-color-viz-axis'),
-      gridlineColor: readString(styles, '--sky-color-viz-gridline'),
-      tickLength: readNumber(styles, '--sky-size-chart-tick_length-measure'),
-      titleGap: readNumber(styles, '--sky-space-stacked-xs'),
-    },
-    series: {
-      categoricalPalette: Array.from({ length: 8 }, (_, index) =>
-        readString(styles, `--sky-color-viz-category-${index + 1}`),
-      ),
-    },
-    tooltip: {
-      backgroundColor: readString(
-        styles,
-        '--sky-color-background-container-base',
-      ),
-      borderColor: readString(styles, '--sky-color-border-container-base'),
-      borderWidth: readNumber(styles, '--sky-border-width-container-base'),
-      cornerRadius: readNumber(styles, '--sky-border-radius-s'),
-      inset: {
-        top: readNumber(styles, '--sky-comp-chart-tooltip-space-inset-top'),
-        right: readNumber(styles, '--sky-comp-chart-tooltip-space-inset-right'),
-        bottom: readNumber(
+  try {
+    // Every SKY theme resolves `--sky-color-text-default` — the modern theme
+    // defines it and the charts stylesheets provide a default-theme override —
+    // so its absence means the SKY UX theme styles are not loaded at all (or a
+    // custom modern brand omits the tokens).
+    if (!readString(styles, '--sky-color-text-default')) {
+      warn(
+        "The SKY UX theme's CSS custom properties could not be resolved, so " +
+          'the chart renders un-themed. Verify that the SKY UX theme styles ' +
+          'are loaded.',
+      );
+    }
+
+    return {
+      font: {
+        family: readString(styles, '--sky-font-family-primary'),
+        size: readNumber(styles, probe, '--sky-font-size-body-m'),
+        weight: readNumber(styles, probe, '--sky-font-style-body-m'),
+        emphasizedWeight: readNumber(
           styles,
-          '--sky-comp-chart-tooltip-space-inset-bottom',
+          probe,
+          '--sky-font-style-emphasized',
         ),
-        left: readNumber(styles, '--sky-comp-chart-tooltip-space-inset-left'),
+        smallSize: readNumber(styles, probe, '--sky-font-size-body-s'),
+        smallWeight: readNumber(styles, probe, '--sky-font-style-body-s'),
+        lineHeight: readLineHeight(styles, probe),
       },
-      iconSize: readNumber(styles, '--sky-size-icon-xs'),
-      iconGap: readNumber(styles, '--sky-space-gap-icon-s'),
-      titleGap: readNumber(styles, '--sky-space-stacked-s'),
-      bodyGap: readNumber(styles, '--sky-space-stacked-0'),
-    },
-    bar: {
-      borderColor: readString(styles, '--sky-color-background-container-base'),
-      borderRadius: readNumber(styles, '--sky-border-radius-xs'),
-    },
-  };
+      text: {
+        color: readString(styles, '--sky-color-text-default'),
+        deemphasizedColor: readString(styles, '--sky-color-text-deemphasized'),
+      },
+      axis: {
+        lineColor: readString(styles, '--sky-color-viz-axis'),
+        gridlineColor: readString(styles, '--sky-color-viz-gridline'),
+        tickLength: readNumber(
+          styles,
+          probe,
+          '--sky-size-chart-tick_length-measure',
+        ),
+        titleGap: readNumber(styles, probe, '--sky-space-stacked-xs'),
+      },
+      series: {
+        categoricalPalette: Array.from({ length: 8 }, (_, index) =>
+          readString(styles, `--sky-color-viz-category-${index + 1}`),
+        ),
+      },
+      tooltip: {
+        backgroundColor: readString(
+          styles,
+          '--sky-color-background-container-base',
+        ),
+        borderColor: readString(styles, '--sky-color-border-container-base'),
+        borderWidth: readNumber(
+          styles,
+          probe,
+          '--sky-border-width-container-base',
+        ),
+        cornerRadius: readNumber(styles, probe, '--sky-border-radius-s'),
+        inset: {
+          top: readNumber(
+            styles,
+            probe,
+            '--sky-comp-chart-tooltip-space-inset-top',
+          ),
+          right: readNumber(
+            styles,
+            probe,
+            '--sky-comp-chart-tooltip-space-inset-right',
+          ),
+          bottom: readNumber(
+            styles,
+            probe,
+            '--sky-comp-chart-tooltip-space-inset-bottom',
+          ),
+          left: readNumber(
+            styles,
+            probe,
+            '--sky-comp-chart-tooltip-space-inset-left',
+          ),
+        },
+        iconSize: readNumber(styles, probe, '--sky-size-icon-xs'),
+        iconGap: readNumber(styles, probe, '--sky-space-gap-icon-s'),
+        titleGap: readNumber(styles, probe, '--sky-space-stacked-s'),
+        bodyGap: readNumber(styles, probe, '--sky-space-stacked-0'),
+      },
+      bar: {
+        borderColor: readString(
+          styles,
+          '--sky-color-background-container-base',
+        ),
+        borderRadius: readNumber(styles, probe, '--sky-border-radius-xs'),
+      },
+    };
+  } finally {
+    probe.destroy();
+  }
 }
 
 /**
@@ -221,31 +256,121 @@ function readString(styles: CSSStyleDeclaration, property: string): string {
 
 /**
  * Reads a numeric CSS custom property — preferring its default-theme
- * override — and returns it as a number, converting `rem` values to pixels
- * using the root font size. Chart.js requires numbers (font sizes, lengths,
- * padding), and treats `undefined` as unset, so a value that is missing or
- * not a number resolves to `undefined` — never `NaN`, which would poison
- * Chart.js's layout arithmetic.
+ * override — as a number, converting `rem` values to pixels using the root
+ * font size. Values the fast path cannot parse (such as `calc()` lengths) are
+ * resolved through the probe. Chart.js requires numbers and treats `undefined`
+ * as unset, so a missing or unresolvable value returns `undefined` — never
+ * `NaN`, which would poison Chart.js's layout arithmetic.
  */
 function readNumber(
   styles: CSSStyleDeclaration,
+  probe: SkyChartTokenProbe,
   property: string,
 ): number | undefined {
-  const raw =
-    styles.getPropertyValue(overrideProperty(property)).trim() ||
-    styles.getPropertyValue(property).trim();
-  const value = Number.parseFloat(raw);
+  const raw = readString(styles, property);
 
-  if (Number.isNaN(value)) {
+  if (raw === '') {
     return undefined;
   }
 
-  if (raw.endsWith('rem')) {
-    return (
-      value *
-      Number.parseFloat(getComputedStyle(document.documentElement).fontSize)
-    );
+  const value = Number.parseFloat(raw);
+
+  if (!Number.isNaN(value)) {
+    return raw.endsWith('rem')
+      ? value *
+          Number.parseFloat(getComputedStyle(document.documentElement).fontSize)
+      : value;
   }
 
-  return value;
+  // A non-numeric literal such as a `calc()` length; resolve it via the probe.
+  return probe.resolveLength(raw);
+}
+
+/**
+ * The body-m line height as a multiple of its font size, matching the
+ * `--sky-font-line_height-body-m` token's calculated value (`calc(20/15)`).
+ * Used when the token is unset or cannot be resolved.
+ */
+const DEFAULT_BODY_LINE_HEIGHT = 20 / 15;
+
+/**
+ * Reads the body-m line height as a multiple of the font size. The SKY
+ * line-height tokens are `calc()` expressions that `getComputedStyle` leaves
+ * unevaluated on custom properties, so the token is resolved through the probe.
+ * Falls back to the body-m value when the token is unset or cannot be resolved.
+ */
+function readLineHeight(
+  styles: CSSStyleDeclaration,
+  probe: SkyChartTokenProbe,
+): number {
+  const raw = readString(styles, '--sky-font-line_height-body-m');
+  const value = raw === '' ? undefined : probe.resolveNumber(raw);
+
+  return value ?? DEFAULT_BODY_LINE_HEIGHT;
+}
+
+/**
+ * Resolves raw CSS value expressions — including `calc()` — that
+ * `getComputedStyle` leaves unevaluated on custom properties. Each raw value
+ * is assigned to a standard property whose type matches it (a length via
+ * `padding-left`, a number via `flex-grow`) on a hidden, off-layout element;
+ * the browser evaluates it, and the resolved value is read back.
+ */
+interface SkyChartTokenProbe {
+  /** Resolves a length expression to pixels, or `undefined` when invalid. */
+  resolveLength(value: string): number | undefined;
+
+  /** Resolves a numeric expression to a number, or `undefined` when invalid. */
+  resolveNumber(value: string): number | undefined;
+
+  /** Removes the probe element if it was created. */
+  destroy(): void;
+}
+
+/**
+ * Creates a {@link SkyChartTokenProbe} bound to `host`. The probe element is
+ * created on first use — so resolving only fast-path values costs nothing —
+ * and inherits `host`'s theme context.
+ */
+function createTokenProbe(host: HTMLElement): SkyChartTokenProbe {
+  let element: HTMLElement | undefined;
+
+  function probeElement(): HTMLElement {
+    if (!element) {
+      element = document.createElement('span');
+      element.style.position = 'absolute';
+      element.style.width = '0';
+      element.style.height = '0';
+      element.style.overflow = 'hidden';
+      element.style.visibility = 'hidden';
+      host.appendChild(element);
+    }
+
+    return element;
+  }
+
+  // Assigns the raw value to a carrier property the browser evaluates, then
+  // reads the resolved value back. An invalid value is rejected by the CSSOM,
+  // leaving the carrier empty, which signals it could not be resolved.
+  function resolveWith(
+    carrier: 'paddingLeft' | 'flexGrow',
+    value: string,
+  ): number | undefined {
+    const el = probeElement();
+
+    el.style[carrier] = '';
+    el.style[carrier] = value;
+
+    return el.style[carrier] === ''
+      ? undefined
+      : Number.parseFloat(getComputedStyle(el)[carrier]);
+  }
+
+  return {
+    resolveLength: (value): number | undefined =>
+      resolveWith('paddingLeft', value),
+    resolveNumber: (value): number | undefined =>
+      resolveWith('flexGrow', value),
+    destroy: (): void => element?.remove(),
+  };
 }

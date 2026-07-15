@@ -8,14 +8,12 @@ import {
   input,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { SkyLogService } from '@skyux/core';
 import { SkyThemeService } from '@skyux/theme';
 import { type ChartDataset } from 'chart.js/auto';
 import { EMPTY, map } from 'rxjs';
 
 import { SkyChartAxisCategory } from '../chart-axes/chart-axis-category';
 import { SkyChartAxisValue } from '../chart-axes/chart-axis-value';
-import { SkyChartSeries } from '../chart-series/chart-series';
 import { SkyChartTable } from '../chart-table/chart-table';
 import { SkyChartAccessibleSummary } from '../chart-table/chart-table-service';
 import {
@@ -23,19 +21,19 @@ import {
   buildCartesianTable,
   buildValueTooltipLabel,
   CATEGORY_AXIS_ID,
-  getValueAxisScaleKeys,
-  hasCartesianData,
-  resolveSeriesBindings,
+  resolveCartesianData,
+  VALUE_AXIS_ID,
 } from '../shared/cartesian-utils';
 import { SkyChartJs, type SkyChartJsConfig } from '../shared/chart-js';
 import { extendBaseChartJsConfig } from '../shared/chart-js-config-utils';
 import { SkyChartPlot } from '../shared/chart-plot';
 import { SkyChartBarOrientation } from './chart-bar-orientation';
+import { SkyChartBarSeries } from './chart-bar-series';
 import { SkyChartBarSeriesLayout } from './chart-bar-series-layout';
 
 /**
- * Renders a bar chart from a category axis, one or more value axes, and one or
- * more series.
+ * Renders a bar chart from a category axis, a value axis, and one or more
+ * series.
  *
  * @preview
  */
@@ -48,8 +46,6 @@ import { SkyChartBarSeriesLayout } from './chart-bar-series-layout';
   }`,
 })
 export class SkyChartBar extends SkyChartPlot {
-  readonly #logSvc = inject(SkyLogService);
-
   // Chart.js renders to a canvas and cannot read CSS custom properties, so the
   // active theme's values must be resolved against a DOM element. Tracking the
   // theme settings as a signal rebuilds `config` whenever the theme changes.
@@ -69,66 +65,67 @@ export class SkyChartBar extends SkyChartPlot {
   /**
    * How the bars of multiple series are arranged within each category.
    * `grouped` places the series' bars side by side; `stacked` accumulates the
-   * bars of series that share a value axis into a single bar per category.
-   * This has no visible effect when the chart has a single series.
+   * bars into a single bar per category. When `stacked`, assign each series a
+   * `stack` value to subdivide the bar into side-by-side stacks (grouped,
+   * stacked bars). This has no visible effect when the chart has a single
+   * series.
    * @default 'grouped'
    */
   public readonly seriesLayout = input<SkyChartBarSeriesLayout>('grouped');
 
   protected readonly categoryAxis = contentChild(SkyChartAxisCategory);
-  protected readonly valueAxes = contentChildren(SkyChartAxisValue);
-  protected readonly series = contentChildren(SkyChartSeries);
-
-  // Resolved once and shared by the chart config and the accessible data
-  // table so each series' value axis is matched a single time.
-  readonly #seriesBindings = computed(() => {
-    const valueAxes = this.valueAxes();
-
-    return resolveSeriesBindings({
-      series: this.series(),
-      valueAxes,
-      valueAxisKeys: getValueAxisScaleKeys(valueAxes),
-      warn: (message) => this.#logSvc.warn(message),
-    });
-  });
+  protected readonly valueAxis = contentChild(SkyChartAxisValue);
+  protected readonly series = contentChildren(SkyChartBarSeries);
 
   protected readonly config = computed(() => this.#buildConfig());
 
   protected override buildTable(): SkyChartTable | undefined {
-    const categoryAxis = this.categoryAxis();
-    const valueAxes = this.valueAxes();
-    const series = this.series();
+    const data = resolveCartesianData(
+      this.categoryAxis(),
+      this.valueAxis(),
+      this.series(),
+    );
 
-    if (!hasCartesianData(categoryAxis, valueAxes, series)) {
+    if (!data) {
       return undefined;
     }
 
-    return buildCartesianTable(categoryAxis, series, this.#seriesBindings());
+    return buildCartesianTable(
+      data.categoryAxis,
+      data.series,
+      data.valueAxis.formatValue(),
+    );
   }
 
   protected override buildSummary(): SkyChartAccessibleSummary | undefined {
-    const categoryAxis = this.categoryAxis();
-    const valueAxes = this.valueAxes();
-    const series = this.series();
+    const data = resolveCartesianData(
+      this.categoryAxis(),
+      this.valueAxis(),
+      this.series(),
+    );
 
-    if (!hasCartesianData(categoryAxis, valueAxes, series)) {
+    if (!data) {
       return undefined;
     }
 
     return {
       resourceKey: 'skyux_charts.chart.bar.accessible_summary',
-      args: [series.length, categoryAxis.categories().length],
+      args: [data.series.length, data.categoryAxis.categories().length],
     };
   }
 
   #buildConfig(): SkyChartJsConfig<'bar'> | undefined {
-    const categoryAxis = this.categoryAxis();
-    const valueAxes = this.valueAxes();
-    const series = this.series();
+    const data = resolveCartesianData(
+      this.categoryAxis(),
+      this.valueAxis(),
+      this.series(),
+    );
 
-    if (!hasCartesianData(categoryAxis, valueAxes, series)) {
+    if (!data) {
       return undefined;
     }
+
+    const { categoryAxis, valueAxis, series } = data;
 
     // Read the theme signal so the config rebuilds when the theme changes,
     // then resolve the themed CSS custom properties to concrete values.
@@ -147,14 +144,12 @@ export class SkyChartBar extends SkyChartPlot {
     const categorical = themeStyles.series.categoricalPalette;
 
     const isHorizontal = this.orientation() === 'horizontal';
+    const isStacked = this.seriesLayout() === 'stacked';
     const indexAxis = isHorizontal ? 'y' : 'x';
     const valueDirection = isHorizontal ? 'x' : 'y';
-    const valueAxisKeys = getValueAxisScaleKeys(valueAxes);
-    const bindings = this.#seriesBindings();
+    const formatValue = valueAxis.formatValue();
 
     const datasets = series.map((chartSeries, index): ChartDataset<'bar'> => {
-      const { valueKey } = bindings[index];
-
       const dataset: ChartDataset<'bar'> = {
         label: chartSeries.labelText(),
         // Chart.js mutates the arrays it is given, so copy the readonly input.
@@ -162,11 +157,20 @@ export class SkyChartBar extends SkyChartPlot {
         backgroundColor: categorical[index % categorical.length],
       };
 
+      // Stack groups only apply to a stacked layout; on a grouped layout the
+      // scales are not stacked, so a shared stack id would overlap bars instead
+      // of accumulating them.
+      const stack = chartSeries.stack();
+
+      if (isStacked && stack !== undefined) {
+        dataset.stack = stack;
+      }
+
       if (isHorizontal) {
-        dataset.xAxisID = valueKey;
+        dataset.xAxisID = VALUE_AXIS_ID;
         dataset.yAxisID = CATEGORY_AXIS_ID;
       } else {
-        dataset.yAxisID = valueKey;
+        dataset.yAxisID = VALUE_AXIS_ID;
         dataset.xAxisID = CATEGORY_AXIS_ID;
       }
 
@@ -191,10 +195,9 @@ export class SkyChartBar extends SkyChartPlot {
         indexAxis,
         scales: buildCartesianScales({
           categoryAxis,
-          valueAxes,
-          valueAxisKeys,
+          valueAxis,
           isHorizontal,
-          stacked: this.seriesLayout() === 'stacked',
+          stacked: isStacked,
           themeStyles,
         }),
         plugins: {
@@ -205,10 +208,7 @@ export class SkyChartBar extends SkyChartPlot {
           },
           tooltip: {
             callbacks: {
-              label: buildValueTooltipLabel<'bar'>(
-                bindings.map((binding) => binding.formatValue),
-                valueDirection,
-              ),
+              label: buildValueTooltipLabel<'bar'>(formatValue, valueDirection),
             },
           },
         },

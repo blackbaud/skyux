@@ -10,7 +10,7 @@ import { SkyBoxModule, SkyFluidGridModule } from '@skyux/layout';
 import { SkyPageModule } from '@skyux/pages';
 
 import { ChartBarBasicPlayground } from './variants/chart-bar-basic-playground';
-import { ChartBarDualAxisPlayground } from './variants/chart-bar-dual-axis-playground';
+import { ChartBarGroupedStackedPlayground } from './variants/chart-bar-grouped-stacked-playground';
 import { ChartBarHiddenLabelsPlayground } from './variants/chart-bar-hidden-labels-playground';
 import { ChartBarLogarithmicPlayground } from './variants/chart-bar-logarithmic-playground';
 import { ChartBarMultipleSeriesPlayground } from './variants/chart-bar-multiple-series-playground';
@@ -21,7 +21,7 @@ import { ChartBarValueFormatPlayground } from './variants/chart-bar-value-format
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ChartBarBasicPlayground,
-    ChartBarDualAxisPlayground,
+    ChartBarGroupedStackedPlayground,
     ChartBarHiddenLabelsPlayground,
     ChartBarLogarithmicPlayground,
     ChartBarMultipleSeriesPlayground,

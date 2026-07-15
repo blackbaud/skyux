@@ -37,8 +37,7 @@ describe('buildCartesianScales', () => {
   ): Record<string, ScaleProbe> {
     return buildCartesianScales({
       categoryAxis: createCategoryAxis(),
-      valueAxes: [createValueAxis(scaleType)],
-      valueAxisKeys: ['sky-value-0'],
+      valueAxis: createValueAxis(scaleType),
       isHorizontal: false,
       stacked,
       themeStyles: createThemeStylesFixture(),
@@ -49,6 +48,6 @@ describe('buildCartesianScales', () => {
     const scales = build('linear');
 
     expect(scales['category'].stacked).toBe(false);
-    expect(scales['sky-value-0'].stacked).toBe(false);
+    expect(scales['value'].stacked).toBe(false);
   });
 });

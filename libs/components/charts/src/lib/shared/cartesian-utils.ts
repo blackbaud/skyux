@@ -5,7 +5,7 @@ import {
 
 import { SkyChartAxisCategory } from '../chart-axes/chart-axis-category';
 import { SkyChartAxisValue } from '../chart-axes/chart-axis-value';
-import { SkyChartSeries } from '../chart-series/chart-series';
+import { SkyChartBarSeries } from '../chart-bar/chart-bar-series';
 import type { SkyChartTable } from '../chart-table/chart-table';
 import { type SkyChartThemeStyles } from './chart-theme-styles';
 
@@ -20,6 +20,12 @@ type CartesianChartType = 'bar' | 'line';
  * have exactly one category axis, so a single, stable key is sufficient.
  */
 export const CATEGORY_AXIS_ID = 'category';
+
+/**
+ * The scale key of the value axis. Cartesian charts have exactly one value
+ * axis, so a single, stable key is sufficient.
+ */
+export const VALUE_AXIS_ID = 'value';
 
 /**
  * The `scales` shape of a cartesian chart. Bar and line charts register the
@@ -59,126 +65,62 @@ interface ChartJsThemedScaleStyle {
 }
 
 /**
- * How a single series binds to a value axis when building datasets.
- * @internal
- */
-export interface CartesianSeriesBinding {
-  /**
-   * The scale key of the value axis the series plots against.
-   */
-  valueKey: string;
-
-  /**
-   * Formats the series' values using the resolved value axis's format.
-   */
-  formatValue: (value: number) => string;
-}
-
-/**
  * The subset of a cartesian tooltip context the value `label` callback needs.
  * Chart.js types `parsed` and `dataset` as `unknown`/`UnionToIntersection`
  * under a bare generic chart type, so the context is narrowed to this shape.
  */
 interface CartesianTooltipContext {
-  datasetIndex: number;
   parsed: Record<'x' | 'y', number>;
   dataset: { label?: string };
 }
 
 /**
- * Resolves the value axis a series binds to, falling back to the first axis
- * when the series names an axis that does not exist.
+ * The axes and series a chart needs to render, present only when a category
+ * axis, a value axis, and at least one series are all provided.
  */
-function matchSeriesValueAxis(
-  series: SkyChartSeries,
-  valueAxes: readonly SkyChartAxisValue[],
-): { index: number; unmatched: boolean } {
-  const wanted = series.valueAxisId();
+export interface SkyChartCartesianData {
+  categoryAxis: SkyChartAxisCategory;
+  valueAxis: SkyChartAxisValue;
+  series: readonly SkyChartBarSeries[];
+}
 
-  if (!wanted) {
-    return { index: 0, unmatched: false };
+/**
+ * Resolves the axes and series into the data a chart needs to render, or
+ * `undefined` when a required axis or series is missing.
+ */
+export function resolveCartesianData(
+  categoryAxis: SkyChartAxisCategory | undefined,
+  valueAxis: SkyChartAxisValue | undefined,
+  series: readonly SkyChartBarSeries[],
+): SkyChartCartesianData | undefined {
+  if (
+    categoryAxis === undefined ||
+    valueAxis === undefined ||
+    series.length === 0
+  ) {
+    return undefined;
   }
 
-  const index = valueAxes.findIndex((axis) => axis.axisId() === wanted);
-
-  return index === -1
-    ? { index: 0, unmatched: true }
-    : { index, unmatched: false };
-}
-
-/**
- * Whether the axes and series contain enough data to build a chart.
- */
-export function hasCartesianData(
-  categoryAxis: SkyChartAxisCategory | undefined,
-  valueAxes: readonly SkyChartAxisValue[],
-  series: readonly SkyChartSeries[],
-): categoryAxis is SkyChartAxisCategory {
-  return (
-    categoryAxis !== undefined && valueAxes.length > 0 && series.length > 0
-  );
-}
-
-/**
- * Maps each value axis to a stable, internal scale key. User-supplied
- * `axisId`s are never used as scale keys so they cannot collide with the
- * category scale key or with each other; series bind to axes by resolving
- * their `valueAxisId` to an axis index, not by scale key.
- */
-export function getValueAxisScaleKeys(
-  valueAxes: readonly SkyChartAxisValue[],
-): string[] {
-  return valueAxes.map((_, index) => `sky-value-${index}`);
+  return { categoryAxis, valueAxis, series };
 }
 
 /**
  * Builds the tabular representation of a cartesian chart for the accessible
- * data table, formatting each series' values with its resolved binding.
+ * data table, formatting each series' values with the value axis's format.
  */
 export function buildCartesianTable(
   categoryAxis: SkyChartAxisCategory,
-  series: readonly SkyChartSeries[],
-  bindings: readonly CartesianSeriesBinding[],
+  series: readonly SkyChartBarSeries[],
+  formatValue: (value: number) => string,
 ): SkyChartTable {
   return {
     categoryLabel: categoryAxis.labelText(),
     categories: categoryAxis.categories(),
-    series: series.map((chartSeries, index) => ({
+    series: series.map((chartSeries) => ({
       label: chartSeries.labelText(),
-      values: chartSeries.values().map(bindings[index].formatValue),
+      values: chartSeries.values().map(formatValue),
     })),
   };
-}
-
-/**
- * Resolves each series to its value axis scale key and value formatter,
- * warning when a series names a value axis that does not exist.
- * @internal
- */
-export function resolveSeriesBindings(options: {
-  series: readonly SkyChartSeries[];
-  valueAxes: readonly SkyChartAxisValue[];
-  valueAxisKeys: readonly string[];
-  warn: (message: string) => void;
-}): CartesianSeriesBinding[] {
-  const { series, valueAxes, valueAxisKeys, warn } = options;
-
-  return series.map((chartSeries) => {
-    const { index, unmatched } = matchSeriesValueAxis(chartSeries, valueAxes);
-
-    if (unmatched) {
-      warn(
-        `The chart series "${chartSeries.labelText()}" specifies valueAxisId ` +
-          `"${chartSeries.valueAxisId()}", which does not match any value axis. ` +
-          `The series will plot against the first value axis.`,
-      );
-    }
-
-    return {
-      valueKey: valueAxisKeys[index],
-      formatValue: valueAxes[index].formatValue(),
-    };
-  });
 }
 
 /**
@@ -223,24 +165,20 @@ function buildThemedScaleStyle(
 
 /**
  * Builds the category and value axis scales for a cartesian chart. The category
- * axis draws no grid lines across the chart area, and secondary value axes are
- * positioned opposite the primary axis and also omit grid lines to avoid
- * stacking them on top of the primary axis's lines. When `stacked` is set, both
- * the category and value scales stack so that series sharing a value axis
- * accumulate into a single bar per category.
+ * axis draws no grid lines across the chart area, and the value axis draws them
+ * to aid value comparison. When `stacked` is set, both the category and value
+ * scales stack so that series accumulate into a single bar per category.
  */
 export function buildCartesianScales(options: {
   categoryAxis: SkyChartAxisCategory;
-  valueAxes: readonly SkyChartAxisValue[];
-  valueAxisKeys: readonly string[];
+  valueAxis: SkyChartAxisValue;
   isHorizontal: boolean;
   stacked?: boolean;
   themeStyles: SkyChartThemeStyles;
 }): ChartJsCartesianScales {
   const {
     categoryAxis,
-    valueAxes,
-    valueAxisKeys,
+    valueAxis,
     isHorizontal,
     stacked = false,
     themeStyles,
@@ -248,8 +186,9 @@ export function buildCartesianScales(options: {
   const indexAxis = isHorizontal ? 'y' : 'x';
   const valueDirection = isHorizontal ? 'x' : 'y';
   const base = buildThemedScaleStyle(themeStyles);
+  const formatValue = valueAxis.formatValue();
 
-  const scales: ChartJsCartesianScales = {
+  return {
     [CATEGORY_AXIS_ID]: {
       type: 'category',
       axis: indexAxis,
@@ -277,27 +216,14 @@ export function buildCartesianScales(options: {
         ...base.title,
       },
     },
-  };
-
-  valueAxes.forEach((axis, index) => {
-    const isSecondary = index > 0;
-    const formatValue = axis.formatValue();
-    const scaleType = axis.scaleType();
-
-    scales[valueAxisKeys[index]] = {
-      type: scaleType,
+    [VALUE_AXIS_ID]: {
+      type: valueAxis.scaleType(),
       axis: valueDirection,
-      position: isHorizontal
-        ? isSecondary
-          ? 'top'
-          : 'bottom'
-        : isSecondary
-          ? 'right'
-          : 'left',
+      position: isHorizontal ? 'bottom' : 'left',
       stacked,
       grid: {
         ...base.grid,
-        drawOnChartArea: !isSecondary,
+        drawOnChartArea: true,
       },
       border: {
         ...base.border,
@@ -309,27 +235,24 @@ export function buildCartesianScales(options: {
           formatValue(Number(tickValue)),
       },
       title: {
-        display: !axis.labelHidden(),
-        text: axis.labelText(),
+        display: !valueAxis.labelHidden(),
+        text: valueAxis.labelText(),
         ...base.title,
       },
-    };
-  });
-
-  return scales;
+    },
+  };
 }
 
 /**
  * Builds a tooltip `label` callback that formats each point's value using the
- * formatter of the value axis its series binds to.
+ * value axis's format.
  */
 export function buildValueTooltipLabel<T extends CartesianChartType>(
-  formatters: readonly ((value: number) => string)[],
+  formatValue: (value: number) => string,
   valueDirection: 'x' | 'y',
 ): (context: ChartJsTooltipItem<T>) => string {
   return (context: ChartJsTooltipItem<T>): string => {
     const item = context as unknown as CartesianTooltipContext;
-    const formatValue = formatters[item.datasetIndex];
     const formatted = formatValue(item.parsed[valueDirection] ?? 0);
     const label = item.dataset.label;
 

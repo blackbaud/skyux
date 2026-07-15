@@ -8,13 +8,13 @@ import { ReplaySubject } from 'rxjs';
 
 import { SkyChartAxisCategory } from '../chart-axes/chart-axis-category';
 import { SkyChartAxisValue } from '../chart-axes/chart-axis-value';
-import { SkyChartSeries } from '../chart-series/chart-series';
 import { SkyChartTableService } from '../chart-table/chart-table-service';
 import { SkyChart } from '../chart/chart';
 import { SkyChartValueFormat } from '../shared/value-format';
 
 import { SkyChartBar } from './chart-bar';
 import { SkyChartBarOrientation } from './chart-bar-orientation';
+import { SkyChartBarSeries } from './chart-bar-series';
 import { SkyChartBarSeriesLayout } from './chart-bar-series-layout';
 
 type ScaleProbe = {
@@ -30,7 +30,7 @@ type ScaleProbe = {
     SkyChartBar,
     SkyChartAxisCategory,
     SkyChartAxisValue,
-    SkyChartSeries,
+    SkyChartBarSeries,
   ],
   template: `
     @if (renderChart) {
@@ -38,24 +38,27 @@ type ScaleProbe = {
         @if (renderCategoryAxis) {
           <sky-chart-axis-category labelText="Year" [categories]="categories" />
         }
-        @for (axisId of valueAxisIds; track $index) {
+        @if (renderValueAxis) {
           <sky-chart-axis-value
             labelText="Value"
-            [axisId]="axisId"
             [currencyCode]="currencyCode"
             [format]="format"
             [scaleType]="valueScaleType"
           />
         }
         @if (renderSeries) {
-          <sky-chart-series
+          <sky-chart-bar-series
             [labelText]="seriesLabel"
-            [valueAxisId]="seriesValueAxis"
+            [stack]="seriesStack"
             [values]="values"
           />
         }
         @if (renderSecondSeries) {
-          <sky-chart-series labelText="Divestitures" [values]="values" />
+          <sky-chart-bar-series
+            labelText="Divestitures"
+            [stack]="secondSeriesStack"
+            [values]="values"
+          />
         }
       </sky-chart-bar>
     }
@@ -73,10 +76,11 @@ class TestComponent {
   public renderChart = true;
   public renderSeries = true;
   public renderSecondSeries = false;
+  public renderValueAxis = true;
   public seriesLabel = 'Acquisitions';
-  public seriesValueAxis: string | undefined;
+  public seriesStack: string | undefined;
+  public secondSeriesStack: string | undefined;
   public seriesLayout: SkyChartBarSeriesLayout = 'grouped';
-  public valueAxisIds: (string | undefined)[] = [undefined];
   public valueScaleType: 'linear' | 'logarithmic' = 'linear';
   public values = [10, 20];
 }
@@ -173,7 +177,6 @@ describe('Chart bar component', () => {
   });
 
   it('should publish an accessible summary from the axes and series', () => {
-    component.valueAxisIds = [undefined, 'value-1'];
     fixture.detectChanges();
 
     expect(tableSvc.summary()).toEqual({
@@ -223,7 +226,7 @@ describe('Chart bar component', () => {
   });
 
   it('should not build a table or chart without a value axis', () => {
-    component.valueAxisIds = [];
+    component.renderValueAxis = false;
     fixture.detectChanges();
 
     expect(tableSvc.table()).toBeUndefined();
@@ -238,11 +241,11 @@ describe('Chart bar component', () => {
     expect(chart.data.datasets[0].label).toBe('Acquisitions');
     expect(chart.data.datasets[0].data).toEqual([10, 20]);
     expect(chart.options.indexAxis).toBe('x');
-    expect(chart.data.datasets[0].yAxisID).toBe('sky-value-0');
+    expect(chart.data.datasets[0].yAxisID).toBe('value');
     expect(chart.data.datasets[0].xAxisID).toBe('category');
 
     const category = getScale(chart, 'category');
-    const value = getScale(chart, 'sky-value-0');
+    const value = getScale(chart, 'value');
     expect(category.position).toBe('bottom');
     expect(category.grid.drawOnChartArea).toBe(false);
     expect(value.position).toBe('left');
@@ -254,7 +257,7 @@ describe('Chart bar component', () => {
 
     const chart = requireChart();
     expect(getScale(chart, 'category').stacked).toBe(false);
-    expect(getScale(chart, 'sky-value-0').stacked).toBe(false);
+    expect(getScale(chart, 'value').stacked).toBe(false);
   });
 
   it('should stack the category and value scales when seriesLayout is stacked', () => {
@@ -263,7 +266,33 @@ describe('Chart bar component', () => {
 
     const chart = requireChart();
     expect(getScale(chart, 'category').stacked).toBe(true);
-    expect(getScale(chart, 'sky-value-0').stacked).toBe(true);
+    expect(getScale(chart, 'value').stacked).toBe(true);
+  });
+
+  it('should assign each series its stack group when seriesLayout is stacked', () => {
+    component.seriesLayout = 'stacked';
+    component.renderSecondSeries = true;
+    component.seriesStack = 'Stack 0';
+    component.secondSeriesStack = 'Stack 1';
+    fixture.detectChanges();
+
+    const chart = requireChart();
+    expect(chart.data.datasets[0].stack).toBe('Stack 0');
+    expect(chart.data.datasets[1].stack).toBe('Stack 1');
+  });
+
+  it('should leave a series without a stack group unset', () => {
+    component.seriesLayout = 'stacked';
+    fixture.detectChanges();
+
+    expect(requireChart().data.datasets[0].stack).toBeUndefined();
+  });
+
+  it('should ignore the stack group when seriesLayout is grouped', () => {
+    component.seriesStack = 'Stack 0';
+    fixture.detectChanges();
+
+    expect(requireChart().data.datasets[0].stack).toBeUndefined();
   });
 
   it('should assign the series a categorical data-visualization color', () => {
@@ -286,21 +315,19 @@ describe('Chart bar component', () => {
     expect(requireChart().options.plugins?.legend?.display).toBe(true);
   });
 
-  it('should use internal scale keys so an axisId cannot collide with the category scale', () => {
-    component.valueAxisIds = ['category'];
-    component.seriesValueAxis = 'category';
+  it('should use internal scale keys for the category and value scales', () => {
     fixture.detectChanges();
 
     const chart = requireChart();
     expect(getScale(chart, 'category').type).toBe('category');
-    expect(getScale(chart, 'sky-value-0').type).toBe('linear');
-    expect(chart.data.datasets[0].yAxisID).toBe('sky-value-0');
+    expect(getScale(chart, 'value').type).toBe('linear');
+    expect(chart.data.datasets[0].yAxisID).toBe('value');
   });
 
   it('should format axis ticks using the value axis format', () => {
     fixture.detectChanges();
 
-    const value = getScale(requireChart(), 'sky-value-0');
+    const value = getScale(requireChart(), 'value');
     expect(value.ticks.callback(1234)).toBe('1,234');
   });
 
@@ -316,9 +343,7 @@ describe('Chart bar component', () => {
     const category = chart.options.scales?.[
       'category'
     ] as unknown as StyleProbe;
-    const value = chart.options.scales?.[
-      'sky-value-0'
-    ] as unknown as StyleProbe;
+    const value = chart.options.scales?.['value'] as unknown as StyleProbe;
 
     // Tokens are resolved to concrete values, never the raw property name.
     expect(category.grid.color).not.toContain('--sky');
@@ -356,55 +381,23 @@ describe('Chart bar component', () => {
 
     const chart = requireChart();
     expect(chart.options.indexAxis).toBe('y');
-    expect(chart.data.datasets[0].xAxisID).toBe('sky-value-0');
+    expect(chart.data.datasets[0].xAxisID).toBe('value');
     expect(chart.data.datasets[0].yAxisID).toBe('category');
     expect(getScale(chart, 'category').position).toBe('left');
-    expect(getScale(chart, 'sky-value-0').position).toBe('bottom');
+    expect(getScale(chart, 'value').position).toBe('bottom');
   });
 
   it('should default the value axis to a linear scale', () => {
     fixture.detectChanges();
 
-    expect(getScale(requireChart(), 'sky-value-0').type).toBe('linear');
+    expect(getScale(requireChart(), 'value').type).toBe('linear');
   });
 
   it('should use a logarithmic scale when specified', () => {
     component.valueScaleType = 'logarithmic';
     fixture.detectChanges();
 
-    expect(getScale(requireChart(), 'sky-value-0').type).toBe('logarithmic');
-  });
-
-  it('should position a secondary value axis and bind a series to it', () => {
-    component.valueAxisIds = ['primary', 'secondary'];
-    component.seriesValueAxis = 'secondary';
-    fixture.detectChanges();
-
-    const chart = requireChart();
-    expect(chart.data.datasets[0].yAxisID).toBe('sky-value-1');
-    expect(getScale(chart, 'sky-value-0').position).toBe('left');
-    expect(getScale(chart, 'sky-value-1').position).toBe('right');
-    expect(getScale(chart, 'sky-value-1').grid.drawOnChartArea).toBe(false);
-  });
-
-  it('should position a secondary value axis in a horizontal chart', () => {
-    component.orientation = 'horizontal';
-    component.valueAxisIds = ['primary', 'secondary'];
-    component.seriesValueAxis = 'secondary';
-    fixture.detectChanges();
-
-    const chart = requireChart();
-    expect(getScale(chart, 'sky-value-0').position).toBe('bottom');
-    expect(getScale(chart, 'sky-value-1').position).toBe('top');
-  });
-
-  it('should warn and fall back to the first value axis for an unknown value axis', () => {
-    component.valueAxisIds = ['primary'];
-    component.seriesValueAxis = 'nope';
-    fixture.detectChanges();
-
-    expect(logSvc.warn).toHaveBeenCalled();
-    expect(requireChart().data.datasets[0].yAxisID).toBe('sky-value-0');
+    expect(getScale(requireChart(), 'value').type).toBe('logarithmic');
   });
 
   it('should warn once when the theme tokens cannot be resolved', () => {
@@ -454,14 +447,14 @@ describe('Chart bar component in the default theme', () => {
       SkyChartBar,
       SkyChartAxisCategory,
       SkyChartAxisValue,
-      SkyChartSeries,
+      SkyChartBarSeries,
     ],
     template: `
       <sky-chart headingText="Sales">
         <sky-chart-bar>
           <sky-chart-axis-category labelText="Year" [categories]="categories" />
           <sky-chart-axis-value labelText="Value" />
-          <sky-chart-series labelText="Series" [values]="values" />
+          <sky-chart-bar-series labelText="Series" [values]="values" />
         </sky-chart-bar>
       </sky-chart>
     `,
@@ -505,13 +498,13 @@ describe('Chart bar component outside a sky-chart', () => {
       SkyChartBar,
       SkyChartAxisCategory,
       SkyChartAxisValue,
-      SkyChartSeries,
+      SkyChartBarSeries,
     ],
     template: `
       <sky-chart-bar>
         <sky-chart-axis-category labelText="Year" [categories]="categories" />
         <sky-chart-axis-value labelText="Value" />
-        <sky-chart-series labelText="Series" [values]="values" />
+        <sky-chart-bar-series labelText="Series" [values]="values" />
       </sky-chart-bar>
     `,
   })

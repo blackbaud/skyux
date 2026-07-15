@@ -19,9 +19,8 @@ import { SkyChartValueFormat } from '../shared/value-format';
 import { createSkyChartValueFormatter } from '../shared/value-formatter';
 
 /**
- * Defines a value axis of a chart, which scales the plotted series and formats
- * their values in axis labels, tooltips, and the data table. A chart can have
- * more than one value axis.
+ * Defines the value axis of a chart, which scales the plotted series and
+ * formats their values in axis labels, tooltips, and the data table.
  *
  * @preview
  */
@@ -38,12 +37,6 @@ export class SkyChartAxisValue {
     this.#localeProvider.getLocaleInfo().pipe(map((info) => info.locale)),
     { initialValue: this.#localeProvider.defaultLocale },
   );
-
-  /**
-   * A unique identifier that series use to bind to this axis. Required when a
-   * chart has more than one value axis.
-   */
-  public readonly axisId = input<string>();
 
   /**
    * The ISO 4217 currency code (for example, `USD`) used when `format` is

@@ -5,7 +5,7 @@ import {
   SkyChartAxisValue,
   SkyChartBar,
   type SkyChartBarOrientation,
-  SkyChartSeries,
+  SkyChartBarSeries,
 } from '@skyux/charts';
 
 @Component({
@@ -15,7 +15,7 @@ import {
     SkyChartAxisCategory,
     SkyChartAxisValue,
     SkyChartBar,
-    SkyChartSeries,
+    SkyChartBarSeries,
   ],
   selector: 'app-chart-bar-value-format',
   templateUrl: './chart-bar-value-format-playground.html',

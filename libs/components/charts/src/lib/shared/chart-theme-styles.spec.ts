@@ -1,17 +1,34 @@
 import { resolveChartThemeStyles } from './chart-theme-styles';
 
 describe('resolveChartThemeStyles', () => {
-  function createStyles(values: Record<string, string>): CSSStyleDeclaration {
-    return {
-      getPropertyValue: (property: string): string => values[property] ?? '',
-    } as unknown as CSSStyleDeclaration;
+  let hosts: HTMLElement[];
+
+  beforeEach(() => {
+    hosts = [];
+  });
+
+  afterEach(() => {
+    hosts.forEach((host) => host.remove());
+  });
+
+  function createHost(values: Record<string, string>): HTMLElement {
+    const host = document.createElement('div');
+
+    for (const [property, value] of Object.entries(values)) {
+      host.style.setProperty(property, value);
+    }
+
+    document.body.appendChild(host);
+    hosts.push(host);
+
+    return host;
   }
 
   function resolve(
     values: Record<string, string>,
     warn = jasmine.createSpy('warn'),
   ): ReturnType<typeof resolveChartThemeStyles> {
-    return resolveChartThemeStyles(createStyles(values), warn);
+    return resolveChartThemeStyles(createHost(values), warn);
   }
 
   it('should resolve string tokens, trimmed', () => {
@@ -49,6 +66,38 @@ describe('resolveChartThemeStyles', () => {
 
     expect(themeStyles.font.size).toBeUndefined();
     expect(themeStyles.tooltip.cornerRadius).toBeUndefined();
+  });
+
+  it('should resolve calc() number and length tokens through the probe', () => {
+    const themeStyles = resolve({
+      '--sky-font-line_height-body-m': 'calc(3 / 2)',
+      '--sky-border-radius-s': 'calc(2px + 3px)',
+    });
+
+    expect(themeStyles.font.lineHeight).toBe(1.5);
+    expect(themeStyles.tooltip.cornerRadius).toBe(5);
+  });
+
+  it('should resolve a plain-number line height token', () => {
+    const themeStyles = resolve({
+      '--sky-font-line_height-body-m': '1.25',
+    });
+
+    expect(themeStyles.font.lineHeight).toBe(1.25);
+  });
+
+  it('should fall back to the body-m line height when the token is unset', () => {
+    const themeStyles = resolve({});
+
+    expect(themeStyles.font.lineHeight).toBe(20 / 15);
+  });
+
+  it('should fall back to the body-m line height when the token cannot be resolved', () => {
+    const themeStyles = resolve({
+      '--sky-font-line_height-body-m': 'normal',
+    });
+
+    expect(themeStyles.font.lineHeight).toBe(20 / 15);
   });
 
   it('should resolve the eight categorical palette colors in order', () => {
@@ -111,7 +160,7 @@ describe('resolveChartThemeStyles', () => {
       document.body.appendChild(host);
 
       const warn = jasmine.createSpy('warn');
-      const themeStyles = resolveChartThemeStyles(getComputedStyle(host), warn);
+      const themeStyles = resolveChartThemeStyles(host, warn);
 
       host.remove();
 

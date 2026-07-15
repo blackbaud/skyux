@@ -83,7 +83,7 @@ export abstract class SkyChartPlot {
    */
   protected getThemeStyles(): SkyChartThemeStyles {
     return resolveChartThemeStyles(
-      getComputedStyle(this.#elementRef.nativeElement),
+      this.#elementRef.nativeElement as HTMLElement,
       (message) => {
         if (!this.#warnedMissingTheme) {
           this.#warnedMissingTheme = true;
