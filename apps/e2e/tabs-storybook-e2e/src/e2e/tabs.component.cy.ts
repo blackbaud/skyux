@@ -45,10 +45,13 @@ describe(`tabs-storybook`, () => {
             .get('.sky-dropdown-button')
             .should('exist')
             .should('be.visible')
-            .click();
-          // See comment above: reset the shared scroll container before
-          // snapshotting so the dropdown list's left inset is consistent.
-          cy.get('.sky-tabset').invoke('scrollLeft', 0);
+            // `.sky-dropdown-button` is inside the same scrollable
+            // `.sky-tabset` container as the tab buttons. Skipping Cypress's
+            // scroll-into-view here (instead of resetting scroll afterward)
+            // tests whether this click was actually contributing to the
+            // scroll shift, or whether it's solely the `ngAfterViewInit`
+            // focus-on-init behavior from the other test.
+            .click({ scrollBehavior: false });
           cy.get('app-tabs')
             .should('exist')
             .should('be.visible')

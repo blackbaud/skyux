@@ -55,11 +55,14 @@ describe('ag-grid-storybook data entry grid', () => {
               .should('be.visible')
               .should('have.focus');
 
-            // Activate a date field without the calendar.
+            // Activate a date field without the calendar. Skip Cypress's
+            // automatic scroll-into-view (see comment below) so the grid
+            // never scrolls in the first place, rather than trying to
+            // scroll it back afterward.
             /* spell-checker:disable-next-line */
             cy.get('#editDate div[row-id="bankser01"] > div[col-id="birthday"]')
               .should('be.visible')
-              .click();
+              .click({ scrollBehavior: false });
             cy.get(
               '#editDate .ag-popup-editor sky-ag-grid-cell-editor-datepicker',
             ).should('exist');
@@ -71,13 +74,21 @@ describe('ag-grid-storybook data entry grid', () => {
               .should('be.visible')
               .should('have.focus');
 
-            // Activate a date field.
+            // Activate a date field. Skip Cypress's automatic
+            // scroll-into-view: Cypress 15.18.1 fixed its click-scrolling
+            // to correctly land the clicked element at the container's
+            // top-left (previously it could leave a different scroll
+            // position), but ag-grid's popup editor is positioned once
+            // when it opens and doesn't reposition itself in response to a
+            // scroll change made afterward — so scrolling back to reveal
+            // the "name" column post-click leaves the editor's overlay
+            // misaligned with its cell. Not scrolling at all avoids that.
             cy.get(
               /* spell-checker:disable-next-line */
               '#editDateWithCalendar div[row-id="blylebe01"] > div[col-id="birthday"]',
             )
               .should('be.visible')
-              .click();
+              .click({ scrollBehavior: false });
             cy.get(
               '#editDateWithCalendar .ag-popup-editor sky-ag-grid-cell-editor-datepicker',
             ).should('exist');
@@ -99,11 +110,6 @@ describe('ag-grid-storybook data entry grid', () => {
             cy.get('.ag-custom-component-popup .sky-datepicker-btn-selected')
               .should('be.visible')
               .should('contain.text', '06');
-            cy.get('#editDate .ag-viewport').invoke('scrollLeft', 0);
-            cy.get('#editDateWithCalendar .ag-viewport').invoke(
-              'scrollLeft',
-              0,
-            );
 
             // Expect inline help buttons to be visible in three grids.
             cy.get(
