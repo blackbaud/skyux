@@ -98,7 +98,27 @@ describe('ag-grid-storybook data entry grid', () => {
 
             cy.get('.ag-custom-component-popup .sky-datepicker-btn-selected')
               .should('be.visible')
-              .should('contain.text', '06');;
+              .should('contain.text', '06');
+            cy.get('#editDate .ag-viewport').invoke('scrollLeft', 0);
+            cy.get('#editDateWithCalendar .ag-viewport').invoke(
+              'scrollLeft',
+              0,
+            );
+
+            // Expect inline help buttons to be visible in three grids.
+            cy.get(
+              '#editDateWithCalendar [col-id="name"] button.sky-help-inline',
+            )
+              .should('exist')
+              .should('be.visible');
+
+            cy.get('#editDate [col-id="name"] button.sky-help-inline')
+              .should('exist')
+              .should('be.visible');
+
+            cy.get('#editLookup [col-id="name"] button.sky-help-inline')
+              .should('exist')
+              .should('be.visible');
 
             // Screenshot the three grids with active editors.
             cy.window().skyVisualTest(
