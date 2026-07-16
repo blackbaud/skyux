@@ -646,6 +646,45 @@ describe('Chart bar component', () => {
     expect(getScale(requireChart(), 'value').type).toBe('logarithmic');
   });
 
+  it('should keep only power-of-ten gridlines on a logarithmic scale', async () => {
+    component.valueScaleType = 'logarithmic';
+    component.values = [1, 8000];
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const ticks = requireChart().scales['value'].ticks.map(
+      (tick) => tick.value,
+    );
+
+    expect(ticks.length).toBeGreaterThanOrEqual(2);
+
+    for (const value of ticks) {
+      const magnitude = Math.log10(value);
+      expect(magnitude)
+        .withContext(`tick ${value}`)
+        .toBe(Math.round(magnitude));
+    }
+  });
+
+  it('should keep the generated logarithmic ticks when the range spans fewer than two decades', async () => {
+    component.valueScaleType = 'logarithmic';
+    component.values = [4, 6];
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const ticks = requireChart().scales['value'].ticks.map(
+      (tick) => tick.value,
+    );
+
+    // Intermediate (non-decade) ticks survive so the axis stays labeled.
+    expect(
+      ticks.some((value) => {
+        const magnitude = Math.log10(value);
+        return magnitude !== Math.round(magnitude);
+      }),
+    ).toBe(true);
+  });
+
   it('should update an existing chart when inputs change', async () => {
     fixture.detectChanges();
 

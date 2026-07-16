@@ -201,6 +201,25 @@ function buildThemedScaleStyle(
 }
 
 /**
+ * Restricts a logarithmic value axis's ticks to powers of ten. Chart.js's
+ * logarithmic tick generator inserts intermediate ticks within each decade,
+ * whose gridlines render at visually uneven intervals; decade-only gridlines
+ * read evenly. When the generated ticks span fewer than two decades, they are
+ * kept as-is so a narrow range is not left nearly unlabeled.
+ */
+function keepDecadeLogTicks(axis: { ticks: { value: number }[] }): void {
+  const decadeTicks = axis.ticks.filter((tick) => {
+    const magnitude = Math.log10(tick.value);
+
+    return Math.abs(magnitude - Math.round(magnitude)) < 1e-9;
+  });
+
+  if (decadeTicks.length >= 2) {
+    axis.ticks = decadeTicks;
+  }
+}
+
+/**
  * Builds the category and value axis scales for a cartesian chart. The category
  * axis draws no grid lines across the chart area, and the value axis draws them
  * to aid value comparison. When `stacked` is set, both the category and value
@@ -224,6 +243,7 @@ export function buildCartesianScales(options: {
   const valueDirection = isHorizontal ? 'x' : 'y';
   const base = buildThemedScaleStyle(themeStyles);
   const formatValue = valueAxis.formatValue();
+  const scaleType = valueAxis.scaleType();
 
   return {
     [CATEGORY_AXIS_ID]: {
@@ -254,10 +274,13 @@ export function buildCartesianScales(options: {
       },
     },
     [VALUE_AXIS_ID]: {
-      type: valueAxis.scaleType(),
+      type: scaleType,
       axis: valueDirection,
       position: isHorizontal ? 'bottom' : 'left',
       stacked: isStacked,
+      ...(scaleType === 'logarithmic' && {
+        afterBuildTicks: keepDecadeLogTicks,
+      }),
       grid: {
         ...base.grid,
         drawOnChartArea: true,
