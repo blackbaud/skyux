@@ -278,6 +278,8 @@ export function buildCartesianScales(options: {
       axis: valueDirection,
       position: isHorizontal ? 'bottom' : 'left',
       stacked: isStacked,
+      min: valueAxis.min(),
+      max: valueAxis.max(),
       ...(scaleType === 'logarithmic' && {
         afterBuildTicks: keepDecadeLogTicks,
       }),

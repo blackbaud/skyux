@@ -18,6 +18,7 @@ import { ChartBarHiddenLabelsPlayground } from './variants/chart-bar-hidden-labe
 import { ChartBarLogarithmicPlayground } from './variants/chart-bar-logarithmic-playground';
 import { ChartBarMultipleSeriesPlayground } from './variants/chart-bar-multiple-series-playground';
 import { ChartBarStackedPlayground } from './variants/chart-bar-stacked-playground';
+import { ChartBarValueBoundsPlayground } from './variants/chart-bar-value-bounds-playground';
 import { ChartBarValueFormatPlayground } from './variants/chart-bar-value-format-playground';
 
 @Component({
@@ -32,6 +33,7 @@ import { ChartBarValueFormatPlayground } from './variants/chart-bar-value-format
     ChartBarLogarithmicPlayground,
     ChartBarMultipleSeriesPlayground,
     ChartBarStackedPlayground,
+    ChartBarValueBoundsPlayground,
     ChartBarValueFormatPlayground,
     SkyBoxModule,
     SkyFluidGridModule,

@@ -97,6 +97,13 @@
             </sky-box-content>
           </sky-box>
         </sky-column>
+        <sky-column [screenSmall]="4">
+          <sky-box headingText="Value axis bounds">
+            <sky-box-content>
+              <app-chart-bar-value-bounds [orientation]="orientation()" />
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
       </sky-row>
     </sky-fluid-grid>
   </sky-page-content>

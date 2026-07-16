@@ -5,7 +5,6 @@ import {
   computed,
   inject,
   input,
-  numberAttribute,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyAppLocaleProvider } from '@skyux/i18n';
@@ -15,6 +14,7 @@ import { map } from 'rxjs/operators';
 import { SkyChartValueFormat } from '../shared/value-format';
 import { createSkyChartValueFormatter } from '../shared/value-formatter';
 import { SkyChartValueScaleType } from '../shared/value-scale-type';
+import { optionalNumberAttribute } from './optional-number-attribute';
 
 /**
  * Defines the value axis of a chart, which scales the plotted series and
@@ -46,16 +46,8 @@ export class SkyChartAxisValue {
    * locale-aware default is used (for example, two places for most
    * currencies).
    */
-  public readonly digits = input<number | undefined, unknown>(undefined, {
-    transform: (value) => {
-      if (value === undefined || value === null) {
-        return undefined;
-      }
-
-      const digits = numberAttribute(value);
-
-      return Number.isNaN(digits) ? undefined : digits;
-    },
+  public readonly digits = input(undefined, {
+    transform: optionalNumberAttribute,
   });
 
   /**
@@ -75,6 +67,22 @@ export class SkyChartAxisValue {
    * The text of the axis label.
    */
   public readonly labelText = input.required<string>();
+
+  /**
+   * The highest value to display on the axis. When unset, the axis scales to
+   * fit the plotted values.
+   */
+  public readonly max = input(undefined, {
+    transform: optionalNumberAttribute,
+  });
+
+  /**
+   * The lowest value to display on the axis. When unset, the axis scales to
+   * fit the plotted values.
+   */
+  public readonly min = input(undefined, {
+    transform: optionalNumberAttribute,
+  });
 
   /**
    * The scale type for the value axis.

@@ -14,6 +14,8 @@ import { SkyChartAxisValue } from './chart-axis-value';
       [currencyCode]="currencyCode"
       [digits]="digits"
       [format]="format"
+      [max]="max"
+      [min]="min"
     />
   `,
 })
@@ -24,6 +26,8 @@ class TestComponent {
   public currencyCode: string | undefined;
   public digits: unknown;
   public format: SkyChartValueFormat | undefined;
+  public max: unknown;
+  public min: unknown;
 }
 
 describe('Chart value axis component', () => {
@@ -89,5 +93,23 @@ describe('Chart value axis component', () => {
     fixture.componentInstance.digits = 'not-a-number';
 
     expect(format(1234.5)).toBe('1,234.5');
+  });
+
+  it('should coerce string min and max attributes to numbers', () => {
+    fixture.componentInstance.min = '-10';
+    fixture.componentInstance.max = '100';
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.axis.min()).toBe(-10);
+    expect(fixture.componentInstance.axis.max()).toBe(100);
+  });
+
+  it('should ignore invalid min and max values', () => {
+    fixture.componentInstance.min = 'not-a-number';
+    fixture.componentInstance.max = 'not-a-number';
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.axis.min()).toBeUndefined();
+    expect(fixture.componentInstance.axis.max()).toBeUndefined();
   });
 });
