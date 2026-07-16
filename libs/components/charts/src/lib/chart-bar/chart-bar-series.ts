@@ -28,7 +28,8 @@ export class SkyChartBarSeries {
 
   /**
    * The values for this series, aligned to the category axis categories by
-   * index.
+   * index. A `null` value renders as a gap in the chart and an empty cell in
+   * the data table.
    */
-  public readonly values = input.required<readonly number[]>();
+  public readonly values = input.required<readonly (number | null)[]>();
 }

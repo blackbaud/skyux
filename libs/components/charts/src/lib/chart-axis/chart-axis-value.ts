@@ -12,19 +12,19 @@ import { SkyAppLocaleProvider } from '@skyux/i18n';
 
 import { map } from 'rxjs/operators';
 
-import { SkyChartValueScaleType } from '../shared/measure-scale-type';
 import { SkyChartValueFormat } from '../shared/value-format';
 import { createSkyChartValueFormatter } from '../shared/value-formatter';
+import { SkyChartValueScaleType } from '../shared/value-scale-type';
 
 /**
- * Defines the measure axis of a chart, which scales the plotted series and
+ * Defines the value axis of a chart, which scales the plotted series and
  * formats their values in axis labels, tooltips, and the data table.
  *
  * @preview
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'sky-chart-axis-measure',
+  selector: 'sky-chart-axis-value',
   template: '',
 })
 export class SkyChartAxisValue {
@@ -77,7 +77,7 @@ export class SkyChartAxisValue {
   public readonly labelText = input.required<string>();
 
   /**
-   * The scale type for the measure axis.
+   * The scale type for the value axis.
    * @default 'linear'
    */
   public readonly scaleType = input<SkyChartValueScaleType>('linear');

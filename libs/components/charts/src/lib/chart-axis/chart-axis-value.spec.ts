@@ -4,12 +4,12 @@ import { expect } from '@skyux-sdk/testing';
 
 import { SkyChartValueFormat } from '../shared/value-format';
 
-import { SkyChartAxisValue } from './chart-axis-measure';
+import { SkyChartAxisValue } from './chart-axis-value';
 
 @Component({
   imports: [SkyChartAxisValue],
   template: `
-    <sky-chart-axis-measure
+    <sky-chart-axis-value
       labelText="Value"
       [currencyCode]="currencyCode"
       [digits]="digits"
@@ -26,7 +26,7 @@ class TestComponent {
   public format: SkyChartValueFormat | undefined;
 }
 
-describe('Chart measure axis component', () => {
+describe('Chart value axis component', () => {
   let fixture: ComponentFixture<TestComponent>;
 
   function format(value: number): string {

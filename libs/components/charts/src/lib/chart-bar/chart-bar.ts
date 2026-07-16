@@ -1,4 +1,5 @@
 import {
+  afterRenderEffect,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -8,12 +9,13 @@ import {
   input,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { SkyLogService } from '@skyux/core';
 import { SkyThemeService } from '@skyux/theme';
 import { type ChartDataset } from 'chart.js/auto';
 import { EMPTY, map } from 'rxjs';
 
 import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
-import { SkyChartAxisMeasure } from '../chart-axis/chart-axis-measure';
+import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
 import {
   buildCartesianScales,
   buildCartesianTable,
@@ -33,7 +35,7 @@ import { SkyChartBarSeries } from './chart-bar-series';
 import { SkyChartBarSeriesLayout } from './chart-bar-series-layout';
 
 /**
- * Renders a bar chart from a category axis, a measure axis, and one or more
+ * Renders a bar chart from a category axis, a value axis, and one or more
  * series.
  *
  * @preview
@@ -70,8 +72,38 @@ export class SkyChartBar extends SkyChartPlot {
   public readonly seriesLayout = input<SkyChartBarSeriesLayout>('grouped');
 
   protected readonly categoryAxis = contentChild(SkyChartAxisCategory);
-  protected readonly valueAxis = contentChild(SkyChartAxisMeasure);
+  protected readonly valueAxis = contentChild(SkyChartAxisValue);
   protected readonly series = contentChildren(SkyChartBarSeries);
+
+  constructor() {
+    super();
+
+    const logger = inject(SkyLogService);
+
+    // Values align to categories by index, so a length mismatch silently
+    // misaligns or drops data. Warn about the one alignment mistake that is
+    // mechanically detectable.
+    afterRenderEffect(() => {
+      const categoryCount = this.categoryAxis()?.categories().length;
+
+      if (categoryCount === undefined) {
+        return;
+      }
+
+      for (const chartSeries of this.series()) {
+        const valueCount = chartSeries.values().length;
+
+        if (valueCount !== categoryCount) {
+          logger.warn(
+            `The <sky-chart-bar-series> labeled "${chartSeries.labelText()}" ` +
+              `has ${valueCount} values, but the category axis has ` +
+              `${categoryCount} categories. Values align to categories by ` +
+              'index, so each series must provide one value per category.',
+          );
+        }
+      }
+    });
+  }
 
   protected readonly chartJsConfig = computed(() => this.#getChartJsConfig());
 

@@ -4,7 +4,7 @@ import {
 } from 'chart.js/auto';
 
 import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
-import { SkyChartAxisMeasure } from '../chart-axis/chart-axis-measure';
+import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
 import { SkyChartBarSeries } from '../chart-bar/chart-bar-series';
 import type { SkyChartTable } from '../chart-table/chart-table';
 import { type SkyChartThemeStyles } from '../shared/chart-theme-styles';
@@ -80,7 +80,7 @@ interface CartesianTooltipContext {
  */
 export interface SkyChartCartesianData {
   categoryAxis: SkyChartAxisCategory;
-  valueAxis: SkyChartAxisMeasure;
+  valueAxis: SkyChartAxisValue;
   series: readonly SkyChartBarSeries[];
 }
 
@@ -90,7 +90,7 @@ export interface SkyChartCartesianData {
  */
 export function resolveCartesianData(
   categoryAxis: SkyChartAxisCategory | undefined,
-  valueAxis: SkyChartAxisMeasure | undefined,
+  valueAxis: SkyChartAxisValue | undefined,
   series: readonly SkyChartBarSeries[],
 ): SkyChartCartesianData | undefined {
   if (
@@ -107,6 +107,7 @@ export function resolveCartesianData(
 /**
  * Builds the tabular representation of a cartesian chart for the accessible
  * data table, formatting each series' values with the value axis's format.
+ * Null values render as empty cells, mirroring the gaps in the plot.
  */
 export function buildCartesianTable(
   categoryAxis: SkyChartAxisCategory,
@@ -118,7 +119,9 @@ export function buildCartesianTable(
     categories: categoryAxis.categories(),
     series: series.map((chartSeries) => ({
       label: chartSeries.labelText(),
-      values: chartSeries.values().map(formatValue),
+      values: chartSeries
+        .values()
+        .map((value) => (value === null ? '' : formatValue(value))),
     })),
   };
 }
@@ -171,7 +174,7 @@ function buildThemedScaleStyle(
  */
 export function buildCartesianScales(options: {
   categoryAxis: SkyChartAxisCategory;
-  valueAxis: SkyChartAxisMeasure;
+  valueAxis: SkyChartAxisValue;
   isHorizontal: boolean;
   isStacked?: boolean;
   themeStyles: SkyChartThemeStyles;

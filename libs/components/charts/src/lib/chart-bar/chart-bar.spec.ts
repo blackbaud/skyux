@@ -1,12 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyLogService } from '@skyux/core';
 import { SkyThemeService, type SkyThemeSettingsChange } from '@skyux/theme';
 import Chart, { type TooltipItem } from 'chart.js/auto';
 import { ReplaySubject } from 'rxjs';
 
 import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
-import { SkyChartAxisMeasure } from '../chart-axis/chart-axis-measure';
+import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
 import { SkyChartTableService } from '../chart-table/chart-table-service';
 import { SkyChart } from '../chart/chart';
 import { SkyChartValueFormat } from '../shared/value-format';
@@ -28,7 +29,7 @@ type ScaleProbe = {
   imports: [
     SkyChartBar,
     SkyChartAxisCategory,
-    SkyChartAxisMeasure,
+    SkyChartAxisValue,
     SkyChartBarSeries,
   ],
   template: `
@@ -38,7 +39,7 @@ type ScaleProbe = {
           <sky-chart-axis-category labelText="Year" [categories]="categories" />
         }
         @if (renderValueAxis) {
-          <sky-chart-axis-measure
+          <sky-chart-axis-value
             labelText="Value"
             [currencyCode]="currencyCode"
             [format]="format"
@@ -81,7 +82,7 @@ class TestComponent {
   public secondSeriesStack: string | undefined;
   public seriesLayout: SkyChartBarSeriesLayout = 'grouped';
   public valueScaleType: 'linear' | 'logarithmic' = 'linear';
-  public values = [10, 20];
+  public values: (number | null)[] = [10, 20];
 }
 
 describe('Chart bar component', () => {
@@ -209,6 +210,35 @@ describe('Chart bar component', () => {
     fixture.detectChanges();
 
     expect(tableSvc.table()?.series[0].values).toEqual(['$10.00', '$20.00']);
+  });
+
+  it('should render a null value as a gap and an empty data table cell', () => {
+    component.values = [10, null];
+    fixture.detectChanges();
+
+    expect(requireChart().data.datasets[0].data).toEqual([10, null]);
+    expect(tableSvc.table()?.series[0].values).toEqual(['10', '']);
+  });
+
+  it('should warn when a series length does not match the categories', () => {
+    const warnSpy = spyOn(TestBed.inject(SkyLogService), 'warn');
+
+    component.values = [10];
+    fixture.detectChanges();
+
+    expect(warnSpy).toHaveBeenCalledWith(
+      'The <sky-chart-bar-series> labeled "Acquisitions" has 1 values, but ' +
+        'the category axis has 2 categories. Values align to categories by ' +
+        'index, so each series must provide one value per category.',
+    );
+  });
+
+  it('should not warn when every series length matches the categories', () => {
+    const warnSpy = spyOn(TestBed.inject(SkyLogService), 'warn');
+
+    fixture.detectChanges();
+
+    expect(warnSpy).not.toHaveBeenCalled();
   });
 
   it('should not build a table or chart without a category axis', () => {
@@ -620,14 +650,14 @@ describe('Chart bar component in the default theme', () => {
       SkyChart,
       SkyChartBar,
       SkyChartAxisCategory,
-      SkyChartAxisMeasure,
+      SkyChartAxisValue,
       SkyChartBarSeries,
     ],
     template: `
       <sky-chart headingText="Sales">
         <sky-chart-bar>
           <sky-chart-axis-category labelText="Year" [categories]="categories" />
-          <sky-chart-axis-measure labelText="Value" />
+          <sky-chart-axis-value labelText="Value" />
           <sky-chart-bar-series labelText="Series" [values]="values" />
         </sky-chart-bar>
       </sky-chart>
@@ -690,13 +720,13 @@ describe('Chart bar component outside a sky-chart', () => {
     imports: [
       SkyChartBar,
       SkyChartAxisCategory,
-      SkyChartAxisMeasure,
+      SkyChartAxisValue,
       SkyChartBarSeries,
     ],
     template: `
       <sky-chart-bar>
         <sky-chart-axis-category labelText="Year" [categories]="categories" />
-        <sky-chart-axis-measure labelText="Value" />
+        <sky-chart-axis-value labelText="Value" />
         <sky-chart-bar-series labelText="Series" [values]="values" />
       </sky-chart-bar>
     `,

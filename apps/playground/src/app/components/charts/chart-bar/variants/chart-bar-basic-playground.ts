@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import {
   SkyChart,
   SkyChartAxisCategory,
-  SkyChartAxisMeasure,
+  SkyChartAxisValue,
   SkyChartBar,
   type SkyChartBarOrientation,
   SkyChartBarSeries,
@@ -13,7 +13,7 @@ import {
   imports: [
     SkyChart,
     SkyChartAxisCategory,
-    SkyChartAxisMeasure,
+    SkyChartAxisValue,
     SkyChartBar,
     SkyChartBarSeries,
   ],
