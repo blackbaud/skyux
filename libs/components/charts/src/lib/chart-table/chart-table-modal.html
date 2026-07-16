@@ -16,7 +16,7 @@
               <th scope="col">
                 {{ table.categoryLabel }}
               </th>
-              @for (series of table.series; track series.label) {
+              @for (series of table.series; track $index) {
                 <th scope="col">
                   {{ series.label }}
                 </th>
@@ -33,7 +33,7 @@
                 <th scope="row">
                   {{ category }}
                 </th>
-                @for (series of table.series; track series.label) {
+                @for (series of table.series; track $index) {
                   <td>
                     {{ series.values[rowIndex] }}
                   </td>
