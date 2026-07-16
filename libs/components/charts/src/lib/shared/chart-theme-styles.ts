@@ -115,7 +115,7 @@ export function resolveChartThemeStyles(
 
   // `rem` conversions share one root font-size read; see `remToPx`.
   const rootFontSize = Number.parseFloat(
-    getComputedStyle(document.documentElement).fontSize,
+    getComputedStyle(host.ownerDocument.documentElement).fontSize,
   );
 
   try {
