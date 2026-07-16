@@ -122,17 +122,16 @@ describe('resolveChartThemeStyles', () => {
     expect(themeStyles.font.size).toBe(20);
   });
 
-  it('should resolve the height and bar-layout sizing in pixels', () => {
+  it('should resolve the bar-layout sizing in pixels', () => {
     const rootFontSize = Number.parseFloat(
       getComputedStyle(document.documentElement).fontSize,
     );
     const themeStyles = resolve({});
 
-    expect(themeStyles.height.min).toBe(11.25 * rootFontSize);
-    expect(themeStyles.height.max).toBe(25 * rootFontSize);
-    expect(themeStyles.height.default).toBe(
-      `clamp(${11.25 * rootFontSize}px, 28vh, ${25 * rootFontSize}px)`,
-    );
+    // The height bounds are authored on the `sky-chart` host; on a bare
+    // element they are out of scope and resolve like any unset token.
+    expect(themeStyles.height.min).toBeNaN();
+    expect(themeStyles.height.max).toBeNaN();
 
     expect(themeStyles.bar.vertical.baseBarThickness).toBe(2 * rootFontSize);
     expect(themeStyles.bar.vertical.minBarThickness).toBe(0.75 * rootFontSize);
@@ -142,6 +141,23 @@ describe('resolveChartThemeStyles', () => {
     );
     expect(themeStyles.bar.horizontal.maxBarThickness).toBe(1 * rootFontSize);
     expect(themeStyles.bar.horizontal.minCategoryGap).toBe(0.5 * rootFontSize);
+  });
+
+  it('should resolve the height bounds from the sky-chart custom properties', () => {
+    const rootFontSize = Number.parseFloat(
+      getComputedStyle(document.documentElement).fontSize,
+    );
+    const themeStyles = resolve({
+      '--sky-chart-height-min': '10rem',
+      '--sky-chart-height-viewport': '30vh',
+      '--sky-chart-height-max': '30rem',
+    });
+
+    expect(themeStyles.height.min).toBe(10 * rootFontSize);
+    expect(themeStyles.height.max).toBe(30 * rootFontSize);
+    expect(themeStyles.height.default).toBe(
+      `clamp(${10 * rootFontSize}px, 30vh, ${30 * rootFontSize}px)`,
+    );
   });
 
   describe('with the real SKY theme stylesheet', () => {
@@ -175,15 +191,21 @@ describe('resolveChartThemeStyles', () => {
     // Guards against token typos in the resolver and against upstream design
     // token renames: every themed string and number must resolve to a
     // concrete value when the real modern theme styles (loaded by Karma) are
-    // applied.
-    it('should resolve every modern-theme token to a concrete value', () => {
-      const host = document.createElement('div');
+    // applied. Resolves against a real `sky-chart` host, matching the
+    // production invariant that plots render inside `sky-chart`.
+    it('should resolve every modern-theme token to a concrete value', async () => {
+      await TestBed.configureTestingModule({
+        imports: [SkyChart],
+      }).compileComponents();
+
+      const fixture = TestBed.createComponent(SkyChart);
+      fixture.componentRef.setInput('headingText', 'Test chart');
+
+      const host = fixture.nativeElement as HTMLElement;
       host.classList.add('sky-theme-modern', 'sky-theme-brand-base');
-      document.body.appendChild(host);
+      fixture.detectChanges();
 
       const themeStyles = resolveChartThemeStyles(host);
-
-      host.remove();
 
       expectEveryValueConcrete(themeStyles);
     });

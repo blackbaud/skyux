@@ -27,7 +27,6 @@
             </sky-box-content>
           </sky-box>
         </sky-column>
-
         <sky-column [screenSmall]="4">
           <sky-box class="sky-margin-stacked-xl" headingText="Stacked series">
             <sky-box-content>
@@ -36,7 +35,6 @@
           </sky-box>
         </sky-column>
       </sky-row>
-
       <sky-row>
         <sky-column [screenSmall]="4">
           <sky-box
@@ -48,7 +46,6 @@
             </sky-box-content>
           </sky-box>
         </sky-column>
-
         <sky-column [screenSmall]="4">
           <sky-box
             class="sky-margin-stacked-xl"
@@ -59,19 +56,44 @@
             </sky-box-content>
           </sky-box>
         </sky-column>
+        <sky-column [screenSmall]="4">
+          <sky-box headingText="Logarithmic scale">
+            <sky-box-content>
+              <app-chart-bar-logarithmic [orientation]="orientation()" />
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
+      </sky-row>
+      <sky-row>
+        <sky-column [screenSmall]="4">
+          <sky-box headingText="Floating bars">
+            <sky-box-content>
+              <app-chart-bar-floating [orientation]="orientation()" />
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
+        <sky-column [screenSmall]="4">
+          <sky-box headingText="Floating bars (multiple series)">
+            <sky-box-content>
+              <app-chart-bar-floating-multiple-series
+                [orientation]="orientation()"
+              />
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
+        <sky-column [screenSmall]="4">
+          <sky-box headingText="Async data">
+            <sky-box-content>
+              <app-chart-bar-async [orientation]="orientation()" />
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
       </sky-row>
       <sky-row>
         <sky-column [screenSmall]="4">
           <sky-box headingText="Value formats">
             <sky-box-content>
               <app-chart-bar-value-format [orientation]="orientation()" />
-            </sky-box-content>
-          </sky-box>
-        </sky-column>
-        <sky-column [screenSmall]="4">
-          <sky-box headingText="Logarithmic scale">
-            <sky-box-content>
-              <app-chart-bar-logarithmic [orientation]="orientation()" />
             </sky-box-content>
           </sky-box>
         </sky-column>

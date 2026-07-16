@@ -6,6 +6,7 @@ import {
 import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
 import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
 import { SkyChartBarSeries } from '../chart-bar/chart-bar-series';
+import { type SkyChartBarSeriesValue } from '../chart-bar/chart-bar-series-value';
 import type { SkyChartTable } from '../chart-table/chart-table';
 import { type SkyChartThemeStyles } from '../shared/chart-theme-styles';
 
@@ -72,6 +73,18 @@ interface ChartJsThemedScaleStyle {
 interface CartesianTooltipContext {
   parsed: Record<'x' | 'y', number>;
   dataset: { label?: string };
+  raw: unknown;
+}
+
+/**
+ * Whether a series value is a floating `[start, end]` range rather than a
+ * single number. `Array.isArray` alone does not narrow readonly tuples, so
+ * the check is wrapped in an explicit type predicate.
+ */
+export function isValueRange(
+  value: unknown,
+): value is readonly [number, number] {
+  return Array.isArray(value);
 }
 
 /**
@@ -107,7 +120,8 @@ export function resolveCartesianData(
 /**
  * Builds the tabular representation of a cartesian chart for the accessible
  * data table, formatting each series' values with the value axis's format.
- * Null values render as empty cells, mirroring the gaps in the plot.
+ * Floating `[start, end]` ranges render as "start – end", and null values
+ * render as empty cells, mirroring the gaps in the plot.
  */
 export function buildCartesianTable(
   categoryAxis: SkyChartAxisCategory,
@@ -121,9 +135,29 @@ export function buildCartesianTable(
       label: chartSeries.labelText(),
       values: chartSeries
         .values()
-        .map((value) => (value === null ? '' : formatValue(value))),
+        .map((value) => formatCartesianValue(value, formatValue)),
     })),
   };
+}
+
+/**
+ * Formats a single plotted value: numbers use the value axis's format, a
+ * floating `[start, end]` range formats as "start – end", and `null` (a gap)
+ * formats as an empty string.
+ */
+function formatCartesianValue(
+  value: SkyChartBarSeriesValue,
+  formatValue: (value: number) => string,
+): string {
+  if (value === null) {
+    return '';
+  }
+
+  if (isValueRange(value)) {
+    return `${formatValue(value[0])} – ${formatValue(value[1])}`;
+  }
+
+  return formatValue(value);
 }
 
 /**
@@ -256,7 +290,13 @@ export function buildValueTooltipLabel<T extends CartesianChartType>(
 ): (context: ChartJsTooltipItem<T>) => string {
   return (context: ChartJsTooltipItem<T>): string => {
     const item = context as unknown as CartesianTooltipContext;
-    const formatted = formatValue(item.parsed[valueDirection] ?? 0);
+
+    // A floating bar carries its [start, end] range in the raw data element;
+    // `parsed` holds only the end value.
+    const formatted = isValueRange(item.raw)
+      ? formatCartesianValue(item.raw, formatValue)
+      : formatValue(item.parsed[valueDirection] ?? 0);
+
     const label = item.dataset.label;
 
     return label ? `${label}: ${formatted}` : formatted;

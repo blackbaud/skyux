@@ -118,10 +118,29 @@ export function resolveChartThemeStyles(
     getComputedStyle(document.documentElement).fontSize,
   );
 
-  const minHeight = remToPx('11.25rem', rootFontSize);
-  const maxHeight = remToPx('25rem', rootFontSize);
-
   try {
+    // The chart's height bounds are authored once, as custom properties on
+    // the `sky-chart` host (see `chart.scss`), so the plot heights resolved
+    // here always match the loading state's reserved height. Plots must
+    // render inside `sky-chart` (enforced by `SkyChartPlot`), so the
+    // properties are always in scope; like the theme tokens, they only fail
+    // to resolve in a genuinely broken setup.
+    const minHeight = readNumber(
+      styles,
+      probe,
+      '--sky-chart-height-min',
+      rootFontSize,
+    );
+
+    const maxHeight = readNumber(
+      styles,
+      probe,
+      '--sky-chart-height-max',
+      rootFontSize,
+    );
+
+    const viewportHeight = readString(styles, '--sky-chart-height-viewport');
+
     return {
       font: {
         family: readString(styles, '--sky-font-family-primary'),
@@ -147,7 +166,7 @@ export function resolveChartThemeStyles(
       height: {
         min: minHeight,
         max: maxHeight,
-        default: `clamp(${minHeight}px, 28vh, ${maxHeight}px)`,
+        default: `clamp(${minHeight}px, ${viewportHeight}, ${maxHeight}px)`,
       },
       axis: {
         lineColor: readString(styles, '--sky-color-viz-axis'),

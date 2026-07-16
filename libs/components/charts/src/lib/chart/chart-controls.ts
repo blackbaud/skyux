@@ -28,6 +28,14 @@ export class SkyChartControls {
 
   public readonly headingText = input.required<string>();
 
+  /**
+   * The plot's data table. The context menu's only action is viewing the
+   * data table, so the menu renders only while a table is available — a
+   * plot that has not published one (no data yet, or still loading for the
+   * first time) has no actions to offer.
+   */
+  protected readonly table = this.#tableSvc.table;
+
   protected openDataTableModal(): void {
     const instance = this.#modalSvc.open(SkyChartTableModal, {
       size: 'large',

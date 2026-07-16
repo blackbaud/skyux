@@ -1,8 +1,15 @@
 import { Component, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyLogService } from '@skyux/core';
-import { SkyThemeService, type SkyThemeSettingsChange } from '@skyux/theme';
+import {
+  SkyTheme,
+  SkyThemeMode,
+  SkyThemeService,
+  SkyThemeSettings,
+  type SkyThemeSettingsChange,
+} from '@skyux/theme';
 import Chart, { type TooltipItem } from 'chart.js/auto';
 import { ReplaySubject } from 'rxjs';
 
@@ -16,6 +23,7 @@ import { SkyChartBar } from './chart-bar';
 import { SkyChartBarOrientation } from './chart-bar-orientation';
 import { SkyChartBarSeries } from './chart-bar-series';
 import { SkyChartBarSeriesLayout } from './chart-bar-series-layout';
+import { type SkyChartBarSeriesValue } from './chart-bar-series-value';
 
 type ScaleProbe = {
   type: string;
@@ -27,41 +35,50 @@ type ScaleProbe = {
 
 @Component({
   imports: [
+    SkyChart,
     SkyChartBar,
     SkyChartAxisCategory,
     SkyChartAxisValue,
     SkyChartBarSeries,
   ],
   template: `
-    @if (renderChart) {
-      <sky-chart-bar [orientation]="orientation" [seriesLayout]="seriesLayout">
-        @if (renderCategoryAxis) {
-          <sky-chart-axis-category labelText="Year" [categories]="categories" />
-        }
-        @if (renderValueAxis) {
-          <sky-chart-axis-value
-            labelText="Value"
-            [currencyCode]="currencyCode"
-            [format]="format"
-            [scaleType]="valueScaleType"
-          />
-        }
-        @if (renderSeries) {
-          <sky-chart-bar-series
-            [labelText]="seriesLabel"
-            [stackId]="seriesStack"
-            [values]="values"
-          />
-        }
-        @if (renderSecondSeries) {
-          <sky-chart-bar-series
-            labelText="Divestitures"
-            [stackId]="secondSeriesStack"
-            [values]="values"
-          />
-        }
-      </sky-chart-bar>
-    }
+    <sky-chart headingText="Test chart">
+      @if (renderChart) {
+        <sky-chart-bar
+          [orientation]="orientation"
+          [seriesLayout]="seriesLayout"
+        >
+          @if (renderCategoryAxis) {
+            <sky-chart-axis-category
+              labelText="Year"
+              [categories]="categories"
+            />
+          }
+          @if (renderValueAxis) {
+            <sky-chart-axis-value
+              labelText="Value"
+              [currencyCode]="currencyCode"
+              [format]="format"
+              [scaleType]="valueScaleType"
+            />
+          }
+          @if (renderSeries) {
+            <sky-chart-bar-series
+              [labelText]="seriesLabel"
+              [stackId]="seriesStack"
+              [values]="values"
+            />
+          }
+          @if (renderSecondSeries) {
+            <sky-chart-bar-series
+              labelText="Divestitures"
+              [stackId]="secondSeriesStack"
+              [values]="values"
+            />
+          }
+        </sky-chart-bar>
+      }
+    </sky-chart>
   `,
 })
 class TestComponent {
@@ -82,14 +99,21 @@ class TestComponent {
   public secondSeriesStack: string | undefined;
   public seriesLayout: SkyChartBarSeriesLayout = 'grouped';
   public valueScaleType: 'linear' | 'logarithmic' = 'linear';
-  public values: (number | null)[] = [10, 20];
+  public values: SkyChartBarSeriesValue[] = [10, 20];
 }
 
 describe('Chart bar component', () => {
   let fixture: ComponentFixture<TestComponent>;
   let component: TestComponent;
-  let tableSvc: SkyChartTableService;
   let destroyed: boolean;
+
+  // The plot publishes its table to the `SkyChartTableService` provided by
+  // the surrounding `sky-chart`, so the service is read from that injector.
+  function tableSvc(): SkyChartTableService {
+    return fixture.debugElement
+      .query(By.directive(SkyChart))
+      .injector.get(SkyChartTableService);
+  }
 
   function getCanvas(): HTMLCanvasElement {
     return fixture.nativeElement.querySelector('canvas');
@@ -139,6 +163,7 @@ describe('Chart bar component', () => {
     label: string,
     value: number | null,
     direction: 'x' | 'y' = 'y',
+    raw?: unknown,
   ): TooltipItem<'bar'> {
     return {
       datasetIndex,
@@ -147,6 +172,7 @@ describe('Chart bar component', () => {
         x: direction === 'x' ? value : 0,
         y: direction === 'y' ? value : 0,
       },
+      raw,
     } as unknown as TooltipItem<'bar'>;
   }
 
@@ -157,12 +183,10 @@ describe('Chart bar component', () => {
 
     TestBed.configureTestingModule({
       imports: [TestComponent],
-      providers: [SkyChartTableService],
     });
 
     fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
-    tableSvc = TestBed.inject(SkyChartTableService);
     destroyed = false;
   });
 
@@ -177,7 +201,7 @@ describe('Chart bar component', () => {
   it('should build the data table from the axes and series', () => {
     fixture.detectChanges();
 
-    expect(tableSvc.table()).toEqual({
+    expect(tableSvc().table()).toEqual({
       categoryLabel: 'Year',
       categories: ['2023', '2024'],
       series: [{ label: 'Acquisitions', values: ['10', '20'] }],
@@ -187,7 +211,7 @@ describe('Chart bar component', () => {
   it('should publish an accessible summary from the axes and series', () => {
     fixture.detectChanges();
 
-    expect(tableSvc.summary()).toEqual({
+    expect(tableSvc().summary()).toEqual({
       resourceKey: 'skyux_charts.chart.bar.accessible_summary',
       args: [1, 2],
     });
@@ -196,12 +220,13 @@ describe('Chart bar component', () => {
   it('should clear the accessible summary when the plot is destroyed', () => {
     fixture.detectChanges();
 
-    expect(tableSvc.summary()).not.toBeUndefined();
+    const svc = tableSvc();
+    expect(svc.summary()).not.toBeUndefined();
 
     fixture.destroy();
     destroyed = true;
 
-    expect(tableSvc.summary()).toBeUndefined();
+    expect(svc.summary()).toBeUndefined();
   });
 
   it('should format the data table values using the value axis format', () => {
@@ -209,7 +234,7 @@ describe('Chart bar component', () => {
     component.currencyCode = 'USD';
     fixture.detectChanges();
 
-    expect(tableSvc.table()?.series[0].values).toEqual(['$10.00', '$20.00']);
+    expect(tableSvc().table()?.series[0].values).toEqual(['$10.00', '$20.00']);
   });
 
   it('should render a null value as a gap and an empty data table cell', () => {
@@ -217,7 +242,41 @@ describe('Chart bar component', () => {
     fixture.detectChanges();
 
     expect(requireChart().data.datasets[0].data).toEqual([10, null]);
-    expect(tableSvc.table()?.series[0].values).toEqual(['10', '']);
+    expect(tableSvc().table()?.series[0].values).toEqual(['10', '']);
+  });
+
+  it('should render a floating bar from a [start, end] range', () => {
+    const range: [number, number] = [2, 5];
+    component.values = [range, 10];
+    fixture.detectChanges();
+
+    const data = requireChart().data.datasets[0].data;
+    expect(data).toEqual([[2, 5], 10]);
+
+    // Chart.js mutates the arrays it is given, so the range must be a copy of
+    // the input, not the input itself.
+    expect(data[0]).not.toBe(range);
+  });
+
+  it('should format a floating bar range in the data table', () => {
+    component.values = [[2, 5], 10];
+    component.format = 'currency';
+    component.currencyCode = 'USD';
+    fixture.detectChanges();
+
+    expect(tableSvc().table()?.series[0].values).toEqual([
+      '$2.00 – $5.00',
+      '$10.00',
+    ]);
+  });
+
+  it('should format the tooltip label for a floating bar range', () => {
+    fixture.detectChanges();
+
+    const label = getTooltipLabel(requireChart());
+    expect(label(tooltipContext(0, 'Acquisitions', 5, 'y', [2, 5]))).toBe(
+      'Acquisitions: 2 – 5',
+    );
   });
 
   it('should warn when a series length does not match the categories', () => {
@@ -245,8 +304,8 @@ describe('Chart bar component', () => {
     component.renderCategoryAxis = false;
     fixture.detectChanges();
 
-    expect(tableSvc.table()).toBeUndefined();
-    expect(tableSvc.summary()).toBeUndefined();
+    expect(tableSvc().table()).toBeUndefined();
+    expect(tableSvc().summary()).toBeUndefined();
     expect(getChart()).toBeUndefined();
 
     // Covers the destroy path when no chart was created.
@@ -258,7 +317,7 @@ describe('Chart bar component', () => {
     component.renderSeries = false;
     fixture.detectChanges();
 
-    expect(tableSvc.table()).toBeUndefined();
+    expect(tableSvc().table()).toBeUndefined();
     expect(getChart()).toBeUndefined();
   });
 
@@ -266,7 +325,7 @@ describe('Chart bar component', () => {
     component.renderValueAxis = false;
     fixture.detectChanges();
 
-    expect(tableSvc.table()).toBeUndefined();
+    expect(tableSvc().table()).toBeUndefined();
     expect(getChart()).toBeUndefined();
   });
 
@@ -587,12 +646,16 @@ describe('Chart bar component', () => {
     expect(getScale(requireChart(), 'value').type).toBe('logarithmic');
   });
 
-  it('should update an existing chart when inputs change', () => {
+  it('should update an existing chart when inputs change', async () => {
     fixture.detectChanges();
 
     const chart = requireChart();
     component.values = [30, 40];
     fixture.detectChanges();
+
+    // The chart updates in an `afterRenderEffect`, so wait for render
+    // effects to flush before asserting.
+    await fixture.whenStable();
 
     expect(getChart()).toBe(chart);
     expect(chart.data.datasets[0].data).toEqual([30, 40]);
@@ -602,12 +665,13 @@ describe('Chart bar component', () => {
     fixture.detectChanges();
 
     const canvas = getCanvas();
+    const svc = tableSvc();
     expect(Chart.getChart(canvas)).toBeTruthy();
 
     fixture.destroy();
 
     expect(Chart.getChart(canvas)).toBeUndefined();
-    expect(tableSvc.table()).toBeUndefined();
+    expect(svc.table()).toBeUndefined();
     destroyed = true;
   });
 
@@ -747,16 +811,17 @@ describe('Chart bar component outside a sky-chart', () => {
 });
 
 describe('Chart bar component with a theme service', () => {
-  it('should rebuild the chart when the theme settings change', () => {
+  it('should rebuild the chart when the theme settings change', async () => {
+    const currentSettings = new SkyThemeSettings(
+      SkyTheme.presets.default,
+      SkyThemeMode.presets.light,
+    );
     const settingsChange = new ReplaySubject<SkyThemeSettingsChange>(1);
-    settingsChange.next({ currentSettings: {} } as SkyThemeSettingsChange);
+    settingsChange.next({ currentSettings } as SkyThemeSettingsChange);
 
     TestBed.configureTestingModule({
       imports: [TestComponent],
-      providers: [
-        SkyChartTableService,
-        { provide: SkyThemeService, useValue: { settingsChange } },
-      ],
+      providers: [{ provide: SkyThemeService, useValue: { settingsChange } }],
     });
 
     const fixture = TestBed.createComponent(TestComponent);
@@ -769,9 +834,17 @@ describe('Chart bar component with a theme service', () => {
     const updateSpy = spyOn(chart as Chart, 'update').and.callThrough();
 
     // A new theme rebuilds the config, updating the existing chart in place
-    // rather than recreating it.
-    settingsChange.next({ currentSettings: {} } as SkyThemeSettingsChange);
+    // rather than recreating it. A distinct settings instance is required —
+    // the theme signal skips reference-equal emissions — and the update runs
+    // in an `afterRenderEffect`, so wait for render effects to flush.
+    settingsChange.next({
+      currentSettings: new SkyThemeSettings(
+        SkyTheme.presets.modern,
+        SkyThemeMode.presets.light,
+      ),
+    } as SkyThemeSettingsChange);
     fixture.detectChanges();
+    await fixture.whenStable();
 
     expect(updateSpy).toHaveBeenCalled();
     expect(Chart.getChart(canvas)).toBe(chart);

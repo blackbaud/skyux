@@ -39,6 +39,13 @@
 
 :host {
   display: block;
+
+  // The chart's height bounds, authored once and shared by the loading
+  // state's reserved height (below) and the plot heights resolved in
+  // `chart-theme-styles.ts`.
+  --sky-chart-height-min: 11.25rem;
+  --sky-chart-height-viewport: 28vh;
+  --sky-chart-height-max: 25rem;
 }
 
 .sky-chart-header {
@@ -57,4 +64,16 @@
 
 figure.sky-chart-content {
   margin: 0;
+}
+
+// While loading, reserve the default chart height so the wait overlay has a
+// visible region before the plot renders and the page does not reflow when
+// data arrives.
+figure.sky-chart-content-loading {
+  position: relative;
+  min-height: clamp(
+    var(--sky-chart-height-min),
+    var(--sky-chart-height-viewport),
+    var(--sky-chart-height-max)
+  );
 }

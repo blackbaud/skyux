@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { SkyLibResourcesService } from '@skyux/i18n';
+import { SkyWaitModule } from '@skyux/indicators';
 import { of, switchMap } from 'rxjs';
 
 import { SkyChartTableService } from '../chart-table/chart-table-service';
@@ -39,6 +40,7 @@ import { SkyChartSubheading } from './chart-subheading';
     SkyChartHeading,
     SkyChartSubheading,
     SkyChartsResourcesModule,
+    SkyWaitModule,
   ],
   providers: [SkyChartTableService],
   selector: 'sky-chart',
@@ -96,6 +98,14 @@ export class SkyChart {
    * The title of the help popover. This property only applies when `helpPopoverContent` is also specified.
    */
   public readonly helpPopoverTitle = input<string>();
+
+  /**
+   * Whether the chart's data is being loaded. When `true`, a wait overlay
+   * covers the chart's content area, which reserves the default chart height
+   * while no plot is rendered. The heading and help button stay interactive.
+   * @default false
+   */
+  public readonly loading = input(false, { transform: booleanAttribute });
 
   /**
    * The text to display as the chart's subheading.

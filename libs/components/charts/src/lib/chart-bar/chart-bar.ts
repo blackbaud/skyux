@@ -21,6 +21,7 @@ import {
   buildCartesianTable,
   buildValueTooltipLabel,
   CATEGORY_AXIS_ID,
+  isValueRange,
   resolveCartesianData,
   VALUE_AXIS_ID,
 } from '../chart-js/cartesian-utils';
@@ -194,8 +195,11 @@ export class SkyChartBar extends SkyChartPlot {
     const datasets = series.map((chartSeries, index): ChartDataset<'bar'> => {
       const dataset: ChartDataset<'bar'> = {
         label: chartSeries.labelText(),
-        // Chart.js mutates the arrays it is given, so copy the readonly input.
-        data: [...chartSeries.values()],
+        // Chart.js mutates the arrays it is given, so deep-copy the readonly
+        // input, including floating [start, end] ranges.
+        data: chartSeries
+          .values()
+          .map((value) => (isValueRange(value) ? [...value] : value)),
         backgroundColor: categorical[index % categorical.length],
       };
 

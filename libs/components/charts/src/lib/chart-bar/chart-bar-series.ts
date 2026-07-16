@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
+import { type SkyChartBarSeriesValue } from './chart-bar-series-value';
+
 /**
  * Defines a single series of values to plot on a bar chart, aligned to the
  * category axis by index.
@@ -28,8 +30,10 @@ export class SkyChartBarSeries {
 
   /**
    * The values for this series, aligned to the category axis categories by
-   * index. A `null` value renders as a gap in the chart and an empty cell in
-   * the data table.
+   * index. A number renders a standard bar measured from the value axis's
+   * baseline, a `[start, end]` tuple renders a floating bar spanning the two
+   * values, and a `null` value renders a gap in the chart and an empty cell
+   * in the data table.
    */
-  public readonly values = input.required<readonly (number | null)[]>();
+  public readonly values = input.required<readonly SkyChartBarSeriesValue[]>();
 }

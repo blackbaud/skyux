@@ -23,6 +23,7 @@ class MockChartBarComponent {
       [headingLevel]="headingLevel"
       [headingStyle]="headingStyle"
       [headingText]="headingText"
+      [loading]="loading"
       [subheadingText]="subheadingText"
     >
       <sky-chart-bar />
@@ -37,6 +38,7 @@ class TestComponent {
   public headingLevel: unknown;
   public headingStyle: unknown;
   public headingText = 'Test heading';
+  public loading: boolean | undefined;
   public subheadingText: string | undefined;
 }
 
@@ -218,6 +220,51 @@ describe('Chart component', () => {
     expect(getFigure()?.getAttribute('aria-label')).toBeNull();
   });
 
+  it('should not show a wait overlay by default', () => {
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.chart.loading()).toBe(false);
+    expect(fixture.nativeElement.querySelector('.sky-wait-mask')).toBeNull();
+    expect(getFigure()?.getAttribute('aria-busy')).toBeNull();
+  });
+
+  it('should show a wait overlay over the figure while loading', () => {
+    fixture.componentInstance.loading = true;
+    fixture.detectChanges();
+
+    expect(getFigure()?.querySelector('.sky-wait-mask')).not.toBeNull();
+    expect(getFigure()?.getAttribute('aria-busy')).toBe('true');
+    expect(getFigure()?.classList).toContain('sky-chart-content-loading');
+  });
+
+  it('should remove the wait overlay when loading completes', () => {
+    fixture.componentInstance.loading = true;
+    fixture.detectChanges();
+
+    fixture.componentInstance.loading = false;
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('.sky-wait-mask')).toBeNull();
+    expect(getFigure()?.getAttribute('aria-busy')).toBeNull();
+    expect(getFigure()?.classList).not.toContain('sky-chart-content-loading');
+  });
+
+  it('should withhold the chart controls while loading', () => {
+    fixture.componentInstance.loading = true;
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelector('sky-chart-controls'),
+    ).toBeNull();
+
+    fixture.componentInstance.loading = false;
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelector('sky-chart-controls'),
+    ).not.toBeNull();
+  });
+
   describe('a11y', () => {
     it('should be accessible with default inputs', async () => {
       fixture.detectChanges();
@@ -242,6 +289,13 @@ describe('Chart component', () => {
     it('should be accessible with a plot summary', async () => {
       fixture.detectChanges();
       await setPlotSummary('skyux_charts.chart.bar.accessible_summary', [3, 4]);
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible while loading', async () => {
+      fixture.componentInstance.loading = true;
+      fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
