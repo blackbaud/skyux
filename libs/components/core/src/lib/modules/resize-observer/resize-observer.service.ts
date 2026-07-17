@@ -25,8 +25,7 @@ const errorTest =
   /ResizeObserver loop completed with undelivered notifications/i;
 let errorLogRegistered = false;
 let originalOnError:
-  | ((event: string | Event) => boolean | undefined)
-  | undefined = undefined;
+  ((event: string | Event) => boolean | undefined) | undefined = undefined;
 
 const errorHandler = (event: ErrorEvent): boolean | undefined => {
   if (errorTest.test(event.message)) {

@@ -86,12 +86,10 @@ export class SkyModalAdapterService {
   public focusFirstElement(modalEl: ElementRef): void {
     /* istanbul ignore else */
     /* handle the case where somehow there is a focused element already in the modal */
-    if (
-      !(
-        document.activeElement &&
-        modalEl.nativeElement.contains(document.activeElement)
-      )
-    ) {
+    if (!(
+      document.activeElement &&
+      modalEl.nativeElement.contains(document.activeElement)
+    )) {
       const currentScrollX = window.pageXOffset;
       const currentScrollY = window.pageYOffset;
 

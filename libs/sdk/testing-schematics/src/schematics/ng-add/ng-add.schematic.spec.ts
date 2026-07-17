@@ -36,6 +36,6 @@ describe('ng-add.schematic', () => {
     const updatedTree = await runSchematic();
 
     const packageJson = JSON.parse(updatedTree.readText('/package.json'));
-    expect(packageJson.devDependencies['axe-core']).toBe('~4.11.1');
+    expect(packageJson.devDependencies['axe-core']).toBe('~4.12.1');
   });
 });

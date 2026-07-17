@@ -136,8 +136,7 @@ export class SkyCountryFieldComponent
 
   @ViewChild(SkyAutocompleteInputDirective)
   public countrySearchAutocompleteDirective:
-    | SkyAutocompleteInputDirective
-    | undefined;
+    SkyAutocompleteInputDirective | undefined;
 
   public context: SkyCountryFieldContext | null = inject(
     SKY_COUNTRY_FIELD_CONTEXT,

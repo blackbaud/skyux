@@ -68,15 +68,11 @@ import { CommonModule } from '@angular/common';
 
 import { TestRouterRoutingModule } from './test-router-routing.module';
 
-
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule,
-    TestRouterRoutingModule
-  ]
+  imports: [CommonModule, TestRouterRoutingModule],
 })
-export class TestRouterModule { }
+export class TestRouterModule {}
 "
 `;
 

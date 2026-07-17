@@ -1,4 +1,3 @@
-import { join, normalize } from '@angular-devkit/core';
 import {
   SchematicTestRunner,
   UnitTestTree,
@@ -7,10 +6,7 @@ import {
 import { createTestApp } from '../../testing/scaffold';
 
 describe('ng-generate/convert-definition-list-to-description-list.schematic', () => {
-  const collectionPath = join(
-    normalize(__dirname),
-    '../../../../collection.json',
-  );
+  const collectionPath = require.resolve('../../../../collection.json');
   const runner = new SchematicTestRunner('generate', collectionPath);
 
   async function setupTest(): Promise<{

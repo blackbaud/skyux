@@ -578,17 +578,14 @@ function useSkyUxModules(tree: Tree): Rule {
                 .filter((sym) => !sym.maintainImport)
                 .map(({ packageName }) => packageName),
             ),
-          ].map(
-            (moduleName): RemoveImportOptions => ({
-              classNames: symbolsToUpdate
-                .filter(
-                  (sym) =>
-                    sym.packageName === moduleName && !sym.maintainImport,
-                )
-                .map((sym) => sym.localName),
-              moduleName,
-            }),
-          );
+          ].map((moduleName): RemoveImportOptions => ({
+            classNames: symbolsToUpdate
+              .filter(
+                (sym) => sym.packageName === moduleName && !sym.maintainImport,
+              )
+              .map((sym) => sym.localName),
+            moduleName,
+          }));
           removeImports.forEach((removeImportOptions) => {
             removeImport(recorder, sourceFile, removeImportOptions);
           });

@@ -21,8 +21,7 @@ export class SkyAutocompleteFixtureComponent {
   public autocompleteAttribute: string | undefined;
 
   public data:
-    | { objectid?: string; name?: string; text?: string }[]
-    | undefined = [
+    { objectid?: string; name?: string; text?: string }[] | undefined = [
     { name: 'Red', objectid: 'abc' },
     { name: 'Blue', objectid: 'def' },
     { name: 'Green', objectid: 'ghi' },
@@ -38,8 +37,7 @@ export class SkyAutocompleteFixtureComponent {
 
   public model = input<{
     favoriteColor:
-      | { objectid?: string; name?: string; text?: string }
-      | undefined;
+      { objectid?: string; name?: string; text?: string } | undefined;
   }>({ favoriteColor: {} });
 
   public customNoResultsMessage: string | undefined;

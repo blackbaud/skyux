@@ -27,8 +27,15 @@ describe(`tabs-storybook`, () => {
           cy.skyReady('app-tabs')
             .get('sky-dropdown')
             .should('exist')
-            .should('be.visible')
-            .screenshot(`tabscomponent-tabs--tabs-dropdown-${theme}`);
+            .should('be.visible');
+          // The active tab button lives in the hidden `.sky-tabset-tabs` strip
+          // even in dropdown mode, and focusing it on init can shift the
+          // shared scroll container. Reset scroll so the visible dropdown
+          // trigger's left inset renders consistently for the snapshot.
+          cy.get('.sky-tabset').invoke('scrollLeft', 0);
+          cy.get('sky-dropdown').screenshot(
+            `tabscomponent-tabs--tabs-dropdown-${theme}`,
+          );
           cy.get('sky-dropdown').percySnapshot(
             `tabscomponent-tabs--tabs-dropdown-${theme}`,
           );
@@ -38,7 +45,13 @@ describe(`tabs-storybook`, () => {
             .get('.sky-dropdown-button')
             .should('exist')
             .should('be.visible')
-            .click();
+            // `.sky-dropdown-button` is inside the same scrollable
+            // `.sky-tabset` container as the tab buttons. Skipping Cypress's
+            // scroll-into-view here (instead of resetting scroll afterward)
+            // tests whether this click was actually contributing to the
+            // scroll shift, or whether it's solely the `ngAfterViewInit`
+            // focus-on-init behavior from the other test.
+            .click({ scrollBehavior: false });
           cy.get('app-tabs')
             .should('exist')
             .should('be.visible')

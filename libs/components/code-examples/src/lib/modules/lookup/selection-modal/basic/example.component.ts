@@ -30,13 +30,11 @@ export class LookupSelectionModalBasicExampleComponent {
       selectionDescriptor: 'person',
       searchAsync: (args) =>
         this.#searchSvc.search(args.searchText).pipe(
-          map(
-            (results): SkySelectionModalSearchResult => ({
-              hasMore: results.hasMore,
-              items: results.people,
-              totalCount: results.totalCount,
-            }),
-          ),
+          map((results): SkySelectionModalSearchResult => ({
+            hasMore: results.hasMore,
+            items: results.people,
+            totalCount: results.totalCount,
+          })),
         ),
       selectMode: 'single',
     });

@@ -36,13 +36,11 @@ describe('Selection modal component', () => {
         TestBed.inject(SelectionModalFixtureService)
           .search(args.searchText)
           .pipe(
-            map(
-              (results): SkySelectionModalSearchResult => ({
-                hasMore: results.hasMore,
-                items: results.people,
-                totalCount: results.totalCount,
-              }),
-            ),
+            map((results): SkySelectionModalSearchResult => ({
+              hasMore: results.hasMore,
+              items: results.people,
+              totalCount: results.totalCount,
+            })),
           ),
       selectMode: 'single',
       selectionDescriptor: 'item',

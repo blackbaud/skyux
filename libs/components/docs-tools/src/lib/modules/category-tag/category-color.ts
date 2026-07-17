@@ -4,10 +4,4 @@
  * @internal
  */
 export type SkyDocsCategoryColor =
-  | 'blue'
-  | 'light-blue'
-  | 'orange'
-  | 'purple'
-  | 'red'
-  | 'teal'
-  | 'yellow';
+  'blue' | 'light-blue' | 'orange' | 'purple' | 'red' | 'teal' | 'yellow';

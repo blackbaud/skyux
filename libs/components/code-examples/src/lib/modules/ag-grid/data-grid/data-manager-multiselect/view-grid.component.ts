@@ -197,8 +197,7 @@ export class ViewGridComponent {
   #filterItems(items: AgGridDemoRow[]): AgGridDemoRow[] {
     let filteredItems = items;
     const filterState = this.#dataState().filterData?.filters as
-      | SkyFilterBarFilterState
-      | undefined;
+      SkyFilterBarFilterState | undefined;
 
     if (filterState?.appliedFilters) {
       const filters = filterState.appliedFilters;

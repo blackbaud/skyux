@@ -1,5 +1,2 @@
 export type SkyFilterItemModalSizeType =
-  | 'small'
-  | 'medium'
-  | 'large'
-  | 'fullScreen';
+  'small' | 'medium' | 'large' | 'fullScreen';

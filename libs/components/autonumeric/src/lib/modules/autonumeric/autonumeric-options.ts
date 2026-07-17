@@ -9,6 +9,4 @@ import AutoNumeric from 'autonumeric';
  * that override any default options that the `skyAutonumeric` attribute specifies.
  */
 export type SkyAutonumericOptions =
-  | string
-  | keyof AutoNumeric.PredefinedOptions
-  | AutoNumeric.Options;
+  string | keyof AutoNumeric.PredefinedOptions | AutoNumeric.Options;

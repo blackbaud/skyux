@@ -11,46 +11,31 @@ import { SkyPageModalLink } from '../action-hub/types/page-modal-link';
 export class LinkAsPipe implements PipeTransform {
   public transform(
     value:
-      | SkyActionHubNeedsAttention
-      | SkyPageLink
-      | SkyPageModalLink
-      | undefined,
+      SkyActionHubNeedsAttention | SkyPageLink | SkyPageModalLink | undefined,
     linkAs: 'button',
   ): value is SkyActionHubNeedsAttention & { click: () => void };
 
   public transform(
     value:
-      | SkyActionHubNeedsAttention
-      | SkyPageLink
-      | SkyPageModalLink
-      | undefined,
+      SkyActionHubNeedsAttention | SkyPageLink | SkyPageModalLink | undefined,
     linkAs: 'href' | 'skyHref',
   ): value is SkyActionHubNeedsAttention & { permalink: { url: string } };
 
   public transform(
     value:
-      | SkyActionHubNeedsAttention
-      | SkyPageLink
-      | SkyPageModalLink
-      | undefined,
+      SkyActionHubNeedsAttention | SkyPageLink | SkyPageModalLink | undefined,
     linkAs: 'skyAppLink',
   ): value is SkyActionHubNeedsAttention & { permalink: { route: Route } };
 
   public transform(
     value:
-      | SkyActionHubNeedsAttention
-      | SkyPageLink
-      | SkyPageModalLink
-      | undefined,
+      SkyActionHubNeedsAttention | SkyPageLink | SkyPageModalLink | undefined,
     linkAs: undefined,
   ): false;
 
   public transform(
     value:
-      | SkyActionHubNeedsAttention
-      | SkyPageLink
-      | SkyPageModalLink
-      | undefined,
+      SkyActionHubNeedsAttention | SkyPageLink | SkyPageModalLink | undefined,
     linkAs: 'button' | 'href' | 'skyHref' | 'skyAppLink' | undefined,
   ): boolean {
     const permalink = value?.permalink;

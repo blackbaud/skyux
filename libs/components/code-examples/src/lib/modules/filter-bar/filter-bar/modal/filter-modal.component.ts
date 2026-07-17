@@ -44,8 +44,7 @@ export class FilterModalComponent implements SkyFilterItemModal {
 
   protected save(): void {
     const selectedValue = this.formGroup.get('selectedOption')?.value as
-      | boolean
-      | null;
+      boolean | null;
 
     if (selectedValue !== null) {
       // Map the primitive value back to the full object

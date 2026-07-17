@@ -101,8 +101,7 @@ export class RepeaterVisualComponent {
   }
 
   public _itemsForReorderableRepeaterWithAddButton:
-    | UntypedFormArray
-    | undefined;
+    UntypedFormArray | undefined;
 
   public reorderable = true;
 

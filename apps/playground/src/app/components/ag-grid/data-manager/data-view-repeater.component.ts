@@ -125,8 +125,7 @@ export class DataViewRepeaterComponent implements OnInit {
   public filterItems(items: FruitItem[]): FruitItem[] {
     let filteredItems = items;
     const filterState = this.dataState.filterData?.filters as
-      | SkyFilterBarFilterState
-      | undefined;
+      SkyFilterBarFilterState | undefined;
 
     if (filterState?.appliedFilters) {
       const filters = filterState.appliedFilters;
