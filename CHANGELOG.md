@@ -7,6 +7,7 @@
 ### Features
 
 * **components/popovers:** add Alt+ArrowUp/Alt+ArrowDown shortcuts to open and close popovers ([#4523](https://github.com/blackbaud/skyux/issues/4523)) ([c42bf44](https://github.com/blackbaud/skyux/commit/c42bf442f7a5b1174491509cb4c2588cbcc44191)), closes [AB#4035677](https://dev.azure.com/blackbaud/Products/_workitems/edit/4035677)
+* update design tokens to include new dark mode colors ([#4528](https://github.com/blackbaud/skyux/issues/4528)) ([c7404f1](https://github.com/blackbaud/skyux/commit/c7404f1c4da243b388b4941d88c4968696060fa6))
 
 
 ### Bug Fixes
