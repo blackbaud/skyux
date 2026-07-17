@@ -10,6 +10,5 @@ export interface SkyCellEditorAutocompleteParams extends ICellEditorParams {
    * The parameters provided to the autocomplete component.
    */
   skyComponentProperties?:
-    | SkyAutocompleteProperties
-    | SkyAgGridAutocompleteProperties;
+    SkyAutocompleteProperties | SkyAgGridAutocompleteProperties;
 }

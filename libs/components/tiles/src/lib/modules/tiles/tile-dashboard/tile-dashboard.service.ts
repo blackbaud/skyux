@@ -802,8 +802,7 @@ export class SkyTileDashboardService {
     column: SkyTileDashboardColumnComponent | undefined,
   ): HTMLElement | undefined {
     return column?.content?.element.nativeElement.parentNode as
-      | HTMLElement
-      | undefined;
+      HTMLElement | undefined;
   }
 
   #findTile(

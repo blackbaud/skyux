@@ -274,8 +274,7 @@ export class SkyFileAttachmentComponent
 
   @ContentChildren(SkyFileAttachmentLabelComponent)
   public labelComponents:
-    | QueryList<SkyFileAttachmentLabelComponent>
-    | undefined;
+    QueryList<SkyFileAttachmentLabelComponent> | undefined;
 
   public isImage = false;
 

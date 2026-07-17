@@ -496,8 +496,7 @@ export class SkyPhoneFieldComponent implements OnDestroy {
     return (
       this.inputBoxHostSvc?.queryHost(selector) ??
       (this.#elementRef.nativeElement.querySelector(selector) as
-        | HTMLElement
-        | undefined)
+        HTMLElement | undefined)
     );
   }
 

@@ -167,7 +167,7 @@
     }
   }
 
-  &.sky-selection-box-disabled {
+  &.sky-btn-default.sky-selection-box-disabled {
     // NOTE: Needed for default compatibility. Remove when support for default is removed as disabled color will come from `sky-btn-default`.
     background: var(
       --sky-override-selection-box-background-color-disabled,

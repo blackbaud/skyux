@@ -67,8 +67,7 @@ export class SkyDescriptionListComponent
 
   @ContentChildren(SkyDescriptionListContentComponent)
   public contentComponents:
-    | QueryList<SkyDescriptionListContentComponent>
-    | undefined;
+    QueryList<SkyDescriptionListContentComponent> | undefined;
 
   @ViewChild('descriptionListElement', {
     read: ElementRef,

@@ -27,10 +27,10 @@
     }
   },
   "peerDependencies": {
-    "@angular-eslint/bundled-angular-compiler": "^22.0.0",
-    "@angular-eslint/eslint-plugin-template": "^22.0.0",
-    "@angular-eslint/utils": "^22.0.0",
-    "@typescript-eslint/utils": "^8.61.1"
+    "@angular-eslint/bundled-angular-compiler": "^22.1.0",
+    "@angular-eslint/eslint-plugin-template": "^22.1.0",
+    "@angular-eslint/utils": "^22.1.0",
+    "@typescript-eslint/utils": "^8.64.0"
   },
   "dependencies": {
     "@blackbaud/skyux-design-tokens": "6.0.2",

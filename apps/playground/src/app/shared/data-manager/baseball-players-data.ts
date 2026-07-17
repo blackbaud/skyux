@@ -34,15 +34,13 @@ export const columnDefinitions: ColumnType[] = [
     ['triplecrown', 'Triple Crowns'],
     ['mvp', 'MVPs'],
     ['cya', 'CYA'],
-  ].map(
-    ([field, headerName]: [keyof DataType, string]): ColumnType => ({
-      field,
-      headingText: headerName,
-      sortable: field === 'mvp',
-      dataType: 'number',
-      width: 100,
-    }),
-  ),
+  ].map(([field, headerName]: [keyof DataType, string]): ColumnType => ({
+    field,
+    headingText: headerName,
+    sortable: field === 'mvp',
+    dataType: 'number',
+    width: 100,
+  })),
   ...[
     ['3000h', '3000 Hits'],
     ['500hr', '500 Homeruns'],
@@ -50,14 +48,12 @@ export const columnDefinitions: ColumnType[] = [
     ['3000k', '3000 Ks'],
     ['300w', '300 Ws'],
     ['300sv', '300 SVs'],
-  ].map(
-    ([field, headerName]: [keyof DataType, string]): ColumnType => ({
-      field,
-      dataType: 'boolean',
-      headingText: headerName,
-      sortable: false,
-    }),
-  ),
+  ].map(([field, headerName]: [keyof DataType, string]): ColumnType => ({
+    field,
+    dataType: 'boolean',
+    headingText: headerName,
+    sortable: false,
+  })),
   {
     field: 'vote%',
     headingText: 'Vote %',

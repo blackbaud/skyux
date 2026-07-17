@@ -87,8 +87,7 @@ export class SkyDocsTypeDefinitionComponent {
     const def = this.definition();
 
     const inputs = def.children?.filter((c) => c.kind === 'directive-input') as
-      | SkyManifestDirectiveInputDefinition[]
-      | undefined;
+      SkyManifestDirectiveInputDefinition[] | undefined;
 
     return inputs && inputs.length > 0
       ? inputs
@@ -123,8 +122,7 @@ export class SkyDocsTypeDefinitionComponent {
     const def = this.definition();
 
     return def.children?.filter((c) => c.kind === 'class-method') as
-      | SkyManifestClassMethodDefinition[]
-      | undefined;
+      SkyManifestClassMethodDefinition[] | undefined;
   });
 
   protected readonly outputs = computed<

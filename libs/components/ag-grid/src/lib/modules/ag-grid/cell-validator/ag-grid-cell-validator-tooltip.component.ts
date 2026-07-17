@@ -39,8 +39,7 @@ export class SkyAgGridCellValidatorTooltipComponent {
   >(
     () =>
       this.params()?.skyComponentProperties as
-        | SkyAgGridValidatorProperties
-        | undefined,
+        SkyAgGridValidatorProperties | undefined,
   );
   protected readonly validatorMessage = computed((): string => {
     const params = this.params();

@@ -268,8 +268,7 @@ export class SkyRepeaterItemComponent
 
   @ContentChildren(SkyRepeaterItemContentComponent)
   public repeaterItemContentComponents:
-    | QueryList<SkyRepeaterItemContentComponent>
-    | undefined;
+    QueryList<SkyRepeaterItemContentComponent> | undefined;
 
   protected titleId: string | undefined;
 

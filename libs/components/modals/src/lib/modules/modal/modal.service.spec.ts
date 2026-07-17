@@ -194,8 +194,7 @@ describe('Modal service', () => {
     // Intercept the componentRef setter to capture the ComponentRef so we can
     // call setInput() on the input()-based longContent property.
     let modalComponentRef:
-      | import('@angular/core').ComponentRef<ModalTestComponent>
-      | undefined;
+      import('@angular/core').ComponentRef<ModalTestComponent> | undefined;
     const descriptor = Object.getOwnPropertyDescriptor(
       SkyModalInstance.prototype,
       'componentRef',

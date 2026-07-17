@@ -10,8 +10,7 @@ import type { SkyManifestParameterDefinition } from './function-def';
  */
 export interface SkyManifestClassDefinition extends SkyManifestParentDefinition {
   children?: (
-    | SkyManifestClassMethodDefinition
-    | SkyManifestClassPropertyDefinition
+    SkyManifestClassMethodDefinition | SkyManifestClassPropertyDefinition
   )[];
   kind: 'class' | 'module' | 'service';
   typeParameters?: string;

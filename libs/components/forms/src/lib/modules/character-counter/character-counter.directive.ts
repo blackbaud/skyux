@@ -33,8 +33,7 @@ export class SkyCharacterCounterInputDirective implements Validator {
    */
   @Input()
   public get skyCharacterCounterIndicator():
-    | SkyCharacterCounterIndicatorComponent
-    | undefined {
+    SkyCharacterCounterIndicatorComponent | undefined {
     return this.#_skyCharacterCounterIndicator;
   }
   public set skyCharacterCounterIndicator(
@@ -56,8 +55,7 @@ export class SkyCharacterCounterInputDirective implements Validator {
   }
 
   #_skyCharacterCounterIndicator:
-    | SkyCharacterCounterIndicatorComponent
-    | undefined;
+    SkyCharacterCounterIndicatorComponent | undefined;
 
   #skyCharacterCounterLimitOrDefault = 0;
 

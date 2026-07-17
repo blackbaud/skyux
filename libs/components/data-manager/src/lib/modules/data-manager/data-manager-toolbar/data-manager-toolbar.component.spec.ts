@@ -29,8 +29,7 @@ import { SkyDataManagerToolbarComponent } from './data-manager-toolbar.component
 
 class MockModalService {
   public closeCallback:
-    | ((args: { reason: string; data?: unknown }) => void)
-    | undefined;
+    ((args: { reason: string; data?: unknown }) => void) | undefined;
 
   public open(): {
     closed: {

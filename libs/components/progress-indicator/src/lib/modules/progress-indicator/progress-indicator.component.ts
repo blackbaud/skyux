@@ -133,8 +133,7 @@ export class SkyProgressIndicatorComponent
 
   @ContentChildren(SkyProgressIndicatorItemComponent)
   public itemComponents:
-    | QueryList<SkyProgressIndicatorItemComponent>
-    | undefined;
+    QueryList<SkyProgressIndicatorItemComponent> | undefined;
 
   public cssClassNames: string[] = [];
   public itemStatuses: SkyProgressIndicatorItemStatus[] = [];

@@ -4,6 +4,4 @@
  * returns the international format for all countries.
  */
 export type SkyPhoneFieldNumberReturnFormat =
-  | 'default'
-  | 'international'
-  | 'national';
+  'default' | 'international' | 'national';

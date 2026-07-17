@@ -32,8 +32,7 @@ export class SkySummaryActionBarTestComponent implements OnDestroy {
 
   @ViewChild(SkySummaryActionBarSecondaryActionsComponent)
   public secondaryActions:
-    | SkySummaryActionBarSecondaryActionsComponent
-    | undefined;
+    SkySummaryActionBarSecondaryActionsComponent | undefined;
 
   @ViewChild(SkySummaryActionBarComponent)
   public summaryActionBar: SkySummaryActionBarComponent | undefined;

@@ -319,7 +319,7 @@ exports[`generate-manifest > should generate manifest 1`] = `
         "filePath": "libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.class.ts",
         "kind": "class",
         "name": "FooEmptyClass",
-        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.class.ts#L168"
+        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.class.ts#L167"
       },
       {
         "anchorId": "class_foo-with-angular-lifecycle-class",
@@ -336,7 +336,7 @@ exports[`generate-manifest > should generate manifest 1`] = `
         "filePath": "libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.class.ts",
         "kind": "class",
         "name": "FooWithAngularLifecycleClass",
-        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.class.ts#L142"
+        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.class.ts#L141"
       },
       {
         "anchorId": "class_foo-with-docs-id-override-class",
@@ -344,7 +344,7 @@ exports[`generate-manifest > should generate manifest 1`] = `
         "filePath": "libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.class.ts",
         "kind": "class",
         "name": "FooWithDocsIdOverrideClass",
-        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.class.ts#L131"
+        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.class.ts#L130"
       },
       {
         "anchorId": "class_foo-with-extra-tags-class",
@@ -356,7 +356,7 @@ exports[`generate-manifest > should generate manifest 1`] = `
         "filePath": "libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.class.ts",
         "kind": "class",
         "name": "FooWithExtraTagsClass",
-        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.class.ts#L137"
+        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.class.ts#L136"
       },
       {
         "anchorId": "class_foo-with-static-properties-class",
@@ -388,7 +388,7 @@ exports[`generate-manifest > should generate manifest 1`] = `
         "filePath": "libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.class.ts",
         "kind": "class",
         "name": "FooWithStaticPropertiesClass",
-        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.class.ts#L109"
+        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.class.ts#L108"
       },
       {
         "anchorId": "class_sky-foo-non-standalone-component",

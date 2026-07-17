@@ -2,7 +2,4 @@
  * The nav button type.
  */
 export type SkyProgressIndicatorNavButtonType =
-  | 'finish'
-  | 'next'
-  | 'previous'
-  | 'reset';
+  'finish' | 'next' | 'previous' | 'reset';

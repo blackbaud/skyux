@@ -271,10 +271,7 @@ export class SkyTileComponent implements AfterViewInit, OnChanges, OnDestroy {
       this.#dashboardService
     ) {
       const direction = event.key.toLowerCase().replace('arrow', '') as
-        | 'up'
-        | 'down'
-        | 'left'
-        | 'right';
+        'up' | 'down' | 'left' | 'right';
       this.#dashboardService.moveTileOnKeyDown(
         this,
         direction,

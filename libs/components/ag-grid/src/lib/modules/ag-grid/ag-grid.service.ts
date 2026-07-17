@@ -545,8 +545,7 @@ export class SkyAgGridService {
       },
       focusGridInnerElement: (params) => {
         const lastFocusedCell = params.context?.['lastFocusedCell'] as
-          | LastFocusedCell
-          | undefined;
+          LastFocusedCell | undefined;
         if (lastFocusedCell) {
           if (lastFocusedCell.rowIndex !== null) {
             params.api.setFocusedCell(

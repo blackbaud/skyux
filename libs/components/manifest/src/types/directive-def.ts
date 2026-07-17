@@ -9,8 +9,7 @@ import type {
  */
 export interface SkyManifestDirectiveDefinition extends SkyManifestParentDefinition {
   children?: (
-    | SkyManifestDirectiveInputDefinition
-    | SkyManifestDirectiveOutputDefinition
+    SkyManifestDirectiveInputDefinition | SkyManifestDirectiveOutputDefinition
   )[];
   kind: 'directive' | 'component';
   selector?: string;

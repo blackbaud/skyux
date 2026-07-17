@@ -4,13 +4,16 @@ import type {
 } from '@skyux/manifest-local';
 
 import fsPromises from 'node:fs/promises';
-import path from 'node:path';
 
 import { getDocumentationConfig } from './get-documentation-config.js';
 import { getProjectDefinitions } from './get-project-definitions.js';
 import { getPublicApi } from './get-public-api.js';
 import { SkyManifestOptions } from './manifest-options.js';
-import { ensureDirectory, getOutputPaths } from './utility/get-output-paths.js';
+import {
+  ensureDirectory,
+  getOutputPaths,
+  normalizeToPosixPath,
+} from './utility/get-output-paths.js';
 
 async function writeManifestFiles(
   outDir: string,
@@ -62,7 +65,7 @@ export async function generateManifest(
     );
   }
 
-  const outDir = path.normalize(options.outDir);
+  const outDir = normalizeToPosixPath(options.outDir);
 
   await writeManifestFiles(outDir, publicApi, documentationConfig);
 

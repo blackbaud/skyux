@@ -134,12 +134,20 @@
 }
 
 .sky-btn-disabled {
-  background-color: var(
-    --sky-override-token-disabled-background-color,
-    var(--sky-color-background-action-tertiary-disabled)
-  );
   cursor: default;
   user-select: none;
+
+  &.sky-token {
+    background-color: var(
+      --sky-override-token-disabled-background-color,
+      var(--sky-color-background-action-tertiary-disabled)
+    );
+    // Restates the same border as the base `.sky-token` rule above (not a
+    // disabled-specific value) so it also beats the app-level
+    // `.sky-btn-default[disabled]` border-color rule on specificity instead
+    // of relying on stylesheet source order.
+    border: var(--sky-override-token-border, none);
+  }
 
   .sky-btn-disabled {
     opacity: 1;

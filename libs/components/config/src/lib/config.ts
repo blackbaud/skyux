@@ -130,8 +130,7 @@ export interface SkyuxConfigHost {
   bbCheckout?: SkyuxConfigHostBBCheckout;
   csp?: SkyuxConfigHostCsp;
   frameOptions?:
-    | SkyuxConfigHostFrameOptionsNone
-    | SkyuxConfigHostFrameOptionsOthers;
+    SkyuxConfigHostFrameOptionsNone | SkyuxConfigHostFrameOptionsOthers;
   url?: string;
 }
 

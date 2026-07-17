@@ -277,8 +277,7 @@ export class SkyLookupComponent
   }
 
   public get autocompleteInputDirective():
-    | SkyAutocompleteInputDirective
-    | undefined {
+    SkyAutocompleteInputDirective | undefined {
     return this.#_autocompleteInputDirective;
   }
 

@@ -36,14 +36,12 @@ export class SelectionModalComponent {
       idProperty: 'id',
       searchAsync: (args) =>
         this.#searchSvc.search(args).pipe(
-          map(
-            (results): SkySelectionModalSearchResult => ({
-              hasMore: results.hasMore,
-              continuationData: results.continuationData,
-              items: results.people,
-              totalCount: results.totalCount,
-            }),
-          ),
+          map((results): SkySelectionModalSearchResult => ({
+            hasMore: results.hasMore,
+            continuationData: results.continuationData,
+            items: results.people,
+            totalCount: results.totalCount,
+          })),
         ),
       value: single ? undefined : this.selectedPeople,
       selectionDescriptor: single ? 'person' : 'people',

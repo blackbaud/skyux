@@ -22,9 +22,7 @@ export abstract class SkyIntlNumberFormatter {
       minimumFractionDigits,
       maximumFractionDigits,
       style: SkyIntlNumberFormatStyle[style].toLowerCase() as
-        | 'decimal'
-        | 'percent'
-        | 'currency',
+        'decimal' | 'percent' | 'currency',
       currencySign,
     };
 

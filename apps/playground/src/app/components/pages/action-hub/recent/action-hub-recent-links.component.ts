@@ -21,9 +21,7 @@ import { ActionHubPlaygroundRecentlyAccessedService } from './action-hub-recentl
 })
 export class ActionHubPlaygroundRecentLinksComponent {
   public recentLinks:
-    | SkyRecentLink[]
-    | SkyRecentlyAccessedGetLinksArgs
-    | undefined;
+    SkyRecentLink[] | SkyRecentlyAccessedGetLinksArgs | undefined;
   public needsAttention: SkyActionHubNeedsAttention[] = [
     {
       title: 'Settings',

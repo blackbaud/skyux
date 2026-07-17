@@ -555,8 +555,7 @@ describe('SkyAgGridService', () => {
       params: SuppressKeyboardEventParams<any>,
     ) => boolean;
     let suppressKeypressFunctionCurrency:
-      | ((params: SuppressKeyboardEventParams<any>) => boolean)
-      | undefined;
+      ((params: SuppressKeyboardEventParams<any>) => boolean) | undefined;
 
     beforeEach(() => {
       suppressHeaderKeypressFunction = defaultGridOptions.defaultColDef
@@ -790,8 +789,7 @@ describe('SkyAgGridService', () => {
 
     it("should return false when the columnDefinition's editable property is true and checking for uneditable", () => {
       let cellClassRuleUneditableFunction:
-        | ((params: CellClassParams) => boolean)
-        | undefined;
+        ((params: CellClassParams) => boolean) | undefined;
 
       const cellClassRuleUneditable =
         defaultGridOptions.defaultColDef?.cellClassRules?.[
