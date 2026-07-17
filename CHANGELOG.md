@@ -18,6 +18,7 @@
 * **components/pages:** hide needs-attention block when empty ([#4477](https://github.com/blackbaud/skyux/issues/4477)) ([ac7da1d](https://github.com/blackbaud/skyux/commit/ac7da1d57d21b73be111c79cd1812ecbcaf4403b))
 * **components/tabs:** add `tabWidth` input to sectioned form with `auto` sizing and harness/example support ([#4495](https://github.com/blackbaud/skyux/issues/4495)) ([#4496](https://github.com/blackbaud/skyux/issues/4496)) ([2a081f8](https://github.com/blackbaud/skyux/commit/2a081f8890648caa366e7ba00cc6f1970ffce0e5)), closes [AB#3934247](https://dev.azure.com/blackbaud/Products/_workitems/edit/3934247)
 * update `@skyux/icons`, `axe-core`, `autonumeric`, `dompurify`, `eslint`, `marked`, `stylelint`, `typescript-eslint`, and `validator` dependencies ([#4522](https://github.com/blackbaud/skyux/issues/4522)) ([1a687cf](https://github.com/blackbaud/skyux/commit/1a687cfc0622411a44bd5e3fd8c07c6c45ceeecb))
+* update design tokens to include new dark mode colors ([#4528](https://github.com/blackbaud/skyux/issues/4528)) ([#4531](https://github.com/blackbaud/skyux/issues/4531)) ([71cadbd](https://github.com/blackbaud/skyux/commit/71cadbdd92001885d7e16fa85f632146f476b477))
 
 
 ### Bug Fixes
