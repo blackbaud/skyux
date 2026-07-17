@@ -1,7 +1,12 @@
 # Changelog
 
 
-## [14.6.3](https://github.com/blackbaud/skyux/compare/14.6.2...14.6.3) (2026-07-15)
+## [14.7.0](https://github.com/blackbaud/skyux/compare/14.6.2...14.7.0) (2026-07-17)
+
+
+### Features
+
+* **components/popovers:** add Alt+ArrowUp/Alt+ArrowDown shortcuts to open and close popovers ([#4523](https://github.com/blackbaud/skyux/issues/4523)) ([c42bf44](https://github.com/blackbaud/skyux/commit/c42bf442f7a5b1174491509cb4c2588cbcc44191)), closes [AB#4035677](https://dev.azure.com/blackbaud/Products/_workitems/edit/4035677)
 
 
 ### Bug Fixes
