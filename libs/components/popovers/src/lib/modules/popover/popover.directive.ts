@@ -128,8 +128,7 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
     this.#unsubscribeMessageStream();
     this.#popoverClosedSubscription?.unsubscribe();
     this.#unregisterKeyboardShortcut?.();
-    this.#shortcutFocusSubscription?.unsubscribe();
-    this.#shortcutFocusOutSubscription?.unsubscribe();
+    this.#unsubscribeKeyboardShortcutSession();
   }
 
   public togglePopover(): void {
@@ -323,12 +322,22 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
   }
 
   #openViaKeyboardShortcut(): void {
-    this.#sendMessage(SkyPopoverMessageType.Open);
     this.#focusPopoverWhenReady();
+
+    if (this.skyPopover?.isActive) {
+      return;
+    }
+
+    this.#sendMessage(SkyPopoverMessageType.Open);
   }
 
   #focusPopoverWhenReady(): void {
     this.#shortcutFocusSubscription?.unsubscribe();
+
+    if (this.skyPopover?.isActive) {
+      return;
+    }
+
     this.#shortcutFocusSubscription = this.skyPopover?.popoverOpened
       .pipe(take(1))
       .subscribe(() => {
@@ -344,6 +353,7 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
 
     const popover = this.skyPopover;
 
+    /*istanbul ignore next*/
     if (!popover) {
       return;
     }
@@ -393,12 +403,18 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
   }
 
   #updateKeyboardShortcut(popover: SkyPopoverComponent | undefined): void {
+    this.#unsubscribeKeyboardShortcutSession();
     this.#unregisterKeyboardShortcut?.();
     this.#unregisterKeyboardShortcut = popover
       ? this.#keyboardShortcutSvc.register(this.#elementRef, () =>
           this.#openViaKeyboardShortcut(),
         )
       : undefined;
+  }
+
+  #unsubscribeKeyboardShortcutSession(): void {
+    this.#shortcutFocusSubscription?.unsubscribe();
+    this.#shortcutFocusOutSubscription?.unsubscribe();
   }
 
   #updateSRPointer(popover: SkyPopoverComponent | undefined): void {

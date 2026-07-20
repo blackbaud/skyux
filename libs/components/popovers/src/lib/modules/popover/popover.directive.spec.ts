@@ -891,6 +891,33 @@ describe('Popover directive', () => {
         expect(isElementVisible(getPopoverElement())).toEqual(true);
       }));
 
+      it('should not close a popover reopened by click after alt+arrowup was pressed while it was open', fakeAsync(() => {
+        detectChangesFakeAsync();
+
+        const button = getCallerElement();
+        button?.click();
+        detectChangesFakeAsync();
+
+        button?.focus();
+        SkyAppTestUtility.fireDomEvent(document, 'keydown', {
+          keyboardEventInit: {
+            key: 'ArrowUp',
+            altKey: true,
+          },
+        });
+        detectChangesFakeAsync();
+
+        button?.click();
+        detectChangesFakeAsync();
+
+        button?.click();
+        detectChangesFakeAsync();
+
+        fireAltArrowDown();
+
+        expect(isElementVisible(getPopoverElement())).toEqual(true);
+      }));
+
       it('should not error if the popover is unset before popoverOpened fires', fakeAsync(() => {
         detectChangesFakeAsync();
 
