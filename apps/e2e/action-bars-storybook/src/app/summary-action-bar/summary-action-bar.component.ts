@@ -44,11 +44,7 @@ export class SummaryActionBarComponent implements OnDestroy {
   }
 
   public get type():
-    | 'tab'
-    | 'page'
-    | 'split-view'
-    | 'modal'
-    | 'modal-full-page' {
+    'tab' | 'page' | 'split-view' | 'modal' | 'modal-full-page' {
     return this.#_type;
   }
 

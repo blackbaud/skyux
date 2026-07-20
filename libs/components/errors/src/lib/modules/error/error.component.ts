@@ -45,8 +45,7 @@ export class SkyErrorComponent implements OnInit {
   public showImage: boolean | undefined = true;
 
   @HostBinding('attr.errorType') public get hostErrorType():
-    | SkyErrorType
-    | undefined {
+    SkyErrorType | undefined {
     return this.errorType;
   }
 

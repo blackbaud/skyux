@@ -56,12 +56,10 @@ export function getNamedImport(
     throw new Error(`Could not find an import.`);
   }
 
-  if (
-    !(
-      !!coreImport.importClause.namedBindings &&
-      ts.isNamedImports(coreImport.importClause.namedBindings)
-    )
-  ) {
+  if (!(
+    !!coreImport.importClause.namedBindings &&
+    ts.isNamedImports(coreImport.importClause.namedBindings)
+  )) {
     throw new Error(
       `The import from ${
         (coreImport.moduleSpecifier as ts.StringLiteral).text

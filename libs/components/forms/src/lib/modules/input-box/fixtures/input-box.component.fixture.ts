@@ -78,8 +78,7 @@ export class InputBoxFixtureComponent {
 
   @ViewChild(InputBoxHostServiceFixtureComponent)
   public inputBoxHostServiceComponent:
-    | InputBoxHostServiceFixtureComponent
-    | undefined;
+    InputBoxHostServiceFixtureComponent | undefined;
 
   constructor() {
     const cdr = inject(ChangeDetectorRef);

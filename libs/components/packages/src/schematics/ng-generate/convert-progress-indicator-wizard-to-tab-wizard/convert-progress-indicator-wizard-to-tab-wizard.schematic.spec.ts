@@ -1,4 +1,3 @@
-import { join, normalize } from '@angular-devkit/core';
 import {
   SchematicTestRunner,
   UnitTestTree,
@@ -7,10 +6,7 @@ import {
 import { createTestApp, createTestLibrary } from '../../testing/scaffold';
 
 describe('ng-generate/convert-progress-indicator-wizard-to-tab-wizard.schematic', () => {
-  const collectionPath = join(
-    normalize(__dirname),
-    '../../../../collection.json',
-  );
+  const collectionPath = require.resolve('../../../../collection.json');
   const runner = new SchematicTestRunner('generate', collectionPath);
 
   async function setupTest(appOrLib: 'app' | 'lib' = 'app'): Promise<{

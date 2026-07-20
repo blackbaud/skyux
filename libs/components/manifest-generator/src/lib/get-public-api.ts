@@ -13,6 +13,7 @@ import { getDirective } from './utility/get-directive.js';
 import { getEnum } from './utility/get-enum.js';
 import { getFunction } from './utility/get-function.js';
 import { getInterface } from './utility/get-interface.js';
+import { normalizeToPosixPath } from './utility/get-output-paths.js';
 import { getPipe } from './utility/get-pipe.js';
 import { getTypeAlias } from './utility/get-type-alias.js';
 import { getVariable } from './utility/get-variable.js';
@@ -128,7 +129,7 @@ export async function getPublicApi(
 
       for (const child of reflection.children) {
         const filePath = child.sources?.[0].fullFileName
-          .replace(process.cwd(), '')
+          .replace(normalizeToPosixPath(process.cwd()), '')
           .slice(1);
 
         /* v8 ignore start: safety check */

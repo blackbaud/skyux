@@ -10,8 +10,7 @@ import type {
  */
 export interface SkyManifestPipeDefinition extends SkyManifestParentDefinition {
   children: (
-    | SkyManifestClassMethodDefinition
-    | SkyManifestClassPropertyDefinition
+    SkyManifestClassMethodDefinition | SkyManifestClassPropertyDefinition
   )[];
   kind: 'pipe';
   templateBindingName: string;

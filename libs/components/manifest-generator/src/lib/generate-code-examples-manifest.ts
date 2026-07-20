@@ -1,14 +1,17 @@
 import type { SkyManifestCodeExamples } from '@skyux/manifest-local';
 
 import fsPromises from 'node:fs/promises';
-import path from 'node:path';
 
 import { getCodeExamples } from './get-code-examples.js';
 import { getDocumentationConfig } from './get-documentation-config.js';
 import { getProjectDefinitions } from './get-project-definitions.js';
 import { getPublicApi } from './get-public-api.js';
 import { SkyManifestOptions } from './manifest-options.js';
-import { ensureDirectory, getOutputPaths } from './utility/get-output-paths.js';
+import {
+  ensureDirectory,
+  getOutputPaths,
+  normalizeToPosixPath,
+} from './utility/get-output-paths.js';
 
 async function writeCodeExamplesManifestFile(
   outDir: string,
@@ -64,7 +67,7 @@ export async function generateCodeExamplesManifest(
     );
   }
 
-  const outDir = path.normalize(options.outDir);
+  const outDir = normalizeToPosixPath(options.outDir);
 
   await writeCodeExamplesManifestFile(outDir, codeExamples);
 }

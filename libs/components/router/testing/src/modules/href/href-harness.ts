@@ -45,7 +45,9 @@ export class SkyHrefHarness extends SkyComponentHarness {
    * Returns true if the text is visible.
    */
   public async isVisible(): Promise<boolean> {
-    return await (await this.host())
+    return await (
+      await this.host()
+    )
       .matchesSelector('[hidden]')
       .then((hidden) => !hidden);
   }

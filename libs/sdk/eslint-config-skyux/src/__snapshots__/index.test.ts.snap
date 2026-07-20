@@ -78,7 +78,7 @@ Array [
       "parser": Object {
         "meta": Object {
           "name": "typescript-eslint/parser",
-          "version": "8.61.1",
+          "version": "8.64.0",
         },
         "parseForESLint": [Function],
       },
@@ -140,7 +140,6 @@ Array [
               "@typescript-eslint/no-inferrable-types": "error",
               "@typescript-eslint/no-invalid-this": "error",
               "@typescript-eslint/no-invalid-void-type": "error",
-              "@typescript-eslint/no-loop-func": "error",
               "@typescript-eslint/no-magic-numbers": "error",
               "@typescript-eslint/no-meaningless-void-operator": "error",
               "@typescript-eslint/no-misused-new": "error",
@@ -232,7 +231,6 @@ Array [
               "no-empty-function": "off",
               "no-implied-eval": "off",
               "no-invalid-this": "off",
-              "no-loop-func": "off",
               "no-magic-numbers": "off",
               "no-redeclare": "off",
               "no-restricted-imports": "off",
@@ -371,7 +369,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.61.1",
+                    "version": "8.64.0",
                   },
                   "parseForESLint": [Function],
                 },
@@ -465,7 +463,6 @@ Array [
                 "@typescript-eslint/no-inferrable-types": "error",
                 "@typescript-eslint/no-invalid-this": "error",
                 "@typescript-eslint/no-invalid-void-type": "error",
-                "@typescript-eslint/no-loop-func": "error",
                 "@typescript-eslint/no-magic-numbers": "error",
                 "@typescript-eslint/no-meaningless-void-operator": "error",
                 "@typescript-eslint/no-misused-new": "error",
@@ -557,7 +554,6 @@ Array [
                 "no-empty-function": "off",
                 "no-implied-eval": "off",
                 "no-invalid-this": "off",
-                "no-loop-func": "off",
                 "no-magic-numbers": "off",
                 "no-redeclare": "off",
                 "no-restricted-imports": "off",
@@ -580,7 +576,7 @@ Array [
               "parser": Object {
                 "meta": Object {
                   "name": "typescript-eslint/parser",
-                  "version": "8.61.1",
+                  "version": "8.64.0",
                 },
                 "parseForESLint": [Function],
               },
@@ -704,7 +700,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.61.1",
+                    "version": "8.64.0",
                   },
                   "parseForESLint": [Function],
                 },
@@ -784,7 +780,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.61.1",
+                    "version": "8.64.0",
                   },
                   "parseForESLint": [Function],
                 },
@@ -889,7 +885,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.61.1",
+                    "version": "8.64.0",
                   },
                   "parseForESLint": [Function],
                 },
@@ -973,7 +969,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.61.1",
+                    "version": "8.64.0",
                   },
                   "parseForESLint": [Function],
                 },
@@ -1067,7 +1063,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.61.1",
+                    "version": "8.64.0",
                   },
                   "parseForESLint": [Function],
                 },
@@ -1228,7 +1224,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.61.1",
+                    "version": "8.64.0",
                   },
                   "parseForESLint": [Function],
                 },
@@ -1352,7 +1348,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.61.1",
+                    "version": "8.64.0",
                   },
                   "parseForESLint": [Function],
                 },
@@ -1423,7 +1419,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.61.1",
+                    "version": "8.64.0",
                   },
                   "parseForESLint": [Function],
                 },
@@ -1503,7 +1499,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.61.1",
+                    "version": "8.64.0",
                   },
                   "parseForESLint": [Function],
                 },
@@ -2051,7 +2047,7 @@ Array [
         "meta": Object {
           "name": "@typescript-eslint/eslint-plugin",
           "namespace": "@typescript-eslint",
-          "version": "8.61.1",
+          "version": "8.64.0",
         },
         "rules": Object {
           "adjacent-overload-signatures": Object {
@@ -2214,19 +2210,19 @@ Array [
                     },
                     "ts-check": Object {
                       "$ref": "#/items/0/$defs/directiveConfigSchema",
-                      "description": "Whether allow ts-check directives, and with which restrictions.",
+                      "description": "Whether to allow ts-check directives, and with which restrictions.",
                     },
                     "ts-expect-error": Object {
                       "$ref": "#/items/0/$defs/directiveConfigSchema",
-                      "description": "Whether and when expect-error directives, and with which restrictions.",
+                      "description": "Whether to allow ts-expect-error directives, and with which restrictions.",
                     },
                     "ts-ignore": Object {
                       "$ref": "#/items/0/$defs/directiveConfigSchema",
-                      "description": "Whether allow ts-ignore directives, and with which restrictions.",
+                      "description": "Whether to allow ts-ignore directives, and with which restrictions.",
                     },
                     "ts-nocheck": Object {
                       "$ref": "#/items/0/$defs/directiveConfigSchema",
-                      "description": "Whether allow ts-nocheck directives, and with which restrictions.",
+                      "description": "Whether to allow ts-nocheck directives, and with which restrictions.",
                     },
                   },
                   "type": "object",
@@ -3569,7 +3565,9 @@ You must still type the parameters of the function.",
                 "url": "https://typescript-eslint.io/rules/method-signature-style",
               },
               "fixable": "code",
+              "hasSuggestions": true,
               "messages": Object {
+                "convertToMethodSignature": "Convert to a method signature. This removes the \`readonly\` modifier, allowing the member to be reassigned.",
                 "errorMethod": "Shorthand method signature is forbidden. Use a function property instead.",
                 "errorProperty": "Function property signature is forbidden. Use a method shorthand instead.",
               },
@@ -6678,6 +6676,18 @@ You must still type the parameters of the function.",
             "create": [Function],
             "defaultOptions": Array [],
             "meta": Object {
+              "deprecated": Object {
+                "deprecatedSince": "8.64.0",
+                "replacedBy": Array [
+                  Object {
+                    "rule": Object {
+                      "name": "no-loop-func",
+                      "url": "https://eslint.org/docs/latest/rules/no-loop-func",
+                    },
+                  },
+                ],
+                "url": "https://github.com/typescript-eslint/typescript-eslint/issues/12496",
+              },
               "docs": Object {
                 "description": "Disallow function declarations that contain unsafe references inside loop statements",
                 "extendsBaseRule": true,
@@ -7667,7 +7677,7 @@ Otherwise, if you don't need to preserve emojis or other non-Ascii characters, d
                       "type": "boolean",
                     },
                     "ignoreOnInitialization": Object {
-                      "description": "Whether to ignore the variable initializers when the shadowed variable is presumably still unitialized.",
+                      "description": "Whether to ignore the variable initializers when the shadowed variable is presumably still uninitialized.",
                       "type": "boolean",
                     },
                     "ignoreTypeValueShadow": Object {
@@ -7705,7 +7715,7 @@ Otherwise, if you don't need to preserve emojis or other non-Ascii characters, d
                   "additionalProperties": false,
                   "properties": Object {
                     "allowDestructuring": Object {
-                      "description": "Whether to ignore destructurings, such as \`const { props, state } = this\`.",
+                      "description": "Whether to ignore destructuring, such as \`const { props, state } = this\`.",
                       "type": "boolean",
                     },
                     "allowedNames": Object {
@@ -8493,7 +8503,7 @@ You can try to fix this by turning on the \`noImplicitThis\` compiler option, or
                           "type": "boolean",
                         },
                         "ignoreRestSiblings": Object {
-                          "description": "Whether to ignore sibling properties in \`...\` destructurings.",
+                          "description": "Whether to ignore sibling properties in \`...\` destructuring.",
                           "type": "boolean",
                         },
                         "ignoreUsingDeclarations": Object {
@@ -10964,7 +10974,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
       "parser": Object {
         "meta": Object {
           "name": "typescript-eslint/parser",
-          "version": "8.61.1",
+          "version": "8.64.0",
         },
         "parseForESLint": [Function],
       },
@@ -11391,6 +11401,22 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "type": "suggestion",
             },
             "name": "directive-selector",
+          },
+          "inject-at-top": Object {
+            "create": [Function],
+            "defaultOptions": Array [],
+            "meta": Object {
+              "docs": Object {
+                "description": "Requires inject() calls to be declared at the top of the class, before any other member",
+                "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/inject-at-top.md",
+              },
+              "messages": Object {
+                "injectAtTop": "Move this inject() to the top of the class. Class fields are initialized in the order they are written, so anything declared above this line cannot safely use the service yet.",
+              },
+              "schema": Array [],
+              "type": "problem",
+            },
+            "name": "inject-at-top",
           },
           "no-async-lifecycle-method": Object {
             "create": [Function],
@@ -11874,6 +11900,23 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "type": "suggestion",
             },
             "name": "prefer-output-readonly",
+          },
+          "prefer-service-decorator": Object {
+            "create": [Function],
+            "defaultOptions": Array [],
+            "meta": Object {
+              "docs": Object {
+                "description": "Prefer the \`@Service()\` decorator over \`@Injectable({ providedIn: 'root' })\`",
+                "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-service-decorator.md",
+              },
+              "fixable": "code",
+              "messages": Object {
+                "preferServiceDecorator": "Use the \`@Service()\` decorator instead of \`@Injectable({ providedIn: 'root' })\`",
+              },
+              "schema": Array [],
+              "type": "suggestion",
+            },
+            "name": "prefer-service-decorator",
           },
           "prefer-signal-model": Object {
             "create": [Function],
@@ -12408,7 +12451,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
       "parser": Object {
         "meta": Object {
           "name": "angular-eslint/template-parser",
-          "version": "22.0.0",
+          "version": "22.1.0",
         },
         "parseForESLint": [Function],
       },
@@ -13316,6 +13359,22 @@ For example, when set to \`true\` the following code will not fail for the \`alt
             },
             "name": "no-non-null-assertion",
           },
+          "no-outerhtml": Object {
+            "create": [Function],
+            "defaultOptions": Array [],
+            "meta": Object {
+              "docs": Object {
+                "description": "Disallows using \`outerHTML\` on elements, which breaks change detection and detaches the element from the Angular view",
+                "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/no-outerhtml.md",
+              },
+              "messages": Object {
+                "noOuterHtml": "Do not use \`outerHTML\`. Binding to \`[outerHTML]\` throws on update because setting \`outerHTML\` replaces the host element itself, so Angular loses its reference to the node (\\"This element has no parent node\\"); a static \`outerHTML\` attribute is not a real DOM attribute and has no effect. Use \`[innerHTML]\` (being mindful of sanitization) or restructure the template instead.",
+              },
+              "schema": Array [],
+              "type": "problem",
+            },
+            "name": "no-outerhtml",
+          },
           "no-positive-tabindex": Object {
             "create": [Function],
             "defaultOptions": Array [],
@@ -13621,6 +13680,22 @@ For example, when set to \`true\` the following code will not fail for the \`alt
               "type": "suggestion",
             },
             "name": "prefer-template-literal",
+          },
+          "require-switch-default": Object {
+            "create": [Function],
+            "defaultOptions": Array [],
+            "meta": Object {
+              "docs": Object {
+                "description": "Requires a \`@default\` block on every \`@switch\` to ensure all cases are handled. This is the template equivalent of the \`@typescript-eslint/switch-exhaustiveness-check\` rule.",
+                "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/require-switch-default.md",
+              },
+              "messages": Object {
+                "requireSwitchDefault": "Switch should have a default block. Add \`@default { ... }\`, or \`@default never\` to enforce a compile-time exhaustive switch.",
+              },
+              "schema": Array [],
+              "type": "suggestion",
+            },
+            "name": "require-switch-default",
           },
           "role-has-required-aria": Object {
             "create": [Function],

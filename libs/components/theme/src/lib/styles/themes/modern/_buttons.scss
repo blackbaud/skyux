@@ -663,7 +663,7 @@
         outline-offset: calc(var(--sky-border-width-action-active) * -1);
       }
 
-      &.sky-btn-tab-selected {
+      &.sky-btn-tab-selected:not(.sky-btn-tab-disabled) {
         background-color: var(--sky-color-background-selected-soft);
         color: var(--sky-color-text-default);
         border-bottom: none;

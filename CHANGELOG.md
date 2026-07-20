@@ -1,6 +1,48 @@
 # Changelog
 
 
+## [15.0.0-alpha.1](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.0...15.0.0-alpha.1) (2026-07-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* update `@skyux/icons`, `axe-core`, `autonumeric`, `dompurify`, `eslint`, `marked`, `stylelint`, `typescript-eslint`, and `validator` dependencies (#4522)
+* **components/pages:** Needs-attention blocks without any items are no longer displayed.
+
+### Features
+
+* add @skyux/charts library with basic chart wrapper (developer preview) ([#4448](https://github.com/blackbaud/skyux/issues/4448)) ([#4473](https://github.com/blackbaud/skyux/issues/4473)) ([4d56de2](https://github.com/blackbaud/skyux/commit/4d56de2bcf0f13607be9acc30e2a0f6b9b1b91ab))
+* add support for `intl-tel-input@29.1.2` ([#4515](https://github.com/blackbaud/skyux/issues/4515)) ([0d94230](https://github.com/blackbaud/skyux/commit/0d942307ab609f0a5c2d2f80930f7e702f7f429a))
+* **components/data-grid:** create an easy mode for data grid ([#4430](https://github.com/blackbaud/skyux/issues/4430)) ([#4486](https://github.com/blackbaud/skyux/issues/4486)) ([8a96189](https://github.com/blackbaud/skyux/commit/8a96189ec8650952a24670144dc6e56d8b64a554)), closes [AB#3942528](https://dev.azure.com/blackbaud/Products/_workitems/edit/3942528) [AB#3965849](https://dev.azure.com/blackbaud/Products/_workitems/edit/3965849)
+* **components/packages:** create `convert-grid-to-data-grid` schematics ([#4488](https://github.com/blackbaud/skyux/issues/4488)) ([#4505](https://github.com/blackbaud/skyux/issues/4505)) ([4f198e5](https://github.com/blackbaud/skyux/commit/4f198e53b60480d80e2f4f970c5c05dfc305d862)), closes [AB#3677447](https://dev.azure.com/blackbaud/Products/_workitems/edit/3677447)
+* **components/pages:** hide needs-attention block when empty ([#4477](https://github.com/blackbaud/skyux/issues/4477)) ([ac7da1d](https://github.com/blackbaud/skyux/commit/ac7da1d57d21b73be111c79cd1812ecbcaf4403b))
+* **components/tabs:** add `tabWidth` input to sectioned form with `auto` sizing and harness/example support ([#4495](https://github.com/blackbaud/skyux/issues/4495)) ([#4496](https://github.com/blackbaud/skyux/issues/4496)) ([2a081f8](https://github.com/blackbaud/skyux/commit/2a081f8890648caa366e7ba00cc6f1970ffce0e5)), closes [AB#3934247](https://dev.azure.com/blackbaud/Products/_workitems/edit/3934247)
+* update `@skyux/icons`, `axe-core`, `autonumeric`, `dompurify`, `eslint`, `marked`, `stylelint`, `typescript-eslint`, and `validator` dependencies ([#4522](https://github.com/blackbaud/skyux/issues/4522)) ([1a687cf](https://github.com/blackbaud/skyux/commit/1a687cfc0622411a44bd5e3fd8c07c6c45ceeecb))
+* update design tokens to include new dark mode colors ([#4528](https://github.com/blackbaud/skyux/issues/4528)) ([#4531](https://github.com/blackbaud/skyux/issues/4531)) ([71cadbd](https://github.com/blackbaud/skyux/commit/71cadbdd92001885d7e16fa85f632146f476b477))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** checkbox styles not working in dark mode ([#4507](https://github.com/blackbaud/skyux/issues/4507)) ([#4508](https://github.com/blackbaud/skyux/issues/4508)) ([f0b3a8f](https://github.com/blackbaud/skyux/commit/f0b3a8fe54df1449aae58b5ce77a52428527daf5)), closes [AB#4044305](https://dev.azure.com/blackbaud/Products/_workitems/edit/4044305)
+* **components/ag-grid:** header focus ring should meet minimum contrast ratio ([#4481](https://github.com/blackbaud/skyux/issues/4481)) ([#4483](https://github.com/blackbaud/skyux/issues/4483)) ([3ea6b79](https://github.com/blackbaud/skyux/commit/3ea6b79a0ea4f1a018df0aed710f85c0b9790da6)), closes [AB#3693206](https://dev.azure.com/blackbaud/Products/_workitems/edit/3693206)
+* **components/data-grid:** page not resetting to 1 when pageQueryParam is set ([#4516](https://github.com/blackbaud/skyux/issues/4516)) ([#4519](https://github.com/blackbaud/skyux/issues/4519)) ([fd730a4](https://github.com/blackbaud/skyux/commit/fd730a4fb3d337b02930b8e85478a2ffd59433ff)), closes [AB#4046789](https://dev.azure.com/blackbaud/Products/_workitems/edit/4046789)
+* **components/docs-tools:** code examples in StackBlitz WebContainer preview blocked by CORP error ([#4517](https://github.com/blackbaud/skyux/issues/4517)) ([#4521](https://github.com/blackbaud/skyux/issues/4521)) ([69eee04](https://github.com/blackbaud/skyux/commit/69eee046cc0ae0d8802c7d0f18475d8e6b928683)), closes [stackblitz/webcontainer-core#2100](https://github.com/stackblitz/webcontainer-core/issues/2100) [AB#4046763](https://dev.azure.com/blackbaud/Products/_workitems/edit/4046763)
+* **components/packages:** standalone schematic crash on SKY UX pipe in TestBed.configureTestingModule ([#4524](https://github.com/blackbaud/skyux/issues/4524)) ([#4525](https://github.com/blackbaud/skyux/issues/4525)) ([b2bb418](https://github.com/blackbaud/skyux/commit/b2bb41835b7bb827237a412ccfe5af51faa33121)), closes [AB#4046930](https://dev.azure.com/blackbaud/Products/_workitems/edit/4046930)
+* **components/text-editor:** update `dompurify` to address a security vulnerability ([#4489](https://github.com/blackbaud/skyux/issues/4489)) ([#4490](https://github.com/blackbaud/skyux/issues/4490)) ([9f84cb8](https://github.com/blackbaud/skyux/commit/9f84cb8279f8dfe6b2199992b1e0e772e2ff94ab))
+
+## [14.7.0](https://github.com/blackbaud/skyux/compare/14.6.2...14.7.0) (2026-07-17)
+
+
+### Features
+
+* **components/popovers:** add Alt+ArrowUp/Alt+ArrowDown shortcuts to open and close popovers ([#4523](https://github.com/blackbaud/skyux/issues/4523)) ([c42bf44](https://github.com/blackbaud/skyux/commit/c42bf442f7a5b1174491509cb4c2588cbcc44191)), closes [AB#4035677](https://dev.azure.com/blackbaud/Products/_workitems/edit/4035677)
+* update design tokens to include new dark mode colors ([#4528](https://github.com/blackbaud/skyux/issues/4528)) ([c7404f1](https://github.com/blackbaud/skyux/commit/c7404f1c4da243b388b4941d88c4968696060fa6))
+
+
+### Bug Fixes
+
+* **components/packages:** standalone schematic crash on SKY UX pipe in TestBed.configureTestingModule ([#4524](https://github.com/blackbaud/skyux/issues/4524)) ([bc54ea9](https://github.com/blackbaud/skyux/commit/bc54ea9020da799d724d676b015e66953d2cca4a)), closes [AB#4046930](https://dev.azure.com/blackbaud/Products/_workitems/edit/4046930)
+
 ## [14.6.2](https://github.com/blackbaud/skyux/compare/14.6.1...14.6.2) (2026-07-14)
 
 

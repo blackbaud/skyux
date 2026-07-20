@@ -37,8 +37,7 @@ export class FooClass<TClass extends FooBaseClass> {
   public arrayOfFunctionTypes!: ((a: boolean, b?: string) => void)[];
 
   public arrayOfFunctionTypesOrUndefined:
-    | ((a: boolean, b?: string) => void)[]
-    | undefined;
+    ((a: boolean, b?: string) => void)[] | undefined;
 
   public arrayOfIntrinsicTypes: string[] | undefined;
 

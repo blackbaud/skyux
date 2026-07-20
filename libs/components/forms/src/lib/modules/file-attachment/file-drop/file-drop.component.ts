@@ -266,8 +266,7 @@ export class SkyFileDropComponent implements OnDestroy, ControlValueAccessor {
 
   #notifyTouched: (() => void) | undefined;
   #notifyChange:
-    | ((_: (SkyFileItem | SkyFileLink)[] | undefined | null) => void)
-    | undefined;
+    ((_: (SkyFileItem | SkyFileLink)[] | undefined | null) => void) | undefined;
   #_uploadedFiles: (SkyFileItem | SkyFileLink)[] = [];
 
   readonly #fileAttachmentService = inject(SkyFileAttachmentService);

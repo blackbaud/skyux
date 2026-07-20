@@ -79,7 +79,9 @@ export class SkyHelpInlineHarness extends SkyComponentHarness {
    * @internal
    */
   public async getAriaLabelledBy(): Promise<string | null> {
-    return await (await this.#getInlineHelpButton())
+    return await (
+      await this.#getInlineHelpButton()
+    )
       .getAttribute('aria-labelledby')
       .then((ref) => {
         if (ref) {

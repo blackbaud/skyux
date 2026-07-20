@@ -732,7 +732,7 @@ describe('Popover directive', () => {
     it('should not open a popover with alt+arrowup when the directive has no popover attached', fakeAsync(() => {
       detectChangesFakeAsync();
 
-      fixture.componentInstance.skyPopover = undefined;
+      fixture.componentInstance.skyPopover.set(undefined);
       detectChangesFakeAsync();
 
       const button = getCallerElement();
@@ -904,7 +904,7 @@ describe('Popover directive', () => {
           },
         });
 
-        fixture.componentInstance.skyPopover = undefined;
+        fixture.componentInstance.skyPopover.set(undefined);
 
         expect(() => detectChangesFakeAsync()).not.toThrow();
       }));

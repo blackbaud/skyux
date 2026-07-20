@@ -167,8 +167,7 @@ export class SkyAgGridCellEditorDatepickerComponent implements ICellEditorAngula
     // AG Grid sets focus to the cell via setTimeout, and this queues the input to focus after that.
     setTimeout(() => {
       const datepickerInputEl = this.datepickerInput?.nativeElement as
-        | HTMLInputElement
-        | undefined;
+        HTMLInputElement | undefined;
 
       if (datepickerInputEl) {
         datepickerInputEl.focus();
