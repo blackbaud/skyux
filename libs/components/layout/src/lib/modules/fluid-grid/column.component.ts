@@ -7,7 +7,14 @@ import {
   OnInit,
   SimpleChanges,
   ViewEncapsulation,
+  numberAttribute,
 } from '@angular/core';
+
+function transformNumberOrUndefined(value: unknown): number | undefined {
+  return value === undefined || value === null
+    ? undefined
+    : numberAttribute(value);
+}
 
 /**
  * Displays a column within a row of the fluid grid.
@@ -27,7 +34,7 @@ export class SkyColumnComponent implements OnInit, OnChanges {
    * the column at the full width of the screen.
    * @default 12
    */
-  @Input()
+  @Input({ transform: transformNumberOrUndefined })
   public set screenXSmall(value: number | undefined) {
     this.#_screenXSmall = value ?? 12;
   }
@@ -41,7 +48,7 @@ export class SkyColumnComponent implements OnInit, OnChanges {
    * (768-991px). If you do not specify a value, the column inherits
    * the `screenXSmall` value.
    */
-  @Input()
+  @Input({ transform: transformNumberOrUndefined })
   public screenSmall: number | undefined;
 
   /**
@@ -49,7 +56,7 @@ export class SkyColumnComponent implements OnInit, OnChanges {
    * (992-1199px). If you do not specify a value, the column inherits
    * the `screenSmall` value.
    */
-  @Input()
+  @Input({ transform: transformNumberOrUndefined })
   public screenMedium: number | undefined;
 
   /**
@@ -57,7 +64,7 @@ export class SkyColumnComponent implements OnInit, OnChanges {
    * (more than 1200px). If you do not specify a value, the column
    * inherits the `screenMedium` value.
    */
-  @Input()
+  @Input({ transform: transformNumberOrUndefined })
   public screenLarge: number | undefined;
 
   @HostBinding('class')
