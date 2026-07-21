@@ -688,6 +688,272 @@ describe('Popover directive', () => {
 
       expect(popover).toBeNull();
     }));
+
+    it('should open the popover with alt+arrowup when the trigger is the sole popover trigger within the focused element', fakeAsync(() => {
+      detectChangesFakeAsync();
+
+      const button = getCallerElement();
+      button?.focus();
+
+      SkyAppTestUtility.fireDomEvent(document, 'keydown', {
+        keyboardEventInit: {
+          key: 'ArrowUp',
+          altKey: true,
+        },
+      });
+
+      detectChangesFakeAsync();
+
+      const popover = getPopoverElement();
+
+      expect(isElementVisible(popover)).toEqual(true);
+    }));
+
+    it('should not open a popover with alt+arrowup when multiple popover triggers are within the focused element', fakeAsync(() => {
+      detectChangesFakeAsync();
+
+      const canvas: HTMLElement =
+        fixture.nativeElement.querySelector('.canvas');
+      canvas.tabIndex = -1;
+      canvas.focus();
+
+      SkyAppTestUtility.fireDomEvent(document, 'keydown', {
+        keyboardEventInit: {
+          key: 'ArrowUp',
+          altKey: true,
+        },
+      });
+
+      detectChangesFakeAsync();
+
+      expect(getPopoverElement()).toBeNull();
+    }));
+
+    it('should not open a popover with alt+arrowup when the directive has no popover attached', fakeAsync(() => {
+      detectChangesFakeAsync();
+
+      fixture.componentInstance.skyPopover.set(undefined);
+      detectChangesFakeAsync();
+
+      const button = getCallerElement();
+      button?.focus();
+
+      SkyAppTestUtility.fireDomEvent(document, 'keydown', {
+        keyboardEventInit: {
+          key: 'ArrowUp',
+          altKey: true,
+        },
+      });
+
+      detectChangesFakeAsync();
+
+      expect(getPopoverElement()).toBeNull();
+    }));
+
+    describe('alt+arrowup focus management', function () {
+      function openViaAltArrowUp(): void {
+        const button = getCallerElement();
+        button?.focus();
+
+        SkyAppTestUtility.fireDomEvent(document, 'keydown', {
+          keyboardEventInit: {
+            key: 'ArrowUp',
+            altKey: true,
+          },
+        });
+
+        detectChangesFakeAsync();
+      }
+
+      function fireAltArrowDown(): void {
+        SkyAppTestUtility.fireDomEvent(document, 'keydown', {
+          keyboardEventInit: {
+            key: 'ArrowDown',
+            altKey: true,
+          },
+        });
+
+        detectChangesFakeAsync();
+      }
+
+      it('should move focus into the popover when it has focusable content', fakeAsync(() => {
+        fixture.componentInstance.showFocusableChildren = true;
+        detectChangesFakeAsync();
+
+        openViaAltArrowUp();
+
+        const focusableItems = getFocusableItems();
+
+        expect(isElementFocused(focusableItems?.item(0))).toEqual(true);
+      }));
+
+      it('should leave focus on the trigger when the popover has no focusable content', fakeAsync(() => {
+        detectChangesFakeAsync();
+
+        const button = getCallerElement();
+        openViaAltArrowUp();
+
+        expect(isElementFocused(button)).toEqual(true);
+      }));
+
+      it('should close the popover when focus moves to an element outside the trigger and the popover', fakeAsync(() => {
+        detectChangesFakeAsync();
+
+        openViaAltArrowUp();
+
+        expect(isElementVisible(getPopoverElement())).toEqual(true);
+
+        const unrelated = document.createElement('button');
+        document.body.appendChild(unrelated);
+
+        unrelated.focus();
+        detectChangesFakeAsync();
+
+        expect(getPopoverElement()).toBeNull();
+
+        unrelated.remove();
+      }));
+
+      it('should not close the popover when focus moves between focusable children within the popover', fakeAsync(() => {
+        fixture.componentInstance.showFocusableChildren = true;
+        detectChangesFakeAsync();
+
+        openViaAltArrowUp();
+
+        const focusableItems = getFocusableItems();
+        (focusableItems?.item(1) as HTMLElement | undefined)?.focus();
+        detectChangesFakeAsync();
+
+        expect(isElementVisible(getPopoverElement())).toEqual(true);
+      }));
+
+      it('should not error when focus moves elsewhere after the popover already closed via escape', fakeAsync(() => {
+        detectChangesFakeAsync();
+
+        const button = getCallerElement();
+        openViaAltArrowUp();
+
+        SkyAppTestUtility.fireDomEvent(button, 'keydown', {
+          keyboardEventInit: {
+            key: 'escape',
+          },
+        });
+        detectChangesFakeAsync();
+
+        expect(getPopoverElement()).toBeNull();
+
+        const unrelated = document.createElement('button');
+        document.body.appendChild(unrelated);
+
+        expect(() => {
+          unrelated.focus();
+          detectChangesFakeAsync();
+        }).not.toThrow();
+
+        unrelated.remove();
+      }));
+
+      it('should close the popover with alt+arrowdown after opening via alt+arrowup', fakeAsync(() => {
+        detectChangesFakeAsync();
+
+        openViaAltArrowUp();
+
+        expect(isElementVisible(getPopoverElement())).toEqual(true);
+
+        fireAltArrowDown();
+
+        expect(getPopoverElement()).toBeNull();
+      }));
+
+      it('should refocus the trigger when closed via alt+arrowdown', fakeAsync(() => {
+        fixture.componentInstance.showFocusableChildren = true;
+        detectChangesFakeAsync();
+
+        const button = getCallerElement();
+        openViaAltArrowUp();
+
+        fireAltArrowDown();
+
+        expect(isElementFocused(button)).toEqual(true);
+      }));
+
+      it('should not close a popover opened by click when alt+arrowdown is pressed', fakeAsync(() => {
+        detectChangesFakeAsync();
+
+        const button = getCallerElement();
+        button?.click();
+        detectChangesFakeAsync();
+
+        expect(isElementVisible(getPopoverElement())).toEqual(true);
+
+        fireAltArrowDown();
+
+        expect(isElementVisible(getPopoverElement())).toEqual(true);
+      }));
+
+      it('should not close a popover reopened by click after alt+arrowup was pressed while it was open', fakeAsync(() => {
+        detectChangesFakeAsync();
+
+        const button = getCallerElement();
+        button?.click();
+        detectChangesFakeAsync();
+
+        button?.focus();
+        SkyAppTestUtility.fireDomEvent(document, 'keydown', {
+          keyboardEventInit: {
+            key: 'ArrowUp',
+            altKey: true,
+          },
+        });
+        detectChangesFakeAsync();
+
+        button?.click();
+        detectChangesFakeAsync();
+
+        button?.click();
+        detectChangesFakeAsync();
+
+        fireAltArrowDown();
+
+        expect(isElementVisible(getPopoverElement())).toEqual(true);
+      }));
+
+      it('should not error if the popover is unset before popoverOpened fires', fakeAsync(() => {
+        detectChangesFakeAsync();
+
+        const button = getCallerElement();
+        button?.focus();
+
+        SkyAppTestUtility.fireDomEvent(document, 'keydown', {
+          keyboardEventInit: {
+            key: 'ArrowUp',
+            altKey: true,
+          },
+        });
+
+        fixture.componentInstance.skyPopover.set(undefined);
+
+        expect(() => detectChangesFakeAsync()).not.toThrow();
+      }));
+
+      it('should close the popover if focus moves within it while its popoverId is falsy', fakeAsync(() => {
+        fixture.componentInstance.showFocusableChildren = true;
+        detectChangesFakeAsync();
+
+        openViaAltArrowUp();
+
+        const popoverRef = fixture.componentInstance.popoverRef;
+        if (popoverRef) {
+          popoverRef.popoverId = '';
+        }
+
+        const focusableItems = getFocusableItems();
+        (focusableItems?.item(1) as HTMLElement | undefined)?.focus();
+        detectChangesFakeAsync();
+
+        expect(getPopoverElement()).toBeNull();
+      }));
+    });
   });
 
   describe('message stream', function () {
