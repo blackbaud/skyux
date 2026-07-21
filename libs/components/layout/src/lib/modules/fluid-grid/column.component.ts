@@ -10,12 +10,6 @@ import {
   numberAttribute,
 } from '@angular/core';
 
-function transformNumberOrUndefined(value: unknown): number | undefined {
-  return value === undefined || value === null
-    ? undefined
-    : numberAttribute(value);
-}
-
 /**
  * Displays a column within a row of the fluid grid.
  */
@@ -34,9 +28,9 @@ export class SkyColumnComponent implements OnInit, OnChanges {
    * the column at the full width of the screen.
    * @default 12
    */
-  @Input({ transform: transformNumberOrUndefined })
-  public set screenXSmall(value: number | undefined) {
-    this.#_screenXSmall = value ?? 12;
+  @Input({ transform: numberAttribute })
+  public set screenXSmall(value: number) {
+    this.#_screenXSmall = Number.isNaN(value) ? 12 : value;
   }
 
   public get screenXSmall(): number {
@@ -48,24 +42,24 @@ export class SkyColumnComponent implements OnInit, OnChanges {
    * (768-991px). If you do not specify a value, the column inherits
    * the `screenXSmall` value.
    */
-  @Input({ transform: transformNumberOrUndefined })
-  public screenSmall: number | undefined;
+  @Input({ transform: numberAttribute })
+  public screenSmall = NaN;
 
   /**
    * The number of columns (1-12) on medium screens
    * (992-1199px). If you do not specify a value, the column inherits
    * the `screenSmall` value.
    */
-  @Input({ transform: transformNumberOrUndefined })
-  public screenMedium: number | undefined;
+  @Input({ transform: numberAttribute })
+  public screenMedium = NaN;
 
   /**
    * The number of columns (1-12) on large screens
    * (more than 1200px). If you do not specify a value, the column
    * inherits the `screenMedium` value.
    */
-  @Input({ transform: transformNumberOrUndefined })
-  public screenLarge: number | undefined;
+  @Input({ transform: numberAttribute })
+  public screenLarge = NaN;
 
   @HostBinding('class')
   public classnames: string | undefined;
