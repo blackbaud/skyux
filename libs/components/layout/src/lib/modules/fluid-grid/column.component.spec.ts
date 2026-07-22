@@ -83,4 +83,16 @@ describe('SkyColumnComponent', () => {
     await fixture.whenStable();
     await expectAsync(fixture.nativeElement).toBeAccessible();
   });
+
+  it('should accept string values for the size inputs', () => {
+    fixture.componentRef.setInput('xsSize', '2');
+    fixture.componentRef.setInput('smallSize', '3');
+    fixture.componentRef.setInput('mediumSize', '7');
+    fixture.componentRef.setInput('largeSize', '4');
+    fixture.detectChanges();
+    expect(element.className).toContain('sky-column-xs-2');
+    expect(element.className).toContain('sky-column-sm-3');
+    expect(element.className).toContain('sky-column-md-7');
+    expect(element.className).toContain('sky-column-lg-4');
+  });
 });
