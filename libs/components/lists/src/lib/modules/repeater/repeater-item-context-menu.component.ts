@@ -1,8 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
- * Wraps and styles a
- * [`sky-dropdown` component](https://developer.blackbaud.com/skyux-popovers/docs/dropdown).
+ * Creates a container for a
+ * [`sky-dropdown` component](https://developer.blackbaud.com/skyux-popovers/docs/dropdown)
+ * or an action button. When the container wraps a dropdown, it provides the dropdown with a
+ * contextual accessibility name. Use the `icon-borderless` CSS class to style an action button,
+ * such as an edit or delete button, placed within the container.
  */
 @Component({
   selector: 'sky-repeater-item-context-menu',
