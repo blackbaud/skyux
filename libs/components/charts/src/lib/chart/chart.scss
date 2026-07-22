@@ -1,15 +1,79 @@
-.sky-chart {
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+
+@include compatMixins.sky-default-overrides(':host') {
+  --sky-override-chart-font-family-primary: #{$sky-font-family};
+  --sky-override-chart-font-size-body-s: #{$sky-text-size-125};
+  --sky-override-chart-font-style-body-s: 400;
+  --sky-override-chart-font-style-emphasized: 700;
+  --sky-override-chart-font-line_height-body-s: 1.3846;
+  --sky-override-chart-color-text-default: #{$sky-text-color-default};
+  --sky-override-chart-color-text-deemphasized: #{$sky-text-color-deemphasized};
+  --sky-override-chart-color-viz-axis: #{$sky-border-color-neutral-medium};
+  --sky-override-chart-color-viz-gridline: #{$sky-color-gray-05};
+  --sky-override-chart-color-viz-category-1: #06a39e;
+  --sky-override-chart-color-viz-category-2: #6d3c96;
+  --sky-override-chart-color-viz-category-3: #5589dd;
+  --sky-override-chart-color-viz-category-4: #004252;
+  --sky-override-chart-color-viz-category-5: #ce5600;
+  --sky-override-chart-color-viz-category-6: #822325;
+  --sky-override-chart-color-viz-category-7: #c650c1;
+  --sky-override-chart-color-viz-category-8: #077e43;
+  --sky-override-chart-color-background-container-base: #{$sky-color-white};
+  --sky-override-chart-color-border-container-base: #{$sky-border-color-neutral-medium};
+  --sky-override-chart-size-chart-tick_length-measure: 12px;
+  --sky-override-chart-space-stacked-xs: 4px;
+  --sky-override-chart-space-stacked-s: 8px;
+  --sky-override-chart-space-stacked-0: 0px;
+  --sky-override-chart-space-gap-icon-s: 4px;
+  --sky-override-chart-space-gap-text_action-m: 12px;
+  --sky-override-chart-size-icon-xs: 16px;
+  --sky-override-chart-border-width-container-base: 1px;
+  --sky-override-chart-border-radius-s: 4px;
+  --sky-override-chart-border-radius-xs: 2px;
+  --sky-override-chart-comp-chart-tooltip-space-inset-top: 8px;
+  --sky-override-chart-comp-chart-tooltip-space-inset-right: 12px;
+  --sky-override-chart-comp-chart-tooltip-space-inset-bottom: 8px;
+  --sky-override-chart-comp-chart-tooltip-space-inset-left: 12px;
+}
+
+:host {
   display: block;
+
+  // The chart's height bounds, authored once and shared by the loading
+  // state's reserved height (below) and the plot heights resolved in
+  // `chart-theme-styles.ts`.
+  --sky-chart-height-min: 11.25rem;
+  --sky-chart-height-viewport: 28vh;
+  --sky-chart-height-max: 25rem;
 }
 
 .sky-chart-header {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  column-gap: var(--sky-space-gap-text_action-m, 12px);
-  margin-bottom: var(--sky-space-stacked-xs, 5px);
+  column-gap: var(
+    --sky-override-chart-space-gap-text_action-m,
+    var(--sky-space-gap-text_action-m)
+  );
+  margin-bottom: var(
+    --sky-override-chart-space-stacked-s,
+    var(--sky-space-stacked-s)
+  );
 }
 
 figure.sky-chart-content {
   margin: 0;
+}
+
+// While loading, reserve the default chart height so the wait overlay has a
+// visible region before the plot renders and the page does not reflow when
+// data arrives.
+figure.sky-chart-content-loading {
+  position: relative;
+  min-height: clamp(
+    var(--sky-chart-height-min),
+    var(--sky-chart-height-viewport),
+    var(--sky-chart-height-max)
+  );
 }

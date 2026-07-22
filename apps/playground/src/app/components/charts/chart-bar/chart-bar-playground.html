@@ -1,0 +1,110 @@
+<sky-page layout="blocks">
+  <sky-page-content>
+    <div class="sky-theme-margin-bottom-l">
+      <sky-toggle-switch
+        class="sky-margin-stacked-lg"
+        labelText="Horizontal orientation"
+        [checked]="isHorizontal()"
+        (toggleChange)="isHorizontal.set($event.checked)"
+      />
+    </div>
+    <sky-fluid-grid gutterSize="medium" [disableMargin]="true">
+      <sky-row>
+        <sky-column [screenSmall]="4">
+          <sky-box class="sky-margin-stacked-xl" headingText="Basic">
+            <sky-box-content>
+              <app-chart-bar-basic [orientation]="orientation()" />
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
+        <sky-column [screenSmall]="4">
+          <sky-box
+            class="sky-margin-stacked-xl"
+            headingText="Multiple series (grouped bars)"
+          >
+            <sky-box-content>
+              <app-chart-bar-multiple-series [orientation]="orientation()" />
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
+        <sky-column [screenSmall]="4">
+          <sky-box class="sky-margin-stacked-xl" headingText="Stacked series">
+            <sky-box-content>
+              <app-chart-bar-stacked [orientation]="orientation()" />
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
+      </sky-row>
+      <sky-row>
+        <sky-column [screenSmall]="4">
+          <sky-box
+            class="sky-margin-stacked-xl"
+            headingText="Grouped, stacked series"
+          >
+            <sky-box-content>
+              <app-chart-bar-grouped-stacked [orientation]="orientation()" />
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
+        <sky-column [screenSmall]="4">
+          <sky-box
+            class="sky-margin-stacked-xl"
+            headingText="Hidden axis labels"
+          >
+            <sky-box-content>
+              <app-chart-bar-hidden-labels [orientation]="orientation()" />
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
+        <sky-column [screenSmall]="4">
+          <sky-box headingText="Logarithmic scale">
+            <sky-box-content>
+              <app-chart-bar-logarithmic [orientation]="orientation()" />
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
+      </sky-row>
+      <sky-row>
+        <sky-column [screenSmall]="4">
+          <sky-box headingText="Floating bars">
+            <sky-box-content>
+              <app-chart-bar-floating [orientation]="orientation()" />
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
+        <sky-column [screenSmall]="4">
+          <sky-box headingText="Floating bars (multiple series)">
+            <sky-box-content>
+              <app-chart-bar-floating-multiple-series
+                [orientation]="orientation()"
+              />
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
+        <sky-column [screenSmall]="4">
+          <sky-box headingText="Async data">
+            <sky-box-content>
+              <app-chart-bar-async [orientation]="orientation()" />
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
+      </sky-row>
+      <sky-row>
+        <sky-column [screenSmall]="4">
+          <sky-box headingText="Value formats">
+            <sky-box-content>
+              <app-chart-bar-value-format [orientation]="orientation()" />
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
+        <sky-column [screenSmall]="4">
+          <sky-box headingText="Value axis bounds">
+            <sky-box-content>
+              <app-chart-bar-value-bounds [orientation]="orientation()" />
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
+      </sky-row>
+    </sky-fluid-grid>
+  </sky-page-content>
+</sky-page>

@@ -1,9 +1,9 @@
 import { numberAttribute } from '@angular/core';
 
 /**
- * @preview
- *
  * The allowed heading levels for charts, corresponding to the semantic heading levels in HTML.
+ *
+ * @preview
  */
 export type SkyChartHeadingLevel = 2 | 3 | 4 | 5;
 

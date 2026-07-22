@@ -1,0 +1,20 @@
+<button
+  class="sky-btn sky-btn-default sky-margin-stacked-sm"
+  type="button"
+  [disabled]="donations.isLoading()"
+  (click)="donations.reload()"
+>
+  Reload data
+</button>
+<sky-chart headingText="Donations by quarter" [loading]="donations.isLoading()">
+  @if (donations.value(); as data) {
+    <sky-chart-bar [orientation]="orientation()">
+      <sky-chart-axis-category
+        labelText="Quarter"
+        [categories]="data.categories"
+      />
+      <sky-chart-axis-value labelText="Donations" format="currency" />
+      <sky-chart-bar-series labelText="Donations" [values]="data.values" />
+    </sky-chart-bar>
+  }
+</sky-chart>

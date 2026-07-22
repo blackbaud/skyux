@@ -1,4 +1,10 @@
 {
+  "skyux_charts.chart.bar.accessible_summary": {
+    "_description": "The accessible summary announced for a bar chart figure, describing its shape and noting that a data table alternative is available",
+    "message": "Bar chart. Number of series: {0}. Number of categories: {1}. A data table is available from the chart's context menu.",
+    "_0": "The number of series",
+    "_1": "The number of categories"
+  },
   "skyux_charts.chart.controls.context_menu.accessible_name": {
     "_description": "The accessible name for the chart component's controls dropdown menu",
     "message": "Context menu for {0}",
@@ -11,5 +17,10 @@
   "skyux_charts.data_table_modal.close_button": {
     "_description": "The label for the close button",
     "message": "Close"
+  },
+  "skyux_charts.data_table_modal.table_region_label": {
+    "_description": "The accessible name for the scrollable region containing the chart's data table",
+    "message": "Data table for {0}",
+    "_0": "The chart heading text"
   }
 }

@@ -1,0 +1,22 @@
+<sky-chart
+  headingText="Goal completion by month"
+  subheadingText="The percent value axis is pinned to 0–100% with min and max, so the scale stays fixed regardless of the plotted values."
+>
+  <sky-chart-bar [orientation]="orientation()">
+    <sky-chart-axis-category
+      labelHidden
+      labelText="Month"
+      [categories]="months"
+    />
+    <sky-chart-axis-value
+      format="percent"
+      labelText="Goal completion"
+      max="1"
+      min="0"
+    />
+    <sky-chart-bar-series
+      labelText="Goal completion"
+      [values]="goalCompletion"
+    />
+  </sky-chart-bar>
+</sky-chart>

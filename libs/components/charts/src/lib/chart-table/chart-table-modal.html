@@ -1,0 +1,53 @@
+<sky-modal [headingText]="context.headingText">
+  <sky-modal-content>
+    @if (context.table; as table) {
+      <div
+        class="sky-chart-data-table-wrapper"
+        role="region"
+        tabindex="0"
+        [attr.aria-label]="
+          'skyux_charts.data_table_modal.table_region_label'
+            | skyLibResources: context.headingText
+        "
+      >
+        <table class="sky-chart-data-table">
+          <thead>
+            <tr>
+              <th scope="col">
+                {{ table.categoryLabel }}
+              </th>
+              @for (series of table.series; track $index) {
+                <th scope="col">
+                  {{ series.label }}
+                </th>
+              }
+            </tr>
+          </thead>
+          <tbody>
+            @for (
+              category of table.categories;
+              track $index;
+              let rowIndex = $index
+            ) {
+              <tr>
+                <th scope="row">
+                  {{ category }}
+                </th>
+                @for (series of table.series; track $index) {
+                  <td>
+                    {{ series.values[rowIndex] }}
+                  </td>
+                }
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </sky-modal-content>
+  <sky-modal-footer>
+    <button class="sky-btn sky-btn-link" type="button" (click)="modal.close()">
+      {{ 'skyux_charts.data_table_modal.close_button' | skyLibResources }}
+    </button>
+  </sky-modal-footer>
+</sky-modal>

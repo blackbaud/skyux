@@ -1,0 +1,76 @@
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+
+@include compatMixins.sky-default-overrides('.sky-chart-data-table') {
+  --sky-override-chart-table-color-text-default: #{$sky-text-color-default};
+  --sky-override-chart-table-color-text-heading: #{$sky-text-color-default};
+  --sky-override-chart-table-header-background-color: #{$sky-background-color-neutral-light};
+  --sky-override-chart-table-row-border: 1px solid
+    #{$sky-border-color-neutral-medium};
+  --sky-override-chart-table-cell-padding: 8px 12px;
+}
+
+// A wide table (many series) scrolls horizontally instead of overflowing the
+// modal. The wrapper is a labeled, focusable region so keyboard users can
+// scroll it.
+.sky-chart-data-table-wrapper {
+  overflow-x: auto;
+}
+
+// Colors mirror the data grid's theme (see the AG Grid theme's `rowBorder`,
+// `headerBackgroundColor`, and header text color) so the chart's data table
+// reads like other SKY UX grids.
+.sky-chart-data-table {
+  border-collapse: collapse;
+  width: 100%;
+  color: var(
+    --sky-override-chart-table-color-text-default,
+    var(--sky-color-text-default)
+  );
+
+  th {
+    text-align: left;
+  }
+
+  // The same cell inset the data grid uses (see the AG Grid theme's
+  // `cellHorizontalPadding` and the grid cell inset tokens).
+  td,
+  th {
+    padding: var(
+      --sky-override-chart-table-cell-padding,
+      var(--sky-comp-grid-cell-space-inset-top)
+        var(--sky-comp-grid-cell-space-inset-right)
+        var(--sky-comp-grid-cell-space-inset-bottom)
+        var(--sky-comp-grid-cell-space-inset-left)
+    );
+  }
+
+  // Numeric series values and their column headers are right-aligned, like
+  // the data grid's numeric columns. The first column holds the category
+  // labels and stays left-aligned.
+  td,
+  thead th:not(:first-child) {
+    text-align: right;
+  }
+
+  thead th {
+    background-color: var(
+      --sky-override-chart-table-header-background-color,
+      var(--sky-background-color-page-default)
+    );
+    color: var(
+      --sky-override-chart-table-color-text-heading,
+      var(--sky-color-text-heading)
+    );
+  }
+
+  thead tr,
+  tbody tr:not(:last-child) {
+    border-bottom: var(
+      --sky-override-chart-table-row-border,
+      var(--sky-border-width-separator-row)
+        var(--sky-border-style-separator-row)
+        var(--sky-color-border-separator-row)
+    );
+  }
+}
