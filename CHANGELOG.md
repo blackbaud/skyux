@@ -1,6 +1,24 @@
 # Changelog
 
 
+## [15.0.0-alpha.2](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.1...15.0.0-alpha.2) (2026-07-22)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/theme:** update heading 5 color to use deemphasized text color (#4533)
+* **components/layout:** use number transform for fluid grid column size inputs (#4534)
+
+### Features
+
+* **components/layout:** use number transform for fluid grid column size inputs ([#4534](https://github.com/blackbaud/skyux/issues/4534)) ([40241aa](https://github.com/blackbaud/skyux/commit/40241aa479f8223e213653dafec942707f08f584))
+* **components/popovers:** add Alt+ArrowUp/Alt+ArrowDown shortcuts to open and close popovers ([#4523](https://github.com/blackbaud/skyux/issues/4523)) ([#4529](https://github.com/blackbaud/skyux/issues/4529)) ([985dc41](https://github.com/blackbaud/skyux/commit/985dc41df2874853ba732d790010244f44cc596d)), closes [AB#4035677](https://dev.azure.com/blackbaud/Products/_workitems/edit/4035677)
+
+
+### Bug Fixes
+
+* **components/theme:** update heading 5 color to use deemphasized text color ([#4533](https://github.com/blackbaud/skyux/issues/4533)) ([fc08528](https://github.com/blackbaud/skyux/commit/fc08528f1c1f229c75053fb00257e90669b6fafe))
+
 ## [15.0.0-alpha.1](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.0...15.0.0-alpha.1) (2026-07-20)
 
 
