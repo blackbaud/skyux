@@ -108,7 +108,7 @@
     "typescript": "^6.0.3"
   },
   "dependencies": {
-    "@blackbaud/skyux-design-tokens": "6.1.2",
+    "@blackbaud/skyux-design-tokens": "7.0.0-alpha.0",
     "fs-extra": "11.3.6",
     "jsonc-parser": "3.3.1",
     "parse5": "7.3.0",
