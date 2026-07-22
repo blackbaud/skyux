@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.7.1](https://github.com/blackbaud/skyux/compare/14.7.0...14.7.1) (2026-07-22)
+
+
+### Bug Fixes
+
+* **components/layout:** tokenize page summary background color ([#4536](https://github.com/blackbaud/skyux/issues/4536)) ([ae6b0a6](https://github.com/blackbaud/skyux/commit/ae6b0a6c8fa3f8cd4a82ee185dc159fe54d4a6fe))
+
 ## [14.7.0](https://github.com/blackbaud/skyux/compare/14.6.2...14.7.0) (2026-07-17)
 
 
