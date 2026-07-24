@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [15.0.0-alpha.3](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.2...15.0.0-alpha.3) (2026-07-24)
+
+
+### Bug Fixes
+
+* **components/layout:** tokenize page summary background color ([#4536](https://github.com/blackbaud/skyux/issues/4536)) ([#4537](https://github.com/blackbaud/skyux/issues/4537)) ([722fba2](https://github.com/blackbaud/skyux/commit/722fba26a4de87d6269fc831aa77419e4fbdd7ff))
+
 ## [15.0.0-alpha.2](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.1...15.0.0-alpha.2) (2026-07-22)
 
 
