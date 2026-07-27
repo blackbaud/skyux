@@ -6,7 +6,7 @@ import {
   ElementRef,
   inject,
   OnDestroy,
-  ViewChild,
+  viewChild
 } from '@angular/core';
 import {
   SkyMediaBreakpoints,
@@ -24,8 +24,7 @@ import { Subscription } from 'rxjs';
   standalone: false,
 })
 export class ResizeObserverBasicComponent implements AfterViewInit, OnDestroy {
-  @ViewChild('resize')
-  public resizeElement: ElementRef<HTMLDivElement>;
+  public readonly resizeElement = viewChild<ElementRef<HTMLDivElement>>('resize');
 
   public width: number;
   public breakpoint: string;
@@ -40,9 +39,10 @@ export class ResizeObserverBasicComponent implements AfterViewInit, OnDestroy {
 
   public ngAfterViewInit(): void {
     this.#changeDetectorRef.detach();
+    const resizeElement = this.resizeElement();
     this.subscriptions.add(
       this.#skyResizeObserverMediaQueryService
-        .observe(this.resizeElement)
+        .observe(resizeElement)
         .subscribe((breakpoint) => {
           switch (breakpoint) {
             case SkyMediaBreakpoints.xs:
@@ -65,7 +65,7 @@ export class ResizeObserverBasicComponent implements AfterViewInit, OnDestroy {
     );
     this.subscriptions.add(
       this.#skyResizeObserverService
-        .observe(this.resizeElement)
+        .observe(resizeElement)
         .subscribe((value) => {
           this.width = value.contentRect.width;
           this.#changeDetectorRef.detectChanges();
