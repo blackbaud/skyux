@@ -10,7 +10,7 @@ import {
   SkyThemeSettings,
   type SkyThemeSettingsChange,
 } from '@skyux/theme';
-import Chart, { type TooltipItem } from 'chart.js/auto';
+import { Chart, type TooltipItem } from 'chart.js';
 import { ReplaySubject } from 'rxjs';
 
 import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
@@ -887,6 +887,53 @@ describe('Chart bar component with a theme service', () => {
 
     expect(updateSpy).toHaveBeenCalled();
     expect(Chart.getChart(canvas)).toBe(chart);
+
+    fixture.destroy();
+  });
+
+  it('should recompute the height when the theme settings change', async () => {
+    const settingsChange = new ReplaySubject<SkyThemeSettingsChange>(1);
+    settingsChange.next({
+      currentSettings: new SkyThemeSettings(
+        SkyTheme.presets.default,
+        SkyThemeMode.presets.light,
+      ),
+    } as SkyThemeSettingsChange);
+
+    TestBed.configureTestingModule({
+      imports: [TestComponent],
+      providers: [{ provide: SkyThemeService, useValue: { settingsChange } }],
+    });
+
+    const fixture = TestBed.createComponent(TestComponent);
+    fixture.detectChanges();
+
+    const plot = fixture.nativeElement.querySelector(
+      'sky-chart-bar',
+    ) as HTMLElement;
+    const container = fixture.nativeElement.querySelector(
+      'sky-chart-js',
+    ) as HTMLElement;
+    const initialHeight = container.style.height;
+
+    // Resolving theme styles reads the DOM directly and is not reactive, so
+    // changing a themed custom property the height derives from is only picked
+    // up when the theme signal invalidates the height computation. A distinct
+    // settings instance is required — the theme signal skips reference-equal
+    // emissions.
+    plot.style.setProperty('--sky-chart-height-viewport', '33vh');
+
+    settingsChange.next({
+      currentSettings: new SkyThemeSettings(
+        SkyTheme.presets.modern,
+        SkyThemeMode.presets.light,
+      ),
+    } as SkyThemeSettingsChange);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(container.style.height).not.toBe(initialHeight);
+    expect(container.style.height).toContain('33vh');
 
     fixture.destroy();
   });

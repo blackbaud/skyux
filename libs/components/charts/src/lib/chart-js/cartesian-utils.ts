@@ -1,7 +1,7 @@
 import {
   type ChartConfiguration as ChartJsConfig,
   type TooltipItem as ChartJsTooltipItem,
-} from 'chart.js/auto';
+} from 'chart.js';
 
 import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
 import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';

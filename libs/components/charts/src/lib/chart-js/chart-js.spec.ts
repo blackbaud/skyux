@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
-import Chart from 'chart.js/auto';
+import { Chart } from 'chart.js';
 
 import { SkyChartJs, SkyChartJsConfig } from './chart-js';
 

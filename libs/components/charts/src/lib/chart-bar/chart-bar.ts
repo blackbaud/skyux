@@ -11,7 +11,7 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyLogService } from '@skyux/core';
 import { SkyThemeService } from '@skyux/theme';
-import { type ChartDataset } from 'chart.js/auto';
+import { type ChartDataset } from 'chart.js';
 import { EMPTY, map } from 'rxjs';
 
 import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
@@ -287,6 +287,9 @@ export class SkyChartBar extends SkyChartPlot {
    * from the bar count and clamped to the minimum so small charts stay legible.
    */
   #getChartHeight(): string {
+    // Read the theme signal so the height recomputes when the theme changes.
+    this.#themeSettings();
+
     const themeStyles = this.getThemeStyles();
 
     if (this.orientation() !== 'horizontal') {

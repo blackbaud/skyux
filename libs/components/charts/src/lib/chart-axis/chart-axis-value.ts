@@ -36,8 +36,8 @@ export class SkyChartAxisValue {
   );
 
   /**
-   * The ISO 4217 currency code used when `format` is `currency`.
-   * @default 'USD'
+   * The ISO 4217 currency code used when `format` is `currency`. When unset,
+   * currency values format as `USD`.
    */
   public readonly currencyCode = input<string>();
 
@@ -85,7 +85,8 @@ export class SkyChartAxisValue {
   });
 
   /**
-   * The scale type for the value axis.
+   * The scale type for the value axis. A `logarithmic` scale cannot display
+   * zero or negative values.
    * @default 'linear'
    */
   public readonly scaleType = input<SkyChartValueScaleType>('linear');

@@ -1,4 +1,4 @@
-import { type ChartOptions, type ChartType } from 'chart.js/auto';
+import { type ChartOptions, type ChartType } from 'chart.js';
 
 import { type SkyChartThemeStyles } from '../shared/chart-theme-styles';
 import { type SkyChartJsConfig } from './chart-js';

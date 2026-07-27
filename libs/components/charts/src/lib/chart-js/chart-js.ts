@@ -8,7 +8,28 @@ import {
   input,
   viewChild,
 } from '@angular/core';
-import Chart, { type ChartConfiguration, type ChartType } from 'chart.js/auto';
+import {
+  BarController,
+  BarElement,
+  CategoryScale,
+  Chart,
+  type ChartConfiguration,
+  type ChartType,
+  Legend,
+  LinearScale,
+  LogarithmicScale,
+  Tooltip,
+} from 'chart.js';
+
+Chart.register(
+  BarController,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  LogarithmicScale,
+  Legend,
+  Tooltip,
+);
 
 /**
  * A Chart.js configuration with a required `options` object. Plot components
