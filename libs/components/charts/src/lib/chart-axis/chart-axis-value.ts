@@ -85,8 +85,7 @@ export class SkyChartAxisValue {
   });
 
   /**
-   * The scale type for the value axis. A `logarithmic` scale cannot display
-   * zero or negative values.
+   * The scale type for the value axis.
    * @default 'linear'
    */
   public readonly scaleType = input<SkyChartValueScaleType>('linear');
