@@ -10,9 +10,9 @@ export class SkyChartBarHarness extends SkyComponentHarness {
   /**
    * @internal
    */
-  public static hostSelector = 'sky-chart-bar';
+  public static readonly hostSelector = 'sky-chart-bar';
 
-  #getCanvas = this.locatorForOptional('canvas');
+  readonly #getCanvas = this.locatorForOptional('canvas');
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a

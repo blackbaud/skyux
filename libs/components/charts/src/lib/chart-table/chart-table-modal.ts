@@ -12,6 +12,7 @@ export abstract class SkyChartTableModalContext {
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkyChartsResourcesModule, SkyModalModule],
+  selector: 'sky-chart-table-modal',
   styleUrl: './chart-table-modal.scss',
   templateUrl: './chart-table-modal.html',
 })

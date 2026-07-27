@@ -1,7 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import {
   SkyChart,
   SkyChartAxisCategory,
@@ -13,6 +12,8 @@ import {
 } from '@skyux/charts';
 
 import { SkyChartBarHarness } from '../chart-bar/chart-bar-harness';
+import { SkyChartTableModalHarness } from '../chart-table/chart-table-modal-harness';
+
 import { SkyChartHarness } from './chart-harness';
 
 @Component({
@@ -41,6 +42,7 @@ import { SkyChartHarness } from './chart-harness';
           [categories]="['North', 'South']"
         />
         <sky-chart-axis-value labelText="Sales" />
+        <sky-chart-bar-series labelText="2025" [values]="[30, 40]" />
         <sky-chart-bar-series labelText="2026" [values]="[10, 20]" />
       </sky-chart-bar>
     </sky-chart>
@@ -66,10 +68,6 @@ describe('Chart harness', () => {
     fixture: ComponentFixture<TestComponent>;
     harness: SkyChartHarness;
   }> {
-    TestBed.configureTestingModule({
-      providers: [provideNoopAnimations()],
-    });
-
     const fixture = TestBed.createComponent(TestComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
     const harness = await loader.getHarness(SkyChartHarness.with(filters));
@@ -212,5 +210,42 @@ describe('Chart harness', () => {
     const barHarness = await harness.queryHarness(SkyChartBarHarness);
 
     await expectAsync(barHarness.isChartRendered()).toBeResolvedTo(true);
+  });
+
+  it('should open, read, and close the data table modal', async () => {
+    const { fixture, harness } = await setupTest();
+
+    const dataTable = await harness.openDataTableModal();
+
+    await expectAsync(dataTable.getCategoryLabel()).toBeResolvedTo('Region');
+    await expectAsync(dataTable.getSeriesLabels()).toBeResolvedTo([
+      '2025',
+      '2026',
+    ]);
+    await expectAsync(dataTable.getCategories()).toBeResolvedTo([
+      'North',
+      'South',
+    ]);
+    await expectAsync(dataTable.getValues()).toBeResolvedTo([
+      ['30', '10'],
+      ['40', '20'],
+    ]);
+
+    await dataTable.close();
+
+    const modal = await TestbedHarnessEnvironment.documentRootLoader(
+      fixture,
+    ).getHarnessOrNull(SkyChartTableModalHarness);
+
+    expect(modal).toBeNull();
+  });
+
+  it('should throw when opening the data table modal without a context menu', async () => {
+    const { harness } = await setupTest({ dataSkyId: 'other-chart' });
+
+    await expectAsync(harness.openDataTableModal()).toBeRejectedWithError(
+      'No chart context menu found. The context menu is available once ' +
+        "the chart's plot has data to display.",
+    );
   });
 });

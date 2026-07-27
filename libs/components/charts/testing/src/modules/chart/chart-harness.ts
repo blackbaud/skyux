@@ -2,6 +2,9 @@ import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyChartHeadingLevel, SkyChartHeadingStyle } from '@skyux/charts';
 import { SkyQueryableComponentHarness } from '@skyux/core/testing';
 import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
+import { SkyDropdownHarness } from '@skyux/popovers/testing';
+
+import { SkyChartTableModalHarness } from '../chart-table/chart-table-modal-harness';
 
 import { SkyChartHarnessFilters } from './chart-harness-filters';
 
@@ -13,14 +16,16 @@ export class SkyChartHarness extends SkyQueryableComponentHarness {
   /**
    * @internal
    */
-  public static hostSelector = 'sky-chart';
+  public static readonly hostSelector = 'sky-chart';
 
-  #getContent = this.locatorFor('.sky-chart-content');
-  #getHeading = this.locatorForOptional(
+  readonly #getContent = this.locatorFor('.sky-chart-content');
+  readonly #documentRootLocator = this.documentRootLocatorFactory();
+  readonly #getDropdown = this.locatorForOptional(SkyDropdownHarness);
+  readonly #getHeading = this.locatorForOptional(
     'sky-chart-heading h2, sky-chart-heading h3, sky-chart-heading h4, sky-chart-heading h5',
   );
-  #getHelpInline = this.locatorForOptional(SkyHelpInlineHarness);
-  #getSubheading = this.locatorForOptional('sky-chart-subheading');
+  readonly #getHelpInline = this.locatorForOptional(SkyHelpInlineHarness);
+  readonly #getSubheading = this.locatorForOptional('sky-chart-subheading');
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -126,6 +131,32 @@ export class SkyChartHarness extends SkyQueryableComponentHarness {
     return await (
       await this.#getContent()
     ).hasClass('sky-chart-content-loading');
+  }
+
+  /**
+   * Opens the chart's data table modal from the chart's context menu and
+   * returns a harness for interacting with it. The context menu is available
+   * once the chart's plot has data to display.
+   */
+  public async openDataTableModal(): Promise<SkyChartTableModalHarness> {
+    const dropdown = await this.#getDropdown();
+
+    if (!dropdown) {
+      throw new Error(
+        'No chart context menu found. The context menu is available once ' +
+          "the chart's plot has data to display.",
+      );
+    }
+
+    await dropdown.clickDropdownButton();
+
+    const menu = await dropdown.getDropdownMenu();
+
+    await (await menu.getItem({})).click();
+
+    return await this.#documentRootLocator.locatorFor(
+      SkyChartTableModalHarness,
+    )();
   }
 
   async #getHelpInlineOrThrow(): Promise<SkyHelpInlineHarness> {

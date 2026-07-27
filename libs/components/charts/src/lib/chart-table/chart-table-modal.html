@@ -46,7 +46,11 @@
     }
   </sky-modal-content>
   <sky-modal-footer>
-    <button class="sky-btn sky-btn-link" type="button" (click)="modal.close()">
+    <button
+      class="sky-btn sky-btn-link sky-chart-table-modal-close"
+      type="button"
+      (click)="modal.close()"
+    >
       {{ 'skyux_charts.data_table_modal.close_button' | skyLibResources }}
     </button>
   </sky-modal-footer>
