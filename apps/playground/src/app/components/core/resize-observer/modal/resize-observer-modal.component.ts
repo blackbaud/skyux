@@ -6,7 +6,7 @@ import {
   inject,
   InjectionToken,
   OnInit,
-  viewChild
+  viewChild,
 } from '@angular/core';
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 import {

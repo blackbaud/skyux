@@ -5,7 +5,7 @@ import {
   ElementRef,
   inject,
   OnDestroy,
-  viewChild
+  viewChild,
 } from '@angular/core';
 import {
   SkyMediaQueryService,

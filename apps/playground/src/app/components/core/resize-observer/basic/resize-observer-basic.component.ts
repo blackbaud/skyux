@@ -6,7 +6,7 @@ import {
   ElementRef,
   inject,
   OnDestroy,
-  viewChild
+  viewChild,
 } from '@angular/core';
 import {
   SkyMediaBreakpoints,
@@ -24,7 +24,8 @@ import { Subscription } from 'rxjs';
   standalone: false,
 })
 export class ResizeObserverBasicComponent implements AfterViewInit, OnDestroy {
-  public readonly resizeElement = viewChild<ElementRef<HTMLDivElement>>('resize');
+  public readonly resizeElement =
+    viewChild<ElementRef<HTMLDivElement>>('resize');
 
   public width: number;
   public breakpoint: string;
