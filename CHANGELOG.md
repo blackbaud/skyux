@@ -1,6 +1,19 @@
 # Changelog
 
 
+## [14.7.0](https://github.com/blackbaud/skyux/compare/14.6.2...14.7.0) (2026-07-17)
+
+
+### Features
+
+* **components/popovers:** add Alt+ArrowUp/Alt+ArrowDown shortcuts to open and close popovers ([#4523](https://github.com/blackbaud/skyux/issues/4523)) ([c42bf44](https://github.com/blackbaud/skyux/commit/c42bf442f7a5b1174491509cb4c2588cbcc44191)), closes [AB#4035677](https://dev.azure.com/blackbaud/Products/_workitems/edit/4035677)
+* update design tokens to include new dark mode colors ([#4528](https://github.com/blackbaud/skyux/issues/4528)) ([c7404f1](https://github.com/blackbaud/skyux/commit/c7404f1c4da243b388b4941d88c4968696060fa6))
+
+
+### Bug Fixes
+
+* **components/packages:** standalone schematic crash on SKY UX pipe in TestBed.configureTestingModule ([#4524](https://github.com/blackbaud/skyux/issues/4524)) ([bc54ea9](https://github.com/blackbaud/skyux/commit/bc54ea9020da799d724d676b015e66953d2cca4a)), closes [AB#4046930](https://dev.azure.com/blackbaud/Products/_workitems/edit/4046930)
+
 ## [14.6.2](https://github.com/blackbaud/skyux/compare/14.6.1...14.6.2) (2026-07-14)
 
 

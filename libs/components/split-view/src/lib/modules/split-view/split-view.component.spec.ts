@@ -166,13 +166,25 @@ function validateSplitViewHeightStyles(
     '.sky-split-view',
   ) as HTMLElement;
 
-  expect(splitViewElement.style.maxHeight).toBe(
-    `calc(100vh - ${lowered ? '100px' : '0px'} - calc(${actionBarHeight}px + var(--sky-dock-height, 0px)))`,
+  // The action bar height is measured once when the split view height is bound, so it can be a
+  // couple pixels off from a later, independent DOM measurement due to font-rendering timing
+  // differences across browsers/operating systems. Use isWithin() to allow some pixel tolerance.
+  const maxHeightMatch = splitViewElement.style.maxHeight.match(
+    new RegExp(
+      `^calc\\(100vh - ${lowered ? '100px' : '0px'} - calc\\((\\d+)px \\+ var\\(--sky-dock-height, 0px\\)\\)\\)$`,
+    ),
+  );
+
+  expect(maxHeightMatch).not.toBeNull();
+  expect(isWithin(Number(maxHeightMatch?.[1]), actionBarHeight, 2)).toEqual(
+    true,
   );
 
   // Verify computed style is calculated correctly
   const computedStyle = window.getComputedStyle(splitViewElement);
-  expect(parseInt(computedStyle.maxHeight)).toBe(expectedComputedHeight);
+  expect(
+    isWithin(parseInt(computedStyle.maxHeight), expectedComputedHeight, 2),
+  ).toEqual(true);
 }
 // #endregion
 
