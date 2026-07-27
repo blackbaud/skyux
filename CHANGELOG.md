@@ -1,7 +1,12 @@
 # Changelog
 
 
-## [14.7.1](https://github.com/blackbaud/skyux/compare/14.7.0...14.7.1) (2026-07-22)
+## [14.8.0](https://github.com/blackbaud/skyux/compare/14.7.0...14.8.0) (2026-07-27)
+
+
+### Features
+
+* **components/charts:** add bar chart component (developer preview) ([#4527](https://github.com/blackbaud/skyux/issues/4527)) ([c4ddd62](https://github.com/blackbaud/skyux/commit/c4ddd62c829e4a103b02963d1fc8774de00a5063)), closes [AB#4027719](https://dev.azure.com/blackbaud/Products/_workitems/edit/4027719)
 
 
 ### Bug Fixes
