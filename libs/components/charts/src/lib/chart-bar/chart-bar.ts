@@ -135,8 +135,7 @@ export class SkyChartBar extends SkyChartPlot {
   }
 
   protected override getAccessibleSummary():
-    | SkyChartAccessibleSummary
-    | undefined {
+    SkyChartAccessibleSummary | undefined {
     const data = resolveCartesianData(
       this.categoryAxis(),
       this.valueAxis(),

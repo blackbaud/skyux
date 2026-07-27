@@ -71,8 +71,7 @@ export abstract class SkyChartPlot {
    * accessible name, or `undefined` when the plot has no data to represent.
    */
   protected abstract getAccessibleSummary():
-    | SkyChartAccessibleSummary
-    | undefined;
+    SkyChartAccessibleSummary | undefined;
 
   /**
    * Resolves the active theme's chart styling against this plot's element.
