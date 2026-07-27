@@ -1,0 +1,26 @@
+<sky-chart headingText="Monthly sales by region">
+  <sky-chart-bar seriesLayout="stacked" [orientation]="orientation()">
+    <sky-chart-axis-category labelText="Month" [categories]="months" />
+    <sky-chart-axis-value labelText="Value" />
+    <sky-chart-bar-series
+      labelText="West in store"
+      stackId="West"
+      [values]="westInStore"
+    />
+    <sky-chart-bar-series
+      labelText="West online"
+      stackId="West"
+      [values]="westOnline"
+    />
+    <sky-chart-bar-series
+      labelText="East in store"
+      stackId="East"
+      [values]="eastInStore"
+    />
+    <sky-chart-bar-series
+      labelText="East online"
+      stackId="East"
+      [values]="eastOnline"
+    />
+  </sky-chart-bar>
+</sky-chart>

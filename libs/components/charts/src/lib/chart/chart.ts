@@ -3,10 +3,17 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  inject,
   input,
   type TemplateRef,
 } from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { SkyLibResourcesService } from '@skyux/i18n';
+import { SkyWaitModule } from '@skyux/indicators';
+import { of, switchMap } from 'rxjs';
 
+import { SkyChartTableService } from '../chart-table/chart-table-service';
+import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
 import { SkyChartControls } from './chart-controls';
 import { SkyChartHeading } from './chart-heading';
 import {
@@ -22,16 +29,20 @@ import {
 import { SkyChartSubheading } from './chart-subheading';
 
 /**
- * @preview
- *
  * Provides a consistent heading, subheading, and layout wrapper for a chart.
+ *
+ * @preview
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    class: 'sky-chart',
-  },
-  imports: [SkyChartControls, SkyChartHeading, SkyChartSubheading],
+  imports: [
+    SkyChartControls,
+    SkyChartHeading,
+    SkyChartSubheading,
+    SkyChartsResourcesModule,
+    SkyWaitModule,
+  ],
+  providers: [SkyChartTableService],
   selector: 'sky-chart',
   styleUrl: './chart.scss',
   templateUrl: './chart.html',
@@ -89,22 +100,61 @@ export class SkyChart {
   public readonly helpPopoverTitle = input<string>();
 
   /**
-   * Whether to hide the chart's subheading.
+   * Whether the chart's data is being loaded. When `true`, a wait overlay
+   * covers the chart's content area, which reserves the default chart height
+   * while no plot is rendered. The heading and help button stay interactive.
+   * @default false
    */
-  public readonly subheadingHidden = input(false, {
-    transform: booleanAttribute,
-  });
+  public readonly loading = input(false, { transform: booleanAttribute });
 
   /**
    * The text to display as the chart's subheading.
    */
   public readonly subheadingText = input<string>();
 
-  protected readonly figureLabel = computed(() => {
-    const subheadingText = this.subheadingText();
+  readonly #resourcesSvc = inject(SkyLibResourcesService);
+  readonly #tableSvc = inject(SkyChartTableService);
 
-    return subheadingText
-      ? `${this.headingText()}, ${subheadingText}`
-      : this.headingText();
+  // Resolve the plot's descriptive summary into localized text. Each plot type
+  // publishes its own resource key and arguments, so the wording can describe
+  // that type's shape.
+  readonly #summaryText = toSignal(
+    toObservable(this.#tableSvc.summary).pipe(
+      switchMap((summary) =>
+        summary
+          ? this.#resourcesSvc.getString(summary.resourceKey, ...summary.args)
+          : of(undefined),
+      ),
+    ),
+    { initialValue: undefined },
+  );
+
+  protected readonly figureLabel = computed(() => {
+    const parts: string[] = [];
+
+    // When the heading is hidden, name the figure with the title (and
+    // subheading) so it is not lost. When the heading is visible, it already
+    // provides that context, so the title is omitted here to avoid announcing
+    // it twice.
+    if (this.headingHidden()) {
+      const subheadingText = this.subheadingText();
+
+      parts.push(
+        subheadingText
+          ? `${this.headingText()}, ${subheadingText}`
+          : this.headingText(),
+      );
+    }
+
+    // The descriptive summary (chart type, shape, and that a data table is
+    // available) adds information rather than echoing the title, so it is safe
+    // to include whether or not the heading is visible.
+    const summaryText = this.#summaryText();
+
+    if (summaryText) {
+      parts.push(summaryText);
+    }
+
+    return parts.length > 0 ? parts.join('. ') : null;
   });
 }
