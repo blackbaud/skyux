@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
@@ -43,37 +43,37 @@ type ScaleProbe = {
   ],
   template: `
     <sky-chart headingText="Test chart">
-      @if (renderChart) {
+      @if (renderChart()) {
         <sky-chart-bar
-          [orientation]="orientation"
-          [seriesLayout]="seriesLayout"
+          [orientation]="orientation()"
+          [seriesLayout]="seriesLayout()"
         >
-          @if (renderCategoryAxis) {
+          @if (renderCategoryAxis()) {
             <sky-chart-axis-category
               labelText="Year"
-              [categories]="categories"
+              [categories]="categories()"
             />
           }
-          @if (renderValueAxis) {
+          @if (renderValueAxis()) {
             <sky-chart-axis-value
               labelText="Value"
-              [currencyCode]="currencyCode"
-              [format]="format"
-              [scaleType]="valueScaleType"
+              [currencyCode]="currencyCode()"
+              [format]="format()"
+              [scaleType]="valueScaleType()"
             />
           }
-          @if (renderSeries) {
+          @if (renderSeries()) {
             <sky-chart-bar-series
-              [labelText]="seriesLabel"
-              [stackId]="seriesStack"
-              [values]="values"
+              [labelText]="seriesLabel()"
+              [stackId]="seriesStack()"
+              [values]="values()"
             />
           }
-          @if (renderSecondSeries) {
+          @if (renderSecondSeries()) {
             <sky-chart-bar-series
               labelText="Divestitures"
-              [stackId]="secondSeriesStack"
-              [values]="values"
+              [stackId]="secondSeriesStack()"
+              [values]="values()"
             />
           }
         </sky-chart-bar>
@@ -85,26 +85,25 @@ class TestComponent {
   @ViewChild(SkyChartBar)
   public chartBar!: SkyChartBar;
 
-  public categories: (string | number)[] = ['2023', '2024'];
-  public currencyCode: string | undefined;
-  public format: SkyChartValueFormat | undefined;
-  public orientation: SkyChartBarOrientation = 'vertical';
-  public renderCategoryAxis = true;
-  public renderChart = true;
-  public renderSeries = true;
-  public renderSecondSeries = false;
-  public renderValueAxis = true;
-  public seriesLabel = 'Acquisitions';
-  public seriesStack: string | undefined;
-  public secondSeriesStack: string | undefined;
-  public seriesLayout: SkyChartBarSeriesLayout = 'grouped';
-  public valueScaleType: 'linear' | 'logarithmic' = 'linear';
-  public values: SkyChartBarSeriesValue[] = [10, 20];
+  public categories = input<(string | number)[]>(['2023', '2024']);
+  public currencyCode = input<string | undefined>(undefined);
+  public format = input<SkyChartValueFormat | undefined>(undefined);
+  public orientation = input<SkyChartBarOrientation>('vertical');
+  public renderCategoryAxis = input(true);
+  public renderChart = input(true);
+  public renderSeries = input(true);
+  public renderSecondSeries = input(false);
+  public renderValueAxis = input(true);
+  public seriesLabel = input('Acquisitions');
+  public seriesStack = input<string | undefined>(undefined);
+  public secondSeriesStack = input<string | undefined>(undefined);
+  public seriesLayout = input<SkyChartBarSeriesLayout>('grouped');
+  public valueScaleType = input<'linear' | 'logarithmic'>('linear');
+  public values = input<SkyChartBarSeriesValue[]>([10, 20]);
 }
 
 describe('Chart bar component', () => {
   let fixture: ComponentFixture<TestComponent>;
-  let component: TestComponent;
   let destroyed: boolean;
 
   // The plot publishes its table to the `SkyChartTableService` provided by
@@ -186,7 +185,6 @@ describe('Chart bar component', () => {
     });
 
     fixture = TestBed.createComponent(TestComponent);
-    component = fixture.componentInstance;
     destroyed = false;
   });
 
@@ -230,15 +228,15 @@ describe('Chart bar component', () => {
   });
 
   it('should format the data table values using the value axis format', () => {
-    component.format = 'currency';
-    component.currencyCode = 'USD';
+    fixture.componentRef.setInput('format', 'currency');
+    fixture.componentRef.setInput('currencyCode', 'USD');
     fixture.detectChanges();
 
     expect(tableSvc().table()?.series[0].values).toEqual(['$10.00', '$20.00']);
   });
 
   it('should render a null value as a gap and an empty data table cell', () => {
-    component.values = [10, null];
+    fixture.componentRef.setInput('values', [10, null]);
     fixture.detectChanges();
 
     expect(requireChart().data.datasets[0].data).toEqual([10, null]);
@@ -247,7 +245,7 @@ describe('Chart bar component', () => {
 
   it('should render a floating bar from a [start, end] range', () => {
     const range: [number, number] = [2, 5];
-    component.values = [range, 10];
+    fixture.componentRef.setInput('values', [range, 10]);
     fixture.detectChanges();
 
     const data = requireChart().data.datasets[0].data;
@@ -259,9 +257,9 @@ describe('Chart bar component', () => {
   });
 
   it('should format a floating bar range in the data table', () => {
-    component.values = [[2, 5], 10];
-    component.format = 'currency';
-    component.currencyCode = 'USD';
+    fixture.componentRef.setInput('values', [[2, 5], 10]);
+    fixture.componentRef.setInput('format', 'currency');
+    fixture.componentRef.setInput('currencyCode', 'USD');
     fixture.detectChanges();
 
     expect(tableSvc().table()?.series[0].values).toEqual([
@@ -282,7 +280,7 @@ describe('Chart bar component', () => {
   it('should warn when a series length does not match the categories', () => {
     const warnSpy = spyOn(TestBed.inject(SkyLogService), 'warn');
 
-    component.values = [10];
+    fixture.componentRef.setInput('values', [10]);
     fixture.detectChanges();
 
     expect(warnSpy).toHaveBeenCalledWith(
@@ -301,7 +299,7 @@ describe('Chart bar component', () => {
   });
 
   it('should not build a table or chart without a category axis', () => {
-    component.renderCategoryAxis = false;
+    fixture.componentRef.setInput('renderCategoryAxis', false);
     fixture.detectChanges();
 
     expect(tableSvc().table()).toBeUndefined();
@@ -314,7 +312,7 @@ describe('Chart bar component', () => {
   });
 
   it('should not build a table or chart without a series', () => {
-    component.renderSeries = false;
+    fixture.componentRef.setInput('renderSeries', false);
     fixture.detectChanges();
 
     expect(tableSvc().table()).toBeUndefined();
@@ -322,7 +320,7 @@ describe('Chart bar component', () => {
   });
 
   it('should not build a table or chart without a value axis', () => {
-    component.renderValueAxis = false;
+    fixture.componentRef.setInput('renderValueAxis', false);
     fixture.detectChanges();
 
     expect(tableSvc().table()).toBeUndefined();
@@ -357,7 +355,7 @@ describe('Chart bar component', () => {
   });
 
   it('should stack the category and value scales when seriesLayout is stacked', () => {
-    component.seriesLayout = 'stacked';
+    fixture.componentRef.setInput('seriesLayout', 'stacked');
     fixture.detectChanges();
 
     const chart = requireChart();
@@ -366,10 +364,10 @@ describe('Chart bar component', () => {
   });
 
   it('should assign each series its stack group when seriesLayout is stacked', () => {
-    component.seriesLayout = 'stacked';
-    component.renderSecondSeries = true;
-    component.seriesStack = 'Stack 0';
-    component.secondSeriesStack = 'Stack 1';
+    fixture.componentRef.setInput('seriesLayout', 'stacked');
+    fixture.componentRef.setInput('renderSecondSeries', true);
+    fixture.componentRef.setInput('seriesStack', 'Stack 0');
+    fixture.componentRef.setInput('secondSeriesStack', 'Stack 1');
     fixture.detectChanges();
 
     const chart = requireChart();
@@ -378,14 +376,14 @@ describe('Chart bar component', () => {
   });
 
   it('should leave a series without a stack group unset', () => {
-    component.seriesLayout = 'stacked';
+    fixture.componentRef.setInput('seriesLayout', 'stacked');
     fixture.detectChanges();
 
     expect(requireChart().data.datasets[0].stack).toBeUndefined();
   });
 
   it('should ignore the stack group when seriesLayout is grouped', () => {
-    component.seriesStack = 'Stack 0';
+    fixture.componentRef.setInput('seriesStack', 'Stack 0');
     fixture.detectChanges();
 
     expect(requireChart().data.datasets[0].stack).toBeUndefined();
@@ -405,7 +403,7 @@ describe('Chart bar component', () => {
   });
 
   it('should show the legend when there are multiple series', () => {
-    component.renderSecondSeries = true;
+    fixture.componentRef.setInput('renderSecondSeries', true);
     fixture.detectChanges();
 
     expect(requireChart().options.plugins?.legend?.display).toBe(true);
@@ -464,7 +462,7 @@ describe('Chart bar component', () => {
   });
 
   it('should format the tooltip without a label and treat a null value as zero', () => {
-    component.seriesLabel = '';
+    fixture.componentRef.setInput('seriesLabel', '');
     fixture.detectChanges();
 
     const label = getTooltipLabel(requireChart());
@@ -472,7 +470,7 @@ describe('Chart bar component', () => {
   });
 
   it('should create a horizontal bar chart', () => {
-    component.orientation = 'horizontal';
+    fixture.componentRef.setInput('orientation', 'horizontal');
     fixture.detectChanges();
 
     const chart = requireChart();
@@ -507,23 +505,35 @@ describe('Chart bar component', () => {
   });
 
   it('should widen the fill for a moderate vertical chart', () => {
-    component.categories = Array.from({ length: 7 }, (_, i) => `${i}`);
-    component.values = Array.from({ length: 7 }, () => 10);
+    fixture.componentRef.setInput(
+      'categories',
+      Array.from({ length: 7 }, (_, i) => `${i}`),
+    );
+    fixture.componentRef.setInput(
+      'values',
+      Array.from({ length: 7 }, () => 10),
+    );
     fixture.detectChanges();
 
     expect(requireChart().data.datasets[0].categoryPercentage).toBe(0.7);
   });
 
   it('should widen the fill for a dense vertical chart', () => {
-    component.categories = Array.from({ length: 12 }, (_, i) => `${i}`);
-    component.values = Array.from({ length: 12 }, () => 10);
+    fixture.componentRef.setInput(
+      'categories',
+      Array.from({ length: 12 }, (_, i) => `${i}`),
+    );
+    fixture.componentRef.setInput(
+      'values',
+      Array.from({ length: 12 }, () => 10),
+    );
     fixture.detectChanges();
 
     expect(requireChart().data.datasets[0].categoryPercentage).toBe(0.95);
   });
 
   it('should size a horizontal chart from its content', () => {
-    component.orientation = 'horizontal';
+    fixture.componentRef.setInput('orientation', 'horizontal');
     fixture.detectChanges();
 
     const height = getChartContainerHeight();
@@ -534,7 +544,7 @@ describe('Chart bar component', () => {
   });
 
   it('should set an explicit bar thickness on a horizontal chart', () => {
-    component.orientation = 'horizontal';
+    fixture.componentRef.setInput('orientation', 'horizontal');
     fixture.detectChanges();
 
     // Few bars render at the full (max) thickness, and the explicit thickness
@@ -546,9 +556,15 @@ describe('Chart bar component', () => {
   });
 
   it('should taper the bar thickness for a dense horizontal chart', () => {
-    component.orientation = 'horizontal';
-    component.categories = Array.from({ length: 40 }, (_, i) => `${i}`);
-    component.values = Array.from({ length: 40 }, () => 10);
+    fixture.componentRef.setInput('orientation', 'horizontal');
+    fixture.componentRef.setInput(
+      'categories',
+      Array.from({ length: 40 }, (_, i) => `${i}`),
+    );
+    fixture.componentRef.setInput(
+      'values',
+      Array.from({ length: 40 }, () => 10),
+    );
     fixture.detectChanges();
 
     // Past the taper range every bar renders at the minimum thickness.
@@ -558,22 +574,28 @@ describe('Chart bar component', () => {
   });
 
   it('should use one bar per category for a stacked horizontal chart', () => {
-    component.orientation = 'horizontal';
-    component.seriesLayout = 'stacked';
-    component.renderSecondSeries = true;
+    fixture.componentRef.setInput('orientation', 'horizontal');
+    fixture.componentRef.setInput('seriesLayout', 'stacked');
+    fixture.componentRef.setInput('renderSecondSeries', true);
     fixture.detectChanges();
 
     expect(getChartContainerHeight()).toMatch(/^\d+(\.\d+)?px$/);
   });
 
   it('should reserve a row for each stack group of a stacked horizontal chart', () => {
-    component.orientation = 'horizontal';
-    component.seriesLayout = 'stacked';
-    component.renderSecondSeries = true;
+    fixture.componentRef.setInput('orientation', 'horizontal');
+    fixture.componentRef.setInput('seriesLayout', 'stacked');
+    fixture.componentRef.setInput('renderSecondSeries', true);
     // Enough categories that the heights clear the minimum floor, so the extra
     // stack group's rows are reflected rather than clamped away.
-    component.categories = Array.from({ length: 12 }, (_, i) => `${i}`);
-    component.values = Array.from({ length: 12 }, () => 10);
+    fixture.componentRef.setInput(
+      'categories',
+      Array.from({ length: 12 }, (_, i) => `${i}`),
+    );
+    fixture.componentRef.setInput(
+      'values',
+      Array.from({ length: 12 }, () => 10),
+    );
     fixture.detectChanges();
 
     // Both series accumulate into a single bar per category.
@@ -581,8 +603,8 @@ describe('Chart bar component', () => {
 
     // Distinct stack groups render as separate bars, so each category needs a
     // row per group.
-    component.seriesStack = 'West';
-    component.secondSeriesStack = 'East';
+    fixture.componentRef.setInput('seriesStack', 'West');
+    fixture.componentRef.setInput('secondSeriesStack', 'East');
     fixture.detectChanges();
 
     const groupedStackHeight = Number.parseFloat(getChartContainerHeight());
@@ -590,9 +612,15 @@ describe('Chart bar component', () => {
   });
 
   it('should grow taller for a dense horizontal chart', () => {
-    component.orientation = 'horizontal';
-    component.categories = Array.from({ length: 12 }, (_, i) => `${i}`);
-    component.values = Array.from({ length: 12 }, () => 10);
+    fixture.componentRef.setInput('orientation', 'horizontal');
+    fixture.componentRef.setInput(
+      'categories',
+      Array.from({ length: 12 }, (_, i) => `${i}`),
+    );
+    fixture.componentRef.setInput(
+      'values',
+      Array.from({ length: 12 }, () => 10),
+    );
     fixture.detectChanges();
 
     const denseHeight = Number.parseFloat(getChartContainerHeight());
@@ -603,30 +631,39 @@ describe('Chart bar component', () => {
     // Enough categories that the computed height exceeds the minimum clamp.
     const categories = Array.from({ length: 12 }, (_, i) => `${2013 + i}`);
 
-    component.orientation = 'horizontal';
-    component.categories = categories;
-    component.values = [10];
+    fixture.componentRef.setInput('orientation', 'horizontal');
+    fixture.componentRef.setInput('categories', categories);
+    fixture.componentRef.setInput('values', [10]);
     fixture.detectChanges();
 
     const sparseHeight = getChartContainerHeight();
 
-    component.values = categories.map((_, i) => i * 10);
+    fixture.componentRef.setInput(
+      'values',
+      categories.map((_, i) => i * 10),
+    );
     fixture.detectChanges();
 
     expect(getChartContainerHeight()).toBe(sparseHeight);
   });
 
   it('should add legend space to a multi-series horizontal chart', () => {
-    component.orientation = 'horizontal';
+    fixture.componentRef.setInput('orientation', 'horizontal');
     // Use enough categories that the height exceeds the minimum floor, so the
     // legend's contribution is visible rather than clamped away.
-    component.categories = Array.from({ length: 12 }, (_, i) => `${i}`);
-    component.values = Array.from({ length: 12 }, () => 10);
+    fixture.componentRef.setInput(
+      'categories',
+      Array.from({ length: 12 }, (_, i) => `${i}`),
+    );
+    fixture.componentRef.setInput(
+      'values',
+      Array.from({ length: 12 }, () => 10),
+    );
     fixture.detectChanges();
 
     const singleSeriesHeight = Number.parseFloat(getChartContainerHeight());
 
-    component.renderSecondSeries = true;
+    fixture.componentRef.setInput('renderSecondSeries', true);
     fixture.detectChanges();
 
     const multiSeriesHeight = Number.parseFloat(getChartContainerHeight());
@@ -640,15 +677,15 @@ describe('Chart bar component', () => {
   });
 
   it('should use a logarithmic scale when specified', () => {
-    component.valueScaleType = 'logarithmic';
+    fixture.componentRef.setInput('valueScaleType', 'logarithmic');
     fixture.detectChanges();
 
     expect(getScale(requireChart(), 'value').type).toBe('logarithmic');
   });
 
   it('should keep only power-of-ten gridlines on a logarithmic scale', async () => {
-    component.valueScaleType = 'logarithmic';
-    component.values = [1, 8000];
+    fixture.componentRef.setInput('valueScaleType', 'logarithmic');
+    fixture.componentRef.setInput('values', [1, 8000]);
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -667,8 +704,8 @@ describe('Chart bar component', () => {
   });
 
   it('should keep the generated logarithmic ticks when the range spans fewer than two decades', async () => {
-    component.valueScaleType = 'logarithmic';
-    component.values = [4, 6];
+    fixture.componentRef.setInput('valueScaleType', 'logarithmic');
+    fixture.componentRef.setInput('values', [4, 6]);
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -689,7 +726,7 @@ describe('Chart bar component', () => {
     fixture.detectChanges();
 
     const chart = requireChart();
-    component.values = [30, 40];
+    fixture.componentRef.setInput('values', [30, 40]);
     fixture.detectChanges();
 
     // The chart updates in an `afterRenderEffect`, so wait for render
@@ -722,24 +759,24 @@ describe('Chart bar component', () => {
     });
 
     it('should be accessible with multiple series and a legend', async () => {
-      component.renderSecondSeries = true;
+      fixture.componentRef.setInput('renderSecondSeries', true);
       await fixture.whenStable();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
     it('should be accessible when stacked', async () => {
-      component.seriesLayout = 'stacked';
-      component.renderSecondSeries = true;
-      component.seriesStack = 'West';
-      component.secondSeriesStack = 'East';
+      fixture.componentRef.setInput('seriesLayout', 'stacked');
+      fixture.componentRef.setInput('renderSecondSeries', true);
+      fixture.componentRef.setInput('seriesStack', 'West');
+      fixture.componentRef.setInput('secondSeriesStack', 'East');
       await fixture.whenStable();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
     it('should be accessible when horizontal', async () => {
-      component.orientation = 'horizontal';
+      fixture.componentRef.setInput('orientation', 'horizontal');
       await fixture.whenStable();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();

@@ -1,4 +1,4 @@
-import { Component, ViewChild, inject } from '@angular/core';
+import { Component, ViewChild, inject, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
@@ -19,12 +19,12 @@ class MockChartBarComponent {
   imports: [SkyChart, MockChartBarComponent],
   template: `
     <sky-chart
-      [headingHidden]="headingHidden"
-      [headingLevel]="headingLevel"
-      [headingStyle]="headingStyle"
-      [headingText]="headingText"
-      [loading]="loading"
-      [subheadingText]="subheadingText"
+      [headingHidden]="headingHidden()"
+      [headingLevel]="headingLevel()"
+      [headingStyle]="headingStyle()"
+      [headingText]="headingText()"
+      [loading]="loading()"
+      [subheadingText]="subheadingText()"
     >
       <sky-chart-bar />
     </sky-chart>
@@ -34,12 +34,12 @@ class TestComponent {
   @ViewChild(SkyChart)
   public chart!: SkyChart;
 
-  public headingHidden: boolean | undefined;
-  public headingLevel: unknown;
-  public headingStyle: unknown;
-  public headingText = 'Test heading';
-  public loading: boolean | undefined;
-  public subheadingText: string | undefined;
+  public headingHidden = input<boolean | undefined>(undefined);
+  public headingLevel = input<unknown>(undefined);
+  public headingStyle = input<unknown>(undefined);
+  public headingText = input('Test heading');
+  public loading = input<boolean | undefined>(undefined);
+  public subheadingText = input<string | undefined>(undefined);
 }
 
 describe('Chart component', () => {
@@ -79,7 +79,7 @@ describe('Chart component', () => {
   });
 
   it('should render the heading text', () => {
-    fixture.componentInstance.headingText = 'My chart';
+    fixture.componentRef.setInput('headingText', 'My chart');
     fixture.detectChanges();
 
     expect(getHeading()).toHaveText('My chart');
@@ -99,32 +99,32 @@ describe('Chart component', () => {
   });
 
   it('should not render the heading when headingHidden is true', () => {
-    fixture.componentInstance.headingHidden = true;
+    fixture.componentRef.setInput('headingHidden', true);
     fixture.detectChanges();
 
     expect(getHeading()).toBeNull();
   });
 
   it('should not name the figure when the heading is visible', () => {
-    fixture.componentInstance.headingText = 'My heading';
-    fixture.componentInstance.subheadingText = 'My subheading';
+    fixture.componentRef.setInput('headingText', 'My heading');
+    fixture.componentRef.setInput('subheadingText', 'My subheading');
     fixture.detectChanges();
 
     expect(getFigure()?.getAttribute('aria-label')).toBeNull();
   });
 
   it('should name the figure with the heading text via aria-label when headingHidden is true', () => {
-    fixture.componentInstance.headingText = 'My heading';
-    fixture.componentInstance.headingHidden = true;
+    fixture.componentRef.setInput('headingText', 'My heading');
+    fixture.componentRef.setInput('headingHidden', true);
     fixture.detectChanges();
 
     expect(getFigure()?.getAttribute('aria-label')).toBe('My heading');
   });
 
   it('should include the subheading text in the figure aria-label when headingHidden is true', () => {
-    fixture.componentInstance.headingText = 'My heading';
-    fixture.componentInstance.subheadingText = 'My subheading';
-    fixture.componentInstance.headingHidden = true;
+    fixture.componentRef.setInput('headingText', 'My heading');
+    fixture.componentRef.setInput('subheadingText', 'My subheading');
+    fixture.componentRef.setInput('headingHidden', true);
     fixture.detectChanges();
 
     expect(getFigure()?.getAttribute('aria-label')).toBe(
@@ -139,16 +139,16 @@ describe('Chart component', () => {
   });
 
   it('should render the subheading when subheadingText is set', () => {
-    fixture.componentInstance.subheadingText = 'My subheading';
+    fixture.componentRef.setInput('subheadingText', 'My subheading');
     fixture.detectChanges();
 
     expect(getSubheading()).toHaveText('My subheading');
   });
 
   it('should not render the heading or subheading when headingHidden is true', () => {
-    fixture.componentInstance.headingText = 'My heading';
-    fixture.componentInstance.subheadingText = 'My subheading';
-    fixture.componentInstance.headingHidden = true;
+    fixture.componentRef.setInput('headingText', 'My heading');
+    fixture.componentRef.setInput('subheadingText', 'My subheading');
+    fixture.componentRef.setInput('headingHidden', true);
     fixture.detectChanges();
 
     expect(getHeading()).toBeNull();
@@ -166,7 +166,7 @@ describe('Chart component', () => {
   });
 
   it('should transform the headingLevel input', () => {
-    fixture.componentInstance.headingLevel = '2';
+    fixture.componentRef.setInput('headingLevel', '2');
     fixture.detectChanges();
 
     expect(fixture.componentInstance.chart.headingLevel()).toBe(2);
@@ -174,7 +174,7 @@ describe('Chart component', () => {
   });
 
   it('should transform the headingStyle input', () => {
-    fixture.componentInstance.headingStyle = '4';
+    fixture.componentRef.setInput('headingStyle', '4');
     fixture.detectChanges();
 
     expect(fixture.componentInstance.chart.headingStyle()).toBe(4);
@@ -203,9 +203,9 @@ describe('Chart component', () => {
   });
 
   it("should combine the title and the plot's summary when the heading is hidden", async () => {
-    fixture.componentInstance.headingText = 'My heading';
-    fixture.componentInstance.subheadingText = 'My subheading';
-    fixture.componentInstance.headingHidden = true;
+    fixture.componentRef.setInput('headingText', 'My heading');
+    fixture.componentRef.setInput('subheadingText', 'My subheading');
+    fixture.componentRef.setInput('headingHidden', true);
     fixture.detectChanges();
     await setPlotSummary('skyux_charts.chart.bar.accessible_summary', [3, 4]);
 
@@ -229,7 +229,7 @@ describe('Chart component', () => {
   });
 
   it('should show a wait overlay over the figure while loading', () => {
-    fixture.componentInstance.loading = true;
+    fixture.componentRef.setInput('loading', true);
     fixture.detectChanges();
 
     expect(getFigure()?.querySelector('.sky-wait-mask')).not.toBeNull();
@@ -238,10 +238,10 @@ describe('Chart component', () => {
   });
 
   it('should remove the wait overlay when loading completes', () => {
-    fixture.componentInstance.loading = true;
+    fixture.componentRef.setInput('loading', true);
     fixture.detectChanges();
 
-    fixture.componentInstance.loading = false;
+    fixture.componentRef.setInput('loading', false);
     fixture.detectChanges();
 
     expect(fixture.nativeElement.querySelector('.sky-wait-mask')).toBeNull();
@@ -250,14 +250,14 @@ describe('Chart component', () => {
   });
 
   it('should withhold the chart controls while loading', () => {
-    fixture.componentInstance.loading = true;
+    fixture.componentRef.setInput('loading', true);
     fixture.detectChanges();
 
     expect(
       fixture.nativeElement.querySelector('sky-chart-controls'),
     ).toBeNull();
 
-    fixture.componentInstance.loading = false;
+    fixture.componentRef.setInput('loading', false);
     fixture.detectChanges();
 
     expect(
@@ -273,14 +273,14 @@ describe('Chart component', () => {
     });
 
     it('should be accessible with a subheading', async () => {
-      fixture.componentInstance.subheadingText = 'My subheading';
+      fixture.componentRef.setInput('subheadingText', 'My subheading');
       fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
     it('should be accessible with the heading hidden', async () => {
-      fixture.componentInstance.headingHidden = true;
+      fixture.componentRef.setInput('headingHidden', true);
       fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -294,7 +294,7 @@ describe('Chart component', () => {
     });
 
     it('should be accessible while loading', async () => {
-      fixture.componentInstance.loading = true;
+      fixture.componentRef.setInput('loading', true);
       fixture.detectChanges();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
