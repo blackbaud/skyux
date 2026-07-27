@@ -10,6 +10,7 @@ import {
   SkyChartHeadingLevel,
   SkyChartHeadingStyle,
 } from '@skyux/charts';
+import { provideNoopSkyAnimations } from '@skyux/core';
 
 import { SkyChartBarHarness } from '../chart-bar/chart-bar-harness';
 import { SkyChartTableModalHarness } from '../chart-table/chart-table-modal-harness';
@@ -68,6 +69,10 @@ describe('Chart harness', () => {
     fixture: ComponentFixture<TestComponent>;
     harness: SkyChartHarness;
   }> {
+    TestBed.configureTestingModule({
+      providers: [provideNoopSkyAnimations()],
+    });
+
     const fixture = TestBed.createComponent(TestComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
     const harness = await loader.getHarness(SkyChartHarness.with(filters));
