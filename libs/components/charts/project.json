@@ -21,7 +21,20 @@
         }
       },
       "defaultConfiguration": "production",
-      "dependsOn": ["^build"]
+      "dependsOn": [
+        "^build",
+        {
+          "projects": ["core", "help-inline", "popovers"],
+          "target": "build"
+        }
+      ],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/charts/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/charts/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/charts/testing/src/**/fixtures/**/*"
+      ]
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
