@@ -5,6 +5,7 @@ import { SkyChartBarHarnessFilters } from './chart-bar-harness-filters';
 
 /**
  * Harness for interacting with a bar chart component in tests.
+ * @preview
  */
 export class SkyChartBarHarness extends SkyComponentHarness {
   /**
