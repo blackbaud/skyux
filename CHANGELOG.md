@@ -7,6 +7,7 @@
 ### Features
 
 * **components/charts:** add bar chart component (developer preview) ([#4527](https://github.com/blackbaud/skyux/issues/4527)) ([c4ddd62](https://github.com/blackbaud/skyux/commit/c4ddd62c829e4a103b02963d1fc8774de00a5063)), closes [AB#4027719](https://dev.azure.com/blackbaud/Products/_workitems/edit/4027719)
+* **components/charts:** add testing harnesses ([#4542](https://github.com/blackbaud/skyux/issues/4542)) ([61c3cca](https://github.com/blackbaud/skyux/commit/61c3cca649410ec45f0964cc75aec1c3f3949f21)), closes [AB#4027719](https://dev.azure.com/blackbaud/Products/_workitems/edit/4027719)
 
 
 ### Bug Fixes
