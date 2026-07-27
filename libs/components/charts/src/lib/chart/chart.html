@@ -9,13 +9,22 @@
         [helpPopoverContent]="helpPopoverContent()"
         [helpPopoverTitle]="helpPopoverTitle()"
       />
-    }
-    @if (!subheadingHidden() && subheadingText(); as subheadingText) {
-      <sky-chart-subheading [subheadingText]="subheadingText" />
+      @if (subheadingText(); as subheadingText) {
+        <sky-chart-subheading [subheadingText]="subheadingText" />
+      }
     }
   </div>
-  <sky-chart-controls [headingText]="headingText()" />
+  @if (!loading()) {
+    <sky-chart-controls [headingText]="headingText()" />
+  }
 </div>
-<figure class="sky-chart-content" [attr.aria-label]="figureLabel()">
+<figure
+  class="sky-chart-content"
+  [attr.aria-busy]="loading() ? 'true' : null"
+  [attr.aria-label]="figureLabel()"
+  [attr.role]="figureLabel() ? 'img' : null"
+  [class.sky-chart-content-loading]="loading()"
+>
+  <sky-wait [isWaiting]="loading()" />
   <ng-content />
 </figure>

@@ -1,0 +1,8 @@
+<sky-chart headingText="Temperature range by month and city">
+  <sky-chart-bar [orientation]="orientation()">
+    <sky-chart-axis-category labelText="Month" [categories]="months" />
+    <sky-chart-axis-value labelText="Temperature (°C)" />
+    <sky-chart-bar-series labelText="Anchorage" [values]="anchorage" />
+    <sky-chart-bar-series labelText="Asheville" [values]="asheville" />
+  </sky-chart-bar>
+</sky-chart>
