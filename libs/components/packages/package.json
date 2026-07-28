@@ -66,7 +66,7 @@
       "@skyux/help-inline": "0.0.0-PLACEHOLDER",
       "@skyux/i18n": "0.0.0-PLACEHOLDER",
       "@skyux/icon": "0.0.0-PLACEHOLDER",
-      "@skyux/icons": "^10.4.0",
+      "@skyux/icons": "^10.7.0",
       "@skyux/indicators": "0.0.0-PLACEHOLDER",
       "@skyux/inline-form": "0.0.0-PLACEHOLDER",
       "@skyux/layout": "0.0.0-PLACEHOLDER",
@@ -92,8 +92,8 @@
       "@skyux/tiles": "0.0.0-PLACEHOLDER",
       "@skyux/toast": "0.0.0-PLACEHOLDER",
       "@skyux/validation": "0.0.0-PLACEHOLDER",
-      "ag-grid-angular": "^35.1.0",
-      "ag-grid-community": "^35.1.0",
+      "ag-grid-angular": "^35.3.1",
+      "ag-grid-community": "^35.3.1",
       "ag-grid-enterprise": "^35.1.0",
       "autonumeric": "^4.10.9",
       "eslint-config-skyux": "0.0.0-PLACEHOLDER",
@@ -103,8 +103,8 @@
     }
   },
   "peerDependencies": {
-    "@angular/cli": "^21.2.0",
-    "@angular/core": "^21.2.0"
+    "@angular/cli": "^21.2.19",
+    "@angular/core": "^21.2.18"
   },
   "dependencies": {
     "@blackbaud/skyux-design-tokens": "6.1.2",
