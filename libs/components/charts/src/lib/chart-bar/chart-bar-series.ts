@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 import { type SkyChartBarSeriesValue } from './chart-bar-series-value';
 
@@ -9,7 +9,6 @@ import { type SkyChartBarSeriesValue } from './chart-bar-series-value';
  * @preview
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'sky-chart-bar-series',
   template: '',
 })

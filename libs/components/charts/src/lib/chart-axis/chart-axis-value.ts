@@ -1,6 +1,5 @@
 import {
   booleanAttribute,
-  ChangeDetectionStrategy,
   Component,
   computed,
   inject,
@@ -23,7 +22,6 @@ import { optionalNumberAttribute } from './optional-number-attribute';
  * @preview
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'sky-chart-axis-value',
   template: '',
 })
