@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import {
   SkyChart,
   SkyChartAxisCategory,
@@ -9,7 +9,6 @@ import {
 } from '@skyux/charts';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     SkyChart,
     SkyChartAxisCategory,

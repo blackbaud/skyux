@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  signal,
-} from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { type SkyChartBarOrientation } from '@skyux/charts';
 import { SkyToggleSwitchModule } from '@skyux/forms';
 import { SkyBoxModule, SkyFluidGridModule } from '@skyux/layout';
@@ -22,7 +17,6 @@ import { ChartBarValueBoundsPlayground } from './variants/chart-bar-value-bounds
 import { ChartBarValueFormatPlayground } from './variants/chart-bar-value-format-playground';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ChartBarAsyncPlayground,
     ChartBarBasicPlayground,
