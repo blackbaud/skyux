@@ -1,6 +1,5 @@
 import {
   afterRenderEffect,
-  ChangeDetectionStrategy,
   Component,
   DestroyRef,
   ElementRef,
@@ -49,7 +48,6 @@ export type SkyChartJsConfig<TType extends ChartType = ChartType> =
  * @internal
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'sky-chart-js',
   // Chart.js detects size changes from the canvas's parent, not the canvas
   // itself, so the host must be a dedicated, relatively-positioned container

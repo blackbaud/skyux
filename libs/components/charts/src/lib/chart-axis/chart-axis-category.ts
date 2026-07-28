@@ -1,9 +1,4 @@
-import {
-  booleanAttribute,
-  ChangeDetectionStrategy,
-  Component,
-  input,
-} from '@angular/core';
+import { booleanAttribute, Component, input } from '@angular/core';
 
 /**
  * Defines the category axis of a chart. Its categories are shared by every
@@ -12,7 +7,6 @@ import {
  * @preview
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'sky-chart-axis-category',
   template: '',
 })

@@ -1,6 +1,5 @@
 import {
   afterRenderEffect,
-  ChangeDetectionStrategy,
   Component,
   computed,
   contentChild,
@@ -42,7 +41,6 @@ import { SkyChartBarSeriesLayout } from './chart-bar-series-layout';
  * @preview
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkyChartJs],
   selector: 'sky-chart-bar',
   templateUrl: './chart-bar.html',
