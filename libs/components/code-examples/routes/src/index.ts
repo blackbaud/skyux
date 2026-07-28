@@ -179,6 +179,90 @@ export const routes: Routes = [
       import('@skyux/code-examples').then(({ AvatarExampleComponent: c }) => c),
   },
   {
+    path: 'ChartsChartBarAsyncExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ ChartsChartBarAsyncExample: c }) => c,
+      ),
+  },
+  {
+    path: 'ChartsChartBarBasicExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ ChartsChartBarBasicExample: c }) => c,
+      ),
+  },
+  {
+    path: 'ChartsChartBarFloatingExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ ChartsChartBarFloatingExample: c }) => c,
+      ),
+  },
+  {
+    path: 'ChartsChartBarFloatingMultipleSeriesExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ ChartsChartBarFloatingMultipleSeriesExample: c }) => c,
+      ),
+  },
+  {
+    path: 'ChartsChartBarGroupedStackedExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ ChartsChartBarGroupedStackedExample: c }) => c,
+      ),
+  },
+  {
+    path: 'ChartsChartBarHiddenLabelsExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ ChartsChartBarHiddenLabelsExample: c }) => c,
+      ),
+  },
+  {
+    path: 'ChartsChartBarHorizontalExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ ChartsChartBarHorizontalExample: c }) => c,
+      ),
+  },
+  {
+    path: 'ChartsChartBarLogarithmicExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ ChartsChartBarLogarithmicExample: c }) => c,
+      ),
+  },
+  {
+    path: 'ChartsChartBarMultipleSeriesExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ ChartsChartBarMultipleSeriesExample: c }) => c,
+      ),
+  },
+  {
+    path: 'ChartsChartBarStackedExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ ChartsChartBarStackedExample: c }) => c,
+      ),
+  },
+  {
+    path: 'ChartsChartBarValueBoundsExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ ChartsChartBarValueBoundsExample: c }) => c,
+      ),
+  },
+  {
+    path: 'ChartsChartBarValueFormatExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ ChartsChartBarValueFormatExample: c }) => c,
+      ),
+  },
+  {
     path: 'ColorpickerBasicExampleComponent',
     loadComponent: () =>
       import('@skyux/code-examples').then(

@@ -1,0 +1,17 @@
+<sky-chart
+  data-sky-id="acquisitions-by-year-minimal"
+  headingText="Acquisitions by year"
+>
+  <sky-chart-bar>
+    <sky-chart-axis-category
+      labelHidden
+      labelText="Year"
+      [categories]="years"
+    />
+    <sky-chart-axis-value labelHidden labelText="Acquisitions" />
+    <sky-chart-bar-series
+      labelText="Acquisitions by year"
+      [values]="acquisitions"
+    />
+  </sky-chart-bar>
+</sky-chart>
