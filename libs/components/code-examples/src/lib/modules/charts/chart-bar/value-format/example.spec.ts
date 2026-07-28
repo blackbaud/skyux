@@ -56,20 +56,49 @@ describe('Value format bar chart example', () => {
     }
   });
 
-  it('should format the currency values in the data table modal', async () => {
+  it('should format each axis format in the data table modal', async () => {
     const { loader } = setupTest();
+
+    const numberChart = await loader.getHarness(
+      SkyChartHarness.with({ dataSkyId: 'acquisitions-by-month' }),
+    );
+    const numberTable = await numberChart.openDataTableModal();
+
+    await expectAsync(numberTable.getSeriesLabels()).toBeResolvedTo([
+      'Acquisitions',
+    ]);
+    await expectAsync(
+      numberTable.getValues().then((rows) => rows[0][0]),
+    ).toBeResolvedTo('10');
+
+    await numberTable.close();
 
     const currency = await loader.getHarness(
       SkyChartHarness.with({ dataSkyId: 'revenue-by-month' }),
     );
+    const currencyTable = await currency.openDataTableModal();
 
-    const dataTable = await currency.openDataTableModal();
-
-    await expectAsync(dataTable.getSeriesLabels()).toBeResolvedTo(['Revenue']);
+    await expectAsync(currencyTable.getSeriesLabels()).toBeResolvedTo([
+      'Revenue',
+    ]);
     await expectAsync(
-      dataTable.getValues().then((rows) => rows[0][0]),
+      currencyTable.getValues().then((rows) => rows[0][0]),
     ).toBeResolvedTo('€1,000');
 
-    await dataTable.close();
+    await currencyTable.close();
+
+    const percent = await loader.getHarness(
+      SkyChartHarness.with({ dataSkyId: 'conversion-rate-by-month' }),
+    );
+    const percentTable = await percent.openDataTableModal();
+
+    await expectAsync(percentTable.getSeriesLabels()).toBeResolvedTo([
+      'Conversion rate',
+    ]);
+    await expectAsync(
+      percentTable.getValues().then((rows) => rows[0][0]),
+    ).toBeResolvedTo('10%');
+
+    await percentTable.close();
   });
 });

@@ -37,6 +37,33 @@ describe('Async bar chart example', () => {
     await expectAsync(harness.isLoading()).toBeResolvedTo(false);
   });
 
+  it('should show the loading overlay and disable the reload button before the data resolves', async () => {
+    TestBed.configureTestingModule({
+      providers: [provideNoopSkyAnimations()],
+    });
+
+    const fixture = TestBed.createComponent(ChartsChartBarAsyncExample);
+    fixture.componentRef.setInput('delay', 50);
+    fixture.detectChanges();
+
+    const element = fixture.nativeElement as HTMLElement;
+    const reloadButton = element.querySelector('button');
+
+    // The simulated server call has not resolved yet, so the chart shows its
+    // loading overlay and the reload button is disabled.
+    expect(reloadButton?.disabled).toBe(true);
+    expect(element.querySelector('.sky-chart-content-loading')).not.toBeNull();
+
+    // Await the delayed resolution, after which the loading state clears.
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(reloadButton?.disabled).toBe(false);
+    expect(element.querySelector('.sky-chart-content-loading')).toBeNull();
+  });
+
   it('should render the bar chart plot', async () => {
     const { harness } = await setupTest();
 
@@ -59,6 +86,12 @@ describe('Async bar chart example', () => {
       'Q2',
       'Q3',
       'Q4',
+    ]);
+    await expectAsync(dataTable.getValues()).toBeResolvedTo([
+      ['$45.00'],
+      ['$72.00'],
+      ['$38.00'],
+      ['$90.00'],
     ]);
 
     await dataTable.close();
