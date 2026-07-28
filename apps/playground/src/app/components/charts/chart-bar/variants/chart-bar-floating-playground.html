@@ -1,0 +1,10 @@
+<sky-chart headingText="Temperature range by month">
+  <sky-chart-bar [orientation]="orientation()">
+    <sky-chart-axis-category labelText="Month" [categories]="months" />
+    <sky-chart-axis-value labelText="Temperature (°C)" />
+    <sky-chart-bar-series
+      labelText="Temperature range"
+      [values]="temperatureRanges"
+    />
+  </sky-chart-bar>
+</sky-chart>

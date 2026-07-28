@@ -2,11 +2,12 @@ import { Component, DestroyRef, inject, input } from '@angular/core';
 import { SkyModalService } from '@skyux/modals';
 import { SkyDropdownModule } from '@skyux/popovers';
 
-import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
 import {
-  SkyChartDataTableModal,
-  SkyChartDataTableModalContext,
-} from './chart-data-table-modal';
+  SkyChartTableModal,
+  SkyChartTableModalContext,
+} from '../chart-table/chart-table-modal';
+import { SkyChartTableService } from '../chart-table/chart-table-service';
+import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
 
 @Component({
   imports: [SkyChartsResourcesModule, SkyDropdownModule],
@@ -16,17 +17,27 @@ import {
 export class SkyChartControls {
   readonly #destroyRef = inject(DestroyRef);
   readonly #modalSvc = inject(SkyModalService);
+  readonly #tableSvc = inject(SkyChartTableService);
 
   public readonly headingText = input.required<string>();
 
+  /**
+   * The plot's data table. The context menu's only action is viewing the
+   * data table, so the menu renders only while a table is available — a
+   * plot that has not published one (no data yet, or still loading for the
+   * first time) has no actions to offer.
+   */
+  protected readonly table = this.#tableSvc.table;
+
   protected openDataTableModal(): void {
-    const instance = this.#modalSvc.open(SkyChartDataTableModal, {
+    const instance = this.#modalSvc.open(SkyChartTableModal, {
       size: 'large',
       providers: [
         {
-          provide: SkyChartDataTableModalContext,
+          provide: SkyChartTableModalContext,
           useValue: {
             headingText: this.headingText(),
+            table: this.#tableSvc.table(),
           },
         },
       ],
