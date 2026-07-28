@@ -27,12 +27,12 @@
       "@skyux-sdk/stylelint-schematics": "0.0.0-PLACEHOLDER",
       "stylelint-config-skyux": "0.0.0-PLACEHOLDER",
       "skyux-stylelint": "0.0.0-PLACEHOLDER",
-      "stylelint": "^17.14.1",
-      "stylelint-config-recommended-scss": "^17.0.1"
+      "stylelint": "^17.1.0",
+      "stylelint-config-recommended-scss": "^17.0.0"
     }
   },
   "peerDependencies": {
-    "@angular/cli": "^21.2.19"
+    "@angular/cli": "^21.2.0"
   },
   "dependencies": {
     "jsonc-parser": "3.3.1",
