@@ -9,6 +9,21 @@
     "build": {
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/charts"],
+      "defaultConfiguration": "production",
+      "dependsOn": [
+        "^build",
+        {
+          "projects": ["core", "help-inline", "popovers"],
+          "target": "build"
+        }
+      ],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/charts/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/charts/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/charts/testing/src/**/fixtures/**/*"
+      ],
       "options": {
         "project": "libs/components/charts/ng-package.json"
       },
@@ -19,9 +34,7 @@
         "development": {
           "tsConfig": "libs/components/charts/tsconfig.lib.json"
         }
-      },
-      "defaultConfiguration": "production",
-      "dependsOn": ["^build"]
+      }
     },
     "test": {
       "executor": "@angular/build:karma",
