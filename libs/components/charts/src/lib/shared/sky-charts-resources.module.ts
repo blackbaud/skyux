@@ -15,6 +15,10 @@ import {
 
 const RESOURCES: Record<string, SkyLibResources> = {
   'EN-US': {
+    'skyux_charts.chart.bar.accessible_summary': {
+      message:
+        "Bar chart. Number of series: {0}. Number of categories: {1}. A data table is available from the chart's context menu.",
+    },
     'skyux_charts.chart.controls.context_menu.accessible_name': {
       message: 'Context menu for {0}',
     },
@@ -22,6 +26,9 @@ const RESOURCES: Record<string, SkyLibResources> = {
       message: 'View data table',
     },
     'skyux_charts.data_table_modal.close_button': { message: 'Close' },
+    'skyux_charts.data_table_modal.table_region_label': {
+      message: 'Data table for {0}',
+    },
   },
 };
 
