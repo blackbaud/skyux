@@ -79,7 +79,7 @@ for exact style; do not invent new patterns.
    [add-component-visual-tests](../add-component-visual-tests/SKILL.md) skill.
 7. **Add a code example + tests.** Create an example under
    `libs/components/code-examples/src/lib/modules/<library>/<component>/<example-name>/`
-   and its `example.component.spec.ts` per the
+   and its `example.spec.ts` per the
    [add-skyux-code-example](../add-skyux-code-example/SKILL.md) skill.
 8. **Update documentation.** Add the new doc IDs to the library's
    `documentation.json` (`development`, `testing`, and `codeExamples`
