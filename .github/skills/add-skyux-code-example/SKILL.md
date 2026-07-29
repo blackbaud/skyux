@@ -50,17 +50,17 @@ wiring), not to copy its structure.
    `libs/components/code-examples/src/lib/modules/` to confirm the current
    layout and which module(s) to import.
 
-2. **Author the example component.** Create `example.component.ts` and
-   `example.component.html` (plus any service the example needs) per the
-   component conventions in the instruction file (class name, `@title` JSDoc,
-   standalone, imports) and Angular best practices in
+2. **Author the example component.** Create `example.ts` and `example.html`
+   (plus any service the example needs) per the component conventions in the
+   instruction file (class name, `@title` JSDoc, standalone, imports) and
+   Angular best practices in
    [angular.instructions.md](../../instructions/angular.instructions.md).
 
 3. **Export from the barrel.** Add the example to
    `libs/components/code-examples/src/index.ts`:
 
    ```ts
-   export { <Class> } from './lib/modules/<library>/<component>/<example-name>/example.component';
+   export { <Class> } from './lib/modules/<library>/<component>/<example-name>/example';
    ```
 
 4. **Regenerate the routes.** The route registry at
@@ -74,7 +74,7 @@ wiring), not to copy its structure.
 5. **Wire documentation.** Add the example class name to the owning library's
    `documentation.json` under `groups.<library>.codeExamples.docsIds`.
 
-6. **Write the example spec.** Add `example.component.spec.ts` following
+6. **Write the example spec.** Add `example.spec.ts` following
    [component-code-examples.instructions.md](../../instructions/component-code-examples.instructions.md).
    The spec should be a thorough showcase of the component's test harness
    (all public methods, filters, and relevant sub-harnesses), not a smoke
@@ -94,10 +94,10 @@ wiring), not to copy its structure.
 
 ## Definition of Done
 
-- `example.component.ts`/`.html` (+ spec) exist under
+- `example.ts`/`.html` (+ spec) exist under
   `libs/components/code-examples/src/lib/modules/<library>/<component>/<example-name>/`
   and follow the instruction file's conventions (class named
-  `<Library><Component><ExampleName>ExampleComponent`, `@title` JSDoc).
+  `<Library><Component><ExampleName>Example`, `@title` JSDoc).
 - The example is exported from `code-examples/src/index.ts`, the routes file
   has been regenerated via `code-examples:prebuild`, and the class is listed
   in the library's `documentation.json` `codeExamples.docsIds`.

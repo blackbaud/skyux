@@ -1,0 +1,7 @@
+<sky-chart data-sky-id="sales-by-region" headingText="Sales by region">
+  <sky-chart-bar orientation="horizontal">
+    <sky-chart-axis-category labelText="Region" [categories]="regions" />
+    <sky-chart-axis-value labelText="Sales" />
+    <sky-chart-bar-series labelText="Sales" [values]="sales" />
+  </sky-chart-bar>
+</sky-chart>

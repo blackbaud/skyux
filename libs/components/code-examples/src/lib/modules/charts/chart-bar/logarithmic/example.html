@@ -1,0 +1,10 @@
+<sky-chart
+  data-sky-id="spending-by-category"
+  headingText="Spending by category"
+>
+  <sky-chart-bar>
+    <sky-chart-axis-category labelText="Category" [categories]="categories" />
+    <sky-chart-axis-value labelText="Spending" scaleType="logarithmic" />
+    <sky-chart-bar-series labelText="Spending" [values]="values" />
+  </sky-chart-bar>
+</sky-chart>
