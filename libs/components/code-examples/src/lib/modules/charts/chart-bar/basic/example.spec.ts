@@ -34,7 +34,9 @@ describe('Basic bar chart example', () => {
   it('should render the bar chart plot', async () => {
     const { harness } = await setupTest();
 
-    const barHarness = await harness.queryHarness(SkyChartBarHarness);
+    const barHarness = await harness.queryHarness(
+      SkyChartBarHarness.with({ dataSkyId: 'acquisitions-bar' }),
+    );
 
     await expectAsync(barHarness.isChartRendered()).toBeResolvedTo(true);
   });

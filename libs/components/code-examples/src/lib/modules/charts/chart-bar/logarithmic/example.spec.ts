@@ -17,7 +17,7 @@ describe('Logarithmic bar chart example', () => {
     const fixture = TestBed.createComponent(ChartsChartBarLogarithmicExample);
     const loader = TestbedHarnessEnvironment.loader(fixture);
     const harness = await loader.getHarness(
-      SkyChartHarness.with({ dataSkyId: 'monthly-spending' }),
+      SkyChartHarness.with({ dataSkyId: 'spending-by-category' }),
     );
 
     return { fixture, harness };
@@ -27,7 +27,7 @@ describe('Logarithmic bar chart example', () => {
     const { harness } = await setupTest();
 
     await expectAsync(harness.getHeadingText()).toBeResolvedTo(
-      'Monthly spending',
+      'Spending by category',
     );
   });
 
@@ -44,7 +44,7 @@ describe('Logarithmic bar chart example', () => {
 
     const dataTable = await harness.openDataTableModal();
 
-    await expectAsync(dataTable.getCategoryLabel()).toBeResolvedTo('Month');
+    await expectAsync(dataTable.getCategoryLabel()).toBeResolvedTo('Category');
     await expectAsync(dataTable.getSeriesLabels()).toBeResolvedTo(['Spending']);
     await expectAsync(
       dataTable.getCategories().then((categories) => categories.length),

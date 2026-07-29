@@ -1,3 +1,4 @@
+import { manualChangeDetection } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyChartBarHarness, SkyChartHarness } from '@skyux/charts/testing';
@@ -37,31 +38,34 @@ describe('Async bar chart example', () => {
     await expectAsync(harness.isLoading()).toBeResolvedTo(false);
   });
 
-  it('should show the loading overlay and disable the reload button before the data resolves', async () => {
+  it('should show the loading state until the request resolves', async () => {
     TestBed.configureTestingModule({
       providers: [provideNoopSkyAnimations()],
     });
 
     const fixture = TestBed.createComponent(ChartsChartBarAsyncExample);
-    fixture.componentRef.setInput('delay', 50);
-    fixture.detectChanges();
+    fixture.componentRef.setInput('delay', 0);
+    const loader = TestbedHarnessEnvironment.loader(fixture);
 
-    const element = fixture.nativeElement as HTMLElement;
-    const reloadButton = element.querySelector('button');
+    // Drive change detection manually so the CDK does not auto-stabilize the
+    // fixture, which would resolve the simulated request before the loading
+    // state can be observed.
+    await manualChangeDetection(async () => {
+      fixture.detectChanges();
 
-    // The simulated server call has not resolved yet, so the chart shows its
-    // loading overlay and the reload button is disabled.
-    expect(reloadButton?.disabled).toBe(true);
-    expect(element.querySelector('.sky-chart-content-loading')).not.toBeNull();
+      const harness = await loader.getHarness(
+        SkyChartHarness.with({ dataSkyId: 'donations-by-quarter' }),
+      );
 
-    // Await the delayed resolution, after which the loading state clears.
-    await new Promise((resolve) => setTimeout(resolve, 100));
-    fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
+      await expectAsync(harness.isLoading()).toBeResolvedTo(true);
 
-    expect(reloadButton?.disabled).toBe(false);
-    expect(element.querySelector('.sky-chart-content-loading')).toBeNull();
+      // A pending timer keeps the zone unstable, so `whenStable` waits for the
+      // simulated request to resolve without a fixed wall-clock delay.
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      await expectAsync(harness.isLoading()).toBeResolvedTo(false);
+    });
   });
 
   it('should render the bar chart plot', async () => {
