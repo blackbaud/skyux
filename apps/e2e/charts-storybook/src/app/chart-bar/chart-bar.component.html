@@ -1,0 +1,29 @@
+<sky-chart headingText="Acquisitions by year">
+  <sky-chart-bar [orientation]="orientation">
+    <sky-chart-axis-category labelText="Year" [categories]="years" />
+    <sky-chart-axis-value labelText="Acquisitions" format="currency" />
+    <sky-chart-bar-series
+      labelText="Acquisitions by year"
+      [values]="acquisitions"
+    />
+  </sky-chart-bar>
+</sky-chart>
+
+<sky-chart headingText="Actual vs. target">
+  <sky-chart-bar [orientation]="orientation">
+    <sky-chart-axis-category labelText="Year" [categories]="years" />
+    <sky-chart-axis-value labelText="Acquisitions" />
+    <sky-chart-bar-series labelText="Actual" [values]="acquisitions" />
+    <sky-chart-bar-series labelText="Target" [values]="target" />
+  </sky-chart-bar>
+</sky-chart>
+
+<sky-chart headingText="Monthly sales">
+  <sky-chart-bar seriesLayout="stacked" [orientation]="orientation">
+    <sky-chart-axis-category labelText="Month" [categories]="months" />
+    <sky-chart-axis-value labelText="Value" />
+    <sky-chart-bar-series labelText="In store" [values]="inStore" />
+    <sky-chart-bar-series labelText="Online" [values]="online" />
+    <sky-chart-bar-series labelText="Phone" [values]="phone" />
+  </sky-chart-bar>
+</sky-chart>
