@@ -26,3 +26,43 @@
     content: ' ';
   }
 }
+
+.masking-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100px;
+  height: 20px;
+}
+
+.masking-left {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 15px;
+  height: 100px;
+}
+
+.masking-right {
+  position: absolute;
+  top: 0;
+  left: 70px;
+  width: 30px;
+  height: 100px;
+}
+
+.masking-bottom {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  width: 100px;
+  height: 40px;
+}
+
+.masking-zero-size {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+}
