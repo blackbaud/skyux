@@ -6,9 +6,12 @@ import {
   Subscriber,
   Subscription,
   animationFrameScheduler,
+  combineLatest,
   combineLatestWith,
   debounceTime,
+  distinctUntilChanged,
   fromEvent,
+  isObservable,
   map,
   merge,
   observeOn,
@@ -31,6 +34,31 @@ function notifySubscribers(
 }
 
 type HostRect = Pick<DOMRect, 'top' | 'left' | 'right' | 'bottom'>;
+
+type MaskingContainers<T> = Partial<Record<keyof HostRect, T>>;
+
+/**
+ * Reduces `current` against the given `containerEdge` of each container's bounding rect,
+ * skipping containers with no size in the given `dimension`.
+ */
+function maskEdge(
+  current: number,
+  containers: ElementRef[],
+  dimension: 'offsetHeight' | 'offsetWidth',
+  containerEdge: keyof HostRect,
+  combine: (a: number, b: number) => number,
+): number {
+  let result = current;
+  for (const container of containers) {
+    if (container.nativeElement?.[dimension]) {
+      result = combine(
+        result,
+        container.nativeElement.getBoundingClientRect()[containerEdge],
+      );
+    }
+  }
+  return result;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -219,21 +247,40 @@ export class SkyScrollableHostService {
 
   public watchScrollableHostClipPathChanges(
     elementRef: ElementRef,
-    additionalContainers: Observable<ElementRef[]> = of([]),
+    options:
+      | Observable<ElementRef[]>
+      | {
+          additionalContainers?: Observable<ElementRef[]>;
+          additionalMasking?: MaskingContainers<Observable<ElementRef[]>>;
+        } = of([]),
   ): Observable<string> {
     if (!this.#resizeObserverSvc) {
       return of('none');
     }
 
+    const normalizedOptions = isObservable(options)
+      ? { additionalContainers: options }
+      : options;
+    const additionalContainers =
+      normalizedOptions.additionalContainers ?? of([]);
+    const additionalMaskingObj = normalizedOptions.additionalMasking ?? {};
+    const hasAdditionalMasking = Object.keys(additionalMaskingObj).length > 0;
+    // `combineLatestWith` never emits if any source completes without emitting,
+    // so fall back to a single empty emission instead of `EMPTY` when there's nothing to mask.
+    const additionalMasking = hasAdditionalMasking
+      ? combineLatest(additionalMaskingObj)
+      : of<MaskingContainers<ElementRef[]>>({});
+
     const watch = (): Observable<string> =>
       this.watchScrollableHost(elementRef).pipe(
-        combineLatestWith(additionalContainers),
-        switchMap(([scrollableHost, additionalHosts]) => {
+        combineLatestWith(additionalContainers, additionalMasking),
+        switchMap(([scrollableHost, additionalHosts, additionalMasks]) => {
           const resizeObserverSvc = this.#resizeObserverSvc;
           if (
             !resizeObserverSvc ||
             ((!scrollableHost ||
               scrollableHost === this.#windowRef.nativeWindow) &&
+              Object.values(additionalMasks).flat().length === 0 &&
               additionalHosts.length === 0)
           ) {
             return of('none');
@@ -249,6 +296,9 @@ export class SkyScrollableHostService {
             ...additionalHosts.map((container) =>
               resizeObserverSvc.observe(container),
             ),
+            ...Object.values(additionalMasks)
+              .flat()
+              .map((container) => resizeObserverSvc.observe(container)),
             fromEvent(hostsParents, 'scroll'),
             ...hostsParents.map((hostsParent) =>
               resizeObserverSvc.observe({
@@ -291,12 +341,41 @@ export class SkyScrollableHostService {
                   bottom = Math.min(bottom, containerRect.bottom);
                 }
               }
+              top = maskEdge(
+                top,
+                additionalMasks.top ?? [],
+                'offsetHeight',
+                'bottom',
+                Math.max,
+              );
+              left = maskEdge(
+                left,
+                additionalMasks.left ?? [],
+                'offsetWidth',
+                'right',
+                Math.max,
+              );
+              right = maskEdge(
+                right,
+                additionalMasks.right ?? [],
+                'offsetWidth',
+                'left',
+                Math.min,
+              );
+              bottom = maskEdge(
+                bottom,
+                additionalMasks.bottom ?? [],
+                'offsetHeight',
+                'top',
+                Math.min,
+              );
               top = Math.max(0, top);
               left = Math.max(0, left);
               return `inset(${top}px ${viewportSize.width - right}px ${viewportSize.height - bottom}px ${left}px)`;
             }),
           );
         }),
+        distinctUntilChanged(),
       );
     /* istanbul ignore else */
     if (this.#zone) {
