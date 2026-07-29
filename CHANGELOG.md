@@ -1,18 +1,19 @@
 # Changelog
 
 
-## [15.0.0-alpha.3](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.2...15.0.0-alpha.3) (2026-07-29)
+## [14.8.0](https://github.com/blackbaud/skyux/compare/14.7.0...14.8.0) (2026-07-28)
 
 
 ### Features
 
-* **components/charts:** add bar chart component (developer preview) ([#4527](https://github.com/blackbaud/skyux/issues/4527)) ([#4544](https://github.com/blackbaud/skyux/issues/4544)) ([e3d8ff2](https://github.com/blackbaud/skyux/commit/e3d8ff273e33795f2a3cb202d1a8c7e027329b74)), closes [AB#4027719](https://dev.azure.com/blackbaud/Products/_workitems/edit/4027719)
-* **components/charts:** add testing harnesses ([#4542](https://github.com/blackbaud/skyux/issues/4542))  ([#4546](https://github.com/blackbaud/skyux/issues/4546)) ([f2b612d](https://github.com/blackbaud/skyux/commit/f2b612deea1b0d06518ea30fd37ed5ec84854382))
+* **components/charts:** add bar chart component (developer preview) ([#4527](https://github.com/blackbaud/skyux/issues/4527)) ([c4ddd62](https://github.com/blackbaud/skyux/commit/c4ddd62c829e4a103b02963d1fc8774de00a5063)), closes [AB#4027719](https://dev.azure.com/blackbaud/Products/_workitems/edit/4027719)
+* **components/charts:** add testing harnesses ([#4542](https://github.com/blackbaud/skyux/issues/4542)) ([61c3cca](https://github.com/blackbaud/skyux/commit/61c3cca649410ec45f0964cc75aec1c3f3949f21)), closes [AB#4027719](https://dev.azure.com/blackbaud/Products/_workitems/edit/4027719)
+* **sdk/skyux-stylelint:** update stylelint dependency range ([#4548](https://github.com/blackbaud/skyux/issues/4548)) ([7a1ea2d](https://github.com/blackbaud/skyux/commit/7a1ea2d3fad6ece0c3bb37efcdf11458eb10b13a)), closes [AB#4068309](https://dev.azure.com/blackbaud/Products/_workitems/edit/4068309)
 
 
 ### Bug Fixes
 
-* **components/layout:** tokenize page summary background color ([#4536](https://github.com/blackbaud/skyux/issues/4536)) ([#4537](https://github.com/blackbaud/skyux/issues/4537)) ([722fba2](https://github.com/blackbaud/skyux/commit/722fba26a4de87d6269fc831aa77419e4fbdd7ff))
+* **components/layout:** tokenize page summary background color ([#4536](https://github.com/blackbaud/skyux/issues/4536)) ([ae6b0a6](https://github.com/blackbaud/skyux/commit/ae6b0a6c8fa3f8cd4a82ee185dc159fe54d4a6fe))
 
 ## [15.0.0-alpha.2](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.1...15.0.0-alpha.2) (2026-07-22)
 
