@@ -5,6 +5,7 @@ import {
   OnDestroy,
   OnInit,
   Renderer2,
+  inject,
 } from '@angular/core';
 
 import { SkyTheme } from './theme';
@@ -40,19 +41,9 @@ export class SkyThemeDirective implements OnInit, OnDestroy {
 
   #initialized = false;
 
-  #elRef: ElementRef;
-  #renderer: Renderer2;
-  #themeSvc: SkyThemeService;
-
-  constructor(
-    elRef: ElementRef,
-    renderer: Renderer2,
-    themeSvc: SkyThemeService,
-  ) {
-    this.#elRef = elRef;
-    this.#renderer = renderer;
-    this.#themeSvc = themeSvc;
-  }
+  readonly #elRef = inject(ElementRef);
+  readonly #renderer = inject(Renderer2);
+  readonly #themeSvc = inject(SkyThemeService);
 
   public ngOnInit(): void {
     this.#themeSvc.init(

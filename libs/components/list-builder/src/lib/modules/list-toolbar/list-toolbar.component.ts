@@ -10,6 +10,7 @@ import {
   QueryList,
   TemplateRef,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
 import {
@@ -215,15 +216,14 @@ export class SkyListToolbarComponent
 
   private _inMemorySearchEnabled: boolean;
 
-  constructor(
-    private changeDetector: ChangeDetectorRef,
-    private state: ListState,
-    private dispatcher: ListStateDispatcher,
-    private toolbarState: ListToolbarState,
-    public toolbarDispatcher: ListToolbarStateDispatcher,
-    logger: SkyLogService,
-  ) {
-    logger.deprecated('SkyListToolbarComponent', {
+  private readonly changeDetector = inject(ChangeDetectorRef);
+  private readonly state = inject(ListState);
+  private readonly dispatcher = inject(ListStateDispatcher);
+  private readonly toolbarState = inject(ListToolbarState);
+  public readonly toolbarDispatcher = inject(ListToolbarStateDispatcher);
+
+  constructor() {
+    inject(SkyLogService).deprecated('SkyListToolbarComponent', {
       deprecationMajorVersion: 6,
       moreInfoUrl:
         'https://developer.blackbaud.com/skyux/components/data-manager',

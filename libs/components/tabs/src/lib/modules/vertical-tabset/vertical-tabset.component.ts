@@ -11,6 +11,7 @@ import {
   Output,
   ViewChild,
   computed,
+  inject,
   input,
   signal,
 } from '@angular/core';
@@ -129,19 +130,12 @@ export class SkyVerticalTabsetComponent
   #ngUnsubscribe = new Subject<void>();
   #_ariaRole = 'tablist';
 
-  #resources: SkyLibResourcesService;
-  #changeRef: ChangeDetectorRef;
+  readonly #resources = inject(SkyLibResourcesService);
+  readonly #changeRef = inject(ChangeDetectorRef);
 
-  constructor(
-    public adapterService: SkyVerticalTabsetAdapterService,
-    public tabService: SkyVerticalTabsetService,
-    resources: SkyLibResourcesService,
-    changeRef: ChangeDetectorRef,
-    public tabIdSvc: SkyTabIdService,
-  ) {
-    this.#resources = resources;
-    this.#changeRef = changeRef;
-  }
+  public readonly adapterService = inject(SkyVerticalTabsetAdapterService);
+  public readonly tabService = inject(SkyVerticalTabsetService);
+  public readonly tabIdSvc = inject(SkyTabIdService);
 
   public ngOnInit(): void {
     this.tabService.maintainTabContent = this.maintainTabContent;

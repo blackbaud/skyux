@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { ModalTestValues } from './modal-values.fixture';
 
@@ -8,5 +8,5 @@ import { ModalTestValues } from './modal-values.fixture';
   standalone: false,
 })
 export class ModalWithValuesTestComponent {
-  constructor(public values: ModalTestValues) {}
+  public readonly values = inject(ModalTestValues);
 }

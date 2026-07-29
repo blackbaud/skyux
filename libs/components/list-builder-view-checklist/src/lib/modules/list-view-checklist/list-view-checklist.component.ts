@@ -7,6 +7,7 @@ import {
   OnInit,
   SimpleChanges,
   forwardRef,
+  inject,
 } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
 import { SkyCheckboxChange } from '@skyux/forms';
@@ -143,16 +144,14 @@ export class SkyListViewChecklistComponent
 
   private _showOnlySelected = false;
 
-  constructor(
-    state: ListState,
-    private dispatcher: ListStateDispatcher,
-    private checklistState: ChecklistState,
-    private checklistDispatcher: ChecklistStateDispatcher,
-    logger: SkyLogService,
-  ) {
-    super(state, 'Checklist View');
+  private readonly dispatcher = inject(ListStateDispatcher);
+  private readonly checklistState = inject(ChecklistState);
+  private readonly checklistDispatcher = inject(ChecklistStateDispatcher);
 
-    logger.deprecated('SkyListViewChecklistComponent', {
+  constructor() {
+    super(inject(ListState), 'Checklist View');
+
+    inject(SkyLogService).deprecated('SkyListViewChecklistComponent', {
       deprecationMajorVersion: 6,
       moreInfoUrl: 'https://developer.blackbaud.com/skyux/components/repeater',
       replacementRecommendation: 'Use repeater instead.',

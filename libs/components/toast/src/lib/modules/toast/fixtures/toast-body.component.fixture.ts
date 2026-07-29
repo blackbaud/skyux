@@ -1,5 +1,5 @@
 // #region imports
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { SkyToastInstance } from '../toast-instance';
 
@@ -13,14 +13,9 @@ import { SkyToastBodyTestContext } from './toast-body-context';
   standalone: false,
 })
 export class SkyToastBodyTestComponent {
-  #instance: SkyToastInstance;
+  readonly #instance = inject(SkyToastInstance);
 
-  constructor(
-    public context: SkyToastBodyTestContext,
-    instance: SkyToastInstance,
-  ) {
-    this.#instance = instance;
-  }
+  public readonly context = inject(SkyToastBodyTestContext);
 
   public close(): void {
     this.#instance.close();

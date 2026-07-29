@@ -1,3 +1,4 @@
+import { Injector, runInInjectionContext } from '@angular/core';
 import { fakeAsync, tick } from '@angular/core/testing';
 import { ListItemModel } from '@skyux/list-builder-common';
 
@@ -16,7 +17,12 @@ describe('list items', () => {
 
     beforeEach(fakeAsync(() => {
       dispatcher = new ListStateDispatcher();
-      state = new ListState(dispatcher);
+      state = runInInjectionContext(
+        Injector.create({
+          providers: [{ provide: ListStateDispatcher, useValue: dispatcher }],
+        }),
+        () => new ListState(),
+      );
 
       tick();
 
@@ -250,7 +256,12 @@ describe('list items', () => {
 
     beforeEach(fakeAsync(() => {
       dispatcher = new ListStateDispatcher();
-      state = new ListState(dispatcher);
+      state = runInInjectionContext(
+        Injector.create({
+          providers: [{ provide: ListStateDispatcher, useValue: dispatcher }],
+        }),
+        () => new ListState(),
+      );
 
       tick();
 

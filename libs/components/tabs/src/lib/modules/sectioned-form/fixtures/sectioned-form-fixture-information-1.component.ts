@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { SkySectionedFormService } from './../sectioned-form.service';
 
@@ -29,9 +29,5 @@ export class SkySectionedFormFixtureInformation1Component {
   #_invalid: boolean | undefined;
   #_required: boolean | undefined;
 
-  #sectionedFormService: SkySectionedFormService;
-
-  constructor(sectionedFormService: SkySectionedFormService) {
-    this.#sectionedFormService = sectionedFormService;
-  }
+  readonly #sectionedFormService = inject(SkySectionedFormService);
 }

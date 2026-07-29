@@ -1,4 +1,4 @@
-import { DebugElement } from '@angular/core';
+import { DebugElement, Injector, runInInjectionContext } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -40,7 +40,12 @@ describe('List View Grid Component', () => {
 
     beforeEach(() => {
       dispatcher = new ListStateDispatcher();
-      state = new ListState(dispatcher);
+      state = runInInjectionContext(
+        Injector.create({
+          providers: [{ provide: ListStateDispatcher, useValue: dispatcher }],
+        }),
+        () => new ListState(),
+      );
 
       TestBed.configureTestingModule({
         imports: [ListViewGridFixturesModule],
@@ -450,7 +455,16 @@ describe('List View Grid Component', () => {
         it('should run ListViewGridColumnsLoadAction action', waitForAsync(() => {
           setupTest();
           const gridDispatcher = new GridStateDispatcher();
-          const gridState = new GridState(new GridStateModel(), gridDispatcher);
+          const gridModel = new GridStateModel();
+          const gridState = runInInjectionContext(
+            Injector.create({
+              providers: [
+                { provide: GridStateDispatcher, useValue: gridDispatcher },
+                { provide: GridStateModel, useValue: gridModel },
+              ],
+            }),
+            () => new GridState(),
+          );
 
           const columns = [
             new SkyGridColumnModel(component.viewTemplates.first),
@@ -465,7 +479,16 @@ describe('List View Grid Component', () => {
         it('should run ListViewDisplayedGridColumnsLoadAction action with no refresh', waitForAsync(() => {
           setupTest();
           const gridDispatcher = new GridStateDispatcher();
-          const gridState = new GridState(new GridStateModel(), gridDispatcher);
+          const gridModel = new GridStateModel();
+          const gridState = runInInjectionContext(
+            Injector.create({
+              providers: [
+                { provide: GridStateDispatcher, useValue: gridDispatcher },
+                { provide: GridStateModel, useValue: gridModel },
+              ],
+            }),
+            () => new GridState(),
+          );
 
           const columns = [
             new SkyGridColumnModel(component.viewTemplates.first),

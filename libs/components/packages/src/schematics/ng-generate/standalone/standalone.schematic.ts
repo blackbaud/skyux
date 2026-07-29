@@ -129,12 +129,12 @@ function getDecoratedClasses(sourceFile: ts.SourceFile): DecoratedClassData[] {
 
 function getDecoratedClassDeclaration(
   metadata: ts.ObjectLiteralExpression,
-): ts.ClassDeclaration {
+): ts.ClassDeclaration | undefined {
   let parent: ts.Node = metadata.parent;
   while (parent && !ts.isClassDeclaration(parent)) {
     parent = parent.parent;
   }
-  return parent as ts.ClassDeclaration;
+  return parent as ts.ClassDeclaration | undefined;
 }
 
 function getPackageTypeSourceFile(
@@ -391,7 +391,7 @@ function isReferencedOutsideDecorator(
             const classDeclaration = getDecoratedClassDeclaration(metadata);
             return {
               start: metadata.getEnd(),
-              end: classDeclaration.getEnd(),
+              end: (classDeclaration ?? sourceFile).getEnd(),
             };
           })
           .some(

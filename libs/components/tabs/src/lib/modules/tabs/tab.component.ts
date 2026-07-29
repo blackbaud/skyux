@@ -9,6 +9,7 @@ import {
   OnDestroy,
   Output,
   SimpleChanges,
+  inject,
 } from '@angular/core';
 import { SkyResponsiveHostDirective } from '@skyux/core';
 
@@ -197,18 +198,11 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
 
   #tabIndexChange: BehaviorSubject<SkyTabIndex | undefined>;
 
-  #changeDetector: ChangeDetectorRef;
-  #permalinkService: SkyTabsetPermalinkService;
-  #tabsetService: SkyTabsetService;
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #permalinkService = inject(SkyTabsetPermalinkService);
+  readonly #tabsetService = inject(SkyTabsetService);
 
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    permalinkService: SkyTabsetPermalinkService,
-    tabsetService: SkyTabsetService,
-  ) {
-    this.#changeDetector = changeDetector;
-    this.#permalinkService = permalinkService;
-    this.#tabsetService = tabsetService;
+  constructor() {
     const id = nextId++;
     this.tabPanelId = `sky-tab-${id}`;
     this.tabButtonId = `${this.tabPanelId}-nav-btn`;

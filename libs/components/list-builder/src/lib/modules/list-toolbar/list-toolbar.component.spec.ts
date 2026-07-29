@@ -1,4 +1,4 @@
-import { DebugElement } from '@angular/core';
+import { DebugElement, Injector, runInInjectionContext } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -37,7 +37,12 @@ describe('List Toolbar Component', () => {
 
   beforeEach(() => {
     dispatcher = new ListStateDispatcher();
-    state = new ListState(dispatcher);
+    state = runInInjectionContext(
+      Injector.create({
+        providers: [{ provide: ListStateDispatcher, useValue: dispatcher }],
+      }),
+      () => new ListState(),
+    );
 
     TestBed.configureTestingModule({
       declarations: [ListToolbarTestComponent],

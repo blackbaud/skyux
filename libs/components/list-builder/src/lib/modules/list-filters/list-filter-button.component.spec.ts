@@ -1,3 +1,4 @@
+import { Injector, runInInjectionContext } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { skip, take } from 'rxjs/operators';
@@ -17,7 +18,12 @@ describe('List filter button', () => {
 
   beforeEach(waitForAsync(() => {
     dispatcher = new ListStateDispatcher();
-    state = new ListState(dispatcher);
+    state = runInInjectionContext(
+      Injector.create({
+        providers: [{ provide: ListStateDispatcher, useValue: dispatcher }],
+      }),
+      () => new ListState(),
+    );
 
     TestBed.configureTestingModule({
       declarations: [ListFilterButtonTestComponent],

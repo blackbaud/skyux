@@ -3,10 +3,8 @@ import {
   ElementRef,
   EnvironmentInjector,
   EventEmitter,
-  Inject,
   Input,
   OnDestroy,
-  Optional,
   Output,
   TemplateRef,
   ViewChild,
@@ -18,7 +16,6 @@ import {
   SkyIdService,
   SkyOverlayInstance,
   SkyOverlayService,
-  SkyStackingContext,
 } from '@skyux/core';
 
 import { Observable, Subject } from 'rxjs';
@@ -105,7 +102,7 @@ export class SkyPopoverComponent implements OnDestroy {
 
   public isMouseEnter = false;
 
-  public popoverId: string;
+  public popoverId = inject(SkyIdService).generateId();
 
   @ViewChild('templateRef', {
     read: TemplateRef,
@@ -135,21 +132,12 @@ export class SkyPopoverComponent implements OnDestroy {
 
   readonly #environmentInjector = inject(EnvironmentInjector);
 
-  #overlayService: SkyOverlayService;
+  readonly #overlayService = inject(SkyOverlayService);
 
-  #zIndex: Observable<number> | undefined;
-
-  constructor(
-    overlayService: SkyOverlayService,
-    @Optional()
-    @Inject(SKY_STACKING_CONTEXT)
-    stackingContext?: SkyStackingContext,
-  ) {
-    this.#overlayService = overlayService;
-    this.#zIndex = stackingContext?.zIndex;
-
-    this.popoverId = inject(SkyIdService).generateId();
-  }
+  readonly #zIndex: Observable<number> | undefined = inject(
+    SKY_STACKING_CONTEXT,
+    { optional: true },
+  )?.zIndex;
 
   public ngOnDestroy(): void {
     this.#ngUnsubscribe.next();

@@ -77,8 +77,8 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
 
   #ngUnsubscribe = new Subject<void>();
 
-  #tabService: SkyVerticalTabsetService;
-  #changeRef: ChangeDetectorRef;
+  readonly #tabService = inject(SkyVerticalTabsetService);
+  readonly #changeRef = inject(ChangeDetectorRef);
   #adapterService = inject(SkyVerticalTabsetAdapterService);
   #idService = inject(SkyIdService);
   #tabIdService = inject(SkyTabIdService);
@@ -87,13 +87,7 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
   #_disabled: boolean | undefined;
   #_open: boolean | undefined = false;
 
-  constructor(
-    tabService: SkyVerticalTabsetService,
-    changeRef: ChangeDetectorRef,
-  ) {
-    this.#tabService = tabService;
-    this.#changeRef = changeRef;
-
+  constructor() {
     this.groupId = this.#idService.generateId();
 
     this.#groupService.messageStream.subscribe((message) => {

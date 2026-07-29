@@ -4,7 +4,6 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
-  Optional,
   Output,
   QueryList,
   ViewChild,
@@ -122,19 +121,16 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
   });
 
   #configSet = false;
-  #dashboardService: SkyTileDashboardService;
+  readonly #dashboardService = inject(SkyTileDashboardService);
   #ngUnsubscribe = new Subject<void>();
-  #resourcesService: SkyLibResourcesService | undefined;
+  readonly #resourcesService = inject(SkyLibResourcesService, {
+    optional: true,
+  });
   #viewReady = false;
   #viewReadyTimer: ReturnType<typeof setTimeout> | undefined;
   #_config: SkyTileDashboardConfig | undefined;
 
-  constructor(
-    dashboardService: SkyTileDashboardService,
-    @Optional() resourcesService?: SkyLibResourcesService,
-  ) {
-    this.#dashboardService = dashboardService;
-    this.#resourcesService = resourcesService;
+  constructor() {
     this.moveInstructionsId =
       this.#dashboardService.bagId + '-move-instructions';
 

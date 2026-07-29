@@ -1,4 +1,4 @@
-import { Component, Optional } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { ModalIsDirtyTestContext } from './modal-is-dirty-test-context.fixture';
 
@@ -10,7 +10,9 @@ import { ModalIsDirtyTestContext } from './modal-is-dirty-test-context.fixture';
 export class ModalIsDirtyTestComponent {
   public isDirty: boolean;
 
-  constructor(@Optional() context?: ModalIsDirtyTestContext) {
+  constructor() {
+    const context = inject(ModalIsDirtyTestContext, { optional: true });
+
     this.isDirty = context?.isDirty ?? false;
   }
 }

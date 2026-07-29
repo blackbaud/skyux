@@ -1,6 +1,48 @@
 # Changelog
 
 
+## [14.8.0](https://github.com/blackbaud/skyux/compare/14.7.0...14.8.0) (2026-07-28)
+
+
+### Features
+
+* **components/charts:** add bar chart component (developer preview) ([#4527](https://github.com/blackbaud/skyux/issues/4527)) ([c4ddd62](https://github.com/blackbaud/skyux/commit/c4ddd62c829e4a103b02963d1fc8774de00a5063)), closes [AB#4027719](https://dev.azure.com/blackbaud/Products/_workitems/edit/4027719)
+* **components/charts:** add testing harnesses ([#4542](https://github.com/blackbaud/skyux/issues/4542)) ([61c3cca](https://github.com/blackbaud/skyux/commit/61c3cca649410ec45f0964cc75aec1c3f3949f21)), closes [AB#4027719](https://dev.azure.com/blackbaud/Products/_workitems/edit/4027719)
+* **sdk/skyux-stylelint:** update stylelint dependency range ([#4548](https://github.com/blackbaud/skyux/issues/4548)) ([7a1ea2d](https://github.com/blackbaud/skyux/commit/7a1ea2d3fad6ece0c3bb37efcdf11458eb10b13a)), closes [AB#4068309](https://dev.azure.com/blackbaud/Products/_workitems/edit/4068309)
+
+
+### Bug Fixes
+
+* **components/layout:** tokenize page summary background color ([#4536](https://github.com/blackbaud/skyux/issues/4536)) ([ae6b0a6](https://github.com/blackbaud/skyux/commit/ae6b0a6c8fa3f8cd4a82ee185dc159fe54d4a6fe))
+
+## [14.7.0](https://github.com/blackbaud/skyux/compare/14.6.2...14.7.0) (2026-07-17)
+
+
+### Features
+
+* **components/popovers:** add Alt+ArrowUp/Alt+ArrowDown shortcuts to open and close popovers ([#4523](https://github.com/blackbaud/skyux/issues/4523)) ([c42bf44](https://github.com/blackbaud/skyux/commit/c42bf442f7a5b1174491509cb4c2588cbcc44191)), closes [AB#4035677](https://dev.azure.com/blackbaud/Products/_workitems/edit/4035677)
+* update design tokens to include new dark mode colors ([#4528](https://github.com/blackbaud/skyux/issues/4528)) ([c7404f1](https://github.com/blackbaud/skyux/commit/c7404f1c4da243b388b4941d88c4968696060fa6))
+
+
+### Bug Fixes
+
+* **components/packages:** standalone schematic crash on SKY UX pipe in TestBed.configureTestingModule ([#4524](https://github.com/blackbaud/skyux/issues/4524)) ([bc54ea9](https://github.com/blackbaud/skyux/commit/bc54ea9020da799d724d676b015e66953d2cca4a)), closes [AB#4046930](https://dev.azure.com/blackbaud/Products/_workitems/edit/4046930)
+
+## [14.6.2](https://github.com/blackbaud/skyux/compare/14.6.1...14.6.2) (2026-07-14)
+
+
+### Bug Fixes
+
+* **components/data-grid:** page not resetting to 1 when pageQueryParam is set ([#4516](https://github.com/blackbaud/skyux/issues/4516)) ([3753ad9](https://github.com/blackbaud/skyux/commit/3753ad97146b76fcd20c7bccb7b7cb512b9141ed)), closes [AB#4046789](https://dev.azure.com/blackbaud/Products/_workitems/edit/4046789)
+* **components/docs-tools:** code examples in StackBlitz WebContainer preview blocked by CORP error ([#4517](https://github.com/blackbaud/skyux/issues/4517)) ([dc4f911](https://github.com/blackbaud/skyux/commit/dc4f91109de19d1769de4e2044a59245cec205d2)), closes [stackblitz/webcontainer-core#2100](https://github.com/stackblitz/webcontainer-core/issues/2100) [AB#4046763](https://dev.azure.com/blackbaud/Products/_workitems/edit/4046763)
+
+## [14.6.1](https://github.com/blackbaud/skyux/compare/14.6.0...14.6.1) (2026-07-13)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** checkbox styles not working in dark mode ([#4507](https://github.com/blackbaud/skyux/issues/4507)) ([dcf4e10](https://github.com/blackbaud/skyux/commit/dcf4e108179eb8a7c51d3d1638dffe0e80dcf878)), closes [AB#4044305](https://dev.azure.com/blackbaud/Products/_workitems/edit/4044305)
+
 ## [14.6.0](https://github.com/blackbaud/skyux/compare/14.5.1...14.6.0) (2026-07-09)
 
 

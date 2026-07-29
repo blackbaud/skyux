@@ -3,6 +3,7 @@ import {
   Injectable,
   Renderer2,
   RendererFactory2,
+  inject,
 } from '@angular/core';
 import { SkyAppWindowRef, SkyMutationObserverService } from '@skyux/core';
 
@@ -17,20 +18,11 @@ import { take, takeUntil } from 'rxjs/operators';
 export class SkySplitViewAdapterService {
   #observer: MutationObserver | undefined;
   #renderer: Renderer2;
-  #observerSvc: SkyMutationObserverService;
-  #rendererFactory: RendererFactory2;
-  #windowRef: SkyAppWindowRef;
+  readonly #observerSvc = inject(SkyMutationObserverService);
+  readonly #windowRef = inject(SkyAppWindowRef);
 
-  constructor(
-    observerSvc: SkyMutationObserverService,
-    rendererFactory: RendererFactory2,
-    windowRef: SkyAppWindowRef,
-  ) {
-    this.#observerSvc = observerSvc;
-    this.#rendererFactory = rendererFactory;
-    this.#windowRef = windowRef;
-
-    this.#renderer = this.#rendererFactory.createRenderer(undefined, null);
+  constructor() {
+    this.#renderer = inject(RendererFactory2).createRenderer(undefined, null);
   }
 
   public bindHeightToWindow(

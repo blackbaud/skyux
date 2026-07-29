@@ -8,9 +8,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   Output,
-  Self,
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
@@ -326,6 +324,12 @@ export class SkyLookupComponent
   readonly #selectionModalSvc = inject(SkySelectionModalService);
   readonly #windowRef = inject(SkyAppWindowRef);
 
+  public readonly inputBoxHostSvc = inject(SkyInputBoxHostService, {
+    optional: true,
+  });
+
+  public readonly themeSvc = inject(SkyThemeService, { optional: true });
+
   #getValue(): any[] {
     return this.#_value ? this.#_value : [];
   }
@@ -344,12 +348,10 @@ export class SkyLookupComponent
     this.#updateForSelectMode();
   }
 
-  constructor(
-    @Self() @Optional() ngControl?: NgControl,
-    @Optional() public inputBoxHostSvc?: SkyInputBoxHostService,
-    @Optional() public themeSvc?: SkyThemeService,
-  ) {
+  constructor() {
     super();
+
+    const ngControl = inject(NgControl, { optional: true, self: true });
 
     if (ngControl) {
       ngControl.valueAccessor = this;

@@ -12,6 +12,7 @@ import {
   ViewChild,
   afterNextRender,
   computed,
+  inject,
   input,
   signal,
 } from '@angular/core';
@@ -100,9 +101,9 @@ export class SkySectionedFormComponent
   #ngUnsubscribe = new Subject<void>();
 
   #messageStreamSub: Subscription | undefined;
-  #changeRef: ChangeDetectorRef;
-  #tabIdSvc: SkyTabIdService;
-  #logger: SkyLogService;
+  readonly #changeRef = inject(ChangeDetectorRef);
+  readonly #tabIdSvc = inject(SkyTabIdService);
+  readonly #logger = inject(SkyLogService);
 
   #_messageStream = new Subject<SkySectionedFormMessage>();
 
@@ -110,16 +111,9 @@ export class SkySectionedFormComponent
 
   protected readonly isMobile = signal(false);
 
-  constructor(
-    public tabService: SkyVerticalTabsetService,
-    changeRef: ChangeDetectorRef,
-    tabIdSvc: SkyTabIdService,
-    logger: SkyLogService,
-  ) {
-    this.#changeRef = changeRef;
-    this.#tabIdSvc = tabIdSvc;
-    this.#logger = logger;
+  public readonly tabService = inject(SkyVerticalTabsetService);
 
+  constructor() {
     // Enable animations after the first render.
     afterNextRender(() => {
       this.animationEnabled.set(true);

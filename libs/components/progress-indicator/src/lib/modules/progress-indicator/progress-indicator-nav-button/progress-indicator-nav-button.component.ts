@@ -6,8 +6,8 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
-  Optional,
   Output,
+  inject,
 } from '@angular/core';
 
 import { Subject } from 'rxjs';
@@ -147,16 +147,10 @@ export class SkyProgressIndicatorNavButtonComponent
   #_isVisible: boolean | undefined;
   #_progressIndicator: SkyProgressIndicatorComponent | undefined;
 
-  #changeDetector: ChangeDetectorRef;
-  #parentComponent: SkyProgressIndicatorComponent | undefined;
-
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    @Optional() parentComponent?: SkyProgressIndicatorComponent,
-  ) {
-    this.#changeDetector = changeDetector;
-    this.#parentComponent = parentComponent;
-  }
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #parentComponent = inject(SkyProgressIndicatorComponent, {
+    optional: true,
+  });
 
   public ngAfterViewInit(): void {
     if (!this.progressIndicator && this.#parentComponent) {

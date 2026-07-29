@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { SkyModalBeforeCloseHandler } from '../modal-before-close-handler';
 import { SkyModalInstance } from '../modal-instance';
@@ -11,10 +11,9 @@ import { SkyModalInstance } from '../modal-instance';
 export class ModalWithCloseConfirmTestComponent {
   public unsavedWork = true;
 
-  #modalInstance: SkyModalInstance;
+  readonly #modalInstance = inject(SkyModalInstance);
 
-  constructor(modalInstance: SkyModalInstance) {
-    this.#modalInstance = modalInstance;
+  constructor() {
     this.#modalInstance.beforeClose.subscribe(
       (closeHandler: SkyModalBeforeCloseHandler) => {
         this.beforeCloseHandler(closeHandler);

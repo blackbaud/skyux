@@ -1,4 +1,4 @@
-import { Component, Inject, ViewChild } from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
 
 import { SkyListViewChecklistComponent } from '../list-view-checklist.component';
 
@@ -17,7 +17,7 @@ export class ListViewChecklistToolbarTestComponent {
   @ViewChild(SkyListViewChecklistComponent)
   public checklist: SkyListViewChecklistComponent;
 
-  constructor(@Inject('items') public items: any) {}
+  public readonly items: any = inject('items' as any);
 
   public selectedItemsChange(selectedMap: Map<string, boolean>): void {
     this.selectedItems = selectedMap;

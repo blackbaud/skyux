@@ -1,3 +1,4 @@
+import { Injector, runInInjectionContext } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -29,7 +30,12 @@ describe('List inline filters', () => {
 
   beforeEach(waitForAsync(() => {
     dispatcher = new ListStateDispatcher();
-    state = new ListState(dispatcher);
+    state = runInInjectionContext(
+      Injector.create({
+        providers: [{ provide: ListStateDispatcher, useValue: dispatcher }],
+      }),
+      () => new ListState(),
+    );
 
     TestBed.configureTestingModule({
       declarations: [ListFilterInlineTestComponent],

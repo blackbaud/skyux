@@ -1,4 +1,4 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, TemplateRef, ViewChild, inject } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormControl,
@@ -120,7 +120,9 @@ export class LookupHarnessTestComponent {
   @ViewChild('showMoreSearchResultTemplate')
   public showMoreSearchResultTemplate: TemplateRef<unknown> | undefined;
 
-  constructor(formBuilder: UntypedFormBuilder) {
+  constructor() {
+    const formBuilder = inject(UntypedFormBuilder);
+
     this.myForm = formBuilder.group({
       basic: new UntypedFormControl(),
       formalNames: new UntypedFormControl(),

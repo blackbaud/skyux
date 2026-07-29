@@ -10,6 +10,7 @@ import {
 } from '@skyux/core';
 
 import { SkyModalHostContext } from './modal-host-context';
+import { SKY_MODAL_HOST_CONTEXT_ARGS } from './modal-host-context-args-token';
 import { SkyModalHostComponent } from './modal-host.component';
 import { SkyModalInstance } from './modal-instance';
 import { SkyModalServiceInterface } from './modal-service-interface';
@@ -27,6 +28,7 @@ export class SkyModalService implements SkyModalServiceInterface {
   #dynamicComponentService: SkyDynamicComponentService;
   #environmentInjector = inject(EnvironmentInjector);
 
+  // eslint-disable-next-line @angular-eslint/prefer-inject -- constructor injection is required to maintain the public API for consumers who may instantiate this service directly (e.g. `new SkyModalService(...)`)
   constructor(dynamicComponentService: SkyDynamicComponentService) {
     this.#dynamicComponentService = dynamicComponentService;
   }
@@ -113,13 +115,14 @@ export class SkyModalService implements SkyModalServiceInterface {
         environmentInjector: this.#environmentInjector,
         providers: [
           {
-            provide: SkyModalHostContext,
-            useValue: new SkyModalHostContext({
+            provide: SKY_MODAL_HOST_CONTEXT_ARGS,
+            useValue: {
               teardownCallback: (): void => {
                 this.dispose();
               },
-            }),
+            },
           },
+          { provide: SkyModalHostContext, useClass: SkyModalHostContext },
         ],
       },
     );
@@ -141,6 +144,7 @@ export class SkyModalService implements SkyModalServiceInterface {
 })
 export class SkyModalLegacyService extends SkyModalService {
   /* istanbul ignore next */
+  // eslint-disable-next-line @angular-eslint/prefer-inject -- constructor injection is required to override the type of `dynamicComponentSvc` passed to the parent class's constructor.
   constructor(dynamicComponentSvc: SkyDynamicComponentLegacyService) {
     super(dynamicComponentSvc);
   }

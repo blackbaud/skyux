@@ -7,6 +7,7 @@ import {
   TemplateRef,
   ViewChild,
   ViewChildren,
+  inject,
 } from '@angular/core';
 
 import { Subject } from 'rxjs';
@@ -121,11 +122,9 @@ export class SkyProgressIndicatorFixtureComponent {
   public helpPopoverContent: string | undefined;
   public helpPopoverTitle: string | undefined;
 
-  #changeDetector: ChangeDetectorRef;
+  readonly #changeDetector = inject(ChangeDetectorRef);
 
-  constructor(changeDetector: ChangeDetectorRef) {
-    this.#changeDetector = changeDetector;
-
+  constructor() {
     this.buttonConfigs = [
       {
         type: 'finish',

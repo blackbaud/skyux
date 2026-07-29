@@ -12,6 +12,7 @@ import {
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 
 import { BehaviorSubject, Subscription } from 'rxjs';
@@ -54,13 +55,8 @@ export class SkySortItemComponent implements OnInit, OnChanges, OnDestroy {
 
   #sortItemId: string | undefined;
 
-  #sortService: SkySortService;
-  #detector: ChangeDetectorRef;
-
-  constructor(sortService: SkySortService, detector: ChangeDetectorRef) {
-    this.#sortService = sortService;
-    this.#detector = detector;
-  }
+  readonly #sortService = inject(SkySortService);
+  readonly #detector = inject(ChangeDetectorRef);
 
   public ngOnInit(): void {
     sortItemIdNumber++;

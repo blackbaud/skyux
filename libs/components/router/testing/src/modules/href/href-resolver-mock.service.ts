@@ -1,4 +1,4 @@
-import { Inject, Injectable, InjectionToken } from '@angular/core';
+import { Injectable, InjectionToken, inject } from '@angular/core';
 import { SkyHref, SkyHrefResolver } from '@skyux/router';
 
 export const MockUserHasAccess = new InjectionToken<boolean>(
@@ -10,7 +10,7 @@ export const MockUserHasAccess = new InjectionToken<boolean>(
  */
 @Injectable()
 export class SkyHrefResolverMockService implements SkyHrefResolver {
-  constructor(@Inject(MockUserHasAccess) private userHasAccess: boolean) {}
+  private readonly userHasAccess = inject(MockUserHasAccess);
 
   public resolveHref(param: { url: string }): Promise<SkyHref> {
     return Promise.resolve({

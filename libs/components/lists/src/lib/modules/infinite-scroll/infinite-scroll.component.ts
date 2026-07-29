@@ -7,6 +7,7 @@ import {
   Input,
   OnDestroy,
   Output,
+  inject,
 } from '@angular/core';
 
 import { Subject } from 'rxjs';
@@ -72,22 +73,12 @@ export class SkyInfiniteScrollComponent implements OnDestroy {
 
   public isWaiting = false;
 
-  #changeDetector: ChangeDetectorRef;
-  #domAdapter: SkyInfiniteScrollDomAdapterService;
-  #elementRef: ElementRef;
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #domAdapter = inject(SkyInfiniteScrollDomAdapterService);
+  readonly #elementRef = inject(ElementRef);
   #ngUnsubscribe = new Subject<void>();
   #_enabled: boolean | undefined = false;
   #_loading: boolean | undefined;
-
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    elementRef: ElementRef,
-    domAdapter: SkyInfiniteScrollDomAdapterService,
-  ) {
-    this.#changeDetector = changeDetector;
-    this.#elementRef = elementRef;
-    this.#domAdapter = domAdapter;
-  }
 
   public ngOnDestroy(): void {
     this.enabled = false;

@@ -3,6 +3,7 @@ import {
   Injectable,
   Renderer2,
   RendererFactory2,
+  inject,
 } from '@angular/core';
 import { SkyCoreAdapterService, SkyOverlayInstance } from '@skyux/core';
 
@@ -11,17 +12,12 @@ import { SkyCoreAdapterService, SkyOverlayInstance } from '@skyux/core';
  */
 @Injectable()
 export class SkyAutocompleteAdapterService {
-  #coreAdapterService: SkyCoreAdapterService;
+  readonly #coreAdapterService = inject(SkyCoreAdapterService);
 
-  #renderer: Renderer2;
-
-  constructor(
-    coreAdapterService: SkyCoreAdapterService,
-    rendererFactory: RendererFactory2,
-  ) {
-    this.#coreAdapterService = coreAdapterService;
-    this.#renderer = rendererFactory.createRenderer(undefined, null);
-  }
+  #renderer: Renderer2 = inject(RendererFactory2).createRenderer(
+    undefined,
+    null,
+  );
 
   /**
    * Adds the className for the provided element.

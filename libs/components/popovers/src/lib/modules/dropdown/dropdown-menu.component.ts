@@ -8,10 +8,10 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
-  Optional,
   Output,
   QueryList,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 
 import { Subject, fromEvent as observableFromEvent } from 'rxjs';
@@ -119,19 +119,11 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
 
   #_useNativeFocus = true;
 
-  #changeDetector: ChangeDetectorRef;
-  #elementRef: ElementRef;
-  #dropdownComponent: SkyDropdownComponent | undefined;
-
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    elementRef: ElementRef,
-    @Optional() dropdownComponent?: SkyDropdownComponent,
-  ) {
-    this.#changeDetector = changeDetector;
-    this.#elementRef = elementRef;
-    this.#dropdownComponent = dropdownComponent;
-  }
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #elementRef = inject(ElementRef);
+  readonly #dropdownComponent = inject(SkyDropdownComponent, {
+    optional: true,
+  });
 
   public ngAfterContentInit(): void {
     /* istanbul ignore else */

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 
 import { SkyAutocompleteComponent } from '../autocomplete.component';
@@ -34,11 +34,7 @@ export class SkyAutocompleteReactiveFixtureComponent implements OnInit {
   })
   public autocomplete!: SkyAutocompleteComponent;
 
-  #formBuilder: UntypedFormBuilder;
-
-  constructor(formBuilder: UntypedFormBuilder) {
-    this.#formBuilder = formBuilder;
-  }
+  readonly #formBuilder = inject(UntypedFormBuilder);
 
   public ngOnInit(): void {
     this.reactiveForm = this.#formBuilder.group({

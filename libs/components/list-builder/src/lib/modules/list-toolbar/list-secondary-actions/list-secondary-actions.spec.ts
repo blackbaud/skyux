@@ -1,3 +1,4 @@
+import { Injector, runInInjectionContext } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -23,7 +24,12 @@ describe('List Secondary Actions Component', () => {
 
   beforeEach(() => {
     dispatcher = new ListStateDispatcher();
-    state = new ListState(dispatcher);
+    state = runInInjectionContext(
+      Injector.create({
+        providers: [{ provide: ListStateDispatcher, useValue: dispatcher }],
+      }),
+      () => new ListState(),
+    );
 
     TestBed.configureTestingModule({
       declarations: [ListSecondaryActionsTestComponent],

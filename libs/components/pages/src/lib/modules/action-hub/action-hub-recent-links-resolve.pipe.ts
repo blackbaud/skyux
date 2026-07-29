@@ -1,9 +1,9 @@
 import {
   ChangeDetectorRef,
   OnDestroy,
-  Optional,
   Pipe,
   PipeTransform,
+  inject,
 } from '@angular/core';
 import {
   SkyRecentlyAccessedGetLinksArgs,
@@ -62,16 +62,10 @@ export class SkyActionHubRecentLinksResolvePipe
 
   #ngUnsubscribe = new Subject<void>();
 
-  #changeDetector: ChangeDetectorRef;
-  #recentlyAccessedSvc: SkyRecentlyAccessedService | undefined;
-
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    @Optional() recentlyAccessedSvc?: SkyRecentlyAccessedService,
-  ) {
-    this.#changeDetector = changeDetector;
-    this.#recentlyAccessedSvc = recentlyAccessedSvc;
-  }
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #recentlyAccessedSvc = inject(SkyRecentlyAccessedService, {
+    optional: true,
+  });
 
   public transform(recentLinks: SkyRecentLinksInput): SkyRecentLinksResolved {
     if (recentLinks !== this.#currentRecentLinks) {

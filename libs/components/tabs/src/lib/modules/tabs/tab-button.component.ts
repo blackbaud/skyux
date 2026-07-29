@@ -9,6 +9,7 @@ import {
   OnDestroy,
   Output,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 
 import { Subject } from 'rxjs';
@@ -98,27 +99,15 @@ export class SkyTabButtonComponent implements AfterViewInit, OnDestroy {
   @Output()
   public closeClick = new EventEmitter<void>();
 
-  constructor(
-    elementRef: ElementRef,
-    adapterService: SkyTabButtonAdapterService,
-    changeDetectorRef: ChangeDetectorRef,
-    tabsetService: SkyTabsetService,
-  ) {
-    this.#adapterService = adapterService;
-    this.#changeDetectorRef = changeDetectorRef;
-    this.#elementRef = elementRef;
-    this.#tabsetService = tabsetService;
-  }
-
   public closeBtnTabIndex = '-1';
   public wizardStepState: SkyWizardStepState | undefined;
   #_isActive: boolean | undefined = false;
   #_isDisabled = DEFAULT_DISABLED;
   #_tabStyle: SkyTabsetStyle | undefined;
-  #adapterService: SkyTabButtonAdapterService;
-  #changeDetectorRef: ChangeDetectorRef;
-  #elementRef: ElementRef;
-  #tabsetService: SkyTabsetService;
+  readonly #adapterService = inject(SkyTabButtonAdapterService);
+  readonly #changeDetectorRef = inject(ChangeDetectorRef);
+  readonly #elementRef = inject(ElementRef);
+  readonly #tabsetService = inject(SkyTabsetService);
   #ngUnsubscribe = new Subject<void>();
 
   public ngAfterViewInit(): void {

@@ -1,5 +1,5 @@
 // #region imports
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
 
 import { SkyToastComponent } from '../toast.component';
 import { SkyToasterService } from '../toaster.service';
@@ -21,5 +21,5 @@ export class SkyToastWithToasterServiceTestComponent {
   })
   public toastComponent: SkyToastComponent | undefined;
 
-  constructor(public toasterService: SkyToasterService) {}
+  public readonly toasterService = inject(SkyToasterService);
 }

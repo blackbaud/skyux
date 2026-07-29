@@ -12,12 +12,11 @@ export class SkyModalAdapterService {
   #docRef: any;
   #bodyEl: HTMLElement;
 
-  #coreAdapter = inject(SkyCoreAdapterService);
-  #windowRef: SkyAppWindowRef;
+  readonly #coreAdapter = inject(SkyCoreAdapterService);
+  readonly #windowRef = inject(SkyAppWindowRef);
   #hostSiblingAriaHiddenCache = new Map<Element, string | null>();
 
-  constructor(windowRef: SkyAppWindowRef) {
-    this.#windowRef = windowRef;
+  constructor() {
     this.#docRef = this.#windowRef.nativeWindow.document;
     this.#bodyEl = this.#windowRef.nativeWindow.document.body;
   }

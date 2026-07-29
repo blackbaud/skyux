@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 import { SkyTextSanitizationService } from '../text-editor/services/text-sanitization.service';
@@ -34,14 +34,6 @@ export class SkyRichTextDisplayComponent {
 
   #_richText = '';
 
-  #sanitizer: DomSanitizer;
-  #sanitizationService: SkyTextSanitizationService;
-
-  constructor(
-    sanitizer: DomSanitizer,
-    sanitizationService: SkyTextSanitizationService,
-  ) {
-    this.#sanitizer = sanitizer;
-    this.#sanitizationService = sanitizationService;
-  }
+  readonly #sanitizer = inject(DomSanitizer);
+  readonly #sanitizationService = inject(SkyTextSanitizationService);
 }

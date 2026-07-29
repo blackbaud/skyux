@@ -4,9 +4,9 @@ import {
   ElementRef,
   Input,
   OnChanges,
-  Optional,
   Renderer2,
   SimpleChanges,
+  inject,
 } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { SkyAppConfig, SkyAppRuntimeConfigParamsProvider } from '@skyux/config';
@@ -23,21 +23,20 @@ export class SkyAppLinkDirective extends RouterLink implements OnChanges {
     this.routerLink = commands;
   }
 
-  #skyAppConfig: SkyAppConfig | undefined;
-  #paramsProvider: SkyAppRuntimeConfigParamsProvider | undefined;
+  readonly #skyAppConfig = inject(SkyAppConfig, { optional: true });
+  readonly #paramsProvider = inject(SkyAppRuntimeConfigParamsProvider, {
+    optional: true,
+  });
 
-  constructor(
-    router: Router,
-    route: ActivatedRoute,
-    locationStrategy: LocationStrategy,
-    renderer: Renderer2,
-    elementRef: ElementRef,
-    @Optional() skyAppConfig?: SkyAppConfig,
-    @Optional() paramsProvider?: SkyAppRuntimeConfigParamsProvider,
-  ) {
-    super(router, route, undefined, renderer, elementRef, locationStrategy);
-    this.#skyAppConfig = skyAppConfig;
-    this.#paramsProvider = paramsProvider;
+  constructor() {
+    super(
+      inject(Router),
+      inject(ActivatedRoute),
+      undefined,
+      inject(Renderer2),
+      inject(ElementRef),
+      inject(LocationStrategy),
+    );
   }
 
   public override ngOnChanges(changes: SimpleChanges): void {

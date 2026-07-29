@@ -1,5 +1,12 @@
 import { DragDropRegistry, DragRef, DropListRef } from '@angular/cdk/drag-drop';
-import { EventEmitter } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  ElementRef,
+  EnvironmentInjector,
+  EventEmitter,
+  Injector,
+  runInInjectionContext,
+} from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -532,19 +539,29 @@ describe('Tile dashboard service', () => {
       .query(By.directive(SkyTileDashboardComponent))
       .injector.get(SkyTileDashboardService);
 
-    TestBed.runInInjectionContext(() => {
-      dashboardService.moveTileOnKeyDown(
-        new SkyTileComponent(
-          fixture.elementRef,
-          fixture.componentRef.changeDetectorRef,
-          {
+    const tileInjector = Injector.create({
+      providers: [
+        { provide: ElementRef, useValue: fixture.elementRef },
+        {
+          provide: ChangeDetectorRef,
+          useValue: fixture.componentRef.changeDetectorRef,
+        },
+        {
+          provide: SkyTileDashboardService,
+          useValue: {
             configChange: new EventEmitter<SkyTileDashboardConfig>(),
           } as SkyTileDashboardService,
-        ),
-        'left',
-        'Tile 1',
-      );
+        },
+        { provide: SKY_TILE_TITLE_ID, useValue: 'test-tile-title-id' },
+      ],
+      parent: TestBed.inject(EnvironmentInjector),
     });
+
+    dashboardService.moveTileOnKeyDown(
+      runInInjectionContext(tileInjector, () => new SkyTileComponent()),
+      'left',
+      'Tile 1',
+    );
 
     // Make sure everything is still in the same spot
     const columnEls = fixture.nativeElement.querySelectorAll(

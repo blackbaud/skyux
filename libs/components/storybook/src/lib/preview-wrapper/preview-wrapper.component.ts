@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Inject,
   Input,
   OnDestroy,
   OnInit,
@@ -74,19 +73,9 @@ export class PreviewWrapperComponent implements OnInit, OnDestroy {
   );
   #initialized = false;
 
-  #body: HTMLElement;
-  #themeService: SkyThemeService;
-  #renderer: Renderer2;
-
-  constructor(
-    themeService: SkyThemeService,
-    @Inject('BODY') body: HTMLElement,
-    renderer: Renderer2,
-  ) {
-    this.#themeService = themeService;
-    this.#body = body;
-    this.#renderer = renderer;
-  }
+  readonly #body: HTMLElement = inject('BODY' as any);
+  readonly #themeService = inject(SkyThemeService);
+  readonly #renderer = inject(Renderer2);
 
   public ngOnInit(): void {
     this.#themeService.init(this.#body, this.#renderer, this.themeSettings);

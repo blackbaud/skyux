@@ -4,6 +4,7 @@ import {
   QueryList,
   ViewChild,
   ViewChildren,
+  inject,
 } from '@angular/core';
 
 import { Subject } from 'rxjs';
@@ -75,11 +76,7 @@ export class DropdownFixtureComponent {
 
   public show = true;
 
-  #changeDetector: ChangeDetectorRef;
-
-  constructor(changeDetector: ChangeDetectorRef) {
-    this.#changeDetector = changeDetector;
-  }
+  readonly #changeDetector = inject(ChangeDetectorRef);
 
   public onMenuChanges(): void {}
 

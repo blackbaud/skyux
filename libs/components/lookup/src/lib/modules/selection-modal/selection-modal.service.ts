@@ -22,6 +22,7 @@ import { SkySelectionModalOpenArgs } from './types/selection-modal-open-args';
 export class SkySelectionModalService {
   #modalSvc: SkyModalService;
 
+  // eslint-disable-next-line @angular-eslint/prefer-inject -- constructor injection is required to maintain the public API for consumers who may instantiate this service directly (e.g. `new SkySelectionModalService(...)`)
   constructor(modalSvc: SkyModalService) {
     this.#modalSvc = modalSvc;
   }

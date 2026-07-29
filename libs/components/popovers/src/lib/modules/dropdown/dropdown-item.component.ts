@@ -7,6 +7,7 @@ import {
   Input,
   Renderer2,
   ViewEncapsulation,
+  inject,
 } from '@angular/core';
 
 /**
@@ -42,17 +43,10 @@ export class SkyDropdownItemComponent implements AfterViewInit {
 
   #_ariaRole = 'menuitem';
 
-  #changeDetector: ChangeDetectorRef;
-  #renderer: Renderer2;
+  public readonly elementRef = inject(ElementRef);
 
-  constructor(
-    public elementRef: ElementRef,
-    changeDetector: ChangeDetectorRef,
-    renderer: Renderer2,
-  ) {
-    this.#changeDetector = changeDetector;
-    this.#renderer = renderer;
-  }
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #renderer = inject(Renderer2);
 
   public ngAfterViewInit(): void {
     // Make sure anchor elements are tab-able.

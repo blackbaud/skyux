@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { SkyTabIndex } from '../tab-index';
@@ -19,7 +19,7 @@ export class SkyTabsetPermalinksFixtureComponent {
 
   public showIt = true;
 
-  constructor(public router: Router) {}
+  public readonly router = inject(Router);
 
   public onActiveChange(index: SkyTabIndex): void {
     this.activeIndex = index;
