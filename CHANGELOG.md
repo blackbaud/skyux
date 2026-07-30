@@ -1,20 +1,12 @@
 # Changelog
 
 
-## [15.0.0-alpha.3](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.2...15.0.0-alpha.3) (2026-07-30)
+## [14.9.0](https://github.com/blackbaud/skyux/compare/14.8.0...14.9.0) (2026-07-29)
 
 
 ### Features
 
-* **components/charts:** add bar chart component (developer preview) ([#4527](https://github.com/blackbaud/skyux/issues/4527)) ([#4544](https://github.com/blackbaud/skyux/issues/4544)) ([e3d8ff2](https://github.com/blackbaud/skyux/commit/e3d8ff273e33795f2a3cb202d1a8c7e027329b74)), closes [AB#4027719](https://dev.azure.com/blackbaud/Products/_workitems/edit/4027719)
-* **components/charts:** add code examples ([#4547](https://github.com/blackbaud/skyux/issues/4547)) ([#4551](https://github.com/blackbaud/skyux/issues/4551)) ([c24fa68](https://github.com/blackbaud/skyux/commit/c24fa6862a3129eb281b4762e99b8d14e8241585)), closes [AB#4027719](https://dev.azure.com/blackbaud/Products/_workitems/edit/4027719)
-* **components/charts:** add testing harnesses ([#4542](https://github.com/blackbaud/skyux/issues/4542))  ([#4546](https://github.com/blackbaud/skyux/issues/4546)) ([f2b612d](https://github.com/blackbaud/skyux/commit/f2b612deea1b0d06518ea30fd37ed5ec84854382))
-* **components/core:** support masking additional edges for scrollable host clip path ([#4543](https://github.com/blackbaud/skyux/issues/4543)) ([c498e0e](https://github.com/blackbaud/skyux/commit/c498e0e0b1b8cbe2591452e2d465d12b68273f73))
-
-
-### Bug Fixes
-
-* **components/layout:** tokenize page summary background color ([#4536](https://github.com/blackbaud/skyux/issues/4536)) ([#4537](https://github.com/blackbaud/skyux/issues/4537)) ([722fba2](https://github.com/blackbaud/skyux/commit/722fba26a4de87d6269fc831aa77419e4fbdd7ff))
+* **components/charts:** add code examples ([#4547](https://github.com/blackbaud/skyux/issues/4547)) ([ea6c379](https://github.com/blackbaud/skyux/commit/ea6c37937807f4fd99ccf90a5ef6daf378b1baf1)), closes [AB#4027719](https://dev.azure.com/blackbaud/Products/_workitems/edit/4027719)
 
 ## [14.8.0](https://github.com/blackbaud/skyux/compare/14.7.0...14.8.0) (2026-07-28)
 
