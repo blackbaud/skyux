@@ -104,21 +104,12 @@ export class SkyAgGridWrapperComponent
       domLayout: this.#agGridDomLayout(),
       context: this.agGridContext(),
     }),
-    computation: (source, prev) => {
+    computation: (source) => {
       const enableTopScroll = !!source.context?.enableTopScroll;
-      const previousValue: string[] = prev?.value ?? [];
-      if (source.domLayout === 'autoHeight') {
-        if (enableTopScroll) {
-          return [
-            ...new Set([
-              ...previousValue,
-              '.ag-header',
-              '.ag-body-horizontal-scroll',
-            ]),
-          ];
-        }
+      if (source.domLayout === 'autoHeight' && enableTopScroll) {
+        return ['.ag-header', '.ag-body-horizontal-scroll'];
       }
-      return [...new Set([...previousValue, '.ag-header'])];
+      return ['.ag-header'];
     },
     equal: (a, b) => a.length === b.length && a.every((v, i) => v === b[i]),
   });
@@ -157,7 +148,7 @@ export class SkyAgGridWrapperComponent
 
   readonly #agGrid = toObservable(this.agGrid);
   readonly #agGridApi = toSignal(
-    toObservable(this.agGrid).pipe(
+    this.#agGrid.pipe(
       filter((agGrid): agGrid is AgGridAngular => !!agGrid),
       // Pause for less than a tick to let the AG Grid API become available.
       delay(0, asapScheduler),
@@ -248,7 +239,7 @@ export class SkyAgGridWrapperComponent
             types.includes(SkyCellType.Template) &&
             params.rowIndex !== null
           ) {
-            this.#agGridApi()?.setFocusedCell(params.rowIndex, params.column);
+            params.api.setFocusedCell(params.rowIndex, params.column);
           }
         }
       });

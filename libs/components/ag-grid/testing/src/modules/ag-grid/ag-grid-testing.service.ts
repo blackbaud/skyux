@@ -5,7 +5,7 @@ import { GridOptions } from 'ag-grid-community';
 
 /**
  * `GridOptions` applied to every grid built through `SkyAgGridService` while
- * `provideSkyAgGridTestingOptions` is in effect. These disable AG Grid's
+ * `provideSkyAgGridTesting()` is in effect. These disable AG Grid's
  * scroll-visibility recalculation and row/column virtualization, both of
  * which schedule their own internal timers and animation frames. Those can
  * occasionally leave a pending `requestAnimationFrame` callback that never

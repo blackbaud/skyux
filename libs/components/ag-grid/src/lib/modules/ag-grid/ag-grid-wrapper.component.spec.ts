@@ -74,6 +74,10 @@ describe('SkyAgGridWrapperComponent', () => {
     expect(gridWrapperNativeElement).toBeVisible();
   });
 
+  it('should be accessible', async () => {
+    await expectAsync(gridWrapperNativeElement).toBeAccessible();
+  });
+
   it('should set the min height', () => {
     gridWrapperFixture.componentRef.setInput('minHeight', 150);
     gridWrapperFixture.detectChanges();
@@ -466,6 +470,30 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
       expect(
         gridWrapperComponent?.viewkeeperClasses().indexOf('.ag-header'),
       ).not.toEqual(-1);
+    });
+
+    it('should add sky-ag-grid-layout-normal class when the domLayout is set to normal', async () => {
+      TestBed.overrideProvider(DomLayout, { useValue: 'normal' });
+      gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+      gridWrapperNativeElement = gridWrapperFixture.nativeElement;
+
+      gridWrapperFixture.detectChanges();
+      await gridWrapperFixture.whenStable();
+
+      gridWrapperFixture.detectChanges();
+      await gridWrapperFixture.whenStable();
+
+      const gridWrapperComponent =
+        gridWrapperFixture.componentInstance.agGridWrapper();
+
+      expect(
+        gridWrapperNativeElement.querySelector('sky-ag-grid-wrapper'),
+      ).toHaveCssClass('sky-ag-grid-layout-normal');
+      expect(
+        gridWrapperComponent
+          ?.viewkeeperClasses()
+          .indexOf('.ag-body-horizontal-scroll'),
+      ).toEqual(-1);
     });
   });
 

@@ -104,7 +104,12 @@ describe('SkyCellEditorDatepickerComponent', () => {
 
       expect(datepickerEditorElement).toBeNull();
 
-      gridFixture.componentInstance.agGrid()?.api.startEditingCell({
+      const agGrid = gridFixture.componentInstance.agGrid();
+      if (!agGrid) {
+        fail('Expected agGrid to be defined.');
+        return;
+      }
+      agGrid.api.startEditingCell({
         rowIndex: 0,
         colKey: 'date',
       });
@@ -136,8 +141,13 @@ describe('SkyCellEditorDatepickerComponent', () => {
       expect(api.stopEditing).toHaveBeenCalled();
 
       (api.stopEditing as jasmine.Spy).calls.reset();
+      const datepickerInput = datepickerEditorComponent.datepickerInput();
+      if (!datepickerInput) {
+        fail('Expected datepickerInput to be defined.');
+        return;
+      }
       datepickerEditorComponent.onFocusOut({
-        target: datepickerEditorComponent.datepickerInput()?.nativeElement,
+        target: datepickerInput.nativeElement,
       } as FocusEvent);
       tick();
       expect(api.stopEditing).toHaveBeenCalled();
@@ -806,7 +816,12 @@ describe('SkyCellEditorDatepickerComponent without theme', () => {
 
       expect(datepickerEditorElement).toBeNull();
 
-      gridFixture.componentInstance.agGrid()?.api.startEditingCell({
+      const agGrid = gridFixture.componentInstance.agGrid();
+      if (!agGrid) {
+        fail('Expected agGrid to be defined.');
+        return;
+      }
+      agGrid.api.startEditingCell({
         rowIndex: 0,
         colKey: 'date',
       });

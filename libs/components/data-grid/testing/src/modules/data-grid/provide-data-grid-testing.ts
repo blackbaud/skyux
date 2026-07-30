@@ -2,9 +2,9 @@ import { Provider } from '@angular/core';
 import { provideSkyAgGridTesting } from '@skyux/ag-grid/testing';
 
 /**
- * Configures every grid to disable internal timers and animation, which
- * otherwise can cause a `whenStable()` timeout unrelated to the code under
- * test. Add to `TestBed.configureTestingModule`'s `providers`.
+ * Delegates to `provideSkyAgGridTesting()` to disable AG Grid's row/column
+ * virtualization and keep its scrollbars always visible. Add to
+ * `TestBed.configureTestingModule`'s `providers`.
  */
 export function provideSkyDataGridTesting(): Provider[] {
   return [provideSkyAgGridTesting()];

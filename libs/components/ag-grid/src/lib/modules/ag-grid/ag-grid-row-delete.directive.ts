@@ -29,6 +29,7 @@ import {
   BehaviorSubject,
   distinctUntilChanged,
   filter,
+  shareReplay,
   switchMap,
   take,
   takeUntil,
@@ -121,6 +122,7 @@ export class SkyAgGridRowDeleteDirective {
       switchMap((ready) => fromGridEvent(ready.api, 'gridPreDestroyed')),
       take(1),
       takeUntilDestroyed(this.#destroyRef),
+      shareReplay({ bufferSize: 1, refCount: true }),
     );
 
     agGridReady.pipe(takeUntil(agGridDestroyed)).subscribe((ready) => {

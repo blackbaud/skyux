@@ -72,7 +72,12 @@ describe('SkyCellEditorTextComponent', () => {
 
     expect(inputElement).toBeNull();
 
-    gridFixture.componentInstance.agGrid()?.api.startEditingCell({
+    const agGrid = gridFixture.componentInstance.agGrid();
+    if (!agGrid) {
+      fail('Expected agGrid to be defined.');
+      return;
+    }
+    agGrid.api.startEditingCell({
       rowIndex: 0,
       colKey: 'nickname',
     });
