@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { SkyAlert } from './alert';
+import { SkyAlert } from './alert.component';
 
 /**
  * @deprecated Import the standalone `SkyAlert` component directly instead of

@@ -1,6 +1,6 @@
 ---
 name: convert-module-to-standalone
-description: 'Workflow for converting a @skyux/* library''s existing module-based components and directives into directly-consumable standalone components and directives in this Nx monorepo. Use when asked to "convert a library to standalone", "make these components standalone", "drop the Component/Directive suffix", "rename off the module pattern", or deprecate a library''s NgModules in favor of standalone items. Renames each component/directive file and class to remove the .component/.directive fragment and the Component/Directive suffix, exports the new class name from the barrel while keeping the lambda (λN) aliases for backward compatibility, and marks the owning NgModule as @deprecated. Updates specs, harnesses, code examples, storybook stories, and documentation.json to match. For adding a brand-new standalone component use the add-skyux-component skill instead.'
+description: 'Workflow for converting a @skyux/* library''s existing module-based components and directives into directly-consumable standalone components and directives in this Nx monorepo. Use when asked to "convert a library to standalone", "make these components standalone", "drop the Component/Directive suffix", "rename off the module pattern", or deprecate a library''s NgModules in favor of standalone items. Renames each component/directive class to remove the Component/Directive suffix (keeping the existing .component/.directive filename to preserve git blame history), exports the new class name from the barrel while keeping the lambda (λN) aliases for backward compatibility, and marks the owning NgModule as @deprecated. Updates specs, harnesses, code examples, storybook stories, and documentation.json to match. For adding a brand-new standalone component use the add-skyux-component skill instead.'
 argument-hint: '<library> (e.g. avatar)'
 ---
 
@@ -11,8 +11,13 @@ NgModule-consumption pattern toward directly-consumable standalone components
 and directives. Some items are already standalone at the Angular level (they use
 an `imports` array); others are still module-based (`standalone: false`, listed
 in the module's `declarations`). This skill makes each item standalone if it is
-not already, renames it to the standalone-first convention, and deprecates the
-owning `NgModule` so consumers import the item directly.
+not already, renames the **class** to the standalone-first convention, and
+deprecates the owning `NgModule` so consumers import the item directly.
+
+> **Keep the filenames.** Only the class is renamed — the `.component.ts` /
+> `.directive.ts` files keep their names. Renaming a file while also heavily
+> rewriting it defeats git's rename detection and loses `git blame` history, so
+> a file named `avatar.component.ts` may export a class named `SkyAvatar`.
 
 > **Breaking change.** SKY UX only deprecates public types in a major version.
 > Marking the module `@deprecated` makes this a breaking change, so this skill
@@ -29,9 +34,8 @@ component/directive code you touch.
 
 - A library owner wants consumers to import standalone components/directives
   directly instead of importing the `Sky<Name>Module`.
-- Renaming a library's public components/directives to drop the
-  `.component`/`.directive` filename fragment and the `Component`/`Directive`
-  class suffix, while keeping existing consumers working.
+- Renaming a library's public component/directive **classes** to drop the
+  `Component`/`Directive` suffix, while keeping existing consumers working.
 
 Do NOT use this skill to:
 
@@ -42,19 +46,20 @@ Do NOT use this skill to:
 
 ## The Rename, at a Glance
 
-For a component `SkyAvatarComponent` in `avatar.component.ts`:
+Rename only the **class**, not the file. For a component `SkyAvatarComponent` in
+`avatar.component.ts`:
 
 | Before                     | After             |
 | -------------------------- | ----------------- |
-| `avatar.component.ts`      | `avatar.ts`       |
-| `avatar.component.html`    | `avatar.html`     |
-| `avatar.component.scss`    | `avatar.scss`     |
-| `avatar.component.spec.ts` | `avatar.spec.ts`  |
+| `avatar.component.ts`      | (unchanged)       |
+| `avatar.component.html`    | (unchanged)       |
+| `avatar.component.scss`    | (unchanged)       |
+| `avatar.component.spec.ts` | (unchanged)       |
 | class `SkyAvatarComponent` | class `SkyAvatar` |
 
-For a directive `SkyHrefDirective` in `href.directive.ts`:
-`href.directive.ts` → `href.ts`, `href.directive.spec.ts` → `href.spec.ts`,
-class `SkyHrefDirective` → `SkyHref`.
+For a directive: `href.directive.ts` keeps its name; class `SkyHrefDirective` →
+`SkyHref`. The decorator's `templateUrl`/`styleUrls` and every import path stay
+pointed at the original `.component`/`.directive` filenames.
 
 Inner/private files that are NOT exported from the module (e.g.
 `avatar.inner.component.ts`) are out of scope — leave them as-is unless the
@@ -72,7 +77,7 @@ library owner asks otherwise.
   surface and dropping it is a breaking change. After the rename, the barrel
   must export the item **twice**: once by its new class name (the new,
   self-documenting public export) and once keeping the original `λN` alias for
-  backward compatibility. Both point at the renamed class/file.
+  backward compatibility. Both point at the renamed class.
 - **Keep the module exported and functional.** `Sky<Name>Module` continues to
   `imports`/`exports` the renamed standalone item; it only gains an
   `@deprecated` JSDoc tag. Removing it would break consumers.
@@ -89,29 +94,22 @@ files in the same library for style; do not invent new patterns.
    `*.module.ts`. These are the items to rename (skip inner/private ones not
    surfaced by a module).
 
-2. **Plan the renames and detect conflicts.** For each item, compute the new
-   filename and class name using the table above. **Before renaming, check for
-   collisions** — the new filename or class name may already be taken. Common
-   cases:
-   - A component and a directive share a base name (e.g.
-     `ag-grid-row-delete.component.ts` and `ag-grid-row-delete.directive.ts`
-     would both become `ag-grid-row-delete.ts`; `SkyAgGridRowDeleteComponent`
-     and `SkyAgGridRowDeleteDirective` would both become
-     `SkyAgGridRowDelete`).
-   - A file named `<name>.ts` already exists in the folder.
+2. **Plan the class renames and detect conflicts.** For each item, compute the
+   new class name (drop the `Component`/`Directive` suffix). **Before renaming,
+   check for collisions** — the new class name may already be taken. A common
+   case is a component and a directive that share a base name (e.g.
+   `SkyAgGridRowDeleteComponent` and `SkyAgGridRowDeleteDirective` would both
+   become `SkyAgGridRowDelete`). When a conflict exists, **stop and ask the
+   user** which class names to use (via the ask-questions tool). Do not guess a
+   disambiguating name. Filenames are left unchanged, so there are no file
+   collisions to resolve.
 
-   When a conflict exists, **stop and ask the user** which filenames and class
-   names to use (via the ask-questions tool). Do not guess a disambiguating
-   name.
-
-3. **Rename files and the class.** For each item:
-   - Rename the `.ts`, `.html`, `.scss`, and `.spec.ts` files (use `git mv` so
-     history is preserved; do not rename via terminal unless the user asks —
-     `git mv` is the exception because it is a file move, not a file edit).
-   - Rename the class (prefer the rename-symbol capability so every reference
-     updates), dropping the `Component`/`Directive` suffix.
-   - Update the decorator's `templateUrl` and `styleUrls`/`styleUrl` to the new
-     filenames. Keep the existing form (array vs. single) to minimize churn.
+3. **Rename the class (not the file).** For each item, rename the class with
+   the rename-symbol capability so every reference updates, dropping the
+   `Component`/`Directive` suffix. **Do not rename the files** — keep
+   `<name>.component.ts` / `<name>.directive.ts` (and their `.html`/`.scss`/
+   `.spec.ts` siblings) as-is to preserve `git blame` history, and leave the
+   decorator's `templateUrl`/`styleUrls` pointed at those filenames.
 
 4. **Make the item standalone (if it isn't already).** Many items are still
    module-based (`standalone: false`, declared in the module). Convert each:
@@ -180,14 +178,17 @@ files in the same library for style; do not invent new patterns.
        test, rather than guarding a value the template never reads while unset.
 
 6. **Update the barrel (`src/index.ts`).** Replace the single aliased export
-   with two exports pointing at the renamed file, e.g.:
+   with two exports (the import path is unchanged — the file keeps its name):
 
    ```ts
    // Before
    export { SkyAvatarComponent as λ1 } from './lib/modules/avatar/avatar.component';
 
    // After — new public name, plus the λ alias kept for backward compat.
-   export { SkyAvatar, SkyAvatar as λ1 } from './lib/modules/avatar/avatar';
+   export {
+     SkyAvatar,
+     SkyAvatar as λ1,
+   } from './lib/modules/avatar/avatar.component';
    ```
 
    Keep the existing `λN` numbers exactly as they were. The `Sky<Name>Module`
@@ -212,14 +213,15 @@ files in the same library for style; do not invent new patterns.
    If a module exposes several items, list them all in the message (e.g.
    "Import the standalone `SkyFoo` and `SkyBar` directly instead").
 
-8. **Update every reference.** Find all usages of each old class name and old
-   file path and update them (rename-symbol handles most `.ts` imports; use a
-   text search to catch the rest). Cover:
+8. **Update every reference.** Find all usages of each old class name and
+   update them (rename-symbol handles most `.ts` imports; use a text search to
+   catch the rest). Import paths are unchanged since the files keep their
+   names. Cover:
    - Other library source files under `libs/components/<library>/src/**`.
-   - The renamed component/directive **specs** (`.spec.ts`).
+   - The component/directive **specs** (`.component.spec.ts`).
    - **Test harnesses** and harness specs under
      `libs/components/<library>/testing/**` (harness class names like
-     `SkyAvatarHarness` do not change, but their imports/paths might).
+     `SkyAvatarHarness` do not change, but their imports might).
    - **Storybook stories** under `apps/e2e/<library>-storybook/**`.
    - **`documentation.json`** — update the old class name in `docsIds`
      (e.g. `SkyAvatarComponent` → `SkyAvatar`). Leave the module's
@@ -260,9 +262,9 @@ files in the same library for style; do not invent new patterns.
 
 ## Definition of Done
 
-- Each in-scope component/directive file and class is renamed to drop the
-  `.component`/`.directive` fragment and the `Component`/`Directive` suffix;
-  `templateUrl`/`styleUrls` point at the renamed files.
+- Each in-scope class is renamed to drop the `Component`/`Directive` suffix,
+  while its `.component`/`.directive` files keep their names (git history
+  preserved) and `templateUrl`/`styleUrls` are unchanged.
 - Each in-scope item is standalone (has an `imports` array, no
   `standalone: false`) and relies on the default `OnPush` change detection (no
   explicit `changeDetection` property).
@@ -281,7 +283,7 @@ files in the same library for style; do not invent new patterns.
   `documentation.json`) are updated to the new names.
 - The `code-examples` demos import the standalone item directly and no longer
   import the deprecated `Sky<Name>Module`.
-- Filename/class-name conflicts were resolved by asking the user, not guessed.
+- Class-name conflicts were resolved by asking the user, not guessed.
 - Affected tests pass at the project's coverage threshold, lint is clean, and
   changed files are formatted.
 - The change lands on a major-version release and is committed with the

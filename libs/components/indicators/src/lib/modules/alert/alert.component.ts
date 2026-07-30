@@ -24,8 +24,11 @@ const ALERT_TYPE_DEFAULT = 'warning';
  */
 @Component({
   selector: 'sky-alert',
-  styleUrls: ['./alert.default.scss', './alert.modern.scss'],
-  templateUrl: './alert.html',
+  styleUrls: [
+    './alert.default.component.scss',
+    './alert.modern.component.scss',
+  ],
+  templateUrl: './alert.component.html',
   hostDirectives: [SkyThemeComponentClassDirective],
   imports: [
     NgClass,
