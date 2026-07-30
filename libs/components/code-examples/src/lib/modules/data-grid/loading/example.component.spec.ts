@@ -1,7 +1,10 @@
 import { HarnessLoader, manualChangeDetection } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkyDataGridHarness } from '@skyux/data-grid/testing';
+import {
+  provideSkyDataGridTesting,
+  SkyDataGridHarness,
+} from '@skyux/data-grid/testing';
 
 import { DataGridLoadingExampleComponent } from './example.component';
 
@@ -13,6 +16,7 @@ describe('Data grid loading example', () => {
   }> {
     await TestBed.configureTestingModule({
       imports: [DataGridLoadingExampleComponent],
+      providers: [provideSkyDataGridTesting()],
     }).compileComponents();
     const fixture = TestBed.createComponent(DataGridLoadingExampleComponent);
     fixture.componentRef.setInput('delay', 0);
