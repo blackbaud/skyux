@@ -75,10 +75,16 @@ patterns.
    creates a Cypress spec at
    `apps/e2e/<library>-storybook-e2e/src/e2e/<name>/<name>.component.cy.ts`.
    Capture each snapshot with `skyVisualTest` (not `cy.screenshot` +
-   `cy.percySnapshot`), scoping the capture to the wrapper element and
-   iterating themes with `E2eVariations.forEachTheme`. Wait for the component
-   with `cy.skyReady`, and pass `disableTimersAndAnimations: true` for
-   components that animate on render (e.g. charts):
+   `cy.percySnapshot`), iterating themes with `E2eVariations.forEachTheme`,
+   waiting for the component with `cy.skyReady`, and passing
+   `disableTimersAndAnimations: true` for components that animate on render
+   (e.g. charts). Scope the capture based on where the content renders:
+   - **Inline components** — scope to the wrapper element:
+     `cy.get('app-<name>').skyVisualTest(...)`.
+   - **Portaled overlays** — a component that renders into an overlay outside
+     the wrapper (such as a modal `sky-modal`, flyout, or dropdown) is missed
+     by a wrapper-scoped capture. Assert the overlay is visible, then capture
+     the viewport instead: `cy.skyVisualTest(name, { capture: 'viewport' })`.
 
    ```typescript
    import { E2eVariations } from '@skyux-sdk/e2e-schematics';
