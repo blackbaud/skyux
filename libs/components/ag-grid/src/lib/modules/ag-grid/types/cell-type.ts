@@ -20,7 +20,7 @@ export enum SkyCellType {
    *
    * **Read-only mode**
    *
-   * Formats the display as currency using [SKY UX numeric components](https://developer.blackbaud.com/skyux/components/numeric).
+   * Formats the display as currency using [SKY UX numeric components](https://developer.blackbaud.com/skyux/components/numeric). You can set the numeric formatting options by passing `SkyCellRendererCurrencyParams` in the [column definition's `cellRendererParams` property](https://www.ag-grid.com/angular-data-grid/column-properties/#reference-editing).
    */
   Currency = 'skyCellCurrency',
   /**
@@ -46,7 +46,7 @@ export enum SkyCellType {
    *
    * **Read-only mode**
    *
-   * Cells the column will display, by default, either: the name(s) of the selected value(s) if there are less than 6, or a summary count of the values if there are more than 5. If the lookup needs to show a different property or needs to be formatted in any way, you can [define a `valueFormatter`](https://www.ag-grid.com/angular-data-grid/value-formatters/) on the column definition.
+   * Cells the column will display, by default, either: the name(s) of the selected value(s) if there are less than 6, or a summary count of the values if there are more than 5. If the lookup needs to show a different property or needs to be formatted in any way, you can [define a `valueFormatter`](https://www.ag-grid.com/angular-data-grid/value-formatters/) on the column definition. You can set the lookup component's properties by passing `SkyCellRendererLookupParams` in the [column definition's `cellRendererParams` property](https://www.ag-grid.com/angular-data-grid/column-properties/#reference-editing).
    */
   Lookup = 'skyCellLookup',
   /**
@@ -80,7 +80,7 @@ export enum SkyCellType {
   /**
    * **Read-only mode**
    *
-   * Cells in the column will render in a `TemplateRef` passed in the column definition's `cellRendererParams.template` property, with `value` and `row` context. See the demo for an example.
+   * Cells in the column will render in a `TemplateRef` passed in the column definition's `cellRendererParams.template` property, with `value` and `row` context. Use the `SkyCellRendererTemplateParams` type for the [column definition's `cellRendererParams` property](https://www.ag-grid.com/angular-data-grid/column-properties/#reference-editing). See the demo for an example.
    */
   Template = 'skyCellTemplate',
   /**
@@ -96,7 +96,7 @@ export enum SkyCellType {
   /**
    * **Edit and read-only modes**
    *
-   * Cells in the column will be passed to a validator function that flags erroneous entries. You can set the validator function and message by passing a `SkyAgGridValidatorProperties` object as `skyComponentProperties` to [column definition's `cellRendererParams` property](https://www.ag-grid.com/angular-data-grid/column-properties/#reference-editing), like `skyComponentProperties.validator` and `skyComponentProperties.validatorMessage`. SkyCellType.Validator can be combined with other cell types, such as SkyCellType.Autocomplete or SkyCellType.Date, by using the array syntax for the [column definition's `type` property](https://www.ag-grid.com/angular-data-grid/column-properties/#reference-editing).
+   * Cells in the column will be passed to a validator function that flags erroneous entries. You can set the validator function and message by passing `SkyCellRendererValidatorParams` in the [column definition's `cellRendererParams` property](https://www.ag-grid.com/angular-data-grid/column-properties/#reference-editing), like `skyComponentProperties.validator` and `skyComponentProperties.validatorMessage`. SkyCellType.Validator can be combined with other cell types, such as SkyCellType.Autocomplete or SkyCellType.Date, by using the array syntax for the [column definition's `type` property](https://www.ag-grid.com/angular-data-grid/column-properties/#reference-editing).
    */
   Validator = 'skyCellValidator',
 }

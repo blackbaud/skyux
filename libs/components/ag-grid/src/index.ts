@@ -13,6 +13,11 @@ export { SkyCellEditorDatepickerParams } from './lib/modules/ag-grid/types/cell-
 export { SkyAgGridCellEditorInitialAction } from './lib/modules/ag-grid/types/cell-editor-initial-action';
 export { SkyCellEditorLookupParams } from './lib/modules/ag-grid/types/cell-editor-lookup-params';
 export { SkyAgGridCellEditorUtils } from './lib/modules/ag-grid/types/cell-editor-utils';
+export { SkyCellRendererCurrencyParams } from './lib/modules/ag-grid/types/cell-renderer-currency-params';
+export { SkyCellRendererLookupParams } from './lib/modules/ag-grid/types/cell-renderer-lookup-params';
+export { SkyCellRendererTemplateContext } from './lib/modules/ag-grid/types/cell-renderer-template-context';
+export { SkyCellRendererTemplateParams } from './lib/modules/ag-grid/types/cell-renderer-template-params';
+export { SkyCellRendererValidatorParams } from './lib/modules/ag-grid/types/cell-renderer-validator-params';
 export { SkyCellType } from './lib/modules/ag-grid/types/cell-type';
 export { SkyAgGridCurrencyProperties } from './lib/modules/ag-grid/types/currency-properties';
 export {
