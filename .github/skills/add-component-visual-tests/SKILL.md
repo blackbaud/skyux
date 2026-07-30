@@ -128,7 +128,8 @@ patterns.
   a `moduleMetadata` decorator; each meaningful visual state is captured as a
   named story or args permutation, with no assertion/interaction logic.
 - The generated Cypress spec captures each snapshot with `skyVisualTest`
-  (scoped to the wrapper element, iterated over `forEachTheme`), not
-  `cy.screenshot` + `cy.percySnapshot`.
+  (iterated over `forEachTheme`), not `cy.screenshot` + `cy.percySnapshot`:
+  inline content is scoped to the wrapper element, while portaled overlays
+  such as a modal (`sky-modal`) use `capture: 'viewport'`.
 - `npx nx build <library>-storybook` compiles, lint is clean, and changed
   files are formatted.
