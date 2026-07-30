@@ -3,8 +3,8 @@ import {
   Component,
   ElementRef,
   HostListener,
-  ViewChild,
   inject,
+  viewChild,
 } from '@angular/core';
 import {
   FormsModule,
@@ -50,8 +50,9 @@ export class SkyAgGridCellEditorAutocompleteComponent implements ICellEditorAngu
   #params: SkyCellEditorAutocompleteParams | undefined;
   #elementRef = inject(ElementRef) as ElementRef<HTMLElement>;
 
-  @ViewChild('skyCellEditorAutocomplete', { read: ElementRef })
-  public input: ElementRef | undefined;
+  public readonly input = viewChild('skyCellEditorAutocomplete', {
+    read: ElementRef,
+  });
 
   @HostListener('focusout', ['$event'])
   public onBlur(event: FocusEvent): void {
@@ -96,24 +97,25 @@ export class SkyAgGridCellEditorAutocompleteComponent implements ICellEditorAngu
   public afterGuiAttached(): void {
     // AG Grid sets focus to the cell via setTimeout, and this queues the input to focus after that.
     setTimeout(() => {
-      if (this.input) {
-        this.input.nativeElement.focus();
+      const input = this.input();
+      if (input) {
+        input.nativeElement.focus();
         if (this.#triggerType === SkyAgGridCellEditorInitialAction.Replace) {
           const charPress = this.#params?.eventKey as string;
 
-          this.input.nativeElement.select();
-          this.input.nativeElement.setRangeText(charPress);
+          input.nativeElement.select();
+          input.nativeElement.setRangeText(charPress);
           // Ensure the cursor is at the end of the text.
-          this.input.nativeElement.setSelectionRange(
+          input.nativeElement.setSelectionRange(
             charPress.length,
             charPress.length,
           );
-          this.input.nativeElement.dispatchEvent(new Event('input'));
+          input.nativeElement.dispatchEvent(new Event('input'));
         }
         if (
           this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted
         ) {
-          this.input.nativeElement.select();
+          input.nativeElement.select();
         }
       }
     });

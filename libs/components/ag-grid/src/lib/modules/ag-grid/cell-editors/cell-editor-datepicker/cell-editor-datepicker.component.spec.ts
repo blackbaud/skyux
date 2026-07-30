@@ -104,7 +104,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
 
       expect(datepickerEditorElement).toBeNull();
 
-      gridFixture.componentInstance.agGrid?.api.startEditingCell({
+      gridFixture.componentInstance.agGrid()?.api.startEditingCell({
         rowIndex: 0,
         colKey: 'date',
       });
@@ -126,7 +126,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
       datepickerEditorComponent.agInit({
         ...(datepickerEditorComponent as any).params,
         api,
-        column: new AgColumn<any>({}, null, 'col', true),
+        column: new AgColumn<any>({}, null, 'col', true, 'user'),
         node: {
           rowHeight: 37,
         },
@@ -137,7 +137,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
 
       (api.stopEditing as jasmine.Spy).calls.reset();
       datepickerEditorComponent.onFocusOut({
-        target: datepickerEditorComponent.datepickerInput?.nativeElement,
+        target: datepickerEditorComponent.datepickerInput()?.nativeElement,
       } as FocusEvent);
       tick();
       expect(api.stopEditing).toHaveBeenCalled();
@@ -151,7 +151,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
       datepickerEditorComponent.agInit({
         ...(datepickerEditorComponent as any).params,
         api,
-        column: new AgColumn<any>({}, null, 'col', true),
+        column: new AgColumn<any>({}, null, 'col', true, 'user'),
         node: {
           rowHeight: 37,
         },
@@ -197,6 +197,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
         null,
         'col',
         true,
+        'user',
       );
 
       cellEditorParams = {
@@ -482,6 +483,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
         null,
         'col',
         true,
+        'user',
       );
       gridCell = document.createElement('div');
 
@@ -804,7 +806,7 @@ describe('SkyCellEditorDatepickerComponent without theme', () => {
 
       expect(datepickerEditorElement).toBeNull();
 
-      gridFixture.componentInstance.agGrid?.api.startEditingCell({
+      gridFixture.componentInstance.agGrid()?.api.startEditingCell({
         rowIndex: 0,
         colKey: 'date',
       });

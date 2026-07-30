@@ -3,11 +3,11 @@ import {
   ChangeDetectorRef,
   Component,
   DOCUMENT,
-  Input,
   OnDestroy,
   OnInit,
   ViewEncapsulation,
   inject,
+  input,
 } from '@angular/core';
 import {
   SkyAgGridRowDeleteConfirmArgs,
@@ -46,7 +46,7 @@ interface DataSet {
 export class AgGridStoriesComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
-  @Input() public compact = false;
+  public readonly compact = input(false);
 
   public dataSets: DataSet[] = [
     {

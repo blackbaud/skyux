@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, input } from '@angular/core';
 import {
   SkyDataManagerService,
   SkyDataManagerState,
@@ -12,14 +12,13 @@ import {
   standalone: false,
 })
 export class DataManagerComponent implements OnInit {
-  @Input()
-  public activeView = 'view-1';
+  public readonly activeView = input('view-1');
 
   #dataManagerService = inject(SkyDataManagerService);
 
   public ngOnInit(): void {
     this.#dataManagerService.initDataManager({
-      activeViewId: this.activeView,
+      activeViewId: this.activeView(),
       dataManagerConfig: {
         sortOptions: [
           {

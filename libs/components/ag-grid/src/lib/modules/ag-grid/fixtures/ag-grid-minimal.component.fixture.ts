@@ -1,16 +1,18 @@
 import {
   Component,
   InjectionToken,
-  OnInit,
-  ViewChild,
   ViewEncapsulation,
+  computed,
   inject,
+  input,
+  viewChild,
 } from '@angular/core';
 
 import { AgGridAngular } from 'ag-grid-angular';
 import {
   AllCommunityModule,
   ColDef,
+  DomLayoutType,
   GridOptions,
   ModuleRegistry,
 } from 'ag-grid-community';
@@ -38,7 +40,7 @@ export const MinimalEditable = new InjectionToken<boolean>('MinimalEditable', {
       <ag-grid-angular
         #minimalGrid
         [class.sky-ag-grid-editable]="editable"
-        [gridOptions]="gridOptions"
+        [gridOptions]="gridOptionsFromService()"
         [rowData]="rowData"
       />
     </sky-ag-grid-wrapper>
@@ -46,33 +48,37 @@ export const MinimalEditable = new InjectionToken<boolean>('MinimalEditable', {
   encapsulation: ViewEncapsulation.None,
   imports: [SkyAgGridWrapperComponent, AgGridAngular],
 })
-export class SkyAgGridMinimalFixtureComponent implements OnInit {
-  @ViewChild('minimalGrid', { static: true })
-  public agGrid: AgGridAngular | undefined;
+export class SkyAgGridMinimalFixtureComponent {
+  public readonly agGrid = viewChild<AgGridAngular>('minimalGrid');
 
   public readonly columnDefs = inject(MinimalColumnDefs);
   public readonly rowData = inject(MinimalRowData);
   public readonly editable = inject(MinimalEditable);
 
-  public gridOptions: GridOptions = {
-    columnDefs: this.columnDefs,
-    domLayout: 'autoHeight',
-    context: {
-      enableCellTextSelection: true,
-    },
-  };
+  public readonly gridOptions = input<GridOptions>({});
 
-  readonly #gridService = inject(SkyAgGridService);
-
-  public ngOnInit(): void {
+  protected readonly gridOptionsFromService = computed(() => {
+    const defaultOptions = {
+      alwaysShowHorizontalScroll: true,
+      alwaysShowVerticalScroll: true,
+      suppressColumnVirtualisation: true,
+      suppressRowVirtualisation: true,
+      columnDefs: this.columnDefs,
+      domLayout: 'autoHeight' as DomLayoutType,
+      context: {
+        enableCellTextSelection: true,
+      },
+    };
     if (this.editable) {
-      this.gridOptions = this.#gridService.getEditableGridOptions({
-        gridOptions: this.gridOptions,
+      return this.#gridService.getEditableGridOptions({
+        gridOptions: { ...defaultOptions, ...this.gridOptions() },
       });
     } else {
-      this.gridOptions = this.#gridService.getGridOptions({
-        gridOptions: this.gridOptions,
+      return this.#gridService.getGridOptions({
+        gridOptions: { ...defaultOptions, ...this.gridOptions() },
       });
     }
-  }
+  });
+
+  readonly #gridService = inject(SkyAgGridService);
 }

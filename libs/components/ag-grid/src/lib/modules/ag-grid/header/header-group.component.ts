@@ -7,8 +7,8 @@ import {
   ElementRef,
   EnvironmentInjector,
   OnDestroy,
-  ViewChild,
   inject,
+  viewChild,
 } from '@angular/core';
 import {
   SkyDynamicComponentLocation,
@@ -39,8 +39,9 @@ import { SkyAgGridHeaderGroupParams } from '../types/header-group-params';
 export class SkyAgGridHeaderGroupComponent
   implements IHeaderGroupAngularComp, OnDestroy, AfterViewInit
 {
-  @ViewChild('inlineHelpContainer', { read: ElementRef, static: true })
-  public inlineHelpContainer: ElementRef | undefined;
+  public readonly inlineHelpContainer = viewChild('inlineHelpContainer', {
+    read: ElementRef,
+  });
 
   protected params: SkyAgGridHeaderGroupParams | undefined = undefined;
   protected isExpandable$: Observable<boolean>;
@@ -127,7 +128,7 @@ export class SkyAgGridHeaderGroupComponent
           },
         ],
         environmentInjector: this.#environmentInjector,
-        referenceEl: this.inlineHelpContainer?.nativeElement,
+        referenceEl: this.inlineHelpContainer()?.nativeElement,
         location: SkyDynamicComponentLocation.ElementBottom,
       });
     }

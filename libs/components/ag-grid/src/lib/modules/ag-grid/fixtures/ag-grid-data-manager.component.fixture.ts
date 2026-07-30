@@ -1,10 +1,10 @@
 import {
   Component,
   OnInit,
-  ViewChild,
   ViewEncapsulation,
   inject,
   input,
+  viewChild,
 } from '@angular/core';
 import {
   SkyDataManagerModule,
@@ -44,8 +44,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   ],
 })
 export class SkyAgGridDataManagerFixtureComponent implements OnInit {
-  @ViewChild(AgGridAngular)
-  public agGrid: AgGridAngular | undefined;
+  public readonly agGrid = viewChild(AgGridAngular);
 
   public columnDefs: ColDef[] = [
     {
@@ -80,6 +79,10 @@ export class SkyAgGridDataManagerFixtureComponent implements OnInit {
 
   public gridOptions: GridOptions = {
     columnDefs: this.columnDefs,
+    alwaysShowHorizontalScroll: true,
+    alwaysShowVerticalScroll: true,
+    suppressColumnVirtualisation: true,
+    suppressRowVirtualisation: true,
   };
 
   public viewConfig: SkyDataViewConfig = {

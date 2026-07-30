@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  computed,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, ElementRef, computed, inject, signal } from '@angular/core';
 import {
   takeUntilDestroyed,
   toObservable,
@@ -38,7 +31,6 @@ import { SKY_AG_GRID_ROW_DELETE_CONTEXT } from './ag-grid-row-delete-context';
   templateUrl: './ag-grid-row-delete.component.html',
   styleUrl: './ag-grid-row-delete.component.css',
   imports: [SkyInlineDeleteModule, SkyAffixModule],
-  changeDetection: ChangeDetectionStrategy.Eager,
   host: {
     '[style]': '"--table-width: " + tableWidthStyle()',
   },
@@ -60,7 +52,7 @@ export class SkyAgGridRowDeleteComponent {
       const gridElement = this.service.gridElement();
       const gridApi = this.service.gridApi();
       const increment = this.gridChanges();
-      if (!gridElement || !gridApi) {
+      if (!gridElement || !gridApi || gridApi.isDestroyed()) {
         return [];
       }
       return rows
@@ -83,7 +75,7 @@ export class SkyAgGridRowDeleteComponent {
   protected readonly gridChanges = toSignal(
     toObservable(this.service.gridApi).pipe(
       switchMap((gridApi) =>
-        gridApi
+        gridApi && !gridApi.isDestroyed()
           ? merge(
               fromGridEvent(gridApi, 'componentStateChanged'),
               fromGridEvent(gridApi, 'firstDataRendered'),
@@ -123,7 +115,9 @@ export class SkyAgGridRowDeleteComponent {
     // Clean up pending rows when the grid data is updated.
     toObservable(this.service.gridApi)
       .pipe(
-        filter((gridApi): gridApi is GridApi => !!gridApi),
+        filter(
+          (gridApi): gridApi is GridApi => !!gridApi && !gridApi.isDestroyed(),
+        ),
         switchMap((gridApi) =>
           fromGridEvent(gridApi, 'rowDataUpdated').pipe(
             takeUntil(fromGridEvent(gridApi, 'gridPreDestroyed')),

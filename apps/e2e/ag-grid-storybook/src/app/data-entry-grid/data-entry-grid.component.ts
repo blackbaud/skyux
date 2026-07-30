@@ -7,6 +7,7 @@ import {
   OnInit,
   ViewEncapsulation,
   inject,
+  input,
 } from '@angular/core';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import {
@@ -38,8 +39,7 @@ interface DataSet {
 export class DataEntryGridComponent
   implements AfterViewInit, OnInit, OnDestroy
 {
-  @Input()
-  public compact = false;
+  public readonly compact = input(false);
 
   public variationId: 'date-and-lookup' | 'edit-lookup' | undefined;
 

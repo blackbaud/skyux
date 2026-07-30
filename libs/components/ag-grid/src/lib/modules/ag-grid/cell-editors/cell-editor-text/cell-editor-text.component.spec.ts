@@ -72,7 +72,7 @@ describe('SkyCellEditorTextComponent', () => {
 
     expect(inputElement).toBeNull();
 
-    gridFixture.componentInstance.agGrid?.api.startEditingCell({
+    gridFixture.componentInstance.agGrid()?.api.startEditingCell({
       rowIndex: 0,
       colKey: 'nickname',
     });
@@ -101,6 +101,7 @@ describe('SkyCellEditorTextComponent', () => {
         null,
         'col',
         true,
+        'user',
       );
 
       gridCell = document.createElement('div');
@@ -348,6 +349,7 @@ describe('SkyCellEditorTextComponent', () => {
           null,
           'col',
           true,
+          'user',
         );
 
         const gridApi = {} as GridApi;

@@ -13,13 +13,25 @@ import { SkyWaitHarness } from '@skyux/indicators/testing';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { SkyPagingHarness } from '@skyux/lists/testing';
 
-import { getGridApi } from 'ag-grid-community';
+import { getGridApi as getAgGridApi } from 'ag-grid-community';
 import { SkyDataGrid } from './data-grid';
 import { ColumnWidthTestComponent } from './fixtures/column-width-test.component';
 import { DataGridTestComponent } from './fixtures/data-grid-test.component';
 import { FlexWidthTestComponent } from './fixtures/flex-width-test.component';
 import { ResourceDataTestComponent } from './fixtures/resource-data-test.component';
 import { TemplateColumnTestComponent } from './fixtures/template-column-test.component';
+
+/**
+ * Queries the `.ag-root` element rather than the passed-in `ag-grid-angular`
+ * element itself, since `skyViewkeeper`'s shadow element is inserted as
+ * `ag-grid-angular`'s first child and `getGridApi()` locates the grid by
+ * walking up from the queried element's first element child.
+ */
+function getGridApi(agGridAngularElement: Element | null) {
+  return getAgGridApi(
+    agGridAngularElement?.querySelector('.ag-root') ?? agGridAngularElement,
+  );
+}
 
 describe('SkyDataGrid', () => {
   describe('without data manager', () => {
@@ -172,7 +184,7 @@ describe('SkyDataGrid', () => {
       expect(
         Array.from(
           fixture.nativeElement
-            .querySelector('.ag-viewport')
+            .querySelector('.ag-grid-scrolling-rows')
             .querySelectorAll('[role="row"]'),
         ),
       ).toHaveSize(0);

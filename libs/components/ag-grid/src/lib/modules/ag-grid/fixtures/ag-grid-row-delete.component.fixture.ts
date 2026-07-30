@@ -108,6 +108,10 @@ export class SkyAgGridRowDeleteFixtureComponent {
       gridOptions: {
         columnDefs: this.columnDefs(),
         domLayout: this.domLayout(),
+        alwaysShowHorizontalScroll: true,
+        alwaysShowVerticalScroll: true,
+        suppressColumnVirtualisation: true,
+        suppressRowVirtualisation: true,
         onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),
       },
     }),

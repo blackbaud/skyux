@@ -5,9 +5,9 @@ import {
   DestroyRef,
   ElementRef,
   HostListener,
-  ViewChild,
   ViewEncapsulation,
   inject,
+  viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -55,8 +55,9 @@ export class SkyAgGridCellEditorDatepickerComponent implements ICellEditorAngula
   public rowNumber: number | undefined;
   public skyComponentProperties: SkyAgGridDatepickerProperties = {};
 
-  @ViewChild('skyCellEditorDatepickerInput', { read: ElementRef })
-  public datepickerInput: ElementRef | undefined;
+  public readonly datepickerInput = viewChild('skyCellEditorDatepickerInput', {
+    read: ElementRef,
+  });
 
   protected resolvedDateFormat = '';
 
@@ -78,7 +79,7 @@ export class SkyAgGridCellEditorDatepickerComponent implements ICellEditorAngula
       // If focus is being set to the grid cell, schedule focus on the datepicker input.
       // This happens when the refreshCells API is called.
       this.afterGuiAttached();
-    } else if (event.target === this.datepickerInput?.nativeElement) {
+    } else if (event.target === this.datepickerInput()?.nativeElement) {
       this.#stopEditingOnBlur();
     }
   }
@@ -129,8 +130,14 @@ export class SkyAgGridCellEditorDatepickerComponent implements ICellEditorAngula
       'header',
     );
     this.columnWidth = this.#params.column.getActualWidth();
-    this.columnWidthWithoutBorders = this.columnWidth - 2;
-    this.rowHeightWithoutBorders = (this.#params.node.rowHeight as number) - 3;
+    this.columnWidthWithoutBorders = SkyAgGridCellEditorUtils.subtractOrZero(
+      this.columnWidth,
+      2,
+    );
+    this.rowHeightWithoutBorders = SkyAgGridCellEditorUtils.subtractOrZero(
+      this.#params.node.rowHeight as number,
+      3,
+    );
     this.rowNumber = this.#params.rowIndex + 1;
 
     this.#themeSvc?.settingsChange
@@ -141,7 +148,7 @@ export class SkyAgGridCellEditorDatepickerComponent implements ICellEditorAngula
           this.rowHeightWithoutBorders = this.#params?.node?.rowHeight;
         } else {
           this.columnWidthWithoutBorders =
-            this.columnWidth === undefined ? undefined : this.columnWidth - 2;
+            SkyAgGridCellEditorUtils.subtractOrZero(this.columnWidth, 2);
           this.rowHeightWithoutBorders =
             SkyAgGridCellEditorUtils.subtractOrZero(
               this.#params?.node.rowHeight,
@@ -166,7 +173,7 @@ export class SkyAgGridCellEditorDatepickerComponent implements ICellEditorAngula
   public afterGuiAttached(): void {
     // AG Grid sets focus to the cell via setTimeout, and this queues the input to focus after that.
     setTimeout(() => {
-      const datepickerInputEl = this.datepickerInput?.nativeElement as
+      const datepickerInputEl = this.datepickerInput()?.nativeElement as
         HTMLInputElement | undefined;
 
       if (datepickerInputEl) {
@@ -207,7 +214,7 @@ export class SkyAgGridCellEditorDatepickerComponent implements ICellEditorAngula
    * getValue is called by agGrid when editing is stopped to get the new value of the cell.
    */
   public getValue(): Date {
-    this.datepickerInput?.nativeElement.blur();
+    this.datepickerInput()?.nativeElement.blur();
     return this.editorForm.get('date')?.value;
   }
 

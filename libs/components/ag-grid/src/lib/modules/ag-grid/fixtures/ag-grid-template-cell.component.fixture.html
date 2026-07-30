@@ -1,0 +1,13 @@
+<sky-ag-grid-wrapper>
+  <ag-grid-angular
+    #agGrid
+    class="sky-ag-grid-editable"
+    [gridOptions]="gridOptions"
+    [rowData]="gridData"
+  />
+</sky-ag-grid-wrapper>
+<ng-template #actionTemplate let-row="row">
+  <button class="sky-btn sky-btn-default" type="button">
+    {{ row?.name }}
+  </button>
+</ng-template>

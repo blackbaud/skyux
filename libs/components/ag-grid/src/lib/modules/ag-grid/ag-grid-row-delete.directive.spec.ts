@@ -73,7 +73,8 @@ describe('SkyAgGridRowDeleteDirective', () => {
 
   afterEach(() => {
     (
-      TestBed.inject(SKY_STACKING_CONTEXT)?.zIndex as BehaviorSubject<number>
+      TestBed.inject(SKY_STACKING_CONTEXT, undefined, { optional: true })
+        ?.zIndex as BehaviorSubject<number>
     )?.complete();
     fixture.destroy();
   });
@@ -397,6 +398,8 @@ describe('SkyAgGridRowDeleteDirective', () => {
   it('should output the cancel event correctly', async () => {
     setupTest();
     await fixture.whenStable();
+    fixture.detectChanges();
+    await fixture.whenStable();
     spyOn(fixture.componentInstance, 'cancelRowDelete').and.callThrough();
     spyOn(fixture.componentInstance, 'finishRowDelete').and.callThrough();
 
@@ -472,10 +475,10 @@ describe('SkyAgGridRowDeleteDirective', () => {
     expect(
       TestBed.inject(SkyScrollableHostService)
         .watchScrollableHostClipPathChanges,
-    ).toHaveBeenCalledWith(
-      new ElementRef(debugElement.nativeElement),
-      jasmine.any(Observable),
-    );
+    ).toHaveBeenCalledWith(new ElementRef(debugElement.nativeElement), {
+      additionalContainers: jasmine.any(Observable),
+      additionalMasking: { top: jasmine.any(Observable) },
+    });
   });
 
   it('should not change the column widths when a row delete is triggered', async () => {

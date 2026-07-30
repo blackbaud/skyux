@@ -4,9 +4,9 @@ import {
   HostBinding,
   Input,
   TemplateRef,
-  ViewChild,
   ViewEncapsulation,
   inject,
+  viewChild,
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
@@ -67,8 +67,8 @@ export class DataManagerComponent implements AfterViewInit {
   @Input()
   public autoHeightColumns = false;
 
-  @ViewChild('link')
-  public linkTemplate!: TemplateRef<unknown>;
+  public readonly linkTemplate =
+    viewChild.required<TemplateRef<unknown>>('link');
 
   public dataManagerConfig: SkyDataManagerConfig = {};
 
@@ -209,7 +209,7 @@ export class DataManagerComponent implements AfterViewInit {
     const name = columnDefs.find((col) => col.field === 'name');
     if (name) {
       name.type = SkyCellType.Template;
-      name.cellRendererParams = { template: this.linkTemplate };
+      name.cellRendererParams = { template: this.linkTemplate() };
       delete name.cellRenderer;
     }
     this.gridOptions = this.#agGridService.getGridOptions({

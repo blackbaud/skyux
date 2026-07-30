@@ -8,10 +8,10 @@ import {
   ElementRef,
   EnvironmentInjector,
   OnDestroy,
-  ViewChild,
   computed,
   inject,
   signal,
+  viewChild,
 } from '@angular/core';
 import {
   SkyDynamicComponentLocation,
@@ -62,8 +62,9 @@ export class SkyAgGridHeaderComponent
     }
   });
 
-  @ViewChild('inlineHelpContainer', { read: ElementRef, static: true })
-  protected inlineHelpContainer: ElementRef | undefined;
+  protected readonly inlineHelpContainer = viewChild('inlineHelpContainer', {
+    read: ElementRef,
+  });
 
   protected readonly params = signal<SkyAgGridHeaderParams | undefined>(
     undefined,
@@ -215,7 +216,7 @@ export class SkyAgGridHeaderComponent
             },
           ],
           environmentInjector: this.#environmentInjector,
-          referenceEl: this.inlineHelpContainer?.nativeElement,
+          referenceEl: this.inlineHelpContainer()?.nativeElement,
           location: SkyDynamicComponentLocation.ElementBottom,
         });
     } else if (!inlineHelpComponent) {

@@ -3,7 +3,7 @@ import {
   Component,
   ElementRef,
   HostListener,
-  ViewChild,
+  viewChild,
 } from '@angular/core';
 import {
   FormsModule,
@@ -38,8 +38,7 @@ export class SkyAgGridCellEditorTextComponent implements ICellEditorAngularComp 
   public rowNumber: number | undefined;
   public maxlength: number | undefined;
 
-  @ViewChild('skyCellEditorText', { read: ElementRef })
-  public input: ElementRef | undefined;
+  public readonly input = viewChild('skyCellEditorText', { read: ElementRef });
 
   @HostListener('focusout', ['$event'])
   public onFocusOut(event: FocusEvent): void {
@@ -50,7 +49,7 @@ export class SkyAgGridCellEditorTextComponent implements ICellEditorAngularComp 
       // If focus is being set to the grid cell, schedule focus on the input.
       // This happens when the refreshCells API is called.
       this.afterGuiAttached();
-    } else if (event.target === this.input?.nativeElement) {
+    } else if (event.target === this.input()?.nativeElement) {
       this.#stopEditingOnBlur();
     }
   }
@@ -102,12 +101,13 @@ export class SkyAgGridCellEditorTextComponent implements ICellEditorAngularComp 
   public afterGuiAttached(): void {
     // AG Grid sets focus to the cell via setTimeout, and this queues the input to focus after that.
     setTimeout(() => {
-      if (this.input) {
-        this.input.nativeElement.focus();
+      const input = this.input();
+      if (input) {
+        input.nativeElement.focus();
         if (
           this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted
         ) {
-          this.input.nativeElement.select();
+          input.nativeElement.select();
         }
       }
     });
