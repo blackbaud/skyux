@@ -35,7 +35,7 @@ describe('ChartBar', () => {
         cy.get('sky-modal').should('be.visible');
 
         cy.skyVisualTest(`chart-bar-data-table-${theme}`, {
-          capture: 'fullPage',
+          capture: 'viewport',
           overwrite: true,
           disableTimersAndAnimations: true,
         });
