@@ -34,6 +34,7 @@ import {
 } from 'ag-grid-community';
 import {
   EMPTY,
+  Subject,
   asapScheduler,
   combineLatestWith,
   delay,
@@ -173,6 +174,13 @@ export class SkyAgGridWrapperComponent
   readonly #hasEditableClass = signal(false);
   readonly #cellEditingClasses = signal<string[]>([]);
 
+  // AG Grid's own header controller rewrites `--ag-header-rows-height` on
+  // header/theme recomputes it triggers internally (e.g. via
+  // `setGridOption('theme', ...)` below), clobbering the combined value
+  // `#watchHorizontalScrollPosition` sets. This lets that call ask for an
+  // immediate reapply.
+  readonly #reapplyHorizontalScrollPosition$ = new Subject<void>();
+
   public readonly wrapperClasses = computed(() => {
     const hasEditableClass = this.#hasEditableClass();
     const isCompact = this.compact();
@@ -211,7 +219,11 @@ export class SkyAgGridWrapperComponent
       const skyAgGridTheme = getSkyAgGridTheme(
         hasEditableClass ? 'data-entry-grid' : 'data-grid',
       );
-      this.#agGridApi()?.setGridOption('theme', skyAgGridTheme);
+      const agGridApi = this.#agGridApi();
+      agGridApi?.setGridOption('theme', skyAgGridTheme);
+      if (agGridApi) {
+        this.#reapplyHorizontalScrollPosition$.next();
+      }
     });
 
     this.#destroyRef.onDestroy(() => {
@@ -357,6 +369,8 @@ export class SkyAgGridWrapperComponent
           // component does), which can clear the `top` set below - so this is
           // included to reapply positioning immediately afterward.
           agGrid.gridSizeChanged,
+          // See `#reapplyHorizontalScrollPosition$`'s declaration.
+          this.#reapplyHorizontalScrollPosition$,
         ).pipe(
           // `context.enableTopScroll` may not be reflected on the grid's own
           // `gridOptions` yet by the time the earliest of these events fires
