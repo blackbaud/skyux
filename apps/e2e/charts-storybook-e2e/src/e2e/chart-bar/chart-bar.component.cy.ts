@@ -11,15 +11,35 @@ describe('ChartBar', () => {
 
           cy.skyReady('app-chart-bar').end();
 
-          cy.get('app-chart-bar')
-            .should('exist')
-            .should('be.visible')
-            .screenshot(`chart-bar-${orientation}-${theme}`);
-          cy.percySnapshot(`chart-bar-${orientation}-${theme}`, {
-            widths: E2eVariations.DISPLAY_WIDTHS,
-          });
+          cy.get('app-chart-bar').skyVisualTest(
+            `chart-bar-${orientation}-${theme}`,
+            {
+              overwrite: true,
+              disableTimersAndAnimations: true,
+              widths: E2eVariations.DISPLAY_WIDTHS,
+            },
+          );
         });
       }
+
+      it('should render the data table modal', () => {
+        cy.visit(
+          `/iframe.html?globals=theme:${theme}&id=chart-barcomponent--vertical`,
+        );
+        cy.skyReady('app-chart-bar').end();
+
+        cy.get('#floating-chart .sky-dropdown-button')
+          .should('be.visible')
+          .click();
+        cy.get('.sky-dropdown-item button').should('be.visible').click();
+        cy.get('sky-modal').should('be.visible');
+
+        cy.skyVisualTest(`chart-bar-data-table-${theme}`, {
+          capture: 'fullPage',
+          overwrite: true,
+          disableTimersAndAnimations: true,
+        });
+      });
     });
   });
 });

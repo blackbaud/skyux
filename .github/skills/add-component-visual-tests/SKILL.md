@@ -71,7 +71,37 @@ patterns.
    (default, key inputs, selected/disabled/error/empty/loading) the snapshot
    should capture. Do not add assertions or interaction logic.
 
-4. **Verify.** Build the storybook app to confirm it compiles, then lint and
+4. **Capture snapshots with `skyVisualTest`.** The `story` generator also
+   creates a Cypress spec at
+   `apps/e2e/<library>-storybook-e2e/src/e2e/<name>/<name>.component.cy.ts`.
+   Capture each snapshot with `skyVisualTest` (not `cy.screenshot` +
+   `cy.percySnapshot`), scoping the capture to the wrapper element and
+   iterating themes with `E2eVariations.forEachTheme`. Wait for the component
+   with `cy.skyReady`, and pass `disableTimersAndAnimations: true` for
+   components that animate on render (e.g. charts):
+
+   ```typescript
+   import { E2eVariations } from '@skyux-sdk/e2e-schematics';
+
+   describe('<Name>', () => {
+     E2eVariations.forEachTheme((theme) => {
+       describe(`in ${theme} theme`, () => {
+         it('should render', () => {
+           cy.visit(
+             `/iframe.html?globals=theme:${theme}&id=<storyId>--<story>`,
+           );
+           cy.skyReady('app-<name>').end();
+           cy.get('app-<name>').skyVisualTest(`<name>-${theme}`, {
+             overwrite: true,
+             disableTimersAndAnimations: true,
+           });
+         });
+       });
+     });
+   });
+   ```
+
+5. **Verify.** Build the storybook app to confirm it compiles, then lint and
    format:
 
    ```bash
@@ -80,7 +110,7 @@ patterns.
    nx format --files=<changed-file-paths>
    ```
 
-5. **Commit.** Use a Conventional Commit with the `components/<library>` scope
+6. **Commit.** Use a Conventional Commit with the `components/<library>` scope
    per
    [commit-message.instructions.md](../../instructions/commit-message.instructions.md).
 
@@ -91,5 +121,8 @@ patterns.
 - The story's `Meta` has a stable `id`, a `Components/<DisplayName>` title, and
   a `moduleMetadata` decorator; each meaningful visual state is captured as a
   named story or args permutation, with no assertion/interaction logic.
+- The generated Cypress spec captures each snapshot with `skyVisualTest`
+  (scoped to the wrapper element, iterated over `forEachTheme`), not
+  `cy.screenshot` + `cy.percySnapshot`.
 - `npx nx build <library>-storybook` compiles, lint is clean, and changed
   files are formatted.

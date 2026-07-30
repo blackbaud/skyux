@@ -7,6 +7,7 @@ import {
   SkyChartBar,
   type SkyChartBarOrientation,
   SkyChartBarSeries,
+  type SkyChartBarSeriesValue,
 } from '@skyux/charts';
 
 @Component({
@@ -42,4 +43,14 @@ export class ChartBarComponent {
   protected readonly online = [38, 6, 54, 69, 88, 13, 87];
   protected readonly inStore = [37, 84, 28, 84, 97, 22, 63];
   protected readonly phone = [86, 4, 7, 85, 8, 51, 30];
+
+  protected readonly temperatureRanges: SkyChartBarSeriesValue[] = [
+    [-2, 5],
+    [0, 8],
+    [4, 14],
+    [9, 19],
+    [14, 24],
+    [18, 28],
+    [20, 30],
+  ];
 }
