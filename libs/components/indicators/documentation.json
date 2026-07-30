@@ -5,7 +5,7 @@
       "development": {
         "docsIds": [
           "SkyAlertModule",
-          "SkyAlertComponent",
+          "SkyAlert",
           "SkyIndicatorIconType",
           "SkyIndicatorDescriptionType"
         ],

@@ -32,7 +32,7 @@ export { SkyWaitService } from './lib/modules/wait/wait.service';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.
-export { SkyAlertComponent as λ1 } from './lib/modules/alert/alert.component';
+export { SkyAlert, SkyAlert as λ1 } from './lib/modules/alert/alert';
 export { SkyChevronComponent as λ2 } from './lib/modules/chevron/chevron.component';
 export { SkyExpansionIndicatorComponent as λ15 } from './lib/modules/expansion-indicator/expansion-indicator.component';
 export { SkyIllustrationComponent as λ16 } from './lib/modules/illustration/illustration.component';

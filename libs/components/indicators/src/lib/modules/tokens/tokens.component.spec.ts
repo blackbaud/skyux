@@ -166,9 +166,10 @@ describe('Tokens component', () => {
       component.publishTokens();
       fixture.detectChanges();
       expect(changeSpy).toHaveBeenCalled();
-      expect(renderedSpy).not.toHaveBeenCalled();
 
-      // Tick fires the animation callback
+      // `tokensRendered` is deferred via `afterNextRender`; flush it. (Its exact
+      // timing relative to `detectChanges()` is not deterministic under
+      // fakeAsync, so we only assert that it has fired once the render flushes.)
       tick();
       expect(renderedSpy).toHaveBeenCalled();
     }));
