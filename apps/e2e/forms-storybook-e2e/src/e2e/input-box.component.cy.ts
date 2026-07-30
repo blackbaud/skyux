@@ -68,6 +68,22 @@ describe('forms-storybook - input box', () => {
         );
       });
 
+      it('should show the select dropdown open', () => {
+        cy.skyReady('app-input-box', [], ['#input-box-select'])
+          .get('#input-box-select select')
+          .click();
+        cy.get('#input-box-select').screenshot(
+          `inputboxcomponent-inputbox--input-box-${theme}-select-open`,
+        );
+        cy.get('#input-box-select').percySnapshot(
+          `inputboxcomponent-inputbox--input-box-${theme}-select-open`,
+          {
+            widths: E2eVariations.DISPLAY_WIDTHS,
+            scope: '#input-box-select',
+          },
+        );
+      });
+
       it('should properly focus a input box with buttons', () => {
         cy.skyReady('app-input-box', [], ['#input-box-button-multiple'])
           .get('#input-box-button-multiple input')
