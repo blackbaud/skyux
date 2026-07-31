@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.9.2](https://github.com/blackbaud/skyux/compare/14.9.1...14.9.2) (2026-07-31)
+
+
+### Bug Fixes
+
+* **components/forms:** select input options are properly styled ([#4557](https://github.com/blackbaud/skyux/issues/4557)) ([83b4726](https://github.com/blackbaud/skyux/commit/83b4726a8c624fe572c98c054895c977cb8c7ab3))
+
 ## [14.9.1](https://github.com/blackbaud/skyux/compare/14.9.0...14.9.1) (2026-07-31)
 
 
