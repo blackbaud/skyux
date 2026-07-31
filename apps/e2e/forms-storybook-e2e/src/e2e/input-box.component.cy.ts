@@ -81,8 +81,10 @@ describe('forms-storybook - input box', () => {
         // of the serializable DOM Percy normally captures via
         // `percySnapshot`. `skyVisualTest` instead sends the raw pixel
         // screenshot straight to Percy as a pre-rendered image, which does
-        // capture it.
-        cy.get('#input-box-select').skyVisualTest(
+        // capture it. Captured unscoped (whole page) since the open popup
+        // extends outside the `#input-box-select` container's bounds and
+        // gets clipped when scoped to it.
+        cy.skyVisualTest(
           `inputboxcomponent-inputbox--input-box-${theme}-select-open`,
           { overwrite: true },
         );

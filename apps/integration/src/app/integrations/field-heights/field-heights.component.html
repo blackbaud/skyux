@@ -31,7 +31,8 @@
     </div>
     <div *skyThemeIf="'modern'" class="height-measure"></div>
 
-    <div class="sky-form-group">
+    <!-- In default theme, the select height does not match other fields. -->
+    <div *skyThemeIf="'modern'" class="sky-form-group">
       <sky-input-box
         stacked="true"
         labelText="Favorite color"
@@ -44,7 +45,7 @@
         </select>
       </sky-input-box>
     </div>
-    <div class="height-measure"></div>
+    <div *skyThemeIf="'modern'" class="height-measure"></div>
 
     <div class="sky-form-group">
       <sky-input-box
@@ -204,7 +205,8 @@
     </div>
     <div *skyThemeIf="'modern'" class="height-measure"></div>
 
-    <div class="sky-form-group">
+    <!-- In default theme, the select height does not match other fields. -->
+    <div *skyThemeIf="'modern'" class="sky-form-group">
       <sky-input-box stacked="true" hintText="Select your favorite color.">
         <label class="sky-control-label" [for]="favoriteColorSelect.id">
           Favorite color
@@ -221,7 +223,7 @@
         </select>
       </sky-input-box>
     </div>
-    <div class="height-measure"></div>
+    <div *skyThemeIf="'modern'" class="height-measure"></div>
 
     <div class="sky-form-group">
       <sky-input-box stacked="true" hintText="Lookup items.">
