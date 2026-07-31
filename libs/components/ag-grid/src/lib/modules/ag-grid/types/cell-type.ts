@@ -46,7 +46,7 @@ export enum SkyCellType {
    *
    * **Read-only mode**
    *
-   * Cells the column will display, by default, either: the name(s) of the selected value(s) if there are less than 6, or a summary count of the values if there are more than 5. If the lookup needs to show a different property or needs to be formatted in any way, you can [define a `valueFormatter`](https://www.ag-grid.com/angular-data-grid/value-formatters/) on the column definition. You can set the lookup component's properties by passing `SkyCellRendererLookupParams` in the [column definition's `cellRendererParams` property](https://www.ag-grid.com/angular-data-grid/column-properties/#reference-editing).
+   * Cells in the column will display, by default, either: the name(s) of the selected value(s) if there are less than 6, or a summary count of the values if there are more than 5. If the lookup needs to show a different property or needs to be formatted in any way, you can [define a `valueFormatter`](https://www.ag-grid.com/angular-data-grid/value-formatters/) on the column definition. You can set the lookup component's properties by passing `SkyCellRendererLookupParams` in the [column definition's `cellRendererParams` property](https://www.ag-grid.com/angular-data-grid/column-properties/#reference-editing).
    */
   Lookup = 'skyCellLookup',
   /**

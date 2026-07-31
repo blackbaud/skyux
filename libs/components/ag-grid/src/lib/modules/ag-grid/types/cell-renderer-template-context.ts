@@ -9,5 +9,5 @@ export interface SkyCellRendererTemplateContext {
   /**
    * The row's data.
    */
-  row: object;
+  row: object | undefined;
 }
