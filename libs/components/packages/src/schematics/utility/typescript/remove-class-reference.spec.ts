@@ -25,34 +25,57 @@ describe('remove-class-reference', () => {
     return tree.readText(path);
   }
 
-  it('should remove the last entry in an array and import', () => {
-    const content = `import { SkyListViewGridModule, SkyGridModule } from 'module';\n\nconst x = [SkyListViewGridModule, SkyGridModule];`;
+  it('should remove the last entry in a decorator imports array and import', () => {
+    const content = `import { SkyListViewGridModule, SkyGridModule } from 'module';\n\n@Component({\n  imports: [SkyListViewGridModule, SkyGridModule],\n})\nclass Test {}`;
     expect(run(content)).toBe(
-      `import { SkyListViewGridModule, } from 'module';\n\nconst x = [SkyListViewGridModule];`,
+      `import { SkyListViewGridModule, } from 'module';\n\n@Component({\n  imports: [SkyListViewGridModule],\n})\nclass Test {}`,
     );
   });
 
-  it('should remove the first entry in an array and import', () => {
-    const content = `import { SkyGridModule, SkyListViewGridModule } from 'module';\n\nconst x = [SkyGridModule, SkyListViewGridModule];`;
+  it('should remove the first entry in a decorator imports array and import', () => {
+    const content = `import { SkyGridModule, SkyListViewGridModule } from 'module';\n\n@Component({\n  imports: [SkyGridModule, SkyListViewGridModule],\n})\nclass Test {}`;
     expect(run(content)).toBe(
-      `import {  SkyListViewGridModule } from 'module';\n\nconst x = [SkyListViewGridModule];`,
+      `import {  SkyListViewGridModule } from 'module';\n\n@Component({\n  imports: [SkyListViewGridModule],\n})\nclass Test {}`,
     );
   });
 
   it('should leave an empty array when it is the only entry', () => {
-    const content = `import { SkyGridModule } from 'module';\n\nconst x = [SkyGridModule];`;
-    expect(run(content)).toBe(`\n\nconst x = [];`);
+    const content = `import { SkyGridModule } from 'module';\n\n@Component({\n  imports: [SkyGridModule],\n})\nclass Test {}`;
+    expect(run(content)).toBe(
+      `\n\n@Component({\n  imports: [],\n})\nclass Test {}`,
+    );
   });
 
   it('should only remove the matching class from the import statement', () => {
-    const content = `import { SkyGridModule, SkyGridComponent } from 'module';\n\nconst x = [SkyGridModule];`;
+    const content = `import { SkyGridModule, SkyGridComponent } from 'module';\n\n@Component({\n  imports: [SkyGridModule],\n})\nclass Test {}`;
     expect(run(content)).toBe(
-      `import {  SkyGridComponent } from 'module';\n\nconst x = [];`,
+      `import {  SkyGridComponent } from 'module';\n\n@Component({\n  imports: [],\n})\nclass Test {}`,
     );
   });
 
   it('should leave a direct non-array reference and its import untouched', () => {
     const content = `import { SkyGridModule } from 'module';\n\nconst mod = SkyGridModule;`;
     expect(run(content)).toBe(content);
+  });
+
+  it('should not modify an unrelated array that references the class name', () => {
+    const content = `import { SkyGridModule } from 'module';\n\nconst other = [SkyGridModule];\n\n@Component({\n  imports: [SkyGridModule],\n})\nclass Test {}`;
+    expect(run(content)).toBe(
+      `import { SkyGridModule } from 'module';\n\nconst other = [SkyGridModule];\n\n@Component({\n  imports: [],\n})\nclass Test {}`,
+    );
+  });
+
+  it('should not modify a reference shadowed by a parameter', () => {
+    const content = `import { SkyGridModule } from 'module';\n\nfunction makeConfig(SkyGridModule) {\n  return { imports: [SkyGridModule] };\n}\n\n@Component({\n  imports: [SkyGridModule],\n})\nclass Test {}`;
+    expect(run(content)).toBe(
+      `import { SkyGridModule } from 'module';\n\nfunction makeConfig(SkyGridModule) {\n  return { imports: [SkyGridModule] };\n}\n\n@Component({\n  imports: [],\n})\nclass Test {}`,
+    );
+  });
+
+  it('should not modify an imports array passed to a plain function call', () => {
+    const content = `import { SkyGridModule } from 'module';\n\nconst config = makeConfig({\n  imports: [SkyGridModule],\n});\n\n@Component({\n  imports: [SkyGridModule],\n})\nclass Test {}`;
+    expect(run(content)).toBe(
+      `import { SkyGridModule } from 'module';\n\nconst config = makeConfig({\n  imports: [SkyGridModule],\n});\n\n@Component({\n  imports: [],\n})\nclass Test {}`,
+    );
   });
 });
