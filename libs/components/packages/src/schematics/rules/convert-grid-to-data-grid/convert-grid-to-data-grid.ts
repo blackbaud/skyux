@@ -14,6 +14,7 @@ import {
   SwapTagCallback,
   getAttributeValueText,
   getElementsByTagName,
+  hasAncestorTag,
   parseTemplate,
   swapAttributes,
   swapTags,
@@ -23,14 +24,21 @@ import {
   isImportedFromPackage,
   parseSourceFile,
 } from '../../utility/typescript/ng-ast';
+import { removeClassReference } from '../../utility/typescript/remove-class-reference';
 import { swapImportedClass } from '../../utility/typescript/swap-imported-class';
 import { visitProjectFiles } from '../../utility/visit-project-files';
 
 const MIGRATION_DOC_URL =
   'https://developer.blackbaud.com/skyux/components/data-grid';
 
+const SKY_GRID_MODULE = 'SkyGridModule';
+const SKY_GRID_MODULE_PACKAGE = '@skyux/grids';
+const SKY_LIST_VIEW_GRID_MODULE = 'SkyListViewGridModule';
+const SKY_LIST_VIEW_GRID_MODULE_PACKAGE = '@skyux/list-builder-view-grids';
+
 const GRID_TAG: 'sky-grid'[] = ['sky-grid'];
 const COLUMN_TAG: 'sky-grid-column'[] = ['sky-grid-column'];
+const LIST_VIEW_GRID_TAG = 'sky-list-view-grid';
 
 /**
  * Attribute name swaps applied to `<sky-grid>`. A value of `''` drops the
@@ -337,19 +345,33 @@ function columnTagSwap(
   };
 }
 
+interface ConvertTemplateResult {
+  /** Number of `<sky-grid>`/`<sky-grid-column>` elements actually converted. */
+  converted: number;
+  /**
+   * Number of `<sky-grid>`/`<sky-grid-column>` elements left unchanged because
+   * they're nested inside `<sky-list-view-grid>`, which has no `<sky-data-grid>`
+   * equivalent in this migration.
+   */
+  listViewGridSkipped: number;
+}
+
 function convertTemplate(
   recorder: UpdateRecorder,
   content: string,
   context: SchematicContext,
   offset = 0,
-): void {
+): ConvertTemplateResult {
   const fragment = parseTemplate(content);
-  const grids = getElementsByTagName('sky-grid', fragment);
+  const grids = getElementsByTagName('sky-grid', fragment).filter(
+    (grid) => !hasAncestorTag(grid, LIST_VIEW_GRID_TAG),
+  );
 
   // Columns belonging to a skipped `[columns]` grid are excluded from the
   // column swap so we never leave `<sky-data-grid-column>` inside `<sky-grid>`.
   const skippedColumns = new Set<ElementWithLocation>();
   let converted = 0;
+  let listViewGridSkipped = 0;
 
   for (const grid of grids) {
     if (hasAttribute(grid, ['columns', '[columns]'])) {
@@ -371,9 +393,21 @@ function convertTemplate(
 
   // Collect columns from the whole fragment (getElementsByTagName traverses
   // unconditionally) and swap each individually for the same reason.
-  const columns = getElementsByTagName('sky-grid-column', fragment).filter(
-    (column) => !skippedColumns.has(column),
-  );
+  const allColumns = getElementsByTagName('sky-grid-column', fragment);
+  const columns = allColumns.filter((column) => {
+    if (hasAncestorTag(column, LIST_VIEW_GRID_TAG)) {
+      listViewGridSkipped++;
+      return false;
+    }
+    return !skippedColumns.has(column);
+  });
+  if (listViewGridSkipped > 0) {
+    logOnce(
+      context,
+      'warn',
+      'A <sky-grid-column> inside <sky-list-view-grid> was left unchanged. <sky-list-view-grid> has no <sky-data-grid> equivalent in this migration.',
+    );
+  }
   for (const column of columns) {
     swapTags(
       content,
@@ -402,6 +436,8 @@ function convertTemplate(
       'Some <sky-grid> features have no <sky-data-grid> equivalent (toolbar, text and row highlighting, custom per-column search, message-stream commands such as row delete, settingsKey persistence, and explicit width/height). Reimplement these manually as needed.',
     );
   }
+
+  return { converted, listViewGridSkipped };
 }
 
 function convertHtmlFile(
@@ -425,29 +461,55 @@ function convertTypescriptFile(
   const source = parseSourceFile(tree, filePath);
   const templates = getInlineTemplates(source);
   const recorder = tree.beginUpdate(filePath);
+  let converted = 0;
+  let listViewGridSkipped = 0;
   if (templates.length > 0) {
     const content = tree.readText(filePath);
     for (const template of templates) {
-      convertTemplate(
+      const result = convertTemplate(
         recorder,
         content.slice(template.start, template.end),
         context,
         template.start,
       );
+      converted += result.converted;
+      listViewGridSkipped += result.listViewGridSkipped;
     }
   }
-  if (isImportedFromPackage(source, 'SkyGridModule', '@skyux/grids')) {
-    swapImportedClass(recorder, filePath, source, [
-      {
-        classNames: {
-          SkyGridModule: ['SkyDataGrid', 'SkyDataGridColumn'],
+  if (isImportedFromPackage(source, SKY_GRID_MODULE, SKY_GRID_MODULE_PACKAGE)) {
+    const listViewGridModuleImported = isImportedFromPackage(
+      source,
+      SKY_LIST_VIEW_GRID_MODULE,
+      SKY_LIST_VIEW_GRID_MODULE_PACKAGE,
+    );
+    if (listViewGridSkipped > 0 && !listViewGridModuleImported) {
+      logOnce(
+        context,
+        'warn',
+        'The "SkyGridModule" import was left unchanged because a <sky-grid-column> inside <sky-list-view-grid> still depends on it and "SkyListViewGridModule" could not be found in this file\'s imports. If "SkyGridModule" is now unused, review it manually.',
+      );
+    } else if (listViewGridSkipped > 0 && converted === 0) {
+      // SkyListViewGridModule already re-exports SkyGridModule, and nothing in
+      // this file needs SkyDataGrid/SkyDataGridColumn; the import is redundant.
+      removeClassReference(
+        recorder,
+        source,
+        SKY_GRID_MODULE,
+        SKY_GRID_MODULE_PACKAGE,
+      );
+    } else {
+      swapImportedClass(recorder, filePath, source, [
+        {
+          classNames: {
+            [SKY_GRID_MODULE]: ['SkyDataGrid', 'SkyDataGridColumn'],
+          },
+          moduleName: {
+            old: SKY_GRID_MODULE_PACKAGE,
+            new: '@skyux/data-grid',
+          },
         },
-        moduleName: {
-          old: '@skyux/grids',
-          new: '@skyux/data-grid',
-        },
-      },
-    ]);
+      ]);
+    }
   }
   tree.commitUpdate(recorder);
 }
