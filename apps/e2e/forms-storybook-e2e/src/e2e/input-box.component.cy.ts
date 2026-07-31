@@ -69,9 +69,12 @@ describe('forms-storybook - input box', () => {
       });
 
       it('should show the select dropdown open', () => {
+        // `.click()` is not permitted by Cypress on `<select>` elements; a
+        // real browser opens the dropdown on `mousedown`, so trigger that
+        // event directly instead.
         cy.skyReady('app-input-box', [], ['#input-box-select'])
           .get('#input-box-select select')
-          .click();
+          .trigger('mousedown');
         cy.screenshot(
           `inputboxcomponent-inputbox--input-box-${theme}-select-open`,
         );

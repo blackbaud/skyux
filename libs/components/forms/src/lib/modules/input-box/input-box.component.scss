@@ -135,8 +135,14 @@ sky-input-box {
       // uses the menu/container token (a solid color) rather than the input
       // token (a semi-transparent overlay meant to sit on an existing surface).
       option {
-        background-color: var(--sky-override-input-box-select-option-background-color, var(--sky-color-background-container-menu));
-        color: var(--sky-override-input-box-select-option-text-color, var(--sky-color-text-default));
+        background-color: var(
+          --sky-override-input-box-select-option-background-color,
+          var(--sky-color-background-container-menu)
+        );
+        color: var(
+          --sky-override-input-box-select-option-text-color,
+          var(--sky-color-text-default)
+        );
       }
     }
 
@@ -161,8 +167,14 @@ sky-input-box {
         option {
           &:hover,
           &:focus {
-            background-color: var(--sky-override-input-box-select-option-background-color, var(--sky-color-background-selected-heavy));
-            color: var(--sky-override-input-box-select-option-text-color, var(--sky-color-text-default));
+            background-color: var(
+              --sky-override-input-box-select-option-background-color,
+              var(--sky-color-background-selected-heavy)
+            );
+            color: var(
+              --sky-override-input-box-select-option-text-color,
+              var(--sky-color-text-inverse)
+            );
           }
         }
       }
