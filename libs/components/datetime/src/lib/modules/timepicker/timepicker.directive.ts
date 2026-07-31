@@ -10,8 +10,10 @@ import {
   OnDestroy,
   OnInit,
   Renderer2,
+  booleanAttribute,
   forwardRef,
   inject,
+  input,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -100,6 +102,18 @@ export class SkyTimepickerInputDirective
    */
   @Input()
   public returnFormat: string | undefined;
+
+  /**
+   * Whether to keep invalid entries in the input when it loses focus instead of
+   * clearing them. When set to `true`, an invalid value remains in the field and
+   * the associated form control is flagged with a `skyTime` error, matching the
+   * behavior of the datepicker. This is opt-in in this version and will become
+   * the default behavior in the next major version.
+   * @default false
+   */
+  public readonly skyTimepickerRetainInvalidValues = input(false, {
+    transform: booleanAttribute,
+  });
 
   /**
    * Whether to disable the timepicker on template-driven forms. Don't use this input on reactive forms because they may overwrite the input or leave the control out of sync.
@@ -203,6 +217,27 @@ export class SkyTimepickerInputDirective
   }
 
   public writeValue(value: any): void {
+    // When the consumer opts in, keep invalid entries in the input instead of
+    // clearing them so the user can see and correct their entry (matching the
+    // datepicker's behavior).
+    if (
+      this.skyTimepickerRetainInvalidValues() &&
+      typeof value === 'string' &&
+      value.length > 0
+    ) {
+      const formatted = this.#formatter(value);
+
+      if (formatted && formatted.local === 'Invalid date') {
+        this.#applyInvalidValue(value);
+
+        return;
+      }
+
+      this.#modelValue = formatted;
+
+      return;
+    }
+
     this.#modelValue = this.#formatter(value);
   }
 
@@ -216,12 +251,40 @@ export class SkyTimepickerInputDirective
       return null;
     }
 
+    // A raw string value only remains on the control when the consumer has
+    // opted in to retaining invalid values.
+    if (typeof value === 'string' && this.skyTimepickerRetainInvalidValues()) {
+      const formatted = this.#formatter(value);
+      /* istanbul ignore else */
+      if (formatted && formatted.local === 'Invalid date') {
+        // Mark as touched so the invalid CSS styles appear even when the value
+        // is set programmatically.
+        this.#control.markAsTouched();
+        return { skyTime: { invalid: value } };
+      }
+      /* istanbul ignore next */
+      return null;
+    }
+
     /* istanbul ignore next */
     if (value.local === 'Invalid date') {
       return { skyTime: { invalid: control.value } };
     }
 
     return null;
+  }
+
+  #applyInvalidValue(rawValue: string): void {
+    // There is no valid model value while an invalid entry is retained.
+    this.#_modelValue = undefined;
+
+    // Keep the user's raw entry in the input element.
+    this.#renderer.setProperty(this.#elRef.nativeElement, 'value', rawValue);
+
+    // Push the raw string to the form control and flag it as invalid.
+    this.#_onChange(rawValue);
+    this.#_validatorChange();
+    this.#control?.setErrors({ skyTime: { invalid: rawValue } });
   }
 
   #setInputValue(value: SkyTimepickerTimeOutput | undefined): void {
