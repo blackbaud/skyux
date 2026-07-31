@@ -15,5 +15,6 @@
 // Import commands.js using ES2015 syntax:
 import '@percy/cypress';
 import '@skyux-sdk/cypress-commands';
+import 'cypress-real-events';
 
 import './commands';
