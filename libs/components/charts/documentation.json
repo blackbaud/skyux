@@ -71,7 +71,13 @@
         ]
       },
       "codeExamples": {
-        "docsIds": ["ChartsChartLineBasicExample"]
+        "docsIds": [
+          "ChartsChartLineBasicExample",
+          "ChartsChartLineMultipleSeriesExample",
+          "ChartsChartLineGapsExample",
+          "ChartsChartLineValueFormatExample",
+          "ChartsChartLineAsyncExample"
+        ]
       }
     }
   }

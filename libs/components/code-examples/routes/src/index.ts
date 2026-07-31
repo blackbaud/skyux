@@ -263,10 +263,38 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'ChartsChartLineAsyncExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ ChartsChartLineAsyncExample: c }) => c,
+      ),
+  },
+  {
     path: 'ChartsChartLineBasicExample',
     loadComponent: () =>
       import('@skyux/code-examples').then(
         ({ ChartsChartLineBasicExample: c }) => c,
+      ),
+  },
+  {
+    path: 'ChartsChartLineGapsExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ ChartsChartLineGapsExample: c }) => c,
+      ),
+  },
+  {
+    path: 'ChartsChartLineMultipleSeriesExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ ChartsChartLineMultipleSeriesExample: c }) => c,
+      ),
+  },
+  {
+    path: 'ChartsChartLineValueFormatExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ ChartsChartLineValueFormatExample: c }) => c,
       ),
   },
   {
