@@ -50,4 +50,9 @@ describe('remove-class-reference', () => {
       `import {  SkyGridComponent } from 'module';\n\nconst x = [];`,
     );
   });
+
+  it('should leave a direct non-array reference and its import untouched', () => {
+    const content = `import { SkyGridModule } from 'module';\n\nconst mod = SkyGridModule;`;
+    expect(run(content)).toBe(content);
+  });
 });

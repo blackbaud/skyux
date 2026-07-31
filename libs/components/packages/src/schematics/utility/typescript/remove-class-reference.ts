@@ -28,24 +28,39 @@ export function removeClassReference(
       node.getStart() > endOfImports,
   );
 
-  references.forEach((reference) => {
-    const parent = reference.parent as ts.ArrayLiteralExpression;
-    const elements = Array.from(parent.elements);
-    const index = elements.indexOf(reference as unknown as ts.Expression);
+  // Non-array references (e.g. a direct assignment or type reference) aren't
+  // safe to rewrite here, so leave them - and the import they still need - alone.
+  const hasNonArrayReference = references.some(
+    (reference) => !ts.isArrayLiteralExpression(reference.parent),
+  );
 
-    if (elements.length === 1) {
-      recorder.remove(parent.getStart() + 1, parent.getWidth() - 2);
-    } else if (index === 0) {
-      const start = reference.getStart();
-      recorder.remove(start, elements[1].getStart() - start);
-    } else {
-      const start = elements[index - 1].getEnd();
-      recorder.remove(start, reference.getEnd() - start);
-    }
-  });
+  references
+    .filter(
+      (
+        reference,
+      ): reference is ts.Identifier & { parent: ts.ArrayLiteralExpression } =>
+        ts.isArrayLiteralExpression(reference.parent),
+    )
+    .forEach((reference) => {
+      const parent = reference.parent;
+      const elements = Array.from(parent.elements);
+      const index = elements.indexOf(reference as unknown as ts.Expression);
 
-  removeImport(recorder, sourceFile, {
-    classNames: [className],
-    moduleName,
-  });
+      if (elements.length === 1) {
+        recorder.remove(parent.getStart() + 1, parent.getWidth() - 2);
+      } else if (index === 0) {
+        const start = reference.getStart();
+        recorder.remove(start, elements[1].getStart() - start);
+      } else {
+        const start = elements[index - 1].getEnd();
+        recorder.remove(start, reference.getEnd() - start);
+      }
+    });
+
+  if (!hasNonArrayReference) {
+    removeImport(recorder, sourceFile, {
+      classNames: [className],
+      moduleName,
+    });
+  }
 }

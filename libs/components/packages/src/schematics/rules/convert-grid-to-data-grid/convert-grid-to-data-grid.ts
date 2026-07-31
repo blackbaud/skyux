@@ -477,27 +477,32 @@ function convertTypescriptFile(
     }
   }
   if (isImportedFromPackage(source, SKY_GRID_MODULE, SKY_GRID_MODULE_PACKAGE)) {
-    const listViewGridModuleImported = isImportedFromPackage(
-      source,
-      SKY_LIST_VIEW_GRID_MODULE,
-      SKY_LIST_VIEW_GRID_MODULE_PACKAGE,
-    );
-    if (listViewGridSkipped > 0 && !listViewGridModuleImported) {
-      logOnce(
-        context,
-        'warn',
-        'The "SkyGridModule" import was left unchanged because a <sky-grid-column> inside <sky-list-view-grid> still depends on it and "SkyListViewGridModule" could not be found in this file\'s imports. If "SkyGridModule" is now unused, review it manually.',
-      );
-    } else if (listViewGridSkipped > 0 && converted === 0) {
-      // SkyListViewGridModule already re-exports SkyGridModule, and nothing in
-      // this file needs SkyDataGrid/SkyDataGridColumn; the import is redundant.
-      removeClassReference(
-        recorder,
+    if (listViewGridSkipped > 0 && converted === 0) {
+      const listViewGridModuleImported = isImportedFromPackage(
         source,
-        SKY_GRID_MODULE,
-        SKY_GRID_MODULE_PACKAGE,
+        SKY_LIST_VIEW_GRID_MODULE,
+        SKY_LIST_VIEW_GRID_MODULE_PACKAGE,
       );
+      if (listViewGridModuleImported) {
+        // SkyListViewGridModule already re-exports SkyGridModule, and nothing
+        // in this file needs SkyDataGrid/SkyDataGridColumn; it's redundant.
+        removeClassReference(
+          recorder,
+          source,
+          SKY_GRID_MODULE,
+          SKY_GRID_MODULE_PACKAGE,
+        );
+      } else {
+        logOnce(
+          context,
+          'warn',
+          'The "SkyGridModule" import was left unchanged because a <sky-grid-column> inside <sky-list-view-grid> still depends on it and "SkyListViewGridModule" could not be found in this file\'s imports. If "SkyGridModule" is now unused, review it manually.',
+        );
+      }
     } else {
+      // A real conversion needs SkyDataGrid/SkyDataGridColumn regardless of
+      // any list-view-grid skip in the same file, so this always runs when
+      // something was actually converted.
       swapImportedClass(recorder, filePath, source, [
         {
           classNames: {
