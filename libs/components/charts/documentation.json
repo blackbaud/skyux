@@ -44,6 +44,35 @@
           "ChartsChartBarAsyncExample"
         ]
       }
+    },
+    "chart-line": {
+      "development": {
+        "docsIds": [
+          "SkyChart",
+          "SkyChartAxisCategory",
+          "SkyChartAxisValue",
+          "SkyChartLine",
+          "SkyChartLineSeries",
+          "SkyChartLineSeriesValue",
+          "SkyChartHeadingLevel",
+          "SkyChartHeadingStyle",
+          "SkyChartValueFormat",
+          "SkyChartValueScaleType"
+        ],
+        "primaryDocsId": "SkyChart"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyChartLineHarness",
+          "SkyChartLineHarnessFilters",
+          "SkyChartHarness",
+          "SkyChartHarnessFilters",
+          "SkyChartTableModalHarness"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": ["ChartsChartLineBasicExample"]
+      }
     }
   }
 }

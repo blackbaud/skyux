@@ -1,3 +1,4 @@
+import { type Signal } from '@angular/core';
 import {
   type ChartConfiguration as ChartJsConfig,
   type TooltipItem as ChartJsTooltipItem,
@@ -5,7 +6,6 @@ import {
 
 import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
 import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
-import { SkyChartBarSeries } from '../chart-bar/chart-bar-series';
 import { type SkyChartBarSeriesValue } from '../chart-bar/chart-bar-series-value';
 import type { SkyChartTable } from '../chart-table/chart-table';
 import { type SkyChartThemeStyles } from '../shared/chart-theme-styles';
@@ -88,24 +88,37 @@ export function isValueRange(
 }
 
 /**
+ * The shape shared by every cartesian series component (for example,
+ * `sky-chart-bar-series` and `sky-chart-line-series`): a label and the values
+ * plotted against the category axis. Bar series values may include floating
+ * `[start, end]` ranges; other series types plot a subset of that value union.
+ */
+export interface SkyChartCartesianSeries {
+  labelText: Signal<string>;
+  values: Signal<readonly SkyChartBarSeriesValue[]>;
+}
+
+/**
  * The axes and series a chart needs to render, present only when a category
  * axis, a value axis, and at least one series are all provided.
  */
-export interface SkyChartCartesianData {
+export interface SkyChartCartesianData<
+  TSeries extends SkyChartCartesianSeries,
+> {
   categoryAxis: SkyChartAxisCategory;
   valueAxis: SkyChartAxisValue;
-  series: readonly SkyChartBarSeries[];
+  series: readonly TSeries[];
 }
 
 /**
  * Resolves the axes and series into the data a chart needs to render, or
  * `undefined` when a required axis or series is missing.
  */
-export function resolveCartesianData(
+export function resolveCartesianData<TSeries extends SkyChartCartesianSeries>(
   categoryAxis: SkyChartAxisCategory | undefined,
   valueAxis: SkyChartAxisValue | undefined,
-  series: readonly SkyChartBarSeries[],
-): SkyChartCartesianData | undefined {
+  series: readonly TSeries[],
+): SkyChartCartesianData<TSeries> | undefined {
   if (
     categoryAxis === undefined ||
     valueAxis === undefined ||
@@ -125,7 +138,7 @@ export function resolveCartesianData(
  */
 export function buildCartesianTable(
   categoryAxis: SkyChartAxisCategory,
-  series: readonly SkyChartBarSeries[],
+  series: readonly SkyChartCartesianSeries[],
   formatValue: (value: number) => string,
 ): SkyChartTable {
   return {

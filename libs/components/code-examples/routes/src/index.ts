@@ -263,6 +263,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'ChartsChartLineBasicExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ ChartsChartLineBasicExample: c }) => c,
+      ),
+  },
+  {
     path: 'ColorpickerBasicExampleComponent',
     loadComponent: () =>
       import('@skyux/code-examples').then(
