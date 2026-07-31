@@ -72,14 +72,13 @@ describe('forms-storybook - input box', () => {
         cy.skyReady('app-input-box', [], ['#input-box-select'])
           .get('#input-box-select select')
           .click();
-        cy.get('#input-box-select').screenshot(
+        cy.screenshot(
           `inputboxcomponent-inputbox--input-box-${theme}-select-open`,
         );
-        cy.get('#input-box-select').percySnapshot(
+        cy.percySnapshot(
           `inputboxcomponent-inputbox--input-box-${theme}-select-open`,
           {
             widths: E2eVariations.DISPLAY_WIDTHS,
-            scope: '#input-box-select',
           },
         );
       });
