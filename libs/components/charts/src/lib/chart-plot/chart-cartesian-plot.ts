@@ -125,7 +125,8 @@ export abstract class SkyChartCartesianPlot<
   }
 
   protected override getAccessibleSummary():
-    SkyChartAccessibleSummary | undefined {
+    | SkyChartAccessibleSummary
+    | undefined {
     const data = this.getCartesianData();
 
     if (!data) {
