@@ -139,7 +139,62 @@ describe('Migrations > Migrate Dragula polyfill', () => {
     expect(tree.exists(LOCAL_POLYFILL_PATH)).toBe(false);
   });
 
-  it('should warn and make no changes when package-lock.json is missing', async () => {
+  it('should migrate polyfills in build configurations', async () => {
+    const { runSchematic, tree } = await setup({
+      packageLock: { packages: { 'node_modules/dragula': {} } },
+    });
+
+    tree.overwrite(
+      '/angular.json',
+      JSON.stringify({
+        version: 1,
+        projects: {
+          app: {
+            projectType: 'application',
+            root: 'projects/app',
+            sourceRoot: 'projects/app/src',
+            architect: {
+              build: {
+                options: {
+                  polyfills: ['zone.js', '@skyux/packages/polyfills'],
+                },
+                configurations: {
+                  production: {
+                    polyfills: ['@skyux/packages/polyfills'],
+                  },
+                },
+              },
+            },
+          },
+        },
+      }),
+    );
+
+    await runSchematic();
+
+    const build = (
+      tree.readJson('/angular.json') as {
+        projects: {
+          app: {
+            architect: {
+              build: {
+                options: { polyfills: unknown };
+                configurations: { production: { polyfills: unknown } };
+              };
+            };
+          };
+        };
+      }
+    ).projects.app.architect.build;
+
+    expect(build.options.polyfills).toEqual(['zone.js', LOCAL_POLYFILL_PATH]);
+    expect(build.configurations.production.polyfills).toEqual([
+      LOCAL_POLYFILL_PATH,
+    ]);
+    expect(tree.exists(LOCAL_POLYFILL_PATH)).toBe(true);
+  });
+
+  it('should retain a local shim when package-lock.json is missing', async () => {
     const warnSpy = jest.fn();
     const { tree } = await setup({
       includeBuildOptions: true,
@@ -154,13 +209,38 @@ describe('Migrations > Migrate Dragula polyfill', () => {
 
     await runner.runSchematic('migrate-dragula-polyfill', {}, tree);
 
-    expect(getBuildPolyfills(tree)).toEqual(['@skyux/packages/polyfills']);
+    expect(getBuildPolyfills(tree)).toEqual([LOCAL_POLYFILL_PATH]);
+    expect(tree.exists(LOCAL_POLYFILL_PATH)).toBe(true);
     expect(warnSpy).toHaveBeenCalledWith(
       expect.stringContaining('package-lock.json" file was not found'),
     );
   });
 
-  it('should warn and make no changes for an unsupported lockfile version', async () => {
+  it('should retain a local shim when package-lock.json is malformed', async () => {
+    const warnSpy = jest.fn();
+    const { tree } = await setup({
+      includeBuildOptions: true,
+      polyfills: ['@skyux/packages/polyfills'],
+    });
+
+    tree.create('/package-lock.json', '{ invalid json');
+
+    runner.logger.subscribe((entry) => {
+      if (entry.level === 'warn') {
+        warnSpy(entry.message);
+      }
+    });
+
+    await runner.runSchematic('migrate-dragula-polyfill', {}, tree);
+
+    expect(getBuildPolyfills(tree)).toEqual([LOCAL_POLYFILL_PATH]);
+    expect(tree.exists(LOCAL_POLYFILL_PATH)).toBe(true);
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining('could not be parsed'),
+    );
+  });
+
+  it('should retain a local shim for an unsupported lockfile version', async () => {
     const warnSpy = jest.fn();
     const { tree } = await setup({
       packageLock: { dependencies: { dragula: {} } },
@@ -176,7 +256,8 @@ describe('Migrations > Migrate Dragula polyfill', () => {
 
     await runner.runSchematic('migrate-dragula-polyfill', {}, tree);
 
-    expect(getBuildPolyfills(tree)).toEqual(['@skyux/packages/polyfills']);
+    expect(getBuildPolyfills(tree)).toEqual([LOCAL_POLYFILL_PATH]);
+    expect(tree.exists(LOCAL_POLYFILL_PATH)).toBe(true);
     expect(warnSpy).toHaveBeenCalledWith(
       expect.stringContaining('unsupported lockfile version'),
     );
