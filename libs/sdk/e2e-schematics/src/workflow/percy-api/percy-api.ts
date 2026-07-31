@@ -264,8 +264,9 @@ async function getProjectId(
   );
   const project = (Array.isArray(response) ? response : [response]).find(
     (project) =>
-      project?.attributes?.slug === slug ||
-      project?.attributes?.slug?.startsWith(`${slug}-`),
+      typeof project?.attributes?.slug === 'string' &&
+      (project.attributes.slug === slug ||
+        project.attributes.slug.startsWith(`${slug}-`)),
   );
   if (project?.id) {
     return project.id;

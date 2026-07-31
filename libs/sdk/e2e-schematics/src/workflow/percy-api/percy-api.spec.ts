@@ -256,7 +256,7 @@ describe('percy-api', () => {
   it('should find project with a suffixed slug', async () => {
     const logger = createLogger();
     const fetchClient = jest.fn().mockImplementation((url: string) => {
-      if (url.startsWith('https://percy.io/api/v1/projects')) {
+      if (url === 'https://percy.io/api/v1/projects') {
         return Promise.resolve({
           json: () =>
             Promise.resolve({
@@ -301,7 +301,7 @@ describe('percy-api', () => {
   it('should find project by exact slug in a project list', async () => {
     const logger = createLogger();
     const fetchClient = jest.fn().mockImplementation((url: string) => {
-      if (url.startsWith('https://percy.io/api/v1/projects')) {
+      if (url === 'https://percy.io/api/v1/projects') {
         return Promise.resolve({
           json: () =>
             Promise.resolve({
@@ -351,7 +351,7 @@ describe('percy-api', () => {
   it('should reject when the project does not match the slug', async () => {
     const logger = createLogger();
     const fetchClient = jest.fn().mockImplementation((url: string) => {
-      if (url.startsWith('https://percy.io/api/v1/projects')) {
+      if (url === 'https://percy.io/api/v1/projects') {
         return Promise.resolve({
           json: () =>
             Promise.resolve({
