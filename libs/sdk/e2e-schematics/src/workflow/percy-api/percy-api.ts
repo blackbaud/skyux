@@ -59,6 +59,13 @@ interface Snapshot {
   };
 }
 
+interface Project {
+  id: string;
+  attributes?: {
+    slug?: string;
+  };
+}
+
 function getFetchJson(
   fetchClient: (input: RequestInfo | URL) => Promise<Response>,
 ): FetchJson {
@@ -75,8 +82,9 @@ function getFetchJson(
         }
       })
       .catch((error) => {
+        const reason = error instanceof Error ? error.message : error;
         return Promise.reject(
-          new Error(`Error fetching ${name}`, { cause: error }),
+          new Error(`Error fetching ${name}: ${reason}`, { cause: error }),
         );
       });
   };
@@ -247,21 +255,26 @@ async function getProjectId(
   logger: Logger,
   fetchJson: FetchJson,
 ): Promise<string> {
-  return await fetchJson<{ id: string }>(
-    `https://percy.io/api/v1/projects?project_slug=${slug}`,
+  // The API token is scoped to one project, and Percy may append a unique
+  // suffix to a new project's slug, so look up the token's project and match
+  // the slug prefix rather than querying by exact slug.
+  const response = await fetchJson<Project | Project[]>(
+    `https://percy.io/api/v1/projects`,
     'Percy project ID',
-  ).then((response) => {
-    if (response.id) {
-      return response.id;
-    } else {
-      logger.error(
-        `Percy project ID response for ${slug}: ${JSON.stringify(response)}`,
-      );
-      return Promise.reject(
-        `Percy project ID response for ${slug}: ${JSON.stringify(response)}`,
-      );
-    }
-  });
+  );
+  const project = (Array.isArray(response) ? response : [response]).find(
+    (project) =>
+      project?.attributes?.slug === slug ||
+      project?.attributes?.slug?.startsWith(`${slug}-`),
+  );
+  if (project?.id) {
+    return project.id;
+  }
+  const message = `Percy project ID response for ${slug}: ${JSON.stringify(
+    response,
+  )}`;
+  logger.error(message);
+  return await Promise.reject(message);
 }
 
 async function getBuilds(
