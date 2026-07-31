@@ -145,40 +145,6 @@ sky-input-box {
         );
       }
     }
-
-    // Progressive enhancement: full CSS control over the option list
-    // (including hover/focus) is only available once a browser supports the
-    // customizable `base-select` rendering mode. Browsers without support
-    // keep the native popup and its own OS-level hover/focus highlighting.
-    // Scoped to sky-input-box selects, since that's the only select usage
-    // modern theme (and therefore dark mode) officially supports.
-    @supports (appearance: base-select) {
-      select.sky-form-control {
-        appearance: base-select;
-
-        &::picker(select) {
-          appearance: base-select;
-        }
-
-        &::picker-icon {
-          display: none;
-        }
-
-        option {
-          &:hover,
-          &:focus {
-            background-color: var(
-              --sky-override-input-box-select-option-background-color,
-              var(--sky-color-background-selected-heavy)
-            );
-            color: var(
-              --sky-override-input-box-select-option-text-color,
-              var(--sky-color-text-inverse)
-            );
-          }
-        }
-      }
-    }
   }
 
   // default; visual input styling
