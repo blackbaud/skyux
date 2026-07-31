@@ -274,7 +274,9 @@ describe('Chart line component', () => {
     const value = getScale(chart, 'value');
     expect(category.type).toBe('category');
     expect(category.position).toBe('bottom');
-    expect(category.grid.drawOnChartArea).toBe(false);
+    // Line charts render the full background grid, so the category axis's
+    // grid lines draw across the chart area.
+    expect(category.grid.drawOnChartArea).toBe(true);
     expect(value.position).toBe('left');
     expect(value.grid.drawOnChartArea).toBe(true);
   });

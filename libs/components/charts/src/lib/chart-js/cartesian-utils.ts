@@ -233,16 +233,20 @@ function keepDecadeLogTicks(axis: { ticks: { value: number }[] }): void {
 }
 
 /**
- * Builds the category and value axis scales for a cartesian chart. The category
- * axis draws no grid lines across the chart area, and the value axis draws them
- * to aid value comparison. When `stacked` is set, both the category and value
- * scales stack so that series accumulate into a single bar per category.
+ * Builds the category and value axis scales for a cartesian chart. The value
+ * axis always draws grid lines across the chart area to aid value comparison;
+ * the category axis draws them only when `showCategoryGridLines` is set. Bar
+ * charts omit them because lines running between the bars add clutter, while
+ * line charts show them so the full grid anchors free-floating points. When
+ * `isStacked` is set, both scales stack so that series accumulate into a
+ * single bar per category.
  */
 export function buildCartesianScales(options: {
   categoryAxis: SkyChartAxisCategory;
   valueAxis: SkyChartAxisValue;
   isHorizontal: boolean;
   isStacked?: boolean;
+  showCategoryGridLines?: boolean;
   themeStyles: SkyChartThemeStyles;
 }): ChartJsCartesianScales {
   const {
@@ -250,6 +254,7 @@ export function buildCartesianScales(options: {
     valueAxis,
     isHorizontal,
     isStacked = false,
+    showCategoryGridLines = false,
     themeStyles,
   } = options;
   const indexAxis = isHorizontal ? 'y' : 'x';
@@ -267,9 +272,7 @@ export function buildCartesianScales(options: {
       grid: {
         display: true,
         drawTicks: true,
-        // The category axis marks discrete groups, so grid lines running
-        // between the bars add clutter without aiding value comparison.
-        drawOnChartArea: false,
+        drawOnChartArea: showCategoryGridLines,
         ...base.grid,
       },
       border: {

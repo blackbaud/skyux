@@ -109,6 +109,9 @@ export class SkyChartLine extends SkyChartCartesianPlot<SkyChartLineSeries> {
           categoryAxis,
           valueAxis,
           isHorizontal: false,
+          // Line charts render the full background grid: unlike bars, points
+          // float in open space, so category grid lines anchor them.
+          showCategoryGridLines: true,
           themeStyles,
         }),
         plugins: {
