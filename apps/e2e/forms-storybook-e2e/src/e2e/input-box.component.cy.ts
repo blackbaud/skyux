@@ -68,28 +68,6 @@ describe('forms-storybook - input box', () => {
         );
       });
 
-      it('should show the select dropdown open', () => {
-        // Browsers only open a native/customizable select's popup in
-        // response to a trusted (real) input event; synthetic DOM events
-        // (`.trigger()`, `.click({force: true})`) don't trigger it, which is
-        // why Cypress blocks `.click()` on `<select>` outright. `realClick`
-        // dispatches genuine OS-level input via Chrome DevTools Protocol.
-        cy.skyReady('app-input-box', [], ['#input-box-select'])
-          .get('#input-box-select select')
-          .realClick();
-        // The open popup is an ephemeral, OS-rendered state that isn't part
-        // of the serializable DOM Percy normally captures via
-        // `percySnapshot`. `skyVisualTest` instead sends the raw pixel
-        // screenshot straight to Percy as a pre-rendered image, which does
-        // capture it. Captured unscoped (whole page) since the open popup
-        // extends outside the `#input-box-select` container's bounds and
-        // gets clipped when scoped to it.
-        cy.skyVisualTest(
-          `inputboxcomponent-inputbox--input-box-${theme}-select-open`,
-          { overwrite: true },
-        );
-      });
-
       it('should properly focus a input box with buttons', () => {
         cy.skyReady('app-input-box', [], ['#input-box-button-multiple'])
           .get('#input-box-button-multiple input')

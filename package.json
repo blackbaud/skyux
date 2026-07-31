@@ -196,7 +196,6 @@
     "commit-and-tag-version": "12.6.1",
     "cross-spawn": "7.0.6",
     "cypress": "15.11.0",
-    "cypress-real-events": "1.15.0",
     "eslint": "9.39.3",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-cypress": "5.4.0",
