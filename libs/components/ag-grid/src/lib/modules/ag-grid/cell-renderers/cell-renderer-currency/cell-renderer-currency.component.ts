@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  inject,
+} from '@angular/core';
 import { SkyNumericModule, SkyNumericOptions } from '@skyux/core';
 
 import { ICellRendererAngularComp } from 'ag-grid-angular';
@@ -17,6 +23,8 @@ import { SkyAgGridValidatorProperties } from '../../types/validator-properties';
   imports: [SkyNumericModule],
 })
 export class SkyAgGridCellRendererCurrencyComponent implements ICellRendererAngularComp {
+  readonly #changeDetector = inject(ChangeDetectorRef);
+
   @Input()
   public set params(value: SkyCellRendererCurrencyParams) {
     this.agInit(value);
@@ -34,6 +42,7 @@ export class SkyAgGridCellRendererCurrencyComponent implements ICellRendererAngu
    */
   public agInit(params: SkyCellRendererCurrencyParams): void {
     this.#updateProperties(params);
+    this.#changeDetector.markForCheck();
   }
 
   /**

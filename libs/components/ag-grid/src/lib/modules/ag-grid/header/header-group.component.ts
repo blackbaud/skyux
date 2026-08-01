@@ -1,4 +1,3 @@
-import { AsyncPipe } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -6,9 +5,11 @@ import {
   Component,
   ElementRef,
   EnvironmentInjector,
-  OnDestroy,
   inject,
   viewChild,
+  signal,
+  computed,
+  linkedSignal,
 } from '@angular/core';
 import {
   SkyDynamicComponentLocation,
@@ -20,11 +21,12 @@ import { SkyThemeModule } from '@skyux/theme';
 
 import { IHeaderGroupAngularComp } from 'ag-grid-angular';
 import { ProvidedColumnGroup } from 'ag-grid-community';
-import { BehaviorSubject, Observable, Subscription, takeUntil } from 'rxjs';
+import { EMPTY, switchMap } from 'rxjs';
 
 import { fromGridEvent } from '../ag-grid-event-utils';
 import { SkyAgGridHeaderGroupInfo } from '../types/header-group-info';
 import { SkyAgGridHeaderGroupParams } from '../types/header-group-params';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 
 /**
  * @internal
@@ -34,91 +36,76 @@ import { SkyAgGridHeaderGroupParams } from '../types/header-group-params';
   templateUrl: './header-group.component.html',
   styleUrls: ['./header-group.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SkyThemeModule, SkyIconModule, AsyncPipe, SkyI18nModule],
+  imports: [SkyThemeModule, SkyIconModule, SkyI18nModule],
 })
 export class SkyAgGridHeaderGroupComponent
-  implements IHeaderGroupAngularComp, OnDestroy, AfterViewInit
+  implements IHeaderGroupAngularComp, AfterViewInit
 {
   public readonly inlineHelpContainer = viewChild('inlineHelpContainer', {
     read: ElementRef,
   });
 
-  protected params: SkyAgGridHeaderGroupParams | undefined = undefined;
-  protected isExpandable$: Observable<boolean>;
-  protected isExpanded$: Observable<boolean>;
+  protected readonly params = signal<SkyAgGridHeaderGroupParams | undefined>(
+    undefined,
+  );
+  protected readonly isExpandable = computed(() =>
+    this.#providedColumnGroup()?.isExpandable(),
+  );
+  protected readonly isExpanded = linkedSignal(() =>
+    this.#providedColumnGroup()?.isExpanded(),
+  );
 
-  #columnGroup: ProvidedColumnGroup | undefined = undefined;
-  #isExpandableSubject = new BehaviorSubject<boolean>(false);
-  #isExpandedSubject = new BehaviorSubject<boolean>(false);
-  #subscriptions = new Subscription();
-  #viewInitialized = false;
-  #agInitialized = false;
+  readonly #providedColumnGroup = computed<ProvidedColumnGroup | undefined>(
+    () => this.params()?.columnGroup?.getProvidedColumnGroup(),
+  );
+  readonly #gridApi = toObservable(computed(() => this.params()?.api));
+  readonly #columnGroupOpened = this.#gridApi.pipe(
+    switchMap((api) => (api ? fromGridEvent(api, 'columnGroupOpened') : EMPTY)),
+  );
 
   readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #dynamicComponentService = inject(SkyDynamicComponentService);
   readonly #environmentInjector = inject(EnvironmentInjector);
 
   constructor() {
-    this.isExpandable$ = this.#isExpandableSubject.asObservable();
-    this.isExpanded$ = this.#isExpandedSubject.asObservable();
+    this.#columnGroupOpened.pipe(takeUntilDestroyed()).subscribe((event) => {
+      const columnGroup = this.#providedColumnGroup();
+      if (
+        columnGroup &&
+        columnGroup.isExpandable() &&
+        event.columnGroups.includes(columnGroup)
+      ) {
+        this.isExpanded.set(columnGroup.isExpanded());
+      }
+    });
   }
 
   public ngAfterViewInit(): void {
-    this.#viewInitialized = true;
     this.#updateInlineHelp();
     this.#changeDetector.markForCheck();
   }
 
-  public ngOnDestroy(): void {
-    this.#subscriptions.unsubscribe();
-  }
-
   public agInit(params: SkyAgGridHeaderGroupParams | undefined): void {
-    this.#agInitialized = true;
-    this.params = params;
-    this.#subscriptions.unsubscribe();
-    if (!params) {
-      return;
-    }
-    this.#subscriptions = new Subscription();
-    this.#columnGroup = params.columnGroup.getProvidedColumnGroup();
-    this.#isExpandableSubject.next(!!this.#columnGroup?.isExpandable());
-    if (this.#isExpandableSubject.getValue()) {
-      this.#subscriptions.add(
-        fromGridEvent(params.api, 'columnGroupOpened')
-          .pipe(takeUntil(fromGridEvent(params.api, 'gridPreDestroyed')))
-          .subscribe((event) => {
-            if (
-              this.#columnGroup &&
-              event.columnGroups.includes(this.#columnGroup)
-            ) {
-              this.#isExpandedSubject.next(this.#columnGroup.isExpanded());
-            }
-          }),
-      );
-    }
+    this.params.set(params);
     this.#updateInlineHelp();
     this.#changeDetector.markForCheck();
   }
 
   public setExpanded($event: boolean): void {
-    this.params?.setExpanded($event);
+    this.params()?.setExpanded($event);
   }
 
   #updateInlineHelp(): void {
-    if (!this.#viewInitialized || !this.#agInitialized) {
-      return;
-    }
-
-    const colGroupDef = this.params?.columnGroup?.getColGroupDef();
+    const columnGroup = this.params()?.columnGroup;
+    const colGroupDef = columnGroup?.getColGroupDef();
     const inlineHelpComponent =
       colGroupDef?.headerGroupComponentParams?.inlineHelpComponent;
 
-    if (inlineHelpComponent) {
+    if (columnGroup && inlineHelpComponent) {
       const headerGroupInfo = new SkyAgGridHeaderGroupInfo();
-      headerGroupInfo.columnGroup = this.params?.columnGroup;
-      headerGroupInfo.context = this.params?.context;
-      headerGroupInfo.displayName = this.params?.displayName;
+      headerGroupInfo.columnGroup = columnGroup;
+      headerGroupInfo.context = this.params()?.context;
+      headerGroupInfo.displayName = this.params()?.displayName;
 
       this.#dynamicComponentService.createComponent(inlineHelpComponent, {
         providers: [

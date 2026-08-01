@@ -1,4 +1,4 @@
-import { HarnessLoader, manualChangeDetection } from '@angular/cdk/testing';
+import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
@@ -7,17 +7,26 @@ import {
 } from '@skyux/data-grid/testing';
 
 import { DataGridLoadingExampleComponent } from './example.component';
+import { Provider, ResourceLoader } from '@angular/core';
+import { DATA_LOADER, DataGridServerPage, DataGridServerParams } from './data';
 
 describe('Data grid loading example', () => {
-  async function setupTest(): Promise<{
+  async function setupTest(options?: {
+    dataLoader?: ResourceLoader<DataGridServerPage, DataGridServerParams>;
+  }): Promise<{
     fixture: ComponentFixture<DataGridLoadingExampleComponent>;
     loader: HarnessLoader;
     gridHarness: SkyDataGridHarness;
   }> {
-    await TestBed.configureTestingModule({
-      imports: [DataGridLoadingExampleComponent],
-      providers: [provideSkyDataGridTesting()],
-    }).compileComponents();
+    const providers: Provider[] = [provideSkyDataGridTesting()];
+    if (options?.dataLoader) {
+      providers.push({
+        provide: DATA_LOADER,
+        useValue: options.dataLoader,
+      });
+    }
+    await TestBed.configureTestingModule({ imports: [DataGridLoadingExampleComponent], providers})
+      .compileComponents();
     const fixture = TestBed.createComponent(DataGridLoadingExampleComponent);
     fixture.componentRef.setInput('delay', 0);
     const loader = TestbedHarnessEnvironment.loader(fixture);
@@ -76,23 +85,20 @@ describe('Data grid loading example', () => {
   });
 
   it('should show the loading overlay for the loading state', async () => {
-    const { fixture, gridHarness } = await setupTest();
-
+    const loader = jasmine.createSpy('loader').and.returnValue(Promise.resolve({
+      items: [],
+      totalCount: 0,
+    }));
+    const { fixture } = await setupTest({ dataLoader: loader });
     // The loading state uses a resource that never resolves, so the app never
-    // reaches zone stability. Drive change detection manually (rather than
-    // through `clickButton`, which awaits `whenStable`) and query the harness
-    // under `manualChangeDetection` so the CDK does not auto-stabilize, which
-    // would otherwise hang until the test times out.
-    (fixture.nativeElement as HTMLElement)
-      .querySelector<HTMLButtonElement>('[data-sky-id="show-loading-button"]')
-      ?.click();
-    fixture.detectChanges();
-    await Promise.resolve();
-    fixture.detectChanges();
-
-    await manualChangeDetection(async () => {
-      await expectAsync(gridHarness.isLoading()).toBeResolvedTo(true);
-    });
+    // reaches zone stability. Instead, use a test spy as a mock loader.
+    await clickButton(fixture, 'show-loading-button');
+    expect(loader).toHaveBeenCalledWith({params: jasmine.objectContaining({
+      behavior: 'loading',
+      delay: 0,
+      pageSize: 5,
+      page: 1,
+    }), abortSignal: jasmine.any(AbortSignal), previous: { status: 'resolved' }});
   });
 
   it('should restore rows when data is shown again', async () => {

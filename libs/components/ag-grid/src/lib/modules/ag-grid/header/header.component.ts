@@ -1,4 +1,3 @@
-import { AsyncPipe } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -7,12 +6,14 @@ import {
   ComponentRef,
   ElementRef,
   EnvironmentInjector,
-  OnDestroy,
   computed,
+  effect,
   inject,
+  linkedSignal,
   signal,
   viewChild,
 } from '@angular/core';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import {
   SkyDynamicComponentLocation,
   SkyDynamicComponentService,
@@ -22,7 +23,7 @@ import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { IHeaderAngularComp } from 'ag-grid-angular';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { EMPTY, switchMap } from 'rxjs';
 
 import { fromGridEvent } from '../ag-grid-event-utils';
 import { SkyAgGridHeaderInfo } from '../types/header-info';
@@ -41,12 +42,12 @@ import { SkyAgGridHeaderParams } from '../types/header-params';
     '[attr.aria-label]': 'displayName() || accessibleHeaderText()',
     '[attr.role]': '"note"',
   },
-  imports: [SkyIconModule, SkyThemeModule, AsyncPipe, SkyI18nModule],
+  imports: [SkyIconModule, SkyThemeModule, SkyI18nModule],
 })
 export class SkyAgGridHeaderComponent
-  implements IHeaderAngularComp, OnDestroy, AfterViewInit
+  implements IHeaderAngularComp, AfterViewInit
 {
-  public readonly filterEnabled$ = new BehaviorSubject<boolean>(false);
+  public readonly filterEnabled = signal(false);
 
   // For accessibility, we need to set the title attribute on the header element if there is no visible header text.
   // https://dequeuniversity.com/rules/axe/4.5/empty-table-header?application=axeAPI
@@ -70,10 +71,12 @@ export class SkyAgGridHeaderComponent
     undefined,
   );
   protected sorted = '';
-  protected readonly sortOrder$ = new BehaviorSubject<
-    'asc' | 'desc' | undefined
-  >(undefined);
-  protected readonly sortIndexDisplay$ = new BehaviorSubject<string>('');
+  protected readonly sortOrder = linkedSignal<'asc' | 'desc' | undefined>(
+    () => this.params()?.column.getSort() || undefined,
+  );
+  protected readonly sortIndexDisplay = linkedSignal(() =>
+    this.#computeSortIndexDisplay(),
+  );
 
   protected displayName = computed<string | undefined>(() => {
     const params = this.params();
@@ -87,7 +90,6 @@ export class SkyAgGridHeaderComponent
     }
   });
 
-  #subscriptions = new Subscription();
   #inlineHelpComponentRef: ComponentRef<unknown> | undefined;
   #viewInitialized = false;
   #agInitialized = false;
@@ -97,76 +99,78 @@ export class SkyAgGridHeaderComponent
   readonly #dynamicComponentService = inject(SkyDynamicComponentService);
   readonly #environmentInjector = inject(EnvironmentInjector);
 
+  readonly #paramsChanges = toObservable(this.params);
+  readonly #sortChanged = this.#paramsChanges.pipe(
+    switchMap((params) =>
+      params?.enableSorting && params.api
+        ? fromGridEvent(params.api, 'sortChanged')
+        : EMPTY,
+    ),
+  );
+  readonly #columnMoved = this.#paramsChanges.pipe(
+    switchMap((params) =>
+      params?.api ? fromGridEvent(params.api, 'columnMoved') : EMPTY,
+    ),
+  );
+
+  constructor() {
+    // Column filter state changes
+    effect((onCleanup) => {
+      const column = this.params()?.column;
+      if (!column?.isFilterAllowed()) {
+        return;
+      }
+      const handler = (): void =>
+        this.filterEnabled.set(column.isFilterActive());
+      column.addEventListener('filterChanged', handler);
+      onCleanup(() => column.removeEventListener('filterChanged', handler));
+    });
+
+    // Column sort state changes
+    effect((onCleanup) => {
+      const params = this.params();
+      if (!params?.enableSorting) {
+        return;
+      }
+      const column = params.column;
+      const handler = (): void =>
+        this.sortOrder.set(column.getSort() || undefined);
+      column.addEventListener('sortChanged', handler);
+      onCleanup(() => column.removeEventListener('sortChanged', handler));
+    });
+
+    // Other column sort state changes, for multi-column sorting
+    this.#sortChanged.pipe(takeUntilDestroyed()).subscribe(() => {
+      this.sortIndexDisplay.set(this.#computeSortIndexDisplay());
+    });
+
+    // When the column is moved left via the keyboard, the element is detached
+    // and reattached to the DOM to maintain DOM order, and its focus is lost.
+    this.#columnMoved.pipe(takeUntilDestroyed()).subscribe((event) => {
+      const params = this.params();
+      const left = event.column?.getLeft() ?? 0;
+      const oldLeft = this.#leftPosition;
+      if (
+        params &&
+        event.column === params.column &&
+        event.source === 'uiColumnMoved' &&
+        left < oldLeft
+      ) {
+        params.eGridHeader.focus();
+      }
+      this.#leftPosition = left;
+    });
+  }
+
   public ngAfterViewInit(): void {
     this.#viewInitialized = true;
     this.#updateInlineHelp();
   }
 
-  public ngOnDestroy(): void {
-    this.#subscriptions.unsubscribe();
-  }
-
   public agInit(params: SkyAgGridHeaderParams | undefined): void {
     this.#agInitialized = true;
     this.params.set(params);
-    this.#subscriptions.unsubscribe();
-    if (!params) {
-      return;
-    }
-    this.#leftPosition = params.column.getLeft() ?? 0;
-    this.#subscriptions = new Subscription();
-    if (params.column.isFilterAllowed()) {
-      const handler = (): void => {
-        const isFilterActive = params.column.isFilterActive();
-        if (isFilterActive !== this.filterEnabled$.getValue()) {
-          this.filterEnabled$.next(isFilterActive);
-        }
-      };
-      params.column.addEventListener('filterChanged', handler);
-      this.#subscriptions.add(() =>
-        params.column.removeEventListener('filterChanged', handler),
-      );
-    }
-    if (params.enableSorting) {
-      // Column sort state changes
-      const handler = (): void => this.#updateSort();
-      params.column.addEventListener('sortChanged', handler);
-      this.#subscriptions.add(() =>
-        params.column.removeEventListener('sortChanged', handler),
-      );
-      // Other column sort state changes, for multi-column sorting
-      this.#subscriptions.add(
-        fromGridEvent(params.api, 'sortChanged').subscribe(() =>
-          this.#updateSortIndex(),
-        ),
-      );
-      this.#updateSort();
-      this.#updateSortIndex();
-    }
-
-    // When the column is moved left via the keyboard, the element is detached
-    // and reattached to the DOM to maintain DOM order, and its focus is lost.
-    this.#subscriptions.add(
-      fromGridEvent(params.api, 'columnMoved').subscribe((event) => {
-        const left = event.column?.getLeft() ?? 0;
-        const oldLeft = this.#leftPosition;
-        if (
-          event.column === params.column &&
-          event.source === 'uiColumnMoved' &&
-          left < oldLeft
-        ) {
-          params.eGridHeader.focus();
-        }
-        this.#leftPosition = left;
-      }),
-    );
-
-    this.#subscriptions.add(
-      fromGridEvent(params.api, 'gridPreDestroyed').subscribe(() =>
-        this.#subscriptions.unsubscribe(),
-      ),
-    );
-
+    this.#leftPosition = params?.column.getLeft() ?? 0;
     this.#updateInlineHelp();
     this.#changeDetector.markForCheck();
   }
@@ -226,23 +230,17 @@ export class SkyAgGridHeaderComponent
     }
   }
 
-  #updateSort(): void {
-    this.sortOrder$.next(this.params()?.column.getSort() || undefined);
-  }
-
-  #updateSortIndex(): void {
-    const sortIndex = this.params()?.column.getSortIndex();
-    const otherSortColumns = this.params()
-      ?.api?.getColumns()
+  #computeSortIndexDisplay(): string {
+    const params = this.params();
+    const sortIndex = params?.column.getSortIndex();
+    const otherSortColumns = params?.api
+      ?.getColumns()
       ?.some(
         (column) =>
-          column.getColId() !== this.params()?.column.getColId() &&
-          !!column.getSort(),
+          column.getColId() !== params?.column.getColId() && !!column.getSort(),
       );
-    if (sortIndex !== undefined && sortIndex !== null && otherSortColumns) {
-      this.sortIndexDisplay$.next(`${sortIndex + 1}`);
-    } else {
-      this.sortIndexDisplay$.next('');
-    }
+    return sortIndex !== undefined && sortIndex !== null && otherSortColumns
+      ? `${sortIndex + 1}`
+      : '';
   }
 }

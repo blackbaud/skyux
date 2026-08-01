@@ -8,6 +8,7 @@ import {
 import { SkyPageHarness } from '@skyux/pages/testing';
 
 import { PagesPageRecordPageTabsLayoutExampleComponent } from './example.component';
+import { provideSkyAgGridTesting } from '@skyux/ag-grid/testing';
 
 describe('Record page tabs layout example', () => {
   async function setupTest(): Promise<{
@@ -32,7 +33,7 @@ describe('Record page tabs layout example', () => {
         PagesPageRecordPageTabsLayoutExampleComponent,
         SkyHelpTestingModule,
       ],
-      providers: [provideRouter([])],
+      providers: [provideRouter([]), provideSkyAgGridTesting()],
     });
   });
 

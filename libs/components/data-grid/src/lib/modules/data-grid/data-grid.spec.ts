@@ -1,7 +1,13 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { provideLocationMocks } from '@angular/common/testing';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  discardPeriodicTasks,
+  fakeAsync,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
@@ -15,6 +21,7 @@ import { SkyPagingHarness } from '@skyux/lists/testing';
 
 import { getGridApi as getAgGridApi } from 'ag-grid-community';
 import { SkyDataGrid } from './data-grid';
+import { ColumnFitTestComponent } from './fixtures/column-fit-test.component';
 import { ColumnWidthTestComponent } from './fixtures/column-width-test.component';
 import { DataGridTestComponent } from './fixtures/data-grid-test.component';
 import { FlexWidthTestComponent } from './fixtures/flex-width-test.component';
@@ -1014,13 +1021,26 @@ describe('SkyDataGrid', () => {
       expect(colDef?.cellDataType).toBe('dateString');
     });
 
-    it('should size columns to their content when columnFit is "content"', async () => {
-      fixture.detectChanges();
-      await fixture.whenStable();
-      // The default "grid" uses the default columnFit ("container").
+    it('should size columns to their content when columnFit is "content"', fakeAsync(() => {
+      // Uses a fixture without `provideSkyAgGridTesting()` so the real
+      // `autoSizeStrategy` grid option can be observed rather than the value
+      // the testing override suppresses. Only a single `tick()` is used
+      // (rather than `flush()`) because AG Grid's real auto-size
+      // measurement (which `provideSkyAgGridTesting()` would otherwise
+      // disable) reschedules its own `requestAnimationFrame` callback well
+      // beyond `flush()`'s 20-turn limit; the option's value is set
+      // synchronously at grid creation and doesn't require that
+      // measurement loop to fully settle. `discardPeriodicTasks()` clears
+      // the still-pending callback so the test doesn't fail on exit.
+      const fitFixture = TestBed.createComponent(ColumnFitTestComponent);
+      fitFixture.detectChanges();
+      tick();
+      fitFixture.detectChanges();
+
+      // The "container-fit-grid" uses the default columnFit ("container").
       const containerApi = getGridApi(
-        fixture.nativeElement.querySelector(
-          '[data-sky-id="grid"] ag-grid-angular',
+        fitFixture.nativeElement.querySelector(
+          '[data-sky-id="container-fit-grid"] ag-grid-angular',
         ),
       );
       expect(containerApi?.getGridOption('autoSizeStrategy')).toEqual({
@@ -1029,10 +1049,10 @@ describe('SkyDataGrid', () => {
         scaleUpToFitGridWidth: true,
       });
 
-      // The "multiselect-grid" sets columnFit="content" and has no flex columns.
+      // The "content-fit-grid" sets columnFit="content" and has no flex columns.
       const contentApi = getGridApi(
-        fixture.nativeElement.querySelector(
-          '[data-sky-id="multiselect-grid"] ag-grid-angular',
+        fitFixture.nativeElement.querySelector(
+          '[data-sky-id="content-fit-grid"] ag-grid-angular',
         ),
       );
       expect(contentApi?.getGridOption('autoSizeStrategy')).toEqual({
@@ -1040,7 +1060,9 @@ describe('SkyDataGrid', () => {
         skipHeader: true,
         scaleUpToFitGridWidth: false,
       });
-    });
+
+      discardPeriodicTasks();
+    }));
 
     it('should add the stacked margin class to the host when stacked is true', async () => {
       fixture.detectChanges();

@@ -7,6 +7,7 @@ import {
 import { SkyPageHarness } from '@skyux/pages/testing';
 
 import { PagesPageListPageListLayoutExampleComponent } from './example.component';
+import { provideSkyAgGridTesting } from '@skyux/ag-grid/testing';
 
 describe('List page list layout example', () => {
   async function setupTest(): Promise<{
@@ -31,6 +32,7 @@ describe('List page list layout example', () => {
         PagesPageListPageListLayoutExampleComponent,
         SkyHelpTestingModule,
       ],
+      providers: [provideSkyAgGridTesting()],
     });
   });
 
