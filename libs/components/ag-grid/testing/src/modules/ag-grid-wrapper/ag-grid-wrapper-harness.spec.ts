@@ -86,5 +86,63 @@ describe('SkyAgGridWrapperHarness', () => {
         ['Name', ''],
       );
     });
+
+    it('should get the current render count', async () => {
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const harness = await TestbedHarnessEnvironment.loader(
+        fixture,
+      ).getHarness(
+        SkyAgGridWrapperHarness.with({ dataSkyId: 'ag-grid-wrapper' }),
+      );
+      await harness.waitUntilRendered();
+      expect(await harness.getRenderCount()).toBeGreaterThan(0);
+    });
+
+    it('should resolve waitUntilRendered() once the grid has rendered', async () => {
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const harness = await TestbedHarnessEnvironment.loader(
+        fixture,
+      ).getHarness(
+        SkyAgGridWrapperHarness.with({ dataSkyId: 'ag-grid-wrapper' }),
+      );
+      await expectAsync(harness.waitUntilRendered()).toBeResolved();
+    });
+
+    it('should stop waiting after the bounded timeout if the grid never renders again', async () => {
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const harness = await TestbedHarnessEnvironment.loader(
+        fixture,
+      ).getHarness(
+        SkyAgGridWrapperHarness.with({ dataSkyId: 'ag-grid-wrapper' }),
+      );
+      await expectAsync(
+        harness.waitUntilRendered(Number.MAX_SAFE_INTEGER),
+      ).toBeResolved();
+    });
+
+    it('should skip waiting when render tracking is not active', async () => {
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const harness = await TestbedHarnessEnvironment.loader(
+        fixture,
+      ).getHarness(
+        SkyAgGridWrapperHarness.with({ dataSkyId: 'ag-grid-wrapper' }),
+      );
+
+      const originalValue = (window as any).AG_GRID_UNDER_TEST;
+      (window as any).AG_GRID_UNDER_TEST = undefined;
+      try {
+        await expectAsync(harness.waitUntilRendered()).toBeResolved();
+      } finally {
+        (window as any).AG_GRID_UNDER_TEST = originalValue;
+      }
+    });
   });
 });

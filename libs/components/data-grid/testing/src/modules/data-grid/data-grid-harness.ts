@@ -1,4 +1,8 @@
-import { HarnessPredicate } from '@angular/cdk/testing';
+import {
+  ComponentHarness,
+  HarnessPredicate,
+  HarnessQuery,
+} from '@angular/cdk/testing';
 import { SkyAgGridWrapperHarness } from '@skyux/ag-grid/testing';
 import { SkyQueryableComponentHarness } from '@skyux/core/testing';
 import { SkyWaitHarness } from '@skyux/indicators/testing';
@@ -86,10 +90,20 @@ export class SkyDataGridHarness extends SkyQueryableComponentHarness {
    * Clicks the column header sort button.
    */
   public async clickColumnSortButton(column: string): Promise<void> {
+    const grid = await this.#getGridWrapper();
+    const renderCountBeforeClick = await grid.getRenderCount();
     const btn = await this.locatorFor(
       `.ag-header-cell.ag-header-cell-sortable[col-id="${column}"] button.ag-header-cell-label-sortable`,
     )();
     await btn.click();
+    await grid.waitUntilRendered(renderCountBeforeClick);
+    // AG Grid's `sortChanged` event (which a consumer's own `[(sort)]`
+    // binding typically listens for) isn't guaranteed to fire before, or in
+    // the same tick as, the `modelUpdated` render `waitUntilRendered()` just
+    // waited for. A couple of extra stabilize passes give that a chance to
+    // propagate before this method returns.
+    await this.forceStabilize();
+    await this.forceStabilize();
   }
 
   /**
@@ -119,7 +133,47 @@ export class SkyDataGridHarness extends SkyQueryableComponentHarness {
     return await this.queryHarness(SkyWaitHarness);
   }
 
+  /**
+   * @internal
+   */
+  public override async queryHarness<T extends ComponentHarness>(
+    query: HarnessQuery<T>,
+  ): Promise<T> {
+    await this.#waitForGridWrapperRendered();
+    return await super.queryHarness(query);
+  }
+
+  /**
+   * @internal
+   */
+  public override async queryHarnessOrNull<T extends ComponentHarness>(
+    query: HarnessQuery<T>,
+  ): Promise<T | null> {
+    await this.#waitForGridWrapperRendered();
+    return await super.queryHarnessOrNull(query);
+  }
+
+  /**
+   * @internal
+   */
+  public override async queryHarnesses<T extends ComponentHarness>(
+    query: HarnessQuery<T>,
+  ): Promise<T[]> {
+    await this.#waitForGridWrapperRendered();
+    return await super.queryHarnesses(query);
+  }
+
+  /**
+   * Bypasses the render-readiness wait to avoid recursing through it while
+   * checking readiness itself.
+   */
   async #getGridWrapper(): Promise<SkyAgGridWrapperHarness> {
-    return await this.queryHarness(SkyAgGridWrapperHarness);
+    return await super.queryHarness(SkyAgGridWrapperHarness);
+  }
+
+  async #waitForGridWrapperRendered(): Promise<void> {
+    await this.#getGridWrapper()
+      .then(async (grid) => await grid.waitUntilRendered())
+      .catch(() => undefined);
   }
 }

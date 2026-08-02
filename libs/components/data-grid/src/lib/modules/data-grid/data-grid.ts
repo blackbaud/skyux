@@ -453,13 +453,21 @@ export class SkyDataGrid {
     // `gridApi` untracked because a recreated grid rebuilds its options from the
     // `gridOptions` computed; the selection and page effects below instead track
     // `gridApi` so they re-apply their state to a freshly created grid.
+    //
+    // `loading` and `rowData` are the exception: they track `gridApi` too,
+    // because a data source backed by an async resource (e.g. Angular's
+    // `resource()`) can settle to its final value before `ngAfterViewInit`
+    // even creates the grid. With `gridApi` read untracked, that value would
+    // be silently dropped - this effect's *other* dependency (`data`/`loading`)
+    // never changes again to trigger a re-run, so the grid would be stuck
+    // showing its pre-load, empty state forever.
     effect(() => {
       const api = untracked(() => this.gridApi());
       const columnDefs = this.#columnDefs();
       api?.setGridOption('columnDefs', columnDefs);
     });
     effect(() => {
-      const api = untracked(() => this.gridApi());
+      const api = this.gridApi();
       const isLoading = this.loading() || !Array.isArray(this.data());
       api?.setGridOption('loading', isLoading);
     });
@@ -470,7 +478,7 @@ export class SkyDataGrid {
       api?.setGridOption('paginationPageSize', paginationPageSize);
     });
     effect(() => {
-      const api = untracked(() => this.gridApi());
+      const api = this.gridApi();
       const rowData = this.rowData();
       api?.setGridOption('rowData', rowData);
     });

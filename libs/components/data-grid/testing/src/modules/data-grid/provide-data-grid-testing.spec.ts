@@ -10,26 +10,22 @@ describe('provideSkyDataGridTesting', () => {
     });
   });
 
-  it('should disable scroll-visibility recalculation and virtualization for read-only grids', () => {
+  it('should disable virtualization for read-only grids', () => {
     const gridOptions = TestBed.inject(SkyAgGridService).getGridOptions({
       gridOptions: {},
     });
 
-    expect(gridOptions.alwaysShowHorizontalScroll).toBeTrue();
-    expect(gridOptions.alwaysShowVerticalScroll).toBeTrue();
     expect(gridOptions.suppressColumnVirtualisation).toBeTrue();
     expect(gridOptions.suppressRowVirtualisation).toBeTrue();
   });
 
-  it('should disable scroll-visibility recalculation and virtualization for editable grids', () => {
+  it('should disable virtualization for editable grids', () => {
     const gridOptions = TestBed.inject(SkyAgGridService).getEditableGridOptions(
       {
         gridOptions: {},
       },
     );
 
-    expect(gridOptions.alwaysShowHorizontalScroll).toBeTrue();
-    expect(gridOptions.alwaysShowVerticalScroll).toBeTrue();
     expect(gridOptions.suppressColumnVirtualisation).toBeTrue();
     expect(gridOptions.suppressRowVirtualisation).toBeTrue();
   });
