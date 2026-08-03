@@ -30,11 +30,10 @@
           "SkyAgGridNumberProperties",
           "SkyAgGridTextProperties",
           "SkyAgGridValidatorProperties",
-          "SkyCellRendererCurrencyParams",
-          "SkyCellRendererLookupParams",
-          "SkyCellRendererTemplateContext",
-          "SkyCellRendererTemplateParams",
-          "SkyCellRendererValidatorParams"
+          "SkyAgGridColDef",
+          "SkyCellEditorParamsByType",
+          "SkyCellRendererParamsByType",
+          "SkyCellRendererTemplateContext"
         ],
         "primaryDocsId": "SkyAgGridModule"
       },
@@ -83,11 +82,10 @@
           "SkyAgGridNumberProperties",
           "SkyAgGridTextProperties",
           "SkyAgGridValidatorProperties",
-          "SkyCellRendererCurrencyParams",
-          "SkyCellRendererLookupParams",
-          "SkyCellRendererTemplateContext",
-          "SkyCellRendererTemplateParams",
-          "SkyCellRendererValidatorParams"
+          "SkyAgGridColDef",
+          "SkyCellEditorParamsByType",
+          "SkyCellRendererParamsByType",
+          "SkyCellRendererTemplateContext"
         ],
         "primaryDocsId": "SkyAgGridModule"
       },

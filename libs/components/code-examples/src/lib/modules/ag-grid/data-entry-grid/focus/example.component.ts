@@ -1,5 +1,10 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import {
+  SkyAgGridColDef,
+  SkyAgGridModule,
+  SkyAgGridService,
+  SkyCellType,
+} from '@skyux/ag-grid';
 import { SkyInputBoxModule } from '@skyux/forms';
 
 import { AgGridAngular } from 'ag-grid-angular';
@@ -37,7 +42,7 @@ export class AgGridDataEntryGridFocusExampleComponent {
               validatorMessage: `Value exceeds maximum length`,
             },
           },
-        },
+        } satisfies SkyAgGridColDef<SkyCellType.Text, AgGridDemoRow>,
         {
           field: 'age',
           headerName: 'Age',
@@ -50,7 +55,7 @@ export class AgGridDataEntryGridFocusExampleComponent {
             },
           },
           maxWidth: 60,
-        },
+        } satisfies SkyAgGridColDef<SkyCellType.Number, AgGridDemoRow>,
         {
           field: 'startDate',
           headerName: 'Start date',
@@ -99,7 +104,10 @@ export class AgGridDataEntryGridFocusExampleComponent {
               validatorMessage: 'Enter a future date',
             },
           },
-        },
+        } satisfies SkyAgGridColDef<
+          SkyCellType.Date | SkyCellType.Validator,
+          AgGridDemoRow
+        >,
       ],
       focusGridInnerElement: (params) => {
         params.api.startEditingCell({

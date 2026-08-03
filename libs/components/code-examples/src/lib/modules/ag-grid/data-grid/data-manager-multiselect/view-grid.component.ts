@@ -8,7 +8,12 @@ import {
   signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import {
+  SkyAgGridColDef,
+  SkyAgGridModule,
+  SkyAgGridService,
+  SkyCellType,
+} from '@skyux/ag-grid';
 import {
   SkyDataManagerModule,
   SkyDataManagerService,
@@ -55,7 +60,7 @@ export class ViewGridComponent {
         // Could be a SkyAppResourcesService.getString call that returns an observable.
         label: (data: AgGridDemoRow) => of(`Select ${data.name}`),
       },
-    },
+    } satisfies SkyAgGridColDef<SkyCellType.RowSelector, AgGridDemoRow>,
     {
       colId: 'context',
       maxWidth: 50,

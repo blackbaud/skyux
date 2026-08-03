@@ -5,12 +5,17 @@ import {
   inject,
   viewChild,
 } from '@angular/core';
-import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import {
+  SkyAgGridColDef,
+  SkyAgGridModule,
+  SkyAgGridService,
+  SkyCellType,
+} from '@skyux/ag-grid';
 
 import { AgGridAngular } from 'ag-grid-angular';
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 
-import { AG_GRID_DEMO_DATA } from './data';
+import { AG_GRID_DEMO_DATA, AgGridDemoRow } from './data';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -50,7 +55,7 @@ export class AgGridDataGridTemplateRefColumnExampleComponent {
             template: this.boldColumn,
           },
           initialWidth: 220,
-        },
+        } satisfies SkyAgGridColDef<SkyCellType.Template, AgGridDemoRow>,
         {
           field: 'jobTitle',
           headerName: 'Title',
@@ -59,7 +64,7 @@ export class AgGridDataGridTemplateRefColumnExampleComponent {
             template: this.emphasizedColumn,
           },
           initialWidth: 220,
-        },
+        } satisfies SkyAgGridColDef<SkyCellType.Template, AgGridDemoRow>,
       ],
       rowData: AG_GRID_DEMO_DATA,
     },

@@ -8,7 +8,12 @@ import {
   signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import {
+  SkyAgGridColDef,
+  SkyAgGridModule,
+  SkyAgGridService,
+  SkyCellType,
+} from '@skyux/ag-grid';
 import {
   SkyDataManagerModule,
   SkyDataManagerService,
@@ -50,7 +55,7 @@ export class ViewGridComponent {
         // Could be a SkyAppResourcesService.getString call that returns an observable.
         label: (data: AgGridDemoRow) => of(`Select ${data.name}`),
       },
-    },
+    } satisfies SkyAgGridColDef<SkyCellType.RowSelector, AgGridDemoRow>,
     {
       colId: 'context',
       maxWidth: 50,
@@ -110,7 +115,10 @@ export class ViewGridComponent {
           validatorMessage: 'Please enter a future date',
         },
       },
-    },
+    } satisfies SkyAgGridColDef<
+      SkyCellType.Date | SkyCellType.Validator,
+      AgGridDemoRow
+    >,
   ];
 
   protected noRowsTemplate = `<div class="sky-theme-font-body-deemphasized-m">No results found.</div>`;
@@ -225,7 +233,8 @@ export class ViewGridComponent {
   #filterItems(items: AgGridDemoRow[]): AgGridDemoRow[] {
     let filteredItems = items;
     const filterState = this.#dataState().filterData?.filters as
-      SkyFilterBarFilterState | undefined;
+      | SkyFilterBarFilterState
+      | undefined;
 
     if (filterState?.appliedFilters) {
       const filters = filterState.appliedFilters;
