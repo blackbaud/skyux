@@ -5,7 +5,12 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import {
+  SkyAgGridColDef,
+  SkyAgGridModule,
+  SkyAgGridService,
+  SkyCellType,
+} from '@skyux/ag-grid';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkySearchModule } from '@skyux/lookup';
 import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
@@ -47,7 +52,7 @@ export class AgGridDataEntryGridBasicExampleComponent {
         // Could be a SkyAppResourcesService.getString call that returns an observable.
         label: (data: AgGridDemoRow) => of(`Select ${data.name}`),
       },
-    },
+    } satisfies SkyAgGridColDef<SkyCellType.RowSelector, AgGridDemoRow>,
     {
       colId: 'context',
       maxWidth: 50,
@@ -68,7 +73,7 @@ export class AgGridDataEntryGridBasicExampleComponent {
           validatorMessage: `Value exceeds maximum length`,
         },
       },
-    },
+    } satisfies SkyAgGridColDef<SkyCellType.Text, AgGridDemoRow>,
     {
       field: 'age',
       headerName: 'Age',
@@ -80,7 +85,7 @@ export class AgGridDataEntryGridBasicExampleComponent {
         },
       },
       maxWidth: 60,
-    },
+    } satisfies SkyAgGridColDef<SkyCellType.Number, AgGridDemoRow>,
     {
       field: 'startDate',
       headerName: 'Start date',
@@ -122,7 +127,10 @@ export class AgGridDataEntryGridBasicExampleComponent {
           validatorMessage: 'Enter a future date',
         },
       },
-    },
+    } satisfies SkyAgGridColDef<
+      SkyCellType.Date | SkyCellType.Validator,
+      AgGridDemoRow
+    >,
   ];
 
   readonly #modalSvc = inject(SkyModalService);

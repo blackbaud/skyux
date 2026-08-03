@@ -4,7 +4,12 @@ import {
   Component,
   inject,
 } from '@angular/core';
-import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import {
+  SkyAgGridColDef,
+  SkyAgGridModule,
+  SkyAgGridService,
+  SkyCellType,
+} from '@skyux/ag-grid';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkySearchModule } from '@skyux/lookup';
 
@@ -49,7 +54,7 @@ export class AgGridDataGridInlineHelpExampleComponent {
         // Could be a SkyAppResourcesService.getString call that returns an observable.
         label: (data: AgGridDemoRow) => of(`Select ${data.name}`),
       },
-    },
+    } satisfies SkyAgGridColDef<SkyCellType.RowSelector, AgGridDemoRow>,
     {
       colId: 'context',
       maxWidth: 50,

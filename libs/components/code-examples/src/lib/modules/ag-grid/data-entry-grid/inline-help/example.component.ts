@@ -5,7 +5,12 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import {
+  SkyAgGridColDef,
+  SkyAgGridModule,
+  SkyAgGridService,
+  SkyCellType,
+} from '@skyux/ag-grid';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkySearchModule } from '@skyux/lookup';
 import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
@@ -51,7 +56,7 @@ export class AgGridDataEntryGridInlineHelpExampleComponent {
             // Could be a SkyAppResourcesService.getString call that returns an observable.
             label: (data: AgGridDemoRow) => of(`Select ${data.name}`),
           },
-        },
+        } satisfies SkyAgGridColDef<SkyCellType.RowSelector, AgGridDemoRow>,
         {
           colId: 'context',
           maxWidth: 50,
@@ -75,7 +80,7 @@ export class AgGridDataEntryGridInlineHelpExampleComponent {
           headerComponentParams: {
             inlineHelpComponent: InlineHelpComponent,
           },
-        },
+        } satisfies SkyAgGridColDef<SkyCellType.Text, AgGridDemoRow>,
         {
           field: 'age',
           headerName: 'Age',
@@ -90,7 +95,7 @@ export class AgGridDataEntryGridInlineHelpExampleComponent {
           headerComponentParams: {
             inlineHelpComponent: InlineHelpComponent,
           },
-        },
+        } satisfies SkyAgGridColDef<SkyCellType.Number, AgGridDemoRow>,
         {
           field: 'startDate',
           headerName: 'Start date',
@@ -150,7 +155,10 @@ export class AgGridDataEntryGridInlineHelpExampleComponent {
           headerComponentParams: {
             inlineHelpComponent: InlineHelpComponent,
           },
-        },
+        } satisfies SkyAgGridColDef<
+          SkyCellType.Date | SkyCellType.Validator,
+          AgGridDemoRow
+        >,
       ],
       onGridReady: (gridReadyEvent): void => {
         this.#gridApi.set(gridReadyEvent.api);

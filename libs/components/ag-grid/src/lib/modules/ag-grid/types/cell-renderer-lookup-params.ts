@@ -3,11 +3,8 @@ import { ICellRendererParams } from 'ag-grid-community';
 import { SkyAgGridLookupProperties } from './lookup-properties';
 
 /**
- * Parameters for the lookup cell renderer.
+ * @internal
  */
 export interface SkyCellRendererLookupParams extends ICellRendererParams {
-  /**
-   * The parameters provided to the lookup component.
-   */
   skyComponentProperties?: SkyAgGridLookupProperties;
 }

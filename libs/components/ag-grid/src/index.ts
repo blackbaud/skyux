@@ -1,6 +1,7 @@
 // Export any types that should be included in the root.
 export { SkyAgGridModule } from './lib/modules/ag-grid/ag-grid.module';
 export { SkyAgGridService } from './lib/modules/ag-grid/ag-grid.service';
+export { SkyAgGridColDef } from './lib/modules/ag-grid/types/ag-grid-col-def';
 export { SkyAgGridRowDeleteCancelArgs } from './lib/modules/ag-grid/types/ag-grid-row-delete-cancel-args';
 export { SkyAgGridRowDeleteConfirmArgs } from './lib/modules/ag-grid/types/ag-grid-row-delete-confirm-args';
 export {
@@ -12,12 +13,10 @@ export { SkyCellEditorAutocompleteParams } from './lib/modules/ag-grid/types/cel
 export { SkyCellEditorDatepickerParams } from './lib/modules/ag-grid/types/cell-editor-datepicker-params';
 export { SkyAgGridCellEditorInitialAction } from './lib/modules/ag-grid/types/cell-editor-initial-action';
 export { SkyCellEditorLookupParams } from './lib/modules/ag-grid/types/cell-editor-lookup-params';
+export { SkyCellEditorParamsByType } from './lib/modules/ag-grid/types/cell-editor-params-by-type';
 export { SkyAgGridCellEditorUtils } from './lib/modules/ag-grid/types/cell-editor-utils';
-export type { SkyCellRendererCurrencyParams } from './lib/modules/ag-grid/types/cell-renderer-currency-params';
-export type { SkyCellRendererLookupParams } from './lib/modules/ag-grid/types/cell-renderer-lookup-params';
-export type { SkyCellRendererTemplateContext } from './lib/modules/ag-grid/types/cell-renderer-template-context';
-export type { SkyCellRendererTemplateParams } from './lib/modules/ag-grid/types/cell-renderer-template-params';
-export type { SkyCellRendererValidatorParams } from './lib/modules/ag-grid/types/cell-renderer-validator-params';
+export { SkyCellRendererParamsByType } from './lib/modules/ag-grid/types/cell-renderer-params-by-type';
+export { SkyCellRendererTemplateContext } from './lib/modules/ag-grid/types/cell-renderer-template-context';
 export { SkyCellType } from './lib/modules/ag-grid/types/cell-type';
 export { SkyAgGridCurrencyProperties } from './lib/modules/ag-grid/types/currency-properties';
 export {
