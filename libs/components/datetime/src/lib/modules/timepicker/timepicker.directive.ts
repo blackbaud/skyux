@@ -140,6 +140,8 @@ export class SkyTimepickerInputDirective
   set #modelValue(value: SkyTimepickerTimeOutput | undefined) {
     if (value !== this.#_modelValue) {
       this.#_modelValue = value;
+      // A model value takes over from any retained invalid entry.
+      this.#invalidValue = undefined;
       this.#updateTimepickerInput();
       this.#setInputValue(value);
       this.#_validatorChange();
@@ -152,6 +154,10 @@ export class SkyTimepickerInputDirective
   #_disabled = false;
   #_modelValue: SkyTimepickerTimeOutput | undefined;
   #_skyTimepickerInput: SkyTimepickerComponent | undefined;
+
+  // The raw string retained on the control while an invalid entry is kept
+  // (only set when clearing invalid values is disabled).
+  #invalidValue: string | undefined;
 
   readonly #renderer = inject(Renderer2);
   readonly #elRef = inject(ElementRef);
@@ -172,7 +178,13 @@ export class SkyTimepickerInputDirective
     // Watch for the control to be added and initialize the value immediately.
     /* istanbul ignore else */
     if (this.#control && this.#control.parent) {
-      this.#control.setValue(this.#modelValue, { emitEvent: false });
+      // When an invalid entry is being retained, the raw string is already on
+      // the control and flagged invalid by the validator; overwriting it with
+      // the (undefined) model value would discard the entry and clear the error.
+      if (this.#invalidValue === undefined) {
+        this.#control.setValue(this.#modelValue, { emitEvent: false });
+      }
+
       this.#changeDetector.markForCheck();
     }
   }
@@ -278,16 +290,19 @@ export class SkyTimepickerInputDirective
   }
 
   #applyInvalidValue(rawValue: string): void {
-    // There is no valid model value while an invalid entry is retained.
+    // There is no valid model value while an invalid entry is retained; hold on
+    // to the raw string so it survives initialization (see ngAfterContentInit).
     this.#_modelValue = undefined;
+    this.#invalidValue = rawValue;
 
     // Keep the user's raw entry in the input element.
     this.#renderer.setProperty(this.#elRef.nativeElement, 'value', rawValue);
 
-    // Push the raw string to the form control and flag it as invalid.
+    // Push the raw string to the form control and re-run validation. The
+    // validator supplies the `skyTime` error, so we avoid calling `setErrors`
+    // here to preserve any errors contributed by other validators.
     this.#_onChange(rawValue);
     this.#_validatorChange();
-    this.#control?.setErrors({ skyTime: { invalid: rawValue } });
   }
 
   #setInputValue(value: SkyTimepickerTimeOutput | undefined): void {

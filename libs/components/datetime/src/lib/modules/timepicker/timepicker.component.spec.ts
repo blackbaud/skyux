@@ -866,6 +866,20 @@ describe('Timepicker', () => {
         expect(getInput(fixture)).not.toHaveCssClass('ng-invalid');
       }));
 
+      it('should retain an invalid value provided by the initial form control', fakeAsync(() => {
+        component.initialValue = 'not a time';
+
+        detectChangesAndTick(fixture);
+
+        expect(getInput(fixture).value).toBe('not a time');
+        expect(component.timeControl?.value).toBe('not a time');
+        expect(component.timeControl?.valid).toBeFalse();
+        expect(component.timeControl?.errors).toEqual({
+          skyTime: { invalid: 'not a time' },
+        });
+        expect(getInput(fixture)).toHaveCssClass('ng-invalid');
+      }));
+
       it('should retain an invalid value set programmatically', fakeAsync(() => {
         detectChangesAndTick(fixture);
 
