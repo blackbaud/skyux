@@ -19,6 +19,16 @@ function getBuildPolyfills(tree: UnitTestTree): unknown {
   return angularJson.projects.app.architect.build.options?.polyfills;
 }
 
+function getTestPolyfills(tree: UnitTestTree): unknown {
+  const angularJson = tree.readJson('/angular.json') as {
+    projects: {
+      app: { architect: { test?: { options?: { polyfills?: unknown } } } };
+    };
+  };
+
+  return angularJson.projects.app.architect.test?.options?.polyfills;
+}
+
 describe('Migrations > Migrate Dragula polyfill', () => {
   const runner = new SchematicTestRunner(
     'migrations',
@@ -29,6 +39,7 @@ describe('Migrations > Migrate Dragula polyfill', () => {
     packageLock?: unknown;
     polyfills?: unknown;
     includeBuildOptions?: boolean;
+    testPolyfills?: unknown;
   }): Promise<{
     runSchematic: () => Promise<UnitTestTree>;
     tree: UnitTestTree;
@@ -41,6 +52,11 @@ describe('Migrations > Migrate Dragula polyfill', () => {
       ? { options: { polyfills: config.polyfills } }
       : {};
 
+    const test =
+      config.testPolyfills === undefined
+        ? undefined
+        : { options: { polyfills: config.testPolyfills } };
+
     tree.overwrite(
       '/angular.json',
       JSON.stringify({
@@ -52,6 +68,7 @@ describe('Migrations > Migrate Dragula polyfill', () => {
             sourceRoot: 'projects/app/src',
             architect: {
               build,
+              ...(test ? { test } : {}),
             },
           },
         },
@@ -136,6 +153,41 @@ describe('Migrations > Migrate Dragula polyfill', () => {
     await runSchematic();
 
     expect(getBuildPolyfills(tree)).toEqual('zone.js');
+    expect(tree.exists(LOCAL_POLYFILL_PATH)).toBe(false);
+  });
+
+  it('should migrate polyfills in the test target', async () => {
+    const { runSchematic, tree } = await setup({
+      packageLock: { packages: { 'node_modules/dragula': {} } },
+      includeBuildOptions: true,
+      polyfills: ['zone.js', '@skyux/packages/polyfills'],
+      testPolyfills: [
+        'zone.js',
+        'zone.js/testing',
+        '@skyux/packages/polyfills',
+      ],
+    });
+
+    await runSchematic();
+
+    expect(getBuildPolyfills(tree)).toEqual(['zone.js', LOCAL_POLYFILL_PATH]);
+    expect(getTestPolyfills(tree)).toEqual([
+      'zone.js',
+      'zone.js/testing',
+      LOCAL_POLYFILL_PATH,
+    ]);
+    expect(tree.exists(LOCAL_POLYFILL_PATH)).toBe(true);
+  });
+
+  it('should remove the test polyfill when Dragula is not installed', async () => {
+    const { runSchematic, tree } = await setup({
+      packageLock: { packages: { 'node_modules/zone.js': {} } },
+      testPolyfills: ['zone.js', '@skyux/packages/polyfills'],
+    });
+
+    await runSchematic();
+
+    expect(getTestPolyfills(tree)).toEqual(['zone.js']);
     expect(tree.exists(LOCAL_POLYFILL_PATH)).toBe(false);
   });
 

@@ -18,10 +18,10 @@ window.global = window;
 
 /**
  * Removes the \`@skyux/packages/polyfills\` entry from every project's build
- * options and build configurations. When Dragula is still installed (directly
- * or transitively) — or when its usage cannot be determined — the entry is
- * replaced with a local copy of the polyfill so those consumers keep working
- * without depending on \`@skyux/packages/polyfills\`.
+ * and test options and their configurations. When Dragula is still installed
+ * (directly or transitively) — or when its usage cannot be determined — the
+ * entry is replaced with a local copy of the polyfill so those consumers keep
+ * working without depending on \`@skyux/packages/polyfills\`.
  */
 export default function migrateDragulaPolyfill(): Rule {
   return (tree, context) => {
@@ -36,22 +36,22 @@ export default function migrateDragulaPolyfill(): Rule {
 }
 
 /**
- * Migrates the \`@skyux/packages/polyfills\` entry out of a single project's build
- * options and every build configuration.
+ * Migrates the \`@skyux/packages/polyfills\` entry out of a single project's
+ * build and test options and every configuration of each.
  */
 function migrateProjectPolyfills(
   tree: Tree,
   project: ProjectDefinition,
   dragulaNeeded: boolean,
 ): void {
-  const build = project.targets.get('build');
   const localPolyfillPath = `${getSourceRoot(project)}/${LOCAL_POLYFILL_FILENAME}`;
 
-  // Polyfills can be set on the build options and overridden per configuration.
-  const optionSets = [
-    build?.options,
-    ...Object.values(build?.configurations ?? {}),
-  ];
+  // Polyfills can be set on the target options and overridden per configuration.
+  const optionSets = ['build', 'test'].flatMap((targetName) => {
+    const target = project.targets.get(targetName);
+
+    return [target?.options, ...Object.values(target?.configurations ?? {})];
+  });
 
   for (const options of optionSets) {
     const polyfills = options?.['polyfills'];
