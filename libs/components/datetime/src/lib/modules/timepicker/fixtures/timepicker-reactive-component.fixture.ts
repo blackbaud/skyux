@@ -20,6 +20,8 @@ export class TimepickerReactiveTestComponent implements AfterViewInit, OnInit {
 
   public isDisabled: boolean | undefined;
 
+  public clearInvalidValues = true;
+
   public returnFormat: string | undefined;
 
   public selectedTime: SkyTimepickerTimeOutput | undefined;
