@@ -61,7 +61,7 @@
         ]
       }
     },
-    "vertical-tabset": {
+    "vertical-tabs": {
       "development": {
         "docsIds": [
           "SkyVerticalTabsetModule",
@@ -91,7 +91,7 @@
         ]
       }
     },
-    "wizard": {
+    "tabs-wizard": {
       "development": {
         "docsIds": [
           "SkyTabsModule",
