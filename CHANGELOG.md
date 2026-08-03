@@ -7,6 +7,7 @@
 ### Bug Fixes
 
 * **components/forms:** select input options are properly styled ([#4557](https://github.com/blackbaud/skyux/issues/4557)) ([83b4726](https://github.com/blackbaud/skyux/commit/83b4726a8c624fe572c98c054895c977cb8c7ab3))
+* **components/packages:** skip sky-grid-column nested in sky-list-view-grid ([#4562](https://github.com/blackbaud/skyux/issues/4562)) ([5ec40e1](https://github.com/blackbaud/skyux/commit/5ec40e16310e38af572bfb0c5ea475d4ebc59dc1)), closes [AB#4074210](https://dev.azure.com/blackbaud/Products/_workitems/edit/4074210)
 
 ## [14.9.1](https://github.com/blackbaud/skyux/compare/14.9.0...14.9.1) (2026-07-31)
 
