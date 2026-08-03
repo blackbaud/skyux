@@ -11,7 +11,7 @@
           formControlName="time"
           timeFormat="hh"
           [skyTimepickerInput]="timepicker"
-          [skyTimepickerClearInvalidValues]="false"
+          skyTimepickerRetainInvalidValues
         />
       </sky-timepicker>
       @if (time.errors?.['invalidMinute']) {

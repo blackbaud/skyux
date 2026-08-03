@@ -104,15 +104,13 @@ export class SkyTimepickerInputDirective
   public returnFormat: string | undefined;
 
   /**
-   * Whether to clear invalid entries from the input when it loses focus. When
-   * set to `false`, an invalid value remains in the field and the associated
+   * Whether to retain invalid entries in the input when it loses focus. When
+   * set to `true`, an invalid value remains in the field and the associated
    * form control is flagged with a `skyTime` error, matching the behavior of
-   * the datepicker. This defaults to `true` to preserve the existing behavior,
-   * but will default to `false` in the next major version.
-   * @default true
+   * the datepicker.
+   * @default false
    */
-  // TODO: In a future breaking change - default this to `false`.
-  public readonly skyTimepickerClearInvalidValues = input(true, {
+  public readonly skyTimepickerRetainInvalidValues = input(false, {
     transform: booleanAttribute,
   });
 
@@ -233,11 +231,11 @@ export class SkyTimepickerInputDirective
   public writeValue(value: any): void {
     const formatted = this.#formatter(value);
 
-    // When clearing is disabled, keep invalid entries in the input instead of
+    // When retaining is enabled, keep invalid entries in the input instead of
     // clearing them so the user can see and correct their entry (matching the
     // datepicker's behavior).
     if (
-      !this.skyTimepickerClearInvalidValues() &&
+      this.skyTimepickerRetainInvalidValues() &&
       typeof value === 'string' &&
       value.length > 0 &&
       formatted.local === 'Invalid date'
@@ -259,9 +257,9 @@ export class SkyTimepickerInputDirective
       return null;
     }
 
-    // A raw string value only remains on the control when clearing invalid
-    // values is disabled.
-    if (typeof value === 'string' && !this.skyTimepickerClearInvalidValues()) {
+    // A raw string value only remains on the control when retaining invalid
+    // values is enabled.
+    if (typeof value === 'string' && this.skyTimepickerRetainInvalidValues()) {
       if (this.#formatter(value).local === 'Invalid date') {
         // Mark as touched so the invalid CSS styles appear even when the value
         // is set programmatically.

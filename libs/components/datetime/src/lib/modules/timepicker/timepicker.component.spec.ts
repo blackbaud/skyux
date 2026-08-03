@@ -832,9 +832,9 @@ describe('Timepicker', () => {
       expect(getInput(fixture).value).toBe('');
     }));
 
-    describe('with clearInvalidValues disabled', () => {
+    describe('with retainInvalidValues enabled', () => {
       beforeEach(() => {
-        component.clearInvalidValues = false;
+        component.retainInvalidValues = true;
       });
 
       it('should retain an invalid value on blur and flag the control invalid', fakeAsync(() => {
