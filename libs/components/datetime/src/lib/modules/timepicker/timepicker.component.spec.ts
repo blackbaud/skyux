@@ -905,6 +905,29 @@ describe('Timepicker', () => {
         expect(getInput(fixture).value).toBe('');
         expect(component.timeControl?.valid).toBeTrue();
       }));
+
+      it('should clear a retained invalid value when the form control is reset', fakeAsync(() => {
+        detectChangesAndTick(fixture);
+
+        setInput('not a time', fixture);
+        expect(getInput(fixture).value).toBe('not a time');
+
+        component.timeControl?.reset();
+        detectChangesAndTick(fixture);
+
+        expect(getInput(fixture).value).toBe('');
+        expect(component.timeControl?.valid).toBeTrue();
+      }));
+
+      it('should not error when a valid string value is set programmatically', fakeAsync(() => {
+        detectChangesAndTick(fixture);
+
+        component.timeControl?.setValue('2:55 AM');
+        detectChangesAndTick(fixture);
+
+        expect(getInput(fixture).value).toBe('2:55 AM');
+        expect(component.timeControl?.valid).toBeTrue();
+      }));
     });
   });
 

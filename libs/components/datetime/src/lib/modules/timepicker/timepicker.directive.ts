@@ -111,6 +111,7 @@ export class SkyTimepickerInputDirective
    * but will default to `false` in the next major version.
    * @default true
    */
+  // TODO: In a future breaking change - default this to `false`.
   public readonly skyTimepickerClearInvalidValues = input(true, {
     transform: booleanAttribute,
   });
@@ -138,10 +139,11 @@ export class SkyTimepickerInputDirective
   }
 
   set #modelValue(value: SkyTimepickerTimeOutput | undefined) {
-    if (value !== this.#_modelValue) {
+    // A retained invalid entry must be cleaned up even when the model value is
+    // unchanged (e.g. a form reset while `undefined` is the model value).
+    if (value !== this.#_modelValue || this.#hasRetainedInvalidValue) {
       this.#_modelValue = value;
-      // A model value takes over from any retained invalid entry.
-      this.#invalidValue = undefined;
+      this.#hasRetainedInvalidValue = false;
       this.#updateTimepickerInput();
       this.#setInputValue(value);
       this.#_validatorChange();
@@ -155,9 +157,9 @@ export class SkyTimepickerInputDirective
   #_modelValue: SkyTimepickerTimeOutput | undefined;
   #_skyTimepickerInput: SkyTimepickerComponent | undefined;
 
-  // The raw string retained on the control while an invalid entry is kept
-  // (only set when clearing invalid values is disabled).
-  #invalidValue: string | undefined;
+  // Set while an invalid entry is retained on the control instead of cleared
+  // (only when clearing invalid values is disabled).
+  #hasRetainedInvalidValue = false;
 
   readonly #renderer = inject(Renderer2);
   readonly #elRef = inject(ElementRef);
@@ -181,7 +183,7 @@ export class SkyTimepickerInputDirective
       // When an invalid entry is being retained, the raw string is already on
       // the control and flagged invalid by the validator; overwriting it with
       // the (undefined) model value would discard the entry and clear the error.
-      if (this.#invalidValue === undefined) {
+      if (!this.#hasRetainedInvalidValue) {
         this.#control.setValue(this.#modelValue, { emitEvent: false });
       }
 
@@ -229,28 +231,22 @@ export class SkyTimepickerInputDirective
   }
 
   public writeValue(value: any): void {
+    const formatted = this.#formatter(value);
+
     // When clearing is disabled, keep invalid entries in the input instead of
     // clearing them so the user can see and correct their entry (matching the
     // datepicker's behavior).
     if (
       !this.skyTimepickerClearInvalidValues() &&
       typeof value === 'string' &&
-      value.length > 0
+      value.length > 0 &&
+      formatted.local === 'Invalid date'
     ) {
-      const formatted = this.#formatter(value);
-
-      if (formatted && formatted.local === 'Invalid date') {
-        this.#applyInvalidValue(value);
-
-        return;
-      }
-
-      this.#modelValue = formatted;
-
+      this.#applyInvalidValue(value);
       return;
     }
 
-    this.#modelValue = this.#formatter(value);
+    this.#modelValue = formatted;
   }
 
   public validate(control: AbstractControl): ValidationErrors | null {
@@ -266,10 +262,7 @@ export class SkyTimepickerInputDirective
     // A raw string value only remains on the control when clearing invalid
     // values is disabled.
     if (typeof value === 'string' && !this.skyTimepickerClearInvalidValues()) {
-      const formatted = this.#formatter(value);
-
-      /* istanbul ignore else */
-      if (formatted && formatted.local === 'Invalid date') {
+      if (this.#formatter(value).local === 'Invalid date') {
         // Mark as touched so the invalid CSS styles appear even when the value
         // is set programmatically.
         this.#control.markAsTouched();
@@ -277,7 +270,6 @@ export class SkyTimepickerInputDirective
         return { skyTime: { invalid: value } };
       }
 
-      /* istanbul ignore next */
       return null;
     }
 
@@ -290,10 +282,9 @@ export class SkyTimepickerInputDirective
   }
 
   #applyInvalidValue(rawValue: string): void {
-    // There is no valid model value while an invalid entry is retained; hold on
-    // to the raw string so it survives initialization (see ngAfterContentInit).
+    // There is no valid model value while an invalid entry is retained.
     this.#_modelValue = undefined;
-    this.#invalidValue = rawValue;
+    this.#hasRetainedInvalidValue = true;
 
     // Keep the user's raw entry in the input element.
     this.#renderer.setProperty(this.#elRef.nativeElement, 'value', rawValue);
