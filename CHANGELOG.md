@@ -1,7 +1,7 @@
 # Changelog
 
 
-## [14.9.2](https://github.com/blackbaud/skyux/compare/14.9.1...14.9.2) (2026-07-31)
+## [14.9.2](https://github.com/blackbaud/skyux/compare/14.9.1...14.9.2) (2026-08-03)
 
 
 ### Bug Fixes
