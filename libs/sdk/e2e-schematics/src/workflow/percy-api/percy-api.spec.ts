@@ -102,7 +102,13 @@ describe('percy-api', () => {
     const fetchClient = jest.fn().mockImplementation((url: string) => {
       if (url.startsWith('https://percy.io/api/v1/projects')) {
         return Promise.resolve({
-          json: () => Promise.resolve({ data: { id: 'projectId' } }),
+          json: () =>
+            Promise.resolve({
+              data: {
+                id: 'projectId',
+                attributes: { slug: 'test-storybook-e2e' },
+              },
+            }),
         });
       }
       if (url.startsWith('https://percy.io/api/v1/builds')) {
@@ -141,7 +147,13 @@ describe('percy-api', () => {
     const fetchClient = jest.fn().mockImplementation((url: string) => {
       if (url.startsWith('https://percy.io/api/v1/projects')) {
         return Promise.resolve({
-          json: () => Promise.resolve({ data: { id: 'projectId' } }),
+          json: () =>
+            Promise.resolve({
+              data: {
+                id: 'projectId',
+                attributes: { slug: 'test-storybook-e2e' },
+              },
+            }),
         });
       }
       if (url.startsWith('https://percy.io/api/v1/builds')) {
@@ -192,7 +204,13 @@ describe('percy-api', () => {
     const fetchClient = jest.fn().mockImplementation((url: string) => {
       if (url.startsWith('https://percy.io/api/v1/projects')) {
         return Promise.resolve({
-          json: () => Promise.resolve({ data: { id: 'projectId' } }),
+          json: () =>
+            Promise.resolve({
+              data: {
+                id: 'projectId',
+                attributes: { slug: 'test-storybook-e2e' },
+              },
+            }),
         });
       }
       if (url.startsWith('https://percy.io/api/v1/builds')) {
@@ -231,7 +249,128 @@ describe('percy-api', () => {
       ),
     ).resolves.toEqual('');
     expect(logger.error).toHaveBeenCalledWith(
-      'Error checking Percy: Error: Error fetching Percy project ID',
+      'Error checking Percy: Error: Error fetching Percy project ID: Nope.',
+    );
+  });
+
+  it('should find project with a suffixed slug', async () => {
+    const logger = createLogger();
+    const fetchClient = jest.fn().mockImplementation((url: string) => {
+      if (url === 'https://percy.io/api/v1/projects') {
+        return Promise.resolve({
+          json: () =>
+            Promise.resolve({
+              data: {
+                id: 'projectId',
+                attributes: { slug: 'test-storybook-e2e-6342c271' },
+              },
+            }),
+        });
+      }
+      if (url.startsWith('https://percy.io/api/v1/builds')) {
+        return Promise.resolve({
+          json: () =>
+            Promise.resolve({
+              data: [
+                {
+                  id: 'buildId',
+                  type: 'builds',
+                  attributes: {
+                    'review-state': 'approved',
+                    state: 'finished',
+                    'commit-html-url': 'https://.../commitSha',
+                    'web-url': 'https://.../321',
+                  },
+                },
+              ],
+            }),
+        });
+      }
+      return Promise.reject(new Error('Unexpected URL'));
+    });
+    const result = await getLastGoodPercyBuild(
+      'test-storybook-e2e',
+      ['commitSha'],
+      true,
+      logger,
+      fetchClient,
+    );
+    expect(result).toEqual({ lastGoodCommit: 'commitSha', buildId: 321 });
+  });
+
+  it('should find project by exact slug in a project list', async () => {
+    const logger = createLogger();
+    const fetchClient = jest.fn().mockImplementation((url: string) => {
+      if (url === 'https://percy.io/api/v1/projects') {
+        return Promise.resolve({
+          json: () =>
+            Promise.resolve({
+              data: [
+                null,
+                { id: 'noAttributes' },
+                { id: 'noSlug', attributes: {} },
+                {
+                  id: 'projectId',
+                  attributes: { slug: 'test-storybook-e2e' },
+                },
+              ],
+            }),
+        });
+      }
+      if (url.startsWith('https://percy.io/api/v1/builds')) {
+        return Promise.resolve({
+          json: () =>
+            Promise.resolve({
+              data: [
+                {
+                  id: 'buildId',
+                  type: 'builds',
+                  attributes: {
+                    'review-state': 'approved',
+                    state: 'finished',
+                    'commit-html-url': 'https://.../commitSha',
+                    'web-url': 'https://.../321',
+                  },
+                },
+              ],
+            }),
+        });
+      }
+      return Promise.reject(new Error('Unexpected URL'));
+    });
+    const result = await getLastGoodPercyBuild(
+      'test-storybook-e2e',
+      ['commitSha'],
+      true,
+      logger,
+      fetchClient,
+    );
+    expect(result).toEqual({ lastGoodCommit: 'commitSha', buildId: 321 });
+  });
+
+  it('should reject when the project does not match the slug', async () => {
+    const logger = createLogger();
+    const fetchClient = jest.fn().mockImplementation((url: string) => {
+      if (url === 'https://percy.io/api/v1/projects') {
+        return Promise.resolve({
+          json: () =>
+            Promise.resolve({
+              data: { id: 'projectId', attributes: { slug: 'other-project' } },
+            }),
+        });
+      }
+      return Promise.reject(new Error('Unexpected URL'));
+    });
+    const result = await getLastGoodPercyBuild(
+      'test-storybook-e2e',
+      ['commitSha'],
+      true,
+      logger,
+      fetchClient,
+    );
+    expect(result).toEqual({ buildId: 0, lastGoodCommit: '' });
+    expect(logger.error).toHaveBeenCalledWith(
+      'Percy project ID response for test-storybook-e2e: {"id":"projectId","attributes":{"slug":"other-project"}}',
     );
   });
 
@@ -240,7 +379,13 @@ describe('percy-api', () => {
     const fetchClient = jest.fn().mockImplementation((url: string) => {
       if (url.startsWith('https://percy.io/api/v1/projects')) {
         return Promise.resolve({
-          json: () => Promise.resolve({ data: { id: 'projectId' } }),
+          json: () =>
+            Promise.resolve({
+              data: {
+                id: 'projectId',
+                attributes: { slug: 'test-storybook-e2e' },
+              },
+            }),
         });
       }
       if (url.startsWith('https://percy.io/api/v1/builds')) {
@@ -304,7 +449,13 @@ describe('percy-api', () => {
     const fetchClient = jest.fn().mockImplementation((url: string) => {
       if (url.startsWith('https://percy.io/api/v1/projects')) {
         return Promise.resolve({
-          json: () => Promise.resolve({ data: { id: 'projectId' } }),
+          json: () =>
+            Promise.resolve({
+              data: {
+                id: 'projectId',
+                attributes: { slug: 'test-storybook-e2e' },
+              },
+            }),
         });
       }
       if (url.startsWith('https://percy.io/api/v1/builds')) {
