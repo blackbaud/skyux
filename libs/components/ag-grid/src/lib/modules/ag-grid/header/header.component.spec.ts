@@ -185,7 +185,9 @@ describe('HeaderComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     expect(
-      fixture.debugElement.query(By.css('.ag-header-label-icon')),
+      fixture.debugElement.query(
+        By.css('.ag-sort-indicator-container .ag-header-label-icon'),
+      ),
     ).toBeFalsy();
     expect(document.querySelector('.ag-sort-indicator-container')).toBeNull();
 
@@ -263,6 +265,13 @@ describe('HeaderComponent', () => {
     component.agInit(params);
     fixture.detectChanges();
     await fixture.whenStable();
+    expect(component).toBeTruthy();
+    apiEvents['columnMoved'].forEach((listener) =>
+      listener({
+        column: params.column,
+        source: 'uiColumnMoved',
+      }),
+    );
     expect(component).toBeTruthy();
   });
 

@@ -118,8 +118,10 @@ export class SkyAgGridHeaderComponent
     effect((onCleanup) => {
       const column = this.params()?.column;
       if (!column?.isFilterAllowed()) {
+        this.filterEnabled.set(false);
         return;
       }
+      this.filterEnabled.set(column.isFilterActive());
       const handler = (): void =>
         this.filterEnabled.set(column.isFilterActive());
       column.addEventListener('filterChanged', handler);
@@ -148,7 +150,7 @@ export class SkyAgGridHeaderComponent
     // and reattached to the DOM to maintain DOM order, and its focus is lost.
     this.#columnMoved.pipe(takeUntilDestroyed()).subscribe((event) => {
       const params = this.params();
-      const left = event.column?.getLeft() ?? 0;
+      const left = params?.column.getLeft() ?? 0;
       const oldLeft = this.#leftPosition;
       if (
         params &&
