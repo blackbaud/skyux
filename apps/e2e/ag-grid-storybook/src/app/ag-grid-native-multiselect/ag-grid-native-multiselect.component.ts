@@ -3,11 +3,11 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
-  Input,
   OnDestroy,
   OnInit,
   ViewEncapsulation,
   inject,
+  input,
 } from '@angular/core';
 import { SkyAgGridModule, SkyAgGridService } from '@skyux/ag-grid';
 import {
@@ -74,7 +74,7 @@ const ROW_SELECTION: RowSelectionOptions = {
 export class AgGridMultiselectComponent
   implements AfterViewInit, OnInit, OnDestroy
 {
-  @Input() public compact = false;
+  public readonly compact = input(false);
 
   public readonly dataSets = [
     {

@@ -5,7 +5,7 @@
     @if (isActive$ | async) {
       <sky-ag-grid-wrapper
         skyAgGridRowDelete
-        [compact]="compact"
+        [compact]="compact()"
         [(rowDeleteIds)]="rowDeleteIds"
         (rowDeleteConfirm)="deleteConfirm($event)"
       >
@@ -16,7 +16,7 @@
 
   <div class="scrollable" id="back-to-top">
     @if (isActive$ | async) {
-      <sky-ag-grid-wrapper [skyBackToTop]="" [compact]="compact">
+      <sky-ag-grid-wrapper [skyBackToTop]="" [compact]="compact()">
         <ag-grid-angular [gridOptions]="gridOptions['back-to-top']" />
       </sky-ag-grid-wrapper>
     }
@@ -24,7 +24,7 @@
 
   <div class="scrollable" id="validation">
     @if (isActive$ | async) {
-      <sky-ag-grid-wrapper [compact]="compact">
+      <sky-ag-grid-wrapper [compact]="compact()">
         <ag-grid-angular [gridOptions]="gridOptions['validation']" />
       </sky-ag-grid-wrapper>
     }
