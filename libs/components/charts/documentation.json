@@ -1,0 +1,49 @@
+{
+  "$schema": "../manifest-generator/documentation-schema.json",
+  "groups": {
+    "charts": {
+      "development": {
+        "docsIds": [
+          "SkyChart",
+          "SkyChartAxisCategory",
+          "SkyChartAxisValue",
+          "SkyChartBar",
+          "SkyChartBarSeries",
+          "SkyChartBarOrientation",
+          "SkyChartBarSeriesLayout",
+          "SkyChartBarSeriesValue",
+          "SkyChartHeadingLevel",
+          "SkyChartHeadingStyle",
+          "SkyChartValueFormat",
+          "SkyChartValueScaleType"
+        ],
+        "primaryDocsId": "SkyChart"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyChartBarHarness",
+          "SkyChartBarHarnessFilters",
+          "SkyChartHarness",
+          "SkyChartHarnessFilters",
+          "SkyChartTableModalHarness"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "ChartsChartBarBasicExample",
+          "ChartsChartBarHorizontalExample",
+          "ChartsChartBarMultipleSeriesExample",
+          "ChartsChartBarStackedExample",
+          "ChartsChartBarGroupedStackedExample",
+          "ChartsChartBarFloatingExample",
+          "ChartsChartBarFloatingMultipleSeriesExample",
+          "ChartsChartBarHiddenLabelsExample",
+          "ChartsChartBarLogarithmicExample",
+          "ChartsChartBarValueBoundsExample",
+          "ChartsChartBarValueFormatExample",
+          "ChartsChartBarAsyncExample"
+        ]
+      }
+    }
+  }
+}

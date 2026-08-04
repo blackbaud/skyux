@@ -6,7 +6,7 @@ import {
   inject,
   InjectionToken,
   OnInit,
-  ViewChild,
+  viewChild,
 } from '@angular/core';
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 import {
@@ -30,8 +30,7 @@ let identifier = 1;
   imports: [SkyModalModule, SkySectionedFormModule],
 })
 export class ResizeObserverModalComponent implements AfterViewInit, OnInit {
-  @ViewChild(SkySectionedFormComponent)
-  public sectionedFormComponent: SkySectionedFormComponent;
+  public readonly sectionedFormComponent = viewChild(SkySectionedFormComponent);
 
   public breakpoint = '(breakpoint not set)';
 
@@ -79,14 +78,14 @@ export class ResizeObserverModalComponent implements AfterViewInit, OnInit {
   }
 
   public ngAfterViewInit(): void {
-    this.tabsHidden = !this.sectionedFormComponent.tabsVisible();
+    this.tabsHidden = !this.sectionedFormComponent().tabsVisible();
     if (this.tabsHidden) {
       this.#changeDetectorRef.markForCheck();
     }
   }
 
   public showTabs(): void {
-    this.sectionedFormComponent.showTabs();
+    this.sectionedFormComponent().showTabs();
   }
 
   public openAnotherModal(size: SizeOptions): void {

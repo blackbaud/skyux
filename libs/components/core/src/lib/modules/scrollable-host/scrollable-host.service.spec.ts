@@ -625,6 +625,109 @@ describe('Scrollable host service', () => {
       });
   });
 
+  it('should support additional masking alongside additional containers for determining clip path', (done) => {
+    const windowRef = TestBed.inject(SkyAppWindowRef);
+    const scrollableHostSvc = TestBed.inject(SkyScrollableHostService);
+
+    fixture.componentRef.setInput('isParentPositioned', true);
+    fixture.componentRef.setInput('positionedParentWidth', '100px');
+    fixture.detectChanges();
+
+    const additionalHost = new ElementRef(
+      fixture.nativeElement.querySelector('.additional-host'),
+    );
+    const maskingTop = new ElementRef(
+      fixture.nativeElement.querySelector('.masking-top'),
+    );
+    const maskingLeft = new ElementRef(
+      fixture.nativeElement.querySelector('.masking-left'),
+    );
+    const maskingRight = new ElementRef(
+      fixture.nativeElement.querySelector('.masking-right'),
+    );
+    const maskingBottom = new ElementRef(
+      fixture.nativeElement.querySelector('.masking-bottom'),
+    );
+
+    const viewport = windowRef.nativeWindow.visualViewport;
+    scrollableHostSvc
+      .watchScrollableHostClipPathChanges(cmp.target, {
+        additionalContainers: of([additionalHost]),
+        additionalMasking: {
+          top: of([maskingTop]),
+          left: of([maskingLeft]),
+          right: of([maskingRight]),
+          bottom: of([maskingBottom]),
+        },
+      })
+      .pipe(take(1))
+      .subscribe((clipPath) => {
+        expect(clipPath).toBe(
+          `inset(20px ${viewport.width - 70}px ${viewport.height - 60}px 15px)`,
+        );
+        done();
+      });
+  });
+
+  it('should support masking only a single edge, such as a sticky table header', (done) => {
+    const windowRef = TestBed.inject(SkyAppWindowRef);
+    const scrollableHostSvc = TestBed.inject(SkyScrollableHostService);
+
+    fixture.componentRef.setInput('isParentPositioned', true);
+    fixture.componentRef.setInput('positionedParentWidth', '100px');
+    fixture.detectChanges();
+
+    const maskingTop = new ElementRef(
+      fixture.nativeElement.querySelector('.masking-top'),
+    );
+
+    const viewport = windowRef.nativeWindow.visualViewport;
+    scrollableHostSvc
+      .watchScrollableHostClipPathChanges(cmp.target, {
+        additionalMasking: {
+          top: of([maskingTop]),
+        },
+      })
+      .pipe(take(1))
+      .subscribe((clipPath) => {
+        expect(clipPath).toBe(
+          `inset(20px ${viewport.width - 100}px ${viewport.height - 100}px 0px)`,
+        );
+        done();
+      });
+  });
+
+  it('should ignore masking containers with no offset dimensions', (done) => {
+    const windowRef = TestBed.inject(SkyAppWindowRef);
+    const scrollableHostSvc = TestBed.inject(SkyScrollableHostService);
+
+    fixture.componentRef.setInput('isParentPositioned', true);
+    fixture.componentRef.setInput('positionedParentWidth', '100px');
+    fixture.detectChanges();
+
+    const maskingZeroSize = new ElementRef(
+      fixture.nativeElement.querySelector('.masking-zero-size'),
+    );
+
+    const viewport = windowRef.nativeWindow.visualViewport;
+    scrollableHostSvc
+      .watchScrollableHostClipPathChanges(cmp.target, {
+        additionalMasking: {
+          top: of([maskingZeroSize]),
+          left: of([maskingZeroSize]),
+          right: of([maskingZeroSize]),
+          bottom: of([maskingZeroSize]),
+        },
+      })
+      .pipe(take(1))
+      .subscribe((clipPath) => {
+        expect(clipPath).toBe(
+          `inset(0px ${viewport.width - 100}px ${viewport.height - 100}px 0px)`,
+        );
+        done();
+      });
+  });
+
   it('should return a clip-path of none when the scrollable host is the window', (done) => {
     fixture.detectChanges();
     cmp
@@ -636,9 +739,10 @@ describe('Scrollable host service', () => {
       });
   });
 
-  it('should continue emitting clip path updates after the initial value', (done) => {
+  it('should continue emitting clip path updates when the clip path value changes', (done) => {
     const windowRef = TestBed.inject(SkyAppWindowRef);
     const scrollableHostSvc = TestBed.inject(SkyScrollableHostService);
+    const viewport = windowRef.nativeWindow.visualViewport;
 
     fixture.componentRef.setInput('isParentPositioned', true);
     fixture.componentRef.setInput('positionedParentWidth', '100px');
@@ -647,13 +751,21 @@ describe('Scrollable host service', () => {
     let emissionCount = 0;
     const subscription = scrollableHostSvc
       .watchScrollableHostClipPathChanges(cmp.target)
-      .subscribe(() => {
+      .subscribe((clipPath) => {
         emissionCount++;
         if (emissionCount === 1) {
+          expect(clipPath).toBe(
+            `inset(0px ${viewport.width - 100}px ${viewport.height - 100}px 0px)`,
+          );
+          fixture.componentRef.setInput('positionedParentWidth', '60px');
+          fixture.detectChanges();
           setTimeout(() => {
             SkyAppTestUtility.fireDomEvent(windowRef.nativeWindow, 'resize');
           });
         } else {
+          expect(clipPath).toBe(
+            `inset(0px ${viewport.width - 60}px ${viewport.height - 100}px 0px)`,
+          );
           subscription.unsubscribe();
           done();
         }

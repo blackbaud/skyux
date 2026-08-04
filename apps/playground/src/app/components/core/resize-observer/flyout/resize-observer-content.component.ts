@@ -5,7 +5,7 @@ import {
   ElementRef,
   inject,
   OnDestroy,
-  ViewChild,
+  viewChild,
 } from '@angular/core';
 import {
   SkyMediaQueryService,
@@ -32,8 +32,7 @@ import { Subscription } from 'rxjs';
 export class ResizeObserverContentComponent
   implements AfterViewInit, OnDestroy
 {
-  @ViewChild(SkySectionedFormComponent)
-  public sectionedFormComponent: SkySectionedFormComponent | undefined;
+  public readonly sectionedFormComponent = viewChild(SkySectionedFormComponent);
 
   #subscriptions = new Subscription();
 
@@ -51,10 +50,10 @@ export class ResizeObserverContentComponent
   }
 
   public tabsHidden(): boolean {
-    return !this.sectionedFormComponent?.tabsVisible();
+    return !this.sectionedFormComponent()?.tabsVisible();
   }
 
   public showTabs(): void {
-    this.sectionedFormComponent.showTabs();
+    this.sectionedFormComponent().showTabs();
   }
 }
