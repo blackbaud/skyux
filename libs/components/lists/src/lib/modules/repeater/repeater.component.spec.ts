@@ -1334,6 +1334,47 @@ describe('Repeater item component', () => {
       expect(items[1]).not.toHaveCssClass('sky-repeater-item-selected');
     }));
 
+    it('should deselect a selected item when it becomes disabled', fakeAsync(() => {
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      const cmp: RepeaterTestComponent = fixture.componentInstance;
+      fixture.componentRef.setInput('showRepeaterWithNgFor', true);
+      fixture.componentRef.setInput('selectionMode', 'single');
+      fixture.detectChanges();
+      tick();
+
+      let items = getItems(fixture);
+      SkyAppTestUtility.fireDomEvent(items[0], 'click');
+      fixture.detectChanges();
+      tick();
+
+      expect(items[0].getAttribute('aria-selected')).toBe('true');
+
+      const isSelectedChangeSpy = spyOn(
+        cmp,
+        'onIsSelectedChange',
+      ).and.callThrough();
+
+      // Disabling the selected item deselects it immediately.
+      fixture.componentRef.setInput('disableFirstItem', true);
+      fixture.detectChanges();
+      tick();
+
+      items = getItems(fixture);
+      expect(items[0].getAttribute('aria-selected')).toBe('false');
+      expect(isSelectedChangeSpy).toHaveBeenCalledWith(false);
+
+      // Selecting another item leaves exactly one item selected.
+      SkyAppTestUtility.fireDomEvent(items[1], 'click');
+      fixture.detectChanges();
+      tick();
+
+      items = getItems(fixture);
+      const selected = Array.from(items).filter(
+        (item) => item.getAttribute('aria-selected') === 'true',
+      );
+      expect(selected).toEqual([items[1]]);
+    }));
+
     it('should add the hover-rows class to the repeater', fakeAsync(() => {
       const fixture = TestBed.createComponent(RepeaterTestComponent);
       fixture.componentRef.setInput('showRepeaterWithNgFor', true);
@@ -1346,9 +1387,10 @@ describe('Repeater item component', () => {
       ).toHaveCssClass('hover-rows');
     }));
 
-    it('should not add the hover-rows class when selectionMode is "multiple" (the default)', fakeAsync(() => {
+    it('should not add the hover-rows class when selectionMode is "multiple"', fakeAsync(() => {
       const fixture = TestBed.createComponent(RepeaterTestComponent);
       fixture.componentRef.setInput('showRepeaterWithNgFor', true);
+      fixture.componentRef.setInput('selectionMode', 'multiple');
       fixture.detectChanges();
       tick();
 
@@ -1411,6 +1453,87 @@ describe('Repeater item component', () => {
         await expectAsync(fixture.nativeElement).toBeAccessible();
       });
     });
+  });
+
+  describe('with selectionMode "multiple"', () => {
+    it('should display a checkbox on every item and select multiple items without the selectable property', fakeAsync(() => {
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      const cmp: RepeaterTestComponent = fixture.componentInstance;
+      const el = fixture.nativeElement;
+      fixture.componentRef.setInput('showRepeaterWithNgFor', true);
+      fixture.componentRef.setInput('selectionMode', 'multiple');
+      fixture.detectChanges();
+      tick();
+
+      const checkboxes = el.querySelectorAll('sky-checkbox');
+      expect(checkboxes.length).toBe(3);
+
+      checkboxes[0].querySelector('input').click();
+      checkboxes[1].querySelector('input').click();
+      fixture.detectChanges();
+      tick();
+
+      const repeaterItems = cmp.repeater?.items?.toArray();
+      expect(repeaterItems?.[0].isSelected).toBeTrue();
+      expect(repeaterItems?.[1].isSelected).toBeTrue();
+      expect(repeaterItems?.[2].isSelected).toBeFalsy();
+
+      const items = getItems(fixture);
+      expect(items[0].getAttribute('aria-selected')).toBe('true');
+      expect(items[2].getAttribute('aria-selected')).toBe('false');
+    }));
+
+    it('should calculate aria role as grid', async () => {
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      fixture.componentRef.setInput('showRepeaterWithActiveIndex', true);
+      fixture.componentRef.setInput('expandMode', 'none');
+      fixture.componentRef.setInput('selectionMode', 'multiple');
+      fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(
+        fixture.nativeElement
+          .querySelector('.sky-repeater')
+          .getAttribute('role'),
+      ).toEqual('grid');
+    });
+
+    it('should warn once per item when the deprecated selectable property is set to true', fakeAsync(() => {
+      const logSvc = TestBed.inject(SkyLogService);
+      const deprecatedSpy = spyOn(logSvc, 'deprecated');
+      const selectableCallCount = (): number =>
+        deprecatedSpy.calls
+          .allArgs()
+          .filter(([name]) => name === 'SkyRepeaterItemComponent.selectable')
+          .length;
+
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      fixture.detectChanges();
+      tick();
+
+      expect(selectableCallCount()).toBe(0);
+
+      fixture.componentRef.setInput('selectable', true);
+      fixture.detectChanges();
+      tick();
+
+      const warnedCount = selectableCallCount();
+      expect(warnedCount).toBeGreaterThan(0);
+
+      // Toggling the property does not repeat the warning for the same item.
+      fixture.componentRef.setInput('selectable', false);
+      fixture.detectChanges();
+      tick();
+      fixture.componentRef.setInput('selectable', true);
+      fixture.detectChanges();
+      tick();
+
+      expect(selectableCallCount()).toBe(warnedCount);
+
+      flushDropdownTimer();
+    }));
   });
 
   describe('with active index', () => {

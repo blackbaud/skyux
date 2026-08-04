@@ -101,11 +101,14 @@
         {{ 'skyux_lookup_show_more_no_results' | skyLibResources }}
       </div>
     }
-    <sky-repeater class="sky-lookup-show-more-repeater" expandMode="none">
+    <sky-repeater
+      class="sky-lookup-show-more-repeater"
+      expandMode="none"
+      [selectionMode]="context.selectMode === 'multiple' ? 'multiple' : 'none'"
+    >
       @for (item of displayedItems; track item) {
         <sky-repeater-item
           #repeaterItem
-          [selectable]="context.selectMode === 'multiple'"
           [(isSelected)]="item.selected"
           (click)="itemClick(item)"
           (keyup.enter)="itemClick(item)"

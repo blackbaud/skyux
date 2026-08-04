@@ -206,9 +206,10 @@ export class SkyRepeaterItemHarness extends SkyQueryableComponentHarness {
   }
 
   /**
-   * Whether a repeater item has selection enabled, either via a checkbox
-   * (the item's `selectable` property) or via the repeater's `selectionMode`
-   * property set to `single`.
+   * Whether a repeater item has selection enabled, either via a checkbox (the
+   * repeater's `selectionMode` property set to `multiple` or the item's deprecated
+   * `selectable` property) or via the repeater's `selectionMode` property set
+   * to `single`.
    */
   public async isSelectable(): Promise<boolean> {
     if (await this.#getCheckbox()) {

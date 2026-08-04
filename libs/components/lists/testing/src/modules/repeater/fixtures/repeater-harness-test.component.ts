@@ -29,7 +29,7 @@ export class RepeaterHarnessTestComponent {
 
   public selectable = input(false);
 
-  public selectionMode = input<SkyRepeaterSelectionModeType>('multiple');
+  public selectionMode = input<SkyRepeaterSelectionModeType>('none');
 
   public reorderable = input(false);
 

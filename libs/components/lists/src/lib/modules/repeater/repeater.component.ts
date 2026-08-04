@@ -23,7 +23,10 @@ import {
   Renderer2,
   SimpleChanges,
   afterNextRender,
+  effect,
   inject,
+  input,
+  untracked,
 } from '@angular/core';
 import { SkyLogService, SkyScrollableHostService } from '@skyux/core';
 
@@ -36,7 +39,7 @@ import { SkyRepeaterItemRolesType } from './repeater-item-roles.type';
 import { SkyRepeaterItemComponent } from './repeater-item.component';
 import { SkyRepeaterRoleType } from './repeater-role.type';
 import { SkyRepeaterSelectionModeType } from './repeater-selection-mode-type';
-import { SkyRepeaterService } from './repeater.service';
+import { DEFAULT_SELECTION_MODE, SkyRepeaterService } from './repeater.service';
 
 /**
  * Creates a container to display repeater items.
@@ -109,29 +112,24 @@ export class SkyRepeaterComponent
   }
 
   /**
-   * The selection interaction to apply to repeater items, as an alternative to each
-   * repeater item's own `selectable` property. The valid options are `single` and `multiple`.
+   * The selection interaction to apply to repeater items. The valid options are `none`,
+   * `single`, and `multiple`.
+   * - `none` (the default) does not add any selection interaction.
    * - `single` lets users select one repeater item at a time. Clicking anywhere on a
    * repeater item, or pressing the Space or Enter key while it has focus, selects it and
    * clears any previously-selected item. Users can move focus between repeater items with
    * the arrow keys, Home, and End
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
-   * - `multiple` does not add any selection interaction of its own. Use each repeater item's
-   * `selectable` property to display a checkbox for selecting multiple items.
-   * Do not set this property to `single` and a repeater item's `selectable` property at the
-   * same time; they represent separate, mutually-exclusive selection interactions.
-   * @default "multiple"
+   * - `multiple` displays a checkbox on each repeater item so users can select
+   * multiple items at a time. The checkbox on a disabled repeater item is disabled.
+   * @default "none"
    */
-  @Input()
-  public set selectionMode(value: SkyRepeaterSelectionModeType | undefined) {
-    this.#repeaterService.selectionMode = value;
-    this.#updateForSelectionMode();
-    this.#updateRole();
-  }
-
-  public get selectionMode(): SkyRepeaterSelectionModeType {
-    return this.#repeaterService.selectionMode;
-  }
+  public readonly selectionMode = input<
+    SkyRepeaterSelectionModeType,
+    SkyRepeaterSelectionModeType | undefined
+  >(DEFAULT_SELECTION_MODE, {
+    transform: (value) => value ?? DEFAULT_SELECTION_MODE,
+  });
 
   /**
    * Fires when the active repeater item changes.
@@ -169,6 +167,14 @@ export class SkyRepeaterComponent
   #logSvc = inject(SkyLogService);
 
   constructor() {
+    effect(() => {
+      this.#repeaterService.selectionMode.set(this.selectionMode());
+      untracked(() => {
+        this.#updateForSelectionMode();
+        this.#updateRole();
+      });
+    });
+
     this.#repeaterService.itemCollapseStateChange
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((item: SkyRepeaterItemComponent) => {
@@ -188,7 +194,7 @@ export class SkyRepeaterComponent
     this.#repeaterService.itemSelectStateChange
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((item: SkyRepeaterItemComponent) => {
-        if (this.selectionMode === 'single' && item.isSelected) {
+        if (this.selectionMode() === 'single' && item.isSelected) {
           this.items?.forEach((otherItem) => {
             if (otherItem !== item && otherItem.isSelected) {
               otherItem.isSelected = false;
@@ -348,7 +354,7 @@ export class SkyRepeaterComponent
   }
 
   #updateForSelectionMode(): void {
-    if (this.selectionMode === 'single' && this.items) {
+    if (this.selectionMode() === 'single' && this.items) {
       let foundSelected = false;
 
       for (const item of this.items) {
@@ -512,7 +518,7 @@ export class SkyRepeaterComponent
 
     // Default to list role, or listbox role when selectionMode is "single".
     let autoRole: SkyRepeaterRoleType =
-      this.selectionMode === 'single' ? 'listbox' : 'list';
+      this.selectionMode() === 'single' ? 'listbox' : 'list';
 
     const roleMap: Record<SkyRepeaterRoleType, SkyRepeaterItemRolesType> = {
       list: { item: 'listitem', title: undefined, content: undefined },
@@ -547,6 +553,7 @@ export class SkyRepeaterComponent
 
     const hasInteraction =
       this.reorderable ||
+      (this.selectionMode() === 'multiple' && !!this.items?.length) ||
       this.items?.some((item) => item.isCollapsible) ||
       this.items?.some((item) => !!item.selectable) ||
       !!(this.#elementRef.nativeElement as HTMLElement).querySelector(

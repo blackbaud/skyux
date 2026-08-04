@@ -1,1 +1,1 @@
-export type SkyRepeaterSelectionModeType = 'single' | 'multiple';
+export type SkyRepeaterSelectionModeType = 'none' | 'single' | 'multiple';

@@ -115,7 +115,6 @@
               | skySelectionModalItemSelected: selectedIdMap
           "
           [itemName]="item[context.descriptorProperty]"
-          [selectable]="context.selectMode === 'multiple'"
           (isSelectedChange)="onItemSelect($event, item)"
         >
           <sky-repeater-item-content>
