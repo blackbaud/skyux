@@ -23,9 +23,6 @@
     },
     "./package.json": {
       "default": "./package.json"
-    },
-    "./polyfills": {
-      "default": "./src/polyfills.js"
     }
   },
   "schematics": "./collection.json",
@@ -114,6 +111,6 @@
     "parse5": "7.3.0",
     "tslib": "^2.8.1"
   },
-  "sideEffects": true,
+  "sideEffects": false,
   "main": "./src/index.js"
 }
