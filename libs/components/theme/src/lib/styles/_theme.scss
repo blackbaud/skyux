@@ -17,6 +17,10 @@ body {
   color: var(--sky-text-color-default);
 }
 
+html {
+  scrollbar-color: var(--sky-color-scrollbar-thumb) var(--sky-color-scrollbar-track);
+}
+
 h6 {
   font-size: 10px;
   font-weight: 600;
