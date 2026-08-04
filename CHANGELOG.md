@@ -1,12 +1,13 @@
 # Changelog
 
 
-## [14.9.2](https://github.com/blackbaud/skyux/compare/14.9.1...14.9.2) (2026-08-03)
+## [14.9.2](https://github.com/blackbaud/skyux/compare/14.9.1...14.9.2) (2026-08-04)
 
 
 ### Bug Fixes
 
 * **components/forms:** select input options are properly styled ([#4557](https://github.com/blackbaud/skyux/issues/4557)) ([83b4726](https://github.com/blackbaud/skyux/commit/83b4726a8c624fe572c98c054895c977cb8c7ab3))
+* **components/layout:** recalculate description list responsive layout on container resize ([#4570](https://github.com/blackbaud/skyux/issues/4570)) ([ef91639](https://github.com/blackbaud/skyux/commit/ef91639e6619eb2770273c029933943cc4f89dc4)), closes [AB#4074075](https://dev.azure.com/blackbaud/Products/_workitems/edit/4074075)
 * **components/packages:** skip sky-grid-column nested in sky-list-view-grid ([#4562](https://github.com/blackbaud/skyux/issues/4562)) ([5ec40e1](https://github.com/blackbaud/skyux/commit/5ec40e16310e38af572bfb0c5ea475d4ebc59dc1)), closes [AB#4074210](https://dev.azure.com/blackbaud/Products/_workitems/edit/4074210)
 * rename docs groups to match docs URL slugs ([#4571](https://github.com/blackbaud/skyux/issues/4571)) ([f964ee4](https://github.com/blackbaud/skyux/commit/f964ee4cd8a74626bb3fcaebddb2cf59e1aa5453))
 
