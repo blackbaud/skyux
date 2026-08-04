@@ -104,14 +104,12 @@
     <sky-repeater
       class="sky-lookup-show-more-repeater"
       expandMode="none"
-      [selectionMode]="context.selectMode === 'multiple' ? 'multiple' : 'none'"
+      [selectionMode]="context.selectMode"
     >
       @for (item of displayedItems; track item) {
         <sky-repeater-item
           #repeaterItem
           [(isSelected)]="item.selected"
-          (click)="itemClick(item)"
-          (keyup.enter)="itemClick(item)"
           (isSelectedChange)="onItemSelect($event, item)"
         >
           <sky-repeater-item-content>
