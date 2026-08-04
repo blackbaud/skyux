@@ -4,8 +4,8 @@ import {
   Component,
   ElementRef,
   HostListener,
-  ViewChild,
   inject,
+  viewChild,
 } from '@angular/core';
 import {
   FormsModule,
@@ -52,8 +52,9 @@ export class SkyAgGridCellEditorCurrencyComponent implements ICellEditorAngularC
   public params: SkyCellEditorCurrencyParams | undefined;
   public rowNumber: number | undefined;
 
-  @ViewChild('skyCellEditorCurrency', { read: ElementRef })
-  public input: ElementRef | undefined;
+  public readonly input = viewChild('skyCellEditorCurrency', {
+    read: ElementRef,
+  });
 
   @HostListener('focusout', ['$event'])
   public onFocusOut(event: FocusEvent): void {
@@ -61,7 +62,7 @@ export class SkyAgGridCellEditorCurrencyComponent implements ICellEditorAngularC
       // If focus is being set to the grid cell, schedule focus on the input.
       // This happens when the refreshCells API is called.
       this.afterGuiAttached();
-    } else if (event.target === this.input?.nativeElement) {
+    } else if (event.target === this.input()?.nativeElement) {
       this.#stopEditingOnBlur();
     }
   }
@@ -100,7 +101,7 @@ export class SkyAgGridCellEditorCurrencyComponent implements ICellEditorAngularC
   public afterGuiAttached(): void {
     // AG Grid sets focus to the cell via setTimeout, and this queues the input to focus after that.
     setTimeout(() => {
-      this.input?.nativeElement.focus();
+      this.input()?.nativeElement.focus();
 
       // This setup is in `afterGuiAttached` due to the lifecycle of autonumeric which will highlight the initial value if it is in place when it renders.
       // Since we don't want that, we set the initial value after autonumeric initializes.
@@ -133,7 +134,7 @@ export class SkyAgGridCellEditorCurrencyComponent implements ICellEditorAngularC
         this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted &&
         (this.params?.value ?? '') !== ''
       ) {
-        this.input?.nativeElement.select();
+        this.input()?.nativeElement.select();
       }
 
       // When the cell is initialized with the Enter key, we need to suppress the first `onPressEnter`.

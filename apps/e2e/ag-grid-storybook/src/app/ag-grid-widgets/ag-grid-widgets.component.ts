@@ -3,11 +3,11 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
-  Input,
   OnDestroy,
   OnInit,
   ViewEncapsulation,
   inject,
+  input,
 } from '@angular/core';
 import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import { PreviewWrapperModule } from '@skyux/storybook/components';
@@ -58,11 +58,9 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 export class AgGridWidgetsComponent
   implements AfterViewInit, OnInit, OnDestroy
 {
-  @Input()
-  public compact = false;
+  public readonly compact = input(false);
 
-  @Input()
-  public domLayout: 'normal' | 'autoHeight' = 'normal';
+  public readonly domLayout = input<'normal' | 'autoHeight'>('normal');
 
   public readonly dataSets = [
     { id: 'columnGroups', data: data.slice(12, 20) },
@@ -177,7 +175,7 @@ export class AgGridWidgetsComponent
       const gridOptions: GridOptions = {
         columnDefs,
         columnMenu: 'new',
-        domLayout: this.domLayout,
+        domLayout: this.domLayout(),
         initialState: this.#initialStates[dataSet.id],
         loading: dataSet.id === 'loading',
         stopEditingWhenCellsLoseFocus: false,

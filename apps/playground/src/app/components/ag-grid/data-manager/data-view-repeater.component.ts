@@ -2,9 +2,9 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Input,
   OnInit,
   inject,
+  input,
 } from '@angular/core';
 import {
   SkyDataManagerModule,
@@ -34,8 +34,7 @@ import { FruitItem } from './fruit-item';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DataViewRepeaterComponent implements OnInit {
-  @Input()
-  public items: FruitItem[]; // typed items
+  public readonly items = input<FruitItem[]>(undefined); // typed items
   public dataState = new SkyDataManagerState({});
   public displayedItems: FruitItem[];
   public isActive: boolean;
@@ -60,7 +59,7 @@ export class DataViewRepeaterComponent implements OnInit {
   // no explicit constructor logic needed
 
   public ngOnInit(): void {
-    this.displayedItems = this.items;
+    this.displayedItems = this.items();
 
     this.#dataManagerService.initDataView(this.viewConfig);
 
@@ -79,10 +78,10 @@ export class DataViewRepeaterComponent implements OnInit {
 
   public updateData(): void {
     const selectedIds = this.dataState.selectedIds || [];
-    this.items.forEach((item) => {
+    this.items().forEach((item) => {
       item.selected = selectedIds.indexOf(item.id) !== -1;
     });
-    this.displayedItems = this.filterItems(this.searchItems(this.items));
+    this.displayedItems = this.filterItems(this.searchItems(this.items()));
 
     if (this.dataState.onlyShowSelected) {
       this.displayedItems = this.displayedItems.filter((item) => item.selected);
@@ -90,7 +89,7 @@ export class DataViewRepeaterComponent implements OnInit {
 
     this.#dataManagerService.updateDataSummary(
       {
-        totalItems: this.items.length,
+        totalItems: this.items().length,
         itemsMatching: this.displayedItems.length,
       },
       this.viewId,

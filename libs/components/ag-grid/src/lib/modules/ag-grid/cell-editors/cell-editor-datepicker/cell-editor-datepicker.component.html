@@ -1,7 +1,7 @@
 <div
   class="sky-ag-grid-cell-editor-datepicker"
   [formGroup]="editorForm"
-  [style.width.px]="columnWidthWithoutBorders"
+  [style.width.px]="columnWidthWithoutBorders || undefined"
 >
   <sky-datepicker
     data-sky-id="cell-datepicker"
