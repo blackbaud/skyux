@@ -17,6 +17,8 @@ import {
 import { SkyAgGridWrapperComponent } from '../ag-grid-wrapper.component';
 import { SkyAgGridService } from '../ag-grid.service';
 
+import { AG_GRID_FIXTURE_TEST_OPTIONS } from './ag-grid-fixture-test-options';
+
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 export const MinimalColumnDefs = new InjectionToken<ColDef[]>(
@@ -57,6 +59,7 @@ export class SkyAgGridMinimalFixtureComponent {
   protected readonly gridOptionsFromService = this.editable
     ? this.#gridService.getEditableGridOptions({
         gridOptions: {
+          ...AG_GRID_FIXTURE_TEST_OPTIONS,
           columnDefs: this.columnDefs,
           domLayout: 'autoHeight' as DomLayoutType,
           context: {
@@ -66,6 +69,7 @@ export class SkyAgGridMinimalFixtureComponent {
       })
     : this.#gridService.getGridOptions({
         gridOptions: {
+          ...AG_GRID_FIXTURE_TEST_OPTIONS,
           columnDefs: this.columnDefs,
           domLayout: 'autoHeight' as DomLayoutType,
           context: {

@@ -135,4 +135,34 @@ describe('SkyAgGridHeaderGroupComponent', () => {
     await fixture.whenStable();
     expect(expanded).toBeTruthy();
   });
+
+  it('should create the inline help component exactly once', async () => {
+    // Create a fresh fixture to ensure agInit and ngAfterViewInit both trigger #updateInlineHelp
+    const freshFixture = TestBed.createComponent(SkyAgGridHeaderGroupComponent);
+    const freshComponent = freshFixture.componentInstance;
+
+    // Call agInit before detectChanges so ngAfterViewInit hasn't been called yet
+    freshComponent.agInit({
+      ...baseParams,
+      columnGroup: {
+        ...baseParams.columnGroup,
+        getColGroupDef: () =>
+          ({
+            headerGroupComponent: SkyAgGridHeaderGroupComponent,
+            headerGroupComponentParams: {
+              inlineHelpComponent: TestHelpComponent,
+            },
+          }) as ColGroupDef,
+      } as ColumnGroup,
+    });
+
+    // Now detectChanges triggers ngAfterViewInit -> second #updateInlineHelp call
+    freshFixture.detectChanges();
+    await freshFixture.whenStable();
+
+    const helpComponents = freshFixture.debugElement.queryAll(
+      By.css('.test-help-component'),
+    );
+    expect(helpComponents.length).toBe(1);
+  });
 });

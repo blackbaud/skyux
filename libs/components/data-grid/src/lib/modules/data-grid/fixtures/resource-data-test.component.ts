@@ -1,4 +1,5 @@
 import { Component, model, signal } from '@angular/core';
+import { provideSkyAgGridTesting } from '@skyux/ag-grid/testing';
 import { SkyDataGrid } from '../data-grid';
 import { SkyDataGridColumn } from '../data-grid-column';
 
@@ -10,6 +11,7 @@ interface ResourceRow {
 @Component({
   selector: 'sky-resource-data-test',
   imports: [SkyDataGrid, SkyDataGridColumn],
+  providers: [provideSkyAgGridTesting()],
   template: `
     <sky-data-grid
       data-sky-id="resource-grid"

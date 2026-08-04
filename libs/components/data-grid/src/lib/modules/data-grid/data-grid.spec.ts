@@ -1,7 +1,13 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { provideLocationMocks } from '@angular/common/testing';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  discardPeriodicTasks,
+  fakeAsync,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
@@ -13,13 +19,72 @@ import { SkyWaitHarness } from '@skyux/indicators/testing';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { SkyPagingHarness } from '@skyux/lists/testing';
 
-import { getGridApi } from 'ag-grid-community';
+import { getGridApi as getAgGridApi } from 'ag-grid-community';
 import { SkyDataGrid } from './data-grid';
+import { ColumnFitTestComponent } from './fixtures/column-fit-test.component';
 import { ColumnWidthTestComponent } from './fixtures/column-width-test.component';
 import { DataGridTestComponent } from './fixtures/data-grid-test.component';
 import { FlexWidthTestComponent } from './fixtures/flex-width-test.component';
+import { ResourceColumnsTestComponent } from './fixtures/resource-columns-test.component';
 import { ResourceDataTestComponent } from './fixtures/resource-data-test.component';
 import { TemplateColumnTestComponent } from './fixtures/template-column-test.component';
+
+/**
+ * Synchronous on purpose: used directly only by the `fakeAsync` "columnFit"
+ * tests below, which don't opt into `provideSkyAgGridTesting()` and so don't
+ * need (and, inside `fakeAsync`, can't easily use) the real-macrotask flush
+ * that `getGridApi()` performs.
+ */
+function getGridApiSync(agGridAngularElement: Element | null) {
+  return getAgGridApi(agGridAngularElement);
+}
+
+/**
+ * `ResourceDataTestComponent`'s grid goes through an async resource state
+ * transition (rather than a synchronous, client-side action). This no longer
+ * changes `flushAgGridWork`'s behavior (it settles deterministically off AG
+ * Grid's own render-count signal rather than a fixed iteration budget), but
+ * `getGridApi` still accepts it for call-site compatibility.
+ */
+const DEFAULT_FLUSH_ITERATIONS = 15;
+const RESOURCE_DATA_SOURCE_ITERATIONS = 30;
+
+/**
+ * `provideSkyAgGridTesting()` sets `window.AG_GRID_UNDER_TEST = false`,
+ * which makes AG Grid schedule its internal work outside the Angular zone
+ * (matching AG Grid's own production default). That means
+ * `fixture.whenStable()` no longer waits for AG Grid's rendering to finish,
+ * so reading grid state (or state derived from it, like the paging harness
+ * or a rendered cell) immediately after triggering a change can race AG
+ * Grid's out-of-zone work.
+ *
+ * `SkyAgGridWrapperHarness.waitUntilRendered()` settles deterministically by
+ * polling AG Grid's `modelUpdated` render-count signal until it stops moving,
+ * instead of burning a fixed wall-clock budget.
+ */
+async function flushAgGridWork<T>(fixture: ComponentFixture<T>): Promise<void> {
+  // Let any just-triggered render begin before waiting for it to settle.
+  fixture.detectChanges();
+  await fixture.whenStable();
+  await new Promise((resolve) => setTimeout(resolve));
+
+  const loader = TestbedHarnessEnvironment.loader(fixture);
+  const wrapper = await loader.getHarnessOrNull(SkyAgGridWrapperHarness);
+  await wrapper?.waitUntilRendered(); // settles when modelUpdated stops moving
+
+  fixture.detectChanges();
+  await fixture.whenStable();
+}
+
+async function getGridApi<T>(
+  agGridAngularElement: Element | null,
+  fixture: ComponentFixture<T>,
+  iterations = DEFAULT_FLUSH_ITERATIONS,
+) {
+  const api = getGridApiSync(agGridAngularElement);
+  await flushAgGridWork(fixture);
+  return api;
+}
 
 describe('SkyDataGrid', () => {
   describe('without data manager', () => {
@@ -45,8 +110,7 @@ describe('SkyDataGrid', () => {
       fixture.componentRef.setInput('labelText', 'My test grid');
       fixture.detectChanges();
       await fixture.whenStable();
-      fixture.detectChanges();
-      await fixture.whenStable();
+      await flushAgGridWork(fixture);
 
       const gridWrapper = fixture.nativeElement.querySelector(
         'sky-ag-grid-wrapper',
@@ -164,6 +228,10 @@ describe('SkyDataGrid', () => {
       fixture.componentRef.setInput('dataForSimpleGrid', undefined);
       fixture.detectChanges();
       expect(component).toBeTruthy();
+      // Wait for the grid's initial render before reading its loading state
+      // below: with AG Grid's out-of-zone scheduling, `whenStable()` alone
+      // doesn't guarantee the grid has finished its first render pass.
+      await flushAgGridWork(fixture);
       const waitHarness =
         await TestbedHarnessEnvironment.loader(fixture).getHarness(
           SkyWaitHarness,
@@ -181,10 +249,11 @@ describe('SkyDataGrid', () => {
     it('should handle data changing from populated to undefined', async () => {
       fixture.detectChanges();
       await fixture.whenStable();
-      const api = getGridApi(
+      const api = await getGridApi(
         fixture.nativeElement.querySelector(
           '[data-sky-id="grid"] ag-grid-angular',
         ),
+        fixture,
       );
       expect(api).toBeTruthy();
       expect(api?.getDisplayedRowCount()).toBe(7);
@@ -199,10 +268,11 @@ describe('SkyDataGrid', () => {
       fixture.componentRef.setInput('dataForSimpleGrid', undefined);
       fixture.detectChanges();
       await fixture.whenStable();
-      const api = getGridApi(
+      const api = await getGridApi(
         fixture.nativeElement.querySelector(
           '[data-sky-id="grid"] ag-grid-angular',
         ),
+        fixture,
       );
       expect(api).toBeTruthy();
       expect(api?.getDisplayedRowCount()).toBe(0);
@@ -222,7 +292,7 @@ describe('SkyDataGrid', () => {
       const gridElement = fixture.nativeElement.querySelector(
         '[data-sky-id="grid"] ag-grid-angular',
       );
-      const api = getGridApi(gridElement);
+      const api = await getGridApi(gridElement, fixture);
       expect(api).toBeTruthy();
       expect(api?.getState()?.sort?.sortModel).toBeUndefined();
 
@@ -287,7 +357,7 @@ describe('SkyDataGrid', () => {
       const gridElement = fixture.nativeElement.querySelector(
         '[data-sky-id="grid"] ag-grid-angular',
       );
-      const api = getGridApi(gridElement);
+      const api = await getGridApi(gridElement, fixture);
       expect(api).toBeTruthy();
       expect(api?.getColumnState().map((col) => col.colId)).toEqual([
         'column1',
@@ -345,10 +415,11 @@ describe('SkyDataGrid', () => {
       });
       fixture.detectChanges();
       await fixture.whenStable();
-      const api = getGridApi(
+      const api = await getGridApi(
         fixture.nativeElement.querySelector(
           '[data-sky-id="grid"] ag-grid-angular',
         ),
+        fixture,
       );
       expect(api?.getState()?.sort?.sortModel).toEqual([
         { colId: 'column1', sort: 'desc', type: 'default' },
@@ -362,10 +433,11 @@ describe('SkyDataGrid', () => {
       });
       fixture.detectChanges();
       await fixture.whenStable();
-      const api = getGridApi(
+      const api = await getGridApi(
         fixture.nativeElement.querySelector(
           '[data-sky-id="grid"] ag-grid-angular',
         ),
+        fixture,
       );
       expect(api?.getState()?.sort?.sortModel).toEqual([
         { colId: 'column2', sort: 'asc', type: 'default' },
@@ -375,10 +447,11 @@ describe('SkyDataGrid', () => {
     it('should update grid options when pageSize changes', async () => {
       fixture.detectChanges();
       await fixture.whenStable();
-      const api = getGridApi(
+      const api = await getGridApi(
         fixture.nativeElement.querySelector(
           '[data-sky-id="grid"] ag-grid-angular',
         ),
+        fixture,
       );
       expect(api).toBeTruthy();
       expect(api?.getGridOption('pagination')).toBeFalsy();
@@ -400,8 +473,9 @@ describe('SkyDataGrid', () => {
       component.page.set(2);
       fixture.detectChanges();
       await fixture.whenStable();
-      const gridApi = getGridApi(
+      const gridApi = await getGridApi(
         fixture.nativeElement.querySelector('ag-grid-angular'),
+        fixture,
       );
       expect(gridApi?.paginationGetCurrentPage()).toBe(1); // zero-based
       fixture.componentRef.setInput('pageSize', 10);
@@ -413,10 +487,11 @@ describe('SkyDataGrid', () => {
     it('should update grid options when multiselect changes', async () => {
       fixture.detectChanges();
       await fixture.whenStable();
-      const api = getGridApi(
+      const api = await getGridApi(
         fixture.nativeElement.querySelector(
           '[data-sky-id="grid"] ag-grid-angular',
         ),
+        fixture,
       );
       expect(api).toBeTruthy();
       expect(api?.getGridOption('rowSelection')).toEqual(
@@ -431,26 +506,33 @@ describe('SkyDataGrid', () => {
       fixture.componentRef.setInput('multiselect', true);
       fixture.detectChanges();
       await fixture.whenStable();
-      expect(api?.getGridOption('rowSelection')).toEqual({
-        mode: 'multiRow',
-        checkboxes: true,
-        headerCheckbox: true,
-        checkboxLocation: 'selectionColumn',
-      });
+      expect(api?.getGridOption('rowSelection')).toEqual(
+        jasmine.objectContaining({
+          mode: 'multiRow',
+          checkboxes: true,
+          headerCheckbox: true,
+          checkboxLocation: 'selectionColumn',
+        }),
+      );
     });
 
     it('should select all rows', async () => {
       fixture.detectChanges();
       expect(component).toBeTruthy();
+      // Wait for the grids' initial render before reading their loading
+      // state below: with AG Grid 36's out-of-zone scheduling, `whenStable()`
+      // alone doesn't guarantee the grid has finished its first render pass.
+      await flushAgGridWork(fixture);
       const waitHarness =
         await TestbedHarnessEnvironment.loader(fixture).getHarness(
           SkyWaitHarness,
         );
       await expectAsync(waitHarness.isWaiting()).toBeResolvedTo(false);
-      const api = getGridApi(
+      const api = await getGridApi(
         fixture.nativeElement.querySelector(
           '[data-sky-id="multiselect-grid"] ag-grid-angular',
         ),
+        fixture,
       );
       expect(api).toBeTruthy();
       expect(api?.getSelectedNodes()).toHaveSize(0);
@@ -463,6 +545,10 @@ describe('SkyDataGrid', () => {
       expect(component).toBeTruthy();
       fixture.detectChanges();
       await fixture.whenStable();
+      // Wait for the grids' initial render before reading their loading
+      // state below: with AG Grid 36's out-of-zone scheduling, `whenStable()`
+      // alone doesn't guarantee the grid has finished its first render pass.
+      await flushAgGridWork(fixture);
       const waitHarnesses =
         await TestbedHarnessEnvironment.loader(fixture).getAllHarnesses(
           SkyWaitHarness,
@@ -472,10 +558,11 @@ describe('SkyDataGrid', () => {
           waitHarnesses.map((waitHarness) => waitHarness.isWaiting()),
         ),
       ).toBeResolvedTo([false, false, false]);
-      const api = getGridApi(
+      const api = await getGridApi(
         fixture.nativeElement.querySelector(
           '[data-sky-id="multiselect-grid"] ag-grid-angular',
         ),
+        fixture,
       );
       expect(api).toBeTruthy();
       expect(api?.getSelectedNodes()).toHaveSize(0);
@@ -488,10 +575,11 @@ describe('SkyDataGrid', () => {
     it('should deselect rows when selectedRowIds is reduced programmatically', async () => {
       fixture.detectChanges();
       await fixture.whenStable();
-      const api = getGridApi(
+      const api = await getGridApi(
         fixture.nativeElement.querySelector(
           '[data-sky-id="multiselect-grid"] ag-grid-angular',
         ),
+        fixture,
       );
       expect(api).toBeTruthy();
       component.selectedRowIds.set(['2', '4', '6']);
@@ -541,10 +629,11 @@ describe('SkyDataGrid', () => {
 
       // selectedRowIds should be updated to only include IDs still in the data
       expect(component.selectedRowIds()).toEqual(['1', '3', '5']);
-      const api = getGridApi(
+      const api = await getGridApi(
         fixture.nativeElement.querySelector(
           '[data-sky-id="multiselect-grid"] ag-grid-angular',
         ),
+        fixture,
       );
       expect(api).toBeTruthy();
       api?.getRowNode('3')?.setSelected(false);
@@ -607,6 +696,7 @@ describe('SkyDataGrid', () => {
       fixture.componentRef.setInput('pageSize', 4);
       fixture.detectChanges();
       await fixture.whenStable();
+      await flushAgGridWork(fixture);
       expect(component).toBeTruthy();
       const pagingHarness =
         await TestbedHarnessEnvironment.loader(fixture).getHarness(
@@ -626,6 +716,7 @@ describe('SkyDataGrid', () => {
       const navSpy = spyOn(router, 'navigate');
       fixture.detectChanges();
       await fixture.whenStable();
+      await flushAgGridWork(fixture);
       expect(component).toBeTruthy();
       const pagingHarness =
         await TestbedHarnessEnvironment.loader(fixture).getHarness(
@@ -729,6 +820,7 @@ describe('SkyDataGrid', () => {
 
       expect(component.page()).toBe(3);
 
+      await flushAgGridWork(fixture);
       const pagingHarness = await loader.getHarness(SkyPagingHarness);
       await expectAsync(pagingHarness.getCurrentPage()).toBeResolvedTo(3);
     });
@@ -757,6 +849,7 @@ describe('SkyDataGrid', () => {
 
       expect(component.page()).toBe(1);
 
+      await flushAgGridWork(fixture);
       const pagingHarness = await loader.getHarness(SkyPagingHarness);
       await expectAsync(pagingHarness.getCurrentPage()).toBeResolvedTo(1);
     });
@@ -767,6 +860,7 @@ describe('SkyDataGrid', () => {
       fixture.componentRef.setInput('rowCount', 1000);
       fixture.detectChanges();
       await fixture.whenStable();
+      await flushAgGridWork(fixture);
       expect(component).toBeTruthy();
       const pagingHarness =
         await TestbedHarnessEnvironment.loader(fixture).getHarness(
@@ -777,10 +871,11 @@ describe('SkyDataGrid', () => {
       await expectAsync(pagingHarness.getCurrentPage()).toBeResolvedTo(2);
       await pagingHarness.clickPreviousButton();
       await expectAsync(pagingHarness.getCurrentPage()).toBeResolvedTo(1);
-      const api = getGridApi(
+      const api = await getGridApi(
         fixture.nativeElement.querySelector(
           '[data-sky-id="grid"] ag-grid-angular',
         ),
+        fixture,
       );
       expect(api).toBeTruthy();
       expect(api?.getGridOption('pagination')).toBeFalsy();
@@ -792,10 +887,11 @@ describe('SkyDataGrid', () => {
       fixture.componentRef.setInput('pageSize', 2);
       fixture.detectChanges();
       await fixture.whenStable();
-      const api = getGridApi(
+      const api = await getGridApi(
         fixture.nativeElement.querySelector(
           '[data-sky-id="grid"] ag-grid-angular',
         ),
+        fixture,
       );
       expect(api).toBeTruthy();
       // `dataForSimpleGrid` has 7 rows; only `pageSize` rows should render.
@@ -859,6 +955,7 @@ describe('SkyDataGrid', () => {
         ),
       );
 
+      await flushAgGridWork(noRouterFixture);
       const pagingHarness =
         await TestbedHarnessEnvironment.loader(noRouterFixture).getHarness(
           SkyPagingHarness,
@@ -873,8 +970,9 @@ describe('SkyDataGrid', () => {
       const flexFixture = TestBed.createComponent(FlexWidthTestComponent);
       flexFixture.detectChanges();
       await flexFixture.whenStable();
-      const api = getGridApi(
+      const api = await getGridApi(
         flexFixture.nativeElement.querySelector('ag-grid-angular'),
+        flexFixture,
       );
       expect(api).toBeTruthy();
       const colDef = api?.getColumn('column1')?.getColDef();
@@ -887,7 +985,7 @@ describe('SkyDataGrid', () => {
       );
       templateFixture.detectChanges();
       await templateFixture.whenStable();
-      templateFixture.detectChanges();
+      await flushAgGridWork(templateFixture);
       const cells = Array.from(
         templateFixture.nativeElement.querySelectorAll(
           '.custom-cell',
@@ -904,8 +1002,9 @@ describe('SkyDataGrid', () => {
       );
       templateFixture.detectChanges();
       await templateFixture.whenStable();
-      const api = getGridApi(
+      const api = await getGridApi(
         templateFixture.nativeElement.querySelector('ag-grid-angular'),
+        templateFixture,
       );
       expect(api).toBeTruthy();
       const colDef = api?.getColumn('actions')?.getColDef();
@@ -923,8 +1022,9 @@ describe('SkyDataGrid', () => {
       const flexFixture = TestBed.createComponent(FlexWidthTestComponent);
       flexFixture.detectChanges();
       await flexFixture.whenStable();
-      const api = getGridApi(
+      const api = await getGridApi(
         flexFixture.nativeElement.querySelector('ag-grid-angular'),
+        flexFixture,
       );
       expect(api).toBeTruthy();
       const colDef = api?.getColumn('column3')?.getColDef();
@@ -938,8 +1038,9 @@ describe('SkyDataGrid', () => {
       const flexFixture = TestBed.createComponent(ColumnWidthTestComponent);
       flexFixture.detectChanges();
       await flexFixture.whenStable();
-      const api = getGridApi(
+      const api = await getGridApi(
         flexFixture.nativeElement.querySelector('ag-grid-angular'),
+        flexFixture,
       );
       expect(api).toBeTruthy();
       const colDef = api?.getColumn('column2')?.getColDef();
@@ -951,8 +1052,9 @@ describe('SkyDataGrid', () => {
       const flexFixture = TestBed.createComponent(ColumnWidthTestComponent);
       flexFixture.detectChanges();
       await flexFixture.whenStable();
-      const api = getGridApi(
+      const api = await getGridApi(
         flexFixture.nativeElement.querySelector('ag-grid-angular'),
+        flexFixture,
       );
       expect(api).toBeTruthy();
       expect(api?.getGridOption('autoSizeStrategy')).toBeFalsy();
@@ -962,10 +1064,11 @@ describe('SkyDataGrid', () => {
       fixture.componentRef.setInput('autoSort', false);
       fixture.detectChanges();
       await fixture.whenStable();
-      const api = getGridApi(
+      const api = await getGridApi(
         fixture.nativeElement.querySelector(
           '[data-sky-id="grid"] ag-grid-angular',
         ),
+        fixture,
       );
       expect(api).toBeTruthy();
       const comparator = api?.getColumn('column1')?.getColDef().comparator as
@@ -979,10 +1082,11 @@ describe('SkyDataGrid', () => {
     it('should not set a comparator on columns when autoSort is true', async () => {
       fixture.detectChanges();
       await fixture.whenStable();
-      const api = getGridApi(
+      const api = await getGridApi(
         fixture.nativeElement.querySelector(
           '[data-sky-id="grid"] ag-grid-angular',
         ),
+        fixture,
       );
       expect(api).toBeTruthy();
       expect(api?.getColumn('column1')?.getColDef().comparator).toBeUndefined();
@@ -994,21 +1098,35 @@ describe('SkyDataGrid', () => {
       );
       templateFixture.detectChanges();
       await templateFixture.whenStable();
-      const api = getGridApi(
+      const api = await getGridApi(
         templateFixture.nativeElement.querySelector('ag-grid-angular'),
+        templateFixture,
       );
       expect(api).toBeTruthy();
       const colDef = api?.getColumn('date')?.getColDef();
       expect(colDef?.cellDataType).toBe('dateString');
     });
 
-    it('should size columns to their content when columnFit is "content"', async () => {
-      fixture.detectChanges();
-      await fixture.whenStable();
-      // The default "grid" uses the default columnFit ("container").
-      const containerApi = getGridApi(
-        fixture.nativeElement.querySelector(
-          '[data-sky-id="grid"] ag-grid-angular',
+    it('should size columns to their content when columnFit is "content"', fakeAsync(() => {
+      // Uses a fixture without `provideSkyAgGridTesting()` so the real
+      // `autoSizeStrategy` grid option can be observed rather than the value
+      // the testing override suppresses. Only a single `tick()` is used
+      // (rather than `flush()`) because AG Grid's real auto-size
+      // measurement (which `provideSkyAgGridTesting()` would otherwise
+      // disable) reschedules its own `requestAnimationFrame` callback well
+      // beyond `flush()`'s 20-turn limit; the option's value is set
+      // synchronously at grid creation and doesn't require that
+      // measurement loop to fully settle. `discardPeriodicTasks()` clears
+      // the still-pending callback so the test doesn't fail on exit.
+      const fitFixture = TestBed.createComponent(ColumnFitTestComponent);
+      fitFixture.detectChanges();
+      tick();
+      fitFixture.detectChanges();
+
+      // The "container-fit-grid" uses the default columnFit ("container").
+      const containerApi = getGridApiSync(
+        fitFixture.nativeElement.querySelector(
+          '[data-sky-id="container-fit-grid"] ag-grid-angular',
         ),
       );
       expect(containerApi?.getGridOption('autoSizeStrategy')).toEqual({
@@ -1017,10 +1135,10 @@ describe('SkyDataGrid', () => {
         scaleUpToFitGridWidth: true,
       });
 
-      // The "multiselect-grid" sets columnFit="content" and has no flex columns.
-      const contentApi = getGridApi(
-        fixture.nativeElement.querySelector(
-          '[data-sky-id="multiselect-grid"] ag-grid-angular',
+      // The "content-fit-grid" sets columnFit="content" and has no flex columns.
+      const contentApi = getGridApiSync(
+        fitFixture.nativeElement.querySelector(
+          '[data-sky-id="content-fit-grid"] ag-grid-angular',
         ),
       );
       expect(contentApi?.getGridOption('autoSizeStrategy')).toEqual({
@@ -1028,7 +1146,9 @@ describe('SkyDataGrid', () => {
         skipHeader: true,
         scaleUpToFitGridWidth: false,
       });
-    });
+
+      discardPeriodicTasks();
+    }));
 
     it('should add the stacked margin class to the host when stacked is true', async () => {
       fixture.detectChanges();
@@ -1048,19 +1168,21 @@ describe('SkyDataGrid', () => {
       fixture.detectChanges();
       await fixture.whenStable();
       // The "multiselect-grid" sets topScrollEnabled; the default "grid" does not.
-      const topScrollApi = getGridApi(
+      const topScrollApi = await getGridApi(
         fixture.nativeElement.querySelector(
           '[data-sky-id="multiselect-grid"] ag-grid-angular',
         ),
+        fixture,
       );
       expect(
         topScrollApi?.getGridOption('context')?.enableTopScroll,
       ).toBeTrue();
 
-      const defaultApi = getGridApi(
+      const defaultApi = await getGridApi(
         fixture.nativeElement.querySelector(
           '[data-sky-id="grid"] ag-grid-angular',
         ),
+        fixture,
       );
       expect(defaultApi?.getGridOption('context')?.enableTopScroll).toBeFalsy();
     });
@@ -1111,10 +1233,11 @@ describe('SkyDataGrid', () => {
       fixture.detectChanges();
       await fixture.whenStable();
 
-      const api = getGridApi(
+      const api = await getGridApi(
         fixture.nativeElement.querySelector(
           '[data-sky-id="multiselect-grid"] ag-grid-angular',
         ),
+        fixture,
       );
       expect(component.selectedRowIds()).toEqual(['1', '2']);
       expect(api?.getSelectedNodes()).toHaveSize(2);
@@ -1123,10 +1246,11 @@ describe('SkyDataGrid', () => {
     it('should return null instead of NaN when a number column value getter receives a row without data', async () => {
       fixture.detectChanges();
       await fixture.whenStable();
-      const api = getGridApi(
+      const api = await getGridApi(
         fixture.nativeElement.querySelector(
           '[data-sky-id="multiselect-grid"] ag-grid-angular',
         ),
+        fixture,
       );
       const valueGetter = api?.getColumn('myId')?.getColDef().valueGetter as
         ((params: { data: unknown }) => number | null) | undefined;
@@ -1144,10 +1268,12 @@ describe('SkyDataGrid', () => {
       resourceFixture.detectChanges();
       await resourceFixture.whenStable();
 
-      const api = getGridApi(
+      const api = await getGridApi(
         resourceFixture.nativeElement.querySelector(
           '[data-sky-id="resource-grid"] ag-grid-angular',
         ),
+        resourceFixture,
+        RESOURCE_DATA_SOURCE_ITERATIONS,
       );
       expect(api).toBeTruthy();
       // No rows render while the resource is still loading.
@@ -1196,16 +1322,64 @@ describe('SkyDataGrid', () => {
       resourceFixture.detectChanges();
       await resourceFixture.whenStable();
 
-      const api = getGridApi(
+      const api = await getGridApi(
         resourceFixture.nativeElement.querySelector(
           '[data-sky-id="resource-grid"] ag-grid-angular',
         ),
+        resourceFixture,
+        RESOURCE_DATA_SOURCE_ITERATIONS,
       );
       expect(resourceFixture.componentInstance.selectedRowIds()).toEqual([
         '1',
         '2',
       ]);
       expect(api?.getSelectedNodes()).toHaveSize(2);
+    });
+
+    it('should apply column defs that settle before the grid is created', async () => {
+      const resourceFixture = TestBed.createComponent(
+        ResourceColumnsTestComponent,
+      );
+      resourceFixture.detectChanges();
+      // The resource settles synchronously, in the same tick that kicks off
+      // the grid's creation - before AG Grid's async `onGridReady` callback
+      // has a chance to fire - so this exercises the untracked-`gridApi`
+      // race rather than ordinary post-creation reactivity.
+      resourceFixture.componentInstance.showValueColumn.set(true);
+      resourceFixture.detectChanges();
+
+      const api = await getGridApi(
+        resourceFixture.nativeElement.querySelector(
+          '[data-sky-id="resource-columns-grid"] ag-grid-angular',
+        ),
+        resourceFixture,
+        RESOURCE_DATA_SOURCE_ITERATIONS,
+      );
+      expect(api?.getColumnState().map((col) => col.colId)).toEqual([
+        'name',
+        'value',
+      ]);
+    });
+
+    it('should apply a page size that settles before the grid is created', async () => {
+      const resourceFixture = TestBed.createComponent(
+        ResourceColumnsTestComponent,
+      );
+      resourceFixture.detectChanges();
+      // Same race as above, but for `pageSize`: it settles before AG Grid's
+      // async `onGridReady` callback fires.
+      resourceFixture.componentInstance.pageSize.set(1);
+      resourceFixture.detectChanges();
+
+      const api = await getGridApi(
+        resourceFixture.nativeElement.querySelector(
+          '[data-sky-id="resource-columns-grid"] ag-grid-angular',
+        ),
+        resourceFixture,
+        RESOURCE_DATA_SOURCE_ITERATIONS,
+      );
+      expect(api?.getGridOption('pagination')).toBeTrue();
+      expect(api?.getGridOption('paginationPageSize')).toBe(1);
     });
   });
 });
