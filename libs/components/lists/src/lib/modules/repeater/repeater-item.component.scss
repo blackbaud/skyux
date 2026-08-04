@@ -494,7 +494,7 @@ sky-repeater-item {
 }
 
 .hover-rows {
-  .sky-repeater-item {
+  .sky-repeater-item:not(.sky-repeater-item-disabled) {
     cursor: pointer;
 
     &:hover {

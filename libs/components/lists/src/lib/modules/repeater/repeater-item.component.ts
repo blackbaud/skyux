@@ -164,13 +164,12 @@ export class SkyRepeaterItemComponent
 
   /**
    * The `aria-selected` value to render for this item. In a single-select repeater,
-   * only the selected item receives `true`; unselected items receive `undefined`
-   * (not `false`), consistent with [W3C](https://www.w3.org/WAI/ARIA/apg/patterns/listbox/)
-   * guidance for single-selection widgets.
+   * every item receives `true` or `false` since the item's role is `option`, which
+   * requires `aria-selected` to be explicitly set on all options.
    */
   protected get ariaSelected(): boolean | undefined {
     if (this.#repeaterService.selectionMode === 'single') {
-      return this.isSelected ? true : undefined;
+      return !!this.isSelected;
     }
     return this.selectable ? !!this.isSelected : undefined;
   }
@@ -610,18 +609,17 @@ export class SkyRepeaterItemComponent
   }
 
   #selectOnClick(event: MouseEvent): void {
-    if (
+    if (this.isSelectionModeSingle) {
+      if (!this.#isEventTargetWithinInteractiveDescendant(event)) {
+        this.isSelected = true;
+      }
+    } else if (
       this.selectable &&
       (event.target as HTMLElement).matches(
         '.sky-repeater-item, .sky-repeater-item-right, sky-repeater-item-content',
       )
     ) {
       this.isSelected = !this.isSelected;
-    } else if (
-      this.isSelectionModeSingle &&
-      !this.#isEventTargetWithinInteractiveDescendant(event)
-    ) {
-      this.isSelected = true;
     }
   }
 

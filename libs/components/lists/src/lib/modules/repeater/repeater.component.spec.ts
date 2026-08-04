@@ -1303,8 +1303,8 @@ describe('Repeater item component', () => {
       tick();
 
       let items = getItems(fixture);
-      expect(items[0].getAttribute('aria-selected')).toBeNull();
-      expect(items[1].getAttribute('aria-selected')).toBeNull();
+      expect(items[0].getAttribute('aria-selected')).toBe('false');
+      expect(items[1].getAttribute('aria-selected')).toBe('false');
 
       SkyAppTestUtility.fireDomEvent(items[0], 'click');
       fixture.detectChanges();
@@ -1312,7 +1312,7 @@ describe('Repeater item component', () => {
 
       items = getItems(fixture);
       expect(items[0].getAttribute('aria-selected')).toBe('true');
-      expect(items[1].getAttribute('aria-selected')).toBeNull();
+      expect(items[1].getAttribute('aria-selected')).toBe('false');
     }));
 
     it('should keep only the first pre-selected item selected when multiple items start selected', fakeAsync(() => {
