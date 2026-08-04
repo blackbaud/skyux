@@ -14,7 +14,7 @@ export class IndicatorsAlertBasicExampleComponent {
   @Input()
   public days = 9;
 
-  protected onClosedChange(event: boolean): void {
+  protected onClosedChange(event: boolean | undefined): void {
     alert(`Alert closed with: ${event}`);
   }
 }
