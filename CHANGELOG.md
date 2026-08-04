@@ -19,6 +19,7 @@
 
 ### Bug Fixes
 
+* **components/layout:** recalculate description list responsive layout on container resize ([#4570](https://github.com/blackbaud/skyux/issues/4570)) ([#4580](https://github.com/blackbaud/skyux/issues/4580)) ([936fa4a](https://github.com/blackbaud/skyux/commit/936fa4a3e33ee1a01995e7047dc0ffb6a1b1952c)), closes [AB#4074075](https://dev.azure.com/blackbaud/Products/_workitems/edit/4074075)
 * **components/layout:** tokenize page summary background color ([#4536](https://github.com/blackbaud/skyux/issues/4536)) ([#4537](https://github.com/blackbaud/skyux/issues/4537)) ([722fba2](https://github.com/blackbaud/skyux/commit/722fba26a4de87d6269fc831aa77419e4fbdd7ff))
 * **components/packages:** skip sky-grid-column nested in sky-list-view-grid ([#4562](https://github.com/blackbaud/skyux/issues/4562)) ([#4569](https://github.com/blackbaud/skyux/issues/4569)) ([580ea06](https://github.com/blackbaud/skyux/commit/580ea06805240e4e533f583b9d258f7e9f1ed28f)), closes [AB#4074210](https://dev.azure.com/blackbaud/Products/_workitems/edit/4074210)
 * rename docs groups to match docs URL slugs ([#4571](https://github.com/blackbaud/skyux/issues/4571)) ([#4572](https://github.com/blackbaud/skyux/issues/4572)) ([1b573f4](https://github.com/blackbaud/skyux/commit/1b573f447003d0751d7792d25a2003b1c69f84c6))
