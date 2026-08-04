@@ -1,3 +1,4 @@
+import { Injector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { SkyAgGridService } from '@skyux/ag-grid';
 
@@ -61,6 +62,32 @@ describe('provideSkyAgGridTesting', () => {
       } finally {
         delete win.AG_GRID_UNDER_TEST;
       }
+    });
+
+    it('should keep the flag active until the last of two independently-destroyed instances is torn down', () => {
+      const win = window as unknown as { AG_GRID_UNDER_TEST?: boolean };
+      const previous = win.AG_GRID_UNDER_TEST;
+
+      TestBed.configureTestingModule({});
+      const parent = TestBed.inject(Injector);
+      const injectorA = Injector.create({
+        providers: [provideSkyAgGridTesting()],
+        parent,
+      });
+      const injectorB = Injector.create({
+        providers: [provideSkyAgGridTesting()],
+        parent,
+      });
+
+      injectorA.get(SkyAgGridService); // instantiates the testing service
+      injectorB.get(SkyAgGridService); // instantiates a second, independent instance
+      expect(win.AG_GRID_UNDER_TEST).toBeFalse();
+
+      injectorA.destroy();
+      expect(win.AG_GRID_UNDER_TEST).toBeFalse(); // injector B is still alive
+
+      injectorB.destroy();
+      expect(win.AG_GRID_UNDER_TEST).toBe(previous);
     });
   });
 });

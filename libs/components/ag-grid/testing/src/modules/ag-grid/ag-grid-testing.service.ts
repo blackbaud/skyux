@@ -34,6 +34,19 @@ function withRenderTracking<T>(options: GridOptions<T>): GridOptions<T> {
 }
 
 /**
+ * Tracks how many live `SkyAgGridTestingService` instances currently want
+ * `AG_GRID_UNDER_TEST` forced to `false`, and the value it held before the
+ * first of them activated it. `provideSkyAgGridTesting()` can be added to
+ * `TestBed.configureTestingModule()`'s providers *and/or* to one or more
+ * component `providers` arrays within the same spec, so multiple instances
+ * can be alive at once and destroyed in any order - the flag must stay forced
+ * while any instance is alive, and the pre-existing value must only be
+ * restored once the last one is destroyed.
+ */
+let activeInstanceCount = 0;
+let restoreValue: unknown;
+
+/**
  * @internal
  * Configures every grid with disabled row/column virtualization and opts out
  * of AG Grid's Angular test-zone detection. Specs that create and destroy many
@@ -42,8 +55,9 @@ function withRenderTracking<T>(options: GridOptions<T>): GridOptions<T> {
  * which surfaces as a `whenStable()` timeout unrelated to the code under test.
  * Without zone opt-out, AG Grid schedules its internal scroll/viewport work
  * inside the Angular zone under Karma, which can keep the zone from ever
- * reaching stable. The flag is restored to its prior value once the service is
- * destroyed, so specs that don't opt in aren't affected by ones that do.
+ * reaching stable. The flag is restored to its prior value once the last live
+ * instance is destroyed, so specs that don't opt in aren't affected by ones
+ * that do.
  *
  * Note: `provideSkyAgGridTesting()` can be added to `TestBed.configureTestingModule()`'s
  * providers *or* to a component's own `providers` array, so this can't rely on
@@ -56,10 +70,16 @@ function withRenderTracking<T>(options: GridOptions<T>): GridOptions<T> {
 export class SkyAgGridTestingService extends SkyAgGridService {
   constructor() {
     super();
-    const previousValue = (window as any).AG_GRID_UNDER_TEST;
+    if (activeInstanceCount === 0) {
+      restoreValue = (window as any).AG_GRID_UNDER_TEST;
+    }
+    activeInstanceCount++;
     (window as any).AG_GRID_UNDER_TEST = false;
     inject(DestroyRef).onDestroy(() => {
-      (window as any).AG_GRID_UNDER_TEST = previousValue;
+      activeInstanceCount--;
+      if (activeInstanceCount === 0) {
+        (window as any).AG_GRID_UNDER_TEST = restoreValue;
+      }
     });
   }
 
