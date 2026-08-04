@@ -3,6 +3,7 @@ import {
   SkyInlineFormButtonLayout,
   SkyInlineFormConfig,
 } from '@skyux/inline-form';
+import { SkyRepeaterSelectionModeType } from '@skyux/lists';
 
 interface Item {
   title: string;
@@ -27,6 +28,8 @@ export class RepeaterHarnessTestComponent {
   ];
 
   public selectable = input(false);
+
+  public selectionMode = input<SkyRepeaterSelectionModeType>('multiple');
 
   public reorderable = input(false);
 

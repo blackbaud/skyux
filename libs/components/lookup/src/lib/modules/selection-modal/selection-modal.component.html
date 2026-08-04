@@ -105,7 +105,7 @@
     <sky-repeater
       class="sky-lookup-show-more-repeater"
       expandMode="none"
-      [ngClass]="{ 'hover-rows': context.selectMode === 'single' }"
+      [selectionMode]="context.selectMode"
     >
       @for (item of displayedItems; track item) {
         <sky-repeater-item
@@ -116,8 +116,6 @@
           "
           [itemName]="item[context.descriptorProperty]"
           [selectable]="context.selectMode === 'multiple'"
-          (click)="itemClick(item)"
-          (keyup.enter)="itemClick(item)"
           (isSelectedChange)="onItemSelect($event, item)"
         >
           <sky-repeater-item-content>

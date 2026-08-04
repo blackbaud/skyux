@@ -1,6 +1,7 @@
 <ng-container #repeaterHost>
   <div
     class="sky-repeater"
+    [class.hover-rows]="selectionMode === 'single'"
     [attr.role]="role"
     [attr.aria-label]="ariaLabel || ('skyux_repeater_label' | skyLibResources)"
     (cdkObserveContent)="onCdkObserveContent()"

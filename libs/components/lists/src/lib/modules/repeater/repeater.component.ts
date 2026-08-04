@@ -35,6 +35,7 @@ import { SkyRepeaterExpandModeType } from './repeater-expand-mode-type';
 import { SkyRepeaterItemRolesType } from './repeater-item-roles.type';
 import { SkyRepeaterItemComponent } from './repeater-item.component';
 import { SkyRepeaterRoleType } from './repeater-role.type';
+import { SkyRepeaterSelectionModeType } from './repeater-selection-mode-type';
 import { SkyRepeaterService } from './repeater.service';
 
 /**
@@ -108,6 +109,31 @@ export class SkyRepeaterComponent
   }
 
   /**
+   * The selection interaction to apply to repeater items, as an alternative to each
+   * repeater item's own `selectable` property. The valid options are `single` and `multiple`.
+   * - `single` lets users select one repeater item at a time. Clicking anywhere on a
+   * repeater item, or pressing the Space or Enter key while it has focus, selects it and
+   * clears any previously-selected item. Users can move focus between repeater items with
+   * the arrow keys, Home, and End
+   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * - `multiple` does not add any selection interaction of its own. Use each repeater item's
+   * `selectable` property to display a checkbox for selecting multiple items.
+   * Do not set this property to `single` and a repeater item's `selectable` property at the
+   * same time; they represent separate, mutually-exclusive selection interactions.
+   * @default "multiple"
+   */
+  @Input()
+  public set selectionMode(value: SkyRepeaterSelectionModeType | undefined) {
+    this.#repeaterService.selectionMode = value;
+    this.#updateForSelectionMode();
+    this.#updateRole();
+  }
+
+  public get selectionMode(): SkyRepeaterSelectionModeType {
+    return this.#repeaterService.selectionMode;
+  }
+
+  /**
    * Fires when the active repeater item changes.
    */
   @Output()
@@ -159,6 +185,18 @@ export class SkyRepeaterComponent
         }
       });
 
+    this.#repeaterService.itemSelectStateChange
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((item: SkyRepeaterItemComponent) => {
+        if (this.selectionMode === 'single' && item.isSelected) {
+          this.items?.forEach((otherItem) => {
+            if (otherItem !== item && otherItem.isSelected) {
+              otherItem.isSelected = false;
+            }
+          });
+        }
+      });
+
     this.#repeaterService.activeItemIndexChange
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((index) => {
@@ -175,6 +213,7 @@ export class SkyRepeaterComponent
       });
 
     this.#updateForExpandMode();
+    this.#updateForSelectionMode();
 
     this.#adapterService.setRepeaterHost(this.#elementRef);
   }
@@ -196,6 +235,7 @@ export class SkyRepeaterComponent
       .subscribe(() => {
         if (this.items?.length) {
           this.#updateForExpandMode(this.items.last);
+          this.#updateForSelectionMode();
 
           this.#updateReorderability();
 
@@ -215,6 +255,7 @@ export class SkyRepeaterComponent
 
     setTimeout(() => {
       this.#updateForExpandMode();
+      this.#updateForSelectionMode();
 
       this.items?.forEach((item) => {
         item.reorderable = this.reorderable;
@@ -303,6 +344,22 @@ export class SkyRepeaterComponent
       }
 
       this.#updateRole();
+    }
+  }
+
+  #updateForSelectionMode(): void {
+    if (this.selectionMode === 'single' && this.items) {
+      let foundSelected = false;
+
+      for (const item of this.items) {
+        if (item.isSelected) {
+          if (foundSelected) {
+            item.isSelected = false;
+          }
+
+          foundSelected = true;
+        }
+      }
     }
   }
 
@@ -450,13 +507,16 @@ export class SkyRepeaterComponent
   #updateRole(): void {
     // Determine a role using a hierarchy based on https://www.w3.org/WAI/ARIA/apg/
     //   - If there are one or more interactions in the repeater item projected content or there is a context menu, use `grid`.
-    //   - If there are no interactions, use `list`.
+    //   - If `selectionMode` is "single" and there are no other interactions, use `listbox`.
+    //   - Otherwise, use `list`.
 
-    // Default to list role.
-    let autoRole: SkyRepeaterRoleType = 'list';
+    // Default to list role, or listbox role when selectionMode is "single".
+    let autoRole: SkyRepeaterRoleType =
+      this.selectionMode === 'single' ? 'listbox' : 'list';
 
     const roleMap: Record<SkyRepeaterRoleType, SkyRepeaterItemRolesType> = {
       list: { item: 'listitem', title: undefined, content: undefined },
+      listbox: { item: 'option', title: undefined, content: undefined },
       grid: { item: 'row', title: 'rowheader', content: 'gridcell' },
     };
 
@@ -476,6 +536,7 @@ export class SkyRepeaterComponent
       'video[controls]',
       '[contenteditable]',
       '.sky-repeater[role="grid"]',
+      '.sky-repeater[role="listbox"]',
     ]
       .map(
         (selector) =>

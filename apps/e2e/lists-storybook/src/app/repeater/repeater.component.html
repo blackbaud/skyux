@@ -9,6 +9,17 @@
     <sky-repeater-item-title>Item 3</sky-repeater-item-title>
   </sky-repeater-item>
 </sky-repeater>
+<sky-repeater expandMode="none" selectionMode="single">
+  <sky-repeater-item [selectable]="true">
+    <sky-repeater-item-title>Item 1</sky-repeater-item-title>
+  </sky-repeater-item>
+  <sky-repeater-item [selectable]="true" [isSelected]="true">
+    <sky-repeater-item-title>Item 2</sky-repeater-item-title>
+  </sky-repeater-item>
+  <sky-repeater-item [selectable]="true" [disabled]="true">
+    <sky-repeater-item-title>Item 3</sky-repeater-item-title>
+  </sky-repeater-item>
+</sky-repeater>
 <sky-repeater expandMode="single" [reorderable]="true" [activeIndex]="0">
   <sky-repeater-item tag="item1" [isExpanded]="false">
     <sky-repeater-item-title>Item 1</sky-repeater-item-title>

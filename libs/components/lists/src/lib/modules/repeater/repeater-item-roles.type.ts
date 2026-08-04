@@ -1,5 +1,5 @@
 export interface SkyRepeaterItemRolesType {
-  item: 'listitem' | 'row' | undefined;
+  item: 'listitem' | 'row' | 'option' | undefined;
   title: 'rowheader' | undefined;
   content: 'gridcell' | undefined;
 }

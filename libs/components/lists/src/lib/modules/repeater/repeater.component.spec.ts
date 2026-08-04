@@ -1125,6 +1125,294 @@ describe('Repeater item component', () => {
     }));
   });
 
+  describe('with selectionMode "single"', () => {
+    it('should select an item anywhere on the row and enforce single selection', fakeAsync(() => {
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      const cmp: RepeaterTestComponent = fixture.componentInstance;
+      fixture.componentRef.setInput('showRepeaterWithNgFor', true);
+      fixture.componentRef.setInput('selectionMode', 'single');
+      fixture.detectChanges();
+      tick();
+
+      const isSelectedChangeSpy = spyOn(
+        cmp,
+        'onIsSelectedChange',
+      ).and.callThrough();
+
+      const items = getItems(fixture);
+      const firstItemTitle = items[0].querySelector('sky-repeater-item-title');
+
+      expect(items[0]).not.toHaveCssClass('sky-repeater-item-selected');
+
+      // Clicking the title selects the item (unlike checkbox mode, the whole
+      // row -- including the title -- is the click target).
+      SkyAppTestUtility.fireDomEvent(firstItemTitle, 'click');
+      fixture.detectChanges();
+      tick();
+
+      expect(items[0]).toHaveCssClass('sky-repeater-item-selected');
+      expect(isSelectedChangeSpy).toHaveBeenCalledWith(true);
+      expect(isSelectedChangeSpy).toHaveBeenCalledTimes(1);
+
+      isSelectedChangeSpy.calls.reset();
+
+      // Selecting a different item clears the first.
+      SkyAppTestUtility.fireDomEvent(items[1], 'click');
+      fixture.detectChanges();
+      tick();
+
+      expect(items[0]).not.toHaveCssClass('sky-repeater-item-selected');
+      expect(items[1]).toHaveCssClass('sky-repeater-item-selected');
+      expect(isSelectedChangeSpy).toHaveBeenCalledWith(true);
+      expect(isSelectedChangeSpy).toHaveBeenCalledWith(false);
+
+      isSelectedChangeSpy.calls.reset();
+
+      // Clicking the already-selected item again is a no-op.
+      SkyAppTestUtility.fireDomEvent(items[1], 'click');
+      fixture.detectChanges();
+      tick();
+
+      expect(items[1]).toHaveCssClass('sky-repeater-item-selected');
+      expect(isSelectedChangeSpy).not.toHaveBeenCalled();
+    }));
+
+    it('should not select when clicking a nested interactive element, but should select elsewhere on the row', fakeAsync(() => {
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      const el = fixture.nativeElement;
+      fixture.componentRef.setInput('expandMode', 'none');
+      fixture.componentRef.setInput('selectionMode', 'single');
+      fixture.detectChanges();
+      tick();
+
+      const items = getRepeaterItems(el);
+      const firstItem = items[0];
+      const link = firstItem.querySelector('a');
+      const content = firstItem.querySelector('sky-repeater-item-content');
+
+      expect(firstItem).not.toHaveCssClass('sky-repeater-item-selected');
+
+      SkyAppTestUtility.fireDomEvent(link, 'click');
+      fixture.detectChanges();
+      tick();
+      expect(firstItem).not.toHaveCssClass('sky-repeater-item-selected');
+
+      SkyAppTestUtility.fireDomEvent(content, 'click');
+      fixture.detectChanges();
+      tick();
+      expect(firstItem).toHaveCssClass('sky-repeater-item-selected');
+    }));
+
+    it('should select the focused item with Space or Enter, and not select on arrow key navigation', fakeAsync(() => {
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      fixture.componentRef.setInput('showRepeaterWithNgFor', true);
+      fixture.componentRef.setInput('selectionMode', 'single');
+      fixture.detectChanges();
+      tick();
+
+      const items = getItems(fixture);
+
+      SkyAppTestUtility.fireDomEvent(items[0], 'focus');
+      SkyAppTestUtility.fireDomEvent(items[0], 'keydown', {
+        keyboardEventInit: { key: 'ArrowDown' },
+      });
+      fixture.detectChanges();
+      tick();
+
+      expect(items[0]).not.toHaveCssClass('sky-repeater-item-selected');
+      expect(items[1]).not.toHaveCssClass('sky-repeater-item-selected');
+
+      SkyAppTestUtility.fireDomEvent(items[0], 'keydown', {
+        keyboardEventInit: { key: 'Enter' },
+      });
+      fixture.detectChanges();
+      tick();
+
+      expect(items[0]).toHaveCssClass('sky-repeater-item-selected');
+
+      // Selecting a different item via Space clears the first.
+      SkyAppTestUtility.fireDomEvent(items[1], 'keydown', {
+        keyboardEventInit: { key: ' ' },
+      });
+      fixture.detectChanges();
+      tick();
+
+      expect(items[0]).not.toHaveCssClass('sky-repeater-item-selected');
+      expect(items[1]).toHaveCssClass('sky-repeater-item-selected');
+    }));
+
+    it('should make the first enabled item tab-focusable by default, then track the selected item', fakeAsync(() => {
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      fixture.componentRef.setInput('showRepeaterWithNgFor', true);
+      fixture.componentRef.setInput('selectionMode', 'single');
+      fixture.detectChanges();
+      tick();
+
+      let items = getItems(fixture);
+      expect(items[0].getAttribute('tabIndex')).toBe('0');
+      expect(items[1].getAttribute('tabIndex')).toBe('-1');
+      expect(items[2].getAttribute('tabIndex')).toBe('-1');
+
+      SkyAppTestUtility.fireDomEvent(items[2], 'click');
+      fixture.detectChanges();
+      tick();
+
+      items = getItems(fixture);
+      expect(items[0].getAttribute('tabIndex')).toBe('-1');
+      expect(items[2].getAttribute('tabIndex')).toBe('0');
+    }));
+
+    it('should skip a disabled item for tab focus and selection', fakeAsync(() => {
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      fixture.componentRef.setInput('showRepeaterWithNgFor', true);
+      fixture.componentRef.setInput('selectionMode', 'single');
+      fixture.componentRef.setInput('disableFirstItem', true);
+      fixture.detectChanges();
+      tick();
+
+      const items = getItems(fixture);
+      expect(items[0].getAttribute('tabIndex')).toBe('-1');
+      expect(items[1].getAttribute('tabIndex')).toBe('0');
+
+      SkyAppTestUtility.fireDomEvent(items[0], 'click');
+      fixture.detectChanges();
+      tick();
+      expect(items[0]).not.toHaveCssClass('sky-repeater-item-selected');
+    }));
+
+    it('should set aria-disabled and a disabled class on a disabled item only', fakeAsync(() => {
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      fixture.componentRef.setInput('showRepeaterWithNgFor', true);
+      fixture.componentRef.setInput('selectionMode', 'single');
+      fixture.componentRef.setInput('disableFirstItem', true);
+      fixture.detectChanges();
+      tick();
+
+      const items = getItems(fixture);
+      expect(items[0].getAttribute('aria-disabled')).toBe('true');
+      expect(items[0]).toHaveCssClass('sky-repeater-item-disabled');
+      expect(items[1].getAttribute('aria-disabled')).toBeNull();
+      expect(items[1]).not.toHaveCssClass('sky-repeater-item-disabled');
+    }));
+
+    it('should only set aria-selected to true on the selected item', fakeAsync(() => {
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      fixture.componentRef.setInput('showRepeaterWithNgFor', true);
+      fixture.componentRef.setInput('selectionMode', 'single');
+      fixture.detectChanges();
+      tick();
+
+      let items = getItems(fixture);
+      expect(items[0].getAttribute('aria-selected')).toBeNull();
+      expect(items[1].getAttribute('aria-selected')).toBeNull();
+
+      SkyAppTestUtility.fireDomEvent(items[0], 'click');
+      fixture.detectChanges();
+      tick();
+
+      items = getItems(fixture);
+      expect(items[0].getAttribute('aria-selected')).toBe('true');
+      expect(items[1].getAttribute('aria-selected')).toBeNull();
+    }));
+
+    it('should keep only the first pre-selected item selected when multiple items start selected', fakeAsync(() => {
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      fixture.componentRef.setInput('showRepeaterWithNgFor', true);
+      fixture.componentRef.setInput('selectionMode', 'single');
+      fixture.componentRef.setInput('items', [
+        { id: 'item1', title: 'Title 1', selected: true },
+        { id: 'item2', title: 'Title 2', selected: true },
+        { id: 'item3', title: 'Title 3' },
+      ]);
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      const items = getItems(fixture);
+      expect(items[0]).toHaveCssClass('sky-repeater-item-selected');
+      expect(items[1]).not.toHaveCssClass('sky-repeater-item-selected');
+    }));
+
+    it('should add the hover-rows class to the repeater', fakeAsync(() => {
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      fixture.componentRef.setInput('showRepeaterWithNgFor', true);
+      fixture.componentRef.setInput('selectionMode', 'single');
+      fixture.detectChanges();
+      tick();
+
+      expect(
+        fixture.nativeElement.querySelector('.sky-repeater'),
+      ).toHaveCssClass('hover-rows');
+    }));
+
+    it('should not add the hover-rows class when selectionMode is "multiple" (the default)', fakeAsync(() => {
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      fixture.componentRef.setInput('showRepeaterWithNgFor', true);
+      fixture.detectChanges();
+      tick();
+
+      expect(
+        fixture.nativeElement.querySelector('.sky-repeater'),
+      ).not.toHaveCssClass('hover-rows');
+    }));
+
+    describe('a11y', () => {
+      it('should be accessible with nothing selected', async () => {
+        const fixture = TestBed.createComponent(RepeaterTestComponent);
+        fixture.componentRef.setInput('showRepeaterWithNgFor', true);
+        fixture.componentRef.setInput('selectionMode', 'single');
+        fixture.detectChanges();
+        await fixture.whenStable();
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        await expectAsync(fixture.nativeElement).toBeAccessible();
+      });
+
+      it('should be accessible with an item selected', async () => {
+        const fixture = TestBed.createComponent(RepeaterTestComponent);
+        fixture.componentRef.setInput('showRepeaterWithNgFor', true);
+        fixture.componentRef.setInput('selectionMode', 'single');
+        fixture.componentRef.setInput('items', [
+          { id: 'item1', title: 'Title 1', selected: true },
+          { id: 'item2', title: 'Title 2' },
+        ]);
+        fixture.detectChanges();
+        await fixture.whenStable();
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        await expectAsync(fixture.nativeElement).toBeAccessible();
+      });
+
+      it('should be accessible with a disabled item', async () => {
+        const fixture = TestBed.createComponent(RepeaterTestComponent);
+        fixture.componentRef.setInput('showRepeaterWithNgFor', true);
+        fixture.componentRef.setInput('selectionMode', 'single');
+        fixture.componentRef.setInput('disableFirstItem', true);
+        fixture.detectChanges();
+        await fixture.whenStable();
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        await expectAsync(fixture.nativeElement).toBeAccessible();
+      });
+
+      it('should be accessible when falling back to the grid role', async () => {
+        const fixture = TestBed.createComponent(RepeaterTestComponent);
+        fixture.componentRef.setInput('expandMode', 'none');
+        fixture.componentRef.setInput('selectionMode', 'single');
+        fixture.detectChanges();
+        await fixture.whenStable();
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        await expectAsync(fixture.nativeElement).toBeAccessible();
+      });
+    });
+  });
+
   describe('with active index', () => {
     let fixture: ComponentFixture<RepeaterTestComponent>;
     let cmp: RepeaterTestComponent;
@@ -2346,6 +2634,64 @@ describe('Repeater item component', () => {
       await fixture.whenStable();
       fixture.detectChanges();
       await fixture.whenStable();
+      expect(el.querySelector('.sky-repeater').getAttribute('role')).toEqual(
+        'grid',
+      );
+    });
+
+    it('should calculate aria role as listbox when selectionMode is "single" and there is no other interaction', async () => {
+      fixture.componentRef.setInput('selectionMode', 'single');
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(el.querySelector('.sky-repeater').getAttribute('role')).toEqual(
+        'listbox',
+      );
+      expect(
+        el.querySelector('.sky-repeater-item').getAttribute('role'),
+      ).toEqual('option');
+      expect(
+        el.querySelector('.sky-repeater-item-title').getAttribute('role'),
+      ).toBeFalsy();
+    });
+
+    it('should fall back to aria role of grid when selectionMode is "single" and reorderable is true', async () => {
+      fixture.componentRef.setInput('selectionMode', 'single');
+      fixture.componentRef.setInput('reorderable', true);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(el.querySelector('.sky-repeater').getAttribute('role')).toEqual(
+        'grid',
+      );
+    });
+
+    it('should fall back to aria role of grid when selectionMode is "single" and a repeater item is selectable', async () => {
+      fixture.componentRef.setInput('showRepeaterWithActiveIndex', false);
+      fixture.componentRef.setInput('expandMode', 'none');
+      fixture.componentRef.setInput('selectionMode', 'single');
+      fixture.componentRef.setInput('selectable', true);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      // Item registration settles isCollapsible/isSelectable after the first
+      // detection round; a second round flushes the corrected role to the DOM.
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(el.querySelector('.sky-repeater').getAttribute('role')).toEqual(
+        'grid',
+      );
+    });
+
+    it('should fall back to aria role of grid when selectionMode is "single" and content is interactive', async () => {
+      fixture.componentRef.setInput('showRepeaterWithActiveIndex', false);
+      fixture.componentRef.setInput('expandMode', 'none');
+      fixture.componentRef.setInput('selectionMode', 'single');
+      fixture.detectChanges();
+      await fixture.whenStable();
+      // Item registration settles isCollapsible/isSelectable after the first
+      // detection round; a second round flushes the corrected role to the DOM.
+      fixture.detectChanges();
+      await fixture.whenStable();
+      // The default (non-active-index) fixture's first item projects an <a>/<input>
+      // inside its content, which forces the grid fallback.
       expect(el.querySelector('.sky-repeater').getAttribute('role')).toEqual(
         'grid',
       );

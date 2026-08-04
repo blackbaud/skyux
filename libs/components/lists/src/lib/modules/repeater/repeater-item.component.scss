@@ -163,7 +163,10 @@ sky-repeater-item {
       }
     }
 
-    &.sky-repeater-item-selected:not(.sky-repeater-item-selectable) {
+    &.sky-repeater-item-selected:not(
+        .sky-repeater-item-selectable,
+        .sky-repeater-item-selection-single
+      ) {
       background-color: var(
         --sky-override-repeater-item-single-select-background-color,
         var(--sky-color-background-selected-soft)
@@ -206,6 +209,13 @@ sky-repeater-item {
             )
         );
       }
+    }
+
+    &.sky-repeater-item-selection-single.sky-repeater-item-disabled {
+      background-color: var(
+        --sky-override-repeater-item-disabled-background-color,
+        var(--sky-theme-color-background-disabled)
+      );
     }
 
     &:has(.sky-repeater-item-header[hidden] + .sky-repeater-item-content) {
@@ -336,7 +346,8 @@ sky-repeater-item {
     );
   }
 
-  .sky-repeater-item-selectable {
+  .sky-repeater-item-selectable,
+  .sky-repeater-item-selection-single:not(.sky-repeater-item-disabled) {
     &,
     sky-repeater-item-content > label {
       cursor: pointer;
@@ -478,8 +489,6 @@ sky-repeater-item {
   &.sky-repeater-item-dragging {
     .sky-repeater-item-grab-handle {
       cursor: grabbing;
-      cursor: -moz-grabbing;
-      cursor: -webkit-grabbing;
     }
   }
 }
