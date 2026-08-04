@@ -67,6 +67,11 @@ describe('provideSkyAgGridTesting', () => {
     it('should keep the flag active until the last of two independently-destroyed instances is torn down', () => {
       const win = window as unknown as { AG_GRID_UNDER_TEST?: boolean };
       const previous = win.AG_GRID_UNDER_TEST;
+      // Force a fixed, non-false ambient value before the instances activate,
+      // so the intermediate assertion below can only pass if the flag is
+      // genuinely being kept active by injector B - not by coincidence
+      // because the ambient value already happened to be non-false.
+      win.AG_GRID_UNDER_TEST = true;
 
       TestBed.configureTestingModule({});
       const parent = TestBed.inject(Injector);
@@ -78,16 +83,34 @@ describe('provideSkyAgGridTesting', () => {
         providers: [provideSkyAgGridTesting()],
         parent,
       });
+      let injectorADestroyed = false;
+      let injectorBDestroyed = false;
 
-      injectorA.get(SkyAgGridService); // instantiates the testing service
-      injectorB.get(SkyAgGridService); // instantiates a second, independent instance
-      expect(win.AG_GRID_UNDER_TEST).toBeFalse();
+      try {
+        injectorA.get(SkyAgGridService); // instantiates the testing service
+        injectorB.get(SkyAgGridService); // instantiates a second, independent instance
+        expect(win.AG_GRID_UNDER_TEST).toBeFalse();
 
-      injectorA.destroy();
-      expect(win.AG_GRID_UNDER_TEST).toBeFalse(); // injector B is still alive
+        injectorA.destroy();
+        injectorADestroyed = true;
+        expect(win.AG_GRID_UNDER_TEST).toBeFalse(); // injector B is still alive
 
-      injectorB.destroy();
-      expect(win.AG_GRID_UNDER_TEST).toBe(previous);
+        injectorB.destroy();
+        injectorBDestroyed = true;
+        expect(win.AG_GRID_UNDER_TEST).toBeTrue(); // restored to the forced sentinel
+      } finally {
+        if (!injectorADestroyed) {
+          injectorA.destroy();
+        }
+        if (!injectorBDestroyed) {
+          injectorB.destroy();
+        }
+        if (previous === undefined) {
+          delete win.AG_GRID_UNDER_TEST;
+        } else {
+          win.AG_GRID_UNDER_TEST = previous;
+        }
+      }
     });
   });
 });

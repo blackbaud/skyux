@@ -99,19 +99,20 @@ export class SkyDataGridHarness extends SkyQueryableComponentHarness {
     const grid = await this.#getGridWrapper();
     const api = await grid.getGridApi();
     const renderCountBeforeClick = await grid.getRenderCount();
+    const btn = await this.locatorFor(
+      `.ag-header-cell.ag-header-cell-sortable[col-id="${column}"] button.ag-header-cell-label-sortable`,
+    )();
     // AG Grid's `sortChanged` event (which `SkyDataGrid`'s own `[(sort)]`
     // binding listens for) is dispatched independently of the `modelUpdated`
     // render event `waitUntilRendered()` waits for below, so wait for it
     // explicitly instead of guessing how many stabilize passes are enough
-    // for it to have already fired.
+    // for it to have already fired. Registered only after `btn` resolves, so
+    // a failed locator lookup can't leave this listener attached.
     let handler!: () => void;
     const sortChanged = new Promise<void>((resolve) => {
       handler = (): void => resolve();
       api.addEventListener('sortChanged', handler);
     });
-    const btn = await this.locatorFor(
-      `.ag-header-cell.ag-header-cell-sortable[col-id="${column}"] button.ag-header-cell-label-sortable`,
-    )();
     let timeoutId: ReturnType<typeof setTimeout> | undefined;
     try {
       await btn.click();
