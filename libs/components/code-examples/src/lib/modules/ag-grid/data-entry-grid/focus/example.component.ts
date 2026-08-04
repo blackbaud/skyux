@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
-  SkyAgGridColDef,
   SkyAgGridModule,
   SkyAgGridService,
   SkyCellType,
+  skyAgGridColDef,
 } from '@skyux/ag-grid';
 import { SkyInputBoxModule } from '@skyux/forms';
 
@@ -28,10 +28,12 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   imports: [AgGridAngular, SkyAgGridModule, SkyInputBoxModule],
 })
 export class AgGridDataEntryGridFocusExampleComponent {
-  protected gridOptions = inject(SkyAgGridService).getEditableGridOptions({
+  protected gridOptions = inject(
+    SkyAgGridService,
+  ).getEditableGridOptions<AgGridDemoRow>({
     gridOptions: {
       columnDefs: [
-        {
+        skyAgGridColDef({
           field: 'name',
           headerName: 'Name',
           type: SkyCellType.Text,
@@ -42,8 +44,8 @@ export class AgGridDataEntryGridFocusExampleComponent {
               validatorMessage: `Value exceeds maximum length`,
             },
           },
-        } satisfies SkyAgGridColDef<SkyCellType.Text, AgGridDemoRow>,
-        {
+        }),
+        skyAgGridColDef({
           field: 'age',
           headerName: 'Age',
           type: SkyCellType.Number,
@@ -55,7 +57,7 @@ export class AgGridDataEntryGridFocusExampleComponent {
             },
           },
           maxWidth: 60,
-        } satisfies SkyAgGridColDef<SkyCellType.Number, AgGridDemoRow>,
+        }),
         {
           field: 'startDate',
           headerName: 'Start date',
@@ -91,7 +93,7 @@ export class AgGridDataEntryGridFocusExampleComponent {
           type: [SkyCellType.CurrencyValidator],
           editable: true,
         },
-        {
+        skyAgGridColDef({
           colId: 'validationDate',
           field: 'validationDate',
           headerName: 'Validation date',
@@ -104,10 +106,7 @@ export class AgGridDataEntryGridFocusExampleComponent {
               validatorMessage: 'Enter a future date',
             },
           },
-        } satisfies SkyAgGridColDef<
-          SkyCellType.Date | SkyCellType.Validator,
-          AgGridDemoRow
-        >,
+        }),
       ],
       focusGridInnerElement: (params) => {
         params.api.startEditingCell({

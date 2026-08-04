@@ -9,10 +9,10 @@ import {
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
-  SkyAgGridColDef,
   SkyAgGridModule,
   SkyAgGridService,
   SkyCellType,
+  skyAgGridColDef,
 } from '@skyux/ag-grid';
 import {
   SkyDataManagerModule,
@@ -48,14 +48,14 @@ export class ViewGridComponent {
   protected readonly viewId = 'dataEntryGridWithDataManagerView';
 
   readonly #columnDefs: ColDef[] = [
-    {
+    skyAgGridColDef({
       field: 'selected',
       type: SkyCellType.RowSelector,
       cellRendererParams: {
         // Could be a SkyAppResourcesService.getString call that returns an observable.
         label: (data: AgGridDemoRow) => of(`Select ${data.name}`),
       },
-    } satisfies SkyAgGridColDef<SkyCellType.RowSelector, AgGridDemoRow>,
+    }),
     {
       colId: 'context',
       maxWidth: 50,
@@ -104,7 +104,7 @@ export class ViewGridComponent {
       headerName: 'Validation currency',
       type: [SkyCellType.CurrencyValidator],
     },
-    {
+    skyAgGridColDef({
       field: 'validationDate',
       headerName: 'Validation date',
       type: [SkyCellType.Date, SkyCellType.Validator],
@@ -115,10 +115,7 @@ export class ViewGridComponent {
           validatorMessage: 'Please enter a future date',
         },
       },
-    } satisfies SkyAgGridColDef<
-      SkyCellType.Date | SkyCellType.Validator,
-      AgGridDemoRow
-    >,
+    }),
   ];
 
   protected noRowsTemplate = `<div class="sky-theme-font-body-deemphasized-m">No results found.</div>`;

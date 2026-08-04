@@ -42,3 +42,32 @@ export type SkyAgGridColDef<
         params: ICellRendererParams<TData, TValue>,
       ) => UnionToIntersection<SkyCellRendererParamsByType<TData, TValue>[T]>);
 };
+
+/**
+ * Builds a column definition whose `cellEditorParams` and `cellRendererParams`
+ * are validated against the SKY UX cell types in the `type` property. The cell
+ * type is inferred, so no type arguments are needed:
+ * ```
+ * skyAgGridColDef({
+ *   field: 'endDate',
+ *   type: [SkyCellType.Date, SkyCellType.Validator],
+ *   cellRendererParams: { skyComponentProperties: { validator: ... } },
+ * })
+ * ```
+ */
+// `C` preserves the exact shape of the passed literal (like `satisfies`), `F`
+// keeps `field` narrowed to its literal type for row-typed grid options, and
+// the `Record` intersection rejects misspelled or unknown properties.
+export function skyAgGridColDef<
+  T extends SkyCellType,
+  F extends string = never,
+  C extends SkyAgGridColDef<T> = SkyAgGridColDef<T>,
+>(
+  colDef: C &
+    SkyAgGridColDef<T> & { field?: F } & Record<
+      Exclude<keyof C, keyof SkyAgGridColDef<T>>,
+      never
+    >,
+): C & { field?: F } {
+  return colDef;
+}

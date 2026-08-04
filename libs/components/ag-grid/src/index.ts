@@ -1,7 +1,10 @@
 // Export any types that should be included in the root.
 export { SkyAgGridModule } from './lib/modules/ag-grid/ag-grid.module';
 export { SkyAgGridService } from './lib/modules/ag-grid/ag-grid.service';
-export { SkyAgGridColDef } from './lib/modules/ag-grid/types/ag-grid-col-def';
+export {
+  SkyAgGridColDef,
+  skyAgGridColDef,
+} from './lib/modules/ag-grid/types/ag-grid-col-def';
 export { SkyAgGridRowDeleteCancelArgs } from './lib/modules/ag-grid/types/ag-grid-row-delete-cancel-args';
 export { SkyAgGridRowDeleteConfirmArgs } from './lib/modules/ag-grid/types/ag-grid-row-delete-confirm-args';
 export {

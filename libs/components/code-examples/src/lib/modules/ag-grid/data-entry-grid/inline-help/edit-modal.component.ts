@@ -6,11 +6,11 @@ import {
 } from '@angular/core';
 import {
   SkyAgGridAutocompleteProperties,
-  SkyAgGridColDef,
   SkyAgGridDatepickerProperties,
   SkyAgGridModule,
   SkyAgGridService,
   SkyCellType,
+  skyAgGridColDef,
 } from '@skyux/ag-grid';
 import { SkyAutocompleteSelectionChange } from '@skyux/lookup';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
@@ -41,7 +41,7 @@ export class EditModalComponent {
   protected gridOptions = inject(SkyAgGridService).getEditableGridOptions({
     gridOptions: {
       columnDefs: [
-        {
+        skyAgGridColDef({
           field: 'name',
           headerName: 'Name',
           type: SkyCellType.Text,
@@ -57,8 +57,8 @@ export class EditModalComponent {
             },
           },
           editable: true,
-        } satisfies SkyAgGridColDef<SkyCellType.Text, AgGridDemoRow>,
-        {
+        }),
+        skyAgGridColDef({
           field: 'age',
           headerName: 'Age',
           type: SkyCellType.Number,
@@ -75,14 +75,14 @@ export class EditModalComponent {
             },
           },
           editable: true,
-        } satisfies SkyAgGridColDef<SkyCellType.Number, AgGridDemoRow>,
+        }),
         {
           field: 'startDate',
           headerName: 'Start date',
           type: SkyCellType.Date,
           sort: 'asc',
         },
-        {
+        skyAgGridColDef({
           field: 'endDate',
           headerName: 'End date',
           type: SkyCellType.Date,
@@ -94,8 +94,8 @@ export class EditModalComponent {
               skyComponentProperties: { minDate: params.data.startDate },
             };
           },
-        } satisfies SkyAgGridColDef<SkyCellType.Date, AgGridDemoRow>,
-        {
+        }),
+        skyAgGridColDef({
           field: 'department',
           headerName: 'Department',
           type: SkyCellType.Autocomplete,
@@ -117,8 +117,8 @@ export class EditModalComponent {
               this.#clearJobTitle(event.node);
             }
           },
-        } satisfies SkyAgGridColDef<SkyCellType.Autocomplete, AgGridDemoRow>,
-        {
+        }),
+        skyAgGridColDef({
           field: 'jobTitle',
           headerName: 'Title',
           type: SkyCellType.Autocomplete,
@@ -138,7 +138,7 @@ export class EditModalComponent {
 
             return editParams;
           },
-        } satisfies SkyAgGridColDef<SkyCellType.Autocomplete, AgGridDemoRow>,
+        }),
         {
           colId: 'validationCurrency',
           field: 'validationCurrency',
@@ -146,7 +146,7 @@ export class EditModalComponent {
           type: [SkyCellType.CurrencyValidator],
           editable: true,
         },
-        {
+        skyAgGridColDef({
           colId: 'validationDate',
           field: 'validationDate',
           headerName: 'Validation date',
@@ -159,10 +159,7 @@ export class EditModalComponent {
             },
           },
           editable: true,
-        } satisfies SkyAgGridColDef<
-          SkyCellType.Date | SkyCellType.Validator,
-          AgGridDemoRow
-        >,
+        }),
       ] as ColDef<AgGridDemoRow>[],
       onGridReady: (gridReadyEvent): void => {
         this.#gridApi.set(gridReadyEvent.api);

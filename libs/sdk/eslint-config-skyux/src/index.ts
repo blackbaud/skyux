@@ -37,19 +37,19 @@ const config = tseslint.config(
       'default-case-last': 'error',
       eqeqeq: ['error', 'always'],
       'guard-for-in': 'error',
-      // Capitalized wrapper types (Number, String, etc.) are excluded
-      // because they are covered by `no-new-wrappers` and
-      // `@typescript-eslint/no-wrapper-object-types`, and denying them
-      // falsely flags enum members in type positions (e.g.
-      // `SkyCellType.Number`).
       'id-denylist': [
         'error',
         'any',
         'boolean',
+        'Boolean',
         'number',
+        'Number',
         'object',
+        'Object',
         'string',
+        'String',
         'undefined',
+        'Undefined',
       ],
       'no-alert': 'error',
       'no-caller': 'error',

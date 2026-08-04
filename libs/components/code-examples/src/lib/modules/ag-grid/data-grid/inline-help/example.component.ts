@@ -5,10 +5,10 @@ import {
   inject,
 } from '@angular/core';
 import {
-  SkyAgGridColDef,
   SkyAgGridModule,
   SkyAgGridService,
   SkyCellType,
+  skyAgGridColDef,
 } from '@skyux/ag-grid';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkySearchModule } from '@skyux/lookup';
@@ -47,14 +47,14 @@ export class AgGridDataGridInlineHelpExampleComponent {
   protected noRowsTemplate: string;
 
   #columnDefs: ColDef[] = [
-    {
+    skyAgGridColDef({
       field: 'selected',
       type: SkyCellType.RowSelector,
       cellRendererParams: {
         // Could be a SkyAppResourcesService.getString call that returns an observable.
         label: (data: AgGridDemoRow) => of(`Select ${data.name}`),
       },
-    } satisfies SkyAgGridColDef<SkyCellType.RowSelector, AgGridDemoRow>,
+    }),
     {
       colId: 'context',
       maxWidth: 50,
