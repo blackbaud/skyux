@@ -1,4 +1,9 @@
-import { HarnessPredicate } from '@angular/cdk/testing';
+import {
+  ComponentHarness,
+  HarnessPredicate,
+  HarnessQuery,
+  TestElement,
+} from '@angular/cdk/testing';
 import { SkyAgGridWrapperHarness } from '@skyux/ag-grid/testing';
 import { SkyQueryableComponentHarness } from '@skyux/core/testing';
 import { SkyWaitHarness } from '@skyux/indicators/testing';
@@ -8,6 +13,9 @@ import { SkyDataGridHarnessFilters } from './data-grid-harness.filters';
 
 /**
  * Harness for interacting with SKY UX data grid components in tests.
+ * Add `provideSkyDataGridTesting()` to the spec's providers so the harness
+ * can wait for the grid to finish rendering; without it, render-readiness
+ * waits are skipped.
  * @preview
  */
 export class SkyDataGridHarness extends SkyQueryableComponentHarness {
@@ -83,13 +91,36 @@ export class SkyDataGridHarness extends SkyQueryableComponentHarness {
   }
 
   /**
-   * Clicks the column header sort button.
+   * Clicks the column header sort button and waits for the grid to re-render
+   * the sorted rows, and for a consumer's own `[(sort)]` binding to reflect
+   * the change, before resolving.
    */
   public async clickColumnSortButton(column: string): Promise<void> {
+    const grid = await this.#getGridWrapper();
+    const renderCountBeforeClick = await grid.getRenderCount();
+    const api = await grid.getGridApi();
+    // AG Grid's `sortChanged` event (which `SkyDataGrid`'s own `[(sort)]`
+    // binding listens for) is dispatched independently of the `modelUpdated`
+    // render event `waitUntilRendered()` waits for below, so wait for it
+    // explicitly instead of guessing how many stabilize passes are enough
+    // for it to have already fired.
+    const sortChanged = new Promise<void>((resolve) => {
+      const handler = (): void => {
+        api.removeEventListener('sortChanged', handler);
+        resolve();
+      };
+      api.addEventListener('sortChanged', handler);
+    });
     const btn = await this.locatorFor(
       `.ag-header-cell.ag-header-cell-sortable[col-id="${column}"] button.ag-header-cell-label-sortable`,
     )();
     await btn.click();
+    await grid.waitUntilRendered(renderCountBeforeClick);
+    await Promise.race([
+      sortChanged,
+      new Promise((resolve) => setTimeout(resolve, 2000)),
+    ]);
+    await this.forceStabilize();
   }
 
   /**
@@ -119,7 +150,81 @@ export class SkyDataGridHarness extends SkyQueryableComponentHarness {
     return await this.queryHarness(SkyWaitHarness);
   }
 
+  /**
+   * Returns a child harness after the grid has finished rendering, or throws
+   * an error if the harness is not found.
+   */
+  public override async queryHarness<T extends ComponentHarness>(
+    query: HarnessQuery<T>,
+  ): Promise<T> {
+    await this.#waitForGridWrapperRendered();
+    return await super.queryHarness(query);
+  }
+
+  /**
+   * Returns a child harness after the grid has finished rendering, or `null`
+   * if not found.
+   */
+  public override async queryHarnessOrNull<T extends ComponentHarness>(
+    query: HarnessQuery<T>,
+  ): Promise<T | null> {
+    await this.#waitForGridWrapperRendered();
+    return await super.queryHarnessOrNull(query);
+  }
+
+  /**
+   * Returns all child harnesses that match after the grid has finished
+   * rendering.
+   */
+  public override async queryHarnesses<T extends ComponentHarness>(
+    query: HarnessQuery<T>,
+  ): Promise<T[]> {
+    await this.#waitForGridWrapperRendered();
+    return await super.queryHarnesses(query);
+  }
+
+  /**
+   * Returns a child test element after the grid has finished rendering, or
+   * throws an error if not found.
+   */
+  public override async querySelector(selector: string): Promise<TestElement> {
+    await this.#waitForGridWrapperRendered();
+    return await super.querySelector(selector);
+  }
+
+  /**
+   * Returns a child test element after the grid has finished rendering, or
+   * `null` if not found.
+   */
+  public override async querySelectorOrNull(
+    selector: string,
+  ): Promise<TestElement | null> {
+    await this.#waitForGridWrapperRendered();
+    return await super.querySelectorOrNull(selector);
+  }
+
+  /**
+   * Returns all child test elements that match after the grid has finished
+   * rendering.
+   */
+  public override async querySelectorAll(
+    selector: string,
+  ): Promise<TestElement[]> {
+    await this.#waitForGridWrapperRendered();
+    return await super.querySelectorAll(selector);
+  }
+
+  /**
+   * Bypasses the render-readiness wait to avoid recursing through it while
+   * checking readiness itself.
+   */
   async #getGridWrapper(): Promise<SkyAgGridWrapperHarness> {
-    return await this.queryHarness(SkyAgGridWrapperHarness);
+    return await super.queryHarness(SkyAgGridWrapperHarness);
+  }
+
+  async #waitForGridWrapperRendered(): Promise<void> {
+    await this.#getGridWrapper()
+      .then(async (grid) => await grid.waitUntilRendered())
+      .catch(() => undefined);
   }
 }

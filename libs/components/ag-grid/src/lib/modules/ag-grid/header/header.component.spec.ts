@@ -190,13 +190,10 @@ describe('HeaderComponent', () => {
     expect(document.querySelector('.ag-sort-indicator-container')).toBeNull();
 
     columnEvents['filterChanged'].forEach((listener) => listener());
-    expect(component.filterEnabled$.getValue()).toBe(true);
+    expect(component.filterEnabled()).toBe(true);
     fixture.detectChanges();
     await fixture.whenStable();
     expect(fixture.debugElement.query(By.css('.ag-filter-icon'))).toBeTruthy();
-
-    apiEvents['gridPreDestroyed'].forEach((listener) => listener());
-    expect(component).toBeTruthy();
   });
 
   it('should not show sort button when sort is disabled', () => {

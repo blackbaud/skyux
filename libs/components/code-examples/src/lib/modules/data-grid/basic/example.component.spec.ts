@@ -1,7 +1,10 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkyDataGridHarness } from '@skyux/data-grid/testing';
+import {
+  SkyDataGridHarness,
+  provideSkyDataGridTesting,
+} from '@skyux/data-grid/testing';
 import {
   SkyDropdownHarness,
   SkyDropdownMenuHarness,
@@ -17,6 +20,7 @@ describe('Basic data grid example', () => {
   }> {
     await TestBed.configureTestingModule({
       imports: [DataGridBasicExampleComponent],
+      providers: [provideSkyDataGridTesting()],
     }).compileComponents();
     const fixture = TestBed.createComponent(DataGridBasicExampleComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);

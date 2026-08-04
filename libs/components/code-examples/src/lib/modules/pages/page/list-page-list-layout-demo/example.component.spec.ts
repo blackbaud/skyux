@@ -6,6 +6,7 @@ import {
 } from '@skyux/core/testing';
 import { SkyPageHarness } from '@skyux/pages/testing';
 
+import { provideSkyAgGridTesting } from '@skyux/ag-grid/testing';
 import { PagesPageListPageListLayoutExampleComponent } from './example.component';
 
 describe('List page list layout example', () => {
@@ -31,6 +32,7 @@ describe('List page list layout example', () => {
         PagesPageListPageListLayoutExampleComponent,
         SkyHelpTestingModule,
       ],
+      providers: [provideSkyAgGridTesting()],
     });
   });
 
