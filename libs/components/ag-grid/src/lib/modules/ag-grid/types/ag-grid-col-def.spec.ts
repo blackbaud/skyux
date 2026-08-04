@@ -62,5 +62,40 @@ describe('defineSkyAgGridColDef', () => {
       // @ts-expect-error - Template cells require a template param
       cellRendererParams: {},
     });
+
+    defineSkyAgGridColDef({
+      field: 'template',
+      type: SkyCellType.Template,
+      // @ts-expect-error - Template cells accept no editor params
+      cellEditorParams: {},
+    });
+
+    defineSkyAgGridColDef({
+      field: 'department',
+      type: SkyCellType.Autocomplete,
+      // @ts-expect-error - Autocomplete cells accept no renderer params
+      cellRendererParams: {},
+    });
+
+    defineSkyAgGridColDef({
+      field: 'name',
+      type: SkyCellType.RightAligned,
+      // @ts-expect-error - RightAligned cells accept no editor params
+      cellEditorParams: {},
+    });
+
+    defineSkyAgGridColDef({
+      field: 'name',
+      type: SkyCellType.RightAligned,
+      // @ts-expect-error - RightAligned cells accept no renderer params
+      cellRendererParams: {},
+    });
+
+    defineSkyAgGridColDef({
+      field: 'selected',
+      type: SkyCellType.RowSelector,
+      // @ts-expect-error - RowSelector cells accept no editor params
+      cellEditorParams: {},
+    });
   });
 });

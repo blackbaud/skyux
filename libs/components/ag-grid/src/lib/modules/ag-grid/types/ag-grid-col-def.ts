@@ -9,12 +9,14 @@ import { SkyCellEditorParamsByType } from './cell-editor-params-by-type';
 import { SkyCellRendererParamsByType } from './cell-renderer-params-by-type';
 import { SkyCellType } from './cell-type';
 
-// Merges the params of all cell types in a union into a single type.
-type UnionToIntersection<U> = (
-  U extends unknown ? (u: U) => void : never
-) extends (i: infer I) => void
-  ? I
-  : never;
+// Merges the params of all cell types in a union into a single type. Cell
+// types that accept no params map to `never`, so the intersection stays `never`
+// (rejecting any params) instead of collapsing to `unknown`.
+type UnionToIntersection<U> = [U] extends [never]
+  ? never
+  : (U extends unknown ? (u: U) => void : never) extends (i: infer I) => void
+    ? I
+    : never;
 
 /**
  * A column definition that validates `cellEditorParams` and
