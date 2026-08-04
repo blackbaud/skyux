@@ -17,6 +17,9 @@
         "polyfills": ["zone.js"],
         "tsConfig": "apps/e2e/icon-storybook/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
+        "stylePreprocessorOptions": {
+          "includePaths": ["{workspaceRoot}"]
+        },
         "styles": [
           "apps/e2e/icon-storybook/src/styles.scss",
           "libs/components/theme/src/lib/styles/sky.scss",
