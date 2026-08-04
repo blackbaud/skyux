@@ -4,7 +4,8 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyResizeObserverService } from '@skyux/core';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -13,7 +14,7 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, Subject, of } from 'rxjs';
 
 import { SkyDescriptionListAdapterService } from './description-list-adapter-service';
 import { SkyDescriptionListComponent } from './description-list.component';
@@ -32,6 +33,7 @@ describe('Description list component', () => {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
   let mockAdapter: MockAdapter;
+  let mockResize: Subject<void>;
 
   beforeEach(fakeAsync(() => {
     mockThemeSvc = {
@@ -44,6 +46,7 @@ describe('Description list component', () => {
       }),
     };
     mockAdapter = new MockAdapter();
+    mockResize = new Subject<void>();
 
     TestBed.configureTestingModule({
       imports: [SkyDescriptionListFixturesModule],
@@ -51,6 +54,12 @@ describe('Description list component', () => {
         {
           provide: SkyThemeService,
           useValue: mockThemeSvc,
+        },
+        {
+          provide: SkyResizeObserverService,
+          useValue: {
+            observe: (): Subject<void> => mockResize,
+          },
         },
       ],
     }).overrideComponent(SkyDescriptionListComponent, {
@@ -194,8 +203,10 @@ describe('Description list component', () => {
     expect(descriptionEls?.[2]).toHaveText('No information found');
   });
 
-  it('should call the adapter service when window is resized', fakeAsync(() => {
-    SkyAppTestUtility.fireDomEvent(window, 'resize');
+  it('should call the adapter service when the container is resized', fakeAsync(() => {
+    mockAdapter.setResponsiveClass.calls.reset();
+
+    mockResize.next();
     fixture.detectChanges();
 
     expect(mockAdapter.setResponsiveClass).toHaveBeenCalled();

@@ -38,3 +38,34 @@
 <button type="button" class="sky-btn sky-btn-default" (click)="toggleHelp()">
   Toggle help {{ showHelp }}
 </button>
+<button
+  type="button"
+  class="sky-btn sky-btn-default sky-margin-inline-sm"
+  (click)="openInModal()"
+>
+  Open horizontal list in modal
+</button>
+
+<div class="sky-theme-padding-inset-balanced-m">
+  <p>
+    Repro: the horizontal list below lives in "Tab 2", which is hidden (width 0)
+    on first render. Switch to Tab 2 and observe the layout.
+  </p>
+  <sky-tabset ariaLabel="Description list resize repro">
+    <sky-tab tabHeading="Tab 1"> Nothing to see here. </sky-tab>
+    <sky-tab tabHeading="Tab 2">
+      <sky-description-list mode="horizontal">
+        @for (item of items; track item) {
+          <sky-description-list-content>
+            <sky-description-list-term>
+              {{ item.term }}
+            </sky-description-list-term>
+            <sky-description-list-description>
+              {{ item.description }}
+            </sky-description-list-description>
+          </sky-description-list-content>
+        }
+      </sky-description-list>
+    </sky-tab>
+  </sky-tabset>
+</div>
