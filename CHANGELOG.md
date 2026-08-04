@@ -1,28 +1,15 @@
 # Changelog
 
 
-## [15.0.0-alpha.3](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.2...15.0.0-alpha.3) (2026-08-04)
-
-
-### ⚠ BREAKING CHANGES
-
-* **components/packages:** add migration to remove @skyux/packages/polyfills from projects (#4555)
-
-### Features
-
-* **components/charts:** add bar chart component (developer preview) ([#4527](https://github.com/blackbaud/skyux/issues/4527)) ([#4544](https://github.com/blackbaud/skyux/issues/4544)) ([e3d8ff2](https://github.com/blackbaud/skyux/commit/e3d8ff273e33795f2a3cb202d1a8c7e027329b74)), closes [AB#4027719](https://dev.azure.com/blackbaud/Products/_workitems/edit/4027719)
-* **components/charts:** add code examples ([#4547](https://github.com/blackbaud/skyux/issues/4547)) ([#4551](https://github.com/blackbaud/skyux/issues/4551)) ([c24fa68](https://github.com/blackbaud/skyux/commit/c24fa6862a3129eb281b4762e99b8d14e8241585)), closes [AB#4027719](https://dev.azure.com/blackbaud/Products/_workitems/edit/4027719)
-* **components/charts:** add testing harnesses ([#4542](https://github.com/blackbaud/skyux/issues/4542))  ([#4546](https://github.com/blackbaud/skyux/issues/4546)) ([f2b612d](https://github.com/blackbaud/skyux/commit/f2b612deea1b0d06518ea30fd37ed5ec84854382))
-* **components/core:** support masking additional edges for scrollable host clip path ([#4543](https://github.com/blackbaud/skyux/issues/4543)) ([c498e0e](https://github.com/blackbaud/skyux/commit/c498e0e0b1b8cbe2591452e2d465d12b68273f73))
-* **components/packages:** add migration to remove @skyux/packages/polyfills from projects ([#4555](https://github.com/blackbaud/skyux/issues/4555)) ([960f5e6](https://github.com/blackbaud/skyux/commit/960f5e65690d5fc8f204cf0b48fbc1e6162002ac)), closes [AB#3897818](https://dev.azure.com/blackbaud/Products/_workitems/edit/3897818)
+## [14.9.2](https://github.com/blackbaud/skyux/compare/14.9.1...14.9.2) (2026-08-04)
 
 
 ### Bug Fixes
 
-* **components/layout:** recalculate description list responsive layout on container resize ([#4570](https://github.com/blackbaud/skyux/issues/4570)) ([#4580](https://github.com/blackbaud/skyux/issues/4580)) ([936fa4a](https://github.com/blackbaud/skyux/commit/936fa4a3e33ee1a01995e7047dc0ffb6a1b1952c)), closes [AB#4074075](https://dev.azure.com/blackbaud/Products/_workitems/edit/4074075)
-* **components/layout:** tokenize page summary background color ([#4536](https://github.com/blackbaud/skyux/issues/4536)) ([#4537](https://github.com/blackbaud/skyux/issues/4537)) ([722fba2](https://github.com/blackbaud/skyux/commit/722fba26a4de87d6269fc831aa77419e4fbdd7ff))
-* **components/packages:** skip sky-grid-column nested in sky-list-view-grid ([#4562](https://github.com/blackbaud/skyux/issues/4562)) ([#4569](https://github.com/blackbaud/skyux/issues/4569)) ([580ea06](https://github.com/blackbaud/skyux/commit/580ea06805240e4e533f583b9d258f7e9f1ed28f)), closes [AB#4074210](https://dev.azure.com/blackbaud/Products/_workitems/edit/4074210)
-* rename docs groups to match docs URL slugs ([#4571](https://github.com/blackbaud/skyux/issues/4571)) ([#4572](https://github.com/blackbaud/skyux/issues/4572)) ([1b573f4](https://github.com/blackbaud/skyux/commit/1b573f447003d0751d7792d25a2003b1c69f84c6))
+* **components/forms:** select input options are properly styled ([#4557](https://github.com/blackbaud/skyux/issues/4557)) ([83b4726](https://github.com/blackbaud/skyux/commit/83b4726a8c624fe572c98c054895c977cb8c7ab3))
+* **components/layout:** recalculate description list responsive layout on container resize ([#4570](https://github.com/blackbaud/skyux/issues/4570)) ([ef91639](https://github.com/blackbaud/skyux/commit/ef91639e6619eb2770273c029933943cc4f89dc4)), closes [AB#4074075](https://dev.azure.com/blackbaud/Products/_workitems/edit/4074075)
+* **components/packages:** skip sky-grid-column nested in sky-list-view-grid ([#4562](https://github.com/blackbaud/skyux/issues/4562)) ([5ec40e1](https://github.com/blackbaud/skyux/commit/5ec40e16310e38af572bfb0c5ea475d4ebc59dc1)), closes [AB#4074210](https://dev.azure.com/blackbaud/Products/_workitems/edit/4074210)
+* rename docs groups to match docs URL slugs ([#4571](https://github.com/blackbaud/skyux/issues/4571)) ([f964ee4](https://github.com/blackbaud/skyux/commit/f964ee4cd8a74626bb3fcaebddb2cf59e1aa5453))
 
 ## [14.9.1](https://github.com/blackbaud/skyux/compare/14.9.0...14.9.1) (2026-07-31)
 
