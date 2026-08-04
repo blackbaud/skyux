@@ -1,6 +1,20 @@
 # Changelog
 
 
+## [14.9.1](https://github.com/blackbaud/skyux/compare/14.9.0...14.9.1) (2026-07-31)
+
+
+### Bug Fixes
+
+* **components/charts:** fix horizontal bar spacing; add visual tests ([#4552](https://github.com/blackbaud/skyux/issues/4552)) ([f33971f](https://github.com/blackbaud/skyux/commit/f33971feeca2e759313ef9a39ec286e509a34217))
+
+## [14.9.0](https://github.com/blackbaud/skyux/compare/14.8.0...14.9.0) (2026-07-29)
+
+
+### Features
+
+* **components/charts:** add code examples ([#4547](https://github.com/blackbaud/skyux/issues/4547)) ([ea6c379](https://github.com/blackbaud/skyux/commit/ea6c37937807f4fd99ccf90a5ef6daf378b1baf1)), closes [AB#4027719](https://dev.azure.com/blackbaud/Products/_workitems/edit/4027719)
+
 ## [14.8.0](https://github.com/blackbaud/skyux/compare/14.7.0...14.8.0) (2026-07-28)
 
 
