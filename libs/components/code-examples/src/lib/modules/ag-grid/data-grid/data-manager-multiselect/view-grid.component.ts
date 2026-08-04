@@ -12,7 +12,7 @@ import {
   SkyAgGridModule,
   SkyAgGridService,
   SkyCellType,
-  skyAgGridColDef,
+  defineSkyAgGridColDef,
 } from '@skyux/ag-grid';
 import {
   SkyDataManagerModule,
@@ -50,7 +50,7 @@ export class ViewGridComponent {
   protected noRowsTemplate = `<div class="sky-deemphasized">No results found.</div>`;
 
   readonly #columnDefs: ColDef[] = [
-    skyAgGridColDef({
+    defineSkyAgGridColDef({
       field: 'selected',
       type: SkyCellType.RowSelector,
       suppressMovable: true,

@@ -1,7 +1,7 @@
 /**
  * These column types can be used by setting the AG Grid [column definition `type`](https://www.ag-grid.com/angular-data-grid/column-properties/#reference-editing) to one of the following values.
  * Any [SKY UX component](https://developer.blackbaud.com/skyux/components) can be made into a [cell editor](https://www.ag-grid.com/angular-data-grid/cell-editors/) or [cell renderer](https://www.ag-grid.com/angular-data-grid/component-cell-renderer/) component. If you would like to use a component that does not have a column definition yet, please consider [contributing it](https://github.com/blackbaud/skyux/blob/main/CONTRIBUTING.md) to the SKY UX data entry grid module.
- * Use `SkyAgGridColDef` to validate a column definition's `cellEditorParams` and `cellRendererParams` against its cell type.
+ * Use `defineSkyAgGridColDef()` to validate a column definition's `cellEditorParams` and `cellRendererParams` against its cell type.
  */
 export enum SkyCellType {
   /**

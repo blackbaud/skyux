@@ -3,7 +3,7 @@ import {
   SkyAgGridModule,
   SkyAgGridService,
   SkyCellType,
-  skyAgGridColDef,
+  defineSkyAgGridColDef,
 } from '@skyux/ag-grid';
 import { SkyInputBoxModule } from '@skyux/forms';
 
@@ -33,7 +33,7 @@ export class AgGridDataEntryGridFocusExampleComponent {
   ).getEditableGridOptions<AgGridDemoRow>({
     gridOptions: {
       columnDefs: [
-        skyAgGridColDef({
+        defineSkyAgGridColDef({
           field: 'name',
           headerName: 'Name',
           type: SkyCellType.Text,
@@ -45,7 +45,7 @@ export class AgGridDataEntryGridFocusExampleComponent {
             },
           },
         }),
-        skyAgGridColDef({
+        defineSkyAgGridColDef({
           field: 'age',
           headerName: 'Age',
           type: SkyCellType.Number,
@@ -93,7 +93,7 @@ export class AgGridDataEntryGridFocusExampleComponent {
           type: [SkyCellType.CurrencyValidator],
           editable: true,
         },
-        skyAgGridColDef({
+        defineSkyAgGridColDef({
           colId: 'validationDate',
           field: 'validationDate',
           headerName: 'Validation date',

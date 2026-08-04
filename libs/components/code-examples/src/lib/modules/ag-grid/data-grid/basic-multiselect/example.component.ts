@@ -3,7 +3,7 @@ import {
   SkyAgGridModule,
   SkyAgGridService,
   SkyCellType,
-  skyAgGridColDef,
+  defineSkyAgGridColDef,
 } from '@skyux/ag-grid';
 
 import { AgGridAngular } from 'ag-grid-angular';
@@ -35,7 +35,7 @@ export class AgGridDataGridBasicMultiselectExampleComponent {
   protected gridOptions: GridOptions;
 
   #columnDefs: ColDef[] = [
-    skyAgGridColDef({
+    defineSkyAgGridColDef({
       field: 'selected',
       type: SkyCellType.RowSelector,
       cellRendererParams: {

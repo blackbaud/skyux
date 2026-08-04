@@ -9,7 +9,7 @@ import {
   SkyAgGridModule,
   SkyAgGridService,
   SkyCellType,
-  skyAgGridColDef,
+  defineSkyAgGridColDef,
 } from '@skyux/ag-grid';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkySearchModule } from '@skyux/lookup';
@@ -49,7 +49,7 @@ export class AgGridDataEntryGridInlineHelpExampleComponent {
   ).getGridOptions({
     gridOptions: {
       columnDefs: [
-        skyAgGridColDef({
+        defineSkyAgGridColDef({
           field: 'selected',
           type: SkyCellType.RowSelector,
           cellRendererParams: {
@@ -67,7 +67,7 @@ export class AgGridDataEntryGridInlineHelpExampleComponent {
             headerHidden: true,
           },
         },
-        skyAgGridColDef({
+        defineSkyAgGridColDef({
           field: 'name',
           headerName: 'Name',
           type: SkyCellType.Text,
@@ -81,7 +81,7 @@ export class AgGridDataEntryGridInlineHelpExampleComponent {
             inlineHelpComponent: InlineHelpComponent,
           },
         }),
-        skyAgGridColDef({
+        defineSkyAgGridColDef({
           field: 'age',
           headerName: 'Age',
           type: SkyCellType.Number,
@@ -140,7 +140,7 @@ export class AgGridDataEntryGridInlineHelpExampleComponent {
             inlineHelpComponent: InlineHelpComponent,
           },
         },
-        skyAgGridColDef({
+        defineSkyAgGridColDef({
           colId: 'validationDate',
           field: 'validationDate',
           headerName: 'Validation date',

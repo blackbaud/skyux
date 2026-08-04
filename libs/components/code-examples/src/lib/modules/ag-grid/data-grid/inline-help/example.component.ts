@@ -8,7 +8,7 @@ import {
   SkyAgGridModule,
   SkyAgGridService,
   SkyCellType,
-  skyAgGridColDef,
+  defineSkyAgGridColDef,
 } from '@skyux/ag-grid';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkySearchModule } from '@skyux/lookup';
@@ -47,7 +47,7 @@ export class AgGridDataGridInlineHelpExampleComponent {
   protected noRowsTemplate: string;
 
   #columnDefs: ColDef[] = [
-    skyAgGridColDef({
+    defineSkyAgGridColDef({
       field: 'selected',
       type: SkyCellType.RowSelector,
       cellRendererParams: {

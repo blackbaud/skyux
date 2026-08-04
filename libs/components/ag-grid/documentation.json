@@ -30,8 +30,8 @@
           "SkyAgGridNumberProperties",
           "SkyAgGridTextProperties",
           "SkyAgGridValidatorProperties",
+          "defineSkyAgGridColDef",
           "SkyAgGridColDef",
-          "skyAgGridColDef",
           "SkyCellEditorParamsByType",
           "SkyCellRendererParamsByType",
           "SkyCellRendererTemplateContext"
@@ -83,8 +83,8 @@
           "SkyAgGridNumberProperties",
           "SkyAgGridTextProperties",
           "SkyAgGridValidatorProperties",
+          "defineSkyAgGridColDef",
           "SkyAgGridColDef",
-          "skyAgGridColDef",
           "SkyCellEditorParamsByType",
           "SkyCellRendererParamsByType",
           "SkyCellRendererTemplateContext"

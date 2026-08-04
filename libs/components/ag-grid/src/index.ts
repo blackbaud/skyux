@@ -2,7 +2,7 @@
 export { SkyAgGridModule } from './lib/modules/ag-grid/ag-grid.module';
 export { SkyAgGridService } from './lib/modules/ag-grid/ag-grid.service';
 export {
-  skyAgGridColDef,
+  defineSkyAgGridColDef,
   type SkyAgGridColDef,
 } from './lib/modules/ag-grid/types/ag-grid-col-def';
 export { SkyAgGridRowDeleteCancelArgs } from './lib/modules/ag-grid/types/ag-grid-row-delete-cancel-args';

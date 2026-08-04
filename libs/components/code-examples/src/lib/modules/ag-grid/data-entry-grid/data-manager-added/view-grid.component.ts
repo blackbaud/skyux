@@ -12,7 +12,7 @@ import {
   SkyAgGridModule,
   SkyAgGridService,
   SkyCellType,
-  skyAgGridColDef,
+  defineSkyAgGridColDef,
 } from '@skyux/ag-grid';
 import {
   SkyDataManagerModule,
@@ -48,7 +48,7 @@ export class ViewGridComponent {
   protected readonly viewId = 'dataEntryGridWithDataManagerView';
 
   readonly #columnDefs: ColDef[] = [
-    skyAgGridColDef({
+    defineSkyAgGridColDef({
       field: 'selected',
       type: SkyCellType.RowSelector,
       cellRendererParams: {
@@ -104,7 +104,7 @@ export class ViewGridComponent {
       headerName: 'Validation currency',
       type: [SkyCellType.CurrencyValidator],
     },
-    skyAgGridColDef({
+    defineSkyAgGridColDef({
       field: 'validationDate',
       headerName: 'Validation date',
       type: [SkyCellType.Date, SkyCellType.Validator],

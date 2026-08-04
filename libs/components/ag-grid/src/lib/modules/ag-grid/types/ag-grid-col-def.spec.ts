@@ -1,14 +1,14 @@
 import { SkyCellType } from './cell-type';
 
-import { skyAgGridColDef } from './ag-grid-col-def';
+import { defineSkyAgGridColDef } from './ag-grid-col-def';
 
-describe('skyAgGridColDef', () => {
+describe('defineSkyAgGridColDef', () => {
   it('should return the column definition unchanged', () => {
     const colDef = {
       field: 'name',
       type: SkyCellType.Text,
     };
 
-    expect(skyAgGridColDef(colDef)).toBe(colDef);
+    expect(defineSkyAgGridColDef(colDef)).toBe(colDef);
   });
 });

@@ -48,7 +48,7 @@ export type SkyAgGridColDef<
  * are validated against the SKY UX cell types in the `type` property. The cell
  * type is inferred, so no type arguments are needed:
  * ```
- * skyAgGridColDef({
+ * defineSkyAgGridColDef({
  *   field: 'endDate',
  *   type: [SkyCellType.Date, SkyCellType.Validator],
  *   cellRendererParams: { skyComponentProperties: { validator: ... } },
@@ -58,7 +58,7 @@ export type SkyAgGridColDef<
 // `C` preserves the exact shape of the passed literal (like `satisfies`), `F`
 // keeps `field` narrowed to its literal type for row-typed grid options, and
 // the `Record` intersection rejects misspelled or unknown properties.
-export function skyAgGridColDef<
+export function defineSkyAgGridColDef<
   T extends SkyCellType,
   F extends string = never,
   C extends SkyAgGridColDef<T> = SkyAgGridColDef<T>,

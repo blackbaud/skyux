@@ -3,7 +3,7 @@ import {
   SkyAgGridModule,
   SkyAgGridService,
   SkyCellType,
-  skyAgGridColDef,
+  defineSkyAgGridColDef,
 } from '@skyux/ag-grid';
 
 import { AgGridAngular } from 'ag-grid-angular';
@@ -42,7 +42,7 @@ export class AgGridDataGridTemplateRefColumnExampleComponent {
           maxWidth: 80,
           resizable: false,
         },
-        skyAgGridColDef({
+        defineSkyAgGridColDef({
           field: 'department',
           headerName: 'Department',
           type: SkyCellType.Template,
@@ -51,7 +51,7 @@ export class AgGridDataGridTemplateRefColumnExampleComponent {
           },
           initialWidth: 220,
         }),
-        skyAgGridColDef({
+        defineSkyAgGridColDef({
           field: 'jobTitle',
           headerName: 'Title',
           type: SkyCellType.Template,

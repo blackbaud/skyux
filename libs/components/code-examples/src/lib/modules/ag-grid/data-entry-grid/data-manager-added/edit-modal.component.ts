@@ -10,7 +10,7 @@ import {
   SkyAgGridModule,
   SkyAgGridService,
   SkyCellType,
-  skyAgGridColDef,
+  defineSkyAgGridColDef,
 } from '@skyux/ag-grid';
 import { SkyAutocompleteSelectionChange } from '@skyux/lookup';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
@@ -61,7 +61,7 @@ export class EditModalComponent {
           type: SkyCellType.Date,
           sort: 'asc',
         },
-        skyAgGridColDef({
+        defineSkyAgGridColDef({
           field: 'endDate',
           headerName: 'End date',
           type: SkyCellType.Date,
@@ -76,7 +76,7 @@ export class EditModalComponent {
             };
           },
         }),
-        skyAgGridColDef({
+        defineSkyAgGridColDef({
           field: 'department',
           headerName: 'Department',
           type: SkyCellType.Autocomplete,
@@ -99,7 +99,7 @@ export class EditModalComponent {
             }
           },
         }),
-        skyAgGridColDef({
+        defineSkyAgGridColDef({
           field: 'jobTitle',
           headerName: 'Title',
           type: SkyCellType.Autocomplete,
@@ -128,7 +128,7 @@ export class EditModalComponent {
           type: [SkyCellType.CurrencyValidator],
           editable: true,
         },
-        skyAgGridColDef({
+        defineSkyAgGridColDef({
           colId: 'validationDate',
           field: 'validationDate',
           headerName: 'Validation date',

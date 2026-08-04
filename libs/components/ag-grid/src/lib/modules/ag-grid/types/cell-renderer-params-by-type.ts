@@ -11,7 +11,7 @@ import { SkyAgGridValidatorProperties } from './validator-properties';
  * The parameters that each SKY UX cell type accepts in the
  * [column definition's `cellRendererParams` property](https://www.ag-grid.com/angular-data-grid/column-properties/#reference-styling-cellRendererParams).
  * Cell types that map to `never` do not accept renderer parameters.
- * Use `SkyAgGridColDef` to validate `cellRendererParams` against the column's
+ * Use `defineSkyAgGridColDef()` to validate `cellRendererParams` against the column's
  * cell type.
  */
 export interface SkyCellRendererParamsByType<
