@@ -4,22 +4,40 @@ import {
   HostBinding,
   Input,
   TemplateRef,
-  ViewChild,
   ViewEncapsulation,
   inject,
+  viewChild,
 } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import {
   SkyDataManagerConfig,
+  SkyDataManagerModule,
   SkyDataManagerService,
   SkyDataManagerState,
 } from '@skyux/data-manager';
 
-import { FirstDataRenderedEvent, GridOptions } from 'ag-grid-community';
+import {
+  AllCommunityModule,
+  FirstDataRenderedEvent,
+  GridOptions,
+  ModuleRegistry,
+} from 'ag-grid-community';
 import { BehaviorSubject, first, timer } from 'rxjs';
 
+import { AsyncPipe } from '@angular/common';
+import { SkyCheckboxModule, SkyRadioModule } from '@skyux/forms';
+import { SkyDropdownModule } from '@skyux/popovers';
+import { AgGridAngular } from 'ag-grid-angular';
 import { columnDefinitions, data } from '../shared/baseball-players-data';
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 interface GridSettingsType {
   enableTopScroll: FormControl<boolean>;
@@ -36,7 +54,17 @@ interface GridSettingsType {
   styleUrls: ['./data-manager.component.scss'],
   encapsulation: ViewEncapsulation.None,
   providers: [SkyDataManagerService],
-  standalone: false,
+  imports: [
+    AgGridAngular,
+    AsyncPipe,
+    FormsModule,
+    ReactiveFormsModule,
+    SkyAgGridModule,
+    SkyCheckboxModule,
+    SkyDataManagerModule,
+    SkyDropdownModule,
+    SkyRadioModule,
+  ],
 })
 export class DataManagerComponent implements AfterViewInit {
   @HostBinding('class.use-normal-dom-layout')
@@ -67,8 +95,8 @@ export class DataManagerComponent implements AfterViewInit {
   @Input()
   public autoHeightColumns = false;
 
-  @ViewChild('link')
-  public linkTemplate!: TemplateRef<unknown>;
+  public readonly linkTemplate =
+    viewChild.required<TemplateRef<unknown>>('link');
 
   public dataManagerConfig: SkyDataManagerConfig = {};
 
@@ -209,7 +237,7 @@ export class DataManagerComponent implements AfterViewInit {
     const name = columnDefs.find((col) => col.field === 'name');
     if (name) {
       name.type = SkyCellType.Template;
-      name.cellRendererParams = { template: this.linkTemplate };
+      name.cellRendererParams = { template: this.linkTemplate() };
       delete name.cellRenderer;
     }
     this.gridOptions = this.#agGridService.getGridOptions({

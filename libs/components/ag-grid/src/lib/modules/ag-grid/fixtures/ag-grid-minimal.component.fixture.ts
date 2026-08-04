@@ -1,17 +1,16 @@
 import {
   Component,
   InjectionToken,
-  OnInit,
-  ViewChild,
   ViewEncapsulation,
   inject,
+  viewChild,
 } from '@angular/core';
 
 import { AgGridAngular } from 'ag-grid-angular';
 import {
   AllCommunityModule,
   ColDef,
-  GridOptions,
+  DomLayoutType,
   ModuleRegistry,
 } from 'ag-grid-community';
 
@@ -38,7 +37,7 @@ export const MinimalEditable = new InjectionToken<boolean>('MinimalEditable', {
       <ag-grid-angular
         #minimalGrid
         [class.sky-ag-grid-editable]="editable"
-        [gridOptions]="gridOptions"
+        [gridOptions]="gridOptionsFromService"
         [rowData]="rowData"
       />
     </sky-ag-grid-wrapper>
@@ -46,33 +45,32 @@ export const MinimalEditable = new InjectionToken<boolean>('MinimalEditable', {
   encapsulation: ViewEncapsulation.None,
   imports: [SkyAgGridWrapperComponent, AgGridAngular],
 })
-export class SkyAgGridMinimalFixtureComponent implements OnInit {
-  @ViewChild('minimalGrid', { static: true })
-  public agGrid: AgGridAngular | undefined;
+export class SkyAgGridMinimalFixtureComponent {
+  public readonly agGrid = viewChild<AgGridAngular>('minimalGrid');
 
   public readonly columnDefs = inject(MinimalColumnDefs);
   public readonly rowData = inject(MinimalRowData);
   public readonly editable = inject(MinimalEditable);
 
-  public gridOptions: GridOptions = {
-    columnDefs: this.columnDefs,
-    domLayout: 'autoHeight',
-    context: {
-      enableCellTextSelection: true,
-    },
-  };
-
   readonly #gridService = inject(SkyAgGridService);
 
-  public ngOnInit(): void {
-    if (this.editable) {
-      this.gridOptions = this.#gridService.getEditableGridOptions({
-        gridOptions: this.gridOptions,
+  protected readonly gridOptionsFromService = this.editable
+    ? this.#gridService.getEditableGridOptions({
+        gridOptions: {
+          columnDefs: this.columnDefs,
+          domLayout: 'autoHeight' as DomLayoutType,
+          context: {
+            enableCellTextSelection: true,
+          },
+        },
+      })
+    : this.#gridService.getGridOptions({
+        gridOptions: {
+          columnDefs: this.columnDefs,
+          domLayout: 'autoHeight' as DomLayoutType,
+          context: {
+            enableCellTextSelection: true,
+          },
+        },
       });
-    } else {
-      this.gridOptions = this.#gridService.getGridOptions({
-        gridOptions: this.gridOptions,
-      });
-    }
-  }
 }

@@ -3,11 +3,11 @@ import {
   ChangeDetectorRef,
   Component,
   DOCUMENT,
-  Input,
   OnDestroy,
   OnInit,
   ViewEncapsulation,
   inject,
+  input,
 } from '@angular/core';
 import {
   SkyAgGridRowDeleteConfirmArgs,
@@ -18,10 +18,12 @@ import { SkyDockLocation, SkyDockService } from '@skyux/core';
 import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
 
 import {
+  AllCommunityModule,
   ColDef,
   ColGroupDef,
   GridApi,
   GridOptions,
+  ModuleRegistry,
   RowSelectedEvent,
 } from 'ag-grid-community';
 import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
@@ -29,7 +31,14 @@ import { delay, filter, map } from 'rxjs/operators';
 
 import { columnDefinitions, data } from '../shared/baseball-players-data';
 
+import { AsyncPipe } from '@angular/common';
+import { SkyAgGridModule } from '@skyux/ag-grid';
+import { SkyBackToTopModule } from '@skyux/layout';
+import { PreviewWrapperModule } from '@skyux/storybook/components';
+import { AgGridAngular } from 'ag-grid-angular';
 import { ContextMenuComponent } from './context-menu.component';
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 interface DataSet {
   id: string;
@@ -41,12 +50,18 @@ interface DataSet {
   templateUrl: './ag-grid-stories.component.html',
   styleUrls: ['./ag-grid-stories.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  standalone: false,
+  imports: [
+    AgGridAngular,
+    AsyncPipe,
+    PreviewWrapperModule,
+    SkyAgGridModule,
+    SkyBackToTopModule,
+  ],
 })
 export class AgGridStoriesComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
-  @Input() public compact = false;
+  public readonly compact = input(false);
 
   public dataSets: DataSet[] = [
     {
@@ -208,7 +223,7 @@ export class AgGridStoriesComponent
           this.#doc
             .querySelector(
               /* spell-checker: disable-next-line */
-              '#back-to-top .sky-ag-grid-row-johnsra05 [col-id="name"]',
+              '#back-to-top [row-id="johnsra05"] [col-id="name"]',
             )
             ?.scrollIntoView();
 

@@ -17,23 +17,23 @@ export const routes: Route[] = [
   },
   {
     path: 'data-manager',
-    loadChildren: () =>
-      import('./data-manager/data-manager.module').then(
-        (m) => m.DataManagerModule,
+    loadComponent: () =>
+      import('./data-manager/data-manager.component').then(
+        (m) => m.DataManagerComponent,
       ),
   },
   {
     path: 'ag-grid',
-    loadChildren: () =>
-      import('./ag-grid/ag-grid-stories.module').then(
-        (m) => m.AgGridStoriesModule,
+    loadComponent: () =>
+      import('./ag-grid/ag-grid-stories.component').then(
+        (m) => m.AgGridStoriesComponent,
       ),
   },
   {
     path: 'data-entry-grid',
-    loadChildren: () =>
-      import('./data-entry-grid/data-entry-grid.module').then(
-        (m) => m.DataEntryGridModule,
+    loadComponent: () =>
+      import('./data-entry-grid/data-entry-grid.component').then(
+        (m) => m.DataEntryGridComponent,
       ),
   },
 ];

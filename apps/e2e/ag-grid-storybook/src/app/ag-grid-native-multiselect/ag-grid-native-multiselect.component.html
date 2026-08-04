@@ -3,7 +3,7 @@
 <ng-template #gridTemplate>
   @for (dataSet of dataSets; track dataSet.id) {
     <h2>{{ dataSet.label }}</h2>
-    <sky-ag-grid-wrapper [attr.id]="dataSet.id" [compact]="compact">
+    <sky-ag-grid-wrapper [attr.id]="dataSet.id" [compact]="compact()">
       <ag-grid-angular [gridOptions]="gridOptions[dataSet.id]" />
     </sky-ag-grid-wrapper>
   }
