@@ -14,8 +14,13 @@
     "_description": "The label for the 'View data table' chart menu item",
     "message": "View data table"
   },
+  "skyux_charts.chart.donut.accessible_summary": {
+    "_description": "The accessible summary announced for a donut chart figure, describing its shape and noting that a data table alternative is available",
+    "message": "Donut chart. Number of slices: {0}. A data table is available from the chart's context menu.",
+    "_0": "The number of slices"
+  },
   "skyux_charts.chart.pie.accessible_summary": {
-    "_description": "The accessible summary announced for a pie or donut chart figure, describing its shape and noting that a data table alternative is available",
+    "_description": "The accessible summary announced for a pie chart figure, describing its shape and noting that a data table alternative is available",
     "message": "Pie chart. Number of slices: {0}. A data table is available from the chart's context menu.",
     "_0": "The number of slices"
   },

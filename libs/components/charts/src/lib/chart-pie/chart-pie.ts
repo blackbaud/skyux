@@ -153,7 +153,10 @@ export class SkyChartPie extends SkyChartPlot {
     }
 
     return {
-      resourceKey: 'skyux_charts.chart.pie.accessible_summary',
+      resourceKey:
+        this.displayMode() === 'donut'
+          ? 'skyux_charts.chart.donut.accessible_summary'
+          : 'skyux_charts.chart.pie.accessible_summary',
       args: [slices.length],
     };
   }

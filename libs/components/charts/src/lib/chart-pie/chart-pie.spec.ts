@@ -151,6 +151,16 @@ describe('Chart pie component', () => {
     });
   });
 
+  it('should publish a donut accessible summary in the donut display mode', () => {
+    component.displayMode = 'donut';
+    fixture.detectChanges();
+
+    expect(tableSvc().summary()).toEqual({
+      resourceKey: 'skyux_charts.chart.donut.accessible_summary',
+      args: [2],
+    });
+  });
+
   it('should clear the accessible summary when the plot is destroyed', () => {
     fixture.detectChanges();
 
@@ -275,6 +285,14 @@ describe('Chart pie component', () => {
     expect(label(tooltipContext('North', 10))).toBe('North: $10.00');
   });
 
+  it('should format fractional tooltip values as percentages', () => {
+    component.valueFormat = 'percent';
+    fixture.detectChanges();
+
+    const label = getTooltipLabel(requireChart());
+    expect(label(tooltipContext('North', 0.25))).toBe('North: 25%');
+  });
+
   it('should apply the themed default height', () => {
     fixture.detectChanges();
 
@@ -315,6 +333,7 @@ describe('Chart pie component', () => {
 
   describe('a11y', () => {
     it('should be accessible as a pie', async () => {
+      fixture.detectChanges();
       await fixture.whenStable();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -322,6 +341,7 @@ describe('Chart pie component', () => {
 
     it('should be accessible as a donut', async () => {
       component.displayMode = 'donut';
+      fixture.detectChanges();
       await fixture.whenStable();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
