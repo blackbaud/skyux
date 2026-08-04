@@ -29,6 +29,7 @@ import {
   SKY_AG_GRID_DATA,
   SKY_AG_GRID_LONG_DATA,
 } from './ag-grid-data.fixture';
+import { AG_GRID_FIXTURE_TEST_OPTIONS } from './ag-grid-fixture-test-options';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -106,6 +107,7 @@ export class SkyAgGridRowDeleteFixtureComponent {
   public readonly gridOptions = computed(() =>
     this.#agGridService.getEditableGridOptions({
       gridOptions: {
+        ...AG_GRID_FIXTURE_TEST_OPTIONS,
         columnDefs: this.columnDefs(),
         domLayout: this.domLayout(),
         onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),

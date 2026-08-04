@@ -109,7 +109,11 @@ export class SkyAgGridWrapperHarness extends SkyComponentHarness {
   }
 
   async #locateGridApi(): Promise<GridApi> {
-    const locator = this.locatorFactory.locatorFor('ag-grid-angular');
+    // Query the `.ag-root` element rather than `ag-grid-angular` itself, since
+    // `skyViewkeeper`'s shadow element is inserted as `ag-grid-angular`'s
+    // first child and `getGridApi()` locates the grid by walking up from the
+    // queried element's first element child.
+    const locator = this.locatorFactory.locatorFor('ag-grid-angular .ag-root');
     return await locator().then((grid) => {
       if (grid instanceof UnitTestElement) {
         const api = getGridApi(grid.element);

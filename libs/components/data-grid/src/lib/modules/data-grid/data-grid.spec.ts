@@ -30,13 +30,20 @@ import { ResourceDataTestComponent } from './fixtures/resource-data-test.compone
 import { TemplateColumnTestComponent } from './fixtures/template-column-test.component';
 
 /**
+ * Queries the `.ag-root` element rather than the passed-in `ag-grid-angular`
+ * element itself, since `skyViewkeeper`'s shadow element is inserted as
+ * `ag-grid-angular`'s first child and `getGridApi()` locates the grid by
+ * walking up from the queried element's first element child.
+ *
  * Synchronous on purpose: used directly only by the `fakeAsync` "columnFit"
  * tests below, which don't opt into `provideSkyAgGridTesting()` and so don't
  * need (and, inside `fakeAsync`, can't easily use) the real-macrotask flush
  * that `getGridApi()` performs.
  */
 function getGridApiSync(agGridAngularElement: Element | null) {
-  return getAgGridApi(agGridAngularElement);
+  return getAgGridApi(
+    agGridAngularElement?.querySelector('.ag-root') ?? agGridAngularElement,
+  );
 }
 
 /**
@@ -240,7 +247,7 @@ describe('SkyDataGrid', () => {
       expect(
         Array.from(
           fixture.nativeElement
-            .querySelector('.ag-viewport')
+            .querySelector('.ag-grid-scrolling-rows')
             .querySelectorAll('[role="row"]'),
         ),
       ).toHaveSize(0);

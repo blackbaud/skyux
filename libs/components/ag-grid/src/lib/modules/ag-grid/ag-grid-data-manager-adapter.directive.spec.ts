@@ -790,20 +790,17 @@ it('should move the horizontal scroll based on enableTopScroll check', async () 
   await fixture.whenStable();
   fixture.detectChanges();
   await fixture.whenStable();
-  const gridComponents: string[] = Array.from(
-    fixture.nativeElement.querySelector('.ag-root')?.children || [],
-  ).map((el) => (el as HTMLElement).classList[0]);
-  // Expect the scrollbar below the header.
-  expect(gridComponents).toEqual([
-    'ag-header',
-    'ag-body-horizontal-scroll',
-    'ag-floating-top',
-    'ag-body',
-    'ag-sticky-top',
-    'ag-sticky-bottom',
-    'ag-floating-bottom',
-    'ag-overlay',
-  ]);
+  await new Promise((resolve) => requestAnimationFrame(resolve));
+  await new Promise((resolve) => requestAnimationFrame(resolve));
+
+  const header = fixture.nativeElement.querySelector(
+    '.ag-header',
+  ) as HTMLElement;
+  const scrollbar = fixture.nativeElement.querySelector(
+    '.ag-body-horizontal-scroll',
+  ) as HTMLElement;
+  // Expect the scrollbar positioned below the header.
+  expect(scrollbar.style.top).toEqual(`${header.offsetHeight}px`);
 
   const agGrid = fixture.componentInstance.agGrid();
   expect(agGrid).toBeDefined();

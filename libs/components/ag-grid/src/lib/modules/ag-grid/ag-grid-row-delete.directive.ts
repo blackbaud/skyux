@@ -1,8 +1,8 @@
 import {
+  DestroyRef,
   Directive,
   ElementRef,
   EnvironmentInjector,
-  OnDestroy,
   afterNextRender,
   contentChild,
   inject,
@@ -27,21 +27,49 @@ import { AgGridAngular } from 'ag-grid-angular';
 import { GridApi } from 'ag-grid-community';
 import {
   BehaviorSubject,
-  Subject,
   distinctUntilChanged,
   filter,
+  shareReplay,
   switchMap,
   take,
   takeUntil,
 } from 'rxjs';
 
+import { fromGridEvent } from './ag-grid-event-utils';
 import {
   SKY_AG_GRID_ROW_DELETE_CONTEXT,
   SkyAgGridRowDeleteContext,
+  SkyAgGridRowDeleteVisibleRegion,
 } from './ag-grid-row-delete-context';
 import { SkyAgGridRowDeleteComponent } from './ag-grid-row-delete.component';
 import { SkyAgGridRowDeleteCancelArgs } from './types/ag-grid-row-delete-cancel-args';
 import { SkyAgGridRowDeleteConfirmArgs } from './types/ag-grid-row-delete-confirm-args';
+
+/**
+ * Parses the `inset(...)` clip-path produced by
+ * `SkyScrollableHostService.watchScrollableHostClipPathChanges` into the
+ * visible region it describes, in viewport coordinates. Returns `undefined`
+ * when nothing is clipped (e.g. `none`), meaning no row overlay is masked.
+ */
+function parseClipPathVisibleRegion(
+  clipPath: string | undefined,
+): SkyAgGridRowDeleteVisibleRegion | undefined {
+  const match = clipPath?.match(
+    /^inset\((-?[\d.]+)px\s+(-?[\d.]+)px\s+(-?[\d.]+)px\s+(-?[\d.]+)px\)$/,
+  );
+  if (!match) {
+    return undefined;
+  }
+  const [, top, rightInverse, bottomInverse, left] = match.map(Number);
+  const viewportWidth = document.documentElement.clientWidth;
+  const viewportHeight = document.documentElement.clientHeight;
+  return {
+    top,
+    left,
+    right: viewportWidth - rightInverse,
+    bottom: viewportHeight - bottomInverse,
+  };
+}
 
 /**
  * Enables inline row delete functionality for an AG Grid when included
@@ -51,7 +79,7 @@ import { SkyAgGridRowDeleteConfirmArgs } from './types/ag-grid-row-delete-confir
 @Directive({
   selector: '[skyAgGridRowDelete]',
 })
-export class SkyAgGridRowDeleteDirective implements OnDestroy {
+export class SkyAgGridRowDeleteDirective {
   /**
    * The IDs of the data in the rows where the inline delete appears.
    */
@@ -72,10 +100,10 @@ export class SkyAgGridRowDeleteDirective implements OnDestroy {
   readonly #agGridRootElement = new BehaviorSubject<
     ElementRef<HTMLDivElement>[]
   >([]);
-  readonly #agGridBodyClipElements = new BehaviorSubject<
+  readonly #agGridHeaderElement = new BehaviorSubject<
     ElementRef<HTMLDivElement>[]
   >([]);
-  readonly #ngUnsubscribe = new Subject<void>();
+  readonly #destroyRef = inject(DestroyRef);
   readonly #rowDeleteIdsInternal = linkedSignal<unknown[], string[]>({
     source: this.rowDeleteIds,
     computation: (value) =>
@@ -86,6 +114,9 @@ export class SkyAgGridRowDeleteDirective implements OnDestroy {
     equal: (a, b) => a.length === b.length && a.every((v, i) => v === b[i]),
   });
   readonly #clipPath = new BehaviorSubject<string | undefined>(undefined);
+  readonly #visibleRegion = new BehaviorSubject<
+    SkyAgGridRowDeleteVisibleRegion | undefined
+  >(undefined);
   readonly #zIndex = new BehaviorSubject(998);
   readonly #elementRef = inject(ElementRef<HTMLElement>);
   readonly #environmentInjector = inject(EnvironmentInjector);
@@ -98,7 +129,7 @@ export class SkyAgGridRowDeleteDirective implements OnDestroy {
   constructor() {
     if (this.#stackingContext) {
       this.#stackingContext.zIndex
-        .pipe(takeUntil(this.#ngUnsubscribe))
+        .pipe(takeUntilDestroyed(this.#destroyRef))
         .subscribe((zIndex) => {
           this.#zIndex.next(zIndex);
         });
@@ -108,54 +139,51 @@ export class SkyAgGridRowDeleteDirective implements OnDestroy {
       this.#rowDeleteIdsInternal.asReadonly(),
       toSignal(this.#agGridRootElement),
       signal<GridApi | undefined>(undefined),
+      toSignal(this.#visibleRegion),
     );
-
-    this.#rowDeleteSvc.cancelRowDelete
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((rowId) => {
-        if (rowId) {
-          this.rowDeleteIds.update((rowIds) =>
-            rowIds.filter((id) => id !== rowId),
-          );
-          this.rowDeleteCancel.emit({ id: rowId });
-        }
-      });
-
-    this.#rowDeleteSvc.confirmRowDelete
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((rowId) => {
-        if (rowId) {
-          this.rowDeleteConfirm.emit({ id: rowId });
-        }
-      });
 
     const agGrid = toObservable(this.agGrid);
     const agGridReady = agGrid.pipe(
       filter((agGrid) => !!agGrid),
       switchMap((agGrid: AgGridAngular) => agGrid.gridReady),
       take(1),
-      takeUntil(this.#ngUnsubscribe),
+      takeUntilDestroyed(this.#destroyRef),
     );
-    agGridReady.subscribe((ready) => {
-      const rootWrapper = this.#elementRef.nativeElement.querySelector(
-        'div.ag-root-wrapper',
+    const agGridDestroyed = agGridReady.pipe(
+      switchMap((ready) => fromGridEvent(ready.api, 'gridPreDestroyed')),
+      take(1),
+      takeUntilDestroyed(this.#destroyRef),
+      shareReplay({ bufferSize: 1, refCount: true }),
+    );
+
+    agGridReady.pipe(takeUntil(agGridDestroyed)).subscribe((ready) => {
+      const rowsWrapper = this.#elementRef.nativeElement.querySelector(
+        'div.ag-grid-scrolling-rows',
       );
-      if (rootWrapper) {
+      if (rowsWrapper) {
         this.#agGridRootElement.next([
-          new ElementRef(rootWrapper as HTMLDivElement),
+          new ElementRef(rowsWrapper as HTMLDivElement),
+        ]);
+      }
+      const headerWrapper =
+        this.#elementRef.nativeElement.querySelector('div.ag-header');
+      if (headerWrapper) {
+        this.#agGridHeaderElement.next([
+          new ElementRef(headerWrapper as HTMLDivElement),
         ]);
       }
       this.#rowDeleteSvc.gridApi.set(ready.api);
     });
-    this.#agGridRootElement
-      .pipe(takeUntilDestroyed())
-      .subscribe((el) => this.#agGridBodyClipElements.next(el));
+    agGridDestroyed.subscribe(() => {
+      this.#rowDeleteSvc.gridApi.set(undefined);
+    });
 
     agGrid
       .pipe(
         filter((agGrid) => !!agGrid),
         switchMap((agGrid: AgGridAngular) => agGrid.rowDataUpdated),
-        takeUntil(this.#ngUnsubscribe),
+        takeUntilDestroyed(this.#destroyRef),
+        takeUntil(agGridDestroyed),
       )
       .subscribe((evt) => {
         this.rowDeleteIds.update((rowIds) =>
@@ -181,18 +209,20 @@ export class SkyAgGridRowDeleteDirective implements OnDestroy {
       ]);
       this.#zIndex
         .pipe(
-          takeUntil(this.#ngUnsubscribe),
+          takeUntilDestroyed(this.#destroyRef),
           takeUntil(this.#overlay.closed),
+          takeUntil(agGridDestroyed),
           distinctUntilChanged(),
         )
         .subscribe((zIndex) => {
           if (this.#overlay) {
             this.#overlay.componentRef.instance.zIndex = zIndex.toString(10);
+            this.#overlay.componentRef.changeDetectorRef.markForCheck();
           }
         });
       this.#clipPath
         .pipe(
-          takeUntil(this.#ngUnsubscribe),
+          takeUntilDestroyed(this.#destroyRef),
           takeUntil(this.#overlay.closed),
           distinctUntilChanged(),
         )
@@ -201,23 +231,41 @@ export class SkyAgGridRowDeleteDirective implements OnDestroy {
         });
 
       this.#scrollableHostService
-        .watchScrollableHostClipPathChanges(
-          this.#elementRef,
-          this.#agGridBodyClipElements.asObservable(),
-        )
-        .pipe(takeUntil(this.#ngUnsubscribe))
+        .watchScrollableHostClipPathChanges(this.#elementRef, {
+          additionalContainers: this.#agGridRootElement.asObservable(),
+          additionalMasking: { top: this.#agGridHeaderElement.asObservable() },
+        })
+        .pipe(takeUntilDestroyed(this.#destroyRef))
         .subscribe((clipPath) => {
           this.#clipPath.next(clipPath);
+          this.#visibleRegion.next(parseClipPathVisibleRegion(clipPath));
         });
     });
-  }
 
-  public ngOnDestroy(): void {
-    this.#ngUnsubscribe.next();
-    this.#ngUnsubscribe.complete();
-    this.#rowDeleteSvc.subscription.unsubscribe();
-    if (this.#overlay) {
-      this.#overlayService.close(this.#overlay);
-    }
+    this.#destroyRef.onDestroy(() => {
+      this.#rowDeleteSvc.subscription.unsubscribe();
+      if (this.#overlay) {
+        this.#overlayService.close(this.#overlay);
+      }
+    });
+
+    this.#rowDeleteSvc.cancelRowDelete
+      .pipe(takeUntilDestroyed(this.#destroyRef), takeUntil(agGridDestroyed))
+      .subscribe((rowId) => {
+        if (rowId) {
+          this.rowDeleteIds.update((rowIds) =>
+            rowIds.filter((id) => id !== rowId),
+          );
+          this.rowDeleteCancel.emit({ id: rowId });
+        }
+      });
+
+    this.#rowDeleteSvc.confirmRowDelete
+      .pipe(takeUntilDestroyed(this.#destroyRef), takeUntil(agGridDestroyed))
+      .subscribe((rowId) => {
+        if (rowId) {
+          this.rowDeleteConfirm.emit({ id: rowId });
+        }
+      });
   }
 }
