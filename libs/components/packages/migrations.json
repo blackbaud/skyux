@@ -19,6 +19,11 @@
       "version": "0.0.0-PLACEHOLDER",
       "factory": "./src/schematics/migrations/all/workspace-check/workspace-check.schematic",
       "description": "Log warnings if the workspace is not configured correctly."
+    },
+    "migrate-dragula-polyfill": {
+      "version": "0.0.0-PLACEHOLDER",
+      "factory": "./src/schematics/migrations/all/migrate-dragula-polyfill/migrate-dragula-polyfill.schematic",
+      "description": "Remove the @skyux/packages/polyfills entry from project config, replacing it with a local copy when Dragula is still installed."
     }
   }
 }
