@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { SkyDropdownModule } from '@skyux/popovers';
 
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
@@ -7,7 +8,7 @@ import { ICellRendererParams } from 'ag-grid-community';
   selector: 'app-context-menu',
   templateUrl: './context-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [SkyDropdownModule],
 })
 export class ContextMenuComponent implements ICellRendererAngularComp {
   public goalName: string | undefined;

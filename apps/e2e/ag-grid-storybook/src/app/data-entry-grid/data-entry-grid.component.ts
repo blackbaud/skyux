@@ -7,6 +7,7 @@ import {
   OnInit,
   ViewEncapsulation,
   inject,
+  input,
 } from '@angular/core';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import {
@@ -16,12 +17,24 @@ import {
   SkyThemeSettings,
 } from '@skyux/theme';
 
-import { ColDef, GridOptions } from 'ag-grid-community';
+import {
+  AllCommunityModule,
+  ColDef,
+  GridOptions,
+  ModuleRegistry,
+} from 'ag-grid-community';
 import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { delay, filter, map } from 'rxjs/operators';
 
+import { AsyncPipe, NgStyle, NgTemplateOutlet } from '@angular/common';
+import { SkyAgGridModule } from '@skyux/ag-grid';
+import { PreviewWrapperModule } from '@skyux/storybook/components';
+import { SkyThemeModule } from '@skyux/theme';
+import { AgGridAngular } from 'ag-grid-angular';
 import { columnDefinitions, data } from '../shared/baseball-players-data';
 import { InlineHelpComponent } from '../shared/inline-help/inline-help.component';
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 interface DataSet {
   id: string;
@@ -33,13 +46,20 @@ interface DataSet {
   templateUrl: './data-entry-grid.component.html',
   styleUrls: ['./data-entry-grid.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  standalone: false,
+  imports: [
+    AgGridAngular,
+    AsyncPipe,
+    NgStyle,
+    NgTemplateOutlet,
+    PreviewWrapperModule,
+    SkyAgGridModule,
+    SkyThemeModule,
+  ],
 })
 export class DataEntryGridComponent
   implements AfterViewInit, OnInit, OnDestroy
 {
-  @Input()
-  public compact = false;
+  public readonly compact = input(false);
 
   public variationId: 'date-and-lookup' | 'edit-lookup' | undefined;
 

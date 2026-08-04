@@ -2,9 +2,9 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Input,
   OnInit,
   inject,
+  input,
 } from '@angular/core';
 import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import {
@@ -44,8 +44,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DataViewGridComponent implements OnInit {
-  @Input()
-  public items: any[];
+  public readonly items = input<any[]>(undefined);
 
   public viewId = 'gridView';
 
@@ -115,7 +114,7 @@ export class DataViewGridComponent implements OnInit {
   readonly #dataManagerService = inject(SkyDataManagerService);
 
   public ngOnInit(): void {
-    this.displayedItems = this.items;
+    this.displayedItems = this.items();
 
     this.#dataManagerService.initDataView(this.viewConfig);
 
@@ -142,7 +141,7 @@ export class DataViewGridComponent implements OnInit {
   }
 
   public updateData(): void {
-    this.displayedItems = this.#filterItems(this.searchItems(this.items));
+    this.displayedItems = this.#filterItems(this.searchItems(this.items()));
 
     if (this.dataState.onlyShowSelected) {
       this.displayedItems = this.displayedItems.filter((item) => item.selected);
@@ -150,7 +149,7 @@ export class DataViewGridComponent implements OnInit {
 
     this.#dataManagerService.updateDataSummary(
       {
-        totalItems: this.items.length,
+        totalItems: this.items().length,
         itemsMatching: this.displayedItems.length,
       },
       this.viewId,
