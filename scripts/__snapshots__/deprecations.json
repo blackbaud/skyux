@@ -98,6 +98,7 @@
   "@skyux/indicators/testing:SkyHelpInlineHarnessFilters",
   "@skyux/indicators/testing:SkyLabelFixture",
   "@skyux/indicators/testing:SkyWaitFixture",
+  "@skyux/indicators:SkyAlertModule",
   "@skyux/layout/testing:SkyActionButtonFixture",
   "@skyux/layout/testing:SkyCardFixture",
   "@skyux/layout/testing:SkyPageSummaryFixture",
