@@ -1,18 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/angular';
-import { moduleMetadata } from '@storybook/angular';
 
 import { DataEntryGridComponent } from './data-entry-grid.component';
-import { DataEntryGridModule } from './data-entry-grid.module';
 
 export default {
   id: 'dataentrygridcomponent-dataentrygrid',
   title: 'Components/Data Entry Grid',
   component: DataEntryGridComponent,
-  decorators: [
-    moduleMetadata({
-      imports: [DataEntryGridModule],
-    }),
-  ],
   argTypes: {
     variation: {
       control: {

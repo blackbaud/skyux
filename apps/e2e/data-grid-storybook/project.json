@@ -15,7 +15,7 @@
         },
         "index": "apps/e2e/data-grid-storybook/src/index.html",
         "browser": "apps/e2e/data-grid-storybook/src/main.ts",
-        "polyfills": ["zone.js", "libs/components/packages/src/polyfills.js"],
+        "polyfills": ["zone.js"],
         "tsConfig": "apps/e2e/data-grid-storybook/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "stylePreprocessorOptions": {

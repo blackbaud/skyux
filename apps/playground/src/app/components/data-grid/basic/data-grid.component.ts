@@ -3,9 +3,9 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ViewChild,
   inject,
   model,
+  viewChild,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { SkyDataGrid, SkyDataGridColumn } from '@skyux/data-grid';
@@ -62,14 +62,13 @@ export default class DataGridComponent {
     this.hideCol3.update((show) => !show);
   }
 
-  @ViewChild('asyncPopoverRef')
-  private popoverTemplate: any;
+  private readonly popoverTemplate = viewChild<any>('asyncPopoverRef');
 
   readonly #cdr = inject(ChangeDetectorRef);
 
   constructor() {
     setTimeout(() => {
-      this.asyncPopover = this.popoverTemplate;
+      this.asyncPopover = this.popoverTemplate();
       this.#cdr.markForCheck();
     }, 1000);
   }

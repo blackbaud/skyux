@@ -5,7 +5,7 @@ import {
   inject,
   OnInit,
   TemplateRef,
-  ViewChild,
+  viewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import {
@@ -63,8 +63,8 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   ],
 })
 export class EditComplexCellsComponent implements OnInit {
-  @ViewChild('actionColumn', { static: true })
-  protected actionColumn: TemplateRef<unknown> | undefined;
+  protected readonly actionColumn =
+    viewChild<TemplateRef<unknown>>('actionColumn');
 
   public gridData = EDITABLE_GRID_DATA;
   public editMode = false;
@@ -143,10 +143,10 @@ export class EditComplexCellsComponent implements OnInit {
         headerName: 'Action',
         type: SkyCellType.Template,
         cellRendererParams: {
-          template: this.actionColumn,
+          template: this.actionColumn(),
         },
         cellEditorParams: {
-          template: this.actionColumn,
+          template: this.actionColumn(),
         },
         editable: this.editMode,
         minWidth: 130,
