@@ -97,29 +97,35 @@ export class SkyDataGridHarness extends SkyQueryableComponentHarness {
    */
   public async clickColumnSortButton(column: string): Promise<void> {
     const grid = await this.#getGridWrapper();
-    const renderCountBeforeClick = await grid.getRenderCount();
     const api = await grid.getGridApi();
+    const renderCountBeforeClick = await grid.getRenderCount();
     // AG Grid's `sortChanged` event (which `SkyDataGrid`'s own `[(sort)]`
     // binding listens for) is dispatched independently of the `modelUpdated`
     // render event `waitUntilRendered()` waits for below, so wait for it
     // explicitly instead of guessing how many stabilize passes are enough
     // for it to have already fired.
+    let handler!: () => void;
     const sortChanged = new Promise<void>((resolve) => {
-      const handler = (): void => {
-        api.removeEventListener('sortChanged', handler);
-        resolve();
-      };
+      handler = (): void => resolve();
       api.addEventListener('sortChanged', handler);
     });
     const btn = await this.locatorFor(
       `.ag-header-cell.ag-header-cell-sortable[col-id="${column}"] button.ag-header-cell-label-sortable`,
     )();
-    await btn.click();
-    await grid.waitUntilRendered(renderCountBeforeClick);
-    await Promise.race([
-      sortChanged,
-      new Promise((resolve) => setTimeout(resolve, 2000)),
-    ]);
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
+    try {
+      await btn.click();
+      await grid.waitUntilRendered(renderCountBeforeClick);
+      await Promise.race([
+        sortChanged,
+        new Promise((resolve) => {
+          timeoutId = setTimeout(resolve, 2000);
+        }),
+      ]);
+    } finally {
+      clearTimeout(timeoutId);
+      api.removeEventListener('sortChanged', handler);
+    }
     await this.forceStabilize();
   }
 

@@ -30,10 +30,17 @@ async function expectRenderWaitGatesResolution<T>(
   const renderWait = new Promise<void>((resolve) => {
     releaseRenderWait = resolve;
   });
+  let waitStarted!: () => void;
+  const waitStartedPromise = new Promise<void>((resolve) => {
+    waitStarted = resolve;
+  });
   const waitUntilRenderedSpy = spyOn(
     SkyAgGridWrapperHarness.prototype,
     'waitUntilRendered',
-  ).and.returnValue(renderWait);
+  ).and.callFake(() => {
+    waitStarted();
+    return renderWait;
+  });
 
   let resolved = false;
   const pending = runQuery().then((result) => {
@@ -41,10 +48,12 @@ async function expectRenderWaitGatesResolution<T>(
     return result;
   });
 
-  // Let any already-pending microtasks or timers (e.g. the grid wrapper
-  // harness lookup) run to completion. The query itself must still be
-  // pending, because it's blocked on the deferred render wait above.
-  await new Promise((resolve) => setTimeout(resolve, 50));
+  // Wait until `waitUntilRendered()` has actually been invoked (i.e. any
+  // pending microtasks/timers, like the grid wrapper harness lookup, have
+  // run to completion) rather than guessing a fixed delay. The query itself
+  // must still be pending, because it's blocked on the deferred render wait
+  // above.
+  await waitStartedPromise;
   expect(waitUntilRenderedSpy).toHaveBeenCalled();
   expect(resolved).toBe(false);
 
