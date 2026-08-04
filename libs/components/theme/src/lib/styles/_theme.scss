@@ -24,7 +24,11 @@ body {
 }
 
 html {
-  scrollbar-color: var(--sky-override-scrollbar-color-thumb, var(--sky-color-scrollbar-thumb)) var(--sky-override-scrollbar-color-track, var(--sky-color-scrollbar-track));
+  scrollbar-color: var(
+      --sky-override-scrollbar-color-thumb,
+      var(--sky-color-scrollbar-thumb)
+    )
+    var(--sky-override-scrollbar-color-track, var(--sky-color-scrollbar-track));
 }
 
 h6 {
