@@ -4,12 +4,17 @@
 ## [15.0.0-alpha.3](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.2...15.0.0-alpha.3) (2026-08-04)
 
 
+### ⚠ BREAKING CHANGES
+
+* **components/packages:** add migration to remove @skyux/packages/polyfills from projects (#4555)
+
 ### Features
 
 * **components/charts:** add bar chart component (developer preview) ([#4527](https://github.com/blackbaud/skyux/issues/4527)) ([#4544](https://github.com/blackbaud/skyux/issues/4544)) ([e3d8ff2](https://github.com/blackbaud/skyux/commit/e3d8ff273e33795f2a3cb202d1a8c7e027329b74)), closes [AB#4027719](https://dev.azure.com/blackbaud/Products/_workitems/edit/4027719)
 * **components/charts:** add code examples ([#4547](https://github.com/blackbaud/skyux/issues/4547)) ([#4551](https://github.com/blackbaud/skyux/issues/4551)) ([c24fa68](https://github.com/blackbaud/skyux/commit/c24fa6862a3129eb281b4762e99b8d14e8241585)), closes [AB#4027719](https://dev.azure.com/blackbaud/Products/_workitems/edit/4027719)
 * **components/charts:** add testing harnesses ([#4542](https://github.com/blackbaud/skyux/issues/4542))  ([#4546](https://github.com/blackbaud/skyux/issues/4546)) ([f2b612d](https://github.com/blackbaud/skyux/commit/f2b612deea1b0d06518ea30fd37ed5ec84854382))
 * **components/core:** support masking additional edges for scrollable host clip path ([#4543](https://github.com/blackbaud/skyux/issues/4543)) ([c498e0e](https://github.com/blackbaud/skyux/commit/c498e0e0b1b8cbe2591452e2d465d12b68273f73))
+* **components/packages:** add migration to remove @skyux/packages/polyfills from projects ([#4555](https://github.com/blackbaud/skyux/issues/4555)) ([960f5e6](https://github.com/blackbaud/skyux/commit/960f5e65690d5fc8f204cf0b48fbc1e6162002ac)), closes [AB#3897818](https://dev.azure.com/blackbaud/Products/_workitems/edit/3897818)
 
 
 ### Bug Fixes
