@@ -4,7 +4,6 @@
   "license": "MIT",
   "scripts": {
     "ng": "nx",
-    "postinstall": "node ./decorate-angular-cli.js",
     "build": "nx run-many --target=build --all --parallel --maxParallel=5 --exclude=storybook,e2e-schematics",
     "postbuild": "nx run-many --target=postbuild --all --parallel --maxParallel=5",
     "build:affected": "nx affected --target=build --parallel=10 --exclude '*,!tag:npm' && nx affected --target=postbuild --parallel --maxParallel=5",
@@ -101,7 +100,7 @@
     "@angular/platform-browser-dynamic": "22.0.6",
     "@angular/router": "22.0.6",
     "@blackbaud/angular-tree-component": "1.0.0",
-    "@blackbaud/skyux-design-tokens": "7.0.0-alpha.0",
+    "@blackbaud/skyux-design-tokens": "7.0.0-alpha.1",
     "@eslint/js": "9.39.5",
     "@nx/angular": "23.1.0",
     "@skyux/icons": "11.2.0",
