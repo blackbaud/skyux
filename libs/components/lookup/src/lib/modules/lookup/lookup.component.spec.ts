@@ -438,7 +438,7 @@ describe('Lookup component', function () {
   ): void {
     (
       document.querySelectorAll(
-        '.sky-lookup-show-more-repeater sky-repeater-item',
+        '.sky-lookup-show-more-repeater sky-repeater-item .sky-repeater-item',
       )[index] as HTMLElement
     ).click();
     fixture.detectChanges();

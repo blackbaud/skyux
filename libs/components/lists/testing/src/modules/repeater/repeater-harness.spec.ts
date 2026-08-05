@@ -339,6 +339,22 @@ describe('Repeater harness', () => {
 
     await expectAsync(item.isDisabled()).toBeResolvedTo(false);
   });
+
+  it('should get whether a single-select item is disabled', async () => {
+    const { fixture, repeaterHarness } = await setupTest({
+      dataSkyId: 'my-basic-repeater',
+    });
+
+    fixture.componentRef.setInput('selectionMode', 'single');
+    fixture.componentRef.setInput('disabled', true);
+    fixture.detectChanges();
+
+    const items = await repeaterHarness.getRepeaterItems();
+    const item = items[0];
+
+    await expectAsync(item.isDisabled()).toBeResolvedTo(true);
+  });
+
   it('should get the inline form from an item', async () => {
     const { repeaterHarness } = await setupTest({
       dataSkyId: 'my-inline-form-repeater',
@@ -374,5 +390,53 @@ describe('Repeater harness', () => {
     const dropdown = await item.getContextMenuDropdown();
 
     await expectAsync(dropdown.getButtonType()).toBeResolvedTo('context-menu');
+  });
+
+  describe('with selectionMode "single"', () => {
+    it('should select and reject deselecting an item', async () => {
+      const { fixture, repeaterHarness } = await setupTest({
+        dataSkyId: 'my-basic-repeater',
+      });
+
+      const items = await repeaterHarness.getRepeaterItems();
+
+      await expectAsync(items[0].isSelectable()).toBeResolvedTo(false);
+
+      fixture.componentRef.setInput('selectionMode', 'single');
+
+      const item = items[0];
+
+      await expectAsync(item.isSelectable()).toBeResolvedTo(true);
+      await expectAsync(item.isSelected()).toBeResolvedTo(false);
+
+      await item.select();
+
+      await expectAsync(item.isSelected()).toBeResolvedTo(true);
+
+      await expectAsync(item.deselect()).toBeRejectedWithError(
+        'Could not deselect the repeater item because single-select repeater items can only be replaced by selecting a different item.',
+      );
+      await expectAsync(item.isSelected()).toBeResolvedTo(true);
+    });
+
+    it('should deselect the previous item when a different item is selected', async () => {
+      const { fixture, repeaterHarness } = await setupTest({
+        dataSkyId: 'my-basic-repeater',
+      });
+
+      fixture.componentRef.setInput('selectionMode', 'single');
+
+      const items = await repeaterHarness.getRepeaterItems();
+
+      await items[0].select();
+
+      await expectAsync(items[0].isSelected()).toBeResolvedTo(true);
+      await expectAsync(items[1].isSelected()).toBeResolvedTo(false);
+
+      await items[1].select();
+
+      await expectAsync(items[0].isSelected()).toBeResolvedTo(false);
+      await expectAsync(items[1].isSelected()).toBeResolvedTo(true);
+    });
   });
 });

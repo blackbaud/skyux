@@ -1,6 +1,7 @@
 import { Component, ViewChild, input, model } from '@angular/core';
 
 import { SkyRepeaterExpandModeType } from '../repeater-expand-mode-type';
+import { SkyRepeaterSelectionModeType } from '../repeater-selection-mode-type';
 import { SkyRepeaterComponent } from '../repeater.component';
 
 let nextItemId = 0;
@@ -17,7 +18,9 @@ export class RepeaterTestComponent {
 
   public expandMode = input<SkyRepeaterExpandModeType | undefined>('single');
 
-  public items = model<{ id?: string; title: string }[] | undefined>([
+  public items = model<
+    { id?: string; title: string; selected?: boolean }[] | undefined
+  >([
     {
       id: 'item1',
       title: 'Title 1',
@@ -41,6 +44,10 @@ export class RepeaterTestComponent {
   public reorderable = input<boolean>(false);
 
   public selectable = input<boolean | undefined>(false);
+
+  public selectionMode = input<SkyRepeaterSelectionModeType | undefined>(
+    undefined,
+  );
 
   public showContextMenu = input<boolean | undefined>(undefined);
 
