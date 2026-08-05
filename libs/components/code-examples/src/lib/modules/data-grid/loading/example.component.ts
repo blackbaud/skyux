@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   effect,
+  inject,
   input,
   resource,
   signal,
@@ -13,9 +14,7 @@ import {
   SkyDataGridSort,
 } from '@skyux/data-grid';
 
-import { DataGridServerPage, getServerPage } from './data';
-
-type DemoBehavior = 'data' | 'empty' | 'loading';
+import { DATA_LOADER, DemoBehavior } from './data';
 
 /**
  * @title Data grid with a server-side resource data source
@@ -53,24 +52,7 @@ export class DataGridLoadingExampleComponent {
       pageSize: this.pageSize,
       sort: this.sort(),
     }),
-    loader: async ({ params, abortSignal }): Promise<DataGridServerPage> => {
-      switch (params.behavior) {
-        case 'data':
-          await new Promise((resolve) => setTimeout(resolve, params.delay));
-          return getServerPage(params);
-        case 'empty':
-          await new Promise((resolve) => setTimeout(resolve, params.delay));
-          return { items: [], totalCount: 0 };
-        case 'loading':
-          return await new Promise((resolve) => {
-            abortSignal.addEventListener('abort', () => {
-              resolve({ items: [], totalCount: 0 });
-            });
-          });
-        default:
-          throw new Error();
-      }
-    },
+    loader: inject(DATA_LOADER),
   });
 
   readonly #behavior = signal<DemoBehavior>('data');

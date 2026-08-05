@@ -8,6 +8,7 @@ export { SkyPagingModule } from './lib/modules/paging/paging.module';
 export { SkyPagingContentChangeArgs } from './lib/modules/paging/types/paging-content-change-args';
 
 export { SkyRepeaterExpandModeType } from './lib/modules/repeater/repeater-expand-mode-type';
+export { SkyRepeaterSelectionModeType } from './lib/modules/repeater/repeater-selection-mode-type';
 export { SkyRepeaterModule } from './lib/modules/repeater/repeater.module';
 
 export { SkyFilterState } from './lib/modules/shared/filter-state-service/filter-state';
