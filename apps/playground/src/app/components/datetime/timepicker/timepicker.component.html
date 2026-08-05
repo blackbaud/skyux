@@ -20,5 +20,26 @@
         />
       </sky-timepicker>
     </sky-input-box>
+    <sky-input-box
+      hintText="Enter an invalid value and focus out. The value stays in the field and the control is marked invalid instead of being cleared."
+      labelText="Retain invalid values"
+    >
+      <sky-timepicker #timepickerRetain>
+        <input
+          skyTimepickerRetainInvalidValues
+          type="text"
+          [formControl]="retainControl"
+          [skyTimepickerInput]="timepickerRetain"
+        />
+      </sky-timepicker>
+    </sky-input-box>
+    <dl>
+      <dt>Control value</dt>
+      <dd>{{ retainControl.value | json }}</dd>
+      <dt>Valid</dt>
+      <dd>{{ retainControl.valid }}</dd>
+      <dt>Errors</dt>
+      <dd>{{ retainControl.errors | json }}</dd>
+    </dl>
   </sky-page-content>
 </sky-page>
