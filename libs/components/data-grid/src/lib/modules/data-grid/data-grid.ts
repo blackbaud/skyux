@@ -326,7 +326,7 @@ export class SkyDataGrid {
         suppressMultiSort: true,
         suppressPaginationPanel: true,
         rowData,
-        rowSelection: untracked(() => this.#getRowSelection()),
+        rowSelection: untracked(() => this.#rowSelection()),
         autoSizeStrategy: untracked(() => this.#getAutoSizeStrategy()),
       },
     }) as GridOptions<SkyDataGridRowData>;
@@ -453,6 +453,30 @@ export class SkyDataGrid {
     ),
     { initialValue: NaN },
   );
+  readonly #rowSelection = computed<RowSelectionOptions<SkyDataGridRowData>>(
+    () => {
+      return this.multiselect()
+        ? {
+            checkboxes: true,
+            checkboxLocation: 'selectionColumn',
+            headerCheckbox: true,
+            mode: 'multiRow',
+          }
+        : {
+            checkboxes: false,
+            // `SkyAgGridService.getGridOptions()` only merges these defaults
+            // in when the grid is first created; spell them out here too so
+            // this effect's runtime `setGridOption('rowSelection', ...)` call
+            // (now that it tracks `gridApi`, it can run again as soon as the
+            // grid is created) re-applies the same value instead of one
+            // missing these defaulted fields.
+            enableClickSelection: false,
+            enableSelectionWithoutKeys: true,
+            mode: 'singleRow',
+          };
+    },
+    { equal: (a, b) => a.mode === b.mode },
+  );
 
   constructor() {
     // Update specific grid options after the grid has been loaded. Every
@@ -464,7 +488,7 @@ export class SkyDataGrid {
     // be stuck showing its pre-load, initial state forever. Tracking
     // `gridApi` means an effect can also re-run immediately once the grid is
     // created, re-applying its value even when nothing "real" changed; see
-    // `#getRowSelection()` for a case where that re-apply needed a fix of its
+    // `#rowSelection()` for a case where that re-apply needed a fix of its
     // own to stay equivalent to the grid's initial options.
     effect(() => {
       const api = this.gridApi();
@@ -489,7 +513,7 @@ export class SkyDataGrid {
     });
     effect(() => {
       const api = this.gridApi();
-      const rowSelection = this.#getRowSelection();
+      const rowSelection = this.#rowSelection();
       api?.setGridOption('rowSelection', rowSelection);
     });
 
@@ -816,27 +840,5 @@ export class SkyDataGrid {
       skipHeader: true,
       scaleUpToFitGridWidth: this.columnFit() === 'container',
     };
-  }
-
-  #getRowSelection(): RowSelectionOptions<SkyDataGridRowData> {
-    return this.multiselect()
-      ? {
-          checkboxes: true,
-          checkboxLocation: 'selectionColumn',
-          headerCheckbox: true,
-          mode: 'multiRow',
-        }
-      : {
-          checkboxes: false,
-          // `SkyAgGridService.getGridOptions()` only merges these defaults
-          // in when the grid is first created; spell them out here too so
-          // this effect's runtime `setGridOption('rowSelection', ...)` call
-          // (now that it tracks `gridApi`, it can run again as soon as the
-          // grid is created) re-applies the same value instead of one
-          // missing these defaulted fields.
-          enableClickSelection: false,
-          enableSelectionWithoutKeys: true,
-          mode: 'singleRow',
-        };
   }
 }

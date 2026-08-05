@@ -1,13 +1,15 @@
-import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
+import { EventEmitter, Injectable, OnDestroy, signal } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 
 import { SkyRepeaterExpandModeType } from './repeater-expand-mode-type';
 import { SkyRepeaterItemRolesType } from './repeater-item-roles.type';
 import { SkyRepeaterItemComponent } from './repeater-item.component';
+import { SkyRepeaterSelectionModeType } from './repeater-selection-mode-type';
 
 let uniqueId = 0;
 const DEFAULT_EXPAND_MODE: SkyRepeaterExpandModeType = 'none';
+export const DEFAULT_SELECTION_MODE: SkyRepeaterSelectionModeType = 'none';
 
 /**
  * @internal
@@ -34,6 +36,8 @@ export class SkyRepeaterService implements OnDestroy {
 
   public itemCollapseStateChange = new EventEmitter<SkyRepeaterItemComponent>();
 
+  public itemSelectStateChange = new EventEmitter<SkyRepeaterItemComponent>();
+
   public items: SkyRepeaterItemComponent[] = [];
 
   public readonly itemRole = new BehaviorSubject<SkyRepeaterItemRolesType>({
@@ -46,11 +50,15 @@ export class SkyRepeaterService implements OnDestroy {
 
   public repeaterGroupId = ++uniqueId;
 
-  #_expandMode = DEFAULT_EXPAND_MODE;
+  public readonly selectionMode = signal<SkyRepeaterSelectionModeType>(
+    DEFAULT_SELECTION_MODE,
+  );
 
+  #_expandMode = DEFAULT_EXPAND_MODE;
   public ngOnDestroy(): void {
     this.activeItemChange.complete();
     this.itemCollapseStateChange.complete();
+    this.itemSelectStateChange.complete();
     this.orderChange.complete();
   }
 
@@ -92,6 +100,10 @@ export class SkyRepeaterService implements OnDestroy {
 
   public onItemCollapseStateChange(item: SkyRepeaterItemComponent): void {
     this.itemCollapseStateChange.emit(item);
+  }
+
+  public onItemSelectStateChange(item: SkyRepeaterItemComponent): void {
+    this.itemSelectStateChange.emit(item);
   }
 
   public registerOrderChange(): void {

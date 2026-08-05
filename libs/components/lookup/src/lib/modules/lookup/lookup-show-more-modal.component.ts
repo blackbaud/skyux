@@ -206,12 +206,6 @@ export class SkyLookupShowMoreModalComponent
     this.#changeDetector.markForCheck();
   }
 
-  public itemClick(selectedItem: any): void {
-    if (this.context.selectMode === 'single') {
-      void this.onItemSelect(!selectedItem.selected, selectedItem);
-    }
-  }
-
   public onItemSelect(newSelectState: boolean, itemToSelect: any): void {
     const items = this.items;
 
