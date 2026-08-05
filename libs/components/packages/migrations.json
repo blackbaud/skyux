@@ -24,6 +24,11 @@
       "version": "0.0.0-PLACEHOLDER",
       "factory": "./src/schematics/migrations/all/migrate-dragula-polyfill/migrate-dragula-polyfill.schematic",
       "description": "Remove the @skyux/packages/polyfills entry from project config, replacing it with a local copy when Dragula is still installed."
+    },
+    "remove-timepicker-retain-invalid-values": {
+      "version": "0.0.0-PLACEHOLDER",
+      "factory": "./src/schematics/migrations/update-15/remove-timepicker-retain-invalid-values/remove-timepicker-retain-invalid-values.schematic",
+      "description": "Remove the skyTimepickerRetainInvalidValues input from timepicker inputs since retaining invalid values is now the default behavior."
     }
   }
 }

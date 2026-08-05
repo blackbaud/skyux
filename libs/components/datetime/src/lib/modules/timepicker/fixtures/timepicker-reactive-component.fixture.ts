@@ -26,8 +26,6 @@ export class TimepickerReactiveTestComponent implements AfterViewInit, OnInit {
 
   public isDisabled: boolean | undefined;
 
-  public retainInvalidValues = false;
-
   public initialValue: string | undefined = '2:55 AM';
 
   public readonly returnFormat = input<string | undefined>(undefined);

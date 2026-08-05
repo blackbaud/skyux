@@ -826,19 +826,7 @@ describe('Timepicker', () => {
       expect(component.timeControlValueAfterInit.local).toEqual('2:55 AM');
     }));
 
-    it('should clear an invalid value on blur by default', fakeAsync(() => {
-      detectChangesAndTick(fixture);
-
-      setInput('not a time', fixture);
-
-      expect(getInput(fixture).value).toBe('');
-    }));
-
-    describe('with retainInvalidValues enabled', () => {
-      beforeEach(() => {
-        component.retainInvalidValues = true;
-      });
-
+    describe('invalid values', () => {
       it('should retain an invalid value on blur and flag the control invalid', fakeAsync(() => {
         detectChangesAndTick(fixture);
 

@@ -10,10 +10,8 @@ import {
   OnDestroy,
   OnInit,
   Renderer2,
-  booleanAttribute,
   forwardRef,
   inject,
-  input,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -104,17 +102,6 @@ export class SkyTimepickerInputDirective
   public returnFormat: string | undefined;
 
   /**
-   * Whether to retain invalid entries in the input when it loses focus. When
-   * set to `true`, an invalid value remains in the field and the associated
-   * form control is flagged with a `skyTime` error, matching the behavior of
-   * the datepicker.
-   * @default false
-   */
-  public readonly skyTimepickerRetainInvalidValues = input(false, {
-    transform: booleanAttribute,
-  });
-
-  /**
    * Whether to disable the timepicker on template-driven forms. Don't use this input on reactive forms because they may overwrite the input or leave the control out of sync.
    * To set the disabled state on reactive forms, use the `FormControl` instead.
    * @default false
@@ -155,8 +142,7 @@ export class SkyTimepickerInputDirective
   #_modelValue: SkyTimepickerTimeOutput | undefined;
   #_skyTimepickerInput: SkyTimepickerComponent | undefined;
 
-  // Set while an invalid entry is retained on the control instead of cleared
-  // (only when clearing invalid values is disabled).
+  // Set while an invalid entry is retained on the control instead of cleared.
   #hasRetainedInvalidValue = false;
 
   readonly #renderer = inject(Renderer2);
@@ -231,11 +217,9 @@ export class SkyTimepickerInputDirective
   public writeValue(value: any): void {
     const formatted = this.#formatter(value);
 
-    // When retaining is enabled, keep invalid entries in the input instead of
-    // clearing them so the user can see and correct their entry (matching the
-    // datepicker's behavior).
+    // Keep invalid entries in the input instead of clearing them so the user
+    // can see and correct their entry (matching the datepicker's behavior).
     if (
-      this.skyTimepickerRetainInvalidValues() &&
       typeof value === 'string' &&
       value.length > 0 &&
       formatted.local === 'Invalid date'
@@ -257,9 +241,9 @@ export class SkyTimepickerInputDirective
       return null;
     }
 
-    // A raw string value only remains on the control when retaining invalid
-    // values is enabled.
-    if (typeof value === 'string' && this.skyTimepickerRetainInvalidValues()) {
+    // A raw string value only remains on the control when it could not be
+    // parsed into a time and was retained as-is.
+    if (typeof value === 'string') {
       if (this.#formatter(value).local === 'Invalid date') {
         // Mark as touched so the invalid CSS styles appear even when the value
         // is set programmatically.
