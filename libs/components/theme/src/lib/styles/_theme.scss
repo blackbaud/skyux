@@ -1,5 +1,11 @@
 @use 'mixins' as mixins;
 @use 'variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('html') {
+  --sky-override-scrollbar-color-thumb: auto;
+  --sky-override-scrollbar-color-track: auto;
+}
 
 * {
   box-sizing: border-box;
@@ -15,6 +21,14 @@ html {
 body {
   background-color: var(--sky-background-color-neutral-light);
   color: var(--sky-text-color-default);
+}
+
+html {
+  scrollbar-color: var(
+      --sky-override-scrollbar-color-thumb,
+      var(--sky-color-scrollbar-thumb)
+    )
+    var(--sky-override-scrollbar-color-track, var(--sky-color-scrollbar-track));
 }
 
 h6 {
