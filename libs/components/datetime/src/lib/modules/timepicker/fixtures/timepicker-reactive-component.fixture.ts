@@ -26,6 +26,8 @@ export class TimepickerReactiveTestComponent implements AfterViewInit, OnInit {
 
   public isDisabled: boolean | undefined;
 
+  public initialValue: string | undefined = '2:55 AM';
+
   public readonly returnFormat = input<string | undefined>(undefined);
 
   public selectedTime: SkyTimepickerTimeOutput | undefined;
@@ -45,7 +47,7 @@ export class TimepickerReactiveTestComponent implements AfterViewInit, OnInit {
   }
 
   public ngOnInit(): void {
-    this.timeControl = new UntypedFormControl('2:55 AM');
+    this.timeControl = new UntypedFormControl(this.initialValue);
     this.timepickerForm = new UntypedFormGroup({
       time: this.timeControl,
     });
