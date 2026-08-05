@@ -1,6 +1,6 @@
 ---
 name: convert-module-to-standalone
-description: 'Workflow for converting a @skyux/* library''s existing module-based components and directives into directly-consumable standalone components and directives in this Nx monorepo. Use when asked to "convert a library to standalone", "make these components standalone", "drop the Component/Directive suffix", "rename off the module pattern", or deprecate a library''s NgModules in favor of standalone items. Renames each component/directive class to remove the Component/Directive suffix (keeping the existing .component/.directive filename to preserve git blame history), exports the new class name from the barrel while keeping the lambda (λN) aliases for backward compatibility, and marks the owning NgModule as @deprecated. Updates specs, harnesses, code examples, storybook stories, and documentation.json to match. For adding a brand-new standalone component use the add-skyux-component skill instead.'
+description: 'Workflow for converting a @skyux/* library''s existing module-based components and directives into directly-consumable standalone components and directives in this Nx monorepo. Use when asked to "convert a library to standalone", "make these components standalone", "drop the Component/Directive suffix", "rename off the module pattern", or deprecate a library''s NgModules in favor of standalone items. Renames each component/directive class to remove the Component/Directive suffix (keeping the existing .component/.directive filename to preserve git blame history), exports the new class name from the barrel while keeping the lambda (λN) aliases for backward compatibility, and marks the owning NgModule as @deprecated. Updates specs, harnesses, code examples, storybook stories, and documentation.json to match, and adds an ng update migration schematic to @skyux/packages that rewrites consumer imports. For adding a brand-new standalone component use the add-skyux-component skill instead.'
 argument-hint: '<library> (e.g. avatar)'
 ---
 
@@ -242,18 +242,76 @@ files in the same library for style; do not invent new patterns.
      the example spec drives the component through its harness, so it usually
      needs no change.
 
-10. **Verify.** Run affected tests, lint, and format:
+10. **Add an `ng update` migration schematic to `@skyux/packages`.** Consumers
+    should not have to hand-edit their imports, so ship a migration that
+    replaces the deprecated `Sky<Name>Module` with the standalone item(s) in
+    consumer TypeScript files. Mirror an existing sibling migration (e.g.
+    `replace-alert-module`):
+    - Create
+      `libs/components/packages/src/schematics/migrations/all/replace-<name>-module/replace-<name>-module.schematic.ts`.
+      Use the existing utilities — `visitProjectFiles` to walk the workspace
+      and `swapImportedClass` to rewrite both the import statement and every
+      code reference (NgModule/component `imports`, `exports`, TestBed, etc.),
+      guarded so only imports from the library's package name are touched:
+
+      ```ts
+      export default function replaceAvatarModule(): Rule {
+        return (tree) => {
+          visitProjectFiles(tree, '', (filePath) => {
+            if (
+              !filePath.endsWith('.ts') ||
+              !tree.readText(filePath).includes('SkyAvatarModule')
+            ) {
+              return;
+            }
+
+            const recorder = tree.beginUpdate(filePath);
+
+            swapImportedClass(
+              recorder,
+              filePath,
+              parseSourceFile(tree, filePath),
+              [
+                {
+                  classNames: { SkyAvatarModule: 'SkyAvatar' },
+                  moduleName: '@skyux/avatar',
+                },
+              ],
+            );
+
+            tree.commitUpdate(recorder);
+          });
+        };
+      }
+      ```
+
+      If the module exposes several items, map them all in `classNames`.
+
+    - Register the schematic in `libs/components/packages/migrations.json`
+      with `"version": "0.0.0-PLACEHOLDER"` (replaced at release), a factory
+      path to the new file, and a one-line description.
+    - Add a spec beside the schematic mirroring the sibling migration specs
+      (scaffold with `createTestApp` from `../../../testing/scaffold` and run
+      via `runner.runSchematic('replace-<name>-module', {}, tree)`). Cover at
+      minimum: the swap in a standalone component's `imports`, the swap in an
+      NgModule's `imports`/`exports` alongside other same-package imports, the
+      same class name imported from a **different** package (untouched), files
+      that never mention the module, and non-TypeScript files. The `packages`
+      project enforces 100% coverage.
+
+11. **Verify.** Run affected tests, lint, and format:
 
     ```bash
     npx nx test <library> --browsers=ChromeHeadless --watch=false
     npx nx test <library>-testing --browsers=ChromeHeadless --watch=false
     npx nx test code-examples --browsers=ChromeHeadless --watch=false
+    npx nx test packages
     npx nx build <library>-storybook
     npm run lint:affected
     nx format --files=<changed-file-paths>
     ```
 
-11. **Commit.** Use a Conventional Commit with the `components/<library>` scope
+12. **Commit.** Use a Conventional Commit with the `components/<library>` scope
     per
     [commit-message.instructions.md](../../instructions/commit-message.instructions.md).
     Deprecating the module is a breaking change, so use the `!` breaking-change
@@ -283,6 +341,9 @@ files in the same library for style; do not invent new patterns.
   `documentation.json`) are updated to the new names.
 - The `code-examples` demos import the standalone item directly and no longer
   import the deprecated `Sky<Name>Module`.
+- `@skyux/packages` ships a `replace-<name>-module` migration — registered in
+  `migrations.json` and covered by a spec — that swaps the deprecated module
+  for the standalone item(s) in consumer TypeScript files.
 - Class-name conflicts were resolved by asking the user, not guessed.
 - Affected tests pass at the project's coverage threshold, lint is clean, and
   changed files are formatted.

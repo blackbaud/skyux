@@ -24,6 +24,11 @@
       "version": "0.0.0-PLACEHOLDER",
       "factory": "./src/schematics/migrations/all/migrate-dragula-polyfill/migrate-dragula-polyfill.schematic",
       "description": "Remove the @skyux/packages/polyfills entry from project config, replacing it with a local copy when Dragula is still installed."
+    },
+    "replace-alert-module": {
+      "version": "0.0.0-PLACEHOLDER",
+      "factory": "./src/schematics/migrations/all/replace-alert-module/replace-alert-module.schematic",
+      "description": "Replace the deprecated SkyAlertModule with the standalone SkyAlert component."
     }
   }
 }
