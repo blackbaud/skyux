@@ -46,6 +46,7 @@ export { DataGridLoadingExampleComponent } from './lib/modules/data-grid/loading
 export { DataGridPagingExampleComponent } from './lib/modules/data-grid/paging/example.component';
 export { DataGridSortingExampleComponent } from './lib/modules/data-grid/sorting/example.component';
 export { DataManagerBasicExampleComponent } from './lib/modules/data-manager/data-manager/basic/example.component';
+export { DataManagerResourceExampleComponent } from './lib/modules/data-manager/data-manager/resource/example.component';
 export { DatetimeDatePipeBasicExampleComponent } from './lib/modules/datetime/date-pipe/basic/example.component';
 export { DatetimeDateRangePickerBasicExampleComponent } from './lib/modules/datetime/date-range-picker/basic/example.component';
 export { DatetimeDateRangePickerCustomCalculatorExampleComponent } from './lib/modules/datetime/date-range-picker/custom-calculator/example.component';

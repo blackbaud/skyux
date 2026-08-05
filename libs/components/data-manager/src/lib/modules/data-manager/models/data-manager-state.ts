@@ -29,6 +29,16 @@ export class SkyDataManagerState {
    */
   public onlyShowSelected: boolean | undefined;
   /**
+   * The current page number to display.
+   * @preview
+   */
+  public page: number | undefined;
+  /**
+   * The number of items to display per page.
+   * @preview
+   */
+  public pageSize: number | undefined;
+  /**
    * The search text to apply.
    */
   public searchText: string | undefined;
@@ -49,6 +59,8 @@ export class SkyDataManagerState {
     this.additionalData = data.additionalData;
     this.filterData = data.filterData;
     this.onlyShowSelected = data.onlyShowSelected;
+    this.page = data.page;
+    this.pageSize = data.pageSize;
     this.selectedIds = data.selectedIds;
     this.searchText = data.searchText;
     this.views = views || [];
@@ -81,6 +93,8 @@ export class SkyDataManagerState {
           }
         : undefined,
       onlyShowSelected: this.onlyShowSelected,
+      page: this.page,
+      pageSize: this.pageSize,
       searchText: this.searchText,
       selectedIds: this.selectedIds ? [...this.selectedIds] : undefined,
       views: viewStates,

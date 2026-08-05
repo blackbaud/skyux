@@ -23,6 +23,20 @@ export interface SkyDataManagerStateOptions {
    */
   onlyShowSelected?: boolean;
   /**
+   * The current page number to display. Used by the signal-based
+   * `SkyDataManagerToolbarComponent` API for consumers paging data without a
+   * `SkyDataViewConfig`-registered view.
+   * @preview
+   */
+  page?: number;
+  /**
+   * The number of items to display per page. Used by the signal-based
+   * `SkyDataManagerToolbarComponent` API for consumers paging data without a
+   * `SkyDataViewConfig`-registered view.
+   * @preview
+   */
+  pageSize?: number;
+  /**
    * The search text to apply.
    */
   searchText?: string;
