@@ -1,13 +1,13 @@
 <div class="sky-theme-margin-bottom-l">
   <sky-repeater
     data-sky-id="repeater-example"
+    selectionMode="multiple"
     [expandMode]="'single'"
     [reorderable]="true"
     (orderChange)="changeItems($event)"
   >
     @for (item of items; track item) {
       <sky-repeater-item
-        [selectable]="true"
         [tag]="item.note"
         [disabled]="item.isDisabled"
         [(isSelected)]="item.isSelected"
