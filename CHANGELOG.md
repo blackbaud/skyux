@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.10.0](https://github.com/blackbaud/skyux/compare/14.9.2...14.10.0) (2026-08-05)
+
+
+### Features
+
+* **components/datetime:** add skyTimepickerRetainInvalidValues to keep invalid timepicker entries ([#4566](https://github.com/blackbaud/skyux/issues/4566)) ([35dee33](https://github.com/blackbaud/skyux/commit/35dee339380ea576078e3213426c38d563de86d7)), closes [AB#3955926](https://dev.azure.com/blackbaud/Products/_workitems/edit/3955926)
+
 ## [14.9.2](https://github.com/blackbaud/skyux/compare/14.9.1...14.9.2) (2026-08-04)
 
 
