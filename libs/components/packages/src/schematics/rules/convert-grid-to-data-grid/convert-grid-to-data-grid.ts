@@ -1,3 +1,4 @@
+import { Path, dirname, join, normalize } from '@angular-devkit/core';
 import {
   Rule,
   SchematicContext,
@@ -5,7 +6,9 @@ import {
   UpdateRecorder,
   chain,
 } from '@angular-devkit/schematics';
+import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 import { ExistingBehavior, addDependency } from '@schematics/angular/utility';
+import { findNodes } from '@schematics/angular/utility/ast-utils';
 
 import { logOnce } from '../../utility/log-once';
 import {
@@ -21,6 +24,7 @@ import {
 } from '../../utility/template';
 import {
   getInlineTemplates,
+  getTemplateUrls,
   isImportedFromPackage,
   parseSourceFile,
 } from '../../utility/typescript/ng-ast';
@@ -223,6 +227,13 @@ function gridTagSwap(context: SchematicContext): SwapTagCallback<'sky-grid'> {
         'The "fit" input on <sky-grid> was renamed to "columnFit" on <sky-data-grid>, with values "width"/"scroll" renamed to "container"/"content". A bound "[fit]" value could not be translated automatically; review it.',
       );
     }
+    if (hasAttribute(node, inputForms('data'))) {
+      logOnce(
+        context,
+        'warn',
+        'The "data" binding on <sky-grid> was copied to <sky-data-grid>, whose "data" input is typed as SkyDataGridRowData[]: each row object must have a unique string "id" property. Update the bound array if template type checking reports an assignment error.',
+      );
+    }
     for (const label of GRID_REMOVED_INPUTS) {
       if (hasAttribute(node, inputForms(label))) {
         logOnce(context, 'warn', gridRemovedMessage(label));
@@ -354,6 +365,12 @@ interface ConvertTemplateResult {
    * equivalent in this migration.
    */
   listViewGridSkipped: number;
+  /**
+   * Number of `<sky-grid>` elements left unchanged because they use the
+   * `columns` input, which has no `<sky-data-grid>` equivalent. These grids
+   * still require `SkyGridModule`.
+   */
+  columnsSkipped: number;
 }
 
 function convertTemplate(
@@ -372,6 +389,7 @@ function convertTemplate(
   const skippedColumns = new Set<ElementWithLocation>();
   let converted = 0;
   let listViewGridSkipped = 0;
+  let columnsSkipped = 0;
 
   for (const grid of grids) {
     if (hasAttribute(grid, ['columns', '[columns]'])) {
@@ -383,6 +401,7 @@ function convertTemplate(
       getElementsByTagName('sky-grid-column', grid).forEach((column) =>
         skippedColumns.add(column),
       );
+      columnsSkipped++;
       continue;
     }
     // Each grid is swapped on its own so traversal never has to descend into
@@ -437,101 +456,327 @@ function convertTemplate(
     );
   }
 
-  return { converted, listViewGridSkipped };
+  return { converted, listViewGridSkipped, columnsSkipped };
 }
 
 function convertHtmlFile(
   tree: Tree,
   filePath: string,
   context: SchematicContext,
-): void {
+): ConvertTemplateResult | undefined {
   const content = tree.readText(filePath);
+  // The `<sky-grid` substring also matches `<sky-grid-column`, so templates
+  // whose only grid usage is columns inside `<sky-list-view-grid>` still get
+  // counted as evidence for the import decisions.
   if (content.includes('<sky-grid')) {
     const recorder = tree.beginUpdate(filePath);
-    convertTemplate(recorder, content, context);
+    const result = convertTemplate(recorder, content, context);
     tree.commitUpdate(recorder);
+    return result;
   }
+  return undefined;
 }
 
-function convertTypescriptFile(
+/**
+ * Template evidence collected from a `.ts` file during the first pass, used
+ * to decide the file's (and, via `classNames`, other files') `SkyGridModule`
+ * import handling in the second pass.
+ */
+interface TsFileEvidence {
+  /** Names of the classes declared in the file. */
+  classNames: string[];
+  /** Tree-absolute paths of the file's external `templateUrl` templates. */
+  templateUrls: Path[];
+  /** Combined result of the file's inline templates. */
+  inline: ConvertTemplateResult;
+}
+
+function emptyResult(): ConvertTemplateResult {
+  return { converted: 0, listViewGridSkipped: 0, columnsSkipped: 0 };
+}
+
+function addResults(
+  target: ConvertTemplateResult,
+  source: ConvertTemplateResult,
+): void {
+  target.converted += source.converted;
+  target.listViewGridSkipped += source.listViewGridSkipped;
+  target.columnsSkipped += source.columnsSkipped;
+}
+
+function hasEvidence(result: ConvertTemplateResult): boolean {
+  return (
+    result.converted > 0 ||
+    result.listViewGridSkipped > 0 ||
+    result.columnsSkipped > 0
+  );
+}
+
+function getClassNames(source: ts.SourceFile): string[] {
+  return findNodes(source, ts.isClassDeclaration)
+    .map((declaration) => declaration.name?.text)
+    .filter((name): name is string => !!name);
+}
+
+/**
+ * First pass: converts the file's inline templates and returns the template
+ * evidence for the import pass. Imports are not touched here. Returns
+ * `undefined` when the file has no template evidence at all, keeping the
+ * evidence map small and avoiding class-name associations from files that
+ * can't influence any import decision.
+ */
+function convertTypescriptTemplates(
   tree: Tree,
   filePath: string,
   context: SchematicContext,
-): void {
+): TsFileEvidence | undefined {
   const source = parseSourceFile(tree, filePath);
   const templates = getInlineTemplates(source);
-  const recorder = tree.beginUpdate(filePath);
-  let converted = 0;
-  let listViewGridSkipped = 0;
+  const inline = emptyResult();
   if (templates.length > 0) {
     const content = tree.readText(filePath);
+    const recorder = tree.beginUpdate(filePath);
     for (const template of templates) {
-      const result = convertTemplate(
-        recorder,
-        content.slice(template.start, template.end),
-        context,
-        template.start,
+      addResults(
+        inline,
+        convertTemplate(
+          recorder,
+          content.slice(template.start, template.end),
+          context,
+          template.start,
+        ),
       );
-      converted += result.converted;
-      listViewGridSkipped += result.listViewGridSkipped;
+    }
+    tree.commitUpdate(recorder);
+  }
+  const templateUrls = getTemplateUrls(source).map((url) =>
+    join(dirname(normalize(filePath)), url),
+  );
+  if (templateUrls.length === 0 && !hasEvidence(inline)) {
+    return undefined;
+  }
+  return { classNames: getClassNames(source), templateUrls, inline };
+}
+
+/**
+ * Sums the template evidence associated with a `.ts` file: its own aggregate
+ * plus the aggregates of the defining files of every class the file
+ * references (declarations, TestBed imports, etc.).
+ *
+ * Association is intentionally approximate. It matches identifier text, so a
+ * class name shared by two files pools evidence from both, and it is one
+ * level deep, so a file only inherits evidence from classes it references
+ * directly — a spec that imports SkyGridModule for a modal launched by the
+ * component under test sees no evidence from the modal. A false match can
+ * only add evidence (an unnecessary swap that still compiles), and a missing
+ * link can only withhold it (the import is left in place with a warning);
+ * neither produces a silent compile break.
+ */
+function getAssociatedEvidence(
+  source: ts.SourceFile,
+  filePath: string,
+  fileAggregates: ReadonlyMap<string, ConvertTemplateResult>,
+  classToFiles: ReadonlyMap<string, string[]>,
+): ConvertTemplateResult {
+  const contributingFiles = new Set<string>([filePath]);
+  if (classToFiles.size > 0) {
+    const identifiers = new Set(
+      findNodes(source, ts.SyntaxKind.Identifier).map(
+        (node) => (node as ts.Identifier).text,
+      ),
+    );
+    for (const [className, definingFiles] of classToFiles) {
+      if (identifiers.has(className)) {
+        definingFiles.forEach((definingFile) =>
+          contributingFiles.add(definingFile),
+        );
+      }
     }
   }
-  if (isImportedFromPackage(source, SKY_GRID_MODULE, SKY_GRID_MODULE_PACKAGE)) {
-    if (listViewGridSkipped > 0 && converted === 0) {
-      const listViewGridModuleImported = isImportedFromPackage(
-        source,
-        SKY_LIST_VIEW_GRID_MODULE,
-        SKY_LIST_VIEW_GRID_MODULE_PACKAGE,
+
+  const total = emptyResult();
+  for (const contributingFile of contributingFiles) {
+    const aggregate = fileAggregates.get(contributingFile);
+    if (aggregate) {
+      addResults(total, aggregate);
+    }
+  }
+  return total;
+}
+
+/**
+ * Second pass: decides what to do with a file's `SkyGridModule` import based
+ * on the template evidence associated with the file — its own inline and
+ * `templateUrl` templates plus, for NgModule and spec files, the templates of
+ * every referenced class (declarations, TestBed imports, etc.) recorded in
+ * `classToFiles`.
+ */
+function updateTypescriptImports(
+  tree: Tree,
+  filePath: string,
+  context: SchematicContext,
+  fileAggregates: ReadonlyMap<string, ConvertTemplateResult>,
+  classToFiles: ReadonlyMap<string, string[]>,
+): void {
+  if (!tree.readText(filePath).includes(SKY_GRID_MODULE)) {
+    return;
+  }
+  const source = parseSourceFile(tree, filePath);
+  if (
+    !isImportedFromPackage(source, SKY_GRID_MODULE, SKY_GRID_MODULE_PACKAGE)
+  ) {
+    return;
+  }
+
+  const total = getAssociatedEvidence(
+    source,
+    filePath,
+    fileAggregates,
+    classToFiles,
+  );
+
+  if (total.converted > 0) {
+    if (total.columnsSkipped > 0) {
+      logOnce(
+        context,
+        'warn',
+        'The "SkyGridModule" import was replaced, but a <sky-grid> using the "columns" input was left unchanged and still requires "SkyGridModule". Restore the import or complete the manual migration of that grid.',
       );
-      if (listViewGridModuleImported) {
-        // SkyListViewGridModule already re-exports SkyGridModule, and nothing
-        // in this file needs SkyDataGrid/SkyDataGridColumn; it's redundant.
-        removeClassReference(
-          recorder,
-          source,
-          SKY_GRID_MODULE,
-          SKY_GRID_MODULE_PACKAGE,
-        );
-      } else {
+    }
+    // A real conversion needs SkyDataGrid/SkyDataGridColumn. Any list-view-grid
+    // skip stays safe because <sky-list-view-grid> requires
+    // SkyListViewGridModule, which re-exports SkyGridModule.
+    const recorder = tree.beginUpdate(filePath);
+    swapImportedClass(recorder, filePath, source, [
+      {
+        classNames: {
+          [SKY_GRID_MODULE]: ['SkyDataGrid', 'SkyDataGridColumn'],
+        },
+        moduleName: {
+          old: SKY_GRID_MODULE_PACKAGE,
+          new: '@skyux/data-grid',
+        },
+      },
+    ]);
+    tree.commitUpdate(recorder);
+  } else if (total.columnsSkipped > 0) {
+    logOnce(
+      context,
+      'warn',
+      'The "SkyGridModule" import was left unchanged because a <sky-grid> using the "columns" input still depends on it. Migrate that grid manually before removing the import.',
+    );
+  } else if (total.listViewGridSkipped > 0) {
+    const listViewGridModuleImported = isImportedFromPackage(
+      source,
+      SKY_LIST_VIEW_GRID_MODULE,
+      SKY_LIST_VIEW_GRID_MODULE_PACKAGE,
+    );
+    if (listViewGridModuleImported) {
+      // SkyListViewGridModule already re-exports SkyGridModule, and nothing
+      // associated with this file needs SkyDataGrid/SkyDataGridColumn; it's
+      // redundant.
+      const recorder = tree.beginUpdate(filePath);
+      const removed = removeClassReference(
+        recorder,
+        source,
+        SKY_GRID_MODULE,
+        SKY_GRID_MODULE_PACKAGE,
+      );
+      tree.commitUpdate(recorder);
+      if (!removed) {
+        // removeClassReference only edits decorator `imports` arrays; a
+        // reference elsewhere (e.g. a TestBed configuration) keeps the import.
         logOnce(
           context,
           'warn',
-          'The "SkyGridModule" import was left unchanged because a <sky-grid-column> inside <sky-list-view-grid> still depends on it and "SkyListViewGridModule" could not be found in this file\'s imports. If "SkyGridModule" is now unused, review it manually.',
+          'The redundant "SkyGridModule" import was kept because it is referenced outside a decorator "imports" array (for example in a TestBed configuration). "SkyListViewGridModule" re-exports "SkyGridModule", so remove the import manually if nothing else needs it.',
         );
       }
     } else {
-      // A real conversion needs SkyDataGrid/SkyDataGridColumn regardless of
-      // any list-view-grid skip in the same file, so this always runs when
-      // something was actually converted.
-      swapImportedClass(recorder, filePath, source, [
-        {
-          classNames: {
-            [SKY_GRID_MODULE]: ['SkyDataGrid', 'SkyDataGridColumn'],
-          },
-          moduleName: {
-            old: SKY_GRID_MODULE_PACKAGE,
-            new: '@skyux/data-grid',
-          },
-        },
-      ]);
+      logOnce(
+        context,
+        'warn',
+        'The "SkyGridModule" import was left unchanged because a <sky-grid-column> inside <sky-list-view-grid> still depends on it and "SkyListViewGridModule" could not be found in this file\'s imports. If "SkyGridModule" is now unused, review it manually.',
+      );
     }
+  } else {
+    logOnce(
+      context,
+      'warn',
+      'The "SkyGridModule" import was left unchanged because no <sky-grid> usage associated with this file was converted. If the import is unused, or this file re-exports "SkyGridModule" for use elsewhere, update it manually.',
+    );
   }
-  tree.commitUpdate(recorder);
 }
 
 export function convertGridToDataGrid(projectPath: string): Rule {
+  let anyConverted = false;
   return chain([
     (tree, context): void => {
+      const htmlResults = new Map<string, ConvertTemplateResult>();
+      const tsEvidence = new Map<string, TsFileEvidence>();
       visitProjectFiles(tree, projectPath, (filePath) => {
         if (filePath.endsWith('.html')) {
-          convertHtmlFile(tree, filePath, context);
+          const result = convertHtmlFile(tree, filePath, context);
+          if (result) {
+            htmlResults.set(filePath, result);
+          }
         } else if (filePath.endsWith('.ts')) {
-          convertTypescriptFile(tree, filePath, context);
+          const evidence = convertTypescriptTemplates(tree, filePath, context);
+          if (evidence) {
+            tsEvidence.set(filePath, evidence);
+          }
+        }
+      });
+
+      // Fold each .ts file's external template results into a per-file
+      // aggregate, and index the file's class names so NgModule and spec
+      // files can be associated with it in the import pass.
+      const fileAggregates = new Map<string, ConvertTemplateResult>();
+      const classToFiles = new Map<string, string[]>();
+      for (const [tsPath, evidence] of tsEvidence) {
+        const aggregate = emptyResult();
+        addResults(aggregate, evidence.inline);
+        for (const templateUrl of evidence.templateUrls) {
+          const htmlResult = htmlResults.get(templateUrl);
+          if (htmlResult) {
+            addResults(aggregate, htmlResult);
+          }
+        }
+        if (!hasEvidence(aggregate)) {
+          continue;
+        }
+        fileAggregates.set(tsPath, aggregate);
+        for (const className of evidence.classNames) {
+          const definingFiles = classToFiles.get(className) ?? [];
+          definingFiles.push(tsPath);
+          classToFiles.set(className, definingFiles);
+        }
+      }
+
+      anyConverted =
+        [...htmlResults.values()].some((result) => result.converted > 0) ||
+        [...tsEvidence.values()].some(
+          (evidence) => evidence.inline.converted > 0,
+        );
+
+      visitProjectFiles(tree, projectPath, (filePath) => {
+        if (filePath.endsWith('.ts')) {
+          updateTypescriptImports(
+            tree,
+            filePath,
+            context,
+            fileAggregates,
+            classToFiles,
+          );
         }
       });
     },
-    addDependency('@skyux/data-grid', `0.0.0-PLACEHOLDER`, {
-      existing: ExistingBehavior.Skip,
-    }),
+    (): Rule | void => {
+      if (anyConverted) {
+        return addDependency('@skyux/data-grid', `0.0.0-PLACEHOLDER`, {
+          existing: ExistingBehavior.Skip,
+        });
+      }
+    },
   ]);
 }
