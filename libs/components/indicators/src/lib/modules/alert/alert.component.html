@@ -5,24 +5,30 @@
     'sky-rounded-corners': 'default',
     'sky-box sky-elevation-1': 'modern'
   }"
-  [hidden]="closed"
+  [hidden]="closed()"
   [ngClass]="{
-    'sky-alert-info': alertTypeOrDefault === 'info',
-    'sky-alert-success': alertTypeOrDefault === 'success',
-    'sky-alert-warning': alertTypeOrDefault === 'warning',
-    'sky-alert-danger': alertTypeOrDefault === 'danger',
-    'sky-alert-closeable': closeable
+    'sky-alert-info': alertTypeOrDefault() === 'info',
+    'sky-alert-success': alertTypeOrDefault() === 'success',
+    'sky-alert-warning': alertTypeOrDefault() === 'warning',
+    'sky-alert-danger': alertTypeOrDefault() === 'danger',
+    'sky-alert-closeable': closeable()
   }"
 >
   <div *skyThemeIf="'modern'" aria-hidden="true" class="sky-alert-icon">
-    <sky-icon iconSize="xl" variant="solid" [iconName]="iconName" />
+    <sky-icon iconSize="xl" variant="solid" [iconName]="iconName()" />
   </div>
   <div *skyThemeIf="'default'" aria-hidden="true" class="sky-alert-icon">
-    <sky-icon variant="solid" [iconName]="iconName" />
+    <sky-icon variant="solid" [iconName]="iconName()" />
   </div>
-  @if (descriptionComputed) {
+  @if (descriptionType() === 'custom') {
+    @if (customDescription(); as customDescription) {
+      <span class="sky-screen-reader-only">
+        {{ customDescription }}
+      </span>
+    }
+  } @else if (descriptionResourceKey(); as descriptionResourceKey) {
     <span class="sky-screen-reader-only">
-      {{ descriptionComputed }}
+      {{ descriptionResourceKey | skyLibResources }}
     </span>
   }
   <div class="sky-alert-content">
@@ -32,7 +38,7 @@
     class="sky-alert-close"
     type="button"
     [attr.aria-label]="'skyux_alert_close' | skyLibResources"
-    [hidden]="!closeable"
+    [hidden]="!closeable()"
     (click)="close()"
   >
     <span aria-hidden="true">

@@ -15,7 +15,7 @@ describe('Alert component', () => {
   ): void {
     if (expected) {
       expect(deprecatedSpy).toHaveBeenCalledOnceWith(
-        'SkyAlertComponent without `descriptionType`',
+        'SkyAlert without `descriptionType`',
         {
           deprecationMajorVersion: 8,
           replacementRecommendation:
