@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.11.0](https://github.com/blackbaud/skyux/compare/14.10.0...14.11.0) (2026-08-05)
+
+
+### Features
+
+* **components/config:** add respectedPreferences to theming config ([#4591](https://github.com/blackbaud/skyux/issues/4591)) ([5b7c135](https://github.com/blackbaud/skyux/commit/5b7c1359cd7b9b69a68a01449c8b209882a369e1))
+
 ## [14.10.0](https://github.com/blackbaud/skyux/compare/14.9.2...14.10.0) (2026-08-05)
 
 
