@@ -75,7 +75,7 @@ export interface SkyuxConfigA11y {
 export type SkyuxConfigAppSupportedTheme = 'default' | 'modern';
 
 export interface SkyuxConfigAppRespectedPreferences {
-  darkMode?: boolean;
+  colorMode?: boolean;
 }
 
 export interface SkyuxConfigAppBrand {
