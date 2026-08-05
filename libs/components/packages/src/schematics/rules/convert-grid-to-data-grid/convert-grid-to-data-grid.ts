@@ -6,7 +6,7 @@ import {
   UpdateRecorder,
   chain,
 } from '@angular-devkit/schematics';
-import ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
+import ts from 'typescript';
 import { ExistingBehavior, addDependency } from '@schematics/angular/utility';
 import { findNodes } from '@schematics/angular/utility/ast-utils';
 
