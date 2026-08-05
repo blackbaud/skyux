@@ -4,6 +4,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyDataManagerHarness } from '@skyux/data-manager/testing';
 import { SkyRepeaterHarness } from '@skyux/lists/testing';
 
+import { provideSkyAgGridTesting } from '@skyux/ag-grid/testing';
 import { DataManagerBasicExampleComponent } from './example.component';
 
 describe('Data manager basic example', () => {
@@ -14,6 +15,7 @@ describe('Data manager basic example', () => {
   }> {
     await TestBed.configureTestingModule({
       imports: [DataManagerBasicExampleComponent],
+      providers: [provideSkyAgGridTesting()],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(DataManagerBasicExampleComponent);

@@ -1,18 +1,33 @@
 import { HarnessLoader, manualChangeDetection } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkyDataGridHarness } from '@skyux/data-grid/testing';
+import {
+  provideSkyDataGridTesting,
+  SkyDataGridHarness,
+} from '@skyux/data-grid/testing';
 
+import { Provider, ResourceLoader } from '@angular/core';
+import { DATA_LOADER, DataGridServerPage, DataGridServerParams } from './data';
 import { DataGridLoadingExampleComponent } from './example.component';
 
 describe('Data grid loading example', () => {
-  async function setupTest(): Promise<{
+  async function setupTest(options?: {
+    dataLoader?: ResourceLoader<DataGridServerPage, DataGridServerParams>;
+  }): Promise<{
     fixture: ComponentFixture<DataGridLoadingExampleComponent>;
     loader: HarnessLoader;
     gridHarness: SkyDataGridHarness;
   }> {
+    const providers: Provider[] = [provideSkyDataGridTesting()];
+    if (options?.dataLoader) {
+      providers.push({
+        provide: DATA_LOADER,
+        useValue: options.dataLoader,
+      });
+    }
     await TestBed.configureTestingModule({
       imports: [DataGridLoadingExampleComponent],
+      providers,
     }).compileComponents();
     const fixture = TestBed.createComponent(DataGridLoadingExampleComponent);
     fixture.componentRef.setInput('delay', 0);
@@ -25,6 +40,13 @@ describe('Data grid loading example', () => {
     return { fixture, loader, gridHarness };
   }
 
+  async function settle(fixture: ComponentFixture<unknown>): Promise<void> {
+    await fixture.whenStable();
+    fixture.detectChanges();
+    await new Promise((resolve) => setTimeout(resolve));
+    fixture.detectChanges();
+  }
+
   async function clickButton(
     fixture: ComponentFixture<DataGridLoadingExampleComponent>,
     dataSkyId: string,
@@ -32,10 +54,7 @@ describe('Data grid loading example', () => {
     (fixture.nativeElement as HTMLElement)
       .querySelector<HTMLButtonElement>(`[data-sky-id="${dataSkyId}"]`)
       ?.click();
-    await fixture.whenStable();
-    fixture.detectChanges();
-    await new Promise((resolve) => setTimeout(resolve));
-    fixture.detectChanges();
+    await settle(fixture);
   }
 
   it('should create the component and show the first page of data', async () => {
@@ -55,10 +74,7 @@ describe('Data grid loading example', () => {
     await expectAsync(paging.getCurrentPage()).toBeResolvedTo(1);
 
     await paging.clickNextButton();
-    await fixture.whenStable();
-    fixture.detectChanges();
-    await new Promise((resolve) => setTimeout(resolve));
-    fixture.detectChanges();
+    await settle(fixture);
 
     await expectAsync(paging.getCurrentPage()).toBeResolvedTo(2);
     expect(await gridHarness.getDisplayedRowCount()).toBe(5);
@@ -72,22 +88,67 @@ describe('Data grid loading example', () => {
   });
 
   it('should show the loading overlay for the loading state', async () => {
-    const { fixture, gridHarness } = await setupTest();
+    const emptyPage: DataGridServerPage = { items: [], totalCount: 0 };
+    // The production loader's "loading" behavior never resolves until
+    // aborted, so use a spy that mirrors that: resolve immediately for
+    // every behavior except "loading", which hangs forever to keep the
+    // grid in a sustained loading state for the assertion below.
+    const loader = jasmine
+      .createSpy('loader')
+      .and.callFake((args: { params: DataGridServerParams }) =>
+        args.params.behavior === 'loading'
+          ? new Promise<DataGridServerPage>(() => {
+              // never resolves: sustained loading
+            })
+          : Promise.resolve(emptyPage),
+      );
+    const { fixture, gridHarness } = await setupTest({ dataLoader: loader });
 
-    // The loading state uses a resource that never resolves, so the app never
-    // reaches zone stability. Drive change detection manually (rather than
-    // through `clickButton`, which awaits `whenStable`) and query the harness
-    // under `manualChangeDetection` so the CDK does not auto-stabilize, which
-    // would otherwise hang until the test times out.
-    (fixture.nativeElement as HTMLElement)
-      .querySelector<HTMLButtonElement>('[data-sky-id="show-loading-button"]')
-      ?.click();
-    fixture.detectChanges();
-    await Promise.resolve();
-    fixture.detectChanges();
+    // Confirm the grid's render-readiness handshake has already completed
+    // before introducing a load that never resolves. The data grid also
+    // renders its own render-readiness wait through `SkyWaitHarness`
+    // (separate from the loading overlay under test below); settling here,
+    // while the initial "data" load still resolves immediately, ensures
+    // that wait has already cleared before `manualChangeDetection` disables
+    // further automatic stabilization.
+    await settle(fixture);
+    const readyWait = await gridHarness.getWait();
+    await expectAsync(readyWait.isWaiting()).toBeResolvedTo(false);
 
+    // The "loading" behavior's resource load never resolves, so it leaves
+    // an Angular `PendingTasks` entry open indefinitely. `fixture.whenStable()`
+    // - used by `clickButton`/`settle`, and internally by every CDK harness
+    // query via `forceStabilize()` - awaits that same pending-task signal,
+    // so it would hang forever here. `manualChangeDetection()` suspends the
+    // harness environment's automatic stabilization for its duration, so
+    // change detection must be driven manually below.
     await manualChangeDetection(async () => {
+      (fixture.nativeElement as HTMLElement)
+        .querySelector<HTMLButtonElement>('[data-sky-id="show-loading-button"]')
+        ?.click();
+      fixture.detectChanges();
+
+      // AG Grid mounts its loading overlay component outside the Angular
+      // zone, so poll on a bounded, real-time basis (not zone/PendingTasks
+      // stability) to give it a chance to appear.
+      const deadline = Date.now() + 2000;
+      while (!(await gridHarness.isLoading()) && Date.now() < deadline) {
+        await new Promise((resolve) => setTimeout(resolve, 25));
+        fixture.detectChanges();
+      }
+
       await expectAsync(gridHarness.isLoading()).toBeResolvedTo(true);
+    });
+
+    expect(loader).toHaveBeenCalledWith({
+      params: jasmine.objectContaining({
+        behavior: 'loading',
+        delay: 0,
+        pageSize: 5,
+        page: 1,
+      }),
+      abortSignal: jasmine.any(AbortSignal),
+      previous: { status: 'resolved' },
     });
   });
 
