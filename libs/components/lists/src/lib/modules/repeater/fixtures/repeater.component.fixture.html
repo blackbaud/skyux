@@ -2,6 +2,7 @@
   <sky-repeater
     [expandMode]="expandMode()"
     [reorderable]="reorderable()"
+    [selectionMode]="selectionMode()"
     (orderChange)="onOrderChange($event)"
   >
     <sky-repeater-item
@@ -107,6 +108,7 @@
   <sky-repeater
     [expandMode]="expandMode()"
     [reorderable]="reorderable()"
+    [selectionMode]="selectionMode()"
     [(activeIndex)]="activeIndex"
   >
     <sky-repeater-item [disabled]="disableFirstItem()">
@@ -121,12 +123,14 @@
   </sky-repeater>
 }
 @if (showRepeaterWithNgFor()) {
-  <sky-repeater [reorderable]="reorderable()">
+  <sky-repeater [reorderable]="reorderable()" [selectionMode]="selectionMode()">
     @for (item of items(); track item) {
       <sky-repeater-item
         [tag]="item.id"
         [disabled]="item.id === 'item1' && disableFirstItem()"
         [selectable]="selectable()"
+        [isSelected]="item.selected"
+        (isSelectedChange)="onIsSelectedChange($event)"
       >
         <sky-repeater-item-title> {{ item.title }} </sky-repeater-item-title>
       </sky-repeater-item>

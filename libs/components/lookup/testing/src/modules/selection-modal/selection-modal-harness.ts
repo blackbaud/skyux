@@ -75,8 +75,7 @@ export class SkySelectionModalHarness extends ComponentHarness {
         await harness.select();
       }
     } else {
-      // Click on the item directly because we've added a custom click event in the picker's template.
-      await (await harnesses[0].host()).click();
+      await harnesses[0].click();
     }
   }
 
