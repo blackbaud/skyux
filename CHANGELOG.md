@@ -1,6 +1,17 @@
 # Changelog
 
 
+## [15.0.0-alpha.4](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.3...15.0.0-alpha.4) (2026-08-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/datetime:** remove `skyTimepickerRetainInvalidValues` input (#4587)
+
+### Features
+
+* **components/datetime:** remove `skyTimepickerRetainInvalidValues` input ([#4587](https://github.com/blackbaud/skyux/issues/4587)) ([24f1e03](https://github.com/blackbaud/skyux/commit/24f1e03bb228a4d238be4234f85183542380deac)), closes [AB#3955926](https://dev.azure.com/blackbaud/Products/_workitems/edit/3955926)
+
 ## [14.10.0](https://github.com/blackbaud/skyux/compare/14.9.2...14.10.0) (2026-08-05)
 
 
