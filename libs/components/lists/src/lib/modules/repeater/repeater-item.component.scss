@@ -163,10 +163,7 @@ sky-repeater-item {
       }
     }
 
-    &.sky-repeater-item-selected:not(
-        .sky-repeater-item-selectable,
-        .sky-repeater-item-selection-single
-      ) {
+    &.sky-repeater-item-selected:not(.sky-repeater-item-selectable) {
       background-color: var(
         --sky-override-repeater-item-single-select-background-color,
         var(--sky-color-background-selected-soft)
