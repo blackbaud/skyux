@@ -6,6 +6,7 @@ import {
 } from '@angular/cdk/coercion';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   computed,
   contentChildren,
@@ -315,13 +316,17 @@ export class SkyDataGrid {
         onGridReady: (args) => {
           this.gridApi.set(args.api);
           this.gridReady.set(true);
+          // AG Grid dispatches `onGridReady` outside the Angular zone, so
+          // the `gridReady`/`gridApi` signal writes above aren't picked up
+          // by zone-triggered change detection on their own.
+          this.#changeDetector.markForCheck();
         },
         pagination,
         paginationPageSize,
         suppressMultiSort: true,
         suppressPaginationPanel: true,
         rowData,
-        rowSelection: untracked(() => this.#getRowSelection()),
+        rowSelection: untracked(() => this.#rowSelection()),
         autoSizeStrategy: untracked(() => this.#getAutoSizeStrategy()),
       },
     }) as GridOptions<SkyDataGridRowData>;
@@ -379,6 +384,7 @@ export class SkyDataGrid {
   });
 
   readonly #activatedRoute = inject(ActivatedRoute, { optional: true });
+  readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #gridService = inject(SkyAgGridService);
   readonly #logger = inject(SkyLogService);
   readonly #router = inject(Router, { optional: true });
@@ -447,36 +453,67 @@ export class SkyDataGrid {
     ),
     { initialValue: NaN },
   );
+  readonly #rowSelection = computed<RowSelectionOptions<SkyDataGridRowData>>(
+    () => {
+      return this.multiselect()
+        ? {
+            checkboxes: true,
+            checkboxLocation: 'selectionColumn',
+            headerCheckbox: true,
+            mode: 'multiRow',
+          }
+        : {
+            checkboxes: false,
+            // `SkyAgGridService.getGridOptions()` only merges these defaults
+            // in when the grid is first created; spell them out here too so
+            // this effect's runtime `setGridOption('rowSelection', ...)` call
+            // (now that it tracks `gridApi`, it can run again as soon as the
+            // grid is created) re-applies the same value instead of one
+            // missing these defaulted fields.
+            enableClickSelection: false,
+            enableSelectionWithoutKeys: true,
+            mode: 'singleRow',
+          };
+    },
+    { equal: (a, b) => a.mode === b.mode },
+  );
 
   constructor() {
-    // Update specific grid options after the grid has been loaded. These read
-    // `gridApi` untracked because a recreated grid rebuilds its options from the
-    // `gridOptions` computed; the selection and page effects below instead track
-    // `gridApi` so they re-apply their state to a freshly created grid.
+    // Update specific grid options after the grid has been loaded. Every
+    // effect tracks `gridApi`: a value backed by an async resource (e.g.
+    // Angular's `resource()`) can settle to its final value before
+    // `ngAfterViewInit` even creates the grid. With `gridApi` read untracked,
+    // that value would be silently dropped - this effect's *other*
+    // dependency never changes again to trigger a re-run, so the grid would
+    // be stuck showing its pre-load, initial state forever. Tracking
+    // `gridApi` means an effect can also re-run immediately once the grid is
+    // created, re-applying its value even when nothing "real" changed; see
+    // `#rowSelection()` for a case where that re-apply needed a fix of its
+    // own to stay equivalent to the grid's initial options.
     effect(() => {
-      const api = untracked(() => this.gridApi());
+      const api = this.gridApi();
       const columnDefs = this.#columnDefs();
       api?.setGridOption('columnDefs', columnDefs);
     });
     effect(() => {
-      const api = untracked(() => this.gridApi());
+      const api = this.gridApi();
       const isLoading = this.loading() || !Array.isArray(this.data());
       api?.setGridOption('loading', isLoading);
     });
     effect(() => {
-      const api = untracked(() => this.gridApi());
+      const api = this.gridApi();
       const { pagination, paginationPageSize } = this.#paginationOptions();
       api?.setGridOption('pagination', pagination);
       api?.setGridOption('paginationPageSize', paginationPageSize);
     });
     effect(() => {
-      const api = untracked(() => this.gridApi());
+      const api = this.gridApi();
       const rowData = this.rowData();
       api?.setGridOption('rowData', rowData);
     });
     effect(() => {
-      const api = untracked(() => this.gridApi());
-      const rowSelection = this.#getRowSelection();
+      const api = this.gridApi();
+      const rowSelection = this.#rowSelection();
       api?.setGridOption('rowSelection', rowSelection);
     });
 
@@ -621,6 +658,7 @@ export class SkyDataGrid {
     this.#gridDestroyed.pipe(takeUntilDestroyed()).subscribe(() => {
       this.gridApi.set(undefined);
       this.gridReady.set(false);
+      this.#changeDetector.markForCheck();
     });
 
     // Emit updates from the grid.
@@ -802,16 +840,5 @@ export class SkyDataGrid {
       skipHeader: true,
       scaleUpToFitGridWidth: this.columnFit() === 'container',
     };
-  }
-
-  #getRowSelection(): RowSelectionOptions<SkyDataGridRowData> {
-    return this.multiselect()
-      ? {
-          checkboxes: true,
-          checkboxLocation: 'selectionColumn',
-          headerCheckbox: true,
-          mode: 'multiRow',
-        }
-      : { checkboxes: false, mode: 'singleRow' };
   }
 }

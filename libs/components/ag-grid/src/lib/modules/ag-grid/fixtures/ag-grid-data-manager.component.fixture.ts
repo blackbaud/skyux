@@ -1,10 +1,10 @@
 import {
   Component,
   OnInit,
-  ViewChild,
   ViewEncapsulation,
   inject,
   input,
+  viewChild,
 } from '@angular/core';
 import {
   SkyDataManagerModule,
@@ -28,6 +28,7 @@ import { SkyAgGridService } from '../ag-grid.service';
 import { SkyCellType } from '../types/cell-type';
 
 import { SKY_AG_GRID_DATA } from './ag-grid-data.fixture';
+import { AG_GRID_FIXTURE_TEST_OPTIONS } from './ag-grid-fixture-test-options';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -44,8 +45,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   ],
 })
 export class SkyAgGridDataManagerFixtureComponent implements OnInit {
-  @ViewChild(AgGridAngular)
-  public agGrid: AgGridAngular | undefined;
+  public readonly agGrid = viewChild(AgGridAngular);
 
   public columnDefs: ColDef[] = [
     {
@@ -79,6 +79,7 @@ export class SkyAgGridDataManagerFixtureComponent implements OnInit {
   public gridData = SKY_AG_GRID_DATA;
 
   public gridOptions: GridOptions = {
+    ...AG_GRID_FIXTURE_TEST_OPTIONS,
     columnDefs: this.columnDefs,
   };
 

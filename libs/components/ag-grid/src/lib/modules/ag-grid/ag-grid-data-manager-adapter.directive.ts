@@ -352,6 +352,8 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
           }
           this.#currentDataState = newState;
           this.#dataManagerSvc.updateDataState(newState, viewConfig.id);
+
+          this.#changeDetector.markForCheck();
         }
       });
     }
@@ -380,6 +382,8 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
         );
         this.#currentDataState = newDataState;
         this.#dataManagerSvc.updateDataState(newDataState, viewConfig.id);
+
+        this.#changeDetector.markForCheck();
       }
     }
   }
@@ -467,6 +471,8 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
       );
       this.#currentDataState = newDataState;
       this.#dataManagerSvc.updateDataState(newDataState, viewId);
+
+      this.#changeDetector.markForCheck();
     }
   }
 
@@ -491,6 +497,8 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
       );
       this.#currentDataState = newDataState;
       this.#dataManagerSvc.updateDataState(newDataState, viewId);
+
+      this.#changeDetector.markForCheck();
     }
   }
 

@@ -1,13 +1,8 @@
 import { JsonPipe } from '@angular/common';
-import {
-  ChangeDetectorRef,
-  Component,
-  inject,
-  input,
-  model,
-} from '@angular/core';
+import { Component, input, model } from '@angular/core';
 import { SkyDropdownModule, SkyPopoverModule } from '@skyux/popovers';
 
+import { provideSkyAgGridTesting } from '@skyux/ag-grid/testing';
 import { SkyDataGridSort } from '../../types/data-grid-sort';
 import { SkyDataGrid } from '../data-grid';
 import { SkyDataGridColumn } from '../data-grid-column';
@@ -30,6 +25,7 @@ interface RowModel {
     SkyDropdownModule,
     JsonPipe,
   ],
+  providers: [provideSkyAgGridTesting()],
 })
 export class DataGridTestComponent {
   public readonly dataForSimpleGrid = input<RowModel[] | undefined>([
@@ -75,15 +71,12 @@ export class DataGridTestComponent {
   protected readonly showCol3 = input<boolean>(true);
   protected readonly showCol3HeaderText = input<boolean>(true);
 
-  readonly #cdr = inject(ChangeDetectorRef);
-
   public selectAll(): void {
     this.selectedRowIds.set(
       (this.dataForSimpleGridWithMultiselect() ?? []).map(
         (item) => item.myId as string,
       ),
     );
-    this.#cdr.markForCheck();
   }
 
   public clearAll(): void {

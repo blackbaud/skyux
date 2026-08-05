@@ -1,10 +1,67 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SkyAgGridWrapperHarness } from '@skyux/ag-grid/testing';
 import { SkyWaitHarness } from '@skyux/indicators/testing';
 import { SkyPagingHarness } from '@skyux/lists/testing';
 
 import { SkyDataGridHarness } from './data-grid-harness';
 import { DataGridTestComponent } from './fixtures/data-grid-test.component';
+
+/**
+ * Deterministically proves that a query resolves only after the grid's
+ * render-readiness signal (`SkyAgGridWrapperHarness#waitUntilRendered`)
+ * settles, rather than merely happening to pass because the fixture's real
+ * render finished quickly. This is necessary because in ChromeHeadless the
+ * real AG Grid render for this small fixture completes fast enough that an
+ * unguarded query passes the vast majority of the time too - a plain
+ * "detectChanges then query" spec would not fail on an unguarded method and
+ * so would not actually prove the guard exists. Instead, this replaces
+ * `waitUntilRendered()` with a promise under test control: while it's
+ * pending, a guarded query must still be pending too; only after it's
+ * released may the query resolve. An unguarded query (i.e. the base
+ * `SkyQueryableComponentHarness` implementation, with no override) never
+ * calls `waitUntilRendered()` at all and resolves immediately, so it fails
+ * the "not yet resolved" assertion below.
+ */
+async function expectRenderWaitGatesResolution<T>(
+  runQuery: () => Promise<T>,
+): Promise<T> {
+  let releaseRenderWait!: () => void;
+  const renderWait = new Promise<void>((resolve) => {
+    releaseRenderWait = resolve;
+  });
+  let waitStarted!: () => void;
+  const waitStartedPromise = new Promise<void>((resolve) => {
+    waitStarted = resolve;
+  });
+  const waitUntilRenderedSpy = spyOn(
+    SkyAgGridWrapperHarness.prototype,
+    'waitUntilRendered',
+  ).and.callFake(() => {
+    waitStarted();
+    return renderWait;
+  });
+
+  let resolved = false;
+  const pending = runQuery().then((result) => {
+    resolved = true;
+    return result;
+  });
+
+  // Wait until `waitUntilRendered()` has actually been invoked (i.e. any
+  // pending microtasks/timers, like the grid wrapper harness lookup, have
+  // run to completion) rather than guessing a fixed delay. The query itself
+  // must still be pending, because it's blocked on the deferred render wait
+  // above.
+  await waitStartedPromise;
+  expect(waitUntilRenderedSpy).toHaveBeenCalled();
+  expect(resolved).toBe(false);
+
+  releaseRenderWait();
+  const result = await pending;
+  expect(resolved).toBe(true);
+  return result;
+}
 
 describe('data-grid-harness', () => {
   let fixture: ComponentFixture<DataGridTestComponent>;
@@ -177,6 +234,57 @@ describe('data-grid-harness', () => {
     await expectAsync(harness.getPaging()).toBeRejectedWithError(
       'Unable to retrieve paging. The data grid is not paged.',
     );
+  });
+
+  it('should not resolve querySelector until the grid finishes rendering', async () => {
+    fixture.detectChanges();
+
+    const harness = await TestbedHarnessEnvironment.loader(fixture).getHarness(
+      SkyDataGridHarness.with({ dataSkyId: 'grid' }),
+    );
+
+    const cell = await expectRenderWaitGatesResolution(() =>
+      harness.querySelector('.ag-cell'),
+    );
+    expect(cell).toBeTruthy();
+  });
+
+  it('should not resolve querySelectorOrNull until the grid finishes rendering', async () => {
+    fixture.detectChanges();
+
+    const harness = await TestbedHarnessEnvironment.loader(fixture).getHarness(
+      SkyDataGridHarness.with({ dataSkyId: 'grid' }),
+    );
+
+    const cell = await expectRenderWaitGatesResolution(() =>
+      harness.querySelectorOrNull('.ag-cell'),
+    );
+    expect(cell).toBeTruthy();
+  });
+
+  it('should resolve querySelectorOrNull to null when no element matches', async () => {
+    fixture.detectChanges();
+
+    const harness = await TestbedHarnessEnvironment.loader(fixture).getHarness(
+      SkyDataGridHarness.with({ dataSkyId: 'grid' }),
+    );
+
+    await expectAsync(
+      harness.querySelectorOrNull('.does-not-exist'),
+    ).toBeResolvedTo(null);
+  });
+
+  it('should not resolve querySelectorAll until the grid finishes rendering', async () => {
+    fixture.detectChanges();
+
+    const harness = await TestbedHarnessEnvironment.loader(fixture).getHarness(
+      SkyDataGridHarness.with({ dataSkyId: 'grid' }),
+    );
+
+    const cells = await expectRenderWaitGatesResolution(() =>
+      harness.querySelectorAll('.ag-cell'),
+    );
+    expect(cells.length).toBeGreaterThan(0);
   });
 
   it('should get the wait harness and reflect grid readiness', async () => {
