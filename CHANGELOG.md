@@ -7,6 +7,7 @@
 ### Features
 
 * **components/datetime:** add skyTimepickerRetainInvalidValues to keep invalid timepicker entries ([#4566](https://github.com/blackbaud/skyux/issues/4566)) ([35dee33](https://github.com/blackbaud/skyux/commit/35dee339380ea576078e3213426c38d563de86d7)), closes [AB#3955926](https://dev.azure.com/blackbaud/Products/_workitems/edit/3955926)
+* **components/theme:** scrollbar colors are styled with the visual theme ([#4585](https://github.com/blackbaud/skyux/issues/4585)) ([db3bc67](https://github.com/blackbaud/skyux/commit/db3bc6772495798f907e2a8c990fd12377649756))
 
 
 ### Bug Fixes
