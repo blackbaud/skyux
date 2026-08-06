@@ -30,13 +30,16 @@ function isDecoratorImportsArray(array: ts.ArrayLiteralExpression): boolean {
  * References outside a decorator's `imports` array (unrelated arrays, a
  * parameter that shadows the import, direct assignments, etc.) are left
  * untouched, and the import is kept if any of those remain.
+ *
+ * Returns `true` when the import statement was removed, `false` when
+ * unhandled references kept it in place.
  */
 export function removeClassReference(
   recorder: UpdateRecorder,
   sourceFile: ts.SourceFile,
   className: string,
   moduleName: string,
-): void {
+): boolean {
   const endOfImports = findNodes(
     sourceFile,
     ts.SyntaxKind.ImportDeclaration,
@@ -81,4 +84,6 @@ export function removeClassReference(
       moduleName,
     });
   }
+
+  return !hasUnhandledReference;
 }
