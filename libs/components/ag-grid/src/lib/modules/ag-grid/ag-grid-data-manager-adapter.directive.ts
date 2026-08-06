@@ -399,7 +399,7 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
     const agGrid = this.#currentAgGrid();
     const viewConfig = this.#viewConfig();
 
-    if (agGrid && viewConfig) {
+    if (agGrid && viewConfig && !agGrid.api.isDestroyed()) {
       const viewState = dataState.getViewStateById(viewConfig.id);
       let displayedColumnIds: string[] = [];
 
@@ -410,14 +410,12 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
 
       const columnOrder = this.#getColumnOrder(agGrid.api);
 
-      const columnState = agGrid.api.getColumnState();
       if (
-        (displayedColumnIds.length !== columnOrder.length ||
-          displayedColumnIds.some((col, i) => col !== columnOrder[i])) &&
-        columnState &&
-        agGrid.api
+        displayedColumnIds.length !== columnOrder.length ||
+        displayedColumnIds.some((col, i) => col !== columnOrder[i])
       ) {
-        const hideColumns = columnState
+        const hideColumns = agGrid.api
+          .getColumnState()
           .map((col) => col.colId)
           .filter(
             (colId) =>

@@ -224,6 +224,7 @@ export class SkyAgGridRowDeleteDirective {
         .pipe(
           takeUntilDestroyed(this.#destroyRef),
           takeUntil(this.#overlay.closed),
+          takeUntil(agGridDestroyed),
           distinctUntilChanged(),
         )
         .subscribe((clipPath) => {
@@ -235,7 +236,7 @@ export class SkyAgGridRowDeleteDirective {
           additionalContainers: this.#agGridRootElement.asObservable(),
           additionalMasking: { top: this.#agGridHeaderElement.asObservable() },
         })
-        .pipe(takeUntilDestroyed(this.#destroyRef))
+        .pipe(takeUntilDestroyed(this.#destroyRef), takeUntil(agGridDestroyed))
         .subscribe((clipPath) => {
           this.#clipPath.next(clipPath);
           this.#visibleRegion.next(parseClipPathVisibleRegion(clipPath));

@@ -272,7 +272,12 @@
   }
 }
 
-.sky-ag-grid.sky-ag-grid-top-scrollbar .ag-root {
+// `.ag-root` is excluded from within `.ag-details-row` here (rather than just
+// zeroing `--sky-ag-grid-top-scroll-height` there) because the descendant
+// combinator below would otherwise also match master/detail child grids'
+// roots, forcing their own horizontal scrollbars into this absolute
+// positioning instead of leaving them at AG Grid's default bottom placement.
+.sky-ag-grid.sky-ag-grid-top-scrollbar .ag-root:not(.ag-details-row *) {
   // AG Grid only sets `position: absolute` on .ag-body-horizontal-scroll when
   // it also has .ag-scrollbar-invisible (macOS-style auto-hiding scrollbars).
   // Force it here unconditionally, positioned just below the header rows from
