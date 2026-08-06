@@ -1,7 +1,10 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkyDataGridHarness } from '@skyux/data-grid/testing';
+import {
+  provideSkyDataGridTesting,
+  SkyDataGridHarness,
+} from '@skyux/data-grid/testing';
 
 import { DataGridSortingExampleComponent } from './example.component';
 
@@ -12,6 +15,7 @@ describe('Data grid sorting example', () => {
   }> {
     await TestBed.configureTestingModule({
       imports: [DataGridSortingExampleComponent],
+      providers: [provideSkyDataGridTesting()],
     }).compileComponents();
     const fixture = TestBed.createComponent(DataGridSortingExampleComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);

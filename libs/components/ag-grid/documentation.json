@@ -34,7 +34,11 @@
         "primaryDocsId": "SkyAgGridModule"
       },
       "testing": {
-        "docsIds": ["SkyAgGridWrapperHarness", "SkyAgGridWrapperHarnessFilters"]
+        "docsIds": [
+          "SkyAgGridWrapperHarness",
+          "SkyAgGridWrapperHarnessFilters",
+          "provideSkyAgGridTesting"
+        ]
       },
       "codeExamples": {
         "docsIds": [
@@ -82,7 +86,11 @@
         "primaryDocsId": "SkyAgGridModule"
       },
       "testing": {
-        "docsIds": ["SkyAgGridWrapperHarness", "SkyAgGridWrapperHarnessFilters"]
+        "docsIds": [
+          "SkyAgGridWrapperHarness",
+          "SkyAgGridWrapperHarnessFilters",
+          "provideSkyAgGridTesting"
+        ]
       },
       "codeExamples": {
         "docsIds": [

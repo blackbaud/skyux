@@ -54,7 +54,8 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
 
     agGridDataManagerFixture.detectChanges();
 
-    agGridComponent = agGridDataManagerFixtureComponent.agGrid as AgGridAngular;
+    agGridComponent =
+      agGridDataManagerFixtureComponent.agGrid() as AgGridAngular;
     dataViewEl = agGridDataManagerFixture.debugElement.query(
       By.directive(SkyAgGridDataManagerAdapterDirective),
     );
@@ -804,7 +805,7 @@ it('should move the horizontal scroll based on enableTopScroll check', async () 
     'ag-overlay',
   ]);
 
-  const agGrid = fixture.componentInstance.agGrid;
+  const agGrid = fixture.componentInstance.agGrid();
   expect(agGrid).toBeDefined();
   expect(agGrid!.api.getGridOption('context')?.enableTopScroll).toBeTrue();
 
