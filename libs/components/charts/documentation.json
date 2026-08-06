@@ -32,6 +32,7 @@
         "docsIds": [
           "ChartsChartBarBasicExample",
           "ChartsChartBarHorizontalExample",
+          "ChartsChartBarAsyncExample",
           "ChartsChartBarMultipleSeriesExample",
           "ChartsChartBarStackedExample",
           "ChartsChartBarGroupedStackedExample",
@@ -40,8 +41,7 @@
           "ChartsChartBarHiddenLabelsExample",
           "ChartsChartBarLogarithmicExample",
           "ChartsChartBarValueBoundsExample",
-          "ChartsChartBarValueFormatExample",
-          "ChartsChartBarAsyncExample"
+          "ChartsChartBarValueFormatExample"
         ]
       }
     },
@@ -73,10 +73,10 @@
       "codeExamples": {
         "docsIds": [
           "ChartsChartLineBasicExample",
+          "ChartsChartLineAsyncExample",
           "ChartsChartLineMultipleSeriesExample",
           "ChartsChartLineGapsExample",
-          "ChartsChartLineValueFormatExample",
-          "ChartsChartLineAsyncExample"
+          "ChartsChartLineValueFormatExample"
         ]
       }
     }
