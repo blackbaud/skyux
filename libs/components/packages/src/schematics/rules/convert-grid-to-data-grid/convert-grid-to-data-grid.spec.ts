@@ -52,6 +52,7 @@ describe('Convert Grid to Data Grid', () => {
       </sky-data-grid>
     `);
     expect(hasLog('"sortField"/"(sortFieldChange)" bindings')).toBe(true);
+    expect(hasLog('typed as SkyDataGridRowData[]')).toBe(true);
   });
 
   it('should translate fit literal values and warn on a bound fit', async () => {
@@ -197,6 +198,46 @@ describe('Convert Grid to Data Grid', () => {
     expect(hasLog('using the "columns" input was left unchanged')).toBe(true);
   });
 
+  it('should leave a sky-grid-column nested in sky-list-view-grid unchanged and warn', async () => {
+    const tree = await createTestApp(runner, { projectName: 'test-app' });
+    const input = stripIndents`
+      <sky-list-view-grid>
+        <sky-grid-column field="a" heading="A"></sky-grid-column>
+      </sky-list-view-grid>
+    `;
+    tree.create('src/app/test.component.html', input);
+    const result = await convert(tree);
+    expect(
+      stripIndents`${result.readText('src/app/test.component.html')}`,
+    ).toBe(input);
+    expect(hasLog('inside <sky-list-view-grid> was left unchanged')).toBe(true);
+  });
+
+  it('should convert a standalone grid while leaving a sky-list-view-grid block untouched', async () => {
+    const tree = await createTestApp(runner, { projectName: 'test-app' });
+    tree.create(
+      'src/app/test.component.html',
+      stripIndents`
+        <sky-grid [data]="data">
+          <sky-grid-column id="a" heading="A" />
+        </sky-grid>
+        <sky-list-view-grid>
+          <sky-grid-column field="b" heading="B"></sky-grid-column>
+        </sky-list-view-grid>
+      `,
+    );
+    const result = await convert(tree);
+    expect(stripIndents`${result.readText('src/app/test.component.html')}`)
+      .toBe(stripIndents`
+      <sky-data-grid [data]="data">
+        <sky-data-grid-column columnId="a" headingText="A" />
+      </sky-data-grid>
+      <sky-list-view-grid>
+        <sky-grid-column field="b" heading="B"></sky-grid-column>
+      </sky-list-view-grid>
+    `);
+  });
+
   it('should convert multiple self-closing columns', async () => {
     const tree = await createTestApp(runner, { projectName: 'test-app' });
     tree.create(
@@ -288,5 +329,683 @@ describe('Convert Grid to Data Grid', () => {
         export class TestComponent {}
       `,
     );
+  });
+
+  it('should remove a redundant SkyGridModule import covered by SkyListViewGridModule', async () => {
+    const tree = await createTestApp(runner, { projectName: 'test-app' });
+    const backtick = '`';
+    tree.create(
+      'src/app/test.component.ts',
+      stripIndents`
+        import { Component } from '@angular/core';
+        import { SkyGridModule } from '@skyux/grids';
+        import { SkyListViewGridModule } from '@skyux/list-builder-view-grids';
+
+        @Component({
+          selector: 'app-test',
+          template: ${backtick}
+            <sky-list-view-grid>
+              <sky-grid-column field="name" heading="Name"></sky-grid-column>
+            </sky-list-view-grid>
+          ${backtick},
+          imports: [SkyGridModule, SkyListViewGridModule],
+        })
+        export class TestComponent {}
+      `,
+    );
+    const result = await convert(tree);
+    expect(stripIndents`${result.readText('src/app/test.component.ts')}`).toBe(
+      stripIndents`
+        import { Component } from '@angular/core';
+
+        import { SkyListViewGridModule } from '@skyux/list-builder-view-grids';
+
+        @Component({
+          selector: 'app-test',
+          template: ${backtick}
+            <sky-list-view-grid>
+              <sky-grid-column field="name" heading="Name"></sky-grid-column>
+            </sky-list-view-grid>
+          ${backtick},
+          imports: [SkyListViewGridModule],
+        })
+        export class TestComponent {}
+      `,
+    );
+  });
+
+  it('should leave SkyGridModule unchanged and warn when SkyListViewGridModule cannot be confirmed', async () => {
+    const tree = await createTestApp(runner, { projectName: 'test-app' });
+    const backtick = '`';
+    const input = stripIndents`
+      import { Component } from '@angular/core';
+      import { SkyGridModule } from '@skyux/grids';
+
+      @Component({
+        selector: 'app-test',
+        template: ${backtick}
+          <sky-list-view-grid>
+            <sky-grid-column field="name" heading="Name"></sky-grid-column>
+          </sky-list-view-grid>
+        ${backtick},
+        imports: [SkyGridModule],
+      })
+      export class TestComponent {}
+    `;
+    tree.create('src/app/test.component.ts', input);
+    const result = await convert(tree);
+    expect(stripIndents`${result.readText('src/app/test.component.ts')}`).toBe(
+      input,
+    );
+    expect(hasLog('review it manually')).toBe(true);
+  });
+
+  it('should convert a real grid and remove the redundant SkyGridModule import in the same file', async () => {
+    const tree = await createTestApp(runner, { projectName: 'test-app' });
+    const backtick = '`';
+    tree.create(
+      'src/app/test.component.ts',
+      stripIndents`
+        import { Component } from '@angular/core';
+        import { SkyGridModule } from '@skyux/grids';
+        import { SkyListViewGridModule } from '@skyux/list-builder-view-grids';
+
+        @Component({
+          selector: 'app-test',
+          template: ${backtick}
+            <sky-grid [data]="data">
+              <sky-grid-column id="name" heading="Name" field="name" />
+            </sky-grid>
+            <sky-list-view-grid>
+              <sky-grid-column field="b" heading="B"></sky-grid-column>
+            </sky-list-view-grid>
+          ${backtick},
+          imports: [SkyGridModule, SkyListViewGridModule],
+        })
+        export class TestComponent {}
+      `,
+    );
+    const result = await convert(tree);
+    expect(stripIndents`${result.readText('src/app/test.component.ts')}`).toBe(
+      stripIndents`
+        import { Component } from '@angular/core';
+
+        import { SkyListViewGridModule } from '@skyux/list-builder-view-grids';
+        import { SkyDataGrid, SkyDataGridColumn } from '@skyux/data-grid';
+
+        @Component({
+          selector: 'app-test',
+          template: ${backtick}
+            <sky-data-grid [data]="data">
+              <sky-data-grid-column columnId="name" headingText="Name" field="name" />
+            </sky-data-grid>
+            <sky-list-view-grid>
+              <sky-grid-column field="b" heading="B"></sky-grid-column>
+            </sky-list-view-grid>
+          ${backtick},
+          imports: [SkyDataGrid, SkyDataGridColumn, SkyListViewGridModule],
+        })
+        export class TestComponent {}
+      `,
+    );
+  });
+
+  it('should convert a real grid even when a list-view-grid skip cannot confirm SkyListViewGridModule', async () => {
+    const tree = await createTestApp(runner, { projectName: 'test-app' });
+    const backtick = '`';
+    tree.create(
+      'src/app/test.component.ts',
+      stripIndents`
+        import { Component } from '@angular/core';
+        import { SkyGridModule } from '@skyux/grids';
+
+        @Component({
+          selector: 'app-test',
+          template: ${backtick}
+            <sky-grid [data]="data">
+              <sky-grid-column id="name" heading="Name" field="name" />
+            </sky-grid>
+            <sky-list-view-grid>
+              <sky-grid-column field="b" heading="B"></sky-grid-column>
+            </sky-list-view-grid>
+          ${backtick},
+          imports: [SkyGridModule],
+        })
+        export class TestComponent {}
+      `,
+    );
+    const result = await convert(tree);
+    expect(stripIndents`${result.readText('src/app/test.component.ts')}`).toBe(
+      stripIndents`
+        import { Component } from '@angular/core';
+
+        import { SkyDataGrid, SkyDataGridColumn } from '@skyux/data-grid';
+
+        @Component({
+          selector: 'app-test',
+          template: ${backtick}
+            <sky-data-grid [data]="data">
+              <sky-data-grid-column columnId="name" headingText="Name" field="name" />
+            </sky-data-grid>
+            <sky-list-view-grid>
+              <sky-grid-column field="b" heading="B"></sky-grid-column>
+            </sky-list-view-grid>
+          ${backtick},
+          imports: [SkyDataGrid, SkyDataGridColumn],
+        })
+        export class TestComponent {}
+      `,
+    );
+  });
+
+  it('should not touch imports when only SkyListViewGridModule is imported', async () => {
+    const tree = await createTestApp(runner, { projectName: 'test-app' });
+    const backtick = '`';
+    const input = stripIndents`
+      import { Component } from '@angular/core';
+      import { SkyListViewGridModule } from '@skyux/list-builder-view-grids';
+
+      @Component({
+        selector: 'app-test',
+        template: ${backtick}
+          <sky-list-view-grid>
+            <sky-grid-column field="name" heading="Name"></sky-grid-column>
+          </sky-list-view-grid>
+        ${backtick},
+        imports: [SkyListViewGridModule],
+      })
+      export class TestComponent {}
+    `;
+    tree.create('src/app/test.component.ts', input);
+    const result = await convert(tree);
+    expect(stripIndents`${result.readText('src/app/test.component.ts')}`).toBe(
+      input,
+    );
+  });
+
+  function createExternalTemplateComponent(
+    tree: UnitTestTree,
+    name: string,
+    className: string,
+  ): void {
+    tree.create(
+      `src/app/${name}.component.ts`,
+      stripIndents`
+        import { Component } from '@angular/core';
+
+        @Component({
+          selector: 'app-${name}',
+          templateUrl: './${name}.component.html',
+          standalone: false,
+        })
+        export class ${className} {}
+      `,
+    );
+  }
+
+  const listViewGridHtml = stripIndents`
+    <sky-list-view-grid>
+      <sky-grid-column field="name" heading="Name"></sky-grid-column>
+    </sky-list-view-grid>
+  `;
+
+  it('should remove a redundant SkyGridModule import from an NgModule whose declared component only uses list-view-grid in an external template', async () => {
+    const tree = await createTestApp(runner, { projectName: 'test-app' });
+    tree.create('src/app/foo.component.html', listViewGridHtml);
+    createExternalTemplateComponent(tree, 'foo', 'FooComponent');
+    tree.create(
+      'src/app/foo.module.ts',
+      stripIndents`
+        import { NgModule } from '@angular/core';
+        import { SkyGridModule } from '@skyux/grids';
+        import { SkyListViewGridModule } from '@skyux/list-builder-view-grids';
+
+        import { FooComponent } from './foo.component';
+
+        @NgModule({
+          declarations: [FooComponent],
+          imports: [SkyGridModule, SkyListViewGridModule],
+        })
+        export class FooModule {}
+      `,
+    );
+    const result = await convert(tree);
+    expect(stripIndents`${result.readText('src/app/foo.component.html')}`).toBe(
+      listViewGridHtml,
+    );
+    expect(stripIndents`${result.readText('src/app/foo.module.ts')}`).toBe(
+      stripIndents`
+        import { NgModule } from '@angular/core';
+
+        import { SkyListViewGridModule } from '@skyux/list-builder-view-grids';
+
+        import { FooComponent } from './foo.component';
+
+        @NgModule({
+          declarations: [FooComponent],
+          imports: [SkyListViewGridModule],
+        })
+        export class FooModule {}
+      `,
+    );
+  });
+
+  it('should leave an NgModule unchanged when list-view-grid usage cannot confirm SkyListViewGridModule', async () => {
+    const tree = await createTestApp(runner, { projectName: 'test-app' });
+    tree.create('src/app/foo.component.html', listViewGridHtml);
+    createExternalTemplateComponent(tree, 'foo', 'FooComponent');
+    const moduleInput = stripIndents`
+      import { NgModule } from '@angular/core';
+      import { SkyGridModule } from '@skyux/grids';
+
+      import { FooComponent } from './foo.component';
+
+      @NgModule({
+        declarations: [FooComponent],
+        imports: [SkyGridModule],
+      })
+      export class FooModule {}
+    `;
+    tree.create('src/app/foo.module.ts', moduleInput);
+    const result = await convert(tree);
+    expect(stripIndents`${result.readText('src/app/foo.component.html')}`).toBe(
+      listViewGridHtml,
+    );
+    expect(stripIndents`${result.readText('src/app/foo.module.ts')}`).toBe(
+      moduleInput,
+    );
+    // The warning for this case was already consumed by an earlier test:
+    // logOnce dedupes messages across the whole suite, so this test can only
+    // assert file contents.
+  });
+
+  it('should swap the SkyGridModule import in an NgModule whose declared component converts an external template', async () => {
+    const tree = await createTestApp(runner, { projectName: 'test-app' });
+    tree.create(
+      'src/app/foo.component.html',
+      stripIndents`
+        <sky-grid [data]="data">
+          <sky-grid-column id="name" heading="Name" field="name" />
+        </sky-grid>
+      `,
+    );
+    createExternalTemplateComponent(tree, 'foo', 'FooComponent');
+    tree.create(
+      'src/app/foo.module.ts',
+      stripIndents`
+        import { NgModule } from '@angular/core';
+        import { SkyGridModule } from '@skyux/grids';
+
+        import { FooComponent } from './foo.component';
+
+        @NgModule({
+          declarations: [FooComponent],
+          imports: [SkyGridModule],
+        })
+        export class FooModule {}
+      `,
+    );
+    const result = await convert(tree);
+    expect(stripIndents`${result.readText('src/app/foo.component.html')}`)
+      .toBe(stripIndents`
+      <sky-data-grid [data]="data">
+        <sky-data-grid-column columnId="name" headingText="Name" field="name" />
+      </sky-data-grid>
+    `);
+    expect(stripIndents`${result.readText('src/app/foo.module.ts')}`).toBe(
+      stripIndents`
+        import { NgModule } from '@angular/core';
+
+
+        import { FooComponent } from './foo.component';
+        import { SkyDataGrid, SkyDataGridColumn } from '@skyux/data-grid';
+
+        @NgModule({
+          declarations: [FooComponent],
+          imports: [SkyDataGrid, SkyDataGridColumn],
+        })
+        export class FooModule {}
+      `,
+    );
+    expect(result.readText('package.json')).toContain('@skyux/data-grid');
+  });
+
+  it('should remove a redundant SkyGridModule import from a standalone component with an external template', async () => {
+    const tree = await createTestApp(runner, { projectName: 'test-app' });
+    tree.create('src/app/test.component.html', listViewGridHtml);
+    tree.create(
+      'src/app/test.component.ts',
+      stripIndents`
+        import { Component } from '@angular/core';
+        import { SkyGridModule } from '@skyux/grids';
+        import { SkyListViewGridModule } from '@skyux/list-builder-view-grids';
+
+        @Component({
+          selector: 'app-test',
+          templateUrl: './test.component.html',
+          imports: [SkyGridModule, SkyListViewGridModule],
+        })
+        export class TestComponent {}
+      `,
+    );
+    const result = await convert(tree);
+    expect(stripIndents`${result.readText('src/app/test.component.ts')}`).toBe(
+      stripIndents`
+        import { Component } from '@angular/core';
+
+        import { SkyListViewGridModule } from '@skyux/list-builder-view-grids';
+
+        @Component({
+          selector: 'app-test',
+          templateUrl: './test.component.html',
+          imports: [SkyListViewGridModule],
+        })
+        export class TestComponent {}
+      `,
+    );
+  });
+
+  it('should swap the import in a standalone component whose external template converts', async () => {
+    const tree = await createTestApp(runner, { projectName: 'test-app' });
+    tree.create(
+      'src/app/test.component.html',
+      stripIndents`
+        <sky-grid [data]="data">
+          <sky-grid-column id="name" heading="Name" field="name" />
+        </sky-grid>
+      `,
+    );
+    tree.create(
+      'src/app/test.component.ts',
+      stripIndents`
+        import { Component } from '@angular/core';
+        import { SkyGridModule } from '@skyux/grids';
+
+        @Component({
+          selector: 'app-test',
+          templateUrl: './test.component.html',
+          imports: [SkyGridModule],
+        })
+        export class TestComponent {}
+      `,
+    );
+    const result = await convert(tree);
+    expect(stripIndents`${result.readText('src/app/test.component.ts')}`).toBe(
+      stripIndents`
+        import { Component } from '@angular/core';
+
+        import { SkyDataGrid, SkyDataGridColumn } from '@skyux/data-grid';
+
+        @Component({
+          selector: 'app-test',
+          templateUrl: './test.component.html',
+          imports: [SkyDataGrid, SkyDataGridColumn],
+        })
+        export class TestComponent {}
+      `,
+    );
+  });
+
+  it('should swap the import in a spec file referencing a converted component', async () => {
+    const tree = await createTestApp(runner, { projectName: 'test-app' });
+    const backtick = '`';
+    tree.create(
+      'src/app/foo.component.ts',
+      stripIndents`
+        import { Component } from '@angular/core';
+        import { SkyGridModule } from '@skyux/grids';
+
+        @Component({
+          selector: 'app-foo',
+          template: ${backtick}
+            <sky-grid [data]="data">
+              <sky-grid-column id="name" heading="Name" field="name" />
+            </sky-grid>
+          ${backtick},
+          imports: [SkyGridModule],
+        })
+        export class FooComponent {}
+      `,
+    );
+    tree.create(
+      'src/app/foo.component.spec.ts',
+      stripIndents`
+        import { TestBed } from '@angular/core/testing';
+        import { SkyGridModule } from '@skyux/grids';
+
+        import { FooComponent } from './foo.component';
+
+        describe('FooComponent', () => {
+          beforeEach(() => {
+            TestBed.configureTestingModule({
+              imports: [SkyGridModule, FooComponent],
+            });
+          });
+        });
+      `,
+    );
+    const result = await convert(tree);
+    expect(stripIndents`${result.readText('src/app/foo.component.spec.ts')}`)
+      .toBe(stripIndents`
+      import { TestBed } from '@angular/core/testing';
+
+
+      import { FooComponent } from './foo.component';
+      import { SkyDataGrid, SkyDataGridColumn } from '@skyux/data-grid';
+
+      describe('FooComponent', () => {
+        beforeEach(() => {
+          TestBed.configureTestingModule({
+            imports: [SkyDataGrid, SkyDataGridColumn, FooComponent],
+          });
+        });
+      });
+    `);
+  });
+
+  it('should keep the SkyGridModule import when the only grid uses the columns input', async () => {
+    const tree = await createTestApp(runner, { projectName: 'test-app' });
+    const backtick = '`';
+    const input = stripIndents`
+      import { Component } from '@angular/core';
+      import { SkyGridModule } from '@skyux/grids';
+
+      @Component({
+        selector: 'app-test',
+        template: ${backtick}
+          <sky-grid [data]="data" [columns]="cols"></sky-grid>
+        ${backtick},
+        imports: [SkyGridModule],
+      })
+      export class TestComponent {}
+    `;
+    tree.create('src/app/test.component.ts', input);
+    const result = await convert(tree);
+    expect(stripIndents`${result.readText('src/app/test.component.ts')}`).toBe(
+      input,
+    );
+    expect(
+      hasLog('Migrate that grid manually before removing the import'),
+    ).toBe(true);
+  });
+
+  it('should swap the import but warn when a converted grid and a columns-input grid share a file', async () => {
+    const tree = await createTestApp(runner, { projectName: 'test-app' });
+    const backtick = '`';
+    tree.create(
+      'src/app/test.component.ts',
+      stripIndents`
+        import { Component } from '@angular/core';
+        import { SkyGridModule } from '@skyux/grids';
+
+        @Component({
+          selector: 'app-test',
+          template: ${backtick}
+            <sky-grid [data]="a">
+              <sky-grid-column id="x" heading="X" />
+            </sky-grid>
+            <sky-grid [data]="b" [columns]="cols"></sky-grid>
+          ${backtick},
+          imports: [SkyGridModule],
+        })
+        export class TestComponent {}
+      `,
+    );
+    const result = await convert(tree);
+    expect(stripIndents`${result.readText('src/app/test.component.ts')}`).toBe(
+      stripIndents`
+        import { Component } from '@angular/core';
+
+        import { SkyDataGrid, SkyDataGridColumn } from '@skyux/data-grid';
+
+        @Component({
+          selector: 'app-test',
+          template: ${backtick}
+            <sky-data-grid [data]="a">
+              <sky-data-grid-column columnId="x" headingText="X" />
+            </sky-data-grid>
+            <sky-grid [data]="b" [columns]="cols"></sky-grid>
+          ${backtick},
+          imports: [SkyDataGrid, SkyDataGridColumn],
+        })
+        export class TestComponent {}
+      `,
+    );
+    expect(
+      hasLog(
+        'Restore the import or complete the manual migration of that grid',
+      ),
+    ).toBe(true);
+  });
+
+  it('should swap the import in an NgModule mixing converted and list-view-grid components', async () => {
+    const tree = await createTestApp(runner, { projectName: 'test-app' });
+    tree.create(
+      'src/app/a.component.html',
+      stripIndents`
+        <sky-grid [data]="data">
+          <sky-grid-column id="name" heading="Name" field="name" />
+        </sky-grid>
+      `,
+    );
+    createExternalTemplateComponent(tree, 'a', 'AComponent');
+    tree.create('src/app/b.component.html', listViewGridHtml);
+    createExternalTemplateComponent(tree, 'b', 'BComponent');
+    tree.create(
+      'src/app/foo.module.ts',
+      stripIndents`
+        import { NgModule } from '@angular/core';
+        import { SkyGridModule } from '@skyux/grids';
+        import { SkyListViewGridModule } from '@skyux/list-builder-view-grids';
+
+        import { AComponent } from './a.component';
+        import { BComponent } from './b.component';
+
+        @NgModule({
+          declarations: [AComponent, BComponent],
+          imports: [SkyGridModule, SkyListViewGridModule],
+        })
+        export class FooModule {}
+      `,
+    );
+    const result = await convert(tree);
+    expect(stripIndents`${result.readText('src/app/b.component.html')}`).toBe(
+      listViewGridHtml,
+    );
+    expect(stripIndents`${result.readText('src/app/foo.module.ts')}`).toBe(
+      stripIndents`
+        import { NgModule } from '@angular/core';
+
+        import { SkyListViewGridModule } from '@skyux/list-builder-view-grids';
+
+        import { AComponent } from './a.component';
+        import { BComponent } from './b.component';
+        import { SkyDataGrid, SkyDataGridColumn } from '@skyux/data-grid';
+
+        @NgModule({
+          declarations: [AComponent, BComponent],
+          imports: [SkyDataGrid, SkyDataGridColumn, SkyListViewGridModule],
+        })
+        export class FooModule {}
+      `,
+    );
+  });
+
+  it('should leave a file that mentions SkyGridModule without importing it unchanged', async () => {
+    const tree = await createTestApp(runner, { projectName: 'test-app' });
+    const input = stripIndents`
+      export { SkyGridModule } from '@skyux/grids';
+    `;
+    tree.create('src/app/index.ts', input);
+    const result = await convert(tree);
+    expect(stripIndents`${result.readText('src/app/index.ts')}`).toBe(input);
+  });
+
+  it('should keep a redundant SkyGridModule import referenced in a TestBed configuration and warn', async () => {
+    const tree = await createTestApp(runner, { projectName: 'test-app' });
+    const backtick = '`';
+    tree.create(
+      'src/app/foo.component.ts',
+      stripIndents`
+        import { Component } from '@angular/core';
+        import { SkyListViewGridModule } from '@skyux/list-builder-view-grids';
+
+        @Component({
+          selector: 'app-foo',
+          template: ${backtick}
+            <sky-list-view-grid>
+              <sky-grid-column field="name" heading="Name"></sky-grid-column>
+            </sky-list-view-grid>
+          ${backtick},
+          imports: [SkyListViewGridModule],
+        })
+        export class FooComponent {}
+      `,
+    );
+    const specInput = stripIndents`
+      import { TestBed } from '@angular/core/testing';
+      import { SkyGridModule } from '@skyux/grids';
+      import { SkyListViewGridModule } from '@skyux/list-builder-view-grids';
+
+      import { FooComponent } from './foo.component';
+
+      describe('FooComponent', () => {
+        beforeEach(() => {
+          TestBed.configureTestingModule({
+            imports: [SkyGridModule, SkyListViewGridModule, FooComponent],
+          });
+        });
+      });
+    `;
+    tree.create('src/app/foo.component.spec.ts', specInput);
+    const result = await convert(tree);
+    expect(
+      stripIndents`${result.readText('src/app/foo.component.spec.ts')}`,
+    ).toBe(specInput);
+    expect(hasLog('remove the import manually if nothing else needs it')).toBe(
+      true,
+    );
+  });
+
+  it('should leave a module with no associated grid usage unchanged and warn', async () => {
+    const tree = await createTestApp(runner, { projectName: 'test-app' });
+    const input = stripIndents`
+      import { NgModule } from '@angular/core';
+      import { SkyGridModule } from '@skyux/grids';
+
+      @NgModule({
+        exports: [SkyGridModule],
+      })
+      export class SharedGridModule {}
+    `;
+    tree.create('src/app/shared-grid.module.ts', input);
+    const result = await convert(tree);
+    expect(
+      stripIndents`${result.readText('src/app/shared-grid.module.ts')}`,
+    ).toBe(input);
+    expect(
+      hasLog('no <sky-grid> usage associated with this file was converted'),
+    ).toBe(true);
+    expect(result.readText('package.json')).not.toContain('@skyux/data-grid');
   });
 });

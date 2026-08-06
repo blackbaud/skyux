@@ -823,6 +823,112 @@ describe('Timepicker', () => {
       await fixture.whenStable();
       expect(component.timeControlValueAfterInit.local).toEqual('2:55 AM');
     }));
+
+    it('should clear an invalid value on blur by default', fakeAsync(() => {
+      detectChangesAndTick(fixture);
+
+      setInput('not a time', fixture);
+
+      expect(getInput(fixture).value).toBe('');
+    }));
+
+    describe('with retainInvalidValues enabled', () => {
+      beforeEach(() => {
+        component.retainInvalidValues = true;
+      });
+
+      it('should retain an invalid value on blur and flag the control invalid', fakeAsync(() => {
+        detectChangesAndTick(fixture);
+
+        setInput('not a time', fixture);
+
+        expect(getInput(fixture).value).toBe('not a time');
+        expect(component.timeControl?.value).toBe('not a time');
+        expect(component.timeControl?.valid).toBeFalse();
+        expect(component.timeControl?.errors).toEqual({
+          skyTime: { invalid: 'not a time' },
+        });
+        expect(getInput(fixture)).toHaveCssClass('ng-invalid');
+      }));
+
+      it('should clear the invalid state once a valid value is entered', fakeAsync(() => {
+        detectChangesAndTick(fixture);
+
+        setInput('not a time', fixture);
+
+        expect(component.timeControl?.valid).toBeFalse();
+
+        setInput('2:55 AM', fixture);
+
+        expect(getInput(fixture).value).toBe('2:55 AM');
+        expect(component.timeControl?.value.local).toEqual('2:55 AM');
+        expect(component.timeControl?.valid).toBeTrue();
+        expect(getInput(fixture)).not.toHaveCssClass('ng-invalid');
+      }));
+
+      it('should retain an invalid value provided by the initial form control', fakeAsync(() => {
+        component.initialValue = 'not a time';
+
+        detectChangesAndTick(fixture);
+
+        expect(getInput(fixture).value).toBe('not a time');
+        expect(component.timeControl?.value).toBe('not a time');
+        expect(component.timeControl?.valid).toBeFalse();
+        expect(component.timeControl?.errors).toEqual({
+          skyTime: { invalid: 'not a time' },
+        });
+        expect(getInput(fixture)).toHaveCssClass('ng-invalid');
+      }));
+
+      it('should retain an invalid value set programmatically', fakeAsync(() => {
+        detectChangesAndTick(fixture);
+
+        component.timeControl?.setValue('not a time');
+        detectChangesAndTick(fixture);
+
+        expect(getInput(fixture).value).toBe('not a time');
+        expect(component.timeControl?.valid).toBeFalse();
+        expect(component.timeControl?.errors).toEqual({
+          skyTime: { invalid: 'not a time' },
+        });
+        expect(getInput(fixture)).toHaveCssClass('ng-invalid');
+      }));
+
+      it('should still clear an empty value on blur', fakeAsync(() => {
+        detectChangesAndTick(fixture);
+
+        setInput('2:55 AM', fixture);
+        expect(getInput(fixture).value).toBe('2:55 AM');
+
+        setInput('', fixture);
+
+        expect(getInput(fixture).value).toBe('');
+        expect(component.timeControl?.valid).toBeTrue();
+      }));
+
+      it('should clear a retained invalid value when the form control is reset', fakeAsync(() => {
+        detectChangesAndTick(fixture);
+
+        setInput('not a time', fixture);
+        expect(getInput(fixture).value).toBe('not a time');
+
+        component.timeControl?.reset();
+        detectChangesAndTick(fixture);
+
+        expect(getInput(fixture).value).toBe('');
+        expect(component.timeControl?.valid).toBeTrue();
+      }));
+
+      it('should not error when a valid string value is set programmatically', fakeAsync(() => {
+        detectChangesAndTick(fixture);
+
+        component.timeControl?.setValue('2:55 AM');
+        detectChangesAndTick(fixture);
+
+        expect(getInput(fixture).value).toBe('2:55 AM');
+        expect(component.timeControl?.valid).toBeTrue();
+      }));
+    });
   });
 
   describe('inside input box', () => {

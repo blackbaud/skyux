@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyDescriptionListModule } from '@skyux/layout';
+import { SkyTabsModule } from '@skyux/tabs';
 
 import { DescriptionListRoutingModule } from './description-list-routing.module';
 import { DescriptionListComponent } from './description-list.component';
@@ -11,6 +12,7 @@ import { DescriptionListComponent } from './description-list.component';
     DescriptionListRoutingModule,
     SkyDescriptionListModule,
     SkyHelpInlineModule,
+    SkyTabsModule,
   ],
 })
 export class DescriptionListModule {

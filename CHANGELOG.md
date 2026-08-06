@@ -1,6 +1,36 @@
 # Changelog
 
 
+## [14.11.0](https://github.com/blackbaud/skyux/compare/14.10.0...14.11.0) (2026-08-05)
+
+
+### Features
+
+* **components/config:** add respectedPreferences to theming config ([#4591](https://github.com/blackbaud/skyux/issues/4591)) ([5b7c135](https://github.com/blackbaud/skyux/commit/5b7c1359cd7b9b69a68a01449c8b209882a369e1))
+
+## [14.10.0](https://github.com/blackbaud/skyux/compare/14.9.2...14.10.0) (2026-08-05)
+
+
+### Features
+
+* **components/datetime:** add skyTimepickerRetainInvalidValues to keep invalid timepicker entries ([#4566](https://github.com/blackbaud/skyux/issues/4566)) ([35dee33](https://github.com/blackbaud/skyux/commit/35dee339380ea576078e3213426c38d563de86d7)), closes [AB#3955926](https://dev.azure.com/blackbaud/Products/_workitems/edit/3955926)
+* **components/theme:** scrollbar colors are styled with the visual theme ([#4585](https://github.com/blackbaud/skyux/issues/4585)) ([db3bc67](https://github.com/blackbaud/skyux/commit/db3bc6772495798f907e2a8c990fd12377649756))
+
+
+### Bug Fixes
+
+* **components/packages:** decide SkyGridModule swap from associated templates in convert-grid-to-data-grid ([#4588](https://github.com/blackbaud/skyux/issues/4588)) ([48730c5](https://github.com/blackbaud/skyux/commit/48730c5b0b73bb12a06086c0a1e0d0d83cca157c)), closes [AB#4078208](https://dev.azure.com/blackbaud/Products/_workitems/edit/4078208)
+
+## [14.9.2](https://github.com/blackbaud/skyux/compare/14.9.1...14.9.2) (2026-08-04)
+
+
+### Bug Fixes
+
+* **components/forms:** select input options are properly styled ([#4557](https://github.com/blackbaud/skyux/issues/4557)) ([83b4726](https://github.com/blackbaud/skyux/commit/83b4726a8c624fe572c98c054895c977cb8c7ab3))
+* **components/layout:** recalculate description list responsive layout on container resize ([#4570](https://github.com/blackbaud/skyux/issues/4570)) ([ef91639](https://github.com/blackbaud/skyux/commit/ef91639e6619eb2770273c029933943cc4f89dc4)), closes [AB#4074075](https://dev.azure.com/blackbaud/Products/_workitems/edit/4074075)
+* **components/packages:** skip sky-grid-column nested in sky-list-view-grid ([#4562](https://github.com/blackbaud/skyux/issues/4562)) ([5ec40e1](https://github.com/blackbaud/skyux/commit/5ec40e16310e38af572bfb0c5ea475d4ebc59dc1)), closes [AB#4074210](https://dev.azure.com/blackbaud/Products/_workitems/edit/4074210)
+* rename docs groups to match docs URL slugs ([#4571](https://github.com/blackbaud/skyux/issues/4571)) ([f964ee4](https://github.com/blackbaud/skyux/commit/f964ee4cd8a74626bb3fcaebddb2cf59e1aa5453))
+
 ## [14.9.1](https://github.com/blackbaud/skyux/compare/14.9.0...14.9.1) (2026-07-31)
 
 

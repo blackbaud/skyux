@@ -1,6 +1,7 @@
 import {
   getElementsByTagName,
   getText,
+  hasAncestorTag,
   isParentNode,
   parseTemplate,
   swapAttributes,
@@ -145,5 +146,25 @@ describe('template', () => {
     expect(() => getText(multipleDivElement.childNodes)).toThrow(
       'The element contains additional markup that cannot be processed.',
     );
+  });
+
+  it('should detect an ancestor tag', () => {
+    const template = `<sky-list-view-grid><sky-grid-column id="nested"></sky-grid-column></sky-list-view-grid><sky-grid-column id="sibling"></sky-grid-column>`;
+    const parsed = parseTemplate(template);
+    const columns = getElementsByTagName('sky-grid-column', parsed);
+    expect(columns).toHaveLength(2);
+    const nested = columns.find((column) =>
+      column.attrs.some(
+        (attr) => attr.name === 'id' && attr.value === 'nested',
+      ),
+    )!;
+    const sibling = columns.find((column) =>
+      column.attrs.some(
+        (attr) => attr.name === 'id' && attr.value === 'sibling',
+      ),
+    )!;
+    expect(hasAncestorTag(nested, 'sky-list-view-grid')).toBe(true);
+    expect(hasAncestorTag(sibling, 'sky-list-view-grid')).toBe(false);
+    expect(hasAncestorTag(nested, 'sky-grid')).toBe(false);
   });
 });
