@@ -78,4 +78,38 @@ describe('remove-class-reference', () => {
       `import { SkyGridModule } from 'module';\n\nconst config = makeConfig({\n  imports: [SkyGridModule],\n});\n\n@Component({\n  imports: [],\n})\nclass Test {}`,
     );
   });
+
+  it('should return whether the import was removed', () => {
+    function runReturning(path: string, content: string): boolean {
+      tree.create(path, content);
+      const sourceFile = ts.createSourceFile(
+        path,
+        content,
+        ts.ScriptTarget.Latest,
+        true,
+      );
+      const recorder = tree.beginUpdate(path);
+      const removed = removeClassReference(
+        recorder,
+        sourceFile,
+        'SkyGridModule',
+        'module',
+      );
+      tree.commitUpdate(recorder);
+      return removed;
+    }
+
+    expect(
+      runReturning(
+        'removed.ts',
+        `import { SkyGridModule } from 'module';\n\n@Component({\n  imports: [SkyGridModule],\n})\nclass Test {}`,
+      ),
+    ).toBe(true);
+    expect(
+      runReturning(
+        'kept.ts',
+        `import { SkyGridModule } from 'module';\n\nconst mod = SkyGridModule;`,
+      ),
+    ).toBe(false);
+  });
 });
