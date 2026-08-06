@@ -338,29 +338,37 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
     await waitForResizePosition();
     await waitForScrollVisibleServiceToSettle(gridWrapperFixture);
 
+    const header = gridWrapperNativeElement.querySelector(
+      '.ag-header',
+    ) as HTMLElement;
     const scrollbar = gridWrapperNativeElement.querySelector(
       '.ag-body-horizontal-scroll',
+    ) as HTMLElement;
+    const pinnedTop = gridWrapperNativeElement.querySelector(
+      '.ag-grid-pinned-top-rows',
     ) as HTMLElement;
     const skyAgGridDiv = gridWrapperNativeElement.querySelector(
       '.sky-ag-grid',
     ) as HTMLElement;
 
+    // Simulate AG Grid classifying the scrollbar as overlay/auto-hiding.
+    scrollbar.classList.add('ag-scrollbar-invisible');
     // Make the separator token unparseable so the numeric fallback engages.
     skyAgGridDiv.style.setProperty(
       '--sky-ag-grid-header-row-border-width',
       'not-a-length',
     );
-    // Simulate AG Grid classifying the scrollbar as overlay/auto-hiding, with
-    // a size change so the component's resize observer re-emits.
-    scrollbar.classList.add('ag-scrollbar-invisible');
-    scrollbar.style.height = '17px';
-    scrollbar.style.maxHeight = '17px';
-    scrollbar.style.minHeight = '17px';
-    // Fire a tracked grid event so the apply subscription re-runs even when
-    // the observed values were already at their final states.
+    // Toggling the scrollbar's class/size alone doesn't reliably re-run the
+    // apply subscription: on environments where the scrollbar is already
+    // invisible (e.g. macOS with auto-hiding scrollbars), the mapped
+    // reservation value never changes, so the resize observer's
+    // `distinctUntilChanged` swallows the "change". A real header-height
+    // change always gets through (see the header-height-changed spec below),
+    // so use that to force the re-run instead.
+    const initialHeaderHeight = header.offsetHeight;
     gridWrapperFixture.componentInstance
       .agGrid()
-      ?.api.setGridOption('rowData', [...SKY_AG_GRID_DATA]);
+      ?.api.setGridOption('headerHeight', initialHeaderHeight + 50);
 
     gridWrapperFixture.detectChanges();
     await gridWrapperFixture.whenStable();
@@ -370,6 +378,18 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
     expect(
       skyAgGridDiv.style.getPropertyValue('--sky-ag-grid-top-scroll-height'),
     ).toEqual('0px');
+    // The unparseable border token falls back to 0, so the header-rows
+    // height is exactly the measured header rows plus the (zero)
+    // reservations for both the border and the scrollbar.
+    const headerRowsHeight = Array.from(
+      header.querySelectorAll<HTMLElement>(':scope > .ag-header-row'),
+    ).reduce((max, row) => Math.max(max, row.offsetTop + row.offsetHeight), 0);
+    expect(
+      skyAgGridDiv.style.getPropertyValue('--sky-ag-grid-header-rows-height'),
+    ).toEqual(`${headerRowsHeight}px`);
+    expect(pinnedTop.style.getPropertyValue('--ag-header-rows-height')).toEqual(
+      `${headerRowsHeight}px`,
+    );
   });
 
   it('should not touch the horizontal scroll position when enableTopScroll is false', async () => {
