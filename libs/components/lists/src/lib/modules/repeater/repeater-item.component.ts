@@ -17,9 +17,15 @@ import {
   TemplateRef,
   ViewChild,
   ViewEncapsulation,
+  computed,
   inject,
+  signal,
 } from '@angular/core';
-import { SkyContentInfoProvider, SkyIdService } from '@skyux/core';
+import {
+  SkyContentInfoProvider,
+  SkyIdService,
+  SkyLogService,
+} from '@skyux/core';
 import { SkyCheckboxChange } from '@skyux/forms';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import {
@@ -58,10 +64,15 @@ export class SkyRepeaterItemComponent
    * Make the first, non-disabled item tab-focusable in a selectable repeater.
    * - Disabled items should not be focusable per [W3C](https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/#focusabilityofdisabledcontrols).
    * - One item per grid should be tab focusable per [W3C](https://www.w3.org/WAI/ARIA/apg/patterns/grid/).
+   * - In a single-select repeater, the tab-focusable item is the selected item, or the
+   * first non-disabled item when nothing is selected, per [W3C](https://www.w3.org/WAI/ARIA/apg/patterns/listbox/).
    */
   public get tabindex(): 0 | -1 {
+    if (this.#repeaterService.selectionMode() === 'single') {
+      return this.#singleSelectTabbableItem() === this ? 0 : -1;
+    }
     return this.#repeaterService.items.find(
-      (item) => !item.disabled && this.selectable,
+      (item) => !item.disabled && this.showCheckbox(),
     ) === this
       ? 0
       : -1;
@@ -72,12 +83,15 @@ export class SkyRepeaterItemComponent
    */
   @Input()
   public set disabled(value: boolean | undefined) {
-    if (this.#_isDisabled !== value) {
+    if (this.#_isDisabled() !== value) {
       if (value) {
+        // Deselect before setting the disabled flag; the `isSelected` setter
+        // rejects changes once `disabled` is `true`, so this ordering is what
+        // keeps a disabled item from remaining selected.
         this.isSelected = false;
-        this.#_isDisabled = true;
+        this.#_isDisabled.set(true);
       } else {
-        this.#_isDisabled = false;
+        this.#_isDisabled.set(false);
       }
       if (this.isActive) {
         this.#repeaterService.activateItemByIndex(undefined);
@@ -89,7 +103,7 @@ export class SkyRepeaterItemComponent
     }
   }
   public get disabled(): boolean | undefined {
-    return this.#_isDisabled;
+    return this.#_isDisabled();
   }
 
   /**
@@ -139,21 +153,60 @@ export class SkyRepeaterItemComponent
   }
 
   /**
-   * Whether the repeater item's checkbox is selected.
+   * Whether the repeater item is selected, either via its own checkbox or via the
+   * repeater's `selectionMode` property.
    * When users select the repeater item, the specified property on your model is updated accordingly.
    * @default false
    */
   @Input()
   public set isSelected(value: boolean | undefined) {
-    if (!this.disabled && value !== this.#_isSelected) {
-      this.#_isSelected = value;
-      this.isSelectedChange.emit(this.#_isSelected);
+    if (!this.disabled && value !== this.#_isSelected()) {
+      this.#_isSelected.set(value);
+      this.isSelectedChange.emit(value);
+      this.#repeaterService.onItemSelectStateChange(this);
     }
   }
 
   public get isSelected(): boolean | undefined {
-    return this.#_isSelected;
+    return this.#_isSelected();
   }
+
+  /**
+   * The `aria-selected` value to render for this item. In a single-select repeater,
+   * every item receives `true` or `false` since the item's role is `option`, which
+   * requires `aria-selected` to be explicitly set on all options.
+   */
+  protected readonly ariaSelected = computed<boolean | undefined>(() => {
+    if (this.isSelectionModeSingle()) {
+      return !!this.#_isSelected();
+    }
+    return this.showCheckbox() ? !!this.#_isSelected() : undefined;
+  });
+
+  protected readonly isSelectionModeSingle = computed(
+    () => this.#repeaterService.selectionMode() === 'single',
+  );
+
+  /**
+   * Whether to render a selection checkbox for this item, either via the repeater's
+   * `selectionMode` property set to `multiple` or via the item's deprecated
+   * `selectable` property.
+   */
+  protected readonly showCheckbox = computed(
+    () =>
+      !!this.#_selectable() ||
+      this.#repeaterService.selectionMode() === 'multiple',
+  );
+
+  /**
+   * The `aria-disabled` value to render for this item. In a single-select repeater,
+   * the item's row is the entire selection control (there is no separate checkbox), so it
+   * needs its own ARIA-equivalent indication that it cannot be selected. Multi-select items
+   * convey this via the checkbox's own `disabled` state instead.
+   */
+  protected readonly ariaDisabled = computed<true | undefined>(() =>
+    this.isSelectionModeSingle() && this.#_isDisabled() ? true : undefined,
+  );
 
   /**
    * Whether users can change the order of the repeater item.
@@ -164,10 +217,26 @@ export class SkyRepeaterItemComponent
   public reorderable: boolean | undefined = false;
 
   /**
-   * Whether to display a checkbox in the left of the repeater item.
+   * Whether to display a checkbox in the left of the repeater item. This property
+   * never displays a checkbox when the repeater's `selectionMode` property is set
+   * to `single`.
+   * @deprecated Set the repeater's `selectionMode` property to `multiple` instead.
    */
   @Input()
-  public selectable: boolean | undefined = false;
+  public set selectable(value: boolean | undefined) {
+    if (value && !this.#selectableDeprecationWarned) {
+      this.#selectableDeprecationWarned = true;
+      this.#logSvc.deprecated('SkyRepeaterItemComponent.selectable', {
+        deprecationMajorVersion: 15,
+        replacementRecommendation:
+          "Set the repeater's `selectionMode` property to `multiple` instead.",
+      });
+    }
+    this.#_selectable.set(value);
+  }
+  public get selectable(): boolean | undefined {
+    return this.#_selectable();
+  }
 
   /**
    * Whether to display an inline form within the repeater.
@@ -276,9 +345,11 @@ export class SkyRepeaterItemComponent
   readonly #changeDetector = inject(ChangeDetectorRef);
   #contentInfoProvider = inject(SkyContentInfoProvider);
   readonly #elementRef = inject(ElementRef);
+  readonly #logSvc = inject(SkyLogService);
   #isExpanded = true;
   #keyboardReorderingEnabled = false;
   #ngUnsubscribe = new Subject<void>();
+  #selectableDeprecationWarned = false;
   #reorderCancelText = '';
   #reorderCurrentIndex = -1;
   #reorderFinishText = '';
@@ -290,9 +361,10 @@ export class SkyRepeaterItemComponent
   readonly #resourceService = inject(SkyLibResourcesService);
   #titleComponent: ElementRef | undefined;
   #_isCollapsible = true;
-  #_isDisabled: boolean | undefined = false;
-  #_isSelected: boolean | undefined;
+  readonly #_isDisabled = signal<boolean | undefined>(false);
+  readonly #_isSelected = signal<boolean | undefined>(undefined);
   #_itemName: string | undefined;
+  readonly #_selectable = signal<boolean | undefined>(false);
 
   readonly #idSvc = inject(SkyIdService);
 
@@ -372,7 +444,9 @@ export class SkyRepeaterItemComponent
       let activateItem: SkyRepeaterItemComponent | undefined = undefined;
       /* istanbul ignore else */
       if ([' ', 'Enter'].includes($event.key)) {
-        if (this.selectable) {
+        if (this.isSelectionModeSingle()) {
+          this.isSelected = true;
+        } else if (this.showCheckbox()) {
           this.isSelected = !this.isSelected;
         }
         // eslint-disable-next-line @typescript-eslint/no-this-alias
@@ -459,14 +533,7 @@ export class SkyRepeaterItemComponent
       if (this.#isEventTargetInteractiveElement(event)) {
         return;
       }
-      if (
-        this.selectable &&
-        (event.target as HTMLElement).matches(
-          '.sky-repeater-item, .sky-repeater-item-right, sky-repeater-item-content',
-        )
-      ) {
-        this.isSelected = !this.isSelected;
-      }
+      this.#selectOnClick(event);
     }
   }
 
@@ -570,6 +637,34 @@ export class SkyRepeaterItemComponent
     this.#revertReorderSteps();
     this.reorderButtonLabel = this.#reorderInstructions;
     this.reorderState = undefined;
+  }
+
+  #isEventTargetWithinInteractiveDescendant($event: Event): boolean {
+    return !!($event.target as HTMLElement).closest(
+      'button, a[href], input, textarea, select, label, [contenteditable], sky-dropdown',
+    );
+  }
+
+  #selectOnClick(event: MouseEvent): void {
+    if (this.isSelectionModeSingle()) {
+      if (!this.#isEventTargetWithinInteractiveDescendant(event)) {
+        this.isSelected = true;
+      }
+    } else if (
+      this.showCheckbox() &&
+      (event.target as HTMLElement).matches(
+        '.sky-repeater-item, .sky-repeater-item-right, sky-repeater-item-content',
+      )
+    ) {
+      this.isSelected = !this.isSelected;
+    }
+  }
+
+  #singleSelectTabbableItem(): SkyRepeaterItemComponent | undefined {
+    const enabledItems = this.#repeaterService.items.filter(
+      (item) => !item.disabled,
+    );
+    return enabledItems.find((item) => item.isSelected) ?? enabledItems[0];
   }
 
   #isEventTargetInteractiveElement($event: Event): boolean {

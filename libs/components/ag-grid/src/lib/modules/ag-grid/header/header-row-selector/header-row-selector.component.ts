@@ -4,6 +4,7 @@ import {
   DestroyRef,
   RendererFactory2,
   computed,
+  effect,
   inject,
   model,
   signal,
@@ -11,10 +12,12 @@ import {
 import { SkyCheckboxChange, SkyCheckboxModule } from '@skyux/forms';
 
 import { IHeaderAngularComp } from 'ag-grid-angular';
-import { GridApi, IHeaderParams } from 'ag-grid-community';
+import {
+  GridApi,
+  IHeaderParams,
+  SelectionChangedEvent,
+} from 'ag-grid-community';
 import { Subscription } from 'rxjs';
-
-import { fromGridEvent } from '../../ag-grid-event-utils';
 
 @Component({
   selector: 'sky-ag-grid-row-selector-header',
@@ -31,7 +34,12 @@ export class SkyAgGridHeaderRowSelectorComponent implements IHeaderAngularComp {
   protected readonly checked = model(false);
   protected readonly indeterminate = signal(false);
   protected readonly multiSelect = signal(false);
-  protected readonly params = signal<IHeaderParams | undefined>(undefined);
+  protected readonly params = signal<IHeaderParams | undefined>(undefined, {
+    // Treat every `agInit()` call as a change (even if the params reference
+    // is reused) so the grid-event listener effects below always tear down
+    // and reattach rather than being skipped due to signal equality.
+    equal: () => false,
+  });
   protected readonly label = computed(() => {
     const params = this.params();
     return params?.displayName || params?.column.getColDef().field;
@@ -43,6 +51,46 @@ export class SkyAgGridHeaderRowSelectorComponent implements IHeaderAngularComp {
 
   constructor() {
     inject(DestroyRef).onDestroy(() => this.#subscriptions.unsubscribe());
+
+    // Selection changes, for multi-select grids.
+    effect((onCleanup) => {
+      const api = this.params()?.api;
+      if (!api || !this.multiSelect()) {
+        return;
+      }
+      const handler = (change: SelectionChangedEvent): void => {
+        if (api.isDestroyed()) {
+          return;
+        }
+        if (change.source.match(/selectall/i)) {
+          // Either select all or clear selection.
+          this.indeterminate.set(false);
+          this.checked.set(!!change.selectedNodes?.length);
+        } else {
+          this.indeterminate.set(!!change.selectedNodes?.length);
+          this.checked.set(false);
+        }
+      };
+      api.addEventListener('selectionChanged', handler);
+      onCleanup(() => api.removeEventListener('selectionChanged', handler));
+    });
+
+    // Clear selection state when row data is replaced, for multi-select grids.
+    effect((onCleanup) => {
+      const api = this.params()?.api;
+      if (!api || !this.multiSelect()) {
+        return;
+      }
+      const handler = (): void => {
+        if (api.isDestroyed()) {
+          return;
+        }
+        this.indeterminate.set(!!api.getSelectedNodes().length);
+        this.checked.set(false);
+      };
+      api.addEventListener('rowDataUpdated', handler);
+      onCleanup(() => api.removeEventListener('rowDataUpdated', handler));
+    });
   }
 
   public agInit(params: IHeaderParams): void {
@@ -60,26 +108,6 @@ export class SkyAgGridHeaderRowSelectorComponent implements IHeaderAngularComp {
     );
 
     if (this.multiSelect()) {
-      this.#subscriptions.add(
-        fromGridEvent(params.api, 'selectionChanged').subscribe((change) => {
-          if (change.source.match(/selectall/i)) {
-            // Either select all or clear selection.
-            this.indeterminate.set(false);
-            this.checked.set(!!change.selectedNodes?.length);
-          } else {
-            this.indeterminate.set(!!change.selectedNodes?.length);
-            this.checked.set(false);
-          }
-        }),
-      );
-
-      this.#subscriptions.add(
-        fromGridEvent(params.api, 'rowDataUpdated').subscribe(() => {
-          this.indeterminate.set(!!this.#api?.getSelectedNodes().length);
-          this.checked.set(false);
-        }),
-      );
-
       const el = params.eGridHeader;
       if (el) {
         this.#renderer.setAttribute(el, 'aria-keyshortcuts', 'Enter Space');

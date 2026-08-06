@@ -21,6 +21,7 @@ describe('SkyAgGridHeaderRowSelectorComponent', () => {
       | 'deselectAll'
       | 'getGridOption'
       | 'getSelectedNodes'
+      | 'isDestroyed'
       | 'removeEventListener'
       | 'selectAll'
     >
@@ -35,9 +36,11 @@ describe('SkyAgGridHeaderRowSelectorComponent', () => {
       'deselectAll',
       'getGridOption',
       'getSelectedNodes',
+      'isDestroyed',
       'removeEventListener',
       'selectAll',
     ]);
+    api.isDestroyed.and.returnValue(false);
   });
 
   it('should show checkbox and select all / deselect all', async () => {

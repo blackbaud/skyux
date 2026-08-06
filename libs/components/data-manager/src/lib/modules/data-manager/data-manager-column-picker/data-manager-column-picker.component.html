@@ -7,10 +7,9 @@
       <sky-data-manager-toolbar />
 
       <sky-data-view [viewId]="viewConfig.id">
-        <sky-repeater expandMode="none">
+        <sky-repeater expandMode="none" selectionMode="multiple">
           @for (column of displayedColumnData; track column.id) {
             <sky-repeater-item
-              [selectable]="true"
               [(isSelected)]="column.isSelected"
               (isSelectedChange)="onIsSelectedChange()"
             >

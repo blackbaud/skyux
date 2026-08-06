@@ -100,7 +100,8 @@
           "SkyRepeaterItemTitleComponent",
           "SkyRepeaterItemContentComponent",
           "SkyRepeaterItemContextMenuComponent",
-          "SkyRepeaterExpandModeType"
+          "SkyRepeaterExpandModeType",
+          "SkyRepeaterSelectionModeType"
         ],
         "primaryDocsId": "SkyRepeaterModule"
       },
