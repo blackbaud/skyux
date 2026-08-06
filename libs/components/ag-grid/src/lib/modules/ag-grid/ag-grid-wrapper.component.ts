@@ -196,6 +196,8 @@ export class SkyAgGridWrapperComponent
   // immediate reapply.
   readonly #reapplyHorizontalScrollPosition$ = new Subject<void>();
 
+  #reservedTopScrollHeight: number | undefined;
+
   public readonly wrapperClasses = computed(() => {
     const hasEditableClass = this.#hasEditableClass();
     const isCompact = this.compact();
@@ -423,13 +425,45 @@ export class SkyAgGridWrapperComponent
       shareReplay({ bufferSize: 1, refCount: true }),
     );
 
-    const headerHeight$ = elements$.pipe(
+    const headerRowsHeight$ = elements$.pipe(
       // Only re-subscribe the resize observer when AG Grid actually swaps in
       // a new header element, not on every tracked event above.
       distinctUntilChanged((a, b) => a.header === b.header),
       switchMap((els) =>
         this.#resizeObserverSvc.observe(new ElementRef(els.header)).pipe(
-          map(() => els.header.offsetHeight),
+          // `.ag-header`'s inline height includes the theme's headerRowBorder,
+          // which this component inflates to reserve scrollbar space - so
+          // measure the header rows themselves to avoid double-counting.
+          map(() =>
+            Array.from(
+              els.header.querySelectorAll<HTMLElement>(
+                ':scope > .ag-header-row',
+              ),
+            ).reduce(
+              (max, row) => Math.max(max, row.offsetTop + row.offsetHeight),
+              0,
+            ),
+          ),
+          distinctUntilChanged(),
+        ),
+      ),
+    );
+
+    const scrollbarHeight$ = elements$.pipe(
+      distinctUntilChanged((a, b) => a.scrollbar === b.scrollbar),
+      switchMap((els) =>
+        // AG Grid applies the scrollbar's inline height in a debounced task
+        // after the grid events above have fired, so the height has to be
+        // observed rather than read at event time.
+        this.#resizeObserverSvc.observe(new ElementRef(els.scrollbar)).pipe(
+          // Overlay/auto-hiding scrollbars float above content and need no
+          // extra space - and AG Grid gives them a nonzero inline height, so
+          // the class check is required.
+          map(() =>
+            els.scrollbar.classList.contains('ag-scrollbar-invisible')
+              ? 0
+              : els.scrollbar.offsetHeight,
+          ),
           distinctUntilChanged(),
         ),
       ),
@@ -437,29 +471,80 @@ export class SkyAgGridWrapperComponent
 
     elements$
       .pipe(
-        // Reapply on every tracked event (using the latest known header
-        // height) even when the height itself hasn't changed, so AG Grid's
+        // Reapply on every tracked event (using the latest known heights)
+        // even when the heights themselves haven't changed, so AG Grid's
         // own resets of the scrollbar's inline style (e.g. on
         // `gridSizeChanged`) get corrected right away.
-        combineLatestWith(headerHeight$),
+        combineLatestWith(headerRowsHeight$, scrollbarHeight$),
         takeUntilDestroyed(this.#destroyRef),
       )
-      .subscribe(([{ scrollbar, pinnedTopRows }, headerHeight]) => {
-        scrollbar.style.removeProperty('bottom');
-        scrollbar.style.top = `${headerHeight}px`;
+      .subscribe(
+        ([{ header, pinnedTopRows }, headerRowsHeight, scrollbarHeight]) => {
+          // The theme's headerRowBorder width includes this variable, which
+          // reserves room below the header inside AG Grid's own geometry
+          // (pinned/sticky row offsets, body viewport height, fake scrollbar
+          // spacers). Both variables live on the SKY-owned wrapper div - the
+          // scrollbar is positioned from them in CSS - so AG Grid recreating
+          // or restyling its own elements never loses the values.
+          const skyAgGridDiv = this.skyAgGridDiv()?.nativeElement;
+          skyAgGridDiv?.style.setProperty(
+            '--sky-ag-grid-top-scroll-height',
+            `${scrollbarHeight}px`,
+          );
 
-        // Overlay/auto-hiding scrollbars float above content and need no
-        // extra space. Classic/always-visible scrollbars need the pinned-top
-        // section to reserve room below the header, or the now-absolutely
-        // positioned scrollbar would overlap the scrolling row content.
-        if (!scrollbar.classList.contains('ag-scrollbar-invisible')) {
-          const scrollbarHeight = parseFloat(scrollbar.style.height) || 0;
+          // The painted border is pinned to the un-inflated separator width
+          // (see `_base.scss`), so the full headerRowBorder AG Grid measures
+          // is that separator width plus the reservation.
+          const separatorWidth =
+            parseFloat(
+              getComputedStyle(header).getPropertyValue(
+                '--sky-ag-grid-header-row-border-width',
+              ),
+            ) || 0;
+          const headerRowsHeightWithBorder =
+            headerRowsHeight + separatorWidth + scrollbarHeight;
+
+          skyAgGridDiv?.style.setProperty(
+            '--sky-ag-grid-header-rows-height',
+            `${headerRowsHeightWithBorder}px`,
+          );
+
+          // AG Grid skips rewriting this when only the border width changed,
+          // and on genuine header-height changes writes this same value - so
+          // whichever writes last the result is identical. (`.ag-header`'s own
+          // inline height is left to AG Grid: writing it here would freeze the
+          // resize observer above.)
           pinnedTopRows.style.setProperty(
             '--ag-header-rows-height',
-            `${headerHeight + scrollbarHeight}px`,
+            `${headerRowsHeightWithBorder}px`,
           );
+
+          if (this.#reservedTopScrollHeight !== scrollbarHeight) {
+            this.#reservedTopScrollHeight = scrollbarHeight;
+            this.#nudgeHeaderGeometry();
+          }
+        },
+      );
+  }
+
+  /**
+   * AG Grid skips its header geometry refresh when only the theme's
+   * `headerRowBorder` width changes (its guard compares header row heights
+   * without the border), leaving pinned/sticky row offsets and the fake
+   * scrollbar spacers unaware of the reserved space. `headerHeightChanged` is
+   * the event that re-runs exactly those consumers. The dispatch is deferred
+   * one frame plus a task so AG Grid's own border-width measurement (refreshed
+   * by its ResizeObserver) is current when they re-read it.
+   */
+  #nudgeHeaderGeometry(): void {
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        const api = this.#agGridApi();
+        if (api && !api.isDestroyed()) {
+          api.dispatchEvent({ type: 'headerHeightChanged' });
         }
       });
+    });
   }
 
   #getTextSelection(hasEditableClass: boolean): boolean {
