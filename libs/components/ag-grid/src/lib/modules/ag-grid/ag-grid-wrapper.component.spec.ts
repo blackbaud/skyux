@@ -328,7 +328,47 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
     );
   });
 
-  it('should reserve no space for overlay scrollbars and tolerate an unparseable border token', async () => {
+  it('should reserve no space for overlay scrollbars', async () => {
+    TestBed.overrideProvider(EnableTopScroll, { useValue: true });
+    gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+    gridWrapperNativeElement = gridWrapperFixture.nativeElement;
+
+    gridWrapperFixture.detectChanges();
+    await gridWrapperFixture.whenStable();
+    await waitForResizePosition();
+    await waitForScrollVisibleServiceToSettle(gridWrapperFixture);
+
+    const scrollbar = gridWrapperNativeElement.querySelector(
+      '.ag-body-horizontal-scroll',
+    ) as HTMLElement;
+    const skyAgGridDiv = gridWrapperNativeElement.querySelector(
+      '.sky-ag-grid',
+    ) as HTMLElement;
+
+    // Simulate AG Grid classifying the scrollbar as overlay/auto-hiding, with
+    // a size change on the scrollbar itself (rather than the header) so the
+    // component's own resize observer on the scrollbar re-emits without
+    // going through AG Grid's `headerHeight` path, which would make AG
+    // Grid's `ScrollVisibleService` re-derive (and on classic-scrollbar
+    // environments, undo) this simulated class.
+    scrollbar.classList.add('ag-scrollbar-invisible');
+    scrollbar.style.height = '17px';
+    scrollbar.style.maxHeight = '17px';
+    scrollbar.style.minHeight = '17px';
+
+    gridWrapperFixture.detectChanges();
+    await gridWrapperFixture.whenStable();
+    await waitForResizePosition();
+
+    // Overlay scrollbars float above the rows and reserve no space - true
+    // whether this state was just simulated (classic-scrollbar environments)
+    // or already the case naturally (auto-hiding-scrollbar environments).
+    expect(
+      skyAgGridDiv.style.getPropertyValue('--sky-ag-grid-top-scroll-height'),
+    ).toEqual('0px');
+  });
+
+  it('should tolerate an unparseable border token', async () => {
     TestBed.overrideProvider(EnableTopScroll, { useValue: true });
     gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
     gridWrapperNativeElement = gridWrapperFixture.nativeElement;
@@ -351,20 +391,15 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
       '.sky-ag-grid',
     ) as HTMLElement;
 
-    // Simulate AG Grid classifying the scrollbar as overlay/auto-hiding.
-    scrollbar.classList.add('ag-scrollbar-invisible');
     // Make the separator token unparseable so the numeric fallback engages.
     skyAgGridDiv.style.setProperty(
       '--sky-ag-grid-header-row-border-width',
       'not-a-length',
     );
-    // Toggling the scrollbar's class/size alone doesn't reliably re-run the
-    // apply subscription: on environments where the scrollbar is already
-    // invisible (e.g. macOS with auto-hiding scrollbars), the mapped
-    // reservation value never changes, so the resize observer's
-    // `distinctUntilChanged` swallows the "change". A real header-height
-    // change always gets through (see the header-height-changed spec below),
-    // so use that to force the re-run instead.
+    // A real header-height change reliably re-runs the apply subscription
+    // regardless of scrollbar rendering mode - unlike toggling the
+    // scrollbar's own visibility (see the overlay-scrollbar spec above),
+    // which is a no-op on environments where it's already in that state.
     const initialHeaderHeight = header.offsetHeight;
     gridWrapperFixture.componentInstance
       .agGrid()
@@ -374,21 +409,20 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
     await gridWrapperFixture.whenStable();
     await waitForResizePosition();
 
-    // Overlay scrollbars float above the rows and reserve no space.
-    expect(
-      skyAgGridDiv.style.getPropertyValue('--sky-ag-grid-top-scroll-height'),
-    ).toEqual('0px');
     // The unparseable border token falls back to 0, so the header-rows
-    // height is exactly the measured header rows plus the (zero)
-    // reservations for both the border and the scrollbar.
+    // height is exactly the measured header rows plus whatever scrollbar
+    // reservation this environment naturally renders (classic or overlay).
+    const reserved = scrollbar.classList.contains('ag-scrollbar-invisible')
+      ? 0
+      : scrollbar.offsetHeight;
     const headerRowsHeight = Array.from(
       header.querySelectorAll<HTMLElement>(':scope > .ag-header-row'),
     ).reduce((max, row) => Math.max(max, row.offsetTop + row.offsetHeight), 0);
     expect(
       skyAgGridDiv.style.getPropertyValue('--sky-ag-grid-header-rows-height'),
-    ).toEqual(`${headerRowsHeight}px`);
+    ).toEqual(`${headerRowsHeight + reserved}px`);
     expect(pinnedTop.style.getPropertyValue('--ag-header-rows-height')).toEqual(
-      `${headerRowsHeight}px`,
+      `${headerRowsHeight + reserved}px`,
     );
   });
 
