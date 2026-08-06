@@ -6,9 +6,9 @@ import {
   UpdateRecorder,
   chain,
 } from '@angular-devkit/schematics';
-import ts from 'typescript';
 import { ExistingBehavior, addDependency } from '@schematics/angular/utility';
 import { findNodes } from '@schematics/angular/utility/ast-utils';
+import ts from 'typescript';
 
 import { logOnce } from '../../utility/log-once';
 import {
