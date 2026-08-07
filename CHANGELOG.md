@@ -6,6 +6,7 @@
 
 ### Bug Fixes
 
+* **components/indicators:** spot illustration reflects dark mode and branding styles ([#4599](https://github.com/blackbaud/skyux/issues/4599)) ([c80de19](https://github.com/blackbaud/skyux/commit/c80de195af957667ba9600de8ad866c3c338b31e))
 * **components/packages:** add SkyDataGrid/SkyDataGridColumn to NgModule imports when only exports referenced SkyGridModule in convert-grid-to-data-grid ([#4600](https://github.com/blackbaud/skyux/issues/4600)) ([f1582d0](https://github.com/blackbaud/skyux/commit/f1582d096e3f4123199beef5b0438b0e6159a349))
 
 ## [14.11.0](https://github.com/blackbaud/skyux/compare/14.10.0...14.11.0) (2026-08-05)
