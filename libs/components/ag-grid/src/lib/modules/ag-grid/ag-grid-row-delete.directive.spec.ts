@@ -29,6 +29,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     stackingContextZIndex?: number;
     hideFirstColumn?: boolean;
     withRouter?: boolean;
+    clipPath$?: Observable<string>;
   }): void {
     TestBed.configureTestingModule({
       imports: [SkyAgGridRowDeleteFixtureComponent],
@@ -49,7 +50,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
               .and.returnValue(new Observable()),
             watchScrollableHostClipPathChanges: jasmine
               .createSpy('watchScrollableHostClipPathChanges')
-              .and.returnValue(of('none')),
+              .and.returnValue(options?.clipPath$ ?? of('none')),
           },
         },
         ...(options?.withRouter
@@ -73,7 +74,8 @@ describe('SkyAgGridRowDeleteDirective', () => {
 
   afterEach(() => {
     (
-      TestBed.inject(SKY_STACKING_CONTEXT)?.zIndex as BehaviorSubject<number>
+      TestBed.inject(SKY_STACKING_CONTEXT, undefined, { optional: true })
+        ?.zIndex as BehaviorSubject<number>
     )?.complete();
     fixture.destroy();
   });
@@ -225,6 +227,76 @@ describe('SkyAgGridRowDeleteDirective', () => {
       document.querySelector<HTMLElement>('sky-overlay > .sky-overlay')?.style
         .clipPath,
     ).not.toBeNull();
+  });
+
+  it('should remove fully clipped inline delete buttons from the tab order', async () => {
+    const clipPath$ = new BehaviorSubject('none');
+    setupTest({ clipPath$ });
+    await fixture.whenStable();
+
+    fixture.componentInstance.rowDeleteIds.set(['0']);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const deleteButton = document.querySelectorAll(
+      '.sky-inline-delete-button',
+    )[0] as HTMLElement;
+    expect(deleteButton).not.toBeNull();
+    expect(deleteButton.closest('[inert]')).toBeNull();
+
+    // Simulate the row scrolling entirely behind the sticky header by
+    // pushing a clip-path whose visible region starts below the row's
+    // overlay, the same way `watchScrollableHostClipPathChanges` would on
+    // a real scroll/resize event.
+    const rowDeleteRect = document
+      .querySelector('#row-delete-ref-0')
+      ?.getBoundingClientRect();
+    expect(rowDeleteRect).not.toBeUndefined();
+    clipPath$.next(`inset(${(rowDeleteRect?.bottom ?? 0) + 10}px 0px 0px 0px)`);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(deleteButton.closest('[inert]')).not.toBeNull();
+  });
+
+  it('should remove clipped inline delete buttons when clipped from any edge of the visible region', async () => {
+    const clipPath$ = new BehaviorSubject('none');
+    setupTest({ clipPath$ });
+    await fixture.whenStable();
+
+    fixture.componentInstance.rowDeleteIds.set(['0']);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const deleteButton = document.querySelectorAll(
+      '.sky-inline-delete-button',
+    )[0] as HTMLElement;
+    const rowDeleteRect = document
+      .querySelector('#row-delete-ref-0')
+      ?.getBoundingClientRect();
+    expect(rowDeleteRect).not.toBeUndefined();
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const rect = rowDeleteRect!;
+    const viewportWidth = document.documentElement.clientWidth;
+    const viewportHeight = document.documentElement.clientHeight;
+
+    // Row scrolled below the visible region's bottom edge.
+    clipPath$.next(`inset(0px 0px ${viewportHeight - rect.top + 10}px 0px)`);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(deleteButton.closest('[inert]')).not.toBeNull();
+
+    // Row scrolled to the left of the visible region's left edge.
+    clipPath$.next(`inset(0px 0px 0px ${rect.right + 10}px)`);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(deleteButton.closest('[inert]')).not.toBeNull();
+
+    // Row scrolled to the right of the visible region's right edge.
+    clipPath$.next(`inset(0px ${viewportWidth - rect.left + 10}px 0px 0px)`);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(deleteButton.closest('[inert]')).not.toBeNull();
   });
 
   it('should cancel row delete elements correctly via them being removed from the id array', async () => {
@@ -397,6 +469,8 @@ describe('SkyAgGridRowDeleteDirective', () => {
   it('should output the cancel event correctly', async () => {
     setupTest();
     await fixture.whenStable();
+    fixture.detectChanges();
+    await fixture.whenStable();
     spyOn(fixture.componentInstance, 'cancelRowDelete').and.callThrough();
     spyOn(fixture.componentInstance, 'finishRowDelete').and.callThrough();
 
@@ -472,10 +546,10 @@ describe('SkyAgGridRowDeleteDirective', () => {
     expect(
       TestBed.inject(SkyScrollableHostService)
         .watchScrollableHostClipPathChanges,
-    ).toHaveBeenCalledWith(
-      new ElementRef(debugElement.nativeElement),
-      jasmine.any(Observable),
-    );
+    ).toHaveBeenCalledWith(new ElementRef(debugElement.nativeElement), {
+      additionalContainers: jasmine.any(Observable),
+      additionalMasking: { top: jasmine.any(Observable) },
+    });
   });
 
   it('should not change the column widths when a row delete is triggered', async () => {
