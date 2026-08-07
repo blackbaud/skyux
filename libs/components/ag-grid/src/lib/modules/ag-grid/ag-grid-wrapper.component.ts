@@ -4,15 +4,15 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  ContentChild,
-  DOCUMENT,
   DestroyRef,
   ElementRef,
   booleanAttribute,
   computed,
+  contentChild,
   effect,
   inject,
   input,
+  linkedSignal,
   numberAttribute,
   signal,
   viewChild,
@@ -20,6 +20,7 @@ import {
 import {
   SkyIdModule,
   SkyMutationObserverService,
+  SkyResizeObserverService,
   SkyViewkeeperModule,
 } from '@skyux/core';
 import { SkyThemeService } from '@skyux/theme';
@@ -28,16 +29,34 @@ import { AgGridAngular } from 'ag-grid-angular';
 import {
   CellEditingStartedEvent,
   CellFocusedEvent,
+  DomLayoutType,
   HeaderFocusedEvent,
 } from 'ag-grid-community';
-import { EMPTY, merge } from 'rxjs';
+import {
+  EMPTY,
+  Subject,
+  asapScheduler,
+  combineLatestWith,
+  delay,
+  distinctUntilChanged,
+  filter,
+  map,
+  merge,
+  of,
+  shareReplay,
+  switchMap,
+} from 'rxjs';
 
 import {
   getSkyAgGridTheme,
   getSkyAgGridThemeClassName,
 } from '../../styles/ag-grid-theme';
 
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import {
+  takeUntilDestroyed,
+  toObservable,
+  toSignal,
+} from '@angular/core/rxjs-interop';
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
 import { SkyCellType } from './types/cell-type';
 
@@ -55,13 +74,6 @@ let idIndex = 0;
 export class SkyAgGridWrapperComponent
   implements AfterContentInit, AfterViewInit
 {
-  @ContentChild(AgGridAngular, {
-    static: true,
-  })
-  public agGrid: AgGridAngular | undefined;
-
-  protected readonly isNormalLayout = signal(false);
-
   /**
    * Enable a compact layout for the grid when using modern theme. Compact layout uses
    * a smaller font size and row height to display more data in a smaller space.
@@ -75,24 +87,57 @@ export class SkyAgGridWrapperComponent
     transform: numberAttribute,
   });
 
-  public afterAnchorId: string;
-  public beforeAnchorId: string;
-  public gridId: string;
+  readonly #idIndex = idIndex++;
+  protected readonly afterAnchorId =
+    'sky-ag-grid-nav-anchor-after-' + this.#idIndex;
+  protected readonly beforeAnchorId =
+    'sky-ag-grid-nav-anchor-before-' + this.#idIndex;
+  protected readonly gridId = 'sky-ag-grid-' + this.#idIndex;
+
+  /**
+   * Set by SkyAgGridDataManagerAdapterDirective to hand sticky-header duty
+   * to the data manager's own viewkeeper. Survives grid recreation, unlike
+   * a direct write to `viewkeeperClasses`.
+   * @internal
+   */
+  public readonly viewkeeperSuppressed = signal(false);
 
   /**
    * @internal
    */
-  public readonly viewkeeperClasses = signal<string[]>([]);
+  public readonly viewkeeperClasses = linkedSignal<
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    { domLayout: DomLayoutType | undefined; context: any; suppressed: boolean },
+    string[]
+  >({
+    source: () => ({
+      domLayout: this.#agGridDomLayout(),
+      context: this.agGridContext(),
+      suppressed: this.viewkeeperSuppressed(),
+    }),
+    computation: (source) => {
+      if (source.suppressed) {
+        return [];
+      }
+      const enableTopScroll = !!source.context?.enableTopScroll;
+      if (source.domLayout === 'autoHeight' && enableTopScroll) {
+        return ['.ag-header', '.ag-body-horizontal-scroll'];
+      }
+      return ['.ag-header'];
+    },
+    equal: (a, b) => a.length === b.length && a.every((v, i) => v === b[i]),
+  });
 
   get #isInEditMode(): boolean {
-    if (this.agGrid && this.agGrid.api) {
-      const primaryGridEditing = this.agGrid.api.getEditingCells().length > 0;
+    const api = this.#agGridApi();
+    if (api && !api.isDestroyed()) {
+      const primaryGridEditing = !!api.getEditingCells()?.length;
       if (primaryGridEditing) {
         return true;
-      } else if (this.agGrid.api.getGridOption('masterDetail')) {
+      } else if (api.getGridOption('masterDetail')) {
         let innerEditing = false;
-        this.agGrid.api.forEachDetailGridInfo((detailGrid) => {
-          if (detailGrid?.api && detailGrid.api.getEditingCells().length > 0) {
+        api.forEachDetailGridInfo((detailGrid) => {
+          if (detailGrid?.api && !!detailGrid.api.getEditingCells()?.length) {
             innerEditing = true;
           }
         });
@@ -103,9 +148,35 @@ export class SkyAgGridWrapperComponent
     return false;
   }
 
+  protected readonly agGrid = contentChild(AgGridAngular);
+
   protected readonly skyAgGridDiv =
     viewChild<ElementRef<HTMLElement>>('skyAgGridDiv');
 
+  protected readonly agGridContext = computed(
+    () => this.agGrid()?.gridOptions?.context,
+  );
+  protected readonly isNormalLayout = computed(
+    () => this.#agGridDomLayout() === 'normal',
+  );
+
+  readonly #agGrid = toObservable(this.agGrid);
+  readonly #agGridApi = toSignal(
+    this.#agGrid.pipe(
+      switchMap((agGrid) =>
+        agGrid
+          ? // Pause for less than a tick to let the AG Grid API become available.
+            of(agGrid).pipe(
+              delay(0, asapScheduler),
+              map((g) => g.api),
+            )
+          : of(undefined),
+      ),
+    ),
+  );
+  readonly #agGridDomLayout = computed(() =>
+    this.#agGridApi()?.getGridOption('domLayout'),
+  );
   readonly #destroyRef = inject(DestroyRef);
   readonly #themeSvc = inject(SkyThemeService, {
     optional: true,
@@ -113,10 +184,19 @@ export class SkyAgGridWrapperComponent
   readonly #themeSettings = toSignal(this.#themeSvc?.settingsChange ?? EMPTY);
   readonly #adapterService = inject(SkyAgGridAdapterService);
   readonly #elementRef = inject(ElementRef<HTMLElement>);
-  readonly #document = inject(DOCUMENT);
   readonly #mutationObserverService = inject(SkyMutationObserverService);
+  readonly #resizeObserverSvc = inject(SkyResizeObserverService);
   readonly #hasEditableClass = signal(false);
   readonly #cellEditingClasses = signal<string[]>([]);
+
+  // AG Grid's own header controller rewrites `--ag-header-rows-height` on
+  // header/theme recomputes it triggers internally (e.g. via
+  // `setGridOption('theme', ...)` below), clobbering the combined value
+  // `#watchHorizontalScrollPosition` sets. This lets that call ask for an
+  // immediate reapply.
+  readonly #reapplyHorizontalScrollPosition$ = new Subject<void>();
+
+  #reservedTopScrollHeight: number | undefined;
 
   public readonly wrapperClasses = computed(() => {
     const hasEditableClass = this.#hasEditableClass();
@@ -142,11 +222,6 @@ export class SkyAgGridWrapperComponent
   #agGridClassObserver: MutationObserver | undefined;
 
   constructor() {
-    idIndex++;
-    this.afterAnchorId = 'sky-ag-grid-nav-anchor-after-' + idIndex;
-    this.beforeAnchorId = 'sky-ag-grid-nav-anchor-before-' + idIndex;
-    this.gridId = 'sky-ag-grid-' + idIndex;
-
     effect(() => {
       const minHeight = this.minHeight();
       const skyAgGridDiv = this.skyAgGridDiv()?.nativeElement;
@@ -161,7 +236,11 @@ export class SkyAgGridWrapperComponent
       const skyAgGridTheme = getSkyAgGridTheme(
         hasEditableClass ? 'data-entry-grid' : 'data-grid',
       );
-      this.agGrid?.api?.setGridOption('theme', skyAgGridTheme);
+      const agGridApi = this.#agGridApi();
+      if (agGridApi && !agGridApi.isDestroyed()) {
+        agGridApi.setGridOption('theme', skyAgGridTheme);
+        this.#reapplyHorizontalScrollPosition$.next();
+      }
     });
 
     this.#destroyRef.onDestroy(() => {
@@ -170,85 +249,76 @@ export class SkyAgGridWrapperComponent
   }
 
   public ngAfterContentInit(): void {
-    if (this.agGrid) {
-      const domLayout = this.agGrid.gridOptions?.domLayout;
-      if (domLayout === 'autoHeight') {
-        if (this.agGrid.gridOptions?.context?.enableTopScroll) {
-          this.viewkeeperClasses.update((prev) => [
-            ...prev,
-            '.ag-header',
-            '.ag-body-horizontal-scroll',
-          ]);
-        } else {
-          this.viewkeeperClasses.update((prev) => [...prev, '.ag-header']);
-        }
-      } else if (domLayout === 'normal') {
-        this.isNormalLayout.set(true);
-      }
+    this.#watchHorizontalScrollPosition();
 
-      merge(
-        this.agGrid.gridReady,
-        this.agGrid.firstDataRendered,
-        this.agGrid.rowDataUpdated,
+    this.#agGrid
+      .pipe(
+        filter(Boolean),
+        switchMap((agGrid) => agGrid.cellEditingStarted),
+        takeUntilDestroyed(this.#destroyRef),
       )
-        .pipe(takeUntilDestroyed(this.#destroyRef))
-        .subscribe(() => this.#moveHorizontalScroll());
-
-      this.agGrid.cellEditingStarted
-        .pipe(takeUntilDestroyed(this.#destroyRef))
-        .subscribe((params: CellEditingStartedEvent) => {
-          if (params.colDef.type) {
-            const types = Array.isArray(params.colDef.type)
-              ? params.colDef.type
-              : [params.colDef.type];
-            const addClasses = types.map(
-              (t) => `sky-ag-grid-cell-editing-${t}`,
-            );
-            this.#cellEditingClasses.update((prev) => [...prev, ...addClasses]);
-            if (
-              types.includes(SkyCellType.Template) &&
-              params.rowIndex !== null
-            ) {
-              this.agGrid?.api.setFocusedCell(params.rowIndex, params.column);
-            }
+      .subscribe((params: CellEditingStartedEvent) => {
+        if (params.colDef.type) {
+          const types = Array.isArray(params.colDef.type)
+            ? params.colDef.type
+            : [params.colDef.type];
+          const addClasses = types.map((t) => `sky-ag-grid-cell-editing-${t}`);
+          this.#cellEditingClasses.update((prev) => [...prev, ...addClasses]);
+          if (
+            types.includes(SkyCellType.Template) &&
+            params.rowIndex !== null
+          ) {
+            params.api.setFocusedCell(params.rowIndex, params.column);
           }
-        });
-      this.agGrid.cellEditingStopped
-        .pipe(takeUntilDestroyed(this.#destroyRef))
-        .subscribe(() => {
-          this.#cellEditingClasses.set([]);
-        });
-      this.agGrid.cellFocused
-        .pipe(takeUntilDestroyed(this.#destroyRef))
-        .subscribe((event: CellFocusedEvent) => {
-          const context = event.context || {};
+        }
+      });
+    this.#agGrid
+      .pipe(
+        takeUntilDestroyed(this.#destroyRef),
+        filter(Boolean),
+        switchMap((agGrid) => agGrid.cellEditingStopped),
+      )
+      .subscribe(() => {
+        this.#cellEditingClasses.set([]);
+      });
+    this.#agGrid
+      .pipe(
+        takeUntilDestroyed(this.#destroyRef),
+        filter(Boolean),
+        switchMap((agGrid) => agGrid.cellFocused),
+      )
+      .subscribe((event: CellFocusedEvent) => {
+        const context = event.context || {};
 
-          context['lastFocusedCell'] = {
-            rowIndex: event.rowIndex,
-            column:
-              typeof event.column === 'object'
-                ? event.column?.getColId()
-                : `${event.column}`,
-          };
-
-          event.api?.setGridOption('context', context);
-        });
-
-      this.agGrid.headerFocused
-        .pipe(takeUntilDestroyed(this.#destroyRef))
-        .subscribe((event: HeaderFocusedEvent) => {
-          const context = event.context || {};
-
-          context['lastFocusedCell'] = {
-            rowIndex: null,
-            column: event.column?.getUniqueId
-              ? event.column.getUniqueId()
+        context['lastFocusedCell'] = {
+          rowIndex: event.rowIndex,
+          column:
+            typeof event.column === 'object'
+              ? event.column?.getColId()
               : `${event.column}`,
-          };
+        };
 
-          event.api?.setGridOption('context', context);
-        });
-    }
+        event.api?.setGridOption('context', context);
+      });
+
+    this.#agGrid
+      .pipe(
+        takeUntilDestroyed(this.#destroyRef),
+        filter(Boolean),
+        switchMap((agGrid) => agGrid.headerFocused),
+      )
+      .subscribe((event: HeaderFocusedEvent) => {
+        const context = event.context || {};
+
+        context['lastFocusedCell'] = {
+          rowIndex: null,
+          column: event.column?.getUniqueId
+            ? event.column.getUniqueId()
+            : `${event.column}`,
+        };
+
+        event.api?.setGridOption('context', context);
+      });
   }
 
   public ngAfterViewInit(): void {
@@ -276,11 +346,14 @@ export class SkyAgGridWrapperComponent
    */
   public onKeyUpEscape($event: Event): void {
     $event.stopPropagation();
-    this.agGrid?.api.stopEditing(true);
+    const api = this.#agGridApi();
+    if (api && !api.isDestroyed()) {
+      api.stopEditing(true);
+    }
   }
 
   public onGridKeydown(event: KeyboardEvent): void {
-    if (this.agGrid && !this.#isInEditMode && event.key === 'Tab') {
+    if (this.agGrid() && !this.#isInEditMode && event.key === 'Tab') {
       const idToFocus = event.shiftKey
         ? this.beforeAnchorId
         : this.afterAnchorId;
@@ -296,46 +369,186 @@ export class SkyAgGridWrapperComponent
     const previousWasGrid =
       relatedTarget && this.#elementRef.nativeElement.contains(relatedTarget);
 
-    if (this.agGrid && !previousWasGrid) {
+    if (this.agGrid() && !previousWasGrid) {
       this.#elementRef.nativeElement
         .querySelector('.ag-tab-guard.ag-tab-guard-top')
         ?.focus();
     }
   }
 
-  #moveHorizontalScroll(): void {
-    const toTop = !!this.agGrid?.gridOptions?.context?.enableTopScroll;
-    const root = this.#elementRef.nativeElement.querySelector('.ag-root');
-    const header = root?.querySelector('.ag-header');
-    const floatingBottom = root?.querySelector('.ag-floating-bottom');
-    const scrollbar = root?.querySelector('.ag-body-horizontal-scroll');
-    if (root && header && floatingBottom && scrollbar) {
-      if (
-        scrollbar.style.height !==
-        scrollbar.style.getPropertyValue(
-          '--sky-ag-body-horizontal-scroll-width',
-        )
-      ) {
-        scrollbar.style.setProperty(
-          '--sky-ag-body-horizontal-scroll-width',
-          scrollbar.style.height,
-        );
-      }
-      const isTop = root.children[1].matches('.ag-body-horizontal-scroll');
-      if (toTop && !isTop) {
-        const fragment = this.#document.createDocumentFragment();
-        fragment.appendChild(scrollbar);
-        header.after(fragment);
-      } else if (!toTop && isTop) {
-        const fragment = this.#document.createDocumentFragment();
-        fragment.appendChild(scrollbar);
-        floatingBottom.after(fragment);
-      }
-    }
+  #watchHorizontalScrollPosition(): void {
+    const elements$ = this.#agGrid.pipe(
+      filter(Boolean),
+      switchMap((agGrid) =>
+        merge(
+          agGrid.gridReady,
+          agGrid.firstDataRendered,
+          agGrid.rowDataUpdated,
+          // AG Grid recalculates its own horizontal scrollbar visibility/inline
+          // styling in response to this event (independent of anything this
+          // component does), which can clear the `top` set below - so this is
+          // included to reapply positioning immediately afterward.
+          agGrid.gridSizeChanged,
+          // See `#reapplyHorizontalScrollPosition$`'s declaration.
+          this.#reapplyHorizontalScrollPosition$,
+        ).pipe(
+          // `context.enableTopScroll` may not be reflected on the grid's own
+          // `gridOptions` yet by the time the earliest of these events fires
+          // (e.g. while a data manager/async fixture is still hydrating), so
+          // this is re-checked on each event rather than once up front.
+          filter(() => !!this.agGridContext()?.enableTopScroll),
+          map(() => this.#elementRef.nativeElement.querySelector('.ag-root')),
+          filter((root): root is HTMLElement => !!root),
+          map((root) => {
+            const header = root.querySelector(
+              '.ag-header',
+            ) as HTMLElement | null;
+            const scrollbar = root.querySelector(
+              '.ag-body-horizontal-scroll',
+            ) as HTMLElement | null;
+            const pinnedTopRows = root.querySelector(
+              '.ag-grid-pinned-top-rows',
+            ) as HTMLElement | null;
+            return { header, scrollbar, pinnedTopRows };
+          }),
+          filter(
+            (
+              els,
+            ): els is {
+              header: HTMLElement;
+              scrollbar: HTMLElement;
+              pinnedTopRows: HTMLElement;
+            } => !!els.header && !!els.scrollbar && !!els.pinnedTopRows,
+          ),
+        ),
+      ),
+      shareReplay({ bufferSize: 1, refCount: true }),
+    );
+
+    const headerRowsHeight$ = elements$.pipe(
+      // Only re-subscribe the resize observer when AG Grid actually swaps in
+      // a new header element, not on every tracked event above.
+      distinctUntilChanged((a, b) => a.header === b.header),
+      switchMap((els) =>
+        this.#resizeObserverSvc.observe(new ElementRef(els.header)).pipe(
+          // `.ag-header`'s inline height includes the theme's headerRowBorder,
+          // which this component inflates to reserve scrollbar space - so
+          // measure the header rows themselves to avoid double-counting.
+          map(() =>
+            Array.from(
+              els.header.querySelectorAll<HTMLElement>(
+                ':scope > .ag-header-row',
+              ),
+            ).reduce(
+              (max, row) => Math.max(max, row.offsetTop + row.offsetHeight),
+              0,
+            ),
+          ),
+          distinctUntilChanged(),
+        ),
+      ),
+    );
+
+    const scrollbarHeight$ = elements$.pipe(
+      distinctUntilChanged((a, b) => a.scrollbar === b.scrollbar),
+      switchMap((els) =>
+        // AG Grid applies the scrollbar's inline height in a debounced task
+        // after the grid events above have fired, so the height has to be
+        // observed rather than read at event time.
+        this.#resizeObserverSvc.observe(new ElementRef(els.scrollbar)).pipe(
+          // Overlay/auto-hiding scrollbars float above content and need no
+          // extra space - and AG Grid gives them a nonzero inline height, so
+          // the class check is required.
+          map(() =>
+            els.scrollbar.classList.contains('ag-scrollbar-invisible')
+              ? 0
+              : els.scrollbar.offsetHeight,
+          ),
+          distinctUntilChanged(),
+        ),
+      ),
+    );
+
+    elements$
+      .pipe(
+        // Reapply on every tracked event (using the latest known heights)
+        // even when the heights themselves haven't changed, so AG Grid's
+        // own resets of the scrollbar's inline style (e.g. on
+        // `gridSizeChanged`) get corrected right away.
+        combineLatestWith(headerRowsHeight$, scrollbarHeight$),
+        takeUntilDestroyed(this.#destroyRef),
+      )
+      .subscribe(
+        ([{ header, pinnedTopRows }, headerRowsHeight, scrollbarHeight]) => {
+          // The theme's headerRowBorder width includes this variable, which
+          // reserves room below the header inside AG Grid's own geometry
+          // (pinned/sticky row offsets, body viewport height, fake scrollbar
+          // spacers). Both variables live on the SKY-owned wrapper div - the
+          // scrollbar is positioned from them in CSS - so AG Grid recreating
+          // or restyling its own elements never loses the values.
+          const skyAgGridDiv = this.skyAgGridDiv()?.nativeElement;
+          skyAgGridDiv?.style.setProperty(
+            '--sky-ag-grid-top-scroll-height',
+            `${scrollbarHeight}px`,
+          );
+
+          // The painted border is pinned to the un-inflated separator width
+          // (see `_base.scss`), so the full headerRowBorder AG Grid measures
+          // is that separator width plus the reservation.
+          const separatorWidth =
+            parseFloat(
+              getComputedStyle(header).getPropertyValue(
+                '--sky-ag-grid-header-row-border-width',
+              ),
+            ) || 0;
+          const headerRowsHeightWithBorder =
+            headerRowsHeight + separatorWidth + scrollbarHeight;
+
+          skyAgGridDiv?.style.setProperty(
+            '--sky-ag-grid-header-rows-height',
+            `${headerRowsHeightWithBorder}px`,
+          );
+
+          // AG Grid skips rewriting this when only the border width changed,
+          // and on genuine header-height changes writes this same value - so
+          // whichever writes last the result is identical. (`.ag-header`'s own
+          // inline height is left to AG Grid: writing it here would freeze the
+          // resize observer above.)
+          pinnedTopRows.style.setProperty(
+            '--ag-header-rows-height',
+            `${headerRowsHeightWithBorder}px`,
+          );
+
+          if (this.#reservedTopScrollHeight !== scrollbarHeight) {
+            this.#reservedTopScrollHeight = scrollbarHeight;
+            this.#nudgeHeaderGeometry();
+          }
+        },
+      );
+  }
+
+  /**
+   * AG Grid skips its header geometry refresh when only the theme's
+   * `headerRowBorder` width changes (its guard compares header row heights
+   * without the border), leaving pinned/sticky row offsets and the fake
+   * scrollbar spacers unaware of the reserved space. `headerHeightChanged` is
+   * the event that re-runs exactly those consumers. The dispatch is deferred
+   * one frame plus a task so AG Grid's own border-width measurement (refreshed
+   * by its ResizeObserver) is current when they re-read it.
+   */
+  #nudgeHeaderGeometry(): void {
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        const api = this.#agGridApi();
+        if (api && !api.isDestroyed()) {
+          api.dispatchEvent({ type: 'headerHeightChanged' });
+        }
+      });
+    });
   }
 
   #getTextSelection(hasEditableClass: boolean): boolean {
-    if (this.agGrid?.gridOptions?.context?.enableCellTextSelection) {
+    if (this.agGridContext()?.enableCellTextSelection) {
       return !hasEditableClass;
     } else {
       return false;

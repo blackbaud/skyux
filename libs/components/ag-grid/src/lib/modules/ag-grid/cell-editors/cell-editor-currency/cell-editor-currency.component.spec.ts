@@ -91,6 +91,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
         null,
         'col',
         true,
+        'user',
       );
 
       api = jasmine.createSpyObj<GridApi>('api', [
@@ -187,6 +188,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
           null,
           'col',
           true,
+          'user',
         );
 
         const api = jasmine.createSpyObj<GridApi>([

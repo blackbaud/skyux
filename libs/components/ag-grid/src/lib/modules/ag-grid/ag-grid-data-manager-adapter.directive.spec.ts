@@ -790,20 +790,35 @@ it('should move the horizontal scroll based on enableTopScroll check', async () 
   await fixture.whenStable();
   fixture.detectChanges();
   await fixture.whenStable();
-  const gridComponents: string[] = Array.from(
-    fixture.nativeElement.querySelector('.ag-root')?.children || [],
-  ).map((el) => (el as HTMLElement).classList[0]);
-  // Expect the scrollbar below the header.
-  expect(gridComponents).toEqual([
-    'ag-header',
-    'ag-body-horizontal-scroll',
-    'ag-floating-top',
-    'ag-body',
-    'ag-sticky-top',
-    'ag-sticky-bottom',
-    'ag-floating-bottom',
-    'ag-overlay',
-  ]);
+  await new Promise((resolve) => requestAnimationFrame(resolve));
+  await new Promise((resolve) => requestAnimationFrame(resolve));
+
+  const header = fixture.nativeElement.querySelector(
+    '.ag-header',
+  ) as HTMLElement;
+  const scrollbar = fixture.nativeElement.querySelector(
+    '.ag-body-horizontal-scroll',
+  ) as HTMLElement;
+  const skyAgGridDiv = fixture.nativeElement.querySelector(
+    '.sky-ag-grid',
+  ) as HTMLElement;
+  // Expect the header-rows height variable that positions the scrollbar
+  // below the header (via CSS in `_base.scss`) to be maintained.
+  const headerRowsHeight = Array.from(
+    header.querySelectorAll<HTMLElement>(':scope > .ag-header-row'),
+  ).reduce((max, row) => Math.max(max, row.offsetTop + row.offsetHeight), 0);
+  const separatorWidth =
+    parseFloat(
+      getComputedStyle(header).getPropertyValue(
+        '--sky-ag-grid-header-row-border-width',
+      ),
+    ) || 0;
+  const reserved = scrollbar.classList.contains('ag-scrollbar-invisible')
+    ? 0
+    : scrollbar.offsetHeight;
+  expect(
+    skyAgGridDiv.style.getPropertyValue('--sky-ag-grid-header-rows-height'),
+  ).toEqual(`${headerRowsHeight + separatorWidth + reserved}px`);
 
   const agGrid = fixture.componentInstance.agGrid();
   expect(agGrid).toBeDefined();

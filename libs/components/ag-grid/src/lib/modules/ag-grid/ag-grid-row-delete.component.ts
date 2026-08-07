@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  computed,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, ElementRef, computed, inject, signal } from '@angular/core';
 import {
   takeUntilDestroyed,
   toObservable,
@@ -27,7 +20,31 @@ import {
 } from 'rxjs';
 
 import { fromGridEvent } from './ag-grid-event-utils';
-import { SKY_AG_GRID_ROW_DELETE_CONTEXT } from './ag-grid-row-delete-context';
+import {
+  SKY_AG_GRID_ROW_DELETE_CONTEXT,
+  SkyAgGridRowDeleteVisibleRegion,
+} from './ag-grid-row-delete-context';
+
+/**
+ * A row overlay is "fully clipped" when its anchor element's bounding rect
+ * does not intersect the region left visible by the scrollable-host
+ * clip-path (e.g. the row has scrolled entirely behind the sticky header).
+ */
+function isFullyClipped(
+  element: HTMLElement | null,
+  visibleRegion: SkyAgGridRowDeleteVisibleRegion | undefined,
+): boolean {
+  if (!element || !visibleRegion) {
+    return false;
+  }
+  const rect = element.getBoundingClientRect();
+  return (
+    rect.bottom <= visibleRegion.top ||
+    rect.top >= visibleRegion.bottom ||
+    rect.right <= visibleRegion.left ||
+    rect.left >= visibleRegion.right
+  );
+}
 
 /**
  * Component for rendering the inline delete template in the overlay.
@@ -38,7 +55,6 @@ import { SKY_AG_GRID_ROW_DELETE_CONTEXT } from './ag-grid-row-delete-context';
   templateUrl: './ag-grid-row-delete.component.html',
   styleUrl: './ag-grid-row-delete.component.css',
   imports: [SkyInlineDeleteModule, SkyAffixModule],
-  changeDetection: ChangeDetectionStrategy.Eager,
   host: {
     '[style]': '"--table-width: " + tableWidthStyle()',
   },
@@ -55,12 +71,18 @@ export class SkyAgGridRowDeleteComponent {
   });
 
   protected rowsWithElements = computed(
-    (): { rowId: string; increment: string; element: HTMLElement | null }[] => {
+    (): {
+      rowId: string;
+      increment: string;
+      element: HTMLElement | null;
+      clipped: boolean;
+    }[] => {
       const rows = this.service.rows();
       const gridElement = this.service.gridElement();
       const gridApi = this.service.gridApi();
       const increment = this.gridChanges();
-      if (!gridElement || !gridApi) {
+      const visibleRegion = this.service.visibleRegion();
+      if (!gridElement || !gridApi || gridApi.isDestroyed()) {
         return [];
       }
       return rows
@@ -71,7 +93,12 @@ export class SkyAgGridRowDeleteComponent {
           [row-id="${rowId}"] div[aria-colindex],
           .ag-row.sky-ag-grid-row-${rowId} div[aria-colindex]
         `);
-          return { rowId, element, increment: `${rowId}-${increment}` };
+          return {
+            rowId,
+            element,
+            increment: `${rowId}-${increment}`,
+            clipped: isFullyClipped(element, visibleRegion),
+          };
         });
     },
   );
@@ -83,7 +110,7 @@ export class SkyAgGridRowDeleteComponent {
   protected readonly gridChanges = toSignal(
     toObservable(this.service.gridApi).pipe(
       switchMap((gridApi) =>
-        gridApi
+        gridApi && !gridApi.isDestroyed()
           ? merge(
               fromGridEvent(gridApi, 'componentStateChanged'),
               fromGridEvent(gridApi, 'firstDataRendered'),
@@ -123,7 +150,9 @@ export class SkyAgGridRowDeleteComponent {
     // Clean up pending rows when the grid data is updated.
     toObservable(this.service.gridApi)
       .pipe(
-        filter((gridApi): gridApi is GridApi => !!gridApi),
+        filter(
+          (gridApi): gridApi is GridApi => !!gridApi && !gridApi.isDestroyed(),
+        ),
         switchMap((gridApi) =>
           fromGridEvent(gridApi, 'rowDataUpdated').pipe(
             takeUntil(fromGridEvent(gridApi, 'gridPreDestroyed')),

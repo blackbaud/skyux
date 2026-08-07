@@ -106,6 +106,7 @@ describe('SkyCellEditorNumberComponent', () => {
         null,
         'col',
         true,
+        'user',
       );
 
       cellEditorParams = {
@@ -373,6 +374,7 @@ describe('SkyCellEditorNumberComponent', () => {
           null,
           'col',
           true,
+          'user',
         );
 
         const gridApi = {} as GridApi;
