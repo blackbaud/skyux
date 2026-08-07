@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.11.1](https://github.com/blackbaud/skyux/compare/14.11.0...14.11.1) (2026-08-07)
+
+
+### Bug Fixes
+
+* **components/packages:** add SkyDataGrid/SkyDataGridColumn to NgModule imports when only exports referenced SkyGridModule in convert-grid-to-data-grid ([#4600](https://github.com/blackbaud/skyux/issues/4600)) ([f1582d0](https://github.com/blackbaud/skyux/commit/f1582d096e3f4123199beef5b0438b0e6159a349))
+
 ## [14.11.0](https://github.com/blackbaud/skyux/compare/14.10.0...14.11.0) (2026-08-05)
 
 
