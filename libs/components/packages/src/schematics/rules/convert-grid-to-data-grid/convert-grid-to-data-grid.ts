@@ -618,12 +618,28 @@ function getAssociatedEvidence(
 }
 
 /**
- * True when an `@NgModule` in `source` exports `SkyGridModule` without also
- * importing it. `SkyDataGrid`/`SkyDataGridColumn` need to be added to that
- * NgModule's `imports` array as well, since a standalone class must be
- * imported before it can be exported.
+ * True for an `@NgModule` object literal that exports `SkyGridModule`
+ * without also importing it. `SkyDataGrid`/`SkyDataGridColumn` need to be
+ * added to that NgModule's `imports` array as well, since a standalone class
+ * must be imported before it can be exported. A source file may declare more
+ * than one `@NgModule`, so this must be checked per-node rather than
+ * file-wide to avoid touching NgModules that already import `SkyGridModule`
+ * or that don't reference it at all.
  */
 function ngModuleExportsGridModuleWithoutImportingIt(
+  node: ts.ObjectLiteralExpression,
+): boolean {
+  return (
+    isSymbolInClassMetadataFieldArray(node, 'exports', SKY_GRID_MODULE) &&
+    !isSymbolInClassMetadataFieldArray(node, 'imports', SKY_GRID_MODULE)
+  );
+}
+
+/**
+ * True when any `@NgModule` in `source` exports `SkyGridModule` without also
+ * importing it.
+ */
+function sourceHasNgModuleExportingGridModuleWithoutImportingIt(
   source: ts.SourceFile,
 ): boolean {
   if (!isImportedFromPackage(source, 'NgModule', '@angular/core')) {
@@ -632,8 +648,7 @@ function ngModuleExportsGridModuleWithoutImportingIt(
   return getDecoratorMetadata(source, 'NgModule', '@angular/core').some(
     (node) =>
       ts.isObjectLiteralExpression(node) &&
-      isSymbolInClassMetadataFieldArray(node, 'exports', SKY_GRID_MODULE) &&
-      !isSymbolInClassMetadataFieldArray(node, 'imports', SKY_GRID_MODULE),
+      ngModuleExportsGridModuleWithoutImportingIt(node),
   );
 }
 
@@ -680,7 +695,7 @@ function updateTypescriptImports(
     // skip stays safe because <sky-list-view-grid> requires
     // SkyListViewGridModule, which re-exports SkyGridModule.
     const needsGridImportForExport =
-      ngModuleExportsGridModuleWithoutImportingIt(source);
+      sourceHasNgModuleExportingGridModuleWithoutImportingIt(source);
     const recorder = tree.beginUpdate(filePath);
     swapImportedClass(recorder, filePath, source, [
       {
@@ -695,7 +710,9 @@ function updateTypescriptImports(
     ]);
     if (needsGridImportForExport) {
       // The import is already added by swapImportedClass above, so only the
-      // metadata array needs the symbols (importPath: null).
+      // metadata array needs the symbols (importPath: null). Restrict the
+      // edit to the NgModule(s) that actually need it, since a file can
+      // declare more than one NgModule.
       applyToUpdateRecorder(
         recorder,
         addSymbolToClassMetadata(
@@ -705,6 +722,7 @@ function updateTypescriptImports(
           'imports',
           DATA_GRID_CLASS_NAMES.join(', '),
           null,
+          ngModuleExportsGridModuleWithoutImportingIt,
         ),
       );
     }

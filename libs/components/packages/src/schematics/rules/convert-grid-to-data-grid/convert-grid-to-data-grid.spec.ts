@@ -1090,4 +1090,68 @@ describe('Convert Grid to Data Grid', () => {
       `,
     );
   });
+
+  it('should only add SkyDataGrid and SkyDataGridColumn to the NgModule that exports SkyGridModule without importing it, when a file declares multiple NgModules', async () => {
+    const tree = await createTestApp(runner, { projectName: 'test-app' });
+    tree.create(
+      'src/app/foo.component.html',
+      stripIndents`
+        <sky-grid [data]="data">
+          <sky-grid-column id="name" heading="Name" field="name" />
+        </sky-grid>
+      `,
+    );
+    createExternalTemplateComponent(tree, 'foo', 'FooComponent');
+    tree.create(
+      'src/app/foo.module.ts',
+      stripIndents`
+        import { NgModule } from '@angular/core';
+        import { SkyGridModule } from '@skyux/grids';
+
+        import { FooComponent } from './foo.component';
+
+        @NgModule({
+          declarations: [FooComponent],
+          imports: [SkyGridModule],
+          exports: [SkyGridModule],
+        })
+        export class FooModule {}
+
+        @NgModule({
+          exports: [SkyGridModule],
+        })
+        export class BarModule {}
+      `,
+    );
+    const result = await convert(tree);
+    const moduleOutput = result.readText('src/app/foo.module.ts');
+
+    // FooModule already imported SkyGridModule, so swapImportedClass alone
+    // handles it; it must not receive a second, duplicate imports edit.
+    const fooModuleBlock = moduleOutput.match(
+      /@NgModule\({[^{}]*}\)\s*export class FooModule \{\}/,
+    )?.[0];
+    expect(fooModuleBlock).toBeDefined();
+    expect(fooModuleBlock).toContain(
+      'imports: [SkyDataGrid, SkyDataGridColumn]',
+    );
+    expect(fooModuleBlock).toContain(
+      'exports: [SkyDataGrid, SkyDataGridColumn]',
+    );
+    expect(
+      fooModuleBlock?.match(/SkyDataGrid, SkyDataGridColumn/g),
+    ).toHaveLength(2);
+
+    // BarModule only exported SkyGridModule, so it needs the imports array added.
+    const barModuleBlock = moduleOutput.match(
+      /@NgModule\({[^{}]*}\)\s*export class BarModule \{\}/,
+    )?.[0];
+    expect(barModuleBlock).toBeDefined();
+    expect(barModuleBlock).toContain(
+      'exports: [SkyDataGrid, SkyDataGridColumn]',
+    );
+    expect(
+      barModuleBlock?.match(/SkyDataGrid, SkyDataGridColumn/g),
+    ).toHaveLength(2);
+  });
 });
