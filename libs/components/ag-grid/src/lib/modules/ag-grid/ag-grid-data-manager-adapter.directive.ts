@@ -196,7 +196,7 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
 
     setTimeout(() => {
       if (this.#currentSkyAgGridWrapper) {
-        this.#currentSkyAgGridWrapper.viewkeeperClasses.set([]);
+        this.#currentSkyAgGridWrapper.viewkeeperSuppressed.set(true);
       }
     });
   }
@@ -399,7 +399,7 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
     const agGrid = this.#currentAgGrid();
     const viewConfig = this.#viewConfig();
 
-    if (agGrid && viewConfig) {
+    if (agGrid && viewConfig && !agGrid.api.isDestroyed()) {
       const viewState = dataState.getViewStateById(viewConfig.id);
       let displayedColumnIds: string[] = [];
 
@@ -411,9 +411,8 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
       const columnOrder = this.#getColumnOrder(agGrid.api);
 
       if (
-        (displayedColumnIds.length !== columnOrder.length ||
-          displayedColumnIds.some((col, i) => col !== columnOrder[i])) &&
-        agGrid.api
+        displayedColumnIds.length !== columnOrder.length ||
+        displayedColumnIds.some((col, i) => col !== columnOrder[i])
       ) {
         const hideColumns = agGrid.api
           .getColumnState()
@@ -518,7 +517,9 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
           toColumnWidthName(breakpoint),
         );
 
-        currentAgGridApi.sizeColumnsToFit({ columnLimits });
+        if (currentAgGridApi.getGridElement()) {
+          currentAgGridApi.sizeColumnsToFit({ columnLimits });
+        }
       }
     }
   }

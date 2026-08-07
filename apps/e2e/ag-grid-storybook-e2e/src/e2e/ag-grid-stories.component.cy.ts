@@ -12,42 +12,34 @@ describe(`ag-grid-storybook`, () => {
             `/iframe.html?globals=theme:${theme}&id=ag-grid--ag-grid${compact ? '-compact' : ''}`,
           );
 
-          cy.skyReady('app-ag-grid-stories', ['#ready'])
-            .end()
+          cy.skyReady('app-ag-grid-stories', ['#ready']);
 
-            // The component has actions in ngAfterViewInit that scroll a grid to show back-to-top as well as activate a
-            // validation popover. These assertions verify those have happened.
+          // The component has actions in ngAfterViewInit that scroll a grid to show back-to-top as well as activate a
+          // validation popover. These assertions verify those have happened.
 
-            // Expect back to top button to be visible.
-            .get('.sky-back-to-top')
+          // Expect back to top button to be visible.
+          cy.get('.sky-back-to-top').should('exist').should('be.visible');
+
+          // Expect the validation message to be visible.
+          cy.get('.sky-overlay sky-popover-content .sky-popover-body')
             .should('exist')
             .should('be.visible')
-            .end()
+            .should('contain.text', 'Expected a number between 1 and 18.');
 
-            // Expect the validation message to be visible.
-            .get('.sky-overlay sky-popover-content .sky-popover-body')
+          // Expect inline help buttons to be visible in three grids.
+          cy.get('#row-delete [col-id="name"] button.sky-help-inline')
             .should('exist')
-            .should('be.visible')
-            .should('contain.text', 'Expected a number between 1 and 18.')
-            .end()
+            .should('be.visible');
 
-            // Expect inline help buttons to be visible in three grids.
-            .get('#row-delete [col-id="name"] button.sky-help-inline')
+          cy.get('#back-to-top [col-id="name"] button.sky-help-inline')
             .should('exist')
-            .should('be.visible')
-            .end()
+            .should('be.visible');
 
-            .get('#back-to-top [col-id="name"] button.sky-help-inline')
+          cy.get('#validation [col-id="name"] button.sky-help-inline')
             .should('exist')
-            .should('be.visible')
-            .end()
+            .should('be.visible');
 
-            .get('#validation [col-id="name"] button.sky-help-inline')
-            .should('exist')
-            .should('be.visible')
-            .end()
-
-            .get('#storybook-root')
+          cy.get('#storybook-root')
             .should('exist')
             .should('be.visible')
             .skyVisualTest(

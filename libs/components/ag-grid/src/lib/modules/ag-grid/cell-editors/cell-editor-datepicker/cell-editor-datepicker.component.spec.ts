@@ -131,7 +131,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
       datepickerEditorComponent.agInit({
         ...(datepickerEditorComponent as any).params,
         api,
-        column: new AgColumn<any>({}, null, 'col', true),
+        column: new AgColumn<any>({}, null, 'col', true, 'user'),
         node: {
           rowHeight: 37,
         },
@@ -161,7 +161,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
       datepickerEditorComponent.agInit({
         ...(datepickerEditorComponent as any).params,
         api,
-        column: new AgColumn<any>({}, null, 'col', true),
+        column: new AgColumn<any>({}, null, 'col', true, 'user'),
         node: {
           rowHeight: 37,
         },
@@ -207,6 +207,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
         null,
         'col',
         true,
+        'user',
       );
 
       cellEditorParams = {
@@ -492,6 +493,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
         null,
         'col',
         true,
+        'user',
       );
       gridCell = document.createElement('div');
 

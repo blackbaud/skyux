@@ -9,6 +9,7 @@
       [style.height]="element.offsetHeight + 'px'"
       [skyAffixTo]="element"
       [affixIsSticky]="true"
+      [attr.inert]="row.clipped ? '' : null"
     >
       <sky-inline-delete
         [pending]="pending().includes(row.rowId ?? '')"
