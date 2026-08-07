@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAgGridModule } from '@skyux/ag-grid';
 
+import { provideSkyAgGridTesting } from '../ag-grid/provide-ag-grid-testing';
 import { SkyAgGridWrapperHarness } from './ag-grid-wrapper-harness';
 import { AgGridTestComponent } from './fixtures/ag-grid-test.component';
 
@@ -18,7 +19,9 @@ describe('SkyAgGridWrapperHarness', () => {
     let fixture: ComponentFixture<TestComponent>;
 
     beforeEach(() => {
-      TestBed.configureTestingModule({});
+      TestBed.configureTestingModule({
+        providers: [provideSkyAgGridTesting()],
+      });
       fixture = TestBed.createComponent(TestComponent);
       fixture.detectChanges();
     });
@@ -48,7 +51,9 @@ describe('SkyAgGridWrapperHarness', () => {
     let fixture: ComponentFixture<AgGridTestComponent>;
 
     beforeEach(() => {
-      TestBed.configureTestingModule({});
+      TestBed.configureTestingModule({
+        providers: [provideSkyAgGridTesting()],
+      });
       fixture = TestBed.createComponent(AgGridTestComponent);
     });
 
@@ -80,6 +85,64 @@ describe('SkyAgGridWrapperHarness', () => {
       await expectAsync(harness.getDisplayedColumnHeaderNames()).toBeResolvedTo(
         ['Name', ''],
       );
+    });
+
+    it('should get the current render count', async () => {
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const harness = await TestbedHarnessEnvironment.loader(
+        fixture,
+      ).getHarness(
+        SkyAgGridWrapperHarness.with({ dataSkyId: 'ag-grid-wrapper' }),
+      );
+      await harness.waitUntilRendered();
+      expect(await harness.getRenderCount()).toBeGreaterThan(0);
+    });
+
+    it('should resolve waitUntilRendered() once the grid has rendered', async () => {
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const harness = await TestbedHarnessEnvironment.loader(
+        fixture,
+      ).getHarness(
+        SkyAgGridWrapperHarness.with({ dataSkyId: 'ag-grid-wrapper' }),
+      );
+      await expectAsync(harness.waitUntilRendered()).toBeResolved();
+    });
+
+    it('should stop waiting after the bounded timeout if the grid never renders again', async () => {
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const harness = await TestbedHarnessEnvironment.loader(
+        fixture,
+      ).getHarness(
+        SkyAgGridWrapperHarness.with({ dataSkyId: 'ag-grid-wrapper' }),
+      );
+      await expectAsync(
+        harness.waitUntilRendered(Number.MAX_SAFE_INTEGER),
+      ).toBeResolved();
+    });
+
+    it('should skip waiting when render tracking is not active', async () => {
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const harness = await TestbedHarnessEnvironment.loader(
+        fixture,
+      ).getHarness(
+        SkyAgGridWrapperHarness.with({ dataSkyId: 'ag-grid-wrapper' }),
+      );
+
+      const originalValue = (window as any).AG_GRID_UNDER_TEST;
+      (window as any).AG_GRID_UNDER_TEST = undefined;
+      try {
+        await expectAsync(harness.waitUntilRendered()).toBeResolved();
+      } finally {
+        (window as any).AG_GRID_UNDER_TEST = originalValue;
+      }
     });
   });
 });

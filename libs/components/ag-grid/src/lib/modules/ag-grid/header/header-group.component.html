@@ -1,19 +1,19 @@
-@if (params?.displayName) {
+@if (params()?.displayName) {
   <span
     class="header-group-text"
     role="presentation"
     [skyThemeClass]="{ 'sky-font-heading-4': 'modern' }"
-    >{{ params?.displayName }}</span
+    >{{ params()?.displayName }}</span
   >
 }
-@if (isExpandable$ | async) {
-  @if (isExpanded$ | async) {
+@if (isExpandable()) {
+  @if (isExpanded()) {
     <button
       class="sky-btn sky-btn-icon-borderless"
       type="button"
       [attr.aria-label]="
         'sky_ag_grid_column_group_header_collapse_aria_label'
-          | skyLibResources: params?.displayName
+          | skyLibResources: params()?.displayName
       "
       (click)="setExpanded(false)"
     >
@@ -25,7 +25,7 @@
       type="button"
       [attr.aria-label]="
         'sky_ag_grid_column_group_header_expand_aria_label'
-          | skyLibResources: params?.displayName
+          | skyLibResources: params()?.displayName
       "
       (click)="setExpanded(true)"
     >
