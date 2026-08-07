@@ -30,14 +30,31 @@ import { ResourceDataTestComponent } from './fixtures/resource-data-test.compone
 import { TemplateColumnTestComponent } from './fixtures/template-column-test.component';
 
 /**
+ * Queries the `.ag-root` element rather than the passed-in `ag-grid-angular`
+ * element itself, since `skyViewkeeper`'s shadow element is inserted as
+ * `ag-grid-angular`'s first child and `getGridApi()` locates the grid by
+ * walking up from the queried element's first element child.
+ *
  * Synchronous on purpose: used directly only by the `fakeAsync` "columnFit"
  * tests below, which don't opt into `provideSkyAgGridTesting()` and so don't
  * need (and, inside `fakeAsync`, can't easily use) the real-macrotask flush
  * that `getGridApi()` performs.
  */
 function getGridApiSync(agGridAngularElement: Element | null) {
-  return getAgGridApi(agGridAngularElement);
+  return getAgGridApi(
+    agGridAngularElement?.querySelector('.ag-root') ?? agGridAngularElement,
+  );
 }
+
+/**
+ * `ResourceDataTestComponent`'s grid goes through an async resource state
+ * transition (rather than a synchronous, client-side action). This no longer
+ * changes `flushAgGridWork`'s behavior (it settles deterministically off AG
+ * Grid's own render-count signal rather than a fixed iteration budget), but
+ * `getGridApi` still accepts it for call-site compatibility.
+ */
+const DEFAULT_FLUSH_ITERATIONS = 15;
+const RESOURCE_DATA_SOURCE_ITERATIONS = 30;
 
 /**
  * `provideSkyAgGridTesting()` sets `window.AG_GRID_UNDER_TEST = false`,
@@ -69,6 +86,7 @@ async function flushAgGridWork<T>(fixture: ComponentFixture<T>): Promise<void> {
 async function getGridApi<T>(
   agGridAngularElement: Element | null,
   fixture: ComponentFixture<T>,
+  iterations = DEFAULT_FLUSH_ITERATIONS,
 ) {
   const api = getGridApiSync(agGridAngularElement);
   await flushAgGridWork(fixture);
@@ -229,7 +247,7 @@ describe('SkyDataGrid', () => {
       expect(
         Array.from(
           fixture.nativeElement
-            .querySelector('.ag-viewport')
+            .querySelector('.ag-grid-scrolling-rows')
             .querySelectorAll('[role="row"]'),
         ),
       ).toHaveSize(0);
@@ -1262,6 +1280,7 @@ describe('SkyDataGrid', () => {
           '[data-sky-id="resource-grid"] ag-grid-angular',
         ),
         resourceFixture,
+        RESOURCE_DATA_SOURCE_ITERATIONS,
       );
       expect(api).toBeTruthy();
       // No rows render while the resource is still loading.
@@ -1315,6 +1334,7 @@ describe('SkyDataGrid', () => {
           '[data-sky-id="resource-grid"] ag-grid-angular',
         ),
         resourceFixture,
+        RESOURCE_DATA_SOURCE_ITERATIONS,
       );
       expect(resourceFixture.componentInstance.selectedRowIds()).toEqual([
         '1',
@@ -1340,6 +1360,7 @@ describe('SkyDataGrid', () => {
           '[data-sky-id="resource-columns-grid"] ag-grid-angular',
         ),
         resourceFixture,
+        RESOURCE_DATA_SOURCE_ITERATIONS,
       );
       expect(api?.getColumnState().map((col) => col.colId)).toEqual([
         'name',
@@ -1362,6 +1383,7 @@ describe('SkyDataGrid', () => {
           '[data-sky-id="resource-columns-grid"] ag-grid-angular',
         ),
         resourceFixture,
+        RESOURCE_DATA_SOURCE_ITERATIONS,
       );
       expect(api?.getGridOption('pagination')).toBeTrue();
       expect(api?.getGridOption('paginationPageSize')).toBe(1);

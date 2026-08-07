@@ -64,6 +64,7 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
       null,
       'col',
       true,
+      'user',
     );
 
     const gridApi = {} as GridApi;
