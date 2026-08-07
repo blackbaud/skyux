@@ -70,6 +70,7 @@ describe('SkyCellEditorAutocompleteComponent', () => {
         null,
         'col',
         true,
+        'user',
       );
       gridCell = document.createElement('div');
 
@@ -287,6 +288,7 @@ describe('SkyCellEditorAutocompleteComponent', () => {
         null,
         'col',
         true,
+        'user',
       );
 
       const gridApi = {} as GridApi;

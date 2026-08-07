@@ -1,5 +1,7 @@
 import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 
+const rowsSelector = `.ag-grid-viewport > .ag-grid-scrollable-area > .ag-grid-scrolling-rows .ag-row`;
+
 describe('ag-grid-storybook data entry grid', () => {
   E2eVariations.forEachTheme((theme) => {
     describe(
@@ -19,30 +21,42 @@ describe('ag-grid-storybook data entry grid', () => {
               `/iframe.html?globals=theme:${theme}&id=dataentrygridcomponent-dataentrygrid--data-entry-grid-date-and-lookup${compact ? '-compact' : ''}`,
             );
             cy.skyReady('app-data-entry-grid', ['#ready']);
-            cy.get(
-              '#checkboxes .ag-viewport > .ag-center-cols-container > .ag-row',
-            )
+            cy.get(`#checkboxes ${rowsSelector}`)
               .should('exist')
               .should('have.length', 3);
-            cy.get(
-              '#editDate .ag-viewport > .ag-center-cols-container > .ag-row',
-            )
+            cy.get(`#editDate ${rowsSelector}`)
               .should('exist')
               .should('have.length', 3);
-            cy.get(
-              '#editDateWithCalendar .ag-viewport > .ag-center-cols-container > .ag-row',
-            )
+            cy.get(`#editDateWithCalendar ${rowsSelector}`)
               .should('exist')
               .should('have.length.gte', 7);
-            cy.get(
-              '#editLookup .ag-viewport > .ag-center-cols-container > .ag-row',
-            )
+            cy.get(`#editLookup ${rowsSelector}`)
               .should('exist')
               .should('have.length', 3);
 
+            // Expect inline help buttons to be visible in three grids. Assert
+            // this before opening any editors: the datepicker calendar's
+            // sky-overlay spans the whole viewport without pointer-events
+            // pass-through, and once the page scrolls the viewkeeper pins the
+            // grid headers with `position: fixed` — Cypress treats a fixed
+            // element covered by an overlay as not visible.
+            cy.get(
+              '#editDateWithCalendar [col-id="name"] button.sky-help-inline',
+            )
+              .should('exist')
+              .should('be.visible');
+
+            cy.get('#editDate [col-id="name"] button.sky-help-inline')
+              .should('exist')
+              .should('be.visible');
+
+            cy.get('#editLookup [col-id="name"] button.sky-help-inline')
+              .should('exist')
+              .should('be.visible');
+
             // Activate a lookup field.
             /* spell-checker:disable-next-line */
-            cy.get('#editLookup div[row-id="aaronha01"] > div[col-id="name"]')
+            cy.get('#editLookup div[row-id="aaronha01"] div[col-id="name"]')
               .should('be.visible')
               .click();
             cy.get(
@@ -60,7 +74,7 @@ describe('ag-grid-storybook data entry grid', () => {
             // never scrolls in the first place, rather than trying to
             // scroll it back afterward.
             /* spell-checker:disable-next-line */
-            cy.get('#editDate div[row-id="bankser01"] > div[col-id="birthday"]')
+            cy.get('#editDate div[row-id="bankser01"] div[col-id="birthday"]')
               .should('be.visible')
               .click({ scrollBehavior: false });
             cy.get(
@@ -85,7 +99,7 @@ describe('ag-grid-storybook data entry grid', () => {
             // misaligned with its cell. Not scrolling at all avoids that.
             cy.get(
               /* spell-checker:disable-next-line */
-              '#editDateWithCalendar div[row-id="blylebe01"] > div[col-id="birthday"]',
+              '#editDateWithCalendar div[row-id="blylebe01"] div[col-id="birthday"]',
             )
               .should('be.visible')
               .click({ scrollBehavior: false });
@@ -111,21 +125,6 @@ describe('ag-grid-storybook data entry grid', () => {
               .should('be.visible')
               .should('contain.text', '06');
 
-            // Expect inline help buttons to be visible in three grids.
-            cy.get(
-              '#editDateWithCalendar [col-id="name"] button.sky-help-inline',
-            )
-              .should('exist')
-              .should('be.visible');
-
-            cy.get('#editDate [col-id="name"] button.sky-help-inline')
-              .should('exist')
-              .should('be.visible');
-
-            cy.get('#editLookup [col-id="name"] button.sky-help-inline')
-              .should('exist')
-              .should('be.visible');
-
             // Screenshot the three grids with active editors.
             cy.window().skyVisualTest(
               /* spell-checker:disable-next-line */
@@ -146,24 +145,16 @@ describe('ag-grid-storybook data entry grid', () => {
             );
             // Briefly wait between arrowing down.
             cy.skyReady('app-data-entry-grid', ['#ready']);
-            cy.get(
-              '#sideScroll .ag-viewport > .ag-center-cols-container > .ag-row',
-            )
+            cy.get(`#sideScroll ${rowsSelector}`)
               .should('exist')
               .should('have.length', 3);
-            cy.get(
-              '#editText .ag-viewport > .ag-center-cols-container > .ag-row',
-            )
+            cy.get(`#editText ${rowsSelector}`)
               .should('exist')
               .should('have.length', 3);
-            cy.get(
-              '#editLookup .ag-viewport > .ag-center-cols-container > .ag-row',
-            )
+            cy.get(`#editLookup ${rowsSelector}`)
               .should('exist')
               .should('have.length', 5);
-            cy.get(
-              '#editLookupMultiple .ag-viewport > .ag-center-cols-container > .ag-row',
-            )
+            cy.get(`#editLookupMultiple ${rowsSelector}`)
               .should('exist')
               .should('have.length', 5);
 
@@ -180,14 +171,12 @@ describe('ag-grid-storybook data entry grid', () => {
               .type('{enter}', { force: true });
             cy.get(
               /* spell-checker:disable-next-line */
-              '#editText div[row-id="bankser01"] > div[col-id="name"] > sky-ag-grid-cell-editor-text > input',
+              '#editText div[row-id="bankser01"] div[col-id="name"] > sky-ag-grid-cell-editor-text > input',
             )
               .should('exist')
               .should('be.visible')
               .should('have.focus');
-            cy.get(
-              '#editText .ag-viewport > .ag-center-cols-container > .ag-row',
-            )
+            cy.get(`#editText ${rowsSelector}`)
               .should('exist')
               .should('have.length', 3);
 
@@ -220,7 +209,7 @@ describe('ag-grid-storybook data entry grid', () => {
             // Activate a lookup multi-select field and add a second value.
             cy.get(
               /* spell-checker:disable-next-line */
-              '#editLookupMultiple div[row-id="seaveto01"] > div[col-id="name"]',
+              '#editLookupMultiple div[row-id="seaveto01"] div[col-id="name"]',
             )
               .should('be.visible')
               .click();
@@ -242,7 +231,7 @@ describe('ag-grid-storybook data entry grid', () => {
             // Leave the lookup field to show it render multiple values.
             cy.get(
               /* spell-checker:disable-next-line */
-              '#editLookupMultiple div[row-id="seaveto01"] > div[col-id="birthday"]',
+              '#editLookupMultiple div[row-id="seaveto01"] div[col-id="birthday"]',
             )
               .should('be.visible')
               .click();
@@ -250,7 +239,7 @@ describe('ag-grid-storybook data entry grid', () => {
             // Activate another lookup multi-select field and enter values, leaving it active.
             cy.get(
               /* spell-checker:disable-next-line */
-              '#editLookupMultiple div[row-id="simmoal01"] > div[col-id="name"]',
+              '#editLookupMultiple div[row-id="simmoal01"] div[col-id="name"]',
             )
               .should('be.visible')
               .click();
@@ -297,7 +286,7 @@ describe('ag-grid-storybook data entry grid', () => {
 
             // Activate a lookup single-select field.
             /* spell-checker:disable-next-line */
-            cy.get('#editLookup div[row-id="berrayo01"] > div[col-id="name"]')
+            cy.get('#editLookup div[row-id="berrayo01"] div[col-id="name"]')
               .should('be.visible')
               .click();
             // Search the lookup field.

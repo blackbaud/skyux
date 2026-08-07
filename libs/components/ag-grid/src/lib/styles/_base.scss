@@ -7,6 +7,13 @@
 .ag-theme-sky-data-entry-grid-modern-light,
 .ag-theme-sky-data-grid-modern-light-compact,
 .ag-theme-sky-data-entry-grid-modern-light-compact {
+  // The un-inflated width of the theme's `headerRowBorder` (see
+  // `ag-grid-theme.ts` and the `.sky-ag-grid` header-cell/spacer overrides).
+  --sky-ag-grid-header-row-border-width: var(
+    --sky-override-ag-grid-row-border-width,
+    var(--sky-border-width-separator-row)
+  );
+
   @include ag-grid-extra.ag-grid-extra();
 
   .ag-header-cell {
@@ -26,7 +33,9 @@
     cursor: initial;
   }
 
-  .ag-header-row.ag-header-row-filter > .ag-header-cell.ag-floating-filter {
+  // AG Grid 36 wraps header cells in `.ag-grid-scrolling-cells` (and pinned
+  // variants), so the cells are no longer direct children of the header row.
+  .ag-header-row.ag-header-row-filter .ag-header-cell.ag-floating-filter {
     padding-block: 0;
     padding-inline-start: 0;
 
@@ -42,10 +51,21 @@
     }
   }
 
-  .ag-layout-auto-height .ag-body {
-    .ag-center-cols-container,
-    .ag-center-cols-viewport {
-      min-height: var(--sky-ag-grid-min-height, 50px);
+  .ag-layout-auto-height .ag-grid-scrolling-rows {
+    min-height: var(--sky-ag-grid-min-height, 50px);
+  }
+
+  // An autoHeight grid can never scroll vertically. Before AG Grid 36 the
+  // `alwaysShowVerticalScroll` option was ignored in this layout; v36 renders
+  // its fake vertical scrollbar anyway, with a stale, too-tall inner
+  // container from init-time layout that presents a draggable thumb.
+  // Suppress it here — the option itself is untouched, so normal-layout
+  // grids keep their always-visible scrollbar. The horizontal scrollbar's
+  // end spacer only exists to clear that vertical scrollbar, so it goes too.
+  .ag-layout-auto-height {
+    .ag-body-vertical-scroll,
+    .ag-body-horizontal-scroll-end-spacer {
+      display: none;
     }
   }
 
@@ -53,7 +73,9 @@
     box-shadow: none;
   }
 
-  .ag-sticky-bottom {
+  // AG Grid 36 renamed `.ag-sticky-bottom` to
+  // `.ag-grid-sticky-bottom-rows-container`.
+  .ag-grid-sticky-bottom-rows-container {
     background-color: transparent;
     border-color: transparent;
   }
@@ -151,7 +173,6 @@
 .ag-theme-sky-data-grid-modern-light,
 .ag-theme-sky-data-grid-modern-light-compact {
   &:not(:has(:focus-visible)) {
-    --ag-input-focus-border-color: transparent;
     --ag-range-selection-border-color: transparent;
   }
 
@@ -166,13 +187,18 @@
     --sky-comp-override-list-header-background-color,
     var(--sky-background-color-page-default)
   );
-  --ag-header-column-separator-color: var(--sky-background-color-page-default);
 }
 
 .ag-theme-sky-data-entry-grid-default,
 .ag-theme-sky-data-entry-grid-modern-light,
 .ag-theme-sky-data-entry-grid-modern-light-compact {
-  .ag-center-cols-viewport {
+  --sky-ag-grid-header-row-border-width: var(
+    --sky-override-ag-grid-row-border-width,
+    var(--sky-border-width-emphasized)
+  );
+
+  // AG Grid 36 renamed `.ag-center-cols-viewport` to `.ag-grid-scrolling-rows`.
+  .ag-grid-scrolling-rows {
     border-bottom: var(--ag-row-border);
   }
 
@@ -246,14 +272,79 @@
   }
 }
 
-.sky-ag-grid.sky-ag-grid-top-scrollbar .ag-root {
-  .ag-body-horizontal-scroll.ag-scrollbar-invisible {
-    /* Value is overridden in SkyAgGridWrapperComponent to match the calculated value AG Grid uses. */
-    --sky-ag-body-horizontal-scroll-width: 15px;
-    position: relative;
-    z-index: 1;
-    bottom: revert;
-    margin-bottom: calc(var(--sky-ag-body-horizontal-scroll-width) * -1);
+// `.ag-root` is excluded from within `.ag-details-row` here (rather than just
+// zeroing `--sky-ag-grid-top-scroll-height` there) because the descendant
+// combinator below would otherwise also match master/detail child grids'
+// roots, forcing their own horizontal scrollbars into this absolute
+// positioning instead of leaving them at AG Grid's default bottom placement.
+.sky-ag-grid.sky-ag-grid-top-scrollbar .ag-root:not(.ag-details-row *) {
+  // AG Grid only sets `position: absolute` on .ag-body-horizontal-scroll when
+  // it also has .ag-scrollbar-invisible (macOS-style auto-hiding scrollbars).
+  // Force it here unconditionally, positioned just below the header rows from
+  // the variables SkyAgGridWrapperComponent maintains on the wrapper div -
+  // CSS positioning (rather than inline styles) survives AG Grid recreating
+  // the scrollbar element.
+  .ag-body-horizontal-scroll {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(
+      var(--sky-ag-grid-header-rows-height, 0px) - var(
+          --sky-ag-grid-top-scroll-height,
+          0px
+        )
+    );
+    bottom: auto;
+    z-index: 2;
+
+    // Paint the reserved strip from the scrollbar itself: AG Grid skips
+    // rewriting `.ag-header`'s inline height when only the headerRowBorder
+    // width changes, so on initial load the header's border band paints
+    // clipped inside the un-refreshed header box instead of across this
+    // strip. An element-owned backdrop and separator line render identically
+    // in both states. Overlay scrollbars float over row content and must
+    // stay transparent.
+    &:not(.ag-scrollbar-invisible) {
+      background-color: var(--ag-background-color);
+      box-shadow: 0 calc(-1 * var(--sky-ag-grid-header-row-border-width)) 0 0
+        var(
+          --sky-override-ag-grid-border-color,
+          var(--sky-color-border-separator-row)
+        );
+    }
+  }
+}
+
+.sky-ag-grid {
+  // The theme's `headerRowBorder` width is inflated by this variable (set by
+  // SkyAgGridWrapperComponent) to reserve space under the header for the top
+  // horizontal scrollbar. AG Grid also paints that border width on header
+  // cells and the vertical-scroll spacer — pin those back to the un-inflated
+  // width so only the space under the header grows. AG Grid's own rules are
+  // `:where()`-wrapped, so these zero-var overrides always win.
+  .ag-header-cell,
+  .ag-header-group-cell {
+    border-top-width: var(--sky-ag-grid-header-row-border-width);
+  }
+
+  // `.ag-header`'s inline height is only refreshed by AG Grid on genuine
+  // header-height changes, so when the reservation inflates the border the
+  // band would paint inside the stale, shorter box - showing through the
+  // header cells as a thick tinted strip. Pin the painted width; the
+  // separator line at the reserved strip is painted by the scrollbar's
+  // box-shadow instead (see the top-scrollbar block).
+  .ag-header {
+    border-bottom-width: var(--sky-ag-grid-header-row-border-width);
+  }
+
+  .ag-body-vertical-scroll-start-spacer {
+    border-bottom-width: var(--sky-ag-grid-header-row-border-width);
+  }
+
+  // Master/detail child grids share the wrapper's theme but must not reserve
+  // top-scrollbar space of their own.
+  .ag-details-row {
+    --sky-ag-grid-top-scroll-height: 0px;
   }
 }
 

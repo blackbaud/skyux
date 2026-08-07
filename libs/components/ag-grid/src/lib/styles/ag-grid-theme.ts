@@ -63,8 +63,15 @@ const defaultsForAllThemes: Partial<ThemeDefaultParams> = {
   headerFontFamily: { ref: 'fontFamily' },
   headerHeight:
     'var(--sky-override-ag-grid-header-height, calc(calc(var(--sky-font-line_height-body-m) * var(--sky-font-size-body-m)) + calc(var(--sky-comp-grid-cell-space-inset-top) + var(--sky-comp-grid-cell-space-inset-bottom))))',
+  // The width term includes `--sky-ag-grid-top-scroll-height` (0 unless the
+  // wrapper reserves space for a top horizontal scrollbar) because this border
+  // is the only theme value AG Grid adds into all of its header-adjacent
+  // geometry (pinned/sticky row offsets, body viewport height, fake scrollbar
+  // spacers). `_base.scss` pins the other consumers of this border width
+  // (header-cell border-top, vertical-scroll spacer) back to the un-inflated
+  // width.
   headerRowBorder:
-    'var(--sky-override-ag-grid-row-border-width, var(--sky-border-width-separator-row)) var(--sky-override-ag-grid-header-row-border-style, var(--sky-border-style-separator-row)) var(--sky-override-ag-grid-border-color, var(--sky-color-border-separator-row))',
+    'calc(var(--sky-override-ag-grid-row-border-width, var(--sky-border-width-separator-row)) + var(--sky-ag-grid-top-scroll-height, 0px)) var(--sky-override-ag-grid-header-row-border-style, var(--sky-border-style-separator-row)) var(--sky-override-ag-grid-border-color, var(--sky-color-border-separator-row))',
   iconSize: 12,
   inputDisabledBackgroundColor: 'transparent',
   inputFocusBorder: 'transparent',
@@ -101,8 +108,9 @@ const defaultsForDataEntryGrid = {
   popupShadow: 'none',
   rowBorder:
     'var(--sky-override-ag-grid-row-border-width, var(--sky-border-width-separator-row)) solid var(--sky-override-ag-grid-border-color, var(--sky-color-border-separator-row))',
+  // See the `headerRowBorder` comment in `defaultsForAllThemes`.
   headerRowBorder:
-    'var(--sky-override-ag-grid-row-border-width, var(--sky-border-width-emphasized)) solid var(--sky-override-ag-grid-border-color, var(--sky-color-border-separator-row))',
+    'calc(var(--sky-override-ag-grid-row-border-width, var(--sky-border-width-emphasized)) + var(--sky-ag-grid-top-scroll-height, 0px)) solid var(--sky-override-ag-grid-border-color, var(--sky-color-border-separator-row))',
 };
 
 const SkyAgGridDataGrid = themeQuartz

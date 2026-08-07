@@ -584,6 +584,7 @@ export class SkyAgGridService {
       ),
       loadingOverlayComponent: SkyAgGridLoadingComponent,
       onCellFocused: (event: CellFocusedEvent) => this.#onCellFocused(event),
+      paginationPageSizeSelector: false,
       rowModelType: 'clientSide',
       rowSelection: {
         mode: 'multiRow',
