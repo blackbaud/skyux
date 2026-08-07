@@ -637,17 +637,17 @@ function ngModuleExportsGridModuleWithoutImportingIt(
 }
 
 /**
- * True when any `@NgModule` in `source` exports `SkyGridModule` without also
- * importing it.
+ * All `@NgModule` metadata objects in `source` that export `SkyGridModule`
+ * without also importing it.
  */
-function sourceHasNgModuleExportingGridModuleWithoutImportingIt(
+function getNgModulesExportingGridModuleWithoutImportingIt(
   source: ts.SourceFile,
-): boolean {
+): ts.ObjectLiteralExpression[] {
   if (!isImportedFromPackage(source, 'NgModule', '@angular/core')) {
-    return false;
+    return [];
   }
-  return getDecoratorMetadata(source, 'NgModule', '@angular/core').some(
-    (node) =>
+  return getDecoratorMetadata(source, 'NgModule', '@angular/core').filter(
+    (node): node is ts.ObjectLiteralExpression =>
       ts.isObjectLiteralExpression(node) &&
       ngModuleExportsGridModuleWithoutImportingIt(node),
   );
@@ -695,8 +695,8 @@ function updateTypescriptImports(
     // A real conversion needs SkyDataGrid/SkyDataGridColumn. Any list-view-grid
     // skip stays safe because <sky-list-view-grid> requires
     // SkyListViewGridModule, which re-exports SkyGridModule.
-    const needsGridImportForExport =
-      sourceHasNgModuleExportingGridModuleWithoutImportingIt(source);
+    const modulesNeedingGridImportForExport =
+      getNgModulesExportingGridModuleWithoutImportingIt(source);
     const recorder = tree.beginUpdate(filePath);
     swapImportedClass(recorder, filePath, source, [
       {
@@ -709,11 +709,19 @@ function updateTypescriptImports(
         },
       },
     ]);
-    if (needsGridImportForExport) {
+    for (const moduleNode of modulesNeedingGridImportForExport) {
       // The import is already added by swapImportedClass above, so only the
       // metadata array needs the symbols (importPath: null). Restrict the
-      // edit to the NgModule(s) that actually need it, since a file can
-      // declare more than one NgModule.
+      // edit to this NgModule, since a file can declare more than one, and
+      // only add whichever class names its `imports` array is missing (it
+      // may already reference SkyDataGrid/SkyDataGridColumn directly).
+      const missingClassNames = DATA_GRID_CLASS_NAMES.filter(
+        (className) =>
+          !isSymbolInClassMetadataFieldArray(moduleNode, 'imports', className),
+      );
+      if (!missingClassNames.length) {
+        continue;
+      }
       applyToUpdateRecorder(
         recorder,
         addSymbolToClassMetadata(
@@ -721,9 +729,9 @@ function updateTypescriptImports(
           'NgModule',
           filePath,
           'imports',
-          DATA_GRID_CLASS_NAMES.join(', '),
+          missingClassNames.join(', '),
           null,
-          ngModuleExportsGridModuleWithoutImportingIt,
+          (node) => node === moduleNode,
         ),
       );
     }

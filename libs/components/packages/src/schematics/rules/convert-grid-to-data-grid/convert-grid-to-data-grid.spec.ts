@@ -1154,4 +1154,51 @@ describe('Convert Grid to Data Grid', () => {
       barModuleBlock?.match(/SkyDataGrid, SkyDataGridColumn/g),
     ).toHaveLength(2);
   });
+
+  it('should not duplicate SkyDataGrid in an NgModule imports array that already imports it when only exports referenced SkyGridModule', async () => {
+    const tree = await createTestApp(runner, { projectName: 'test-app' });
+    tree.create(
+      'src/app/foo.component.html',
+      stripIndents`
+        <sky-grid [data]="data">
+          <sky-grid-column id="name" heading="Name" field="name" />
+        </sky-grid>
+      `,
+    );
+    createExternalTemplateComponent(tree, 'foo', 'FooComponent');
+    tree.create(
+      'src/app/foo.module.ts',
+      stripIndents`
+        import { NgModule } from '@angular/core';
+        import { SkyDataGrid } from '@skyux/data-grid';
+        import { SkyGridModule } from '@skyux/grids';
+
+        import { FooComponent } from './foo.component';
+
+        @NgModule({
+          declarations: [FooComponent],
+          imports: [SkyDataGrid],
+          exports: [SkyGridModule],
+        })
+        export class FooModule {}
+      `,
+    );
+    const result = await convert(tree);
+    expect(stripIndents`${result.readText('src/app/foo.module.ts')}`).toBe(
+      stripIndents`
+        import { NgModule } from '@angular/core';
+        import { SkyDataGrid, SkyDataGridColumn } from '@skyux/data-grid';
+
+
+        import { FooComponent } from './foo.component';
+
+        @NgModule({
+          declarations: [FooComponent],
+          imports: [SkyDataGrid, SkyDataGridColumn],
+          exports: [SkyDataGrid, SkyDataGridColumn],
+        })
+        export class FooModule {}
+      `,
+    );
+  });
 });
