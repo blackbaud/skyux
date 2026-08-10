@@ -6,6 +6,7 @@
 
 ### Bug Fixes
 
+* **components/ag-grid:** update no-rows text ([#4604](https://github.com/blackbaud/skyux/issues/4604)) ([da81925](https://github.com/blackbaud/skyux/commit/da81925b0e745e3504fd5e8543206137fbb7237b)), closes [AB#4079651](https://dev.azure.com/blackbaud/Products/_workitems/edit/4079651)
 * **components/indicators:** spot illustration reflects dark mode and branding styles ([#4599](https://github.com/blackbaud/skyux/issues/4599)) ([c80de19](https://github.com/blackbaud/skyux/commit/c80de195af957667ba9600de8ad866c3c338b31e))
 * **components/packages:** add SkyDataGrid/SkyDataGridColumn to NgModule imports when only exports referenced SkyGridModule in convert-grid-to-data-grid ([#4600](https://github.com/blackbaud/skyux/issues/4600)) ([f1582d0](https://github.com/blackbaud/skyux/commit/f1582d096e3f4123199beef5b0438b0e6159a349))
 * point dropdown docs to valid URL in JSDoc comments ([#4592](https://github.com/blackbaud/skyux/issues/4592)) ([a6fa970](https://github.com/blackbaud/skyux/commit/a6fa97003e8f0a6645252716c501e50e2d900b83))
