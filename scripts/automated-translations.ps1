@@ -103,8 +103,19 @@ else
   # Commits on this branch that are not yet on the LTS branch (e.g. translations
   # pushed directly by the translation partner) must never be rewritten or
   # force-pushed away, whether or not a pull request already exists for them.
-  $aheadCount = [int](git rev-list --count "$LtsBranchName..HEAD")
   Write-Output "`n# git rev-list --count $LtsBranchName..HEAD"
+  $aheadCountRaw = git rev-list --count "$LtsBranchName..HEAD"
+  if ($LASTEXITCODE -ne 0)
+  {
+    Write-Output "`n::error::git rev-list failed (exit $LASTEXITCODE).`n"
+    exit $LASTEXITCODE
+  }
+  $aheadCount = 0
+  if (-not [int]::TryParse("$aheadCountRaw", [ref]$aheadCount))
+  {
+    Write-Output "`n::error::git rev-list returned a non-numeric count ('$aheadCountRaw').`n"
+    exit 1
+  }
   Write-Output "$aheadCount"
 
   if ($aheadCount -gt 0)
@@ -217,7 +228,7 @@ else
   }
   Write-Output "`n::endgroup::`n"
 
-  $changesFromLts = git diff $LtsBranchName --name-only
+  $changesFromLts = git diff $LtsBranchName HEAD --name-only -- '**/src/assets/locales/*.json' '**/*-resources.module.ts'
   if ($changesFromLts)
   {
     Write-Output "`n::group::Pull request`n"
