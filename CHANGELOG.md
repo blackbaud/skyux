@@ -1,7 +1,12 @@
 # Changelog
 
 
-## [14.11.1](https://github.com/blackbaud/skyux/compare/14.11.0...14.11.1) (2026-08-10)
+## [14.12.0](https://github.com/blackbaud/skyux/compare/14.11.0...14.12.0) (2026-08-10)
+
+
+### Features
+
+* **components/ag-grid:** add `defineSkyAgGridColDef` to validate cell editor and renderer params against cell types ([#4582](https://github.com/blackbaud/skyux/issues/4582)) ([7c01fd2](https://github.com/blackbaud/skyux/commit/7c01fd2a96f3fefef0e42fc3934fd0098bf94ca5)), closes [AB#3928427](https://dev.azure.com/blackbaud/Products/_workitems/edit/3928427)
 
 
 ### Bug Fixes
