@@ -47,7 +47,13 @@ jobs:
   automated-translations:
     name: Sync translations
     needs: determine-lts
-    if: needs.determine-lts.outputs.should-sync == 'true'
+    # Skip runs triggered by this workflow's own push to automated-translations
+    # (it already syncs/opens a PR within the run that made the push), so LTS
+    # pushes don't trigger two runs and the partner has a smaller window
+    # between their push and the next sync.
+    if: |
+      needs.determine-lts.outputs.should-sync == 'true' &&
+      !(github.event_name == 'push' && github.ref_name == 'automated-translations' && github.actor == 'blackbaud-sky-build-user')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6

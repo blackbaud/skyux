@@ -1,5 +1,20 @@
 #!/usr/bin/env pwsh
 
+# Keeps the `automated-translations` branch in sync with the given LTS branch,
+# then opens (or updates) a pull request back to LTS when the branch has
+# content to deliver.
+#
+# The translation partner (Lingoport) pushes commits directly to
+# `automated-translations` with translated locale resources, and its watcher
+# does a plain, non-force `git pull` from that branch. To avoid ever orphaning
+# a partner commit:
+#   - If the branch has commits not yet on LTS (partner translations, or a
+#     previously-synced batch still pending in a PR), this script MERGES the
+#     LTS branch in (preserving those commits' SHAs) and pushes WITHOUT force.
+#   - Only when the branch has nothing unique to preserve does it REBASE onto
+#     LTS and push with `--force-with-lease`, keeping history linear.
+# See `-IsDryRun` to preview a sync without committing or pushing.
+
 [CmdletBinding()]
 param (
   [string]$LtsBranchName,
@@ -76,7 +91,7 @@ else
   Write-Output "`n# git pull"
   git pull --set-upstream origin $TranslationBranchName
 
-  $existingPr = gh pr list --state open --base $LtsBranchName `
+  $existingPr = gh pr list --state open --base $LtsBranchName --head $TranslationBranchName --limit 100 `
     --json title,url,headRefName,baseRefName `
     --jq ".[] | select(.headRefName == `"${TranslationBranchName}`" and .baseRefName == `"${LtsBranchName}`")"
   if ($LASTEXITCODE -ne 0)
@@ -85,51 +100,104 @@ else
     exit $LASTEXITCODE
   }
 
-  if ($existingPr)
+  # Commits on this branch that are not yet on the LTS branch (e.g. translations
+  # pushed directly by the translation partner) must never be rewritten or
+  # force-pushed away, whether or not a pull request already exists for them.
+  Write-Output "`n# git rev-list --count $LtsBranchName..HEAD"
+  $aheadCountRaw = git rev-list --count "$LtsBranchName..HEAD"
+  if ($LASTEXITCODE -ne 0)
   {
-    Write-Output "`n# git merge -X theirs --no-edit $LtsBranchName   (PR is open — preserving commit SHAs)"
-    git merge -X theirs --no-edit $LtsBranchName
+    Write-Output "`n::error::git rev-list failed (exit $LASTEXITCODE).`n"
+    exit $LASTEXITCODE
+  }
+  $aheadCount = 0
+  if (-not [int]::TryParse("$aheadCountRaw", [ref]$aheadCount))
+  {
+    Write-Output "`n::error::git rev-list returned a non-numeric count ('$aheadCountRaw').`n"
+    exit 1
+  }
+  Write-Output "$aheadCount"
+
+  if ($aheadCount -gt 0)
+  {
+    Write-Output "`n# git merge --no-edit $LtsBranchName   ($aheadCount commit(s) ahead of $LtsBranchName — preserving them)"
+    git merge --no-edit $LtsBranchName
     if ($LASTEXITCODE -ne 0)
     {
-      Write-Output "`n::error::git merge failed (exit $LASTEXITCODE).`n"
+      Write-Output "`n::error::git merge failed (exit $LASTEXITCODE). Resolve conflicts manually so translation changes are not discarded.`n"
       exit $LASTEXITCODE
     }
+    $historyRewritten = $false
   }
   else
   {
-    Write-Output "`n# git rebase -X ours $LtsBranchName"
-    git rebase -X ours $LtsBranchName
+    Write-Output "`n# git rebase $LtsBranchName"
+    git rebase $LtsBranchName
     if ($LASTEXITCODE -ne 0)
     {
       Write-Output "`n::error::git rebase failed (exit $LASTEXITCODE).`n"
       exit $LASTEXITCODE
     }
+    $historyRewritten = $true
   }
   Write-Output "`n::endgroup::`n"
 
   Write-Output "`n::group::NPM Install`n"
   Write-Output "`n# npm ci"
   npm ci --no-audit --no-progress --no-fund
+  if ($LASTEXITCODE -ne 0)
+  {
+    Write-Output "`n::error::npm ci failed (exit $LASTEXITCODE).`n"
+    exit $LASTEXITCODE
+  }
   Write-Output "`n::endgroup::`n"
 
   Write-Output "`n::group::Update library resources`n"
   Write-Output "`n# npm run dev:create-library-resources"
   npm run dev:create-library-resources
+  if ($LASTEXITCODE -ne 0)
+  {
+    Write-Output "`n::error::dev:create-library-resources failed (exit $LASTEXITCODE).`n"
+    exit $LASTEXITCODE
+  }
   Write-Output "`n::endgroup::`n"
 
   Write-Output "`n::group::Prettier`n"
   Write-Output "`n# npx nx format:write"
   npx nx format:write
+  if ($LASTEXITCODE -ne 0)
+  {
+    Write-Output "`n::error::nx format:write failed (exit $LASTEXITCODE).`n"
+    exit $LASTEXITCODE
+  }
   Write-Output "`n::endgroup::`n"
 
   Write-Output "`n::group::Check for changes`n"
-  Write-Output "`n# git add -A"
-  git add -A
-  Write-Output "`n# git status"
-  git status
+  Write-Output "`n# git add -- '**/src/assets/locales/*.json' '**/*-resources.module.ts'"
+  git add -- '**/src/assets/locales/*.json' '**/*-resources.module.ts'
+  if ($LASTEXITCODE -ne 0)
+  {
+    Write-Output "`n::error::git add failed (exit $LASTEXITCODE).`n"
+    exit $LASTEXITCODE
+  }
+  Write-Output "`n# git diff --cached --stat"
+  git diff --cached --stat
+  if ($LASTEXITCODE -ne 0)
+  {
+    Write-Output "`n::error::git diff --cached --stat failed (exit $LASTEXITCODE).`n"
+    exit $LASTEXITCODE
+  }
   Write-Output "#"
 
-  $changes = git status --porcelain
+  # Only the staged locale/resource-module paths count as "changes" — anything
+  # else touched by npm ci or nx format:write (e.g. lockfile drift) is left
+  # unstaged and untouched, so it can never be committed here.
+  $changes = git diff --cached --name-only
+  if ($LASTEXITCODE -ne 0)
+  {
+    Write-Output "`n::error::git diff --cached --name-only failed (exit $LASTEXITCODE).`n"
+    exit $LASTEXITCODE
+  }
 
   if ($changes)
   {
@@ -144,6 +212,11 @@ else
       Write-Output "`n::group::Push changes to $TranslationBranchName branch`n"
       Write-Output "`n# git commit -m '${CommitMessage}'"
       git commit -m "${CommitMessage}"
+      if ($LASTEXITCODE -ne 0)
+      {
+        Write-Output "`n::error::git commit failed (exit $LASTEXITCODE).`n"
+        exit $LASTEXITCODE
+      }
     }
   }
   else
@@ -153,15 +226,15 @@ else
 
   if (-not $IsDryRunBool)
   {
-    if ($existingPr)
-    {
-      Write-Output "`n# git push origin $TranslationBranchName"
-      git push origin $TranslationBranchName
-    }
-    else
+    if ($historyRewritten)
     {
       Write-Output "`n# git push --force-with-lease origin $TranslationBranchName"
       git push --force-with-lease origin $TranslationBranchName
+    }
+    else
+    {
+      Write-Output "`n# git push origin $TranslationBranchName"
+      git push origin $TranslationBranchName
     }
     if ($LASTEXITCODE -ne 0)
     {
@@ -175,7 +248,12 @@ else
   }
   Write-Output "`n::endgroup::`n"
 
-  $changesFromLts = git diff $LtsBranchName --name-only
+  $changesFromLts = git diff $LtsBranchName HEAD --name-only -- '**/src/assets/locales/*.json' '**/*-resources.module.ts'
+  if ($LASTEXITCODE -ne 0)
+  {
+    Write-Output "`n::error::git diff $LtsBranchName HEAD failed (exit $LASTEXITCODE).`n"
+    exit $LASTEXITCODE
+  }
   if ($changesFromLts)
   {
     Write-Output "`n::group::Pull request`n"
@@ -196,7 +274,19 @@ else
         --body ":robot: This pull request was created by the automated translations script." `
         --label "risk level (author): 1" `
         --label "skip e2e"
-      $prForChanges = gh pr list --json title,url,headRefName --jq ".[] | select(.headRefName == `"${TranslationBranchName}`")"
+      if ($LASTEXITCODE -ne 0)
+      {
+        Write-Output "`n::error::gh pr create failed (exit $LASTEXITCODE).`n"
+        exit $LASTEXITCODE
+      }
+      $prForChanges = gh pr list --state open --base $LtsBranchName --head $TranslationBranchName --limit 100 `
+        --json title,url,headRefName,baseRefName `
+        --jq ".[] | select(.headRefName == `"${TranslationBranchName}`" and .baseRefName == `"${LtsBranchName}`")"
+      if ($LASTEXITCODE -ne 0)
+      {
+        Write-Output "`n::error::gh pr list failed (exit $LASTEXITCODE).`n"
+        exit $LASTEXITCODE
+      }
       if ($env:GITHUB_OUTPUT)
       {
         Write-Output "prCreated=true" >> $env:GITHUB_OUTPUT
