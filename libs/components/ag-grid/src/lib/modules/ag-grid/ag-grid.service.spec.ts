@@ -362,6 +362,9 @@ describe('SkyAgGridService', () => {
       expect(gridOptions.localeText?.['noRowsToShow']).toEqual(
         'No data available',
       );
+      expect(gridOptions.localeText?.['noMatchingRows']).toEqual(
+        'No matching rows',
+      );
     });
 
     it('should prefer a consumer-provided localeText override over the default text', () => {
@@ -373,6 +376,9 @@ describe('SkyAgGridService', () => {
 
       expect(gridOptions.localeText?.['noRowsToShow']).toEqual(
         'Custom no rows text',
+      );
+      expect(gridOptions.localeText?.['noMatchingRows']).toEqual(
+        'No matching rows',
       );
     });
 
