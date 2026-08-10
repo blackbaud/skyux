@@ -1,5 +1,10 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import {
+  SkyAgGridModule,
+  SkyAgGridService,
+  SkyCellType,
+  defineSkyAgGridColDef,
+} from '@skyux/ag-grid';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkySearchModule } from '@skyux/lookup';
 
@@ -42,14 +47,14 @@ export class AgGridDataGridTopScrollExampleComponent {
       sortable: false,
       cellRenderer: ContextMenuComponent,
     },
-    {
+    defineSkyAgGridColDef({
       field: 'selected',
       type: SkyCellType.RowSelector,
       cellRendererParams: {
         // Could be a SkyAppResourcesService.getString call that returns an observable.
         label: (data: AgGridDemoRow) => of(`Select ${data.name}`),
       },
-    },
+    }),
     {
       field: 'name',
       headerName: 'Name',
