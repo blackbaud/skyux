@@ -29,7 +29,12 @@
           "SkyCellEditorLookupParams",
           "SkyAgGridNumberProperties",
           "SkyAgGridTextProperties",
-          "SkyAgGridValidatorProperties"
+          "SkyAgGridValidatorProperties",
+          "defineSkyAgGridColDef",
+          "SkyAgGridColDef",
+          "SkyCellEditorParamsByType",
+          "SkyCellRendererParamsByType",
+          "SkyCellRendererTemplateContext"
         ],
         "primaryDocsId": "SkyAgGridModule"
       },
@@ -77,7 +82,12 @@
           "SkyCellEditorLookupParams",
           "SkyAgGridNumberProperties",
           "SkyAgGridTextProperties",
-          "SkyAgGridValidatorProperties"
+          "SkyAgGridValidatorProperties",
+          "defineSkyAgGridColDef",
+          "SkyAgGridColDef",
+          "SkyCellEditorParamsByType",
+          "SkyCellRendererParamsByType",
+          "SkyCellRendererTemplateContext"
         ],
         "primaryDocsId": "SkyAgGridModule"
       },
