@@ -175,14 +175,29 @@ else
   Write-Output "`n::group::Check for changes`n"
   Write-Output "`n# git add -- '**/src/assets/locales/*.json' '**/*-resources.module.ts'"
   git add -- '**/src/assets/locales/*.json' '**/*-resources.module.ts'
+  if ($LASTEXITCODE -ne 0)
+  {
+    Write-Output "`n::error::git add failed (exit $LASTEXITCODE).`n"
+    exit $LASTEXITCODE
+  }
   Write-Output "`n# git diff --cached --stat"
   git diff --cached --stat
+  if ($LASTEXITCODE -ne 0)
+  {
+    Write-Output "`n::error::git diff --cached --stat failed (exit $LASTEXITCODE).`n"
+    exit $LASTEXITCODE
+  }
   Write-Output "#"
 
   # Only the staged locale/resource-module paths count as "changes" — anything
   # else touched by npm ci or nx format:write (e.g. lockfile drift) is left
   # unstaged and untouched, so it can never be committed here.
   $changes = git diff --cached --name-only
+  if ($LASTEXITCODE -ne 0)
+  {
+    Write-Output "`n::error::git diff --cached --name-only failed (exit $LASTEXITCODE).`n"
+    exit $LASTEXITCODE
+  }
 
   if ($changes)
   {
@@ -197,6 +212,11 @@ else
       Write-Output "`n::group::Push changes to $TranslationBranchName branch`n"
       Write-Output "`n# git commit -m '${CommitMessage}'"
       git commit -m "${CommitMessage}"
+      if ($LASTEXITCODE -ne 0)
+      {
+        Write-Output "`n::error::git commit failed (exit $LASTEXITCODE).`n"
+        exit $LASTEXITCODE
+      }
     }
   }
   else
@@ -229,6 +249,11 @@ else
   Write-Output "`n::endgroup::`n"
 
   $changesFromLts = git diff $LtsBranchName HEAD --name-only -- '**/src/assets/locales/*.json' '**/*-resources.module.ts'
+  if ($LASTEXITCODE -ne 0)
+  {
+    Write-Output "`n::error::git diff $LtsBranchName HEAD failed (exit $LASTEXITCODE).`n"
+    exit $LASTEXITCODE
+  }
   if ($changesFromLts)
   {
     Write-Output "`n::group::Pull request`n"
