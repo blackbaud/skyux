@@ -2,9 +2,9 @@ import {
   Component,
   InjectionToken,
   OnInit,
-  ViewChild,
   ViewEncapsulation,
   inject,
+  viewChild,
 } from '@angular/core';
 
 import { AgGridAngular } from 'ag-grid-angular';
@@ -21,6 +21,7 @@ import { SkyAgGridService } from '../ag-grid.service';
 import { SkyCellType } from '../types/cell-type';
 
 import { SKY_AG_GRID_DATA, SKY_AG_GRID_LOOKUP } from './ag-grid-data.fixture';
+import { AG_GRID_FIXTURE_TEST_OPTIONS } from './ag-grid-fixture-test-options';
 import { FirstInlineHelpComponent } from './inline-help.component';
 
 export const EnableTopScroll = new InjectionToken<boolean>('EnableTopScroll', {
@@ -49,11 +50,9 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   imports: [SkyAgGridWrapperComponent, AgGridAngular],
 })
 export class SkyAgGridFixtureComponent implements OnInit {
-  @ViewChild('agGrid', { static: true })
-  public agGrid: AgGridAngular | undefined;
+  public readonly agGrid = viewChild<AgGridAngular>('agGrid');
 
-  @ViewChild(SkyAgGridWrapperComponent, { static: true })
-  public agGridWrapper: SkyAgGridWrapperComponent | undefined;
+  public readonly agGridWrapper = viewChild(SkyAgGridWrapperComponent);
 
   public enableTopScroll = inject(EnableTopScroll);
   public editable = inject(Editable);
@@ -211,9 +210,9 @@ export class SkyAgGridFixtureComponent implements OnInit {
   ];
 
   public gridOptions: GridOptions = {
+    ...AG_GRID_FIXTURE_TEST_OPTIONS,
     columnDefs: this.columnDefs,
     domLayout: inject(DomLayout),
-    suppressColumnVirtualisation: true,
     context: {
       enableTopScroll: this.enableTopScroll,
     },

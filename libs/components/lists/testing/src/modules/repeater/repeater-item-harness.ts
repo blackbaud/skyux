@@ -82,17 +82,26 @@ export class SkyRepeaterItemHarness extends SkyQueryableComponentHarness {
   }
 
   /**
-   * Deselects the repeater item.
+   * Deselects the repeater item. Throws an error if the item belongs to a
+   * single-select repeater, since a single-select item can only be replaced
+   * by selecting a different item, not cleared directly.
    */
   public async deselect(): Promise<void> {
     const checkbox = await this.#getCheckbox();
-    if (!checkbox) {
+    if (checkbox) {
+      await checkbox.uncheck();
+      return;
+    }
+
+    if (await this.#isSingleSelectItem()) {
       throw new Error(
-        'Could not deselect the repeater item because it is not selectable.',
+        'Could not deselect the repeater item because single-select repeater items can only be replaced by selecting a different item.',
       );
     }
 
-    await checkbox.uncheck();
+    throw new Error(
+      'Could not deselect the repeater item because it is not selectable.',
+    );
   }
 
   /**
@@ -158,10 +167,22 @@ export class SkyRepeaterItemHarness extends SkyQueryableComponentHarness {
   }
 
   /**
-   * Whether a selectable repeater item is disabled.
+   * Whether a selectable repeater item is disabled, either via a checkbox's disabled state, or,
+   * for a single-select repeater item, via the `aria-disabled` attribute on the item's row.
    */
   public async isDisabled(): Promise<boolean> {
-    return (await (await this.#getCheckbox())?.isDisabled()) || false;
+    const checkbox = await this.#getCheckbox();
+    if (checkbox) {
+      return await checkbox.isDisabled();
+    }
+
+    if (await this.#isSingleSelectItem()) {
+      return (
+        (await (await this.#getItem()).getAttribute('aria-disabled')) === 'true'
+      );
+    }
+
+    return false;
   }
 
   /**
@@ -185,10 +206,17 @@ export class SkyRepeaterItemHarness extends SkyQueryableComponentHarness {
   }
 
   /**
-   * Whether a repeater item has selection enabled.
+   * Whether a repeater item has selection enabled, either via a checkbox (the
+   * repeater's `selectionMode` property set to `multiple` or the item's deprecated
+   * `selectable` property) or via the repeater's `selectionMode` property set
+   * to `single`.
    */
   public async isSelectable(): Promise<boolean> {
-    return !!(await this.#getCheckbox());
+    if (await this.#getCheckbox()) {
+      return true;
+    }
+
+    return await this.#isSingleSelectItem();
   }
 
   /**
@@ -196,27 +224,43 @@ export class SkyRepeaterItemHarness extends SkyQueryableComponentHarness {
    */
   public async isSelected(): Promise<boolean> {
     const checkbox = await this.#getCheckbox();
-    if (!checkbox) {
-      throw new Error(
-        'Could not determine if repeater item is selected because it is not selectable.',
-      );
+    if (checkbox) {
+      return await checkbox.isChecked();
     }
 
-    return await checkbox.isChecked();
+    if (await this.#isSingleSelectItem()) {
+      const ariaSelected = await (
+        await this.#getItem()
+      ).getAttribute('aria-selected');
+      return ariaSelected === 'true';
+    }
+
+    throw new Error(
+      'Could not determine if repeater item is selected because it is not selectable.',
+    );
   }
 
   /**
-   * Selects the repeater item.
+   * Selects the repeater item. For a checkbox-selectable item, checks its
+   * checkbox. For a single-select repeater item, clicks the item, which also
+   * clears any previously selected item.
    */
   public async select(): Promise<void> {
     const checkbox = await this.#getCheckbox();
-    if (!checkbox) {
-      throw new Error(
-        'Could not select the repeater item because it is not selectable.',
-      );
+    if (checkbox) {
+      await checkbox.check();
+      return;
     }
 
-    await checkbox.check();
+    const isSingleSelectItem = await this.#isSingleSelectItem();
+    if (isSingleSelectItem) {
+      await this.click();
+      return;
+    }
+
+    throw new Error(
+      'Could not select the repeater item because it is not selectable.',
+    );
   }
 
   /**
@@ -230,5 +274,11 @@ export class SkyRepeaterItemHarness extends SkyQueryableComponentHarness {
         'Could not send to top because the repeater is not reorderable.',
       );
     }
+  }
+
+  async #isSingleSelectItem(): Promise<boolean> {
+    return await (
+      await this.#getItem()
+    ).hasClass('sky-repeater-item-selection-single');
   }
 }

@@ -2,7 +2,10 @@ import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { SkyDataGridHarness } from '@skyux/data-grid/testing';
+import {
+  provideSkyDataGridTesting,
+  SkyDataGridHarness,
+} from '@skyux/data-grid/testing';
 
 import { DataGridPagingExampleComponent } from './example.component';
 
@@ -13,7 +16,7 @@ describe('Data grid paging example', () => {
   }> {
     await TestBed.configureTestingModule({
       imports: [DataGridPagingExampleComponent],
-      providers: [provideRouter([])],
+      providers: [provideRouter([]), provideSkyDataGridTesting()],
     }).compileComponents();
     const fixture = TestBed.createComponent(DataGridPagingExampleComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);

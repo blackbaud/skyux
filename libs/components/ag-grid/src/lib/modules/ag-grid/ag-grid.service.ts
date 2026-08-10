@@ -16,6 +16,7 @@ import {
   GridOptions,
   HeaderClassParams,
   ICellRendererParams,
+  LocaleText,
   RowClassParams,
   RowNode,
   RowSelectionOptions,
@@ -135,8 +136,27 @@ function getValidatorCellRendererSelector(
 
 let rowNodeId = -1;
 
+const skyAgGridLocaleTextDefaults = {
+  noRowsToShow: 'No data available',
+  noMatchingRows: 'No matching rows',
+} satisfies LocaleText;
+
+const skyAgGridLocaleTextResourceKeys: Record<
+  keyof typeof skyAgGridLocaleTextDefaults,
+  string
+> = {
+  noRowsToShow: 'sky_ag_grid_locale_no_rows_to_show',
+  noMatchingRows: 'sky_ag_grid_locale_no_matching_rows',
+};
+
 /**
  * `SkyAgGridService` provides methods to get AG Grid `gridOptions` to ensure grids match SKY UX functionality. The `gridOptions` can be overridden, and include registered SKY UX column types.
+ *
+ * Locale text is resolved once, when the grid options are created. [AG Grid does not re-read
+ * locale text after a grid is created](https://www.ag-grid.com/angular-data-grid/localisation/),
+ * so an application that changes locale at runtime must destroy and recreate the grid. Setting
+ * `gridOptions.getLocaleText` replaces SKY UX locale text entirely — use `gridOptions.localeText`
+ * to override individual strings instead.
  */
 @Injectable({
   providedIn: 'root',
@@ -173,9 +193,17 @@ export class SkyAgGridService {
       of('Row selection'),
     { initialValue: 'Row selection' },
   );
+  readonly #localeText = toSignal(
+    this.#resources?.getStrings(skyAgGridLocaleTextResourceKeys) ??
+      of(skyAgGridLocaleTextDefaults),
+    { initialValue: skyAgGridLocaleTextDefaults },
+  );
 
   /**
    * Returns [AG Grid `gridOptions`](https://www.ag-grid.com/angular-data-grid/grid-options/) with default SKY UX options, styling, and cell renderers registered for read-only grids.
+   *
+   * Locale text is resolved once, at call time. If the application's locale changes at
+   * runtime, destroy and recreate the grid to pick up the new locale text.
    * @param args
    * @returns
    */
@@ -193,6 +221,9 @@ export class SkyAgGridService {
 
   /**
    * Returns [AG Grid `gridOptions`](https://www.ag-grid.com/angular-data-grid/grid-options/) with default SKY UX options, styling, and cell editors registered for editable grids.
+   *
+   * Locale text is resolved once, at call time. If the application's locale changes at
+   * runtime, destroy and recreate the grid to pick up the new locale text.
    * @param args
    * @returns
    */
@@ -257,6 +288,10 @@ export class SkyAgGridService {
       context: {
         ...defaultGridOptions.context,
         ...providedGridOptions.context,
+      },
+      localeText: {
+        ...defaultGridOptions.localeText,
+        ...providedGridOptions.localeText,
       },
       columnTypes: {
         ...providedGridOptions.columnTypes,
@@ -582,8 +617,10 @@ export class SkyAgGridService {
           this.#getIconTemplate(iconKey as keyof IconMapType),
         ]),
       ),
+      localeText: this.#localeText(),
       loadingOverlayComponent: SkyAgGridLoadingComponent,
       onCellFocused: (event: CellFocusedEvent) => this.#onCellFocused(event),
+      paginationPageSizeSelector: false,
       rowModelType: 'clientSide',
       rowSelection: {
         mode: 'multiRow',

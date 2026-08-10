@@ -1,10 +1,58 @@
+import { InjectionToken, ResourceLoader } from '@angular/core';
+
 import { SkyDataGridSort } from '@skyux/data-grid';
+
+export type DemoBehavior = 'data' | 'empty' | 'loading';
+
+/**
+ * An injection token that can be overridden in a test.
+ */
+export const DATA_LOADER = new InjectionToken('DATA_LOADER', {
+  providedIn: 'root',
+  factory: (): ResourceLoader<DataGridServerPage, DataGridServerParams> => {
+    return async ({
+      params,
+      abortSignal,
+    }: {
+      params: DataGridServerParams;
+      abortSignal: AbortSignal;
+    }): Promise<DataGridServerPage> => {
+      switch (params.behavior) {
+        case 'data':
+          await new Promise((resolve) => setTimeout(resolve, params.delay));
+          return getServerPage(params);
+        case 'empty':
+          await new Promise((resolve) => setTimeout(resolve, params.delay));
+          return { items: [], totalCount: 0 };
+        case 'loading':
+          return await new Promise((resolve) => {
+            abortSignal.addEventListener('abort', () => {
+              resolve({ items: [], totalCount: 0 });
+            });
+          });
+        default:
+          throw new Error();
+      }
+    };
+  },
+});
 
 export interface DataGridLoadingRow {
   id: string;
   name: string;
   age: number;
   startDate: Date;
+}
+
+/**
+ * Parameters available to the loader.
+ */
+export interface DataGridServerParams {
+  behavior: DemoBehavior;
+  delay: number;
+  page: number;
+  pageSize: number;
+  sort: SkyDataGridSort | undefined;
 }
 
 /**

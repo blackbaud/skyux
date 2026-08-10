@@ -248,6 +248,7 @@
   "@skyux/lists/testing:SkySortFixture",
   "@skyux/lists:SkyFilterSummaryComponent",
   "@skyux/lists:SkyFilterSummaryItemComponent",
+  "@skyux/lists:SkyRepeaterItemComponent:selectable",
   "@skyux/lookup/testing:SkyAutocompleteHarness:blur",
   "@skyux/lookup/testing:SkyAutocompleteHarness:clear",
   "@skyux/lookup/testing:SkyAutocompleteHarness:enterText",

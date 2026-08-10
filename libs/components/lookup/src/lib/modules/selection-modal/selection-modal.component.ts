@@ -141,13 +141,6 @@ export class SkySelectionModalComponent implements OnInit, OnDestroy {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public itemClick(selectedItem: any): void {
-    if (this.context.selectMode === 'single') {
-      this.onItemSelect(!selectedItem.selected, selectedItem);
-    }
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public addItem(itemToAdd: any): void {
     // Add the selected item, then perform the search again in case the
     // newly-added item should be displayed as a search results.

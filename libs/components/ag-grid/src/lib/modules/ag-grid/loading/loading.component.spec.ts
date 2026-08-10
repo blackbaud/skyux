@@ -40,7 +40,7 @@ describe('LoadingComponent', () => {
     const fixture = TestBed.createComponent(SkyAgGridFixtureComponent);
     fixture.detectChanges();
     await fixture.whenStable();
-    expect(fixture.componentInstance.agGridWrapper).toBeTruthy();
+    expect(fixture.componentInstance.agGridWrapper()).toBeTruthy();
     expect(
       fixture.debugElement.query(By.css('sky-ag-grid-loading')),
     ).toBeTruthy();

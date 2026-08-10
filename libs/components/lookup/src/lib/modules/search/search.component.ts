@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   DestroyRef,
@@ -39,7 +38,6 @@ const EXPAND_MODE_NONE = 'none';
   styleUrls: ['./search.component.scss'],
   encapsulation: ViewEncapsulation.None,
   providers: [SkySearchAdapterService],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
@@ -186,6 +184,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
         .pipe(takeUntilDestroyed(this.#destroyRef))
         .subscribe((breakpoint) => {
           this.#mediaQueryCallback(breakpoint);
+          this.#changeRef.markForCheck();
         });
     }
 
@@ -208,6 +207,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
           this.isFullWidth = false;
           break;
       }
+      this.#changeRef.markForCheck();
     }
 
     if (this.#searchBindingChanged(changes)) {
@@ -218,8 +218,8 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
         this.mobileSearchShown = true;
         this.searchButtonShown = false;
       }
+      this.#changeRef.markForCheck();
     }
-    this.#changeRef.detectChanges();
   }
 
   public clearSearchText(): void {
@@ -282,6 +282,8 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
           { injector: this.#injector },
         );
       }
+
+      this.#changeRef.markForCheck();
     }
   }
 
@@ -292,6 +294,8 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
       }
 
       this.mobileSearchShown = false;
+
+      this.#changeRef.markForCheck();
     }
   }
 
@@ -351,6 +355,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
       .pipe(debounceTime(this.debounceTime), distinctUntilChanged())
       .subscribe((value) => {
         this.searchChange.emit(value);
+        this.#changeRef.markForCheck();
       });
   }
 }
