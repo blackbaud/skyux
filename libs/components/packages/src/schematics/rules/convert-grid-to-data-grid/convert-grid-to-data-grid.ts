@@ -7,7 +7,12 @@ import {
   chain,
 } from '@angular-devkit/schematics';
 import { ExistingBehavior, addDependency } from '@schematics/angular/utility';
-import { findNodes } from '@schematics/angular/utility/ast-utils';
+import {
+  findNodes,
+  getDecoratorMetadata,
+} from '@schematics/angular/utility/ast-utils';
+import { applyToUpdateRecorder } from '@schematics/angular/utility/change';
+
 import ts from 'typescript';
 
 import { logOnce } from '../../utility/log-once';
@@ -23,9 +28,11 @@ import {
   swapTags,
 } from '../../utility/template';
 import {
+  addSymbolToClassMetadata,
   getInlineTemplates,
   getTemplateUrls,
   isImportedFromPackage,
+  isSymbolInClassMetadataFieldArray,
   parseSourceFile,
 } from '../../utility/typescript/ng-ast';
 import { removeClassReference } from '../../utility/typescript/remove-class-reference';
@@ -39,6 +46,13 @@ const SKY_GRID_MODULE = 'SkyGridModule';
 const SKY_GRID_MODULE_PACKAGE = '@skyux/grids';
 const SKY_LIST_VIEW_GRID_MODULE = 'SkyListViewGridModule';
 const SKY_LIST_VIEW_GRID_MODULE_PACKAGE = '@skyux/list-builder-view-grids';
+
+/**
+ * `SkyDataGrid`/`SkyDataGridColumn` are standalone components that replace
+ * `SkyGridModule`. Unlike an NgModule, they must be present in an NgModule's
+ * `imports` array to also appear in that NgModule's `exports` array.
+ */
+const DATA_GRID_CLASS_NAMES = ['SkyDataGrid', 'SkyDataGridColumn'];
 
 const GRID_TAG: 'sky-grid'[] = ['sky-grid'];
 const COLUMN_TAG: 'sky-grid-column'[] = ['sky-grid-column'];
@@ -605,6 +619,41 @@ function getAssociatedEvidence(
 }
 
 /**
+ * True for an `@NgModule` object literal that exports `SkyGridModule`
+ * without also importing it. `SkyDataGrid`/`SkyDataGridColumn` need to be
+ * added to that NgModule's `imports` array as well, since a standalone class
+ * must be imported before it can be exported. A source file may declare more
+ * than one `@NgModule`, so this must be checked per-node rather than
+ * file-wide to avoid touching NgModules that already import `SkyGridModule`
+ * or that don't reference it at all.
+ */
+function ngModuleExportsGridModuleWithoutImportingIt(
+  node: ts.ObjectLiteralExpression,
+): boolean {
+  return (
+    isSymbolInClassMetadataFieldArray(node, 'exports', SKY_GRID_MODULE) &&
+    !isSymbolInClassMetadataFieldArray(node, 'imports', SKY_GRID_MODULE)
+  );
+}
+
+/**
+ * All `@NgModule` metadata objects in `source` that export `SkyGridModule`
+ * without also importing it.
+ */
+function getNgModulesExportingGridModuleWithoutImportingIt(
+  source: ts.SourceFile,
+): ts.ObjectLiteralExpression[] {
+  if (!isImportedFromPackage(source, 'NgModule', '@angular/core')) {
+    return [];
+  }
+  return getDecoratorMetadata(source, 'NgModule', '@angular/core').filter(
+    (node): node is ts.ObjectLiteralExpression =>
+      ts.isObjectLiteralExpression(node) &&
+      ngModuleExportsGridModuleWithoutImportingIt(node),
+  );
+}
+
+/**
  * Second pass: decides what to do with a file's `SkyGridModule` import based
  * on the template evidence associated with the file — its own inline and
  * `templateUrl` templates plus, for NgModule and spec files, the templates of
@@ -646,11 +695,13 @@ function updateTypescriptImports(
     // A real conversion needs SkyDataGrid/SkyDataGridColumn. Any list-view-grid
     // skip stays safe because <sky-list-view-grid> requires
     // SkyListViewGridModule, which re-exports SkyGridModule.
+    const modulesNeedingGridImportForExport =
+      getNgModulesExportingGridModuleWithoutImportingIt(source);
     const recorder = tree.beginUpdate(filePath);
     swapImportedClass(recorder, filePath, source, [
       {
         classNames: {
-          [SKY_GRID_MODULE]: ['SkyDataGrid', 'SkyDataGridColumn'],
+          [SKY_GRID_MODULE]: DATA_GRID_CLASS_NAMES,
         },
         moduleName: {
           old: SKY_GRID_MODULE_PACKAGE,
@@ -658,6 +709,32 @@ function updateTypescriptImports(
         },
       },
     ]);
+    for (const moduleNode of modulesNeedingGridImportForExport) {
+      // The import is already added by swapImportedClass above, so only the
+      // metadata array needs the symbols (importPath: null). Restrict the
+      // edit to this NgModule, since a file can declare more than one, and
+      // only add whichever class names its `imports` array is missing (it
+      // may already reference SkyDataGrid/SkyDataGridColumn directly).
+      const missingClassNames = DATA_GRID_CLASS_NAMES.filter(
+        (className) =>
+          !isSymbolInClassMetadataFieldArray(moduleNode, 'imports', className),
+      );
+      if (!missingClassNames.length) {
+        continue;
+      }
+      applyToUpdateRecorder(
+        recorder,
+        addSymbolToClassMetadata(
+          source,
+          'NgModule',
+          filePath,
+          'imports',
+          missingClassNames.join(', '),
+          null,
+          (node) => node === moduleNode,
+        ),
+      );
+    }
     tree.commitUpdate(recorder);
   } else if (total.columnsSkipped > 0) {
     logOnce(
