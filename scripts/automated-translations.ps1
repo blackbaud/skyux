@@ -246,6 +246,11 @@ else
       $prForChanges = gh pr list --state open --base $LtsBranchName --head $TranslationBranchName --limit 100 `
         --json title,url,headRefName,baseRefName `
         --jq ".[] | select(.headRefName == `"${TranslationBranchName}`" and .baseRefName == `"${LtsBranchName}`")"
+      if ($LASTEXITCODE -ne 0)
+      {
+        Write-Output "`n::error::gh pr list failed (exit $LASTEXITCODE).`n"
+        exit $LASTEXITCODE
+      }
       if ($env:GITHUB_OUTPUT)
       {
         Write-Output "prCreated=true" >> $env:GITHUB_OUTPUT
