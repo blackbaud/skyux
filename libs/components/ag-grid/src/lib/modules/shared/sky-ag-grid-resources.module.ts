@@ -59,6 +59,8 @@ const RESOURCES: Record<string, SkyLibResources> = {
     sky_ag_grid_column_group_header_collapse_aria_label: {
       message: 'Collapse column group {0}',
     },
+    sky_ag_grid_locale_no_rows_to_show: { message: 'No data available' },
+    sky_ag_grid_locale_no_matching_rows: { message: 'No matching rows' },
   },
   'FR-CA': {
     sky_ag_grid_row_selector_aria_label: {

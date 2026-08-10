@@ -62,5 +62,13 @@
   "sky_ag_grid_column_group_header_collapse_aria_label": {
     "_description": "aria label for the collapse column group header button",
     "message": "Collapse column group {0}"
+  },
+  "sky_ag_grid_locale_no_rows_to_show": {
+    "_description": "ag-grid localeText override for the `noRowsToShow` empty-grid overlay message",
+    "message": "No data available"
+  },
+  "sky_ag_grid_locale_no_matching_rows": {
+    "_description": "ag-grid localeText override for the `noMatchingRows` empty-filter-results overlay message",
+    "message": "No matching rows"
   }
 }
