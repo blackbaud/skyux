@@ -1,6 +1,26 @@
 # Changelog
 
 
+## [14.11.0](https://github.com/blackbaud/skyux/compare/14.10.0...14.11.0) (2026-08-05)
+
+
+### Features
+
+* **components/config:** add respectedPreferences to theming config ([#4591](https://github.com/blackbaud/skyux/issues/4591)) ([5b7c135](https://github.com/blackbaud/skyux/commit/5b7c1359cd7b9b69a68a01449c8b209882a369e1))
+
+## [14.10.0](https://github.com/blackbaud/skyux/compare/14.9.2...14.10.0) (2026-08-05)
+
+
+### Features
+
+* **components/datetime:** add skyTimepickerRetainInvalidValues to keep invalid timepicker entries ([#4566](https://github.com/blackbaud/skyux/issues/4566)) ([35dee33](https://github.com/blackbaud/skyux/commit/35dee339380ea576078e3213426c38d563de86d7)), closes [AB#3955926](https://dev.azure.com/blackbaud/Products/_workitems/edit/3955926)
+* **components/theme:** scrollbar colors are styled with the visual theme ([#4585](https://github.com/blackbaud/skyux/issues/4585)) ([db3bc67](https://github.com/blackbaud/skyux/commit/db3bc6772495798f907e2a8c990fd12377649756))
+
+
+### Bug Fixes
+
+* **components/packages:** decide SkyGridModule swap from associated templates in convert-grid-to-data-grid ([#4588](https://github.com/blackbaud/skyux/issues/4588)) ([48730c5](https://github.com/blackbaud/skyux/commit/48730c5b0b73bb12a06086c0a1e0d0d83cca157c)), closes [AB#4078208](https://dev.azure.com/blackbaud/Products/_workitems/edit/4078208)
+
 ## [14.9.2](https://github.com/blackbaud/skyux/compare/14.9.1...14.9.2) (2026-08-04)
 
 

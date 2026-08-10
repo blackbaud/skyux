@@ -3,6 +3,10 @@
     body:not(.sky-theme-modern) {
       @content;
     }
+  } @else if $selector == 'html' {
+    html:not(:has(body.sky-theme-modern)) {
+      @content;
+    }
   } @else {
     #{$selector}:not(.sky-theme-modern *) {
       @content;

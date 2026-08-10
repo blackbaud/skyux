@@ -1,5 +1,18 @@
 @use 'mixins' as mixins;
 @use 'variables' as *;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('html') {
+  --sky-override-scrollbar-color-thumb: auto;
+  --sky-override-scrollbar-color-track: auto;
+}
+
+@include compatMixins.sky-default-overrides('body') {
+  --sky-override-color-illustration-fill-softest: #ffffff;
+  --sky-override-color-illustration-fill-soft: #e7fbf1;
+  --sky-override-color-illustration-fill-heavy: #6de8ab;
+  --sky-override-color-illustration-stroke: #004054;
+}
 
 * {
   box-sizing: border-box;
@@ -15,6 +28,14 @@ html {
 body {
   background-color: var(--sky-background-color-neutral-light);
   color: var(--sky-text-color-default);
+}
+
+html {
+  scrollbar-color: var(
+      --sky-override-scrollbar-color-thumb,
+      var(--sky-color-scrollbar-thumb)
+    )
+    var(--sky-override-scrollbar-color-track, var(--sky-color-scrollbar-track));
 }
 
 h6 {
@@ -109,19 +130,31 @@ symbol[id^='sky-i-']:not(.sky-i-branded) * {
   width: 100%;
 
   .sky-illustration-fill-softest {
-    fill: #ffffff;
+    fill: var(
+      --sky-override-color-illustration-fill-softest,
+      var(--sky-color-illustration-fill-softest)
+    );
   }
 
   .sky-illustration-fill-soft {
-    fill: #e7fbf1;
+    fill: var(
+      --sky-override-color-illustration-fill-soft,
+      var(--sky-color-illustration-fill-soft)
+    );
   }
 
   .sky-illustration-fill-heavy {
-    fill: #6de8ab;
+    fill: var(
+      --sky-override-color-illustration-fill-heavy,
+      var(--sky-color-illustration-fill-heavy)
+    );
   }
 
   .sky-illustration-outline {
-    stroke: #004054;
+    stroke: var(
+      --sky-override-color-illustration-stroke,
+      var(--sky-color-illustration-stroke)
+    );
   }
 }
 
