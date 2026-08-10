@@ -355,6 +355,43 @@ describe('SkyAgGridService', () => {
     });
   });
 
+  describe('localeText', () => {
+    it('should populate localeText with SKY UX resource strings', () => {
+      const gridOptions = agGridService.getGridOptions({ gridOptions: {} });
+
+      expect(gridOptions.localeText?.['noRowsToShow']).toEqual(
+        'No data available',
+      );
+      expect(gridOptions.localeText?.['noMatchingRows']).toEqual(
+        'No matching rows',
+      );
+    });
+
+    it('should prefer a consumer-provided localeText override over the default text', () => {
+      const gridOptions = agGridService.getGridOptions({
+        gridOptions: {
+          localeText: { noRowsToShow: 'Custom no rows text' },
+        },
+      });
+
+      expect(gridOptions.localeText?.['noRowsToShow']).toEqual(
+        'Custom no rows text',
+      );
+      expect(gridOptions.localeText?.['noMatchingRows']).toEqual(
+        'No matching rows',
+      );
+    });
+
+    it('should pass a consumer-provided getLocaleText callback through unchanged', () => {
+      const getLocaleText = jasmine.createSpy('getLocaleText');
+      const gridOptions = agGridService.getGridOptions({
+        gridOptions: { getLocaleText },
+      });
+
+      expect(gridOptions.getLocaleText).toBe(getLocaleText);
+    });
+  });
+
   describe('getEditableGridOptions', () => {
     it('should return the default gridOptions with the edit-specific property settings', () => {
       const editableGridOptions = agGridService.getEditableGridOptions({
@@ -1164,6 +1201,14 @@ describe('SkyAgGridService', () => {
           .skyComponentProperties.validatorMessage;
 
       expect(validatorMessage()).toEqual('Please enter a valid number');
+    });
+
+    it('should use fallback locale text', () => {
+      const options = serviceWithoutResources.getGridOptions({
+        gridOptions: {},
+      });
+
+      expect(options.localeText?.['noRowsToShow']).toEqual('No data available');
     });
   });
 });
