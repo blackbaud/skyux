@@ -22,6 +22,7 @@ ag-grid-community/ag-grid-angular/ag-grid-enterprise 36.x.
 
 ### Bug Fixes
 
+* **components/ag-grid:** update no-rows text ([#4604](https://github.com/blackbaud/skyux/issues/4604)) ([#4606](https://github.com/blackbaud/skyux/issues/4606)) ([fed9b80](https://github.com/blackbaud/skyux/commit/fed9b806eb351a6d1f487df0cc7160f65b6e4d1d)), closes [AB#4079651](https://dev.azure.com/blackbaud/Products/_workitems/edit/4079651)
 * **components/packages:** decide SkyGridModule swap from associated templates in convert-grid-to-data-grid ([#4588](https://github.com/blackbaud/skyux/issues/4588)) ([#4590](https://github.com/blackbaud/skyux/issues/4590)) ([fa25f66](https://github.com/blackbaud/skyux/commit/fa25f660ba5f3fab45f0aa262c03349094abf28d)), closes [AB#4078208](https://dev.azure.com/blackbaud/Products/_workitems/edit/4078208)
 
 ## [14.11.0](https://github.com/blackbaud/skyux/compare/14.10.0...14.11.0) (2026-08-05)
