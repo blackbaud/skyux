@@ -12,6 +12,7 @@ async function setupTest(options: {
   selectionDescriptor?: string;
   showAddButton?: boolean;
   addClick?: () => void;
+  title?: string;
 }): Promise<{
   fixture: ComponentFixture<SelectionModalHarnessTestComponent>;
   harness: SkySelectionModalHarness;
@@ -44,6 +45,7 @@ async function setupTest(options: {
     selectionDescriptor: options.selectionDescriptor,
     showAddButton: options.showAddButton,
     addClick: options.addClick,
+    title: options.title,
   });
 
   const loader = TestbedHarnessEnvironment.documentRootLoader(fixture);
@@ -73,6 +75,30 @@ describe('Selection modal harness', () => {
       });
 
       await expectAsync(harness.hasAddButton()).toBeResolvedTo(false);
+    });
+  });
+
+  describe('getHeadingText() method', () => {
+    it('should get the default heading text using the selection descriptor', async () => {
+      const { harness } = await setupTest({
+        selectMode: 'single',
+        selectionDescriptor: 'person',
+      });
+
+      await expectAsync(harness.getHeadingText()).toBeResolvedTo(
+        'Select person',
+      );
+    });
+
+    it('should get a custom heading text when a title is provided', async () => {
+      const { harness } = await setupTest({
+        selectMode: 'single',
+        title: 'Custom title',
+      });
+
+      await expectAsync(harness.getHeadingText()).toBeResolvedTo(
+        'Custom title',
+      );
     });
   });
 
