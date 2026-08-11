@@ -10,21 +10,19 @@ export function getLibStringForLocale(
 ): string | undefined {
   const defaultLocale = 'en-US';
 
-  function getResourcesForLocale(locale: string): SkyLibResources {
-    const parsedLocale = locale.toLocaleUpperCase().replace('_', '-');
-    return resources[parsedLocale];
-  }
+  const normalizeLocale = (locale: string): string =>
+    locale.toLocaleUpperCase().replace('_', '-');
 
   const localeFallback = [
     ...new Set([
-      preferredLocale,
-      preferredLocale.substring(0, 2),
-      defaultLocale,
+      normalizeLocale(preferredLocale),
+      normalizeLocale(preferredLocale.substring(0, 2)),
+      normalizeLocale(defaultLocale),
     ]),
   ];
 
   for (const locale of localeFallback) {
-    const values = getResourcesForLocale(locale);
+    const values = resources[locale];
     if (values && values[name]) {
       return values[name].message;
     }
