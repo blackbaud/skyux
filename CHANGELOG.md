@@ -17,6 +17,7 @@ ag-grid-community/ag-grid-angular/ag-grid-enterprise 36.x.
 * **components/config:** add respectedPreferences to theming config ([#4591](https://github.com/blackbaud/skyux/issues/4591)) ([#4595](https://github.com/blackbaud/skyux/issues/4595)) ([63bc101](https://github.com/blackbaud/skyux/commit/63bc1017b67af13572c5f80988825271f4b4b295))
 * **components/datetime:** remove `skyTimepickerRetainInvalidValues` input ([#4587](https://github.com/blackbaud/skyux/issues/4587)) ([24f1e03](https://github.com/blackbaud/skyux/commit/24f1e03bb228a4d238be4234f85183542380deac)), closes [AB#3955926](https://dev.azure.com/blackbaud/Products/_workitems/edit/3955926)
 * **components/lists:** add accessible single-select mode to repeater ([#4573](https://github.com/blackbaud/skyux/issues/4573)) ([e7c1d86](https://github.com/blackbaud/skyux/commit/e7c1d86743d76da9b805534486214bb418fd210c)), closes [AB#3964882](https://dev.azure.com/blackbaud/Products/_workitems/edit/3964882)
+* **components/lookup:** add testing method for getting a selection modal's heading text ([#4611](https://github.com/blackbaud/skyux/issues/4611)) ([#4613](https://github.com/blackbaud/skyux/issues/4613)) ([1eaa0c6](https://github.com/blackbaud/skyux/commit/1eaa0c6997dd6cd2e22163704bf4aa61928fceca))
 * **components/theme:** scrollbar colors are styled with the visual theme ([#4585](https://github.com/blackbaud/skyux/issues/4585)) ([#4594](https://github.com/blackbaud/skyux/issues/4594)) ([3fdff26](https://github.com/blackbaud/skyux/commit/3fdff26f2badf7c827d21247aa67602e6bf2b5bf))
 
 
