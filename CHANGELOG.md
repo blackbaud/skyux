@@ -1,32 +1,20 @@
 # Changelog
 
 
-## [15.0.0-alpha.4](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.3...15.0.0-alpha.4) (2026-08-11)
+## [14.12.0](https://github.com/blackbaud/skyux/compare/14.11.0...14.12.0) (2026-08-10)
 
-
-### ⚠ BREAKING CHANGES
-
-* **components/ag-grid:** requires
-ag-grid-community/ag-grid-angular/ag-grid-enterprise 36.x.
-* **components/datetime:** remove `skyTimepickerRetainInvalidValues` input (#4587)
 
 ### Features
 
-* **components/ag-grid:** add grid testing providers and deterministic render waits ([#4577](https://github.com/blackbaud/skyux/issues/4577)) ([4dfe78c](https://github.com/blackbaud/skyux/commit/4dfe78ce43e5dd7abfb09d191b50d2f4dd827e0f))
-* **components/ag-grid:** support AG Grid 36.0.0 ([#4578](https://github.com/blackbaud/skyux/issues/4578)) ([8f14302](https://github.com/blackbaud/skyux/commit/8f143022ec911d2ee69fc9e791320763fe458ae5))
-* **components/config:** add respectedPreferences to theming config ([#4591](https://github.com/blackbaud/skyux/issues/4591)) ([#4595](https://github.com/blackbaud/skyux/issues/4595)) ([63bc101](https://github.com/blackbaud/skyux/commit/63bc1017b67af13572c5f80988825271f4b4b295))
-* **components/datetime:** remove `skyTimepickerRetainInvalidValues` input ([#4587](https://github.com/blackbaud/skyux/issues/4587)) ([24f1e03](https://github.com/blackbaud/skyux/commit/24f1e03bb228a4d238be4234f85183542380deac)), closes [AB#3955926](https://dev.azure.com/blackbaud/Products/_workitems/edit/3955926)
-* **components/lists:** add accessible single-select mode to repeater ([#4573](https://github.com/blackbaud/skyux/issues/4573)) ([e7c1d86](https://github.com/blackbaud/skyux/commit/e7c1d86743d76da9b805534486214bb418fd210c)), closes [AB#3964882](https://dev.azure.com/blackbaud/Products/_workitems/edit/3964882)
-* **components/theme:** scrollbar colors are styled with the visual theme ([#4585](https://github.com/blackbaud/skyux/issues/4585)) ([#4594](https://github.com/blackbaud/skyux/issues/4594)) ([3fdff26](https://github.com/blackbaud/skyux/commit/3fdff26f2badf7c827d21247aa67602e6bf2b5bf))
+* **components/ag-grid:** add `defineSkyAgGridColDef` to validate cell editor and renderer params against cell types ([#4582](https://github.com/blackbaud/skyux/issues/4582)) ([7c01fd2](https://github.com/blackbaud/skyux/commit/7c01fd2a96f3fefef0e42fc3934fd0098bf94ca5)), closes [AB#3928427](https://dev.azure.com/blackbaud/Products/_workitems/edit/3928427)
 
 
 ### Bug Fixes
 
-* **components/ag-grid:** update no-rows text ([#4604](https://github.com/blackbaud/skyux/issues/4604)) ([#4606](https://github.com/blackbaud/skyux/issues/4606)) ([fed9b80](https://github.com/blackbaud/skyux/commit/fed9b806eb351a6d1f487df0cc7160f65b6e4d1d)), closes [AB#4079651](https://dev.azure.com/blackbaud/Products/_workitems/edit/4079651)
-* **components/forms:** select input options are properly styled ([#4557](https://github.com/blackbaud/skyux/issues/4557)) ([#4564](https://github.com/blackbaud/skyux/issues/4564)) ([5bce900](https://github.com/blackbaud/skyux/commit/5bce9008d685e36d48730ec5a7a69f3b9617fc21)), closes [AB#3899661](https://dev.azure.com/blackbaud/Products/_workitems/edit/3899661)
-* **components/packages:** add SkyDataGrid/SkyDataGridColumn to NgModule imports when only exports referenced SkyGridModule in convert-grid-to-data-grid ([#4600](https://github.com/blackbaud/skyux/issues/4600)) ([#4602](https://github.com/blackbaud/skyux/issues/4602)) ([3a8f4f6](https://github.com/blackbaud/skyux/commit/3a8f4f608a2fe9655720ee49eafdf23b9e6fefdc))
-* **components/packages:** decide SkyGridModule swap from associated templates in convert-grid-to-data-grid ([#4588](https://github.com/blackbaud/skyux/issues/4588)) ([#4590](https://github.com/blackbaud/skyux/issues/4590)) ([fa25f66](https://github.com/blackbaud/skyux/commit/fa25f660ba5f3fab45f0aa262c03349094abf28d)), closes [AB#4078208](https://dev.azure.com/blackbaud/Products/_workitems/edit/4078208)
-* point dropdown docs to valid URL in JSDoc comments ([#4592](https://github.com/blackbaud/skyux/issues/4592)) ([#4605](https://github.com/blackbaud/skyux/issues/4605)) ([68a694a](https://github.com/blackbaud/skyux/commit/68a694a5946aaf6684e988d994655775d44e33e8))
+* **components/ag-grid:** update no-rows text ([#4604](https://github.com/blackbaud/skyux/issues/4604)) ([da81925](https://github.com/blackbaud/skyux/commit/da81925b0e745e3504fd5e8543206137fbb7237b)), closes [AB#4079651](https://dev.azure.com/blackbaud/Products/_workitems/edit/4079651)
+* **components/indicators:** spot illustration reflects dark mode and branding styles ([#4599](https://github.com/blackbaud/skyux/issues/4599)) ([c80de19](https://github.com/blackbaud/skyux/commit/c80de195af957667ba9600de8ad866c3c338b31e))
+* **components/packages:** add SkyDataGrid/SkyDataGridColumn to NgModule imports when only exports referenced SkyGridModule in convert-grid-to-data-grid ([#4600](https://github.com/blackbaud/skyux/issues/4600)) ([f1582d0](https://github.com/blackbaud/skyux/commit/f1582d096e3f4123199beef5b0438b0e6159a349))
+* point dropdown docs to valid URL in JSDoc comments ([#4592](https://github.com/blackbaud/skyux/issues/4592)) ([a6fa970](https://github.com/blackbaud/skyux/commit/a6fa97003e8f0a6645252716c501e50e2d900b83))
 
 ## [14.11.0](https://github.com/blackbaud/skyux/compare/14.10.0...14.11.0) (2026-08-05)
 
