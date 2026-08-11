@@ -5,7 +5,7 @@ import { SkyAppAssetsService } from '@skyux/assets';
 import {
   Observable,
   ReplaySubject,
-  forkJoin,
+  combineLatest,
   of as observableOf,
   share,
 } from 'rxjs';
@@ -107,7 +107,7 @@ export class SkyAppResourcesService {
       }
     }
 
-    return forkJoin(resources$) as Observable<{ [K in keyof T]: string }>;
+    return combineLatest(resources$) as Observable<{ [K in keyof T]: string }>;
   }
 
   /**
@@ -199,7 +199,7 @@ export class SkyAppResourcesService {
       ? this.#resourceNameProvider.getResourceName(name)
       : observableOf(name);
 
-    return forkJoin([mappedNameObs, resourcesObs]).pipe(
+    return combineLatest([mappedNameObs, resourcesObs]).pipe(
       map(([mappedName, resources]): string => {
         let resource: { message: string } | undefined = undefined;
 

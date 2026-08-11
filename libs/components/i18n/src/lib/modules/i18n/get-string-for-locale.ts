@@ -14,17 +14,19 @@ export function getStringForLocale(
     return resources[parsedLocale];
   }
 
-  let values: Record<string, string> = getResourcesForLocale(preferredLocale);
+  const localeFallback = [
+    ...new Set([
+      preferredLocale,
+      preferredLocale.substring(0, 2),
+      defaultLocale,
+    ]),
+  ];
 
-  if (values && values[name]) {
-    return values[name];
-  }
-
-  // Attempt to locate default resources.
-  values = getResourcesForLocale(defaultLocale);
-
-  if (values && values[name]) {
-    return values[name];
+  for (const locale of localeFallback) {
+    const values = getResourcesForLocale(locale);
+    if (values && values[name]) {
+      return values[name];
+    }
   }
   return undefined;
 }

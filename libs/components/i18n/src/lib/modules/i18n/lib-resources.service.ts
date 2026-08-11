@@ -1,7 +1,7 @@
 // #region imports
 import { Inject, Injectable, Optional } from '@angular/core';
 
-import { Observable, forkJoin, of as observableOf } from 'rxjs';
+import { Observable, combineLatest, of as observableOf } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Format } from '../../utils/format';
@@ -17,7 +17,7 @@ import { SkyAppResourceNameProvider } from './resource-name-provider';
 // #endregion
 
 type ResourceKey = string;
-type TemplatedResource = [ResourceKey, ...any[]];
+type TemplatedResource = [ResourceKey, ...unknown[]];
 type ResourceDictionary = Record<string, ResourceKey | TemplatedResource>;
 
 @Injectable({
@@ -61,17 +61,14 @@ export class SkyLibResourcesService {
 
   /**
    * Gets a resource string based on its name.
+   * Emits whenever the locale changes.
    * @param name The name of the resource string.
    * @param args Any templated args.
    */
-  public getString(name: string, ...args: any[]): Observable<string> {
-    const mappedNameObs = this.#resourceNameProvider
-      ? this.#resourceNameProvider.getResourceName(name)
-      : observableOf(name);
-
+  public getString(name: string, ...args: unknown[]): Observable<string> {
+    const mappedNameObs = this.#getMappedNameObs(name);
     const localeInfoObs = this.#localeProvider.getLocaleInfo();
-
-    return forkJoin([mappedNameObs, localeInfoObs]).pipe(
+    return combineLatest([mappedNameObs, localeInfoObs]).pipe(
       map(([mappedName, localeInfo]) =>
         this.getStringForLocale(localeInfo, mappedName, ...args),
       ),
@@ -80,8 +77,9 @@ export class SkyLibResourcesService {
 
   /**
    * Gets a Resource String Dictionary.
+   * Emits whenever the locale changes.
    *
-   * This is similar to forkJoin's dictionary syntax.
+   * This is similar to forkJoin's dictionary syntax, but re-emits on locale changes.
    *
    * @param dictionary a Record of **SomeObjectKey** to a Value that is either
    *   - (1) **ResourceKey**
@@ -100,10 +98,16 @@ export class SkyLibResourcesService {
   public getStrings<T extends ResourceDictionary>(
     dictionary: T,
   ): Observable<{ [K in keyof T]: string }> {
+    const keys = Object.keys(dictionary);
+
+    if (keys.length === 0) {
+      return observableOf({} as { [K in keyof T]: string });
+    }
+
     const resources$: Record<string, Observable<string>> = {};
 
-    for (const objKey of Object.keys(dictionary)) {
-      const resource: string | [string, ...any[]] = dictionary[objKey];
+    for (const objKey of keys) {
+      const resource: string | [string, ...unknown[]] = dictionary[objKey];
 
       if (typeof resource === 'string') {
         resources$[objKey] = this.getString(resource);
@@ -113,13 +117,15 @@ export class SkyLibResourcesService {
       }
     }
 
-    return forkJoin(resources$) as Observable<{ [K in keyof T]: string }>;
+    return combineLatest(resources$) as Observable<{
+      [K in keyof T]: string;
+    }>;
   }
 
   public getStringForLocale(
     info: SkyAppLocaleInfo,
     name: string,
-    ...args: any[]
+    ...args: unknown[]
   ): string {
     let value: string | undefined;
 
@@ -146,5 +152,11 @@ export class SkyLibResourcesService {
     }
 
     return name;
+  }
+
+  #getMappedNameObs(name: string): Observable<string> {
+    return this.#resourceNameProvider
+      ? this.#resourceNameProvider.getResourceName(name)
+      : observableOf(name);
   }
 }

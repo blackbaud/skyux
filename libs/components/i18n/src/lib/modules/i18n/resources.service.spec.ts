@@ -9,7 +9,11 @@ import {
 import { TestBed } from '@angular/core/testing';
 import { SkyAppAssetsService } from '@skyux/assets';
 
-import { of as observableOf, throwError as observableThrowError } from 'rxjs';
+import {
+  BehaviorSubject,
+  of as observableOf,
+  throwError as observableThrowError,
+} from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import { SkyAppLocaleProvider } from './locale-provider';
@@ -474,6 +478,46 @@ describe('Resources service', () => {
       });
 
       addTestResourceResponse();
+    });
+  });
+
+  describe('getStrings when the locale changes', () => {
+    let localeInfo$: BehaviorSubject<{ locale: string }>;
+
+    beforeEach(() => {
+      localeInfo$ = new BehaviorSubject<{ locale: string }>({
+        locale: 'en-US',
+      });
+
+      configureTestingModule({
+        defaultLocale: 'en-US',
+        getLocaleInfo: () => localeInfo$,
+      });
+
+      injectServices();
+    });
+
+    it('emits an updated dictionary when the locale changes', () => {
+      const emissions: Record<string, string>[] = [];
+
+      resources
+        .getStrings({ hi: 'hi' })
+        .subscribe((values) => emissions.push(values));
+
+      addTestResourceResponse(enUsUrl);
+
+      expect(emissions.length).toBe(1);
+      expect(emissions[0]['hi']).toBe('hello');
+
+      localeInfo$.next({ locale: 'fr-CA' });
+
+      const request = httpMock.expectOne(frCaUrl);
+      request.flush({
+        hi: { message: 'bonjour' },
+      });
+
+      expect(emissions.length).toBe(2);
+      expect(emissions[1]['hi']).toBe('bonjour');
     });
   });
 });

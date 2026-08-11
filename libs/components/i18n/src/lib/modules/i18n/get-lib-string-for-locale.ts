@@ -15,17 +15,19 @@ export function getLibStringForLocale(
     return resources[parsedLocale];
   }
 
-  let values: SkyLibResources = getResourcesForLocale(preferredLocale);
+  const localeFallback = [
+    ...new Set([
+      preferredLocale,
+      preferredLocale.substring(0, 2),
+      defaultLocale,
+    ]),
+  ];
 
-  if (values && values[name]) {
-    return values[name].message;
-  }
-
-  // Attempt to locate default resources.
-  values = getResourcesForLocale(defaultLocale);
-
-  if (values && values[name]) {
-    return values[name].message;
+  for (const locale of localeFallback) {
+    const values = getResourcesForLocale(locale);
+    if (values && values[name]) {
+      return values[name].message;
+    }
   }
   return undefined;
 }
