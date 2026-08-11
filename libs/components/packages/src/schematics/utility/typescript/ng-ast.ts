@@ -169,6 +169,7 @@ export function addSymbolToClassMetadata(
   metadataField: string,
   symbolName: string,
   importPath: string | null = null,
+  nodeFilter?: (node: ts.ObjectLiteralExpression) => boolean,
 ): Change[] {
   const nodes =
     'TestBed.configureTestingModule' === decorator
@@ -176,7 +177,11 @@ export function addSymbolToClassMetadata(
       : getDecoratorMetadata(source, decorator, '@angular/core');
   let insertedImport = false;
   return nodes
-    .filter((node) => !!node && ts.isObjectLiteralExpression(node))
+    .filter(
+      (node): node is ts.ObjectLiteralExpression =>
+        !!node && ts.isObjectLiteralExpression(node),
+    )
+    .filter((node) => !nodeFilter || nodeFilter(node))
     .flatMap((node): Change[] => {
       if (
         importPath === '@angular/common' &&
