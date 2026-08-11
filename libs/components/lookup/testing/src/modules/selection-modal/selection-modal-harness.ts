@@ -27,6 +27,8 @@ export class SkySelectionModalHarness extends ComponentHarness {
 
   #getCheckboxHarness = this.locatorFor(SkyCheckboxHarness);
 
+  #getHeading = this.locatorFor('.sky-modal-heading');
+
   #getInfiniteScroll = this.locatorFor(SkyInfiniteScrollHarness);
 
   #getSaveButton = this.locatorFor('button.sky-lookup-show-more-modal-save');
@@ -60,6 +62,13 @@ export class SkySelectionModalHarness extends ComponentHarness {
    */
   public async getSearchAriaLabel(): Promise<string | null> {
     return await (await this.#getSearchHarness()).getAriaLabel();
+  }
+
+  /**
+   * Gets the selection modal's heading text.
+   */
+  public async getHeadingText(): Promise<string | undefined> {
+    return await (await this.#getHeading()).text();
   }
 
   /**
