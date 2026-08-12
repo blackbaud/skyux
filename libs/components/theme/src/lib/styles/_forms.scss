@@ -112,10 +112,7 @@ fieldset {
 select {
   appearance: none;
   background: #fff
-    var(
-      --sky-override-select-icon-image,
-      var(var(--sky-image-select_icon-base))
-    )
+    var(--sky-override-select-icon-image, var(--sky-image-select_icon-base))
     no-repeat right / 15px 30px;
   @include mixins.sky-border(light, top, bottom, left, right);
   border-radius: $sky-border-radius;
