@@ -72,7 +72,6 @@
   "@skyux/forms:SkyRadioType",
   "@skyux/forms:SkySelectionBoxGridAlignItems",
   "@skyux/forms:SkyToggleSwitchComponent:ariaLabel",
-  "@skyux/forms:SkyToggleSwitchLabelComponent",
   "@skyux/grids:SkyGridColumnAlignment",
   "@skyux/grids:SkyGridColumnComponent",
   "@skyux/grids:SkyGridColumnDescriptionModelChange",

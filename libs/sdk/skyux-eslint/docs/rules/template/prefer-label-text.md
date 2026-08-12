@@ -64,12 +64,6 @@ Replaces the deprecated `<sky-radio-label>` child element. Setting `labelText` e
 - **Inline help** — The `helpPopoverContent` and `helpKey` inputs only activate when `labelText` is also set.
 - **Hint text** — The `hintText` input provides persistent inline guidance below the radio button.
 
-### `<sky-toggle-switch>`
-
-Replaces the deprecated `<sky-toggle-switch-label>` child element. Setting `labelText` enables:
-
-- **Inline help** — The `helpPopoverContent` and `helpKey` inputs only activate when `labelText` is also set.
-
 <br>
 
 ## Usage Examples

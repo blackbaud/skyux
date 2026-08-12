@@ -169,6 +169,7 @@ describe('Toggle switch component', () => {
     });
 
     it('should not have `aria-label` if `ariaLabel` is empty', () => {
+      fixture.componentRef.setInput('showLabel', false);
       fixture.componentRef.setInput('ariaLabel', '');
       fixture.detectChanges();
 
@@ -253,64 +254,9 @@ describe('Toggle switch component', () => {
       expect(label?.textContent).toBe('label text');
     });
 
-    it('should render the label element regardless of `labelHidden` value if `labelText` is not set', () => {
-      fixture.componentRef.setInput('buttonLabel', 'label element');
-
-      fixture.detectChanges();
-
-      const label = getLabelElement(fixture);
-
-      expect(label?.textContent).toBe('label element');
-
-      fixture.componentRef.setInput('labelHidden', true);
-      fixture.detectChanges();
-
-      expect(label?.textContent).toBe('label element');
-    });
-
-    it('should pass accessibility with label element and no `ariaLabel`', async () => {
-      fixture.detectChanges();
-      expect(buttonElement?.getAttribute('aria-labelledby')).toEqual(
-        getLabelElement(fixture).id,
-      );
-      expect(buttonElement?.getAttribute('aria-label')).toBeNull();
-      await expectAsync(fixture.nativeElement).toBeAccessible();
-    });
-
     it('should pass accessibility with `ariaLabel` and no label element', async () => {
       fixture.componentRef.setInput('ariaLabel', 'My aria label');
       fixture.componentRef.setInput('buttonLabel', undefined);
-
-      fixture.detectChanges();
-      expect(buttonElement?.getAttribute('aria-labelledby')).toBeNull();
-      expect(buttonElement?.getAttribute('aria-label')).toEqual(
-        'My aria label',
-      );
-      await expectAsync(fixture.nativeElement).toBeAccessible();
-    });
-
-    it('should pass accessibility when `ariaLabel` contains the label element contents', async () => {
-      // https://dequeuniversity.com/rules/axe/html/3.5/label-content-name-mismatch?application=axeAP
-      fixture.componentRef.setInput(
-        'ariaLabel',
-        'My button label with more content',
-      );
-      fixture.componentRef.setInput('buttonLabel', 'My button label');
-
-      fixture.detectChanges();
-      expect(buttonElement?.getAttribute('aria-labelledby')).toBeNull();
-      expect(buttonElement?.getAttribute('aria-label')).toEqual(
-        'My button label with more content',
-      );
-      await expectAsync(fixture.nativeElement).toBeAccessible();
-    });
-
-    it('should be accessible with mismatched `ariaLabel` and label element content', async () => {
-      fixture.componentRef.setInput('ariaLabel', 'My aria label');
-      fixture.componentRef.setInput(
-        'buttonLabel',
-        'Text that does not match aria label',
-      );
 
       fixture.detectChanges();
       expect(buttonElement?.getAttribute('aria-labelledby')).toBeNull();
@@ -364,6 +310,7 @@ describe('Toggle switch component', () => {
     });
 
     it('should render help inline button if help key and label text is provided', () => {
+      fixture.componentRef.setInput('showLabel', false);
       fixture.componentRef.setInput('helpKey', 'helpKey.html');
       fixture.detectChanges();
 
@@ -452,6 +399,7 @@ describe('Toggle switch component', () => {
     it('should use the provided ariaLabel as the input aria-label', () => {
       fixture = TestBed.createComponent(SkyToggleSwitchFixtureComponent);
 
+      fixture.componentRef.setInput('showLabel', false);
       fixture.componentRef.setInput('ariaLabel', 'Super effective');
       fixture.detectChanges();
 

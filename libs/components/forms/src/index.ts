@@ -71,5 +71,4 @@ export { SkySelectionBoxDescriptionComponent as λ14 } from './lib/modules/selec
 export { SkySelectionBoxGridComponent as λ15 } from './lib/modules/selection-box/selection-box-grid.component';
 export { SkySelectionBoxHeaderComponent as λ16 } from './lib/modules/selection-box/selection-box-header.component';
 export { SkySelectionBoxComponent as λ17 } from './lib/modules/selection-box/selection-box.component';
-export { SkyToggleSwitchLabelComponent as λ18 } from './lib/modules/toggle-switch/toggle-switch-label.component';
 export { SkyToggleSwitchComponent as λ19 } from './lib/modules/toggle-switch/toggle-switch.component';

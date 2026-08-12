@@ -9,9 +9,7 @@ import { SkyToggleSwitchHarness } from './toggle-switch-harness';
 
 let index: number;
 
-async function setupTest(
-  options: { dataSkyId?: string; useAlternateLabel?: boolean } = {},
-): Promise<{
+async function setupTest(options: { dataSkyId?: string } = {}): Promise<{
   toggleSwitchHarness: SkyToggleSwitchHarness;
   fixture: ComponentFixture<ToggleSwitchHarnessTestComponent>;
   loader: HarnessLoader;
@@ -26,10 +24,6 @@ async function setupTest(
   );
 
   const fixture = TestBed.createComponent(ToggleSwitchHarnessTestComponent);
-  if (options.useAlternateLabel) {
-    fixture.componentRef.setInput('useAlternateLabel', 'true');
-    fixture.detectChanges();
-  }
   const loader = TestbedHarnessEnvironment.loader(fixture);
 
   const toggleSwitchHarness: SkyToggleSwitchHarness = options.dataSkyId
@@ -106,17 +100,6 @@ describe('Toggle switch harness', () => {
     );
   });
 
-  it('should get the label text when using the label element', async () => {
-    const { toggleSwitchHarness } = await setupTest({
-      dataSkyId: 'toggle-switch',
-      useAlternateLabel: true,
-    });
-
-    await expectAsync(toggleSwitchHarness.getLabelText()).toBeResolvedTo(
-      'Alternate label',
-    );
-  });
-
   it('should get the label text when specified via `labelText` input and label is hidden', async () => {
     const { toggleSwitchHarness, fixture } = await setupTest({
       dataSkyId: 'toggle-switch',
@@ -150,19 +133,6 @@ describe('Toggle switch harness', () => {
 
     await expectAsync(toggleSwitchHarness.getLabelHidden()).toBeResolvedTo(
       true,
-    );
-  });
-
-  it('should throw an error when getting `labelHidden` for a toggle switch using `sky-toggle-switch-label`', async () => {
-    const { toggleSwitchHarness } = await setupTest({
-      dataSkyId: 'toggle-switch',
-      useAlternateLabel: true,
-    });
-
-    await expectAsync(
-      toggleSwitchHarness.getLabelHidden(),
-    ).toBeRejectedWithError(
-      '`labelHidden` is only supported when setting the toggle switch label via the `labelText` input.',
     );
   });
 

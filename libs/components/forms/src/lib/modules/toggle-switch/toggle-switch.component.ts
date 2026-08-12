@@ -3,12 +3,9 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ContentChildren,
   EventEmitter,
   Input,
-  OnDestroy,
   Output,
-  QueryList,
   TemplateRef,
   booleanAttribute,
   forwardRef,
@@ -24,10 +21,6 @@ import {
 } from '@angular/forms';
 import { SkyIdService, SkyLogService } from '@skyux/core';
 
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-
-import { SkyToggleSwitchLabelComponent } from './toggle-switch-label.component';
 import { SkyToggleSwitchChange } from './types/toggle-switch-change';
 
 const SKY_TOGGLE_SWITCH_CONTROL_VALUE_ACCESSOR: any = {
@@ -53,13 +46,13 @@ const SKY_TOGGLE_SWITCH_VALIDATOR = {
   standalone: false,
 })
 export class SkyToggleSwitchComponent
-  implements AfterContentInit, OnDestroy, ControlValueAccessor, Validator
+  implements AfterContentInit, ControlValueAccessor, Validator
 {
   /**
    * The ARIA label for the toggle switch. This sets the `aria-label`
    * attribute to provide a text equivalent for screen readers [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * Use a context-sensitive label, such as "Activate annual fundraiser" for a toggle switch that activates and deactivates an annual fundraiser. Context is especially important if multiple toggle switches are in close proximity.
-   * When the `sky-toggle-switch-label` component displays a visible label, this property is only necessary if that label requires extra context.
+   * When the `labelText` input displays a visible label, this property is only necessary if that label requires extra context.
    * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    * @deprecated Use the `labelText` input instead.
    */
@@ -159,18 +152,13 @@ export class SkyToggleSwitchComponent
   @Output()
   public toggleChange = new EventEmitter<SkyToggleSwitchChange>();
 
-  public hasLabelComponent = false;
   public labelId: string;
 
   public enableIndicatorAnimation = false;
 
-  @ContentChildren(SkyToggleSwitchLabelComponent)
-  public labelComponents: QueryList<SkyToggleSwitchLabelComponent> | undefined;
-
   #control: AbstractControl | undefined;
   #isFirstChange = true;
   readonly #logSvc = inject(SkyLogService);
-  #ngUnsubscribe = new Subject<void>();
 
   #_ariaLabel: string | undefined;
   #_checked = false;
@@ -182,30 +170,11 @@ export class SkyToggleSwitchComponent
   }
 
   public ngAfterContentInit(): void {
-    /* istanbul ignore else */
-    if (this.labelComponents) {
-      this.hasLabelComponent = this.labelComponents.length > 0;
-
-      this.labelComponents.changes
-        .pipe(takeUntil(this.#ngUnsubscribe))
-        .subscribe((newLabelComponents) => {
-          this.hasLabelComponent = newLabelComponents.length > 0;
-          // Allow the template to reload any ARIA attributes that are relying on the
-          // label component existing in the DOM.
-          this.#changeDetector.markForCheck();
-        });
-    }
-
     // Wait for the view to render before applying animation effects.
     // (Some browsers, such as Firefox, apply the animation too early.)
     setTimeout(() => {
       this.enableIndicatorAnimation = true;
     });
-  }
-
-  public ngOnDestroy(): void {
-    this.#ngUnsubscribe.next();
-    this.#ngUnsubscribe.complete();
   }
 
   public writeValue(value: boolean): void {
