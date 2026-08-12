@@ -1428,6 +1428,13 @@ describe('SkyDataGrid', () => {
       );
     }
 
+    /** The wait indicator's mask, which renders only while the grid is waiting. */
+    function getWaitMask(): Element | null {
+      return fixture.nativeElement.querySelector(
+        '[data-sky-id="grid"] sky-wait .sky-wait-mask',
+      );
+    }
+
     /**
      * Settles AG Grid's work first, then reads the API off whichever
      * `ag-grid-angular` element is currently rendered. The shared `getGridApi`
@@ -1488,10 +1495,15 @@ describe('SkyDataGrid', () => {
       // The grid has to leave the DOM for AG Grid to rebuild it; the wait
       // indicator covers the gap until the new grid is ready.
       expect(getGridElement()).toBeNull();
+      // Read the mask directly rather than through `SkyWaitHarness`: the
+      // harness stabilizes the fixture, which runs the timeout that ends the
+      // recreation gap, so it can only ever observe the settled state.
+      expect(getWaitMask()).not.toBeNull();
 
       await getCurrentGridApi();
 
       expect(getGridElement()).not.toBeNull();
+      expect(getWaitMask()).toBeNull();
     });
 
     it('should keep SKY UX resource strings when the locale changes', async () => {

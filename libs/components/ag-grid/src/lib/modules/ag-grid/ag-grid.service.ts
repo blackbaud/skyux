@@ -219,9 +219,12 @@ export class SkyAgGridService {
   );
   readonly #locale = toSignal(inject(SkyAppLocaleProvider).getLocaleInfo());
   readonly #localeTextWithDefaults = computed(() => {
-    const language = (this.#locale()?.locale ?? 'en-US')
-      .substring(0, 2)
-      .toLowerCase();
+    // Split on the subtag delimiter rather than slicing a fixed width: a BCP 47
+    // primary language subtag can be three letters (e.g. `fil-PH`), which a
+    // two-character slice would silently turn into a different language.
+    const [language] = (this.#locale()?.locale ?? 'en-US')
+      .toLowerCase()
+      .split('-');
 
     // SKY UX resource strings are applied last so they override AG Grid's
     // stock wording for the keys SKY UX intentionally rewords. Keys left

@@ -33,6 +33,7 @@ import {
 } from 'ag-grid-community';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
+import { AG_GRID_LOCALE_ES } from '../shared/ag-grid-locale-es-ES';
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
 import { SkyAgGridService } from './ag-grid.service';
 import { SkyAgGridColumnFilterDatepickerComponent } from './column-filters/column-filter-datepicker/column-filter-datepicker.component';
@@ -505,6 +506,16 @@ describe('SkyAgGridService', () => {
       }
     });
 
+    it('should match on the whole language subtag, not its first two letters', () => {
+      // `fry` (West Frisian) starts with `fr`, so truncating the subtag to two
+      // characters would hand it French text.
+      const gridOptions = createServiceForLocale('fry-NL').getGridOptions({
+        gridOptions: {},
+      });
+
+      expect(gridOptions.localeText?.['noMatches']).toBeUndefined();
+    });
+
     it('should supply no translations for a locale AG Grid text is missing for', () => {
       const gridOptions = createServiceForLocale('de-DE').getGridOptions({
         gridOptions: {},
@@ -556,6 +567,9 @@ describe('SkyAgGridService', () => {
 
       // `noRowsToShow` is one of the keys SKY UX intentionally rewords, so the
       // SKY UX resource string wins over AG Grid's own translation.
+      expect(gridOptions.localeText?.['noRowsToShow']).not.toEqual(
+        AG_GRID_LOCALE_ES.noRowsToShow,
+      );
       expect(gridOptions.localeText?.['noRowsToShow']).toEqual(
         'No data available',
       );
