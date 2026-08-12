@@ -6,6 +6,7 @@ import {
   OnDestroy,
   OnInit,
   afterNextRender,
+  computed,
   contentChildren,
   effect,
   inject,
@@ -210,6 +211,36 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
     SkyDataManagerSortOptionComponent,
   );
 
+  /**
+   * The columns a column controller directive registered when no view config
+   * supplies them.
+   */
+  readonly #registeredColumnOptions = computed<
+    SkyDataManagerColumnPickerOption[] | undefined
+  >(() => {
+    const columns = this.#dataManagerService.columnOptions();
+
+    return columns?.map((column) => ({
+      alwaysDisplayed: column.alwaysDisplayed,
+      description: column.description,
+      id: column.id,
+      initialHide: column.initialHide,
+      label: column.labelText,
+    }));
+  });
+
+  /**
+   * Whether to display the column picker button. A view config can enable it,
+   * or a column controller directive can register the columns directly, which
+   * is how consumers who do not register a view enable it.
+   */
+  protected get columnPickerEnabled(): boolean {
+    return (
+      !!this.activeView?.columnPickerEnabled ||
+      !!this.#registeredColumnOptions()
+    );
+  }
+
   protected readonly primaryItems = contentChildren(
     SkyDataManagerToolbarPrimaryItemComponent,
   );
@@ -232,7 +263,7 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
     return (
       !!this.activeView?.filterButtonEnabled ||
       !!this.activeView?.sortEnabled ||
-      !!this.activeView?.columnPickerEnabled ||
+      this.columnPickerEnabled ||
       !!this.activeView?.searchEnabled ||
       this.searchEnabled() === true ||
       this.sortOptions().length > 0 ||
@@ -437,51 +468,70 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
   }
 
   public openColumnPicker(): void {
-    if (this.dataState && this.activeView && this.activeView.columnOptions) {
-      const viewState = this.dataState.getViewStateById(this.activeView.id);
-      if (viewState) {
-        const context = new SkyDataManagerColumnPickerContext(
-          this.activeView.columnOptions,
-          viewState.displayedColumnIds,
-        );
+    const columnOptions =
+      this.activeView?.columnOptions ?? this.#registeredColumnOptions();
+    const viewState = this.activeView
+      ? this.dataState?.getViewStateById(this.activeView.id)
+      : undefined;
 
-        if (this.activeView.columnPickerSortStrategy) {
-          context.columnPickerSortStrategy =
-            this.activeView.columnPickerSortStrategy;
-        }
+    // With a view config, the columns that display are tracked on the view's
+    // state; without one, they are tracked on the data state itself.
+    const displayedColumnIds = this.activeView
+      ? viewState?.displayedColumnIds
+      : this.dataState?.displayedColumnIds;
 
-        const options: SkyModalConfigurationInterface = {
-          providers: [
-            SKY_DATA_MANAGER_COLUMN_PICKER_PROVIDERS,
-            {
-              provide: SkyDataManagerColumnPickerContext,
-              useValue: context,
-            },
-          ],
-        };
-
-        const modalInstance = this.#modalService.open(
-          this.#columnPickerService.getComponentType(),
-          options,
-        );
-
-        modalInstance.closed.subscribe((result: SkyModalCloseArgs) => {
-          if (result.reason === 'save') {
-            const displayedColumnIds = result.data.map(
-              (col: SkyDataManagerColumnPickerOption) => col.id,
-            );
-
-            viewState.displayedColumnIds = displayedColumnIds;
-            if (this.dataState && this.activeView) {
-              this.dataState = this.dataState.addOrUpdateView(
-                this.activeView.id,
-                viewState,
-              );
-            }
-          }
-        });
-      }
+    if (!this.dataState || !columnOptions || !displayedColumnIds) {
+      return;
     }
+
+    const context = new SkyDataManagerColumnPickerContext(
+      columnOptions,
+      displayedColumnIds,
+    );
+
+    if (this.activeView?.columnPickerSortStrategy) {
+      context.columnPickerSortStrategy =
+        this.activeView.columnPickerSortStrategy;
+    }
+
+    const options: SkyModalConfigurationInterface = {
+      providers: [
+        SKY_DATA_MANAGER_COLUMN_PICKER_PROVIDERS,
+        {
+          provide: SkyDataManagerColumnPickerContext,
+          useValue: context,
+        },
+      ],
+    };
+
+    const modalInstance = this.#modalService.open(
+      this.#columnPickerService.getComponentType(),
+      options,
+    );
+
+    modalInstance.closed.subscribe((result: SkyModalCloseArgs) => {
+      if (result.reason !== 'save' || !this.dataState) {
+        return;
+      }
+
+      const selectedIds = result.data.map(
+        (col: SkyDataManagerColumnPickerOption) => col.id,
+      );
+
+      if (this.activeView && viewState) {
+        viewState.displayedColumnIds = selectedIds;
+        this.dataState = this.dataState.addOrUpdateView(
+          this.activeView.id,
+          viewState,
+        );
+      } else {
+        const newState = new SkyDataManagerState(
+          this.dataState.getStateOptions(),
+        );
+        newState.displayedColumnIds = selectedIds;
+        this.dataState = newState;
+      }
+    });
   }
 
   public selectAll(): void {

@@ -21,6 +21,7 @@ export { SkyDataManagerDockType } from './lib/modules/data-manager/types/data-ma
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of public API.
 export { SkyDataManagerColumnPickerComponent as λ1 } from './lib/modules/data-manager/data-manager-column-picker/data-manager-column-picker.component';
+export { SkyDataManagerColumnControllerDirective as λ11 } from './lib/modules/data-manager/data-manager-columns/data-manager-column-controller.directive';
 export { SkyDataManagerFilterControllerDirective as λ9 } from './lib/modules/data-manager/data-manager-filters/data-manager-filter-controller.directive';
 export { SkyDataManagerSortOptionComponent as λ10 } from './lib/modules/data-manager/data-manager-toolbar/data-manager-sort-option.component';
 export { SkyDataManagerToolbarLeftItemComponent as λ3 } from './lib/modules/data-manager/data-manager-toolbar/data-manager-toolbar-left-item.component';

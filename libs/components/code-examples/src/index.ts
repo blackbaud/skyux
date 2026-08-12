@@ -42,6 +42,7 @@ export { CoreMediaQueryBasicExampleComponent } from './lib/modules/core/media-qu
 export { CoreMediaQueryResponsiveHostExampleComponent } from './lib/modules/core/media-query/responsive-host/example.component';
 export { CoreNumericBasicExampleComponent } from './lib/modules/core/numeric/basic/example.component';
 export { DataGridBasicExampleComponent } from './lib/modules/data-grid/basic/example.component';
+export { DataGridDataManagerExampleComponent } from './lib/modules/data-grid/data-manager/example.component';
 export { DataGridLoadingExampleComponent } from './lib/modules/data-grid/loading/example.component';
 export { DataGridPagingExampleComponent } from './lib/modules/data-grid/paging/example.component';
 export { DataGridSortingExampleComponent } from './lib/modules/data-grid/sorting/example.component';

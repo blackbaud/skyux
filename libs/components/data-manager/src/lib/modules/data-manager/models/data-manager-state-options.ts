@@ -14,6 +14,22 @@ export interface SkyDataManagerStateOptions {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   additionalData?: any;
   /**
+   * The IDs of the columns available to display. Used by the signal-based
+   * `SkyDataManagerToolbarComponent` API for consumers displaying columns
+   * without a `SkyDataViewConfig`-registered view. This is tracked separately
+   * from `displayedColumnIds` so that a column the user hid can be
+   * distinguished from a column that has been newly added.
+   * @preview
+   */
+  columnIds?: string[];
+  /**
+   * The IDs of the columns to display, in display order. Used by the
+   * signal-based `SkyDataManagerToolbarComponent` API for consumers displaying
+   * columns without a `SkyDataViewConfig`-registered view.
+   * @preview
+   */
+  displayedColumnIds?: string[];
+  /**
    * The state of the filters.
    */
   filterData?: SkyDataManagerFilterData;

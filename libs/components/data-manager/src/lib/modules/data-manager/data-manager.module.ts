@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { SKY_DATA_MANAGER_COLUMN_PICKER_PROVIDERS } from './data-manager-column-picker/data-manager-column-picker-providers';
+import { SkyDataManagerColumnControllerDirective } from './data-manager-columns/data-manager-column-controller.directive';
 import { SkyDataManagerFilterControllerDirective } from './data-manager-filters/data-manager-filter-controller.directive';
 import { SkyDataManagerSortOptionComponent } from './data-manager-toolbar/data-manager-sort-option.component';
 import { SkyDataManagerToolbarLeftItemComponent } from './data-manager-toolbar/data-manager-toolbar-left-item.component';
@@ -13,6 +14,7 @@ import { SkyDataViewComponent } from './data-view.component';
 
 @NgModule({
   imports: [
+    SkyDataManagerColumnControllerDirective,
     SkyDataManagerComponent,
     SkyDataManagerFilterControllerDirective,
     SkyDataManagerSortOptionComponent,
@@ -24,6 +26,7 @@ import { SkyDataViewComponent } from './data-view.component';
     SkyDataViewComponent,
   ],
   exports: [
+    SkyDataManagerColumnControllerDirective,
     SkyDataManagerComponent,
     SkyDataManagerFilterControllerDirective,
     SkyDataManagerSortOptionComponent,

@@ -63,7 +63,8 @@ const LIST_VIEW_GRID_TAG = 'sky-list-view-grid';
  * because parse5 treats them as distinct attribute names. `fit`'s unbound
  * `width`/`scroll` literal values are additionally translated to `columnFit`'s
  * `container`/`content` values by `gridAttributeSwapCallback`. Anything not
- * listed (`data`, `selectedRowIds`) is copied through unchanged.
+ * listed (`data`, `selectedRowIds`, `selectedColumnIds`) is copied through
+ * unchanged.
  */
 const GRID_ATTRIBUTE_SWAPS: Record<string, string> = {
   enableMultiselect: 'multiselect',
@@ -85,9 +86,6 @@ const GRID_ATTRIBUTE_SWAPS: Record<string, string> = {
   '(rowDeleteConfirm)': '',
   rowHighlightedId: '',
   '[rowHighlightedId]': '',
-  selectedColumnIds: '',
-  '[selectedColumnIds]': '',
-  '(selectedColumnIdsChange)': '',
   settingsKey: '',
   '[settingsKey]': '',
   sortField: 'sort',
@@ -108,14 +106,12 @@ const GRID_REMOVED_INPUTS = [
   'messageStream',
   'multiselectRowId',
   'rowHighlightedId',
-  'selectedColumnIds',
   'settingsKey',
   'width',
 ];
 
 /** Outputs removed from `<sky-grid>` with no `<sky-data-grid>` equivalent. */
 const GRID_REMOVED_OUTPUTS = [
-  'selectedColumnIdsChange',
   'columnWidthChange',
   'rowDeleteCancel',
   'rowDeleteConfirm',

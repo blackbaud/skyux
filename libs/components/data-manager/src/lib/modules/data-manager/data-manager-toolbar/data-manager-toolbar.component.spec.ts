@@ -927,6 +927,104 @@ describe('SkyDataManagerToolbarComponent', () => {
     expect(dataManagerService.updateDataState).not.toHaveBeenCalled();
   });
 
+  it('should not open the column picker modal when there are no column options', () => {
+    spyOn(modalServiceInstance, 'open');
+
+    (
+      dataManagerToolbarComponent.activeView as SkyDataViewConfig
+    ).columnPickerEnabled = true;
+    dataManagerToolbarFixture.detectChanges();
+
+    dataManagerToolbarComponent.openColumnPicker();
+
+    expect(modalServiceInstance.open).not.toHaveBeenCalled();
+  });
+
+  describe('without a registered view', () => {
+    beforeEach(() => {
+      dataManagerToolbarComponent.activeView = undefined;
+      dataManagerService.setColumnOptions([
+        { id: 'name', labelText: 'Name' },
+        { id: 'age', labelText: 'Age' },
+      ]);
+      dataManagerToolbarFixture.detectChanges();
+    });
+
+    it('should display the column picker button when columns are registered', () => {
+      expect(
+        dataManagerToolbarNativeElement.querySelector('.sky-col-picker-btn'),
+      ).toBeTruthy();
+    });
+
+    it('should open the column picker with the registered columns', () => {
+      spyOn(modalServiceInstance, 'open').and.callThrough();
+
+      (
+        dataManagerToolbarComponent.dataState as SkyDataManagerState
+      ).displayedColumnIds = ['name'];
+
+      const columnPickerBtn = dataManagerToolbarNativeElement.querySelector(
+        '.sky-col-picker-btn',
+      ) as HTMLButtonElement;
+      columnPickerBtn.click();
+
+      expect(modalServiceInstance.open).toHaveBeenCalledWith(
+        SkyDataManagerColumnPickerComponent,
+        {
+          providers: [
+            SKY_DATA_MANAGER_COLUMN_PICKER_PROVIDERS,
+            {
+              provide: SkyDataManagerColumnPickerContext,
+              useValue: new SkyDataManagerColumnPickerContext(
+                [
+                  {
+                    alwaysDisplayed: undefined,
+                    description: undefined,
+                    id: 'name',
+                    initialHide: undefined,
+                    label: 'Name',
+                  },
+                  {
+                    alwaysDisplayed: undefined,
+                    description: undefined,
+                    id: 'age',
+                    initialHide: undefined,
+                    label: 'Age',
+                  },
+                ],
+                ['name'],
+              ),
+            },
+          ],
+        },
+      );
+    });
+
+    it('should save the returned columns to the data state', () => {
+      const updateSpy = spyOn(dataManagerService, 'updateDataState');
+
+      (
+        dataManagerToolbarComponent.dataState as SkyDataManagerState
+      ).displayedColumnIds = ['name'];
+
+      const columnPickerBtn = dataManagerToolbarNativeElement.querySelector(
+        '.sky-col-picker-btn',
+      ) as HTMLButtonElement;
+      columnPickerBtn.click();
+
+      modalServiceInstance.closeCallback?.({
+        reason: 'save',
+        data: [{ id: 'name' }, { id: 'age' }],
+      });
+
+      expect(updateSpy).toHaveBeenCalled();
+      expect(
+        (updateSpy.calls.mostRecent().args[0] as SkyDataManagerState)
+          .displayedColumnIds,
+      ).toEqual(['name', 'age']);
+    });
+  });
+
   describe('a11y', () => {
     it('should set accessibility labels correctly when no list descriptor is given', () => {
       const patchInfoSpy = spyOn(

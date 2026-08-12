@@ -20,6 +20,22 @@ export class SkyDataManagerState {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public additionalData: any;
   /**
+   * The IDs of the columns available to display. Used by the signal-based
+   * `SkyDataManagerToolbarComponent` API for consumers displaying columns
+   * without a `SkyDataViewConfig`-registered view. This is tracked separately
+   * from `displayedColumnIds` so that a column the user hid can be
+   * distinguished from a column that has been newly added.
+   * @preview
+   */
+  public columnIds: string[] | undefined;
+  /**
+   * The IDs of the columns to display, in display order. Used by the
+   * signal-based `SkyDataManagerToolbarComponent` API for consumers displaying
+   * columns without a `SkyDataViewConfig`-registered view.
+   * @preview
+   */
+  public displayedColumnIds: string[] | undefined;
+  /**
    * The state of the filters.
    */
   public filterData: SkyDataManagerFilterData | undefined;
@@ -57,6 +73,8 @@ export class SkyDataManagerState {
 
     this.activeSortOption = data.activeSortOption;
     this.additionalData = data.additionalData;
+    this.columnIds = data.columnIds;
+    this.displayedColumnIds = data.displayedColumnIds;
     this.filterData = data.filterData;
     this.onlyShowSelected = data.onlyShowSelected;
     this.page = data.page;
@@ -83,6 +101,10 @@ export class SkyDataManagerState {
         this.additionalData !== undefined
           ? safeStructuredClone(this.additionalData)
           : undefined,
+      columnIds: this.columnIds ? [...this.columnIds] : undefined,
+      displayedColumnIds: this.displayedColumnIds
+        ? [...this.displayedColumnIds]
+        : undefined,
       filterData: this.filterData
         ? {
             filtersApplied: this.filterData.filtersApplied,

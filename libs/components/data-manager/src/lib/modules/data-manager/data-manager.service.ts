@@ -1,5 +1,6 @@
 import { Injectable, OnDestroy, Signal, signal } from '@angular/core';
 import { SkyUIConfigService } from '@skyux/core';
+import { SkyDataColumnOption } from '@skyux/lists';
 
 import {
   BehaviorSubject,
@@ -57,6 +58,9 @@ export class SkyDataManagerService implements OnDestroy {
   #stateUpdateSource = 'dataManagerServiceUpdateState';
   #uiConfigService: SkyUIConfigService;
   #state = signal<SkyDataManagerState>(new SkyDataManagerState({}));
+  readonly #columnOptions = signal<SkyDataColumnOption[] | undefined>(
+    undefined,
+  );
 
   // eslint-disable-next-line @angular-eslint/prefer-inject -- constructor injection is required to maintain the public API for consumers who may instantiate this service directly (e.g. `new SkyDataManagerService(...)`).
   constructor(uiConfigService: SkyUIConfigService) {
@@ -417,6 +421,23 @@ export class SkyDataManagerService implements OnDestroy {
       currentViews[existingViewIndex] = view;
       this.#views.next(currentViews);
     }
+  }
+
+  /**
+   * The columns registered by a column controller directive for consumers who
+   * display columns without a `SkyDataViewConfig`-registered view. The catalog
+   * is intentionally kept out of `SkyDataManagerState`, which is persisted.
+   * @internal
+   */
+  public readonly columnOptions = this.#columnOptions.asReadonly();
+
+  /**
+   * Registers the columns available to a column picker when no view config
+   * supplies them.
+   * @internal
+   */
+  public setColumnOptions(options: SkyDataColumnOption[] | undefined): void {
+    this.#columnOptions.set(options);
   }
 
   /**
