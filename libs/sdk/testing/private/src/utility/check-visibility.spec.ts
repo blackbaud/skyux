@@ -62,6 +62,11 @@ describe('checkVisibility', () => {
     el.style.display = 'none';
     el.style.visibility = 'visible';
 
+    vi.spyOn(el, 'getBoundingClientRect').mockReturnValue({
+      width: 100,
+      height: 50,
+    } as DOMRect);
+
     expect(
       _skyTestingCheckVisibility(el, {
         checkCssDisplay: true,
