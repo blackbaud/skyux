@@ -8,12 +8,15 @@
   "implicitDependencies": ["eslint-config", "skyux-eslint"],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
-      "outputs": ["{options.outputPath}"],
+      "executor": "@angular/build:application",
+      "outputs": ["{options.outputPath.base}"],
       "options": {
-        "outputPath": "dist/apps/code-examples-playground",
+        "outputPath": {
+          "base": "dist/apps/code-examples-playground",
+          "browser": "."
+        },
         "index": "apps/code-examples/src/index.html",
-        "main": "apps/code-examples/src/main.ts",
+        "browser": "apps/code-examples/src/main.ts",
         "polyfills": ["zone.js"],
         "tsConfig": "apps/code-examples/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
