@@ -1244,23 +1244,9 @@ describe('Modal component', () => {
       }));
 
       it('should not check for shadow when elements are added to the modal content', fakeAsync(() => {
-        let mutateCallback: MutationCallback | undefined;
-
-        const fakeMutationObserver: MutationObserver = {
-          observe: jasmine.createSpy('observe'),
-          disconnect: jasmine.createSpy('disconnect'),
-          takeRecords: jasmine.createSpy('takeRecords'),
-        };
-
-        spyOn(
-          TestBed.inject(SkyMutationObserverService),
-          'create',
-        ).and.callFake((cb) => {
-          mutateCallback = cb;
-
-          return fakeMutationObserver;
-        });
-
+        // In the default theme, the scroll shadow is disabled, so the modal
+        // does not observe the content for mutations. Adding or removing
+        // content should never produce a shadow.
         const modalInstance1 = openModal(ModalTestComponent);
 
         const modalFooterEl = document.querySelector(
@@ -1277,16 +1263,12 @@ describe('Modal component', () => {
 
         fixtureContentEl.appendChild(childEl);
 
-        triggerMutation(mutateCallback, fakeMutationObserver);
-
         tick();
         getApplicationRef().tick();
 
         validateShadow(modalFooterEl);
 
         fixtureContentEl.removeChild(childEl);
-
-        triggerMutation(mutateCallback, fakeMutationObserver);
 
         tick();
         getApplicationRef().tick();

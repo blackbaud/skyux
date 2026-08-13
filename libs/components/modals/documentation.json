@@ -35,7 +35,6 @@
         "docsIds": [
           "SkyModalModule",
           "SkyModalComponent",
-          "SkyModalHeaderComponent",
           "SkyModalContentComponent",
           "SkyModalFooterComponent",
           "SkyModalIsDirtyDirective",

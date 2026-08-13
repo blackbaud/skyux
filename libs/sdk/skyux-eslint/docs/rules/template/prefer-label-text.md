@@ -51,12 +51,6 @@ Replaces the `<label>` child element pattern. Setting `labelText` enables:
 
 When autofixing, the rule also removes the `sky-form-control` CSS class from child `<input>`, `<select>`, and `<textarea>` elements, since that class is no longer needed when `labelText` is used.
 
-### `<sky-modal>`
-
-Replaces the deprecated `<sky-modal-header>` child element. Setting `headingText` enables:
-
-- **Inline help** — The `helpPopoverContent` and `helpKey` inputs only activate when `headingText` is also set.
-
 ### `<sky-radio>`
 
 Replaces the deprecated `<sky-radio-label>` child element. Setting `labelText` enables:
@@ -108,10 +102,6 @@ Replaces the deprecated `<sky-toggle-switch-label>` child element. Setting `labe
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 </sky-input-box>
 ~~~~~~~~~~~~~~~~
-
-<sky-modal>
-  <sky-modal-header>My modal</sky-modal-header>
-</sky-modal>
 ```
 
 <br>
@@ -124,6 +114,4 @@ Replaces the deprecated `<sky-toggle-switch-label>` child element. Setting `labe
 <sky-input-box labelText="First name">
   <input type="text" />
 </sky-input-box>
-
-<sky-modal headingText="My modal" />
 ```
