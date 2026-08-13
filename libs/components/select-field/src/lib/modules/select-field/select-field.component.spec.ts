@@ -423,6 +423,42 @@ describe('Select field component', () => {
       expect(selectField.value).toBeUndefined();
       expect(initialInnerText).toEqual(getSingleSelectInnerText());
     }));
+
+    it('should not open the picker when disabled and clicked', fakeAsync(() => {
+      fixture.componentRef.setInput('selectMode', 'single');
+      fixture.detectChanges();
+      fixture.componentRef.setInput('disabled', true);
+      fixture.detectChanges();
+
+      const openSpy = spyOn(selectField, 'openPicker').and.callThrough();
+      const selectButton = fixture.nativeElement.querySelector(
+        '.sky-select-field-btn',
+      );
+      selectButton.click();
+      tick();
+      fixture.detectChanges();
+
+      expect(openSpy).not.toHaveBeenCalled();
+    }));
+
+    it('should not open the picker when disabled and the enter key is pressed', fakeAsync(() => {
+      fixture.componentRef.setInput('selectMode', 'single');
+      fixture.detectChanges();
+      fixture.componentRef.setInput('disabled', true);
+      fixture.detectChanges();
+
+      const openSpy = spyOn(selectField, 'openPicker').and.callThrough();
+      const selectButton = fixture.nativeElement.querySelector(
+        '.sky-select-field-btn',
+      );
+      selectButton.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Enter' }),
+      );
+      tick();
+      fixture.detectChanges();
+
+      expect(openSpy).not.toHaveBeenCalled();
+    }));
   });
 
   describe('picker', () => {
