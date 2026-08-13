@@ -204,7 +204,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.app }}
-          path: ./dist/apps/${{ matrix.app }}/browser
+          path: ./dist/apps/${{ matrix.app }}
           retention-days: 1
           if-no-files-found: error
         if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' }}
