@@ -87,6 +87,15 @@ function writeStylesheet(sourceRoot: string, contents: string): Rule {
   };
 }
 
+function addStylesheetToStylesArray(
+  styles: string[] | undefined,
+  filePath: string,
+): void {
+  if (styles && !styles.includes(filePath)) {
+    styles.push(filePath);
+  }
+}
+
 function addStylesheetToWorkspace(): Rule {
   return () =>
     updateWorkspace((workspace) => {
@@ -99,12 +108,24 @@ function addStylesheetToWorkspace(): Rule {
 
             /* istanbul ignore else */
             if (target && target.options) {
-              const styles = (target.options['styles'] = (target.options[
-                'styles'
-              ] || []) as string[]);
+              target.options['styles'] ??= [];
 
-              if (!styles.includes(filePath)) {
-                styles.push(filePath);
+              addStylesheetToStylesArray(
+                target.options['styles'] as string[],
+                filePath,
+              );
+
+              // A configuration's `styles` array replaces (rather than
+              // merges with) the target's base `styles` array, so any
+              // configuration that already declares its own `styles` needs
+              // the compatibility stylesheet appended too.
+              for (const configuration of Object.values(
+                target.configurations ?? {},
+              )) {
+                addStylesheetToStylesArray(
+                  configuration?.['styles'] as string[] | undefined,
+                  filePath,
+                );
               }
             }
           }

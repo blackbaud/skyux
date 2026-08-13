@@ -21,7 +21,11 @@ interface TestAngularJson {
     {
       architect: Record<
         string,
-        { builder?: string; options?: { styles?: string[] } }
+        {
+          builder?: string;
+          options?: { styles?: string[] };
+          configurations?: Record<string, { styles?: string[] } | undefined>;
+        }
       >;
     }
   >;
@@ -226,5 +230,48 @@ describe('Migrations > Add compat stylesheets', () => {
     expect(
       angularJson.projects['my-lib-showcase'].architect['test'].options?.styles,
     ).toContain(libShowcaseCompatStylesheetPath);
+  });
+
+  it('should append the compat stylesheet to configurations that override the base styles array', async () => {
+    const { runSchematic, tree } = await setupTest();
+
+    tree.overwrite(
+      '/package.json',
+      JSON.stringify({
+        dependencies: {
+          '@skyux/theme': 'CURRENT_VERSION.0.0',
+        },
+      }),
+    );
+
+    const angularJson = tree.readJson(
+      '/angular.json',
+    ) as unknown as TestAngularJson;
+
+    const buildTarget = angularJson.projects['my-app'].architect['build'];
+    buildTarget.configurations = {
+      production: { styles: ['src/production-only.css'] },
+    };
+
+    tree.overwrite('/angular.json', JSON.stringify(angularJson));
+
+    const updatedTree = await runSchematic();
+
+    const updatedAngularJson = updatedTree.readJson(
+      '/angular.json',
+    ) as unknown as TestAngularJson;
+
+    const updatedBuildTarget =
+      updatedAngularJson.projects['my-app'].architect['build'];
+
+    // The configuration's pre-existing styles are preserved, and the
+    // compat stylesheet is appended alongside them.
+    expect(updatedBuildTarget.configurations?.['production']?.styles).toEqual([
+      'src/production-only.css',
+      compatStylesheetPath,
+    ]);
+
+    // The base `styles` array still gets the compat stylesheet too.
+    expect(updatedBuildTarget.options?.styles).toContain(compatStylesheetPath);
   });
 });
