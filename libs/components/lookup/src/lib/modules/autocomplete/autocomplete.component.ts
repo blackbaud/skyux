@@ -310,7 +310,10 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   /**
    * When using `searchAsync`, allows the user to specify arbitrary
    * values not in the search results. This only works in combination
-   * with `searchAsync`.
+   * with `searchAsync`. On blur, the typed text is kept as the value
+   * rather than reverted, using a matching search result if one is
+   * available. Consumers should guard against values set before a
+   * `searchAsync` call resolves.
    * @default false
    */
   public allowAnyValue = input(false, { transform: booleanAttribute });
