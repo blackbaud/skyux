@@ -98,28 +98,35 @@ export class SkyLibResourcesService {
   public getStrings<T extends ResourceDictionary>(
     dictionary: T,
   ): Observable<{ [K in keyof T]: string }> {
-    const keys = Object.keys(dictionary);
+    const entries = Object.entries(dictionary).map(([objKey, resource]) => {
+      const [name, ...args] = Array.isArray(resource) ? resource : [resource];
+      return { objKey, name, args };
+    });
 
-    if (keys.length === 0) {
+    if (entries.length === 0) {
       return observableOf({} as { [K in keyof T]: string });
     }
 
-    const resources$: Record<string, Observable<string>> = {};
+    const mappedNames$ = combineLatest(
+      entries.map(({ name }) => this.#getMappedNameObs(name)),
+    );
 
-    for (const objKey of keys) {
-      const resource: string | [string, ...unknown[]] = dictionary[objKey];
-
-      if (typeof resource === 'string') {
-        resources$[objKey] = this.getString(resource);
-      } else {
-        const [key, ...templateItems] = resource;
-        resources$[objKey] = this.getString(key, ...templateItems);
-      }
-    }
-
-    return combineLatest(resources$) as Observable<{
-      [K in keyof T]: string;
-    }>;
+    return combineLatest([
+      mappedNames$,
+      this.#localeProvider.getLocaleInfo(),
+    ]).pipe(
+      map(([mappedNames, localeInfo]) => {
+        const strings = {} as { [K in keyof T]: string };
+        entries.forEach(({ objKey, args }, i) => {
+          strings[objKey as keyof T] = this.getStringForLocale(
+            localeInfo,
+            mappedNames[i],
+            ...args,
+          );
+        });
+        return strings;
+      }),
+    );
   }
 
   public getStringForLocale(

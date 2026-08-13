@@ -1,7 +1,8 @@
 import {
   AfterContentInit,
-  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  DestroyRef,
   ElementRef,
   Input,
   ViewChild,
@@ -11,9 +12,9 @@ import { _SkyTransitionEndHandlerDirective } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyModalService } from '@skyux/modals';
 
-import { forkJoin as observableForkJoin } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { combineLatest } from 'rxjs';
 
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SkyTextExpandAdapterService } from './text-expand-adapter.service';
 import { SKY_TEXT_EXPAND_MODAL_CONTEXT } from './text-expand-modal-context-token';
 import { SkyTextExpandModalComponent } from './text-expand-modal.component';
@@ -28,7 +29,6 @@ let nextId = 0;
   selector: 'sky-text-expand',
   templateUrl: './text-expand.component.html',
   styleUrls: ['./text-expand.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [SkyTextExpandAdapterService],
 })
 export class SkyTextExpandComponent implements AfterContentInit {
@@ -155,6 +155,8 @@ export class SkyTextExpandComponent implements AfterContentInit {
 
   #seeLessText = '';
 
+  #expandModalTitle = '';
+
   #textToShow = '';
 
   #_maxExpandedLength = 600;
@@ -167,6 +169,8 @@ export class SkyTextExpandComponent implements AfterContentInit {
 
   #_textEl: ElementRef | undefined;
 
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #destroyRef = inject(DestroyRef);
   readonly #resources = inject(SkyLibResourcesService);
   readonly #modalSvc = inject(SkyModalService);
   readonly #textExpandAdapter = inject(SkyTextExpandAdapterService);
@@ -181,7 +185,7 @@ export class SkyTextExpandComponent implements AfterContentInit {
           {
             provide: SKY_TEXT_EXPAND_MODAL_CONTEXT,
             useValue: {
-              header: this.expandModalTitle,
+              header: this.expandModalTitle || this.#expandModalTitle,
               text: this.text,
             },
           },
@@ -208,25 +212,18 @@ export class SkyTextExpandComponent implements AfterContentInit {
   }
 
   public ngAfterContentInit(): void {
-    observableForkJoin([
+    combineLatest([
       this.#resources.getString('skyux_text_expand_see_more'),
       this.#resources.getString('skyux_text_expand_see_less'),
+      this.#resources.getString('skyux_text_expand_modal_title'),
     ])
-      .pipe(take(1))
-      .subscribe((resources) => {
-        this.#seeMoreText = resources[0];
-        this.#seeLessText = resources[1];
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe(([seeMoreText, seeLessText, modalTitle]) => {
+        this.#seeMoreText = seeMoreText;
+        this.#seeLessText = seeLessText;
+        this.#expandModalTitle = modalTitle;
         this.#setup(this.text);
-
-        /* istanbul ignore else */
-        if (!this.expandModalTitle) {
-          this.#resources
-            .getString('skyux_text_expand_modal_title')
-            .pipe(take(1))
-            .subscribe((resource) => {
-              this.expandModalTitle = resource;
-            });
-        }
+        this.#changeDetector.detectChanges();
       });
   }
 

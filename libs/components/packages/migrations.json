@@ -29,6 +29,11 @@
       "version": "0.0.0-PLACEHOLDER",
       "factory": "./src/schematics/migrations/update-15/remove-timepicker-retain-invalid-values/remove-timepicker-retain-invalid-values.schematic",
       "description": "Remove the skyTimepickerRetainInvalidValues input from timepicker inputs since retaining invalid values is now the default behavior."
+    },
+    "legacy-i18n-services": {
+      "version": "0.0.0-PLACEHOLDER",
+      "factory": "./src/schematics/migrations/update-15/legacy-i18n-services/legacy-i18n-services.schematic",
+      "description": "Replace SkyAppResourcesService and SkyLibResourcesService with their legacy equivalents since the originals now emit whenever the locale changes."
     }
   }
 }
