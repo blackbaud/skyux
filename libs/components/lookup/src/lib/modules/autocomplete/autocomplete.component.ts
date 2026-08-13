@@ -800,8 +800,21 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     if (!hasInputText && inputDirective?.value?.[this.descriptorProperty]) {
       inputDirective.value = undefined;
       this.selectionChange.emit({ selectedItem: undefined });
-    } else if (hasInputText) {
-      inputDirective?.restoreInputTextValueToPreviousState();
+    } else if (hasInputText && inputDirective) {
+      if (this.allowAnyValue()) {
+        const matchedResult = this.searchResults.find(
+          (result) =>
+            result.data[this.descriptorProperty] ===
+            inputDirective.inputTextValue,
+        );
+        const selectedItem = matchedResult
+          ? matchedResult.data
+          : { [this.descriptorProperty]: inputDirective.inputTextValue };
+        inputDirective.value = selectedItem;
+        this.selectionChange.emit({ selectedItem });
+      } else {
+        inputDirective.restoreInputTextValueToPreviousState();
+      }
     }
   }
 

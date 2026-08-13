@@ -1596,6 +1596,54 @@ describe('Autocomplete component', () => {
         });
       }));
 
+      it('should keep the typed value on blur when it does not match any list item', fakeAsync(() => {
+        component.allowAnyValue = true;
+        fixture.detectChanges();
+        tick();
+
+        const inputElement = getInputElement(true);
+        const notifySpy = spyOn(
+          asyncAutocomplete.selectionChange,
+          'emit',
+        ).and.callThrough();
+
+        enterSearch('not_in_datasource', fixture, true);
+
+        tick(200);
+        fixture.detectChanges();
+
+        blurInput(inputElement, fixture);
+
+        expect(inputElement.value).toEqual('not_in_datasource');
+        expect(notifySpy).toHaveBeenCalledWith({
+          selectedItem: { name: 'not_in_datasource' },
+        });
+      }));
+
+      it('should select the existing list item as the value on blur when the typed text matches it exactly', fakeAsync(() => {
+        component.allowAnyValue = true;
+        fixture.detectChanges();
+        tick();
+
+        const inputElement = getInputElement(true);
+        const notifySpy = spyOn(
+          asyncAutocomplete.selectionChange,
+          'emit',
+        ).and.callThrough();
+
+        enterSearch('Red', fixture, true);
+
+        tick(200);
+        fixture.detectChanges();
+
+        blurInput(inputElement, fixture);
+
+        expect(inputElement.value).toEqual('Red');
+        expect(notifySpy).toHaveBeenCalledWith({
+          selectedItem: { name: 'Red', objectid: 'abc' },
+        });
+      }));
+
       it('should not show the search text item when an exact match is loaded', fakeAsync(() => {
         component.allowAnyValue = true;
         fixture.detectChanges();
