@@ -802,11 +802,16 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       this.selectionChange.emit({ selectedItem: undefined });
     } else if (hasInputText && inputDirective) {
       if (this.allowAnyValue()) {
-        const matchedResult = this.searchResults.find(
-          (result) =>
-            result.data[this.descriptorProperty] ===
-            inputDirective.inputTextValue,
-        );
+        // While a search is still in flight, `searchResults` may only
+        // contain the provisional placeholder for the current search text
+        // (see `#combineSearchTextWithResult`), not a confirmed match.
+        const matchedResult = this.isSearchingAsync
+          ? undefined
+          : this.searchResults.find(
+              (result) =>
+                result.data[this.descriptorProperty] ===
+                inputDirective.inputTextValue,
+            );
         const selectedItem = matchedResult
           ? matchedResult.data
           : { [this.descriptorProperty]: inputDirective.inputTextValue };

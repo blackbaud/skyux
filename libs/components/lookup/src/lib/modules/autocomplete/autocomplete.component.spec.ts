@@ -1644,6 +1644,31 @@ describe('Autocomplete component', () => {
         });
       }));
 
+      it('should not select the provisional placeholder as a canonical match when blurring before the delayed async result resolves', fakeAsync(() => {
+        component.allowAnyValue = true;
+        fixture.detectChanges();
+        tick();
+
+        const inputElement = getInputElement(true);
+        const notifySpy = spyOn(
+          asyncAutocomplete.selectionChange,
+          'emit',
+        ).and.callThrough();
+
+        enterSearch('Red', fixture, true);
+
+        // Blur immediately, before the 150ms delayed async result (which
+        // would resolve to the canonical { name: 'Red', objectid: 'abc' })
+        // has a chance to arrive.
+        blurInput(inputElement, fixture);
+
+        expect(notifySpy).toHaveBeenCalledWith({
+          selectedItem: { name: 'Red' },
+        });
+
+        tick(200);
+      }));
+
       it('should not show the search text item when an exact match is loaded', fakeAsync(() => {
         component.allowAnyValue = true;
         fixture.detectChanges();
