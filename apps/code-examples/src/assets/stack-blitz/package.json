@@ -56,7 +56,6 @@
     "@skyux/popovers": "^15.0.0-alpha.0",
     "@skyux/progress-indicator": "^15.0.0-alpha.0",
     "@skyux/router": "^15.0.0-alpha.0",
-    "@skyux/select-field": "^15.0.0-alpha.0",
     "@skyux/split-view": "^15.0.0-alpha.0",
     "@skyux/tabs": "^15.0.0-alpha.0",
     "@skyux/text-editor": "^15.0.0-alpha.0",

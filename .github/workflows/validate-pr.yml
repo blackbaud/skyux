@@ -84,7 +84,6 @@ jobs:
             components/popovers
             components/progress-indicator
             components/router
-            components/select-field
             components/storybook
             components/split-view
             components/tabs
