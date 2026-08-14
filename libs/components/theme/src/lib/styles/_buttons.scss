@@ -32,7 +32,7 @@ button {
   &.sky-btn-disabled,
   &[disabled] {
     cursor: not-allowed;
-    pointer-events: none;
+    pointer-events: var(--sky-compat-btn-disabled-pointer-events, auto);
     opacity: 0.65;
     box-shadow: none;
   }
