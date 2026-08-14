@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { provideNoopSkyAnimations } from '@skyux/core';
+import { SkyAppLocaleInfo, SkyAppLocaleProvider } from '@skyux/i18n';
+
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { TextExpandTestComponent } from './fixtures/text-expand.component.fixture';
 import { TextExpandFixturesModule } from './fixtures/text-expand.module.fixture';
@@ -549,6 +552,60 @@ describe('Text expand component', () => {
       modal = document.querySelector('.sky-modal');
 
       expect(modal).toBeNull();
+    });
+  });
+
+  describe('locale changes', () => {
+    it('should stay expanded when the locale changes', async () => {
+      const localeSubject = new BehaviorSubject<SkyAppLocaleInfo>({
+        locale: 'en-US',
+      });
+
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        imports: [TextExpandFixturesModule],
+        providers: [
+          provideNoopSkyAnimations(),
+          {
+            provide: SkyAppLocaleProvider,
+            useValue: {
+              defaultLocale: 'en-US',
+              getLocaleInfo: (): Observable<SkyAppLocaleInfo> =>
+                localeSubject.asObservable(),
+            },
+          },
+        ],
+      });
+
+      fixture = TestBed.createComponent(TextExpandTestComponent);
+      el = fixture.nativeElement as HTMLElement;
+
+      fixture.componentRef.setInput('text', LONG_TEXT);
+      fixture.detectChanges();
+
+      const seeMoreButton: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-see-more',
+      );
+
+      await clickTextExpandButton(seeMoreButton);
+
+      expect(seeMoreButton?.innerText.trim()).toBe('See less');
+      expect(
+        el
+          .querySelector<HTMLElement>('.sky-text-expand-text')
+          ?.innerText.trim(),
+      ).toBe(LONG_TEXT);
+
+      localeSubject.next({ locale: 'fr-CA' });
+      fixture.detectChanges();
+
+      expect(seeMoreButton?.innerText.trim()).toBe('Voir moins');
+      expect(el.querySelector('.sky-text-expand-ellipsis')).toBeNull();
+      expect(
+        el
+          .querySelector<HTMLElement>('.sky-text-expand-text')
+          ?.innerText.trim(),
+      ).toBe(LONG_TEXT);
     });
   });
 });

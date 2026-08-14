@@ -222,7 +222,22 @@ export class SkyTextExpandComponent implements AfterContentInit {
         this.#seeMoreText = seeMoreText;
         this.#seeLessText = seeLessText;
         this.#expandModalTitle = modalTitle;
+
+        // Changing the labels shouldn't collapse text the user already expanded.
+        const wasExpanded = this.isExpanded;
+
         this.#setup(this.text);
+
+        if (wasExpanded) {
+          this.isExpanded = true;
+          this.buttonText = this.#seeLessText;
+          this.#textToShow = this.text;
+
+          if (this.textEl) {
+            this.#textExpandAdapter.setText(this.textEl, this.text);
+          }
+        }
+
         this.#changeDetector.detectChanges();
       });
   }
