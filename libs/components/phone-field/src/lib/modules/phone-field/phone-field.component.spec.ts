@@ -1,3 +1,4 @@
+import { Component, signal } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -5,12 +6,14 @@ import {
   tick,
 } from '@angular/core/testing';
 import { NgModel, UntypedFormControl } from '@angular/forms';
+import { FormField, form } from '@angular/forms/signals';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 
 import { PhoneFieldInputBoxTestComponent } from './fixtures/phone-field-input-box.component.fixture';
 import { PhoneFieldReactiveTestComponent } from './fixtures/phone-field-reactive.component.fixture';
 import { PhoneFieldTestComponent } from './fixtures/phone-field.component.fixture';
+import { SkyPhoneFieldModule } from './phone-field.module';
 
 describe('Phone Field Component', () => {
   function checkCountrySearchToggleButtonFlag(
@@ -2609,6 +2612,64 @@ describe('Phone Field Component', () => {
           expect(isCountryFieldVisible(fixture)).toBeFalse();
         }));
       });
+    });
+  });
+
+  describe('signal forms', () => {
+    @Component({
+      standalone: true,
+      imports: [FormField, SkyPhoneFieldModule],
+      template: `<sky-phone-field>
+        <input skyPhoneFieldInput [formField]="phoneForm" />
+      </sky-phone-field>`,
+    })
+    class PhoneFieldSignalFormFixtureComponent {
+      public readonly model = signal<string | undefined>(undefined);
+      public readonly phoneForm = form(this.model);
+    }
+
+    let fixture: ComponentFixture<PhoneFieldSignalFormFixtureComponent>;
+    let testComponent: PhoneFieldSignalFormFixtureComponent;
+    let inputEl: HTMLInputElement;
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        imports: [PhoneFieldSignalFormFixtureComponent],
+      });
+
+      fixture = TestBed.createComponent(PhoneFieldSignalFormFixtureComponent);
+      testComponent = fixture.componentInstance;
+      fixture.detectChanges();
+
+      inputEl = fixture.nativeElement.querySelector('input');
+    });
+
+    it('should not throw and should report the skyPhoneField error for an invalid number', fakeAsync(() => {
+      expect(() => {
+        inputEl.value = '123';
+        inputEl.dispatchEvent(new Event('input'));
+        inputEl.dispatchEvent(new Event('change'));
+        tick();
+        fixture.detectChanges();
+      }).not.toThrow();
+
+      const errors = testComponent.phoneForm().errors();
+      expect(errors.some((error) => error.kind === 'skyPhoneField')).toBeTrue();
+    }));
+
+    it('should mark the field touched when the input loses focus', () => {
+      inputEl.dispatchEvent(new Event('focus'));
+      inputEl.dispatchEvent(new Event('blur'));
+      fixture.detectChanges();
+
+      expect(testComponent.phoneForm().touched()).toBeTrue();
+    });
+
+    it('should not mark the field dirty when a value is written into the model', () => {
+      testComponent.model.set('(555) 555-5555');
+      fixture.detectChanges();
+
+      expect(testComponent.phoneForm().dirty()).toBeFalse();
     });
   });
 });
