@@ -52,7 +52,7 @@ export class SkyToggleSwitchComponent
    * The ARIA label for the toggle switch. This sets the `aria-label`
    * attribute to provide a text equivalent for screen readers [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    * Use a context-sensitive label, such as "Activate annual fundraiser" for a toggle switch that activates and deactivates an annual fundraiser. Context is especially important if multiple toggle switches are in close proximity.
-   * When the `labelText` input displays a visible label, this property is only necessary if that label requires extra context.
+   * This property only applies when `labelText` is not set, since `labelText` takes precedence when both inputs are provided.
    * For more information about the `aria-label` attribute, see the [WAI-ARIA definition](https://www.w3.org/TR/wai-aria/#aria-label).
    * @deprecated Use the `labelText` input instead.
    */
