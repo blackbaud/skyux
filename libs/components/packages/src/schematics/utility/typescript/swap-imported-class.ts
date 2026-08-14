@@ -43,22 +43,43 @@ function getNamespaceImportNames(sourceFile: ts.SourceFile): string[] {
   );
 }
 
+function getLeftmostIdentifier(node: ts.Node): ts.Identifier | undefined {
+  let current = node;
+
+  while (
+    ts.isPropertyAccessExpression(current) ||
+    ts.isQualifiedName(current)
+  ) {
+    current = ts.isPropertyAccessExpression(current)
+      ? current.expression
+      : current.left;
+  }
+
+  return ts.isIdentifier(current) ? current : undefined;
+}
+
 function isNamespaceQualifiedReference(
   reference: ts.Identifier,
   namespaceNames: string[],
 ): boolean {
   const parent = reference.parent;
 
-  if (!ts.isPropertyAccessExpression(parent) || parent.name !== reference) {
+  // Value position, e.g. `namespace.SkyThing`; type position, e.g.
+  // `let thing: namespace.SkyThing`.
+  const qualifier =
+    ts.isPropertyAccessExpression(parent) && parent.name === reference
+      ? parent.expression
+      : ts.isQualifiedName(parent) && parent.right === reference
+        ? parent.left
+        : undefined;
+
+  if (!qualifier) {
     return false;
   }
 
-  const namespace = parent.expression;
-  if (!ts.isIdentifier(namespace)) {
-    return false;
-  }
+  const namespace = getLeftmostIdentifier(qualifier);
 
-  return namespaceNames.includes(namespace.text);
+  return !!namespace && namespaceNames.includes(namespace.text);
 }
 
 function swapReference(

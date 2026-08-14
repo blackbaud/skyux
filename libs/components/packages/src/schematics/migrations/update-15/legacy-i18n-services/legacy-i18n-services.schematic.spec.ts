@@ -140,25 +140,31 @@ export class TestService {
 
   it('should ignore namespace-qualified addResources references', async () => {
     const tree = setupTree({
-      '/projects/lib/src/lib/lib-resources.module.ts': `import { NgModule } from '@angular/core';
+      '/projects/lib/src/lib/lib-resources.module.ts': `import { NgModule, inject } from '@angular/core';
 import * as i18n from '@skyux/i18n';
+import { SkyLibResourcesService } from '@skyux/i18n';
 
 i18n.SkyLibResourcesService.addResources({ 'EN-US': {} });
 
 @NgModule({})
-export class SkyLibResourcesModule {}`,
+export class SkyLibResourcesModule {
+  readonly #resourcesSvc = inject(SkyLibResourcesService);
+}`,
     });
 
     await runSchematic(tree);
 
     expect(tree.readText('/projects/lib/src/lib/lib-resources.module.ts'))
-      .toBe(`import { NgModule } from '@angular/core';
+      .toBe(`import { NgModule, inject } from '@angular/core';
 import * as i18n from '@skyux/i18n';
+import { SkyLibResourcesLegacyService } from '@skyux/i18n';
 
 i18n.SkyLibResourcesService.addResources({ 'EN-US': {} });
 
 @NgModule({})
-export class SkyLibResourcesModule {}`);
+export class SkyLibResourcesModule {
+  readonly #resourcesSvc = inject(SkyLibResourcesLegacyService);
+}`);
   });
 
   it('should not swap the addResources static call', async () => {
@@ -208,26 +214,57 @@ export class TestService {
 }`);
   });
 
-  it('should swap namespace-qualified instance references', async () => {
+  it('should ignore namespace-qualified instance references', async () => {
     const tree = setupTree({
-      '/src/app/test.service.ts': `import { Injectable } from '@angular/core';
+      '/src/app/test.service.ts': `import { Injectable, inject } from '@angular/core';
 import * as i18n from '@skyux/i18n';
+import { SkyAppResourcesService } from '@skyux/i18n';
 
 @Injectable()
 export class TestService {
-  readonly #resourcesSvc = new i18n.SkyAppResourcesService();
+  readonly #namespacedSvc = new i18n.SkyAppResourcesService();
+  readonly #resourcesSvc = inject(SkyAppResourcesService);
 }`,
     });
 
     await runSchematic(tree);
 
     expect(tree.readText('/src/app/test.service.ts'))
-      .toBe(`import { Injectable } from '@angular/core';
+      .toBe(`import { Injectable, inject } from '@angular/core';
 import * as i18n from '@skyux/i18n';
+import { SkyAppResourcesLegacyService } from '@skyux/i18n';
 
 @Injectable()
 export class TestService {
-  readonly #resourcesSvc = new i18n.SkyAppResourcesService();
+  readonly #namespacedSvc = new i18n.SkyAppResourcesService();
+  readonly #resourcesSvc = inject(SkyAppResourcesLegacyService);
+}`);
+  });
+
+  it('should ignore namespace-qualified type references', async () => {
+    const tree = setupTree({
+      '/src/app/test.service.ts': `import { Injectable, inject } from '@angular/core';
+import * as i18n from '@skyux/i18n';
+import { SkyAppResourcesService } from '@skyux/i18n';
+
+@Injectable()
+export class TestService {
+  namespacedSvc: i18n.SkyAppResourcesService | undefined;
+  readonly #resourcesSvc = inject(SkyAppResourcesService);
+}`,
+    });
+
+    await runSchematic(tree);
+
+    expect(tree.readText('/src/app/test.service.ts'))
+      .toBe(`import { Injectable, inject } from '@angular/core';
+import * as i18n from '@skyux/i18n';
+import { SkyAppResourcesLegacyService } from '@skyux/i18n';
+
+@Injectable()
+export class TestService {
+  namespacedSvc: i18n.SkyAppResourcesService | undefined;
+  readonly #resourcesSvc = inject(SkyAppResourcesLegacyService);
 }`);
   });
 
