@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   ContentChild,
-  ElementRef,
   Input,
   TemplateRef,
   ViewEncapsulation,
@@ -14,7 +13,6 @@ import { SkyIdService } from '@skyux/core';
 
 import { SkyBoxControlsComponent } from './box-controls.component';
 import { SKY_BOX_HEADER_ID } from './box-header-id-token';
-import { SkyBoxHeaderComponent } from './box-header.component';
 import { SkyBoxHeadingLevel } from './box-heading-level';
 import { SkyBoxHeadingStyle } from './box-heading-style';
 
@@ -135,20 +133,12 @@ export class SkyBoxComponent {
   @Input()
   public ariaRole: string | undefined;
 
-  @ContentChild(SkyBoxHeaderComponent, { read: ElementRef })
-  public set boxHeaderRef(value: ElementRef | undefined) {
-    this.#boxHeaderRef = value;
-    if (this.#boxControls) {
-      this.#boxControls.boxHasHeader(!!value);
-    }
-  }
-
   @ContentChild(SkyBoxControlsComponent)
   public set boxControls(value: SkyBoxControlsComponent | undefined) {
     this.#boxControls = value;
 
     if (value) {
-      value.boxHasHeader(!!this.headingText || !!this.#boxHeaderRef);
+      value.boxHasHeader(!!this.headingText);
     }
   }
 
@@ -159,5 +149,4 @@ export class SkyBoxComponent {
   #_headingText: string | undefined;
 
   #boxControls: SkyBoxControlsComponent | undefined;
-  #boxHeaderRef: ElementRef | undefined;
 }

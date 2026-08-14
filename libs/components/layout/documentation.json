@@ -56,7 +56,6 @@
         "docsIds": [
           "SkyBoxModule",
           "SkyBoxComponent",
-          "SkyBoxHeaderComponent",
           "SkyBoxContentComponent",
           "SkyBoxControlsComponent",
           "SkyBoxHeadingLevel",

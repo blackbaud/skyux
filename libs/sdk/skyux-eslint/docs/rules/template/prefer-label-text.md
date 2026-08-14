@@ -17,12 +17,6 @@ The rule does not have any configuration options.
 
 ## Affected Components
 
-### `<sky-box>`
-
-Replaces the deprecated `<sky-box-header>` child element. Setting `headingText` enables:
-
-- **Inline help** — The `helpPopoverContent` and `helpKey` inputs only activate when `headingText` is also set.
-
 ### `<sky-checkbox>`
 
 Replaces the deprecated `<sky-checkbox-label>` child element. Setting `labelText` enables:
