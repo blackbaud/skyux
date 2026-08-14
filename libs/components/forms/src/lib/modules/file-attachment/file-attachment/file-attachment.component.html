@@ -1,11 +1,12 @@
 <div class="sky-file-attachment-wrapper">
   <div class="sky-file-attachment-label-wrapper">
-    @if (labelText && !labelHidden) {
+    @if (labelText) {
       <span
         class="sky-control-label"
         [attr.id]="labelId"
         [ngClass]="{
-          'sky-control-label-required': isRequired
+          'sky-control-label-required': isRequired,
+          'sky-screen-reader-only': labelHidden
         }"
         >{{ labelText }}</span
       >

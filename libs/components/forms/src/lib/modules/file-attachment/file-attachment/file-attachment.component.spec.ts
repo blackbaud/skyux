@@ -1498,6 +1498,24 @@ describe('File attachment', () => {
 
     await expectAsync(fixture.nativeElement).toBeAccessible();
 
+    // w/ label text hidden — the label element stays in the DOM (visually
+    // hidden) so the attachment and delete controls' accessible names still
+    // include the label text.
+    fixture.componentRef.setInput('labelHidden', true);
+    fixture.detectChanges();
+
+    expect(btn?.getAttribute('aria-labelledby')).toEqual('MOCK_ID_5 MOCK_ID_2');
+    expect(deleteBtn?.getAttribute('aria-labelledby')).toEqual(
+      'MOCK_ID_6 MOCK_ID_2',
+    );
+    const hiddenLabel = fixture.nativeElement.querySelector('#MOCK_ID_2');
+    expect(hiddenLabel?.textContent?.trim()).toBe('Sample label');
+    expect(
+      hiddenLabel?.classList.contains('sky-screen-reader-only'),
+    ).toBeTrue();
+
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+
     // w/o label text
     fixture.componentRef.setInput('labelText', undefined);
     fixture.detectChanges();
@@ -1600,12 +1618,15 @@ describe('File attachment', () => {
     validateLabelText('label text');
   });
 
-  it('should not render `labelText` if `labelHidden` is set to true', () => {
+  it('should visually hide `labelText` but keep it in the DOM if `labelHidden` is set to true', () => {
     fixture.componentRef.setInput('labelText', 'label text');
     fixture.componentRef.setInput('labelHidden', true);
     fixture.detectChanges();
 
-    validateLabelText('');
+    const label = fixture.nativeElement.querySelector('span.sky-control-label');
+    expect(label).not.toBeNull();
+    expect(label.textContent.trim()).toBe('label text');
+    expect(label.classList.contains('sky-screen-reader-only')).toBeTrue();
   });
 
   it('should mark as dirty when an invalid file is uploaded first', async () => {
