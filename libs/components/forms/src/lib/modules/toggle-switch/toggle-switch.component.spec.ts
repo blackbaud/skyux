@@ -202,6 +202,20 @@ describe('Toggle switch component', () => {
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
+    it('should keep `labelText` authoritative when both `labelText` and `ariaLabel` are set', async () => {
+      fixture.componentRef.setInput('labelText', 'label text');
+      fixture.componentRef.setInput('ariaLabel', 'aria label');
+
+      fixture.detectChanges();
+
+      // `labelText` drives the accessible name via `aria-label`; the deprecated
+      // `ariaLabel` value is not used, and `aria-labelledby` stays unset so the
+      // name is not sourced from an empty label when `labelHidden` is true.
+      expect(buttonElement?.getAttribute('aria-label')).toBe('label text');
+      expect(buttonElement?.getAttribute('aria-labelledby')).toBeNull();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
     it('should still have `aria-label` if `labelHidden` is true', () => {
       fixture.componentRef.setInput('labelText', 'label text');
       fixture.componentRef.setInput('labelHidden', true);
