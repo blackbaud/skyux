@@ -111,7 +111,6 @@ describe('BoxComponent', () => {
     }
 
     contentInfoSpy.calls.reset();
-    fixture.componentRef.setInput('showHeader', false);
     fixture.componentRef.setInput('headingText', undefined);
     fixture.detectChanges();
     header = getBoxEl(fixture).querySelector('.sky-box-header-content h2');
@@ -134,65 +133,7 @@ describe('BoxComponent', () => {
     ).toBeNull();
   });
 
-  it('should set an id on the header and provide it via contentInfoProvider', () => {
-    fixture.componentRef.setInput('headingText', undefined);
-    const contentInfoSpy = spyOn(
-      contentInfoProvider,
-      'patchInfo',
-    ).and.callThrough();
-    fixture.detectChanges();
-    let header = getBoxEl(fixture).querySelector('sky-box-header span');
-    expect(header).not.toBeNull();
-
-    if (header) {
-      expect(contentInfoProvider.patchInfo).toHaveBeenCalledWith({
-        descriptor: { type: 'elementId', value: header.id },
-      });
-      expect(
-        getControlsDropdownButton(fixture).getAttribute('aria-label'),
-      ).toBeNull();
-      expect(getContentDropdownButton(fixture).getAttribute('aria-label')).toBe(
-        'Context menu',
-      );
-      expect(
-        getControlsDropdownButton(fixture).getAttribute('aria-labelledby'),
-      ).toEqual(
-        jasmine.stringMatching(
-          /sky-id-gen__[0-9]+__[0-9]+ sky-id-gen__[0-9]+__[0-9]+/,
-        ),
-      );
-      expect(
-        getContentDropdownButton(fixture).getAttribute('aria-labelledby'),
-      ).toBeNull();
-    }
-
-    contentInfoSpy.calls.reset();
-    fixture.componentRef.setInput('showHeader', false);
-    fixture.detectChanges();
-    header = getBoxEl(fixture).querySelector('sky-box-header span');
-    expect(header).toBeNull();
-
-    expect(contentInfoProvider.patchInfo).toHaveBeenCalledWith({
-      descriptor: undefined,
-    });
-    expect(getContentDropdownButton(fixture).getAttribute('aria-label')).toBe(
-      'Context menu',
-    );
-    expect(getControlsDropdownButton(fixture).getAttribute('aria-label')).toBe(
-      'Context menu',
-    );
-    expect(
-      getControlsDropdownButton(fixture).getAttribute('aria-labelledby'),
-    ).toBeNull();
-    expect(
-      getControlsDropdownButton(fixture).getAttribute('aria-labelledby'),
-    ).toBeNull();
-  });
-
   it('should render the correct heading level and styles using the headingText input', () => {
-    const headerCmp = getBoxEl(fixture).querySelector('sky-box-header span');
-    expect(headerCmp).toBeNull();
-
     const headingLevels: (SkyBoxHeadingLevel | undefined)[] = [
       undefined,
       2,

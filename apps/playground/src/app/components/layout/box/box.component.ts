@@ -19,10 +19,6 @@ export class BoxComponent {
   public showHelp = true;
   public headingStyle: number | undefined;
 
-  public onHelpClick(): void {
-    alert(`Help is available for this component.`);
-  }
-
   public toggleHeadingStyle(): void {
     const newStyle = (this.headingStyle ?? 1) + 1;
     if (newStyle > 5) {
