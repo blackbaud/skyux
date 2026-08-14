@@ -20,11 +20,6 @@ const COMPONENTS_WITH_LABEL_TEXT: {
   labelSelector: string;
 }[] = [
   {
-    selector: 'sky-box',
-    labelInputName: 'headingText',
-    labelSelector: 'sky-box-header',
-  },
-  {
     selector: 'sky-checkbox',
     labelInputName: 'labelText',
     labelSelector: 'sky-checkbox-label',
