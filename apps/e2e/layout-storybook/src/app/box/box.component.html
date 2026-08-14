@@ -1,16 +1,10 @@
 @for (boxType of boxTypes; track boxType) {
   <sky-box
-    [headingText]="boxType.useHeader ? boxType.name : undefined"
+    [headingText]="boxType.name"
     [headingLevel]="boxType.heading"
     [headingStyle]="boxType.heading"
     [helpPopoverContent]="boxType.helpContent"
   >
-    <sky-box-header>
-      <h2>{{ boxType.name }}</h2>
-      @if (boxType.showHelp) {
-        <sky-help-inline class="sky-control-help" />
-      }
-    </sky-box-header>
     <sky-box-controls>
       <sky-dropdown buttonType="context-menu" label="Box demo context menu">
         <sky-dropdown-menu>

@@ -11,15 +11,7 @@
     [stacked]="true"
     (fileChange)="reactiveFileUpdated($event)"
     (fileClick)="fileClick($event)"
-  >
-    <sky-file-attachment-label>
-      Birth certificate
-      <sky-help-inline
-        class="sky-control-help"
-        (actionClick)="onActionClick()"
-      />
-    </sky-file-attachment-label>
-  </sky-file-attachment>
+  />
 </form>
 
 <ng-template #popoverContent>
