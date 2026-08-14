@@ -1,3 +1,4 @@
+import { Component, signal } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -11,6 +12,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { FormField, form } from '@angular/forms/signals';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SKY_STACKING_CONTEXT } from '@skyux/core';
@@ -974,5 +976,68 @@ describe('Timepicker', () => {
 
       expect(pickerButton.getAttribute('aria-label')).toBe('Choose time');
     }));
+  });
+
+  describe('signal forms', () => {
+    @Component({
+      standalone: true,
+      imports: [FormField, SkyTimepickerModule],
+      template: `<sky-timepicker #timePicker>
+        <input
+          aria-label="Time"
+          type="text"
+          [skyTimepickerInput]="timePicker"
+          [formField]="timeForm"
+        />
+      </sky-timepicker>`,
+    })
+    class TimepickerSignalFormFixtureComponent {
+      public readonly model = signal<string | undefined>(undefined);
+      public readonly timeForm = form(this.model);
+    }
+
+    let fixture: ComponentFixture<TimepickerSignalFormFixtureComponent>;
+    let testComponent: TimepickerSignalFormFixtureComponent;
+    let inputEl: HTMLInputElement;
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        imports: [TimepickerSignalFormFixtureComponent],
+      });
+
+      fixture = TestBed.createComponent(TimepickerSignalFormFixtureComponent);
+      testComponent = fixture.componentInstance;
+      fixture.detectChanges();
+
+      inputEl = fixture.nativeElement.querySelector('input');
+    });
+
+    it('should not throw and should report the skyTime error when an invalid time is typed', () => {
+      expect(() => {
+        inputEl.value = 'not-a-time';
+        inputEl.dispatchEvent(new Event('change'));
+        fixture.detectChanges();
+      }).not.toThrow();
+
+      const errors = testComponent.timeForm().errors();
+      expect(errors.some((error) => error.kind === 'skyTime')).toBeTrue();
+    });
+
+    it('should mark the field dirty when the user changes the input', () => {
+      inputEl.value = '3:00 PM';
+      inputEl.dispatchEvent(new Event('change'));
+      fixture.detectChanges();
+
+      expect(testComponent.timeForm().dirty()).toBeTrue();
+    });
+
+    it('should not throw when a value is written into the model', () => {
+      expect(() => {
+        testComponent.model.set('3:00 PM');
+        fixture.detectChanges();
+      }).not.toThrow();
+
+      expect(inputEl.value).toBe('3:00 PM');
+    });
   });
 });

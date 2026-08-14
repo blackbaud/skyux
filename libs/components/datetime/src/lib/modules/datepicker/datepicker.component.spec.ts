@@ -1,3 +1,4 @@
+import { Component, signal } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -6,6 +7,7 @@ import {
   tick,
 } from '@angular/core/testing';
 import { NgModel } from '@angular/forms';
+import { FormField, form } from '@angular/forms/signals';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SKY_STACKING_CONTEXT } from '@skyux/core';
@@ -24,6 +26,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 
 import { SkyDatepickerConfigService } from './datepicker-config.service';
 import { SkyDatepickerComponent } from './datepicker.component';
+import { SkyDatepickerModule } from './datepicker.module';
 import { DatepickerInputBoxTestComponent } from './fixtures/datepicker-input-box.component.fixture';
 import { DatepickerNoFormatTestComponent } from './fixtures/datepicker-no-format.component.fixture';
 import { DatepickerReactiveTestComponent } from './fixtures/datepicker-reactive.component.fixture';
@@ -1937,5 +1940,70 @@ describe('datepicker', () => {
 
       expect(hintText).toEqual('Select a date. Use the format DD/MM/YY.');
     }));
+  });
+
+  describe('signal forms', () => {
+    @Component({
+      standalone: true,
+      imports: [FormField, SkyDatepickerModule],
+      template: `<sky-datepicker>
+        <input skyDatepickerInput [formField]="dateForm" />
+      </sky-datepicker>`,
+    })
+    class DatepickerSignalFormFixtureComponent {
+      public readonly model = signal<Date | string | undefined>(undefined);
+      public readonly dateForm = form(this.model);
+    }
+
+    let fixture: ComponentFixture<DatepickerSignalFormFixtureComponent>;
+    let testComponent: DatepickerSignalFormFixtureComponent;
+    let inputEl: HTMLInputElement;
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        imports: [DatepickerSignalFormFixtureComponent],
+      });
+
+      fixture = TestBed.createComponent(DatepickerSignalFormFixtureComponent);
+      testComponent = fixture.componentInstance;
+      fixture.detectChanges();
+
+      inputEl = fixture.nativeElement.querySelector('input');
+    });
+
+    it('should not throw and should report the skyDate error when an invalid date is typed', () => {
+      expect(() => {
+        inputEl.value = 'not-a-date';
+        inputEl.dispatchEvent(new Event('input'));
+        inputEl.dispatchEvent(new Event('change'));
+        fixture.detectChanges();
+      }).not.toThrow();
+
+      const errors = testComponent.dateForm().errors();
+      expect(errors.some((error) => error.kind === 'skyDate')).toBeTrue();
+    });
+
+    it('should mark the field dirty when the user types in the input', () => {
+      inputEl.value = '1/1/2024';
+      inputEl.dispatchEvent(new Event('input'));
+      inputEl.dispatchEvent(new Event('change'));
+      fixture.detectChanges();
+
+      expect(testComponent.dateForm().dirty()).toBeTrue();
+    });
+
+    it('should not mark the field dirty when a value is written into the model', () => {
+      testComponent.model.set(new Date('2024-01-01'));
+      fixture.detectChanges();
+
+      expect(testComponent.dateForm().dirty()).toBeFalse();
+    });
+
+    it('should mark the field touched when the input loses focus', () => {
+      inputEl.dispatchEvent(new Event('focus'));
+      inputEl.dispatchEvent(new Event('focusout'));
+
+      expect(testComponent.dateForm().touched()).toBeTrue();
+    });
   });
 });
