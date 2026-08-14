@@ -1,0 +1,324 @@
+<div class="input-box-signal-forms sky-theme-padding-inset-balanced-m">
+  <h1>Input box with signal forms</h1>
+  <p>
+    Every control below is bound with the <code>[formField]</code> directive
+    from <code>&#64;angular/forms/signals</code>. Choose
+    <strong>Mark all as touched</strong> to reveal the validation messages that
+    <code>sky-input-box</code> renders from the signal-forms field state.
+  </p>
+
+  <button
+    class="sky-btn sky-btn-default"
+    type="button"
+    (click)="markAllAsTouched()"
+  >
+    Mark all as touched
+  </button>
+
+  <h2>Native controls</h2>
+  <p>
+    The control types allowed inside an input box are listed in
+    <code
+      >libs/sdk/skyux-eslint/src/rules/template/utils/input-box-types.ts</code
+    >.
+  </p>
+
+  <div class="input-box-signal-forms-section" id="signal-forms-native">
+    <sky-input-box labelText="Name" [stacked]="true">
+      <input type="text" [formField]="signalForm.native.name" />
+    </sky-input-box>
+
+    <sky-input-box
+      helpPopoverContent="Enter a valid email address."
+      labelText="Email"
+      [stacked]="true"
+    >
+      <input type="email" [formField]="signalForm.native.email" />
+    </sky-input-box>
+
+    <sky-input-box
+      hintText="Between 18 and 120."
+      labelText="Age"
+      [stacked]="true"
+    >
+      <input type="number" [formField]="signalForm.native.age" />
+    </sky-input-box>
+
+    <sky-input-box labelText="Password" [stacked]="true">
+      <input type="password" [formField]="signalForm.native.password" />
+    </sky-input-box>
+
+    <sky-input-box labelText="Confirm password" [stacked]="true">
+      <input type="password" [formField]="signalForm.native.confirmPassword" />
+    </sky-input-box>
+
+    <sky-input-box labelText="Website" [stacked]="true">
+      <input type="url" [formField]="signalForm.native.website" />
+    </sky-input-box>
+
+    <sky-input-box labelText="Favorite color" [stacked]="true">
+      <select [formField]="signalForm.native.favoriteColor">
+        <option value="">Select a color</option>
+        <option value="red">Red</option>
+        <option value="green">Green</option>
+        <option value="blue">Blue</option>
+        <option value="invalid">Invalid color</option>
+      </select>
+    </sky-input-box>
+
+    <!--
+      The character counter reads the `maxLength()` rule from the schema. Setting
+      the `characterLimit` input on a signal-forms control has no effect and logs
+      a warning, since signal-forms fields own their validation.
+    -->
+    <sky-input-box labelText="Bio" [stacked]="true">
+      <textarea [formField]="signalForm.native.bio"></textarea>
+    </sky-input-box>
+  </div>
+
+  <h2>SKY components</h2>
+  <p>
+    These components are <code>ControlValueAccessor</code>-based.
+    <code>[formField]</code> reaches them through the interop
+    <code>NgControl</code> it provides, but that interop control is not an
+    <code>AbstractControl</code>, so a component that calls
+    <code>AbstractControl</code> methods on it fails. The gaps are noted below.
+  </p>
+
+  <div class="input-box-signal-forms-section" id="signal-forms-sky-components">
+    <!--
+      GAP: `sky-datepicker` does not work with `[formField]`. It calls
+      `AbstractControl` methods (`setValue`, `markAsDirty`, `setErrors`,
+      `markAsTouched`) on the `NgControl` that `[formField]` provides, but that
+      interop control is not an `AbstractControl`, so both typing in the input
+      and writing to the model throw
+      `this.#control?.setValue is not a function` and friends from
+      `datepicker-input.directive.ts`.
+    -->
+    <sky-input-box
+      hintText="Must be in the next 30 days."
+      labelText="Start date"
+      [stacked]="true"
+    >
+      <sky-datepicker>
+        <input skyDatepickerInput [formField]="signalForm.sky.startDate" />
+      </sky-datepicker>
+    </sky-input-box>
+
+    <sky-input-box labelText="Start time" [stacked]="true">
+      <sky-timepicker #timepicker>
+        <input
+          [formField]="signalForm.sky.startTime"
+          [skyTimepickerInput]="timepicker"
+        />
+      </sky-timepicker>
+    </sky-input-box>
+
+    <sky-input-box labelText="Phone number" [stacked]="true">
+      <sky-phone-field defaultCountry="us">
+        <input skyPhoneFieldInput [formField]="signalForm.sky.phone" />
+      </sky-phone-field>
+    </sky-input-box>
+
+    <!--
+      GAP: `sky-country-field` throws NG01914 ("invalid [formField] directive
+      host") as soon as it renders. It registers itself as the value accessor in
+      `ngOnInit`, which runs after `[formField]` looks for one, so signal forms
+      sees no value accessor at all. The example is left commented out because
+      the error breaks the rest of the page. Uncommenting it also requires
+      adding `SkyCountryFieldModule` to the component's `imports`.
+
+      <sky-input-box labelText="Country" [stacked]="true">
+        <sky-country-field [formField]="signalForm.sky.country" />
+      </sky-input-box>
+    -->
+
+    <!--
+      GAP: writing a value into the model throws
+      `this.#control.markAsPristine is not a function` from
+      `autocomplete-input.directive.ts`, which calls an `AbstractControl` method
+      on the interop control that `[formField]` provides.
+    -->
+    <sky-input-box labelText="Favorite fruit" [stacked]="true">
+      <sky-autocomplete [data]="fruits">
+        <input
+          type="text"
+          skyAutocomplete
+          [formField]="signalForm.sky.favoriteFruit"
+        />
+      </sky-autocomplete>
+    </sky-input-box>
+
+    <sky-input-box labelText="Team lead" [stacked]="true">
+      <sky-lookup
+        idProperty="name"
+        selectMode="single"
+        [data]="people"
+        [formField]="signalForm.sky.teamLead"
+      />
+    </sky-input-box>
+
+    <sky-input-box
+      hintText="Choose at least two."
+      labelText="Team members"
+      [stacked]="true"
+    >
+      <sky-lookup
+        idProperty="name"
+        selectMode="multiple"
+        [data]="people"
+        [formField]="signalForm.sky.teamMembers"
+      />
+    </sky-input-box>
+  </div>
+
+  <h2>Validators</h2>
+  <p>
+    Input box renders <code>required</code>, <code>email</code>,
+    <code>minLength</code>, and <code>maxLength</code> errors automatically, and
+    renders any other error that carries a <code>message</code>. Errors without
+    a message need a <code>sky-form-error</code> in the input box content.
+  </p>
+
+  <div class="input-box-signal-forms-section" id="signal-forms-validators">
+    <sky-input-box
+      hintText="Three letters, a dash, and four digits (for example, ABC-1234)."
+      labelText="Coupon code"
+      [stacked]="true"
+    >
+      <input type="text" [formField]="signalForm.validators.couponCode" />
+    </sky-input-box>
+
+    <sky-input-box
+      hintText="Between 1 and 10."
+      labelText="Quantity"
+      [stacked]="true"
+    >
+      <input type="number" [formField]="signalForm.validators.quantity" />
+    </sky-input-box>
+
+    <!--
+      A custom `validate()` error with a `message` renders automatically.
+    -->
+    <sky-input-box
+      hintText="Cannot contain spaces."
+      labelText="Nickname"
+      [stacked]="true"
+    >
+      <input type="text" [formField]="signalForm.validators.nickname" />
+    </sky-input-box>
+
+    <!--
+      A custom `validate()` error without a `message` needs its own
+      `sky-form-error`, matched on the error `kind`.
+    -->
+    <sky-input-box
+      hintText="Cannot be a reserved word."
+      labelText="Project name"
+      [stacked]="true"
+    >
+      <input type="text" [formField]="signalForm.validators.projectName" />
+      @if (projectNameReserved()) {
+        <sky-form-error
+          errorName="reserved"
+          errorText="That project name is reserved."
+        />
+      }
+    </sky-input-box>
+
+    <sky-input-box
+      hintText="Try 'admin' or 'root' to see the async error."
+      labelText="Username"
+      [stacked]="true"
+    >
+      <input type="text" [formField]="signalForm.validators.username" />
+    </sky-input-box>
+  </div>
+
+  <h2>Field logic</h2>
+  <p>
+    <code>disabled()</code>, <code>readonly()</code>, and
+    <code>hidden()</code> control field state from the schema. Input box
+    reflects the disabled and required state that the field reports.
+  </p>
+
+  <div class="input-box-signal-forms-section" id="signal-forms-logic">
+    <sky-input-box
+      hintText="Choosing 'Yes' enables the newsletter address and shows the referral code."
+      labelText="Subscribe to the newsletter"
+      [stacked]="true"
+    >
+      <select [formField]="signalForm.logic.subscribed">
+        <option value="no">No</option>
+        <option value="yes">Yes</option>
+      </select>
+    </sky-input-box>
+
+    <sky-input-box labelText="Newsletter address" [stacked]="true">
+      <input type="email" [formField]="signalForm.logic.newsletterEmail" />
+    </sky-input-box>
+
+    <sky-input-box labelText="Account ID (read-only)" [stacked]="true">
+      <input type="text" [formField]="signalForm.logic.accountId" />
+    </sky-input-box>
+
+    <!--
+      Hidden fields must be removed from the DOM; signal forms logs a warning if
+      a hidden field is still rendered.
+    -->
+    @if (!signalForm.logic.referralCode().hidden()) {
+      <sky-input-box labelText="Referral code" [stacked]="true">
+        <input type="text" [formField]="signalForm.logic.referralCode" />
+      </sky-input-box>
+    }
+  </div>
+
+  <h2>Submit</h2>
+  <p>
+    <code>submit()</code> marks the form as submitted, runs the action, and maps
+    the errors the action returns onto the fields they belong to.
+  </p>
+
+  <div class="input-box-signal-forms-section" id="signal-forms-submit">
+    <sky-input-box
+      hintText="Submitting 'taken' returns a server error for this field."
+      labelText="Display name"
+      [stacked]="true"
+    >
+      <input type="text" [formField]="submitForm.displayName" />
+    </sky-input-box>
+
+    <button
+      class="sky-btn sky-btn-primary"
+      type="button"
+      [disabled]="submitForm().submitting()"
+      (click)="onSubmit()"
+    >
+      @if (submitForm().submitting()) {
+        Saving...
+      } @else {
+        Save
+      }
+    </button>
+
+    @if (submitMessage(); as message) {
+      <p class="input-box-signal-forms-submit-message">{{ message }}</p>
+    }
+  </div>
+
+  <h2>Form state</h2>
+  <dl id="signal-forms-state">
+    <dt>Touched</dt>
+    <dd>{{ signalForm().touched() }}</dd>
+    <dt>Dirty</dt>
+    <dd>{{ signalForm().dirty() }}</dd>
+    <dt>Valid</dt>
+    <dd>{{ signalForm().valid() }}</dd>
+    <dt>Pending</dt>
+    <dd>{{ signalForm().pending() }}</dd>
+    <dt>Value</dt>
+    <dd>
+      <pre>{{ formValue() }}</pre>
+    </dd>
+  </dl>
+</div>
