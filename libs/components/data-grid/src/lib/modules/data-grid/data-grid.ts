@@ -28,6 +28,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import { SkyLogService, SkyViewkeeperModule } from '@skyux/core';
+import { SkyAppLocaleProvider } from '@skyux/i18n';
 import { SkyWaitModule } from '@skyux/indicators';
 import { SkyPagingModule } from '@skyux/lists';
 
@@ -45,6 +46,7 @@ import {
   GridOptions,
   GridStateModule,
   IRowNode,
+  LocaleModule,
   ModuleRegistry,
   PaginationModule,
   RenderApiModule,
@@ -56,6 +58,7 @@ import {
   ValidationModule,
 } from 'ag-grid-community';
 import {
+  distinctUntilChanged,
   filter,
   map,
   ObservableInput,
@@ -75,8 +78,8 @@ import { fromGridEvent } from './data-grid-event-utils';
 // rather than `AllCommunityModule`, to keep the consumer's bundle lean. This
 // covers the client-side row model, sorting, pagination, row selection, cell
 // and row styling, column auto-sizing, auto-height (text wrap), the grid/column
-// state and event APIs the component and its harness rely on, and dev-time
-// validation messaging.
+// state and event APIs the component and its harness rely on, localized text,
+// and dev-time validation messaging.
 ModuleRegistry.registerModules([
   CellStyleModule,
   ClientSideRowModelApiModule,
@@ -85,6 +88,7 @@ ModuleRegistry.registerModules([
   ColumnAutoSizeModule,
   EventApiModule,
   GridStateModule,
+  LocaleModule,
   PaginationModule,
   RenderApiModule,
   RowApiModule,
@@ -284,7 +288,9 @@ export class SkyDataGrid {
   );
   protected readonly gridOptions = computed(() => {
     const hasColumnDefs = this.#hasColumnDefs();
-    if (!hasColumnDefs) {
+    // `#recreatingGrid` blanks the template for a tick so the grid is torn
+    // down and rebuilt; see the locale subscription in the constructor.
+    if (!hasColumnDefs || this.#recreatingGrid()) {
       return undefined;
     }
     const columnDefs = untracked(() => this.#columnDefs());
@@ -388,6 +394,18 @@ export class SkyDataGrid {
   readonly #gridService = inject(SkyAgGridService);
   readonly #logger = inject(SkyLogService);
   readonly #router = inject(Router, { optional: true });
+
+  /**
+   * Set while the grid is being torn down so it can be recreated; see the
+   * locale subscription in the constructor.
+   */
+  readonly #recreatingGrid = signal(false);
+  readonly #localeChange = inject(SkyAppLocaleProvider)
+    .getLocaleInfo()
+    .pipe(
+      map((localeInfo) => localeInfo.locale),
+      distinctUntilChanged(),
+    );
 
   readonly #columnDefs = computed<ColDef<SkyDataGridRowData>[]>(() => {
     const columns = this.columns();
@@ -659,6 +677,24 @@ export class SkyDataGrid {
       this.gridApi.set(undefined);
       this.gridReady.set(false);
       this.#changeDetector.markForCheck();
+    });
+
+    // AG Grid reads `localeText` only when a grid is created, so the only way
+    // to pick up a new locale is to destroy the grid and build a new one from
+    // fresh options. The grid is blanked for a tick to do that, which briefly
+    // shows the wait indicator. Nothing to do when no options have been built
+    // yet: the pending grid will be created with the new locale already
+    // applied. This checks the options rather than `gridApi` because AG Grid
+    // reports the API asynchronously, leaving a window where the grid is on
+    // its way up with the old locale baked in.
+    this.#localeChange.pipe(takeUntilDestroyed()).subscribe(() => {
+      if (!this.gridOptions()) {
+        return;
+      }
+      this.#recreatingGrid.set(true);
+      setTimeout(() => {
+        this.#recreatingGrid.set(false);
+      });
     });
 
     // Emit updates from the grid.
