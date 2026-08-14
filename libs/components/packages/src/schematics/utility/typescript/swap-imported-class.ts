@@ -26,6 +26,41 @@ function findReferences(
   );
 }
 
+function getNamespaceImportNames(sourceFile: ts.SourceFile): string[] {
+  return findNodes(sourceFile, ts.SyntaxKind.ImportDeclaration).flatMap(
+    (node) => {
+      if (!ts.isImportDeclaration(node)) {
+        return [];
+      }
+
+      const clause = node.importClause;
+      const bindings = clause?.namedBindings;
+
+      return clause && bindings && ts.isNamespaceImport(bindings)
+        ? [bindings.name.text]
+        : [];
+    },
+  );
+}
+
+function isNamespaceQualifiedReference(
+  reference: ts.Identifier,
+  namespaceNames: string[],
+): boolean {
+  const parent = reference.parent;
+
+  if (!ts.isPropertyAccessExpression(parent) || parent.name !== reference) {
+    return false;
+  }
+
+  const namespace = parent.expression;
+  if (!ts.isIdentifier(namespace)) {
+    return false;
+  }
+
+  return namespaceNames.includes(namespace.text);
+}
+
 function swapReference(
   recorder: UpdateRecorder,
   reference: ts.Identifier,
@@ -76,6 +111,7 @@ export function swapImportedClass(
     sourceFile,
     ts.SyntaxKind.ImportDeclaration,
   ).reduce((max, node) => Math.max(max, node.getEnd()), 0);
+  const namespaceImportNames = getNamespaceImportNames(sourceFile);
 
   const removeImports: Record<string, string[]> = {};
   applicableOptions.forEach(({ classNames, moduleName, filter }) => {
@@ -85,8 +121,14 @@ export function swapImportedClass(
       const referencesInCode = findReferences(sourceFile, oldClassName).filter(
         (reference) => reference.getStart() > endOfImports,
       );
+      const referencesInCodeWithoutNamespaces = referencesInCode.filter(
+        (reference) =>
+          !isNamespaceQualifiedReference(reference, namespaceImportNames),
+      );
       const referencesFiltered = referencesInCode.filter(
-        filter ?? ((): boolean => true),
+        (reference) =>
+          (filter ?? ((): boolean => true))(reference) &&
+          !isNamespaceQualifiedReference(reference, namespaceImportNames),
       );
       const newClassNameString = Array.isArray(newClassName)
         ? newClassName.join(', ')
@@ -96,7 +138,8 @@ export function swapImportedClass(
       });
       if (referencesFiltered.length > 0) {
         const allReferencesToBeReplaced =
-          referencesFiltered.length === referencesInCode.length;
+          referencesFiltered.length ===
+          referencesInCodeWithoutNamespaces.length;
         const newClassNameArray = Array.isArray(newClassName)
           ? newClassName
           : [newClassName];
