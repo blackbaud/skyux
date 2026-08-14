@@ -25,11 +25,6 @@ const COMPONENTS_WITH_LABEL_TEXT: {
     labelSelector: 'sky-checkbox-label',
   },
   {
-    selector: 'sky-file-attachment',
-    labelInputName: 'labelText',
-    labelSelector: 'sky-file-attachment-label',
-  },
-  {
     selector: 'sky-input-box',
     labelInputName: 'labelText',
     labelSelector: 'label',

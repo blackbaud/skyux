@@ -1,11 +1,9 @@
 import { CommonModule } from '@angular/common';
 import {
-  AfterContentInit,
   AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ContentChildren,
   DOCUMENT,
   ElementRef,
   EventEmitter,
@@ -14,7 +12,6 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  QueryList,
   TemplateRef,
   ViewChild,
   booleanAttribute,
@@ -57,7 +54,6 @@ import { SkyFileValidateFn } from '../shared/file-validate-function';
 import { SkyFileAttachmentChange } from './file-attachment-change';
 import { SkyFileAttachmentClick } from './file-attachment-click';
 import { SkyFileAttachmentJoinIdsPipe } from './file-attachment-join-ids.pipe';
-import { SkyFileAttachmentLabelComponent } from './file-attachment-label.component';
 import { SkyFileAttachmentService } from './file-attachment.service';
 
 const MAX_FILE_SIZE_DEFAULT = 500000;
@@ -91,12 +87,7 @@ const MIN_FILE_SIZE_DEFAULT = 0;
   templateUrl: './file-attachment.component.html',
 })
 export class SkyFileAttachmentComponent
-  implements
-    AfterViewInit,
-    AfterContentInit,
-    ControlValueAccessor,
-    OnInit,
-    OnDestroy
+  implements AfterViewInit, ControlValueAccessor, OnInit, OnDestroy
 {
   readonly #document = inject(DOCUMENT);
 
@@ -223,8 +214,6 @@ export class SkyFileAttachmentComponent
 
   public acceptedOver = false;
 
-  public hasLabelComponent = false;
-
   public rejectedOver = false;
 
   /**
@@ -271,10 +260,6 @@ export class SkyFileAttachmentComponent
 
   @ViewChild('fileInputRef')
   public inputEl: ElementRef | undefined;
-
-  @ContentChildren(SkyFileAttachmentLabelComponent)
-  public labelComponents:
-    QueryList<SkyFileAttachmentLabelComponent> | undefined;
 
   public isImage = false;
 
@@ -354,23 +339,6 @@ export class SkyFileAttachmentComponent
       this.ngControl.control?.events.subscribe(() => {
         this.#changeDetector.markForCheck();
       });
-    }
-  }
-
-  public ngAfterContentInit(): void {
-    if (this.labelComponents) {
-      this.hasLabelComponent = this.labelComponents.length > 0;
-      this.#changeDetector.detectChanges();
-
-      // Handles updating classes when label changes
-      this.labelComponents.changes
-        .pipe(takeUntil(this.#ngUnsubscribe))
-        .subscribe(
-          (newLabelComponents: QueryList<SkyFileAttachmentLabelComponent>) => {
-            this.hasLabelComponent = newLabelComponents.length > 0;
-            this.#changeDetector.markForCheck();
-          },
-        );
     }
   }
 
