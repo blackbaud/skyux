@@ -6,6 +6,7 @@
 
 ### ⚠ BREAKING CHANGES
 
+* **components/theme:** `sky-btn-disable` no longer disables pointer events (#4628)
 * **sdk/testing:** visibility checks no longer ignore earlier failed rules (#4616)
 
 ### Features
@@ -15,6 +16,7 @@
 
 ### Bug Fixes
 
+* **components/theme:** `sky-btn-disable` no longer disables pointer events ([#4628](https://github.com/blackbaud/skyux/issues/4628)) ([949894b](https://github.com/blackbaud/skyux/commit/949894bae64cdd321f71b6ad703d7954824179af))
 * **sdk/testing:** visibility checks no longer ignore earlier failed rules ([#4616](https://github.com/blackbaud/skyux/issues/4616)) ([593ba9a](https://github.com/blackbaud/skyux/commit/593ba9adb5c68fc109924a3c5d7e2665dbff07de)), closes [AB#3959363](https://dev.azure.com/blackbaud/Products/_workitems/edit/3959363)
 
 ## [15.0.0-alpha.4](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.3...15.0.0-alpha.4) (2026-08-11)
