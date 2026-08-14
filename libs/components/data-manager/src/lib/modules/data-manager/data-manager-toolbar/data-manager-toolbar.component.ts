@@ -6,6 +6,7 @@ import {
   OnDestroy,
   OnInit,
   afterNextRender,
+  booleanAttribute,
   computed,
   contentChildren,
   effect,
@@ -135,7 +136,9 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
    * active view's `SkyDataViewConfig.searchEnabled` is set.
    * @preview
    */
-  public readonly searchEnabled = input<boolean>();
+  public readonly searchEnabled = input<boolean, unknown>(false, {
+    transform: booleanAttribute,
+  });
 
   /**
    * Placeholder text for the search box, for the signal-based API. Ignored when an
@@ -149,7 +152,9 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
    * when an active view's `SkyDataViewConfig.multiselectToolbarEnabled` is set.
    * @preview
    */
-  public readonly multiselectEnabled = input<boolean>();
+  public readonly multiselectEnabled = input<boolean, unknown>(false, {
+    transform: booleanAttribute,
+  });
 
   /**
    * The label to display for the toolbar's list descriptor, for the signal-based

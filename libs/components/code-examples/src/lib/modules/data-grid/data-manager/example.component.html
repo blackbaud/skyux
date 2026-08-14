@@ -2,9 +2,15 @@
   <sky-data-manager-toolbar
     labelText="fruit"
     settingsKey="data-grid-data-manager-example"
+    searchEnabled
+    [(searchText)]="search"
   />
 
-  <sky-data-grid skyDataManagerColumnController labelText="Fruit" [data]="data">
+  <sky-data-grid
+    skyDataManagerColumnController
+    labelText="Fruit"
+    [data]="data()"
+  >
     <sky-data-grid-column field="name" headingText="Name" />
     <sky-data-grid-column
       field="type"
