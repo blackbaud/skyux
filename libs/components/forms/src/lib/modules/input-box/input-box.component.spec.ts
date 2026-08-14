@@ -1708,6 +1708,49 @@ describe('Input box component', () => {
       expect(() => fixture.detectChanges()).not.toThrow();
     });
 
+    it('should prefer the schema maxLength rule over the characterLimit input', () => {
+      testComponent.characterLimit = 5;
+      fixture.detectChanges();
+
+      const { inputBoxEl } = getInputBoxSignalFormEls();
+      const characterCountEl = inputBoxEl.querySelector(
+        'sky-character-counter-indicator',
+      );
+
+      expect(characterCountEl?.textContent).toContain('10');
+    });
+
+    it('should not warn when the schema maxLength rule is zero', () => {
+      @Component({
+        standalone: true,
+        imports: [FormField, SkyInputBoxModule],
+        template: `<sky-input-box labelText="Easy mode" [characterLimit]="5">
+          <input type="text" [formField]="easyModeForm" />
+        </sky-input-box>`,
+      })
+      class InputBoxSignalFormZeroMaxLengthFixtureComponent {
+        public readonly model = signal('');
+        public readonly easyModeForm = form(this.model, (p) => {
+          maxLength(p, 0);
+        });
+      }
+
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        imports: [InputBoxSignalFormZeroMaxLengthFixtureComponent],
+        providers: [provideNoopSkyAnimations()],
+      });
+
+      const warnSpy = spyOn(TestBed.inject(SkyLogService), 'warn');
+
+      const zeroMaxLengthFixture = TestBed.createComponent(
+        InputBoxSignalFormZeroMaxLengthFixtureComponent,
+      );
+      zeroMaxLengthFixture.detectChanges();
+
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+
     it('should update aria-invalid to false once the field becomes valid', () => {
       const { inputEl } = getInputBoxSignalFormEls();
 

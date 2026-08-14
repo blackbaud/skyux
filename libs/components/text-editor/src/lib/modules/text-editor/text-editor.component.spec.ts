@@ -2196,5 +2196,14 @@ describe('Text editor', () => {
         fixture.detectChanges();
       }).not.toThrow();
     });
+
+    it('propagates the normalized value back to the model', fakeAsync(() => {
+      testComponent.model.set('<p><br></p>');
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      expect(testComponent.model()).toBe('');
+    }));
   });
 });

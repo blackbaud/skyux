@@ -442,6 +442,14 @@ export class SkyTextEditorComponent
   public writeValue(value: string): void {
     this.value = value;
 
+    // Propagate the normalized value back to the form when normalization changed the
+    // incoming value. Signal-forms controls (bound via `[formField]`) don't support
+    // imperative `setValue()` calls, so this callback is the only way to keep the model
+    // in sync with the editor.
+    if (value && this.#_value !== value) {
+      this.#_onChange(this.#_value);
+    }
+
     // Update HTML if necessary.
     if (this.#initialized) {
       const editorValue = this.#adapterService.getEditorInnerHtml();

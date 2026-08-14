@@ -270,7 +270,9 @@ export class SkyInputBoxComponent
    * field's `maxLength` rule (if bound with `[formField]`) over the `characterLimit` input.
    */
   protected get characterLimitComputed(): number | undefined {
-    return this.characterLimit ?? this.formField()?.state().maxLength?.();
+    const schemaLimit = this.formField()?.state().maxLength?.();
+
+    return schemaLimit === undefined ? this.characterLimit : schemaLimit;
   }
 
   protected characterCountScreenReader = 0;
@@ -484,7 +486,7 @@ export class SkyInputBoxComponent
       try {
         if (
           this.characterLimit !== undefined &&
-          !formField.state().maxLength?.()
+          formField.state().maxLength?.() === undefined
         ) {
           this.#logger.warn(
             'The `characterLimit` input has no effect on signal-forms ' +
