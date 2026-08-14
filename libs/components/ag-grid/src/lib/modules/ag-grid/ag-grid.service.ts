@@ -1,8 +1,14 @@
-import { CSP_NONCE, DOCUMENT, Injectable, inject } from '@angular/core';
+import {
+  CSP_NONCE,
+  DOCUMENT,
+  Injectable,
+  computed,
+  inject,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyLogService } from '@skyux/core';
 import { SkyDateService } from '@skyux/datetime';
-import { SkyLibResourcesService } from '@skyux/i18n';
+import { SkyAppLocaleProvider, SkyLibResourcesService } from '@skyux/i18n';
 import { SkyThemeService } from '@skyux/theme';
 
 import {
@@ -28,6 +34,8 @@ import { EMPTY, map, of } from 'rxjs';
 
 import { getSkyAgGridTheme } from '../../styles/ag-grid-theme';
 
+import { AG_GRID_LOCALE_ES } from '../shared/ag-grid-locale-es-ES';
+import { AG_GRID_LOCALE_FR } from '../shared/ag-grid-locale-fr-FR';
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
 import { applySkyLookupPropertiesDefaults } from './apply-lookup-properties-defaults';
 import { SkyAgGridCellEditorAutocompleteComponent } from './cell-editors/cell-editor-autocomplete/cell-editor-autocomplete.component';
@@ -141,6 +149,16 @@ const skyAgGridLocaleTextDefaults = {
   noMatchingRows: 'No matching rows',
 } satisfies LocaleText;
 
+/**
+ * AG Grid's stock translations, keyed by the language subtag of the app's
+ * locale. Locales without an entry supply no translations, leaving AG Grid to
+ * use its own built-in English text.
+ */
+const agGridLocaleTextByLanguage: Record<string, LocaleText> = {
+  es: AG_GRID_LOCALE_ES,
+  fr: AG_GRID_LOCALE_FR,
+};
+
 const skyAgGridLocaleTextResourceKeys: Record<
   keyof typeof skyAgGridLocaleTextDefaults,
   string
@@ -152,11 +170,12 @@ const skyAgGridLocaleTextResourceKeys: Record<
 /**
  * `SkyAgGridService` provides methods to get AG Grid `gridOptions` to ensure grids match SKY UX functionality. The `gridOptions` can be overridden, and include registered SKY UX column types.
  *
- * Locale text is resolved once, when the grid options are created. [AG Grid does not re-read
+ * Locale text combines AG Grid's stock translations for the app's locale with SKY UX resource
+ * strings, and is resolved once, when the grid options are created. [AG Grid does not re-read
  * locale text after a grid is created](https://www.ag-grid.com/angular-data-grid/localisation/),
- * so an application that changes locale at runtime must destroy and recreate the grid. Setting
- * `gridOptions.getLocaleText` replaces SKY UX locale text entirely — use `gridOptions.localeText`
- * to override individual strings instead.
+ * so an application that changes locale at runtime must call this service again and destroy and
+ * recreate the grid. Setting `gridOptions.getLocaleText` replaces SKY UX locale text entirely —
+ * use `gridOptions.localeText` to override individual strings instead.
  */
 @Injectable({
   providedIn: 'root',
@@ -198,6 +217,23 @@ export class SkyAgGridService {
       of(skyAgGridLocaleTextDefaults),
     { initialValue: skyAgGridLocaleTextDefaults },
   );
+  readonly #locale = toSignal(inject(SkyAppLocaleProvider).getLocaleInfo());
+  readonly #localeTextWithDefaults = computed(() => {
+    // Split on the subtag delimiter rather than slicing a fixed width: a BCP 47
+    // primary language subtag can be three letters (e.g. `fil-PH`), which a
+    // two-character slice would silently turn into a different language.
+    const [language] = (this.#locale()?.locale ?? 'en-US')
+      .toLowerCase()
+      .split('-');
+
+    // SKY UX resource strings are applied last so they override AG Grid's
+    // stock wording for the keys SKY UX intentionally rewords. Keys left
+    // unset fall through to AG Grid's own built-in English text.
+    return {
+      ...agGridLocaleTextByLanguage[language],
+      ...this.#localeText(),
+    };
+  });
 
   /**
    * Returns [AG Grid `gridOptions`](https://www.ag-grid.com/angular-data-grid/grid-options/) with default SKY UX options, styling, and cell renderers registered for read-only grids.
@@ -617,7 +653,7 @@ export class SkyAgGridService {
           this.#getIconTemplate(iconKey as keyof IconMapType),
         ]),
       ),
-      localeText: this.#localeText(),
+      localeText: this.#localeTextWithDefaults(),
       loadingOverlayComponent: SkyAgGridLoadingComponent,
       onCellFocused: (event: CellFocusedEvent) => this.#onCellFocused(event),
       paginationPageSizeSelector: false,
