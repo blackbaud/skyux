@@ -6,11 +6,13 @@
 
 ### ⚠ BREAKING CHANGES
 
+* **components/layout:** remove deprecated SkyBoxHeaderComponent (#4617)
 * **components/theme:** `sky-btn-disable` no longer disables pointer events (#4628)
 * **sdk/testing:** visibility checks no longer ignore earlier failed rules (#4616)
 
 ### Features
 
+* **components/layout:** remove deprecated SkyBoxHeaderComponent ([#4617](https://github.com/blackbaud/skyux/issues/4617)) ([62beb9b](https://github.com/blackbaud/skyux/commit/62beb9b2528c936e563045332ca8b476b5ae25bf))
 * tokenize the icon used by HTML select fields ([#4619](https://github.com/blackbaud/skyux/issues/4619)) ([#4622](https://github.com/blackbaud/skyux/issues/4622)) ([8fdf445](https://github.com/blackbaud/skyux/commit/8fdf4451cee3148b59bd4af58207af0279d6a215))
 
 
