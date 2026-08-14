@@ -58,20 +58,34 @@ describe('checkVisibility', () => {
     ).toBe(true);
   });
 
-  it('should return pass: true when checkExists is true and element exists', () => {
+  it('should return pass: false when an earlier check fails and a later check passes', () => {
+    el.style.display = 'none';
+    el.style.visibility = 'visible';
+
+    vi.spyOn(el, 'getBoundingClientRect').mockReturnValue({
+      width: 100,
+      height: 50,
+    } as DOMRect);
+
     expect(
       _skyTestingCheckVisibility(el, {
-        checkCssDisplay: false,
-        checkExists: true,
+        checkCssDisplay: true,
+        checkCssVisibility: true,
+        checkDimensions: true,
       }).pass,
-    ).toBe(true);
+    ).toBe(false);
   });
 
-  it('should return pass: false when checkExists is true and element is falsy', () => {
+  it('should return pass: false for a null element', () => {
+    expect(_skyTestingCheckVisibility(null).pass).toBe(false);
+  });
+
+  it('should return pass: false for an undefined element', () => {
     expect(
-      _skyTestingCheckVisibility(undefined as unknown as Element, {
+      _skyTestingCheckVisibility(undefined, {
         checkCssDisplay: false,
-        checkExists: true,
+        checkCssVisibility: true,
+        checkDimensions: true,
       }).pass,
     ).toBe(false);
   });

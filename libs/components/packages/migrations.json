@@ -29,6 +29,11 @@
       "version": "0.0.0-PLACEHOLDER",
       "factory": "./src/schematics/migrations/update-15/remove-timepicker-retain-invalid-values/remove-timepicker-retain-invalid-values.schematic",
       "description": "Remove the skyTimepickerRetainInvalidValues input from timepicker inputs since retaining invalid values is now the default behavior."
+    },
+    "add-compat-stylesheets": {
+      "version": "0.0.0-PLACEHOLDER",
+      "factory": "./src/schematics/migrations/update-15/add-compat-stylesheets/add-compat-stylesheet.schematic",
+      "description": "Add a backwards-compatible stylesheet with styles that have been removed from components in SKY UX 15."
     }
   }
 }

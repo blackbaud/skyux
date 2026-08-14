@@ -104,7 +104,6 @@
   "@skyux/layout:SkyActionButtonContainerAlignItems",
   "@skyux/layout:SkyBoxComponent:ariaLabel",
   "@skyux/layout:SkyBoxComponent:ariaLabelledBy",
-  "@skyux/layout:SkyBoxHeaderComponent",
   "@skyux/layout:SkyCardActionsComponent",
   "@skyux/layout:SkyCardComponent",
   "@skyux/layout:SkyCardContentComponent",

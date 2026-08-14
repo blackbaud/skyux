@@ -17,7 +17,8 @@
           "fontfaceobserver"
         ],
         "outputPath": {
-          "base": "dist/apps/playground"
+          "base": "dist/apps/playground",
+          "browser": "."
         },
         "index": "apps/playground/src/index.html",
         "polyfills": ["zone.js"],

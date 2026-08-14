@@ -25,6 +25,7 @@ export interface _SkyTestingCheckVisibilityOptions {
   /**
    * Indicates if the element's existence on the document should be considered when checking an
    * element's visibility. If the element exists, it is considered visible.
+   * @deprecated Existence is always checked, so this option has no effect.
    */
   checkExists?: boolean;
 }
