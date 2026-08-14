@@ -10,7 +10,7 @@ export class SkyTextExpandModalHarness extends ComponentHarness {
   public static hostSelector = 'sky-text-expand-modal';
 
   #getCloseButton = this.locatorFor('sky-modal-footer button.sky-btn');
-  #getHeader = this.locatorFor('sky-modal-header');
+  #getHeader = this.locatorFor('sky-modal-header-internal');
   #getText = this.locatorFor('sky-modal-content.sky-text-expand-modal-content');
 
   /**
