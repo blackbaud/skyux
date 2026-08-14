@@ -1,9 +1,14 @@
 {
   "import": "@skyux/dev-infra-private/.cspell-shared.json",
   "words": [
+    "Aucune",
     "autofit",
+    "Buscar",
     "buttontype",
     "checkmark",
+    "Chercher",
+    "coincidencias",
+    "correspondance",
     "currentcolor",
     "cyclomatic",
     "fetchpriority",
@@ -14,6 +19,7 @@
     "pillarbox",
     "selectability",
     "subresource",
+    "subtag",
     "tabindex",
     "tabstyle",
     "Tmpl",
