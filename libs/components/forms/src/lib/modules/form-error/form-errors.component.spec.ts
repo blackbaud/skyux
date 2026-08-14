@@ -97,6 +97,55 @@ describe('Form errors component', () => {
     });
   });
 
+  it('should render signal-forms camelCase error kinds (minLength, maxLength, email)', () => {
+    fixture.componentRef.setInput('errors', {
+      minLength: { kind: 'minLength', minLength: 5 },
+      maxLength: { kind: 'maxLength', maxLength: 10 },
+      email: true,
+    });
+    fixture.componentRef.setInput('touched', true);
+    fixture.componentRef.setInput('dirty', true);
+    fixture.detectChanges();
+
+    ['minlength', 'maxlength', 'email'].forEach((errorName) => {
+      const formError = fixture.nativeElement.querySelector(
+        `sky-form-error[errorName='${errorName}']`,
+      );
+      expect(formError).toExist();
+      expect(formError).toBeVisible();
+    });
+  });
+
+  it('should render a custom sky-form-error for any unknown error kind with a message', () => {
+    fixture.componentRef.setInput('errors', {
+      customValidator: { message: 'Custom validator message' },
+    });
+    fixture.componentRef.setInput('touched', true);
+    fixture.detectChanges();
+
+    const formError = fixture.nativeElement.querySelector(
+      `sky-form-error[data-error-name='customValidator']`,
+    );
+
+    expect(formError).toExist();
+    expect(formError).toBeVisible();
+    expect(formError.textContent).toContain('Custom validator message');
+  });
+
+  it('should not render a custom sky-form-error for an unknown error kind without a message', () => {
+    fixture.componentRef.setInput('errors', {
+      customValidator: { invalid: true },
+    });
+    fixture.componentRef.setInput('touched', true);
+    fixture.detectChanges();
+
+    const formError = fixture.nativeElement.querySelector(
+      `sky-form-error[data-error-name='customValidator']`,
+    );
+
+    expect(formError).toBeNull();
+  });
+
   it('should include the minimum or maximum date in the date error messages', () => {
     fixture.componentRef.setInput('errors', {
       skyDate: {

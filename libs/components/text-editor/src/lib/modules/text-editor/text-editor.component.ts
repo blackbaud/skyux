@@ -13,9 +13,11 @@ import {
   ViewChild,
   ViewEncapsulation,
   booleanAttribute,
+  effect,
   inject,
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
+import { FormField } from '@angular/forms/signals';
 import { SkyCoreAdapterService, SkyIdModule, SkyIdService } from '@skyux/core';
 import {
   SKY_FORM_ERRORS_ENABLED,
@@ -321,11 +323,13 @@ export class SkyTextEditorComponent
     if (this.#_value !== normalizedValue) {
       this.#_value = normalizedValue;
 
-      // Update angular form control if model has been normalized.
-      /* istanbul ignore else */
+      // Update angular form control if model has been normalized. Signal-forms controls
+      // (bound via `[formField]`) don't support imperative `setValue()` calls; they receive
+      // the normalized value through the registered `onChange` callback instead.
       if (
         this.ngControl?.control &&
-        normalizedValue !== this.ngControl.control.value
+        normalizedValue !== this.ngControl.control.value &&
+        typeof this.ngControl.control.setValue === 'function'
       ) {
         this.ngControl.control.setValue(normalizedValue, {
           emitModelToViewChange: false,
@@ -387,9 +391,32 @@ export class SkyTextEditorComponent
   protected readonly ngControl = inject(NgControl);
   protected readonly requiredState = inject(SkyRequiredStateDirective);
 
+  /**
+   * The signal-forms `FormField` directive bound to this editor, if any. `InteropNgControl`
+   * (the fake `NgControl` provided by `FormField`) doesn't expose `statusChanges`, so field
+   * state changes are observed here instead.
+   */
+  #formField = inject(FormField, { optional: true });
+
   constructor() {
     this.#id = this.#defaultId = this.#idSvc.generateId();
     this.ngControl.valueAccessor = this;
+
+    effect(() => {
+      const formField = this.#formField;
+
+      if (!formField) {
+        return;
+      }
+
+      const state = formField.state();
+      state.errors();
+      state.disabled();
+      state.required();
+
+      this.#updateA11yAttributes();
+      this.#changeDetector.markForCheck();
+    });
   }
 
   public ngAfterViewInit(): void {

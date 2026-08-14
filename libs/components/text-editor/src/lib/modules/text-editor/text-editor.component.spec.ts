@@ -1,4 +1,4 @@
-import { Component, DebugElement, Provider, Type } from '@angular/core';
+import { Component, DebugElement, Provider, Type, signal } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -12,6 +12,7 @@ import {
   UntypedFormControl,
   Validators,
 } from '@angular/forms';
+import { FormField, form, required } from '@angular/forms/signals';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
@@ -2114,6 +2115,86 @@ describe('Text editor', () => {
       testComponent.autofocus = true;
 
       fixture.detectChanges();
+    });
+  });
+
+  describe('with signal-forms field', () => {
+    @Component({
+      standalone: true,
+      imports: [FormField, SkyTextEditorModule],
+      template: `<sky-text-editor
+        [formField]="textForm"
+        [labelText]="labelText"
+      />`,
+    })
+    class TextEditorWithSignalForm {
+      public readonly model = signal('');
+      public readonly textForm = form(this.model, (p) => {
+        required(p);
+      });
+      public labelText = 'Text editor';
+    }
+
+    let testComponent: TextEditorWithSignalForm;
+
+    beforeEach(() => {
+      id = 0;
+      TestBed.configureTestingModule({
+        imports: [TextEditorWithSignalForm],
+        providers: [
+          {
+            provide: SkyIdService,
+            useValue: {
+              generateId: () => ID_DEFAULT + (++id).toString(),
+            },
+          },
+        ],
+      });
+
+      fixture = TestBed.createComponent(TextEditorWithSignalForm);
+      fixture.detectChanges();
+
+      testComponent = (fixture as ComponentFixture<TextEditorWithSignalForm>)
+        .componentInstance;
+      editableElement = getIframeDocument().body;
+      textEditorDebugElement = fixture.debugElement.query(
+        By.directive(SkyTextEditorComponent),
+      );
+      textEditorComponent = textEditorDebugElement.componentInstance;
+      iframeElement = getIframeElement();
+    });
+
+    it('should render a sky-form-error when the field is required and has been touched', () => {
+      testComponent.textForm().markAsTouched();
+      fixture.detectChanges();
+
+      const error = fixture.nativeElement.querySelector('sky-form-error');
+      expect(error).toBeVisible();
+    });
+
+    it('sets the aria-invalid attribute to true when an error is present and the field is touched', fakeAsync(() => {
+      testComponent.textForm().markAsTouched();
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      validateIframeDocumentAttribute('aria-invalid', 'true');
+    }));
+
+    it('sets the aria-invalid attribute to false when no error is present', fakeAsync(() => {
+      testComponent.model.set('Testing');
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      validateIframeDocumentAttribute('aria-invalid', 'false');
+    }));
+
+    it('does not throw when the editor normalizes an empty value', () => {
+      expect(() => {
+        textEditorComponent.value = '<p><br></p>';
+        fixture.detectChanges();
+      }).not.toThrow();
     });
   });
 });

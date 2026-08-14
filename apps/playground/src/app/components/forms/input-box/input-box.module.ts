@@ -11,6 +11,7 @@ import { SkyIconModule } from '@skyux/icon';
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
 
 import { InputBoxRoutingModule } from './input-box-routing.module';
+import { InputBoxSignalFormsComponent } from './input-box-signal-forms.component';
 import { InputBoxVisualHostComponent } from './input-box-visual-host.component';
 import { InputBoxComponent } from './input-box.component';
 
@@ -19,6 +20,7 @@ import { InputBoxComponent } from './input-box.component';
   imports: [
     FormsModule,
     InputBoxRoutingModule,
+    InputBoxSignalFormsComponent,
     ReactiveFormsModule,
     SkyCharacterCounterModule,
     SkyFormErrorsModule,

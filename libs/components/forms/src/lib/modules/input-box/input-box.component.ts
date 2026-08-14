@@ -18,17 +18,25 @@ import {
   Renderer2,
   TemplateRef,
   ViewEncapsulation,
+  contentChild,
+  effect,
   inject,
 } from '@angular/core';
 import {
   AbstractControlDirective,
   FormControlDirective,
   FormControlName,
+  NgControl,
   NgModel,
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { SkyContentInfoProvider, SkyIdService } from '@skyux/core';
+import { FormField } from '@angular/forms/signals';
+import {
+  SkyContentInfoProvider,
+  SkyIdService,
+  SkyLogService,
+} from '@skyux/core';
 
 import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 
@@ -70,6 +78,7 @@ export class SkyInputBoxComponent
   #idSvc = inject(SkyIdService);
   #elementRef = inject(ElementRef);
   #renderer = inject(Renderer2);
+  #logger = inject(SkyLogService);
 
   /**
    * Whether to visually highlight the input box in an error state. If not specified, the input box
@@ -214,6 +223,21 @@ export class SkyInputBoxComponent
   })
   public inputRef: ElementRef | undefined;
 
+  /**
+   * The signal-forms `FormField` directive bound to the content control, if any.
+   * `FormField` provides a fake `NgControl` via DI (read below), which lets input box
+   * derive most of its state through the existing `controlDir` accessors. This is used
+   * as a fallback for state that isn't exposed through that interop control, such as the
+   * field's `maxLength` metadata.
+   */
+  protected formField = contentChild(FormField);
+
+  /**
+   * Falls back to the `NgControl` provided by a signal-forms `FormField` directive when
+   * none of `formControl`, `formControlByName`, or `ngModel` are present.
+   */
+  protected signalControl = contentChild(NgControl);
+
   protected controlDir: AbstractControlDirective | undefined;
 
   protected get isDisabled(): boolean {
@@ -233,11 +257,20 @@ export class SkyInputBoxComponent
   }
 
   protected get required(): boolean {
-    return (
+    return !!(
       this.#hasRequiredValidator() ||
       this.inputRef?.nativeElement.required ||
-      this.#requiredByFormField
+      this.#requiredByFormField ||
+      this.formField()?.state().required()
     );
+  }
+
+  /**
+   * The character limit to display in the character counter. Prefers the signal-forms
+   * field's `maxLength` rule (if bound with `[formField]`) over the `characterLimit` input.
+   */
+  protected get characterLimitComputed(): number | undefined {
+    return this.characterLimit ?? this.formField()?.state().maxLength?.();
   }
 
   protected characterCountScreenReader = 0;
@@ -249,6 +282,33 @@ export class SkyInputBoxComponent
   #previousInputRef: ElementRef | undefined;
   #previousMaxLengthValidator: ValidatorFn | undefined;
   #ngUnsubscribe = new Subject<void>();
+
+  constructor() {
+    // Refreshes the input box whenever a bound signal-forms field's state changes. This is
+    // necessary because the `[formField]` binding lives in the consumer's template, so a
+    // signal write there doesn't automatically mark this component's view for check.
+    effect(() => {
+      const formField = this.formField();
+
+      if (!formField) {
+        return;
+      }
+
+      const state = formField.state();
+
+      // Read the signals this component derives state from so this effect re-runs when any
+      // of them change.
+      state.errors();
+      state.touched();
+      state.dirty();
+      state.disabled();
+      state.required();
+      state.maxLength?.();
+      state.value();
+
+      this.#changeRef.markForCheck();
+    });
+  }
 
   public ngOnInit(): void {
     this.#inputBoxHostSvc.init(this);
@@ -263,7 +323,10 @@ export class SkyInputBoxComponent
 
   public ngAfterContentChecked(): void {
     this.controlDir =
-      this.formControl || this.formControlByName || this.ngModel;
+      this.formControl ||
+      this.formControlByName ||
+      this.ngModel ||
+      this.signalControl();
 
     if (!this.formControlHasFocus) {
       this.characterCountScreenReader = this.controlDir?.value?.length || 0;
@@ -412,18 +475,47 @@ export class SkyInputBoxComponent
 
   #updateMaxLengthValidator(): void {
     const control = this.controlDir?.control;
+    const formField = this.formField();
 
-    if (this.#previousMaxLengthValidator) {
-      control?.removeValidators(this.#previousMaxLengthValidator);
-      this.#previousMaxLengthValidator = undefined;
+    if (formField) {
+      // Signal-forms controls don't support imperative validator mutation; they own their
+      // validation through the schema passed to `form()`. The character counter instead
+      // reads the field's `maxLength` rule directly (see `characterLimitComputed`).
+      try {
+        if (
+          this.characterLimit !== undefined &&
+          !formField.state().maxLength?.()
+        ) {
+          this.#logger.warn(
+            'The `characterLimit` input has no effect on signal-forms ' +
+              `controls. Add \`maxLength(field, ${this.characterLimit})\` to the schema function ` +
+              'passed to `form()` instead.',
+          );
+        }
+      } catch {
+        // The `FormField` directive's own `field` input may not have a value yet if this
+        // runs before its host binding has been processed (e.g. `characterLimit` is set
+        // during the input box's initial input processing, ahead of content projection).
+      }
+      return;
     }
 
-    if (control && this.characterLimit !== undefined) {
-      this.#previousMaxLengthValidator = Validators.maxLength(
-        this.characterLimit,
-      );
+    try {
+      if (this.#previousMaxLengthValidator) {
+        control?.removeValidators(this.#previousMaxLengthValidator);
+        this.#previousMaxLengthValidator = undefined;
+      }
 
-      control.addValidators([this.#previousMaxLengthValidator]);
+      if (control && this.characterLimit !== undefined) {
+        this.#previousMaxLengthValidator = Validators.maxLength(
+          this.characterLimit,
+        );
+
+        control.addValidators([this.#previousMaxLengthValidator]);
+      }
+    } catch {
+      // Some controls (e.g. `SignalFormControl` from `@angular/forms/signals/compat`) throw
+      // when validators are mutated imperatively; they own their validation via the schema.
     }
   }
 }
