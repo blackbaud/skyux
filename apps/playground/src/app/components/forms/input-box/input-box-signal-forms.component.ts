@@ -35,7 +35,11 @@ import type { SkyTimepickerTimeOutput } from '@skyux/datetime';
 import { SkyDatepickerModule, SkyTimepickerModule } from '@skyux/datetime';
 import { SkyFormErrorModule, SkyInputBoxModule } from '@skyux/forms';
 import type { SkyCountryFieldCountry } from '@skyux/lookup';
-import { SkyAutocompleteModule, SkyLookupModule } from '@skyux/lookup';
+import {
+  SkyAutocompleteModule,
+  SkyCountryFieldModule,
+  SkyLookupModule,
+} from '@skyux/lookup';
 import { SkyPhoneFieldModule } from '@skyux/phone-field';
 
 interface DemoItem {
@@ -57,7 +61,6 @@ interface DemoModel {
     startDate: Date | null;
     startTime: SkyTimepickerTimeOutput | string | null;
     phone: string;
-    /** Retained for the commented-out `sky-country-field` example. */
     country: SkyCountryFieldCountry | null;
     favoriteFruit: DemoItem | string | null;
     teamLead: DemoItem[];
@@ -138,6 +141,7 @@ function createModel(): DemoModel {
   imports: [
     FormField,
     SkyAutocompleteModule,
+    SkyCountryFieldModule,
     SkyDatepickerModule,
     SkyFormErrorModule,
     SkyInputBoxModule,
@@ -223,6 +227,7 @@ export class InputBoxSignalFormsComponent {
 
     required(p.sky.startTime);
     required(p.sky.phone);
+    required(p.sky.country);
     required(p.sky.favoriteFruit);
 
     // `required` treats an empty array as a value, and `minLength` reports a

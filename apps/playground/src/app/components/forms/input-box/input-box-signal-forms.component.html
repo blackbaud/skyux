@@ -81,19 +81,19 @@
     These components are <code>ControlValueAccessor</code>-based.
     <code>[formField]</code> reaches them through the interop
     <code>NgControl</code> it provides, but that interop control is not an
-    <code>AbstractControl</code>, so a component that calls
-    <code>AbstractControl</code> methods on it fails. The gaps are noted below.
+    <code>AbstractControl</code>. All the components below now guard against
+    that, so they work with <code>[formField]</code>; one small remaining
+    behavior difference is noted inline.
   </p>
 
   <div class="input-box-signal-forms-section" id="signal-forms-sky-components">
     <!--
-      GAP: `sky-datepicker` does not work with `[formField]`. It calls
-      `AbstractControl` methods (`setValue`, `markAsDirty`, `setErrors`,
-      `markAsTouched`) on the `NgControl` that `[formField]` provides, but that
-      interop control is not an `AbstractControl`, so both typing in the input
-      and writing to the model throw
-      `this.#control?.setValue is not a function` and friends from
-      `datepicker-input.directive.ts`.
+      GAP: writing a date-string shortcut (for example, typing "today")
+      directly into the model does not reconcile back to the parsed `Date`.
+      `datepicker-input.directive.ts` only patches that resolved value back
+      onto a real `AbstractControl`, which `[formField]`'s interop control is
+      not. The input still displays the formatted date; only the model's raw
+      value differs from what reactive/template forms would produce.
     -->
     <sky-input-box
       hintText="Must be in the next 30 days."
@@ -120,25 +120,10 @@
       </sky-phone-field>
     </sky-input-box>
 
-    <!--
-      GAP: `sky-country-field` throws NG01914 ("invalid [formField] directive
-      host") as soon as it renders. It registers itself as the value accessor in
-      `ngOnInit`, which runs after `[formField]` looks for one, so signal forms
-      sees no value accessor at all. The example is left commented out because
-      the error breaks the rest of the page. Uncommenting it also requires
-      adding `SkyCountryFieldModule` to the component's `imports`.
+    <sky-input-box labelText="Country" [stacked]="true">
+      <sky-country-field [formField]="signalForm.sky.country" />
+    </sky-input-box>
 
-      <sky-input-box labelText="Country" [stacked]="true">
-        <sky-country-field [formField]="signalForm.sky.country" />
-      </sky-input-box>
-    -->
-
-    <!--
-      GAP: writing a value into the model throws
-      `this.#control.markAsPristine is not a function` from
-      `autocomplete-input.directive.ts`, which calls an `AbstractControl` method
-      on the interop control that `[formField]` provides.
-    -->
     <sky-input-box labelText="Favorite fruit" [stacked]="true">
       <sky-autocomplete [data]="fruits">
         <input
