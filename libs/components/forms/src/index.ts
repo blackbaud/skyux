@@ -57,7 +57,6 @@ export { SkyCheckboxGroupComponent as λ24 } from './lib/modules/checkbox/checkb
 export { SkyCheckboxLabelComponent as λ4 } from './lib/modules/checkbox/checkbox-label.component';
 export { SkyCheckboxComponent as λ3 } from './lib/modules/checkbox/checkbox.component';
 export { SkyFieldGroupComponent as λ25 } from './lib/modules/field-group/field-group.component';
-export { SkyFileAttachmentLabelComponent as λ6 } from './lib/modules/file-attachment/file-attachment/file-attachment-label.component';
 export { SkyFileAttachmentComponent as λ7 } from './lib/modules/file-attachment/file-attachment/file-attachment.component';
 export { SkyFileDropComponent as λ8 } from './lib/modules/file-attachment/file-drop/file-drop.component';
 export { SkyFileItemComponent as λ9 } from './lib/modules/file-attachment/file-drop/file-item.component';

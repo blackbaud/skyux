@@ -2,7 +2,11 @@ import { TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 import { SkyLogService } from '@skyux/core';
 import { SkyDateService } from '@skyux/datetime';
-import { SkyLibResourcesService } from '@skyux/i18n';
+import {
+  SkyAppLocaleInfo,
+  SkyAppLocaleProvider,
+  SkyLibResourcesService,
+} from '@skyux/i18n';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -27,8 +31,9 @@ import {
   ValueFormatterFunc,
   ValueFormatterParams,
 } from 'ag-grid-community';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
+import { AG_GRID_LOCALE_ES } from '../shared/ag-grid-locale-es-ES';
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
 import { SkyAgGridService } from './ag-grid.service';
 import { SkyAgGridColumnFilterDatepickerComponent } from './column-filters/column-filter-datepicker/column-filter-datepicker.component';
@@ -37,6 +42,31 @@ import { SkyCellClass } from './types/cell-class';
 import { SkyCellType } from './types/cell-type';
 
 type comparator = (...args: unknown[]) => number;
+
+/**
+ * Emits the locale on demand so tests can exercise the locale-specific
+ * branches of `SkyAgGridService`. A locale of `undefined` leaves the provider
+ * silent, mimicking an app whose locale has not resolved yet.
+ */
+class MockLocaleProvider extends SkyAppLocaleProvider {
+  readonly #localeInfo: Subject<SkyAppLocaleInfo>;
+
+  constructor(locale?: string) {
+    super();
+
+    this.#localeInfo = locale
+      ? new BehaviorSubject<SkyAppLocaleInfo>({ locale })
+      : new Subject<SkyAppLocaleInfo>();
+  }
+
+  public override getLocaleInfo(): Observable<SkyAppLocaleInfo> {
+    return this.#localeInfo;
+  }
+
+  public setLocale(locale: string): void {
+    this.#localeInfo.next({ locale });
+  }
+}
 
 describe('SkyAgGridService', () => {
   let agGridService: SkyAgGridService;
@@ -389,6 +419,173 @@ describe('SkyAgGridService', () => {
       });
 
       expect(gridOptions.getLocaleText).toBe(getLocaleText);
+    });
+  });
+
+  describe('localeText for non-English locales', () => {
+    let localeProvider: MockLocaleProvider;
+
+    function createServiceForLocale(locale?: string): SkyAgGridService {
+      TestBed.resetTestingModule();
+      localeProvider = new MockLocaleProvider(locale);
+      TestBed.configureTestingModule({
+        providers: [
+          SkyAgGridService,
+          SkyAgGridAdapterService,
+          {
+            provide: SkyThemeService,
+            useValue: mockThemeSvc,
+          },
+          {
+            provide: SkyDateService,
+            useValue: dateService,
+          },
+          {
+            provide: SkyAppLocaleProvider,
+            useValue: localeProvider,
+          },
+        ],
+      });
+
+      return TestBed.inject(SkyAgGridService);
+    }
+
+    it('should leave AG Grid text alone when the locale is en-US', () => {
+      const gridOptions = createServiceForLocale('en-US').getGridOptions({
+        gridOptions: {},
+      });
+
+      // AG Grid's built-in text is already English, so nothing is supplied for
+      // it and only the keys SKY UX rewords are set.
+      expect(Object.keys(gridOptions.localeText ?? {}).sort()).toEqual([
+        'noMatchingRows',
+        'noRowsToShow',
+      ]);
+    });
+
+    it('should use AG Grid Spanish text when the locale is es-ES', () => {
+      const gridOptions = createServiceForLocale('es-ES').getGridOptions({
+        gridOptions: {},
+      });
+
+      expect(gridOptions.localeText?.['noMatches']).toEqual(
+        'Sin coincidencias',
+      );
+      expect(gridOptions.localeText?.['searchOoo']).toEqual('Buscar...');
+    });
+
+    it('should use AG Grid French text when the locale is fr-FR', () => {
+      const gridOptions = createServiceForLocale('fr-FR').getGridOptions({
+        gridOptions: {},
+      });
+
+      expect(gridOptions.localeText?.['noMatches']).toEqual(
+        'Aucune correspondance',
+      );
+      expect(gridOptions.localeText?.['searchOoo']).toEqual('Chercher...');
+    });
+
+    it('should match on the language subtag regardless of region or casing', () => {
+      const regionalLocales: [string, string][] = [
+        ['es', 'Sin coincidencias'],
+        ['es-MX', 'Sin coincidencias'],
+        ['ES-mx', 'Sin coincidencias'],
+        ['fr', 'Aucune correspondance'],
+        ['fr-CA', 'Aucune correspondance'],
+        ['FR-ca', 'Aucune correspondance'],
+      ];
+
+      for (const [locale, expected] of regionalLocales) {
+        const gridOptions = createServiceForLocale(locale).getGridOptions({
+          gridOptions: {},
+        });
+
+        expect(gridOptions.localeText?.['noMatches'])
+          .withContext(locale)
+          .toEqual(expected);
+      }
+    });
+
+    it('should match on the whole language subtag, not its first two letters', () => {
+      // `fry` (West Frisian) starts with `fr`, so truncating the subtag to two
+      // characters would hand it French text.
+      const gridOptions = createServiceForLocale('fry-NL').getGridOptions({
+        gridOptions: {},
+      });
+
+      expect(gridOptions.localeText?.['noMatches']).toBeUndefined();
+    });
+
+    it('should supply no translations for a locale AG Grid text is missing for', () => {
+      const gridOptions = createServiceForLocale('de-DE').getGridOptions({
+        gridOptions: {},
+      });
+
+      expect(gridOptions.localeText?.['noMatches']).toBeUndefined();
+    });
+
+    it('should supply no translations when the locale provider has not emitted', () => {
+      // `createServiceForLocale` builds a silent provider when no locale is
+      // given, so `#locale()` is still undefined when the options are created.
+      const gridOptions = createServiceForLocale().getGridOptions({
+        gridOptions: {},
+      });
+
+      expect(gridOptions.localeText?.['noMatches']).toBeUndefined();
+    });
+
+    it('should reflect the locale in effect when grid options are created', () => {
+      const service = createServiceForLocale('en-US');
+
+      expect(
+        service.getGridOptions({ gridOptions: {} }).localeText?.['noMatches'],
+      ).toBeUndefined();
+
+      localeProvider.setLocale('es-ES');
+
+      expect(
+        service.getGridOptions({ gridOptions: {} }).localeText?.['noMatches'],
+      ).toEqual('Sin coincidencias');
+
+      localeProvider.setLocale('fr-FR');
+
+      expect(
+        service.getGridOptions({ gridOptions: {} }).localeText?.['noMatches'],
+      ).toEqual('Aucune correspondance');
+
+      localeProvider.setLocale('en-US');
+
+      expect(
+        service.getGridOptions({ gridOptions: {} }).localeText?.['noMatches'],
+      ).toBeUndefined();
+    });
+
+    it('should let SKY UX resource strings override AG Grid text', () => {
+      const gridOptions = createServiceForLocale('es-ES').getGridOptions({
+        gridOptions: {},
+      });
+
+      // `noRowsToShow` is one of the keys SKY UX intentionally rewords, so the
+      // SKY UX resource string wins over AG Grid's own translation.
+      expect(gridOptions.localeText?.['noRowsToShow']).not.toEqual(
+        AG_GRID_LOCALE_ES.noRowsToShow,
+      );
+      expect(gridOptions.localeText?.['noRowsToShow']).toEqual(
+        'No data available',
+      );
+    });
+
+    it('should let a consumer override AG Grid text for a non-English locale', () => {
+      const gridOptions = createServiceForLocale('fr-FR').getGridOptions({
+        gridOptions: {
+          localeText: { noMatches: 'Custom no matches text' },
+        },
+      });
+
+      expect(gridOptions.localeText?.['noMatches']).toEqual(
+        'Custom no matches text',
+      );
+      expect(gridOptions.localeText?.['searchOoo']).toEqual('Chercher...');
     });
   });
 

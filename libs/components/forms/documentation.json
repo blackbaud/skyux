@@ -75,7 +75,6 @@
         "docsIds": [
           "SkyFileAttachmentModule",
           "SkyFileAttachmentComponent",
-          "SkyFileAttachmentLabelComponent",
           "SkyFormErrorComponent",
           "SkyFileAttachmentChange",
           "SkyFileAttachmentClick",
