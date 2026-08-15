@@ -162,7 +162,7 @@ function createModel(): DemoModel {
 })
 export class InputBoxSignalFormsComponent {
   readonly #injector = inject(Injector);
-  readonly #today = new Date();
+  readonly #today = new Date(new Date().setHours(0, 0, 0, 0));
   readonly #thirtyDaysOut = new Date(Date.now() + 30 * DAY_IN_MS);
 
   protected readonly fruits: DemoItem[] = [
