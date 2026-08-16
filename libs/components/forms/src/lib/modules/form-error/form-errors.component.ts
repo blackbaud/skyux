@@ -13,23 +13,20 @@ import { SkyFormsResourcesModule } from '../shared/sky-forms-resources.module';
 import { SkyFormErrorComponent } from './form-error.component';
 
 /**
- * Error kinds that are handled by a dedicated template block, either directly (reactive
- * forms) or via their camelCase signal-forms equivalent. Used to avoid duplicating these
- * as generic custom errors.
+ * Angular signal-forms error kinds that have a dedicated block in this component's template.
+ * Errors of these kinds are skipped by `customMessageErrors` so a consumer-supplied
+ * `message` doesn't render alongside the SKY message.
+ *
+ * SKY-owned error kinds (`skyDate`, `skyEmail`, `skyTime`, etc.) are deliberately absent:
+ * SKY validators never set `message` — their text comes from `skyLibResources` — so
+ * `customMessageErrors` already excludes them. A `message` on an error means a consumer
+ * authored that text.
  */
-const KNOWN_ERROR_KINDS = new Set([
+export const SKY_HANDLED_SIGNAL_ERROR_KINDS = new Set([
   'required',
-  'minlength',
   'minLength',
-  'maxlength',
   'maxLength',
-  'skyDate',
-  'skyFuzzyDate',
-  'skyEmail',
   'email',
-  'skyPhoneField',
-  'skyTime',
-  'skyUrl',
 ]);
 
 /**
@@ -91,7 +88,7 @@ export class SkyFormErrorsComponent {
     return Object.entries(errors)
       .filter(
         ([kind, error]) =>
-          !KNOWN_ERROR_KINDS.has(kind) &&
+          !SKY_HANDLED_SIGNAL_ERROR_KINDS.has(kind) &&
           typeof (error as { message?: unknown })?.message === 'string',
       )
       .map(([kind, error]) => ({

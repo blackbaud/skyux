@@ -5,6 +5,7 @@ import { expect } from '@skyux-sdk/testing';
 
 import { SkyFormErrorModule } from './form-error.module';
 import { SKY_FORM_ERRORS_ENABLED } from './form-errors-enabled-token';
+import { SKY_HANDLED_SIGNAL_ERROR_KINDS } from './form-errors.component';
 import { SkyFormErrorsModule } from './form-errors.module';
 
 @Component({
@@ -218,6 +219,58 @@ describe('Form errors component', () => {
 
     expect(formError).toExist();
     expect(formError).toBeVisible();
+  });
+
+  it('should not render a duplicate custom error for a kind handled by a dedicated template block', () => {
+    // The dedicated block for each kind binds its own errorName (lowercase for
+    // required/email, camelCase for minLength/maxLength), so a duplicate render from
+    // `customMessageErrors` would show up as a second element sharing that same
+    // `data-error-name`, not a differently-named one.
+    for (const kind of SKY_HANDLED_SIGNAL_ERROR_KINDS) {
+      fixture.componentRef.setInput('errors', {
+        [kind]: {
+          kind,
+          message: 'Consumer message',
+          minLength: 5,
+          maxLength: 10,
+        },
+      });
+      fixture.componentRef.setInput('touched', true);
+      fixture.componentRef.setInput('dirty', true);
+      fixture.detectChanges();
+
+      const matchingErrors = fixture.nativeElement.querySelectorAll(
+        `sky-form-error[errorname='${kind.toLowerCase()}']`,
+      );
+
+      expect(matchingErrors.length).toBe(1);
+      expect(matchingErrors[0].textContent).not.toContain('Consumer message');
+    }
+  });
+
+  it('should not render custom errors for reactive-forms error values', () => {
+    fixture.componentRef.setInput('errors', {
+      required: true,
+      minlength: { requiredLength: 5, actualLength: 2 },
+      maxlength: { requiredLength: 5, actualLength: 9 },
+      skyDate: { invalid: true },
+      skyFuzzyDate: { invalid: true },
+      skyEmail: { invalid: 'x' },
+      skyPhoneField: { invalid: 'x' },
+      skyTime: { invalid: true },
+      skyUrl: { invalid: 'x' },
+    });
+    fixture.componentRef.setInput('touched', true);
+    fixture.componentRef.setInput('dirty', true);
+    fixture.detectChanges();
+
+    // None of these values carry a `message`, so `customMessageErrors` should exclude all
+    // of them regardless of `SKY_HANDLED_SIGNAL_ERROR_KINDS`. Each kind's dedicated block
+    // (or sub-block, for the compound skyDate/skyFuzzyDate errors) should render exactly
+    // once, plus the projected 'custom' error from the host template.
+    expect(
+      fixture.nativeElement.querySelectorAll('sky-form-error').length,
+    ).toBe(10);
   });
 
   it('should not render any errors when they are passed but labelText is undefined', () => {
