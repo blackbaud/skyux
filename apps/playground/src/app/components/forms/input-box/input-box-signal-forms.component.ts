@@ -150,8 +150,16 @@ function createModel(): DemoModel {
     SkyTimepickerModule,
   ],
   styles: `
+    :host {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sky-space-inline-xl);
+      height: 100%;
+    }
+
     .input-box-signal-forms {
-      max-width: 400px;
+      max-height: 100%;
+      overflow-y: auto;
     }
 
     .input-box-signal-forms-section {
