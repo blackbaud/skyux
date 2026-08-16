@@ -13,7 +13,6 @@ import {
   ViewChild,
   ViewEncapsulation,
   booleanAttribute,
-  effect,
   inject,
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
@@ -24,6 +23,8 @@ import {
   SkyFormErrorsModule,
   SkyInputBoxHostService,
   SkyRequiredStateDirective,
+  skyIsAbstractControl,
+  skyWatchFormFieldChanges,
 } from '@skyux/forms';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyToolbarModule } from '@skyux/layout';
@@ -327,9 +328,8 @@ export class SkyTextEditorComponent
       // (bound via `[formField]`) don't support imperative `setValue()` calls; they receive
       // the normalized value through the registered `onChange` callback instead.
       if (
-        this.ngControl?.control &&
-        normalizedValue !== this.ngControl.control.value &&
-        typeof this.ngControl.control.setValue === 'function'
+        skyIsAbstractControl(this.ngControl?.control) &&
+        normalizedValue !== this.ngControl.control.value
       ) {
         this.ngControl.control.setValue(normalizedValue, {
           emitModelToViewChange: false,
@@ -402,21 +402,13 @@ export class SkyTextEditorComponent
     this.#id = this.#defaultId = this.#idSvc.generateId();
     this.ngControl.valueAccessor = this;
 
-    effect(() => {
-      const formField = this.#formField;
-
-      if (!formField) {
-        return;
-      }
-
-      const state = formField.state();
-      state.errors();
-      state.disabled();
-      state.required();
-
-      this.#updateA11yAttributes();
-      this.#changeDetector.markForCheck();
-    });
+    skyWatchFormFieldChanges(
+      () => this.#formField,
+      this.#changeDetector,
+      () => {
+        this.#updateA11yAttributes();
+      },
+    );
   }
 
   public ngAfterViewInit(): void {
@@ -445,8 +437,14 @@ export class SkyTextEditorComponent
     // Propagate the normalized value back to the form when normalization changed the
     // incoming value. Signal-forms controls (bound via `[formField]`) don't support
     // imperative `setValue()` calls, so this callback is the only way to keep the model
-    // in sync with the editor.
-    if (value && this.#_value !== value) {
+    // in sync with the editor for those controls. Real `AbstractControl`s are already
+    // synced by the `value` setter above, so calling `onChange` again here would
+    // incorrectly mark them dirty.
+    if (
+      value &&
+      this.#_value !== value &&
+      !skyIsAbstractControl(this.ngControl?.control)
+    ) {
       this.#_onChange(this.#_value);
     }
 

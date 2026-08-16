@@ -19,7 +19,6 @@ import {
   TemplateRef,
   ViewEncapsulation,
   contentChild,
-  effect,
   inject,
 } from '@angular/core';
 import {
@@ -41,6 +40,8 @@ import {
 import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
+import { skyIsAbstractControl } from '../shared/is-abstract-control';
+import { skyWatchFormFieldChanges } from '../shared/watch-form-field-changes';
 
 import { SkyInputBoxAdapterService } from './input-box-adapter.service';
 import { SkyInputBoxControlDirective } from './input-box-control.directive';
@@ -289,26 +290,9 @@ export class SkyInputBoxComponent
     // Refreshes the input box whenever a bound signal-forms field's state changes. This is
     // necessary because the `[formField]` binding lives in the consumer's template, so a
     // signal write there doesn't automatically mark this component's view for check.
-    effect(() => {
-      const formField = this.formField();
-
-      if (!formField) {
-        return;
-      }
-
-      const state = formField.state();
-
-      // Read the signals this component derives state from so this effect re-runs when any
-      // of them change.
-      state.errors();
-      state.touched();
-      state.dirty();
-      state.disabled();
-      state.required();
+    skyWatchFormFieldChanges(this.formField, this.#changeRef, (state) => {
       state.maxLength?.();
       state.value();
-
-      this.#changeRef.markForCheck();
     });
   }
 
@@ -502,22 +486,21 @@ export class SkyInputBoxComponent
       return;
     }
 
-    try {
-      if (this.#previousMaxLengthValidator) {
-        control?.removeValidators(this.#previousMaxLengthValidator);
-        this.#previousMaxLengthValidator = undefined;
-      }
+    if (!skyIsAbstractControl(control)) {
+      return;
+    }
 
-      if (control && this.characterLimit !== undefined) {
-        this.#previousMaxLengthValidator = Validators.maxLength(
-          this.characterLimit,
-        );
+    if (this.#previousMaxLengthValidator) {
+      control.removeValidators(this.#previousMaxLengthValidator);
+      this.#previousMaxLengthValidator = undefined;
+    }
 
-        control.addValidators([this.#previousMaxLengthValidator]);
-      }
-    } catch {
-      // Some controls (e.g. `SignalFormControl` from `@angular/forms/signals/compat`) throw
-      // when validators are mutated imperatively; they own their validation via the schema.
+    if (this.characterLimit !== undefined) {
+      this.#previousMaxLengthValidator = Validators.maxLength(
+        this.characterLimit,
+      );
+
+      control.addValidators([this.#previousMaxLengthValidator]);
     }
   }
 }

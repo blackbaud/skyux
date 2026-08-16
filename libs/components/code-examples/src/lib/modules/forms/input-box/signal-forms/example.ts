@@ -16,7 +16,7 @@ import { SkyFluidGridModule } from '@skyux/layout';
 @Component({
   selector: 'app-forms-input-box-signal-forms-example',
   templateUrl: './example.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FormField, SkyFluidGridModule, SkyInputBoxModule],
 })
 export class FormsInputBoxSignalFormsExample {

@@ -345,10 +345,17 @@ export class SkyDatepickerInputDirective
     this.#_value = value;
     this.#onChange(value);
 
-    // `validate()` returns the `skyDate` error for this same malformed value, so
-    // triggering revalidation reports it without mutating the control directly. (Signal
-    // forms' interop control does not support `setErrors`.)
-    this.#onValidatorChange();
+    if (skyIsAbstractControl(this.#control)) {
+      this.#control.setErrors({
+        skyDate: {
+          invalid: value,
+        },
+      });
+    } else {
+      // Signal forms' interop control doesn't support `setErrors`, so trigger revalidation
+      // instead; `validate()` returns the `skyDate` error for this same malformed value.
+      this.#onValidatorChange();
+    }
   }
 
   @HostListener('input')
