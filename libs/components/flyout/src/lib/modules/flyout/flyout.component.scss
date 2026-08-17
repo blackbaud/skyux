@@ -16,6 +16,14 @@
   --sky-flyout-resize-handle-width: 14px;
 }
 
+:host-context(.sky-theme-mode-light) {
+  --sky-comp-flyout-border-left-style: none;
+}
+
+:host-context(.sky-theme-mode-dark) {
+  --sky-comp-flyout-border-left-style: solid;
+}
+
 .sky-flyout {
   position: fixed;
   right: 0;
@@ -32,7 +40,12 @@
   );
   --sky-comp-override-list-header-background-color: initial;
 
-  border-left: var(--sky-override-flyout-border-left);
+  border-left: var(
+    --sky-override-flyout-border-left,
+    var(--sky-border-width-container-base)
+      var(--sky-comp-flyout-border-left-style)
+      var(--sky-color-border-container-base)
+  );
 
   transform: translateX(100%);
   transition-duration: var(--sky-global-duration-medium);

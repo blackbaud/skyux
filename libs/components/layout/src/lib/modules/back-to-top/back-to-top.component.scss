@@ -8,6 +8,14 @@
   --sky-override-back-to-top-background-color: #{$sky-color-white};
 }
 
+:host-context(.sky-theme-mode-light) {
+  --sky-comp-back_to_top-border-top-style: none;
+}
+
+:host-context(.sky-theme-mode-dark) {
+  --sky-comp-back_to_top-border-top-style: solid;
+}
+
 .sky-back-to-top {
   display: flex;
   align-items: center;
@@ -16,6 +24,9 @@
     --sky-override-back-to-top-background-color,
     var(--sky-color-background-container-base)
   );
+  border-top: var(--sky-border-width-container-base)
+    var(--sky-comp-back_to_top-border-top-style)
+    var(--sky-color-border-container-base);
   padding: var(
     --sky-override-back-to-top-padding,
     var(--sky-comp-back_to_top-space-inset-top)

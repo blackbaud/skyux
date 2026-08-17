@@ -26,6 +26,14 @@
   --sky-override-summary-action-bar-summary-margin: #{$sky-margin} 0;
 }
 
+:host-context(.sky-theme-mode-light) {
+  --sky-comp-sab-border-top-style: none;
+}
+
+:host-context(.sky-theme-mode-dark) {
+  --sky-comp-sab-border-top-style: solid;
+}
+
 .sky-summary-action-bar {
   --sky-summary-action-bar-left: var(--sky-viewport-left);
 
@@ -35,6 +43,9 @@
   margin-top: var(--sky-override-summary-action-bar-margin-top, 0);
   position: fixed;
   bottom: var(--sky-dock-height, 0);
+  border-top: var(--sky-border-width-container-base)
+    var(--sky-comp-sab-border-top-style, solid)
+    var(--sky-color-border-container-base);
   transition-property: bottom;
   transition-duration: 60ms;
   transition-timing-function: ease-out;
