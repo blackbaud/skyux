@@ -59,8 +59,8 @@ export class _SkyAppTestUtility {
 
   /**
    * Returns the inner text content of an element.
-   * @deprecated Use the native `Element.textContent` or `HTMLElement.innerText`
-   * property instead.
+   * @deprecated Use the native element's `textContent?.trim()` or
+   * `innerText?.trim()` instead.
    */
   public static getText(element: any): string | undefined {
     const nativeEl = getNativeEl(element);
@@ -74,7 +74,7 @@ export class _SkyAppTestUtility {
 
   /**
    * Returns true if the element exists on the page.
-   * @deprecated Use the native `getComputedStyle()` function instead.
+   * @deprecated Use `getComputedStyle(element).display !== 'none'` instead.
    */
   public static isVisible(element: any): boolean | undefined {
     const nativeEl = getNativeEl(element);
@@ -105,7 +105,8 @@ export class _SkyAppTestUtility {
 
   /**
    * Returns the URL of an element's background image, if it exists.
-   * @deprecated Use the native `getComputedStyle()` function instead.
+   * @deprecated Read and parse `getComputedStyle(element).backgroundImage`
+   * instead.
    */
   public static getBackgroundImageUrl(el: any): string | undefined {
     const nativeEl = getNativeEl(el);
