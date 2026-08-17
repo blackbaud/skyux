@@ -45,7 +45,7 @@ async function getTypeDocProjectReflection(
       resolveJsonModule: true,
       types: ['node'],
     },
-    exclude: ['**/(fixtures|node_modules)/**', '**/*+(.fixture|.spec).ts'],
+    exclude: ['**/*+(.fixture|.spec).ts'],
   });
 
   app.converter.on(Converter.EVENT_CREATE_DECLARATION, applyDecoratorMetadata);

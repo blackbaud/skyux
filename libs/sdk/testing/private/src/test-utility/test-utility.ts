@@ -2,7 +2,7 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { SkyAppTestUtilityDomEventOptions } from './test-utility-dom-event-options';
+import { _SkyAppTestUtilityDomEventOptions } from './test-utility-dom-event-options';
 
 function getNativeEl(el: any): any {
   if (!el) {
@@ -16,11 +16,21 @@ function getNativeEl(el: any): any {
   return el;
 }
 
-export class SkyAppTestUtility {
+/**
+ * A collection of low-level DOM and Angular test helpers.
+ * @deprecated Use native JavaScript DOM APIs or Angular testing utilities
+ * (e.g. `DebugElement`, `ComponentFixture`, component test harnesses)
+ * instead. See each method for a specific replacement.
+ */
+export class _SkyAppTestUtility {
+  /**
+   * @deprecated Construct and dispatch a native DOM event instead (e.g.
+   * `element.dispatchEvent(new KeyboardEvent('keydown', {...}))`).
+   */
   public static fireDomEvent(
     element: EventTarget | null | undefined,
     eventName: string,
-    options?: SkyAppTestUtilityDomEventOptions,
+    options?: _SkyAppTestUtilityDomEventOptions,
   ): void {
     if (!element) {
       throw new Error(
@@ -49,6 +59,8 @@ export class SkyAppTestUtility {
 
   /**
    * Returns the inner text content of an element.
+   * @deprecated Use the native `Element.textContent` or `HTMLElement.innerText`
+   * property instead.
    */
   public static getText(element: any): string | undefined {
     const nativeEl = getNativeEl(element);
@@ -62,6 +74,7 @@ export class SkyAppTestUtility {
 
   /**
    * Returns true if the element exists on the page.
+   * @deprecated Use the native `getComputedStyle()` function instead.
    */
   public static isVisible(element: any): boolean | undefined {
     const nativeEl = getNativeEl(element);
@@ -75,6 +88,8 @@ export class SkyAppTestUtility {
 
   /**
    * Sets the value of an input element and triggers its 'input' and 'change' events.
+   * @deprecated Set the native `value` property and dispatch native `input`
+   * and `change` events instead.
    */
   public static setInputValue(element: any, value: string): void {
     const inputEvent = document.createEvent('Event');
@@ -90,6 +105,7 @@ export class SkyAppTestUtility {
 
   /**
    * Returns the URL of an element's background image, if it exists.
+   * @deprecated Use the native `getComputedStyle()` function instead.
    */
   public static getBackgroundImageUrl(el: any): string | undefined {
     const nativeEl = getNativeEl(el);
@@ -103,7 +119,7 @@ export class SkyAppTestUtility {
       if (backgroundImageUrl) {
         const matches = /url\(('|")([^'"]+)('|")\)/gi.exec(backgroundImageUrl);
 
-        if (matches && matches.length > 0) {
+        if (matches) {
           return matches[2];
         }
       }
@@ -118,6 +134,8 @@ export class SkyAppTestUtility {
    * @param fixture The ComponentFixture where the SKY UX component resides.
    * @param skyTestId The value of the `data-sky-id` property specified on the SKY UX component.
    * @param componentSelector The selector name for the SKY UX component (e.g. 'sky-alert').
+   * @deprecated Use Angular's `DebugElement.query()` (e.g. with `By.css()`)
+   * or a SKY UX component test harness instead.
    */
   public static getDebugElementByTestId(
     fixture: ComponentFixture<any>,

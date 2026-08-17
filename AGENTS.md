@@ -25,15 +25,21 @@ Common Nx tasks (prefer `:affected` variants during development):
 
 | Task   | All projects                 | Affected only            | Single project                                                 |
 | ------ | ---------------------------- | ------------------------ | -------------------------------------------------------------- |
-| Test   | `npm test`                   | `npm run test:affected`  | `npx nx test <project>`                                        |
+| Test   | `npm test`                   | `npm run test:affected`  | `npx nx test <project> --no-watch`                             |
 | Lint   | `npm run lint`               | `npm run lint:affected`  | `npx nx lint <project>`                                        |
 | Build  | `npm run build`              | `npm run build:affected` | `npx nx build <project>` then `npx nx run <project>:postbuild` |
 | Format | `npm run format` (write all) | —                        | `nx format --files=<paths>`                                    |
 
 - `<project>` is the directory name, not the package name (e.g. `core`,
   `forms`, `ag-grid`, `tools`).
-- Watch a project's tests: `npx nx test <project> --watch`.
-- Run a single Karma project headless: `npx nx test <project> --browsers=ChromeHeadless`
+- **Always append `--no-watch` when running `npx nx test <project>` for a
+  single Karma-based project** (`libs/components/*`, using the
+  `@angular/build:karma` executor). Its `test` target defaults to watch mode
+  outside CI, so without this flag the process never exits. `npm test` and
+  `npm run test:affected` are unaffected — they already disable watch via
+  explicit browser flags or the `ci` configuration.
+- Watch a project's tests interactively: `npx nx test <project> --watch`.
+- Run a single Karma project headless: `npx nx test <project> --no-watch --browsers=ChromeHeadless`
   (the all-projects `npm test` uses `ChromeHeadlessNoSandbox`).
 - Serve for manual testing: `npx nx serve playground`.
 

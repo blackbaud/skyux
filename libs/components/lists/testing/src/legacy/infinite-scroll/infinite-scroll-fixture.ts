@@ -1,6 +1,6 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture } from '@angular/core/testing';
-import { SkyAppTestUtility } from '@skyux-sdk/testing';
+import { _SkyAppTestUtility as SkyAppTestUtility } from '@skyux-sdk/testing/private';
 
 /**
  * Provides information for and interaction with a SKY UX infinite scroll component.

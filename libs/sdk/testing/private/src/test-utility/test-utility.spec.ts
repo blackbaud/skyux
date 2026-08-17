@@ -1,15 +1,22 @@
 //#region imports
-import { Component, DebugElement } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-} from '@angular/core/testing';
+import 'zone.js';
+import 'zone.js/testing';
 
-import { SkyAppTestUtility } from './test-utility';
+import { Component, DebugElement } from '@angular/core';
+import { ComponentFixture, TestBed, getTestBed } from '@angular/core/testing';
+import {
+  BrowserTestingModule,
+  platformBrowserTesting,
+} from '@angular/platform-browser/testing';
+
+import { _SkyAppTestUtility } from './test-utility';
 
 //#endregion
+
+getTestBed().initTestEnvironment(
+  BrowserTestingModule,
+  platformBrowserTesting(),
+);
 
 //#region test components
 
@@ -41,6 +48,8 @@ describe('Test utility', () => {
 
     bgEl = document.createElement('div');
     textEl = document.createElement('span');
+    // jsdom doesn't compute `innerText` from layout, so seed it explicitly.
+    textEl.innerText = '';
     inputEl = document.createElement('input');
     inputEl.type = 'text';
 
@@ -55,7 +64,7 @@ describe('Test utility', () => {
     document.body.removeChild(inputEl);
   });
 
-  it('should use keyboard event values', fakeAsync(() => {
+  it('should use keyboard event values', () => {
     const elem = document.createElement('div');
     document.body.appendChild(elem);
 
@@ -69,7 +78,7 @@ describe('Test utility', () => {
       expect(event.shiftKey).toBeTruthy();
     });
 
-    SkyAppTestUtility.fireDomEvent(elem, 'keydown', {
+    _SkyAppTestUtility.fireDomEvent(elem, 'keydown', {
       keyboardEventInit: {
         key: 'tab',
         altKey: true,
@@ -79,11 +88,10 @@ describe('Test utility', () => {
       },
     });
 
-    tick();
     expect(listenerCalled).toBeTruthy();
-  }));
+  });
 
-  it('should use custom event values', fakeAsync(() => {
+  it('should use custom event values', () => {
     const elem = document.createElement('div');
     document.body.appendChild(elem);
 
@@ -93,67 +101,72 @@ describe('Test utility', () => {
       expect(event.relatedTarget).toBe(elem);
     });
 
-    SkyAppTestUtility.fireDomEvent(elem, 'focusin', {
+    _SkyAppTestUtility.fireDomEvent(elem, 'focusin', {
       customEventInit: {
         relatedTarget: elem,
       },
     });
 
-    tick();
     expect(listenerCalled).toBeTruthy();
-  }));
+  });
 
   it('should determine if an element is visible', () => {
-    expect(SkyAppTestUtility.isVisible(textEl)).toBe(true);
+    expect(_SkyAppTestUtility.isVisible(textEl)).toBe(true);
 
     textEl.style.display = 'none';
 
-    expect(SkyAppTestUtility.isVisible(textEl)).toBe(false);
+    expect(_SkyAppTestUtility.isVisible(textEl)).toBe(false);
 
-    expect(SkyAppTestUtility.isVisible(undefined)).toBeUndefined();
+    expect(_SkyAppTestUtility.isVisible(undefined)).toBeUndefined();
   });
 
   it("should retrieve an element's inner text", () => {
-    expect(SkyAppTestUtility.getText(textEl)).toBe('');
+    expect(_SkyAppTestUtility.getText(textEl)).toBe('');
 
     textEl.innerText = '    test   ';
 
-    expect(SkyAppTestUtility.getText(textEl)).toBe('test');
+    expect(_SkyAppTestUtility.getText(textEl)).toBe('test');
 
-    expect(SkyAppTestUtility.getText(undefined)).toBeUndefined();
+    expect(_SkyAppTestUtility.getText(undefined)).toBeUndefined();
   });
 
   it("should retrieve an element's background URL", () => {
     let imageUrl: string | undefined;
 
-    imageUrl = SkyAppTestUtility.getBackgroundImageUrl(bgEl);
+    imageUrl = _SkyAppTestUtility.getBackgroundImageUrl(bgEl);
+
+    expect(imageUrl).toBeUndefined();
+
+    bgEl.style.backgroundImage = 'none';
+
+    imageUrl = _SkyAppTestUtility.getBackgroundImageUrl(bgEl);
 
     expect(imageUrl).toBeUndefined();
 
     bgEl.style.backgroundImage = 'url("https://example.com/bg/")';
 
-    imageUrl = SkyAppTestUtility.getBackgroundImageUrl(bgEl);
+    imageUrl = _SkyAppTestUtility.getBackgroundImageUrl(bgEl);
 
     expect(imageUrl).toBe('https://example.com/bg/');
 
-    imageUrl = SkyAppTestUtility.getBackgroundImageUrl(new DebugElement(bgEl));
+    imageUrl = _SkyAppTestUtility.getBackgroundImageUrl(new DebugElement(bgEl));
 
     expect(imageUrl).toBe('https://example.com/bg/');
 
-    imageUrl = SkyAppTestUtility.getBackgroundImageUrl(undefined);
+    imageUrl = _SkyAppTestUtility.getBackgroundImageUrl(undefined);
 
     expect(imageUrl).toBeUndefined();
   });
 
   it('should set the value of an input', () => {
     expect(inputEl.value).toEqual('');
-    SkyAppTestUtility.setInputValue(inputEl, 'foobar');
+    _SkyAppTestUtility.setInputValue(inputEl, 'foobar');
     expect(inputEl.value).toEqual('foobar');
   });
 
   it('should throw and error if `fireDomEvent` is called with an null element', () => {
     expect(() =>
-      SkyAppTestUtility.fireDomEvent(null, 'mousedown'),
+      _SkyAppTestUtility.fireDomEvent(null, 'mousedown'),
     ).toThrowError(
       'Event `mousedown` could not be fired because the element is not defined.',
     );
@@ -161,7 +174,7 @@ describe('Test utility', () => {
 
   it('should throw and error if `fireDomEvent` is called with an undefined element', () => {
     expect(() =>
-      SkyAppTestUtility.fireDomEvent(undefined, 'mousedown'),
+      _SkyAppTestUtility.fireDomEvent(undefined, 'mousedown'),
     ).toThrowError(
       'Event `mousedown` could not be fired because the element is not defined.',
     );
@@ -184,7 +197,7 @@ describe('Test utility', () => {
     it('should get the debug element of a component', () => {
       fixture.detectChanges();
 
-      const debugElement = SkyAppTestUtility.getDebugElementByTestId(
+      const debugElement = _SkyAppTestUtility.getDebugElementByTestId(
         fixture,
         'my-id',
         'test-cmp',
@@ -199,7 +212,7 @@ describe('Test utility', () => {
       fixture.detectChanges();
 
       expect(() => {
-        SkyAppTestUtility.getDebugElementByTestId(fixture, testId, 'test-cmp');
+        _SkyAppTestUtility.getDebugElementByTestId(fixture, testId, 'test-cmp');
       }).toThrowError(
         `No element was found with a \`data-sky-id\` value of "${testId}".`,
       );
@@ -212,7 +225,7 @@ describe('Test utility', () => {
       fixture.detectChanges();
 
       expect(() => {
-        SkyAppTestUtility.getDebugElementByTestId(fixture, testId, selector);
+        _SkyAppTestUtility.getDebugElementByTestId(fixture, testId, selector);
       }).toThrowError(
         `The element with the test ID "${testId}" is not a component of type ${selector}."`,
       );

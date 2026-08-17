@@ -10,5 +10,8 @@ export {
 } from './lib/matchers/matchers';
 export { SkyToBeVisibleOptions } from './lib/matchers/to-be-visible-options';
 export { SkyBy } from './lib/query-predicates/sky-by';
-export { SkyAppTestUtility } from './lib/test-utility/test-utility';
-export { SkyAppTestUtilityDomEventOptions } from './lib/test-utility/test-utility-dom-event-options';
+// Export the test utility to avoid a breaking change. Remove in a future major version.
+// eslint-disable-next-line @nx/enforce-module-boundaries
+export { _SkyAppTestUtility as SkyAppTestUtility } from '@skyux-sdk/testing/private';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+export type { _SkyAppTestUtilityDomEventOptions as SkyAppTestUtilityDomEventOptions } from '@skyux-sdk/testing/private';
