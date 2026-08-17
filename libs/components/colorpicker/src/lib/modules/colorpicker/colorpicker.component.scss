@@ -35,6 +35,7 @@
 @include compatMixins.sky-default-overrides('.sky-colorpicker-container') {
   --sky-override-colorpicker-alpha-margin-top: 16px;
   --sky-override-colorpicker-background-color: #fff;
+  --sky-override-colorpicker-border: none;
   --sky-override-colorpicker-box-padding: 4px 8px;
   --sky-override-colorpicker-current-color-padding: 16px 8px;
   --sky-override-colorpicker-current-controls-padding: 12px 8px;
@@ -82,6 +83,11 @@ sky-colorpicker.sky-form-field-stacked {
   background-color: var(
     --sky-override-colorpicker-background-color,
     var(--sky-color-background-container-menu)
+  );
+  border: var(
+    --sky-override-colorpicker-border,
+    var(--sky-border-style-elevation) var(--sky-border-width-container-base)
+      var(--sky-color-border-container-base)
   );
   border-radius: 0 0 var(--sky-border-radius-s) var(--sky-border-radius-s);
 }

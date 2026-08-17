@@ -3,11 +3,17 @@
 @include compatMixins.sky-default-overrides(
   '.sky-datepicker-calendar-container'
 ) {
+  --sky-override-datepicker-border: none;
   --sky-override-datepicker-border-radius: 5px;
 }
 
 .sky-datepicker-calendar-container {
   position: fixed;
+  border: var(
+    --sky-override-datepicker-border,
+    var(--sky-border-style-elevation) var(--sky-border-width-container-base)
+      var(--sky-color-border-container-base)
+  );
   border-radius: var(
     --sky-override-datepicker-border-radius,
     var(--sky-border-radius-s)
