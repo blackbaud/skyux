@@ -6,18 +6,12 @@ import {
   UntypedFormControl,
   UntypedFormGroup,
 } from '@angular/forms';
-import { SkyHelpInlineModule } from '@skyux/help-inline';
 
 import { SkyFileAttachmentComponent } from '../file-attachment.component';
 import { SkyFileAttachmentModule } from '../file-attachment.module';
 
 @Component({
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    SkyFileAttachmentModule,
-    SkyHelpInlineModule,
-  ],
+  imports: [FormsModule, ReactiveFormsModule, SkyFileAttachmentModule],
   selector: 'sky-file-attachment-test',
   templateUrl: './file-attachment.component.fixture.html',
 })
@@ -28,15 +22,11 @@ export class FileAttachmentTestComponent {
 
   public hintText = input<string | undefined>(undefined);
 
-  public labelElementText = input<string | undefined>('Choose file');
-
   public labelHidden = input(false);
 
   public labelText = input<string | undefined>(undefined);
 
   public required = input(false);
-
-  public showLabel = input(true);
 
   public maxFileSize = input<number | undefined>(undefined);
 
@@ -45,8 +35,6 @@ export class FileAttachmentTestComponent {
   public popoverTitle = input<string | undefined>(undefined);
 
   public helpKey = input<string | undefined>(undefined);
-
-  public showInlineHelp = input(false);
 
   public stacked = input<boolean | undefined>(undefined);
 

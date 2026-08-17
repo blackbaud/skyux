@@ -11,13 +11,10 @@
 <form [formGroup]="fileForm">
   <sky-file-attachment
     formControlName="imageAttachment"
+    labelText="Single file attachment with image"
     stacked="true"
     (fileChange)="reactiveFileUpdated($event)"
-  >
-    <sky-file-attachment-label>
-      Single file attachment with image
-    </sky-file-attachment-label>
-  </sky-file-attachment>
+  />
 </form>
 
 <form [formGroup]="fileForm">
@@ -27,32 +24,16 @@
     hintText="Hint text"
     stacked="true"
     (fileChange)="reactiveFileUpdated($event)"
-  >
-    <sky-file-attachment-label>
-      Single file attachment with text file
-    </sky-file-attachment-label>
-  </sky-file-attachment>
-</form>
-
-<form [formGroup]="fileForm">
-  <sky-file-attachment formControlName="attachment" stacked="true">
-    <sky-file-attachment-label>
-      Single file attachment with inline help
-      <sky-help-inline class="sky-control-help" />
-    </sky-file-attachment-label>
-  </sky-file-attachment>
+  />
 </form>
 
 <form [formGroup]="fileForm">
   <sky-file-attachment
     formControlName="disabled"
+    labelText="Disabled single file attachment"
     [disabled]="true"
     [stacked]="true"
-  >
-    <sky-file-attachment-label>
-      Disabled single file attachment
-    </sky-file-attachment-label>
-  </sky-file-attachment>
+  />
 </form>
 
 <form [formGroup]="fileForm">
@@ -83,14 +64,6 @@
     hintText="Hint text"
     stacked="true"
   />
-</form>
-
-<form [formGroup]="fileForm">
-  <sky-file-attachment formControlName="errored" stacked="true">
-    <sky-file-attachment-label>
-      Errored single file attachment with legacy label
-    </sky-file-attachment-label>
-  </sky-file-attachment>
 </form>
 
 <form [formGroup]="fileForm">

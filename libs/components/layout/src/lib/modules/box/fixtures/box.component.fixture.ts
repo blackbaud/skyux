@@ -19,5 +19,4 @@ export class BoxTestComponent {
   public helpKey = input<string | undefined>(undefined);
   public helpPopoverContent = input<string | undefined>(undefined);
   public helpPopoverTitle = input<string | undefined>(undefined);
-  public showHeader = input<boolean>(true);
 }

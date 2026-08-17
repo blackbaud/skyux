@@ -392,23 +392,6 @@ describe('File attachment', () => {
     expect(labelWrapper?.querySelector('.sky-screen-reader-only')).toBeNull();
   }));
 
-  it('should have appropriate classes and label should have screen reader text when file is required', fakeAsync(() => {
-    fixture.componentRef.setInput('required', true);
-    fileAttachmentInstance.ngAfterViewInit();
-    tick();
-    fixture.detectChanges();
-    const labelWrapper = getLabelWrapper();
-    const input = getInputDebugEl(fixture);
-
-    expect(input.nativeElement.getAttribute('required')).not.toBeNull();
-    expect(labelWrapper?.classList.contains('sky-control-label-required')).toBe(
-      true,
-    );
-    expect(
-      labelWrapper?.querySelector('.sky-screen-reader-only')?.textContent,
-    ).toBe('Required');
-  }));
-
   it('should have appropriate classes and label should have screen reader text when file is required and label text is used', fakeAsync(() => {
     fixture.componentRef.setInput('required', true);
     fixture.componentRef.setInput('labelText', 'Testing');
@@ -431,6 +414,7 @@ describe('File attachment', () => {
 
   it('should have appropriate classes when file is required and initialized with file', fakeAsync(() => {
     fixture.componentRef.setInput('required', true);
+    fixture.componentRef.setInput('labelText', 'Testing');
     const testFile = {
       file: {
         name: 'myFile',
@@ -443,13 +427,14 @@ describe('File attachment', () => {
     fileAttachmentInstance.ngAfterViewInit();
     tick();
     fixture.detectChanges();
-    const labelWrapper = getLabelWrapper();
     const input = getInputDebugEl(fixture);
 
     expect(input.nativeElement.getAttribute('required')).not.toBeNull();
-    expect(labelWrapper?.classList.contains('sky-control-label-required')).toBe(
-      true,
-    );
+    expect(
+      fixture.nativeElement
+        .querySelector('span.sky-control-label')
+        .classList.contains('sky-control-label-required'),
+    ).toBe(true);
   }));
 
   it('should not have disabled attribute when not disabled', fakeAsync(() => {
@@ -482,40 +467,16 @@ describe('File attachment', () => {
     expect(button?.getAttribute('disabled')).toBeNull();
   }));
 
-  it('should handle removing the label', fakeAsync(() => {
-    fixture.componentRef.setInput('required', true);
-    fileAttachmentInstance.ngAfterViewInit();
-    fileAttachmentInstance.ngAfterContentInit();
-    tick();
-    fixture.detectChanges();
-
-    const labelWrapper = getLabelWrapper();
-
-    expect(labelWrapper?.classList.contains('sky-control-label-required')).toBe(
-      true,
-    );
-
-    fixture.componentRef.setInput('showLabel', false);
-    fixture.detectChanges();
-
-    expect(labelWrapper?.classList.contains('sky-control-label-required')).toBe(
-      false,
-    );
-  }));
-
   it('should handle removing the labelText', fakeAsync(() => {
     fixture.componentRef.setInput('labelText', 'label text');
-    fixture.componentRef.setInput('labelElementText', undefined);
-    fixture.componentRef.setInput('showLabel', false);
 
     fileAttachmentInstance.ngAfterViewInit();
-    fileAttachmentInstance.ngAfterContentInit();
     tick();
     fixture.detectChanges();
 
     expect(
       fixture.nativeElement.querySelector('span.sky-control-label'),
-    ).toBeDefined();
+    ).not.toBeNull();
 
     fixture.componentRef.setInput('labelText', undefined);
     fixture.detectChanges();
@@ -1474,14 +1435,6 @@ describe('File attachment', () => {
     expect(imageEl).toBeFalsy();
   });
 
-  it('should show inline help', () => {
-    fixture.componentRef.setInput('showInlineHelp', true);
-    fixture.detectChanges();
-    expect(
-      fixture.nativeElement.querySelector('.sky-help-inline'),
-    ).toBeTruthy();
-  });
-
   it('should pass accessibility', async () => {
     jasmine.clock().uninstall();
     fixture.detectChanges();
@@ -1499,7 +1452,7 @@ describe('File attachment', () => {
 
   it('should pass accessibility when label does not match the button text', async () => {
     jasmine.clock().uninstall();
-    fixture.componentRef.setInput('labelElementText', 'Something different');
+    fixture.componentRef.setInput('labelText', 'Something different');
     fixture.detectChanges();
     await fixture.whenStable();
     await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -1508,7 +1461,6 @@ describe('File attachment', () => {
   it('should pass accessibility when `labelText` is set', async () => {
     jasmine.clock().uninstall();
     fixture.componentRef.setInput('labelText', 'Attach file');
-    fixture.componentRef.setInput('labelElementText', undefined);
     fixture.detectChanges();
 
     await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -1531,26 +1483,12 @@ describe('File attachment', () => {
       },
     });
 
-    // w/ legacy label component
-    fixture.componentRef.setInput('labelText', undefined);
-    fixture.componentRef.setInput('showLabel', true);
+    // w/ label text
+    fixture.componentRef.setInput('labelText', 'Sample label');
     fixture.detectChanges();
 
     const btn = getButtonEl(fixture.nativeElement);
     const deleteBtn = getDeleteButtonEl(fixture.nativeElement);
-
-    expect(btn?.getAttribute('aria-describedby')).toEqual('MOCK_ID_3');
-    expect(btn?.getAttribute('aria-labelledby')).toEqual('MOCK_ID_5 MOCK_ID_7');
-    expect(deleteBtn?.getAttribute('aria-labelledby')).toEqual(
-      'MOCK_ID_6 MOCK_ID_7',
-    );
-
-    await expectAsync(fixture.nativeElement).toBeAccessible();
-
-    // w/ label text
-    fixture.componentRef.setInput('labelText', 'Sample label');
-    fixture.componentRef.setInput('showLabel', false);
-    fixture.detectChanges();
 
     expect(btn?.getAttribute('aria-describedby')).toEqual('MOCK_ID_3');
     expect(btn?.getAttribute('aria-labelledby')).toEqual('MOCK_ID_5 MOCK_ID_2');
@@ -1560,9 +1498,26 @@ describe('File attachment', () => {
 
     await expectAsync(fixture.nativeElement).toBeAccessible();
 
-    // w/o label text or legacy label component
+    // w/ label text hidden — the label element stays in the DOM (visually
+    // hidden) so the attachment and delete controls' accessible names still
+    // include the label text.
+    fixture.componentRef.setInput('labelHidden', true);
+    fixture.detectChanges();
+
+    expect(btn?.getAttribute('aria-labelledby')).toEqual('MOCK_ID_5 MOCK_ID_2');
+    expect(deleteBtn?.getAttribute('aria-labelledby')).toEqual(
+      'MOCK_ID_6 MOCK_ID_2',
+    );
+    const hiddenLabel = fixture.nativeElement.querySelector('#MOCK_ID_2');
+    expect(hiddenLabel?.textContent?.trim()).toBe('Sample label');
+    expect(
+      hiddenLabel?.classList.contains('sky-screen-reader-only'),
+    ).toBeTrue();
+
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+
+    // w/o label text
     fixture.componentRef.setInput('labelText', undefined);
-    fixture.componentRef.setInput('showLabel', false);
     fixture.detectChanges();
 
     expect(btn?.getAttribute('aria-describedby')).toEqual('MOCK_ID_3');
@@ -1656,41 +1611,22 @@ describe('File attachment', () => {
     ).toBe('Error: Upload a file under 50 bytes.');
   });
 
-  it('should render `labelText` and not label element if `labelText` is set', () => {
-    fixture.componentRef.setInput('labelElementText', 'label element');
+  it('should render `labelText` if `labelText` is set', () => {
     fixture.componentRef.setInput('labelText', 'label text');
     fixture.detectChanges();
 
     validateLabelText('label text');
   });
 
-  it('should not render `labelText` or label element if `labelHidden` is set to true', () => {
-    fixture.componentRef.setInput('labelElementText', 'label element');
+  it('should visually hide `labelText` but keep it in the DOM if `labelHidden` is set to true', () => {
     fixture.componentRef.setInput('labelText', 'label text');
     fixture.componentRef.setInput('labelHidden', true);
     fixture.detectChanges();
 
-    validateLabelText('');
-  });
-
-  it('should render label if `labelText` is set', () => {
-    fixture.componentRef.setInput('labelText', 'label text');
-    fixture.componentRef.setInput('labelElementText', undefined);
-    fixture.detectChanges();
-
-    validateLabelText('label text');
-  });
-
-  it('should render label element regardless of `labelHidden` value if `labelText` is not set', () => {
-    fixture.componentRef.setInput('labelElementText', 'label element');
-    fixture.detectChanges();
-
-    validateLabelText('label element');
-
-    fixture.componentRef.setInput('labelHidden', true);
-    fixture.detectChanges();
-
-    validateLabelText('label element');
+    const label = fixture.nativeElement.querySelector('span.sky-control-label');
+    expect(label).not.toBeNull();
+    expect(label.textContent.trim()).toBe('label text');
+    expect(label.classList.contains('sky-screen-reader-only')).toBeTrue();
   });
 
   it('should mark as dirty when an invalid file is uploaded first', async () => {
@@ -1732,7 +1668,6 @@ describe('File attachment', () => {
 
   it('should render help inline with popover only if label text is provided', () => {
     fixture.componentRef.setInput('popoverContent', 'popover content');
-    fixture.componentRef.setInput('showLabel', false);
     fixture.detectChanges();
 
     expect(
@@ -1749,7 +1684,6 @@ describe('File attachment', () => {
 
   it('should not render help inline for popover unless popover content is set', () => {
     fixture.componentRef.setInput('popoverTitle', 'popover title');
-    fixture.componentRef.setInput('showLabel', false);
     fixture.componentRef.setInput('labelText', 'labelText');
     fixture.detectChanges();
 
@@ -1766,7 +1700,6 @@ describe('File attachment', () => {
   });
 
   it('should render help inline if help key is set', () => {
-    fixture.componentRef.setInput('showLabel', false);
     fixture.componentRef.setInput('labelText', 'labelText');
     fixture.detectChanges();
 
@@ -1780,7 +1713,6 @@ describe('File attachment', () => {
 
   it('should set global help config with help key', async () => {
     const helpController = TestBed.inject(SkyHelpTestingController);
-    fixture.componentRef.setInput('showLabel', false);
     fixture.componentRef.setInput('labelText', 'labelText');
     fixture.componentRef.setInput('popoverContent', undefined);
     fixture.componentRef.setInput('helpKey', 'index.html');

@@ -1,9 +1,0 @@
-@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
-@use 'libs/components/theme/src/lib/styles/variables' as *;
-
-@include mixins.sky-theme-modern {
-  .sky-control-label {
-    color: $sky-theme-modern-font-deemphasized-color;
-    font-size: 13px;
-  }
-}

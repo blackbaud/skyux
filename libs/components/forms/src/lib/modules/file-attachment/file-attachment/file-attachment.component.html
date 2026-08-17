@@ -1,26 +1,17 @@
 <div class="sky-file-attachment-wrapper">
-  <div
-    class="sky-file-attachment-label-wrapper"
-    [ngClass]="{
-      'sky-control-label-required':
-        !labelText && isRequired && hasLabelComponent
-    }"
-  >
+  <div class="sky-file-attachment-label-wrapper">
     @if (labelText) {
-      @if (!labelHidden) {
-        <span
-          class="sky-control-label"
-          [attr.id]="labelId"
-          [ngClass]="{
-            'sky-control-label-required': isRequired
-          }"
-          >{{ labelText }}</span
-        >
-      }
-    } @else {
-      <ng-content select="sky-file-attachment-label" />
+      <span
+        class="sky-control-label"
+        [attr.id]="labelId"
+        [ngClass]="{
+          'sky-control-label-required': isRequired,
+          'sky-screen-reader-only': labelHidden
+        }"
+        >{{ labelText }}</span
+      >
     }
-    @if (isRequired && (hasLabelComponent || labelText)) {
+    @if (isRequired && labelText) {
       <span class="sky-screen-reader-only">{{
         'skyux_file_attachment_required' | skyLibResources
       }}</span>
@@ -77,10 +68,7 @@
         "
         [attr.aria-labelledby]="
           attachButtonLabelRef.id
-            | skyFileAttachmentJoinIds
-              : (labelText
-                  ? labelId
-                  : labelComponents?.get(0)?.labelContentId?.id)
+            | skyFileAttachmentJoinIds: (labelText ? labelId : undefined)
         "
         [attr.aria-invalid]="!!(ngControl?.errors ?? fileErrorValidation)"
         [attr.aria-errormessage]="
@@ -131,10 +119,7 @@
         type="button"
         [attr.aria-labelledby]="
           deleteButtonLabelRef.id
-            | skyFileAttachmentJoinIds
-              : (labelText
-                  ? labelId
-                  : labelComponents?.get(0)?.labelContentId?.id)
+            | skyFileAttachmentJoinIds: (labelText ? labelId : undefined)
         "
         [disabled]="disabled"
         (click)="deleteFileAttachment()"

@@ -49,7 +49,6 @@ export { SkyBackToTopComponent as λ6 } from './lib/modules/back-to-top/back-to-
 export { SkyBackToTopDirective as λ7 } from './lib/modules/back-to-top/back-to-top.directive';
 export { SkyBoxContentComponent as λ43 } from './lib/modules/box/box-content.component';
 export { SkyBoxControlsComponent as λ44 } from './lib/modules/box/box-controls.component';
-export { SkyBoxHeaderComponent as λ42 } from './lib/modules/box/box-header.component';
 export { SkyBoxComponent as λ41 } from './lib/modules/box/box.component';
 export { SkyCardActionsComponent as λ10 } from './lib/modules/card/card-actions.component';
 export { SkyCardContentComponent as λ11 } from './lib/modules/card/card-content.component';

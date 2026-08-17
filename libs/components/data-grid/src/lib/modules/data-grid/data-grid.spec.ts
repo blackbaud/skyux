@@ -12,6 +12,7 @@ import { By } from '@angular/platform-browser';
 import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
 import { SkyLogService } from '@skyux/core';
+import { SkyAppLocaleInfo, SkyAppLocaleProvider } from '@skyux/i18n';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { SkyAgGridWrapperHarness } from '@skyux/ag-grid/testing';
 // eslint-disable-next-line @nx/enforce-module-boundaries
@@ -19,7 +20,9 @@ import { SkyWaitHarness } from '@skyux/indicators/testing';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { SkyPagingHarness } from '@skyux/lists/testing';
 
-import { getGridApi as getAgGridApi } from 'ag-grid-community';
+import { getGridApi as getAgGridApi, GridApi } from 'ag-grid-community';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+
 import { SkyDataGrid } from './data-grid';
 import { ColumnFitTestComponent } from './fixtures/column-fit-test.component';
 import { ColumnWidthTestComponent } from './fixtures/column-width-test.component';
@@ -55,6 +58,31 @@ function getGridApiSync(agGridAngularElement: Element | null) {
  */
 const DEFAULT_FLUSH_ITERATIONS = 15;
 const RESOURCE_DATA_SOURCE_ITERATIONS = 30;
+
+/**
+ * Emits the locale on demand so tests can drive `SkyDataGrid`'s
+ * destroy-and-recreate cycle. Starts silent when no locale is given, mimicking
+ * an app whose locale has not resolved yet.
+ */
+class MockLocaleProvider extends SkyAppLocaleProvider {
+  readonly #localeInfo: Subject<SkyAppLocaleInfo>;
+
+  constructor(locale?: string) {
+    super();
+
+    this.#localeInfo = locale
+      ? new BehaviorSubject<SkyAppLocaleInfo>({ locale })
+      : new Subject<SkyAppLocaleInfo>();
+  }
+
+  public override getLocaleInfo(): Observable<SkyAppLocaleInfo> {
+    return this.#localeInfo;
+  }
+
+  public setLocale(locale: string): void {
+    this.#localeInfo.next({ locale });
+  }
+}
 
 /**
  * `provideSkyAgGridTesting()` sets `window.AG_GRID_UNDER_TEST = false`,
@@ -1387,6 +1415,197 @@ describe('SkyDataGrid', () => {
       );
       expect(api?.getGridOption('pagination')).toBeTrue();
       expect(api?.getGridOption('paginationPageSize')).toBe(1);
+    });
+  });
+
+  describe('locale changes', () => {
+    let fixture: ComponentFixture<DataGridTestComponent>;
+    let localeProvider: MockLocaleProvider;
+
+    function getGridElement(): Element | null {
+      return fixture.nativeElement.querySelector(
+        '[data-sky-id="grid"] ag-grid-angular',
+      );
+    }
+
+    /** The wait indicator's mask, which renders only while the grid is waiting. */
+    function getWaitMask(): Element | null {
+      return fixture.nativeElement.querySelector(
+        '[data-sky-id="grid"] sky-wait .sky-wait-mask',
+      );
+    }
+
+    /**
+     * Settles AG Grid's work first, then reads the API off whichever
+     * `ag-grid-angular` element is currently rendered. The shared `getGridApi`
+     * helper resolves its element up front, which can't see a grid that a
+     * recreate cycle has not put back in the DOM yet.
+     */
+    async function getCurrentGridApi(): Promise<GridApi | undefined> {
+      await flushAgGridWork(fixture);
+      return getGridApiSync(getGridElement());
+    }
+
+    beforeEach(() => {
+      localeProvider = new MockLocaleProvider('en-US');
+      TestBed.configureTestingModule({
+        providers: [
+          provideRouter([]),
+          provideLocationMocks(),
+          { provide: SkyAppLocaleProvider, useValue: localeProvider },
+        ],
+      });
+      fixture = TestBed.createComponent(DataGridTestComponent);
+    });
+
+    it('should build the initial grid with the current locale', async () => {
+      localeProvider.setLocale('fr-FR');
+      const api = await getCurrentGridApi();
+
+      expect(api?.getGridOption('localeText')?.['noMatches']).toEqual(
+        'Aucune correspondance',
+      );
+    });
+
+    it('should destroy and recreate the grid with text for the new locale', async () => {
+      const firstApi = await getCurrentGridApi();
+
+      // AG Grid's own text is already English, so nothing is supplied for it.
+      expect(
+        firstApi?.getGridOption('localeText')?.['noMatches'],
+      ).toBeUndefined();
+
+      localeProvider.setLocale('es-ES');
+
+      const secondApi = await getCurrentGridApi();
+
+      expect(firstApi?.isDestroyed()).toBeTrue();
+      expect(secondApi).not.toBe(firstApi);
+      expect(secondApi?.getGridOption('localeText')?.['noMatches']).toEqual(
+        'Sin coincidencias',
+      );
+    });
+
+    it('should remove the grid from the DOM while it is being recreated', async () => {
+      await getCurrentGridApi();
+
+      localeProvider.setLocale('es-ES');
+      fixture.detectChanges();
+
+      // The grid has to leave the DOM for AG Grid to rebuild it; the wait
+      // indicator covers the gap until the new grid is ready.
+      expect(getGridElement()).toBeNull();
+      // Read the mask directly rather than through `SkyWaitHarness`: the
+      // harness stabilizes the fixture, which runs the timeout that ends the
+      // recreation gap, so it can only ever observe the settled state.
+      expect(getWaitMask()).not.toBeNull();
+
+      await getCurrentGridApi();
+
+      expect(getGridElement()).not.toBeNull();
+      expect(getWaitMask()).toBeNull();
+    });
+
+    it('should keep SKY UX resource strings when the locale changes', async () => {
+      await getCurrentGridApi();
+
+      localeProvider.setLocale('es-ES');
+
+      const api = await getCurrentGridApi();
+
+      expect(api?.getGridOption('localeText')?.['noRowsToShow']).toEqual(
+        'No data available',
+      );
+    });
+
+    it('should render the localized empty-state text', async () => {
+      // Asserting the rendered overlay rather than the `localeText` option
+      // proves AG Grid's `LocaleModule` is registered; without it AG Grid
+      // ignores `localeText` entirely and falls back to its own wording.
+      fixture.componentRef.setInput('dataForSimpleGrid', []);
+      await getCurrentGridApi();
+
+      expect(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="grid"] .ag-overlay-no-rows-center',
+        )?.textContent,
+      ).toContain('No data available');
+    });
+
+    it('should restore data and sort after recreating the grid', async () => {
+      fixture.componentInstance.sort.set({
+        field: 'column2',
+        direction: 'desc',
+      });
+      const firstApi = await getCurrentGridApi();
+
+      expect(firstApi?.getDisplayedRowCount()).toBe(7);
+
+      localeProvider.setLocale('fr-FR');
+
+      const api = await getCurrentGridApi();
+
+      expect(api).not.toBe(firstApi);
+      expect(api?.getDisplayedRowCount()).toBe(7);
+      expect(api?.getColumnState().find((col) => col.sort)?.colId).toEqual(
+        'column2',
+      );
+    });
+
+    it('should restore selection after recreating the grid', async () => {
+      fixture.componentInstance.selectedRowIds.set(['2', '4']);
+      await flushAgGridWork(fixture);
+
+      const firstApi = getGridApiSync(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="multiselect-grid"] ag-grid-angular',
+        ),
+      );
+
+      expect(firstApi?.getSelectedNodes()).toHaveSize(2);
+
+      localeProvider.setLocale('fr-FR');
+      await flushAgGridWork(fixture);
+
+      const api = getGridApiSync(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="multiselect-grid"] ag-grid-angular',
+        ),
+      );
+
+      expect(api).not.toBe(firstApi);
+      expect(
+        api
+          ?.getSelectedNodes()
+          .map((node) => node.id)
+          .sort(),
+      ).toEqual(['2', '4']);
+      expect(fixture.componentInstance.selectedRowIds()).toEqual(['2', '4']);
+    });
+
+    it('should not recreate the grid when the locale is re-emitted unchanged', async () => {
+      const firstApi = await getCurrentGridApi();
+
+      localeProvider.setLocale('en-US');
+
+      const secondApi = await getCurrentGridApi();
+
+      expect(firstApi?.isDestroyed()).toBeFalse();
+      expect(secondApi).toBe(firstApi);
+    });
+
+    it('should not recreate the grid for a locale resolved before it is created', async () => {
+      // The provider settles while the grid is still being set up, so the
+      // grid is built with the new locale rather than rebuilt for it.
+      fixture.detectChanges();
+      localeProvider.setLocale('es-ES');
+
+      const api = await getCurrentGridApi();
+
+      expect(api?.isDestroyed()).toBeFalse();
+      expect(api?.getGridOption('localeText')?.['noMatches']).toEqual(
+        'Sin coincidencias',
+      );
     });
   });
 });

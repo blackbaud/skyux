@@ -8,7 +8,6 @@ const ruleTester = createTemplateRuleTester();
 
 ruleTester.run(RULE_NAME, rule, {
   valid: [
-    `<sky-box headingText="foo">`,
     `<sky-checkbox labelText="foo">`,
     `<sky-checkbox [labelText]="foo">`,
     `<sky-checkbox labelText="{{ foo }}">`,
