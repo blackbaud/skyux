@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
-import { SkyAppTestUtility } from '@skyux-sdk/testing';
 import { SkyBackToTopHarness } from '@skyux/layout/testing';
 import { SkyInfiniteScrollHarness } from '@skyux/lists/testing';
 
@@ -43,7 +42,7 @@ describe('Back to top repeater with infinite scroll example', () => {
     await fixture.whenStable();
 
     window.scrollTo(0, document.body.scrollHeight);
-    SkyAppTestUtility.fireDomEvent(window, 'scroll');
+    window.dispatchEvent(new Event('scroll'));
     fixture.detectChanges();
     await fixture.whenStable();
 
