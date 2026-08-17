@@ -1,7 +1,4 @@
-import {
-  SkyAppTestUtility,
-  SkyAppTestUtilityDomEventOptions,
-} from './index';
+import { SkyAppTestUtility, SkyAppTestUtilityDomEventOptions } from './index';
 
 describe('Public API compatibility', () => {
   it('should export a working SkyAppTestUtility from the public entry point', () => {
