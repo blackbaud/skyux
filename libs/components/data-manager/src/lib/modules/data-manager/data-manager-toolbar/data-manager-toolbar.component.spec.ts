@@ -941,6 +941,19 @@ describe('SkyDataManagerToolbarComponent', () => {
   });
 
   describe('without a registered view', () => {
+    /**
+     * Mimics the column controller directive reconciling the registered
+     * columns into the data state, which is what makes the column picker
+     * button display when no view is registered.
+     */
+    function reconcileColumnState(displayedColumnIds: string[]): void {
+      const state =
+        dataManagerToolbarComponent.dataState as SkyDataManagerState;
+      state.displayedColumnIds = displayedColumnIds;
+      dataManagerService.updateDataState(state, 'columnController');
+      dataManagerToolbarFixture.detectChanges();
+    }
+
     beforeEach(() => {
       dataManagerToolbarComponent.activeView = undefined;
       dataManagerService.setColumnOptions([
@@ -950,7 +963,15 @@ describe('SkyDataManagerToolbarComponent', () => {
       dataManagerToolbarFixture.detectChanges();
     });
 
+    it('should not display the column picker button until the registered columns are reconciled into the data state', () => {
+      expect(
+        dataManagerToolbarNativeElement.querySelector('.sky-col-picker-btn'),
+      ).toBeNull();
+    });
+
     it('should display the column picker button when columns are registered', () => {
+      reconcileColumnState(['name', 'age']);
+
       expect(
         dataManagerToolbarNativeElement.querySelector('.sky-col-picker-btn'),
       ).toBeTruthy();
@@ -959,9 +980,7 @@ describe('SkyDataManagerToolbarComponent', () => {
     it('should open the column picker with the registered columns', () => {
       spyOn(modalServiceInstance, 'open').and.callThrough();
 
-      (
-        dataManagerToolbarComponent.dataState as SkyDataManagerState
-      ).displayedColumnIds = ['name'];
+      reconcileColumnState(['name']);
 
       const columnPickerBtn = dataManagerToolbarNativeElement.querySelector(
         '.sky-col-picker-btn',
@@ -1001,11 +1020,9 @@ describe('SkyDataManagerToolbarComponent', () => {
     });
 
     it('should save the returned columns to the data state', () => {
-      const updateSpy = spyOn(dataManagerService, 'updateDataState');
+      reconcileColumnState(['name']);
 
-      (
-        dataManagerToolbarComponent.dataState as SkyDataManagerState
-      ).displayedColumnIds = ['name'];
+      const updateSpy = spyOn(dataManagerService, 'updateDataState');
 
       const columnPickerBtn = dataManagerToolbarNativeElement.querySelector(
         '.sky-col-picker-btn',

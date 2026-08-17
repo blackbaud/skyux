@@ -57,6 +57,7 @@ import {
   RowSelectionModule,
   RowSelectionOptions,
   RowStyleModule,
+  SELECTION_COLUMN_ID,
   ValidationModule,
 } from 'ag-grid-community';
 import {
@@ -82,7 +83,9 @@ import { fromGridEvent } from './data-grid-event-utils';
 // the grid/column state and event APIs the component and its harness rely on,
 // and dev-time validation messaging. `ColumnMoveModule` enables users to drag
 // column headers to reorder columns; it is not part of `AllCommunityModule`
-// and is only exported under an underscore-prefixed name.
+// and is only exported under an underscore-prefixed name, so this package's
+// `ag-grid-community` peer dependency is restricted to the minor version known
+// to export it.
 ModuleRegistry.registerModules([
   CellStyleModule,
   ClientSideRowModelApiModule,
@@ -111,7 +114,7 @@ function arraysEqual(a: readonly string[], b: readonly string[]): boolean {
 
 // Columns AG Grid creates and manages itself, which are never offered to a
 // column picker and never included in the displayed column IDs.
-const RESERVED_COLUMN_IDS = ['ag-Grid-SelectionColumn'];
+const RESERVED_COLUMN_IDS: string[] = [SELECTION_COLUMN_ID];
 
 /**
  * Displays tabular data in a grid using a declarative set of columns and inputs.

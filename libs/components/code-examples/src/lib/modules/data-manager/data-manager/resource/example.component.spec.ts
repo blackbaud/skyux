@@ -47,9 +47,6 @@ describe('DataManagerResourceExampleComponent', () => {
 
     const search = await loader.getHarness(SkySearchHarness);
     await search.enterText('lime');
-    fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
 
     const el = fixture.nativeElement as HTMLElement;
     const items = el.querySelectorAll('li');
@@ -69,9 +66,6 @@ describe('DataManagerResourceExampleComponent', () => {
     await sort.click();
     const item = await sort.getItem({ text: 'Name (Z - A)' });
     await item.click();
-    fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
 
     const el = fixture.nativeElement as HTMLElement;
     const items = el.querySelectorAll('li');
@@ -88,9 +82,6 @@ describe('DataManagerResourceExampleComponent', () => {
 
     const search = await loader.getHarness(SkySearchHarness);
     await search.enterText('nonexistent');
-    fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
 
     const el = fixture.nativeElement as HTMLElement;
     expect(el.textContent).toContain('No fruit found.');

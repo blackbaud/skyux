@@ -212,18 +212,11 @@ describe('SkyDataGrid column selection', () => {
     fixture.componentInstance.selectedColumnIds.set(['locked', 'name']);
     await detect();
 
-    const grid = fixture.debugElement.query(
-      (node) => node.componentInstance instanceof SkyDataGrid,
-    ).componentInstance as SkyDataGrid;
     const columnState = (
-      grid as unknown as {
-        gridApi: () => {
-          getColumnState: () => { colId: string; hide?: boolean | null }[];
-        };
-      }
-    )
-      .gridApi()
-      .getColumnState();
+      getGridApi(
+        fixture.nativeElement.querySelector('ag-grid-angular'),
+      ) as GridApi
+    ).getColumnState();
 
     expect(
       columnState.map((state) => ({ id: state.colId, hide: !!state.hide })),

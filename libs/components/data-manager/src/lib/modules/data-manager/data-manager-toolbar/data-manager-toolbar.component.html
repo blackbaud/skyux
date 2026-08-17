@@ -15,7 +15,7 @@
           </sky-toolbar-item>
         }
 
-        @if (activeView?.sortEnabled || sortOptions().length > 0) {
+        @if (activeView?.sortEnabled || sortOptions().length) {
           <sky-toolbar-item class="sky-data-manager-sort">
             <sky-sort [showButtonText]="activeView?.showSortButtonText">
               @for (item of dataManagerConfig?.sortOptions; track item.id) {

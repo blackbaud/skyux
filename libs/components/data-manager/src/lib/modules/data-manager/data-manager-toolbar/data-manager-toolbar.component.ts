@@ -126,7 +126,10 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
   /**
    * The key to use for storing and retrieving this toolbar's data state from
    * `SkyUIConfigService`. Presence alone turns on sticky-settings persistence for
-   * the signal-based API — no `initDataManager()` call is needed.
+   * the signal-based API — no `initDataManager()` call is needed. Ignored when
+   * `initDataManager()` has already initialized the data manager: consumers who
+   * call `initDataManager()` must configure persistence through its
+   * `SkyDataManagerConfig` instead of setting this input.
    * @preview
    */
   public readonly settingsKey = input<string>();
@@ -237,12 +240,18 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
   /**
    * Whether to display the column picker button. A view config can enable it,
    * or a column controller directive can register the columns directly, which
-   * is how consumers who do not register a view enable it.
+   * is how consumers who do not register a view enable it. Without a view, the
+   * button waits for the column controller to reconcile the registered columns
+   * into the data state, since the picker has nothing to display until then.
    */
   protected get columnPickerEnabled(): boolean {
+    if (this.activeView?.columnPickerEnabled) {
+      return true;
+    }
+
     return (
-      !!this.activeView?.columnPickerEnabled ||
-      !!this.#registeredColumnOptions()
+      !!this.#registeredColumnOptions()?.length &&
+      !!this.dataState?.displayedColumnIds
     );
   }
 
