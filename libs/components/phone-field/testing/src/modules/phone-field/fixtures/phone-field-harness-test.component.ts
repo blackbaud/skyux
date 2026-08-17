@@ -1,4 +1,3 @@
-/// <reference types="jasmine" />
 import { Component, inject } from '@angular/core';
 import {
   FormBuilder,
@@ -31,7 +30,7 @@ import {
         [returnFormat]="returnFormat"
         [supportedCountryISOs]="supportedCountryISOs"
         [(selectedCountry)]="selectedCountry"
-        (selectedCountryChange)="selectedCountryChange($event)"
+        (selectedCountryChange)="selectedCountryChange()"
       >
         <input
           formControlName="phoneControl"
@@ -62,7 +61,9 @@ export class PhoneFieldHarnessTestComponent {
   public phoneControl: UntypedFormControl | undefined;
   public phoneForm: FormGroup;
 
-  public selectedCountryChange = jasmine.createSpy();
+  public selectedCountryChange = (): void => {
+    /* */
+  };
 
   #formBuilder = inject(FormBuilder);
 
