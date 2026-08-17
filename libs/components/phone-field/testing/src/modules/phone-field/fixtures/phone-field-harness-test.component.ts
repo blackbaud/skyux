@@ -30,7 +30,7 @@ import {
         [returnFormat]="returnFormat"
         [supportedCountryISOs]="supportedCountryISOs"
         [(selectedCountry)]="selectedCountry"
-        (selectedCountryChange)="selectedCountryChange()"
+        (selectedCountryChange)="selectedCountryChange($event)"
       >
         <input
           formControlName="phoneControl"
@@ -61,9 +61,7 @@ export class PhoneFieldHarnessTestComponent {
   public phoneControl: UntypedFormControl | undefined;
   public phoneForm: FormGroup;
 
-  public selectedCountryChange = (): void => {
-    /* */
-  };
+  public selectedCountryChange = (_country: SkyPhoneFieldCountry): void => {};
 
   #formBuilder = inject(FormBuilder);
 
