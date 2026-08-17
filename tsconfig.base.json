@@ -180,7 +180,6 @@
       "@skyux/router/testing": [
         "libs/components/router/testing/src/public-api.ts"
       ],
-      "@skyux/select-field": ["libs/components/select-field/src/index.ts"],
       "@skyux/split-view": ["libs/components/split-view/src/index.ts"],
       "@skyux/split-view/testing": [
         "libs/components/split-view/testing/src/public-api.ts"

@@ -9,32 +9,20 @@ import { Component } from '@angular/core';
 export class BoxComponent {
   public readonly boxTypes = [
     {
-      name: 'Box',
-      showHelp: false,
-    },
-    {
-      name: 'Box with help',
-      showHelp: true,
-    },
-    {
-      name: 'Box easy mode H2',
-      useHeader: true,
+      name: 'Box H2',
       helpContent: 'Help',
     },
     {
-      name: 'Box easy mode H3',
-      useHeader: true,
+      name: 'Box H3',
       heading: 3,
     },
     {
-      name: 'Box easy mode H4',
-      useHeader: true,
+      name: 'Box H4',
       heading: 4,
       helpContent: 'Help',
     },
     {
-      name: 'Box easy mode H5',
-      useHeader: true,
+      name: 'Box H5',
       heading: 5,
     },
   ];

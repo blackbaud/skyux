@@ -1,9 +1,0 @@
-@use 'libs/components/theme/src/lib/styles/variables' as *;
-
-.sky-select-field-picker-btn-new-text {
-  display: none;
-
-  @media (min-width: $sky-screen-sm-min) {
-    display: inline;
-  }
-}

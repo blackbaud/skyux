@@ -170,15 +170,6 @@ export const componentRoutes: Routes = [
       import('./router/router.module').then((m) => m.RouterModule),
   },
   {
-    path: 'select-field',
-    loadComponent: () => import('./select-field/select-field.component'),
-    data: {
-      name: 'Select field',
-      library: 'select-field',
-      icon: 'checkmark-square',
-    },
-  },
-  {
     path: 'tabs',
     loadChildren: () => import('./tabs/tabs.module').then((m) => m.TabsModule),
   },

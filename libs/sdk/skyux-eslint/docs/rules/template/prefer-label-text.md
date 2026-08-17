@@ -17,26 +17,12 @@ The rule does not have any configuration options.
 
 ## Affected Components
 
-### `<sky-box>`
-
-Replaces the deprecated `<sky-box-header>` child element. Setting `headingText` enables:
-
-- **Inline help** — The `helpPopoverContent` and `helpKey` inputs only activate when `headingText` is also set.
-
 ### `<sky-checkbox>`
 
 Replaces the deprecated `<sky-checkbox-label>` child element. Setting `labelText` enables:
 
 - **Inline help** — The `helpPopoverContent` and `helpKey` inputs only activate when `labelText` is also set.
 - **Hint text** — The `hintText` input provides persistent inline guidance below the checkbox.
-- **Automatic error messages** — Built-in validation error messages include the `labelText` value to provide meaningful context to users.
-
-### `<sky-file-attachment>`
-
-Replaces the deprecated `<sky-file-attachment-label>` child element. Setting `labelText` enables:
-
-- **Inline help** — The `helpPopoverContent` and `helpKey` inputs only activate when `labelText` is also set.
-- **Hint text** — The `hintText` input provides persistent inline guidance below the file attachment.
 - **Automatic error messages** — Built-in validation error messages include the `labelText` value to provide meaningful context to users.
 
 ### `<sky-input-box>`

@@ -50,10 +50,6 @@ export class SingleFileAttachmentComponent implements OnInit {
     });
   }
 
-  public onActionClick(): void {
-    alert('Help inline button clicked!');
-  }
-
   public reactiveFileUpdated(result: SkyFileAttachmentChange): void {
     const file = result.file;
 
