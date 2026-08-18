@@ -1,7 +1,7 @@
 // #region imports
 import { Inject, Injectable, Optional } from '@angular/core';
 
-import { Observable, combineLatest, of as observableOf } from 'rxjs';
+import { EMPTY, Observable, combineLatest, of as observableOf } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Format } from '../../utils/format';
@@ -104,7 +104,7 @@ export class SkyLibResourcesService {
     });
 
     if (entries.length === 0) {
-      return observableOf({} as { [K in keyof T]: string });
+      return EMPTY;
     }
 
     const mappedNames$ = combineLatest(

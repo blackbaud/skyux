@@ -413,17 +413,16 @@ describe('Resources service', () => {
       injectServices();
     });
 
-    it('returns a completed observable (this is default forkJoin behavior)', (done) => {
+    it('returns a completed observable (this is default forkJoin behavior)', () => {
       const resources$ = resources.getStrings({}).pipe(take(1));
 
+      const complete = jasmine.createSpy('complete');
       resources$.subscribe({
+        complete,
         next: () => fail(),
-        complete: () => {
-          httpMock.expectNone(enUsUrl);
-          done();
-        },
         error: () => fail(),
       });
+      expect(complete).toHaveBeenCalled();
     });
     it('returns a dictionary of resources (1 resource)', (done) => {
       const resources$ = resources.getStrings({ hi: 'hello' }).pipe(take(1));

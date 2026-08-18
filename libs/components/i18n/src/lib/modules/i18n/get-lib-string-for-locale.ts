@@ -10,22 +10,22 @@ export function getLibStringForLocale(
 ): string | undefined {
   const defaultLocale = 'en-US';
 
-  const normalizeLocale = (locale: string): string =>
-    locale.toLocaleUpperCase().replace('_', '-');
+  function getResourcesForLocale(locale: string): SkyLibResources {
+    const parsedLocale = locale.toLocaleUpperCase().replace('_', '-');
+    return resources[parsedLocale];
+  }
 
-  const localeFallback = [
-    ...new Set([
-      normalizeLocale(preferredLocale),
-      normalizeLocale(preferredLocale.substring(0, 2)),
-      normalizeLocale(defaultLocale),
-    ]),
-  ];
+  let values: SkyLibResources = getResourcesForLocale(preferredLocale);
 
-  for (const locale of localeFallback) {
-    const values = resources[locale];
-    if (values && values[name]) {
-      return values[name].message;
-    }
+  if (values && values[name]) {
+    return values[name].message;
+  }
+
+  // Attempt to locate default resources.
+  values = getResourcesForLocale(defaultLocale);
+
+  if (values && values[name]) {
+    return values[name].message;
   }
   return undefined;
 }

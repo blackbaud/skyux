@@ -9,22 +9,22 @@ export function getStringForLocale(
 ): string | undefined {
   const defaultLocale = 'en-US';
 
-  const normalizeLocale = (locale: string): string =>
-    locale.toUpperCase().replace('_', '-');
+  function getResourcesForLocale(locale: string): Record<string, string> {
+    const parsedLocale = locale.toUpperCase().replace('_', '-');
+    return resources[parsedLocale];
+  }
 
-  const localeFallback = [
-    ...new Set([
-      normalizeLocale(preferredLocale),
-      normalizeLocale(preferredLocale.substring(0, 2)),
-      normalizeLocale(defaultLocale),
-    ]),
-  ];
+  let values: Record<string, string> = getResourcesForLocale(preferredLocale);
 
-  for (const locale of localeFallback) {
-    const values = resources[locale];
-    if (values && values[name]) {
-      return values[name];
-    }
+  if (values && values[name]) {
+    return values[name];
+  }
+
+  // Attempt to locate default resources.
+  values = getResourcesForLocale(defaultLocale);
+
+  if (values && values[name]) {
+    return values[name];
   }
   return undefined;
 }

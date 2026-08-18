@@ -225,7 +225,7 @@ describe('Library resources service', () => {
   });
 
   describe('getStrings', () => {
-    it('returns a completed observable on initial emission', (done) => {
+    it('returns a completed observable on initial emission', () => {
       service = new SkyLibResourcesService(
         mockLocaleProvider,
         mockProviders,
@@ -233,13 +233,13 @@ describe('Library resources service', () => {
       );
       const resources$ = service.getStrings({}).pipe(take(1));
 
+      const complete = jasmine.createSpy('complete');
       resources$.subscribe({
-        next: (values) => {
-          expect(Object.keys(values).length).toBe(0);
-          done();
-        },
+        complete,
+        next: () => fail(),
         error: () => fail(),
       });
+      expect(complete).toHaveBeenCalled();
     });
 
     it('returns a dictionary of resources (1 resource)', (done) => {

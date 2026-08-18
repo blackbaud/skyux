@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable, Optional, forwardRef } from '@angular/core';
+import { forwardRef, Inject, Injectable, Optional } from '@angular/core';
 import { SkyAppAssetsService } from '@skyux/assets';
 
 import {
-  Observable,
-  ReplaySubject,
   combineLatest,
+  EMPTY,
+  Observable,
   of as observableOf,
+  ReplaySubject,
   share,
 } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -35,8 +36,8 @@ function getDefaultObs(): Observable<SkyResourceType> {
   providedIn: 'root',
 })
 export class SkyAppResourcesService {
-  #resourcesObsCache: Record<string, Observable<SkyResourceType>> = {};
-  #httpObsCache: Record<string, Observable<SkyResourceType>> = {};
+  readonly #resourcesObsCache: Record<string, Observable<SkyResourceType>> = {};
+  readonly #httpObsCache: Record<string, Observable<SkyResourceType>> = {};
 
   #http: HttpClient;
   #assets: SkyAppAssetsService | undefined;
@@ -66,10 +67,13 @@ export class SkyAppResourcesService {
    * @param name The name of the resource string.
    * @param args Any templated args.
    */
-  public getString(name: string, ...args: any[]): Observable<string> {
-    const localeObs: Observable<SkyAppLocaleInfo> =
-      this.#localeProvider.getLocaleInfo();
-    return this.#getStringForLocaleInfoObservable(localeObs, name, ...args);
+  public getString(name: string, ...args: unknown[]): Observable<string> {
+    return this.#localeProvider.getLocaleInfo().pipe(
+      switchMap((localeInfo) =>
+        this.getStringForLocale(localeInfo, name, ...args),
+      ),
+      catchError(() => observableOf(name)),
+    );
   }
 
   /**
@@ -94,20 +98,38 @@ export class SkyAppResourcesService {
   public getStrings<T extends ResourceDictionary>(
     dictionary: T,
   ): Observable<{ [K in keyof T]: string }> {
-    const resources$: Record<string, Observable<string>> = {};
+    const entries = Object.entries(dictionary).map(([objKey, resource]) => {
+      const [name, ...args] = Array.isArray(resource) ? resource : [resource];
+      return { objKey, name, args };
+    });
 
-    for (const objKey of Object.keys(dictionary)) {
-      const resource: string | [string, ...any[]] = dictionary[objKey];
-
-      if (typeof resource === 'string') {
-        resources$[objKey] = this.getString(resource);
-      } else {
-        const [key, ...templateItems] = resource;
-        resources$[objKey] = this.getString(key, ...templateItems);
-      }
+    if (entries.length === 0) {
+      return EMPTY;
     }
 
-    return combineLatest(resources$) as Observable<{ [K in keyof T]: string }>;
+    const resourcesObs = this.#localeProvider
+      .getLocaleInfo()
+      .pipe(switchMap((locale) => this.#getLocaleResourceObservable(locale)));
+    const mappedNames$ = combineLatest(
+      entries.map(({ name }) => this.#getMappedNameObs(name)),
+    );
+
+    return combineLatest([mappedNames$, resourcesObs]).pipe(
+      map(
+        ([mappedNames, resources]): { [K in keyof T]: string } =>
+          Object.fromEntries(
+            entries.map(({ objKey, args }, i) => [
+              objKey,
+              this.#getResourceString(
+                resources,
+                objKey,
+                mappedNames[i],
+                ...args,
+              ),
+            ]),
+          ) as { [K in keyof T]: string },
+      ),
+    );
   }
 
   /**
@@ -119,103 +141,95 @@ export class SkyAppResourcesService {
   public getStringForLocale(
     localeInfo: SkyAppLocaleInfo,
     name: string,
-    ...args: any[]
+    ...args: unknown[]
   ): Observable<string> {
-    return this.#getStringForLocaleInfoObservable(
-      observableOf(localeInfo),
-      name,
-      ...args,
+    const resourcesObs = this.#getLocaleResourceObservable(localeInfo);
+    const mappedNameObs = this.#getMappedNameObs(name);
+    return combineLatest([mappedNameObs, resourcesObs]).pipe(
+      map(([mappedName, resources]): string =>
+        this.#getResourceString(resources, name, mappedName, ...args),
+      ),
     );
   }
 
-  #getStringForLocaleInfoObservable(
-    localeInfoObs: Observable<SkyAppLocaleInfo>,
+  #getLocaleResourceObservable(
+    localeInfo: SkyAppLocaleInfo,
+  ): Observable<SkyResourceType> {
+    let obs: Observable<any>;
+
+    // Use default locale if one not provided
+    const locale = localeInfo.locale || this.#localeProvider.defaultLocale;
+
+    if (this.#resourcesObsCache[locale]) {
+      return this.#resourcesObsCache[locale];
+    }
+
+    const resourcesUrl =
+      this.#getUrlForLocale(locale) ||
+      // Try falling back to the non-region-specific language.
+      this.#getUrlForLocale(locale.substring(0, 2)) ||
+      // Finally fall back to the default locale.
+      this.#getUrlForLocale(this.#localeProvider.defaultLocale);
+
+    if (resourcesUrl) {
+      this.#httpObsCache[resourcesUrl] ||= this.#http
+        .get<SkyResourceType>(resourcesUrl)
+        .pipe(
+          share({
+            connector: () => new ReplaySubject(1),
+            resetOnError: false,
+            resetOnComplete: false,
+            resetOnRefCountZero: false,
+          }),
+          catchError(() => {
+            // The resource file for the specified locale failed to load;
+            // fall back to the default locale if it differs from the specified
+            // locale.
+            const defaultResourcesUrl = this.#getUrlForLocale(
+              this.#localeProvider.defaultLocale,
+            );
+
+            if (defaultResourcesUrl && defaultResourcesUrl !== resourcesUrl) {
+              return this.#http.get<SkyResourceType>(defaultResourcesUrl);
+            }
+
+            return getDefaultObs();
+          }),
+        );
+      obs = this.#httpObsCache[resourcesUrl];
+    } else {
+      obs = getDefaultObs();
+    }
+    this.#resourcesObsCache[locale] = obs;
+
+    return obs;
+  }
+
+  #getResourceString(
+    resources: SkyResourceType,
     name: string,
-    ...args: any[]
-  ): Observable<string> {
-    const resourcesObs: Observable<any> = localeInfoObs.pipe(
-      switchMap((localeInfo) => {
-        let obs: Observable<any>;
+    mappedName: string,
+    ...args: unknown[]
+  ): string {
+    let resource: { message: string } | undefined = undefined;
 
-        // Use default locale if one not provided
-        const locale = localeInfo.locale || this.#localeProvider.defaultLocale;
+    if (mappedName in resources) {
+      resource = resources[mappedName];
+    } else if (name in resources) {
+      resource = resources[name];
+    }
 
-        if (this.#resourcesObsCache[locale]) {
-          return this.#resourcesObsCache[locale];
-        }
+    if (resource) {
+      return Format.formatText(resource.message, ...args);
+    }
 
-        const resourcesUrl =
-          this.#getUrlForLocale(locale) ||
-          // Try falling back to the non-region-specific language.
-          this.#getUrlForLocale(locale.substring(0, 2)) ||
-          // Finally fall back to the default locale.
-          this.#getUrlForLocale(this.#localeProvider.defaultLocale);
+    return name;
+  }
 
-        if (resourcesUrl) {
-          if (!this.#httpObsCache[resourcesUrl]) {
-            this.#httpObsCache[resourcesUrl] = this.#http
-              .get<SkyResourceType>(resourcesUrl)
-              .pipe(
-                share({
-                  connector: () => new ReplaySubject(1),
-                  resetOnError: false,
-                  resetOnComplete: false,
-                  resetOnRefCountZero: false,
-                }),
-                catchError(() => {
-                  // The resource file for the specified locale failed to load;
-                  // fall back to the default locale if it differs from the specified
-                  // locale.
-                  const defaultResourcesUrl = this.#getUrlForLocale(
-                    this.#localeProvider.defaultLocale,
-                  );
-
-                  if (
-                    defaultResourcesUrl &&
-                    defaultResourcesUrl !== resourcesUrl
-                  ) {
-                    return this.#http.get<SkyResourceType>(defaultResourcesUrl);
-                  }
-
-                  return getDefaultObs();
-                }),
-              );
-          }
-          obs = this.#httpObsCache[resourcesUrl];
-        } else {
-          obs = getDefaultObs();
-        }
-        this.#resourcesObsCache[locale] = obs;
-
-        return obs;
-      }),
-      // Don't keep trying after a failed attempt to load resources, or else
-      // impure pipes like resources pipe that call this service will keep
-      // firing requests indefinitely every few milliseconds.
-      catchError(() => getDefaultObs()),
-    );
-
-    const mappedNameObs = this.#resourceNameProvider
+  #getMappedNameObs(name: string): Observable<string> {
+    return this.#resourceNameProvider
       ? this.#resourceNameProvider.getResourceName(name)
       : observableOf(name);
-
-    return combineLatest([mappedNameObs, resourcesObs]).pipe(
-      map(([mappedName, resources]): string => {
-        let resource: { message: string } | undefined = undefined;
-
-        if (mappedName in resources) {
-          resource = resources[mappedName];
-        } else if (name in resources) {
-          resource = resources[name];
-        }
-
-        if (resource) {
-          return Format.formatText(resource.message, ...args);
-        }
-
-        return name;
-      }),
-    );
   }
 
   #getUrlForLocale(locale: string): string | undefined {
