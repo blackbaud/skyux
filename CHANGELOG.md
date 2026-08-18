@@ -1,7 +1,12 @@
 # Changelog
 
 
-## [14.13.1](https://github.com/blackbaud/skyux/compare/14.13.0...14.13.1) (2026-08-18)
+## [14.14.0](https://github.com/blackbaud/skyux/compare/14.13.0...14.14.0) (2026-08-18)
+
+
+### Features
+
+* **components/icon:** allow icon URL to be provided with injection token ([#4641](https://github.com/blackbaud/skyux/issues/4641)) ([66bea84](https://github.com/blackbaud/skyux/commit/66bea84d3366c3b0a5e8264d1fbe327cac9dbf9f))
 
 
 ### Bug Fixes
