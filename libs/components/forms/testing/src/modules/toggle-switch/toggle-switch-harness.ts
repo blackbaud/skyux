@@ -3,7 +3,6 @@ import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 
 import { SkyToggleSwitchHarnessFilters } from './toggle-switch-harness-filters';
-import { SkyToggleSwitchLabelHarness } from './toggle-switch-label-harness';
 
 /**
  * Harness for interacting with a toggle switch component in tests.
@@ -15,7 +14,6 @@ export class SkyToggleSwitchHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-toggle-switch';
 
   #getButton = this.locatorFor('button.sky-toggle-switch-button');
-  #getLabel = this.locatorForOptional(SkyToggleSwitchLabelHarness);
   #getLabelText = this.locatorForOptional('span.sky-toggle-switch-label-text');
 
   /**
@@ -77,15 +75,8 @@ export class SkyToggleSwitchHarness extends SkyComponentHarness {
    */
   public async getLabelHidden(): Promise<boolean> {
     const labelText = await this.#getLabelText();
-    const labelComponent = await this.#getLabel();
 
-    if (labelComponent) {
-      throw new Error(
-        '`labelHidden` is only supported when setting the toggle switch label via the `labelText` input.',
-      );
-    } else {
-      return !(await labelText?.text());
-    }
+    return !(await labelText?.text());
   }
 
   /**
@@ -96,9 +87,7 @@ export class SkyToggleSwitchHarness extends SkyComponentHarness {
     const labelText = await (await this.#getLabelText())?.text();
     const ariaLabel = await this.#getAriaLabel();
 
-    return (
-      labelText || ariaLabel || (await (await this.#getLabel())?.getText())
-    );
+    return labelText || ariaLabel || undefined;
   }
 
   /**

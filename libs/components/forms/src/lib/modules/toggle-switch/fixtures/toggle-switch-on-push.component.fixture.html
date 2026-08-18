@@ -1,5 +1,4 @@
-<sky-toggle-switch ariaLabel="Sample ARIA label" [(ngModel)]="isChecked">
-  @if (showLabel) {
-    <sky-toggle-switch-label> Sample async label </sky-toggle-switch-label>
-  }
-</sky-toggle-switch>
+<sky-toggle-switch
+  [labelText]="showLabel ? 'Sample async label' : undefined"
+  [(ngModel)]="isChecked"
+/>
