@@ -10,9 +10,6 @@
 
 <div class="sky-theme-padding-inset-balanced-m">
   <sky-toggle-switch labelText="label text" class="sky-margin-inline-lg">
-    <sky-toggle-switch-label
-      >Overridden label component</sky-toggle-switch-label
-    >
     @if (showInlineHelp) {
       <sky-help-inline class="sky-control-help" />
     }
@@ -22,15 +19,17 @@
 
 <div class="sky-theme-padding-inset-balanced-m">
   <sky-toggle-switch labelText="Disabled switch" [disabled]="true">
-    <sky-toggle-switch-label>Overridden label</sky-toggle-switch-label>
     @if (showInlineHelp) {
       <sky-help-inline class="sky-control-help" />
     }
   </sky-toggle-switch>
 </div>
 <div class="sky-theme-padding-inset-balanced-m">
-  <sky-toggle-switch [checked]="true" [disabled]="true">
-    <sky-toggle-switch-label>Disabled switch checked</sky-toggle-switch-label>
+  <sky-toggle-switch
+    labelText="Disabled switch checked"
+    [checked]="true"
+    [disabled]="true"
+  >
     @if (showInlineHelp) {
       <sky-help-inline class="sky-control-help" />
     }

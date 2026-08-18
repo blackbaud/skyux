@@ -263,32 +263,6 @@ ruleTester.run(RULE_NAME, rule, {
     }),
     convertAnnotatedSourceToFailureCase({
       description:
-        'should fail but not fix if label contains @for control flow',
-      annotatedSource: `
-        <sky-toggle-switch>
-        ~~~~~~~~~~~~~~~~~~~
-          <sky-toggle-switch-label>
-          ~~~~~~~~~~~~~~~~~~~~~~~~~
-            @for (item of items; track item.id) {
-            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              {{ item.name }}
-              ~~~~~~~~~~~~~~~
-            }
-            ~
-          </sky-toggle-switch-label>
-          ~~~~~~~~~~~~~~~~~~~~~~~~~~
-        </sky-toggle-switch>
-        ~~~~~~~~~~~~~~~~~~~~
-      `,
-      messageId,
-      data: {
-        selector: 'sky-toggle-switch',
-        labelInputName: 'labelText',
-        labelSelector: 'sky-toggle-switch-label',
-      },
-    }),
-    convertAnnotatedSourceToFailureCase({
-      description:
         'should fail but not fix if label contains @switch control flow',
       annotatedSource: `
         <sky-input-box>

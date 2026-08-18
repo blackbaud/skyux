@@ -4,11 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { SkyIdModule, SkyTrimModule } from '@skyux/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 
-import { SkyToggleSwitchLabelComponent } from './toggle-switch-label.component';
 import { SkyToggleSwitchComponent } from './toggle-switch.component';
 
 @NgModule({
-  declarations: [SkyToggleSwitchLabelComponent, SkyToggleSwitchComponent],
+  declarations: [SkyToggleSwitchComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -16,6 +15,6 @@ import { SkyToggleSwitchComponent } from './toggle-switch.component';
     SkyIdModule,
     SkyTrimModule,
   ],
-  exports: [SkyToggleSwitchLabelComponent, SkyToggleSwitchComponent],
+  exports: [SkyToggleSwitchComponent],
 })
 export class SkyToggleSwitchModule {}

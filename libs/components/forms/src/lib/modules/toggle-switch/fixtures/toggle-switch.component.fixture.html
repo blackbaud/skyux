@@ -6,13 +6,10 @@
   [helpPopoverContent]="helpPopoverContent()"
   [helpPopoverTitle]="helpPopoverTitle()"
   [labelHidden]="labelHidden()"
-  [labelText]="labelText()"
+  [labelText]="labelText() ?? (showLabel() ? buttonLabel() : undefined)"
   [tabIndex]="customTabIndex()"
   (toggleChange)="checkChanged($event)"
 >
-  @if (showLabel()) {
-    <sky-toggle-switch-label>{{ buttonLabel() }}</sky-toggle-switch-label>
-  }
   @if (showInlineHelp()) {
     <sky-help-inline class="sky-control-help" />
   }

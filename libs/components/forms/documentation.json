@@ -226,7 +226,6 @@
         "docsIds": [
           "SkyToggleSwitchModule",
           "SkyToggleSwitchComponent",
-          "SkyToggleSwitchLabelComponent",
           "SkyToggleSwitchChange"
         ],
         "primaryDocsId": "SkyToggleSwitchModule"

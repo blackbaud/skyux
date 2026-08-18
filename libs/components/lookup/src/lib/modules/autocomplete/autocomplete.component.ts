@@ -309,7 +309,10 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   /**
    * When using `searchAsync`, allows the user to specify arbitrary
    * values not in the search results. This only works in combination
-   * with `searchAsync`.
+   * with `searchAsync`. On blur, the typed text is kept as the value
+   * rather than reverted, using a matching search result if one is
+   * available. Consumers should guard against values set before a
+   * `searchAsync` call resolves.
    * @default false
    */
   public allowAnyValue = input(false, { transform: booleanAttribute });
@@ -799,8 +802,26 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     if (!hasInputText && inputDirective?.value?.[this.descriptorProperty]) {
       inputDirective.value = undefined;
       this.selectionChange.emit({ selectedItem: undefined });
-    } else if (hasInputText) {
-      inputDirective?.restoreInputTextValueToPreviousState();
+    } else if (hasInputText && inputDirective) {
+      if (this.allowAnyValue()) {
+        // While a search is still in flight, `searchResults` may only
+        // contain the provisional placeholder for the current search text
+        // (see `#combineSearchTextWithResult`), not a confirmed match.
+        const matchedResult = this.isSearchingAsync
+          ? undefined
+          : this.searchResults.find(
+              (result) =>
+                result.data[this.descriptorProperty] ===
+                inputDirective.inputTextValue,
+            );
+        const selectedItem = matchedResult
+          ? matchedResult.data
+          : { [this.descriptorProperty]: inputDirective.inputTextValue };
+        inputDirective.value = selectedItem;
+        this.selectionChange.emit({ selectedItem });
+      } else {
+        inputDirective.restoreInputTextValueToPreviousState();
+      }
     }
   }
 

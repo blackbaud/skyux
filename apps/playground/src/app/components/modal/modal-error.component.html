@@ -1,9 +1,7 @@
 <sky-modal headingText="Errors modal" [formErrors]="errors">
   <sky-modal-content>
     <p>Check the box to trigger an error message when closing.</p>
-    <sky-toggle-switch [(ngModel)]="isError">
-      <sky-toggle-switch-label>Error</sky-toggle-switch-label>
-    </sky-toggle-switch>
+    <sky-toggle-switch labelText="Error" [(ngModel)]="isError" />
     <button
       type="button"
       class="sky-btn sky-btn-default"
