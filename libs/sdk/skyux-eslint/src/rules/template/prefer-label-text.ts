@@ -30,19 +30,9 @@ const COMPONENTS_WITH_LABEL_TEXT: {
     labelSelector: 'label',
   },
   {
-    selector: 'sky-modal',
-    labelInputName: 'headingText',
-    labelSelector: 'sky-modal-header',
-  },
-  {
     selector: 'sky-radio',
     labelInputName: 'labelText',
     labelSelector: 'sky-radio-label',
-  },
-  {
-    selector: 'sky-toggle-switch',
-    labelInputName: 'labelText',
-    labelSelector: 'sky-toggle-switch-label',
   },
 ];
 

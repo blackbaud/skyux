@@ -1,7 +1,7 @@
 <span
   class="sky-toggle-switch"
   [ngClass]="{
-    'sky-toggle-switch-with-label': hasLabelComponent || labelText
+    'sky-toggle-switch-with-label': labelText
   }"
 >
   <button
@@ -12,9 +12,7 @@
     skyId
     [attr.aria-checked]="checked"
     [attr.aria-label]="labelText || ariaLabel || null"
-    [attr.aria-labelledby]="
-      !ariaLabel && (hasLabelComponent || labelText) ? labelId : null
-    "
+    [attr.aria-labelledby]="!ariaLabel && labelText ? labelId : null"
     [disabled]="disabled"
     [ngClass]="{
       'sky-toggle-switch-checked': checked,
@@ -35,18 +33,14 @@
     </div>
   </button>
   <span>
-    @if (hasLabelComponent || labelText) {
+    @if (labelText) {
       <label
         class="sky-toggle-switch-label"
         [for]="toggle.id"
         [attr.id]="labelId"
       >
-        @if (labelText) {
-          @if (!labelHidden) {
-            <span class="sky-toggle-switch-label-text">{{ labelText }}</span>
-          }
-        } @else {
-          <ng-content select="sky-toggle-switch-label" />
+        @if (!labelHidden) {
+          <span class="sky-toggle-switch-label-text">{{ labelText }}</span>
         }
       </label>
     }
