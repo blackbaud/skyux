@@ -97,9 +97,6 @@ export class _SkyAppTestUtility {
     if (nativeEl) {
       const backgroundImageUrl = getComputedStyle(nativeEl).backgroundImage;
 
-      /* istanbul ignore else */
-      // Browser will likely not return an empty value for the computed style,
-      // but leave the if statement here anyway as a sanity check.
       if (backgroundImageUrl) {
         const matches = /url\(('|")([^'"]+)('|")\)/gi.exec(backgroundImageUrl);
 

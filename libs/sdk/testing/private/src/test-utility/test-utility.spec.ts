@@ -1,15 +1,22 @@
+import 'zone.js';
+import 'zone.js/testing';
+
 //#region imports
 import { Component, DebugElement } from '@angular/core';
+import { ComponentFixture, TestBed, getTestBed } from '@angular/core/testing';
 import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-} from '@angular/core/testing';
+  BrowserTestingModule,
+  platformBrowserTesting,
+} from '@angular/platform-browser/testing';
 
 import { _SkyAppTestUtility as SkyAppTestUtility } from './test-utility';
 
 //#endregion
+
+getTestBed().initTestEnvironment(
+  BrowserTestingModule,
+  platformBrowserTesting(),
+);
 
 //#region test components
 
@@ -55,7 +62,7 @@ describe('Test utility', () => {
     document.body.removeChild(inputEl);
   });
 
-  it('should use keyboard event values', fakeAsync(() => {
+  it('should use keyboard event values', () => {
     const elem = document.createElement('div');
     document.body.appendChild(elem);
 
@@ -79,11 +86,10 @@ describe('Test utility', () => {
       },
     });
 
-    tick();
     expect(listenerCalled).toBeTruthy();
-  }));
+  });
 
-  it('should use custom event values', fakeAsync(() => {
+  it('should use custom event values', () => {
     const elem = document.createElement('div');
     document.body.appendChild(elem);
 
@@ -99,9 +105,8 @@ describe('Test utility', () => {
       },
     });
 
-    tick();
     expect(listenerCalled).toBeTruthy();
-  }));
+  });
 
   it('should determine if an element is visible', () => {
     expect(SkyAppTestUtility.isVisible(textEl)).toBe(true);
@@ -114,6 +119,9 @@ describe('Test utility', () => {
   });
 
   it("should retrieve an element's inner text", () => {
+    // jsdom does not compute `innerText` from rendered content like a real browser does.
+    textEl.innerText = '';
+
     expect(SkyAppTestUtility.getText(textEl)).toBe('');
 
     textEl.innerText = '    test   ';
@@ -139,6 +147,12 @@ describe('Test utility', () => {
     imageUrl = SkyAppTestUtility.getBackgroundImageUrl(new DebugElement(bgEl));
 
     expect(imageUrl).toBe('https://example.com/bg/');
+
+    bgEl.style.backgroundImage = 'linear-gradient(red, blue)';
+
+    imageUrl = SkyAppTestUtility.getBackgroundImageUrl(bgEl);
+
+    expect(imageUrl).toBeUndefined();
 
     imageUrl = SkyAppTestUtility.getBackgroundImageUrl(undefined);
 
