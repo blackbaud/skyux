@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnDestroy, Signal, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnDestroy,
+  Signal,
+  signal,
+} from '@angular/core';
 import { SkyIdModule, SkyIdService } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyThemeModule } from '@skyux/theme';
@@ -26,6 +33,7 @@ import { SkyConfirmType } from './confirm-type';
   selector: 'sky-confirm',
   templateUrl: './confirm.component.html',
   styleUrls: ['./confirm.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     CommonModule,
     SkyIdModule,

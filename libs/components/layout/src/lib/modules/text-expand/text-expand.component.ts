@@ -1,5 +1,6 @@
 import {
   AfterContentInit,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   DestroyRef,
@@ -29,6 +30,7 @@ let nextId = 0;
   selector: 'sky-text-expand',
   templateUrl: './text-expand.component.html',
   styleUrls: ['./text-expand.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [SkyTextExpandAdapterService],
 })
 export class SkyTextExpandComponent implements AfterContentInit {

@@ -30,6 +30,8 @@ function getDefaultObs(): Observable<SkyResourceType> {
 
 /**
  * An Angular service for interacting with resource strings.
+ *
+ * @deprecated This service is deprecated. Use `SkyAppResourcesService` instead.
  */
 @Injectable({
   providedIn: 'root',
@@ -62,9 +64,10 @@ export class SkyAppResourcesLegacyService {
   }
 
   /**
-   * Gets a resource string based on its name.
+   * Gets a resource string based on its name. Emits once and completes.
    * @param name The name of the resource string.
    * @param args Any templated args.
+   * @deprecated This method is deprecated. Use `SkyAppResourcesService.getString()` instead.
    */
   public getString(name: string, ...args: any[]): Observable<string> {
     const localeObs: Observable<SkyAppLocaleInfo> =
@@ -73,7 +76,7 @@ export class SkyAppResourcesLegacyService {
   }
 
   /**
-   * Gets a Resource String Dictionary.
+   * Gets a Resource String Dictionary. Emits once and completes.
    *
    * This is similar to forkJoin's dictionary syntax.
    *
@@ -90,6 +93,8 @@ export class SkyAppResourcesLegacyService {
    *    arraySyntaxWithTemplateArgs: ['template', 'a', 'b'],
    * }
    * ```
+   *
+   * @deprecated This method is deprecated. Use `SkyAppResourcesService.getStrings()` instead.
    */
   public getStrings<T extends ResourceDictionary>(
     dictionary: T,
@@ -111,10 +116,11 @@ export class SkyAppResourcesLegacyService {
   }
 
   /**
-   * Gets a resource string for a specific locale based on its name.
+   * Gets a resource string for a specific locale based on its name. Emits once and completes.
    * @param localeInfo The locale to use.
    * @param name The name of the resource string.
    * @param args Any templated args.
+   * @deprecated This method is deprecated. Use `SkyAppResourcesService.getStringForLocale()` instead.
    */
   public getStringForLocale(
     localeInfo: SkyAppLocaleInfo,

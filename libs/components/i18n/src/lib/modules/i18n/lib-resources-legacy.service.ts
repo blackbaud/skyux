@@ -20,6 +20,11 @@ type ResourceKey = string;
 type TemplatedResource = [ResourceKey, ...any[]];
 type ResourceDictionary = Record<string, ResourceKey | TemplatedResource>;
 
+/**
+ * An Angular service for interacting with library resource strings.
+ *
+ * @deprecated This service is deprecated. Use `SkyLibResourcesService` instead.
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -46,6 +51,8 @@ export class SkyLibResourcesLegacyService {
 
   /**
    * Adds locale resources to be used by library components.
+   *
+   * @deprecated This method is deprecated. Use `SkyLibResourcesService.addResources()` instead.
    */
   public static addResources(
     localeResources: Record<string, SkyLibResources>,
@@ -60,9 +67,10 @@ export class SkyLibResourcesLegacyService {
   }
 
   /**
-   * Gets a resource string based on its name.
+   * Gets a resource string based on its name. Emits once and completes.
    * @param name The name of the resource string.
    * @param args Any templated args.
+   * @deprecated This method is deprecated. Use `SkyLibResourcesService.getString()` instead.
    */
   public getString(name: string, ...args: any[]): Observable<string> {
     const mappedNameObs = this.#resourceNameProvider
@@ -79,7 +87,7 @@ export class SkyLibResourcesLegacyService {
   }
 
   /**
-   * Gets a Resource String Dictionary.
+   * Gets a Resource String Dictionary. Emits once and completes.
    *
    * This is similar to forkJoin's dictionary syntax.
    *
@@ -96,6 +104,8 @@ export class SkyLibResourcesLegacyService {
    *    arraySyntaxWithTemplateArgs: ['template', 'a', 'b'],
    * }
    * ```
+   *
+   * @deprecated This method is deprecated. Use `SkyLibResourcesService.getStrings()` instead.
    */
   public getStrings<T extends ResourceDictionary>(
     dictionary: T,
@@ -116,6 +126,13 @@ export class SkyLibResourcesLegacyService {
     return forkJoin(resources$) as Observable<{ [K in keyof T]: string }>;
   }
 
+  /**
+   * Gets a resource string for a specific locale based on its name.
+   * @param info The locale to use.
+   * @param name The name of the resource string.
+   * @param args Any templated args.
+   * @deprecated This method is deprecated. Use `SkyLibResourcesService.getStringForLocale()` instead.
+   */
   public getStringForLocale(
     info: SkyAppLocaleInfo,
     name: string,

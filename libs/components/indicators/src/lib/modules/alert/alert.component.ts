@@ -1,5 +1,6 @@
 import {
   AfterViewChecked,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   EventEmitter,
@@ -29,6 +30,7 @@ const ALERT_TYPE_DEFAULT = 'warning';
   ],
   templateUrl: './alert.component.html',
   hostDirectives: [SkyThemeComponentClassDirective],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyAlertComponent implements AfterViewChecked, OnInit, OnDestroy {

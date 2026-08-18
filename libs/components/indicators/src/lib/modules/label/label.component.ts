@@ -1,5 +1,6 @@
 import {
   AfterViewChecked,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   Input,
@@ -23,6 +24,7 @@ const LABEL_TYPE_DEFAULT: SkyLabelType = 'info';
   selector: 'sky-label',
   templateUrl: './label.component.html',
   styleUrls: ['./label.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SkyLabelComponent implements AfterViewChecked, OnDestroy, OnInit {
