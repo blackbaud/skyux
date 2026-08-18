@@ -1244,22 +1244,10 @@ describe('Modal component', () => {
       }));
 
       it('should not check for shadow when elements are added to the modal content', fakeAsync(() => {
-        let mutateCallback: MutationCallback | undefined;
-
-        const fakeMutationObserver: MutationObserver = {
-          observe: jasmine.createSpy('observe'),
-          disconnect: jasmine.createSpy('disconnect'),
-          takeRecords: jasmine.createSpy('takeRecords'),
-        };
-
-        spyOn(
+        const createSpy = spyOn(
           TestBed.inject(SkyMutationObserverService),
           'create',
-        ).and.callFake((cb) => {
-          mutateCallback = cb;
-
-          return fakeMutationObserver;
-        });
+        ).and.callThrough();
 
         const modalInstance1 = openModal(ModalTestComponent);
 
@@ -1277,20 +1265,13 @@ describe('Modal component', () => {
 
         fixtureContentEl.appendChild(childEl);
 
-        triggerMutation(mutateCallback, fakeMutationObserver);
-
         tick();
         getApplicationRef().tick();
 
-        validateShadow(modalFooterEl);
-
-        fixtureContentEl.removeChild(childEl);
-
-        triggerMutation(mutateCallback, fakeMutationObserver);
-
-        tick();
-        getApplicationRef().tick();
-
+        // In the default theme the scroll shadow is disabled, so the modal never
+        // creates a mutation observer to watch its content — and no shadow appears
+        // even though the content now overflows.
+        expect(createSpy).not.toHaveBeenCalled();
         validateShadow(modalFooterEl);
 
         closeModal(modalInstance1);

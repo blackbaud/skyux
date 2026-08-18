@@ -3,8 +3,7 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
   imports: [SkyModalModule],
-  template: `<sky-modal [isDirty]="true">
-    <sky-modal-header>Modal test</sky-modal-header>
+  template: `<sky-modal headingText="Modal test" [isDirty]="true">
     <sky-modal-content> Hello World! </sky-modal-content>
     <sky-modal-footer>
       <button type="button" (click)="instance.close()">Close</button>
