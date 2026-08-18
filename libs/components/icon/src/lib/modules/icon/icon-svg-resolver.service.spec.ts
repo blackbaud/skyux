@@ -1,7 +1,7 @@
 import { Injector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-import { SKY_ICON_SVG_URL } from '@skyux/core';
+import { SKY_ICON_SVG_URL, SkyLogService } from '@skyux/core';
 
 import { SkyIconSvgResolverService } from './icon-svg-resolver.service';
 import { SkyIconVariantType } from './types/icon-variant-type';
@@ -12,6 +12,7 @@ const DEFAULT_SVG_URL =
 describe('Icon SVG resolver service', () => {
   let fetchMock: jasmine.Spy<typeof fetch>;
   let resolverSvc: SkyIconSvgResolverService;
+  let logSvcSpy: jasmine.SpyObj<SkyLogService>;
 
   function buildSymbolHtml(
     name: string,
@@ -68,8 +69,15 @@ describe('Icon SVG resolver service', () => {
       ),
     );
 
+    logSvcSpy = jasmine.createSpyObj<SkyLogService>('SkyLogService', [
+      'warn',
+    ]);
+
     TestBed.configureTestingModule({
-      providers: [SkyIconSvgResolverService],
+      providers: [
+        SkyIconSvgResolverService,
+        { provide: SkyLogService, useValue: logSvcSpy },
+      ],
     });
 
     resolverSvc = TestBed.inject(SkyIconSvgResolverService);
@@ -167,6 +175,7 @@ describe('Icon SVG resolver service', () => {
         providers: [
           SkyIconSvgResolverService,
           { provide: SKY_ICON_SVG_URL, useValue: customUrl },
+          { provide: SkyLogService, useValue: logSvcSpy },
         ],
       });
 
@@ -187,13 +196,15 @@ describe('Icon SVG resolver service', () => {
 
   it('should warn (but not throw) when a second instance is configured with a different SVG URL', async () => {
     const customUrl = 'https://example.com/different-icons.svg';
-    const consoleWarnSpy = spyOn(console, 'warn');
 
     // Establish the icon map via the default-configured instance.
     await expectAsync(
       resolverSvc.resolveHref('single-size', 12, 'line'),
     ).toBeResolvedTo('#sky-i-single-size-12-line');
 
+    // The custom instance resolves SkyLogService from the same TestBed
+    // injector (via its parent), so it shares `logSvcSpy`.
+    // The warning should fire once, at construction time...
     const customResolverSvc = Injector.create({
       providers: [
         SkyIconSvgResolverService,
@@ -202,15 +213,20 @@ describe('Icon SVG resolver service', () => {
       parent: TestBed.inject(Injector),
     }).get(SkyIconSvgResolverService);
 
-    // A differently-configured instance should warn rather than throw, and
-    // still resolve using whichever sprite was already loaded.
+    expect(logSvcSpy.warn).toHaveBeenCalledOnceWith(
+      `SkyIconSvgResolverService only supports one SKY_ICON_SVG_URL value per application. An icon sprite has already been loaded from '${DEFAULT_SVG_URL}', so a sprite will not also be loaded from '${customUrl}'.`,
+    );
+
+    // ...not repeatedly on every call to resolveHref(), which should still
+    // resolve using whichever sprite was already loaded.
+    await expectAsync(
+      customResolverSvc.resolveHref('single-size', 12, 'line'),
+    ).toBeResolvedTo('#sky-i-single-size-12-line');
     await expectAsync(
       customResolverSvc.resolveHref('single-size', 12, 'line'),
     ).toBeResolvedTo('#sky-i-single-size-12-line');
 
-    expect(consoleWarnSpy).toHaveBeenCalledOnceWith(
-      `SkyIconSvgResolverService only supports one SKY_ICON_SVG_URL value per application. An icon sprite has already been loaded from '${DEFAULT_SVG_URL}', so a sprite will not also be loaded from '${customUrl}'.`,
-    );
+    expect(logSvcSpy.warn).toHaveBeenCalledTimes(1);
 
     // The second instance's URL should never have been fetched.
     expect(fetchMock).toHaveBeenCalledOnceWith(DEFAULT_SVG_URL);

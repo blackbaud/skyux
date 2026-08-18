@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 
-import { SKY_ICON_SVG_URL } from '@skyux/core';
+import { SKY_ICON_SVG_URL, SkyLogService } from '@skyux/core';
 
 import { SkyIconVariantType } from './types/icon-variant-type';
 
@@ -11,14 +11,6 @@ const DEFAULT_SVG_URL = `https://sky.blackbaudcdn.net/static/skyux-icons/10/asse
 // at a time. These track which URL "owns" the current icon map.
 let iconMapPromise: Promise<Map<string, number[]>> | undefined;
 let loadedSvgUrl: string | undefined;
-
-function warnIfUrlMismatch(svgUrl: string): void {
-  if (loadedSvgUrl && loadedSvgUrl !== svgUrl) {
-    console.warn(
-      `SkyIconSvgResolverService only supports one SKY_ICON_SVG_URL value per application. An icon sprite has already been loaded from '${loadedSvgUrl}', so a sprite will not also be loaded from '${svgUrl}'.`,
-    );
-  }
-}
 
 async function getIconMap(svgUrl: string): Promise<Map<string, number[]>> {
   const response = await fetch(svgUrl);
@@ -108,14 +100,17 @@ function getNearestSize(
 })
 export class SkyIconSvgResolverService {
   #svgUrl = inject(SKY_ICON_SVG_URL, { optional: true }) ?? DEFAULT_SVG_URL;
+  #logSvc = inject(SkyLogService);
+
+  constructor() {
+    this.#warnIfUrlMismatch();
+  }
 
   public async resolveHref(
     name: string,
     pixelSize = 16,
     variant: SkyIconVariantType = 'line',
   ): Promise<string> {
-    warnIfUrlMismatch(this.#svgUrl);
-
     if (!iconMapPromise) {
       loadedSvgUrl = this.#svgUrl;
       iconMapPromise = getIconMap(this.#svgUrl);
@@ -144,5 +139,13 @@ export class SkyIconSvgResolverService {
   public resetIconMap(): void {
     iconMapPromise = undefined;
     loadedSvgUrl = undefined;
+  }
+
+  #warnIfUrlMismatch(): void {
+    if (loadedSvgUrl && loadedSvgUrl !== this.#svgUrl) {
+      this.#logSvc.warn(
+        `SkyIconSvgResolverService only supports one SKY_ICON_SVG_URL value per application. An icon sprite has already been loaded from '${loadedSvgUrl}', so a sprite will not also be loaded from '${this.#svgUrl}'.`,
+      );
+    }
   }
 }
