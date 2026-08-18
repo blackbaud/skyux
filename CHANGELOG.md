@@ -1,6 +1,19 @@
 # Changelog
 
 
+## [14.13.0](https://github.com/blackbaud/skyux/compare/14.12.0...14.13.0) (2026-08-14)
+
+
+### Features
+
+* **components/lookup:** add testing method for getting a selection modal's heading text ([#4611](https://github.com/blackbaud/skyux/issues/4611)) ([a8d296c](https://github.com/blackbaud/skyux/commit/a8d296c1d96130f94312315531802eb5c815f74b))
+* tokenize the icon used by HTML select fields ([#4619](https://github.com/blackbaud/skyux/issues/4619)) ([c1a05d6](https://github.com/blackbaud/skyux/commit/c1a05d6221d4c0dc1da215e5a727abe8b01abbca))
+
+
+### Bug Fixes
+
+* **components/lookup:** autocomplete does not clear value on blur when all values are allowed ([#4626](https://github.com/blackbaud/skyux/issues/4626)) ([4c08ee4](https://github.com/blackbaud/skyux/commit/4c08ee42b79fba9b6294b1004caf715ed85b6353))
+
 ## [15.0.0-alpha.4](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.3...15.0.0-alpha.4) (2026-08-11)
 
 
