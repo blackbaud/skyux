@@ -52,8 +52,16 @@ export class ModalComponent {
   }
 
   public onOpenHelpInlineModalClick(): void {
-    const modalInstance = this.openModal(ModalBasicComponent);
-    modalInstance.componentInstance.showHelp = true;
+    this.openModal(ModalBasicComponent, {
+      providers: [
+        {
+          provide: ModalTestContext,
+          useValue: {
+            helpPopoverContent: 'Content for the inline help popover.',
+          } satisfies Partial<ModalTestContext>,
+        },
+      ],
+    });
   }
 
   public onOpenErrorModalClick(): void {

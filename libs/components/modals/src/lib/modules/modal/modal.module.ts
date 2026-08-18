@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { SkyModalBannerComponent } from './modal-banner.component';
 import { SkyModalContentComponent } from './modal-content.component';
 import { SkyModalFooterComponent } from './modal-footer.component';
-import { SkyModalHeaderComponent } from './modal-header.component';
 import { SkyModalIsDirtyDirective } from './modal-is-dirty.directive';
 import { SkyModalComponent } from './modal.component';
 
@@ -13,7 +12,6 @@ import { SkyModalComponent } from './modal.component';
     SkyModalBannerComponent,
     SkyModalContentComponent,
     SkyModalFooterComponent,
-    SkyModalHeaderComponent,
     SkyModalIsDirtyDirective,
   ],
   exports: [
@@ -21,7 +19,6 @@ import { SkyModalComponent } from './modal.component';
     SkyModalBannerComponent,
     SkyModalContentComponent,
     SkyModalFooterComponent,
-    SkyModalHeaderComponent,
     SkyModalIsDirtyDirective,
   ],
 })

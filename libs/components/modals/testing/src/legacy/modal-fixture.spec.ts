@@ -23,9 +23,9 @@ import { SkyModalFixture } from './modal-fixture';
   template: `
     <sky-modal
       data-sky-id="test-modal"
+      headingText="Test Title"
       [ngClass]="{ 'sky-theme-modern': fakeModern() }"
     >
-      <sky-modal-header> Test Title </sky-modal-header>
       <sky-modal-content>
         <div class="test-class" id="test-modal-content-1">
           This modal can have content!

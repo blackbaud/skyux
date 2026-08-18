@@ -1,10 +1,7 @@
-<sky-modal>
-  <sky-modal-header>
-    {{ title }}
-    @if (showHelp) {
-      <sky-help-inline class="sky-control-help" />
-    }
-  </sky-modal-header>
+<sky-modal
+  [headingText]="title"
+  [helpPopoverContent]="showHelp ? 'Help content' : undefined"
+>
   <sky-modal-content>
     <sky-input-box class="sky-margin-stacked-lg">
       <label class="sky-control-label"> Field label </label>

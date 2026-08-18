@@ -1,5 +1,4 @@
-<sky-modal [formErrors]="errors">
-  <sky-modal-header> Errors modal </sky-modal-header>
+<sky-modal headingText="Errors modal" [formErrors]="errors">
   <sky-modal-content>
     <p>Check the box to trigger an error message when closing.</p>
     <sky-toggle-switch labelText="Error" [(ngModel)]="isError" />
