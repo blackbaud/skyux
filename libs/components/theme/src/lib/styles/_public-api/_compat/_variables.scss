@@ -27,7 +27,9 @@ $sky-font-size-base: 15px !default;
 $sky-line-height-base: 1.428571429 !default;
 
 // Z-INDEXES
-$sky-page-wait-z-index: 2000 !default;
+// The full-page wait blocks the entire page, so it sits above every other layer, including
+// toasts (100000) and overlays (which start at 5001 and increment as overlays are created).
+$sky-page-wait-z-index: 200000 !default;
 $sky-component-wait-z-index: 1000 !default;
 
 // COMPONENTS
