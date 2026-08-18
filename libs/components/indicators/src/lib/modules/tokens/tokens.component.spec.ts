@@ -123,6 +123,34 @@ describe('Tokens component', () => {
       );
     });
 
+    it('should allow content projected into the tokens component to wrap by default', () => {
+      fixture.detectChanges();
+
+      const contentElement = (
+        component.tokensElementRef?.nativeElement as HTMLElement
+      ).querySelector('.sky-tokens-content');
+
+      expect(contentElement).not.toBeNull();
+      expect(getComputedStyle(contentElement as Element).flexWrap).toBe('wrap');
+    });
+
+    it('should allow consumers to restore the previous non-wrapping behavior with --sky-compat-tokens-content-flex-wrap', () => {
+      const hostStyle = (fixture.nativeElement as HTMLElement).style;
+      hostStyle.setProperty('--sky-compat-tokens-content-flex-wrap', 'nowrap');
+
+      fixture.detectChanges();
+
+      const contentElement = (
+        component.tokensElementRef?.nativeElement as HTMLElement
+      ).querySelector('.sky-tokens-content');
+
+      expect(getComputedStyle(contentElement as Element).flexWrap).toBe(
+        'nowrap',
+      );
+
+      hostStyle.removeProperty('--sky-compat-tokens-content-flex-wrap');
+    });
+
     it('should respect trackWith', () => {
       fixture.componentRef.setInput('trackWith', 'id');
       fixture.componentRef.setInput('data', [

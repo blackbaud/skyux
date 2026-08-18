@@ -42,6 +42,25 @@ Pointer events are no longer disabled on elements with the "sky-btn-disabled" cl
         },
       ],
     },
+    {
+      name: '@skyux/indicators',
+      components: [
+        {
+          name: 'tokens',
+          styles: [
+            {
+              css: `
+:root {
+  --sky-compat-tokens-content-flex-wrap: nowrap;
+}
+`,
+              instructions: `
+Content projected into the "sky-tokens" component (including "sky-token" elements added directly instead of through the "tokens" input) now wraps onto multiple lines when it doesn't fit within the available width, matching how tokens supplied through the "tokens" input already behave. To address this change, remove this block of code, then verify your layout still looks correct when projected content wraps onto multiple lines.`,
+            },
+          ],
+        },
+      ],
+    },
   ],
 };
 

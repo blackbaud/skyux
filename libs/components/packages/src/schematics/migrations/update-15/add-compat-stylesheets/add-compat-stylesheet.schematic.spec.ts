@@ -137,6 +137,27 @@ describe('Migrations > Add compat stylesheets', () => {
     );
   });
 
+  it('should add a compat stylesheet for the indicators tokens component', async () => {
+    const { runSchematic, tree } = await setupTest();
+
+    tree.overwrite(
+      '/package.json',
+      JSON.stringify({
+        dependencies: {
+          '@skyux/indicators': 'CURRENT_VERSION.0.0',
+        },
+      }),
+    );
+
+    const updatedTree = await runSchematic();
+    const compatStylesheetContents = updatedTree.readText(compatStylesheetPath);
+
+    expect(compatStylesheetContents).toContain(
+      '--sky-compat-tokens-content-flex-wrap: nowrap;',
+    );
+    expect(compatStylesheetContents).toContain('COMPONENT: TOKENS');
+  });
+
   it('should add a compat stylesheet for libraries in devDependencies', async () => {
     await validateCompatStylesheet(
       JSON.stringify({
