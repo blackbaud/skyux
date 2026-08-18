@@ -1,155 +1,306 @@
-import { BehaviorSubject, Observable, of as observableOf } from 'rxjs';
+// #region imports
+import { of as observableOf } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 import { SkyLibResourcesLegacyService } from './lib-resources-legacy.service';
 import { SkyLibResourcesProvider } from './lib-resources-provider';
-import { SkyLibResourcesService } from './lib-resources.service';
 import { SkyAppLocaleInfo } from './locale-info';
 import { SkyAppLocaleProvider } from './locale-provider';
+
+// #endregion
 
 class MockSkyLibResourcesProvider implements SkyLibResourcesProvider {
   public getString(
     localeInfo: SkyAppLocaleInfo,
     name: string,
   ): string | undefined {
-    const resources: Record<string, Record<string, string>> = {
+    const resources: any = {
       en_US: {
         greeting: 'hello',
+        greeting_alternate: 'hi',
+        hi: 'hello',
+        hi_alternate: 'howdy',
         template: 'format {0} me {1} {0}',
       },
       fr_CA: {
         greeting: 'bonjour',
+        'hi!': 'bonjour!',
       },
+      fr_FR: {
+        greeting: 'hello {0} {1}',
+      },
+      is_empty: { greeting: '' }, // <-- support empty messages
     };
 
-    return resources[localeInfo.locale]?.[name];
+    const values = resources[localeInfo.locale];
+
+    if (values) {
+      return values[name];
+    }
+
+    return '';
   }
 }
 
-describe('Library resources legacy service', () => {
+describe('Library resources service', () => {
+  let service: SkyLibResourcesLegacyService;
   let mockLocaleProvider: SkyAppLocaleProvider;
   let mockProviders: SkyLibResourcesProvider[];
-
-  function createService(
-    localeProvider = mockLocaleProvider,
-  ): SkyLibResourcesLegacyService {
-    return new SkyLibResourcesLegacyService(
-      localeProvider,
-      mockProviders,
-      undefined,
-    );
-  }
 
   beforeEach(() => {
     mockLocaleProvider = {
       defaultLocale: 'en_US',
-      getLocaleInfo: (): Observable<SkyAppLocaleInfo> =>
-        observableOf({ locale: 'en_US' }),
+      getLocaleInfo: () => observableOf({ locale: 'en_US' }),
     };
 
-    mockProviders = [new MockSkyLibResourcesProvider()];
-  });
-
-  it('should get a string and complete', (done) => {
-    const values: string[] = [];
-
-    createService()
-      .getString('greeting')
-      .subscribe({
-        next: (value) => values.push(value),
-        complete: () => {
-          expect(values).toEqual(['hello']);
-          done();
-        },
-      });
-  });
-
-  it('should get a string with template args', (done) => {
-    createService()
-      .getString('template', 'a', 'b')
-      .subscribe((value) => {
-        expect(value).toBe('format a me b a');
-        done();
-      });
-  });
-
-  it('should get strings and complete', (done) => {
-    const values: Record<string, string>[] = [];
-
-    createService()
-      .getStrings({
-        greeting: 'greeting',
-        formatted: ['template', 'a', 'b'],
-      })
-      .subscribe({
-        next: (value) => values.push(value),
-        complete: () => {
-          expect(values).toEqual([
-            { greeting: 'hello', formatted: 'format a me b a' },
-          ]);
-          done();
-        },
-      });
+    mockProviders = [
+      new MockSkyLibResourcesProvider(),
+      new MockSkyLibResourcesProvider(),
+    ];
   });
 
   it('should get a string for a locale', () => {
-    expect(
-      createService().getStringForLocale({ locale: 'fr_CA' }, 'greeting'),
-    ).toBe('bonjour');
+    service = new SkyLibResourcesLegacyService(
+      mockLocaleProvider,
+      mockProviders,
+      undefined,
+    );
+    const value = service.getStringForLocale(
+      {
+        locale: 'en_US',
+      },
+      'greeting',
+    );
+    expect(value).toEqual('hello');
   });
 
-  it('should get a string for a locale with template args', () => {
-    expect(
-      createService().getStringForLocale(
-        { locale: 'en_US' },
-        'template',
-        'a',
-        'b',
-      ),
-    ).toBe('format a me b a');
-  });
+  it('should get a string from the static resources property', () => {
+    service = new SkyLibResourcesLegacyService(mockLocaleProvider);
 
-  it('should add resources to the resources service', () => {
     SkyLibResourcesLegacyService.addResources({
       'EN-US': {
-        my_legacy_lib_string: {
+        my_string: {
           message: 'Hello, world!',
         },
       },
     });
 
     expect(
-      new SkyLibResourcesService(mockLocaleProvider).getStringForLocale(
-        { locale: 'EN-US' },
-        'my_legacy_lib_string',
-      ),
-    ).toBe('Hello, world!');
+      service.getStringForLocale({ locale: 'EN-US' }, 'my_string'),
+    ).toEqual('Hello, world!');
   });
 
-  it('should not emit again when the locale changes', () => {
-    const localeSubject = new BehaviorSubject<SkyAppLocaleInfo>({
-      locale: 'en_US',
+  it('should get a string for the default locale using locale provider', () => {
+    service = new SkyLibResourcesLegacyService(
+      mockLocaleProvider,
+      mockProviders,
+      undefined,
+    );
+    service
+      .getString('greeting')
+      .pipe(take(1))
+      .subscribe((value: string) => {
+        expect(value).toEqual('hello');
+      });
+  });
+
+  it('should get a string for a locale using locale provider', () => {
+    spyOn(mockLocaleProvider, 'getLocaleInfo').and.returnValue(
+      observableOf({
+        locale: 'fr_CA',
+      }),
+    );
+    service = new SkyLibResourcesLegacyService(
+      mockLocaleProvider,
+      mockProviders,
+      undefined,
+    );
+    service
+      .getString('greeting')
+      .pipe(take(1))
+      .subscribe((value: string) => {
+        expect(value).toEqual('bonjour');
+      });
+  });
+
+  it('should return the key if no string found', () => {
+    service = new SkyLibResourcesLegacyService(
+      mockLocaleProvider,
+      undefined,
+      undefined,
+    );
+    service
+      .getString('greeting')
+      .pipe(take(1))
+      .subscribe((value: string) => {
+        expect(value).toEqual('greeting');
+      });
+  });
+
+  it('should handle formatted strings', () => {
+    spyOn(mockLocaleProvider, 'getLocaleInfo').and.returnValue(
+      observableOf({
+        locale: 'fr_FR',
+      }),
+    );
+    service = new SkyLibResourcesLegacyService(
+      mockLocaleProvider,
+      mockProviders,
+      undefined,
+    );
+    service
+      .getString('greeting', 'foo', 'bar')
+      .pipe(take(1))
+      .subscribe((value: string) => {
+        expect(value).toEqual('hello foo bar');
+      });
+  });
+
+  it('should use the name from the name provider', () => {
+    const mockResourceNameProvider: any = {
+      getResourceName: (name: string) => {
+        return observableOf(name + '_alternate');
+      },
+    };
+
+    service = new SkyLibResourcesLegacyService(
+      mockLocaleProvider,
+      mockProviders,
+      mockResourceNameProvider,
+    );
+
+    service
+      .getString('greeting')
+      .pipe(take(1))
+      .subscribe((value: string) => {
+        expect(value).toEqual('hi');
+      });
+  });
+
+  it('should support empty library resource strings', () => {
+    spyOn(mockLocaleProvider, 'getLocaleInfo').and.returnValue(
+      observableOf({
+        locale: 'is_empty',
+      }),
+    );
+
+    service = new SkyLibResourcesLegacyService(
+      mockLocaleProvider,
+      mockProviders,
+      undefined,
+    );
+    service
+      .getString('greeting')
+      .pipe(take(1))
+      .subscribe((value: string) => {
+        expect(value).toEqual('');
+      });
+  });
+
+  describe('getStrings', () => {
+    it('returns a completed observable (this is default forkJoin behavior)', (done) => {
+      service = new SkyLibResourcesLegacyService(
+        mockLocaleProvider,
+        mockProviders,
+        undefined,
+      );
+      const resources$ = service.getStrings({}).pipe(take(1));
+
+      resources$.subscribe({
+        next: () => fail(),
+        complete: () => done(),
+        error: () => fail(),
+      });
     });
 
-    const service = createService({
-      defaultLocale: 'en_US',
-      getLocaleInfo: (): Observable<SkyAppLocaleInfo> =>
-        localeSubject.asObservable(),
+    it('returns a dictionary of resources (1 resource)', (done) => {
+      service = new SkyLibResourcesLegacyService(
+        mockLocaleProvider,
+        mockProviders,
+        undefined,
+      );
+      const resources$ = service.getStrings({ hi: 'hello' }).pipe(take(1));
+
+      resources$.subscribe((values) => {
+        expect(Object.keys(values).length).toBe(1);
+        expect(values.hi).toBe('hello');
+        expect((values as any)['hi_alternate']).toBeUndefined();
+        expect((values as any)['NOT DEFINED']).toBeUndefined();
+        done();
+      });
     });
 
-    const stringValues: string[] = [];
-    const dictionaryValues: Record<string, string>[] = [];
+    it('returns a dictionary of resources (1+ resources)', (done) => {
+      service = new SkyLibResourcesLegacyService(
+        mockLocaleProvider,
+        mockProviders,
+        undefined,
+      );
+      const resources$ = service
+        .getStrings({
+          hi: 'hello',
+          hi_alternate: 'hi_alternate',
+        })
+        .pipe(take(1));
 
-    service.getString('greeting').subscribe((value) => {
-      stringValues.push(value);
+      resources$.subscribe((values) => {
+        expect(Object.keys(values).length).toBe(2);
+        expect((values as any)['NOT DEFINED']).toBeUndefined();
+        expect(values.hi).toBe('hello');
+        expect(values.hi_alternate).toBe('howdy');
+        done();
+      });
     });
 
-    service.getStrings({ greeting: 'greeting' }).subscribe((value) => {
-      dictionaryValues.push(value);
+    it('handles templated resources', (done) => {
+      service = new SkyLibResourcesLegacyService(
+        mockLocaleProvider,
+        mockProviders,
+        undefined,
+      );
+      const resources$ = service
+        .getStrings({
+          hi: 'hello',
+          hiAlternate: 'hi_alternate',
+          hiWithTemplateSyntax: ['hi'],
+          template: ['template', 'a', 'b'],
+          templateWithMissingTokens: ['template'],
+        })
+        .pipe(take(1));
+
+      resources$.subscribe((values) => {
+        expect(Object.keys(values).length).toBe(5);
+        expect(values.hi).toBe('hello');
+        expect(values.hiAlternate).toBe('howdy');
+        expect(values.hiWithTemplateSyntax).toBe('hello');
+        expect(values.template).toBe('format a me b a');
+        expect(values.templateWithMissingTokens).toBe('format {0} me {1} {0}');
+        done();
+      });
     });
 
-    localeSubject.next({ locale: 'fr_CA' });
+    it('handles locales', (done) => {
+      spyOn(mockLocaleProvider, 'getLocaleInfo').and.returnValue(
+        observableOf({ locale: 'fr_FR' }),
+      );
+      service = new SkyLibResourcesLegacyService(
+        mockLocaleProvider,
+        mockProviders,
+        undefined,
+      );
+      const resources$ = service
+        .getStrings({
+          greeting: 'bonjour',
+          'hi!': 'bonjour!',
+        })
+        .pipe(take(1));
 
-    expect(stringValues).toEqual(['hello']);
-    expect(dictionaryValues).toEqual([{ greeting: 'hello' }]);
+      resources$.subscribe((values) => {
+        expect(Object.keys(values).length).toBe(2);
+        expect(values.greeting).toBe('bonjour');
+        expect(values['hi!']).toBe('bonjour!');
+        done();
+      });
+    });
   });
 });

@@ -1,30 +1,34 @@
+// #region imports
 import { Inject, Injectable, Optional } from '@angular/core';
 
-import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Observable, forkJoin, of as observableOf } from 'rxjs';
+import { map } from 'rxjs/operators';
 
+import { Format } from '../../utils/format';
+
+import { getLibStringForLocale } from './get-lib-string-for-locale';
 import { SkyLibResources } from './lib-resources';
 import { SkyLibResourcesProvider } from './lib-resources-provider';
 import { SKY_LIB_RESOURCES_PROVIDERS } from './lib-resources-providers-token';
-import { SkyLibResourcesService } from './lib-resources.service';
 import { SkyAppLocaleInfo } from './locale-info';
 import { SkyAppLocaleProvider } from './locale-provider';
 import { SkyAppResourceNameProvider } from './resource-name-provider';
 
+// #endregion
+
 type ResourceKey = string;
-type TemplatedResource = [ResourceKey, ...unknown[]];
+type TemplatedResource = [ResourceKey, ...any[]];
 type ResourceDictionary = Record<string, ResourceKey | TemplatedResource>;
 
-/**
- * An Angular service for interacting with library resource strings.
- *
- * @deprecated This service is deprecated. Use `SkyLibResourcesService` instead.
- */
 @Injectable({
   providedIn: 'root',
 })
 export class SkyLibResourcesLegacyService {
-  readonly #resourcesService: SkyLibResourcesService;
+  private static resources: Record<string, SkyLibResources> = {};
+
+  #localeProvider: SkyAppLocaleProvider;
+  #providers: SkyLibResourcesProvider[] | undefined;
+  #resourceNameProvider: SkyAppResourceNameProvider | undefined;
 
   /* eslint-disable @angular-eslint/prefer-inject -- constructor injection is required to maintain the public API for consumers who may instantiate this service directly (e.g. `new SkyLibResourcesLegacyService(...)`) */
   constructor(
@@ -35,36 +39,47 @@ export class SkyLibResourcesLegacyService {
     @Optional() resourceNameProvider?: SkyAppResourceNameProvider,
   ) {
     /* eslint-enable @angular-eslint/prefer-inject */
-    this.#resourcesService = new SkyLibResourcesService(
-      localeProvider,
-      providers,
-      resourceNameProvider,
-    );
+    this.#localeProvider = localeProvider;
+    this.#providers = providers;
+    this.#resourceNameProvider = resourceNameProvider;
   }
 
   /**
    * Adds locale resources to be used by library components.
-   *
-   * @deprecated This method is deprecated. Use `SkyLibResourcesService.addResources()` instead.
    */
   public static addResources(
     localeResources: Record<string, SkyLibResources>,
   ): void {
-    SkyLibResourcesService.addResources(localeResources);
+    for (const [locale, resources] of Object.entries(localeResources)) {
+      SkyLibResourcesLegacyService.resources[locale] ||= {};
+      SkyLibResourcesLegacyService.resources[locale] = {
+        ...SkyLibResourcesLegacyService.resources[locale],
+        ...resources,
+      };
+    }
   }
 
   /**
-   * Gets a resource string based on its name. Emits once and completes.
+   * Gets a resource string based on its name.
    * @param name The name of the resource string.
    * @param args Any templated args.
-   * @deprecated This method is deprecated. Use `SkyLibResourcesService.getString()` instead.
    */
-  public getString(name: string, ...args: unknown[]): Observable<string> {
-    return this.#resourcesService.getString(name, ...args).pipe(take(1));
+  public getString(name: string, ...args: any[]): Observable<string> {
+    const mappedNameObs = this.#resourceNameProvider
+      ? this.#resourceNameProvider.getResourceName(name)
+      : observableOf(name);
+
+    const localeInfoObs = this.#localeProvider.getLocaleInfo();
+
+    return forkJoin([mappedNameObs, localeInfoObs]).pipe(
+      map(([mappedName, localeInfo]) =>
+        this.getStringForLocale(localeInfo, mappedName, ...args),
+      ),
+    );
   }
 
   /**
-   * Gets a Resource String Dictionary. Emits once and completes.
+   * Gets a Resource String Dictionary.
    *
    * This is similar to forkJoin's dictionary syntax.
    *
@@ -81,27 +96,55 @@ export class SkyLibResourcesLegacyService {
    *    arraySyntaxWithTemplateArgs: ['template', 'a', 'b'],
    * }
    * ```
-   *
-   * @deprecated This method is deprecated. Use `SkyLibResourcesService.getStrings()` instead.
    */
   public getStrings<T extends ResourceDictionary>(
     dictionary: T,
   ): Observable<{ [K in keyof T]: string }> {
-    return this.#resourcesService.getStrings(dictionary).pipe(take(1));
+    const resources$: Record<string, Observable<string>> = {};
+
+    for (const objKey of Object.keys(dictionary)) {
+      const resource: string | [string, ...any[]] = dictionary[objKey];
+
+      if (typeof resource === 'string') {
+        resources$[objKey] = this.getString(resource);
+      } else {
+        const [key, ...templateItems] = resource;
+        resources$[objKey] = this.getString(key, ...templateItems);
+      }
+    }
+
+    return forkJoin(resources$) as Observable<{ [K in keyof T]: string }>;
   }
 
-  /**
-   * Gets a resource string for a specific locale based on its name.
-   * @param info The locale to use.
-   * @param name The name of the resource string.
-   * @param args Any templated args.
-   * @deprecated This method is deprecated. Use `SkyLibResourcesService.getStringForLocale()` instead.
-   */
   public getStringForLocale(
     info: SkyAppLocaleInfo,
     name: string,
-    ...args: unknown[]
+    ...args: any[]
   ): string {
-    return this.#resourcesService.getStringForLocale(info, name, ...args);
+    let value: string | undefined;
+
+    // First, look in the static 'resources' property.
+    value = getLibStringForLocale(
+      SkyLibResourcesLegacyService.resources,
+      info.locale,
+      name,
+    );
+
+    // If it's not found there, look in the providers.
+    if (value === undefined && this.#providers) {
+      for (const provider of this.#providers) {
+        const s = provider.getString(info, name);
+        if (s !== undefined) {
+          value = s;
+          break;
+        }
+      }
+    }
+
+    if (value !== undefined) {
+      return Format.formatText(value, ...args);
+    }
+
+    return name;
   }
 }
