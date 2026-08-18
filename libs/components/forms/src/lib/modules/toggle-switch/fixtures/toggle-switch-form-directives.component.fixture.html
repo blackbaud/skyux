@@ -1,9 +1,8 @@
 <form>
   <sky-toggle-switch
+    labelText="Sample label"
     name="sampleToggleSwitch"
     [ngModel]="modelValue()"
     (ngModelChange)="modelValue.set($event)"
-  >
-    <sky-toggle-switch-label> Sample label </sky-toggle-switch-label>
-  </sky-toggle-switch>
+  />
 </form>

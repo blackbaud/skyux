@@ -26,7 +26,6 @@ export class ToggleSwitchHarnessTestComponent {
   public helpPopoverTitle = input<string | undefined>();
   public labelHidden = input<boolean>(false);
   public labelText = input<string | undefined>('Label text');
-  public useAlternateLabel = input<boolean>(false);
   protected formGroup: FormGroup;
 
   constructor() {
