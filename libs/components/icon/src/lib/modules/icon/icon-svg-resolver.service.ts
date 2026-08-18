@@ -1,11 +1,15 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+
+import { SKY_ICON_SVG_URL } from '@skyux/core';
 
 import { SkyIconVariantType } from './types/icon-variant-type';
 
-async function getIconMap(): Promise<Map<string, number[]>> {
-  const response = await fetch(
-    `https://sky.blackbaudcdn.net/static/skyux-icons/10/assets/svg/skyux-icons.svg`,
-  );
+async function getIconMap(
+  svgUrl: string | null,
+): Promise<Map<string, number[]>> {
+  svgUrl ||= `https://sky.blackbaudcdn.net/static/skyux-icons/10/assets/svg/skyux-icons.svg`;
+
+  const response = await fetch(svgUrl);
 
   /* istanbul ignore next */
   if (!response.ok) {
@@ -93,13 +97,15 @@ let iconMapPromise: Promise<Map<string, number[]>> | undefined;
   providedIn: 'root',
 })
 export class SkyIconSvgResolverService {
+  #svgUrl = inject(SKY_ICON_SVG_URL, { optional: true });
+
   public async resolveHref(
     name: string,
     pixelSize = 16,
     variant: SkyIconVariantType = 'line',
   ): Promise<string> {
     if (!iconMapPromise) {
-      iconMapPromise = getIconMap();
+      iconMapPromise = getIconMap(this.#svgUrl);
     }
 
     const iconMap = await iconMapPromise;

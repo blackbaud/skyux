@@ -1,7 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
+import { SKY_ICON_SVG_URL } from '@skyux/core';
+
 import { SkyIconSvgResolverService } from './icon-svg-resolver.service';
 import { SkyIconVariantType } from './types/icon-variant-type';
+
+const DEFAULT_SVG_URL =
+  'https://sky.blackbaudcdn.net/static/skyux-icons/10/assets/svg/skyux-icons.svg';
 
 describe('Icon SVG resolver service', () => {
   let fetchMock: jasmine.Spy<typeof fetch>;
@@ -23,6 +28,7 @@ describe('Icon SVG resolver service', () => {
     size?: number,
     variant?: SkyIconVariantType,
     expectedError?: string,
+    expectedUrl = DEFAULT_SVG_URL,
   ): Promise<void> {
     const hrefPromise = resolverSvc.resolveHref(name, size, variant);
 
@@ -34,9 +40,7 @@ describe('Icon SVG resolver service', () => {
 
     // Fetch should only be called once per instance of the resolver service
     // and the result shared across subsequent calls to resolveHref().
-    expect(fetchMock).toHaveBeenCalledOnceWith(
-      'https://sky.blackbaudcdn.net/static/skyux-icons/10/assets/svg/skyux-icons.svg',
-    );
+    expect(fetchMock).toHaveBeenCalledOnceWith(expectedUrl);
   }
 
   beforeAll(() => {
@@ -146,6 +150,33 @@ describe('Icon SVG resolver service', () => {
 
     it('should resolve to the icon size closest to the default size when size is not specified', async () => {
       await validate('multi-size', '#sky-i-multi-size-12-line');
+    });
+  });
+
+  describe('with SKY_ICON_SVG_URL provided', () => {
+    const customUrl = 'https://example.com/custom-icons.svg';
+
+    beforeEach(() => {
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        providers: [
+          SkyIconSvgResolverService,
+          { provide: SKY_ICON_SVG_URL, useValue: customUrl },
+        ],
+      });
+
+      resolverSvc = TestBed.inject(SkyIconSvgResolverService);
+    });
+
+    it('should fetch the icon sprite from the provided URL instead of the default', async () => {
+      await validate(
+        'single-size',
+        '#sky-i-single-size-12-line',
+        12,
+        'line',
+        undefined,
+        customUrl,
+      );
     });
   });
 });
