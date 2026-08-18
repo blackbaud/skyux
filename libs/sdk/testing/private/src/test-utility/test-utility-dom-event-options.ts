@@ -1,4 +1,4 @@
-export interface SkyAppTestUtilityDomEventOptions {
+export interface _SkyAppTestUtilityDomEventOptions {
   bubbles?: boolean;
   cancelable?: boolean;
   keyboardEventInit?: KeyboardEventInit;

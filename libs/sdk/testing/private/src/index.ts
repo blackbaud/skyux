@@ -1,5 +1,7 @@
 export { _SkyA11yAnalyzer } from './a11y/a11y-analyzer';
 export type { _SkyA11yAnalyzerConfig } from './a11y/a11y-analyzer-config';
+export { _SkyAppTestUtility } from './test-utility/test-utility';
+export type { _SkyAppTestUtilityDomEventOptions } from './test-utility/test-utility-dom-event-options';
 export { _skyTestingCheckAccessibility } from './utility/check-accessibility';
 export { _skyTestingCheckExistence } from './utility/check-existence';
 export { _skyTestingCheckLibResourceTemplate } from './utility/check-lib-resource-template';

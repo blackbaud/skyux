@@ -7,7 +7,7 @@ import {
   tick,
 } from '@angular/core/testing';
 
-import { SkyAppTestUtility } from './test-utility';
+import { _SkyAppTestUtility as SkyAppTestUtility } from './test-utility';
 
 //#endregion
 

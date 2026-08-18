@@ -2,7 +2,7 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { SkyAppTestUtilityDomEventOptions } from './test-utility-dom-event-options';
+import { _SkyAppTestUtilityDomEventOptions as SkyAppTestUtilityDomEventOptions } from './test-utility-dom-event-options';
 
 function getNativeEl(el: any): any {
   if (!el) {
@@ -16,7 +16,7 @@ function getNativeEl(el: any): any {
   return el;
 }
 
-export class SkyAppTestUtility {
+export class _SkyAppTestUtility {
   public static fireDomEvent(
     element: EventTarget | null | undefined,
     eventName: string,
