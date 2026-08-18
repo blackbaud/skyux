@@ -69,9 +69,7 @@ describe('Icon SVG resolver service', () => {
       ),
     );
 
-    logSvcSpy = jasmine.createSpyObj<SkyLogService>('SkyLogService', [
-      'warn',
-    ]);
+    logSvcSpy = jasmine.createSpyObj<SkyLogService>('SkyLogService', ['warn']);
 
     TestBed.configureTestingModule({
       providers: [
