@@ -11,6 +11,11 @@ describe('Get library string', () => {
           message: 'bar',
         },
       },
+      ES: {
+        foo: {
+          message: 'ejemplo',
+        },
+      },
     };
   });
 
@@ -32,5 +37,10 @@ describe('Get library string', () => {
   it('should handle mixed-case locales', () => {
     const result = getLibStringForLocale(resources, 'en-us', 'foo');
     expect(result).toEqual('bar');
+  });
+
+  it('should handle non-region locales', () => {
+    const result = getLibStringForLocale(resources, 'es-mx', 'foo');
+    expect(result).toEqual('ejemplo');
   });
 });
