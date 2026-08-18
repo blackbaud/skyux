@@ -39,11 +39,6 @@ const COMPONENTS_WITH_LABEL_TEXT: {
     labelInputName: 'labelText',
     labelSelector: 'sky-radio-label',
   },
-  {
-    selector: 'sky-toggle-switch',
-    labelInputName: 'labelText',
-    labelSelector: 'sky-toggle-switch-label',
-  },
 ];
 
 const SELECTORS_WITH_LABEL_COMPONENTS = COMPONENTS_WITH_LABEL_TEXT.map(
