@@ -6,6 +6,20 @@ import { SkyIconVariantType } from './types/icon-variant-type';
 
 const DEFAULT_SVG_URL = `https://sky.blackbaudcdn.net/static/skyux-icons/10/assets/svg/skyux-icons.svg`;
 
+// The icon sprite is loaded into (and queried from) the document as a single
+// global element, so only one SKY_ICON_SVG_URL can be active per application
+// at a time. These track which URL "owns" the current icon map.
+let iconMapPromise: Promise<Map<string, number[]>> | undefined;
+let loadedSvgUrl: string | undefined;
+
+function warnIfUrlMismatch(svgUrl: string): void {
+  if (loadedSvgUrl && loadedSvgUrl !== svgUrl) {
+    console.warn(
+      `SkyIconSvgResolverService only supports one SKY_ICON_SVG_URL value per application. An icon sprite has already been loaded from '${loadedSvgUrl}', so a sprite will not also be loaded from '${svgUrl}'.`,
+    );
+  }
+}
+
 async function getIconMap(svgUrl: string): Promise<Map<string, number[]>> {
   const response = await fetch(svgUrl);
 
@@ -84,20 +98,6 @@ function getNearestSize(
   }
 
   return undefined;
-}
-
-// The icon sprite is loaded into (and queried from) the document as a single
-// global element, so only one SKY_ICON_SVG_URL can be active per application
-// at a time. These track which URL "owns" the current icon map.
-let iconMapPromise: Promise<Map<string, number[]>> | undefined;
-let loadedSvgUrl: string | undefined;
-
-function warnIfUrlMismatch(svgUrl: string): void {
-  if (loadedSvgUrl && loadedSvgUrl !== svgUrl) {
-    console.warn(
-      `SkyIconSvgResolverService only supports one SKY_ICON_SVG_URL value per application. An icon sprite has already been loaded from '${loadedSvgUrl}', so a sprite will not also be loaded from '${svgUrl}'.`,
-    );
-  }
 }
 
 /**
