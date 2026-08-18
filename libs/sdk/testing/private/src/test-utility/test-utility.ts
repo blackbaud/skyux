@@ -18,6 +18,8 @@ function getNativeEl(el: any): any {
 
 /**
  * A collection of low-level DOM and Angular test helpers.
+ *
+ * @internal
  * @deprecated Use native JavaScript DOM APIs or Angular testing utilities
  * (e.g. `DebugElement`, `ComponentFixture`, component test harnesses)
  * instead. See each method for a specific replacement.
