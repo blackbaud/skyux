@@ -1,3 +1,4 @@
+import { Injector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
 import { SKY_ICON_SVG_URL } from '@skyux/core';
@@ -76,7 +77,11 @@ describe('Icon SVG resolver service', () => {
 
   afterEach(() => {
     resolverSvc.resetIconMap();
-    document.getElementById('sky-icon-svg-sprite')?.remove();
+    // Some tests insert more than one sprite (each sharing the same id), so
+    // remove them all rather than only the first match.
+    document
+      .querySelectorAll('#sky-icon-svg-sprite')
+      .forEach((el) => el.remove());
   });
 
   it('should resolve the expected variant', async () => {
@@ -178,5 +183,36 @@ describe('Icon SVG resolver service', () => {
         customUrl,
       );
     });
+  });
+
+  it('should warn (but not throw) when a second instance is configured with a different SVG URL', async () => {
+    const customUrl = 'https://example.com/different-icons.svg';
+    const consoleWarnSpy = spyOn(console, 'warn');
+
+    // Establish the icon map via the default-configured instance.
+    await expectAsync(
+      resolverSvc.resolveHref('single-size', 12, 'line'),
+    ).toBeResolvedTo('#sky-i-single-size-12-line');
+
+    const customResolverSvc = Injector.create({
+      providers: [
+        SkyIconSvgResolverService,
+        { provide: SKY_ICON_SVG_URL, useValue: customUrl },
+      ],
+      parent: TestBed.inject(Injector),
+    }).get(SkyIconSvgResolverService);
+
+    // A differently-configured instance should warn rather than throw, and
+    // still resolve using whichever sprite was already loaded.
+    await expectAsync(
+      customResolverSvc.resolveHref('single-size', 12, 'line'),
+    ).toBeResolvedTo('#sky-i-single-size-12-line');
+
+    expect(consoleWarnSpy).toHaveBeenCalledOnceWith(
+      `SkyIconSvgResolverService only supports one SKY_ICON_SVG_URL value per application. An icon sprite has already been loaded from '${DEFAULT_SVG_URL}', so a sprite will not also be loaded from '${customUrl}'.`,
+    );
+
+    // The second instance's URL should never have been fetched.
+    expect(fetchMock).toHaveBeenCalledOnceWith(DEFAULT_SVG_URL);
   });
 });
