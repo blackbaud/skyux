@@ -5,11 +5,7 @@
     [helpPopoverContent]="helpPopoverContent()"
     [helpPopoverTitle]="helpPopoverTitle()"
     [helpKey]="helpKey()"
-    [labelHidden]="useAlternateLabel() ? undefined : labelHidden()"
-    [labelText]="useAlternateLabel() ? undefined : labelText()"
-  >
-    @if (useAlternateLabel()) {
-      <sky-toggle-switch-label>Alternate label</sky-toggle-switch-label>
-    }
-  </sky-toggle-switch>
+    [labelHidden]="labelHidden()"
+    [labelText]="labelText()"
+  />
 </form>
