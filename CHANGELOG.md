@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.13.1](https://github.com/blackbaud/skyux/compare/14.13.0...14.13.1) (2026-08-18)
+
+
+### Bug Fixes
+
+* **components/theme:** `base` dark mode tokens are not overwritten by `blackbaud` light mode tokens ([#4637](https://github.com/blackbaud/skyux/issues/4637)) ([7a15a93](https://github.com/blackbaud/skyux/commit/7a15a939d7af29942d4b24f4d675a349f2442398))
+
 ## [14.13.0](https://github.com/blackbaud/skyux/compare/14.12.0...14.13.0) (2026-08-14)
 
 
