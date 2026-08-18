@@ -832,7 +832,9 @@ describe('File attachment', () => {
       By.css('.sky-file-attachment-file-link a'),
     );
 
-    fileNameDebugEl.triggerEventHandler('keydown.enter', {});
+    fileNameDebugEl.nativeElement.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }),
+    );
 
     expect(fileAttachmentInstance.fileClick.emit).toHaveBeenCalledWith({
       file: testFile,
