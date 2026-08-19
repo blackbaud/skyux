@@ -32,6 +32,7 @@
 * **components/lookup:** autocomplete does not clear value on blur when all values are allowed ([#4626](https://github.com/blackbaud/skyux/issues/4626)) ([#4630](https://github.com/blackbaud/skyux/issues/4630)) ([7901666](https://github.com/blackbaud/skyux/commit/7901666884bf135d5246e7eed3f03182c94a793c))
 * **components/theme:** `sky-btn-disable` no longer disables pointer events ([#4628](https://github.com/blackbaud/skyux/issues/4628)) ([949894b](https://github.com/blackbaud/skyux/commit/949894bae64cdd321f71b6ad703d7954824179af))
 * **sdk/testing:** visibility checks no longer ignore earlier failed rules ([#4616](https://github.com/blackbaud/skyux/issues/4616)) ([593ba9a](https://github.com/blackbaud/skyux/commit/593ba9adb5c68fc109924a3c5d7e2665dbff07de)), closes [AB#3959363](https://dev.azure.com/blackbaud/Products/_workitems/edit/3959363)
+* use menu background color for timepicker and popover ([#4644](https://github.com/blackbaud/skyux/issues/4644)) ([#4645](https://github.com/blackbaud/skyux/issues/4645)) ([9812539](https://github.com/blackbaud/skyux/commit/9812539329c45a20a128f3765207b868a042ffed))
 
 ## [14.14.0](https://github.com/blackbaud/skyux/compare/14.13.0...14.14.0) (2026-08-18)
 
