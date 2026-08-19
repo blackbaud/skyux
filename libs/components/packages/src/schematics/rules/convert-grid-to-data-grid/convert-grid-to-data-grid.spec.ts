@@ -314,7 +314,6 @@ describe('Convert Grid to Data Grid', () => {
     expect(stripIndents`${result.readText('src/app/test.component.ts')}`).toBe(
       stripIndents`
         import { Component } from '@angular/core';
-
         import { SkyDataGrid, SkyDataGridColumn } from '@skyux/data-grid';
 
         @Component({
@@ -357,7 +356,6 @@ describe('Convert Grid to Data Grid', () => {
     expect(stripIndents`${result.readText('src/app/test.component.ts')}`).toBe(
       stripIndents`
         import { Component } from '@angular/core';
-
         import { SkyListViewGridModule } from '@skyux/list-builder-view-grids';
 
         @Component({
@@ -429,7 +427,6 @@ describe('Convert Grid to Data Grid', () => {
     expect(stripIndents`${result.readText('src/app/test.component.ts')}`).toBe(
       stripIndents`
         import { Component } from '@angular/core';
-
         import { SkyListViewGridModule } from '@skyux/list-builder-view-grids';
         import { SkyDataGrid, SkyDataGridColumn } from '@skyux/data-grid';
 
@@ -478,7 +475,6 @@ describe('Convert Grid to Data Grid', () => {
     expect(stripIndents`${result.readText('src/app/test.component.ts')}`).toBe(
       stripIndents`
         import { Component } from '@angular/core';
-
         import { SkyDataGrid, SkyDataGridColumn } from '@skyux/data-grid';
 
         @Component({
@@ -576,7 +572,6 @@ describe('Convert Grid to Data Grid', () => {
     expect(stripIndents`${result.readText('src/app/foo.module.ts')}`).toBe(
       stripIndents`
         import { NgModule } from '@angular/core';
-
         import { SkyListViewGridModule } from '@skyux/list-builder-view-grids';
 
         import { FooComponent } from './foo.component';
@@ -656,7 +651,6 @@ describe('Convert Grid to Data Grid', () => {
       stripIndents`
         import { NgModule } from '@angular/core';
 
-
         import { FooComponent } from './foo.component';
         import { SkyDataGrid, SkyDataGridColumn } from '@skyux/data-grid';
 
@@ -692,7 +686,6 @@ describe('Convert Grid to Data Grid', () => {
     expect(stripIndents`${result.readText('src/app/test.component.ts')}`).toBe(
       stripIndents`
         import { Component } from '@angular/core';
-
         import { SkyListViewGridModule } from '@skyux/list-builder-view-grids';
 
         @Component({
@@ -733,7 +726,6 @@ describe('Convert Grid to Data Grid', () => {
     expect(stripIndents`${result.readText('src/app/test.component.ts')}`).toBe(
       stripIndents`
         import { Component } from '@angular/core';
-
         import { SkyDataGrid, SkyDataGridColumn } from '@skyux/data-grid';
 
         @Component({
@@ -788,7 +780,6 @@ describe('Convert Grid to Data Grid', () => {
     expect(stripIndents`${result.readText('src/app/foo.component.spec.ts')}`)
       .toBe(stripIndents`
       import { TestBed } from '@angular/core/testing';
-
 
       import { FooComponent } from './foo.component';
       import { SkyDataGrid, SkyDataGridColumn } from '@skyux/data-grid';
@@ -855,7 +846,6 @@ describe('Convert Grid to Data Grid', () => {
     expect(stripIndents`${result.readText('src/app/test.component.ts')}`).toBe(
       stripIndents`
         import { Component } from '@angular/core';
-
         import { SkyDataGrid, SkyDataGridColumn } from '@skyux/data-grid';
 
         @Component({
@@ -915,7 +905,6 @@ describe('Convert Grid to Data Grid', () => {
     expect(stripIndents`${result.readText('src/app/foo.module.ts')}`).toBe(
       stripIndents`
         import { NgModule } from '@angular/core';
-
         import { SkyListViewGridModule } from '@skyux/list-builder-view-grids';
 
         import { AComponent } from './a.component';
@@ -1077,7 +1066,6 @@ describe('Convert Grid to Data Grid', () => {
         import { CommonModule } from '@angular/common';
         import { NgModule } from '@angular/core';
 
-
         import { FooComponent } from './foo.component';
         import { SkyDataGrid, SkyDataGridColumn } from '@skyux/data-grid';
 
@@ -1189,7 +1177,6 @@ describe('Convert Grid to Data Grid', () => {
         import { NgModule } from '@angular/core';
         import { SkyDataGrid, SkyDataGridColumn } from '@skyux/data-grid';
 
-
         import { FooComponent } from './foo.component';
 
         @NgModule({
@@ -1235,7 +1222,6 @@ describe('Convert Grid to Data Grid', () => {
       stripIndents`
         import { NgModule } from '@angular/core';
         import { SkyDataGrid, SkyDataGridColumn } from '@skyux/data-grid';
-
 
         import { FooComponent } from './foo.component';
 

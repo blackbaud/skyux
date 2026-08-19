@@ -19,7 +19,6 @@ exports[`standalone should do nothing on a second component in the same file 1`]
     import { Component } from '@angular/core';
 import { SkyModalModule } from '@skyux/modals';
     
-
     @Component({
       selector: 'app-test',
       template: '<sky-modal></sky-modal>',
@@ -81,7 +80,6 @@ exports[`standalone should migrate a standalone component to use SKY UX modules 
     import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import { SkyModalModule } from '@skyux/modals';
     
-
     @Component({
       selector: 'app-test',
       template: '<div>{{ test | async }}</div>',
@@ -96,7 +94,6 @@ exports[`standalone should migrate a standalone component with a single import t
     import { Component } from '@angular/core';
 import { SkyModalModule } from '@skyux/modals';
     
-
     @Component({
       selector: 'app-test',
       template: '<div></div>',
@@ -132,7 +129,7 @@ exports[`standalone should migrate a standalone component with λ and other impo
 "
     import { Component } from '@angular/core';
     import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
-    import {  SkyModalModule } from '@skyux/modals';
+    import { SkyModalModule } from '@skyux/modals';
 
     import { BehaviorSubject } from 'rxjs';
 
@@ -152,7 +149,6 @@ exports[`standalone should migrate a standalone component with λ imports to use
     import { Component } from '@angular/core';
 import { SkyModalModule } from '@skyux/modals';
     
-
     @Component({
       selector: 'app-test',
       template: '<div></div>',
@@ -167,7 +163,6 @@ exports[`standalone should migrate a test 1`] = `
     import { TestBed } from '@angular/core/testing';
 import { SkyModalModule } from '@skyux/modals';
     
-
     describe('TestComponent', () => {
       beforeEach(() => {
         TestBed.configureTestingModule({
@@ -183,7 +178,6 @@ exports[`standalone should migrate a test with a SKY UX pipe used in TestBed.con
     import { TestBed } from '@angular/core/testing';
 import { SkyDatePipeModule } from '@skyux/datetime';
     
-
     describe('TestComponent', () => {
       beforeEach(() => {
         TestBed.configureTestingModule({

@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`migrate-sdk-testing-imports.schematic should combine multiple supported import statements 1`] = `
+"import { SkyMediaQueryTestingController, provideSkyMediaQueryTesting, SkyAppTestUtility } from '@skyux/core/testing';
+
+describe('test', () => {
+  SkyMediaQueryTestingController;
+  provideSkyMediaQueryTesting();
+  SkyAppTestUtility.getText(null);
+});
+"
+`;
+
+exports[`migrate-sdk-testing-imports.schematic should merge into an existing supported import statement 1`] = `
+"import { provideSkyMediaQueryTesting, SkyBy } from '@skyux/core/testing';
+
+describe('test', () => {
+  provideSkyMediaQueryTesting();
+  SkyBy.dataSkyId('a');
+});
+"
+`;
+
+exports[`migrate-sdk-testing-imports.schematic should migrate a type-only import 1`] = `
+"import { SkyAppTestUtilityDomEventOptions } from '@skyux/core/testing';
+
+const options: SkyAppTestUtilityDomEventOptions = { bubbles: true };
+"
+`;
+
+exports[`migrate-sdk-testing-imports.schematic should move all imports and remove the empty import statement 1`] = `
+"import { SkyAppTestUtility, SkyBy } from '@skyux/core/testing';
+
+describe('test', () => {
+  SkyAppTestUtility.getText(SkyBy.dataSkyId('a'));
+});
+"
+`;
+
+exports[`migrate-sdk-testing-imports.schematic should retain imports that have not moved 1`] = `
+"import { SkyAppTestModule } from '@skyux-sdk/testing';
+import { SkyBy } from '@skyux/core/testing';
+
+describe('test', () => {
+  SkyAppTestModule;
+  SkyBy.dataSkyId('a');
+});
+"
+`;
