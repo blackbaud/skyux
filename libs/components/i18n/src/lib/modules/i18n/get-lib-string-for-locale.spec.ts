@@ -26,6 +26,11 @@ describe('Get library string', () => {
           message: 'primer',
         },
       },
+      'SR-LATN-RS': {
+        foo: {
+          message: 'primer (latinica)',
+        },
+      },
     };
   });
 
@@ -61,6 +66,11 @@ describe('Get library string', () => {
 
   it('should handle locales with multiple underscores (e.g. sr_Latn_RS)', () => {
     const result = getLibStringForLocale(resources, 'sr_Latn_RS', 'foo');
+    expect(result).toEqual('primer (latinica)');
+  });
+
+  it('should fall back to the language tag when the full locale is not supported', () => {
+    const result = getLibStringForLocale(resources, 'sr_Cyrl_RS', 'foo');
     expect(result).toEqual('primer');
   });
 });
