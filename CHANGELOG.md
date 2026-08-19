@@ -1,36 +1,21 @@
 # Changelog
 
 
-## [15.0.0-alpha.5](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.4...15.0.0-alpha.5) (2026-08-19)
+## [14.14.0](https://github.com/blackbaud/skyux/compare/14.13.0...14.14.0) (2026-08-18)
 
-
-### ⚠ BREAKING CHANGES
-
-* **components/modals:** remove deprecated SkyModalHeaderComponent (#4623)
-* **components/forms:** remove deprecated SkyToggleSwitchLabelComponent (#4620)
-* **components/select-field:** remove deprecated SkySelectFieldComponent (#4625)
-* **components/forms:** remove deprecated SkyFileAttachmentLabelComponent (#4618)
-* **components/layout:** remove deprecated SkyBoxHeaderComponent (#4617)
-* **components/theme:** `sky-btn-disable` no longer disables pointer events (#4628)
-* **sdk/testing:** visibility checks no longer ignore earlier failed rules (#4616)
 
 ### Features
 
-* add locale-aware AG Grid text ([#4615](https://github.com/blackbaud/skyux/issues/4615)) ([af2509e](https://github.com/blackbaud/skyux/commit/af2509e3667d04f5f062b1014052b9c404994aae)), closes [AB#4082332](https://dev.azure.com/blackbaud/Products/_workitems/edit/4082332) [#200](https://github.com/blackbaud/skyux/issues/200)
-* **components/forms:** remove deprecated SkyFileAttachmentLabelComponent ([#4618](https://github.com/blackbaud/skyux/issues/4618)) ([160d457](https://github.com/blackbaud/skyux/commit/160d4573f81aba59d10321ef5764dfee4e8acc11))
-* **components/forms:** remove deprecated SkyToggleSwitchLabelComponent ([#4620](https://github.com/blackbaud/skyux/issues/4620)) ([b95d193](https://github.com/blackbaud/skyux/commit/b95d193399b5864c46a37456b7ef881adf8d3b69))
-* **components/layout:** remove deprecated SkyBoxHeaderComponent ([#4617](https://github.com/blackbaud/skyux/issues/4617)) ([62beb9b](https://github.com/blackbaud/skyux/commit/62beb9b2528c936e563045332ca8b476b5ae25bf))
-* **components/modals:** remove deprecated SkyModalHeaderComponent ([#4623](https://github.com/blackbaud/skyux/issues/4623)) ([bd816e7](https://github.com/blackbaud/skyux/commit/bd816e7da751d8bb0f24996a99534f355fc95cb5))
-* **components/select-field:** remove deprecated SkySelectFieldComponent ([#4625](https://github.com/blackbaud/skyux/issues/4625)) ([0458b51](https://github.com/blackbaud/skyux/commit/0458b51c232d406f5f49db1f100496d40b0e0ec3))
-* tokenize the icon used by HTML select fields ([#4619](https://github.com/blackbaud/skyux/issues/4619)) ([#4622](https://github.com/blackbaud/skyux/issues/4622)) ([8fdf445](https://github.com/blackbaud/skyux/commit/8fdf4451cee3148b59bd4af58207af0279d6a215))
+* **components/icon:** allow icon URL to be provided with injection token ([#4641](https://github.com/blackbaud/skyux/issues/4641)) ([66bea84](https://github.com/blackbaud/skyux/commit/66bea84d3366c3b0a5e8264d1fbe327cac9dbf9f))
 
 
 ### Bug Fixes
 
-* **components/forms:** make file attachment file link keyboard accessible ([#4638](https://github.com/blackbaud/skyux/issues/4638)) ([2151133](https://github.com/blackbaud/skyux/commit/2151133428aee873afa324c8f0256c3f5a674053))
-* **components/lookup:** autocomplete does not clear value on blur when all values are allowed ([#4626](https://github.com/blackbaud/skyux/issues/4626)) ([#4630](https://github.com/blackbaud/skyux/issues/4630)) ([7901666](https://github.com/blackbaud/skyux/commit/7901666884bf135d5246e7eed3f03182c94a793c))
-* **components/theme:** `sky-btn-disable` no longer disables pointer events ([#4628](https://github.com/blackbaud/skyux/issues/4628)) ([949894b](https://github.com/blackbaud/skyux/commit/949894bae64cdd321f71b6ad703d7954824179af))
-* **sdk/testing:** visibility checks no longer ignore earlier failed rules ([#4616](https://github.com/blackbaud/skyux/issues/4616)) ([593ba9a](https://github.com/blackbaud/skyux/commit/593ba9adb5c68fc109924a3c5d7e2665dbff07de)), closes [AB#3959363](https://dev.azure.com/blackbaud/Products/_workitems/edit/3959363)
+* **components/forms:** make file attachment file link keyboard accessible ([#4638](https://github.com/blackbaud/skyux/issues/4638)) ([#4640](https://github.com/blackbaud/skyux/issues/4640)) ([36abf69](https://github.com/blackbaud/skyux/commit/36abf6929247771cdbd1601a1aeb499d9075c0a0))
+* **components/indicators:** tokens use tertiary action tokens for focus-visible styles ([#4632](https://github.com/blackbaud/skyux/issues/4632)) ([7357932](https://github.com/blackbaud/skyux/commit/7357932b874e0069c12e2723276a1e1cf5c98a29))
+* **components/theme:** `base` dark mode tokens are not overwritten by `blackbaud` light mode tokens ([#4637](https://github.com/blackbaud/skyux/issues/4637)) ([7a15a93](https://github.com/blackbaud/skyux/commit/7a15a939d7af29942d4b24f4d675a349f2442398))
+* display toasts above all layers except the full-page wait ([#4634](https://github.com/blackbaud/skyux/issues/4634)) ([b59c039](https://github.com/blackbaud/skyux/commit/b59c0393025cc0ffb2e661309720ef3a6a393512))
+* use menu background color for timepicker and popover ([#4644](https://github.com/blackbaud/skyux/issues/4644)) ([fa63d76](https://github.com/blackbaud/skyux/commit/fa63d7657ce3416e76ff2fc27d9df3d0bf4aa172))
 
 ## [14.13.0](https://github.com/blackbaud/skyux/compare/14.12.0...14.13.0) (2026-08-14)
 
