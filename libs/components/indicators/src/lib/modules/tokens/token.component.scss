@@ -80,7 +80,8 @@
   align-items: var(--sky-override-token-align-items, center);
   display: var(--sky-override-token-display, inline-flex);
 
-  &.sky-token-focused:not(:active) {
+  &.sky-token-focused:not(:active),
+  &:focus-visible:not(:active) {
     background-color: var(
       --sky-override-token-focused-background-color,
       var(--sky-color-background-selected-soft)
