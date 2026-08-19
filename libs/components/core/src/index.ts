@@ -52,6 +52,8 @@ export { SkyHelpOpenArgs } from './lib/modules/help/help-open-args';
 export { SkyHelpUpdateArgs } from './lib/modules/help/help-update-args';
 export { SkyHelpService } from './lib/modules/help/help.service';
 
+export { SKY_ICON_SVG_URL } from './lib/modules/icons/icon-svg-url';
+
 export { SkyIdModule } from './lib/modules/id/id.module';
 export { SkyIdService } from './lib/modules/id/id.service';
 
