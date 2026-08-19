@@ -30,7 +30,7 @@
     "@angular-eslint/bundled-angular-compiler": "^22.1.0",
     "@angular-eslint/eslint-plugin-template": "^22.1.0",
     "@angular-eslint/utils": "^22.1.0",
-    "@typescript-eslint/utils": "^8.64.0"
+    "@typescript-eslint/utils": "^8.67.0"
   },
   "dependencies": {
     "@blackbaud/skyux-design-tokens": "7.0.0-alpha.1",
