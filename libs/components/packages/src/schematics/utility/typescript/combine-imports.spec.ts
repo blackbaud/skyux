@@ -51,6 +51,18 @@ describe('combine-imports', () => {
     ).toBe(`import { type A, B } from 'module';\n`);
   });
 
+  it('should prefer the value import when a name is imported as both', () => {
+    expect(
+      run(`import type { A } from 'module';\nimport { A, B } from 'module';\n`),
+    ).toBe(`import { A, B } from 'module';\n`);
+  });
+
+  it('should leave declarations with a default binding alone', () => {
+    const content = `import Def, { A } from 'module';\nimport { B } from 'module';\n`;
+
+    expect(run(content)).toBe(content);
+  });
+
   it('should leave a single declaration alone', () => {
     const content = `import { A } from 'module';\n`;
 

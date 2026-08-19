@@ -65,7 +65,13 @@ describe('test', () => {
 
     await runSchematic(tree);
 
-    expect(tree.readText('/src/app/test.spec.ts')).toMatchSnapshot();
+    expect(tree.readText('/src/app/test.spec.ts'))
+      .toBe(`import { SkyAppTestUtility, SkyBy } from '@skyux/core/testing';
+
+describe('test', () => {
+  SkyAppTestUtility.getText(SkyBy.dataSkyId('a'));
+});
+`);
   });
 
   it('should retain imports that have not moved', async () => {
@@ -81,7 +87,15 @@ describe('test', () => {
 
     await runSchematic(tree);
 
-    expect(tree.readText('/src/app/test.spec.ts')).toMatchSnapshot();
+    expect(tree.readText('/src/app/test.spec.ts'))
+      .toBe(`import { SkyAppTestModule } from '@skyux-sdk/testing';
+import { SkyBy } from '@skyux/core/testing';
+
+describe('test', () => {
+  SkyAppTestModule;
+  SkyBy.dataSkyId('a');
+});
+`);
   });
 
   it('should combine multiple supported import statements', async () => {
@@ -100,7 +114,15 @@ describe('test', () => {
 
     await runSchematic(tree);
 
-    expect(tree.readText('/src/app/test.spec.ts')).toMatchSnapshot();
+    expect(tree.readText('/src/app/test.spec.ts'))
+      .toBe(`import { SkyMediaQueryTestingController, provideSkyMediaQueryTesting, SkyAppTestUtility } from '@skyux/core/testing';
+
+describe('test', () => {
+  SkyMediaQueryTestingController;
+  provideSkyMediaQueryTesting();
+  SkyAppTestUtility.getText(null);
+});
+`);
   });
 
   it('should merge into an existing supported import statement', async () => {
@@ -117,7 +139,14 @@ describe('test', () => {
 
     await runSchematic(tree);
 
-    expect(tree.readText('/src/app/test.spec.ts')).toMatchSnapshot();
+    expect(tree.readText('/src/app/test.spec.ts'))
+      .toBe(`import { provideSkyMediaQueryTesting, SkyBy } from '@skyux/core/testing';
+
+describe('test', () => {
+  provideSkyMediaQueryTesting();
+  SkyBy.dataSkyId('a');
+});
+`);
   });
 
   it('should migrate a type-only import', async () => {
@@ -130,7 +159,11 @@ const options: SkyAppTestUtilityDomEventOptions = { bubbles: true };
 
     await runSchematic(tree);
 
-    expect(tree.readText('/src/app/test.spec.ts')).toMatchSnapshot();
+    expect(tree.readText('/src/app/test.spec.ts'))
+      .toBe(`import { SkyAppTestUtilityDomEventOptions } from '@skyux/core/testing';
+
+const options: SkyAppTestUtilityDomEventOptions = { bubbles: true };
+`);
   });
 
   it('should ignore files without moved imports', async () => {

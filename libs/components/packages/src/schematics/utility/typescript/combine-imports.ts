@@ -12,22 +12,33 @@ function getCombinedSpecifiers(
   declarations: NamedImportDeclaration[],
   isTypeOnly: boolean,
 ): string[] {
-  const seen = new Set<string>();
+  const seen = new Map<string, { index: number; isTypeOnly: boolean }>();
   const combined: string[] = [];
 
   for (const declaration of declarations) {
     for (const specifier of declaration.specifiers) {
-      if (seen.has(specifier.name.text)) {
-        continue;
-      }
+      const specifierIsTypeOnly =
+        declaration.importClause.isTypeOnly || specifier.isTypeOnly;
 
-      seen.add(specifier.name.text);
-      combined.push(
-        getSpecifierText(
-          specifier,
-          !isTypeOnly && declaration.importClause.isTypeOnly,
-        ),
+      const text = getSpecifierText(
+        specifier,
+        !isTypeOnly && declaration.importClause.isTypeOnly,
       );
+
+      const existing = seen.get(specifier.name.text);
+
+      if (!existing) {
+        seen.set(specifier.name.text, {
+          index: combined.length,
+          isTypeOnly: specifierIsTypeOnly,
+        });
+        combined.push(text);
+      } else if (existing.isTypeOnly && !specifierIsTypeOnly) {
+        // A value import of the same name wins, otherwise merging would leave
+        // the name usable only as a type.
+        combined[existing.index] = text;
+        existing.isTypeOnly = false;
+      }
     }
   }
 
@@ -43,7 +54,12 @@ export function combineImports(
   sourceFile: ts.SourceFile,
   moduleName: string,
 ): void {
-  const declarations = getNamedImportDeclarations(sourceFile, moduleName);
+  // Declarations with a default binding are left alone; the merged clause only
+  // carries named specifiers, so folding one in would drop its default.
+  const declarations = getNamedImportDeclarations(
+    sourceFile,
+    moduleName,
+  ).filter(({ importClause }) => !importClause.name);
 
   if (declarations.length < 2) {
     return;
