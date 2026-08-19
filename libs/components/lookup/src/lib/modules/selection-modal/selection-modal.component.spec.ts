@@ -77,7 +77,7 @@ describe('Selection modal component', () => {
   function getHeader(
     fixture: ComponentFixture<SkySelectionModalComponent>,
   ): HTMLElement | undefined {
-    return fixture.nativeElement.querySelector('sky-modal-header');
+    return fixture.nativeElement.querySelector('sky-modal-header-internal');
   }
 
   function getSearchInput(

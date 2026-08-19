@@ -1,15 +1,9 @@
 <sky-modal
   [formErrors]="errors"
-  [headingText]="context?.headingText"
+  [headingText]="context?.headingText ?? title"
   [headingHidden]="context?.headingHidden"
   [helpPopoverContent]="context?.helpPopoverContent"
 >
-  <sky-modal-header>
-    {{ title }}
-    @if (showHelp) {
-      <sky-help-inline class="sky-control-help" />
-    }
-  </sky-modal-header>
   @if (context?.bannerImageSrc || context?.bannerContent) {
     <sky-modal-banner [imageSrc]="context!.bannerImageSrc ?? ''">{{
       context!.bannerContent

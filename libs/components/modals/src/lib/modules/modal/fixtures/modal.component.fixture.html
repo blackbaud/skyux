@@ -1,11 +1,10 @@
 <sky-modal
   [headingHidden]="context?.headingHidden ?? false"
-  [headingText]="context?.headingText"
+  [headingText]="context ? context.headingText : 'Test'"
   [helpKey]="context?.helpKey"
   [helpPopoverContent]="context?.helpPopoverContent"
   [helpPopoverTitle]="context?.helpPopoverTitle"
 >
-  <sky-modal-header>Test</sky-modal-header>
   <sky-modal-content>
     <div class="modal-fixture-content">
       Content

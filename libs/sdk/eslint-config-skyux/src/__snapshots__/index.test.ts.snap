@@ -78,7 +78,7 @@ Array [
       "parser": Object {
         "meta": Object {
           "name": "typescript-eslint/parser",
-          "version": "8.64.0",
+          "version": "8.67.0",
         },
         "parseForESLint": [Function],
       },
@@ -153,7 +153,6 @@ Array [
               "@typescript-eslint/no-redeclare": "error",
               "@typescript-eslint/no-redundant-type-constituents": "error",
               "@typescript-eslint/no-require-imports": "error",
-              "@typescript-eslint/no-restricted-imports": "error",
               "@typescript-eslint/no-restricted-types": "error",
               "@typescript-eslint/no-shadow": "error",
               "@typescript-eslint/no-this-alias": "error",
@@ -233,7 +232,6 @@ Array [
               "no-invalid-this": "off",
               "no-magic-numbers": "off",
               "no-redeclare": "off",
-              "no-restricted-imports": "off",
               "no-return-await": "off",
               "no-shadow": "off",
               "no-throw-literal": "off",
@@ -369,7 +367,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.64.0",
+                    "version": "8.67.0",
                   },
                   "parseForESLint": [Function],
                 },
@@ -476,7 +474,6 @@ Array [
                 "@typescript-eslint/no-redeclare": "error",
                 "@typescript-eslint/no-redundant-type-constituents": "error",
                 "@typescript-eslint/no-require-imports": "error",
-                "@typescript-eslint/no-restricted-imports": "error",
                 "@typescript-eslint/no-restricted-types": "error",
                 "@typescript-eslint/no-shadow": "error",
                 "@typescript-eslint/no-this-alias": "error",
@@ -556,7 +553,6 @@ Array [
                 "no-invalid-this": "off",
                 "no-magic-numbers": "off",
                 "no-redeclare": "off",
-                "no-restricted-imports": "off",
                 "no-return-await": "off",
                 "no-shadow": "off",
                 "no-throw-literal": "off",
@@ -576,7 +572,7 @@ Array [
               "parser": Object {
                 "meta": Object {
                   "name": "typescript-eslint/parser",
-                  "version": "8.64.0",
+                  "version": "8.67.0",
                 },
                 "parseForESLint": [Function],
               },
@@ -700,7 +696,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.64.0",
+                    "version": "8.67.0",
                   },
                   "parseForESLint": [Function],
                 },
@@ -780,7 +776,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.64.0",
+                    "version": "8.67.0",
                   },
                   "parseForESLint": [Function],
                 },
@@ -885,7 +881,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.64.0",
+                    "version": "8.67.0",
                   },
                   "parseForESLint": [Function],
                 },
@@ -969,7 +965,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.64.0",
+                    "version": "8.67.0",
                   },
                   "parseForESLint": [Function],
                 },
@@ -1063,7 +1059,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.64.0",
+                    "version": "8.67.0",
                   },
                   "parseForESLint": [Function],
                 },
@@ -1224,7 +1220,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.64.0",
+                    "version": "8.67.0",
                   },
                   "parseForESLint": [Function],
                 },
@@ -1348,7 +1344,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.64.0",
+                    "version": "8.67.0",
                   },
                   "parseForESLint": [Function],
                 },
@@ -1419,7 +1415,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.64.0",
+                    "version": "8.67.0",
                   },
                   "parseForESLint": [Function],
                 },
@@ -1499,7 +1495,7 @@ Array [
                 "parser": Object {
                   "meta": Object {
                     "name": "typescript-eslint/parser",
-                    "version": "8.64.0",
+                    "version": "8.67.0",
                   },
                   "parseForESLint": [Function],
                 },
@@ -2047,7 +2043,7 @@ Array [
         "meta": Object {
           "name": "@typescript-eslint/eslint-plugin",
           "namespace": "@typescript-eslint",
-          "version": "8.64.0",
+          "version": "8.67.0",
         },
         "rules": Object {
           "adjacent-overload-signatures": Object {
@@ -7348,6 +7344,18 @@ Otherwise, if you don't need to preserve emojis or other non-Ascii characters, d
             "create": [Function],
             "defaultOptions": Array [],
             "meta": Object {
+              "deprecated": Object {
+                "deprecatedSince": "8.64.0",
+                "replacedBy": Array [
+                  Object {
+                    "rule": Object {
+                      "name": "no-restricted-imports",
+                      "url": "https://eslint.org/docs/latest/rules/no-restricted-imports",
+                    },
+                  },
+                ],
+                "url": "https://github.com/typescript-eslint/typescript-eslint/pull/12527",
+              },
               "docs": Object {
                 "description": "Disallow specified modules when loaded by \`import\`",
                 "extendsBaseRule": true,
@@ -7643,6 +7651,7 @@ Otherwise, if you don't need to preserve emojis or other non-Ascii characters, d
                 "url": "https://typescript-eslint.io/rules/no-shadow",
               },
               "messages": Object {
+                "noEnumShadow": "Enum members are added to the enum scope, so references to '{{name}}' in enum member initializers resolve to this member instead of the declaration in the upper scope on line {{shadowedLine}} column {{shadowedColumn}}.",
                 "noShadow": "'{{name}}' is already declared in the upper scope on line {{shadowedLine}} column {{shadowedColumn}}.",
                 "noShadowGlobal": "'{{name}}' is already a global variable.",
               },
@@ -10974,7 +10983,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
       "parser": Object {
         "meta": Object {
           "name": "typescript-eslint/parser",
-          "version": "8.64.0",
+          "version": "8.67.0",
         },
         "parseForESLint": [Function],
       },

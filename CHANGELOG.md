@@ -1,6 +1,22 @@
 # Changelog
 
 
+## [14.14.0](https://github.com/blackbaud/skyux/compare/14.13.0...14.14.0) (2026-08-18)
+
+
+### Features
+
+* **components/icon:** allow icon URL to be provided with injection token ([#4641](https://github.com/blackbaud/skyux/issues/4641)) ([66bea84](https://github.com/blackbaud/skyux/commit/66bea84d3366c3b0a5e8264d1fbe327cac9dbf9f))
+
+
+### Bug Fixes
+
+* **components/forms:** make file attachment file link keyboard accessible ([#4638](https://github.com/blackbaud/skyux/issues/4638)) ([#4640](https://github.com/blackbaud/skyux/issues/4640)) ([36abf69](https://github.com/blackbaud/skyux/commit/36abf6929247771cdbd1601a1aeb499d9075c0a0))
+* **components/indicators:** tokens use tertiary action tokens for focus-visible styles ([#4632](https://github.com/blackbaud/skyux/issues/4632)) ([7357932](https://github.com/blackbaud/skyux/commit/7357932b874e0069c12e2723276a1e1cf5c98a29))
+* **components/theme:** `base` dark mode tokens are not overwritten by `blackbaud` light mode tokens ([#4637](https://github.com/blackbaud/skyux/issues/4637)) ([7a15a93](https://github.com/blackbaud/skyux/commit/7a15a939d7af29942d4b24f4d675a349f2442398))
+* display toasts above all layers except the full-page wait ([#4634](https://github.com/blackbaud/skyux/issues/4634)) ([b59c039](https://github.com/blackbaud/skyux/commit/b59c0393025cc0ffb2e661309720ef3a6a393512))
+* use menu background color for timepicker and popover ([#4644](https://github.com/blackbaud/skyux/issues/4644)) ([fa63d76](https://github.com/blackbaud/skyux/commit/fa63d7657ce3416e76ff2fc27d9df3d0bf4aa172))
+
 ## [14.13.0](https://github.com/blackbaud/skyux/compare/14.12.0...14.13.0) (2026-08-14)
 
 
