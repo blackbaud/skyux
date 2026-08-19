@@ -1,6 +1,6 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture } from '@angular/core/testing';
-import { SkyAppTestUtility } from '@skyux-sdk/testing';
+import { SkyAppTestUtility } from '@skyux/core/testing';
 
 /**
  * @deprecated Use `SkyWaitHarness` instead.

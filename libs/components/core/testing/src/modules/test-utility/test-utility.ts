@@ -17,7 +17,7 @@ function getNativeEl(el: any): any {
 }
 
 /**
- * @deprecated Import `SkyAppTestUtility` from `@skyux/core/testing` instead.
+ * A collection of low-level DOM and Angular test helpers.
  */
 export class SkyAppTestUtility {
   public static fireDomEvent(
