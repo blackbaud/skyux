@@ -16,6 +16,16 @@ describe('Get library string', () => {
           message: 'ejemplo',
         },
       },
+      FIL: {
+        foo: {
+          message: 'halimbawa',
+        },
+      },
+      SR: {
+        foo: {
+          message: 'primer',
+        },
+      },
     };
   });
 
@@ -42,5 +52,15 @@ describe('Get library string', () => {
   it('should handle non-region locales', () => {
     const result = getLibStringForLocale(resources, 'es-mx', 'foo');
     expect(result).toEqual('ejemplo');
+  });
+
+  it('should handle 3-letter language tags (e.g. fil-PH)', () => {
+    const result = getLibStringForLocale(resources, 'fil-PH', 'foo');
+    expect(result).toEqual('halimbawa');
+  });
+
+  it('should handle locales with multiple underscores (e.g. sr_Latn_RS)', () => {
+    const result = getLibStringForLocale(resources, 'sr_Latn_RS', 'foo');
+    expect(result).toEqual('primer');
   });
 });

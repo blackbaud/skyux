@@ -11,12 +11,15 @@ export function getLibStringForLocale(
   const defaultLocale = 'en-US';
 
   const normalizeLocale = (locale: string): string =>
-    locale.toLocaleUpperCase().replace('_', '-');
+    locale.toUpperCase().replace(/_/g, '-');
+
+  const normalizedPreferred = normalizeLocale(preferredLocale);
+  const languageTag = normalizedPreferred.split('-')[0];
 
   const localeFallback = [
     ...new Set([
-      normalizeLocale(preferredLocale),
-      normalizeLocale(preferredLocale.substring(0, 2)),
+      normalizedPreferred,
+      languageTag,
       normalizeLocale(defaultLocale),
     ]),
   ];
