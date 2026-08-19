@@ -18,6 +18,7 @@ function getNativeEl(el: any): any {
 
 /**
  * A collection of low-level DOM and Angular test helpers.
+ * @internal
  */
 export class SkyAppTestUtility {
   public static fireDomEvent(

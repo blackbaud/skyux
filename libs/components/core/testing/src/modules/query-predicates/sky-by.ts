@@ -3,6 +3,7 @@ import { By } from '@angular/platform-browser';
 
 /**
  * Provides predicates for querying elements rendered by SKY UX components.
+ * @internal
  */
 export class SkyBy {
   /**

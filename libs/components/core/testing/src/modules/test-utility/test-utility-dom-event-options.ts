@@ -1,5 +1,6 @@
 /**
  * Options for `SkyAppTestUtility.fireDomEvent()`.
+ * @internal
  */
 export interface SkyAppTestUtilityDomEventOptions {
   bubbles?: boolean;
