@@ -1,23 +1,18 @@
 import {
   Directive,
   ElementRef,
-  Injector,
   Input,
   OnChanges,
   OnDestroy,
   OnInit,
   Renderer2,
-  forwardRef,
+  effect,
   inject,
+  input,
+  model,
+  output,
 } from '@angular/core';
-import {
-  ControlValueAccessor,
-  NG_VALIDATORS,
-  NG_VALUE_ACCESSOR,
-  NgControl,
-  ValidationErrors,
-  Validator,
-} from '@angular/forms';
+import type { FormValueControl } from '@angular/forms/signals';
 import { SkyRequiredStateDirective } from '@skyux/forms';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
@@ -28,26 +23,26 @@ import { SkyColorpickerComponent } from './colorpicker.component';
 import { SkyColorpickerService } from './colorpicker.service';
 import { SkyColorpickerOutput } from './types/colorpicker-output';
 
-const SKY_COLORPICKER_VALUE_ACCESSOR = {
-  provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => SkyColorpickerInputDirective),
-  multi: true,
-};
-
-const SKY_COLORPICKER_VALIDATOR = {
-  provide: NG_VALIDATORS,
-  useExisting: forwardRef(() => SkyColorpickerInputDirective),
-  multi: true,
-};
-
 const SKY_COLORPICKER_DEFAULT_COLOR = '#FFFFFF';
 
 /**
  * Creates the colorpicker element and dropdown.
+ *
+ * Implements `FormValueControl` (from `@angular/forms/signals`) instead of
+ * `ControlValueAccessor`. Angular's signal-forms interop lets a
+ * `FormValueControl` work with signal, reactive, and template-driven forms
+ * without any CVA-specific code, so this directive no longer needs a
+ * `NG_VALUE_ACCESSOR` provider.
+ *
+ * The host element is a native `<input>`, so Angular's built-in
+ * `DefaultValueAccessor` still matches a `formControlName`/`formControl`/
+ * `ngModel` binding there. The `ngNoCva` host attribute tells
+ * `@angular/forms` to ignore that built-in accessor at runtime and use this
+ * directive's custom-control (`value`/`valueChange`) interop instead, for
+ * every form flavor.
  */
 @Directive({
   selector: '[skyColorpickerInput]',
-  providers: [SKY_COLORPICKER_VALUE_ACCESSOR, SKY_COLORPICKER_VALIDATOR],
   hostDirectives: [
     {
       directive: SkyRequiredStateDirective,
@@ -57,12 +52,14 @@ const SKY_COLORPICKER_DEFAULT_COLOR = '#FFFFFF';
   host: {
     class: 'sky-colorpicker-input',
     readonly: 'true',
+    ngNoCva: '',
     '(input)': 'changeInput()',
     '(change)': 'onChange()',
+    '(blur)': 'touch.emit()',
   },
 })
 export class SkyColorpickerInputDirective
-  implements OnInit, OnChanges, ControlValueAccessor, Validator, OnDestroy
+  implements FormValueControl<string | undefined>, OnInit, OnChanges, OnDestroy
 {
   /**
    * Creates the colorpicker element and dropdown. Place this attribute on an `input` element
@@ -84,7 +81,7 @@ export class SkyColorpickerInputDirective
   public set initialColor(value: string | undefined) {
     /* istanbul ignore else */
     if (!this.#_initialColor && !this.#modelValue) {
-      this.writeValue(value);
+      this.#applyIncomingValue(value);
     }
 
     this.#_initialColor = value;
@@ -146,20 +143,70 @@ export class SkyColorpickerInputDirective
   @Input()
   public allowTransparency = true;
 
+  /**
+   * Implemented as part of `FormValueControl`. Holds the color in the format
+   * `outputFormat` specifies (`rgba` by default). Kept in sync with the bound
+   * `[formField]`, `formControl`/`formControlName`, or `ngModel`.
+   */
+  public readonly value = model<string | undefined>(undefined);
+
+  /**
+   * Implemented as part of `FormUiControl`. Reflects the bound field's
+   * disabled state onto the colorpicker dialog. Replaces the
+   * `ControlValueAccessor.setDisabledState` callback, which only reactive and
+   * template-driven forms called.
+   */
+  public readonly disabled = input(false);
+
+  /**
+   * Implemented as part of `FormUiControl`. Emitted on native `blur`, and
+   * relayed from `SkyColorpickerComponent` when the user opens the picker
+   * dialog via the trigger button. `Field`/`NgControl` listen to this output
+   * to mark the bound field as touched, for every form flavor.
+   */
+  public readonly touch = output<void>();
+
   #modelValue: SkyColorpickerOutput | undefined;
+  #lastEmittedValue: string | undefined;
   readonly #elementRef = inject(ElementRef);
   readonly #renderer = inject(Renderer2);
   readonly #svc = inject(SkyColorpickerService);
   readonly #resourcesSvc = inject(SkyLibResourcesService);
-  readonly #injector = inject(Injector);
   #inputIdSubscription: Subscription | undefined;
   #labelText: string | undefined;
 
-  #_disabled: boolean | undefined;
   #_initialColor: string | undefined;
 
   readonly #colorpickerInputSvc = inject(SkyColorpickerInputService);
   readonly #ngUnsubscribe = new Subject<void>();
+
+  constructor() {
+    // Reflects the bound field's value onto the colorpicker whenever it
+    // changes from outside this directive (for example, a schema rule, a
+    // `reset()`, or a sibling control). Writes this directive makes itself
+    // are tracked in `#lastEmittedValue` so this effect doesn't immediately
+    // reformat its own output.
+    effect(() => {
+      const incoming = this.value();
+
+      if (incoming !== this.#lastEmittedValue) {
+        this.#applyIncomingValue(incoming);
+      }
+    });
+
+    effect(() => {
+      const isDisabled = this.disabled();
+
+      this.skyColorpickerInput.disabled = isDisabled;
+
+      if (isDisabled) {
+        this.skyColorpickerInput.backgroundColorForDisplay = '#fff';
+      } else if (this.#modelValue) {
+        this.skyColorpickerInput.backgroundColorForDisplay =
+          this.#modelValue.hex;
+      }
+    });
+  }
 
   public changeInput(): void {
     const value = this.#elementRef.nativeElement.value;
@@ -169,9 +216,7 @@ export class SkyColorpickerInputDirective
 
   public onChange(): void {
     const newValue = this.#elementRef.nativeElement.value;
-    const formattedValue = this.#formatter(newValue);
-    this.#modelValue = formattedValue;
-    this.#writeModelValue(formattedValue);
+    this.#applyColor(this.#formatter(newValue));
   }
 
   public ngOnInit(): void {
@@ -186,10 +231,7 @@ export class SkyColorpickerInputDirective
       .subscribe((newColor: SkyColorpickerOutput) => {
         /* istanbul ignore else */
         if (newColor) {
-          this.#modelValue = this.#formatter(newColor);
-
-          // Write the new value to the reactive form control, which will update the template model
-          this.writeValue(newColor);
+          this.#applyColor(this.#formatter(newColor));
         }
       });
 
@@ -229,11 +271,15 @@ export class SkyColorpickerInputDirective
         }
       });
 
+    this.#colorpickerInputSvc.touch
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe(() => this.touch.emit());
+
     this.skyColorpickerInput.updatePickerValues(this.initialColor);
 
     /* Sanity check */
     /* istanbul ignore else */
-    if (!this.#_disabled) {
+    if (!this.disabled()) {
       this.skyColorpickerInput.backgroundColorForDisplay = this.initialColor;
     }
 
@@ -274,17 +320,14 @@ export class SkyColorpickerInputDirective
     this.setColorPickerDefaults();
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  public registerOnChange(): void {}
-
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  public registerOnTouched(): void {}
-
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  public registerOnValidatorChange(): void {}
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public writeValue(value: any): void {
+  /**
+   * Applies a value that originated outside this directive (the bound
+   * field's initial value, a schema-driven reset, `initialColor`, etc.).
+   * Unlike `#applyColor`, this does not write back to `value`, since the
+   * value already came from there (or from a deprecated input that only
+   * seeds the field before it has a value).
+   */
+  #applyIncomingValue(value: string | undefined): void {
     if (
       this.skyColorpickerInput &&
       value &&
@@ -300,59 +343,46 @@ export class SkyColorpickerInputDirective
         this.skyColorpickerInput.initialColor = value;
       }
       this.skyColorpickerInput.lastAppliedColor = value;
-
-      const control = this.#injector.get<NgControl>(NgControl, undefined, {
-        optional: true,
-      })?.control;
-
-      if (control) {
-        control.setValue(this.#modelValue, { emitEvent: false });
-      }
     }
-  }
-
-  public validate(): ValidationErrors | null {
-    return null;
   }
 
   /**
-   * Implemented as part of ControlValueAccessor.
+   * Applies a color the user selected (through the native input or the
+   * picker dialog) and propagates it to `value`, so it reaches whatever form
+   * this directive is bound to.
    */
-  public setDisabledState(isDisabled: boolean): void {
-    this.#_disabled = isDisabled;
-    this.skyColorpickerInput.disabled = isDisabled;
-    if (this.#_disabled) {
-      this.skyColorpickerInput.backgroundColorForDisplay = '#fff';
-    } else if (this.#modelValue) {
-      this.skyColorpickerInput.backgroundColorForDisplay = this.#modelValue.hex;
-    }
+  #applyColor(formattedValue: SkyColorpickerOutput): void {
+    this.#modelValue = formattedValue;
+    this.#writeModelValue(formattedValue);
+
+    const output = this.#toOutputString(formattedValue);
+    this.#lastEmittedValue = output;
+    this.value.set(output);
   }
 
   #writeModelValue(model: SkyColorpickerOutput): void {
     const setElementValue = model.rgbaText;
     const element = this.#elementRef.nativeElement;
-
-    let output: string;
-    switch (this.outputFormat) {
-      case 'hsla':
-        output = model.hslaText;
-        break;
-      case 'cmyk':
-        output = model.cmykText;
-        break;
-      case 'hex':
-        output = model.hex;
-        break;
-      default:
-        output = model.rgbaText;
-        break;
-    }
+    const output = this.#toOutputString(model);
 
     this.skyColorpickerInput.updatePickerValues(output);
     this.skyColorpickerInput.backgroundColorForDisplay = output;
 
     this.#renderer.setStyle(element, 'background-color', setElementValue);
     this.#renderer.setProperty(element, 'value', output);
+  }
+
+  #toOutputString(model: SkyColorpickerOutput): string {
+    switch (this.outputFormat) {
+      case 'hsla':
+        return model.hslaText;
+      case 'cmyk':
+        return model.cmykText;
+      case 'hex':
+        return model.hex;
+      default:
+        return model.rgbaText;
+    }
   }
 
   #formatter(

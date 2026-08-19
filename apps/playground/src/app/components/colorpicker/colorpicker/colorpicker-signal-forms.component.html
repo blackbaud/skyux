@@ -1,0 +1,121 @@
+<div class="sky-theme-padding-inset-balanced-m">
+  <h1>Color picker (form-flavor spike)</h1>
+  <p>
+    Baseline for the <code>FormValueControl</code> prototype: one colorpicker,
+    bound three ways. Compare <code>required</code>, disabled, value sync, and
+    touched behavior across each column, both before and after
+    <code>SkyColorpickerInputDirective</code> drops
+    <code>ControlValueAccessor</code>.
+  </p>
+
+  <button
+    class="sky-btn sky-btn-default"
+    type="button"
+    (click)="markAllTouched()"
+  >
+    Mark signal/reactive as touched
+  </button>
+</div>
+
+<div class="sky-theme-padding-inset-balanced-m">
+  <h2>Signal forms</h2>
+  <sky-colorpicker
+    #signalPicker
+    data-sky-id="signal-favorite-color"
+    labelText="Favorite color"
+    [stacked]="true"
+  >
+    <input
+      type="text"
+      [formField]="signalForm.favoriteColor"
+      [presetColors]="swatches"
+      [skyColorpickerInput]="signalPicker"
+    />
+  </sky-colorpicker>
+
+  <dl>
+    <dt>Value</dt>
+    <dd>{{ signalForm().value().favoriteColor }}</dd>
+    <dt>Required</dt>
+    <dd>{{ signalForm.favoriteColor().required() }}</dd>
+    <dt>Touched</dt>
+    <dd>{{ signalForm.favoriteColor().touched() }}</dd>
+    <dt>Valid</dt>
+    <dd>{{ signalForm.favoriteColor().valid() }}</dd>
+  </dl>
+</div>
+
+<div class="sky-theme-padding-inset-balanced-m">
+  <h2>Reactive forms</h2>
+  <form [formGroup]="reactiveForm">
+    <sky-colorpicker
+      #reactivePicker
+      data-sky-id="reactive-favorite-color"
+      labelText="Favorite color"
+      [stacked]="true"
+    >
+      <input
+        formControlName="favoriteColor"
+        type="text"
+        [presetColors]="swatches"
+        [skyColorpickerInput]="reactivePicker"
+      />
+    </sky-colorpicker>
+  </form>
+
+  <button
+    class="sky-btn sky-btn-default"
+    type="button"
+    (click)="toggleReactiveRequired()"
+  >
+    Toggle required
+  </button>
+
+  <dl>
+    <dt>Value</dt>
+    <dd>{{ favoriteColor.value }}</dd>
+    <dt>Required</dt>
+    <dd>{{ reactiveRequired() }}</dd>
+    <dt>Touched</dt>
+    <dd>{{ favoriteColor.touched }}</dd>
+    <dt>Valid</dt>
+    <dd>{{ favoriteColor.valid }}</dd>
+  </dl>
+</div>
+
+<div class="sky-theme-padding-inset-balanced-m">
+  <h2>Template-driven forms</h2>
+  <!--
+    `NgModel`'s `shouldBindRequired` is `false` in @angular/forms's custom-control
+    interop (verified in forms.mjs), so a `required` attribute here will NOT
+    flow into a `FormValueControl`'s `required()` input the way reactive forms
+    does. Watch this column closely once the directive drops its CVA.
+  -->
+  <form>
+    <sky-colorpicker
+      #templatePicker
+      data-sky-id="template-favorite-color"
+      labelText="Favorite color"
+      [stacked]="true"
+    >
+      <input
+        #templateModel="ngModel"
+        name="favoriteColor"
+        required
+        type="text"
+        [presetColors]="swatches"
+        [skyColorpickerInput]="templatePicker"
+        [(ngModel)]="templateDrivenColor"
+      />
+    </sky-colorpicker>
+  </form>
+
+  <dl>
+    <dt>Value</dt>
+    <dd>{{ templateDrivenColor }}</dd>
+    <dt>Touched</dt>
+    <dd>{{ templateModel.touched }}</dd>
+    <dt>Valid</dt>
+    <dd>{{ templateModel.valid }}</dd>
+  </dl>
+</div>

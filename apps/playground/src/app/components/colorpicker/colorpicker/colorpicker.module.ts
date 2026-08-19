@@ -3,6 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SkyColorpickerModule } from '@skyux/colorpicker';
 
 import { ColorpickerRoutingModule } from './colorpicker-routing.module';
+import { ColorpickerSignalFormsComponent } from './colorpicker-signal-forms.component';
 import { ColorpickerComponent } from './colorpicker.component';
 
 @NgModule({
@@ -11,6 +12,7 @@ import { ColorpickerComponent } from './colorpicker.component';
     ReactiveFormsModule,
     SkyColorpickerModule,
     ColorpickerRoutingModule,
+    ColorpickerSignalFormsComponent,
   ],
 })
 export class ColorpickerModule {

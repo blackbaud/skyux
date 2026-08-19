@@ -15,7 +15,11 @@ import {
   booleanAttribute,
   inject,
 } from '@angular/core';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  NgControl,
+  TouchedChangeEvent,
+} from '@angular/forms';
 import { FormField } from '@angular/forms/signals';
 import { SkyCoreAdapterService, SkyIdModule, SkyIdService } from '@skyux/core';
 import {
@@ -31,7 +35,7 @@ import { SkyToolbarModule } from '@skyux/layout';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 
 import { SkyTextEditorResourcesModule } from '../shared/sky-text-editor-resources.module';
 
@@ -512,6 +516,21 @@ export class SkyTextEditorComponent
         // Trigger change detection when the field status is modified programmatically.
         this.#changeDetector.markForCheck();
       });
+
+    // `statusChanges` doesn't emit when only the touched state changes (e.g. a consumer
+    // calls `control.markAsTouched()` directly), so the touched-gated error message wouldn't
+    // otherwise be marked for check.
+    if (skyIsAbstractControl(this.ngControl.control)) {
+      this.ngControl.control.events
+        .pipe(
+          filter((event) => event instanceof TouchedChangeEvent),
+          takeUntil(this.#ngUnsubscribe),
+        )
+        .subscribe(() => {
+          this.#updateA11yAttributes();
+          this.#changeDetector.markForCheck();
+        });
+    }
 
     this.#editorService
       .inputListener()

@@ -13,6 +13,19 @@ import { SkyColorpickerComponent } from '../colorpicker.component';
 import { SkyColorpickerMessage } from '../types/colorpicker-message';
 import { SkyColorpickerMessageType } from '../types/colorpicker-message-type';
 
+/**
+ * `SkyColorpickerInputDirective`'s `value` now emits a formatted string (per
+ * `outputFormat`), not the internal `SkyColorpickerOutput` object, so this
+ * fixture parses the alpha channel out of the `rgba(r,g,b,a)` string instead
+ * of reading `control.value.rgba.alpha`.
+ */
+function isOpaque(rgbaText: string | undefined): ValidationErrors | null {
+  const alphaMatch = /,([\d.]+)\)$/.exec(rgbaText ?? '');
+  const alpha = alphaMatch ? Number(alphaMatch[1]) : 1;
+
+  return alpha < 0.8 ? { opaque: true } : null;
+}
+
 @Component({
   selector: 'sky-colorpicker-fixture',
   templateUrl: './colorpicker-reactive-component.fixture.html',
@@ -61,23 +74,13 @@ export class ColorpickerReactiveTestComponent {
   };
 
   public colorControl = new UntypedFormControl('#00f', [
-    (control: AbstractControl): ValidationErrors | null => {
-      if (control.value?.rgba?.alpha < 0.8) {
-        return { opaque: true };
-      }
-
-      return null;
-    },
+    (control: AbstractControl): ValidationErrors | null =>
+      isOpaque(control.value),
   ]);
 
   public colorControl2 = new UntypedFormControl('#00f', [
-    (control: AbstractControl): ValidationErrors | null => {
-      if (control.value?.rgba?.alpha < 0.8) {
-        return { opaque: true };
-      }
-
-      return null;
-    },
+    (control: AbstractControl): ValidationErrors | null =>
+      isOpaque(control.value),
   ]);
 
   public colorForm = new UntypedFormGroup({

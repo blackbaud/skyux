@@ -20,12 +20,7 @@ import {
   booleanAttribute,
   inject,
 } from '@angular/core';
-import {
-  AbstractControlDirective,
-  FormControlDirective,
-  FormControlName,
-  NgModel,
-} from '@angular/forms';
+import { NgControl } from '@angular/forms';
 import {
   SkyAffixAutoFitContext,
   SkyAffixService,
@@ -364,24 +359,17 @@ export class SkyColorpickerComponent
     return this.#_colorpickerRef;
   }
 
-  @ContentChild(FormControlDirective)
-  protected set formControl(value: FormControlDirective | undefined) {
-    if (value) {
-      this.ngControl = value;
-      this.#changeDetector.markForCheck();
-    }
-  }
-
-  @ContentChild(FormControlName)
-  protected set formControlByName(value: FormControlName | undefined) {
-    if (value) {
-      this.ngControl = value;
-      this.#changeDetector.markForCheck();
-    }
-  }
-
-  @ContentChild(NgModel)
-  protected set ngModel(value: NgModel | undefined) {
+  /**
+   * Resolves whatever form-binding directive is on the content-projected
+   * `[skyColorpickerInput]` element: a reactive `formControl`/`formControlName`,
+   * a template-driven `ngModel`, or (once that directive drops
+   * `ControlValueAccessor`) the `NgControl` that a signal-forms `[formField]`
+   * binding provides. All four expose the same `AbstractControlDirective`
+   * surface (`touched`, `dirty`, `valid`, `errors`), so a single query covers
+   * every form flavor.
+   */
+  @ContentChild(NgControl)
+  protected set ngControlDirective(value: NgControl | undefined) {
     if (value) {
       this.ngControl = value;
       this.#changeDetector.markForCheck();
@@ -409,7 +397,7 @@ export class SkyColorpickerComponent
   protected selectedColor: SkyColorpickerOutput | undefined;
   protected iconColor: string | undefined;
   protected isPickerVisible: boolean | undefined;
-  protected ngControl: AbstractControlDirective | undefined;
+  protected ngControl: NgControl | undefined;
 
   #idIndex: number;
   #alphaChannel: string | undefined;
@@ -528,7 +516,13 @@ export class SkyColorpickerComponent
   }
 
   public onTriggerButtonClick(): void {
-    this.ngControl?.control?.markAsTouched();
+    // Signals the bound `[skyColorpickerInput]` directive to report a touch,
+    // which the `Field` directive (signal forms) or `NgControl` (reactive and
+    // template-driven forms) then use to mark the field as touched. Routing
+    // this through the directive rather than mutating `ngControl.control`
+    // directly means this works identically across all three form flavors,
+    // now that the directive no longer implements `ControlValueAccessor`.
+    this.#colorpickerInputSvc.touch.next();
 
     this.#sendMessage(SkyColorpickerMessageType.Open);
   }
