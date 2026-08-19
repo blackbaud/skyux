@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.15.0](https://github.com/blackbaud/skyux/compare/14.14.0...14.15.0) (2026-08-19)
+
+
+### Features
+
+* **components/i18n:** support non-region-specific locales for library resources ([#4648](https://github.com/blackbaud/skyux/issues/4648)) ([a5a3a6c](https://github.com/blackbaud/skyux/commit/a5a3a6cc0bd0c5d77338c9d4147f09e35b62d1f2)), closes [AB#4092222](https://dev.azure.com/blackbaud/Products/_workitems/edit/4092222)
+
 ## [14.14.0](https://github.com/blackbaud/skyux/compare/14.13.0...14.14.0) (2026-08-18)
 
 
