@@ -22,6 +22,7 @@
 * **components/layout:** remove deprecated SkyBoxHeaderComponent ([#4617](https://github.com/blackbaud/skyux/issues/4617)) ([62beb9b](https://github.com/blackbaud/skyux/commit/62beb9b2528c936e563045332ca8b476b5ae25bf))
 * **components/modals:** remove deprecated SkyModalHeaderComponent ([#4623](https://github.com/blackbaud/skyux/issues/4623)) ([bd816e7](https://github.com/blackbaud/skyux/commit/bd816e7da751d8bb0f24996a99534f355fc95cb5))
 * **components/select-field:** remove deprecated SkySelectFieldComponent ([#4625](https://github.com/blackbaud/skyux/issues/4625)) ([0458b51](https://github.com/blackbaud/skyux/commit/0458b51c232d406f5f49db1f100496d40b0e0ec3))
+* support Angular 22.1 ([#4649](https://github.com/blackbaud/skyux/issues/4649)) ([bd95643](https://github.com/blackbaud/skyux/commit/bd956439ea9811e2501cd7d0d105a6b314091a58)), closes [AB#4008241](https://dev.azure.com/blackbaud/Products/_workitems/edit/4008241)
 * tokenize the icon used by HTML select fields ([#4619](https://github.com/blackbaud/skyux/issues/4619)) ([#4622](https://github.com/blackbaud/skyux/issues/4622)) ([8fdf445](https://github.com/blackbaud/skyux/commit/8fdf4451cee3148b59bd4af58207af0279d6a215))
 
 
