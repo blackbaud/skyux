@@ -2,7 +2,13 @@ import { convertAnnotatedSourceToFailureCase } from '@angular-eslint/test-utils'
 
 import { createTemplateRuleTester } from '../testing/create-template-rule-tester';
 
-import { RULE_NAME, messageId, rule } from './prefer-label-text';
+import {
+  RULE_NAME,
+  emptyLabelTextMessageId,
+  messageId,
+  missingLabelMessageId,
+  rule,
+} from './prefer-label-text';
 
 const ruleTester = createTemplateRuleTester();
 
@@ -11,6 +17,12 @@ ruleTester.run(RULE_NAME, rule, {
     `<sky-checkbox labelText="foo">`,
     `<sky-checkbox [labelText]="foo">`,
     `<sky-checkbox labelText="{{ foo }}">`,
+    `<sky-input-box labelText="First name"><input /></sky-input-box>`,
+    `<sky-radio labelText="Yes" value="a" />`,
+
+    // Elements without a `labelText` input are not checked.
+    `<sky-key-info><sky-key-info-label>Donors</sky-key-info-label></sky-key-info>`,
+    `<input />`,
   ],
   invalid: [
     convertAnnotatedSourceToFailureCase({
@@ -367,6 +379,131 @@ ruleTester.run(RULE_NAME, rule, {
         selector: 'sky-checkbox',
         labelInputName: 'labelText',
         labelSelector: 'sky-checkbox-label',
+      },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description: 'should fail when the checkbox has no label at all',
+      annotatedSource: `
+        <sky-checkbox />
+        ~~~~~~~~~~~~~~~~
+        `,
+      messageId: missingLabelMessageId,
+      data: {
+        selector: 'sky-checkbox',
+        labelInputName: 'labelText',
+      },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail when the checkbox uses the deprecated labelledBy input',
+      annotatedSource: `
+        <sky-checkbox [labelledBy]="headerId.id" />
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        `,
+      messageId: missingLabelMessageId,
+      data: {
+        selector: 'sky-checkbox',
+        labelInputName: 'labelText',
+      },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail when the checkbox uses the deprecated label input',
+      annotatedSource: `
+        <sky-checkbox label="Notify me" />
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        `,
+      messageId: missingLabelMessageId,
+      data: {
+        selector: 'sky-checkbox',
+        labelInputName: 'labelText',
+      },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description: 'should fail when the radio button has no label at all',
+      annotatedSource: `
+        <sky-radio value="a" />
+        ~~~~~~~~~~~~~~~~~~~~~~~
+        `,
+      messageId: missingLabelMessageId,
+      data: {
+        selector: 'sky-radio',
+        labelInputName: 'labelText',
+      },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail when the input box has no label and contains a native input',
+      annotatedSource: `
+        <sky-input-box><input /></sky-input-box>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        `,
+      messageId: missingLabelMessageId,
+      data: {
+        selector: 'sky-input-box',
+        labelInputName: 'labelText',
+      },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail when the input box has no label and contains a SKY UX form control',
+      annotatedSource: `
+        <sky-input-box><sky-lookup /></sky-input-box>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        `,
+      messageId: missingLabelMessageId,
+      data: {
+        selector: 'sky-input-box',
+        labelInputName: 'labelText',
+      },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description: 'should fail when the input box is self-closing',
+      annotatedSource: `
+        <sky-input-box />
+        ~~~~~~~~~~~~~~~~~
+        `,
+      messageId: missingLabelMessageId,
+      data: {
+        selector: 'sky-input-box',
+        labelInputName: 'labelText',
+      },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description: 'should fail when labelText is set to an empty string',
+      annotatedSource: `
+        <sky-checkbox labelText="" />
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        `,
+      messageId: emptyLabelTextMessageId,
+      data: {
+        selector: 'sky-checkbox',
+        labelInputName: 'labelText',
+      },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description: 'should fail when labelText is set to whitespace',
+      annotatedSource: `
+        <sky-input-box labelText="   "><input /></sky-input-box>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        `,
+      messageId: emptyLabelTextMessageId,
+      data: {
+        selector: 'sky-input-box',
+        labelInputName: 'labelText',
+      },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail when labelText is empty and a label element is also present',
+      annotatedSource: `
+        <sky-input-box labelText=""><label>First name</label><input /></sky-input-box>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        `,
+      messageId: emptyLabelTextMessageId,
+      data: {
+        selector: 'sky-input-box',
+        labelInputName: 'labelText',
       },
     }),
   ],

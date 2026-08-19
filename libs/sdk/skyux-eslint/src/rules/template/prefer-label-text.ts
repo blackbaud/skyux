@@ -13,6 +13,8 @@ import { createESLintTemplateRule } from '../utils/create-eslint-template-rule';
 
 export const RULE_NAME = 'prefer-label-text';
 export const messageId = 'preferLabelText';
+export const missingLabelMessageId = 'missingLabel';
+export const emptyLabelTextMessageId = 'emptyLabelText';
 
 const COMPONENTS_WITH_LABEL_TEXT: {
   selector: string;
@@ -136,9 +138,27 @@ export const rule = createESLintTemplateRule({
 
         const { labelInputName, labelSelector } = config;
 
+        const labelTextAttr = el.attributes.find(
+          (i) => i.name === labelInputName,
+        );
+
         const hasLabelText =
-          el.inputs.some((i) => i.name === labelInputName) ||
-          el.attributes.some((i) => i.name === labelInputName);
+          el.inputs.some((i) => i.name === labelInputName) || !!labelTextAttr;
+
+        // An empty label renders nothing, so report it before the branch below
+        // to avoid offering a fix that would leave the component unlabeled.
+        if (labelTextAttr && !labelTextAttr.value.trim()) {
+          context.report({
+            loc: parserServices.convertNodeSourceSpanToLoc(el.sourceSpan),
+            messageId: emptyLabelTextMessageId,
+            data: {
+              selector: el.name,
+              labelInputName,
+            },
+          });
+
+          return;
+        }
 
         const labelEl = getChildNodeOf(el, [labelSelector]);
         const inputEl = getChildNodeOf(el, ['input', 'select', 'textarea']);
@@ -190,6 +210,15 @@ export const rule = createESLintTemplateRule({
                 }
               : undefined,
           });
+        } else if (!hasLabelText) {
+          context.report({
+            loc: parserServices.convertNodeSourceSpanToLoc(el.sourceSpan),
+            messageId: missingLabelMessageId,
+            data: {
+              selector: el.name,
+              labelInputName,
+            },
+          });
         }
       },
     };
@@ -202,6 +231,10 @@ export const rule = createESLintTemplateRule({
     messages: {
       [messageId]:
         'Use of <{{labelSelector}}> element is not recommended. Set `{{labelInputName}}` on the <{{selector}}> element instead.',
+      [missingLabelMessageId]:
+        '<{{selector}}> is missing a label. Set `{{labelInputName}}` on the <{{selector}}> element.',
+      [emptyLabelTextMessageId]:
+        '`{{labelInputName}}` on <{{selector}}> must not be empty.',
     },
     schema: [],
     type: 'problem',
