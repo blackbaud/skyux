@@ -10,6 +10,7 @@ import { SkyLiveAnnouncerService, provideNoopSkyAnimations } from '@skyux/core';
 import { Subject } from 'rxjs';
 
 import { SkyTokensFixturesModule } from './fixtures/tokens-fixtures.module';
+import { SkyTokensProjectedTokenTestComponent } from './fixtures/tokens-projected-token.component.fixture';
 import { SkyTokensTestComponent } from './fixtures/tokens.component.fixture';
 import { SkyTokensMessageType } from './types/tokens-message-type';
 
@@ -121,6 +122,31 @@ describe('Tokens component', () => {
       expect(component.tokensElementRef?.nativeElement).toHaveText(
         'INNER CONTENT',
       );
+    });
+
+    it('should project manually-added sky-token elements as siblings of array-driven tokens so they can wrap', () => {
+      const projectedTokenFixture = TestBed.createComponent(
+        SkyTokensProjectedTokenTestComponent,
+      );
+      projectedTokenFixture.detectChanges();
+
+      const hostElement = projectedTokenFixture.componentInstance
+        .tokensElementRef?.nativeElement as HTMLElement;
+      const tokensRoot = hostElement.querySelector<HTMLElement>('.sky-tokens');
+      const contentContainer = hostElement.querySelector<HTMLElement>(
+        '.sky-tokens-content',
+      );
+      const manualTokens = Array.from(
+        hostElement.querySelectorAll<HTMLElement>('sky-token'),
+      );
+
+      expect(manualTokens.length).toBe(2);
+      for (const tokenElement of manualTokens) {
+        expect(tokenElement.parentElement).toBe(tokensRoot);
+      }
+      expect(contentContainer?.querySelector('sky-token')).toBeNull();
+
+      projectedTokenFixture.destroy();
     });
 
     it('should respect trackWith', () => {
