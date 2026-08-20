@@ -1,5 +1,6 @@
 /**
- * @deprecated Import `SkyAppTestUtilityDomEventOptions` from `@skyux/core/testing` instead.
+ * Options for `SkyAppTestUtility.fireDomEvent()`.
+ * @internal
  */
 export interface SkyAppTestUtilityDomEventOptions {
   bubbles?: boolean;
