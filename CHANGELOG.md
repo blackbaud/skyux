@@ -12,6 +12,11 @@
 
 * **sdk/testing:** deprecate `SkyAppTestUtility` and `SkyBy` testing utils ([#4651](https://github.com/blackbaud/skyux/issues/4651)) ([2c100e5](https://github.com/blackbaud/skyux/commit/2c100e5dd32e243fea37451890ea67f85b000793)), closes [AB#3987231](https://dev.azure.com/blackbaud/Products/_workitems/edit/3987231)
 
+
+### Bug Fixes
+
+* dark mode flyouts, summary action bars, and back to top bars have an edge border ([#4633](https://github.com/blackbaud/skyux/issues/4633)) ([#4667](https://github.com/blackbaud/skyux/issues/4667)) ([ff67462](https://github.com/blackbaud/skyux/commit/ff6746295ae220fdb0e4325374f44359e4f8409b))
+
 ## [14.15.0](https://github.com/blackbaud/skyux/compare/14.14.0...14.15.0) (2026-08-19)
 
 
