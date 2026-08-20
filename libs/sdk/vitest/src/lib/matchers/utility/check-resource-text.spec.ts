@@ -1,11 +1,11 @@
-import { checkResourceText } from './check-resource-text';
-import * as i18nUtils from './i18n-utils';
+import { of } from 'rxjs';
 
-vi.mock('./i18n-utils');
+import { provideAppResources } from '../../../testing/provide-resources';
+import { checkResourceText } from './check-resource-text';
 
 describe('checkResourceText', () => {
   it('should return pass: true when text matches the resource', async () => {
-    vi.spyOn(i18nUtils, 'getResourceString').mockResolvedValue('Hello World');
+    provideAppResources(() => of('Hello World'));
 
     const result = await checkResourceText('Hello World', 'greeting');
 
@@ -16,7 +16,7 @@ describe('checkResourceText', () => {
   });
 
   it('should return pass: false when text does not match the resource', async () => {
-    vi.spyOn(i18nUtils, 'getResourceString').mockResolvedValue('Hello World');
+    provideAppResources(() => of('Hello World'));
 
     const result = await checkResourceText('Goodbye', 'greeting');
 
@@ -25,12 +25,12 @@ describe('checkResourceText', () => {
   });
 
   it('should pass resource args through', async () => {
-    const spy = vi
-      .spyOn(i18nUtils, 'getResourceString')
-      .mockResolvedValue('Hello Alice');
+    const getString = vi.fn().mockReturnValue(of('Hello Alice'));
+
+    provideAppResources(getString);
 
     await checkResourceText('Hello Alice', 'greeting', ['Alice']);
 
-    expect(spy).toHaveBeenCalledWith('greeting', ['Alice']);
+    expect(getString).toHaveBeenCalledWith('greeting', 'Alice');
   });
 });

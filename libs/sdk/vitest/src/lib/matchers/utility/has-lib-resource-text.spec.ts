@@ -1,13 +1,11 @@
-import { hasLibResourceText } from './has-lib-resource-text';
-import * as i18nUtils from './i18n-utils';
+import { of } from 'rxjs';
 
-vi.mock('./i18n-utils');
+import { provideLibResources } from '../../../testing/provide-resources';
+import { hasLibResourceText } from './has-lib-resource-text';
 
 describe('hasLibResourceText', () => {
   it('should return pass: true when element text matches the lib resource', async () => {
-    vi.spyOn(i18nUtils, 'getLibResourceString').mockResolvedValue(
-      'Hello World',
-    );
+    provideLibResources(() => of('Hello World'));
 
     const el = document.createElement('div');
     el.textContent = 'Hello World';
@@ -21,9 +19,7 @@ describe('hasLibResourceText', () => {
   });
 
   it('should return pass: false when element text does not match the lib resource', async () => {
-    vi.spyOn(i18nUtils, 'getLibResourceString').mockResolvedValue(
-      'Hello World',
-    );
+    provideLibResources(() => of('Hello World'));
 
     const el = document.createElement('div');
     el.textContent = 'Goodbye';
@@ -37,9 +33,7 @@ describe('hasLibResourceText', () => {
   });
 
   it('should trim whitespace by default', async () => {
-    vi.spyOn(i18nUtils, 'getLibResourceString').mockResolvedValue(
-      'Hello World',
-    );
+    provideLibResources(() => of('Hello World'));
 
     const el = document.createElement('div');
     el.textContent = '  Hello World  ';
@@ -50,9 +44,7 @@ describe('hasLibResourceText', () => {
   });
 
   it('should not trim whitespace when trimWhitespace is false', async () => {
-    vi.spyOn(i18nUtils, 'getLibResourceString').mockResolvedValue(
-      'Hello World',
-    );
+    provideLibResources(() => of('Hello World'));
 
     const el = document.createElement('div');
     el.textContent = '  Hello World  ';
@@ -63,22 +55,20 @@ describe('hasLibResourceText', () => {
   });
 
   it('should pass resource args through', async () => {
-    const spy = vi
-      .spyOn(i18nUtils, 'getLibResourceString')
-      .mockResolvedValue('Hello Alice');
+    const getString = vi.fn().mockReturnValue(of('Hello Alice'));
+
+    provideLibResources(getString);
 
     const el = document.createElement('div');
     el.textContent = 'Hello Alice';
 
     await hasLibResourceText(el, 'greeting', ['Alice'], true);
 
-    expect(spy).toHaveBeenCalledWith('greeting', ['Alice']);
+    expect(getString).toHaveBeenCalledWith('greeting', 'Alice');
   });
 
   it('should treat null textContent as empty string', async () => {
-    vi.spyOn(i18nUtils, 'getLibResourceString').mockResolvedValue(
-      'Hello World',
-    );
+    provideLibResources(() => of('Hello World'));
 
     const el = document.createElement('div');
     Object.defineProperty(el, 'textContent', { value: null });

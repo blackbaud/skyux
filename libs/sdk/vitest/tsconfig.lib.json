@@ -6,5 +6,10 @@
     "types": ["node"]
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["vitest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
+  "exclude": [
+    "vitest.config.ts",
+    "src/testing/**",
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts"
+  ]
 }

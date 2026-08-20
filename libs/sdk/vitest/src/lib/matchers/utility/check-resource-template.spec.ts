@@ -1,14 +1,11 @@
-import { checkResourceTemplate } from './check-resource-template';
-import * as i18nUtils from './i18n-utils';
+import { of } from 'rxjs';
 
-vi.mock('./i18n-utils');
+import { provideAppResources } from '../../../testing/provide-resources';
+import { checkResourceTemplate } from './check-resource-template';
 
 describe('checkResourceTemplate', () => {
   it('should return pass: true when element text matches the template', async () => {
-    vi.spyOn(i18nUtils, 'getResourceString').mockResolvedValue(
-      'Hello {0}, welcome to {1}',
-    );
-    vi.spyOn(i18nUtils, 'isTemplateMatch').mockReturnValue(true);
+    provideAppResources(() => of('Hello {0}, welcome to {1}'));
 
     const el = document.createElement('div');
     el.textContent = 'Hello Alice, welcome to Wonderland';
@@ -22,10 +19,7 @@ describe('checkResourceTemplate', () => {
   });
 
   it('should return pass: false when element text does not match the template', async () => {
-    vi.spyOn(i18nUtils, 'getResourceString').mockResolvedValue(
-      'Hello {0}, welcome to {1}',
-    );
-    vi.spyOn(i18nUtils, 'isTemplateMatch').mockReturnValue(false);
+    provideAppResources(() => of('Hello {0}, welcome to {1}'));
 
     const el = document.createElement('div');
     el.textContent = 'Goodbye';
@@ -38,23 +32,21 @@ describe('checkResourceTemplate', () => {
     );
   });
 
-  it('should call getResourceString with the resource key', async () => {
-    const spy = vi
-      .spyOn(i18nUtils, 'getResourceString')
-      .mockResolvedValue('template');
-    vi.spyOn(i18nUtils, 'isTemplateMatch').mockReturnValue(true);
+  it('should look up the resource for the resource key', async () => {
+    const getString = vi.fn().mockReturnValue(of('template'));
+
+    provideAppResources(getString);
 
     const el = document.createElement('div');
     el.textContent = 'template';
 
     await checkResourceTemplate(el, 'my_key');
 
-    expect(spy).toHaveBeenCalledWith('my_key');
+    expect(getString).toHaveBeenCalledWith('my_key');
   });
 
   it('should treat null textContent as empty string', async () => {
-    vi.spyOn(i18nUtils, 'getResourceString').mockResolvedValue('template');
-    vi.spyOn(i18nUtils, 'isTemplateMatch').mockReturnValue(false);
+    provideAppResources(() => of('template'));
 
     const el = document.createElement('div');
     Object.defineProperty(el, 'textContent', { value: null });
