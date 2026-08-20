@@ -1,10 +1,7 @@
 import { getLibResourceString } from './i18n-utils';
 import type { MatcherResult } from './matcher-result';
 
-/**
- * @internal
- */
-export async function _skyTestingHasLibResourceText(
+export async function hasLibResourceText(
   el: Element,
   resourceKey: string,
   resourceArgs: unknown[] = [],

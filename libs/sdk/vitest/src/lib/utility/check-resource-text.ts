@@ -1,10 +1,7 @@
 import { getResourceString } from './i18n-utils';
 import type { MatcherResult } from './matcher-result';
 
-/**
- * @internal
- */
-export async function _skyTestingCheckResourceText(
+export async function checkResourceText(
   actualText: string,
   resourceKey: string,
   resourceArgs?: unknown[],

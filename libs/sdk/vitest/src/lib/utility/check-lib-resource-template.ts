@@ -1,10 +1,7 @@
 import { getLibResourceString, isTemplateMatch } from './i18n-utils';
 import type { MatcherResult } from './matcher-result';
 
-/**
- * @internal
- */
-export async function _skyTestingCheckLibResourceTemplate(
+export async function checkLibResourceTemplate(
   el: Element,
   resourceKey: string,
 ): Promise<MatcherResult> {

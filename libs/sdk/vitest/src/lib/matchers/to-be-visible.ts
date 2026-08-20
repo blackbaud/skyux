@@ -1,12 +1,11 @@
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { _skyTestingCheckVisibility } from '@skyux-sdk/testing/private';
 import { expect } from 'vitest';
+import { checkVisibility } from '../utility/check-visibility';
 import type { ExpectationResult } from './expectation-result';
 import type { SkyToBeVisibleOptions } from './to-be-visible-options';
 
 expect.extend({
   toBeVisible(el: Element, options?: SkyToBeVisibleOptions): ExpectationResult {
-    const { pass, message } = _skyTestingCheckVisibility(el, options);
+    const { pass, message } = checkVisibility(el, options);
 
     return {
       pass,

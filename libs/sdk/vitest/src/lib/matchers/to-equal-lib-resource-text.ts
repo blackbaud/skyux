@@ -1,6 +1,5 @@
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { _skyTestingCheckLibResourceText } from '@skyux-sdk/testing/private';
 import { expect } from 'vitest';
+import { checkLibResourceText } from '../utility/check-lib-resource-text';
 import type { ExpectationResult } from './expectation-result';
 
 expect.extend({
@@ -9,7 +8,7 @@ expect.extend({
     resourceKey: string,
     resourceArgs?: unknown[],
   ): Promise<ExpectationResult> {
-    const { pass, message } = await _skyTestingCheckLibResourceText(
+    const { pass, message } = await checkLibResourceText(
       actualText,
       resourceKey,
       resourceArgs,

@@ -1,10 +1,7 @@
 import { getResourceString, isTemplateMatch } from './i18n-utils';
 import type { MatcherResult } from './matcher-result';
 
-/**
- * @internal
- */
-export async function _skyTestingCheckResourceTemplate(
+export async function checkResourceTemplate(
   el: Element,
   resourceKey: string,
 ): Promise<MatcherResult> {

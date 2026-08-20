@@ -1,6 +1,6 @@
 import type { MatcherResult } from './matcher-result';
 
-export function _skyTestingHasCssClass(
+export function hasCssClass(
   el: Element,
   expectedClassName: string,
 ): MatcherResult {

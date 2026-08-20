@@ -1,6 +1,5 @@
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { _skyTestingCheckResourceTemplate } from '@skyux-sdk/testing/private';
 import { expect } from 'vitest';
+import { checkResourceTemplate } from '../utility/check-resource-template';
 import type { ExpectationResult } from './expectation-result';
 
 expect.extend({
@@ -12,10 +11,7 @@ expect.extend({
       throw new Error('toMatchResourceTemplate expects an Element.');
     }
 
-    const { pass, message } = await _skyTestingCheckResourceTemplate(
-      el,
-      resourceKey,
-    );
+    const { pass, message } = await checkResourceTemplate(el, resourceKey);
 
     return { pass, message: () => message };
   },

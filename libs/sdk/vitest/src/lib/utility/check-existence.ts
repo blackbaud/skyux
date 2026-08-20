@@ -1,11 +1,6 @@
 import type { MatcherResult } from './matcher-result';
 
-/**
- * @internal
- */
-export function _skyTestingCheckExistence(
-  el: Element | null | undefined,
-): MatcherResult {
+export function checkExistence(el: Element | null | undefined): MatcherResult {
   const pass = !!el;
 
   return {

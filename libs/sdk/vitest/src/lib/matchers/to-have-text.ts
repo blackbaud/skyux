@@ -1,4 +1,5 @@
 import { expect } from 'vitest';
+import { hasText } from '../utility/has-text';
 import type { ExpectationResult } from './expectation-result';
 
 expect.extend({
@@ -7,11 +8,7 @@ expect.extend({
     expectedText: string,
     trimWhitespace = true,
   ): ExpectationResult {
-    const { pass, message } = _skyTestingHasText(
-      el,
-      expectedText,
-      trimWhitespace,
-    );
+    const { pass, message } = hasText(el, expectedText, trimWhitespace);
 
     return { pass, message: () => message };
   },

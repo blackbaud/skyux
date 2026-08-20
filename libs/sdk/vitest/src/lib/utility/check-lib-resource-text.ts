@@ -1,10 +1,7 @@
 import { getLibResourceString } from './i18n-utils';
 import type { MatcherResult } from './matcher-result';
 
-/**
- * @internal
- */
-export async function _skyTestingCheckLibResourceText(
+export async function checkLibResourceText(
   actualText: string,
   resourceKey: string,
   resourceArgs?: unknown[],

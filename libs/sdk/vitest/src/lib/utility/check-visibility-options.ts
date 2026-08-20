@@ -1,6 +1,3 @@
-/**
- * @internal
- */
 export interface SkyTestingCheckVisibilityOptions {
   /**
    * Indicates if the CSS `display` property should be considered when checking an element's

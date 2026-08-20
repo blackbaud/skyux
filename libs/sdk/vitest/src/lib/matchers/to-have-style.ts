@@ -1,6 +1,5 @@
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { _skyTestingHasStyle } from '@skyux-sdk/testing/private';
 import { expect } from 'vitest';
+import { hasStyle } from '../utility/has-style';
 import type { ExpectationResult } from './expectation-result';
 
 expect.extend({
@@ -8,7 +7,7 @@ expect.extend({
     el: Element,
     expectedStyles: Record<string, string>,
   ): ExpectationResult {
-    const { pass, message } = _skyTestingHasStyle(el, expectedStyles);
+    const { pass, message } = hasStyle(el, expectedStyles);
 
     return {
       pass,

@@ -1,9 +1,6 @@
 import type { MatcherResult } from './matcher-result';
 
-/**
- * @internal
- */
-export function _skyTestingHasStyle(
+export function hasStyle(
   el: Element,
   expectedStyles: Record<string, string>,
 ): MatcherResult {

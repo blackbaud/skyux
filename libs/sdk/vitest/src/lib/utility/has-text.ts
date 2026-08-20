@@ -1,6 +1,6 @@
 import type { MatcherResult } from './matcher-result';
 
-export function _skyTestingHasText(
+export function hasText(
   el: Element,
   expectedText: string,
   trimWhitespace: boolean,
