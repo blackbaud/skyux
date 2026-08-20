@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.15.1](https://github.com/blackbaud/skyux/compare/14.15.0...14.15.1) (2026-08-20)
+
+
+### Bug Fixes
+
+* dark mode flyouts, summary action bars, and back to top bars have an edge border ([#4633](https://github.com/blackbaud/skyux/issues/4633)) ([447a908](https://github.com/blackbaud/skyux/commit/447a90864dba77e95c965b3593ad82695e135517))
+
 ## [14.15.0](https://github.com/blackbaud/skyux/compare/14.14.0...14.15.0) (2026-08-19)
 
 
