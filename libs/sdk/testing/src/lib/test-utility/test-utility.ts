@@ -16,6 +16,9 @@ function getNativeEl(el: any): any {
   return el;
 }
 
+/**
+ * @deprecated Import `SkyAppTestUtility` from `@skyux/core/testing` instead.
+ */
 export class SkyAppTestUtility {
   public static fireDomEvent(
     element: EventTarget | null | undefined,
