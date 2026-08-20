@@ -14040,6 +14040,8 @@ For example, when set to \`true\` the following code will not fail for the \`alt
               },
               "fixable": "code",
               "messages": Object {
+                "emptyLabelText": "\`{{labelInputName}}\` on <{{selector}}> must not be empty.",
+                "missingLabel": "<{{selector}}> is missing a label. Set \`{{labelInputName}}\` on the <{{selector}}> element.",
                 "preferLabelText": "Use of <{{labelSelector}}> element is not recommended. Set \`{{labelInputName}}\` on the <{{selector}}> element instead.",
               },
               "schema": Array [],
