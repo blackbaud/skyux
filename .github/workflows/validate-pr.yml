@@ -101,3 +101,4 @@ jobs:
             sdk/stylelint-config-skyux
             sdk/stylelint-schematics
             sdk/testing
+            sdk/vitest
