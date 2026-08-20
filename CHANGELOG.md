@@ -1,16 +1,12 @@
 # Changelog
 
 
-## [15.0.0-alpha.6](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.5...15.0.0-alpha.6) (2026-08-20)
+## [14.15.0](https://github.com/blackbaud/skyux/compare/14.14.0...14.15.0) (2026-08-19)
 
-
-### ⚠ BREAKING CHANGES
-
-* **sdk/testing:** deprecate `SkyAppTestUtility` and `SkyBy` testing utils (#4651)
 
 ### Features
 
-* **sdk/testing:** deprecate `SkyAppTestUtility` and `SkyBy` testing utils ([#4651](https://github.com/blackbaud/skyux/issues/4651)) ([2c100e5](https://github.com/blackbaud/skyux/commit/2c100e5dd32e243fea37451890ea67f85b000793)), closes [AB#3987231](https://dev.azure.com/blackbaud/Products/_workitems/edit/3987231)
+* **components/i18n:** support non-region-specific locales for library resources ([#4648](https://github.com/blackbaud/skyux/issues/4648)) ([a5a3a6c](https://github.com/blackbaud/skyux/commit/a5a3a6cc0bd0c5d77338c9d4147f09e35b62d1f2)), closes [AB#4092222](https://dev.azure.com/blackbaud/Products/_workitems/edit/4092222)
 
 ## [15.0.0-alpha.5](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.4...15.0.0-alpha.5) (2026-08-19)
 
