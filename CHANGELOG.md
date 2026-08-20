@@ -1,6 +1,17 @@
 # Changelog
 
 
+## [15.0.0-alpha.6](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.5...15.0.0-alpha.6) (2026-08-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* **sdk/testing:** deprecate `SkyAppTestUtility` and `SkyBy` testing utils (#4651)
+
+### Features
+
+* **sdk/testing:** deprecate `SkyAppTestUtility` and `SkyBy` testing utils ([#4651](https://github.com/blackbaud/skyux/issues/4651)) ([2c100e5](https://github.com/blackbaud/skyux/commit/2c100e5dd32e243fea37451890ea67f85b000793)), closes [AB#3987231](https://dev.azure.com/blackbaud/Products/_workitems/edit/3987231)
+
 ## [14.15.0](https://github.com/blackbaud/skyux/compare/14.14.0...14.15.0) (2026-08-19)
 
 
