@@ -266,8 +266,8 @@
   z-index: 2;
 
   &.sky-modal-footer-shadow-enabled {
-    border-bottom: var(
-      --sky-override-modal-footer-tops-border,
+    border-top: var(
+      --sky-override-modal-footer-top-border,
       var(--sky-border-width-container-base)
         var(--sky-border-style-container-overlay)
         var(--sky-color-border-container-base)
