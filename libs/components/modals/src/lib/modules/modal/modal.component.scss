@@ -9,6 +9,7 @@
   --sky-override-modal-dock-margin-left-right-bottom: #{-$sky-margin-plus-half};
   --sky-override-modal-dock-padding-top: #{$sky-padding-plus-half};
   --sky-override-modal-dock-width: calc(100% + 30px);
+  --sky-override-modal-footer-top-border: none;
   --sky-override-modal-full-page-margin-xs: 0;
   --sky-override-modal-full-page-margin: 0;
   --sky-override-modal-full-page-width: 100%;
@@ -226,6 +227,15 @@
 
   display: flex;
   align-items: var(--sky-override-modal-header-align-items, center);
+
+  &.sky-modal-header-shadow-enabled {
+    border-bottom: var(
+      --sky-override-modal-header-bottom-border,
+      var(--sky-border-width-container-base)
+        var(--sky-border-style-container-overlay)
+        var(--sky-color-border-container-base)
+    );
+  }
 }
 
 .sky-modal-header-buttons {
@@ -254,6 +264,15 @@
 .sky-modal-footer {
   flex-shrink: 0;
   z-index: 2;
+
+  &.sky-modal-footer-shadow-enabled {
+    border-bottom: var(
+      --sky-override-modal-footer-tops-border,
+      var(--sky-border-width-container-base)
+        var(--sky-border-style-container-overlay)
+        var(--sky-color-border-container-base)
+    );
+  }
 }
 
 .sky-modal-full-page .sky-modal-content {
