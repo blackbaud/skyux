@@ -2,10 +2,6 @@ import 'zone.js';
 import 'zone.js/testing';
 
 import { getTestBed } from '@angular/core/testing';
-import {
-  BrowserTestingModule,
-  platformBrowserTesting,
-} from '@angular/platform-browser/testing';
 import { SkyAppResourcesService, SkyLibResourcesService } from '@skyux/i18n';
 import { Observable, of } from 'rxjs';
 
@@ -14,11 +10,6 @@ import {
   getResourceString,
   isTemplateMatch,
 } from './i18n-utils';
-
-getTestBed().initTestEnvironment(
-  BrowserTestingModule,
-  platformBrowserTesting(),
-);
 
 describe('i18n-utils', () => {
   describe('getResourceString', () => {

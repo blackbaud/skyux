@@ -1,4 +1,4 @@
-import { _skyTestingHasResourceText } from './has-resource-text';
+import { hasResourceText } from './has-resource-text';
 import * as i18nUtils from './i18n-utils';
 
 vi.mock('./i18n-utils');
@@ -10,7 +10,7 @@ describe('hasResourceText', () => {
     const el = document.createElement('div');
     el.textContent = 'Hello World';
 
-    const result = await _skyTestingHasResourceText(el, 'greeting', [], true);
+    const result = await hasResourceText(el, 'greeting', [], true);
 
     expect(result.pass).toBe(true);
     expect(result.message).toBe(
@@ -24,7 +24,7 @@ describe('hasResourceText', () => {
     const el = document.createElement('div');
     el.textContent = 'Goodbye';
 
-    const result = await _skyTestingHasResourceText(el, 'greeting', [], true);
+    const result = await hasResourceText(el, 'greeting', [], true);
 
     expect(result.pass).toBe(false);
     expect(result.message).toBe(
@@ -38,7 +38,7 @@ describe('hasResourceText', () => {
     const el = document.createElement('div');
     el.textContent = '  Hello World  ';
 
-    const result = await _skyTestingHasResourceText(el, 'greeting', [], true);
+    const result = await hasResourceText(el, 'greeting', [], true);
 
     expect(result.pass).toBe(true);
   });
@@ -49,7 +49,7 @@ describe('hasResourceText', () => {
     const el = document.createElement('div');
     el.textContent = '  Hello World  ';
 
-    const result = await _skyTestingHasResourceText(el, 'greeting', [], false);
+    const result = await hasResourceText(el, 'greeting', [], false);
 
     expect(result.pass).toBe(false);
   });
@@ -62,7 +62,7 @@ describe('hasResourceText', () => {
     const el = document.createElement('div');
     el.textContent = 'Hello Alice';
 
-    await _skyTestingHasResourceText(el, 'greeting', ['Alice'], true);
+    await hasResourceText(el, 'greeting', ['Alice'], true);
 
     expect(spy).toHaveBeenCalledWith('greeting', ['Alice']);
   });
@@ -73,7 +73,7 @@ describe('hasResourceText', () => {
     const el = document.createElement('div');
     Object.defineProperty(el, 'textContent', { value: null });
 
-    const result = await _skyTestingHasResourceText(el, 'greeting', [], true);
+    const result = await hasResourceText(el, 'greeting', [], true);
 
     expect(result.pass).toBe(false);
     expect(result.message).toContain('""');

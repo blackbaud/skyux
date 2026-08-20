@@ -1,4 +1,4 @@
-import { _skyTestingHasLibResourceText } from './has-lib-resource-text';
+import { hasLibResourceText } from './has-lib-resource-text';
 import * as i18nUtils from './i18n-utils';
 
 vi.mock('./i18n-utils');
@@ -12,12 +12,7 @@ describe('hasLibResourceText', () => {
     const el = document.createElement('div');
     el.textContent = 'Hello World';
 
-    const result = await _skyTestingHasLibResourceText(
-      el,
-      'greeting',
-      [],
-      true,
-    );
+    const result = await hasLibResourceText(el, 'greeting', [], true);
 
     expect(result.pass).toBe(true);
     expect(result.message).toBe(
@@ -33,12 +28,7 @@ describe('hasLibResourceText', () => {
     const el = document.createElement('div');
     el.textContent = 'Goodbye';
 
-    const result = await _skyTestingHasLibResourceText(
-      el,
-      'greeting',
-      [],
-      true,
-    );
+    const result = await hasLibResourceText(el, 'greeting', [], true);
 
     expect(result.pass).toBe(false);
     expect(result.message).toBe(
@@ -54,12 +44,7 @@ describe('hasLibResourceText', () => {
     const el = document.createElement('div');
     el.textContent = '  Hello World  ';
 
-    const result = await _skyTestingHasLibResourceText(
-      el,
-      'greeting',
-      [],
-      true,
-    );
+    const result = await hasLibResourceText(el, 'greeting', [], true);
 
     expect(result.pass).toBe(true);
   });
@@ -72,12 +57,7 @@ describe('hasLibResourceText', () => {
     const el = document.createElement('div');
     el.textContent = '  Hello World  ';
 
-    const result = await _skyTestingHasLibResourceText(
-      el,
-      'greeting',
-      [],
-      false,
-    );
+    const result = await hasLibResourceText(el, 'greeting', [], false);
 
     expect(result.pass).toBe(false);
   });
@@ -90,7 +70,7 @@ describe('hasLibResourceText', () => {
     const el = document.createElement('div');
     el.textContent = 'Hello Alice';
 
-    await _skyTestingHasLibResourceText(el, 'greeting', ['Alice'], true);
+    await hasLibResourceText(el, 'greeting', ['Alice'], true);
 
     expect(spy).toHaveBeenCalledWith('greeting', ['Alice']);
   });
@@ -103,12 +83,7 @@ describe('hasLibResourceText', () => {
     const el = document.createElement('div');
     Object.defineProperty(el, 'textContent', { value: null });
 
-    const result = await _skyTestingHasLibResourceText(
-      el,
-      'greeting',
-      [],
-      true,
-    );
+    const result = await hasLibResourceText(el, 'greeting', [], true);
 
     expect(result.pass).toBe(false);
     expect(result.message).toContain('""');

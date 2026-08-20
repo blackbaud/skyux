@@ -1,4 +1,4 @@
-import { _skyTestingCheckResourceText } from './check-resource-text';
+import { checkResourceText } from './check-resource-text';
 import * as i18nUtils from './i18n-utils';
 
 vi.mock('./i18n-utils');
@@ -7,10 +7,7 @@ describe('checkResourceText', () => {
   it('should return pass: true when text matches the resource', async () => {
     vi.spyOn(i18nUtils, 'getResourceString').mockResolvedValue('Hello World');
 
-    const result = await _skyTestingCheckResourceText(
-      'Hello World',
-      'greeting',
-    );
+    const result = await checkResourceText('Hello World', 'greeting');
 
     expect(result.pass).toBe(true);
     expect(result.message).toBe(
@@ -21,7 +18,7 @@ describe('checkResourceText', () => {
   it('should return pass: false when text does not match the resource', async () => {
     vi.spyOn(i18nUtils, 'getResourceString').mockResolvedValue('Hello World');
 
-    const result = await _skyTestingCheckResourceText('Goodbye', 'greeting');
+    const result = await checkResourceText('Goodbye', 'greeting');
 
     expect(result.pass).toBe(false);
     expect(result.message).toBe('Expected "Goodbye" to equal "Hello World"');
@@ -32,7 +29,7 @@ describe('checkResourceText', () => {
       .spyOn(i18nUtils, 'getResourceString')
       .mockResolvedValue('Hello Alice');
 
-    await _skyTestingCheckResourceText('Hello Alice', 'greeting', ['Alice']);
+    await checkResourceText('Hello Alice', 'greeting', ['Alice']);
 
     expect(spy).toHaveBeenCalledWith('greeting', ['Alice']);
   });

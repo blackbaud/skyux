@@ -1,7 +1,7 @@
 import { expect } from 'vitest';
-import { checkAccessibility } from '../utility/check-accessibility';
-import type { ExpectationResult } from './expectation-result';
 import type { SkyToBeAccessibleOptions } from './to-be-accessible-options';
+import type { ExpectationResult } from './types/expectation-result';
+import { checkAccessibility } from './utility/check-accessibility';
 
 expect.extend({
   async toBeAccessible(

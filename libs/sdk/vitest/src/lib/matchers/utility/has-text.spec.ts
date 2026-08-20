@@ -1,4 +1,4 @@
-import { _skyTestingHasText } from './has-text';
+import { hasText } from './has-text';
 
 describe('hasText', () => {
   let el: HTMLElement;
@@ -9,7 +9,7 @@ describe('hasText', () => {
 
   it('should return pass: true when text matches (trimmed)', () => {
     el.textContent = '  Hello World  ';
-    const result = _skyTestingHasText(el, 'Hello World', true);
+    const result = hasText(el, 'Hello World', true);
 
     expect(result.pass).toBe(true);
     expect(result.message).toBe(
@@ -19,7 +19,7 @@ describe('hasText', () => {
 
   it('should return pass: false when text does not match (trimmed)', () => {
     el.textContent = 'Hello World';
-    const result = _skyTestingHasText(el, 'Goodbye', true);
+    const result = hasText(el, 'Goodbye', true);
 
     expect(result.pass).toBe(false);
     expect(result.message).toContain(
@@ -32,14 +32,14 @@ describe('hasText', () => {
 
   it('should not trim whitespace when trimWhitespace is false', () => {
     el.textContent = '  Hello World  ';
-    const result = _skyTestingHasText(el, 'Hello World', false);
+    const result = hasText(el, 'Hello World', false);
 
     expect(result.pass).toBe(false);
   });
 
   it('should handle null textContent', () => {
     Object.defineProperty(el, 'textContent', { value: null });
-    const result = _skyTestingHasText(el, '', true);
+    const result = hasText(el, '', true);
 
     expect(result.pass).toBe(true);
   });

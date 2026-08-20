@@ -1,4 +1,4 @@
-import { _skyTestingCheckLibResourceText } from './check-lib-resource-text';
+import { checkLibResourceText } from './check-lib-resource-text';
 import * as i18nUtils from './i18n-utils';
 
 vi.mock('./i18n-utils');
@@ -9,10 +9,7 @@ describe('checkLibResourceText', () => {
       'Hello World',
     );
 
-    const result = await _skyTestingCheckLibResourceText(
-      'Hello World',
-      'greeting',
-    );
+    const result = await checkLibResourceText('Hello World', 'greeting');
 
     expect(result.pass).toBe(true);
     expect(result.message).toBe(
@@ -25,7 +22,7 @@ describe('checkLibResourceText', () => {
       'Hello World',
     );
 
-    const result = await _skyTestingCheckLibResourceText('Goodbye', 'greeting');
+    const result = await checkLibResourceText('Goodbye', 'greeting');
 
     expect(result.pass).toBe(false);
     expect(result.message).toBe('Expected "Goodbye" to equal "Hello World"');
@@ -36,7 +33,7 @@ describe('checkLibResourceText', () => {
       .spyOn(i18nUtils, 'getLibResourceString')
       .mockResolvedValue('Hello Alice');
 
-    await _skyTestingCheckLibResourceText('Hello Alice', 'greeting', ['Alice']);
+    await checkLibResourceText('Hello Alice', 'greeting', ['Alice']);
 
     expect(spy).toHaveBeenCalledWith('greeting', ['Alice']);
   });

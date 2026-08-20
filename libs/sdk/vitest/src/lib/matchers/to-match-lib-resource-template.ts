@@ -1,6 +1,6 @@
 import { expect } from 'vitest';
-import { checkLibResourceTemplate } from '../utility/check-lib-resource-template';
-import type { ExpectationResult } from './expectation-result';
+import type { ExpectationResult } from './types/expectation-result';
+import { checkLibResourceTemplate } from './utility/check-lib-resource-template';
 
 expect.extend({
   async toMatchLibResourceTemplate(

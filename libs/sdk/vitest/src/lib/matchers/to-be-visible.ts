@@ -1,7 +1,7 @@
 import { expect } from 'vitest';
-import { checkVisibility } from '../utility/check-visibility';
-import type { ExpectationResult } from './expectation-result';
 import type { SkyToBeVisibleOptions } from './to-be-visible-options';
+import type { ExpectationResult } from './types/expectation-result';
+import { checkVisibility } from './utility/check-visibility';
 
 expect.extend({
   toBeVisible(el: Element, options?: SkyToBeVisibleOptions): ExpectationResult {

@@ -1,6 +1,6 @@
 import { expect } from 'vitest';
-import { checkExistence } from '../utility/check-existence';
-import type { ExpectationResult } from './expectation-result';
+import type { ExpectationResult } from './types/expectation-result';
+import { checkExistence } from './utility/check-existence';
 
 expect.extend({
   toExist(el: Element | null | undefined): ExpectationResult {

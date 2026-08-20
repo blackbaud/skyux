@@ -1,18 +1,18 @@
 // Forces TypeScript to resolve vitest so the module augmentation below is valid.
 import type {} from 'vitest';
 
-import './utility/to-be-accessible';
-import './utility/to-be-visible';
-import './utility/to-equal-lib-resource-text';
-import './utility/to-equal-resource-text';
-import './utility/to-exist';
-import './utility/to-have-css-class';
-import './utility/to-have-lib-resource-text';
-import './utility/to-have-resource-text';
-import './utility/to-have-style';
-import './utility/to-have-text';
-import './utility/to-match-lib-resource-template';
-import './utility/to-match-resource-template';
+import './matchers/to-be-accessible';
+import './matchers/to-be-visible';
+import './matchers/to-equal-lib-resource-text';
+import './matchers/to-equal-resource-text';
+import './matchers/to-exist';
+import './matchers/to-have-css-class';
+import './matchers/to-have-lib-resource-text';
+import './matchers/to-have-resource-text';
+import './matchers/to-have-style';
+import './matchers/to-have-text';
+import './matchers/to-match-lib-resource-template';
+import './matchers/to-match-resource-template';
 
 import type { SkyToBeAccessibleOptions } from './matchers/to-be-accessible-options';
 import type { SkyToBeVisibleOptions } from './matchers/to-be-visible-options';

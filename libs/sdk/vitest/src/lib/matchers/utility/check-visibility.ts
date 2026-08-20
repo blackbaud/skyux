@@ -1,7 +1,13 @@
-import type { SkyTestingCheckVisibilityOptions } from './check-visibility-options';
 import type { MatcherResult } from './matcher-result';
 
-const DEFAULTS: SkyTestingCheckVisibilityOptions = {
+interface CheckVisibilityOptions {
+  checkCssDisplay?: boolean;
+  checkCssVisibility?: boolean;
+  checkDimensions?: boolean;
+  checkExists?: boolean;
+}
+
+const DEFAULTS: CheckVisibilityOptions = {
   checkCssDisplay: true,
   checkCssVisibility: false,
   checkDimensions: false,
@@ -9,7 +15,7 @@ const DEFAULTS: SkyTestingCheckVisibilityOptions = {
 
 export function checkVisibility(
   el: Element | null | undefined,
-  options?: SkyTestingCheckVisibilityOptions,
+  options?: CheckVisibilityOptions,
 ): MatcherResult {
   const settings = { ...DEFAULTS, ...options };
 

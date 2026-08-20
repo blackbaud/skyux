@@ -1,4 +1,4 @@
-import { SkyA11yAnalyzer } from '../a11y/a11y-analyzer';
+import { SkyA11yAnalyzer } from '../../a11y/a11y-analyzer';
 import { checkAccessibility } from './check-accessibility';
 
 describe('checkAccessibility', () => {

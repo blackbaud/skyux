@@ -1,6 +1,6 @@
 import { expect } from 'vitest';
-import { hasText } from '../utility/has-text';
-import type { ExpectationResult } from './expectation-result';
+import type { ExpectationResult } from './types/expectation-result';
+import { hasText } from './utility/has-text';
 
 expect.extend({
   toHaveText(

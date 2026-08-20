@@ -1,6 +1,6 @@
 import { expect } from 'vitest';
-import { hasStyle } from '../utility/has-style';
-import type { ExpectationResult } from './expectation-result';
+import type { ExpectationResult } from './types/expectation-result';
+import { hasStyle } from './utility/has-style';
 
 expect.extend({
   toHaveStyle(

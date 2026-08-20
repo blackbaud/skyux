@@ -1,4 +1,4 @@
-import { _skyTestingHasStyle } from './has-style';
+import { hasStyle } from './has-style';
 
 describe('hasStyle', () => {
   let el: HTMLElement;
@@ -14,14 +14,14 @@ describe('hasStyle', () => {
 
   it('should return pass: true when element has the expected style', () => {
     el.style.display = 'block';
-    const result = _skyTestingHasStyle(el, { display: 'block' });
+    const result = hasStyle(el, { display: 'block' });
 
     expect(result.pass).toBe(true);
   });
 
   it('should return pass: false when element does not have the expected style', () => {
     el.style.display = 'block';
-    const result = _skyTestingHasStyle(el, { display: 'none' });
+    const result = hasStyle(el, { display: 'none' });
 
     expect(result.pass).toBe(false);
     expect(result.message).toContain(
@@ -32,7 +32,7 @@ describe('hasStyle', () => {
   it('should check multiple styles', () => {
     el.style.display = 'block';
     el.style.visibility = 'hidden';
-    const result = _skyTestingHasStyle(el, {
+    const result = hasStyle(el, {
       display: 'block',
       visibility: 'visible',
     });
@@ -41,7 +41,7 @@ describe('hasStyle', () => {
   });
 
   it('should handle multiple failing styles', () => {
-    const result = _skyTestingHasStyle(el, {
+    const result = hasStyle(el, {
       display: 'none',
       visibility: 'hidden',
     });

@@ -20,8 +20,8 @@
   "types": "./src/index.d.ts",
   "exports": {
     "./matchers-setup.js": {
-      "types": "./types/skyux-sdk-vitest.d.ts",
-      "default": "./fesm2022/skyux-sdk-vitest.mjs"
+      "types": "./src/lib/matchers-setup.d.ts",
+      "default": "./src/lib/matchers-setup.js"
     }
   },
   "dependencies": {

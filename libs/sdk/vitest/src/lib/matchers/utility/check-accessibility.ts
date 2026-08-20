@@ -1,5 +1,5 @@
-import { SkyA11yAnalyzer } from '../a11y/a11y-analyzer';
-import type { SkyA11yAnalyzerConfig } from '../a11y/a11y-analyzer-config';
+import { SkyA11yAnalyzer } from '../../a11y/a11y-analyzer';
+import type { SkyA11yAnalyzerConfig } from '../../a11y/a11y-analyzer-config';
 import type { MatcherResult } from './matcher-result';
 
 export async function checkAccessibility(
