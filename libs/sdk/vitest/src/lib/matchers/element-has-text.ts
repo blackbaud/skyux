@@ -17,8 +17,8 @@ export function elementHasText(
     pass,
     message: () =>
       pass
-        ? `Expected element's inner text "${actualText}" not to be: "${expectedText}"`
-        : `Expected element's inner text to be: "${expectedText}"\n` +
-          `Actual element's inner text was: "${actualText}"`,
+        ? `Expected element's text content "${actualText}" not to be: "${expectedText}"`
+        : `Expected element's text content to be: "${expectedText}"\n` +
+          `Actual element's text content was: "${actualText}"`,
   };
 }

@@ -13,7 +13,7 @@ describe('elementHasText', () => {
 
     expect(result.pass).toBe(true);
     expect(result.message()).toBe(
-      'Expected element\'s inner text "Hello World" not to be: "Hello World"',
+      'Expected element\'s text content "Hello World" not to be: "Hello World"',
     );
   });
 
@@ -23,10 +23,10 @@ describe('elementHasText', () => {
 
     expect(result.pass).toBe(false);
     expect(result.message()).toContain(
-      'Expected element\'s inner text to be: "Goodbye"',
+      'Expected element\'s text content to be: "Goodbye"',
     );
     expect(result.message()).toContain(
-      'Actual element\'s inner text was: "Hello World"',
+      'Actual element\'s text content was: "Hello World"',
     );
   });
 
