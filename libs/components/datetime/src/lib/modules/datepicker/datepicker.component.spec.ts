@@ -217,6 +217,18 @@ function getSelectedCalendarItem(): HTMLElement | null {
     '.sky-datepicker-btn-selected',
   ) as HTMLElement | null;
 }
+
+function pressSetToTodayKey(
+  element: Element | null,
+  fixture: ComponentFixture<unknown>,
+): void {
+  SkyAppTestUtility.fireDomEvent(element, 'keydown', {
+    customEventInit: {
+      key: 'F3',
+    },
+  });
+  detectChanges(fixture);
+}
 // #endregion
 
 describe('datepicker', () => {
@@ -979,6 +991,140 @@ describe('datepicker', () => {
 
         const firstDayCol = getCalendarColumn(0, fixture);
         expect(firstDayCol).toHaveText('Fr');
+      }));
+    });
+
+    describe('set to today', () => {
+      const today = new Date('5/15/2017');
+
+      it('should set the value to today when pressed in the input', fakeAsync(() => {
+        jasmine.clock().mockDate(today);
+
+        pressSetToTodayKey(getInputElement(fixture), fixture);
+
+        expect(component.selectedDate()).toEqual(new Date(2017, 4, 15));
+        expect(getInputElementValue(fixture)).toBe('05/15/2017');
+      }));
+
+      it('should set the value to today when pressed on the trigger button', fakeAsync(() => {
+        jasmine.clock().mockDate(today);
+
+        pressSetToTodayKey(getTriggerButton(fixture), fixture);
+
+        expect(component.selectedDate()).toEqual(new Date(2017, 4, 15));
+        expect(getInputElementValue(fixture)).toBe('05/15/2017');
+      }));
+
+      it('should ignore other keys pressed on the trigger button', fakeAsync(() => {
+        jasmine.clock().mockDate(today);
+
+        SkyAppTestUtility.fireDomEvent(getTriggerButton(fixture), 'keydown', {
+          customEventInit: {
+            key: 'Enter',
+          },
+        });
+        detectChanges(fixture);
+
+        expect(component.selectedDate()).toBeUndefined();
+      }));
+
+      it('should ignore other keys pressed in the input', fakeAsync(() => {
+        jasmine.clock().mockDate(today);
+
+        SkyAppTestUtility.fireDomEvent(getInputElement(fixture), 'keydown', {
+          customEventInit: {
+            key: 'Enter',
+          },
+        });
+        detectChanges(fixture);
+
+        expect(component.selectedDate()).toBeUndefined();
+      }));
+
+      it('should set the value to today and close the picker when pressed in the calendar', fakeAsync(() => {
+        jasmine.clock().mockDate(today);
+
+        clickTrigger(fixture);
+        expect(getCalendar()).not.toBeNull();
+
+        pressSetToTodayKey(getCalendar(), fixture);
+
+        expect(component.selectedDate()).toEqual(new Date(2017, 4, 15));
+        expect(getInputElementValue(fixture)).toBe('05/15/2017');
+        expect(getCalendar()).toBeNull();
+      }));
+
+      it('should do nothing when today is before the minimum date', fakeAsync(() => {
+        jasmine.clock().mockDate(today);
+        fixture.componentRef.setInput('minDate', new Date('5/16/2017'));
+        detectChanges(fixture);
+
+        pressSetToTodayKey(getInputElement(fixture), fixture);
+
+        expect(component.selectedDate()).toBeUndefined();
+      }));
+
+      it('should set the value to today when today is on the minimum date', fakeAsync(() => {
+        jasmine.clock().mockDate(today);
+        fixture.componentRef.setInput('minDate', new Date('5/15/2017'));
+        detectChanges(fixture);
+
+        pressSetToTodayKey(getInputElement(fixture), fixture);
+
+        expect(component.selectedDate()).toEqual(new Date(2017, 4, 15));
+      }));
+
+      it('should do nothing when today is after the maximum date', fakeAsync(() => {
+        jasmine.clock().mockDate(today);
+        fixture.componentRef.setInput('maxDate', new Date('5/14/2017'));
+        detectChanges(fixture);
+
+        pressSetToTodayKey(getInputElement(fixture), fixture);
+
+        expect(component.selectedDate()).toBeUndefined();
+      }));
+
+      it('should set the value to today when today is on the maximum date', fakeAsync(() => {
+        jasmine.clock().mockDate(today);
+        fixture.componentRef.setInput('maxDate', new Date('5/15/2017'));
+        detectChanges(fixture);
+
+        pressSetToTodayKey(getInputElement(fixture), fixture);
+
+        expect(component.selectedDate()).toEqual(new Date(2017, 4, 15));
+      }));
+
+      it('should do nothing when today is a disabled custom date', fakeAsync(() => {
+        jasmine.clock().mockDate(today);
+        component.datepicker.customDates = [
+          { date: new Date(2017, 4, 15), disabled: true },
+        ];
+
+        pressSetToTodayKey(getInputElement(fixture), fixture);
+
+        expect(component.selectedDate()).toBeUndefined();
+      }));
+
+      it('should set the value to today when today has a non-disabled custom date', fakeAsync(() => {
+        jasmine.clock().mockDate(today);
+        component.datepicker.customDates = [
+          { date: new Date(2017, 4, 15), disabled: false },
+        ];
+
+        pressSetToTodayKey(getInputElement(fixture), fixture);
+
+        expect(component.selectedDate()).toEqual(new Date(2017, 4, 15));
+      }));
+
+      it('should set the value to today when custom dates do not include today', fakeAsync(() => {
+        jasmine.clock().mockDate(today);
+        component.datepicker.customDates = [
+          { date: new Date(2017, 4, 16), disabled: true },
+        ];
+
+        pressSetToTodayKey(getInputElement(fixture), fixture);
+
+        expect(component.selectedDate()).toEqual(new Date(2017, 4, 15));
       }));
     });
 

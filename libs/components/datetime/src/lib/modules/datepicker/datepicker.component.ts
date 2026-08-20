@@ -41,6 +41,7 @@ import { SkyDatepickerCalendarChange } from './calendar/datepicker-calendar-chan
 import { SkyDatepickerCalendarComponent } from './calendar/datepicker-calendar.component';
 import { SkyDatepickerCustomDate } from './datepicker-custom-date';
 import { SkyDatepickerHostService } from './datepicker-host.service';
+import { isSetToTodayKey } from './datepicker-set-to-today-key';
 
 let nextId = 0;
 
@@ -161,7 +162,7 @@ export class SkyDatepickerComponent
     if (value) {
       this.#_calendarRef = value;
 
-      this.#addKeyupListener();
+      this.#addKeyEventListeners();
 
       // Wait for the calendar component to render before gauging dimensions.
       setTimeout(() => {
@@ -219,6 +220,8 @@ export class SkyDatepickerComponent
   #ngUnsubscribe = new Subject<void>();
 
   #overlay: SkyOverlayInstance | undefined;
+
+  #overlayKeydownListener: Subscription | undefined;
 
   #overlayKeyupListener: Subscription | undefined;
 
@@ -310,6 +313,37 @@ export class SkyDatepickerComponent
       this.#closePicker();
     } else {
       this.#openPicker();
+    }
+  }
+
+  /**
+   * Sets the datepicker value to today's date, if today is selectable.
+   * @internal
+   */
+  public selectToday(): void {
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+    if (!this.#isSelectable(today)) {
+      return;
+    }
+
+    this.calendarDateChange.emit(today);
+    this.dateChange.emit(today);
+
+    if (this.isOpen) {
+      this.#closePicker();
+    }
+  }
+
+  /**
+   * Sets the datepicker value to today's date when the trigger button has focus.
+   * @internal
+   */
+  public onTriggerButtonKeydown(event: KeyboardEvent): void {
+    if (isSetToTodayKey(event)) {
+      event.preventDefault();
+      this.selectToday();
     }
   }
 
@@ -465,7 +499,7 @@ export class SkyDatepickerComponent
     }
   }
 
-  #addKeyupListener(): void {
+  #addKeyEventListeners(): void {
     const datepickerCalendarElement = this.calendarRef?.nativeElement;
 
     if (datepickerCalendarElement) {
@@ -480,6 +514,18 @@ export class SkyDatepickerComponent
             this.#closePicker();
           }
         });
+
+      this.#overlayKeydownListener = fromEvent<KeyboardEvent>(
+        datepickerCalendarElement,
+        'keydown',
+      )
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe((event) => {
+          if (isSetToTodayKey(event)) {
+            event.preventDefault();
+            this.selectToday();
+          }
+        });
     }
   }
 
@@ -488,6 +534,41 @@ export class SkyDatepickerComponent
     this.#calendarUnsubscribe.complete();
     this.#calendarUnsubscribe = new Subject<void>();
     this.#overlayKeyupListener?.unsubscribe();
+    this.#overlayKeydownListener?.unsubscribe();
+  }
+
+  #isSelectable(date: Date): boolean {
+    const minDateCompare =
+      this.minDate &&
+      date.getTime() <
+        new Date(
+          this.minDate.getFullYear(),
+          this.minDate.getMonth(),
+          this.minDate.getDate(),
+        ).getTime();
+
+    if (minDateCompare) {
+      return false;
+    }
+
+    const maxDateCompare =
+      this.maxDate &&
+      date.getTime() >
+        new Date(
+          this.maxDate.getFullYear(),
+          this.maxDate.getMonth(),
+          this.maxDate.getDate(),
+        ).getTime();
+
+    if (maxDateCompare) {
+      return false;
+    }
+
+    const customDate = this.customDates?.find(
+      (item) => item.date.getTime() === date.getTime(),
+    );
+
+    return !customDate?.disabled;
   }
 
   #cancelCustomDatesSubscription(): void {
