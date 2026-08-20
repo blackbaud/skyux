@@ -1,7 +1,7 @@
 import { resolve } from 'node:path';
 import { defineConfig } from 'vitest/config';
 
-const root = resolve(__dirname, '../../..');
+const root = resolve(import.meta.dirname, '../../..');
 
 export default defineConfig({
   cacheDir: '../../../node_modules/.vite',
@@ -15,7 +15,7 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     include: ['src/**/*.spec.ts'],
-    setupFiles: [resolve(__dirname, 'src/testing/setup-test-env.ts')],
+    setupFiles: [resolve(import.meta.dirname, 'src/testing/setup-test-env.ts')],
     coverage: {
       enabled: true,
       include: ['src/**/*.ts'],
