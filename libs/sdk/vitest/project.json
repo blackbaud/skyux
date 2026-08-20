@@ -1,0 +1,37 @@
+{
+  "name": "vitest",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/sdk/vitest/src",
+  "projectType": "library",
+  "release": {
+    "version": {
+      "manifestRootsToUpdate": ["dist/{projectRoot}"],
+      "currentVersionResolver": "git-tag",
+      "fallbackCurrentVersionResolver": "disk"
+    }
+  },
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/sdk/vitest",
+        "tsConfig": "libs/sdk/vitest/tsconfig.lib.json",
+        "packageJson": "libs/sdk/vitest/package.json",
+        "main": "libs/sdk/vitest/src/index.ts",
+        "assets": ["libs/sdk/vitest/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/angular:unit-test",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "runnerConfig": true
+      }
+    }
+  }
+}

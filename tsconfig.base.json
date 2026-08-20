@@ -24,7 +24,10 @@
     "baseUrl": ".",
     "typeRoots": ["./node_modules/@types", "./vendor/types/**/*.d.ts"],
     "paths": {
-      "*": ["./vendor/types/*"],
+      //#region Vendored types
+      "@percy/sdk-utils": ["./vendor/types/@percy/sdk-utils/index.d.ts"],
+      "dom-autoscroller": ["./vendor/types/dom-autoscroller/index.d.ts"],
+      //#endregion
       "@skyux-sdk/cypress-commands": ["libs/sdk/cypress-commands/src/index.ts"],
       "@skyux-sdk/e2e-schematics": ["libs/sdk/e2e-schematics/src/index.ts"],
       "@skyux-sdk/e2e-schematics/cypress-preset": [
@@ -209,7 +212,10 @@
       "@skyux/validation": ["libs/components/validation/src/index.ts"],
       "skyux-eslint": ["libs/sdk/skyux-eslint/src/index.ts"],
       "skyux-stylelint": ["libs/sdk/skyux-stylelint/src/index.ts"],
-      "stylelint-config-skyux": ["libs/sdk/stylelint-config-skyux/src/index.ts"]
+      "stylelint-config-skyux": [
+        "libs/sdk/stylelint-config-skyux/src/index.ts"
+      ],
+      "@skyux-sdk/vitest": ["./libs/sdk/vitest/src/index.ts"]
     },
     "ignoreDeprecations": "6.0",
     "noUncheckedSideEffectImports": false
