@@ -565,7 +565,10 @@ export class SkyDatepickerComponent
     }
 
     const customDate = this.customDates?.find(
-      (item) => item.date.getTime() === date.getTime(),
+      (item) =>
+        item.date.getFullYear() === date.getFullYear() &&
+        item.date.getMonth() === date.getMonth() &&
+        item.date.getDate() === date.getDate(),
     );
 
     return !customDate?.disabled;

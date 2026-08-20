@@ -1105,6 +1105,17 @@ describe('datepicker', () => {
         expect(component.selectedDate()).toBeUndefined();
       }));
 
+      it('should do nothing when today is a disabled custom date with a time component', fakeAsync(() => {
+        jasmine.clock().mockDate(today);
+        component.datepicker.customDates = [
+          { date: new Date(2017, 4, 15, 12), disabled: true },
+        ];
+
+        pressSetToTodayKey(getInputElement(fixture), fixture);
+
+        expect(component.selectedDate()).toBeUndefined();
+      }));
+
       it('should set the value to today when today has a non-disabled custom date', fakeAsync(() => {
         jasmine.clock().mockDate(today);
         component.datepicker.customDates = [
