@@ -24,10 +24,7 @@
     "baseUrl": ".",
     "typeRoots": ["./node_modules/@types", "./vendor/types/**/*.d.ts"],
     "paths": {
-      //#region vendored types
-      "@percy/sdk-utils": ["./vendor/types/@percy/sdk-utils/index.d.ts"],
-      "dom-autoscroller": ["./vendor/types/dom-autoscroller/index.d.ts"],
-      //#endregion
+      "*": ["./vendor/types/*"],
       "@skyux-sdk/cypress-commands": ["libs/sdk/cypress-commands/src/index.ts"],
       "@skyux-sdk/e2e-schematics": ["libs/sdk/e2e-schematics/src/index.ts"],
       "@skyux-sdk/e2e-schematics/cypress-preset": [
