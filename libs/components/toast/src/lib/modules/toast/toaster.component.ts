@@ -30,6 +30,15 @@ import { SkyToastContainerOptions } from './types/toast-container-options';
 import { SkyToastDisplayDirection } from './types/toast-display-direction';
 
 /**
+ * Toasts appear above every other layer except the full-page wait, which uses
+ * `$sky-page-wait-z-index`. The value must stay well above the z-indexes that grow as
+ * layers are created — overlays start at 5001 and increment for every overlay created
+ * over the life of the page — so it leaves generous headroom rather than sitting just
+ * above the highest static layer (the skip link, at 10000).
+ */
+const TOASTER_Z_INDEX = 100000;
+
+/**
  * @internal
  */
 @Component({
@@ -56,7 +65,7 @@ export class SkyToasterComponent implements OnInit, OnDestroy {
   public toastComponents: QueryList<SkyToastComponent> | undefined;
 
   protected toastInjectors = new Map<number, EnvironmentInjector>();
-  protected zIndex$ = new BehaviorSubject(1051);
+  protected zIndex$ = new BehaviorSubject(TOASTER_Z_INDEX);
 
   #ngUnsubscribe = new Subject<void>();
 

@@ -112,8 +112,11 @@
         @if (value) {
           <a
             class="sky-btn sky-btn-link-inline"
+            role="link"
+            tabindex="0"
             [attr.title]="fileName"
             (click)="emitClick()"
+            (keydown.enter)="emitClick()"
           >
             {{ truncatedFileName }}
           </a>

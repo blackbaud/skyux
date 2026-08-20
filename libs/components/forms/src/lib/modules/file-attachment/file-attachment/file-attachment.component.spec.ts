@@ -830,6 +830,56 @@ describe('File attachment', () => {
     });
   });
 
+  it('should place the uploaded file link in the tab order without a bound href', () => {
+    const testFile = {
+      file: {
+        name: 'test.png',
+        size: 1000,
+        type: 'image/png',
+      },
+      url: '$/myFile',
+    } as SkyFileItem;
+
+    fileAttachmentInstance.writeValue(testFile);
+    fixture.detectChanges();
+
+    const fileNameDebugEl = fixture.debugElement.query(
+      By.css('.sky-file-attachment-file-link a'),
+    );
+
+    expect(fileNameDebugEl.attributes['tabindex']).toBe('0');
+    expect(fileNameDebugEl.attributes['role']).toBe('link');
+    expect(fileNameDebugEl.attributes['href']).toBeUndefined();
+  });
+
+  it('should emit fileClick when the uploaded file link is activated via the keyboard', () => {
+    const testFile = {
+      file: {
+        name: 'test.png',
+        size: 1000,
+        type: 'image/png',
+      },
+      url: '$/myFile',
+    } as SkyFileItem;
+
+    spyOn(fileAttachmentInstance.fileClick, 'emit');
+
+    fileAttachmentInstance.writeValue(testFile);
+    fixture.detectChanges();
+
+    const fileNameDebugEl = fixture.debugElement.query(
+      By.css('.sky-file-attachment-file-link a'),
+    );
+
+    fileNameDebugEl.nativeElement.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }),
+    );
+
+    expect(fileAttachmentInstance.fileClick.emit).toHaveBeenCalledWith({
+      file: testFile,
+    });
+  });
+
   it('should load files and set classes on drag and drop', async () => {
     let fileChangeActual: SkyFileAttachmentChange | undefined;
 
