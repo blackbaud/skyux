@@ -4,7 +4,6 @@ interface ElementIsVisibleOptions {
   checkCssDisplay?: boolean;
   checkCssVisibility?: boolean;
   checkDimensions?: boolean;
-  checkExists?: boolean;
 }
 
 const DEFAULTS: ElementIsVisibleOptions = {

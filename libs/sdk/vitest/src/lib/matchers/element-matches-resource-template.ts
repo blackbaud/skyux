@@ -1,12 +1,16 @@
 import type { ExpectationResult } from './types/expectation-result';
-import { getResourceString, isTemplateMatch } from './utility/i18n-utils';
+import {
+  type ResourceStringResolver,
+  isTemplateMatch,
+} from './utility/i18n-utils';
 
 export async function elementMatchesResourceTemplate(
   el: Element,
+  resolveResourceString: ResourceStringResolver,
   resourceKey: string,
 ): Promise<ExpectationResult> {
   const actualText = el.textContent ?? '';
-  const expectedText = await getResourceString(resourceKey);
+  const expectedText = await resolveResourceString(resourceKey);
 
   const pass = isTemplateMatch(actualText, expectedText);
 

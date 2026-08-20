@@ -1,13 +1,14 @@
 import type { ExpectationResult } from './types/expectation-result';
-import { getResourceString } from './utility/i18n-utils';
+import type { ResourceStringResolver } from './utility/i18n-utils';
 
 export async function elementHasResourceText(
   el: Element,
+  resolveResourceString: ResourceStringResolver,
   resourceKey: string,
-  resourceArgs: unknown[] = [],
+  resourceArgs: unknown[] | undefined,
   trimWhitespace: boolean,
 ): Promise<ExpectationResult> {
-  const expectedText = await getResourceString(resourceKey, resourceArgs);
+  const expectedText = await resolveResourceString(resourceKey, resourceArgs);
 
   let actualText = el.textContent ?? '';
 

@@ -1,21 +1,11 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { SkyAppResourcesService, SkyLibResourcesService } from '@skyux/i18n';
-import { EMPTY, Observable, of as observableOf } from 'rxjs';
+import { EMPTY, of as observableOf } from 'rxjs';
 
-function setupResourceServiceTest<
-  T extends SkyAppResourcesService | SkyLibResourcesService,
->(token: Type<T>): T {
-  TestBed.configureTestingModule({
-    providers: [
-      {
-        provide: token,
-        useValue: { getString: (): Observable<never> => EMPTY },
-      },
-    ],
-  });
-  return TestBed.inject(token);
-}
+import {
+  provideAppResources,
+  provideLibResources,
+} from '../testing/provide-resources';
 
 describe('Vitest setupFiles integration', () => {
   it('should resolve the matchers-setup.js subpath at compile time', () => {
@@ -190,7 +180,7 @@ describe('Vitest setupFiles integration', () => {
     let resourcesService: SkyAppResourcesService;
 
     beforeEach(() => {
-      resourcesService = setupResourceServiceTest(SkyAppResourcesService);
+      resourcesService = provideAppResources(() => EMPTY);
     });
 
     afterEach(() => {
@@ -249,7 +239,7 @@ describe('Vitest setupFiles integration', () => {
     let resourcesService: SkyLibResourcesService;
 
     beforeEach(() => {
-      resourcesService = setupResourceServiceTest(SkyLibResourcesService);
+      resourcesService = provideLibResources(() => EMPTY);
     });
 
     afterEach(() => {
@@ -308,7 +298,7 @@ describe('Vitest setupFiles integration', () => {
     let resourcesService: SkyAppResourcesService;
 
     beforeEach(() => {
-      resourcesService = setupResourceServiceTest(SkyAppResourcesService);
+      resourcesService = provideAppResources(() => EMPTY);
     });
 
     afterEach(() => {
@@ -353,7 +343,7 @@ describe('Vitest setupFiles integration', () => {
     let resourcesService: SkyLibResourcesService;
 
     beforeEach(() => {
-      resourcesService = setupResourceServiceTest(SkyLibResourcesService);
+      resourcesService = provideLibResources(() => EMPTY);
     });
 
     afterEach(() => {
@@ -398,7 +388,7 @@ describe('Vitest setupFiles integration', () => {
     let resourcesService: SkyAppResourcesService;
 
     beforeEach(() => {
-      resourcesService = setupResourceServiceTest(SkyAppResourcesService);
+      resourcesService = provideAppResources(() => EMPTY);
     });
 
     afterEach(() => {
@@ -432,7 +422,7 @@ describe('Vitest setupFiles integration', () => {
     let resourcesService: SkyLibResourcesService;
 
     beforeEach(() => {
-      resourcesService = setupResourceServiceTest(SkyLibResourcesService);
+      resourcesService = provideLibResources(() => EMPTY);
     });
 
     afterEach(() => {
@@ -459,6 +449,22 @@ describe('Vitest setupFiles integration', () => {
       el.textContent = 'Completely different text';
 
       await expect(el).not.toMatchLibResourceTemplate('greeting');
+    });
+  });
+
+  describe('missing element', () => {
+    it('should throw a descriptive error when an element matcher receives no element', () => {
+      expect(() => expect(null).toHaveCssClass('sky-foo')).toThrowError(
+        'toHaveCssClass expects an Element.',
+      );
+
+      expect(() => expect(null).toHaveStyle({ display: 'block' })).toThrowError(
+        'toHaveStyle expects an Element.',
+      );
+
+      expect(() => expect(undefined).toHaveText('Hello')).toThrowError(
+        'toHaveText expects an Element.',
+      );
     });
   });
 });

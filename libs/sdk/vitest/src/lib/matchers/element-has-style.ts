@@ -4,34 +4,31 @@ export function elementHasStyle(
   el: Element,
   expectedStyles: Record<string, string>,
 ): ExpectationResult {
-  const messages: string[] = [];
-  let hasFailure = false;
-
   const styles = window.getComputedStyle(el);
+  const mismatches: string[] = [];
 
-  for (const styleName of Object.keys(expectedStyles)) {
+  for (const [styleName, expectedStyle] of Object.entries(expectedStyles)) {
     const actualStyle = styles.getPropertyValue(styleName);
-    const expectedStyle = expectedStyles[styleName];
 
     if (actualStyle !== expectedStyle) {
-      if (!hasFailure) {
-        hasFailure = true;
-      }
-
-      messages.push(
-        `Expected element to have CSS style "${styleName}: ${expectedStyle}"`,
-      );
-    } else {
-      messages.push(
-        `Expected element not to have CSS style "${styleName}: ${expectedStyle}"`,
+      mismatches.push(
+        `Expected element to have CSS style "${styleName}: ${expectedStyle}", but it was "${actualStyle}"`,
       );
     }
-
-    messages.push(`Actual styles are: "${styleName}: ${actualStyle}"`);
   }
 
+  const pass = mismatches.length === 0;
+
   return {
-    pass: !hasFailure,
-    message: () => messages.join('\n'),
+    pass,
+    message: () =>
+      pass
+        ? Object.entries(expectedStyles)
+            .map(
+              ([styleName, expectedStyle]) =>
+                `Expected element not to have CSS style "${styleName}: ${expectedStyle}"`,
+            )
+            .join('\n')
+        : mismatches.join('\n'),
   };
 }

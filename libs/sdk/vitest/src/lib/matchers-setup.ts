@@ -2,18 +2,19 @@ import { expect } from 'vitest';
 
 import { elementExists } from './matchers/element-exists';
 import { elementHasCssClass } from './matchers/element-has-css-class';
-import { elementHasLibResourceText } from './matchers/element-has-lib-resource-text';
 import { elementHasResourceText } from './matchers/element-has-resource-text';
 import { elementHasStyle } from './matchers/element-has-style';
 import { elementHasText } from './matchers/element-has-text';
 import { elementIsAccessible } from './matchers/element-is-accessible';
 import { elementIsVisible } from './matchers/element-is-visible';
-import { elementMatchesLibResourceTemplate } from './matchers/element-matches-lib-resource-template';
 import { elementMatchesResourceTemplate } from './matchers/element-matches-resource-template';
-import { libResourceTextEquals } from './matchers/lib-resource-text-equals';
 import { resourceTextEquals } from './matchers/resource-text-equals';
 import type { SkyToBeAccessibleOptions } from './matchers/to-be-accessible-options';
 import type { SkyToBeVisibleOptions } from './matchers/to-be-visible-options';
+import {
+  getLibResourceString,
+  getResourceString,
+} from './matchers/utility/i18n-utils';
 
 function assertElement(el: Element | null | undefined, name: string): Element {
   if (!el) {
@@ -26,25 +27,65 @@ function assertElement(el: Element | null | undefined, name: string): Element {
 expect.extend({
   toBeAccessible: elementIsAccessible,
   toBeVisible: elementIsVisible,
-  toEqualLibResourceText: libResourceTextEquals,
-  toEqualResourceText: resourceTextEquals,
   toExist: elementExists,
-  toHaveCssClass: elementHasCssClass,
-  toHaveStyle: elementHasStyle,
-  toHaveText: (el: Element, expectedText: string, trimWhitespace = true) =>
-    elementHasText(el, expectedText, trimWhitespace),
+
+  toEqualLibResourceText: (
+    actualText: string,
+    resourceKey: string,
+    resourceArgs?: unknown[],
+  ) =>
+    resourceTextEquals(
+      actualText,
+      getLibResourceString,
+      resourceKey,
+      resourceArgs,
+    ),
+
+  toEqualResourceText: (
+    actualText: string,
+    resourceKey: string,
+    resourceArgs?: unknown[],
+  ) =>
+    resourceTextEquals(
+      actualText,
+      getResourceString,
+      resourceKey,
+      resourceArgs,
+    ),
+
+  toHaveCssClass: (el: Element | null | undefined, expectedClassName: string) =>
+    elementHasCssClass(assertElement(el, 'toHaveCssClass'), expectedClassName),
+
+  toHaveStyle: (
+    el: Element | null | undefined,
+    expectedStyles: Record<string, string>,
+  ) => elementHasStyle(assertElement(el, 'toHaveStyle'), expectedStyles),
+
+  toHaveText: (
+    el: Element | null | undefined,
+    expectedText: string,
+    trimWhitespace = true,
+  ) =>
+    elementHasText(
+      assertElement(el, 'toHaveText'),
+      expectedText,
+      trimWhitespace,
+    ),
+
   toHaveLibResourceText: (
     el: Element | null | undefined,
     resourceKey: string,
     resourceArgs?: unknown[],
     trimWhitespace = true,
   ) =>
-    elementHasLibResourceText(
+    elementHasResourceText(
       assertElement(el, 'toHaveLibResourceText'),
+      getLibResourceString,
       resourceKey,
       resourceArgs,
       trimWhitespace,
     ),
+
   toHaveResourceText: (
     el: Element | null | undefined,
     resourceKey: string,
@@ -53,24 +94,29 @@ expect.extend({
   ) =>
     elementHasResourceText(
       assertElement(el, 'toHaveResourceText'),
+      getResourceString,
       resourceKey,
       resourceArgs,
       trimWhitespace,
     ),
+
   toMatchLibResourceTemplate: (
     el: Element | null | undefined,
     resourceKey: string,
   ) =>
-    elementMatchesLibResourceTemplate(
+    elementMatchesResourceTemplate(
       assertElement(el, 'toMatchLibResourceTemplate'),
+      getLibResourceString,
       resourceKey,
     ),
+
   toMatchResourceTemplate: (
     el: Element | null | undefined,
     resourceKey: string,
   ) =>
     elementMatchesResourceTemplate(
       assertElement(el, 'toMatchResourceTemplate'),
+      getResourceString,
       resourceKey,
     ),
 });

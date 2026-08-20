@@ -1,13 +1,14 @@
-import { of } from 'rxjs';
-
-import { provideAppResources } from '../../testing/provide-resources';
 import { resourceTextEquals } from './resource-text-equals';
 
 describe('resourceTextEquals', () => {
-  it('should return pass: true when text matches the resource', async () => {
-    provideAppResources(() => of('Hello World'));
+  const resolveGreeting = (): Promise<string> => Promise.resolve('Hello World');
 
-    const result = await resourceTextEquals('Hello World', 'greeting');
+  it('should return pass: true when text matches the resource', async () => {
+    const result = await resourceTextEquals(
+      'Hello World',
+      resolveGreeting,
+      'greeting',
+    );
 
     expect(result.pass).toBe(true);
     expect(result.message()).toBe(
@@ -16,21 +17,21 @@ describe('resourceTextEquals', () => {
   });
 
   it('should return pass: false when text does not match the resource', async () => {
-    provideAppResources(() => of('Hello World'));
-
-    const result = await resourceTextEquals('Goodbye', 'greeting');
+    const result = await resourceTextEquals(
+      'Goodbye',
+      resolveGreeting,
+      'greeting',
+    );
 
     expect(result.pass).toBe(false);
     expect(result.message()).toBe('Expected "Goodbye" to equal "Hello World"');
   });
 
-  it('should pass resource args through', async () => {
-    const getString = vi.fn().mockReturnValue(of('Hello Alice'));
+  it('should pass the resource key and args to the resolver', async () => {
+    const resolve = vi.fn().mockResolvedValue('Hello Alice');
 
-    provideAppResources(getString);
+    await resourceTextEquals('Hello Alice', resolve, 'greeting', ['Alice']);
 
-    await resourceTextEquals('Hello Alice', 'greeting', ['Alice']);
-
-    expect(getString).toHaveBeenCalledWith('greeting', 'Alice');
+    expect(resolve).toHaveBeenCalledWith('greeting', ['Alice']);
   });
 });

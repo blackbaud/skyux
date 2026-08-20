@@ -30,24 +30,10 @@
       }
     },
     "test": {
-      "executor": "@nx/angular:unit-test",
-      "outputs": ["{workspaceRoot}/coverage/{projectName}"],
+      "executor": "@nx/vitest:test",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "runnerConfig": true,
-        "setupFiles": ["libs/sdk/vitest/src/lib/matchers-setup.ts"],
-        "coverage": true,
-        "coverageInclude": ["libs/sdk/vitest/src/**/*.ts"],
-        "coverageExclude": [
-          "libs/sdk/vitest/src/**/*.spec.ts",
-          "libs/sdk/vitest/src/testing/**",
-          "libs/sdk/vitest/src/index.ts"
-        ],
-        "coverageThresholds": {
-          "lines": 100,
-          "functions": 100,
-          "branches": 100,
-          "statements": 100
-        }
+        "config": "libs/sdk/vitest/vitest.config.ts"
       }
     }
   }

@@ -1,12 +1,13 @@
 import type { ExpectationResult } from './types/expectation-result';
-import { getResourceString } from './utility/i18n-utils';
+import type { ResourceStringResolver } from './utility/i18n-utils';
 
 export async function resourceTextEquals(
   actualText: string,
+  resolveResourceString: ResourceStringResolver,
   resourceKey: string,
   resourceArgs?: unknown[],
 ): Promise<ExpectationResult> {
-  const expectedText = await getResourceString(resourceKey, resourceArgs);
+  const expectedText = await resolveResourceString(resourceKey, resourceArgs);
 
   const pass = actualText === expectedText;
 

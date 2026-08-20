@@ -2,6 +2,11 @@ import { TestBed } from '@angular/core/testing';
 import { SkyAppResourcesService, SkyLibResourcesService } from '@skyux/i18n';
 import { firstValueFrom } from 'rxjs';
 
+export type ResourceStringResolver = (
+  resourceKey: string,
+  resourceArgs?: unknown[],
+) => Promise<string>;
+
 export async function getResourceString(
   resourceKey: string,
   resourceArgs: unknown[] = [],
