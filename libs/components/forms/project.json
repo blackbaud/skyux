@@ -13,14 +13,7 @@
       "dependsOn": [
         "^build",
         {
-          "projects": [
-            "core",
-            "help-inline",
-            "icon",
-            "indicators",
-            "popovers",
-            "testing"
-          ],
+          "projects": ["core", "help-inline", "icon", "indicators", "popovers"],
           "target": "build"
         }
       ],

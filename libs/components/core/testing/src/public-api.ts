@@ -13,6 +13,9 @@ export { SkyMediaQueryTestingController } from './modules/media-query/media-quer
 export { provideSkyMediaQueryTesting } from './modules/media-query/provide-media-query-testing';
 export { SkyOverlayHarness } from './modules/overlay/overlay-harness';
 export { SkyOverlayHarnessFilters } from './modules/overlay/overlay-harness-filters';
+export { SkyBy } from './modules/query-predicates/sky-by';
+export { SkyAppTestUtility } from './modules/test-utility/test-utility';
+export type { SkyAppTestUtilityDomEventOptions } from './modules/test-utility/test-utility-dom-event-options';
 export { SkyComponentHarness } from './shared/component-harness';
 export { SkyHarnessFilters } from './shared/harness-filters';
 export { SkyHarnessUtility } from './shared/harness-utility';

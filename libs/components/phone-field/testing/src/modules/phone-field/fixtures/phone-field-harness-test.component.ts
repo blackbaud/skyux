@@ -61,7 +61,7 @@ export class PhoneFieldHarnessTestComponent {
   public phoneControl: UntypedFormControl | undefined;
   public phoneForm: FormGroup;
 
-  public selectedCountryChange = jasmine.createSpy();
+  public selectedCountryChange = (_country: SkyPhoneFieldCountry): void => {};
 
   #formBuilder = inject(FormBuilder);
 
