@@ -43,6 +43,7 @@
         "libs/sdk/testing/vitest/src/index.ts"
       ],
       "@skyux-sdk/tools": ["libs/sdk/tools/src/index.ts"],
+      "@skyux-sdk/vitest": ["./libs/sdk/vitest/src/index.ts"],
       "@skyux/a11y": ["libs/components/a11y/src/index.ts"],
       "@skyux/action-bars": ["libs/components/action-bars/src/index.ts"],
       "@skyux/action-bars/testing": [
@@ -212,10 +213,7 @@
       "@skyux/validation": ["libs/components/validation/src/index.ts"],
       "skyux-eslint": ["libs/sdk/skyux-eslint/src/index.ts"],
       "skyux-stylelint": ["libs/sdk/skyux-stylelint/src/index.ts"],
-      "stylelint-config-skyux": [
-        "libs/sdk/stylelint-config-skyux/src/index.ts"
-      ],
-      "@skyux-sdk/vitest": ["./libs/sdk/vitest/src/index.ts"]
+      "stylelint-config-skyux": ["libs/sdk/stylelint-config-skyux/src/index.ts"]
     },
     "ignoreDeprecations": "6.0",
     "noUncheckedSideEffectImports": false

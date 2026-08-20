@@ -1,19 +1,5 @@
-const baseConfig = require('../../../eslint.config.js');
+const prettier = require('eslint-config-prettier');
+const baseConfig = require('../../../eslint-base.config');
+const overrides = require('../../../eslint-overrides.config');
 
-module.exports = [
-  ...baseConfig,
-  {
-    files: ['**/*.json'],
-    rules: {
-      '@nx/dependency-checks': [
-        'error',
-        {
-          ignoredFiles: ['{projectRoot}/eslint.config.{js,cjs,mjs,ts,cts,mts}'],
-        },
-      ],
-    },
-    languageOptions: {
-      parser: require('jsonc-eslint-parser'),
-    },
-  },
-];
+module.exports = [...baseConfig, ...overrides, prettier];

@@ -24,7 +24,10 @@
       }
     },
     "lint": {
-      "executor": "@nx/eslint:lint"
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["{projectRoot}/src/**/*.ts"]
+      }
     },
     "test": {
       "executor": "@nx/angular:unit-test",

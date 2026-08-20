@@ -24,9 +24,7 @@
         "buildInputs",
         "^buildInputs",
         "{workspaceRoot}/libs/sdk/testing/private/src/**/*",
-        "!{workspaceRoot}/libs/sdk/testing/private/src/**/*.spec.ts",
-        "{workspaceRoot}/libs/sdk/testing/vitest/src/**/*",
-        "!{workspaceRoot}/libs/sdk/testing/vitest/src/**/*.spec.ts"
+        "!{workspaceRoot}/libs/sdk/testing/private/src/**/*.spec.ts"
       ]
     },
     "test": {
@@ -55,13 +53,6 @@
           "sourceMap": true,
           "watch": false
         }
-      }
-    },
-    "test-integration": {
-      "dependsOn": ["build"],
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "npx vitest run --config libs/sdk/testing/vitest/vitest.config.ts"
       }
     },
     "lint": {

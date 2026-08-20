@@ -340,9 +340,12 @@ describe('A11y analyzer', () => {
       callback: axe.RunCallback,
     ): void {
       actualOptions = options;
-      callback(null as unknown as Error, {
-        violations: [],
-      } as unknown as axe.AxeResults);
+      callback(
+        null as unknown as Error,
+        {
+          violations: [],
+        } as unknown as axe.AxeResults,
+      );
     }
 
     vi.spyOn(
