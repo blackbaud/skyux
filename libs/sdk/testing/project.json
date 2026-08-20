@@ -28,7 +28,7 @@
       ]
     },
     "test": {
-      "dependsOn": ["test-integration", "testing-private:test"],
+      "dependsOn": ["testing-private:test"],
       "executor": "@angular/build:karma",
       "options": {
         "tsConfig": "libs/sdk/testing/tsconfig.spec.json",
