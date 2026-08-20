@@ -25,8 +25,7 @@ export interface SkyCellEditorParamsByType {
      * The parameters provided to the autocomplete component.
      */
     skyComponentProperties?:
-      | SkyAutocompleteProperties
-      | SkyAgGridAutocompleteProperties;
+      SkyAutocompleteProperties | SkyAgGridAutocompleteProperties;
   };
   [SkyCellType.Currency]: {
     /**
@@ -45,8 +44,7 @@ export interface SkyCellEditorParamsByType {
      * The parameters provided to the datepicker component.
      */
     skyComponentProperties?:
-      | SkyDatepickerProperties
-      | SkyAgGridDatepickerProperties;
+      SkyDatepickerProperties | SkyAgGridDatepickerProperties;
   };
   [SkyCellType.Lookup]: {
     /**
