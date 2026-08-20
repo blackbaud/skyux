@@ -16,6 +16,7 @@ ruleTester.run(RULE_NAME, rule, {
   valid: [
     `<sky-checkbox labelText="foo">`,
     `<sky-checkbox [labelText]="foo">`,
+    `<sky-checkbox [(labelText)]="foo">`,
     `<sky-checkbox labelText="{{ foo }}">`,
     `<sky-input-box labelText="First name"><input /></sky-input-box>`,
     `<sky-radio labelText="Yes" value="a" />`,
@@ -503,6 +504,45 @@ ruleTester.run(RULE_NAME, rule, {
       messageId: emptyLabelTextMessageId,
       data: {
         selector: 'sky-input-box',
+        labelInputName: 'labelText',
+      },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail when labelText is only bound as an attribute binding',
+      annotatedSource: `
+        <sky-checkbox [attr.labelText]="foo" />
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        `,
+      messageId: missingLabelMessageId,
+      data: {
+        selector: 'sky-checkbox',
+        labelInputName: 'labelText',
+      },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail when labelText is only bound as a class binding',
+      annotatedSource: `
+        <sky-checkbox [class.labelText]="foo" />
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        `,
+      messageId: missingLabelMessageId,
+      data: {
+        selector: 'sky-checkbox',
+        labelInputName: 'labelText',
+      },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'should fail when labelText is only bound as a style binding',
+      annotatedSource: `
+        <sky-checkbox [style.labelText]="foo" />
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        `,
+      messageId: missingLabelMessageId,
+      data: {
+        selector: 'sky-checkbox',
         labelInputName: 'labelText',
       },
     }),

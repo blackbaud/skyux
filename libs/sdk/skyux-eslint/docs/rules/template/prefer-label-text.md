@@ -8,7 +8,7 @@ The rule reports three problems:
 
 1. **A label child element is used.** Set `labelText` instead. This is autofixable.
 2. **The component has no label at all.** Without a label, the form control has no accessible name, so screen reader users have no way to know what the control is for, and built-in validation error messages have no text to reference. The deprecated `label` and `labelledBy` inputs on `<sky-checkbox>` and `<sky-radio>` do **not** satisfy the rule — to give a control an accessible name without a visible label, set `labelText` along with `labelHidden`.
-3. **`labelText` is set but empty.** An empty or whitespace-only value renders no label, so it is equivalent to having none. A bound `labelText` is not evaluated, so an expression that resolves to an empty string at runtime cannot be reported.
+3. **`labelText` is set but empty.** An empty or whitespace-only value renders no label, so it is equivalent to having none. A bound `labelText` is not evaluated, so an expression that resolves to an empty string at runtime cannot be reported. Only property and two-way bindings set the input, so an `[attr.labelText]`, `[class.labelText]`, or `[style.labelText]` binding does not count as a label.
 
 - Type: problem
 - 🔧 Supports autofix (`--fix`)

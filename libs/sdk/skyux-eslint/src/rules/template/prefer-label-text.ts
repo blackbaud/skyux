@@ -143,7 +143,14 @@ export const rule = createESLintTemplateRule({
         );
 
         const hasLabelText =
-          el.inputs.some((i) => i.name === labelInputName) || !!labelTextAttr;
+          el.inputs.some(
+            (i) =>
+              i.name === labelInputName &&
+              // The parser strips the `attr.`, `class.`, and `style.` prefixes
+              // from `name`, so compare against the binding key to exclude
+              // those forms. None of them set the component input.
+              i.keySpan.toString() === labelInputName,
+          ) || !!labelTextAttr;
 
         // An empty label renders nothing, so report it before the branch below
         // to avoid offering a fix that would leave the component unlabeled.
