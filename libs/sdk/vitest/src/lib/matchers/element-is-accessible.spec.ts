@@ -1,7 +1,7 @@
-import { SkyA11yAnalyzer } from '../../a11y/a11y-analyzer';
-import { checkAccessibility } from './check-accessibility';
+import { SkyA11yAnalyzer } from '../a11y/a11y-analyzer';
+import { elementIsAccessible } from './element-is-accessible';
 
-describe('checkAccessibility', () => {
+describe('elementIsAccessible', () => {
   let el: HTMLElement;
 
   beforeEach(() => {
@@ -16,10 +16,10 @@ describe('checkAccessibility', () => {
   it('should return pass: true for an accessible element', async () => {
     vi.spyOn(SkyA11yAnalyzer, 'run').mockResolvedValue();
 
-    const result = await checkAccessibility(el);
+    const result = await elementIsAccessible(el);
 
     expect(result.pass).toBe(true);
-    expect(result.message).toBe(
+    expect(result.message()).toBe(
       'Expected accessibility violations, but none were found.',
     );
   });
@@ -29,23 +29,23 @@ describe('checkAccessibility', () => {
       new Error('Violation found'),
     );
 
-    const result = await checkAccessibility(el);
+    const result = await elementIsAccessible(el);
 
     expect(result.pass).toBe(false);
-    expect(result.message).toBe('Violation found');
+    expect(result.message()).toBe('Violation found');
   });
 
   it('should accept a Document and use documentElement', async () => {
     vi.spyOn(SkyA11yAnalyzer, 'run').mockResolvedValue();
 
-    const result = await checkAccessibility(document);
+    const result = await elementIsAccessible(document);
 
     expect(result.pass).toBe(true);
   });
 
   it('should throw if the target is not an Element', async () => {
     await expect(
-      checkAccessibility({} as unknown as Element),
+      elementIsAccessible({} as unknown as Element),
     ).rejects.toThrowError('toBeAccessible expects an Element or Document.');
   });
 });

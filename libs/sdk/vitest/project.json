@@ -28,10 +28,23 @@
     },
     "test": {
       "executor": "@nx/angular:unit-test",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": ["{workspaceRoot}/coverage/{projectName}"],
       "options": {
         "runnerConfig": true,
-        "setupFiles": ["libs/sdk/vitest/src/lib/matchers-setup.ts"]
+        "setupFiles": ["libs/sdk/vitest/src/lib/matchers-setup.ts"],
+        "coverage": true,
+        "coverageInclude": ["libs/sdk/vitest/src/**/*.ts"],
+        "coverageExclude": [
+          "libs/sdk/vitest/src/**/*.spec.ts",
+          "libs/sdk/vitest/src/testing/**",
+          "libs/sdk/vitest/src/index.ts"
+        ],
+        "coverageThresholds": {
+          "lines": 100,
+          "functions": 100,
+          "branches": 100,
+          "statements": 100
+        }
       }
     }
   }

@@ -1,21 +1,79 @@
-// Forces TypeScript to resolve vitest so the module augmentation below is valid.
-import type {} from 'vitest';
+import { expect } from 'vitest';
 
-import './matchers/to-be-accessible';
-import './matchers/to-be-visible';
-import './matchers/to-equal-lib-resource-text';
-import './matchers/to-equal-resource-text';
-import './matchers/to-exist';
-import './matchers/to-have-css-class';
-import './matchers/to-have-lib-resource-text';
-import './matchers/to-have-resource-text';
-import './matchers/to-have-style';
-import './matchers/to-have-text';
-import './matchers/to-match-lib-resource-template';
-import './matchers/to-match-resource-template';
-
+import { elementExists } from './matchers/element-exists';
+import { elementHasCssClass } from './matchers/element-has-css-class';
+import { elementHasLibResourceText } from './matchers/element-has-lib-resource-text';
+import { elementHasResourceText } from './matchers/element-has-resource-text';
+import { elementHasStyle } from './matchers/element-has-style';
+import { elementHasText } from './matchers/element-has-text';
+import { elementIsAccessible } from './matchers/element-is-accessible';
+import { elementIsVisible } from './matchers/element-is-visible';
+import { elementMatchesLibResourceTemplate } from './matchers/element-matches-lib-resource-template';
+import { elementMatchesResourceTemplate } from './matchers/element-matches-resource-template';
+import { libResourceTextEquals } from './matchers/lib-resource-text-equals';
+import { resourceTextEquals } from './matchers/resource-text-equals';
 import type { SkyToBeAccessibleOptions } from './matchers/to-be-accessible-options';
 import type { SkyToBeVisibleOptions } from './matchers/to-be-visible-options';
+
+function assertElement(el: Element | null | undefined, name: string): Element {
+  if (!el) {
+    throw new Error(`${name} expects an Element.`);
+  }
+
+  return el;
+}
+
+expect.extend({
+  toBeAccessible: elementIsAccessible,
+  toBeVisible: elementIsVisible,
+  toEqualLibResourceText: libResourceTextEquals,
+  toEqualResourceText: resourceTextEquals,
+  toExist: elementExists,
+  toHaveCssClass: elementHasCssClass,
+  toHaveStyle: elementHasStyle,
+  toHaveText: (el: Element, expectedText: string, trimWhitespace = true) =>
+    elementHasText(el, expectedText, trimWhitespace),
+  toHaveLibResourceText: (
+    el: Element | null | undefined,
+    resourceKey: string,
+    resourceArgs?: unknown[],
+    trimWhitespace = true,
+  ) =>
+    elementHasLibResourceText(
+      assertElement(el, 'toHaveLibResourceText'),
+      resourceKey,
+      resourceArgs,
+      trimWhitespace,
+    ),
+  toHaveResourceText: (
+    el: Element | null | undefined,
+    resourceKey: string,
+    resourceArgs?: unknown[],
+    trimWhitespace = true,
+  ) =>
+    elementHasResourceText(
+      assertElement(el, 'toHaveResourceText'),
+      resourceKey,
+      resourceArgs,
+      trimWhitespace,
+    ),
+  toMatchLibResourceTemplate: (
+    el: Element | null | undefined,
+    resourceKey: string,
+  ) =>
+    elementMatchesLibResourceTemplate(
+      assertElement(el, 'toMatchLibResourceTemplate'),
+      resourceKey,
+    ),
+  toMatchResourceTemplate: (
+    el: Element | null | undefined,
+    resourceKey: string,
+  ) =>
+    elementMatchesResourceTemplate(
+      assertElement(el, 'toMatchResourceTemplate'),
+      resourceKey,
+    ),
+});
 
 declare module 'vitest' {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars

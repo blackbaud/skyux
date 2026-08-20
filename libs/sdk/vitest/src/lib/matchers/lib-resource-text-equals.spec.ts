@@ -1,16 +1,16 @@
 import { of } from 'rxjs';
 
-import { provideLibResources } from '../../../testing/provide-resources';
-import { checkLibResourceText } from './check-lib-resource-text';
+import { provideLibResources } from '../../testing/provide-resources';
+import { libResourceTextEquals } from './lib-resource-text-equals';
 
-describe('checkLibResourceText', () => {
+describe('libResourceTextEquals', () => {
   it('should return pass: true when text matches the lib resource', async () => {
     provideLibResources(() => of('Hello World'));
 
-    const result = await checkLibResourceText('Hello World', 'greeting');
+    const result = await libResourceTextEquals('Hello World', 'greeting');
 
     expect(result.pass).toBe(true);
-    expect(result.message).toBe(
+    expect(result.message()).toBe(
       'Expected "Hello World" not to equal "Hello World"',
     );
   });
@@ -18,10 +18,10 @@ describe('checkLibResourceText', () => {
   it('should return pass: false when text does not match the lib resource', async () => {
     provideLibResources(() => of('Hello World'));
 
-    const result = await checkLibResourceText('Goodbye', 'greeting');
+    const result = await libResourceTextEquals('Goodbye', 'greeting');
 
     expect(result.pass).toBe(false);
-    expect(result.message).toBe('Expected "Goodbye" to equal "Hello World"');
+    expect(result.message()).toBe('Expected "Goodbye" to equal "Hello World"');
   });
 
   it('should pass resource args through', async () => {
@@ -29,7 +29,7 @@ describe('checkLibResourceText', () => {
 
     provideLibResources(getString);
 
-    await checkLibResourceText('Hello Alice', 'greeting', ['Alice']);
+    await libResourceTextEquals('Hello Alice', 'greeting', ['Alice']);
 
     expect(getString).toHaveBeenCalledWith('greeting', 'Alice');
   });

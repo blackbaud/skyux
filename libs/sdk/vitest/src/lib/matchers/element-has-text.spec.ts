@@ -1,6 +1,6 @@
-import { hasText } from './has-text';
+import { elementHasText } from './element-has-text';
 
-describe('hasText', () => {
+describe('elementHasText', () => {
   let el: HTMLElement;
 
   beforeEach(() => {
@@ -9,37 +9,37 @@ describe('hasText', () => {
 
   it('should return pass: true when text matches (trimmed)', () => {
     el.textContent = '  Hello World  ';
-    const result = hasText(el, 'Hello World', true);
+    const result = elementHasText(el, 'Hello World', true);
 
     expect(result.pass).toBe(true);
-    expect(result.message).toBe(
+    expect(result.message()).toBe(
       'Expected element\'s inner text "Hello World" not to be: "Hello World"',
     );
   });
 
   it('should return pass: false when text does not match (trimmed)', () => {
     el.textContent = 'Hello World';
-    const result = hasText(el, 'Goodbye', true);
+    const result = elementHasText(el, 'Goodbye', true);
 
     expect(result.pass).toBe(false);
-    expect(result.message).toContain(
+    expect(result.message()).toContain(
       'Expected element\'s inner text to be: "Goodbye"',
     );
-    expect(result.message).toContain(
+    expect(result.message()).toContain(
       'Actual element\'s inner text was: "Hello World"',
     );
   });
 
   it('should not trim whitespace when trimWhitespace is false', () => {
     el.textContent = '  Hello World  ';
-    const result = hasText(el, 'Hello World', false);
+    const result = elementHasText(el, 'Hello World', false);
 
     expect(result.pass).toBe(false);
   });
 
   it('should handle null textContent', () => {
     Object.defineProperty(el, 'textContent', { value: null });
-    const result = hasText(el, '', true);
+    const result = elementHasText(el, '', true);
 
     expect(result.pass).toBe(true);
   });

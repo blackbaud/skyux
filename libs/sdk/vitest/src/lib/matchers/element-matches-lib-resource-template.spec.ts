@@ -1,19 +1,19 @@
 import { of } from 'rxjs';
 
-import { provideLibResources } from '../../../testing/provide-resources';
-import { checkLibResourceTemplate } from './check-lib-resource-template';
+import { provideLibResources } from '../../testing/provide-resources';
+import { elementMatchesLibResourceTemplate } from './element-matches-lib-resource-template';
 
-describe('checkLibResourceTemplate', () => {
+describe('elementMatchesLibResourceTemplate', () => {
   it('should return pass: true when element text matches the lib template', async () => {
     provideLibResources(() => of('Hello {0}, welcome to {1}'));
 
     const el = document.createElement('div');
     el.textContent = 'Hello Alice, welcome to Wonderland';
 
-    const result = await checkLibResourceTemplate(el, 'greeting');
+    const result = await elementMatchesLibResourceTemplate(el, 'greeting');
 
     expect(result.pass).toBe(true);
-    expect(result.message).toBe(
+    expect(result.message()).toBe(
       'Expected element\'s text "Hello Alice, welcome to Wonderland" not to match "Hello {0}, welcome to {1}"',
     );
   });
@@ -24,10 +24,10 @@ describe('checkLibResourceTemplate', () => {
     const el = document.createElement('div');
     el.textContent = 'Goodbye';
 
-    const result = await checkLibResourceTemplate(el, 'greeting');
+    const result = await elementMatchesLibResourceTemplate(el, 'greeting');
 
     expect(result.pass).toBe(false);
-    expect(result.message).toBe(
+    expect(result.message()).toBe(
       'Expected element\'s text "Goodbye" to match "Hello {0}, welcome to {1}"',
     );
   });
@@ -40,7 +40,7 @@ describe('checkLibResourceTemplate', () => {
     const el = document.createElement('div');
     el.textContent = 'template';
 
-    await checkLibResourceTemplate(el, 'my_key');
+    await elementMatchesLibResourceTemplate(el, 'my_key');
 
     expect(getString).toHaveBeenCalledWith('my_key');
   });
@@ -51,9 +51,9 @@ describe('checkLibResourceTemplate', () => {
     const el = document.createElement('div');
     Object.defineProperty(el, 'textContent', { value: null });
 
-    const result = await checkLibResourceTemplate(el, 'my_key');
+    const result = await elementMatchesLibResourceTemplate(el, 'my_key');
 
     expect(result.pass).toBe(false);
-    expect(result.message).toContain('""');
+    expect(result.message()).toContain('""');
   });
 });

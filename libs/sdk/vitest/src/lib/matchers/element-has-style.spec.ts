@@ -1,6 +1,6 @@
-import { hasStyle } from './has-style';
+import { elementHasStyle } from './element-has-style';
 
-describe('hasStyle', () => {
+describe('elementHasStyle', () => {
   let el: HTMLElement;
 
   beforeEach(() => {
@@ -14,17 +14,17 @@ describe('hasStyle', () => {
 
   it('should return pass: true when element has the expected style', () => {
     el.style.display = 'block';
-    const result = hasStyle(el, { display: 'block' });
+    const result = elementHasStyle(el, { display: 'block' });
 
     expect(result.pass).toBe(true);
   });
 
   it('should return pass: false when element does not have the expected style', () => {
     el.style.display = 'block';
-    const result = hasStyle(el, { display: 'none' });
+    const result = elementHasStyle(el, { display: 'none' });
 
     expect(result.pass).toBe(false);
-    expect(result.message).toContain(
+    expect(result.message()).toContain(
       'Expected element to have CSS style "display: none"',
     );
   });
@@ -32,7 +32,7 @@ describe('hasStyle', () => {
   it('should check multiple styles', () => {
     el.style.display = 'block';
     el.style.visibility = 'hidden';
-    const result = hasStyle(el, {
+    const result = elementHasStyle(el, {
       display: 'block',
       visibility: 'visible',
     });
@@ -41,7 +41,7 @@ describe('hasStyle', () => {
   });
 
   it('should handle multiple failing styles', () => {
-    const result = hasStyle(el, {
+    const result = elementHasStyle(el, {
       display: 'none',
       visibility: 'hidden',
     });

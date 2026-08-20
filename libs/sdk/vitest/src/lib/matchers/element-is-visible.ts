@@ -1,22 +1,22 @@
-import type { MatcherResult } from './matcher-result';
+import type { ExpectationResult } from './types/expectation-result';
 
-interface CheckVisibilityOptions {
+interface ElementIsVisibleOptions {
   checkCssDisplay?: boolean;
   checkCssVisibility?: boolean;
   checkDimensions?: boolean;
   checkExists?: boolean;
 }
 
-const DEFAULTS: CheckVisibilityOptions = {
+const DEFAULTS: ElementIsVisibleOptions = {
   checkCssDisplay: true,
   checkCssVisibility: false,
   checkDimensions: false,
 };
 
-export function checkVisibility(
+export function elementIsVisible(
   el: Element | null | undefined,
-  options?: CheckVisibilityOptions,
-): MatcherResult {
+  options?: ElementIsVisibleOptions,
+): ExpectationResult {
   const settings = { ...DEFAULTS, ...options };
 
   let pass = !!el;
@@ -40,8 +40,9 @@ export function checkVisibility(
 
   return {
     pass,
-    message: pass
-      ? 'Expected element to not be visible'
-      : 'Expected element to be visible',
+    message: () =>
+      pass
+        ? 'Expected element to not be visible'
+        : 'Expected element to be visible',
   };
 }

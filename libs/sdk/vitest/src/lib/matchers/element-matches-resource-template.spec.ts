@@ -1,19 +1,19 @@
 import { of } from 'rxjs';
 
-import { provideAppResources } from '../../../testing/provide-resources';
-import { checkResourceTemplate } from './check-resource-template';
+import { provideAppResources } from '../../testing/provide-resources';
+import { elementMatchesResourceTemplate } from './element-matches-resource-template';
 
-describe('checkResourceTemplate', () => {
+describe('elementMatchesResourceTemplate', () => {
   it('should return pass: true when element text matches the template', async () => {
     provideAppResources(() => of('Hello {0}, welcome to {1}'));
 
     const el = document.createElement('div');
     el.textContent = 'Hello Alice, welcome to Wonderland';
 
-    const result = await checkResourceTemplate(el, 'greeting');
+    const result = await elementMatchesResourceTemplate(el, 'greeting');
 
     expect(result.pass).toBe(true);
-    expect(result.message).toBe(
+    expect(result.message()).toBe(
       'Expected element\'s text "Hello Alice, welcome to Wonderland" not to match "Hello {0}, welcome to {1}"',
     );
   });
@@ -24,10 +24,10 @@ describe('checkResourceTemplate', () => {
     const el = document.createElement('div');
     el.textContent = 'Goodbye';
 
-    const result = await checkResourceTemplate(el, 'greeting');
+    const result = await elementMatchesResourceTemplate(el, 'greeting');
 
     expect(result.pass).toBe(false);
-    expect(result.message).toBe(
+    expect(result.message()).toBe(
       'Expected element\'s text "Goodbye" to match "Hello {0}, welcome to {1}"',
     );
   });
@@ -40,7 +40,7 @@ describe('checkResourceTemplate', () => {
     const el = document.createElement('div');
     el.textContent = 'template';
 
-    await checkResourceTemplate(el, 'my_key');
+    await elementMatchesResourceTemplate(el, 'my_key');
 
     expect(getString).toHaveBeenCalledWith('my_key');
   });
@@ -51,9 +51,9 @@ describe('checkResourceTemplate', () => {
     const el = document.createElement('div');
     Object.defineProperty(el, 'textContent', { value: null });
 
-    const result = await checkResourceTemplate(el, 'my_key');
+    const result = await elementMatchesResourceTemplate(el, 'my_key');
 
     expect(result.pass).toBe(false);
-    expect(result.message).toContain('""');
+    expect(result.message()).toContain('""');
   });
 });

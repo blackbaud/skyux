@@ -1,9 +1,9 @@
-import type { MatcherResult } from './matcher-result';
+import type { ExpectationResult } from './types/expectation-result';
 
-export function hasStyle(
+export function elementHasStyle(
   el: Element,
   expectedStyles: Record<string, string>,
-): MatcherResult {
+): ExpectationResult {
   const messages: string[] = [];
   let hasFailure = false;
 
@@ -32,6 +32,6 @@ export function hasStyle(
 
   return {
     pass: !hasFailure,
-    message: messages.join('\n'),
+    message: () => messages.join('\n'),
   };
 }

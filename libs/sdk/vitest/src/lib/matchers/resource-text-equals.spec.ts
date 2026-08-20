@@ -1,16 +1,16 @@
 import { of } from 'rxjs';
 
-import { provideAppResources } from '../../../testing/provide-resources';
-import { checkResourceText } from './check-resource-text';
+import { provideAppResources } from '../../testing/provide-resources';
+import { resourceTextEquals } from './resource-text-equals';
 
-describe('checkResourceText', () => {
+describe('resourceTextEquals', () => {
   it('should return pass: true when text matches the resource', async () => {
     provideAppResources(() => of('Hello World'));
 
-    const result = await checkResourceText('Hello World', 'greeting');
+    const result = await resourceTextEquals('Hello World', 'greeting');
 
     expect(result.pass).toBe(true);
-    expect(result.message).toBe(
+    expect(result.message()).toBe(
       'Expected "Hello World" not to equal "Hello World"',
     );
   });
@@ -18,10 +18,10 @@ describe('checkResourceText', () => {
   it('should return pass: false when text does not match the resource', async () => {
     provideAppResources(() => of('Hello World'));
 
-    const result = await checkResourceText('Goodbye', 'greeting');
+    const result = await resourceTextEquals('Goodbye', 'greeting');
 
     expect(result.pass).toBe(false);
-    expect(result.message).toBe('Expected "Goodbye" to equal "Hello World"');
+    expect(result.message()).toBe('Expected "Goodbye" to equal "Hello World"');
   });
 
   it('should pass resource args through', async () => {
@@ -29,7 +29,7 @@ describe('checkResourceText', () => {
 
     provideAppResources(getString);
 
-    await checkResourceText('Hello Alice', 'greeting', ['Alice']);
+    await resourceTextEquals('Hello Alice', 'greeting', ['Alice']);
 
     expect(getString).toHaveBeenCalledWith('greeting', 'Alice');
   });

@@ -1,6 +1,6 @@
-import { checkVisibility } from './check-visibility';
+import { elementIsVisible } from './element-is-visible';
 
-describe('checkVisibility', () => {
+describe('elementIsVisible', () => {
   let el: HTMLElement;
 
   beforeEach(() => {
@@ -13,27 +13,34 @@ describe('checkVisibility', () => {
   });
 
   it('should return pass: true for a visible element with default options', () => {
-    expect(checkVisibility(el).pass).toBe(true);
+    const result = elementIsVisible(el);
+
+    expect(result.pass).toBe(true);
+    expect(result.message()).toBe('Expected element to not be visible');
   });
 
   it('should return pass: false when display is none (default checkCssDisplay)', () => {
     el.style.display = 'none';
-    expect(checkVisibility(el).pass).toBe(false);
+
+    const result = elementIsVisible(el);
+
+    expect(result.pass).toBe(false);
+    expect(result.message()).toBe('Expected element to be visible');
   });
 
   it('should return pass: false when visibility is hidden and checkCssVisibility is true', () => {
     el.style.visibility = 'hidden';
-    expect(checkVisibility(el, { checkCssVisibility: true }).pass).toBe(false);
+    expect(elementIsVisible(el, { checkCssVisibility: true }).pass).toBe(false);
   });
 
   it('should return pass: true when visibility is visible and checkCssVisibility is true', () => {
     el.style.visibility = 'visible';
-    expect(checkVisibility(el, { checkCssVisibility: true }).pass).toBe(true);
+    expect(elementIsVisible(el, { checkCssVisibility: true }).pass).toBe(true);
   });
 
   it('should return pass: false when dimensions are zero and checkDimensions is true', () => {
     expect(
-      checkVisibility(el, {
+      elementIsVisible(el, {
         checkCssDisplay: false,
         checkDimensions: true,
       }).pass,
@@ -47,7 +54,7 @@ describe('checkVisibility', () => {
     } as DOMRect);
 
     expect(
-      checkVisibility(el, {
+      elementIsVisible(el, {
         checkCssDisplay: false,
         checkDimensions: true,
       }).pass,
@@ -64,7 +71,7 @@ describe('checkVisibility', () => {
     } as DOMRect);
 
     expect(
-      checkVisibility(el, {
+      elementIsVisible(el, {
         checkCssDisplay: true,
         checkCssVisibility: true,
         checkDimensions: true,
@@ -73,12 +80,12 @@ describe('checkVisibility', () => {
   });
 
   it('should return pass: false for a null element', () => {
-    expect(checkVisibility(null).pass).toBe(false);
+    expect(elementIsVisible(null).pass).toBe(false);
   });
 
   it('should return pass: false for an undefined element', () => {
     expect(
-      checkVisibility(undefined, {
+      elementIsVisible(undefined, {
         checkCssDisplay: false,
         checkCssVisibility: true,
         checkDimensions: true,
