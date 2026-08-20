@@ -16,6 +16,10 @@
   },
   "homepage": "https://github.com/blackbaud/skyux#readme",
   "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "default": "./src/index.js"
+    },
     "./matchers-setup.js": {
       "types": "./src/lib/matchers-setup.d.ts",
       "default": "./src/lib/matchers-setup.js"

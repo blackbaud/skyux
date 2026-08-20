@@ -210,7 +210,6 @@
     "jest-environment-jsdom": "30.4.1",
     "jest-environment-node": "30.4.1",
     "jest-util": "30.4.1",
-    "jsonc-eslint-parser": "^2.1.0",
     "karma": "6.4.4",
     "karma-chrome-launcher": "3.2.0",
     "karma-coverage": "2.2.1",
@@ -228,7 +227,6 @@
     "ts-node": "10.9.2",
     "tsconfig-paths": "4.2.0",
     "typescript": "6.0.3",
-    "verdaccio": "^6.3.2",
     "vite": "8.2.1",
     "vite-node": "6.0.0",
     "vitest": "4.1.11"
@@ -237,8 +235,5 @@
     "@storybook/angular": {
       "typescript": "6.0.3"
     }
-  },
-  "nx": {
-    "includedScripts": []
   }
 }

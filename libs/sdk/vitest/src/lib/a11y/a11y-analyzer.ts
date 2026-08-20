@@ -130,7 +130,11 @@ export abstract class SkyA11yAnalyzer {
 
       SkyA11yAnalyzer.analyzer.run(
         element,
-        { ...defaults, ...config },
+        {
+          ...defaults,
+          ...config,
+          rules: { ...defaults.rules, ...config?.rules },
+        },
         callback,
       );
     });

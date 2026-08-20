@@ -24,7 +24,7 @@
     "baseUrl": ".",
     "typeRoots": ["./node_modules/@types", "./vendor/types/**/*.d.ts"],
     "paths": {
-      //#region Vendored types
+      //#region vendored types
       "@percy/sdk-utils": ["./vendor/types/@percy/sdk-utils/index.d.ts"],
       "dom-autoscroller": ["./vendor/types/dom-autoscroller/index.d.ts"],
       //#endregion

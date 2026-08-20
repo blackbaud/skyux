@@ -330,4 +330,33 @@ describe('A11y analyzer', () => {
       'No element was specified for accessibility checking.',
     );
   });
+
+  it('should keep default rules when the caller provides rule overrides', async () => {
+    let actualOptions: axe.RunOptions | undefined;
+
+    function mockRun(
+      context: axe.ElementContext,
+      options: axe.RunOptions,
+      callback: axe.RunCallback,
+    ): void {
+      actualOptions = options;
+      callback(null as unknown as Error, {
+        violations: [],
+      } as unknown as axe.AxeResults);
+    }
+
+    vi.spyOn(
+      (SkyA11yAnalyzer as unknown as { analyzer: typeof axe }).analyzer,
+      'run',
+    ).mockImplementation(mockRun as unknown as typeof axe.run);
+
+    await SkyA11yAnalyzer.run('element', {
+      rules: { 'color-contrast': { enabled: false } },
+    });
+
+    expect(actualOptions?.rules).toEqual({
+      'autocomplete-valid': { enabled: false },
+      'color-contrast': { enabled: false },
+    });
+  });
 });
