@@ -1,10 +1,49 @@
 import { UpdateRecorder } from '@angular-devkit/schematics';
-import { findNodes } from '@schematics/angular/utility/ast-utils';
 import ts from 'typescript';
+
+import { getNamedImportDeclarations, removeStatement } from './imports';
 
 export interface RemoveImportOptions {
   classNames: string[];
   moduleName: string;
+}
+
+/**
+ * Removes specifiers from a named import, consuming the separating comma so the
+ * remaining specifiers stay well-formed. Contiguous specifiers are removed as a
+ * single range to keep the edits from overlapping.
+ */
+function removeSpecifiers(
+  recorder: UpdateRecorder,
+  sourceFile: ts.SourceFile,
+  specifiers: readonly ts.ImportSpecifier[],
+  isRemoved: (specifier: ts.ImportSpecifier) => boolean,
+): void {
+  for (let first = 0; first < specifiers.length; first++) {
+    if (!isRemoved(specifiers[first])) {
+      continue;
+    }
+
+    let last = first;
+
+    while (last + 1 < specifiers.length && isRemoved(specifiers[last + 1])) {
+      last++;
+    }
+
+    // A run takes the comma that precedes it or, when it starts the list, the
+    // comma that follows it. At least one specifier is retained here, so there
+    // is always a neighbor on one side.
+    const [start, end] =
+      first > 0
+        ? [specifiers[first - 1].getEnd(), specifiers[last].getEnd()]
+        : [
+            specifiers[first].getStart(sourceFile),
+            specifiers[last + 1].getStart(sourceFile),
+          ];
+
+    recorder.remove(start, end - start);
+    first = last;
+  }
 }
 
 export function removeImport(
@@ -12,42 +51,23 @@ export function removeImport(
   sourceFile: ts.SourceFile,
   options: RemoveImportOptions,
 ): void {
-  const importDeclarations = findNodes(
+  for (const { declaration, specifiers } of getNamedImportDeclarations(
     sourceFile,
-    ts.SyntaxKind.ImportDeclaration,
-  ).filter(
-    (node): node is ts.ImportDeclaration =>
-      ts.isImportDeclaration(node) &&
-      ts.isStringLiteral(node.moduleSpecifier) &&
-      node.moduleSpecifier.text === options.moduleName,
-  );
+    options.moduleName,
+  )) {
+    const isRemoved = (specifier: ts.ImportSpecifier): boolean =>
+      options.classNames.includes(specifier.name.text);
 
-  if (importDeclarations) {
-    for (const importDeclaration of importDeclarations) {
-      const importSpecifiers = findNodes<ts.ImportSpecifier>(
-        importDeclaration,
-        (node) => ts.isImportSpecifier(node),
-      );
-      const classMatches = importSpecifiers.filter((importSpecifier) =>
-        options.classNames.includes(importSpecifier.name.text),
-      );
-      const otherMatches = importSpecifiers.filter(
-        (importSpecifier) =>
-          !options.classNames.includes(importSpecifier.getText()),
-      );
-      if (classMatches.length > 0) {
-        if (otherMatches.length > 0) {
-          classMatches.forEach((importSpecifier) => {
-            const importStart = importSpecifier.getStart(sourceFile);
-            const importWidth = importSpecifier.getWidth(sourceFile);
-            recorder.remove(importStart, importWidth + 1);
-          });
-        } else {
-          const importStart = importDeclaration.getStart(sourceFile);
-          const importWidth = importDeclaration.getWidth(sourceFile);
-          recorder.remove(importStart, importWidth);
-        }
-      }
+    const removedCount = specifiers.filter(isRemoved).length;
+
+    if (removedCount === 0) {
+      continue;
+    }
+
+    if (removedCount === specifiers.length) {
+      removeStatement(recorder, sourceFile, declaration);
+    } else {
+      removeSpecifiers(recorder, sourceFile, specifiers, isRemoved);
     }
   }
 }

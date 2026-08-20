@@ -1,7 +1,7 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { SkyAppTestUtility } from '@skyux-sdk/testing';
+import { SkyAppTestUtility } from '@skyux/core/testing';
 
 import { SkyListViewGridFixtureCell } from './list-view-grid-fixture-cell';
 import { SkyListViewGridFixtureHeader } from './list-view-grid-fixture-header';
