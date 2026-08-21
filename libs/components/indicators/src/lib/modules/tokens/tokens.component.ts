@@ -1,7 +1,9 @@
 import {
+  AfterContentInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ContentChildren,
   EventEmitter,
   Injector,
   Input,
@@ -38,7 +40,7 @@ const DISPLAY_WITH_DEFAULT = 'name';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class SkyTokensComponent implements OnDestroy {
+export class SkyTokensComponent implements AfterContentInit, OnDestroy {
   /**
    * Whether to disable the tokens list to prevent users from selecting tokens,
    * dismissing tokens, or navigating through the list with the arrow keys. When the tokens list
@@ -114,6 +116,7 @@ export class SkyTokensComponent implements OnDestroy {
     // preserves that behavior.
     this.tokensChange.emit(value);
 
+    this.#updateProjectedTokenRoles();
     this.#queueTokensRenderedEmit();
   }
 
@@ -198,6 +201,14 @@ export class SkyTokensComponent implements OnDestroy {
   @ViewChildren(SkyTokenComponent)
   public tokenComponents: QueryList<SkyTokenComponent> | undefined;
 
+  /**
+   * The tokens projected into the component via `<ng-content select="sky-token" />`.
+   * Their `role` must be kept in sync with the `sky-tokens` grid role since Angular's
+   * template bindings do not apply to projected content.
+   */
+  @ContentChildren(SkyTokenComponent)
+  public projectedTokenComponents: QueryList<SkyTokenComponent> | undefined;
+
   #messageStreamSub: Subscription | undefined;
   #ngUnsubscribe = new Subject<void>();
   #tokensRenderedQueued = false;
@@ -237,6 +248,14 @@ export class SkyTokensComponent implements OnDestroy {
 
       return item;
     };
+  }
+
+  public ngAfterContentInit(): void {
+    this.projectedTokenComponents?.changes
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe(() => this.#updateProjectedTokenRoles());
+
+    this.#updateProjectedTokenRoles();
   }
 
   public ngOnDestroy(): void {
@@ -358,6 +377,19 @@ export class SkyTokensComponent implements OnDestroy {
   #notifyTokenSelected(token: SkyToken): void {
     this.tokenSelected.emit({
       token,
+    });
+  }
+
+  /**
+   * Sets the `role` of each projected `sky-token` to match the role applied to the
+   * tokens rendered from the `tokens` input, so projected tokens maintain valid
+   * ARIA grid semantics.
+   */
+  #updateProjectedTokenRoles(): void {
+    const role = this.tokens.length ? 'row' : undefined;
+
+    this.projectedTokenComponents?.forEach((tokenComponent) => {
+      tokenComponent.role = role;
     });
   }
 
