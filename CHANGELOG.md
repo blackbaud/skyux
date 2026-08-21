@@ -11,6 +11,7 @@
 ### Features
 
 * **components/ag-grid:** add `defineSkyAgGridColDef` to validate cell editor and renderer params against cell types ([#4582](https://github.com/blackbaud/skyux/issues/4582)) ([#4657](https://github.com/blackbaud/skyux/issues/4657)) ([5a8f361](https://github.com/blackbaud/skyux/commit/5a8f361d95cb77dbbb1e4d5713900c12da13368d)), closes [AB#3928427](https://dev.azure.com/blackbaud/Products/_workitems/edit/3928427)
+* **components/datetime:** set datepicker value to today when F3 is pressed ([#4662](https://github.com/blackbaud/skyux/issues/4662)) ([02f2e22](https://github.com/blackbaud/skyux/commit/02f2e2256a693af412c458b6a8aad2b93b0ffb2f)), closes [AB#4033124](https://dev.azure.com/blackbaud/Products/_workitems/edit/4033124)
 * **components/tabs:** add `tabWidth` input to vertical tabset with `auto` sizing and harness/example support ([#4410](https://github.com/blackbaud/skyux/issues/4410)) ([#4658](https://github.com/blackbaud/skyux/issues/4658)) ([5301b36](https://github.com/blackbaud/skyux/commit/5301b369e5784ab48f4e4213a71b442cf370a5f6))
 * **sdk/testing:** deprecate `SkyAppTestUtility` and `SkyBy` testing utils ([#4651](https://github.com/blackbaud/skyux/issues/4651)) ([2c100e5](https://github.com/blackbaud/skyux/commit/2c100e5dd32e243fea37451890ea67f85b000793)), closes [AB#3987231](https://dev.azure.com/blackbaud/Products/_workitems/edit/3987231)
 
