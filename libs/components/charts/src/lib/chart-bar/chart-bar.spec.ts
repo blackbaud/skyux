@@ -533,16 +533,64 @@ describe('Chart bar component', () => {
     );
   });
 
-  it('should set an explicit bar thickness on a horizontal chart', () => {
+  it('should cap horizontal bars at the target thickness', () => {
     component.orientation = 'horizontal';
     fixture.detectChanges();
 
-    // Few bars render at the full (max) thickness, and the explicit thickness
-    // replaces the cap so Chart.js does not auto-size the bars thinner.
-    expect(requireChart().data.datasets[0].barThickness).toBe(
+    // Few bars target the full (max) thickness. The cap — not an explicit
+    // `barThickness` — must carry it: a numeric `barThickness` makes Chart.js
+    // ignore the fill percentages and render fixed-size bars that overlap
+    // adjacent categories when the band is smaller than budgeted.
+    expect(requireChart().data.datasets[0].maxBarThickness).toBe(
       1 * rootFontSize(),
     );
-    expect(requireChart().data.datasets[0].maxBarThickness).toBeUndefined();
+    expect(requireChart().data.datasets[0].barThickness).toBeUndefined();
+  });
+
+  it('should budget the category band for horizontal bars and their gaps', () => {
+    component.orientation = 'horizontal';
+    component.renderSecondSeries = true;
+    component.categories = ['2021', '2022', '2023', '2024'];
+    component.values = [10, 20, 30, 40];
+    fixture.detectChanges();
+
+    // Chart.js sizes each bar as `min(maxBarThickness,
+    // band * categoryPercentage * barPercentage / barsPerCategory)`, so the
+    // datasets must declare the fractions of each category band the bars
+    // occupy — the container height budgets the band as one slot (bar + gap)
+    // per bar plus the category gap. Chart.js's defaults (categoryPercentage
+    // 0.8, barPercentage 0.9) are unrelated to that budget and squeeze the
+    // bars once a category holds more than one.
+    const barThickness = 1 * rootFontSize();
+    const categoryGap = 0.375 * barThickness;
+    const barSlot = barThickness + 0.25 * barThickness;
+    const barsPerCategory = 2;
+    const rowHeight = barSlot * barsPerCategory + categoryGap;
+
+    const dataset = requireChart().data.datasets[0];
+    expect(dataset.categoryPercentage).toBeCloseTo(
+      (barSlot * barsPerCategory) / rowHeight,
+      6,
+    );
+    expect(dataset.barPercentage).toBeCloseTo(barThickness / barSlot, 6);
+    expect(dataset.maxBarThickness).toBe(barThickness);
+  });
+
+  it('should not reserve an intra-category bar gap for a single bar per category', () => {
+    component.orientation = 'horizontal';
+    fixture.detectChanges();
+
+    // With one bar per category there is no neighboring bar to separate, so
+    // the bar fills its slot and only the category gap surrounds it.
+    const barThickness = 1 * rootFontSize();
+    const categoryGap = 0.375 * barThickness;
+
+    const dataset = requireChart().data.datasets[0];
+    expect(dataset.categoryPercentage).toBeCloseTo(
+      barThickness / (barThickness + categoryGap),
+      6,
+    );
+    expect(dataset.barPercentage).toBe(1);
   });
 
   it('should taper the bar thickness for a dense horizontal chart', () => {
@@ -551,8 +599,8 @@ describe('Chart bar component', () => {
     component.values = Array.from({ length: 40 }, () => 10);
     fixture.detectChanges();
 
-    // Past the taper range every bar renders at the minimum thickness.
-    expect(requireChart().data.datasets[0].barThickness).toBe(
+    // Past the taper range every bar targets the minimum thickness.
+    expect(requireChart().data.datasets[0].maxBarThickness).toBe(
       0.75 * rootFontSize(),
     );
   });

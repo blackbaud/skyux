@@ -2,14 +2,17 @@ import { Signal } from '@angular/core';
 
 import type { Observable } from 'rxjs';
 
-export interface SkyAgGridValidatorProperties {
+export interface SkyAgGridValidatorProperties<
+  TValue = unknown,
+  TData = unknown,
+> {
   /**
    * An optional function that returns an observable that emits a string. Can be used with resources to localize the
    * value displayed in the cell.
    */
   valueResourceObservable?: (
-    value: unknown,
-    data?: unknown,
+    value: TValue,
+    data?: TData,
     rowIndex?: number | null,
   ) => Observable<string>;
   /**
@@ -17,8 +20,8 @@ export interface SkyAgGridValidatorProperties {
    * will be highlighted and display a validation message.
    */
   validator?: (
-    value: unknown,
-    data?: unknown,
+    value: TValue,
+    data?: TData,
     rowIndex?: number | null,
   ) => boolean;
   /**
@@ -28,5 +31,5 @@ export interface SkyAgGridValidatorProperties {
   validatorMessage?:
     | Signal<string>
     | string
-    | ((value: unknown, data?: unknown, rowIndex?: number | null) => string);
+    | ((value: TValue, data?: TData, rowIndex?: number | null) => string);
 }

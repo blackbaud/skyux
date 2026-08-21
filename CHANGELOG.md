@@ -1,6 +1,101 @@
 # Changelog
 
 
+## [14.15.0](https://github.com/blackbaud/skyux/compare/14.14.0...14.15.0) (2026-08-19)
+
+
+### Features
+
+* **components/i18n:** support non-region-specific locales for library resources ([#4648](https://github.com/blackbaud/skyux/issues/4648)) ([a5a3a6c](https://github.com/blackbaud/skyux/commit/a5a3a6cc0bd0c5d77338c9d4147f09e35b62d1f2)), closes [AB#4092222](https://dev.azure.com/blackbaud/Products/_workitems/edit/4092222)
+
+## [14.14.0](https://github.com/blackbaud/skyux/compare/14.13.0...14.14.0) (2026-08-18)
+
+
+### Features
+
+* **components/icon:** allow icon URL to be provided with injection token ([#4641](https://github.com/blackbaud/skyux/issues/4641)) ([66bea84](https://github.com/blackbaud/skyux/commit/66bea84d3366c3b0a5e8264d1fbe327cac9dbf9f))
+
+
+### Bug Fixes
+
+* **components/forms:** make file attachment file link keyboard accessible ([#4638](https://github.com/blackbaud/skyux/issues/4638)) ([#4640](https://github.com/blackbaud/skyux/issues/4640)) ([36abf69](https://github.com/blackbaud/skyux/commit/36abf6929247771cdbd1601a1aeb499d9075c0a0))
+* **components/indicators:** tokens use tertiary action tokens for focus-visible styles ([#4632](https://github.com/blackbaud/skyux/issues/4632)) ([7357932](https://github.com/blackbaud/skyux/commit/7357932b874e0069c12e2723276a1e1cf5c98a29))
+* **components/theme:** `base` dark mode tokens are not overwritten by `blackbaud` light mode tokens ([#4637](https://github.com/blackbaud/skyux/issues/4637)) ([7a15a93](https://github.com/blackbaud/skyux/commit/7a15a939d7af29942d4b24f4d675a349f2442398))
+* display toasts above all layers except the full-page wait ([#4634](https://github.com/blackbaud/skyux/issues/4634)) ([b59c039](https://github.com/blackbaud/skyux/commit/b59c0393025cc0ffb2e661309720ef3a6a393512))
+* use menu background color for timepicker and popover ([#4644](https://github.com/blackbaud/skyux/issues/4644)) ([fa63d76](https://github.com/blackbaud/skyux/commit/fa63d7657ce3416e76ff2fc27d9df3d0bf4aa172))
+
+## [14.13.0](https://github.com/blackbaud/skyux/compare/14.12.0...14.13.0) (2026-08-14)
+
+
+### Features
+
+* **components/lookup:** add testing method for getting a selection modal's heading text ([#4611](https://github.com/blackbaud/skyux/issues/4611)) ([a8d296c](https://github.com/blackbaud/skyux/commit/a8d296c1d96130f94312315531802eb5c815f74b))
+* tokenize the icon used by HTML select fields ([#4619](https://github.com/blackbaud/skyux/issues/4619)) ([c1a05d6](https://github.com/blackbaud/skyux/commit/c1a05d6221d4c0dc1da215e5a727abe8b01abbca))
+
+
+### Bug Fixes
+
+* **components/lookup:** autocomplete does not clear value on blur when all values are allowed ([#4626](https://github.com/blackbaud/skyux/issues/4626)) ([4c08ee4](https://github.com/blackbaud/skyux/commit/4c08ee42b79fba9b6294b1004caf715ed85b6353))
+
+## [14.12.0](https://github.com/blackbaud/skyux/compare/14.11.0...14.12.0) (2026-08-10)
+
+
+### Features
+
+* **components/ag-grid:** add `defineSkyAgGridColDef` to validate cell editor and renderer params against cell types ([#4582](https://github.com/blackbaud/skyux/issues/4582)) ([7c01fd2](https://github.com/blackbaud/skyux/commit/7c01fd2a96f3fefef0e42fc3934fd0098bf94ca5)), closes [AB#3928427](https://dev.azure.com/blackbaud/Products/_workitems/edit/3928427)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** update no-rows text ([#4604](https://github.com/blackbaud/skyux/issues/4604)) ([da81925](https://github.com/blackbaud/skyux/commit/da81925b0e745e3504fd5e8543206137fbb7237b)), closes [AB#4079651](https://dev.azure.com/blackbaud/Products/_workitems/edit/4079651)
+* **components/indicators:** spot illustration reflects dark mode and branding styles ([#4599](https://github.com/blackbaud/skyux/issues/4599)) ([c80de19](https://github.com/blackbaud/skyux/commit/c80de195af957667ba9600de8ad866c3c338b31e))
+* **components/packages:** add SkyDataGrid/SkyDataGridColumn to NgModule imports when only exports referenced SkyGridModule in convert-grid-to-data-grid ([#4600](https://github.com/blackbaud/skyux/issues/4600)) ([f1582d0](https://github.com/blackbaud/skyux/commit/f1582d096e3f4123199beef5b0438b0e6159a349))
+* point dropdown docs to valid URL in JSDoc comments ([#4592](https://github.com/blackbaud/skyux/issues/4592)) ([a6fa970](https://github.com/blackbaud/skyux/commit/a6fa97003e8f0a6645252716c501e50e2d900b83))
+
+## [14.11.0](https://github.com/blackbaud/skyux/compare/14.10.0...14.11.0) (2026-08-05)
+
+
+### Features
+
+* **components/config:** add respectedPreferences to theming config ([#4591](https://github.com/blackbaud/skyux/issues/4591)) ([5b7c135](https://github.com/blackbaud/skyux/commit/5b7c1359cd7b9b69a68a01449c8b209882a369e1))
+
+## [14.10.0](https://github.com/blackbaud/skyux/compare/14.9.2...14.10.0) (2026-08-05)
+
+
+### Features
+
+* **components/datetime:** add skyTimepickerRetainInvalidValues to keep invalid timepicker entries ([#4566](https://github.com/blackbaud/skyux/issues/4566)) ([35dee33](https://github.com/blackbaud/skyux/commit/35dee339380ea576078e3213426c38d563de86d7)), closes [AB#3955926](https://dev.azure.com/blackbaud/Products/_workitems/edit/3955926)
+* **components/theme:** scrollbar colors are styled with the visual theme ([#4585](https://github.com/blackbaud/skyux/issues/4585)) ([db3bc67](https://github.com/blackbaud/skyux/commit/db3bc6772495798f907e2a8c990fd12377649756))
+
+
+### Bug Fixes
+
+* **components/packages:** decide SkyGridModule swap from associated templates in convert-grid-to-data-grid ([#4588](https://github.com/blackbaud/skyux/issues/4588)) ([48730c5](https://github.com/blackbaud/skyux/commit/48730c5b0b73bb12a06086c0a1e0d0d83cca157c)), closes [AB#4078208](https://dev.azure.com/blackbaud/Products/_workitems/edit/4078208)
+
+## [14.9.2](https://github.com/blackbaud/skyux/compare/14.9.1...14.9.2) (2026-08-04)
+
+
+### Bug Fixes
+
+* **components/forms:** select input options are properly styled ([#4557](https://github.com/blackbaud/skyux/issues/4557)) ([83b4726](https://github.com/blackbaud/skyux/commit/83b4726a8c624fe572c98c054895c977cb8c7ab3))
+* **components/layout:** recalculate description list responsive layout on container resize ([#4570](https://github.com/blackbaud/skyux/issues/4570)) ([ef91639](https://github.com/blackbaud/skyux/commit/ef91639e6619eb2770273c029933943cc4f89dc4)), closes [AB#4074075](https://dev.azure.com/blackbaud/Products/_workitems/edit/4074075)
+* **components/packages:** skip sky-grid-column nested in sky-list-view-grid ([#4562](https://github.com/blackbaud/skyux/issues/4562)) ([5ec40e1](https://github.com/blackbaud/skyux/commit/5ec40e16310e38af572bfb0c5ea475d4ebc59dc1)), closes [AB#4074210](https://dev.azure.com/blackbaud/Products/_workitems/edit/4074210)
+* rename docs groups to match docs URL slugs ([#4571](https://github.com/blackbaud/skyux/issues/4571)) ([f964ee4](https://github.com/blackbaud/skyux/commit/f964ee4cd8a74626bb3fcaebddb2cf59e1aa5453))
+
+## [14.9.1](https://github.com/blackbaud/skyux/compare/14.9.0...14.9.1) (2026-07-31)
+
+
+### Bug Fixes
+
+* **components/charts:** fix horizontal bar spacing; add visual tests ([#4552](https://github.com/blackbaud/skyux/issues/4552)) ([f33971f](https://github.com/blackbaud/skyux/commit/f33971feeca2e759313ef9a39ec286e509a34217))
+
+## [14.9.0](https://github.com/blackbaud/skyux/compare/14.8.0...14.9.0) (2026-07-29)
+
+
+### Features
+
+* **components/charts:** add code examples ([#4547](https://github.com/blackbaud/skyux/issues/4547)) ([ea6c379](https://github.com/blackbaud/skyux/commit/ea6c37937807f4fd99ccf90a5ef6daf378b1baf1)), closes [AB#4027719](https://dev.azure.com/blackbaud/Products/_workitems/edit/4027719)
+
 ## [14.8.0](https://github.com/blackbaud/skyux/compare/14.7.0...14.8.0) (2026-07-28)
 
 

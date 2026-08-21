@@ -30,6 +30,21 @@ export function isParentNode(node: unknown): node is ParentNode {
   return !!node && typeof node === 'object' && 'childNodes' in node;
 }
 
+export function hasAncestorTag(
+  node: ElementWithLocation,
+  tagName: string,
+): boolean {
+  const lowerTagName = tagName.toLowerCase();
+  let current = node.parentNode;
+  while (isElement(current)) {
+    if (current.tagName.toLowerCase() === lowerTagName) {
+      return true;
+    }
+    current = current.parentNode;
+  }
+  return false;
+}
+
 export function getElementsByTagName(
   tagName: string,
   node: Element | ParentNode,

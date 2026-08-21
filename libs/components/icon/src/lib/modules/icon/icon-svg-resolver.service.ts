@@ -1,11 +1,19 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+
+import { SKY_ICON_SVG_URL, SkyLogService } from '@skyux/core';
 
 import { SkyIconVariantType } from './types/icon-variant-type';
 
-async function getIconMap(): Promise<Map<string, number[]>> {
-  const response = await fetch(
-    `https://sky.blackbaudcdn.net/static/skyux-icons/10/assets/svg/skyux-icons.svg`,
-  );
+const DEFAULT_SVG_URL = `https://sky.blackbaudcdn.net/static/skyux-icons/10/assets/svg/skyux-icons.svg`;
+
+// The icon sprite is loaded into (and queried from) the document as a single
+// global element, so only one SKY_ICON_SVG_URL can be active per application
+// at a time. These track which URL "owns" the current icon map.
+let iconMapPromise: Promise<Map<string, number[]>> | undefined;
+let loadedSvgUrl: string | undefined;
+
+async function getIconMap(svgUrl: string): Promise<Map<string, number[]>> {
+  const response = await fetch(svgUrl);
 
   /* istanbul ignore next */
   if (!response.ok) {
@@ -84,8 +92,6 @@ function getNearestSize(
   return undefined;
 }
 
-let iconMapPromise: Promise<Map<string, number[]>> | undefined;
-
 /**
  * @internal
  */
@@ -93,13 +99,21 @@ let iconMapPromise: Promise<Map<string, number[]>> | undefined;
   providedIn: 'root',
 })
 export class SkyIconSvgResolverService {
+  #svgUrl = inject(SKY_ICON_SVG_URL, { optional: true }) ?? DEFAULT_SVG_URL;
+  #logSvc = inject(SkyLogService);
+
+  constructor() {
+    this.#warnIfUrlMismatch();
+  }
+
   public async resolveHref(
     name: string,
     pixelSize = 16,
     variant: SkyIconVariantType = 'line',
   ): Promise<string> {
     if (!iconMapPromise) {
-      iconMapPromise = getIconMap();
+      loadedSvgUrl = this.#svgUrl;
+      iconMapPromise = getIconMap(this.#svgUrl);
     }
 
     const iconMap = await iconMapPromise;
@@ -124,5 +138,14 @@ export class SkyIconSvgResolverService {
 
   public resetIconMap(): void {
     iconMapPromise = undefined;
+    loadedSvgUrl = undefined;
+  }
+
+  #warnIfUrlMismatch(): void {
+    if (loadedSvgUrl && loadedSvgUrl !== this.#svgUrl) {
+      this.#logSvc.warn(
+        `SkyIconSvgResolverService only supports one SKY_ICON_SVG_URL value per application. An icon sprite has already been loaded from '${loadedSvgUrl}', so a sprite will not also be loaded from '${this.#svgUrl}'.`,
+      );
+    }
   }
 }

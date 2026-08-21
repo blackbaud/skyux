@@ -22,17 +22,23 @@ examples predate these conventions.
 ### Location and files
 
 - **Base path**: `libs/components/code-examples/src/lib/modules/<library>/<component>/<example-name>/`
-- **Files**: `example.component.ts`, `example.component.html`, and
-  `example.component.spec.ts`. Add `example.service.ts` or other files only when
-  the example needs them. Always use the `example.*` prefix — never `demo.*`.
+- **Files**: `example.ts`, `example.html`, and `example.spec.ts` (following
+  Angular's revised naming guidelines — no `.component.` segment). Add
+  `example.service.ts` or other files only when the example needs them. Always
+  use the `example.*` prefix — never `demo.*`. Many older examples still use the
+  legacy `example.component.*` filenames; match the new naming for new work
+  rather than copying the old files.
 
 ### Component conventions
 
-- **Class name**: `<Library><Component><ExampleName>ExampleComponent` (e.g.
-  `FormsInputBoxBasicExampleComponent`,
-  `ListsRepeaterInlineFormExampleComponent`,
-  `LayoutActionBarsModalExampleComponent`). When a library has a single example
-  the segments may collapse (e.g. `avatar/avatar/` → `AvatarExampleComponent`).
+- **Class name**: `<Library><Component><ExampleName>Example` (e.g.
+  `FormsInputBoxBasicExample`, `ListsRepeaterInlineFormExample`,
+  `LayoutActionBarsModalExample`) — following Angular's revised naming
+  guidelines, the `Component` suffix is dropped. When a library has a single
+  example the segments may collapse (e.g. `avatar/avatar/` → `AvatarExample`).
+  Older examples still carry the legacy `...ExampleComponent` suffix; neither
+  the suffix nor the `.component.` filename is required by the docs pipeline,
+  which discovers examples by their barrel export, `selector`, and `@title`.
 - The component is **standalone** (do not add `standalone: true`; it is the
   default) and imports the SKY UX module(s) it demonstrates.
 - Add a `/** @title ... */` JSDoc above the class describing the example — the

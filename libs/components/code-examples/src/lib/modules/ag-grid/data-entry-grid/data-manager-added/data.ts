@@ -94,8 +94,8 @@ export interface AgGridDemoRow {
   endDate?: Date;
   department: AutocompleteOption;
   jobTitle?: AutocompleteOption;
-  validationCurrency?: string;
-  validationDate?: string;
+  validationCurrency?: number;
+  validationDate?: Date;
 }
 
 export const AG_GRID_DEMO_DATA: AgGridDemoRow[] = [

@@ -31,7 +31,7 @@ import { SkyAngularTreeWrapperComponent } from './angular-tree-wrapper.component
  * tag with the template reference variable `#treeNodeFullTemplate`. For information about tree node templates,
  * see the [Angular tree component documentation](https://angular2-tree.readme.io/docs/templates).
  * To display context menus with actions for individual items in hierarchical lists, place
- * [dropdowns](https://developer.blackbaud.com/skyux-popovers/docs/dropdown?docs-active-tab=design) inside the
+ * [dropdowns](https://developer.blackbaud.com/skyux/components/dropdown) inside the
  * Angular tree node component, which automatically handles styling and positioning for context menus.
  */
 @Component({

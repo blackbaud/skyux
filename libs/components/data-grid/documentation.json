@@ -1,7 +1,7 @@
 {
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
-    "data-grid-package": {
+    "data-grid-component": {
       "development": {
         "docsIds": [
           "SkyDataGrid",
