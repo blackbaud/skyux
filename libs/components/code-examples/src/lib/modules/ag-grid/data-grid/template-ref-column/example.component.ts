@@ -5,12 +5,17 @@ import {
   inject,
   viewChild,
 } from '@angular/core';
-import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import {
+  SkyAgGridModule,
+  SkyAgGridService,
+  SkyCellType,
+  defineSkyAgGridColDef,
+} from '@skyux/ag-grid';
 
 import { AgGridAngular } from 'ag-grid-angular';
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 
-import { AG_GRID_DEMO_DATA } from './data';
+import { AG_GRID_DEMO_DATA, AgGridDemoRow } from './data';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -27,7 +32,9 @@ export class AgGridDataGridTemplateRefColumnExampleComponent {
   protected readonly boldColumn = viewChild<TemplateRef<unknown>>('boldColumn');
   protected readonly emphasizedColumn =
     viewChild<TemplateRef<unknown>>('emphasizedColumn');
-  protected gridOptions = inject(SkyAgGridService).getGridOptions({
+  protected gridOptions = inject(
+    SkyAgGridService,
+  ).getGridOptions<AgGridDemoRow>({
     gridOptions: {
       columnDefs: [
         {
@@ -42,7 +49,7 @@ export class AgGridDataGridTemplateRefColumnExampleComponent {
           maxWidth: 80,
           resizable: false,
         },
-        {
+        defineSkyAgGridColDef({
           field: 'department',
           headerName: 'Department',
           type: SkyCellType.Template,
@@ -50,8 +57,8 @@ export class AgGridDataGridTemplateRefColumnExampleComponent {
             template: this.boldColumn,
           },
           initialWidth: 220,
-        },
-        {
+        }),
+        defineSkyAgGridColDef({
           field: 'jobTitle',
           headerName: 'Title',
           type: SkyCellType.Template,
@@ -59,7 +66,7 @@ export class AgGridDataGridTemplateRefColumnExampleComponent {
             template: this.emphasizedColumn,
           },
           initialWidth: 220,
-        },
+        }),
       ],
       rowData: AG_GRID_DEMO_DATA,
     },
