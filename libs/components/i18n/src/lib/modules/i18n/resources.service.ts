@@ -190,7 +190,12 @@ export class SkyAppResourcesService {
             );
 
             if (defaultResourcesUrl && defaultResourcesUrl !== resourcesUrl) {
-              return this.#http.get<SkyResourceType>(defaultResourcesUrl);
+              return this.#http.get<SkyResourceType>(defaultResourcesUrl).pipe(
+                // Don't keep trying after a failed attempt to load resources, or else
+                // impure pipes like resources pipe that call this service will keep
+                // firing requests indefinitely every few milliseconds.
+                catchError(() => getDefaultObs()),
+              );
             }
 
             return getDefaultObs();

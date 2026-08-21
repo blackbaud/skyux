@@ -306,6 +306,32 @@ describe('Resources service', () => {
     });
 
     it(
+      'should fall back to the resource name if neither the specified locale file nor the ' +
+        'default locale file can be loaded',
+      (done) => {
+        currentLocale = 'en-GB';
+
+        resources
+          .getString('hi')
+          .pipe(take(1))
+          .subscribe((value) => {
+            expect(value).toBe('hi');
+            done();
+          });
+
+        httpMock.expectOne(enGbUrl).flush('', {
+          status: 404,
+          statusText: 'Not Found',
+        });
+
+        httpMock.expectOne(enUsUrl).flush('', {
+          status: 404,
+          statusText: 'Not Found',
+        });
+      },
+    );
+
+    it(
       'should fall back to the resource name if the specified locale is the default locale and ' +
         'the locale resource file fails to load',
       (done) => {
