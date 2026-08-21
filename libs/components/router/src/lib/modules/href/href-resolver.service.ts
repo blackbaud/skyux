@@ -13,7 +13,6 @@ import { SkyHrefResolverArgs } from './types/href-resolver.args';
 export class SkyHrefResolverService implements SkyHrefResolver {
   /**
    * Resolves a link's final URL and whether the current user may access it.
-   * @param args The link to resolve.
    */
   public resolveHref(args: SkyHrefResolverArgs): Promise<SkyHref> {
     return Promise.resolve<SkyHref>({
