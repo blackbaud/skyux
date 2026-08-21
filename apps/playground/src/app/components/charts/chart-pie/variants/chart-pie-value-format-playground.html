@@ -1,0 +1,15 @@
+<sky-chart headingText="Revenue by channel">
+  <sky-chart-pie
+    categoryLabelText="Channel"
+    valueFormat="currency"
+    valueLabelText="Revenue"
+    [displayMode]="displayMode()"
+  >
+    @for (channel of channels; track channel.label) {
+      <sky-chart-pie-slice
+        [labelText]="channel.label"
+        [value]="channel.value"
+      />
+    }
+  </sky-chart-pie>
+</sky-chart>

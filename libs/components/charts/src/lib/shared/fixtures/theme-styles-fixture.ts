@@ -58,6 +58,9 @@ export function createThemeStylesFixture(
         minCategoryGap: 8,
       },
     },
+    arc: {
+      borderColor: '#ffffff',
+    },
     ...overrides,
   };
 }
