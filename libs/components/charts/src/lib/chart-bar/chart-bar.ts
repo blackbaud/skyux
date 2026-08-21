@@ -176,11 +176,11 @@ export class SkyChartBar extends SkyChartPlot {
     const valueDirection = isHorizontal ? 'x' : 'y';
     const formatValue = valueAxis.formatValue();
 
-    // Horizontal bars are rendered at an explicit thickness (see below), which
-    // the container height is also derived from; resolve it once so the two
-    // always agree.
-    const horizontalBarThickness = isHorizontal
-      ? this.#getHorizontalBarSpacing(themeStyles).barThickness
+    // Horizontal bars target an explicit thickness (see below), which the
+    // container height is also derived from; resolve the spacing once so the
+    // two always agree.
+    const horizontalSpacing = isHorizontal
+      ? this.#getHorizontalBarSpacing(themeStyles)
       : undefined;
 
     // Vertical bars fill their responsive width; the fill percentages are
@@ -201,10 +201,14 @@ export class SkyChartBar extends SkyChartPlot {
       };
 
       if (isHorizontal) {
-        // Render bars at the exact thickness the container height was computed
-        // for. Without this, Chart.js shrinks each bar to a fraction of its
-        // category slot, ignoring the minimum thickness.
-        dataset.barThickness = horizontalBarThickness;
+        // Size horizontal bars through the band fill fractions, capped at the
+        // target thickness (see #getHorizontalBarSpacing). An explicit numeric
+        // `barThickness` would not work here: Chart.js then ignores the fill
+        // fractions and renders bars that sit flush against each other and
+        // overlap adjacent categories when the band is smaller than budgeted.
+        dataset.categoryPercentage = horizontalSpacing?.categoryPercentage;
+        dataset.barPercentage = horizontalSpacing?.barPercentage;
+        dataset.maxBarThickness = horizontalSpacing?.barThickness;
       } else {
         // Shape the whitespace around vertical bars and cap their width so
         // sparse charts do not render unusably wide bars.
@@ -293,9 +297,8 @@ export class SkyChartBar extends SkyChartPlot {
       return themeStyles.height.default;
     }
 
-    const { barThickness, categoryGap, categoryCount, barsPerCategory } =
+    const { rowHeight, categoryCount } =
       this.#getHorizontalBarSpacing(themeStyles);
-    const rowHeight = barThickness * barsPerCategory + categoryGap;
     const totalRowsHeight = categoryCount * rowHeight;
 
     const computedHeight =
@@ -309,15 +312,17 @@ export class SkyChartBar extends SkyChartPlot {
   }
 
   /**
-   * Resolves the horizontal bar layout — the per-bar thickness, the gap between
-   * categories, and the counts they derive from — shared by the container
-   * height and the datasets so the two always agree.
+   * Resolves the horizontal bar layout — the target per-bar thickness, the
+   * fractions of each category band the bars fill, and the per-category row
+   * height — shared by the container height and the datasets so the two always
+   * agree.
    */
   #getHorizontalBarSpacing(themeStyles: SkyChartThemeStyles): {
     barThickness: number;
-    categoryGap: number;
+    categoryPercentage: number;
+    barPercentage: number;
+    rowHeight: number;
     categoryCount: number;
-    barsPerCategory: number;
   } {
     const seriesCount = this.series().length;
     // Chart.js renders one row per category-axis label, so the row count must
@@ -338,10 +343,32 @@ export class SkyChartBar extends SkyChartPlot {
         : seriesCount;
     const totalBars = categoryCount * barsPerCategory;
 
+    const { barThickness, categoryGap } =
+      this.#computeHorizontalBarElementSpacing(totalBars, themeStyles);
+
+    // Bars that share a category are separated by a small gap so grouped bars
+    // read as distinct; a category with a single bar needs none.
+    const barGapPercentage = 0.25;
+    const barGap = barsPerCategory > 1 ? barThickness * barGapPercentage : 0;
+
+    // Each bar's slot is the bar plus its gap, and each category's row is its
+    // slots plus the gap that separates it from the next category — the same
+    // budget the container height is derived from.
+    const barSlot = barThickness + barGap;
+    const rowHeight = barSlot * barsPerCategory + categoryGap;
+
+    // Chart.js divides the plotted area evenly into category bands, so at the
+    // derived container height each band matches `rowHeight`; these fractions
+    // size each bar at the target thickness with the budgeted gaps.
+    const categoryPercentage = (barSlot * barsPerCategory) / rowHeight;
+    const barPercentage = barThickness / barSlot;
+
     return {
-      ...this.#computeHorizontalBarElementSpacing(totalBars, themeStyles),
+      barThickness,
+      categoryPercentage,
+      barPercentage,
+      rowHeight,
       categoryCount,
-      barsPerCategory,
     };
   }
 
