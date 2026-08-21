@@ -18,6 +18,7 @@
 
 ### Bug Fixes
 
+* **components/charts:** do not skip category labels for horizontal bar charts ([#4670](https://github.com/blackbaud/skyux/issues/4670)) ([#4672](https://github.com/blackbaud/skyux/issues/4672)) ([8f5bcd0](https://github.com/blackbaud/skyux/commit/8f5bcd0606b5e86e7a0ae94889af268c8dff04bb)), closes [AB#4094199](https://dev.azure.com/blackbaud/Products/_workitems/edit/4094199)
 * **components/charts:** fix horizontal bar spacing; add visual tests ([#4552](https://github.com/blackbaud/skyux/issues/4552)) ([#4659](https://github.com/blackbaud/skyux/issues/4659)) ([772c576](https://github.com/blackbaud/skyux/commit/772c5761a376881c3efac5403f91ea662ea821ee))
 * dark mode flyouts, summary action bars, and back to top bars have an edge border ([#4633](https://github.com/blackbaud/skyux/issues/4633)) ([#4667](https://github.com/blackbaud/skyux/issues/4667)) ([ff67462](https://github.com/blackbaud/skyux/commit/ff6746295ae220fdb0e4325374f44359e4f8409b))
 
