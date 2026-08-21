@@ -76,6 +76,10 @@ export class SkyTokenComponent {
   @Input()
   public set role(value: string | undefined) {
     this.#_role = value;
+    // SkyTokensComponent sets this property directly in TypeScript (not through a
+    // template binding), so this component's OnPush change detection isn't
+    // automatically triggered. Mark for check explicitly to ensure the token
+    // (and its projected content) re-renders with the updated role.
     this.#changeDetector.markForCheck();
   }
 
