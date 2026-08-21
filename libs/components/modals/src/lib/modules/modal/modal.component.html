@@ -21,6 +21,9 @@
     <div
       class="sky-modal-header"
       [hidden]="headingHidden()"
+      [ngClass]="{
+        'sky-modal-header-shadow-enabled': scrollShadow?.topShadow !== 'none'
+      }"
       [ngStyle]="{
         'box-shadow': scrollShadow?.topShadow
       }"
@@ -83,6 +86,9 @@
     </div>
     <div
       class="sky-modal-footer"
+      [ngClass]="{
+        'sky-modal-footer-shadow-enabled': scrollShadow?.bottomShadow !== 'none'
+      }"
       [ngStyle]="{
         'box-shadow': scrollShadow?.bottomShadow
       }"

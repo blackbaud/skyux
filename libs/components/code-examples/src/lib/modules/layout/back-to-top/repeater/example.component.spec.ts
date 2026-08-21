@@ -1,6 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
-import { SkyAppTestUtility } from '@skyux-sdk/testing';
+import { SkyAppTestUtility } from '@skyux/core/testing';
 import { SkyBackToTopHarness } from '@skyux/layout/testing';
 
 import { LayoutBackToTopRepeaterExampleComponent } from './example.component';
