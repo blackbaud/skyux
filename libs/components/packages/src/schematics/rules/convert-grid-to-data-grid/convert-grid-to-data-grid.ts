@@ -63,7 +63,8 @@ const LIST_VIEW_GRID_TAG = 'sky-list-view-grid';
  * because parse5 treats them as distinct attribute names. `fit`'s unbound
  * `width`/`scroll` literal values are additionally translated to `columnFit`'s
  * `container`/`content` values by `gridAttributeSwapCallback`. Anything not
- * listed (`data`, `selectedRowIds`) is copied through unchanged.
+ * listed (`data`, `selectedRowIds`, `selectedColumnIds`) is copied through
+ * unchanged.
  */
 const GRID_ATTRIBUTE_SWAPS: Record<string, string> = {
   enableMultiselect: 'multiselect',
@@ -85,9 +86,6 @@ const GRID_ATTRIBUTE_SWAPS: Record<string, string> = {
   '(rowDeleteConfirm)': '',
   rowHighlightedId: '',
   '[rowHighlightedId]': '',
-  selectedColumnIds: '',
-  '[selectedColumnIds]': '',
-  '(selectedColumnIdsChange)': '',
   settingsKey: '',
   '[settingsKey]': '',
   sortField: 'sort',
@@ -108,14 +106,12 @@ const GRID_REMOVED_INPUTS = [
   'messageStream',
   'multiselectRowId',
   'rowHighlightedId',
-  'selectedColumnIds',
   'settingsKey',
   'width',
 ];
 
 /** Outputs removed from `<sky-grid>` with no `<sky-data-grid>` equivalent. */
 const GRID_REMOVED_OUTPUTS = [
-  'selectedColumnIdsChange',
   'columnWidthChange',
   'rowDeleteCancel',
   'rowDeleteConfirm',
@@ -245,6 +241,18 @@ function gridTagSwap(context: SchematicContext): SwapTagCallback<'sky-grid'> {
         context,
         'warn',
         'The "data" binding on <sky-grid> was copied to <sky-data-grid>, whose "data" input is typed as SkyDataGridRowData[]: each row object must have a unique string "id" property. Update the bound array if template type checking reports an assignment error.',
+      );
+    }
+    if (
+      hasAttribute(node, [
+        ...inputForms('selectedColumnIds'),
+        outputForm('selectedColumnIdsChange'),
+      ])
+    ) {
+      logOnce(
+        context,
+        'warn',
+        'The "selectedColumnIds"/"(selectedColumnIdsChange)" bindings on <sky-grid> were copied to <sky-data-grid>, where an empty array means every column displays instead of no columns. Review the bound value and handler.',
       );
     }
     for (const label of GRID_REMOVED_INPUTS) {

@@ -47,6 +47,13 @@ export class SkyDataGridColumn {
   );
 
   /**
+   * The description of the column to display beneath the column label in a
+   * column picker. This applies only when the grid participates in a column
+   * picker, such as when it is used inside a data manager.
+   */
+  public readonly description = input<string>();
+
+  /**
    * The property to retrieve cell information from an entry on the grid `data` array.
    * You must provide either the `columnId` or `field` property for every column,
    * but do not provide both. When a column maps directly to a property on the data,

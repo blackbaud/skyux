@@ -8,7 +8,11 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { SkyLiveAnnouncerService, SkyViewkeeperModule } from '@skyux/core';
+import {
+  SkyLiveAnnouncerService,
+  SkyUIConfigService,
+  SkyViewkeeperModule,
+} from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import {
   SkyBackToTopMessage,
@@ -28,7 +32,8 @@ const VIEWKEEPER_CLASSES_DEFAULT = ['.sky-data-manager-toolbar'];
 const DEFAULT_DOCK_TYPE: SkyDataManagerDockType = 'none';
 
 /**
- * The top-level data manager component. Provide `SkyDataManagerService` at this level.
+ * The top-level data manager component. Providing `SkyDataManagerService` at this level is
+ * optional --- this component self-provides an instance if no ancestor already provides one.
  */
 @Component({
   selector: 'sky-data-manager',
@@ -36,6 +41,14 @@ const DEFAULT_DOCK_TYPE: SkyDataManagerDockType = 'none';
   styleUrl: './data-manager.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkyBackToTopModule, SkyViewkeeperModule],
+  providers: [
+    {
+      provide: SkyDataManagerService,
+      useFactory: (): SkyDataManagerService =>
+        inject(SkyDataManagerService, { skipSelf: true, optional: true }) ??
+        new SkyDataManagerService(inject(SkyUIConfigService)),
+    },
+  ],
 })
 export class SkyDataManagerComponent implements OnDestroy, OnInit {
   public get currentViewkeeperClasses(): string[] {

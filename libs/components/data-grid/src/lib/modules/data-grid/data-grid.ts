@@ -28,7 +28,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import { SkyLogService, SkyViewkeeperModule } from '@skyux/core';
 import { SkyWaitModule } from '@skyux/indicators';
-import { SkyPagingModule } from '@skyux/lists';
+import {
+  SkyDataColumnOption,
+  SkyDataColumnSource,
+  SkyPagingModule,
+} from '@skyux/lists';
 
 import { AgGridAngular } from 'ag-grid-angular';
 import {
@@ -39,6 +43,7 @@ import {
   ColDef,
   ColumnApiModule,
   ColumnAutoSizeModule,
+  _ColumnMoveModule as ColumnMoveModule,
   EventApiModule,
   GridApi,
   GridOptions,
@@ -52,6 +57,7 @@ import {
   RowSelectionModule,
   RowSelectionOptions,
   RowStyleModule,
+  SELECTION_COLUMN_ID,
   ValidationModule,
 } from 'ag-grid-community';
 import {
@@ -73,15 +79,20 @@ import { fromGridEvent } from './data-grid-event-utils';
 // Register only the AG Grid community modules this component actually uses,
 // rather than `AllCommunityModule`, to keep the consumer's bundle lean. This
 // covers the client-side row model, sorting, pagination, row selection, cell
-// and row styling, column auto-sizing, auto-height (text wrap), the grid/column
-// state and event APIs the component and its harness rely on, and dev-time
-// validation messaging.
+// and row styling, column moving, column auto-sizing, auto-height (text wrap),
+// the grid/column state and event APIs the component and its harness rely on,
+// and dev-time validation messaging. `ColumnMoveModule` enables users to drag
+// column headers to reorder columns; it is not part of `AllCommunityModule`
+// and is only exported under an underscore-prefixed name, so this package's
+// `ag-grid-community` peer dependency is restricted to the minor version known
+// to export it.
 ModuleRegistry.registerModules([
   CellStyleModule,
   ClientSideRowModelApiModule,
   ClientSideRowModelModule,
   ColumnApiModule,
   ColumnAutoSizeModule,
+  ColumnMoveModule,
   EventApiModule,
   GridStateModule,
   PaginationModule,
@@ -96,6 +107,14 @@ ModuleRegistry.registerModules([
 function arraySorted(arr: string[]): string[] {
   return arr.slice().sort((a, b) => a.localeCompare(b));
 }
+
+function arraysEqual(a: readonly string[], b: readonly string[]): boolean {
+  return a.length === b.length && a.every((value, i) => value === b[i]);
+}
+
+// Columns AG Grid creates and manages itself, which are never offered to a
+// column picker and never included in the displayed column IDs.
+const RESERVED_COLUMN_IDS: string[] = [SELECTION_COLUMN_ID];
 
 /**
  * Displays tabular data in a grid using a declarative set of columns and inputs.
@@ -116,9 +135,10 @@ function arraySorted(arr: string[]): string[] {
   host: {
     '[class.sky-margin-stacked-lg]': 'stacked()',
   },
+  providers: [{ provide: SkyDataColumnSource, useExisting: SkyDataGrid }],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyDataGrid {
+export class SkyDataGrid implements SkyDataColumnSource {
   /**
    * Whether the grid sorts the data order when a column header is clicked.
    * When `autoSort` is set to `false`, the data grid will not modify the sort
@@ -270,6 +290,17 @@ export class SkyDataGrid {
   public readonly selectedRowIds = model<string[]>([]);
 
   /**
+   * The IDs of the columns to display, in display order. Columns that are not
+   * included are hidden, except for columns marked `locked`, which always
+   * display. This is two-way bindable: it emits a new value when the user
+   * reorders columns, and you can set it to control which columns display.
+   * When empty, every column displays in declaration order except those marked
+   * `columnHidden`.
+   * @default []
+   */
+  public readonly selectedColumnIds = model<string[]>([]);
+
+  /**
    * The current sort applied to the grid. This is two-way bindable: it emits a new value
    * whenever the user sorts a column, and you can set it to sort the grid programmatically.
    * When `autoSort` is `false`, the grid emits the new value here but does not reorder the
@@ -278,6 +309,51 @@ export class SkyDataGrid {
   public readonly sort = model<SkyDataGridSort | undefined>(undefined);
 
   protected readonly columns = contentChildren(SkyDataGridColumn);
+
+  /**
+   * The columns the grid can display, in declaration order. Read by column
+   * picker integrations through `SkyDataColumnSource`.
+   * @internal
+   */
+  public readonly dataColumns = computed<readonly SkyDataColumnOption[]>(() =>
+    this.#columnCatalog().map(({ id, column }) => ({
+      alwaysDisplayed: column.locked(),
+      description: column.description(),
+      id,
+      initialHide: column.columnHidden(),
+      labelText: column.headingText(),
+    })),
+  );
+
+  /**
+   * The IDs of the columns to display, in display order, reconciled against
+   * the declared columns. Unknown IDs are dropped and `locked` columns always
+   * display. When `selectedColumnIds` is empty, the grid falls back to its
+   * declarative order and `columnHidden` values.
+   * @internal
+   */
+  public readonly displayedColumnIds = computed<string[]>(() => {
+    const catalog = this.#columnCatalog();
+    const selected = this.selectedColumnIds();
+
+    if (selected.length === 0) {
+      return catalog
+        .filter(({ column }) => column.locked() || !column.columnHidden())
+        .map(({ id }) => id);
+    }
+
+    const known = new Set(catalog.map(({ id }) => id));
+    const displayed = selected.filter((id) => known.has(id));
+    const displayedSet = new Set(displayed);
+
+    // Locked columns cannot be hidden and are documented to display first.
+    const lockedIds = catalog
+      .filter(({ column, id }) => column.locked() && !displayedSet.has(id))
+      .map(({ id }) => id);
+
+    return [...lockedIds, ...displayed];
+  });
+
   protected readonly gridApi = signal<GridApi<SkyDataGridRowData> | undefined>(
     undefined,
   );
@@ -312,6 +388,15 @@ export class SkyDataGrid {
             }
           : undefined,
         loading: untracked(() => this.loading() || !Array.isArray(this.data())),
+        onColumnMoved: (event) => {
+          // Applying a column layout moves columns too, so compare against what
+          // the grid should display; only a move the grid made on its own, such
+          // as a user dragging a column header, differs here. Intermediate
+          // moves reported mid-drag are followed by a finished one.
+          if (event.finished !== false) {
+            this.#syncColumnOrderFromGrid(event.api);
+          }
+        },
         onGridReady: (args) => {
           this.gridApi.set(args.api);
           this.gridReady.set(true);
@@ -384,10 +469,43 @@ export class SkyDataGrid {
   readonly #router = inject(Router, { optional: true });
 
   readonly #columnDefs = computed<ColDef<SkyDataGridRowData>[]>(() => {
-    const columns = this.columns();
-    return columns.map((col) => this.#createColDef(col));
+    const displayedIds = this.displayedColumnIds();
+    const displayed = new Set(displayedIds);
+    const catalog = this.#columnCatalog();
+    const byId = new Map(catalog.map((entry) => [entry.id, entry.column]));
+
+    // Displayed columns first, in display order, followed by the hidden
+    // columns. Hidden columns keep their column definitions so AG Grid retains
+    // their state and they can be shown again without being recreated.
+    const ordered = [
+      ...displayedIds.map((id) => byId.get(id)).filter((col) => !!col),
+      ...catalog
+        .filter((entry) => !displayed.has(entry.id))
+        .map((entry) => entry.column),
+    ];
+
+    return ordered.map((col) => {
+      const colDef = this.#createColDef(col);
+      colDef.hide = !displayed.has(this.#getColumnId(col) as string);
+      colDef.initialHide = colDef.hide;
+      return colDef;
+    });
   });
   readonly #hasColumnDefs = computed(() => this.#columnDefs().length > 0);
+
+  /**
+   * The declared columns that have a usable ID, in declaration order. Columns
+   * missing both `columnId` and `field` are omitted; `SkyDataGridColumn`
+   * already warns about them.
+   */
+  readonly #columnCatalog = computed(() =>
+    this.columns()
+      .map((column) => ({ column, id: this.#getColumnId(column) }))
+      .filter(
+        (entry): entry is { column: SkyDataGridColumn; id: string } =>
+          !!entry.id && !RESERVED_COLUMN_IDS.includes(entry.id),
+      ),
+  );
 
   readonly #gridDestroyed = toObservable(this.gridApi).pipe(
     filter(Boolean),
@@ -671,6 +789,17 @@ export class SkyDataGrid {
     });
   }
 
+  /**
+   * Sets the columns that display and their order. Called by column picker
+   * integrations through `SkyDataColumnSource`.
+   * @internal
+   */
+  public setDisplayedColumnIds(columnIds: string[]): void {
+    if (!arraysEqual(this.displayedColumnIds(), columnIds)) {
+      this.selectedColumnIds.set(columnIds);
+    }
+  }
+
   protected currentPageChange(page: number): void {
     if (page && page !== this.page()) {
       const pageQueryParam = this.pageQueryParam();
@@ -713,8 +842,6 @@ export class SkyDataGrid {
       field,
       headerName: col.headingText(),
       headerComponentParams: this.#getHeaderComponentParams(col),
-      hide: col.columnHidden(),
-      initialHide: col.columnHidden(),
       resizable: col.resizable(),
       sortable: col.sortable(),
       lockPosition: col.locked(),
@@ -781,6 +908,22 @@ export class SkyDataGrid {
       helpPopoverContent: col.helpPopoverContent(),
       inlineHelpComponent: SkyDataGridColumnInlineHelp,
     };
+  }
+
+  #getColumnId(col: SkyDataGridColumn): string | undefined {
+    return col.columnId() ?? col.field();
+  }
+
+  #syncColumnOrderFromGrid(api: GridApi): void {
+    const displayedColumnIds = api
+      .getColumnState()
+      .filter((state) => !state.hide)
+      .map((state) => state.colId)
+      .filter((colId) => !RESERVED_COLUMN_IDS.includes(colId));
+
+    if (!arraysEqual(this.displayedColumnIds(), displayedColumnIds)) {
+      this.selectedColumnIds.set(displayedColumnIds);
+    }
   }
 
   #getRowIds(rows: (IRowNode | undefined)[] | null | undefined): string[] {

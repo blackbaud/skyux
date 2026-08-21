@@ -20,6 +20,22 @@ export class SkyDataManagerState {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public additionalData: any;
   /**
+   * The IDs of the columns available to display. Used by the signal-based
+   * `SkyDataManagerToolbarComponent` API for consumers displaying columns
+   * without a `SkyDataViewConfig`-registered view. This is tracked separately
+   * from `displayedColumnIds` so that a column the user hid can be
+   * distinguished from a column that has been newly added.
+   * @preview
+   */
+  public columnIds: string[] | undefined;
+  /**
+   * The IDs of the columns to display, in display order. Used by the
+   * signal-based `SkyDataManagerToolbarComponent` API for consumers displaying
+   * columns without a `SkyDataViewConfig`-registered view.
+   * @preview
+   */
+  public displayedColumnIds: string[] | undefined;
+  /**
    * The state of the filters.
    */
   public filterData: SkyDataManagerFilterData | undefined;
@@ -28,6 +44,16 @@ export class SkyDataManagerState {
    * uses this property.
    */
   public onlyShowSelected: boolean | undefined;
+  /**
+   * The current page number to display.
+   * @preview
+   */
+  public page: number | undefined;
+  /**
+   * The number of items to display per page.
+   * @preview
+   */
+  public pageSize: number | undefined;
   /**
    * The search text to apply.
    */
@@ -47,8 +73,12 @@ export class SkyDataManagerState {
 
     this.activeSortOption = data.activeSortOption;
     this.additionalData = data.additionalData;
+    this.columnIds = data.columnIds;
+    this.displayedColumnIds = data.displayedColumnIds;
     this.filterData = data.filterData;
     this.onlyShowSelected = data.onlyShowSelected;
+    this.page = data.page;
+    this.pageSize = data.pageSize;
     this.selectedIds = data.selectedIds;
     this.searchText = data.searchText;
     this.views = views || [];
@@ -71,6 +101,10 @@ export class SkyDataManagerState {
         this.additionalData !== undefined
           ? safeStructuredClone(this.additionalData)
           : undefined,
+      columnIds: this.columnIds ? [...this.columnIds] : undefined,
+      displayedColumnIds: this.displayedColumnIds
+        ? [...this.displayedColumnIds]
+        : undefined,
       filterData: this.filterData
         ? {
             filtersApplied: this.filterData.filtersApplied,
@@ -81,6 +115,8 @@ export class SkyDataManagerState {
           }
         : undefined,
       onlyShowSelected: this.onlyShowSelected,
+      page: this.page,
+      pageSize: this.pageSize,
       searchText: this.searchText,
       selectedIds: this.selectedIds ? [...this.selectedIds] : undefined,
       views: viewStates,
