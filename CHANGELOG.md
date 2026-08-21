@@ -10,6 +10,7 @@
 
 ### Features
 
+* **components/ag-grid:** add `defineSkyAgGridColDef` to validate cell editor and renderer params against cell types ([#4582](https://github.com/blackbaud/skyux/issues/4582)) ([#4657](https://github.com/blackbaud/skyux/issues/4657)) ([5a8f361](https://github.com/blackbaud/skyux/commit/5a8f361d95cb77dbbb1e4d5713900c12da13368d)), closes [AB#3928427](https://dev.azure.com/blackbaud/Products/_workitems/edit/3928427)
 * **sdk/testing:** deprecate `SkyAppTestUtility` and `SkyBy` testing utils ([#4651](https://github.com/blackbaud/skyux/issues/4651)) ([2c100e5](https://github.com/blackbaud/skyux/commit/2c100e5dd32e243fea37451890ea67f85b000793)), closes [AB#3987231](https://dev.azure.com/blackbaud/Products/_workitems/edit/3987231)
 
 
