@@ -118,14 +118,9 @@ export class SkyAppResourcesService {
       map(
         ([mappedNames, resources]): { [K in keyof T]: string } =>
           Object.fromEntries(
-            entries.map(({ objKey, args }, i) => [
+            entries.map(({ name, objKey, args }, i) => [
               objKey,
-              this.#getResourceString(
-                resources,
-                objKey,
-                mappedNames[i],
-                ...args,
-              ),
+              this.#getResourceString(resources, name, mappedNames[i], ...args),
             ]),
           ) as { [K in keyof T]: string },
       ),
