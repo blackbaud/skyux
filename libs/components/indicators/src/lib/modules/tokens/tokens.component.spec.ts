@@ -128,25 +128,43 @@ describe('Tokens component', () => {
       const projectedTokenFixture = TestBed.createComponent(
         SkyTokensProjectedTokenTestComponent,
       );
-      projectedTokenFixture.detectChanges();
 
-      const hostElement = projectedTokenFixture.componentInstance
-        .tokensElementRef?.nativeElement as HTMLElement;
-      const tokensRoot = hostElement.querySelector<HTMLElement>('.sky-tokens');
-      const contentContainer = hostElement.querySelector<HTMLElement>(
-        '.sky-tokens-content',
-      );
-      const manualTokens = Array.from(
-        hostElement.querySelectorAll<HTMLElement>('sky-token'),
-      );
+      try {
+        projectedTokenFixture.detectChanges();
 
-      expect(manualTokens.length).toBe(2);
-      for (const tokenElement of manualTokens) {
-        expect(tokenElement.parentElement).toBe(tokensRoot);
+        const hostElement =
+          projectedTokenFixture.componentInstance.tokensElementRef?.nativeElement;
+        if (!hostElement) {
+          fail('Expected SkyTokensComponent ElementRef to be available.');
+          return;
+        }
+
+        const tokensRoot = hostElement.querySelector<HTMLElement>('.sky-tokens');
+        if (!tokensRoot) {
+          fail('Expected .sky-tokens element to exist.');
+          return;
+        }
+
+        const contentContainer = hostElement.querySelector<HTMLElement>(
+          '.sky-tokens-content',
+        );
+        if (!contentContainer) {
+          fail('Expected .sky-tokens-content element to exist.');
+          return;
+        }
+
+        const manualTokens = Array.from(
+          hostElement.querySelectorAll<HTMLElement>('sky-token'),
+        );
+
+        expect(manualTokens.length).toBe(2);
+        for (const tokenElement of manualTokens) {
+          expect(tokenElement.parentElement).toBe(tokensRoot);
+        }
+        expect(contentContainer.querySelector('sky-token')).toBeNull();
+      } finally {
+        projectedTokenFixture.destroy();
       }
-      expect(contentContainer?.querySelector('sky-token')).toBeNull();
-
-      projectedTokenFixture.destroy();
     });
 
     it('should respect trackWith', () => {
