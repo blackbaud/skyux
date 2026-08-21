@@ -4,7 +4,7 @@
       @for (item of items; track item) {
         <sky-selection-box [control]="radio">
           <sky-icon [iconName]="item['iconName']" />
-          <sky-selection-box-header #radioHeaderId="skyId" skyId>
+          <sky-selection-box-header>
             {{ item['name'] }}
           </sky-selection-box-header>
           <sky-selection-box-description>
@@ -12,7 +12,8 @@
           </sky-selection-box-description>
           <sky-radio
             #radio
-            [labelledBy]="radioHeaderId.id"
+            labelHidden
+            [labelText]="item['name']"
             [value]="item['value']"
           />
         </sky-selection-box>
