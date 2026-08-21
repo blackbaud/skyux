@@ -6,6 +6,7 @@
 
 ### Bug Fixes
 
+* **components/modals:** tokenize tiled body modal background ([#4671](https://github.com/blackbaud/skyux/issues/4671)) ([bdda7d6](https://github.com/blackbaud/skyux/commit/bdda7d6dc53cf3f6461b71e01f6dd7883dfaf214))
 * **components/router:** add documentation for exported types ([#4661](https://github.com/blackbaud/skyux/issues/4661)) ([781f951](https://github.com/blackbaud/skyux/commit/781f951e3f1464b44536c07d6368dee63753f157)), closes [AB#4088898](https://dev.azure.com/blackbaud/Products/_workitems/edit/4088898)
 * dark mode flyouts, summary action bars, and back to top bars have an edge border ([#4633](https://github.com/blackbaud/skyux/issues/4633)) ([447a908](https://github.com/blackbaud/skyux/commit/447a90864dba77e95c965b3593ad82695e135517))
 
