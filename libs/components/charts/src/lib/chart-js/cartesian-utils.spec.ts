@@ -10,6 +10,7 @@ type ScaleProbe = {
   stacked: boolean;
   min: number | undefined;
   max: number | undefined;
+  ticks: { autoSkip: boolean };
 };
 
 describe('buildCartesianScales', () => {
@@ -41,11 +42,12 @@ describe('buildCartesianScales', () => {
     scaleType: SkyChartValueScaleType,
     stacked?: boolean,
     bounds?: { min?: number; max?: number },
+    isHorizontal = false,
   ): Record<string, ScaleProbe> {
     return buildCartesianScales({
       categoryAxis: createCategoryAxis(),
       valueAxis: createValueAxis(scaleType, bounds),
-      isHorizontal: false,
+      isHorizontal,
       isStacked: stacked,
       themeStyles: createThemeStylesFixture(),
     }) as unknown as Record<string, ScaleProbe>;
@@ -70,5 +72,17 @@ describe('buildCartesianScales', () => {
 
     expect(scales['value'].min).toBeUndefined();
     expect(scales['value'].max).toBeUndefined();
+  });
+
+  it('should show every category label on a horizontal chart', () => {
+    const scales = build('linear', false, undefined, true);
+
+    expect(scales['category'].ticks.autoSkip).toBeFalse();
+  });
+
+  it('should skip crowded category labels on a vertical chart', () => {
+    const scales = build('linear');
+
+    expect(scales['category'].ticks.autoSkip).toBeTrue();
   });
 });
