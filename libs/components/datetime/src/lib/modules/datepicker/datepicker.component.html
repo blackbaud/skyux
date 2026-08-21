@@ -35,6 +35,7 @@
       "
       [disabled]="disabled"
       (click)="onTriggerButtonClick()"
+      (keydown)="onTriggerButtonKeydown($event)"
     >
       <sky-icon iconName="calendar-ltr" iconSize="l" />
     </button>

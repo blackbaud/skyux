@@ -1217,6 +1217,43 @@ describe('fuzzy datepicker input', () => {
       }));
     });
 
+    describe('set to today', () => {
+      it('should set the value to today when pressed in the input', fakeAsync(() => {
+        jasmine.clock().mockDate(new Date('5/15/2017'));
+
+        SkyAppTestUtility.fireDomEvent(getInputElement(fixture), 'keydown', {
+          customEventInit: {
+            key: 'F3',
+          },
+        });
+        detectChanges(fixture);
+
+        expect(component.selectedDate()).toEqual({
+          day: 15,
+          month: 5,
+          year: 2017,
+        });
+        expect(getInputElementValue(fixture)).toBe('05/15/2017');
+
+        flush();
+      }));
+
+      it('should ignore other keys pressed in the input', fakeAsync(() => {
+        jasmine.clock().mockDate(new Date('5/15/2017'));
+
+        SkyAppTestUtility.fireDomEvent(getInputElement(fixture), 'keydown', {
+          customEventInit: {
+            key: 'Enter',
+          },
+        });
+        detectChanges(fixture);
+
+        expect(component.selectedDate()).toBeUndefined();
+
+        flush();
+      }));
+    });
+
     describe('startAtDate', () => {
       it('should be passed to calendar', fakeAsync(() => {
         setInputProperty(undefined, component, fixture);
