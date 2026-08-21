@@ -30,7 +30,7 @@ import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { SkyDateFormatter } from './date-formatter';
 import { SkyDatepickerConfigService } from './datepicker-config.service';
 import { SkyDatepickerHostService } from './datepicker-host.service';
-import { isSetToTodayKey } from './datepicker-set-to-today-key';
+import { datepickerIsSetToTodayKey } from './datepicker-set-to-today-key';
 import { SkyDatepickerComponent } from './datepicker.component';
 
 const SKY_DATEPICKER_VALUE_ACCESSOR = {
@@ -359,7 +359,7 @@ export class SkyDatepickerInputDirective
 
   @HostListener('keydown', ['$event'])
   public onKeydown(event: KeyboardEvent): void {
-    if (isSetToTodayKey(event)) {
+    if (datepickerIsSetToTodayKey(event)) {
       event.preventDefault();
       this.#datepickerComponent.selectToday();
     }

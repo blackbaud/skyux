@@ -41,7 +41,7 @@ import { SkyDatepickerCalendarChange } from './calendar/datepicker-calendar-chan
 import { SkyDatepickerCalendarComponent } from './calendar/datepicker-calendar.component';
 import { SkyDatepickerCustomDate } from './datepicker-custom-date';
 import { SkyDatepickerHostService } from './datepicker-host.service';
-import { isSetToTodayKey } from './datepicker-set-to-today-key';
+import { datepickerIsSetToTodayKey } from './datepicker-set-to-today-key';
 
 let nextId = 0;
 
@@ -341,7 +341,7 @@ export class SkyDatepickerComponent
    * @internal
    */
   public onTriggerButtonKeydown(event: KeyboardEvent): void {
-    if (isSetToTodayKey(event)) {
+    if (datepickerIsSetToTodayKey(event)) {
       event.preventDefault();
       this.selectToday();
     }
@@ -521,7 +521,7 @@ export class SkyDatepickerComponent
       )
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((event) => {
-          if (isSetToTodayKey(event)) {
+          if (datepickerIsSetToTodayKey(event)) {
             event.preventDefault();
             this.selectToday();
           }
