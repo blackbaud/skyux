@@ -199,6 +199,21 @@ $popover-max-width: 276px;
 
 @include mixins.sky-theme-modern {
   .sky-popover {
+    // The container edges are drawn as inset shadows rather than borders. A border on these
+    // sides would have to blend into the thicker accent border at the two corners they
+    // share, which distorts the corner radius. Shadows have no width to blend, so each
+    // placement below composes only the three edges that the accent does not cover.
+    --sky-popover-edge-top: inset 0 var(--sky-border-width-container-base) 0 0
+      var(--sky-color-border-container-base);
+    --sky-popover-edge-right: inset
+      calc(-1 * var(--sky-border-width-container-base)) 0 0 0
+      var(--sky-color-border-container-base);
+    --sky-popover-edge-bottom: inset 0
+      calc(-1 * var(--sky-border-width-container-base)) 0 0
+      var(--sky-color-border-container-base);
+    --sky-popover-edge-left: inset var(--sky-border-width-container-base) 0 0 0
+      var(--sky-color-border-container-base);
+
     border-radius: var(--sky-border-radius-s);
   }
 
@@ -225,6 +240,9 @@ $popover-max-width: 276px;
     .sky-popover {
       border-bottom: var(--sky-border-width-accent)
         var(--sky-border-style-accent) var(--sky-color-border-info);
+      box-shadow:
+        var(--sky-popover-edge-top), var(--sky-popover-edge-right),
+        var(--sky-popover-edge-left), var(--sky-elevation-overlay-100);
     }
 
     .sky-popover-arrow {
@@ -244,6 +262,9 @@ $popover-max-width: 276px;
     .sky-popover {
       border-top: var(--sky-border-width-accent) var(--sky-border-style-accent)
         var(--sky-color-border-info);
+      box-shadow:
+        var(--sky-popover-edge-right), var(--sky-popover-edge-bottom),
+        var(--sky-popover-edge-left), var(--sky-elevation-overlay-100);
     }
 
     .sky-popover-arrow {
@@ -263,6 +284,9 @@ $popover-max-width: 276px;
     .sky-popover {
       border-left: var(--sky-border-width-accent) var(--sky-border-style-accent)
         var(--sky-color-border-info);
+      box-shadow:
+        var(--sky-popover-edge-top), var(--sky-popover-edge-right),
+        var(--sky-popover-edge-bottom), var(--sky-elevation-overlay-100);
     }
 
     .sky-popover-arrow {
@@ -282,6 +306,9 @@ $popover-max-width: 276px;
     .sky-popover {
       border-right: var(--sky-border-width-accent)
         var(--sky-border-style-accent) var(--sky-color-border-info);
+      box-shadow:
+        var(--sky-popover-edge-top), var(--sky-popover-edge-bottom),
+        var(--sky-popover-edge-left), var(--sky-elevation-overlay-100);
     }
 
     .sky-popover-arrow {

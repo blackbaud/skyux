@@ -22,6 +22,7 @@
   --sky-override-autocomplete-result-margin-bottom: 4px;
   --sky-override-autocomplete-result-padding: 3px #{$sky-padding-double};
   --sky-override-autocomplete-results-container-background-color: #{$sky-color-white};
+  --sky-override-autocomplete-results-container-border: none;
   --sky-override-autocomplete-results-container-border-radius: 0;
   --sky-override-autocomplete-results-no-results-padding: 4px;
   --sky-override-autocomplete-results-padding: 4px;
@@ -38,6 +39,11 @@
   background-color: var(
     --sky-override-autocomplete-results-container-background-color,
     var(--sky-color-background-container-menu)
+  );
+  border: var(
+    --sky-override-autocomplete-results-container-border,
+    var(--sky-border-style-elevation) var(--sky-border-width-container-base)
+      var(--sky-color-border-container-base)
   );
   border-radius: var(
     --sky-override-autocomplete-results-container-border-radius,
