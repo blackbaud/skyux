@@ -1,11 +1,12 @@
 # Changelog
 
 
-## [14.15.1](https://github.com/blackbaud/skyux/compare/14.15.0...14.15.1) (2026-08-20)
+## [14.15.1](https://github.com/blackbaud/skyux/compare/14.15.0...14.15.1) (2026-08-21)
 
 
 ### Bug Fixes
 
+* **components/router:** add documentation for exported types ([#4661](https://github.com/blackbaud/skyux/issues/4661)) ([781f951](https://github.com/blackbaud/skyux/commit/781f951e3f1464b44536c07d6368dee63753f157)), closes [AB#4088898](https://dev.azure.com/blackbaud/Products/_workitems/edit/4088898)
 * dark mode flyouts, summary action bars, and back to top bars have an edge border ([#4633](https://github.com/blackbaud/skyux/issues/4633)) ([447a908](https://github.com/blackbaud/skyux/commit/447a90864dba77e95c965b3593ad82695e135517))
 
 ## [14.15.0](https://github.com/blackbaud/skyux/compare/14.14.0...14.15.0) (2026-08-19)
