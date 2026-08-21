@@ -25,12 +25,17 @@ describe('Phone field harness', () => {
     phoneFieldHarness: SkyPhoneFieldHarness;
     fixture: ComponentFixture<PhoneFieldHarnessTestComponent>;
     loader: HarnessLoader;
+    selectedCountryChangeSpy: jasmine.Spy;
   }> {
     await TestBed.configureTestingModule({
       imports: [PhoneFieldHarnessTestComponent],
     }).compileComponents();
 
     const fixture = TestBed.createComponent(PhoneFieldHarnessTestComponent);
+    const selectedCountryChangeSpy = spyOn(
+      fixture.componentInstance,
+      'selectedCountryChange',
+    );
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
     const phoneFieldHarness: SkyPhoneFieldHarness = options.dataSkyId
@@ -39,7 +44,7 @@ describe('Phone field harness', () => {
         )
       : await loader.getHarness(SkyPhoneFieldHarness);
 
-    return { phoneFieldHarness, fixture, loader };
+    return { phoneFieldHarness, fixture, loader, selectedCountryChangeSpy };
   }
 
   it('should use selected country', async () => {
@@ -61,10 +66,11 @@ describe('Phone field harness', () => {
   });
 
   it('should use newly selected country', async () => {
-    const { phoneFieldHarness, fixture } = await setupTest({
-      dataSkyId: DATA_SKY_ID,
-    });
-    fixture.componentInstance.selectedCountryChange.calls.reset();
+    const { phoneFieldHarness, fixture, selectedCountryChangeSpy } =
+      await setupTest({
+        dataSkyId: DATA_SKY_ID,
+      });
+    selectedCountryChangeSpy.calls.reset();
 
     if (COUNTRY_AU.name) {
       // change the country
@@ -86,9 +92,9 @@ describe('Phone field harness', () => {
     if (COUNTRY_AU?.iso2 && countryIos2) {
       expect(countryIos2).toBe(COUNTRY_AU.iso2);
     }
-    expect(
-      fixture.componentInstance.selectedCountryChange,
-    ).toHaveBeenCalledWith(jasmine.objectContaining(COUNTRY_AU));
+    expect(selectedCountryChangeSpy).toHaveBeenCalledWith(
+      jasmine.objectContaining(COUNTRY_AU),
+    );
 
     // enter a valid phone number for the new country
     await (await phoneFieldHarness.getControl()).setValue(VALID_AU_NUMBER);
@@ -103,12 +109,13 @@ describe('Phone field harness', () => {
   });
 
   it('should return expected country search results', async () => {
-    const { phoneFieldHarness, fixture } = await setupTest({
-      dataSkyId: DATA_SKY_ID,
-    });
+    const { phoneFieldHarness, fixture, selectedCountryChangeSpy } =
+      await setupTest({
+        dataSkyId: DATA_SKY_ID,
+      });
     fixture.detectChanges();
     await fixture.whenStable();
-    fixture.componentInstance.selectedCountryChange.calls.reset();
+    selectedCountryChangeSpy.calls.reset();
 
     if (COUNTRY_AU.name) {
       // search for a country by name
@@ -118,9 +125,7 @@ describe('Phone field harness', () => {
       await fixture.whenStable();
 
       // ensure no country selection has taken place yet
-      expect(
-        fixture.componentInstance.selectedCountryChange,
-      ).toHaveBeenCalledTimes(0);
+      expect(selectedCountryChangeSpy).toHaveBeenCalledTimes(0);
 
       // verify the country search results match the country
       // the dial code that exists as part of the result label is missing the leading '+'
