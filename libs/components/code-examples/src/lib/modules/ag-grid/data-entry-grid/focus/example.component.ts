@@ -1,5 +1,10 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import {
+  SkyAgGridModule,
+  SkyAgGridService,
+  SkyCellType,
+  defineSkyAgGridColDef,
+} from '@skyux/ag-grid';
 import { SkyInputBoxModule } from '@skyux/forms';
 
 import { AgGridAngular } from 'ag-grid-angular';
@@ -23,10 +28,12 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   imports: [AgGridAngular, SkyAgGridModule, SkyInputBoxModule],
 })
 export class AgGridDataEntryGridFocusExampleComponent {
-  protected gridOptions = inject(SkyAgGridService).getEditableGridOptions({
+  protected gridOptions = inject(
+    SkyAgGridService,
+  ).getEditableGridOptions<AgGridDemoRow>({
     gridOptions: {
       columnDefs: [
-        {
+        defineSkyAgGridColDef({
           field: 'name',
           headerName: 'Name',
           type: SkyCellType.Text,
@@ -37,8 +44,8 @@ export class AgGridDataEntryGridFocusExampleComponent {
               validatorMessage: `Value exceeds maximum length`,
             },
           },
-        },
-        {
+        }),
+        defineSkyAgGridColDef({
           field: 'age',
           headerName: 'Age',
           type: SkyCellType.Number,
@@ -50,7 +57,7 @@ export class AgGridDataEntryGridFocusExampleComponent {
             },
           },
           maxWidth: 60,
-        },
+        }),
         {
           field: 'startDate',
           headerName: 'Start date',
@@ -86,7 +93,7 @@ export class AgGridDataEntryGridFocusExampleComponent {
           type: [SkyCellType.CurrencyValidator],
           editable: true,
         },
-        {
+        defineSkyAgGridColDef({
           colId: 'validationDate',
           field: 'validationDate',
           headerName: 'Validation date',
@@ -99,7 +106,7 @@ export class AgGridDataEntryGridFocusExampleComponent {
               validatorMessage: 'Enter a future date',
             },
           },
-        },
+        }),
       ],
       focusGridInnerElement: (params) => {
         params.api.startEditingCell({
