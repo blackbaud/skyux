@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 
 import { SkyTokensComponent } from '../tokens.component';
+import { SkyToken } from '../types/token';
 
 @Component({
   selector: 'sky-tokens-projected-token-test',
@@ -10,4 +11,11 @@ import { SkyTokensComponent } from '../tokens.component';
 export class SkyTokensProjectedTokenTestComponent {
   @ViewChild(SkyTokensComponent, { read: ElementRef })
   public tokensElementRef: ElementRef | undefined;
+
+  @ViewChild(SkyTokensComponent)
+  public tokensComponent: SkyTokensComponent | undefined;
+
+  public tokens: SkyToken[] | undefined;
+
+  public includeAdditionalToken = false;
 }

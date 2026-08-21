@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -73,7 +74,14 @@ export class SkyTokenComponent {
    * @internal
    */
   @Input()
-  public role: string | undefined;
+  public set role(value: string | undefined) {
+    this.#_role = value;
+    this.#changeDetector.markForCheck();
+  }
+
+  public get role(): string | undefined {
+    return this.#_role;
+  }
 
   /**
    * Fires when users click the close button.
@@ -97,11 +105,13 @@ export class SkyTokenComponent {
 
   #elementRef = inject(ElementRef);
 
+  readonly #changeDetector = inject(ChangeDetectorRef);
   readonly #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
   readonly #resourcesSvc = inject(SkyLibResourcesService);
 
   #_disabled = false;
   #_dismissible = true;
+  #_role: string | undefined;
 
   protected onFocusIn(): void {
     if (!this.isFocused) {

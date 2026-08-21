@@ -167,6 +167,56 @@ describe('Tokens component', () => {
       }
     });
 
+    it('should set role="row" on projected sky-token elements when the grid role is active, and update it as tokens change', () => {
+      const projectedTokenFixture = TestBed.createComponent(
+        SkyTokensProjectedTokenTestComponent,
+      );
+      projectedTokenFixture.detectChanges();
+
+      const getProjectedTokenRoles = (): (string | undefined)[] | undefined =>
+        projectedTokenFixture.componentInstance.tokensComponent?.projectedTokenComponents?.map(
+          (token) => token.role,
+        );
+
+      expect(getProjectedTokenRoles()).toEqual([undefined, undefined]);
+
+      projectedTokenFixture.componentInstance.tokens = [
+        { value: { name: 'Red' } },
+      ];
+      projectedTokenFixture.detectChanges();
+
+      expect(getProjectedTokenRoles()).toEqual(['row', 'row']);
+
+      projectedTokenFixture.componentInstance.tokens = [];
+      projectedTokenFixture.detectChanges();
+
+      expect(getProjectedTokenRoles()).toEqual([undefined, undefined]);
+
+      projectedTokenFixture.destroy();
+    });
+
+    it('should set role="row" on sky-token elements projected after the grid role is already active', () => {
+      const projectedTokenFixture = TestBed.createComponent(
+        SkyTokensProjectedTokenTestComponent,
+      );
+      projectedTokenFixture.componentInstance.tokens = [
+        { value: { name: 'Red' } },
+      ];
+      projectedTokenFixture.detectChanges();
+
+      projectedTokenFixture.componentInstance.includeAdditionalToken = true;
+      projectedTokenFixture.detectChanges();
+
+      const roles =
+        projectedTokenFixture.componentInstance.tokensComponent?.projectedTokenComponents?.map(
+          (token) => token.role,
+        );
+
+      expect(roles).toEqual(['row', 'row', 'row']);
+
+      projectedTokenFixture.destroy();
+    });
+
     it('should respect trackWith', () => {
       component.trackWith = 'id';
       component.data = [
