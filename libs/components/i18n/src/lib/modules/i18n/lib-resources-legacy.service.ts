@@ -6,7 +6,11 @@ import { map } from 'rxjs/operators';
 
 import { Format } from '../../utils/format';
 
-import { getLibStringForLocale } from './get-lib-string-for-locale';
+import {
+  addLibResources,
+  getLibResources,
+  getLibStringForLocale,
+} from './get-lib-string-for-locale';
 import { SkyLibResources } from './lib-resources';
 import { SkyLibResourcesProvider } from './lib-resources-provider';
 import { SKY_LIB_RESOURCES_PROVIDERS } from './lib-resources-providers-token';
@@ -29,8 +33,6 @@ type ResourceDictionary = Record<string, ResourceKey | TemplatedResource>;
   providedIn: 'root',
 })
 export class SkyLibResourcesLegacyService {
-  private static resources: Record<string, SkyLibResources> = {};
-
   #localeProvider: SkyAppLocaleProvider;
   #providers: SkyLibResourcesProvider[] | undefined;
   #resourceNameProvider: SkyAppResourceNameProvider | undefined;
@@ -57,13 +59,7 @@ export class SkyLibResourcesLegacyService {
   public static addResources(
     localeResources: Record<string, SkyLibResources>,
   ): void {
-    for (const [locale, resources] of Object.entries(localeResources)) {
-      SkyLibResourcesLegacyService.resources[locale] ||= {};
-      SkyLibResourcesLegacyService.resources[locale] = {
-        ...SkyLibResourcesLegacyService.resources[locale],
-        ...resources,
-      };
-    }
+    addLibResources(localeResources);
   }
 
   /**
@@ -141,11 +137,7 @@ export class SkyLibResourcesLegacyService {
     let value: string | undefined;
 
     // First, look in the static 'resources' property.
-    value = getLibStringForLocale(
-      SkyLibResourcesLegacyService.resources,
-      info.locale,
-      name,
-    );
+    value = getLibStringForLocale(getLibResources(), info.locale, name);
 
     // If it's not found there, look in the providers.
     if (value === undefined && this.#providers) {
