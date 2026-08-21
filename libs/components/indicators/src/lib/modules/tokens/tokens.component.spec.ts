@@ -133,13 +133,15 @@ describe('Tokens component', () => {
         projectedTokenFixture.detectChanges();
 
         const hostElement =
-          projectedTokenFixture.componentInstance.tokensElementRef?.nativeElement;
+          projectedTokenFixture.componentInstance.tokensElementRef
+            ?.nativeElement;
         if (!hostElement) {
           fail('Expected SkyTokensComponent ElementRef to be available.');
           return;
         }
 
-        const tokensRoot = hostElement.querySelector<HTMLElement>('.sky-tokens');
+        const tokensRoot =
+          hostElement.querySelector<HTMLElement>('.sky-tokens');
         if (!tokensRoot) {
           fail('Expected .sky-tokens element to exist.');
           return;
