@@ -18,5 +18,7 @@ import { SkyFluidGridGutterSizeType, SkyFluidGridModule } from '@skyux/layout';
 export class FluidGridHarnessTestComponent {
   public gutterSize = input<SkyFluidGridGutterSizeType | undefined>(undefined);
 
-  public disableMargin = input(false);
+  public disableMargin = input<boolean | undefined>(undefined);
+
+  public inset = input<boolean | undefined>(undefined);
 }

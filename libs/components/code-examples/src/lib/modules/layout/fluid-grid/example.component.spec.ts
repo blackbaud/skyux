@@ -49,7 +49,7 @@ describe('Basic fluid grid', () => {
 
     await expectAsync(fluidGridHarness.hasMargin()).toBeResolvedTo(true);
 
-    fixture.componentInstance.disableMargin = true;
+    fixture.componentInstance.inset = false;
     fixture.detectChanges();
 
     await expectAsync(fluidGridHarness.hasMargin()).toBeResolvedTo(false);
