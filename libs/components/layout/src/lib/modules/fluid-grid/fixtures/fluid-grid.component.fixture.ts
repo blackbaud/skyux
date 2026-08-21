@@ -10,5 +10,7 @@ import { SkyFluidGridGutterSizeType } from '../types/fluid-grid-gutter-size-type
 export class FluidGridTestComponent {
   public disableMargin = input<boolean | undefined>(undefined);
 
+  public inset = input<boolean | undefined>(undefined);
+
   public gutterSize = input<SkyFluidGridGutterSizeType | undefined>(undefined);
 }

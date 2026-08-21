@@ -39,6 +39,11 @@
       "version": "0.0.0-PLACEHOLDER",
       "factory": "./src/schematics/migrations/update-15/migrate-sdk-testing-imports/migrate-sdk-testing-imports.schematic",
       "description": "Move SkyAppTestUtility, SkyAppTestUtilityDomEventOptions, and SkyBy imports from the deprecated @skyux-sdk/testing package to @skyux/core/testing."
+    },
+    "fluid-grid-inset": {
+      "version": "0.0.0-PLACEHOLDER",
+      "factory": "./src/schematics/migrations/update-15/fluid-grid-inset/fluid-grid-inset.schematic",
+      "description": "Migrate sky-fluid-grid elements from the deprecated disableMargin input to the new inset input, since hiding the outer margin is now the default behavior."
     }
   }
 }
