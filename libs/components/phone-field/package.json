@@ -32,10 +32,5 @@
     "intl-tel-input": "29.1.2",
     "tslib": "^2.8.1"
   },
-  "peerDependenciesMeta": {
-    "@skyux-sdk/testing": {
-      "optional": true
-    }
-  },
   "sideEffects": false
 }

@@ -18,8 +18,7 @@
             "forms",
             "indicators",
             "inline-form",
-            "popovers",
-            "testing"
+            "popovers"
           ],
           "target": "build"
         }

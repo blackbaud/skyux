@@ -1,6 +1,10 @@
 // Export any types that should be included in the root.
 export { SkyAgGridModule } from './lib/modules/ag-grid/ag-grid.module';
 export { SkyAgGridService } from './lib/modules/ag-grid/ag-grid.service';
+export {
+  defineSkyAgGridColDef,
+  type SkyAgGridColDef,
+} from './lib/modules/ag-grid/types/ag-grid-col-def';
 export { SkyAgGridRowDeleteCancelArgs } from './lib/modules/ag-grid/types/ag-grid-row-delete-cancel-args';
 export { SkyAgGridRowDeleteConfirmArgs } from './lib/modules/ag-grid/types/ag-grid-row-delete-confirm-args';
 export {
@@ -12,7 +16,10 @@ export { SkyCellEditorAutocompleteParams } from './lib/modules/ag-grid/types/cel
 export { SkyCellEditorDatepickerParams } from './lib/modules/ag-grid/types/cell-editor-datepicker-params';
 export { SkyAgGridCellEditorInitialAction } from './lib/modules/ag-grid/types/cell-editor-initial-action';
 export { SkyCellEditorLookupParams } from './lib/modules/ag-grid/types/cell-editor-lookup-params';
+export type { SkyCellEditorParamsByType } from './lib/modules/ag-grid/types/cell-editor-params-by-type';
 export { SkyAgGridCellEditorUtils } from './lib/modules/ag-grid/types/cell-editor-utils';
+export type { SkyCellRendererParamsByType } from './lib/modules/ag-grid/types/cell-renderer-params-by-type';
+export type { SkyCellRendererTemplateContext } from './lib/modules/ag-grid/types/cell-renderer-template-context';
 export { SkyCellType } from './lib/modules/ag-grid/types/cell-type';
 export { SkyAgGridCurrencyProperties } from './lib/modules/ag-grid/types/currency-properties';
 export {

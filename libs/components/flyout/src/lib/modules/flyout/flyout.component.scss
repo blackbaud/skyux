@@ -32,7 +32,12 @@
   );
   --sky-comp-override-list-header-background-color: initial;
 
-  border-left: var(--sky-override-flyout-border-left);
+  border-left: var(
+    --sky-override-flyout-border-left,
+    var(--sky-border-width-container-base)
+      var(--sky-border-style-container-overlay)
+      var(--sky-color-border-container-base)
+  );
 
   transform: translateX(100%);
   transition-duration: var(--sky-global-duration-medium);
