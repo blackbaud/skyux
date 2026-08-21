@@ -28,28 +28,28 @@ describe('remove-class-reference', () => {
   it('should remove the last entry in a decorator imports array and import', () => {
     const content = `import { SkyListViewGridModule, SkyGridModule } from 'module';\n\n@Component({\n  imports: [SkyListViewGridModule, SkyGridModule],\n})\nclass Test {}`;
     expect(run(content)).toBe(
-      `import { SkyListViewGridModule, } from 'module';\n\n@Component({\n  imports: [SkyListViewGridModule],\n})\nclass Test {}`,
+      `import { SkyListViewGridModule } from 'module';\n\n@Component({\n  imports: [SkyListViewGridModule],\n})\nclass Test {}`,
     );
   });
 
   it('should remove the first entry in a decorator imports array and import', () => {
     const content = `import { SkyGridModule, SkyListViewGridModule } from 'module';\n\n@Component({\n  imports: [SkyGridModule, SkyListViewGridModule],\n})\nclass Test {}`;
     expect(run(content)).toBe(
-      `import {  SkyListViewGridModule } from 'module';\n\n@Component({\n  imports: [SkyListViewGridModule],\n})\nclass Test {}`,
+      `import { SkyListViewGridModule } from 'module';\n\n@Component({\n  imports: [SkyListViewGridModule],\n})\nclass Test {}`,
     );
   });
 
   it('should leave an empty array when it is the only entry', () => {
     const content = `import { SkyGridModule } from 'module';\n\n@Component({\n  imports: [SkyGridModule],\n})\nclass Test {}`;
     expect(run(content)).toBe(
-      `\n\n@Component({\n  imports: [],\n})\nclass Test {}`,
+      `\n@Component({\n  imports: [],\n})\nclass Test {}`,
     );
   });
 
   it('should only remove the matching class from the import statement', () => {
     const content = `import { SkyGridModule, SkyGridComponent } from 'module';\n\n@Component({\n  imports: [SkyGridModule],\n})\nclass Test {}`;
     expect(run(content)).toBe(
-      `import {  SkyGridComponent } from 'module';\n\n@Component({\n  imports: [],\n})\nclass Test {}`,
+      `import { SkyGridComponent } from 'module';\n\n@Component({\n  imports: [],\n})\nclass Test {}`,
     );
   });
 
