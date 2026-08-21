@@ -35,6 +35,7 @@ export class VerticalTabsetTestComponent {
   public tab1AriaRole = input<string | undefined>('tab');
   public tab1Id = input<string | undefined>('some-tab');
   public tab1Required = false;
+  public tabWidth: string | undefined;
   public tabsetAriaRole = input<string | undefined>('tablist');
 
   @ViewChild(SkyVerticalTabsetComponent)

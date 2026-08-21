@@ -10,7 +10,10 @@ import {
   OnInit,
   Output,
   ViewChild,
+  computed,
   inject,
+  input,
+  signal,
 } from '@angular/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
@@ -21,6 +24,12 @@ import { SkyTabIdService } from '../shared/tab-id.service';
 
 import { SkyVerticalTabsetAdapterService } from './vertical-tabset-adapter.service';
 import { SkyVerticalTabsetService } from './vertical-tabset.service';
+
+/**
+ * The default width of the tabs pane. Also serves as the maximum width of the
+ * pane for any `tabWidth` value.
+ */
+const DEFAULT_TAB_WIDTH = '25%';
 
 @Component({
   selector: 'sky-vertical-tabset',
@@ -86,6 +95,17 @@ export class SkyVerticalTabsetComponent
   public maintainTabContent: boolean | undefined = false;
 
   /**
+   * The width of the tabs pane as a CSS width value (such as `200px`, `15rem`,
+   * or `20%`). Set to `"auto"` to size based on tab label content. Maximum
+   * width is 25%.
+   * @default "25%"
+   */
+  public readonly tabWidth = input(DEFAULT_TAB_WIDTH, {
+    transform: (value: string | undefined): string =>
+      value?.trim() || DEFAULT_TAB_WIDTH,
+  });
+
+  /**
    * Fires when the active tab changes. Emits the index of the active tab. The
    * index is based on the tab's position when it loads.
    */
@@ -103,7 +123,7 @@ export class SkyVerticalTabsetComponent
 
   public ariaOwns: string | undefined;
 
-  public isMobile = false;
+  public readonly isMobile = signal(false);
 
   protected tablistHasFocus = false;
 
@@ -133,13 +153,11 @@ export class SkyVerticalTabsetComponent
     this.tabService.switchingMobile
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((mobile: boolean) => {
-        this.isMobile = mobile;
-        this.#changeRef.markForCheck();
+        this.isMobile.set(mobile);
       });
 
     if (this.tabService.isMobile()) {
-      this.isMobile = true;
-      this.#changeRef.markForCheck();
+      this.isMobile.set(true);
     }
     if (!this.showTabsText) {
       this.#resources
@@ -188,4 +206,12 @@ export class SkyVerticalTabsetComponent
   protected tabGroupsArrowUp(): void {
     this.adapterService.focusPreviousButton(this.tabGroups);
   }
+
+  protected readonly tabGroupContainerFlexBasis = computed<string | undefined>(
+    () => (this.isMobile() ? undefined : this.tabWidth()),
+  );
+
+  protected readonly tabGroupContainerMaxWidth = computed<string | undefined>(
+    () => (this.isMobile() ? undefined : DEFAULT_TAB_WIDTH),
+  );
 }
