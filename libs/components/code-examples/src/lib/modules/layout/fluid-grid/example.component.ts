@@ -21,5 +21,5 @@ import { SkyFluidGridGutterSizeType, SkyFluidGridModule } from '@skyux/layout';
 })
 export class LayoutFluidGridExampleComponent {
   public gutterSize: SkyFluidGridGutterSizeType | undefined;
-  public disableMargin = false;
+  public inset = true;
 }
