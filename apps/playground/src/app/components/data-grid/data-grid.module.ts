@@ -14,6 +14,24 @@ const routes: ComponentRouteInfo[] = [
     },
   },
   {
+    path: 'fit-layout',
+    loadComponent: () => import('./fit-layout/fit-layout.component'),
+    data: {
+      name: 'Data Grid fit layout',
+      icon: 'table',
+      library: 'data-grid',
+    },
+  },
+  {
+    path: 'fit-tabs',
+    loadComponent: () => import('./fit-tabs/fit-tabs.component'),
+    data: {
+      name: 'Data Grid fit tabs',
+      icon: 'table',
+      library: 'data-grid',
+    },
+  },
+  {
     path: 'paging',
     loadComponent: () => import('./paging/grid-paging.component'),
     data: {

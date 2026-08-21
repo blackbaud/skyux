@@ -1,0 +1,32 @@
+<ng-template #pct let-value="value">
+  {{ value | skyPercent }}
+</ng-template>
+<sky-page layout="fit">
+  <sky-page-header pageTitle="Data grid fit layout">
+    <sky-page-header-actions>
+      <button
+        class="sky-btn sky-btn-default"
+        type="button"
+        routerLink="/components/data-grid/fit-tabs"
+      >
+        Data grid fit layout with tabs
+      </button>
+    </sky-page-header-actions>
+  </sky-page-header>
+
+  <sky-page-content>
+    <sky-data-grid dock="fill" [data]="data">
+      @for (column of columns; track column.field) {
+        <sky-data-grid-column
+          [columnHidden]="column.columnHidden"
+          [dataType]="column.dataType"
+          [field]="column.field"
+          [headingText]="column.headingText"
+          [sortable]="column.sortable"
+          [template]="column.field.endsWith('%') ? pct : undefined"
+          [width]="column.width"
+        />
+      }
+    </sky-data-grid>
+  </sky-page-content>
+</sky-page>

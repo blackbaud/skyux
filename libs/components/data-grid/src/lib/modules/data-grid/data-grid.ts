@@ -5,6 +5,7 @@ import {
   coerceStringArray,
 } from '@angular/cdk/coercion';
 import {
+  afterRenderEffect,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -66,6 +67,7 @@ import {
 import { SkyDataGridRowData } from '../types/data-grid-row-data';
 import { SkyDataGridSort } from '../types/data-grid-sort';
 
+import { SkyDataGridDockType } from '../types/data-grid-dock-type';
 import { SkyDataGridColumn } from './data-grid-column';
 import { SkyDataGridColumnInlineHelp } from './data-grid-column-inline-help';
 import { fromGridEvent } from './data-grid-event-utils';
@@ -97,6 +99,8 @@ function arraySorted(arr: string[]): string[] {
   return arr.slice().sort((a, b) => a.localeCompare(b));
 }
 
+const DEFAULT_DOCK_TYPE: SkyDataGridDockType = 'none';
+
 /**
  * Displays tabular data in a grid using a declarative set of columns and inputs.
  * Provide the `data` array and one `sky-data-grid-column` for each column to render.
@@ -114,6 +118,7 @@ function arraySorted(arr: string[]): string[] {
   templateUrl: './data-grid.html',
   styleUrl: './data-grid.css',
   host: {
+    '[class.fill-dock]': 'useFillDock()',
     '[class.sky-margin-stacked-lg]': 'stacked()',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -171,6 +176,14 @@ export class SkyDataGrid {
    * the grid will show a "no rows" message.
    */
   public readonly data = input<SkyDataGridRowData[] | null | undefined>();
+
+  /**
+   * How the data grid docks to the page. Use `fill` to dock the data grid to the container's size where the container
+   * is a sky-page component with its layout set to `fit`, or where the container is another element with a relative or
+   * absolute position and a fixed size.
+   * @default "none"
+   */
+  public readonly dock = input<SkyDataGridDockType>(DEFAULT_DOCK_TYPE);
 
   /**
    * The text to read to screen readers to describe the grid. This sets the `aria-label` attribute on the grid container.
@@ -301,7 +314,9 @@ export class SkyDataGrid {
         context: {
           enableTopScroll: untracked(() => this.topScrollEnabled()),
         },
-        domLayout: 'autoHeight',
+        domLayout: untracked(() =>
+          this.useFillDock() ? 'normal' : 'autoHeight',
+        ),
         initialState: sort
           ? {
               sort: {
@@ -377,6 +392,10 @@ export class SkyDataGrid {
     }
     return classes;
   });
+
+  protected readonly useFillDock = computed(
+    () => this.dock() !== DEFAULT_DOCK_TYPE,
+  );
 
   readonly #activatedRoute = inject(ActivatedRoute, { optional: true });
   readonly #gridService = inject(SkyAgGridService);
@@ -454,15 +473,26 @@ export class SkyDataGrid {
     // `gridApi` untracked because a recreated grid rebuilds its options from the
     // `gridOptions` computed; the selection and page effects below instead track
     // `gridApi` so they re-apply their state to a freshly created grid.
-    effect(() => {
-      const api = untracked(() => this.gridApi());
-      const columnDefs = this.#columnDefs();
-      api?.setGridOption('columnDefs', columnDefs);
+
+    // Using `afterRenderEffect` for columns because we need the results from
+    // `contentChildren` for the column definitions, and this allows columns
+    // that use control flow or inputs to stabilize.
+    afterRenderEffect({
+      earlyRead: () => {
+        const api = untracked(() => this.gridApi());
+        const columnDefs = this.#columnDefs();
+        api?.setGridOption('columnDefs', columnDefs);
+      },
     });
     effect(() => {
       const api = untracked(() => this.gridApi());
       const isLoading = this.loading() || !Array.isArray(this.data());
       api?.setGridOption('loading', isLoading);
+    });
+    effect(() => {
+      const api = untracked(() => this.gridApi());
+      const domLayout = this.useFillDock() ? 'normal' : 'autoHeight';
+      api?.setGridOption('domLayout', domLayout);
     });
     effect(() => {
       const api = untracked(() => this.gridApi());
