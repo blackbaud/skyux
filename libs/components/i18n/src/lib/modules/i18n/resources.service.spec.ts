@@ -506,6 +506,112 @@ describe('Resources service', () => {
     });
   });
 
+  describe('error resilience', () => {
+    it('should fall back to the resource key names when the locale provider errors (getStrings)', (done) => {
+      const mockLocaleProvider: SkyAppLocaleProvider = {
+        defaultLocale: 'en-US',
+        getLocaleInfo: () => observableThrowError(new Error()),
+      };
+
+      configureTestingModule(mockLocaleProvider);
+      injectServices();
+
+      resources
+        .getStrings({
+          hi: 'hi',
+          template: ['template', 'a', 'b'],
+        })
+        .pipe(take(1))
+        .subscribe((values) => {
+          expect(values.hi).toBe('hi');
+          expect(values.template).toBe('template');
+          done();
+        });
+    });
+
+    it('should keep emitting getString values for subsequent locales after a locale resolution error', () => {
+      const localeInfo$ = new BehaviorSubject<{ locale: string }>({
+        locale: 'en-US',
+      });
+
+      const mockLocaleProvider: SkyAppLocaleProvider = {
+        defaultLocale: 'en-US',
+        getLocaleInfo: () => localeInfo$,
+      };
+
+      let shouldError = true;
+      const mockResourceNameProvider: SkyAppResourceNameProvider = {
+        getResourceName: (name: string) =>
+          shouldError ? observableThrowError(new Error()) : observableOf(name),
+      };
+
+      configureTestingModule(mockLocaleProvider, mockResourceNameProvider);
+      injectServices();
+
+      const emissions: string[] = [];
+
+      resources.getString('hi').subscribe((value) => emissions.push(value));
+
+      // The resource name provider errors, so this emission falls back to
+      // the raw name, but the outer locale stream must stay alive.
+      expect(emissions).toEqual(['hi']);
+
+      // A subsequent locale change should still produce a new emission.
+      shouldError = false;
+      localeInfo$.next({ locale: 'fr-CA' });
+
+      httpMock.expectOne(frCaUrl).flush({
+        hi: { message: 'bonjour' },
+      });
+
+      expect(emissions).toEqual(['hi', 'bonjour']);
+    });
+
+    it('should only emit once when the locale provider emits a duplicate locale', () => {
+      const localeInfo$ = new BehaviorSubject<{ locale: string }>({
+        locale: 'en-US',
+      });
+
+      const mockLocaleProvider: SkyAppLocaleProvider = {
+        defaultLocale: 'en-US',
+        getLocaleInfo: () => localeInfo$,
+      };
+
+      configureTestingModule(mockLocaleProvider);
+      injectServices();
+
+      const emissions: string[] = [];
+
+      resources.getString('hi').subscribe((value) => emissions.push(value));
+
+      addTestResourceResponse(enUsUrl);
+
+      expect(emissions).toEqual(['hello']);
+
+      // Re-emitting the same locale should not produce a duplicate emission.
+      localeInfo$.next({ locale: 'en-US' });
+
+      expect(emissions).toEqual(['hello']);
+    });
+
+    it('should fall back to the name if getUrl throws for getStringForLocale', (done) => {
+      configureTestingModule();
+      injectServices();
+
+      mockAssetsService.getUrl = (): never => {
+        throw new Error('boom');
+      };
+
+      resources
+        .getStringForLocale({ locale: 'es-MX' }, 'hi')
+        .pipe(take(1))
+        .subscribe((value: string) => {
+          expect(value).toBe('hi');
+          done();
+        });
+    });
+  });
+
   describe('getStrings when the locale changes', () => {
     let localeInfo$: BehaviorSubject<{ locale: string }>;
 

@@ -4,13 +4,19 @@ import { SkyAppAssetsService } from '@skyux/assets';
 
 import {
   combineLatest,
+  defer,
   EMPTY,
   Observable,
   of as observableOf,
   ReplaySubject,
   share,
 } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import {
+  catchError,
+  distinctUntilChanged,
+  map,
+  switchMap,
+} from 'rxjs/operators';
 
 import { Format } from '../../utils/format';
 
@@ -69,9 +75,13 @@ export class SkyAppResourcesService {
    */
   public getString(name: string, ...args: unknown[]): Observable<string> {
     return this.#localeProvider.getLocaleInfo().pipe(
+      distinctUntilChanged((a, b) => a.locale === b.locale),
       switchMap((localeInfo) =>
-        this.getStringForLocale(localeInfo, name, ...args),
+        this.getStringForLocale(localeInfo, name, ...args).pipe(
+          catchError(() => observableOf(name)),
+        ),
       ),
+      // Last resort in case the locale provider itself errors.
       catchError(() => observableOf(name)),
     );
   }
@@ -107,9 +117,18 @@ export class SkyAppResourcesService {
       return EMPTY;
     }
 
-    const resourcesObs = this.#localeProvider
-      .getLocaleInfo()
-      .pipe(switchMap((locale) => this.#getLocaleResourceObservable(locale)));
+    // If resolution fails (e.g. the locale provider errors), fall back to a
+    // dictionary mapping each object key to its raw resource key name, which
+    // matches `#getResourceString`'s behavior when no resources are available.
+    const getFallbackDictionary = (): { [K in keyof T]: string } =>
+      Object.fromEntries(entries.map(({ objKey, name }) => [objKey, name])) as {
+        [K in keyof T]: string;
+      };
+
+    const resourcesObs = this.#localeProvider.getLocaleInfo().pipe(
+      distinctUntilChanged((a, b) => a.locale === b.locale),
+      switchMap((localeInfo) => this.#getLocaleResourceObservable(localeInfo)),
+    );
     const mappedNames$ = combineLatest(
       entries.map(({ name }) => this.#getMappedNameObs(name)),
     );
@@ -124,6 +143,7 @@ export class SkyAppResourcesService {
             ]),
           ) as { [K in keyof T]: string },
       ),
+      catchError(() => observableOf(getFallbackDictionary())),
     );
   }
 
@@ -138,7 +158,12 @@ export class SkyAppResourcesService {
     name: string,
     ...args: unknown[]
   ): Observable<string> {
-    const resourcesObs = this.#getLocaleResourceObservable(localeInfo);
+    // Deferred so that a synchronous error (e.g. a throwing
+    // `SkyAppAssetsService.getUrl()`) surfaces as an error on the observable
+    // instead of throwing synchronously when this method is called.
+    const resourcesObs = defer(() =>
+      this.#getLocaleResourceObservable(localeInfo),
+    ).pipe(catchError(() => getDefaultObs()));
     const mappedNameObs = this.#getMappedNameObs(name);
     return combineLatest([mappedNameObs, resourcesObs]).pipe(
       map(([mappedName, resources]): string =>

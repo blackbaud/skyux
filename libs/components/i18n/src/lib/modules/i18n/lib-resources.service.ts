@@ -2,7 +2,7 @@
 import { Inject, Injectable, Optional } from '@angular/core';
 
 import { EMPTY, Observable, combineLatest, of as observableOf } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 
 import { Format } from '../../utils/format';
 
@@ -63,7 +63,9 @@ export class SkyLibResourcesService {
    */
   public getString(name: string, ...args: unknown[]): Observable<string> {
     const mappedNameObs = this.#getMappedNameObs(name);
-    const localeInfoObs = this.#localeProvider.getLocaleInfo();
+    const localeInfoObs = this.#localeProvider
+      .getLocaleInfo()
+      .pipe(distinctUntilChanged((a, b) => a.locale === b.locale));
     return combineLatest([mappedNameObs, localeInfoObs]).pipe(
       map(([mappedName, localeInfo]) =>
         this.getStringForLocale(localeInfo, mappedName, ...args),
@@ -107,10 +109,11 @@ export class SkyLibResourcesService {
       entries.map(({ name }) => this.#getMappedNameObs(name)),
     );
 
-    return combineLatest([
-      mappedNames$,
-      this.#localeProvider.getLocaleInfo(),
-    ]).pipe(
+    const localeInfoObs = this.#localeProvider
+      .getLocaleInfo()
+      .pipe(distinctUntilChanged((a, b) => a.locale === b.locale));
+
+    return combineLatest([mappedNames$, localeInfoObs]).pipe(
       map(([mappedNames, localeInfo]) => {
         const strings = {} as { [K in keyof T]: string };
         entries.forEach(({ objKey, args }, i) => {
