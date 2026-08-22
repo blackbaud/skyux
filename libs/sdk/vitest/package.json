@@ -24,8 +24,8 @@
       "types": "./globals.d.ts"
     },
     "./matchers-setup.js": {
-      "types": "./src/lib/matchers-setup.d.ts",
-      "default": "./src/lib/matchers-setup.js"
+      "types": "./matchers-setup.d.ts",
+      "default": "./matchers-setup.js"
     }
   },
   "schematics": "@skyux-sdk/testing-schematics/collection.json",
