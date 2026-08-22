@@ -29,6 +29,7 @@ import { ColorpickerTestComponent } from './fixtures/colorpicker-component.fixtu
 import { SkyColorpickerFixturesModule } from './fixtures/colorpicker-fixtures.module';
 import { ColorpickerReactiveTestComponent } from './fixtures/colorpicker-reactive-component.fixture';
 import { SkyColorpickerMessageType } from './types/colorpicker-message-type';
+import { SkyColorpickerOutput } from './types/colorpicker-output';
 
 interface ColorpickerInputElements {
   hex: HTMLInputElement;
@@ -1438,7 +1439,7 @@ describe('Colorpicker Component', () => {
       await setInputElementValue(nativeElement, 'hex', '#2B7230');
       applyColorpicker();
       await fixture.whenStable();
-      expect(component.colorForm.get('colorModel')?.value).toBe('#2b7230');
+      expect(component.colorForm.get('colorModel')?.value.hex).toBe('#2b7230');
     }));
 
     it('should reset colorpicker via reset button.', fakeAsync(async () => {
@@ -1811,7 +1812,9 @@ describe('Colorpicker Component', () => {
       </sky-colorpicker>`,
     })
     class ColorpickerSignalFormFixtureComponent {
-      public readonly model = signal<string | undefined>(undefined);
+      public readonly model = signal<SkyColorpickerOutput | string | undefined>(
+        undefined,
+      );
       public readonly isDisabled = signal(false);
       public readonly colorForm = form(this.model, (path) => {
         disabled(path, { when: () => this.isDisabled() });
@@ -1842,6 +1845,24 @@ describe('Colorpicker Component', () => {
         testComponent.model.set('#ff0000');
         fixture.detectChanges();
       }).not.toThrow();
+
+      expect(inputEl.value).toBe('rgba(255,0,0,1)');
+    });
+
+    it('should accept a `SkyColorpickerOutput` object as the field value, matching the pre-signal-forms contract', () => {
+      const output: SkyColorpickerOutput = {
+        hslaText: 'hsla(0,100%,50%,1)',
+        rgbaText: 'rgba(255,0,0,1)',
+        cmykText: 'cmyk(0%,100%,100%,0%)',
+        hsva: { hue: 0, saturation: 100, value: 100, alpha: 1 },
+        rgba: { red: 255, green: 0, blue: 0, alpha: 1 },
+        hsla: { hue: 0, saturation: 100, lightness: 50, alpha: 1 },
+        cmyk: { cyan: 0, magenta: 100, yellow: 100, key: 0 },
+        hex: '#f00',
+      };
+
+      testComponent.model.set(output);
+      fixture.detectChanges();
 
       expect(inputEl.value).toBe('rgba(255,0,0,1)');
     });

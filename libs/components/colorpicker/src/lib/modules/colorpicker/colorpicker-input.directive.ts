@@ -12,6 +12,7 @@ import {
   model,
   output,
 } from '@angular/core';
+import { NgControl } from '@angular/forms';
 import type { FormValueControl } from '@angular/forms/signals';
 import { SkyRequiredStateDirective } from '@skyux/forms';
 import { SkyLibResourcesService } from '@skyux/i18n';
@@ -59,7 +60,11 @@ const SKY_COLORPICKER_DEFAULT_COLOR = '#FFFFFF';
   },
 })
 export class SkyColorpickerInputDirective
-  implements FormValueControl<string | undefined>, OnInit, OnChanges, OnDestroy
+  implements
+    FormValueControl<SkyColorpickerOutput | string | undefined>,
+    OnInit,
+    OnChanges,
+    OnDestroy
 {
   /**
    * Creates the colorpicker element and dropdown. Place this attribute on an `input` element
@@ -144,11 +149,18 @@ export class SkyColorpickerInputDirective
   public allowTransparency = true;
 
   /**
-   * Implemented as part of `FormValueControl`. Holds the color in the format
-   * `outputFormat` specifies (`rgba` by default). Kept in sync with the bound
-   * `[formField]`, `formControl`/`formControlName`, or `ngModel`.
+   * Implemented as part of `FormValueControl`. Accepts either a color string
+   * or a `SkyColorpickerOutput` object as an incoming value (matching the
+   * loose contract the previous `ControlValueAccessor.writeValue(value: any)`
+   * accepted), but always emits a full `SkyColorpickerOutput` object back to
+   * the bound `[formField]`, `formControl`/`formControlName`, or `ngModel`
+   * when the user selects a color. This preserves the pre-existing contract
+   * where consumers read properties such as `value.hex` or
+   * `value.rgba.alpha` off the bound control's value.
    */
-  public readonly value = model<string | undefined>(undefined);
+  public readonly value = model<SkyColorpickerOutput | string | undefined>(
+    undefined,
+  );
 
   /**
    * Implemented as part of `FormUiControl`. Reflects the bound field's
@@ -185,6 +197,19 @@ export class SkyColorpickerInputDirective
   #labelText: string | undefined;
 
   #_initialColor: string | undefined;
+
+  /**
+   * Only populated for reactive/template-driven form bindings
+   * (`formControlName`, `[formControl]`, `[ngModel]`) — `[formField]`
+   * (signal forms) bindings have no `NgControl`. Used solely to normalize
+   * a bound `AbstractControl`'s value into the full `SkyColorpickerOutput`
+   * object those pre-existing consumers already depend on
+   * (`control.value.hex`, `control.value.rgba.alpha`, etc.), matching this
+   * directive's previous `ControlValueAccessor`-based contract. Written to
+   * directly (bypassing `value.set()`), since `value.set()` always marks
+   * the field dirty, even for values that didn't originate from the user.
+   */
+  readonly #ngControl = inject(NgControl, { optional: true, self: true });
 
   readonly #colorpickerInputSvc = inject(SkyColorpickerInputService);
   readonly #ngUnsubscribe = new Subject<void>();
@@ -347,9 +372,13 @@ export class SkyColorpickerInputDirective
    * Applies a value that originated outside this directive (the bound
    * field's initial value, a schema-driven reset, `initialColor`, a
    * programmatic `SkyColorpickerMessageType.Reset` message, etc.). Unlike
-   * `#applyColor`, this does not write back to `value`, since the value
+   * `#applyColor`, this does not call `value.set()`, since the value
    * already came from there (or from a deprecated input that only seeds
-   * the field before it has a value).
+   * the field before it has a value), and `value.set()` always marks the
+   * field dirty, which an externally-driven value shouldn't do. For
+   * reactive/template-driven forms only, a string value is still
+   * normalized into the full `SkyColorpickerOutput` object by writing
+   * directly to the bound `NgControl`'s `AbstractControl` instead.
    *
    * Normalizes `value` and compares it against `#renderedValue` (the last
    * value actually rendered, from any source) rather than a separate
@@ -360,7 +389,7 @@ export class SkyColorpickerInputDirective
    * a different format (still rendered, since `#renderedValue` reflects
    * what's currently displayed, not what was last sent to the form).
    */
-  #applyIncomingValue(value: string | undefined): void {
+  #applyIncomingValue(value: SkyColorpickerOutput | string | undefined): void {
     if (!this.skyColorpickerInput) {
       return;
     }
@@ -370,13 +399,20 @@ export class SkyColorpickerInputDirective
       return;
     }
 
-    if (value === this.#renderedValue) {
-      // Already showing exactly this string, most commonly this
-      // directive's own prior write (`#applyColor`) echoing back through
-      // `value`. Skip before formatting: re-parsing isn't needed, and
-      // could fail for a value the current `alphaChannel`/`outputFormat`
-      // settings can no longer parse (for example, a 6-digit hex string
-      // once `alphaChannel` is `hex8`, which only accepts 8 digits).
+    if (typeof value === 'string') {
+      if (value === this.#renderedValue) {
+        // Already showing exactly this string, most commonly this
+        // directive's own prior write (`#applyColor`) echoing back through
+        // `value`. Skip before formatting: re-parsing isn't needed, and
+        // could fail for a value the current `alphaChannel`/`outputFormat`
+        // settings can no longer parse (for example, a 6-digit hex string
+        // once `alphaChannel` is `hex8`, which only accepts 8 digits).
+        return;
+      }
+    } else if (value === this.#modelValue) {
+      // Already showing exactly this `SkyColorpickerOutput` object, most
+      // commonly this directive's own prior write (`#applyColor`) echoing
+      // back through `value`.
       return;
     }
 
@@ -391,11 +427,35 @@ export class SkyColorpickerInputDirective
     this.#modelValue = formattedValue;
     this.#writeModelValue(formattedValue);
 
-    if (!this.#_initialColor) {
-      this.#_initialColor = value;
-      this.skyColorpickerInput.initialColor = value;
+    // For reactive/template-driven forms, normalize the bound control's
+    // value to the full `SkyColorpickerOutput` object, restoring this
+    // directive's pre-signal-forms contract for those consumers. Written
+    // directly to the control (not `value.set()`) so it doesn't mark the
+    // field dirty; the control's own change detection then reflects the
+    // normalized object back into `value` for us. `[formField]` (signal
+    // forms) bindings also expose an `NgControl` (for interop with APIs
+    // that expect one), but it's a read-only compatibility shim with no
+    // `setValue`, so this only ever applies to real reactive/template-
+    // driven form controls.
+    const control = this.#ngControl?.control;
+    if (
+      control &&
+      typeof control.setValue === 'function' &&
+      control.value !== formattedValue
+    ) {
+      control.setValue(formattedValue, { emitEvent: false });
     }
-    this.skyColorpickerInput.lastAppliedColor = value;
+
+    // The initial-color bookkeeping only deals in color strings, so a
+    // `SkyColorpickerOutput` incoming value uses its normalized output
+    // string here instead of the raw object.
+    const initialColorValue = typeof value === 'string' ? value : output;
+
+    if (!this.#_initialColor) {
+      this.#_initialColor = initialColorValue;
+      this.skyColorpickerInput.initialColor = initialColorValue;
+    }
+    this.skyColorpickerInput.lastAppliedColor = initialColorValue;
   }
 
   /**
@@ -410,7 +470,7 @@ export class SkyColorpickerInputDirective
     this.#modelValue = formattedValue;
     this.#writeModelValue(formattedValue);
 
-    this.value.set(output);
+    this.value.set(formattedValue);
   }
 
   /**

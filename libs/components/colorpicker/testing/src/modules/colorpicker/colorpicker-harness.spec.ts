@@ -333,11 +333,11 @@ describe('Colorpicker harness', () => {
     control.setValue('#000');
     fixture.detectChanges();
 
-    expect(control.value).toBe('#000');
+    expect(control.value['hex']).toBe('#000');
     await colorpickerHarness.clickResetButton();
     fixture.detectChanges();
 
-    expect(control.value).toBe('rgba(255,0,0,1)');
+    expect(control.value['hex']).toBe('#f00');
   });
 
   it('should click the reset button in modern theme', async () => {
@@ -349,11 +349,11 @@ describe('Colorpicker harness', () => {
     control.setValue('#000');
     fixture.detectChanges();
 
-    expect(control.value).toBe('#000');
+    expect(control.value['hex']).toBe('#000');
     await colorpickerHarness.clickResetButton();
     fixture.detectChanges();
 
-    expect(control.value).toBe('rgba(255,0,0,1)');
+    expect(control.value['hex']).toBe('#f00');
   });
 
   it('should throw an error if no reset button is found', async () => {
@@ -429,7 +429,7 @@ describe('Colorpicker harness', () => {
 
       const control = fixture.componentInstance.myForm.controls['colorpicker'];
       fixture.detectChanges();
-      expect(control.value).toBe('#f00');
+      expect(control.value['hex']).toBe('#f00');
 
       const dropdownHarness = await getColorpickerDropdownHarness(
         colorpickerHarness,
@@ -440,7 +440,7 @@ describe('Colorpicker harness', () => {
       await dropdownHarness.clickApplyButton();
       fixture.detectChanges();
 
-      expect(control.value).toBe('rgba(0,0,0,1)');
+      expect(control.value['hex']).toBe('#000');
     });
 
     it('should set red value', async () => {
@@ -448,7 +448,7 @@ describe('Colorpicker harness', () => {
 
       const control = fixture.componentInstance.myForm.controls['colorpicker'];
       fixture.detectChanges();
-      expect(control.value).toBe('#f00');
+      expect(control.value['hex']).toBe('#f00');
 
       const dropdownHarness = await getColorpickerDropdownHarness(
         colorpickerHarness,
@@ -459,7 +459,7 @@ describe('Colorpicker harness', () => {
       await dropdownHarness.clickApplyButton();
       fixture.detectChanges();
 
-      expect(control.value).toBe('rgba(0,0,0,1)');
+      expect(control.value['hex']).toBe('#000');
     });
 
     it('should set green value', async () => {
@@ -467,7 +467,7 @@ describe('Colorpicker harness', () => {
 
       const control = fixture.componentInstance.myForm.controls['colorpicker'];
       fixture.detectChanges();
-      expect(control.value).toBe('#f00');
+      expect(control.value['hex']).toBe('#f00');
 
       const dropdownHarness = await getColorpickerDropdownHarness(
         colorpickerHarness,
@@ -478,7 +478,7 @@ describe('Colorpicker harness', () => {
       await dropdownHarness.clickApplyButton();
       fixture.detectChanges();
 
-      expect(control.value).toBe('rgba(255,255,0,1)');
+      expect(control.value['hex']).toBe('#ff0');
     });
 
     it('should set blue value', async () => {
@@ -486,7 +486,7 @@ describe('Colorpicker harness', () => {
 
       const control = fixture.componentInstance.myForm.controls['colorpicker'];
       fixture.detectChanges();
-      expect(control.value).toBe('#f00');
+      expect(control.value['hex']).toBe('#f00');
 
       const dropdownHarness = await getColorpickerDropdownHarness(
         colorpickerHarness,
@@ -497,7 +497,7 @@ describe('Colorpicker harness', () => {
       await dropdownHarness.clickApplyButton();
       fixture.detectChanges();
 
-      expect(control.value).toBe('rgba(255,0,255,1)');
+      expect(control.value['hex']).toBe('#f0f');
     });
 
     it('should set alpha value', async () => {
@@ -505,7 +505,7 @@ describe('Colorpicker harness', () => {
 
       const control = fixture.componentInstance.myForm.controls['colorpicker'];
       fixture.detectChanges();
-      expect(control.value).toBe('#f00');
+      expect(control.value['hex']).toBe('#f00');
 
       const dropdownHarness = await getColorpickerDropdownHarness(
         colorpickerHarness,
@@ -516,7 +516,7 @@ describe('Colorpicker harness', () => {
       await dropdownHarness.clickApplyButton();
       fixture.detectChanges();
 
-      expect(control.value).toBe('rgba(255,0,0,0.5)');
+      expect(control.value['rgbaText']).toBe('rgba(255,0,0,0.5)');
     });
 
     it('should throw an error if trying to set alpha input when transparency is not allowed', async () => {
@@ -594,7 +594,7 @@ describe('Colorpicker harness', () => {
       const control = fixture.componentInstance.myForm.controls['colorpicker'];
       fixture.componentRef.setInput('swatches', ['#f0f', '#0ff']);
       fixture.detectChanges();
-      expect(control.value).toBe('#f00');
+      expect(control.value['hex']).toBe('#f00');
 
       const dropdownHarness = await getColorpickerDropdownHarness(
         colorpickerHarness,
@@ -605,7 +605,7 @@ describe('Colorpicker harness', () => {
       await dropdownHarness.clickApplyButton();
       fixture.detectChanges();
 
-      expect(control.value).toBe('rgba(0,255,255,1)');
+      expect(control.value['hex']).toBe('#0ff');
     });
 
     it('should click a swatch button in modern theme', async () => {
@@ -616,7 +616,7 @@ describe('Colorpicker harness', () => {
       const control = fixture.componentInstance.myForm.controls['colorpicker'];
       fixture.componentRef.setInput('swatches', ['#f0f', '#0ff']);
       fixture.detectChanges();
-      expect(control.value).toBe('#f00');
+      expect(control.value['hex']).toBe('#f00');
 
       const dropdownHarness = await getColorpickerDropdownHarness(
         colorpickerHarness,
@@ -627,7 +627,7 @@ describe('Colorpicker harness', () => {
       await dropdownHarness.clickApplyButton();
       fixture.detectChanges();
 
-      expect(control.value).toBe('rgba(0,255,255,1)');
+      expect(control.value['hex']).toBe('#0ff');
     });
 
     it('should throw an error if trying to click a swatch and no swatches are set', async () => {
@@ -650,7 +650,7 @@ describe('Colorpicker harness', () => {
 
       const control = fixture.componentInstance.myForm.controls['colorpicker'];
       fixture.detectChanges();
-      expect(control.value).toBe('#f00');
+      expect(control.value['hex']).toBe('#f00');
 
       const dropdownHarness = await getColorpickerDropdownHarness(
         colorpickerHarness,
@@ -661,7 +661,7 @@ describe('Colorpicker harness', () => {
       await dropdownHarness.clickCancelButton();
       fixture.detectChanges();
 
-      expect(control.value).toBe('#f00');
+      expect(control.value['hex']).toBe('#f00');
     });
   });
 });
