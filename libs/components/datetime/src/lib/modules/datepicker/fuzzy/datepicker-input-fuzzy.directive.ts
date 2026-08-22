@@ -29,6 +29,7 @@ import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { SkyDateFormatter } from '../date-formatter';
 import { SkyDatepickerConfigService } from '../datepicker-config.service';
 import { SkyDatepickerHostService } from '../datepicker-host.service';
+import { datepickerIsSetToTodayKey } from '../datepicker-set-to-today-key';
 import { SkyDatepickerComponent } from '../datepicker.component';
 
 import { SkyFuzzyDate } from './fuzzy-date';
@@ -373,6 +374,14 @@ export class SkyFuzzyDatepickerInputDirective
   @HostListener('input')
   public onInput(): void {
     this.#control?.markAsDirty();
+  }
+
+  @HostListener('keydown', ['$event'])
+  public onKeydown(event: KeyboardEvent): void {
+    if (datepickerIsSetToTodayKey(event)) {
+      event.preventDefault();
+      this.#datepickerComponent.selectToday();
+    }
   }
 
   public writeValue(value: any): void {
