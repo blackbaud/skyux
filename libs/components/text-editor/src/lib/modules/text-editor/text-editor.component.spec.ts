@@ -928,6 +928,48 @@ describe('Text editor', () => {
       // expect(toolbar.querySelector('.background-color-picker').value).toBe('#51b6ca');
     }));
 
+    it('should update the font color picker when selection moves between differently-formatted colors and back', fakeAsync(() => {
+      testComponent.value =
+        '<span id="first" style="color: rgb(193, 64, 64);">First</span>' +
+        '<span id="second" style="color: rgb(81, 182, 202);">Second</span>';
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      selectContent('#first');
+      SkyAppTestUtility.fireDomEvent(iframeDocument, 'selectionchange');
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      expect(getFontColorPicker().querySelector('input')?.value).toBe(
+        '#c14040',
+      );
+
+      selectContent('#second');
+      SkyAppTestUtility.fireDomEvent(iframeDocument, 'selectionchange');
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      expect(getFontColorPicker().querySelector('input')?.value).toBe(
+        '#51b6ca',
+      );
+
+      // Selecting back to the first color must still update the display,
+      // even though the picker previously rendered (and internally
+      // formatted) this exact color earlier in the test.
+      selectContent('#first');
+      SkyAppTestUtility.fireDomEvent(iframeDocument, 'selectionchange');
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      expect(getFontColorPicker().querySelector('input')?.value).toBe(
+        '#c14040',
+      );
+    }));
+
     it('should set font family', fakeAsync(() => {
       const expectedCommand = 'fontname';
       const expectedValue = 'Arial';

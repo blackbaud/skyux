@@ -167,7 +167,16 @@ export class SkyColorpickerInputDirective
   public readonly touch = output<void>();
 
   #modelValue: SkyColorpickerOutput | undefined;
-  #lastEmittedValue: string | undefined;
+  /**
+   * The normalized output string (per `outputFormat`) most recently rendered
+   * into the native input element and colorpicker dialog, regardless of
+   * whether it came from a user action (`#applyColor`) or from outside this
+   * directive (`#applyIncomingValue`). This is the single source of truth
+   * for whether an incoming value is actually a change, replacing the two
+   * separate (and easily desynced) trackers this directive used to keep:
+   * a self-emitted-value guard and `SkyColorpickerComponent.lastAppliedColor`.
+   */
+  #renderedValue: string | undefined;
   readonly #elementRef = inject(ElementRef);
   readonly #renderer = inject(Renderer2);
   readonly #svc = inject(SkyColorpickerService);
@@ -182,16 +191,15 @@ export class SkyColorpickerInputDirective
 
   constructor() {
     // Reflects the bound field's value onto the colorpicker whenever it
-    // changes from outside this directive (for example, a schema rule, a
-    // `reset()`, or a sibling control). Writes this directive makes itself
-    // are tracked in `#lastEmittedValue` so this effect doesn't immediately
-    // reformat its own output.
+    // changes (for example, a schema rule, a `reset()`, a sibling control,
+    // or this directive's own prior write coming back through `value`).
+    // `#applyIncomingValue` compares the normalized value against
+    // `#renderedValue` and no-ops when they match, so this effect can't
+    // loop on its own writes, but still re-renders for any value that
+    // isn't already showing (fixing writes that were previously dropped
+    // because they matched a stale, format-mismatched guard).
     effect(() => {
-      const incoming = this.value();
-
-      if (incoming !== this.#lastEmittedValue) {
-        this.#applyIncomingValue(incoming);
-      }
+      this.#applyIncomingValue(this.value());
     });
 
     effect(() => {
@@ -225,15 +233,6 @@ export class SkyColorpickerInputDirective
     this.#renderer.addClass(element, 'sky-form-control');
     this.skyColorpickerInput.initialColor = this.initialColor;
     this.skyColorpickerInput.returnFormat = this.returnFormat;
-
-    this.skyColorpickerInput.selectedColorChanged
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((newColor: SkyColorpickerOutput) => {
-        /* istanbul ignore else */
-        if (newColor) {
-          this.#applyColor(this.#formatter(newColor));
-        }
-      });
 
     this.#colorpickerInputSvc.labelText
       .pipe(takeUntil(this.#ngUnsubscribe))
@@ -274,6 +273,30 @@ export class SkyColorpickerInputDirective
     this.#colorpickerInputSvc.touch
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => this.touch.emit());
+
+    // A color the user applied through the picker dialog's Apply button.
+    // This is a user-driven change, so it's written through to the bound
+    // field via `#applyColor` (which calls `value.set()` and marks the
+    // field dirty).
+    this.#colorpickerInputSvc.colorApplied
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((newColor) => {
+        /* istanbul ignore else */
+        if (newColor) {
+          this.#applyColor(this.#formatter(newColor));
+        }
+      });
+
+    // A programmatic reset (the `SkyColorpickerMessageType.Reset` message,
+    // sent either by a consumer or by the picker's own reset button).
+    // Reset always reverts to `initialColor`, the field's pristine value,
+    // so it's applied through `#applyIncomingValue` rather than
+    // `#applyColor`, which would otherwise mark the field dirty.
+    this.#colorpickerInputSvc.reset
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((value) => {
+        this.#applyIncomingValue(value);
+      });
 
     this.skyColorpickerInput.updatePickerValues(this.initialColor);
 
@@ -322,28 +345,57 @@ export class SkyColorpickerInputDirective
 
   /**
    * Applies a value that originated outside this directive (the bound
-   * field's initial value, a schema-driven reset, `initialColor`, etc.).
-   * Unlike `#applyColor`, this does not write back to `value`, since the
-   * value already came from there (or from a deprecated input that only
-   * seeds the field before it has a value).
+   * field's initial value, a schema-driven reset, `initialColor`, a
+   * programmatic `SkyColorpickerMessageType.Reset` message, etc.). Unlike
+   * `#applyColor`, this does not write back to `value`, since the value
+   * already came from there (or from a deprecated input that only seeds
+   * the field before it has a value).
+   *
+   * Normalizes `value` and compares it against `#renderedValue` (the last
+   * value actually rendered, from any source) rather than a separate
+   * self-emitted-value tracker. This keeps the comparison correct even
+   * when this directive's own prior write comes back through `value`
+   * (skipped, since it's already rendered) or when a new incoming value
+   * happens to match one this directive previously emitted itself, but in
+   * a different format (still rendered, since `#renderedValue` reflects
+   * what's currently displayed, not what was last sent to the form).
    */
   #applyIncomingValue(value: string | undefined): void {
-    if (
-      this.skyColorpickerInput &&
-      value &&
-      value !== this.skyColorpickerInput.lastAppliedColor
-    ) {
-      const formattedValue = this.#formatter(value);
-
-      this.#modelValue = formattedValue;
-      this.#writeModelValue(formattedValue);
-
-      if (!this.#_initialColor) {
-        this.#_initialColor = value;
-        this.skyColorpickerInput.initialColor = value;
-      }
-      this.skyColorpickerInput.lastAppliedColor = value;
+    if (!this.skyColorpickerInput) {
+      return;
     }
+
+    if (!value) {
+      this.#clearRenderedValue();
+      return;
+    }
+
+    if (value === this.#renderedValue) {
+      // Already showing exactly this string, most commonly this
+      // directive's own prior write (`#applyColor`) echoing back through
+      // `value`. Skip before formatting: re-parsing isn't needed, and
+      // could fail for a value the current `alphaChannel`/`outputFormat`
+      // settings can no longer parse (for example, a 6-digit hex string
+      // once `alphaChannel` is `hex8`, which only accepts 8 digits).
+      return;
+    }
+
+    const formattedValue = this.#formatter(value);
+    const output = this.#toOutputString(formattedValue);
+
+    if (output === this.#renderedValue) {
+      return;
+    }
+
+    this.#renderedValue = output;
+    this.#modelValue = formattedValue;
+    this.#writeModelValue(formattedValue);
+
+    if (!this.#_initialColor) {
+      this.#_initialColor = value;
+      this.skyColorpickerInput.initialColor = value;
+    }
+    this.skyColorpickerInput.lastAppliedColor = value;
   }
 
   /**
@@ -352,12 +404,35 @@ export class SkyColorpickerInputDirective
    * this directive is bound to.
    */
   #applyColor(formattedValue: SkyColorpickerOutput): void {
+    const output = this.#toOutputString(formattedValue);
+
+    this.#renderedValue = output;
     this.#modelValue = formattedValue;
     this.#writeModelValue(formattedValue);
 
-    const output = this.#toOutputString(formattedValue);
-    this.#lastEmittedValue = output;
     this.value.set(output);
+  }
+
+  /**
+   * Clears the displayed color when the bound field's value is empty (for
+   * example, `model.set(undefined)` or `form.reset()` on a field with no
+   * value). Resets the input element, swatch, and dialog back to their
+   * pre-value state rather than leaving a stale color displayed.
+   */
+  #clearRenderedValue(): void {
+    if (this.#renderedValue === undefined) {
+      return;
+    }
+
+    this.#renderedValue = undefined;
+    this.#modelValue = undefined;
+
+    const element = this.#elementRef.nativeElement;
+    this.#renderer.removeStyle(element, 'background-color');
+    this.#renderer.setProperty(element, 'value', '');
+
+    this.skyColorpickerInput.updatePickerValues(SKY_COLORPICKER_DEFAULT_COLOR);
+    this.skyColorpickerInput.backgroundColorForDisplay = undefined;
   }
 
   #writeModelValue(model: SkyColorpickerOutput): void {

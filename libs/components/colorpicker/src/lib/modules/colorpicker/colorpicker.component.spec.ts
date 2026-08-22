@@ -19,7 +19,7 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { sampleTime } from 'rxjs/operators';
 
 import { SkyColorpickerInputDirective } from './colorpicker-input.directive';
@@ -1798,7 +1798,11 @@ describe('Colorpicker Component', () => {
     @Component({
       standalone: true,
       imports: [FormField, SkyColorpickerModule],
-      template: `<sky-colorpicker #colorPickerTest labelText="Color">
+      template: `<sky-colorpicker
+        #colorPickerTest
+        labelText="Color"
+        [messageStream]="messageStream"
+      >
         <input
           type="text"
           [skyColorpickerInput]="colorPickerTest"
@@ -1812,6 +1816,9 @@ describe('Colorpicker Component', () => {
       public readonly colorForm = form(this.model, (path) => {
         disabled(path, { when: () => this.isDisabled() });
       });
+      public readonly messageStream = new Subject<{
+        type: SkyColorpickerMessageType;
+      }>();
     }
 
     let fixture: ComponentFixture<ColorpickerSignalFormFixtureComponent>;
@@ -1861,6 +1868,56 @@ describe('Colorpicker Component', () => {
       ) as HTMLButtonElement;
 
       expect(triggerButton.disabled).toBeTrue();
+    });
+
+    it('should re-apply a field value that matches a color the user previously applied in a different format', () => {
+      // User applies green through the native input (rgba format).
+      inputEl.value = '#00ff00';
+      inputEl.dispatchEvent(new Event('change'));
+      fixture.detectChanges();
+
+      expect(inputEl.value).toBe('rgba(0,255,0,1)');
+
+      // The field is set to a different color.
+      testComponent.model.set('#0000ff');
+      fixture.detectChanges();
+
+      expect(inputEl.value).toBe('rgba(0,0,255,1)');
+
+      // The field is set back to green, but in hex format (the format the
+      // user's edit didn't originally use). Without a fix, this would be
+      // silently dropped because the directive only guarded against its
+      // own previously emitted value in the same format.
+      testComponent.model.set('#00ff00');
+      fixture.detectChanges();
+
+      expect(inputEl.value).toBe('rgba(0,255,0,1)');
+    });
+
+    it('should clear the displayed color when the field value is cleared', () => {
+      testComponent.model.set('#00ff00');
+      fixture.detectChanges();
+
+      expect(inputEl.value).toBe('rgba(0,255,0,1)');
+
+      testComponent.model.set(undefined);
+      fixture.detectChanges();
+
+      expect(inputEl.value).toBe('');
+    });
+
+    it('should not mark a pristine field dirty when a Reset message is sent', () => {
+      testComponent.model.set('#00ff00');
+      fixture.detectChanges();
+
+      expect(testComponent.colorForm().dirty()).toBeFalse();
+
+      testComponent.messageStream.next({
+        type: SkyColorpickerMessageType.Reset,
+      });
+      fixture.detectChanges();
+
+      expect(testComponent.colorForm().dirty()).toBeFalse();
     });
   });
 });

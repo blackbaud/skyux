@@ -55,7 +55,12 @@ describe('Colorpicker fixture', () => {
 
     const colorpicker = new SkyColorpickerFixture(fixture, 'test-colorpicker');
 
+    // NgModel defers its initial write to the bound control via a
+    // resolved-promise microtask (see `NgModel._updateValue` in
+    // `@angular/forms`), so an extra change-detection pass is needed
+    // after `whenStable()` to flush that write into the rendered value.
     await fixture.whenStable();
+    fixture.detectChanges();
     expect(colorpicker.value).toEqual(fixture.componentInstance.hexColor);
   });
 
@@ -68,6 +73,7 @@ describe('Colorpicker fixture', () => {
     const colorpicker = new SkyColorpickerFixture(fixture, 'test-colorpicker');
 
     await fixture.whenStable();
+    fixture.detectChanges();
     expect(colorpicker.value).toEqual(fixture.componentInstance.hexColor);
 
     await colorpicker.setValueFromHex(newColor);
@@ -90,6 +96,7 @@ describe('Colorpicker fixture', () => {
     const colorpicker = new SkyColorpickerFixture(fixture, 'test-colorpicker');
 
     await fixture.whenStable();
+    fixture.detectChanges();
     expect(colorpicker.value).toEqual(currentColor);
 
     await colorpicker.setValueFromRGBA(25, 25, 25, 1);
@@ -107,6 +114,7 @@ describe('Colorpicker fixture', () => {
     const colorpicker = new SkyColorpickerFixture(fixture, 'test-colorpicker');
 
     await fixture.whenStable();
+    fixture.detectChanges();
     expect(colorpicker.value).toEqual(fixture.componentInstance.hexColor);
 
     await colorpicker.setValueFromPresets(3);
@@ -126,6 +134,7 @@ describe('Colorpicker fixture', () => {
     const colorpicker = new SkyColorpickerFixture(fixture, 'test-colorpicker');
 
     await fixture.whenStable();
+    fixture.detectChanges();
     expect(colorpicker.value).toEqual(fixture.componentInstance.hexColor);
 
     await colorpicker.setValueFromPresets(6);

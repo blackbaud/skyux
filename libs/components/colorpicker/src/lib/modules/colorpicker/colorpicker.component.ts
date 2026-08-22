@@ -552,7 +552,19 @@ export class SkyColorpickerComponent
   }
 
   public onResetClick(): void {
-    this.#sendMessage(SkyColorpickerMessageType.Reset);
+    this.updatePickerValues(this.initialColor);
+    this.backgroundColorForDisplay = this.initialColor;
+
+    if (this.selectedColor) {
+      this.selectedColorChanged.emit(this.selectedColor);
+      this.selectedColorApplied.emit({ color: this.selectedColor });
+      // The reset button is a user action (unlike a programmatic Reset
+      // message sent through `messageStream`), so it's relayed through
+      // `colorApplied` rather than `reset`. The bound
+      // `SkyColorpickerInputDirective` writes the color through to the
+      // bound field via `value.set()`, which marks the field dirty.
+      this.#colorpickerInputSvc.colorApplied.next(this.selectedColor);
+    }
   }
 
   public updatePickerValues(value: string | undefined): void {
@@ -648,6 +660,12 @@ export class SkyColorpickerComponent
         // TODO: This code assumed non-null pre-strict mode. Reevaluate in the future?
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         this.selectedColorApplied.emit({ color: this.selectedColor! });
+        // This reset is programmatic (a consumer sent the message), not a
+        // user action, so it's relayed through `reset` rather than
+        // `colorApplied`. The bound `SkyColorpickerInputDirective` reverts
+        // its display to `initialColor` without calling `value.set()`,
+        // which would otherwise mark the bound field dirty.
+        this.#colorpickerInputSvc.reset.next(this.initialColor);
         break;
 
       case SkyColorpickerMessageType.ToggleResetButton:
@@ -796,6 +814,11 @@ export class SkyColorpickerComponent
       this.lastAppliedColor = this.selectedColor.rgbaText;
       this.updatePickerValues(this.lastAppliedColor);
       this.backgroundColorForDisplay = this.selectedColor.rgbaText;
+      // This is a user action (the dialog's Apply button), so it's relayed
+      // through `colorApplied` rather than `reset`. The bound
+      // `SkyColorpickerInputDirective` writes the color through to the
+      // bound field via `value.set()`, which marks the field dirty.
+      this.#colorpickerInputSvc.colorApplied.next(this.selectedColor);
     }
 
     this.closePicker();
