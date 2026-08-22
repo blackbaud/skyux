@@ -8,7 +8,7 @@ import {
 } from '@angular/platform-browser/testing';
 import { afterEach } from 'vitest';
 
-import '../lib/matchers-setup';
+import '../lib/matchers-setup.js';
 
 getTestBed().initTestEnvironment(
   BrowserTestingModule,

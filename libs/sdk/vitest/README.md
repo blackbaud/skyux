@@ -28,7 +28,7 @@ Add the setup file to your project's `test` target. The builder resolves each en
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
-            "setupFiles": ["node_modules/@skyux-sdk/vitest/matchers-setup.js"]
+            "setupFiles": ["node_modules/@skyux-sdk/vitest/matchers-setup.mjs"]
           }
         }
       }

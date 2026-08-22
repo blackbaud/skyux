@@ -1,5 +1,5 @@
-import type { SkyToBeAccessibleOptions } from './src/lib/matchers/to-be-accessible-options';
-import type { SkyToBeVisibleOptions } from './src/lib/matchers/to-be-visible-options';
+import type { SkyToBeAccessibleOptions } from './src/lib/matchers/to-be-accessible-options.js';
+import type { SkyToBeVisibleOptions } from './src/lib/matchers/to-be-visible-options.js';
 
 import 'vitest';
 

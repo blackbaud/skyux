@@ -5,12 +5,12 @@ import { EMPTY, of as observableOf } from 'rxjs';
 import {
   provideAppResources,
   provideLibResources,
-} from '../testing/provide-resources';
+} from '../testing/provide-resources.js';
 
 describe('Vitest setupFiles integration', () => {
   it('should resolve the matchers-setup.js subpath at compile time', () => {
     type SetupMatchersModule =
-      typeof import('@skyux-sdk/vitest/matchers-setup.js');
+      typeof import('@skyux-sdk/vitest/matchers-setup.mjs');
 
     const resolved = true as boolean | SetupMatchersModule;
 

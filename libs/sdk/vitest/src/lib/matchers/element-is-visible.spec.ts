@@ -1,4 +1,4 @@
-import { elementIsVisible } from './element-is-visible';
+import { elementIsVisible } from './element-is-visible.js';
 
 describe('elementIsVisible', () => {
   let el: HTMLElement;

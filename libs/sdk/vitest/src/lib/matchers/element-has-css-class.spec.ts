@@ -1,4 +1,4 @@
-import { elementHasCssClass } from './element-has-css-class';
+import { elementHasCssClass } from './element-has-css-class.js';
 
 describe('elementHasCssClass', () => {
   let el: HTMLElement;

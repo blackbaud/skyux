@@ -1,6 +1,6 @@
 import axe from 'axe-core';
 
-import { SkyA11yAnalyzer } from './a11y-analyzer';
+import { SkyA11yAnalyzer } from './a11y-analyzer.js';
 
 describe('A11y analyzer', () => {
   it('should handle axe errors', async () => {

@@ -1,15 +1,18 @@
 import { expect } from 'vitest';
 
-import { elementExists } from './matchers/element-exists';
-import { elementHasCssClass } from './matchers/element-has-css-class';
-import { elementHasResourceText } from './matchers/element-has-resource-text';
-import { elementHasStyle } from './matchers/element-has-style';
-import { elementHasText } from './matchers/element-has-text';
-import { elementIsAccessible } from './matchers/element-is-accessible';
-import { elementIsVisible } from './matchers/element-is-visible';
-import { elementMatchesResourceTemplate } from './matchers/element-matches-resource-template';
-import { resourceTextEquals } from './matchers/resource-text-equals';
-import { getLibResourceString, getResourceString } from './utility/i18n-utils';
+import { elementExists } from './matchers/element-exists.js';
+import { elementHasCssClass } from './matchers/element-has-css-class.js';
+import { elementHasResourceText } from './matchers/element-has-resource-text.js';
+import { elementHasStyle } from './matchers/element-has-style.js';
+import { elementHasText } from './matchers/element-has-text.js';
+import { elementIsAccessible } from './matchers/element-is-accessible.js';
+import { elementIsVisible } from './matchers/element-is-visible.js';
+import { elementMatchesResourceTemplate } from './matchers/element-matches-resource-template.js';
+import { resourceTextEquals } from './matchers/resource-text-equals.js';
+import {
+  getLibResourceString,
+  getResourceString,
+} from './utility/i18n-utils.js';
 
 expect.extend({
   toBeAccessible: elementIsAccessible,

@@ -1,4 +1,4 @@
-import { elementHasStyle } from './element-has-style';
+import { elementHasStyle } from './element-has-style.js';
 
 describe('elementHasStyle', () => {
   let el: HTMLElement;

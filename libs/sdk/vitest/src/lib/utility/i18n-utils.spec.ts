@@ -9,7 +9,7 @@ import {
   getLibResourceString,
   getResourceString,
   isTemplateMatch,
-} from './i18n-utils';
+} from './i18n-utils.js';
 
 describe('i18n-utils', () => {
   describe('getResourceString', () => {

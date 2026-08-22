@@ -23,9 +23,9 @@
     "./globals": {
       "types": "./globals.d.ts"
     },
-    "./matchers-setup.js": {
+    "./matchers-setup.mjs": {
       "types": "./matchers-setup.d.ts",
-      "default": "./matchers-setup.js"
+      "default": "./matchers-setup.mjs"
     }
   },
   "schematics": "@skyux-sdk/testing-schematics/collection.json",
@@ -50,7 +50,7 @@
     "@skyux-sdk/testing-schematics": "0.0.0-PLACEHOLDER",
     "tslib": "^2.8.1"
   },
-  "type": "commonjs",
+  "type": "module",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
   "sideEffects": true

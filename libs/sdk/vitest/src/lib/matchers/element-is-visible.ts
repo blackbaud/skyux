@@ -1,4 +1,4 @@
-import type { ExpectationResult } from './expectation-result';
+import type { ExpectationResult } from './expectation-result.js';
 
 interface ElementIsVisibleOptions {
   checkCssDisplay?: boolean;

@@ -1,4 +1,4 @@
-import { elementExists } from './element-exists';
+import { elementExists } from './element-exists.js';
 
 describe('elementExists', () => {
   it('should return pass: true when element exists', () => {

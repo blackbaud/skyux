@@ -1,4 +1,4 @@
-import { elementHasResourceText } from './element-has-resource-text';
+import { elementHasResourceText } from './element-has-resource-text.js';
 
 describe('elementHasResourceText', () => {
   const resolveGreeting = (): Promise<string> => Promise.resolve('Hello World');

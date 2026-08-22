@@ -1,5 +1,5 @@
 import axe from 'axe-core';
-import type { SkyA11yAnalyzerConfig } from './a11y-analyzer-config';
+import type { SkyA11yAnalyzerConfig } from './a11y-analyzer-config.js';
 
 function parseMessage(violations: axe.Result[]): string {
   let message = 'Expected element to pass accessibility checks.\n\n';

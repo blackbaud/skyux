@@ -1,4 +1,4 @@
-import { elementHasText } from './element-has-text';
+import { elementHasText } from './element-has-text.js';
 
 describe('elementHasText', () => {
   let el: HTMLElement;

@@ -1,4 +1,4 @@
-import { resourceTextEquals } from './resource-text-equals';
+import { resourceTextEquals } from './resource-text-equals.js';
 
 describe('resourceTextEquals', () => {
   const resolveGreeting = (): Promise<string> => Promise.resolve('Hello World');

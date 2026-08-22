@@ -1,5 +1,5 @@
-import { SkyA11yAnalyzer } from '../utility/a11y-analyzer';
-import { elementIsAccessible } from './element-is-accessible';
+import { SkyA11yAnalyzer } from '../utility/a11y-analyzer.js';
+import { elementIsAccessible } from './element-is-accessible.js';
 
 describe('elementIsAccessible', () => {
   let el: HTMLElement;

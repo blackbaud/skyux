@@ -1,4 +1,4 @@
-import { elementMatchesResourceTemplate } from './element-matches-resource-template';
+import { elementMatchesResourceTemplate } from './element-matches-resource-template.js';
 
 describe('elementMatchesResourceTemplate', () => {
   const resolveGreeting = (): Promise<string> =>

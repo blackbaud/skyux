@@ -1,5 +1,5 @@
-import type { ResourceStringResolver } from '../utility/i18n-utils';
-import type { ExpectationResult } from './expectation-result';
+import type { ResourceStringResolver } from '../utility/i18n-utils.js';
+import type { ExpectationResult } from './expectation-result.js';
 
 export async function resourceTextEquals(
   actualText: string,
