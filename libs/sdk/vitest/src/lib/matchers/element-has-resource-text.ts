@@ -1,5 +1,5 @@
-import type { ExpectationResult } from './types/expectation-result';
-import type { ResourceStringResolver } from './utility/i18n-utils';
+import type { ResourceStringResolver } from '../utility/i18n-utils';
+import type { ExpectationResult } from './expectation-result';
 
 export async function elementHasResourceText(
   el: Element,

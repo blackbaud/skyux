@@ -20,7 +20,7 @@
         "tsConfig": "libs/sdk/vitest/tsconfig.lib.json",
         "packageJson": "libs/sdk/vitest/package.json",
         "main": "libs/sdk/vitest/src/index.ts",
-        "assets": ["libs/sdk/vitest/*.md"]
+        "assets": ["libs/sdk/vitest/*.md", "libs/sdk/vitest/globals.d.ts"]
       }
     },
     "lint": {

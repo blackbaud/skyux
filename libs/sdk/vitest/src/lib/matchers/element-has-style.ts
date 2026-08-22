@@ -1,4 +1,4 @@
-import type { ExpectationResult } from './types/expectation-result';
+import type { ExpectationResult } from './expectation-result';
 
 export function elementHasStyle(
   el: Element,

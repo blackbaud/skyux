@@ -11,6 +11,7 @@
     "src/testing/**/*.ts",
     "src/**/*.test.ts",
     "src/**/*.spec.ts",
-    "src/**/*.d.ts"
+    "src/**/*.d.ts",
+    "globals.d.ts"
   ]
 }

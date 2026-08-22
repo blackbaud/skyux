@@ -1,4 +1,4 @@
-import { SkyA11yAnalyzer } from '../a11y/a11y-analyzer';
+import { SkyA11yAnalyzer } from '../utility/a11y-analyzer';
 import { elementIsAccessible } from './element-is-accessible';
 
 describe('elementIsAccessible', () => {

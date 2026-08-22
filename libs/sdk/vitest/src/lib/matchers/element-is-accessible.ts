@@ -1,6 +1,6 @@
-import { SkyA11yAnalyzer } from '../a11y/a11y-analyzer';
-import type { SkyA11yAnalyzerConfig } from '../a11y/a11y-analyzer-config';
-import type { ExpectationResult } from './types/expectation-result';
+import { SkyA11yAnalyzer } from '../utility/a11y-analyzer';
+import type { SkyA11yAnalyzerConfig } from '../utility/a11y-analyzer-config';
+import type { ExpectationResult } from './expectation-result';
 
 export async function elementIsAccessible(
   el: Element | Document,

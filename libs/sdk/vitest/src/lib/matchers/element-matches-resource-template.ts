@@ -1,8 +1,8 @@
-import type { ExpectationResult } from './types/expectation-result';
 import {
   type ResourceStringResolver,
   isTemplateMatch,
-} from './utility/i18n-utils';
+} from '../utility/i18n-utils';
+import type { ExpectationResult } from './expectation-result';
 
 export async function elementMatchesResourceTemplate(
   el: Element,

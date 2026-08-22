@@ -20,6 +20,9 @@
       "types": "./src/index.d.ts",
       "default": "./src/index.js"
     },
+    "./globals": {
+      "types": "./globals.d.ts"
+    },
     "./matchers-setup.js": {
       "types": "./src/lib/matchers-setup.d.ts",
       "default": "./src/lib/matchers-setup.js"
