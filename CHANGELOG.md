@@ -1,6 +1,28 @@
 # Changelog
 
 
+## [15.0.0-alpha.6](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.5...15.0.0-alpha.6) (2026-08-22)
+
+
+### ⚠ BREAKING CHANGES
+
+* **sdk/testing:** deprecate `SkyAppTestUtility` and `SkyBy` testing utils (#4651)
+
+### Features
+
+* **components/ag-grid:** add `defineSkyAgGridColDef` to validate cell editor and renderer params against cell types ([#4582](https://github.com/blackbaud/skyux/issues/4582)) ([#4657](https://github.com/blackbaud/skyux/issues/4657)) ([5a8f361](https://github.com/blackbaud/skyux/commit/5a8f361d95cb77dbbb1e4d5713900c12da13368d)), closes [AB#3928427](https://dev.azure.com/blackbaud/Products/_workitems/edit/3928427)
+* **components/datetime:** set datepicker value to today when F3 is pressed ([#4662](https://github.com/blackbaud/skyux/issues/4662)) ([02f2e22](https://github.com/blackbaud/skyux/commit/02f2e2256a693af412c458b6a8aad2b93b0ffb2f)), closes [AB#4033124](https://dev.azure.com/blackbaud/Products/_workitems/edit/4033124)
+* **components/tabs:** add `tabWidth` input to vertical tabset with `auto` sizing and harness/example support ([#4410](https://github.com/blackbaud/skyux/issues/4410)) ([#4658](https://github.com/blackbaud/skyux/issues/4658)) ([5301b36](https://github.com/blackbaud/skyux/commit/5301b369e5784ab48f4e4213a71b442cf370a5f6))
+* **sdk/testing:** deprecate `SkyAppTestUtility` and `SkyBy` testing utils ([#4651](https://github.com/blackbaud/skyux/issues/4651)) ([2c100e5](https://github.com/blackbaud/skyux/commit/2c100e5dd32e243fea37451890ea67f85b000793)), closes [AB#3987231](https://dev.azure.com/blackbaud/Products/_workitems/edit/3987231)
+
+
+### Bug Fixes
+
+* **components/charts:** do not skip category labels for horizontal bar charts ([#4670](https://github.com/blackbaud/skyux/issues/4670)) ([#4672](https://github.com/blackbaud/skyux/issues/4672)) ([8f5bcd0](https://github.com/blackbaud/skyux/commit/8f5bcd0606b5e86e7a0ae94889af268c8dff04bb)), closes [AB#4094199](https://dev.azure.com/blackbaud/Products/_workitems/edit/4094199)
+* **components/charts:** fix horizontal bar spacing; add visual tests ([#4552](https://github.com/blackbaud/skyux/issues/4552)) ([#4659](https://github.com/blackbaud/skyux/issues/4659)) ([772c576](https://github.com/blackbaud/skyux/commit/772c5761a376881c3efac5403f91ea662ea821ee))
+* **components/router:** add documentation for exported types ([#4661](https://github.com/blackbaud/skyux/issues/4661)) ([#4669](https://github.com/blackbaud/skyux/issues/4669)) ([1c092e4](https://github.com/blackbaud/skyux/commit/1c092e4debd7b79fd1d9057432e65c2ff5a958d8)), closes [AB#4088898](https://dev.azure.com/blackbaud/Products/_workitems/edit/4088898)
+* dark mode flyouts, summary action bars, and back to top bars have an edge border ([#4633](https://github.com/blackbaud/skyux/issues/4633)) ([#4667](https://github.com/blackbaud/skyux/issues/4667)) ([ff67462](https://github.com/blackbaud/skyux/commit/ff6746295ae220fdb0e4325374f44359e4f8409b))
+
 ## [14.15.1](https://github.com/blackbaud/skyux/compare/14.15.0...14.15.1) (2026-08-21)
 
 
