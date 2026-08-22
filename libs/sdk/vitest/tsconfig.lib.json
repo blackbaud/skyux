@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../../dist/out-tsc",
+    "declaration": true,
+    "types": ["node"]
+  },
+  "include": ["src/**/*.ts", "globals.d.ts", "matchers-setup.mts"],
+  "exclude": [
+    "vitest.config.mts",
+    "**/src/testing/**",
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts"
+  ]
+}
