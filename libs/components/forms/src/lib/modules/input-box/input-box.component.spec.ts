@@ -1,4 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { Component, signal } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -6,9 +7,10 @@ import {
   tick,
 } from '@angular/core/testing';
 import { AbstractControl } from '@angular/forms';
+import { FormField, form, maxLength, required } from '@angular/forms/signals';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { provideNoopSkyAnimations } from '@skyux/core';
+import { SkyLogService, provideNoopSkyAnimations } from '@skyux/core';
 import {
   SkyHelpTestingController,
   SkyHelpTestingModule,
@@ -29,6 +31,7 @@ import { InputBoxFixturesModule } from './fixtures/input-box.module.fixture';
 import { SkyInputBoxAdapterService } from './input-box-adapter.service';
 import { SkyInputBoxHostService } from './input-box-host.service';
 import { SkyInputBoxComponent } from './input-box.component';
+import { SkyInputBoxModule } from './input-box.module';
 
 interface InputBoxA11yTestingOptions {
   disabled?: boolean;
@@ -1615,6 +1618,178 @@ describe('Input box component', () => {
 
     describe('a11y', () => {
       a11yTests();
+    });
+  });
+
+  describe('signal forms', () => {
+    @Component({
+      standalone: true,
+      imports: [FormField, SkyInputBoxModule],
+      template: `<sky-input-box
+        labelText="Easy mode"
+        [characterLimit]="characterLimit"
+      >
+        <input type="text" [formField]="easyModeForm" />
+      </sky-input-box>`,
+    })
+    class InputBoxSignalFormFixtureComponent {
+      public readonly model = signal('');
+      public readonly easyModeForm = form(this.model, (p) => {
+        required(p);
+        maxLength(p, 10);
+      });
+      public characterLimit: number | undefined;
+    }
+
+    let fixture: ComponentFixture<InputBoxSignalFormFixtureComponent>;
+    let testComponent: InputBoxSignalFormFixtureComponent;
+
+    function getInputBoxSignalFormEls(): {
+      inputBoxEl: HTMLElement;
+      inputEl: HTMLInputElement;
+      labelEl: HTMLLabelElement | null;
+    } {
+      const inputBoxEl = fixture.nativeElement.querySelector('sky-input-box');
+      return {
+        inputBoxEl,
+        inputEl: inputBoxEl.querySelector('input'),
+        labelEl: inputBoxEl.querySelector('label'),
+      };
+    }
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        imports: [InputBoxSignalFormFixtureComponent],
+        providers: [provideNoopSkyAnimations()],
+      });
+
+      fixture = TestBed.createComponent(InputBoxSignalFormFixtureComponent);
+      testComponent = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
+    it('should add the required attributes when the field is required', () => {
+      const { inputEl, labelEl } = getInputBoxSignalFormEls();
+
+      expect(inputEl.ariaRequired).toBe('true');
+      expect(labelEl).toHaveCssClass('sky-control-label-required');
+    });
+
+    it('should display an error message when the field is touched and invalid', () => {
+      const { inputBoxEl, inputEl } = getInputBoxSignalFormEls();
+
+      testComponent.easyModeForm().markAsTouched();
+      fixture.detectChanges();
+
+      expect(inputEl.getAttribute('aria-invalid')).toBe('true');
+      expect(inputEl.getAttribute('aria-errormessage')).toBeTruthy();
+      expect(inputBoxEl.querySelector('sky-form-error')).toBeVisible();
+    });
+
+    it('should not display an error message when the field is untouched', () => {
+      const { inputEl } = getInputBoxSignalFormEls();
+
+      expect(inputEl.getAttribute('aria-invalid')).toBeNull();
+    });
+
+    it('should use the schema maxLength rule for the character counter', () => {
+      const { inputBoxEl } = getInputBoxSignalFormEls();
+
+      const characterCountEl = inputBoxEl.querySelector(
+        'sky-character-counter-indicator',
+      );
+
+      expect(characterCountEl).toBeTruthy();
+    });
+
+    it('should not mutate the field validators when characterLimit is set', () => {
+      testComponent.characterLimit = 5;
+
+      expect(() => fixture.detectChanges()).not.toThrow();
+    });
+
+    it('should prefer the schema maxLength rule over the characterLimit input', () => {
+      testComponent.characterLimit = 5;
+      fixture.detectChanges();
+
+      const { inputBoxEl } = getInputBoxSignalFormEls();
+      const characterCountEl = inputBoxEl.querySelector(
+        'sky-character-counter-indicator',
+      );
+
+      expect(characterCountEl?.textContent).toContain('10');
+    });
+
+    it('should not warn when the schema maxLength rule is zero', () => {
+      @Component({
+        standalone: true,
+        imports: [FormField, SkyInputBoxModule],
+        template: `<sky-input-box labelText="Easy mode" [characterLimit]="5">
+          <input type="text" [formField]="easyModeForm" />
+        </sky-input-box>`,
+      })
+      class InputBoxSignalFormZeroMaxLengthFixtureComponent {
+        public readonly model = signal('');
+        public readonly easyModeForm = form(this.model, (p) => {
+          maxLength(p, 0);
+        });
+      }
+
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        imports: [InputBoxSignalFormZeroMaxLengthFixtureComponent],
+        providers: [provideNoopSkyAnimations()],
+      });
+
+      const warnSpy = spyOn(TestBed.inject(SkyLogService), 'warn');
+
+      const zeroMaxLengthFixture = TestBed.createComponent(
+        InputBoxSignalFormZeroMaxLengthFixtureComponent,
+      );
+      zeroMaxLengthFixture.detectChanges();
+
+      expect(warnSpy).not.toHaveBeenCalled();
+    });
+
+    it('should update aria-invalid to false once the field becomes valid', () => {
+      const { inputEl } = getInputBoxSignalFormEls();
+
+      testComponent.easyModeForm().markAsTouched();
+      testComponent.model.set('valid');
+      fixture.detectChanges();
+
+      expect(inputEl.getAttribute('aria-invalid')).toBeNull();
+    });
+
+    it('should warn when characterLimit is set without a schema maxLength rule', () => {
+      @Component({
+        standalone: true,
+        imports: [FormField, SkyInputBoxModule],
+        template: `<sky-input-box labelText="Easy mode" [characterLimit]="5">
+          <input type="text" [formField]="easyModeForm" />
+        </sky-input-box>`,
+      })
+      class InputBoxSignalFormNoMaxLengthFixtureComponent {
+        public readonly model = signal('');
+        public readonly easyModeForm = form(this.model);
+      }
+
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        imports: [InputBoxSignalFormNoMaxLengthFixtureComponent],
+        providers: [provideNoopSkyAnimations()],
+      });
+
+      const warnSpy = spyOn(TestBed.inject(SkyLogService), 'warn');
+
+      const noMaxLengthFixture = TestBed.createComponent(
+        InputBoxSignalFormNoMaxLengthFixtureComponent,
+      );
+      noMaxLengthFixture.detectChanges();
+
+      expect(warnSpy).toHaveBeenCalledWith(
+        jasmine.stringMatching(/characterLimit.*has no effect/),
+      );
     });
   });
 });

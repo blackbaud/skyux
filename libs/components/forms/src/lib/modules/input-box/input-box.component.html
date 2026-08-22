@@ -80,11 +80,13 @@
     <label
       class="sky-control-label"
       [attr.aria-label]="
-        characterLimit !== undefined
+        characterLimitComputed !== undefined
           ? labelText +
             ' ' +
             ('skyux_character_count_message'
-              | skyLibResources: characterCountScreenReader : characterLimit)
+              | skyLibResources
+                : characterCountScreenReader
+                : characterLimitComputed)
           : null
       "
       [for]="controlId"
@@ -111,10 +113,10 @@
 </ng-template>
 
 <ng-template #characterCountTemplate>
-  @if (characterLimit !== undefined) {
+  @if (characterLimitComputed !== undefined) {
     <sky-character-counter-indicator
       [characterCount]="controlDir?.value?.length || 0"
-      [characterCountLimit]="characterLimit"
+      [characterCountLimit]="characterLimitComputed"
     />
   }
   <ng-content select="sky-character-counter-indicator" />

@@ -21,6 +21,7 @@ import {
   ValidationErrors,
   Validator,
 } from '@angular/forms';
+import { skyIsAbstractControl } from '@skyux/forms';
 
 import moment from 'moment';
 import { Subscription } from 'rxjs';
@@ -232,7 +233,7 @@ export class SkyTimepickerInputDirective
   }
 
   public validate(control: AbstractControl): ValidationErrors | null {
-    if (!this.#control) {
+    if (!this.#control && skyIsAbstractControl(control)) {
       this.#control = control;
     }
 
@@ -247,7 +248,7 @@ export class SkyTimepickerInputDirective
       if (this.#formatter(value).local === 'Invalid date') {
         // Mark as touched so the invalid CSS styles appear even when the value
         // is set programmatically.
-        this.#control.markAsTouched();
+        this.#control?.markAsTouched();
 
         return { skyTime: { invalid: value } };
       }

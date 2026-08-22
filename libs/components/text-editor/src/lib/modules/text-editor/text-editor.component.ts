@@ -15,20 +15,27 @@ import {
   booleanAttribute,
   inject,
 } from '@angular/core';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  NgControl,
+  TouchedChangeEvent,
+} from '@angular/forms';
+import { FormField } from '@angular/forms/signals';
 import { SkyCoreAdapterService, SkyIdModule, SkyIdService } from '@skyux/core';
 import {
   SKY_FORM_ERRORS_ENABLED,
   SkyFormErrorsModule,
   SkyInputBoxHostService,
   SkyRequiredStateDirective,
+  skyIsAbstractControl,
+  skyWatchFormFieldChanges,
 } from '@skyux/forms';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 
 import { SkyTextEditorResourcesModule } from '../shared/sky-text-editor-resources.module';
 
@@ -321,10 +328,11 @@ export class SkyTextEditorComponent
     if (this.#_value !== normalizedValue) {
       this.#_value = normalizedValue;
 
-      // Update angular form control if model has been normalized.
-      /* istanbul ignore else */
+      // Update angular form control if model has been normalized. Signal-forms controls
+      // (bound via `[formField]`) don't support imperative `setValue()` calls; they receive
+      // the normalized value through the registered `onChange` callback instead.
       if (
-        this.ngControl?.control &&
+        skyIsAbstractControl(this.ngControl?.control) &&
         normalizedValue !== this.ngControl.control.value
       ) {
         this.ngControl.control.setValue(normalizedValue, {
@@ -387,9 +395,24 @@ export class SkyTextEditorComponent
   protected readonly ngControl = inject(NgControl);
   protected readonly requiredState = inject(SkyRequiredStateDirective);
 
+  /**
+   * The signal-forms `FormField` directive bound to this editor, if any. `InteropNgControl`
+   * (the fake `NgControl` provided by `FormField`) doesn't expose `statusChanges`, so field
+   * state changes are observed here instead.
+   */
+  #formField = inject(FormField, { optional: true });
+
   constructor() {
     this.#id = this.#defaultId = this.#idSvc.generateId();
     this.ngControl.valueAccessor = this;
+
+    skyWatchFormFieldChanges(
+      () => this.#formField,
+      this.#changeDetector,
+      () => {
+        this.#updateA11yAttributes();
+      },
+    );
   }
 
   public ngAfterViewInit(): void {
@@ -414,6 +437,20 @@ export class SkyTextEditorComponent
    */
   public writeValue(value: string): void {
     this.value = value;
+
+    // Propagate the normalized value back to the form when normalization changed the
+    // incoming value. Signal-forms controls (bound via `[formField]`) don't support
+    // imperative `setValue()` calls, so this callback is the only way to keep the model
+    // in sync with the editor for those controls. Real `AbstractControl`s are already
+    // synced by the `value` setter above, so calling `onChange` again here would
+    // incorrectly mark them dirty.
+    if (
+      value &&
+      this.#_value !== value &&
+      !skyIsAbstractControl(this.ngControl?.control)
+    ) {
+      this.#_onChange(this.#_value);
+    }
 
     // Update HTML if necessary.
     if (this.#initialized) {
@@ -479,6 +516,21 @@ export class SkyTextEditorComponent
         // Trigger change detection when the field status is modified programmatically.
         this.#changeDetector.markForCheck();
       });
+
+    // `statusChanges` doesn't emit when only the touched state changes (e.g. a consumer
+    // calls `control.markAsTouched()` directly), so the touched-gated error message wouldn't
+    // otherwise be marked for check.
+    if (skyIsAbstractControl(this.ngControl.control)) {
+      this.ngControl.control.events
+        .pipe(
+          filter((event) => event instanceof TouchedChangeEvent),
+          takeUntil(this.#ngUnsubscribe),
+        )
+        .subscribe(() => {
+          this.#updateA11yAttributes();
+          this.#changeDetector.markForCheck();
+        });
+    }
 
     this.#editorService
       .inputListener()

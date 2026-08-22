@@ -1,4 +1,4 @@
-import { DebugElement } from '@angular/core';
+import { Component, DebugElement, signal } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -6,6 +6,7 @@ import {
   flush,
   tick,
 } from '@angular/core/testing';
+import { FormField, disabled, form } from '@angular/forms/signals';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyAffixer, SkyIdService, SkyOverlayService } from '@skyux/core';
@@ -18,15 +19,17 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { sampleTime } from 'rxjs/operators';
 
 import { SkyColorpickerInputDirective } from './colorpicker-input.directive';
 import { SkyColorpickerComponent } from './colorpicker.component';
+import { SkyColorpickerModule } from './colorpicker.module';
 import { ColorpickerTestComponent } from './fixtures/colorpicker-component.fixture';
 import { SkyColorpickerFixturesModule } from './fixtures/colorpicker-fixtures.module';
 import { ColorpickerReactiveTestComponent } from './fixtures/colorpicker-reactive-component.fixture';
 import { SkyColorpickerMessageType } from './types/colorpicker-message-type';
+import { SkyColorpickerOutput } from './types/colorpicker-output';
 
 interface ColorpickerInputElements {
   hex: HTMLInputElement;
@@ -361,34 +364,18 @@ describe('Colorpicker Component', () => {
       component.colorModel = '#00f';
       fixture.detectChanges();
       tick();
+      fixture.detectChanges();
       expect(component.colorpickerComponent.initialColor).toBe('#00f');
-      expect(component.colorpickerComponent.lastAppliedColor as any).toEqual({
-        cmykText: 'cmyk(100%,100%,0%,0%)',
-        hslaText: 'hsla(240,100%,50%,1)',
-        rgbaText: 'rgba(0,0,255,1)',
-        hsva: { hue: 240, saturation: 100, value: 100, alpha: 1 },
-        rgba: { red: 0, green: 0, blue: 255, alpha: 1 },
-        hsla: { hue: 240, saturation: 100, lightness: 50, alpha: 1 },
-        cmyk: { cyan: 100, magenta: 100, yellow: 0, key: 0 },
-        hex: '#00f',
-      });
+      expect(component.colorpickerComponent.lastAppliedColor).toEqual('#00f');
     }));
 
     it('should populate correct information if model is given but an initial color is also given', fakeAsync(() => {
       component.colorModel = '#00f';
       fixture.detectChanges();
       tick();
+      fixture.detectChanges();
       expect(component.colorpickerComponent.initialColor).toBe('#2889e5');
-      expect(component.colorpickerComponent.lastAppliedColor as any).toEqual({
-        cmykText: 'cmyk(100%,100%,0%,0%)',
-        hslaText: 'hsla(240,100%,50%,1)',
-        rgbaText: 'rgba(0,0,255,1)',
-        hsva: { hue: 240, saturation: 100, value: 100, alpha: 1 },
-        rgba: { red: 0, green: 0, blue: 255, alpha: 1 },
-        hsla: { hue: 240, saturation: 100, lightness: 50, alpha: 1 },
-        cmyk: { cyan: 100, magenta: 100, yellow: 0, key: 0 },
-        hex: '#00f',
-      });
+      expect(component.colorpickerComponent.lastAppliedColor).toEqual('#00f');
     }));
 
     it('should add aria-label and title attributes to button if not specified', fakeAsync(() => {
@@ -1805,6 +1792,153 @@ describe('Colorpicker Component', () => {
       const colorpickerContainer = getColorpickerContainer();
 
       await expectAsync(colorpickerContainer).toBeAccessible(axeConfig);
+    });
+  });
+
+  describe('signal forms', () => {
+    @Component({
+      standalone: true,
+      imports: [FormField, SkyColorpickerModule],
+      template: `<sky-colorpicker
+        #colorPickerTest
+        labelText="Color"
+        [messageStream]="messageStream"
+      >
+        <input
+          type="text"
+          [skyColorpickerInput]="colorPickerTest"
+          [formField]="colorForm"
+        />
+      </sky-colorpicker>`,
+    })
+    class ColorpickerSignalFormFixtureComponent {
+      public readonly model = signal<SkyColorpickerOutput | string | undefined>(
+        undefined,
+      );
+      public readonly isDisabled = signal(false);
+      public readonly colorForm = form(this.model, (path) => {
+        disabled(path, { when: () => this.isDisabled() });
+      });
+      public readonly messageStream = new Subject<{
+        type: SkyColorpickerMessageType;
+      }>();
+    }
+
+    let fixture: ComponentFixture<ColorpickerSignalFormFixtureComponent>;
+    let testComponent: ColorpickerSignalFormFixtureComponent;
+    let inputEl: HTMLInputElement;
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        imports: [ColorpickerSignalFormFixtureComponent],
+      });
+
+      fixture = TestBed.createComponent(ColorpickerSignalFormFixtureComponent);
+      testComponent = fixture.componentInstance;
+      fixture.detectChanges();
+
+      inputEl = fixture.nativeElement.querySelector('input');
+    });
+
+    it('should not throw when a value is written into the model', () => {
+      expect(() => {
+        testComponent.model.set('#ff0000');
+        fixture.detectChanges();
+      }).not.toThrow();
+
+      expect(inputEl.value).toBe('rgba(255,0,0,1)');
+    });
+
+    it('should accept a `SkyColorpickerOutput` object as the field value, matching the pre-signal-forms contract', () => {
+      const output: SkyColorpickerOutput = {
+        hslaText: 'hsla(0,100%,50%,1)',
+        rgbaText: 'rgba(255,0,0,1)',
+        cmykText: 'cmyk(0%,100%,100%,0%)',
+        hsva: { hue: 0, saturation: 100, value: 100, alpha: 1 },
+        rgba: { red: 255, green: 0, blue: 0, alpha: 1 },
+        hsla: { hue: 0, saturation: 100, lightness: 50, alpha: 1 },
+        cmyk: { cyan: 0, magenta: 100, yellow: 100, key: 0 },
+        hex: '#f00',
+      };
+
+      testComponent.model.set(output);
+      fixture.detectChanges();
+
+      expect(inputEl.value).toBe('rgba(255,0,0,1)');
+    });
+
+    it('should mark the field dirty and touched when the user applies a color change', () => {
+      inputEl.value = '#00ff00';
+      inputEl.dispatchEvent(new Event('change'));
+      fixture.detectChanges();
+
+      expect(testComponent.colorForm().dirty()).toBeTrue();
+
+      inputEl.dispatchEvent(new Event('blur'));
+      fixture.detectChanges();
+
+      expect(testComponent.colorForm().touched()).toBeTrue();
+    });
+
+    it('should disable the colorpicker trigger button when the field is disabled', () => {
+      testComponent.isDisabled.set(true);
+      fixture.detectChanges();
+
+      const triggerButton = fixture.nativeElement.querySelector(
+        '.sky-colorpicker-button',
+      ) as HTMLButtonElement;
+
+      expect(triggerButton.disabled).toBeTrue();
+    });
+
+    it('should re-apply a field value that matches a color the user previously applied in a different format', () => {
+      // User applies green through the native input (rgba format).
+      inputEl.value = '#00ff00';
+      inputEl.dispatchEvent(new Event('change'));
+      fixture.detectChanges();
+
+      expect(inputEl.value).toBe('rgba(0,255,0,1)');
+
+      // The field is set to a different color.
+      testComponent.model.set('#0000ff');
+      fixture.detectChanges();
+
+      expect(inputEl.value).toBe('rgba(0,0,255,1)');
+
+      // The field is set back to green, but in hex format (the format the
+      // user's edit didn't originally use). Without a fix, this would be
+      // silently dropped because the directive only guarded against its
+      // own previously emitted value in the same format.
+      testComponent.model.set('#00ff00');
+      fixture.detectChanges();
+
+      expect(inputEl.value).toBe('rgba(0,255,0,1)');
+    });
+
+    it('should clear the displayed color when the field value is cleared', () => {
+      testComponent.model.set('#00ff00');
+      fixture.detectChanges();
+
+      expect(inputEl.value).toBe('rgba(0,255,0,1)');
+
+      testComponent.model.set(undefined);
+      fixture.detectChanges();
+
+      expect(inputEl.value).toBe('');
+    });
+
+    it('should not mark a pristine field dirty when a Reset message is sent', () => {
+      testComponent.model.set('#00ff00');
+      fixture.detectChanges();
+
+      expect(testComponent.colorForm().dirty()).toBeFalse();
+
+      testComponent.messageStream.next({
+        type: SkyColorpickerMessageType.Reset,
+      });
+      fixture.detectChanges();
+
+      expect(testComponent.colorForm().dirty()).toBeFalse();
     });
   });
 });

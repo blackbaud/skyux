@@ -36,6 +36,9 @@ export { SkyRadioType } from './lib/modules/radio/types/radio-type';
 
 export { SkyRequiredStateDirective } from './lib/modules/required-state/required-state.directive';
 
+export { skyIsAbstractControl } from './lib/modules/shared/is-abstract-control';
+export { skyWatchFormFieldChanges } from './lib/modules/shared/watch-form-field-changes';
+
 export { SkySelectionBoxModule } from './lib/modules/selection-box/selection-box.module';
 export { SkySelectionBoxGridAlignItems } from './lib/modules/selection-box/types/selection-box-grid-align-items';
 export { SkySelectionBoxGridAlignItemsType } from './lib/modules/selection-box/types/selection-box-grid-align-items-type';
