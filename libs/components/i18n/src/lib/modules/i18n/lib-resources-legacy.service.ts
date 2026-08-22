@@ -1,8 +1,8 @@
 // #region imports
 import { Inject, Injectable, Optional } from '@angular/core';
 
-import { EMPTY, Observable, combineLatest, of as observableOf } from 'rxjs';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import { Observable, forkJoin, of as observableOf } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { Format } from '../../utils/format';
 
@@ -21,18 +21,23 @@ import { SkyAppResourceNameProvider } from './resource-name-provider';
 // #endregion
 
 type ResourceKey = string;
-type TemplatedResource = [ResourceKey, ...unknown[]];
+type TemplatedResource = [ResourceKey, ...any[]];
 type ResourceDictionary = Record<string, ResourceKey | TemplatedResource>;
 
+/**
+ * An Angular service for interacting with library resource strings.
+ *
+ * @deprecated This service is deprecated. Use `SkyLibResourcesService` instead.
+ */
 @Injectable({
   providedIn: 'root',
 })
-export class SkyLibResourcesService {
+export class SkyLibResourcesLegacyService {
   #localeProvider: SkyAppLocaleProvider;
   #providers: SkyLibResourcesProvider[] | undefined;
   #resourceNameProvider: SkyAppResourceNameProvider | undefined;
 
-  /* eslint-disable @angular-eslint/prefer-inject -- constructor injection is required to maintain the public API for consumers who may instantiate this service directly (e.g. `new SkyLibResourcesService(...)`) */
+  /* eslint-disable @angular-eslint/prefer-inject -- constructor injection is required to maintain the public API for consumers who may instantiate this service directly (e.g. `new SkyLibResourcesLegacyService(...)`) */
   constructor(
     localeProvider: SkyAppLocaleProvider,
     @Optional()
@@ -48,6 +53,8 @@ export class SkyLibResourcesService {
 
   /**
    * Adds locale resources to be used by library components.
+   *
+   * @deprecated This method is deprecated. Use `SkyLibResourcesService.addResources()` instead.
    */
   public static addResources(
     localeResources: Record<string, SkyLibResources>,
@@ -56,17 +63,19 @@ export class SkyLibResourcesService {
   }
 
   /**
-   * Gets a resource string based on its name.
-   * Emits whenever the locale changes.
+   * Gets a resource string based on its name. Emits once and completes.
    * @param name The name of the resource string.
    * @param args Any templated args.
+   * @deprecated This method is deprecated. Use `SkyLibResourcesService.getString()` instead.
    */
-  public getString(name: string, ...args: unknown[]): Observable<string> {
-    const mappedNameObs = this.#getMappedNameObs(name);
-    const localeInfoObs = this.#localeProvider
-      .getLocaleInfo()
-      .pipe(distinctUntilChanged((a, b) => a.locale === b.locale));
-    return combineLatest([mappedNameObs, localeInfoObs]).pipe(
+  public getString(name: string, ...args: any[]): Observable<string> {
+    const mappedNameObs = this.#resourceNameProvider
+      ? this.#resourceNameProvider.getResourceName(name)
+      : observableOf(name);
+
+    const localeInfoObs = this.#localeProvider.getLocaleInfo();
+
+    return forkJoin([mappedNameObs, localeInfoObs]).pipe(
       map(([mappedName, localeInfo]) =>
         this.getStringForLocale(localeInfo, mappedName, ...args),
       ),
@@ -74,10 +83,9 @@ export class SkyLibResourcesService {
   }
 
   /**
-   * Gets a Resource String Dictionary.
-   * Emits whenever the locale changes.
+   * Gets a Resource String Dictionary. Emits once and completes.
    *
-   * This is similar to forkJoin's dictionary syntax, but re-emits on locale changes.
+   * This is similar to forkJoin's dictionary syntax.
    *
    * @param dictionary a Record of **SomeObjectKey** to a Value that is either
    *   - (1) **ResourceKey**
@@ -92,46 +100,39 @@ export class SkyLibResourcesService {
    *    arraySyntaxWithTemplateArgs: ['template', 'a', 'b'],
    * }
    * ```
+   *
+   * @deprecated This method is deprecated. Use `SkyLibResourcesService.getStrings()` instead.
    */
   public getStrings<T extends ResourceDictionary>(
     dictionary: T,
   ): Observable<{ [K in keyof T]: string }> {
-    const entries = Object.entries(dictionary).map(([objKey, resource]) => {
-      const [name, ...args] = Array.isArray(resource) ? resource : [resource];
-      return { objKey, name, args };
-    });
+    const resources$: Record<string, Observable<string>> = {};
 
-    if (entries.length === 0) {
-      return EMPTY;
+    for (const objKey of Object.keys(dictionary)) {
+      const resource: string | [string, ...any[]] = dictionary[objKey];
+
+      if (typeof resource === 'string') {
+        resources$[objKey] = this.getString(resource);
+      } else {
+        const [key, ...templateItems] = resource;
+        resources$[objKey] = this.getString(key, ...templateItems);
+      }
     }
 
-    const mappedNames$ = combineLatest(
-      entries.map(({ name }) => this.#getMappedNameObs(name)),
-    );
-
-    const localeInfoObs = this.#localeProvider
-      .getLocaleInfo()
-      .pipe(distinctUntilChanged((a, b) => a.locale === b.locale));
-
-    return combineLatest([mappedNames$, localeInfoObs]).pipe(
-      map(([mappedNames, localeInfo]) => {
-        const strings = {} as { [K in keyof T]: string };
-        entries.forEach(({ objKey, args }, i) => {
-          strings[objKey as keyof T] = this.getStringForLocale(
-            localeInfo,
-            mappedNames[i],
-            ...args,
-          );
-        });
-        return strings;
-      }),
-    );
+    return forkJoin(resources$) as Observable<{ [K in keyof T]: string }>;
   }
 
+  /**
+   * Gets a resource string for a specific locale based on its name.
+   * @param info The locale to use.
+   * @param name The name of the resource string.
+   * @param args Any templated args.
+   * @deprecated This method is deprecated. Use `SkyLibResourcesService.getStringForLocale()` instead.
+   */
   public getStringForLocale(
     info: SkyAppLocaleInfo,
     name: string,
-    ...args: unknown[]
+    ...args: any[]
   ): string {
     let value: string | undefined;
 
@@ -154,11 +155,5 @@ export class SkyLibResourcesService {
     }
 
     return name;
-  }
-
-  #getMappedNameObs(name: string): Observable<string> {
-    return this.#resourceNameProvider
-      ? this.#resourceNameProvider.getResourceName(name)
-      : observableOf(name);
   }
 }
