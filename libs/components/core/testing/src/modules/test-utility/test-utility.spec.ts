@@ -146,10 +146,7 @@ describe('Test utility', () => {
   });
 
   it('should set the value of an input', () => {
-    const dispatchEventSpy = spyOn(
-      inputEl,
-      'dispatchEvent',
-    ).and.callThrough();
+    const dispatchEventSpy = spyOn(inputEl, 'dispatchEvent').and.callThrough();
     expect(inputEl.value).toEqual('');
     SkyAppTestUtility.setInputValue(inputEl, 'foobar');
     expect(inputEl.value).toEqual('foobar');
