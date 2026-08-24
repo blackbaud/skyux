@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.15.2](https://github.com/blackbaud/skyux/compare/14.15.1...14.15.2) (2026-08-24)
+
+
+### Bug Fixes
+
+* **components/indicators:** sky-tokens no longer prevents projected content from wrapping ([#4656](https://github.com/blackbaud/skyux/issues/4656)) ([44bc889](https://github.com/blackbaud/skyux/commit/44bc889bb06c492caefb1d50a4c640e673f65eb0))
+
 ## [14.15.1](https://github.com/blackbaud/skyux/compare/14.15.0...14.15.1) (2026-08-21)
 
 
