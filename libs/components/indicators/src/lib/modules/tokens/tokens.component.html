@@ -2,7 +2,7 @@
   class="sky-tokens"
   [class.sky-tokens-animation-ready]="animationReady()"
   [class.sky-tokens-animation-enabled]="trackWith"
-  [attr.role]="tokens.length ? 'grid' : null"
+  [attr.role]="gridRoleActive() ? 'grid' : null"
 >
   <!--
       The role must use square brackets otherwise Angular sets the native 'role'
@@ -25,8 +25,9 @@
       {{ token.value[displayWith] }}
     </sky-token>
   }
-  <div class="sky-tokens-content" [attr.role]="tokens.length ? 'row' : null">
-    <div [attr.role]="tokens.length ? 'gridcell' : null">
+  <ng-content select="sky-token" />
+  <div class="sky-tokens-content" [attr.role]="gridRoleActive() ? 'row' : null">
+    <div [attr.role]="gridRoleActive() ? 'gridcell' : null">
       <ng-content />
     </div>
   </div>
