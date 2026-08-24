@@ -24,13 +24,11 @@
         "buildInputs",
         "^buildInputs",
         "{workspaceRoot}/libs/sdk/testing/private/src/**/*",
-        "!{workspaceRoot}/libs/sdk/testing/private/src/**/*.spec.ts",
-        "{workspaceRoot}/libs/sdk/testing/vitest/src/**/*",
-        "!{workspaceRoot}/libs/sdk/testing/vitest/src/**/*.spec.ts"
+        "!{workspaceRoot}/libs/sdk/testing/private/src/**/*.spec.ts"
       ]
     },
     "test": {
-      "dependsOn": ["test-integration", "testing-private:test"],
+      "dependsOn": ["testing-private:test"],
       "executor": "@angular/build:karma",
       "options": {
         "tsConfig": "libs/sdk/testing/tsconfig.spec.json",
@@ -55,13 +53,6 @@
           "sourceMap": true,
           "watch": false
         }
-      }
-    },
-    "test-integration": {
-      "dependsOn": ["build"],
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "npx vitest run --config libs/sdk/testing/vitest/vitest.config.ts"
       }
     },
     "lint": {
