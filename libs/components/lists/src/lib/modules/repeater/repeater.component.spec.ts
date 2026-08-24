@@ -9,7 +9,10 @@ import {
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyLogService } from '@skyux/core';
+import { SkyAppLocaleInfo, SkyAppLocaleProvider } from '@skyux/i18n';
 import { SkyInlineFormButtonLayout } from '@skyux/inline-form';
+
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { A11yRepeaterItem } from './fixtures/a11y-repeater-item';
 import { A11yRepeaterTestComponent } from './fixtures/a11y-repeater.component.fixture';
@@ -21,6 +24,7 @@ import { RepeaterWithMissingTagsFixtureComponent } from './fixtures/repeater-mis
 import { RepeaterScrollableHostTestComponent } from './fixtures/repeater-scrollable-host.component.fixture';
 import { RepeaterTestComponent } from './fixtures/repeater.component.fixture';
 import { SkyRepeaterExpandModeType } from './repeater-expand-mode-type';
+import { SkyRepeaterItemComponent } from './repeater-item.component';
 import { SkyRepeaterService } from './repeater.service';
 
 describe('Repeater item component', () => {
@@ -2694,6 +2698,114 @@ describe('Repeater item component', () => {
       detectChangesAndTick(fixture);
 
       expect(logServiceSpy).not.toHaveBeenCalled();
+    }));
+  });
+
+  describe('with locale changes', () => {
+    const EN_INSTRUCTIONS = 'Press the spacebar or enter key to reorder.';
+    const FR_INSTRUCTIONS =
+      'Appuyez sur la touche Espace ou Entrée pour réorganiser.';
+    const EN_MOVED = 'Moved the item to position';
+    const FR_FINISH = 'A déposé l’élément en position';
+
+    let localeInfo: BehaviorSubject<SkyAppLocaleInfo>;
+
+    beforeEach(() => {
+      localeInfo = new BehaviorSubject<SkyAppLocaleInfo>({ locale: 'en-US' });
+
+      TestBed.configureTestingModule({
+        providers: [
+          {
+            provide: SkyAppLocaleProvider,
+            useValue: {
+              defaultLocale: 'en-US',
+              // Unlike the default provider, this observable never completes,
+              // which is the case the resource strings must handle.
+              getLocaleInfo: (): Observable<SkyAppLocaleInfo> => localeInfo,
+            },
+          },
+        ],
+      });
+    });
+
+    function createReorderableFixture(): ComponentFixture<RepeaterTestComponent> {
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+
+      fixture.detectChanges();
+      fixture.componentRef.setInput('reorderable', true);
+      tick();
+      fixture.detectChanges();
+
+      return fixture;
+    }
+
+    function getFirstItem(
+      fixture: ComponentFixture<RepeaterTestComponent>,
+    ): SkyRepeaterItemComponent {
+      const item = fixture.componentInstance.repeater?.items?.first;
+
+      expect(item).toBeDefined();
+
+      return item as SkyRepeaterItemComponent;
+    }
+
+    it('should apply the reorder strings when the locale provider never completes', fakeAsync(() => {
+      const fixture = createReorderableFixture();
+
+      expect(getFirstItem(fixture).reorderButtonLabel).toBe(EN_INSTRUCTIONS);
+
+      flushDropdownTimer();
+    }));
+
+    it('should update the reorder button label when the locale changes', fakeAsync(() => {
+      const fixture = createReorderableFixture();
+      const item = getFirstItem(fixture);
+
+      expect(item.reorderButtonLabel).toBe(EN_INSTRUCTIONS);
+
+      localeInfo.next({ locale: 'fr-CA' });
+      tick();
+      fixture.detectChanges();
+
+      expect(item.reorderButtonLabel).toBe(FR_INSTRUCTIONS);
+
+      flushDropdownTimer();
+    }));
+
+    it('should not overwrite the reorder button label while a keyboard reorder is in progress', fakeAsync(() => {
+      const fixture = createReorderableFixture();
+      const grabHandle = getReorderHandles(fixture.nativeElement)[1];
+
+      // Grab the second item and move it up, but don't drop it.
+      SkyAppTestUtility.fireDomEvent(grabHandle, 'keydown', {
+        keyboardEventInit: { key: ' ' },
+      });
+      fixture.detectChanges();
+      SkyAppTestUtility.fireDomEvent(grabHandle, 'keydown', {
+        keyboardEventInit: { key: 'arrowUp' },
+      });
+      fixture.detectChanges();
+
+      const movedItem = fixture.componentInstance.repeater?.items?.toArray()[1];
+
+      expect(movedItem?.reorderButtonLabel).toBe(`${EN_MOVED} 1`);
+
+      localeInfo.next({ locale: 'fr-CA' });
+      tick();
+      fixture.detectChanges();
+
+      // The in-progress reorder owns the label, so it must survive the change.
+      expect(movedItem?.reorderButtonLabel).toBe(`${EN_MOVED} 1`);
+
+      // Dropping the item proves the strings themselves did update underneath.
+      SkyAppTestUtility.fireDomEvent(grabHandle, 'keydown', {
+        keyboardEventInit: { key: ' ' },
+      });
+      fixture.detectChanges();
+
+      expect(movedItem?.reorderState).toBe(`${FR_FINISH} 1 ${FR_INSTRUCTIONS}`);
+
+      flushDropdownTimer();
     }));
   });
 

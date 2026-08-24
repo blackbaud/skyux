@@ -33,7 +33,7 @@ import {
   SkyInlineFormConfig,
 } from '@skyux/inline-form';
 
-import { Observable, Subject, forkJoin as observableForkJoin } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyRepeaterAdapterService } from './repeater-adapter.service';
@@ -371,30 +371,34 @@ export class SkyRepeaterItemComponent
   constructor() {
     this.#slideForExpanded();
 
-    observableForkJoin([
-      this.#resourceService.getString('skyux_repeater_item_reorder_cancel'),
-      this.#resourceService.getString('skyux_repeater_item_reorder_finish'),
-      this.#resourceService.getString(
-        'skyux_repeater_item_reorder_instructions',
-      ),
-      this.#resourceService.getString('skyux_repeater_item_reorder_operation'),
-      this.#resourceService.getString('skyux_repeater_item_reorder_moved'),
-    ])
+    this.#resourceService
+      .getStrings({
+        reorderCancelText: 'skyux_repeater_item_reorder_cancel',
+        reorderFinishText: 'skyux_repeater_item_reorder_finish',
+        reorderInstructionsText: 'skyux_repeater_item_reorder_instructions',
+        reorderOperationText: 'skyux_repeater_item_reorder_operation',
+        reorderMovedText: 'skyux_repeater_item_reorder_moved',
+      })
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(
-        ([
+        ({
           reorderCancelText,
           reorderFinishText,
           reorderInstructionsText,
           reorderOperationText,
           reorderMovedText,
-        ]) => {
+        }) => {
           this.#reorderCancelText = reorderCancelText;
           this.#reorderFinishText = reorderFinishText;
           this.#reorderStateDescription = reorderInstructionsText;
           this.#reorderInstructions = reorderOperationText;
           this.#reorderMovedText = reorderMovedText;
-          this.reorderButtonLabel = this.#reorderInstructions;
+
+          // The strings re-emit when the locale changes, but the button label is
+          // owned by the reorder interaction while a reorder is in progress.
+          if (!this.#keyboardReorderingEnabled) {
+            this.reorderButtonLabel = this.#reorderInstructions;
+          }
         },
       );
     this.contentId = `sky-repeater-item-content-${++nextContentId}`;

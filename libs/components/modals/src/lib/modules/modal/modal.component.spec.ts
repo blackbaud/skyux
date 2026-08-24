@@ -14,12 +14,15 @@ import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
 } from '@skyux/core/testing';
+import { SkyAppLocaleInfo, SkyAppLocaleProvider } from '@skyux/i18n';
 import {
   SkyTheme,
   SkyThemeMode,
   SkyThemeService,
   SkyThemeSettings,
 } from '@skyux/theme';
+
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { ModalMockThemeService } from './fixtures/mock-theme.service';
 import { ModalAutofocusTestComponent } from './fixtures/modal-autofocus.component.fixture';
@@ -1440,8 +1443,26 @@ describe('Modal component', () => {
     }
 
     let dirtyContextProvider: { providers: StaticProvider[] };
+    let localeSubject: BehaviorSubject<SkyAppLocaleInfo>;
 
     beforeEach(() => {
+      localeSubject = new BehaviorSubject<SkyAppLocaleInfo>({
+        locale: 'en-US',
+      });
+
+      TestBed.configureTestingModule({
+        providers: [
+          {
+            provide: SkyAppLocaleProvider,
+            useValue: {
+              defaultLocale: 'en-US',
+              getLocaleInfo: (): Observable<SkyAppLocaleInfo> =>
+                localeSubject.asObservable(),
+            },
+          },
+        ],
+      });
+
       dirtyContextProvider = {
         providers: [
           {
@@ -1534,6 +1555,66 @@ describe('Modal component', () => {
         await checkConfirmModalIsCorrect(confirmModalEl);
         getDiscardButtonElement(confirmModalEl)?.click();
         expect(getModalElement()).toBeNull();
+      }
+    }));
+
+    it('should not disturb the prompt when resource strings emit after the prompt is displayed', fakeAsync(async () => {
+      const modalInstance = openModal(
+        ModalIsDirtyTestComponent,
+        dirtyContextProvider,
+      );
+      closeModal(modalInstance);
+
+      const confirmModalEl = getConfirmModalElement();
+      expect(confirmModalEl).not.toBeNull();
+
+      if (confirmModalEl) {
+        await checkConfirmModalIsCorrect(confirmModalEl);
+
+        // The resource strings observable emits again whenever the locale
+        // changes, which can happen after the prompt has been displayed.
+        localeSubject.next({ locale: 'fr-CA' });
+        tick();
+        getApplicationRef().tick();
+
+        // The prompt should be neither duplicated nor recreated.
+        expect(document.querySelectorAll('.sky-confirm').length).toBe(1);
+        expect(getConfirmModalElement()).toBe(confirmModalEl);
+
+        // The prompt keeps the text it was displayed with, even though the
+        // resource strings now resolve to the new locale.
+        await expectAsync(
+          confirmModalEl.querySelector('.sky-confirm-message'),
+        ).not.toHaveLibResourceText('skyux_modal_dirty_default_message');
+
+        getDiscardButtonElement(confirmModalEl)?.click();
+        expect(getModalElement()).toBeNull();
+      }
+    }));
+
+    it('should not display the prompt again when resource strings emit after keep working is selected', fakeAsync(async () => {
+      const modalInstance = openModal(
+        ModalIsDirtyTestComponent,
+        dirtyContextProvider,
+      );
+      closeModal(modalInstance);
+
+      const confirmModalEl = getConfirmModalElement();
+      expect(confirmModalEl).not.toBeNull();
+
+      if (confirmModalEl) {
+        await checkConfirmModalIsCorrect(confirmModalEl);
+        getKeepWorkingButtonElement(confirmModalEl)?.click();
+        tick();
+        getApplicationRef().tick();
+
+        expect(getConfirmModalElement()).toBeNull();
+
+        localeSubject.next({ locale: 'fr-CA' });
+        tick();
+        getApplicationRef().tick();
+
+        expect(getConfirmModalElement()).toBeNull();
       }
     }));
   });

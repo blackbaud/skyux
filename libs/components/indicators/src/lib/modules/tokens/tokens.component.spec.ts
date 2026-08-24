@@ -166,11 +166,12 @@ describe('Tokens component', () => {
       component.publishTokens();
       fixture.detectChanges();
       expect(changeSpy).toHaveBeenCalled();
-      expect(renderedSpy).not.toHaveBeenCalled();
 
-      // Tick fires the animation callback
+      // The rendered event is emitted from an `afterNextRender` hook, which may
+      // be flushed by the change detection above or by a later macrotask, so
+      // only assert that it is emitted once the queue is drained.
       tick();
-      expect(renderedSpy).toHaveBeenCalled();
+      expect(renderedSpy).toHaveBeenCalledTimes(1);
     }));
 
     it('should emit when the focus index is greater than the number of tokens', () => {
