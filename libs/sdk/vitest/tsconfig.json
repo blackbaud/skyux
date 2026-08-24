@@ -1,6 +1,7 @@
 {
   "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
+    "module": "esnext",
     "typeRoots": ["../../../node_modules/@types", "../../../node_modules"]
   },
   "files": [],
@@ -10,13 +11,7 @@
       "path": "./tsconfig.lib.json"
     },
     {
-      "path": "./tsconfig.lib.prod.json"
-    },
-    {
       "path": "./tsconfig.spec.json"
-    },
-    {
-      "path": "./private/tsconfig.json"
     }
   ]
 }
