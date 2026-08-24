@@ -29,7 +29,16 @@ module.exports = [
     languageOptions: { parser: require('jsonc-eslint-parser') },
   },
   {
-    files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
+    files: [
+      '**/*.ts',
+      '**/*.cts',
+      '**/*.mts',
+      '**/*.tsx',
+      '**/*.js',
+      '**/*.cjs',
+      '**/*.mjs',
+      '**/*.jsx',
+    ],
     rules: {
       '@nx/enforce-module-boundaries': [
         'error',
