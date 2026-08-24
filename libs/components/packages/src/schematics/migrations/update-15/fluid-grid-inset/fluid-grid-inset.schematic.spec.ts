@@ -147,6 +147,62 @@ describe('fluid-grid-inset.schematic', () => {
 </sky-fluid-grid>`);
   });
 
+  it('should quote the inverted binding with single quotes when the expression contains a double quote', async () => {
+    const tree = setupTree({
+      '/src/app/test.component.html': `<sky-fluid-grid [disableMargin]='x === "foo"'>
+  <sky-row></sky-row>
+</sky-fluid-grid>`,
+    });
+
+    await runSchematic(tree);
+
+    expect(tree.readText('/src/app/test.component.html'))
+      .toBe(`<sky-fluid-grid [inset]='!(x === "foo")'>
+  <sky-row></sky-row>
+</sky-fluid-grid>`);
+  });
+
+  it('should entity-encode double quotes when the expression contains both quote characters', async () => {
+    // The source uses &quot; to embed a literal double quote inside a
+    // double-quoted attribute; parse5 decodes it to `x === "foo" || y !== 'bar'`.
+    const tree = setupTree({
+      '/src/app/test.component.html': `<sky-fluid-grid [disableMargin]="x === &quot;foo&quot; || y !== 'bar'"></sky-fluid-grid>`,
+    });
+
+    await runSchematic(tree);
+
+    expect(tree.readText('/src/app/test.component.html')).toBe(
+      `<sky-fluid-grid [inset]="!(x === &quot;foo&quot; || y !== 'bar')"></sky-fluid-grid>`,
+    );
+  });
+
+  it('should migrate the long-form bind-disableMargin syntax', async () => {
+    const tree = setupTree({
+      '/src/app/test.component.html': `<sky-fluid-grid bind-disableMargin="hideMargin">
+  <sky-row></sky-row>
+</sky-fluid-grid>`,
+    });
+
+    await runSchematic(tree);
+
+    expect(tree.readText('/src/app/test.component.html'))
+      .toBe(`<sky-fluid-grid [inset]="!(hideMargin)">
+  <sky-row></sky-row>
+</sky-fluid-grid>`);
+  });
+
+  it('should remove a literal-true bind-disableMargin attribute', async () => {
+    const tree = setupTree({
+      '/src/app/test.component.html': `<sky-fluid-grid bind-disableMargin="true"></sky-fluid-grid>`,
+    });
+
+    await runSchematic(tree);
+
+    expect(tree.readText('/src/app/test.component.html')).toBe(
+      `<sky-fluid-grid></sky-fluid-grid>`,
+    );
+  });
+
   it('should not change an element that does not set disableMargin', async () => {
     const template = `<sky-fluid-grid>
   <sky-row></sky-row>

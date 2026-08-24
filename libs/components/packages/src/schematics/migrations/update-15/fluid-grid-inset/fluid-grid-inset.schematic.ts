@@ -21,7 +21,26 @@ import { visitProjectFiles } from '../../../utility/visit-project-files';
 
 // parse5 lowercases attribute names.
 const STATIC_ATTRIBUTE = 'disablemargin';
-const BOUND_ATTRIBUTE = '[disablemargin]';
+// `[disableMargin]` and the equivalent long-form `bind-disableMargin` syntax
+// are both bound (real boolean) forms.
+const BOUND_ATTRIBUTES = ['[disablemargin]', 'bind-disablemargin'];
+const INSET_ATTRIBUTES = ['inset', '[inset]', 'bind-inset'];
+
+/**
+ * Quotes a value for use as an HTML attribute, choosing a quote character
+ * that doesn't appear in the value when possible. If the value contains
+ * both quote characters, double quotes are used and any embedded double
+ * quotes are entity-encoded so the attribute isn't terminated early.
+ */
+function quoteAttributeValue(value: string): string {
+  if (!value.includes('"')) {
+    return `"${value}"`;
+  }
+  if (!value.includes("'")) {
+    return `'${value}'`;
+  }
+  return `"${value.replace(/"/g, '&quot;')}"`;
+}
 
 function isElement(
   node: DefaultTreeAdapterTypes.Node,
@@ -77,13 +96,21 @@ function replaceAttribute(
  *   the margin, same as `"true"`. A bare/empty attribute becomes
  *   `inset="true"` to keep the margin; any other static value is removed.
  * - A bound literal `true` or `false` is a real boolean, so `[disableMargin]="true"`
- *   is removed (hiding the margin is now the default) and
- *   `[disableMargin]="false"` becomes `[inset]="true"` (preserving the margin).
+ *   (or the equivalent `bind-disableMargin="true"`) is removed (hiding the
+ *   margin is now the default) and `[disableMargin]="false"` becomes
+ *   `[inset]="true"` (preserving the margin).
  * - A bound, non-literal expression becomes `[inset]="!(expression)"`.
  * - If `disableMargin` isn't set at all, nothing changes: the fluid grid's
  *   default behavior is changing, so the file is left for manual review --
  *   unless `inset` is already set, in which case it's already migrated and
  *   doesn't need a warning.
+ *
+ * Known limitation: this only recognizes literal `disableMargin`/
+ * `[disableMargin]`/`bind-disableMargin` template attributes. It can't see
+ * usages set programmatically (e.g. via `ViewChild` or `Renderer2`), and a
+ * static, interpolated attribute (`disableMargin="{{ expression }}"`) is
+ * judged by its literal source text rather than the expression's runtime
+ * value.
  */
 function migrateFluidGrid(
   node: ElementWithLocation,
@@ -92,15 +119,15 @@ function migrateFluidGrid(
   recorder: UpdateRecorder,
 ): boolean {
   const staticAttr = node.attrs.find((attr) => attr.name === STATIC_ATTRIBUTE);
-  const boundAttr = node.attrs.find((attr) => attr.name === BOUND_ATTRIBUTE);
+  const boundAttr = node.attrs.find((attr) =>
+    BOUND_ATTRIBUTES.includes(attr.name),
+  );
 
   if (!staticAttr && !boundAttr) {
     // Elements that already set `inset` (static or bound) have already been
     // migrated, so they don't need a warning even though `disableMargin`
     // isn't present.
-    return node.attrs.some(
-      (attr) => attr.name === 'inset' || attr.name === '[inset]',
-    );
+    return node.attrs.some((attr) => INSET_ATTRIBUTES.includes(attr.name));
   }
 
   if (staticAttr) {
@@ -118,22 +145,17 @@ function migrateFluidGrid(
   }
 
   if (boundAttr) {
+    const attributeName = boundAttr.name;
     const value = boundAttr.value.trim();
     if (value === 'true') {
-      removeAttribute(node, BOUND_ATTRIBUTE, content, offset, recorder);
+      removeAttribute(node, attributeName, content, offset, recorder);
     } else if (value === 'false') {
-      replaceAttribute(
-        node,
-        BOUND_ATTRIBUTE,
-        '[inset]="true"',
-        offset,
-        recorder,
-      );
+      replaceAttribute(node, attributeName, '[inset]="true"', offset, recorder);
     } else {
       replaceAttribute(
         node,
-        BOUND_ATTRIBUTE,
-        `[inset]="!(${value})"`,
+        attributeName,
+        `[inset]=${quoteAttributeValue(`!(${value})`)}`,
         offset,
         recorder,
       );
