@@ -4,6 +4,7 @@ import {
   Input,
   booleanAttribute,
   inject,
+  input,
 } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
 
@@ -52,8 +53,7 @@ export class SkyFluidGridComponent {
    * the fluid grid's content extends to the edges of its container.
    * @default false
    */
-  @Input({ transform: booleanAttribute })
-  public inset = false;
+  public readonly inset = input(false, { transform: booleanAttribute });
 
   /**
    * The type that defines the size of the padding
@@ -76,7 +76,7 @@ export class SkyFluidGridComponent {
    * removed.
    */
   protected get noMargin(): boolean {
-    return this.disableMargin ?? !this.inset;
+    return this.disableMargin ?? !this.inset();
   }
 
   #_disableMargin: boolean | undefined;

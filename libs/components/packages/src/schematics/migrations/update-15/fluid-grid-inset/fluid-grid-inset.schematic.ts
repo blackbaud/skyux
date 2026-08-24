@@ -81,7 +81,9 @@ function replaceAttribute(
  *   `[disableMargin]="false"` becomes `[inset]="true"` (preserving the margin).
  * - A bound, non-literal expression becomes `[inset]="!(expression)"`.
  * - If `disableMargin` isn't set at all, nothing changes: the fluid grid's
- *   default behavior is changing, so the file is left for manual review.
+ *   default behavior is changing, so the file is left for manual review --
+ *   unless `inset` is already set, in which case it's already migrated and
+ *   doesn't need a warning.
  */
 function migrateFluidGrid(
   node: ElementWithLocation,
@@ -93,7 +95,12 @@ function migrateFluidGrid(
   const boundAttr = node.attrs.find((attr) => attr.name === BOUND_ATTRIBUTE);
 
   if (!staticAttr && !boundAttr) {
-    return false;
+    // Elements that already set `inset` (static or bound) have already been
+    // migrated, so they don't need a warning even though `disableMargin`
+    // isn't present.
+    return node.attrs.some(
+      (attr) => attr.name === 'inset' || attr.name === '[inset]',
+    );
   }
 
   if (staticAttr) {

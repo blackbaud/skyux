@@ -160,6 +160,44 @@ describe('fluid-grid-inset.schematic', () => {
     expect(tree.readText('/src/app/test.component.html')).toBe(template);
   });
 
+  it('should not warn for an element that already sets a static inset attribute', async () => {
+    const warnSpy = jest.fn();
+    const template = `<sky-fluid-grid inset="true"></sky-fluid-grid>`;
+    const tree = setupTree({
+      '/src/app/test.component.html': template,
+    });
+
+    runner.logger.subscribe((entry) => {
+      if (entry.level === 'warn') {
+        warnSpy(entry.message);
+      }
+    });
+
+    await runSchematic(tree);
+
+    expect(tree.readText('/src/app/test.component.html')).toBe(template);
+    expect(warnSpy).not.toHaveBeenCalled();
+  });
+
+  it('should not warn for an element that already sets a bound inset attribute', async () => {
+    const warnSpy = jest.fn();
+    const template = `<sky-fluid-grid [inset]="condition"></sky-fluid-grid>`;
+    const tree = setupTree({
+      '/src/app/test.component.html': template,
+    });
+
+    runner.logger.subscribe((entry) => {
+      if (entry.level === 'warn') {
+        warnSpy(entry.message);
+      }
+    });
+
+    await runSchematic(tree);
+
+    expect(tree.readText('/src/app/test.component.html')).toBe(template);
+    expect(warnSpy).not.toHaveBeenCalled();
+  });
+
   it('should migrate multiple elements within the same template', async () => {
     const tree = setupTree({
       '/src/app/test.component.html': `<sky-fluid-grid [disableMargin]="true"></sky-fluid-grid>
