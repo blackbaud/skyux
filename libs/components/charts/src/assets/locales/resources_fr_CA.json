@@ -1,0 +1,26 @@
+{
+  "skyux_charts.chart.bar.accessible_summary": {
+    "_description": "Le résumé accessible annoncé pour une figure de graphique à barres, décrivant sa forme et indiquant qu’un tableau de données est disponible comme solution de rechange",
+    "message": "Graphique à barres Nombre de séries : {0}. Nombre de catégories : {1}. Un tableau de données est disponible dans le menu du contexte du graphique.",
+    "_0": "Le nombre de séries",
+    "_1": "Le nombre de catégories"
+  },
+  "skyux_charts.chart.controls.context_menu.accessible_name": {
+    "_description": "Le nom accessible du menu déroulant des commandes du composant de graphique",
+    "message": "Menu du contexte pour {0}",
+    "_0": "Le texte de l’en-tête du graphique"
+  },
+  "skyux_charts.chart.controls.context_menu.view_data_table": {
+    "_description": "L’étiquette de l’élément de menu « Afficher le tableau de données » du graphique",
+    "message": "Visualiser la table de données"
+  },
+  "skyux_charts.data_table_modal.close_button": {
+    "_description": "L'étiquette du bouton fermer",
+    "message": "Fermer"
+  },
+  "skyux_charts.data_table_modal.table_region_label": {
+    "_description": "Le nom accessible de la zone de défilement contenant le tableau de données du graphique",
+    "message": "Tableau de données pour {0}",
+    "_0": "Le texte de l’en-tête du graphique"
+  }
+}
