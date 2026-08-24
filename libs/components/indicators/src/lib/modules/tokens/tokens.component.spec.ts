@@ -132,9 +132,8 @@ describe('Tokens component', () => {
       try {
         projectedTokenFixture.detectChanges();
 
-        const hostElement =
-          projectedTokenFixture.componentInstance.tokensElementRef
-            ?.nativeElement;
+        const hostElement = projectedTokenFixture.componentInstance
+          .tokensElementRef?.nativeElement as HTMLElement | undefined;
         if (!hostElement) {
           fail('Expected SkyTokensComponent ElementRef to be available.');
           return;
@@ -169,30 +168,39 @@ describe('Tokens component', () => {
       }
     });
 
-    it('should set role="row" on projected sky-token elements when the grid role is active, and update it as tokens change', () => {
+    it('should apply role="row" to projected sky-token elements whenever the grid role is active, including when driven purely by projected content', () => {
       const projectedTokenFixture = TestBed.createComponent(
         SkyTokensProjectedTokenTestComponent,
       );
       projectedTokenFixture.detectChanges();
 
-      const getProjectedTokenRoles = (): (string | undefined)[] | undefined =>
-        projectedTokenFixture.componentInstance.tokensComponent?.projectedTokenComponents?.map(
-          (token) => token.role,
-        );
+      const getTokenRoles = (): (string | null)[] =>
+        Array.from(
+          (
+            projectedTokenFixture.componentInstance.tokensElementRef
+              ?.nativeElement as HTMLElement
+          ).querySelectorAll('.sky-token'),
+        ).map((tokenElement) => tokenElement.getAttribute('role'));
 
-      expect(getProjectedTokenRoles()).toEqual([undefined, undefined]);
+      // The two manually projected tokens alone are enough to activate the
+      // grid role, even though no array-driven token exists yet.
+      expect(getTokenRoles()).toEqual(['row', 'row']);
 
       projectedTokenFixture.componentInstance.tokens = [
         { value: { name: 'Red' } },
       ];
       projectedTokenFixture.detectChanges();
 
-      expect(getProjectedTokenRoles()).toEqual(['row', 'row']);
+      // The array-driven token renders first in the DOM, followed by the two
+      // projected ones.
+      expect(getTokenRoles()).toEqual(['row', 'row', 'row']);
 
       projectedTokenFixture.componentInstance.tokens = [];
       projectedTokenFixture.detectChanges();
 
-      expect(getProjectedTokenRoles()).toEqual([undefined, undefined]);
+      // Removing the array-driven token leaves the projected tokens' own
+      // presence still driving the grid role.
+      expect(getTokenRoles()).toEqual(['row', 'row']);
 
       projectedTokenFixture.destroy();
     });
@@ -209,12 +217,30 @@ describe('Tokens component', () => {
       projectedTokenFixture.componentInstance.includeAdditionalToken = true;
       projectedTokenFixture.detectChanges();
 
-      const roles =
-        projectedTokenFixture.componentInstance.tokensComponent?.projectedTokenComponents?.map(
-          (token) => token.role,
-        );
+      const hostElement = projectedTokenFixture.componentInstance
+        .tokensElementRef?.nativeElement as HTMLElement;
+      const tokensRoot = hostElement.querySelector<HTMLElement>('.sky-tokens');
+      const contentContainer = hostElement.querySelector<HTMLElement>(
+        '.sky-tokens-content',
+      );
+      const tokenElements = Array.from(
+        hostElement.querySelectorAll<HTMLElement>('.sky-token'),
+      );
 
-      expect(roles).toEqual(['row', 'row', 'row']);
+      expect(tokenElements.map((el) => el.getAttribute('role'))).toEqual([
+        'row',
+        'row',
+        'row',
+        'row',
+      ]);
+
+      // The token projected after the grid role was already active must
+      // still land as a sibling of the array-driven tokens (so it can wrap),
+      // not fall back into the untouched .sky-tokens-content slot.
+      const lastToken = tokenElements.at(-1);
+      expect(lastToken?.textContent?.trim()).toBe('Manually added C');
+      expect(lastToken?.closest('sky-token')?.parentElement).toBe(tokensRoot);
+      expect(contentContainer?.querySelector('sky-token')).toBeNull();
 
       projectedTokenFixture.destroy();
     });
