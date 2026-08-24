@@ -186,16 +186,21 @@ describe('Tokens component', () => {
       // grid role, even though no array-driven token exists yet.
       expect(getTokenRoles()).toEqual(['row', 'row']);
 
-      projectedTokenFixture.componentInstance.tokens = [
-        { value: { name: 'Red' } },
-      ];
+      const tokensComponent =
+        projectedTokenFixture.componentInstance.tokensComponent;
+      if (!tokensComponent) {
+        fail('Expected SkyTokensComponent instance to be available.');
+        return;
+      }
+
+      tokensComponent.tokens = [{ value: { name: 'Red' } }];
       projectedTokenFixture.detectChanges();
 
       // The array-driven token renders first in the DOM, followed by the two
       // projected ones.
       expect(getTokenRoles()).toEqual(['row', 'row', 'row']);
 
-      projectedTokenFixture.componentInstance.tokens = [];
+      tokensComponent.tokens = [];
       projectedTokenFixture.detectChanges();
 
       // Removing the array-driven token leaves the projected tokens' own
@@ -209,9 +214,16 @@ describe('Tokens component', () => {
       const projectedTokenFixture = TestBed.createComponent(
         SkyTokensProjectedTokenTestComponent,
       );
-      projectedTokenFixture.componentInstance.tokens = [
-        { value: { name: 'Red' } },
-      ];
+      projectedTokenFixture.detectChanges();
+
+      const tokensComponent =
+        projectedTokenFixture.componentInstance.tokensComponent;
+      if (!tokensComponent) {
+        fail('Expected SkyTokensComponent instance to be available.');
+        return;
+      }
+
+      tokensComponent.tokens = [{ value: { name: 'Red' } }];
       projectedTokenFixture.detectChanges();
 
       projectedTokenFixture.componentInstance.includeAdditionalToken = true;
