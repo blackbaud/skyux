@@ -239,9 +239,12 @@ export function buildCartesianScales(options: {
     isStacked = false,
     themeStyles,
   } = options;
+
   const indexAxis = isHorizontal ? 'y' : 'x';
   const valueDirection = isHorizontal ? 'x' : 'y';
+
   const base = buildThemedScaleStyle(themeStyles);
+
   const formatValue = valueAxis.formatValue();
   const scaleType = valueAxis.scaleType();
 
@@ -265,7 +268,10 @@ export function buildCartesianScales(options: {
       },
       ticks: {
         ...base.ticks,
-        major: { enabled: true },
+        // A horizontal chart's height grows with its category count, so every
+        // label is guaranteed room and none may be dropped. A vertical chart's
+        // width is fixed, so its labels must still be skipped when they crowd.
+        autoSkip: !isHorizontal,
       },
       title: {
         display: !categoryAxis.labelHidden(),
