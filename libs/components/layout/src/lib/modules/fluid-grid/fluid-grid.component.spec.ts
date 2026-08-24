@@ -115,11 +115,23 @@ describe('SkyFluidGridComponent', () => {
     expect(fluidGrid).toHaveCssClass('sky-fluid-grid-no-margin');
   });
 
-  it('should let the deprecated disableMargin input take precedence over inset when both are set', () => {
+  it('should let inset take precedence over the deprecated disableMargin input when both are set', () => {
     const fluidGrid = getFluidGrid(fixture);
 
+    // disableMargin says "show the margin", but inset says "hide it" -- inset wins.
     fixture.componentRef.setInput('disableMargin', false);
     fixture.componentRef.setInput('inset', false);
+    fixture.detectChanges();
+
+    expect(fluidGrid).toHaveCssClass('sky-fluid-grid-no-margin');
+  });
+
+  it('should let inset override disableMargin in the other direction as well', () => {
+    const fluidGrid = getFluidGrid(fixture);
+
+    // disableMargin says "hide the margin", but inset says "show it" -- inset wins.
+    fixture.componentRef.setInput('disableMargin', true);
+    fixture.componentRef.setInput('inset', true);
     fixture.detectChanges();
 
     expect(fluidGrid).not.toHaveCssClass('sky-fluid-grid-no-margin');
