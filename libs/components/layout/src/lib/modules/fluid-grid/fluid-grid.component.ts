@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
+  booleanAttribute,
   inject,
 } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
@@ -51,8 +52,8 @@ export class SkyFluidGridComponent {
    * the fluid grid's content extends to the edges of its container.
    * @default false
    */
-  @Input()
-  public inset: boolean | undefined = false;
+  @Input({ transform: booleanAttribute })
+  public inset = false;
 
   /**
    * The type that defines the size of the padding
