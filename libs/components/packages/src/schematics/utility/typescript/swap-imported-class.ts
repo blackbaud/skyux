@@ -23,6 +23,62 @@ function findReferences(
   );
 }
 
+function getNamespaceImportNames(sourceFile: ts.SourceFile): string[] {
+  return findNodes(sourceFile, ts.SyntaxKind.ImportDeclaration).flatMap(
+    (node) => {
+      if (!ts.isImportDeclaration(node)) {
+        return [];
+      }
+
+      const clause = node.importClause;
+      const bindings = clause?.namedBindings;
+
+      return clause && bindings && ts.isNamespaceImport(bindings)
+        ? [bindings.name.text]
+        : [];
+    },
+  );
+}
+
+function getLeftmostIdentifier(node: ts.Node): ts.Identifier | undefined {
+  let current = node;
+
+  while (
+    ts.isPropertyAccessExpression(current) ||
+    ts.isQualifiedName(current)
+  ) {
+    current = ts.isPropertyAccessExpression(current)
+      ? current.expression
+      : current.left;
+  }
+
+  return ts.isIdentifier(current) ? current : undefined;
+}
+
+function isNamespaceQualifiedReference(
+  reference: ts.Identifier,
+  namespaceNames: string[],
+): boolean {
+  const parent = reference.parent;
+
+  // Value position, e.g. `namespace.SkyThing`; type position, e.g.
+  // `let thing: namespace.SkyThing`.
+  const qualifier =
+    ts.isPropertyAccessExpression(parent) && parent.name === reference
+      ? parent.expression
+      : ts.isQualifiedName(parent) && parent.right === reference
+        ? parent.left
+        : undefined;
+
+  if (!qualifier) {
+    return false;
+  }
+
+  const namespace = getLeftmostIdentifier(qualifier);
+
+  return !!namespace && namespaceNames.includes(namespace.text);
+}
+
 function swapReference(
   recorder: UpdateRecorder,
   reference: ts.Identifier,
@@ -73,6 +129,7 @@ export function swapImportedClass(
     sourceFile,
     ts.SyntaxKind.ImportDeclaration,
   ).reduce((max, node) => Math.max(max, node.getEnd()), 0);
+  const namespaceImportNames = getNamespaceImportNames(sourceFile);
 
   // `insertImport` reads the original AST, so inserts are batched per module
   // and applied once below. Applying them as they are found would emit a
@@ -86,8 +143,14 @@ export function swapImportedClass(
       const referencesInCode = findReferences(sourceFile, oldClassName).filter(
         (reference) => reference.getStart() > endOfImports,
       );
+      const referencesInCodeWithoutNamespaces = referencesInCode.filter(
+        (reference) =>
+          !isNamespaceQualifiedReference(reference, namespaceImportNames),
+      );
       const referencesFiltered = referencesInCode.filter(
-        filter ?? ((): boolean => true),
+        (reference) =>
+          (filter ?? ((): boolean => true))(reference) &&
+          !isNamespaceQualifiedReference(reference, namespaceImportNames),
       );
       const newClassNameString = Array.isArray(newClassName)
         ? newClassName.join(', ')
@@ -97,7 +160,8 @@ export function swapImportedClass(
       });
       if (referencesFiltered.length > 0) {
         const allReferencesToBeReplaced =
-          referencesFiltered.length === referencesInCode.length;
+          referencesFiltered.length ===
+          referencesInCodeWithoutNamespaces.length;
         const newClassNameArray = Array.isArray(newClassName)
           ? newClassName
           : [newClassName];

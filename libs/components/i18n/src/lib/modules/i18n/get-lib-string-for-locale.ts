@@ -1,5 +1,25 @@
 import { SkyLibResources } from './lib-resources';
 
+const registry: Record<string, SkyLibResources> = {};
+
+/**
+ * @internal
+ */
+export function addLibResources(
+  localeResources: Record<string, SkyLibResources>,
+): void {
+  for (const [locale, resources] of Object.entries(localeResources)) {
+    registry[locale] = { ...registry[locale], ...resources };
+  }
+}
+
+/**
+ * @internal
+ */
+export function getLibResources(): Record<string, SkyLibResources> {
+  return registry;
+}
+
 /**
  * @internal
  */

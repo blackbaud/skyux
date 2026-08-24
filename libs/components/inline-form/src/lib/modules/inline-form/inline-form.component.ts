@@ -201,26 +201,27 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
         break;
 
       case SkyInlineFormButtonLayout.DoneDeleteCancel:
-        observableZip(
-          this.#resourcesService.getString('skyux_inline_form_button_done'),
-          this.#resourcesService.getString('skyux_inline_form_button_delete'),
-          this.#resourcesService.getString('skyux_inline_form_button_cancel'),
-        )
+        this.#resourcesService
+          .getStrings({
+            doneText: 'skyux_inline_form_button_done',
+            deleteText: 'skyux_inline_form_button_delete',
+            cancelText: 'skyux_inline_form_button_cancel',
+          })
           .pipe(takeUntil(this.#ngUnsubscribe))
-          .subscribe((values: string[]) => {
+          .subscribe(({ doneText, deleteText, cancelText }) => {
             emitter.next([
               {
-                text: values[0],
+                text: doneText,
                 styleType: 'primary',
                 action: 'done',
               },
               {
-                text: values[1],
+                text: deleteText,
                 styleType: 'default',
                 action: 'delete',
               },
               {
-                text: values[2],
+                text: cancelText,
                 styleType: 'link',
                 action: 'cancel',
               },
@@ -229,26 +230,27 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
         break;
 
       case SkyInlineFormButtonLayout.SaveDeleteCancel:
-        observableZip(
-          this.#resourcesService.getString('skyux_inline_form_button_save'),
-          this.#resourcesService.getString('skyux_inline_form_button_delete'),
-          this.#resourcesService.getString('skyux_inline_form_button_cancel'),
-        )
+        this.#resourcesService
+          .getStrings({
+            saveText: 'skyux_inline_form_button_save',
+            deleteText: 'skyux_inline_form_button_delete',
+            cancelText: 'skyux_inline_form_button_cancel',
+          })
           .pipe(takeUntil(this.#ngUnsubscribe))
-          .subscribe((values: string[]) => {
+          .subscribe(({ saveText, deleteText, cancelText }) => {
             emitter.next([
               {
-                text: values[0],
+                text: saveText,
                 styleType: 'primary',
                 action: 'save',
               },
               {
-                text: values[1],
+                text: deleteText,
                 styleType: 'default',
                 action: 'delete',
               },
               {
-                text: values[2],
+                text: cancelText,
                 styleType: 'link',
                 action: 'cancel',
               },
