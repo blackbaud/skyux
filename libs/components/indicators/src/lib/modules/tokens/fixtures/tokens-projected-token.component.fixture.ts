@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, model } from '@angular/core';
 
 import { SkyTokensComponent } from '../tokens.component';
 import { SkyToken } from '../types/token';
@@ -15,7 +15,7 @@ export class SkyTokensProjectedTokenTestComponent {
   @ViewChild(SkyTokensComponent)
   public tokensComponent: SkyTokensComponent | undefined;
 
-  public tokens: SkyToken[] | undefined;
+  public tokens = model<SkyToken[] | undefined>(undefined);
 
-  public includeAdditionalToken = false;
+  public includeAdditionalToken = model<boolean>(false);
 }
