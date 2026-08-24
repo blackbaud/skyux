@@ -10,6 +10,7 @@ import {
   SkyAgGridModule,
   SkyAgGridService,
   SkyCellType,
+  defineSkyAgGridColDef,
 } from '@skyux/ag-grid';
 import { SkyAutocompleteSelectionChange } from '@skyux/lookup';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
@@ -40,7 +41,7 @@ export class EditModalComponent {
   protected readonly gridData = inject(EditModalContext).gridData;
   protected readonly gridOptions = inject(
     SkyAgGridService,
-  ).getEditableGridOptions({
+  ).getEditableGridOptions<AgGridDemoRow>({
     gridOptions: {
       columnDefs: [
         {
@@ -60,7 +61,7 @@ export class EditModalComponent {
           type: SkyCellType.Date,
           sort: 'asc',
         },
-        {
+        defineSkyAgGridColDef({
           field: 'endDate',
           headerName: 'End date',
           type: SkyCellType.Date,
@@ -74,8 +75,8 @@ export class EditModalComponent {
               },
             };
           },
-        },
-        {
+        }),
+        defineSkyAgGridColDef({
           field: 'department',
           headerName: 'Department',
           type: SkyCellType.Autocomplete,
@@ -97,8 +98,8 @@ export class EditModalComponent {
               this.#clearJobTitle(event.node);
             }
           },
-        },
-        {
+        }),
+        defineSkyAgGridColDef({
           field: 'jobTitle',
           headerName: 'Title',
           type: SkyCellType.Autocomplete,
@@ -119,7 +120,7 @@ export class EditModalComponent {
 
             return editParams;
           },
-        },
+        }),
         {
           colId: 'validationCurrency',
           field: 'validationCurrency',
@@ -127,7 +128,7 @@ export class EditModalComponent {
           type: [SkyCellType.CurrencyValidator],
           editable: true,
         },
-        {
+        defineSkyAgGridColDef({
           colId: 'validationDate',
           field: 'validationDate',
           headerName: 'Validation date',
@@ -140,7 +141,7 @@ export class EditModalComponent {
             },
           },
           editable: true,
-        },
+        }),
       ],
       onGridReady: (gridReadyEvent): void => {
         this.#gridApi.set(gridReadyEvent.api);

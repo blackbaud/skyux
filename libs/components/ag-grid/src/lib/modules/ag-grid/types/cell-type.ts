@@ -1,6 +1,7 @@
 /**
  * These column types can be used by setting the AG Grid [column definition `type`](https://www.ag-grid.com/angular-data-grid/column-properties/#reference-editing) to one of the following values.
  * Any [SKY UX component](https://developer.blackbaud.com/skyux/components) can be made into a [cell editor](https://www.ag-grid.com/angular-data-grid/cell-editors/) or [cell renderer](https://www.ag-grid.com/angular-data-grid/component-cell-renderer/) component. If you would like to use a component that does not have a column definition yet, please consider [contributing it](https://github.com/blackbaud/skyux/blob/main/CONTRIBUTING.md) to the SKY UX data entry grid module.
+ * Use `defineSkyAgGridColDef()` to validate a column definition's `cellEditorParams` and `cellRendererParams` against its cell type.
  */
 export enum SkyCellType {
   /**
@@ -46,7 +47,7 @@ export enum SkyCellType {
    *
    * **Read-only mode**
    *
-   * Cells the column will display, by default, either: the name(s) of the selected value(s) if there are less than 6, or a summary count of the values if there are more than 5. If the lookup needs to show a different property or needs to be formatted in any way, you can [define a `valueFormatter`](https://www.ag-grid.com/angular-data-grid/value-formatters/) on the column definition.
+   * Cells in the column will display, by default, either: the name(s) of the selected value(s) if there are less than 6, or a summary count of the values if there are more than 5. If the lookup needs to show a different property or needs to be formatted in any way, you can [define a `valueFormatter`](https://www.ag-grid.com/angular-data-grid/value-formatters/) on the column definition.
    */
   Lookup = 'skyCellLookup',
   /**
