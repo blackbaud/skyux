@@ -12,6 +12,7 @@
 
 ### Features
 
+* add `@skyux-sdk/vitest` package ([#4664](https://github.com/blackbaud/skyux/issues/4664)) ([3b0feab](https://github.com/blackbaud/skyux/commit/3b0feab4ed6d4dd563288a93d6d6e8ceaa6d72ca))
 * **components/ag-grid:** add `defineSkyAgGridColDef` to validate cell editor and renderer params against cell types ([#4582](https://github.com/blackbaud/skyux/issues/4582)) ([#4657](https://github.com/blackbaud/skyux/issues/4657)) ([5a8f361](https://github.com/blackbaud/skyux/commit/5a8f361d95cb77dbbb1e4d5713900c12da13368d)), closes [AB#3928427](https://dev.azure.com/blackbaud/Products/_workitems/edit/3928427)
 * **components/datetime:** set datepicker value to today when F3 is pressed ([#4662](https://github.com/blackbaud/skyux/issues/4662)) ([02f2e22](https://github.com/blackbaud/skyux/commit/02f2e2256a693af412c458b6a8aad2b93b0ffb2f)), closes [AB#4033124](https://dev.azure.com/blackbaud/Products/_workitems/edit/4033124)
 * **components/i18n:** make getString/getStrings update on locale changes ([#4610](https://github.com/blackbaud/skyux/issues/4610)) ([c7765ea](https://github.com/blackbaud/skyux/commit/c7765ea4fa3ce79b9a34a6a3246c1af8e86d52da)), closes [AB#4082284](https://dev.azure.com/blackbaud/Products/_workitems/edit/4082284)
