@@ -70,10 +70,15 @@ function replaceAttribute(
 /**
  * Migrates a single `sky-fluid-grid` element's `disableMargin` usage to the
  * new `inset` input, which has the opposite meaning:
- * - A static or bound literal `true` is removed, since hiding the margin is
- *   now the default behavior.
- * - A static or bound literal `false` becomes `inset="true"` (or
- *   `[inset]="true"`), preserving the margin.
+ * - A static (unbound) attribute binds its literal string value, and
+ *   `disableMargin`'s `@Input()` doesn't coerce that to a boolean. So only a
+ *   bare/empty attribute is falsy (the margin was shown); any other value --
+ *   including the literal string `"false"` -- is truthy and already hides
+ *   the margin, same as `"true"`. A bare/empty attribute becomes
+ *   `inset="true"` to keep the margin; any other static value is removed.
+ * - A bound literal `true` or `false` is a real boolean, so `[disableMargin]="true"`
+ *   is removed (hiding the margin is now the default) and
+ *   `[disableMargin]="false"` becomes `[inset]="true"` (preserving the margin).
  * - A bound, non-literal expression becomes `[inset]="!(expression)"`.
  * - If `disableMargin` isn't set at all, nothing changes: the fluid grid's
  *   default behavior is changing, so the file is left for manual review.
@@ -84,9 +89,7 @@ function migrateFluidGrid(
   offset: number,
   recorder: UpdateRecorder,
 ): boolean {
-  const staticAttr = node.attrs.find(
-    (attr) => attr.name === STATIC_ATTRIBUTE,
-  );
+  const staticAttr = node.attrs.find((attr) => attr.name === STATIC_ATTRIBUTE);
   const boundAttr = node.attrs.find((attr) => attr.name === BOUND_ATTRIBUTE);
 
   if (!staticAttr && !boundAttr) {
@@ -94,15 +97,17 @@ function migrateFluidGrid(
   }
 
   if (staticAttr) {
-    const value = staticAttr.value.trim().toLowerCase();
-    if (value === 'false') {
-      replaceAttribute(node, STATIC_ATTRIBUTE, 'inset="true"', offset, recorder);
+    if (staticAttr.value.trim() === '') {
+      replaceAttribute(
+        node,
+        STATIC_ATTRIBUTE,
+        'inset="true"',
+        offset,
+        recorder,
+      );
     } else {
-      // An empty value (bare attribute) or "true" both disable the margin,
-      // which is now the default, so the attribute can be removed.
       removeAttribute(node, STATIC_ATTRIBUTE, content, offset, recorder);
     }
-    return true;
   }
 
   if (boundAttr) {
@@ -110,7 +115,13 @@ function migrateFluidGrid(
     if (value === 'true') {
       removeAttribute(node, BOUND_ATTRIBUTE, content, offset, recorder);
     } else if (value === 'false') {
-      replaceAttribute(node, BOUND_ATTRIBUTE, '[inset]="true"', offset, recorder);
+      replaceAttribute(
+        node,
+        BOUND_ATTRIBUTE,
+        '[inset]="true"',
+        offset,
+        recorder,
+      );
     } else {
       replaceAttribute(
         node,
@@ -156,10 +167,19 @@ async function updateSourceFiles(
 ): Promise<void> {
   const workspace = await getWorkspace(tree);
   let notConfiguredCount = 0;
+  const visitedFiles = new Set<string>();
 
   workspace.projects.forEach((project) => {
     visitProjectFiles(tree, project.sourceRoot || project.root, (filePath) => {
       if (filePath.endsWith('.html') || filePath.endsWith('.ts')) {
+        // Overlapping project roots (e.g. an app project at the workspace
+        // root with libraries nested inside it) can cause the same file to
+        // be visited more than once.
+        if (visitedFiles.has(filePath)) {
+          return;
+        }
+        visitedFiles.add(filePath);
+
         const content = tree.readText(filePath);
 
         if (!content.toLowerCase().includes('sky-fluid-grid')) {
@@ -191,7 +211,7 @@ async function updateSourceFiles(
     context.logger.warn(
       `Found ${notConfiguredCount} <sky-fluid-grid> element(s) that do not set 'disableMargin'. ` +
         "Starting in SKY UX 15, the fluid grid's outer left and right margin is hidden by default. " +
-        "Review these elements and add the 'inset' input (e.g. [inset]=\"true\") to any that should keep their margin.",
+        'Review these elements and add the \'inset\' input (e.g. [inset]="true") to any that should keep their margin.',
     );
   }
 }

@@ -64,13 +64,14 @@ describe('fluid-grid-inset.schematic', () => {
 
     await runSchematic(tree);
 
-    expect(tree.readText('/src/app/test.component.html'))
-      .toBe(`<sky-fluid-grid>
+    expect(tree.readText('/src/app/test.component.html')).toBe(`<sky-fluid-grid>
   <sky-row></sky-row>
 </sky-fluid-grid>`);
   });
 
-  it('should remove a bare static attribute', async () => {
+  it('should replace a bare static attribute with `inset="true"`', async () => {
+    // A bare attribute binds the empty string, which is falsy -- the same
+    // as never setting `disableMargin` at all -- so the margin was shown.
     const tree = setupTree({
       '/src/app/test.component.html': `<sky-fluid-grid disableMargin>
   <sky-row></sky-row>
@@ -80,7 +81,7 @@ describe('fluid-grid-inset.schematic', () => {
     await runSchematic(tree);
 
     expect(tree.readText('/src/app/test.component.html'))
-      .toBe(`<sky-fluid-grid>
+      .toBe(`<sky-fluid-grid inset="true">
   <sky-row></sky-row>
 </sky-fluid-grid>`);
   });
@@ -100,7 +101,9 @@ describe('fluid-grid-inset.schematic', () => {
 </sky-fluid-grid>`);
   });
 
-  it('should replace a static `false` value with `inset="true"`', async () => {
+  it('should remove a static `false` value, since it is a truthy string', async () => {
+    // Without brackets, `disableMargin="false"` binds the literal string
+    // "false", which is truthy -- the same as `disableMargin="true"`.
     const tree = setupTree({
       '/src/app/test.component.html': `<sky-fluid-grid disableMargin="false">
   <sky-row></sky-row>
@@ -109,8 +112,22 @@ describe('fluid-grid-inset.schematic', () => {
 
     await runSchematic(tree);
 
+    expect(tree.readText('/src/app/test.component.html')).toBe(`<sky-fluid-grid>
+  <sky-row></sky-row>
+</sky-fluid-grid>`);
+  });
+
+  it('should migrate both attributes when an element sets the static and bound attribute', async () => {
+    const tree = setupTree({
+      '/src/app/test.component.html': `<sky-fluid-grid disableMargin [disableMargin]="false">
+  <sky-row></sky-row>
+</sky-fluid-grid>`,
+    });
+
+    await runSchematic(tree);
+
     expect(tree.readText('/src/app/test.component.html'))
-      .toBe(`<sky-fluid-grid inset="true">
+      .toBe(`<sky-fluid-grid inset="true" [inset]="true">
   <sky-row></sky-row>
 </sky-fluid-grid>`);
   });
@@ -194,5 +211,45 @@ export class TestComponent {}`);
     expect(tree.readText('/src/app/test.component.html')).toBe(
       templateWithoutFluidGrid,
     );
+  });
+
+  it('should warn with an aggregate count of elements that do not set disableMargin', async () => {
+    const warnSpy = jest.fn();
+    const tree = setupTree({
+      '/src/app/test.component.html': `<sky-fluid-grid></sky-fluid-grid>
+<sky-fluid-grid></sky-fluid-grid>`,
+    });
+
+    runner.logger.subscribe((entry) => {
+      if (entry.level === 'warn') {
+        warnSpy(entry.message);
+      }
+    });
+
+    await runSchematic(tree);
+
+    expect(warnSpy).toHaveBeenCalledTimes(1);
+    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('Found 2'));
+  });
+
+  it('should not double-count a file visited through overlapping project roots', async () => {
+    const warnSpy = jest.fn();
+    const tree = setupTree({
+      // This path falls under both the app project (root: '') and the lib
+      // project (sourceRoot: 'projects/lib/src'), so it would be visited
+      // twice without deduplication.
+      '/projects/lib/src/test.component.html': `<sky-fluid-grid></sky-fluid-grid>`,
+    });
+
+    runner.logger.subscribe((entry) => {
+      if (entry.level === 'warn') {
+        warnSpy(entry.message);
+      }
+    });
+
+    await runSchematic(tree);
+
+    expect(warnSpy).toHaveBeenCalledTimes(1);
+    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('Found 1'));
   });
 });

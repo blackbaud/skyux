@@ -75,7 +75,7 @@ export class SkyFluidGridComponent {
    * removed.
    */
   protected get noMargin(): boolean {
-    return this.#_disableMargin ?? !this.inset;
+    return this.disableMargin ?? !this.inset;
   }
 
   #_disableMargin: boolean | undefined;
