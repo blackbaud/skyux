@@ -4,6 +4,7 @@
 
 @include compatMixins.sky-default-overrides('.sky-modal') {
   --sky-override-modal-background-color: #fff;
+  --sky-override-modal-tiled-body-background-color: #{$sky-background-color-neutral-light};
   --sky-override-modal-border: 1px solid #{$sky-border-color-neutral-medium};
   --sky-override-modal-dock-bottom: #{-$sky-padding-plus-half};
   --sky-override-modal-dock-margin-left-right-bottom: #{-$sky-margin-plus-half};
@@ -201,10 +202,16 @@
   }
 }
 
-// the `tiledBody` input is deprecated and will be removed in 13
+// the `tiledBody` input is deprecated and will be removed in a future major version
 .sky-modal-tiled .sky-modal-content {
-  background-color: $sky-background-color-neutral-light;
-  --sky-background-color-page-default: $sky-background-color-neutral-light;
+  background-color: var(
+    --sky-override-modal-tiled-body-background-color,
+    var(--sky-color-background-page)
+  );
+  --sky-background-color-page-default: var(
+    --sky-override-modal-tiled-body-background-color,
+    var(--sky-color-background-page)
+  );
 
   ::ng-deep .sky-tile-title {
     @include mixins.sky-subsection-heading();

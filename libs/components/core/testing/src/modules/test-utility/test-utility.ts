@@ -90,6 +90,7 @@ export class SkyAppTestUtility {
     element.value = value;
 
     element.dispatchEvent(inputEvent);
+    element.dispatchEvent(changeEvent);
   }
 
   /**
