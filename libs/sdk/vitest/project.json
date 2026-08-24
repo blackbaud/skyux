@@ -28,7 +28,7 @@
       "options": {
         "lintFilePatterns": [
           "{projectRoot}/src/**/*.ts",
-          "{projectRoot}/matchers-setup.ts"
+          "{projectRoot}/matchers-setup.mts"
         ]
       }
     },

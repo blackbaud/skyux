@@ -24,7 +24,7 @@
       "types": "./globals.d.ts"
     },
     "./matchers-setup.mjs": {
-      "types": "./matchers-setup.d.ts",
+      "types": "./matchers-setup.d.mts",
       "default": "./matchers-setup.mjs"
     }
   },
