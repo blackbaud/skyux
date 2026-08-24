@@ -69,7 +69,9 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_autocomplete_show_matches_count: {
       message: 'Afficher les correspondances ({0})',
     },
-    skyux_country_field_dropdown_hint_text: { message: 'Recherchez un pays' },
+    skyux_country_field_dropdown_hint_text: {
+      message: 'Saisissez du texte pour rechercher un pays',
+    },
     skyux_country_field_search_placeholder: { message: 'Rechercher un pays' },
     skyux_lookup_search_button_show_more: {
       message: 'Afficher tous les résultats de la recherche',

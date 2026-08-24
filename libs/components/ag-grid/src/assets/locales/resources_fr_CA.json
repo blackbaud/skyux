@@ -62,5 +62,13 @@
   "sky_ag_grid_column_group_header_collapse_aria_label": {
     "_description": "étiquette aria pour le bouton de l’en-tête du groupe de colonnes à réduire",
     "message": "Réduire le groupe de colonnes {0}"
+  },
+  "sky_ag_grid_locale_no_rows_to_show": {
+    "_description": "Remplacement du texte localisé localeText d’ag-Grid pour le message de superposition noRowsToShow affiché lorsque la grille est vide",
+    "message": "Aucune donnée disponible."
+  },
+  "sky_ag_grid_locale_no_matching_rows": {
+    "_description": "Remplacement du texte localisé localeText d’ag-Grid pour le message de superposition noMatchingRows affiché lorsqu’aucune ligne ne correspond aux filtres",
+    "message": "Aucune ligne correspondante"
   }
 }
