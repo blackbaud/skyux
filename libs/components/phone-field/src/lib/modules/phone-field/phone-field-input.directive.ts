@@ -17,6 +17,7 @@ import {
   ValidationErrors,
   Validator,
 } from '@angular/forms';
+import { skyIsAbstractControl } from '@skyux/forms';
 
 import {
   PhoneNumber,
@@ -149,8 +150,10 @@ export class SkyPhoneFieldInputDirective
       .get('countrySearch')
       ?.valueChanges.pipe(takeUntil(this.#ngUnsubscribe), take(1))
       .subscribe(() => {
-        this.#control?.markAsDirty();
-        this.#control?.markAsTouched();
+        if (skyIsAbstractControl(this.#control)) {
+          this.#control.markAsDirty();
+        }
+        this.#notifyTouched?.();
       });
   }
 
@@ -172,7 +175,9 @@ export class SkyPhoneFieldInputDirective
   }
 
   public validate(control: AbstractControl): ValidationErrors | null {
-    this.#control ??= control;
+    if (!this.#control && skyIsAbstractControl(control)) {
+      this.#control = control;
+    }
 
     const value = control.value;
 
