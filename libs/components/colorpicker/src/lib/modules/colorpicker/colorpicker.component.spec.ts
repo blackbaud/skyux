@@ -1326,6 +1326,79 @@ describe('Colorpicker Component', () => {
       expect(outermostDiv).not.toHaveCssClass('sky-colorpicker-disabled');
     });
 
+    it('should keep displaying the bound color on the swatch and icon when disabled', async () => {
+      component.pickerButtonIcon = 'color-line';
+      component.colorModel = '#000000';
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      fixture.componentRef.setInput('disabled', true);
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      expect(getColorpickerButtonBackgroundColor(nativeElement)).toBe(
+        'rgb(0, 0, 0)',
+      );
+      expect(getColorpickerIcon()?.style.color).toBe('rgb(255, 255, 255)');
+    });
+
+    it('should restore the bound color after a disable/enable round trip', async () => {
+      component.colorModel = '#000000';
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      fixture.componentRef.setInput('disabled', true);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      expect(getColorpickerButtonBackgroundColor(nativeElement)).toBe(
+        'rgb(0, 0, 0)',
+      );
+
+      fixture.componentRef.setInput('disabled', false);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      expect(getColorpickerButtonBackgroundColor(nativeElement)).toBe(
+        'rgb(0, 0, 0)',
+      );
+    });
+
+    it('should retain alpha in the rgba output format across a disable/enable cycle', fakeAsync(async () => {
+      openColorpicker(nativeElement);
+      await setInputElementValue(nativeElement, 'red', '163');
+      await setInputElementValue(nativeElement, 'green', '19');
+      await setInputElementValue(nativeElement, 'blue', '84');
+      await setInputElementValue(nativeElement, 'alpha', '0.3');
+      applyColorpicker();
+
+      const appliedBackgroundColor =
+        getColorpickerButtonBackgroundColor(nativeElement);
+      expect(appliedBackgroundColor).toBe('rgba(163, 19, 84, 0.3)');
+
+      fixture.componentRef.setInput('disabled', true);
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      fixture.componentRef.setInput('disabled', false);
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      expect(getColorpickerButtonBackgroundColor(nativeElement)).toBe(
+        appliedBackgroundColor,
+      );
+    }));
+
     it('should apply the selected color when Enter is pressed', fakeAsync(async () => {
       component.selectedOutputFormat = 'hex';
       fixture.detectChanges();

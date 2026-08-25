@@ -166,7 +166,11 @@ export class SkyColorpickerInputDirective
    * Implemented as part of `FormUiControl`. Reflects the bound field's
    * disabled state onto the colorpicker dialog. Replaces the
    * `ControlValueAccessor.setDisabledState` callback, which only reactive and
-   * template-driven forms called.
+   * template-driven forms called. Does not touch `backgroundColorForDisplay`
+   * — that's always driven by the current value (`#applyIncomingValue`/
+   * `#applyColor` → `#writeModelValue`), so the swatch keeps showing its
+   * real color, dimmed by `.sky-colorpicker-disabled`'s opacity, rather than
+   * being forced to a flat, theme-inconsistent white.
    */
   public readonly disabled = input(false);
 
@@ -228,16 +232,7 @@ export class SkyColorpickerInputDirective
     });
 
     effect(() => {
-      const isDisabled = this.disabled();
-
-      this.skyColorpickerInput.disabled = isDisabled;
-
-      if (isDisabled) {
-        this.skyColorpickerInput.backgroundColorForDisplay = '#fff';
-      } else if (this.#modelValue) {
-        this.skyColorpickerInput.backgroundColorForDisplay =
-          this.#modelValue.hex;
-      }
+      this.skyColorpickerInput.disabled = this.disabled();
     });
   }
 
@@ -324,12 +319,7 @@ export class SkyColorpickerInputDirective
       });
 
     this.skyColorpickerInput.updatePickerValues(this.initialColor);
-
-    /* Sanity check */
-    /* istanbul ignore else */
-    if (!this.disabled()) {
-      this.skyColorpickerInput.backgroundColorForDisplay = this.initialColor;
-    }
+    this.skyColorpickerInput.backgroundColorForDisplay = this.initialColor;
 
     /// Set aria-label as default, if not set
     if (!element.getAttribute('aria-label')) {
