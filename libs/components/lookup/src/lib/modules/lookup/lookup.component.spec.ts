@@ -1,3 +1,4 @@
+import { Component, signal } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -5,6 +6,7 @@ import {
   tick,
 } from '@angular/core/testing';
 import { NgModel } from '@angular/forms';
+import { FormField, form } from '@angular/forms/signals';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyLogService } from '@skyux/core';
@@ -19,6 +21,7 @@ import { SkyLookupInputBoxTestComponent } from './fixtures/lookup-input-box.comp
 import { SkyLookupTemplateTestComponent } from './fixtures/lookup-template.component.fixture';
 import { SkyLookupTestComponent } from './fixtures/lookup.component.fixture';
 import { SkyLookupComponent } from './lookup.component';
+import { SkyLookupModule } from './lookup.module';
 import { SkyLookupSelectModeType } from './types/lookup-select-mode-type';
 
 describe('Lookup component', function () {
@@ -7850,5 +7853,87 @@ describe('Lookup component', function () {
         await expectAsync(document.body).toBeAccessible(axeConfig);
       });
     });
+  });
+
+  describe('signal forms', () => {
+    @Component({
+      standalone: true,
+      imports: [FormField, SkyLookupModule],
+      template: `<sky-lookup
+        idProperty="name"
+        selectMode="multiple"
+        [data]="data"
+        [formField]="lookupForm"
+      />`,
+    })
+    class LookupSignalFormFixtureComponent {
+      public readonly data = [
+        { name: 'Andy' },
+        { name: 'Beth' },
+        { name: 'Dan' },
+      ];
+      public readonly model = signal<{ name: string }[]>([]);
+      public readonly lookupForm = form(this.model);
+    }
+
+    let fixture: ComponentFixture<LookupSignalFormFixtureComponent>;
+    let testComponent: LookupSignalFormFixtureComponent;
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        imports: [LookupSignalFormFixtureComponent],
+      });
+
+      fixture = TestBed.createComponent(LookupSignalFormFixtureComponent);
+      testComponent = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
+    function getSignalFormsInputElement(): HTMLTextAreaElement {
+      return fixture.nativeElement.querySelector('textarea');
+    }
+
+    function searchAndSelect(searchText: string, index: number): void {
+      const inputElement = getSignalFormsInputElement();
+      inputElement.value = searchText;
+      inputElement.focus();
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+      SkyAppTestUtility.fireDomEvent(inputElement, 'input');
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      const searchResults = document.querySelectorAll(
+        '.sky-autocomplete-result',
+      );
+      SkyAppTestUtility.fireDomEvent(searchResults[index], 'click');
+      fixture.detectChanges();
+      tick();
+    }
+
+    it('should not throw when initialized', () => {
+      expect(() => {
+        fixture.detectChanges();
+      }).not.toThrow();
+    });
+
+    it('should update the model and mark the field dirty as items are added one at a time', fakeAsync(() => {
+      searchAndSelect('Andy', 0);
+
+      const afterFirstAdd = testComponent.model();
+      expect(afterFirstAdd.map((item) => item.name)).toEqual(['Andy']);
+      expect(testComponent.lookupForm().dirty()).toBeTrue();
+
+      searchAndSelect('Beth', 0);
+
+      const afterSecondAdd = testComponent.model();
+      // The model must be a new array reference each time an item is added.
+      // Signal forms only propagates a value to consumers when it receives a
+      // new reference, so reusing the same array (even with the right
+      // contents) would leave every consumer holding stale data.
+      expect(afterSecondAdd).not.toBe(afterFirstAdd);
+      expect(afterSecondAdd.map((item) => item.name)).toEqual(['Andy', 'Beth']);
+    }));
   });
 });

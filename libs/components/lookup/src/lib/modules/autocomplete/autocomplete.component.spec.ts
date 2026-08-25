@@ -1,10 +1,12 @@
 import { ViewportRuler } from '@angular/cdk/overlay';
+import { Component, signal } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
   fakeAsync,
   tick,
 } from '@angular/core/testing';
+import { FormField, form } from '@angular/forms/signals';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SKY_STACKING_CONTEXT, SkyLiveAnnouncerService } from '@skyux/core';
@@ -14,6 +16,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { SkyAutocompleteAdapterService } from './autocomplete-adapter.service';
 import { SkyAutocompleteInputDirective } from './autocomplete-input.directive';
 import { SkyAutocompleteComponent } from './autocomplete.component';
+import { SkyAutocompleteModule } from './autocomplete.module';
 import { SkyAutocompleteFixturesModule } from './fixtures/autocomplete-fixtures.module';
 import { SkyAutocompleteInputBoxFixtureComponent } from './fixtures/autocomplete-input-box.component.fixture';
 import { SkyAutocompleteReactiveFixtureComponent } from './fixtures/autocomplete-reactive.component.fixture';
@@ -2962,6 +2965,59 @@ describe('Autocomplete component', () => {
 
       expect(adapterSpy.calls.mostRecent().args[2]).toBeTrue();
       expect(adapterSpy.calls.count()).toEqual(1);
+    }));
+  });
+
+  describe('signal forms', () => {
+    @Component({
+      standalone: true,
+      imports: [FormField, SkyAutocompleteModule],
+      template: `<button id="testButton" type="button">Test button</button>
+        <sky-autocomplete [data]="data">
+          <input skyAutocomplete type="text" [formField]="autocompleteForm" />
+        </sky-autocomplete>`,
+    })
+    class AutocompleteSignalFormFixtureComponent {
+      public readonly data = [
+        { name: 'Red' },
+        { name: 'Green' },
+        { name: 'Blue' },
+      ];
+      public readonly model = signal<{ name: string } | undefined>(undefined);
+      public readonly autocompleteForm = form(this.model);
+    }
+
+    let fixture: ComponentFixture<AutocompleteSignalFormFixtureComponent>;
+    let testComponent: AutocompleteSignalFormFixtureComponent;
+    let inputEl: HTMLInputElement;
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        imports: [AutocompleteSignalFormFixtureComponent],
+      });
+
+      fixture = TestBed.createComponent(AutocompleteSignalFormFixtureComponent);
+      testComponent = fixture.componentInstance;
+      fixture.detectChanges();
+
+      inputEl = fixture.nativeElement.querySelector('input');
+    });
+
+    it('should not throw and should not mark the field dirty when a value is written into the model', () => {
+      expect(() => {
+        testComponent.model.set({ name: 'Red' });
+        fixture.detectChanges();
+      }).not.toThrow();
+
+      expect(inputEl.value).toBe('Red');
+      expect(testComponent.autocompleteForm().dirty()).toBeFalse();
+    });
+
+    it('should mark the field dirty when the user selects a search result', fakeAsync(() => {
+      searchAndSelect('Blue', 0, fixture);
+
+      expect(testComponent.autocompleteForm().dirty()).toBeTrue();
+      expect(inputEl.value).toBe('Blue');
     }));
   });
 });

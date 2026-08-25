@@ -786,7 +786,12 @@ export class SkyLookupComponent
     if (this.selectMode === 'single') {
       selectedItems = [item];
     } else {
-      selectedItems = value;
+      // Clone the array instead of mutating `value` in place. Signal forms'
+      // control-value signal only notifies consumers when it receives a new
+      // reference, so pushing onto the existing array silently drops the
+      // update under signal forms (though reactive/template forms don't
+      // check reference equality, so this went unnoticed there).
+      selectedItems = [...value];
 
       const idProperty = this.idProperty || '';
 

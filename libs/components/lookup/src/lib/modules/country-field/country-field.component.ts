@@ -24,13 +24,14 @@ import {
   AbstractControl,
   ControlValueAccessor,
   NG_VALIDATORS,
+  NG_VALUE_ACCESSOR,
   NgControl,
   NgModel,
   UntypedFormControl,
   ValidationErrors,
   Validator,
 } from '@angular/forms';
-import { SkyInputBoxHostService } from '@skyux/forms';
+import { SkyInputBoxHostService, skyIsAbstractControl } from '@skyux/forms';
 import { SkyAppLocaleProvider } from '@skyux/i18n';
 
 import intlTelInput from 'intl-tel-input';
@@ -46,6 +47,12 @@ import { SKY_COUNTRY_FIELD_CONTEXT } from './types/country-field-context-token';
 
 const DEFAULT_COUNTRY_CODE = 'us';
 
+const SKY_COUNTRY_FIELD_VALUE_ACCESSOR = {
+  provide: NG_VALUE_ACCESSOR,
+  useExisting: forwardRef(() => SkyCountryFieldComponent),
+  multi: true,
+};
+
 const SKY_COUNTRY_FIELD_VALIDATOR = {
   provide: NG_VALIDATORS,
   useExisting: forwardRef(() => SkyCountryFieldComponent),
@@ -58,7 +65,7 @@ let uniqueId = 0;
   selector: 'sky-country-field',
   templateUrl: './country-field.component.html',
   styleUrls: ['./country-field.component.scss'],
-  providers: [SKY_COUNTRY_FIELD_VALIDATOR],
+  providers: [SKY_COUNTRY_FIELD_VALUE_ACCESSOR, SKY_COUNTRY_FIELD_VALIDATOR],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   standalone: false,
@@ -223,9 +230,7 @@ export class SkyCountryFieldComponent
       null,
     );
 
-    if (this.#ngControl) {
-      this.#ngControl.valueAccessor = this;
-    } else {
+    if (!this.#ngControl) {
       /**
        * The initial change boolean is to determine if the form is setting the value. When no form
        * is present we don't want to ignore the first change.
@@ -260,6 +265,11 @@ export class SkyCountryFieldComponent
    * @internal
    */
   public onCountrySelected(newCountry: SkyAutocompleteSelectionChange): void {
+    // A user selection is never the form's initial value, even if `writeValue`
+    // has not yet been called (which can happen under signal forms, where
+    // `writeValue` is skipped when the initial model value is `undefined`).
+    this.#isInitialChange = false;
+
     if (newCountry.selectedItem) {
       this.writeValue(
         this.countries().find(
@@ -330,7 +340,7 @@ export class SkyCountryFieldComponent
         if (resolved) {
           this.selectedCountryChange.emit(resolved);
         }
-      } else if (this.#ngControl?.control) {
+      } else if (skyIsAbstractControl(this.#ngControl?.control)) {
         // Do not mark the field as "dirty"
         // if the field has been initialized with a value.
         this.#ngControl.control.markAsPristine();

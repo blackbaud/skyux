@@ -119,31 +119,12 @@ export class SkyAutocompleteInputDirective
   }
 
   public set value(value: any) {
-    const isNewValue = value !== this.#_value;
-
-    /* istanbul ignore else */
-    if (isNewValue) {
-      this.#_value = value;
-      this.inputTextValue = this.#getValueByKey();
-      this.onChange(this.#_value);
-
-      // Do not mark the field as "dirty"
-      // if the field has been initialized with a value.
-      if (this.#isFirstChange && this.#control) {
-        this.#control.markAsPristine();
-      }
-
-      if (this.#isFirstChange && this.#_value) {
-        this.#isFirstChange = false;
-      }
-    }
+    this.#setValue(value, true);
   }
 
   #blur: Subject<void>;
 
   #blurObs: Observable<void>;
-
-  #control: AbstractControl | undefined;
 
   readonly #elementRef = inject(ElementRef);
 
@@ -229,7 +210,9 @@ export class SkyAutocompleteInputDirective
   }
 
   public writeValue(value: any): void {
-    this.value = value;
+    // Skip emitting `onChange` for the field's initial value so the field isn't marked
+    // dirty as soon as it's populated with a starting value.
+    this.#setValue(value, !this.#isFirstChange);
   }
 
   public registerOnChange(fn: (value: any) => void): void {
@@ -261,9 +244,6 @@ export class SkyAutocompleteInputDirective
   }
 
   public validate(control: AbstractControl): ValidationErrors | null {
-    if (!this.#control) {
-      this.#control = control;
-    }
     return null;
   }
 
@@ -326,5 +306,23 @@ export class SkyAutocompleteInputDirective
 
   #getValueByKey(): string {
     return this.value ? this.value[this.displayWith] : '';
+  }
+
+  #setValue(value: any, emitChange: boolean): void {
+    const isNewValue = value !== this.#_value;
+
+    /* istanbul ignore else */
+    if (isNewValue) {
+      this.#_value = value;
+      this.inputTextValue = this.#getValueByKey();
+
+      if (emitChange) {
+        this.onChange(this.#_value);
+      }
+
+      if (this.#isFirstChange && this.#_value) {
+        this.#isFirstChange = false;
+      }
+    }
   }
 }

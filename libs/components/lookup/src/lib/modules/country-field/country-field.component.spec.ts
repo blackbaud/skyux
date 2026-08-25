@@ -1,3 +1,4 @@
+import { Component, signal } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -5,6 +6,7 @@ import {
   tick,
 } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormField, form } from '@angular/forms/signals';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 
 import { SkyCountryFieldModule } from './country-field.module';
@@ -12,6 +14,7 @@ import { CountryFieldInputBoxTestComponent } from './fixtures/country-field-inpu
 import { CountryFieldNoFormTestComponent } from './fixtures/country-field-no-form.component.fixture';
 import { CountryFieldReactiveTestComponent } from './fixtures/country-field-reactive.component.fixture';
 import { CountryFieldTestComponent } from './fixtures/country-field.component.fixture';
+import { SkyCountryFieldCountry } from './types/country';
 import { SKY_COUNTRY_FIELD_CONTEXT } from './types/country-field-context-token';
 
 /* spell-checker:ignore Austr, Κύπρος */
@@ -1608,5 +1611,83 @@ describe('Country Field Component', () => {
         expect(getInputElement().getAttribute('aria-label')).toBeNull();
       });
     });
+  });
+
+  describe('signal forms', () => {
+    @Component({
+      standalone: true,
+      imports: [FormField, SkyCountryFieldModule],
+      template: `<sky-country-field [formField]="countryForm" />`,
+    })
+    class CountryFieldSignalFormFixtureComponent {
+      public readonly model = signal<SkyCountryFieldCountry | undefined>(
+        undefined,
+      );
+      public readonly countryForm = form(this.model);
+    }
+
+    let fixture: ComponentFixture<CountryFieldSignalFormFixtureComponent>;
+    let testComponent: CountryFieldSignalFormFixtureComponent;
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        imports: [CountryFieldSignalFormFixtureComponent],
+      });
+
+      fixture = TestBed.createComponent(CountryFieldSignalFormFixtureComponent);
+      testComponent = fixture.componentInstance;
+    });
+
+    it('should not throw when initialized', () => {
+      expect(() => {
+        fixture.detectChanges();
+      }).not.toThrow();
+    });
+
+    it('should render a value written into the model and not mark the field dirty', fakeAsync(() => {
+      fixture.detectChanges();
+
+      testComponent.model.set({ name: 'United States', iso2: 'us' });
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      expect(getInputElement().value).toContain('United States');
+      expect(testComponent.countryForm().dirty()).toBeFalse();
+    }));
+
+    it('should mark the field dirty when the user selects a country', fakeAsync(() => {
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      const inputElement = getInputElement();
+      inputElement.value = 'Austr';
+      inputElement.focus();
+      SkyAppTestUtility.fireDomEvent(inputElement, 'focus');
+      SkyAppTestUtility.fireDomEvent(inputElement, 'input');
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      const searchResults = getAutocompleteElement().querySelectorAll(
+        '.sky-autocomplete-result',
+      );
+      SkyAppTestUtility.fireDomEvent(inputElement, 'change');
+      SkyAppTestUtility.fireDomEvent(searchResults[0], 'click');
+      fixture.detectChanges();
+      SkyAppTestUtility.fireDomEvent(inputElement, 'blur');
+      fixture.detectChanges();
+      tick(25);
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      expect(testComponent.model()?.name).toBe('Australia');
+      expect(testComponent.countryForm().dirty()).toBeTrue();
+    }));
   });
 });
