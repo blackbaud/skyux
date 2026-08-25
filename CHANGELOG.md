@@ -1,6 +1,17 @@
 # Changelog
 
 
+## [15.0.0-alpha.7](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.6...15.0.0-alpha.7) (2026-08-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* report unlabeled components in `prefer-label-text` rule (#4652)
+
+### Features
+
+* report unlabeled components in `prefer-label-text` rule ([#4652](https://github.com/blackbaud/skyux/issues/4652)) ([7830ee9](https://github.com/blackbaud/skyux/commit/7830ee967cab9fa5b15659a000d282b5befe544c))
+
 ## [15.0.0-alpha.6](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.5...15.0.0-alpha.6) (2026-08-24)
 
 
