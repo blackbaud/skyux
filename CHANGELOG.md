@@ -6,11 +6,17 @@
 
 ### ⚠ BREAKING CHANGES
 
+* **sdk/testing:** retain default rules when custom overrides are assigned to `toBeAccessible` matcher (#4682)
 * report unlabeled components in `prefer-label-text` rule (#4652)
 
 ### Features
 
 * report unlabeled components in `prefer-label-text` rule ([#4652](https://github.com/blackbaud/skyux/issues/4652)) ([7830ee9](https://github.com/blackbaud/skyux/commit/7830ee967cab9fa5b15659a000d282b5befe544c))
+
+
+### Bug Fixes
+
+* **sdk/testing:** retain default rules when custom overrides are assigned to `toBeAccessible` matcher ([#4682](https://github.com/blackbaud/skyux/issues/4682)) ([649ec93](https://github.com/blackbaud/skyux/commit/649ec93623e5313ea197bc62c59d767d552cf7f0))
 
 ## [15.0.0-alpha.6](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.5...15.0.0-alpha.6) (2026-08-24)
 
