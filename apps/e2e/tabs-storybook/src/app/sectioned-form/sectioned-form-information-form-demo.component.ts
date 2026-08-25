@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SkyCheckboxModule } from '@skyux/forms';
+import { SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
 import { SkySectionedFormService } from '@skyux/tabs';
 
 @Component({
   selector: 'app-sectioned-form-information-form-demo',
   templateUrl: './sectioned-form-information-form-demo.component.html',
-  imports: [CommonModule, FormsModule, SkyCheckboxModule],
+  imports: [CommonModule, FormsModule, SkyCheckboxModule, SkyInputBoxModule],
 })
 export class SectionedFormInformationFormDemoComponent {
   public name = '';
