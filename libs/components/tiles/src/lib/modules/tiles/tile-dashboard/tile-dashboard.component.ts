@@ -102,25 +102,11 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
 
   public moveInstructionsId: string;
 
-  protected layoutClassName = computed(() => {
-    const breakpoint = this.#breakpoint();
-
-    let layoutClassName = '';
-
-    if (breakpoint === 'xs' || breakpoint === 'sm') {
-      layoutClassName = 'sky-tile-dashboard-single-column';
-    } else {
-      layoutClassName = 'sky-tile-dashboard-multi-column';
-    }
-
-    if (breakpoint === 'xs') {
-      layoutClassName += ' sky-tile-dashboard-xs';
-    } else {
-      layoutClassName += ' sky-tile-dashboard-gt-xs';
-    }
-
-    return layoutClassName;
-  });
+  protected layoutClassName = computed(() =>
+    this.#breakpoint() === 'xs'
+      ? 'sky-tile-dashboard-single-column sky-tile-dashboard-xs'
+      : 'sky-tile-dashboard-multi-column sky-tile-dashboard-gt-xs',
+  );
 
   #configSet = false;
   readonly #dashboardService = inject(SkyTileDashboardService);
@@ -144,7 +130,7 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
         if (config.movedTile && this.#resourcesService) {
           let messageObservable: Observable<string>;
 
-          if (this.#breakpoint() === 'xs' || this.#breakpoint() === 'sm') {
+          if (this.#breakpoint() === 'xs') {
             messageObservable = this.#resourcesService.getString(
               'skyux_tile_moved_assistive_text',
               config.movedTile.tileDescription,
