@@ -245,6 +245,53 @@ a.sky-btn {
   padding: 0;
 }
 
+.sky-btn-icon-borderless-on_prominent {
+  background-color: transparent;
+  border: 1px solid transparent;
+  color: $sky-color-white;
+  cursor: pointer;
+  height: 26px;
+  padding: 0;
+  text-align: center;
+  width: 26px;
+
+  &:hover {
+    background-color: #42597e;
+    border: 1px solid #aac4ee;
+    color: $sky-color-white;
+  }
+
+  &:active,
+  &.sky-btn-active {
+    background-color: #536f9d;
+    border: 1px solid #aac4ee;
+    box-shadow: none;
+    color: $sky-color-white;
+  }
+
+  &:focus-visible:not(:active) {
+    background-color: transparent;
+    border: 1px solid #aac4ee;
+    outline: none;
+  }
+
+  &.sky-btn-disabled,
+  &[disabled] {
+    &,
+    &:hover,
+    &:focus-visible,
+    &:active,
+    &.sky-btn-active {
+      background-color: #51555c;
+      border: 1px solid #3b4047;
+      color: #c2c4c6;
+      // The default theme dims disabled buttons, but the colors above already
+      // account for the disabled state.
+      opacity: 1;
+    }
+  }
+}
+
 .sky-btn-block {
   display: block;
   overflow: hidden;
