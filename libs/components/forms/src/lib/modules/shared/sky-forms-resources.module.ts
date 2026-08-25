@@ -134,7 +134,7 @@ const RESOURCES: Record<string, SkyLibResources> = {
       message: 'Vous avez dépassé la limite de caractères.',
     },
     skyux_form_error_character_count: {
-      message: 'Limite {0} de {1} caractère(s).',
+      message: 'Limitez {0} à {1} caractères.',
     },
     skyux_form_error_date: {
       message: 'Sélectionnez ou entrez une date valide.',
@@ -147,7 +147,7 @@ const RESOURCES: Record<string, SkyLibResources> = {
     },
     skyux_form_error_fuzzy_date_future_disabled: {
       message:
-        'Les dates futures sont désactivées. Sélectionnez ou entrez une date dans le passé.',
+        'Les dates futures sont désactivées. Sélectionnez ou saisissez une date antérieure.',
     },
     skyux_form_error_fuzzy_date_invalid: {
       message: 'Sélectionnez ou entrez une date valide.',
@@ -164,13 +164,13 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_form_error_email: {
       message: 'Entrez une adresse courriel avec un format valide.',
     },
-    skyux_form_error_maxlength: { message: 'Limite {0} de {1} caractère(s).' },
+    skyux_form_error_maxlength: { message: 'Limitez {0} à {1} caractères.' },
     skyux_form_error_minlength: {
       message: '{0} doit avoir au moins {1} caractère(s).',
     },
     skyux_form_error_phone: {
       message:
-        'Entrez un numéro de téléphone correspondant au format du pays sélectionné.',
+        'Saisissez un numéro de téléphone valide pour le pays sélectionné.',
     },
     skyux_form_error_required: { message: '{0} est requis.' },
     skyux_form_error_time: {

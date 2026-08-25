@@ -36,7 +36,7 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_confirm_dialog_default_yes_text: { message: 'Oui' },
     skyux_confirm_dialog_default_no_text: { message: 'Non' },
     skyux_confirm_dialog_default_cancel_text: { message: 'Annuler' },
-    skyux_modal_close: { message: 'Fermer le modal' },
+    skyux_modal_close: { message: 'Fermer la fenêtre' },
     skyux_modal_open_help: { message: 'Ouvrir l’aide' },
     skyux_modal_footer_cancel_button: { message: 'Annuler' },
     skyux_modal_footer_primary_button: { message: 'Sauvegarder' },
