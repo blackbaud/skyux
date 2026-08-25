@@ -325,6 +325,98 @@ describe('A11y analyzer', () => {
     );
   });
 
+  it('should merge custom rules with the default rules', async () => {
+    let capturedOptions: axe.RunOptions | undefined;
+
+    function mockRun(
+      context: axe.ElementContext,
+      options: axe.RunOptions,
+      callback: axe.RunCallback,
+    ): void {
+      capturedOptions = options;
+      callback(
+        null as unknown as Error,
+        {
+          violations: [],
+        } as unknown as axe.AxeResults,
+      );
+    }
+
+    vi.spyOn(
+      (_SkyA11yAnalyzer as unknown as { analyzer: typeof axe }).analyzer,
+      'run',
+    ).mockImplementation(mockRun as unknown as typeof axe.run);
+
+    await _SkyA11yAnalyzer.run('element', {
+      rules: { 'color-contrast': { enabled: false } },
+    });
+
+    expect(capturedOptions?.rules).toEqual({
+      'autocomplete-valid': { enabled: false },
+      'color-contrast': { enabled: false },
+    });
+  });
+
+  it('should allow custom rules to override the default rules', async () => {
+    let capturedOptions: axe.RunOptions | undefined;
+
+    function mockRun(
+      context: axe.ElementContext,
+      options: axe.RunOptions,
+      callback: axe.RunCallback,
+    ): void {
+      capturedOptions = options;
+      callback(
+        null as unknown as Error,
+        {
+          violations: [],
+        } as unknown as axe.AxeResults,
+      );
+    }
+
+    vi.spyOn(
+      (_SkyA11yAnalyzer as unknown as { analyzer: typeof axe }).analyzer,
+      'run',
+    ).mockImplementation(mockRun as unknown as typeof axe.run);
+
+    await _SkyA11yAnalyzer.run('element', {
+      rules: { 'autocomplete-valid': { enabled: true } },
+    });
+
+    expect(capturedOptions?.rules).toEqual({
+      'autocomplete-valid': { enabled: true },
+    });
+  });
+
+  it('should use the default rules when a config is not provided', async () => {
+    let capturedOptions: axe.RunOptions | undefined;
+
+    function mockRun(
+      context: axe.ElementContext,
+      options: axe.RunOptions,
+      callback: axe.RunCallback,
+    ): void {
+      capturedOptions = options;
+      callback(
+        null as unknown as Error,
+        {
+          violations: [],
+        } as unknown as axe.AxeResults,
+      );
+    }
+
+    vi.spyOn(
+      (_SkyA11yAnalyzer as unknown as { analyzer: typeof axe }).analyzer,
+      'run',
+    ).mockImplementation(mockRun as unknown as typeof axe.run);
+
+    await _SkyA11yAnalyzer.run('element');
+
+    expect(capturedOptions?.rules).toEqual({
+      'autocomplete-valid': { enabled: false },
+    });
+  });
+
   it('should handle undefined elements', () => {
     expect(() => _SkyA11yAnalyzer.run()).toThrowError(
       'No element was specified for accessibility checking.',
