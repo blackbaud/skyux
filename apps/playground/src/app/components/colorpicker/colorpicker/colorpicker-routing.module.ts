@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 
 import { ComponentRouteInfo } from '../../../shared/component-info/component-route-info';
 
+import { ColorpickerSignalFormsComponent } from './colorpicker-signal-forms.component';
 import { ColorpickerComponent } from './colorpicker.component';
 
 const routes: ComponentRouteInfo[] = [
@@ -11,6 +12,15 @@ const routes: ComponentRouteInfo[] = [
     component: ColorpickerComponent,
     data: {
       name: 'Color picker',
+      icon: 'paint-brush',
+      library: 'colorpicker',
+    },
+  },
+  {
+    path: 'signal-forms',
+    component: ColorpickerSignalFormsComponent,
+    data: {
+      name: 'Color picker (signal forms)',
       icon: 'paint-brush',
       library: 'colorpicker',
     },
