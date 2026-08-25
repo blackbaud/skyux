@@ -328,9 +328,8 @@ export class SkyTextEditorComponent
     if (this.#_value !== normalizedValue) {
       this.#_value = normalizedValue;
 
-      // Update angular form control if model has been normalized. Signal-forms controls
-      // (bound via `[formField]`) don't support imperative `setValue()` calls; they receive
-      // the normalized value through the registered `onChange` callback instead.
+      // Only `AbstractControl`s get the normalized value set imperatively; signal-forms
+      // controls receive it through `onChange` in `writeValue` instead.
       if (
         skyIsAbstractControl(this.ngControl?.control) &&
         normalizedValue !== this.ngControl.control.value
@@ -395,11 +394,9 @@ export class SkyTextEditorComponent
   protected readonly ngControl = inject(NgControl);
   protected readonly requiredState = inject(SkyRequiredStateDirective);
 
-  /**
-   * The signal-forms `FormField` directive bound to this editor, if any. `InteropNgControl`
-   * (the fake `NgControl` provided by `FormField`) doesn't expose `statusChanges`, so field
-   * state changes are observed here instead.
-   */
+  // The signal-forms `FormField` directive bound to this editor, if any. `InteropNgControl`
+  // (the fake `NgControl` provided by `FormField`) doesn't expose `statusChanges`, so field
+  // state changes are observed here instead.
   #formField = inject(FormField, { optional: true });
 
   constructor() {
@@ -438,12 +435,8 @@ export class SkyTextEditorComponent
   public writeValue(value: string): void {
     this.value = value;
 
-    // Propagate the normalized value back to the form when normalization changed the
-    // incoming value. Signal-forms controls (bound via `[formField]`) don't support
-    // imperative `setValue()` calls, so this callback is the only way to keep the model
-    // in sync with the editor for those controls. Real `AbstractControl`s are already
-    // synced by the `value` setter above, so calling `onChange` again here would
-    // incorrectly mark them dirty.
+    // Only signal-forms controls need normalized values propagated back via `onChange`;
+    // `AbstractControl`s already sync through the `value` setter above.
     if (
       value &&
       this.#_value !== value &&
