@@ -1,11 +1,10 @@
 import { ChangeDetectorRef, effect } from '@angular/core';
 import { FormField } from '@angular/forms/signals';
 
+// Call from a component's constructor so `effect()` picks up the current injection context.
 /**
- * Marks `changeDetector` for check whenever `formField`'s state changes, since the
- * `[formField]` binding lives in the consumer's template and a signal write there doesn't
- * automatically mark the host component's view for check. Call from a component's
- * constructor so `effect()` picks up the current injection context.
+ * Marks `changeDetector` for check whenever `formField`'s state changes, since a signal
+ * write in the consumer's template doesn't automatically mark the host view for check.
  * @internal
  */
 export function skyWatchFormFieldChanges(

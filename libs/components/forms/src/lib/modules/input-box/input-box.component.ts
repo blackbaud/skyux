@@ -224,19 +224,14 @@ export class SkyInputBoxComponent
   })
   public inputRef: ElementRef | undefined;
 
-  /**
-   * The signal-forms `FormField` directive bound to the content control, if any.
-   * `FormField` provides a fake `NgControl` via DI (read below), which lets input box
-   * derive most of its state through the existing `controlDir` accessors. This is used
-   * as a fallback for state that isn't exposed through that interop control, such as the
-   * field's `maxLength` metadata.
-   */
+  // `FormField` provides a fake `NgControl` via DI (`signalControl` below), which lets
+  // input box derive most of its state through the existing `controlDir` accessors. This
+  // is used as a fallback for state that isn't exposed through that interop control, such
+  // as the field's `maxLength` metadata.
   protected formField = contentChild(FormField);
 
-  /**
-   * Falls back to the `NgControl` provided by a signal-forms `FormField` directive when
-   * none of `formControl`, `formControlByName`, or `ngModel` are present.
-   */
+  // Falls back to the `NgControl` provided by a signal-forms `FormField` directive when
+  // none of `formControl`, `formControlByName`, or `ngModel` are present.
   protected signalControl = contentChild(NgControl);
 
   protected controlDir: AbstractControlDirective | undefined;
@@ -266,10 +261,8 @@ export class SkyInputBoxComponent
     );
   }
 
-  /**
-   * The character limit to display in the character counter. Prefers the signal-forms
-   * field's `maxLength` rule (if bound with `[formField]`) over the `characterLimit` input.
-   */
+  // Prefers the signal-forms field's `maxLength` rule (if bound with `[formField]`) over
+  // the `characterLimit` input.
   protected get characterLimitComputed(): number | undefined {
     const schemaLimit = this.formField()?.state().maxLength?.();
 
@@ -467,21 +460,26 @@ export class SkyInputBoxComponent
       // Signal-forms controls don't support imperative validator mutation; they own their
       // validation through the schema passed to `form()`. The character counter instead
       // reads the field's `maxLength` rule directly (see `characterLimitComputed`).
+      if (this.characterLimit === undefined) {
+        return;
+      }
+
+      let maxLength: number | undefined;
       try {
-        if (
-          this.characterLimit !== undefined &&
-          formField.state().maxLength?.() === undefined
-        ) {
-          this.#logger.warn(
-            'The `characterLimit` input has no effect on signal-forms ' +
-              `controls. Add \`maxLength(field, ${this.characterLimit})\` to the schema function ` +
-              'passed to `form()` instead.',
-          );
-        }
+        maxLength = formField.state().maxLength?.();
       } catch {
         // The `FormField` directive's own `field` input may not have a value yet if this
         // runs before its host binding has been processed (e.g. `characterLimit` is set
         // during the input box's initial input processing, ahead of content projection).
+        return;
+      }
+
+      if (maxLength === undefined) {
+        this.#logger.warn(
+          'The `characterLimit` input has no effect on signal-forms ' +
+            `controls. Add \`maxLength(field, ${this.characterLimit})\` to the schema function ` +
+            'passed to `form()` instead.',
+        );
       }
       return;
     }

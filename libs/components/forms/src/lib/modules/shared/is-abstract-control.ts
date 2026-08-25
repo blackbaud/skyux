@@ -3,11 +3,9 @@ import { AbstractControl } from '@angular/forms';
 // Components that call mutation methods (`setValue`, `markAsDirty`, `markAsTouched`,
 // `setErrors`, etc.) on a control captured from `validate()` or an injected `NgControl`
 // should guard those calls with this function, since the read-only interop control that
-// signal forms' `[field]` directive provides through `NgControl` has no such methods.
+// signal forms' `[formField]` directive provides through `NgControl` has no such methods.
 /**
- * Reports whether `control` is a real `AbstractControl`, as opposed to the read-only
- * interop control that `@angular/forms/signals`' `[field]` directive provides through
- * `NgControl`.
+ * Reports whether `control` is a real `AbstractControl`.
  * @internal
  */
 export function skyIsAbstractControl(

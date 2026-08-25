@@ -12,15 +12,13 @@ import { SkyFormsResourcesModule } from '../shared/sky-forms-resources.module';
 
 import { SkyFormErrorComponent } from './form-error.component';
 
+// Angular signal-forms error kinds that have a dedicated block in this component's
+// template; skipped by `customMessageErrors` so a consumer-supplied `message` doesn't
+// render alongside the SKY message. SKY-owned error kinds (`skyDate`, `skyEmail`,
+// `skyTime`, etc.) are deliberately absent — SKY validators never set `message`, so
+// `customMessageErrors` already excludes them by construction.
 /**
- * Angular signal-forms error kinds that have a dedicated block in this component's template.
- * Errors of these kinds are skipped by `customMessageErrors` so a consumer-supplied
- * `message` doesn't render alongside the SKY message.
- *
- * SKY-owned error kinds (`skyDate`, `skyEmail`, `skyTime`, etc.) are deliberately absent:
- * SKY validators never set `message` — their text comes from `skyLibResources` — so
- * `customMessageErrors` already excludes them. A `message` on an error means a consumer
- * authored that text.
+ * @internal
  */
 export const SKY_HANDLED_SIGNAL_ERROR_KINDS = new Set([
   'required',
@@ -73,11 +71,9 @@ export class SkyFormErrorsComponent {
   @HostBinding('attr.aria-relevant')
   protected readonly ariaRelevant = 'all';
 
-  /**
-   * Signal-forms validation errors (e.g. from a custom `validate()` rule) that aren't
-   * mapped to a built-in SKY message. These are rendered automatically as custom errors
-   * when they carry a `message`.
-   */
+  // Signal-forms validation errors (e.g. from a custom `validate()` rule) that aren't
+  // mapped to a built-in SKY message; rendered automatically as custom errors when they
+  // carry a `message`.
   protected get customMessageErrors(): { kind: string; message: string }[] {
     const errors = this.errors;
 
