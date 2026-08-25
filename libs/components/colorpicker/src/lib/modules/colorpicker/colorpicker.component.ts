@@ -359,15 +359,12 @@ export class SkyColorpickerComponent
     return this.#_colorpickerRef;
   }
 
-  /**
-   * Resolves whatever form-binding directive is on the content-projected
-   * `[skyColorpickerInput]` element: a reactive `formControl`/`formControlName`,
-   * a template-driven `ngModel`, or (once that directive drops
-   * `ControlValueAccessor`) the `NgControl` that a signal-forms `[formField]`
-   * binding provides. All four expose the same `AbstractControlDirective`
-   * surface (`touched`, `dirty`, `valid`, `errors`), so a single query covers
-   * every form flavor.
-   */
+  // Resolves whatever form-binding directive is on the content-projected
+  // `[skyColorpickerInput]` element: reactive, template-driven, or (once
+  // that directive drops `ControlValueAccessor`) the `NgControl` a
+  // signal-forms `[formField]` binding provides. All three expose the same
+  // `AbstractControlDirective` surface (`touched`, `dirty`, `valid`,
+  // `errors`), so a single query covers every form flavor.
   @ContentChild(NgControl)
   protected set ngControlDirective(value: NgControl | undefined) {
     if (value) {
@@ -552,12 +549,9 @@ export class SkyColorpickerComponent
   }
 
   public onResetClick(): void {
-    this.updatePickerValues(this.initialColor);
-    this.backgroundColorForDisplay = this.initialColor;
+    this.#resetToInitialColor();
 
     if (this.selectedColor) {
-      this.selectedColorChanged.emit(this.selectedColor);
-      this.selectedColorApplied.emit({ color: this.selectedColor });
       // The reset button is a user action (unlike a programmatic Reset
       // message sent through `messageStream`), so it's relayed through
       // `colorApplied` rather than `reset`. The bound
@@ -639,6 +633,22 @@ export class SkyColorpickerComponent
     this.messageStream.next({ type });
   }
 
+  // Shared by `onResetClick()` and the `Reset` message handler, so the two
+  // reset entry points (a user clicking the reset button vs. a consumer
+  // sending a programmatic message) can't drift apart on how the picker
+  // itself is reverted. Each caller still relays the reset to
+  // `SkyColorpickerInputDirective` through its own subject (`colorApplied`
+  // vs. `reset`), since only a user-driven reset should mark the bound
+  // field dirty.
+  #resetToInitialColor(): void {
+    this.updatePickerValues(this.initialColor);
+    this.backgroundColorForDisplay = this.initialColor;
+    this.selectedColorChanged.emit(this.selectedColor);
+    // TODO: This code assumed non-null pre-strict mode. Reevaluate in the future?
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    this.selectedColorApplied.emit({ color: this.selectedColor! });
+  }
+
   #handleIncomingMessages(message: SkyColorpickerMessage): void {
     switch (message.type) {
       case SkyColorpickerMessageType.Open:
@@ -654,12 +664,7 @@ export class SkyColorpickerComponent
         break;
 
       case SkyColorpickerMessageType.Reset:
-        this.updatePickerValues(this.initialColor);
-        this.backgroundColorForDisplay = this.initialColor;
-        this.selectedColorChanged.emit(this.selectedColor);
-        // TODO: This code assumed non-null pre-strict mode. Reevaluate in the future?
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        this.selectedColorApplied.emit({ color: this.selectedColor! });
+        this.#resetToInitialColor();
         // This reset is programmatic (a consumer sent the message), not a
         // user action, so it's relayed through `reset` rather than
         // `colorApplied`. The bound `SkyColorpickerInputDirective` reverts
