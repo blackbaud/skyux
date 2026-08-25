@@ -6,11 +6,13 @@
 
 ### ⚠ BREAKING CHANGES
 
+* **components/tiles:** tile dashboard remains multi-column at the sm breakpoint (#4694)
 * **sdk/testing:** retain default rules when custom overrides are assigned to `toBeAccessible` matcher (#4682)
 * report unlabeled components in `prefer-label-text` rule (#4652)
 
 ### Features
 
+* **components/tiles:** tile dashboard remains multi-column at the sm breakpoint ([#4694](https://github.com/blackbaud/skyux/issues/4694)) ([0189da9](https://github.com/blackbaud/skyux/commit/0189da9017883a5a10a016c9b9f4ff8cb0477749))
 * report unlabeled components in `prefer-label-text` rule ([#4652](https://github.com/blackbaud/skyux/issues/4652)) ([7830ee9](https://github.com/blackbaud/skyux/commit/7830ee967cab9fa5b15659a000d282b5befe544c))
 
 
