@@ -31,7 +31,15 @@ function getDefaultObs(): Observable<SkyResourceType> {
 /**
  * An Angular service for interacting with resource strings.
  *
- * @deprecated This service is deprecated. Use `SkyAppResourcesService` instead.
+ * @deprecated This service preserves the behavior `SkyAppResourcesService` had before
+ * SKY UX 15, when its observables emitted a single value and completed. It exists only
+ * as a temporary landing spot for code that relied on that completion, and the SKY UX 15
+ * `ng update` migration pointed existing code here automatically. Because it resolves
+ * the locale only once, the strings it returns go stale when the user's locale changes.
+ * Move back to `SkyAppResourcesService` — removing any dependency on the observables
+ * completing, such as `forkJoin`, `lastValueFrom`, or `toPromise` — so displayed strings
+ * stay in sync with the active locale. This service will be removed in a future major
+ * version.
  */
 @Injectable({
   providedIn: 'root',
@@ -67,7 +75,10 @@ export class SkyAppResourcesLegacyService {
    * Gets a resource string based on its name. Emits once and completes.
    * @param name The name of the resource string.
    * @param args Any templated args.
-   * @deprecated This method is deprecated. Use `SkyAppResourcesService.getString()` instead.
+   * @deprecated This method reads the locale once and completes, so the string it emits
+   * is not updated when the user's locale changes. Use `SkyAppResourcesService.getString()`
+   * instead, which re-emits the translated string on every locale change. Subscribers must
+   * no longer rely on the observable completing.
    */
   public getString(name: string, ...args: any[]): Observable<string> {
     const localeObs: Observable<SkyAppLocaleInfo> =
@@ -94,7 +105,10 @@ export class SkyAppResourcesLegacyService {
    * }
    * ```
    *
-   * @deprecated This method is deprecated. Use `SkyAppResourcesService.getStrings()` instead.
+   * @deprecated This method reads the locale once and completes, so the dictionary it emits
+   * is not updated when the user's locale changes. Use `SkyAppResourcesService.getStrings()`
+   * instead, which re-emits the translated dictionary on every locale change. Subscribers
+   * must no longer rely on the observable completing.
    */
   public getStrings<T extends ResourceDictionary>(
     dictionary: T,
@@ -120,7 +134,9 @@ export class SkyAppResourcesLegacyService {
    * @param localeInfo The locale to use.
    * @param name The name of the resource string.
    * @param args Any templated args.
-   * @deprecated This method is deprecated. Use `SkyAppResourcesService.getStringForLocale()` instead.
+   * @deprecated Use `SkyAppResourcesService.getStringForLocale()` instead. Because the locale
+   * is passed in explicitly, that method behaves the same as this one, so migrating requires
+   * no other changes and lets you drop this service entirely.
    */
   public getStringForLocale(
     localeInfo: SkyAppLocaleInfo,
