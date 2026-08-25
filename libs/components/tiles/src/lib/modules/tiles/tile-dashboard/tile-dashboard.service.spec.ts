@@ -656,7 +656,7 @@ describe('Tile dashboard service', () => {
 
   it('should allow tiles to be moved within a column in single column mode', fakeAsync(() => {
     const fixture = createDashboardTestComponent();
-    mediaQueryController.setBreakpoint('sm');
+    mediaQueryController.setBreakpoint('xs');
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
@@ -756,7 +756,7 @@ describe('Tile dashboard service', () => {
     const fixture = createDashboardTestComponent();
     const el = fixture.nativeElement;
 
-    mediaQueryController.setBreakpoint('sm');
+    mediaQueryController.setBreakpoint('xs');
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
@@ -803,6 +803,14 @@ describe('Tile dashboard service', () => {
     expect(getTileCount(multiColumnEls[0])).toBe(0);
     expect(getTileCount(multiColumnEls[1])).toBe(0);
     expect(getTileCount(singleColumnEl)).toBe(4);
+
+    mediaQueryController.setBreakpoint('sm');
+
+    fixture.detectChanges();
+
+    expect(getTileCount(multiColumnEls[0])).toBe(3);
+    expect(getTileCount(multiColumnEls[1])).toBe(1);
+    expect(getTileCount(singleColumnEl)).toBe(0);
 
     mediaQueryController.setBreakpoint('md');
 

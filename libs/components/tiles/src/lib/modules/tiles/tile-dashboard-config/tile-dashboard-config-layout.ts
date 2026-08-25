@@ -3,7 +3,7 @@ import { SkyTileDashboardConfigLayoutColumn } from './tile-dashboard-config-layo
 export interface SkyTileDashboardConfigLayout {
   /**
    * A `SkyTileDashboardConfigLayoutColumn` object that describes how to
-   * display tiles in a single column on small screens.
+   * display tiles in a single column on extra-small screens.
    */
   singleColumn: SkyTileDashboardConfigLayoutColumn;
   /**

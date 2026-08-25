@@ -127,7 +127,14 @@ export abstract class _SkyA11yAnalyzer {
 
       _SkyA11yAnalyzer.analyzer.run(
         element,
-        { ...defaults, ...config },
+        {
+          ...defaults,
+          ...config,
+          rules: {
+            ...defaults.rules,
+            ...(config?.rules ?? {}),
+          },
+        },
         callback,
       );
     });
