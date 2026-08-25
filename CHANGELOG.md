@@ -1,6 +1,105 @@
 # Changelog
 
 
+## [15.0.0-alpha.6](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.5...15.0.0-alpha.6) (2026-08-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/layout:** description lists use medium stacked spacing between stacked items and do not have extra margins at the bottom of horizontal description lists (#4668)
+* **components/i18n:** getString/getStrings observables no longer complete
+* **sdk/testing:** deprecate `SkyAppTestUtility` and `SkyBy` testing utils (#4651)
+
+### Features
+
+* add `@skyux-sdk/vitest` package ([#4664](https://github.com/blackbaud/skyux/issues/4664)) ([3b0feab](https://github.com/blackbaud/skyux/commit/3b0feab4ed6d4dd563288a93d6d6e8ceaa6d72ca))
+* **components/ag-grid:** add `defineSkyAgGridColDef` to validate cell editor and renderer params against cell types ([#4582](https://github.com/blackbaud/skyux/issues/4582)) ([#4657](https://github.com/blackbaud/skyux/issues/4657)) ([5a8f361](https://github.com/blackbaud/skyux/commit/5a8f361d95cb77dbbb1e4d5713900c12da13368d)), closes [AB#3928427](https://dev.azure.com/blackbaud/Products/_workitems/edit/3928427)
+* **components/datetime:** set datepicker value to today when F3 is pressed ([#4662](https://github.com/blackbaud/skyux/issues/4662)) ([02f2e22](https://github.com/blackbaud/skyux/commit/02f2e2256a693af412c458b6a8aad2b93b0ffb2f)), closes [AB#4033124](https://dev.azure.com/blackbaud/Products/_workitems/edit/4033124)
+* **components/i18n:** make getString/getStrings update on locale changes ([#4610](https://github.com/blackbaud/skyux/issues/4610)) ([c7765ea](https://github.com/blackbaud/skyux/commit/c7765ea4fa3ce79b9a34a6a3246c1af8e86d52da)), closes [AB#4082284](https://dev.azure.com/blackbaud/Products/_workitems/edit/4082284)
+* **components/tabs:** add `tabWidth` input to vertical tabset with `auto` sizing and harness/example support ([#4410](https://github.com/blackbaud/skyux/issues/4410)) ([#4658](https://github.com/blackbaud/skyux/issues/4658)) ([5301b36](https://github.com/blackbaud/skyux/commit/5301b369e5784ab48f4e4213a71b442cf370a5f6))
+* **sdk/testing:** deprecate `SkyAppTestUtility` and `SkyBy` testing utils ([#4651](https://github.com/blackbaud/skyux/issues/4651)) ([2c100e5](https://github.com/blackbaud/skyux/commit/2c100e5dd32e243fea37451890ea67f85b000793)), closes [AB#3987231](https://dev.azure.com/blackbaud/Products/_workitems/edit/3987231)
+
+
+### Bug Fixes
+
+* **components/charts:** do not skip category labels for horizontal bar charts ([#4670](https://github.com/blackbaud/skyux/issues/4670)) ([#4672](https://github.com/blackbaud/skyux/issues/4672)) ([8f5bcd0](https://github.com/blackbaud/skyux/commit/8f5bcd0606b5e86e7a0ae94889af268c8dff04bb)), closes [AB#4094199](https://dev.azure.com/blackbaud/Products/_workitems/edit/4094199)
+* **components/charts:** fix horizontal bar spacing; add visual tests ([#4552](https://github.com/blackbaud/skyux/issues/4552)) ([#4659](https://github.com/blackbaud/skyux/issues/4659)) ([772c576](https://github.com/blackbaud/skyux/commit/772c5761a376881c3efac5403f91ea662ea821ee))
+* **components/core:** dispatch change event during `SkyAppTestUtility.setInputValue` ([#4676](https://github.com/blackbaud/skyux/issues/4676)) ([9d9a2f1](https://github.com/blackbaud/skyux/commit/9d9a2f1c4f2705413693f9829e9bcea6d800fbf3))
+* **components/layout:** description lists use medium stacked spacing between stacked items and do not have extra margins at the bottom of horizontal description lists ([#4668](https://github.com/blackbaud/skyux/issues/4668)) ([437407f](https://github.com/blackbaud/skyux/commit/437407f4414c474debd2d7f94b96426e641a4c6e))
+* **components/modals:** tokenize tiled body modal background ([#4671](https://github.com/blackbaud/skyux/issues/4671)) ([#4677](https://github.com/blackbaud/skyux/issues/4677)) ([b40e519](https://github.com/blackbaud/skyux/commit/b40e5190c014a4682e016e295899dc3100fe0dd0))
+* **components/router:** add documentation for exported types ([#4661](https://github.com/blackbaud/skyux/issues/4661)) ([#4669](https://github.com/blackbaud/skyux/issues/4669)) ([1c092e4](https://github.com/blackbaud/skyux/commit/1c092e4debd7b79fd1d9057432e65c2ff5a958d8)), closes [AB#4088898](https://dev.azure.com/blackbaud/Products/_workitems/edit/4088898)
+* dark mode flyouts, summary action bars, and back to top bars have an edge border ([#4633](https://github.com/blackbaud/skyux/issues/4633)) ([#4667](https://github.com/blackbaud/skyux/issues/4667)) ([ff67462](https://github.com/blackbaud/skyux/commit/ff6746295ae220fdb0e4325374f44359e4f8409b))
+
+## [14.15.1](https://github.com/blackbaud/skyux/compare/14.15.0...14.15.1) (2026-08-21)
+
+
+### Bug Fixes
+
+* **components/charts:** do not skip category labels for horizontal bar charts ([#4670](https://github.com/blackbaud/skyux/issues/4670)) ([0fbe997](https://github.com/blackbaud/skyux/commit/0fbe997ba1b6e23ef7ccfa2f4b20ad22473c19aa)), closes [AB#4094199](https://dev.azure.com/blackbaud/Products/_workitems/edit/4094199)
+* **components/modals:** tokenize tiled body modal background ([#4671](https://github.com/blackbaud/skyux/issues/4671)) ([bdda7d6](https://github.com/blackbaud/skyux/commit/bdda7d6dc53cf3f6461b71e01f6dd7883dfaf214))
+* **components/router:** add documentation for exported types ([#4661](https://github.com/blackbaud/skyux/issues/4661)) ([781f951](https://github.com/blackbaud/skyux/commit/781f951e3f1464b44536c07d6368dee63753f157)), closes [AB#4088898](https://dev.azure.com/blackbaud/Products/_workitems/edit/4088898)
+* dark mode flyouts, summary action bars, and back to top bars have an edge border ([#4633](https://github.com/blackbaud/skyux/issues/4633)) ([447a908](https://github.com/blackbaud/skyux/commit/447a90864dba77e95c965b3593ad82695e135517))
+
+## [14.15.0](https://github.com/blackbaud/skyux/compare/14.14.0...14.15.0) (2026-08-19)
+
+
+### Features
+
+* **components/i18n:** support non-region-specific locales for library resources ([#4648](https://github.com/blackbaud/skyux/issues/4648)) ([a5a3a6c](https://github.com/blackbaud/skyux/commit/a5a3a6cc0bd0c5d77338c9d4147f09e35b62d1f2)), closes [AB#4092222](https://dev.azure.com/blackbaud/Products/_workitems/edit/4092222)
+
+## [15.0.0-alpha.5](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.4...15.0.0-alpha.5) (2026-08-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/modals:** remove deprecated SkyModalHeaderComponent (#4623)
+* **components/forms:** remove deprecated SkyToggleSwitchLabelComponent (#4620)
+* **components/select-field:** remove deprecated SkySelectFieldComponent (#4625)
+* **components/forms:** remove deprecated SkyFileAttachmentLabelComponent (#4618)
+* **components/layout:** remove deprecated SkyBoxHeaderComponent (#4617)
+* **components/theme:** `sky-btn-disable` no longer disables pointer events (#4628)
+* **sdk/testing:** visibility checks no longer ignore earlier failed rules (#4616)
+
+### Features
+
+* add locale-aware AG Grid text ([#4615](https://github.com/blackbaud/skyux/issues/4615)) ([af2509e](https://github.com/blackbaud/skyux/commit/af2509e3667d04f5f062b1014052b9c404994aae)), closes [AB#4082332](https://dev.azure.com/blackbaud/Products/_workitems/edit/4082332) [#200](https://github.com/blackbaud/skyux/issues/200)
+* **components/forms:** remove deprecated SkyFileAttachmentLabelComponent ([#4618](https://github.com/blackbaud/skyux/issues/4618)) ([160d457](https://github.com/blackbaud/skyux/commit/160d4573f81aba59d10321ef5764dfee4e8acc11))
+* **components/forms:** remove deprecated SkyToggleSwitchLabelComponent ([#4620](https://github.com/blackbaud/skyux/issues/4620)) ([b95d193](https://github.com/blackbaud/skyux/commit/b95d193399b5864c46a37456b7ef881adf8d3b69))
+* **components/i18n:** support non-region-specific locales for library resources ([#4648](https://github.com/blackbaud/skyux/issues/4648)) ([#4653](https://github.com/blackbaud/skyux/issues/4653)) ([c905a82](https://github.com/blackbaud/skyux/commit/c905a821bbab1adbb5749476910b252413091018)), closes [AB#4092222](https://dev.azure.com/blackbaud/Products/_workitems/edit/4092222)
+* **components/icon:** allow icon URL to be provided with injection token ([#4641](https://github.com/blackbaud/skyux/issues/4641)) ([#4655](https://github.com/blackbaud/skyux/issues/4655)) ([2eae756](https://github.com/blackbaud/skyux/commit/2eae75642c1472f10914a5f9b88fb06a822a957b)), closes [AB#4087492](https://dev.azure.com/blackbaud/Products/_workitems/edit/4087492)
+* **components/layout:** remove deprecated SkyBoxHeaderComponent ([#4617](https://github.com/blackbaud/skyux/issues/4617)) ([62beb9b](https://github.com/blackbaud/skyux/commit/62beb9b2528c936e563045332ca8b476b5ae25bf))
+* **components/modals:** remove deprecated SkyModalHeaderComponent ([#4623](https://github.com/blackbaud/skyux/issues/4623)) ([bd816e7](https://github.com/blackbaud/skyux/commit/bd816e7da751d8bb0f24996a99534f355fc95cb5))
+* **components/select-field:** remove deprecated SkySelectFieldComponent ([#4625](https://github.com/blackbaud/skyux/issues/4625)) ([0458b51](https://github.com/blackbaud/skyux/commit/0458b51c232d406f5f49db1f100496d40b0e0ec3))
+* support Angular 22.1 ([#4649](https://github.com/blackbaud/skyux/issues/4649)) ([bd95643](https://github.com/blackbaud/skyux/commit/bd956439ea9811e2501cd7d0d105a6b314091a58)), closes [AB#4008241](https://dev.azure.com/blackbaud/Products/_workitems/edit/4008241)
+* tokenize the icon used by HTML select fields ([#4619](https://github.com/blackbaud/skyux/issues/4619)) ([#4622](https://github.com/blackbaud/skyux/issues/4622)) ([8fdf445](https://github.com/blackbaud/skyux/commit/8fdf4451cee3148b59bd4af58207af0279d6a215))
+
+
+### Bug Fixes
+
+* **components/forms:** make file attachment file link keyboard accessible ([#4638](https://github.com/blackbaud/skyux/issues/4638)) ([2151133](https://github.com/blackbaud/skyux/commit/2151133428aee873afa324c8f0256c3f5a674053))
+* **components/indicators:** tokens use tertiary action tokens for focus-visible styles ([#4632](https://github.com/blackbaud/skyux/issues/4632)) ([#4642](https://github.com/blackbaud/skyux/issues/4642)) ([221a91d](https://github.com/blackbaud/skyux/commit/221a91db651a022a5cba4a1b12b369d60d2228d1))
+* **components/lookup:** autocomplete does not clear value on blur when all values are allowed ([#4626](https://github.com/blackbaud/skyux/issues/4626)) ([#4630](https://github.com/blackbaud/skyux/issues/4630)) ([7901666](https://github.com/blackbaud/skyux/commit/7901666884bf135d5246e7eed3f03182c94a793c))
+* **components/theme:** `sky-btn-disable` no longer disables pointer events ([#4628](https://github.com/blackbaud/skyux/issues/4628)) ([949894b](https://github.com/blackbaud/skyux/commit/949894bae64cdd321f71b6ad703d7954824179af))
+* display toasts above all layers except the full-page wait ([#4634](https://github.com/blackbaud/skyux/issues/4634)) ([#4643](https://github.com/blackbaud/skyux/issues/4643)) ([c4a702f](https://github.com/blackbaud/skyux/commit/c4a702fbaeb46c43a783500fd2a7be658abdc625))
+* **sdk/testing:** visibility checks no longer ignore earlier failed rules ([#4616](https://github.com/blackbaud/skyux/issues/4616)) ([593ba9a](https://github.com/blackbaud/skyux/commit/593ba9adb5c68fc109924a3c5d7e2665dbff07de)), closes [AB#3959363](https://dev.azure.com/blackbaud/Products/_workitems/edit/3959363)
+* use menu background color for timepicker and popover ([#4644](https://github.com/blackbaud/skyux/issues/4644)) ([#4645](https://github.com/blackbaud/skyux/issues/4645)) ([9812539](https://github.com/blackbaud/skyux/commit/9812539329c45a20a128f3765207b868a042ffed))
+
+## [14.14.0](https://github.com/blackbaud/skyux/compare/14.13.0...14.14.0) (2026-08-18)
+
+
+### Features
+
+* **components/icon:** allow icon URL to be provided with injection token ([#4641](https://github.com/blackbaud/skyux/issues/4641)) ([66bea84](https://github.com/blackbaud/skyux/commit/66bea84d3366c3b0a5e8264d1fbe327cac9dbf9f))
+
+
+### Bug Fixes
+
+* **components/forms:** make file attachment file link keyboard accessible ([#4638](https://github.com/blackbaud/skyux/issues/4638)) ([#4640](https://github.com/blackbaud/skyux/issues/4640)) ([36abf69](https://github.com/blackbaud/skyux/commit/36abf6929247771cdbd1601a1aeb499d9075c0a0))
+* **components/indicators:** tokens use tertiary action tokens for focus-visible styles ([#4632](https://github.com/blackbaud/skyux/issues/4632)) ([7357932](https://github.com/blackbaud/skyux/commit/7357932b874e0069c12e2723276a1e1cf5c98a29))
+* **components/theme:** `base` dark mode tokens are not overwritten by `blackbaud` light mode tokens ([#4637](https://github.com/blackbaud/skyux/issues/4637)) ([7a15a93](https://github.com/blackbaud/skyux/commit/7a15a939d7af29942d4b24f4d675a349f2442398))
+* display toasts above all layers except the full-page wait ([#4634](https://github.com/blackbaud/skyux/issues/4634)) ([b59c039](https://github.com/blackbaud/skyux/commit/b59c0393025cc0ffb2e661309720ef3a6a393512))
+* use menu background color for timepicker and popover ([#4644](https://github.com/blackbaud/skyux/issues/4644)) ([fa63d76](https://github.com/blackbaud/skyux/commit/fa63d7657ce3416e76ff2fc27d9df3d0bf4aa172))
+
 ## [14.13.0](https://github.com/blackbaud/skyux/compare/14.12.0...14.13.0) (2026-08-14)
 
 

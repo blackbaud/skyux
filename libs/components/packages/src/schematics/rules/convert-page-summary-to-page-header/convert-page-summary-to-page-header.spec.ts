@@ -210,7 +210,6 @@ describe('Convert Page Summary to Page Header', () => {
     tree.create('src/app/test.component.ts', input);
     const output = stripIndents`
       import { Component } from '@angular/core';
-
       import { SkyPageModule } from '@skyux/pages';
 
       @Component({

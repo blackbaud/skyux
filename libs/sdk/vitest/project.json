@@ -1,0 +1,43 @@
+{
+  "name": "vitest",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/sdk/vitest/src",
+  "projectType": "library",
+  "release": {
+    "version": {
+      "manifestRootsToUpdate": ["dist/{projectRoot}"],
+      "currentVersionResolver": "git-tag",
+      "fallbackCurrentVersionResolver": "disk"
+    }
+  },
+  "tags": ["sdk", "npm"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/sdk/vitest",
+        "tsConfig": "libs/sdk/vitest/tsconfig.lib.json",
+        "packageJson": "libs/sdk/vitest/package.json",
+        "main": "libs/sdk/vitest/src/index.ts",
+        "assets": ["libs/sdk/vitest/*.md", "libs/sdk/vitest/globals.d.ts"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": [
+          "{projectRoot}/src/**/*.ts",
+          "{projectRoot}/matchers-setup.mts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/vitest:test",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "config": "libs/sdk/vitest/vitest.config.mts"
+      }
+    }
+  }
+}

@@ -1,5 +1,25 @@
 import { SkyLibResources } from './lib-resources';
 
+const registry: Record<string, SkyLibResources> = {};
+
+/**
+ * @internal
+ */
+export function addLibResources(
+  localeResources: Record<string, SkyLibResources>,
+): void {
+  for (const [locale, resources] of Object.entries(localeResources)) {
+    registry[locale] = { ...registry[locale], ...resources };
+  }
+}
+
+/**
+ * @internal
+ */
+export function getLibResources(): Record<string, SkyLibResources> {
+  return registry;
+}
+
 /**
  * @internal
  */
@@ -10,22 +30,25 @@ export function getLibStringForLocale(
 ): string | undefined {
   const defaultLocale = 'en-US';
 
-  function getResourcesForLocale(locale: string): SkyLibResources {
-    const parsedLocale = locale.toLocaleUpperCase().replace('_', '-');
-    return resources[parsedLocale];
-  }
+  const normalizeLocale = (locale: string): string =>
+    locale.toUpperCase().replace(/_/g, '-');
 
-  let values: SkyLibResources = getResourcesForLocale(preferredLocale);
+  const normalizedPreferred = normalizeLocale(preferredLocale);
+  const languageTag = normalizedPreferred.split('-')[0];
 
-  if (values && values[name]) {
-    return values[name].message;
-  }
+  const localeFallback = [
+    ...new Set([
+      normalizedPreferred,
+      languageTag,
+      normalizeLocale(defaultLocale),
+    ]),
+  ];
 
-  // Attempt to locate default resources.
-  values = getResourcesForLocale(defaultLocale);
-
-  if (values && values[name]) {
-    return values[name].message;
+  for (const locale of localeFallback) {
+    const values = resources[locale];
+    if (values && values[name]) {
+      return values[name].message;
+    }
   }
   return undefined;
 }

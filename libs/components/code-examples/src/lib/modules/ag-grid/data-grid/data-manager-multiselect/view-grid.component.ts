@@ -8,7 +8,12 @@ import {
   signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { SkyAgGridModule, SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import {
+  SkyAgGridModule,
+  SkyAgGridService,
+  SkyCellType,
+  defineSkyAgGridColDef,
+} from '@skyux/ag-grid';
 import {
   SkyDataManagerModule,
   SkyDataManagerService,
@@ -45,7 +50,7 @@ export class ViewGridComponent {
   protected noRowsTemplate = `<div class="sky-deemphasized">No results found.</div>`;
 
   readonly #columnDefs: ColDef[] = [
-    {
+    defineSkyAgGridColDef({
       field: 'selected',
       type: SkyCellType.RowSelector,
       suppressMovable: true,
@@ -55,7 +60,7 @@ export class ViewGridComponent {
         // Could be a SkyAppResourcesService.getString call that returns an observable.
         label: (data: AgGridDemoRow) => of(`Select ${data.name}`),
       },
-    },
+    }),
     {
       colId: 'context',
       maxWidth: 50,

@@ -4,11 +4,13 @@
 
 @include compatMixins.sky-default-overrides('.sky-modal') {
   --sky-override-modal-background-color: #fff;
+  --sky-override-modal-tiled-body-background-color: #{$sky-background-color-neutral-light};
   --sky-override-modal-border: 1px solid #{$sky-border-color-neutral-medium};
   --sky-override-modal-dock-bottom: #{-$sky-padding-plus-half};
   --sky-override-modal-dock-margin-left-right-bottom: #{-$sky-margin-plus-half};
   --sky-override-modal-dock-padding-top: #{$sky-padding-plus-half};
   --sky-override-modal-dock-width: calc(100% + 30px);
+  --sky-override-modal-footer-top-border: none;
   --sky-override-modal-full-page-margin-xs: 0;
   --sky-override-modal-full-page-margin: 0;
   --sky-override-modal-full-page-width: 100%;
@@ -200,10 +202,16 @@
   }
 }
 
-// the `tiledBody` input is deprecated and will be removed in 13
+// the `tiledBody` input is deprecated and will be removed in a future major version
 .sky-modal-tiled .sky-modal-content {
-  background-color: $sky-background-color-neutral-light;
-  --sky-background-color-page-default: $sky-background-color-neutral-light;
+  background-color: var(
+    --sky-override-modal-tiled-body-background-color,
+    var(--sky-color-background-page)
+  );
+  --sky-background-color-page-default: var(
+    --sky-override-modal-tiled-body-background-color,
+    var(--sky-color-background-page)
+  );
 
   ::ng-deep .sky-tile-title {
     @include mixins.sky-subsection-heading();
@@ -226,6 +234,15 @@
 
   display: flex;
   align-items: var(--sky-override-modal-header-align-items, center);
+
+  &.sky-modal-header-shadow-enabled {
+    border-bottom: var(
+      --sky-override-modal-header-bottom-border,
+      var(--sky-border-width-container-base)
+        var(--sky-border-style-container-overlay)
+        var(--sky-color-border-container-base)
+    );
+  }
 }
 
 .sky-modal-header-buttons {
@@ -254,6 +271,15 @@
 .sky-modal-footer {
   flex-shrink: 0;
   z-index: 2;
+
+  &.sky-modal-footer-shadow-enabled {
+    border-top: var(
+      --sky-override-modal-footer-top-border,
+      var(--sky-border-width-container-base)
+        var(--sky-border-style-container-overlay)
+        var(--sky-color-border-container-base)
+    );
+  }
 }
 
 .sky-modal-full-page .sky-modal-content {

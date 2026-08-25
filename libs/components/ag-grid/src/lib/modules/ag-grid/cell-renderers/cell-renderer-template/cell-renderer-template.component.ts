@@ -10,18 +10,18 @@ import {
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 
-import { CellRendererTemplateContext } from './cell-renderer-template-context.type';
+import { SkyCellRendererTemplateContext } from '../../types/cell-renderer-template-context';
 
 type CellState =
   | {
       hasTemplate: true;
-      template: TemplateRef<CellRendererTemplateContext>;
-      context: CellRendererTemplateContext;
+      template: TemplateRef<SkyCellRendererTemplateContext>;
+      context: SkyCellRendererTemplateContext;
     }
   | {
       hasTemplate: 'signal';
-      template: Signal<TemplateRef<CellRendererTemplateContext>>;
-      context: CellRendererTemplateContext;
+      template: Signal<TemplateRef<SkyCellRendererTemplateContext>>;
+      context: SkyCellRendererTemplateContext;
     }
   | {
       hasTemplate: false;
@@ -57,12 +57,12 @@ export class SkyAgGridCellRendererTemplateComponent implements ICellRendererAngu
       params.colDef.cellRendererParams.template
     );
     const template:
-      | TemplateRef<CellRendererTemplateContext>
-      | Signal<TemplateRef<CellRendererTemplateContext>>
+      | TemplateRef<SkyCellRendererTemplateContext>
+      | Signal<TemplateRef<SkyCellRendererTemplateContext>>
       | undefined = hasTemplate
       ? (params.colDef?.cellRendererParams.template as
-          | TemplateRef<CellRendererTemplateContext>
-          | Signal<TemplateRef<CellRendererTemplateContext>>)
+          | TemplateRef<SkyCellRendererTemplateContext>
+          | Signal<TemplateRef<SkyCellRendererTemplateContext>>)
       : undefined;
     this.state = {
       hasTemplate: isSignal(template) ? 'signal' : hasTemplate,
