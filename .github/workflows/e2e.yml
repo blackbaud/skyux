@@ -543,12 +543,31 @@ jobs:
               const globPattern = await glob.create('${{ runner.temp }}/percy-builds/percy-build-*.txt');
               const buildIdFiles = await globPattern.glob()
 
+              // Fetch the PR's labels live rather than trusting
+              // needs.install-deps.outputs.pr-labels, which is frozen from
+              // when this workflow run started. This lets a re-run of just
+              // this job (e.g. triggered by e2e-screenshot-removed-check.yml
+              // after the "screenshot removed" label is added or removed)
+              // reflect the PR's current labels instead of stale ones.
+              const isPush = ${{ github.event_name == 'push' }};
+              const currentLabels = isPush
+                ? []
+                : await github.rest.issues
+                    .listLabelsOnIssue({
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      issue_number: ${{ needs.install-deps.outputs.pr-number }},
+                    })
+                    .then(({ data }) => data.map((label) => label.name));
+              const allowMissingScreenshots =
+                isPush || currentLabels.includes('screenshot removed');
+
               await verifyE2e(
                 e2eProjects,
                 buildIdFiles,
                 core,
                 { listJobsForWorkflowRun, downloadJobLogs },
-                ${{ github.event_name == 'push' || contains( fromJSON( needs.install-deps.outputs.pr-labels ), 'screenshot removed' ) }},
+                allowMissingScreenshots,
                 (url) => fetch(url, options),
                 (number) => process.exit(number)
               );

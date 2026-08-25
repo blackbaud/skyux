@@ -1,0 +1,62 @@
+name: E2E Screenshot Removed Check
+
+on:
+  pull_request_target:
+    types:
+      - labeled
+      - unlabeled
+
+jobs:
+  e2e-screenshot-removed-recheck:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.label.name == 'screenshot removed' }}
+    steps:
+      - uses: actions/github-script@v8
+        with:
+          github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          script: |
+            const sha = context.payload.pull_request.head.sha;
+
+            console.log(`Finding e2e workflow run for commit ${sha}.`);
+            const {data} = await github.rest.actions.listWorkflowRuns({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'e2e.yml',
+              head_sha: sha,
+              status: 'completed',
+              per_page: 1
+            });
+
+            const run = data.workflow_runs[0];
+
+            if (!run) {
+              console.log(`No completed e2e workflow run found for commit ${sha}. Nothing to re-check.`);
+              return;
+            }
+
+            console.log(`Found e2e workflow run ${run.id} (conclusion: ${run.conclusion}). Looking for the E2E Visual Review job.`);
+            const {data: jobsData} = await github.rest.actions.listJobsForWorkflowRun({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: run.id,
+              per_page: 100,
+              filter: 'latest'
+            });
+            const e2eReviewJob = (jobsData.jobs || []).find(job => job.name === 'E2E Visual Review');
+
+            if (!e2eReviewJob) {
+              console.log(`No "E2E Visual Review" job found for workflow run ${run.id}.`);
+              return;
+            }
+
+            if (e2eReviewJob.status !== 'completed') {
+              console.log(`E2E Visual Review job ${e2eReviewJob.id} for workflow run ${run.id} is still ${e2eReviewJob.status}. It will pick up the current "screenshot removed" label state on its own once it runs, so no re-run is needed.`);
+              return;
+            }
+
+            console.log(`Re-running E2E Visual Review job ${e2eReviewJob.id} for workflow run ${run.id} (the "screenshot removed" label was ${context.payload.action}).`);
+            await github.rest.actions.reRunJobForWorkflowRun({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              job_id: e2eReviewJob.id
+            });
