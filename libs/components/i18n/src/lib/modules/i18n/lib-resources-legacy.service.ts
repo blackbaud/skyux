@@ -30,8 +30,9 @@ type ResourceDictionary = Record<string, ResourceKey | TemplatedResource>;
  * @deprecated This service preserves the behavior `SkyLibResourcesService` had before
  * SKY UX 15, when its observables emitted a single value and completed. It exists only
  * as a temporary landing spot for code that relied on that completion, and the SKY UX 15
- * `ng update` migration pointed existing code here automatically. Because it resolves
- * the locale only once, the strings it returns go stale when the user's locale changes.
+ * `ng update` migration pointed existing code here automatically. Because `getString()`
+ * and `getStrings()` resolve the locale only once, the strings they emit go stale when
+ * the user's locale changes.
  * Move back to `SkyLibResourcesService` — removing any dependency on the observables
  * completing, such as `forkJoin`, `lastValueFrom`, or `toPromise` — so displayed strings
  * stay in sync with the active locale. This service will be removed in a future major
