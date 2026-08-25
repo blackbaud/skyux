@@ -18,21 +18,30 @@ import {
   Renderer2,
   TemplateRef,
   ViewEncapsulation,
+  contentChild,
   inject,
 } from '@angular/core';
 import {
   AbstractControlDirective,
   FormControlDirective,
   FormControlName,
+  NgControl,
   NgModel,
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { SkyContentInfoProvider, SkyIdService } from '@skyux/core';
+import { FormField } from '@angular/forms/signals';
+import {
+  SkyContentInfoProvider,
+  SkyIdService,
+  SkyLogService,
+} from '@skyux/core';
 
 import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 
 import { SKY_FORM_ERRORS_ENABLED } from '../form-error/form-errors-enabled-token';
+import { skyIsAbstractControl } from '../shared/is-abstract-control';
+import { skyWatchFormFieldChanges } from '../shared/watch-form-field-changes';
 
 import { SkyInputBoxAdapterService } from './input-box-adapter.service';
 import { SkyInputBoxControlDirective } from './input-box-control.directive';
@@ -70,6 +79,7 @@ export class SkyInputBoxComponent
   #idSvc = inject(SkyIdService);
   #elementRef = inject(ElementRef);
   #renderer = inject(Renderer2);
+  #logger = inject(SkyLogService);
 
   /**
    * Whether to visually highlight the input box in an error state. If not specified, the input box
@@ -214,6 +224,21 @@ export class SkyInputBoxComponent
   })
   public inputRef: ElementRef | undefined;
 
+  /**
+   * The signal-forms `FormField` directive bound to the content control, if any.
+   * `FormField` provides a fake `NgControl` via DI (read below), which lets input box
+   * derive most of its state through the existing `controlDir` accessors. This is used
+   * as a fallback for state that isn't exposed through that interop control, such as the
+   * field's `maxLength` metadata.
+   */
+  protected formField = contentChild(FormField);
+
+  /**
+   * Falls back to the `NgControl` provided by a signal-forms `FormField` directive when
+   * none of `formControl`, `formControlByName`, or `ngModel` are present.
+   */
+  protected signalControl = contentChild(NgControl);
+
   protected controlDir: AbstractControlDirective | undefined;
 
   protected get isDisabled(): boolean {
@@ -233,11 +258,22 @@ export class SkyInputBoxComponent
   }
 
   protected get required(): boolean {
-    return (
+    return !!(
       this.#hasRequiredValidator() ||
       this.inputRef?.nativeElement.required ||
-      this.#requiredByFormField
+      this.#requiredByFormField ||
+      this.formField()?.state().required()
     );
+  }
+
+  /**
+   * The character limit to display in the character counter. Prefers the signal-forms
+   * field's `maxLength` rule (if bound with `[formField]`) over the `characterLimit` input.
+   */
+  protected get characterLimitComputed(): number | undefined {
+    const schemaLimit = this.formField()?.state().maxLength?.();
+
+    return schemaLimit === undefined ? this.characterLimit : schemaLimit;
   }
 
   protected characterCountScreenReader = 0;
@@ -249,6 +285,16 @@ export class SkyInputBoxComponent
   #previousInputRef: ElementRef | undefined;
   #previousMaxLengthValidator: ValidatorFn | undefined;
   #ngUnsubscribe = new Subject<void>();
+
+  constructor() {
+    // Refreshes the input box whenever a bound signal-forms field's state changes. This is
+    // necessary because the `[formField]` binding lives in the consumer's template, so a
+    // signal write there doesn't automatically mark this component's view for check.
+    skyWatchFormFieldChanges(this.formField, this.#changeRef, (state) => {
+      state.maxLength?.();
+      state.value();
+    });
+  }
 
   public ngOnInit(): void {
     this.#inputBoxHostSvc.init(this);
@@ -263,7 +309,10 @@ export class SkyInputBoxComponent
 
   public ngAfterContentChecked(): void {
     this.controlDir =
-      this.formControl || this.formControlByName || this.ngModel;
+      this.formControl ||
+      this.formControlByName ||
+      this.ngModel ||
+      this.signalControl();
 
     if (!this.formControlHasFocus) {
       this.characterCountScreenReader = this.controlDir?.value?.length || 0;
@@ -412,13 +461,41 @@ export class SkyInputBoxComponent
 
   #updateMaxLengthValidator(): void {
     const control = this.controlDir?.control;
+    const formField = this.formField();
+
+    if (formField) {
+      // Signal-forms controls don't support imperative validator mutation; they own their
+      // validation through the schema passed to `form()`. The character counter instead
+      // reads the field's `maxLength` rule directly (see `characterLimitComputed`).
+      try {
+        if (
+          this.characterLimit !== undefined &&
+          formField.state().maxLength?.() === undefined
+        ) {
+          this.#logger.warn(
+            'The `characterLimit` input has no effect on signal-forms ' +
+              `controls. Add \`maxLength(field, ${this.characterLimit})\` to the schema function ` +
+              'passed to `form()` instead.',
+          );
+        }
+      } catch {
+        // The `FormField` directive's own `field` input may not have a value yet if this
+        // runs before its host binding has been processed (e.g. `characterLimit` is set
+        // during the input box's initial input processing, ahead of content projection).
+      }
+      return;
+    }
+
+    if (!skyIsAbstractControl(control)) {
+      return;
+    }
 
     if (this.#previousMaxLengthValidator) {
-      control?.removeValidators(this.#previousMaxLengthValidator);
+      control.removeValidators(this.#previousMaxLengthValidator);
       this.#previousMaxLengthValidator = undefined;
     }
 
-    if (control && this.characterLimit !== undefined) {
+    if (this.characterLimit !== undefined) {
       this.#previousMaxLengthValidator = Validators.maxLength(
         this.characterLimit,
       );

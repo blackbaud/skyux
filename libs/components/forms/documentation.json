@@ -155,6 +155,7 @@
           "FormsInputBoxBasicExampleComponent",
           "FormsInputBoxCharacterLimitExample",
           "FormsInputBoxWithCustomFormErrorsExampleComponent",
+          "FormsInputBoxSignalFormsExample",
           "LookupCountryFieldBasicExampleComponent",
           "DatetimeDatepickerBasicExampleComponent",
           "LookupSingleSelectExampleComponent",
