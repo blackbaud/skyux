@@ -12,6 +12,16 @@
     line-height: var(--sky-font-line_height-body-m);
   }
 
+  a.sky-btn {
+    text-decoration-line: none;
+
+    &:hover,
+    &:active,
+    &:focus-visible {
+      text-decoration-line: none;
+    }
+  }
+
   .sky-btn-default,
   .sky-btn-primary,
   .sky-btn-danger,
@@ -42,7 +52,7 @@
     outline: none;
 
     &:hover {
-      text-decoration: none;
+      text-decoration-line: none;
     }
 
     &.sky-btn-disabled,
@@ -401,23 +411,25 @@
     border-radius: var(--sky-border-radius-s);
     padding: var(--sky-space-inset-balanced-none);
     color: var(--sky-color-text-action);
-    text-decoration: var(--sky-font-text_decoration-inline_link-base);
+    text-decoration-line: var(--sky-font-text_decoration-inline_link-base);
+    text-underline-offset: var(--sky-size-text_underline-offset);
+    text-decoration-thickness: var(--sky-size-text_underline-thickness);
 
     &:focus-visible:not(:active) {
       background-color: transparent;
       box-shadow: 0 0 0 var(--sky-border-width-action-focus)
         var(--sky-color-border-action-tertiary-focus);
-      text-decoration: var(--sky-font-text_decoration-inline_link-focus);
+      text-decoration-line: var(--sky-font-text_decoration-inline_link-focus);
     }
 
     &:active {
       background-color: transparent;
-      text-decoration: var(--sky-font-text_decoration-inline_link-active);
+      text-decoration-line: var(--sky-font-text_decoration-inline_link-active);
     }
 
     &:hover {
       background-color: transparent;
-      text-decoration: var(--sky-font-text_decoration-inline_link-hover);
+      text-decoration-line: var(--sky-font-text_decoration-inline_link-hover);
     }
 
     &:hover,
@@ -433,7 +445,9 @@
       &.sky-btn-focus,
       &:active,
       &.sky-btn-active {
-        text-decoration: var(--sky-font-text_decoration-inline_link-disabled);
+        text-decoration-line: var(
+          --sky-font-text_decoration-inline_link-disabled
+        );
         box-shadow: inset 0 0 0 0
           var(--sky-color-border-action-tertiary-disabled);
 

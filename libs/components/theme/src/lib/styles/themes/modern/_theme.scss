@@ -33,21 +33,21 @@ body.sky-theme-modern {
   a {
     color: var(--sky-color-text-action);
     border-radius: var(--sky-border-radius-s);
-    text-decoration: var(--sky-font-text_decoration-inline_link-base);
+    text-decoration-line: var(--sky-font-text_decoration-inline_link-base);
 
     &:hover {
-      text-decoration: var(--sky-font-text_decoration-inline_link-hover);
+      text-decoration-line: var(--sky-font-text_decoration-inline_link-hover);
     }
 
     &:active {
-      text-decoration: var(--sky-font-text_decoration-inline_link-active);
+      text-decoration-line: var(--sky-font-text_decoration-inline_link-active);
     }
 
     &:focus-visible:not(:active) {
       outline: none;
       box-shadow: 0 0 0 var(--sky-border-width-action-focus)
         var(--sky-color-border-action-tertiary-focus);
-      text-decoration: var(--sky-font-text_decoration-inline_link-focus);
+      text-decoration-line: var(--sky-font-text_decoration-inline_link-focus);
     }
   }
 

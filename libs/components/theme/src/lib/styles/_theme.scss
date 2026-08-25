@@ -14,6 +14,11 @@
   --sky-override-color-illustration-stroke: #004054;
 }
 
+@include compatMixins.sky-default-overrides('a') {
+  --sky-override-a-offset: auto;
+  --sky-override-a-thickness: auto;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -50,12 +55,20 @@ h6 {
 
 a {
   color: var(--sky-text-color-action-primary);
-  text-decoration: none;
+  text-decoration-line: none;
+  text-underline-offset: var(
+    --sky-override-a-offset,
+    var(--sky-size-text_underline-offset)
+  );
+  text-decoration-thickness: var(
+    --sky-override-a-thickness,
+    var(--sky-size-text_underline-thickness)
+  );
 
   &:hover,
   &:active {
     color: var(--sky-text-color-action-primary-hover);
-    text-decoration: underline;
+    text-decoration-line: underline;
   }
 
   &.sky-href[href=''],
@@ -64,7 +77,7 @@ a {
     &:hover,
     &:active {
       color: inherit !important;
-      text-decoration: none !important;
+      text-decoration-line: none !important;
     }
   }
 }
