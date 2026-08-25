@@ -3,6 +3,8 @@ const PAGES = Array.from({ length: PAGE_COUNT }, (_, i) => i + 1);
 
 describe('icons', () => {
   (['modern-v2-light', 'modern-v2-dark'] as const).forEach((theme) => {
+    // Light keeps its historical un-suffixed snapshot names so existing
+    // Percy baselines aren't orphaned; only the new dark run is suffixed.
     const snapshotSuffix = theme === 'modern-v2-light' ? '' : `-${theme}`;
 
     describe(`in ${theme} theme`, () => {
