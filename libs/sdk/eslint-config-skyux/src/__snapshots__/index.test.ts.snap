@@ -12435,6 +12435,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
     ],
     "name": "skyux-eslint/ts-recommended",
     "rules": Object {
+      "skyux-eslint/no-invalid-sky-classnames": "error",
       "skyux-eslint/no-lambda-imports": "error",
       "skyux-eslint/no-sky-selectors": "error",
     },
@@ -14070,6 +14071,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
       "skyux-eslint-template/no-deprecated-directives": "error",
       "skyux-eslint-template/no-invalid-input-box-children": "error",
       "skyux-eslint-template/no-invalid-input-types": "error",
+      "skyux-eslint-template/no-invalid-sky-classnames": "error",
       "skyux-eslint-template/no-legacy-icons": "error",
       "skyux-eslint-template/no-radio-group-with-nested-list": "error",
       "skyux-eslint-template/no-unbound-id": "error",
