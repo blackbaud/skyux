@@ -46,7 +46,9 @@ describe('sectioned form', () => {
           .should('be.visible')
           .click();
 
-        cy.get('#inputName').should('exist').should('be.visible');
+        cy.get('[data-sky-id="inputName"]')
+          .should('exist')
+          .should('be.visible');
 
         cy.window().screenshot(`sectioned-form-${size}-${theme}`);
         cy.window().percySnapshot(`sectioned-form-${size}-${theme}`, {
