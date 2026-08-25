@@ -146,9 +146,16 @@ describe('Test utility', () => {
   });
 
   it('should set the value of an input', () => {
+    const dispatchEventSpy = spyOn(inputEl, 'dispatchEvent').and.callThrough();
     expect(inputEl.value).toEqual('');
     SkyAppTestUtility.setInputValue(inputEl, 'foobar');
     expect(inputEl.value).toEqual('foobar');
+
+    const dispatchedEventTypes = dispatchEventSpy.calls
+      .allArgs()
+      .map(([event]) => event.type);
+
+    expect(dispatchedEventTypes).toEqual(['input', 'change']);
   });
 
   it('should throw and error if `fireDomEvent` is called with an null element', () => {

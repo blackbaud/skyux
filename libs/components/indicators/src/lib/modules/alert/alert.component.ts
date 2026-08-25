@@ -1,6 +1,7 @@
 import {
   AfterViewChecked,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -108,8 +109,9 @@ export class SkyAlertComponent implements AfterViewChecked, OnInit, OnDestroy {
   #descriptionTypeResourceSubscription: Subscription | undefined;
   #descriptionTypeWarned: boolean | undefined;
 
-  #resources = inject(SkyLibResourcesService);
-  #logSvc = inject(SkyLogService);
+  readonly #changeDetector = inject(ChangeDetectorRef);
+  readonly #resources = inject(SkyLibResourcesService);
+  readonly #logSvc = inject(SkyLogService);
 
   public ngOnInit(): void {
     this.#updateAlertIcon();
@@ -160,6 +162,7 @@ export class SkyAlertComponent implements AfterViewChecked, OnInit, OnDestroy {
             )
             .subscribe((value) => {
               this.descriptionComputed = value;
+              this.#changeDetector.markForCheck();
             });
 
           break;

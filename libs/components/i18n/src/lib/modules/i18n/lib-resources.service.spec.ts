@@ -1,5 +1,5 @@
 // #region imports
-import { of as observableOf } from 'rxjs';
+import { BehaviorSubject, of as observableOf } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import { SkyLibResourcesProvider } from './lib-resources-provider';
@@ -197,8 +197,64 @@ describe('Library resources service', () => {
       });
   });
 
+  it('should re-emit when locale changes', (done) => {
+    const localeSubject = new BehaviorSubject({ locale: 'en_US' });
+    const dynamicLocaleProvider: SkyAppLocaleProvider = {
+      defaultLocale: 'en_US',
+      getLocaleInfo: () => localeSubject.asObservable(),
+    };
+
+    service = new SkyLibResourcesService(
+      dynamicLocaleProvider,
+      mockProviders,
+      undefined,
+    );
+
+    const emissions: string[] = [];
+    service.getString('greeting').subscribe((value) => {
+      emissions.push(value);
+
+      if (emissions.length === 1) {
+        expect(emissions[0]).toBe('hello');
+        localeSubject.next({ locale: 'fr_CA' });
+      } else if (emissions.length === 2) {
+        expect(emissions[1]).toBe('bonjour');
+        done();
+      }
+    });
+  });
+
+  it('should not re-emit for getString when the same locale is pushed again', (done) => {
+    const localeSubject = new BehaviorSubject({ locale: 'en_US' });
+    const dynamicLocaleProvider: SkyAppLocaleProvider = {
+      defaultLocale: 'en_US',
+      getLocaleInfo: () => localeSubject.asObservable(),
+    };
+
+    service = new SkyLibResourcesService(
+      dynamicLocaleProvider,
+      mockProviders,
+      undefined,
+    );
+
+    const emissions: string[] = [];
+    service.getString('greeting').subscribe((value) => {
+      emissions.push(value);
+    });
+
+    expect(emissions).toEqual(['hello']);
+
+    localeSubject.next({ locale: 'en_US' });
+    expect(emissions).toEqual(['hello']);
+
+    localeSubject.next({ locale: 'fr_CA' });
+    expect(emissions).toEqual(['hello', 'bonjour']);
+
+    done();
+  });
+
   describe('getStrings', () => {
-    it('returns a completed observable (this is default forkJoin behavior)', (done) => {
+    it('returns a completed observable on initial emission', () => {
       service = new SkyLibResourcesService(
         mockLocaleProvider,
         mockProviders,
@@ -206,11 +262,13 @@ describe('Library resources service', () => {
       );
       const resources$ = service.getStrings({}).pipe(take(1));
 
+      const complete = jasmine.createSpy('complete');
       resources$.subscribe({
+        complete,
         next: () => fail(),
-        complete: () => done(),
         error: () => fail(),
       });
+      expect(complete).toHaveBeenCalled();
     });
 
     it('returns a dictionary of resources (1 resource)', (done) => {
@@ -301,6 +359,99 @@ describe('Library resources service', () => {
         expect(values['hi!']).toBe('bonjour!');
         done();
       });
+    });
+
+    it('re-emits when locale changes for getString', (done) => {
+      const localeSubject = new BehaviorSubject({ locale: 'en_US' });
+      const dynamicLocaleProvider: SkyAppLocaleProvider = {
+        defaultLocale: 'en_US',
+        getLocaleInfo: () => localeSubject.asObservable(),
+      };
+
+      service = new SkyLibResourcesService(
+        dynamicLocaleProvider,
+        mockProviders,
+        undefined,
+      );
+
+      const emissions: string[] = [];
+      service.getString('greeting').subscribe((value) => {
+        emissions.push(value);
+
+        if (emissions.length === 1) {
+          expect(emissions[0]).toBe('hello');
+          localeSubject.next({ locale: 'fr_CA' });
+        } else if (emissions.length === 2) {
+          expect(emissions[1]).toBe('bonjour');
+          done();
+        }
+      });
+    });
+
+    it('re-emits when locale changes for getStrings', (done) => {
+      const localeSubject = new BehaviorSubject({ locale: 'en_US' });
+      const dynamicLocaleProvider: SkyAppLocaleProvider = {
+        defaultLocale: 'en_US',
+        getLocaleInfo: () => localeSubject.asObservable(),
+      };
+
+      service = new SkyLibResourcesService(
+        dynamicLocaleProvider,
+        mockProviders,
+        undefined,
+      );
+
+      const emittedDictionaries: Array<Record<string, string>> = [];
+      service
+        .getStrings({
+          greeting: 'greeting',
+        })
+        .subscribe((values) => {
+          emittedDictionaries.push(values);
+
+          if (emittedDictionaries.length === 1) {
+            expect(emittedDictionaries[0]['greeting']).toBe('hello');
+            localeSubject.next({ locale: 'fr_CA' });
+          } else if (emittedDictionaries.length === 2) {
+            expect(emittedDictionaries[1]['greeting']).toBe('bonjour');
+            done();
+          }
+        });
+    });
+
+    it('does not re-emit for getStrings when the same locale is pushed again', (done) => {
+      const localeSubject = new BehaviorSubject({ locale: 'en_US' });
+      const dynamicLocaleProvider: SkyAppLocaleProvider = {
+        defaultLocale: 'en_US',
+        getLocaleInfo: () => localeSubject.asObservable(),
+      };
+
+      service = new SkyLibResourcesService(
+        dynamicLocaleProvider,
+        mockProviders,
+        undefined,
+      );
+
+      const emittedDictionaries: Array<Record<string, string>> = [];
+      service
+        .getStrings({
+          greeting: 'greeting',
+        })
+        .subscribe((values) => {
+          emittedDictionaries.push(values);
+        });
+
+      expect(emittedDictionaries.length).toBe(1);
+      expect(emittedDictionaries[0]['greeting']).toBe('hello');
+
+      localeSubject.next({ locale: 'en_US' });
+      expect(emittedDictionaries.length).toBe(1);
+
+      localeSubject.next({ locale: 'fr_CA' });
+      expect(emittedDictionaries.length).toBe(2);
+      expect(emittedDictionaries[1]['greeting']).toBe('bonjour');
+
+      done();
     });
   });
 });

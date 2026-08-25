@@ -65,7 +65,7 @@
         margin: 0 0
           var(
             --sky-override-description-list-pair-bottom-margin,
-            var(--sky-space-stacked-l)
+            var(--sky-space-stacked-m)
           );
       }
     }
@@ -75,21 +75,12 @@
   &.sky-description-list-horizontal-mode {
     display: flex;
     flex-wrap: wrap;
-    margin: 0 0
-      calc(
-        -1 *
-          var(
-            --sky-override-description-list-pair-bottom-margin,
-            var(--sky-space-stacked-l)
-          )
-      );
+    row-gap: var(
+      --sky-override-description-list-pair-bottom-margin,
+      var(--sky-space-stacked-m)
+    );
 
     .sky-description-list-content {
-      margin: 0 0
-        var(
-          --sky-override-description-list-pair-bottom-margin,
-          var(--sky-space-stacked-l)
-        );
       padding: 0
         var(
           --sky-override-description-list-horizontal-pair-padding-right,
