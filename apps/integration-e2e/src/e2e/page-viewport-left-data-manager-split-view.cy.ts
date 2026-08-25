@@ -20,7 +20,7 @@ describe('Page Viewport Left Data Manager Split View', () => {
 
       cy.get('sky-split-view').should('exist').should('be.visible');
 
-      cy.skyVisualTest(`page-viewport-left-data-manager-split-view`);
+      cy.skyVisualTest(`page-viewport-left-data-manager-split-view-${theme}`);
     });
   });
 });
