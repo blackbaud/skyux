@@ -6,12 +6,17 @@
 
 ### ⚠ BREAKING CHANGES
 
+* the recommended ESLint and Stylelint configs now enable
+`no-invalid-sky-classnames` (TS and template),
+`no-invalid-sky-custom-properties`,
+and `no-deprecated-sky-scss-variables`.
 * **components/tiles:** tile dashboard remains multi-column at the sm breakpoint (#4694)
 * **sdk/testing:** retain default rules when custom overrides are assigned to `toBeAccessible` matcher (#4682)
 * report unlabeled components in `prefer-label-text` rule (#4652)
 
 ### Features
 
+* add style public API rules to recommended ESLint and Stylelint rulesets ([#4684](https://github.com/blackbaud/skyux/issues/4684)) ([ac2c696](https://github.com/blackbaud/skyux/commit/ac2c696d765efc67011be746db52281d54ff73fc)), closes [AB#3958896](https://dev.azure.com/blackbaud/Products/_workitems/edit/3958896)
 * **components/tiles:** tile dashboard remains multi-column at the sm breakpoint ([#4694](https://github.com/blackbaud/skyux/issues/4694)) ([0189da9](https://github.com/blackbaud/skyux/commit/0189da9017883a5a10a016c9b9f4ff8cb0477749))
 * report unlabeled components in `prefer-label-text` rule ([#4652](https://github.com/blackbaud/skyux/issues/4652)) ([7830ee9](https://github.com/blackbaud/skyux/commit/7830ee967cab9fa5b15659a000d282b5befe544c))
 
