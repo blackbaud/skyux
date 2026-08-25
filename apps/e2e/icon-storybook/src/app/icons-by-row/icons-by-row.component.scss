@@ -1,6 +1,4 @@
 :host {
-  /* Maximum contrast for visual tests */
-  background-color: white;
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: repeat(auto-fill, 100px);
