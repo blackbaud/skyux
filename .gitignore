@@ -52,3 +52,6 @@ nx-cloud.env
 
 .cursor/rules/nx-rules.mdc
 .github/instructions/nx.instructions.md
+
+# Claude Code superpowers scratch workspace
+/.superpowers
