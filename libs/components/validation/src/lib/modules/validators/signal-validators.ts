@@ -12,6 +12,7 @@ import { SkyValidation } from '../validation/validation';
  * Validates that a signal forms field contains a valid email address. Apply inside a
  * `form()` schema. Empty values pass; combine with Angular's `required` rule to require a
  * value.
+ * @preview
  */
 export function skyEmailValidator<TPathKind extends PathKind = PathKind.Root>(
   path: SchemaPath<string | undefined, SchemaPathRules.Supported, TPathKind>,
@@ -28,6 +29,7 @@ export function skyEmailValidator<TPathKind extends PathKind = PathKind.Root>(
 /**
  * Validates that a signal forms field contains a valid URL. Apply inside a `form()` schema.
  * Empty values pass; combine with Angular's `required` rule to require a value.
+ * @preview
  */
 export function skyUrlValidator<TPathKind extends PathKind = PathKind.Root>(
   path: SchemaPath<string | undefined, SchemaPathRules.Supported, TPathKind>,
