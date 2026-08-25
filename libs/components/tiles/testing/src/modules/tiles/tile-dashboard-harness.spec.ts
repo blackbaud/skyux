@@ -88,6 +88,11 @@ describe('Tile dashboard test harness', () => {
       false,
     );
 
+    mediaQueryController.setBreakpoint('sm');
+    await expectAsync(tileDashboardHarness.isMultiColumn()).toBeResolvedTo(
+      true,
+    );
+
     mediaQueryController.setBreakpoint('lg');
     await expectAsync(tileDashboardHarness.isMultiColumn()).toBeResolvedTo(
       true,
