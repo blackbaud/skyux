@@ -21,6 +21,7 @@ import {
   ValidationErrors,
   Validator,
 } from '@angular/forms';
+import { skyIsAbstractControl } from '@skyux/forms';
 import { SkyAppLocaleProvider } from '@skyux/i18n';
 
 import moment from 'moment';
@@ -345,16 +346,24 @@ export class SkyDatepickerInputDirective
     this.#_value = value;
     this.#onChange(value);
 
-    this.#control?.setErrors({
-      skyDate: {
-        invalid: value,
-      },
-    });
+    if (skyIsAbstractControl(this.#control)) {
+      this.#control.setErrors({
+        skyDate: {
+          invalid: value,
+        },
+      });
+    } else {
+      // Signal forms' interop control doesn't support `setErrors`, so trigger revalidation
+      // instead; `validate()` returns the `skyDate` error for this same malformed value.
+      this.#onValidatorChange();
+    }
   }
 
   @HostListener('input')
   public onInput(): void {
-    this.#control?.markAsDirty();
+    if (skyIsAbstractControl(this.#control)) {
+      this.#control.markAsDirty();
+    }
   }
 
   @HostListener('keydown', ['$event'])
@@ -370,7 +379,7 @@ export class SkyDatepickerInputDirective
   }
 
   public validate(control: AbstractControl): ValidationErrors | null {
-    if (!this.#control) {
+    if (!this.#control && skyIsAbstractControl(control)) {
       this.#control = control;
       // Account for any date conversion that may have occurred prior to validation.
       if (this.#control.value !== this.#value) {
@@ -394,7 +403,7 @@ export class SkyDatepickerInputDirective
       if (!isDateValid) {
         // Mark the invalid control as touched so that the input's invalid CSS styles appear.
         // (This is only required when the invalid value is set by the FormControl constructor.)
-        this.#control.markAsTouched();
+        this.#control?.markAsTouched();
 
         return {
           skyDate: {
@@ -441,7 +450,7 @@ export class SkyDatepickerInputDirective
     } else {
       // Mark the invalid control as touched so that the input's invalid CSS styles appear.
       // (This is only required when the invalid value is set by the FormControl constructor.)
-      this.#control.markAsTouched();
+      this.#control?.markAsTouched();
 
       return {
         skyDate: {
