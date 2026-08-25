@@ -166,6 +166,99 @@ const options: SkyAppTestUtilityDomEventOptions = { bubbles: true };
 `);
   });
 
+  it('should rename `SkyA11yAnalyzerConfig` and move it to the vitest package', async () => {
+    const tree = setupTree({
+      '/src/app/test.spec.ts': `import { SkyA11yAnalyzerConfig } from '@skyux-sdk/testing';
+
+const config: SkyA11yAnalyzerConfig = { rules: {} };
+`,
+    });
+
+    await runSchematic(tree);
+
+    expect(tree.readText('/src/app/test.spec.ts'))
+      .toBe(`import { SkyToBeAccessibleOptions } from '@skyux-sdk/vitest';
+
+const config: SkyToBeAccessibleOptions = { rules: {} };
+`);
+  });
+
+  it('should move `SkyToBeVisibleOptions` to the vitest package', async () => {
+    const tree = setupTree({
+      '/src/app/test.spec.ts': `import { SkyToBeVisibleOptions } from '@skyux-sdk/testing';
+
+const options: SkyToBeVisibleOptions = {};
+`,
+    });
+
+    await runSchematic(tree);
+
+    expect(tree.readText('/src/app/test.spec.ts'))
+      .toBe(`import { SkyToBeVisibleOptions } from '@skyux-sdk/vitest';
+
+const options: SkyToBeVisibleOptions = {};
+`);
+  });
+
+  it('should move imports to both the core and vitest packages', async () => {
+    const tree = setupTree({
+      '/src/app/test.spec.ts': `import { SkyA11yAnalyzerConfig, SkyBy } from '@skyux-sdk/testing';
+
+const config: SkyA11yAnalyzerConfig = { rules: {} };
+
+describe('test', () => {
+  SkyBy.dataSkyId('a');
+});
+`,
+    });
+
+    await runSchematic(tree);
+
+    expect(tree.readText('/src/app/test.spec.ts'))
+      .toBe(`import { SkyBy } from '@skyux/core/testing';
+import { SkyToBeAccessibleOptions } from '@skyux-sdk/vitest';
+
+const config: SkyToBeAccessibleOptions = { rules: {} };
+
+describe('test', () => {
+  SkyBy.dataSkyId('a');
+});
+`);
+  });
+
+  it('should merge into an existing vitest import statement', async () => {
+    const tree = setupTree({
+      '/src/app/test.spec.ts': `import { SkyToBeAccessibleOptions } from '@skyux-sdk/vitest';
+import { SkyToBeVisibleOptions } from '@skyux-sdk/testing';
+
+const accessible: SkyToBeAccessibleOptions = { rules: {} };
+const visible: SkyToBeVisibleOptions = {};
+`,
+    });
+
+    await runSchematic(tree);
+
+    expect(tree.readText('/src/app/test.spec.ts'))
+      .toBe(`import { SkyToBeAccessibleOptions, SkyToBeVisibleOptions } from '@skyux-sdk/vitest';
+
+const accessible: SkyToBeAccessibleOptions = { rules: {} };
+const visible: SkyToBeVisibleOptions = {};
+`);
+  });
+
+  it('should remove the deprecated dependency when only vitest types were used', async () => {
+    const tree = setupTree({
+      '/src/app/test.spec.ts': `import { SkyA11yAnalyzerConfig } from '@skyux-sdk/testing';
+
+const config: SkyA11yAnalyzerConfig = { rules: {} };
+`,
+    });
+
+    await runSchematic(tree);
+
+    expect(getDevDependencies(tree)).toEqual({ typescript: '^5.0.0' });
+  });
+
   it('should ignore files without moved imports', async () => {
     const source = `import { SkyAppTestModule } from '@skyux-sdk/testing';
 import { SkyBy } from './sky-by';

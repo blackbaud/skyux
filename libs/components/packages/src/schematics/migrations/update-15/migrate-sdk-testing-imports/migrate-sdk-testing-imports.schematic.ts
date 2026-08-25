@@ -24,6 +24,16 @@ const SWAP_OPTIONS: SwapImportedClassOptions[] = [
     },
     moduleName: { old: DEPRECATED_PACKAGE, new: SUPPORTED_PACKAGE },
   },
+  {
+    classNames: {
+      SkyA11yAnalyzerConfig: 'SkyToBeAccessibleOptions',
+      SkyToBeVisibleOptions: 'SkyToBeVisibleOptions',
+    },
+    moduleName: {
+      old: DEPRECATED_PACKAGE,
+      new: '@skyux-sdk/vitest',
+    },
+  },
 ];
 
 function migrateFile(tree: Tree, filePath: string): void {
