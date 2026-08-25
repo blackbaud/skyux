@@ -243,6 +243,9 @@ export class SkyAutocompleteInputDirective
     this.disabled = disabled;
   }
 
+  // Retained (rather than removed) for public-API compatibility; the `NG_VALIDATORS`
+  // provider it's registered through is otherwise vestigial now that value normalization
+  // moved to `#setValue`.
   public validate(control: AbstractControl): ValidationErrors | null {
     return null;
   }

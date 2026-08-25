@@ -265,9 +265,8 @@ export class SkyCountryFieldComponent
    * @internal
    */
   public onCountrySelected(newCountry: SkyAutocompleteSelectionChange): void {
-    // A user selection is never the form's initial value, even if `writeValue`
-    // has not yet been called (which can happen under signal forms, where
-    // `writeValue` is skipped when the initial model value is `undefined`).
+    // A user selection is never the form's initial value, even under signal
+    // forms where `writeValue` may not have run yet.
     this.#isInitialChange = false;
 
     if (newCountry.selectedItem) {
