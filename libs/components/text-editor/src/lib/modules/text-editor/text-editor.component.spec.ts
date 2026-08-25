@@ -1,4 +1,4 @@
-import { Component, DebugElement, Provider, Type } from '@angular/core';
+import { Component, DebugElement, Provider, Type, signal } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -12,6 +12,7 @@ import {
   UntypedFormControl,
   Validators,
 } from '@angular/forms';
+import { FormField, form, required } from '@angular/forms/signals';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
@@ -925,6 +926,48 @@ describe('Text editor', () => {
 
       // Firefox backColor bug: https://bugzilla.mozilla.org/show_bug.cgi?id=547848
       // expect(toolbar.querySelector('.background-color-picker').value).toBe('#51b6ca');
+    }));
+
+    it('should update the font color picker when selection moves between differently-formatted colors and back', fakeAsync(() => {
+      testComponent.value =
+        '<span id="first" style="color: rgb(193, 64, 64);">First</span>' +
+        '<span id="second" style="color: rgb(81, 182, 202);">Second</span>';
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      selectContent('#first');
+      SkyAppTestUtility.fireDomEvent(iframeDocument, 'selectionchange');
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      expect(getFontColorPicker().querySelector('input')?.value).toBe(
+        '#c14040',
+      );
+
+      selectContent('#second');
+      SkyAppTestUtility.fireDomEvent(iframeDocument, 'selectionchange');
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      expect(getFontColorPicker().querySelector('input')?.value).toBe(
+        '#51b6ca',
+      );
+
+      // Selecting back to the first color must still update the display,
+      // even though the picker previously rendered (and internally
+      // formatted) this exact color earlier in the test.
+      selectContent('#first');
+      SkyAppTestUtility.fireDomEvent(iframeDocument, 'selectionchange');
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      expect(getFontColorPicker().querySelector('input')?.value).toBe(
+        '#c14040',
+      );
     }));
 
     it('should set font family', fakeAsync(() => {
@@ -2115,5 +2158,94 @@ describe('Text editor', () => {
 
       fixture.detectChanges();
     });
+  });
+
+  describe('with signal-forms field', () => {
+    @Component({
+      standalone: true,
+      imports: [FormField, SkyTextEditorModule],
+      template: `<sky-text-editor
+        [formField]="textForm"
+        [labelText]="labelText"
+      />`,
+    })
+    class TextEditorWithSignalForm {
+      public readonly model = signal('');
+      public readonly textForm = form(this.model, (p) => {
+        required(p);
+      });
+      public labelText = 'Text editor';
+    }
+
+    let testComponent: TextEditorWithSignalForm;
+
+    beforeEach(() => {
+      id = 0;
+      TestBed.configureTestingModule({
+        imports: [TextEditorWithSignalForm],
+        providers: [
+          {
+            provide: SkyIdService,
+            useValue: {
+              generateId: () => ID_DEFAULT + (++id).toString(),
+            },
+          },
+        ],
+      });
+
+      fixture = TestBed.createComponent(TextEditorWithSignalForm);
+      fixture.detectChanges();
+
+      testComponent = (fixture as ComponentFixture<TextEditorWithSignalForm>)
+        .componentInstance;
+      editableElement = getIframeDocument().body;
+      textEditorDebugElement = fixture.debugElement.query(
+        By.directive(SkyTextEditorComponent),
+      );
+      textEditorComponent = textEditorDebugElement.componentInstance;
+      iframeElement = getIframeElement();
+    });
+
+    it('should render a sky-form-error when the field is required and has been touched', () => {
+      testComponent.textForm().markAsTouched();
+      fixture.detectChanges();
+
+      const error = fixture.nativeElement.querySelector('sky-form-error');
+      expect(error).toBeVisible();
+    });
+
+    it('sets the aria-invalid attribute to true when an error is present and the field is touched', fakeAsync(() => {
+      testComponent.textForm().markAsTouched();
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      validateIframeDocumentAttribute('aria-invalid', 'true');
+    }));
+
+    it('sets the aria-invalid attribute to false when no error is present', fakeAsync(() => {
+      testComponent.model.set('Testing');
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      validateIframeDocumentAttribute('aria-invalid', 'false');
+    }));
+
+    it('does not throw when the editor normalizes an empty value', () => {
+      expect(() => {
+        textEditorComponent.value = '<p><br></p>';
+        fixture.detectChanges();
+      }).not.toThrow();
+    });
+
+    it('propagates the normalized value back to the model', fakeAsync(() => {
+      testComponent.model.set('<p><br></p>');
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      expect(testComponent.model()).toBe('');
+    }));
   });
 });
