@@ -61,6 +61,7 @@ export const WHITELISTED_SKY_CLASSES: Set<string> = new Set([
   'sky-btn-default',
   'sky-btn-icon',
   'sky-btn-icon-borderless',
+  'sky-btn-icon-borderless-on_prominent',
   'sky-btn-link',
   'sky-btn-link-inline',
   'sky-btn-primary',
