@@ -68,6 +68,14 @@
   --sky-override-repeater-item-left-no-header-padding-top: #{$sky-padding};
 }
 
+sky-repeater-item:first-of-type
+  .sky-repeater-item:not(.sky-repeater-item-selectable):not(
+    .sky-repeater-item-selection-single
+  ):has(.sky-repeater-item-header[hidden] + .sky-repeater-item-content) {
+  --sky-override-repeater-item-content-no-header-margin-top: 0;
+  --sky-override-repeater-item-left-no-header-padding-top: 0;
+}
+
 sky-repeater-item {
   .sky-repeater-item {
     display: flex;
