@@ -31,13 +31,24 @@ sky-toolbar + :host {
     --sky-comp-override-list-header-background-color,
     var(--sky-override-toolbar-background-color)
   );
+  // The horizontal and top insets are opt-in. A toolbar placed in a container
+  // that has its own padding (a box, a modal, a heading above it) would
+  // otherwise stack its inset on top of the container's, indenting its
+  // contents past everything around it. Only a `layout="list"` page or tab
+  // gives the toolbar nothing to inherit, so only it turns the insets back on
+  // below. The bottom inset always applies: it separates the toolbar from the
+  // content beneath it, which no parent supplies.
+  //
   // This padding override is used by the SkyFilterBar component in modern theme.
+  //
+  // `--sky-compat-toolbar-container-padding` is the opt-out hook for apps that
+  // relied on the old padding; the SKY UX 15 compat stylesheet sets it.
   padding: var(
     --sky-override-toolbar-container-padding,
-    var(--sky-comp-toolbar-space-inset-top)
-      var(--sky-comp-toolbar-space-inset-right)
-      var(--sky-comp-toolbar-space-inset-bottom)
-      var(--sky-comp-toolbar-space-inset-left)
+    var(
+      --sky-compat-toolbar-container-padding,
+      0 0 var(--sky-comp-toolbar-space-inset-bottom)
+    )
   );
   border-top: var(--sky-override-toolbar-border-top-bottom, none);
   border-bottom: var(--sky-override-toolbar-border-top-bottom, none);
@@ -75,6 +86,22 @@ sky-toolbar + :host {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+}
+
+:host-context(.sky-layout-host-list) {
+  .sky-toolbar-container {
+    padding: var(
+      --sky-override-toolbar-container-padding,
+      var(--sky-comp-toolbar-space-inset-top)
+        var(--sky-comp-toolbar-space-inset-right)
+        var(--sky-comp-toolbar-space-inset-bottom)
+        var(--sky-comp-toolbar-space-inset-left)
+    );
+
+    &.sky-toolbar-sectioned {
+      padding: 0;
+    }
+  }
 }
 
 :host-context(.sky-viewkeeper-fixed) {

@@ -9,3 +9,22 @@
   }
   Additional content here.
 </sky-list-summary>
+
+<!--
+  `sky-layout-host-list` is the class SkyLayoutHostDirective applies for a page
+  or tab with layout="list". There is no parent padding to inherit there, so
+  the summary keeps its own horizontal inset.
+-->
+<div class="sky-layout-host-list">
+  <sky-list-summary>
+    @for (summaryItem of summaryItems; track summaryItem.labelText) {
+      <sky-list-summary-item
+        [helpPopoverContent]="summaryItem.helpPopoverContent"
+        [labelText]="summaryItem.labelText"
+        [value]="summaryItem.value"
+        [valueFormat]="summaryItem.valueFormat"
+      />
+    }
+    Additional content here.
+  </sky-list-summary>
+</div>

@@ -1,3 +1,13 @@
 :host {
   display: block;
 }
+
+.app-reference-text {
+  margin: 0;
+}
+
+sky-box,
+.sky-layout-host-list {
+  display: block;
+  margin-top: 20px;
+}
