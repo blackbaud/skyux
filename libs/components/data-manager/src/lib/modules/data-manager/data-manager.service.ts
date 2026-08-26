@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { SkyUIConfigService } from '@skyux/core';
+import { SkyLogService, SkyUIConfigService } from '@skyux/core';
 
 import {
   BehaviorSubject,
@@ -53,10 +53,13 @@ export class SkyDataManagerService implements OnDestroy {
   #ngUnsubscribe = new Subject<void>();
   #initSource = 'dataManagerServiceInit';
   #uiConfigService: SkyUIConfigService;
+  #logger: SkyLogService | undefined;
+  #incomparableStateCount = 0;
 
   // eslint-disable-next-line @angular-eslint/prefer-inject -- constructor injection is required to maintain the public API for consumers who may instantiate this service directly (e.g. `new SkyDataManagerService(...)`).
-  constructor(uiConfigService: SkyUIConfigService) {
+  constructor(uiConfigService: SkyUIConfigService, logger?: SkyLogService) {
     this.#uiConfigService = uiConfigService;
+    this.#logger = logger;
   }
 
   public ngOnDestroy(): void {
@@ -235,24 +238,40 @@ export class SkyDataManagerService implements OnDestroy {
     updateFilter?: SkyDataManagerStateUpdateFilterArgs,
   ): Observable<SkyDataManagerState> {
     // filter out events from the provided source and emit just the dataState
-    if (updateFilter) {
-      return this.#dataStateChange.pipe(
-        filter((stateChange) => sourceId !== stateChange.source),
-        map((stateChange) => stateChange.dataState),
-        updateFilter.comparator
-          ? distinctUntilChanged(updateFilter.comparator)
-          : distinctUntilChanged(
-              this.#getDefaultStateComparator(
-                updateFilter.properties as (keyof SkyDataManagerStateOptions)[],
-              ),
-            ),
-      );
-    } else {
-      return this.#dataStateChange.pipe(
-        filter((stateChange) => sourceId !== stateChange.source),
-        map((stateChange) => stateChange.dataState),
+    const dataStateUpdates = this.#dataStateChange.pipe(
+      filter((stateChange) => sourceId !== stateChange.source),
+      map((stateChange) => stateChange.dataState),
+    );
+
+    if (!updateFilter) {
+      return dataStateUpdates;
+    }
+
+    if (updateFilter.comparator) {
+      const comparator = updateFilter.comparator;
+
+      // Compare independent clones of the emitted state rather than the state instance itself.
+      // Other data manager participants may mutate the state instance they were handed in place
+      // before republishing it, which would otherwise make distinctUntilChanged's retained
+      // "previous" value silently match the new one, dropping a real change.
+      return dataStateUpdates.pipe(
+        map((state) => new SkyDataManagerState(state.getStateOptions())),
+        distinctUntilChanged((state1, state2) =>
+          this.#compareStatesSafely(comparator, state1, state2),
+        ),
       );
     }
+
+    const properties = updateFilter.properties as
+      | (keyof SkyDataManagerStateOptions)[]
+      | undefined;
+
+    return dataStateUpdates.pipe(
+      distinctUntilChanged(
+        (key1, key2) => key1 === key2,
+        (state) => this.#getStateComparisonKey(state, properties),
+      ),
+    );
   }
 
   /**
@@ -404,22 +423,47 @@ export class SkyDataManagerService implements OnDestroy {
     return filteredStateProperties;
   }
 
-  #getDefaultStateComparator(
+  /**
+   * Returns a string key representing the given state's filtered properties, for use as a
+   * `distinctUntilChanged` key selector. If the filtered properties cannot be serialized (for
+   * example, a circular reference), a unique key is returned so the state is treated as changed
+   * rather than allowing the comparison to throw and end the subscription.
+   */
+  #getStateComparisonKey(
+    state: SkyDataManagerState,
     properties: (keyof SkyDataManagerStateOptions)[] | undefined,
-  ): (state1: SkyDataManagerState, state2: SkyDataManagerState) => boolean {
-    return (
+  ): string {
+    try {
+      return JSON.stringify(this.#filterDataStateProperties(state, properties));
+    } catch (err) {
+      this.#logger?.warn(
+        'The data manager state could not be serialized for comparison in getDataStateUpdates and will be treated as a change.',
+        [err],
+      );
+      return `__skyDataManagerIncomparableState${++this.#incomparableStateCount}`;
+    }
+  }
+
+  /**
+   * Calls the given comparator and returns its result. If the comparator throws, the states are
+   * treated as changed rather than allowing the error to end the subscription.
+   */
+  #compareStatesSafely(
+    comparator: (
       state1: SkyDataManagerState,
       state2: SkyDataManagerState,
-    ): boolean => {
-      const filteredState1 = this.#filterDataStateProperties(
-        state1,
-        properties,
+    ) => boolean,
+    state1: SkyDataManagerState,
+    state2: SkyDataManagerState,
+  ): boolean {
+    try {
+      return comparator(state1, state2);
+    } catch (err) {
+      this.#logger?.warn(
+        'The comparator provided to getDataStateUpdates threw an error while comparing data manager state and will be treated as a change.',
+        [err],
       );
-      const filteredState2 = this.#filterDataStateProperties(
-        state2,
-        properties,
-      );
-      return JSON.stringify(filteredState1) === JSON.stringify(filteredState2);
-    };
+      return false;
+    }
   }
 }

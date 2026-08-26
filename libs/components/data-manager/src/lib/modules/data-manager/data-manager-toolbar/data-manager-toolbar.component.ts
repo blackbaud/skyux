@@ -40,6 +40,7 @@ import { SkyDataManagerConfig } from '../models/data-manager-config';
 import { SkyDataManagerSortOption } from '../models/data-manager-sort-option';
 import { SkyDataManagerState } from '../models/data-manager-state';
 import { SkyDataViewConfig } from '../models/data-view-config';
+import { SkyDataViewState } from '../models/data-view-state';
 
 import { SkyDataManagerToolbarLeftItemComponent } from './data-manager-toolbar-left-item.component';
 import { SkyDataManagerToolbarPrimaryItemComponent } from './data-manager-toolbar-primary-item.component';
@@ -206,8 +207,13 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
 
   public sortSelected(sortOption: SkyDataManagerSortOption): void {
     if (this.dataState) {
-      this.dataState.activeSortOption = sortOption;
-      this.#dataManagerService.updateDataState(this.dataState, this.#_source);
+      // Build a new state rather than mutating the current one in place. The data manager
+      // service hands the same state instance to every subscriber, so mutating it directly could
+      // corrupt another subscriber's distinctUntilChanged comparison and silently drop this
+      // update for them.
+      const options = this.dataState.getStateOptions();
+      options.activeSortOption = sortOption;
+      this.dataState = new SkyDataManagerState(options);
     }
   }
 
@@ -217,8 +223,10 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
 
   public searchApplied(text: string): void {
     if (this.dataState) {
-      this.dataState.searchText = text;
-      this.#dataManagerService.updateDataState(this.dataState, this.#_source);
+      // See the comment in `sortSelected` on why a new state is built rather than mutated.
+      const options = this.dataState.getStateOptions();
+      options.searchText = text;
+      this.dataState = new SkyDataManagerState(options);
     }
   }
 
@@ -253,11 +261,10 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
 
       modalInstance.closed.subscribe((result: SkyModalCloseArgs) => {
         if (this.dataState && result.reason === 'save') {
-          this.dataState.filterData = result.data;
-          this.#dataManagerService.updateDataState(
-            this.dataState,
-            this.#_source,
-          );
+          // See the comment in `sortSelected` on why a new state is built rather than mutated.
+          const options = this.dataState.getStateOptions();
+          options.filterData = result.data;
+          this.dataState = new SkyDataManagerState(options);
         }
       });
     }
@@ -298,11 +305,17 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
               (col: SkyDataManagerColumnPickerOption) => col.id,
             );
 
-            viewState.displayedColumnIds = displayedColumnIds;
+            // See the comment in `sortSelected` on why a copy is mutated rather than `viewState`,
+            // which is shared with every subscriber of the current data manager state.
+            const updatedViewState = new SkyDataViewState(
+              viewState.getViewStateOptions(),
+            );
+            updatedViewState.displayedColumnIds = displayedColumnIds;
+
             if (this.dataState && this.activeView) {
               this.dataState = this.dataState.addOrUpdateView(
                 this.activeView.id,
-                viewState,
+                updatedViewState,
               );
             }
           }
@@ -327,8 +340,10 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
 
   public onOnlyShowSelected(event: SkyCheckboxChange): void {
     if (this.dataState) {
-      this.dataState.onlyShowSelected = !!event.checked;
-      this.#dataManagerService.updateDataState(this.dataState, this.#_source);
+      // See the comment in `sortSelected` on why a new state is built rather than mutated.
+      const options = this.dataState.getStateOptions();
+      options.onlyShowSelected = !!event.checked;
+      this.dataState = new SkyDataManagerState(options);
     }
   }
 }
