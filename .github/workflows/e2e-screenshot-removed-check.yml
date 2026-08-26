@@ -17,6 +17,7 @@ jobs:
         with:
           github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
           script: |
+            const RERUN_WINDOW_DAYS = 30;
             const prNumber = context.payload.pull_request.number;
 
             console.log(`Finding latest completed e2e workflow run for PR #${prNumber}.`);
@@ -29,7 +30,8 @@ jobs:
               per_page: 100
             });
 
-            const rerunWindowStart = Date.now() - (30 * 24 * 60 * 60 * 1000);
+            const rerunWindowStart =
+              Date.now() - (RERUN_WINDOW_DAYS * 24 * 60 * 60 * 1000);
             const run = workflowRuns.find((workflowRun) => {
               const createdAt = Date.parse(workflowRun.created_at);
               return (
@@ -40,7 +42,7 @@ jobs:
             });
 
             if (!run) {
-              console.log(`No completed e2e workflow run from the last 30 days found for PR #${prNumber}. Nothing to re-check.`);
+              console.log(`No completed e2e workflow run from the last ${RERUN_WINDOW_DAYS} days found for PR #${prNumber}. Nothing to re-check.`);
               return;
             }
 
