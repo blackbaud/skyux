@@ -1,12 +1,17 @@
 # Changelog
 
 
-## [15.0.0-alpha.8](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.7...15.0.0-alpha.8) (2026-08-26)
+## [14.16.0](https://github.com/blackbaud/skyux/compare/14.15.1...14.16.0) (2026-08-26)
+
+
+### Features
+
+* add sky-btn-icon-borderless-on_prominent button class ([#4683](https://github.com/blackbaud/skyux/issues/4683)) ([6ac2af6](https://github.com/blackbaud/skyux/commit/6ac2af6b68e66026320f67a2509d81ea1448336a))
 
 
 ### Bug Fixes
 
-* **sdk/vitest:** add './package.json' to exports ([#4701](https://github.com/blackbaud/skyux/issues/4701)) ([82cccb5](https://github.com/blackbaud/skyux/commit/82cccb5271ea72cbebca8f2f0e2b374f6e4949f2))
+* **components/indicators:** sky-tokens no longer prevents projected content from wrapping ([#4656](https://github.com/blackbaud/skyux/issues/4656)) ([44bc889](https://github.com/blackbaud/skyux/commit/44bc889bb06c492caefb1d50a4c640e673f65eb0))
 
 ## [15.0.0-alpha.7](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.6...15.0.0-alpha.7) (2026-08-25)
 
