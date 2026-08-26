@@ -550,6 +550,7 @@ jobs:
               // after the "screenshot removed" label is added or removed)
               // reflect the PR's current labels instead of stale ones.
               const isPush = ${{ github.event_name == 'push' }};
+              const prNumber = ${{ toJSON(needs.install-deps.outputs.pr-number) }};
               const currentLabels = isPush
                 ? []
                 : await github.paginate(
@@ -557,7 +558,7 @@ jobs:
                     {
                       owner: context.repo.owner,
                       repo: context.repo.repo,
-                      issue_number: ${{ needs.install-deps.outputs.pr-number }},
+                      issue_number: Number(prNumber),
                     },
                     (response) => response.data.map((label) => label.name)
                   );
