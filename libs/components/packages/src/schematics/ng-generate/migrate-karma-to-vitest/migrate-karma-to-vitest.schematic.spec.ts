@@ -156,6 +156,33 @@ describe('test', () => {
 `);
   });
 
+  it('should leave aliased imports for the consumer to migrate', async () => {
+    const tree = setupTree({
+      '/src/app/test.spec.ts': `import { expect as skyExpect, SkyA11yAnalyzerConfig as A11yConfig } from '@skyux-sdk/testing';
+
+describe('test', () => {
+  const config: A11yConfig = {};
+  skyExpect(config).toBeDefined();
+});
+`,
+    });
+
+    const warnings = await runSchematic(tree);
+
+    expect(tree.readText('/src/app/test.spec.ts'))
+      .toBe(`import { expect as skyExpect, SkyA11yAnalyzerConfig as A11yConfig } from '@skyux-sdk/testing';
+
+describe('test', () => {
+  const config: A11yConfig = {};
+  skyExpect(config).toBeDefined();
+});
+`);
+
+    expect(warnings).toEqual([
+      "Dependency '@skyux-sdk/testing' is still imported by the workspace and was not uninstalled.",
+    ]);
+  });
+
   it('should retain imports that are not matchers', async () => {
     const tree = setupTree({
       '/src/app/test.spec.ts': `import { SkyAppTestModule, expect } from '@skyux-sdk/testing';
