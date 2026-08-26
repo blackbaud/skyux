@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [15.0.0-alpha.8](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.7...15.0.0-alpha.8) (2026-08-26)
+
+
+### Bug Fixes
+
+* **sdk/vitest:** add './package.json' to exports ([#4701](https://github.com/blackbaud/skyux/issues/4701)) ([82cccb5](https://github.com/blackbaud/skyux/commit/82cccb5271ea72cbebca8f2f0e2b374f6e4949f2))
+
 ## [14.16.0](https://github.com/blackbaud/skyux/compare/14.15.1...14.16.0) (2026-08-26)
 
 
