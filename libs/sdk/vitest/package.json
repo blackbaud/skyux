@@ -26,6 +26,9 @@
     "./matchers-setup.mjs": {
       "types": "./matchers-setup.d.mts",
       "default": "./matchers-setup.mjs"
+    },
+    "./package.json": {
+      "default": "./package.json"
     }
   },
   "schematics": "@skyux-sdk/testing-schematics/collection.json",
