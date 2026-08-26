@@ -17,7 +17,7 @@ jobs:
         with:
           github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
           script: |
-            const RERUN_WINDOW_DAYS = 30;
+            const RERUN_WINDOW_DAYS = 1;
             const prNumber = context.payload.pull_request.number;
             const rerunWindowStart =
               Date.now() - (RERUN_WINDOW_DAYS * 24 * 60 * 60 * 1000);
