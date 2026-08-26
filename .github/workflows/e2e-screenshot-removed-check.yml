@@ -15,26 +15,24 @@ jobs:
         with:
           github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
           script: |
-            const sha = context.payload.pull_request.head.sha;
-
-            console.log(`Finding e2e workflow run for commit ${sha}.`);
             const prNumber = context.payload.pull_request.number;
-            const {data} = await github.rest.actions.listWorkflowRuns({
+
+            console.log(`Finding latest completed e2e workflow run for PR #${prNumber}.`);
+            const workflowRuns = await github.paginate(github.rest.actions.listWorkflowRuns, {
               owner: context.repo.owner,
               repo: context.repo.repo,
               workflow_id: 'e2e.yml',
-              head_sha: sha,
               event: 'pull_request_target',
               status: 'completed',
               per_page: 100
             });
 
-            const run = data.workflow_runs.find((workflowRun) =>
+            const run = workflowRuns.find((workflowRun) =>
               workflowRun.pull_requests.some((pullRequest) => pullRequest.number === prNumber)
             );
 
             if (!run) {
-              console.log(`No completed e2e workflow run found for commit ${sha}. Nothing to re-check.`);
+              console.log(`No completed e2e workflow run found for PR #${prNumber}. Nothing to re-check.`);
               return;
             }
 
