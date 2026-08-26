@@ -48,6 +48,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./toolbar/toolbar.module').then((m) => m.ToolbarModule),
   },
+  {
+    path: 'toolbar-spacing',
+    loadChildren: () =>
+      import('./toolbar-spacing/toolbar-spacing.module').then(
+        (m) => m.ToolbarSpacingModule,
+      ),
+  },
 ];
 
 @NgModule({
