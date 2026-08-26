@@ -552,13 +552,15 @@ jobs:
               const isPush = ${{ github.event_name == 'push' }};
               const currentLabels = isPush
                 ? []
-                : await github.rest.issues
-                    .listLabelsOnIssue({
+                : await github.paginate(
+                    github.rest.issues.listLabelsOnIssue,
+                    {
                       owner: context.repo.owner,
                       repo: context.repo.repo,
                       issue_number: ${{ needs.install-deps.outputs.pr-number }},
-                    })
-                    .then(({ data }) => data.map((label) => label.name));
+                    },
+                    (response) => response.data.map((label) => label.name)
+                  );
               const allowMissingScreenshots =
                 isPush || currentLabels.includes('screenshot removed');
 
