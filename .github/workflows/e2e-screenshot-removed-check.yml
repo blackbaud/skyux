@@ -6,6 +6,8 @@ on:
       - labeled
       - unlabeled
 
+permissions: {}
+
 jobs:
   e2e-screenshot-removed-recheck:
     runs-on: ubuntu-latest
@@ -27,12 +29,18 @@ jobs:
               per_page: 100
             });
 
-            const run = workflowRuns.find((workflowRun) =>
-              workflowRun.pull_requests.some((pullRequest) => pullRequest.number === prNumber)
-            );
+            const rerunWindowStart = Date.now() - (30 * 24 * 60 * 60 * 1000);
+            const run = workflowRuns.find((workflowRun) => {
+              const createdAt = Date.parse(workflowRun.created_at);
+              return (
+                !Number.isNaN(createdAt) &&
+                createdAt >= rerunWindowStart &&
+                workflowRun.pull_requests.some((pullRequest) => pullRequest.number === prNumber)
+              );
+            });
 
             if (!run) {
-              console.log(`No completed e2e workflow run found for PR #${prNumber}. Nothing to re-check.`);
+              console.log(`No completed e2e workflow run from the last 30 days found for PR #${prNumber}. Nothing to re-check.`);
               return;
             }
 
