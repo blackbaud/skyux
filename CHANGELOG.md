@@ -6,6 +6,7 @@
 
 ### Bug Fixes
 
+* **components/i18n:** add detailed deprecation documentation for legacy i18n services ([#4696](https://github.com/blackbaud/skyux/issues/4696)) ([621a91b](https://github.com/blackbaud/skyux/commit/621a91b49faa9876c05768bcec4d6109214c18cf))
 * **sdk/vitest:** add './package.json' to exports ([#4701](https://github.com/blackbaud/skyux/issues/4701)) ([82cccb5](https://github.com/blackbaud/skyux/commit/82cccb5271ea72cbebca8f2f0e2b374f6e4949f2))
 
 ## [14.16.0](https://github.com/blackbaud/skyux/compare/14.15.1...14.16.0) (2026-08-26)
