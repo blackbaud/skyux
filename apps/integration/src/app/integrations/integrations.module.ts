@@ -29,6 +29,10 @@ const routes: Routes = [
       import('./modal-wait/modal-wait.module').then((m) => m.ModalWaitModule),
   },
   {
+    path: 'repeater-in-a-box',
+    loadChildren: () => import('./repeater-in-a-box/routes'),
+  },
+  {
     path: 'viewkeeper-tabset',
     loadChildren: () =>
       import('./viewkeeper-tabset/viewkeeper-tabset.module').then(
