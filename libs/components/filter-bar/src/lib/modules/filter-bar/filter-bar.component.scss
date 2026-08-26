@@ -9,10 +9,8 @@
 // toolbar: outside a `layout="list"` page or tab the parent container already
 // provides them. See toolbar.component.scss.
 :host-context(.sky-theme-modern) .sky-filter-bar-toolbar {
-  --sky-override-toolbar-container-padding: var(
-    --sky-compat-filter-bar-toolbar-padding,
-    0 0 var(--sky-comp-filter_bar-space-inset-bottom)
-  );
+  --sky-override-toolbar-container-padding: 0 0
+    var(--sky-comp-filter_bar-space-inset-bottom);
 }
 
 :host-context(.sky-theme-modern):host-context(.sky-layout-host-list)

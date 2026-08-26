@@ -40,15 +40,9 @@ sky-toolbar + :host {
   // content beneath it, which no parent supplies.
   //
   // This padding override is used by the SkyFilterBar component in modern theme.
-  //
-  // `--sky-compat-toolbar-container-padding` is the opt-out hook for apps that
-  // relied on the old padding; the SKY UX 15 compat stylesheet sets it.
   padding: var(
     --sky-override-toolbar-container-padding,
-    var(
-      --sky-compat-toolbar-container-padding,
-      0 0 var(--sky-comp-toolbar-space-inset-bottom)
-    )
+    0 0 var(--sky-comp-toolbar-space-inset-bottom)
   );
   border-top: var(--sky-override-toolbar-border-top-bottom, none);
   border-bottom: var(--sky-override-toolbar-border-top-bottom, none);

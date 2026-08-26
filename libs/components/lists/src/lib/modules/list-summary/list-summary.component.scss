@@ -21,16 +21,10 @@
   // but the top and bottom insets are the summary's own vertical rhythm
   // between the toolbar and the list, so they always apply. See
   // toolbar.component.scss for the full reasoning.
-  //
-  // `--sky-compat-list-summary-padding` is the opt-out hook for apps that
-  // relied on the old padding; the SKY UX 15 compat stylesheet sets it.
   padding: var(
     --sky-override-list-summary-padding,
-    var(
-      --sky-compat-list-summary-padding,
-      var(--sky-comp-list_summary-space-inset-top) 0
-        var(--sky-comp-list_summary-space-inset-bottom)
-    )
+    var(--sky-comp-list_summary-space-inset-top) 0
+      var(--sky-comp-list_summary-space-inset-bottom)
   );
   background-color: var(
     --sky-override-list-summary-background-color,

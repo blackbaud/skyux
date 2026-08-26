@@ -15,10 +15,7 @@
   // reasoning.
   padding: var(
     --sky-override-toolbar-container-padding,
-    var(
-      --sky-compat-toolbar-container-padding,
-      0 0 var(--sky-comp-toolbar-space-inset-bottom)
-    )
+    0 0 var(--sky-comp-toolbar-space-inset-bottom)
   );
   min-height: $sky-toolbar-min-height;
   align-items: center;
