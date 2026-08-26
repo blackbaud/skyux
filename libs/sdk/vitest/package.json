@@ -27,9 +27,7 @@
       "types": "./matchers-setup.d.mts",
       "default": "./matchers-setup.mjs"
     },
-    "./package.json": {
-      "default": "./package.json"
-    }
+    "./package.json": "./package.json"
   },
   "schematics": "@skyux-sdk/testing-schematics/collection.json",
   "ng-add": {
