@@ -19,6 +19,9 @@ jobs:
           script: |
             const RERUN_WINDOW_DAYS = 30;
             const prNumber = context.payload.pull_request.number;
+            const rerunWindowStart =
+              Date.now() - (RERUN_WINDOW_DAYS * 24 * 60 * 60 * 1000);
+            const rerunWindowStartIso = new Date(rerunWindowStart).toISOString();
 
             console.log(`Finding latest completed e2e workflow run for PR #${prNumber}.`);
             const workflowRuns = await github.paginate(github.rest.actions.listWorkflowRuns, {
@@ -27,11 +30,10 @@ jobs:
               workflow_id: 'e2e.yml',
               event: 'pull_request_target',
               status: 'completed',
+              created: `>=${rerunWindowStartIso}`,
               per_page: 100
             });
 
-            const rerunWindowStart =
-              Date.now() - (RERUN_WINDOW_DAYS * 24 * 60 * 60 * 1000);
             const run = workflowRuns.find((workflowRun) => {
               const createdAt = Date.parse(workflowRun.created_at);
               return (
@@ -47,14 +49,18 @@ jobs:
             }
 
             console.log(`Found e2e workflow run ${run.id} (conclusion: ${run.conclusion}). Looking for the E2E Visual Review job.`);
-            const {data: jobsData} = await github.rest.actions.listJobsForWorkflowRun({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              run_id: run.id,
-              per_page: 100,
-              filter: 'latest'
-            });
-            const e2eReviewJob = (jobsData.jobs || []).find(job => job.name === 'E2E Visual Review');
+            const jobs = await github.paginate(
+              github.rest.actions.listJobsForWorkflowRun,
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                run_id: run.id,
+                per_page: 100,
+                filter: 'latest'
+              },
+              (response) => response.data.jobs
+            );
+            const e2eReviewJob = jobs.find(job => job.name === 'E2E Visual Review');
 
             if (!e2eReviewJob) {
               console.log(`No "E2E Visual Review" job found for workflow run ${run.id}.`);
