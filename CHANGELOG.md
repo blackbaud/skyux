@@ -1,6 +1,59 @@
 # Changelog
 
 
+## [15.0.0-alpha.7](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.6...15.0.0-alpha.7) (2026-08-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* the recommended ESLint and Stylelint configs now enable
+`no-invalid-sky-classnames` (TS and template),
+`no-invalid-sky-custom-properties`,
+and `no-deprecated-sky-scss-variables`.
+* **components/tiles:** tile dashboard remains multi-column at the sm breakpoint (#4694)
+* **sdk/testing:** retain default rules when custom overrides are assigned to `toBeAccessible` matcher (#4682)
+* report unlabeled components in `prefer-label-text` rule (#4652)
+
+### Features
+
+* add style public API rules to recommended ESLint and Stylelint rulesets ([#4684](https://github.com/blackbaud/skyux/issues/4684)) ([ac2c696](https://github.com/blackbaud/skyux/commit/ac2c696d765efc67011be746db52281d54ff73fc)), closes [AB#3958896](https://dev.azure.com/blackbaud/Products/_workitems/edit/3958896)
+* **components/tiles:** tile dashboard remains multi-column at the sm breakpoint ([#4694](https://github.com/blackbaud/skyux/issues/4694)) ([0189da9](https://github.com/blackbaud/skyux/commit/0189da9017883a5a10a016c9b9f4ff8cb0477749))
+* report unlabeled components in `prefer-label-text` rule ([#4652](https://github.com/blackbaud/skyux/issues/4652)) ([7830ee9](https://github.com/blackbaud/skyux/commit/7830ee967cab9fa5b15659a000d282b5befe544c))
+
+
+### Bug Fixes
+
+* **sdk/testing:** retain default rules when custom overrides are assigned to `toBeAccessible` matcher ([#4682](https://github.com/blackbaud/skyux/issues/4682)) ([649ec93](https://github.com/blackbaud/skyux/commit/649ec93623e5313ea197bc62c59d767d552cf7f0))
+
+## [15.0.0-alpha.6](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.5...15.0.0-alpha.6) (2026-08-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/layout:** description lists use medium stacked spacing between stacked items and do not have extra margins at the bottom of horizontal description lists (#4668)
+* **components/i18n:** getString/getStrings observables no longer complete
+* **sdk/testing:** deprecate `SkyAppTestUtility` and `SkyBy` testing utils (#4651)
+
+### Features
+
+* add `@skyux-sdk/vitest` package ([#4664](https://github.com/blackbaud/skyux/issues/4664)) ([3b0feab](https://github.com/blackbaud/skyux/commit/3b0feab4ed6d4dd563288a93d6d6e8ceaa6d72ca))
+* **components/ag-grid:** add `defineSkyAgGridColDef` to validate cell editor and renderer params against cell types ([#4582](https://github.com/blackbaud/skyux/issues/4582)) ([#4657](https://github.com/blackbaud/skyux/issues/4657)) ([5a8f361](https://github.com/blackbaud/skyux/commit/5a8f361d95cb77dbbb1e4d5713900c12da13368d)), closes [AB#3928427](https://dev.azure.com/blackbaud/Products/_workitems/edit/3928427)
+* **components/datetime:** set datepicker value to today when F3 is pressed ([#4662](https://github.com/blackbaud/skyux/issues/4662)) ([02f2e22](https://github.com/blackbaud/skyux/commit/02f2e2256a693af412c458b6a8aad2b93b0ffb2f)), closes [AB#4033124](https://dev.azure.com/blackbaud/Products/_workitems/edit/4033124)
+* **components/i18n:** make getString/getStrings update on locale changes ([#4610](https://github.com/blackbaud/skyux/issues/4610)) ([c7765ea](https://github.com/blackbaud/skyux/commit/c7765ea4fa3ce79b9a34a6a3246c1af8e86d52da)), closes [AB#4082284](https://dev.azure.com/blackbaud/Products/_workitems/edit/4082284)
+* **components/tabs:** add `tabWidth` input to vertical tabset with `auto` sizing and harness/example support ([#4410](https://github.com/blackbaud/skyux/issues/4410)) ([#4658](https://github.com/blackbaud/skyux/issues/4658)) ([5301b36](https://github.com/blackbaud/skyux/commit/5301b369e5784ab48f4e4213a71b442cf370a5f6))
+* **sdk/testing:** deprecate `SkyAppTestUtility` and `SkyBy` testing utils ([#4651](https://github.com/blackbaud/skyux/issues/4651)) ([2c100e5](https://github.com/blackbaud/skyux/commit/2c100e5dd32e243fea37451890ea67f85b000793)), closes [AB#3987231](https://dev.azure.com/blackbaud/Products/_workitems/edit/3987231)
+
+
+### Bug Fixes
+
+* **components/charts:** do not skip category labels for horizontal bar charts ([#4670](https://github.com/blackbaud/skyux/issues/4670)) ([#4672](https://github.com/blackbaud/skyux/issues/4672)) ([8f5bcd0](https://github.com/blackbaud/skyux/commit/8f5bcd0606b5e86e7a0ae94889af268c8dff04bb)), closes [AB#4094199](https://dev.azure.com/blackbaud/Products/_workitems/edit/4094199)
+* **components/charts:** fix horizontal bar spacing; add visual tests ([#4552](https://github.com/blackbaud/skyux/issues/4552)) ([#4659](https://github.com/blackbaud/skyux/issues/4659)) ([772c576](https://github.com/blackbaud/skyux/commit/772c5761a376881c3efac5403f91ea662ea821ee))
+* **components/core:** dispatch change event during `SkyAppTestUtility.setInputValue` ([#4676](https://github.com/blackbaud/skyux/issues/4676)) ([9d9a2f1](https://github.com/blackbaud/skyux/commit/9d9a2f1c4f2705413693f9829e9bcea6d800fbf3))
+* **components/layout:** description lists use medium stacked spacing between stacked items and do not have extra margins at the bottom of horizontal description lists ([#4668](https://github.com/blackbaud/skyux/issues/4668)) ([437407f](https://github.com/blackbaud/skyux/commit/437407f4414c474debd2d7f94b96426e641a4c6e))
+* **components/modals:** tokenize tiled body modal background ([#4671](https://github.com/blackbaud/skyux/issues/4671)) ([#4677](https://github.com/blackbaud/skyux/issues/4677)) ([b40e519](https://github.com/blackbaud/skyux/commit/b40e5190c014a4682e016e295899dc3100fe0dd0))
+* **components/router:** add documentation for exported types ([#4661](https://github.com/blackbaud/skyux/issues/4661)) ([#4669](https://github.com/blackbaud/skyux/issues/4669)) ([1c092e4](https://github.com/blackbaud/skyux/commit/1c092e4debd7b79fd1d9057432e65c2ff5a958d8)), closes [AB#4088898](https://dev.azure.com/blackbaud/Products/_workitems/edit/4088898)
+* dark mode flyouts, summary action bars, and back to top bars have an edge border ([#4633](https://github.com/blackbaud/skyux/issues/4633)) ([#4667](https://github.com/blackbaud/skyux/issues/4667)) ([ff67462](https://github.com/blackbaud/skyux/commit/ff6746295ae220fdb0e4325374f44359e4f8409b))
+
 ## [14.15.1](https://github.com/blackbaud/skyux/compare/14.15.0...14.15.1) (2026-08-21)
 
 

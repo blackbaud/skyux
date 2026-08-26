@@ -79,9 +79,7 @@ export class SkyTileDashboardService {
   readonly #uiConfigService = inject(SkyUIConfigService);
 
   readonly #mode = computed<SkyTileDashboardColumnMode>(() => {
-    const breakpoint = this.#breakpoint();
-
-    return breakpoint === 'xs' || breakpoint === 'sm' ? 'single' : 'multi';
+    return this.#breakpoint() === 'xs' ? 'single' : 'multi';
   });
 
   constructor() {

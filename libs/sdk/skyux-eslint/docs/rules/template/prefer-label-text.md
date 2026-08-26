@@ -4,6 +4,12 @@ Ensures form components set the `labelText` (or `headingText`) attribute, which 
 
 Setting `labelText` (or `headingText`) on a component is the preferred, modern approach to labeling SKY UX form components. It replaces older patterns that placed a dedicated label child element (e.g. `<sky-checkbox-label>`, `<sky-input-box><label>`) inside the component.
 
+The rule reports three problems:
+
+1. **A label child element is used.** Set `labelText` instead. This is autofixable.
+2. **The component has no label at all.** Without a label, the form control has no accessible name, so screen reader users have no way to know what the control is for, and built-in validation error messages have no text to reference. The deprecated `label` and `labelledBy` inputs on `<sky-checkbox>` and `<sky-radio>` do **not** satisfy the rule — to give a control an accessible name without a visible label, set `labelText` along with `labelHidden`.
+3. **`labelText` is set but empty.** An empty or whitespace-only value renders no label, so it is equivalent to having none. A bound `labelText` is not evaluated, so an expression that resolves to an empty string at runtime cannot be reported. Only property and two-way bindings set the input, so an `[attr.labelText]`, `[class.labelText]`, or `[style.labelText]` binding does not count as a label.
+
 - Type: problem
 - 🔧 Supports autofix (`--fix`)
 
@@ -84,6 +90,30 @@ Replaces the deprecated `<sky-radio-label>` child element. Setting `labelText` e
 ~~~~~~~~~~~~~~~~
 ```
 
+No label at all:
+
+```html
+<sky-checkbox />
+~~~~~~~~~~~~~~~~
+
+<sky-checkbox [labelledBy]="headerId.id" />
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+<sky-input-box>
+~~~~~~~~~~~~~~~
+  <sky-lookup />
+  ~~~~~~~~~~~~~~
+</sky-input-box>
+~~~~~~~~~~~~~~~~
+```
+
+An empty `labelText`:
+
+```html
+<sky-checkbox labelText="" />
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
 <br>
 
 ### ✅ Valid Code
@@ -94,4 +124,7 @@ Replaces the deprecated `<sky-radio-label>` child element. Setting `labelText` e
 <sky-input-box labelText="First name">
   <input type="text" />
 </sky-input-box>
+
+<!-- Use `labelHidden` when another element supplies the visible label. -->
+<sky-checkbox labelHidden labelText="Notify me" />
 ```

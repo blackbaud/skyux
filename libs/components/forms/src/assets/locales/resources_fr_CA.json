@@ -9,7 +9,7 @@
   },
   "skyux_form_error_character_count": {
     "_description": "Message d’erreur pour un champ avec une valeur qui dépasse la limite de caractères",
-    "message": "Limite {0} de {1} caractère(s)."
+    "message": "Limitez {0} à {1} caractères."
   },
   "skyux_form_error_date": {
     "_description": "Message d’erreur pour un champ avec une valeur de date invalide",
@@ -25,7 +25,7 @@
   },
   "skyux_form_error_fuzzy_date_future_disabled": {
     "_description": "Message d’erreur pour un champ avec une date floue invalide dans l’avenir",
-    "message": "Les dates futures sont désactivées. Sélectionnez ou entrez une date dans le passé."
+    "message": "Les dates futures sont désactivées. Sélectionnez ou saisissez une date antérieure."
   },
   "skyux_form_error_fuzzy_date_invalid": {
     "_description": "Message d’erreur pour un champ avec une date floue invalide",
@@ -49,7 +49,7 @@
   },
   "skyux_form_error_maxlength": {
     "_description": "Message d’erreur pour un champ avec une valeur qui est trop longue",
-    "message": "Limite {0} de {1} caractère(s)."
+    "message": "Limitez {0} à {1} caractères."
   },
   "skyux_form_error_minlength": {
     "_description": "Message d’erreur pour un champ avec une valeur n’est pas assez longue",
@@ -57,7 +57,7 @@
   },
   "skyux_form_error_phone": {
     "_description": "Message d’erreur pour un champ avec un numéro de téléphone invalide",
-    "message": "Entrez un numéro de téléphone correspondant au format du pays sélectionné."
+    "message": "Saisissez un numéro de téléphone valide pour le pays sélectionné."
   },
   "skyux_form_error_required": {
     "_description": "Message d’erreur pour un champ requis ne contenant aucune valeur",

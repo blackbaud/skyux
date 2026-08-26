@@ -109,6 +109,12 @@ const RESOURCES: Record<string, SkyLibResources> = {
     sky_ag_grid_column_group_header_collapse_aria_label: {
       message: 'Réduire le groupe de colonnes {0}',
     },
+    sky_ag_grid_locale_no_rows_to_show: {
+      message: 'Aucune donnée disponible.',
+    },
+    sky_ag_grid_locale_no_matching_rows: {
+      message: 'Aucune ligne correspondante',
+    },
   },
 };
 
