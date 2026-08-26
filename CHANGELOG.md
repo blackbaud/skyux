@@ -1,7 +1,12 @@
 # Changelog
 
 
-## [14.15.2](https://github.com/blackbaud/skyux/compare/14.15.1...14.15.2) (2026-08-25)
+## [14.16.0](https://github.com/blackbaud/skyux/compare/14.15.1...14.16.0) (2026-08-26)
+
+
+### Features
+
+* add sky-btn-icon-borderless-on_prominent button class ([#4683](https://github.com/blackbaud/skyux/issues/4683)) ([6ac2af6](https://github.com/blackbaud/skyux/commit/6ac2af6b68e66026320f67a2509d81ea1448336a))
 
 
 ### Bug Fixes
