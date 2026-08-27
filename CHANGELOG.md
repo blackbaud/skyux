@@ -4,6 +4,11 @@
 ## [15.0.0-alpha.8](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.7...15.0.0-alpha.8) (2026-08-27)
 
 
+### Features
+
+* **components/packages:** add `migrate-karma-to-vitest` generate schematic ([#4708](https://github.com/blackbaud/skyux/issues/4708)) ([1f5ac11](https://github.com/blackbaud/skyux/commit/1f5ac11e41133ac30713d97ea0a5306d50edf10b))
+
+
 ### Bug Fixes
 
 * **components/i18n:** add detailed deprecation documentation for legacy i18n services ([#4696](https://github.com/blackbaud/skyux/issues/4696)) ([621a91b](https://github.com/blackbaud/skyux/commit/621a91b49faa9876c05768bcec4d6109214c18cf))
