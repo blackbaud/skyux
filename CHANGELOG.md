@@ -1,7 +1,7 @@
 # Changelog
 
 
-## [15.0.0-alpha.8](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.7...15.0.0-alpha.8) (2026-08-26)
+## [15.0.0-alpha.8](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.7...15.0.0-alpha.8) (2026-08-27)
 
 
 ### Bug Fixes
