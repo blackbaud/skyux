@@ -1,0 +1,16 @@
+<span
+  class="sky-character-count-label sky-font-deemphasized"
+  [class.sky-error-label]="limitReached()"
+>
+  {{ ratio() }}
+</span>
+<span aria-live="polite" class="sky-screen-reader-only">
+  @if (limitReached()) {
+    {{ 'skyux_character_count_over_limit' | skyLibResources }}
+  } @else {
+    {{
+      'skyux_character_count_message'
+        | skyLibResources: announcedCount().toLocaleString() : characterLimit()
+    }}
+  }
+</span>
