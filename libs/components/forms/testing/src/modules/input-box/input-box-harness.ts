@@ -53,6 +53,11 @@ export class SkyInputBoxHarness extends SkyQueryableComponentHarness {
   /**
    * Gets the character counter indicator for the input box or throws an error if
    * a character limit is not specified.
+   *
+   * @deprecated Use `getCharacterCount()`, `getCharacterLimit()`, and
+   * `isOverCharacterLimit()` instead. Those methods require the `characterLimit`
+   * input, so an input box that projects a `sky-character-counter-indicator`
+   * must migrate to that input first.
    */
   public async getCharacterCounter(): Promise<SkyCharacterCounterIndicatorHarness> {
     const characterCounter =
@@ -75,7 +80,8 @@ export class SkyInputBoxHarness extends SkyQueryableComponentHarness {
   }
 
   /**
-   * Gets the current character count.
+   * Gets the current character count, or throws an error if the input box does
+   * not set the `characterLimit` input.
    */
   public async getCharacterCount(): Promise<number> {
     const harness = await this.#getCharacterLimitOrThrow();
@@ -84,7 +90,8 @@ export class SkyInputBoxHarness extends SkyQueryableComponentHarness {
   }
 
   /**
-   * Gets the character limit.
+   * Gets the character limit, or throws an error if the input box does not set
+   * the `characterLimit` input.
    */
   public async getCharacterLimit(): Promise<number> {
     const harness = await this.#getCharacterLimitOrThrow();
@@ -93,7 +100,8 @@ export class SkyInputBoxHarness extends SkyQueryableComponentHarness {
   }
 
   /**
-   * Whether the character count has exceeded the character limit.
+   * Whether the character count has exceeded the character limit. Throws an
+   * error if the input box does not set the `characterLimit` input.
    */
   public async isOverCharacterLimit(): Promise<boolean> {
     const harness = await this.#getCharacterLimitOrThrow();
