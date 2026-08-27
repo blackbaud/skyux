@@ -8,6 +8,11 @@
 
 * dark mode uses new `steel-grey` color scheme ([#4706](https://github.com/blackbaud/skyux/issues/4706)) ([a0e9b74](https://github.com/blackbaud/skyux/commit/a0e9b742b4a0c861ec022715428e19cb9bd6fc30))
 
+
+### Bug Fixes
+
+* **components/ag-grid:** date filter widgets use grid background and focus styles, inputs use text color ([#4713](https://github.com/blackbaud/skyux/issues/4713)) ([8464e4d](https://github.com/blackbaud/skyux/commit/8464e4d4b585d0619a417758c7de7ce53dda8e72))
+
 ## [14.16.0](https://github.com/blackbaud/skyux/compare/14.15.1...14.16.0) (2026-08-26)
 
 
