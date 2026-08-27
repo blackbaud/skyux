@@ -52,13 +52,30 @@
     }
   }
 
-  .ag-filter-body {
+  .ag-filter-wrapper {
+    --ag-border-color: var(
+      --sky-override-ag-grid-filter-border-color,
+      var(--sky-color-border-input-base)
+    );
+    --ag-border-radius: var(
+      --sky-override-ag-grid-filter-border-radius,
+      var(--sky-border-radius-s)
+    );
+
+    .ag-picker-field-wrapper {
+      border-radius: var(--ag-border-radius);
+    }
+
     .sky-datepicker .sky-input-group input.sky-form-control {
       border-start-start-radius: var(--ag-border-radius);
       border-end-start-radius: var(--ag-border-radius);
     }
 
     .sky-input-group-datepicker-btn {
+      --sky-color-background-action-secondary-base: var(
+        --ag-input-background-color
+      );
+      --sky-color-border-action-secondary-base: var(--ag-border-color);
       border-start-start-radius: 0;
       border-end-start-radius: 0;
     }
