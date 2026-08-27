@@ -4,6 +4,11 @@
 ## [15.0.0-alpha.9](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.8...15.0.0-alpha.9) (2026-08-27)
 
 
+### Features
+
+* dark mode uses new `steel-grey` color scheme ([#4716](https://github.com/blackbaud/skyux/issues/4716)) ([07ab8d3](https://github.com/blackbaud/skyux/commit/07ab8d328821d22594099be870c937ff7918cfd6))
+
+
 ### Bug Fixes
 
 * **components/indicators:** sky-tokens no longer prevents projected content from wrapping ([#4656](https://github.com/blackbaud/skyux/issues/4656)) ([#4679](https://github.com/blackbaud/skyux/issues/4679)) ([ec987f7](https://github.com/blackbaud/skyux/commit/ec987f71d5421bcc1ea642b412c807498339a8a0))
