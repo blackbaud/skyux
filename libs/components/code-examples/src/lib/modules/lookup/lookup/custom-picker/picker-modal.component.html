@@ -16,7 +16,12 @@
               <sky-selection-box-description>
                 {{ people[i].formal }}
               </sky-selection-box-description>
-              <sky-checkbox #checkbox [formControl]="personControl" />
+              <sky-checkbox
+                #checkbox
+                labelHidden
+                [formControl]="personControl"
+                [labelText]="people[i].name"
+              />
             </sky-selection-box>
           }
         </sky-selection-box-grid>

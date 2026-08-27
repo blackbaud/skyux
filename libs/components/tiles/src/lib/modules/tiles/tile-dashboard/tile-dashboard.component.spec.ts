@@ -1,8 +1,17 @@
 import { QueryList } from '@angular/core';
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyUIConfigService } from '@skyux/core';
+import {
+  SkyMediaQueryTestingController,
+  provideSkyMediaQueryTesting,
+} from '@skyux/core/testing';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -62,6 +71,7 @@ describe('Tile dashboard component', () => {
           provide: SkyThemeService,
           useValue: mockThemeSvc,
         },
+        provideSkyMediaQueryTesting(),
       ],
       imports: [SkyTileDashboardFixturesModule],
     });
@@ -130,6 +140,84 @@ describe('Tile dashboard component', () => {
 
     expect(fixture.componentInstance.dashboardConfig()).toEqual(newConfig);
   }));
+
+  describe('moved tile assistive text', () => {
+    function emitMovedTile(breakpoint: 'xs' | 'sm'): {
+      fixture: ComponentFixture<TileDashboardTestComponent>;
+    } {
+      const fixture = TestBed.overrideComponent(SkyTileDashboardComponent, {
+        add: {
+          providers: [
+            {
+              provide: SkyTileDashboardService,
+              useValue: mockTileDashboardService,
+            },
+          ],
+        },
+      }).createComponent(TileDashboardTestComponent);
+
+      TestBed.inject(SkyMediaQueryTestingController).setBreakpoint(breakpoint);
+
+      fixture.detectChanges();
+      tick();
+
+      mockTileDashboardService.configChange.emit({
+        tiles: [
+          { id: 'tile-1', componentType: Tile1TestComponent },
+          { id: 'tile-2', componentType: Tile2TestComponent },
+        ],
+        layout: {
+          multiColumn: [
+            { tiles: [{ id: 'tile-1', isCollapsed: false }] },
+            { tiles: [{ id: 'tile-2', isCollapsed: false }] },
+          ],
+          singleColumn: {
+            tiles: [
+              { id: 'tile-1', isCollapsed: false },
+              { id: 'tile-2', isCollapsed: false },
+            ],
+          },
+        },
+        movedTile: {
+          tileDescription: 'Tile 2',
+          column: 2,
+          position: 1,
+        },
+      });
+
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      return { fixture };
+    }
+
+    function getAssistiveText(
+      fixture: ComponentFixture<TileDashboardTestComponent>,
+    ): string {
+      return (
+        fixture.nativeElement
+          .querySelector('.sky-assistive-text')
+          ?.textContent?.trim() ?? ''
+      );
+    }
+
+    it('should report the multi-column position at the `sm` breakpoint', fakeAsync(() => {
+      const { fixture } = emitMovedTile('sm');
+
+      expect(getAssistiveText(fixture)).toBe(
+        'Tile 2 moved. Current column: 2 of 2. Current position in column: 1 of 1',
+      );
+    }));
+
+    it('should report the single-column position at the `xs` breakpoint', fakeAsync(() => {
+      const { fixture } = emitMovedTile('xs');
+
+      expect(getAssistiveText(fixture)).toBe(
+        'Tile 2 moved. Current column: 1 of 1. Current position in column: 1 of 2',
+      );
+    }));
+  });
 
   it('should not allow a new config to be set by the parent once initialized', fakeAsync(() => {
     const fixture = TestBed.overrideComponent(SkyTileDashboardComponent, {

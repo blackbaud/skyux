@@ -17,7 +17,7 @@
   },
   "skyux_modal_close": {
     "_description": "Texte du bouton modal de fermeture",
-    "message": "Fermer le modal"
+    "message": "Fermer la fenêtre"
   },
   "skyux_modal_open_help": {
     "_description": "Texte du bouton de l’en-tête modal Ouvrir l’aide",

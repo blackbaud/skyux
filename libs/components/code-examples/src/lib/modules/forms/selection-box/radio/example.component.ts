@@ -5,7 +5,6 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { SkyIdModule } from '@skyux/core';
 import { SkyRadioModule, SkySelectionBoxModule } from '@skyux/forms';
 import { SkyIconModule } from '@skyux/icon';
 
@@ -20,7 +19,6 @@ import { SkyIconModule } from '@skyux/icon';
     FormsModule,
     ReactiveFormsModule,
     SkyIconModule,
-    SkyIdModule,
     SkyRadioModule,
     SkySelectionBoxModule,
   ],
