@@ -5,6 +5,13 @@ import {
 } from './utility/character-limit-label';
 
 /**
+ * Setting `characterLimit` on `sky-input-box` used to render a
+ * `sky-character-counter-indicator`, but now renders a
+ * `sky-input-box-character-limit`. Since `SkyInputBoxHarness.getCharacterCounter()`
+ * is public API, it must still return a `SkyCharacterCounterIndicatorHarness`,
+ * so this subclass preserves that type while reading the new markup. Delete it
+ * when the deprecated character counter component is removed.
+ *
  * @internal
  */
 export class SkyInputBoxCharacterCounterIndicatorCompatHarness extends SkyCharacterCounterIndicatorHarness {
