@@ -14,7 +14,7 @@ import { SkyValidation } from '../validation/validation';
  * value.
  * @preview
  */
-export function skyEmailValidator<TPathKind extends PathKind = PathKind.Root>(
+export function skyEmail<TPathKind extends PathKind = PathKind.Root>(
   path: SchemaPath<string | undefined, SchemaPathRules.Supported, TPathKind>,
 ): void {
   validate(path, ({ value }) => {
@@ -31,7 +31,7 @@ export function skyEmailValidator<TPathKind extends PathKind = PathKind.Root>(
  * Empty values pass; combine with Angular's `required` rule to require a value.
  * @preview
  */
-export function skyUrlValidator<TPathKind extends PathKind = PathKind.Root>(
+export function skyUrl<TPathKind extends PathKind = PathKind.Root>(
   path: SchemaPath<string | undefined, SchemaPathRules.Supported, TPathKind>,
   options?: SkyUrlValidationOptions,
 ): void {

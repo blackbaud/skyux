@@ -4,7 +4,7 @@ import { FieldTree, form } from '@angular/forms/signals';
 
 import { SkyUrlValidationOptions } from '../url-validation/url-validation-options';
 
-import { skyEmailValidator, skyUrlValidator } from './signal-validators';
+import { skyEmail, skyUrl } from './signal-validators';
 
 describe('Signal forms validators', () => {
   describe('skyEmailValidator', () => {
@@ -13,7 +13,7 @@ describe('Signal forms validators', () => {
     ): FieldTree<string | undefined> {
       const model = signal(value);
       return TestBed.runInInjectionContext(() =>
-        form(model, (p) => skyEmailValidator(p)),
+        form(model, (p) => skyEmail(p)),
       );
     }
 
@@ -52,7 +52,7 @@ describe('Signal forms validators', () => {
     ): FieldTree<string | undefined> {
       const model = signal(value);
       return TestBed.runInInjectionContext(() =>
-        form(model, (p) => skyUrlValidator(p, options)),
+        form(model, (p) => skyUrl(p, options)),
       );
     }
 
