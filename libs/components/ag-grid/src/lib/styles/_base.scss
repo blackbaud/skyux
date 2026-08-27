@@ -38,7 +38,29 @@
         appearance: none;
         border-radius: 0;
         height: calc(var(--ag-header-height) - 2px);
+
+        &:focus {
+          box-shadow: inset var(--ag-focus-shadow);
+        }
       }
+    }
+
+    .sky-input-group-datepicker-btn {
+      --sky-color-border-action-secondary-base: var(--ag-border-color);
+      border-start-start-radius: 0;
+      border-end-start-radius: 0;
+    }
+  }
+
+  .ag-filter-body {
+    .sky-datepicker .sky-input-group input.sky-form-control {
+      border-start-start-radius: var(--ag-border-radius);
+      border-end-start-radius: var(--ag-border-radius);
+    }
+
+    .sky-input-group-datepicker-btn {
+      border-start-start-radius: 0;
+      border-end-start-radius: 0;
     }
   }
 
