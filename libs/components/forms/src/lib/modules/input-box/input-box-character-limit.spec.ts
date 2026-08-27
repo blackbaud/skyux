@@ -132,10 +132,16 @@ describe('Input box character limit component', () => {
       await setCharacterCount(98);
 
       expect(getAnnouncement()).toBe('90 characters out of 99');
+    });
+
+    it('should re-anchor the announcement when the value is replaced wholesale', async () => {
+      fixture.componentRef.setInput('characterLimit', 50);
+
+      await setCharacterCount(43);
 
       await setCharacterCount(21);
 
-      expect(getAnnouncement()).toBe('20 characters out of 99');
+      expect(getAnnouncement()).toBe('20 characters out of 50');
     });
 
     it('should announce the limit even when it is not a milestone', async () => {

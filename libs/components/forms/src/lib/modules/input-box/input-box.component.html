@@ -116,9 +116,8 @@
       [characterCount]="controlDir?.value?.length ?? 0"
       [characterLimit]="characterLimit"
     />
-  } @else {
-    <ng-content select="sky-character-counter-indicator" />
   }
+  <ng-content select="sky-character-counter-indicator" />
 </ng-template>
 
 <ng-template #inputTemplate>

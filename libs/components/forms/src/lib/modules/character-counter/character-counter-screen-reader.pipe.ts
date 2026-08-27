@@ -33,10 +33,8 @@ export class SkyCharacterCounterScreenReaderPipe implements PipeTransform {
       const previousAnnouncementQuotient = Math.floor(
         this.#previousAnnouncementPoint / modulus,
       );
-
       // Lower limit of what announcement should have been made for the current count
       const currentAnnouncementQuotient = Math.floor(characterCount / modulus);
-
       // Next announcement that would be made if the current count increases
       const currentAnnouncementNextAnnouncement = Math.ceil(
         characterCount / modulus,

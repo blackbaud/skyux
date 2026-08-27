@@ -4,6 +4,7 @@ import { SkyFormsResourcesModule } from '../shared/sky-forms-resources.module';
 @Component({
   imports: [SkyFormsResourcesModule],
   selector: 'sky-input-box-character-limit',
+  styleUrl: './input-box-character-limit.scss',
   templateUrl: './input-box-character-limit.html',
 })
 export class SkyInputBoxCharacterLimit {
