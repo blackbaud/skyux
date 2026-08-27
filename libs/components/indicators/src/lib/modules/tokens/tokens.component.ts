@@ -11,6 +11,8 @@ import {
   TrackByFunction,
   ViewChildren,
   afterNextRender,
+  computed,
+  contentChildren,
   inject,
   signal,
 } from '@angular/core';
@@ -19,6 +21,10 @@ import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyTokenComponent } from './token.component';
+import {
+  SKY_TOKENS_ROLE_CONTEXT,
+  SkyTokensRoleContext,
+} from './tokens-role-context';
 import { SkyToken } from './types/token';
 import { SkyTokenSelectedEventArgs } from './types/token-selected-event-args';
 import { SkyTokensMessage } from './types/tokens-message';
@@ -37,8 +43,11 @@ const DISPLAY_WITH_DEFAULT = 'name';
   styleUrls: ['./tokens.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
+  providers: [
+    { provide: SKY_TOKENS_ROLE_CONTEXT, useExisting: SkyTokensComponent },
+  ],
 })
-export class SkyTokensComponent implements OnDestroy {
+export class SkyTokensComponent implements SkyTokensRoleContext, OnDestroy {
   /**
    * Whether to disable the tokens list to prevent users from selecting tokens,
    * dismissing tokens, or navigating through the list with the arrow keys. When the tokens list
@@ -107,7 +116,7 @@ export class SkyTokensComponent implements OnDestroy {
    */
   @Input()
   public set tokens(value: SkyToken[] | undefined) {
-    this.#_tokens = value || [];
+    this.#tokens.set(value || []);
     // The previous behavior was to set `this._tokens = value`, then emit `this._tokens`,
     // which would emit `undefined` instead of a default value of `[]` returned by the
     // get accessor when set to `undefined`. Emitting `value` instead of `this.#_tokensOrDefault`
@@ -118,7 +127,7 @@ export class SkyTokensComponent implements OnDestroy {
   }
 
   public get tokens(): SkyToken[] {
-    return this.#_tokens;
+    return this.#tokens();
   }
 
   /**
@@ -174,8 +183,8 @@ export class SkyTokensComponent implements OnDestroy {
   }
 
   public set activeIndex(value: number) {
-    if (value >= this.#_tokens.length) {
-      value = this.#_tokens.length - 1;
+    if (value >= this.#tokens().length) {
+      value = this.#tokens().length - 1;
       this.focusIndexOverRange.emit();
     }
 
@@ -192,11 +201,31 @@ export class SkyTokensComponent implements OnDestroy {
   #_disabled = false;
   #_dismissible = true;
   #_focusable = true;
-  #_tokens: SkyToken[] = [];
   #_displayWith = DISPLAY_WITH_DEFAULT;
+
+  readonly #tokens = signal<SkyToken[]>([]);
 
   @ViewChildren(SkyTokenComponent)
   public tokenComponents: QueryList<SkyTokenComponent> | undefined;
+
+  /**
+   * The tokens manually projected into the component via
+   * `<ng-content select="sky-token" />`, as opposed to the ones generated from
+   * the `tokens` input.
+   */
+  protected readonly projectedTokenComponents =
+    contentChildren(SkyTokenComponent);
+
+  /**
+   * Whether the grid role is active on this component's host element. A
+   * `sky-token` element (whether generated from the `tokens` input or
+   * manually projected) reads this to determine its own `row` role, since
+   * Angular does not apply template bindings to projected content.
+   */
+  public readonly gridRoleActive = computed(
+    () =>
+      this.#tokens().length > 0 || this.projectedTokenComponents().length > 0,
+  );
 
   #messageStreamSub: Subscription | undefined;
   #ngUnsubscribe = new Subject<void>();
