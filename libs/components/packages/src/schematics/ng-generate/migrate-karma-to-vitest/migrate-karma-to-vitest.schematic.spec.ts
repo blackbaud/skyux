@@ -181,6 +181,11 @@ describe('test', () => {
     expect(warnings).toEqual([
       "Dependency '@skyux-sdk/testing' is still imported by the workspace and was not uninstalled.",
     ]);
+
+    expect(getDevDependencies(tree)).toEqual({
+      '@skyux-sdk/testing': '^15.0.0',
+      '@skyux-sdk/vitest': '^0.0.0-PLACEHOLDER',
+    });
   });
 
   it('should retain imports that are not matchers', async () => {
