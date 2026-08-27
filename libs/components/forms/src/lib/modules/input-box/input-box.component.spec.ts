@@ -398,8 +398,10 @@ describe('Input box component', () => {
         '.sky-control-help',
       ) as HTMLElement | null;
 
+      // Easy mode renders `sky-input-box-character-limit`; the older API
+      // projects a `sky-character-counter-indicator`.
       const characterCountEl = formGroupEl?.querySelector(
-        'sky-character-counter-indicator',
+        'sky-input-box-character-limit, sky-character-counter-indicator',
       ) as HTMLElement | null;
 
       const inputGroupEl = formGroupEl?.querySelector(
