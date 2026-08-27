@@ -13,7 +13,9 @@ describe('Input box character limit component', () => {
   }
 
   function getRatioEl(): HTMLElement {
-    return fixture.nativeElement.querySelector('.sky-character-count-label');
+    return fixture.nativeElement.querySelector(
+      '.sky-character-count-label,.sky-input-box-character-limit-label',
+    );
   }
 
   function getAnnouncement(): string {

@@ -8,6 +8,8 @@ import { SkyCharacterCounterIndicatorHarness } from '../character-counter/charac
 import { SkyFormErrorHarness } from '../form-error/form-error-harness';
 import { SkyFormErrorsHarness } from '../form-error/form-errors-harness';
 
+import { SkyInputBoxCharacterCounterIndicatorCompatHarness } from './input-box-character-limit-compat-harness';
+import { SkyInputBoxCharacterLimitHarness } from './input-box-character-limit-harness';
 import { SkyInputBoxHarnessFilters } from './input-box-harness-filters';
 
 /**
@@ -18,6 +20,10 @@ export class SkyInputBoxHarness extends SkyQueryableComponentHarness {
    * @internal
    */
   public static hostSelector = 'sky-input-box';
+
+  readonly #getCharacterLimit = this.locatorForOptional(
+    SkyInputBoxCharacterLimitHarness,
+  );
 
   #getHintText = this.locatorForOptional('.sky-input-box-hint-text');
   #getLabel = this.locatorForOptional('.sky-control-label');
@@ -49,11 +55,15 @@ export class SkyInputBoxHarness extends SkyQueryableComponentHarness {
    * a character limit is not specified.
    */
   public async getCharacterCounter(): Promise<SkyCharacterCounterIndicatorHarness> {
-    const characterCounter = await this.locatorForOptional(
-      new HarnessPredicate(SkyCharacterCounterIndicatorHarness, {
-        ancestor: '.sky-input-box-label-wrapper',
-      }),
-    )();
+    const characterCounter =
+      (await this.locatorForOptional(
+        new HarnessPredicate(SkyCharacterCounterIndicatorHarness, {
+          ancestor: '.sky-input-box-label-wrapper',
+        }),
+      )()) ??
+      (await this.locatorForOptional(
+        SkyInputBoxCharacterCounterIndicatorCompatHarness,
+      )());
 
     if (!characterCounter) {
       throw new Error(
@@ -62,6 +72,45 @@ export class SkyInputBoxHarness extends SkyQueryableComponentHarness {
     }
 
     return characterCounter;
+  }
+
+  /**
+   * Gets the current character count.
+   */
+  public async getCharacterCount(): Promise<number> {
+    const harness = await this.#getCharacterLimitOrThrow();
+
+    return await harness.getCharacterCount();
+  }
+
+  /**
+   * Gets the character limit.
+   */
+  public async getCharacterLimit(): Promise<number> {
+    const harness = await this.#getCharacterLimitOrThrow();
+
+    return await harness.getCharacterLimit();
+  }
+
+  /**
+   * Whether the character count has exceeded the character limit.
+   */
+  public async isOverCharacterLimit(): Promise<boolean> {
+    const harness = await this.#getCharacterLimitOrThrow();
+
+    return await harness.isOverCharacterLimit();
+  }
+
+  async #getCharacterLimitOrThrow(): Promise<SkyInputBoxCharacterLimitHarness> {
+    const characterLimit = await this.#getCharacterLimit();
+
+    if (!characterLimit) {
+      throw new Error(
+        'The input box does not have a character limit specified.',
+      );
+    }
+
+    return characterLimit;
   }
 
   /**

@@ -443,7 +443,8 @@ sky-input-box {
         }
 
         .sky-control-label,
-        .sky-character-count-label {
+        .sky-character-count-label,
+        .sky-input-box-character-limit-label {
           font-size: var(--sky-font-size-input-label);
           letter-spacing: var(--sky-font-letter_spacing-input-label);
           line-height: var(--sky-font-line_height-input-label);

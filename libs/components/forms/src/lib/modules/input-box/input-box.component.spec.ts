@@ -794,7 +794,7 @@ describe('Input box component', () => {
       const els = getDefaultEls(fixture, 'input-easy-mode');
 
       const characterCountLabelEl = els.characterCountEl?.querySelector(
-        '.sky-character-count-label',
+        '.sky-input-box-character-limit-label',
       );
 
       expect(characterCountLabelEl).toHaveText('0/10');
