@@ -8,6 +8,7 @@ import { SkyFormErrorModule } from '../form-error/form-error.module';
 import { SkyFormErrorsModule } from '../form-error/form-errors.module';
 import { SkyFormsResourcesModule } from '../shared/sky-forms-resources.module';
 
+import { SkyInputBoxCharacterLimit } from './input-box-character-limit';
 import { SkyInputBoxControlDirective } from './input-box-control.directive';
 import { SkyInputBoxHintTextPipe } from './input-box-hint-text.pipe';
 import { SkyInputBoxComponent } from './input-box.component';
@@ -21,6 +22,7 @@ import { SkyInputBoxComponent } from './input-box.component';
     SkyFormErrorModule,
     SkyFormsResourcesModule,
     SkyHelpInlineModule,
+    SkyInputBoxCharacterLimit,
     SkyInputBoxControlDirective,
     SkyInputBoxHintTextPipe,
     SkyThemeModule,

@@ -6,6 +6,10 @@ import {
   inject,
 } from '@angular/core';
 
+/**
+ * @deprecated Use [input box](https://developer.blackbaud.com/skyux/components/input-box)
+ * with its `characterLimit` input instead.
+ */
 @Component({
   selector: 'sky-character-counter-indicator',
   templateUrl: './character-counter-indicator.component.html',
