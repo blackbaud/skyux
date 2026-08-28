@@ -1,11 +1,12 @@
 # Changelog
 
 
-## [15.0.0-alpha.9](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.8...15.0.0-alpha.9) (2026-08-27)
+## [15.0.0-alpha.9](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.8...15.0.0-alpha.9) (2026-08-28)
 
 
 ### Features
 
+* add sky-btn-icon-borderless-on_prominent button class ([#4683](https://github.com/blackbaud/skyux/issues/4683)) ([#4703](https://github.com/blackbaud/skyux/issues/4703)) ([05664fb](https://github.com/blackbaud/skyux/commit/05664fb49e513890aef6b03149ee64f8753579e4))
 * dark mode uses new `steel-grey` color scheme ([#4716](https://github.com/blackbaud/skyux/issues/4716)) ([07ab8d3](https://github.com/blackbaud/skyux/commit/07ab8d328821d22594099be870c937ff7918cfd6))
 
 
