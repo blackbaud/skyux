@@ -1,0 +1,18 @@
+<form [formGroup]="formGroup">
+  <sky-input-box
+    characterLimit="25"
+    data-sky-id="input-box-nickname"
+    labelText="Nickname"
+    stacked
+  >
+    <input formControlName="nickname" spellcheck="false" type="text" />
+  </sky-input-box>
+  <sky-input-box
+    characterLimit="100"
+    data-sky-id="input-box-bio"
+    hintText="A short description that appears on the member's profile."
+    labelText="Bio"
+  >
+    <textarea formControlName="bio"></textarea>
+  </sky-input-box>
+</form>
