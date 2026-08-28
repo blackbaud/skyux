@@ -14,6 +14,7 @@
 ### Bug Fixes
 
 * **components/ag-grid:** date filter widgets use grid background and focus styles, inputs use text color ([#4713](https://github.com/blackbaud/skyux/issues/4713)) ([#4717](https://github.com/blackbaud/skyux/issues/4717)) ([f285480](https://github.com/blackbaud/skyux/commit/f2854808455850bf00725822f5d7d44e33820775))
+* **components/forms:** file drop link input uses input box background color in dark mode ([#4720](https://github.com/blackbaud/skyux/issues/4720)) ([#4721](https://github.com/blackbaud/skyux/issues/4721)) ([6ef1041](https://github.com/blackbaud/skyux/commit/6ef1041b75114d286d8a28b82bd50b63abc34557))
 * **components/indicators:** sky-tokens no longer prevents projected content from wrapping ([#4656](https://github.com/blackbaud/skyux/issues/4656)) ([#4679](https://github.com/blackbaud/skyux/issues/4679)) ([ec987f7](https://github.com/blackbaud/skyux/commit/ec987f71d5421bcc1ea642b412c807498339a8a0))
 * report the underlying axe error when accessibility checks fail ([#4712](https://github.com/blackbaud/skyux/issues/4712)) ([05a7184](https://github.com/blackbaud/skyux/commit/05a7184456da82d293b089a1a0974f2f09a8839c))
 * support dark mode in fluid grid code example and visual test ([#4718](https://github.com/blackbaud/skyux/issues/4718)) ([#4719](https://github.com/blackbaud/skyux/issues/4719)) ([e70a8ef](https://github.com/blackbaud/skyux/commit/e70a8ef82cd06bc947aae8c166615cd8b744255c))
