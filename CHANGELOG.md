@@ -1,7 +1,7 @@
 # Changelog
 
 
-## [14.17.0](https://github.com/blackbaud/skyux/compare/14.16.0...14.17.0) (2026-08-27)
+## [14.17.0](https://github.com/blackbaud/skyux/compare/14.16.0...14.17.0) (2026-08-28)
 
 
 ### Features
@@ -12,6 +12,7 @@
 ### Bug Fixes
 
 * **components/ag-grid:** date filter widgets use grid background and focus styles, inputs use text color ([#4713](https://github.com/blackbaud/skyux/issues/4713)) ([8464e4d](https://github.com/blackbaud/skyux/commit/8464e4d4b585d0619a417758c7de7ce53dda8e72))
+* support dark mode in fluid grid code example and visual test ([#4718](https://github.com/blackbaud/skyux/issues/4718)) ([ff67f1d](https://github.com/blackbaud/skyux/commit/ff67f1dba83cea896f5babe8437850c752d3e8bd))
 
 ## [14.16.0](https://github.com/blackbaud/skyux/compare/14.15.1...14.16.0) (2026-08-26)
 
