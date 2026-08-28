@@ -7,6 +7,7 @@
 ### Features
 
 * add sky-btn-icon-borderless-on_prominent button class ([#4683](https://github.com/blackbaud/skyux/issues/4683)) ([#4703](https://github.com/blackbaud/skyux/issues/4703)) ([05664fb](https://github.com/blackbaud/skyux/commit/05664fb49e513890aef6b03149ee64f8753579e4))
+* **components/forms:** deprecate character counter component ([#4714](https://github.com/blackbaud/skyux/issues/4714)) ([380ded6](https://github.com/blackbaud/skyux/commit/380ded612829c9406a36ed8cb6df5ed2753ff20a))
 * dark mode uses new `steel-grey` color scheme ([#4716](https://github.com/blackbaud/skyux/issues/4716)) ([07ab8d3](https://github.com/blackbaud/skyux/commit/07ab8d328821d22594099be870c937ff7918cfd6))
 
 
