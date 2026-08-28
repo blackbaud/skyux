@@ -6,12 +6,16 @@ import {
   Input,
   Output,
   ViewChild,
+  computed,
   inject,
+  input,
 } from '@angular/core';
 import { SkyLiveAnnouncerService } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { take } from 'rxjs';
+
+import { SKY_TOKENS_ROLE_CONTEXT } from './tokens-role-context';
 
 @Component({
   selector: 'sky-token',
@@ -69,11 +73,27 @@ export class SkyTokenComponent {
   }
 
   /**
-   * Used by the tokens component to set the appropriate role for each token.
+   * Used by the tokens component to set the appropriate role for each token
+   * generated from the `tokens` input.
    * @internal
    */
-  @Input()
-  public role: string | undefined;
+  public readonly role = input<string | undefined>();
+
+  /**
+   * The role to apply to the token's host element. Tokens generated from the
+   * `tokens` input receive their role directly through the `role` input above.
+   * Manually projected tokens never receive that binding (Angular does not
+   * apply template bindings to projected content), so they fall back to
+   * asking the ancestor `sky-tokens` component whether its grid role is
+   * active. Reading `#roleContext`'s signal-backed value here (rather than
+   * having `sky-tokens` push the value in imperatively) lets this OnPush
+   * component's view update automatically when that ancestor state changes.
+   * @internal
+   */
+  protected readonly effectiveRole = computed(
+    () =>
+      this.role() ?? (this.#roleContext?.gridRoleActive() ? 'row' : undefined),
+  );
 
   /**
    * Fires when users click the close button.
@@ -99,6 +119,7 @@ export class SkyTokenComponent {
 
   readonly #liveAnnouncerSvc = inject(SkyLiveAnnouncerService);
   readonly #resourcesSvc = inject(SkyLibResourcesService);
+  readonly #roleContext = inject(SKY_TOKENS_ROLE_CONTEXT, { optional: true });
 
   #_disabled = false;
   #_dismissible = true;

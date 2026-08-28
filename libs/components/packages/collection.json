@@ -36,6 +36,10 @@
       "factory": "./src/schematics/ng-generate/convert-progress-indicator-wizard-to-tab-wizard/convert-progress-indicator-wizard-to-tab-wizard.schematic",
       "schema": "./src/schematics/ng-generate/convert-progress-indicator-wizard-to-tab-wizard/schema.json"
     },
+    "migrate-karma-to-vitest": {
+      "description": "Replace the @skyux-sdk/testing Jasmine matchers with the @skyux-sdk/vitest matchers.",
+      "factory": "./src/schematics/ng-generate/migrate-karma-to-vitest/migrate-karma-to-vitest.schematic"
+    },
     "remove-compat-stylesheets": {
       "description": "Remove SKY UX compatibility stylesheets.",
       "factory": "./src/schematics/ng-generate/remove-compat-stylesheets/remove-compat-stylesheets.schematic",
