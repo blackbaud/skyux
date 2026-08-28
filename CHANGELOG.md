@@ -12,6 +12,7 @@
 
 ### Bug Fixes
 
+* **components/ag-grid:** date filter widgets use grid background and focus styles, inputs use text color ([#4713](https://github.com/blackbaud/skyux/issues/4713)) ([#4717](https://github.com/blackbaud/skyux/issues/4717)) ([f285480](https://github.com/blackbaud/skyux/commit/f2854808455850bf00725822f5d7d44e33820775))
 * **components/indicators:** sky-tokens no longer prevents projected content from wrapping ([#4656](https://github.com/blackbaud/skyux/issues/4656)) ([#4679](https://github.com/blackbaud/skyux/issues/4679)) ([ec987f7](https://github.com/blackbaud/skyux/commit/ec987f71d5421bcc1ea642b412c807498339a8a0))
 
 ## [15.0.0-alpha.8](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.7...15.0.0-alpha.8) (2026-08-27)
