@@ -8,12 +8,20 @@ export async function getCharacterLimitRatio(
 ): Promise<{ count: number; limit: number }> {
   const text = (await labelEl.text()).trim();
   const parts = text.split('/');
-  const count = Number(parts[0]);
-  const limit = Number(parts[1]);
+  const countText = parts[0]?.trim();
+  const limitText = parts[1]?.trim();
+  const count = Number(countText);
+  const limit = Number(limitText);
 
   // The label mirrors whatever `characterLimit` coerced to, which allows
   // decimals and negatives, so don't restrict this to digits.
-  if (parts.length !== 2 || isNaN(count) || isNaN(limit)) {
+  if (
+    parts.length !== 2 ||
+    !countText ||
+    !limitText ||
+    isNaN(count) ||
+    isNaN(limit)
+  ) {
     throw new Error(
       `Expected the character limit label to read "count/limit" but found "${text}".`,
     );

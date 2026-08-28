@@ -41,5 +41,17 @@ describe('Character limit label utility', () => {
     ).toBeRejectedWithError(
       'Expected the character limit label to read "count/limit" but found "3/b".',
     );
+
+    await expectAsync(
+      getCharacterLimitRatio(createLabel('3/')),
+    ).toBeRejectedWithError(
+      'Expected the character limit label to read "count/limit" but found "3/".',
+    );
+
+    await expectAsync(
+      getCharacterLimitRatio(createLabel('/10')),
+    ).toBeRejectedWithError(
+      'Expected the character limit label to read "count/limit" but found "/10".',
+    );
   });
 });
