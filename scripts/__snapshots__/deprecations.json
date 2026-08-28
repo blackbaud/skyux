@@ -123,6 +123,7 @@
   "@skyux/layout:SkyDefinitionListModule",
   "@skyux/layout:SkyDefinitionListValueComponent",
   "@skyux/layout:SkyDescriptionListMode",
+  "@skyux/layout:SkyFluidGridComponent:disableMargin",
   "@skyux/layout:SkyPageSummaryAlertComponent",
   "@skyux/layout:SkyPageSummaryComponent",
   "@skyux/layout:SkyPageSummaryContentComponent",
