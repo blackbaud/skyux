@@ -151,7 +151,73 @@ describe('test', () => {
 describe('test', () => {
   const options: SkyToBeVisibleOptions = {};
   const config: SkyToBeAccessibleOptions = {};
-  expectAsync(options).toBeResolved();
+  expect(options).toBeResolved();
+});
+`);
+  });
+
+  it('should rename `expectAsync` calls to `expect`', async () => {
+    const tree = setupTree({
+      '/src/app/expect-async-only.spec.ts': `import { expectAsync } from '@skyux-sdk/testing';
+
+describe('test', () => {
+  it('works', async () => {
+    await expectAsync(el).toBeAccessible();
+  });
+});
+`,
+      '/src/app/expect-async-and-expect.spec.ts': `import { expect, expectAsync } from '@skyux-sdk/testing';
+
+describe('test', () => {
+  it('works', async () => {
+    expect(el).toBeVisible();
+    await expectAsync(el).toBeAccessible();
+  });
+});
+`,
+    });
+
+    await runSchematic(tree);
+
+    expect(tree.readText('/src/app/expect-async-only.spec.ts')).toBe(`
+describe('test', () => {
+  it('works', async () => {
+    await expect(el).toBeAccessible();
+  });
+});
+`);
+
+    expect(tree.readText('/src/app/expect-async-and-expect.spec.ts')).toBe(`
+describe('test', () => {
+  it('works', async () => {
+    expect(el).toBeVisible();
+    await expect(el).toBeAccessible();
+  });
+});
+`);
+  });
+
+  it('should leave aliased `expectAsync` imports for the consumer to migrate', async () => {
+    const tree = setupTree({
+      '/src/app/test.spec.ts': `import { expectAsync as expectAsyncSky } from '@skyux-sdk/testing';
+
+describe('test', () => {
+  it('works', async () => {
+    await expectAsyncSky(el).toBeAccessible();
+  });
+});
+`,
+    });
+
+    await runSchematic(tree);
+
+    expect(tree.readText('/src/app/test.spec.ts'))
+      .toBe(`import { expectAsync as expectAsyncSky } from '@skyux-sdk/testing';
+
+describe('test', () => {
+  it('works', async () => {
+    await expectAsyncSky(el).toBeAccessible();
+  });
 });
 `);
   });
