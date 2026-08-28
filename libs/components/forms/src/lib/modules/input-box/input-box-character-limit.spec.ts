@@ -165,6 +165,24 @@ describe('Input box character limit component', () => {
 
       expect(getAnnouncement()).toBe('You are over the character limit.');
     });
+
+    it('should announce the actual count when the limit drops below the last announcement', async () => {
+      fixture.componentRef.setInput('characterLimit', 200);
+
+      await setCharacterCount(100);
+
+      expect(getAnnouncement()).toBe('100 characters out of 200');
+
+      fixture.componentRef.setInput('characterLimit', 99);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(getAnnouncement()).toBe('You are over the character limit.');
+
+      await setCharacterCount(98);
+
+      expect(getAnnouncement()).toBe('98 characters out of 99');
+    });
   });
 
   describe('a11y', () => {

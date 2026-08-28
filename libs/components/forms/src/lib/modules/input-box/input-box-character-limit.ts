@@ -39,6 +39,12 @@ export class SkyInputBoxCharacterLimit {
         return characterCount;
       }
 
+      // A held announcement from above the limit would read as "100 characters
+      // out of 99", so re-anchor once the count comes back under.
+      if (previous.value > characterLimit) {
+        return characterCount;
+      }
+
       // The previous announcement may be the limit, which doesn't always fall
       // on an interval, so round both counts down before comparing them.
       const previousMilestone =
