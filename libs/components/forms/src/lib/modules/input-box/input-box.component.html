@@ -112,9 +112,9 @@
 
 <ng-template #characterCountTemplate>
   @if (characterLimit !== undefined) {
-    <sky-character-counter-indicator
-      [characterCount]="controlDir?.value?.length || 0"
-      [characterCountLimit]="characterLimit"
+    <sky-input-box-character-limit
+      [characterCount]="controlDir?.value?.length ?? 0"
+      [characterLimit]="characterLimit"
     />
   }
   <ng-content select="sky-character-counter-indicator" />
