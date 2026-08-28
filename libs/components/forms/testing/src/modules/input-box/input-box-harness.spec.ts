@@ -402,7 +402,7 @@ describe('Input box harness', () => {
   });
 
   it('should return character counter indicator', async () => {
-    const { fixture, inputBoxHarness } = await setupTest({
+    const { component, fixture, inputBoxHarness } = await setupTest({
       dataSkyId: DATA_SKY_ID_EASY_MODE,
     });
 
@@ -413,6 +413,7 @@ describe('Input box harness', () => {
     );
 
     fixture.componentRef.setInput('easyModeCharacterLimit', 50);
+    component.myForm.controls['lastName'].setValue('abc');
     fixture.detectChanges();
 
     const characterCounter = await inputBoxHarness.getCharacterCounter();
@@ -420,6 +421,54 @@ describe('Input box harness', () => {
     await expectAsync(characterCounter.getCharacterCountLimit()).toBeResolvedTo(
       50,
     );
+
+    await expectAsync(characterCounter.getCharacterCount()).toBeResolvedTo(3);
+    await expectAsync(characterCounter.isOverLimit()).toBeResolvedTo(false);
+  });
+
+  it('should return the character count and limit', async () => {
+    const { component, fixture, inputBoxHarness } = await setupTest({
+      dataSkyId: DATA_SKY_ID_EASY_MODE,
+    });
+
+    fixture.componentRef.setInput('easyModeCharacterLimit', 5);
+    component.myForm.controls['lastName'].setValue('abc');
+    fixture.detectChanges();
+
+    await expectAsync(inputBoxHarness.getCharacterCount()).toBeResolvedTo(3);
+    await expectAsync(inputBoxHarness.getCharacterLimit()).toBeResolvedTo(5);
+    await expectAsync(inputBoxHarness.isOverCharacterLimit()).toBeResolvedTo(
+      false,
+    );
+
+    component.myForm.controls['lastName'].setValue('abcdef');
+    fixture.detectChanges();
+
+    await expectAsync(inputBoxHarness.getCharacterCount()).toBeResolvedTo(6);
+    await expectAsync(inputBoxHarness.isOverCharacterLimit()).toBeResolvedTo(
+      true,
+    );
+  });
+
+  it('should throw when the input box does not set a character limit', async () => {
+    const { inputBoxHarness } = await setupTest({
+      dataSkyId: DATA_SKY_ID_EASY_MODE,
+    });
+
+    const expectedError =
+      'The input box does not have a character limit specified.';
+
+    await expectAsync(
+      inputBoxHarness.getCharacterCount(),
+    ).toBeRejectedWithError(expectedError);
+
+    await expectAsync(
+      inputBoxHarness.getCharacterLimit(),
+    ).toBeRejectedWithError(expectedError);
+
+    await expectAsync(
+      inputBoxHarness.isOverCharacterLimit(),
+    ).toBeRejectedWithError(expectedError);
   });
 
   it('should return hint text', async () => {

@@ -527,6 +527,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'FormsInputBoxCharacterLimitExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ FormsInputBoxCharacterLimitExample: c }) => c,
+      ),
+  },
+  {
     path: 'FormsInputBoxWithCustomFormErrorsExampleComponent',
     loadComponent: () =>
       import('@skyux/code-examples').then(

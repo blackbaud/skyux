@@ -61,6 +61,37 @@ Value</textarea>
   </sky-input-box>
 </div>
 
+<div class="sky-padding-even-md" id="input-box-character-limit">
+  <sky-input-box
+    characterLimit="10"
+    labelText="Under the character limit"
+    stacked="true"
+  >
+    <input type="text" [formControl]="characterLimitUnderField" />
+  </sky-input-box>
+  <sky-input-box
+    characterLimit="10"
+    labelText="At the character limit"
+    stacked="true"
+  >
+    <input type="text" [formControl]="characterLimitAtField" />
+  </sky-input-box>
+  <sky-input-box
+    characterLimit="10"
+    labelText="Over the character limit"
+    stacked="true"
+  >
+    <input type="text" [formControl]="characterLimitOverField" />
+  </sky-input-box>
+  <sky-input-box
+    characterLimit="10"
+    labelText="Character limit with a label that is long enough to wrap onto multiple lines, so the count stays pinned to the top right of the input box instead of shrinking or wrapping along with the label text"
+    stacked="true"
+  >
+    <input type="text" [formControl]="characterLimitLongLabelField" />
+  </sky-input-box>
+</div>
+
 <div class="sky-padding-even-md" id="input-box-help-inline-overflow">
   <sky-input-box stacked="true">
     <sky-help-inline class="sky-control-help" (actionClick)="onActionClick()" />
