@@ -13,10 +13,12 @@ export class InputBoxComponent implements OnInit {
     value: 'Disabled value',
   });
 
-  protected characterLimitUnderField = new FormControl('Under');
-  protected characterLimitAtField = new FormControl('0123456789');
-  protected characterLimitOverField = new FormControl('Over the limit');
-  protected characterLimitLongLabelField = new FormControl('Value');
+  protected readonly characterLimitUnderField = new FormControl('Under');
+  protected readonly characterLimitAtField = new FormControl('0123456789');
+  protected readonly characterLimitLongLabelField = new FormControl('Value');
+  protected readonly characterLimitOverField = new FormControl(
+    'Over the limit',
+  );
 
   public errorField = new UntypedFormControl('', [Validators.required]);
 

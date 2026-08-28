@@ -22,9 +22,11 @@ describe('forms-storybook - input box', () => {
 
       it('should render the character limit', () => {
         cy.skyReady('app-input-box', [], ['#input-box-character-limit']);
+
         cy.get('#input-box-character-limit').screenshot(
           `inputboxcomponent-inputbox--input-box-${theme}-character-limit`,
         );
+
         cy.get('#input-box-character-limit').percySnapshot(
           `inputboxcomponent-inputbox--input-box-${theme}-character-limit`,
           {
