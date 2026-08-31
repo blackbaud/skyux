@@ -148,7 +148,7 @@ const RESOURCES: Record<string, SkyLibResources> = {
       message: 'Fenêtre actuelle',
     },
     skyux_text_editor_url_modal_open_in_new_window_label: {
-      message: 'Ce lien s’ouvrira dans une nouvelle fenêtre',
+      message: 'Ce lien s’ouvrira dans une nouvelle fenêtre.',
     },
     skyux_text_editor_url_modal_new_option_label: {
       message: 'Nouvelle fenêtre',
