@@ -1,6 +1,64 @@
 # Changelog
 
 
+## [15.0.0-alpha.9](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.8...15.0.0-alpha.9) (2026-08-28)
+
+
+### Features
+
+* add sky-btn-icon-borderless-on_prominent button class ([#4683](https://github.com/blackbaud/skyux/issues/4683)) ([#4703](https://github.com/blackbaud/skyux/issues/4703)) ([05664fb](https://github.com/blackbaud/skyux/commit/05664fb49e513890aef6b03149ee64f8753579e4))
+* **components/forms:** deprecate character counter component ([#4714](https://github.com/blackbaud/skyux/issues/4714)) ([380ded6](https://github.com/blackbaud/skyux/commit/380ded612829c9406a36ed8cb6df5ed2753ff20a))
+* dark mode uses new `steel-grey` color scheme ([#4716](https://github.com/blackbaud/skyux/issues/4716)) ([07ab8d3](https://github.com/blackbaud/skyux/commit/07ab8d328821d22594099be870c937ff7918cfd6))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** date filter widgets use grid background and focus styles, inputs use text color ([#4713](https://github.com/blackbaud/skyux/issues/4713)) ([#4717](https://github.com/blackbaud/skyux/issues/4717)) ([f285480](https://github.com/blackbaud/skyux/commit/f2854808455850bf00725822f5d7d44e33820775))
+* **components/forms:** file drop link input uses input box background color in dark mode ([#4720](https://github.com/blackbaud/skyux/issues/4720)) ([#4721](https://github.com/blackbaud/skyux/issues/4721)) ([6ef1041](https://github.com/blackbaud/skyux/commit/6ef1041b75114d286d8a28b82bd50b63abc34557))
+* **components/indicators:** sky-tokens no longer prevents projected content from wrapping ([#4656](https://github.com/blackbaud/skyux/issues/4656)) ([#4679](https://github.com/blackbaud/skyux/issues/4679)) ([ec987f7](https://github.com/blackbaud/skyux/commit/ec987f71d5421bcc1ea642b412c807498339a8a0))
+* **components/packages:** replace `expectAsync` calls with `expect` when migrating tests to vitest ([#4723](https://github.com/blackbaud/skyux/issues/4723)) ([ed574b1](https://github.com/blackbaud/skyux/commit/ed574b1baaf312d965d00c9766266ec18321be11))
+* report the underlying axe error when accessibility checks fail ([#4712](https://github.com/blackbaud/skyux/issues/4712)) ([05a7184](https://github.com/blackbaud/skyux/commit/05a7184456da82d293b089a1a0974f2f09a8839c))
+* support dark mode in fluid grid code example and visual test ([#4718](https://github.com/blackbaud/skyux/issues/4718)) ([#4719](https://github.com/blackbaud/skyux/issues/4719)) ([e70a8ef](https://github.com/blackbaud/skyux/commit/e70a8ef82cd06bc947aae8c166615cd8b744255c))
+
+## [14.17.0](https://github.com/blackbaud/skyux/compare/14.16.0...14.17.0) (2026-08-28)
+
+
+### Features
+
+* dark mode uses new `steel-grey` color scheme ([#4706](https://github.com/blackbaud/skyux/issues/4706)) ([a0e9b74](https://github.com/blackbaud/skyux/commit/a0e9b742b4a0c861ec022715428e19cb9bd6fc30))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** date filter widgets use grid background and focus styles, inputs use text color ([#4713](https://github.com/blackbaud/skyux/issues/4713)) ([8464e4d](https://github.com/blackbaud/skyux/commit/8464e4d4b585d0619a417758c7de7ce53dda8e72))
+* **components/forms:** file drop link input uses input box background color in dark mode ([#4720](https://github.com/blackbaud/skyux/issues/4720)) ([608ee91](https://github.com/blackbaud/skyux/commit/608ee911ce12109d5d29b5ff7faa5833f0c105bf))
+* support dark mode in fluid grid code example and visual test ([#4718](https://github.com/blackbaud/skyux/issues/4718)) ([ff67f1d](https://github.com/blackbaud/skyux/commit/ff67f1dba83cea896f5babe8437850c752d3e8bd))
+
+## [15.0.0-alpha.8](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.7...15.0.0-alpha.8) (2026-08-27)
+
+
+### Features
+
+* **components/packages:** add `migrate-karma-to-vitest` generate schematic ([#4708](https://github.com/blackbaud/skyux/issues/4708)) ([1f5ac11](https://github.com/blackbaud/skyux/commit/1f5ac11e41133ac30713d97ea0a5306d50edf10b))
+
+
+### Bug Fixes
+
+* **components/i18n:** add detailed deprecation documentation for legacy i18n services ([#4696](https://github.com/blackbaud/skyux/issues/4696)) ([621a91b](https://github.com/blackbaud/skyux/commit/621a91b49faa9876c05768bcec4d6109214c18cf))
+* **sdk/vitest:** add './package.json' to exports ([#4701](https://github.com/blackbaud/skyux/issues/4701)) ([82cccb5](https://github.com/blackbaud/skyux/commit/82cccb5271ea72cbebca8f2f0e2b374f6e4949f2))
+
+## [14.16.0](https://github.com/blackbaud/skyux/compare/14.15.1...14.16.0) (2026-08-26)
+
+
+### Features
+
+* add sky-btn-icon-borderless-on_prominent button class ([#4683](https://github.com/blackbaud/skyux/issues/4683)) ([6ac2af6](https://github.com/blackbaud/skyux/commit/6ac2af6b68e66026320f67a2509d81ea1448336a))
+
+
+### Bug Fixes
+
+* **components/indicators:** sky-tokens no longer prevents projected content from wrapping ([#4656](https://github.com/blackbaud/skyux/issues/4656)) ([44bc889](https://github.com/blackbaud/skyux/commit/44bc889bb06c492caefb1d50a4c640e673f65eb0))
+
 ## [15.0.0-alpha.7](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.6...15.0.0-alpha.7) (2026-08-25)
 
 

@@ -1,5 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
+/**
+ * @deprecated Use [input box](https://developer.blackbaud.com/skyux/components/input-box)
+ * with its `characterLimit` input instead.
+ */
 @Pipe({
   name: 'skyCharacterCounterScreenReader',
 })

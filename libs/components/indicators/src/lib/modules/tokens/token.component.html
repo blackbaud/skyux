@@ -1,6 +1,6 @@
 <div
   class="sky-token sky-btn sky-btn-default"
-  [attr.role]="role"
+  [attr.role]="effectiveRole()"
   [ngClass]="{
     'sky-btn-disabled': disabled,
     'sky-token-disabled': disabled,
@@ -15,7 +15,7 @@
 >
   <span
     class="sky-token-cell"
-    [attr.role]="role === 'row' ? 'gridcell' : undefined"
+    [attr.role]="effectiveRole() === 'row' ? 'gridcell' : undefined"
   >
     <button
       #actionButton="skyId"
@@ -34,7 +34,7 @@
   @if (dismissible) {
     <span
       class="sky-token-cell"
-      [attr.role]="role === 'row' ? 'gridcell' : undefined"
+      [attr.role]="effectiveRole() === 'row' ? 'gridcell' : undefined"
     >
       <button
         class="sky-btn sky-token-btn sky-token-btn-close"
