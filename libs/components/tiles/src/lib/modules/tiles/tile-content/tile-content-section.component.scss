@@ -30,7 +30,7 @@
 }
 
 :host:first-child {
-  .sky-tile-content-section {
+  .sky-tile-content-section:not(:has(> sky-toolbar)) {
     margin-top: var(
       --sky-override-tile-content-section-first-margin-top,
       var(--sky-space-stacked-m)
