@@ -33,7 +33,7 @@ const RESOURCES: Record<string, SkyLibResources> = {
   'FR-CA': {
     'skyux_charts.chart.bar.accessible_summary': {
       message:
-        'Graphique à barres Nombre de séries : {0}. Nombre de catégories : {1}. Un tableau de données est disponible dans le menu du contexte du graphique.',
+        'Graphique à barres. Nombre de séries : {0}. Nombre de catégories : {1}. Un tableau de données est disponible dans le menu du contexte du graphique.',
     },
     'skyux_charts.chart.controls.context_menu.accessible_name': {
       message: 'Menu du contexte pour {0}',
