@@ -68,7 +68,10 @@
   --sky-override-repeater-item-left-no-header-padding-top: #{$sky-padding};
 }
 
-sky-box-content > .sky-box-content > sky-repeater sky-repeater-item:first-of-type
+sky-box-content
+  > .sky-box-content
+  > sky-repeater
+  sky-repeater-item:first-of-type
   .sky-repeater-item:not(.sky-repeater-item-selectable):not(
     .sky-repeater-item-selection-single
   ):has(.sky-repeater-item-header[hidden] + .sky-repeater-item-content) {
