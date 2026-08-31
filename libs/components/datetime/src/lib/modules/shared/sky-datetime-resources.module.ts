@@ -202,7 +202,7 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_date_range_picker_start_date_label: {
       message: 'À partir de la date du',
     },
-    skyux_date_range_picker_end_date_label: { message: 'À ce jour' },
+    skyux_date_range_picker_end_date_label: { message: "Jusqu'à la date du" },
     skyux_date_range_picker_before_date_label: { message: 'Date avant' },
     skyux_date_range_picker_after_date_label: { message: 'Date après' },
     skyux_date_range_picker_default_aria_label: { message: '{0} pour {1}' },
