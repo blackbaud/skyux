@@ -20,6 +20,7 @@ import { SkyProgressIndicatorMessageType } from '../types/progress-indicator-mes
 @Component({
   selector: 'sky-progress-indicator-reset-button',
   templateUrl: './progress-indicator-reset-button.component.html',
+  styleUrls: ['./progress-indicator-reset-button.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
