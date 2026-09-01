@@ -101,9 +101,13 @@ export class SkyInputBoxComponent
   public labelText: string | undefined;
 
   /**
-   * This property displays a character count indicator in the top right of the input field to
-   * indicate the number of characters that users enter, the character limit, and a danger
-   * icon if users exceed the limit.
+   * The character limit for the input box. If users exceed the limit, the input box's form control
+   * becomes invalid and the property adds [Validators.maxLength](https://angular.dev/api/forms/Validators).
+   * The validation error message and screen reader announcement use `labelText`. This property also
+   * displays a character count indicator in the top right with the number of characters that users enter,
+   * the character limit, and a danger icon if users exceed the limit. If users are unlikely to exceed a
+   * character limit, use `Validators.maxLength` directly instead with a `maxLength` attribute on the
+   * input element.
    */
   @Input()
   public set characterLimit(value: NumberInput) {
