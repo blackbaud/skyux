@@ -61,6 +61,9 @@
   --sky-comp-override-inline-link-text-decoration-line-focus: var(
     --sky-font-text_decoration-standalone_link-focus
   );
+  // Hardcoded rather than token-driven: disabled must stay suppressed even if
+  // standalone_link's other states change value in a future mode or brand.
+  --sky-comp-override-inline-link-text-decoration-line-disabled: none;
 
   ::ng-deep {
     a,
