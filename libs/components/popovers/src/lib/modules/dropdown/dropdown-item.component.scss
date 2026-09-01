@@ -180,8 +180,10 @@
     // component's own (0,1,1) color rule, since ViewEncapsulation.None means
     // no attribute-selector boost applies here. Nesting under this
     // already-modern-scoped mixin raises this to (0,3,1), safely above it.
-    & > a:hover,
-    & > a:active {
+    // :not([disabled]) keeps this from also outranking the disabled-state
+    // color rule below, which must keep winning for disabled items.
+    & > a:hover:not([disabled]),
+    & > a:active:not([disabled]) {
       color: var(
         --sky-override-dropdown-item-color-text,
         var(--sky-color-text-default)

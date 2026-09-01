@@ -41,7 +41,6 @@ body.sky-theme-modern {
     text-decoration-thickness: var(--sky-size-text_underline-thickness);
 
     &:hover {
-      color: var(--sky-color-text-action_contrast);
       text-decoration-line: var(
         --sky-comp-override-inline-link-text-decoration-line-hover,
         var(--sky-font-text_decoration-inline_link-hover)
@@ -49,11 +48,22 @@ body.sky-theme-modern {
     }
 
     &:active {
-      color: var(--sky-color-text-action_contrast);
       text-decoration-line: var(
         --sky-comp-override-inline-link-text-decoration-line-active,
         var(--sky-font-text_decoration-inline_link-active)
       );
+    }
+
+    // Excludes anchors styled as buttons (.sky-btn-default/-primary/-danger/
+    // -borderless/-link/-link-inline, and anything else carrying the base
+    // .sky-btn marker class) — those already own their own color at every
+    // state via their own rules; this rule is only for genuine inline links.
+    &:hover:not(.sky-btn) {
+      color: var(--sky-color-text-action_contrast);
+    }
+
+    &:active:not(.sky-btn) {
+      color: var(--sky-color-text-action_contrast);
     }
 
     &:focus-visible:not(:active) {
