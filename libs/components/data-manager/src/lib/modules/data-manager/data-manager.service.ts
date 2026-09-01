@@ -1,5 +1,6 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, Signal, signal } from '@angular/core';
 import { SkyUIConfigService } from '@skyux/core';
+import { SkyDataColumnOption } from '@skyux/lists';
 
 import {
   BehaviorSubject,
@@ -34,7 +35,9 @@ import { SkyDataViewState } from './models/data-view-state';
  *
  * Provide this service at the component level for each instance of a data manager. Do not
  * provide it at the module level or in `app-extras`. This allows multiple data
- * managers to be used and self-contained.
+ * managers to be used and self-contained. `SkyDataManagerComponent` self-provides an
+ * instance if none is provided by an ancestor, so providing it explicitly is optional
+ * when a single `SkyDataManagerComponent` is the closest ancestor.
  */
 @Injectable()
 export class SkyDataManagerService implements OnDestroy {
@@ -52,11 +55,23 @@ export class SkyDataManagerService implements OnDestroy {
   #isInitialized: boolean | undefined;
   #ngUnsubscribe = new Subject<void>();
   #initSource = 'dataManagerServiceInit';
+  #stateUpdateSource = 'dataManagerServiceUpdateState';
   #uiConfigService: SkyUIConfigService;
+  #state = signal<SkyDataManagerState>(new SkyDataManagerState({}));
+  readonly #columnOptions = signal<SkyDataColumnOption[] | undefined>(
+    undefined,
+  );
 
   // eslint-disable-next-line @angular-eslint/prefer-inject -- constructor injection is required to maintain the public API for consumers who may instantiate this service directly (e.g. `new SkyDataManagerService(...)`).
   constructor(uiConfigService: SkyUIConfigService) {
     this.#uiConfigService = uiConfigService;
+
+    // Manual subscription (not `toSignal()`) because this service supports being
+    // constructed manually outside of Angular DI (see the constructor above),
+    // where `toSignal()`'s injection-context requirement would throw.
+    this.#dataStateChange
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((change) => this.#state.set(change.dataState));
   }
 
   public ngOnDestroy(): void {
@@ -66,6 +81,38 @@ export class SkyDataManagerService implements OnDestroy {
     this.#dataStateChange.complete();
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
+  }
+
+  /**
+   * A signal projection of the current data state, suitable for driving an Angular
+   * `resource()`'s `params()` callback. Reflects changes from any source, including
+   * `initDataManager()`, `updateDataState()`, and `updateState()`.
+   * @preview
+   */
+  public readonly state: Signal<SkyDataManagerState> = this.#state.asReadonly();
+
+  /**
+   * Whether `initDataManager()` has already been called on this service instance.
+   * @preview
+   */
+  public get isInitialized(): boolean {
+    return !!this.#isInitialized;
+  }
+
+  /**
+   * Merges `partial` into the current data state and emits the result to entities
+   * subscribed to data state changes (`getDataStateUpdates()`, `state`). Unlike
+   * `updateDataState()`, callers do not need to invent or track a `sourceId`.
+   * @param partial The properties to merge into the current `SkyDataManagerState`.
+   * @preview
+   */
+  public updateState(partial: Partial<SkyDataManagerStateOptions>): void {
+    const merged = new SkyDataManagerState({
+      ...this.state().getStateOptions(),
+      ...partial,
+    });
+
+    this.updateDataState(merged, this.#stateUpdateSource);
   }
 
   /**
@@ -377,7 +424,29 @@ export class SkyDataManagerService implements OnDestroy {
   }
 
   /**
+   * The columns registered by a column controller directive for consumers who
+   * display columns without a `SkyDataViewConfig`-registered view. The catalog
+   * is intentionally kept out of `SkyDataManagerState`, which is persisted.
    * @internal
+   */
+  public readonly columnOptions = this.#columnOptions.asReadonly();
+
+  /**
+   * Registers the columns available to a column picker when no view config
+   * supplies them.
+   * @internal
+   */
+  public setColumnOptions(options: SkyDataColumnOption[] | undefined): void {
+    this.#columnOptions.set(options);
+  }
+
+  /**
+   * Registers CSS selectors for a view's elements that should stick to the top of
+   * the page alongside the data manager toolbar (for example, a grid's header row).
+   * `SkyDataManagerComponent` combines these with its own toolbar selector when
+   * setting up `SkyViewkeeperModule`.
+   * @param viewId The ID of the view contributing the selectors.
+   * @param classes The CSS selectors for the view's elements to stick.
    */
   public setViewkeeperClasses(viewId: string, classes: string[]): void {
     const viewkeeperClasses = this.viewkeeperClasses.value;

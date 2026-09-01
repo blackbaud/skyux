@@ -1,0 +1,28 @@
+<sky-data-manager>
+  <sky-data-manager-toolbar
+    labelText="fruit"
+    settingsKey="data-grid-data-manager-example"
+    searchEnabled
+    [(searchText)]="search"
+  />
+
+  <sky-data-grid
+    skyDataManagerColumnController
+    labelText="Fruit"
+    [data]="data()"
+  >
+    <sky-data-grid-column field="name" headingText="Name" />
+    <sky-data-grid-column
+      field="type"
+      headingText="Type"
+      description="The botanical classification of the fruit."
+    />
+    <sky-data-grid-column field="color" headingText="Color" />
+    <sky-data-grid-column
+      field="quantity"
+      headingText="Quantity"
+      dataType="number"
+      columnHidden
+    />
+  </sky-data-grid>
+</sky-data-manager>

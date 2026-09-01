@@ -1,10 +1,13 @@
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyLiveAnnouncerService } from '@skyux/core';
 import { provideSkyMediaQueryTesting } from '@skyux/core/testing';
 import { SkyTextHighlightDirective } from '@skyux/indicators';
 import { SkyBackToTopMessageType } from '@skyux/layout';
 
+import { SkyDataManagerComponent } from './data-manager.component';
 import { SkyDataManagerService } from './data-manager.service';
 import { SkyDataViewComponent } from './data-view.component';
 import { DataViewCardFixtureComponent } from './fixtures/data-manager-card-view.component.fixture';
@@ -258,5 +261,46 @@ describe('SkyDataManagerComponent', () => {
     await validateDockCssClass('none', 'sky-data-manager-dock-none');
     await validateDockCssClass('fill', 'sky-data-manager-dock-fill');
     await validateDockCssClass(undefined, 'sky-data-manager-dock-none');
+  });
+
+  describe('self-providing SkyDataManagerService', () => {
+    it('reuses an ancestor-provided SkyDataManagerService instance instead of creating its own', () => {
+      // The existing fixture module provides `SkyDataManagerService` itself, so the
+      // component must reuse that exact instance, not create a second one.
+      const ancestorInstance = TestBed.inject(SkyDataManagerService);
+      const fixture = TestBed.createComponent(DataManagerFixtureComponent);
+      fixture.detectChanges();
+
+      expect(fixture.componentInstance.dataManagerComponent).toBeTruthy();
+      const componentInjectedInstance = fixture.debugElement
+        .query(By.directive(SkyDataManagerComponent))
+        .injector.get(SkyDataManagerService);
+
+      expect(componentInjectedInstance).toBe(ancestorInstance);
+    });
+
+    it('self-provides SkyDataManagerService when no ancestor provides it', async () => {
+      @Component({
+        selector: 'sky-data-manager-no-provider-fixture',
+        template: `<sky-data-manager />`,
+        imports: [SkyDataManagerComponent],
+      })
+      class NoProviderFixtureComponent {}
+
+      TestBed.resetTestingModule();
+      await TestBed.configureTestingModule({
+        imports: [NoProviderFixtureComponent],
+      }).compileComponents();
+
+      const fixture = TestBed.createComponent(NoProviderFixtureComponent);
+      fixture.detectChanges();
+
+      const injectedInstance = fixture.debugElement
+        .query(By.directive(SkyDataManagerComponent))
+        .injector.get(SkyDataManagerService);
+
+      expect(injectedInstance).toBeInstanceOf(SkyDataManagerService);
+      expect(TestBed.inject(SkyDataManagerService, null)).toBeNull();
+    });
   });
 });

@@ -1,3 +1,5 @@
+import { HarnessLoader } from '@angular/cdk/testing';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import {
   ComponentFixture,
@@ -7,23 +9,34 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyContentInfoProvider, SkyLogService } from '@skyux/core';
+import {
+  SkyContentInfoProvider,
+  SkyLogService,
+  SkyUIConfigService,
+} from '@skyux/core';
+import { SkyFilterState, SkyFilterStateService } from '@skyux/lists';
+import { SkySortHarness } from '@skyux/lists/testing';
+import { SkySearchHarness } from '@skyux/lookup/testing';
 import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
-import { Subject } from 'rxjs';
+import { Subject, throwError } from 'rxjs';
 
 import { SkyDataManagerColumnPickerContext } from '../data-manager-column-picker/data-manager-column-picker-context';
 import { SKY_DATA_MANAGER_COLUMN_PICKER_PROVIDERS } from '../data-manager-column-picker/data-manager-column-picker-providers';
 import { SkyDataManagerColumnPickerComponent } from '../data-manager-column-picker/data-manager-column-picker.component';
+import { SkyDataManagerColumnPickerService } from '../data-manager-column-picker/data-manager-column-picker.service';
+import { SkyDataManagerFilterControllerDirective } from '../data-manager-filters/data-manager-filter-controller.directive';
 import { SkyDataManagerService } from '../data-manager.service';
 import { DataManagerFixtureComponent } from '../fixtures/data-manager.component.fixture';
 import { DataManagerFixtureModule } from '../fixtures/data-manager.module.fixture';
 import { SkyDataManagerColumnPickerOption } from '../models/data-manager-column-picker-option';
 import { SkyDataManagerColumnPickerSortStrategy } from '../models/data-manager-column-picker-sort-strategy';
+import { SkyDataManagerSortOption } from '../models/data-manager-sort-option';
 import { SkyDataManagerState } from '../models/data-manager-state';
 import { SkyDataViewConfig } from '../models/data-view-config';
 import { SkyDataViewState } from '../models/data-view-state';
 
+import { SkyDataManagerSortOptionComponent } from './data-manager-sort-option.component';
 import { SkyDataManagerToolbarPrimaryItemComponent } from './data-manager-toolbar-primary-item.component';
 import { SkyDataManagerToolbarComponent } from './data-manager-toolbar.component';
 
@@ -914,6 +927,121 @@ describe('SkyDataManagerToolbarComponent', () => {
     expect(dataManagerService.updateDataState).not.toHaveBeenCalled();
   });
 
+  it('should not open the column picker modal when there are no column options', () => {
+    spyOn(modalServiceInstance, 'open');
+
+    (
+      dataManagerToolbarComponent.activeView as SkyDataViewConfig
+    ).columnPickerEnabled = true;
+    dataManagerToolbarFixture.detectChanges();
+
+    dataManagerToolbarComponent.openColumnPicker();
+
+    expect(modalServiceInstance.open).not.toHaveBeenCalled();
+  });
+
+  describe('without a registered view', () => {
+    /**
+     * Mimics the column controller directive reconciling the registered
+     * columns into the data state, which is what makes the column picker
+     * button display when no view is registered.
+     */
+    function reconcileColumnState(displayedColumnIds: string[]): void {
+      const state =
+        dataManagerToolbarComponent.dataState as SkyDataManagerState;
+      state.displayedColumnIds = displayedColumnIds;
+      dataManagerService.updateDataState(state, 'columnController');
+      dataManagerToolbarFixture.detectChanges();
+    }
+
+    beforeEach(() => {
+      dataManagerToolbarComponent.activeView = undefined;
+      dataManagerService.setColumnOptions([
+        { id: 'name', labelText: 'Name' },
+        { id: 'age', labelText: 'Age' },
+      ]);
+      dataManagerToolbarFixture.detectChanges();
+    });
+
+    it('should not display the column picker button until the registered columns are reconciled into the data state', () => {
+      expect(
+        dataManagerToolbarNativeElement.querySelector('.sky-col-picker-btn'),
+      ).toBeNull();
+    });
+
+    it('should display the column picker button when columns are registered', () => {
+      reconcileColumnState(['name', 'age']);
+
+      expect(
+        dataManagerToolbarNativeElement.querySelector('.sky-col-picker-btn'),
+      ).toBeTruthy();
+    });
+
+    it('should open the column picker with the registered columns', () => {
+      spyOn(modalServiceInstance, 'open').and.callThrough();
+
+      reconcileColumnState(['name']);
+
+      const columnPickerBtn = dataManagerToolbarNativeElement.querySelector(
+        '.sky-col-picker-btn',
+      ) as HTMLButtonElement;
+      columnPickerBtn.click();
+
+      expect(modalServiceInstance.open).toHaveBeenCalledWith(
+        SkyDataManagerColumnPickerComponent,
+        {
+          providers: [
+            SKY_DATA_MANAGER_COLUMN_PICKER_PROVIDERS,
+            {
+              provide: SkyDataManagerColumnPickerContext,
+              useValue: new SkyDataManagerColumnPickerContext(
+                [
+                  {
+                    alwaysDisplayed: undefined,
+                    description: undefined,
+                    id: 'name',
+                    initialHide: undefined,
+                    label: 'Name',
+                  },
+                  {
+                    alwaysDisplayed: undefined,
+                    description: undefined,
+                    id: 'age',
+                    initialHide: undefined,
+                    label: 'Age',
+                  },
+                ],
+                ['name'],
+              ),
+            },
+          ],
+        },
+      );
+    });
+
+    it('should save the returned columns to the data state', () => {
+      reconcileColumnState(['name']);
+
+      const updateSpy = spyOn(dataManagerService, 'updateDataState');
+
+      const columnPickerBtn = dataManagerToolbarNativeElement.querySelector(
+        '.sky-col-picker-btn',
+      ) as HTMLButtonElement;
+      columnPickerBtn.click();
+
+      modalServiceInstance.closeCallback?.({
+        reason: 'save',
+        data: [{ id: 'name' }, { id: 'age' }],
+      });
+
+      expect(updateSpy).toHaveBeenCalled();
+      expect(
+        (updateSpy.calls.mostRecent().args[0] as SkyDataManagerState)
+          .displayedColumnIds,
+      ).toEqual(['name', 'age']);
+    });
+  });
+
   describe('a11y', () => {
     it('should set accessibility labels correctly when no list descriptor is given', () => {
       const patchInfoSpy = spyOn(
@@ -925,6 +1053,8 @@ describe('SkyDataManagerToolbarComponent', () => {
         ...(dataManagerToolbarComponent.activeView as SkyDataViewConfig),
         multiselectToolbarEnabled: true,
         columnPickerEnabled: true,
+        onSelectAllClick: () => {},
+        onClearAllClick: () => {},
       });
       dataManagerToolbarFixture.detectChanges();
 
@@ -964,6 +1094,8 @@ describe('SkyDataManagerToolbarComponent', () => {
         ...(dataManagerToolbarComponent.activeView as SkyDataViewConfig),
         multiselectToolbarEnabled: true,
         columnPickerEnabled: true,
+        onSelectAllClick: () => {},
+        onClearAllClick: () => {},
       });
       dataManagerToolbarFixture.detectChanges();
 
@@ -984,5 +1116,457 @@ describe('SkyDataManagerToolbarComponent', () => {
     it('should pass accessibility', async () => {
       await expectAsync(dataManagerToolbarNativeElement).toBeAccessible();
     });
+  });
+});
+
+@Component({
+  selector: 'sky-test-host',
+  template: `
+    <sky-data-manager-toolbar
+      [searchEnabled]="true"
+      [searchPlaceholderText]="'Search fruit'"
+      [(searchText)]="searchText"
+      [(sort)]="sort"
+      [(page)]="page"
+      [(selectedIds)]="selectedIds"
+      [(totalCount)]="totalCount"
+    >
+      <sky-data-manager-sort-option
+        id="az"
+        propertyName="name"
+        label="Name (A - Z)"
+      />
+    </sky-data-manager-toolbar>
+  `,
+  imports: [SkyDataManagerToolbarComponent, SkyDataManagerSortOptionComponent],
+})
+class TestHostComponent {
+  public searchText = '';
+  public sort: SkyDataManagerSortOption | undefined;
+  public page = 1;
+  public selectedIds: string[] = [];
+  public totalCount = 0;
+}
+
+describe('SkyDataManagerToolbarComponent signal API', () => {
+  let fixture: ComponentFixture<TestHostComponent>;
+  let dataManagerService: SkyDataManagerService;
+  let loader: HarnessLoader;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [TestHostComponent],
+      providers: [
+        SkyDataManagerService,
+        SkyDataManagerColumnPickerService,
+        SkyUIConfigService,
+      ],
+    });
+    dataManagerService = TestBed.inject(SkyDataManagerService);
+    fixture = TestBed.createComponent(TestHostComponent);
+    loader = TestbedHarnessEnvironment.loader(fixture);
+  });
+
+  it('seeds the data manager state from its models on init', fakeAsync(() => {
+    fixture.componentInstance.searchText = 'mango';
+    fixture.componentInstance.page = 2;
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+
+    expect(dataManagerService.state().searchText).toBe('mango');
+    expect(dataManagerService.state().page).toBe(2);
+  }));
+
+  it('pushes model changes into the data manager state', () => {
+    fixture.detectChanges();
+
+    fixture.componentInstance.selectedIds = ['1', '2'];
+    fixture.detectChanges();
+
+    expect(dataManagerService.state().selectedIds).toEqual(['1', '2']);
+  });
+
+  it('resets page to 1 when searchText changes', fakeAsync(() => {
+    fixture.componentInstance.page = 4;
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+    expect(dataManagerService.state().page).toBe(4);
+
+    fixture.componentInstance.searchText = 'lime';
+    fixture.detectChanges();
+
+    expect(dataManagerService.state().searchText).toBe('lime');
+    expect(dataManagerService.state().page).toBe(1);
+    expect(fixture.componentInstance.page).toBe(1);
+  }));
+
+  it('does not reset page when selectedIds changes', fakeAsync(() => {
+    fixture.componentInstance.page = 4;
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+
+    fixture.componentInstance.selectedIds = ['1'];
+    fixture.detectChanges();
+
+    expect(dataManagerService.state().page).toBe(4);
+  }));
+
+  it('reflects externally-driven state changes back into its models', () => {
+    fixture.detectChanges();
+
+    dataManagerService.updateState({
+      searchText: 'banana',
+      selectedIds: ['9'],
+    });
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.searchText).toBe('banana');
+    expect(fixture.componentInstance.selectedIds).toEqual(['9']);
+  });
+
+  it('does not seed state when initDataManager() already initialized the service', () => {
+    dataManagerService.initDataManager({
+      activeViewId: 'view1',
+      dataManagerConfig: {},
+      defaultDataState: new SkyDataManagerState({ searchText: 'preexisting' }),
+    });
+
+    fixture.componentInstance.searchText = 'shouldNotSeed';
+    fixture.detectChanges();
+    // Flush the afterNextRender() callback that runs the seeding check.
+    fixture.detectChanges();
+
+    expect(dataManagerService.state().searchText).toBe('preexisting');
+  });
+
+  it('feeds totalCount into the data summary pipeline', () => {
+    let receivedTotal: number | undefined;
+    dataManagerService
+      .getDataSummaryUpdates('someOtherSource')
+      .subscribe((summary) => (receivedTotal = summary.totalItems));
+
+    fixture.detectChanges();
+    fixture.componentInstance.totalCount = 42;
+    fixture.detectChanges();
+
+    expect(receivedTotal).toBe(42);
+  });
+
+  it('does not announce a data summary on initial construction when totalCount has not been explicitly changed', () => {
+    const updateDataSummarySpy = spyOn(dataManagerService, 'updateDataSummary');
+
+    fixture.detectChanges();
+
+    expect(updateDataSummarySpy).not.toHaveBeenCalled();
+
+    fixture.componentInstance.totalCount = 7;
+    fixture.detectChanges();
+
+    expect(updateDataSummarySpy).toHaveBeenCalledWith(
+      { totalItems: 7, itemsMatching: 7 },
+      'toolbar',
+    );
+  });
+
+  it('renders the search box with no activeView, using searchPlaceholderText', async () => {
+    fixture.detectChanges();
+
+    const search = await loader.getHarness(SkySearchHarness);
+
+    expect(search).toBeTruthy();
+    expect(await search.getPlaceholderText()).toBe('Search fruit');
+  });
+
+  it('renders projected sky-data-manager-sort-option elements in the sort menu', async () => {
+    fixture.detectChanges();
+
+    const sort = await loader.getHarness(SkySortHarness);
+    await sort.click();
+    const items = await sort.getItems();
+
+    expect(items.length).toBe(1);
+    expect(await items[0].getText()).toContain('Name (A - Z)');
+  });
+
+  it('updates the sort model when a projected sort option is selected', async () => {
+    fixture.detectChanges();
+
+    const sort = await loader.getHarness(SkySortHarness);
+    await sort.click();
+    const item = await sort.getItem({ text: 'Name (A - Z)' });
+    await item.click();
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.sort).toEqual({
+      id: 'az',
+      propertyName: 'name',
+      label: 'Name (A - Z)',
+      descending: false,
+    });
+  });
+});
+
+@Component({
+  selector: 'sky-test-host-sort-page-size',
+  template: `
+    <sky-data-manager-toolbar
+      [settingsKey]="settingsKey"
+      [(sort)]="sort"
+      [(pageSize)]="pageSize"
+      [(filters)]="filters"
+    />
+  `,
+  imports: [SkyDataManagerToolbarComponent],
+})
+class TestHostSortPageSizeComponent {
+  public settingsKey: string | undefined;
+  public sort:
+    | { id: string; propertyName: string; label: string; descending: boolean }
+    | undefined;
+  public pageSize: number | undefined;
+  public filters: SkyFilterState | undefined;
+}
+
+describe('SkyDataManagerToolbarComponent signal API (sort, pageSize, settingsKey)', () => {
+  let fixture: ComponentFixture<TestHostSortPageSizeComponent>;
+  let dataManagerService: SkyDataManagerService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [TestHostSortPageSizeComponent],
+      providers: [
+        SkyDataManagerService,
+        SkyDataManagerColumnPickerService,
+        SkyUIConfigService,
+      ],
+    });
+    dataManagerService = TestBed.inject(SkyDataManagerService);
+    fixture = TestBed.createComponent(TestHostSortPageSizeComponent);
+  });
+
+  it('pushes sort model changes into the data manager state', () => {
+    fixture.detectChanges();
+
+    fixture.componentInstance.sort = {
+      id: '1',
+      propertyName: 'name',
+      label: 'Name',
+      descending: false,
+    };
+    fixture.detectChanges();
+
+    expect(dataManagerService.state().activeSortOption).toEqual({
+      id: '1',
+      propertyName: 'name',
+      label: 'Name',
+      descending: false,
+    });
+  });
+
+  it('pushes pageSize model changes into the data manager state', () => {
+    fixture.detectChanges();
+
+    fixture.componentInstance.pageSize = 50;
+    fixture.detectChanges();
+
+    expect(dataManagerService.state().pageSize).toBe(50);
+  });
+
+  it('reflects externally-driven pageSize changes back into the model', () => {
+    fixture.detectChanges();
+    // A second `detectChanges()` here flushes the `afterNextRender()` seeding
+    // check (see the "does not seed" test above) before any further state
+    // changes happen, so the seed check --- which reads this toolbar's
+    // models as they stood at the time it runs --- can't race with, and
+    // clobber, the `updateState()` call below.
+    fixture.detectChanges();
+
+    dataManagerService.updateState({ pageSize: 75 });
+    fixture.detectChanges();
+
+    expect(dataManagerService.state().pageSize).toBe(75);
+  });
+
+  it('persists and restores state through a settingsKey via SkyUIConfigService', () => {
+    fixture.componentInstance.settingsKey = 'my-settings-key';
+    fixture.detectChanges();
+
+    dataManagerService.updateState({ searchText: 'abc' });
+    fixture.detectChanges();
+
+    expect(dataManagerService.state().searchText).toBe('abc');
+  });
+
+  it('reads the initial state from SkyUIConfigService.getConfig and writes changes back via setConfig, both keyed by settingsKey', () => {
+    const uiConfigService = TestBed.inject(SkyUIConfigService);
+    const getConfigSpy = spyOn(uiConfigService, 'getConfig').and.callThrough();
+    const setConfigSpy = spyOn(uiConfigService, 'setConfig').and.callThrough();
+
+    fixture.componentInstance.settingsKey = 'my-settings-key';
+    fixture.detectChanges();
+
+    expect(getConfigSpy).toHaveBeenCalledWith(
+      'my-settings-key',
+      jasmine.objectContaining({
+        searchText: '',
+        activeSortOption: undefined,
+        selectedIds: [],
+        page: 1,
+      }),
+    );
+
+    // The initial `getConfig()` read itself round-trips back through
+    // `setConfig()` (writing back the same default state it just read), so
+    // reset the spy here to isolate the write triggered by the state change
+    // below from that initial persistence round-trip.
+    setConfigSpy.calls.reset();
+
+    dataManagerService.updateState({ searchText: 'xyz' });
+    fixture.detectChanges();
+
+    expect(setConfigSpy).toHaveBeenCalledWith(
+      'my-settings-key',
+      jasmine.objectContaining({ searchText: 'xyz' }),
+    );
+  });
+
+  it('logs an error when unable to save settings through a settingsKey', () => {
+    const uiConfigService = TestBed.inject(SkyUIConfigService);
+    spyOn(uiConfigService, 'setConfig').and.returnValue(
+      throwError(() => new Error('something went wrong')),
+    );
+    spyOn(console, 'warn');
+
+    fixture.componentInstance.settingsKey = 'my-settings-key';
+    fixture.detectChanges();
+
+    dataManagerService.updateState({ searchText: 'abc' });
+    fixture.detectChanges();
+
+    expect(console.warn).toHaveBeenCalled();
+  });
+
+  it('seeds filterData from a truthy filters model, deriving filtersApplied from appliedFilters', () => {
+    fixture.componentInstance.filters = {
+      appliedFilters: [{ filterId: 'a', filterValue: { value: 'x' } }],
+    };
+    fixture.detectChanges();
+
+    expect(dataManagerService.state().filterData).toEqual({
+      filtersApplied: true,
+      filters: {
+        appliedFilters: [{ filterId: 'a', filterValue: { value: 'x' } }],
+      },
+    });
+  });
+
+  it('seeds filtersApplied as false when the filters model has no applied filters, even though it is truthy', () => {
+    fixture.componentInstance.filters = { selectedFilterIds: ['a'] };
+    fixture.detectChanges();
+
+    expect(dataManagerService.state().filterData).toEqual({
+      filtersApplied: false,
+      filters: { selectedFilterIds: ['a'] },
+    });
+  });
+
+  it('seeds filtersApplied as false when the filters model has an empty appliedFilters array', () => {
+    fixture.componentInstance.filters = { appliedFilters: [] };
+    fixture.detectChanges();
+
+    expect(dataManagerService.state().filterData).toEqual({
+      filtersApplied: false,
+      filters: { appliedFilters: [] },
+    });
+  });
+
+  it('pushes filters model changes into state, including clearing back to undefined', () => {
+    fixture.detectChanges();
+
+    fixture.componentInstance.filters = {
+      appliedFilters: [{ filterId: 'a', filterValue: { value: 'x' } }],
+    };
+    fixture.detectChanges();
+
+    expect(dataManagerService.state().filterData).toEqual({
+      filtersApplied: true,
+      filters: {
+        appliedFilters: [{ filterId: 'a', filterValue: { value: 'x' } }],
+      },
+    });
+
+    fixture.componentInstance.filters = undefined;
+    fixture.detectChanges();
+
+    expect(dataManagerService.state().filterData).toBeUndefined();
+  });
+});
+
+@Component({
+  selector: 'sky-test-host-filter-controller',
+  template: `
+    <sky-data-manager-toolbar [(filters)]="filters" />
+    <div skyDataManagerFilterController></div>
+  `,
+  imports: [
+    SkyDataManagerToolbarComponent,
+    SkyDataManagerFilterControllerDirective,
+  ],
+})
+class TestHostFilterControllerComponent {
+  public filters: SkyFilterState | undefined;
+}
+
+describe('SkyDataManagerToolbarComponent signal API (filter-bar integration via SkyDataManagerFilterControllerDirective)', () => {
+  let fixture: ComponentFixture<TestHostFilterControllerComponent>;
+  let dataManagerService: SkyDataManagerService;
+  let filterStateService: SkyFilterStateService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [TestHostFilterControllerComponent],
+      providers: [
+        SkyDataManagerService,
+        SkyDataManagerColumnPickerService,
+        SkyUIConfigService,
+      ],
+    });
+    dataManagerService = TestBed.inject(SkyDataManagerService);
+    fixture = TestBed.createComponent(TestHostFilterControllerComponent);
+    fixture.detectChanges();
+
+    // The adapter service is provided by the directive itself (useExisting on
+    // SkyFilterStateService), so retrieve it from the directive's element
+    // injector rather than the root TestBed injector.
+    const directiveDebugEl = fixture.debugElement.query(
+      By.directive(SkyDataManagerFilterControllerDirective),
+    );
+    filterStateService = directiveDebugEl.injector.get(SkyFilterStateService);
+  });
+
+  it('derives filtersApplied as false when the filter bar reports an empty appliedFilters array', () => {
+    filterStateService.updateFilterState(
+      { appliedFilters: [] },
+      'test-filter-bar',
+    );
+    fixture.detectChanges();
+
+    expect(dataManagerService.state().filterData?.filtersApplied).toBeFalse();
+  });
+
+  it('derives filtersApplied as true once the filter bar reports a real applied filter', () => {
+    filterStateService.updateFilterState(
+      { appliedFilters: [{ filterId: 'a', filterValue: { value: 'x' } }] },
+      'test-filter-bar',
+    );
+    fixture.detectChanges();
+
+    expect(dataManagerService.state().filterData?.filtersApplied).toBeTrue();
+    expect(fixture.componentInstance.filters?.appliedFilters).toEqual([
+      { filterId: 'a', filterValue: { value: 'x' } },
+    ]);
   });
 });

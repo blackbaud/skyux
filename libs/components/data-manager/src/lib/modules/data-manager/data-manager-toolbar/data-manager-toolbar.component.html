@@ -1,6 +1,8 @@
 <div class="sky-data-manager-toolbar">
   @if (hasToolbarContent) {
-    <sky-toolbar [listDescriptor]="dataManagerConfig?.listDescriptor">
+    <sky-toolbar
+      [listDescriptor]="dataManagerConfig?.listDescriptor || labelText()"
+    >
       <sky-toolbar-section>
         <ng-content select="sky-data-manager-toolbar-primary-item" />
 
@@ -13,7 +15,7 @@
           </sky-toolbar-item>
         }
 
-        @if (activeView?.sortEnabled) {
+        @if (activeView?.sortEnabled || sortOptions().length) {
           <sky-toolbar-item class="sky-data-manager-sort">
             <sky-sort [showButtonText]="activeView?.showSortButtonText">
               @for (item of dataManagerConfig?.sortOptions; track item.id) {
@@ -24,11 +26,19 @@
                   {{ item.label }}
                 </sky-sort-item>
               }
+              @for (item of sortOptions(); track item.id()) {
+                <sky-sort-item
+                  [active]="dataState?.activeSortOption?.id === item.id()"
+                  (itemSelect)="sortSelected(item.toSortOption())"
+                >
+                  {{ item.label() }}
+                </sky-sort-item>
+              }
             </sky-sort>
           </sky-toolbar-item>
         }
 
-        @if (activeView?.columnPickerEnabled) {
+        @if (columnPickerEnabled) {
           <sky-toolbar-item>
             <button
               class="sky-btn sky-btn-default sky-col-picker-btn"
@@ -57,11 +67,13 @@
 
         <ng-content select="sky-data-manager-toolbar-left-item" />
 
-        @if (activeView?.searchEnabled) {
+        @if (activeView?.searchEnabled || searchEnabled()) {
           <sky-toolbar-item class="sky-data-manager-search">
             <sky-search
               [expandMode]="activeView?.searchExpandMode"
-              [placeholderText]="activeView?.searchPlaceholderText"
+              [placeholderText]="
+                activeView?.searchPlaceholderText || searchPlaceholderText()
+              "
               [searchText]="dataState?.searchText"
               (searchApply)="searchApplied($event)"
             />
@@ -96,39 +108,47 @@
   <ng-content select="sky-filter-bar" />
   <ng-content select="sky-list-summary" />
 
-  @if (activeView?.multiselectToolbarEnabled) {
+  @if (activeView?.multiselectToolbarEnabled || multiselectEnabled()) {
     <sky-toolbar class="sky-data-manager-multiselect-toolbar">
       <sky-toolbar-section>
-        <sky-toolbar-item>
-          <button
-            class="sky-btn sky-btn-link sky-data-manager-select-all-btn"
-            type="button"
-            [attr.aria-label]="
-              dataManagerConfig?.listDescriptor
-                ? ('skyux_data_manager_select_all_button_aria_label'
-                  | skyLibResources: dataManagerConfig?.listDescriptor)
-                : undefined
-            "
-            (click)="selectAll()"
-          >
-            {{ 'skyux_data_manager_select_all_button_title' | skyLibResources }}
-          </button>
-        </sky-toolbar-item>
-        <sky-toolbar-item>
-          <button
-            class="sky-btn sky-btn-link sky-data-manager-clear-all-btn"
-            type="button"
-            [attr.aria-label]="
-              dataManagerConfig?.listDescriptor
-                ? ('skyux_data_manager_clear_all_button_aria_label'
-                  | skyLibResources: dataManagerConfig?.listDescriptor)
-                : undefined
-            "
-            (click)="clearAll()"
-          >
-            {{ 'skyux_data_manager_clear_all_button_title' | skyLibResources }}
-          </button>
-        </sky-toolbar-item>
+        @if (activeView?.onSelectAllClick) {
+          <sky-toolbar-item>
+            <button
+              class="sky-btn sky-btn-link sky-data-manager-select-all-btn"
+              type="button"
+              [attr.aria-label]="
+                dataManagerConfig?.listDescriptor
+                  ? ('skyux_data_manager_select_all_button_aria_label'
+                    | skyLibResources: dataManagerConfig?.listDescriptor)
+                  : undefined
+              "
+              (click)="selectAll()"
+            >
+              {{
+                'skyux_data_manager_select_all_button_title' | skyLibResources
+              }}
+            </button>
+          </sky-toolbar-item>
+        }
+        @if (activeView?.onClearAllClick) {
+          <sky-toolbar-item>
+            <button
+              class="sky-btn sky-btn-link sky-data-manager-clear-all-btn"
+              type="button"
+              [attr.aria-label]="
+                dataManagerConfig?.listDescriptor
+                  ? ('skyux_data_manager_clear_all_button_aria_label'
+                    | skyLibResources: dataManagerConfig?.listDescriptor)
+                  : undefined
+              "
+              (click)="clearAll()"
+            >
+              {{
+                'skyux_data_manager_clear_all_button_title' | skyLibResources
+              }}
+            </button>
+          </sky-toolbar-item>
+        }
         <sky-toolbar-view-actions class="sky-data-manager-only-show-selected">
           <sky-checkbox
             [checked]="onlyShowSelected"

@@ -1087,4 +1087,49 @@ describe('SkyDataManagerService', () => {
     expect(viewkeeperClasses?.[viewId]).toBeDefined();
     expect(viewkeeperClasses?.[viewId].includes(newClass)).toBeTrue();
   });
+
+  describe('state signal and updateState()', () => {
+    it('reflects the current data state as a signal', () => {
+      expect(dataManagerService.state().searchText).toBeUndefined();
+
+      dataManagerService.updateState({ searchText: 'mango' });
+
+      expect(dataManagerService.state().searchText).toBe('mango');
+    });
+
+    it('merges partial updates onto the current state without a sourceId', () => {
+      dataManagerService.updateState({ searchText: 'mango', page: 2 });
+      dataManagerService.updateState({ page: 3 });
+
+      expect(dataManagerService.state().searchText).toBe('mango');
+      expect(dataManagerService.state().page).toBe(3);
+    });
+
+    it('emits updateState() changes to existing getDataStateUpdates() subscribers', () => {
+      let received: string | undefined;
+      dataManagerService
+        .getDataStateUpdates('someOtherSource')
+        .subscribe((state) => (received = state.searchText));
+
+      dataManagerService.updateState({ searchText: 'lime' });
+
+      expect(received).toBe('lime');
+    });
+
+    it('reports isInitialized as false until initDataManager() is called', () => {
+      const freshService = new SkyDataManagerService(
+        TestBed.inject(SkyUIConfigService),
+      );
+
+      expect(freshService.isInitialized).toBeFalse();
+
+      freshService.initDataManager({
+        activeViewId: 'view1',
+        dataManagerConfig: {},
+        defaultDataState: new SkyDataManagerState({}),
+      });
+
+      expect(freshService.isInitialized).toBeTrue();
+    });
+  });
 });
