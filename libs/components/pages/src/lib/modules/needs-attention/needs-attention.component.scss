@@ -57,6 +57,20 @@ ul {
   text-align: left;
   width: 100%;
   white-space: normal;
+  // Works regardless of whether this class renders as an <a> or a
+  // <button class="sky-btn-link-inline"> — both read this property.
+  --sky-comp-override-inline-link-text-decoration-line: var(
+    --sky-font-text_decoration-standalone_link-base
+  );
+  --sky-comp-override-inline-link-text-decoration-line-hover: var(
+    --sky-font-text_decoration-standalone_link-hover
+  );
+  --sky-comp-override-inline-link-text-decoration-line-active: var(
+    --sky-font-text_decoration-standalone_link-active
+  );
+  --sky-comp-override-inline-link-text-decoration-line-focus: var(
+    --sky-font-text_decoration-standalone_link-focus
+  );
 
   &-icon {
     grid-area: icon;
