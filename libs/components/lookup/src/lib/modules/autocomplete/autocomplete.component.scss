@@ -174,23 +174,6 @@
   }
 }
 
-.sky-autocomplete-action-more {
-  // States set explicitly, not left to .sky-btn-link's own default, so
-  // this doesn't silently change if that default is ever adjusted.
-  --sky-comp-override-link-text-decoration-line: var(
-    --sky-font-text_decoration-inline_link-base
-  );
-  --sky-comp-override-link-text-decoration-line-hover: var(
-    --sky-font-text_decoration-inline_link-hover
-  );
-  --sky-comp-override-link-text-decoration-line-active: var(
-    --sky-font-text_decoration-inline_link-active
-  );
-  --sky-comp-override-link-text-decoration-line-focus: var(
-    --sky-font-text_decoration-inline_link-focus
-  );
-}
-
 .sky-autocomplete-descendant-focus:not(.sky-autocomplete-action) {
   background-color: var(
     --sky-override-autocomplete-result-focus-background-color,
