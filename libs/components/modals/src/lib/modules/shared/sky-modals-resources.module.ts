@@ -36,18 +36,18 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_confirm_dialog_default_yes_text: { message: 'Oui' },
     skyux_confirm_dialog_default_no_text: { message: 'Non' },
     skyux_confirm_dialog_default_cancel_text: { message: 'Annuler' },
-    skyux_modal_close: { message: 'Fermer la fenêtre' },
+    skyux_modal_close: { message: 'Fermer la boîte de dialogue' },
     skyux_modal_open_help: { message: 'Ouvrir l’aide' },
     skyux_modal_footer_cancel_button: { message: 'Annuler' },
     skyux_modal_footer_primary_button: { message: 'Sauvegarder' },
     skyux_modal_dirty_default_message: {
-      message: 'Êtes-vous certain de vouloir supprimer ces changements?',
+      message: 'Êtes-vous certain de vouloir abandonner ces modifications?',
     },
     skyux_modal_dirty_default_discard_changes_text: {
-      message: 'Supprimer les changements',
+      message: 'Abandonner les modifications',
     },
     skyux_modal_dirty_default_keep_working_text: {
-      message: 'Continuer à travailler',
+      message: 'Continuer la modification',
     },
   },
 };
