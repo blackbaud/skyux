@@ -1,7 +1,12 @@
 # Changelog
 
 
-## [14.17.1](https://github.com/blackbaud/skyux/compare/14.17.0...14.17.1) (2026-09-01)
+## [14.18.0](https://github.com/blackbaud/skyux/compare/14.17.0...14.18.0) (2026-09-01)
+
+
+### Features
+
+* underline inline and link buttons in dark mode with standalone exceptions ([#4729](https://github.com/blackbaud/skyux/issues/4729)) ([378ac1b](https://github.com/blackbaud/skyux/commit/378ac1b7e88694bd66ee3ea82c985b397f89a9c8))
 
 
 ### Bug Fixes
