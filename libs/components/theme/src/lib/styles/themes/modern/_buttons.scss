@@ -643,6 +643,10 @@
       var(--sky-comp-tab-horizontal-space-inset-bottom)
       var(--sky-comp-tab-horizontal-space-inset-left);
     transition: box-shadow var(--sky-global-duration-short);
+    text-decoration-line: var(
+      --sky-comp-override-inline-link-text-decoration-line,
+      var(--sky-font-text_decoration-standalone_link-base)
+    );
 
     &:hover:not(.sky-btn-tab-disabled):not(.sky-btn-tab-selected):not(
         .sky-dropdown-button-type-tab
@@ -656,11 +660,19 @@
             --sky-border-width-selected-s
           )
       );
+      text-decoration-line: var(
+        --sky-comp-override-inline-link-text-decoration-line-hover,
+        var(--sky-font-text_decoration-standalone_link-hover)
+      );
     }
 
     &:focus-visible {
       background-color: var(--sky-color-background-tab-focus);
       outline: none;
+      text-decoration-line: var(
+        --sky-comp-override-inline-link-text-decoration-line-focus,
+        var(--sky-font-text_decoration-standalone_link-focus)
+      );
 
       &:not(.sky-btn-tab-selected) {
         color: var(--sky-color-text-default);
@@ -693,6 +705,10 @@
         var(--sky-comp-tab-horizontal-space-inset-bottom) - var(
             --sky-border-width-selected-s
           )
+      );
+      text-decoration-line: var(
+        --sky-comp-override-inline-link-text-decoration-line-active,
+        var(--sky-font-text_decoration-standalone_link-active)
       );
 
       &.sky-btn-tab-selected {
