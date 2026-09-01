@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.17.1](https://github.com/blackbaud/skyux/compare/14.17.0...14.17.1) (2026-09-01)
+
+
+### Bug Fixes
+
+* **components/data-manager:** getDataStateUpdates no longer drops changes when peers mutate shared state ([#4700](https://github.com/blackbaud/skyux/issues/4700)) ([ac9bb3e](https://github.com/blackbaud/skyux/commit/ac9bb3e40f9ce66af2fc9448513b188f4e790c78)), closes [AB#4099031](https://dev.azure.com/blackbaud/Products/_workitems/edit/4099031)
+
 ## [14.17.0](https://github.com/blackbaud/skyux/compare/14.16.0...14.17.0) (2026-08-28)
 
 
