@@ -12,6 +12,7 @@
 ### Bug Fixes
 
 * **components/data-manager:** getDataStateUpdates no longer drops changes when peers mutate shared state ([#4700](https://github.com/blackbaud/skyux/issues/4700)) ([#4732](https://github.com/blackbaud/skyux/issues/4732)) ([29a7872](https://github.com/blackbaud/skyux/commit/29a78727e718f685fa56e7ce187be356b373a9d8)), closes [AB#4099031](https://dev.azure.com/blackbaud/Products/_workitems/edit/4099031)
+* **components/forms:** remove reference to character counter component in the input box `characterLimit` docs ([#4730](https://github.com/blackbaud/skyux/issues/4730)) ([6c846be](https://github.com/blackbaud/skyux/commit/6c846be2a5062825d9f0a7c871f11b1a4ce4fdc9))
 
 ## [15.0.0-alpha.9](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.8...15.0.0-alpha.9) (2026-08-28)
 
