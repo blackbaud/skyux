@@ -263,8 +263,7 @@ export class SkyDataManagerService implements OnDestroy {
     }
 
     const properties = updateFilter.properties as
-      | (keyof SkyDataManagerStateOptions)[]
-      | undefined;
+      (keyof SkyDataManagerStateOptions)[] | undefined;
 
     return dataStateUpdates.pipe(
       distinctUntilChanged(
