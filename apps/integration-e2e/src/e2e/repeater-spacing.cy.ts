@@ -1,20 +1,20 @@
 import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 
-describe('repeater in a box', () => {
+describe('repeater spacing', () => {
   E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() => {
         cy.viewport(E2eVariations.DISPLAY_WIDTHS[0], 1200)
           .visit('/')
           .skyChooseTheme(theme)
-          .contains('Repeater in a Box')
+          .contains('Repeater spacing')
           .should('be.visible')
           .click();
       });
 
-      it('should adjust vertical space for a repeater in a box', () => {
-        cy.skyReady('');
-        cy.skyVisualTest(`repeater-in-a-box-${theme}`, {
+      it('should adjust the vertical space above a repeater', () => {
+        cy.skyReady('app-repeater-spacing');
+        cy.skyVisualTest(`repeater-spacing-${theme}`, {
           disableTimersAndAnimations: true,
         });
       });

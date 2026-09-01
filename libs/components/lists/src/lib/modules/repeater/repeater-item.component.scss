@@ -68,35 +68,14 @@
   --sky-override-repeater-item-left-no-header-padding-top: #{$sky-padding};
 }
 
-sky-tile-content,
-sky-box-content > .sky-box-content > {
-  sky-repeater {
-    sky-repeater-item:first-of-type
-      .sky-repeater-item:not(.sky-repeater-item-selectable):not(
-        .sky-repeater-item-selection-single
-      ):has(.sky-repeater-item-header[hidden] + .sky-repeater-item-content) {
-      --sky-override-repeater-item-content-no-header-margin-top: 0;
-      --sky-override-repeater-item-left-no-header-padding-top: 0;
-    }
-  }
-}
-
-sky-tile-content,
-sky-box-content > .sky-box-content > {
-  sky-toolbar + sky-repeater {
-    sky-repeater-item:first-of-type
-      .sky-repeater-item:not(.sky-repeater-item-selectable):not(
-        .sky-repeater-item-selection-single
-      ) {
-      --sky-override-repeater-item-padding: calc(
-          var(--sky-comp-repeater_item-space-inset-top) - var(
-              --sky-comp-toolbar-space-inset-top
-            )
-        )
-        var(--sky-comp-repeater_item-space-inset-right)
-        var(--sky-comp-repeater_item-space-inset-bottom)
-        var(--sky-comp-repeater_item-space-inset-left);
-    }
+// Inside a sky-box or sky-tile, the container already supplies inset padding around its content.
+sky-box-content .sky-repeater,
+sky-tile-content .sky-repeater {
+  > sky-repeater-item:first-of-type
+    > .sky-repeater-item:not(.sky-repeater-item-selectable):not(
+      .sky-repeater-item-selection-single
+    ) {
+    --sky-repeater-item-space-inset-top: 0;
   }
 }
 
@@ -117,9 +96,12 @@ sky-repeater-item {
       --sky-override-repeater-item-border-radius,
       var(--sky-border-radius-xs)
     );
+    --sky-repeater-item-space-inset-top: var(
+      --sky-comp-repeater_item-space-inset-top
+    );
     padding: var(
       --sky-override-repeater-item-padding,
-      var(--sky-comp-repeater_item-space-inset-top)
+      var(--sky-repeater-item-space-inset-top)
         var(--sky-comp-repeater_item-space-inset-right)
         var(--sky-comp-repeater_item-space-inset-bottom)
         var(--sky-comp-repeater_item-space-inset-left)
@@ -253,7 +235,7 @@ sky-repeater-item {
       .sky-repeater-item-left {
         padding-top: var(
           --sky-override-repeater-item-left-no-header-padding-top,
-          var(--sky-comp-repeater_item-space-inset-top)
+          var(--sky-repeater-item-space-inset-top)
         );
       }
     }
@@ -264,7 +246,7 @@ sky-repeater-item {
     sky-repeater-item-content {
     margin-top: var(
       --sky-override-repeater-item-content-no-header-margin-top,
-      var(--sky-comp-repeater_item-space-inset-top)
+      var(--sky-repeater-item-space-inset-top)
     );
   }
 

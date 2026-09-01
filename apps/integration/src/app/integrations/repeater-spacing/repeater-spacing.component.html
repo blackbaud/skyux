@@ -32,7 +32,7 @@
     @for (domain of domains; track domain) {
       <sky-repeater-item [itemName]="domain.domain_name">
         <sky-repeater-item-title>
-          <div class="repeater-item-title sky-theme-font-body-emphasized-m">
+          <div class="sky-theme-font-body-emphasized-m">
             {{ domain.domain_name }}
           </div>
         </sky-repeater-item-title>
@@ -123,6 +123,63 @@
           <h2>Payment domains outside a tile</h2>
           <ng-container *ngTemplateOutlet="toolbar" />
         </div>
+      </sky-column>
+    </sky-row>
+    <sky-row>
+      <sky-column screenMedium="4">
+        <sky-box
+          headingText="Nested repeater in a box"
+          class="sky-margin-stacked-lg"
+        >
+          <sky-box-content>
+            <sky-repeater>
+              <sky-repeater-item>
+                <sky-repeater-item-title>Outer item</sky-repeater-item-title>
+                <sky-repeater-item-content>
+                  <ng-container *ngTemplateOutlet="repeater" />
+                </sky-repeater-item-content>
+              </sky-repeater-item>
+            </sky-repeater>
+          </sky-box-content>
+        </sky-box>
+      </sky-column>
+      <sky-column screenMedium="4">
+        <div class="sky-padding-even-sm sky-margin-stacked-lg">
+          <h2>Nested repeater outside a box</h2>
+          <sky-repeater>
+            <sky-repeater-item>
+              <sky-repeater-item-title>Outer item</sky-repeater-item-title>
+              <sky-repeater-item-content>
+                <ng-container *ngTemplateOutlet="repeater" />
+              </sky-repeater-item-content>
+            </sky-repeater-item>
+          </sky-repeater>
+        </div>
+      </sky-column>
+    </sky-row>
+    <sky-row>
+      <sky-column screenMedium="4">
+        <sky-box
+          headingText="Selectable repeater in a box"
+          class="sky-margin-stacked-lg"
+        >
+          <sky-box-content>
+            <sky-repeater selectionMode="multiple">
+              @for (activity of recentActivity; track activity) {
+                <sky-repeater-item>
+                  <sky-repeater-item-content>
+                    <div class="sky-theme-margin-bottom-xs">
+                      {{ activity.activity }}
+                    </div>
+                    <div class="sky-theme-font-body-deemphasized-m">
+                      {{ activity.date }}
+                    </div>
+                  </sky-repeater-item-content>
+                </sky-repeater-item>
+              }
+            </sky-repeater>
+          </sky-box-content>
+        </sky-box>
       </sky-column>
     </sky-row>
   </sky-fluid-grid>
