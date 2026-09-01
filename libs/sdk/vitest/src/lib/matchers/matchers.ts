@@ -10,6 +10,10 @@ export interface SkyVitestMatchers {
    * accessibility checks using axe-core.
    * @param config Optional configuration to enable or disable specific
    * axe-core rules.
+   * @example
+   * ```typescript
+   * await expect(fixture.nativeElement).toBeAccessible();
+   * ```
    */
   toBeAccessible: (config?: SkyToBeAccessibleOptions) => Promise<void>;
 
@@ -17,6 +21,10 @@ export interface SkyVitestMatchers {
    * Asserts that the received element is visible.
    * @param options Optional configuration to control which visibility
    * checks are performed.
+   * @example
+   * ```typescript
+   * expect(el).toBeVisible({ checkCssVisibility: true });
+   * ```
    */
   toBeVisible: (config?: SkyToBeVisibleOptions) => void;
 
@@ -25,6 +33,10 @@ export interface SkyVitestMatchers {
    * library resource string.
    * @param resourceKey The resource key to look up.
    * @param resourceArgs Optional replacement arguments for the resource string.
+   * @example
+   * ```typescript
+   * await expect(el.textContent).toEqualLibResourceText('sky_greeting');
+   * ```
    */
   toEqualLibResourceText: (
     resourceKey: string,
@@ -36,6 +48,10 @@ export interface SkyVitestMatchers {
    * app resource string.
    * @param resourceKey The resource key to look up.
    * @param resourceArgs Optional replacement arguments for the resource string.
+   * @example
+   * ```typescript
+   * await expect(el.textContent).toEqualResourceText('greeting', ['World']);
+   * ```
    */
   toEqualResourceText: (
     resourceKey: string,
@@ -44,12 +60,20 @@ export interface SkyVitestMatchers {
 
   /**
    * Asserts that the received value is truthy (exists).
+   * @example
+   * ```typescript
+   * expect(el.querySelector('.sky-btn')).toExist();
+   * ```
    */
   toExist: () => void;
 
   /**
    * Asserts that the received element has the expected CSS class.
    * @param expectedClassName The CSS class name to check for.
+   * @example
+   * ```typescript
+   * expect(el).toHaveCssClass('sky-btn-primary');
+   * ```
    */
   toHaveCssClass: (expectedClassName: string) => void;
 
@@ -60,6 +84,10 @@ export interface SkyVitestMatchers {
    * @param resourceArgs Optional replacement arguments for the resource string.
    * @param trimWhitespace Whether to trim whitespace from the element
    * text before comparison. Defaults to `true`.
+   * @example
+   * ```typescript
+   * await expect(el).toHaveLibResourceText('sky_greeting');
+   * ```
    */
   toHaveLibResourceText: (
     resourceKey: string,
@@ -74,6 +102,10 @@ export interface SkyVitestMatchers {
    * @param resourceArgs Optional replacement arguments for the resource string.
    * @param trimWhitespace Whether to trim whitespace from the element
    * text before comparison. Defaults to `true`.
+   * @example
+   * ```typescript
+   * await expect(el).toHaveResourceText('greeting', ['World']);
+   * ```
    */
   toHaveResourceText: (
     resourceKey: string,
@@ -84,6 +116,10 @@ export interface SkyVitestMatchers {
   /**
    * Asserts that the received element has the expected computed style(s).
    * @param expectedStyles An object representing the style(s) to check for.
+   * @example
+   * ```typescript
+   * expect(el).toHaveStyle({ display: 'block' });
+   * ```
    */
   toHaveStyle: (expectedStyles: Record<string, string>) => void;
 
@@ -92,6 +128,10 @@ export interface SkyVitestMatchers {
    * @param expectedText The text to check for in the element.
    * @param trimWhitespace Whether to trim whitespace from the element
    * text before comparison. Defaults to `true`.
+   * @example
+   * ```typescript
+   * expect(el).toHaveText('Hello World');
+   * ```
    */
   toHaveText: (expectedText: string, trimWhitespace?: boolean) => void;
 
@@ -99,6 +139,10 @@ export interface SkyVitestMatchers {
    * Asserts that the received element's text matches the expected
    * library resource template pattern (ignoring interpolated values).
    * @param resourceKey The resource key to look up.
+   * @example
+   * ```typescript
+   * await expect(el).toMatchLibResourceTemplate('sky_greeting');
+   * ```
    */
   toMatchLibResourceTemplate: (resourceKey: string) => Promise<void>;
 
@@ -106,6 +150,10 @@ export interface SkyVitestMatchers {
    * Asserts that the received element's text matches the expected
    * app resource template pattern (ignoring interpolated values).
    * @param resourceKey The resource key to look up.
+   * @example
+   * ```typescript
+   * await expect(el).toMatchResourceTemplate('greeting');
+   * ```
    */
   toMatchResourceTemplate: (resourceKey: string) => Promise<void>;
 }
