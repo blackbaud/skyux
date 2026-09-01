@@ -37,7 +37,7 @@
   },
   "skyux_lookup_tokens_summary": {
     "_description": "Texte affiché lorsque l’utilisateur a plus que le nombre maximal d’éléments sélectionné",
-    "message": "{0} articles sélectionnés"
+    "message": "{0} éléments sélectionnés"
   },
   "sky_ag_grid_cell_editor_currency_aria_label": {
     "_description": "étiquette aria pour un éditeur de cellule de devise",
@@ -65,7 +65,7 @@
   },
   "sky_ag_grid_locale_no_rows_to_show": {
     "_description": "Remplacement du texte localisé localeText d’ag-Grid pour le message de superposition noRowsToShow affiché lorsque la grille est vide",
-    "message": "Aucune donnée disponible."
+    "message": "Aucune donnée disponible"
   },
   "sky_ag_grid_locale_no_matching_rows": {
     "_description": "Remplacement du texte localisé localeText d’ag-Grid pour le message de superposition noMatchingRows affiché lorsqu’aucune ligne ne correspond aux filtres",
