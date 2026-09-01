@@ -93,6 +93,10 @@ export interface SkyChartThemeStyles {
       minCategoryGap: number;
     };
   };
+  /** The styling of pie and donut arcs (slices). */
+  arc: {
+    borderColor: string;
+  };
 }
 
 /**
@@ -274,6 +278,14 @@ export function resolveChartThemeStyles(
           maxBarThickness: remToPx('1rem', rootFontSize),
           minCategoryGap: remToPx('0.5rem', rootFontSize),
         },
+      },
+      arc: {
+        // Arcs are separated by the container background so adjacent slices
+        // read as distinct.
+        borderColor: readString(
+          styles,
+          '--sky-color-background-container-base',
+        ),
       },
     };
   } finally {
