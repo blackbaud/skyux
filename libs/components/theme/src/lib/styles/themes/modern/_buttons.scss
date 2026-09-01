@@ -340,6 +340,19 @@
         var(--sky-font-text_decoration-action-tertiary-focus)
       );
     }
+
+    &.sky-btn-disabled,
+    &[disabled] {
+      &,
+      &:hover,
+      &:focus-visible,
+      &.sky-btn-focus,
+      &:active,
+      &.sky-btn-active {
+        // TODO: replace with a token-driven disabled state once design confirms one is needed for this family.
+        text-decoration-line: none;
+      }
+    }
   }
 
   .sky-btn-borderless,
