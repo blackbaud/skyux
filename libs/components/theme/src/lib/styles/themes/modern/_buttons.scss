@@ -349,7 +349,9 @@
       &.sky-btn-focus,
       &:active,
       &.sky-btn-active {
-        text-decoration-line: var(--sky-font-text_decoration-action-tertiary-disabled);
+        text-decoration-line: var(
+          --sky-font-text_decoration-action-tertiary-disabled
+        );
       }
     }
   }
