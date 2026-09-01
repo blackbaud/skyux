@@ -1234,6 +1234,40 @@ describe('SkyDataManagerService', () => {
         emissions[emissions.length - 1].filterData?.filtersApplied,
       ).toBeFalse();
     });
+
+    it('should emit via getDataStateUpdates with a custom comparator when the subscriber mutates the state it was emitted', () => {
+      const emissions: SkyDataManagerState[] = [];
+
+      subscription.add(
+        dataManagerService
+          .getDataStateUpdates(otherSourceId, {
+            comparator: (state1, state2) =>
+              state1.filterData?.filtersApplied ===
+              state2.filterData?.filtersApplied,
+          })
+          .subscribe((state) => {
+            emissions.push(state);
+
+            // Simulate a subscriber mutating the state it was handed. This must not
+            // corrupt the snapshot the comparator retains for the next comparison.
+            state.filterData = { filtersApplied: false, filters: undefined };
+          }),
+      );
+
+      const countAfterInit = emissions.length;
+
+      // The fixture's default state has filtersApplied set to true, so this is a real
+      // change that must be emitted even though the subscriber already mutated its copy
+      // to the same value.
+      dataManagerService.updateDataState(
+        new SkyDataManagerState({
+          filterData: { filtersApplied: false, filters: undefined },
+        }),
+        'someSource',
+      );
+
+      expect(emissions.length).toBe(countAfterInit + 1);
+    });
   });
 
   it('should set the viewkeeper classes for the given viewId when setViewkeeperClasses is called', () => {

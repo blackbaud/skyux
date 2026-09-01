@@ -250,14 +250,16 @@ export class SkyDataManagerService implements OnDestroy {
     if (updateFilter.comparator) {
       const comparator = updateFilter.comparator;
 
-      // Compare independent clones of the emitted state rather than the state instance itself.
-      // Other data manager participants may mutate the state instance they were handed in place
-      // before republishing it, which would otherwise make distinctUntilChanged's retained
+      // Emit a clone of the state and compare a second, independent clone. Data manager
+      // participants may mutate the state instance they were handed in place before
+      // republishing it, which would otherwise make distinctUntilChanged's retained
       // "previous" value silently match the new one, dropping a real change.
       return dataStateUpdates.pipe(
         map((state) => new SkyDataManagerState(state.getStateOptions())),
-        distinctUntilChanged((state1, state2) =>
-          this.#compareStatesSafely(comparator, state1, state2),
+        distinctUntilChanged<SkyDataManagerState, SkyDataManagerState>(
+          (state1, state2) =>
+            this.#compareStatesSafely(comparator, state1, state2),
+          (state) => new SkyDataManagerState(state.getStateOptions()),
         ),
       );
     }
