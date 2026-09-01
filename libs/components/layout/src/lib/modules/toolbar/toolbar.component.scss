@@ -25,6 +25,21 @@ sky-toolbar + :host {
     --sky-override-toolbar-item-button-horizontal-padding,
     var(--sky-comp-button-toolbar-space-inset-left)
   );
+  // Set here, not with ::ng-deep: inherits through sky-toolbar-item and
+  // sky-toolbar-section to any .sky-btn-link nested inside, regardless
+  // of encapsulation, library-owned or consumer-projected.
+  --sky-comp-override-link-text-decoration-line: var(
+    --sky-font-text_decoration-standalone_link-base
+  );
+  --sky-comp-override-link-text-decoration-line-hover: var(
+    --sky-font-text_decoration-standalone_link-hover
+  );
+  --sky-comp-override-link-text-decoration-line-active: var(
+    --sky-font-text_decoration-standalone_link-active
+  );
+  --sky-comp-override-link-text-decoration-line-focus: var(
+    --sky-font-text_decoration-standalone_link-focus
+  );
 
   min-height: $sky-toolbar-min-height;
   background-color: var(
