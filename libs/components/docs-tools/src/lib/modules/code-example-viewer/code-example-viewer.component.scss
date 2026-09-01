@@ -5,3 +5,18 @@
 .sky-docs-code-example-viewer-demo {
   border: 1px solid var(--sky-border-color-neutral-medium);
 }
+
+[data-sky-id='toggle-code-visibility-btn'] {
+  --sky-comp-override-link-text-decoration-line: var(
+    --sky-font-text_decoration-standalone_link-base
+  );
+  --sky-comp-override-link-text-decoration-line-hover: var(
+    --sky-font-text_decoration-standalone_link-hover
+  );
+  --sky-comp-override-link-text-decoration-line-active: var(
+    --sky-font-text_decoration-standalone_link-active
+  );
+  --sky-comp-override-link-text-decoration-line-focus: var(
+    --sky-font-text_decoration-standalone_link-focus
+  );
+}
