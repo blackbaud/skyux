@@ -175,13 +175,16 @@
       outline: none;
     }
 
-    // Explicit pin, not a tie: without this, the global .sky-theme-modern
-    // a:hover/:active rule (specificity (0,2,1)) unconditionally beats this
+    // Explicit pin: without this, the global .sky-theme-modern
+    // a:hover/:active rule (specificity (0,3,1)) unconditionally beats this
     // component's own (0,1,1) color rule, since ViewEncapsulation.None means
     // no attribute-selector boost applies here. Nesting under this
-    // already-modern-scoped mixin raises this to (0,3,1), safely above it.
-    // :not([disabled]) keeps this from also outranking the disabled-state
-    // color rule below, which must keep winning for disabled items.
+    // already-modern-scoped mixin raises this to (0,4,1), safely above it.
+    // :not([disabled]) excludes disabled anchors entirely rather than
+    // competing with the disabled-state color rule below — on a disabled
+    // anchor, that rule (0,3,1) and the global rule (0,3,1, since disabled
+    // dropdown items aren't .sky-btn-styled) are an exact tie resolved by
+    // stylesheet injection order, which today resolves correctly.
     & > a:hover:not([disabled]),
     & > a:active:not([disabled]) {
       color: var(
