@@ -27,6 +27,21 @@ sky-modal-footer {
       var(--sky-comp-modal-footer-space-inset-bottom)
       var(--sky-comp-modal-footer-space-inset-left)
   );
+  // Set here, not with ::ng-deep: custom properties inherit to projected
+  // content regardless of encapsulation, so any .sky-btn-link a consumer
+  // places in the footer picks this up with no CSS on their side.
+  --sky-comp-override-link-text-decoration-line: var(
+    --sky-font-text_decoration-standalone_link-base
+  );
+  --sky-comp-override-link-text-decoration-line-hover: var(
+    --sky-font-text_decoration-standalone_link-hover
+  );
+  --sky-comp-override-link-text-decoration-line-active: var(
+    --sky-font-text_decoration-standalone_link-active
+  );
+  --sky-comp-override-link-text-decoration-line-focus: var(
+    --sky-font-text_decoration-standalone_link-focus
+  );
 
   .sky-btn + .sky-btn {
     margin-left: var(
