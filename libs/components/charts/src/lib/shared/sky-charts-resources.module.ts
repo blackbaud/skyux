@@ -30,6 +30,22 @@ const RESOURCES: Record<string, SkyLibResources> = {
       message: 'Data table for {0}',
     },
   },
+  'FR-CA': {
+    'skyux_charts.chart.bar.accessible_summary': {
+      message:
+        'Graphique à barres. Nombre de séries : {0}. Nombre de catégories : {1}. Un tableau de données est disponible dans le menu du contexte du graphique.',
+    },
+    'skyux_charts.chart.controls.context_menu.accessible_name': {
+      message: 'Menu du contexte pour {0}',
+    },
+    'skyux_charts.chart.controls.context_menu.view_data_table': {
+      message: 'Visualiser la table de données',
+    },
+    'skyux_charts.data_table_modal.close_button': { message: 'Fermer' },
+    'skyux_charts.data_table_modal.table_region_label': {
+      message: 'Tableau de données pour {0}',
+    },
+  },
 };
 
 SkyLibResourcesService.addResources(RESOURCES);

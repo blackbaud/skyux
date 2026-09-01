@@ -117,7 +117,7 @@
   },
   "skyux_text_editor_url_modal_open_in_new_window_label": {
     "_description": "Texte pour le texte en retrait sous la zone de saisie de l’URL dans l’élément modal de l’URL",
-    "message": "Ce lien s’ouvrira dans une nouvelle fenêtre"
+    "message": "Ce lien s’ouvrira dans une nouvelle fenêtre."
   },
   "skyux_text_editor_url_modal_new_option_label": {
     "_description": "Texte pour l’étiquette optionnelle « Nouvelle fenêtre » dans l’élément modal de l’URL",
