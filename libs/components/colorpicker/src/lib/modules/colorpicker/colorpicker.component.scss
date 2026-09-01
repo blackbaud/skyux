@@ -295,6 +295,21 @@ sky-colorpicker.sky-form-field-stacked {
   }
 }
 
+.sky-btn-colorpicker-close {
+  --sky-comp-override-link-text-decoration-line: var(
+    --sky-font-text_decoration-standalone_link-base
+  );
+  --sky-comp-override-link-text-decoration-line-hover: var(
+    --sky-font-text_decoration-standalone_link-hover
+  );
+  --sky-comp-override-link-text-decoration-line-active: var(
+    --sky-font-text_decoration-standalone_link-active
+  );
+  --sky-comp-override-link-text-decoration-line-focus: var(
+    --sky-font-text_decoration-standalone_link-focus
+  );
+}
+
 .sky-colorpicker * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
