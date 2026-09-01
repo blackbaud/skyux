@@ -28,22 +28,24 @@ Search patterns:
 Everything below is deprecated in `@skyux/forms` and is replaced by a single
 input:
 
-| Deprecated                             | Replacement                                 |
-| -------------------------------------- | ------------------------------------------- |
-| `SkyCharacterCounterModule`            | `SkyInputBoxModule`                         |
-| `skyCharacterCounter` directive        | `sky-input-box` `characterLimit` input      |
-| `[skyCharacterCounterLimit]`           | `[characterLimit]` on `sky-input-box`       |
-| `[skyCharacterCounterIndicator]`       | Nothing — the input box renders the count   |
-| `<sky-character-counter-indicator />`  | Nothing — the input box renders the count   |
-| `SkyCharacterCounterScreenReaderPipe`  | Nothing — the input box announces the count |
-| `skyCharacterCounter` validation error | Angular's `maxlength` error                 |
+| Deprecated                                      | Replacement                                         |
+| ----------------------------------------------- | --------------------------------------------------- |
+| `SkyCharacterCounterModule`                     | `SkyInputBoxModule`                                 |
+| `skyCharacterCounter` directive                 | `sky-input-box` `characterLimit` input              |
+| `[skyCharacterCounterLimit]`                    | `[characterLimit]` on `sky-input-box`               |
+| `[skyCharacterCounterIndicator]`                | Nothing — the input box renders the count           |
+| `<sky-character-counter-indicator />`           | Nothing — the input box renders the count           |
+| `SkyCharacterCounterScreenReaderPipe`           | Nothing — the input box announces the count         |
+| `skyCharacterCounter: { invalid, limit }` error | `maxlength: { actualLength, requiredLength }` error |
 
 ## Prerequisites
 
 1. The input must be inside a `sky-input-box`. If the deprecated character
    counter was used outside an input box, wrap the input in one first.
-2. The `sky-input-box` must specify `labelText`. The built-in error message
-   ("Limit {labelText} to {limit} characters.") uses it.
+2. The `sky-input-box` must specify `labelText`. The input box renders
+   validation errors only when `labelText` is set, and the error message
+   ("Limit {labelText} to {limit} characters.") interpolates it. The label also
+   carries the screen reader announcement of the current count.
 3. The input must be bound to an Angular form control (`formControlName`,
    `[formControl]`, or `ngModel`). The input box adds `Validators.maxLength` to
    that control.
@@ -131,16 +133,42 @@ The input box renders it, so delete the hand-written error element, the
 </sky-input-box>
 ```
 
-If your application inspected the validation error directly, update the key.
-The input box uses Angular's max length validator:
+If your application inspected the validation error directly, note that both the
+key and the error payload change. The input box uses Angular's max length
+validator, so the custom `skyCharacterCounter` error is replaced by Angular's
+`maxlength` error:
 
 ```typescript
-// Before
-const invalid = control.errors?.['skyCharacterCounter'];
+// Before: { invalid: <the control value>, limit: <the limit> }
+const error = control.errors?.['skyCharacterCounter'];
+const limit = error?.limit;
+const value = error?.invalid;
 
-// After
-const invalid = control.errors?.['maxlength'];
+// After: { requiredLength: <the limit>, actualLength: <the value length> }
+const error = control.errors?.['maxlength'];
+const limit = error?.requiredLength;
+const length = error?.actualLength;
 ```
+
+The deprecated directive also called `markAsTouched()` on the control as a side
+effect of validation, so an over-limit value always displayed the error, even
+when the value was set programmatically. `Validators.maxLength` has no such
+side effect: the input box renders the error once the control is touched or
+dirty. Typing in the input marks it dirty, so the behavior is unchanged for
+users. Two cases need attention:
+
+- If you set an over-limit value programmatically and expect the error to
+  display right away, mark the control yourself, since `setValue()` leaves the
+  control pristine and untouched.
+
+  ```typescript
+  control.setValue(valueOverTheLimit);
+  control.markAsTouched();
+  ```
+
+- If other logic depended on the control being touched as a side effect (other
+  error messages gated on `touched`, save-button enablement, etc.), mark the
+  control explicitly there too.
 
 ### 3. Update imports
 
@@ -196,9 +224,15 @@ await expectAsync(inputBoxHarness.isOverCharacterLimit()).toBeResolvedTo(false);
 ```
 
 Assertions against a hand-written error element should be replaced with the
-input box's built-in max length error assertion:
+input box's built-in max length error assertion. The deprecated directive
+marked the control as touched for you; now the test must mark the control as
+touched or dirty for the error to render:
 
 ```typescript
+control.setValue('a value that exceeds the limit');
+control.markAsTouched();
+fixture.detectChanges();
+
 await expectAsync(inputBoxHarness.hasMaxLengthError()).toBeResolvedTo(true);
 ```
 
@@ -214,7 +248,11 @@ Before considering the migration complete, confirm that:
 - [ ] Every migrated input is bound to a form control.
 - [ ] Hand-written character-limit error markup and its supporting `skyId` /
       `aria-describedby` bindings are deleted.
-- [ ] Code that read the `skyCharacterCounter` error key now reads `maxlength`.
+- [ ] Code that read the `skyCharacterCounter` error now reads `maxlength` and
+      uses `requiredLength`/`actualLength` instead of `limit`/`invalid`.
+- [ ] Anything that set an over-limit value programmatically, or that depended
+      on the control being marked touched as a side effect of validation, marks
+      the control explicitly.
 - [ ] Unit tests use `getCharacterCount()`, `getCharacterLimit()`, and
       `isOverCharacterLimit()`.
 - [ ] Tests pass and lint is clean.
@@ -224,8 +262,10 @@ Before considering the migration complete, confirm that:
 - Leaving `sky-character-counter-indicator` in the template alongside
   `characterLimit`. The input box projects the deprecated indicator for
   backward compatibility, so you will see two counts.
-- Setting `characterLimit` without `labelText`. The error message interpolates
-  the label, so it reads poorly without one.
+- Setting `characterLimit` without `labelText`. The input box renders no
+  validation errors at all when `labelText` is missing, so the over-limit error
+  silently disappears and the count is never announced to screen readers. The
+  control still becomes invalid, so the failure is easy to miss.
 - Setting `characterLimit` on an input that has no form control. The max length
   validator is added to the control, so validation silently does nothing
   without one.
