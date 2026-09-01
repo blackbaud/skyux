@@ -158,9 +158,12 @@
   }
 }
 
-// This element's no-underline behavior used to come only as a side effect of
-// a.sky-btn masking .sky-btn-link-inline; now that the mask excludes it too,
-// this suppression must be explicit.
+// The primary action button (a <button>, never affected by a.sky-btn)
+// shares the permalink's no-underline treatment. The permalink (an <a>)
+// used to get this for free as a side effect of a.sky-btn masking
+// .sky-btn-link-inline; now that the mask excludes it too, both need this
+// suppression set explicitly.
+.sky-flyout-btn-primary-action,
 .sky-flyout-btn-permalink {
   --sky-comp-override-inline-link-text-decoration-line: var(
     --sky-font-text_decoration-standalone_link-base
