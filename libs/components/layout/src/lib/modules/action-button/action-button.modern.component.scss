@@ -3,7 +3,19 @@
 
 @include mixins.sky-component('modern', '.sky-action-button', false) {
   cursor: pointer;
-  text-decoration: none !important;
+  // No !important needed — the override property alone wins here.
+  --sky-comp-override-inline-link-text-decoration-line: var(
+    --sky-font-text_decoration-standalone_link-base
+  );
+  --sky-comp-override-inline-link-text-decoration-line-hover: var(
+    --sky-font-text_decoration-standalone_link-hover
+  );
+  --sky-comp-override-inline-link-text-decoration-line-active: var(
+    --sky-font-text_decoration-standalone_link-active
+  );
+  --sky-comp-override-inline-link-text-decoration-line-focus: var(
+    --sky-font-text_decoration-standalone_link-focus
+  );
   max-width: 446px;
   display: flex;
   flex-flow: row nowrap;
