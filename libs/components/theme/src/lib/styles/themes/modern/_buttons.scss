@@ -350,7 +350,8 @@
       &:active,
       &.sky-btn-active {
         text-decoration-line: var(
-          --sky-font-text_decoration-action-tertiary-disabled
+          --sky-comp-override-link-text-decoration-line-disabled,
+          var(--sky-font-text_decoration-action-tertiary-disabled)
         );
       }
     }

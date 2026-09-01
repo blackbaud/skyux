@@ -42,6 +42,9 @@ sky-modal-footer {
   --sky-comp-override-link-text-decoration-line-focus: var(
     --sky-font-text_decoration-standalone_link-focus
   );
+  --sky-comp-override-link-text-decoration-line-disabled: var(
+    --sky-font-text_decoration-standalone_link-disabled
+  );
 
   .sky-btn + .sky-btn {
     margin-left: var(

@@ -269,6 +269,9 @@ sky-repeater-item {
     --sky-comp-override-link-text-decoration-line-focus: var(
       --sky-font-text_decoration-standalone_link-focus
     );
+    --sky-comp-override-link-text-decoration-line-disabled: var(
+      --sky-font-text_decoration-standalone_link-disabled
+    );
     margin-left: var(
       --sky-override-repeater-item-reorder-top-margin-left,
       var(--sky-space-gap-text_action-s)
