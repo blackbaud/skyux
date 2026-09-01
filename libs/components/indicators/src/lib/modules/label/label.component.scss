@@ -40,6 +40,7 @@
   );
   --sky-override-label-margin: 0 3px;
   --sky-override-label-padding: 0.3em 0.6em 0.3em 0.6em;
+  --sky-override-label-text-color: #{$sky-text-color-default};
   --sky-override-label-text-padding-left: var(--sky-padding-half);
 }
 
@@ -66,7 +67,7 @@
 }
 
 .sky-label {
-  color: var(--sky-text-color-default);
+  color: var(--sky-override-label-text-color, var(--sky-color-text-on_status));
   display: var(--sky-override-label-display, inline-block);
   align-items: var(--sky-override-label-align-items, center);
   border-radius: var(
@@ -114,7 +115,7 @@
   );
   --sky-icon-svg-path-2-color-input: var(
     --sky-override-label-inner-icon-path-color-success,
-    var(--sky-color-icon-inverse)
+    var(--sky-color-icon-on_status)
   );
 }
 
@@ -125,7 +126,7 @@
   );
   --sky-icon-svg-path-2-color-input: var(
     --sky-override-label-inner-icon-path-color-info,
-    var(--sky-color-icon-inverse)
+    var(--sky-color-icon-on_status)
   );
 }
 
@@ -136,7 +137,7 @@
   );
   --sky-icon-svg-path-2-color-input: var(
     --sky-override-label-inner-icon-path-color-warning,
-    var(--sky-color-icon-default)
+    var(--sky-color-icon-on_status)
   );
 }
 
@@ -147,7 +148,7 @@
   );
   --sky-icon-svg-path-2-color-input: var(
     --sky-override-label-inner-icon-path-color-danger,
-    var(--sky-color-icon-inverse)
+    var(--sky-color-icon-on_status)
   );
 }
 

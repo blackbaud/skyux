@@ -33,6 +33,7 @@
   --sky-override-toast-info-success-exclamation-path-color: #{$sky-highlight-color-info};
   --sky-override-toast-margin-bottom: #{$sky-margin-double};
   --sky-override-toast-padding: 0 #{$sky-padding};
+  --sky-override-toast-text-color: #{$sky-text-color-default};
 }
 
 @mixin sky-toast-variant(
@@ -54,6 +55,10 @@ sky-toast {
   display: block;
 
   .sky-toast {
+    color: var(
+      --sky-override-toast-text-color,
+      var(--sky-color-text-on_status)
+    );
     padding: var(
       --sky-override-toast-padding,
       var(--sky-comp-toast-space-inset-top)
@@ -90,7 +95,7 @@ sky-toast {
       );
       color: var(
         --sky-override-toast-close-button-color-icon,
-        var(--sky-color-icon-default)
+        var(--sky-color-text-on_status)
       );
       cursor: pointer;
       flex-shrink: var(--sky-override-toast-close-button-flex-shrink, 0);
@@ -178,7 +183,7 @@ sky-toast {
         ),
         var(
           --sky-override-toast-info-success-exclamation-path-color,
-          var(--sky-color-icon-inverse)
+          var(--sky-color-icon-on_status)
         )
       );
     }
@@ -201,7 +206,7 @@ sky-toast {
           --sky-override-toast-color-border-success,
           var(
             --sky-override-toast-info-success-exclamation-path-color,
-            var(--sky-color-icon-inverse)
+            var(--sky-color-icon-on_status)
           )
         )
       );
@@ -223,7 +228,7 @@ sky-toast {
         ),
         var(
           --sky-override-toast-color-border-warning,
-          var(--sky-color-icon-default)
+          var(--sky-color-icon-on_status)
         )
       );
     }
@@ -244,7 +249,7 @@ sky-toast {
         ),
         var(
           --sky-override-toast-color-border-danger,
-          var(--sky-color-icon-inverse)
+          var(--sky-color-icon-on_status)
         )
       );
     }
