@@ -12,7 +12,7 @@
     line-height: var(--sky-font-line_height-body-m);
   }
 
-  a.sky-btn {
+  a.sky-btn:not(.sky-btn-link) {
     text-decoration-line: none;
 
     &:hover,
