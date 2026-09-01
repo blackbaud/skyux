@@ -147,13 +147,6 @@ export class ActionHubComponent {
     },
   ];
 
-  public parentLink: SkyPageLink = {
-    label: 'Parent page',
-    permalink: {
-      url: '#',
-    },
-  };
-
   public relatedLinks: SkyPageLink[] = [
     {
       label: 'Link 1',
