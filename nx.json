@@ -168,6 +168,13 @@
     "documentationInputs": [
       "{workspaceRoot}/libs/components/*/documentation.json"
     ],
+    "sdkPublicApiInputs": [
+      "{workspaceRoot}/libs/sdk/testing/**/*.ts",
+      "{workspaceRoot}/libs/sdk/vitest/**/*.ts",
+      "{workspaceRoot}/libs/sdk/vitest/globals.d.ts",
+      "!{workspaceRoot}/libs/sdk/*/**/*.spec.ts",
+      "!{workspaceRoot}/libs/sdk/*/**/fixtures/**/*"
+    ],
     "e2eInputs": [
       "{workspaceRoot}/.github/workflows/e2e.yml",
       "{workspaceRoot}/.percy.json"

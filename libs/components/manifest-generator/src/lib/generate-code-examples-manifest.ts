@@ -4,7 +4,6 @@ import fsPromises from 'node:fs/promises';
 
 import { getCodeExamples } from './get-code-examples.js';
 import { getDocumentationConfig } from './get-documentation-config.js';
-import { getProjectDefinitions } from './get-project-definitions.js';
 import { getPublicApi } from './get-public-api.js';
 import { SkyManifestOptions } from './manifest-options.js';
 import {
@@ -36,10 +35,7 @@ async function writeCodeExamplesManifestFile(
 export async function generateCodeExamplesManifest(
   options: SkyManifestOptions,
 ): Promise<void> {
-  const projects = getProjectDefinitions(
-    options.projectsRootDirectory,
-    options.projectNames,
-  );
+  const projects = options.projects;
 
   // In order to pick up changes, we need to regenerate the public API rather than
   // importing it from the manifest build.
