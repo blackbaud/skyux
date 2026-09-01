@@ -1,0 +1,21 @@
+{
+  "$schema": "../../components/manifest-generator/documentation-schema.json",
+  "groups": {
+    "vitest-matchers": {
+      "development": {
+        "docsIds": [
+          "SkyVitestMatchers",
+          "SkyToBeAccessibleOptions",
+          "SkyToBeVisibleOptions"
+        ],
+        "primaryDocsId": "SkyVitestMatchers"
+      },
+      "testing": {
+        "docsIds": []
+      },
+      "codeExamples": {
+        "docsIds": []
+      }
+    }
+  }
+}

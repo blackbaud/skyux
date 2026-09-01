@@ -166,7 +166,8 @@
       "{workspaceRoot}/libs/components/code-examples/src/**/*"
     ],
     "documentationInputs": [
-      "{workspaceRoot}/libs/components/*/documentation.json"
+      "{workspaceRoot}/libs/components/*/documentation.json",
+      "{workspaceRoot}/libs/sdk/*/documentation.json"
     ],
     "sdkPublicApiInputs": [
       "{workspaceRoot}/libs/sdk/testing/**/*.ts",
