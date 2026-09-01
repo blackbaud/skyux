@@ -207,10 +207,6 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
 
   public sortSelected(sortOption: SkyDataManagerSortOption): void {
     if (this.dataState) {
-      // Build a new state rather than mutating the current one in place. The data manager
-      // service hands the same state instance to every subscriber, so mutating it directly could
-      // corrupt another subscriber's distinctUntilChanged comparison and silently drop this
-      // update for them.
       const options = this.dataState.getStateOptions();
       options.activeSortOption = sortOption;
       this.dataState = new SkyDataManagerState(options);
@@ -223,7 +219,6 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
 
   public searchApplied(text: string): void {
     if (this.dataState) {
-      // See the comment in `sortSelected` on why a new state is built rather than mutated.
       const options = this.dataState.getStateOptions();
       options.searchText = text;
       this.dataState = new SkyDataManagerState(options);
@@ -261,7 +256,6 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
 
       modalInstance.closed.subscribe((result: SkyModalCloseArgs) => {
         if (this.dataState && result.reason === 'save') {
-          // See the comment in `sortSelected` on why a new state is built rather than mutated.
           const options = this.dataState.getStateOptions();
           options.filterData = result.data;
           this.dataState = new SkyDataManagerState(options);
@@ -305,8 +299,6 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
               (col: SkyDataManagerColumnPickerOption) => col.id,
             );
 
-            // See the comment in `sortSelected` on why a copy is mutated rather than `viewState`,
-            // which is shared with every subscriber of the current data manager state.
             const updatedViewState = new SkyDataViewState(
               viewState.getViewStateOptions(),
             );
@@ -340,7 +332,6 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
 
   public onOnlyShowSelected(event: SkyCheckboxChange): void {
     if (this.dataState) {
-      // See the comment in `sortSelected` on why a new state is built rather than mutated.
       const options = this.dataState.getStateOptions();
       options.onlyShowSelected = !!event.checked;
       this.dataState = new SkyDataManagerState(options);

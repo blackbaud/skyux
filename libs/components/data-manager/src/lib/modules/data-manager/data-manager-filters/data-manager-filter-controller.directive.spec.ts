@@ -96,8 +96,6 @@ describe('SkyDataManagerFilterControllerDirective', () => {
   });
 
   it('should notify property-filtered subscribers of each consecutive filter change', () => {
-    // Regression test for AB#4099031: subscribers using `properties`/`comparator` filtering
-    // must be notified of every filter change made through the filter bar, not just the first.
     const emissions: SkyDataManagerState[] = [];
 
     dataManagerService

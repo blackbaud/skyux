@@ -521,8 +521,6 @@ describe('SkyDataManagerToolbarComponent', () => {
     tick();
     dataManagerToolbarFixture.detectChanges();
 
-    // Re-read the current data state rather than a reference captured before the action: the
-    // toolbar now builds a new state instance for each update rather than mutating one in place.
     const dataState =
       dataManagerToolbarComponent.dataState as SkyDataManagerState;
     expect(dataState.searchText).toBe('testing');
@@ -552,8 +550,6 @@ describe('SkyDataManagerToolbarComponent', () => {
     tick();
     dataManagerToolbarFixture.detectChanges();
 
-    // Re-read the current data state rather than a reference captured before the action: the
-    // toolbar now builds a new state instance for each update rather than mutating one in place.
     const dataState =
       dataManagerToolbarComponent.dataState as SkyDataManagerState;
     expect(dataState.searchText).toBe('testing');
@@ -690,8 +686,6 @@ describe('SkyDataManagerToolbarComponent', () => {
       });
     }
 
-    // Re-read the current data state rather than a reference captured before the action: the
-    // toolbar now builds a new state instance for each update rather than mutating one in place.
     const dataState =
       dataManagerToolbarComponent.dataState as SkyDataManagerState;
     expect(dataState.filterData).toEqual(filterData);
