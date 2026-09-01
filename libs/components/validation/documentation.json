@@ -7,7 +7,7 @@
           "SkyEmailValidationModule",
           "SkyEmailValidationDirective",
           "SkyValidators",
-          "skyEmailValidator"
+          "skyEmail"
         ],
         "primaryDocsId": "SkyEmailValidationModule"
       },
@@ -28,7 +28,7 @@
           "SkyUrlValidationDirective",
           "SkyUrlValidationOptions",
           "SkyValidators",
-          "skyUrlValidator"
+          "skyUrl"
         ],
         "primaryDocsId": "SkyUrlValidationModule"
       },
