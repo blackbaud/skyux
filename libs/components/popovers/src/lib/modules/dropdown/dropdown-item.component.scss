@@ -33,6 +33,18 @@
   min-width: 160px;
   text-align: left;
   transition: box-shadow var(--sky-global-duration-short);
+  --sky-comp-override-inline-link-text-decoration-line: var(
+    --sky-font-text_decoration-standalone_link-base
+  );
+  --sky-comp-override-inline-link-text-decoration-line-hover: var(
+    --sky-font-text_decoration-standalone_link-hover
+  );
+  --sky-comp-override-inline-link-text-decoration-line-active: var(
+    --sky-font-text_decoration-standalone_link-active
+  );
+  --sky-comp-override-inline-link-text-decoration-line-focus: var(
+    --sky-font-text_decoration-standalone_link-focus
+  );
 
   &.sky-dropdown-item-active {
     a,
@@ -78,7 +90,6 @@
     width: 100%;
 
     &:hover {
-      text-decoration: none;
       background-color: var(
         --sky-override-dropdown-item-hover-background,
         var(--sky-color-background-action-tertiary-hover)
