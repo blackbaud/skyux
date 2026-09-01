@@ -16,8 +16,8 @@
     "message": "Annuler"
   },
   "skyux_modal_close": {
-    "_description": "Texte du bouton modal de fermeture",
-    "message": "Fermer la fenêtre"
+    "_description": "Texte du bouton de fermeture de la boîte de dialogue",
+    "message": "Fermer la boîte de dialogue"
   },
   "skyux_modal_open_help": {
     "_description": "Texte du bouton de l’en-tête modal Ouvrir l’aide",
@@ -33,14 +33,14 @@
   },
   "skyux_modal_dirty_default_message": {
     "_description": "Message d’invite par défaut lors de la fermeture d’un élément modal marqué comme étant souillé.",
-    "message": "Êtes-vous certain de vouloir supprimer ces changements?"
+    "message": "Êtes-vous certain de vouloir abandonner ces modifications?"
   },
   "skyux_modal_dirty_default_discard_changes_text": {
-    "_description": "Texte par défaut pour le bouton « Supprimer les changements » lors de la fermeture d’un élément modal marqué comme étant souillé.",
-    "message": "Supprimer les changements"
+    "_description": "Texte par défaut pour le bouton « Abandonner les modifications » lors de la fermeture d’un élément modal marqué comme étant souillé.",
+    "message": "Abandonner les modifications"
   },
   "skyux_modal_dirty_default_keep_working_text": {
-    "_description": "Texte par défaut pour le bouton « Continuer à travailler » lors de la fermeture d’un élément modal marqué comme étant souillé.",
-    "message": "Continuer à travailler"
+    "_description": "Texte par défaut pour le bouton « Continuer la modification » lors de la fermeture d’un élément modal marqué comme étant souillé.",
+    "message": "Continuer la modification"
   }
 }

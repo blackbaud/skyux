@@ -1,6 +1,32 @@
 # Changelog
 
 
+## [14.17.0](https://github.com/blackbaud/skyux/compare/14.16.0...14.17.0) (2026-08-28)
+
+
+### Features
+
+* dark mode uses new `steel-grey` color scheme ([#4706](https://github.com/blackbaud/skyux/issues/4706)) ([a0e9b74](https://github.com/blackbaud/skyux/commit/a0e9b742b4a0c861ec022715428e19cb9bd6fc30))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** date filter widgets use grid background and focus styles, inputs use text color ([#4713](https://github.com/blackbaud/skyux/issues/4713)) ([8464e4d](https://github.com/blackbaud/skyux/commit/8464e4d4b585d0619a417758c7de7ce53dda8e72))
+* **components/forms:** file drop link input uses input box background color in dark mode ([#4720](https://github.com/blackbaud/skyux/issues/4720)) ([608ee91](https://github.com/blackbaud/skyux/commit/608ee911ce12109d5d29b5ff7faa5833f0c105bf))
+* support dark mode in fluid grid code example and visual test ([#4718](https://github.com/blackbaud/skyux/issues/4718)) ([ff67f1d](https://github.com/blackbaud/skyux/commit/ff67f1dba83cea896f5babe8437850c752d3e8bd))
+
+## [14.16.0](https://github.com/blackbaud/skyux/compare/14.15.1...14.16.0) (2026-08-26)
+
+
+### Features
+
+* add sky-btn-icon-borderless-on_prominent button class ([#4683](https://github.com/blackbaud/skyux/issues/4683)) ([6ac2af6](https://github.com/blackbaud/skyux/commit/6ac2af6b68e66026320f67a2509d81ea1448336a))
+
+
+### Bug Fixes
+
+* **components/indicators:** sky-tokens no longer prevents projected content from wrapping ([#4656](https://github.com/blackbaud/skyux/issues/4656)) ([44bc889](https://github.com/blackbaud/skyux/commit/44bc889bb06c492caefb1d50a4c640e673f65eb0))
+
 ## [14.15.1](https://github.com/blackbaud/skyux/compare/14.15.0...14.15.1) (2026-08-21)
 
 
