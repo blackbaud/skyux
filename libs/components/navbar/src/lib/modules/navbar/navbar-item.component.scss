@@ -48,6 +48,19 @@
     --sky-override-navbar-item-margin-right,
     var(--sky-space-gap-action_group-s)
   );
+  // Set on the host, not the projected `a` — inheritance reaches it.
+  --sky-comp-override-inline-link-text-decoration-line: var(
+    --sky-font-text_decoration-standalone_link-base
+  );
+  --sky-comp-override-inline-link-text-decoration-line-hover: var(
+    --sky-font-text_decoration-standalone_link-hover
+  );
+  --sky-comp-override-inline-link-text-decoration-line-active: var(
+    --sky-font-text_decoration-standalone_link-active
+  );
+  --sky-comp-override-inline-link-text-decoration-line-focus: var(
+    --sky-font-text_decoration-standalone_link-focus
+  );
 
   ::ng-deep {
     a,
@@ -82,7 +95,6 @@
           )
           var(--sky-comp-navbar_item-space-inset-right)
       );
-      text-decoration: none;
       width: 100%;
     }
 
