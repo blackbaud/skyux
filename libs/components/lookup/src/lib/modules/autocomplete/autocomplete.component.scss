@@ -152,7 +152,6 @@
 
 .sky-autocomplete-action-add {
   float: right;
-  // Stays NO, unlike sibling .sky-autocomplete-action-more ("Show matches").
   --sky-comp-override-link-text-decoration-line: var(
     --sky-font-text_decoration-standalone_link-base
   );

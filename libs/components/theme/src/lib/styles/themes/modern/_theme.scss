@@ -37,6 +37,8 @@ body.sky-theme-modern {
       --sky-comp-override-inline-link-text-decoration-line,
       var(--sky-font-text_decoration-inline_link-base)
     );
+    text-underline-offset: var(--sky-size-text_underline-offset);
+    text-decoration-thickness: var(--sky-size-text_underline-thickness);
 
     &:hover {
       text-decoration-line: var(

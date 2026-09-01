@@ -6,7 +6,7 @@
   border: 1px solid var(--sky-border-color-neutral-medium);
 }
 
-[data-sky-id='toggle-code-visibility-btn'] {
+.sky-btn-link {
   --sky-comp-override-link-text-decoration-line: var(
     --sky-font-text_decoration-standalone_link-base
   );
