@@ -758,6 +758,10 @@
     &:hover:not(.sky-btn-tab-disabled) {
       background-color: var(--sky-color-background-tab-selected);
       color: var(--sky-color-text-selected);
+      text-decoration-line: var(
+        --sky-comp-override-inline-link-text-decoration-line-hover,
+        var(--sky-font-text_decoration-standalone_link-hover)
+      );
     }
 
     .sky-btn-tab-close,

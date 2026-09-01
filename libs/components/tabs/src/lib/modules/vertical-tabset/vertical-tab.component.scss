@@ -42,6 +42,20 @@
     color: var(--sky-color-text-selected);
     font-weight: var(--sky-font-style-emphasized);
 
+    &:hover {
+      text-decoration-line: var(
+        --sky-comp-override-inline-link-text-decoration-line-hover,
+        var(--sky-font-text_decoration-standalone_link-hover)
+      );
+    }
+
+    &:active {
+      text-decoration-line: var(
+        --sky-comp-override-inline-link-text-decoration-line-active,
+        var(--sky-font-text_decoration-standalone_link-active)
+      );
+    }
+
     &:not(:focus-visible) {
       background-color: var(
         --sky-override-vertical-tab-background-color-selected,
