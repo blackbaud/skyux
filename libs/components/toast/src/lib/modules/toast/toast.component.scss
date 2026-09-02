@@ -87,7 +87,7 @@ sky-toast {
       border: var(
         --sky-override-toast-close-button-border,
         solid var(--sky-border-width-action-base)
-          var(--sky-color-border-action-tertiary-base)
+          var(--sky-color-border-action-on_status-base)
       );
       border-radius: var(
         --sky-override-toast-close-button-border-radius,
@@ -270,14 +270,18 @@ sky-toast {
         box-shadow var(--sky-global-duration-short);
 
       &:hover {
-        border-color: var(--sky-color-border-action-tertiary-hover);
+        border-color: var(--sky-color-border-action-on_status-hover);
         border-width: var(--sky-border-width-action-hover);
       }
 
-      &:active,
       &:focus-visible {
-        border-color: var(--sky-color-border-action-tertiary-focus);
+        border-color: var(--sky-color-border-action-on_status-focus);
         border-width: var(--sky-border-width-action-focus);
+      }
+
+      &:active {
+        border-color: var(--sky-color-border-action-on_status-active);
+        border-width: var(--sky-border-width-action-active);
       }
 
       &:focus-visible:not(:active) {

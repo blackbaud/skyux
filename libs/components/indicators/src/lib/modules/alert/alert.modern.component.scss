@@ -65,7 +65,7 @@
       var(--sky-comp-button-borderless-space-inset-left);
     color: var(--sky-color-text-on_status);
     border-style: solid;
-    border-color: var(--sky-color-border-action-tertiary-base);
+    border-color: var(--sky-color-border-action-on_status-base);
     border-radius: var(--sky-border-radius-s);
     border-width: var(--sky-border-width-action-base);
     background-color: var(--sky-color-background-action-tertiary-base);
@@ -74,19 +74,19 @@
 
     &:hover {
       opacity: 1;
-      border-color: var(--sky-color-border-action-on_status-focus);
+      border-color: var(--sky-color-border-action-on_status-hover);
       border-width: var(--sky-border-width-action-hover);
     }
 
     &:focus-visible {
       outline: none;
-      border-color: var(--sky-color-border-action-tertiary-focus);
+      border-color: var(--sky-color-border-action-on_status-focus);
       border-width: var(--sky-border-width-action-focus);
     }
 
     &:active {
-      border-color: var(--sky-color-border-action-tertiary-focus);
-      border-width: var(--sky-border-width-action-focus);
+      border-color: var(--sky-color-border-action-on_status-active);
+      border-width: var(--sky-border-width-action-active);
     }
 
     &:focus-visible:not(:active) {
