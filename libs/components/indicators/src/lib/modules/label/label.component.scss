@@ -64,9 +64,32 @@
   .sky-label-danger .sky-label-icon {
     color: var(--sky-color-background-icon_matte-danger);
   }
+
+  .sky-label ::ng-deep a {
+    &:focus-visible:not(:active) {
+      box-shadow: 0 0 0 var(--sky-border-width-action-focus)
+        var(--sky-color-border-action-on_status-focus);
+    }
+  }
 }
 
 .sky-label {
+  --sky-comp-override-inline-link-text-decoration-line: var(
+    --sky-font-text_decoration-action-tertiary-on_status-base
+  );
+  --sky-comp-override-inline-link-text-decoration-line-hover: var(
+    --sky-font-text_decoration-action-tertiary-on_status-hover
+  );
+  --sky-comp-override-inline-link-text-decoration-line-active: var(
+    --sky-font-text_decoration-action-tertiary-on_status-active
+  );
+  --sky-comp-override-inline-link-text-decoration-line-focus: var(
+    --sky-font-text_decoration-action-tertiary-on_status-focus
+  );
+  --sky-comp-override-inline-link-text-decoration-line-disabled: var(
+    --sky-font-text_decoration-action-tertiary-on_status-disabled
+  );
+
   color: var(--sky-override-label-text-color, var(--sky-color-text-on_status));
   display: var(--sky-override-label-display, inline-block);
   align-items: var(--sky-override-label-align-items, center);
@@ -91,18 +114,18 @@
   ::ng-deep a {
     color: var(
       --sky-override-label-link-text-color,
-      var(--sky-color-text-action_contrast)
+      var(--sky-color-text-action_on_status)
     );
-    text-decoration: var(
+    text-decoration-line: var(
       --sky-override-label-link-text-decoration,
-      var(--sky-font-text_decoration-visible_link)
+      var(--sky-font-text_decoration-action-tertiary-on_status-base)
     );
 
     // In modern all states of a link display as "blue", so remove this hover state when default support is dropped
     &:hover {
       color: var(
         --sky-override-label-link-hover-color,
-        var(--sky-color-text-action_contrast)
+        var(--sky-color-text-action_on_status)
       );
     }
   }
