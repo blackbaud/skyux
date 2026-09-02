@@ -7,7 +7,7 @@
   --sky-override-inline-delete-button-margin-right: #{$sky-margin};
   --sky-override-inline-delete-cancel-button-background-color-active-hover: #{$sky-background-color-neutral-light};
   --sky-override-inline-delete-cancel-button-background-color-base-disabled-focus: #{$sky-color-white};
-  --sky-override-inline-delete-cancel-button-opacity-disabled: .65;
+  --sky-override-inline-delete-cancel-button-opacity-disabled: 0.65;
   --sky-override-inline-delete-content-left: #{$sky-padding-double};
   --sky-override-inline-delete-content-padding: 0;
 }
@@ -40,7 +40,7 @@
 
 .sky-inline-delete-cancel-button {
   background-color: var(
-    --sky-override-inline-delete-cancel-button-background-color-base-focus,
+    --sky-override-inline-delete-cancel-button-background-color-base-disabled-focus,
     var(--sky-color-background-action-secondary-on_scrim-base)
   );
 
@@ -60,7 +60,7 @@
 
   &:focus-visible {
     background-color: var(
-      --sky-override-inline-delete-cancel-button-background-color-base-focus,
+      --sky-override-inline-delete-cancel-button-background-color-base-disabled-focus,
       var(--sky-color-background-action-secondary-on_scrim-focus)
     );
   }
@@ -78,7 +78,10 @@
         var(--sky-color-background-action-secondary-on_scrim-disabled)
       );
       // Remove when default theme support is removed
-      opacity: var(--sky-override-inline-delete-cancel-button-opacity-disabled, 1);
+      opacity: var(
+        --sky-override-inline-delete-cancel-button-opacity-disabled,
+        1
+      );
     }
   }
 }
