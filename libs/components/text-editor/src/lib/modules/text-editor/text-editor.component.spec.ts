@@ -2247,5 +2247,15 @@ describe('Text editor', () => {
 
       expect(testComponent.model()).toBe('');
     }));
+
+    it('does not mark the field dirty when a programmatic write needs normalization', fakeAsync(() => {
+      testComponent.model.set('<p><br></p>');
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      expect(testComponent.model()).toBe('');
+      expect(testComponent.textForm().dirty()).toBeFalse();
+    }));
   });
 });
