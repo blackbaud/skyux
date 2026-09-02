@@ -83,6 +83,7 @@ export class DataViewGridComponent implements OnInit {
     searchHighlightEnabled: true,
     multiselectToolbarEnabled: true,
     columnPickerEnabled: true,
+    sortEnabled: true,
     columnOptions: [
       {
         id: 'selected',

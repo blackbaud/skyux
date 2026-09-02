@@ -1,7 +1,9 @@
+import { HarnessLoader } from '@angular/cdk/testing';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { expect } from '@skyux-sdk/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -10,6 +12,7 @@ import {
   SkyDataManagerService,
   SkyDataManagerState,
 } from '@skyux/data-manager';
+import { SkyDataManagerHarness } from '@skyux/data-manager/testing';
 
 import { AgGridAngular } from 'ag-grid-angular';
 import {
@@ -773,6 +776,75 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
       }),
     ]);
   });
+
+  it('should apply sort by matching propertyName to a column field when the sort option id is not a colId', async () => {
+    const newDataState = new SkyDataManagerState({ ...dataState });
+    newDataState.activeSortOption = {
+      id: 'az',
+      propertyName: 'name',
+      descending: false,
+      label: 'First Name (A - Z)',
+    };
+    dataManagerService.updateDataState(newDataState, 'unitTest');
+    agGridDataManagerFixture.detectChanges();
+    await agGridDataManagerFixture.whenStable();
+
+    expect(agGridComponent.api.getColumnState()).toEqual([
+      jasmine.objectContaining({ colId: 'selected', sort: null }),
+      jasmine.objectContaining({ colId: 'name', sort: 'asc' }),
+      jasmine.objectContaining({ colId: 'target', sort: null }),
+      jasmine.objectContaining({ colId: 'noHeader', sort: null }),
+    ]);
+  });
+
+  it('should apply sort by matching propertyName to a colId when no column field matches', async () => {
+    const newDataState = new SkyDataManagerState({ ...dataState });
+    newDataState.activeSortOption = {
+      id: 'byBlank',
+      propertyName: 'noHeader',
+      descending: false,
+      label: 'Blank column',
+    };
+    dataManagerService.updateDataState(newDataState, 'unitTest');
+    agGridDataManagerFixture.detectChanges();
+    await agGridDataManagerFixture.whenStable();
+
+    expect(agGridComponent.api.getColumnState()).toEqual([
+      jasmine.objectContaining({ colId: 'selected', sort: null }),
+      jasmine.objectContaining({ colId: 'name', sort: null }),
+      jasmine.objectContaining({ colId: 'target', sort: null }),
+      jasmine.objectContaining({ colId: 'noHeader', sort: 'asc' }),
+    ]);
+  });
+
+  it('should leave the existing sort untouched when no column matches the sort option', async () => {
+    await agGridDataManagerFixture.whenStable();
+
+    agGridComponent.api.applyColumnState({
+      state: [{ colId: 'name', sort: 'asc' }],
+      defaultState: { sort: null },
+    });
+    agGridDataManagerFixture.detectChanges();
+    await agGridDataManagerFixture.whenStable();
+
+    const newDataState = new SkyDataManagerState({ ...dataState });
+    newDataState.activeSortOption = {
+      id: 'nope',
+      propertyName: 'nope',
+      descending: true,
+      label: 'Nope',
+    };
+    dataManagerService.updateDataState(newDataState, 'unitTest');
+    agGridDataManagerFixture.detectChanges();
+    await agGridDataManagerFixture.whenStable();
+
+    expect(agGridComponent.api.getColumnState()).toEqual([
+      jasmine.objectContaining({ colId: 'selected', sort: null }),
+      jasmine.objectContaining({ colId: 'name', sort: 'asc' }),
+      jasmine.objectContaining({ colId: 'target', sort: null }),
+      jasmine.objectContaining({ colId: 'noHeader', sort: null }),
+    ]);
+  });
 });
 
 it('should move the horizontal scroll based on enableTopScroll check', async () => {
@@ -819,6 +891,160 @@ it('should move the horizontal scroll based on enableTopScroll check', async () 
     '.ag-header',
     '.ag-body-horizontal-scroll',
   ]);
+});
+
+describe('sorting via the data manager toolbar', () => {
+  let sortFixture: ComponentFixture<SkyAgGridDataManagerFixtureComponent>;
+  let sortFixtureComponent: SkyAgGridDataManagerFixtureComponent;
+  let sortGrid: AgGridAngular;
+  let sortDataManagerService: SkyDataManagerService;
+  let sortDataManagerHarness: SkyDataManagerHarness;
+
+  // No explicit return type: the harness type comes from
+  // `SkyDataManagerToolbarHarness`, and `@skyux/lists` (which owns
+  // `SkySortHarness`) is not a direct peer dependency of this library.
+  async function getSortButton() {
+    const toolbarHarness = await sortDataManagerHarness.getToolbar();
+    const sortButtonHarness = await toolbarHarness.getSortButton();
+
+    if (!sortButtonHarness) {
+      throw new Error('Expected the data manager sort button to render.');
+    }
+
+    return sortButtonHarness;
+  }
+
+  beforeEach(async () => {
+    TestBed.configureTestingModule({
+      imports: [SkyAgGridDataManagerFixtureComponent],
+      providers: [SkyDataManagerService, provideSkyMediaQueryTesting()],
+    });
+
+    sortFixture = TestBed.createComponent(SkyAgGridDataManagerFixtureComponent);
+    sortFixtureComponent = sortFixture.componentInstance;
+    sortFixtureComponent.enableSort = true;
+
+    sortFixture.detectChanges();
+    await sortFixture.whenStable();
+
+    sortGrid = sortFixtureComponent.agGrid as AgGridAngular;
+    sortDataManagerService = TestBed.inject(SkyDataManagerService);
+
+    const loader: HarnessLoader = TestbedHarnessEnvironment.loader(sortFixture);
+    sortDataManagerHarness = await loader.getHarness(SkyDataManagerHarness);
+  });
+
+  it('should sort the grid ascending when a sort option is selected', async () => {
+    const sortButton = await getSortButton();
+    await sortButton.click();
+    const item = await sortButton.getItem({ text: 'First Name (A - Z)' });
+    await item.click();
+    sortFixture.detectChanges();
+    await sortFixture.whenStable();
+
+    expect(sortGrid.api.getColumnState()).toEqual([
+      jasmine.objectContaining({ colId: 'selected', sort: null }),
+      jasmine.objectContaining({ colId: 'name', sort: 'asc' }),
+      jasmine.objectContaining({ colId: 'target', sort: null }),
+      jasmine.objectContaining({ colId: 'noHeader', sort: null }),
+    ]);
+    expect(sortGrid.api.getDisplayedRowAtIndex(0)?.data?.name).toBe('Jill');
+  });
+
+  it('should sort the grid descending when a sort option is selected', async () => {
+    const sortButton = await getSortButton();
+    await sortButton.click();
+    const item = await sortButton.getItem({ text: 'First Name (Z - A)' });
+    await item.click();
+    sortFixture.detectChanges();
+    await sortFixture.whenStable();
+
+    expect(sortGrid.api.getColumnState()).toEqual([
+      jasmine.objectContaining({ colId: 'selected', sort: null }),
+      jasmine.objectContaining({ colId: 'name', sort: 'desc' }),
+      jasmine.objectContaining({ colId: 'target', sort: null }),
+      jasmine.objectContaining({ colId: 'noHeader', sort: null }),
+    ]);
+    expect(sortGrid.api.getDisplayedRowAtIndex(0)?.data?.name).toBe('Mary');
+  });
+
+  it('should sort the grid using a sort option whose property name matches a colId', async () => {
+    const sortButton = await getSortButton();
+    await sortButton.click();
+    const item = await sortButton.getItem({ text: 'Blank column' });
+    await item.click();
+    sortFixture.detectChanges();
+    await sortFixture.whenStable();
+
+    expect(sortGrid.api.getColumnState()).toEqual([
+      jasmine.objectContaining({ colId: 'selected', sort: null }),
+      jasmine.objectContaining({ colId: 'name', sort: null }),
+      jasmine.objectContaining({ colId: 'target', sort: null }),
+      jasmine.objectContaining({ colId: 'noHeader', sort: 'asc' }),
+    ]);
+  });
+
+  it('should keep the matching sort option active after switching between sort options', async () => {
+    let sortButton = await getSortButton();
+    await sortButton.click();
+    let item = await sortButton.getItem({ text: 'First Name (A - Z)' });
+    await item.click();
+    sortFixture.detectChanges();
+    await sortFixture.whenStable();
+
+    sortButton = await getSortButton();
+    await sortButton.click();
+    item = await sortButton.getItem({ text: 'First Name (Z - A)' });
+    await item.click();
+    sortFixture.detectChanges();
+    await sortFixture.whenStable();
+
+    sortButton = await getSortButton();
+    await sortButton.click();
+    item = await sortButton.getItem({ text: 'First Name (Z - A)' });
+    await expectAsync(item.isActive()).toBeResolvedTo(true);
+  });
+
+  it('should keep the matching sort option active when the column header is sorted directly', async () => {
+    sortGrid.api.applyColumnState({
+      state: [{ colId: 'name', sort: 'asc' }],
+      defaultState: { sort: null },
+    });
+    sortFixture.detectChanges();
+    await sortFixture.whenStable();
+
+    const sortButton = await getSortButton();
+    await sortButton.click();
+    const item = await sortButton.getItem({ text: 'First Name (A - Z)' });
+    await expectAsync(item.isActive()).toBeResolvedTo(true);
+  });
+
+  it('should report a column-derived sort option when the sorted column has no matching sort option', async () => {
+    sortGrid.api.applyColumnState({
+      state: [{ colId: 'target', sort: 'asc' }],
+      defaultState: { sort: null },
+    });
+
+    const updateDataState = spyOn(
+      sortDataManagerService,
+      'updateDataState',
+    ).and.callThrough();
+
+    sortGrid.sortChanged.emit();
+    sortFixture.detectChanges();
+    await sortFixture.whenStable();
+
+    expect(updateDataState).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        activeSortOption: jasmine.objectContaining({
+          id: 'target',
+          propertyName: 'target',
+          descending: false,
+        }),
+      }),
+      sortFixtureComponent.viewConfig.id,
+    );
+  });
 });
 
 describe('Read columnOptions from grid API', () => {
