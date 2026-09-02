@@ -1,7 +1,12 @@
 # Changelog
 
 
-## [14.18.1](https://github.com/blackbaud/skyux/compare/14.18.0...14.18.1) (2026-09-02)
+## [14.19.0](https://github.com/blackbaud/skyux/compare/14.18.0...14.19.0) (2026-09-02)
+
+
+### Features
+
+* **components/theme:** darken action links on hover/active in modern theme ([#4738](https://github.com/blackbaud/skyux/issues/4738)) ([8e3a2f6](https://github.com/blackbaud/skyux/commit/8e3a2f646c46096a0191f16d1d8df6d63e7a56aa))
 
 
 ### Bug Fixes
