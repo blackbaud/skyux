@@ -1,12 +1,11 @@
 <div class="sky-theme-padding-inset-balanced-m">
   <h1>Color picker (form-flavor spike)</h1>
   <p>
-    Baseline for the <code>FormValueControl</code> prototype: one colorpicker,
-    bound three ways. Compare <code>required</code>, disabled, value sync, and
-    touched behavior across each column.
-    <code>SkyColorpickerInputDirective</code> implements both
-    <code>ControlValueAccessor</code> and <code>FormValueControl</code>, so all
-    three columns sync through <code>ControlValueAccessor</code>.
+    Baseline for signal-forms support: one colorpicker, bound three ways.
+    Compare <code>required</code>, disabled, value sync, and touched behavior
+    across each column. <code>SkyColorpickerInputDirective</code> implements
+    only <code>ControlValueAccessor</code>, so all three columns sync through
+    it.
   </p>
 
   <button

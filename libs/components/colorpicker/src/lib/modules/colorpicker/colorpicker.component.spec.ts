@@ -1,4 +1,4 @@
-import { Component, DebugElement, signal } from '@angular/core';
+import { Component, DebugElement, ViewChild, signal } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -6,6 +6,7 @@ import {
   flush,
   tick,
 } from '@angular/core/testing';
+import { FormsModule, NgModel } from '@angular/forms';
 import { FormField, disabled, form } from '@angular/forms/signals';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
@@ -2013,5 +2014,79 @@ describe('Colorpicker Component', () => {
 
       expect(testComponent.colorForm().dirty()).toBeFalse();
     });
+  });
+
+  describe('template-driven forms', () => {
+    @Component({
+      standalone: true,
+      imports: [FormsModule, SkyColorpickerModule],
+      template: `<sky-colorpicker #colorPickerTest labelText="Color">
+        <input
+          #ngModelRef="ngModel"
+          type="text"
+          [skyColorpickerInput]="colorPickerTest"
+          [ngModelOptions]="{ standalone: true }"
+          [(ngModel)]="model"
+        />
+      </sky-colorpicker>`,
+    })
+    class ColorpickerNgModelFixtureComponent {
+      public model: SkyColorpickerOutput | string | undefined;
+      @ViewChild('ngModelRef')
+      public ngModelRef!: NgModel;
+    }
+
+    let fixture: ComponentFixture<ColorpickerNgModelFixtureComponent>;
+    let testComponent: ColorpickerNgModelFixtureComponent;
+    let inputEl: HTMLInputElement;
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        imports: [ColorpickerNgModelFixtureComponent],
+      });
+
+      fixture = TestBed.createComponent(ColorpickerNgModelFixtureComponent);
+      testComponent = fixture.componentInstance;
+
+      inputEl = fixture.nativeElement.querySelector('input');
+    });
+
+    it('should render a color bound through ngModel', fakeAsync(() => {
+      testComponent.model = '#ff0000';
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      expect(inputEl.value).toBe('rgba(255,0,0,1)');
+    }));
+
+    it('should update the bound ngModel property when the user applies a color change', fakeAsync(() => {
+      fixture.detectChanges();
+      tick();
+
+      inputEl.value = '#00ff00';
+      inputEl.dispatchEvent(new Event('change'));
+      fixture.detectChanges();
+      tick();
+
+      expect((testComponent.model as SkyColorpickerOutput).rgbaText).toBe(
+        'rgba(0,255,0,1)',
+      );
+    }));
+
+    it('should disable the colorpicker trigger button when ngModel is disabled', fakeAsync(() => {
+      fixture.detectChanges();
+      tick();
+
+      testComponent.ngModelRef.control.disable();
+      fixture.detectChanges();
+      tick();
+
+      const triggerButton = fixture.nativeElement.querySelector(
+        '.sky-colorpicker-button',
+      ) as HTMLButtonElement;
+
+      expect(triggerButton.disabled).toBeTrue();
+    }));
   });
 });

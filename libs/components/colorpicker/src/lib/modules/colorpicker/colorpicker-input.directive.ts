@@ -9,8 +9,6 @@ import {
   Renderer2,
   forwardRef,
   inject,
-  model,
-  output,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -20,8 +18,7 @@ import {
   ValidationErrors,
   Validator,
 } from '@angular/forms';
-import type { FormValueControl } from '@angular/forms/signals';
-import { SkyRequiredStateDirective } from '@skyux/forms';
+import { SkyRequiredStateDirective, skyIsAbstractControl } from '@skyux/forms';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { Subject, Subscription, distinctUntilChanged, takeUntil } from 'rxjs';
@@ -45,17 +42,15 @@ const SKY_COLORPICKER_VALIDATOR = {
 
 const SKY_COLORPICKER_DEFAULT_COLOR = '#FFFFFF';
 
-// Implements both `ControlValueAccessor` (classic reactive/template-driven
-// forms) and `FormValueControl` (from `@angular/forms/signals`). Angular
-// prefers a directive's own `NG_VALUE_ACCESSOR` over the native
-// `DefaultValueAccessor` that would otherwise match this host `<input>`, so
-// `formControlName`/`formControl`/`ngModel` keep working through the CVA
-// methods below. `@angular/forms/signals`' `Field` directive also checks for
-// a `ControlValueAccessor` first and, when present, bridges it to the field
-// automatically — so the `value`/`touch` members exist mainly to satisfy the
-// `FormValueControl` contract's typing for `Field` consumers; the actual
-// sync for every form flavor (including `disabled`, via `setDisabledState`)
-// happens through the CVA methods.
+// Implements `ControlValueAccessor` only (classic reactive/template-driven
+// forms). Angular prefers a directive's own `NG_VALUE_ACCESSOR` over the
+// native `DefaultValueAccessor` that would otherwise match this host
+// `<input>`, so `formControlName`/`formControl`/`ngModel` keep working
+// through the CVA methods below. `@angular/forms/signals`' `Field` directive
+// also checks for a `ControlValueAccessor` first and, when present, bridges
+// it to the field automatically — so sync for every form flavor (including
+// `disabled`, via `setDisabledState`) happens through the CVA methods below,
+// with no need for a separate `FormValueControl` implementation.
 /**
  * Creates the colorpicker element and dropdown.
  */
@@ -77,13 +72,7 @@ const SKY_COLORPICKER_DEFAULT_COLOR = '#FFFFFF';
   },
 })
 export class SkyColorpickerInputDirective
-  implements
-    FormValueControl<SkyColorpickerOutput | string | undefined>,
-    ControlValueAccessor,
-    Validator,
-    OnInit,
-    OnChanges,
-    OnDestroy
+  implements ControlValueAccessor, Validator, OnInit, OnChanges, OnDestroy
 {
   /**
    * Creates the colorpicker element and dropdown. Place this attribute on an `input` element
@@ -167,31 +156,6 @@ export class SkyColorpickerInputDirective
   @Input()
   public allowTransparency = true;
 
-  // Implemented as part of `FormValueControl`. Accepts either a color string
-  // or a `SkyColorpickerOutput` object as an incoming value (matching the
-  // loose contract the previous `ControlValueAccessor.writeValue(value: any)`
-  // accepted), but always emits a full `SkyColorpickerOutput` object back to
-  // the bound control when the user selects a color. This preserves the
-  // pre-existing contract where consumers read properties such as
-  // `value.hex` or `value.rgba.alpha` off the bound control's value.
-  /**
-   * The selected color, as a `SkyColorpickerOutput` object or a color string.
-   * @preview
-   */
-  public readonly value = model<SkyColorpickerOutput | string | undefined>(
-    undefined,
-  );
-
-  // Implemented as part of `FormUiControl`. Emitted on native `blur`, and
-  // relayed from `SkyColorpickerComponent` when the user opens the picker
-  // dialog via the trigger button. `Field`/`NgControl` listen to this
-  // output to mark the bound field as touched, for every form flavor.
-  /**
-   * Emits when the colorpicker input is touched.
-   * @preview
-   */
-  public readonly touch = output<void>();
-
   #modelValue: SkyColorpickerOutput | undefined;
   // The normalized output string (per `outputFormat`) most recently rendered
   // into the native input element and colorpicker dialog, regardless of
@@ -215,15 +179,18 @@ export class SkyColorpickerInputDirective
   // injecting `NgControl` here would create a circular dependency for
   // `[formField]` (signal forms) bindings, whose `NgControl` compatibility
   // shim itself depends on resolving this directive's value accessor
-  // first. Only populated for reactive/template-driven form bindings
-  // (`formControlName`, `[formControl]`, `[ngModel]`) — `[formField]`
-  // bindings have no `NgControl`. Used solely to normalize a bound
-  // `AbstractControl`'s value into the full `SkyColorpickerOutput` object
-  // those pre-existing consumers already depend on (`control.value.hex`,
+  // first. `[formField]` bindings do provide an `NgControl` (a read-only
+  // interop shim, `InteropNgControl`, with no `setValue`), so
+  // `skyIsAbstractControl` guards every use of `#ngControl.control` below.
+  // The `AbstractControl` normalization this getter enables only actually
+  // applies to reactive/template-driven form bindings (`formControlName`,
+  // `[formControl]`, `[ngModel]`): normalizing a bound `AbstractControl`'s
+  // value into the full `SkyColorpickerOutput` object those pre-existing
+  // consumers already depend on (`control.value.hex`,
   // `control.value.rgba.alpha`, etc.), matching this directive's previous
   // `ControlValueAccessor`-based contract. Written to directly (bypassing
-  // `value.set()`), since `value.set()` always marks the field dirty, even
-  // for values that didn't originate from the user.
+  // `onChange`), since calling `onChange` under signal forms always marks
+  // the field dirty, even for values that didn't originate from the user.
   readonly #injector = inject(Injector);
   get #ngControl(): NgControl | null {
     return this.#injector.get(NgControl, null, { optional: true, self: true });
@@ -234,9 +201,8 @@ export class SkyColorpickerInputDirective
 
   // Populated by `registerOnChange`/`registerOnTouched` for
   // `formControlName`/`[formControl]`/`[ngModel]` consumers. `@angular/forms/
-  // signals`' `Field` directive registers these too when it detects this
-  // `ControlValueAccessor`, so they cover every form flavor alongside the
-  // `value`/`touch` members above.
+  // signals`' `FormField` directive registers these too when it detects this
+  // `ControlValueAccessor`, so they cover every form flavor.
   #onChange: ((value: SkyColorpickerOutput) => void) | undefined;
   #onTouched: (() => void) | undefined;
 
@@ -293,7 +259,6 @@ export class SkyColorpickerInputDirective
   }
 
   #markTouched(): void {
-    this.touch.emit();
     this.#onTouched?.();
   }
 
@@ -346,8 +311,8 @@ export class SkyColorpickerInputDirective
 
     // A color the user applied through the picker dialog's Apply button.
     // This is a user-driven change, so it's written through to the bound
-    // field via `#applyColor` (which calls `value.set()` and marks the
-    // field dirty).
+    // field via `#applyColor` (which calls `onChange` and marks the field
+    // dirty).
     this.#colorpickerInputSvc.colorApplied
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((newColor) => {
@@ -411,13 +376,14 @@ export class SkyColorpickerInputDirective
   // Applies a value that originated outside this directive (the bound
   // field's initial value, a schema-driven reset, `initialColor`, a
   // programmatic `SkyColorpickerMessageType.Reset` message, etc.). Unlike
-  // `#applyColor`, this does not call `value.set()`, since the value
-  // already came from there (or from a deprecated input that only seeds
-  // the field before it has a value), and `value.set()` always marks the
-  // field dirty, which an externally-driven value shouldn't do. For
-  // reactive/template-driven forms only, a string value is still
-  // normalized into the full `SkyColorpickerOutput` object by writing
-  // directly to the bound `NgControl`'s `AbstractControl` instead.
+  // `#applyColor`, this does not call `onChange`, since under signal forms
+  // that always marks the field dirty — which an externally-driven value
+  // shouldn't do. For reactive/template-driven forms only, a string value
+  // is still normalized into the full `SkyColorpickerOutput` object by
+  // writing directly to the bound `NgControl`'s `AbstractControl` instead;
+  // a signal-forms field bound to a string keeps that raw string until the
+  // user selects a color, at which point `#applyColor` writes the full
+  // object back through `onChange`.
   //
   // Compares the normalized value against `#renderedValue` (the last value
   // actually rendered, from any source) rather than a separate
@@ -464,19 +430,14 @@ export class SkyColorpickerInputDirective
     // For reactive/template-driven forms, normalize the bound control's
     // value to the full `SkyColorpickerOutput` object, restoring this
     // directive's pre-signal-forms contract for those consumers. Written
-    // directly to the control (not `value.set()`) so it doesn't mark the
-    // field dirty; the control's own change detection then reflects the
-    // normalized object back into `value` for us. `[formField]` (signal
-    // forms) bindings also expose an `NgControl` (for interop with APIs
-    // that expect one), but it's a read-only compatibility shim with no
-    // `setValue`, so this only ever applies to real reactive/template-
-    // driven form controls.
+    // directly to the control (not through `onChange`) so it doesn't mark
+    // the field dirty; the control's own change detection then reflects the
+    // normalized object back for us. `[formField]` (signal forms) bindings
+    // also expose an `NgControl` (for interop with APIs that expect one),
+    // but it's a read-only compatibility shim with no `setValue`, so this
+    // only ever applies to real reactive/template-driven form controls.
     const control = this.#ngControl?.control;
-    if (
-      control &&
-      typeof control.setValue === 'function' &&
-      control.value !== formattedValue
-    ) {
+    if (skyIsAbstractControl(control) && control.value !== formattedValue) {
       control.setValue(formattedValue, { emitEvent: false });
     }
 
@@ -493,10 +454,10 @@ export class SkyColorpickerInputDirective
   }
 
   // Applies a color the user selected (through the native input or the
-  // picker dialog) and propagates it to `value` and, for
-  // `formControlName`/`[formControl]`/`[ngModel]` consumers, the registered
-  // `onChange` callback — so it reaches whatever form this directive is
-  // bound to.
+  // picker dialog) and propagates it, via the registered `onChange`
+  // callback, to whatever form this directive is bound to (reactive,
+  // template-driven, or signal forms, all of which register `onChange`
+  // through this CVA).
   #applyColor(formattedValue: SkyColorpickerOutput): void {
     const output = this.#toOutputString(formattedValue);
 
@@ -504,7 +465,6 @@ export class SkyColorpickerInputDirective
     this.#modelValue = formattedValue;
     this.#writeModelValue(formattedValue);
 
-    this.value.set(formattedValue);
     this.#onChange?.(formattedValue);
   }
 

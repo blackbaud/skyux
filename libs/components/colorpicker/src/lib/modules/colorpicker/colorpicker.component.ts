@@ -360,11 +360,11 @@ export class SkyColorpickerComponent
   }
 
   // Resolves whatever form-binding directive is on the content-projected
-  // `[skyColorpickerInput]` element: reactive, template-driven, or (once
-  // that directive drops `ControlValueAccessor`) the `NgControl` a
-  // signal-forms `[formField]` binding provides. All three expose the same
-  // `AbstractControlDirective` surface (`touched`, `dirty`, `valid`,
-  // `errors`), so a single query covers every form flavor.
+  // `[skyColorpickerInput]` element: reactive, template-driven, or the
+  // read-only interop `NgControl` a signal-forms `[formField]` binding
+  // provides. All three expose the same `AbstractControlDirective` surface
+  // (`touched`, `dirty`, `valid`, `errors`), so a single query covers every
+  // form flavor.
   @ContentChild(NgControl)
   protected set ngControlDirective(value: NgControl | undefined) {
     if (value) {
@@ -556,7 +556,8 @@ export class SkyColorpickerComponent
       // message sent through `messageStream`), so it's relayed through
       // `colorApplied` rather than `reset`. The bound
       // `SkyColorpickerInputDirective` writes the color through to the
-      // bound field via `value.set()`, which marks the field dirty.
+      // bound field via the registered `onChange` callback, which marks
+      // the field dirty.
       this.#colorpickerInputSvc.colorApplied.next(this.selectedColor);
     }
   }
@@ -668,8 +669,8 @@ export class SkyColorpickerComponent
         // This reset is programmatic (a consumer sent the message), not a
         // user action, so it's relayed through `reset` rather than
         // `colorApplied`. The bound `SkyColorpickerInputDirective` reverts
-        // its display to `initialColor` without calling `value.set()`,
-        // which would otherwise mark the bound field dirty.
+        // its display to `initialColor` without calling `onChange`, which
+        // would otherwise mark the bound field dirty.
         this.#colorpickerInputSvc.reset.next(this.initialColor);
         break;
 
@@ -822,7 +823,8 @@ export class SkyColorpickerComponent
       // This is a user action (the dialog's Apply button), so it's relayed
       // through `colorApplied` rather than `reset`. The bound
       // `SkyColorpickerInputDirective` writes the color through to the
-      // bound field via `value.set()`, which marks the field dirty.
+      // bound field via the registered `onChange` callback, which marks
+      // the field dirty.
       this.#colorpickerInputSvc.colorApplied.next(this.selectedColor);
     }
 
