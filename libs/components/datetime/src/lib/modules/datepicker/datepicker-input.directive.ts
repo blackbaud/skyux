@@ -403,7 +403,9 @@ export class SkyDatepickerInputDirective
       if (!isDateValid) {
         // Mark the invalid control as touched so that the input's invalid CSS styles appear.
         // (This is only required when the invalid value is set by the FormControl constructor.)
-        this.#control?.markAsTouched();
+        if (skyIsAbstractControl(this.#control)) {
+          this.#control.markAsTouched();
+        }
 
         return {
           skyDate: {
@@ -450,7 +452,9 @@ export class SkyDatepickerInputDirective
     } else {
       // Mark the invalid control as touched so that the input's invalid CSS styles appear.
       // (This is only required when the invalid value is set by the FormControl constructor.)
-      this.#control?.markAsTouched();
+      if (skyIsAbstractControl(this.#control)) {
+        this.#control.markAsTouched();
+      }
 
       return {
         skyDate: {
@@ -614,8 +618,8 @@ export class SkyDatepickerInputDirective
       this.#_value = value;
       if (emitEvent) {
         this.#onChange(this.#_value);
-      } else {
-        this.#control?.setValue(this.#_value, { emitEvent: false });
+      } else if (skyIsAbstractControl(this.#control)) {
+        this.#control.setValue(this.#_value, { emitEvent: false });
       }
 
       this.#datepickerComponent.selectedDate = this.#_value;
@@ -635,8 +639,8 @@ export class SkyDatepickerInputDirective
         this.#_value = dateValue || value;
         if (emitEvent) {
           this.#onChange(this.#_value);
-        } else {
-          this.#control?.setValue(this.#_value, { emitEvent: false });
+        } else if (skyIsAbstractControl(this.#control)) {
+          this.#control.setValue(this.#_value, { emitEvent: false });
         }
 
         this.#datepickerComponent.selectedDate = this.#_value;
