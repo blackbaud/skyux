@@ -6,6 +6,7 @@
 
 ### Features
 
+* **components/indicators:** use status color tokens for status text, links, icons ([#4736](https://github.com/blackbaud/skyux/issues/4736)) ([932012d](https://github.com/blackbaud/skyux/commit/932012d3bbd9b20ce77e2548fd23104f798d94f3))
 * **components/theme:** darken action links on hover/active in modern theme ([#4738](https://github.com/blackbaud/skyux/issues/4738)) ([8e3a2f6](https://github.com/blackbaud/skyux/commit/8e3a2f646c46096a0191f16d1d8df6d63e7a56aa))
 
 
