@@ -150,9 +150,13 @@ export class SkyPhoneFieldInputDirective
       .get('countrySearch')
       ?.valueChanges.pipe(takeUntil(this.#ngUnsubscribe), take(1))
       .subscribe(() => {
-        if (skyIsAbstractControl(this.#control)) {
-          this.#control.markAsDirty();
-        }
+        // Interacting with the country search box is a user action, so it
+        // marks the field dirty for every form flavor, the same way typing
+        // in the phone number input does -- `#notifyChange` marks a
+        // signal-forms field dirty unconditionally, and Angular's own
+        // reactive/template-driven forms plumbing does the same for the
+        // registered `onChange` callback.
+        this.#notifyChange?.(this.#getValue());
         this.#notifyTouched?.();
       });
   }
@@ -205,19 +209,40 @@ export class SkyPhoneFieldInputDirective
     this.#setValue(rawValue);
     const newValue = this.#getValue();
 
+    // `writeValue` is always an externally-driven write (model-to-view),
+    // never a user action, so it must never call `#notifyChange` --
+    // `#notifyChange` marks the field dirty unconditionally, for every form
+    // flavor. Normalize a reactive/template-driven control's value to the
+    // formatted number by writing directly to it instead, which doesn't
+    // mark it dirty. `emitModelToViewChange: false` is required (not just
+    // `emitEvent: false`) to avoid `writeValue` recursively re-running:
+    // `AbstractControl.setValue()` calls back into the CVA's `writeValue`
+    // unless that's explicitly suppressed. Signal forms' interop control
+    // has no `setValue`, so its field keeps the raw value until the user
+    // edits it.
     if (rawValue !== newValue) {
-      // If the value is set before the control is initialized, wait for the
-      // first cycle to complete before triggering a value change event.
-      // (This occurs when the control is initialized with an unformatted value
-      // but is formatted into a new value immediately in the `writeValue`
-      // method.)
       if (!this.#control) {
+        // `validate()` (which captures `#control`) may not have run yet on
+        // the very first `writeValue` call -- wait for the current cycle to
+        // complete before normalizing.
         setTimeout(() => {
-          this.#notifyChange?.(newValue);
+          this.#normalizeControlValue(newValue);
         });
       } else {
-        this.#notifyChange?.(newValue);
+        this.#normalizeControlValue(newValue);
       }
+    }
+  }
+
+  #normalizeControlValue(newValue: string): void {
+    if (
+      skyIsAbstractControl(this.#control) &&
+      this.#control.value !== newValue
+    ) {
+      this.#control.setValue(newValue, {
+        emitEvent: false,
+        emitModelToViewChange: false,
+      });
     }
   }
 
