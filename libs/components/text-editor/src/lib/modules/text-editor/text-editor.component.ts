@@ -435,14 +435,17 @@ export class SkyTextEditorComponent
   public writeValue(value: string): void {
     this.value = value;
 
-    // Only signal-forms controls need normalized values propagated back via `onChange`;
-    // `AbstractControl`s already sync through the `value` setter above.
+    // Only signal-forms controls need normalized values propagated back; `AbstractControl`s
+    // already sync through the `value` setter above. Calling `onChange` here would mark the
+    // field dirty unconditionally (it always does, for every form flavor), so write directly
+    // to the field's `value` signal instead -- the same mechanism the field's own `reset()`
+    // uses to change its value without dirtying it.
     if (
       value &&
       this.#_value !== value &&
       !skyIsAbstractControl(this.ngControl?.control)
     ) {
-      this.#_onChange(this.#_value);
+      this.#formField?.state().value.set(this.#_value);
     }
 
     // Update HTML if necessary.
