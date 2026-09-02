@@ -330,7 +330,7 @@ sky-toast {
         &:hover {
           box-shadow:
             inset 0 0 0 var(--sky-border-width-action-hover)
-              var(--sky-color-border-action-on_status-focus),
+              var(--sky-color-border-action-on_status-hover),
             var(--sky-elevation-action-tertiary-hover);
         }
 
@@ -338,7 +338,7 @@ sky-toast {
         &.sky-btn-active {
           box-shadow:
             inset 0 0 0 var(--sky-border-width-action-active)
-              var(--sky-color-border-action-on_status-focus),
+              var(--sky-color-border-action-on_status-active),
             var(--sky-elevation-action-tertiary-active);
         }
 
