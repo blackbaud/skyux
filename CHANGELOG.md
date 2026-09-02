@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.18.1](https://github.com/blackbaud/skyux/compare/14.18.0...14.18.1) (2026-09-02)
+
+
+### Bug Fixes
+
+* **components/avatar:** use correct background colors ([#4727](https://github.com/blackbaud/skyux/issues/4727)) ([30634c1](https://github.com/blackbaud/skyux/commit/30634c19f65c8b56e23f780b6a5fc837886baa71))
+
 ## [14.18.0](https://github.com/blackbaud/skyux/compare/14.17.0...14.18.0) (2026-09-01)
 
 
