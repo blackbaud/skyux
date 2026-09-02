@@ -90,7 +90,7 @@ const RESOURCES: Record<string, SkyLibResources> = {
     sky_ag_grid_cell_renderer_currency_validator_message: {
       message: 'Entrez une devise valide.',
     },
-    skyux_lookup_tokens_summary: { message: '{0} articles sélectionnés' },
+    skyux_lookup_tokens_summary: { message: '{0} éléments sélectionnés' },
     sky_ag_grid_cell_editor_currency_aria_label: {
       message: 'Devise modifiable {0} pour la ligne {1}',
     },
@@ -108,6 +108,10 @@ const RESOURCES: Record<string, SkyLibResources> = {
     },
     sky_ag_grid_column_group_header_collapse_aria_label: {
       message: 'Réduire le groupe de colonnes {0}',
+    },
+    sky_ag_grid_locale_no_rows_to_show: { message: 'Aucune donnée disponible' },
+    sky_ag_grid_locale_no_matching_rows: {
+      message: 'Aucune ligne correspondante',
     },
   },
 };

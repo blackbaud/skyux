@@ -69,7 +69,9 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_autocomplete_show_matches_count: {
       message: 'Afficher les correspondances ({0})',
     },
-    skyux_country_field_dropdown_hint_text: { message: 'Recherchez un pays' },
+    skyux_country_field_dropdown_hint_text: {
+      message: 'Saisissez du texte pour rechercher un pays',
+    },
     skyux_country_field_search_placeholder: { message: 'Rechercher un pays' },
     skyux_lookup_search_button_show_more: {
       message: 'Afficher tous les résultats de la recherche',
@@ -99,7 +101,7 @@ const RESOURCES: Record<string, SkyLibResources> = {
     },
     skyux_lookup_show_more_select: { message: 'Sélectionner' },
     skyux_lookup_show_more_select_context: { message: 'Sélectionner {0}' },
-    skyux_lookup_tokens_summary: { message: '{0} articles sélectionnés' },
+    skyux_lookup_tokens_summary: { message: '{0} éléments sélectionnés' },
     skyux_search_aria_label_descriptor: { message: 'Rechercher {0}' },
     skyux_search_dismiss: { message: 'Omettre la recherche' },
     skyux_search_label: { message: 'Rechercher des articles' },

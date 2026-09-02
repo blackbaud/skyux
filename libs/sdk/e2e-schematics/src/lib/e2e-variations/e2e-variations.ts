@@ -1,4 +1,4 @@
-export type E2EVariationName = 'default' | 'modern-v2-light';
+export type E2EVariationName = 'default' | 'modern-v2-dark' | 'modern-v2-light';
 
 export const E2eVariations = {
   DISPLAY_WIDTHS: [1280],
@@ -8,5 +8,6 @@ export const E2eVariations = {
   forEachTheme: (callback: (theme: E2EVariationName) => void): void => {
     callback('default');
     callback('modern-v2-light');
+    callback('modern-v2-dark');
   },
 };

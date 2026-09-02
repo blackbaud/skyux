@@ -28,8 +28,8 @@
     "message": "Afficher les correspondances ({0})"
   },
   "skyux_country_field_dropdown_hint_text": {
-    "_description": "Texte d’aide dans la liste déroulante du champ pays",
-    "message": "Recherchez un pays"
+    "_description": "Texte d’aide dans le menu déroulant du champ Pays",
+    "message": "Saisissez du texte pour rechercher un pays"
   },
   "skyux_country_field_search_placeholder": {
     "_description": "Signet pour la saisie automatique de la recherche d’un pays",
@@ -93,7 +93,7 @@
   },
   "skyux_lookup_tokens_summary": {
     "_description": "Texte affiché lorsque l’utilisateur a plus que le nombre maximal d’éléments sélectionné",
-    "message": "{0} articles sélectionnés"
+    "message": "{0} éléments sélectionnés"
   },
   "skyux_search_aria_label_descriptor": {
     "_description": "Étiquette aria par défaut pour une recherche lorsqu’un descripteur est donné",
