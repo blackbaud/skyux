@@ -140,6 +140,39 @@ sky-toast {
   }
 
   .sky-toast-content {
+    // Links and link buttons in toast content sit on a status background, so
+    // they use the on_status action tokens rather than the default link tokens.
+    --sky-comp-override-link-text-decoration-line: var(
+      --sky-font-text_decoration-action-tertiary-on_status-base
+    );
+    --sky-comp-override-link-text-decoration-line-hover: var(
+      --sky-font-text_decoration-action-tertiary-on_status-hover
+    );
+    --sky-comp-override-link-text-decoration-line-active: var(
+      --sky-font-text_decoration-action-tertiary-on_status-active
+    );
+    --sky-comp-override-link-text-decoration-line-focus: var(
+      --sky-font-text_decoration-action-tertiary-on_status-focus
+    );
+    --sky-comp-override-link-text-decoration-line-disabled: var(
+      --sky-font-text_decoration-action-tertiary-on_status-disabled
+    );
+    --sky-comp-override-inline-link-text-decoration-line: var(
+      --sky-font-text_decoration-action-tertiary-on_status-base
+    );
+    --sky-comp-override-inline-link-text-decoration-line-hover: var(
+      --sky-font-text_decoration-action-tertiary-on_status-hover
+    );
+    --sky-comp-override-inline-link-text-decoration-line-active: var(
+      --sky-font-text_decoration-action-tertiary-on_status-active
+    );
+    --sky-comp-override-inline-link-text-decoration-line-focus: var(
+      --sky-font-text_decoration-action-tertiary-on_status-focus
+    );
+    --sky-comp-override-inline-link-text-decoration-line-disabled: var(
+      --sky-font-text_decoration-action-tertiary-on_status-disabled
+    );
+
     padding: var(
       --sky-override-toast-content-padding,
       0 var(--sky-space-gap-text_action-m) 0 var(--sky-space-gap-icon-l)
@@ -153,15 +186,19 @@ sky-toast {
     .sky-btn-link-inline {
       color: var(
         --sky-override-toast-content-link-color,
-        var(--sky-color-text-action_contrast)
+        var(--sky-color-text-action_on_status)
       );
-      text-decoration: var(
+      // The default theme sets its own decoration through the override
+      // variable; modern theme states resolve through the token overrides
+      // above.
+      text-decoration-line: var(
         --sky-override-toast-content-link-decoration,
-        var(--sky-font-text_decoration-visible_link)
+        var(--sky-font-text_decoration-action-tertiary-on_status-base)
       );
 
-      &:hover {
-        color: var(--sky-color-text-action_contrast);
+      &:hover,
+      &:active {
+        color: var(--sky-color-text-action_on_status);
       }
     }
   }
@@ -286,6 +323,18 @@ sky-toast {
 
       &:focus-visible:not(:active) {
         box-shadow: var(--sky-elevation-raised-100);
+      }
+    }
+
+    // The theme draws the focus ring for these two in the default action
+    // color, which needs to be the on_status color over a status background.
+    .sky-toast-content {
+      a,
+      .sky-btn-link-inline {
+        &:focus-visible:not(:active) {
+          box-shadow: 0 0 0 var(--sky-border-width-action-focus)
+            var(--sky-color-border-action-on_status-focus);
+        }
       }
     }
 
