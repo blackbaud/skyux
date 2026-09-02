@@ -20,12 +20,17 @@ All line references below are to `@angular/forms`'
 
 ## The pitfall: dropping `ControlValueAccessor` breaks existing consumers, silently
 
-Do **not** replace an existing `ControlValueAccessor` (`NG_VALUE_ACCESSOR` /
-`NG_VALIDATORS` providers) with `FormValueControl`-only support (`value`/
+Do **not** replace an existing `ControlValueAccessor` (registered via
+`NG_VALUE_ACCESSOR`) with `FormValueControl`-only support (`value`/
 `disabled`/`touch` as `model()`/`input()`/`output()`, plus the `ngNoCva` host
 attribute). `FormValueControl` is designed for controls with no pre-existing
 CVA — it is **not** a drop-in replacement for classic reactive
 (`[formControl]`, `formControlName`) or template-driven (`[ngModel]`) forms.
+A sibling `NG_VALIDATORS` provider is a separate concern: it registers the
+directive's `Validator` (`validate`/`registerOnValidatorChange`) so schema-
+and template-driven validation both run, but it plays no part in _selecting_
+the value accessor for the signal-forms path — that selection is
+`NG_VALUE_ACCESSOR`-only, per `selectValueAccessor` below.
 
 Consumers using the classic form directives on a `FormValueControl`-only
 control do not error. They silently stop syncing (or, worse, partially sync
