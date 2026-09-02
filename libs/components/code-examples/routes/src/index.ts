@@ -534,6 +534,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'FormsInputBoxSignalFormsExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ FormsInputBoxSignalFormsExample: c }) => c,
+      ),
+  },
+  {
     path: 'FormsInputBoxWithCustomFormErrorsExampleComponent',
     loadComponent: () =>
       import('@skyux/code-examples').then(
