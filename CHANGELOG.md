@@ -1,6 +1,20 @@
 # Changelog
 
 
+## [14.19.0](https://github.com/blackbaud/skyux/compare/14.18.0...14.19.0) (2026-09-02)
+
+
+### Features
+
+* **components/indicators:** use status color tokens for status text, links, icons ([#4736](https://github.com/blackbaud/skyux/issues/4736)) ([932012d](https://github.com/blackbaud/skyux/commit/932012d3bbd9b20ce77e2548fd23104f798d94f3))
+* **components/theme:** darken action links on hover/active in modern theme ([#4738](https://github.com/blackbaud/skyux/issues/4738)) ([8e3a2f6](https://github.com/blackbaud/skyux/commit/8e3a2f646c46096a0191f16d1d8df6d63e7a56aa))
+
+
+### Bug Fixes
+
+* **components/avatar:** use correct background colors ([#4727](https://github.com/blackbaud/skyux/issues/4727)) ([30634c1](https://github.com/blackbaud/skyux/commit/30634c19f65c8b56e23f780b6a5fc837886baa71))
+* **components/layout:** inline delete cancel button is not transparent in dark modet in dark mode ([#4744](https://github.com/blackbaud/skyux/issues/4744)) ([0241607](https://github.com/blackbaud/skyux/commit/024160753d013e861b255a7c2b09ed9feda9f1dc))
+
 ## [14.18.0](https://github.com/blackbaud/skyux/compare/14.17.0...14.18.0) (2026-09-01)
 
 
