@@ -55,6 +55,7 @@
 
     ::ng-deep {
       a,
+      .sky-btn-link,
       .sky-btn-link-inline {
         color: var(--sky-color-text-action_on_status);
 
@@ -69,6 +70,30 @@
         &:focus-visible:not(:active) {
           box-shadow: 0 0 0 var(--sky-border-width-action-focus)
             var(--sky-color-border-action-on_status-focus);
+        }
+      }
+
+      .sky-btn-link {
+        &:hover {
+          box-shadow:
+            inset 0 0 0 var(--sky-border-width-action-hover)
+              var(--sky-color-border-action-on_status-focus),
+            var(--sky-elevation-action-tertiary-hover);
+        }
+
+        &:active,
+        &.sky-btn-active {
+          box-shadow:
+            inset 0 0 0 var(--sky-border-width-action-active)
+              var(--sky-color-border-action-on_status-focus),
+            var(--sky-elevation-action-tertiary-active);
+        }
+
+        &:focus-visible:not(:active) {
+          box-shadow:
+            inset 0 0 0 var(--sky-border-width-action-focus)
+              var(--sky-color-border-action-on_status-focus),
+            var(--sky-elevation-action-tertiary-focus);
         }
       }
     }
