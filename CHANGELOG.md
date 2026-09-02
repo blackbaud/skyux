@@ -7,6 +7,7 @@
 ### Features
 
 * **components/validation:** add sky email and url signal validators ([#4685](https://github.com/blackbaud/skyux/issues/4685)) ([43c4d01](https://github.com/blackbaud/skyux/commit/43c4d0183a3bba1c3d1e36d10da64c40200bad37)), closes [#4629](https://github.com/blackbaud/skyux/issues/4629) [#4686](https://github.com/blackbaud/skyux/issues/4686) [#4687](https://github.com/blackbaud/skyux/issues/4687) [#4688](https://github.com/blackbaud/skyux/issues/4688) [#4689](https://github.com/blackbaud/skyux/issues/4689) [#4690](https://github.com/blackbaud/skyux/issues/4690) [#4691](https://github.com/blackbaud/skyux/issues/4691) [AB#4008241](https://dev.azure.com/blackbaud/Products/_workitems/edit/4008241)
+* underline inline and link buttons in dark mode with standalone exceptions ([#4729](https://github.com/blackbaud/skyux/issues/4729)) ([#4729](https://github.com/blackbaud/skyux/issues/4729)) ([#4735](https://github.com/blackbaud/skyux/issues/4735)) ([4dd9902](https://github.com/blackbaud/skyux/commit/4dd9902dc609563061e0497eba4078556bcaa655))
 
 
 ### Bug Fixes
