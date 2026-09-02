@@ -1,0 +1,26 @@
+<sky-modal headingText="Data grid docked in a modal" layout="fit">
+  <sky-modal-content>
+    <sky-data-grid dock="fill" [data]="data">
+      @for (column of columns; track column.field) {
+        <sky-data-grid-column
+          [columnHidden]="column.columnHidden"
+          [dataType]="column.dataType"
+          [field]="column.field"
+          [headingText]="column.headingText"
+          [sortable]="column.sortable"
+          [template]="column.field.endsWith('%') ? pct : undefined"
+          [width]="column.width"
+        />
+      }
+    </sky-data-grid>
+  </sky-modal-content>
+  <sky-modal-footer>
+    <button
+      class="sky-btn sky-btn-default"
+      type="button"
+      (click)="modalInstance?.close()"
+    >
+      Close
+    </button>
+  </sky-modal-footer>
+</sky-modal>

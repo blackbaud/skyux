@@ -14,19 +14,20 @@ const routes: ComponentRouteInfo[] = [
     },
   },
   {
-    path: 'fit-layout',
-    loadComponent: () => import('./fit-layout/fit-layout.component'),
+    path: 'docked-in-fit-layout',
+    loadComponent: () =>
+      import('./docked-in-fit-layout/docked-in-fit-layout.component'),
     data: {
-      name: 'Data Grid fit layout',
+      name: 'Data Grid docked in a fit layout page',
       icon: 'table',
       library: 'data-grid',
     },
   },
   {
-    path: 'fit-tabs',
-    loadComponent: () => import('./fit-tabs/fit-tabs.component'),
+    path: 'docked-tabs',
+    loadComponent: () => import('./docked-tabs/./docked-tabs.component'),
     data: {
-      name: 'Data Grid fit tabs',
+      name: 'Data grid docked in a tabs page',
       icon: 'table',
       library: 'data-grid',
     },

@@ -2,15 +2,16 @@
   {{ value | skyPercent }}
 </ng-template>
 <sky-page layout="fit">
-  <sky-page-header pageTitle="Data grid fit layout">
+  <sky-page-header pageTitle="Data grid docked in a fit layout page">
     <sky-page-header-actions>
       <button
         class="sky-btn sky-btn-default"
         type="button"
-        routerLink="/components/data-grid/fit-tabs"
+        routerLink="/components/data-grid/docked-tabs"
       >
-        Data grid fit layout with tabs
+        Data grid docked in a tabs page
       </button>
+      <app-docked-in-modal-button />
     </sky-page-header-actions>
   </sky-page-header>
 

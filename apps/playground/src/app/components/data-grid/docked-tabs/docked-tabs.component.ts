@@ -14,9 +14,10 @@ import {
   data,
 } from '../../../shared/data-manager/baseball-players-data';
 import { LipsumComponent } from '../../../shared/lipsum/lipsum.component';
+import { DockedInModalButtonComponent } from '../docked-in-modal/docked-in-modal-button.component';
 
 @Component({
-  selector: 'app-fit-tabs',
+  selector: 'app-docked-tabs',
   imports: [
     LipsumComponent,
     SkyBoxModule,
@@ -28,12 +29,13 @@ import { LipsumComponent } from '../../../shared/lipsum/lipsum.component';
     SkyTabsModule,
     RouterLink,
     SkyPercentPipe,
+    DockedInModalButtonComponent,
   ],
-  styleUrl: './fit-tabs.component.css',
-  templateUrl: './fit-tabs.component.html',
+  styleUrl: './docked-tabs.component.css',
+  templateUrl: './docked-tabs.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FitTabsComponent {
+export class DockedTabsComponent {
   protected readonly columns = columnDefinitions;
   protected readonly dataAM = data.filter(
     (player) => player.name.charAt(0) <= 'M',
@@ -47,4 +49,4 @@ export class FitTabsComponent {
     direction: 'asc',
   });
 }
-export default FitTabsComponent;
+export default DockedTabsComponent;

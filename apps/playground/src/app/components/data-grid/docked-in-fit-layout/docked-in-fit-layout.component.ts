@@ -7,21 +7,23 @@ import {
   columnDefinitions,
   data,
 } from '../../../shared/data-manager/baseball-players-data';
+import { DockedInModalButtonComponent } from '../docked-in-modal/docked-in-modal-button.component';
 
 @Component({
-  selector: 'app-fit-layout',
+  selector: 'app-docked-in-fit-layout',
   imports: [
     SkyDataGridColumn,
     SkyDataGrid,
     SkyPageModule,
     RouterLink,
     SkyPercentPipe,
+    DockedInModalButtonComponent,
   ],
-  templateUrl: './fit-layout.component.html',
+  templateUrl: './docked-in-fit-layout.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FitLayoutComponent {
+export class DockedInFitLayoutComponent {
   protected readonly columns = columnDefinitions;
   protected readonly data = data;
 }
-export default FitLayoutComponent;
+export default DockedInFitLayoutComponent;
