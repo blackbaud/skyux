@@ -354,20 +354,19 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
   ): SkyDataManagerSortOption {
     const activeSortColumnDef = api.getColumnDef(activeSortColumnState.colId);
     const descending = activeSortColumnState.sort === 'desc';
-    const propertyName = activeSortColumnDef?.field || '';
+    const propertyName =
+      activeSortColumnDef?.field || activeSortColumnState.colId;
 
     // Prefer the configured sort option matching this column and direction
     // so the sort menu's selected item stays in sync; columns without a
     // matching option fall back to a column-derived sort option.
-    const matchingSortOption = propertyName
-      ? this.#dataManagerSvc
-          .getCurrentDataManagerConfig()
-          .sortOptions?.find(
-            (option) =>
-              option.propertyName === propertyName &&
-              !!option.descending === descending,
-          )
-      : undefined;
+    const matchingSortOption = this.#dataManagerSvc
+      .getCurrentDataManagerConfig()
+      .sortOptions?.find(
+        (option) =>
+          option.propertyName === propertyName &&
+          !!option.descending === descending,
+      );
 
     return (
       matchingSortOption ?? {

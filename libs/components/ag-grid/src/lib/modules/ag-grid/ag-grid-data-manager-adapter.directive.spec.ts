@@ -569,7 +569,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     );
   });
 
-  it('should update the data state when the sort changes and use empty strings for header/field when not present', async () => {
+  it('should update the data state when the sort changes and fall back to colId/empty string for propertyName/header when not present', async () => {
     await agGridDataManagerFixture.whenStable();
 
     agGridComponent.api.applyColumnState({
@@ -595,7 +595,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     dataState.activeSortOption = {
       id: 'noHeader',
       descending: true,
-      propertyName: '',
+      propertyName: 'noHeader',
       label: '',
     };
 
@@ -607,7 +607,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     );
   });
 
-  it('should update the data state when the sort changes and use empty strings for header/field when not present', async () => {
+  it('should update the data state when the sort changes and fall back to colId/empty string for propertyName/header when not present', async () => {
     await agGridDataManagerFixture.whenStable();
 
     agGridComponent.api.applyColumnState({
@@ -634,7 +634,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     dataState.activeSortOption = {
       id: 'noHeader',
       descending: true,
-      propertyName: '',
+      propertyName: 'noHeader',
       label: '',
     };
 
