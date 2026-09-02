@@ -1698,7 +1698,7 @@ describe('Input box component', () => {
       const { inputBoxEl } = getInputBoxSignalFormEls();
 
       const characterCountEl = inputBoxEl.querySelector(
-        'sky-character-counter-indicator',
+        'sky-input-box-character-limit',
       );
 
       expect(characterCountEl).toBeTruthy();
@@ -1716,7 +1716,7 @@ describe('Input box component', () => {
 
       const { inputBoxEl } = getInputBoxSignalFormEls();
       const characterCountEl = inputBoxEl.querySelector(
-        'sky-character-counter-indicator',
+        'sky-input-box-character-limit',
       );
 
       expect(characterCountEl?.textContent).toContain('10');
