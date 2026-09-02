@@ -124,7 +124,20 @@ export class SkyTimepickerInputDirective
     return this.#_modelValue;
   }
 
-  set #modelValue(value: SkyTimepickerTimeOutput | undefined) {
+  // Only calls the registered `onChange` for user-driven changes (`emitChange`).
+  // Calling it from an externally-driven write (`writeValue`, not triggered by
+  // the user) always marks the field dirty, for every form flavor -- Angular's
+  // own `setUpViewChangePipeline` sets `_pendingDirty` on every invocation of a
+  // registered `onChange`, and signal forms' `controlValue.set()` does the
+  // same. For a reactive/template-driven control, normalize its raw value to
+  // the full `SkyTimepickerTimeOutput` object by writing directly to the
+  // control instead (bypassing `onChange`, so it doesn't mark the field
+  // dirty); signal forms' interop control has no `setValue`, so its field
+  // keeps whatever raw value the consumer bound until the user changes it.
+  #setModelValue(
+    value: SkyTimepickerTimeOutput | undefined,
+    emitChange: boolean,
+  ): void {
     // A retained invalid entry must be cleaned up even when the model value is
     // unchanged (e.g. a form reset while `undefined` is the model value).
     if (value !== this.#_modelValue || this.#hasRetainedInvalidValue) {
@@ -133,7 +146,15 @@ export class SkyTimepickerInputDirective
       this.#updateTimepickerInput();
       this.#setInputValue(value);
       this.#_validatorChange();
-      this.#_onChange(value);
+
+      if (emitChange) {
+        this.#_onChange(value);
+      } else if (
+        skyIsAbstractControl(this.#control) &&
+        this.#control.value !== value
+      ) {
+        this.#control.setValue(value, { emitEvent: false });
+      }
     }
   }
 
@@ -155,7 +176,8 @@ export class SkyTimepickerInputDirective
     this.pickerChangedSubscription =
       this.skyTimepickerInput?.selectedTimeChanged.subscribe(
         (newTime: string) => {
-          this.writeValue(newTime);
+          // A time selected in the picker dialog is a user-driven change.
+          this.#applyValue(newTime, true);
           this.#_onTouched();
         },
       );
@@ -192,7 +214,8 @@ export class SkyTimepickerInputDirective
 
   @HostListener('change', ['$event'])
   public onChange(event: any): void {
-    this.writeValue(event.target.value);
+    // A native `change` event is a user-driven change.
+    this.#applyValue(event.target.value, true);
   }
 
   /* istanbul ignore next */
@@ -216,20 +239,7 @@ export class SkyTimepickerInputDirective
   }
 
   public writeValue(value: any): void {
-    const formatted = this.#formatter(value);
-
-    // Keep invalid entries in the input instead of clearing them so the user
-    // can see and correct their entry (matching the datepicker's behavior).
-    if (
-      typeof value === 'string' &&
-      value.length > 0 &&
-      formatted.local === 'Invalid date'
-    ) {
-      this.#applyInvalidValue(value);
-      return;
-    }
-
-    this.#modelValue = formatted;
+    this.#applyValue(value, false);
   }
 
   public validate(control: AbstractControl): ValidationErrors | null {
@@ -248,7 +258,9 @@ export class SkyTimepickerInputDirective
       if (this.#formatter(value).local === 'Invalid date') {
         // Mark as touched so the invalid CSS styles appear even when the value
         // is set programmatically.
-        this.#control?.markAsTouched();
+        if (skyIsAbstractControl(this.#control)) {
+          this.#control.markAsTouched();
+        }
 
         return { skyTime: { invalid: value } };
       }
@@ -264,7 +276,27 @@ export class SkyTimepickerInputDirective
     return null;
   }
 
-  #applyInvalidValue(rawValue: string): void {
+  // Applies a value regardless of its source: `writeValue` (external, `emitChange`
+  // false) or a user-driven change (native `change` event, picker selection;
+  // `emitChange` true).
+  #applyValue(value: any, emitChange: boolean): void {
+    const formatted = this.#formatter(value);
+
+    // Keep invalid entries in the input instead of clearing them so the user
+    // can see and correct their entry (matching the datepicker's behavior).
+    if (
+      typeof value === 'string' &&
+      value.length > 0 &&
+      formatted.local === 'Invalid date'
+    ) {
+      this.#applyInvalidValue(value, emitChange);
+      return;
+    }
+
+    this.#setModelValue(formatted, emitChange);
+  }
+
+  #applyInvalidValue(rawValue: string, emitChange: boolean): void {
     // There is no valid model value while an invalid entry is retained.
     this.#_modelValue = undefined;
     this.#hasRetainedInvalidValue = true;
@@ -275,7 +307,9 @@ export class SkyTimepickerInputDirective
     // Push the raw string to the form control and re-run validation. The
     // validator supplies the `skyTime` error, so we avoid calling `setErrors`
     // here to preserve any errors contributed by other validators.
-    this.#_onChange(rawValue);
+    if (emitChange) {
+      this.#_onChange(rawValue);
+    }
     this.#_validatorChange();
   }
 
