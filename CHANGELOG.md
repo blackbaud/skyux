@@ -1,7 +1,7 @@
 # Changelog
 
 
-## [15.0.0-alpha.10](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.9...15.0.0-alpha.10) (2026-09-01)
+## [15.0.0-alpha.10](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.9...15.0.0-alpha.10) (2026-09-02)
 
 
 ### Features
