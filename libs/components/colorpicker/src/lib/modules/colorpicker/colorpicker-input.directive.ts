@@ -403,16 +403,21 @@ export class SkyColorpickerInputDirective
       if (value === this.#renderedValue) {
         // Already showing exactly this string, most commonly this
         // directive's own prior write (`#applyColor`) echoing back through
-        // `value`. Skip before formatting: re-parsing isn't needed, and
-        // could fail for a value the current `alphaChannel`/`outputFormat`
-        // settings can no longer parse (for example, a 6-digit hex string
-        // once `alphaChannel` is `hex8`, which only accepts 8 digits).
+        // `value`. Skip re-rendering before formatting: re-parsing isn't
+        // needed, and could fail for a value the current
+        // `alphaChannel`/`outputFormat` settings can no longer parse (for
+        // example, a 6-digit hex string once `alphaChannel` is `hex8`,
+        // which only accepts 8 digits). The bound control still needs
+        // normalizing below, since a reactive/template-driven consumer may
+        // have just written this same raw string directly.
+        this.#normalizeControlValue(this.#formatter(value));
         return;
       }
     } else if (value === this.#modelValue) {
       // Already showing exactly this `SkyColorpickerOutput` object, most
       // commonly this directive's own prior write (`#applyColor`) echoing
       // back through `value`.
+      this.#normalizeControlValue(value);
       return;
     }
 
@@ -420,6 +425,7 @@ export class SkyColorpickerInputDirective
     const output = this.#toOutputString(formattedValue);
 
     if (output === this.#renderedValue) {
+      this.#normalizeControlValue(formattedValue);
       return;
     }
 
@@ -427,19 +433,7 @@ export class SkyColorpickerInputDirective
     this.#modelValue = formattedValue;
     this.#writeModelValue(formattedValue);
 
-    // For reactive/template-driven forms, normalize the bound control's
-    // value to the full `SkyColorpickerOutput` object, restoring this
-    // directive's pre-signal-forms contract for those consumers. Written
-    // directly to the control (not through `onChange`) so it doesn't mark
-    // the field dirty; the control's own change detection then reflects the
-    // normalized object back for us. `[formField]` (signal forms) bindings
-    // also expose an `NgControl` (for interop with APIs that expect one),
-    // but it's a read-only compatibility shim with no `setValue`, so this
-    // only ever applies to real reactive/template-driven form controls.
-    const control = this.#ngControl?.control;
-    if (skyIsAbstractControl(control) && control.value !== formattedValue) {
-      control.setValue(formattedValue, { emitEvent: false });
-    }
+    this.#normalizeControlValue(formattedValue);
 
     // The initial-color bookkeeping only deals in color strings, so a
     // `SkyColorpickerOutput` incoming value uses its normalized output
@@ -451,6 +445,24 @@ export class SkyColorpickerInputDirective
       this.skyColorpickerInput.initialColor = initialColorValue;
     }
     this.skyColorpickerInput.lastAppliedColor = initialColorValue;
+  }
+
+  // For reactive/template-driven forms, normalizes the bound control's
+  // value to the full `SkyColorpickerOutput` object, restoring this
+  // directive's pre-signal-forms contract for those consumers (so
+  // `control.value.hex`, `control.value.rgba.alpha`, etc. are always
+  // available, even if the consumer bound a raw string). Written directly
+  // to the control (not through `onChange`) so it doesn't mark the field
+  // dirty; the control's own change detection then reflects the normalized
+  // object back for us. `[formField]` (signal forms) bindings also expose
+  // an `NgControl` (for interop with APIs that expect one), but it's a
+  // read-only compatibility shim with no `setValue`, so this only ever
+  // applies to real reactive/template-driven form controls.
+  #normalizeControlValue(formattedValue: SkyColorpickerOutput): void {
+    const control = this.#ngControl?.control;
+    if (skyIsAbstractControl(control) && control.value !== formattedValue) {
+      control.setValue(formattedValue, { emitEvent: false });
+    }
   }
 
   // Applies a color the user selected (through the native input or the

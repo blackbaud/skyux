@@ -514,11 +514,11 @@ export class SkyColorpickerComponent
 
   public onTriggerButtonClick(): void {
     // Signals the bound `[skyColorpickerInput]` directive to report a touch,
-    // which the `Field` directive (signal forms) or `NgControl` (reactive and
-    // template-driven forms) then use to mark the field as touched. Routing
-    // this through the directive rather than mutating `ngControl.control`
-    // directly means this works identically across all three form flavors,
-    // now that the directive no longer implements `ControlValueAccessor`.
+    // which its `ControlValueAccessor` relays to the registered `onTouched`
+    // callback. Routing this through the directive rather than mutating
+    // `ngControl.control` directly means this works identically across all
+    // three form flavors, since `cvaControlCreate` wires up `onTouched` for
+    // `[formField]` too whenever a `ControlValueAccessor` is present.
     this.#colorpickerInputSvc.touch.next();
 
     this.#sendMessage(SkyColorpickerMessageType.Open);
@@ -644,10 +644,11 @@ export class SkyColorpickerComponent
   #resetToInitialColor(): void {
     this.updatePickerValues(this.initialColor);
     this.backgroundColorForDisplay = this.initialColor;
-    this.selectedColorChanged.emit(this.selectedColor);
-    // TODO: This code assumed non-null pre-strict mode. Reevaluate in the future?
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    this.selectedColorApplied.emit({ color: this.selectedColor! });
+
+    if (this.selectedColor) {
+      this.selectedColorChanged.emit(this.selectedColor);
+      this.selectedColorApplied.emit({ color: this.selectedColor });
+    }
   }
 
   #handleIncomingMessages(message: SkyColorpickerMessage): void {

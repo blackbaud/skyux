@@ -1516,6 +1516,29 @@ describe('Colorpicker Component', () => {
       expect(component.colorForm.get('colorModel')?.value.hex).toBe('#2b7230');
     }));
 
+    it('should normalize the reactive form control value even when the incoming value already matches the rendered display', fakeAsync(() => {
+      component.selectedOutputFormat = 'hex';
+      fixture.detectChanges();
+      tick();
+
+      component.colorControl.setValue('#0000ff');
+      fixture.detectChanges();
+      tick();
+
+      const renderedHex = component.colorControl.value.hex;
+      expect(renderedHex).toBeTruthy();
+
+      // Writes the exact string the control is already displaying (as
+      // could happen after `form.reset({ value: renderedHex })`), which
+      // takes the directive's early-return path that skips re-rendering.
+      component.colorControl.setValue(renderedHex);
+      fixture.detectChanges();
+      tick();
+
+      expect(component.colorControl.value.hex).toBe(renderedHex);
+      expect(component.colorControl.value.rgba.alpha).toBe(1);
+    }));
+
     it('should reset colorpicker via reset button.', fakeAsync(async () => {
       fixture.detectChanges();
       const spyOnResetColorPicker = spyOn(
