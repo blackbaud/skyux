@@ -2671,5 +2671,70 @@ describe('Phone Field Component', () => {
 
       expect(testComponent.phoneForm().dirty()).toBeFalse();
     });
+
+    it('should mark the field dirty when the user selects a country that reformats the number', fakeAsync(() => {
+      testComponent.model.set('6675555309');
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      expect(testComponent.phoneForm().dirty()).toBeFalse();
+
+      const countryToggleButton = fixture.nativeElement.querySelector(
+        '.sky-phone-field-country-btn .sky-btn-default',
+      ) as HTMLButtonElement;
+      countryToggleButton.click();
+      fixture.detectChanges();
+      tick();
+
+      const countrySearchInput = fixture.nativeElement.querySelector(
+        'textarea',
+      ) as HTMLTextAreaElement;
+      countrySearchInput.value = 'Albania';
+      SkyAppTestUtility.fireDomEvent(countrySearchInput, 'input');
+      fixture.detectChanges();
+      tick();
+
+      SkyAppTestUtility.fireDomEvent(
+        document.querySelector('.sky-autocomplete-result:first-child'),
+        'click',
+      );
+      fixture.detectChanges();
+      tick();
+
+      expect(testComponent.phoneForm().dirty()).toBeTrue();
+    }));
+
+    it('should mark the field dirty when the user interacts with the country search, even when reformatting does not change an empty number', fakeAsync(() => {
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      expect(testComponent.phoneForm().dirty()).toBeFalse();
+
+      const countryToggleButton = fixture.nativeElement.querySelector(
+        '.sky-phone-field-country-btn .sky-btn-default',
+      ) as HTMLButtonElement;
+      countryToggleButton.click();
+      fixture.detectChanges();
+      tick();
+
+      const countrySearchInput = fixture.nativeElement.querySelector(
+        'textarea',
+      ) as HTMLTextAreaElement;
+      countrySearchInput.value = 'Albania';
+      SkyAppTestUtility.fireDomEvent(countrySearchInput, 'input');
+      fixture.detectChanges();
+      tick();
+
+      SkyAppTestUtility.fireDomEvent(
+        document.querySelector('.sky-autocomplete-result:first-child'),
+        'click',
+      );
+      fixture.detectChanges();
+      tick();
+
+      expect(testComponent.phoneForm().dirty()).toBeTrue();
+    }));
   });
 });
