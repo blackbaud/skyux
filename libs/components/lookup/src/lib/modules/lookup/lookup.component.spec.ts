@@ -4376,6 +4376,26 @@ describe('Lookup component', function () {
           expect(selectedItems[0].name).toEqual('Isaac');
         }));
 
+        it('should update the bound signal on each sequential add, not just the first', fakeAsync(() => {
+          fixture.detectChanges();
+
+          performSearch('s', fixture);
+          selectSearchResult(0, fixture);
+
+          const afterFirstAdd = component.selectedFriends();
+          expect(afterFirstAdd?.length).toEqual(1);
+
+          performSearch('s', fixture);
+          selectSearchResult(1, fixture);
+
+          const afterSecondAdd = component.selectedFriends();
+          expect(afterSecondAdd?.length).toEqual(2);
+          // A `signal()`/`model()` binding only notifies consumers when it
+          // receives a new reference; reusing the same array on the second
+          // add would silently leave `selectedFriends()` unmoved.
+          expect(afterSecondAdd).not.toBe(afterFirstAdd);
+        }));
+
         it('should not collapse tokens if more than 5 items are selected with `enableShowMore` disabled', fakeAsync(() => {
           fixture.detectChanges();
           fixture.componentRef.setInput('selectedFriends', [
