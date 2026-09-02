@@ -19,8 +19,6 @@
   align-items: center;
 
   .sky-alert-content {
-    // Links and link buttons in alert content sit on a status background, so
-    // they use the on_status action tokens rather than the default link tokens.
     --sky-comp-override-link-text-decoration-line: var(
       --sky-font-text_decoration-action-tertiary-on_status-base
     );
@@ -57,7 +55,6 @@
 
     ::ng-deep {
       a,
-      .sky-btn-link,
       .sky-btn-link-inline {
         color: var(--sky-color-text-action_on_status);
 
@@ -67,8 +64,6 @@
         }
       }
 
-      // The theme draws the focus ring for these two in the default action
-      // color, which needs to be the on_status color over a status background.
       a,
       .sky-btn-link-inline {
         &:focus-visible:not(:active) {

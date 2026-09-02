@@ -8,6 +8,7 @@
   --sky-override-status-indicator-icon-color-success: #{$sky-highlight-color-success};
   --sky-override-status-indicator-icon-color-warning: #{$sky-highlight-color-warning};
   --sky-override-status-indicator-icon-padding-right: #{$sky-space-xs};
+  --sky-override-status-indicator-inner-icon-color: #fff;
 }
 
 .sky-status-indicator {
@@ -16,7 +17,10 @@
 }
 
 .sky-status-indicator-icon {
-  --sky-icon-svg-path-2-color-input: var(--sky-color-icon-on_status);
+  --sky-icon-svg-path-2-color-input: var(
+    --sky-override-status-indicator-inner-icon-color,
+    var(--sky-color-icon-on_status)
+  );
   flex-shrink: 1;
   padding-right: var(
     --sky-staus-indicator-padding-right,
