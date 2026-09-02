@@ -1031,13 +1031,14 @@ describe('Timepicker', () => {
       expect(testComponent.timeForm().dirty()).toBeTrue();
     });
 
-    it('should not throw when a value is written into the model', () => {
+    it('should not mark the field dirty when a value is written into the model', () => {
       expect(() => {
         testComponent.model.set('3:00 PM');
         fixture.detectChanges();
       }).not.toThrow();
 
       expect(inputEl.value).toBe('3:00 PM');
+      expect(testComponent.timeForm().dirty()).toBeFalse();
     });
   });
 });
