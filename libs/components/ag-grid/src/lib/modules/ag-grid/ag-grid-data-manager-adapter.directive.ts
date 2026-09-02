@@ -479,15 +479,16 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
       predicate: (state: ColumnState) => boolean,
     ): string | undefined => columnStates.find(predicate)?.colId;
 
-    // A sort option's ID is arbitrary, so fall back to the column whose
-    // field or ID corresponds to the option's data property.
+    // Match on the option's data property first, since a sort option's ID is
+    // arbitrary and could otherwise select an unrelated column. Only fall
+    // back to the legacy ID match for options predating the property lookup.
     return (
-      findColId((state) => state.colId === activeSort.id) ??
       findColId(
         (state) =>
           api.getColumnDef(state.colId)?.field === activeSort.propertyName,
       ) ??
-      findColId((state) => state.colId === activeSort.propertyName)
+      findColId((state) => state.colId === activeSort.propertyName) ??
+      findColId((state) => state.colId === activeSort.id)
     );
   }
 
