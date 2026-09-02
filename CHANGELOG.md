@@ -1,6 +1,18 @@
 # Changelog
 
 
+## [14.18.0](https://github.com/blackbaud/skyux/compare/14.17.0...14.18.0) (2026-09-01)
+
+
+### Features
+
+* underline inline and link buttons in dark mode with standalone exceptions ([#4729](https://github.com/blackbaud/skyux/issues/4729)) ([378ac1b](https://github.com/blackbaud/skyux/commit/378ac1b7e88694bd66ee3ea82c985b397f89a9c8))
+
+
+### Bug Fixes
+
+* **components/data-manager:** getDataStateUpdates no longer drops changes when peers mutate shared state ([#4700](https://github.com/blackbaud/skyux/issues/4700)) ([ac9bb3e](https://github.com/blackbaud/skyux/commit/ac9bb3e40f9ce66af2fc9448513b188f4e790c78)), closes [AB#4099031](https://dev.azure.com/blackbaud/Products/_workitems/edit/4099031)
+
 ## [14.17.0](https://github.com/blackbaud/skyux/compare/14.16.0...14.17.0) (2026-08-28)
 
 
