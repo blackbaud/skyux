@@ -265,18 +265,15 @@ export class SkyCountryFieldComponent
    * @internal
    */
   public onCountrySelected(newCountry: SkyAutocompleteSelectionChange): void {
-    // A user selection is never the form's initial value, even under signal
-    // forms where `writeValue` may not have run yet.
-    this.#isInitialChange = false;
-
     if (newCountry.selectedItem) {
-      this.writeValue(
+      this.#applyValue(
         this.countries().find(
           (countryInfo) => countryInfo.iso2 === newCountry.selectedItem.iso2,
         ),
+        true,
       );
     } else {
-      this.writeValue(undefined);
+      this.#applyValue(undefined, true);
     }
   }
 
@@ -327,11 +324,22 @@ export class SkyCountryFieldComponent
   }
 
   public writeValue(value: SkyCountryFieldCountry | undefined): void {
+    // `writeValue` is always an externally-driven write (model-to-view), never
+    // a user action, so it must never emit `onChange`/`onTouched` -- doing so
+    // marks the field dirty regardless of form flavor. `onCountrySelected`
+    // (the actual user-driven path) calls `#applyValue` directly instead.
+    this.#applyValue(value, false);
+  }
+
+  #applyValue(
+    value: SkyCountryFieldCountry | undefined,
+    emitChange: boolean,
+  ): void {
     const current = this.#_selectedIsoCountry();
     if (!this.#countriesAreEqual(current, value)) {
       this.#_selectedCountry.set(value);
 
-      if (!this.#isInitialChange) {
+      if (emitChange) {
         const resolved = this.#_selectedIsoCountry();
         this.onChange(resolved);
         this.onTouched();
@@ -339,7 +347,10 @@ export class SkyCountryFieldComponent
         if (resolved) {
           this.selectedCountryChange.emit(resolved);
         }
-      } else if (skyIsAbstractControl(this.#ngControl?.control)) {
+      } else if (
+        this.#isInitialChange &&
+        skyIsAbstractControl(this.#ngControl?.control)
+      ) {
         // Do not mark the field as "dirty"
         // if the field has been initialized with a value.
         this.#ngControl.control.markAsPristine();

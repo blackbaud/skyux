@@ -211,6 +211,36 @@ describe('Country Field Component', () => {
         validateSelectedCountry(nativeElement, 'Australia');
       }));
 
+      it('should not mark the field dirty when the model is set programmatically', fakeAsync(() => {
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        fixture.componentRef.setInput('modelValue', {
+          name: 'United States',
+          iso2: 'us',
+        });
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        validateSelectedCountry(nativeElement, 'United States');
+        expect(component.ngModel.dirty).toBeFalse();
+      }));
+
+      it('should mark the field dirty when the user selects a country', fakeAsync(() => {
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        searchAndSelect('Austr', 0, fixture);
+
+        fixture.detectChanges();
+
+        validateSelectedCountry(nativeElement, 'Australia');
+        expect(component.ngModel.dirty).toBeTrue();
+      }));
+
       it('should change countries correctly via a model change', fakeAsync(() => {
         fixture.componentRef.setInput('modelValue', {
           name: 'United States',
@@ -715,6 +745,33 @@ describe('Country Field Component', () => {
         fixture.detectChanges();
 
         validateSelectedCountry(nativeElement, 'Australia');
+      }));
+
+      it('should not mark the field dirty when the control value is set programmatically', fakeAsync(() => {
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        component.setValue({ name: 'United States', iso2: 'us' });
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        validateSelectedCountry(nativeElement, 'United States');
+        expect(component.countryControl?.dirty).toBeFalse();
+      }));
+
+      it('should mark the field dirty when the user selects a country', fakeAsync(() => {
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        searchAndSelect('Austr', 0, fixture);
+
+        fixture.detectChanges();
+
+        validateSelectedCountry(nativeElement, 'Australia');
+        expect(component.countryControl?.dirty).toBeTrue();
       }));
 
       it('should change countries correctly via a model change, even when disabled', fakeAsync(() => {
