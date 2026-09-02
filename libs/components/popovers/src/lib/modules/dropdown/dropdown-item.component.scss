@@ -181,15 +181,27 @@
     // no attribute-selector boost applies here. Nesting under this
     // already-modern-scoped mixin raises this to (0,4,1), safely above it.
     // :not([disabled]) excludes disabled anchors entirely rather than
-    // competing with the disabled-state color rule below — on a disabled
-    // anchor, that rule (0,3,1) and the global rule (0,3,1, since disabled
-    // dropdown items aren't .sky-btn-styled) are an exact tie resolved by
-    // stylesheet injection order, which today resolves correctly.
+    // competing with the disabled-state color rule — that rule is pinned
+    // separately below instead of relying on stylesheet order.
     & > a:hover:not([disabled]),
     & > a:active:not([disabled]) {
       color: var(
         --sky-override-dropdown-item-color-text,
         var(--sky-color-text-default)
+      );
+    }
+
+    // Same reasoning as above, but for the disabled color: the shared
+    // .sky-dropdown-item > a[disabled]:hover rule (0,3,1, unscoped to
+    // .sky-theme-modern) previously tied the global rule's specificity
+    // exactly, so which one won depended on stylesheet injection order.
+    // Nesting under this mixin raises it to (0,4,1), guaranteeing the
+    // disabled color wins regardless of order.
+    & > a[disabled]:hover,
+    & > a[disabled]:active {
+      color: var(
+        --sky-override-dropdown-item-disabled-color-text,
+        var(--sky-color-text-deemphasized)
       );
     }
   }
