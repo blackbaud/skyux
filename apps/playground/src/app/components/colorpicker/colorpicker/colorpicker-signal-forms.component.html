@@ -3,9 +3,10 @@
   <p>
     Baseline for the <code>FormValueControl</code> prototype: one colorpicker,
     bound three ways. Compare <code>required</code>, disabled, value sync, and
-    touched behavior across each column, both before and after
-    <code>SkyColorpickerInputDirective</code> drops
-    <code>ControlValueAccessor</code>.
+    touched behavior across each column.
+    <code>SkyColorpickerInputDirective</code> implements both
+    <code>ControlValueAccessor</code> and <code>FormValueControl</code>, so all
+    three columns sync through <code>ControlValueAccessor</code>.
   </p>
 
   <button
@@ -85,12 +86,6 @@
 
 <div class="sky-theme-padding-inset-balanced-m">
   <h2>Template-driven forms</h2>
-  <!--
-    `NgModel`'s `shouldBindRequired` is `false` in @angular/forms's custom-control
-    interop (verified in forms.mjs), so a `required` attribute here will NOT
-    flow into a `FormValueControl`'s `required()` input the way reactive forms
-    does. Watch this column closely once the directive drops its CVA.
-  -->
   <form>
     <sky-colorpicker
       #templatePicker

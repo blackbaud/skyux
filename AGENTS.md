@@ -61,6 +61,10 @@ scope:
 - [visual-testing.instructions.md](.github/instructions/visual-testing.instructions.md)
   (`apps/e2e/*-storybook/src/app/**/*.stories.ts`) — authoring Storybook
   visual-test stories for Percy snapshots.
+- [signal-forms-custom-controls.instructions.md](.github/instructions/signal-forms-custom-controls.instructions.md)
+  (`**/libs/components/**/*.directive.ts, **/libs/components/**/*.component.ts`)
+  — pitfalls when adding `@angular/forms/signals` support to a directive or
+  component that already implements `ControlValueAccessor`.
 
 ## Reviewer Persona
 

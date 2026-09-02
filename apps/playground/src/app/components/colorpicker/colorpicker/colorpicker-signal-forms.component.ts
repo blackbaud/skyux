@@ -10,11 +10,13 @@ import { FormField, form, required } from '@angular/forms/signals';
 import { SkyColorpickerModule } from '@skyux/colorpicker';
 
 /**
- * Spike harness for the `SkyColorpickerInputDirective` → `FormValueControl`
- * prototype (blackbaud/skyux#4629, review comment about `FormValueControl`).
+ * Spike harness for `SkyColorpickerInputDirective`'s `FormValueControl`
+ * support (blackbaud/skyux#4629, review comment about `FormValueControl`).
  * Binds one colorpicker three ways so `required`/disabled/value/touched
  * behavior can be compared across signal, reactive, and template-driven
- * forms before and after the refactor.
+ * forms. The directive implements both `ControlValueAccessor` and
+ * `FormValueControl`, so all three columns go through `ControlValueAccessor`
+ * (which `Field` and reactive/template-driven forms all prefer when present).
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
