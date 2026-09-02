@@ -13,6 +13,7 @@
 ### Bug Fixes
 
 * **components/avatar:** use correct background colors ([#4727](https://github.com/blackbaud/skyux/issues/4727)) ([30634c1](https://github.com/blackbaud/skyux/commit/30634c19f65c8b56e23f780b6a5fc837886baa71))
+* **components/layout:** inline delete cancel button is not transparent in dark modet in dark mode ([#4744](https://github.com/blackbaud/skyux/issues/4744)) ([0241607](https://github.com/blackbaud/skyux/commit/024160753d013e861b255a7c2b09ed9feda9f1dc))
 
 ## [14.18.0](https://github.com/blackbaud/skyux/compare/14.17.0...14.18.0) (2026-09-01)
 
