@@ -83,17 +83,31 @@ control with no pre-existing CVA at all.
 
 ## Gotchas hit while doing this
 
-1. **`onChange` unconditionally marks a signal-forms field dirty — never call
-   it from a write path that isn't user-driven.** `cvaControlCreate`'s
-   registered `onChange` feeds `state().controlValue`, and that signal's
-   `set`/`update` always calls `markAsDirty()` before syncing
-   (`_validation_errors-chunk.mjs:1539-1553` in the underlying field-node
-   implementation) — there is no "silent" `onChange` under signal forms, unlike
-   reactive forms' `{ emitEvent: false }`. Calling `onChange` (or the
+1. **Calling the registered `onChange` unconditionally marks the field dirty —
+   for every form flavor, not just signal forms — so never call it from a
+   write path that isn't user-driven.** Under signal forms,
+   `cvaControlCreate`'s registered `onChange` feeds `state().controlValue`,
+   and that signal's `set`/`update` always calls `markAsDirty()` before
+   syncing (`_validation_errors-chunk.mjs:1539-1553` in the underlying
+   field-node implementation). This is **not** a signal-forms-specific
+   surprise: reactive/template-driven forms have the exact same behavior.
+   `@angular/forms`' `setUpViewChangePipeline` (`forms.mjs`) is what
+   `registerOnChange` wires up for `formControlName`/`[formControl]`/
+   `[ngModel]`, and it sets `control._pendingDirty = true` on **every**
+   invocation of the registered callback, then `updateControl()` calls
+   `control.markAsDirty()` unconditionally — the `{ emitEvent: false }`
+   escape hatch only exists on `AbstractControl.setValue()`, not on the
+   registered `onChange` callback itself. So calling `onChange` (or the
    registered callback) from `writeValue`, `setDisabledState`, or any other
-   externally-driven code path will mark the field dirty as soon as it loads.
-   Only call it in response to an actual user action (typed input, selection,
-   blur-triggered normalization the user caused, etc.).
+   externally-driven code path marks the field dirty as soon as it loads,
+   under every form flavor — only call it in response to an actual user
+   action (typed input, selection, blur-triggered normalization the user
+   caused, etc.). To normalize an externally-written value for
+   reactive/template-driven forms without marking it dirty, write directly to
+   the bound `AbstractControl` instead: `control.setValue(value, { emitEvent: false })`, guarded by `skyIsAbstractControl` (see below). Signal
+   forms' interop control has no `setValue`, so it has no equivalent
+   normalization path — its field keeps whatever raw value the consumer
+   bound until the user changes it.
 
 2. **A `value`-mirroring `effect()` in the constructor can clobber a
    CVA-applied value.** If you keep an `effect(() => applyIncomingValue(this.value()))` from before the CVA existed, it still fires once
