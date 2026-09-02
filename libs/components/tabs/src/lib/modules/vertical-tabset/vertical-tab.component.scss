@@ -44,6 +44,7 @@
     font-weight: var(--sky-font-style-emphasized);
 
     &:hover {
+      color: var(--sky-color-text-selected);
       text-decoration-line: var(
         --sky-override-vertical-tab-active-text-decoration,
         var(
@@ -54,6 +55,7 @@
     }
 
     &:active {
+      color: var(--sky-color-text-selected);
       text-decoration-line: var(
         --sky-override-vertical-tab-active-text-decoration,
         var(
