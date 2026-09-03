@@ -335,6 +335,107 @@ describe('SkyDataManagerService', () => {
           expect(dataState).toEqual(startingDataState);
         });
       });
+
+      describe('with a comparator that throws', () => {
+        // Regression test for AB#4099031: a comparator that assumes properties present on
+        // every state (rather than guarding every access) throws on a state that lacks them.
+        // The subscription must keep emitting rather than silently dying.
+        const throwingComparator = (
+          state1: SkyDataManagerState,
+          state2: SkyDataManagerState,
+        ): boolean =>
+          state1.filterData?.filters?.appliedFilters[0].filterValue.value ===
+          state2.filterData?.filters?.appliedFilters[0].filterValue.value;
+
+        it('should keep emitting instead of erroring the subscription', () => {
+          const emissions: SkyDataManagerState[] = [];
+          let errored = false;
+
+          subscription.add(
+            dataManagerService
+              .getDataStateUpdates(sourceId, {
+                comparator: throwingComparator,
+              })
+              .subscribe({
+                next: (state) => emissions.push(state),
+                error: () => (errored = true),
+              }),
+          );
+
+          const countAfterInit = emissions.length;
+          const baseOptions = currentDataState.getStateOptions();
+
+          dataManagerService.updateDataState(
+            new SkyDataManagerState({
+              ...baseOptions,
+              filterData: {
+                filtersApplied: true,
+                filters: {
+                  appliedFilters: [
+                    { filterId: 'a', filterValue: { value: 'one' } },
+                  ],
+                },
+              },
+            }),
+            otherSourceId,
+          );
+
+          dataManagerService.updateDataState(
+            new SkyDataManagerState({
+              ...baseOptions,
+              filterData: {
+                filtersApplied: true,
+                filters: {
+                  appliedFilters: [
+                    { filterId: 'a', filterValue: { value: 'two' } },
+                  ],
+                },
+              },
+            }),
+            otherSourceId,
+          );
+
+          expect(errored).toBeFalse();
+          expect(emissions.length).toBe(countAfterInit + 2);
+        });
+      });
+
+      describe('with filters and an unserializable state property', () => {
+        it('should keep emitting instead of erroring the subscription', () => {
+          const cyclic: Record<string, unknown> = { value: 1 };
+          cyclic['self'] = cyclic;
+
+          const emissions: SkyDataManagerState[] = [];
+          let errored = false;
+
+          subscription.add(
+            dataManagerService
+              .getDataStateUpdates(sourceId, {
+                properties: ['additionalData'],
+              })
+              .subscribe({
+                next: (state) => emissions.push(state),
+                error: () => (errored = true),
+              }),
+          );
+
+          const countAfterInit = emissions.length;
+          const baseOptions = currentDataState.getStateOptions();
+
+          dataManagerService.updateDataState(
+            new SkyDataManagerState({ ...baseOptions, additionalData: cyclic }),
+            otherSourceId,
+          );
+
+          dataManagerService.updateDataState(
+            new SkyDataManagerState({ ...baseOptions, additionalData: cyclic }),
+            otherSourceId,
+          );
+
+          expect(errored).toBeFalse();
+          expect(emissions.length).toBe(countAfterInit + 2);
+        });
+      });
     });
   });
 
@@ -1066,6 +1167,106 @@ describe('SkyDataManagerService', () => {
 
       // Original state should not be mutated
       expect(state.views.length).toBe(1);
+    });
+
+    it('should emit via getDataStateUpdates with a property filter when a peer mutates a previously emitted state instance in place and republishes it', () => {
+      const emissions: SkyDataManagerState[] = [];
+
+      subscription.add(
+        dataManagerService
+          .getDataStateUpdates('subscriber', { properties: ['filterData'] })
+          .subscribe((state) => emissions.push(state)),
+      );
+
+      let peerState!: SkyDataManagerState;
+      subscription.add(
+        dataManagerService
+          .getDataStateUpdates('peer')
+          .subscribe((state) => (peerState = state)),
+      );
+
+      const countAfterInit = emissions.length;
+
+      // Simulate a peer (e.g. SkyDataManagerFilterControllerDirective, prior to its fix)
+      // mutating the state instance it was handed in place before republishing it. The
+      // subscriber's retained "previous" comparison value must not be corrupted by this.
+      peerState.filterData = {
+        filtersApplied: true,
+        filters: { appliedFilters: [{ filterId: 'a' }] },
+      };
+      dataManagerService.updateDataState(peerState, 'peer');
+
+      expect(emissions.length).toBe(countAfterInit + 1);
+      expect(
+        emissions[emissions.length - 1].filterData?.filtersApplied,
+      ).toBeTrue();
+    });
+
+    it('should emit via getDataStateUpdates with a custom comparator when a peer mutates a previously emitted state instance in place and republishes it', () => {
+      const emissions: SkyDataManagerState[] = [];
+
+      subscription.add(
+        dataManagerService
+          .getDataStateUpdates('subscriber', {
+            comparator: (state1, state2) =>
+              state1.filterData?.filtersApplied ===
+              state2.filterData?.filtersApplied,
+          })
+          .subscribe((state) => emissions.push(state)),
+      );
+
+      let peerState!: SkyDataManagerState;
+      subscription.add(
+        dataManagerService
+          .getDataStateUpdates('peer')
+          .subscribe((state) => (peerState = state)),
+      );
+
+      const countAfterInit = emissions.length;
+
+      // The fixture's default state already has filtersApplied set to true, so flip it to
+      // false to produce a value the comparator can actually detect as changed.
+      peerState.filterData = { filtersApplied: false, filters: undefined };
+      dataManagerService.updateDataState(peerState, 'peer');
+
+      expect(emissions.length).toBe(countAfterInit + 1);
+      expect(
+        emissions[emissions.length - 1].filterData?.filtersApplied,
+      ).toBeFalse();
+    });
+
+    it('should emit via getDataStateUpdates with a custom comparator when the subscriber mutates the state it was emitted', () => {
+      const emissions: SkyDataManagerState[] = [];
+
+      subscription.add(
+        dataManagerService
+          .getDataStateUpdates(otherSourceId, {
+            comparator: (state1, state2) =>
+              state1.filterData?.filtersApplied ===
+              state2.filterData?.filtersApplied,
+          })
+          .subscribe((state) => {
+            emissions.push(state);
+
+            // Simulate a subscriber mutating the state it was handed. This must not
+            // corrupt the snapshot the comparator retains for the next comparison.
+            state.filterData = { filtersApplied: false, filters: undefined };
+          }),
+      );
+
+      const countAfterInit = emissions.length;
+
+      // The fixture's default state has filtersApplied set to true, so this is a real
+      // change that must be emitted even though the subscriber already mutated its copy
+      // to the same value.
+      dataManagerService.updateDataState(
+        new SkyDataManagerState({
+          filterData: { filtersApplied: false, filters: undefined },
+        }),
+        'someSource',
+      );
+
+      expect(emissions.length).toBe(countAfterInit + 1);
     });
   });
 

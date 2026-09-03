@@ -94,4 +94,59 @@ describe('SkyDataManagerFilterControllerDirective', () => {
 
     expect(spy).toHaveBeenCalled();
   });
+
+  it('should notify property-filtered subscribers of each consecutive filter change', () => {
+    const emissions: SkyDataManagerState[] = [];
+
+    dataManagerService
+      .getDataStateUpdates('testSubscriber', { properties: ['filterData'] })
+      .subscribe((state) => emissions.push(state));
+
+    const countAfterInit = emissions.length;
+
+    filterStateService.updateFilterState(
+      {
+        appliedFilters: [
+          { filterId: 'test-filter', filterValue: { value: 'one' } },
+        ],
+      },
+      'test-list',
+    );
+
+    filterStateService.updateFilterState(
+      {
+        appliedFilters: [
+          { filterId: 'test-filter', filterValue: { value: 'two' } },
+        ],
+      },
+      'test-list',
+    );
+
+    expect(emissions.length).toBe(countAfterInit + 2);
+    expect(
+      emissions[emissions.length - 1].filterData?.filters.appliedFilters[0]
+        .filterValue.value,
+    ).toBe('two');
+  });
+
+  it('should not mutate the data state instance it received when publishing filter changes', () => {
+    let peerState!: SkyDataManagerState;
+    dataManagerService
+      .getDataStateUpdates('peer')
+      .subscribe((state) => (peerState = state));
+
+    const previouslyEmittedState = peerState;
+    const filterDataBefore = previouslyEmittedState.filterData;
+
+    filterStateService.updateFilterState(
+      {
+        appliedFilters: [
+          { filterId: 'test-filter', filterValue: { value: 'changed' } },
+        ],
+      },
+      'test-list',
+    );
+
+    expect(previouslyEmittedState.filterData).toBe(filterDataBefore);
+  });
 });

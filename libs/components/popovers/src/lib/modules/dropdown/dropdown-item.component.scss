@@ -33,6 +33,21 @@
   min-width: 160px;
   text-align: left;
   transition: box-shadow var(--sky-global-duration-short);
+  --sky-comp-override-inline-link-text-decoration-line: var(
+    --sky-font-text_decoration-standalone_link-base
+  );
+  --sky-comp-override-inline-link-text-decoration-line-hover: var(
+    --sky-font-text_decoration-standalone_link-hover
+  );
+  --sky-comp-override-inline-link-text-decoration-line-active: var(
+    --sky-font-text_decoration-standalone_link-active
+  );
+  --sky-comp-override-inline-link-text-decoration-line-focus: var(
+    --sky-font-text_decoration-standalone_link-focus
+  );
+  --sky-comp-override-inline-link-text-decoration-line-disabled: var(
+    --sky-font-text_decoration-standalone_link-disabled
+  );
 
   &.sky-dropdown-item-active {
     a,
@@ -78,7 +93,6 @@
     width: 100%;
 
     &:hover {
-      text-decoration: none;
       background-color: var(
         --sky-override-dropdown-item-hover-background,
         var(--sky-color-background-action-tertiary-hover)
@@ -159,6 +173,36 @@
     & > a,
     & > button {
       outline: none;
+    }
+
+    // Explicit pin: without this, the global .sky-theme-modern
+    // a:hover/:active rule (specificity (0,3,1)) unconditionally beats this
+    // component's own (0,1,1) color rule, since ViewEncapsulation.None means
+    // no attribute-selector boost applies here. Nesting under this
+    // already-modern-scoped mixin raises this to (0,4,1), safely above it.
+    // :not([disabled]) excludes disabled anchors entirely rather than
+    // competing with the disabled-state color rule — that rule is pinned
+    // separately below instead of relying on stylesheet order.
+    & > a:hover:not([disabled]),
+    & > a:active:not([disabled]) {
+      color: var(
+        --sky-override-dropdown-item-color-text,
+        var(--sky-color-text-default)
+      );
+    }
+
+    // Same reasoning as above, but for the disabled color: the shared
+    // .sky-dropdown-item > a[disabled]:hover rule (0,3,1, unscoped to
+    // .sky-theme-modern) previously tied the global rule's specificity
+    // exactly, so which one won depended on stylesheet injection order.
+    // Nesting under this mixin raises it to (0,4,1), guaranteeing the
+    // disabled color wins regardless of order.
+    & > a[disabled]:hover,
+    & > a[disabled]:active {
+      color: var(
+        --sky-override-dropdown-item-disabled-color-text,
+        var(--sky-color-text-deemphasized)
+      );
     }
   }
 }
