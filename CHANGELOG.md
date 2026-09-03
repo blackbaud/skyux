@@ -1,6 +1,18 @@
 # Changelog
 
 
+## [15.0.0-alpha.11](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.10...15.0.0-alpha.11) (2026-09-03)
+
+
+### Features
+
+* **components/indicators:** use status color tokens for status text, links, icons ([#4736](https://github.com/blackbaud/skyux/issues/4736)) ([#4746](https://github.com/blackbaud/skyux/issues/4746)) ([d4f638d](https://github.com/blackbaud/skyux/commit/d4f638d5e5f463893ce1b4c51874b395790c8a07))
+
+
+### Bug Fixes
+
+* **components/layout:** inline delete cancel button is not transparent in dark modet in dark mode ([#4744](https://github.com/blackbaud/skyux/issues/4744)) ([#4747](https://github.com/blackbaud/skyux/issues/4747)) ([ee762e0](https://github.com/blackbaud/skyux/commit/ee762e0638c2211fd558b707d0ade37083963e9f))
+
 ## [15.0.0-alpha.10](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.9...15.0.0-alpha.10) (2026-09-02)
 
 
