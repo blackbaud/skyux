@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { SkyDropdownModule, SkyPopoverModule } from '@skyux/popovers';
 
+import { SkyDataGridDockType } from '../../types/data-grid-dock-type';
 import { SkyDataGridSort } from '../../types/data-grid-sort';
 import { SkyDataGrid } from '../data-grid';
 import { SkyDataGridColumn } from '../data-grid-column';
@@ -61,6 +62,7 @@ export class DataGridTestComponent {
   public readonly autoPage = input<boolean>(true);
   public readonly autoSort = input<boolean>(true);
   public readonly labelText = input<string>();
+  public readonly dock = input<SkyDataGridDockType>('none');
   public readonly minHeight = input<number>();
   public readonly multiselect = input<boolean>();
   public readonly pageSize = input<number>();

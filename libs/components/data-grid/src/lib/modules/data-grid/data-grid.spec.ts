@@ -97,6 +97,28 @@ describe('SkyDataGrid', () => {
       ).toBe('50px');
     });
 
+    it('should update domLayout on dock changes', async () => {
+      fixture.componentRef.setInput('dock', 'fill');
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const api = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="grid"] ag-grid-angular',
+        ),
+      );
+      expect(api).toBeTruthy();
+      expect(api?.getGridOption('domLayout')).toBe('normal');
+
+      fixture.componentRef.setInput('dock', 'none');
+      fixture.detectChanges();
+      expect(api?.getGridOption('domLayout')).toBe('autoHeight');
+
+      fixture.componentRef.setInput('dock', 'fill');
+      fixture.detectChanges();
+      expect(api?.getGridOption('domLayout')).toBe('normal');
+    });
+
     it('should destroy and recreate grid', async () => {
       fixture.detectChanges();
       await fixture.whenStable();
