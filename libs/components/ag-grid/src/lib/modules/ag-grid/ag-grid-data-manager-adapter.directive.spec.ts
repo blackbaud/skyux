@@ -1,6 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { DebugElement } from '@angular/core';
+import { DebugElement, Signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
@@ -912,7 +912,7 @@ it('should move the horizontal scroll based on enableTopScroll check', async () 
 describe('sorting via the data manager toolbar', () => {
   let sortFixture: ComponentFixture<SkyAgGridDataManagerFixtureComponent>;
   let sortFixtureComponent: SkyAgGridDataManagerFixtureComponent;
-  let sortGrid: AgGridAngular;
+  let sortGrid: Signal<AgGridAngular>;
   let sortDataManagerService: SkyDataManagerService;
   let sortDataManagerHarness: SkyDataManagerHarness;
 
@@ -943,7 +943,7 @@ describe('sorting via the data manager toolbar', () => {
     sortFixture.detectChanges();
     await sortFixture.whenStable();
 
-    sortGrid = sortFixtureComponent.agGrid as AgGridAngular;
+    sortGrid = sortFixtureComponent.agGrid as Signal<AgGridAngular>;
     sortDataManagerService = TestBed.inject(SkyDataManagerService);
 
     const loader: HarnessLoader = TestbedHarnessEnvironment.loader(sortFixture);
@@ -958,13 +958,13 @@ describe('sorting via the data manager toolbar', () => {
     sortFixture.detectChanges();
     await sortFixture.whenStable();
 
-    expect(sortGrid.api.getColumnState()).toEqual([
+    expect(sortGrid().api.getColumnState()).toEqual([
       jasmine.objectContaining({ colId: 'selected', sort: null }),
       jasmine.objectContaining({ colId: 'name', sort: 'asc' }),
       jasmine.objectContaining({ colId: 'target', sort: null }),
       jasmine.objectContaining({ colId: 'noHeader', sort: null }),
     ]);
-    expect(sortGrid.api.getDisplayedRowAtIndex(0)?.data?.name).toBe('Jill');
+    expect(sortGrid().api.getDisplayedRowAtIndex(0)?.data?.name).toBe('Jill');
   });
 
   it('should sort the grid descending when a sort option is selected', async () => {
@@ -975,13 +975,13 @@ describe('sorting via the data manager toolbar', () => {
     sortFixture.detectChanges();
     await sortFixture.whenStable();
 
-    expect(sortGrid.api.getColumnState()).toEqual([
+    expect(sortGrid().api.getColumnState()).toEqual([
       jasmine.objectContaining({ colId: 'selected', sort: null }),
       jasmine.objectContaining({ colId: 'name', sort: 'desc' }),
       jasmine.objectContaining({ colId: 'target', sort: null }),
       jasmine.objectContaining({ colId: 'noHeader', sort: null }),
     ]);
-    expect(sortGrid.api.getDisplayedRowAtIndex(0)?.data?.name).toBe('Mary');
+    expect(sortGrid().api.getDisplayedRowAtIndex(0)?.data?.name).toBe('Mary');
   });
 
   it('should sort the grid using a sort option whose property name matches a colId', async () => {
@@ -992,7 +992,7 @@ describe('sorting via the data manager toolbar', () => {
     sortFixture.detectChanges();
     await sortFixture.whenStable();
 
-    expect(sortGrid.api.getColumnState()).toEqual([
+    expect(sortGrid().api.getColumnState()).toEqual([
       jasmine.objectContaining({ colId: 'selected', sort: null }),
       jasmine.objectContaining({ colId: 'name', sort: null }),
       jasmine.objectContaining({ colId: 'target', sort: null }),
@@ -1022,7 +1022,7 @@ describe('sorting via the data manager toolbar', () => {
   });
 
   it('should keep the matching sort option active when the column header is sorted directly', async () => {
-    sortGrid.api.applyColumnState({
+    sortGrid().api.applyColumnState({
       state: [{ colId: 'name', sort: 'asc' }],
       defaultState: { sort: null },
     });
@@ -1036,7 +1036,7 @@ describe('sorting via the data manager toolbar', () => {
   });
 
   it('should report a column-derived sort option when the sorted column has no matching sort option', async () => {
-    sortGrid.api.applyColumnState({
+    sortGrid().api.applyColumnState({
       state: [{ colId: 'target', sort: 'asc' }],
       defaultState: { sort: null },
     });
@@ -1046,7 +1046,7 @@ describe('sorting via the data manager toolbar', () => {
       'updateDataState',
     ).and.callThrough();
 
-    sortGrid.sortChanged.emit();
+    sortGrid().sortChanged.emit();
     sortFixture.detectChanges();
     await sortFixture.whenStable();
 
