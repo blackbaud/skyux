@@ -30,9 +30,9 @@
   --sky-override-toast-content-link-color: #212327cc;
   --sky-override-toast-content-link-decoration: underline;
   --sky-override-toast-content-padding: #{$sky-padding} 0;
-  --sky-override-toast-info-success-exclamation-path-color: #{$sky-highlight-color-info};
   --sky-override-toast-margin-bottom: #{$sky-margin-double};
   --sky-override-toast-padding: 0 #{$sky-padding};
+  --sky-override-toast-text-color: #{$sky-text-color-default};
 }
 
 @mixin sky-toast-variant(
@@ -54,6 +54,10 @@ sky-toast {
   display: block;
 
   .sky-toast {
+    color: var(
+      --sky-override-toast-text-color,
+      var(--sky-color-text-on_status)
+    );
     padding: var(
       --sky-override-toast-padding,
       var(--sky-comp-toast-space-inset-top)
@@ -82,7 +86,7 @@ sky-toast {
       border: var(
         --sky-override-toast-close-button-border,
         solid var(--sky-border-width-action-base)
-          var(--sky-color-border-action-tertiary-base)
+          var(--sky-color-border-action-on_status-base)
       );
       border-radius: var(
         --sky-override-toast-close-button-border-radius,
@@ -90,7 +94,7 @@ sky-toast {
       );
       color: var(
         --sky-override-toast-close-button-color-icon,
-        var(--sky-color-icon-default)
+        var(--sky-color-text-on_status)
       );
       cursor: pointer;
       flex-shrink: var(--sky-override-toast-close-button-flex-shrink, 0);
@@ -135,6 +139,37 @@ sky-toast {
   }
 
   .sky-toast-content {
+    --sky-comp-override-link-text-decoration-line: var(
+      --sky-font-text_decoration-action-tertiary-on_status-base
+    );
+    --sky-comp-override-link-text-decoration-line-hover: var(
+      --sky-font-text_decoration-action-tertiary-on_status-hover
+    );
+    --sky-comp-override-link-text-decoration-line-active: var(
+      --sky-font-text_decoration-action-tertiary-on_status-active
+    );
+    --sky-comp-override-link-text-decoration-line-focus: var(
+      --sky-font-text_decoration-action-tertiary-on_status-focus
+    );
+    --sky-comp-override-link-text-decoration-line-disabled: var(
+      --sky-font-text_decoration-action-tertiary-on_status-disabled
+    );
+    --sky-comp-override-inline-link-text-decoration-line: var(
+      --sky-font-text_decoration-action-tertiary-on_status-base
+    );
+    --sky-comp-override-inline-link-text-decoration-line-hover: var(
+      --sky-font-text_decoration-action-tertiary-on_status-hover
+    );
+    --sky-comp-override-inline-link-text-decoration-line-active: var(
+      --sky-font-text_decoration-action-tertiary-on_status-active
+    );
+    --sky-comp-override-inline-link-text-decoration-line-focus: var(
+      --sky-font-text_decoration-action-tertiary-on_status-focus
+    );
+    --sky-comp-override-inline-link-text-decoration-line-disabled: var(
+      --sky-font-text_decoration-action-tertiary-on_status-disabled
+    );
+
     padding: var(
       --sky-override-toast-content-padding,
       0 var(--sky-space-gap-text_action-m) 0 var(--sky-space-gap-icon-l)
@@ -148,15 +183,16 @@ sky-toast {
     .sky-btn-link-inline {
       color: var(
         --sky-override-toast-content-link-color,
-        var(--sky-color-text-action_contrast)
+        var(--sky-color-text-action_on_status)
       );
-      text-decoration: var(
+      text-decoration-line: var(
         --sky-override-toast-content-link-decoration,
-        var(--sky-font-text_decoration-visible_link)
+        var(--sky-font-text_decoration-action-tertiary-on_status-base)
       );
 
-      &:hover {
-        color: var(--sky-color-text-action_contrast);
+      &:hover,
+      &:active {
+        color: var(--sky-color-text-action_on_status);
       }
     }
   }
@@ -177,8 +213,8 @@ sky-toast {
           var(--sky-color-background-icon_matte-info)
         ),
         var(
-          --sky-override-toast-info-success-exclamation-path-color,
-          var(--sky-color-icon-inverse)
+          --sky-override-toast-color-border-info,
+          var(--sky-color-icon-on_status)
         )
       );
     }
@@ -199,10 +235,7 @@ sky-toast {
         ),
         var(
           --sky-override-toast-color-border-success,
-          var(
-            --sky-override-toast-info-success-exclamation-path-color,
-            var(--sky-color-icon-inverse)
-          )
+          var(--sky-color-icon-on_status)
         )
       );
     }
@@ -223,7 +256,7 @@ sky-toast {
         ),
         var(
           --sky-override-toast-color-border-warning,
-          var(--sky-color-icon-default)
+          var(--sky-color-icon-on_status)
         )
       );
     }
@@ -244,7 +277,7 @@ sky-toast {
         ),
         var(
           --sky-override-toast-color-border-danger,
-          var(--sky-color-icon-inverse)
+          var(--sky-color-icon-on_status)
         )
       );
     }
@@ -265,18 +298,56 @@ sky-toast {
         box-shadow var(--sky-global-duration-short);
 
       &:hover {
-        border-color: var(--sky-color-border-action-tertiary-hover);
+        border-color: var(--sky-color-border-action-on_status-hover);
         border-width: var(--sky-border-width-action-hover);
       }
 
-      &:active,
       &:focus-visible {
-        border-color: var(--sky-color-border-action-tertiary-focus);
+        border-color: var(--sky-color-border-action-on_status-focus);
         border-width: var(--sky-border-width-action-focus);
+      }
+
+      &:active {
+        border-color: var(--sky-color-border-action-on_status-active);
+        border-width: var(--sky-border-width-action-active);
       }
 
       &:focus-visible:not(:active) {
         box-shadow: var(--sky-elevation-raised-100);
+      }
+    }
+
+    .sky-toast-content {
+      a,
+      .sky-btn-link-inline {
+        &:focus-visible:not(:active) {
+          box-shadow: 0 0 0 var(--sky-border-width-action-focus)
+            var(--sky-color-border-action-on_status-focus);
+        }
+      }
+
+      .sky-btn-link {
+        &:hover {
+          box-shadow:
+            inset 0 0 0 var(--sky-border-width-action-hover)
+              var(--sky-color-border-action-on_status-hover),
+            var(--sky-elevation-action-tertiary-hover);
+        }
+
+        &:active,
+        &.sky-btn-active {
+          box-shadow:
+            inset 0 0 0 var(--sky-border-width-action-active)
+              var(--sky-color-border-action-on_status-active),
+            var(--sky-elevation-action-tertiary-active);
+        }
+
+        &:focus-visible:not(:active) {
+          box-shadow:
+            inset 0 0 0 var(--sky-border-width-action-focus)
+              var(--sky-color-border-action-on_status-focus),
+            var(--sky-elevation-action-tertiary-focus);
+        }
       }
     }
 
