@@ -16,6 +16,7 @@ import { SkyBreakpoint, SkyMediaQueryService } from '@skyux/core';
 import {
   SkyDataManagerColumnPickerOption,
   SkyDataManagerService,
+  SkyDataManagerSortOption,
   SkyDataManagerState,
   SkyDataViewColumnWidths,
   SkyDataViewState,
@@ -337,24 +338,44 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
           const newState = new SkyDataManagerState(
             this.#currentDataState.getStateOptions(),
           );
-          if (activeSortColumnState) {
-            const activeSortColumnDef = agGrid.api.getColumnDef(
-              activeSortColumnState.colId,
-            );
-            newState.activeSortOption = {
-              descending: activeSortColumnState.sort === 'desc',
-              id: activeSortColumnState.colId,
-              propertyName: activeSortColumnDef?.field || '',
-              label: activeSortColumnDef?.headerName || '',
-            };
-          } else {
-            newState.activeSortOption = undefined;
-          }
+          newState.activeSortOption = activeSortColumnState
+            ? this.#resolveActiveSortOption(agGrid.api, activeSortColumnState)
+            : undefined;
           this.#currentDataState = newState;
           this.#dataManagerSvc.updateDataState(newState, viewConfig.id);
         }
       });
     }
+  }
+
+  #resolveActiveSortOption(
+    api: GridApi,
+    activeSortColumnState: ColumnState,
+  ): SkyDataManagerSortOption {
+    const activeSortColumnDef = api.getColumnDef(activeSortColumnState.colId);
+    const descending = activeSortColumnState.sort === 'desc';
+    const propertyName =
+      activeSortColumnDef?.field || activeSortColumnState.colId;
+
+    // Prefer the configured sort option matching this column and direction
+    // so the sort menu's selected item stays in sync; columns without a
+    // matching option fall back to a column-derived sort option.
+    const matchingSortOption = this.#dataManagerSvc
+      .getCurrentDataManagerConfig()
+      .sortOptions?.find(
+        (option) =>
+          option.propertyName === propertyName &&
+          !!option.descending === descending,
+      );
+
+    return (
+      matchingSortOption ?? {
+        descending,
+        id: activeSortColumnState.colId,
+        propertyName,
+        label: activeSortColumnDef?.headerName || '',
+      }
+    );
   }
 
   #updateColumnsInCurrentDataState(api: GridApi): void {
@@ -433,16 +454,42 @@ export class SkyAgGridDataManagerAdapterDirective implements OnDestroy {
     const activeSort = dataState.activeSortOption;
 
     if (agGridApi && activeSort) {
-      agGridApi.applyColumnState({
-        state: [
-          {
-            colId: activeSort.id,
-            sort: activeSort.descending ? 'desc' : 'asc',
-          },
-        ],
-        defaultState: { sort: null },
-      });
+      const colId = this.#resolveSortColumnId(agGridApi, activeSort);
+
+      if (colId) {
+        agGridApi.applyColumnState({
+          state: [
+            {
+              colId,
+              sort: activeSort.descending ? 'desc' : 'asc',
+            },
+          ],
+          defaultState: { sort: null },
+        });
+      }
     }
+  }
+
+  #resolveSortColumnId(
+    api: GridApi,
+    activeSort: SkyDataManagerSortOption,
+  ): string | undefined {
+    const columnStates = api.getColumnState();
+    const findColId = (
+      predicate: (state: ColumnState) => boolean,
+    ): string | undefined => columnStates.find(predicate)?.colId;
+
+    // Match on the option's data property first, since a sort option's ID is
+    // arbitrary and could otherwise select an unrelated column. Only fall
+    // back to the legacy ID match for options predating the property lookup.
+    return (
+      findColId(
+        (state) =>
+          api.getColumnDef(state.colId)?.field === activeSort.propertyName,
+      ) ??
+      findColId((state) => state.colId === activeSort.propertyName) ??
+      findColId((state) => state.colId === activeSort.id)
+    );
   }
 
   #updateColumnWidth(
