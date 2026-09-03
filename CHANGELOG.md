@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.19.1](https://github.com/blackbaud/skyux/compare/14.19.0...14.19.1) (2026-09-03)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** apply data manager sort options to the grid ([#4745](https://github.com/blackbaud/skyux/issues/4745)) ([e136be1](https://github.com/blackbaud/skyux/commit/e136be1aae3a15c3ac50e659a4f4fd0ae3780f74)), closes [AB#4104863](https://dev.azure.com/blackbaud/Products/_workitems/edit/4104863)
+
 ## [14.19.0](https://github.com/blackbaud/skyux/compare/14.18.0...14.19.0) (2026-09-02)
 
 
