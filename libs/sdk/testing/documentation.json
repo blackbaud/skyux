@@ -4,14 +4,14 @@
     "jasmine-matchers": {
       "development": {
         "docsIds": [
-          "SkyMatchers",
-          "SkyAsyncMatchers",
-          "expect",
-          "expectAsync",
-          "SkyToBeVisibleOptionsSdkTesting",
-          "SkyA11yAnalyzerConfig"
+          "expectSdkTesting",
+          "expectAsyncSdkTesting",
+          "SkyAsyncMatchersSdkTesting",
+          "SkyMatchersSdkTesting",
+          "SkyA11yAnalyzerConfigSdkTesting",
+          "SkyToBeVisibleOptionsSdkTesting"
         ],
-        "primaryDocsId": "SkyMatchers"
+        "primaryDocsId": "SkyMatchersSdkTesting"
       },
       "testing": {
         "docsIds": []
