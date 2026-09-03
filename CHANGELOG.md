@@ -1,6 +1,36 @@
 # Changelog
 
 
+## [15.0.0-alpha.10](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.9...15.0.0-alpha.10) (2026-09-02)
+
+
+### Features
+
+* **components/theme:** darken action links on hover/active in modern theme ([#4738](https://github.com/blackbaud/skyux/issues/4738)) ([#4742](https://github.com/blackbaud/skyux/issues/4742)) ([17b4bb1](https://github.com/blackbaud/skyux/commit/17b4bb1d3fe3ee7b4311b0dfb00527ffea5b2fb7))
+* **components/validation:** add sky email and url signal validators ([#4685](https://github.com/blackbaud/skyux/issues/4685)) ([43c4d01](https://github.com/blackbaud/skyux/commit/43c4d0183a3bba1c3d1e36d10da64c40200bad37)), closes [#4629](https://github.com/blackbaud/skyux/issues/4629) [#4686](https://github.com/blackbaud/skyux/issues/4686) [#4687](https://github.com/blackbaud/skyux/issues/4687) [#4688](https://github.com/blackbaud/skyux/issues/4688) [#4689](https://github.com/blackbaud/skyux/issues/4689) [#4690](https://github.com/blackbaud/skyux/issues/4690) [#4691](https://github.com/blackbaud/skyux/issues/4691) [AB#4008241](https://dev.azure.com/blackbaud/Products/_workitems/edit/4008241)
+* underline inline and link buttons in dark mode with standalone exceptions ([#4729](https://github.com/blackbaud/skyux/issues/4729)) ([#4729](https://github.com/blackbaud/skyux/issues/4729)) ([#4735](https://github.com/blackbaud/skyux/issues/4735)) ([4dd9902](https://github.com/blackbaud/skyux/commit/4dd9902dc609563061e0497eba4078556bcaa655))
+
+
+### Bug Fixes
+
+* **components/avatar:** use correct background colors ([#4727](https://github.com/blackbaud/skyux/issues/4727)) ([#4740](https://github.com/blackbaud/skyux/issues/4740)) ([53a4896](https://github.com/blackbaud/skyux/commit/53a48969a231b1ecbd817ffac7a5c98cd1d9e1bc))
+* **components/data-manager:** getDataStateUpdates no longer drops changes when peers mutate shared state ([#4700](https://github.com/blackbaud/skyux/issues/4700)) ([#4732](https://github.com/blackbaud/skyux/issues/4732)) ([29a7872](https://github.com/blackbaud/skyux/commit/29a78727e718f685fa56e7ce187be356b373a9d8)), closes [AB#4099031](https://dev.azure.com/blackbaud/Products/_workitems/edit/4099031)
+* **components/forms:** remove reference to character counter component in the input box `characterLimit` docs ([#4730](https://github.com/blackbaud/skyux/issues/4730)) ([6c846be](https://github.com/blackbaud/skyux/commit/6c846be2a5062825d9f0a7c871f11b1a4ce4fdc9))
+
+## [14.19.0](https://github.com/blackbaud/skyux/compare/14.18.0...14.19.0) (2026-09-02)
+
+
+### Features
+
+* **components/indicators:** use status color tokens for status text, links, icons ([#4736](https://github.com/blackbaud/skyux/issues/4736)) ([932012d](https://github.com/blackbaud/skyux/commit/932012d3bbd9b20ce77e2548fd23104f798d94f3))
+* **components/theme:** darken action links on hover/active in modern theme ([#4738](https://github.com/blackbaud/skyux/issues/4738)) ([8e3a2f6](https://github.com/blackbaud/skyux/commit/8e3a2f646c46096a0191f16d1d8df6d63e7a56aa))
+
+
+### Bug Fixes
+
+* **components/avatar:** use correct background colors ([#4727](https://github.com/blackbaud/skyux/issues/4727)) ([30634c1](https://github.com/blackbaud/skyux/commit/30634c19f65c8b56e23f780b6a5fc837886baa71))
+* **components/layout:** inline delete cancel button is not transparent in dark modet in dark mode ([#4744](https://github.com/blackbaud/skyux/issues/4744)) ([0241607](https://github.com/blackbaud/skyux/commit/024160753d013e861b255a7c2b09ed9feda9f1dc))
+
 ## [14.18.0](https://github.com/blackbaud/skyux/compare/14.17.0...14.18.0) (2026-09-01)
 
 
