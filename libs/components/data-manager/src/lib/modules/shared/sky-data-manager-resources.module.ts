@@ -61,11 +61,11 @@ const RESOURCES: Record<string, SkyLibResources> = {
     },
     skyux_data_manager_cancel_button_title: { message: 'Cancelar' },
     skyux_data_manager_select_all_button_aria_label: {
-      message: 'Seleccionar los {0}',
+      message: 'Seleccionar todos los {0}',
     },
     skyux_data_manager_select_all_button_title: { message: 'Seleccionar todo' },
     skyux_data_manager_clear_all_button_aria_label: {
-      message: 'Borrar los {0} seleccionados',
+      message: 'Borrar todos los {0} seleccionados',
     },
     skyux_data_manager_clear_all_button_title: { message: 'Borrar todo' },
     skyux_data_manager_show_selected_option_aria_label: {

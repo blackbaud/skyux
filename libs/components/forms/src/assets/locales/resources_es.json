@@ -9,7 +9,7 @@
   },
   "skyux_form_error_character_count": {
     "_description": "Mensaje de error para un campo cuyo valor supera el límite de caracteres",
-    "message": "Límite de {0} a {1} caracteres."
+    "message": "Limite {0} a {1} caracteres."
   },
   "skyux_form_error_date": {
     "_description": "Mensaje de error para un campo con un valor de fecha no válido",
@@ -49,7 +49,7 @@
   },
   "skyux_form_error_maxlength": {
     "_description": "Mensaje de error para un campo con un valor demasiado largo",
-    "message": "Límite de {0} a {1} caracteres."
+    "message": "Limite {0} a {1} caracteres."
   },
   "skyux_form_error_minlength": {
     "_description": "Mensaje de error para un campo cuyo valor no tiene la longitud mínima requerida",

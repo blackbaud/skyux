@@ -145,11 +145,11 @@
   },
   "skyux_date_range_picker_start_date_label": {
     "_description": "Etiqueta del primer selector de fecha del tipo de formato \"Rango específico\".",
-    "message": "Desde fecha"
+    "message": "Fecha de inicio"
   },
   "skyux_date_range_picker_end_date_label": {
     "_description": "Etiqueta del segundo selector de fecha del tipo de formato \"Rango específico\".",
-    "message": "Hasta fecha"
+    "message": "Fecha de fin"
   },
   "skyux_date_range_picker_before_date_label": {
     "_description": "Etiqueta del selector de fecha del tipo de formato \"Fecha anterior a\".",

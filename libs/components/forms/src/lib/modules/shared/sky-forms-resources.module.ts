@@ -134,7 +134,7 @@ const RESOURCES: Record<string, SkyLibResources> = {
       message: 'Ha superado el límite de caracteres.',
     },
     skyux_form_error_character_count: {
-      message: 'Límite de {0} a {1} caracteres.',
+      message: 'Limite {0} a {1} caracteres.',
     },
     skyux_form_error_date: {
       message: 'Seleccione o introduzca una fecha válida.',
@@ -165,7 +165,7 @@ const RESOURCES: Record<string, SkyLibResources> = {
       message:
         'Introduzca una dirección de correo electrónico con un formato válido.',
     },
-    skyux_form_error_maxlength: { message: 'Límite de {0} a {1} caracteres.' },
+    skyux_form_error_maxlength: { message: 'Limite {0} a {1} caracteres.' },
     skyux_form_error_minlength: {
       message: '{0} debe tener al menos {1} caracteres.',
     },

@@ -191,8 +191,8 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_date_range_picker_format_label_next_fiscal_year: {
       message: 'Próximo año fiscal',
     },
-    skyux_date_range_picker_start_date_label: { message: 'Desde fecha' },
-    skyux_date_range_picker_end_date_label: { message: 'Hasta fecha' },
+    skyux_date_range_picker_start_date_label: { message: 'Fecha de inicio' },
+    skyux_date_range_picker_end_date_label: { message: 'Fecha de fin' },
     skyux_date_range_picker_before_date_label: { message: 'Fecha anterior a' },
     skyux_date_range_picker_after_date_label: { message: 'Fecha posterior a' },
     skyux_date_range_picker_default_aria_label: { message: '{0} para {1}' },

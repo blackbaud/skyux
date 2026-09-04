@@ -21,7 +21,7 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_numeric_trillions_symbol: { message: 'T' },
   },
   ES: {
-    skyux_numeric_billions_symbol: { message: 'B' },
+    skyux_numeric_billions_symbol: { message: 'MM' },
     skyux_numeric_millions_symbol: { message: 'M' },
     skyux_numeric_thousands_symbol: { message: 'K' },
     skyux_numeric_trillions_symbol: { message: 'T' },
