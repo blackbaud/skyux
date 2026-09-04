@@ -21,7 +21,7 @@
   },
   "skyux_tile_settings_default": {
     "_description": "Etiqueta predeterminada del botón de configuración del mosaico",
-    "message": "Configuraciones"
+    "message": "Configuración"
   },
   "skyux_tile_move": {
     "_description": "Etiqueta del botón Mover del mosaico",

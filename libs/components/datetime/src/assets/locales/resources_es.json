@@ -53,7 +53,7 @@
   },
   "skyux_date_range_picker_end_date_before_start_date_error_label_text": {
     "_description": "Mensaje de error del selector del rango de fechas cuando la fecha de finalización es anterior a la fecha de inicio.",
-    "message": "Cambie el rango de fechas para que la fecha de finalización sea posterior a la fecha de inicio."
+    "message": "Cambie el rango de fechas para que la fecha de finalización sea anterior a la fecha de inicio."
   },
   "skyux_date_range_picker_format_label_specific_range": {
     "_description": "Etiqueta de la opción de tipo de formato \"Rango específico\" del campo de selección del componente de selección del rango de fechas.",

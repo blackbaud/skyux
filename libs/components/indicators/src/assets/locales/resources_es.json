@@ -33,7 +33,7 @@
   },
   "skyux_alert_sr_success": {
     "_description": "Texto del lector de pantalla cuando la alerta indica un estado exitoso",
-    "message": "Exitoso:"
+    "message": "Éxito:"
   },
   "skyux_alert_sr_warning": {
     "_description": "Texto del lector de pantalla cuando la alerta contiene una advertencia",
@@ -73,7 +73,7 @@
   },
   "skyux_label_sr_success": {
     "_description": "Texto del lector de pantalla cuando la etiqueta indica un estado exitoso",
-    "message": "Exitoso:"
+    "message": "Éxito:"
   },
   "skyux_label_sr_warning": {
     "_description": "Texto del lector de pantalla cuando la etiqueta contiene una advertencia",
@@ -109,7 +109,7 @@
   },
   "skyux_status_indicator_sr_success": {
     "_description": "Texto del lector de pantalla cuando el indicador de estado indica un estado exitoso",
-    "message": "Exitoso:"
+    "message": "Éxito:"
   },
   "skyux_status_indicator_sr_warning": {
     "_description": "Texto del lector de pantalla cuando el indicador de estado indica una advertencia",

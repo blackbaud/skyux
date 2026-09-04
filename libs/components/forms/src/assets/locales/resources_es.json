@@ -137,7 +137,7 @@
   },
   "skyux_file_attachment_file_upload_file_replaced": {
     "_description": "Texto del lector de pantalla cuando se reemplaza un archivo",
-    "message": "Se eliminó {0} Se agregó {1}."
+    "message": "Se eliminó {0}. Se agregó {1}."
   },
   "skyux_file_attachment_file_upload_file_removed": {
     "_description": "Texto del lector de pantalla cuando se elimina un archivo",

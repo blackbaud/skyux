@@ -69,7 +69,7 @@
   },
   "skyux_repeater_item_checkbox_label": {
     "_description": "Etiqueta accesible para la casilla de verificación de un elemento del repetidor. Identifica el elemento mediante su nombre legible para el usuario.",
-    "message": "Seleccionar los {0}"
+    "message": "Seleccionar {0}"
   },
   "skyux_repeater_item_checkbox_label_default": {
     "_description": "Etiqueta genérica para la casilla de verificación de un elemento del repetidor. Se utiliza cuando no se proporciona un nombre legible para el usuario.",
