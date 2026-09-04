@@ -15,6 +15,8 @@ import { SkyPagingHarness } from '@skyux/lists/testing';
 
 import { getGridApi } from 'ag-grid-community';
 import { SkyDataGrid } from './data-grid';
+import { SkyDataGridColumn } from './data-grid-column';
+import { AsyncColumnsTestComponent } from './fixtures/async-columns-test.component';
 import { ColumnWidthTestComponent } from './fixtures/column-width-test.component';
 import { DataGridTestComponent } from './fixtures/data-grid-test.component';
 import { FlexWidthTestComponent } from './fixtures/flex-width-test.component';
@@ -1208,6 +1210,130 @@ describe('SkyDataGrid', () => {
         '2',
       ]);
       expect(api?.getSelectedNodes()).toHaveSize(2);
+    });
+
+    it('should render columns declared with @for after they arrive asynchronously (NG0950 regression)', async () => {
+      // Regression test for angular/angular#59067: Angular populates signal
+      // content queries before it applies the queried components' input
+      // bindings, so reading a required input (`headingText`) off a column
+      // created by `@for` in the same tick it is added throws NG0950. Columns
+      // starting empty and arriving later (e.g. from a resource or async
+      // column-picker selection) reproduces the failure.
+      const asyncFixture = TestBed.createComponent(AsyncColumnsTestComponent);
+      expect(() => {
+        asyncFixture.detectChanges();
+      }).not.toThrow();
+      await asyncFixture.whenStable();
+
+      asyncFixture.componentInstance.columns.set([
+        { field: 'name', headingText: 'Name' },
+        { field: 'age', headingText: 'Age' },
+      ]);
+      expect(() => {
+        asyncFixture.detectChanges();
+      }).not.toThrow();
+      await asyncFixture.whenStable();
+      asyncFixture.detectChanges();
+      await asyncFixture.whenStable();
+
+      const api = getGridApi(
+        asyncFixture.nativeElement.querySelector(
+          '[data-sky-id="async-columns-grid"] ag-grid-angular',
+        ),
+      );
+      expect(
+        api
+          ?.getColumnDefs()
+          ?.map((colDef) => (colDef as { headerName?: string }).headerName),
+      ).toEqual(['Name', 'Age']);
+      expect(api?.getDisplayedRowCount()).toBe(2);
+
+      // Removing a column after it has rendered must not throw either.
+      expect(() => {
+        asyncFixture.componentInstance.columns.set([
+          { field: 'name', headingText: 'Name' },
+        ]);
+        asyncFixture.detectChanges();
+      }).not.toThrow();
+      await asyncFixture.whenStable();
+
+      // Reordering columns after they have rendered must not throw either.
+      expect(() => {
+        asyncFixture.componentInstance.columns.set([
+          { field: 'age', headingText: 'Age' },
+          { field: 'name', headingText: 'Name' },
+        ]);
+        asyncFixture.detectChanges();
+      }).not.toThrow();
+      await asyncFixture.whenStable();
+    });
+
+    it('should rethrow an unexpected error while building column definitions', () => {
+      // Confirms the NG0950 guard above is scoped to that specific error and
+      // does not silently swallow a genuine bug in column definition building.
+      fixture.detectChanges();
+      // `sky-data-grid-column` elements are content, not projected via
+      // `<ng-content>`, so they never appear in the rendered DOM tree and
+      // can't be located with `fixture.debugElement.query`. Read the first
+      // column instance off the grid's own content query instead.
+      const grid = fixture.debugElement.query(By.directive(SkyDataGrid))
+        .componentInstance as unknown as {
+        columns: () => SkyDataGridColumn[];
+      };
+      const column1 = grid.columns()[0];
+      const boom = new Error('boom');
+      (column1 as unknown as { headingText: () => string }).headingText =
+        (): string => {
+          throw boom;
+        };
+
+      // Force the content query (and therefore column definition building)
+      // to re-run by structurally removing a sibling column.
+      fixture.componentRef.setInput('showCol3', false);
+      expect(() => fixture.detectChanges()).toThrowError('boom');
+    });
+
+    it('should rethrow an unrelated error that merely mentions NG0950', () => {
+      // The NG0950 guard must match Angular's own error, not any error whose
+      // message happens to contain the code (e.g. a message that references
+      // NG0950 while describing something else).
+      fixture.detectChanges();
+      const grid = fixture.debugElement.query(By.directive(SkyDataGrid))
+        .componentInstance as unknown as {
+        columns: () => SkyDataGridColumn[];
+      };
+      const column1 = grid.columns()[0];
+      const message =
+        'Failed to load column config; this is unrelated to NG0950.';
+      (column1 as unknown as { headingText: () => string }).headingText =
+        (): string => {
+          throw new Error(message);
+        };
+
+      fixture.componentRef.setInput('showCol3', false);
+      expect(() => fixture.detectChanges()).toThrowError(message);
+    });
+
+    it('should rethrow a thrown value that is not an Error instance', () => {
+      // The NG0950 guard only recognizes `Error` instances (Angular's
+      // `RuntimeError` included). Anything else thrown while building a
+      // column definition (e.g. a plain string) must fail the
+      // `instanceof Error` check and be rethrown unchanged.
+      fixture.detectChanges();
+      const grid = fixture.debugElement.query(By.directive(SkyDataGrid))
+        .componentInstance as unknown as {
+        columns: () => SkyDataGridColumn[];
+      };
+      const column1 = grid.columns()[0];
+      const boom = 'boom, but not an Error instance';
+      (column1 as unknown as { headingText: () => string }).headingText =
+        (): string => {
+          // eslint-disable-next-line @typescript-eslint/only-throw-error
+          throw boom;
+        };
+
+      fixture.componentRef.setInput('showCol3', false);
+      expect(() => fixture.detectChanges()).toThrow(boom);
     });
   });
 });
