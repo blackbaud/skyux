@@ -385,7 +385,25 @@ export class SkyDataGrid {
 
   readonly #columnDefs = computed<ColDef<SkyDataGridRowData>[]>(() => {
     const columns = this.columns();
-    return columns.map((col) => this.#createColDef(col));
+    return columns.flatMap((col) => {
+      try {
+        return [this.#createColDef(col)];
+      } catch (err) {
+        // Angular can populate this content query for a newly created
+        // `SkyDataGridColumn` (e.g. one added by an `@for` loop) before it
+        // applies that column's input bindings, so reading the required
+        // `headingText` input here can throw NG0950 for a single
+        // change-detection pass. Angular tracks a signal read as a reactive
+        // dependency before it runs the "is it set yet" check that throws,
+        // so this computed still re-evaluates once the binding lands and
+        // the column is included on the next read. See
+        // angular/angular#59067. Any other error is a real bug and rethrown.
+        if (err instanceof Error && err.message.includes('NG0950')) {
+          return [];
+        }
+        throw err;
+      }
+    });
   });
   readonly #hasColumnDefs = computed(() => this.#columnDefs().length > 0);
 
