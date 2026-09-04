@@ -99,6 +99,28 @@ describe('resolveChartThemeStyles', () => {
     expect(themeStyles.text.lineHeight).toBe(1.25);
   });
 
+  it('should resolve the motion duration in milliseconds', () => {
+    // The three values `@skyux/theme` authors: the default, the
+    // `prefers-reduced-motion` value, and the motion-suppressed value.
+    expect(
+      resolve({ '--sky-global-duration-short': '150ms' }).motion.duration,
+    ).toBe(150);
+
+    expect(
+      resolve({ '--sky-global-duration-short': '1ms' }).motion.duration,
+    ).toBe(1);
+
+    expect(
+      resolve({ '--sky-global-duration-short': '0s' }).motion.duration,
+    ).toBe(0);
+  });
+
+  it('should resolve an unresolved motion duration to zero', () => {
+    expect(
+      resolve({ '--sky-global-duration-short': 'auto' }).motion.duration,
+    ).toBe(0);
+  });
+
   it('should resolve the eight categorical palette colors in order', () => {
     const themeStyles = resolve({
       '--sky-color-viz-category-1': '#first',
