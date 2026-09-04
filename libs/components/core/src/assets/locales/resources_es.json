@@ -12,7 +12,7 @@
     "message": "K"
   },
   "skyux_numeric_trillions_symbol": {
-    "_description": "Símbolo que se utilizará para abreviar un número en trillones.",
+    "_description": "Símbolo que se utilizará para abreviar un número en billones.",
     "message": "T"
   }
 }
