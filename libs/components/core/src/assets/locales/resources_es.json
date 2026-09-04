@@ -1,0 +1,18 @@
+{
+  "skyux_numeric_billions_symbol": {
+    "_description": "Símbolo que se utilizará para abreviar un número en miles de millones.",
+    "message": "B"
+  },
+  "skyux_numeric_millions_symbol": {
+    "_description": "Símbolo que se utilizará para abreviar un número en millones.",
+    "message": "M"
+  },
+  "skyux_numeric_thousands_symbol": {
+    "_description": "Símbolo que se utilizará para abreviar un número en miles.",
+    "message": "K"
+  },
+  "skyux_numeric_trillions_symbol": {
+    "_description": "Símbolo que se utilizará para abreviar un número en billones.",
+    "message": "T"
+  }
+}

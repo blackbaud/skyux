@@ -1,0 +1,26 @@
+{
+  "skyux_flyout_close": {
+    "_description": "Texto del botón Cerrar del panel flotante",
+    "message": "Cerrar panel flotante"
+  },
+  "skyux_flyout_iterator_previous_button": {
+    "_description": "Etiqueta del botón de iteración anterior",
+    "message": "Anterior"
+  },
+  "skyux_flyout_iterator_next_button": {
+    "_description": "Etiqueta del botón de iteración siguiente",
+    "message": "Siguiente"
+  },
+  "skyux_flyout_permalink_button": {
+    "_description": "Texto predeterminado del botón de enlace permanente del panel flotante",
+    "message": "Ver registro"
+  },
+  "skyux_flyout_primary_action_button": {
+    "_description": "Texto predeterminado del botón de acción principal del panel flotante",
+    "message": "Crear lista"
+  },
+  "skyux_flyout_resize_handle": {
+    "_description": "Etiqueta del controlador para cambiar el tamaño del panel flotante",
+    "message": "Cambiar el tamaño de la ventana del panel flotante. Presione la tecla Intro o la barra espaciadora para activar y, a continuación, use la tecla de flecha izquierda para ampliar la ventana del panel flotante y la tecla de flecha derecha para reducirla. Presione la tecla Intro, la barra espaciadora o la tecla Tab para desactivar."
+  }
+}

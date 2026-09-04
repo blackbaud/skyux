@@ -1,0 +1,22 @@
+{
+  "sky_action_hub_related_links": {
+    "_description": "Encabezado de vínculos relacionados",
+    "message": "Vínculos relacionados"
+  },
+  "sky_action_hub_recent_links": {
+    "_description": "Encabezado de vínculos a los que se accedió recientemente",
+    "message": "Accedidos recientemente"
+  },
+  "sky_action_hub_settings_links": {
+    "_description": "Encabezado de vínculos de configuración",
+    "message": "Configuraciones"
+  },
+  "sky_action_hub_needs_attention": {
+    "_description": "Encabezado de elementos que requieren atención",
+    "message": "Requiere atención"
+  },
+  "sky_action_hub_needs_attention_empty": {
+    "_description": "Texto que se muestra cuando la lista de elementos que requieren atención está vacía",
+    "message": "Actualmente no hay problemas que requieran atención"
+  }
+}

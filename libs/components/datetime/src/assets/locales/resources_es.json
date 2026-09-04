@@ -1,0 +1,166 @@
+{
+  "skyux_datepicker_format_hint_text": {
+    "_description": "Texto de ayuda para el formato de fecha establecido actualmente en el selector de fecha.",
+    "message": "Utilice el formato {0}."
+  },
+  "skyux_datepicker_trigger_button_label": {
+    "_description": "Etiqueta del botón que abre el selector de fecha",
+    "message": "Seleccionar fecha"
+  },
+  "skyux_datepicker_trigger_button_label_context": {
+    "_description": "Etiqueta del botón que abre el selector de fecha cuando hay contexto disponible",
+    "message": "Abrir el calendario para {0}"
+  },
+  "skyux_datepicker_move_calendar_previous_day": {
+    "_description": "Etiqueta ARIA del botón del mes anterior del calendario en el modo \"día\"",
+    "message": "Mes anterior"
+  },
+  "skyux_datepicker_move_calendar_next_day": {
+    "_description": "Etiqueta ARIA del botón del próximo mes del calendario en el modo \"día\"",
+    "message": "Próximo mes"
+  },
+  "skyux_datepicker_move_calendar_previous_month": {
+    "_description": "Etiqueta ARIA del botón del año anterior del calendario en el modo \"mes\"",
+    "message": "Año anterior"
+  },
+  "skyux_datepicker_move_calendar_next_month": {
+    "_description": "Etiqueta ARIA del botón del próximo año  del calendario en el modo \"mes\"",
+    "message": "Próximo año"
+  },
+  "skyux_datepicker_move_calendar_previous_year": {
+    "_description": "Etiqueta ARIA del botón de la página anterior del calendario en el modo \"año\"",
+    "message": "Página anterior"
+  },
+  "skyux_datepicker_move_calendar_next_year": {
+    "_description": "Etiqueta ARIA del botón de la página siguiente del calendario en el modo \"año\"",
+    "message": "Página siguiente"
+  },
+  "skyux_timepicker_button_label": {
+    "_description": "Texto del lector de pantalla para el botón que abre el selector de hora",
+    "message": "Elegir hora"
+  },
+  "skyux_timepicker_button_label_context": {
+    "_description": "Texto del lector de pantalla para el botón que abre el selector de hora cuando hay contexto disponible",
+    "message": "Abrir el selector de hora para {0}"
+  },
+  "skyux_timepicker_close": {
+    "_description": "Botón Cerrar del cuadro de diálogo del selector de hora",
+    "message": "Hecho"
+  },
+  "skyux_date_range_picker_default_label": {
+    "_description": "Etiqueta predeterminada del selector del rango de fechas.",
+    "message": "Seleccionar un rango de fechas"
+  },
+  "skyux_date_range_picker_end_date_before_start_date_error_label_text": {
+    "_description": "Mensaje de error del selector del rango de fechas cuando la fecha de finalización es anterior a la fecha de inicio.",
+    "message": "Cambie el rango de fechas para que la fecha de finalización sea posterior a la fecha de inicio."
+  },
+  "skyux_date_range_picker_format_label_specific_range": {
+    "_description": "Etiqueta de la opción de tipo de formato \"Rango específico\" del campo de selección del componente de selección del rango de fechas.",
+    "message": "Rango específico"
+  },
+  "skyux_date_range_picker_format_label_before": {
+    "_description": "Etiqueta de la opción de tipo de formato \"Antes de\" del campo de selección del componente de selección del rango de fechas.\r\n",
+    "message": "Antes de"
+  },
+  "skyux_date_range_picker_format_label_after": {
+    "_description": "Etiqueta de la opción de tipo de formato \"Después de\" del campo de selección del componente de selección del rango de fechas.",
+    "message": "Después de"
+  },
+  "skyux_date_range_picker_format_label_any_time": {
+    "_description": "Etiqueta de la opción de tipo de formato \"En cualquier momento\" del campo de selección del componente de selección del rango de fechas.",
+    "message": "En cualquier momento"
+  },
+  "skyux_date_range_picker_format_label_yesterday": {
+    "_description": "Etiqueta de la opción de tipo de formato \"Ayer\" del campo de selección del componente de selección del rango de fechas.",
+    "message": "Ayer"
+  },
+  "skyux_date_range_picker_format_label_today": {
+    "_description": "Etiqueta de la opción de tipo de formato \"Hoy\" del campo de selección del componente de selección del rango de fechas.",
+    "message": "Hoy"
+  },
+  "skyux_date_range_picker_format_label_tomorrow": {
+    "_description": "Etiqueta de la opción de tipo de formato \"Mañana\" del campo de selección del componente de selección del rango de fechas.",
+    "message": "Mañana"
+  },
+  "skyux_date_range_picker_format_label_last_week": {
+    "_description": "Etiqueta de la opción de tipo de formato \"Semana pasada\" del campo de selección del componente de selección del rango de fechas.",
+    "message": "Semana pasada"
+  },
+  "skyux_date_range_picker_format_label_this_week": {
+    "_description": "Etiqueta de la opción de tipo de formato \"Esta semana\" del campo de selección del componente de selección del rango de fechas.",
+    "message": "Esta semana"
+  },
+  "skyux_date_range_picker_format_label_next_week": {
+    "_description": "Etiqueta de la opción de tipo de formato \"Próxima semana\" del campo de selección del componente de selección del rango de fechas.",
+    "message": "Próxima semana"
+  },
+  "skyux_date_range_picker_format_label_last_month": {
+    "_description": "Etiqueta de la opción de tipo de formato \"Mes pasado\" del campo de selección del componente de selección del rango de fechas.",
+    "message": "Mes pasado"
+  },
+  "skyux_date_range_picker_format_label_this_month": {
+    "_description": "Etiqueta de la opción de tipo de formato \"Este mes\" del campo de selección del componente de selección del rango de fechas.",
+    "message": "Este mes"
+  },
+  "skyux_date_range_picker_format_label_next_month": {
+    "_description": "Etiqueta de la opción de tipo de formato \"Mes próximo\" del campo de selección del componente de selección del rango de fechas.",
+    "message": "Mes próximo"
+  },
+  "skyux_date_range_picker_format_label_last_quarter": {
+    "_description": "Etiqueta de la opción de tipo de formato \"Trimestre pasado\" del campo de selección del componente de selección del rango de fechas.",
+    "message": "Trimestre pasado"
+  },
+  "skyux_date_range_picker_format_label_this_quarter": {
+    "_description": "Etiqueta de la opción de tipo de formato \"Este trimestre\" del campo de selección del componente de selección del rango de fechas.",
+    "message": "Este trimestre"
+  },
+  "skyux_date_range_picker_format_label_next_quarter": {
+    "_description": "Etiqueta de la opción de tipo de formato \"Próximo trimestre\" del campo de selección del componente de selección del rango de fechas.",
+    "message": "Próximo trimestre"
+  },
+  "skyux_date_range_picker_format_label_last_calendar_year": {
+    "_description": "Etiqueta de la opción de tipo de formato \"Último año natural\" del campo de selección del componente de selección del rango de fechas.",
+    "message": "Último año natural"
+  },
+  "skyux_date_range_picker_format_label_this_calendar_year": {
+    "_description": "Etiqueta de la opción de tipo de formato \"Este año natural\" del campo de selección del componente de selección del rango de fechas.",
+    "message": "Este año natural"
+  },
+  "skyux_date_range_picker_format_label_next_calendar_year": {
+    "_description": "Etiqueta de la opción de tipo de formato \"Próximo año natural\" del campo de selección del componente de selección del rango de fechas.",
+    "message": "Próximo año natural"
+  },
+  "skyux_date_range_picker_format_label_last_fiscal_year": {
+    "_description": "Etiqueta de la opción de tipo de formato \"Último año fiscal\" del campo de selección del componente de selección del rango de fechas.",
+    "message": "Último año fiscal"
+  },
+  "skyux_date_range_picker_format_label_this_fiscal_year": {
+    "_description": "Etiqueta de la opción de tipo de formato \"Este año fiscal\" del campo de selección del componente de selección del rango de fechas.",
+    "message": "Este año fiscal"
+  },
+  "skyux_date_range_picker_format_label_next_fiscal_year": {
+    "_description": "Etiqueta de la opción de tipo de formato \"Próximo año fiscal\" del campo de selección del componente de selección del rango de fechas.",
+    "message": "Próximo año fiscal"
+  },
+  "skyux_date_range_picker_start_date_label": {
+    "_description": "Etiqueta del primer selector de fecha del tipo de formato \"Rango específico\".",
+    "message": "Desde fecha"
+  },
+  "skyux_date_range_picker_end_date_label": {
+    "_description": "Etiqueta del segundo selector de fecha del tipo de formato \"Rango específico\".",
+    "message": "Hasta fecha"
+  },
+  "skyux_date_range_picker_before_date_label": {
+    "_description": "Etiqueta del selector de fecha del tipo de formato \"Fecha anterior a\".",
+    "message": "Fecha anterior a"
+  },
+  "skyux_date_range_picker_after_date_label": {
+    "_description": "Etiqueta del selector de fecha del tipo de formato \"Fecha posterior a\".",
+    "message": "Fecha posterior a"
+  },
+  "skyux_date_range_picker_default_aria_label": {
+    "_description": "Etiqueta ARIA predeterminada específica del contexto para los selectores de fecha de un selector del rango de fechas",
+    "message": "{0} para {1}"
+  }
+}

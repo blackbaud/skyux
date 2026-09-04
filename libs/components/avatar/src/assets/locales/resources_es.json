@@ -1,0 +1,34 @@
+{
+  "skyux_avatar_error_not_image_description": {
+    "_description": "Descripción del mensaje que se muestra cuando el usuario intenta cargar un archivo de avatar que no es una imagen válida",
+    "message": "Elija un archivo que sea una imagen válida."
+  },
+  "skyux_avatar_error_not_image_title": {
+    "_description": "Título del mensaje que se muestra cuando el usuario intenta cargar un archivo de avatar que no es una imagen válida",
+    "message": "El archivo no es una imagen."
+  },
+  "skyux_avatar_error_too_large_description": {
+    "_description": "Descripción del mensaje que se muestra cuando el usuario intenta cargar una imagen de avatar cuyo tamaño de archivo es demasiado grande",
+    "message": "Elija una imagen que sea inferior a {0}."
+  },
+  "skyux_avatar_error_too_large_title": {
+    "_description": "Título del mensaje que se muestra cuando el usuario intenta cargar una imagen de avatar cuyo tamaño de archivo es demasiado grande",
+    "message": "El archivo es demasiado grande."
+  },
+  "skyux_avatar_errormodal_ok": {
+    "_description": "Texto utilizado en el botón principal para cerrar el cuadro de diálogo de error.",
+    "message": "Aceptar"
+  },
+  "skyux_avatar_inner_description": {
+    "_description": "Texto de accesibilidad cuando se puede cambiar una imagen de avatar.",
+    "message": "Foto de perfil de {0}."
+  },
+  "skyux_avatar_upload_change_aria_label": {
+    "_description": "Texto de accesibilidad cuando se puede agregar una nueva imagen de avatar.",
+    "message": "Cambiar la foto de perfil de {0}. Arrastre un archivo aquí o haga clic para buscarlo."
+  },
+  "skyux_avatar_upload_new_aria_label": {
+    "_description": "Texto de accesibilidad cuando se puede agregar una nueva imagen de avatar.",
+    "message": "Agregar una foto de perfil de {0}. Arrastre un archivo aquí o haga clic para buscarlo."
+  }
+}
