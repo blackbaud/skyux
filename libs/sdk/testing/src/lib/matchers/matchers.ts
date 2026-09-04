@@ -384,6 +384,7 @@ registerJasmineMatchers();
 
 /**
  * Interface for "asynchronous" custom Sky matchers which cannot be paired with a `.not` operator.
+ * @docsId SkyAsyncMatchersSdkTesting
  */
 export interface SkyAsyncMatchers<T, U> extends jasmine.AsyncMatchers<T, U> {
   /**
@@ -478,6 +479,7 @@ export interface SkyAsyncMatchers<T, U> extends jasmine.AsyncMatchers<T, U> {
 
 /**
  * Interface for "normal" custom Sky matchers (includes original jasmine matchers).
+ * @docsId SkyMatchersSdkTesting
  */
 export interface SkyMatchers<T> extends jasmine.Matchers<T> {
   /**
@@ -569,6 +571,7 @@ export interface SkyMatchers<T> extends jasmine.Matchers<T> {
 /**
  * Create an expectation for a spec.
  * @param actual Actual computed value to test expectations against.
+ * @docsId expectSdkTesting
  */
 export function expect<T>(actual: T): SkyMatchers<T> {
   return windowRef.expect(actual);
@@ -577,6 +580,7 @@ export function expect<T>(actual: T): SkyMatchers<T> {
 /**
  * Create an async expectation for a spec.
  * @param actual Actual computed value to test expectations against.
+ * @docsId expectAsyncSdkTesting
  */
 export function expectAsync<T, U>(
   actual: T | PromiseLike<T>,

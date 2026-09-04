@@ -3,6 +3,7 @@ import { type _SkyTestingCheckVisibilityOptions } from '@skyux-sdk/testing/priva
 
 /**
  * Represents options for the `toBeVisible` Jasmine matcher.
+ * @docsId SkyToBeVisibleOptionsSdkTesting
  */
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type, @typescript-eslint/no-empty-interface
 export interface SkyToBeVisibleOptions extends _SkyTestingCheckVisibilityOptions {}
