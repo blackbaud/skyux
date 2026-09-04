@@ -9,7 +9,7 @@
   },
   "skyux_errors_construction_description": {
     "_description": "Mensaje de descripción del componente de error para el tipo de error de mantenimiento",
-    "message": "Agradecemos su paciencia mientras realizamos mejoras."
+    "message": "Agradecemos su paciencia mientras\nrealizamos mejoras."
   },
   "skyux_errors_construction_title": {
     "_description": "Mensaje de título del componente de error para el tipo de error de mantenimiento",
@@ -17,7 +17,7 @@
   },
   "skyux_errors_not_found_description": {
     "_description": "Mensaje de descripción del componente de error para el tipo de error de página no encontrada",
-    "message": "Disculpe, pero esta página no existe o se ha movido."
+    "message": "Disculpe, pero esta página\nno existe o se ha movido."
   },
   "skyux_errors_not_found_title": {
     "_description": "Mensaje de título del componente de error para el tipo de error no encontrado",
