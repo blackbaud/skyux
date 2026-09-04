@@ -38,7 +38,7 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_tile_help: { message: 'Ayuda de {0}' },
     skyux_tile_help_default: { message: 'Ayuda' },
     skyux_tile_settings: { message: 'Configuración de {0}' },
-    skyux_tile_settings_default: { message: 'Configuraciones' },
+    skyux_tile_settings_default: { message: 'Configuración' },
     skyux_tile_move: { message: 'Mover {0}' },
     skyux_tile_move_default: { message: 'Mover' },
     skyux_tile_move_instructions: {

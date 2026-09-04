@@ -141,7 +141,7 @@ const RESOURCES: Record<string, SkyLibResources> = {
     },
     skyux_date_range_picker_end_date_before_start_date_error_label_text: {
       message:
-        'Cambie el rango de fechas para que la fecha de finalización sea posterior a la fecha de inicio.',
+        'Cambie el rango de fechas para que la fecha de finalización sea anterior a la fecha de inicio.',
     },
     skyux_date_range_picker_format_label_specific_range: {
       message: 'Rango específico',

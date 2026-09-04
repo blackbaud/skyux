@@ -213,7 +213,7 @@ const RESOURCES: Record<string, SkyLibResources> = {
     },
     skyux_file_attachment_file_upload_file_added: { message: 'Se agregó {0}.' },
     skyux_file_attachment_file_upload_file_replaced: {
-      message: 'Se eliminó {0} Se agregó {1}.',
+      message: 'Se eliminó {0}. Se agregó {1}.',
     },
     skyux_file_attachment_file_upload_file_removed: {
       message: 'Se eliminó {0}',

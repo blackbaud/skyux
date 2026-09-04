@@ -78,7 +78,7 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_repeater_item_collapse_default: { message: 'Contraer' },
     skyux_repeater_item_expand: { message: 'Expandir {0}' },
     skyux_repeater_item_expand_default: { message: 'Expandir' },
-    skyux_repeater_item_checkbox_label: { message: 'Seleccionar los {0}' },
+    skyux_repeater_item_checkbox_label: { message: 'Seleccionar {0}' },
     skyux_repeater_item_checkbox_label_default: { message: 'Seleccionar fila' },
     skyux_repeater_item_reorder_cancel: {
       message:
