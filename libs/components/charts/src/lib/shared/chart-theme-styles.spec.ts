@@ -100,21 +100,36 @@ describe('resolveChartThemeStyles', () => {
   });
 
   it('should resolve the motion duration in milliseconds', () => {
-    expect(
-      resolve({ '--sky-global-duration-short': '150ms' }).motion.duration,
-    ).toBe(150);
+    const durations: Record<string, number> = {
+      '150ms': 150,
+      '0.2s': 200,
+      '0s': 0,
+      // CSS units are case-insensitive, and CSS numbers allow a leading plus
+      // sign and exponent notation.
+      '+150MS': 150,
+      '1e2ms': 100,
+      '0.15S': 150,
+      '1e-1s': 100,
+    };
 
-    expect(
-      resolve({ '--sky-global-duration-short': '0.2s' }).motion.duration,
-    ).toBe(200);
-
-    expect(
-      resolve({ '--sky-global-duration-short': '0s' }).motion.duration,
-    ).toBe(0);
+    for (const [value, expected] of Object.entries(durations)) {
+      expect(resolve({ '--sky-global-duration-short': value }).motion.duration)
+        .withContext(value)
+        .toBe(expected);
+    }
   });
 
   it('should resolve a motion duration that is not a valid CSS time to zero', () => {
-    for (const value of ['auto', '150', '-5s', '-200ms', '10 s', '5sec']) {
+    for (const value of [
+      'auto',
+      '150',
+      '1e2',
+      '-5s',
+      '-200ms',
+      '10 s',
+      '5sec',
+      '1es',
+    ]) {
       expect(resolve({ '--sky-global-duration-short': value }).motion.duration)
         .withContext(value)
         .toBe(0);

@@ -367,7 +367,9 @@ function remToPx(rem: string, rootFontSize: number): number {
  * a negative value would break the animation loop.
  */
 function readDuration(styles: CSSStyleDeclaration, property: string): number {
-  const parsed = /^(\d*\.?\d+)(ms|s)$/.exec(readString(styles, property));
+  const parsed = /^\+?(\d*\.?\d+(?:e[+-]?\d+)?)(ms|s)$/i.exec(
+    readString(styles, property),
+  );
 
   if (!parsed) {
     return 0;
@@ -375,7 +377,7 @@ function readDuration(styles: CSSStyleDeclaration, property: string): number {
 
   const value = Number.parseFloat(parsed[1]);
 
-  return parsed[2] === 'ms' ? value : value * 1000;
+  return parsed[2].toLowerCase() === 'ms' ? value : value * 1000;
 }
 
 /**
