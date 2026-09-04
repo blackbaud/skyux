@@ -360,24 +360,20 @@ function remToPx(rem: string, rootFontSize: number): number {
 }
 
 /**
- * Reads a CSS duration token as milliseconds. Only a non-negative value with an
- * explicit `ms` or `s` unit is a valid duration; anything else resolves to `0`,
- * which renders the chart without animating. Unlike the other tokens, an
- * unresolved duration cannot fall back to a Chart.js default, because `NaN` or
- * a negative value would break the animation loop.
+ * Reads a CSS duration token as milliseconds. `@skyux/theme` authors the token
+ * as `150ms`, as `1ms` under `prefers-reduced-motion`, or as `0s` when
+ * `sky-animations-disabled` suppresses motion. An unresolved token falls back
+ * to `0` rather than `NaN`, which would break the animation loop.
  */
 function readDuration(styles: CSSStyleDeclaration, property: string): number {
-  const parsed = /^\+?(\d*\.?\d+(?:e[+-]?\d+)?)(ms|s)$/i.exec(
-    readString(styles, property),
-  );
+  const raw = readString(styles, property);
+  const value = Number.parseFloat(raw);
 
-  if (!parsed) {
+  if (Number.isNaN(value)) {
     return 0;
   }
 
-  const value = Number.parseFloat(parsed[1]);
-
-  return parsed[2].toLowerCase() === 'ms' ? value : value * 1000;
+  return raw.endsWith('ms') ? value : value * 1000;
 }
 
 /**
