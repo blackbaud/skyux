@@ -1292,5 +1292,48 @@ describe('SkyDataGrid', () => {
       fixture.componentRef.setInput('showCol3', false);
       expect(() => fixture.detectChanges()).toThrowError('boom');
     });
+
+    it('should rethrow an unrelated error that merely mentions NG0950', () => {
+      // The NG0950 guard must match Angular's own error, not any error whose
+      // message happens to contain the code (e.g. a message that references
+      // NG0950 while describing something else).
+      fixture.detectChanges();
+      const grid = fixture.debugElement.query(By.directive(SkyDataGrid))
+        .componentInstance as unknown as {
+        columns: () => SkyDataGridColumn[];
+      };
+      const column1 = grid.columns()[0];
+      const message =
+        'Failed to load column config; this is unrelated to NG0950.';
+      (column1 as unknown as { headingText: () => string }).headingText =
+        (): string => {
+          throw new Error(message);
+        };
+
+      fixture.componentRef.setInput('showCol3', false);
+      expect(() => fixture.detectChanges()).toThrowError(message);
+    });
+
+    it('should rethrow a thrown value that is not an Error instance', () => {
+      // The NG0950 guard only recognizes `Error` instances (Angular's
+      // `RuntimeError` included). Anything else thrown while building a
+      // column definition (e.g. a plain string) must fail the
+      // `instanceof Error` check and be rethrown unchanged.
+      fixture.detectChanges();
+      const grid = fixture.debugElement.query(By.directive(SkyDataGrid))
+        .componentInstance as unknown as {
+        columns: () => SkyDataGridColumn[];
+      };
+      const column1 = grid.columns()[0];
+      const boom = 'boom, but not an Error instance';
+      (column1 as unknown as { headingText: () => string }).headingText =
+        (): string => {
+          // eslint-disable-next-line @typescript-eslint/only-throw-error
+          throw boom;
+        };
+
+      fixture.componentRef.setInput('showCol3', false);
+      expect(() => fixture.detectChanges()).toThrow(boom);
+    });
   });
 });

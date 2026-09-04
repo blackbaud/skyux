@@ -44,6 +44,7 @@ import {
   GridOptions,
   GridStateModule,
   IRowNode,
+  LocaleModule,
   ModuleRegistry,
   PaginationModule,
   RenderApiModule,
@@ -84,6 +85,7 @@ ModuleRegistry.registerModules([
   ColumnAutoSizeModule,
   EventApiModule,
   GridStateModule,
+  LocaleModule,
   PaginationModule,
   RenderApiModule,
   RowApiModule,
@@ -95,6 +97,27 @@ ModuleRegistry.registerModules([
 
 function arraySorted(arr: string[]): string[] {
   return arr.slice().sort((a, b) => a.localeCompare(b));
+}
+
+/**
+ * Whether the error is Angular's NG0950 "required input has no value yet"
+ * error. Angular's `RuntimeError` exposes the numeric code (-950), so prefer
+ * that; fall back to the formatted message, which is exactly `NG0950` in
+ * production builds and `NG0950: <description>` in development builds. A
+ * message that merely mentions NG0950 elsewhere is not a match.
+ */
+function isRequiredInputUnsetError(err: unknown): boolean {
+  if (!(err instanceof Error)) {
+    return false;
+  }
+
+  const code = (err as { code?: unknown }).code;
+
+  if (typeof code === 'number') {
+    return Math.abs(code) === 950;
+  }
+
+  return /^NG0950(?::\s|$)/.test(err.message);
 }
 
 /**
@@ -398,7 +421,7 @@ export class SkyDataGrid {
         // so this computed still re-evaluates once the binding lands and
         // the column is included on the next read. See
         // angular/angular#59067. Any other error is a real bug and rethrown.
-        if (err instanceof Error && err.message.includes('NG0950')) {
+        if (isRequiredInputUnsetError(err)) {
           return [];
         }
         throw err;
