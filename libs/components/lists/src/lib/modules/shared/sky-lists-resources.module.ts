@@ -60,6 +60,56 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_sort_button_label: { message: 'Sort' },
     skyux_sort_menu_heading: { message: 'Sort by' },
   },
+  ES: {
+    skyux_filter_aria_label_descriptor: { message: 'Filtrar {0}' },
+    skyux_filter_button_title: { message: 'Filtro' },
+    skyux_filter_summary_close: { message: 'Eliminar filtro' },
+    skyux_filter_summary_header: { message: 'Filtro' },
+    skyux_infinite_scroll_load_more_button: { message: 'Cargar más' },
+    skyux_paging_label: { message: 'Paginación' },
+    skyux_paging_loaded: { message: 'Página {0} cargada.' },
+    skyux_paging_loading: { message: 'Cargando la página {0}' },
+    skyux_paging_next: { message: 'Siguiente' },
+    skyux_paging_page_label: { message: 'Página {0} de {1}' },
+    skyux_paging_page_link_aria_label: { message: 'Página {0}' },
+    skyux_paging_previous: { message: 'Anterior' },
+    skyux_repeater_label: { message: 'Lista de elementos' },
+    skyux_repeater_item_collapse: { message: 'Contraer {0}' },
+    skyux_repeater_item_collapse_default: { message: 'Contraer' },
+    skyux_repeater_item_expand: { message: 'Expandir {0}' },
+    skyux_repeater_item_expand_default: { message: 'Expandir' },
+    skyux_repeater_item_checkbox_label: { message: 'Seleccionar {0}' },
+    skyux_repeater_item_checkbox_label_default: { message: 'Seleccionar fila' },
+    skyux_repeater_item_reorder_cancel: {
+      message:
+        'Se canceló la reordenación del elemento. El elemento volvió a su posición original.',
+    },
+    skyux_repeater_item_reorder_finish: {
+      message: 'Se colocó el elemento en la posición',
+    },
+    skyux_repeater_item_reorder_instructions: {
+      message:
+        'Elemento seleccionado. Presione las teclas de flecha hacia arriba y hacia abajo para cambiar la posición. Presione la barra espaciadora o la tecla Intro para colocar el elemento. Presione la tecla Escape para cancelar.',
+    },
+    skyux_repeater_item_reorder_moved: {
+      message: 'Se movió el elemento a la posición',
+    },
+    skyux_repeater_item_reorder_label_default: { message: 'Reordenar' },
+    skyux_repeater_item_reorder_label: { message: 'Reordenar {0}' },
+    skyux_repeater_item_reorder_operation: {
+      message: 'Presione la barra espaciadora o la tecla Intro para reordenar.',
+    },
+    skyux_repeater_item_reorder_top: { message: 'Parte superior' },
+    skyux_repeater_item_reorder_top_label: {
+      message: 'Mover {0} al principio',
+    },
+    skyux_repeater_item_reorder_top_label_default: {
+      message: 'Mover al principio',
+    },
+    skyux_sort_aria_label_descriptor: { message: 'Ordenar {0}' },
+    skyux_sort_button_label: { message: 'Ordenar' },
+    skyux_sort_menu_heading: { message: 'Ordenar por' },
+  },
   'FR-CA': {
     skyux_filter_aria_label_descriptor: { message: 'Filtrer {0}' },
     skyux_filter_button_title: { message: 'Filtre' },

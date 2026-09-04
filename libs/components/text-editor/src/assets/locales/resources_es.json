@@ -1,0 +1,142 @@
+{
+  "skyux_text_editor_format_menu_action_bold_label": {
+    "_description": "Texto para la acción \"Negrita\" del menú Formato",
+    "message": "Negrita"
+  },
+  "skyux_text_editor_format_menu_action_bold_key_shortcut": {
+    "_description": "Texto para el acceso rápido de \"Negrita\" del menú Formato",
+    "message": "Ctrl+B"
+  },
+  "skyux_text_editor_format_menu_action_italic_label": {
+    "_description": "Texto para la acción \"Cursiva\" del menú Formato",
+    "message": "Cursiva"
+  },
+  "skyux_text_editor_format_menu_action_italic_key_shortcut": {
+    "_description": "Texto para el acceso rápido de \"Cursiva\" del menú Formato",
+    "message": "Ctrl+I"
+  },
+  "skyux_text_editor_format_menu_action_underline_label": {
+    "_description": "Texto para la acción \"Subrayado\" del menú Formato",
+    "message": "Subrayado"
+  },
+  "skyux_text_editor_format_menu_action_underline_key_shortcut": {
+    "_description": "Texto para el acceso rápido de \"Subrayado\" del menú Formato",
+    "message": "Ctrl+U"
+  },
+  "skyux_text_editor_format_menu_action_strikethrough_label": {
+    "_description": "Texto para la acción \"Tachado\" del menú Formato",
+    "message": "Tachado"
+  },
+  "skyux_text_editor_format_menu_action_clear_formatting_label": {
+    "_description": "Texto para la acción \"Borrar formato\" del menú Formato",
+    "message": "Borrar formato"
+  },
+  "skyux_text_editor_edit_menu_action_undo_label": {
+    "_description": "Texto para la acción \"Deshacer\" del menú Editar",
+    "message": "Deshacer"
+  },
+  "skyux_text_editor_edit_menu_action_undo_key_shortcut": {
+    "_description": "Texto para el acceso rápido de \"Deshacer\" del menú Editar",
+    "message": "Ctrl+Z"
+  },
+  "skyux_text_editor_edit_menu_action_redo_label": {
+    "_description": "Texto para la acción \"Rehacer\" del menú Editar",
+    "message": "Rehacer"
+  },
+  "skyux_text_editor_edit_menu_action_redo_key_shortcut": {
+    "_description": "Texto para el acceso rápido de \"Rehacer\" del menú Editar",
+    "message": "Ctrl+Y"
+  },
+  "skyux_text_editor_edit_menu_action_cut_label": {
+    "_description": "Texto para la acción \"Cortar\" del menú Editar",
+    "message": "Cortar"
+  },
+  "skyux_text_editor_edit_menu_action_cut_key_shortcut": {
+    "_description": "Texto para el acceso rápido de \"Cortar\" del menú Editar",
+    "message": "Ctrl+X"
+  },
+  "skyux_text_editor_edit_menu_action_copy_label": {
+    "_description": "Texto para la acción \"Copiar\" del menú Editar",
+    "message": "Copiar"
+  },
+  "skyux_text_editor_edit_menu_action_copy_key_shortcut": {
+    "_description": "Texto para el acceso rápido de \"Cortar\" del menú Editar",
+    "message": "Ctrl+C"
+  },
+  "skyux_text_editor_edit_menu_action_paste_label": {
+    "_description": "Texto para la acción \"Pegar\" del menú Editar",
+    "message": "Pegar"
+  },
+  "skyux_text_editor_edit_menu_action_paste_key_shortcut": {
+    "_description": "Texto para el acceso rápido de \"Pegar\" del menú Editar",
+    "message": "Ctrl+V"
+  },
+  "skyux_text_editor_edit_menu_action_select_all_label": {
+    "_description": "Texto para la acción \"Seleccionar todo\" del menú Editar",
+    "message": "Seleccionar todo"
+  },
+  "skyux_text_editor_edit_menu_action_select_all_key_shortcut": {
+    "_description": "Texto para el acceso rápido de \"Seleccionar todo\" del menú Editar",
+    "message": "Ctrl+A"
+  },
+  "skyux_text_editor_iframe_title_default": {
+    "_description": "Texto para el atributo de título del iFrame del editor de texto",
+    "message": "Editor de texto"
+  },
+  "skyux_text_editor_menubar_dropdown_button_edit_label": {
+    "_description": "Texto para el botón desplegable \"Editar\" de la barra de menú",
+    "message": "Editar"
+  },
+  "skyux_text_editor_menubar_dropdown_button_format_label": {
+    "_description": "Texto para el botón desplegable \"Formato\" de la barra de menú",
+    "message": "Formato"
+  },
+  "skyux_text_editor_menubar_dropdown_button_insert_label": {
+    "_description": "Texto para el botón desplegable \"Insertar campo de combinación\" de la barra de menú",
+    "message": "Insertar campo de combinación"
+  },
+  "skyux_text_editor_paste_incompatibility_error": {
+    "_description": "Texto de la alerta al intentar pegar desde la barra de menú en Firefox",
+    "message": "Este navegador no admite el acceso directo al portapapeles. Utilice los accesos rápidos Ctrl+X/C/V en cambio."
+  },
+  "skyux_text_editor_url_modal_header_label": {
+    "_description": "Texto para el encabezado \"Crear vínculo\" del cuadro de diálogo de URL",
+    "message": "Crear vínculo"
+  },
+  "skyux_text_editor_url_modal_url_label": {
+    "_description": "Texto para la etiqueta \"Introduzca una URL a la que vincular:\" del cuadro de diálogo de URL",
+    "message": "Introduzca una URL a la que vincular:"
+  },
+  "skyux_text_editor_url_modal_open_label": {
+    "_description": "Texto para la etiqueta \"¿Dónde debe abrirse?\" del cuadro de diálogo de URL",
+    "message": "¿Dónde debe abrirse?"
+  },
+  "skyux_text_editor_url_modal_current_option_label": {
+    "_description": "Texto para la etiqueta de la opción \"Ventana actual\" del cuadro de diálogo de URL",
+    "message": "Ventana actual"
+  },
+  "skyux_text_editor_url_modal_open_in_new_window_label": {
+    "_description": "Texto con menor énfasis debajo del campo de entrada de URL en el cuadro de diálogo de URL",
+    "message": "Este vínculo se abrirá en una ventana nueva."
+  },
+  "skyux_text_editor_url_modal_new_option_label": {
+    "_description": "Texto para la etiqueta de la opción \"Ventana nueva\" del cuadro de diálogo de URL",
+    "message": "Ventana nueva"
+  },
+  "skyux_text_editor_url_modal_email_label": {
+    "_description": "Texto para la etiqueta \"Dirección de correo electrónico\" del cuadro de diálogo de URL",
+    "message": "Dirección de correo electrónico"
+  },
+  "skyux_text_editor_url_modal_subject_label": {
+    "_description": "Texto para la etiqueta \"Línea de asunto\" del cuadro de diálogo de URL",
+    "message": "Línea de asunto"
+  },
+  "skyux_text_editor_url_modal_save_button_label": {
+    "_description": "Texto para el botón \"Guardar\" del cuadro de diálogo de URL",
+    "message": "Guardar"
+  },
+  "skyux_text_editor_url_modal_cancel_button_label": {
+    "_description": "Texto para el botón \"Cancelar\" del cuadro de diálogo de URL",
+    "message": "Cancelar"
+  }
+}

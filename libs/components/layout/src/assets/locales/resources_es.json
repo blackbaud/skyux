@@ -1,0 +1,50 @@
+{
+  "skyux_back_to_top": {
+    "_description": "Texto del botón del componente Volver arriba",
+    "message": "Volver arriba"
+  },
+  "skyux_card_checkbox_label": {
+    "_description": "Etiqueta de la casilla de verificación de selección múltiple del componente de tarjeta",
+    "message": "Seleccionar tarjeta"
+  },
+  "skyux_definition_list_none_found": {
+    "_description": "Texto predeterminado que se muestra cuando un elemento de una lista de definiciones no tiene ningún valor",
+    "message": "No se encontró ninguno."
+  },
+  "skyux_description_list_none_found": {
+    "_description": "Texto predeterminado que se muestra cuando un elemento de una lista de descripciones no tiene ninguna descripción",
+    "message": "No se encontró ninguno."
+  },
+  "skyux_inline_delete_assistive_text": {
+    "_description": "Descripción de accesibilidad del componente de eliminación en línea",
+    "message": "¿Está seguro de que desea eliminar este elemento?"
+  },
+  "skyux_inline_delete_cancel": {
+    "_description": "Etiqueta del botón Cancelar de la eliminación en línea",
+    "message": "Cancelar"
+  },
+  "skyux_inline_delete_confirm_deletion": {
+    "_description": "Etiqueta de accesibilidad del componente de eliminación en línea",
+    "message": "Confirmar eliminación"
+  },
+  "skyux_inline_delete_delete": {
+    "_description": "Etiqueta del botón Borrar de la eliminación en línea",
+    "message": "Borrar"
+  },
+  "skyux_text_expand_close_text": {
+    "_description": "Texto del botón Cerrar del cuadro de diálogo modal de expansión de texto",
+    "message": "Cerrar"
+  },
+  "skyux_text_expand_modal_title": {
+    "_description": "",
+    "message": "Vista expandida"
+  },
+  "skyux_text_expand_see_less": {
+    "_description": "Mostrar menos contenido de texto",
+    "message": "Ver menos"
+  },
+  "skyux_text_expand_see_more": {
+    "_description": "",
+    "message": "Ver más"
+  }
+}

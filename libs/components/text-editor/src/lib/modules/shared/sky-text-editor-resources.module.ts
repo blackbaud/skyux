@@ -84,6 +84,76 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_text_editor_url_modal_save_button_label: { message: 'Save' },
     skyux_text_editor_url_modal_cancel_button_label: { message: 'Cancel' },
   },
+  ES: {
+    skyux_text_editor_format_menu_action_bold_label: { message: 'Negrita' },
+    skyux_text_editor_format_menu_action_bold_key_shortcut: {
+      message: 'Ctrl+B',
+    },
+    skyux_text_editor_format_menu_action_italic_label: { message: 'Cursiva' },
+    skyux_text_editor_format_menu_action_italic_key_shortcut: {
+      message: 'Ctrl+I',
+    },
+    skyux_text_editor_format_menu_action_underline_label: {
+      message: 'Subrayado',
+    },
+    skyux_text_editor_format_menu_action_underline_key_shortcut: {
+      message: 'Ctrl+U',
+    },
+    skyux_text_editor_format_menu_action_strikethrough_label: {
+      message: 'Tachado',
+    },
+    skyux_text_editor_format_menu_action_clear_formatting_label: {
+      message: 'Borrar formato',
+    },
+    skyux_text_editor_edit_menu_action_undo_label: { message: 'Deshacer' },
+    skyux_text_editor_edit_menu_action_undo_key_shortcut: { message: 'Ctrl+Z' },
+    skyux_text_editor_edit_menu_action_redo_label: { message: 'Rehacer' },
+    skyux_text_editor_edit_menu_action_redo_key_shortcut: { message: 'Ctrl+Y' },
+    skyux_text_editor_edit_menu_action_cut_label: { message: 'Cortar' },
+    skyux_text_editor_edit_menu_action_cut_key_shortcut: { message: 'Ctrl+X' },
+    skyux_text_editor_edit_menu_action_copy_label: { message: 'Copiar' },
+    skyux_text_editor_edit_menu_action_copy_key_shortcut: { message: 'Ctrl+C' },
+    skyux_text_editor_edit_menu_action_paste_label: { message: 'Pegar' },
+    skyux_text_editor_edit_menu_action_paste_key_shortcut: {
+      message: 'Ctrl+V',
+    },
+    skyux_text_editor_edit_menu_action_select_all_label: {
+      message: 'Seleccionar todo',
+    },
+    skyux_text_editor_edit_menu_action_select_all_key_shortcut: {
+      message: 'Ctrl+A',
+    },
+    skyux_text_editor_iframe_title_default: { message: 'Editor de texto' },
+    skyux_text_editor_menubar_dropdown_button_edit_label: { message: 'Editar' },
+    skyux_text_editor_menubar_dropdown_button_format_label: {
+      message: 'Formato',
+    },
+    skyux_text_editor_menubar_dropdown_button_insert_label: {
+      message: 'Insertar campo de combinación',
+    },
+    skyux_text_editor_paste_incompatibility_error: {
+      message:
+        'Este navegador no admite el acceso directo al portapapeles. Utilice los accesos rápidos Ctrl+X/C/V en cambio.',
+    },
+    skyux_text_editor_url_modal_header_label: { message: 'Crear vínculo' },
+    skyux_text_editor_url_modal_url_label: {
+      message: 'Introduzca una URL a la que vincular:',
+    },
+    skyux_text_editor_url_modal_open_label: { message: '¿Dónde debe abrirse?' },
+    skyux_text_editor_url_modal_current_option_label: {
+      message: 'Ventana actual',
+    },
+    skyux_text_editor_url_modal_open_in_new_window_label: {
+      message: 'Este vínculo se abrirá en una ventana nueva.',
+    },
+    skyux_text_editor_url_modal_new_option_label: { message: 'Ventana nueva' },
+    skyux_text_editor_url_modal_email_label: {
+      message: 'Dirección de correo electrónico',
+    },
+    skyux_text_editor_url_modal_subject_label: { message: 'Línea de asunto' },
+    skyux_text_editor_url_modal_save_button_label: { message: 'Guardar' },
+    skyux_text_editor_url_modal_cancel_button_label: { message: 'Cancelar' },
+  },
   'FR-CA': {
     skyux_text_editor_format_menu_action_bold_label: { message: 'Gras' },
     skyux_text_editor_format_menu_action_bold_key_shortcut: {

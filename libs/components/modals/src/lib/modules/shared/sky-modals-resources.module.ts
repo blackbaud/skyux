@@ -31,6 +31,25 @@ const RESOURCES: Record<string, SkyLibResources> = {
     },
     skyux_modal_dirty_default_keep_working_text: { message: 'Keep working' },
   },
+  ES: {
+    skyux_confirm_dialog_default_ok_text: { message: 'Aceptar' },
+    skyux_confirm_dialog_default_yes_text: { message: 'Sí' },
+    skyux_confirm_dialog_default_no_text: { message: 'No' },
+    skyux_confirm_dialog_default_cancel_text: { message: 'Cancelar' },
+    skyux_modal_close: { message: 'Cerrar cuadro de diálogo modal' },
+    skyux_modal_open_help: { message: 'Abrir ayuda' },
+    skyux_modal_footer_cancel_button: { message: 'Cancelar' },
+    skyux_modal_footer_primary_button: { message: 'Guardar' },
+    skyux_modal_dirty_default_message: {
+      message: '¿Está seguro de que desea descartar los cambios?',
+    },
+    skyux_modal_dirty_default_discard_changes_text: {
+      message: 'Descartar cambios',
+    },
+    skyux_modal_dirty_default_keep_working_text: {
+      message: 'Seguir trabajando',
+    },
+  },
   'FR-CA': {
     skyux_confirm_dialog_default_ok_text: { message: 'OK' },
     skyux_confirm_dialog_default_yes_text: { message: 'Oui' },

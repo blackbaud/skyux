@@ -34,6 +34,26 @@ const RESOURCES: Record<string, SkyLibResources> = {
       message: "Heads up!\nYou're in a restricted area.",
     },
   },
+  ES: {
+    skyux_errors_broken_description: {
+      message: 'Algo no funcionó.\nInténtelo de nuevo o vuelva más tarde.',
+    },
+    skyux_errors_broken_title: { message: 'Qué extraño...' },
+    skyux_errors_construction_description: {
+      message: 'Agradecemos su paciencia mientras\nrealizamos mejoras.',
+    },
+    skyux_errors_construction_title: { message: 'Trabajo en curso.' },
+    skyux_errors_not_found_description: {
+      message: 'Disculpe, pero esta página\nno existe o se ha movido.',
+    },
+    skyux_errors_not_found_title: { message: 'No hay nada que ver aquí.' },
+    skyux_errors_security_description: {
+      message: 'Solicite acceso a su administrador.',
+    },
+    skyux_errors_security_title: {
+      message: '¡Atención!\nSe encuentra en un área restringida.',
+    },
+  },
   'FR-CA': {
     skyux_errors_broken_description: {
       message:

@@ -1,0 +1,210 @@
+{
+  "skyux_character_count_message": {
+    "_description": "Texto solo para lectores de pantalla para el recuento de caracteres",
+    "message": "{0} caracteres de {1}"
+  },
+  "skyux_character_count_over_limit": {
+    "_description": "Texto solo para lectores de pantalla para el símbolo que indica que se superó el límite de caracteres",
+    "message": "Ha superado el límite de caracteres."
+  },
+  "skyux_form_error_character_count": {
+    "_description": "Mensaje de error para un campo cuyo valor supera el límite de caracteres",
+    "message": "Limite {0} a {1} caracteres."
+  },
+  "skyux_form_error_date": {
+    "_description": "Mensaje de error para un campo con un valor de fecha no válido",
+    "message": "Seleccione o introduzca una fecha válida."
+  },
+  "skyux_form_error_date_max": {
+    "_description": "Mensaje de error para un campo con una fecha posterior a la fecha máxima",
+    "message": "Seleccione o introduzca una fecha igual o anterior al {0}."
+  },
+  "skyux_form_error_date_min": {
+    "_description": "Mensaje de error para un campo con una fecha anterior a la fecha mínima",
+    "message": "Seleccione o introduzca una fecha igual o posterior al {0}."
+  },
+  "skyux_form_error_fuzzy_date_future_disabled": {
+    "_description": "Mensaje de error para un campo con una fecha aproximada no válida en el futuro",
+    "message": "Las fechas futuras están deshabilitadas. Seleccione o introduzca una fecha pasada."
+  },
+  "skyux_form_error_fuzzy_date_invalid": {
+    "_description": "Mensaje de error para un campo con una fecha aproximada no válida",
+    "message": "Seleccione o introduzca una fecha válida."
+  },
+  "skyux_form_error_fuzzy_date_max_date": {
+    "_description": "Mensaje de error para un campo con una fecha aproximada posterior a la fecha máxima",
+    "message": "Seleccione o introduzca una fecha igual o anterior al {0}."
+  },
+  "skyux_form_error_fuzzy_date_min_date": {
+    "_description": "Mensaje de error para un campo con una fecha aproximada anterior a la fecha mínima",
+    "message": "Seleccione o introduzca una fecha igual o posterior al {0}."
+  },
+  "skyux_form_error_fuzzy_date_year_required": {
+    "_description": "Mensaje de error para un campo con una fecha sin año",
+    "message": "El año es obligatorio."
+  },
+  "skyux_form_error_email": {
+    "_description": "Mensaje de error para un campo con un valor de correo electrónico no válido",
+    "message": "Introduzca una dirección de correo electrónico con un formato válido."
+  },
+  "skyux_form_error_maxlength": {
+    "_description": "Mensaje de error para un campo con un valor demasiado largo",
+    "message": "Limite {0} a {1} caracteres."
+  },
+  "skyux_form_error_minlength": {
+    "_description": "Mensaje de error para un campo cuyo valor no tiene la longitud mínima requerida",
+    "message": "{0} debe tener al menos {1} caracteres."
+  },
+  "skyux_form_error_phone": {
+    "_description": "Mensaje de error para un campo con un número de teléfono no válido",
+    "message": "Introduzca un número de teléfono válido para el país seleccionado."
+  },
+  "skyux_form_error_required": {
+    "_description": "Mensaje de error para un campo obligatorio sin valor",
+    "message": "{0} es obligatorio."
+  },
+  "skyux_form_error_time": {
+    "_description": "Mensaje de error para un campo con un valor de hora no válido",
+    "message": "Seleccione o introduzca una hora válida."
+  },
+  "skyux_form_error_url": {
+    "_description": "Mensaje de error para un campo con un valor de URL no válido",
+    "message": "Introduzca una URL con un formato válido."
+  },
+  "skyux_form_group_required": {
+    "_description": "Texto del lector de pantalla después de la etiqueta de un grupo de formulario cuando el grupo es obligatorio",
+    "message": "Obligatorio"
+  },
+  "skyux_file_attachment_button_label_choose_file": {
+    "_description": "Etiqueta del botón para adjuntar un solo archivo cuando el campo no tiene ningún valor",
+    "message": "Adjuntar archivo"
+  },
+  "skyux_file_attachment_button_label_choose_file_label": {
+    "_description": "Etiqueta ARIA del botón para adjuntar un solo archivo cuando el campo no tiene ningún valor",
+    "message": "Adjuntar archivo para"
+  },
+  "skyux_file_attachment_button_label_replace_file": {
+    "_description": "Etiqueta del botón para adjuntar un solo archivo cuando se ha seleccionado un archivo",
+    "message": "Reemplazar archivo"
+  },
+  "skyux_file_attachment_button_label_replace_file_label": {
+    "_description": "Etiqueta ARIA del botón para adjuntar un solo archivo cuando se ha seleccionado un archivo",
+    "message": "Reemplazar archivo {0} para"
+  },
+  "skyux_file_attachment_file_item_delete": {
+    "_description": "Etiqueta del botón que elimina un archivo",
+    "message": "Eliminar {0}"
+  },
+  "skyux_file_attachment_file_item_remove": {
+    "_description": "Etiqueta del botón que elimina un archivo cuando se adjunta un solo archivo",
+    "message": "Eliminar archivo {0} para"
+  },
+  "skyux_file_attachment_file_size_b_plural": {
+    "_description": "",
+    "message": "{0} bytes"
+  },
+  "skyux_file_attachment_file_size_b_singular": {
+    "_description": "",
+    "message": "{0} byte"
+  },
+  "skyux_file_attachment_file_size_gb": {
+    "_description": "",
+    "message": "{0} GB"
+  },
+  "skyux_file_attachment_file_size_kb": {
+    "_description": "",
+    "message": "{0} KB"
+  },
+  "skyux_file_attachment_file_size_mb": {
+    "_description": "",
+    "message": "{0} MB"
+  },
+  "skyux_file_attachment_file_upload_drag_file_here": {
+    "_description": "",
+    "message": "Arrastrar un archivo aquí"
+  },
+  "skyux_file_attachment_file_upload_drag_or_click": {
+    "_description": "Etiqueta para soltar archivos",
+    "message": "Arrastre un archivo aquí o haga clic para buscarlo"
+  },
+  "skyux_file_attachment_file_upload_drop_files_here": {
+    "_description": "",
+    "message": "Arrastrar archivos aquí"
+  },
+  "skyux_file_attachment_file_upload_file_added": {
+    "_description": "Texto del lector de pantalla cuando se agrega un archivo",
+    "message": "Se agregó {0}."
+  },
+  "skyux_file_attachment_file_upload_file_replaced": {
+    "_description": "Texto del lector de pantalla cuando se reemplaza un archivo",
+    "message": "Se eliminó {0}. Se agregó {1}."
+  },
+  "skyux_file_attachment_file_upload_file_removed": {
+    "_description": "Texto del lector de pantalla cuando se elimina un archivo",
+    "message": "Se eliminó {0}"
+  },
+  "skyux_file_attachment_file_upload_image_preview_alt_text": {
+    "_description": "Texto alternativo para la imagen cargada",
+    "message": "Vista previa de la imagen"
+  },
+  "skyux_file_attachment_file_upload_invalid_file": {
+    "_description": "",
+    "message": "Este tipo de archivo no es válido"
+  },
+  "skyux_file_attachment_file_upload_link_label": {
+    "_description": "Etiqueta del campo para vincular a un archivo",
+    "message": "Vincule a un archivo"
+  },
+  "skyux_file_attachment_file_upload_or_click_to_browse": {
+    "_description": "",
+    "message": "o haga clic para navegar"
+  },
+  "skyux_file_attachment_file_upload_link_done": {
+    "_description": "",
+    "message": "Hecho"
+  },
+  "skyux_file_attachment_file_upload_link_added": {
+    "_description": "Texto del lector de pantalla cuando se agrega un vínculo",
+    "message": "Se agregó el vínculo a {0}."
+  },
+  "skyux_file_attachment_file_upload_link_removed": {
+    "_description": "Texto del lector de pantalla cuando se elimina un vínculo",
+    "message": "Se eliminó el vínculo a {0}."
+  },
+  "skyux_file_attachment_file_type_error_label_text": {
+    "_description": "Mensaje de error cuando el tipo de archivo adjunto es incorrecto",
+    "message": "Cargue uno de estos tipos de archivo: {0}."
+  },
+  "skyux_file_attachment_file_type_error_label_text_with_name": {
+    "_description": "Mensaje de error cuando el tipo de archivo adjunto es incorrecto",
+    "message": "{0}: Cargue uno de estos tipos de archivo: {1}."
+  },
+  "skyux_file_attachment_max_file_size_error_label_text": {
+    "_description": "Mensaje de error cuando el archivo adjunto supera el tamaño máximo permitido",
+    "message": "Cargue un archivo de menos de {0}."
+  },
+  "skyux_file_attachment_max_file_size_error_label_text_with_name": {
+    "_description": "Mensaje de error cuando el archivo adjunto supera el tamaño máximo permitido",
+    "message": "{0}: Cargue un archivo de menos de {1}."
+  },
+  "skyux_file_attachment_min_file_size_error_label_text": {
+    "_description": "Mensaje de error cuando el archivo adjunto no alcanza el tamaño mínimo permitido",
+    "message": "Cargue un archivo de más de {0}."
+  },
+  "skyux_file_attachment_min_file_size_error_label_text_with_name": {
+    "_description": "Mensaje de error cuando el archivo adjunto no alcanza el tamaño mínimo permitido",
+    "message": "{0}: Cargue un archivo de más de {1}."
+  },
+  "skyux_file_attachment_label_no_file_chosen": {
+    "_description": "Etiqueta para adjuntar un solo archivo cuando no se ha seleccionado ningún archivo",
+    "message": "No se ha seleccionado ningún archivo."
+  },
+  "skyux_file_attachment_required": {
+    "_description": "Texto del lector de pantalla después de la etiqueta del archivo adjunto cuando este es obligatorio",
+    "message": "Obligatorio"
+  },
+  "skyux_input_box_help_inline_aria_label": {
+    "_description": "Etiqueta accesible del botón de ayuda en línea de un campo de entrada",
+    "message": "Mostrar contenido de ayuda para {0}"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "skyux_confirm_dialog_default_ok_text": {
+    "_description": "Texto predeterminado del botón Aceptar del cuadro de diálogo de confirmación\r\n",
+    "message": "Aceptar"
+  },
+  "skyux_confirm_dialog_default_yes_text": {
+    "_description": "Texto predeterminado del botón Sí del cuadro de diálogo de confirmación",
+    "message": "Sí"
+  },
+  "skyux_confirm_dialog_default_no_text": {
+    "_description": "Texto predeterminado del botón No del cuadro de diálogo de confirmación",
+    "message": "No"
+  },
+  "skyux_confirm_dialog_default_cancel_text": {
+    "_description": "Texto predeterminado del botón Cancelar del cuadro de diálogo de confirmación",
+    "message": "Cancelar"
+  },
+  "skyux_modal_close": {
+    "_description": "Texto del botón Cerrar cuadro de diálogo modal",
+    "message": "Cerrar cuadro de diálogo modal"
+  },
+  "skyux_modal_open_help": {
+    "_description": "Texto del botón Abrir ayuda del encabezado del cuadro de diálogo modal",
+    "message": "Abrir ayuda"
+  },
+  "skyux_modal_footer_cancel_button": {
+    "_description": "Texto predeterminado de la etiqueta del botón Cancelar del cuadro de diálogo modal",
+    "message": "Cancelar"
+  },
+  "skyux_modal_footer_primary_button": {
+    "_description": "Texto predeterminado de la etiqueta del botón principal del cuadro de diálogo modal",
+    "message": "Guardar"
+  },
+  "skyux_modal_dirty_default_message": {
+    "_description": "Mensaje predeterminado que se muestra al cerrar un cuadro de diálogo modal con cambios sin guardar.",
+    "message": "¿Está seguro de que desea descartar los cambios?"
+  },
+  "skyux_modal_dirty_default_discard_changes_text": {
+    "_description": "Texto predeterminado del botón \"Descartar cambios\" al cerrar un cuadro de diálogo modal con cambios sin guardar.",
+    "message": "Descartar cambios"
+  },
+  "skyux_modal_dirty_default_keep_working_text": {
+    "_description": "Texto predeterminado del botón \"Seguir trabajando\" al cerrar un cuadro de diálogo modal con cambios sin guardar.",
+    "message": "Seguir trabajando"
+  }
+}

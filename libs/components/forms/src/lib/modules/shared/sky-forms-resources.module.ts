@@ -128,6 +128,141 @@ const RESOURCES: Record<string, SkyLibResources> = {
       message: 'Show help content for {0}',
     },
   },
+  ES: {
+    skyux_character_count_message: { message: '{0} caracteres de {1}' },
+    skyux_character_count_over_limit: {
+      message: 'Ha superado el límite de caracteres.',
+    },
+    skyux_form_error_character_count: {
+      message: 'Limite {0} a {1} caracteres.',
+    },
+    skyux_form_error_date: {
+      message: 'Seleccione o introduzca una fecha válida.',
+    },
+    skyux_form_error_date_max: {
+      message: 'Seleccione o introduzca una fecha igual o anterior al {0}.',
+    },
+    skyux_form_error_date_min: {
+      message: 'Seleccione o introduzca una fecha igual o posterior al {0}.',
+    },
+    skyux_form_error_fuzzy_date_future_disabled: {
+      message:
+        'Las fechas futuras están deshabilitadas. Seleccione o introduzca una fecha pasada.',
+    },
+    skyux_form_error_fuzzy_date_invalid: {
+      message: 'Seleccione o introduzca una fecha válida.',
+    },
+    skyux_form_error_fuzzy_date_max_date: {
+      message: 'Seleccione o introduzca una fecha igual o anterior al {0}.',
+    },
+    skyux_form_error_fuzzy_date_min_date: {
+      message: 'Seleccione o introduzca una fecha igual o posterior al {0}.',
+    },
+    skyux_form_error_fuzzy_date_year_required: {
+      message: 'El año es obligatorio.',
+    },
+    skyux_form_error_email: {
+      message:
+        'Introduzca una dirección de correo electrónico con un formato válido.',
+    },
+    skyux_form_error_maxlength: { message: 'Limite {0} a {1} caracteres.' },
+    skyux_form_error_minlength: {
+      message: '{0} debe tener al menos {1} caracteres.',
+    },
+    skyux_form_error_phone: {
+      message:
+        'Introduzca un número de teléfono válido para el país seleccionado.',
+    },
+    skyux_form_error_required: { message: '{0} es obligatorio.' },
+    skyux_form_error_time: {
+      message: 'Seleccione o introduzca una hora válida.',
+    },
+    skyux_form_error_url: {
+      message: 'Introduzca una URL con un formato válido.',
+    },
+    skyux_form_group_required: { message: 'Obligatorio' },
+    skyux_file_attachment_button_label_choose_file: {
+      message: 'Adjuntar archivo',
+    },
+    skyux_file_attachment_button_label_choose_file_label: {
+      message: 'Adjuntar archivo para',
+    },
+    skyux_file_attachment_button_label_replace_file: {
+      message: 'Reemplazar archivo',
+    },
+    skyux_file_attachment_button_label_replace_file_label: {
+      message: 'Reemplazar archivo {0} para',
+    },
+    skyux_file_attachment_file_item_delete: { message: 'Eliminar {0}' },
+    skyux_file_attachment_file_item_remove: {
+      message: 'Eliminar archivo {0} para',
+    },
+    skyux_file_attachment_file_size_b_plural: { message: '{0} bytes' },
+    skyux_file_attachment_file_size_b_singular: { message: '{0} byte' },
+    skyux_file_attachment_file_size_gb: { message: '{0} GB' },
+    skyux_file_attachment_file_size_kb: { message: '{0} KB' },
+    skyux_file_attachment_file_size_mb: { message: '{0} MB' },
+    skyux_file_attachment_file_upload_drag_file_here: {
+      message: 'Arrastrar un archivo aquí',
+    },
+    skyux_file_attachment_file_upload_drag_or_click: {
+      message: 'Arrastre un archivo aquí o haga clic para buscarlo',
+    },
+    skyux_file_attachment_file_upload_drop_files_here: {
+      message: 'Arrastrar archivos aquí',
+    },
+    skyux_file_attachment_file_upload_file_added: { message: 'Se agregó {0}.' },
+    skyux_file_attachment_file_upload_file_replaced: {
+      message: 'Se eliminó {0}. Se agregó {1}.',
+    },
+    skyux_file_attachment_file_upload_file_removed: {
+      message: 'Se eliminó {0}',
+    },
+    skyux_file_attachment_file_upload_image_preview_alt_text: {
+      message: 'Vista previa de la imagen',
+    },
+    skyux_file_attachment_file_upload_invalid_file: {
+      message: 'Este tipo de archivo no es válido',
+    },
+    skyux_file_attachment_file_upload_link_label: {
+      message: 'Vincule a un archivo',
+    },
+    skyux_file_attachment_file_upload_or_click_to_browse: {
+      message: 'o haga clic para navegar',
+    },
+    skyux_file_attachment_file_upload_link_done: { message: 'Hecho' },
+    skyux_file_attachment_file_upload_link_added: {
+      message: 'Se agregó el vínculo a {0}.',
+    },
+    skyux_file_attachment_file_upload_link_removed: {
+      message: 'Se eliminó el vínculo a {0}.',
+    },
+    skyux_file_attachment_file_type_error_label_text: {
+      message: 'Cargue uno de estos tipos de archivo: {0}.',
+    },
+    skyux_file_attachment_file_type_error_label_text_with_name: {
+      message: '{0}: Cargue uno de estos tipos de archivo: {1}.',
+    },
+    skyux_file_attachment_max_file_size_error_label_text: {
+      message: 'Cargue un archivo de menos de {0}.',
+    },
+    skyux_file_attachment_max_file_size_error_label_text_with_name: {
+      message: '{0}: Cargue un archivo de menos de {1}.',
+    },
+    skyux_file_attachment_min_file_size_error_label_text: {
+      message: 'Cargue un archivo de más de {0}.',
+    },
+    skyux_file_attachment_min_file_size_error_label_text_with_name: {
+      message: '{0}: Cargue un archivo de más de {1}.',
+    },
+    skyux_file_attachment_label_no_file_chosen: {
+      message: 'No se ha seleccionado ningún archivo.',
+    },
+    skyux_file_attachment_required: { message: 'Obligatorio' },
+    skyux_input_box_help_inline_aria_label: {
+      message: 'Mostrar contenido de ayuda para {0}',
+    },
+  },
   'FR-CA': {
     skyux_character_count_message: { message: '{0} caractères de {1}' },
     skyux_character_count_over_limit: {

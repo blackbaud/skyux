@@ -117,6 +117,86 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_date_range_picker_after_date_label: { message: 'After date' },
     skyux_date_range_picker_default_aria_label: { message: '{0} for {1}' },
   },
+  ES: {
+    skyux_datepicker_format_hint_text: { message: 'Utilice el formato {0}.' },
+    skyux_datepicker_trigger_button_label: { message: 'Seleccionar fecha' },
+    skyux_datepicker_trigger_button_label_context: {
+      message: 'Abrir el calendario para {0}',
+    },
+    skyux_datepicker_move_calendar_previous_day: { message: 'Mes anterior' },
+    skyux_datepicker_move_calendar_next_day: { message: 'Próximo mes' },
+    skyux_datepicker_move_calendar_previous_month: { message: 'Año anterior' },
+    skyux_datepicker_move_calendar_next_month: { message: 'Próximo año' },
+    skyux_datepicker_move_calendar_previous_year: {
+      message: 'Página anterior',
+    },
+    skyux_datepicker_move_calendar_next_year: { message: 'Página siguiente' },
+    skyux_timepicker_button_label: { message: 'Elegir hora' },
+    skyux_timepicker_button_label_context: {
+      message: 'Abrir el selector de hora para {0}',
+    },
+    skyux_timepicker_close: { message: 'Hecho' },
+    skyux_date_range_picker_default_label: {
+      message: 'Seleccionar un rango de fechas',
+    },
+    skyux_date_range_picker_end_date_before_start_date_error_label_text: {
+      message:
+        'Cambie el rango de fechas para que la fecha de finalización sea anterior a la fecha de inicio.',
+    },
+    skyux_date_range_picker_format_label_specific_range: {
+      message: 'Rango específico',
+    },
+    skyux_date_range_picker_format_label_before: { message: 'Antes de' },
+    skyux_date_range_picker_format_label_after: { message: 'Después de' },
+    skyux_date_range_picker_format_label_any_time: {
+      message: 'En cualquier momento',
+    },
+    skyux_date_range_picker_format_label_yesterday: { message: 'Ayer' },
+    skyux_date_range_picker_format_label_today: { message: 'Hoy' },
+    skyux_date_range_picker_format_label_tomorrow: { message: 'Mañana' },
+    skyux_date_range_picker_format_label_last_week: {
+      message: 'Semana pasada',
+    },
+    skyux_date_range_picker_format_label_this_week: { message: 'Esta semana' },
+    skyux_date_range_picker_format_label_next_week: {
+      message: 'Próxima semana',
+    },
+    skyux_date_range_picker_format_label_last_month: { message: 'Mes pasado' },
+    skyux_date_range_picker_format_label_this_month: { message: 'Este mes' },
+    skyux_date_range_picker_format_label_next_month: { message: 'Mes próximo' },
+    skyux_date_range_picker_format_label_last_quarter: {
+      message: 'Trimestre pasado',
+    },
+    skyux_date_range_picker_format_label_this_quarter: {
+      message: 'Este trimestre',
+    },
+    skyux_date_range_picker_format_label_next_quarter: {
+      message: 'Próximo trimestre',
+    },
+    skyux_date_range_picker_format_label_last_calendar_year: {
+      message: 'Último año natural',
+    },
+    skyux_date_range_picker_format_label_this_calendar_year: {
+      message: 'Este año natural',
+    },
+    skyux_date_range_picker_format_label_next_calendar_year: {
+      message: 'Próximo año natural',
+    },
+    skyux_date_range_picker_format_label_last_fiscal_year: {
+      message: 'Último año fiscal',
+    },
+    skyux_date_range_picker_format_label_this_fiscal_year: {
+      message: 'Este año fiscal',
+    },
+    skyux_date_range_picker_format_label_next_fiscal_year: {
+      message: 'Próximo año fiscal',
+    },
+    skyux_date_range_picker_start_date_label: { message: 'Fecha de inicio' },
+    skyux_date_range_picker_end_date_label: { message: 'Fecha de fin' },
+    skyux_date_range_picker_before_date_label: { message: 'Fecha anterior a' },
+    skyux_date_range_picker_after_date_label: { message: 'Fecha posterior a' },
+    skyux_date_range_picker_default_aria_label: { message: '{0} para {1}' },
+  },
   'FR-CA': {
     skyux_datepicker_format_hint_text: { message: 'Utilisez le format {0}.' },
     skyux_datepicker_trigger_button_label: { message: 'Sélectionner la date' },

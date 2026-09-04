@@ -1,0 +1,26 @@
+{
+  "skyux_phone_field_country_search_dismiss": {
+    "_description": "Etiqueta para descartar los datos ingresados en el campo de búsqueda de país",
+    "message": "Descartar búsqueda de país"
+  },
+  "skyux_phone_field_country_search_label": {
+    "_description": "Etiqueta de accesibilidad del campo de búsqueda de país",
+    "message": "Descartar búsqueda de país"
+  },
+  "skyux_phone_field_country_search_placeholder": {
+    "_description": "Marcador de posición para el autocompletado de búsqueda de país",
+    "message": "Buscar un país"
+  },
+  "skyux_phone_field_country_select_label": {
+    "_description": "Texto del lector de pantalla para el botón del componente de campo de teléfono que permite seleccionar un nuevo país.",
+    "message": "Elegir país."
+  },
+  "skyux_phone_field_country_selected_label": {
+    "_description": "Texto del lector de pantalla del componente de campo de teléfono para indicar el país seleccionado.",
+    "message": "Actualmente está seleccionado(a) {0}."
+  },
+  "skyux_phone_field_format_hint_text": {
+    "_description": "Texto de ayuda para el formato de número de teléfono establecido actualmente en el campo de teléfono.",
+    "message": "Ejemplo: {0}."
+  }
+}

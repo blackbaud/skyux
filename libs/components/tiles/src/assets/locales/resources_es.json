@@ -1,0 +1,42 @@
+{
+  "skyux_tile_expand": {
+    "_description": "Etiqueta del botón para expandir y contraer del mosaico",
+    "message": "Expandir o contraer {0}"
+  },
+  "skyux_tile_expand_default": {
+    "_description": "Etiqueta predeterminada del botón para expandir y contraer del mosaico",
+    "message": "Expandir o contraer"
+  },
+  "skyux_tile_help": {
+    "_description": "Etiqueta del botón de ayuda del mosaico",
+    "message": "Ayuda de {0}"
+  },
+  "skyux_tile_help_default": {
+    "_description": "Etiqueta predeterminada del botón de ayuda del mosaico",
+    "message": "Ayuda"
+  },
+  "skyux_tile_settings": {
+    "_description": "Etiqueta del botón de configuración del mosaico",
+    "message": "Configuración de {0}"
+  },
+  "skyux_tile_settings_default": {
+    "_description": "Etiqueta predeterminada del botón de configuración del mosaico",
+    "message": "Configuración"
+  },
+  "skyux_tile_move": {
+    "_description": "Etiqueta del botón Mover del mosaico",
+    "message": "Mover {0}"
+  },
+  "skyux_tile_move_default": {
+    "_description": "Etiqueta predeterminada del botón Mover del mosaico",
+    "message": "Mover"
+  },
+  "skyux_tile_move_instructions": {
+    "_description": "Descripción larga del botón Mover del mosaico",
+    "message": "Cuando el foco esté en el botón Mover de un mosaico, utilice las teclas de flecha para moverlo. Las teclas de flecha arriba y abajo cambian su posición dentro de una columna. Las teclas de flecha izquierda y derecha lo mueven entre columnas."
+  },
+  "skyux_tile_moved_assistive_text": {
+    "_description": "Informe de la nueva ubicación de un mosaico que se movió recientemente",
+    "message": "Se movió {0}. Columna actual: {1} de {2}. Posición actual en la columna: {3} de {4}"
+  }
+}

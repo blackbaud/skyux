@@ -1,0 +1,10 @@
+{
+  "skyux_split_view_resize_handle": {
+    "_description": "Etiqueta del controlador para cambiar el tamaño del panel lateral",
+    "message": "Cambiar el tamaño del panel lateral. Utilice la tecla de flecha derecha para ampliarlo y la tecla de flecha izquierda para reducirlo."
+  },
+  "skyux_split_view_back_to_list": {
+    "_description": "Etiqueta predeterminada del botón del encabezado del espacio de trabajo para mostrar el panel lateral en el modo móvil.",
+    "message": "Volver a la lista"
+  }
+}
