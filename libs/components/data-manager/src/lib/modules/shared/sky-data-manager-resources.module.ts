@@ -52,6 +52,47 @@ const RESOURCES: Record<string, SkyLibResources> = {
         '{0} of {1} items meet criteria and {2} selected. Only selected items are displayed.',
     },
   },
+  ES: {
+    skyux_data_manager_column_picker_title: {
+      message: 'Elegir columnas para mostrar en la lista',
+    },
+    skyux_data_manager_apply_changes_button_title: {
+      message: 'Aplicar cambios',
+    },
+    skyux_data_manager_cancel_button_title: { message: 'Cancelar' },
+    skyux_data_manager_select_all_button_aria_label: {
+      message: 'Seleccionar los {0}',
+    },
+    skyux_data_manager_select_all_button_title: { message: 'Seleccionar todo' },
+    skyux_data_manager_clear_all_button_aria_label: {
+      message: 'Borrar los {0} seleccionados',
+    },
+    skyux_data_manager_clear_all_button_title: { message: 'Borrar todo' },
+    skyux_data_manager_show_selected_option_aria_label: {
+      message: 'Mostrar solo los {0} seleccionados',
+    },
+    skyux_data_manager_show_selected_option_title: {
+      message: 'Mostrar solo los elementos seleccionados',
+    },
+    skyux_data_manager_columns_button_aria_label: {
+      message: 'Elegir columnas para {0}',
+    },
+    skyux_data_manager_columns_button_title: { message: 'Columnas' },
+    skyux_data_manager_select_column_status_indicator_title: {
+      message: 'Seleccione al menos una columna.',
+    },
+    skyux_data_manager_status_update_with_selections: {
+      message:
+        '{0} de {1} elementos cumplen los criterios y {2} están seleccionados.',
+    },
+    skyux_data_manager_status_update_without_selections: {
+      message: '{0} de {1} elementos cumplen los criterios.',
+    },
+    skyux_data_manager_status_update_only_selected: {
+      message:
+        '{0} de {1} elementos cumplen los criterios y {2} están seleccionados. Solo se muestran los elementos seleccionados.',
+    },
+  },
   'FR-CA': {
     skyux_data_manager_column_picker_title: {
       message: 'Choisir les colonnes à indiquer dans la liste',

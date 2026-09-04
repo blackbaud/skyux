@@ -30,6 +30,22 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_text_expand_see_less: { message: 'See less' },
     skyux_text_expand_see_more: { message: 'See more' },
   },
+  ES: {
+    skyux_back_to_top: { message: 'Volver arriba' },
+    skyux_card_checkbox_label: { message: 'Seleccionar tarjeta' },
+    skyux_definition_list_none_found: { message: 'No se encontró ninguno.' },
+    skyux_description_list_none_found: { message: 'No se encontró ninguno.' },
+    skyux_inline_delete_assistive_text: {
+      message: '¿Está seguro de que desea eliminar este elemento?',
+    },
+    skyux_inline_delete_cancel: { message: 'Cancelar' },
+    skyux_inline_delete_confirm_deletion: { message: 'Confirmar eliminación' },
+    skyux_inline_delete_delete: { message: 'Borrar' },
+    skyux_text_expand_close_text: { message: 'Cerrar' },
+    skyux_text_expand_modal_title: { message: 'Vista expandida' },
+    skyux_text_expand_see_less: { message: 'Ver menos' },
+    skyux_text_expand_see_more: { message: 'Ver más' },
+  },
   'FR-CA': {
     skyux_back_to_top: { message: 'Retour en haut' },
     skyux_card_checkbox_label: { message: 'Sélectionner la carte' },

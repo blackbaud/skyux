@@ -32,6 +32,24 @@ const RESOURCES: Record<string, SkyLibResources> = {
         '{0} moved. Current column: {1} of {2}. Current position in column: {3} of {4}',
     },
   },
+  ES: {
+    skyux_tile_expand: { message: 'Expandir o contraer {0}' },
+    skyux_tile_expand_default: { message: 'Expandir o contraer' },
+    skyux_tile_help: { message: 'Ayuda de {0}' },
+    skyux_tile_help_default: { message: 'Ayuda' },
+    skyux_tile_settings: { message: 'Configuración de {0}' },
+    skyux_tile_settings_default: { message: 'Configuraciones' },
+    skyux_tile_move: { message: 'Mover {0}' },
+    skyux_tile_move_default: { message: 'Mover' },
+    skyux_tile_move_instructions: {
+      message:
+        'Cuando el foco esté en el botón Mover de un mosaico, utilice las teclas de flecha para moverlo. Las teclas de flecha arriba y abajo cambian su posición dentro de una columna. Las teclas de flecha izquierda y derecha lo mueven entre columnas.',
+    },
+    skyux_tile_moved_assistive_text: {
+      message:
+        'Se movió {0}. Columna actual: {1} de {2}. Posición actual en la columna: {3} de {4}',
+    },
+  },
   'FR-CA': {
     skyux_tile_expand: { message: 'Agrandir ou réduire {0}' },
     skyux_tile_expand_default: { message: 'Agrandir ou réduire' },

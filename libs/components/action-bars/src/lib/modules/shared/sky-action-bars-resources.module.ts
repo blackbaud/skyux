@@ -20,6 +20,14 @@ const RESOURCES: Record<string, SkyLibResources> = {
     },
     skyux_summary_action_bar_expand: { message: 'Expand or collapse summary' },
   },
+  ES: {
+    skyux_summary_action_bar_open_secondary: {
+      message: 'Mostrar acciones secundarias',
+    },
+    skyux_summary_action_bar_expand: {
+      message: 'Expandir o contraer el resumen',
+    },
+  },
   'FR-CA': {
     skyux_summary_action_bar_open_secondary: {
       message: 'Montrer les actions secondaires',
