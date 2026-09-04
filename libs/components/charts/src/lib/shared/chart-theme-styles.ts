@@ -360,20 +360,22 @@ function remToPx(rem: string, rootFontSize: number): number {
 }
 
 /**
- * Reads a CSS duration token as milliseconds. Unlike the other tokens, an
- * unresolved duration cannot fall back to a Chart.js default — `NaN` would
- * break the animation loop — so it resolves to `0`, which renders the chart
- * without animating.
+ * Reads a CSS duration token as milliseconds. Only a non-negative value with an
+ * explicit `ms` or `s` unit is a valid duration; anything else resolves to `0`,
+ * which renders the chart without animating. Unlike the other tokens, an
+ * unresolved duration cannot fall back to a Chart.js default, because `NaN` or
+ * a negative value would break the animation loop.
  */
 function readDuration(styles: CSSStyleDeclaration, property: string): number {
-  const raw = readString(styles, property);
-  const value = Number.parseFloat(raw);
+  const parsed = /^(\d*\.?\d+)(ms|s)$/.exec(readString(styles, property));
 
-  if (Number.isNaN(value)) {
+  if (!parsed) {
     return 0;
   }
 
-  return raw.endsWith('ms') ? value : value * 1000;
+  const value = Number.parseFloat(parsed[1]);
+
+  return parsed[2] === 'ms' ? value : value * 1000;
 }
 
 /**

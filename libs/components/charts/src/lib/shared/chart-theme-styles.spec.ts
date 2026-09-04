@@ -108,15 +108,17 @@ describe('resolveChartThemeStyles', () => {
       resolve({ '--sky-global-duration-short': '0.2s' }).motion.duration,
     ).toBe(200);
 
-    // `sky-animations-disabled` and `prefers-reduced-motion` both zero the
-    // token out, as does a theme that left it unparseable.
     expect(
       resolve({ '--sky-global-duration-short': '0s' }).motion.duration,
     ).toBe(0);
+  });
 
-    expect(
-      resolve({ '--sky-global-duration-short': 'auto' }).motion.duration,
-    ).toBe(0);
+  it('should resolve a motion duration that is not a valid CSS time to zero', () => {
+    for (const value of ['auto', '150', '-5s', '-200ms', '10 s', '5sec']) {
+      expect(resolve({ '--sky-global-duration-short': value }).motion.duration)
+        .withContext(value)
+        .toBe(0);
+    }
   });
 
   it('should resolve the eight categorical palette colors in order', () => {
