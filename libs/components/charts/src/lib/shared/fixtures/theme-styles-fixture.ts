@@ -19,6 +19,9 @@ export function createThemeStylesFixture(
       deemphasizedColor: '#222222',
       lineHeight: 1.5,
     },
+    motion: {
+      duration: 150,
+    },
     height: {
       min: 180,
       max: 400,

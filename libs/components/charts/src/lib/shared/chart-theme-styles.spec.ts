@@ -99,6 +99,26 @@ describe('resolveChartThemeStyles', () => {
     expect(themeStyles.text.lineHeight).toBe(1.25);
   });
 
+  it('should resolve the motion duration in milliseconds', () => {
+    expect(
+      resolve({ '--sky-global-duration-short': '150ms' }).motion.duration,
+    ).toBe(150);
+
+    expect(
+      resolve({ '--sky-global-duration-short': '0.2s' }).motion.duration,
+    ).toBe(200);
+
+    // `sky-animations-disabled` and `prefers-reduced-motion` both zero the
+    // token out, as does a theme that left it unparseable.
+    expect(
+      resolve({ '--sky-global-duration-short': '0s' }).motion.duration,
+    ).toBe(0);
+
+    expect(
+      resolve({ '--sky-global-duration-short': 'auto' }).motion.duration,
+    ).toBe(0);
+  });
+
   it('should resolve the eight categorical palette colors in order', () => {
     const themeStyles = resolve({
       '--sky-color-viz-category-1': '#first',

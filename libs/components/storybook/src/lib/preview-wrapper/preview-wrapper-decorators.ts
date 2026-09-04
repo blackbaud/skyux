@@ -1,4 +1,5 @@
 import { RouterTestingModule } from '@angular/router/testing';
+import { provideNoopSkyAnimations } from '@skyux/core';
 import { SkyThemeService } from '@skyux/theme';
 import type { AngularRenderer } from '@storybook/angular';
 import {
@@ -25,6 +26,9 @@ export const previewWrapperDecorators: DecoratorFunction<
   applicationConfig({
     providers: [
       provideIconPreview(),
+      // Motion is suppressed from bootstrap so visual tests never capture a
+      // story mid-animation.
+      provideNoopSkyAnimations(),
       SkyThemeService,
       {
         provide: 'BODY',
