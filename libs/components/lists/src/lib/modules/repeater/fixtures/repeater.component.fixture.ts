@@ -18,6 +18,8 @@ export class RepeaterTestComponent {
 
   public expandMode = input<SkyRepeaterExpandModeType | undefined>('single');
 
+  public hideFirstItemTitle = input<boolean>(false);
+
   public items = model<
     { id?: string; title: string; selected?: boolean }[] | undefined
   >([
