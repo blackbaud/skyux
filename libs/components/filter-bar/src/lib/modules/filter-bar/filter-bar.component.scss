@@ -2,8 +2,19 @@
   display: block;
 }
 
+// Re-points the toolbar's padding at the filter bar's own inset tokens.
 // Default theme sets this toolbar override in the toolbar component.
+//
+// The horizontal and top insets are opt-in for the same reason they are on the
+// toolbar: outside a `layout="list"` page or tab the parent container already
+// provides them. See toolbar.component.scss.
 :host-context(.sky-theme-modern) .sky-filter-bar-toolbar {
+  --sky-override-toolbar-container-padding: 0 0
+    var(--sky-comp-filter_bar-space-inset-bottom);
+}
+
+:host-context(.sky-theme-modern):host-context(.sky-layout-host-list)
+  .sky-filter-bar-toolbar {
   --sky-override-toolbar-container-padding: var(
       --sky-comp-filter_bar-space-inset-top
     )

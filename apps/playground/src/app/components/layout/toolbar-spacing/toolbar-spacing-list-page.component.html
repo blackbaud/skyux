@@ -1,0 +1,60 @@
+<sky-page layout="list">
+  <sky-page-header
+    pageTitle="Constituents"
+    [parentLink]="{
+      label: 'Toolbar spacing',
+      permalink: {
+        route: { commands: ['/components/layout/toolbar-spacing'] }
+      }
+    }"
+  />
+  <sky-page-content>
+    <sky-toolbar>
+      <sky-toolbar-item>
+        <button class="sky-btn sky-btn-primary" type="button">New</button>
+      </sky-toolbar-item>
+      <sky-toolbar-item>
+        <button class="sky-btn sky-btn-default" type="button">Edit</button>
+      </sky-toolbar-item>
+      <sky-toolbar-item>
+        <sky-search [debounceTime]="250" />
+      </sky-toolbar-item>
+    </sky-toolbar>
+    <sky-filter-bar [(selectedFilterIds)]="selectedFilterIds">
+      <sky-filter-item-modal
+        filterId="1"
+        labelText="Status"
+        modalSize="medium"
+        [modalComponent]="modalComponent"
+      />
+      <sky-filter-item-modal
+        filterId="2"
+        labelText="Giving level"
+        modalSize="medium"
+        [modalComponent]="modalComponent"
+      />
+    </sky-filter-bar>
+    <sky-list-summary>
+      <sky-list-summary-item labelText="Total" value="1,234" />
+      <sky-list-summary-item labelText="Selected" value="12" />
+    </sky-list-summary>
+    <table class="app-list-table">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Status</th>
+          <th scope="col">Total giving</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of rows; track row.name) {
+          <tr>
+            <td>{{ row.name }}</td>
+            <td>{{ row.status }}</td>
+            <td>{{ row.total }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </sky-page-content>
+</sky-page>

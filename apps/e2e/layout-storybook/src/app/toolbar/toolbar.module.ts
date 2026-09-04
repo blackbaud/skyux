@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { SkyRadioModule } from '@skyux/forms';
 import { SkyIconModule } from '@skyux/icon';
-import { SkyToolbarModule } from '@skyux/layout';
+import { SkyBoxModule, SkyToolbarModule } from '@skyux/layout';
 import { SkyFilterModule } from '@skyux/lists';
 import { SkySearchModule } from '@skyux/lookup';
 import { SkyThemeModule } from '@skyux/theme';
@@ -18,6 +18,7 @@ const routes: Routes = [{ path: '', component: ToolbarComponent }];
     CommonModule,
     FormsModule,
     RouterModule.forChild(routes),
+    SkyBoxModule,
     SkyIconModule,
     SkyRadioModule,
     SkyFilterModule,

@@ -16,6 +16,24 @@
     var(--sky-space-inline-xl)
   );
   align-items: baseline;
+  // Only the horizontal inset is opt-in. In a container that has its own
+  // padding it would stack and indent the summary items past their siblings,
+  // but the top and bottom insets are the summary's own vertical rhythm
+  // between the toolbar and the list, so they always apply. See
+  // toolbar.component.scss for the full reasoning.
+  padding: var(
+    --sky-override-list-summary-padding,
+    var(--sky-comp-list_summary-space-inset-top) 0
+      var(--sky-comp-list_summary-space-inset-bottom)
+  );
+  background-color: var(
+    --sky-override-list-summary-background-color,
+    var(--sky-comp-override-list-header-background-color)
+  );
+  border-bottom: var(--sky-override-list-summary-border-bottom, none);
+}
+
+:host-context(.sky-layout-host-list) {
   padding: var(
     --sky-override-list-summary-padding,
     var(--sky-comp-list_summary-space-inset-top)
@@ -23,11 +41,6 @@
       var(--sky-comp-list_summary-space-inset-bottom)
       var(--sky-comp-list_summary-space-inset-left)
   );
-  background-color: var(
-    --sky-override-list-summary-background-color,
-    var(--sky-comp-override-list-header-background-color)
-  );
-  border-bottom: var(--sky-override-list-summary-border-bottom, none);
 }
 
 :host-context(.sky-viewkeeper-fixed) {

@@ -1,0 +1,220 @@
+<h1>Toolbar / filter bar / list summary padding</h1>
+<p>
+  The toolbar, filter bar, and list summary each bake in their own inset
+  padding. That padding is only correct when the component is flush inside a
+  <code>layout="list"</code> page or tab. Anywhere else it stacks on top of the
+  padding the parent container already provides, so the component's contents sit
+  indented from everything around them.
+</p>
+<p>
+  The dashed red line marks the container's content edge. Anything that starts
+  to the right of it is misaligned.
+</p>
+
+<!-- Case 1 -->
+<section class="app-case">
+  <h2>1. Toolbar in a box</h2>
+  <p class="app-case-note">
+    Expected: buttons align with the paragraphs. Actual: buttons are indented,
+    and there is extra space above the toolbar.
+  </p>
+  <sky-box headingText="Box heading">
+    <sky-box-content>
+      <div class="app-alignment-guide">
+        <p class="app-reference-text">Reference text above the toolbar.</p>
+        <sky-toolbar>
+          <sky-toolbar-item>
+            <button class="sky-btn sky-btn-primary" type="button">
+              <sky-icon class="sky-theme-margin-right-xs" iconName="add" />
+              New
+            </button>
+          </sky-toolbar-item>
+          <sky-toolbar-item>
+            <button class="sky-btn sky-btn-default" type="button">Edit</button>
+          </sky-toolbar-item>
+          <sky-toolbar-item>
+            <sky-search [debounceTime]="250" />
+          </sky-toolbar-item>
+        </sky-toolbar>
+        <p class="app-reference-text">Reference text below the toolbar.</p>
+      </div>
+    </sky-box-content>
+  </sky-box>
+</section>
+
+<!-- Case 2 -->
+<section class="app-case">
+  <h2>2. Sectioned toolbar in a box</h2>
+  <p class="app-case-note">
+    Worse than case 1: <code>sky-toolbar-section</code> applies the same inset
+    again inside the container, so the indent is doubled.
+  </p>
+  <sky-box headingText="Box heading">
+    <sky-box-content>
+      <div class="app-alignment-guide">
+        <p class="app-reference-text">Reference text above the toolbar.</p>
+        <sky-toolbar>
+          <sky-toolbar-section>
+            <sky-toolbar-item>
+              <button class="sky-btn sky-btn-default" type="button">
+                Button 1
+              </button>
+            </sky-toolbar-item>
+            <sky-toolbar-item>
+              <button class="sky-btn sky-btn-default" type="button">
+                Button 2
+              </button>
+            </sky-toolbar-item>
+          </sky-toolbar-section>
+          <sky-toolbar-section>
+            <sky-toolbar-item>
+              <button class="sky-btn sky-btn-default" type="button">
+                Button 3
+              </button>
+            </sky-toolbar-item>
+          </sky-toolbar-section>
+        </sky-toolbar>
+        <p class="app-reference-text">Reference text below the toolbar.</p>
+      </div>
+    </sky-box-content>
+  </sky-box>
+</section>
+
+<!-- Case 3 -->
+<section class="app-case">
+  <h2>3. Toolbar directly after a heading</h2>
+  <p class="app-case-note">
+    The heading already contributes bottom spacing and the toolbar adds its own
+    top inset, so the gap between them is doubled.
+  </p>
+  <div class="app-alignment-guide">
+    <h3 class="sky-font-heading-3">Section heading</h3>
+    <sky-toolbar>
+      <sky-toolbar-item>
+        <button class="sky-btn sky-btn-primary" type="button">New</button>
+      </sky-toolbar-item>
+      <sky-toolbar-item>
+        <button class="sky-btn sky-btn-default" type="button">Edit</button>
+      </sky-toolbar-item>
+    </sky-toolbar>
+  </div>
+</section>
+
+<!-- Case 4 -->
+<section class="app-case">
+  <h2>4. Filter bar in a box</h2>
+  <p class="app-case-note">
+    Same problem: the filter bar's inset stacks on the box content padding.
+  </p>
+  <sky-box headingText="Box heading">
+    <sky-box-content>
+      <div class="app-alignment-guide">
+        <p class="app-reference-text">Reference text above the filter bar.</p>
+        <sky-filter-bar [(selectedFilterIds)]="selectedFilterIds">
+          <sky-filter-item-modal
+            filterId="1"
+            labelText="Filter 1"
+            modalSize="medium"
+            [modalComponent]="modalComponent"
+          />
+          <sky-filter-item-modal
+            filterId="2"
+            labelText="Filter 2"
+            modalSize="medium"
+            [modalComponent]="modalComponent"
+          />
+        </sky-filter-bar>
+        <p class="app-reference-text">Reference text below the filter bar.</p>
+      </div>
+    </sky-box-content>
+  </sky-box>
+</section>
+
+<!-- Case 5 -->
+<section class="app-case">
+  <h2>5. List summary in a box</h2>
+  <p class="app-case-note">
+    Only the left/right inset is wrong here — the top/bottom inset is the list
+    summary's own vertical rhythm and should stay.
+  </p>
+  <sky-box headingText="Box heading">
+    <sky-box-content>
+      <div class="app-alignment-guide">
+        <p class="app-reference-text">Reference text above the summary.</p>
+        <sky-list-summary>
+          <sky-list-summary-item labelText="Total" value="1,234" />
+          <sky-list-summary-item labelText="Selected" value="12" />
+        </sky-list-summary>
+        <p class="app-reference-text">Reference text below the summary.</p>
+      </div>
+    </sky-box-content>
+  </sky-box>
+</section>
+
+<!-- Case 6 -->
+<section class="app-case">
+  <h2>6. Toolbar in a modal</h2>
+  <p class="app-case-note">
+    The modal content has its own padding, so the toolbar buttons are indented
+    from the modal's text.
+  </p>
+  <button class="sky-btn sky-btn-default" type="button" (click)="openModal()">
+    Open modal
+  </button>
+</section>
+
+<!-- Case 0 -->
+<section class="app-case">
+  <h2>Control: a normal list page</h2>
+  <p class="app-case-note">
+    The case that already works and <strong>must not regress</strong>. Opens as
+    its own top-level route, because a <code>layout="list"</code> page has to
+    render full-bleed to behave correctly &mdash; nesting it inside this padded
+    demo would defeat the point.
+  </p>
+  <a
+    class="sky-btn sky-btn-default"
+    routerLink="/components/layout/toolbar-spacing/list-page"
+  >
+    Open the list page
+  </a>
+</section>
+
+<!-- Case 7 -->
+<section class="app-case">
+  <h2>7. Control: tabs</h2>
+  <p class="app-case-note">
+    The first tab uses <code>layout="list"</code> and
+    <strong>must keep</strong> its toolbar padding after the fix. The second tab
+    uses <code>layout="none"</code> and should lose it.
+  </p>
+  <sky-tabset>
+    <sky-tab layout="list" tabHeading='layout="list" (keep padding)'>
+      <sky-toolbar>
+        <sky-toolbar-item>
+          <button class="sky-btn sky-btn-primary" type="button">New</button>
+        </sky-toolbar-item>
+        <sky-toolbar-item>
+          <button class="sky-btn sky-btn-default" type="button">Edit</button>
+        </sky-toolbar-item>
+      </sky-toolbar>
+      <sky-list-summary>
+        <sky-list-summary-item labelText="Total" value="1,234" />
+      </sky-list-summary>
+    </sky-tab>
+    <sky-tab layout="none" tabHeading='layout="none" (drop padding)'>
+      <div class="app-alignment-guide">
+        <p class="app-reference-text">Reference text above the toolbar.</p>
+        <sky-toolbar>
+          <sky-toolbar-item>
+            <button class="sky-btn sky-btn-primary" type="button">New</button>
+          </sky-toolbar-item>
+          <sky-toolbar-item>
+            <button class="sky-btn sky-btn-default" type="button">Edit</button>
+          </sky-toolbar-item>
+        </sky-toolbar>
+        <p class="app-reference-text">Reference text below the toolbar.</p>
+      </div>
+    </sky-tab>
+  </sky-tabset>
+</section>

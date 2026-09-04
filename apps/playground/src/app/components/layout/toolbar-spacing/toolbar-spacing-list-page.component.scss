@@ -1,0 +1,22 @@
+// Stands in for a grid so the left edge of the list content is visible and can
+// be compared against the toolbar, filter bar, and list summary above it.
+//
+// The horizontal padding is deliberately a literal rather than
+// `--sky-comp-toolbar-space-inset-left`. It has to behave as a fixed ruler: if
+// the toolbar's inset is ever dropped inside a `layout="list"` page, the
+// buttons should visibly break away from this column. Reading the same token
+// would make the ruler move with the bug and hide it. 0.5rem is today's
+// resolved value for the toolbar/filter bar/list summary inset.
+.app-list-table {
+  background-color: var(--sky-color-background-container-base);
+  border-collapse: collapse;
+  width: 100%;
+
+  th,
+  td {
+    border-bottom: var(--sky-border-width-divider)
+      var(--sky-border-style-divider) var(--sky-color-border-divider);
+    padding: 10px 0.5rem;
+    text-align: left;
+  }
+}

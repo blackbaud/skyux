@@ -30,3 +30,28 @@
     [modalComponent]="modalComponent"
   />
 </sky-filter-bar>
+
+<!--
+  `sky-layout-host-list` is the class SkyLayoutHostDirective applies for a page
+  or tab with layout="list". There is no parent padding to inherit there, so
+  the filter bar keeps its own inset.
+-->
+<div class="sky-layout-host-list">
+  <sky-filter-bar
+    [appliedFilters]="appliedFilters"
+    [selectedFilterIds]="['1', '2']"
+  >
+    <sky-filter-item-modal
+      filterId="1"
+      labelText="Filter 1"
+      modalSize="medium"
+      [modalComponent]="modalComponent"
+    />
+    <sky-filter-item-modal
+      filterId="2"
+      labelText="Filter 2"
+      modalSize="medium"
+      [modalComponent]="modalComponent"
+    />
+  </sky-filter-bar>
+</div>

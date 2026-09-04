@@ -1,0 +1,27 @@
+// Pads the whole demo away from the viewport edges so each container's own
+// edges are easy to see.
+:host {
+  display: block;
+  padding: 30px;
+}
+
+// Draws a dashed guide down the left edge of the container's content box so
+// misalignment between the container's own padding and a child component's
+// built-in padding is obvious at a glance.
+.app-alignment-guide {
+  border-left: 1px dashed #d1442f;
+  position: relative;
+}
+
+.app-reference-text {
+  margin: 0;
+}
+
+.app-case {
+  margin-bottom: 40px;
+}
+
+.app-case-note {
+  color: var(--sky-color-text-deemphasized);
+  margin: 0 0 10px;
+}

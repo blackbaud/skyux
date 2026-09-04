@@ -9,6 +9,21 @@
 .sky-toolbar-section {
   display: flex;
   flex-wrap: nowrap;
+  // Opt-in horizontal and top insets, matching SkyToolbarComponent. A section
+  // repeats the toolbar's inset inside the toolbar container, so in a padded
+  // container the indent compounds. See toolbar.component.scss for the
+  // reasoning.
+  padding: var(
+    --sky-override-toolbar-container-padding,
+    0 0 var(--sky-comp-toolbar-space-inset-bottom)
+  );
+  min-height: $sky-toolbar-min-height;
+  align-items: center;
+  position: relative;
+  overflow-x: auto;
+}
+
+:host-context(.sky-layout-host-list) .sky-toolbar-section {
   padding: var(
     --sky-override-toolbar-container-padding,
     var(--sky-comp-toolbar-space-inset-top)
@@ -16,10 +31,6 @@
       var(--sky-comp-toolbar-space-inset-bottom)
       var(--sky-comp-toolbar-space-inset-left)
   );
-  min-height: $sky-toolbar-min-height;
-  align-items: center;
-  position: relative;
-  overflow-x: auto;
 }
 
 .sky-toolbar-section-items {

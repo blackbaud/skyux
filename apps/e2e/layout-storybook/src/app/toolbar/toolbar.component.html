@@ -127,3 +127,51 @@
     </sky-toolbar-item>
   </sky-toolbar-section>
 </sky-toolbar>
+
+<sky-box headingText="Toolbar in a box">
+  <sky-box-content>
+    <p class="app-reference-text">
+      A toolbar in a container inherits the container's padding, so its buttons
+      line up with the text above and below it.
+    </p>
+    <sky-toolbar>
+      <sky-toolbar-item>
+        <button type="button" class="sky-btn sky-btn-primary">New</button>
+      </sky-toolbar-item>
+      <sky-toolbar-item>
+        <button type="button" class="sky-btn sky-btn-default">Edit</button>
+      </sky-toolbar-item>
+    </sky-toolbar>
+    <p class="app-reference-text">
+      This paragraph sits on the same left edge as the buttons above.
+    </p>
+  </sky-box-content>
+</sky-box>
+
+<!--
+  `sky-layout-host-list` is the class SkyLayoutHostDirective applies for a page
+  or tab with layout="list". Applying it directly keeps this app free of a
+  dependency on @skyux/pages and @skyux/tabs; the directive's own specs cover
+  putting the class on the element. In a list layout there is no parent padding
+  to inherit, so the toolbar keeps its own inset.
+-->
+<div class="sky-layout-host-list">
+  <sky-toolbar>
+    <sky-toolbar-item>
+      <button type="button" class="sky-btn sky-btn-primary">New</button>
+    </sky-toolbar-item>
+    <sky-toolbar-item>
+      <button type="button" class="sky-btn sky-btn-default">Edit</button>
+    </sky-toolbar-item>
+  </sky-toolbar>
+  <sky-toolbar>
+    <sky-toolbar-section>
+      <sky-toolbar-item>
+        <button type="button" class="sky-btn sky-btn-default">Button 1</button>
+      </sky-toolbar-item>
+      <sky-toolbar-item>
+        <button type="button" class="sky-btn sky-btn-default">Button 2</button>
+      </sky-toolbar-item>
+    </sky-toolbar-section>
+  </sky-toolbar>
+</div>
