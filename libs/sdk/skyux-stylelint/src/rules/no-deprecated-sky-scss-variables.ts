@@ -58,14 +58,60 @@ const messages = stylelint.utils.ruleMessages(ruleName, {
 });
 
 /**
+ * Finds the `[start, end)` index ranges within `value` that fall inside a block
+ * comment, so those regions can be ignored elsewhere without altering `value`'s
+ * original offsets (comment text is left in place, just skipped over). Only block
+ * comments are handled because `decl.raws.value.raw` (the raw text this rule scans)
+ * is produced by postcss-scss, which always normalizes `//` line comments to block
+ * comments before exposing it.
+ */
+function findCommentRanges(value: string): [number, number][] {
+  const ranges: [number, number][] = [];
+  let i = 0;
+
+  while (i < value.length) {
+    if (value[i] === '/' && value[i + 1] === '*') {
+      // `/*` without a later `*/` can occur in valid SCSS (e.g. inside a quoted
+      // string like `content: "/*"`); treat the rest of the value as commented.
+      const close = value.indexOf('*/', i + 2);
+      if (close === -1) {
+        ranges.push([i, value.length]);
+        break;
+      }
+      const end = close + 2;
+      ranges.push([i, end]);
+      i = end;
+    } else {
+      i++;
+    }
+  }
+
+  return ranges;
+}
+
+/** Whether `index` falls inside one of the given `[start, end)` ranges. */
+function isInsideRanges(index: number, ranges: [number, number][]): boolean {
+  return ranges.some(([start, end]) => index >= start && index < end);
+}
+
+/**
  * Finds the `[start, end)` index ranges within `value` that fall inside a call to one
  * of `COLOR_FUNCTIONS`, so occurrences within those ranges can be excluded from fixing.
+ * Characters inside `commentRanges` are skipped so that comment text (e.g. a stray `)`)
+ * can't affect paren-matching or be mistaken for a function name.
  */
-function findColorFunctionRanges(value: string): [number, number][] {
+function findColorFunctionRanges(
+  value: string,
+  commentRanges: [number, number][],
+): [number, number][] {
   const ranges: [number, number][] = [];
   const stack: { isColorFunction: boolean; argsStart: number }[] = [];
 
   for (let i = 0; i < value.length; i++) {
+    if (isInsideRanges(i, commentRanges)) {
+      continue;
+    }
+
     const char = value[i];
 
     if (char === '(') {
@@ -84,6 +130,29 @@ function findColorFunctionRanges(value: string): [number, number][] {
   }
 
   return ranges;
+}
+
+/**
+ * Finds all `$sky-*` variable occurrences in `value` (via `SCSS_VAR_PATTERN`),
+ * excluding any that only appear inside a comment (per `commentRanges`).
+ */
+function findVariableMatches(
+  value: string,
+  commentRanges: [number, number][],
+): RegExpExecArray[] {
+  const matches: RegExpExecArray[] = [];
+  let match: RegExpExecArray | null;
+
+  SCSS_VAR_PATTERN.lastIndex = 0;
+  while ((match = SCSS_VAR_PATTERN.exec(value)) !== null) {
+    // Skip `$sky-*` text that only appears inside a comment; it isn't real SCSS
+    // and must be left untouched (neither reported nor rewritten).
+    if (!isInsideRanges(match.index, commentRanges)) {
+      matches.push(match);
+    }
+  }
+
+  return matches;
 }
 
 const ruleBase: RuleBase = (options) => {
@@ -108,14 +177,9 @@ const ruleBase: RuleBase = (options) => {
       // warnings on a declaration share the same (whole-node) position, which breaks
       // down once some occurrences are fixed and others are not.
       const valueStart = decl.prop.length + (decl.raws.between?.length ?? 0);
-      const colorFunctionRanges = findColorFunctionRanges(value);
-      const matches: RegExpExecArray[] = [];
-      let match: RegExpExecArray | null;
-
-      SCSS_VAR_PATTERN.lastIndex = 0;
-      while ((match = SCSS_VAR_PATTERN.exec(value)) !== null) {
-        matches.push(match);
-      }
+      const commentRanges = findCommentRanges(value);
+      const colorFunctionRanges = findColorFunctionRanges(value, commentRanges);
+      const matches = findVariableMatches(value, commentRanges);
 
       if (matches.length === 0) {
         return;

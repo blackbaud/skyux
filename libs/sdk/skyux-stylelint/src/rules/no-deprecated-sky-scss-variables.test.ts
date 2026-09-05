@@ -33,6 +33,16 @@ describe(ruleName, () => {
         code: 'a { margin-top: var(--sky-theme-mock-prop); }',
         description: 'CSS custom properties are not matched against this rule',
       },
+      {
+        code: 'a { margin-top: 8px /* $sky-deprecated-var */; }',
+        description:
+          'a $sky- variable that only appears inside a comment is ignored',
+      },
+      {
+        code: 'a { content: "/* $sky-deprecated-var"; }',
+        description:
+          'a "/*" with no closing "*/" (e.g. inside a string) must not hang the comment scanner; the rest of the value is treated as commented',
+      },
     ],
     reject: [
       {
@@ -157,6 +167,18 @@ describe(ruleName, () => {
         ],
         fixed:
           'a { border: solid 2px rgba($sky-deprecated-var, 0.25) var(--sky-theme-replacement-2); }',
+      },
+      {
+        code: 'a { background: rgba(/* ) */$sky-deprecated-var, 0.25); }',
+        description:
+          'a stray ")" inside a comment must not prematurely close a color-function frame, so the variable inside it should still be treated as unfixable',
+        unfixable: true,
+        warnings: [
+          {
+            message:
+              '"$sky-deprecated-var" is deprecated. Use "var(--sky-theme-replacement)" instead.',
+          },
+        ],
       },
       {
         code: 'a { margin: variables.$sky-my-custom-variable; }',
