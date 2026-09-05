@@ -1,7 +1,7 @@
 # Changelog
 
 
-## [15.0.0-alpha.12](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.11...15.0.0-alpha.12) (2026-09-04)
+## [15.0.0-alpha.12](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.11...15.0.0-alpha.12) (2026-09-05)
 
 
 ### Bug Fixes
