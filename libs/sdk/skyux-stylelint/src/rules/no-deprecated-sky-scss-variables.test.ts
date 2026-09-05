@@ -39,12 +39,41 @@ describe(ruleName, () => {
           'a $sky- variable that only appears inside a comment is ignored',
       },
       {
-        code: 'a { content: "/* $sky-deprecated-var"; }',
+        code: 'a { background: url(/*); }',
         description:
-          'a "/*" with no closing "*/" (e.g. inside a string) must not hang the comment scanner; the rest of the value is treated as commented',
+          'a "/*" with no closing "*/" (e.g. in an unquoted url) must not hang the comment scanner; the rest of the value is treated as commented',
+      },
+      {
+        code: String.raw`a { content: \" /* $sky-deprecated-var */; }`,
+        description:
+          'an escaped quote outside a string does not start a string, so the comment after it still hides the variable',
       },
     ],
     reject: [
+      {
+        code: 'a { margin: "/*" $sky-deprecated-var; }',
+        description:
+          'a "/*" inside a quoted string is not a comment, so a variable after it is still detected',
+        warnings: [
+          {
+            message:
+              '"$sky-deprecated-var" is deprecated. Use "var(--sky-theme-replacement)" instead.',
+          },
+        ],
+        fixed: 'a { margin: "/*" var(--sky-theme-replacement); }',
+      },
+      {
+        code: String.raw`a { margin: "\"/*" $sky-deprecated-var; }`,
+        description:
+          'an escaped quote inside a string does not end the string, so its "/*" is not a comment and a variable after it is still detected',
+        warnings: [
+          {
+            message:
+              '"$sky-deprecated-var" is deprecated. Use "var(--sky-theme-replacement)" instead.',
+          },
+        ],
+        fixed: String.raw`a { margin: "\"/*" var(--sky-theme-replacement); }`,
+      },
       {
         code: 'a { margin-top: $sky-deprecated-var; }',
         description:

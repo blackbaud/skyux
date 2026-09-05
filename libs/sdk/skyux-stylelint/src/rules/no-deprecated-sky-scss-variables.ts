@@ -70,9 +70,24 @@ function findCommentRanges(value: string): [number, number][] {
   let i = 0;
 
   while (i < value.length) {
-    if (value[i] === '/' && value[i + 1] === '*') {
-      // `/*` without a later `*/` can occur in valid SCSS (e.g. inside a quoted
-      // string like `content: "/*"`); treat the rest of the value as commented.
+    const char = value[i];
+
+    if (char === '\\') {
+      // Skip the escaped character so an escaped quote can't end a string.
+      i += 2;
+    } else if (char === '"' || char === "'") {
+      // Skip over the quoted string so `/*` inside it isn't treated as a comment.
+      // An unterminated string can't occur here: postcss-scss would fail to parse
+      // the declaration before `value` is ever produced.
+      i++;
+      while (i < value.length && value[i] !== char) {
+        i += value[i] === '\\' ? 2 : 1;
+      }
+      i++;
+    } else if (char === '/' && value[i + 1] === '*') {
+      // A `/*` without a later `*/` shouldn't survive postcss-scss parsing, but
+      // guard against it (treat the rest of the value as commented) rather than
+      // risk an infinite loop.
       const close = value.indexOf('*/', i + 2);
       if (close === -1) {
         ranges.push([i, value.length]);
