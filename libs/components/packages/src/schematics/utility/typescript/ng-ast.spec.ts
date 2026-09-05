@@ -9,6 +9,7 @@ import {
   getInlineTemplates,
   getTemplateUrls,
   isSymbolInClassMetadataFieldArray,
+  parseSourceFile,
 } from './ng-ast';
 
 function getTsSource(path: string, content: string): ts.SourceFile {
@@ -34,6 +35,31 @@ function applyChanges(
 }
 
 describe('ng-ast', () => {
+  describe('parseSourceFile', () => {
+    it('should parse an existing file', () => {
+      const tree = new HostTree();
+      tree.create(
+        '/test.component.ts',
+        `import { Component } from '@angular/core';`,
+      );
+
+      const sourceFile = parseSourceFile(tree, '/test.component.ts');
+
+      expect(sourceFile.fileName).toBe('/test.component.ts');
+      expect(sourceFile.text).toBe(
+        `import { Component } from '@angular/core';`,
+      );
+    });
+
+    it('should throw when the file does not exist', () => {
+      const tree = new HostTree();
+
+      expect(() => parseSourceFile(tree, '/missing.component.ts')).toThrow(
+        'Could not read file: /missing.component.ts',
+      );
+    });
+  });
+
   describe('getInlineTemplates', () => {
     it('should get inline templates', () => {
       const sourceText = stripIndents`
