@@ -274,8 +274,11 @@ const ruleBase: RuleBase = (options) => {
       // `.scss` over `.raw`: postcss-scss normalizes `//` line comments into
       // `/* */` block comments in `.raw` (only populating `.scss` with the
       // original text when it differs), which would shift offsets and cause
-      // `--fix` to rewrite `//` comments as block comments.
-      const value = decl.raws.value?.scss ?? decl.raws.value?.raw ?? decl.value;
+      // `--fix` to rewrite `//` comments as block comments. postcss's types
+      // don't include this postcss-scss-specific raw, so cast it locally.
+      const rawValue = decl.raws.value as
+        { raw: string; value: string; scss?: string } | undefined;
+      const value = rawValue?.scss ?? rawValue?.raw ?? decl.value;
       // Offset of `value` within `decl.toString()`; see `getValueStart`.
       const valueStart = getValueStart(decl);
       const commentRanges = findCommentRanges(value);
