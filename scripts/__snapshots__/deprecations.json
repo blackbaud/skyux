@@ -1,4 +1,13 @@
 [
+  "@skyux-sdk/testing:SkyAppTestUtility",
+  "@skyux-sdk/testing:SkyAppTestUtilityDomEventOptions",
+  "@skyux-sdk/testing:SkyBy",
+  "@skyux-sdk/testing:SkyMatchers:toBeAccessible",
+  "@skyux-sdk/testing:SkyMatchers:toEqualResourceText",
+  "@skyux-sdk/testing:SkyMatchers:toHaveResourceText",
+  "@skyux-sdk/testing:SkyMatchers:toMatchResourceTemplate",
+  "@skyux-sdk/testing:SkyToBeVisibleOptions:checkExists",
+  "@skyux-sdk/vitest:SkyToBeVisibleOptions:checkExists",
   "@skyux/a11y:SkySkipLinkModule",
   "@skyux/ag-grid:SkyAgGridLookupProperties:autocompleteAttribute",
   "@skyux/ag-grid:SkyAgGridLookupProperties:data",
