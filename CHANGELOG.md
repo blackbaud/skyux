@@ -1,18 +1,13 @@
 # Changelog
 
 
-## [15.0.0-alpha.12](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.11...15.0.0-alpha.12) (2026-09-08)
-
-
-### Features
-
-* add `@skyux-sdk/testing` and `@skyux-sdk/vitest` public API to manifest ([#4728](https://github.com/blackbaud/skyux/issues/4728)) ([d55def0](https://github.com/blackbaud/skyux/commit/d55def07c0be32fdad5977c431a9faba03371efe))
+## [14.19.1](https://github.com/blackbaud/skyux/compare/14.19.0...14.19.1) (2026-09-08)
 
 
 ### Bug Fixes
 
-* **components/ag-grid:** apply data manager sort options to the grid ([#4745](https://github.com/blackbaud/skyux/issues/4745)) ([#4751](https://github.com/blackbaud/skyux/issues/4751)) ([3dfb902](https://github.com/blackbaud/skyux/commit/3dfb902a1b8f7af9e6df91416f39e1171dc0b00f)), closes [AB#4104863](https://dev.azure.com/blackbaud/Products/_workitems/edit/4104863)
-* **components/packages:** legacy resource service migrations should handle utf bom ([#4757](https://github.com/blackbaud/skyux/issues/4757)) ([7493666](https://github.com/blackbaud/skyux/commit/74936662d68664d6579b769bf6e118a14a4433a8))
+* **components/ag-grid:** apply data manager sort options to the grid ([#4745](https://github.com/blackbaud/skyux/issues/4745)) ([e136be1](https://github.com/blackbaud/skyux/commit/e136be1aae3a15c3ac50e659a4f4fd0ae3780f74)), closes [AB#4104863](https://dev.azure.com/blackbaud/Products/_workitems/edit/4104863)
+* **components/text-editor:** ensure editor area is always white ([#4756](https://github.com/blackbaud/skyux/issues/4756)) ([36d2b29](https://github.com/blackbaud/skyux/commit/36d2b29406b3d8dfcba79d4f10b9fbafb99f3e97))
 
 ## [15.0.0-alpha.11](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.10...15.0.0-alpha.11) (2026-09-03)
 
