@@ -55,11 +55,22 @@ describe('Fluid grid test harness', () => {
     }
   });
 
-  it('should indicate the grid has margins', async () => {
+  it('should not have margins by default', async () => {
     const { fluidGridHarness, fixture } = await setupTest({
       dataSkyId: 'fluid-grid',
     });
 
+    fixture.detectChanges();
+
+    await expectAsync(fluidGridHarness.hasMargin()).toBeResolvedTo(false);
+  });
+
+  it('should indicate the grid has margins based on the deprecated disableMargin input', async () => {
+    const { fluidGridHarness, fixture } = await setupTest({
+      dataSkyId: 'fluid-grid',
+    });
+
+    fixture.componentRef.setInput('disableMargin', false);
     fixture.detectChanges();
 
     await expectAsync(fluidGridHarness.hasMargin()).toBeResolvedTo(true);
@@ -68,6 +79,22 @@ describe('Fluid grid test harness', () => {
     fixture.detectChanges();
 
     await expectAsync(fluidGridHarness.hasMargin()).toBeResolvedTo(false);
+  });
+
+  it('should indicate the grid has margins based on the inset input', async () => {
+    const { fluidGridHarness, fixture } = await setupTest({
+      dataSkyId: 'fluid-grid',
+    });
+
+    fixture.componentRef.setInput('inset', false);
+    fixture.detectChanges();
+
+    await expectAsync(fluidGridHarness.hasMargin()).toBeResolvedTo(false);
+
+    fixture.componentRef.setInput('inset', true);
+    fixture.detectChanges();
+
+    await expectAsync(fluidGridHarness.hasMargin()).toBeResolvedTo(true);
   });
 
   it('should get the gutter size', async () => {
